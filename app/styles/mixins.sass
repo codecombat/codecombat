@@ -1,4 +1,5 @@
 @import "app/styles/bootstrap/mixins"
+@import "bower_components/modernizr-mixin/stylesheets/modernizr"
 
 @mixin gradient-radial-custom-stops($innerColor: #555, $innerStop: 20%, $outerColor: #333, $outerStop: 70%)
   background-color: $outerColor
@@ -38,3 +39,89 @@
     background-image: none
     @include opacity(0.65)
     @include box-shadow(none)
+
+// keyframes mixin from https://gist.github.com/ericam/1607696
+=keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes #{$name}
+    @content
+  @-o-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+
+@mixin filter($filters)
+  -webkit-filter: $filters
+  -moz-filter: $filters
+  -o-filter: $filters
+  filter: $filters
+
+@mixin flexbox()
+  display: -webkit-box
+  display: -moz-box
+  display: -ms-flexbox
+  display: -webkit-flex
+  display: flex
+
+@mixin flex($values)
+  -webkit-box-flex: $values
+  -moz-box-flex: $values
+  -webkit-flex: $values
+  -ms-flex: $values
+  flex: $values
+
+@mixin order($val)
+  -webkit-box-ordinal-group: $val
+  -moz-box-ordinal-group: $val
+  -ms-flex-order: $val
+  -webkit-order: $val
+  order: $val
+
+@mixin flex-justify()
+  -webkit-box-pack: justify
+  -webkit-justify-content: space-between
+  -ms-flex-pack: justify
+  justify-content: space-between
+
+@mixin flex-justify-center()
+  -webkit-box-pack: center
+  -webkit-justify-content: center
+  -ms-flex-pack: center
+  justify-content: center
+
+@mixin flex-align-content-start()
+  -webkit-align-content: flex-start
+  -ms-flex-align-content: flex-start
+  align-content: flex-start
+
+@mixin flex-center()
+  -webkit-box-align: center
+  -webkit-align-items: center
+  -ms-flex-align: center
+  align-items: center
+
+@mixin flex-wrap()
+  -webkit-flex-wrap: wrap
+  -ms-flex-wrap: wrap
+  flex-wrap: wrap
+
+@mixin flex-column()
+  -webkit-box-orient: vertical
+  -moz-box-orient: vertical
+  -ms-box-orient: vertical
+  -webkit-flex-direction: column
+  -ms-flex-direction: column
+  flex-direction: column
+
+@mixin scaleX($ratio)
+  -webkit-transform: scaleX($ratio)
+  -ms-transform: scaleX($ratio)
+  transform: scaleX($ratio)
+
+@mixin scaleXY($xRatio, $yRatio)
+  -webkit-transform: scaleX($xRatio) scaleY($yRatio)
+  -ms-transform: scaleX($xRatio) scaleY($yRatio)
+  transform: scaleX($xRatio) scaleY($yRatio)

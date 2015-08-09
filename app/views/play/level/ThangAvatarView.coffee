@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/thang_avatar'
 ThangType = require 'models/ThangType'
 
@@ -36,7 +36,7 @@ module.exports = class ThangAvatarView extends CocoView
   getRenderData: (context={}) ->
     context = super context
     context.thang = @thang
-    options = @thang?.getSpriteOptions() or {}
+    options = @thang?.getLankOptions() or {}
     options.async = true
     context.avatarURL = @thangType.getPortraitSource(options) unless @thangType.loading
     context.includeName = @includeName

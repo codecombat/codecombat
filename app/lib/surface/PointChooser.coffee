@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 module.exports = class PointChooser extends CocoClass
   constructor: (@options) ->
@@ -29,6 +29,6 @@ module.exports = class PointChooser extends CocoClass
 
   updateShape: ->
     sup = @options.camera.worldToSurface @point
-    @options.surfaceLayer.addChild @shape
+    @options.surfaceLayer.addChild @shape unless @shape.parent
     @shape.x = sup.x
     @shape.y = sup.y

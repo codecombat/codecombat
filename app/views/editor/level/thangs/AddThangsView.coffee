@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 add_thangs_template = require 'templates/editor/level/add-thangs-view'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
@@ -33,7 +33,7 @@ module.exports = class AddThangsView extends CocoView
       models = @supermodel.getModels(ThangType)
 
     thangTypes = _.uniq models, false, (thangType) -> thangType.get('original')
-    thangTypes = _.reject thangTypes, (thangType) -> thangType.get('kind') is 'Mark'
+    thangTypes = _.reject thangTypes, (thangType) -> thangType.get('kind') in ['Mark', 'Item', undefined]
     groupMap = {}
     for thangType in thangTypes
       kind = thangType.get('kind')
@@ -49,6 +49,10 @@ module.exports = class AddThangsView extends CocoView
         thangs: someThangTypes
       groups.push group
 
+    groups = _.sortBy groups, (group) ->
+      index = ['Wall', 'Floor', 'Unit', 'Doodad', 'Misc'].indexOf group.name
+      if index is -1 then 9001 else index
+
     context.thangTypes = thangTypes
     context.groups = groups
     context
@@ -58,7 +62,7 @@ module.exports = class AddThangsView extends CocoView
     @buildAddThangPopovers()
 
   buildAddThangPopovers: ->
-    @$el.find('#thangs-list .add-thang-palette-icon').tooltip(container: 'body', animation: false)
+    @$el.find('#thangs-list .add-thang-palette-icon').addClass('has-tooltip').tooltip(container: 'body', animation: false)
 
   runSearch: (e) =>
     if e?.which is 27

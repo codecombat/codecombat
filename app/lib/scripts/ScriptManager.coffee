@@ -1,5 +1,5 @@
-CocoClass = require 'lib/CocoClass'
-CocoView = require 'views/kinds/CocoView'
+CocoClass = require 'core/CocoClass'
+CocoView = require 'views/core/CocoView'
 {scriptMatchesEventPrereqs} = require './../world/script_event_prereqs'
 
 allScriptModules = []
@@ -28,7 +28,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
   subscriptions:
     'script:end-current-script': 'onEndNoteGroup'
-    'level:started': -> @setWorldLoading(false)
+    'level:loading-view-unveiling': -> @setWorldLoading(false)
     'level:restarted': 'onLevelRestarted'
     'level:shift-space-pressed': 'onEndNoteGroup'
     'level:escape-pressed': 'onEndAll'
@@ -43,7 +43,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     super(options)
     @originalScripts = options.scripts
     @session = options.session
-    @debugScripts = CocoView.getQueryVariable 'dev'
+    @levelID = options.levelID
+    @debugScripts = application.isIPadApp or CocoView.getQueryVariable 'dev'
     @initProperties()
     @addScriptSubscriptions()
     @beginTicking()
@@ -193,7 +194,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     for sprite in noteGroup.sprites
       if sprite.move?
         sprite.move.duration ?= DEFAULT_BOT_MOVE_DURATION
-      sprite.id ?= 'Captain Anya'
+      sprite.id ?= 'Hero Placeholder'
     noteGroup.script ?= {}
     noteGroup.script.yields ?= true
     noteGroup.script.skippable ?= true
@@ -219,6 +220,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @notifyScriptStateChanged()
     @scriptInProgress = true
     @currentTimeouts = []
+    scriptLabel = "#{nextNoteGroup.scriptID} - #{nextNoteGroup.name}"
+    application.tracker?.trackEvent 'Script Started', {levelID: @levelID, label: scriptLabel, ls: @session?.get('_id')}, ['Google Analytics']
     console.debug "SCRIPT: Starting note group '#{nextNoteGroup.name}'" if @debugScripts
     for module in nextNoteGroup.modules
       @processNote(note, nextNoteGroup) for note in module.startNotes()
@@ -256,7 +259,6 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @publishNote(note)
 
   publishNote: (note) ->
-    Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
     Backbone.Mediator.publish note.channel, note.event ? {}
 
   # ENDING NOTES
@@ -280,6 +282,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return if @ending # kill infinite loops right here
     @ending = true
     return unless @currentNoteGroup?
+    scriptLabel = "#{@currentNoteGroup.scriptID} - #{@currentNoteGroup.name}"
+    application.tracker?.trackEvent 'Script Ended', {levelID: @levelID, label: scriptLabel, ls: @session?.get('_id')}, ['Google Analytics']
     console.debug "SCRIPT: Ending note group '#{@currentNoteGroup.name}'" if @debugScripts
     clearTimeout(timeout) for timeout in @currentTimeouts
     for module in @currentNoteGroup.modules

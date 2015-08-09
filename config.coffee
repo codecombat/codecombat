@@ -1,45 +1,138 @@
+#- Imports, helpers
+_ = require 'lodash'
+_.str = require 'underscore.string'
 sysPath = require 'path'
-startsWith = (string, substring) ->
-  string.lastIndexOf(substring, 0) is 0
+fs = require('fs')
+commonjsHeader = fs.readFileSync('node_modules/brunch/node_modules/commonjs-require-definition/require.js', {encoding: 'utf8'})
+TRAVIS = process.env.COCO_TRAVIS_TEST
+
+
+#- regJoin replace a single '/' with '[\/\\]' so it can handle either forward or backslash
+regJoin = (s) -> new RegExp(s.replace(/\//g, '[\\\/\\\\]'))
+
+
+#- Build the config
 
 exports.config =
+
   paths:
-    'public': 'public'
+    public: 'public'
+    watched: [
+      'app',
+      'vendor',
+      'test/app',
+      'test/demo'
+    ]
+
   conventions:
-    ignored: (path) -> startsWith(sysPath.basename(path), '_')
-  sourceMaps: true
+    ignored: (path) -> _.str.startsWith(sysPath.basename(path), '_')
+
+  sourceMaps: 'absoluteUrl'
+
+  overrides:
+    production:
+      sourceMaps: 'absoluteUrl'
+      onCompile: (files) ->
+        # For some reason, production brunch produces two entries, the first of which is wrong:
+        # //# sourceMappingURL=public/javascripts/app.js.map
+        # //# sourceMappingURL=/javascripts/app.js.map
+        # So we remove the ones that have public in them.
+        exec = require('child_process').exec
+        exec "perl -pi -e 's/\\/\\/# sourceMappingURL=public.*//g' public/javascripts/*.js"
+    vagrant:
+      watcher:
+        usePolling: true
+
   files:
     javascripts:
       defaultExtension: 'coffee'
       joinTo:
-        'javascripts/world.js': ///^(
-          (app[\/\\]lib[\/\\]world(?![\/\\]test))
-          |(app[\/\\]lib[\/\\]CocoClass.coffee)
-          |(app[\/\\]lib[\/\\]utils.coffee)
-          |(vendor[\/\\]scripts[\/\\]Box2dWeb-2.1.a.3)
-          |(vendor[\/\\]scripts[\/\\]string_score.js)
-          |(bower_components[\/\\]underscore.string)
-        )///
-        'javascripts/app.js': /^app/
-        'javascripts/vendor.js': ///^(
-          vendor[\/\\](?!scripts[\/\\]Box2d)
-          |bower_components[\/\\](?!aether)
-        )///
-        'javascripts/vendor_with_box2d.js': ///^(
-          vendor[\/\\]
-          |bower_components[\/\\](?!aether)  # include box2dweb for profiling (and for IE9...)
-        )///
-        'javascripts/lodash.js': ///^(
-          (bower_components[\/\\]lodash[\/\\]dist[\/\\]lodash.js)
-        )///
-        'javascripts/aether.js': ///^(
-          (bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
-        )///
-        'javascripts/test-app.js': /^test[\/\\]app/
-        'javascripts/demo-app.js': /^test[\/\\]demo/
+
+        #- app.js, the first file that is loaded. These modules are required to initialize the client.
+        'javascripts/app.js': [
+
+          # IMPORTANT: if you add to this, make sure you also add any other dependencies,
+          # or better yet, put them in a 'core' folder.
+          regJoin('^app/schemas')
+          regJoin('^app/models')
+          regJoin('^app/collections')
+          regJoin('^app/core')
+          regJoin('^app/views/core')
+          'app/locale/locale.coffee'
+          'app/locale/en.coffee'
+          'app/lib/sprites/SpriteBuilder.coffee' # loaded by ThangType
+        ]
+
+        #- Karma is a bit more tricky to get to work. For now just dump everything into one file so it doesn't need to load anything through ModuleLoader.
+        'javascripts/whole-app.js': if TRAVIS then regJoin('^app') else []
+
+        #- Wads. Groups of modules by folder which are loaded as a group when needed.
+        'javascripts/app/lib.js': regJoin('^app/lib')
+        'javascripts/app/views/play.js': regJoin('^app/views/play')
+        'javascripts/app/views/editor.js': regJoin('^app/views/editor')
+
+        #- world.js, used by the worker to generate the world in game
+        'javascripts/world.js': [
+          regJoin('^app/lib/world(?!/test)')
+          regJoin('^app/core/CocoClass.coffee')
+          regJoin('^app/core/utils.coffee')
+          regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
+          regJoin('^vendor/scripts/string_score.js')
+          regJoin('^bower_components/underscore.string')
+          regJoin('^vendor/scripts/coffeescript.js')
+        ]
+
+        #- vendor.js, all the vendor libraries
+        'javascripts/vendor.js': [
+          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine))')
+          regJoin('^bower_components/(?!(aether|d3|treema|three.js))')
+          'bower_components/treema/treema-utils.js'
+        ]
+        'javascripts/whole-vendor.js': if TRAVIS then [
+          regJoin('^vendor/scripts/(?!(Box2d|jasmine))')
+          regJoin('^bower_components/(?!aether)')
+        ] else []
+
+        #- Other vendor libraries in separate bunches
+
+        # Include box2dweb for profiling and IE9
+        # Vector renamed to Box2DVector to avoid name collisions
+        # TODO: move this to assets/lib since we're not really joining anything here?
+        'javascripts/box2d.js': regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
+        'javascripts/lodash.js': regJoin('^bower_components/lodash/dist/lodash.js')
+        'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
+        'javascripts/app/vendor/aether-clojure.js': 'bower_components/aether/build/clojure.js'
+        'javascripts/app/vendor/aether-coffeescript.js': 'bower_components/aether/build/coffeescript.js'
+        'javascripts/app/vendor/aether-io.js': 'bower_components/aether/build/io.js'
+        'javascripts/app/vendor/aether-javascript.js': 'bower_components/aether/build/javascript.js'
+        'javascripts/app/vendor/aether-lua.js': 'bower_components/aether/build/lua.js'
+        'javascripts/app/vendor/aether-python.js': 'bower_components/aether/build/python.js'
+
+        # Any vendor libraries we don't want the client to load immediately
+        'javascripts/app/vendor/d3.js': regJoin('^bower_components/d3')
+        'javascripts/app/vendor/coffeescript.js': 'vendor/scripts/coffeescript.js'
+        'javascripts/app/vendor/difflib.js': 'vendor/scripts/difflib.js'
+        'javascripts/app/vendor/diffview.js': 'vendor/scripts/diffview.js'
+        'javascripts/app/vendor/treema.js': 'bower_components/treema/treema.js'
+        'javascripts/app/vendor/jasmine-bundle.js': regJoin('^vendor/scripts/jasmine')
+        'javascripts/app/vendor/jasmine-mock-ajax.js': 'vendor/scripts/jasmine-mock-ajax.js'
+        'javascripts/app/vendor/three.js': 'bower_components/three.js/three.min.js'
+
+        #- test, demo libraries
+        'javascripts/app/tests.js': regJoin('^test/app/')
+        'javascripts/demo-app.js': regJoin('^test/demo/')
+
+        #- More output files are generated at the below
 
       order:
         before: [
+          # jasmine-bundle.js ordering
+          'vendor/scripts/jasmine.js'
+          'vendor/scripts/jasmine-html.js'
+          'vendor/scripts/jasmine-boot.js'
+          'vendor/scripts/jasmine-mock-ajax.js'
+
+          # vendor.js ordering
           'bower_components/jquery/dist/jquery.js'
           'bower_components/lodash/dist/lodash.js'
           'bower_components/backbone/backbone.js'
@@ -55,9 +148,12 @@ exports.config =
           'bower_components/tv4/tv4.js'
           # Aether before box2d for some strange Object.defineProperty thing
           'bower_components/aether/build/aether.js'
+          'bower_components/fastclick/lib/fastclick.js'
           'bower_components/d3/d3.min.js'
           'vendor/scripts/async.js'
+          'vendor/scripts/jquery-ui-1.11.1.js.custom.js'
         ]
+
     stylesheets:
       defaultExtension: 'sass'
       joinTo:
@@ -67,9 +163,16 @@ exports.config =
           'app/styles/bootstrap/*'
           'vendor/styles/nanoscroller.scss'
         ]
+
     templates:
       defaultExtension: 'jade'
-      joinTo: 'javascripts/app.js'
+      joinTo:
+        'javascripts/app.js': regJoin('^app/templates/core')
+        'javascripts/app/views/play.js': regJoin('^app/templates/play')
+        'javascripts/app/views/game-menu.js': regJoin('^app/templates/game-menu')
+        'javascripts/app/views/editor.js': regJoin('^app/templates/editor')
+        'javascripts/whole-app.js': if TRAVIS then regJoin('^app/templates') else []
+
   framework: 'backbone'
 
   plugins:
@@ -77,6 +180,7 @@ exports.config =
       delay: 300
     coffeelint:
       pattern: /^app\/.*\.coffee$/
+#      pattern: /^dne/ # use this pattern instead if you want to speed compilation
       options:
         line_endings:
           value: 'unix'
@@ -88,14 +192,60 @@ exports.config =
         no_unnecessary_fat_arrows:
           level: 'ignore'
     uglify:
+      mangle:
+        except: ['require']
       output:
         semicolons: false
+    sass:
+      mode: 'ruby'
+      allowCache: true
+    bless:
+      cacheBuster: false
 
-  onCompile: (files) ->
-    exec = require('child_process').exec
-    regexFrom = '\\/\\/# sourceMappingURL=([^\\/].*)\\.map'
-    regexTo = '\\/\\/# sourceMappingURL=\\/javascripts\\/$1\\.map'
-    regex = "s/#{regexFrom}/#{regexTo}/g"
-    for file in files
-      c = "perl -pi -e '#{regex}' #{file.path}"
-      exec c
+  modules:
+    definition: (path, data) ->
+      needHeaderExpr = regJoin('^public/javascripts/?(app.js|world.js|whole-app.js)')
+      defn = if path.match(needHeaderExpr) then commonjsHeader else ''
+      return defn
+
+#- Find all .coffee and .jade files in /app
+
+dirStack = ['./app']
+coffeeFiles = []
+jadeFiles = []
+
+while dirStack.length
+  dir = dirStack.pop()
+  contents = fs.readdirSync(dir)
+  for file in contents
+    fullPath = "#{dir}/#{file}"
+    stat = fs.statSync(fullPath)
+    if stat.isDirectory()
+      dirStack.push(fullPath)
+    else
+      if _.str.endsWith(file, '.coffee')
+        coffeeFiles.push(fullPath)
+      else if _.str.endsWith(file, '.jade')
+        jadeFiles.push(fullPath)
+
+for file in coffeeFiles
+  inputFile = file.replace('./app', 'app')
+  outputFile = file.replace('.coffee', '.js').replace('./app', 'javascripts/app')
+  exports.config.files.javascripts.joinTo[outputFile] = inputFile
+
+numBundles = 0
+
+for file in jadeFiles
+  inputFile = file.replace('./app', 'app')
+  outputFile = file.replace('.jade', '.js').replace('./app', 'javascripts/app')
+  exports.config.files.templates.joinTo[outputFile] = inputFile
+
+  #- If a view template name matches its view, bundle it in there.
+  templateFileName = outputFile.match(/[^/]+$/)[0]
+  viewFileName = _.str.capitalize(_.str.camelize(templateFileName))
+  possibleViewFilePath = outputFile.replace(templateFileName, viewFileName).replace('/templates/', '/views/')
+  if exports.config.files.javascripts.joinTo[possibleViewFilePath]
+    exports.config.files.templates.joinTo[possibleViewFilePath] = inputFile
+    numBundles += 1
+
+console.log "Got #{coffeeFiles.length} coffee files and #{jadeFiles.length} jade files (bundled #{numBundles} of them together)."

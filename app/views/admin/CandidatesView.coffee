@@ -1,8 +1,8 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/admin/candidates'
 User = require 'models/User'
 UserRemark = require 'models/UserRemark'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 CocoCollection = require 'collections/CocoCollection'
 EmployerSignupModal = require 'views/modal/EmployerSignupModal'
 
@@ -23,7 +23,8 @@ module.exports = class CandidatesView extends RootView
 
   constructor: (options) ->
     super options
-    @candidates = @supermodel.loadCollection(new CandidatesCollection(), 'candidates').model
+    #@candidates = @supermodel.loadCollection(new CandidatesCollection(), 'candidates').model
+    @candidates = models: []  # Disabling, since we got rid of the index that fetches these.
     @remarks = @supermodel.loadCollection(new UserRemarksCollection(), 'user_remarks').model
 
   onLoaded: ->

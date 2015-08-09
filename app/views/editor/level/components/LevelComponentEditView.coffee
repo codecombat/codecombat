@@ -1,9 +1,10 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/component/level-component-edit-view'
 LevelComponent = require 'models/LevelComponent'
 ComponentVersionsModal = require 'views/editor/component/ComponentVersionsModal'
 PatchesView = require 'views/editor/PatchesView'
-SaveVersionModal = require 'views/modal/SaveVersionModal'
+SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
+require 'vendor/treema'
 
 module.exports = class LevelComponentEditView extends CocoView
   id: 'level-component-edit-view'
@@ -20,6 +21,7 @@ module.exports = class LevelComponentEditView extends CocoView
     'click #component-history-button': 'showVersionHistory'
     'click #patch-component-button': 'startPatchingComponent'
     'click #component-watch-button': 'toggleWatchComponent'
+    'click #pop-component-i18n-button': 'onPopulateI18N' 
 
   constructor: (options) ->
     super options
@@ -132,6 +134,10 @@ module.exports = class LevelComponentEditView extends CocoView
     button = @$el.find('#component-watch-button')
     @levelComponent.watch(button.find('.watch').is(':visible'))
     button.find('> span').toggleClass('secret')
+
+  onPopulateI18N: ->
+    @levelComponent.populateI18N()
+    @render()
 
   destroy: ->
     @destroyAceEditor(@editor)

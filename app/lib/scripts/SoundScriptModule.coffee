@@ -3,7 +3,7 @@ ScriptModule = require './ScriptModule'
 currentMusic = null
 standingBy = null
 
-{me} = require('lib/auth')
+{me} = require('core/auth')
 
 module.exports = class SoundScriptModule extends ScriptModule
   @neededFor: (noteGroup) ->

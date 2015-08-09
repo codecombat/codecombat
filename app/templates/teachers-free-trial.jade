@@ -1,0 +1,75 @@
+extends /templates/base
+
+block content
+
+  h2(data-i18n="teachers_survey.title")
+
+  if me.isAnonymous()
+    p(data-i18n="teachers_survey.must_be_logged")
+  else if fetchingData
+    h4(data-i18n="teachers_survey.retrieving")
+  else if existingRequests.length > 0
+    if existingRequests[0].get('status') === 'submitted'
+      p
+        span.spr(data-i18n="teachers_survey.being_reviewed_1")
+        strong(data-i18n="teachers_survey.being_reviewed_2")
+    else if existingRequests[0].get('status') === 'approved'
+      p
+       span.spr(data-i18n="teachers_survey.approved_1")
+       strong.spr(data-i18n="teachers_survey.approved_2")
+       span.spr(data-i18n="teachers_survey.approved_3")
+       strong= existingRequests[0].get('properties').email
+    else
+      p
+        span.spr(data-i18n="teachers_survey.denied_1")
+        strong(data-i18n="teachers_survey.denied_2")
+    p
+      span.spr(data-i18n="teachers_survey.contact_1")
+      a(href='mailto:team@codecombat.com') team@codecombat.com
+      span.spl(data-i18n="teachers_survey.contact_2")
+  else
+    p
+      span.spr(data-i18n="teachers_survey.description_1")
+      a(href='/teachers', data-i18n="teachers_survey.description_2")
+      span.spl(data-i18n="teachers_survey.description_3")
+    p(data-i18n="teachers_survey.description_4")
+    p.container-email-address
+      label.control-label(data-i18n="teachers_survey.email")
+      br
+      input.control-label.input-email-address(type='text', value=email)
+    p.container-school
+      label.control-label(data-i18n="teachers_survey.school")
+      br
+      input.control-label.input-school(type='text')
+    p.container-location
+      label.control-label(data-i18n="teachers_survey.location")
+      br
+      input.control-label.input-location(type='text')
+    p.container-age
+      label.control-label(data-i18n="teachers_survey.age_students")
+      div
+        input(type="radio", name="age", value="Under 14")
+        span.spl(data-i18n="teachers_survey.under")
+        span.spl 14
+      div
+        input(type="radio", name="age", value="14-17")
+        span.spl 14-17
+      div
+        input(type="radio", name="age", value="18+")
+        span.spl 18+
+      div
+        input.radio-other(type="radio", name="age", value='other')
+        span.spl.spr(data-i18n="teachers_survey.other")
+        input.spr.input-age-other(type='text')
+    p.container-num-students
+      label.control-label(data-i18n="teachers_survey.amount_students")
+      br
+      input.control-label.input-num-students(type='text')
+    p.container-heard-about
+      label.control-label(data-i18n="teachers_survey.hear_about")
+      br
+      textarea.control-label.input-heard-about(rows=4)
+    p.error-message(data-i18n="teachers_survey.fill_fields")
+    p
+      button.btn.btn-default.submit-button(data-i18n="play_level.tome_submit_button")
+    p.thanks-submit(data-i18n="teachers_survey.thanks")

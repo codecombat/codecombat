@@ -1,6 +1,6 @@
 ContributeClassView = require './ContributeClassView'
 template = require 'templates/contribute/scribe'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 module.exports = class ScribeView extends ContributeClassView
   id: 'scribe-view'

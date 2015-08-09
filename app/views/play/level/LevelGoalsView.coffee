@@ -1,19 +1,22 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/goals'
-{me} = require 'lib/auth'
-utils = require 'lib/utils'
+{me} = require 'core/auth'
+utils = require 'core/utils'
 
 stateIconMap =
-  incomplete: 'icon-minus'
-  success: 'icon-ok'
-  failure: 'icon-remove'
+  success: 'glyphicon-ok'
+  failure: 'glyphicon-remove'
 
 module.exports = class LevelGoalsView extends CocoView
   id: 'goals-view'
   template: template
+  className: 'secret expanded'
+  playbackEnded: false
+  mouseEntered: false
 
   subscriptions:
     'goal-manager:new-goal-states': 'onNewGoalStates'
+    'tome:cast-spells': 'onTomeCast'
     'level:set-letterbox': 'onSetLetterbox'
     'surface:playback-restarted': 'onSurfacePlaybackRestarted'
     'surface:playback-ended': 'onSurfacePlaybackEnded'
@@ -28,7 +31,7 @@ module.exports = class LevelGoalsView extends CocoView
       @updatePlacement()
 
   onNewGoalStates: (e) ->
-    firstRun = @previousGoalStatus?
+    firstRun = not @previousGoalStatus?
     @previousGoalStatus ?= {}
     @$el.find('.goal-status').addClass 'secret'
     classToShow = null
@@ -42,7 +45,9 @@ module.exports = class LevelGoalsView extends CocoView
     goals = []
     for goal in e.goals
       state = e.goalStates[goal.id]
-      continue if goal.hiddenGoal and state.status isnt 'failure'
+      if goal.hiddenGoal
+        continue if goal.optional and state.status isnt 'success'
+        continue if not goal.optional and state.status isnt 'failure'
       continue if goal.team and me.team isnt goal.team
       text = utils.i18n goal, 'name'
       if state.killed
@@ -58,41 +63,67 @@ module.exports = class LevelGoalsView extends CocoView
       # This should really get refactored, along with GoalManager, so that goals have a standard
       # representation of how many are done, how many are needed, what that means, etc.
       li = $('<li></li>').addClass("status-#{state.status}").text(text)
-      li.prepend($('<i></i>').addClass(stateIconMap[state.status]))
+      iconClass = stateIconMap[state.status]
+      li.prepend($('<i></i>').addClass("glyphicon #{iconClass or ''}"))  # If empty, insert a .glyphicon to take up space
       list.append(li)
       goals.push goal
       if not firstRun and state.status is 'success' and @previousGoalStatus[goal.id] isnt 'success'
-        Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'goal-success', volume: 1
-      else if not firstRun and state.status is 'incomplete' and @previousGoalStatus[goal.id] is 'success'
-        Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'goal-incomplete-again', volume: 1
-    @$el.removeClass('secret') if goals.length > 0
+        @soundToPlayWhenPlaybackEnded = 'goal-success'
+      else if not firstRun and state.status isnt 'success' and @previousGoalStatus[goal.id] is 'success'
+        @soundToPlayWhenPlaybackEnded = 'goal-incomplete-again'
+      else
+        @soundToPlayWhenPlaybackEnded = null
+      @previousGoalStatus[goal.id] = state.status
+    if goals.length > 0 and @$el.hasClass 'secret'
+      @$el.removeClass('secret')
+      @lastSizeTweenTime = new Date()
+    @updatePlacement()
+
+  onTomeCast: (e) ->
+    return if e.preload
+    @$el.find('.goal-status').addClass('secret')
+    @$el.find('.goal-status.running').removeClass('secret')
 
   onSurfacePlaybackRestarted: ->
     @playbackEnded = false
     @$el.removeClass 'brighter'
+    @lastSizeTweenTime = new Date()
     @updatePlacement()
 
   onSurfacePlaybackEnded: ->
     @playbackEnded = true
+    @updateHeight()
     @$el.addClass 'brighter'
+    @lastSizeTweenTime = new Date()
     @updatePlacement()
+    if @soundToPlayWhenPlaybackEnded
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: @soundToPlayWhenPlaybackEnded, volume: 1
 
-  render: ->
-    super()
-    @$el.addClass('secret').addClass('expanded')
-
-  afterRender: ->
-    super()
-    @updatePlacement()
+  updateHeight: ->
+    return if @$el.hasClass('brighter') or @$el.hasClass('secret')
+    return if (new Date() - @lastSizeTweenTime) < 500  # Don't measure this while still animating, might get the wrong value. Should match sass transition time.
+    @normalHeight = @$el.outerHeight()
 
   updatePlacement: ->
     expand = @playbackEnded or @mouseEntered
     return if expand is @expanded
+    @updateHeight()
     sound = if expand then 'goals-expand' else 'goals-collapse'
-    top = if expand then -10 else 26 - @$el.outerHeight()
+    top = if expand then -5 else 41 - (@normalHeight ? @$el.outerHeight())
     @$el.css 'top', top
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: sound, volume: 1 if @expanded?
+    if @soundTimeout
+      # Don't play the sound we were going to play after all; the transition has reversed.
+      clearTimeout @soundTimeout
+      @soundTimeout = null
+    else if @expanded?
+      # Play it when the transition ends, not when it begins.
+      @soundTimeout = _.delay @playToggleSound, 500, sound
     @expanded = expand
+
+  playToggleSound: (sound) =>
+    return if @destroyed
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: sound, volume: 1
+    @soundTimeout = null
 
   onSetLetterbox: (e) ->
     @$el.toggle not e.on

@@ -1,3 +1,0 @@
-cd ~/Desktop/coco
-cp ~/Desktop/treema/treema.js ./vendor/scripts/
-cp ~/Desktop/treema/treema.css ./vendor/styles/

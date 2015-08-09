@@ -34,7 +34,6 @@ describe 'ThangComponentsEditView', ->
     supermodel = new SuperModel()
     supermodel.registerModel(componentC)
     view = new ThangComponentEditView({ components: [], supermodel: supermodel })
-    jasmine.Ajax.requests.sendResponses { '/db/thang.type': [] }
     _.defer ->
       view.render()
       view.componentsTreema.set('/', [ { original: 'C', majorVersion: 0 }])

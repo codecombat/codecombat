@@ -9,6 +9,7 @@ ArticleSchema.properties.i18n = {type: 'object', title: 'i18n', format: 'i18n', 
 c.extendBasicProperties ArticleSchema, 'article'
 c.extendSearchableProperties ArticleSchema
 c.extendVersionedProperties ArticleSchema, 'article'
+c.extendTranslationCoverageProperties ArticleSchema
 c.extendPatchableProperties ArticleSchema
 
 module.exports = ArticleSchema

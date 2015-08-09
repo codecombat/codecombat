@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/common/level_session_code'
 
 Level = require 'models/Level'
@@ -23,7 +23,7 @@ module.exports = class LevelSessionCodeView extends CocoView
     c.levelSpells = @organizeCode()
     c.sessionLink = "/play/level/" + (@level.get('slug') or @level.id) + "?team=" + (@session.get('team') || 'humans') + "&session=" + @session.id
     c
-    
+
   afterRender: ->
     super()
     editors = []
@@ -34,9 +34,9 @@ module.exports = class LevelSessionCodeView extends CocoView
       editor.setReadOnly true
       editors.push editor
       aceSession = editor.getSession()
-      aceSession.setMode 'ace/mode/javascript'
+      aceSession.setMode 'ace/mode/javascript'  # TODO: they're not all JS
     @editors = editors
-    
+
   organizeCode: ->
     team = @session.get('team') or 'humans'
     teamSpells = @session.get('teamSpells')[team] or []
@@ -50,8 +50,8 @@ module.exports = class LevelSessionCodeView extends CocoView
         name: spell
         height: height
       }
-    filteredSpells 
-    
+    filteredSpells
+
   destroy: ->
     for editor in @editors
       @editors

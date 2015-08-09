@@ -1,8 +1,8 @@
-ContactModal = require 'views/modal/ContactModal'
+ContactModal = require 'views/core/ContactModal'
 template = require 'templates/modal/job_profile_contact'
 
-forms = require 'lib/forms'
-{sendContactMessage} = require 'lib/contact'
+forms = require 'core/forms'
+{sendContactMessage} = require 'core/contact'
 
 contactSchema =
   additionalProperties: false

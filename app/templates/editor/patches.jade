@@ -1,30 +1,27 @@
 .btn-group(data-toggle="buttons").status-buttons
   label.btn.btn-default.pending
     input(type="radio", name="status", value="pending")
-    | Pending
+    span(data-i18n="general.pending") Pending
   label.btn.btn-default.accepted
     input(type="radio", name="status", value="accepted")
-    | Accepted
+    span(data-i18n="general.accepted") Accepted
   label.btn.btn-default.rejected
     input(type="radio", name="status", value="rejected")
-    | Rejected
+    span(data-i18n="general.rejected") Rejected
   label.btn.btn-default.withdrawn
     input(type="radio", name="status", value="withdrawn")
-    | Withdrawn
+    span(data-i18n="general.withdrawn") Withdrawn
 
 if patches.loading
-  p Loading
+  p(data-i18n="common.loading") Loading...
 else
   table.table.table-condensed.table-bordered
     tr
-      th Submitter
-      th Submitted
-      th Commit Message
-      th Review
+      th(data-i18n="general.submitter") Submitter
+      th(data-i18n="general.submitted") Submitted
+      th(data-i18n="general.commit_msg") Commit Message
     for patch in patches
-      tr
+      tr.patch-row(data-patch-id=patch.id)
         td= patch.userName
         td= moment(patch.get('created')).format('llll')
         td= patch.get('commitMessage')
-        td
-          span.glyphicon.glyphicon-wrench(data-patch-id=patch.id).patch-icon

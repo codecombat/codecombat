@@ -17,7 +17,7 @@ module.exports = class WorldFrame
     return nextFrame
 
   setState: ->
-    for thang in @world.thangs
+    for thang in @world.thangs when not thang.stateless
       @thangStateMap[thang.id] = thang.getState()
 
   restoreState: ->

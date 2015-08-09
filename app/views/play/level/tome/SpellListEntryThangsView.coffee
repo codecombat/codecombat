@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 ThangAvatarView = require 'views/play/level/ThangAvatarView'
 template = require 'templates/play/level/tome/spell_list_entry_thangs'
 

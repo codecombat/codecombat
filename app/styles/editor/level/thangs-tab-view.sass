@@ -1,4 +1,4 @@
-@import "../../bootstrap/mixins"
+@import "app/styles/mixins"
    
 #thangs-tab-view
   $extantThangsWidth: 250px
@@ -106,14 +106,27 @@
         position: absolute
         top: 45%
         //height: 40px
-
-
   
-    // Below snatched from play/level.sass; should refactor?
-  
-    canvas#surface
-      background-color: #ddd
+    canvas
       width: 100%
       display: block
-      z-index: 1
       border: 1px solid black
+
+    #webgl-surface
+      background-color: #ddd
+      z-index: 1
+      
+    #normal-surface
+      z-index: 2
+      position: absolute
+      left: 0
+      top: 0
+      pointer-events: none
+      
+    #contextmenu
+      text-align: left
+
+  #thang-components-edit-view
+    #thang-component-configs
+      // Get these away from the bottom of the screen so we can have dropdowns.
+      padding-bottom: 400px

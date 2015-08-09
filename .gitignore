@@ -35,6 +35,9 @@ Thumbs.db
 node_modules/
 bower_components/
 
+# Vagrant
+.vagrant/
+
 # Some other random stuff
 always-ignore extensions
 *.diff
@@ -87,6 +90,8 @@ login.coffee
 
 # debugging
 *.heapsnapshot
+
+npm-debug.log*
 
 temp/
 ### If you add something here, copy it to the end of .npmignore, too. ###

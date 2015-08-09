@@ -1,0 +1,54 @@
+extends /templates/base
+
+block content
+
+  if !me.isAdmin()
+    div You must be logged in as an admin to view this page.
+
+  else
+    h2 Trial Requests
+    if !trialRequests || trialRequests.length < 1
+      h4 Fetching trial requests...
+    else
+      table.table.table-condensed
+        thead
+          tr
+            th Created
+            th Reviewed
+            th Applicant
+            th School
+            th Location
+            th Age
+            th Students
+            th How Found
+            th Status
+        tbody
+          - var numReviewed = 0
+          - var maxReviewedShown = 100
+          each trialRequest in trialRequests
+            if trialRequest.get('status') !== 'submitted'
+              - numReviewed++
+            if numReviewed > maxReviewedShown
+              - break
+            tr
+              td.created= new Date(parseInt(trialRequest.get('_id').substring(0, 8), 16) * 1000).toISOString().substring(0, 10)
+              td.reviewed
+                if trialRequest.get('reviewDate')
+                  span= trialRequest.get('reviewDate').substring(0, 10)
+              td 
+                a(href="/user/#{trialRequest.get('applicant')}")= trialRequest.get('properties').email
+              td= trialRequest.get('properties').school
+              td= trialRequest.get('properties').location
+              td= trialRequest.get('properties').age
+              td= trialRequest.get('properties').numStudents
+              td= trialRequest.get('properties').heardAbout
+              td.status-cell
+                if trialRequest.get('status') === 'submitted'
+                  button.btn.btn-xs.btn-success.btn-approve(data-trial-request-id=trialRequest.id) Approve
+                  button.btn.btn-xs.btn-danger.btn-deny(data-trial-request-id=trialRequest.id) Deny
+                else if trialRequest.get('prepaidCode')
+                  span= trialRequest.get('prepaidCode')
+                else
+                  span= trialRequest.get('status')
+                  
+    div *Currently assumes all trial requests of type 'subscription'

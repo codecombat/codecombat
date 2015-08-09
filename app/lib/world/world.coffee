@@ -17,6 +17,8 @@ REAL_TIME_BUFFER_MAX = 3 * PROGRESS_UPDATE_INTERVAL
 REAL_TIME_BUFFERED_WAIT_INTERVAL = 0.5 * PROGRESS_UPDATE_INTERVAL
 REAL_TIME_COUNTDOWN_DELAY = 3000  # match CountdownScreen
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
+EXISTS_ORIGINAL = '524b4150ff92f1f4f8000024'
+COUNTDOWN_LEVELS = ['sky-span']
 
 module.exports = class World
   @className: 'World'
@@ -39,7 +41,6 @@ module.exports = class World
     @systems = []
     @systemMap = {}
     @scriptNotes = []
-    @flagHistory = []
     @rand = new Rand 0  # Existence System may change this seed
     @frames = [new WorldFrame(@, 0)]
 
@@ -67,9 +68,11 @@ module.exports = class World
     @thangMap[id]
 
   setThang: (thang) ->
+    thang.stateChanged = true
     for old, i in @thangs
       if old.id is thang.id
         @thangs[i] = thang
+        break
     @thangMap[thang.id] = thang
 
   thangDialogueSounds: (startFrame=0) ->
@@ -91,13 +94,22 @@ module.exports = class World
     (@runtimeErrors ?= []).push error
     (@unhandledRuntimeErrors ?= []).push error
 
-  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) ->
+  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, preloadedCallback, skipDeferredLoading, loadUntilFrame) ->
     return if @aborted
     console.log 'Warning: loadFrames called on empty World (no thangs).' unless @thangs.length
     continueLaterFn = =>
-      @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
+      @loadFrames(loadedCallback, errorCallback, loadProgressCallback, preloadedCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
     if @realTime and not @countdownFinished
-      return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
+      @realTimeSpeedFactor = 1
+      unless @showsCountdown
+        if @levelID in ['woodland-cleaver', 'village-guard', 'shield-rush']
+          @realTimeSpeedFactor = 2
+        else if @levelID in ['thornbush-farm', 'back-to-back', 'ogre-encampment', 'peasant-protection', 'munchkin-swarm', 'munchkin-harvest', 'swift-dagger', 'shrapnel', 'arcane-ally', 'touch-of-death', 'bonemender']
+          @realTimeSpeedFactor = 3
+      if @showsCountdown
+        return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
+      else
+        @finishCountdown continueLaterFn
     t1 = now()
     @t0 ?= t1
     @worldLoadStartTime ?= t1
@@ -116,13 +128,15 @@ module.exports = class World
         for error in (@unhandledRuntimeErrors ? [])
           return unless errorCallback error  # errorCallback tells us whether the error is recoverable
         @unhandledRuntimeErrors = []
-    @finishLoadingFrames loadProgressCallback, loadedCallback
+    @finishLoadingFrames loadProgressCallback, loadedCallback, preloadedCallback
 
-  finishLoadingFrames: (loadProgressCallback, loadedCallback) ->
+  finishLoadingFrames: (loadProgressCallback, loadedCallback, preloadedCallback) ->
     unless @debugging
       @ended = true
       system.finish @thangs for system in @systems
-    unless @preloading
+    if @preloading
+      preloadedCallback()
+    else
       loadProgressCallback? 1
       loadedCallback()
 
@@ -133,18 +147,18 @@ module.exports = class World
 
   shouldDelayRealTimeSimulation: (t) ->
     return false unless @realTime
-    timeSinceStart = t - @worldLoadStartTime
+    timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     timeLoaded = @frames.length * @dt * 1000
     timeBuffered = timeLoaded - timeSinceStart
-    timeBuffered > REAL_TIME_BUFFER_MAX
+    timeBuffered > REAL_TIME_BUFFER_MAX * @realTimeSpeedFactor
 
   shouldUpdateRealTimePlayback: (t) ->
     return false unless @realTime
     return false if @frames.length * @dt is @lastRealTimeUpdate
     timeLoaded = @frames.length * @dt * 1000
-    timeSinceStart = t - @worldLoadStartTime
+    timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     remainingBuffer = @lastRealTimeUpdate * 1000 - timeSinceStart
-    remainingBuffer < REAL_TIME_BUFFER_MIN
+    remainingBuffer < REAL_TIME_BUFFER_MIN * @realTimeSpeedFactor
 
   shouldContinueLoading: (t1, loadProgressCallback, skipDeferredLoading, continueLaterFn) ->
     t2 = now()
@@ -189,11 +203,13 @@ module.exports = class World
     @flagHistory.push flagEvent
 
   loadFromLevel: (level, willSimulate=true) ->
+    @levelID = level.slug
     @levelComponents = level.levelComponents
     @thangTypes = level.thangTypes
+    @loadScriptsFromLevel level
     @loadSystemsFromLevel level
     @loadThangsFromLevel level, willSimulate
-    @loadScriptsFromLevel level
+    @showsCountdown = @levelID in COUNTDOWN_LEVELS or _.any(@thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag)
     system.start @thangs for system in @systems
 
   loadSystemsFromLevel: (level) ->
@@ -224,13 +240,19 @@ module.exports = class World
 
   loadThangFromLevel: (thangConfig, levelComponents, thangTypes, equipBy=null) ->
     components = []
-    for component in thangConfig.components
+    for component, componentIndex in thangConfig.components
       componentModel = _.find levelComponents, (c) ->
         c.original is component.original and c.version.major is (component.majorVersion ? 0)
       componentClass = @loadClassFromCode componentModel.js, componentModel.name, 'component'
       components.push [componentClass, component.config]
-      if equipBy and component.original is ITEM_ORIGINAL
-        component.config.ownerID = equipBy
+      if component.original is ITEM_ORIGINAL
+        isItem = true
+        component.config.ownerID = equipBy if equipBy
+      else if component.original is EXISTS_ORIGINAL
+        existsConfigIndex = componentIndex
+    if isItem and existsConfigIndex?
+      # For memory usage performance, make sure these don't get any tracked properties assigned.
+      components[existsConfigIndex][1] = {exists: false, stateless: true}
     thangTypeOriginal = thangConfig.thangType
     thangTypeModel = _.find thangTypes, (t) -> t.original is thangTypeOriginal
     return console.error thangConfig.id ? equipBy, 'could not find ThangType for', thangTypeOriginal unless thangTypeModel
@@ -297,7 +319,7 @@ module.exports = class World
   publishNote: (channel, event) ->
     event ?= {}
     channel = 'world:' + channel
-    for script in @scripts
+    for script in @scripts ? []
       continue if script.channel isnt channel
       scriptNote = new WorldScriptNote script, event
       continue if scriptNote.invalid
@@ -334,11 +356,13 @@ module.exports = class World
 
   serialize: ->
     # Code hotspot; optimize it
+    @freeMemoryBeforeFinalSerialization() if @ended
     startFrame = @framesSerializedSoFar
     endFrame = @frames.length
     #console.log "... world serializing frames from", startFrame, "to", endFrame, "of", @totalFrames
     [transferableObjects, nontransferableObjects] = [0, 0]
-    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
+    delete flag.processed for flag in @flagHistory
+    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: @flagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
@@ -355,7 +379,6 @@ module.exports = class World
     o.trackedPropertiesPerThangValuesOffsets = []  # Needed to reconstruct ArrayBufferViews on other end, since Firefox has bugs transfering those: https://bugzilla.mozilla.org/show_bug.cgi?id=841904 and https://bugzilla.mozilla.org/show_bug.cgi?id=861925  # Actually, as of January 2014, it should be fixed. So we could try to undo the workaround.
     transferableStorageBytesNeeded = 0
     nFrames = endFrame - startFrame
-    streaming = nFrames < @totalFrames
     for thang in @thangs
       # Don't serialize empty trackedProperties for stateless Thangs which haven't changed (like obstacles).
       # Check both, since sometimes people mark stateless Thangs but then change them, and those should still be tracked, and the inverse doesn't work on the other end (we'll just think it doesn't exist then).
@@ -424,9 +447,10 @@ module.exports = class World
     o.scriptNotes = (sn.serialize() for sn in @scriptNotes)
     if o.scriptNotes.length > 200
       console.log 'Whoa, serializing a lot of WorldScriptNotes here:', o.scriptNotes.length
+    @freeMemoryAfterEachSerialization() unless @ended
     {serializedWorld: o, transferableObjects: [o.storageBuffer], startFrame: startFrame, endFrame: endFrame}
 
-  @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback, startFrame, endFrame, streamingWorld) ->
+  @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback, startFrame, endFrame, level, streamingWorld) ->
     # Code hotspot; optimize it
     #console.log 'Deserializing', o, 'length', JSON.stringify(o).length
     #console.log JSON.stringify(o)
@@ -434,17 +458,31 @@ module.exports = class World
     perf = {}
     perf.t0 = now()
     nFrames = endFrame - startFrame
-    w = streamingWorld ? new World o.userCodeMap, classMap
-    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory]
+    if streamingWorld
+      w = streamingWorld
+      # Make sure we get any Aether updates from the new frames into the already-deserialized streaming world Aethers.
+      for thangID, methods of o.userCodeMap
+        for methodName, serializedAether of methods
+          for aetherStateKey in ['flow', 'metrics', 'style', 'problems']
+            w.userCodeMap[thangID] ?= {}
+            w.userCodeMap[thangID][methodName] ?= {}
+            w.userCodeMap[thangID][methodName][aetherStateKey] = serializedAether[aetherStateKey]
+    else
+      w = new World o.userCodeMap, classMap
+    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed]
     w[prop] = val for prop, val of o.trackedProperties
 
     perf.t1 = now()
     if w.thangs.length
-      for thangConfig in o.thangs when not w.thangMap[thangConfig.id]
-        w.thangs.push thang = Thang.deserialize(thangConfig, w, classMap)
-        w.setThang thang
+      for thangConfig in o.thangs
+        if thang = w.thangMap[thangConfig.id]
+          for prop, val of thangConfig.finalState
+            thang[prop] = val
+        else
+          w.thangs.push thang = Thang.deserialize(thangConfig, w, classMap, level.levelComponents)
+          w.setThang thang
     else
-      w.thangs = (Thang.deserialize(thang, w, classMap) for thang in o.thangs)
+      w.thangs = (Thang.deserialize(thang, w, classMap, level.levelComponents) for thang in o.thangs)
       w.setThang thang for thang in w.thangs
     w.scriptNotes = (WorldScriptNote.deserialize(sn, w, classMap) for sn in o.scriptNotes)
     perf.t2 = now()
@@ -468,6 +506,7 @@ module.exports = class World
     w.frames = [] unless streamingWorld
     clearTimeout @deserializationTimeout if @deserializationTimeout
     @deserializationTimeout = _.delay @deserializeSomeFrames, 1, o, w, finishedWorldCallback, perf, startFrame, endFrame
+    w  # Return in-progress deserializing world
 
   # Spread deserialization out across multiple calls so the interface stays responsive
   @deserializeSomeFrames: (o, w, finishedWorldCallback, perf, startFrame, endFrame) =>
@@ -511,7 +550,14 @@ module.exports = class World
         console.log 'No frames were changed out of all', @frames.length
     firstChangedFrame
 
-  pointsForThang: (thangID, frameStart=0, frameEnd=null, camera=null, resolution=4) ->
+  freeMemoryBeforeFinalSerialization: ->
+    @levelComponents = null
+    @thangTypes = null
+
+  freeMemoryAfterEachSerialization: ->
+    @frames[i] = null for frame, i in @frames when i < @frames.length - 1
+
+  pointsForThang: (thangID, camera=null) ->
     # Optimized
     @pointsForThangCache ?= {}
     cacheKey = thangID
@@ -530,16 +576,7 @@ module.exports = class World
       allPoints.reverse()
       @pointsForThangCache[cacheKey] = allPoints
 
-    points = []
-    [lastX, lastY] = [null, null]
-    for frameIndex in [Math.floor(frameStart / resolution) ... Math.ceil(frameEnd / resolution)]
-      x = allPoints[frameIndex * 2 * resolution]
-      y = allPoints[frameIndex * 2 * resolution + 1]
-      continue if x is lastX and y is lastY
-      lastX = x
-      lastY = y
-      points.push x, y
-    points
+    return allPoints
 
   actionsForThang: (thangID, keepIdle=false) ->
     # Optimized
@@ -568,3 +605,10 @@ module.exports = class World
   teamForPlayer: (n) ->
     playableTeams = @playableTeams ? ['humans']
     playableTeams[n % playableTeams.length]
+
+  getScores: ->
+    time: @age
+    'damage-taken': @getSystem('Combat')?.damageTakenForTeam 'humans'
+    'damage-dealt': @getSystem('Combat')?.damageDealtForTeam 'humans'
+    'gold-collected': @getSystem('Inventory')?.teamGold.humans?.collected
+    'difficulty': @difficulty

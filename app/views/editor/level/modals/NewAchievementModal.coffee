@@ -1,6 +1,6 @@
-NewModelModal = require 'views/modal/NewModelModal'
+NewModelModal = require 'views/editor/modal/NewModelModal'
 template = require 'templates/editor/level/modal/new-achievement'
-forms = require 'lib/forms'
+forms = require 'core/forms'
 Achievement = require 'models/Achievement'
 
 module.exports = class NewAchievementModal extends NewModelModal

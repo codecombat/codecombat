@@ -1,88 +1,55 @@
-RootView = require 'views/kinds/RootView'
-template = require 'templates/home'
-WizardSprite = require 'lib/surface/WizardSprite'
-ThangType = require 'models/ThangType'
-Simulator = require 'lib/simulator/Simulator'
-{me} = require '/lib/auth'
+RootView = require 'views/core/RootView'
+template = require 'templates/home-view'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
   template: template
 
   events:
-    'click .code-language': 'onCodeLanguageSelected'
+    'click #play-button': 'onClickBeginnerCampaign'
 
   constructor: ->
-    super(arguments...)
-    ThangType.loadUniversalWizard()
-    @getCodeLanguageCounts()
+    super()
+    window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage'
+    if not me.get('hourOfCode') and @getQueryVariable 'hour_of_code'
+      @setUpHourOfCode()
+    elapsed = (new Date() - new Date(me.get('dateCreated')))
+    if me.get('hourOfCode') and elapsed < 86400 * 1000 and me.get('preferredLanguage', true) is 'en-US'
+      # Show the Hour of Code footer explanation in English until it's been more than a day
+      @explainsHourOfCode = true
 
   getRenderData: ->
     c = super()
     if $.browser
       majorVersion = $.browser.versionNumber
-      c.isOldBrowser = true if $.browser.mozilla && majorVersion < 21
-      c.isOldBrowser = true if $.browser.chrome && majorVersion < 17
-      c.isOldBrowser = true if $.browser.safari && majorVersion < 6
+      c.isOldBrowser = true if $.browser.mozilla && majorVersion < 25
+      c.isOldBrowser = true if $.browser.chrome && majorVersion < 31  # Noticed Gems in the Deep not loading with 30
+      c.isOldBrowser = true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
     else
       console.warn 'no more jquery browser version...'
-    c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
+    c.isEnglish = _.string.startsWith (me.get('preferredLanguage') or 'en'), 'en'
     c.languageName = me.get('preferredLanguage')
-    c.codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
-    c.codeLanguageCountMap = @codeLanguageCountMap
+    c.explainsHourOfCode = @explainsHourOfCode
+    c.isMobile = @isMobile()
+    c.isIPadBrowser = @isIPadBrowser()
     c
 
-  afterRender: ->
-    super()
-    @$el.find('.modal').on 'shown.bs.modal', ->
-      $('input:visible:first', @).focus()
+  onClickBeginnerCampaign: (e) ->
+    @playSound 'menu-button-click'
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    window.tracker?.trackEvent 'Click Play', category: 'Homepage'
+    window.open '/play', '_blank'
 
-    # Try to find latest level and set 'Play' link to go to that level
-    lastLevel = me.get('lastLevel')
-    lastLevel ?= localStorage?['lastLevel']  # Temp, until it's migrated to user property
-    if lastLevel
-      playLink = @$el.find('#beginner-campaign')
-      if playLink[0]?
-        href = playLink.attr('href').split('/')
-        href[href.length-1] = lastLevel if href.length isnt 0
-        href = href.join('/')
-        playLink.attr('href', href)
+  afterInsert: ->
+    super(arguments...)
+    @$el.addClass 'hour-of-code' if @explainsHourOfCode
 
-    codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
-    @$el.find(".code-language[data-code-language=#{codeLanguage}]").addClass 'selected-language'
-    @updateLanguageLogos codeLanguage
-
-  updateLanguageLogos: (codeLanguage) ->
-    @$el.find('.game-mode-wrapper .code-language-logo').css('background-image', "url(/images/common/code_languages/#{codeLanguage}_small.png)")
-
-  onCodeLanguageSelected: (e) ->
-    target = $(e.target).closest('.code-language')
-    codeLanguage = target.data('code-language')
-    @$el.find('.code-language').removeClass 'selected-language'
-    target.addClass 'selected-language'
-    aceConfig = me.get('aceConfig') ? {}
-    return if (aceConfig.language or 'javascript') is codeLanguage
-    aceConfig.language = codeLanguage
-    me.set 'aceConfig', aceConfig
-    me.save()  # me.patch() doesn't work if aceConfig previously existed and we switched just once
-
-    firstButton = @$el.find('#beginner-campaign .game-mode-wrapper').delay(500).addClass('hovered', 500).delay(500).removeClass('hovered', 500)
-    lastButton = @$el.find('#multiplayer .game-mode-wrapper').delay(1000).addClass('hovered', 500).delay(500).removeClass('hovered', 500)
-    $('#page-container').animate {scrollTop: firstButton.offset().top - 100, easing: 'easeInOutCubic'}, 500
-    @updateLanguageLogos codeLanguage
-
-  getCodeLanguageCounts: ->
-    @codeLanguageCountMap = {}
-    success = (codeLanguageCounts) =>
-      return if @destroyed
-      for codeLanguage in codeLanguageCounts
-        @codeLanguageCountMap[codeLanguage._id] = codeLanguage.sessions
-      @codeLanguageCountMap.javascript += @codeLanguageCountMap[null]
-      @render() if @supermodel.finished()
-
-    codeLanguageCountsRequest = @supermodel.addRequestResource 'play_counts', {
-      url: '/db/level.session/-/code_language_counts'
-      method: 'POST'
-      success: success
-    }, 0
-    codeLanguageCountsRequest.load()
+  setUpHourOfCode: ->
+    elapsed = (new Date() - new Date(me.get('dateCreated')))
+    if elapsed < 5 * 60 * 1000
+      me.set 'hourOfCode', true
+      me.patch()
+    # We may also insert the tracking pixel for everyone on the CampaignView so as to count directly-linked visitors.
+    $('body').append($('<img src="https://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
+    application.tracker?.trackEvent 'Hour of Code Begin'

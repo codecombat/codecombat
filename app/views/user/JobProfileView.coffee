@@ -1,15 +1,16 @@
-UserView = require 'views/kinds/UserView'
-template = require 'templates/account/profile'
+UserView = require 'views/common/UserView'
+template = require 'templates/account/job-profile-view'
 User = require 'models/User'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 JobProfileContactModal = require 'views/modal/JobProfileContactModal'
 JobProfileTreemaView = require 'views/account/JobProfileTreemaView'
 UserRemark = require 'models/UserRemark'
-forms = require 'lib/forms'
+forms = require 'core/forms'
 ModelModal = require 'views/modal/ModelModal'
 JobProfileCodeModal = require './JobProfileCodeModal'
+require 'vendor/treema'
 
 class LevelSessionsCollection extends CocoCollection
   url: -> "/db/user/#{@userID}/level.sessions/employer"
@@ -30,13 +31,12 @@ module.exports = class JobProfileView extends UserView
   id: 'profile-view'
   template: template
   showBackground: false
+  usesSocialMedia: true
 
-  subscriptions:
-    'auth:linkedin-api-loaded': 'onLinkedInLoaded'
+  subscriptions: {}
 
   events:
     'click #toggle-editing': 'toggleEditing'
-    'click #importLinkedIn': 'importLinkedIn'
     'click #toggle-job-profile-active': 'toggleJobProfileActive'
     'click #toggle-job-profile-approved': 'toggleJobProfileApproved'
     'click #save-notes-button': 'onJobProfileNotesChanged'
@@ -57,12 +57,7 @@ module.exports = class JobProfileView extends UserView
   constructor: (options, userID) ->
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
     @onRemarkChanged = _.debounce @onRemarkChanged, 1000
-    @authorizedWithLinkedIn = IN?.User?.isAuthorized()
-    @linkedInLoaded = Boolean(IN?.parse)
-    @waitingForLinkedIn = false
-    window.contractCallback = =>
-      @authorizedWithLinkedIn = IN?.User?.isAuthorized()
-      @render()
+    require('core/services/filepicker')()  # Initialize if needed
     super userID, options
 
   onLoaded: ->
@@ -84,12 +79,13 @@ module.exports = class JobProfileView extends UserView
     if me.isAdmin() or 'employer' in me.get('permissions', true)
       $.post "/db/user/#{me.id}/track/view_candidate"
       $.post "/db/user/#{@userID}/track/viewed_by_employer" unless me.isAdmin()
-    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@userID), 'candidate_sessions').model
+    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@user.id), 'candidate_sessions').model
+    @listenToOnce @sessions, 'sync', => @render?()
     if me.isAdmin()
       # Mimicking how the VictoryModal fetches LevelFeedback
       @remark = new UserRemark()
       @remark.setURL "/db/user/#{@userID}/remark"
-      @remark.fetch()
+      @remark.fetch cache: false
       @listenToOnce @remark, 'sync', @onRemarkLoaded
       @listenToOnce @remark, 'error', @onRemarkNotFound
 
@@ -102,135 +98,11 @@ module.exports = class JobProfileView extends UserView
     @remark.set 'user', @userID
     @remark.set 'userName', name if name = @user.get('name')
 
-  onLinkedInLoaded: =>
-    @linkedinLoaded = true
-    if @waitingForLinkedIn
-      @renderLinkedInButton()
-    @authorizedWithLinkedIn = IN?.User?.isAuthorized()
-
-  renderLinkedInButton: =>
-    IN?.parse()
-
-  afterInsert: ->
-    super()
-    linkedInButtonParentElement = document.getElementById('linkedInAuthButton')
-    if linkedInButtonParentElement
-      if @linkedinLoaded
-        @renderLinkedInButton()
-      else
-        @waitingForLinkedIn = true
-
-  importLinkedIn: =>
-    overwriteConfirm = confirm('Importing LinkedIn data will overwrite your current work experience, skills, name, descriptions, and education. Continue?')
-    unless overwriteConfirm then return
-    application.linkedinHandler.getProfileData (err, profileData) =>
-      @processLinkedInProfileData profileData
-
   jobProfileSchema: -> @user.schema().properties.jobProfile.properties
-
-  processLinkedInProfileData: (p) ->
-    #handle formatted-name
-    currentJobProfile = @user.get('jobProfile')
-    oldJobProfile = _.cloneDeep(currentJobProfile)
-    jobProfileSchema = @user.schema().properties.jobProfile.properties
-
-    if p['formattedName']? and p['formattedName'] isnt 'private'
-      nameMaxLength = jobProfileSchema.name.maxLength
-      currentJobProfile.name = p['formattedName'].slice(0, nameMaxLength)
-    if p['skills']?['values'].length
-      skillNames = []
-      skillMaxLength = jobProfileSchema.skills.items.maxLength
-      for skill in p.skills.values
-        skillNames.push skill.skill.name.slice(0, skillMaxLength)
-      currentJobProfile.skills = skillNames
-    if p['headline']
-      shortDescriptionMaxLength = jobProfileSchema.shortDescription.maxLength
-      currentJobProfile.shortDescription = p['headline'].slice(0, shortDescriptionMaxLength)
-    if p['summary']
-      longDescriptionMaxLength = jobProfileSchema.longDescription.maxLength
-      currentJobProfile.longDescription = p.summary.slice(0, longDescriptionMaxLength)
-    if p['positions']?['values']?.length
-      newWorks = []
-      workSchema = jobProfileSchema.work.items.properties
-      for position in p['positions']['values']
-        workObj = {}
-        descriptionMaxLength = workSchema.description.maxLength
-
-        workObj.description = position.summary?.slice(0, descriptionMaxLength)
-        workObj.description ?= ''
-        if position.startDate?.year?
-          workObj.duration = "#{position.startDate.year} - "
-          if (not position.endDate?.year) or (position.endDate?.year and position.endDate?.year > (new Date().getFullYear()))
-            workObj.duration += 'present'
-          else
-            workObj.duration += position.endDate.year
-        else
-          workObj.duration = ''
-        durationMaxLength = workSchema.duration.maxLength
-        workObj.duration = workObj.duration.slice(0, durationMaxLength)
-        employerMaxLength = workSchema.employer.maxLength
-        workObj.employer = position.company?.name ? ''
-        workObj.employer = workObj.employer.slice(0, employerMaxLength)
-        workObj.role = position.title ? ''
-        roleMaxLength = workSchema.role.maxLength
-        workObj.role = workObj.role.slice(0, roleMaxLength)
-        newWorks.push workObj
-      currentJobProfile.work = newWorks
-
-    if p['educations']?['values']?.length
-      newEducation = []
-      eduSchema = jobProfileSchema.education.items.properties
-      for education in p['educations']['values']
-        educationObject = {}
-        educationObject.degree = education.degree ? 'Studied'
-
-        if education.startDate?.year?
-          educationObject.duration = "#{education.startDate.year} - "
-          if (not education.endDate?.year) or (education.endDate?.year and education.endDate?.year > (new Date().getFullYear()))
-            educationObject.duration += 'present'
-            if educationObject.degree is 'Studied'
-              educationObject.degree = 'Studying'
-          else
-            educationObject.duration += education.endDate.year
-        else
-          educationObject.duration = ''
-        if education.fieldOfStudy
-          if educationObject.degree is 'Studied' or educationObject.degree is 'Studying'
-            educationObject.degree += " #{education.fieldOfStudy}"
-          else
-            educationObject.degree += " in #{education.fieldOfStudy}"
-        educationObject.degree = educationObject.degree.slice(0, eduSchema.degree.maxLength)
-        educationObject.duration = educationObject.duration.slice(0, eduSchema.duration.maxLength)
-        educationObject.school = education.schoolName ? ''
-        educationObject.school = educationObject.school.slice(0, eduSchema.school.maxLength)
-        educationObject.description = ''
-        newEducation.push educationObject
-      currentJobProfile.education = newEducation
-    if p['publicProfileUrl']
-      #search for linkedin link
-      links = currentJobProfile.links
-      alreadyHasLinkedIn = false
-      for link in links
-        if link.link.toLowerCase().indexOf('linkedin') > -1
-          alreadyHasLinkedIn = true
-          break
-      unless alreadyHasLinkedIn
-        newLink =
-          link: p['publicProfileUrl']
-          name: 'LinkedIn'
-        currentJobProfile.links.push newLink
-    @user.set('jobProfile', currentJobProfile)
-    validationErrors = @user.validate()
-    if validationErrors
-      @user.set('jobProfile', oldJobProfile)
-      return alert("Please notify team@codecombat.com! There were validation errors from the LinkedIn import: #{JSON.stringify validationErrors}")
-    else
-      @render()
 
   getRenderData: ->
     context = super()
     context.userID = @userID
-    context.linkedInAuthorized = @authorizedWithLinkedIn
     context.profile = @user.get('jobProfile', true)
     context.rawProfile = @user.get('jobProfile') or {}
     context.user = @user
@@ -308,7 +180,6 @@ module.exports = class JobProfileView extends UserView
   toggleEditing: ->
     @editing = not @editing
     @render()
-    _.delay @renderLinkedInButton, 1000
     @saveEdits()
 
   toggleJobProfileApproved: ->
@@ -343,7 +214,7 @@ module.exports = class JobProfileView extends UserView
   onJobProfileNotesChanged: (e) =>
     notes = @$el.find('#job-profile-notes').val()
     @user.set 'jobProfileNotes', notes
-    @user.save {jobProfileNotes: notes}, {patch: true}
+    @user.save {jobProfileNotes: notes}, {patch: true, type: 'PUT'}
 
   iconForLink: (link) ->
     icons = [

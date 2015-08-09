@@ -1,4 +1,4 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/modal/generate-terrain-modal'
 CocoModel = require 'models/CocoModel'
 
@@ -15,6 +15,10 @@ clusters = {
     'thangs': ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4']
     'margin': 0.5
     }
+  'tree_stands': {
+    'thangs': ['Tree Stand 1', 'Tree Stand 2', 'Tree Stand 3', 'Tree Stand 4', 'Tree Stand 5', 'Tree Stand 6']
+    'margin': 3
+  }
   'shrubs': {
     'thangs': ['Shrub 1', 'Shrub 2', 'Shrub 3']
     'margin': 0.5
@@ -83,6 +87,34 @@ clusters = {
     'thangs': ['Bookshelf', 'Chair', 'Table', 'Candle', 'Treasure Chest']
     'margin': -1
     }
+  'desert_walls': {
+    'thangs': ['Desert Wall 1', 'Desert Wall 2', 'Desert Wall 3', 'Desert Wall 4', 'Desert Wall 5', 'Desert Wall 6', 'Desert Wall 7', 'Desert Wall 8']
+    'margin': 6
+  }
+  'desert_floor': {
+    'thangs': ['Sand 01', 'Sand 02', 'Sand 03', 'Sand 04', 'Sand 05', 'Sand 06']
+    'margin': -1
+  }
+  'oases': {
+    'thangs': ['Oasis 1', 'Oasis 2', 'Oasis 3']
+    'margin': 4
+  }
+  'mountain_floor': {
+    'thangs': ['Talus 1', 'Talus 2', 'Talus 3', 'Talus 4', 'Talus 5', 'Talus 6']
+    'margin': -1
+  }
+  'mountain_walls': {
+    'thangs': ['Mountain 1','Mountain 3']
+    'margin': 6
+  }
+  'glacier_floor': {
+    'thangs': ['Firn 1', 'Firn 2', 'Firn 3', 'Firn 4', 'Firn 5', 'Firn 6']
+    'margin': -1
+  }
+  'glacier_walls': {
+    'thangs': ['Ice Wall']
+    'margin': 2
+  }
 }
 
 presets = {
@@ -165,10 +197,10 @@ presets = {
   'grassy': {
     'terrainName': 'Grass'
     'type':'grassy'
-    'borders':'trees'
+    'borders':'tree_stands'
     'borderNoise':1
-    'borderSize':0
-    'borderThickness':3
+    'borderSize':2
+    'borderThickness':2
     'floors':'grass_floor'
     'decorations': {
       'hero': {
@@ -203,6 +235,80 @@ presets = {
       }
     }
   }
+  'desert': {
+    'terrainName': 'Desert'
+    'type':'desert'
+    'borders':'desert_walls'
+    'borderNoise':2
+    'borderSize':4
+    'borderThickness':4
+    'floors':'desert_floor'
+    'decorations': {
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
+      'oasis': {
+        'num':[1,2] #min-max
+        'width': 10
+        'height': 10
+        'clusters': {
+          'oases':[1,1]
+          'shrubs':[0,5]
+          'rocks':[0,2]
+        }
+      }
+    }
+  },
+  'mountain': {
+    'terrainName': 'Mountain'
+    'type': 'mountain'
+    'floors': 'mountain_floor'
+    'borders': 'mountain_walls'
+    'borderNoise': 1
+    'borderSize': 1
+    'borderThickness': 1
+    'decorations': {
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
+    }
+  },
+  'glacier': {
+    'terrainName': 'Glacier'
+    'type': 'glacier'
+    'floors': 'glacier_floor'
+    'borders': 'glacier_walls'
+    'borderNoise': 0
+    'borderSize': 4
+    'borderThickness': 1
+    'decorations': {
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
+      'Room': {
+        'num': [1,1]
+        'width': [12, 20]
+        'height': [8, 16]
+        'thickness': [2,2]
+        'cluster': 'glacier_walls'
+      }
+    }
+  }
 }
 
 presetSizes = {
@@ -234,7 +340,7 @@ module.exports = class GenerateTerrainModal extends ModalView
   template: template
   plain: true
   modalWidthPercent: 90
-  
+
   events:
     'click .choose-option': 'onGenerate'
 

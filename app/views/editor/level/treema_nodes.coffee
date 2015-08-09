@@ -2,6 +2,7 @@ WorldSelectModal = require './modals/WorldSelectModal'
 ThangType = require '/models/ThangType'
 LevelComponent = require 'models/LevelComponent'
 CocoCollection = require 'collections/CocoCollection'
+require 'vendor/treema'
 
 makeButton = -> $('<a class="btn btn-primary btn-xs treema-map-button"><span class="glyphicon glyphicon-screenshot"></span></a>')
 shorten = (f) -> parseFloat(f.toFixed(1))
@@ -289,5 +290,4 @@ module.exports.ItemThangTypeNode = ItemThangTypeNode = class ItemThangTypeNode e
 
   processThangType: (thangType) ->
     return unless itemComponent = _.find thangType.get('components'), {original: LevelComponent.ItemID}
-    return unless itemComponent.config?.slots?.length
-    @constructor.thangTypes.push name: thangType.get('name'), original: thangType.get('original'), slots: itemComponent.config.slots
+    @constructor.thangTypes.push name: thangType.get('name'), original: thangType.get('original'), slots: itemComponent.config?.slots ? ['right-hand']

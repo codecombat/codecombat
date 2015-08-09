@@ -17,6 +17,8 @@ UserSchema = c.object
     simulatedBy: 0
     simulatedFor: 0
     jobProfile: {}
+    earned: {heroes: [], items: [], levels: [], gems: 0}
+    purchased: {heroes: [], items: [], levels: [], gems: 0}
 
 c.extendNamedProperties UserSchema  # let's have the name be the first property
 
@@ -45,12 +47,14 @@ visa = c.shortString
   title: 'US Work Status'
   description: 'Are you authorized to work in the US, or do you need visa sponsorship? (If you live in Canada or Australia, mark authorized.)'
   enum: ['Authorized to work in the US', 'Need visa sponsorship']
-  
+
 _.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
+  iosIdentifierForVendor: c.shortString({format: 'hidden'})
   firstName: c.shortString({title: 'First Name'})
   lastName: c.shortString({title: 'Last Name'})
-  gender: {type: 'string', 'enum': ['male', 'female']}
+  gender: {type: 'string', 'enum': ['male', 'female', 'secret', 'trans']}
+  ageRange: {type: 'string'}  # 'enum': ['0-13', '14-17', '18-24', '25-34', '35-44', '45-100']
   password: {type: 'string', maxLength: 256, minLength: 2, title: 'Password'}
   passwordReset: {type: 'string'}
   photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image to serve as your profile picture.'}
@@ -59,11 +63,12 @@ _.extend UserSchema.properties,
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
 
-  wizardColor1: c.pct({title: 'Wizard Clothes Color'})
+  wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
   music: { type: 'boolean' }
-  autocastDelay: { type: 'integer' }
+  autocastDelay: { type: 'integer' }  # No longer used
   lastLevel: { type: 'string' }
+  heroConfig: c.HeroConfigSchema
 
   emailSubscriptions: c.array {uniqueItems: true}, {'enum': emailSubscriptions}
   emails: c.object {title: 'Email Settings', default: generalNews: {enabled: true}, anyNotes: {enabled: true}, recruitNotes: {enabled: true} },
@@ -81,6 +86,12 @@ _.extend UserSchema.properties,
     recruitNotes: {$ref: '#/definitions/emailSubscription'}
     employerNotes: {$ref: '#/definitions/emailSubscription'}
 
+    oneTimes: c.array {title: 'One-time emails'},
+      c.object {title: 'One-time email', required: ['type', 'email']},
+        type: c.shortString() # E.g 'subscribe modal parent'
+        email: c.shortString()
+        sent: c.date() # Set when sent
+
   # server controlled
   permissions: c.array {}, c.shortString()
   dateCreated: c.date({title: 'Date Joined'})
@@ -89,6 +100,7 @@ _.extend UserSchema.properties,
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
+  lastIP: {type: 'string'}
 
   emailLower: c.shortString()
   nameLower: c.shortString()
@@ -98,14 +110,14 @@ _.extend UserSchema.properties,
   emailHash: {type: 'string'}
 
   #Internationalization stuff
-  preferredLanguage: {type: 'string', 'enum': c.getLanguageCodeArray()}
+  preferredLanguage: {'enum': [null].concat(c.getLanguageCodeArray())}
 
   signedCLA: c.date({title: 'Date Signed the CLA'})
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
-  aceConfig: c.object { default: { language: 'javascript', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
-    language: {type: 'string', 'enum': ['javascript', 'coffeescript', 'python', 'clojure', 'lua', 'io']}
+  aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
+    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'io']}
     keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}
     invisibles: {type: 'boolean' }
     indentGuides: {type: 'boolean' }
@@ -114,7 +126,7 @@ _.extend UserSchema.properties,
 
   simulatedBy: {type: 'integer', minimum: 0 }
   simulatedFor: {type: 'integer', minimum: 0 }
-    
+
   jobProfile: c.object {title: 'Job Profile', default: { active: false, lookingFor: 'Full-time', jobTitle: 'Software Developer', city: 'Defaultsville, CA', country: 'USA', skills: ['javascript'], shortDescription: 'Programmer seeking to build great software.', longDescription: '* I write great code.\n* You need great code?\n* Great!' }},
     lookingFor: {title: 'Looking For', type: 'string', enum: ['Full-time', 'Part-time', 'Remote', 'Contracting', 'Internship'], description: 'What kind of developer position do you want?'}
     jobTitle: {type: 'string', maxLength: 50, title: 'Desired Job Title', description: 'What role are you looking for? Ex.: "Full Stack Engineer", "Front-End Developer", "iOS Developer"' }
@@ -262,7 +274,46 @@ _.extend UserSchema.properties,
     levelSystemMiscPatches: c.int()
     thangTypeTranslationPatches: c.int()
     thangTypeMiscPatches: c.int()
+    achievementTranslationPatches: c.int()
+    achievementMiscPatches: c.int()
+    pollTranslationPatches: c.int()
+    pollMiscPatches: c.int()
+    campaignTranslationPatches: c.int()
+    campaignMiscPatches: c.int()
 
+  earned: c.RewardSchema 'earned by achievements'
+  purchased: c.RewardSchema 'purchased with gems or money'
+  deleted: {type: 'boolean'}
+  dateDeleted: c.date()
+  spent: {type: 'number'}
+  stripeCustomerID: { type: 'string' } # TODO: Migrate away from this property
+
+  stripe: c.object {}, {
+    customerID: { type: 'string' }
+    planID: { enum: ['basic'], description: 'Determines if a user has or wants to subscribe' }
+    subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
+    token: { type: 'string' }
+    couponID: { type: 'string' }
+    free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
+    prepaidCode: c.shortString description: 'Prepaid code to apply to sub purchase'
+
+    # Sponsored subscriptions
+    subscribeEmails: c.array { description: 'Input for subscribing other users' }, c.shortString()
+    unsubscribeEmail: { type: 'string', description: 'Input for unsubscribing a sponsored user' }
+    recipients: c.array { title: 'Recipient subscriptions owned by this user' },
+      c.object { required: ['userID', 'subscriptionID'] },
+        userID: c.objectId { description: 'User ID of recipient' }
+        subscriptionID: { type: 'string' }
+        couponID: { type: 'string' }
+    sponsorID: c.objectId { description: "User ID that owns this user's subscription" }
+    sponsorSubscriptionID: { type: 'string', description: 'Sponsor aggregate subscription used to pay for all recipient subs' }
+  }
+
+  siteref: { type: 'string' }
+  referrer: { type: 'string' }
+  chinaVersion: { type: 'boolean' }
+
+  clans: c.array {}, c.objectId()
 
 c.extendBasicProperties UserSchema, 'user'
 

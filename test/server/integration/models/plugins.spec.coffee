@@ -280,10 +280,10 @@ describe 'SearchablePlugin', ->
     firstArticle.save (err) ->
       throw err if err
 
-      Article.textSearch 'best', {filter: {index: true}}, (err, results) ->
+      Article.find {$text: {$search: 'best'}, index: true}, (err, results) ->
         expect(err).toBeNull()
         if results
-          expect(results.results.length).toBeGreaterThan(0)
+          expect(results.length).toBeGreaterThan(0)
         else
           console.log('ERROR:', err)
         done()

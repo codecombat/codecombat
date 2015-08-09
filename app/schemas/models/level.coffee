@@ -1,6 +1,50 @@
 c = require './../schemas'
 ThangComponentSchema = require './thang_component'
 
+defaultTasks = [
+  'Name the level.'
+  'Create a Referee stub, if needed.'
+  'Build the level.'
+  'Set up goals.'
+  'Choose the Existence System lifespan and frame rate.'
+  'Choose the UI System paths and coordinate hover if needed.'
+  'Choose the AI System pathfinding and Vision System line of sight.'
+  'Write the sample code.'
+
+  'Do basic set decoration.'
+  'Adjust script camera bounds.'
+  'Choose music file in Introduction script.'
+
+  'Add to a campaign.'
+  'Publish.'
+  'Choose level options like required/restricted gear.'
+  'Create achievements, including unlocking next level.'
+  'Choose leaderboard score types.'
+
+  'Playtest with a slow/tough hero.'
+  'Playtest with a fast/weak hero.'
+  'Playtest with a couple random seeds.'
+  'Make sure the level ends promptly on success and failure.'
+  'Remove/simplify unnecessary doodad collision.'
+  'Release to adventurers via MailChimp.'
+
+  'Write the description.'
+  'Translate the sample code comments.'
+  'Add Io/Clojure/Lua/CoffeeScript.'
+  'Write the guide.'
+  'Write a loading tip, if needed.'
+  'Click the Populate i18n button.'
+  'Add programming concepts covered.'
+
+  'Mark whether it requires a subscription.'
+  'Release to everyone via MailChimp.'
+
+  'Check completion/engagement/problem analytics.'
+  'Do any custom scripting, if needed.'
+  'Do thorough set decoration.'
+  'Add a walkthrough video.'
+]
+
 SpecificArticleSchema = c.object()
 c.extendNamedProperties SpecificArticleSchema  # name first
 SpecificArticleSchema.properties.body = {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
@@ -31,9 +75,10 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
   worldEndsAfter: {title: 'World Ends After', description: 'When included, ends the world this many seconds after this goal succeeds or fails.', type: 'number', minimum: 0, exclusiveMinimum: true, maximum: 300, default: 3}
   howMany: {title: 'How Many', description: 'When included, require only this many of the listed goal targets instead of all of them.', type: 'integer', minimum: 1}
   hiddenGoal: {title: 'Hidden', description: 'Hidden goals don\'t show up in the goals area for the player until they\'re failed. (Usually they\'re obvious, like "don\'t die".)', 'type': 'boolean' }
+  optional: {title: 'Optional', description: 'Optional goals do not need to be completed for overallStatus to be success.', type: 'boolean'}
   team: c.shortString(title: 'Team', description: 'Name of the team this goal is for, if it is not for all of the playable teams.')
   killThangs: c.array {title: 'Kill Thangs', description: 'A list of Thang IDs the player should kill, or team names.', uniqueItems: true, minItems: 1, 'default': ['ogres']}, thang
-  saveThangs: c.array {title: 'Save Thangs', description: 'A list of Thang IDs the player should save, or team names', uniqueItems: true, minItems: 1, 'default': ['humans']}, thang
+  saveThangs: c.array {title: 'Save Thangs', description: 'A list of Thang IDs the player should save, or team names', uniqueItems: true, minItems: 1, 'default': ['Hero Placeholder']}, thang
   getToLocations: c.object {title: 'Get To Locations', description: 'Will be set off when any of the \"who\" touch any of the \"targets\"', required: ['who', 'targets']},
     who: c.array {title: 'Who', description: 'The Thangs who must get to the target locations.', minItems: 1}, thang
     targets: c.array {title: 'Targets', description: 'The target locations to which the Thangs must get.', minItems: 1}, thang
@@ -62,6 +107,8 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
   keepFromCollectingThangs: c.object {title: 'Keep From Collecting', description: 'Thangs that the player must prevent other Thangs from collecting.', required: ['who', 'targets']},
     who: c.array {title: 'Who', description: 'The Thangs which must not collect the target items.', minItems: 1}, thang
     targets: c.array {title: 'Targets', description: 'The target items which the Thangs must not collect.', minItems: 1}, thang
+  codeProblems: c.array {title: 'Code Problems', description: 'A list of Thang IDs that should not have any code problems, or team names.', uniqueItems: true, minItems: 1, 'default': ['humans']}, thang
+  linesOfCode: {title: 'Lines of Code', description: 'A mapping of Thang IDs or teams to how many many lines of code should be allowed (well, statements).', type: 'object', default: {humans: 10}, additionalProperties: {type: 'integer', description: 'How many lines to allow for this Thang.'}}
 
 ResponseSchema = c.object {title: 'Dialogue Button', description: 'A button to be shown to the user with the dialogue.', required: ['text']},
   text: {title: 'Title', description: 'The text that will be on the button', 'default': 'Okay', type: 'string', maxLength: 30}
@@ -74,7 +121,7 @@ PointSchema = c.object {title: 'Point', description: 'An {x, y} coordinate point
   x: {title: 'x', description: 'The x coordinate.', type: 'number'}
   y: {title: 'y', description: 'The y coordinate.', type: 'number'}
 
-SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a target Thang move or say something, or select/deselect it.', required: ['id'], default: {id: 'Captain Anya'}},
+SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a target Thang move or say something, or select/deselect it.', required: ['id'], default: {id: 'Hero Placeholder'}},
   id: thang
   select: {title: 'Select', description: 'Select or deselect this Thang.', type: 'boolean'}
   say: c.object {title: 'Say', description: 'Make this Thang say a message.', required: ['text'], default: { mood: 'explain' }},
@@ -86,7 +133,7 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
       ogg: c.shortString(title: 'OGG', format: 'sound-file')
       preload: {title: 'Preload', description: 'Whether to load this sound file before the level can begin (typically for the first dialogue of a level).', type: 'boolean' }
     responses: c.array {title: 'Buttons', description: 'An array of buttons to include with the dialogue, with which the user can respond.'}, ResponseSchema
-    i18n: {type: 'object', format: 'i18n', props: ['blurb', 'text'], description: 'Help translate this message'}
+    i18n: {type: 'object', format: 'i18n', props: ['blurb', 'text', 'sound'], description: 'Help translate this message'}
   move: c.object {title: 'Move', description: 'Tell the Thang to move.', required: ['target'], default: {target: {}, duration: 500}},
     target: _.extend _.cloneDeep(PointSchema), {title: 'Target', description: 'Target point to which the Thang will move.', default: {x: 20, y: 20}}
     duration: {title: 'Duration', description: 'Number of milliseconds over which to move, or 0 for an instant move.', type: 'integer', minimum: 0, format: 'milliseconds'}
@@ -104,7 +151,7 @@ NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes 
       target: c.shortString(title: 'Target', description: 'Target highlight element DOM selector string.')
       delay: {type: 'integer', minimum: 0, title: 'Delay', description: 'Show the highlight after this many milliseconds. Doesn\'t affect the dim shade cutout highlight method.'}
       offset: _.extend _.cloneDeep(PointSchema), {title: 'Offset', description: 'Pointing arrow tip offset in pixels from the default target.', format: null}
-      rotation: {type: 'number', minimum: 0, title: 'Rotation', description: 'Rotation of the pointing arrow, in radians. PI / 2 points left, PI points up, etc.'}
+      rotation: {type: 'number', minimum: 0, title: 'Rotation', description: 'Rotation of the pointing arrow, in radians. PI / 2 points left, PI points up, etc.', format: 'radians'}
       sides: c.array {title: 'Sides', description: 'Which sides of the target element to point at.'}, {type: 'string', 'enum': ['left', 'right', 'top', 'bottom'], title: 'Side', description: 'A side of the target element to point at.'}
     lock: {title: 'Lock', description: 'Whether the interface should be locked so that the player\'s focus is on the script, or specific areas to lock.', type: ['boolean', 'array'], items: {type: 'string', enum: ['surface', 'editor', 'palette', 'hud', 'playback', 'playback-hover', 'level']}}
     letterbox: {type: 'boolean', title: 'Letterbox', description: 'Turn letterbox mode on or off. Disables surface and playback controls.'}
@@ -149,7 +196,7 @@ ScriptSchema = c.object {
   required: ['channel']
   'default': {channel: 'world:won', noteChain: []}
 },
-  id: c.shortString(title: 'ID', description: 'A unique ID that other scripts can rely on in their Happens After prereqs, for sequencing.')  # uniqueness?
+  id: c.shortString(title: 'ID', description: 'A unique ID that other scripts can rely on in their Happens After prereqs, for sequencing.', pattern: '^[a-zA-Z 0-9:\'"_!-]+$')  # uniqueness? Ideally this would be just ids-like-this but we have a lot of legacy data.
   channel: c.shortString(title: 'Event', format: 'event-channel', description: 'Event channel this script might trigger for, like "world:won".')
   eventPrereqs: c.array {title: 'Event Checks', description: 'Logical checks on the event for this script to trigger.', format: 'event-prereqs'}, EventPrereqSchema
   repeats: {title: 'Repeats', description: 'Whether this script can trigger more than once during a level.', enum: [true, false, 'session']}
@@ -215,12 +262,14 @@ LevelSchema = c.object {
     type: 'hero'
     goals: [
       {id: 'ogres-die', name: 'Ogres must die.', killThangs: ['ogres'], worldEndsAfter: 3}
-      {id: 'humans-survive', name: 'Humans must survive.', saveThangs: ['humans'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true}
+      {id: 'humans-survive', name: 'Your hero must survive.', saveThangs: ['Hero Placeholder'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true}
     ]
+    concepts: ['basic_syntax']
 }
 c.extendNamedProperties LevelSchema  # let's have the name be the first property
 _.extend LevelSchema.properties,
   description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown'}
+  loadingTip: { type: 'string', title: 'Loading Tip', description: 'What to show for this level while it\'s loading.' }
   documentation: c.object {title: 'Documentation', description: 'Documentation articles relating to this level.', required: ['specificArticles', 'generalArticles'], 'default': {specificArticles: [], generalArticles: []}},
     specificArticles: c.array {title: 'Specific Articles', description: 'Specific documentation articles that live only in this level.', uniqueItems: true }, SpecificArticleSchema
     generalArticles: c.array {title: 'General Articles', description: 'General documentation articles that can be linked from multiple levels.', uniqueItems: true}, GeneralArticleSchema
@@ -240,19 +289,72 @@ _.extend LevelSchema.properties,
     body: {type: 'string', format: 'markdown', title: 'Body Text', description: 'Inserted into the Victory Modal once this level is complete. Tell the player they did a good job and what they accomplished!'},
     i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this victory message'}
   }
-  i18n: {type: 'object', format: 'i18n', props: ['name', 'description'], description: 'Help translate this level'}
+  i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'loadingTip'], description: 'Help translate this level'}
   icon: {type: 'string', format: 'image-file', title: 'Icon'}
   banner: {type: 'string', format: 'image-file', title: 'Banner'}
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
-  type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero'])
+  type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'])
   terrain: c.terrainString
   showsGuide: c.shortString(title: 'Shows Guide', description: 'If the guide is shown at the beginning of the level.', 'enum': ['first-time', 'always'])
+  requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
+  tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.', default: (name: t for t in defaultTasks)}, c.task
+  helpVideos: c.array {title: 'Help Videos'}, c.object {default: {style: 'eccentric', url: '', free: false}},
+    style: c.shortString title: 'Style', description: 'Like: original, eccentric, scripted, edited, etc.'
+    free: {type: 'boolean', title: 'Free', description: 'Whether this video is freely available to all players without a subscription.'}
+    url: c.url {title: 'URL', description: 'Link to the video on Vimeo.'}
+  replayable: {type: 'boolean', title: 'Replayable', description: 'Whether this (hero) level infinitely scales up its difficulty and can be beaten over and over for greater rewards.'}
+  buildTime: {type: 'number', description: 'How long it has taken to build this level.'}
+
+  # Admin flags
+  adventurer: { type: 'boolean' }
+  practice: { type: 'boolean' }
+  adminOnly: { type: 'boolean' }
+  disableSpaces: { type: ['boolean','integer'] }
+  hidesSubmitUntilRun: { type: 'boolean' }
+  hidesPlayButton: { type: 'boolean' }
+  hidesRunShortcut: { type: 'boolean' }
+  hidesHUD: { type: 'boolean' }
+  hidesSay: { type: 'boolean' }
+  hidesCodeToolbar: { type: 'boolean' }
+  hidesRealTimePlayback: { type: 'boolean' }
+  backspaceThrottle: { type: 'boolean' }
+  lockDefaultCode: { type: ['boolean','integer'] }
+  moveRightLoopSnippet: { type: 'boolean' }
+  realTimeSpeedFactor: { type: 'number' }
+  autocompleteFontSizePx: { type: 'number' }
+  requiredCode: c.array {}, {
+    type: 'string'
+  }
+  suspectCode: c.array {}, {
+    type: 'object'
+    properties: {
+      name: { type: 'string' }
+      pattern: { type: 'string' }
+    }
+  }
+  requiredGear: { type: 'object', additionalProperties: {
+    type: 'array'
+    items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
+  }}
+  restrictedGear: { type: 'object', additionalProperties: {
+    type: 'array'
+    items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
+  }}
+  allowedHeroes: { type: 'array', items: {
+    type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
+  }}
+  campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
+  scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for.', uniqueItems: true},
+     c.shortString(title: 'Score Type', 'enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty'])  # TODO: good version of LoC; total gear value.
+  concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.', uniqueItems: true}, c.concept
+
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema
 c.extendVersionedProperties LevelSchema, 'level'
 c.extendPermissionsProperties LevelSchema, 'level'
 c.extendPatchableProperties LevelSchema
+c.extendTranslationCoverageProperties LevelSchema
 
 module.exports = LevelSchema
 

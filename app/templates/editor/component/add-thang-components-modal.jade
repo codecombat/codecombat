@@ -1,7 +1,7 @@
-extends /templates/modal/modal_base
+extends /templates/core/modal-base
 
 block modal-header-content
-  h1 Add Components
+  h1(data-i18n="editor.add_components") Add Components
 
 block modal-body-content
   form
@@ -9,9 +9,9 @@ block modal-body-content
       for system in systems
         li.list-group-item
           div.item-title(data-toggle="collapse", data-target="##{system}").collapsed
-            span.glyphicon.glyphicon-chevron-down.text-muted
-            span.glyphicon.glyphicon-chevron-up.text-muted
-            a.spl= system
+            span.glyphicon.glyphicon-chevron-down.text-muted.spr
+            span.glyphicon.glyphicon-chevron-up.text-muted.spr
+            a= system
             span.spl.text-muted= nameLists[system]
           .collapse-panel.collapse(id=system)
             for component in components[system]

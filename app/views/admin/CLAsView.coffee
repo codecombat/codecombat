@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/admin/clas'
 CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
@@ -18,7 +18,7 @@ module.exports = class CLAsView extends RootView
 
   constructor: (options) ->
     super options
-    @clas = @supermodel.loadCollection(new CLACollection(), 'clas').model
+    @clas = @supermodel.loadCollection(new CLACollection(), 'clas', {cache: false}).model
 
   getRenderData: ->
     c = super()

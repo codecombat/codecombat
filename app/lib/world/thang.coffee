@@ -73,7 +73,7 @@ module.exports = class Thang
     for [prop, type] in props
       unless type in ThangState.trackedPropertyTypes
         # How should errors for busted Components work? We can't recover from this and run the world.
-        throw new Error "Type #{type} for property #{prop} is not a trackable property type: #{trackedPropertyTypes}"
+        throw new Error "Type #{type} for property #{prop} is not a trackable property type: #{ThangState.trackedPropertyTypes}"
       oldPropIndex = @trackedPropertiesKeys.indexOf prop
       if oldPropIndex is -1
         @trackedPropertiesKeys.push prop
@@ -151,10 +151,14 @@ module.exports = class Thang
     o.unusedTrackedPropertyKeys = (@trackedPropertiesKeys[propIndex] for used, propIndex in @trackedPropertiesUsed when not used)
     o
 
-  @deserialize: (o, world, classMap) ->
+  @deserialize: (o, world, classMap, levelComponents) ->
     t = new Thang world, o.spriteName, o.id
     for [componentClassName, componentConfig] in o.components
-      componentClass = classMap[componentClassName]
+      unless componentClass = classMap[componentClassName]
+        console.debug 'Compiling new Component while deserializing:', componentClassName
+        componentModel = _.find levelComponents, name: componentClassName
+        componentClass = world.loadClassFromCode componentModel.js, componentClassName, 'component'
+        world.classMap[componentClassName] = componentClass
       t.addComponents [componentClass, componentConfig]
     t.unusedTrackedPropertyKeys = o.unusedTrackedPropertyKeys
     t.unusedTrackedPropertyValues = (t[prop] for prop in o.unusedTrackedPropertyKeys)
@@ -166,13 +170,17 @@ module.exports = class Thang
   serializeForAether: ->
     {CN: @constructor.className, id: @id}
 
-  getSpriteOptions: ->
+  getLankOptions: ->
     colorConfigs = @teamColors or @world?.getTeamColors() or {}
     options = {colorConfig: {}}
+    if @id is 'Hero Placeholder' and not @world.getThangByID 'Hero Placeholder 1'
+      return options  # No team colors for heroes on single-player levels
     if @team and teamColor = colorConfigs[@team]
       options.colorConfig.team = teamColor
     if @color and color = @grabColorConfig @color
       options.colorConfig.color = color
+    if @colors
+      options.colorConfig[colorType] = colorValue for colorType, colorValue of @colors
     options
 
   grabColorConfig: (color) ->

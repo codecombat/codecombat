@@ -1,4 +1,5 @@
-@import "../../../bootstrap/mixins"
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
 
 .spell-debug-view
   position: absolute
@@ -6,8 +7,9 @@
   min-width: 250px
   max-width: 400px
   padding: 10px
-  border-image: url(/images/level/popover_background.png) 18 fill round
-  border-width: 8px
+  border-style: solid
+  border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+  border-width: 8px 6px
   .progress
     position: relative
     span

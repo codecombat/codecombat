@@ -4,7 +4,7 @@
 
 {now} = require 'lib/world/world_utils'
 World = require 'lib/world/world'
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 Angel = require 'lib/Angel'
 
 module.exports = class God extends CocoClass
@@ -24,6 +24,7 @@ module.exports = class God extends CocoClass
     @angelsShare =
       workerCode: options.workerCode or '/javascripts/workers/worker_world.js'  # Either path or function
       headless: options.headless  # Whether to just simulate the goals, or to deserialize all simulation results
+      spectate: options.spectate
       godNick: @nick
       workQueue: []
       firstWorld: true
@@ -33,8 +34,15 @@ module.exports = class God extends CocoClass
       angels: []
       busyAngels: []  # Busy angels will automatically register here.
 
+    # Determine how many concurrent Angels/web workers to use at a time
     # ~20MB per idle worker + angel overhead - every Angel maps to 1 worker
-    angelCount = options.maxAngels ? 2  # How many concurrent Angels/web workers to use at a time
+    if options.maxAngels?
+      angelCount = options.maxAngels
+    else if window.application.isIPadApp
+      angelCount = 1
+    else
+      angelCount = 2
+
     # Don't generate all Angels at once.
     _.delay (=> new Angel @angelsShare unless @destroyed), 250 * i for i in [0 ... angelCount]
 
@@ -53,9 +61,12 @@ module.exports = class God extends CocoClass
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
 
   onTomeCast: (e) ->
+    @lastSubmissionCount = e.submissionCount
+    @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
+    @lastDifficulty = e.difficulty
     @createWorld e.spells, e.preload, e.realTime
 
-  createWorld: (spells, preload=false, realTime=false) ->
+  createWorld: (spells, preload, realTime) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
 
@@ -80,6 +91,9 @@ module.exports = class God extends CocoClass
       userCodeMap: userCodeMap
       level: @level
       levelSessionIDs: @levelSessionIDs
+      submissionCount: @lastSubmissionCount
+      flagHistory: @lastFlagHistory
+      difficulty: @lastDifficulty
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless
       preload: preload
@@ -109,6 +123,9 @@ module.exports = class God extends CocoClass
         userCodeMap: @currentUserCodeMap
         level: @level
         levelSessionIDs: @levelSessionIDs
+        submissionCount: @lastSubmissionCount
+        flagHistory: @lastFlagHistory
+        difficulty: @lastDifficulty
         goals: @goalManager?.getGoals()
         frame: args.frame
         currentThangID: args.thangID

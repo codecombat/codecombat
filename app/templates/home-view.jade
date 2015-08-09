@@ -1,0 +1,43 @@
+extends /templates/base
+
+block append site_nav
+  #kids-coding-container
+    img#boy-coding.kid-coding(src="/images/pages/home/boy_coding.png", alt="", draggable="false")
+    img#girl-coding.kid-coding(src="/images/pages/home/girl_coding.png", alt="", draggable="false")
+
+block outer_content
+  #spacer
+  
+  a#play-button(href="/play", data-i18n="[html]home.play")
+
+  //a(href="https://itunes.apple.com/us/app/codecombat/id936523909?mt=8")
+  //  #or-ipad(data-i18n="home.or_ipad")
+  //
+  //a(href="https://itunes.apple.com/us/app/codecombat/id936523909?mt=8")
+  //  img(src="/images/pages/home/app_store_badge.svg")#apple-store-button
+  
+  #slogan(data-i18n="home.slogan")
+
+  //- TODO: This does not work on IE8
+  .alert.alert-danger.lt-ie9
+    strong(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 8 or older. Sorry!
+  
+  if isIPadBrowser || isMobile
+    .alert.alert-danger.mobile
+      strong(data-i18n="home.no_mobile") CodeCombat wasn't designed for mobile devices and may not work!
+  else if isOldBrowser
+    .alert.alert-danger.old-browser
+      strong(data-i18n="home.old_browser") Uh oh, your browser is too old to run CodeCombat. Sorry!
+      br
+      span(data-i18n="home.old_browser_suffix") You can try anyway, but it probably won't work.
+
+
+block extra_footer_content
+  if explainHourOfCode																																																														
+    // Does not show up unless lang is en-US.
+    div.hour-of-code-explanation
+      | The 'Hour of Code' is a nationwide initiative by 
+      a(href="http://csedweek.org") Computer Science Education Week
+      |  and 
+      a(href="http://code.org") Code.org
+      |  to introduce millions of students to one hour of computer science and computer programming.

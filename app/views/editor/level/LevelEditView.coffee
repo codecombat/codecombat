@@ -1,10 +1,14 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/editor/level/edit'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
 World = require 'lib/world/world'
 DocumentFiles = require 'collections/DocumentFiles'
 LevelLoader = require 'lib/LevelLoader'
+
+# in the template, but need to require them to load them
+require 'views/modal/RevertModal'
+require 'views/editor/level/modals/GenerateTerrainModal'
 
 ThangsTabView = require './thangs/ThangsTabView'
 SettingsTabView = require './settings/SettingsTabView'
@@ -13,14 +17,25 @@ ComponentsTabView = require './components/ComponentsTabView'
 SystemsTabView = require './systems/SystemsTabView'
 SaveLevelModal = require './modals/SaveLevelModal'
 ForkModal = require 'views/editor/ForkModal'
-SaveVersionModal = require 'views/modal/SaveVersionModal'
+SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
 RelatedAchievementsView = require 'views/editor/level/RelatedAchievementsView'
 VersionHistoryView = require './modals/LevelVersionsModal'
-ComponentsDocumentationView = require 'views/docs/ComponentsDocumentationView'
-SystemsDocumentationView = require 'views/docs/SystemsDocumentationView'
+ComponentsDocumentationView = require 'views/editor/docs/ComponentsDocumentationView'
+SystemsDocumentationView = require 'views/editor/docs/SystemsDocumentationView'
 LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
-storage = require 'lib/storage'
+storage = require 'core/storage'
+
+require 'vendor/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
+require 'vendor/treema'
+
+# Make sure that all of our Aethers are loaded, so that if we try to preview the level, it will work.
+require 'vendor/aether-javascript'
+require 'vendor/aether-python'
+require 'vendor/aether-coffeescript'
+require 'vendor/aether-lua'
+require 'vendor/aether-clojure'
+require 'vendor/aether-io'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
@@ -33,7 +48,7 @@ module.exports = class LevelEditView extends RootView
     'click .play-with-team-button': 'onPlayLevel'
     'click .play-with-team-parent': 'onPlayLevelTeamSelect'
     'click #commit-level-start-button': 'startCommittingLevel'
-    'click #fork-start-button': 'startForking'
+    'click li:not(.disabled) > #fork-start-button': 'startForking'
     'click #level-history-button': 'showVersionHistory'
     'click #undo-button': 'onUndo'
     'mouseenter #undo-button': 'showUndoDescription'
@@ -43,7 +58,7 @@ module.exports = class LevelEditView extends RootView
     'click #components-tab': -> @subviews.editor_level_components_tab_view.refreshLevelThangsTreema @level.get('thangs')
     'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
-    'click #pop-level-i18n-button': -> @level.populateI18N()
+    'click li:not(.disabled) > #pop-level-i18n-button': 'onPopulateI18N'
     'click a[href="#editor-level-documentation"]': 'onClickDocumentationTab'
     'mouseup .nav-tabs > li a': 'toggleTab'
 
@@ -51,19 +66,26 @@ module.exports = class LevelEditView extends RootView
     super options
     @supermodel.shouldSaveBackups = (model) ->
       model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true, sessionless: true
     @level = @levelLoader.level
     @files = new DocumentFiles(@levelLoader.level)
     @supermodel.loadCollection(@files, 'file_names')
+
+  destroy: ->
+    clearInterval @timerIntervalID
+    super()
 
   showLoading: ($el) ->
     $el ?= @$el.find('.outer-content')
     super($el)
 
+  getTitle: -> "LevelEditor - " + (@level.get('name') or '...')
+
   onLoaded: ->
     _.defer =>
       @world = @levelLoader.world
       @render()
+      @timerIntervalID = setInterval @incrementBuildTime, 1000
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -82,7 +104,7 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new SettingsTabView supermodel: @supermodel
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @insertSubView new ComponentsTabView supermodel: @supermodel
-    @insertSubView new SystemsTabView supermodel: @supermodel
+    @insertSubView new SystemsTabView supermodel: @supermodel, world: @world
     @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
     @insertSubView new ComponentsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new SystemsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
@@ -128,11 +150,11 @@ module.exports = class LevelEditView extends RootView
 
   showUndoDescription: ->
     undoDescription = TreemaNode.getLastTreemaWithFocus().getUndoDescription()
-    @$el.find('#undo-button').attr('title', 'Undo ' + undoDescription + ' (Ctrl+Z)')
+    @$el.find('#undo-button').attr('title', $.i18n.t("general.undo_prefix") + " " + undoDescription + " " + $.i18n.t("general.undo_shortcut"))
 
   showRedoDescription: ->
     redoDescription = TreemaNode.getLastTreemaWithFocus().getRedoDescription()
-    @$el.find('#redo-button').attr('title', 'Redo ' + redoDescription + ' (Ctrl+Shift+Z)')
+    @$el.find('#redo-button').attr('title', $.i18n.t("general.redo_prefix") + " " + redoDescription + " " + $.i18n.t("general.redo_shortcut"))
 
   getCurrentView: ->
     currentViewID = @$el.find('.tab-pane.active').attr('id')
@@ -145,7 +167,7 @@ module.exports = class LevelEditView extends RootView
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   startCommittingLevel: (e) ->
-    @openModalView new SaveLevelModal level: @level, supermodel: @supermodel
+    @openModalView new SaveLevelModal level: @level, supermodel: @supermodel, buildTime: @levelBuildTime
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   startForking: (e) ->
@@ -161,6 +183,11 @@ module.exports = class LevelEditView extends RootView
     button = @$el.find('#level-watch-button')
     @level.watch(button.find('.watch').is(':visible'))
     button.find('> span').toggleClass('secret')
+
+  onPopulateI18N: ->
+    @level.populateI18N()
+    f = -> document.location.reload()
+    setTimeout(f, 2000)
 
   toggleTab: (e) ->
     @renderScrollbar()
@@ -178,3 +205,8 @@ module.exports = class LevelEditView extends RootView
     return if @initializedDocs
     @initializedDocs = true
     @$el.find('a[href="#components-documentation-view"]').click()
+
+  incrementBuildTime: =>
+    return if application.userIsIdle
+    @levelBuildTime ?= @level.get('buildTime') ? 0
+    ++@levelBuildTime

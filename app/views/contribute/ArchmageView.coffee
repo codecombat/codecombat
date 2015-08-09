@@ -27,9 +27,12 @@ module.exports = class ArchmageView extends ContributeClassView
     {id: '531258b5e0789d4609614110', name: 'Ruben Vereecken', github: 'rubenvereecken'}
     {id: '5276ad5dcf83207a2801d3b4', name: 'Zach Martin', github: 'zachster01'}
     {id: '530df0cbc06854403ba67c15', name: 'Alexandru Caciulescu', github: 'Darredevil'}
-    {name: 'David Golds', avatar: ''}
-    {name: 'gabceb', avatar: '', github: 'gabceb'}
-    {name: 'MDP66', avatar: '', github: 'MDP66'}
+    {id: '5268d9baa39d7db617000b18', name: 'Thanish Muhammed', github: 'mnmtanish'}   
+    {id: '53232f458e54704b074b271d', name: 'Bang Honam', github: 'walkingtospace'}  
+    {id: '52d16c1dc931e2544d001daa', name: 'David Pendray', github: 'dpen2000'}
+    {id: '53132ea1828a1706108ebb38', name: 'Dominik Kundel'}
+    {id: '530eb29347a891b3518b3990', name: 'Ian Li'}
+    {id: '531cd81dd00d2dc30991f924', name: 'Russ Fan'}
+    {id: '53064b1905a6ad967346e654', name: 'Yang Shun'}
     {name: 'devast8a', avatar: '', github: 'devast8a'}
-    {name: 'phansch', avatar: '', github: 'phansch'}
   ]

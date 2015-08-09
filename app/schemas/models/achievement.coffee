@@ -45,7 +45,7 @@ _.extend AchievementSchema.properties,
   query:
     #type:'object'
     $ref: '#/definitions/mongoFindQuery'
-  worth: c.float
+  worth: c.float()
   collection: {type: 'string'}
   description: c.shortString()
   userField: c.shortString()
@@ -61,12 +61,12 @@ _.extend AchievementSchema.properties,
     description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
   recalculable:
     type: 'boolean'
-    description: 'Needs to be set to true before it is elligible for recalculation.'
+    description: 'Deprecated: all achievements must be recalculable now. Used to need to be set to true before it is eligible for recalculation.'
   function:
     type: 'object'
     description: 'Function that gives total experience for X amount achieved'
     properties:
-      kind: {enum: ['linear', 'logarithmic', 'quadratic'] }
+      kind: {enum: ['linear', 'logarithmic', 'quadratic', 'pow'] }
       parameters:
         type: 'object'
         default: { a: 1, b: 0, c: 0 }
@@ -78,10 +78,9 @@ _.extend AchievementSchema.properties,
     default: {kind: 'linear', parameters: {}}
     required: ['kind', 'parameters']
     additionalProperties: false
-  i18n: c.object
-    format: 'i18n'
-    props: ['name', 'description']
-    description: 'Help translate this achievement'
+  i18n: {type: 'object', format: 'i18n', props: ['name', 'description'], description: 'Help translate this achievement'}
+  rewards: c.RewardSchema 'awarded by this achievement'
+
 
 _.extend AchievementSchema, # Let's have these on the bottom
   # TODO We really need some required properties in my opinion but this makes creating new achievements impossible as it is now
@@ -91,5 +90,7 @@ _.extend AchievementSchema, # Let's have these on the bottom
 AchievementSchema.definitions = {}
 AchievementSchema.definitions['mongoQueryOperator'] = MongoQueryOperatorSchema
 AchievementSchema.definitions['mongoFindQuery'] = MongoFindQuerySchema
+c.extendTranslationCoverageProperties AchievementSchema
+c.extendPatchableProperties AchievementSchema
 
 module.exports = AchievementSchema

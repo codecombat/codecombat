@@ -1,6 +1,6 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level-flags-view'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 RealTimeCollection = require 'collections/RealTimeCollection'
 
 multiplayerFlagDelay = 0.5  # Long, static second delay for now; should be more than enough.
@@ -8,6 +8,7 @@ multiplayerFlagDelay = 0.5  # Long, static second delay for now; should be more 
 module.exports = class LevelFlagsView extends CocoView
   id: 'level-flags-view'
   template: template
+  className: 'secret'
 
   subscriptions:
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
@@ -32,6 +33,7 @@ module.exports = class LevelFlagsView extends CocoView
 
   constructor: (options) ->
     super options
+    @levelID = options.levelID
     @world = options.world
 
   onRealTimePlaybackStarted: (e) ->
@@ -47,6 +49,7 @@ module.exports = class LevelFlagsView extends CocoView
 
   onFlagSelected: (e) ->
     return unless @realTime
+    @playSound 'menu-button-click' if e.color
     color = if e.color is @flagColor then null else e.color
     @flagColor = color
     Backbone.Mediator.publish 'level:flag-color-selected', color: color
@@ -55,10 +58,11 @@ module.exports = class LevelFlagsView extends CocoView
 
   onStageMouseDown: (e) ->
     return unless @flagColor and @realTime
+    @playSound 'menu-button-click'  # TODO: different flag placement sound?
     pos = x: e.worldPos.x, y: e.worldPos.y
     delay = if @realTimeFlags then multiplayerFlagDelay else 0
     now = @world.dt * @world.frames.length
-    flag = player: me.id, team: me.team, color: @flagColor, pos: pos, time: now + delay, active: true
+    flag = player: me.id, team: me.team, color: @flagColor, pos: pos, time: now + delay, active: true, source: 'click'
     @flags[@flagColor] = flag
     @flagHistory.push flag
     @realTimeFlags?.create flag
@@ -73,7 +77,7 @@ module.exports = class LevelFlagsView extends CocoView
     delete @flags[e.color]
     delay = if @realTimeFlags then multiplayerFlagDelay else 0
     now = @world.dt * @world.frames.length
-    flag = player: me.id, team: me.team, color: e.color, time: now + delay, active: false
+    flag = player: me.id, team: me.team, color: e.color, time: now + delay, active: false, source: 'click'
     @flagHistory.push flag
     Backbone.Mediator.publish 'level:flag-updated', flag
     #console.log e.color, 'deleted at time', flag.time
@@ -83,13 +87,14 @@ module.exports = class LevelFlagsView extends CocoView
     @world = @options.world = event.world
 
   onJoinedMultiplayerGame: (e) ->
-    @realTimeFlags = new RealTimeCollection('multiplayer_level_sessions/' + e.session.id + '/flagHistory')
+    @realTimeFlags = new RealTimeCollection("multiplayer_level_sessions/#{@levelID}/#{e.realTimeSessionID}/flagHistory")
     @realTimeFlags.on 'add', @onRealTimeMultiplayerFlagAdded
     @realTimeFlags.on 'remove', @onRealTimeMultiplayerFlagRemoved
 
   onLeftMultiplayerGame: (e) ->
     if @realTimeFlags
-      @realTimeFlags.off()
+      @realTimeFlags.off  'add', @onRealTimeMultiplayerFlagAdded
+      @realTimeFlags.off 'remove', @onRealTimeMultiplayerFlagRemoved
       @realTimeFlags = null
 
   onRealTimeMultiplayerFlagAdded: (e) =>
@@ -103,6 +108,7 @@ module.exports = class LevelFlagsView extends CocoView
         pos: e.get('pos')
         time: e.get('time')
         active: e.get('active')
+        #source: 'click'? e.get('source')? nothing?
       @flagHistory.push flag
       Backbone.Mediator.publish 'level:flag-updated', flag
 

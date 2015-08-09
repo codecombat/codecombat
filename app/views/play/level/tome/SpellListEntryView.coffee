@@ -1,6 +1,6 @@
 # TODO: This still needs a way to send problem states to its Thang
 
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 ThangAvatarView = require 'views/play/level/ThangAvatarView'
 SpellListEntryThangsView = require 'views/play/level/tome/SpellListEntryThangsView'
 template = require 'templates/play/level/tome/spell_list_entry'
@@ -37,6 +37,7 @@ module.exports = class SpellListEntryView extends CocoView
     context
 
   createMethodSignature: ->
+    return @spell.name if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
     parameters = (@spell.parameters or []).slice()
     if @spell.language in ['python', 'lua']
       parameters.unshift 'self'
@@ -103,7 +104,7 @@ module.exports = class SpellListEntryView extends CocoView
     return if @thangsView
     spellThang = @getPrimarySpellThang()
     return unless spellThang
-    @thangsView = new SpellListEntryThangsView thangs: (spellThang.thang for thangID, spellThang of @spell.thangs), thang: spellTHang.thang, spell: @spell, supermodel: @supermodel
+    @thangsView = new SpellListEntryThangsView thangs: (spellThang.thang for thangID, spellThang of @spell.thangs), thang: spellThang.thang, spell: @spell, supermodel: @supermodel
     @thangsView.render()
     @$el.append @thangsView.el
     @thangsView.$el.mouseenter (e) => @onMouseEnterAvatar()

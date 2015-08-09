@@ -59,6 +59,9 @@ Thumbs.db
 # NPM packages folder.
 node_modules/
 
+# Vagrant
+.vagrant/
+
 # Some other random stuff
 always-ignore extensions
 *.diff
@@ -104,3 +107,6 @@ login.coffee
 # debugging
 *.heapsnapshot
 
+npm-debug.log*
+
+temp/

@@ -23,6 +23,7 @@ module.exports =  # /app/lib/surface
     camera: {type: 'object'}
     zoom: {type: 'number', minimum: 0, exclusiveMinimum: true}
     surfaceViewport: {type: 'object'}
+    minZoom: {type: 'number', minimum: 0, exclusiveMinimum: true}
 
   'camera:set-camera': c.object {},
     pos: c.object {required: ['x', 'y']},
@@ -120,9 +121,6 @@ module.exports =  # /app/lib/surface
   'sprite:double-clicked': spriteMouseEventSchema
   'sprite:dragged': spriteMouseEventSchema
   'sprite:mouse-up': spriteMouseEventSchema
-
-  'surface:world-set-up': c.object {},
-    world: {type: 'object'}
 
   'surface:frame-changed': c.object {required: ['frame', 'world', 'progress']},
     frame: {type: 'number', minimum: 0}

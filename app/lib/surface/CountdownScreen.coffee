@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 module.exports = class CountdownScreen extends CocoClass
   subscriptions:
@@ -10,6 +10,7 @@ module.exports = class CountdownScreen extends CocoClass
     options ?= {}
     @camera = options.camera
     @layer = options.layer
+    @showsCountdown = options.showsCountdown
     console.error @toString(), 'needs a camera.' unless @camera
     console.error @toString(), 'needs a layer.' unless @layer
     @build()
@@ -33,7 +34,7 @@ module.exports = class CountdownScreen extends CocoClass
 
   makeCountdownText: ->
     size = Math.ceil @camera.canvasHeight / 2
-    text = new createjs.Text '3...', "#{size}px Bangers", '#F7B42C'
+    text = new createjs.Text '3...', "#{size}px Open Sans Condensed", '#F7B42C'
     text.shadow = new createjs.Shadow '#000', Math.ceil(@camera.canvasHeight / 300), Math.ceil(@camera.canvasHeight / 300), Math.ceil(@camera.canvasHeight / 120)
     text.textAlign = 'center'
     text.textBaseline = 'middle'
@@ -44,14 +45,17 @@ module.exports = class CountdownScreen extends CocoClass
 
   show: ->
     return if @showing
-    @showing = true
-    @dimLayer.alpha = 0
     createjs.Tween.removeTweens @dimLayer
-    createjs.Tween.get(@dimLayer).to({alpha: 1}, 500)
-    @secondsRemaining = 3
-    @countdownInterval = setInterval @decrementCountdown, 1000
-    @updateText()
-    @layer.addChild @dimLayer
+    if @showsCountdown
+      @dimLayer.alpha = 0
+      @showing = true
+      createjs.Tween.get(@dimLayer).to({alpha: 1}, 500)
+      @secondsRemaining = 3
+      @countdownInterval = setInterval @decrementCountdown, 1000
+      @updateText()
+      @layer.addChild @dimLayer
+    else
+      @endCountdown()
 
   hide: ->
     return unless @showing

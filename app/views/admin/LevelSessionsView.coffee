@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/admin/level_sessions'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
@@ -16,7 +16,7 @@ module.exports = class LevelSessionsView extends RootView
     @getLevelSessions()
 
   getLevelSessions: ->
-    @sessions = @supermodel.loadCollection(new LevelSessionCollection(), 'sessions').model
+    @sessions = @supermodel.loadCollection(new LevelSessionCollection(), 'sessions', {cache: false}).model
 
   getRenderData: =>
     c = super()

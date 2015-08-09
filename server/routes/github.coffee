@@ -27,7 +27,10 @@ module.exports.setup = (app) ->
         request.get {uri: 'https://api.github.com/user', headers: headers}, (err, r, response) ->
           return log.error err if err?
           githubUser = JSON.parse response
-          emailLower = githubUser.email.toLowerCase()
+          log.info 'Got GitHub auth callback response', githubUser
+          emailLower = githubUser.email?.toLowerCase()
+          if not emailLower
+            return errors.serverError res, "Problem finding GitHub user with that identity."
 
           # GitHub users can change emails
           User.findOne {$or: [{emailLower: emailLower}, {githubID: githubUser.id}]}, (err, user) ->

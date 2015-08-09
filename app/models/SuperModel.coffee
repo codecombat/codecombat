@@ -28,7 +28,10 @@ module.exports = class SuperModel extends Backbone.Model
     unfinished
 
   loadModel: (model, name, fetchOptions, value=1) ->
-    cachedModel = @getModelByURL(model.getURL())
+    # hero-ladder levels need remote opponent_session for latest session data (e.g. code)
+    # Can't apply to everything since other features rely on cached models being more recent (E.g. level_session)
+    # E.g.#2 heroConfig isn't necessarily saved to db in world map inventory modal, so we need to load the cached session on level start
+    cachedModel = @getModelByURL(model.getURL()) unless fetchOptions?.cache is false and name is 'opponent_session'
     if cachedModel
       if cachedModel.loaded
         res = @addModelResource(cachedModel, name, fetchOptions, 0)
@@ -84,9 +87,9 @@ module.exports = class SuperModel extends Backbone.Model
     modelURL = modelURL() if _.isFunction(modelURL)
     return @models[modelURL] or null
 
-  getModelByOriginal: (ModelClass, original) ->
+  getModelByOriginal: (ModelClass, original, filter=null) ->
     _.find @models, (m) ->
-      m.get('original') is original and m.constructor.className is ModelClass.className
+      m.get('original') is original and m.constructor.className is ModelClass.className and (not filter or filter(m))
 
   getModelByOriginalAndMajorVersion: (ModelClass, original, majorVersion=0) ->
     _.find @models, (m) ->
@@ -121,7 +124,7 @@ module.exports = class SuperModel extends Backbone.Model
       if cachedModel
         clone = $.extend true, {}, model.attributes
         cachedModel.set(clone, {silent: true, fromMerge: true})
-        console.debug "Updated cached model <#{cachedModel.get('name') or cachedModel.getURL()}> with new data"
+        #console.debug "Updated cached model <#{cachedModel.get('name') or cachedModel.getURL()}> with new data"
       else
         @registerModel(model)
     collection
@@ -178,6 +181,7 @@ module.exports = class SuperModel extends Backbone.Model
     @num += r.value
     _.defer @updateProgress
     r.clean()
+    @stopListening r, 'failed', @onResourceFailed
     @trigger 'resource-loaded', r
 
   onResourceFailed: (r) ->
@@ -195,6 +199,7 @@ module.exports = class SuperModel extends Backbone.Model
     @progress = newProg
     @trigger('update-progress', @progress)
     @trigger('loaded-all') if @finished()
+    Backbone.Mediator.publish 'supermodel:load-progress-changed', progress: @progress
 
   setMaxProgress: (@maxProgress) ->
   resetProgress: -> @progress = 0

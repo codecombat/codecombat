@@ -1,7 +1,7 @@
 # TODO: this thing needs a bit of thinking/testing for grid square alignments, exclusive vs. inclusive mins/maxes, etc.
 
 module.exports = class Grid
-  constructor: (thangs, @width, @height, @padding=0, @left=0, @bottom=0) ->
+  constructor: (thangs, @width, @height, @padding=0, @left=0, @bottom=0, @rogue=false) ->
     @width = Math.ceil @width
     @height = Math.ceil @height
     @left = Math.floor @left
@@ -14,7 +14,11 @@ module.exports = class Grid
       @grid.push []
       for x in [0 .. @width]
         @grid[y].push []
-    for thang in thangs when thang.collides
+    if @rogue
+      thangs = (t for t in thangs when t.collides or t.spriteName is 'Gem' and not t.dead)
+    else
+      thangs = (t for t in thangs when t.collides)
+    for thang in thangs
       rect = thang.rectangle()
       [minX, maxX, minY, maxY] = [9001, -9001, 9001, -9001]
       for v in rect.vertices()
@@ -48,7 +52,24 @@ module.exports = class Grid
   rows: (minX, maxX) ->
     [@clampRow(minX) ... @clampRow(maxX)]
 
-  toString: ->
+  toString: (rogue=false) ->
     upsideDown = _.clone @grid
     upsideDown.reverse()
-    (((if thangs.length then ('' + thangs.length) else ' ') for thangs in row).join(' ') for row in upsideDown).join("\n")
+    ((@charForThangs thangs, rogue for thangs in row).join(' ') for row in upsideDown).join("\n")
+
+  charForThangs: (thangs, rogue) ->
+    return thangs.length or ' ' unless rogue
+    return '.' unless thangs.length
+    return '@' if _.find thangs, (t) -> /Hero Placeholder/.test t.id
+    return '>' if _.find thangs, spriteName: 'Spike Walls'
+    return 'F' if _.find thangs, spriteName: 'Fence Wall'
+    return 'T' if _.find thangs, spriteName: 'Fire Trap'
+    return ' ' if _.find thangs, spriteName: 'Dungeon Wall'
+    return 'G' if _.find thangs, spriteName: 'Gem'
+    return 'C' if _.find thangs, spriteName: 'Treasure Chest'
+    return '*' if _.find thangs, spriteName: 'Spear'
+    return 'o' if _.find thangs, type: 'munchkin'
+    return 'O' if _.find thangs, (t) -> t.team is 'ogres'
+    return 'H' if _.find thangs, (t) -> t.team is 'humans'
+    return 'N' if _.find thangs, (t) -> t.team is 'neutral'
+    return '?'

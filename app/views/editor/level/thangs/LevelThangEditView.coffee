@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/thang/level-thang-edit-view'
 ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangType = require 'models/ThangType'
@@ -19,6 +19,8 @@ module.exports = class LevelThangEditView extends CocoView
     'click #thang-type-link span': 'toggleTypeEdit'
     'blur #thang-name-link input': 'toggleNameEdit'
     'blur #thang-type-link input': 'toggleTypeEdit'
+    'keydown #thang-name-link input': 'toggleNameEditIfReturn'
+    'keydown #thang-type-link input': 'toggleTypeEditIfReturn'
 
   constructor: (options) ->
     options ?= {}
@@ -27,6 +29,7 @@ module.exports = class LevelThangEditView extends CocoView
     @thangData = $.extend true, {}, options.thangData ? {}
     @level = options.level
     @oldPath = options.oldPath
+    @reportChanges = _.debounce @reportChanges, 1000
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -43,7 +46,7 @@ module.exports = class LevelThangEditView extends CocoView
       level: @level
       world: @world
 
-    if @level.get('type', true) is 'hero' then options.thangType = thangType
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then options.thangType = thangType
 
     @thangComponentEditView = new ThangComponentsEditView options
     @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged
@@ -54,7 +57,6 @@ module.exports = class LevelThangEditView extends CocoView
     thangTypeName = thangType?.get('name') or 'None'
     input.val(thangTypeName)
     @$el.find('#thang-type-link span').text(thangTypeName)
-    window.input = input
     @hideLoading()
 
   navigateToAllThangs: ->
@@ -83,5 +85,16 @@ module.exports = class LevelThangEditView extends CocoView
     if thangType and wasEditing
       @thangData.thangType = thangType.get('original')
 
+  toggleNameEditIfReturn: (e) ->
+    @$el.find('#thang-name-link input').blur() if e.which is 13
+
+  toggleTypeEditIfReturn: (e) ->
+    @$el.find('#thang-type-link input').blur() if e.which is 13
+
   onComponentsChanged: (components) =>
     @thangData.components = components
+    @reportChanges()
+
+  reportChanges: =>
+    return if @destroyed
+    Backbone.Mediator.publish 'editor:level-thang-edited', {thangData: $.extend(true, {}, @thangData), oldPath: @oldPath}

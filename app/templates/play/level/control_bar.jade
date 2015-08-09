@@ -1,33 +1,46 @@
-h4.home
+.left-cap
+.right-cap
+.center-chain
+.right-chain
+.wood-background
 
-  a(href=homeLink || "/")
-    i.icon-home.icon-white
-    span(data-i18n="play_level.home") Home
+.levels-link-area
+  a.levels-link(href=homeLink || "/")
+    .glyphicon.glyphicon-play
+    span(data-i18n="nav.play").home-text Levels
 
-h4.title
-  | #{worldName}
-  span.spl.spr -
-  a(href=editorLink, data-i18n="nav.editor", title="Open " + worldName + " in the Level Editor") Editor
-  if multiplayerSession
-    - found = false
-    - for (var i=0; i < multiplayerPlayers.length; i++) {
-      if (multiplayerPlayers.at(i).id !== meID)
-        span.spl.spr - vs #{multiplayerPlayers.at(i).get('name')}
-        - found = true
-        - break
-    - }
-    if !found
-      span.spl.spr - waiting...
+if isMultiplayerLevel && !observing
+  .multiplayer-area-container
+    .multiplayer-area
+      .multiplayer-label(data-i18n="play_level.control_bar_multiplayer")
+      if multiplayerStatus
+        .multiplayer-status= multiplayerStatus
+      else
+        .multiplayer-status(data-i18n="play_level.control_bar_join_game")
+else
+  .level-name-area-container
+    .level-name-area
+      .level-label(data-i18n="play_level.level")
+      .level-name(title=difficultyTitle || "")
+        span= worldName
+        if levelDifficulty
+          sup.level-difficulty= levelDifficulty
 
+.buttons-area
 
+  if !observing
+    button.btn.btn-inverse#game-menu-button(title="Show game menu")
+      .hamburger
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      span.game-menu-text(data-i18n="play_level.game_menu") Game Menu
+  
+  if spectateGame
+    button.btn.btn-xs.btn-inverse.banner#next-game-button(title="Next Game", data-i18n="play_level.next-game") Next game!
+  
+  if !observing
+    button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
 
-button.btn.btn-xs.btn-warning.banner#stop-real-time-playback-button(title="Stop real-time playback", data-i18n="play_level.stop") Stop
-
-button.btn.btn-xs.btn-inverse.banner#game-menu-button(title="Show game menu", data-i18n="play_level.game_menu") Game Menu
-
-button.btn.btn-xs.btn-success.banner#docs-button(title="Show level instructions", data-i18n="play_level.guide") Guide
-
-if spectateGame
-  button.btn.btn-xs.btn-inverse.banner#next-game-button(title="Next Game", data-i18n="play_level.next-game") Next game!
-
-button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
+  if me.get('anonymous')
+    button.btn.btn-xs.btn-primary.banner#control-bar-sign-up-button(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="signup.sign_up")

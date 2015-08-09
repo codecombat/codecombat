@@ -8,8 +8,11 @@ module.exports.createAetherOptions = (options) ->
   aetherOptions =
     functionName: options.functionName
     protectAPI: not options.skipProtectAPI
-    includeFlow: false
+    includeFlow: Boolean options.includeFlow
+    noVariablesInFlow: true
+    skipDuplicateUserInfoInFlow: true  # Optimization that won't work if we are stepping with frames
     yieldConditionally: options.functionName is 'plan'
+    simpleLoops: true
     globals: ['Vector', '_']
     problems:
       jshint_W040: {level: 'ignore'}
@@ -19,8 +22,9 @@ module.exports.createAetherOptions = (options) ->
       jshint_E043: {level: 'ignore'}  # https://github.com/codecombat/codecombat/issues/813 -- since we can't actually tell JSHint to really ignore things
       jshint_Unknown: {level: 'ignore'}  # E043 also triggers Unknown, so ignore that, too
       aether_MissingThis: {level: 'error'}
+    problemContext: options.problemContext
     #functionParameters: # TODOOOOO
-    executionLimit: 1 * 1000 * 1000
+    executionLimit: 3 * 1000 * 1000
     language: options.codeLanguage
   parameters = functionParameters[options.functionName]
   unless parameters
@@ -42,7 +46,11 @@ functionParameters =
   evaluateBoard: ['board', 'player']
   getPossibleMoves: ['board']
   minimax_alphaBeta: ['board', 'player', 'depth', 'alpha', 'beta']
+  distanceTo: ['target']
 
   chooseAction: []
   plan: []
   initializeCentroids: []
+  update: []
+  getNearestEnemy: []
+  die: []

@@ -4,7 +4,7 @@ librarianLib = require 'test/demo/fixtures/librarian'
 
 class WebGLDemoView extends RootView
   template: -> '<canvas id="visible-canvas" width="1200" height="700" style="background: #ddd"><canvas id="invisible-canvas" width="0" height="0" style="display: none">'
-  
+
   testMovieClipWithRasterizedSpriteChildren: ->
     # put two rasterized sprites into a movie clip and show that
     stage = new createjs.Stage(@$el.find('canvas')[0])
@@ -25,7 +25,7 @@ class WebGLDemoView extends RootView
     mc.timeline.addTween createjs.Tween.get(child1Sprite).to(x: 0).to({x: 60}, 50).to({x: 0}, 50)
     mc.timeline.addTween createjs.Tween.get(child2Sprite).to(x: 60).to({x: 0}, 50).to({x: 60}, 50)
     mc.gotoAndPlay "start"
-    
+
   testMovieClipWithEmptyObjectChildren: ->
     # See if I can have the movie clip animate empty objects so we have the properties in
     # an object that we can update our real sprites with
@@ -41,13 +41,13 @@ class WebGLDemoView extends RootView
     mc.gotoAndPlay "start"
     window.d1 = d1
     window.d2 = d2
-    
+
     f = ->
       console.log(JSON.stringify([d1, d2]))
     setInterval(f, 1000)
     # Seems to work. Can perhaps have the movieclip do the heavy lifting of moving containers around
     # and then copy the info over to individual sprites in a separate stage
-  
+
   testWaterfallRasteredPerformance: ->
     # rasterize waterfall movieclip (this is what we do now)
     stage = new createjs.Stage(@$el.find('canvas')[0])
@@ -141,7 +141,7 @@ class WebGLDemoView extends RootView
     # 20 waterfalls w/graphics: 25%
     # 100 waterfalls w/graphics: 90%
     # 100 waterfalls w/out graphics: 42%
-  
+
     # these waterfalls have 20 containers in them, so you'd be able to update 2000 containers
     # at 20FPS using 42% CPU
 
@@ -149,7 +149,7 @@ class WebGLDemoView extends RootView
     invisibleStage = new createjs.Stage(@$el.find('#invisible-canvas')[0])
     visibleStage = new createjs.Stage(@$el.find('#visible-canvas')[0])
     createjs.Ticker.addEventListener "tick", invisibleStage
-    
+
     builder = new createjs.SpriteSheetBuilder()
     frames = []
 
@@ -172,7 +172,7 @@ class WebGLDemoView extends RootView
 
     waterfall = new waterfallLib.waterfallRed_JSCC()
     invisibleStage.addChild(waterfall)
-    
+
     #visibleStage.children = waterfall.children # hoped this would work, but you need the ticker
     listener = {
       handleEvent: ->
@@ -224,11 +224,11 @@ class WebGLDemoView extends RootView
       c.y = i * 3
       visibleStage.addChild(c)
       i += 1
-      
+
     window.visibleStage = visibleStage
     # About 45% with SpriteStage, over 100% with regular stage
 
-  
+
   testAnimateSomeWaterfalls: ->
     # Performance testing
     invisibleStage = new createjs.Stage(@$el.find('#invisible-canvas')[0])
@@ -256,7 +256,7 @@ class WebGLDemoView extends RootView
     movieClips = []
     spriteContainers = []
     i = 0
-    
+
     while i < 100
 #      beStatic = false
       beStatic = i % 2
@@ -274,11 +274,11 @@ class WebGLDemoView extends RootView
       c.scaleX = 0.3
       c.scaleY = 0.3
       visibleStage.addChild(c)
-      
+
       movieClips.push(waterfall)
       spriteContainers.push(c)
       i += 1
-      
+
     createjs.Ticker.addEventListener "tick", invisibleStage
     listener = {
       handleEvent: ->
@@ -287,7 +287,7 @@ class WebGLDemoView extends RootView
         visibleStage.update()
     }
     createjs.Ticker.addEventListener "tick", listener
-    
+
     # All waterfalls animating: 50%
     # Stopping all waterfalls movieclips: 18%
     # Removing movieclips from the animation stage and just showing a static frame: 9%
@@ -351,7 +351,7 @@ class WebGLDemoView extends RootView
         visibleStage.update()
     }
     createjs.Ticker.addEventListener "tick", listener
-    
+
     # It works, and we can set the movie clip to go to an arbitrary frame.
     # So we can set up the frame rates ourselves. Will have to, because movie clips
     # don't have frame rate systems like sprites do.
@@ -413,12 +413,12 @@ class WebGLDemoView extends RootView
         visibleStage.update()
     }
     createjs.Ticker.addEventListener "tick", listener
-    
+
     # well this is a bit better. 33% CPU for 100 waterfalls going at various speeds
     # and 23% if half the waterfalls are being updated.
     # still, you take a pretty big hit for manipulating the positions of containers with the movieclip
 
-  
+
   testLibrarianHorde: ->
     visibleStage = new createjs.SpriteStage(@$el.find('#visible-canvas')[0])
     builder = new createjs.SpriteSheetBuilder()
@@ -443,13 +443,17 @@ class WebGLDemoView extends RootView
     spriteContainers = []
     i = 0
 
+    class SpriteContainerChildClass extends createjs.SpriteContainer
+      constructor: (spriteSheet) ->
+        @initialize(spriteSheet)
+
     while i < 100
       beStatic = false
       #      beStatic = i % 2
       #      beStatic = true
 
       librarian = new librarianLib.Librarian_SideWalk_JSCC()
-      c = new createjs.SpriteContainer(sheet)
+      c = new SpriteContainerChildClass(sheet)
       c.x = (i%10) * 95
       c.y = i * 6
       c.scaleX = 1
@@ -470,10 +474,39 @@ class WebGLDemoView extends RootView
         visibleStage.update()
     }
     createjs.Ticker.addEventListener "tick", listener
-    
-    # 20% CPU
 
+    # 20% CPU
   
+  testGiantCanvas: ->
+    builder = new createjs.SpriteSheetBuilder()
+    
+    # mess with these
+    builder.maxWidth = 4096
+    builder.maxHeight = 4096
+    scale = 3.9
+    duplicates = 100
+    
+    frames = []
+
+    createClass = (frame) ->
+      class Stub
+        constructor: ->
+          sprite = new createjs.Sprite(sheet, frame)
+          sprite.stop()
+          return sprite
+
+    for name, klass of librarianLib
+      continue if name is 'Librarian_SideWalk_JSCC'
+      instance = new klass()
+      builder.addFrame(instance, instance.nominalBounds, scale) for i in _.range(duplicates)
+      librarianLib[name] = createClass(frames.length)
+      frames.push frames.length
+
+    sheet = builder.build()
+    $('body').attr('class', '').empty().css('background', 'white').append($(sheet._images))
+    for image, index in sheet._images
+      console.log "Sheet ##{index}: #{$(image).attr('width')}x#{$(image).attr('height')}"
+    
   afterRender: ->
 #    @testMovieClipWithRasterizedSpriteChildren()
 #    @testMovieClipWithEmptyObjectChildren()

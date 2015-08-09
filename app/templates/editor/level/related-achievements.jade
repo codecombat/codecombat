@@ -1,4 +1,4 @@
-button.btn.btn-primary#new-achievement-button(disabled=me.isAdmin() === true ? undefined : "true" data-i18n="editor.new_achievement_title") Create a New Achievement
+button.btn.btn-primary#new-achievement-button(disabled=(me.isAdmin() === true || me.isArtisan() === true) ? undefined : "true" data-i18n="editor.new_achievement_title") Create a New Achievement
 
 if !achievements.models.length
   .panel

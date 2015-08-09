@@ -10,7 +10,9 @@ class Vector
   isVector: true
   apiProperties: ['x', 'y', 'z', 'magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared', 'rotate']
 
-  constructor: (@x=0, @y=0, @z=0) ->
+  constructor: (x=0, y=0, z=0) ->
+    return new Vector x, y, z unless @ instanceof Vector
+    [@x, @y, @z] = [x, y, z]
 
   copy: ->
     new Vector(@x, @y, @z)
@@ -109,10 +111,9 @@ class Vector
   invalid: () ->
     return (@x is Infinity) || isNaN(@x) || @y is Infinity || isNaN(@y) || @z is Infinity || isNaN(@z)
 
-  toString: (useZ) ->
-    useZ = true
-    return "{x: #{@x.toFixed(0)}, y: #{@y.toFixed(0)}, z: #{@z.toFixed(0)}}" if useZ
-    return "{x: #{@x.toFixed(0)}, y: #{@y.toFixed(0)}}"
+  toString: (precision = 2) ->
+    return "{x: #{@x.toFixed(precision)}, y: #{@y.toFixed(precision)}, z: #{@z.toFixed(precision)}}"
+
 
   serialize: ->
     {CN: @constructor.className, x: @x, y: @y, z: @z}

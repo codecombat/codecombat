@@ -15,7 +15,31 @@ describe '/auth/whoami', ->
 
 describe '/auth/login', ->
 
-  it 'clears Users first', (done) ->
+  it 'clears Users', (done) ->
+    clearModels [User], (err) ->
+      throw err if err
+      request.get getURL('/auth/whoami'), ->
+        throw err if err
+        done()
+
+  it 'allows logging in by iosIdentifierForVendor', (done) ->
+    req = request.post(getURL('/db/user'),
+    (error, response) ->
+      expect(response).toBeDefined()
+      expect(response.statusCode).toBe(200)
+      req = request.post(urlLogin, (error, response) ->
+        expect(response.statusCode).toBe(200)
+        done()
+      )
+      form = req.form()
+      form.append('username', '012345678901234567890123456789012345')
+      form.append('password', '12345')
+    )
+    form = req.form()
+    form.append('iosIdentifierForVendor', '012345678901234567890123456789012345')
+    form.append('password', '12345')
+  
+  it 'clears Users', (done) ->
     clearModels [User], (err) ->
       throw err if err
       request.get getURL('/auth/whoami'), ->
@@ -84,7 +108,7 @@ describe '/auth/reset', ->
     form = req.form()
     form.append('username', 'scott@gmail.com')
 
-  it 'can\'t reset an unknow user', (done) ->
+  it 'can\'t reset an unknown user', (done) ->
     req = request.post(urlReset, (error, response) ->
       expect(response).toBeDefined()
       expect(response.statusCode).toBe(404)

@@ -74,8 +74,19 @@ module.exports =
     pos: c.object {required: ['x', 'y']},
       x: {type: 'number'}
       y: {type: 'number'}
+    source: {type: 'string', enum: ['click', 'code']}
 
   'level:next-game-pressed': c.object {}
+
+  'level:loaded': c.object {required: ['level']},
+    level: {type: 'object'}
+    team: {type: ['string', 'null', 'undefined']}
+
+  'level:session-loaded': c.object {required: ['level', 'session']},
+    level: {type: 'object'}
+    session: {type: 'object'}
+
+  'level:loading-view-unveiling': c.object {}
 
   'level:loading-view-unveiled': c.object {required: ['view']},
     view: {type: 'object'}
@@ -91,7 +102,8 @@ module.exports =
 
   'playback:real-time-playback-ended': c.object {}
 
-  'level:play-next-level': c.object {}
+  'playback:ended-changed': c.object {required: ['ended']},
+    ended: {type: 'boolean'}
 
   'level:toggle-playing': c.object {}
 
@@ -153,6 +165,9 @@ module.exports =
       ]
     timedOut: {type: 'boolean'}
 
-  'level:edit-wizard-settings': c.object {}
+  'level:hero-config-changed': c.object {}
 
-  'level:inventory-changed': c.object {}
+  'level:hero-selection-updated': c.object {required: ['hero']},
+    hero: {type: 'object'}
+
+  'level:subscription-required': c.object {}

@@ -23,6 +23,12 @@ PropertyDocumentationSchema = c.object {
   required: ['name', 'type', 'description']
 },
   name: {type: 'string', title: 'Name', description: 'Name of the property.'}
+  i18n: { type: 'object', format: 'i18n', props: ['description', 'context'], description: 'Help translate this property'}
+  context: {
+    type: 'object'
+    title: 'Example template context'
+    additionalProperties: { type: 'string' }
+  }
   codeLanguages: c.array {title: 'Specific Code Languages', description: 'If present, then only the languages specified will show this documentation. Leave unset for language-independent documentation.', format: 'code-languages-array'}, c.shortString(title: 'Code Language', description: 'A specific code language to show this documentation for.', format: 'code-language')
   # not actual JS types, just whatever they describe...
   type: c.shortString(title: 'Type', description: 'Intended type of the property.')
@@ -84,6 +90,7 @@ PropertyDocumentationSchema = c.object {
         }
         {title: 'Description', type: 'string', description: 'Description of the return value.', maxLength: 1000}
       ]
+    i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this return value'}
 
 DependencySchema = c.object {
   title: 'Component Dependency'
@@ -102,7 +109,7 @@ DependencySchema = c.object {
 LevelComponentSchema = c.object {
   title: 'Component'
   description: 'A Component which can affect Thang behavior.'
-  required: ['system', 'name', 'description', 'code', 'dependencies', 'propertyDocumentation', 'codeLanguage']
+  required: ['system', 'name', 'code']
   default:
     system: 'ai'
     name: 'AttacksSelf'
@@ -155,5 +162,6 @@ c.extendSearchableProperties LevelComponentSchema
 c.extendVersionedProperties LevelComponentSchema, 'level.component'
 c.extendPermissionsProperties LevelComponentSchema, 'level.component'
 c.extendPatchableProperties LevelComponentSchema
+c.extendTranslationCoverageProperties LevelComponentSchema
 
 module.exports = LevelComponentSchema

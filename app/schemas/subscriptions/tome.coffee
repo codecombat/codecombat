@@ -7,13 +7,19 @@ module.exports =
     preload: {type: 'boolean'}
     realTime: {type: 'boolean'}
 
-  'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime']},
+  'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime', 'submissionCount', 'flagHistory', 'difficulty']},
     spells: [type: 'object']
     preload: [type: 'boolean']
     realTime: [type: 'boolean']
+    submissionCount: [type: 'integer']
+    flagHistory: [type: 'array']
+    difficulty: [type: 'integer']
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}
+
+  'tome:manual-cast-denied': c.object {title: 'Manual Cast Denied', description: 'Published when player attempts to submit for real-time playback, but must wait after a replayable level failure.', required: ['timeUntilResubmit']},
+    timeUntilResubmit: {type: 'number'}
 
   'tome:spell-created': c.object {title: 'Spell Created', description: 'Published after a new spell has been created', required: ['spell']},
     spell: {type: 'object'}
@@ -33,8 +39,15 @@ module.exports =
 
   'tome:toggle-spell-list': c.object {title: 'Toggle Spell List', description: 'Published when you toggle the dropdown for a thang\'s spells'}
 
-  'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: ['spell']},
+  'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: []},
     spell: {type: 'object'}
+
+  'tome:palette-cleared': c.object {title: 'Palette Cleared', description: 'Published when the spell palette is about to be cleared and recreated.'},
+    thangID: {type: 'string'}
+
+  'tome:palette-updated': c.object {title: 'Palette Updated', description: 'Published when the spell palette has just been updated.'},
+    thangID: {type: 'string'}
+    entryGroups: {type: 'string'}
 
   'tome:palette-hovered': c.object {title: 'Palette Hovered', description: 'Published when you hover over a Thang in the spell palette', required: ['thang', 'prop', 'entry']},
     thang: {type: 'object'}
@@ -51,7 +64,7 @@ module.exports =
     entry: {type: 'object'}
 
   'tome:spell-statement-index-updated': c.object {title: 'Spell Statement Index Updated', description: 'Published when the spell index is updated', required: ['statementIndex', 'ace']},
-    statementIndex: {type: 'object'}
+    statementIndex: {type: 'integer'}
     ace: {type: 'object'}
 
   'tome:spell-beautify': c.object {title: 'Beautify', description: 'Published when you click the \'beautify\' button', required: []},
@@ -76,15 +89,13 @@ module.exports =
     problems: {type: 'array'}
     isCast: {type: 'boolean'}
 
-  'tome:thang-list-entry-popover-shown': c.object {title: 'Thang List Entry Popover Shown', description: 'Published when we show the popover for a thang in the master list', required: ['entry']},
-    entry: {type: 'object'}
-
   'tome:spell-shown': c.object {title: 'Spell Shown', description: 'Published when we show a spell', required: ['thang', 'spell']},
     thang: {type: 'object'}
     spell: {type: 'object'}
 
   'tome:change-language': c.object {title: 'Tome Change Language', description: 'Published when the Tome should update its programming language', required: ['language']},
     language: {type: 'string'}
+    reload: {type: 'boolean', description: 'Whether player code should reload to the default when the language changes.'}
 
   'tome:spell-changed-language': c.object {title: 'Spell Changed Language', description: 'Published when an individual spell has updated its code language', required: ['spell']},
     spell: {type: 'object'}
@@ -109,3 +120,26 @@ module.exports =
   'tome:toggle-maximize': c.object {title: 'Toggle Maximize', description: 'Published when we want to make the Tome take up most of the screen'}
 
   'tome:maximize-toggled': c.object {title: 'Maximize Toggled', description: 'Published when the Tome has changed maximize/minimize state.'}
+
+  'tome:select-primary-sprite': c.object {title: 'Select Primary Sprite', description: 'Published to get the most important sprite\'s code selected.'}
+
+  'tome:required-code-fragment-deleted': c.object {title: 'Required Code Fragment Deleted', description: 'Published when a required code fragment is deleted from the sample code.', required: ['codeFragment']},
+    codeFragment: {type: 'string'}
+
+  'tome:suspect-code-fragment-added': c.object {title: 'Suspect Code Fragment Added', description: 'Published when a suspect code fragment is added to the sample code.', required: ['codeFragment']},
+    codeFragment: {type: 'string'}
+    codeLanguage: {type: 'string'}
+
+  'tome:suspect-code-fragment-deleted': c.object {title: 'Suspect Code Fragment Deleted', description: 'Published when a suspect code fragment is deleted from the sample code.', required: ['codeFragment']},
+    codeFragment: {type: 'string'}
+    codeLanguage: {type: 'string'}
+
+  'tome:winnability-updated': c.object {title: 'Winnability Updated', description: 'When we think we can now win (or can no longer win), we may want to emphasize the submit button versus the run button (or vice versa), so this fires when we get new goal states (even preloaded goal states) suggesting success or failure change.', required: ['winnable']},
+    winnable: {type: 'boolean'}
+
+  # Problem Alert
+  'tome:show-problem-alert': c.object {title: 'Show Problem Alert', description: 'A problem alert needs to be shown.', required: ['problem']},
+    problem: {type: 'object'}
+    lineOffsetPx: {type: ['number', 'undefined']}
+  'tome:hide-problem-alert': c.object {title: 'Hide Problem Alert'}
+  'tome:jiggle-problem-alert': c.object {title: 'Jiggle Problem Alert'}

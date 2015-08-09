@@ -15,6 +15,7 @@ _.extend UserCodeProblemSchema.properties,
   errId: {type: 'string'}
   errLevel: {type: 'string'}
   errMessage: {type: 'string'}
+  errMessageNoLineInfo: {type: 'string'}
   errRange: {type: 'array'}
   errType: {type: 'string'}
   language: {type: 'string'}

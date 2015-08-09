@@ -7,6 +7,7 @@ c.extendNamedProperties ThangTypeSchema  # name first
 ShapeObjectSchema = c.object {title: 'Shape'},
   fc: {type: 'string', title: 'Fill Color'}
   lf: {type: 'array', title: 'Linear Gradient Fill'}
+  rf: {type: 'array', title: 'Radial Gradient Fill'}
   ls: {type: 'array', title: 'Linear Gradient Stroke'}
   p: {type: 'string', title: 'Path'}
   de: {type: 'array', title: 'Draw Ellipse'}
@@ -105,9 +106,11 @@ _.extend ThangTypeSchema.properties,
     shapes: c.object {title: 'Shapes', additionalProperties: ShapeObjectSchema}
     containers: c.object {title: 'Containers', additionalProperties: ContainerObjectSchema}
     animations: c.object {title: 'Animations', additionalProperties: RawAnimationObjectSchema}
-  kind: c.shortString {enum: ['Unit', 'Floor', 'Wall', 'Doodad', 'Misc', 'Mark', 'Item'], default: 'Misc', title: 'Kind'}
+  kind: c.shortString {enum: ['Unit', 'Floor', 'Wall', 'Doodad', 'Misc', 'Mark', 'Item', 'Hero', 'Missile'], default: 'Misc', title: 'Kind'}
   terrains: c.array {title: 'Terrains', description: 'If specified, limits this ThangType to levels with matching terrains.', uniqueItems: true}, c.terrainString
-
+  gems: {type: 'integer', minimum: 0, title: 'Gem Cost', description: 'How many gems this item or hero costs.'}
+  heroClass: {type: 'string', enum: ['Warrior', 'Ranger', 'Wizard'], title: 'Hero Class', description: 'What class this is (if a hero) or is restricted to (if an item). Leave undefined for most items.'}
+  tier: {type: 'number', minimum: 0, title: 'Tier', description: 'What tier (fractional) this item or hero is in.'}
   actions: c.object {title: 'Actions', additionalProperties: {$ref: '#/definitions/action'}}
   soundTriggers: c.object {title: 'Sound Triggers', additionalProperties: c.array({}, {$ref: '#/definitions/sound'})},
     say: c.object {format: 'slug-props', additionalProperties: {$ref: '#/definitions/sound'}},
@@ -116,6 +119,7 @@ _.extend ThangTypeSchema.properties,
   rotationType: {title: 'Rotation', type: 'string', enum: ['isometric', 'fixed', 'free']}
   matchWorldDimensions: {title: 'Match World Dimensions', type: 'boolean'}
   shadow: {title: 'Shadow Diameter', type: 'number', format: 'meters', description: 'Shadow diameter in meters'}
+  description: { type:'string', format: 'markdown', title: 'Description' }
   layerPriority:
     title: 'Layer Priority'
     type: 'integer'
@@ -123,9 +127,28 @@ _.extend ThangTypeSchema.properties,
   scale:
     title: 'Scale'
     type: 'number'
+  spriteType: { enum: ['singular', 'segmented'], title: 'Sprite Type' }
   positions: PositionsSchema
   raster: {type: 'string', format: 'image-file', title: 'Raster Image'}
   rasterIcon: { type: 'string', format: 'image-file', title: 'Raster Image Icon' }
+  containerIcon: { type: 'string' }
+  featureImages: c.object { title: 'Hero Doll Images' },
+    body: { type: 'string', format: 'image-file', title: 'Body' }
+    head: { type: 'string', format: 'image-file', title: 'Head' }
+    hair: { type: 'string', format: 'image-file', title: 'Hair' }
+    thumb: { type: 'string', format: 'image-file', title: 'Thumb' }
+    wizardHand: { type: 'string', format: 'image-file', title: 'Wizard Hand' }
+  dollImages: c.object { title: 'Paper Doll Images' },
+    male: { type: 'string', format: 'image-file', title: ' Male' }
+    female: { type: 'string', format: 'image-file', title: ' Female' }
+    maleThumb: { type: 'string', format: 'image-file', title: 'Thumb (Male)' }
+    femaleThumb: { type: 'string', format: 'image-file', title: 'Thumb (Female)' }
+    maleRanger: { type: 'string', format: 'image-file', title: 'Glove (Male Ranger)' }
+    maleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Male Ranger)' }
+    femaleRanger: { type: 'string', format: 'image-file', title: 'Glove (Female Ranger)' }
+    femaleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Female Ranger)' }
+    maleBack: { type: 'string', format: 'image-file', title: ' Male Back' }
+    femaleBack: { type: 'string', format: 'image-file', title: ' Female Back' }
   colorGroups: c.object
     title: 'Color Groups'
     additionalProperties:
@@ -142,8 +165,13 @@ _.extend ThangTypeSchema.properties,
       type: 'number'
       description: 'Snap to this many meters in the y-direction.'
   components: c.array {title: 'Components', description: 'Thangs are configured by changing the Components attached to them.', uniqueItems: true, format: 'thang-components-array'}, ThangComponentSchema  # TODO: uniqueness should be based on 'original', not whole thing
+  i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'extendedName', 'unlockLevelName'], description: 'Help translate this ThangType\'s name and description.'}
+  extendedName: {type: 'string', title: 'Extended Hero Name', description: 'The long form of the hero\'s name. Ex.: "Captain Anya Weston".'}
+  unlockLevelName: {type: 'string', title: 'Unlock Level Name', description: 'The name of the level in which the hero is unlocked.'}
+  tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this ThangType.'}, c.task
 
-ThangTypeSchema.required = ['kind']
+
+ThangTypeSchema.required = []
 
 ThangTypeSchema.default =
   raw: {}
@@ -156,5 +184,6 @@ c.extendBasicProperties ThangTypeSchema, 'thang.type'
 c.extendSearchableProperties ThangTypeSchema
 c.extendVersionedProperties ThangTypeSchema, 'thang.type'
 c.extendPatchableProperties ThangTypeSchema
+c.extendTranslationCoverageProperties ThangTypeSchema
 
 module.exports = ThangTypeSchema

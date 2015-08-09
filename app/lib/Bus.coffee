@@ -1,6 +1,6 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 CHAT_SIZE_LIMIT = 500 # no more than 500 messages
 
@@ -35,7 +35,6 @@ module.exports = Bus = class Bus extends CocoClass
     Backbone.Mediator.publish 'bus:connected', {bus: @}
 
   disconnect: ->
-    Firebase.goOffline()
     @fireRef?.off()
     @fireRef = null
     @fireChatRef?.off()

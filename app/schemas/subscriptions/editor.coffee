@@ -1,6 +1,9 @@
 c = require 'schemas/schemas'
 
 module.exports =
+  'editor:campaign-analytics-modal-closed': c.object {title: 'Campaign editor analytics modal closed'},
+    targetLevelSlug: {type: 'string'}
+
   'editor:save-new-version': c.object {title: 'Save New Version', description: 'Published when a version gets saved', required: ['major', 'commitMessage']},
     major: {type: 'boolean'}
     commitMessage: {type: 'string'}
@@ -23,6 +26,10 @@ module.exports =
 
   'editor:edit-level-thang': c.object {required: ['thangID']},
     thangID: {type: 'string'}
+
+  'editor:level-thang-edited': c.object {required: ['thangData', 'oldPath']},
+    thangData: {type: 'object'}
+    oldPath: {type: 'string'}
 
   'editor:level-thang-done-editing': c.object {required: ['thangData', 'oldPath']},
     thangData: {type: 'object'}

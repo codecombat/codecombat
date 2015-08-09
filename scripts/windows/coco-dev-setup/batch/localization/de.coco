@@ -3,19 +3,19 @@
 	<global>
 		<native>Deutsch</native>
 		<description>German</description>
-		<tips>Before we start the installation, here are some tips:</tips>
-		<exit>Press any key to exit...</exit>
+		<tips>Bevor wir mit der Installation beginnen, hier ein paar Tipps:</tips>		
+		<exit>Drücke eine beliebige Taste zum Beenden...</exit>
 	</global>
 	<language>
-		<choosen>You have choosen Deutsch as your language.</choosen>
+		<choosen>Du hast Deutsch als deine Sprache festgelegt.</choosen>
 		<feedback>Ab jetzt senden wir unser Feedback in Deutsch.</feedback>
 	</language>
 	<license>
-		<s1>In order to continue the installation of the developers environment</s1>
-		<s2>you will have to read and agree with the following license:</s2>
-		<q1>Have you read the license and do you agree with it?</q1>
-		<a1>This setup can't happen without an agreement.</a1>
-		<a2>Installation and Setup of the CodeCombat environment is cancelled.</a2>
+		<s1>Um mit der Installation der Entwicklungsumgebung fortzuführen</s1>		
+		<s2>musst du die folgende Lizenz lesen und aktzeptieren:</s2>		
+		<q1>Hast du die Lizenz gelesen und aktzeptieren diese?</q1>		
+		<a1>Dieses Setup kann ohne Ihre Zustimmung nicht fortgeführt werden.</a1>
+		<a2>Installation und Setup der CodeCombat Umgebung wurde abgebrochen.</a2>
 	</license>
 	<install>
 		<system>
@@ -26,20 +26,20 @@
 		</system>
 		<process>
 			<sks>Sind die für CodeCombat benötigten Programme bereits installiert?</sks>
-			<skq>Wir empfehlen Ihnen, mit „Nein“ zu antorten, falls Sie unsicher sind.</skq>
+			<skq>Wir empfehlen dir, mit „Nein“ zu antworten, falls du unsicher sind.</skq>
 			<skc>Überspringe Installation der Programme...</skc>
 			<s1>Ohne Software von Drittanbietern könnte CodeCombat nicht entwickelt werden.</s1>
-			<s2>Aus diesem Grund müssen Sie diese Software installieren,</s2>
+			<s2>Aus diesem Grund musst du diese Software installieren,</s2>
 			<s3>um sich in der Community zu engagieren.</s3>
-			<s4>Wenn Sie ein Programm bereits installiert haben, brechen Sie die Installation bitte ab.</s4>
-			<winpath>Make sure to select the option that adds the application to your Windows Path, if the option is available.</winpath>
-			<prefix>Haben Sie bereits die aktuellste Version von</prefix>
+			<s4>Wenn du ein Programm bereits installiert hast, brich die Installation bitte ab.</s4>
+			<winpath>Gehe sicher das die Option zum hinzufügen der Applikation zum Windows Path ausgewählt ist, sofern die Auswahl möglich ist.</winpath>			
+			<prefix>Hast du bereits die aktuellste Version von</prefix>
 			<sufix>installiert?</sufix>
 			<downloading>wird heruntergeladen...</downloading>
 			<installing>wird installiert...</installing>
 			<unzipping>wird entpackt...</unzipping>
 			<cleaning>wird aufgeräumt...</cleaning>
-			<mongodbpath>Bitte geben Sie den kompletten Pfad an, an dem MongoDB installiert werden soll</mongodbpath>
+			<mongodbpath>Bitte gebe den kompletten Pfad an, an dem MongoDB installiert werden soll</mongodbpath>
 		</process>
 	</install>
 	<github>
@@ -51,7 +51,7 @@
 		</intro>
 		<skip>
 			<question>Willst du das lokale Git Setup selbst vornehmen?</question>
-			<consequence>Bit vergewissere dich, dass das Repository korrekt heruntergeladen wurde, bevor du fortfährst.</consequence>
+			<consequence>Bitte vergewissere dich, dass das Repository korrekt heruntergeladen wurde, bevor du fortfährst.</consequence>
 			<donotclose>Bitte schließe dieses Fenster nicht.</donotclose>
 			<wait>Wenn du fertig bist, drücke eine beliebige Taste zum Fortfahren...</wait>
 		</skip>
@@ -65,28 +65,28 @@
 			<ssh>Willst du das Repository via SSH auschecken?</ssh>
 		</process>
 		<config>
-			<intro>You should have forked CodeCombat to your own GitHub Account by now...</intro>
-			<info>Please enter your github information, to configure your local repository.</info>
-			<username>Username: </username>
-			<password>Password: </password>
-			<process>Thank you... Configuring your local repistory right now...</process>
+			<intro>Du solltest nun CodeCombat innerhalb deines GitHub-Kontos geforked haben...</intro>
+			<info>Bitte gebe deine GitHub Informationen ein um die Konfiguration deines lokalen Repositorys vorzunehmen.</info>
+			<username>Benutzername: </username>
+			<password>Passwort: </password>
+			<process>Danke... Konfiguriere nun das lokale Repository...</process>
 		</config>
 	</github>
 	<switch>
-		<install>The installation of your local environment was succesfull!</install>
-		<close>You can now close this setup.</close>
-		<open>After that, you should open the configuration setup to automaticly configure your environment...</open>
+		<install>Die Installation deiner lokalen Umgebung war erfolgreich!</install>
+		<close>Du kannst nun dieses Setup schließen.</close>
+		<open>Danach öffnest du bitte das Konfigurations-Setup das dann automatisch deine Umgebung konfiguriert...</open>
 	</switch>
 	<npm>
-		<install>Installing bower, brunch, nodemon and sendwithus...</install>
-		<binstall>Installing bower packages...</binstall>
-		<sass>Installing sass...</sass>
-		<npm>Installing npm...</npm>
-		<brnch>Starting brunch....</brnch>
-		<mongodb>Setting up a MongoDB database for you...</mongodb>
-		<database>Downloading the last version of the CodeCombat database...</database>
-		<script>Preparing the automatic startup script for you...</script>
-		<close>Don't close!</close>
+		<install>Installiere bower, brunch, nodemon und sendwithus...</install>
+		<binstall>Installiere bower Pakete...</binstall>
+		<sass>Installiere sass...</sass>
+		<npm>Installiere npm...</npm>
+		<brnch>Starte brunch....</brnch>
+		<mongodb>Richte die MongoDB Datenbank für dich ein...</mongodb>
+		<database>Lade die aktuellste Version der CodeCombat Datenbank herunter...</database>
+		<script>Bereite das automatische Start-Skript für dich vor...</script>
+		<close>Nicht schließen!</close>
 	</npm>
 	<error>
 		<path>Dieser Pfad existiert bereits. Willst du ihn wirklich überschreiben?</path>

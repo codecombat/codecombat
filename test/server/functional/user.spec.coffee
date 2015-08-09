@@ -28,7 +28,7 @@ describe 'Server user object', ->
     expect(JSON.stringify(user.get('emailSubscriptions'))).toBe(JSON.stringify(['tester', 'level_creator']))
     done()
 
-describe 'User.updateMailChimp', ->
+describe 'User.updateServiceSettings', ->
   makeMC = (callback) ->
     GLOBAL.mc =
       lists:
@@ -40,7 +40,7 @@ describe 'User.updateMailChimp', ->
       done()
 
     user = new User({emailSubscriptions: ['announcement'], email: 'tester@gmail.com'})
-    User.updateMailChimp(user)
+    User.updateServiceSettings(user)
 
 describe 'POST /db/user', ->
 
@@ -69,7 +69,7 @@ describe 'POST /db/user', ->
       expect(user.get('password')).toBeUndefined()
       expect(user?.get('passwordHash')).not.toBeUndefined()
       if user?.get('passwordHash')?
-        expect(user.get('passwordHash')[..5]).toBe('31dc3d')
+        expect(user.get('passwordHash')[..5] in ['31dc3d', '948c7e']).toBeTruthy()
         expect(user.get('permissions').length).toBe(0)
       done()
 
@@ -79,7 +79,8 @@ describe 'POST /db/user', ->
       request.get url, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         user = JSON.parse(body)
-        expect(user.email).toBe('normal@jo.com')
+        expect(user.name).toBe('Joe')  # Anyone should be served the username.
+        expect(user.email).toBeUndefined()  # Shouldn't be available to just anyone.
         expect(user.passwordHash).toBeUndefined()
         done()
 
@@ -327,6 +328,24 @@ describe 'GET /db/user', ->
 
   xit 'can fetch another user with restricted fields'
 
+describe 'DELETE /db/user', ->
+  it 'can delete a user', (done) ->
+    loginNewUser (user1) ->
+      beforeDeleted = new Date()
+      request.del {uri: "#{getURL(urlUser)}/#{user1.id}"}, (err, res) ->
+        expect(err).toBeNull()
+        return done() if err
+        User.findById user1.id, (err, user1) ->
+          expect(err).toBeNull()
+          return done() if err
+          expect(user1.get('deleted')).toBe(true)
+          expect(user1.get('dateDeleted')).toBeGreaterThan(beforeDeleted)
+          expect(user1.get('dateDeleted')).toBeLessThan(new Date())
+          for key, value of user1.toObject()
+            continue if key in ['_id', 'deleted', 'dateDeleted']
+            expect(_.isEmpty(value)).toEqual(true)
+          done()
+
 describe 'Statistics', ->
   LevelSession = require '../../../server/levels/sessions/LevelSession'
   Article = require '../../../server/articles/Article'
@@ -341,7 +360,7 @@ describe 'Statistics', ->
     session = new LevelSession
       name: 'Beat Gandalf'
       permissions: simplePermissions
-      state: completed: true
+      state: complete: true
 
     unittest.getNormalJoe (joe) ->
       expect(joe.get 'stats.gamesCompleted').toBeUndefined()

@@ -1,4 +1,4 @@
-extends /templates/kinds/table
+extends /templates/common/table
 
 block tableHeader
   tr
@@ -8,7 +8,7 @@ block tableHeader
 
 block tableBody
   for data in documents
-    - data = data.attributes
+    - data = data.attributes;
     tr
       td
         a(href="/editor/achievement/#{data.slug || data._id}")

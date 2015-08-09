@@ -1,11 +1,12 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/systems-tab-view'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
 LevelSystemEditView = require './LevelSystemEditView'
 NewLevelSystemModal = require './NewLevelSystemModal'
 AddLevelSystemModal = require './AddLevelSystemModal'
-{ThangTypeNode} = require './../treema_nodes'
+nodes = require '../treema_nodes'
+require 'vendor/treema'
 
 module.exports = class SystemsTabView extends CocoView
   id: 'systems-tab-view'
@@ -48,18 +49,41 @@ module.exports = class SystemsTabView extends CocoView
       systems = @buildDefaultSystems()
       insertedDefaults = true
     systems = @getSortedByName systems
+    thangs = if @level? then @level.get('thangs') else []
+    thangIDs = _.filter(_.pluck(thangs, 'id'))
+    teams = _.filter(_.pluck(thangs, 'team'))
+    superteams = _.filter(_.pluck(thangs, 'superteam'))
+    superteams = _.union(teams, superteams)
     treemaOptions =
       supermodel: @supermodel
       schema: Level.schema.properties.systems
       data: systems
       readOnly: me.get('anonymous')
+      world: @options.world
+      view: @
+      thangIDs: thangIDs
+      teams: teams
+      superteams: superteams
       callbacks:
         change: @onSystemsChanged
         select: @onSystemSelected
       nodeClasses:
         'level-system': LevelSystemNode
         'level-system-configuration': LevelSystemConfigurationNode
-        'thang-type': ThangTypeNode  # Not until we actually want CocoSprite IndieSprites
+        'point2d': nodes.WorldPointNode
+        'viewport': nodes.WorldViewportNode
+        'bounds': nodes.WorldBoundsNode
+        'radians': nodes.RadiansNode
+        'team': nodes.TeamNode
+        'superteam': nodes.SuperteamNode
+        'meters': nodes.MetersNode
+        'kilograms': nodes.KilogramsNode
+        'seconds': nodes.SecondsNode
+        'speed': nodes.SpeedNode
+        'acceleration': nodes.AccelerationNode
+        'thang-type': nodes.ThangTypeNode
+        'item-thang-type': nodes.ItemThangTypeNode
+
     @systemsTreema = @$el.find('#systems-treema').treema treemaOptions
     @systemsTreema.build()
     @systemsTreema.open()
@@ -104,18 +128,27 @@ module.exports = class SystemsTabView extends CocoView
     @levelSystemEditView = null
 
   onTerrainChanged: (e) ->
-    defaultPathfinding = e.terrain in ['Dungeon', 'Indoor']
-    return unless AI = @systemsTreema.get 'original=528110f30268d018e3000001'
-    return if AI.config?.findsPaths is defaultPathfinding
-    AI.config ?= {}
-    AI.config.findsPaths = defaultPathfinding
-    @systemsTreema.set 'original=528110f30268d018e3000001', AI
-    noty {
-      text: "AI System defaulted pathfinding to #{defaultPathfinding} for terrain #{e.terrain}."
-      layout: 'topCenter'
-      timeout: 5000
-      type: 'information'
-    }
+    defaultPathfinding = e.terrain in ['Dungeon', 'Indoor', 'Mountain', 'Glacier', 'Volcano']
+    changed = false
+    if AI = @systemsTreema.get 'original=528110f30268d018e3000001'
+      unless AI.config?.findsPaths is defaultPathfinding
+        AI.config ?= {}
+        AI.config.findsPaths = defaultPathfinding
+        @systemsTreema.set 'original=528110f30268d018e3000001', AI
+        changed = true
+    if Vision = @systemsTreema.get 'original=528115040268d018e300001b'
+      unless Vision.config?.checksLineOfSight is defaultPathfinding
+        Vision.config ?= {}
+        Vision.config.checksLineOfSight = defaultPathfinding
+        @systemsTreema.set 'original=528115040268d018e300001b', Vision
+        changed = true
+    if changed
+      noty {
+        text: "AI/Vision System defaulted pathfinding/line-of-sight to #{defaultPathfinding} for terrain #{e.terrain}."
+        layout: 'topCenter'
+        timeout: 5000
+        type: 'information'
+      }
 
   buildDefaultSystems: ->
     [

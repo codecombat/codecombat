@@ -1,7 +1,7 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/employers'
 User = require 'models/User'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 CocoCollection = require 'collections/CocoCollection'
 EmployerSignupModal = require 'views/modal/EmployerSignupModal'
 
@@ -27,20 +27,24 @@ module.exports = class EmployersView extends RootView
 
   constructor: (options) ->
     super options
+    return
     @candidates = @supermodel.loadCollection(new CandidatesCollection(), 'candidates').model
     @setFilterDefaults()
 
   onLoaded: ->
     super()
+    return
     @setUpScrolling()
 
   afterRender: ->
     super()
+    return
     @sortTable() if @candidates.models.length
     @renderSavedFilters()
 
   afterInsert: ->
     super()
+    return
     _.delay @checkForEmployerSignupHash, 500
     #fairly hacky, change this in the future
     @originalBackgroundColor = $('body').css 'background-color'
@@ -150,7 +154,7 @@ module.exports = class EmployersView extends RootView
       me.set 'savedEmployerFilterAlerts', me.previous('savedEmployerFilterAlerts')
     else
       triggerErrorAlert = -> alert("There was an error saving your filter alert! Please notify team@codecombat.com.")
-      res = me.save {"savedEmployerFilterAlerts": newFilters}, {patch: true, success: cb, error: triggerErrorAlert}
+      res = me.save {"savedEmployerFilterAlerts": newFilters}, {patch: true, type: 'PUT', success: cb, error: triggerErrorAlert}
 
   renderSavedFilters: =>
     savedFilters = me.get('savedEmployerFilterAlerts')
@@ -176,6 +180,7 @@ module.exports = class EmployersView extends RootView
 
   getRenderData: ->
     ctx = super()
+    return ctx
     ctx.isEmployer = @isEmployer()
     #If you change the candidates displayed, change candidatesInFilter()
     ctx.candidates = _.sortBy @candidates.models, (c) -> -1 * c.get('jobProfile').experience
