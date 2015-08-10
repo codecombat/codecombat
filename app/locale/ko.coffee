@@ -809,7 +809,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    complete_1: "complete"
 #    exp_levels: "Expand levels"
     rem_hero: "영웅 삭제"
-#    status: "상태"
+    status: "상태"
 #    complete_2: "Complete"
 #    started_2: "Started"
 #    not_started_2: "Not Started"
