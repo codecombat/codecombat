@@ -294,7 +294,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_scrub_shortcut: "Ctrl+[ e Ctrl+] rebobina e avança." # {change}
     tip_guide_exists: "Clique no guia no topo da página para informações úteis."
     tip_open_source: "CodeCombat é 100% código aberto!"
-#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "Está gostando de CodeCombat? Conte aos seus amigos sobre nós!"
     tip_beta_launch: "CodeCombat lançou sua versão beta em outubro de 2013."
     tip_think_solution: "Pense na solução, não no problema."
     tip_theory_practice: "Na teoria, não existe diferença entre teoria e prática. Mas, na prática, há. - Yogi Berra"
@@ -338,7 +338,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_recurse: "Para iterar é humano, para recursão, é divino. - L. Peter Deutsch"
     tip_free_your_mind: "Você tem que deixar isso tudo passar, Neo. O medo, a dúvida e a descrença. Liberte sua mente - Morpheus"
     tip_strong_opponents: "Mesmo o mais forte dos adversários tem sua fraqueza. - Itachi Uchiha"
-#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+    tip_paper_and_pen: "Antes de você começar a codificar, você pode sempre planejar usando uma pedaço e papel e lápis."
 
   game_menu:
     inventory_tab: "Inventário"
@@ -358,7 +358,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     auth_caption: "Salve seu progresso."
 
   leaderboard:
-#    leaderboard: "Leaderboard"
+    leaderboard: "Classificação"
     view_other_solutions: "Ver Outras Soluções" # {change}
     scores: "Pontuação"
     top_players: "Top Jogadores por"
@@ -428,7 +428,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     parents: "Para os pais"
     parents_title: "Seus filhos estão aprendendo a programar." # {change}
     parents_blurb1: "Com o CodeCombat, seus filhos aprendem a programar de verdade. Eles começam a aprender comandos simples, e progridem para tópicos avançados."
-#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb1a: "Programaçãp de computadores é uma habilidade essencial que seus filhos irão com certeza usar quando se tornarem adultos. Em 2020, habilidades básicas com software serão necessários para 77% dos empregos, e engenheiros de software estão em grande demanda através do mundo. Você sabia que Ciência da Computação é o diploma universitário mais bem pago?"
     parents_blurb2: "Apenas $9.99 USD/mês, eles recebem novos desafios todo mês e suporte no email pessoal de programadores profissionais." # {change}
     parents_blurb3: "Sem risco: 100% devolução do dinheiro garantida, basta um simples clique em desinscrever-se."
     payment_methods: "Formas de pagamento"
@@ -440,7 +440,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     unlock_help_videos: "Inscreva-se para desbloquear todos os vídeos tutoriais."
     personal_sub: "Inscrição individual" # Accounts Subscription View below
 #    loading_info: "Loading subscription information..."
-#    managed_by: "Managed by"
+    managed_by: "Gerenciado por"
     will_be_cancelled: "Será cancelada em"
 #    currently_free: "You currently have a free subscription"
 #    currently_free_until: "You currently have a free subscription until"
@@ -490,7 +490,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     regeneration: "Cura"
     range: "Distância de Ataque" # As in "attack or visual range"
     blocks: "Bloqueio" # As in "this shield blocks this much damage"
-    backstab: "Dano de volta" # As in "this dagger does this much backstab damage"
+    backstab: "Dano por trás" # As in "this dagger does this much backstab damage"
     skills: "Habilidades"
     attack_1: "Retira"
     attack_2: "das listadas"
@@ -853,8 +853,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     indoor: "Interior"
     desert: "Deserto"
     grassy: "Gramado"
-#    mountain: "Mountain"
-#    glacier: "Glacier"
+    mountain: "Montanha"
+    glacier: "Glacial"
     small: "Pequeno"
     large: "Grande"
     fork_title: "Realizar um Novo Fork"
@@ -923,15 +923,15 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     pop_i18n: "Popular I18N"
     tasks: "Tarefas"
     clear_storage: "Limpar suas alterações locais"
-#    add_system_title: "Add Systems to Level"
+    add_system_title: "Adicionar sistema para o nível"
 #    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Prever"
     edit_article_title: "Editar Artigo "
 
-#  polls:
-#    priority: "Priority"
+  polls:
+    priority: "Prioridade"
 
   contribute:
     page_title: "Contribuindo"
@@ -1213,7 +1213,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   delta:
     added: "Adicionado"
     modified: "Modificado"
-#    not_modified: "Not Modified"
+    not_modified: "Não modificado"
     deleted: "Removido"
     moved_index: "Índice Movido"
     text_diff: "Diff do Texto"
