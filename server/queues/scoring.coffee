@@ -169,6 +169,7 @@ module.exports.getTwoGames = (req, res) ->
       sendResponseObject req, res, taskObject
   else
     #console.log "Directly simulating #{humansGameID} vs. #{ogresGameID}."
+    selection = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate'
     LevelSession.findOne(_id: humansGameID).select(selection).lean().exec (err, humanSession) =>
       if err? then return errors.serverError(res, 'Couldn\'t find the human game')
       LevelSession.findOne(_id: ogresGameID).select(selection).lean().exec (err, ogreSession) =>
