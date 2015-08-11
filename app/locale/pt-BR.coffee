@@ -247,7 +247,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     victory_saving_progress: "Salvando Progresso"
     victory_go_home: "Ir à página inicial"
     victory_review: "Diga-nos mais!"
-    victory_review_placeholder: "O QUe achou da fase?" #"How was the level?"
+    victory_review_placeholder: "O que achou da fase?" #"How was the level?"
     victory_hour_of_code_done: "Terminou?"
     victory_hour_of_code_done_yes: "Sim, eu terminei minha Hora da Programação!"
     victory_experience_gained: "XP ganho"
@@ -429,7 +429,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     parents_title: "Seus filhos estão aprendendo a programar." # {change}
     parents_blurb1: "Com o CodeCombat, seus filhos aprendem a programar de verdade. Eles começam a aprender comandos simples, e progridem para tópicos avançados."
     parents_blurb1a: "Programação de computadores é uma habilidade essencial que seu filho com certeza usará quando adulto. Em 2020, conhecimentos basicos de software serão necessários para 77% dos empregos, e engenheiros de software estão em grande demanda ao redor do mundo. Você sabia que CIência da Computação é a formação superior mais bem paga?" #"Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
-     parents_blurb2: "Por apenas $9.99 USD/mês, eles recebem novos desafios todo mês e suporte no email pessoal de programadores profissionais." # {change}
+    parents_blurb2: "Por apenas $9.99 USD/mês, eles recebem novos desafios todo mês e suporte no email pessoal de programadores profissionais." # {change}
     parents_blurb3: "Sem risco: 100% devolução do dinheiro garantida, basta um simples clique em desinscrever-se."
     payment_methods: "Formas de pagamento"
     payment_methods_title: "Formas de pagamento aceitas"
