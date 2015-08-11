@@ -42,7 +42,6 @@
     "multiplayer"
   ],
   "dependencies": {
-    "JASON": "~0.1.3",
     "JQDeferred": "~2.1.0",
     "aether": "~0.3.0",
     "async": "0.2.x",
