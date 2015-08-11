@@ -193,8 +193,6 @@ for codeFile in [
 
 #window.BOX2D_ENABLED = true;
 
-newConsole = "newConsole = #{}(newConsole.toString())}()"
-
 ret = """
 
   GLOBAL = root = window = self;
