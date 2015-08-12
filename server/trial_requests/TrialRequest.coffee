@@ -17,7 +17,7 @@ TrialRequestSchema.pre 'save', (next) ->
     prepaid = new Prepaid
       creator: @get('reviewer')
       type: 'subscription'
-      status: 'active'
+      maxRedeemers: 1
       code: code
       properties:
         couponID: 'free'

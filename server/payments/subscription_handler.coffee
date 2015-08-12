@@ -174,16 +174,51 @@ class SubscriptionHandler extends Handler
           return done({res: 'Database error.', code: 500})
         return done({res: 'Prepaid not found', code: 404}) unless prepaid?
         return done({res: 'Prepaid not for subscription', code: 403}) unless prepaid.get('type') is 'subscription'
-        return done({res: 'Prepaid has already been used', code: 403}) unless prepaid.get('status') is 'active'
-        return done({res: 'Database error.', code: 500}) unless prepaid.get('properties')?.couponID
-        couponID = prepaid.get('properties').couponID
 
-        # Update user
-        stripeInfo = _.cloneDeep(user.get('stripe') ? {})
-        stripeInfo.couponID = couponID
-        stripeInfo.prepaidCode = req.body.stripe.prepaidCode
-        user.set('stripe', stripeInfo)
-        @checkForExistingSubscription(req, user, customer, couponID, done)
+        # Deprecated: status property
+        if status = prepaid.get('status') and status is 'used'
+          return done({res: 'Prepaid has already been used', code: 403})
+
+        if prepaid.get('redeemers')?.length >= prepaid.get('maxRedeemers')
+          @logSubscriptionError(user, "Prepaid #{prepaid.id} note active")
+          return done({res: 'Prepaid not active', code: 403})
+        unless couponID = prepaid.get('properties')?.couponID
+          @logSubscriptionError(user, "Prepaid #{prepaid.id} has no couponID")
+          return done({res: 'Database error.', code: 500})
+
+        redeemers = prepaid.get('redeemers') ? []
+        if _.find(redeemers, (a) -> a.userID?.equals(user.get('_id')))
+          @logSubscriptionError(user, "Prepaid code already redeemed by #{user.id}")
+          return done({res: 'Prepaid code already redeemed', code: 403})
+
+        # Redeem prepaid code
+
+        # Deprecated: status and redeemer properties
+        prepaid.set('status', 'used')
+        prepaid.set('redeemer', user.get('_id'))
+
+        query = Prepaid.$where("'#{prepaid.get('_id').valueOf()}' === this._id.valueOf() && (!this.redeemers || this.redeemers.length < this.maxRedeemers)")
+        redeemers.push
+          userID: user.get('_id')
+          date: new Date()
+        update = {redeemers: redeemers}
+        Prepaid.update query, update, {}, (err, numAffected) =>
+          if err
+            @logSubscriptionError(user, 'Prepaid update error. ' + err)
+            return done({res: 'Database error.', code: 500})
+          if numAffected > 1
+            @logSubscriptionError(user, "Prepaid numAffected=#{numAffected} error.")
+            return done({res: 'Database error.', code: 500})
+          if numAffected < 1
+            return done({res: 'Prepaid not active', code: 403})
+
+          # Update user
+          stripeInfo = _.cloneDeep(user.get('stripe') ? {})
+          stripeInfo.couponID = couponID
+          stripeInfo.prepaidCode = req.body.stripe.prepaidCode
+          user.set('stripe', stripeInfo)
+          @checkForExistingSubscription(req, user, customer, couponID, done)
+
     else
       couponID = user.get('stripe')?.couponID
       # SALE LOGIC
@@ -257,25 +292,7 @@ class SubscriptionHandler extends Handler
       if err
         @logSubscriptionError(user, 'Stripe user plan saving error. ' + err)
         return done({res: 'Database error.', code: 500})
-
-      if stripeInfo.prepaidCode?
-        # Update prepaid to 'used'
-        Prepaid.findOne code: stripeInfo.prepaidCode, (err, prepaid) =>
-          if err
-            @logSubscriptionError(user, 'Prepaid find error. ' + err)
-            return done({res: 'Database error.', code: 500})
-          unless prepaid?
-            @logSubscriptionError(user, "Expected prepaid not found: #{stripeInfo.prepaidCode}")
-            return done({res: 'Database error.', code: 500})
-          prepaid.set('status', 'used')
-          prepaid.set('redeemer', user.get('_id'))
-          prepaid.save (err) =>
-            if err
-              @logSubscriptionError(user, 'Prepaid update error. ' + err)
-              return done({res: 'Database error.', code: 500})
-            done()
-      else
-        done()
+      done()
 
   updateStripeRecipientSubscriptions: (req, user, customer, done) ->
     return done({res: 'Database error.', code: 500}) unless req.body.stripe?.subscribeEmails?

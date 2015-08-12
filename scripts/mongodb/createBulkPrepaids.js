@@ -22,7 +22,7 @@ function createPrepaid()
     criteria = {
       creator: creatorID,
       type: 'subscription',
-      status: 'active',
+      maxRedeemers: 1
       code: code,
       properties: {
         couponID: 'free'
