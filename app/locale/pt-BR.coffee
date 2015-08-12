@@ -247,7 +247,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     victory_saving_progress: "Salvando Progresso"
     victory_go_home: "Ir à página inicial"
     victory_review: "Diga-nos mais!"
-#    victory_review_placeholder: "How was the level?"
+    victory_review_placeholder: "O que achou da fase?" #"How was the level?"
     victory_hour_of_code_done: "Terminou?"
     victory_hour_of_code_done_yes: "Sim, eu terminei minha Hora da Programação!"
     victory_experience_gained: "XP ganho"
@@ -294,7 +294,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_scrub_shortcut: "Ctrl+[ e Ctrl+] rebobina e avança." # {change}
     tip_guide_exists: "Clique no guia no topo da página para informações úteis."
     tip_open_source: "CodeCombat é 100% código aberto!"
-#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "Está gostando de CodeCombate? Dibulgue para os seus amigos!" # "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat lançou sua versão beta em outubro de 2013."
     tip_think_solution: "Pense na solução, não no problema."
     tip_theory_practice: "Na teoria, não existe diferença entre teoria e prática. Mas, na prática, há. - Yogi Berra"
@@ -338,7 +338,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_recurse: "Para iterar é humano, para recursão, é divino. - L. Peter Deutsch"
     tip_free_your_mind: "Você tem que deixar isso tudo passar, Neo. O medo, a dúvida e a descrença. Liberte sua mente - Morpheus"
     tip_strong_opponents: "Mesmo o mais forte dos adversários tem sua fraqueza. - Itachi Uchiha"
-#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+    tip_paper_and_pen: "Antes de começar a programar, você sempre pode planejar com papel e caneta." #"Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Inventário"
@@ -358,7 +358,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     auth_caption: "Salve seu progresso."
 
   leaderboard:
-#    leaderboard: "Leaderboard"
+    leaderboard: "Líderança" #"Leaderboard"
     view_other_solutions: "Ver Outras Soluções" # {change}
     scores: "Pontuação"
     top_players: "Top Jogadores por"
@@ -428,8 +428,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     parents: "Para os pais"
     parents_title: "Seus filhos estão aprendendo a programar." # {change}
     parents_blurb1: "Com o CodeCombat, seus filhos aprendem a programar de verdade. Eles começam a aprender comandos simples, e progridem para tópicos avançados."
-#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
-    parents_blurb2: "Apenas $9.99 USD/mês, eles recebem novos desafios todo mês e suporte no email pessoal de programadores profissionais." # {change}
+    parents_blurb1a: "Programação de computadores é uma habilidade essencial que seu filho com certeza usará quando adulto. Em 2020, conhecimentos basicos de software serão necessários para 77% dos empregos, e engenheiros de software estão em grande demanda ao redor do mundo. Você sabia que CIência da Computação é a formação superior mais bem paga?" #"Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb2: "Por apenas $9.99 USD/mês, eles recebem novos desafios todo mês e suporte no email pessoal de programadores profissionais." # {change}
     parents_blurb3: "Sem risco: 100% devolução do dinheiro garantida, basta um simples clique em desinscrever-se."
     payment_methods: "Formas de pagamento"
     payment_methods_title: "Formas de pagamento aceitas"
@@ -439,32 +439,32 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     subscription_required_to_play: "Você precisará se inscrever para jogar este nível."
     unlock_help_videos: "Inscreva-se para desbloquear todos os vídeos tutoriais."
     personal_sub: "Inscrição individual" # Accounts Subscription View below
-#    loading_info: "Loading subscription information..."
-#    managed_by: "Managed by"
+    loading_info: "Carregando informação sobre assinatura" #"Loading subscription information..."
+    managed_by: "Gerenciada por" #"Managed by"
     will_be_cancelled: "Será cancelada em"
-#    currently_free: "You currently have a free subscription"
-#    currently_free_until: "You currently have a free subscription until"
-#    was_free_until: "You had a free subscription until"
-#    managed_subs: "Managed Subscriptions"
-#    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
-#    managed_subs_desc_2: "Recipients must have a CodeCombat account associated with the email address you provide."
+    currently_free: "Atualmente você tem uma assinatura gratuita" #"You currently have a free subscription"
+    currently_free_until: "Sua assinatura gratuita é válida até" #"You currently have a free subscription until"
+    was_free_until: "Sua assinatura gratuita expirou em" #"You had a free subscription until"
+    managed_subs: "Assinaturas gerenciadas" #"Managed Subscriptions"
+    managed_subs_desc: "Adicione assinaturas para outros jogadores (estudantes, crianças, etc)" #"Add subscriptions for other players (students, children, etc.)"
+    managed_subs_desc_2: "Destinatários devem ter uma conta CodeCombat associada com o e-mail fornecido"#"Recipients must have a CodeCombat account associated with the email address you provide."
     group_discounts: "Descontos para grupos"
     group_discounts_1: "Nós também oferecemos descontos para grupos para inscrições em grande quantidades."
-#    group_discounts_1st: "1st subscription"
+    group_discounts_1st: "Primeira assinatura" #"1st subscription"
     group_discounts_full: "Preço normal"
-#    group_discounts_2nd: "Subscriptions 2-11"
+    group_discounts_2nd: "2 a 11 assinaturas" # "Subscriptions 2-11"
     group_discounts_20: "20% de desconto"
-#    group_discounts_12th: "Subscriptions 12+"
+    group_discounts_12th: "Acima de 12 assinaturas" #"Subscriptions 12+"
     group_discounts_40: "20% de desconto"
-#    subscribing: "Subscribing..."
-#    recipient_emails_placeholder: "Enter email address to subscribe, one per line."
-#    subscribe_users: "Subscribe Users"
-#    users_subscribed: "Users subscribed:"
-#    no_users_subscribed: "No users subscribed, please double check your email addresses."
-#    current_recipients: "Current Recipients"
-#    unsubscribing: "Unsubscribing..."
-#    subscribe_prepaid: "Click Subscribe to use prepaid code"
-#    using_prepaid: "Using prepaid code for monthly subscription"
+    subscribing: "Assinando..." #"Subscribing..."
+    recipient_emails_placeholder: "Insira o e-mail para assinar, um por linha" #"Enter email address to subscribe, one per line."
+    subscribe_users: "Inscrever usuários" #"Subscribe Users"
+    users_subscribed: "Usuários inscritos" #"Users subscribed:"
+    no_users_subscribed: "Nenhum usuário inscrito, por favor verifique os endereços de e-mail" #"No users subscribed, please double check your email addresses."
+    current_recipients: "Destinatários atuais" #"Current Recipients"
+    unsubscribing: "Cancelando assinatura" #"Unsubscribing..."
+    subscribe_prepaid: "Clique em Assinar para utilizar um código pré-pago" #"Click Subscribe to use prepaid code"
+    using_prepaid: "Utilizando código pré-pago para assinatura mensal" #"Using prepaid code for monthly subscription"
 
   choose_hero:
     choose_hero: "Escolha seu Herói"
@@ -593,7 +593,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     teacher_subs_title: "Professores recebem assinaturas gratuitas!"
     teacher_subs_1: "Por favor contate" # {change}
     teacher_subs_2: "para organizar uma assinatura mensal." # {change}
-#    teacher_subs_3: "to set up your subscription."
+    teacher_subs_3: "para configurar sua assinatura" #"to set up your subscription."
     sub_includes_title: "O que está incluído na assinatura?"
     sub_includes_1: "Além dos mais de 80 níveis básicos, estudantes com uma assinatura mensal têm acesso aos seguintes recursos:" # {change}
     sub_includes_2: "Mais de 60 níveis para praticar" # {change}

@@ -169,9 +169,9 @@ mixin progress-tab
                 if userLevelStateMap[student][level] === 'complete'
                   span.progress-level-cell.progress-level-cell-complete #{i + 1}
                     if showExpandedProgress || i === 0 || i === course.levels.length - 1
-                      span.spl #{level}
+                      span.spl= level.replace('Course: ', '')
                     .level-popup-container
-                      h3 #{i + 1}. #{level}
+                      h3 #{i + 1}. #{level.replace('Course: ', '')}
                       p
                         div
                           - var playTime = Math.round(Math.random() * 600)
@@ -184,11 +184,11 @@ mixin progress-tab
                           span : #{moment(completionDate).format('MMMM Do YYYY, h:mm:ss a')}
                       strong(data-i18n="clans.view_solution") Click to view solution.
                 else if userLevelStateMap[student][level] === 'started'
-                  span.progress-level-cell.progress-level-cell-started #{i + 1} #{level}
+                  span.progress-level-cell.progress-level-cell-started #{i + 1} #{level.replace('Course: ', '')}
                 else
                   span.progress-level-cell.level-progression-level-not-started #{i + 1}
                     if showExpandedProgress || i === 0
-                      span.spl #{level}
+                      span.spl= level.replace('Course: ', '')
                 - i++
 
 mixin levels-tab
@@ -206,7 +206,7 @@ mixin levels-tab
           td
             button.btn.btn-success.btn-play-level(data-level=level) Play
           td= userLevelStateMap[student][level]
-          td= level
+          td= level.replace('Course: ', '')
           td
             each concept in courseConcepts
               if levelConceptsMap[level] && levelConceptsMap[level][concept]
