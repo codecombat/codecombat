@@ -15,7 +15,8 @@ module.exports = class LevelSetupManager extends CocoClass
     super()
     @supermodel = @options.supermodel ? new SuperModel()
     @session = @options.session
-    @loadLevel()
+    unless @level = @options.level
+      @loadLevel()
     if @session
       @fillSessionWithDefaults()
     else

@@ -542,13 +542,37 @@ describe 'Subscriptions', ->
         user1.save (err, user1) ->
           expect(err).toBeNull()
           expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', (err, res, prepaid) ->
+          createPrepaid 'subscription', 1, (err, res, prepaid) ->
             expect(err).toBeNull()
             subscribeUser user1, null, prepaid.code, ->
               Prepaid.findById prepaid._id, (err, prepaid) ->
                 expect(err).toBeNull()
-                expect(prepaid.get('status')).toEqual('used')
+                expect(prepaid.get('maxRedeemers')).toEqual(1)
+                expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
                 done()
+
+    it 'Admin subscribes self with valid prepaid twice', (done) ->
+      loginNewUser (user1) ->
+        user1.set('permissions', ['admin'])
+        user1.save (err, user1) ->
+          expect(err).toBeNull()
+          expect(user1.isAdmin()).toEqual(true)
+          createPrepaid 'subscription', 2, (err, res, prepaid) ->
+            expect(err).toBeNull()
+            Prepaid.findById prepaid._id, (err, prepaid) ->
+              expect(err).toBeNull()
+              prepaid.set 'redeemers', [{userID: user1.get('_id'), date: new Date()}]
+              prepaid.save (err) ->
+                expect(err).toBeNull()
+                requestBody = user1.toObject()
+                requestBody.stripe =
+                  planID: 'basic'
+                requestBody.stripe.prepaidCode = prepaid.get('code')
+                request.put {uri: userURL, json: requestBody, headers: headers }, (err, res, body) ->
+                  expect(err).toBeNull()
+                  expect(res.statusCode).toBe(403)
+                  done()
 
     it 'User subscribes, deletes themselves, subscription ends', (done) ->
       stripe.tokens.create {
@@ -596,7 +620,7 @@ describe 'Subscriptions', ->
         user1.save (err, user1) ->
           expect(err).toBeNull()
           expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', (err, res, prepaid) ->
+          createPrepaid 'subscription', 1, (err, res, prepaid) ->
             expect(err).toBeNull()
             subscribeUser user1, null, prepaid.code, ->
               loginNewUser (user2) ->
@@ -607,7 +631,27 @@ describe 'Subscriptions', ->
                 request.put {uri: userURL, json: requestBody, headers: headers }, (err, res, body) ->
                   expect(err).toBeNull()
                   expect(res.statusCode).toBe(403)
-                  done()
+                  Prepaid.findById prepaid._id, (err, prepaid) ->
+                    expect(err).toBeNull()
+                    expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                    expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
+                    done()
+
+    it 'User2 subscribes with same active prepaid', (done) ->
+      loginNewUser (user1) ->
+        user1.set('permissions', ['admin'])
+        user1.save (err, user1) ->
+          expect(err).toBeNull()
+          expect(user1.isAdmin()).toEqual(true)
+          createPrepaid 'subscription', 2, (err, res, prepaid) ->
+            expect(err).toBeNull()
+            subscribeUser user1, null, prepaid.code, ->
+              loginNewUser (user2) ->
+                subscribeUser user2, null, prepaid.code, ->
+                  Prepaid.findById prepaid._id, (err, prepaid) ->
+                    expect(err).toBeNull()
+                    expect(prepaid.get('redeemers').length).toEqual(2)
+                    done()
 
     it 'Subscribe normally, subscribe with valid prepaid', (done) ->
       stripe.tokens.create {
@@ -621,12 +665,14 @@ describe 'Subscriptions', ->
             subscribeUser user1, token, null, ->
               User.findById user1.id, (err, user1) ->
                 expect(err).toBeNull()
-                createPrepaid 'subscription', (err, res, prepaid) ->
+                createPrepaid 'subscription', 1, (err, res, prepaid) ->
                   expect(err).toBeNull()
                   subscribeUser user1, null, prepaid.code, ->
                     Prepaid.findById prepaid._id, (err, prepaid) ->
                       expect(err).toBeNull()
-                      expect(prepaid.get('status')).toEqual('used')
+                      expect(prepaid.get('maxRedeemers')).toEqual(1)
+                      expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                      expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
                       User.findById user1.id, (err, user1) ->
                         expect(err).toBeNull()
                         customerID = user1.get('stripe').customerID
@@ -652,11 +698,13 @@ describe 'Subscriptions', ->
             request.put {uri: userURL, json: requestBody, headers: headers }, (err, res, updatedUser) ->
               expect(err).toBeNull()
               expect(res.statusCode).toBe(200)
-              createPrepaid 'subscription', (err, res, prepaid) ->
+              createPrepaid 'subscription', 1, (err, res, prepaid) ->
                 subscribeUser user1, null, prepaid.code, ->
                   Prepaid.findById prepaid._id, (err, prepaid) ->
                     expect(err).toBeNull()
-                    expect(prepaid.get('status')).toEqual('used')
+                    expect(prepaid.get('maxRedeemers')).toEqual(1)
+                    expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                    expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
                     User.findById user1.id, (err, user1) ->
                       expect(err).toBeNull()
                       customerID = user1.get('stripe').customerID
@@ -673,12 +721,14 @@ describe 'Subscriptions', ->
         user1.save (err, user1) ->
           expect(err).toBeNull()
           expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', (err, res, prepaid) ->
+          createPrepaid 'subscription', 1, (err, res, prepaid) ->
             expect(err).toBeNull()
             subscribeUser user1, null, prepaid.code, ->
               Prepaid.findById prepaid._id, (err, prepaid) ->
                 expect(err).toBeNull()
-                expect(prepaid.get('status')).toEqual('used')
+                expect(prepaid.get('maxRedeemers')).toEqual(1)
+                expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
                 User.findById user1.id, (err, user1) ->
                   expect(err).toBeNull()
                   unsubscribeUser user1, ->
@@ -693,12 +743,14 @@ describe 'Subscriptions', ->
         user1.save (err, user1) ->
           expect(err).toBeNull()
           expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', (err, res, prepaid) ->
+          createPrepaid 'subscription', 1, (err, res, prepaid) ->
             expect(err).toBeNull()
             subscribeUser user1, null, prepaid.code, ->
               Prepaid.findById prepaid._id, (err, prepaid) ->
                 expect(err).toBeNull()
-                expect(prepaid.get('status')).toEqual('used')
+                expect(prepaid.get('maxRedeemers')).toEqual(1)
+                expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
                 User.findById user1.id, (err, user1) ->
                   expect(err).toBeNull()
                   unsubscribeUser user1, ->
@@ -931,7 +983,7 @@ describe 'Subscriptions', ->
                 user2.save (err, user1) ->
                   expect(err).toBeNull()
                   expect(user2.isAdmin()).toEqual(true)
-                  createPrepaid 'subscription', (err, res, prepaid) ->
+                  createPrepaid 'subscription', 1, (err, res, prepaid) ->
                     expect(err).toBeNull()
                     requestBody = user2.toObject()
                     requestBody.stripe =
@@ -1103,7 +1155,7 @@ describe 'Subscriptions', ->
         user1.save (err, user1) ->
           expect(err).toBeNull()
           expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', (err, res, prepaid) ->
+          createPrepaid 'subscription', 1, (err, res, prepaid) ->
             expect(err).toBeNull()
             subscribeUser user1, null, prepaid.code, ->
               stripe.tokens.create {
