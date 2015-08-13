@@ -79,8 +79,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     adjust_volume: "Ajustar el volumen"
     campaign_multiplayer: "Arenas Multijugador"
     campaign_multiplayer_description: "... en las que programas cara a cara contra otros jugadores."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_old_multiplayer: "(Obsoleto) Antiguas Arenas Multijugador"
+    campaign_old_multiplayer_description: "Reliquias de una era más civilizada. Ninguna simulación es ejecutada para estas arenas multijugador antiguas y sin héroes."
 
   share_progress_modal:
     blurb: "¡Estás haciendo un gran progreso! Cuéntale a alguien cuánto has aprendido con CodeCombat." # {change}
@@ -247,7 +247,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_saving_progress: "Guardando Progreso"
     victory_go_home: "Ir al Inicio"
     victory_review: "¡Cuéntanos más!"
-#    victory_review_placeholder: "How was the level?"
+    victory_review_placeholder: "¿Cómo estuvo el nivel?"
     victory_hour_of_code_done: "¿Has acabado?"
     victory_hour_of_code_done_yes: "¡Si, he terminado con mi Hora de Código!"
     victory_experience_gained: "XP Ganada"
@@ -284,7 +284,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     time_goto: "Ir a:"
     non_user_code_problem_title: "No se puede cargar el nivel"
     infinite_loop_title: "Loop infinito detectado"
-#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
+    infinite_loop_description: "El código inicial para construir el mundo no terminó de ejecutarse. Probablemente es muy lento o tiene un loop infinito. O puede ser un bug. Puedes tratar ejecutando este código nuevamente o reiniciar el código a su estado por defecto. Si eso no lo arregla, haznos saber."
     check_dev_console: "Tú puedes también abrir la consola de desarrollo para ver que puede salir mal."
     check_dev_console_link: "(instrucciones)"
     infinite_loop_try_again: "Intentar nuevamente"
@@ -294,7 +294,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_scrub_shortcut: "Ctrl+[ y Ctrl+] rebobina y avance rápido." # {change}
     tip_guide_exists: "Haga click en la guía en la parte superior de la página para obtener información útil"
     tip_open_source: "¡CodeCombat es 100% código abierto!"
-#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "¿Disfrutando de CodeCombat? ¡Cuéntale a tus amigos acerca de nosotros!"
     tip_beta_launch: "CodeCombat lanzó su beta en Octubre del 2013."
     tip_think_solution: "Piensa en la solución, no en el problema."
     tip_theory_practice: "En teoría, no hay diferencia entre la teoría y la práctica. Pero en la práctica, si la hay. - Yogi Berra"
@@ -338,7 +338,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_recurse: "Iterar es humano, recursar es divino. - L. Peter Deutsch"
     tip_free_your_mind: "Tienes que dejar ir todo, Neo. Miedo, duda, e incredulidad. Libera tu mente. - Morpheus"
     tip_strong_opponents: "Hasta los oponentes mas fuertes siempre tienen una debilidad. - Itachi Uchiha"
-#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+    tip_paper_and_pen: "Antes de comenzar a codificar, siempre puedes planear con una hoja de papel y un lapicero."
 
   game_menu:
     inventory_tab: "Inventario"
