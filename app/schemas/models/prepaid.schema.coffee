@@ -10,9 +10,6 @@ PrepaidSchema = c.object({title: 'Prepaid', required: ['creator', 'type']}, {
   code: c.shortString(title: "Unique code to redeem")
   type: { type: 'string' }
   properties: {type: 'object'}
-  # Deprecated
-  status: { enum: ['active', 'used'], default: 'active' }
-  redeemer: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
 })
 
 c.extendBasicProperties(PrepaidSchema, 'prepaid')
