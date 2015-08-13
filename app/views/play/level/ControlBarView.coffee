@@ -97,12 +97,12 @@ module.exports = class ControlBarView extends CocoView
     c.homeLink = @homeLink
     c
 
-  showGameMenuModal: ->
-    gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel
+  showGameMenuModal: (tab='guide') ->
+    gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel, showTab: tab
     @openModalView gameMenuModal
     @listenToOnce gameMenuModal, 'change-hero', ->
       @setupManager?.destroy()
-      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @, session: @session})
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session})
       @setupManager.open()
 
   onClickHome: (e) ->
@@ -111,7 +111,7 @@ module.exports = class ControlBarView extends CocoView
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs
 
   onClickMultiplayer: (e) ->
-    @openModalView new GameMenuModal showTab: 'multiplayer', level: @level, session: @session, supermodel: @supermodel
+    @showGameMenuModal 'multiplayer'
 
   onClickSignupButton: ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Control Bar', level: @levelID

@@ -6,6 +6,7 @@ SpellPaletteEntryView = require './SpellPaletteEntryView'
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
+LevelSetupManager = require 'lib/LevelSetupManager'
 
 N_ROWS = 4
 
@@ -319,10 +320,16 @@ module.exports = class SpellPaletteView extends CocoView
 
   onClickHelp: (e) ->
     application.tracker?.trackEvent 'Spell palette help clicked', levelID: @level.get('slug')
-    @openModalView new GameMenuModal showTab: 'guide', level: @level, session: @session, supermodel: @supermodel
+    gameMenuModal = new GameMenuModal showTab: 'guide', level: @level, session: @session, supermodel: @supermodel
+    @openModalView gameMenuModal
+    @listenToOnce gameMenuModal, 'change-hero', ->
+      @setupManager?.destroy()
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @level.get('slug'), parent: @, session: @session})
+      @setupManager.open()
 
   destroy: ->
     entry.destroy() for entry in @entries
     @toggleBackground = null
     $(window).off 'resize', @onResize
+    @setupManager?.destroy()
     super()
