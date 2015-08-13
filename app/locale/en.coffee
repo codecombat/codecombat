@@ -1098,6 +1098,7 @@
     recently_played: "Recently Played"
     no_recent_games: "No games played during the past two weeks."
     payments: "Payments"
+    prepaid: "Prepaid"
     purchased: "Purchased"
     subscription: "Subscription"
     invoices: "Invoices"
