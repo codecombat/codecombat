@@ -25,9 +25,13 @@ block content
           .panel-body
             .form-horizontal
               .form-group
-                label.control-label.col-sm-2(for="amount", data-i18n="account_prepaid.purchase_amount") Amount
+                label.control-label.col-sm-2(for="users") Users
                 .col-sm-10
-                  input#amount.form-control(name="amount", type="number", value="#{purchase.amount}", min=1)
+                  input#users.form-control(name="users", type="number", value="#{purchase.users}", min=1)
+              .form-group
+                label.control-label.col-sm-2(for="months") Months
+                .col-sm-10
+                  input#months.form-control(name="months", type="number", value="#{purchase.months}", min=1)
               .form-group
                 label.control-label.col-sm-2(data-i18n="account_prepaid.purchase_total")
                 .col-sm-10

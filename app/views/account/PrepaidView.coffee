@@ -7,26 +7,39 @@ module.exports = class PrepaidView extends RootView
   className: 'container-fluid'
 
   events:
-    'change #amount': 'onAmountChanged'
+    'change #users': 'onUsersChanged'
+    'change #months': 'onMonthsChanged'
 
-  baseAmount: 9.99
+  baseAmount: 1.00
 
   constructor: (options) ->
     super(options)
     @purchase =
       total: 9.99
-      amount: 1
+      users: 3
+      months: 3
+    @updateTotal()
 
   getRenderData: ->
     c = super()
     c.purchase = @purchase
     c
 
+  updateTotal: ->
+    @purchase.total = @baseAmount * @purchase.users * @purchase.months
+    @render()
+
   # Form Input Callbacks
-  onAmountChanged: (e) ->
-    # Only allow amounts greater than zero
+  onUsersChanged: (e) ->
     newAmount = $(e.target).val()
     newAmount = 1 if newAmount < 1
-    @purchase.amount = newAmount
-    @purchase.total = @baseAmount * @purchase.amount
-    @render()
+    @purchase.users = newAmount
+    @purchase.months = 3 if newAmount < 3 and @purchase.months < 3
+    @updateTotal()
+
+  onMonthsChanged: (e) ->
+    newAmount = $(e.target).val()
+    newAmount = 1 if newAmount < 1
+    @purchase.months = newAmount
+    @purchase.users = 3 if newAmount < 3 and @purchase.users < 3
+    @updateTotal()
