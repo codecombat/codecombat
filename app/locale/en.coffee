@@ -1128,6 +1128,14 @@
     retrying: "Server error, retrying."
     success: "Successfully paid. Thanks!"
 
+  account_prepaid:
+    purchase_code: "Purchase Codes"
+    purchase_amount: "Amount"
+    purchase_total: "Total"
+    purchase_button: "Submit Purchase"
+    your_codes: "Your Codes:"
+    redeem_codes: "Redeem Codes"
+
   loading_error:
     could_not_load: "Error loading from server"
     connection_failure: "Connection failed."

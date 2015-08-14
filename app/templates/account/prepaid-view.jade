@@ -14,12 +14,37 @@ block content
         a(href="/account", data-i18n="nav.account")
       li.active(data-i18n="account.prepaid")
 
-    div.alert.alert-danger
-      span UNDER CONSTRUCTION send feedback to
-      a.spl(href='mailto:team@codecombat.com') team@codecombat.com
     ul
-      li TODO: Add section for purchasing subscription prepaid codes
-      li TODO: Add list of purchased prepaid codes
       li TODO: Add option to email purchased codes
-      li TODO: Add redeem subscription code option (see gdoc for more details)
-      li TODO: Add list of redeemed codes (maybe add a column to the purchased codes list to reflect status?)
+
+    .row
+      .col-md-6
+        .panel.panel-default
+          .panel-heading
+            .panel-title(data-i18n="account_prepaid.purchase_code")
+          .panel-body
+            .form-horizontal
+              .form-group
+                label.control-label.col-sm-2(for="amount", data-i18n="account_prepaid.purchase_amount") Amount
+                .col-sm-10
+                  input#amount.form-control(name="amount", type="number", value="#{purchase.amount}", min=1)
+              .form-group
+                label.control-label.col-sm-2(data-i18n="account_prepaid.purchase_total")
+                .col-sm-10
+                  p.form-control-static $
+                    span#total #{purchase.total}
+              button#purchase-button.btn.btn-success(data-i18n="account_prepaid.purchase_button")
+
+      .col-md-6
+        .panel.panel-default
+          .panel-heading
+            .panel-title(data-i18n="account_prepaid.redeem_codes")
+          .panel-body
+            p TODO: Panel for redeeming a code.
+    .row
+      .col-md-10.col-md-offset-1
+        .panel.panel-default
+          .panel-heading
+            .panel-title(data-i18n="account_prepaid.your_codes")
+          .panel-body
+            p TODO: Panel that lists existing codes, and if they were redeeemed.
