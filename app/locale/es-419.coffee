@@ -428,7 +428,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     parents: "Para padres"
     parents_title: "Su hijo aprenderá a programar." # {change}
     parents_blurb1: "Con CodeCombat, su hijo aprenderá a escribiendo código real. Empezaran aprendiendo comandos simples avanzando a temas más complejos."
-#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb1a: "La Programación es una habilidad escencial que su hijo sin duda usará en la adultez. Para el 2020, habilidades básicas en software serán requeridas por el 77% de trabajos, y los ingenieros de software están en alta demanda alrededor del mundo. ¿Sabía que Ciencias de la Computación es la carrera mejor pagada?"
     parents_blurb2: "Por $9.99 USD/mes, recibirán nuevos desafíos todas las semanas y soporte personal por email de programadores profesionales." # {change}
     parents_blurb3: "Sin Riesgo: Garantía de 100% de devolución, fácil 1-click y des- suscribirse."
     payment_methods: "Metodos de pago"
@@ -447,9 +447,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     was_free_until: "Tuviste una suscripción gratuita hasta"
     managed_subs: "Suscripciones administradas"
     managed_subs_desc: "Agregar suscripciones para otros jugadores (alumnos, hijos, etc.)"
-#    managed_subs_desc_2: "Recipients must have a CodeCombat account associated with the email address you provide."
+    managed_subs_desc_2: "Los recipientes deben tener una cuenta de CodeCombat asociada con el email que usted provea."
     group_discounts: "Descuentos por grupo"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
+    group_discounts_1: "También ofrecemos descuentos grupales por suscripciones masivas."
     group_discounts_1st: "1ra suscripción (incluye la tuya)" # {change}
     group_discounts_full: "Precio regular"
     group_discounts_2nd: "2-11 Suscripciones"
@@ -593,7 +593,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
     teacher_subs_1: "Por favor contacte" # {change}
     teacher_subs_2: "para configurar una suscripción mensual gratis." # {change}
-#    teacher_subs_3: "to set up your subscription."
+    teacher_subs_3: "para configurar su suscripción."
     sub_includes_title: "¿Qué se incluye en la suscripción?"
     sub_includes_1: "Adicionalmente a los más de 70 niveles básicos, los estudiantes con una suscripción mensual obtienen acceso a estas características adicionales:" # {change}
     sub_includes_2: "Más de 40 niveles de práctica" # {change}
@@ -602,36 +602,36 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     sub_includes_5: "7 heroes nuevos con habilidades unicas que dominar" # {change}
     sub_includes_6: "bonificación de 3500 gemas cada mes"
     sub_includes_7: "Clanes privados"
-#    monitor_progress_title: "How do I monitor student progress?"
-#    monitor_progress_1: "Student progress can be monitored by creating a"
-#    monitor_progress_2: "for your class."
-#    monitor_progress_3: "To add a student, send them the invite link for your Clan, which is on the"
-#    monitor_progress_4: "page."
-#    monitor_progress_5: "After they join, you will see a summary of the student's progress on your Clan's page."
-#    private_clans_1: "Private Clans provide increased privacy and detailed progress information for each student."
-#    private_clans_2: "To create a private Clan, check the 'Make clan private' checkbox when creating a"
-#    private_clans_3: "."
+    monitor_progress_title: "¿Cómo monitoreo el progreso del estudiante?"
+    monitor_progress_1: "El progreso del estudiante puede ser monitoreado creando una"
+    monitor_progress_2: "para su clase."
+    monitor_progress_3: "Para agregar un estudiante, envíele el enlace de invitación para su Clan, que está en la"
+    monitor_progress_4: "página."
+    monitor_progress_5: "Después de que ellos se unan, podrá ver un resumen del progreso de los estudiantes en la página de su Clan."
+    private_clans_1: "Los Clanes privados proveen más privacidad y más detalle en la información de progreso de cada estudiante."
+    private_clans_2: "Para cerar un Clan privado, marque la caja 'Hacer clan privado' cuando esté creando un"
+    private_clans_3: "."
     who_for_title: "¿Para quienes es CodeCombat?"
     who_for_1: "Recomendamos CodeCombat para estudiantes de edades 9 y arriba. No se require experiencia en programación."
     who_for_2: "Hemos diseñado a CodeCombat para atraer a niños y niñas."
     material_title: "Cuánto material hay?"
     material_china: "Aproximadamente 22 horas de juego repartidas en más de 120 niveles sólo para suscriptores, con cinco nueveos niveles cada semana." # {change}
     material_1: "Aproximadamente 8 horas de contenido gratis y un adicional de 14 horas de contenido de suscriptores, con cinco nueveos niveles cada semana." # {change}
-#    concepts_title: "What concepts are covered?"
+    concepts_title: "¿Qué conceptos están cubiertos?"
     how_much_title: "¿Cuánto cuesta una subscripción mensual?"
     how_much_1: "una"
     how_much_2: "suscribción mensual"
     how_much_3: "Cuesta u$s9.99, y puede ser cancelada en cualquier momento."
     how_much_4: "Adicionalmente, nosotros otorgamos descuentos a grupos grandes:"
-#    how_much_5: "We accept discounted one-time purchases and yearly subscription purchases for groups, such as a class or school.  Please contact"
-#    how_much_6: "for more details."
-#    more_info_title: "Where can I find more information?"
-#    more_info_1: "Our"
+    how_much_5: "Aceptamos compras individuales con descuentos y suscripciones anuales para grupos, tales como una clase o una escuela. Por favor contacte"
+    how_much_6: "para más detalles."
+    more_info_title: "¿Dónde puedo encontrar más información?"
+    more_info_1: "Nuestro"
     more_info_2: "el foro de profesores"
     more_info_3: "es un buen lugar para connectarse con los educadores que estan usando CodeCombat."
     sys_requirements_title: "Requerimientos del sistema"
-    sys_requirements_1: "Debido que CodeCombat es un juego, es más difícil para las computadoras correrlo en relación a un tutorial escrito o un video. Para que todos puedan jugar, hemos optimizado la web para correr rápidamente en todos los navegadores modernos y en maquinas antiguas. Dicho esto, aquí están nuestras sugerencias para sacar el máximo provecho de su experiencia en la Hora del Código:" # {change}
-    sys_requirements_2: "Usar una versión actualizada del navegador Chrome o Firefox." # {change}
+    sys_requirements_1: "Un navegador moderno. Las últimas versiones de Chrome, Firefox o Safari. Internet Explorer 9 o más reciente."
+    sys_requirements_2: "CodeCombat no está soportado en iPad aún."
 
   teachers_survey:
 #    title: "Teacher Survey"
