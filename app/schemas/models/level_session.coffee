@@ -294,6 +294,14 @@ _.extend LevelSessionSchema.properties,
         simulator: {type: 'object', description: 'Holds info on who simulated the match, and with what tools.'}
         randomSeed: {description: 'Stores the random seed that was used during this match.'}
 
+  leagues:
+    c.array {description: 'Multiplayer data for the league corresponding to Clans and CourseInstances the player is a part of.'},
+      c.object {},
+        leagueID: {type: 'string', description: 'The _id of a Clan or CourseInstance the user belongs to.'}
+        stats: c.object {description: 'Multiplayer match statistics corresponding to this entry in the league.'}
+
+LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
+
 c.extendBasicProperties LevelSessionSchema, 'level.session'
 c.extendPermissionsProperties LevelSessionSchema, 'level.session'
 

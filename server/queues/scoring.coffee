@@ -36,7 +36,7 @@ module.exports.addPairwiseTaskToQueueFromRequest = (req, res) ->
   taskPair = req.body.sessions
   scoringUtils.addPairwiseTaskToQueue req.body.sessions, (err, success) ->
     if err? then return errors.serverError res, "There was an error adding pairwise tasks: #{err}"
-    scoringUtils.sendResponseObject req, res, {message: 'All task pairs were succesfully sent to the queue'}
+    scoringUtils.sendResponseObject res, {message: 'All task pairs were succesfully sent to the queue'}
 
 
 module.exports.getTwoGames = getTwoGames

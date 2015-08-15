@@ -20,7 +20,7 @@ module.exports.simulatorIsTooOld = (req, res) ->
   true
 
 
-module.exports.sendResponseObject = (req, res, object) ->
+module.exports.sendResponseObject = (res, object) ->
   res.setHeader('Content-Type', 'application/json')
   res.send(object)
   res.end()
@@ -40,36 +40,64 @@ module.exports.formatSessionInformation = (session) ->
 
 module.exports.calculateSessionScores = (callback) ->
   sessionIDs = _.pluck @clientResponseObject.sessions, 'sessionID'
-  async.map sessionIDs, retrieveOldSessionData, (err, oldScores) =>
-    if err? then callback err, {error: 'There was an error retrieving the old scores'}
+  async.map sessionIDs, retrieveOldSessionData.bind(@), (err, oldScores) =>
+    if err? then return callback err, {error: 'There was an error retrieving the old scores'}
     try
       oldScoreArray = _.toArray putRankingFromMetricsIntoScoreObject @clientResponseObject, oldScores
-      newScoreArray = bayes.updatePlayerSkills oldScoreArray
+      newScoreArray = updatePlayerSkills oldScoreArray
       createSessionScoreUpdate.call @, scoreObject for scoreObject in newScoreArray
       callback err, newScoreArray
     catch e
       callback e
 
 retrieveOldSessionData = (sessionID, callback) ->
-  formatOldScoreObject = (session) ->
-    standardDeviation: session.standardDeviation ? 25/3
-    meanStrength: session.meanStrength ? 25
-    totalScore: session.totalScore ? (25 - 1.8*(25/3))
-    id: sessionID
-    submittedCodeLanguage: session.submittedCodeLanguage
+  formatOldScoreObject = (session) =>
+    oldScoreObject = 
+      standardDeviation: session.standardDeviation ? 25/3
+      meanStrength: session.meanStrength ? 25
+      totalScore: session.totalScore ? (25 - 1.8*(25/3))
+      id: sessionID
+      submittedCodeLanguage: session.submittedCodeLanguage
+    if session.leagues?.length
+      _.find(@clientResponseObject.sessions, sessionID: sessionID).leagues = session.leagues
+      oldScoreObject.leagues = []
+      for league in session.leagues
+        oldScoreObject.leagues.push
+          leagueID: league.leagueID
+          stats:
+            id: sessionID
+            standardDeviation: league.stats.standardDeviation ? 25/3
+            meanStrength: league.stats.meanStrength ? 25
+            totalScore: league.stats.totalScore ? (25 - 1.8*(25/3))
+    oldScoreObject
 
   return formatOldScoreObject @levelSession if sessionID is @levelSession?._id  # No need to fetch again
 
   query = _id: sessionID
-  selection = 'standardDeviation meanStrength totalScore submittedCodeLanguage'
+  selection = 'standardDeviation meanStrength totalScore submittedCodeLanguage leagues'
   LevelSession.findOne(query).select(selection).lean().exec (err, session) ->
     return callback err, {'error': 'There was an error retrieving the session.'} if err?
     callback err, formatOldScoreObject session
 
 putRankingFromMetricsIntoScoreObject = (taskObject, scoreObject) ->
   scoreObject = _.indexBy scoreObject, 'id'
-  scoreObject[session.sessionID].gameRanking = session.metrics.rank for session in taskObject.sessions
+  sharedLeagueIDs = (league.leagueID for league in (taskObject.sessions[0].leagues ? []) when _.find(taskObject.sessions[1].leagues, leagueID: league.leagueID))
+  for session in taskObject.sessions
+    scoreObject[session.sessionID].gameRanking = session.metrics.rank
+    for league in (session.leagues ? []) when league.leagueID in sharedLeagueIDs
+      # We will also score any shared leagues, and we indicate that by assigning a non-null gameRanking to them.
+      _.find(scoreObject[session.sessionID].leagues, leagueID: league.leagueID).stats.gameRanking = session.metrics.rank
   return scoreObject
+
+updatePlayerSkills = (oldScoreArray) ->
+  newScoreArray = bayes.updatePlayerSkills oldScoreArray
+  scoreObjectA = newScoreArray[0]
+  scoreObjectB = newScoreArray[1]
+  for leagueA in (scoreObjectA.leagues ? []) when leagueA.stats.gameRanking?
+    leagueB = _.find scoreObjectB.leagues, leagueID: leagueA.leagueID
+    [leagueA.stats, leagueB.stats] = bayes.updatePlayerSkills [leagueA.stats, leagueB.stats]
+    leagueA.stats.updated = leagueB.stats.updated = true
+  newScoreArray
 
 createSessionScoreUpdate = (scoreObject) ->
   newTotalScore = scoreObject.meanStrength - 1.8 * scoreObject.standardDeviation
@@ -81,6 +109,17 @@ createSessionScoreUpdate = (scoreObject) ->
     totalScore: newTotalScore
     $push: {scoreHistory: {$each: [scoreHistoryAddition], $slice: -1000}}
     randomSimulationIndex: Math.random()
+  for league, leagueIndex in (scoreObject.leagues ? [])
+    continue unless league.stats.updated
+    newTotalScore = league.stats.meanStrength - 1.8 * league.stats.standardDeviation
+    scoreHistoryAddition = [scoreHistoryAddition[0], newTotalScore]
+    leagueSetPrefix = "leagues.#{leagueIndex}.stats."
+    @levelSessionUpdates[scoreObject.id].$set ?= {}
+    @levelSessionUpdates[scoreObject.id].$push ?= {}
+    @levelSessionUpdates[scoreObject.id].$set[leagueSetPrefix + 'meanStrength'] = league.stats.meanStrength
+    @levelSessionUpdates[scoreObject.id].$set[leagueSetPrefix + 'standardDeviation'] = league.stats.standardDeviation
+    @levelSessionUpdates[scoreObject.id].$set[leagueSetPrefix + 'totalScore'] = newTotalScore
+    @levelSessionUpdates[scoreObject.id].$push[leagueSetPrefix + 'scoreHistory'] = {$each: [scoreHistoryAddition], $slice: -1000}
 
 
 module.exports.indexNewScoreArray = (newScoreArray, callback) ->
@@ -119,12 +158,22 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   opponentsClone = _.omit opponentsClone, sessionID
   opponentsArray = _.toArray opponentsClone
   currentMatchObject.opponents = opponentsArray
-  currentMatchObject.codeLanguage = matchObject.opponents[opponentsArray[0].sessionID].codeLanguage
+  currentMatchObject.codeLanguage = matchObject.opponents[opponentsArray[0].sessionID].codeLanguage  # TODO: we have our opponent code language in twice, do we maybe want our own code language instead?
   #currentMatchObject.simulator = @clientResponseObject.simulator  # Uncomment when actively debugging simulation mismatches
   #currentMatchObject.randomSeed = parseInt(@clientResponseObject.randomSeed or 0, 10)  # Uncomment when actively debugging simulation mismatches
   sessionUpdateObject = @levelSessionUpdates[sessionID]
   sessionUpdateObject.$push.matches = {$each: [currentMatchObject], $slice: -200}
-  #log.info "Update is #{JSON.stringify(sessionUpdateObject, null, 2)}"
+
+  myScoreObject = @newScoresObject[sessionID]
+  opponentSession = _.find @clientResponseObject.sessions, (session) -> session.sessionID isnt sessionID
+  for league, leagueIndex in myScoreObject.leagues ? []
+    continue unless league.stats.updated
+    opponentLeagueTotalScore = _.find(opponentSession.leagues, leagueID: league.leagueID).stats.totalScore ? (25 - 1.8*(25/3))
+    leagueMatch = _.cloneDeep currentMatchObject
+    leagueMatch.opponents[0].totalScore = opponentLeagueTotalScore
+    sessionUpdateObject.$push["leagues.#{leagueIndex}.stats.matches"] = {$each: [leagueMatch], $slice: -200}
+
+  #log.info "Update for #{sessionID} is #{JSON.stringify(sessionUpdateObject, null, 2)}"
   LevelSession.update {_id: sessionID}, sessionUpdateObject, callback
 
 

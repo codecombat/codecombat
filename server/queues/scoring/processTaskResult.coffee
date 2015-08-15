@@ -29,16 +29,16 @@ module.exports = processTaskResult = (req, res) ->
     ], (err, results) ->
       if err is 'shouldn\'t continue'
         markSessionAsDoneRanking originalSessionID, (err) ->
-          if err? then return scoringUtils.sendResponseObject req, res, {'error': 'There was an error marking the session as done ranking'}
-          scoringUtils.sendResponseObject req, res, {message: 'The scores were updated successfully, person lost so no more games are being inserted!'}
+          if err? then return scoringUtils.sendResponseObject res, {'error': 'There was an error marking the session as done ranking'}
+          scoringUtils.sendResponseObject res, {message: 'The scores were updated successfully, person lost so no more games are being inserted!'}
       else if err is 'no session was found'
         markSessionAsDoneRanking originalSessionID, (err) ->
-          if err? then return scoringUtils.sendResponseObject req, res, {'error': 'There was an error marking the session as done ranking'}
-          scoringUtils.sendResponseObject req, res, {message: 'There were no more games to rank (game is at top)!'}
+          if err? then return scoringUtils.sendResponseObject res, {'error': 'There was an error marking the session as done ranking'}
+          scoringUtils.sendResponseObject res, {message: 'There were no more games to rank (game is at top)!'}
       else if err?
         errors.serverError res, "There was an error:#{err}"
       else
-        scoringUtils.sendResponseObject req, res, {message: 'The scores were updated successfully and more games were sent to the queue!'}
+        scoringUtils.sendResponseObject res, {message: 'The scores were updated successfully and more games were sent to the queue!'}
   catch e
     errors.serverError res, 'There was an error processing the task result!'
 
@@ -70,7 +70,7 @@ deleteQueueMessage = (callback) ->
     callback err
 
 fetchLevelSession = (callback) ->
-  selectString = 'submitDate creator level standardDeviation meanStrength totalScore submittedCodeLanguage'
+  selectString = 'submitDate creator level standardDeviation meanStrength totalScore submittedCodeLanguage leagues'
   LevelSession.findOne(_id: @clientResponseObject.originalSessionID).select(selectString).lean().exec (err, session) =>
     @levelSession = session
     callback err

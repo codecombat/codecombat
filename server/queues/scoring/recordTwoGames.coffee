@@ -18,4 +18,4 @@ module.exports = recordTwoGames = (req, res) ->
     scoringUtils.updateUserSimulationCounts.bind(yetiGuru, req.user?._id)
   ], (err, successMessageObject) ->
     if err? then return errors.serverError res, "There was an error recording the single game: #{err}"
-    scoringUtils.sendResponseObject req, res, {message: 'The single game was submitted successfully!'}
+    scoringUtils.sendResponseObject res, {message: 'The single game was submitted successfully!'}

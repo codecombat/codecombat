@@ -22,7 +22,7 @@ module.exports = dispatchTaskToConsumer = (req, res) ->
         return res.end()
       else
         return errors.serverError res, "There was an error dispatching the task: #{err}"
-    scoringUtils.sendResponseObject req, res, taskObjectToSend
+    scoringUtils.sendResponseObject res, taskObjectToSend
 
 
 checkSimulationPermissions = (req, cb) ->

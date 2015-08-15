@@ -3,6 +3,7 @@ async = require 'async'
 errors = require '../../commons/errors'
 scoringUtils = require './scoringUtils'
 LevelSession = require '../../levels/sessions/LevelSession'
+Level = require '../../levels/Level'
 
 module.exports = createNewTask = (req, res) ->
   requestSessionID = req.body.session
@@ -16,12 +17,12 @@ module.exports = createNewTask = (req, res) ->
     validatePermissions.bind(yetiGuru, req, requestSessionID)
     fetchAndVerifyLevelType.bind(yetiGuru, currentLevelID)
     fetchSessionObjectToSubmit.bind(yetiGuru, requestSessionID)
-    updateSessionToSubmit.bind(yetiGuru, transpiledCode)
+    updateSessionToSubmit.bind(yetiGuru, transpiledCode, req.user)
     fetchInitialSessionsToRankAgainst.bind(yetiGuru, requestLevelMajorVersion, originalLevelID)
     generateAndSendTaskPairsToTheQueue
   ], (err, successMessageObject) ->
     if err? then return errors.serverError res, "There was an error submitting the game to the queue:#{err}"
-    scoringUtils.sendResponseObject req, res, successMessageObject
+    scoringUtils.sendResponseObject res, successMessageObject
 
 
 validatePermissions = (req, sessionID, callback) ->
@@ -45,22 +46,37 @@ fetchAndVerifyLevelType = (levelID, cb) ->
     cb null
 
 fetchSessionObjectToSubmit = (sessionID, callback) ->
-  LevelSession.findOne({_id: sessionID}).select('team code').exec (err, session) ->
+  LevelSession.findOne({_id: sessionID}).select('team code leagues').exec (err, session) ->
     callback err, session?.toObject()
 
-updateSessionToSubmit = (transpiledCode, sessionToUpdate, callback) ->
+updateSessionToSubmit = (transpiledCode, user, sessionToUpdate, callback) ->
   sessionUpdateObject =
     submitted: true
     submittedCode: sessionToUpdate.code
     transpiledCode: transpiledCode
     submitDate: new Date()
     #meanStrength: 25  # Let's try not resetting the score on resubmission
-    standardDeviation: 25/3
+    standardDeviation: 25 / 3
     #totalScore: 10  # Let's try not resetting the score on resubmission
     numberOfWinsAndTies: 0
     numberOfLosses: 0
     isRanking: true
     randomSimulationIndex: Math.random()
+
+  # Reset all league stats as well, and enter the session into any leagues the user is currently part of (not retroactive when joining new leagues)
+  leagueIDs = user.get('clans') or []
+  #leagueIDs = leagueIDs.concat user.get('courseInstances') or []
+  leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to save them as strings.
+  newLeagues = []
+  for leagueID in leagueIDs
+    league = _.find(sessionToUpdate.leagues, leagueID: leagueID) ? leagueID: leagueID
+    league.stats ?= {}
+    league.stats.standardDeviation = 25 / 3
+    league.stats.numberOfWinsAndTies = 0
+    league.stats.numberOfLosses = 0
+    newLeagues.push(league)
+  unless _.isEqual newLeagues, sessionToUpdate.leagues
+    sessionUpdateObject.leagues = sessionToUpdate.leagues = newLeagues
   LevelSession.update {_id: sessionToUpdate._id}, sessionUpdateObject, (err, result) ->
     callback err, sessionToUpdate
 

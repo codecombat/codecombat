@@ -28,6 +28,7 @@ LevelSessionSchema.index({submitted: 1, team: 1, level:1, totalScore: -1}, {name
 LevelSessionSchema.index({levelID: 1, submitted:1, team: 1}, {name: 'get all scores index', sparse: true})
 LevelSessionSchema.index({submitted: 1, team: 1, levelID: 1, submitDate: -1}, {name: 'matchmaking index', sparse: true})
 LevelSessionSchema.index({submitted: 1, team: 1, levelID: 1, randomSimulationIndex: -1}, {name: 'matchmaking random index', sparse: true})
+LevelSessionSchema.index({'leagues.leagueID': 1, submitted: 1, levelID: 1, team: 1, randomSimulationIndex: -1}, {name: 'league-based matchmaking random index', sparse: true})  # Really need MongoDB 3.2 for partial indexes for this and several others: https://jira.mongodb.org/browse/SERVER-785
 
 LevelSessionSchema.plugin(plugins.PermissionsPlugin)
 LevelSessionSchema.plugin(AchievablePlugin)
