@@ -79,8 +79,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     adjust_volume: "音量を調整する"
     campaign_multiplayer: "マルチプレイ・アリーナ"
     campaign_multiplayer_description: "コーディングで他のプレイヤーに対して格闘しましょう"
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_old_multiplayer: "(非推奨)旧マルチプレイ・アリーナ"
+    campaign_old_multiplayer_description: "より文化的だった時代の遺跡。 シュミレーションは古いため実行されなく, ヒーローもいないマルチプレイ・アリーナです。"
 
   share_progress_modal:
     blurb: "あなたは進歩している！ CodeCombatでどんなに学んだかについて、誰かに伝えてください。"
