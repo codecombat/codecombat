@@ -43,6 +43,7 @@ module.exports = class PlayAchievementsModal extends ModalView
 
     @listenTo achievementsFetcher, 'sync', @onAchievementsLoaded
     @listenTo earnedAchievementsFetcher, 'sync', @onEarnedAchievementsLoaded
+    @stopListening @supermodel, 'loaded-all'
 
     @supermodel.loadCollection(achievementsFetcher, 'achievement')
     @supermodel.loadCollection(earnedAchievementsFetcher, 'achievement')
