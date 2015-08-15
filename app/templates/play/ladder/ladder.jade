@@ -10,6 +10,9 @@ block content
       else
         h1= level.get('name')
 
+      if league
+        h1 #{league.get('name')} League
+
     if level.get('name') == 'Greed'
       .tournament-blurb
         h2
