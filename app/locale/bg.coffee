@@ -9,7 +9,7 @@ module.exports = nativeDescription: "български език", englishDescri
     ipad_browser: "Лошa новинa: CodeCombat не работи в браузъра на iPad. Добра новина: Приложението ни за iPad изчаква одобрение от Apple."
     campaign: "Кампания"
     for_beginners: "За начинаещи"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
+    multiplayer: "Мултиплейър" # Not currently shown on home page
     for_developers: "За разработчици" # Not currently shown on home page.
     or_ipad: "Или свали за iPad"
 
@@ -26,7 +26,7 @@ module.exports = nativeDescription: "български език", englishDescri
     admin: "Администратор" # Only shows up when you are an admin
     home: "Начало"
     contribute: "Допринеси"
-#    legal: "Legal"
+    legal: "Юридическа информация"
     about: "За нас"
     contact: "Контакти"
     twitter_follow: "Започни да следиш"
@@ -57,17 +57,17 @@ module.exports = nativeDescription: "български език", englishDescri
     confirm: "Потвърди"
     owned: "Придобити" # For items you own
     locked: "Заключено"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+    purchasable: "Купуваеми" # For a hero you unlocked but haven't purchased
     available: "Достъпен"
-#    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "Умението е получено" # Property documentation details
     heroes: "Герои" # Tooltip on hero shop button from /play
     achievements: "Постижения" # Tooltip on achievement list button from /play
     account: "Акаунт" # Tooltip on account button from /play
     settings: "Настройки" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Допитване" # Tooltip on poll button from /play
     next: "Напред" # Go from choose hero to choose inventory before playing a level
     change_hero: "Смени герой" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
+    choose_inventory: "Избери Предмети"
     buy_gems: "Купи скъпоценни камъни"
     subscription_required: "Нужен е абонамент"
     anonymous: "Анонимен играч"
@@ -77,18 +77,18 @@ module.exports = nativeDescription: "български език", englishDescri
     awaiting_levels_adventurer: "Стани Приключенец"
     awaiting_levels_adventurer_suffix: "за да бъдеш първият, който играе нови нива."
     adjust_volume: "Настрой звук"
-#    campaign_multiplayer: "Multiplayer Arenas"
-#    campaign_multiplayer_description: "... in which you code head-to-head against other players."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_multiplayer: "Арени за мултиплейър"
+    campaign_multiplayer_description: "... където се състезаваш по програмиране с други играчи."
+    campaign_old_multiplayer: "(Остаряло) Стари арени за мултиплейър"
+    campaign_old_multiplayer_description: "Остатъци от едни по-циливизовани вренмена. Тези стари арени са без симулации и без герои."
 
   share_progress_modal:
-    blurb: "Справяш се чудесно! Сподели с някого,колко много научи чрез CodeCombat."
+    blurb: "Справяш се чудесно! Сподели с родителите си, колко много научи чрез CodeCombat."
     email_invalid: "Имейл адресът е невалиден"
-#    form_blurb: "Enter your parent's email below and we’ll show them!"
+    form_blurb: "Въведете email адреса им, и ние ще им покажем!"
     form_label: "Електронна поща"
     placeholder: "Имейл адрес"
-#    title: "Excellent Work, Apprentice"
+    title: "Отлична работа, Ученико!"
 
   login:
     sign_up: "Създай Профил"
@@ -98,7 +98,7 @@ module.exports = nativeDescription: "български език", englishDescri
     forgot_password: "Забравена парола?"
     authenticate_gplus: "Автентикация чрез G+"
     load_profile: "Зареди G+ профил"
-#    finishing: "Finishing"
+    finishing: "Завършване"
     sign_in_with_facebook: "Вписване чрез Facebook"
     sign_in_with_gplus: "Вписване чрез G+"
     signup_switch: "Създаване на нов акаунт?"
@@ -117,13 +117,13 @@ module.exports = nativeDescription: "български език", englishDescri
     send_password: "Изпрати парола за възстановяване"
     recovery_sent: "Писмото за възстановяване на парола е изпратено."
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "Основни"
+    secondary: "Второстепенни"
+    armor: "Броня"
+    accessories: "Аксесоари"
+    misc: "Разни"
+    books: "Книги"
 
   common:
     back: "Назад" # When used as an action verb, like "Navigate backward"
@@ -137,7 +137,7 @@ module.exports = nativeDescription: "български език", englishDescri
     publish: "Публикувай"
     create: "Създай"
     manual: "Ръчно"
-#    fork: "Fork"
+    fork: "Разклоняване"
     play: "Играй" # When used as an action verb, like "Play next level"
     retry: "Отново"
     actions: "Действия"
@@ -145,32 +145,32 @@ module.exports = nativeDescription: "български език", englishDescri
     help: "Помощ"
     watch: "Наблюдавай"
     unwatch: "Не наблюдавай"
-    submit_patch: "Предложи кръпка"
-    submit_changes: "Предложи промените"
-#    save_changes: "Save Changes"
+    submit_patch: "Изпрати кръпка"
+    submit_changes: "Изпрати промените"
+    save_changes: "Запази промените"
 
   general:
     and: "и"
     name: "Име"
     date: "Дата"
-#    body: "Body"
+    body: "Съдържание"
     version: "Версия"
     pending: "Изчакващ"
     accepted: "Прието"
     rejected: "Отказано"
-#    withdrawn: "Withdrawn"
-#    submitter: "Submitter"
-#    submitted: "Submitted"
-#    commit_msg: "Commit Message"
+    withdrawn: "Отменено"
+    submitter: "Изпращач"
+    submitted: "Изпратено"
+    commit_msg: "Съпровождащо съобщение"
     review: "Преглед"
     version_history: "Предишни версии"
     version_history_for: "Предишни версии на: "
     select_changes: "Избери две промени за да видиш разликата между тях."
-#    undo_prefix: "Undo"
-#    undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Redo"
-#    redo_shortcut: "(Ctrl+Shift+Z)"
-#    play_preview: "Play preview of current level"
+    undo_prefix: "Отмени"
+    undo_shortcut: "(Ctrl+Z)"
+    redo_prefix: "Възстанови"
+    redo_shortcut: "(Ctrl+Shift+Z)"
+    play_preview: "Предварителен превод на текущото ниво"
     result: "Резултат"
     results: "Резултати"
     description: "Описание"
@@ -180,21 +180,21 @@ module.exports = nativeDescription: "български език", englishDescri
     password: "Парола"
     message: "Съобщение"
     code: "Код"
-#    ladder: "Ladder"
-#    when: "When"
+    ladder: "Стълба"
+    when: "Кога"
     opponent: "Опонент"
-#    rank: "Rank"
+    rank: "Ранг"
     score: "Точки"
     win: "Победа"
     loss: "Загуба"
-#    tie: "Tie"
+    tie: "Наравно"
     easy: "Лесно"
     medium: "Средно"
     hard: "Трудно"
     player: "Играч"
     player_level: "Ниво" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Боец"
-#    ranger: "Ranger"
+    ranger: "Рейнджър"
     wizard: "Магьосник"
 
   units:
@@ -215,7 +215,7 @@ module.exports = nativeDescription: "български език", englishDescri
 
   play_level:
     done: "Готово"
-#    home: "Home" # Not used any more, will be removed soon.
+    home: "На главната" # Not used any more, will be removed soon.
     level: "Ниво" # Like "Level: Dungeons of Kithgard"
     skip: "Прескочи"
     game_menu: "Главно Меню"
@@ -223,14 +223,14 @@ module.exports = nativeDescription: "български език", englishDescri
     restart: "Рестарт"
     goals: "Цели"
     goal: "Цел"
-#    running: "Running..."
+    running: "Изпълнява се..."
     success: "Успех!"
     incomplete: "Недовършен"
-#    timed_out: "Ran out of time"
-#    failing: "Failing"
-#    action_timeline: "Action Timeline"
-#    click_to_select: "Click on a unit to select it."
-#    control_bar_multiplayer: "Multiplayer"
+    timed_out: "Времето изтече"
+    failing: "Неуспех"
+    action_timeline: "График на действията"
+    click_to_select: "Кликни на нещото за да го избереш."
+    control_bar_multiplayer: "Мултиплейър"
     control_bar_join_game: "Присъединяване"
     reload: "Презареди"
     reload_title: "Презареди целият код?"
