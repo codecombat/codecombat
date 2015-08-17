@@ -121,7 +121,7 @@ module.exports = class PlayItemsModal extends ModalView
   afterRender: ->
     super()
     return unless @supermodel.finished()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
+    @playSound 'game-menu-open'
     @$el.find('.nano:visible').nanoScroller({alwaysVisible: true})
     @itemDetailsView = new ItemDetailsView()
     @insertSubView(@itemDetailsView)
@@ -133,7 +133,7 @@ module.exports = class PlayItemsModal extends ModalView
 
   onHidden: ->
     super()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
+    @playSound 'game-menu-close'
 
 
   #- Click events
