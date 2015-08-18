@@ -774,7 +774,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     social_hipchat: "Habla con nosotros en el chat publico de CodeCombat HipChat room"
     contribute_to_the_project: "Contribuye al proyecto"
 
-#  clans:
+  clans:
     clan: "Clan"
     clans: "Clanes"
 #    new_name: "New clan name"
@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     poll: "Encuesta"
 #    user_polls_record: "Poll Voting History"
 
-#  concepts:
+  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
     arguments: "Argumentos"
