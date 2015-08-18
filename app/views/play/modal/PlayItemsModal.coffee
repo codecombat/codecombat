@@ -80,6 +80,7 @@ module.exports = class PlayItemsModal extends ModalView
     itemFetcher.skip = 0
     itemFetcher.fetch({data: {skip: 0, limit: PAGE_SIZE}})
     @listenTo itemFetcher, 'sync', @onItemsFetched
+    @stopListening @supermodel, 'loaded-all'
     @supermodel.loadCollection(itemFetcher, 'items')
     @idToItem = {}
 
