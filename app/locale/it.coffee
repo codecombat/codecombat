@@ -582,7 +582,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     retrostyle_title: "Illustratore"
     retrostyle_blurb: "Giochi retrò"
 
-#  teachers:
+  teachers:
     title: "CodeCombat: Informazzione per Professori"
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
@@ -633,7 +633,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later."
 #    sys_requirements_2: "CodeCombat is not supported on iPad yet."
 
-#  teachers_survey:
+  teachers_survey:
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     poll: "Sondaggio"
 #    user_polls_record: "Poll Voting History"
 
-#  concepts:
+  concepts:
 #    advanced_strings: "Advanced Strings"
     algorithms: "Algoritmi"
 #    arguments: "Arguments"
@@ -1413,7 +1413,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    project_link_help: "Link to the project."
 #    player_code: "Player Code"
 
-#  employers:
+  employers:
 #    deprecation_warning_title: "Sorry, CodeCombat is not recruiting right now."
 #    deprecation_warning: "We are focusing on beginner levels instead of finding expert developers for the time being."
 #    hire_developers_not_credentials: "Hire developers, not credentials." # We are not actively recruiting right now, so there's no need to add new translations for the rest of this section.
