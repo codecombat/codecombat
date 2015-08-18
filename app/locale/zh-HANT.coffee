@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese (Traditional)", translation:
+module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese (Traditional)", translation:
   home:
     slogan: "玩遊戲學程式"
     no_ie: "抱歉！Internet Explorer 8 等舊的瀏覽器打不開此網站" # Warning that only shows up in IE8 and older
@@ -42,7 +42,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
   diplomat_suggestion:
     title: "幫我們翻譯CodeCombat" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "我們需要您的語言技能"
-    pitch_body: "我們開發了CodeCombat的英文版，但是現在我們的玩家遍佈全球。很多人想玩中文版的，卻不會說英文，所以如果您中英文都會，請考慮一下參加我們的翻譯工作，幫忙把 CodeCombat 網站還有所有的關卡翻譯成中文（繁体）。"
+    pitch_body: "我們開發了CodeCombat的英文版，但是現在我們的玩家遍佈全球。很多人想玩中文版的，卻不會說英文，所以如果您中英文都會，請考慮一下參加我們的翻譯工作，幫忙把 CodeCombat 網站還有所有的關卡翻譯成中文（繁體）。"
     missing_translations: "直至所有正體中文的翻譯完畢，當無法提供正體中文時還會以英文顯示。"
     learn_more: "關於成為外交官"
     subscribe_as_diplomat: "註冊成為外交官"
