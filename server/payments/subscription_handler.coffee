@@ -174,11 +174,6 @@ class SubscriptionHandler extends Handler
           return done({res: 'Database error.', code: 500})
         return done({res: 'Prepaid not found', code: 404}) unless prepaid?
         return done({res: 'Prepaid not for subscription', code: 403}) unless prepaid.get('type') is 'subscription'
-
-        # Deprecated: status property
-        if status = prepaid.get('status') and status is 'used'
-          return done({res: 'Prepaid has already been used', code: 403})
-
         if prepaid.get('redeemers')?.length >= prepaid.get('maxRedeemers')
           @logSubscriptionError(user, "Prepaid #{prepaid.id} note active")
           return done({res: 'Prepaid not active', code: 403})
@@ -192,11 +187,6 @@ class SubscriptionHandler extends Handler
           return done({res: 'Prepaid code already redeemed', code: 403})
 
         # Redeem prepaid code
-
-        # Deprecated: status and redeemer properties
-        prepaid.set('status', 'used')
-        prepaid.set('redeemer', user.get('_id'))
-
         query = Prepaid.$where("'#{prepaid.get('_id').valueOf()}' === this._id.valueOf() && (!this.redeemers || this.redeemers.length < this.maxRedeemers)")
         redeemers.push
           userID: user.get('_id')
@@ -540,7 +530,7 @@ class SubscriptionHandler extends Handler
               quantity: getSponsoredSubsAmount(subscriptions.basic.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
             stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
               if err
-                logStripeWebhookError(err)
+                @logSubscriptionError(user, 'Sponsored subscription quantity update error. ' + JSON.stringify(err))
                 return done({res: 'Database error.', code: 500})
               done()
 

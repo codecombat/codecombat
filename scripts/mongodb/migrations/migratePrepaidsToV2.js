@@ -31,7 +31,7 @@ function migratePrepaidsToV2() {
         redeemer: ""
       }
     };
-    if (doc.redeemer) {
+    if (doc.redeemer && (!doc.redeemers || doc.redeemers.length < 1)) {
       operations.$set.redeemers = [{userID: doc.redeemer, date: doc._id.getTimestamp()}]
     }
 

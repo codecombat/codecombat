@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese (Traditional)", translation:
+module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese (Traditional)", translation:
   home:
     slogan: "玩遊戲學程式"
     no_ie: "抱歉！Internet Explorer 8 等舊的瀏覽器打不開此網站" # Warning that only shows up in IE8 and older
@@ -42,7 +42,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
   diplomat_suggestion:
     title: "幫我們翻譯CodeCombat" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "我們需要您的語言技能"
-    pitch_body: "我們開發了CodeCombat的英文版，但是現在我們的玩家遍佈全球。很多人想玩中文版的，卻不會說英文，所以如果您中英文都會，請考慮一下參加我們的翻譯工作，幫忙把 CodeCombat 網站還有所有的關卡翻譯成中文（繁体）。"
+    pitch_body: "我們開發了CodeCombat的英文版，但是現在我們的玩家遍佈全球。很多人想玩中文版的，卻不會說英文，所以如果您中英文都會，請考慮一下參加我們的翻譯工作，幫忙把 CodeCombat 網站還有所有的關卡翻譯成中文（繁體）。"
     missing_translations: "直至所有正體中文的翻譯完畢，當無法提供正體中文時還會以英文顯示。"
     learn_more: "關於成為外交官"
     subscribe_as_diplomat: "註冊成為外交官"
@@ -247,14 +247,14 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     victory_saving_progress: "儲存進度"
     victory_go_home: "返回首頁"
     victory_review: "給我們回饋！"
-#    victory_review_placeholder: "How was the level?"
+    victory_review_placeholder: "關卡如何?"
     victory_hour_of_code_done: "您完成了嗎？"
     victory_hour_of_code_done_yes: "是的，我完成了我的程式碼！"
     victory_experience_gained: "取得經驗值"
     victory_gems_gained: "取得寶石"
-#    victory_new_item: "New Item"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
+    victory_new_item: "新的物品"
+    victory_viking_code_school: "太厲害了, 你剛完成了非常困難的關卡! 如果你想成為一個軟件開發人員，你就應該去試一下Viking Code School。在這裡你可以把你的知識增長到另一個台階。只需要14個星期你就能成為一個專業的網頁開發人員。"
+    victory_become_a_viking: "成為一個維京人。"
     guide_title: "指南"
     tome_minion_spells: "助手的咒語" # Only in old-style levels.
     tome_read_only_spells: "唯讀的咒語" # Only in old-style levels.
@@ -282,8 +282,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     time_current: "現在:"
     time_total: "最大值:"
     time_goto: "前往:"
-#    non_user_code_problem_title: "Unable to Load Level"
-#    infinite_loop_title: "Infinite Loop Detected"
+    non_user_code_problem_title: "無法加載關卡"
+    infinite_loop_title: "檢測到無限循環"
 #    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
 #    check_dev_console: "You can also open the developer console to see what might be going wrong."
 #    check_dev_console_link: "(instructions)"
