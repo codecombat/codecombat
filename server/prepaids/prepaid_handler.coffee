@@ -15,6 +15,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
   getByRelationship: (req, res, args...) ->
     relationship = args[1]
     return @createPrepaid(req, res) if relationship is 'create'
+    return @purchasePrepaid(req, res) if relationship is 'purchase'
     super arguments...
 
   createPrepaid: (req, res) ->
@@ -33,5 +34,12 @@ PrepaidHandler = class PrepaidHandler extends Handler
       prepaid.save (err) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, prepaid.toObject())
+
+  purchasePrepaid: (req, res) ->
+    return @sendForbiddenError(res) unless req.body.type is 'terminal_subscription'
+    # TODO: validate user or months must be >= 3
+    console.log "CATSYNC purchasePrepaid called"
+    @sendSuccess(res);
+
 
 module.exports = new PrepaidHandler()

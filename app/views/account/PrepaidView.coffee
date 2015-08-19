@@ -1,5 +1,6 @@
-RootView = require 'views/core/RootView'
-template = require 'templates/account/prepaid-view'
+RootView      = require 'views/core/RootView'
+template      = require 'templates/account/prepaid-view'
+stripeHandler = require 'core/services/stripe'
 
 module.exports = class PrepaidView extends RootView
   id: 'prepaid-view'
@@ -9,8 +10,12 @@ module.exports = class PrepaidView extends RootView
   events:
     'change #users': 'onUsersChanged'
     'change #months': 'onMonthsChanged'
+    'click #purchase-button': 'onPurchaseClicked'
 
-  baseAmount: 1.00
+  subscriptions:
+    'stripe:received-token': 'onStripeReceivedToken'
+
+  baseAmount: 9.99
 
   constructor: (options) ->
     super(options)
@@ -43,3 +48,43 @@ module.exports = class PrepaidView extends RootView
     @purchase.months = newAmount
     @purchase.users = 3 if newAmount < 3 and @purchase.users < 3
     @updateTotal()
+
+  onPurchaseClicked: (e) ->
+    console.log "onPurchaseClicked"
+    @purchaseTimestamp = new Date().getTime()
+    @stripeAmount = @purchase.total * 100
+    @description = "Prepaid Code for " + @purchase.users + " users / " + @purchase.months + " months"
+
+    stripeHandler.open
+      amount: @stripeAmount
+      description: @description
+      bitcoin: true
+      alipay: if me.get('chinaVersion') or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
+
+
+  onStripeReceivedToken: (e) ->
+    console.log 'onStripeReceivedToken'
+    data =
+
+    # TODO: show that something is happening in the UI
+    options =
+      url: '/db/prepaid/-/purchase'
+      method: 'POST'
+
+    options.data =
+      amount: @stripeAmount
+      description: @description
+      stripe:
+        token: e.token.id
+        timestamp: @purchaseTimestamp
+      type: 'terminal_subscription'
+      maxRedeemers: @purchase.users
+      months: @purchase.months
+
+    options.error = (model, response, options) =>
+      console.error 'FAILED: Prepaid purchase', response
+
+    options.success = (model, response, options) =>
+      console.log 'SUCCESS: Prepaid purchase', model.code
+
+    @supermodel.addRequestResource('purchase_prepaid', options, 0).load()
