@@ -24,7 +24,8 @@ module.exports = class MyMatchesTabView extends CocoView
     # Only fetch the names for the userIDs we don't already have in @nameMap
     ids = []
     for session in @sessions.models
-      for match in (session.get('matches') or [])
+      matches = @statsFromSession(session).matches or []
+      for match in matches
         id = match.opponents[0].userID
         unless id
           console.error 'Found bad opponent ID in malformed match:', match, 'from session', session
@@ -37,7 +38,8 @@ module.exports = class MyMatchesTabView extends CocoView
     success = (nameMap) =>
       return if @destroyed
       for session in @sessions.models
-        for match in session.get('matches') or []
+        matches = @statsFromSession(session).matches or []
+        for match in matches
           opponent = match.opponents[0]
           continue if @nameMap[opponent.userID]
           opponentUser = nameMap[opponent.userID]
@@ -88,15 +90,16 @@ module.exports = class MyMatchesTabView extends CocoView
 
     for team in @teams
       team.session = (s for s in @sessions.models when s.get('team') is team.id)[0]
+      stats = @statsFromSession team.session
       team.readyToRank = team.session?.readyToRank()
       team.isRanking = team.session?.get('isRanking')
-      team.matches = (convertMatch(match, team.session.get('submitDate')) for match in team.session?.get('matches') or [])
+      team.matches = (convertMatch(match, team.session.get('submitDate')) for match in (stats?.matches or []))
       team.matches.reverse()
-      team.score = (team.session?.get('totalScore') or 10).toFixed(2)
+      team.score = (stats?.totalScore ? 10).toFixed(2)
       team.wins = _.filter(team.matches, {state: 'win', stale: false}).length
       team.ties = _.filter(team.matches, {state: 'tie', stale: false}).length
       team.losses = _.filter(team.matches, {state: 'loss', stale: false}).length
-      scoreHistory = team.session?.get('scoreHistory')
+      scoreHistory = stats?.scoreHistory
       if scoreHistory?.length > 1
         team.scoreHistory = scoreHistory
 
@@ -122,6 +125,12 @@ module.exports = class MyMatchesTabView extends CocoView
       @generateScoreLineChart(scoreWrapper.attr('id'), team.scoreHistory, team.name)
 
     @$el.find('tr.fresh').removeClass('fresh', 5000)
+
+  statsFromSession: (session) ->
+    return null unless session
+    if @options.league
+      return _.find(session.get('leagues') or [], leagueID: @options.league.id)?.stats ? {}
+    session.attributes
 
   generateScoreLineChart: (wrapperID, scoreHistory, teamName) =>
     margin =

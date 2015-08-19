@@ -51,10 +51,8 @@ UserSchema.methods.isAnonymous = ->
   @get 'anonymous'
 
 UserSchema.methods.getUserInfo = ->
-  info =
-    id : @get('_id')
-    email : if @get('anonymous') then 'Unregistered User' else @get('email')
-  return info
+  id: @get('_id')
+  email: if @get('anonymous') then 'Unregistered User' else @get('email')
 
 UserSchema.methods.trackActivity = (activityName, increment) ->
   now = new Date()

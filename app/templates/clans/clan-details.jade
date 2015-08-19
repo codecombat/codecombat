@@ -26,52 +26,62 @@ block content
         button.btn(data-dismiss='modal', data-i18n="modal.close") Close
         button.btn.edit-description-save-btn(data-i18n="common.save_changes") Save changes
 
-  if clan
-    h1 #{clan.get('name')}
-      if clan.get('type') === 'private'
-        small(data-i18n="clans.private") (private)
-      if clan.get('ownerID') === me.id
-        span.spl
-          button.btn.btn-xs.edit-name-btn(data-toggle='modal', data-target='#editNameModal', data-i18n="clans.edit_name") edit name
+  .row
+    .col-lg-6
+      if clan
+        h1 #{clan.get('name')}
+          if clan.get('type') === 'private'
+            small(data-i18n="clans.private") (private)
+          if clan.get('ownerID') === me.id
+            span.spl
+              button.btn.btn-xs.edit-name-btn(data-toggle='modal', data-target='#editNameModal', data-i18n="clans.edit_name") edit name
+    
+        if clan.get('description')
+          .clan-description
+            each line in clan.get('description').split('\n')
+              p= line
+        if clan.get('ownerID') === me.id
+          button.btn.btn-xs.edit-description-btn(data-toggle='modal', data-target='#editDescriptionModal', data-i18n="clans.edit_description") edit description
+    
+      h5(data-i18n="clans.summary") Summary
+      table.table.table-condensed.stats-table
+        if owner
+          tr
+            td
+              span.spr(data-i18n="clans.chieftain") Chieftain
+            td
+              span.spr.player-hero-icon(data-memberid="#{clan.get('ownerID')}")
+              a(href="/user/#{clan.get('ownerID')}")= owner.get('name')
+        if stats.averageLevel
+          tr
+            td(data-i18n="clans.average_level") Average Level
+            td= stats.averageLevel
+        if stats.averageAchievements && clan.get('type') === 'public'
+          tr
+            td(data-i18n="clans.average_achievements") Average Achievements
+            td= stats.averageAchievements
+    
+      p
+        if isOwner
+          button.btn.btn-xs.btn-warning.delete-clan-btn(data-i18n="clans.delete_clan") Delete Clan
+        else if isMember
+          button.btn.btn-xs.btn-warning.leave-clan-btn(data-i18n="clans.leave_clan") Leave Clan
+        else
+          button.btn.btn-lg.btn-success.join-clan-btn(data-i18n="clans.join_clan") Join Clan
+    
+      if clan.get('ownerID') === me.id || clan.get('type') === 'public'
+        div
+          span.spl.spr.join-link-prompt(data-i18n="clans.invite_1") Invite:
+          input.join-clan-link(type="text", readonly, value="#{joinClanLink}")
+        .small(data-i18n="clans.invite_2") *Invite players to this Clan by sending them this link.
 
-    if clan.get('description')
-      .clan-description
-        each line in clan.get('description').split('\n')
-          p= line
-    if clan.get('ownerID') === me.id
-      button.btn.btn-xs.edit-description-btn(data-toggle='modal', data-target='#editDescriptionModal', data-i18n="clans.edit_description") edit description
-
-  h5(data-i18n="clans.summary") Summary
-  table.table.table-condensed.stats-table
-    if owner
-      tr
-        td
-          span.spr(data-i18n="clans.chieftain") Chieftain
-        td
-          span.spr.player-hero-icon(data-memberid="#{clan.get('ownerID')}")
-          a(href="/user/#{clan.get('ownerID')}")= owner.get('name')
-    if stats.averageLevel
-      tr
-        td(data-i18n="clans.average_level") Average Level
-        td= stats.averageLevel
-    if stats.averageAchievements && clan.get('type') === 'public'
-      tr
-        td(data-i18n="clans.average_achievements") Average Achievements
-        td= stats.averageAchievements
-
-  p
-    if isOwner
-      button.btn.btn-xs.btn-warning.delete-clan-btn(data-i18n="clans.delete_clan") Delete Clan
-    else if isMember
-      button.btn.btn-xs.btn-warning.leave-clan-btn(data-i18n="clans.leave_clan") Leave Clan
-    else
-      button.btn.btn-lg.btn-success.join-clan-btn(data-i18n="clans.join_clan") Join Clan
-
-  if clan.get('ownerID') === me.id || clan.get('type') === 'public'
-    div
-      span.spl.spr.join-link-prompt(data-i18n="clans.invite_1") Invite:
-      input.join-clan-link(type="text", readonly, value="#{joinClanLink}")
-    .small(data-i18n="clans.invite_2") *Invite players to this Clan by sending them this link.
+    if arenas && arenas.length
+      .col-lg-6
+        h2(data-i18n="play.campaign_multiplayer")
+        p(data-i18n="clans.leagues_explanation")
+        for arena in arenas
+          h3
+            a(href="/play/ladder/#{arena.slug}/clan/#{clan.id}")= i18n(arena, 'name')
 
   if members
     h3
