@@ -530,7 +530,7 @@ class SubscriptionHandler extends Handler
               quantity: getSponsoredSubsAmount(subscriptions.basic.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
             stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
               if err
-                logStripeWebhookError(err)
+                @logSubscriptionError(user, 'Sponsored subscription quantity update error. ' + JSON.stringify(err))
                 return done({res: 'Database error.', code: 500})
               done()
 
