@@ -113,7 +113,7 @@ module.exports = class LadderView extends RootView
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
-    modal = new LadderPlayModal({}, @level, session, teamID)
+    modal = new LadderPlayModal({league: @league}, @level, session, teamID)
     @openModalView modal
 
   onClickedLink: (e) ->

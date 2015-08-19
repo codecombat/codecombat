@@ -183,6 +183,8 @@ module.exports = class LadderTabView extends CocoView
     ctx.onFacebook = @facebookStatus is 'connected'
     ctx.onGPlus = application.gplusHandler.loggedIn
     ctx.capitalize = _.string.capitalize
+    ctx.league = @options.league
+    ctx._ = _
     ctx
 
   generateHistogram: (histogramElement, histogramData, teamName) ->
@@ -229,8 +231,11 @@ module.exports = class LadderTabView extends CocoView
       .attr('x', 1)
       .attr('width', width/20)
       .attr('height', (d) -> height - y(d.y))
-    if @leaderboards[teamName].session?
-      playerScore = @leaderboards[teamName].session.get('totalScore') * 100
+    if session = @leaderboards[teamName].session
+      if @options.league
+        playerScore = (_.find(session.get('leagues'), {leagueID: @options.league.id})?.stats.totalScore or 10) * 100
+      else
+        playerScore = session.get('totalScore') * 100
       scorebar = svg.selectAll('.specialbar')
         .data([playerScore])
         .enter().append('g')
@@ -319,14 +324,17 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     promises.push @topPlayers.fetch cache: false
 
     if @session
-      score = @session.get('totalScore') or 10
+      if @league
+        score = _.find(@session.get('leagues'), {leagueID: @league.id})?.stats.totalScore or 10
+      else
+        score = @session.get('totalScore') or 10
       @playersAbove = new LeaderboardCollection(@level, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
       promises.push @playersAbove.fetch cache: false
       @playersBelow = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
       promises.push @playersBelow.fetch cache: false
       level = "#{@level.get('original')}.#{@level.get('version').major}"
       success = (@myRank) =>
-      loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}"
+      loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{score}&team=#{@team}"
       loadURL += '&leagues.leagueID=' + @league.id if @league
       promises.push $.ajax(loadURL, cache: false, success: success)
     @promise = $.when(promises...)

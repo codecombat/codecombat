@@ -129,7 +129,7 @@ module.exports = class MyMatchesTabView extends CocoView
   statsFromSession: (session) ->
     return null unless session
     if @options.league
-      return _.find(session.get('leagues') or [], leagueID: @options.league.id)?.stats
+      return _.find(session.get('leagues') or [], leagueID: @options.league.id)?.stats ? {}
     session.attributes
 
   generateScoreLineChart: (wrapperID, scoreHistory, teamName) =>

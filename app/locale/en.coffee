@@ -820,6 +820,7 @@
     latest_achievement: "Latest Achievement"
     playtime: "Playtime"
     last_played: "Last played"
+    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "Archmage"
@@ -1009,6 +1010,7 @@
     my_matches: "My Matches"
     simulate: "Simulate"
     simulation_explanation: "By simulating games you can get your game ranked faster!"
+    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "Simulate Games!"
     simulate_all: "RESET AND SIMULATE GAMES"
     games_simulated_by: "Games simulated by you:"
@@ -1059,6 +1061,7 @@
     tournament_blurb_blog: "on our blog"
     rules: "Rules"
     winners: "Winners"
+    league: "League"
 
   user:
     stats: "Stats"

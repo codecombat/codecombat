@@ -11,7 +11,9 @@ block content
         h1= level.get('name')
 
       if league
-        h1 #{league.get('name')} League
+        h1
+          a(href="/#{leagueType == 'clan' ? 'clans' : leagueType}/#{league.id}")= league.get('name')
+          span.spl(data-i18n="ladder.league") League
 
     if level.get('name') == 'Greed'
       .tournament-blurb
