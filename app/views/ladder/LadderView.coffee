@@ -12,6 +12,9 @@ SimulateTabView = require './SimulateTabView'
 LadderPlayModal = require './LadderPlayModal'
 CocoClass = require 'core/CocoClass'
 
+Clan = require 'models/Clan'
+#CourseInstance = require 'models/CourseInstance'
+
 HIGHEST_SCORE = 1000000
 
 class LevelSessionsCollection extends CocoCollection
@@ -35,12 +38,19 @@ module.exports = class LadderView extends RootView
     'click a:not([data-toggle])': 'onClickedLink'
     'click .spectate-button': 'onClickSpectateButton'
 
-  constructor: (options, @levelID) ->
+  constructor: (options, @levelID, @leagueType, @leagueID) ->
     super(options)
     @level = @supermodel.loadModel(new Level(_id: @levelID), 'level').model
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
-
     @teams = []
+    @loadLeague()
+
+  loadLeague: ->
+    @leagueID = @leagueType = null unless @leagueType in ['clan']  #, 'course']
+    return unless @leagueID
+    modelClass = if @leagueType is 'clan' then Clan else null# else CourseInstance
+    resourceString = if @leagueType is 'clan' then 'clans.clan' else null# else 'courses.course'
+    @league = @supermodel.loadModel(new modelClass(_id: @leagueID), resourceString).model
 
   onLoaded: ->
     @teams = teamDataFromLevel @level
@@ -53,6 +63,8 @@ module.exports = class LadderView extends RootView
     ctx.teams = @teams
     ctx.levelID = @levelID
     ctx.levelDescription = marked(@level.get('description')) if @level.get('description')
+    ctx.leagueType = @leagueType
+    ctx.league = @league
     ctx._ = _
     if tournamentEndDate = {greed: 1402444800000, 'criss-cross': 1410912000000, 'zero-sum': 1428364800000}[@levelID]
       ctx.tournamentTimeLeft = moment(new Date(tournamentEndDate)).fromNow()
@@ -64,9 +76,9 @@ module.exports = class LadderView extends RootView
   afterRender: ->
     super()
     return unless @supermodel.finished()
-    @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
-    @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
-    @insertSubView(@simulateTab = new SimulateTabView())
+    @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions))
+    @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
+    @insertSubView(@simulateTab = new SimulateTabView(league: @league))
     @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), 60 * 1000)
     hash = document.location.hash[1..] if document.location.hash
     if hash and not (hash in ['my-matches', 'simulate', 'ladder', 'prizes', 'rules', 'winners'])
@@ -101,7 +113,7 @@ module.exports = class LadderView extends RootView
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
-    modal = new LadderPlayModal({}, @level, session, teamID)
+    modal = new LadderPlayModal({league: @league}, @level, session, teamID)
     @openModalView modal
 
   onClickedLink: (e) ->

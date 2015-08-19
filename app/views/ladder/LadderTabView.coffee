@@ -154,7 +154,7 @@ module.exports = class LadderTabView extends CocoView
         @supermodel.removeModelResource oldLeaderboard
         oldLeaderboard.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
-      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit)
+      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit, @options.league)
       @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', {cache: false}, 3)
       @leaderboardRes.load()
 
@@ -166,7 +166,9 @@ module.exports = class LadderTabView extends CocoView
       team = _.find @teams, name: histogramWrapper.data('team-name')
       histogramData = null
       $.when(
-        $.get "/db/level/#{@level.get('slug')}/histogram_data?team=#{team.name.toLowerCase()}", {cache: false}, (data) -> histogramData = data
+        url = "/db/level/#{@level.get('slug')}/histogram_data?team=#{team.name.toLowerCase()}"
+        url += '&leagues.leagueID=' + @options.league.id if @options.league
+        $.get url, {cache: false}, (data) -> histogramData = data
       ).then =>
         @generateHistogram(histogramWrapper, histogramData, team.name.toLowerCase()) unless @destroyed
 
@@ -181,6 +183,8 @@ module.exports = class LadderTabView extends CocoView
     ctx.onFacebook = @facebookStatus is 'connected'
     ctx.onGPlus = application.gplusHandler.loggedIn
     ctx.capitalize = _.string.capitalize
+    ctx.league = @options.league
+    ctx._ = _
     ctx
 
   generateHistogram: (histogramElement, histogramData, teamName) ->
@@ -227,8 +231,11 @@ module.exports = class LadderTabView extends CocoView
       .attr('x', 1)
       .attr('width', width/20)
       .attr('height', (d) -> height - y(d.y))
-    if @leaderboards[teamName].session?
-      playerScore = @leaderboards[teamName].session.get('totalScore') * 100
+    if session = @leaderboards[teamName].session
+      if @options.league
+        playerScore = (_.find(session.get('leagues'), {leagueID: @options.league.id})?.stats.totalScore or 10) * 100
+      else
+        playerScore = session.get('totalScore') * 100
       scorebar = svg.selectAll('.specialbar')
         .data([playerScore])
         .enter().append('g')
@@ -301,24 +308,35 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@level, @team, @session, @limit) ->
+  constructor: (@level, @team, @session, @limit, @league) ->
     super()
+
+  collectionParameters: (parameters) ->
+    parameters.team = @team
+    parameters['leagues.leagueID'] = @league.id if @league
+    parameters
 
   fetch: ->
     console.warn 'Already have top players on', @ if @topPlayers
-    @topPlayers = new LeaderboardCollection(@level, {order: -1, scoreOffset: HIGHEST_SCORE, team: @team, limit: @limit})
+
+    @topPlayers = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit))
     promises = []
     promises.push @topPlayers.fetch cache: false
 
     if @session
-      score = @session.get('totalScore') or 10
-      @playersAbove = new LeaderboardCollection(@level, {order: 1, scoreOffset: score, limit: 4, team: @team})
+      if @league
+        score = _.find(@session.get('leagues'), {leagueID: @league.id})?.stats.totalScore or 10
+      else
+        score = @session.get('totalScore') or 10
+      @playersAbove = new LeaderboardCollection(@level, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
       promises.push @playersAbove.fetch cache: false
-      @playersBelow = new LeaderboardCollection(@level, {order: -1, scoreOffset: score, limit: 4, team: @team})
+      @playersBelow = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
       promises.push @playersBelow.fetch cache: false
       level = "#{@level.get('original')}.#{@level.get('version').major}"
       success = (@myRank) =>
-      promises.push $.ajax("/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", cache: false, success: success)
+      loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{score}&team=#{@team}"
+      loadURL += '&leagues.leagueID=' + @league.id if @league
+      promises.push $.ajax(loadURL, cache: false, success: success)
     @promise = $.when(promises...)
     @promise.then @onLoad
     @promise.fail @onFail
