@@ -74,6 +74,8 @@ updateSessionToSubmit = (transpiledCode, user, sessionToUpdate, callback) ->
     league.stats.standardDeviation = 25 / 3
     league.stats.numberOfWinsAndTies = 0
     league.stats.numberOfLosses = 0
+    league.stats.meanStrength ?= 25
+    league.stats.totalScore ?= 10
     newLeagues.push(league)
   unless _.isEqual newLeagues, sessionToUpdate.leagues
     sessionUpdateObject.leagues = sessionToUpdate.leagues = newLeagues

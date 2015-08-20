@@ -42,7 +42,7 @@ getRandomSessions = (user, callback) ->
   leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to fetch them as strings.
   return sampleByLevel callback unless leagueIDs.length and Math.random() > 1 / leagueIDs.length
   leagueID = _.sample leagueIDs
-  findRandomSession {'leagues.leagueID': leagueID, favorRecent: true}, (err, session) ->
+  findRandomSession {'leagues.leagueID': leagueID}, (err, session) ->
     if err then return callback err
     unless session then return sampleByLevel callback
     otherTeam = scoringUtils.calculateOpposingTeam session.team
