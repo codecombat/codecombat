@@ -86,5 +86,7 @@ module.exports = class PrepaidView extends RootView
 
     options.success = (model, response, options) =>
       console.log 'SUCCESS: Prepaid purchase', model.code
+      alert "Generated Code: " + model.code
+      @render?()
 
     @supermodel.addRequestResource('purchase_prepaid', options, 0).load()
