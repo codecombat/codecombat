@@ -3,7 +3,11 @@ for player in players
     .player-portrait
       .thang-avatar-placeholder
     .player-info
-      .player-name= player.name
+      .name-and-power
+        .player-power
+          .power-icon
+          .power-value
+        .player-name= player.name
       .player-health
         .health-icon
         .health-bar-container
@@ -13,6 +17,5 @@ for player in players
       //  .team-gold
       //    img(src="/images/level/gold_icon.png", alt="", draggable="false")
       //    .gold-amount
-      .player-power
 
 

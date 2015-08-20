@@ -17,6 +17,7 @@ module.exports = class DuelStatsView extends CocoView
   subscriptions:
     #'surface:gold-changed': 'onGoldChanged'
     'god:new-world-created': 'onNewWorld'
+    'god:streaming-world-updated': 'onNewWorld'
     'surface:frame-changed': 'onFrameChanged'
 
   constructor: (options) ->
@@ -58,22 +59,39 @@ module.exports = class DuelStatsView extends CocoView
     avatar.render()
 
   onNewWorld: (e) ->
-    @thangs = _.filter e.world.thangs, 'inThangList'
+    @options.thangs = _.filter e.world.thangs, 'inThangList'
 
   onFrameChanged: (e) ->
     @update()
 
   update: ->
     for player in @players
-      # etc.
-      thang = @avatars[player.team].thang
+      thang = _.find @options.thangs, id: @avatars[player.team].thang.id
       @updateHealth thang
+    @updatePower()
 
   updateHealth: (thang) ->
     $health = @$find thang.team, '.player-health'
-    console.log 'updating health for', thang.id, thang.health, thang.maxHealth, 'with el', $health
     $health.find('.health-bar').css 'width', Math.max(0, Math.min(100, 100 * thang.health / thang.maxHealth)) + '%'
     utils.replaceText $health.find('.health-value'), Math.round thang.health
+
+  updatePower: ->
+    # Right now we just display the army cost of all living units as opposed to doing something more sophisticate to measure power.
+    @costTable ?=
+      soldier: 20
+      archer: 25
+      decoy: 25
+      'griffin-rider': 50
+      paladin: 80
+      artillery: 75
+      'arrow-tower': 75
+      palisade: 10
+      peasant: 50
+    powers = humans: 0, ogres: 0
+    for thang in @options.thangs when thang.health > 0
+      powers[thang.team] += @costTable[thang.type] or 0 if powers[thang.team]?
+    for player in @players
+      utils.replaceText @$find(player.team, '.power-value'), powers[player.team]
 
   $find: (team, selector) ->
     @$el.find(".player-container.team-#{team} " + selector)

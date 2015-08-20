@@ -37,13 +37,24 @@
     &.team-humans
       padding-right: 10px
 
+      .player-power
+        margin-right: 5px
+
     &.team-ogres
       padding-left: 10px
       flex-direction: row-reverse
       color: hsla(205,100%,51%,1)
 
-      .player-name
-        text-align: right
+      .name-and-power
+        flex-direction: row-reverse
+
+        .player-name
+          text-align: right
+
+        .player-power
+          margin-left: 5px
+          flex-direction: row-reverse
+          text-align: right
 
       .player-health
         flex-direction: row-reverse
@@ -51,6 +62,9 @@
         .health-bar-container .health-bar
           background: hsla(205,100%,51%,1)
 
+    .name-and-power
+      display: flex
+      flex-direction: row
 
     .player-portrait
       margin: 0 12px
@@ -61,26 +75,27 @@
     .player-name
       height: 50%
       text-align: left
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+      max-width: 130px
 
-    .player-health
-      //width: 100px
+    $iconSize: 16px
+    .health-icon, .power-icon
+      display: inline-block
+      width: $iconSize
+      height: $iconSize
+      background: transparent url(/images/level/hud_info_icons.png) no-repeat
+      background-size: auto $iconSize
+
+    .player-health, .player-power
       height: 50%
       display: flex
       flex-direction: row
-      line-height: 16px
       height: 18px
-      //position: absolute
-      //right: 35px
-      //top: 23px
 
-      .health-icon
-        $iconSize: 16px
-        display: inline-block
-        width: $iconSize
-        height: $iconSize
-        background: transparent url(/images/level/hud_info_icons.png) no-repeat
-        background-size: auto $iconSize
-        //float: left
+    .player-health
+      line-height: 16px
 
       .health-bar-container
         width: 100px
@@ -101,6 +116,16 @@
 
       .health-value
         vertical-align: top
+
+    .player-power
+      
+      .power-icon
+        margin-top: 4px
+        background-position: (-5 * $iconSize) 0px
+          
+      .power-value
+        min-width: 20px
+        margin: 0px 5px
     
     //&.team-humans .team-gold
     //  color: hsla(4,80%,51%,1)
