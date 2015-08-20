@@ -78,6 +78,7 @@ module.exports = class PlayHeroesModal extends ModalView
   afterRender: ->
     super()
     return unless @supermodel.finished()
+    @playSound 'game-menu-open'
     @$el.find('.hero-avatar').addClass 'ie' if @isIE()
     heroes = @heroes.models
     @$el.find('.hero-indicator').each ->
@@ -334,7 +335,7 @@ module.exports = class PlayHeroesModal extends ModalView
 
   onHidden: ->
     super()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
+    @playSound 'game-menu-close'
 
   destroy: ->
     clearInterval @heroAnimationInterval
