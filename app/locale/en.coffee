@@ -457,7 +457,7 @@
     managed_by: "Managed by"
     will_be_cancelled: "Will be cancelled on"
     currently_free: "You currently have a free subscription"
-    currently_free_until: "You currently have a subscription until" #{changed}
+    currently_free_until: "You currently have a subscription until" # {changed}
     was_free_until: "You had a free subscription until"
     managed_subs: "Managed Subscriptions"
     managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
