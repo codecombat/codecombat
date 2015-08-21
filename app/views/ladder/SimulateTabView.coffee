@@ -98,19 +98,6 @@ module.exports = class SimulateTabView extends CocoView
     link = if @simulationSpectateLink then "<a href=#{@simulationSpectateLink}>#{_.string.escapeHTML(@simulationMatchDescription)}</a>" else ''
     $('#simulation-status-text').html "<h3>#{@simulationStatus}</h3>#{link}"
 
-  resimulateAllSessions: ->
-    postData =
-      originalLevelID: @level.get('original')
-      levelMajorVersion: @level.get('version').major
-    console.log postData
-
-    $.ajax
-      url: '/queue/scoring/resimulateAllSessions'
-      method: 'POST'
-      data: postData
-      complete: (jqxhr) ->
-        console.log jqxhr.responseText
-
   destroy: ->
     clearTimeout @simulationPageRefreshTimeout
     @simulator?.destroy()

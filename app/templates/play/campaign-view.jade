@@ -17,6 +17,8 @@ if campaign
           a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
           if level.slug == 'lost-viking'
             img.star(src="/file/db/thang.type/5441c3144e9aeb727cc97111/portrait.png")
+          else if level.slug == 'robot-ragnarok'
+            img.star(src="/file/db/thang.type/54ea35fd2b7506e891ca70d5/portrait.png")
           else if level.requiresSubscription
             img.star(src="/images/pages/play/star.png")
           if levelStatusMap[level.slug] === 'complete'

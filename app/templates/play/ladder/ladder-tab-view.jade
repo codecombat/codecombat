@@ -23,12 +23,13 @@ div#columns.row
           - if(!showJustTop && topSessions.length == 20) topSessions = topSessions.slice(0, 10);
           for session, rank in topSessions
             - var myRow = session.get('creator') == me.id
+            - var sessionStats = league ? (_.find(session.get('leagues') || [], {leagueID: league.id}) || {}).stats || {} : session.attributes;
             tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=session.id)
               td.code-language-cell(style="background-image: url(/images/common/code_languages/" + session.get('submittedCodeLanguage') + "_icon.png)" title=capitalize(session.get('submittedCodeLanguage')))
               if level.get('type', true) == 'hero-ladder'
                 td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{(session.get('heroConfig') || {}).thangType || '529ffbf1cf1818f2be000001'}/portrait.png)")
               td.rank-cell= rank + 1
-              td.score-cell= Math.round(session.get('totalScore') * 100)
+              td.score-cell= Math.round(sessionStats.totalScore * 100)
               td.name-col-cell= session.get('creatorName') || "Anonymous"
               td.fight-cell
                 a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}")
@@ -41,12 +42,13 @@ div#columns.row
               td(colspan=4).ellipsis-row ...
             for session in team.leaderboard.nearbySessions()
               - var myRow = session.get('creator') == me.id
+              - var sessionStats = league ? (_.find(session.get('leagues'), {leagueID: league.id}) || {}).stats || {} : session.attributes;
               tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=session.id)
                 td.code-language-cell(style="background-image: url(/images/common/code_languages/" + session.get('submittedCodeLanguage') + "_icon.png)")
                 if level.get('type', true) == 'hero-ladder'
                   td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{(session.get('heroConfig') || {}).thangType || '529ffbf1cf1818f2be000001'}/portrait.png)")
                 td.rank-cell= session.rank
-                td.score-cell= Math.round(session.get('totalScore') * 100)
+                td.score-cell= Math.round(sessionStats.totalScore * 100)
                 td.name-col-cell= session.get('creatorName') || "Anonymous"
                 td.fight-cell
                   a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}")

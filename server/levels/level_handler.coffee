@@ -160,20 +160,27 @@ LevelHandler = class LevelHandler extends Handler
         creator: req.user._id+''
 
       query = Session.find(sessionQuery).select('-screenshot -transpiledCode')
-      # TODO: take out "code" as well, since that can get huge containing the transpiled code for the lat hero, and find another way of having the LadderSubmissionViews in the MyMatchesTab determine rankin readiness
+      # TODO: take out "code" as well, since that can get huge containing the transpiled code for the lat hero, and find another way of having the LadderSubmissionViews in the MyMatchesTab determine ranking readiness
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
   getHistogramData: (req, res, slug) ->
+    match = levelID: slug, submitted: true, team: req.query.team
+    match['leagues.leagueID'] = league if league = req.query['leagues.leagueID']
+    project = totalScore: 1, _id: 0
+    project['leagues.leagueID'] = project['leagues.stats.totalScore'] = 1 if league
     aggregate = Session.aggregate [
-      {$match: {'levelID': slug, 'submitted': true, 'team': req.query.team}}
-      {$project: {totalScore: 1, _id: 0}}
+      {$match: match}
+      {$project: project}
     ]
-    aggregate.cache()
+    aggregate.cache() unless league
 
     aggregate.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
-      valueArray = _.pluck data, 'totalScore'
+      if league
+        valueArray = _.pluck data, (session) -> _.find(session.leagues, leagueID: league)?.stats?.totalScore or 10
+      else
+        valueArray = _.pluck data, 'totalScore'
       @sendSuccess res, valueArray
 
   checkExistence: (req, res, slugOrID) ->
@@ -198,7 +205,7 @@ LevelHandler = class LevelHandler extends Handler
 
     sortParameters =
       'totalScore': req.query.order
-    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage', 'heroConfig']
+    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage', 'heroConfig', 'leagues.leagueID', 'leagues.stats.totalScore']
 
     query = Session
       .find(sessionsQueryParameters)
@@ -232,6 +239,7 @@ LevelHandler = class LevelHandler extends Handler
       team: req.query.team
       totalScore: scoreQuery
       submitted: true
+    query['leagues.leagueID'] = league if league = req.query['leagues.leagueID']
     query
 
   validateLeaderboardRequestParameters: (req) ->
