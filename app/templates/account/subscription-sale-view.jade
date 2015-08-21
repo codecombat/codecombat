@@ -1,0 +1,54 @@
+extends /templates/base
+
+block content
+
+  ol.breadcrumb
+    li
+      a(href="/")
+        span.glyphicon.glyphicon-home
+    li
+      a(href="/account", data-i18n="nav.account")
+    li
+      a(href="/account/subscription", data-i18n="account.subscription")
+    li.active(data-i18n="account.sale") Sale
+
+  if me.get('anonymous')
+    p(data-i18n="account_settings.not_logged_in")
+  else if me.hasSubscription()
+    h1(data-i18n="subscribe.sale_already_subscribed")
+    span.spr(data-i18n="subscribe.sale_continue")
+    a(href="/play", data-i18n="subscribe.sale_click_here")
+  else
+    if state === 'purchasing'
+      .alert.alert-info(data-i18n="account_invoices.purchasing")
+    else
+      h1.center(data-i18n="subscribe.sale_title")
+      br
+      p.center.sale-blurb
+        strong.spr(data-i18n="subscribe.sale_blurb1")
+        span(data-i18n="subscribe.sale_blurb2")
+      br
+      if !state || state !== 'invoice_paid'
+        p.center
+          button.btn.btn-success#pay-button #{payButtonText}
+        br
+      else if state === 'invoice_paid'
+        div.center
+          span.spr(data-i18n="subscribe.sale_continue")
+          a(href="/play", data-i18n="subscribe.sale_click_here")
+        br
+        #declined-alert.alert.alert-success.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p(data-i18n="subscribe.sale_paid")
+      if state === 'declined'
+        #declined-alert.alert.alert-danger.alert-dismissible
+          span(data-i18n="account_invoices.declined")
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+      if state === 'unknown_error'
+        #error-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p(data-i18n="loading_error.unknown")
+          p= stateMessage

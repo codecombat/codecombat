@@ -217,14 +217,17 @@ UserSchema.methods.register = (done) ->
     delighted.addDelightedUser @
   @saveActiveUser 'register'
 
-UserSchema.methods.isPremium = ->
-  return true if @isInGodMode()
-  return true if @isAdmin()
+UserSchema.methods.hasSubscription = ->
   return false unless stripeObject = @get('stripe')
   return true if stripeObject.sponsorID
   return true if stripeObject.subscriptionID
   return true if stripeObject.free is true
   return true if _.isString(stripeObject.free) and new Date() < new Date(stripeObject.free)
+
+UserSchema.methods.isPremium = ->
+  return true if @isInGodMode()
+  return true if @isAdmin()
+  return true if @hasSubscription()
   return false
 
 UserSchema.methods.level = ->
