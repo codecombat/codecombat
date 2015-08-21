@@ -247,7 +247,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_saving_progress: "保存进度"
     victory_go_home: "返回主页"
     victory_review: "给我们反馈！"
-#    victory_review_placeholder: "How was the level?"
+    victory_review_placeholder: "关卡如何?"
     victory_hour_of_code_done: "你完成了吗?"
     victory_hour_of_code_done_yes: "是的, 完成了!"
     victory_experience_gained: "获得经验"
@@ -294,7 +294,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进。" # {change}
     tip_guide_exists: "点击页面上方的指南, 可以获得更多有用信息。"
     tip_open_source: "「CodeCombat」是100%开源的！"
-#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "喜欢Codecombat？那就赶快把它安利给朋友！"
     tip_beta_launch: "CodeCombat开始于2013的10月份。"
     tip_think_solution: "思考如何解决, 而不是思考问题。"
     tip_theory_practice: "在理论上，理论和实践之间是没有区别的。但在实践上，它们是有区别的。 - Yogi Berra"
@@ -336,7 +336,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_hate_computers: "那些认为他们讨厌电脑的人，其实他们讨厌的是垃圾程序编写员。- Larry Niven"
     tip_open_source_contribute: "你可以帮助「CodeCombat」提高！"
     tip_recurse: "迭代为人，递归为神 - L. Peter Deutsch"
-    tip_free_your_mind: "丢掉一切私心杂念,丢掉害怕、疑问和拒信,解放你的思想。 - Morpheus"
+    tip_free_your_mind: "丢掉一切私心杂念，丢掉害怕、疑问和拒信，解放你的思想。 - Morpheus（黑客帝国）"
     tip_strong_opponents: "即使是最强大的对手也是有弱点的. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
