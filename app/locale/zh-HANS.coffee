@@ -960,7 +960,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     artisan_join_step1: "阅读文档。"
     artisan_join_step2: "创建一个新关卡 以及探索已经存在的关卡。"
     artisan_join_step3: "来我们的HipChat聊天室寻求帮助。"
-    artisan_join_step4: "把你的关卡发到论坛让别人给你评价。"
+    artisan_join_step4: "吧你的关卡发到论坛让别人给你评价。"
     artisan_subscribe_desc: "通过电子邮件获得关卡编辑器更新和公告。"
     adventurer_introduction: "现在就来了解你的角色吧：你是一辆战车，并将要承担沉重的攻击。我们需要人来尝试下我们新开的关卡以了解怎么样才能使每一样东西更美好。一开始虽然会非常辛苦；可是制造出一个最好的游戏是一个很长的过程，在这个过程中，没有人可以第一次就成功。如果你挺过去了并且自我感觉良好，那么这个位置就是为你而准备的。"
     adventurer_attribute_1: "学习的冲动！你想要学好怎么编程，与此同时我们也想要教你怎么编程。虽然你可能会觉得你大多数时间你反而都在教导。这，就是学习。"
