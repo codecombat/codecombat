@@ -153,8 +153,17 @@ mixin progress-tab
       tbody
         each student in instance.students
           tr
-            td
+            td.student-cell
               a= student
+              - var levelsCompleted = 0
+              each level in course.levels
+                if userLevelStateMap[student][level] === 'complete'
+                  - levelsCompleted++
+              - var secondsPlayed = Math.round(Math.random() * 1000 * (levelsCompleted + 1))
+              - var secondsLastPlayed = Math.round(Math.random() * 100000)
+              div #{levelsCompleted} levels completed
+              div #{moment.duration(secondsPlayed, 'seconds').humanize()} played
+              div Played #{moment().subtract(secondsLastPlayed, 'seconds').fromNow()}
             td.progress-cell
               .level-progression-concepts Concepts
               each concept in courseConcepts
