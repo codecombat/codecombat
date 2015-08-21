@@ -20,10 +20,12 @@ block content
           span &times;
         h3.modal-title Edit Class Settings
       .modal-body
-        p This title will be displayed to everyone in the class.
+        p
+          strong Title
         p 
           input.edit-name-input(type='text', value="#{instance.name}")
-        p This description will be displayed to everyone in the class.
+        p
+          strong Description
         p 
           textarea.edit-description-input(rows=2)= instance.description
         p Select programming languages available to the class:
@@ -98,10 +100,10 @@ mixin progress-tab
               td #{instance.students.length}
             tr
               td Average level play time:
-              td #{stats.averageLevelPlaytime} seconds
+              td= moment.duration(stats.averageLevelPlaytime, "seconds").humanize()
             tr
               td Total play time:
-              td #{stats.totalPlayTime} seconds
+              td= moment.duration(stats.totalPlayTime, "seconds").humanize()
             tr
               td Average levels completed:
               td #{stats.averageLevelsCompleted}
@@ -109,7 +111,7 @@ mixin progress-tab
               td Total levels completed:
               td #{stats.totalLevelsCompleted}
             tr
-              td Last level completed:
+              td Furthest level completed:
               td #{stats.lastLevelCompleted}
         .col-md-6
           h3 Concepts Covered
@@ -176,7 +178,7 @@ mixin progress-tab
                         div
                           - var playTime = Math.round(Math.random() * 600)
                           span Time to solve
-                          span : #{playTime} seconds
+                          span : #{moment.duration(playTime, "seconds").humanize()}
                         div
                           - var completionDate = new Date()
                           - completionDate.setUTCDate(completionDate.getUTCDate() - Math.round(Math.random() * 60))
