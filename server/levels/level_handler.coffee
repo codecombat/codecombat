@@ -167,15 +167,20 @@ LevelHandler = class LevelHandler extends Handler
   getHistogramData: (req, res, slug) ->
     match = levelID: slug, submitted: true, team: req.query.team
     match['leagues.leagueID'] = league if league = req.query['leagues.leagueID']
+    project = totalScore: 1, _id: 0
+    project['leagues.leagueID'] = project['leagues.stats.totalScore'] = 1 if league
     aggregate = Session.aggregate [
       {$match: match}
-      {$project: {totalScore: 1, _id: 0}}
+      {$project: project}
     ]
     aggregate.cache() unless league
 
     aggregate.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
-      valueArray = _.pluck data, 'totalScore'
+      if league
+        valueArray = _.pluck data, (session) -> _.find(session.leagues, leagueID: league)?.stats?.totalScore or 10
+      else
+        valueArray = _.pluck data, 'totalScore'
       @sendSuccess res, valueArray
 
   checkExistence: (req, res, slugOrID) ->

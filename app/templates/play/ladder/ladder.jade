@@ -11,7 +11,7 @@ block content
         h1= level.get('name')
 
       if league
-        h1
+        h1.league-header
           a(href="/#{leagueType == 'clan' ? 'clans' : leagueType}/#{league.id}")= league.get('name')
           span.spl(data-i18n="ladder.league") League
 
@@ -75,7 +75,7 @@ block content
           a(href="http://discourse.codecombat.com/") the forum
           |  and discuss your strategies, your triumphs, and your turmoils.
 
-    if level.get('name') == 'Zero Sum'
+    if level.get('name') == 'Zero Sum' && !league
       .tournament-blurb
         h2
           span(data-i18n="ladder.tournament_ended") Tournament ended
