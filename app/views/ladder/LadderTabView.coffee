@@ -252,10 +252,13 @@ module.exports = class LadderTabView extends CocoView
 
     message = "#{histogramData.length} players"
     if @leaderboards[teamName].session?
-      if @leaderboards[teamName].myRank <= histogramData.length
-        message="##{@leaderboards[teamName].myRank} of #{histogramData.length}"
+      if @options.league
+        # TODO: fix server handler to properly fetch myRank with a leagueID
+        message = "#{histogramData.length} players in league"
+      else if @leaderboards[teamName].myRank <= histogramData.length
+        message = "##{@leaderboards[teamName].myRank} of #{histogramData.length}"
       else
-        message='Rank your session!'
+        message = 'Rank your session!'
     svg.append('g')
       .append('text')
       .attr('class', rankClass)
@@ -325,18 +328,19 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
 
     if @session
       if @league
-        score = _.find(@session.get('leagues'), {leagueID: @league.id})?.stats.totalScore or 10
+        score = _.find(@session.get('leagues'), {leagueID: @league.id})?.stats.totalScore
       else
-        score = @session.get('totalScore') or 10
-      @playersAbove = new LeaderboardCollection(@level, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
-      promises.push @playersAbove.fetch cache: false
-      @playersBelow = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
-      promises.push @playersBelow.fetch cache: false
-      level = "#{@level.get('original')}.#{@level.get('version').major}"
-      success = (@myRank) =>
-      loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{score}&team=#{@team}"
-      loadURL += '&leagues.leagueID=' + @league.id if @league
-      promises.push $.ajax(loadURL, cache: false, success: success)
+        score = @session.get('totalScore')
+      if score
+        @playersAbove = new LeaderboardCollection(@level, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
+        promises.push @playersAbove.fetch cache: false
+        @playersBelow = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
+        promises.push @playersBelow.fetch cache: false
+        level = "#{@level.get('original')}.#{@level.get('version').major}"
+        success = (@myRank) =>
+        loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{score}&team=#{@team}"
+        loadURL += '&leagues.leagueID=' + @league.id if @league
+        promises.push $.ajax(loadURL, cache: false, success: success)
     @promise = $.when(promises...)
     @promise.then @onLoad
     @promise.fail @onFail
@@ -358,7 +362,11 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     return me.id in (session.attributes.creator for session in @topPlayers.models)
 
   nearbySessions: ->
-    return [] unless @session?.get('totalScore')
+    if @league
+      score = _.find(@session?.get('leagues'), {leagueID: @league.id})?.stats.totalScore
+    else
+      score = @session?.get('totalScore')
+    return [] unless score
     l = []
     above = @playersAbove.models
     l = l.concat(above)
