@@ -79,8 +79,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     adjust_volume: "調整音量"
     campaign_multiplayer: "多人競技場"
     campaign_multiplayer_description: "...在這裡您可以和其他玩家進行對戰。"
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_old_multiplayer: "（過時的）舊多人競技場"
+    campaign_old_multiplayer_description: "多個文明時代的遺跡。已沒有模擬運行這些陳舊、蕪絕英雄多人競技場。"
 
   share_progress_modal:
     blurb: "您正在建立優秀的進度! 告訴別人您已經從CodeCombat學習到多少東西." # {change}
@@ -147,7 +147,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     unwatch: "取消關注"
     submit_patch: "送出修補"
     submit_changes: "送出修改"
-#    save_changes: "Save Changes"
+    save_changes: "保存更改"
 
   general:
     and: "和"
@@ -284,9 +284,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     time_goto: "前往:"
     non_user_code_problem_title: "無法加載關卡"
     infinite_loop_title: "檢測到無限循環"
-#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
-#    check_dev_console: "You can also open the developer console to see what might be going wrong."
-#    check_dev_console_link: "(instructions)"
+    infinite_loop_description: "建立世界的初始代碼還沒有運行完畢。這可能是真的很慢或出現無限循環，或者存在一個bug。你可以嘗試再次運行這段代碼，或重置代碼為默認狀態。如果還是解決不了問題，請聯繫我們。."
+    check_dev_console: "你也可以打開開發者界面看一下有什麼可能出錯了。"
+    check_dev_console_link: "(說明)"
     infinite_loop_try_again: "再試一次"
     infinite_loop_reset_level: "重置關卡"
     infinite_loop_comment_out: "在我的程式碼中加入注解"
@@ -294,7 +294,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tip_scrub_shortcut: "Ctrl+[ 快退; Ctrl+] 快進." # {change}
     tip_guide_exists: "點擊頁面上方的指南，可獲得更多有用的訊息."
     tip_open_source: "「CodeCombat」100% 開源!"
-#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "喜歡Codecombat？那就把它介紹給朋友!"
     tip_beta_launch: "「CodeCombat」在2013年10月進入 BETA 測試。"
     tip_think_solution: "思考解決方法而不是問題."
     tip_theory_practice: "理論上, 理論和實作之間是沒有區別. 但是實作上, 這兩者是有區別的. - Yogi Berra"
@@ -335,8 +335,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tip_adding_evil: "增加一個邪惡之捏."
     tip_hate_computers: "關於自我覺得恨透電腦的那群人. 其實他們真正應該恨的事情是糟糕的程序員. - Larry Niven"
     tip_open_source_contribute: "你可以幫助「CodeCombat」提高！"
-#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
-#    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
+    tip_recurse: "迭代者人也，遞歸者神也 - L. Peter Deutsch"
+    tip_free_your_mind: "放下一切私心雜念，丟棄害怕、疑問和拒信，解放你的思維。 - 莫菲斯（駭客任務）"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
