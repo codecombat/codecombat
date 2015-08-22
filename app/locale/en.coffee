@@ -437,7 +437,18 @@
     payment_methods_title: "Accepted Payment Methods"
     payment_methods_blurb1: "We currently accept credit cards and Alipay."
     payment_methods_blurb2: "If you require an alternate form of payment, please contact"
+    sale_already_subscribed: "You're already subscribed!"
+    sale_blurb1: "Save 35%"
+    sale_blurb2: "off regular subscription price!"
+    sale_button: "Sale!"
+    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+    sale_click_here: "Click Here"
+    sale_continue: "Ready to continue adventuring?"
+    sale_paid: "Payment received.  Thanks!"
+    sale_title: "Back to School Sale"
+    sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Monthly Subscription"
+    stripe_description_year_sale: "1 Year Subscription (35% discount)"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
 
@@ -446,7 +457,7 @@
     managed_by: "Managed by"
     will_be_cancelled: "Will be cancelled on"
     currently_free: "You currently have a free subscription"
-    currently_free_until: "You currently have a free subscription until"
+    currently_free_until: "You currently have a subscription until" # {changed}
     was_free_until: "You had a free subscription until"
     managed_subs: "Managed Subscriptions"
     managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
@@ -820,6 +831,7 @@
     latest_achievement: "Latest Achievement"
     playtime: "Playtime"
     last_played: "Last played"
+    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "Archmage"
@@ -1009,6 +1021,7 @@
     my_matches: "My Matches"
     simulate: "Simulate"
     simulation_explanation: "By simulating games you can get your game ranked faster!"
+    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "Simulate Games!"
     simulate_all: "RESET AND SIMULATE GAMES"
     games_simulated_by: "Games simulated by you:"
@@ -1059,6 +1072,7 @@
     tournament_blurb_blog: "on our blog"
     rules: "Rules"
     winners: "Winners"
+    league: "League"
 
   user:
     stats: "Stats"
@@ -1099,6 +1113,7 @@
     no_recent_games: "No games played during the past two weeks."
     payments: "Payments"
     purchased: "Purchased"
+    sale: "Sale"
     subscription: "Subscription"
     invoices: "Invoices"
     service_apple: "Apple"

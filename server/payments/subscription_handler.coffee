@@ -12,6 +12,7 @@ Prepaid = require '../prepaids/Prepaid'
 User = require '../users/User'
 {findStripeSubscription} = require '../lib/utils'
 {getSponsoredSubsAmount} = require '../../app/core/utils'
+StripeUtils = require '../lib/stripe_utils'
 
 recipientCouponID = 'free'
 
@@ -20,6 +21,9 @@ subscriptions = {
   basic: {
     gems: 3500
     amount: 999 # For calculating incremental quantity before sub creation
+  }
+  year_sale: {
+    amount: 7900
   }
 }
 
@@ -32,6 +36,7 @@ class SubscriptionHandler extends Handler
     return @getStripeInvoices(req, res) if args[1] is 'stripe_invoices'
     return @getStripeSubscriptions(req, res) if args[1] is 'stripe_subscriptions'
     return @getSubscribers(req, res) if args[1] is 'subscribers'
+    return @purchaseYearSale(req, res) if args[1] is 'year_sale'
     super(arguments...)
 
   getStripeEvents: (req, res) ->
@@ -110,6 +115,42 @@ class SubscriptionHandler extends Handler
       catch err
         log.debug 'Analytics error:\n' + err
         @sendSuccess(res, userMap)
+
+  purchaseYearSale: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?
+    return @sendForbiddenError(res) if req.user?.hasSubscription()
+
+    StripeUtils.getCustomer req.user, req.body.stripe?.token, (err, customer) =>
+      if err
+        @logSubscriptionError(req.user, "Purchase year sale get customer: #{JSON.stringify(err)}")
+        return @sendDatabaseError(res, err)
+      metadata =
+        type: req.body.type
+        userID: req.user._id + ''
+        timestamp: parseInt(req.body.stripe?.timestamp)
+        description: req.body.description
+
+      StripeUtils.createCharge req.user, subscriptions.year_sale.amount, metadata, (err, charge) =>
+        if err
+          @logSubscriptionError(req.user, "Purchase year sale create charge: #{JSON.stringify(err)}")
+          return @sendDatabaseError(res, err)
+
+        StripeUtils.createPayment req.user, charge, (err, payment) =>
+          if err
+            @logSubscriptionError(req.user, "Purchase year sale create payment: #{JSON.stringify(err)}")
+            return @sendDatabaseError(res, err)
+
+          # Add terminal subscription to User
+          endDate = new Date()
+          endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+          stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
+          stripeInfo.free = endDate.toISOString().substring(0, 10)
+          req.user.set('stripe', stripeInfo)
+          req.user.save (err, user) =>
+            if err
+              @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
+              return @sendDatabaseError(res, err)
+            @sendSuccess(res, user)
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
@@ -234,7 +275,7 @@ class SubscriptionHandler extends Handler
             options.coupon = couponID if couponID
             stripe.customers.createSubscription customer.id, options, (err, subscription) =>
               if err
-                @logSubscriptionError(user, 'Stripe customer plan setting error. ' + err)
+                @logSubscriptionError(user, 'Stripe customer plan resetting error. ' + err)
                 return done({res: 'Database error.', code: 500})
               @updateUser(req, user, customer, subscription, false, done)
 
@@ -530,7 +571,7 @@ class SubscriptionHandler extends Handler
               quantity: getSponsoredSubsAmount(subscriptions.basic.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
             stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
               if err
-                logStripeWebhookError(err)
+                @logSubscriptionError(user, 'Sponsored subscription quantity update error. ' + JSON.stringify(err))
                 return done({res: 'Database error.', code: 500})
               done()
 
