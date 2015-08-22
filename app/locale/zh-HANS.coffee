@@ -80,7 +80,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_multiplayer: "多人竞技场"
     campaign_multiplayer_description: "……在这里你可以与其他玩家进行代码肉搏战。"
     campaign_old_multiplayer: "（过时的）旧的多人竞技场"
-    campaign_old_multiplayer_description: "一个文明时代的遗迹。没有模拟运行这些老的、英雄少的多人竞技场。"
+    campaign_old_multiplayer_description: "多个文明时代的遗迹。但已没有模拟运行这些陈旧、英雄芜绝的多人竞技场。"
 
   share_progress_modal:
     blurb: "你的进度真快！快告诉其他人你从CodeCombat学到了什么！" # {change}
@@ -88,7 +88,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     form_blurb: "输入他们的邮件地址，让他们知道CodeCombat的有趣"
     form_label: "您的邮件地址"
     placeholder: "邮件地址"
-    title: "你做的太好了！"
+    title: "做的很好，学徒"
 
   login:
     sign_up: "注册"
@@ -96,11 +96,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     logging_in: "正在登录"
     log_out: "登出"
     forgot_password: "忘记密码?"
-    authenticate_gplus: "使用 G+ 授权"
-    load_profile: "载入 G+ 档案"
+    authenticate_gplus: "使用 Google+ 授权"
+    load_profile: "载入 Google+ 档案"
     finishing: "完成..."
     sign_in_with_facebook: "Facebook账号登录"
-    sign_in_with_gplus: " G+ 账号登录"
+    sign_in_with_gplus: " Google+ 账号登录"
     signup_switch: "是否创建新账户?"
 
   signup:
@@ -118,8 +118,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     recovery_sent: "找回账户邮件已发送。"
 
   items:
-    primary: "右手"
-    secondary: "左手"
+    primary: "主要武器"
+    secondary: "次要武器"
     armor: "盔甲"
     accessories: "配饰"
     misc: "辅助道具"
@@ -331,14 +331,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_source_code: "我想改变世界，但是他们不给我源代码。"
     tip_javascript_java: "Java和JavaScript的关系就好比是马和马云。 - Chris Heilmann"
     tip_move_forward: "不管你做什么，前进就对了。 - Martin Luther King Jr."
-    tip_google: "有问题又不能解决？谷歌搜下就行了！"
-    tip_adding_evil: "加入万恶的压力。"
+    tip_google: "有问题又不能解决？谷歌搜下就行了！" ＃not sure China can use google?
+    tip_adding_evil: "增加一个邪恶掐捏"
     tip_hate_computers: "那些认为他们讨厌电脑的人，其实他们讨厌的是垃圾程序编写员。- Larry Niven"
     tip_open_source_contribute: "你可以帮助「CodeCombat」提高！"
     tip_recurse: "迭代为人，递归为神 - L. Peter Deutsch"
     tip_free_your_mind: "丢掉一切私心杂念，丢掉害怕、疑问和拒信，解放你的思想。 - Morpheus（黑客帝国）"
-    tip_strong_opponents: "即使是最强大的对手也是有弱点的. - Itachi Uchiha"
-#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+    tip_strong_opponents: "即使是最强大的对手也是有弱点的. - 宇智波鼬《火影忍者》"
+    tip_paper_and_pen: "在你开始编码之前，你可以随时用一张纸和一支笔作计划。"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -399,9 +399,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   subscribe:
     comparison_blurb: "亲，订阅CodeCombat，大力的提升你的技能！"
-    feature1: "60+ 基本关卡（4个世界）" # {change}
-    feature2: "7 个强大 <strong>英雄</strong>以及各式非凡技能!" # {change}
-    feature3: "30+ 奖励关卡" # {change}
+    feature1: "100+ 基本关卡（4个世界）" # {change}
+    feature2: "10 个强大 <strong>英雄</strong>以及各式非凡技能!" # {change}
+    feature3: "70+ 奖励关卡" # {change}
     feature4: "每月享有3500额外宝石"
     feature5: "视频教学"
     feature6: "专业邮件支援"
@@ -430,7 +430,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parents_blurb1: "通过使用CodeCombat，您的孩子将学习编写真正的程序代码。他们将学到简单指令，进而处理更复杂的问题。"
     parents_blurb1a: "不用怀疑计算机编程能力将是您的孩子作为一个成年人的基本技能。到2020年，77%的工作将会需要编码能力，并且软件工程师将在世界各地成为高需求职业。你知道吗，计算机科学是收入最高的大学学位？"
     parents_blurb2: "每月支付9.9美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。" # {change}
-    parents_blurb3: "无风险承诺：100%退款，一键退款。"
+    parents_blurb3: "无风险承诺：100%退款，一键取消订阅。"
     payment_methods: "付费方式"
     payment_methods_title: "可接受的付款方式"
     payment_methods_blurb1: "我们现有的付费方式有信用卡和支付宝"
@@ -492,7 +492,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     blocks: "格挡" # As in "this shield blocks this much damage"
     backstab: "背刺" # As in "this dagger does this much backstab damage"
     skills: "技能"
-    attack_1: "交易"
+    attack_1: "造成"
     attack_2: "列表"
     attack_3: "武器攻击力."
     health_1: "收益"
