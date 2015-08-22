@@ -37,7 +37,8 @@ module.exports = class CourseDetailsView extends RootView
     context.memberSort = @memberSort
     context.userConceptsMap = @userConceptsMap ? {}
     context.userLevelStateMap = @userLevelStateMap ? {}
-    context.showExpandedProgress = @course.levels.length <= 30 or @showExpandedProgress
+    context.showExpandedProgress = @showExpandedProgress
+    context.stats = @stats
     context.studentMode = @options.studentMode ? false
 
     conceptsCompleted = {}
@@ -46,15 +47,6 @@ module.exports = class CourseDetailsView extends RootView
         conceptsCompleted[concept] ?= 0
         conceptsCompleted[concept]++
     context.conceptsCompleted = conceptsCompleted
-
-    stats =
-      averageLevelPlaytime: _.random(30, 240)
-      averageLevelsCompleted: _.random(1, @course.levels.length)
-    stats.totalPlayTime = context.instance.students?.length * stats.averageLevelPlaytime ? 0
-    stats.totalLevelsCompleted = context.instance.students?.length * stats.averageLevelsCompleted ? 0
-    stats.lastLevelCompleted = @course.levels[@maxLastStartedIndex] ? @course.levels[@course.levels.length - 1]
-    context.stats = stats
-
     context
 
   initData: ->
@@ -73,6 +65,10 @@ module.exports = class CourseDetailsView extends RootView
     @levelMap = {}
     @levelMap[level] = true for level in @course.levels
     @userLevelStateMap = {}
+    @stats =
+      averageLevelPlaytime: _.random(30, 240)
+      averageLevelsCompleted: _.random(1, @course.levels.length)
+      students: {}
     @maxLastStartedIndex = -1
     for student in @instances?[@currentInstanceIndex].students
       @userLevelStateMap[student] = {}
@@ -82,7 +78,17 @@ module.exports = class CourseDetailsView extends RootView
       lastStartedIndex = lastCompletedIndex + 1
       @userLevelStateMap[student][@course.levels[lastStartedIndex]] = 'started'
       @maxLastStartedIndex = lastStartedIndex if lastStartedIndex > @maxLastStartedIndex
+
+      @stats[student] ?= {}
+      @stats[student].levelsCompleted = 0
+      @stats[student].levelsCompleted++ for level in @course.levels when @userLevelStateMap[student][level] is 'complete'
+      @stats[student].secondsPlayed = Math.round(Math.random() * 1000 * (@stats[student].levelsCompleted + 1))
+      @stats[student].secondsLastPlayed = Math.round(Math.random() * 100000)
     @sortMembers()
+    @stats.totalPlayTime = @instances?[@currentInstanceIndex].students?.length * @stats.averageLevelPlaytime ? 0
+    @stats.totalLevelsCompleted = @instances?[@currentInstanceIndex].students?.length * @stats.averageLevelsCompleted ? 0
+    @stats.totalPlayTime = @instances?[@currentInstanceIndex].students?.length * @stats.averageLevelPlaytime ? 0
+    @stats.lastLevelCompleted = @course.levels[0] ? @course.levels[@course.levels.length - 1]
 
   sortMembers: ->
     # Progress sort precedence: most completed concepts, most started concepts, most levels, name sort
@@ -188,7 +194,7 @@ module.exports = class CourseDetailsView extends RootView
     container = $(e.target).find('.level-popup-container').show()
     margin = 20
     offset = $(e.target).offset()
-    scrollTop = $(e.target).offsetParent().scrollTop()
+    scrollTop = $('#page-container').scrollTop()
     height = container.outerHeight()
     container.css('left', offset.left + e.offsetX)
     container.css('top', offset.top + scrollTop - height - margin)

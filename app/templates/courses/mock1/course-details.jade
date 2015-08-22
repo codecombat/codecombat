@@ -147,60 +147,107 @@ mixin progress-tab
             span.progress-key.progress-key-complete complete
             span.progress-key.progress-key-started started
             span.progress-key not started
-            if maxLastStartedIndex > 30
-              input.expand-progress-checkbox(type='checkbox')
-              span.spl.expand-progress-label(data-i18n="clans.exp_levels") Expand levels
+            input.expand-progress-checkbox(type='checkbox')
+            span.spl.expand-progress-label Expand details
       tbody
         each student in instance.students
           tr
             td.student-cell
               a= student
-              - var levelsCompleted = 0
-              each level in course.levels
-                if userLevelStateMap[student][level] === 'complete'
-                  - levelsCompleted++
-              - var secondsPlayed = Math.round(Math.random() * 1000 * (levelsCompleted + 1))
-              - var secondsLastPlayed = Math.round(Math.random() * 100000)
-              div #{levelsCompleted} levels completed
-              div #{moment.duration(secondsPlayed, 'seconds').humanize()} played
-              div Played #{moment().subtract(secondsLastPlayed, 'seconds').fromNow()}
+              div #{stats[student].levelsCompleted} levels completed
+              div #{moment.duration(stats[student].secondsPlayed, 'seconds').humanize()} played
+              div Played #{moment().subtract(stats[student].secondsLastPlayed, 'seconds').fromNow()}
             td.progress-cell
-              .level-progression-concepts Concepts
-              each concept in courseConcepts
-                if userConceptsMap[student] && userConceptsMap[student][concept] === 'complete'
-                  span.spr.progress-concept-cell.progress-concept-cell-complete(data-i18n="concepts." + concept)
-                else if userConceptsMap[student] && userConceptsMap[student][concept] === 'started'
-                  span.spr.progress-concept-cell.progress-concept-cell-started(data-i18n="concepts." + concept)
-                else
-                  span.spr.progress-concept-cell.progress-concept-cell-not-started(data-i18n="concepts." + concept)
+              if showExpandedProgress
+                .level-progression-concepts Concepts
+                each concept in courseConcepts
+                  if userConceptsMap[student] && userConceptsMap[student][concept] === 'complete'
+                    span.spr.progress-concept-cell.progress-concept-cell-complete(data-i18n="concepts." + concept)
+                  else if userConceptsMap[student] && userConceptsMap[student][concept] === 'started'
+                    span.spr.progress-concept-cell.progress-concept-cell-started(data-i18n="concepts." + concept)
+                  else
+                    span.spr.progress-concept-cell.progress-concept-cell-not-started(data-i18n="concepts." + concept)
 
-              .level-progression-levels Levels
-              - var i = 0
-              each level in course.levels
-                if userLevelStateMap[student][level] === 'complete'
-                  span.progress-level-cell.progress-level-cell-complete #{i + 1}
-                    if showExpandedProgress || i === 0 || i === course.levels.length - 1
+                .level-progression-levels Levels
+                - var i = 0
+                each level in course.levels
+                  if userLevelStateMap[student][level] === 'complete'
+                    span.progress-level-cell.progress-level-cell-complete #{i + 1}
                       span.spl= level.replace('Course: ', '')
-                    .level-popup-container
-                      h3 #{i + 1}. #{level.replace('Course: ', '')}
-                      p
-                        div
+                      .level-popup-container
+                        h3 #{i + 1}. #{level.replace('Course: ', '')}
+                        p
                           - var playTime = Math.round(Math.random() * 600)
                           span Time to solve
                           span : #{moment.duration(playTime, "seconds").humanize()}
-                        div
+                        p
                           - var completionDate = new Date()
                           - completionDate.setUTCDate(completionDate.getUTCDate() - Math.round(Math.random() * 60))
                           span Completed on
                           span : #{moment(completionDate).format('MMMM Do YYYY, h:mm:ss a')}
-                      strong(data-i18n="clans.view_solution") Click to view solution.
-                else if userLevelStateMap[student][level] === 'started'
-                  span.progress-level-cell.progress-level-cell-started #{i + 1} #{level.replace('Course: ', '')}
-                else
-                  span.progress-level-cell.level-progression-level-not-started #{i + 1}
-                    if showExpandedProgress || i === 0
-                      span.spl= level.replace('Course: ', '')
-                - i++
+                        strong(data-i18n="clans.view_solution") Click to view solution.
+                  else if userLevelStateMap[student][level] === 'started'
+                    span.progress-level-cell.progress-level-cell-started #{i + 1} #{level.replace('Course: ', '')}
+                      .level-popup-container
+                        h3 #{i + 1}. #{level.replace('Course: ', '')}
+                        p
+                          - var completionDate = new Date()
+                          - completionDate.setUTCDate(completionDate.getUTCDate() - Math.round(Math.random() * 60))
+                          span Last played on
+                          span : #{moment(completionDate).format('MMMM Do YYYY, h:mm:ss a')}
+                        strong(data-i18n="clans.view_solution") Click to view solution.
+                  else
+                    span.progress-level-cell.level-progression-level-not-started #{i + 1} #{level.replace('Course: ', '')}
+                  - i++
+              else
+                //- Condensed view
+                table
+                  tbody
+                    tr
+                      td
+                        .level-progression-concepts(style='margin:0px;') Concepts
+                      td.condense-progress
+                        each concept in courseConcepts
+                          if userConceptsMap[student] && userConceptsMap[student][concept] === 'complete'
+                            span.spr.progress-concept-cell.progress-concept-cell-complete(data-i18n="concepts." + concept)
+                          else if userConceptsMap[student] && userConceptsMap[student][concept] === 'started'
+                            span.spr.progress-concept-cell.progress-concept-cell-started(data-i18n="concepts." + concept)
+                          else
+                            break
+                    tr
+                      td
+                        .level-progression-levels(style='margin:0px;') Levels
+                      td.condense-progress
+                        - var levelCellWidth = 100.00 / course.levels.length
+                        - var i = 0
+                        each level in course.levels
+                          if userLevelStateMap[student][level] === 'complete'
+                            span.progress-level-cell.progress-level-cell-complete(style="width:#{levelCellWidth}%;") #{i + 1}
+                              .level-popup-container
+                                h3 #{i + 1}. #{level.replace('Course: ', '')}
+                                p
+                                  - var playTime = Math.round(Math.random() * 600)
+                                  span Time to solve
+                                  span : #{moment.duration(playTime, "seconds").humanize()}
+                                p
+                                  - var completionDate = new Date()
+                                  - completionDate.setUTCDate(completionDate.getUTCDate() - Math.round(Math.random() * 60))
+                                  span Completed on
+                                  span : #{moment(completionDate).format('MMMM Do YYYY, h:mm:ss a')}
+                                strong(data-i18n="clans.view_solution") Click to view solution.
+                          else if userLevelStateMap[student][level] === 'started'
+                            span.progress-level-cell.progress-level-cell-started(style="width:#{levelCellWidth}%;") #{i + 1}
+                              .level-popup-container
+                                h3 #{i + 1}. #{level.replace('Course: ', '')}
+                                p
+                                  - var completionDate = new Date()
+                                  - completionDate.setUTCDate(completionDate.getUTCDate() - Math.round(Math.random() * 60))
+                                  span Last played on
+                                  span : #{moment(completionDate).format('MMMM Do YYYY, h:mm:ss a')}
+                                strong(data-i18n="clans.view_solution") Click to view solution.
+                          else
+                            break
+                          - i++
 
 mixin levels-tab
   table.table.table-striped.table-condensed
