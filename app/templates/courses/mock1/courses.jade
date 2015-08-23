@@ -21,7 +21,7 @@ block content
             .col-md-12
               .well.well-sm
                 p
-                  div.instruction-label Pick your class
+                  div.instruction-label Pick from your current classes
                 .container-fluid
                   .row
                     .col-md-8
@@ -33,21 +33,19 @@ block content
           .row.button-row.center.row-pick-class
             .col-md-12
               div.or Or
-          .row.button-row
-            .col-md-12
-              .well.well-sm
-                p
-                  div.instruction-label Enter an unlock code
-                .container-fluid
-                  .row
-                    .col-md-8
-                      input.code-input(type='text', placeholder="Enter unlock code")
-                    .col-md-4
-                      button.btn.btn-success.btn-enroll Enroll
-          if !studentMode
-            .row.button-row.center
+          if studentMode
+            .row.button-row
               .col-md-12
-                div.or Or
+                .well.well-sm
+                  p
+                    div.instruction-label Enter an unlock code
+                  .container-fluid
+                    .row
+                      .col-md-8
+                        input.code-input(type='text', placeholder="Enter unlock code")
+                      .col-md-4
+                        button.btn.btn-success.btn-enroll Enroll
+          else
             .row.button-row.center
               .col-md-12
                 button.btn.btn-success.btn-lg.btn-buy Buy this course
@@ -104,8 +102,16 @@ mixin course-block(course, courseID)
                 each topic in course.topics
                   li= topic
               strong Hours of content: #{course.duration}
-            .col-md-6.center
-              if !studentMode || !course.unlocked
-                button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal", data-course-title="#{course.title}", data-course-id="#{courseID}") #{course.unlocked ? 'Continue' : 'Enter'}
+            .col-md-6.center(style='margin-top: 40px;')
+              if !studentMode
+                if course.unlocked
+                  button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal", data-course-title="#{course.title}", data-course-id="#{courseID}") #{course.unlocked ? 'Continue' : 'Enter'}
+                else if course.title === 'Introduction to Computer Science'
+                  button.btn.btn-lg.btn-success.btn-buy(data-course-id="#{courseID}") Get FREE course
+                else
+                  button.btn.btn-lg.btn-success.btn-buy(data-course-id="#{courseID}") Buy course
               else
-                a.btn.btn-lg.btn-success.btn-continue(href="/courses/mock1/#{courseID}?student=true") Continue
+                if course.unlocked
+                  a.btn.btn-lg.btn-success.btn-continue(href="/courses/mock1/#{courseID}?student=true") Continue
+                else
+                  button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal", data-course-title="#{course.title}", data-course-id="#{courseID}") Enter

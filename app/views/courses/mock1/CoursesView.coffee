@@ -40,12 +40,9 @@ module.exports = class CoursesView extends RootView
     @praise = mockData.praise[_.random(0, mockData.praise.length - 1)]
 
   onClickBuy: (e) ->
-    $('#continueModal').modal('hide')
     courseID = $(e.target).data('course-id') ? 0
-    viewClass = require 'views/courses/mock1/CourseEnrollView'
-    viewArgs = [{}, courseID]
-    navigationEvent = route: "/courses/mock1/enroll", viewClass: viewClass, viewArgs: viewArgs
-    Backbone.Mediator.publish 'router:navigate', navigationEvent
+    app.router.navigate("/courses/mock1/enroll/#{courseID}")
+    window.location.reload()
 
   onClickContinue: (e) ->
     courseID = $(e.target).data('course-id')
@@ -55,7 +52,9 @@ module.exports = class CoursesView extends RootView
     $('#continueModal').find('.btn-enroll').data('course-id', courseID)
     $('#continueModal').find('.btn-enter').data('course-id', courseID)
     $('#continueModal .row-pick-class').show() if @courses[courseID]?.unlocked
-    if courseTitle is 'Introduction to Computer Science'
+    if @courses[courseID]?.unlocked
+      $('#continueModal .btn-buy').prop('innerText', 'Start new class')
+    else if courseTitle is 'Introduction to Computer Science'
       $('#continueModal .btn-buy').prop('innerText', 'Get this FREE course!')
     else
       $('#continueModal .btn-buy').prop('innerText', 'Buy this course')
