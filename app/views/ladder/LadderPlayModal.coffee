@@ -43,11 +43,14 @@ module.exports = class LadderPlayModal extends ModalView
 
   # PART 1: Load challengers from the db unless some are in the matches
   startLoadingChallengersMaybe: ->
-    matches = @session?.get('matches')
+    if @options.league
+      matches = _.find(@session?.get('leagues'), leagueID: @options.league.id)?.stats.matches
+    else
+      matches = @session?.get('matches')
     if matches?.length then @loadNames() else @loadChallengers()
 
   loadChallengers: ->
-    @challengersCollection = new ChallengersData(@level, @team, @otherTeam, @session)
+    @challengersCollection = new ChallengersData(@level, @team, @otherTeam, @session, @options.league)
     @listenTo(@challengersCollection, 'sync', @loadNames)
 
   # PART 2: Loading the names of the other users
@@ -156,7 +159,10 @@ module.exports = class LadderPlayModal extends ModalView
       mediumInfo = @challengeInfoFromSession(@challengersCollection.mediumPlayer.models[0])
       hardInfo = @challengeInfoFromSession(@challengersCollection.hardPlayer.models[0])
     else
-      matches = @session.get('matches')
+      if @options.league
+        matches = _.find(@session?.get('leagues'), leagueID: @options.league.id)?.stats.matches
+      else
+        matches = @session?.get('matches')
       won = (m for m in matches when m.metrics.rank < m.opponents[0].metrics.rank)
       lost = (m for m in matches when m.metrics.rank > m.opponents[0].metrics.rank)
       tied = (m for m in matches when m.metrics.rank is m.opponents[0].metrics.rank)
@@ -195,18 +201,26 @@ module.exports = class LadderPlayModal extends ModalView
     }
 
 class ChallengersData
-  constructor: (@level, @team, @otherTeam, @session) ->
+  constructor: (@level, @team, @otherTeam, @session, @league) ->
     _.extend @, Backbone.Events
-    score = @session?.get('totalScore') or 25
-    @easyPlayer = new LeaderboardCollection(@level, {order: 1, scoreOffset: score - 5, limit: 1, team: @otherTeam})
-    @easyPlayer.fetch cache: false
-    @listenToOnce(@easyPlayer, 'sync', @challengerLoaded)
-    @mediumPlayer = new LeaderboardCollection(@level, {order: 1, scoreOffset: score, limit: 1, team: @otherTeam})
-    @mediumPlayer.fetch cache: false
-    @listenToOnce(@mediumPlayer, 'sync', @challengerLoaded)
-    @hardPlayer = new LeaderboardCollection(@level, {order: -1, scoreOffset: score + 5, limit: 1, team: @otherTeam})
-    @hardPlayer.fetch cache: false
-    @listenToOnce(@hardPlayer, 'sync', @challengerLoaded)
+    if @league
+      score = _.find(@session?.get('leagues'), leagueID: @league.id)?.stats?.totalScore or 10
+    else
+      score = @session?.get('totalScore') or 10
+    for player in [
+      {type: 'easyPlayer', order: 1, scoreOffset: score - 5}
+      {type: 'mediumPlayer', order: 1, scoreOffset: score}
+      {type: 'hardPlayer', order: -1, scoreOffset: score + 5}
+    ]
+      playerResource = @[player.type] = new LeaderboardCollection(@level, @collectionParameters(order: player.order, scoreOffset: player.scoreOffset))
+      playerResource.fetch cache: false
+      @listenToOnce playerResource, 'sync', @challengerLoaded
+
+  collectionParameters: (parameters) ->
+    parameters.team = @otherTeam
+    parameters.limit = 1
+    parameters['leagues.leagueID'] = @league.id if @league
+    parameters
 
   challengerLoaded: ->
     if @allLoaded()

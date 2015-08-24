@@ -12,8 +12,12 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
   template: template
   targetSubCount: 1200
 
+  events:
+    'click .btn-show-more-cancellations': 'onClickShowMoreCancellations'
+
   constructor: (options) ->
     super options
+    @showMoreCancellations = false
     @resetSubscriptionsData()
     if me.isAdmin()
       @refreshData()
@@ -22,13 +26,13 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
   getRenderData: ->
     context = super()
     context.analytics = @analytics ? graphs: []
-    context.cancellations = @cancellations ? []
+    context.cancellations = if @showMoreCancellations then @cancellations else (@cancellations ? []).slice(0, 40)
+    context.showMoreCancellations = @showMoreCancellations
     context.subs = _.cloneDeep(@subs ? []).reverse()
     context.subscribers = @subscribers ? []
     context.subscriberCancelled = _.find context.subscribers, (subscriber) -> subscriber.cancel
     context.subscriberSponsored = _.find context.subscribers, (subscriber) -> subscriber.user?.stripe?.sponsorID
     context.total = @total ? 0
-    context.cancelled = @cancellations?.length ? @cancelled ? 0
     context.monthlyChurn = @monthlyChurn ? 0.0
     context.monthlyGrowth = @monthlyGrowth ? 0.0
     context.outstandingCancels = @outstandingCancels ? []
@@ -39,11 +43,14 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     super()
     @updateAnalyticsGraphs()
 
+  onClickShowMoreCancellations: (e) ->
+    @showMoreCancellations = true
+    @render?()
+
   resetSubscriptionsData: ->
     @analytics = graphs: []
     @subs = []
     @total = 0
-    @cancelled = 0
     @monthlyChurn = 0.0
     @monthlyGrowth = 0.0
     @refreshDataState = 'Fetching dashboard data...'
@@ -93,7 +100,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
   getCancellationEvents: (done) ->
     cancellationEvents = []
     earliestEventDate = new Date()
-    earliestEventDate.setUTCMonth(earliestEventDate.getUTCMonth() - 1)
+    earliestEventDate.setUTCMonth(earliestEventDate.getUTCMonth() - 2)
     earliestEventDate.setUTCDate(earliestEventDate.getUTCDate() - 8)
     nextBatch = (starting_after, done) =>
       @updateFetchDataState "Fetching cancellations #{cancellationEvents.length}..."
@@ -249,14 +256,15 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
               ended: subDayMap[day]['end'] or 0
 
           @subs.sort (a, b) -> a.day.localeCompare(b.day)
+          cancelledThisMonth = 0
           totalLastMonth = 0
           for sub, i in @subs
             @total += sub.started
             @total -= sub.ended
-            @cancelled += sub.cancelled
             sub.total = @total
+            cancelledThisMonth += sub.cancelled if @subs.length - i < 31
             totalLastMonth = @total if @subs.length - i is 31
-          @monthlyChurn = @cancelled / totalLastMonth * 100.0 if totalLastMonth > 0
+          @monthlyChurn = cancelledThisMonth / totalLastMonth * 100.0 if totalLastMonth > 0
           if @subs.length > 30 and @subs[@subs.length - 31].total > 0
             startMonthTotal = @subs[@subs.length - 31].total
             endMonthTotal = @subs[@subs.length - 1].total
@@ -555,27 +563,14 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
 
       ## Cancelled
 
-      # TODO: move this average cancelled stuff up the chain
-      averageCancelled = 0
-
       # Build line data
       levelPoints = []
-      cancelled = []
-      for sub, i in @subs[@subs.length - 30...]
-        cancelled.push sub.cancelled
+      for sub, i in @subs
         levelPoints.push
           x: @subs.length - 30 + i
           y: sub.cancelled
           day: sub.day
           pointID: "#{cancelledSubsID}#{@subs.length - 30 + i}"
-          values: []
-      averageCancelled = cancelled.reduce((a, b) -> a + b) / cancelled.length
-      for sub, i in @subs[0...-30]
-        levelPoints.splice i, 0,
-          x: i
-          y: averageCancelled
-          day: sub.day
-          pointID: "#{cancelledSubsID}#{i}"
           values: []
 
       # Ensure points for each day
@@ -608,10 +603,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       sevenNets = []
       for sub, i in @subs
         net = 0
-        if i >= @subs.length - 30
-          sevenNets.push sub.started - sub.cancelled
-        else
-          sevenNets.push sub.started - averageCancelled
+        sevenNets.push sub.started - sub.cancelled
         if sevenNets.length > 7
           sevenNets.shift()
         if sevenNets.length is 7

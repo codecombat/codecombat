@@ -23,7 +23,6 @@ module.exports = class GameMenuModal extends ModalView
 
   constructor: (options) ->
     super options
-    @options.showTab = options.showTab
     @options.levelID = @options.level.get('slug')
     @options.startingSessionHeroConfig = $.extend {}, true, (@options.session.get('heroConfig') ? {})
     Backbone.Mediator.publish 'music-player:enter-menu', terrain: @options.level.get('terrain', true) ? 'Dungeon'

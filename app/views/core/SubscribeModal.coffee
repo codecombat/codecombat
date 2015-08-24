@@ -12,6 +12,7 @@ module.exports = class SubscribeModal extends ModalView
   product:
     amount: 999
     planID: 'basic'
+    yearAmount: 7900
 
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'
@@ -21,13 +22,16 @@ module.exports = class SubscribeModal extends ModalView
     'click .popover-content .parent-send': 'onClickParentSendButton'
     'click .email-parent-complete button': 'onClickParentEmailCompleteButton'
     'click .purchase-button': 'onClickPurchaseButton'
+    'click .sale-button': 'onClickSaleButton'
 
   constructor: (options) ->
     super(options)
     @state = 'standby'
+    @saleButtonTitle = $.i18n.t('subscribe.sale_button_title')
 
   getRenderData: ->
     c = super()
+    c.saleButtonTitle = @saleButtonTitle
     c.state = @state
     c.stateMessage = @stateMessage
     c.price = @product.amount / 100
@@ -137,21 +141,61 @@ module.exports = class SubscribeModal extends ModalView
     #}
 
     @purchasedAmount = options.amount
+    stripeHandler.open(options)
 
+  onClickSaleButton: (e) ->
+    @playSound 'menu-button-click'
+    return @openModalView new AuthModal() if me.get('anonymous')
+    application.tracker?.trackEvent 'Started 1 year subscription purchase'
+    options =
+      description: $.i18n.t('subscribe.stripe_description_year_sale')
+      amount: @product.yearAmount
+      alipay: if me.get('chinaVersion') or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
+      alipayReusable: true
+    @purchasedAmount = options.amount
     stripeHandler.open(options)
 
   onStripeReceivedToken: (e) ->
     @state = 'purchasing'
     @render()
 
-    stripe = _.clone(me.get('stripe') ? {})
-    stripe.planID = @product.planID
-    stripe.token = e.token.id
-    me.set 'stripe', stripe
-
-    @listenToOnce me, 'sync', @onSubscriptionSuccess
-    @listenToOnce me, 'error', @onSubscriptionError
-    me.patch({headers: {'X-Change-Plan': 'true'}})
+    if @purchasedAmount is @product.amount
+      stripe = _.clone(me.get('stripe') ? {})
+      stripe.planID = @product.planID
+      stripe.token = e.token.id
+      me.set 'stripe', stripe
+      @listenToOnce me, 'sync', @onSubscriptionSuccess
+      @listenToOnce me, 'error', @onSubscriptionError
+      me.patch({headers: {'X-Change-Plan': 'true'}})
+    else if @purchasedAmount is @product.yearAmount
+      # Purchasing a year
+      data =
+        stripe:
+          token: e.token.id
+          timestamp: new Date().getTime()
+      jqxhr = $.post('/db/subscription/-/year_sale', data)
+      jqxhr.done (data, textStatus, jqXHR) =>
+        application.tracker?.trackEvent 'Finished 1 year subscription purchase', value: @purchasedAmount
+        me.set 'stripe', data?.stripe if data?.stripe?
+        Backbone.Mediator.publish 'subscribe-modal:subscribed', {}
+        @playSound 'victory'
+        @hide()
+      jqxhr.fail (xhr, textStatus, errorThrown) =>
+        console.error 'We got an error subscribing with Stripe from our server:', textStatus, errorThrown
+        application.tracker?.trackEvent 'Failed to finish 1 year subscription purchase', status: textStatus, value: @purchasedAmount
+        stripe = me.get('stripe') ? {}
+        delete stripe.token
+        delete stripe.planID
+        if xhr.status is 402
+          @state = 'declined'
+        else
+          @state = 'unknown_error'
+          @stateMessage = "#{xhr.status}: #{xhr.responseText}"
+        @render()
+    else
+      console.error "Unexpected purchase amount received", @purchasedAmount, e
+      @state = 'unknown_error'
+      @stateMessage = "Uknown problem occurred while processing Stripe request"
 
   onSubscriptionSuccess: ->
     application.tracker?.trackEvent 'Finished subscription purchase', value: @purchasedAmount
@@ -161,6 +205,7 @@ module.exports = class SubscribeModal extends ModalView
 
   onSubscriptionError: (user, response, options) ->
     console.error 'We got an error subscribing with Stripe from our server:', response
+    application.tracker?.trackEvent 'Failed to finish subscription purchase', status: options.xhr?.status, value: @purchasedAmount
     stripe = me.get('stripe') ? {}
     delete stripe.token
     delete stripe.planID

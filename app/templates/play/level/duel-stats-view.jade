@@ -1,0 +1,21 @@
+for player in players
+  div(class="player-container team-" + player.team)
+    .player-portrait
+      .thang-avatar-placeholder
+    .player-info
+      .name-and-power
+        .player-power
+          .power-icon
+          .power-value
+        .player-name= player.name
+      .player-health
+        .health-icon
+        .health-bar-container
+          .health-bar
+        .health-value
+      //.player-gold
+      //  .team-gold
+      //    img(src="/images/level/gold_icon.png", alt="", draggable="false")
+      //    .gold-amount
+
+

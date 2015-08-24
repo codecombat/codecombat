@@ -10,6 +10,7 @@ LevelSession = require 'models/LevelSession'
 SubscribeModal = require 'views/core/SubscribeModal'
 ThangType = require 'models/ThangType'
 User = require 'models/User'
+utils = require 'core/utils'
 
 # TODO: Add message for clan not found
 # TODO: Progress visual for premium levels?
@@ -60,7 +61,7 @@ module.exports = class ClanDetailsView extends RootView
     @listenTo @memberAchievements, 'sync', @onMemberAchievementsSync
     @listenTo @memberSessions, 'sync', @onMemberSessionsSync
 
-    @supermodel.loadModel @campaigns, 'clan', cache: false
+    @supermodel.loadModel @campaigns, 'campaigns', cache: false
     @supermodel.loadModel @clan, 'clan', cache: false
     @supermodel.loadCollection(@members, 'members', {cache: false})
     @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
@@ -120,6 +121,8 @@ module.exports = class ClanDetailsView extends RootView
     context.lastUserCampaignLevelMap = lastUserCampaignLevelMap
     context.showExpandedProgress = maxLastUserCampaignLevel <= 30 or @showExpandedProgress
     context.userConceptsMap = userConceptsMap
+    context.arenas = @arenas
+    context.i18n = utils.i18n
     context
 
   afterRender: ->
@@ -179,21 +182,24 @@ module.exports = class ClanDetailsView extends RootView
     return unless @campaigns.loaded
     @campaignLevelProgressions = []
     @conceptsProgression = []
+    @arenas = []
     for campaign in @campaigns.models
       continue if campaign.get('slug') is 'auditions'
       campaignLevelProgression =
         ID: campaign.id
         slug: campaign.get('slug')
-        name: campaign.get('fullName') or campaign.get('name')
+        name: utils.i18n(campaign.attributes, 'fullName') or utils.i18n(campaign.attributes, 'name')
         levels: []
       for levelID, level of campaign.get('levels')
         campaignLevelProgression.levels.push
           ID: levelID
           slug: level.slug
-          name: level.name
+          name: utils.i18n level, 'name'
         if level.concepts?
           for concept in level.concepts
             @conceptsProgression.push concept unless concept in @conceptsProgression
+        if level.type == 'hero-ladder'
+          @arenas.push level
       @campaignLevelProgressions.push campaignLevelProgression
     @render?()
 

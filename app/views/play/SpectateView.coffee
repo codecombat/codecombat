@@ -28,6 +28,7 @@ ControlBarView = require './level/ControlBarView'
 PlaybackView = require './level/LevelPlaybackView'
 GoalsView = require './level/LevelGoalsView'
 GoldView = require './level/LevelGoldView'
+DuelStatsView = require './level/DuelStatsView'
 VictoryModal = require './level/modal/VictoryModal'
 InfiniteLoopModal = require './level/modal/InfiniteLoopModal'
 
@@ -179,8 +180,8 @@ module.exports = class SpectateLevelView extends RootView
 
     @insertSubView new GoldView {}
     @insertSubView new HUDView {level: @level}
-    worldName = utils.i18n @level.attributes, 'name'
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.get('type') in ['hero-ladder', 'course-ladder']
+    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
 
   # callbacks
 

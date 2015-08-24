@@ -19,35 +19,27 @@ module.exports = class Tracker
     # InspectletJS loading is delayed and targeting specific levels for more focused investigations
     return @disableInspectletJS() unless levelSlug in targetInspectJSLevelSlugs
 
-    # Start embed code
-    window.__insp = window.__insp or []
-    __insp.push [
-      'wid'
-      2102699786
-    ]
-    do ->
-      __ldinsp = ->
-        insp = document.createElement('script')
-        insp.type = 'text/javascript'
-        insp.async = true
-        insp.id = 'inspsync'
-        insp.src = (if 'https:' == document.location.protocol then 'https' else 'http') + '://cdn.inspectlet.com/inspectlet.js'
-        x = document.getElementsByTagName('script')[0]
-        x.parentNode.insertBefore insp, x
-        return
-
-      if window.attachEvent
-        window.attachEvent 'onload', __ldinsp
-      else
-        window.addEventListener 'load', __ldinsp, false
-    # End embed code
-
-    # Identify and track pageview here, because inspectlet is loaded too late for standard Tracker calls
-    @identify()
-    # http://www.inspectlet.com/docs#virtual_pageviews
-    __insp?.push ['virtualPage']
+    scriptLoaded = =>
+      # Identify and track pageview here, because inspectlet is loaded too late for standard Tracker calls
+      @identify()
+      # http://www.inspectlet.com/docs#virtual_pageviews
+      window.__insp?.push(['virtualPage'])
+    window.__insp = [['wid', 2102699786]]
+    insp = document.createElement('script')
+    insp.type = 'text/javascript'
+    insp.async = true
+    insp.id = 'inspsync'
+    insp.src = (if 'https:' == document.location.protocol then 'https' else 'http') + '://cdn.inspectlet.com/inspectlet.js'
+    insp.onreadystatechange = => scriptLoaded() if insp.readyState is 'complete'
+    insp.onload = scriptLoaded
+    x = document.getElementsByTagName('script')[0]
+    @inspectletScriptNode = x.parentNode.insertBefore insp, x
 
   disableInspectletJS: ->
+    if @inspectletScriptNode
+      x = document.getElementsByTagName('script')[0]
+      x.parentNode.removeChild(@inspectletScriptNode)
+      @inspectletScriptNode = null
     delete window.__insp
 
   trackReferrers: ->
