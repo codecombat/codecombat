@@ -375,6 +375,8 @@ describe 'Subscriptions', ->
       expect(err).toBeNull()
       return done() if err
       expect(res.statusCode).toBe(200)
+      expect(body.stripe).toBeDefined()
+      return done() unless body.stripe
       expect(body.stripe.customerID).toBeDefined()
       expect(body.stripe.planID).toBe('basic')
       expect(body.stripe.token).toBeUndefined()
@@ -1366,3 +1368,33 @@ describe 'Subscriptions', ->
                                         else
                                           expect(subscription.quantity).toEqual(subPrice + 10 * subPrice * 0.8 + (numSponsored - 11) * subPrice * 0.6)
                                         done()
+
+  describe 'APIs', ->
+    subscriptionURL = getURL('/db/subscription')
+
+    it 'year_sale', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          expect(user1.get('stripe')?.free).toBeUndefined()
+          requestBody =
+            stripe:
+              token: token.id
+              timestamp: new Date()
+          request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+            expect(err).toBeNull()
+            expect(res.statusCode).toBe(200)
+            User.findById user1.id, (err, user1) ->
+              expect(err).toBeNull()
+              stripeInfo = user1.get('stripe')
+              expect(stripeInfo).toBeDefined()
+              return done() unless stripeInfo
+              endDate = new Date()
+              endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+              expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+              expect(stripeInfo.customerID).toBeDefined()
+              Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
+                expect(err).toBeNull()
+                expect(payment).toBeDefined()
+                done()
