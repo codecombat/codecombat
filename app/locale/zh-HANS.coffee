@@ -389,7 +389,7 @@
     pile_gems: "一堆宝石"
     chest_gems: "一箱宝石"
     purchasing: "正在付款..."
-    declined: "您的卡片被拒绝"
+    declined: "您的信用卡被拒绝"
     retrying: "服务器错误，请重试"
     prompt_title: "没有足够数量的宝石"
     prompt_body: "还需要更多吗？"
@@ -1228,7 +1228,7 @@
     multiplayer_toggle_description: "允许其他人加入游戏。"
     multiplayer_link_description: "把这个链接告诉小伙伴们，一起玩吧。"
     multiplayer_hint_label: "提示："
-    multiplayer_hint: " 点击全选，然后按Apple-C（苹果电脑）或Ctrl-C复制链接。"
+    multiplayer_hint: " 点击全选，然后按Command-C（苹果电脑）或Ctrl-C复制链接。"
     multiplayer_coming_soon: "多人游戏的更多特性！"
     multiplayer_sign_in_leaderboard: "注册并登录账号，就可以将您的成就发布到排行榜上。"
 
