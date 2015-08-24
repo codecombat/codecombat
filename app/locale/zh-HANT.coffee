@@ -51,7 +51,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     play_as: "扮演" # Ladder page
     spectate: "旁觀" # Ladder page
     players: "玩家" # Hover over a level on /play
-    hours_played: "hours played" # Hover over a level on /play
+    hours_played: "小時已玩" # Hover over a level on /play
     items: "物品" # Tooltip on item shop button from /play
     unlock: "解鎖" # For purchasing items and heroes
     confirm: "確認"
@@ -493,11 +493,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     backstab: "背刺" # As in "this dagger does this much backstab damage"
     skills: "技能"
     attack_1: "造成"
-    attack_2: "例表"
-    attack_3: "武器傷害。"
-    health_1: "收穫"
-    health_2: "例表"
-    health_3: "裝備血量。"
+    attack_2: "的實際傷害(使用當前"
+    attack_3: "時）。"
+    health_1: "穫得"
+    health_2: "的裝備血量(使用當前"
+    health_3: "時）。"
     speed_1: "移動速度"
     speed_2: "米每秒。"
     available_for_purchase: "可以購買" # Shows up when you have unlocked, but not purchased, a hero in the hero store
