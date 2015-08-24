@@ -95,6 +95,10 @@ mixin course-block(course, courseID)
           strong #{course.unlocked ? '[ enrolled ]' : ''}
       .panel-body
         .container-fluid
+          .row
+            .col-md-12
+              p
+               img.course-image(src="#{course.image}")
           .row.button-row
             .col-md-6
               strong Topics

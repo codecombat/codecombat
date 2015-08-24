@@ -28,6 +28,7 @@ module.exports =
       service: 'stripe'
       amount: parseInt(stripeCharge.amount)
     payment.set 'description', stripeCharge.metadata.description if stripeCharge.metadata.description
+    payment.set 'gems', parseInt(stripeCharge.metadata.gems) if stripeCharge.metadata.gems
     payment.set 'stripe',
       customerID: stripeCharge.customer
       timestamp: parseInt(stripeCharge.metadata.timestamp)

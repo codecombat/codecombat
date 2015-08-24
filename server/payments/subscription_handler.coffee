@@ -127,6 +127,7 @@ class SubscriptionHandler extends Handler
       metadata =
         type: req.body.type
         userID: req.user._id + ''
+        gems: subscriptions.basic.gems * 12
         timestamp: parseInt(req.body.stripe?.timestamp)
         description: req.body.description
 
@@ -146,6 +147,14 @@ class SubscriptionHandler extends Handler
           stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
           stripeInfo.free = endDate.toISOString().substring(0, 10)
           req.user.set('stripe', stripeInfo)
+
+          # Add year's worth of gems to User
+          purchased = _.clone(req.user.get('purchased'))
+          purchased ?= {}
+          purchased.gems ?= 0
+          purchased.gems += parseInt(charge.metadata.gems)
+          req.user.set('purchased', purchased)
+
           req.user.save (err, user) =>
             if err
               @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")

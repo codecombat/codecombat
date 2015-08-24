@@ -1394,7 +1394,9 @@ describe 'Subscriptions', ->
               endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
               expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
               expect(stripeInfo.customerID).toBeDefined()
+              expect(user1.get('purchased')?.gems).toEqual(3500*12)
               Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
                 expect(err).toBeNull()
                 expect(payment).toBeDefined()
+                expect(payment.get('gems')).toEqual(3500*12)
                 done()
