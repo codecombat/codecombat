@@ -439,7 +439,7 @@
     payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     sale_already_subscribed: "You're already subscribed!"
     sale_blurb1: "Save 35%"
-    sale_blurb2: "off regular subscription price!"
+    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
     sale_button: "Sale!"
     sale_button_title: "Save 35% when you purchase a 1 year subscription"
     sale_click_here: "Click Here"
