@@ -1,5 +1,6 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/account/subscription-sale-view'
+AuthModal = require 'views/core/AuthModal'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
 
@@ -28,6 +29,7 @@ module.exports = class SubscriptionSaleView extends RootView
     c
 
   onPayButton: ->
+    return @openModalView new AuthModal() if me.isAnonymous()
     @state = undefined
     @stateMessage = undefined
     @render()

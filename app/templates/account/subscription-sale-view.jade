@@ -12,9 +12,7 @@ block content
       a(href="/account/subscription", data-i18n="account.subscription")
     li.active(data-i18n="account.sale") Sale
 
-  if me.get('anonymous')
-    p(data-i18n="account_settings.not_logged_in")
-  else if me.hasSubscription()
+  if me.hasSubscription()
     h1(data-i18n="subscribe.sale_already_subscribed")
     span.spr(data-i18n="subscribe.sale_continue")
     a(href="/play", data-i18n="subscribe.sale_click_here")
