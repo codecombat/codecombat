@@ -444,7 +444,6 @@
     sale_button_title: "Save 35% when you purchase a 1 year subscription"
     sale_click_here: "Click Here"
     sale_continue: "Ready to continue adventuring?"
-    sale_paid: "Payment received.  Thanks!"
     sale_title: "Back to School Sale"
     sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Monthly Subscription"
