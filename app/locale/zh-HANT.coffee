@@ -51,7 +51,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     play_as: "扮演" # Ladder page
     spectate: "旁觀" # Ladder page
     players: "玩家" # Hover over a level on /play
-    hours_played: "hours played" # Hover over a level on /play
+    hours_played: "小時已玩" # Hover over a level on /play
     items: "物品" # Tooltip on item shop button from /play
     unlock: "解鎖" # For purchasing items and heroes
     confirm: "確認"
@@ -1138,15 +1138,15 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     unknown: "未知錯誤."
 
   resources:
-    sessions: "會談"
-    your_sessions: "您的會談"
+    sessions: "會話"
+    your_sessions: "您的會話"
     level: "等級"
     social_network_apis: "社群網路 APIs"
     facebook_status: "Facebook 狀態"
     facebook_friends: "Facebook 朋友"
-    facebook_friend_sessions: "Facebook 朋友會談"
-    gplus_friends: "G+ 朋友"
-    gplus_friend_sessions: "G+ 朋友會談"
+    facebook_friend_sessions: "Facebook 朋友會話"
+    gplus_friends: "Google+ 朋友"
+    gplus_friend_sessions: "Google+ 朋友會話"
     leaderboard: "排行榜"
     user_schema: "用戶模式"
     user_profile: "用戶信息"
@@ -1160,8 +1160,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     components: "組建"
     thang: "物品"
     thangs: "物品"
-    level_session: "您的會談"
-    opponent_session: "敵人會談"
+    level_session: "您的會話"
+    opponent_session: "對手會話"
     article: "文章"
     user_names: "用戶名稱"
     thang_names: "物品名稱"
@@ -1172,7 +1172,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     sprite_sheet: "貼圖集"
     employers: "員工"
     candidates: "候選人"
-    candidate_sessions: "候選人會談"
+    candidate_sessions: "候選人會話"
     user_remark: "用戶備註"
     user_remarks: "用戶備註"
     versions: "版本"
@@ -1303,7 +1303,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     custom_avatar: "客制 CodeCombat 頭像"
     heap: "給六個月的\"Startup\"訪問"
     credits: "信譽"
-    one_month_coupon: "優惠券: 選擇 Rails 或者 HTML"
+    one_month_coupon: "優惠: 選擇 Rails 或者 HTML"
     one_month_discount: "折扣 30% : 選擇 Rails 或者 HTML"
     license: "許可證"
     oreilly: "您選擇的電子書"
