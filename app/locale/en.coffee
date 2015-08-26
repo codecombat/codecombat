@@ -443,6 +443,8 @@
     sale_button: "Sale!"
     sale_button_title: "Save 35% when you purchase a 1 year subscription"
     sale_click_here: "Click Here"
+    sale_feature_here: "Here's what you'll get:"
+    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
     sale_continue: "Ready to continue adventuring?"
     sale_title: "Back to School Sale"
     sale_view_button: "Buy 1 year subscription for"

@@ -24,9 +24,19 @@ block content
       p.center
         img(src="/images/pages/account/subscription/teacher-banner.png")
       br
-      p.center.sale-blurb
-        strong.spr(data-i18n="subscribe.sale_blurb1")
-        span(data-i18n="subscribe.sale_blurb2")
+      .above-blurb
+        p.sale-blurb
+          strong.spr(data-i18n="subscribe.sale_blurb1")
+          span(data-i18n="subscribe.sale_blurb2")
+        br
+        div
+          .sale-blurb(data-i18n="subscribe.sale_feature_here")
+          ul
+            li.feature-description(data-i18n="[html]subscribe.feature2")
+            li.feature-description(data-i18n="subscribe.feature3")
+            li.feature-description(data-i18n="[html]subscribe.sale_feature4")
+            li.feature-description(data-i18n="subscribe.feature5")
+            li.feature-description(data-i18n="[html]subscribe.feature7")
       br
       p.center
         button.btn.btn-success#pay-button #{payButtonText}
