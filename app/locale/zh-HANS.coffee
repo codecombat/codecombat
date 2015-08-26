@@ -309,9 +309,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_great_responsibility: "更强的编程技巧也意味着有更高的责任来进行调试。"
     tip_munchkin: "如果您不吃掉您的蔬菜, 一个小矮人将在您睡着之后来找您。"
     tip_binary: "这个世界上只有10种人: 那些懂二进制的, 还有那些不懂二进制的。"
-    tip_commitment_yoda: "一个程序员必须有高度的责任感和一颗认真的心。 - 尤达大师"
-    tip_no_try: "做。 或是不做。 这世上不存在'尝试'这种东西。 - 尤达大师"
-    tip_patience: "您必须要有耐心，年轻的学徒 - 尤达大师"
+    tip_commitment_yoda: "一个程序员必须有高度的责任感和一颗认真的心。 ~ 尤达大师"
+    tip_no_try: "做。 或是不做。 这世上不存在'尝试'这种东西。 - 尤达大师《星球大战》"
+    tip_patience: "您必须要有耐心，年轻的学徒 - 尤达大师《星球大战》"
     tip_documented_bug: "一个写在文档里的漏洞不算漏洞, 那是个特色。"
     tip_impossible: "在事情未完成之前，一切都看似不可能。 - 纳尔逊·曼德拉"
     tip_talk_is_cheap: "多说无用, 亮出您的代码。 - Linus Torvalds"
@@ -336,7 +336,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_hate_computers: "那些认为他们讨厌电脑的人，其实他们讨厌的是垃圾程序编写员。- Larry Niven"
     tip_open_source_contribute: "您可以帮助「CodeCombat」进步！"
     tip_recurse: "迭代为人，递归为神 - L. Peter Deutsch"
-    tip_free_your_mind: "丢掉一切私心杂念，丢掉害怕、疑问和拒信，解放您的思想。 - Morpheus（黑客帝国）"
+    tip_free_your_mind: "丢掉一切私心杂念，丢掉害怕、疑问和拒信，解放您的思想。 - Morpheus《黑客帝国》"
     tip_strong_opponents: "即使是最强大的对手也是有弱点的. - 宇智波鼬《火影忍者》"
     tip_paper_and_pen: "在您开始编码之前，您可以随时用一张纸和一支笔作计划。"
 
@@ -389,7 +389,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     pile_gems: "一堆宝石"
     chest_gems: "一箱宝石"
     purchasing: "正在付款..."
-    declined: "您的卡片被拒绝"
+    declined: "您的信用卡被拒绝"
     retrying: "服务器错误，请重试"
     prompt_title: "没有足够数量的宝石"
     prompt_body: "还需要更多吗？"
@@ -429,7 +429,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parents_title: "您的孩子将要学习编写程序。" # {change}
     parents_blurb1: "通过使用CodeCombat，您的孩子将学习编写真正的程序代码。他们将学到简单指令，进而处理更复杂的问题。"
     parents_blurb1a: "不用怀疑计算机编程能力将是您的孩子作为一个成年人的基本技能。到2020年，77%的工作将会需要编码能力，并且软件工程师将在世界各地成为高需求职业。您知道吗，计算机科学是收入最高的大学学位？"
-    parents_blurb2: "每月支付9.9美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。" # {change}
+    parents_blurb2: "每月支付9.99美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。" # {change}
     parents_blurb3: "无风险承诺：100%退款，一键取消订阅。"
     payment_methods: "付费方式"
     payment_methods_title: "可接受的付款方式"
