@@ -331,7 +331,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_source_code: "我想改变世界，但是他们不给我源代码。"
     tip_javascript_java: "Java和JavaScript的关系就好比是马和马云。 - Chris Heilmann"
     tip_move_forward: "不管您做什么，前进就对了。 - Martin Luther King Jr."
-    tip_google: "有问题不能解决？百(goo)度(gle)一下！" ＃not sure China can use google?
+    tip_google: "有问题不能解决？百(goo)度(gle)一下！" 
     tip_adding_evil: "增加一个邪恶掐捏"
     tip_hate_computers: "那些认为他们讨厌电脑的人，其实他们讨厌的是垃圾程序编写员。- Larry Niven"
     tip_open_source_contribute: "您可以帮助「CodeCombat」进步！"
