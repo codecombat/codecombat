@@ -1,8 +1,10 @@
-app = require 'core/application'
 RootView = require 'views/core/RootView'
 template = require 'templates/account/subscription-sale-view'
+app = require 'core/application'
 AuthModal = require 'views/core/AuthModal'
+CocoCollection = require 'collections/CocoCollection'
 stripeHandler = require 'core/services/stripe'
+ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 
 module.exports = class SubscriptionSaleView extends RootView
@@ -21,13 +23,30 @@ module.exports = class SubscriptionSaleView extends RootView
     @description = $.i18n.t('subscribe.stripe_description_year_sale')
     displayAmount = (@yearSaleAmount / 100).toFixed(2)
     @payButtonText = "#{$.i18n.t('subscribe.sale_view_button')} $#{displayAmount}"
+    @heroes = new CocoCollection([], {model: ThangType})
+    @heroes.url = '/db/thang.type?view=heroes'
+    @heroes.setProjection ['original','name','heroClass','description', 'gems','extendedName','i18n']
+    @heroes.comparator = 'gems'
+    @listenToOnce @heroes, 'sync', @onHeroesLoaded
+    @supermodel.loadCollection(@heroes, 'heroes')
 
   getRenderData: ->
     c = super()
+    c.heroes = @heroes.models
     c.payButtonText = @payButtonText
     c.state = @state
     c.stateMessage = @stateMessage
     c
+
+  onHeroesLoaded: ->
+    @formatHero hero for hero in @heroes.models
+    console.log @heroes.models
+
+  formatHero: (hero) ->
+    hero.name = utils.i18n hero.attributes, 'extendedName'
+    hero.name ?= utils.i18n hero.attributes, 'name'
+    hero.description = utils.i18n hero.attributes, 'description'
+    hero.class = hero.get('heroClass') or 'Warrior'
 
   onPayButton: ->
     return @openModalView new AuthModal() if me.isAnonymous()

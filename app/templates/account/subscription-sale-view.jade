@@ -40,6 +40,19 @@ block content
       br
       p.center
         button.btn.btn-success#pay-button #{payButtonText}
+      table.above-blurb(cellpadding="8")
+        tr
+          td(colspan=2)
+            h2.center(data-i18n="subscribe.sale_new_heroes")
+        each hero in heroes
+          if hero.get('extendedName') !== 'Captain Anya Weston' && hero.get('extendedName') !== 'Sir Tharin Thunderfist'
+            tr
+              td
+                img(src="http://codecombat.com#{hero.getPortraitURL()}")
+              td
+                p.sale-blurb #{hero.name}
+                p #{hero.class}
+                p #{hero.description}
       br
       if state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible
