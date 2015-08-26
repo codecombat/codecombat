@@ -11,6 +11,7 @@ module.exports = class SubscriptionSaleView extends RootView
   id: "subscription-sale-view"
   template: template
   yearSaleAmount: 7900
+  saleEndDate: new Date('2015-09-05')
 
   events:
     'click #pay-button': 'onPayButton'
@@ -34,13 +35,13 @@ module.exports = class SubscriptionSaleView extends RootView
     c = super()
     c.heroes = @heroes.models
     c.payButtonText = @payButtonText
+    c.saleEndDate = @saleEndDate
     c.state = @state
     c.stateMessage = @stateMessage
     c
 
   onHeroesLoaded: ->
     @formatHero hero for hero in @heroes.models
-    console.log @heroes.models
 
   formatHero: (hero) ->
     hero.name = utils.i18n hero.attributes, 'extendedName'
