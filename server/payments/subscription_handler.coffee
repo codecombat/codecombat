@@ -7,6 +7,7 @@ mongoose = require 'mongoose'
 async = require 'async'
 config = require '../../server_config'
 Handler = require '../commons/Handler'
+hipchat = require '../hipchat'
 discountHandler = require './discount_handler'
 Prepaid = require '../prepaids/Prepaid'
 User = require '../users/User'
@@ -159,6 +160,11 @@ class SubscriptionHandler extends Handler
             if err
               @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
               return @sendDatabaseError(res, err)
+            try
+              msg = "Year subscription purchased by #{req.user.get('email')} #{req.user.id}"
+              hipchat.sendHipChatMessage msg, ['tower']
+            catch error
+              @logSubscriptionError(req.user, "Year sub sale HipChat tower msg error: #{JSON.stringify(error)}")
             @sendSuccess(res, user)
 
   subscribeUser: (req, user, done) ->
