@@ -125,6 +125,16 @@ GLOBAL.createPrepaid = (type, maxRedeemers, done) ->
     maxRedeemers: maxRedeemers
   request.post options, done
 
+GLOBAL.purchasePrepaid = (type, maxRedeemers, months, done) ->
+  options = uri: GLOBAL.getURL('/db/prepaid/-/purchase')
+  options.json =
+    type: type
+    maxRedeemers: maxRedeemers
+    months: months
+    stripe:
+      timestamp: new Date().getTime()
+  request.post options, done
+
 newUserCount = 0
 GLOBAL.createNewUser = (done) ->
   name = password = "user#{newUserCount++}"

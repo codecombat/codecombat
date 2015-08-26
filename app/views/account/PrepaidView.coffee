@@ -1,6 +1,7 @@
-RootView      = require 'views/core/RootView'
-template      = require 'templates/account/prepaid-view'
+RootView = require 'views/core/RootView'
+template = require 'templates/account/prepaid-view'
 stripeHandler = require 'core/services/stripe'
+{getPrepaidCodeAmount} = require '../../core/utils'
 
 module.exports = class PrepaidView extends RootView
   id: 'prepaid-view'
@@ -20,7 +21,7 @@ module.exports = class PrepaidView extends RootView
   constructor: (options) ->
     super(options)
     @purchase =
-      total: 9.99
+      total: @baseAmount
       users: 3
       months: 3
     @updateTotal()
@@ -31,7 +32,7 @@ module.exports = class PrepaidView extends RootView
     c
 
   updateTotal: ->
-    @purchase.total = @baseAmount * @purchase.users * @purchase.months
+    @purchase.total = getPrepaidCodeAmount(@baseAmount, @purchase.users, @purchase.months)
     @render()
 
   # Form Input Callbacks
@@ -50,7 +51,6 @@ module.exports = class PrepaidView extends RootView
     @updateTotal()
 
   onPurchaseClicked: (e) ->
-    console.log "onPurchaseClicked"
     @purchaseTimestamp = new Date().getTime()
     @stripeAmount = @purchase.total * 100
     @description = "Prepaid Code for " + @purchase.users + " users / " + @purchase.months + " months"
@@ -63,9 +63,6 @@ module.exports = class PrepaidView extends RootView
 
 
   onStripeReceivedToken: (e) ->
-    console.log 'onStripeReceivedToken'
-    data =
-
     # TODO: show that something is happening in the UI
     options =
       url: '/db/prepaid/-/purchase'

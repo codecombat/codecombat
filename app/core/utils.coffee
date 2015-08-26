@@ -198,3 +198,8 @@ module.exports.getSponsoredSubsAmount = getSponsoredSubsAmount = (price=999, sub
     Math.round((1 - offset) * price + (subCount - 1 + offset) * price * 0.8)
   else
     Math.round((1 - offset) * price + 10 * price * 0.8 + (subCount - 11 + offset) * price * 0.6)
+
+module.exports.getPrepaidCodeAmount = getPrepaidCodeAmount = (price=999, users=0, months=0) ->
+  return 0 unless users > 0 and months > 0
+  total = price * users * months
+  total
