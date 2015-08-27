@@ -611,7 +611,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     private_clans_1: "Private Clans provide increased privacy and detailed progress information for each student."
     private_clans_2: "Pour créer un Clan privé, veuillez vous référer à la boîte à cocher 'Faire un clan privé' pendant la création du"
     private_clans_3: "."
-    who_for_title: "A qui CodeCombat est t-il destiné ?"
+    who_for_title: "A qui CodeCombat est-il destiné ?"
     who_for_1: "Nous recommandons CodeCombat pour les élèves âgés de 9 ans ou plus. Aucune expérience préalable de programmation n'est requise."
     who_for_2: "Nous avons conçu CodeCombat pour plaire à la fois aux garçons et aux filles."
     material_title: "Quelle quantité de contenu y a t-il ?"
