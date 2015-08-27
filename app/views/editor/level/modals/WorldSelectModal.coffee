@@ -47,7 +47,6 @@ module.exports = class WorldSelectModal extends ModalView
     canvases.attr('width', currentView.$el.width()*.8-70)
     canvases.attr('height', currentView.$el.height()*.6)
     @surface = new Surface @world, normalCanvas, webGLCanvas, {
-      wizards: false
       paths: false
       grid: true
       navigateToSelection: false

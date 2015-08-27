@@ -70,38 +70,25 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     choose_inventory: "Equipar objetos"
     buy_gems: "Comprar gemas"
     subscription_required: "Requiere Suscripción"
-    older_campaigns: "Campañas antiguas"
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
     campaign_beginner: "Campaña para principiantes"
-    awaiting_levels_adventurer_prefix: "Nosotros creamos 5 nuevos niveles cada semana"
+    awaiting_levels_adventurer_prefix: "Nosotros creamos 5 nuevos niveles cada semana" # {change}
     awaiting_levels_adventurer: "Registrate como un aventurero"
     awaiting_levels_adventurer_suffix: "para ser el primero en jugar nuevos niveles."
     adjust_volume: "Ajustar el volumen"
-    choose_your_level: "Elige tu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Puedes saltar a cualquier nivel de abajo, o discutir los niveles en "
-    adventurer_forum: "el foro del aventurero"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Campaña anterior de principiante"
-    campaign_old_beginner_description: "... en la que aprendes la hechicería de la programación."
-    campaign_dev: "Niveles aleatorios más difíciles"
-    campaign_dev_description: "... en los que aprendes sobre la interfaz mientras haces algo un poco más difícil."
     campaign_multiplayer: "Arenas Multijugador"
     campaign_multiplayer_description: "... en las que programas cara a cara contra otros jugadores."
-    campaign_player_created: "Creados Por Jugadores"
-    campaign_player_created_description: "... en los que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisan\">Hechiceros Artesanales</a>."
-    campaign_classic_algorithms: "Algorítmos Clásicos"
-    campaign_classic_algorithms_description: "... en la cual aprendes los algorítmos más populares de la Ciencia de la Computación."
+    campaign_old_multiplayer: "(Obsoleto) Antiguas Arenas Multijugador"
+    campaign_old_multiplayer_description: "Reliquias de una era más civilizada. Ninguna simulación es ejecutada para estas arenas multijugador antiguas y sin héroes."
 
   share_progress_modal:
-    blurb: "¡Estás haciendo un gran progreso! Cuéntale a alguien cuánto has aprendido con CodeCombat."
+    blurb: "¡Estás haciendo un gran progreso! Cuéntale a alguien cuánto has aprendido con CodeCombat." # {change}
     email_invalid: "Dirección de Email inválida."
     form_blurb: "¡Ingresa su email debajo y les enseñaremos!"
     form_label: "Dirección de Email"
     placeholder: "dirección de email"
     title: "Excelente Trabajo, Aprendiz"
-    tell_friend: "Cuéntale a un Amigo"
-    tell_parent: "Cuéntale a tus Padres"
 
   login:
     sign_up: "Crear Cuenta"
@@ -160,6 +147,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     unwatch: "No seguir"
     submit_patch: "Enviar Parche"
     submit_changes: "Enviar cambios"
+    save_changes: "Guardar cambios"
 
   general:
     and: "y"
@@ -257,12 +245,16 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_return_to_ladder: "Volver a la escalera"
     victory_play_continue: "Continuar"
     victory_saving_progress: "Guardando Progreso"
-    victory_go_home: "Ir al Inicio" # Only in old-style levels.
-    victory_review: "¡Cuéntanos más!" # Only in old-style levels.
+    victory_go_home: "Ir al Inicio"
+    victory_review: "¡Cuéntanos más!"
+    victory_review_placeholder: "¿Cómo estuvo el nivel?"
     victory_hour_of_code_done: "¿Has acabado?"
     victory_hour_of_code_done_yes: "¡Si, he terminado con mi Hora de Código!"
     victory_experience_gained: "XP Ganada"
     victory_gems_gained: "Gemas Ganadas"
+    victory_new_item: "Objeto Nuevo"
+    victory_viking_code_school: "Santo cielo, Holy smokes, el nivel que acabas de pasar era dificil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirteen un desarrollador web profesional en 14 semanas."
+    victory_become_a_viking: "Conviértete en un Vikingo"
     guide_title: "Guía"
     tome_minion_spells: "Hechizos de tus Secuaces" # Only in old-style levels.
     tome_read_only_spells: "Hechizos de Sólo Lectura" # Only in old-style levels.
@@ -273,7 +265,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tome_submit_button: "Enviar"
     tome_reload_method: "Recargar código original para este método" # Title text for individual method reload button.
     tome_select_method: "Seleccionar un Método"
-    tome_see_all_methods: "Ver todos los métodos que puedes editar" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_see_all_methods: "Ver todos los métodos que puedes editar" # Title text for method list selector (shown when there are multiple programmable methods).
     tome_select_a_thang: "Selecciona Alguien para "
     tome_available_spells: "Hechizos Disponibles"
     tome_your_skills: "Tus habilidades"
@@ -290,13 +282,19 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     time_current: "Ahora:"
     time_total: "Max:"
     time_goto: "Ir a:"
+    non_user_code_problem_title: "No se puede cargar el nivel"
+    infinite_loop_title: "Loop infinito detectado"
+    infinite_loop_description: "El código inicial para construir el mundo no terminó de ejecutarse. Probablemente es muy lento o tiene un loop infinito. O puede ser un bug. Puedes tratar ejecutando este código nuevamente o reiniciar el código a su estado por defecto. Si eso no lo arregla, haznos saber."
+    check_dev_console: "Tú puedes también abrir la consola de desarrollo para ver que puede salir mal."
+    check_dev_console_link: "(instrucciones)"
     infinite_loop_try_again: "Intentar nuevamente"
     infinite_loop_reset_level: "Reiniciar Nivel"
     infinite_loop_comment_out: "Comente Mi Código"
     tip_toggle_play: "Activa jugar/pausa con Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ y Ctrl+] rebobina y avance rápido."
+    tip_scrub_shortcut: "Ctrl+[ y Ctrl+] rebobina y avance rápido." # {change}
     tip_guide_exists: "Haga click en la guía en la parte superior de la página para obtener información útil"
     tip_open_source: "¡CodeCombat es 100% código abierto!"
+    tip_tell_friends: "¿Disfrutando de CodeCombat? ¡Cuéntale a tus amigos acerca de nosotros!"
     tip_beta_launch: "CodeCombat lanzó su beta en Octubre del 2013."
     tip_think_solution: "Piensa en la solución, no en el problema."
     tip_theory_practice: "En teoría, no hay diferencia entre la teoría y la práctica. Pero en la práctica, si la hay. - Yogi Berra"
@@ -338,6 +336,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_hate_computers: "Esa es la razón por la cual la gente piensa que odia las computadoras. Lo que ellos odian de verdad, es los pesimos programadores. - Larry Niven"
     tip_open_source_contribute: "¡Tú puedes ayudar a CodeCombat a mejorar!"
     tip_recurse: "Iterar es humano, recursar es divino. - L. Peter Deutsch"
+    tip_free_your_mind: "Tienes que dejar ir todo, Neo. Miedo, duda, e incredulidad. Libera tu mente. - Morpheus"
+    tip_strong_opponents: "Hasta los oponentes mas fuertes siempre tienen una debilidad. - Itachi Uchiha"
+    tip_paper_and_pen: "Antes de comenzar a codificar, siempre puedes planear con una hoja de papel y un lapicero."
 
   game_menu:
     inventory_tab: "Inventario"
@@ -358,7 +359,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   leaderboard:
     leaderboard: "Tabla de Posiciones"
-    view_other_solutions: "Ver Otras Soluciones"
+    view_other_solutions: "Ver Otras Soluciones" # {change}
     scores: "Puntajes"
     top_players: "Mejores jugadores"
     day: "Hoy"
@@ -398,12 +399,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   subscribe:
     comparison_blurb: "Agudiza tus habilidades con la suscripción a CodeCombat!"
-    feature1: "Más de 60 niveles basicos a lo largo de 4 mundos"
-    feature2: "7 poderosos <strong>nuevos heroés</strong> con habilidades unicas!"
-    feature3: "Más de 30 niveles extras"
+    feature1: "Más de 60 niveles basicos a lo largo de 4 mundos" # {change}
+    feature2: "7 poderosos <strong>nuevos heroés</strong> con habilidades unicas!" # {change}
+    feature3: "Más de 30 niveles extras" # {change}
     feature4: "<strong>3500 gemas bonus</strong> cada mes!"
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
+    feature7: "<strong>Clan</strong> Privado"
     free: "Gratis"
     month: "mes"
     subscribe_title: "Suscribirse"
@@ -424,10 +426,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     parent_email_sent: "Email enviado!"
     parent_email_title: "Cuál es el email de tus padres?"
     parents: "Para padres"
-    parents_title: "Su hijo aprenderá a programar."
+    parents_title: "Su hijo aprenderá a programar." # {change}
     parents_blurb1: "Con CodeCombat, su hijo aprenderá a escribiendo código real. Empezaran aprendiendo comandos simples avanzando a temas más complejos."
-    parents_blurb2: "Por $9.99 USD/mes, recibirán nuevos desafíos todas las semanas y soporte personal por email de programadores profesionales."
+    parents_blurb1a: "La Programación es una habilidad escencial que su hijo sin duda usará en la adultez. Para el 2020, habilidades básicas en software serán requeridas por el 77% de trabajos, y los ingenieros de software están en alta demanda alrededor del mundo. ¿Sabía que Ciencias de la Computación es la carrera mejor pagada?"
+    parents_blurb2: "Por $9.99 USD/mes, recibirán nuevos desafíos todas las semanas y soporte personal por email de programadores profesionales." # {change}
     parents_blurb3: "Sin Riesgo: Garantía de 100% de devolución, fácil 1-click y des- suscribirse."
+    payment_methods: "Metodos de pago"
+    payment_methods_title: "Metodos de pago aceptados."
+    payment_methods_blurb1: "Actualmente aceptamos tarjetas de credito y Alipay."
+    payment_methods_blurb2: "Si necesitas una forma alternativa de pago, por favor contactarse"
     stripe_description: "Suscripción Mensual"
     subscription_required_to_play: "Necesitas una suscripción para jugar este nivel."
     unlock_help_videos: "Suscríbete para desbloquear todos los video tutoriales."
@@ -440,7 +447,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     was_free_until: "Tuviste una suscripción gratuita hasta"
     managed_subs: "Suscripciones administradas"
     managed_subs_desc: "Agregar suscripciones para otros jugadores (alumnos, hijos, etc.)"
+    managed_subs_desc_2: "Los recipientes deben tener una cuenta de CodeCombat asociada con el email que usted provea."
     group_discounts: "Descuentos por grupo"
+    group_discounts_1: "También ofrecemos descuentos grupales por suscripciones masivas."
     group_discounts_1st: "1ra suscripción (incluye la tuya)" # {change}
     group_discounts_full: "Precio regular"
     group_discounts_2nd: "2-11 Suscripciones"
@@ -522,8 +531,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     volume_label: "Volumen"
     music_label: "Música"
     music_description: "Música encendida/apagada."
-    autorun_label: "Auto ejecutar"
-    autorun_description: "Controlar ejecución automática de código."
     editor_config: "Config. de Editor"
     editor_config_title: "Configuración del Editor"
     editor_config_level_language_label: "Lenguaje para este Nivel"
@@ -564,7 +571,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     nick_blurb: "Gurú motivacional"
     michael_title: "Programador"
     michael_blurb: "Sys Admin"
-    matt_title: "Programador"
+    matt_title: "Programador" # {change}
     matt_blurb: "Bicicletero"
     cat_title: "Jefe Artesano"
     cat_blurb: "Maestro del Aire"
@@ -576,39 +583,83 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     retrostyle_blurb: "Juegos con estilo Retro"
 
   teachers:
-    title: "CodeCombat para Profesores" # {change}
+    title: "CodeCombat para Profesores"
     intro_1: "CodeCombat es un juego online que enseña a programar.Los estudiantes escriben código en idiomas de programación real."
     intro_2: "No se necesita experiencia previa!"
     free_title: "¿Cuanto cuesta?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 per month for access to our other 120+ levels on our exclusive China servers."
-#    free_1: "CodeCombat Basic is FREE! There are 70+ free levels which cover every concept."
-#    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
+    cost_china: "CodeCombat es gratis en China por los primeros cinco niveles, despues cuesta $9.99(dólares) por mes para tener acceso a 120+ niveles que son exclusivos en nuestros servidores en China." # {change}
+    free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto." # {change}
+    free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
-#    teacher_subs_1: "Please contact"
-#    teacher_subs_2: "to set up a free monthly subscription."
+    teacher_subs_1: "Por favor contacte" # {change}
+    teacher_subs_2: "para configurar una suscripción mensual gratis." # {change}
+    teacher_subs_3: "para configurar su suscripción."
     sub_includes_title: "¿Qué se incluye en la suscripción?"
-    sub_includes_1: "Adicionalmente a los más de 70 niveles básicos, los estudiantes con una suscripción mensual obtienen acceso a estas características adicionales:"
-    sub_includes_2: "Más de 40 niveles de práctica"
+    sub_includes_1: "Adicionalmente a los más de 70 niveles básicos, los estudiantes con una suscripción mensual obtienen acceso a estas características adicionales:" # {change}
+    sub_includes_2: "Más de 40 niveles de práctica" # {change}
     sub_includes_3: "Video tutoriales"
-#    sub_includes_4: "Premium email support"
-    sub_includes_5: "7 heroes nuevos con habilidades unicas que dominar"
+    sub_includes_4: "Soporte de correo electronico Premium"
+    sub_includes_5: "7 heroes nuevos con habilidades unicas que dominar" # {change}
     sub_includes_6: "bonificación de 3500 gemas cada mes"
+    sub_includes_7: "Clanes privados"
+    monitor_progress_title: "¿Cómo monitoreo el progreso del estudiante?"
+    monitor_progress_1: "El progreso del estudiante puede ser monitoreado creando una"
+    monitor_progress_2: "para su clase."
+    monitor_progress_3: "Para agregar un estudiante, envíele el enlace de invitación para su Clan, que está en la"
+    monitor_progress_4: "página."
+    monitor_progress_5: "Después de que ellos se unan, podrá ver un resumen del progreso de los estudiantes en la página de su Clan."
+    private_clans_1: "Los Clanes privados proveen más privacidad y más detalle en la información de progreso de cada estudiante."
+    private_clans_2: "Para cerar un Clan privado, marque la caja 'Hacer clan privado' cuando esté creando un"
+    private_clans_3: "."
     who_for_title: "¿Para quienes es CodeCombat?"
-#    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
-#    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
-#    material_title: "How much material is there?"
-#    material_china: "Approximately 22 hours of gameplay spread over 120+ subscriber-only levels so far, with 5 new levels every week."
-#    material_1: "Approximately 8 hours of free content and an additional 14 hours of subscriber content, with 5 new levels every week."
-#    concepts_title: "What concepts are covered?"
+    who_for_1: "Recomendamos CodeCombat para estudiantes de edades 9 y arriba. No se require experiencia en programación."
+    who_for_2: "Hemos diseñado a CodeCombat para atraer a niños y niñas."
+    material_title: "Cuánto material hay?"
+    material_china: "Aproximadamente 22 horas de juego repartidas en más de 120 niveles sólo para suscriptores, con cinco nueveos niveles cada semana." # {change}
+    material_1: "Aproximadamente 8 horas de contenido gratis y un adicional de 14 horas de contenido de suscriptores, con cinco nueveos niveles cada semana." # {change}
+    concepts_title: "¿Qué conceptos están cubiertos?"
     how_much_title: "¿Cuánto cuesta una subscripción mensual?"
     how_much_1: "una"
     how_much_2: "suscribción mensual"
     how_much_3: "Cuesta u$s9.99, y puede ser cancelada en cualquier momento."
     how_much_4: "Adicionalmente, nosotros otorgamos descuentos a grupos grandes:"
-    group_discounts_1: "También ofrecemos descuentes grupales para suscripciones en masa."
+    how_much_5: "Aceptamos compras individuales con descuentos y suscripciones anuales para grupos, tales como una clase o una escuela. Por favor contacte"
+    how_much_6: "para más detalles."
+    more_info_title: "¿Dónde puedo encontrar más información?"
+    more_info_1: "Nuestro"
+    more_info_2: "el foro de profesores"
+    more_info_3: "es un buen lugar para connectarse con los educadores que estan usando CodeCombat."
     sys_requirements_title: "Requerimientos del sistema"
-    sys_requirements_1: "Debido que CodeCombat es un juego, es más difícil para las computadoras correrlo en relación a un tutorial escrito o un video. Para que todos puedan jugar, hemos optimizado la web para correr rápidamente en todos los navegadores modernos y en maquinas antiguas. Dicho esto, aquí están nuestras sugerencias para sacar el máximo provecho de su experiencia en la Hora del Código:" # {change}
-    sys_requirements_2: "Usar una versión actualizada del navegador Chrome o Firefox." # {change}
+    sys_requirements_1: "Un navegador moderno. Las últimas versiones de Chrome, Firefox o Safari. Internet Explorer 9 o más reciente."
+    sys_requirements_2: "CodeCombat no está soportado en iPad aún."
+
+  teachers_survey:
+    title: "Encuesta para profesores"
+    must_be_logged: "Debe iniiciar sesión primero. Por favor cree una cuenta o inicie sesión desde el menú en la parte superior."
+    retrieving: "Obteniendo información..."
+    being_reviewed_1: "Su solicitud para una prueba gratuita de subscripción está siendo"
+    being_reviewed_2: "revisada."
+    approved_1: "Su solicitud para una prueba gratuita de subscripción fue" #since about 1993 fué can use no tilde
+    approved_2: "Aprobada."
+    approved_3: "Instruccciones posteriores han sido enviadas a"
+    denied_1: "Su solicitud para una prueba gratuita de subscripción fue"
+    denied_2: "denegada."
+    contact_1: "Por favor contáctenos"
+    contact_2: "si tiene más preguntas."
+#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+    description_2: "página"
+    description_3: "de maestros."
+#    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
+    email: "Dirección de email"
+    school: "Nombre del colegio"
+    location: "Nombre de la ciudad"
+    age_students: "¿Qué edad tienen tus estudiantes?"
+    under: "Menor" #under like underage = menor as menor de edad
+    other: "Otro:"
+    amount_students: "¿A cuantos alumnos les enseñas?"
+    hear_about: "¿Donde escuchaste sobre CodeCombat?"
+    fill_fields: "Porfavor llenar todos los campos."
+    thanks: "Gracias! Vamos a mandarte instrucciónes para iniciar proximamente."
 
   versions:
     save_version_title: "Guardar nueva versión"
@@ -618,6 +669,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "ACEPTO"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Contacta a CodeCombat"
@@ -645,6 +697,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     picture_tab: "Imagen"
     delete_account_tab: "Borra tu cuenta"
     wrong_email: "Mail Incorrecto"
+    wrong_password: "Contraseña incorrecta"
     upload_picture: "Sube una imagen"
     delete_this_account: "Borrar esta cuenta permanentemente"
     god_mode: "Modo Dios"
@@ -653,7 +706,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     admin: "Admin"
     new_password: "Nueva Contraseña"
     new_password_verify: "Verificar"
-    type_in_email: "Ingrese su correo electrónico para confirmar la eliminación"
+    type_in_email: "Ingrese su correo electrónico para confirmar la eliminación" # {change}
+    type_in_password: "También, escribe tu password."
     email_subscriptions: "Suscripciones de Email"
     email_subscriptions_none: "No tienes suscripciones."
     email_announcements: "Noticias"
@@ -684,6 +738,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     keyboard_shortcuts: "Atajos de teclado"
     space: "Barra espaciadora"
     enter: "Enter"
+    press_enter: "Toca enter"
     escape: "Escape"
     shift: "Shift"
     run_code: "Ejecutar el código."
@@ -710,6 +765,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     article_editor_prefix: "¿Ves algún error en nuestros documentos? ¿Quieres hacer algunas instrucciones para tus propias creaciones? Revisa el"
     article_editor_suffix: "y ayuda a los jugadores de CodeCombat conseguir lo más posible de su tiempo jugando."
     find_us: "Encuentranos en etsos sitios"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Lee el blog de CodeCombat en Sett"
     social_discource: "Unite a la discusión en nuestro foro"
     social_facebook: "Me Gusta CodeCombat en Facebook"
@@ -717,6 +773,50 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     social_gplus: "Únete a CodeCombat con Google+"
     social_hipchat: "Chatea con nosotros en el chat público de CodeCombat en la sala HipChat"
     contribute_to_the_project: "Contribuir al proyecto"
+
+  clans:
+    clan: "Clan"
+    clans: "Clanes"
+    new_name: "Nuevo nombre de clan"
+    new_description: "descripción del clan"
+    make_private: "Hacer clan privado"
+    subs_only: "solo suscriptores"
+    create_clan: "Crear nuevo clan"
+    private_preview: "Previsualizar"
+    public_clans: "Clanes publicos"
+    my_clans: "Mis Clanes"
+    clan_name: "Nombre del clan"
+    name: "Nombre"
+#    chieftain: "Chieftain"
+    type: "Tipo"
+    edit_clan_name: "Editar el nombre del Clan"
+    edit_clan_description: "Editar descripción del clan"
+    edit_name: "editar nombre"
+    edit_description: "editar descripción"
+    private: "(privado)"
+    summary: "Resumen"
+    average_level: "Nivel Promedio"
+    average_achievements: "Logros Promedio"
+    delete_clan: "Borrar Clan"
+    leave_clan: "Abandonar Clan"
+    join_clan: "Ingresar Clan"
+    invite_1: "Invitar:"
+    invite_2: "*Invitar jugadores al clan, mandandoles este link."
+    members: "Miembros"
+    progress: "Progreso"
+    not_started_1: "no iniciado"
+    started_1: "iniciado"
+    complete_1: "completo"
+    exp_levels: "Expand levels"
+    rem_hero: "Remover Heróe"
+    status: "Stado"
+    complete_2: "Completo"
+    started_2: "Iniciado"
+    not_started_2: "No inciiado"
+    view_solution: "Click para ver la solución."
+    latest_achievement: "último logro"
+    playtime: "Tiempo de juego"
+    last_played: "Último jugado"
 
   classes:
     archmage_title: "Archimago"
@@ -753,6 +853,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     indoor: "Interior"
     desert: "Desierto"
     grassy: "Herboso"
+    mountain: "Mountaña"
+    glacier: "Glaciar"
     small: "Pequeño"
     large: "Grande"
     fork_title: "Fork de Nueva Versión"
@@ -775,6 +877,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     level_tab_thangs_all: "Todo"
     level_tab_thangs_conditions: "Condiciones Iniciales"
     level_tab_thangs_add: "Agregar Thangs"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "Agregar Componentes"
     component_configs: "Configuraciones del Componente"
     config_thang: "Doble clic para configurar un thang"
@@ -820,6 +923,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     pop_i18n: "Poblar I18N"
     tasks: "Tareas"
     clear_storage: "Borrar tus cambios locales"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Vista previa"
@@ -947,7 +1052,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tournament_rules: "Reglas del Torneo"
     tournament_blurb: "Escribe código, recolecta oro, arma ejercitos, aplasta adversarios, gana premios, y asciende en tu carrera por $40,000 en el Torneo Codicia! Echa un vistazo a los detalles"
     tournament_blurb_criss_cross: "Gana apuestas, construye caminos, burla tus oponentes, agarra gemas, y asciende tu perfil en nuestro torneo Cruzado! Echa un vistazo a los detalles"
-#    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+    tournament_blurb_zero_sum: "Suelta tus habilidades de código en recolección de oro y tácticas de batalla en este partido espejo alpino entre el hechicero rojo y el hechicero azul. El torneo comenzó el Viernes, 27 de Marzo y se extenderá hasta el Lunes, 6 de Abril a las 5PM PDT. Compite por la diversión y la gloria ! Echa un vistazo a los detalles:"
     tournament_blurb_blog: "en nuestro blog"
     rules: "Reglas"
     winners: "Ganadores"
@@ -966,6 +1071,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     no_achievements: "Sin Logros todavía."
     favorite_prefix: "Idioma favorito "
     favorite_postfix: "."
+    not_member_of_clans: "No se es miembro de ningún clan todavía."
 
   achievements:
     last_earned: "Último Ganado"
@@ -1071,6 +1177,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     user_remarks: "Observaciones del usuario"
     versions: "Versiones"
     items: "Items"
+    hero: "Heróe"
     heroes: "Héroes"
     achievement: "Logros"
     clas: "CLAs"
@@ -1081,9 +1188,32 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     poll: "Encuesta"
     user_polls_record: "Historia de Visitas de Encuestas"
 
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arguments: "Arguments"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
+
   delta:
     added: "Agregado"
     modified: "Modificado"
+#    not_modified: "Not Modified"
     deleted: "Borrado"
     moved_index: "Índice movido"
     text_diff: "Diferir Texto"

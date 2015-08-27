@@ -25,7 +25,10 @@ if topScores
           td.ago-cell= row.ago
           td.viewable-cell
             if viewable
-              .glyphicon.glyphicon-eye-open
+              if (me.get('preferredLanguage', true) || 'en-US').substr(0, 2) == 'en'
+                .btn.btn-xs.btn-info Watch
+              else
+                .glyphicon.glyphicon-eye-open
             else
               .glyphicon.glyphicon-eye-close
 else if loading

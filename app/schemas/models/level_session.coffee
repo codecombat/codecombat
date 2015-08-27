@@ -88,7 +88,7 @@ _.extend LevelSessionSchema.properties,
       type: 'boolean'  # Not tracked any more
     frame:
       type: 'number'  # Not tracked any more
-    thangs:
+    thangs:   # ... what is this? Is this used?
       type: 'object'
       additionalProperties:
         title: 'Thang'
@@ -208,6 +208,12 @@ _.extend LevelSessionSchema.properties,
     type: 'boolean'
     description: 'Whether this session is still in the first ranking chain after being submitted.'
 
+  randomSimulationIndex:
+    type: 'number'
+    description: 'A random updated every time the game is randomly simulated for a uniform random distribution of simulations (see #2448).'
+    minimum: 0
+    maximum: 1
+
   unsubscribed:
     type: 'boolean'
     description: 'Whether the player has opted out of receiving email updates about ladder rankings for this session.'
@@ -241,7 +247,7 @@ _.extend LevelSessionSchema.properties,
           description: 'The date a match was computed.'
         playtime:
           title: 'Playtime so far'
-          description: 'The total seconds of playtime on this session when the match was computed.'
+          description: 'The total seconds of playtime on this session when the match was computed. Not currently tracked.'
           type: 'number'
         metrics:
           type: 'object'
@@ -287,6 +293,14 @@ _.extend LevelSessionSchema.properties,
                 description: 'What submittedCodeLanguage the opponent used during the match'
         simulator: {type: 'object', description: 'Holds info on who simulated the match, and with what tools.'}
         randomSeed: {description: 'Stores the random seed that was used during this match.'}
+
+  leagues:
+    c.array {description: 'Multiplayer data for the league corresponding to Clans and CourseInstances the player is a part of.'},
+      c.object {},
+        leagueID: {type: 'string', description: 'The _id of a Clan or CourseInstance the user belongs to.'}
+        stats: c.object {description: 'Multiplayer match statistics corresponding to this entry in the league.'}
+
+LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
 c.extendPermissionsProperties LevelSessionSchema, 'level.session'

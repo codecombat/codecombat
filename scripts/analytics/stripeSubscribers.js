@@ -18,11 +18,11 @@ var earliestDate = new Date("2015-03-01T00:00:00.000Z");
 var subs = {};
 
 getSubscriptions(null, function () {
-  console.log('999 recurring sub counts:');
+  console.log('Recurring sub counts:');
   for (var created in subs) {
     for (var amount in subs[created]) {
-      if (amount === '999') {
-        console.log(created, subs[created][amount]['recurring'])
+      if (parseInt(amount) > 0) {
+        console.log(created, amount, subs[created][amount]['recurring'])
       }
     }
   }

@@ -18,7 +18,7 @@ class LevelSessionHandler extends Handler
     if req.user?.isAdmin() or
        req.user?.id is document.creator or
        ('employer' in (req.user?.get('permissions') ? [])) or
-       !document.submittedCode  # TODO: only allow leaderboard access to non-top-5 solutions
+       not document.submittedCode  # TODO: only allow leaderboard access to non-top-5 solutions
       return documentObject
     else
       return _.omit documentObject, @privateProperties
@@ -53,6 +53,7 @@ class LevelSessionHandler extends Handler
     get = (method ? req.method).toLowerCase() is 'get'
     return true if get and document.get('submitted')
     return true if get and ('employer' in (req.user?.get('permissions') ? []))
+    return true if get and not document.get('submittedCode')  # Allow leaderboard access to non-multiplayer sessions
     super(arguments...)
 
   getCodeLanguageCounts: (req, res) ->

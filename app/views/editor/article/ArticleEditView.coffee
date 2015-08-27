@@ -54,8 +54,12 @@ module.exports = class ArticleEditView extends RootView
     return unless @treema and @preview
     m = marked(@treema.data.body)
     b = $(@preview.document.body)
-    b.find('#insert').html(m)
-    b.find('#title').text(@treema.data.name)
+    onLoadHandler = =>
+      if b.find('#insert').length == 1
+        b.find('#insert').html(m)
+        b.find('#title').text(@treema.data.name)
+        clearInterval(id)
+    id = setInterval(onLoadHandler, 100)
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -71,7 +75,8 @@ module.exports = class ArticleEditView extends RootView
     @patchesView.load()
 
   openPreview: ->
-    @preview = window.open('/editor/article/preview', 'preview', 'height=800,width=600')
+    if not @preview or @preview.closed
+      @preview = window.open('/editor/article/preview', 'preview', 'height=800,width=600')
     @preview.focus() if window.focus
     @preview.onload = => @pushChangesToPreview()
     return false

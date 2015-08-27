@@ -44,7 +44,6 @@ module.exports = Surface = class Surface extends CocoClass
   debug: false
 
   defaults:
-    wizards: true
     paths: true
     grid: false
     navigateToSelection: true
@@ -160,16 +159,10 @@ module.exports = Surface = class Surface extends CocoClass
     return if @loaded
     @loaded = true
     @lankBoss.createMarks()
-    @lankBoss.createIndieLanks @world.indieSprites, @options.wizards
     @updateState true
     @drawCurrentFrame()
     createjs.Ticker.addEventListener 'tick', @tick
     Backbone.Mediator.publish 'level:started', {}
-
-  createOpponentWizard: (opponent) ->
-    @lankBoss.createOpponentWizard opponent
-
-
 
   #- Update loop
 
@@ -572,7 +565,6 @@ module.exports = Surface = class Surface extends CocoClass
     return if @realTime
     @realTime = true
     @onResize()
-    @lankBoss.selfWizardLank?.toggle false
     @playing = false  # Will start when countdown is done.
     if @heroLank
       @previousCameraZoom = @camera.zoom
@@ -583,7 +575,6 @@ module.exports = Surface = class Surface extends CocoClass
     @realTime = false
     @onResize()
     _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
-    @lankBoss.selfWizardLank?.toggle true
     @normalCanvas.add(@webGLCanvas).removeClass 'flag-color-selected'
     if @previousCameraZoom
       @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000

@@ -61,7 +61,7 @@ module.exports = Lank = class Lank extends CocoClass
   constructor: (@thangType, options) ->
     super()
     spriteName = @thangType.get('name')
-    @isMissile = /(Missile|Arrow|Spear)/.test(spriteName) and not /(Tower|Charge)/.test(spriteName)
+    @isMissile = /(Missile|Arrow|Spear|Bolt)/.test(spriteName) and not /(Tower|Charge)/.test(spriteName)
     @options = _.extend($.extend(true, {}, @options), options)
     @setThang @options.thang
     if @thang?
@@ -476,8 +476,9 @@ module.exports = Lank = class Lank extends CocoClass
       bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
     if @thang.showsName
       @setNameLabel(if @thang.health <= 0 then '' else @thang.id)
-    else if @options.playerName
-      @setNameLabel @options.playerName
+    # Let's try just using the DuelStatsView instead of this.
+    #else if @options.playerName
+    #  @setNameLabel @options.playerName
 
   configureMouse: ->
     @sprite.cursor = 'pointer' if @thang?.isSelectable

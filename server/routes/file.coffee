@@ -22,7 +22,7 @@ fileDelete = (req, res) ->
     Grid.gfs.remove {_id: filedata._id, root: 'media'}, (err) ->
       return errors.serverError(res) if err
       return res.end()
-    
+
 fileGet = (req, res) ->
   query = parsePathIntoQuery(req.path)
 
@@ -48,7 +48,7 @@ fileGet = (req, res) ->
       res.setHeader('Cache-Control', 'public')
       readstream.pipe(res)
       handleStreamEnd(res, res)
-      
+
 parsePathIntoQuery = (path) ->
   path = path[6..]
   path = decodeURI path
@@ -130,7 +130,7 @@ savePNG = (req, res) ->
 userCanEditFile = (user=null, file=null) ->
   # no user means 'anyone'. No file means 'any file'
   return false unless user
-  return true if user.isAdmin()
+  return true if user.isAdmin() or user.isArtisan()
   return false unless file
   return true if file.metadata.creator is user.id
   return false

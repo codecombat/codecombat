@@ -17,6 +17,9 @@ config.mongo =
   port: process.env.COCO_MONGO_PORT or 27017
   host: process.env.COCO_MONGO_HOST or 'localhost'
   db: process.env.COCO_MONGO_DATABASE_NAME or 'coco'
+  analytics_port: process.env.COCO_MONGO_ANALYTICS_PORT or 27017
+  analytics_host: process.env.COCO_MONGO_ANALYTICS_HOST or 'localhost'
+  analytics_db: process.env.COCO_MONGO_ANALYTICS_DATABASE_NAME or 'analytics'
   mongoose_replica_string: process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING or ''
   mongoose_tokyo_replica_string: process.env.COCO_MONGO_MONGOOSE_TOKYO_REPLICA_STRING or ''
 

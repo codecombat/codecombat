@@ -542,7 +542,8 @@ handleLadderUpdate = (req, res) ->
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
   # TODO: somehow fetch the histograms
-  emailDays = [1, 2, 4, 7, 14, 30]
+  #emailDays = [1, 2, 4, 7, 14, 30]
+  emailDays = [1, 3, 7]  # Reduced to keep smaller monthly recipient footprint
   now = new Date()
   for daysAgo in emailDays
     # Get every session that was submitted in a 5-minute window after the time.
@@ -615,7 +616,7 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
         log.error "Error sending ladder update email: #{err} with result #{result}" if err
 
     urlForMatch = (match) ->
-      "http://codecombat.com/play/level/#{session.levelID}?team=#{session.team}&session=#{session._id}&opponent=#{match.opponents[0].sessionID}"
+      "http://codecombat.com/play/level/#{session.levelID}?team=#{session.team}&opponent=#{match.opponents[0].sessionID}"
 
     onFetchedDefeatedOpponent = (err, defeatedOpponent) ->
       if err
@@ -719,16 +720,9 @@ sendNextStepsEmail = (user, now, daysAgo) ->
       isKid = not isAdult  # Assume kid if not specified
       offers =
         'app-academy': isAdult and isVeryFast
-        'designlab': isAdult and Math.random() < 0.25
-        'tealeaf-academy': isAdult and isFast
-        'talent-buddy': isAdult and Math.random() < 0.25
-        'coding-campus': isAdult and Math.random() < 0.25  # TODO: geodetect UT and give priority
         'viking': isAdult and isFast
-        'maker-square': isAdult and isFast
-        'the-firehose-project': isAdult and isFast
-        #'mv-code-club': isKid  # TODO: geodetect, get landing page URL
-      nAdditionalOffers = Math.max 0, 4 - _.filter(offers).length
-      possibleAdditionalOffers = ['code-school', 'one-month', 'learnable', 'pluralsight']
+      nAdditionalOffers = Math.max 0, 1 - _.filter(offers).length
+      possibleAdditionalOffers = ['bloc', 'tuts-plus', 'thinkful']
       for offer in _.sample possibleAdditionalOffers, nAdditionalOffers
         offers[offer] = true
       if user.isPremium()

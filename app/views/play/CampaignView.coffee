@@ -20,6 +20,7 @@ ShareProgressModal = require 'views/play/modal/ShareProgressModal'
 UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
+storage = require 'core/storage'
 
 trackedHourOfCode = false
 
@@ -29,7 +30,7 @@ class LevelSessionsCollection extends CocoCollection
 
   constructor: (model) ->
     super()
-    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
+    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID,state.difficulty,playtime"
 
 class CampaignsCollection extends CocoCollection
   url: '/db/campaign'
@@ -65,6 +66,7 @@ module.exports = class CampaignView extends RootView
       @terrain ?= 'dungeon'
     @levelStatusMap = {}
     @levelPlayCountMap = {}
+    @levelDifficultyMap = {}
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     unless @terrain
@@ -106,7 +108,7 @@ module.exports = class CampaignView extends RootView
     # If it's a new player who didn't appear to come from Hour of Code, we register her here without setting the hourOfCode property.
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     if not trackedHourOfCode and not me.get('hourOfCode') and elapsed < 5 * 60 * 1000
-      $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
+      $('body').append($('<img src="https://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
       trackedHourOfCode = true
 
     @requiresSubscription = not me.isPremium()
@@ -148,9 +150,10 @@ module.exports = class CampaignView extends RootView
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
-    if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents']
+    if @terrain and me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
+      @openModalView new AuthModal supermodel: @supermodel, showSignupRationale: true, mode: 'signup'
+    else if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and not storage.load('sent-parent-email') and not me.isPremium()
       @openModalView new ShareProgressModal()
-
 
   setCampaign: (@campaign) ->
     @render()
@@ -177,6 +180,7 @@ module.exports = class CampaignView extends RootView
     @campaign.renderedLevels = context.levels if @campaign
 
     context.levelStatusMap = @levelStatusMap
+    context.levelDifficultyMap = @levelDifficultyMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
     context.mapType = _.string.slugify @terrain
@@ -198,7 +202,7 @@ module.exports = class CampaignView extends RootView
 
     if @campaigns
       context.campaigns = {}
-      for campaign in @campaigns.models
+      for campaign in @campaigns.models when campaign.get('slug') isnt 'auditions'
         context.campaigns[campaign.get('slug')] = campaign
         if @sessions.loaded
           levels = _.values($.extend true, {}, campaign.get('levels') ? {})
@@ -257,11 +261,13 @@ module.exports = class CampaignView extends RootView
   annotateLevel: (level) ->
     level.position ?= { x: 10, y: 10 }
     level.locked = not me.ownsLevel level.original
+    level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
     level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
     level.locked = false if @editorMode
     level.locked = false if @campaign?.get('name') is 'Auditions'
+    level.locked = false if @campaign?.get('name') is 'Intro'
     level.locked = false if me.isInGodMode()
-    level.locked = false if level.slug is 'apocalypse'
+    level.locked = false if level.slug is 'robot-ragnarok'
     level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
     level.disabled = false if me.isInGodMode()
     level.color = 'rgb(255, 80, 60)'
@@ -272,35 +278,69 @@ module.exports = class CampaignView extends RootView
     if level.unlocksHero
       level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
     level.hidden = level.locked
+    if level.concepts?.length
+      level.displayConcepts = level.concepts
+      maxConcepts = 6
+      if level.displayConcepts.length > maxConcepts
+        level.displayConcepts = level.displayConcepts.slice -maxConcepts
     level
 
   countLevels: (levels) ->
     count = total: 0, completed: 0
-    for level in levels
+    for level, levelIndex in levels
       @annotateLevel level unless level.locked?  # Annotate if we haven't already.
       unless level.disabled
-        ++count.total
+        unlockedInSameCampaign = levelIndex < 5  # First few are always counted (probably unlocked in previous campaign)
+        for otherLevel in levels when not unlockedInSameCampaign and otherLevel isnt level
+          for reward in (otherLevel.rewards ? []) when reward.level
+            unlockedInSameCampaign ||= reward.level is level.original
+        ++count.total if unlockedInSameCampaign or not level.locked
         ++count.completed if @levelStatusMap[level.slug] is 'complete'
     count
 
   showLeaderboard: (levelSlug) ->
-    #levelSlug ?= 'siege-of-stonehold'  # Testing
     leaderboardModal = new LeaderboardModal supermodel: @supermodel, levelSlug: levelSlug
     @openModalView leaderboardModal
 
   determineNextLevel: (levels) ->
     foundNext = false
+    dontPointTo = ['lost-viking', 'kithgard-mastery']  # Challenge levels we don't want most players bashing heads against
     for level in levels
+      # Iterate through all levels in order and look to find the first unlocked one that meets all our criteria for being pointed out as the next level.
       level.nextLevels = (reward.level for reward in level.rewards ? [] when reward.level)
       unless foundNext
         for nextLevelOriginal in level.nextLevels
           nextLevel = _.find levels, original: nextLevelOriginal
-          if nextLevel and not nextLevel.locked and @levelStatusMap[nextLevel.slug] isnt 'complete' and (me.isPremium() or not nextLevel.requiresSubscription or nextLevel.slug is 'apocalypse')
+
+          # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
+          if nextLevel and nextLevel.slug is 'kithgard-mastery' and not nextLevel.locked and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
+            unless (timesPointedOut = storage.load("pointed-out-#{nextLevel.slug}") or 0) > 3
+              # We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
+              dontPointTo = _.without dontPointTo, nextLevel.slug
+              storage.save "pointed-out-#{nextLevel.slug}", timesPointedOut + 1
+
+          # Should we point this level out?
+          if nextLevel and not nextLevel.locked and not nextLevel.disabled and @levelStatusMap[nextLevel.slug] isnt 'complete' and nextLevel.slug not in dontPointTo and not nextLevel.replayable and (
+            me.isPremium() or
+            not nextLevel.requiresSubscription or
+            (nextLevel.slug is 'boom-and-bust' and not @levelStatusMap['defense-of-plainswood']) or
+            (nextLevel.slug is 'favorable-odds' and not @levelStatusMap['the-raised-sword']) or
+            (nextLevel.slug is 'robot-ragnarok' and @levelStatusMap['the-raised-sword'])
+          )
             nextLevel.next = true
             foundNext = true
             break
     if not foundNext and levels[0] and not levels[0].locked and @levelStatusMap[levels[0].slug] isnt 'complete'
       levels[0].next = true
+
+  calculateExperienceScore: ->
+    adultPoint = me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']  # They have to have answered the poll for this, likely after Shadow Guard.
+    speedPoints = 0
+    for [levelSlug, speedThreshold] in [['dungeons-of-kithgard', 50], ['gems-in-the-deep', 55], ['shadow-guard', 55], ['forgetful-gemsmith', 40], ['true-names', 40]]
+      if _.find(@sessions.models, (session) -> session.get('levelID') is levelSlug)?.attributes.playtime <= speedThreshold
+        ++speedPoints
+    experienceScore = adultPoint + speedPoints  # 0-6 score of how likely we think they are to be experienced and ready for Kithgard Mastery
+    return experienceScore
 
   createLine: (o1, o2) ->
     p1 = x: o1.x, y: 0.66 * o1.y + 0.5
@@ -334,14 +374,16 @@ module.exports = class CampaignView extends RootView
     @particleMan ?= new ParticleMan()
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
-    for level in @campaign.renderedLevels ? {} when level.hidden or level.slug is 'apocalypse'
+    for level in @campaign.renderedLevels ? {}
       particleKey = ['level', @terrain]
-      particleKey.push level.type if level.type and level.type isnt 'hero'
+      particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])
+      particleKey.push 'replayable' if level.replayable
       particleKey.push 'premium' if level.requiresSubscription
-      particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones']
+      particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate']
       particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
-      particleKey.push 'item' if level.slug is 'apocalypse'  # TODO: generalize
+      particleKey.push 'item' if level.slug is 'robot-ragnarok'  # TODO: generalize
       continue if particleKey.length is 2  # Don't show basic levels
+      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'replayable']).length
       @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 
   onMouseEnterPortals: (e) ->
@@ -375,6 +417,7 @@ module.exports = class CampaignView extends RootView
     return if @editorMode
     for session in @sessions.models
       @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+      @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
     @render()
     @loadUserPollsRecord() unless me.get 'anonymous'
 
@@ -433,7 +476,7 @@ module.exports = class CampaignView extends RootView
     level = _.find _.values(@campaign.get('levels')), slug: levelSlug
 
     requiresSubscription = level.requiresSubscription or (me.get('chinaVersion') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
-    canPlayAnyway = not @requiresSubscription or level.adventurer
+    canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug]
     if requiresSubscription and not canPlayAnyway
       @openModalView new SubscribeModal()
       window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug
@@ -452,7 +495,11 @@ module.exports = class CampaignView extends RootView
   onClickViewSolutions: (e) ->
     levelElement = $(e.target).parents('.level-info-container')
     levelSlug = levelElement.data('level-slug')
-    @showLeaderboard levelSlug
+    level = _.find _.values(@campaign.get('levels')), slug: levelSlug
+    if level.type in ['hero-ladder', 'course-ladder']
+      Backbone.Mediator.publish 'router:navigate', route: "/play/ladder/#{levelSlug}", viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: @supermodel}, levelSlug]
+    else
+      @showLeaderboard levelSlug
 
   adjustLevelInfoPosition: (e) ->
     return unless @$levelInfo
@@ -471,7 +518,7 @@ module.exports = class CampaignView extends RootView
 
   onWindowResize: (e) =>
     mapHeight = iPadHeight = 1536
-    mapWidth = {dungeon: 2350, forest: 2500, auditions: 2500, desert: 2350, mountain: 2422}[@terrain] or 2350
+    mapWidth = {dungeon: 2350, forest: 2500, auditions: 2500, desert: 2350, mountain: 2422, glacier: 2421}[@terrain] or 2350
     aspectRatio = mapWidth / mapHeight
     pageWidth = @$el.width()
     pageHeight = @$el.height()

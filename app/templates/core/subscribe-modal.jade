@@ -21,7 +21,7 @@
           tr
             th
             if !me.get('chinaVersion')
-              th(data-i18n="subscribe.free")
+              th.free-cell(data-i18n="subscribe.free")
             th
               //- TODO: find a better way to localize '$9.99/month'
               span $#{price}/
@@ -31,7 +31,7 @@
             td.feature-description
               span(data-i18n="subscribe.feature1")
             if !me.get('chinaVersion')
-              td.center-ok
+              td.center-ok.free-cell
                 span.glyphicon.glyphicon-ok
             td.center-ok
               span.glyphicon.glyphicon-ok
@@ -39,41 +39,50 @@
             td.feature-description
               span(data-i18n="[html]subscribe.feature2")
             if !me.get('chinaVersion')
-              td 
+              td.free-cell
             td.center-ok
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
               span(data-i18n="subscribe.feature3")
             if !me.get('chinaVersion')
-              td 
+              td.free-cell
             td.center-ok
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
               span(data-i18n="[html]subscribe.feature4")
             if !me.get('chinaVersion')
-              td 
+              td.free-cell
             td.center-ok
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
               span(data-i18n="subscribe.feature5")
             if !me.get('chinaVersion')
-              td 
+              td.free-cell
             td.center-ok
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
               span(data-i18n="subscribe.feature6")
             if !me.get('chinaVersion')
-              td 
+              td.free-cell
+            td.center-ok
+              span.glyphicon.glyphicon-ok
+          tr
+            td.feature-description
+              span(data-i18n="[html]subscribe.feature7")
+            if !me.get('chinaVersion')
+              td.free-cell
             td.center-ok
               span.glyphicon.glyphicon-ok
       #parents-info(data-i18n="subscribe.parents")
+      #payment-methods-info(data-i18n="subscribe.payment_methods")
 
-      button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="subscribe.subscribe_title")
       button.btn.btn-lg.btn-illustrated.parent-button(data-i18n="subscribe.parent_button")
+      button.btn.btn-lg.btn-illustrated.sale-button(title="#{saleButtonTitle}", data-i18n="subscribe.sale_button")
+      button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="subscribe.subscribe_title")
 
       if state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible
@@ -87,3 +96,16 @@
             span(aria-hidden="true") &times;
           p(data-i18n="loading_error.unknown")
           p= stateMessage
+
+    .parent-button-popover-content.hidden
+      .email-parent-form
+        p(data-i18n="subscribe.parent_email_description")
+        form
+          .form-group
+            label(data-i18n="subscribe.parent_email_input_label")
+            input.parent-input.form-control(type='email', data-i18n="[placeholder]subscribe.parent_email_input_placeholder")
+            .parent-email-validator.email_invalid(data-i18n="subscribe.parent_email_input_invalid")
+          button.parent-send.btn.btn-default(type='submit', data-i18n="subscribe.parent_email_send")
+      .email-parent-complete
+        p(data-i18n="subscribe.parent_email_sent")
+        button.btn(type='button', onclick="$('.parent-button').popover('hide');", data-i18n="modal.close")

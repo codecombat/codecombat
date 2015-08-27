@@ -10,8 +10,10 @@ async = require 'async'
 log = require 'winston'
 moment = require 'moment'
 AnalyticsLogEvent = require '../analytics/AnalyticsLogEvent'
+Clan = require '../clans/Clan'
 LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
+Payment = require '../payments/Payment'
 SubscriptionHandler = require '../payments/subscription_handler'
 DiscountHandler = require '../payments/discount_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
@@ -172,6 +174,13 @@ UserHandler = class UserHandler extends Handler
       return @sendSuccess(res, @formatEntity(req, req.user, 256))
     super(req, res, id)
 
+  getByIDs: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
+    User.find {_id: {$in: req.body.ids}}, (err, users) =>
+      return @sendDatabaseError(res, err) if err
+      cleandocs = (@formatEntity(req, doc) for doc in users)
+      @sendSuccess(res, cleandocs)
+
   getNamesByIDs: (req, res) ->
     ids = req.query.ids or req.body.ids
     returnWizard = req.query.wizard or req.body.wizard
@@ -188,7 +197,7 @@ UserHandler = class UserHandler extends Handler
     leaderboardQuery = User.find(queryParameters.query).select('name simulatedBy simulatedFor').sort({'simulatedBy': queryParameters.sortOrder}).limit(queryParameters.limit)
     leaderboardQuery.cache() if req.query.scoreOffset is -1
     leaderboardQuery.exec (err, otherUsers) ->
-      otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
+      otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1 and req.user
       otherUsers ?= []
       res.send(otherUsers)
       res.end()
@@ -240,28 +249,66 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError res, err if err
       return @sendNotFoundError res unless user
       return @sendForbiddenError res unless @hasAccessToDocument(req, user)
-      obj = user.toObject()
-      for prop, val of obj
-        user.set(prop, undefined) unless prop is '_id'
-      user.set('deleted', true)
 
-      # Hack to get saving of Users to work. Probably should replace these props with strings
-      # so that validation doesn't get hung up on Date objects in the documents.
-      delete obj.dateCreated
+      # Delete subscriptions attached to this user first
+      # TODO: check sponsored subscriptions (stripe.recipients)
+      checkPersonalSubscription = (user, done) =>
+        try
+          return done() unless user.get('stripe')?.subscriptionID?
+          SubscriptionHandler.unsubscribeUser {body: user.toObject()}, user, (err) =>
+            log.error("User delete check personal sub " + err) if err
+            done()
+        catch error
+          log.error("User delete check personal sub " + error)
+          done()
+      checkRecipientSubscription = (user, done) =>
+        try
+          return done() unless sponsorID = user.get('stripe')?.sponsorID
+          User.findById sponsorID, (err, sponsor) =>
+            if err
+              log.error("User delete check recipient sub " + err)
+              return done()
+            unless sponsor
+              log.error("User delete check recipient sub no sponsor #{user.get('stripe').sponsorID}")
+              return done()
+            sponsorObject = sponsor.toObject()
+            sponsorObject.stripe.unsubscribeEmail = user.get('email')
+            SubscriptionHandler.unsubscribeRecipient {body: sponsorObject}, sponsor, (err) =>
+              log.error("User delete check recipient sub " + err) if err
+              done()
+        catch error
+          log.error("User delete check recipient sub " + error)
+          done()
+      deleteSubscriptions = (user, done) =>
+        checkPersonalSubscription user, (err) =>
+          checkRecipientSubscription user, done
 
-      user.save (err) =>
-        return @sendDatabaseError(res, err) if err
-        @sendNoContent res
+      deleteSubscriptions user, =>
+        obj = user.toObject()
+        for prop, val of obj
+          user.set(prop, undefined) unless prop is '_id'
+        user.set('dateDeleted', new Date())
+        user.set('deleted', true)
+
+        # Hack to get saving of Users to work. Probably should replace these props with strings
+        # so that validation doesn't get hung up on Date objects in the documents.
+        delete obj.dateCreated
+
+        user.save (err) =>
+          return @sendDatabaseError(res, err) if err
+          @sendNoContent res
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
     return @agreeToEmployerAgreement(req, res) if args[1] is 'agreeToEmployerAgreement'
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
+    return @getByIDs(req, res) if args[1] is 'users'
     return @getNamesByIDs(req, res) if args[1] is 'names'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessionsForEmployer(req, res, args[0]) if args[1] is 'level.sessions' and args[2] is 'employer'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
+    return @getClans(req, res, args[0]) if args[1] is 'clans'
     return @getEmployers(req, res) if args[1] is 'employers'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
@@ -273,6 +320,7 @@ UserHandler = class UserHandler extends Handler
     return @getStripeInfo(req, res, args[0]) if args[1] is 'stripe'
     return @getSubRecipients(req, res) if args[1] is 'sub_recipients'
     return @getSubSponsor(req, res) if args[1] is 'sub_sponsor'
+    return @getSubSponsors(req, res) if args[1] is 'sub_sponsors'
     return @sendOneTimeEmail(req, res, args[0]) if args[1] is 'send_one_time_email'
     return @sendNotFoundError(res)
     super(arguments...)
@@ -346,6 +394,16 @@ UserHandler = class UserHandler extends Handler
         @sendDatabaseError(res, 'No sponsored subscription found') unless info.subscription?
         @sendSuccess(res, info)
 
+  getSubSponsors: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
+    Payment.find {$where: 'this.purchaser.valueOf() != this.recipient.valueOf()'}, (err, payments) =>
+      return @sendDatabaseError(res, err) if err
+      sponsorIDs = (payment.get('purchaser') for payment in payments)
+      User.find {$and: [{_id: {$in: sponsorIDs}}, {"stripe.sponsorSubscriptionID": {$exists: true}}]}, (err, users) =>
+        return @sendDatabaseError(res, err) if err
+        sponsors = (@formatEntity(req, doc) for doc in users when doc.get('stripe').recipients?.length > 0)
+        @sendSuccess(res, sponsors)
+
   sendOneTimeEmail: (req, res) ->
     # TODO: Should this API be somewhere else?
     # TODO: Where should email types be stored?
@@ -359,7 +417,7 @@ UserHandler = class UserHandler extends Handler
 
     # log.warn "sendOneTimeEmail #{type} #{email}"
 
-    unless type in ['subscribe modal parent', 'share progress modal parent', 'share progress modal friend']
+    unless type in ['subscribe modal parent', 'share progress modal parent']
       return @sendBadInputError res, "Unknown one-time email type #{type}"
 
     sendMail = (emailParams) =>
@@ -380,6 +438,7 @@ UserHandler = class UserHandler extends Handler
         name: req.user.get('name') or ''
     if codeLanguage = req.user.get('aceConfig.language')
       codeLanguage = codeLanguage[0].toUpperCase() + codeLanguage.slice(1)
+      codeLanguage = codeLanguage.replace 'script', 'Script'
       emailParams['email_data']['codeLanguage'] = codeLanguage
     if senderEmail = req.user.get('email')
       emailParams['email_data']['senderEmail'] = senderEmail
@@ -387,11 +446,8 @@ UserHandler = class UserHandler extends Handler
     # Type-specific email data
     if type is 'subscribe modal parent'
       emailParams['email_id'] = sendwithus.templates.parent_subscribe_email
-    else if type in ['share progress modal parent', 'share progress modal friend']
+    else if type is 'share progress modal parent'
       emailParams['email_id'] = sendwithus.templates.share_progress_email
-      emailParams['email_data']['premium'] = req.user.isPremium()
-      emailParams['email_data']['parent'] = type is 'share progress modal parent'
-      emailParams['email_data']['friend'] =  type is 'share progress modal friend'
 
     sendMail emailParams
 
@@ -538,6 +594,16 @@ UserHandler = class UserHandler extends Handler
       candidates = (candidate for candidate in documents when @employerCanViewCandidate req.user, candidate.toObject())
       candidates = (@formatCandidate(authorized, candidate) for candidate in candidates)
       @sendSuccess(res, candidates)
+
+  getClans: (req, res, userIDOrSlug) ->
+    @getDocumentForIdOrSlug userIDOrSlug, (err, user) =>
+      return @sendNotFoundError(res) unless user
+      clanIDs = user.get('clans') ? []
+      query = {$and: [{_id: {$in: clanIDs}}]}
+      query['$and'].push {type: 'public'} unless req.user?.id is user.id
+      Clan.find query, (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, documents)
 
   formatCandidate: (authorized, document) ->
     fields = if authorized then ['name', 'jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['_id','jobProfile', 'jobProfileApproved']

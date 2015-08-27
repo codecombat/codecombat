@@ -2,10 +2,12 @@ module.exports.handlers =
   'analytics_log_event': 'analytics/analytics_log_event_handler'
   'analytics_perday': 'analytics/analytics_perday_handler'
   'analytics_string': 'analytics/analytics_string_handler'
+  'analytics_stripe_invoice': 'analytics/analytics_stripe_invoice_handler'
   # TODO: Disabling this until we know why our app servers CPU grows out of control.
   # 'analytics_users_active': 'analytics/analytics_users_active_handler'
   'article': 'articles/article_handler'
   'campaign': 'campaigns/campaign_handler'
+  'clan': 'clans/clan_handler'
   'level': 'levels/level_handler'
   'level_component': 'levels/components/level_component_handler'
   'level_feedback': 'levels/feedbacks/level_feedback_handler'
@@ -22,9 +24,10 @@ module.exports.handlers =
   'achievement': 'achievements/achievement_handler'
   'earned_achievement': 'achievements/earned_achievement_handler'
   'poll': 'polls/poll_handler'
-  'user_polls_record': 'polls/user_polls_record_handler'
   'prepaid': 'prepaids/prepaid_handler'
   'subscription': 'payments/subscription_handler'
+  'trial_request': 'trial_requests/trial_request_handler'
+  'user_polls_record': 'polls/user_polls_record_handler'
 
 module.exports.routes =
   [

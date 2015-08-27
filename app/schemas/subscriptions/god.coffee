@@ -35,6 +35,7 @@ module.exports =
 
   'god:infinite-loop': c.object {required: ['firstWorld']},
     firstWorld: {type: 'boolean'}
+    nonUserCodeProblem: {type: 'boolean'}
 
   'god:new-world-created': worldUpdatedEventSchema
 

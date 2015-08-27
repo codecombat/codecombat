@@ -73,6 +73,7 @@ module.exports = class I18NHomeView extends RootView
     covered = (m for m in @aggregateModels.models when m.specificallyCovered).length
     total = @aggregateModels.models.length
     c.progress = if total then parseInt(100 * covered / total) else 100
+    c.showGeneralCoverage = /-/.test(@selectedLanguage ? 'en')  # Only relevant for languages with more than one family, like zh-HANS
 
     c
 

@@ -7,8 +7,10 @@ require 'jasmine-spec-reporter'
 jasmine.getEnv().defaultTimeoutInterval = 300000
 jasmine.getEnv().reporter.subReporters_ = []
 jasmine.getEnv().addReporter(new jasmine.SpecReporter({
-  displaySuccessfulSpec: true,
   displayFailedSpec: true
+  displayPendingSpec: true
+  displaySpecDuration: true
+  displaySuccessfulSpec: true
   }))
 
 rep = new jasmine.JsApiReporter()
@@ -27,6 +29,7 @@ models_path = [
   '../../server/analytics/AnalyticsUsersActive'
   '../../server/articles/Article'
   '../../server/campaigns/Campaign'
+  '../../server/clans/Clan'
   '../../server/levels/Level'
   '../../server/levels/components/LevelComponent'
   '../../server/levels/systems/LevelSystem'
@@ -38,6 +41,7 @@ models_path = [
   '../../server/achievements/EarnedAchievement'
   '../../server/payments/Payment'
   '../../server/prepaids/Prepaid'
+  '../../server/trial_requests/TrialRequest'
 ]
 
 for m in models_path
@@ -114,9 +118,11 @@ wrapUpGetUser = (email, user, done) ->
 GLOBAL.getURL = (path) ->
   return 'http://localhost:3001' + path
 
-GLOBAL.createPrepaid = (type, done) ->
+GLOBAL.createPrepaid = (type, maxRedeemers, done) ->
   options = uri: GLOBAL.getURL('/db/prepaid/-/create')
-  options.json = type: type if type?
+  options.json =
+    type: type
+    maxRedeemers: maxRedeemers
   request.post options, done
 
 newUserCount = 0
@@ -181,6 +187,10 @@ GLOBAL.loginUser = (user, done) ->
     form = req.form()
     form.append('username', user.get('email'))
     form.append('password', user.get('name'))
+
+GLOBAL.logoutUser = (done) ->
+  request.post getURL('/auth/logout'), ->
+    done()
 
 GLOBAL.dropGridFS = (done) ->
   if mongoose.connection.readyState is 2

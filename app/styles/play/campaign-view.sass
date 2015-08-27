@@ -109,6 +109,17 @@ $gameControlMargin: 30px
         border: 3px solid gold
         @include box-shadow(0px 0px 35px skyblue)
 
+      .level-difficulty-banner-text
+        position: absolute
+        bottom: 170%
+        pointer-events: none
+        color: rgb(246, 208, 2)
+        text-shadow: 0px 1px 0px black
+        font-size: 1.8vw
+        z-index: 1
+        width: 100%
+        text-align: center
+
       img.banner
         position: absolute
         bottom: 38%
@@ -227,6 +238,11 @@ $gameControlMargin: 30px
             margin: 0px auto
             max-width: 100%
 
+        kbd
+          margin: 0 2px 2px 0
+          display: inline-block
+          font-size: 12px
+
         .level-status
           background: transparent url(/images/pages/play/level-info-status-spritesheet.png) no-repeat 0 0
           width: 60px
@@ -252,8 +268,8 @@ $gameControlMargin: 30px
 
           .badge
             position: absolute
-            top: initial
-            left: initial
+            top: auto
+            left: auto
             right: -25px
             bottom: -25px
             font-size: 20px
@@ -312,13 +328,18 @@ $gameControlMargin: 30px
     position: absolute
     right: 1%
     bottom: 1%
-    z-index: 3
+    z-index: 2
 
     .btn
       &:not(:first-child)
         margin-left: $gameControlMargin
+        @media only screen and (max-height: 650px)
+          margin-left: 0
       width: $gameControlSize
       height: $gameControlSize
+
+      @media only screen and (max-height: 650px)
+        @include scale(0.67)
 
       background: url(/images/pages/play/menu_icons.png) no-repeat
 
@@ -344,19 +365,21 @@ $gameControlMargin: 30px
       &:active, &.highlighted
         @include box-shadow(0 0 20px white)
 
-      &.heroes
+      &.items
         background-position: (-1 * $gameControlSize) 0px
-      &.achievements
+      &.heroes
         background-position: (-2 * $gameControlSize) 0px
-      &.account
-        //background-position: (-3 * $gameControlSize) 0px
-        background-position: (-4 * $gameControlSize) 0px
-      &.settings
-        background-position: (-4 * $gameControlSize) 0px
-      &.gems
-        background-position: (-5 * $gameControlSize) 0px
-      &.poll
+      &.achievements
         background-position: (-3 * $gameControlSize) 0px
+      &.account
+        //background-position: (-4 * $gameControlSize) 0px
+        background-position: (-5 * $gameControlSize) 0px
+      &.settings
+        background-position: (-5 * $gameControlSize) 0px
+      &.gems
+        background-position: (-6 * $gameControlSize) 0px
+      &.poll
+        background-position: (-4 * $gameControlSize) 0px
 
     .tooltip
       font-size: 24px
@@ -552,7 +575,7 @@ $gameControlMargin: 30px
           background-position: (-2 * $campaignWidth) 0
         &.mountain
           background-position: (-3 * $campaignWidth) 0
-        &.ice
+        &.glacier
           background-position: (-4 * $campaignWidth) 0
         &.volcano
           background-position: (-5 * $campaignWidth) 0
@@ -563,14 +586,20 @@ $gameControlMargin: 30px
           width: 100%
           text-align: center
 
-          .campaign-name, .levels-completed, .campaign-locked, .campaign-description
+          .campaign-name, .levels-completed, .campaign-locked
             margin: 0
             color: white
             text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
 
+          .campaign-locked
+            margin: 32px 0
+
           .campaign-description
             margin: 0px 40px
-            font-size: 22px
+            background: transparent url(/images/level/popover_border_background.png) no-repeat
+            background-size: 100% 100%
+            padding: 12px
+            color: black
 
           .levels-completed
             font-size: 22px

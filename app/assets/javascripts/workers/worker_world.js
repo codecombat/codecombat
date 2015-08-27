@@ -85,7 +85,8 @@ var ensureLanguagesImportedFromUserCodeMap = function (userCodeMap) {
 
 var restricted = ["XMLHttpRequest", "Worker"];
 if (!self.navigator || !(self.navigator.userAgent.indexOf('MSIE') > 0) && 
-    !self.navigator.userAgent.match(/Trident.*rv\:11\./)) {
+    !self.navigator.userAgent.match(/Trident.*rv\:11\./) &&
+    !self.navigator.userAgent.match(/Edge/)) {
   // Can't restrict 'importScripts' in IE11, skip for all IE versions
   restricted.push("importScripts");
 }

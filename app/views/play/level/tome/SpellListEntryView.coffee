@@ -37,7 +37,7 @@ module.exports = class SpellListEntryView extends CocoView
     context
 
   createMethodSignature: ->
-    return @spell.name if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    return @spell.name if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
     parameters = (@spell.parameters or []).slice()
     if @spell.language in ['python', 'lua']
       parameters.unshift 'self'

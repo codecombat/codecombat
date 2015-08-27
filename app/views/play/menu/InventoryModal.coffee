@@ -18,6 +18,7 @@ module.exports = class InventoryModal extends ModalView
   className: 'modal fade play-modal'
   template: template
   slots: ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'flag']  #, 'misc-0', 'misc-1']  # TODO: bring in misc slot(s) again when we have space
+  ringSlots: ['left-ring', 'right-ring']
   closesOnClickOutside: false # because draggable somehow triggers hide when you don't drag onto a draggable
 
   events:
@@ -104,7 +105,7 @@ module.exports = class InventoryModal extends ModalView
       unless gearSlugs[item.get('original')] is 'tarnished-bronze-breastplate' and inCampaignView and @options.level.get('slug') is 'the-raised-sword'
         for slot in item.getAllowedSlots()
           continue unless requiredItems = requiredGear[slot]
-          continue if @equipment[slot] and @equipment[slot] not in allRestrictedGear
+          continue if @equipment[slot] and @equipment[slot] not in allRestrictedGear and slot not in @ringSlots
           # Point out that they must buy it if they haven't bought any of the required items for that slot, and it's the first one.
           if item.get('original') is requiredItems[0] and not _.find(requiredItems, (requiredItem) -> me.ownsItem requiredItem)
             requiredToPurchase = true
@@ -430,10 +431,21 @@ module.exports = class InventoryModal extends ModalView
   updateLevelRequiredItems: (equipment) ->
     return unless requiredGear = @options.level.get 'requiredGear'
     return unless heroClass = @selectedHero?.get 'heroClass'
+
     for slot, items of requiredGear when items.length
-      equipped = equipment[slot]
-      continue if equipped in items
-      continue if equipped  # Actually, just let them play if they have equipped anything in that slot (and we haven't unequipped it due to restrictions).
+      if slot in @ringSlots
+        validSlots = @ringSlots
+      else
+        validSlots = [slot]
+
+      continue if validSlots.some (slot) ->
+        equipped = equipment[slot]
+        equipped in items
+
+      # Actually, just let them play if they have equipped anything in that slot (and we haven't unequipped it due to restrictions).
+      # Rings often have unique effects, so this rule does not apply to them (they are still required even if there is a non-restricted ring equipped in the slot).
+      continue if equipment[slot] and slot not in @ringSlots
+
       items = (item for item in items when heroClass in (@items.findWhere(original: item)?.classes ? []))
       continue unless items.length  # If the required items are for another class, then let's not be finicky.
 
@@ -480,6 +492,7 @@ module.exports = class InventoryModal extends ModalView
 
   onClickPlayLevel: (e) ->
     return if @$el.find('#play-level-button').prop 'disabled'
+    levelSlug = @options.level.get('slug')
     @playSound 'menu-button-click'
     @showLoading()
     ua = navigator.userAgent.toLowerCase()
@@ -488,7 +501,7 @@ module.exports = class InventoryModal extends ModalView
       hasGoneFullScreenOnce = true
     @updateConfig =>
       @trigger? 'play-click'
-    window.tracker?.trackEvent 'Inventory Play', category: 'Play Level'
+    window.tracker?.trackEvent 'Inventory Play', category: 'Play Level', level: levelSlug
 
   updateConfig: (callback, skipSessionSave) ->
     sessionHeroConfig = @options.session.get('heroConfig') ? {}
@@ -615,7 +628,7 @@ module.exports = class InventoryModal extends ModalView
     for slot, original of equipment
       item = _.find @items.models, (item) -> item.get('original') is original
       continue unless dollImages = item?.get('dollImages')
-      didAdd = @addDollImage slot, dollImages, heroClass, gender
+      didAdd = @addDollImage slot, dollImages, heroClass, gender, item
       slotsWithImages.push slot if didAdd if item.get('original') isnt '54ea39342b7506e891ca70f2'  # Circlet of the Magi needs hair under it
     @$el.find('#hero-image-hair').toggle not ('head' in slotsWithImages)
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
@@ -625,7 +638,7 @@ module.exports = class InventoryModal extends ModalView
   removeDollImages: ->
     @$el.find('.doll-image').remove()
 
-  addDollImage: (slot, dollImages, heroClass, gender) ->
+  addDollImage: (slot, dollImages, heroClass, gender, item) ->
     heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
     gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
     didAdd = false
@@ -636,6 +649,9 @@ module.exports = class InventoryModal extends ModalView
         imageKeys = ["#{gender}", "#{gender}Thumb"]
     else if heroClass is 'Wizard' and slot is 'torso'
       imageKeys = [gender, "#{gender}Back"]
+    else if heroClass is 'Ranger' and slot is 'head' and item.get('original') in ['5441c2be4e9aeb727cc97105', '5441c3144e9aeb727cc97111']
+      # All-class headgear like faux fur hat, viking helmet is abusing ranger glove slot
+      imageKeys = ["#{gender}Ranger"]
     else
       imageKeys = [gender]
     for imageKey in imageKeys
@@ -658,8 +674,8 @@ module.exports = class InventoryModal extends ModalView
 
 
 heroGenders =
-  male: ['knight', 'samurai', 'trapper', 'potion-master']
-  female: ['captain', 'ninja', 'forest-archer', 'librarian', 'sorcerer']
+  male: ['knight', 'samurai', 'trapper', 'potion-master', 'goliath', 'assassin', 'necromancer']
+  female: ['captain', 'ninja', 'forest-archer', 'librarian', 'sorcerer', 'raider', 'guardian', 'pixie', 'dark-wizard']
 
 gear =
   'simple-boots': '53e237bf53457600003e3f05'

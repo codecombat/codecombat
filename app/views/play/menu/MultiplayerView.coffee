@@ -27,7 +27,7 @@ module.exports = class MultiplayerView extends CocoView
     @levelID = @level?.get 'slug'
     @session = options.session
     @listenTo @session, 'change:multiplayer', @updateLinkSection
-    @watchRealTimeSessions() if @level?.get('type') in ['hero-ladder'] and me.isAdmin()
+    @watchRealTimeSessions() if @level?.get('type') in ['hero-ladder', 'course-ladder'] and me.isAdmin()
 
   destroy: ->
     @realTimeSessions?.off 'add', @onRealTimeSessionAdded
@@ -42,12 +42,12 @@ module.exports = class MultiplayerView extends CocoView
     c.team = @session.get 'team'
     c.levelSlug = @levelID
     # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
-    if @level?.get('type') in ['ladder', 'hero-ladder']
+    if @level?.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
       c.ladderGame = true
       c.readyToRank = @session?.readyToRank()
 
     # Real-time multiplayer stuff
-    if @level?.get('type') in ['hero-ladder'] and me.isAdmin()
+    if @level?.get('type') in ['hero-ladder', 'course-ladder'] and me.isAdmin()
       c.levelID = @session.get('levelID')
       c.realTimeSessions = @realTimeSessions
       c.currentRealTimeSession = @currentRealTimeSession if @currentRealTimeSession
@@ -78,7 +78,7 @@ module.exports = class MultiplayerView extends CocoView
   updateLinkSection: ->
     multiplayer = @$el.find('#multiplayer').prop('checked')
     la = @$el.find('#link-area')
-    la.toggle if @level?.get('type') in ['ladder', 'hero-ladder'] then false else Boolean(multiplayer)
+    la.toggle if @level?.get('type') in ['ladder', 'hero-ladder', 'course-ladder'] then false else Boolean(multiplayer)
     true
 
   onHidden: ->

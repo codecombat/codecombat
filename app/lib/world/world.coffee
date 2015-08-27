@@ -70,9 +70,9 @@ module.exports = class World
   setThang: (thang) ->
     thang.stateChanged = true
     for old, i in @thangs
-      console.error 'world trying to set', thang, 'over', old unless old? and thang?
       if old.id is thang.id
         @thangs[i] = thang
+        break
     @thangMap[thang.id] = thang
 
   thangDialogueSounds: (startFrame=0) ->
@@ -102,7 +102,9 @@ module.exports = class World
     if @realTime and not @countdownFinished
       @realTimeSpeedFactor = 1
       unless @showsCountdown
-        if @levelID in ['village-guard', 'thornbush-farm', 'back-to-back', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'peasant-protection', 'munchkin-swarm', 'munchkin-harvest', 'swift-dagger', 'shrapnel', 'arcane-ally', 'touch-of-death', 'bonemender']
+        if @levelID in ['woodland-cleaver', 'village-guard', 'shield-rush']
+          @realTimeSpeedFactor = 2
+        else if @levelID in ['thornbush-farm', 'back-to-back', 'ogre-encampment', 'peasant-protection', 'munchkin-swarm', 'munchkin-harvest', 'swift-dagger', 'shrapnel', 'arcane-ally', 'touch-of-death', 'bonemender']
           @realTimeSpeedFactor = 3
       if @showsCountdown
         return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
@@ -608,5 +610,5 @@ module.exports = class World
     time: @age
     'damage-taken': @getSystem('Combat')?.damageTakenForTeam 'humans'
     'damage-dealt': @getSystem('Combat')?.damageDealtForTeam 'humans'
-    'gold-collected': @getSystem('Inventory')?.teamGold.humans?.earned
+    'gold-collected': @getSystem('Inventory')?.teamGold.humans?.collected
     'difficulty': @difficulty

@@ -18,11 +18,10 @@ block content
         p(data-i18n="teachers.free_2")
 
       h3.teachers-title(data-i18n="teachers.teacher_subs_title")
-      p 
-        span(data-i18n="teachers.teacher_subs_1")
-        span.spr.spl
-          a(href='mailto:team@codecombat.com?subject=Free%20Teacher%20Subscription') team@codecombat.com
-        span.spr.spl(data-i18n="teachers.teacher_subs_2")
+      p
+        span.spr(data-i18n="teachers.teacher_subs_1")
+        a(href='/teachers/freetrial', data-i18n="teachers.teacher_subs_2")
+        span.spl(data-i18n="teachers.teacher_subs_3")
 
       h3(data-i18n="teachers.sub_includes_title")
       p(data-i18n="teachers.sub_includes_1")
@@ -32,10 +31,42 @@ block content
         li(data-i18n="teachers.sub_includes_4")
         li(data-i18n="teachers.sub_includes_5")
         li(data-i18n="teachers.sub_includes_6")
+        li(data-i18n="teachers.sub_includes_7")
 
       h3(data-i18n="teachers.who_for_title")
       p(data-i18n="teachers.who_for_1")
       p(data-i18n="teachers.who_for_2")
+
+      h3(data-i18n="teachers.monitor_progress_title")
+      p
+        span.spr(data-i18n="teachers.monitor_progress_1")
+        a(href='/clans', data-i18n="clans.clan")
+        span.spl(data-i18n="teachers.monitor_progress_2")
+      p
+        span.spr(data-i18n="teachers.monitor_progress_3")
+        a(href='/clans', data-i18n="clans.clans")
+        span.spl(data-i18n="teachers.monitor_progress_4")
+      p(data-i18n="teachers.monitor_progress_5")
+      h4(data-i18n="teachers.sub_includes_7")
+      ul
+        li 
+          strong Track concepts
+          span.spl learned by each student
+        li Track levels completed for each student
+        li 
+          span See your students'
+          strong.spl solutions
+        li Sort students by name or progress
+        li 
+          strong Requires invitation
+          span.spl to join
+      p
+        img(src='/images/pages/clans/dashboard_preview.png' height='400')
+      p
+        span.spr(data-i18n="teachers.private_clans_2")
+        a(href='/clans', data-i18n="clans.clan")
+        span(data-i18n="teachers.private_clans_3")
+      p Private clans require a subscription to create or join.
 
       h3(data-i18n="teachers.material_title")
       if me.get('chinaVersion')
@@ -60,35 +91,35 @@ block content
               a(href='/play/mountain') Cloudrip Mountain
         tbody
           tr
-            td Syntax
-            td If/Else
+            td Basic Syntax
+            td If Statements
             td Arithmetic
             td Object Literals
           tr
             td Methods
             td Relational Operators
-            td While-loops
-            td Remote Method Invocation
+            td While Loops
+            td For Loops
           tr
             td Parameters
             td Object Properties
-            td Break
-            td For-Loops
+            td Break Statements
+            td Functions
           tr
             td Strings
             td Input Handling
             td Arrays
-            td Functions
+            td Drawing
           tr
             td Loops
             td
             td String Comparison
-            td Drawing
+            td Modulo
           tr
             td Variables
             td
             td Finding Min/Max
-            td Modulo
+            td
 
       h3(data-i18n="teachers.how_much_title")
       p
@@ -96,6 +127,10 @@ block content
         span.spr.spl
           a(href='/account/subscription', data-i18n="teachers.how_much_2")
         span.spr.spl(data-i18n="teachers.how_much_3")
+      p 
+        span.spr(data-i18n="teachers.how_much_5")
+        a(href='mailto:team@codecombat.com') team@codecombat.com
+        span.spl(data-i18n="teachers.how_much_6")
       p(data-i18n="teachers.how_much_4")
       h4
         a(href='/account/subscription', data-i18n="subscribe.group_discounts")
@@ -111,12 +146,18 @@ block content
           td(data-i18n="subscribe.group_discounts_12th")
           td(data-i18n="subscribe.group_discounts_40")
 
+      h3(data-i18n="teachers.more_info_title")
+      p
+        span.spr(data-i18n="teachers.more_info_1")
+        a(href='http://discourse.codecombat.com/c/teachers', data-i18n="teachers.more_info_2")
+        span.spl(data-i18n="teachers.more_info_3")
+
       h3(data-i18n="teachers.sys_requirements_title")
       p(data-i18n="teachers.sys_requirements_1")
       p(data-i18n="teachers.sys_requirements_2")
 
       if (me.get('preferredLanguage', true) || 'en-US') == 'pl'
-        h3 Fundacją IT Leader Club Polska
+        h3 Fundacja IT Leader Club Polska
         p
           | CodeCombat w marcu 2015 roku nawiązał współpracę z Fundacją IT Leader Club Polska celem promowania nauki programowania wśród najmłodszych w Polsce. Język programowania stał się drugim językiem, bez którego bardzo trudno będzie młodym ludziom w przyszłości zaistnieć na konkurencyjnym rynku pracy.
         p

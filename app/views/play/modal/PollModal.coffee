@@ -73,7 +73,7 @@ module.exports = class PollModal extends ModalView
   onClickAnswer: (e) ->
     $selectedAnswer = $(e.target).closest('.answer')
     pollVotes = @userPollsRecord.get('polls') ? {}
-    pollVotes[@poll.id] = $selectedAnswer.data('answer')
+    pollVotes[@poll.id] = $selectedAnswer.data('answer').toString()
     @userPollsRecord.set 'polls', pollVotes
     @updateAnswers true
     @userPollsRecord.save {polls: pollVotes}, {success: => @awardRandomGems?()}

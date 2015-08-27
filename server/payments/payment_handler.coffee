@@ -266,6 +266,7 @@ PaymentHandler = class PaymentHandler extends Handler
         description: req.body.description
       }
       receipt_email: req.user.get('email')
+      statement_descriptor: 'CODECOMBAT.COM'
     }).then(
       # success case
       ((charge) => @recordStripeCharge(req, res, charge)),
@@ -306,6 +307,7 @@ PaymentHandler = class PaymentHandler extends Handler
         if err
           @logPaymentError(req, 'Stripe incr db error. '+err)
           return @sendDatabaseError(res, err)
+        @sendPaymentHipChatMessage user: req.user, payment: payment
         @sendCreated(res, @formatEntity(req, payment))
       )
     )
@@ -337,6 +339,7 @@ PaymentHandler = class PaymentHandler extends Handler
         [payments, charges] = results
         recordedChargeIDs = (p.get('stripe').chargeID for p in payments)
         for charge in charges
+          continue unless charge.paid
           continue if charge.invoice # filter out subscription charges
           if charge.id not in recordedChargeIDs
             return @recordStripeCharge(req, res, charge)

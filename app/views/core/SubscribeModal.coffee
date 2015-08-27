@@ -12,21 +12,26 @@ module.exports = class SubscribeModal extends ModalView
   product:
     amount: 999
     planID: 'basic'
+    yearAmount: 7900
 
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'
 
   events:
     'click #close-modal': 'hide'
-    'click #parent-send': 'onClickParentSendButton'
+    'click .popover-content .parent-send': 'onClickParentSendButton'
+    'click .email-parent-complete button': 'onClickParentEmailCompleteButton'
     'click .purchase-button': 'onClickPurchaseButton'
+    'click .sale-button': 'onClickSaleButton'
 
   constructor: (options) ->
     super(options)
     @state = 'standby'
+    @saleButtonTitle = $.i18n.t('subscribe.sale_button_title')
 
   getRenderData: ->
     c = super()
+    c.saleButtonTitle = @saleButtonTitle
     c.state = @state
     c.stateMessage = @stateMessage
     c.price = @product.amount / 100
@@ -37,26 +42,14 @@ module.exports = class SubscribeModal extends ModalView
     super()
     @setupParentButtonPopover()
     @setupParentInfoPopover()
+    @setupPaymentMethodsInfoPopover()
 
   setupParentButtonPopover: ->
     popoverTitle = $.i18n.t 'subscribe.parent_email_title'
     popoverTitle += '<button type="button" class="close" onclick="$(&#39;.parent-button&#39;).popover(&#39;hide&#39;);">&times;</button>'
-    popoverContent = "<div id='email-parent-form'>"
-    popoverContent += "<p>#{$.i18n.t('subscribe.parent_email_description')}</p>"
-    popoverContent += "<form>"
-    popoverContent += "  <div class='form-group'>"
-    popoverContent += "    <label>#{$.i18n.t('subscribe.parent_email_input_label')}</label>"
-    popoverContent += "    <input id='parent-input' type='email' class='form-control' placeholder='#{$.i18n.t('subscribe.parent_email_input_placeholder')}'/>"
-    popoverContent += "  <div id='parent-email-validator' class='email_invalid'>#{$.i18n.t('subscribe.parent_email_input_invalid')}</div>"
-    popoverContent += "  </div>"
-    popoverContent += "  <button id='parent-send' type='submit' class='btn btn-default'>#{$.i18n.t('subscribe.parent_email_send')}</button>"
-    popoverContent += "</form>"
-    popoverContent += "</div>"
-    popoverContent += "<div id='email-parent-complete'>"
-    popoverContent += " <p>#{$.i18n.t('subscribe.parent_email_sent')}</p>"
-    popoverContent += " <button type='button' onclick='$(&#39;.parent-button&#39;).popover(&#39;hide&#39;);'>#{$.i18n.t('modal.close')}</button>"
-    popoverContent += "</div>"
-
+    popoverContent = ->
+      console.log 'found html', $('.parent-button-popover-content').html()
+      $('.parent-button-popover-content').html()
     @$el.find('.parent-button').popover(
       animation: true
       html: true
@@ -70,7 +63,9 @@ module.exports = class SubscribeModal extends ModalView
 
   setupParentInfoPopover: ->
     popoverTitle = $.i18n.t 'subscribe.parents_title'
-    popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1') + "</p>"
+    levelsCompleted = me.get('stats')?.gamesCompleted or 'several'
+    popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1', nLevels: levelsCompleted) + "</p>"
+    popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb1a') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb3') + "</p>"
     #popoverContent = popoverContent.replace /9[.,]99/g, '3.99'  # Sale
@@ -85,13 +80,29 @@ module.exports = class SubscribeModal extends ModalView
     ).on 'shown.bs.popover', =>
       application.tracker?.trackEvent 'Subscription parent hover'
 
+  setupPaymentMethodsInfoPopover: ->
+    popoverTitle = $.i18n.t('subscribe.payment_methods_title')
+    popoverTitle += '<button type="button" class="close" onclick="$(&#39;#payment-methods-info&#39;).popover(&#39;hide&#39;);">&times;</button>'
+    popoverContent = "<p>" + $.i18n.t('subscribe.payment_methods_blurb1') + "</p>"
+    popoverContent += "<p>" + $.i18n.t('subscribe.payment_methods_blurb2') + " <a href='mailto:support@codecombat.com'>support@codecombat.com</a>."
+    @$el.find('#payment-methods-info').popover(
+      animation: true
+      html: true
+      placement: 'top'
+      trigger: 'click'
+      title: popoverTitle
+      content: popoverContent
+      container: @$el
+    ).on 'shown.bs.popover', =>
+      application.tracker?.trackEvent 'Subscription payment methods hover'
+
   onClickParentSendButton: (e) ->
     # TODO: Popover sometimes dismisses immediately after send
 
-    email = $('#parent-input').val()
+    email = @$el.find('.popover-content .parent-input').val()
     unless /[\w\.]+@\w+\.\w+/.test email
-      $('#parent-input').parent().addClass('has-error')
-      $('#parent-email-validator').show()
+      @$el.find('.popover-content .parent-input').parent().addClass('has-error')
+      @$el.find('.popover-content .parent-email-validator').show()
       return false
 
     request = @supermodel.addRequestResource 'send_one_time_email', {
@@ -101,9 +112,12 @@ module.exports = class SubscribeModal extends ModalView
     }, 0
     request.load()
 
-    $('#email-parent-form').hide()
-    $('#email-parent-complete').show()
+    @$el.find('.popover-content .email-parent-form').hide()
+    @$el.find('.popover-content .email-parent-complete').show()
     false
+
+  onClickParentEmailCompleteButton: (e) ->
+    @$el.find('.parent-button').popover('hide')
 
   onClickPurchaseButton: (e) ->
     @playSound 'menu-button-click'
@@ -127,21 +141,61 @@ module.exports = class SubscribeModal extends ModalView
     #}
 
     @purchasedAmount = options.amount
+    stripeHandler.open(options)
 
+  onClickSaleButton: (e) ->
+    @playSound 'menu-button-click'
+    return @openModalView new AuthModal() if me.get('anonymous')
+    application.tracker?.trackEvent 'Started 1 year subscription purchase'
+    options =
+      description: $.i18n.t('subscribe.stripe_description_year_sale')
+      amount: @product.yearAmount
+      alipay: if me.get('chinaVersion') or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
+      alipayReusable: true
+    @purchasedAmount = options.amount
     stripeHandler.open(options)
 
   onStripeReceivedToken: (e) ->
     @state = 'purchasing'
     @render()
 
-    stripe = _.clone(me.get('stripe') ? {})
-    stripe.planID = @product.planID
-    stripe.token = e.token.id
-    me.set 'stripe', stripe
-
-    @listenToOnce me, 'sync', @onSubscriptionSuccess
-    @listenToOnce me, 'error', @onSubscriptionError
-    me.patch({headers: {'X-Change-Plan': 'true'}})
+    if @purchasedAmount is @product.amount
+      stripe = _.clone(me.get('stripe') ? {})
+      stripe.planID = @product.planID
+      stripe.token = e.token.id
+      me.set 'stripe', stripe
+      @listenToOnce me, 'sync', @onSubscriptionSuccess
+      @listenToOnce me, 'error', @onSubscriptionError
+      me.patch({headers: {'X-Change-Plan': 'true'}})
+    else if @purchasedAmount is @product.yearAmount
+      # Purchasing a year
+      data =
+        stripe:
+          token: e.token.id
+          timestamp: new Date().getTime()
+      jqxhr = $.post('/db/subscription/-/year_sale', data)
+      jqxhr.done (data, textStatus, jqXHR) =>
+        application.tracker?.trackEvent 'Finished 1 year subscription purchase', value: @purchasedAmount
+        me.set 'stripe', data?.stripe if data?.stripe?
+        Backbone.Mediator.publish 'subscribe-modal:subscribed', {}
+        @playSound 'victory'
+        @hide()
+      jqxhr.fail (xhr, textStatus, errorThrown) =>
+        console.error 'We got an error subscribing with Stripe from our server:', textStatus, errorThrown
+        application.tracker?.trackEvent 'Failed to finish 1 year subscription purchase', status: textStatus, value: @purchasedAmount
+        stripe = me.get('stripe') ? {}
+        delete stripe.token
+        delete stripe.planID
+        if xhr.status is 402
+          @state = 'declined'
+        else
+          @state = 'unknown_error'
+          @stateMessage = "#{xhr.status}: #{xhr.responseText}"
+        @render()
+    else
+      console.error "Unexpected purchase amount received", @purchasedAmount, e
+      @state = 'unknown_error'
+      @stateMessage = "Uknown problem occurred while processing Stripe request"
 
   onSubscriptionSuccess: ->
     application.tracker?.trackEvent 'Finished subscription purchase', value: @purchasedAmount
@@ -151,6 +205,7 @@ module.exports = class SubscribeModal extends ModalView
 
   onSubscriptionError: (user, response, options) ->
     console.error 'We got an error subscribing with Stripe from our server:', response
+    application.tracker?.trackEvent 'Failed to finish subscription purchase', status: options.xhr?.status, value: @purchasedAmount
     stripe = me.get('stripe') ? {}
     delete stripe.token
     delete stripe.planID

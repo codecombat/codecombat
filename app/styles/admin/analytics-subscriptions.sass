@@ -1,8 +1,10 @@
 #admin-analytics-subscriptions-view
 
+  #site-content-area
+    width: 100%
+
   .big-stat
-    width: 25%
-    float: left
+    width: auto
 
   .total-count
     color: green
@@ -12,6 +14,8 @@
     color: red
   .churn-count
     color: orange
+  .growth-rate
+    color: green
 
   .count
     font-size: 50pt
@@ -24,9 +28,6 @@
   .line-graph-container
     height: 500px
     width: 100%
-
-    // TODO: figure out why this is necessary
-    margin-bottom: 100px
 
     .x.axis
       font-size: 9pt
@@ -48,3 +49,15 @@
       z-index: 3
       background-color: blanchedalmond
       font-size: 10pt
+
+  .subscribers-thead
+    font-size: 10pt
+    th
+      padding: 2px
+
+  .subscribers-tbody
+    font-size: 9pt
+    td
+      padding: 2px
+      max-width: 160px
+      overflow: hidden

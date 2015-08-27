@@ -11,6 +11,7 @@ if config.unittest
   module.exports.api.send = ->
 module.exports.templates =
   parent_subscribe_email: 'tem_2APERafogvwKhmcnouigud'
+  setup_free_sub_email: 'tem_sqdvLCZRwoDQc6jAf5RrQE'
   share_progress_email: 'tem_VHE3ihhGmVa3727qds9zY8'
   welcome_email: 'utnGaBHuSU4Hmsi7qrAypU'
   ladder_update_email: 'JzaZxf39A4cKMxpPZUfWy4'

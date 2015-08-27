@@ -63,10 +63,10 @@ _.extend UserSchema.properties,
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
 
-  wizardColor1: c.pct({title: 'Wizard Clothes Color'})
+  wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
   music: { type: 'boolean' }
-  autocastDelay: { type: 'integer' }
+  autocastDelay: { type: 'integer' }  # No longer used
   lastLevel: { type: 'string' }
   heroConfig: c.HeroConfigSchema
 
@@ -274,10 +274,17 @@ _.extend UserSchema.properties,
     levelSystemMiscPatches: c.int()
     thangTypeTranslationPatches: c.int()
     thangTypeMiscPatches: c.int()
+    achievementTranslationPatches: c.int()
+    achievementMiscPatches: c.int()
+    pollTranslationPatches: c.int()
+    pollMiscPatches: c.int()
+    campaignTranslationPatches: c.int()
+    campaignMiscPatches: c.int()
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
   deleted: {type: 'boolean'}
+  dateDeleted: c.date()
   spent: {type: 'number'}
   stripeCustomerID: { type: 'string' } # TODO: Migrate away from this property
 
@@ -305,6 +312,8 @@ _.extend UserSchema.properties,
   siteref: { type: 'string' }
   referrer: { type: 'string' }
   chinaVersion: { type: 'boolean' }
+
+  clans: c.array {}, c.objectId()
 
 c.extendBasicProperties UserSchema, 'user'
 

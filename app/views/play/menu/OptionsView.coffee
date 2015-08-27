@@ -20,7 +20,6 @@ module.exports = class OptionsView extends CocoView
 
   events:
     'change #option-music': 'updateMusic'
-    'change #option-autorun-delay': 'updateAutorun'
     'change #option-key-bindings': 'updateInvisibles'
     'change #option-key-bindings': 'updateKeyBindings'
     'change #option-indent-guides': 'updateIndentGuides'
@@ -44,7 +43,6 @@ module.exports = class OptionsView extends CocoView
     @aceConfig = _.defaults @aceConfig, @defaultConfig
     c.aceConfig = @aceConfig
     c.music = me.get('music', true)
-    c.autorunDelay = me.get('autocastDelay') ? 5000
     c
 
   afterRender: ->
@@ -79,9 +77,6 @@ module.exports = class OptionsView extends CocoView
 
   updateMusic: ->
     me.set 'music', @$el.find('#option-music').prop('checked')
-
-  updateAutorun: ->
-    me.set 'autocastDelay', parseInt(@$el.find('#option-autorun-delay').val())
 
   updateInvisibles: ->
     @aceConfig.invisibles = @$el.find('#option-invisibles').prop('checked')

@@ -1,12 +1,12 @@
 ###
-This file will simulate games on node.js by emulating the browser environment.  
+This file will simulate games on node.js by emulating the browser environment.
 In order to use, followed these steps:
 1. Setup dev environment as usual
 2. Create a `login.coffee` file in coco which contains:
-module.exports = username: 'email@example.com', password: 'password'
+module.exports = username: 'email@example.com', password: 'your_password'
 3. Run `./node_modules/coffee-script/bin/coffee ./headless_client.coffee`
 Alternatively, if you wish only to simulate a single game run `coffee ./headless_client.coffee one-game`
-Or, if you want to always simulate only one game, change the line below this to "true"
+Or, if you want to always simulate only one game, change the line below this to "true". This takes way more bandwidth.
 ###
 simulateOneGame = false
 if process.argv[2] is 'one-game'
@@ -29,7 +29,7 @@ options =
   simulateOnlyOneGame: simulateOneGame
 
 options.heapdump = require('heapdump') if options.heapdump
-server = if options.testing then 'http://127.0.0.1:3000' else 'http://direct.codecombat.com'
+server = if options.testing then 'http://127.0.0.1:3000' else 'https://codecombat.com'
 # Use direct instead of live site because jQlone's requests proxy doesn't do caching properly and CloudFlare gets too aggressive.
 
 # Disabled modules
@@ -50,13 +50,14 @@ Worker::removeEventListener = (what) ->
   if what is 'message'
     @onmessage = -> #This webworker api has only one event listener at a time.
 GLOBAL.tv4 = require('tv4').tv4
-GLOBAL.TreemaUtils = require './bower_components/treema/treema-utils.js'
+GLOBAL.TreemaUtils = require bowerComponentsPath + 'treema/treema-utils'
 GLOBAL.marked = setOptions: ->
 store = {}
 GLOBAL.localStorage =
     getItem: (key) => store[key]
     setItem: (key, s) => store[key] = s
     removeItem: (key) => delete store[key]
+GLOBAL.lscache = require bowerComponentsPath + 'lscache/lscache'
 
 # Hook node.js require. See https://github.com/mfncooper/mockery/blob/master/mockery.js
 # The signature of this function *must* match that of Node's Module._load,

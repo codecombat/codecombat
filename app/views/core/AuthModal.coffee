@@ -33,6 +33,7 @@ module.exports = class AuthModal extends ModalView
   getRenderData: ->
     c = super()
     c.showRequiredError = @options.showRequiredError
+    c.showSignupRationale = @options.showSignupRationale
     c.mode = @mode
     c.formValues = @previousFormInputs or {}
     c.me = me
@@ -75,8 +76,17 @@ module.exports = class AuthModal extends ModalView
     @enableModalInProgress(@$el) # TODO: part of forms
     loginUser userObject, null, window.nextURL
 
+  emailCheck: ->
+    email = $('#email', @$el).val()
+    filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i  # https://news.ycombinator.com/item?id=5763990
+    unless filter.test(email)
+      forms.setErrorToProperty @$el, 'email', 'Please enter a valid email address', true
+      return false
+    return true
+
   createAccount: ->
     forms.clearFormAlerts(@$el)
+    return unless @emailCheck()
     userObject = forms.formToObject @$el
     delete userObject.subscribe
     delete userObject.name if userObject.name is ''

@@ -84,7 +84,7 @@
             span.spr(data-i18n="play.unlock") Unlock
             - if(!visibleHero.get('gems')) {
             -   console.error('Huh, we loaded the hero with no gem cost.');
-            -   visibleHero.set('gems', {ninja: 400, librarian: 400}[visibleHero.get('slug')] || 1000);
+            -   visibleHero.set('gems', {ninja: 400, librarian: 630, samurai: 1000, trapper: 1400, "potion-master": 1800, "forest-archer": 2500, sorcerer: 3400, raiser: 4600, necromancer: 6300, pixie: 8500, goliath: 12000, guardian: 16000, "dark-wizard": 21000, assassin: 29000}[visibleHero.get('slug')] || 99999);
             - }
             span= visibleHero.get('gems')
             span.gem.gem-20

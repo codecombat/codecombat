@@ -20,26 +20,18 @@ PrepaidHandler = class PrepaidHandler extends Handler
   createPrepaid: (req, res) ->
     return @sendForbiddenError(res) unless @hasAccess(req)
     return @sendForbiddenError(res) unless req.body.type is 'subscription'
-    @generateNewCode (code) =>
+    return @sendForbiddenError(res) unless req.body.maxRedeemers > 0
+    Prepaid.generateNewCode (code) =>
       return @sendDatabaseError(res, 'Database error.') unless code
       prepaid = new Prepaid
         creator: req.user.id
         type: req.body.type
-        status: 'active'
         code: code
+        maxRedeemers: req.body.maxRedeemers
         properties:
           couponID: 'free'
       prepaid.save (err) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, prepaid.toObject())
-
-  generateNewCode: (done) ->
-    tryCode = ->
-      code = _.sample("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", 8).join('')
-      Prepaid.findOne code: code, (err, prepaid) ->
-        return if err
-        return done(code) unless prepaid
-        tryCode()
-    tryCode()
 
 module.exports = new PrepaidHandler()

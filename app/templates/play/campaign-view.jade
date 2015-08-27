@@ -1,6 +1,6 @@
 a(href="/")
   img#small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-      
+
 if campaign
   .map
     .gradient.horizontal-gradient.top-gradient
@@ -15,14 +15,18 @@ if campaign
           if level.unlocksHero && (!level.purchasedHero || editorMode)
             img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
           a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
-          if level.slug == 'apocalypse'
-            img.star(src="/file/db/thang.type/54ea89112b7506e891ca717d/portrait.png")
+          if level.slug == 'lost-viking'
+            img.star(src="/file/db/thang.type/5441c3144e9aeb727cc97111/portrait.png")
+          else if level.slug == 'robot-ragnarok'
+            img.star(src="/file/db/thang.type/54ea35fd2b7506e891ca70d5/portrait.png")
           else if level.requiresSubscription
             img.star(src="/images/pages/play/star.png")
           if levelStatusMap[level.slug] === 'complete'
             img.banner(src="/images/pages/play/level-banner-complete.png")
           if levelStatusMap[level.slug] === 'started'
             img.banner(src="/images/pages/play/level-banner-started.png")
+          if levelDifficultyMap[level.slug]
+            .level-difficulty-banner-text= levelDifficultyMap[level.slug]
         div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + (levelStatusMap[level.slug] || ""))
         .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
           - var playCount = levelPlayCountMap[level.slug]
@@ -37,6 +41,10 @@ if campaign
                 a.spr(href="/contribute/adventurer")
                   strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
                 span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
+            if level.displayConcepts && level.displayConcepts.length
+              p
+                for concept in level.displayConcepts
+                  kbd(data-i18n="concepts." + concept)
 
             if !level.disabled && !level.locked
               if playCount && playCount.sessions
@@ -59,7 +67,7 @@ if campaign
 else
   .portal
     .portals
-      for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'ice', 'volcano']
+      for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
         - var campaign = campaigns[campaignSlug];
         - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
         div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
@@ -79,11 +87,12 @@ else
             else if campaign
               btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
             if campaign && campaign.get('description')
-              h3.campaign-description
+              p.campaign-description
                 span= i18n(campaign.attributes, 'description')
 
 .game-controls.header-font
   button.btn.poll.hidden(data-i18n="[title]play.poll")
+  a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
   button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
   button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
   button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
@@ -95,7 +104,7 @@ else
   //  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
   if me.get('anonymous', true)
     button.btn.settings(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="[title]play.settings")
-  
+
 .user-status.header-font
   .user-status-line
     span.gem.gem-30
@@ -112,7 +121,6 @@ else
       button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
       if me.isPremium()
         button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
-
 
 button.btn.btn-lg.btn-inverse.campaign-control-button#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
   .glyphicon.glyphicon-volume-off

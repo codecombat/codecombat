@@ -93,7 +93,11 @@ class EarnedAchievementHandler extends Handler
           )
       else
         EarnedAchievement.createForAchievement(achievement, trigger, null, null, (earnedAchievementDoc) =>
-          @sendCreated(res, earnedAchievementDoc.toObject())
+          if earnedAchievementDoc
+            @sendCreated(res, earnedAchievementDoc.toObject())
+          else
+            console.error "Couldn't create achievement", achievement, trigger
+            @sendNotFoundError res, "Couldn't create achievement"
         )
     )
 

@@ -1,7 +1,7 @@
 # There's one TomeView per Level. It has:
 # - a CastButtonView, which has
 #   - a cast button
-#   - an autocast settings options button
+#   - a submit/done button
 # - for each spell (programmableMethod):
 #   - a Spell, which has
 #     - a list of Thangs that share that Spell, with one aether per Thang per Spell
@@ -60,7 +60,7 @@ module.exports = class TomeView extends CocoView
     @worker = @createWorker()
     programmableThangs = _.filter @options.thangs, (t) -> t.isProgrammable and t.programmableMethods
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
-    unless @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    unless @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel, level: @options.level
     @castButton = @insertSubView new CastButtonView spells: @spells, level: @options.level, session: @options.session
     @teamSpellMap = @generateTeamSpellMap(@spells)
@@ -192,7 +192,7 @@ module.exports = class TomeView extends CocoView
     @castButton?.$el.hide()
 
   onSpriteSelected: (e) ->
-    return if @spellView and @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']  # Never deselect the hero in the Tome.
+    return if @spellView and @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']  # Never deselect the hero in the Tome.
     thang = e.thang
     spellName = e.spellName
     @spellList?.$el.hide()

@@ -70,6 +70,7 @@ defaultTasks =
     'Add other Components like Shoots or Casts if needed.'
     'Configure other Components, like Moves, Attackable, Attacks, etc.'
     'Override the HasAPI type if it will not be correctly inferred.'
+    'Add to Existence System power table.'
   ]
   Hero: commonTasks.concat animatedThangTypeTasks.concat purchasableTasks.concat [
     'Set the hero class.'
@@ -540,7 +541,7 @@ module.exports = class ThangTypeEditView extends RootView
       @lastKind = kind
       Backbone.Mediator.publish 'editor:thang-type-kind-changed', kind: kind
       if kind in ['Doodad', 'Floor', 'Wall'] and not @treema.data.terrains
-        @treema.set '/terrains', ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain']  # So editors know to set them.
+        @treema.set '/terrains', ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano']  # So editors know to set them.
       if not @treema.data.tasks
         @treema.set '/tasks', (name: t for t in defaultTasks[kind])
 

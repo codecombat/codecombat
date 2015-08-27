@@ -306,7 +306,7 @@ class RecipientSubs
 
     options = { cache: false, url: "/db/user/#{me.id}/stripe" }
     options.success = (info) =>
-      @sponsorSub = info.subscription
+      @sponsorSub = info.sponsorSubscription
       if card = info.card
         @card = "#{card.brand}: x#{card.last4}"
       render()

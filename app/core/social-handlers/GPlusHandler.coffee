@@ -19,7 +19,7 @@ scope = 'https://www.googleapis.com/auth/plus.login email'
 
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
-    @accessToken = storage.load GPLUS_TOKEN_KEY
+    @accessToken = storage.load GPLUS_TOKEN_KEY, false
     super()
 
   subscriptions:
@@ -53,7 +53,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     try
       # Without removing this, we sometimes get a cross-domain error
       d = _.omit(e, 'g-oauth-window')
-      storage.save(GPLUS_TOKEN_KEY, d)
+      storage.save(GPLUS_TOKEN_KEY, d, 0)
     catch e
       console.error 'Unable to save G+ token key', e
     @accessToken = e

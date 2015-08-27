@@ -28,6 +28,7 @@ ControlBarView = require './level/ControlBarView'
 PlaybackView = require './level/LevelPlaybackView'
 GoalsView = require './level/LevelGoalsView'
 GoldView = require './level/LevelGoldView'
+DuelStatsView = require './level/DuelStatsView'
 VictoryModal = require './level/modal/VictoryModal'
 InfiniteLoopModal = require './level/modal/InfiniteLoopModal'
 
@@ -119,19 +120,6 @@ module.exports = class SpectateLevelView extends RootView
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
-    if not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'])
-      if me.id isnt @session.get 'creator'
-        @surface.createOpponentWizard
-          id: @session.get('creator')
-          name: @session.get('creatorName')
-          team: @session.get('team')
-          levelSlug: @level.get('slug')
-
-      @surface.createOpponentWizard
-        id: @otherSession.get('creator')
-        name: @otherSession.get('creatorName')
-        team: @otherSession.get('team')
-        levelSlug: @level.get('slug')
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -192,8 +180,8 @@ module.exports = class SpectateLevelView extends RootView
 
     @insertSubView new GoldView {}
     @insertSubView new HUDView {level: @level}
-    worldName = utils.i18n @level.attributes, 'name'
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.get('type') in ['hero-ladder', 'course-ladder']
+    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
 
   # callbacks
 
@@ -207,7 +195,7 @@ module.exports = class SpectateLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface @world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true, wizards: @level.get('type', true) is 'ladder', playerNames: @findPlayerNames()
+    @surface = new Surface @world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true, playerNames: @findPlayerNames()
     worldBounds = @world.getBounds()
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
