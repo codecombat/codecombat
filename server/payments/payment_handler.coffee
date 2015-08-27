@@ -307,6 +307,7 @@ PaymentHandler = class PaymentHandler extends Handler
         if err
           @logPaymentError(req, 'Stripe incr db error. '+err)
           return @sendDatabaseError(res, err)
+        @sendPaymentHipChatMessage user: req.user, payment: payment
         @sendCreated(res, @formatEntity(req, payment))
       )
     )

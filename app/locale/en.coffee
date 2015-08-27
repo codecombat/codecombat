@@ -402,7 +402,7 @@
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
     feature1: "100+ basic levels across 4 worlds"
-    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
+    feature2: "9 powerful <strong>new heroes</strong> with unique skills!" # {changed}
     feature3: "70+ bonus levels"
     feature4: "<strong>3500 bonus gems</strong> every month!"
     feature5: "Video tutorials"
@@ -439,12 +439,17 @@
     payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     sale_already_subscribed: "You're already subscribed!"
     sale_blurb1: "Save 35%"
-    sale_blurb2: "off regular subscription price!"
+    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
     sale_button: "Sale!"
     sale_button_title: "Save 35% when you purchase a 1 year subscription"
     sale_click_here: "Click Here"
+    sale_ends: "Ends"
+    sale_extended: "*Existing subscriptions will be extended by 1 year."
+    sale_feature_here: "Here's what you'll get:"
+    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
     sale_continue: "Ready to continue adventuring?"
-    sale_paid: "Payment received.  Thanks!"
+    sale_limited_time: "Limited time offer!"
+    sale_new_heroes: "New heroes!"
     sale_title: "Back to School Sale"
     sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Monthly Subscription"
@@ -613,7 +618,7 @@
     sub_includes_2: "70+ practice levels"
     sub_includes_3: "Video tutorials"
     sub_includes_4: "Premium email support"
-    sub_includes_5: "10 new heroes with unique skills to master"
+    sub_includes_5: "9 new heroes with unique skills to master" # {changed}
     sub_includes_6: "3500 bonus gems every month"
     sub_includes_7: "Private Clans"
     monitor_progress_title: "How do I monitor student progress?"

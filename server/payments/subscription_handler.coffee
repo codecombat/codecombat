@@ -7,6 +7,7 @@ mongoose = require 'mongoose'
 async = require 'async'
 config = require '../../server_config'
 Handler = require '../commons/Handler'
+hipchat = require '../hipchat'
 discountHandler = require './discount_handler'
 Prepaid = require '../prepaids/Prepaid'
 User = require '../users/User'
@@ -118,48 +119,78 @@ class SubscriptionHandler extends Handler
 
   purchaseYearSale: (req, res) ->
     return @sendForbiddenError(res) unless req.user?
-    return @sendForbiddenError(res) if req.user?.hasSubscription()
+    return @sendForbiddenError(res) if req.user?.get('stripe')?.sponsorID
+
+    cancelSubscriptionImmediately = (user, subscription, done) =>
+      return done() unless user and subscription
+      stripe.customers.cancelSubscription subscription.customer, subscription.id, (err) =>
+        return done(err) if err
+        stripeInfo = _.cloneDeep(user.get('stripe') ? {})
+        delete stripeInfo.planID
+        delete stripeInfo.prepaidCode
+        delete stripeInfo.subscriptionID
+        user.set('stripe', stripeInfo)
+        user.save (err) =>
+          return done(err) if err
+          done()
 
     StripeUtils.getCustomer req.user, req.body.stripe?.token, (err, customer) =>
       if err
         @logSubscriptionError(req.user, "Purchase year sale get customer: #{JSON.stringify(err)}")
         return @sendDatabaseError(res, err)
-      metadata =
-        type: req.body.type
-        userID: req.user._id + ''
-        gems: subscriptions.basic.gems * 12
-        timestamp: parseInt(req.body.stripe?.timestamp)
-        description: req.body.description
 
-      StripeUtils.createCharge req.user, subscriptions.year_sale.amount, metadata, (err, charge) =>
-        if err
-          @logSubscriptionError(req.user, "Purchase year sale create charge: #{JSON.stringify(err)}")
-          return @sendDatabaseError(res, err)
+      findStripeSubscription customer.id, subscriptionID: req.user.get('stripe')?.subscriptionID, (subscription) =>
+        stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000) if subscription
 
-        StripeUtils.createPayment req.user, charge, (err, payment) =>
+        cancelSubscriptionImmediately req.user, subscription, (err) =>
           if err
-            @logSubscriptionError(req.user, "Purchase year sale create payment: #{JSON.stringify(err)}")
+            @logSubscriptionError(user, "Purchase year sale Stripe cancel subscription error: #{JSON.stringify(err)}")
             return @sendDatabaseError(res, err)
+          metadata =
+            type: req.body.type
+            userID: req.user._id + ''
+            gems: subscriptions.basic.gems * 12
+            timestamp: parseInt(req.body.stripe?.timestamp)
+            description: req.body.description
 
-          # Add terminal subscription to User
-          endDate = new Date()
-          endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-          stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
-          stripeInfo.free = endDate.toISOString().substring(0, 10)
-          req.user.set('stripe', stripeInfo)
-
-          # Add year's worth of gems to User
-          purchased = _.clone(req.user.get('purchased'))
-          purchased ?= {}
-          purchased.gems ?= 0
-          purchased.gems += parseInt(charge.metadata.gems)
-          req.user.set('purchased', purchased)
-
-          req.user.save (err, user) =>
+          StripeUtils.createCharge req.user, subscriptions.year_sale.amount, metadata, (err, charge) =>
             if err
-              @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
+              @logSubscriptionError(req.user, "Purchase year sale create charge: #{JSON.stringify(err)}")
               return @sendDatabaseError(res, err)
-            @sendSuccess(res, user)
+
+            StripeUtils.createPayment req.user, charge, (err, payment) =>
+              if err
+                @logSubscriptionError(req.user, "Purchase year sale create payment: #{JSON.stringify(err)}")
+                return @sendDatabaseError(res, err)
+
+              # Add terminal subscription to User with extensions for existing subscriptions
+              stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
+              endDate = new Date()
+              if stripeSubscriptionPeriodEndDate
+                endDate = stripeSubscriptionPeriodEndDate
+              else if _.isString(stripeInfo.free) and new Date() < new Date(stripeInfo.free)
+                endDate = new Date(stripeInfo.free)
+              endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+              stripeInfo.free = endDate.toISOString().substring(0, 10)
+              req.user.set('stripe', stripeInfo)
+
+              # Add year's worth of gems to User
+              purchased = _.clone(req.user.get('purchased'))
+              purchased ?= {}
+              purchased.gems ?= 0
+              purchased.gems += parseInt(charge.metadata.gems)
+              req.user.set('purchased', purchased)
+
+              req.user.save (err, user) =>
+                if err
+                  @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
+                  return @sendDatabaseError(res, err)
+                try
+                  msg = "Year subscription purchased by #{req.user.get('email')} #{req.user.id}"
+                  hipchat.sendHipChatMessage msg, ['tower']
+                catch error
+                  @logSubscriptionError(req.user, "Year sub sale HipChat tower msg error: #{JSON.stringify(error)}")
+                @sendSuccess(res, user)
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
