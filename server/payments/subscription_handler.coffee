@@ -119,7 +119,8 @@ class SubscriptionHandler extends Handler
 
   purchaseYearSale: (req, res) ->
     return @sendForbiddenError(res) unless req.user?
-    return @sendForbiddenError(res) if req.user?.hasSubscription()
+    return @sendForbiddenError(res) if req.user?.get('stripe')?.sponsorID
+    return @sendForbiddenError(res) if req.user?.get('stripe')?.subscriptionID
 
     StripeUtils.getCustomer req.user, req.body.stripe?.token, (err, customer) =>
       if err
@@ -143,9 +144,12 @@ class SubscriptionHandler extends Handler
             return @sendDatabaseError(res, err)
 
           # Add terminal subscription to User
-          endDate = new Date()
-          endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
           stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
+          endDate = new Date()
+          if _.isString(stripeInfo.free) and new Date() < new Date(stripeInfo.free)
+            # Extend end date by remaining terminal subscription
+            endDate = new Date(stripeInfo.free)
+          endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
           stripeInfo.free = endDate.toISOString().substring(0, 10)
           req.user.set('stripe', stripeInfo)
 

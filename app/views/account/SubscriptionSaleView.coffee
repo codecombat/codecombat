@@ -33,6 +33,7 @@ module.exports = class SubscriptionSaleView extends RootView
 
   getRenderData: ->
     c = super()
+    c.hasSubscription = me.get('stripe')?.sponsorID or me.get('stripe')?.subscriptionID
     c.heroes = @heroes.models
     c.payButtonText = @payButtonText
     c.saleEndDate = @saleEndDate

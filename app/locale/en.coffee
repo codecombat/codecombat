@@ -444,6 +444,7 @@
     sale_button_title: "Save 35% when you purchase a 1 year subscription"
     sale_click_here: "Click Here"
     sale_ends: "Ends"
+    sale_extended: "*Existing subscriptions will be extended by 1 year."
     sale_feature_here: "Here's what you'll get:"
     sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
     sale_continue: "Ready to continue adventuring?"
