@@ -446,6 +446,7 @@
     sale_ends: "Ends"
     sale_extended: "*Existing subscriptions will be extended by 1 year."
     sale_feature_here: "Here's what you'll get:"
+    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
     sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
     sale_continue: "Ready to continue adventuring?"
     sale_limited_time: "Limited time offer!"
