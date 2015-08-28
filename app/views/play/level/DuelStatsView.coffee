@@ -49,6 +49,7 @@ module.exports = class DuelStatsView extends CocoView
     super()
     for player in @players
       @buildAvatar player.heroID, player.team
+    @$el.css 'display', 'flex'  # Show it
 
   buildAvatar: (heroID, team) ->
     @avatars ?= {}
