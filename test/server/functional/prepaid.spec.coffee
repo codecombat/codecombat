@@ -196,4 +196,25 @@ describe '/db/prepaid', ->
         expect(payments[0].get('amount')).toEqual(2997)
         done()
 
-  # TODO: Test that code exists in DB?
+  # TODO: add a test to redeem a code, so it'll show up in the test below
+
+  it 'can fetch a list of purchased and redeemed prepaid codes', (done) ->
+    loginJoe (joe) ->
+      purchasePrepaid 'terminal_subscription', 3, 1, (err, res, prepaid) ->
+        request.get "#{getURL('/db/user')}/#{joe.id}/prepaid_codes", (err, res) ->
+          expect(err).toBeNull()
+          expect(res.statusCode).toEqual(200);
+          codes = JSON.parse res.body
+          expect(codes.length).toEqual(2)
+          expect(codes[0].maxRedeemers).toEqual(3)
+          expect(codes[0].properties).toBeDefined()
+          expect(codes[0].properties.months).toEqual(1)
+          done()
+
+  it 'should refuse to return someone elses codes', (done) ->
+    loginJoe (joe) ->
+      request.get "#{getURL('/db/user')}/12345abc/prepaid_codes", (err, res) ->
+          expect(err).toBeNull()
+          expect(res.statusCode).toEqual(403)
+          expect(res.body).toEqual('Forbidden')
+          done()

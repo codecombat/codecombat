@@ -2,6 +2,8 @@ RootView = require 'views/core/RootView'
 template = require 'templates/account/prepaid-view'
 stripeHandler = require 'core/services/stripe'
 {getPrepaidCodeAmount} = require '../../core/utils'
+CocoCollection = require 'collections/CocoCollection'
+CocoModel = require 'models/CocoModel'
 
 module.exports = class PrepaidView extends RootView
   id: 'prepaid-view'
@@ -25,10 +27,18 @@ module.exports = class PrepaidView extends RootView
       users: 3
       months: 3
     @updateTotal()
+    userID = me.id
+    url = '/db/user/'+userID+'/prepaid_codes'
+    @codes = new CocoCollection([], { url: url, model: Prepaid })
+    @codes.on 'add', (code) =>
+      @render?()
+
+    @fetchPrepaidList()
 
   getRenderData: ->
     c = super()
     c.purchase = @purchase
+    c.codes = @codes
     c
 
   updateTotal: ->
@@ -80,10 +90,16 @@ module.exports = class PrepaidView extends RootView
 
     options.error = (model, response, options) =>
       console.error 'FAILED: Prepaid purchase', response
+      # TODO: display a UI error message
 
     options.success = (model, response, options) =>
       console.log 'SUCCESS: Prepaid purchase', model.code
-      alert "Generated Code: " + model.code
-      @render?()
+      @codes.add(model)
 
     @supermodel.addRequestResource('purchase_prepaid', options, 0).load()
+
+  fetchPrepaidList: ->
+    @supermodel.loadCollection(@codes, 'prepaid', {cache: false})
+
+class Prepaid extends CocoModel
+  @className: "Prepaid"

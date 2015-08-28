@@ -51,4 +51,29 @@ block content
           .panel-heading
             .panel-title(data-i18n="account_prepaid.your_codes")
           .panel-body
-            p TODO: Panel that lists existing codes, and if they were redeeemed. Also list redeemed codes puchased by others.
+            if codes && codes.length
+              table.table.table-striped
+                tr
+                  th Code
+                  th Users
+                  th Months
+                  th Type
+                  th Purchased / Redeemed
+                for code in codes.models
+                  - var properties = code.get('properties')
+                  - var redeemers = code.get('redeemers')
+                  if redeemers
+                    - var redeemed = redeemers.length
+                  else
+                    - var redeemed = '0'
+                  tr
+                    td= code.get('code')
+                    td #{redeemed} / #{code.get('maxRedeemers')}
+                    td= properties.months || '-'
+                    td= code.get('type')
+                    if code.get('creator') == me.id
+                      td Purchased
+                    else
+                      td Redeemed
+            else
+              p No codes yet!

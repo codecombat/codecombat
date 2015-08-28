@@ -22,6 +22,7 @@ UserRemark = require './remarks/UserRemark'
 {isID} = require '../lib/utils'
 hipchat = require '../hipchat'
 sendwithus = require '../sendwithus'
+Prepaid = require '../prepaids/Prepaid'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
@@ -322,6 +323,7 @@ UserHandler = class UserHandler extends Handler
     return @getSubSponsor(req, res) if args[1] is 'sub_sponsor'
     return @getSubSponsors(req, res) if args[1] is 'sub_sponsors'
     return @sendOneTimeEmail(req, res, args[0]) if args[1] is 'send_one_time_email'
+    return @getPrepaidCodes(req, res) if args[1] is 'prepaid_codes'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -450,6 +452,16 @@ UserHandler = class UserHandler extends Handler
       emailParams['email_id'] = sendwithus.templates.share_progress_email
 
     sendMail emailParams
+
+  getPrepaidCodes: (req, res) ->
+    paths = req.path.split('/')
+    urlUser = paths[3]
+    userID = req.user._id+''
+    @sendForbiddenError(res) unless urlUser is userID
+    # TODO: allow queries for other users' codes if logged in user is admin?
+    query = [{ creator: urlUser }, { redeemers: urlUser }]
+    Prepaid.find({}).or(query).exec (err, documents) =>
+      @sendSuccess(res, documents)
 
   agreeToCLA: (req, res) ->
     return @sendForbiddenError(res) unless req.user
