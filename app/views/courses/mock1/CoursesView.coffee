@@ -13,6 +13,7 @@ module.exports = class CoursesView extends RootView
     'click .btn-enroll': 'onClickEnroll'
     'click .btn-enter': 'onClickEnter'
     'click .btn-student': 'onClickStudent'
+    'click .btn-teacher': 'onClickTeacher'
     'hidden.bs.modal #continueModal': 'onHideContinueModal'
 
   constructor: (options) ->
@@ -104,6 +105,13 @@ module.exports = class CoursesView extends RootView
     route = "/courses/mock1?student=true"
     viewClass = require 'views/courses/mock1/CoursesView'
     viewArgs = [studentMode: true]
+    navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
+    Backbone.Mediator.publish 'router:navigate', navigationEvent
+
+  onClickTeacher: (e) ->
+    route = "/courses/mock1?student=false"
+    viewClass = require 'views/courses/mock1/CoursesView'
+    viewArgs = [studentMode: false]
     navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 

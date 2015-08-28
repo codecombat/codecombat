@@ -49,9 +49,11 @@ block content
               .col-md-12
                 button.btn.btn-success.btn-lg.btn-buy Buy this course
 
+  br
   if !studentMode
-    br
     button.btn.btn-warning.btn-student Students Click Here
+  else
+    button.btn.btn-warning.btn-teacher Teachers Click Here
 
   h1.center Courses on CodeCombat
 
