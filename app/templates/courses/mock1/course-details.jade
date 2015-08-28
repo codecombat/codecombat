@@ -4,7 +4,6 @@ block content
 
   //- DO NOT localize / i18n
 
-  div TODO: fix ugly tabs
   div
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
@@ -52,8 +51,8 @@ block content
     p
       button.btn.btn-xs.btn-edit-settings(data-toggle='modal', data-target='#editSettingsModal') edit class settings
 
-  div(role='tabpanel')
-    ul.nav.nav-tabs(role='tablist')
+  div.well.well-sm.section-selector(role='tabpanel')
+    ul.nav.nav-pills(role='tablist')
       if studentMode
         li.active(role='presentation')
           a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab') Levels
@@ -250,6 +249,7 @@ mixin progress-tab
                           - i++
 
 mixin levels-tab
+  br
   table.table.table-striped.table-condensed
     thead
       tr
