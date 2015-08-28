@@ -357,7 +357,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     multiplayer_caption: "Speel met vrienden!"
     auth_caption: "Bewaar je vooruitgang."
 
-#  leaderboard:
+  leaderboard:
 #    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Leaderboards"
 #    scores: "Scores"
@@ -466,7 +466,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
-#  choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
     programming_language: "Programmeertaal"
     programming_language_description: "Welke programmeertaal wil je gebruiken?"
@@ -582,7 +582,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
 
-#  teachers:
+  teachers:
     title: "CodeCombat: Info voor Leerkrachten"
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
@@ -734,7 +734,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
     keyboard_shortcuts: "Sneltoetsen"
     space: "Spatie"
     enter: "Enter"
@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    poll: "Poll"
 #    user_polls_record: "Poll Voting History"
 
-#  concepts:
+  concepts:
     advanced_strings: "Geavanceerde Strings"
     algorithms: "Algoritmes"
     arguments: "Argumenten"
@@ -1210,7 +1210,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     while_loops: "Lussen"
     recursion: "Recursie"
 
-#  delta:
+  delta:
     added: "Toegevoegd"
     modified: "Gewijzigd"
     not_modified: "Niet Gewijzigd"
@@ -1288,7 +1288,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     nutshell_description: "Alle middelen die wij aanbieden in de Level Editor zijn gratis te gebruiken om levels aan te maken. Wij behouden ons echter het recht voor om levels die gemaakt zijn op codecombat.com te beperken, en hier in de toekomst geld voor te vragen, moest dat ooit gebeuren."
     canonical: "De Engelse versie van dit document is de definitieve en kanonieke versie. Bij verschillen tussen vertalingen heeft de Engelse versie voorrang."
 
-#  ladder_prizes:
+  ladder_prizes:
 #    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
 #    blurb_1: "These prizes will be awarded according to"
 #    blurb_2: "the tournament rules"
