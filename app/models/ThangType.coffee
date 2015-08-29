@@ -384,7 +384,7 @@ module.exports = class ThangType extends CocoModel
       absolute: rawNumbers.speed
       description: "#{$.i18n.t 'choose_hero.speed_1'} #{rawNumbers.speed} #{$.i18n.t 'choose_hero.speed_2'}"
 
-    stats.skills = (_.string.titleize(_.string.humanize(skill)) for skill in programmableConfig.programmableProperties when skill isnt 'say')
+    stats.skills = (_.string.titleize(_.string.humanize(skill)) for skill in programmableConfig.programmableProperties when skill isnt 'say' and not /(Range|Pos|Radius|Damage)$/.test(skill))
 
     stats
 
