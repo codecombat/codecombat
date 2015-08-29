@@ -8,6 +8,8 @@ module.exports.handlers =
   'article': 'articles/article_handler'
   'campaign': 'campaigns/campaign_handler'
   'clan': 'clans/clan_handler'
+  'course': 'courses/course_handler'
+  'course_instance': 'courses/course_instance_handler'
   'level': 'levels/level_handler'
   'level_component': 'levels/components/level_component_handler'
   'level_feedback': 'levels/feedbacks/level_feedback_handler'
