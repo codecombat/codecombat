@@ -1233,7 +1233,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     multiplayer_coming_soon: "今後より多くのマルチプレイ機能が追加されます。"
 #    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
-#  legal:
+  legal:
 #    page_title: "Legal"
 #    opensource_intro: "CodeCombat is completely open source."
 #    opensource_description_prefix: "Check out "
