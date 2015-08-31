@@ -103,7 +103,7 @@ module.exports = class PollModal extends ModalView
             if Math.random() < randomGems / 40
               gemTrigger = 'gem-' + (gemNoisesPlayed % 4)  # 4 gem sounds
               ++gemNoisesPlayed
-              Backbone.Mediator.publish 'audio-player:play-sound', trigger: gemTrigger, volume: 0.475 + i / 2000
+              @playSound gemTrigger, (0.475 + i / 2000)
           @$randomNumber.delay 25
       @$randomGems.delay(1100).queue ->
         utils.replaceText $(@), commentStart + randomGems

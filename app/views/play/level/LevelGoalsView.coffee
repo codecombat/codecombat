@@ -97,7 +97,7 @@ module.exports = class LevelGoalsView extends CocoView
     @lastSizeTweenTime = new Date()
     @updatePlacement()
     if @soundToPlayWhenPlaybackEnded
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: @soundToPlayWhenPlaybackEnded, volume: 1
+      @playSound @soundToPlayWhenPlaybackEnded
 
   updateHeight: ->
     return if @$el.hasClass('brighter') or @$el.hasClass('secret')
@@ -122,7 +122,7 @@ module.exports = class LevelGoalsView extends CocoView
 
   playToggleSound: (sound) =>
     return if @destroyed
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: sound, volume: 1
+    @playSound sound
     @soundTimeout = null
 
   onSetLetterbox: (e) ->
