@@ -10,7 +10,6 @@ require 'vendor/d3'
 module.exports = class AnalyticsSubscriptionsView extends RootView
   id: 'admin-analytics-subscriptions-view'
   template: template
-  targetSubCount: 1200
 
   events:
     'click .btn-show-more-cancellations': 'onClickShowMoreCancellations'
@@ -377,7 +376,6 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     # TODO: Where should this metadata live?
     # TODO: lineIDs assumed to be unique across graphs
     totalSubsID = 'total-subs'
-    targetSubsID = 'target-subs'
     startedSubsID = 'started-subs'
     cancelledSubsID = 'cancelled-subs'
     netSubsID = 'net-subs'
@@ -387,11 +385,6 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       description: 'Total Active Subscriptions'
       color: 'green'
       strokeWidth: 1
-    lineMetadata[targetSubsID] =
-      description: 'Target Total Subscriptions'
-      color: 'gold'
-      strokeWidth: 4
-      opacity: 1.0
     lineMetadata[startedSubsID] =
       description: 'New Subscriptions'
       color: 'blue'
@@ -454,7 +447,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       lineColor: lineMetadata[totalSubsID].color
       strokeWidth: lineMetadata[totalSubsID].strokeWidth
       min: 0
-      max: Math.max(@targetSubCount, d3.max(@subs, (d) -> d.total))
+      max: d3.max(@subs, (d) -> d.total)
 
     ## Started
 
@@ -536,30 +529,6 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
         max: d3.max(@subs[-timeframeDays..], (d) -> d.started + 2)
 
     else
-
-      ## Total subs target
-
-      # Build line data
-      levelPoints = []
-      for sub, i in @subs
-        levelPoints.push
-          x: i
-          y: @targetSubCount
-          day: sub.day
-          pointID: "#{targetSubsID}#{i}"
-          values: []
-
-      levelPoints.splice(0, levelPoints.length - timeframeDays) if levelPoints.length > timeframeDays
-
-      graph.lines.push
-        lineID: targetSubsID
-        enabled: true
-        points: levelPoints
-        description: lineMetadata[targetSubsID].description
-        lineColor: lineMetadata[targetSubsID].color
-        strokeWidth: lineMetadata[targetSubsID].strokeWidth
-        min: 0
-        max: Math.max(@targetSubCount, d3.max(@subs, (d) -> d.total))
 
       ## Cancelled
 
