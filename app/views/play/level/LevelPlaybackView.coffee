@@ -286,7 +286,8 @@ module.exports = class LevelPlaybackView extends CocoView
         @scrubTo ui.value / @sliderIncrements
         if ratioChange = @getScrubRatio() - oldRatio
           sound = "playback-scrub-slide-#{if ratioChange > 0 then 'forward' else 'back'}-#{@slideCount % 3}"
-          Backbone.Mediator.publish 'audio-player:play-sound', trigger: sound, volume: Math.min 1, Math.abs ratioChange * 50
+          unless /back/.test sound  # We don't have the back sounds in yet: http://discourse.codecombat.com/t/bug-some-mp3-lost/4830
+            Backbone.Mediator.publish 'audio-player:play-sound', trigger: sound, volume: Math.min 1, Math.abs ratioChange * 50
 
       start: (event, ui) =>
         return if @shouldIgnore()
