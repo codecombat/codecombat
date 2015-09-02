@@ -23,6 +23,8 @@ module.exports.connect = () ->
 module.exports.generateMongoConnectionString = ->
   if not testing and config.tokyo
     address = config.mongo.mongoose_tokyo_replica_string
+  else if not testing and config.saoPaulo
+    address = config.mongo.mongoose_saoPaulo_replica_string
   else if not testing and config.mongo.mongoose_replica_string
     address = config.mongo.mongoose_replica_string
   else
