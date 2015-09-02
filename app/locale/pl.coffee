@@ -494,10 +494,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     skills: "Umiejętności"
     attack_1: "Zadaje"
 #    attack_2: "of listed"
-#    attack_3: "weapon damage."
+    attack_3: "obrażeń od broni."
     health_1: "Zdobywa"
 #    health_2: "of listed"
-#    health_3: "armor health."
+    health_3: "wytrzymałości pancerza."
     speed_1: "Idzie do"
     speed_2: "metrów na sekundę."
     available_for_purchase: "Można wynająć" # Shows up when you have unlocked, but not purchased, a hero in the hero store
@@ -582,8 +582,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     retrostyle_title: "Ilustracje"
     retrostyle_blurb: "RetroStyle Games"
 
-#  teachers:
-#    title: "CodeCombat: Info for Teachers"
+  teachers:
+    title: "CodeCombat: Informacja dla nauczycieli"
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
@@ -633,8 +633,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later."
 #    sys_requirements_2: "CodeCombat is not supported on iPad yet."
 
-#  teachers_survey:
-#    title: "Teacher Survey"
+  teachers_survey:
+    title: "Ankieta dla nauczycieli"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
 #    being_reviewed_1: "Your application for a free trial subscription is being"
@@ -821,22 +821,22 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
   classes:
     archmage_title: "Arcymag"
     archmage_title_description: "(programista)"
-#    archmage_summary: "If you are a developer interested in coding educational games, become an archmage to help us build CodeCombat!"
+    archmage_summary: "Jesteś programistą zainteresowanym tworzeniem gier edukacyjnych? Zostań Arcymagiem i pomóż nam ulepszyć CodeCombat!"
     artisan_title: "Rzemieślnik"
     artisan_title_description: "(twórca poziomów)"
-#    artisan_summary: "Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program."
+    artisan_summary: "Buduj i dziel się poziomami z przyjaciółmi i innymi graczami. Zostań Rzemieślnikiem, który pomaga w uczeniu innych sztuki programowania."
     adventurer_title: "Podróżnik"
     adventurer_title_description: "(playtester)"
-#    adventurer_summary: "Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release."
+    adventurer_summary: "Zagraj w nasze nowe poziomy (nawet te dla subskrybentów) za darmo przez ich wydaniem i pomóż nam znaleźć w nich błędy zanim zostaną opublikowane."
     scribe_title: "Skryba"
     scribe_title_description: "(twórca artykułów)"
-#    scribe_summary: "Good code needs good documentation. Write, edit, and improve the docs read by millions of players across the globe."
+    scribe_summary: "Dobry kod wymaga dobrej dokumentacji. Pisz, edytuj i ulepszaj dokumentację czytana przez miliony graczy na całym świecie."
     diplomat_title: "Dyplomata"
     diplomat_title_description: "(tłumacz)"
-#    diplomat_summary: "CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations."
+    diplomat_summary: "CodeCombat jest tłumaczone na ponad 45 języków. Dołącz do naszch Dyplomatów i pomóż im w dalszych pracach."
     ambassador_title: "Ambasador"
     ambassador_title_description: "(wsparcie)"
-#    ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world."
+    ambassador_summary: "Okiełznaj naszych użytkowników na forum, udzielaj odpowiedzi na pytania i wspieraj ich. Nasi Ambasadorzy reprezentują CodeCombat przed całym światem."
 
   editor:
     main_title: "Edytory CodeCombat"
@@ -1092,7 +1092,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     left_xp_postfix: ""
 
   account:
-#    recently_played: "Recently Played"
+    recently_played: "Ostatnio grane"
 #    no_recent_games: "No games played during the past two weeks."
     payments: "Płatności"
     purchased: "Zakupiono"
@@ -1152,12 +1152,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     user_profile: "Profil użytkownika"
     patch: "Łatka"
     patches: "Łatki"
-#    patched_model: "Source Document"
-#    model: "Model"
+    patched_model: "Dokument źródłowy"
+    model: "Model"
 #    system: "System"
 #    systems: "Systems"
-#    component: "Component"
-#    components: "Components"
+    component: "Komponent"
+    components: "Komponenty"
     thang: "Obiekt"
     thangs: "Obiekty"
 #    level_session: "Your Session"
@@ -1189,7 +1189,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     user_polls_record: "Historia oddanych głosów"
 
   concepts:
-#    advanced_strings: "Advanced Strings"
+    advanced_strings: "Zaawansowane napisy"
     algorithms: "Algorytmy"
     arguments: "Argumenty"
     arithmetic: "Arytmetyka"
