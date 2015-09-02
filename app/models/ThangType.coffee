@@ -14,7 +14,7 @@ module.exports = class ThangType extends CocoModel
     knight: '529ffbf1cf1818f2be000001'
     samurai: '53e12be0d042f23505c3023b'
     raider: '55527eb0b8abf4ba1fe9a107'
-    goliath: ''
+    goliath: '55e1a6e876cb0948c96af9f8'
     guardian: ''
     ninja: '52fc0ed77e01835453bd8f6c'
     'forest-archer': '5466d4f2417c8b48a9811e87'
@@ -384,7 +384,7 @@ module.exports = class ThangType extends CocoModel
       absolute: rawNumbers.speed
       description: "#{$.i18n.t 'choose_hero.speed_1'} #{rawNumbers.speed} #{$.i18n.t 'choose_hero.speed_2'}"
 
-    stats.skills = (_.string.titleize(_.string.humanize(skill)) for skill in programmableConfig.programmableProperties when skill isnt 'say')
+    stats.skills = (_.string.titleize(_.string.humanize(skill)) for skill in programmableConfig.programmableProperties when skill isnt 'say' and not /(Range|Pos|Radius|Damage)$/.test(skill))
 
     stats
 
