@@ -4,8 +4,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     no_ie: "O CodeCombat não funciona no Internet Explorer 8 ou anterior. Desculpa!" # Warning that only shows up in IE8 and older
     no_mobile: "O CodeCombat não foi feito para dispositivos móveis e pode não funcionar!" # Warning that shows up on mobile devices
     play: "Jogar" # The big play button that opens up the campaign view.
-    old_browser: "Ups, o teu navegador é demasiado antigo para que o CodeCombat funcione. Desculpa!" # Warning that shows up on really old Firefox/Chrome/Safari
-    old_browser_suffix: "Mesmo assim podes tentar, mas provavelmente não irá funcionar."
+    old_browser: "Uh oh, o teu navegador é demasiado antigo para que o CodeCombat funcione. Desculpa!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser_suffix: "Podes tentar na mesma, mas provavelmente não vai funcionar."
     ipad_browser: "Más notícias: o CodeCombat não funciona no navegador do iPad. Boas notícias: a nossa aplicação nativa para iPad está à espera da aprovação da Apple."
     campaign: "Campanha"
     for_beginners: "Para Iniciantes"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     title: "Ajuda a traduzir o CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Precisamos das tuas habilidades linguísticas."
     pitch_body: "Desenvolvemos o CodeCombat em Inglês, mas já temos jogadores de todo o mundo. Muitos deles querem jogar em Português, mas não falam Inglês, por isso, se sabes falar ambas, por favor considera registar-te como Diplomata para ajudares a traduzir o sítio do CodeCombat e todos os níveis para Português."
-    missing_translations: "Enquanto não conseguirmos traduzir tudo para Português, irás ver em Inglês o que não estiver disponível em Português."
+    missing_translations: "Até conseguirmos traduzir tudo para Português, irás ver em Inglês o que não estiver disponível em Português."
     learn_more: "Sabe mais sobre seres um Diplomata"
     subscribe_as_diplomat: "Subscreve-te como Diplomata"
 
@@ -73,19 +73,19 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     anonymous: "Jogador Anónimo"
     level_difficulty: "Dificuldade: "
     campaign_beginner: "Campanha para Iniciantes"
-    awaiting_levels_adventurer_prefix: "Nós lançamos novos níveis todas as semanas."
+    awaiting_levels_adventurer_prefix: "Lançamos novos níveis todas as semanas."
     awaiting_levels_adventurer: "Regista-te como Aventureiro"
     awaiting_levels_adventurer_suffix: "para seres o primeiro a jogar níveis novos."
     adjust_volume: "Ajustar volume"
     campaign_multiplayer: "Arenas Multijogador"
-    campaign_multiplayer_description: "... onde programas frente-a-frente contra outros jogadores."
+    campaign_multiplayer_description: "... nas quais programas contra outros jogadores."
     campaign_old_multiplayer: "(Obsoletas) Arenas Multijogador Antigas"
-    campaign_old_multiplayer_description: "Relíquias de uma idade mais civilizada. Não há simulações em curso para estas arenas multijogador, mais antigas e sem heróis."
+    campaign_old_multiplayer_description: "Relíquias de uma era mais civilizada. Não há simulações em curso para estas arenas multijogador, mais antigas e sem heróis."
 
   share_progress_modal:
     blurb: "Estás a fazer grandes progressos! Conta ao teu educador o quanto aprendeste com o CodeCombat."
     email_invalid: "Endereço de e-mail inválido."
-    form_blurb: "Introduz o e-mail dele abaixo e nós vamos mostrar-lhe!"
+    form_blurb: "Introduz o e-mail do teu educador abaixo e nós vamos mostrar-lhe!"
     form_label: "Endereço de E-mail"
     placeholder: "endereço de e-mail"
     title: "Excelente Trabalho, Aprendiz"
@@ -98,7 +98,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     forgot_password: "Esqueceste a tua palavra-passe?"
     authenticate_gplus: "Autenticar G+"
     load_profile: "Carregar Perfil do G+"
-    finishing: "A terminar"
+    finishing: "A Terminar"
     sign_in_with_facebook: "Iniciar sessão com o FB"
     sign_in_with_gplus: "Iniciar sessão com o G+"
     signup_switch: "Queres criar uma conta?"
@@ -108,8 +108,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     creating: "A Criar Conta..."
     sign_up: "Registar"
     log_in: "iniciar sessão com palavra-passe"
-    social_signup: "Ou podes registar-te através do Facebook ou do Google+:"
-    required: "Precisas de iniciar sessão antes de prosseguir dessa forma."
+    social_signup: "Ou podes registar-te através do FB ou do Google+:"
+    required: "Precisas de iniciar sessão antes de prosseguires."
     login_switch: "Já tens uma conta?"
 
   recover:
@@ -128,9 +128,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   common:
     back: "Voltar" # When used as an action verb, like "Navigate backward"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
-    loading: "A carregar..."
-    saving: "A guardar..."
-    sending: "A enviar..."
+    loading: "A Carregar..."
+    saving: "A Guardar..."
+    sending: "A Enviar..."
     send: "Enviar"
     cancel: "Cancelar"
     save: "Guardar"
@@ -145,7 +145,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     help: "Ajuda"
     watch: "Vigiar"
     unwatch: "Desvigiar"
-    submit_patch: "Submeter Versão"
+    submit_patch: "Submeter Atualização"
     submit_changes: "Submeter Alterações"
     save_changes: "Guardar Alterações"
 
@@ -223,13 +223,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     restart: "Reiniciar"
     goals: "Objetivos"
     goal: "Objetivo"
-    running: "A executar..."
+    running: "A Executar..."
     success: "Sucesso!"
     incomplete: "Incompletos"
     timed_out: "Ficaste sem tempo"
     failing: "A falhar"
     action_timeline: "Linha do Tempo de Ações"
-    click_to_select: "Clica numa unidade para selecioná-la."
+    click_to_select: "Clica numa unidade para a selecionares."
     control_bar_multiplayer: "Multijogador"
     control_bar_join_game: "Entrar no Jogo"
     reload: "Recarregar"
@@ -241,10 +241,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     victory_title_suffix: " Concluído"
     victory_sign_up: "Criar Conta para Guardar Progresso"
     victory_sign_up_poke: "Queres guardar o teu código? Cria uma conta grátis!"
-    victory_rate_the_level: "Classifica este nível: " # Only in old-style levels.
+    victory_rate_the_level: "Classifica o nível: " # Only in old-style levels.
     victory_return_to_ladder: "Voltar à Classificação"
     victory_play_continue: "Continuar"
-    victory_saving_progress: "A Guardar o Progresso"
+    victory_saving_progress: "A Guardar Progresso"
     victory_go_home: "Ir para o Início"
     victory_review: "Conta-nos mais!"
     victory_review_placeholder: "Como foi o nível?"
@@ -258,7 +258,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
 #    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Guia"
-    tome_minion_spells: "Feitiços dos Seus Minions" # Only in old-style levels.
+    tome_minion_spells: "Feitiços dos Teus Minions" # Only in old-style levels.
     tome_read_only_spells: "Feitiços Apenas de Leitura" # Only in old-style levels.
     tome_other_units: "Outras Unidades" # Only in old-style levels.
     tome_cast_button_run: "Executar"
@@ -266,9 +266,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_cast_button_ran: "Executado"
     tome_submit_button: "Submeter"
     tome_reload_method: "Recarregar o código original para este método" # Title text for individual method reload button.
-    tome_select_method: "Selecionar um método"
+    tome_select_method: "Selecionar um Método"
     tome_see_all_methods: "Ver todos os métodos editáveis" # Title text for method list selector (shown when there are multiple programmable methods).
-    tome_select_a_thang: "Seleciona Alguém para "
+    tome_select_a_thang: "Selecionar Alguém para "
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "As Tuas Habilidades"
     tome_help: "Ajuda"
@@ -276,7 +276,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     hud_continue_short: "Continuar"
     code_saved: "Código Guardado"
     skip_tutorial: "Saltar (esc)"
-    keyboard_shortcuts: "Atalhos do Teclado"
+    keyboard_shortcuts: "Atalhos de Teclado"
     loading_ready: "Pronto!"
     loading_start: "Iniciar Nível"
     problem_alert_title: "Corrige o Teu Código"
@@ -304,22 +304,22 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_debugging_program: "Se depurar é o processo de remover erros, então programar deve ser o processo de os introduzir. - Edsger W. Dijkstra"
     tip_forums: "Vai aos fóruns e diz-nos o que pensas!"
     tip_baby_coders: "No futuro, até os bebés serão Arcomagos."
-    tip_morale_improves: "O carregamento irá continuar até que a moral melhore."
+    tip_morale_improves: "O carregamento vai continuar até que a moral melhore."
     tip_all_species: "Acreditamos em oportunidades iguais para todas as espécies, em relação a aprenderem a programar."
     tip_reticulating: "A reticular espinhas."
     tip_harry: "És um Feiticeiro, "
     tip_great_responsibility: "Com uma grande habilidade de programação vem uma grande responsabilidade de depuração."
-    tip_munchkin: "Se não comeres os teus vegetais, virá um ogre atrás de ti enquanto estiveres a dormir."
+    tip_munchkin: "Se não comeres os teus vegetais, um ogre virá atrás de ti enquanto estiveres a dormir."
     tip_binary: "Há apenas 10 tipos de pessoas no mundo: aquelas que percebem binário e aquelas que não."
     tip_commitment_yoda: "Um programador deve ter o compromisso mais profundo, a mente mais séria. ~ Yoda"
     tip_no_try: "Fazer. Ou não fazer. Não há nenhum tentar. - Yoda"
     tip_patience: "Paciência tu deves ter, jovem Padawan. - Yoda"
     tip_documented_bug: "Um erro documentado não é um erro; é uma funcionalidade."
-    tip_impossible: "Tudo parece sempre impossível até ser feito. - Nelson Mandela"
+    tip_impossible: "Parece sempre impossível até ser feito. - Nelson Mandela"
     tip_talk_is_cheap: "Falar é fácil. Mostra-me o código. - Linus Torvalds"
     tip_first_language: "A coisa mais desastrosa que podes aprender é a tua primeira linguagem de programação. - Alan Kay"
-    tip_hardware_problem: "P: Quantos programadores são necessários para mudar uma lâmpada?  R: Nenhum, é um problema de hardware."
-    tip_hofstadters_law: "Lei de Hofstadter: Tudo demora sempre mais do que pensas, mesmo quando levas em conta a Lei de Hofstadter."
+    tip_hardware_problem: "P: Quantos programadores são necessários para mudar uma lâmpada?  R: Nenhum, é um problema de 'hardware'."
+    tip_hofstadters_law: "Lei de Hofstadter: Tudo demora sempre mais do que pensas, mesmo quando tens em conta a Lei de Hofstadter."
     tip_premature_optimization: "Uma otimização permatura é a raíz de todo o mal. - Donald Knuth"
     tip_brute_force: "Quando em dúvida, usa a força bruta. - Ken Thompson"
     tip_extrapolation: "Há apenas dois tipos de pessoas: aquelas que conseguem tirar uma conclusão a partir de dados reduzidos..."
@@ -390,13 +390,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     few_gems: "Algumas gemas"
     pile_gems: "Pilha de gemas"
     chest_gems: "Arca de gemas"
-    purchasing: "A adquirir..."
+    purchasing: "A Adquirir..."
     declined: "O teu cartão foi recusado."
     retrying: "Erro do servidor, a tentar novamente."
     prompt_title: "Sem Gemas Suficientes"
     prompt_body: "Queres obter mais?"
     prompt_button: "Entra na Loja"
-    recovered: "Recuperada a compra de gemas anterior. Por favor atualiza a página."
+    recovered: "A compra de gemas anterior foi recuperada. Por favor atualiza a página."
     price: "x3500 / mês"
 
   subscribe:
