@@ -527,6 +527,8 @@
   skill_docs:
     writable: "writable"  # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "read-only"
+    action: "Action"
+    spell: "Spell"
     action_name: "name"
     action_cooldown: "Takes"
     action_specific_cooldown: "Cooldown"
