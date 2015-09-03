@@ -310,8 +310,8 @@ module.exports = nativeDescription: "English (US)", englishDescription: "English
 #    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
 #    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
 #    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
-#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
-#    tip_patience: "Patience you must have, young Padawan. - Yoda"
+#    tip_no_try: "Do. Or do not. There is no try. - Yoda("Star Wars")"
+#    tip_patience: "Patience you must have, young Padawan. - Yoda("Star Wars")"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
@@ -336,8 +336,8 @@ module.exports = nativeDescription: "English (US)", englishDescription: "English
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
-#    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
-#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus("The Matrix")"
+#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha("Naruto")"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
 #  game_menu:
