@@ -56,7 +56,7 @@ module.exports = class PlaybackOverScreen extends CocoClass
     incomplete = not success and not failure and not timedOut
     color = if failure then 'rgba(255, 128, 128, 0.4)' else 'rgba(255, 255, 255, 0.4)'
     @updateColor color
-    @updateText success, timedOut, incomplete
+    @updateText e
 
   updateColor: (color) ->
     return if color is @color
@@ -67,19 +67,29 @@ module.exports = class PlaybackOverScreen extends CocoClass
       @dimLayer.cache 0, 0, @camera.canvasWidth, @camera.canvasHeight
     @color = color
 
-  updateText: (success, timedOut, incomplete) ->
+  updateText: (goalEvent) ->
     return unless _.size @playerNames  # Only on multiplayer levels
+    teamOverallStatuses = {}
+
+    goals = if goalEvent.goalStates then _.values goalEvent.goalStates else []
+    goals = (g for g in goals when not g.optional)
+    for team in ['humans', 'ogres']
+      teamGoals = (g for g in goals when g.team in [undefined, team])
+      statuses = (goal.status for goal in teamGoals)
+      overallStatus = 'success' if statuses.length > 0 and _.every(statuses, (s) -> s is 'success')
+      overallStatus = 'failure' if statuses.length > 0 and 'failure' in statuses
+      teamOverallStatuses[team] = overallStatus
+
     @makeVictoryText() unless @text
-    # TODO: i18n this
-    if (success and me.team is 'humans') or (not success and me.team is 'ogres')
+    if teamOverallStatuses.humans is 'success'
       @text.color = '#E62B1E'
-      @text.text = (@playerNames.humans ? 'HUMAN AI').toLocaleUpperCase() + ' WINS'
-    else if (success and me.team is 'ogres') or (not success and me.team is 'humans')
+      @text.text = ((@playerNames.humans ? $.i18n.t('ladder.red_ai')) + ' ' + $.i18n.t('ladder.wins')).toLocaleUpperCase()
+    else if teamOverallStatuses.ogres is 'success'
       @text.color = '#0597FF'
-      @text.text = (@playerNames.ogres ? 'OGRE AI').toLocaleUpperCase() + ' WINS'
+      @text.text = ((@playerNames.ogres ? $.i18n.t('ladder.blue_ai')) + ' ' + $.i18n.t('ladder.wins')).toLocaleUpperCase()
     else
       @text.color = '#F7B42C'
-      if timedOut
+      if goalEvent.timedOut
         @text.text = 'TIMED OUT'
       else
         @text.text = 'INCOMPLETE'

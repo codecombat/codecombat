@@ -104,12 +104,12 @@ module.exports = class LadderView extends RootView
   onClickSpectateButton: (e) ->
     humanSession = @ladderTab.spectateTargets?.humans
     ogreSession = @ladderTab.spectateTargets?.ogres
-    console.log humanSession, ogreSession
     return unless humanSession and ogreSession
     e.preventDefault()
     e.stopImmediatePropagation()
     url = "/play/spectate/#{@level.get('slug')}?session-one=#{humanSession}&session-two=#{ogreSession}"
-    Backbone.Mediator.publish 'router:navigate', route: url
+    window.open url, if key.command then '_blank' else 'spectate'  # New tab for spectating specific matches
+    #Backbone.Mediator.publish 'router:navigate', route: url
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
