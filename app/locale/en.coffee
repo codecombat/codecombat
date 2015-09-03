@@ -1084,6 +1084,8 @@
     red_ai: "Red AI"  # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "Blue AI"
     wins: "Wins"  # At end of multiplayer match playback
+    humans: "Red"  # Ladder page display team name
+    ogres: "Blue"
 
   user:
     stats: "Stats"

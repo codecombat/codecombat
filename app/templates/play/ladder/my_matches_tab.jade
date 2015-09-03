@@ -6,7 +6,7 @@ div#columns.row
         tr
           th(colspan=5, style="color: #{team.primaryColor}")
             span(data-i18n="ladder.summary_your") Your 
-            |#{team.name}
+            |#{team.displayName}
             |  
             span(data-i18n="ladder.summary_matches") Matches - 
             |#{team.wins}
@@ -49,7 +49,7 @@ div#columns.row
                 else
                   span(data-i18n="ladder.defeat_the") Defeat the
                   |  
-                  | #{team.otherTeam}
+                  | #{team.otherTeamDisplayName}
 
         if !team.matches.length
           tr
