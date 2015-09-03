@@ -507,7 +507,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
   skill_docs:
     writable: "kirjoitettava" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "vain luettavaksi"
-    action_name: "Toiminnon nimi" # Where from does the 'Action' come in front of this?
+    action_name: "Nimi" # Where from does the 'Action' come in front of this?
     action_cooldown: "Kesto"
     action_specific_cooldown: "Latausaika"
     action_damage: "Vahinko"
@@ -587,7 +587,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     intro_1: "CodeCombat on selainpeli, joka opettaa ohjelmointia. Opiskelijat kirjoittavat ohjelmakoodia oikeilla ohjelmointikielillä."
     intro_2: "Aiempi kokemus ei ole tarpeen!"
     free_title: "Mitä kaikki maksaa?"
-    cost_china: "CodeCombat Kiinan alueella on maksuton viiden ensimmäisen tason osalta, jonka jälkeen hinta on $9.99 USD kuukaudessa pääsystä muihin 140+ tasoon Kiinan palvelimilla."
+    cost_china: "CodeCombat Kiinan alueella on maksuton viiden ensimmäisen tason osalta, jonka jälkeen hinta on $9.99 USD kuukaudessa pääsystä muihin 180+ tasoon Kiinan palvelimilla."
     free_1: "Käytössäsi on 100+ ILMAISTA tasoa, jotka kattavat koko ohjelmoinnin perustan."
     free_2: "Maksullinen kuukausitilaus avaa pääsyn video-oppaisiin ja lisätasoihin."
     teacher_subs_title: "Opettajat saavat ilmaisen kuukausitilauksen!"
@@ -615,7 +615,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     who_for_1: "Suosittelemme CodeCombatia 9 vuotiaille ja vanhemmille oppilaille. Aiempaa ohjelmointiosaamista ei tarvita."
     who_for_2: "CodeCombat on suunniteltu yhtälailla pojille kuin tytöille."
     material_title: "Kuinka paljon sisältöä palvelu tarjoaa?"
-    material_china: "Noin 40 tunnin edestä, yli 170+ pelitasoa kuukausitilanneille käyttäjille tähänmennessä."
+    material_china: "Noin 40 tunnin edestä, yli 180+ pelitasoa kuukausitilanneille käyttäjille tähänmennessä."
     material_1: "Noin 25 tuntia ilmaista sisältöä ja kuukausitilanneille noin 15 tuntia lisämateriaalia."
     concepts_title: "Mitkä ohjelmointikonseptit CodeCombat kattaa?"
     how_much_title: "Minkä verran kuukausitilaus maksaa?"
