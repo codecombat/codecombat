@@ -671,21 +671,21 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    cla_agree: "I AGREE"
 #    owner_approve: "An owner will need to approve it before your changes will become visible."
 
-#  contact:
-#    contact_us: "Contact CodeCombat"
-#    welcome: "Good to hear from you! Use this form to send us email. "
-#    forum_prefix: "For anything public, please try "
-#    forum_page: "our forum"
-#    forum_suffix: " instead."
-#    faq_prefix: "There's also a"
-#    faq: "FAQ"
-#    subscribe_prefix: "If you need help figuring out a level, please"
-#    subscribe: "buy a CodeCombat subscription"
-#    subscribe_suffix: "and we'll be happy to help you with your code."
-#    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
-#    screenshot_included: "Screenshot included."
-#    where_reply: "Where should we reply?"
-#    send: "Send Feedback"
+  contact:
+    contact_us: "Ota yhteyttä CodeCombat"
+    welcome: "Mukava kuulla teistä! Käytä tätä lomaketta lähettääksesi meille sähköpostia. "
+    forum_prefix: "Kaikissa yleisisä asioissa, kokeile ensin "
+    forum_page: "keskustelufoorumiamme"
+    forum_suffix: "."
+    faq_prefix: "Usein kysytyt kysymykset löydät"
+    faq: "Täältä"
+    subscribe_prefix: "Jos tarvitset apua kentän läpäisemisessä, ole hyvä ja hanki"
+    subscribe: "CodeCombat kuukausitilaus"
+    subscribe_suffix: "ja autamme mielellämme teitä ohjelmakoodinne kanssa."
+    subscriber_support: "Kun olette CodeCombat kuukausitilaaja, sähköpostisi käsitellään etusijalla."
+    screenshot_included: "Kuvankaappaus liitetty."
+    where_reply: "Mihin haluatte vastauksen?"
+    send: "Lähetä"
 #    contact_candidate: "Contact Candidate" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
 
