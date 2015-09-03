@@ -774,7 +774,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     social_hipchat: "通過公共的HipChat與我們交流"
     contribute_to_the_project: "貢獻這專案"
 
-  Clans:
+  clans:
     clan: "部落"
     clans: "部落"
     new_name: "新部落的名字"

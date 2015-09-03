@@ -95,6 +95,3 @@ npm-debug.log*
 
 temp/
 ### If you add something here, copy it to the end of .npmignore, too. ###
-
-
-codecombat/
