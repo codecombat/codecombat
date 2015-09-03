@@ -401,8 +401,8 @@
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "100+ basic levels across 4 worlds"
-    feature2: "9 powerful <strong>new heroes</strong> with unique skills!" # {changed}
+    feature1: "110+ basic levels across 4 worlds"
+    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
     feature3: "70+ bonus levels"
     feature4: "<strong>3500 bonus gems</strong> every month!"
     feature5: "Video tutorials"
@@ -527,6 +527,8 @@
   skill_docs:
     writable: "writable"  # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "read-only"
+    action: "Action"
+    spell: "Spell"
     action_name: "name"
     action_cooldown: "Takes"
     action_specific_cooldown: "Cooldown"
@@ -607,19 +609,19 @@
     intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
     intro_2: "No experience required!"
     free_title: "How much does it cost?"
-    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
-    free_1: "There are 100+ FREE levels which cover every concept."
+    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 180+ levels on our exclusive China servers."
+    free_1: "There are 110+ FREE levels which cover every concept."
     free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
     teacher_subs_title: "Teachers get free subscriptions!"
     teacher_subs_1: "Please fill out our"
     teacher_subs_2: "Teacher Survey"
     teacher_subs_3: "to set up your subscription."
     sub_includes_title: "What is included in the subscription?"
-    sub_includes_1: "In addition to the 100+ basic levels, students with a monthly subscription get access to these additional features:"
+    sub_includes_1: "In addition to the 110+ basic levels, students with a monthly subscription get access to these additional features:"
     sub_includes_2: "70+ practice levels"
     sub_includes_3: "Video tutorials"
     sub_includes_4: "Premium email support"
-    sub_includes_5: "9 new heroes with unique skills to master" # {changed}
+    sub_includes_5: "10 new heroes with unique skills to master"
     sub_includes_6: "3500 bonus gems every month"
     sub_includes_7: "Private Clans"
     monitor_progress_title: "How do I monitor student progress?"
@@ -635,7 +637,7 @@
     who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
     who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
     material_title: "How much material is there?"
-    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
+    material_china: "Approximately 40 hours of gameplay spread over 180+ subscriber-only levels so far."
     material_1: "Approximately 25 hours of free content and an additional 15 hours of subscriber content."
     concepts_title: "What concepts are covered?"
     how_much_title: "How much does a monthly subscription cost?"
@@ -1079,6 +1081,11 @@
     rules: "Rules"
     winners: "Winners"
     league: "League"
+    red_ai: "Red AI"  # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "Blue AI"
+    wins: "Wins"  # At end of multiplayer match playback
+    humans: "Red"  # Ladder page display team name
+    ogres: "Blue"
 
   user:
     stats: "Stats"

@@ -114,7 +114,7 @@ module.exports = Surface = class Surface extends CocoClass
 
     @lankBoss = new LankBoss camera: @camera, webGLStage: @webGLStage, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible, playerNames: @options.playerNames
     @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer, showsCountdown: @world.showsCountdown
-    @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer
+    @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer, playerNames: @options.playerNames
     @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
     @waitingScreen = new WaitingScreen camera: @camera, layer: @screenLayer
     @initCoordinates()

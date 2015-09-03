@@ -7,7 +7,7 @@ div#columns.row
           tr
             th(colspan=level.get('type', true) == 'hero-ladder' ? 3 : 2)
             th(colspan=4, style="color: #{team.primaryColor}")
-              span= team.name
+              span= team.displayName
               span.spl(data-i18n="ladder.leaderboard") Leaderboard
           tr
             th(colspan=level.get('type', true) == 'hero-ladder' ? 3 : 2)

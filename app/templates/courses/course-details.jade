@@ -1,0 +1,31 @@
+extends /templates/base
+
+block content
+
+  //- DO NOT localize / i18n
+
+  div
+    span *UNDER CONSTRUCTION, send feedback to
+    a.spl(href='mailto:team@codecombat.com') team@codecombat.com
+  div(style='border-bottom: 1px solid black;')
+
+  h1(style='text-align: center;') Course
+  if course
+    div= course.get('name')
+    div= course.get('description')
+    div= course.get('campaignID')
+    div= course.get('concepts')
+  else
+    div No course found.
+
+  h1(style='text-align: center;') Class
+  if courseInstance
+    p
+      div= courseInstance.get('name') || 'Class Name'
+      div= courseInstance.get('description')
+      div= courseInstance.get('courseID')
+      div= courseInstance.get('ownerID')
+      div= courseInstance.get('members')
+      div= courseInstance.get('prepaidID')
+  else
+    p No classes found.

@@ -323,7 +323,7 @@ module.exports = class PlayLevelView extends RootView
     @surface.camera.zoomTo({x: 0, y: 0}, 0.1, 0)
 
   findPlayerNames: ->
-    return {} unless @observing
+    return {} unless @level.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
     playerNames = {}
     for session in [@session, @otherSession] when session?.get('team')
       playerNames[session.get('team')] = session.get('creatorName') or 'Anoner'

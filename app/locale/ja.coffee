@@ -255,6 +255,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_new_item: "ニューアイテム"
     victory_viking_code_school: "あなたはハードレベルのホーリー・スモークを打ち破りました! もしあなたが既にソフトウェア開発者でないなら, ぜひやってみましょう. あなたはちょうどViking Code Scoolで受け入れられるための出世街道にいます,そこでは次のレベルへのスキルを取得でき、14週間でプロのWeb開発者になれます。"
     victory_become_a_viking: "バイキングになる"
+#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "ガイド"
     tome_minion_spells: "操作できるキャラクターの呪文" # Only in old-style levels.
     tome_read_only_spells: "読込専用の呪文" # Only in old-style levels.
@@ -399,8 +401,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   subscribe:
     comparison_blurb: "CodeCombatへ課金してスキルを磨きましょう！"
-    feature1: "100以上の基本レベルが４つの世界に"
-    feature2: "10人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!"
+    feature1: "100以上の基本レベルが４つの世界に" # {change}
+    feature2: "10人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!" # {change}
     feature3: "70以上のボーナスレベル"
     feature4: "<strong>3500のジェム</strong>が毎月ボーナス!"
     feature5: "ビデオチュートリアル"
@@ -435,7 +437,24 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    payment_methods_title: "Accepted Payment Methods"
 #    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
+#    sale_already_subscribed: "You're already subscribed!"
+#    sale_blurb1: "Save 35%"
+#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
+#    sale_button: "Sale!"
+#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_click_here: "Click Here"
+#    sale_ends: "Ends"
+#    sale_extended: "*Existing subscriptions will be extended by 1 year."
+#    sale_feature_here: "Here's what you'll get:"
+#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
+#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
+#    sale_continue: "Ready to continue adventuring?"
+#    sale_limited_time: "Limited time offer!"
+#    sale_new_heroes: "New heroes!"
+#    sale_title: "Back to School Sale"
+#    sale_view_button: "Buy 1 year subscription for"
 #    stripe_description: "Monthly Subscription"
+#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -443,7 +462,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    managed_by: "Managed by"
 #    will_be_cancelled: "Will be cancelled on"
 #    currently_free: "You currently have a free subscription"
-#    currently_free_until: "You currently have a free subscription until"
+#    currently_free_until: "You currently have a subscription until" # {changed}
 #    was_free_until: "You had a free subscription until"
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
@@ -587,19 +606,19 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     intro_1: "CodeCombat はプログラミングを教えるオンラインゲームです。生徒は本物のプログラム言語を書きます。"
     intro_2: "プログラミングの経験は必要ありません！"
     free_title: "価格について"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
-    free_1: "CodeCombat は基本的に無料です！100以上のレベルが無料です。"
+#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 180+ levels on our exclusive China servers."
+    free_1: "CodeCombat は基本的に無料です！100以上のレベルが無料です。" # {change}
     free_2: "月々の課金をするとビデオのチュートリアルにアクセスでき、また追加のレベルが楽しめます。"
     teacher_subs_title: "教育関係者は無料のサブスクリプションを得ることができます！"
     teacher_subs_1: "" # {change}
     teacher_subs_2: "に連絡して無料の月々のサブスクリプションを得ましょう。" # {change}
 #    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "サブスクリプションの内容について"
-    sub_includes_1: "100以上の基本レベルに加えて、生徒は月々のサブスクリプションを得て次の機能が使えます:"
+    sub_includes_1: "100以上の基本レベルに加えて、生徒は月々のサブスクリプションを得て次の機能が使えます:" # {change}
     sub_includes_2: "70以上の練習レベル"
     sub_includes_3: "ビデオチュートリアル"
     sub_includes_4: "メールによるサポート"
-    sub_includes_5: "10人の新しいヒーローとマスターのユニークなスキル"
+    sub_includes_5: "10人の新しいヒーローとマスターのユニークなスキル" # {change}
     sub_includes_6: "3500のジェムが月々支給されます"
     sub_includes_7: "プライベートクラン"
 #    monitor_progress_title: "How do I monitor student progress?"
@@ -615,7 +634,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     who_for_1: "私たちは CodeCombat を9歳以上の生徒にオススメしています。プログラミングの経験は必要ありません。"
     who_for_2: "私たちは男女問わず遊べるように CodeCombat をデザインしました。"
     material_title: "どのぐらいコンテンツがありますか？"
-#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
+#    material_china: "Approximately 40 hours of gameplay spread over 180+ subscriber-only levels so far."
     material_1: "8時間ほどの無料のコンテンツに加え、サブスクリプションによってさらに14時間ほどプレイすることができ、毎週5つの新しいレベルが追加されています。" # {change}
     concepts_title: "どのような概念がカバーされているかについて"
     how_much_title: "月々のサブスクリプションはいくらですか？"
@@ -817,6 +836,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     latest_achievement: "最新業績"
     playtime: "プレイ時間"
     last_played: "最終プレイ"
+#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "アークメイジ"
@@ -1006,6 +1026,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    my_matches: "My Matches"
 #    simulate: "Simulate"
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
+#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
 #    simulate_games: "Simulate Games!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
@@ -1056,6 +1077,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    tournament_blurb_blog: "on our blog"
     rules: "ルール"
     winners: "勝者"
+#    league: "League"
 
   user:
     stats: "ステータス"
@@ -1096,6 +1118,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
 #    purchased: "Purchased"
+#    sale: "Sale"
 #    subscription: "Subscription"
 #    invoices: "Invoices"
 #    service_apple: "Apple"
@@ -1198,12 +1221,15 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    boolean_logic: "Boolean Logic"
 #    break_statements: "Break Statements"
 #    classes: "Classes"
+#    continue_statements: "Continue Statements"
 #    for_loops: "For Loops"
 #    functions: "Functions"
+#    graphics: "Graphics"
 #    if_statements: "If Statements"
 #    input_handling: "Input Handling"
 #    math_operations: "Math Operations"
 #    object_literals: "Object Literals"
+#    parameters: "Parameters"
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"

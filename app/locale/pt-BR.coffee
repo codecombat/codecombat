@@ -42,8 +42,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   diplomat_suggestion:
     title: "Ajude a traduzir o CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Nós precisamos de suas habilidades linguísticas."
-    pitch_body: "Desenvolvemos o CodeCombat em Inglês, mas já temos jogadores de todo o mundo. Muitos deles querem jogar em Português Brasileiro mas não falam Inglês, por isso, se você conhece os dois idiomas, por favor, considere inscrever-se para ser um Diplomata e ajudar a traduzir tanto o site do CodeCombat quanto todos os estágios para o Português Brasileiro."
-    missing_translations: "Até que possamos traduzir tudo para o Português Brasileiro, você lerá em Inglês quando a versão em Português Brasileiro ainda não estiver disponível."
+    pitch_body: "Desenvolvemos o CodeCombat em Inglês, mas já temos jogadores de todo o mundo. Muitos deles querem jogar em Português Brasileiro por não falar Inglês, por isso, se você conhece os dois idiomas, por favor, considere inscrever-se no programa para Diplomata e assim ajudar a traduzir tanto o site do CodeCombat quanto todos os estágios para o Português Brasileiro."
+    missing_translations: "Até que possamos traduzir todo o conteúdo para o Português Brasileiro, você lerá o texto em Inglês quando a versão em Português Brasileiro não estiver disponível."
     learn_more: "Saiba mais sobre ser um Diplomata"
     subscribe_as_diplomat: "Assinar como um Diplomata"
 
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     confirm: "Confirmar"
     owned: "Possui" # For items you own
     locked: "Bloqueado"
-    purchasable: "Comprável" # For a hero you unlocked but haven't purchased
+    purchasable: "Comprável" # For a hero you unlocked but have not purchased
     available: "Disponível"
     skills_granted: "Habilidades Concedidas" # Property documentation details
     heroes: "Heróis" # Tooltip on hero shop button from /play
@@ -68,7 +68,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Itens"
-    buy_gems: "Comprar Gems"
+    buy_gems: "Comprar Gemas"
     subscription_required: "Requer assinatura"
     anonymous: "Jogador Anônimo"
     level_difficulty: "Dificuldade: "
@@ -83,9 +83,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
-    blurb: "Você está fazendo um grande progresso! Diga a alguém o quão você aprendeu com o CodeCombat." # {change}
+    blurb: "Você está fazendo bastante progresso! Compartilhe com alguém o quanto você já aprendeu com o CodeCombat!" # {change}
     email_invalid: "Endereço de email inválido."
-    form_blurb: "Informe o e-mail deles abaixo e mostraremos a eles!"
+    form_blurb: "Informe os e-mails abaixo e mostraremos a eles!"
     form_label: "Endereço de Email"
     placeholder: "endereço de email"
     title: "Excelente Trabalho, Aprendiz"
@@ -247,7 +247,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     victory_saving_progress: "Salvando Progresso"
     victory_go_home: "Ir à página inicial"
     victory_review: "Diga-nos mais!"
-    victory_review_placeholder: "O que achou da fase?" #"How was the level?"
+    victory_review_placeholder: "O que achou da fase?"
     victory_hour_of_code_done: "Terminou?"
     victory_hour_of_code_done_yes: "Sim, eu terminei minha Hora da Programação!"
     victory_experience_gained: "XP ganho"
@@ -255,6 +255,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     victory_new_item: "Novo item"
     victory_viking_code_school: "Pelas barbas do profeta, esse foi um nível difícil! Se você ainda não é um desenvolvedor de software, você deveria ser. Você acaba de ser priorizado para aceitação na Viking Code School, onde você pode aprender mais e se tornar um desenvolvedor web profissional em 14 semanas."
     victory_become_a_viking: "Torne-se um viking"
+#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Guia"
     tome_minion_spells: "Magias dos seus subordinados" # Only in old-style levels.
     tome_read_only_spells: "Magias não editáveis" # Only in old-style levels.
@@ -294,7 +296,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_scrub_shortcut: "Ctrl+[ e Ctrl+] rebobina e avança." # {change}
     tip_guide_exists: "Clique no guia no topo da página para informações úteis."
     tip_open_source: "CodeCombat é 100% código aberto!"
-    tip_tell_friends: "Está gostando de CodeCombate? Dibulgue para os seus amigos!" # "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "Está gostando de CodeCombate? Dibulgue para os seus amigos!"
     tip_beta_launch: "CodeCombat lançou sua versão beta em outubro de 2013."
     tip_think_solution: "Pense na solução, não no problema."
     tip_theory_practice: "Na teoria, não existe diferença entre teoria e prática. Mas, na prática, há. - Yogi Berra"
@@ -338,7 +340,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_recurse: "Para iterar é humano, para recursão, é divino. - L. Peter Deutsch"
     tip_free_your_mind: "Você tem que deixar isso tudo passar, Neo. O medo, a dúvida e a descrença. Liberte sua mente - Morpheus"
     tip_strong_opponents: "Mesmo o mais forte dos adversários tem sua fraqueza. - Itachi Uchiha"
-    tip_paper_and_pen: "Antes de começar a programar, você sempre pode planejar com papel e caneta." #"Before you start coding, you can always plan with a sheet of paper and a pen."
+    tip_paper_and_pen: "Antes de começar a programar, você sempre pode planejar com papel e caneta."
 
   game_menu:
     inventory_tab: "Inventário"
@@ -358,7 +360,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     auth_caption: "Salve seu progresso."
 
   leaderboard:
-    leaderboard: "Líderança" #"Leaderboard"
+    leaderboard: "Líderança"
     view_other_solutions: "Ver Outras Soluções" # {change}
     scores: "Pontuação"
     top_players: "Top Jogadores por"
@@ -428,43 +430,60 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     parents: "Para os pais"
     parents_title: "Seus filhos estão aprendendo a programar." # {change}
     parents_blurb1: "Com o CodeCombat, seus filhos aprendem a programar de verdade. Eles começam a aprender comandos simples, e progridem para tópicos avançados."
-    parents_blurb1a: "Programação de computadores é uma habilidade essencial que seu filho com certeza usará quando adulto. Em 2020, conhecimentos basicos de software serão necessários para 77% dos empregos, e engenheiros de software estão em grande demanda ao redor do mundo. Você sabia que CIência da Computação é a formação superior mais bem paga?" #"Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb1a: "Programação de computadores é uma habilidade essencial que seu filho com certeza usará quando adulto. Em 2020, conhecimentos basicos de software serão necessários para 77% dos empregos, e engenheiros de software estão em grande demanda ao redor do mundo. Você sabia que CIência da Computação é a formação superior mais bem paga?"
     parents_blurb2: "Por apenas $9.99 USD/mês, eles recebem novos desafios todo mês e suporte no email pessoal de programadores profissionais." # {change}
     parents_blurb3: "Sem risco: 100% devolução do dinheiro garantida, basta um simples clique em desinscrever-se."
     payment_methods: "Formas de pagamento"
     payment_methods_title: "Formas de pagamento aceitas"
     payment_methods_blurb1: "Aceitamos cartões de crédito e Alipay no momento."
     payment_methods_blurb2: "Se você precisa de outra forma de pagamento, por favor contate"
+#    sale_already_subscribed: "You're already subscribed!"
+#    sale_blurb1: "Save 35%"
+#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
+#    sale_button: "Sale!"
+#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_click_here: "Click Here"
+#    sale_ends: "Ends"
+#    sale_extended: "*Existing subscriptions will be extended by 1 year."
+#    sale_feature_here: "Here's what you'll get:"
+#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
+#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
+#    sale_continue: "Ready to continue adventuring?"
+#    sale_limited_time: "Limited time offer!"
+#    sale_new_heroes: "New heroes!"
+#    sale_title: "Back to School Sale"
+#    sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Inscrição Mensal"
+#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
     subscription_required_to_play: "Você precisará se inscrever para jogar este nível."
     unlock_help_videos: "Inscreva-se para desbloquear todos os vídeos tutoriais."
     personal_sub: "Inscrição individual" # Accounts Subscription View below
-    loading_info: "Carregando informação sobre assinatura" #"Loading subscription information..."
-    managed_by: "Gerenciada por" #"Managed by"
+    loading_info: "Carregando informação sobre assinatura"
+    managed_by: "Gerenciada por"
     will_be_cancelled: "Será cancelada em"
-    currently_free: "Atualmente você tem uma assinatura gratuita" #"You currently have a free subscription"
-    currently_free_until: "Sua assinatura gratuita é válida até" #"You currently have a free subscription until"
-    was_free_until: "Sua assinatura gratuita expirou em" #"You had a free subscription until"
-    managed_subs: "Assinaturas gerenciadas" #"Managed Subscriptions"
-    managed_subs_desc: "Adicione assinaturas para outros jogadores (estudantes, crianças, etc)" #"Add subscriptions for other players (students, children, etc.)"
-    managed_subs_desc_2: "Destinatários devem ter uma conta CodeCombat associada com o e-mail fornecido"#"Recipients must have a CodeCombat account associated with the email address you provide."
+    currently_free: "Atualmente você tem uma assinatura gratuita"
+    currently_free_until: "Sua assinatura gratuita é válida até" # {changed}
+    was_free_until: "Sua assinatura gratuita expirou em"
+    managed_subs: "Assinaturas gerenciadas"
+    managed_subs_desc: "Adicione assinaturas para outros jogadores (estudantes, crianças, etc)"
+    managed_subs_desc_2: "Destinatários devem ter uma conta CodeCombat associada com o e-mail fornecido"
     group_discounts: "Descontos para grupos"
     group_discounts_1: "Nós também oferecemos descontos para grupos para inscrições em grande quantidades."
-    group_discounts_1st: "Primeira assinatura" #"1st subscription"
+    group_discounts_1st: "Primeira assinatura"
     group_discounts_full: "Preço normal"
-    group_discounts_2nd: "2 a 11 assinaturas" # "Subscriptions 2-11"
+    group_discounts_2nd: "2 a 11 assinaturas"
     group_discounts_20: "20% de desconto"
-    group_discounts_12th: "Acima de 12 assinaturas" #"Subscriptions 12+"
+    group_discounts_12th: "Acima de 12 assinaturas"
     group_discounts_40: "20% de desconto"
-    subscribing: "Assinando..." #"Subscribing..."
-    recipient_emails_placeholder: "Insira o e-mail para assinar, um por linha" #"Enter email address to subscribe, one per line."
-    subscribe_users: "Inscrever usuários" #"Subscribe Users"
-    users_subscribed: "Usuários inscritos" #"Users subscribed:"
-    no_users_subscribed: "Nenhum usuário inscrito, por favor verifique os endereços de e-mail" #"No users subscribed, please double check your email addresses."
-    current_recipients: "Destinatários atuais" #"Current Recipients"
-    unsubscribing: "Cancelando assinatura" #"Unsubscribing..."
-    subscribe_prepaid: "Clique em Assinar para utilizar um código pré-pago" #"Click Subscribe to use prepaid code"
-    using_prepaid: "Utilizando código pré-pago para assinatura mensal" #"Using prepaid code for monthly subscription"
+    subscribing: "Assinando..."
+    recipient_emails_placeholder: "Insira o e-mail para assinar, um por linha"
+    subscribe_users: "Inscrever usuários"
+    users_subscribed: "Usuários inscritos"
+    no_users_subscribed: "Nenhum usuário inscrito, por favor verifique os endereços de e-mail"
+    current_recipients: "Destinatários atuais"
+    unsubscribing: "Cancelando assinatura"
+    subscribe_prepaid: "Clique em Assinar para utilizar um código pré-pago"
+    using_prepaid: "Utilizando código pré-pago para assinatura mensal"
 
   choose_hero:
     choose_hero: "Escolha seu Herói"
@@ -593,7 +612,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     teacher_subs_title: "Professores recebem assinaturas gratuitas!"
     teacher_subs_1: "Por favor contate" # {change}
     teacher_subs_2: "para organizar uma assinatura mensal." # {change}
-    teacher_subs_3: "para configurar sua assinatura" #"to set up your subscription."
+    teacher_subs_3: "para configurar sua assinatura"
     sub_includes_title: "O que está incluído na assinatura?"
     sub_includes_1: "Além dos mais de 80 níveis básicos, estudantes com uma assinatura mensal têm acesso aos seguintes recursos:" # {change}
     sub_includes_2: "Mais de 60 níveis para praticar" # {change}
@@ -615,7 +634,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     who_for_1: "Nós recomendamos CodeCombat para estudantes a partir de 9 anos de idade. Nenhuma experiência anterior em programação é necessária."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
 #    material_title: "How much material is there?"
-#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
+#    material_china: "Approximately 40 hours of gameplay spread over 180+ subscriber-only levels so far."
 #    material_1: "Approximately 25 hours of free content and an additional 15 hours of subscriber content."
 #    concepts_title: "What concepts are covered?"
 #    how_much_title: "How much does a monthly subscription cost?"
@@ -817,6 +836,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     latest_achievement: "Última Conquista"
     playtime: "Tempo de Jogo"
     last_played: "Último Jogo"
+#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "Arquimago"
@@ -1006,6 +1026,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     my_matches: "Minhas Partidas"
     simulate: "Simular"
     simulation_explanation: "Por simular partidas você pode classificar seu jogo mais rápido!"
+#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "Simular Partidas!"
     simulate_all: "RESETAR E SIMULAR PARTIDAS"
     games_simulated_by: "Partidas simuladas por você:"
@@ -1056,6 +1077,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tournament_blurb_blog: "no nosso blog"
     rules: "Regras"
     winners: "Vencedores"
+#    league: "League"
 
   user:
     stats: "Estatísticas"
@@ -1096,6 +1118,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     no_recent_games: "Não foram feitos jogos durante duas semanas."
     payments: "Pagamentos"
     purchased: "Comprado"
+#    sale: "Sale"
     subscription: "Assinatura"
     invoices: "Faturas"
     service_apple: "Apple"
@@ -1198,12 +1221,15 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    boolean_logic: "Boolean Logic"
 #    break_statements: "Break Statements"
 #    classes: "Classes"
+#    continue_statements: "Continue Statements"
 #    for_loops: "For Loops"
 #    functions: "Functions"
+#    graphics: "Graphics"
 #    if_statements: "If Statements"
 #    input_handling: "Input Handling"
 #    math_operations: "Math Operations"
 #    object_literals: "Object Literals"
+#    parameters: "Parameters"
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
