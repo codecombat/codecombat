@@ -42,8 +42,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   diplomat_suggestion:
     title: "Ajude a traduzir o CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Nós precisamos de suas habilidades linguísticas."
-    pitch_body: "Desenvolvemos o CodeCombat em Inglês, mas já temos jogadores de todo o mundo. Muitos deles querem jogar em Português Brasileiro mas não falam Inglês, por isso, se você conhece os dois idiomas, por favor, considere inscrever-se para ser um Diplomata e ajudar a traduzir tanto o site do CodeCombat quanto todos os estágios para o Português Brasileiro."
-    missing_translations: "Até que possamos traduzir tudo para o Português Brasileiro, você lerá em Inglês quando a versão em Português Brasileiro ainda não estiver disponível."
+    pitch_body: "Desenvolvemos o CodeCombat em Inglês, mas já temos jogadores de todo o mundo. Muitos deles querem jogar em Português Brasileiro por não falar Inglês, por isso, se você conhece os dois idiomas, por favor, considere inscrever-se no programa para Diplomata e assim ajudar a traduzir tanto o site do CodeCombat quanto todos os estágios para o Português Brasileiro."
+    missing_translations: "Até que possamos traduzir todo o conteúdo para o Português Brasileiro, você lerá o texto em Inglês quando a versão em Português Brasileiro não estiver disponível."
     learn_more: "Saiba mais sobre ser um Diplomata"
     subscribe_as_diplomat: "Assinar como um Diplomata"
 
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     confirm: "Confirmar"
     owned: "Possui" # For items you own
     locked: "Bloqueado"
-    purchasable: "Comprável" # For a hero you unlocked but haven't purchased
+    purchasable: "Comprável" # For a hero you unlocked but have not purchased
     available: "Disponível"
     skills_granted: "Habilidades Concedidas" # Property documentation details
     heroes: "Heróis" # Tooltip on hero shop button from /play
@@ -68,7 +68,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Itens"
-    buy_gems: "Comprar Gems"
+    buy_gems: "Comprar Gemas"
     subscription_required: "Requer assinatura"
     anonymous: "Jogador Anônimo"
     level_difficulty: "Dificuldade: "
@@ -83,9 +83,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
-    blurb: "Você está fazendo um grande progresso! Diga a alguém o quão você aprendeu com o CodeCombat." # {change}
+    blurb: "Você está fazendo bastante progresso! Compartilhe com alguém o quanto você já aprendeu com o CodeCombat!" # {change}
     email_invalid: "Endereço de email inválido."
-    form_blurb: "Informe o e-mail deles abaixo e mostraremos a eles!"
+    form_blurb: "Informe os e-mails abaixo e mostraremos a eles!"
     form_label: "Endereço de Email"
     placeholder: "endereço de email"
     title: "Excelente Trabalho, Aprendiz"
