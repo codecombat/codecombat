@@ -255,6 +255,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     victory_new_item: "Novo Item"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
     victory_become_a_viking: "Torna-te um Viking"
+#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Guia"
     tome_minion_spells: "Feitiços dos Seus Minions" # Only in old-style levels.
     tome_read_only_spells: "Feitiços Apenas de Leitura" # Only in old-style levels.
@@ -399,8 +401,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   subscribe:
     comparison_blurb: "Aperfeiçoa as tuas habilidades com uma subscrição do CodeCombat!"
-    feature1: "100+ níveis básicos dispersos por 4 mundos"
-    feature2: "10 <strong>heróis novos</strong> e poderosos com habilidades únicas!"
+    feature1: "100+ níveis básicos dispersos por 4 mundos" # {change}
+    feature2: "10 <strong>heróis novos</strong> e poderosos com habilidades únicas!" # {change}
     feature3: "70+ níveis de bónus"
     feature4: "<strong>3500 gemas de bónus</strong> por mês!"
     feature5: "Tutoriais em vídeo"
@@ -435,7 +437,24 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     payment_methods_title: "Formas de Pagamento Aceites"
     payment_methods_blurb1: "Atualmente aceitamos cartões de crédito e Alipay."
     payment_methods_blurb2: "Se precisares de uma outra forma de pagamento, por favor contacta"
+#    sale_already_subscribed: "You're already subscribed!"
+#    sale_blurb1: "Save 35%"
+#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
+#    sale_button: "Sale!"
+#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_click_here: "Click Here"
+#    sale_ends: "Ends"
+#    sale_extended: "*Existing subscriptions will be extended by 1 year."
+#    sale_feature_here: "Here's what you'll get:"
+#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
+#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
+#    sale_continue: "Ready to continue adventuring?"
+#    sale_limited_time: "Limited time offer!"
+#    sale_new_heroes: "New heroes!"
+#    sale_title: "Back to School Sale"
+#    sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Subscrição Mensal"
+#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
     subscription_required_to_play: "Precisas de uma subscrição para jogares este nível."
     unlock_help_videos: "Subscreve-te para desbloqueares todos os tutoriais em vídeo."
     personal_sub: "Subscrição Pessoal" # Accounts Subscription View below
@@ -443,7 +462,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     managed_by: "Gerida por"
     will_be_cancelled: "Será cancelada em"
     currently_free: "Atualmente tens uma subscrição gratuita"
-    currently_free_until: "Atualmente tens uma subscrição gratuita até"
+    currently_free_until: "Atualmente tens uma subscrição gratuita até" # {changed}
     was_free_until: "Tinhas uma subscrição gratuita até"
     managed_subs: "Subscrições Geridas"
     managed_subs_desc: "Adiciona subscrições para outros jogadores (estudantes, crianças, etc.)"
@@ -587,19 +606,19 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     intro_1: "O CodeCombat é um jogo 'online' que ensina programação. Os estudantes escrevem código em linguagens de programação reais."
     intro_2: "Não é necessário ter experiência!"
     free_title: "Quanto custa?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
-    free_1: "Há 100+ níveis GRATUITOS que abordam cada conceito."
+#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 180+ levels on our exclusive China servers."
+    free_1: "Há 100+ níveis GRATUITOS que abordam cada conceito." # {change}
     free_2: "Uma subscrição mensal garante acesso a tutoriais em vídeo e a níveis extra para praticar."
     teacher_subs_title: "Os professores recebem uma subscrição gratuita!"
     teacher_subs_1: "Por favor, preenche o nosso"
     teacher_subs_2: "Inquérito para Professores"
     teacher_subs_3: "para configurares a tua subscrição."
     sub_includes_title: "O que está incluído na subscrição?"
-    sub_includes_1: "Para além dos 100+ níveis básicos, os estudantes com uma subscrição mensal têm acesso às seguintes funcionalidades adicionais:"
+    sub_includes_1: "Para além dos 100+ níveis básicos, os estudantes com uma subscrição mensal têm acesso às seguintes funcionalidades adicionais:" # {change}
     sub_includes_2: "70+ níveis para praticar"
     sub_includes_3: "Tutoriais em vídeo"
     sub_includes_4: "Suporte por e-mail prioritário"
-    sub_includes_5: "10 novos heróis com habilidades únicas para dominar"
+    sub_includes_5: "10 novos heróis com habilidades únicas para dominar" # {change}
     sub_includes_6: "3500 gemas de bónus todos os meses"
     sub_includes_7: "Clãs Privados"
     monitor_progress_title: "Como é que acompanho o progresso dos estudantes?"
@@ -615,7 +634,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     who_for_1: "Recomendamos o CodeCombat para estudantes com idade superior a 9. Não é necessária nenhuma experiência de programação prévia."
     who_for_2: "O CodeCombat foi pensado de forma a ser apelativo tanto para rapazes como para raparigas."
     material_title: "Quanto material há?"
-#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
+#    material_china: "Approximately 40 hours of gameplay spread over 180+ subscriber-only levels so far."
     material_1: "Aproximadamente 25 horas de conteúdo gratuito e 15 horas adicionais de conteúdo para subscritores."
     concepts_title: "Que conceitos são abordados?"
     how_much_title: "Quanto custa uma subscrição mensal?"
@@ -817,6 +836,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     latest_achievement: "Última Conquista"
     playtime: "Tempo de jogo"
     last_played: "Última vez jogado"
+#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "Arcomago"
@@ -1006,6 +1026,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     my_matches: "Os Meus Jogos"
     simulate: "Simular"
     simulation_explanation: "Ao simulares jogos podes ter o teu jogo classificado mais rapidamente!"
+#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "Simular Jogos!"
     simulate_all: "REINICIAR E SIMULAR JOGOS"
     games_simulated_by: "Jogos simulados por ti:"
@@ -1056,6 +1077,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tournament_blurb_blog: "no nosso blog"
     rules: "Regras"
     winners: "Vencedores"
+#    league: "League"
 
   user:
     stats: "Estatísticas"
@@ -1096,6 +1118,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     no_recent_games: "Sem jogos jogados nas passadas duas semanas."
     payments: "Pagamentos"
     purchased: "Adquirido"
+#    sale: "Sale"
     subscription: "Subscrição"
     invoices: "Donativos"
     service_apple: "Apple"
@@ -1198,12 +1221,15 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     boolean_logic: "Lógica 'Boolean'"
     break_statements: "Declarações 'Break'"
     classes: "Classes"
+#    continue_statements: "Continue Statements"
     for_loops: "'For Loops'"
     functions: "Funções"
+#    graphics: "Graphics"
     if_statements: "Declarações 'If'"
     input_handling: "Manuseamento de 'Input'"
     math_operations: "Operações Matemáticas"
     object_literals: "'Object Literals'"
+#    parameters: "Parameters"
     strings: "'Strings'"
     variables: "Variáveis"
     vectors: "Vetores"
