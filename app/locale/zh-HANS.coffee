@@ -255,6 +255,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_new_item: "新的物品"
     victory_viking_code_school: "这关真的超难! 如果您想成为一个软件开发人员，您就应该去试一下Viking Code School。在这里您可以把您的知识增长到另一个台阶。只需要14周您就能成为一个专业的网页开发人员。"
     victory_become_a_viking: "成为一个维京人吧"
+#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "指南"
     tome_minion_spells: "助手的咒语" # Only in old-style levels.
     tome_read_only_spells: "只读的咒语" # Only in old-style levels.
@@ -331,7 +333,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_source_code: "我想改变世界，但是他们不给我源代码。"
     tip_javascript_java: "Java和JavaScript的关系就好比是马和马云。 - Chris Heilmann"
     tip_move_forward: "不管您做什么，前进就对了。 - Martin Luther King Jr."
-    tip_google: "有问题不能解决？百(goo)度(gle)一下！" 
+    tip_google: "有问题不能解决？百(goo)度(gle)一下！"
     tip_adding_evil: "增加一个邪恶掐捏"
     tip_hate_computers: "那些认为他们讨厌电脑的人，其实他们讨厌的是垃圾程序编写员。- Larry Niven"
     tip_open_source_contribute: "您可以帮助「CodeCombat」进步！"
@@ -435,7 +437,24 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     payment_methods_title: "可接受的付款方式"
     payment_methods_blurb1: "我们现有的付费方式有信用卡和支付宝"
     payment_methods_blurb2: "如果您想用其他付费方式,请联系我们"
+#    sale_already_subscribed: "You're already subscribed!"
+#    sale_blurb1: "Save 35%"
+#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
+#    sale_button: "Sale!"
+#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_click_here: "Click Here"
+#    sale_ends: "Ends"
+#    sale_extended: "*Existing subscriptions will be extended by 1 year."
+#    sale_feature_here: "Here's what you'll get:"
+#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
+#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
+#    sale_continue: "Ready to continue adventuring?"
+#    sale_limited_time: "Limited time offer!"
+#    sale_new_heroes: "New heroes!"
+#    sale_title: "Back to School Sale"
+#    sale_view_button: "Buy 1 year subscription for"
     stripe_description: "每月订阅"
+#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
     subscription_required_to_play: "订阅后才可开始本关"
     unlock_help_videos: "订阅后才可以解锁视频教学哦！"
     personal_sub: "个人订阅" # Accounts Subscription View below
@@ -443,7 +462,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     managed_by: "管理"
     will_be_cancelled: "将被取消"
     currently_free: "您目前有一个免费订阅"
-    currently_free_until: "您目前有一个免费订阅，直到"
+    currently_free_until: "您目前有一个免费订阅，直到" # {changed}
     was_free_until: "您有过一个免费订阅，直到"
     managed_subs: "管理订阅"
     managed_subs_desc: "为其他玩家（学生、儿童等）添加订阅。"
@@ -587,19 +606,19 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     intro_1: "CodeCombat 是一个教编程的网上游戏。学生会用编程语言写代码。"
     intro_2: "无需经验!"
     free_title: "要多少钱?"
-    cost_china: "CodeCombat的前5个关卡在中国是免费的，在这之后需花费每月9.99美元来访问我们架设在中国专属服务器上的140多个关卡。" # Really?
-    free_1: "有100多个覆盖了所有理论的免费关卡。"
+    cost_china: "CodeCombat的前5个关卡在中国是免费的，在这之后需花费每月9.99美元来访问我们架设在中国专属服务器上的140多个关卡。"
+    free_1: "有100多个覆盖了所有理论的免费关卡。" # {change}
     free_2: "包月订阅可以访问视频教程和额外的练习关卡。"
     teacher_subs_title: "教师可免费订阅!"
     teacher_subs_1: "请联系" # {change}
     teacher_subs_2: "教师调查"
     teacher_subs_3: "建立您的订阅。"
     sub_includes_title: "订阅里包含了什么内容？"
-    sub_includes_1: "除了100＋个基础关卡，学生包月订阅还可以使用这些附加功能："
+    sub_includes_1: "除了100＋个基础关卡，学生包月订阅还可以使用这些附加功能：" # {change}
     sub_includes_2: "超过70个练习关卡" # {change}
     sub_includes_3: "视频教学"
     sub_includes_4: "优质的电子邮件支持"
-    sub_includes_5: "10个具有独特技能的新英雄"
+    sub_includes_5: "10个具有独特技能的新英雄" # {change}
     sub_includes_6: "每月享有3500额外宝石"
     sub_includes_7: "私人部落"
     monitor_progress_title: "我要如何查看学生的进度？"
@@ -646,6 +665,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     denied_2: "拒绝。"
     contact_1: "请联系"
     contact_2: "如果我们为教师提供免费订阅用评估的目的。您可以在我们的"
+#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
     description_2: "教师"
     description_3: "页面找到更多的信息。"
     description_4: "请填写此简单问卷，我们将会向您的电子邮件发送设置说明。"
@@ -816,6 +836,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     latest_achievement: "最新成就"
     playtime: "游戏时间"
     last_played: "最后玩了"
+#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "大法师"
@@ -1005,6 +1026,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     my_matches: "我的对手"
     simulate: "模拟"
     simulation_explanation: "通过模拟游戏，您可以让您的游戏更快的得到评分。"
+#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "模拟游戏！"
     simulate_all: "重置并模拟游戏！"
     games_simulated_by: "由您模拟过的游戏数:"
@@ -1055,6 +1077,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tournament_blurb_blog: "关注我们的博客"
     rules: "规则"
     winners: "胜利者"
+#    league: "League"
 
   user:
     stats: "成就"
@@ -1095,6 +1118,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_recent_games: "最近两个星期没有玩过游戏。"
     payments: "支付方式"
     purchased: "已购买"
+#    sale: "Sale"
     subscription: "订阅"
     invoices: "票据"
     service_apple: "设备：苹果"
@@ -1197,12 +1221,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     boolean_logic: "布尔逻辑"
     break_statements: "Break语句"
     classes: "类"
+#    continue_statements: "Continue Statements"
     for_loops: "For循环"
     functions: "函数"
+#    graphics: "Graphics"
     if_statements: "If语句"
     input_handling: "输入处理"
     math_operations: "数学运算"
     object_literals: "对象常量"
+#    parameters: "Parameters"
     strings: "字符串"
     variables: "变量"
     vectors: "向量"
@@ -1477,4 +1504,3 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ucp_title: "用户代码的问题"
     lg_title: "最新的游戏"
     clas: "贡献者许可协议"
-

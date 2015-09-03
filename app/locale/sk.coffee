@@ -255,6 +255,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    victory_new_item: "New Item"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
     victory_become_a_viking: "Staň sa vikingom!"
+#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Návod"
     tome_minion_spells: "Vaše obľúbené kúzla" # Only in old-style levels.
     tome_read_only_spells: "Kúzla iba na čítanie" # Only in old-style levels.
@@ -435,7 +437,24 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    payment_methods_title: "Accepted Payment Methods"
 #    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
+#    sale_already_subscribed: "You're already subscribed!"
+#    sale_blurb1: "Save 35%"
+#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
+#    sale_button: "Sale!"
+#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_click_here: "Click Here"
+#    sale_ends: "Ends"
+#    sale_extended: "*Existing subscriptions will be extended by 1 year."
+#    sale_feature_here: "Here's what you'll get:"
+#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
+#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
+#    sale_continue: "Ready to continue adventuring?"
+#    sale_limited_time: "Limited time offer!"
+#    sale_new_heroes: "New heroes!"
+#    sale_title: "Back to School Sale"
+#    sale_view_button: "Buy 1 year subscription for"
 #    stripe_description: "Monthly Subscription"
+#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -443,7 +462,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    managed_by: "Managed by"
 #    will_be_cancelled: "Will be cancelled on"
 #    currently_free: "You currently have a free subscription"
-#    currently_free_until: "You currently have a free subscription until"
+#    currently_free_until: "You currently have a subscription until" # {changed}
 #    was_free_until: "You had a free subscription until"
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
@@ -587,7 +606,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     intro_1: "CodeCombat je online hra, ktorá učí programovať. Študenti píšu kód v skutočných programovacích jazykoch."
     intro_2: "Nie sú nutné žiadne predchádzajúce skúsenosti !"
     free_title: "Koľko to stojí ?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
+#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 180+ levels on our exclusive China servers."
     free_1: "CodeCombat Basic is ZDARMA ! K dispozícii je 70+ úrovní pokrývajúcich každý koncept." # {change}
     free_2: "Mesačné predplatné poskytuje prístup k videonávodom a k úrovniam na precvičenie navyše."
     teacher_subs_title: "Pre učiteľov je predplatné zdarma !"
@@ -615,7 +634,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     who_for_1: "CodeCombat odporúčame pre žiakov od 9 rokov. Nie sú nutné žiadne predchádzajúce skúsenosti s programovaním."
     who_for_2: "CodeCombat sme navrhli tak, aby oslovil chlapcov aj dievčatá."
     material_title: "Aký je objem učebnej látky ?"
-#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
+#    material_china: "Approximately 40 hours of gameplay spread over 180+ subscriber-only levels so far."
     material_1: "Asi 8 hodín bezplatného obsahu a ďalších 14 hodín pre predplatiteľov. 5 nových úrovní každý týždeň." # {change}
     concepts_title: "Aké pojmy sú pokryté ?"
     how_much_title: "Koľko stojí mesačné predplatné ?"
@@ -817,6 +836,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    latest_achievement: "Latest Achievement"
 #    playtime: "Playtime"
 #    last_played: "Last played"
+#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "Arcimág"
@@ -1006,6 +1026,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     my_matches: "Moje súboje"
     simulate: "Simuluj"
     simulation_explanation: "Simulovaním sa dostane hra rýchlejšie do rebríčka !!"
+#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "Simuluj hry !"
     simulate_all: "RESETUJ A SIMULUJ HRY"
     games_simulated_by: "Tebou simulované hry:"
@@ -1056,6 +1077,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tournament_blurb_blog: "v našom blogu."
     rules: "Pravidlá"
     winners: "Víťazi"
+#    league: "League"
 
   user:
     stats: "Stats"
@@ -1096,6 +1118,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
 #    purchased: "Purchased"
+#    sale: "Sale"
 #    subscription: "Subscription"
 #    invoices: "Invoices"
 #    service_apple: "Apple"
@@ -1198,12 +1221,15 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    boolean_logic: "Boolean Logic"
 #    break_statements: "Break Statements"
 #    classes: "Classes"
+#    continue_statements: "Continue Statements"
 #    for_loops: "For Loops"
 #    functions: "Functions"
+#    graphics: "Graphics"
 #    if_statements: "If Statements"
 #    input_handling: "Input Handling"
 #    math_operations: "Math Operations"
 #    object_literals: "Object Literals"
+#    parameters: "Parameters"
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
