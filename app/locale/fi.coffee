@@ -526,7 +526,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
   skill_docs:
     writable: "kirjoitettava" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "vain luettavaksi"
-    action_name: "Nimi" # Where from does the 'Action' come in front of this?
+    action: "Toiminto"
+    spell: "Taika"
+    action_name: "nimi"
     action_cooldown: "Kesto"
     action_specific_cooldown: "Latausaika"
     action_damage: "Vahinko"
