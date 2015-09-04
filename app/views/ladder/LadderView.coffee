@@ -108,6 +108,8 @@ module.exports = class LadderView extends RootView
     e.preventDefault()
     e.stopImmediatePropagation()
     url = "/play/spectate/#{@level.get('slug')}?session-one=#{humanSession}&session-two=#{ogreSession}"
+    url += '&league=' + @league.id if @league
+    url += '&autoplay=false' if key.command
     window.open url, if key.command then '_blank' else 'spectate'  # New tab for spectating specific matches
     #Backbone.Mediator.publish 'router:navigate', route: url
 

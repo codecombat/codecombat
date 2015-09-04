@@ -369,9 +369,18 @@ module.exports = class HeroVictoryModal extends ModalView
     @$el.find('.sign-up-poke').toggleClass('hide', not @readyToContinue)
 
   onGameSubmitted: (e) ->
-    ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
+    @returnToLadder()
+
+  returnToLadder: ->
     # Preserve the supermodel as we navigate back to the ladder.
-    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: @supermodel}, @level.get('slug')]
+    viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
+    ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}#my-matches"
+    if leagueID = @getQueryVariable 'league'
+      leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
+      viewArgs.push leagueType
+      viewArgs.push leagueID
+      ladderURL += "/#{leagueType}/#{leagueID}"
+    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
 
   playSelectionSound: (hero, preload=false) ->
     return unless sounds = hero.get('soundTriggers')?.selected
@@ -433,9 +442,7 @@ module.exports = class HeroVictoryModal extends ModalView
   onClickReturnToLadder: (e) ->
     @playSound 'menu-button-click'
     e.preventDefault()
-    route = $(e.target).data('href')
-    # Preserve the supermodel as we navigate back to the ladder.
-    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
+    @returnToLadder()
 
   onClickSignupButton: (e) ->
     e.preventDefault()

@@ -76,13 +76,18 @@ module.exports = class ControlBarView extends CocoView
       @homeLink = '/play/ladder/' + levelID
       @homeViewClass = 'views/ladder/LadderView'
       @homeViewArgs.push levelID
+      if leagueID = @getQueryVariable 'league'
+        leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
+        @homeViewArgs.push leagueType
+        @homeViewArgs.push leagueID
+        @homeLink += "/#{leagueType}/#{leagueID}"
     else if @level.get('type', true) in ['hero', 'hero-coop']
       @homeLink = '/play'
       @homeViewClass = 'views/play/CampaignView'
       campaign = @level.get 'campaign'
       @homeLink += '/' + campaign
       @homeViewArgs.push campaign
-    else if @level.get('type', true) in ['course', 'course-ladder']
+    else if @level.get('type', true) in ['course']
       @homeLink = '/courses/mock1'
       @homeViewClass = 'views/courses/mock1/CourseDetailsView'
       #campaign = @level.get 'campaign'
