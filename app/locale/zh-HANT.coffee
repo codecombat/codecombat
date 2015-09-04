@@ -73,7 +73,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     anonymous: "匿名玩家"
     level_difficulty: "難度"
     campaign_beginner: "新手指南"
-    awaiting_levels_adventurer_prefix: "我們每周將釋出五個關卡。" # {change}
+    awaiting_levels_adventurer_prefix: "我們每周將釋出新的關卡。" # {change}
     awaiting_levels_adventurer: "註冊成為冒險家"
     awaiting_levels_adventurer_suffix: "成為第一個挑戰新關卡的冒險家吧!"
     adjust_volume: "調整音量"
@@ -83,7 +83,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     campaign_old_multiplayer_description: "多個文明時代的遺跡。已沒有模擬運行這些陳舊、英雄蕪絕的多人競技場。"
 
   share_progress_modal:
-    blurb: "您正在建立優秀的進度! 告訴別人您已經從CodeCombat學習到多少東西." # {change}
+    blurb: "您正在建立優秀的進度! 告訴您的家長, 您從CodeCombat學到了什麼！" # {change}
     email_invalid: "郵件地址無效."
     form_blurb: "在底下輸入他們的郵件並且我們將秀給他們!"
     form_label: "郵件地址"
@@ -255,8 +255,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     victory_new_item: "新的物品"
     victory_viking_code_school: "太厲害了, 您剛完成了非常困難的關卡! 如果您想成為一個軟件開發人員，您就應該去試一下Viking Code School。在這裡您可以把您的知識增長到另一個台階。只需要14個星期您就能成為一個專業的網頁開發人員。"
     victory_become_a_viking: "成為一個維京人。"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
+    victory_bloc: "做得好! 你的技能正在提升, 並且已經有人注意著你了. 如果你正考慮著當一名軟件工程師, 現在可能就是你的幸運日. Bloc 是個能提供在線一對一專業指導的,能鍛煉你成為專業開發者的訓練營! 通過矮人騷亂後, 你可以使用價值$500 的優惠碼: CCRULES"
+    victory_bloc_cta: "會晤你的導師 – 了解 Bloc"
     guide_title: "指南"
     tome_minion_spells: "助手的咒語" # Only in old-style levels.
     tome_read_only_spells: "唯讀的咒語" # Only in old-style levels.
@@ -293,7 +293,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     infinite_loop_reset_level: "重置關卡"
     infinite_loop_comment_out: "在我的程式碼中加入注解"
     tip_toggle_play: "使用 Ctrl+P 切換 播放/暫停."
-    tip_scrub_shortcut: "Ctrl+[ 快退; Ctrl+] 快進." # {change}
+    tip_scrub_shortcut: "Ctrl+[ 快退; Ctrl+] 快進." 
     tip_guide_exists: "點擊頁面上方的指南，可獲得更多有用的訊息."
     tip_open_source: "「CodeCombat」100% 開源!"
     tip_tell_friends: "喜歡Codecombat？那就把它介紹給朋友!"
@@ -339,7 +339,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tip_open_source_contribute: "您可以幫助「CodeCombat」提高！"
     tip_recurse: "迭代者人也，遞歸者神也 - L. Peter Deutsch"
     tip_free_your_mind: "放下一切私心雜念，丟棄害怕、疑問和拒信，解放您的思維。 - 莫菲斯《駭客任務》"
-    tip_strong_opponents: "即使是最强大的對手也有弱点的. - 宇智波鼬《火影忍者》"
+    tip_strong_opponents: "即使是最强大的對手也有弱点的。 - 宇智波鼬《火影忍者》"
     tip_paper_and_pen: "在您開始編碼之前，您可以隨時用一張紙和一支筆作計劃。"
 
   game_menu:
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   leaderboard:
     leaderboard: "排行榜"
-    view_other_solutions: "查看其他解法" # {change}
+    view_other_solutions: "查看其他解法" 
     scores: "分數"
     top_players: "頂級玩家由"
     day: "今天"
@@ -401,9 +401,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   subscribe:
     comparison_blurb: "訂閱 CodeCombat 來磨練您的技巧!"
-    feature1: "100 個以上的基本關卡散佈在4張地圖中" # {change}
-    feature2: "10 個強壯的<strong>新英雄</strong>並每隻都有不同技巧!" # {change}
-    feature3: "70 個以上的額外關卡" # {change}
+    feature1: "110 個以上的基本關卡散佈在4張地圖中" 
+    feature2: "10 個強壯的<strong>新英雄</strong>並每隻都有不同技巧!" 
+    feature3: "70 個以上的額外關卡" 
     feature4: "每個月<strong>3500顆額外寶石</strong>!"
     feature5: "視頻教學"
     feature6: "頂級信箱支援"
@@ -428,33 +428,33 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     parent_email_sent: "已寄信!"
     parent_email_title: "您父母信箱是?"
     parents: "致家長"
-    parents_title: "您的孩子將學習編寫程式." # {change}
-    parents_blurb1: "使用 CodeCombat , 您的孩子學習真正的編寫程式. 他們學習從簡單的指令，漸進到更加進階的課題."
-    parents_blurb1a: "不要懷疑計算機編程能力將是您的孩子作為一個成年人的基本技能。到2020年，77%的工作將會需要編碼能力，並且軟件工程師將在世界各地成為高需求職業。您知道嗎，計算機科學是收入最高的大學學位。"
-    parents_blurb2: "每月支付 $9.99 美金, 他們每週獲得新挑戰以及使用信件取得專業程式員的幫助." # {change}
+    parents_title: "親愛的家長: 您的孩子將要學習編程. 您會支持孩子發展嗎？"
+    parents_blurb1: "您的孩子已經玩了 __nLevels__ 關，並且學習了編程基礎。請您為了培養他們的興趣而給他們訂閱，他們能繼續玩下去。"
+    parents_blurb1a: "不要懷疑計算機編程能力將是您的孩子作為一個成年人的基本技能。到2020年，77%的工作將會需要編碼能力，並且軟件工程師將在世界各地成為高需求職業。您知道要計算機科學是收入最高的大學學位。"
+    parents_blurb2: "每月支付 $9.99 美金, 他們每週獲得新挑戰以及使用信件取得專業程式員的幫助." 
     parents_blurb3: "沒有風險: 保證 100% 退費, 一步取消訂閱."
     payment_methods: "付費方法"
     payment_methods_title: "可接受的付款方式"
     payment_methods_blurb1: "我們現有的付費方式有信用卡和支付寶"
     payment_methods_blurb2: "如果您想用其他付費方式,請聯繫我們"
-#    sale_already_subscribed: "You're already subscribed!"
-#    sale_blurb1: "Save 35%"
-#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
-#    sale_button: "Sale!"
-#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
-#    sale_click_here: "Click Here"
-#    sale_ends: "Ends"
-#    sale_extended: "*Existing subscriptions will be extended by 1 year."
-#    sale_feature_here: "Here's what you'll get:"
-#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
-#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
-#    sale_continue: "Ready to continue adventuring?"
-#    sale_limited_time: "Limited time offer!"
-#    sale_new_heroes: "New heroes!"
-#    sale_title: "Back to School Sale"
-#    sale_view_button: "Buy 1 year subscription for"
+    sale_already_subscribed: "您已經訂閱！"
+    sale_blurb1: "和正常一年的訂閱價格 $120 相比"
+    sale_blurb2: "年費訂閱能節省 35%!" 
+    sale_button: "促銷！"
+    sale_button_title: "年費訂閱能節省 35% 的費用"
+    sale_click_here: "點擊這裡"
+    sale_ends: "結束"
+    sale_extended: "*已訂閱用戶會續期一年。"
+    sale_feature_here: "你將會獲得這些："
+    sale_feature2: "可以使用10 個強大的<strong>新英雄</strong> 和各種技能！"
+    sale_feature4: "立即取得<strong>42,000 個額外的寶石</strong>！"
+    sale_continue: "準備好繼續探險嗎？"
+    sale_limited_time: "限時優惠！"
+    sale_new_heroes: "新英雄！"
+    sale_title: "開學促銷"
+    sale_view_button: "購買年費訂閱："
     stripe_description: "每月訂閱"
-#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
+    stripe_description_year_sale: "年費訂閱 (35% 優惠)"
     subscription_required_to_play: "您將需要訂閱來開啟這關."
     unlock_help_videos: "訂閱來解開所有鎖住得教學影片."
     personal_sub: "個人訂閱" # Accounts Subscription View below
@@ -462,7 +462,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     managed_by: "管理"
     will_be_cancelled: "將被取消"
     currently_free: "您目前有一個免費訂閱"
-    currently_free_until: "您目前有一個免費訂閱，直到" # {changed}
+    currently_free_until: "您目前有一個訂閱，直到" # {changed}
     was_free_until: "您有過一個免費訂閱，直到"
     managed_subs: "管理訂閱"
     managed_subs_desc: "為其他玩家（學生、兒童等）添加訂閱。"
@@ -526,6 +526,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
   skill_docs:
     writable: "可編輯" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "唯讀"
+    action: "命令"
+    spell: "技能"
     action_name: "名稱"
     action_cooldown: "釋放時間"
     action_specific_cooldown: "冷卻時間"
@@ -582,15 +584,15 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     press_paragraph_1_link: "新聞稿懶人包"
     press_paragraph_1_suffix: "，裡面所有的LOGO和圖片都可以使用，並且不必另外知會我們。"
     team: "製作團隊"
-    george_title: "CEO" # {change}
+    george_title: "共同創辦人" 
     george_blurb: "商人"
-    scott_title: "程式員" # {change}
+    scott_title: "共同創辦人" 
     scott_blurb: "理性至上"
-    nick_title: "程式員" # {change}
+    nick_title: "程式員" 
     nick_blurb: "亢奮的Guru"
-    michael_title: "程式員"
+    michael_title: "共同創辦人"
     michael_blurb: "系統管理員"
-    matt_title: "程式員" # {change}
+    matt_title: "共同創辦人" 
     matt_blurb: "競速單車玩家"
     cat_title: "首席開卡設計師"
     cat_blurb: "氣宗"
@@ -606,19 +608,19 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     intro_1: "CodeCombat 是一個教編程的網上游戲。學生會用編程語言寫代碼。"
     intro_2: "無需經驗！"
     free_title: "要多少錢？"
-    cost_china: "CodeCombat的前5個關卡在中國是免費的，在這之後需花費每月9.99美元來訪問我們架設在中國專屬服務器上的140多個關卡。"
-    free_1: "有100多個覆蓋了所有理論的免費關卡。" # {change}
+    cost_china: "CodeCombat的前5個關卡在中國是免費的，在這之後需花費每月9.99美元來訪問我們架設在中國專屬服務器上的180多個關卡。"
+    free_1: "有110多個覆蓋了所有理論的免費關卡。" 
     free_2: "包月訂閱可以訪問視頻教程和額外的練習關卡。"
     teacher_subs_title: "教師可免費訂閱！"
     teacher_subs_1: "請聯繫"
     teacher_subs_2: "教師調查"
     teacher_subs_3: "建立您的訂閱。"
     sub_includes_title: "訂閱裡包含了什麼內容？"
-    sub_includes_1: "除了100＋個基礎關卡，學生包月訂閱還可以使用這些附加功能：" # {change}
+    sub_includes_1: "除了110＋個基礎關卡，學生包月訂閱還可以使用這些附加功能：" 
     sub_includes_2: "超過70個練習關卡"
     sub_includes_3: "視頻教學"
     sub_includes_4: "獨特的電子郵件支援"
-    sub_includes_5: "10个具有独特技能的新英雄" # {change}
+    sub_includes_5: "10个具有独特技能的新英雄" 
     sub_includes_6: "每月享有3500額外寶石"
     sub_includes_7: "私人部落"
     monitor_progress_title: "我要如何查看學生的進度？"
@@ -649,8 +651,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     more_info_2: "教師論壇"
     more_info_3: "是個與其他使用CodeCombat的教育工作者聯繫的良好平台。"
     sys_requirements_title: "系統要求"
-    sys_requirements_1: "因為CodeCombat是遊戲, 相比播放影片它讓電腦花費更多資源去順暢的執行. 為了讓所有人都可以接觸，我們已經讓它在現在的瀏覽器和老舊的電腦上執行最佳化. 以下是我們為了讓您順暢體驗Hour of Code所給的系統建議:" # {change}
-    sys_requirements_2: "使用較新的Chrome or Firefox版本." # {change}
+    sys_requirements_1: "一個現代的瀏覽器。 需要更新的Chrome，Firefox、Safari或者Internet Explorer 9 以上版本。" # {change}
+    sys_requirements_2: "CodeCombat 暫時還不支持 iPad。" # {change}
 
   teachers_survey:
     title: "教師調查"
@@ -673,12 +675,12 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     school: "學校名字"
     location: "城市"
     age_students: "您的學生年齡為多少？"
-    under: "幾歲以下"
+    under: "低於"
     other: "其他:"
     amount_students: "請問您有多少學生需要教導？"
     hear_about: "您是怎麼知道CodeComabat的？"
     fill_fields: "請填寫所有問題。"
-    thanks: "非常感謝！我們會很快寄你設置說明。"
+    thanks: "非常感謝！我們會很快寄給您設置說明。"
 
   versions:
     save_version_title: "保存新版本"
@@ -725,7 +727,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     admin: "管理員"
     new_password: "新密碼"
     new_password_verify: "確認密碼"
-    type_in_email: "輸入您的Email來確認刪除" # {change}
+    type_in_email: "輸入您的Email來確認刪除" 
     type_in_password: "還有輸入您的密碼。"
     email_subscriptions: "訂閱"
     email_subscriptions_none: "無Email訂閱"
@@ -836,7 +838,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     latest_achievement: "最新成就"
     playtime: "遊戲時間"
     last_played: "最後玩了"
-#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
+    leagues_explanation: "在部落裡與其他成員組成聯盟一起參加下面的多人競技場。"
 
   classes:
     archmage_title: "大法師"
@@ -1026,7 +1028,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     my_matches: "我的對手"
     simulate: "模擬"
     simulation_explanation: "通過模擬遊戲，您可以使您的遊戲更快得到評分!"
-#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
+    simulation_explanation_leagues: "你會主要給在你的部落或者課程的同伴幫忙模擬遊戲。"
     simulate_games: "模擬遊戲!"
     simulate_all: "重置並模擬遊戲"
     games_simulated_by: "您模擬過的次數:"
@@ -1040,7 +1042,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     summary_matches: "對手 - "
     summary_wins: " 勝利, "
     summary_losses: " 失敗"
-    rank_no_code: "沒有新程式碼可評分No New Code to Rank"
+    rank_no_code: "沒有新程式碼可評分"
     rank_my_game: "對我的遊戲評分!"
     rank_submitting: "上傳中..."
     rank_submitted: "已上傳以求評分"
@@ -1073,11 +1075,16 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tournament_rules: "錦標賽規則"
     tournament_blurb: "寫下程式碼, 收集金幣, 建立軍隊, 粉碎敵人, 贏得獎項,在我們價值$40,000的Greed錦標賽中升級您的職業! 查看"
     tournament_blurb_criss_cross: "贏得競賽, 建造道路, 智勝對手, 收集寶石, 在我們的Criss-Crossand錦標賽中升級您的職業! 查看"
-#    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+    tournament_blurb_zero_sum: "在紅方法師和藍方法師的山峰對決中，同時在收集金幣和戰術上發揮你的代碼創造力。競賽在3月27日開始，在4月6日（星期一）的下午5點（PDT太平洋時區）結束。為樂趣和榮耀競賽吧！瀏覽了解更多"
     tournament_blurb_blog: "我們的部落格"
     rules: "規則"
     winners: "贏家"
-#    league: "League"
+    league: "聯盟"
+    red_ai: "紅隊 AI"  # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "藍隊 AI"
+    wins: "勝利"  # At end of multiplayer match playback
+    humans: "紅隊"  # Ladder page display team name
+    ogres: "藍隊"
 
   user:
     stats: "統計"
@@ -1118,7 +1125,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     no_recent_games: "在過去兩個星期沒有玩過遊戲。"
     payments: "付款"
     purchased: "已購買"
-#    sale: "Sale"
+    sale: "促銷"
     subscription: "訂閱"
     invoices: "收據"
     service_apple: "設備: Apple"
@@ -1221,15 +1228,15 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     boolean_logic: "布爾邏輯"
     break_statements: "Break語句"
     classes: "類"
-#    continue_statements: "Continue Statements"
+    continue_statements: "Continue 語句"
     for_loops: "For循環"
     functions: "函數"
-#    graphics: "Graphics"
+    graphics: "圖形"
     if_statements: "If語句"
     input_handling: "輸入處理"
     math_operations: "數學運算"
     object_literals: "對象常量"
-#    parameters: "Parameters"
+    parameters: "參數"
     strings: "字符串"
     variables: "變量"
     vectors: "向量"
@@ -1325,8 +1332,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     prizes: "獎項"
     total_value: "總價值"
     in_cash: "現金"
-    custom_wizard: "客制 CodeCombat 巫師"
-    custom_avatar: "客制 CodeCombat 頭像"
+    custom_wizard: "定制 CodeCombat 巫師"
+    custom_avatar: "定制 CodeCombat 頭像"
     heap: "給六個月的\"Startup\"訪問"
     credits: "信譽"
     one_month_coupon: "優惠: 選擇 Rails 或者 HTML"
