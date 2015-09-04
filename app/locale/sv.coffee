@@ -255,6 +255,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     victory_new_item: "Nytt föremål"
     victory_viking_code_school: "Jösses vilken svår nivå du just klarade! Om du inte redan är en mjukvaruutvecklare så borde du vara det. Du bev precis fast-tracked för antagning vid Viking Code School, där du kan ta dina kunskaper till en ny nivå och bli en professionell webbutvecklare på 14 veckor."
     victory_become_a_viking: "Bli en Viking"
+#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Guide"
     tome_minion_spells: "Dina soldaters förmågor" # Only in old-style levels.
     tome_read_only_spells: "Skrivskyddade förmågor" # Only in old-style levels.
@@ -399,7 +401,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
 #  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-#    feature1: "100+ basic levels across 4 worlds"
+#    feature1: "110+ basic levels across 4 worlds"
 #    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
 #    feature3: "70+ bonus levels"
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
@@ -435,7 +437,24 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    payment_methods_title: "Accepted Payment Methods"
 #    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
+#    sale_already_subscribed: "You're already subscribed!"
+#    sale_blurb1: "Save 35%"
+#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
+#    sale_button: "Sale!"
+#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_click_here: "Click Here"
+#    sale_ends: "Ends"
+#    sale_extended: "*Existing subscriptions will be extended by 1 year."
+#    sale_feature_here: "Here's what you'll get:"
+#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
+#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
+#    sale_continue: "Ready to continue adventuring?"
+#    sale_limited_time: "Limited time offer!"
+#    sale_new_heroes: "New heroes!"
+#    sale_title: "Back to School Sale"
+#    sale_view_button: "Buy 1 year subscription for"
 #    stripe_description: "Monthly Subscription"
+#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -443,7 +462,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    managed_by: "Managed by"
 #    will_be_cancelled: "Will be cancelled on"
 #    currently_free: "You currently have a free subscription"
-#    currently_free_until: "You currently have a free subscription until"
+#    currently_free_until: "You currently have a subscription until" # {changed}
 #    was_free_until: "You had a free subscription until"
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
@@ -587,7 +606,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     intro_1: "CodeCombat är ett onlinespel som lär ut programmering. Eleverna skriver kod i riktiga programspråk."
     intro_2: "Ingen erfarenhet krävs!"
     free_title: "Hur mycket kostar det?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
+#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 180+ levels on our exclusive China servers."
     free_1: "CodeCombat Basic är GRATIS! Det finns över 80 gratis nivåer som täcker alla koncept." # {change}
     free_2: "En månadsprenumeration ger tillgång till videogenomgångar och fler övningsnivåer."
     teacher_subs_title: "Lärare får gratis prenumerationer!"
@@ -817,6 +836,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    latest_achievement: "Latest Achievement"
 #    playtime: "Playtime"
 #    last_played: "Last played"
+#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "Ärkemagiker"
@@ -1006,6 +1026,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     my_matches: "Mina matcher"
     simulate: "Simulera"
     simulation_explanation: "Genom att simulera matcher kan du få dina matcher rankade fortare."
+#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "Simulera matcher!"
     simulate_all: "ÅTERSTÄLL OCH SIMULERA MATCHER"
     games_simulated_by: "Spel simulerade av dig:"
@@ -1056,6 +1077,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    tournament_blurb_blog: "on our blog"
     rules: "Regler"
     winners: "Vinnare"
+#    league: "League"
 
   user:
     stats: "Stats"
@@ -1096,6 +1118,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     no_recent_games: "Inga spel spelade de senaste två veckorna."
     payments: "Betalningar"
 #    purchased: "Purchased"
+#    sale: "Sale"
     subscription: "Prenumeration"
     invoices: "Fakturor"
 #    service_apple: "Apple"
@@ -1198,12 +1221,15 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    boolean_logic: "Boolean Logic"
 #    break_statements: "Break Statements"
 #    classes: "Classes"
+#    continue_statements: "Continue Statements"
 #    for_loops: "For Loops"
 #    functions: "Functions"
+#    graphics: "Graphics"
 #    if_statements: "If Statements"
 #    input_handling: "Input Handling"
 #    math_operations: "Math Operations"
 #    object_literals: "Object Literals"
+#    parameters: "Parameters"
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"

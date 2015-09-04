@@ -58,11 +58,12 @@ module.exports = class CocoRouter extends Backbone.Router
     'contribute/diplomat': go('contribute/DiplomatView')
     'contribute/scribe': go('contribute/ScribeView')
 
-    'courses': go('courses/mock1/CoursesView')
     'courses/mock1': go('courses/mock1/CoursesView')
-    'courses/mock1/enroll': go('courses/mock1/CourseEnrollView')
+    'courses/mock1/enroll/:courseID': go('courses/mock1/CourseEnrollView')
     'courses/mock1/:courseID': go('courses/mock1/CourseDetailsView')
-    'courses/mock1/:courseID/info': go('courses/mock1/CourseInfoView')
+    'courses': go('courses/CoursesView')
+    'courses/enroll(/:courseID)': go('courses/CourseEnrollView')
+    'courses/:courseID': go('courses/CourseDetailsView')
 
     'db/*path': 'routeToServer'
     'demo(/*subpath)': go('DemoView')

@@ -191,6 +191,7 @@ module.exports = class ClanDetailsView extends RootView
         name: utils.i18n(campaign.attributes, 'fullName') or utils.i18n(campaign.attributes, 'name')
         levels: []
       for levelID, level of campaign.get('levels')
+        continue if level.slug is 'ace-of-coders' and new Date() < new Date(1441863900000)
         campaignLevelProgression.levels.push
           ID: levelID
           slug: level.slug
@@ -198,7 +199,7 @@ module.exports = class ClanDetailsView extends RootView
         if level.concepts?
           for concept in level.concepts
             @conceptsProgression.push concept unless concept in @conceptsProgression
-        if level.type == 'hero-ladder'
+        if level.type is 'hero-ladder'
           @arenas.push level
       @campaignLevelProgressions.push campaignLevelProgression
     @render?()

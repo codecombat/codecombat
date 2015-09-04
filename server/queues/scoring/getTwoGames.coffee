@@ -37,8 +37,8 @@ getRandomSessions = (user, callback) ->
   # Determine whether to play a random match, an internal league match, or an external league match.
   # Only people in a league will end up simulating internal league matches (for leagues they're in) except by dumb chance.
   # If we don't like that, we can rework sampleByLevel to have an opportunity to switch to internal leagues if the first session had a league affiliation.
-  leagueIDs = user.get('clans') or []
-  #leagueIDs = leagueIDs.concat user.get('courseInstances') or []
+  leagueIDs = user?.get('clans') or []
+  #leagueIDs = leagueIDs.concat user?.get('courseInstances') or []
   leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to fetch them as strings.
   return sampleByLevel callback unless leagueIDs.length and Math.random() > 1 / leagueIDs.length
   leagueID = _.sample leagueIDs
@@ -66,7 +66,7 @@ getRandomSessions = (user, callback) ->
 
 # Sampling by level: we pick a level, then find a human and ogre session for that level, one at random, one biased towards recent submissions.
 #ladderLevelIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
-ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum']
+ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders']
 sampleByLevel = (callback) ->
   levelID = _.sample ladderLevelIDs
   favorRecentHumans = Math.random() < 0.5  # We pick one session favoring recent submissions, then find another one uniformly to play against

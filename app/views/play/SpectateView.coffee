@@ -158,7 +158,8 @@ module.exports = class SpectateLevelView extends RootView
     # Don't remove it; we want its decoration around on large screens.
     #@removeSubView @loadingView
     #@loadingView = null
-    Backbone.Mediator.publish 'level:set-playing', playing: true
+    Backbone.Mediator.publish 'level:set-playing', playing: false
+    Backbone.Mediator.publish 'level:set-time', time: 1  # Helps to have perhaps built a few Thangs and gotten a good list of spritesheets we need to render for our initial paused frame
 
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
@@ -256,6 +257,7 @@ module.exports = class SpectateLevelView extends RootView
     startFrame = @lastWorldFramesLoaded ? 0
     if @world.frames.length is @world.totalFrames  # Finished loading
       @lastWorldFramesLoaded = 0
+      Backbone.Mediator.publish 'level:set-playing', playing: true  # Since we paused at first, now we autostart playback.
     else
       @lastWorldFramesLoaded = @world.frames.length
     for [spriteName, message] in @world.thangDialogueSounds startFrame

@@ -16,6 +16,8 @@ table.table
   block tableBody
     for document in documents
       - var data = document.attributes;
+      - if(data.slug == 'ace-of-coders' && new Date() < new Date(1441863900000))
+      -   continue;
       tr(class=document.getOwner() == me.id ? 'mine' : '')
         td
           a(href="/editor/#{page}/#{data.slug || data._id}")

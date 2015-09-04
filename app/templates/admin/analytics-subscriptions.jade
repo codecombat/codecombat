@@ -24,7 +24,7 @@ block content
             div.description 30 Day Total Growth
             div.count #{monthlyGrowth.toFixed(1)}%
           .col-md-5.big-stat.churn-count
-            div.description Monthly Churn (cancelled / total)
+            div.description 30 Day Churn (cancelled / total)
             div.count #{monthlyChurn.toFixed(1)}%
 
       each graph in analytics.graphs
@@ -132,6 +132,8 @@ block content
                 td
                 td
                 td
+      if !showMoreCancellations
+        button.btn.btn-sm.btn-show-more-cancellations Show More Cancellations
 
     h2 Subscriptions
     if !subs || subs.length < 1

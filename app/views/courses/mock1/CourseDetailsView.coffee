@@ -1,4 +1,5 @@
 app = require 'core/application'
+utils = require 'core/utils'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/mock1/course-details'
 CocoCollection = require 'collections/CocoCollection'
@@ -20,6 +21,7 @@ module.exports = class CourseDetailsView extends RootView
 
   constructor: (options, @courseID=0, @instanceID=0) ->
     super options
+    @studentMode = utils.getQueryVariable('student', false) or options.studentMode
     @initData()
 
   destroy: ->
@@ -39,7 +41,7 @@ module.exports = class CourseDetailsView extends RootView
     context.userLevelStateMap = @userLevelStateMap ? {}
     context.showExpandedProgress = @showExpandedProgress
     context.stats = @stats
-    context.studentMode = @options.studentMode ? false
+    context.studentMode = @studentMode ? false
 
     conceptsCompleted = {}
     for user of context.userConceptsMap
@@ -152,9 +154,9 @@ module.exports = class CourseDetailsView extends RootView
     @render?()
 
   onChangeStudent: (e) ->
-    @options.studentMode = $('.student-mode-checkbox').prop('checked')
+    @studentMode = $('.student-mode-checkbox').prop('checked')
     @render?()
-    $('.student-mode-checkbox').attr('checked', @options.studentMode)
+    $('.student-mode-checkbox').attr('checked', @studentMode)
 
   onExpandedProgressCheckbox: (e) ->
     @showExpandedProgress = $('.expand-progress-checkbox').prop('checked')
