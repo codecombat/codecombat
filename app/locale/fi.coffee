@@ -1139,15 +1139,15 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     status_unsubscribed_active: "Tilauksesi ei ole aktiivinen ja sinua ei laskuteta, mutta etusi ovat vielä voimassa."
     status_unsubscribed: "Hanki käyttöösi uusia tasoja, sankareita, esineitä ja lisää jalokiviä CodeCombat kuukausitilauskella!"
 
-#  account_invoices:
-#    amount: "Amount in US dollars"
-#    declined: "Your card was declined"
-#    invalid_amount: "Please enter a US dollar amount."
-#    not_logged_in: "Log in or create an account to access invoices."
-#    pay: "Pay Invoice"
-#    purchasing: "Purchasing..."
-#    retrying: "Server error, retrying."
-#    success: "Successfully paid. Thanks!"
+  account_invoices:
+    amount: "Hinta US dollareina"
+    declined: "Luottokorttisimaksu hylätty"
+    invalid_amount: "Ole hyvä ja syötä määrä US dollareina."
+    not_logged_in: "Kirjaudu sisään tai luo tili katosaksi laskujanne."
+    pay: "Suorita maksu"
+    purchasing: "Käsitellään..."
+    retrying: "Palvelinvirhe, yritetään uudelleen."
+    success: "Maksu onnistui. Kiitos!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
