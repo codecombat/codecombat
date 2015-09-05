@@ -164,6 +164,7 @@ module.exports = class CastButtonView extends CocoView
   updateLadderSubmissionViews: ->
     @removeSubView subview for key, subview of @subviews when subview instanceof LadderSubmissionView
     placeholder = @$el.find('.ladder-submission-view')
+    return unless placeholder.length
     @ladderSubmissionView = new LadderSubmissionView session: @options.session, level: @options.level, mirrorSession: @mirrorSession
     @insertSubView @ladderSubmissionView, placeholder
 
