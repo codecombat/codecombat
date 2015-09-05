@@ -73,7 +73,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     anonymous: "匿名玩家"
     level_difficulty: "难度："
     campaign_beginner: "新手作战"
-    awaiting_levels_adventurer_prefix: "我们每周开放五个关卡" # {change}
+    awaiting_levels_adventurer_prefix: "我们每周都会开放新关卡"
     awaiting_levels_adventurer: "注册成为冒险家"
     awaiting_levels_adventurer_suffix: "来优先尝试新关卡"
     adjust_volume: "音量调节"
@@ -83,7 +83,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_old_multiplayer_description: "多个文明时代的遗迹。但已没有模拟运行这些陈旧、英雄芜绝的多人竞技场。"
 
   share_progress_modal:
-    blurb: "您的进度真快！快告诉其他人您从CodeCombat学到了什么！" # {change}
+    blurb: "您的进度真快！快告诉您的家长, 您从CodeCombat学到了什么！"
     email_invalid: "邮件地址不可用。"
     form_blurb: "输入他们的邮件地址，让他们知道CodeCombat的有趣"
     form_label: "您的邮件地址"
@@ -255,8 +255,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_new_item: "新的物品"
     victory_viking_code_school: "这关真的超难! 如果您想成为一个软件开发人员，您就应该去试一下Viking Code School。在这里您可以把您的知识增长到另一个台阶。只需要14周您就能成为一个专业的网页开发人员。"
     victory_become_a_viking: "成为一个维京人吧"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
+    victory_bloc: "干得好! 你的技能正在提升, 并且已经有人注意着你了. 如果你正考虑着当一名软件工程师, 现在可能就是你的幸运日. Bloc 是个能提供在线一对一专业指导的, 能锻炼你成为专业开发者的训练营! 通过 矮人骚乱 后, 你可以使用价值 $500 的优惠码: CCRULES"
+    victory_bloc_cta: "会晤你的导师 – 了解 Bloc"
     guide_title: "指南"
     tome_minion_spells: "助手的咒语" # Only in old-style levels.
     tome_read_only_spells: "只读的咒语" # Only in old-style levels.
@@ -293,7 +293,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     infinite_loop_reset_level: "重置关卡"
     infinite_loop_comment_out: "为我的代码添加注释"
     tip_toggle_play: "用 Ctrl+P 来暂停或继续"
-    tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进。" # {change}
+    tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进。"
     tip_guide_exists: "点击页面上方的指南, 可以获得更多有用信息。"
     tip_open_source: "「CodeCombat」是100%开源的！"
     tip_tell_friends: "喜欢Codecombat？那就赶快把它安利给朋友！"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   leaderboard:
     leaderboard: "排行榜"
-    view_other_solutions: "查看其它解答" # {change}
+    view_other_solutions: "查看排行榜"
     scores: "分数"
     top_players: "顶尖玩家是"
     day: "今天"
@@ -401,9 +401,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   subscribe:
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！"
-    feature1: "100+ 基本关卡（4个世界）" # {change}
-    feature2: "10 个强大 <strong>英雄</strong>以及各式非凡技能!" # {change}
-    feature3: "70+ 奖励关卡" # {change}
+    feature1: "110+ 基本关卡（4个世界）"
+    feature2: "10 个强大 <strong>英雄</strong>以及各式非凡技能!"
+    feature3: "70+ 奖励关卡"
     feature4: "每月享有3500额外宝石"
     feature5: "视频教学"
     feature6: "专业邮件支援"
@@ -428,33 +428,33 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parent_email_sent: "邮件已发送!"
     parent_email_title: "什么是您父母的邮件地址？"
     parents: "致家长"
-    parents_title: "您的孩子将要学习编写程序。" # {change}
-    parents_blurb1: "通过使用CodeCombat，您的孩子将学习编写真正的程序代码。他们将学到简单指令，进而处理更复杂的问题。"
-    parents_blurb1a: "不用怀疑计算机编程能力将是您的孩子作为一个成年人的基本技能。到2020年，77%的工作将会需要编码能力，并且软件工程师将在世界各地成为高需求职业。您知道吗，计算机科学是收入最高的大学学位？"
-    parents_blurb2: "每月支付9.99美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。" # {change}
+    parents_title: "亲爱的家长: 您的孩子将要学习编程. 您会支持孩子发展吗?"
+    parents_blurb1: "您的孩子已经玩了 __nLevels__ 关，并且学习了编程基础。请您为了培养他们的兴趣而给他们订阅，他们能继续玩下去。"
+    parents_blurb1a: "不用怀疑计算机编程能力将是您的孩子作为一个成年人的基本技能。到2020年，77%的工作将会需要编码能力，并且软件工程师将在世界各地成为高需求职业。您要知道计算机科学是收入最高的大学学位。"
+    parents_blurb2: "每月支付9.99美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。"
     parents_blurb3: "无风险承诺：100%退款，一键取消订阅。"
     payment_methods: "付费方式"
     payment_methods_title: "可接受的付款方式"
     payment_methods_blurb1: "我们现有的付费方式有信用卡和支付宝"
     payment_methods_blurb2: "如果您想用其他付费方式,请联系我们"
-#    sale_already_subscribed: "You're already subscribed!"
-#    sale_blurb1: "Save 35%"
-#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
-#    sale_button: "Sale!"
-#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
-#    sale_click_here: "Click Here"
-#    sale_ends: "Ends"
-#    sale_extended: "*Existing subscriptions will be extended by 1 year."
-#    sale_feature_here: "Here's what you'll get:"
-#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
-#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
-#    sale_continue: "Ready to continue adventuring?"
-#    sale_limited_time: "Limited time offer!"
-#    sale_new_heroes: "New heroes!"
-#    sale_title: "Back to School Sale"
-#    sale_view_button: "Buy 1 year subscription for"
+    sale_already_subscribed: "您已经订阅!"
+    sale_blurb1: "和正常一年的订阅价格 $120 相比"
+    sale_blurb2: "年费订阅能节省 35%！"
+    sale_button: "促销"
+    sale_button_title: "年费订阅能节省 35% 的费用"
+    sale_click_here: "点击这里"
+    sale_ends: "结束"
+    sale_extended: "*已订阅用户会续期一年。"
+    sale_feature_here: "你将会获得这些："
+    sale_feature2: "可以使用 10 个强大的 <strong>新英雄</strong> 和各种技能!"
+    sale_feature4: "立即取得 <strong>42,000 个额外的宝石</strong>!"
+    sale_continue: "准备好继续探险吗?"
+    sale_limited_time: "限时优惠!"
+    sale_new_heroes: "新英雄!"
+    sale_title: "开学促销"
+    sale_view_button: "购买年费订阅："
     stripe_description: "每月订阅"
-#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
+    stripe_description_year_sale: "年费订阅 (优惠 35%)"
     subscription_required_to_play: "订阅后才可开始本关"
     unlock_help_videos: "订阅后才可以解锁视频教学哦！"
     personal_sub: "个人订阅" # Accounts Subscription View below
@@ -462,7 +462,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     managed_by: "管理"
     will_be_cancelled: "将被取消"
     currently_free: "您目前有一个免费订阅"
-    currently_free_until: "您目前有一个免费订阅，直到" # {changed}
+    currently_free_until: "您目前有一个订阅，直到"
     was_free_until: "您有过一个免费订阅，直到"
     managed_subs: "管理订阅"
     managed_subs_desc: "为其他玩家（学生、儿童等）添加订阅。"
@@ -526,6 +526,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   skill_docs:
     writable: "可写" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "只读"
+    action: "命令"
+    spell: "技能"
     action_name: "名称"
     action_cooldown: "释放时间"
     action_specific_cooldown: "冷却时间"
@@ -582,15 +584,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     press_paragraph_1_link: "成套宣传包"
     press_paragraph_1_suffix: "里的所有材料。 所有商标和图像的使用都不必事先联系我们。"
     team: "团队"
-    george_title: "CEO" # {change}
+    george_title: "共同创始人"
     george_blurb: "商人"
-    scott_title: "程序员" # {change}
+    scott_title: "共同创始人"
     scott_blurb: "理性至上"
-    nick_title: "程序员" # {change}
+    nick_title: "共同创始人"
     nick_blurb: "充满动力的大牛"
     michael_title: "程序员"
     michael_blurb: "系统管理员"
-    matt_title: "程序员" # {change}
+    matt_title: "共同创始人"
     matt_blurb: "自行车爱好者"
     cat_title: "首席关卡设计师"
     cat_blurb: "气宗"
@@ -606,19 +608,19 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     intro_1: "CodeCombat 是一个教编程的网上游戏。学生会用编程语言写代码。"
     intro_2: "无需经验!"
     free_title: "要多少钱?"
-    cost_china: "CodeCombat的前5个关卡在中国是免费的，在这之后需花费每月9.99美元来访问我们架设在中国专属服务器上的140多个关卡。"
-    free_1: "有100多个覆盖了所有理论的免费关卡。" # {change}
+    cost_china: "CodeCombat的前5个关卡在中国是免费的，在这之后需花费每月9.99美元来访问我们架设在中国专属服务器上的180多个关卡。"
+    free_1: "有110多个覆盖了所有理论的免费关卡。"
     free_2: "包月订阅可以访问视频教程和额外的练习关卡。"
     teacher_subs_title: "教师可免费订阅!"
-    teacher_subs_1: "请联系" # {change}
+    teacher_subs_1: "请填写我们的"
     teacher_subs_2: "教师调查"
     teacher_subs_3: "建立您的订阅。"
     sub_includes_title: "订阅里包含了什么内容？"
-    sub_includes_1: "除了100＋个基础关卡，学生包月订阅还可以使用这些附加功能：" # {change}
-    sub_includes_2: "超过70个练习关卡" # {change}
+    sub_includes_1: "除了110+个基础关卡，学生包月订阅还可以使用这些附加功能："
+    sub_includes_2: "超过70个练习关卡"
     sub_includes_3: "视频教学"
     sub_includes_4: "优质的电子邮件支持"
-    sub_includes_5: "10个具有独特技能的新英雄" # {change}
+    sub_includes_5: "10个具有独特技能的新英雄"
     sub_includes_6: "每月享有3500额外宝石"
     sub_includes_7: "私人部落"
     monitor_progress_title: "我要如何查看学生的进度？"
@@ -649,8 +651,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     more_info_2: "教师论坛"
     more_info_3: "是个与其他使用CodeCombat的教育工作者联系的良好平台。"
     sys_requirements_title: "系统需求"
-    sys_requirements_1: "因为CodeCombat是个游戏，它对于电脑的要求很高来保证运行的顺畅。我们已经优化过以便让它能在每一个最新浏览器或是比较旧的电脑跑得顺畅，所以每一个人都能享受CodeCombat带来的乐趣。如上，为了使您顺利的完成Hour of Code的学习，我们建议您：" # {change}
-    sys_requirements_2: "使用最新版本的Chrome或是Firefox." # {change}
+    sys_requirements_1: "一个现代的浏览器. 需要更新的 Chrome, Firefox, Safari 或者 Internet Explorer 9 以上版本."
+    sys_requirements_2: "CodeCombat 暂时还不支持 iPad ."
 
   teachers_survey:
     title: "教师调查"
@@ -663,9 +665,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     approved_3: "进一步的说明已被送往"
     denied_1: "您的免费订阅试用申请已被"
     denied_2: "拒绝。"
-    contact_1: "请联系"
-    contact_2: "如果我们为教师提供免费订阅用评估的目的。您可以在我们的"
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+    contact_1: "如果你有进一步的问题, 请联系"
+    contact_2: "。"
+    description_1: "我们可为教师提供用于评估的免费订阅. 你可以在我们的"
     description_2: "教师"
     description_3: "页面找到更多的信息。"
     description_4: "请填写此简单问卷，我们将会向您的电子邮件发送设置说明。"
@@ -673,12 +675,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     school: "学校名字"
     location: "城市"
     age_students: "您的学生年龄为多少？"
-    under: "几岁以下"
+    under: "低于"
     other: "其他:"
     amount_students: "请问您有多少学生需要教导？"
     hear_about: "您是怎么知道CodeComabat的？"
     fill_fields: "请填写所有问题。"
-    thanks: "非常感谢！我们会很快寄您设置说明。"
+    thanks: "非常感谢！我们会很快寄给您设置说明。"
 
   versions:
     save_version_title: "保存新版本"
@@ -725,7 +727,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     admin: "管理"
     new_password: "新密码"
     new_password_verify: "再次输入密码"
-    type_in_email: "输入您的邮箱地址来确认删除" # {change}
+    type_in_email: "输入您的邮箱地址来确认删除"
     type_in_password: "同样的，输入您的密码。"
     email_subscriptions: "邮箱订阅"
     email_subscriptions_none: "取消订阅"
@@ -818,7 +820,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     average_achievements: "平均成就"
     delete_clan: "刪除部落"
     leave_clan: "离开部落"
-    join_clan: "加人部落"
+    join_clan: "加入部落"
     invite_1: "邀请："
     invite_2: "*通过这个链接来邀请玩家加入部落。"
     members: "成员"
@@ -836,7 +838,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     latest_achievement: "最新成就"
     playtime: "游戏时间"
     last_played: "最后玩了"
-#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
+    leagues_explanation: "在部落里与其他成员组成联盟一起参加下面的多人竞技场."
 
   classes:
     archmage_title: "大法师"
@@ -1026,7 +1028,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     my_matches: "我的对手"
     simulate: "模拟"
     simulation_explanation: "通过模拟游戏，您可以让您的游戏更快的得到评分。"
-#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
+    simulation_explanation_leagues: "你会主要给在你的部落或者课程的同伴帮忙模拟游戏."
     simulate_games: "模拟游戏！"
     simulate_all: "重置并模拟游戏！"
     games_simulated_by: "由您模拟过的游戏数:"
@@ -1036,8 +1038,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ratio: "比率"
     leaderboard: "排行榜"
     battle_as: "我要加入这一方 "
-    summary_your: "您 "
-    summary_matches: "对手 - "
+    summary_your: "您在 "
+    summary_matches: "的比赛 - "
     summary_wins: " 胜利, "
     summary_losses: " 失败"
     rank_no_code: "没有新代码可供评分"
@@ -1073,11 +1075,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tournament_rules: "锦标赛规则"
     tournament_blurb: "写代码，收金币，建军队，碎敌军，赢奖品，以及在我们奖励多达$40,000的Greed tournament里升级您的事业！ 快去查阅详情！"
     tournament_blurb_criss_cross: "赢得竞拍，建造道路，智胜对手，夺取宝石，在纵横交错锦标赛中完成生涯晋级! 现在就查看详情！"
-#    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+    tournament_blurb_zero_sum: "在红方法师和蓝方法师的山峰对决中, 同时在收集金币和战术上发挥你的代码创造力. 竞赛在3月27日开始, 在4月6日(星期一)的下午5点(PDT 太平洋时区)结束. 为乐趣和荣耀竞赛吧! 浏览了解更多"
     tournament_blurb_blog: "关注我们的博客"
     rules: "规则"
     winners: "胜利者"
-#    league: "League"
+    league: "联盟"
+    red_ai: "红方 AI"  # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "蓝方 AI"
+    wins: "胜利"  # At end of multiplayer match playback
+    humans: "红方"  # Ladder page display team name
+    ogres: "蓝方"
 
   user:
     stats: "成就"
@@ -1118,7 +1125,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_recent_games: "最近两个星期没有玩过游戏。"
     payments: "支付方式"
     purchased: "已购买"
-#    sale: "Sale"
+    sale: "促销"
     subscription: "订阅"
     invoices: "票据"
     service_apple: "设备：苹果"
@@ -1221,15 +1228,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     boolean_logic: "布尔逻辑"
     break_statements: "Break语句"
     classes: "类"
-#    continue_statements: "Continue Statements"
+    continue_statements: "Continue 语句"
     for_loops: "For循环"
     functions: "函数"
-#    graphics: "Graphics"
+    graphics: "图形"
     if_statements: "If语句"
     input_handling: "输入处理"
     math_operations: "数学运算"
     object_literals: "对象常量"
-#    parameters: "Parameters"
+    parameters: "参数"
     strings: "字符串"
     variables: "变量"
     vectors: "向量"
@@ -1325,8 +1332,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     prizes: "奖项"
     total_value: "总价值"
     in_cash: "现金"
-    custom_wizard: "客制CodeCombat巫师"
-    custom_avatar: "客制CodeCombat头像"
+    custom_wizard: "定制CodeCombat巫师"
+    custom_avatar: "定制CodeCombat头像"
     heap: "给六个月的\"Startup\"访问"
     credits: "信誉"
     one_month_coupon: "优惠: 选择 Rails 或者 HTML"

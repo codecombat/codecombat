@@ -191,7 +191,7 @@ module.exports = class ClanDetailsView extends RootView
         name: utils.i18n(campaign.attributes, 'fullName') or utils.i18n(campaign.attributes, 'name')
         levels: []
       for levelID, level of campaign.get('levels')
-        continue if level.slug is 'ace-of-coders' and new Date() < new Date(1441954800000)
+        continue if level.slug is 'ace-of-coders' and new Date() < new Date(1441863900000)
         campaignLevelProgression.levels.push
           ID: levelID
           slug: level.slug

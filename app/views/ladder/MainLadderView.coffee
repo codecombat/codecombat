@@ -63,6 +63,13 @@ heroArenas = [
     description: 'Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer.'
   }
   {
+    name: 'Ace of Coders'
+    difficulty: 3
+    id: 'ace-of-coders'
+    image: '/file/db/level/550363b4ec31df9c691ab629/MAR26-Banner_Zero%20Sum.png'
+    description: 'Battle for control over the icy treasure chests as your gigantic warrior marshals his armies against his mirror-match nemesis.'
+  }
+  {
     name: 'Cavern Survival'
     difficulty: 1
     id: 'cavern-survival'
@@ -91,6 +98,8 @@ heroArenas = [
     description: 'Go head-to-head against another player in this dueling arena--but watch out for their friends!'
   }
 ]
+
+heroArenas = _.reject heroArenas, id: 'ace-of-coders' if new Date() < new Date(1441863900000)
 
 oldArenas = [
   {

@@ -6,7 +6,7 @@ div#columns.row
         tr
           th(colspan=5, style="color: #{team.primaryColor}")
             span(data-i18n="ladder.summary_your") Your 
-            |#{team.name}
+            |#{team.displayName}
             |  
             span(data-i18n="ladder.summary_matches") Matches - 
             |#{team.wins}
@@ -43,13 +43,13 @@ div#columns.row
             td.name-cell= match.opponentName || "Anonymous"
             td.time-cell= match.when
             td.battle-cell
-              a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}")
+              a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}" + (league ? "&league=" + league.id : ""))
                 if (match.state === 'win')
                   span(data-i18n="ladder.watch_victory") Watch your victory
                 else
                   span(data-i18n="ladder.defeat_the") Defeat the
                   |  
-                  | #{team.otherTeam}
+                  | #{team.otherTeamDisplayName}
 
         if !team.matches.length
           tr

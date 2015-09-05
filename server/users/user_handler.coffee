@@ -11,6 +11,7 @@ log = require 'winston'
 moment = require 'moment'
 AnalyticsLogEvent = require '../analytics/AnalyticsLogEvent'
 Clan = require '../clans/Clan'
+CourseInstance = require '../courses/CourseInstance'
 LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
 Payment = require '../payments/Payment'
@@ -309,6 +310,7 @@ UserHandler = class UserHandler extends Handler
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
     return @getClans(req, res, args[0]) if args[1] is 'clans'
+    return @getCourseInstances(req, res, args[0]) if args[1] is 'course_instances'
     return @getEmployers(req, res) if args[1] is 'employers'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
@@ -602,6 +604,13 @@ UserHandler = class UserHandler extends Handler
       query = {$and: [{_id: {$in: clanIDs}}]}
       query['$and'].push {type: 'public'} unless req.user?.id is user.id
       Clan.find query, (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, documents)
+
+  getCourseInstances: (req, res, userIDOrSlug) ->
+    @getDocumentForIdOrSlug userIDOrSlug, (err, user) =>
+      return @sendNotFoundError(res) unless user
+      CourseInstance.find {members: {$in: [user.get('_id')]}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, documents)
 

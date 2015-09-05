@@ -14,7 +14,9 @@ module.exports.teamDataFromLevel = (level) ->
     teams.push({
       id: team
       name: _.string.titleize(team)
+      displayName: $.i18n.t("ladder.#{team}")  # Use Red/Blue instead of Humans/Ogres
       otherTeam: otherTeam
+      otherTeamDisplayName: $.i18n.t("ladder.#{otherTeam}")
       bgColor: bgColor
       primaryColor: primaryColor
     })

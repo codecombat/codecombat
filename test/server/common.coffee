@@ -30,6 +30,8 @@ models_path = [
   '../../server/articles/Article'
   '../../server/campaigns/Campaign'
   '../../server/clans/Clan'
+  '../../server/courses/Course'
+  '../../server/courses/CourseInstance'
   '../../server/levels/Level'
   '../../server/levels/components/LevelComponent'
   '../../server/levels/systems/LevelSystem'
