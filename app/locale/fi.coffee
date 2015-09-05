@@ -1149,18 +1149,18 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     retrying: "Palvelinvirhe, yritetään uudelleen."
     success: "Maksu onnistui. Kiitos!"
 
-#  loading_error:
-#    could_not_load: "Error loading from server"
-#    connection_failure: "Connection failed."
-#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
-#    forbidden: "You do not have the permissions."
-#    not_found: "Not found."
-#    not_allowed: "Method not allowed."
-#    timeout: "Server timeout."
-#    conflict: "Resource conflict."
-#    bad_input: "Bad input."
-#    server_error: "Server error."
-#    unknown: "Unknown error."
+  loading_error:
+    could_not_load: "Virhe ladattaessa tietoja palvelimelta"
+    connection_failure: "Yhteysvirhe."
+    unauthorized: "Teidän tulee olla kirjautuneena sisään. Ovatko evästeet sallittuna?"
+    forbidden: "Ei käyttöoikeuttta."
+    not_found: "Ei löydetty."
+    not_allowed: "Toiminto ei sallittu."
+    timeout: "Toiminto aikakatkaistu."
+    conflict: "Resurssiristiriita."
+    bad_input: "Virheellinen syöte."
+    server_error: "Palvelinvirhe."
+    unknown: "Tuntematon virhe."
 
 #  resources:
 #    sessions: "Sessions"
