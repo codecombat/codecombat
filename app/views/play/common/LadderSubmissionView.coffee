@@ -13,6 +13,7 @@ module.exports = class LadderSubmissionView extends CocoView
   constructor: (options) ->
     super options
     @session = options.session
+    @mirrorSession = options.mirrorSession
     @level = options.level
 
   getRenderData: ->
@@ -62,20 +63,31 @@ module.exports = class LadderSubmissionView extends CocoView
       console.log jqxhr.responseText
       @setRankingButtonText 'failed' unless @destroyed
     @transpileSession (transpiledCode) =>
-
       ajaxData =
         session: @session.id
         levelID: @level.id
         originalLevelID: @level.get('original')
         levelMajorVersion: @level.get('version').major
         transpiledCode: transpiledCode
-
-      $.ajax '/queue/scoring', {
+      ajaxOptions =
         type: 'POST'
         data: ajaxData
         success: success
         error: failure
-      }
+      if @mirrorSession
+        # Also submit the mirrorSession after the main session submits successfully.
+        mirrorAjaxData = _.clone ajaxData
+        mirrorAjaxData.session = @mirrorSession.id
+        if @session.get('team') is 'humans'
+          mirrorAjaxData.transpiledCode = 'hero-placeholder-1': transpiledCode['hero-placeholder']
+        else
+          mirrorAjaxData.transpiledCode = 'hero-placeholder': transpiledCode['hero-placeholder-1']
+        mirrorAjaxOptions = _.clone ajaxOptions
+        mirrorAjaxOptions.data = mirrorAjaxData
+        ajaxOptions.success = ->
+          $.ajax '/queue/scoring', mirrorAjaxOptions
+
+      $.ajax '/queue/scoring', ajaxOptions
 
   transpileSession: (callback) ->
     submittedCode = @session.get('code')

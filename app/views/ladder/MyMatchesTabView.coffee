@@ -67,6 +67,7 @@ module.exports = class MyMatchesTabView extends CocoView
     ctx.level = @level
     ctx.levelID = @level.get('slug') or @level.id
     ctx.teams = @teams
+    ctx.league = @options.league
 
     convertMatch = (match, submitDate) =>
       opponent = match.opponents[0]
@@ -116,7 +117,9 @@ module.exports = class MyMatchesTabView extends CocoView
       placeholder = $(el)
       sessionID = placeholder.data('session-id')
       session = _.find @sessions.models, {id: sessionID}
-      ladderSubmissionView = new LadderSubmissionView session: session, level: @level
+      if @level.get('slug') in ['ace-of-coders']
+        mirrorSession = (s for s in @sessions.models when s.get('team') isnt session.get('team'))[0]
+      ladderSubmissionView = new LadderSubmissionView session: session, level: @level, mirrorSession: mirrorSession
       @insertSubView ladderSubmissionView, placeholder
 
     @$el.find('.score-chart-wrapper').each (i, el) =>

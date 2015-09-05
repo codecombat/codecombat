@@ -72,8 +72,15 @@ module.exports = class MultiplayerView extends CocoView
     e.target.select()
 
   onGameSubmitted: (e) ->
+    # Preserve the supermodel as we navigate back to the ladder.
+    viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @levelID]
     ladderURL = "/play/ladder/#{@levelID}#my-matches"
-    Backbone.Mediator.publish 'router:navigate', route: ladderURL
+    if leagueID = @getQueryVariable 'league'
+      leagueType = if @level?.get('type') is 'course-ladder' then 'course' else 'clan'
+      viewArgs.push leagueType
+      viewArgs.push leagueID
+      ladderURL += "/#{leagueType}/#{leagueID}"
+    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
 
   updateLinkSection: ->
     multiplayer = @$el.find('#multiplayer').prop('checked')

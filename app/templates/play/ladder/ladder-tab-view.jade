@@ -32,7 +32,7 @@ div#columns.row
               td.score-cell= Math.round(sessionStats.totalScore * 100)
               td.name-col-cell= session.get('creatorName') || "Anonymous"
               td.fight-cell
-                a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}")
+                a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
                   span(data-i18n="ladder.fight") Fight!
               td.spectate-cell.iconic-cell
                 .glyphicon.glyphicon-eye-open
@@ -51,7 +51,7 @@ div#columns.row
                 td.score-cell= Math.round(sessionStats.totalScore * 100)
                 td.name-col-cell= session.get('creatorName') || "Anonymous"
                 td.fight-cell
-                  a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}")
+                  a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
                     span(data-i18n="ladder.fight") Fight!
                 td.spectate-cell.iconic-cell
                   .glyphicon.glyphicon-eye-open
@@ -84,7 +84,7 @@ div#columns.row
             span : 
             span= friend.team
             br
-            a(href="/play/level/#{level.get('slug') || level.id}/?team=#{friend.otherTeam}&opponent=#{friend._id}")
+            a(href="/play/level/#{level.get('slug') || level.id}/?team=#{friend.otherTeam}&opponent=#{friend._id}" + (league ? "&league=" + league.id : ""))
               span(data-i18n="ladder.fight") Fight!
 
       else if onFacebook || onGPlus
