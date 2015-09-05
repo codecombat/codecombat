@@ -180,7 +180,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     password: "Salasana"
     message: "Viesti"
     code: "Koodi"
-    ladder: "Sarja"
+    ladder: "Liiga"
     when: "Kun"
     opponent: "Vastustaja"
     rank: "Arvo"
@@ -242,7 +242,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     victory_sign_up: "Kirjaudu"
     victory_sign_up_poke: "Haluatko tallettaa koodisi? Luo ilmainen tili!"
 #    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
-    victory_return_to_ladder: "Palaa sarjaan"
+    victory_return_to_ladder: "Palaa liigaan"
     victory_play_continue: "Jatka"
     victory_saving_progress: "Tallennetaan edistymisesi"
     victory_go_home: "Takaisin kotiin"
