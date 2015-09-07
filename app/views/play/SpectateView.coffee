@@ -257,7 +257,8 @@ module.exports = class SpectateLevelView extends RootView
     startFrame = @lastWorldFramesLoaded ? 0
     if @world.frames.length is @world.totalFrames  # Finished loading
       @lastWorldFramesLoaded = 0
-      Backbone.Mediator.publish 'level:set-playing', playing: true  # Since we paused at first, now we autostart playback.
+      unless @getQueryVariable('autoplay') is false
+        Backbone.Mediator.publish 'level:set-playing', playing: true  # Since we paused at first, now we autostart playback.
     else
       @lastWorldFramesLoaded = @world.frames.length
     for [spriteName, message] in @world.thangDialogueSounds startFrame
@@ -271,6 +272,8 @@ module.exports = class SpectateLevelView extends RootView
       @sessionOne = data[0]._id
       @sessionTwo = data[1]._id
       url = "/play/spectate/#{@levelID}?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
+      if leagueID = @getQueryVariable 'league'
+        url += "&league=" + leagueID
       Backbone.Mediator.publish 'router:navigate', {
         route: url,
         viewClass: SpectateLevelView,

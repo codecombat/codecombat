@@ -1,6 +1,8 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/cast_button'
 {me} = require 'core/auth'
+LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
+LevelSession = require 'models/LevelSession'
 
 module.exports = class CastButtonView extends CocoView
   id: 'cast-button-view'
@@ -28,6 +30,7 @@ module.exports = class CastButtonView extends CocoView
     @castShortcut = '⇧↵'
     @updateReplayabilityInterval = setInterval @updateReplayability, 1000
     @observing = options.session.get('creator') isnt me.id
+    @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders']
 
   destroy: ->
     clearInterval @updateReplayabilityInterval
@@ -42,6 +45,7 @@ module.exports = class CastButtonView extends CocoView
     context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_code')
     context.castRealTimeVerbose = castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
     context.observing = @observing
+    context.mirror = @mirrorSession?
     context
 
   afterRender: ->
@@ -55,6 +59,7 @@ module.exports = class CastButtonView extends CocoView
     if @options.level.get('slug') is 'thornbush-farm'# and not @options.session.get('state')?.complete
       @$el.find('.submit-button').hide()  # Hide submit until first win so that script can explain it.
     @updateReplayability()
+    @updateLadderSubmissionViews()
 
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
@@ -96,6 +101,7 @@ module.exports = class CastButtonView extends CocoView
     @casting = false
     if @hasCastOnce  # Don't play this sound the first time
       @playSound 'cast-end', 0.5
+      _.delay (=> @ladderSubmissionView?.rankSession()), 1000 if @ladderSubmissionView
     @hasCastOnce = true
     @updateCastButton()
     @world = e.world
@@ -136,6 +142,7 @@ module.exports = class CastButtonView extends CocoView
         castText = $.i18n.t('play_level.tome_cast_button_ran')
       @castButton.text castText
       #@castButton.prop 'disabled', not castable
+      @ladderSubmissionView?.updateButton()
 
   updateReplayability: =>
     return if @destroyed
@@ -147,6 +154,19 @@ module.exports = class CastButtonView extends CocoView
     if disabled
       waitTime = moment().add(timeUntilResubmit, 'ms').fromNow()
       submitAgainLabel.text waitTime
+
+  loadMirrorSession: ->
+    url = "/db/level/#{@options.level.get('slug') or @options.level.id}/session"
+    url += "?team=#{if me.team is 'humans' then 'ogres' else 'humans'}"
+    mirrorSession = new LevelSession().setURL url
+    @mirrorSession = @supermodel.loadModel(mirrorSession, 'level_session', {cache: false}).model
+
+  updateLadderSubmissionViews: ->
+    @removeSubView subview for key, subview of @subviews when subview instanceof LadderSubmissionView
+    placeholder = @$el.find('.ladder-submission-view')
+    return unless placeholder.length
+    @ladderSubmissionView = new LadderSubmissionView session: @options.session, level: @options.level, mirrorSession: @mirrorSession
+    @insertSubView @ladderSubmissionView, placeholder
 
   onJoinedRealTimeMultiplayerGame: (e) ->
     @inRealTimeMultiplayerSession = true
