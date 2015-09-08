@@ -190,7 +190,9 @@ module.exports = class DocFormatter
     return null unless action
     cooldowns = cooldown: action.cooldown, specificCooldown: action.specificCooldown, name: actionName, type: type
     for prop in ['range', 'radius', 'duration', 'damage']
-      cooldowns[prop] = v = owner[_.string.camelize actionName + _.string.capitalize(prop)]
+      v = owner[_.string.camelize actionName + _.string.capitalize(prop)]
+      continue if prop is 'range' and v <= 5  # Don't confuse players by showing melee ranges, they will inappropriately use distanceTo(enemy) < 3.
+      cooldowns[prop] = v
       if _.isNumber(v) and v isnt Math.round v
         cooldowns[prop] = v.toFixed 2
     cooldowns
