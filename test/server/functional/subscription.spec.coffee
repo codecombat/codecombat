@@ -1400,3 +1400,160 @@ describe 'Subscriptions', ->
                 expect(payment).toBeDefined()
                 expect(payment.get('gems')).toEqual(3500*12)
                 done()
+
+    it 'year_sale when stripe.free === true', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          user1.set('stripe', {free: true})
+          user1.save (err, user1) ->
+            expect(err).toBeNull()
+            expect(user1.get('stripe')?.free).toEqual(true)
+            requestBody =
+              stripe:
+                token: token.id
+                timestamp: new Date()
+            request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+              expect(err).toBeNull()
+              expect(res.statusCode).toBe(200)
+              User.findById user1.id, (err, user1) ->
+                expect(err).toBeNull()
+                stripeInfo = user1.get('stripe')
+                expect(stripeInfo).toBeDefined()
+                return done() unless stripeInfo
+                endDate = new Date()
+                endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+                expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                expect(stripeInfo.customerID).toBeDefined()
+                expect(user1.get('purchased')?.gems).toEqual(3500*12)
+                Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
+                  expect(err).toBeNull()
+                  expect(payment).toBeDefined()
+                  expect(payment.get('gems')).toEqual(3500*12)
+                  done()
+
+    it 'year_sale when stripe.free < today', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          endDate = new Date()
+          endDate.setUTCFullYear(endDate.getUTCFullYear() - 1)
+          user1.set('stripe', {free: endDate.toISOString().substring(0, 10)})
+          user1.save (err, user1) ->
+            expect(err).toBeNull()
+            expect(user1.get('stripe')?.free).toEqual(endDate.toISOString().substring(0, 10))
+            requestBody =
+              stripe:
+                token: token.id
+                timestamp: new Date()
+            request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+              expect(err).toBeNull()
+              expect(res.statusCode).toBe(200)
+              User.findById user1.id, (err, user1) ->
+                expect(err).toBeNull()
+                stripeInfo = user1.get('stripe')
+                expect(stripeInfo).toBeDefined()
+                return done() unless stripeInfo
+                endDate = new Date()
+                endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+                expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                expect(stripeInfo.customerID).toBeDefined()
+                expect(user1.get('purchased')?.gems).toEqual(3500*12)
+                Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
+                  expect(err).toBeNull()
+                  expect(payment).toBeDefined()
+                  expect(payment.get('gems')).toEqual(3500*12)
+                  done()
+
+    it 'year_sale when stripe.free > today', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          endDate = new Date()
+          endDate.setUTCDate(endDate.getUTCDate() + 5)
+          user1.set('stripe', {free: endDate.toISOString().substring(0, 10)})
+          user1.save (err, user1) ->
+            expect(err).toBeNull()
+            expect(user1.get('stripe')?.free).toEqual(endDate.toISOString().substring(0, 10))
+            requestBody =
+              stripe:
+                token: token.id
+                timestamp: new Date()
+            request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+              expect(err).toBeNull()
+              expect(res.statusCode).toBe(200)
+              User.findById user1.id, (err, user1) ->
+                expect(err).toBeNull()
+                stripeInfo = user1.get('stripe')
+                expect(stripeInfo).toBeDefined()
+                return done() unless stripeInfo
+                endDate = new Date()
+                endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+                endDate.setUTCDate(endDate.getUTCDate() + 5)
+                expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                expect(stripeInfo.customerID).toBeDefined()
+                expect(user1.get('purchased')?.gems).toEqual(3500*12)
+                Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
+                  expect(err).toBeNull()
+                  expect(payment).toBeDefined()
+                  expect(payment.get('gems')).toEqual(3500*12)
+                  done()
+
+    it 'year_sale with monthly sub', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          subscribeUser user1, token, null, ->
+            User.findById user1.id, (err, user1) ->
+              expect(err).toBeNull()
+              stripeInfo = user1.get('stripe')
+              stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.subscriptionID, (err, subscription) ->
+                expect(err).toBeNull()
+                expect(subscription).not.toBeNull()
+                stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000)
+                stripe.tokens.create {
+                  card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+                }, (err, token) ->
+                  requestBody =
+                    stripe:
+                      token: token.id
+                      timestamp: new Date()
+                  request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+                    expect(err).toBeNull()
+                    expect(res.statusCode).toBe(200)
+                    User.findById user1.id, (err, user1) ->
+                      expect(err).toBeNull()
+                      stripeInfo = user1.get('stripe')
+                      expect(stripeInfo).toBeDefined()
+                      return done() unless stripeInfo
+                      endDate = stripeSubscriptionPeriodEndDate
+                      endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+                      expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                      expect(stripeInfo.customerID).toBeDefined()
+                      expect(user1.get('purchased')?.gems).toEqual(3500+3500*12)
+                      Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
+                        expect(err).toBeNull()
+                        expect(payment).toBeDefined()
+                        expect(payment.get('gems')).toEqual(3500*12)
+                        done()
+
+    it 'year_sale with sponsored sub', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          user1.set('stripe', {sponsorID: 'dummyID'})
+          user1.save (err, user1) ->
+            expect(err).toBeNull()
+            requestBody =
+              stripe:
+                token: token.id
+                timestamp: new Date()
+            request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+              console.log err
+              expect(err).toBeNull()
+              done()

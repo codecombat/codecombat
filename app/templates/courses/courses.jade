@@ -1,0 +1,26 @@
+extends /templates/base
+
+block content
+
+  //- DO NOT localize / i18n
+
+  div(style='border-bottom: 1px solid black')
+    span *UNDER CONSTRUCTION, please send feedback to
+    a.spl(href='mailto:team@codecombat.com') team@codecombat.com
+
+  h1(style='text-align: center;') Courses
+  .container-fluid
+    .row(style='font-size: 20px;')
+      .col-md-3
+      .col-md-3 Name
+      .col-md-3 Description
+      .col-md-3 Concepts
+    each course in courses
+      .row(style='border-top: 1px solid gray; padding: 10px;')
+        .col-md-3
+          img(src="#{course.get('screenshot')}", style="width: 100%;")
+        .col-md-3
+          p= course.get('name')
+          a(href="/editor/campaign/#{course.get('campaignID')}") Campaign (levels)
+        .col-md-3= course.get('description')
+        .col-md-3= course.get('concepts').join(' ')

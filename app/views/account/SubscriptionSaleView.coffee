@@ -1,12 +1,17 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/account/subscription-sale-view'
+app = require 'core/application'
+AuthModal = require 'views/core/AuthModal'
+CocoCollection = require 'collections/CocoCollection'
 stripeHandler = require 'core/services/stripe'
+ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 
 module.exports = class SubscriptionSaleView extends RootView
   id: "subscription-sale-view"
   template: template
   yearSaleAmount: 7900
+  saleEndDate: new Date('2015-09-05')
 
   events:
     'click #pay-button': 'onPayButton'
@@ -19,15 +24,34 @@ module.exports = class SubscriptionSaleView extends RootView
     @description = $.i18n.t('subscribe.stripe_description_year_sale')
     displayAmount = (@yearSaleAmount / 100).toFixed(2)
     @payButtonText = "#{$.i18n.t('subscribe.sale_view_button')} $#{displayAmount}"
+    @heroes = new CocoCollection([], {model: ThangType})
+    @heroes.url = '/db/thang.type?view=heroes'
+    @heroes.setProjection ['original','name','heroClass','description', 'gems','extendedName','i18n']
+    @heroes.comparator = 'gems'
+    @listenToOnce @heroes, 'sync', @onHeroesLoaded
+    @supermodel.loadCollection(@heroes, 'heroes')
 
   getRenderData: ->
     c = super()
+    c.hasSubscription = me.get('stripe')?.sponsorID
+    c.heroes = @heroes.models
     c.payButtonText = @payButtonText
+    c.saleEndDate = @saleEndDate
     c.state = @state
     c.stateMessage = @stateMessage
     c
 
+  onHeroesLoaded: ->
+    @formatHero hero for hero in @heroes.models
+
+  formatHero: (hero) ->
+    hero.name = utils.i18n hero.attributes, 'extendedName'
+    hero.name ?= utils.i18n hero.attributes, 'name'
+    hero.description = utils.i18n hero.attributes, 'description'
+    hero.class = hero.get('heroClass') or 'Warrior'
+
   onPayButton: ->
+    return @openModalView new AuthModal() if me.isAnonymous()
     @state = undefined
     @stateMessage = undefined
     @render()
@@ -53,10 +77,8 @@ module.exports = class SubscriptionSaleView extends RootView
     jqxhr = $.post('/db/subscription/-/year_sale', data)
     jqxhr.done (data, textStatus, jqXHR) =>
       application.tracker?.trackEvent 'Finished sale landing page subscription purchase', value: @yearSaleAmount
-      me.set 'stripe', data?.stripe if data?.stripe?
-      @state = 'invoice_paid'
-      @stateMessage = undefined
-      @render?()
+      me.fetch(cache: false).always =>
+        app.router.navigate '/play', trigger: true
     jqxhr.fail (xhr, textStatus, errorThrown) =>
       console.error 'We got an error subscribing with Stripe from our server:', textStatus, errorThrown
       application.tracker?.trackEvent 'Failed to finish 1 year subscription purchase', status: textStatus

@@ -199,6 +199,14 @@ module.exports.getSponsoredSubsAmount = getSponsoredSubsAmount = (price=999, sub
   else
     Math.round((1 - offset) * price + 10 * price * 0.8 + (subCount - 11 + offset) * price * 0.6)
 
+module.exports.getCoursesPrice = getSponsoredSubsAmount = (courses, seats=20) ->
+  totalPricePerSeat = courses.reduce ((a, b) -> a + b.get('pricePerSeat')), 0
+  if courses.length > 2
+    pricePerSeat = Math.round(totalPricePerSeat / 2.0)
+  else
+    pricePerSeat = parseInt(totalPricePerSeat)
+  seats * pricePerSeat
+
 module.exports.getPrepaidCodeAmount = getPrepaidCodeAmount = (price=999, users=0, months=0) ->
   return 0 unless users > 0 and months > 0
   total = price * users * months

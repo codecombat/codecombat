@@ -31,7 +31,7 @@ module.exports = class ControlBarView extends CocoView
     @worldName = options.worldName
     @session = options.session
     @level = options.level
-    @levelID = @level.get('slug')
+    @levelID = @level.get('slug') or @level.id
     @spectateGame = options.spectateGame ? false
     @observing = options.session.get('creator') isnt me.id
     super options
@@ -72,17 +72,22 @@ module.exports = class ControlBarView extends CocoView
     c.observing = @observing
     @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
     if @level.get('type', true) in ['ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder']
-      levelID = @level.get('slug').replace /\-tutorial$/, ''
+      levelID = @level.get('slug')?.replace(/\-tutorial$/, '') or @level.id
       @homeLink = '/play/ladder/' + levelID
       @homeViewClass = 'views/ladder/LadderView'
       @homeViewArgs.push levelID
+      if leagueID = @getQueryVariable 'league'
+        leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
+        @homeViewArgs.push leagueType
+        @homeViewArgs.push leagueID
+        @homeLink += "/#{leagueType}/#{leagueID}"
     else if @level.get('type', true) in ['hero', 'hero-coop']
       @homeLink = '/play'
       @homeViewClass = 'views/play/CampaignView'
       campaign = @level.get 'campaign'
       @homeLink += '/' + campaign
       @homeViewArgs.push campaign
-    else if @level.get('type', true) in ['course', 'course-ladder']
+    else if @level.get('type', true) in ['course']
       @homeLink = '/courses/mock1'
       @homeViewClass = 'views/courses/mock1/CourseDetailsView'
       #campaign = @level.get 'campaign'
@@ -93,7 +98,7 @@ module.exports = class ControlBarView extends CocoView
     else
       @homeLink = '/'
       @homeViewClass = 'views/HomeView'
-    c.editorLink = "/editor/level/#{@level.get('slug')}"
+    c.editorLink = "/editor/level/#{@level.get('slug') or @level.id}"
     c.homeLink = @homeLink
     c
 

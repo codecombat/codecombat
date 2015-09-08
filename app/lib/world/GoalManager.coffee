@@ -112,7 +112,7 @@ module.exports = class GoalManager extends CocoClass
       goalStates: @goalStates
       goals: @goals
       overallStatus: overallStatus
-      timedOut: @world.totalFrames is @world.maxTotalFrames
+      timedOut: @world.totalFrames is @world.maxTotalFrames and overallStatus not in ['success', 'failure']
     Backbone.Mediator.publish('goal-manager:new-goal-states', event)
 
   checkOverallStatus: (ignoreIncomplete=false) ->
@@ -120,7 +120,7 @@ module.exports = class GoalManager extends CocoClass
     goals = if @goalStates then _.values @goalStates else []
     goals = (g for g in goals when not g.optional)
     goals = (g for g in goals when g.team in [undefined, @team]) if @team
-    statuses = if @goalStates then (goal.status for goal in goals) else []
+    statuses = (goal.status for goal in goals)
     overallStatus = 'success' if statuses.length > 0 and _.every(statuses, (s) -> s is 'success' or (ignoreIncomplete and s is null))
     overallStatus = 'failure' if statuses.length > 0 and 'failure' in statuses
     #console.log 'got overallStatus', overallStatus, 'from goals', goals, 'goalStates', @goalStates, 'statuses', statuses

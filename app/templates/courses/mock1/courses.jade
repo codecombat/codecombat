@@ -4,7 +4,6 @@ block content
 
   //- DO NOT localize / i18n
 
-  div TODO: Add already enrolled view checkbox
   div(style='border-bottom: 1px solid black')
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
@@ -50,9 +49,11 @@ block content
               .col-md-12
                 button.btn.btn-success.btn-lg.btn-buy Buy this course
 
+  br
   if !studentMode
-    br
     button.btn.btn-warning.btn-student Students Click Here
+  else
+    button.btn.btn-warning.btn-teacher Teachers Click Here
 
   h1.center Courses on CodeCombat
 
@@ -68,11 +69,17 @@ block content
               li No coding experience necesssary
               li Easily monitor student progress
               
-            div Purchase a course for your entire class. It's easy to sign up your students!
+            p Purchase a course for your entire class. It's easy to sign up your students!
+            p.faq-blurb
+              span.spr See the courses
+              a.spr.courses-faq FAQ
+              span for more information.
           .col-md-6
-            .well.well-sm
-              div.praise-quote "#{praise.quote}"
-              div.caption-text - #{praise.source}
+            img.img-quote(src="/images/pages/courses/coco_complab.png")
+      p
+        .well.well-sm
+          div.praise-quote "#{praise.quote}"
+          div.praise-caption - #{praise.source}
 
     h2.center Choose Your Course:
 

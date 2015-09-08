@@ -255,6 +255,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_new_item: "Objeto Nuevo"
     victory_viking_code_school: "Santo cielo, Holy smokes, el nivel que acabas de pasar era dificil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirteen un desarrollador web profesional en 14 semanas."
     victory_become_a_viking: "Conviértete en un Vikingo"
+#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Guía"
     tome_minion_spells: "Hechizos de tus Secuaces" # Only in old-style levels.
     tome_read_only_spells: "Hechizos de Sólo Lectura" # Only in old-style levels.
@@ -435,7 +437,24 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     payment_methods_title: "Metodos de pago aceptados."
     payment_methods_blurb1: "Actualmente aceptamos tarjetas de credito y Alipay."
     payment_methods_blurb2: "Si necesitas una forma alternativa de pago, por favor contactarse"
+#    sale_already_subscribed: "You're already subscribed!"
+#    sale_blurb1: "Save 35%"
+#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
+#    sale_button: "Sale!"
+#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_click_here: "Click Here"
+#    sale_ends: "Ends"
+#    sale_extended: "*Existing subscriptions will be extended by 1 year."
+#    sale_feature_here: "Here's what you'll get:"
+#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
+#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
+#    sale_continue: "Ready to continue adventuring?"
+#    sale_limited_time: "Limited time offer!"
+#    sale_new_heroes: "New heroes!"
+#    sale_title: "Back to School Sale"
+#    sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Suscripción Mensual"
+#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
     subscription_required_to_play: "Necesitas una suscripción para jugar este nivel."
     unlock_help_videos: "Suscríbete para desbloquear todos los video tutoriales."
     personal_sub: "Suscripción Personal" # Accounts Subscription View below
@@ -443,7 +462,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     managed_by: "Administrado por"
     will_be_cancelled: "Será cancelado en"
     currently_free: "Actualmente tienes una suscripción gratuita"
-    currently_free_until: "Actualmente tienes una suscripción gratuita hasta"
+    currently_free_until: "Actualmente tienes una suscripción gratuita hasta" # {changed}
     was_free_until: "Tuviste una suscripción gratuita hasta"
     managed_subs: "Suscripciones administradas"
     managed_subs_desc: "Agregar suscripciones para otros jugadores (alumnos, hijos, etc.)"
@@ -639,7 +658,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     retrieving: "Obteniendo información..."
     being_reviewed_1: "Su solicitud para una prueba gratuita de subscripción está siendo"
     being_reviewed_2: "revisada."
-    approved_1: "Su solicitud para una prueba gratuita de subscripción fue" #since about 1993 fué can use no tilde
+    approved_1: "Su solicitud para una prueba gratuita de subscripción fue"
     approved_2: "Aprobada."
     approved_3: "Instruccciones posteriores han sido enviadas a"
     denied_1: "Su solicitud para una prueba gratuita de subscripción fue"
@@ -654,7 +673,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     school: "Nombre del colegio"
     location: "Nombre de la ciudad"
     age_students: "¿Qué edad tienen tus estudiantes?"
-    under: "Menor" #under like underage = menor as menor de edad
+    under: "Menor"
     other: "Otro:"
     amount_students: "¿A cuantos alumnos les enseñas?"
     hear_about: "¿Donde escuchaste sobre CodeCombat?"
@@ -817,6 +836,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     latest_achievement: "último logro"
     playtime: "Tiempo de juego"
     last_played: "Último jugado"
+#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "Archimago"
@@ -1006,6 +1026,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     my_matches: "Mis Partidas"
     simulate: "Simular"
     simulation_explanation: "¡Simulando tus juegos puedes mejorar tu posición más rápido!"
+#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "¡Simular Juegos!"
     simulate_all: "REINICIAR Y SIMULAR JUEGOS"
     games_simulated_by: "Juegos simulados por ti:"
@@ -1056,6 +1077,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tournament_blurb_blog: "en nuestro blog"
     rules: "Reglas"
     winners: "Ganadores"
+#    league: "League"
 
   user:
     stats: "Estados"
@@ -1096,6 +1118,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     no_recent_games: "No juegos jugados duramente las últimas dos semanas."
     payments: "Pagos"
     purchased: "Comprado"
+#    sale: "Sale"
     subscription: "Suscripción"
     invoices: "Facturas"
     service_apple: "Apple"
@@ -1198,12 +1221,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    boolean_logic: "Boolean Logic"
 #    break_statements: "Break Statements"
 #    classes: "Classes"
+#    continue_statements: "Continue Statements"
 #    for_loops: "For Loops"
 #    functions: "Functions"
+#    graphics: "Graphics"
 #    if_statements: "If Statements"
 #    input_handling: "Input Handling"
 #    math_operations: "Math Operations"
 #    object_literals: "Object Literals"
+#    parameters: "Parameters"
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"

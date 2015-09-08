@@ -13,6 +13,7 @@ module.exports = class CoursesView extends RootView
     'click .btn-enroll': 'onClickEnroll'
     'click .btn-enter': 'onClickEnter'
     'click .btn-student': 'onClickStudent'
+    'click .btn-teacher': 'onClickTeacher'
     'hidden.bs.modal #continueModal': 'onHideContinueModal'
 
   constructor: (options) ->
@@ -28,6 +29,10 @@ module.exports = class CoursesView extends RootView
     context.studentMode = @studentMode
     context
 
+  afterRender: ->
+    super()
+    @setupCoursesFAQPopover()
+
   initData: ->
     mockData = require 'views/courses/mock1/CoursesMockData'
     @courses = mockData.courses
@@ -38,6 +43,23 @@ module.exports = class CoursesView extends RootView
         break
     @instances = mockData.instances
     @praise = mockData.praise[_.random(0, mockData.praise.length - 1)]
+
+  setupCoursesFAQPopover: ->
+    popoverTitle = "<h3>Courses FAQ<button type='button' class='close' onclick='$(&#39;.courses-faq&#39;).popover(&#39;hide&#39;);'>&times;</button></h3>"
+    popoverContent = "<p><strong>Q:</strong> What's the difference between these courses and the single player game?</p>"
+    popoverContent += "<p><strong>A:</strong> The single player game is designed for individuals, while the courses are designed for classes.</p>"
+    popoverContent += "<p>The single player game has items, gems, hero selection, leveling up, and in-app purchases.  Courses have classroom management features and streamlined student-focused level pacing.</p>"
+    @$el.find('.courses-faq').popover(
+      animation: true
+      html: true
+      placement: 'top'
+      trigger: 'click'
+      title: popoverTitle
+      content: popoverContent
+      container: @$el
+    ).on 'shown.bs.popover', =>
+      application.tracker?.trackEvent 'Subscription payment methods hover'
+
 
   onClickBuy: (e) ->
     courseID = $(e.target).data('course-id') ? 0
@@ -83,6 +105,13 @@ module.exports = class CoursesView extends RootView
     route = "/courses/mock1?student=true"
     viewClass = require 'views/courses/mock1/CoursesView'
     viewArgs = [studentMode: true]
+    navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
+    Backbone.Mediator.publish 'router:navigate', navigationEvent
+
+  onClickTeacher: (e) ->
+    route = "/courses/mock1?student=false"
+    viewClass = require 'views/courses/mock1/CoursesView'
+    viewArgs = [studentMode: false]
     navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 

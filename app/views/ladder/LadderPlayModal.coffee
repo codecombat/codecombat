@@ -103,6 +103,7 @@ module.exports = class LadderPlayModal extends ModalView
       {id: 'lua', name: 'Lua'}
       {id: 'io', name: 'Io (Experimental)'}
     ]
+    ctx.league = @options.league
     teamsList = teamDataFromLevel @level
     teams = {}
     teams[team.id] = team for team in teamsList

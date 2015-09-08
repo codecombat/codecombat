@@ -49,6 +49,7 @@ module.exports = class DuelStatsView extends CocoView
     super()
     for player in @players
       @buildAvatar player.heroID, player.team
+    @$el.css 'display', 'flex'  # Show it
 
   buildAvatar: (heroID, team) ->
     @avatars ?= {}
@@ -84,11 +85,11 @@ module.exports = class DuelStatsView extends CocoView
       'griffin-rider': 50
       paladin: 80
       artillery: 75
-      'arrow-tower': 75
+      'arrow-tower': 100
       palisade: 10
       peasant: 50
     powers = humans: 0, ogres: 0
-    for thang in @options.thangs when thang.health > 0
+    for thang in @options.thangs when thang.health > 0 and thang.exists
       powers[thang.team] += @costTable[thang.type] or 0 if powers[thang.team]?
     for player in @players
       utils.replaceText @$find(player.team, '.power-value'), powers[player.team]

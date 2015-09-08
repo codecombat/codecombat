@@ -307,6 +307,7 @@ PaymentHandler = class PaymentHandler extends Handler
         if err
           @logPaymentError(req, 'Stripe incr db error. '+err)
           return @sendDatabaseError(res, err)
+        @sendPaymentHipChatMessage user: req.user, payment: payment
         @sendCreated(res, @formatEntity(req, payment))
       )
     )
@@ -378,7 +379,8 @@ PaymentHandler = class PaymentHandler extends Handler
 
   sendPaymentHipChatMessage: (options) ->
     try
-      message = "#{options.user?.get('name')} bought #{options.payment?.get('amount')} via #{options.payment?.get('service')}."
+      message = "#{options.user?.get('name')} bought #{options.payment?.get('amount')} via #{options.payment?.get('service')}"
+      message += " for #{options.payment.get('description')}" if options.payment?.get('description')
       hipchat.sendHipChatMessage message, ['tower']
     catch e
       log.error "Couldn't send HipChat message on payment because of error: #{e}"

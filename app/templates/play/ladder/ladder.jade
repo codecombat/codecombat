@@ -105,11 +105,11 @@ block content
           a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
             span(data-i18n="play.play_as") Play As
             |  
-            span= team.name
+            span= team.displayName
       div.column.col-md-2
   
     .spectate-button-container
-      a(href="/play/spectate/#{level.get('slug')}").spectate-button.btn.btn-illustrated.btn-info.center
+      a(href="/play/spectate/#{level.get('slug')}" + (league ? "?league=" + league.id : "")).spectate-button.btn.btn-illustrated.btn-info.center
         span(data-i18n="play.spectate") Spectate
 
   ul.nav.nav-pills
