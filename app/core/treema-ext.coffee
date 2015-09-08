@@ -256,12 +256,7 @@ class CodeTreema extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
     @workingSchema.aceTabSize = 4
-
-  buildValueForEditing: (valEl, data) ->
-    super(valEl, data)
-    if not @workingSchema.aceMode and mode = codeLanguages[@keyForParent]
-      @editor.getSession().setMode mode
-    valEl
+    @workingSchema.aceMode ?= mode if mode = codeLanguages[@keyForParent]
 
 class CoffeeTreema extends CodeTreema
   constructor: ->
