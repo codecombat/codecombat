@@ -29,8 +29,8 @@ defaultTasks = [
   'Release to adventurers via MailChimp.'
 
   'Write the description.'
-  'Translate the sample code comments.'
-  'Add Io/Clojure/Lua/CoffeeScript.'
+  'Add i18n field for the sample code comments.'
+  'Add Clojure/Lua/CoffeeScript.'
   'Write the guide.'
   'Write a loading tip, if needed.'
   'Click the Populate i18n button.'
@@ -40,7 +40,6 @@ defaultTasks = [
   'Release to everyone via MailChimp.'
 
   'Check completion/engagement/problem analytics.'
-  'Do any custom scripting, if needed.'
   'Do thorough set decoration.'
   'Add a walkthrough video.'
 ]
