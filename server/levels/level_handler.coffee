@@ -205,7 +205,7 @@ LevelHandler = class LevelHandler extends Handler
 
     sortParameters =
       'totalScore': req.query.order
-    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage', 'heroConfig', 'leagues.leagueID', 'leagues.stats.totalScore']
+    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage', 'heroConfig', 'leagues.leagueID', 'leagues.stats.totalScore', 'submitDate']
 
     query = Session
       .find(sessionsQueryParameters)

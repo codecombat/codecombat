@@ -1,7 +1,7 @@
-div#columns.row
+.row
   for team in teams
     div.matches-column.col-md-6
-      table.table.table-bordered.table-condensed
+      table.table.table-bordered.table-condensed.my-matches-table
 
         tr
           th(colspan=5, style="color: #{team.primaryColor}")
