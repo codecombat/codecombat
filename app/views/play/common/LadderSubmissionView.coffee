@@ -1,6 +1,7 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/common/ladder_submission'
 {createAetherOptions} = require 'lib/aether_utils'
+LevelSession = require 'models/LevelSession'
 
 module.exports = class LadderSubmissionView extends CocoView
   className: 'ladder-submission-view'
@@ -78,14 +79,20 @@ module.exports = class LadderSubmissionView extends CocoView
         # Also submit the mirrorSession after the main session submits successfully.
         mirrorAjaxData = _.clone ajaxData
         mirrorAjaxData.session = @mirrorSession.id
+        mirrorCode = @mirrorSession.get('code')
         if @session.get('team') is 'humans'
           mirrorAjaxData.transpiledCode = 'hero-placeholder-1': transpiledCode['hero-placeholder']
+          mirrorCode['hero-placeholder-1'] = @session.get('code')['hero-placeholder']
         else
           mirrorAjaxData.transpiledCode = 'hero-placeholder': transpiledCode['hero-placeholder-1']
+          mirrorCode['hero-placeholder'] = @session.get('code')['hero-placeholder-1']
         mirrorAjaxOptions = _.clone ajaxOptions
         mirrorAjaxOptions.data = mirrorAjaxData
-        ajaxOptions.success = ->
-          $.ajax '/queue/scoring', mirrorAjaxOptions
+        ajaxOptions.success = =>
+          patch = code: mirrorCode, codeLanguage: @session.get('codeLanguage'), submittedCodeLanguage: @session.get('submittedCodeLanguage')
+          tempSession = new LevelSession _id: @mirrorSession.id
+          tempSession.save patch, patch: true, type: 'PUT', success: ->
+            $.ajax '/queue/scoring', mirrorAjaxOptions
 
       $.ajax '/queue/scoring', ajaxOptions
 
