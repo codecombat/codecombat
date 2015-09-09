@@ -70,7 +70,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     choose_inventory: "Felszerelés"
     buy_gems: "Vásárolj Drágköveket"
     subscription_required: "Előfizetést igényel"
-    older_campaigns: "Régebbi Kampányok"
     anonymous: "Anonímusz Játékos"
     level_difficulty: "Nehézség: "
     campaign_beginner: "Kezdő Kampány"
@@ -78,20 +77,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     awaiting_levels_adventurer: "Jelentkezz fel mint Kalandor"
     awaiting_levels_adventurer_suffix: "legyél az első aki új pályákon játszik."
     adjust_volume: "Hangerő beállítása"
-    choose_your_level: "Válaszd ki a pályát!" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Továbbugorhatsz bármelyik pályára, amit lent látsz. Vagy megbeszélheted a pályát a többiekkel "
-    adventurer_forum: "a Kalandozók Fórumán"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Régi Kezdő Kampány"
-    campaign_old_beginner_description: "... amelyben megtanulhatod a programozás varázslatait."
-    campaign_dev: "Véletlenszerű Nehezebb Pályák"
-    campaign_dev_description: "... amelyekben kicsit nehezebb dolgokkal nézhetsz szembe."
     campaign_multiplayer: "Multiplayer Arénák"
     campaign_multiplayer_description: "... amelyekben a kódod felveheti a versenyt más játékosok kódjával"
-    campaign_player_created: "Játékosok pályái"
-    campaign_player_created_description: "...melyekben <a href=\"/contribute#artisan\">Művészi Varázsló</a> társaid ellen kűzdhetsz."
-    campaign_classic_algorithms: "Klasszikus Algoritmus"
-    campaign_classic_algorithms_description: "... amiben megtanulod a legnépszerűbb számítástudományi algoritmusokat."
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Nagyon szépen fejlődsz! Mondd el a szüleidnek, mit tanultál a CodeCombat-ban."
@@ -256,8 +245,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_return_to_ladder: "Vissza a ranglétrához"
     victory_play_continue: "Tovább"
     victory_saving_progress: "Folyamat mentése"
-    victory_go_home: "Vissza a kezdőoldalra" # Only in old-style levels.
-    victory_review: "Mondd el a véleményedet!" # Only in old-style levels.
+    victory_go_home: "Vissza a kezdőoldalra"
+    victory_review: "Mondd el a véleményedet!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Készen vagy?"
     victory_hour_of_code_done_yes: "Igen, ez volt életem kódja!"
     victory_experience_gained: "Szerzett tapasztalat"
@@ -265,6 +255,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    victory_new_item: "New Item"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
+#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Útmutató"
     tome_minion_spells: "Egységeid varázslatai" # Only in old-style levels.
     tome_read_only_spells: "Csak olvasható varázslatok" # Only in old-style levels.
@@ -304,6 +296,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tip_scrub_shortcut: "Ctrl+[ és Ctrl+] visszatekerés és gyors-előre." # {change}
     tip_guide_exists: "Hasznos információkért kattints az oldal tetején az útmutatóra.."
     tip_open_source: "A CodeCombat 100%-osan nyitott forráskódú."
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat Béta teszt 2013 Októberétől elérhető."
     tip_think_solution: "A megoldásra gondolj, ne a problémára!"
     tip_theory_practice: "Elméletben nincs különbség elmélet és gyakorlat között. A gyakorlatban viszont van. - Yogi Berra"
@@ -347,6 +340,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Raktár"
@@ -408,7 +402,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   subscribe:
     comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!"
     feature1: "60+ alap pálya, 4 világon át" # {change}
-    feature2: "7 erőteljes <strong>új hős</strong> egyedi képességekkel!"
+    feature2: "7 erőteljes <strong>új hős</strong> egyedi képességekkel!" # {change}
     feature3: "30+ bónusz pálya" # {change}
     feature4: "<strong>3500 bónusz drágakő</strong> minden hónapban!"
     feature5: "Videó oktatóanyagok"
@@ -443,7 +437,24 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    payment_methods_title: "Accepted Payment Methods"
 #    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
+#    sale_already_subscribed: "You're already subscribed!"
+#    sale_blurb1: "Save 35%"
+#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
+#    sale_button: "Sale!"
+#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_click_here: "Click Here"
+#    sale_ends: "Ends"
+#    sale_extended: "*Existing subscriptions will be extended by 1 year."
+#    sale_feature_here: "Here's what you'll get:"
+#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
+#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
+#    sale_continue: "Ready to continue adventuring?"
+#    sale_limited_time: "Limited time offer!"
+#    sale_new_heroes: "New heroes!"
+#    sale_title: "Back to School Sale"
+#    sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Havi előfizetés"
+#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
     subscription_required_to_play: "Ehhez a szinthez elő kell fizetnek."
     unlock_help_videos: "Végy előfizetést, hogy feloldd az összes videó oktatóanyagot."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -451,7 +462,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    managed_by: "Managed by"
 #    will_be_cancelled: "Will be cancelled on"
 #    currently_free: "You currently have a free subscription"
-#    currently_free_until: "You currently have a free subscription until"
+#    currently_free_until: "You currently have a subscription until" # {changed}
 #    was_free_until: "You had a free subscription until"
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
@@ -603,11 +614,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     teacher_subs_2: "hogy megkapja az ingyenes havi előfizetést." # {change}
 #    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "Mit tartalmaz az előfizetés?"
-    sub_includes_1: "A 80+ alap pályán kívül az előfizetéssel rendelkező tanulók az alábbi extrákhoz férnek hozzá:"
+    sub_includes_1: "A 80+ alap pályán kívül az előfizetéssel rendelkező tanulók az alábbi extrákhoz férnek hozzá:" # {change}
     sub_includes_2: "50+ gyakorló pálya" # {change}
     sub_includes_3: "Oktató videók"
     sub_includes_4: "Prémium támogatás emailen"
-    sub_includes_5: "7 új hős egyedi képességekkel"
+    sub_includes_5: "7 új hős egyedi képességekkel" # {change}
     sub_includes_6: "3500 bónusz drágakő minden hónapban"
 #    sub_includes_7: "Private Clans"
 #    monitor_progress_title: "How do I monitor student progress?"
@@ -646,12 +657,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
 #    being_reviewed_1: "Your application for a free trial subscription is being"
-#    being_reviewed_2: "reviewed"
+#    being_reviewed_2: "reviewed."
 #    approved_1: "Your application for a free trial subscription was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
 #    denied_1: "Your application for a free trial subscription has been"
-#    denied_2: "denied"
+#    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
 #    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
@@ -659,7 +670,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
 #    email: "Email Address"
-#    school_city: "Name of School, City"
+#    school: "Name of School"
+#    location: "Name of City"
 #    age_students: "How old are your students?"
 #    under: "Under"
 #    other: "Other:"
@@ -676,6 +688,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     cla_url: "CLA"
     cla_suffix: "tartalmát."
     cla_agree: "ELFOGADOM"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Lépj kapcsolatba velünk"
@@ -703,6 +716,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     picture_tab: "Kép"
     delete_account_tab: "Fiók törlése"
     wrong_email: "Rossz email-cím"
+#    wrong_password: "Wrong Password"
     upload_picture: "Tölts föl egy képet"
     delete_this_account: "Fiók végleges törlése"
 #    god_mode: "God Mode"
@@ -711,7 +725,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     admin: "Adminisztrátor"
     new_password: "Új jelszó"
     new_password_verify: "Új jelszó megismétlése"
-    type_in_email: "Írd be az email-címed a törlés megerősítéséhez"
+    type_in_email: "Írd be az email-címed a törlés megerősítéséhez" # {change}
+#    type_in_password: "Also, type in your password."
     email_subscriptions: "Hírlevél feliratkozások"
     email_subscriptions_none: "Nem kérek email értesítéseket."
     email_announcements: "Bejelentések"
@@ -742,6 +757,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     keyboard_shortcuts: "Billentyűparancsok"
     space: "Szünet"
     enter: "Enter"
+#    press_enter: "press enter"
     escape: "Kilépés"
 #    shift: "Shift"
     run_code: "Aktuális kód futtatása."
@@ -768,6 +784,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     article_editor_prefix: "Hibát találtál valamelyik dokumentumunkban? Szeretnél útmutatót adni valamelyik alkotásodhoz? Próbáld ki a"
     article_editor_suffix: "-t és segíts a CodeCombat játékosoknak, hogy a legtöbbet hozhassák ki a játékkal töltött idejükből."
     find_us: "Ezeken az oldalakon is megtalálhatsz minket"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Olvasd a CodeCombat blogot a Sett-en"
     social_discource: "Csatlakozz a beszélgetéshez a Discourse forumon"
     social_facebook: "Like-old a CodeCombat-et a Facebookon"
@@ -784,6 +801,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    make_private: "Make clan private"
 #    subs_only: "subscribers only"
 #    create_clan: "Create New Clan"
+#    private_preview: "Preview"
 #    public_clans: "Public Clans"
 #    my_clans: "My Clans"
 #    clan_name: "Clan Name"
@@ -818,6 +836,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    latest_achievement: "Latest Achievement"
 #    playtime: "Playtime"
 #    last_played: "Last played"
+#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "Főmágus"
@@ -854,6 +873,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    indoor: "Indoor"
     desert: "Sivatag"
     grassy: "Füves"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Kicsi"
     large: "Nagy"
     fork_title: "Új Verzió villára vétele"
@@ -876,6 +897,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     level_tab_thangs_all: "Mind"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
+#    level_tab_thangs_search: "Search thangs"
 #    add_components: "Add Components"
 #    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
@@ -921,6 +943,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    pop_i18n: "Populate I18N"
 #    tasks: "Tasks"
 #    clear_storage: "Clear your local changes"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Előnézet"
@@ -1002,6 +1026,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    my_matches: "My Matches"
 #    simulate: "Simulate"
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
+#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
 #    simulate_games: "Simulate Games!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
@@ -1052,6 +1077,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tournament_blurb_blog: "on our blog"
     rules: "Szabályok"
     winners: "Győztesek"
+#    league: "League"
 
   user:
     stats: "Statisztika"
@@ -1092,6 +1118,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     no_recent_games: "Nem játszottál az utóbbi két hétben."
     payments: "Befizetések"
     purchased: "Vásárolt"
+#    sale: "Sale"
     subscription: "Előfizetés"
     invoices: "Számlák"
     service_apple: "Apple"
@@ -1184,9 +1211,35 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    poll: "Poll"
 #    user_polls_record: "Poll Voting History"
 
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arguments: "Arguments"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    continue_statements: "Continue Statements"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    graphics: "Graphics"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    parameters: "Parameters"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
+
 #  delta:
 #    added: "Added"
 #    modified: "Modified"
+#    not_modified: "Not Modified"
 #    deleted: "Deleted"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"

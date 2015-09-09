@@ -235,3 +235,29 @@ me.RewardSchema = (descriptionFragment='earned by achievements') ->
 me.task = me.object {title: 'Task', description: 'A task to be completed', format: 'task', default: {name: 'TODO', complete: false}},
   name: {title: 'Name', description: 'What must be done?', type: 'string'}
   complete: {title: 'Complete', description: 'Whether this task is done.', type: 'boolean', format: 'checkbox'}
+
+me.concept = me.shortString enum: [
+    'advanced_strings'
+    'algorithms'
+    'arguments'
+    'arithmetic'
+    'arrays'
+    'basic_syntax'
+    'boolean_logic'
+    'break_statements'
+    'classes'
+    'continue_statements'
+    'for_loops'
+    'functions'
+    'graphics'
+    'if_statements'
+    'input_handling'
+    'math_operations'
+    'object_literals'
+    'parameters'
+    'strings'
+    'variables'
+    'vectors'
+    'while_loops'
+    'recursion'
+  ]

@@ -1,6 +1,7 @@
 module.exports.thangNames = thangNames =
   'Ogre Munchkin F': [
     # Female
+    'Alali'
     'Anabel'
     'Dosha'
     'Gurzunn'
@@ -25,27 +26,35 @@ module.exports.thangNames = thangNames =
     'Gert'
     'Godel'
     'Goreball'
-    'Toremon'
+    'Gordok'
+    'Gorylo'
     'Gort'
     'Kog'
     'Kogpole'
     'Kratt'
     'Leerer'
     'Nerph'
+    'Oogre'
     'Raack'
     'Ragtime'
+    'Raort'
+    'Rexxar'
     'Skoggen'
     'Smerk'
     'Snortt'
     'Thabt'
+    'Toremon'
     'Treg'
     'Ursa'
+    'Vorobun'
     'Weeb'
     'Yart'
     'Zozo'
   ]
   'Ogre Thrower': [
     # Female
+    'Beebatha'
+    'Dross'
     'Drumbaa'
     'Durnath'
     'Esha'
@@ -72,9 +81,11 @@ module.exports.thangNames = thangNames =
     'Cristofide'
     'Denestorath'
     'Letholdus'
+    'Loretha'
   ]
   'Paladin': [
     # Female
+    'Illumina'
     'Celadia'
     'Taric'
     'Vaelia'
@@ -94,6 +105,7 @@ module.exports.thangNames = thangNames =
     # Male
     'Vax'
     'Vyrryx'
+    'Vyjj'
   ]
   'Ogre Scout M': [
     # Male
@@ -132,6 +144,7 @@ module.exports.thangNames = thangNames =
   ]
   'Cougar': [
     # Animal
+    'Guenhwyvar'
     'Kitty'
     'Shasta'
     'Simbia'
@@ -155,6 +168,7 @@ module.exports.thangNames = thangNames =
   ]
   'Horse': [
     # Animal
+    'Abby'
     'Wildsilver'
     'Fleetfire'
     'Ed'
@@ -170,7 +184,9 @@ module.exports.thangNames = thangNames =
     # Male
     'Axe Ox'
     'Belch'
+    'Booz'
     'Brusentsov'
+    'Demonik'
     'Dronck'
     'Gorlog'
     'Grumus'
@@ -191,7 +207,7 @@ module.exports.thangNames = thangNames =
     'Trogdor'
     'Trung'
     'Vargutt'
-    'Demonik'
+    'Vyle'
   ]
   'Ogre F': [
     # Female
@@ -306,6 +322,7 @@ module.exports.thangNames = thangNames =
     'Sphenoid'
     'Sternum'
     'Talus'
+    'Tatava'
     'Ulna'
     'Yorick'
     'Boneus'
@@ -330,6 +347,7 @@ module.exports.thangNames = thangNames =
     # Male
     'Senick'
     'John'
+    'Kyle'
   ]
   'Forest Archer': [
     # Female
@@ -340,6 +358,7 @@ module.exports.thangNames = thangNames =
   'Raider': [
     # Female
     'Arryn'
+    'Thrat'
   ]
   'Goliath': [
     # Male
@@ -368,6 +387,8 @@ module.exports.thangNames = thangNames =
   ]
   'Necromancer': [
     # Male
+    'Krekai'
+    'Kethum'
     'Morcelu'
     'Nalfar'
     'Drezhul'
@@ -377,6 +398,7 @@ module.exports.thangNames = thangNames =
     'Lilith'
     'Usara'
     'Veigar'
+    'Voldemort'
   ]
   'Archer F': [
     # Female
@@ -396,6 +418,7 @@ module.exports.thangNames = thangNames =
     'Ivy'
     'Jensen'
     'Katniss'
+    'Katreena'
     'Keturah'
     'Kim'
     'Korra'
@@ -428,6 +451,7 @@ module.exports.thangNames = thangNames =
     'Fidsdale'
     'Gimsley'
     'Hunter'
+    'Kikariy'
     'Legolas'
     'Loco'
     'Logos'
@@ -777,6 +801,7 @@ module.exports.thangNames = thangNames =
     'Rose'
     'Ruby'
     'Ruth'
+    'Sana'
     'Sandra'
     'Sara'
     'Sarah'
@@ -824,6 +849,7 @@ module.exports.thangNames = thangNames =
     'Clause'
     'Curie'
     'Fluvius'
+    'Javin'
     'Kanada'
     'Omar'
     'Paracelsus'
@@ -841,6 +867,7 @@ module.exports.thangNames = thangNames =
     'Matilda'
     'Nordex'
     'Satish'
+    'Vera'
   ]
   'Equestrian': [
     # Male
@@ -883,6 +910,7 @@ module.exports.thangNames = thangNames =
     'Hardcastle'
     'Helena'
     'Isa'
+    'Jan'
     'Jane'
     'Jarin'
     'Karp'
@@ -927,9 +955,11 @@ module.exports.thangNames = thangNames =
   'Samurai': [
     # Male
     'Hattori'
+    'Hirosha'
     'Ieyasu'
     'Izotokogawa'
     'Keitaro'
+    'Miyoshi'
     'Nobunaga'
     'Yasuo'
     'Yi'

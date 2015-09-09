@@ -80,6 +80,7 @@ module.exports = class PlayItemsModal extends ModalView
     itemFetcher.skip = 0
     itemFetcher.fetch({data: {skip: 0, limit: PAGE_SIZE}})
     @listenTo itemFetcher, 'sync', @onItemsFetched
+    @stopListening @supermodel, 'loaded-all'
     @supermodel.loadCollection(itemFetcher, 'items')
     @idToItem = {}
 
@@ -121,7 +122,7 @@ module.exports = class PlayItemsModal extends ModalView
   afterRender: ->
     super()
     return unless @supermodel.finished()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
+    @playSound 'game-menu-open'
     @$el.find('.nano:visible').nanoScroller({alwaysVisible: true})
     @itemDetailsView = new ItemDetailsView()
     @insertSubView(@itemDetailsView)
@@ -133,7 +134,7 @@ module.exports = class PlayItemsModal extends ModalView
 
   onHidden: ->
     super()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
+    @playSound 'game-menu-close'
 
 
   #- Click events

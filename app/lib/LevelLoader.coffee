@@ -214,10 +214,6 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Level, 'level'
 
-    unless @headless or @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
-      wizard = ThangType.loadUniversalWizard()
-      @supermodel.loadModel wizard, 'thang'
-
     @worldNecessities = @worldNecessities.concat worldNecessities
 
   loadThangsRequiredByLevelThang: (levelThang) ->
@@ -369,7 +365,7 @@ module.exports = class LevelLoader extends CocoClass
     @grabTeamConfigs()
     @thangTypeTeams = {}
     for thang in @level.get('thangs')
-      if @level.get('type', true) is 'hero' and thang.id is 'Hero Placeholder'
+      if @level.get('type', true) in ['hero', 'course'] and thang.id is 'Hero Placeholder'
         continue  # No team colors for heroes on single-player levels
       for component in thang.components
         if team = component.config?.team

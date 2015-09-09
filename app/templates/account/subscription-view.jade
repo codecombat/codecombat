@@ -106,7 +106,6 @@ block content
                   td= personalSub.card
               
         else
-          button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
           if personalSub.free === true
             div(data-i18n="subscribe.currently_free")
           else if typeof personalSub.free === 'string'
@@ -117,6 +116,8 @@ block content
             else
               span(data-i18n="subscribe.was_free_until")
               span.spl.spr= moment(new Date(personalSub.free)).format('l')
+          else
+            button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
 
     //- Sponsored Subscriptions
 

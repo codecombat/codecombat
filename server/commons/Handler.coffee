@@ -75,6 +75,7 @@ module.exports = class Handler
     props
 
   # sending functions
+  sendUnauthorizedError: (res) -> errors.unauthorized(res)
   sendForbiddenError: (res) -> errors.forbidden(res)
   sendNotFoundError: (res, message) -> errors.notFound(res, message)
   sendMethodNotAllowed: (res, message) -> errors.badMethod(res, @allowedMethods, message)

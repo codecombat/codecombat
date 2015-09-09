@@ -7,7 +7,7 @@
 .levels-link-area
   a.levels-link(href=homeLink || "/")
     .glyphicon.glyphicon-play
-    span(data-i18n="nav.play").home-text Levels
+    span(data-i18n=ladderGame ? "general.ladder" : "nav.play").home-text Levels
 
 if isMultiplayerLevel && !observing
   .multiplayer-area-container
@@ -22,7 +22,7 @@ else
     .level-name-area
       .level-label(data-i18n="play_level.level")
       .level-name(title=difficultyTitle || "")
-        span= worldName
+        span= worldName.replace('Course: ', '')
         if levelDifficulty
           sup.level-difficulty= levelDifficulty
 

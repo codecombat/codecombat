@@ -70,7 +70,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    choose_inventory: "Equip Items"
     buy_gems: "Köp ädelstenar"
     subscription_required: "Kräver prenumeration"
-    older_campaigns: "Gamla kampanjer"
     anonymous: "Anonym Spelare"
     level_difficulty: "Svårighetsgrad: "
     campaign_beginner: "Nybörjarkampanj"
@@ -78,20 +77,10 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     awaiting_levels_adventurer: "Registrera dig som äventyrare"
     awaiting_levels_adventurer_suffix: "för att vara först att spela nya nivåer."
     adjust_volume: "justera volymen"
-    choose_your_level: "Välj din nivå" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Du kan hoppa till vilken nivå som helst här under, eller diskutera nivåer på "
-    adventurer_forum: "Äventyrarforumet"
-    adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_old_beginner_description: "... i vilken du lär dig programmerandets magi."
-    campaign_dev: "Slumpad svårare nivå"
-    campaign_dev_description: "... där du lär dig att hantera gränssnittet medan du gör något lite svårare."
     campaign_multiplayer: "Flerspelararenor"
     campaign_multiplayer_description: "... i vilken du tävlar i kodande mot andra spelare"
-    campaign_player_created: "Spelarskapade"
-    campaign_player_created_description: "... i vilken du tävlar mot kreativiteten hos  andra <a href=\"/contribute#artisan\">Hantverkare</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
 #    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
@@ -256,8 +245,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     victory_return_to_ladder: "Gå tillbaka till stegen"
     victory_play_continue: "Fortsätt"
     victory_saving_progress: "Sparar framsteg"
-    victory_go_home: "Gå hem" # Only in old-style levels.
-    victory_review: "Berätta mer!" # Only in old-style levels.
+    victory_go_home: "Gå hem"
+    victory_review: "Berätta mer!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Är du klar?"
     victory_hour_of_code_done_yes: "Ja, jag är klar med min Hour of Code!"
     victory_experience_gained: "XP mottaget"
@@ -265,6 +255,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     victory_new_item: "Nytt föremål"
     victory_viking_code_school: "Jösses vilken svår nivå du just klarade! Om du inte redan är en mjukvaruutvecklare så borde du vara det. Du bev precis fast-tracked för antagning vid Viking Code School, där du kan ta dina kunskaper till en ny nivå och bli en professionell webbutvecklare på 14 veckor."
     victory_become_a_viking: "Bli en Viking"
+#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Guide"
     tome_minion_spells: "Dina soldaters förmågor" # Only in old-style levels.
     tome_read_only_spells: "Skrivskyddade förmågor" # Only in old-style levels.
@@ -304,6 +296,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tip_scrub_shortcut: "Ctrl+] och Ctrl+[ spolar framåt och bakåt." # {change}
 #    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
     tip_open_source: "CodeCombat är 100% öppen källkod!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat startade sin beta i oktober 2013."
     tip_think_solution: "Tänk på lösningen, inte problemet."
     tip_theory_practice: "Teoretiskt sett så är det ingen skillnad mellan teori och praktik. Men i praktiken så är det. - Yogi Berra"
@@ -347,6 +340,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tip_recurse: "Iteration är mänskligt, rekursion är gudomligt. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Utrustning"
@@ -407,9 +401,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
 #  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-#    feature1: "80+ basic levels across 4 worlds"
-#    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
-#    feature3: "60+ bonus levels"
+#    feature1: "110+ basic levels across 4 worlds"
+#    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
+#    feature3: "70+ bonus levels"
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"
@@ -443,7 +437,24 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    payment_methods_title: "Accepted Payment Methods"
 #    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
+#    sale_already_subscribed: "You're already subscribed!"
+#    sale_blurb1: "Save 35%"
+#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
+#    sale_button: "Sale!"
+#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_click_here: "Click Here"
+#    sale_ends: "Ends"
+#    sale_extended: "*Existing subscriptions will be extended by 1 year."
+#    sale_feature_here: "Here's what you'll get:"
+#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
+#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
+#    sale_continue: "Ready to continue adventuring?"
+#    sale_limited_time: "Limited time offer!"
+#    sale_new_heroes: "New heroes!"
+#    sale_title: "Back to School Sale"
+#    sale_view_button: "Buy 1 year subscription for"
 #    stripe_description: "Monthly Subscription"
+#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -451,7 +462,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    managed_by: "Managed by"
 #    will_be_cancelled: "Will be cancelled on"
 #    currently_free: "You currently have a free subscription"
-#    currently_free_until: "You currently have a free subscription until"
+#    currently_free_until: "You currently have a subscription until" # {changed}
 #    was_free_until: "You had a free subscription until"
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
@@ -595,7 +606,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     intro_1: "CodeCombat är ett onlinespel som lär ut programmering. Eleverna skriver kod i riktiga programspråk."
     intro_2: "Ingen erfarenhet krävs!"
     free_title: "Hur mycket kostar det?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
+#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 180+ levels on our exclusive China servers."
     free_1: "CodeCombat Basic är GRATIS! Det finns över 80 gratis nivåer som täcker alla koncept." # {change}
     free_2: "En månadsprenumeration ger tillgång till videogenomgångar och fler övningsnivåer."
     teacher_subs_title: "Lärare får gratis prenumerationer!"
@@ -603,11 +614,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     teacher_subs_2: "för att sätta upp en gratis månadsprenumeration." # {change}
 #    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "Vad ingår i prenumerationen?"
-    sub_includes_1: "Förutom de 80+ grundläggande nivåerna får elever med en månadsprenumeration tillgång till följande:"
-    sub_includes_2: "60+ övningsnivåer"
+    sub_includes_1: "Förutom de 80+ grundläggande nivåerna får elever med en månadsprenumeration tillgång till följande:" # {change}
+    sub_includes_2: "60+ övningsnivåer" # {change}
     sub_includes_3: "Videogenomgångar"
     sub_includes_4: "Premium mejlsupport"
-    sub_includes_5: "7 nya hjältar med unika färdigheter att bemästra"
+    sub_includes_5: "7 nya hjältar med unika färdigheter att bemästra" # {change}
     sub_includes_6: "3500 bonusädelstenar varje månad"
     sub_includes_7: "Privata klaner"
     monitor_progress_title: "Hur kan jag se elevernas framsteg?"
@@ -623,8 +634,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     who_for_1: "Vi rekommenderar CodeCombat till elever som är minst 9 år. Inga programmeringskunskaper krävs."
     who_for_2: "Vi har skapat CodeCombat för att locka både pojkar och flickor."
     material_title: "Hur mycket material finns det?"
-    material_china: "Ungefär 30 timmars speltid över 140+ prenumerantnivåer - än så länge - med nya nivåer varje vecka."
-    material_1: "Ungefär 10 timmar fritt innehåll och ytterligare 20 timmar prenumerantinnehåll med nya nivåer varje vecka."
+    material_china: "Ungefär 30 timmars speltid över 140+ prenumerantnivåer - än så länge - med nya nivåer varje vecka." # {change}
+    material_1: "Ungefär 10 timmar fritt innehåll och ytterligare 20 timmar prenumerantinnehåll med nya nivåer varje vecka." # {change}
     concepts_title: "Vilka koncept täcks?"
     how_much_title: "Hur mycket kostar en månadsprenumeration?"
     how_much_1: "En"
@@ -646,12 +657,12 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
 #    being_reviewed_1: "Your application for a free trial subscription is being"
-#    being_reviewed_2: "reviewed"
+#    being_reviewed_2: "reviewed."
 #    approved_1: "Your application for a free trial subscription was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
 #    denied_1: "Your application for a free trial subscription has been"
-#    denied_2: "denied"
+#    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
 #    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
@@ -659,7 +670,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
 #    email: "Email Address"
-#    school_city: "Name of School, City"
+#    school: "Name of School"
+#    location: "Name of City"
 #    age_students: "How old are your students?"
 #    under: "Under"
 #    other: "Other:"
@@ -676,6 +688,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "JAG GODKÄNNER"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Kontakta CodeCombat"
@@ -703,6 +716,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     picture_tab: "Profilbild"
     delete_account_tab: "Ta bort ditt konto"
     wrong_email: "Fel mejladress"
+#    wrong_password: "Wrong Password"
     upload_picture: "Ladda upp en bild"
     delete_this_account: "Ta bort det här kontot för alltid"
 #    god_mode: "God Mode"
@@ -711,7 +725,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     admin: "Administratör"
     new_password: "Nytt lösenord"
     new_password_verify: "Verifiera"
-    type_in_email: "Skriv in din mejladress för att bekräfta borttagandet"
+    type_in_email: "Skriv in din mejladress för att bekräfta borttagandet" # {change}
+#    type_in_password: "Also, type in your password."
     email_subscriptions: "Mejlprenumerationer"
     email_subscriptions_none: "Inga mejlprenumerationer."
     email_announcements: "Meddelanden"
@@ -742,6 +757,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     keyboard_shortcuts: "Kortkommandon"
     space: "Mellanslag"
     enter: "Enter"
+#    press_enter: "press enter"
     escape: "Escape"
     shift: "Shift"
     run_code: "Kör nuvarande kod."
@@ -768,6 +784,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     article_editor_prefix: "Sett ett misstag i något av våra dokument? Vill du göra instruktioner till dina egna skapelser? Ta en titt på"
     article_editor_suffix: "och hjälp CodeCombatspelare att få så mycket ut från sin speltid som möjligt."
     find_us: "Här hittar du oss"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Läs CodeCombatbloggen på Sett"
     social_discource: "Gå med i diskussionerna i vårt forum"
     social_facebook: "Gilla CodeCombat på Facebook"
@@ -784,6 +801,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    make_private: "Make clan private"
 #    subs_only: "subscribers only"
 #    create_clan: "Create New Clan"
+#    private_preview: "Preview"
 #    public_clans: "Public Clans"
 #    my_clans: "My Clans"
 #    clan_name: "Clan Name"
@@ -818,6 +836,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    latest_achievement: "Latest Achievement"
 #    playtime: "Playtime"
 #    last_played: "Last played"
+#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "Ärkemagiker"
@@ -854,6 +873,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    indoor: "Indoor"
 #    desert: "Desert"
 #    grassy: "Grassy"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
 #    small: "Small"
 #    large: "Large"
 #    fork_title: "Fork New Version"
@@ -876,6 +897,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Startvillkor"
     level_tab_thangs_add: "Lägg till enheter"
+#    level_tab_thangs_search: "Search thangs"
 #    add_components: "Add Components"
 #    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
@@ -921,6 +943,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    pop_i18n: "Populate I18N"
 #    tasks: "Tasks"
 #    clear_storage: "Clear your local changes"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Förhandsgranska"
@@ -1002,6 +1026,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     my_matches: "Mina matcher"
     simulate: "Simulera"
     simulation_explanation: "Genom att simulera matcher kan du få dina matcher rankade fortare."
+#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "Simulera matcher!"
     simulate_all: "ÅTERSTÄLL OCH SIMULERA MATCHER"
     games_simulated_by: "Spel simulerade av dig:"
@@ -1052,6 +1077,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    tournament_blurb_blog: "on our blog"
     rules: "Regler"
     winners: "Vinnare"
+#    league: "League"
 
   user:
     stats: "Stats"
@@ -1092,6 +1118,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     no_recent_games: "Inga spel spelade de senaste två veckorna."
     payments: "Betalningar"
 #    purchased: "Purchased"
+#    sale: "Sale"
     subscription: "Prenumeration"
     invoices: "Fakturor"
 #    service_apple: "Apple"
@@ -1184,9 +1211,35 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    poll: "Poll"
 #    user_polls_record: "Poll Voting History"
 
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arguments: "Arguments"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    continue_statements: "Continue Statements"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    graphics: "Graphics"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    parameters: "Parameters"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
+
   delta:
 #    added: "Added"
 #    modified: "Modified"
+#    not_modified: "Not Modified"
 #    deleted: "Deleted"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"

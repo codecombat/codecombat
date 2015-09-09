@@ -77,7 +77,7 @@ module.exports = class MainAdminView extends RootView
     return unless me.isAdmin()
     options =
       url: '/db/prepaid/-/create'
-      data: {type: 'subscription'}
+      data: {type: 'subscription', maxRedeemers: 1}
       method: 'POST'
     options.success = (model, response, options) =>
       # TODO: Don't hardcode domain.

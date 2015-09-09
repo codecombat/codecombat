@@ -28,6 +28,7 @@ ControlBarView = require './level/ControlBarView'
 PlaybackView = require './level/LevelPlaybackView'
 GoalsView = require './level/LevelGoalsView'
 GoldView = require './level/LevelGoldView'
+DuelStatsView = require './level/DuelStatsView'
 VictoryModal = require './level/modal/VictoryModal'
 InfiniteLoopModal = require './level/modal/InfiniteLoopModal'
 
@@ -119,19 +120,6 @@ module.exports = class SpectateLevelView extends RootView
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
-    if not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'])
-      if me.id isnt @session.get 'creator'
-        @surface.createOpponentWizard
-          id: @session.get('creator')
-          name: @session.get('creatorName')
-          team: @session.get('team')
-          levelSlug: @level.get('slug')
-
-      @surface.createOpponentWizard
-        id: @otherSession.get('creator')
-        name: @otherSession.get('creatorName')
-        team: @otherSession.get('team')
-        levelSlug: @level.get('slug')
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -170,7 +158,8 @@ module.exports = class SpectateLevelView extends RootView
     # Don't remove it; we want its decoration around on large screens.
     #@removeSubView @loadingView
     #@loadingView = null
-    Backbone.Mediator.publish 'level:set-playing', playing: true
+    Backbone.Mediator.publish 'level:set-playing', playing: false
+    Backbone.Mediator.publish 'level:set-time', time: 1  # Helps to have perhaps built a few Thangs and gotten a good list of spritesheets we need to render for our initial paused frame
 
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
@@ -192,8 +181,8 @@ module.exports = class SpectateLevelView extends RootView
 
     @insertSubView new GoldView {}
     @insertSubView new HUDView {level: @level}
-    worldName = utils.i18n @level.attributes, 'name'
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.get('type') in ['hero-ladder', 'course-ladder']
+    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
 
   # callbacks
 
@@ -207,7 +196,7 @@ module.exports = class SpectateLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface @world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true, wizards: @level.get('type', true) is 'ladder', playerNames: @findPlayerNames()
+    @surface = new Surface @world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true, playerNames: @findPlayerNames()
     worldBounds = @world.getBounds()
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -268,6 +257,8 @@ module.exports = class SpectateLevelView extends RootView
     startFrame = @lastWorldFramesLoaded ? 0
     if @world.frames.length is @world.totalFrames  # Finished loading
       @lastWorldFramesLoaded = 0
+      unless @getQueryVariable('autoplay') is false
+        Backbone.Mediator.publish 'level:set-playing', playing: true  # Since we paused at first, now we autostart playback.
     else
       @lastWorldFramesLoaded = @world.frames.length
     for [spriteName, message] in @world.thangDialogueSounds startFrame
@@ -281,6 +272,8 @@ module.exports = class SpectateLevelView extends RootView
       @sessionOne = data[0]._id
       @sessionTwo = data[1]._id
       url = "/play/spectate/#{@levelID}?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
+      if leagueID = @getQueryVariable 'league'
+        url += "&league=" + leagueID
       Backbone.Mediator.publish 'router:navigate', {
         route: url,
         viewClass: SpectateLevelView,

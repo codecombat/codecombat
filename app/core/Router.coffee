@@ -1,8 +1,6 @@
 gplusClientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
 # TODO: Move to GPlusHandler
 
-NotFoundView = require('views/core/NotFoundView')
-
 go = (path) -> -> @routeDirectly path, arguments
 
 module.exports = class CocoRouter extends Backbone.Router
@@ -26,6 +24,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'account/profile': go('EmployersView')  # Show the not-recruiting-now screen
     'account/payments': go('account/PaymentsView')
     'account/subscription': go('account/SubscriptionView')
+    'account/subscription/sale': go('account/SubscriptionSaleView')
     'account/invoices': go('account/InvoicesView')
 
     'admin': go('admin/MainAdminView')
@@ -58,6 +57,13 @@ module.exports = class CocoRouter extends Backbone.Router
     'contribute/artisan': go('contribute/ArtisanView')
     'contribute/diplomat': go('contribute/DiplomatView')
     'contribute/scribe': go('contribute/ScribeView')
+
+    'courses/mock1': go('courses/mock1/CoursesView')
+    'courses/mock1/enroll/:courseID': go('courses/mock1/CourseEnrollView')
+    'courses/mock1/:courseID': go('courses/mock1/CourseDetailsView')
+    'courses': go('courses/CoursesView')
+    'courses/enroll(/:courseID)': go('courses/CourseEnrollView')
+    'courses/:courseID': go('courses/CourseDetailsView')
 
     'db/*path': 'routeToServer'
     'demo(/*subpath)': go('DemoView')
@@ -99,8 +105,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'multiplayer': go('MultiplayerView')
 
-    'play-old': go('play/MainPlayView')  # This used to be 'play'.
     'play': go('play/CampaignView')
+    'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
@@ -118,7 +124,7 @@ module.exports = class CocoRouter extends Backbone.Router
     #'user/:slugOrID/profile': go('user/JobProfileView')
     'user/:slugOrID/profile': go('EmployersView')  # Show the not-recruiting-now screen
 
-    '*name': 'showNotFoundView'
+    '*name': go('NotFoundView')
 
   routeToServer: (e) ->
     window.location.href = window.location.href
@@ -141,13 +147,6 @@ module.exports = class CocoRouter extends Backbone.Router
     catch error
       if error.toString().search('Cannot find module "' + path + '" from') is -1
         throw error
-
-  showNotFoundView: ->
-    @openView @notFoundView()
-
-  notFoundView: ->
-    view = new NotFoundView()
-    view.render()
 
   openView: (view) ->
     @closeCurrentView()

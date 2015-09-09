@@ -70,7 +70,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     choose_inventory: "Équiper des objets"
     buy_gems: "Acheter des gemmes"
     subscription_required: "Enregistrement nécessaire"
-    older_campaigns: "Anciennes Campagnes"
     anonymous: "Joueur anonyme"
     level_difficulty: "Difficulté : "
     campaign_beginner: "Campagne du Débutant"
@@ -78,20 +77,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     awaiting_levels_adventurer: "S'inscrire comme aventurier"
     awaiting_levels_adventurer_suffix: "afin d'être le premier à jouer de nouveaux niveaux."
     adjust_volume: "Ajuster le volume"
-    choose_your_level: "Choisissez votre niveau" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Vous pouvez passer à n'importe quel niveau ci-dessous, ou discuter des niveaux sur "
-    adventurer_forum: "le forum de l'Aventurier"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Anciennes campagnes pour débutant"
-    campaign_old_beginner_description: "... dans lesquelles vous apprendrez la magie de la programmation."
-    campaign_dev: "Niveaux aléatoires plus difficiles"
-    campaign_dev_description: "... dans lesquels vous apprendrez à utiliser l'interface en faisant quelque chose d'un petit peu plus dur."
     campaign_multiplayer: "Campagne multi-joueurs"
     campaign_multiplayer_description: "... dans laquelle vous coderez en face-à-face contre d'autres joueurs."
-    campaign_player_created: "Niveaux créés par les joueurs"
-    campaign_player_created_description: "... dans lesquels vous serez confronté à la créativité des vôtres.<a href=\"/contribute#artisan\">Artisan Wizards</a>."
-    campaign_classic_algorithms: "Algorithmes classiques"
-    campaign_classic_algorithms_description: "... dans lesquels vous apprendrez les algorithmes les plus populaires dans l'informatique."
+    campaign_old_multiplayer: "(Obsolète) Ancienne arènes multijoueurs"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Vous faites beaucoup de progrès ! Partagez ce que vous avez appris grâce à CodeCombat avec vos amis." # {change}
@@ -256,8 +245,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_return_to_ladder: "Retourner à l'échelle"
     victory_play_continue: "Continuer"
     victory_saving_progress: "Sauvegarder la progression"
-    victory_go_home: "Retourner à l'accueil" # Only in old-style levels.
-    victory_review: "Dites-nous en plus !" # Only in old-style levels.
+    victory_go_home: "Retourner à l'accueil"
+    victory_review: "Dites-nous en plus !"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Déjà fini ?"
     victory_hour_of_code_done_yes: "Oui, j'ai fini mon heure de code !"
     victory_experience_gained: "XP gagnée"
@@ -265,6 +255,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_new_item: "Nouvel item"
     victory_viking_code_school: "Par la barbe d'Odin, c'est un niveau difficile que tu viens de compléter! Si tu n'est pas un développeur de logiciel, tu devrais l'être ! Ceci vient de te propulser dans l'école de Code Vikings où tu pourras amener tes habilités au prochain niveau et devenir un développer web profesionnel en deux semaines."
     victory_become_a_viking: "Devenez un viking"
+#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Guide"
     tome_minion_spells: "Les sorts de vos soldats" # Only in old-style levels.
     tome_read_only_spells: "Sorts en lecture-seule" # Only in old-style levels.
@@ -304,6 +296,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_scrub_shortcut: "Ctrl+[ and Ctrl+] : rembobinage et avance rapide." # {change}
     tip_guide_exists: "Cliquez sur le guide en haut de la page pour des informations utiles."
     tip_open_source: "CodeCombat est 100% open source !"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "La beta de CodeCombat a été lancée en Octobre 2013"
     tip_think_solution: "Reflechissez à propos de la solution et non du problème."
     tip_theory_practice: "En théorie, il n'y a pas de différence entre la théorie et la pratique. Mais en pratique, il y en a. - Yogi Berra"
@@ -347,6 +340,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_recurse: "Itérer c'est humain, mais faire des récursion, c'est divin. - L. Peter Deutsch"
     tip_free_your_mind: "Vous devez laisser aller , Neo . La peur , le doute et l'incrédulité . Libère ton esprit. - Morpheus"
     tip_strong_opponents: "Même les ennemis les plus puissant ont une faiblesse. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Inventaire"
@@ -408,7 +402,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   subscribe:
     comparison_blurb: "Aiguisez vos compétences avec un abonnement CodeCombat !"
     feature1: "Plus de 60 niveaux au travers de 4 mondes" # {change}
-    feature2: "7 puissants <strong>nouveaux héros</strong> avec des compétences uniques !"
+    feature2: "7 puissants <strong>nouveaux héros</strong> avec des compétences uniques !" # {change}
     feature3: "Plus de 30 niveaux bonus" # {change}
     feature4: "<strong>3500 gemmes bonus</strong> tous les mois !"
     feature5: "Tutoriels vidéo"
@@ -443,7 +437,24 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     payment_methods_title: "Moyens de paiement acceptés"
     payment_methods_blurb1: "Nous acceptons, pour le moment, les cartes de crédit et les paiment par Alipay."
     payment_methods_blurb2: "Si vous avez besoins d'un autre moyen de paiement, merci de nous contacter"
+#    sale_already_subscribed: "You're already subscribed!"
+#    sale_blurb1: "Save 35%"
+#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
+#    sale_button: "Sale!"
+#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_click_here: "Click Here"
+#    sale_ends: "Ends"
+#    sale_extended: "*Existing subscriptions will be extended by 1 year."
+#    sale_feature_here: "Here's what you'll get:"
+#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
+#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
+#    sale_continue: "Ready to continue adventuring?"
+#    sale_limited_time: "Limited time offer!"
+#    sale_new_heroes: "New heroes!"
+#    sale_title: "Back to School Sale"
+#    sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Inscription mensuelle"
+#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
     subscription_required_to_play: "Vous avez besoin d'un abonnement pour jouer à ce niveau."
     unlock_help_videos: "Abonnez vous pour débloquer tous les tutoriels vidéo."
     personal_sub: "Abonnement individuel" # Accounts Subscription View below
@@ -451,7 +462,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     managed_by: "Gérer par"
     will_be_cancelled: "Ceci va être annuler"
     currently_free: "Vous avez un abonnement gratuit en ce moment"
-    currently_free_until: "Vous avez un abonnement gratuit jusqu'à"
+    currently_free_until: "Vous avez un abonnement gratuit jusqu'à" # {changed}
     was_free_until: "Vous aviez un abonnement gratuit jusqu'à"
     managed_subs: "Gestion des abonnements"
     managed_subs_desc: "Ajout d'abonnements pour les autres joueurs (étudiants,enfants,etc.) for other players."
@@ -591,7 +602,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    title: "CodeCombat pour les enseignants" # {change}
+    title: "CodeCombat pour les enseignants"
     intro_1: "CodeCombat est un jeu en ligne qui enseigne la programmation. Les élèves écrivent du code dans de vrais langages de programmation."
     intro_2: "Aucune expérience requise !"
     free_title: "Combien cela coûte-t-il ?"
@@ -607,7 +618,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     sub_includes_2: "40+ niveaux d'entrainement" # {change}
     sub_includes_3: "Des tutoriels vidéo"
     sub_includes_4: "Support email premium"
-    sub_includes_5: "7 nouveaux héros avec des capacités uniques à maitriser"
+    sub_includes_5: "7 nouveaux héros avec des capacités uniques à maitriser" # {change}
     sub_includes_6: "3500 gemmes bonus chaque mois"
     sub_includes_7: "Clans Privées"
     monitor_progress_title: "Comment puis-je faire pour surveiller les progrès des étudiants?"
@@ -615,15 +626,15 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     monitor_progress_2: "pour votre classe"
     monitor_progress_3: "Pour ajouter un étudiant, envoyer leur le lien contenant une invitation pour votre Clan"
     monitor_progress_4: "page."
-    monitor_progress_5: "After they join, you will see a summary of the student's progress on your Clan's page."
+    monitor_progress_5: "Après leur adhésion, vous verrez un résumé des progrès de l'élève sur la page de votre clan."
     private_clans_1: "Private Clans provide increased privacy and detailed progress information for each student."
     private_clans_2: "Pour créer un Clan privé, veuillez vous référer à la boîte à cocher 'Faire un clan privé' pendant la création du"
     private_clans_3: "."
-    who_for_title: "A qui CodeCombat est t-il destiné ?"
+    who_for_title: "A qui CodeCombat est-il destiné ?"
     who_for_1: "Nous recommandons CodeCombat pour les élèves âgés de 9 ans ou plus. Aucune expérience préalable de programmation n'est requise."
     who_for_2: "Nous avons conçu CodeCombat pour plaire à la fois aux garçons et aux filles."
     material_title: "Quelle quantité de contenu y a t-il ?"
-    material_china: "Il y a en moyenne une trentaine d'heures de temps de jeu distribué sur plus de 140 abonnés jusqu'à maintenant avec des nouveaux niveaux qui s'ajoutent à chaque semaine."
+    material_china: "Il y a en moyenne une trentaine d'heures de temps de jeu distribué sur plus de 140 abonnés jusqu'à maintenant avec des nouveaux niveaux qui s'ajoutent à chaque semaine." # {change}
     material_1: "Environ 8 heures de contenu gratuit et 14 heures de contenu supplémentaire reservé aux abonnés, avec 5 nouveaux niveaux chaque semaines." # {change}
     concepts_title: "Quels concepts sont couverts ?"
     how_much_title: "Combien coûte un abonnement mensuel ?"
@@ -641,25 +652,26 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     sys_requirements_1: "Un navigateur moderne. La dernière version de Chrome, Firefox, ou de Safari. Internet Explorer 9 ou plus récent."
     sys_requirements_2: "CodeCombat n'est pas encore supporté sur iPad."
 
-#  teachers_survey:
+  teachers_survey:
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
 #    being_reviewed_1: "Your application for a free trial subscription is being"
-#    being_reviewed_2: "reviewed"
+#    being_reviewed_2: "reviewed."
 #    approved_1: "Your application for a free trial subscription was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
 #    denied_1: "Your application for a free trial subscription has been"
-#    denied_2: "denied"
+#    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
 #    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
 #    description_2: "teachers"
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
-#    email: "Email Address"
-#    school_city: "Name of School, City"
+    email: "Adresse email"
+    school: "Nom de l'école"
+    location: "Nom de la ville"
 #    age_students: "How old are your students?"
 #    under: "Under"
 #    other: "Other:"
@@ -676,6 +688,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     cla_url: "Copyright"
     cla_suffix: "."
     cla_agree: "J'accepte"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Contacter CodeCombat"
@@ -703,6 +716,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     picture_tab: "Photos"
     delete_account_tab: "Supprimer votre compte"
     wrong_email: "Mauvaise adresse e-mail"
+    wrong_password: "Mauvais mot de passe"
     upload_picture: "Télécharger une image"
     delete_this_account: "Supprimer votre compte définitivement"
     god_mode: "Puissance Divine"
@@ -711,7 +725,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     admin: "Admin"
     new_password: "Nouveau mot de passe"
     new_password_verify: "Vérifier"
-    type_in_email: "Entrez votre adresse e-mail pour confirmer la supression de votre compte"
+    type_in_email: "Entrez votre adresse e-mail pour confirmer la supression de votre compte" # {change}
+#    type_in_password: "Also, type in your password."
     email_subscriptions: "Abonnements"
     email_subscriptions_none: "Aucun e-mail d'abonnement."
     email_announcements: "Annonces"
@@ -742,6 +757,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     keyboard_shortcuts: "Raccourcis Clavier"
     space: "Espace"
     enter: "Entrer"
+    press_enter: "Appuyez sur entrée"
     escape: "Echap"
     shift: "Shift"
     run_code: "Exécuter le code actuel."
@@ -768,6 +784,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     article_editor_prefix: "Vous voyez une erreur dans certaines de nos docs ? Vous voulez faire des instructions pour vos propres créations ? Découvrez-le"
     article_editor_suffix: "et aidez les joueurs CodeCombat à tirer le meilleur parti de leur temps de jeu."
     find_us: "Trouvez-nous sur ces sites"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Lire le blog CodeCombat sur Sett"
     social_discource: "Participez à la discussion sur notre forum Discourse"
     social_facebook: "Aimer CodeCombat sur Facebook"
@@ -784,6 +801,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     make_private: "Rendre le clan privé"
     subs_only: "Abonnés seulement"
     create_clan: "Créer un nouveau clan"
+    private_preview: "Aperçu"
     public_clans: "Clans publiques"
     my_clans: "Mes clans"
     clan_name: "Nom du clan"
@@ -818,6 +836,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     latest_achievement: "Réalisation Récentes"
     playtime: "Temps de jeu"
     last_played: "Dernière période de jeu"
+#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
   classes:
     archmage_title: "Archimage"
@@ -854,6 +873,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     indoor: "Intérieur"
     desert: "Desert"
     grassy: "Herbeux"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Petit"
     large: "Large"
     fork_title: "Fork une nouvelle version"
@@ -876,6 +897,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     level_tab_thangs_all: "Tout"
     level_tab_thangs_conditions: "Conditions de départ"
     level_tab_thangs_add: "Ajouter des Thangs"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "Ajouter des composants"
     component_configs: "Configuration des composants"
     config_thang: "Double-cliquez pour configurer un Thang"
@@ -921,6 +943,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     pop_i18n: "Renseigner I18N"
     tasks: "Tâches"
     clear_storage: "Vider vos changements locaux"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Prévisualiser"
@@ -1002,6 +1026,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     my_matches: "Mes matchs"
     simulate: "Simuler"
     simulation_explanation: "En simulant une partie, tu peux classer ton rang plus rapidement !"
+#    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "Simuler une partie !"
     simulate_all: "REINITIALISER ET SIMULER DES PARTIES"
     games_simulated_by: "Parties que vous avez simulées :"
@@ -1052,6 +1077,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tournament_blurb_blog: "Sur notre blog"
     rules: "Règles"
     winners: "Gagnants"
+#    league: "League"
 
   user:
     stats: "Stats"
@@ -1092,6 +1118,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     no_recent_games: "Aucune partie jouée au cours des deux dernières semaines."
     payments: "Paiements"
     purchased: "Acheté"
+#    sale: "Sale"
     subscription: "Souscrit"
     invoices: "Factures"
     service_apple: "Apple"
@@ -1184,9 +1211,35 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     poll: "Sondage"
     user_polls_record: "Historique de sondage des utilisateurs"
 
+  concepts:
+    advanced_strings: "Chaînes de caractères avancés"
+    algorithms: "Algorithmes"
+    arguments: "Paramètres"
+    arithmetic: "Arithmétique"
+    arrays: "Tableaux"
+    basic_syntax: "Syntaxe basique"
+    boolean_logic: "Logique Booléenne"
+    break_statements: "Déclarations de sortie"
+    classes: "Classes"
+#    continue_statements: "Continue Statements"
+    for_loops: "Bloucles Pour"
+    functions: "Fonctions"
+#    graphics: "Graphics"
+    if_statements: "Déclarations conditionnelles Si"
+    input_handling: "Manipulation des entrées"
+    math_operations: "Opérations mathématiques"
+    object_literals: "Objets littéraux"
+#    parameters: "Parameters"
+    strings: "Chaînes de caractères"
+    variables: "Variables"
+    vectors: "Vecteurs"
+    while_loops: "Boucles Tant que"
+    recursion: "Récursivité"
+
   delta:
     added: "Ajouté"
     modified: "Modifié"
+#    not_modified: "Not Modified"
     deleted: "Supprimé"
     moved_index: "Index changé"
     text_diff: "Différence de texte"

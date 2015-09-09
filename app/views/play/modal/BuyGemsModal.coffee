@@ -46,6 +46,15 @@ module.exports = class BuyGemsModal extends ModalView
     c.stateMessage = @stateMessage
     return c
 
+  afterRender: ->
+    super()
+    return unless @supermodel.finished()
+    @playSound 'game-menu-open'
+
+  onHidden: ->
+    super()
+    @playSound 'game-menu-close'
+
   onIPadProducts: (e) ->
     newProducts = []
     for iapProduct in e.products

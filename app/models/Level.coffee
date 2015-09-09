@@ -50,14 +50,14 @@ module.exports = class Level extends CocoModel
 
   denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
-    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
       for levelThang in o.thangs
         @denormalizeThang(levelThang, supermodel, session, otherSession)
     o
 
   denormalizeThang: (levelThang, supermodel, session, otherSession) ->
     levelThang.components ?= []
-    isHero = /Hero Placeholder/.test levelThang.id
+    isHero = /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     if isHero and otherSession
       # If it's a hero and there's another session, find the right session for it.
       # If there is no other session (playing against default code, or on single player), clone all placeholders.

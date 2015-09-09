@@ -18,7 +18,7 @@ block modal-body-content
             input#major-version(name="version-is-major", type="checkbox")
             span(data-i18n="versions.new_major_version") New Major Version
   else
-    .alert.alert-danger No changes
+    .alert.alert-danger(data-i18n="delta.no_changes") No changes
 
 block modal-body-wait-content
   if hasChanges
@@ -30,13 +30,12 @@ block modal-body-wait-content
 block modal-footer-content
   if hasChanges
     #accept-cla-wrapper.alert.alert-info
-      span(data-i18n="versions.cla_prefix") To save changes, first you must agree to our
-      |  
+      span.spr(data-i18n="versions.cla_prefix") To save changes, first you must agree to our
       strong#cla-link(data-i18n="versions.cla_url") CLA
       span(data-i18n="versions.cla_suffix") .
       button.btn.btn-sm#agreement-button(data-i18n="versions.cla_agree") I AGREE
     if isPatch
-      .alert.alert-info An owner will need to approve it before your changes will become visible.
+      .alert.alert-info(data-i18n="versions.owner_approve") An owner will need to approve it before your changes will become visible.
 
   .buttons
     button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel

@@ -15,13 +15,14 @@ module.exports = class NewModelModal extends ModalView
     super options
     @modelClass = options.model
     @modelLabel = options.modelLabel
+    @newModelTitle = "editor.new_#{_.string.slugify @modelLabel}_title"
     @properties = options.properties
     $('#name').ready @focusOnName
 
   getRenderData: ->
     c = super()
     c.modelLabel = @modelLabel
-    #c.newModelTitle = @newModelTitle
+    c.newModelTitle = @newModelTitle
     c
 
   makeNewModel: ->

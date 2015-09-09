@@ -15,7 +15,10 @@ h4
   if cooldowns && (cooldowns.cooldown || cooldowns.specificCooldown)
     p
       span
-        | #{cooldowns.type == 'spell' ? 'Spell' : 'Action'}
+        if cooldowns.type == 'spell'
+          span(data-i18n="skill_docs.spell") Spell
+        else
+          span(data-i18n="skill_docs.action") Action
         span.spl(data-i18n="skill_docs.action_name") name
         span.spr :
         code "#{cooldowns.name}"

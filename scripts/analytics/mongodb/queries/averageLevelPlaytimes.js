@@ -11,8 +11,8 @@
 var excludedLevels = ['deadly-dungeon-rescue', 'kithgard-brawl', 'cavern-survival', 'kithgard-mastery', 'destroying-angel', 'kithgard-apprentice', 'wild-horses', 'lost-viking', 'forest-flower-grove', 'boulder-woods', 'the-trials'];
 
 var scriptStartTime = new Date();
-var startDay = '2015-05-10';
-var endDay = '2015-06-11';
+var startDay = '2015-07-01';
+var endDay = '2015-08-06';
 
 log("Dates: " + startDay + " to " + endDay);
 

@@ -375,6 +375,8 @@ describe 'Subscriptions', ->
       expect(err).toBeNull()
       return done() if err
       expect(res.statusCode).toBe(200)
+      expect(body.stripe).toBeDefined()
+      return done() unless body.stripe
       expect(body.stripe.customerID).toBeDefined()
       expect(body.stripe.planID).toBe('basic')
       expect(body.stripe.token).toBeUndefined()
@@ -519,19 +521,60 @@ describe 'Subscriptions', ->
         loginNewUser (user1) ->
           subscribeUser user1, token, null, done
 
+    it 'User delete unsubscribes', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          subscribeUser user1, token, null, ->
+            User.findById user1.id, (err, user1) ->
+              expect(err).toBeNull()
+              customerID = user1.get('stripe').customerID
+              subscriptionID = user1.get('stripe').subscriptionID
+              request.del {uri: "#{userURL}/#{user1.id}"}, (err, res) ->
+                expect(err).toBeNull()
+                stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
+                  expect(err).toBeNull()
+                  expect(subscription?.cancel_at_period_end).toEqual(true)
+                  done()
+
     it 'Admin subscribes self with valid prepaid', (done) ->
       loginNewUser (user1) ->
         user1.set('permissions', ['admin'])
         user1.save (err, user1) ->
           expect(err).toBeNull()
           expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', (err, res, prepaid) ->
+          createPrepaid 'subscription', 1, (err, res, prepaid) ->
             expect(err).toBeNull()
             subscribeUser user1, null, prepaid.code, ->
               Prepaid.findById prepaid._id, (err, prepaid) ->
                 expect(err).toBeNull()
-                expect(prepaid.get('status')).toEqual('used')
+                expect(prepaid.get('maxRedeemers')).toEqual(1)
+                expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
                 done()
+
+    it 'Admin subscribes self with valid prepaid twice', (done) ->
+      loginNewUser (user1) ->
+        user1.set('permissions', ['admin'])
+        user1.save (err, user1) ->
+          expect(err).toBeNull()
+          expect(user1.isAdmin()).toEqual(true)
+          createPrepaid 'subscription', 2, (err, res, prepaid) ->
+            expect(err).toBeNull()
+            Prepaid.findById prepaid._id, (err, prepaid) ->
+              expect(err).toBeNull()
+              prepaid.set 'redeemers', [{userID: user1.get('_id'), date: new Date()}]
+              prepaid.save (err) ->
+                expect(err).toBeNull()
+                requestBody = user1.toObject()
+                requestBody.stripe =
+                  planID: 'basic'
+                requestBody.stripe.prepaidCode = prepaid.get('code')
+                request.put {uri: userURL, json: requestBody, headers: headers }, (err, res, body) ->
+                  expect(err).toBeNull()
+                  expect(res.statusCode).toBe(403)
+                  done()
 
     it 'User subscribes, deletes themselves, subscription ends', (done) ->
       stripe.tokens.create {
@@ -579,7 +622,7 @@ describe 'Subscriptions', ->
         user1.save (err, user1) ->
           expect(err).toBeNull()
           expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', (err, res, prepaid) ->
+          createPrepaid 'subscription', 1, (err, res, prepaid) ->
             expect(err).toBeNull()
             subscribeUser user1, null, prepaid.code, ->
               loginNewUser (user2) ->
@@ -590,7 +633,27 @@ describe 'Subscriptions', ->
                 request.put {uri: userURL, json: requestBody, headers: headers }, (err, res, body) ->
                   expect(err).toBeNull()
                   expect(res.statusCode).toBe(403)
-                  done()
+                  Prepaid.findById prepaid._id, (err, prepaid) ->
+                    expect(err).toBeNull()
+                    expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                    expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
+                    done()
+
+    it 'User2 subscribes with same active prepaid', (done) ->
+      loginNewUser (user1) ->
+        user1.set('permissions', ['admin'])
+        user1.save (err, user1) ->
+          expect(err).toBeNull()
+          expect(user1.isAdmin()).toEqual(true)
+          createPrepaid 'subscription', 2, (err, res, prepaid) ->
+            expect(err).toBeNull()
+            subscribeUser user1, null, prepaid.code, ->
+              loginNewUser (user2) ->
+                subscribeUser user2, null, prepaid.code, ->
+                  Prepaid.findById prepaid._id, (err, prepaid) ->
+                    expect(err).toBeNull()
+                    expect(prepaid.get('redeemers').length).toEqual(2)
+                    done()
 
     it 'Subscribe normally, subscribe with valid prepaid', (done) ->
       stripe.tokens.create {
@@ -604,12 +667,14 @@ describe 'Subscriptions', ->
             subscribeUser user1, token, null, ->
               User.findById user1.id, (err, user1) ->
                 expect(err).toBeNull()
-                createPrepaid 'subscription', (err, res, prepaid) ->
+                createPrepaid 'subscription', 1, (err, res, prepaid) ->
                   expect(err).toBeNull()
                   subscribeUser user1, null, prepaid.code, ->
                     Prepaid.findById prepaid._id, (err, prepaid) ->
                       expect(err).toBeNull()
-                      expect(prepaid.get('status')).toEqual('used')
+                      expect(prepaid.get('maxRedeemers')).toEqual(1)
+                      expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                      expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
                       User.findById user1.id, (err, user1) ->
                         expect(err).toBeNull()
                         customerID = user1.get('stripe').customerID
@@ -635,11 +700,13 @@ describe 'Subscriptions', ->
             request.put {uri: userURL, json: requestBody, headers: headers }, (err, res, updatedUser) ->
               expect(err).toBeNull()
               expect(res.statusCode).toBe(200)
-              createPrepaid 'subscription', (err, res, prepaid) ->
+              createPrepaid 'subscription', 1, (err, res, prepaid) ->
                 subscribeUser user1, null, prepaid.code, ->
                   Prepaid.findById prepaid._id, (err, prepaid) ->
                     expect(err).toBeNull()
-                    expect(prepaid.get('status')).toEqual('used')
+                    expect(prepaid.get('maxRedeemers')).toEqual(1)
+                    expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                    expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
                     User.findById user1.id, (err, user1) ->
                       expect(err).toBeNull()
                       customerID = user1.get('stripe').customerID
@@ -656,12 +723,14 @@ describe 'Subscriptions', ->
         user1.save (err, user1) ->
           expect(err).toBeNull()
           expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', (err, res, prepaid) ->
+          createPrepaid 'subscription', 1, (err, res, prepaid) ->
             expect(err).toBeNull()
             subscribeUser user1, null, prepaid.code, ->
               Prepaid.findById prepaid._id, (err, prepaid) ->
                 expect(err).toBeNull()
-                expect(prepaid.get('status')).toEqual('used')
+                expect(prepaid.get('maxRedeemers')).toEqual(1)
+                expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
                 User.findById user1.id, (err, user1) ->
                   expect(err).toBeNull()
                   unsubscribeUser user1, ->
@@ -676,12 +745,14 @@ describe 'Subscriptions', ->
         user1.save (err, user1) ->
           expect(err).toBeNull()
           expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', (err, res, prepaid) ->
+          createPrepaid 'subscription', 1, (err, res, prepaid) ->
             expect(err).toBeNull()
             subscribeUser user1, null, prepaid.code, ->
               Prepaid.findById prepaid._id, (err, prepaid) ->
                 expect(err).toBeNull()
-                expect(prepaid.get('status')).toEqual('used')
+                expect(prepaid.get('maxRedeemers')).toEqual(1)
+                expect(prepaid.get('redeemers')[0].userID).toEqual(user1.get('_id'))
+                expect(prepaid.get('redeemers')[0].date).toBeLessThan(new Date())
                 User.findById user1.id, (err, user1) ->
                   expect(err).toBeNull()
                   unsubscribeUser user1, ->
@@ -714,6 +785,29 @@ describe 'Subscriptions', ->
           loginNewUser (user1) ->
             subscribeRecipients user1, [user2], token, (updatedUser) ->
               verifySponsorship user1.id, user2.id, done
+
+    it 'Recipient user delete unsubscribes', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        createNewUser (user2) ->
+          loginNewUser (user1) ->
+            subscribeRecipients user1, [user2], token, (updatedUser) ->
+              customerID = updatedUser.stripe.customerID
+              subscriptionID = updatedUser.stripe.recipients[0].subscriptionID
+              loginUser user2, (user2) ->
+                request.del {uri: "#{userURL}/#{user2.id}"}, (err, res) ->
+                  expect(err).toBeNull()
+                  stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
+                    expect(err).not.toBeNull()
+                    expect(subscription).toBeNull()
+                    User.findById user1.id, (err, user1) ->
+                      expect(err).toBeNull()
+                      expect(_.isEmpty(user1.get('stripe').recipients))
+                      stripe.customers.retrieveSubscription customerID, user1.get('stripe').sponsorSubscriptionID, (err, subscription) ->
+                        expect(err).toBeNull()
+                        expect(subscription.quantity).toEqual(0)
+                        done()
 
     it 'Subscribed user1 subscribes user2, one token', (done) ->
       stripe.tokens.create {
@@ -891,7 +985,7 @@ describe 'Subscriptions', ->
                 user2.save (err, user1) ->
                   expect(err).toBeNull()
                   expect(user2.isAdmin()).toEqual(true)
-                  createPrepaid 'subscription', (err, res, prepaid) ->
+                  createPrepaid 'subscription', 1, (err, res, prepaid) ->
                     expect(err).toBeNull()
                     requestBody = user2.toObject()
                     requestBody.stripe =
@@ -1063,7 +1157,7 @@ describe 'Subscriptions', ->
         user1.save (err, user1) ->
           expect(err).toBeNull()
           expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', (err, res, prepaid) ->
+          createPrepaid 'subscription', 1, (err, res, prepaid) ->
             expect(err).toBeNull()
             subscribeUser user1, null, prepaid.code, ->
               stripe.tokens.create {
@@ -1220,7 +1314,9 @@ describe 'Subscriptions', ->
                                                               expect(subscription.quantity).toEqual(getSubscribedQuantity(recipientCount - 3))
                                                               done()
 
-        it 'Unsubscribed user1 subscribes 13 users, unsubcribes 2', (done) ->
+        xit 'Unsubscribed user1 subscribes 13 users, unsubcribes 2', (done) ->
+          # TODO: Hits the Stripe error 'Request rate limit exceeded'.
+          # TODO: Need a better test for 12+ bulk discounts. Or, we could update the bulk disount logic.
           # TODO: verify interim invoices?
           recipientCount = 13
           recipientsToVerify = [0, 1, 10, 11, 12]
@@ -1272,3 +1368,192 @@ describe 'Subscriptions', ->
                                         else
                                           expect(subscription.quantity).toEqual(subPrice + 10 * subPrice * 0.8 + (numSponsored - 11) * subPrice * 0.6)
                                         done()
+
+  describe 'APIs', ->
+    subscriptionURL = getURL('/db/subscription')
+
+    it 'year_sale', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          expect(user1.get('stripe')?.free).toBeUndefined()
+          requestBody =
+            stripe:
+              token: token.id
+              timestamp: new Date()
+          request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+            expect(err).toBeNull()
+            expect(res.statusCode).toBe(200)
+            User.findById user1.id, (err, user1) ->
+              expect(err).toBeNull()
+              stripeInfo = user1.get('stripe')
+              expect(stripeInfo).toBeDefined()
+              return done() unless stripeInfo
+              endDate = new Date()
+              endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+              expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+              expect(stripeInfo.customerID).toBeDefined()
+              expect(user1.get('purchased')?.gems).toEqual(3500*12)
+              Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
+                expect(err).toBeNull()
+                expect(payment).toBeDefined()
+                expect(payment.get('gems')).toEqual(3500*12)
+                done()
+
+    it 'year_sale when stripe.free === true', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          user1.set('stripe', {free: true})
+          user1.save (err, user1) ->
+            expect(err).toBeNull()
+            expect(user1.get('stripe')?.free).toEqual(true)
+            requestBody =
+              stripe:
+                token: token.id
+                timestamp: new Date()
+            request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+              expect(err).toBeNull()
+              expect(res.statusCode).toBe(200)
+              User.findById user1.id, (err, user1) ->
+                expect(err).toBeNull()
+                stripeInfo = user1.get('stripe')
+                expect(stripeInfo).toBeDefined()
+                return done() unless stripeInfo
+                endDate = new Date()
+                endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+                expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                expect(stripeInfo.customerID).toBeDefined()
+                expect(user1.get('purchased')?.gems).toEqual(3500*12)
+                Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
+                  expect(err).toBeNull()
+                  expect(payment).toBeDefined()
+                  expect(payment.get('gems')).toEqual(3500*12)
+                  done()
+
+    it 'year_sale when stripe.free < today', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          endDate = new Date()
+          endDate.setUTCFullYear(endDate.getUTCFullYear() - 1)
+          user1.set('stripe', {free: endDate.toISOString().substring(0, 10)})
+          user1.save (err, user1) ->
+            expect(err).toBeNull()
+            expect(user1.get('stripe')?.free).toEqual(endDate.toISOString().substring(0, 10))
+            requestBody =
+              stripe:
+                token: token.id
+                timestamp: new Date()
+            request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+              expect(err).toBeNull()
+              expect(res.statusCode).toBe(200)
+              User.findById user1.id, (err, user1) ->
+                expect(err).toBeNull()
+                stripeInfo = user1.get('stripe')
+                expect(stripeInfo).toBeDefined()
+                return done() unless stripeInfo
+                endDate = new Date()
+                endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+                expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                expect(stripeInfo.customerID).toBeDefined()
+                expect(user1.get('purchased')?.gems).toEqual(3500*12)
+                Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
+                  expect(err).toBeNull()
+                  expect(payment).toBeDefined()
+                  expect(payment.get('gems')).toEqual(3500*12)
+                  done()
+
+    it 'year_sale when stripe.free > today', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          endDate = new Date()
+          endDate.setUTCDate(endDate.getUTCDate() + 5)
+          user1.set('stripe', {free: endDate.toISOString().substring(0, 10)})
+          user1.save (err, user1) ->
+            expect(err).toBeNull()
+            expect(user1.get('stripe')?.free).toEqual(endDate.toISOString().substring(0, 10))
+            requestBody =
+              stripe:
+                token: token.id
+                timestamp: new Date()
+            request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+              expect(err).toBeNull()
+              expect(res.statusCode).toBe(200)
+              User.findById user1.id, (err, user1) ->
+                expect(err).toBeNull()
+                stripeInfo = user1.get('stripe')
+                expect(stripeInfo).toBeDefined()
+                return done() unless stripeInfo
+                endDate = new Date()
+                endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+                endDate.setUTCDate(endDate.getUTCDate() + 5)
+                expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                expect(stripeInfo.customerID).toBeDefined()
+                expect(user1.get('purchased')?.gems).toEqual(3500*12)
+                Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
+                  expect(err).toBeNull()
+                  expect(payment).toBeDefined()
+                  expect(payment.get('gems')).toEqual(3500*12)
+                  done()
+
+    it 'year_sale with monthly sub', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          subscribeUser user1, token, null, ->
+            User.findById user1.id, (err, user1) ->
+              expect(err).toBeNull()
+              stripeInfo = user1.get('stripe')
+              stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.subscriptionID, (err, subscription) ->
+                expect(err).toBeNull()
+                expect(subscription).not.toBeNull()
+                stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000)
+                stripe.tokens.create {
+                  card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+                }, (err, token) ->
+                  requestBody =
+                    stripe:
+                      token: token.id
+                      timestamp: new Date()
+                  request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+                    expect(err).toBeNull()
+                    expect(res.statusCode).toBe(200)
+                    User.findById user1.id, (err, user1) ->
+                      expect(err).toBeNull()
+                      stripeInfo = user1.get('stripe')
+                      expect(stripeInfo).toBeDefined()
+                      return done() unless stripeInfo
+                      endDate = stripeSubscriptionPeriodEndDate
+                      endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+                      expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                      expect(stripeInfo.customerID).toBeDefined()
+                      expect(user1.get('purchased')?.gems).toEqual(3500+3500*12)
+                      Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
+                        expect(err).toBeNull()
+                        expect(payment).toBeDefined()
+                        expect(payment.get('gems')).toEqual(3500*12)
+                        done()
+
+    it 'year_sale with sponsored sub', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          user1.set('stripe', {sponsorID: 'dummyID'})
+          user1.save (err, user1) ->
+            expect(err).toBeNull()
+            requestBody =
+              stripe:
+                token: token.id
+                timestamp: new Date()
+            request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+              console.log err
+              expect(err).toBeNull()
+              done()

@@ -30,6 +30,8 @@ models_path = [
   '../../server/articles/Article'
   '../../server/campaigns/Campaign'
   '../../server/clans/Clan'
+  '../../server/courses/Course'
+  '../../server/courses/CourseInstance'
   '../../server/levels/Level'
   '../../server/levels/components/LevelComponent'
   '../../server/levels/systems/LevelSystem'
@@ -118,9 +120,11 @@ wrapUpGetUser = (email, user, done) ->
 GLOBAL.getURL = (path) ->
   return 'http://localhost:3001' + path
 
-GLOBAL.createPrepaid = (type, done) ->
+GLOBAL.createPrepaid = (type, maxRedeemers, done) ->
   options = uri: GLOBAL.getURL('/db/prepaid/-/create')
-  options.json = type: type if type?
+  options.json =
+    type: type
+    maxRedeemers: maxRedeemers
   request.post options, done
 
 newUserCount = 0
