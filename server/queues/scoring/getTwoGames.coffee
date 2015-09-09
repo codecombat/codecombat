@@ -17,7 +17,7 @@ sessionSelectionString = 'team totalScore transpiledCode submittedCodeLanguage t
 sendSessionsResponse = (res) ->
   (err, sessions) ->
     if err then return errors.serverError res, "Couldn't get two games to simulate: #{err}"
-    unless sessions.length is 2
+    unless _.filter(sessions).length is 2
       console.log 'No games to score.', sessions.length
       res.send 204, 'No games to score.'
       return res.end()
@@ -110,5 +110,3 @@ findEarliestSubmission = (queryParams, callback) ->
     return callback err if err
     result = earliestSubmissionCache[cacheKey] = earliest?.submitDate
     callback null, result
-
-

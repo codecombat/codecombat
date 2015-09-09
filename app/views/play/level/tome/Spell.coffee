@@ -36,7 +36,7 @@ module.exports = class Spell
     else
       @setLanguage 'javascript'
     @useTranspiledCode = @shouldUseTranspiledCode()
-    console.log 'Spell', @spellKey, 'is using transpiled code (should only happen if it\'s an enemy/spectate writable method).' if @useTranspiledCode
+    #console.log 'Spell', @spellKey, 'is using transpiled code (should only happen if it\'s an enemy/spectate writable method).' if @useTranspiledCode
 
     @source = @originalSource
     @parameters = p.parameters
