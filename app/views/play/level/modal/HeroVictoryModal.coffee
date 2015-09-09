@@ -57,7 +57,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @previousLevel = me.level()
     else
       @readyToContinue = true
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory'
+    @playSound 'victory'
     if @level.get('type', true) is 'course' and nextLevel = @level.get('nextLevel')
       @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
       @nextLevel = @supermodel.loadModel(@nextLevel, 'level').model
@@ -220,7 +220,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @updateXPBars 0
     @$el.find('#victory-header').delay(250).queue(->
       $(@).removeClass('out').dequeue()
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory-title-appear'  # TODO: actually add this
+      @playSound 'victory-title-appear'  # TODO: actually add this
     )
     complete = _.once(_.bind(@beginSequentialAnimations, @))
     @animatedPanels = $()
@@ -283,7 +283,7 @@ module.exports = class HeroVictoryModal extends ModalView
         @XPEl.text(totalXP)
         @updateXPBars(totalXP)
         xpTrigger = 'xp-' + (totalXP % 6)  # 6 xp sounds
-        Backbone.Mediator.publish 'audio-player:play-sound', trigger: xpTrigger, volume: 0.5 + ratio / 2
+        @playSound xpTrigger, (0.5 + ratio / 2)
         @XPEl.addClass 'four-digits' if totalXP >= 1000 and @lastTotalXP < 1000
         @XPEl.addClass 'five-digits' if totalXP >= 10000 and @lastTotalXP < 10000
         @lastTotalXP = totalXP
@@ -294,14 +294,14 @@ module.exports = class HeroVictoryModal extends ModalView
         panel.textEl.text('+' + newGems)
         @gemEl.text(totalGems)
         gemTrigger = 'gem-' + (parseInt(panel.number * ratio) % 4)  # 4 gem sounds
-        Backbone.Mediator.publish 'audio-player:play-sound', trigger: gemTrigger, volume: 0.5 + ratio / 2
+        @playSound gemTrigger, (0.5 + ratio / 2)
         @gemEl.addClass 'four-digits' if totalGems >= 1000 and @lastTotalGems < 1000
         @gemEl.addClass 'five-digits' if totalGems >= 10000 and @lastTotalGems < 10000
         @lastTotalGems = totalGems
     else if panel.item
       thangType = @thangTypes[panel.item]
       panel.textEl.text utils.i18n(thangType.attributes, 'name')
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'item-unlocked', volume: 1 if 0.5 < ratio < 0.6
+      @playSound 'item-unlocked' if 0.5 < ratio < 0.6
     else if panel.hero
       thangType = @thangTypes[panel.hero]
       panel.textEl.text(thangType.get('name'))
