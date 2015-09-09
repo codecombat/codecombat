@@ -582,15 +582,15 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     press_paragraph_1_link: "Midia Kit"
     press_paragraph_1_suffix: ". Todas as logomarcas e imagens podem ser usadas sem nos contactar previamente."
     team: "Time"
-    george_title: "CEO" # {change}
+    george_title: "Cofundador"
     george_blurb: "Administrador"
-    scott_title: "Programador" # {change}
+    scott_title: "Cofundador"
     scott_blurb: "O Sensato"
-    nick_title: "Programador" # {change}
+    nick_title: "Cofundador"
     nick_blurb: "Guru Motivacional"
     michael_title: "Programador"
     michael_blurb: "Administrador de Sistemas"
-    matt_title: "Programador" # {change}
+    matt_title: "Cofundador"
     matt_blurb: "O Ciclista"
     cat_title: "Chefe Artesão"
     cat_blurb: "Corta-vento"
