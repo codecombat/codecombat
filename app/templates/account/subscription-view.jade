@@ -11,7 +11,7 @@ block content
     li.active(data-i18n="account.subscription")
 
   if me.get('anonymous')
-    p(data-i18n="account_settings.not_logged_in")
+    p.logged-out-blurb(data-i18n="subscribe.must_be_logged")
   else
     
     //- Personal Subscriptions

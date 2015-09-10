@@ -94,6 +94,7 @@ describe 'LevelLoader', ->
   describe 'loadDependenciesForSession', ->
     it 'loads hero and item thang types from heroConfig in the given session', ->
       levelLoader = new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
+      levelLoader.sessionDependenciesRegistered = {}
       session = new LevelSession(sessionWithAnyaWithGloves)
       levelLoader.loadDependenciesForSession(session)
       requests = jasmine.Ajax.requests.all()
@@ -103,6 +104,7 @@ describe 'LevelLoader', ->
 
     it 'loads components for the hero in the heroConfig in the given session', ->
       levelLoader = new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
+      levelLoader.sessionDependenciesRegistered = {}
       session = new LevelSession(sessionWithAnyaWithGloves)
       levelLoader.loadDependenciesForSession(session)
       responses = {

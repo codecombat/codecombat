@@ -66,7 +66,7 @@ getRandomSessions = (user, callback) ->
 
 # Sampling by level: we pick a level, then find a human and ogre session for that level, one at random, one biased towards recent submissions.
 #ladderLevelIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
-ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders']
+ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders', 'ace-of-coders']
 sampleByLevel = (callback) ->
   levelID = _.sample ladderLevelIDs
   favorRecentHumans = Math.random() < 0.5  # We pick one session favoring recent submissions, then find another one uniformly to play against
@@ -76,6 +76,7 @@ findRandomSession = (queryParams, callback) ->
   # In MongoDB 3.2, we will be able to easily get a random document with aggregate $sample: https://jira.mongodb.org/browse/SERVER-533
   queryParams.submitted = true
   favorRecent = queryParams.favorRecent
+  favorRecent = false  # temp, for Ace of Coders tournament
   delete queryParams.favorRecent
   if favorRecent
     return findRecentRandomSession queryParams, callback
