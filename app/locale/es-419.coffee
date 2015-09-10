@@ -1211,7 +1211,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     poll: "Encuesta"
     user_polls_record: "Historia de Visitas de Encuestas"
 
-#  concepts:
+  concepts:
     advanced_strings: "Manipulación Avanzada de Cadenas" #used Advanced Strings Handling instead of Advanced Strings
     algorithms: "Algoritmos"
     arguments: "Argumentos"
