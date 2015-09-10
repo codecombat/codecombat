@@ -4,10 +4,11 @@
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
 
 // NOTE: uses name as unique identifier, so changing the name will insert a new course
-// NOTE: concepts should match actual campaign levels
 // NOTE: pricePerSeat in USD cents
 
-var documents =
+// TODO: calculate concepts from campaign
+
+var courses =
 [
   {
     name: "Introduction to Computer Science",
@@ -15,6 +16,7 @@ var documents =
     campaignID: ObjectId("55b29efd1cd6abe8ce07db0d"),
     concepts: ['basic_syntax', 'arguments', 'while_loops', 'strings', 'variables'],
     description: "Learn basic syntax, while loops, and the CodeCombat environment.",
+    duration: NumberInt(1),
     pricePerSeat: NumberInt(0),
     screenshot: "/images/pages/courses/101_info.png"
   },
@@ -24,6 +26,7 @@ var documents =
     campaignID: ObjectId("55b29efd1cd6abe8ce07db0d"),
     concepts: ['basic_syntax', 'arguments', 'while_loops', 'strings', 'variables', 'if_statements'],
     description: "Introduce Arguments, Variables, If Statements, and Arithmetic.",
+    duration: NumberInt(5),
     pricePerSeat: NumberInt(400),
     screenshot: "/images/pages/courses/102_info.png"
   },
@@ -33,16 +36,12 @@ var documents =
     campaignID: ObjectId("55b29efd1cd6abe8ce07db0d"),
     concepts: ['if_statements', 'arithmetic'],
     description: "Learn how to handle input.",
+    duration: NumberInt(5),
     pricePerSeat: NumberInt(400),
     screenshot: "/images/pages/courses/103_info.png"
   }
 ];
 
-for (var i = 0; i < documents.length; i++) {
-  var doc = documents[i];
-  db.courses.update({name: doc.name}, doc, {upsert: true});
-}
-
-function log(str) {
-  print(new Date().toISOString() + " " + str);
+for (var i = 0; i < courses.length; i++) {
+  db.courses.update({name: courses[i].name}, courses[i], {upsert: true});
 }

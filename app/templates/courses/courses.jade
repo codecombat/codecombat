@@ -8,19 +8,136 @@ block content
     span *UNDER CONSTRUCTION, please send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
 
-  h1(style='text-align: center;') Courses
+  br
+  if studentMode
+    +student-main
+  else
+    +teacher-main
   .container-fluid
-    .row(style='font-size: 20px;')
-      .col-md-3
-      .col-md-3 Name
-      .col-md-3 Description
-      .col-md-3 Concepts
-    each course in courses
-      .row(style='border-top: 1px solid gray; padding: 10px;')
-        .col-md-3
-          img(src="#{course.get('screenshot')}", style="width: 100%;")
-        .col-md-3
-          p= course.get('name')
-          a(href="/editor/campaign/#{course.get('campaignID')}") Campaign (levels)
-        .col-md-3= course.get('description')
-        .col-md-3= course.get('concepts').join(' ')
+    - var i = 0
+    while i < courses.length
+      .row
+        +course-block(courses[i], instances)
+        - i++
+        if i < courses.length
+          +course-block(courses[i], instances)
+          - i++
+
+mixin student-main
+  button.btn.btn-warning.btn-teacher Teachers Click Here
+  h1.center Courses on CodeCombat
+
+mixin teacher-main
+  button.btn.btn-warning.btn-student Students Click Here
+  h1.center Courses on CodeCombat
+  .info-container
+    p Courses are designed to introduce computer science concepts using CodeCombat's fun and engaging environment. CodeCombat levels are organized around key topics to encourage progressive learning, over the course of 5 hours.
+    .container-fluid
+      .row
+        .col-md-6
+          ul
+            li Learn more in less time
+            li No coding experience necesssary
+            li Easily monitor student progress
+            
+          p Purchase a course for your entire class. It's easy to sign up your students!
+          p.faq-blurb
+            span.spr See the courses
+            a.spr.courses-faq FAQ
+            span for more information.
+        .col-md-6
+          img.img-quote(src="/images/pages/courses/coco_complab.png")
+    p
+      .well.well-sm
+        div.praise-quote "#{praise.quote}"
+        div.praise-caption - #{praise.source}
+  h2.center Choose Your Course:
+
+mixin student-dialog(course)
+  .modal.continue-dialog(id="continueModal#{course.id}")
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title= course.get('name')
+      .modal-body
+        .container-fluid
+          .row.button-row
+            .col-md-12
+              .well.well-sm
+                p
+                  div.instruction-label Enter an unlock code
+                .container-fluid
+                  .row
+                    .col-md-8
+                      input.code-input(type='text', placeholder="Enter unlock code")
+                    .col-md-4
+                      button.btn.btn-success.btn-enroll Enroll
+
+mixin teacher-dialog(course)
+  .modal.continue-dialog(id="continueModal#{course.id}")
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title= course.get('name')
+      .modal-body
+        .container-fluid
+          if enrolledCourses[course.id]
+            .row.button-row.row-pick-class
+              .col-md-12
+                .well.well-sm
+                  p
+                    div.instruction-label Pick from your current classes
+                  .container-fluid
+                    .row
+                      .col-md-8
+                        select.form-control.select-session
+                          each inst in instances
+                            if inst.get('name')
+                              option(value="#{inst.id}")= inst.get('name')
+                            else
+                              option(value="#{inst.id}") *unnamed*
+                      .col-md-4
+                        button.btn.btn-success.btn-enter(data-course-id="#{course.id}") Enter
+            .row.button-row.center.row-pick-class
+              .col-md-12
+                div.or Or
+          .row.button-row.center
+            .col-md-12
+              button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{course.id}") Buy this course
+
+mixin course-block(course)
+  if studentMode
+    +student-dialog(course)
+  else
+    +teacher-dialog(course)
+  .col-md-6
+    .well.panel.course-panel(class=enrolledCourses[course.id] ? 'panel-success' : 'panel-info')
+      .panel-heading
+        .panel-title 
+          span.spr #{course.get('name')}
+          strong #{enrolledCourses[course.id] ? '[ enrolled ]' : ''}
+      .panel-body
+        .container-fluid
+          .row
+            .col-md-12
+              p
+               img.course-image(src="#{course.get('screenshot')}")
+          .row.button-row
+            .col-md-6
+              strong Topics
+              ul
+                each concept in course.get('concepts')
+                  li(data-i18n="concepts." + concept)
+              strong Hours of content: #{course.get('duration')}
+            .col-md-6.center(style='margin-top: 40px;')
+              if studentMode
+                if enrolledCourses[course.id]
+                  a.btn.btn-lg.btn-success.btn-continue(href="/courses/#{course.id}?student=true") Continue
+                else
+                  button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal#{course.id}") Enter
+              else if enrolledCourses[course.id]
+                button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal#{course.id}") Continue
+              else
+                button.btn.btn-lg.btn-success.btn-buy(data-course-id="#{course.id}") #{course.get('pricePerSeat') === 0 ? 'Get FREE course' : 'Buy course'}
