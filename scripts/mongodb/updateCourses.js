@@ -6,8 +6,6 @@
 // NOTE: uses name as unique identifier, so changing the name will insert a new course
 // NOTE: pricePerSeat in USD cents
 
-// TODO: calculate concepts from campaign
-
 var courses =
 [
   {
@@ -42,6 +40,24 @@ var courses =
   }
 ];
 
+print("Finding course concepts..");
+for (var i = 0; i < courses.length; i++) {
+  var concepts = {};
+  var cursor = db.campaigns.find({_id: courses[i].campaignID}, {'levels': 1});
+  if (cursor.hasNext()) {
+    var doc = cursor.next();
+    for (var levelID in doc.levels) {
+      for (var j = 0; j < doc.levels[levelID].concepts.length; j++) {
+        concepts[doc.levels[levelID].concepts[j]] = true;
+      }
+    }
+  }
+  courses[i].concepts = Object.keys(concepts);
+}
+
+print("Updating courses..");
 for (var i = 0; i < courses.length; i++) {
   db.courses.update({name: courses[i].name}, courses[i], {upsert: true});
 }
+
+print("Done.");
