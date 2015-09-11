@@ -21,21 +21,23 @@ module.exports = createNewTask = (req, res) ->
     fetchInitialSessionsToRankAgainst.bind(yetiGuru, requestLevelMajorVersion, originalLevelID)
     generateAndSendTaskPairsToTheQueue
   ], (err, successMessageObject) ->
-    if err? then return errors.serverError res, "There was an error submitting the game to the queue:#{err}"
+    if err? then return errors.serverError res, "There was an error submitting the game to the queue: #{err}"
     scoringUtils.sendResponseObject res, successMessageObject
 
 
 validatePermissions = (req, sessionID, callback) ->
-  return callback 'You are unauthorized to submit that game to the simulator' unless req.user?.get('email')
+  return callback 'You are unauthorized to submit that game to the simulator.' unless req.user?.get('email')
   return callback null if req.user?.isAdmin()
 
   findParameters = _id: sessionID
   selectString = 'creator submittedCode code'
-  LevelSession.findOne(findParameters).select(selectString).lean().exec (err, retrievedSession) ->
+  LevelSession.findOne(findParameters).select(selectString).lean().exec (err, retrievedSession) =>
     if err? then return callback err
-    userHasPermissionToSubmitCode = retrievedSession.creator is req.user?.id and
-      not _.isEqual(retrievedSession.code, retrievedSession.submittedCode)
-    unless userHasPermissionToSubmitCode then return callback 'You are unauthorized to submit that game to the simulator'
+    userHasPermissionToSubmitCode = retrievedSession.creator is req.user?.id
+    unless userHasPermissionToSubmitCode then return callback 'You are unauthorized to submit that game to the simulator.'
+    # Disabling this for now, since mirror matches submit different transpiled code for the same source code.
+    #alreadySubmitted = _.isEqual(retrievedSession.code, retrievedSession.submittedCode)
+    #unless alreadySubmitted then return callback 'You have already submitted that exact code for simulation.'
     callback null
 
 

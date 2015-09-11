@@ -42,7 +42,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   buildAutomatically: true
   buildAsync: true
   resolutionFactor: SPRITE_RESOLUTION_FACTOR
-  defaultActions: ['idle', 'die', 'move', 'move', 'attack']
+  defaultActions: ['idle', 'die', 'move', 'attack']
   numThingsLoading: 0
   lanks: null
   spriteSheet: null
@@ -147,9 +147,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Adding, removing children for WebGL layers.
 
   addLank: (lank) ->
-    # TODO: Move this into the production DB rather than setting it dynamically.
-    if lank.thangType?.get('name') is 'Highlight'
-      lank.thangType.set('spriteType', 'segmented')
     lank.options.resolutionFactor = @resolutionFactor
 
     lank.layer = @

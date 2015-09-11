@@ -5,7 +5,7 @@ block content
   h2(data-i18n="teachers_survey.title")
 
   if me.isAnonymous()
-    p(data-i18n="teachers_survey.must_be_logged")
+    p.logged-out-blurb(data-i18n="teachers_survey.must_be_logged")
   else if fetchingData
     h4(data-i18n="teachers_survey.retrieving")
   else if existingRequests.length > 0

@@ -1,8 +1,8 @@
-div#columns.row
+.row
   for team, teamIndex in teams
-    div.column.col-md-4
+    div.column.col-md-6
       div(id="histogram-display-#{team.name}", class="histogram-display", data-team-name=team.name)
-      table.table.table-bordered.table-condensed.table-hover(data-team=team.id)
+      table.table.table-bordered.table-condensed.table-hover.ladder-table(data-team=team.id)
         thead
           tr
             th(colspan=level.get('type', true) == 'hero-ladder' ? 3 : 2)
@@ -13,6 +13,7 @@ div#columns.row
             th(colspan=level.get('type', true) == 'hero-ladder' ? 3 : 2)
             th(data-i18n="general.score") Score
             th(data-i18n="general.name").name-col-cell Name
+            th(data-i18n="general.when") When
             th
             th.iconic-cell
               .glyphicon.glyphicon-eye-open
@@ -31,6 +32,7 @@ div#columns.row
               td.rank-cell= rank + 1
               td.score-cell= Math.round(sessionStats.totalScore * 100)
               td.name-col-cell= session.get('creatorName') || "Anonymous"
+              td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
               td.fight-cell
                 a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
                   span(data-i18n="ladder.fight") Fight!
@@ -50,6 +52,7 @@ div#columns.row
                 td.rank-cell= session.rank
                 td.score-cell= Math.round(sessionStats.totalScore * 100)
                 td.name-col-cell= session.get('creatorName') || "Anonymous"
+                td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
                 td.fight-cell
                   a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
                     span(data-i18n="ladder.fight") Fight!
@@ -58,7 +61,7 @@ div#columns.row
       if teamIndex == 1
         .btn.btn-sm.load-more-ladder-entries(data-i18n="editor.more") More
 
-  div.column.col-md-4
+  div.column.col-md-4.secret
     h4.friends-header(data-i18n="ladder.friends_playing") Friends Playing
     if me.get('anonymous')
       div.alert.alert-info

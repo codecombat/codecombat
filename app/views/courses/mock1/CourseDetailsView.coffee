@@ -6,7 +6,7 @@ CocoCollection = require 'collections/CocoCollection'
 Campaign = require 'models/Campaign'
 
 module.exports = class CourseDetailsView extends RootView
-  id: 'course-details-view'
+  id: 'course-details-mock-view'
   template: template
 
   events:
