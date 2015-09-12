@@ -3,7 +3,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/courses/mock1/course-enroll'
 
 module.exports = class CourseEnrollView extends RootView
-  id: 'course-enroll-view'
+  id: 'course-enroll-mock-view'
   template: template
 
   events:

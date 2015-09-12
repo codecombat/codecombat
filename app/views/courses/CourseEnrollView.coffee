@@ -20,7 +20,7 @@ module.exports = class CourseEnrollView extends RootView
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'
 
-  constructor: (options, @courseID=0) ->
+  constructor: (options, @courseID) ->
     super options
     @courseID ?= options.courseID
     @seats = 20
@@ -99,7 +99,7 @@ module.exports = class CourseEnrollView extends RootView
 
   createClass: (token) ->
     data =
-      name: $('.class-name').val()
+      name: @className
       seats: @seats
       token: token
     data.courseID = @selectedCourse.id if @selectedCourse
