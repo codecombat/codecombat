@@ -206,3 +206,40 @@ module.exports.getCoursesPrice = getSponsoredSubsAmount = (courses, seats=20) ->
   else
     pricePerSeat = parseInt(totalPricePerSeat)
   seats * pricePerSeat
+
+module.exports.getCoursePraise = getCoursePraise = ->
+  praise = [
+    {
+      quote:  "The kids love it."
+      source: "Leo Joseph Tran, Athlos Leadership Academy"
+    },
+    {
+      quote: "My students have been using the site for a couple of weeks and they love it."
+      source: "Scott Hatfield, Computer Applications Teacher, School Technology Coordinator, Eastside Middle School"
+    },
+    {
+      quote: "Thanks for the captivating site. My eighth graders love it."
+      source: "Janet Cook, Ansbach Middle/High School"
+    },
+    {
+      quote: "My students have started working on CodeCombat and love it! I love that they are learning coding and problem solving skills without them even knowing it!!"
+      source: "Kristin Huff, Special Education Teacher, Webb City School District"
+    },
+    {
+      quote: "I recently introduced Code Combat to a few of my fifth graders and they are loving it!"
+      source: "Shauna Hamman, Fifth Grade Teacher, Four Peaks Elementary School"
+    },
+    {
+      quote: "Overall I think it's a fantastic service. Variables, arrays, loops, all covered in very fun and imaginative ways. Every kid who has tried it is a fan."
+      source: "Aibinder Andrew, Technology Teacher"
+    },
+    {
+      quote: "I love what you have created. The kids are so engaged."
+      source: "Desmond Smith, 4KS Academy"
+    },
+    {
+      quote: "My students love the website and I hope on having content structured around it in the near future."
+      source: "Michael Leonard, Science Teacher, Clearwater Central Catholic High School"
+    }
+  ]
+  praise[_.random(0, praise.length - 1)]
