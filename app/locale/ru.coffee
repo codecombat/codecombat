@@ -836,7 +836,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     latest_achievement: "Последнее достижение"
     playtime: "Время игры"
     last_played: "Последняя игра"
-#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
+    leagues_explanation: "Играйте в лиге против других членов клана на мультиплеерной арене."
 
   classes:
     archmage_title: "Архимаг"
@@ -1077,7 +1077,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tournament_blurb_blog: "в нашем блоге"
     rules: "Правила"
     winners: "Победители"
-#    league: "League"
+    league: "Лига"
 
   user:
     stats: "Характеристики"
@@ -1218,8 +1218,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     arithmetic: "Арифметика"
     arrays: "Массивы"
     basic_syntax: "Базовый синтаксис"
-    boolean_logic: "Булева логика"
-#    break_statements: "Break Statements"
+    boolean_logic: "Булевая логика"
+    break_statements: "Циклы"
     classes: "Классы"
 #    continue_statements: "Continue Statements"
     for_loops: "Циклы \"for\""
