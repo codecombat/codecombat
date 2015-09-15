@@ -3,7 +3,11 @@ Handler = require '../commons/Handler'
 {getCoursesPrice} = require '../../app/core/utils'
 Course = require './Course'
 CourseInstance = require './CourseInstance'
+LevelSession = require '../levels/sessions/LevelSession'
+LevelSessionHandler = require '../levels/sessions/level_session_handler'
 Prepaid = require '../prepaids/Prepaid'
+User = require '../users/User'
+UserHandler = require '../users/user_handler'
 
 CourseInstanceHandler = class CourseInstanceHandler extends Handler
   modelClass: CourseInstance
@@ -14,15 +18,18 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     console.warn "Course error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 
   hasAccess: (req) ->
-    req.method is 'GET' or req.user?.isAdmin()
+    req.method in @allowedMethods or req.user?.isAdmin()
 
   hasAccessToDocument: (req, document, method=null) ->
-    return true if _.find document?.get('members'), (a) -> a.equals(req.user?.get('_id'))
+    return true if document?.get('ownerID')?.equals(req.user?.get('_id'))
+    return true if req.method is 'GET' and _.find document?.get('members'), (a) -> a.equals(req.user?.get('_id'))
     req.user?.isAdmin()
 
   getByRelationship: (req, res, args...) ->
     relationship = args[1]
     return @createAPI(req, res) if relationship is 'create'
+    return @getLevelSessionsAPI(req, res, args[0]) if args[1] is 'level_sessions'
+    return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
     super arguments...
 
   createAPI: (req, res) ->
@@ -94,5 +101,24 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
       Course.find {}, (err, documents) =>
         done(err, documents)
 
+  getLevelSessionsAPI: (req, res, courseInstanceID) ->
+    CourseInstance.findById courseInstanceID, (err, courseInstance) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless courseInstance
+      memberIDs = _.map courseInstance.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
+      LevelSession.find {creator: {$in: memberIDs}}, (err, documents) =>
+        return @sendDatabaseError(res, err) if err?
+        cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
+        @sendSuccess(res, cleandocs)
+
+  getMembersAPI: (req, res, courseInstanceID) ->
+    CourseInstance.findById courseInstanceID, (err, courseInstance) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless courseInstance
+      memberIDs = courseInstance.get('members') ? []
+      User.find {_id: {$in: memberIDs}}, (err, users) =>
+        return @sendDatabaseError(res, err) if err
+        cleandocs = (UserHandler.formatEntity(req, doc) for doc in users)
+        @sendSuccess(res, cleandocs)
 
 module.exports = new CourseInstanceHandler()

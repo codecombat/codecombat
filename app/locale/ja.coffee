@@ -255,8 +255,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_new_item: "ニューアイテム"
     victory_viking_code_school: "あなたはハードレベルのホーリー・スモークを打ち破りました! もしあなたが既にソフトウェア開発者でないなら, ぜひやってみましょう. あなたはちょうどViking Code Scoolで受け入れられるための出世街道にいます,そこでは次のレベルへのスキルを取得でき、14週間でプロのWeb開発者になれます。"
     victory_become_a_viking: "バイキングになる"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
+    victory_bloc: "すばらしい偉業ですね！あなたのスキルは伸びています、そしてそれに注目している人もいます。もしあなたがソフトウェア開発者になろうと考えているなら今日は幸運な日です。Blocはエキスパートのメンターが一対一であなたをプロの開発者に訓練するブートキャンプです！Mayhem of Munchkinsを倒したあなたはコードにより500ドルの割引の対象となっています。: CCRULES"
+    victory_bloc_cta: "あなたのメンターに会う – Blockについて学ぶ"
     guide_title: "ガイド"
     tome_minion_spells: "操作できるキャラクターの呪文" # Only in old-style levels.
     tome_read_only_spells: "読込専用の呪文" # Only in old-style levels.
@@ -401,7 +401,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   subscribe:
     comparison_blurb: "CodeCombatへ課金してスキルを磨きましょう！"
-    feature1: "100以上の基本レベルが４つの世界に" # {change}
+    feature1: "110以上の基本レベルが４つの世界に" # {change}
     feature2: "10人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!" # {change}
     feature3: "70以上のボーナスレベル"
     feature4: "<strong>3500のジェム</strong>が毎月ボーナス!"
@@ -607,29 +607,29 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     intro_2: "プログラミングの経験は必要ありません！"
     free_title: "価格について"
 #    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 180+ levels on our exclusive China servers."
-    free_1: "CodeCombat は基本的に無料です！100以上のレベルが無料です。" # {change}
+    free_1: "CodeCombat は基本的に無料です！110以上のレベルが無料です。" # {change}
     free_2: "月々の課金をするとビデオのチュートリアルにアクセスでき、また追加のレベルが楽しめます。"
     teacher_subs_title: "教育関係者は無料のサブスクリプションを得ることができます！"
     teacher_subs_1: "" # {change}
     teacher_subs_2: "に連絡して無料の月々のサブスクリプションを得ましょう。" # {change}
 #    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "サブスクリプションの内容について"
-    sub_includes_1: "100以上の基本レベルに加えて、生徒は月々のサブスクリプションを得て次の機能が使えます:" # {change}
+    sub_includes_1: "110以上の基本レベルに加えて、生徒は月々のサブスクリプションを得て次の機能が使えます:" # {change}
     sub_includes_2: "70以上の練習レベル"
     sub_includes_3: "ビデオチュートリアル"
     sub_includes_4: "メールによるサポート"
     sub_includes_5: "10人の新しいヒーローとマスターのユニークなスキル" # {change}
     sub_includes_6: "3500のジェムが月々支給されます"
     sub_includes_7: "プライベートクラン"
-#    monitor_progress_title: "How do I monitor student progress?"
-#    monitor_progress_1: "Student progress can be monitored by creating a"
-#    monitor_progress_2: "for your class."
-#    monitor_progress_3: "To add a student, send them the invite link for your Clan, which is on the"
-#    monitor_progress_4: "page."
-#    monitor_progress_5: "After they join, you will see a summary of the student's progress on your Clan's page."
-#    private_clans_1: "Private Clans provide increased privacy and detailed progress information for each student."
-#    private_clans_2: "To create a private Clan, check the 'Make clan private' checkbox when creating a"
-#    private_clans_3: "."
+    monitor_progress_title: "生徒の進捗状況を確認するにはどうすればよいですか？"
+    monitor_progress_1: "生徒の進捗状況を確認するには"
+    monitor_progress_2: "クラスをつくります。"
+    monitor_progress_3: "生徒を追加するには, あなたのクランの招待リンクを送信します, 招待リンクは"
+    monitor_progress_4: "ページ上にあります。"
+    monitor_progress_5: "生徒が参加したら, クランページで生徒の進捗状況の概要が表示されます。"
+    private_clans_1: "プライベートクランは各学生のプライバシーが向上し進捗情報が詳細化しています。"
+    private_clans_2: "プライベートクランを作るには, "
+    private_clans_3: "を作成するとき、'クランをプライベートにする'のチェックボックスをチェックします。"
     who_for_title: "CodeCombat が必要なひと"
     who_for_1: "私たちは CodeCombat を9歳以上の生徒にオススメしています。プログラミングの経験は必要ありません。"
     who_for_2: "私たちは男女問わず遊べるように CodeCombat をデザインしました。"
@@ -765,14 +765,14 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     continue_script: "以前のスクリプトを続ける。"
     skip_scripts: "過去のスキップできるスクリプトをスキップする。"
     toggle_playback: "トグル:プレイ/ポーズ"
-#    scrub_playback: "Scrub back and forward through time."
-#    single_scrub_playback: "Scrub back and forward through time by a single frame."
-#    scrub_execution: "Scrub through current spell execution."
-#    toggle_debug: "Toggle debug display."
-#    toggle_grid: "Toggle grid overlay."
-#    toggle_pathfinding: "Toggle pathfinding overlay."
-#    beautify: "Beautify your code by standardizing its formatting."
-#    maximize_editor: "Maximize/minimize code editor."
+    scrub_playback: "早戻し・早送り."
+    single_scrub_playback: "１フレームごとに早戻し・早送りをする。"
+    scrub_execution: "現在のスペルの実行まで早戻し・早送り。"
+    toggle_debug: "トグル：ディスプレイのデバッグ"
+    toggle_grid: "トグル：オーバーレイをグリッド"
+    toggle_pathfinding: "トグル：オーバーレイの経路探索"
+    beautify: "フォーマットを標準化してコードを美しくする。"
+    maximize_editor: "コードエディターの最大化/最小化。"
 
   community:
     main_title: "CodeCombatコミュニティー"
@@ -836,7 +836,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     latest_achievement: "最新業績"
     playtime: "プレイ時間"
     last_played: "最終プレイ"
-#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
+    leagues_explanation: "リーグで他のマルチアリーナインスタンス内の他のクランメンバーとプレイ"
 
   classes:
     archmage_title: "アークメイジ"
@@ -1077,7 +1077,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    tournament_blurb_blog: "on our blog"
     rules: "ルール"
     winners: "勝者"
-#    league: "League"
+    league: "リーグ"
 
   user:
     stats: "ステータス"
