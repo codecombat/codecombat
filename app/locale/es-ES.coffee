@@ -253,7 +253,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_experience_gained: "XP Conseguida"
     victory_gems_gained: "Gemas Conseguidas"
     victory_new_item: "Nuevo artículo"
-    victory_viking_code_school:  "Jolínes, el nivel que acabas de pasar era dificil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirteen un desarrollador web profesional en 14 semanas."
+    victory_viking_code_school: "Jolínes, el nivel que acabas de pasar era dificil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirteen un desarrollador web profesional en 14 semanas."
     victory_become_a_viking: "Convertirse en un vikingo"
     victory_bloc: "¡Buen trabajo! Tus habilidades están mejorando, y alguien ya se dió cuenta. Si has considerado convertirte en un desarrollador de software, este podría ser tu día de suerte. Bloc es un campo de entrenamiento online que te conecta 1 a 1 con un mentor experto que te ayudará a entrenarte para convertirte ¡En un desarrollador profesional! Al vencer A Mayhem of Munchkins, eres elegible para una reducción de $500 USD usando el código: CCRULES"
     victory_bloc_cta: "Conoce a tu mentor – aprende acerca de Bloc"
