@@ -23,7 +23,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     profile: "Perfil"
     stats: "Estadísticas"
     code: "Código"
-    admin: "Admin" # Only shows up when you are an admin
+    admin: "Administrador" # Only shows up when you are an admin
     home: "Inicio"
     contribute: "Contribuir"
     legal: "Legal"
@@ -122,7 +122,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     secondary: "Secundario"
     armor: "Armadura"
     accessories: "Accesorios"
-    misc: "Misc"
+    misc: "Misceláneo"
     books: "Libros"
 
   common:
@@ -253,9 +253,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_experience_gained: "XP Ganada"
     victory_gems_gained: "Gemas Ganadas"
     victory_new_item: "Objeto Nuevo"
-    victory_viking_code_school: "Santo cielo, Holy smokes, el nivel que acabas de pasar era dificil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirteen un desarrollador web profesional en 14 semanas."
+    victory_viking_code_school: "¡Changos macacos!, el nivel que acabas de pasar era dificil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirteen un desarrollador web profesional en 14 semanas."
     victory_become_a_viking: "Conviértete en un Vikingo"
-#    victory_bloc: "¡Buen trabajo! Tus habilidades están mejorando, y alguien ya se dió cuenta. Si has considerado convertirte en un desarrollador de software, este podría ser tu día de suerte. Bloc es un online bootcamp que te pairs 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+    victory_bloc: "¡Buen trabajo! Tus habilidades están mejorando, y alguien ya se dió cuenta. Si has considerado convertirte en un desarrollador de software, este podría ser tu día de suerte. Bloc es un campo de entrenamiento online que te conecta 1 a 1 con un mentor experto que te ayudará a entrenarte para convertirte ¡En un desarrollador profesional! Al vencer A Mayhem of Munchkins, eres elegible para una reducción de $500 USD usando el código: CCRULES"
     victory_bloc_cta: "Conoce a tu mentor – aprende acerca de Bloc"
     guide_title: "Guía"
     tome_minion_spells: "Hechizos de tus Secuaces" # Only in old-style levels.
@@ -605,7 +605,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     title: "CodeCombat para Profesores"
     intro_1: "CodeCombat es un juego online que enseña a programar.Los estudiantes escriben código en idiomas de programación real."
     intro_2: "No se necesita experiencia previa!"
-    free_title: "¿Cuanto cuesta?"
+    free_title: "¿Cuánto cuesta?"
     cost_china: "CodeCombat es gratis en China por los primeros cinco niveles, despues cuesta $9.99(dólares) por mes para tener acceso a 120+ niveles que son exclusivos en nuestros servidores en China." # {change}
     free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto." # {change}
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
@@ -618,7 +618,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     sub_includes_2: "Más de 40 niveles de práctica" # {change}
     sub_includes_3: "Video tutoriales"
     sub_includes_4: "Soporte de correo electronico Premium"
-    sub_includes_5: "7 heroes nuevos con habilidades unicas que dominar" # {change}
+    sub_includes_5: "7 héroes nuevos con habilidades unicas que dominar" # {change}
     sub_includes_6: "bonificación de 3500 gemas cada mes"
     sub_includes_7: "Clanes privados"
     monitor_progress_title: "¿Cómo monitoreo el progreso del estudiante?"
@@ -1329,8 +1329,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     custom_avatar: " CodeCombat Avatar Personalizado"
     heap: "Por seis meses acceso \"Startup\"."
     credits: "creditos"
-    one_month_coupon: "Cupón: elegí entre Rails o HTML."
-    one_month_discount: "descuento del 30%: elegí entre Rails o HTML"
+    one_month_coupon: "Cupón: elige entre Rails o HTML."
+    one_month_discount: "descuento del 30%: elige entre Rails o HTML"
     license: "licencia"
     oreilly: "ebook de su elección"
 

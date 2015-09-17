@@ -9,23 +9,254 @@ block content
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
   div(style='border-bottom: 1px solid black;')
 
-  h1(style='text-align: center;') Course
-  if course
-    div= course.get('name')
-    div= course.get('description')
-    div= course.get('campaignID')
-    div= course.get('concepts')
+  if me.isAnonymous()
+    h1 TODO: logged out
+  else if !course || !courseInstance
+    h1 Loading...
   else
-    div No course found.
+    h1= courseInstance.get('name') || 'Unnamed Class'
+     small.spl (#{course.get('name')})
 
-  h1(style='text-align: center;') Class
-  if courseInstance
     p
-      div= courseInstance.get('name') || 'Class Name'
-      div= courseInstance.get('description')
-      div= courseInstance.get('courseID')
-      div= courseInstance.get('ownerID')
-      div= courseInstance.get('members')
-      div= courseInstance.get('prepaidID')
-  else
-    p No classes found.
+      if courseInstance.get('description')
+        each line in courseInstance.get('description').split('\n')
+          div= line
+    if adminMode && courseInstance
+      +settings-dialog
+      p
+        button.btn.btn-xs(data-toggle='modal', data-target='#settingsModal') edit class settings
+
+    div.well.well-sm(role='tabpanel')
+      ul.nav.nav-pills(role='tablist')
+        li.active(role='presentation')
+          a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab') Class Progress
+        if adminMode
+          li(role='presentation')
+            a(href='#invite', aria-controls='invite', role='tab', data-toggle='tab') Add Students
+        li(role='presentation')
+          a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab') Levels
+    .tab-content
+      .tab-pane.active#progress(role='tabpanel')
+        +progress-tab
+      if adminMode
+        .tab-pane#invite(role='tabpanel')
+          +invite-tab
+      .tab-pane#levels(role='tabpanel')
+        +levels-tab
+
+mixin progress-tab
+  .container-fluid.progress-summary-container
+    .row
+      .col-md-6
+        +progress-summary-stats
+      .col-md-6
+        +progress-summary-concepts
+  +progress-members
+
+mixin progress-summary-stats
+  h3 Statistics
+  table.progress-stats-container
+    tr
+      td Total students:
+      td 
+        if courseInstance
+          div #{courseInstance.get('members').length}
+    tr
+      td Average level play time:
+      td TODO
+    tr
+      td Total play time:
+      td TODO
+    tr
+      td Average levels completed:
+      td TODO
+    tr
+      td Total levels completed:
+      td TODO
+    tr
+      td Furthest level completed:
+      td TODO
+
+mixin progress-summary-concepts
+  h3 Concepts Covered
+  if course && courseInstance && conceptsCompleted
+    table.progress-concepts-container
+      each concept in course.get('concepts')
+        - var conceptCompletion = Math.round(parseFloat(conceptsCompleted[concept]) / courseInstance.get('members').length * 100)
+        if isNaN(conceptCompletion)
+          - conceptCompletion = 0
+        tr
+          td.progress-concept-completion-container
+            span.progress-concept-summary(style="width:#{conceptCompletion}%;")
+              span.spr(data-i18n="concepts." + concept)
+              span - #{conceptCompletion}%
+
+mixin progress-members
+  h3 Students
+  table.table.table-condensed
+    thead
+      tr
+        th
+          span.progress-member-header.spr Name
+          if memberSort === 'nameAsc'
+            span.progress-member-header.glyphicon.glyphicon-chevron-up
+          else if memberSort === 'nameDesc'
+            span.progress-member-header.glyphicon.glyphicon-chevron-down
+        th
+          span.progress-header.spr Progress
+          if memberSort === 'progressAsc'
+            span.progress-header.glyphicon.glyphicon-chevron-up
+          else if memberSort === 'progressDesc'
+            span.progress-header.glyphicon.glyphicon-chevron-down
+          else
+            span(style='padding-left:16px;')
+          span.progress-key.progress-key-complete complete
+          span.progress-key.progress-key-started started
+          span.progress-key not started
+          input.progress-expand-checkbox(type='checkbox')
+          span.spl.progress-expand-label Expand details
+    tbody
+      each memberID in sortedMembers
+        tr
+          td.progress-member-cell
+            +progress-members-individual(memberID)
+          td.progress-cell
+            if showExpandedProgress
+              .progress-concepts-label Concepts
+              +progress-members-concepts(memberID)
+              .progess-levels-label Levels
+              +progress-members-levels-expanded(memberID)
+            else
+              table
+                tbody
+                  tr
+                    td.progress-concepts-label Concepts
+                    td.progress-condensed-cell
+                      +progress-members-concepts(memberID)
+                  tr
+                    td.progess-levels-label Levels
+                    td.progress-condensed-cell
+                      +progress-members-levels-condensed(memberID)
+
+mixin progress-members-individual(memberID)
+  - var name = memberUserMap[memberID] ? memberUserMap[memberID].get('name') : 'Anoner'
+  a(href="/user/#{memberID}")= name || 'Anoner'
+  div TODO: levels completed
+  div TODO: total time played
+  div TODO: last played
+
+mixin progress-members-concepts(memberID)
+  if course && userLevelStateMap[memberID]
+    each concept in course.get('concepts')
+      if userConceptStateMap[memberID][concept] === 'complete'
+        span.spr.progress-concept-cell.progress-concept-cell-complete(data-i18n="concepts." + concept)
+      else if userConceptStateMap[memberID][concept] === 'started'
+        span.spr.progress-concept-cell.progress-concept-cell-started(data-i18n="concepts." + concept)
+      else if showExpandedProgress
+        span.spr.progress-concept-cell.progress-concept-cell-not-started(data-i18n="concepts." + concept)
+
+mixin progress-members-levels-expanded(memberID)
+  if campaign && userLevelStateMap[memberID]
+    - var i = 0
+    each level, levelID in campaign.get('levels')
+      if userLevelStateMap[memberID][levelID] === 'complete'
+        span.progress-level-cell.progress-level-cell-complete #{i + 1}
+          span.spl= level.name.replace('Course: ', '')
+          +progress-members-popup-completed(i, level)
+      else if userLevelStateMap[memberID][levelID] === 'started'
+        span.progress-level-cell.progress-level-cell-started #{i + 1} #{level.name.replace('Course: ', '')}
+          +progress-members-popup-started(i, level)
+      else
+        span.progress-level-cell #{i + 1} #{level.name.replace('Course: ', '')}
+      - i++
+
+mixin progress-members-levels-condensed(memberID)
+  if campaign && userLevelStateMap[memberID]
+    - var numLevels = Object.keys(campaign.get('levels')).length
+    - var levelCellWidth = 100.00
+    if numLevels > 0
+      levelCellWidth = 100.00 / numLevels
+    - var i = 0
+    each level, levelID in campaign.get('levels')
+      if userLevelStateMap[memberID][levelID] === 'complete'
+        span.progress-level-cell.progress-level-cell-complete(style="width:#{levelCellWidth}%;") #{i + 1}
+          +progress-members-popup-completed(i, level)
+      else if userLevelStateMap[memberID][levelID] === 'started'
+        span.progress-level-cell.progress-level-cell-started(style="width:#{levelCellWidth}%;") #{i + 1}
+          +progress-members-popup-started(i, level)
+      else
+        break
+      - i++
+
+mixin progress-members-popup-completed(i, level)
+  .progress-popup-container
+    h3 #{i + 1}. #{level.name.replace('Course: ', '')}
+    p TODO: Time to solve
+    p TODO: Completed on
+    strong Click to view solution.
+
+mixin progress-members-popup-started(i, level)
+  .progress-popup-container
+    h3 #{i + 1}. #{level.name.replace('Course: ', '')}
+    p TODO: last played on
+    strong Click to view solution.
+
+mixin invite-tab
+  p Invite students to join this class.
+  p TODO: Student unlock code
+  p TODO: Class capacity
+  textarea.invite-emails(rows=3, placeholder="Enter student emails to invite, one per line")
+  div(style='margin-top:10px;')
+    button.btn.btn-success.btn-invite Send Invites
+
+mixin levels-tab
+  table.table.table-striped.table-condensed
+    thead
+      tr
+        th
+        th Status
+        th Level
+        th Concepts
+    tbody
+      if campaign
+        each level, levelID in campaign.get('levels')
+          tr
+            td
+              button.btn.btn-success.btn-play-level(data-level-slug=level.slug) Play
+            td
+              if userLevelStateMap[me.id]
+                div= userLevelStateMap[me.id][levelID]
+            td= level.name.replace('Course: ', '')
+            td
+              if levelConceptMap[levelID]
+                each concept in course.get('concepts')
+                  if levelConceptMap[levelID][concept]
+                    span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
+
+mixin settings-dialog
+  .modal#settingsModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title Edit Class Settings
+      .modal-body
+        p
+          strong Title
+        p 
+          input.settings-name-input(type='text', value="#{courseInstance.get('name') || ''}")
+        p
+          strong Description
+        p 
+          textarea.settings-description-input(rows=2)= courseInstance.get('description')
+        p Select programming languages available to the class:
+        p 
+          select.form-control.settings-language-select
+            option(value="Python") Python
+            option(value="JavaScript") JavaScript
+            option(value="All Languages") All Languages
+        p
+          input.settings-public-progress(type='checkbox', checked)
+          span.spl Show student progress to everyone in the class
+      .modal-footer
+        button.btn.btn-save-settings(data-i18n="common.save_changes")

@@ -43,6 +43,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'beta': go('HomeView')
 
+    'careers(/:position)': go('CareersView')
+
     'cla': go('CLAView')
 
     'clans': go('clans/ClansView')

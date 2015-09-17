@@ -66,9 +66,9 @@ module.exports = class LadderView extends RootView
     ctx.leagueType = @leagueType
     ctx.league = @league
     ctx._ = _
-    if tournamentEndDate = {greed: 1402444800000, 'criss-cross': 1410912000000, 'zero-sum': 1428364800000}[@levelID]
+    if tournamentEndDate = {greed: 1402444800000, 'criss-cross': 1410912000000, 'zero-sum': 1428364800000, 'ace-of-coders': 1444867200000}[@levelID]
       ctx.tournamentTimeLeft = moment(new Date(tournamentEndDate)).fromNow()
-    if tournamentStartDate = {'zero-sum': 1427472000000}[@levelID]
+    if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000}[@levelID]
       ctx.tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
     ctx.winners = require('./tournament_results')[@levelID]
     ctx

@@ -200,7 +200,6 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
 
 UserSchema.methods.register = (done) ->
   @set('anonymous', false)
-  @set('permissions', ['admin']) if not isProduction and not GLOBAL.testing
   if (name = @get 'name')? and name isnt ''
     unconflictName name, (err, uniqueName) =>
       return done err if err
