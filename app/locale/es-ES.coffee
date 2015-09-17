@@ -79,8 +79,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     adjust_volume: "Ajustar volúmen"
     campaign_multiplayer: "Arenas Multijugador"
     campaign_multiplayer_description: "... en las que tu código se enfrentará al de otros jugadores."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_old_multiplayer: "(Obsoleto) Antiguas Arenas Multijugador"
+    campaign_old_multiplayer_description: "Reliquias de una era más civilizada. Ninguna simulación es ejecutada para estas arenas multijugador antiguas y sin héroes."
 
   share_progress_modal:
     blurb: "¡Estás teniendo un gran progreso! Cuéntale a alguien que tanto habeis aprendido con CodeCombat." # {change}
@@ -147,7 +147,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     unwatch: "Pasar"
     submit_patch: "Enviar Parche"
     submit_changes: "Enviar Cambios"
-#    save_changes: "Save Changes"
+    save_changes: "Guardar cambios"
 
   general:
     and: "y"
@@ -247,16 +247,16 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_saving_progress: "Salvando Progreso"
     victory_go_home: "Ir a Inicio"
     victory_review: "¡Cuéntanos más!"
-#    victory_review_placeholder: "How was the level?"
+    victory_review_placeholder: "¿Cómo estuvo el nivel?"
     victory_hour_of_code_done: "¿Ya terminaste?"
     victory_hour_of_code_done_yes: "Si, ¡He terminado con mi hora de código!"
     victory_experience_gained: "XP Conseguida"
     victory_gems_gained: "Gemas Conseguidas"
     victory_new_item: "Nuevo artículo"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
+    victory_viking_code_school: "Jolínes, el nivel que acabas de pasar era dificil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirteen un desarrollador web profesional en 14 semanas."
     victory_become_a_viking: "Convertirse en un vikingo"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
+    victory_bloc: "¡Buen trabajo! Tus habilidades están mejorando, y alguien ya se dió cuenta. Si has considerado convertirte en un desarrollador de software, este podría ser tu día de suerte. Bloc es un campo de entrenamiento online que te conecta 1 a 1 con un mentor experto que te ayudará a entrenarte para convertirte ¡En un desarrollador profesional! Al vencer A Mayhem of Munchkins, eres elegible para una reducción de $500 USD usando el código: CCRULES"
+    victory_bloc_cta: "Conoce a tu mentor – aprende acerca de Bloc"
     guide_title: "Guía"
     tome_minion_spells: "Los hechizos de tus súbditos" # Only in old-style levels.
     tome_read_only_spells: "Hechizos de solo lectura" # Only in old-style levels.
@@ -286,9 +286,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     time_goto: "Ir a:"
     non_user_code_problem_title: "No puede cargar un nivel"
     infinite_loop_title: "Bucle infinito detectado"
-#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
-#    check_dev_console: "You can also open the developer console to see what might be going wrong."
-#    check_dev_console_link: "(instructions)"
+    infinite_loop_description: "El código inicial para construir el mundo no terminó de ejecutarse. Probablemente es muy lento o tiene un loop infinito. O puede ser un bug. Puedes tratar ejecutando este código nuevamente o reiniciar el código a su estado por defecto. Si eso no lo arregla, haznos saber."
+    check_dev_console: "También podeis abrir la consola de desarrollo para ver que puede salir mal."
+    check_dev_console_link: "(instrucciones)"
     infinite_loop_try_again: "Inténtalo de nuevo"
     infinite_loop_reset_level: "Reiniciar nivel"
     infinite_loop_comment_out: "Comenta mi código"
@@ -296,7 +296,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_scrub_shortcut: "Ctrl+[ y Ctrl+] rebobina y avanza hacia adelante." # {change}
     tip_guide_exists: "Haz clic en la guía arriba de la página para más información útil."
     tip_open_source: "¡CodeCombat es 100% open source!"
-#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "¿Disfrutando de CodeCombat? ¡Cuéntale a tus amigos acerca de nosotros!"
     tip_beta_launch: "CodeCombat lanzó su beta en Octubre de 2013."
     tip_think_solution: "Piensa en la solución, no en el problema."
     tip_theory_practice: "En teoría, no hay diferencia entre la teoría y la práctica. Pero en la práctica, la hay. - Yogi Berra"
@@ -329,7 +329,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_code_never_lies: "El código nunca os miente, los comentarios algunas veces. — Ron Jeffries"
     tip_reusable_software: "Antes de que el software pueda ser reutilizable, primero debe ser utilizable."
     tip_optimization_operator: "Cada lenguaje tiene un operator para optimización. En la mayoría de los lenguajes dicho operador es ‘//’"
-#    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
+    tip_lines_of_code: "Medir el progreso en la programación en líneas de código es como medir el progreso de construcción de una aeronave por su peso. — Bill Gates"
 #    tip_source_code: "I want to change the world but they would not give me the source code."
     tip_javascript_java: "Java es a JavaScript lo que un automóvil es a un móvil. - Chris Heilmann"
     tip_move_forward: "Lo que sea que hagas, sigue hacia adelante. - Martin Luther King Jr."
