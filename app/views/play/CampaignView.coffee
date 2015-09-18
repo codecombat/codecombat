@@ -305,6 +305,11 @@ module.exports = class CampaignView extends RootView
   determineNextLevel: (levels) ->
     foundNext = false
     dontPointTo = ['lost-viking', 'kithgard-mastery']  # Challenge levels we don't want most players bashing heads against
+    subscriptionPrompts = [{slug: 'boom-and-bust', unless: 'defense-of-plainswood'}]
+    if me.getSubscriptionPromptGroup() is 'favorable-odds'
+      subscriptionPrompts.push slug: 'favorable-odds', unless: 'the-raised-sword'
+    if me.getSubscriptionPromptGroup() is 'tactical-strike'
+      subscriptionPrompts.push slug: 'tactical-strike', unless: 'a-mayhem-of-munchkins'
     for level in levels
       # Iterate through all levels in order and look to find the first unlocked one that meets all our criteria for being pointed out as the next level.
       level.nextLevels = (reward.level for reward in level.rewards ? [] when reward.level)
@@ -321,10 +326,8 @@ module.exports = class CampaignView extends RootView
 
           # Should we point this level out?
           if nextLevel and not nextLevel.locked and not nextLevel.disabled and @levelStatusMap[nextLevel.slug] isnt 'complete' and nextLevel.slug not in dontPointTo and not nextLevel.replayable and (
-            me.isPremium() or
-            not nextLevel.requiresSubscription or
-            (nextLevel.slug is 'boom-and-bust' and not @levelStatusMap['defense-of-plainswood']) or
-            (nextLevel.slug is 'favorable-odds' and not @levelStatusMap['the-raised-sword'])
+            me.isPremium() or not nextLevel.requiresSubscription or
+            _.any(subscriptionPrompts, (prompt) => nextLevel.slug is prompt.slug and not @levelStatusMap[prompt.unless])
           )
             nextLevel.next = true
             foundNext = true
