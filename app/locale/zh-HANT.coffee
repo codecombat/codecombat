@@ -1078,7 +1078,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tournament_blurb: "寫下程式碼, 收集金幣, 建立軍隊, 粉碎敵人, 贏得獎項,在我們價值$40,000的Greed錦標賽中升級您的職業! 查看"
     tournament_blurb_criss_cross: "贏得競賽, 建造道路, 智勝對手, 收集寶石, 在我們的Criss-Crossand錦標賽中升級您的職業! 查看"
     tournament_blurb_zero_sum: "在紅方法師和藍方法師的山峰對決中，同時在收集金幣和戰術上發揮你的代碼創造力。競賽在3月27日開始，在4月6日（星期一）的下午5點（PDT太平洋時區）結束。為樂趣和榮耀競賽吧！瀏覽了解更多"
-    tournament_blurb_ace_of_coders: "我的主場我主宰，在天寒地凍的冰山上來自己鏡像大戰一場吧！本次比賽將由9月16日星期三開辦到10月14日下午5點PDT。詳情請查看"
+    tournament_blurb_ace_of_coders: "我的主場我主宰，在寒天雪地的冰原上和自己鏡像大戰一場吧！本次比賽將由9月16日星期三開辦到10月14日下午5點PDT。詳情請查看"
     tournament_blurb_blog: "我們的部落格"
     rules: "規則"
     winners: "贏家"
