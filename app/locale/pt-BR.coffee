@@ -446,7 +446,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    sale_ends: "Ends"
     sale_extended: "*Assinaturas existentes serão extendidas por 1 ano."
 #    sale_feature_here: "Here's what you'll get:"
-    sale_feature2: "Acesso a 9 poderosos <strong>novos heróis heroes</strong> com atributos únicos!"
+    sale_feature2: "Acesso a 9 poderosos <strong>novos heróis</strong> com atributos únicos!"
 #    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
 #    sale_continue: "Ready to continue adventuring?"
 #    sale_limited_time: "Limited time offer!"
@@ -652,7 +652,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     sys_requirements_1: "Pelo motivo de CodeCombat ser um jogo, é mais intenso para ser processado em computadores do que tutoriais em vídeo ou escritos. Estamos otimizando para que rode rapidamente em todos navegadores modernos e também em computadores antigos, assim todos podem jogar. Sendo assim, aqui estão as nossas sugestões para tirar o máximo proveito da experiência de CodeCombat:" # {change}
     sys_requirements_2: "Use versões novas dos navegadores Chrome ou Firefox." # {change}
 
-#  teachers_survey:
+  teachers_survey:
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
@@ -1211,7 +1211,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    poll: "Poll"
 #    user_polls_record: "Poll Voting History"
 
-#  concepts:
+  concepts:
 #    advanced_strings: "Advanced Strings"
     algorithms: "Algorítmos"
 #    arguments: "Arguments"
