@@ -441,7 +441,7 @@
     payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     sale_already_subscribed: "You're already subscribed!"
     sale_blurb1: "Save 35%"
-    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
+    sale_blurb2: "off regular subscription price of $120 for a whole year!"
     sale_button: "Sale!"
     sale_button_title: "Save 35% when you purchase a 1 year subscription"
     sale_click_here: "Click Here"
@@ -465,7 +465,7 @@
     managed_by: "Managed by"
     will_be_cancelled: "Will be cancelled on"
     currently_free: "You currently have a free subscription"
-    currently_free_until: "You currently have a subscription until" # {changed}
+    currently_free_until: "You currently have a subscription until"
     was_free_until: "You had a free subscription until"
     managed_subs: "Managed Subscriptions"
     managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
