@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     contact: "Contactar"
     twitter_follow: "Seguir"
     teachers: "Professores"
+#    careers: "Careers"
 
   modal:
     close: "Fechar"
@@ -440,7 +441,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     payment_methods_blurb2: "Se precisares de uma outra forma de pagamento, por favor contacta"
     sale_already_subscribed: "Já estás subscrito!"
     sale_blurb1: "Poupa 35%"
-    sale_blurb2: "do preço de uma subscrição anual normal de $120!"
+    sale_blurb2: "do preço de uma subscrição anual normal de $120!" # {changed}
     sale_button: "Promoção!"
     sale_button_title: "Poupa 35% ao comprares uma subscrição anual"
     sale_click_here: "Clica Aqui"
@@ -463,7 +464,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     managed_by: "Gerida por"
     will_be_cancelled: "Será cancelada em"
     currently_free: "Atualmente tens uma subscrição gratuita"
-    currently_free_until: "Atualmente tens uma subscrição até"
+    currently_free_until: "Atualmente tens uma subscrição até" # {changed}
     was_free_until: "Tinhas uma subscrição gratuita até"
     managed_subs: "Subscrições Geridas"
     managed_subs_desc: "Adiciona subscrições para outros jogadores (estudantes, crianças, etc.)"
@@ -613,6 +614,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     free_1: "Há 110+ níveis GRATUITOS que abordam cada conceito."
     free_2: "Uma subscrição mensal garante acesso a tutoriais em vídeo e a níveis extra para praticar."
     teacher_subs_title: "Os professores recebem uma subscrição gratuita!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
     teacher_subs_1: "Por favor, preenche o nosso"
     teacher_subs_2: "Inquérito para Professores"
     teacher_subs_3: "para configurares a tua subscrição."
@@ -1077,10 +1079,16 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tournament_blurb: "Escreve código, recolhe ouro, constrói exércitos, esmaga inimigos, ganha prémios e melhora a tua carreira no nosso torneio $40,000 Greed! Confere os detalhes"
     tournament_blurb_criss_cross: "Ganha ofertas, constrói caminhos, supera os adversários, apanha gemas e melhore a tua carreira no nosso torneio Criss-Cross! Confere os detalhes"
     tournament_blurb_zero_sum: "Liberta a tua criatividade de programação tanto na recolha de ouro como em táticas de combate nesta batalha-espelhada na montaha, entre o feiticeiro vermelho e o feiticeiro azul. O torneio começou na Sexta-feira, 27 de Março, e decorrerá até às 00:00 de Terça-feira, 7 de Abril. Compete por diversão e glória! Confere os detalhes"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "no nosso blog"
     rules: "Regras"
     winners: "Vencedores"
     league: "Liga"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Estatísticas"
@@ -1251,6 +1259,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
 #  guide:
 #    temp: "Temp"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Definições Multijogador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

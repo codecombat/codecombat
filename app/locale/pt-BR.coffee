@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     contact: "Contate-nos"
     twitter_follow: "Seguir"
     teachers: "Professores"
+#    careers: "Careers"
 
   modal:
     close: "Fechar"
@@ -57,7 +58,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     confirm: "Confirmar"
     owned: "Possui" # For items you own
     locked: "Bloqueado"
-    purchasable: "Comprável" # For a hero you unlocked but have not purchased
+    purchasable: "Comprável" # For a hero you unlocked but haven't purchased
     available: "Disponível"
     skills_granted: "Habilidades Concedidas" # Property documentation details
     heroes: "Heróis" # Tooltip on hero shop button from /play
@@ -137,7 +138,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     publish: "Publicar"
     create: "Criar"
     manual: "Manual"
-    fork: "Fork" # When used as a verb, like "To fork a repository"
+    fork: "Fork"
     play: "Jogar" # When used as an action verb, like "Play next level"
     retry: "Tente novamente"
     actions: "Ações"
@@ -255,8 +256,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     victory_new_item: "Novo item"
     victory_viking_code_school: "Pelas barbas do profeta, esse foi um nível difícil! Se você ainda não é um desenvolvedor de software, você deveria ser. Você acaba de ser priorizado para aceitação na Viking Code School, onde você pode aprender mais e se tornar um desenvolvedor web profissional em 14 semanas."
     victory_become_a_viking: "Torne-se um viking"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
+    victory_bloc: "Ótimo trabalho! Suas habilidades estão melhorando, e alguém está tomando conhecimento. Se você já pensou em se tornar um desenvolvedor de software, este pode ser o seu dia de sorte. Bloc é um campo de treinamento online em pares 1-a-1, você e um experiente mentor que irá lhe ajudar e treinar como um desenvolvedor profissional! Ao bater A Mayhem of Munchkins, você está elegível por uma redução de preço de U$500 com o código: CCRULES"
+    victory_bloc_cta: "Conheça seu mentor - aprenda sobre Bloc"
     guide_title: "Guia"
     tome_minion_spells: "Magias dos seus subordinados" # Only in old-style levels.
     tome_read_only_spells: "Magias não editáveis" # Only in old-style levels.
@@ -360,7 +361,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     auth_caption: "Salve seu progresso."
 
   leaderboard:
-    leaderboard: "Líderança" # {rankings?}
+    leaderboard: "Líderança"
     view_other_solutions: "Ver Outras Soluções" # {change}
     scores: "Pontuação"
     top_players: "Top Jogadores por"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     feature7: "<strong>Clãs</strong> Privados"
     free: "Grátis"
     month: "mês"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Inscrever-se"
     unsubscribe: "Desinscrever-se"
     confirm_unsubscribe: "Confirmar Desinscrição"
@@ -437,24 +439,24 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     payment_methods_title: "Formas de pagamento aceitas"
     payment_methods_blurb1: "Aceitamos cartões de crédito e Alipay no momento."
     payment_methods_blurb2: "Se você precisa de outra forma de pagamento, por favor contate"
-#    sale_already_subscribed: "You're already subscribed!"
-#    sale_blurb1: "Save 35%"
-#    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
-#    sale_button: "Sale!"
-#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
-#    sale_click_here: "Click Here"
+    sale_already_subscribed: "Você já está subscrito!"
+    sale_blurb1: "Economize 35%"
+    sale_blurb2: "desconto regular de assinatura por U$120 durante um ano inteiro!" # {changed}
+    sale_button: "Venda!"
+    sale_button_title: "Economize 35% quando você adquirir a assinatura de 1 ano"
+    sale_click_here: "Clique Aqui"
 #    sale_ends: "Ends"
-#    sale_extended: "*Existing subscriptions will be extended by 1 year."
+    sale_extended: "*Assinaturas existentes serão extendidas por 1 ano."
 #    sale_feature_here: "Here's what you'll get:"
-#    sale_feature2: "Access to 9 powerful <strong>new heroes</strong> with unique skills!"
+    sale_feature2: "Acesso a 9 poderosos <strong>novos heróis</strong> com atributos únicos!"
 #    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
 #    sale_continue: "Ready to continue adventuring?"
 #    sale_limited_time: "Limited time offer!"
-#    sale_new_heroes: "New heroes!"
+    sale_new_heroes: "Novos heróis!"
 #    sale_title: "Back to School Sale"
 #    sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Inscrição Mensal"
-#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
+    stripe_description_year_sale: "Assinatura de 1 Ano (35% de desconto"
     subscription_required_to_play: "Você precisará se inscrever para jogar este nível."
     unlock_help_videos: "Inscreva-se para desbloquear todos os vídeos tutoriais."
     personal_sub: "Inscrição individual" # Accounts Subscription View below
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   skill_docs:
     writable: "gravável" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "apenas leitura"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "nome"
     action_cooldown: "Demora"
     action_specific_cooldown: "Recarregando"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     free_1: "CodeCombat Basic é gratuito! Há mais de 80 níveis gratuitos que cobrem todos os conceitos." # {change}
     free_2: "Uma assinatura mensal dá acesso aos vídeos tutoriais e mais níveis para praticar."
     teacher_subs_title: "Professores recebem assinaturas gratuitas!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
     teacher_subs_1: "Por favor contate" # {change}
     teacher_subs_2: "para organizar uma assinatura mensal." # {change}
     teacher_subs_3: "para configurar sua assinatura"
@@ -629,7 +634,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     monitor_progress_5: "Depois que eles se juntarem ao seu Clã, você verá um resumo do progresso dos estudantes na página do seu Clã."
 #    private_clans_1: "Private Clans provide increased privacy and detailed progress information for each student."
 #    private_clans_2: "To create a private Clan, check the 'Make clan private' checkbox when creating a"
-#    private_clans_3: "."
+    private_clans_3: "."
     who_for_title: "Para quem é indicado o CodeCombat?"
     who_for_1: "Nós recomendamos CodeCombat para estudantes a partir de 9 anos de idade. Nenhuma experiência anterior em programação é necessária."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
@@ -639,12 +644,12 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    concepts_title: "What concepts are covered?"
 #    how_much_title: "How much does a monthly subscription cost?"
 #    how_much_1: "A"
-#    how_much_2: "monthly subscription"
+    how_much_2: "assinatura mensal"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
 #    how_much_5: "We accept discounted one-time purchases and yearly subscription purchases for groups, such as a class or school.  Please contact"
-#    how_much_6: "for more details."
-#    more_info_title: "Where can I find more information?"
+    how_much_6: "para mais detalhes."
+    more_info_title: "Onde eu posso encontrar mais informações?"
 #    more_info_1: "Our"
 #    more_info_2: "teachers forum"
 #    more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
@@ -652,7 +657,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     sys_requirements_1: "Pelo motivo de CodeCombat ser um jogo, é mais intenso para ser processado em computadores do que tutoriais em vídeo ou escritos. Estamos otimizando para que rode rapidamente em todos navegadores modernos e também em computadores antigos, assim todos podem jogar. Sendo assim, aqui estão as nossas sugestões para tirar o máximo proveito da experiência de CodeCombat:" # {change}
     sys_requirements_2: "Use versões novas dos navegadores Chrome ou Firefox." # {change}
 
-#  teachers_survey:
+  teachers_survey:
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
@@ -666,15 +671,15 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
 #    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
-#    description_2: "teachers"
-#    description_3: "page."
+    description_2: "professores"
+    description_3: "página."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
-#    email: "Email Address"
-#    school: "Name of School"
-#    location: "Name of City"
+    email: "Endereço de email"
+    school: "Nome da Escola"
+    location: "Nome da Cidade"
 #    age_students: "How old are your students?"
 #    under: "Under"
-#    other: "Other:"
+    other: "Outro:"
 #    amount_students: "How many students do you teach?"
 #    hear_about: "How did you hear about CodeCombat?"
 #    fill_fields: "Please fill out all fields."
@@ -784,7 +789,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     article_editor_prefix: "Encontrou algo errado na nossa documentação? Gostaria de criar algumas instruções para suas próprias criações? Dê uma olhada em"
     article_editor_suffix: "e ajude os jogadores do CodeCombat a aproveitar o máximo de seu jogo."
     find_us: "Encontre-nos nestes sites"
-#    social_github: "Check out all our code on GitHub"
+    social_github: "Confira todo nosso código no GitHub"
     social_blog: "Leia o blog do CodeCombat no Sett"
     social_discource: "Entre na discussão no nosso Fórum"
     social_facebook: "Curta o CodeCombat no Facebook"
@@ -801,7 +806,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     make_private: "Tornar o clã privado"
     subs_only: "Apenas para assinantes"
     create_clan: "Criar novo clã"
-#    private_preview: "Preview"
+    private_preview: "Visualizar"
     public_clans: "Clãs Públicos"
     my_clans: "Meus Clãs"
     clan_name: "Nome do Clã"
@@ -836,7 +841,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     latest_achievement: "Última Conquista"
     playtime: "Tempo de Jogo"
     last_played: "Último Jogo"
-#    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
+    leagues_explanation: "Jogar em um campeonato contra outros membros do clã nestes casos de arena multiplayer."
 
   classes:
     archmage_title: "Arquimago"
@@ -873,8 +878,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     indoor: "Interior"
     desert: "Deserto"
     grassy: "Gramado"
-#    mountain: "Mountain"
-#    glacier: "Glacier"
+    mountain: "Montanha"
+    glacier: "Geleira"
     small: "Pequeno"
     large: "Grande"
     fork_title: "Realizar um Novo Fork"
@@ -950,8 +955,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     edit_btn_preview: "Prever"
     edit_article_title: "Editar Artigo "
 
-#  polls:
-#    priority: "Priority"
+  polls:
+    priority: "Prioridade"
 
   contribute:
     page_title: "Contribuindo"
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tournament_blurb: "Escreva códigos, colete ouro, construa exércitos, esmague inimigos, ganhe prêmios e aprimore sua carreira no nosso Torneio da Cobiça de $40,000! Veja os detalhes"
     tournament_blurb_criss_cross: "Ganhe leilões, construa caminhos, despiste oponentes, agarre joias e aprimore sua carreira no nosso Torneio de Cruzadas! Veja os detalhes"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "no nosso blog"
     rules: "Regras"
     winners: "Vencedores"
-#    league: "League"
+    league: "Liga"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Estatísticas"
@@ -1118,7 +1129,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     no_recent_games: "Não foram feitos jogos durante duas semanas."
     payments: "Pagamentos"
     purchased: "Comprado"
-#    sale: "Sale"
+    sale: "Vender"
     subscription: "Assinatura"
     invoices: "Faturas"
     service_apple: "Apple"
@@ -1211,35 +1222,35 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    poll: "Poll"
 #    user_polls_record: "Poll Voting History"
 
-#  concepts:
+  concepts:
 #    advanced_strings: "Advanced Strings"
-#    algorithms: "Algorithms"
+    algorithms: "Algorítmos"
 #    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
-#    arrays: "Arrays"
-#    basic_syntax: "Basic Syntax"
-#    boolean_logic: "Boolean Logic"
+    arrays: "Arrays"
+    basic_syntax: "Sintaxe Básica"
+    boolean_logic: "Lógica Booleana"
 #    break_statements: "Break Statements"
-#    classes: "Classes"
+    classes: "Classes"
 #    continue_statements: "Continue Statements"
-#    for_loops: "For Loops"
-#    functions: "Functions"
+    for_loops: "Laço For"
+    functions: "Funções"
 #    graphics: "Graphics"
 #    if_statements: "If Statements"
 #    input_handling: "Input Handling"
-#    math_operations: "Math Operations"
-#    object_literals: "Object Literals"
-#    parameters: "Parameters"
-#    strings: "Strings"
-#    variables: "Variables"
-#    vectors: "Vectors"
-#    while_loops: "Loops"
-#    recursion: "Recursion"
+    math_operations: "Operações Matemáticas"
+    object_literals: "Objetos Literais"
+    parameters: "Parâmetros"
+    strings: "Strings"
+    variables: "Variáveis"
+    vectors: "Vetores"
+    while_loops: "Loops"
+    recursion: "Recursividade"
 
   delta:
     added: "Adicionado"
     modified: "Modificado"
-#    not_modified: "Not Modified"
+    not_modified: "Não Modificado"
     deleted: "Removido"
     moved_index: "Índice Movido"
     text_diff: "Diff do Texto"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   guide:
     temp: "Temp"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Configurações de Multijogador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

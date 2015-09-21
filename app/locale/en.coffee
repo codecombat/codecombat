@@ -31,6 +31,7 @@
     contact: "Contact"
     twitter_follow: "Follow"
     teachers: "Teachers"
+    careers: "Careers"
 
   modal:
     close: "Close"
@@ -1259,6 +1260,9 @@
 
   guide:
     temp: "Temp"
+
+  temp:
+    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Multiplayer Settings"  # We'll be changing this around significantly soon. Until then, it's not important to translate.

@@ -31,6 +31,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     contact: "Contact"
     twitter_follow: "Suivre"
     teachers: "Enseignants"
+#    careers: "Careers"
 
   modal:
     close: "Fermer"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     feature7: "<strong>Clans</strong> privés"
     free: "Gratuit"
     month: "mois"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Abonnement"
     unsubscribe: "Désinscription"
     confirm_unsubscribe: "Confirmer la désinscription"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   skill_docs:
     writable: "éditable" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "lecture seulement"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "nom"
     action_cooldown: "Durée"
     action_specific_cooldown: "Rechargement"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     free_1: "La version de base de CodeCombat est gratuite ! Il y a 70+ niveaux gratuits qui couvrent chaque concepts." # {change}
     free_2: "Un abonnement mensuel fournit l'accès à des vidéos de tutoriels ainsi qu'à des niveaux d'entraînement supplémentaires."
     teacher_subs_title: "Les enseignants reçoivent un abonnement gratuit !"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
     teacher_subs_1: "Merci de nous contacter" # {change}
     teacher_subs_2: "pour obtenir un abonnement mensuel gratuit." # {change}
 #    teacher_subs_3: "to set up your subscription."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tournament_blurb: "Écrire du code, collecter de l'or, construire des armées, écraser les ennemis, gagner des prix, et mettre à jour votre carrière dans notre tournoi $ 40,000 Greed! Découvrez les détails"
     tournament_blurb_criss_cross: "Gagnez des offres, construisez des chemins, déjouez les adversaires, emparez-vous des gemmes, et améliorez votre carrière dans notre tournoi Criss-Cross! Découvrez les détails"
     tournament_blurb_zero_sum: "Libérez votre créativité en programmation dans l'accumulation d'or et de tactiques de combat dans ce combat épique entre le sorcier rouge et bleu. Le tournoi a commencé vendredi le 27 mars et se déroulera jusqu'à lundi le 6 avril à 5PM PDT. Battez-vous pour le plaisir et l'honneur! Aller voir les détails."
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "Sur notre blog"
     rules: "Règles"
     winners: "Gagnants"
 #    league: "League"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Stats"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   guide:
     temp: "Temp"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Préférences multijoueurs" # We'll be changing this around significantly soon. Until then, it's not important to translate.

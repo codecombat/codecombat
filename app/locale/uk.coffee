@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     contact: "Контакти"
     twitter_follow: "Фоловити"
     teachers: "Учителям"
+#    careers: "Careers"
 
   modal:
     close: "Закрити"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     feature7: "Приватні <strong>клани</strong>"
     free: "Безкоштовно"
     month: "місяць"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Взяти абонемент"
     unsubscribe: "Скасувати абонемент"
     confirm_unsubscribe: "Підтвердити відміну підписки"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   skill_docs:
     writable: "записний" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "тільки читання"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "назва"
     action_cooldown: "Триває"
     action_specific_cooldown: "Замороження"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tournament_blurb: "Пиши код, збирай золото, будуй армії, розбивай ворогів, вигравай призи і покращуй свою кар'єру у нашому Greed Турнірі на 40 000 $! Дізнайся більше "
     tournament_blurb_criss_cross: "Вигравай ставки, створюй шляхи, перехитри опонентів, збирай самоцвіти і покращуй свою кар'єру у нашому Criss-Cross Турнірі! Дізнайся більше "
     tournament_blurb_zero_sum: "Надайте волю своєї програмістської фантазії у збиранні золота і бойової тактиці в цьому високогірному дзеркальному матчі між червоним чарівником і синім чарівником. Турнір розпочався в п'ятницю, 27 березня, і продовжиться до 17.00 PDT понеділка, 6 квітня. Беріть участь для веселощів і слави! Подивіться деталі"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "у нашому блозі"
     rules: "Правила"
     winners: "Переможці"
     league: "Ліга"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Статистика"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   guide:
     temp: "Тимч."
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Налаштування мультиплеєра" # We'll be changing this around significantly soon. Until then, it's not important to translate.

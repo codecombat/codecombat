@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     contact: "Contatti"
     twitter_follow: "Segui"
     teachers: "Docenti"
+#    careers: "Careers"
 
   modal:
     close: "Chiudi"
@@ -312,7 +313,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tip_munchkin: "Se non mangi la tua verdura, un munchkin verrà a cercarti mentre dormi."
 #    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
 #    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
-#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
+    tip_no_try: "Fare o non fare. Questo non è provare. - Yoda"
     tip_patience: "Pazienza devi avere, giovane Padawan. - Yoda"
     tip_documented_bug: "Un bug documentato non è bug; è una feature."
     tip_impossible: "Sembra sempre impossibile fino a quando non ci si riesce. - Nelson Mandela"
@@ -410,39 +411,40 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     feature7: "Clan <strong>privati</strong>"
     free: "Gratis"
     month: "mese"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Abbonati"
-#    unsubscribe: "Unsubscribe"
-#    confirm_unsubscribe: "Confirm Unsubscribe"
-#    never_mind: "Never Mind, I Still Love You"
-#    thank_you_months_prefix: "Thank you for supporting us these last"
+    unsubscribe: "Disabbonati"
+    confirm_unsubscribe: "Conferma disabbonamento"
+    never_mind: "Non importa, noi ancora ti amiamo"
+    thank_you_months_prefix: "Grazie per averci sostenuto in quest'ultimi"
     thank_you_months_suffix: "mesi."
-#    thank_you: "Thank you for supporting CodeCombat."
-#    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
-#    unsubscribe_feedback_placeholder: "O, what have we done?"
+    thank_you: "Grazie per il tuo supporto a  CodeCombat."
+    sorry_to_see_you_go: "Ci dispiace vederti andare via! Dicci che cosa avremmo potuto fare ."
+    unsubscribe_feedback_placeholder: "O, cosa abbiamo fatto?"
     parent_button: "Chiedi i tuoi genitori"
-#    parent_email_description: "We'll email them so they can buy you a CodeCombat subscription."
-#    parent_email_input_invalid: "Email address invalid."
-#    parent_email_input_label: "Parent email address"
-#    parent_email_input_placeholder: "Enter parent email"
+    parent_email_description: "Ti invieremo un'email in modo che tu possa acquistare un abbonamento a CodeCombat."
+    parent_email_input_invalid: "Indirizzo email non valido."
+    parent_email_input_label: "Indirizzo email dei genitori"
+    parent_email_input_placeholder: "Inserisci qui l'indirizzo email dei genitori"
     parent_email_send: "Invia email"
     parent_email_sent: "Email inviata!"
-#    parent_email_title: "What's your parent's email?"
+    parent_email_title: "Qual'è l'indirizzo email dei tuoi genitori?"
     parents: "Per i genitori"
-#    parents_title: "Dear Parent: Your child is learning to code. Will you help them continue?"
-#    parents_blurb1: "Your child has played __nLevels__ levels and learned programming basics. Help cultivate their interest and buy them a subscription so they can keep playing."
+    parents_title: "Caro Genitore: Tuo figlio/a sta imparando a programmare. Vuoi continuare ad aiutarlo/a ? "
+    parents_blurb1: "Tuo figlio/a ha giocato a _nLevels__ livelli ed ha imparato le basi della programmazione. Aiutalo/a a coltivare i suoi interessi ed acquistagli un’abbonamento così potrà continuare a giocare."
 #    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
 #    parents_blurb2: "For $9.99 USD/mo, your child will get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
     payment_methods: "Metodi di Pagamento"
     payment_methods_title: "Metodi di Pagamento Accetati"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
-#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
+    payment_methods_blurb1: "Attualmente accettiamo come metodi di pagamento la carta di credito e Alipay."
+    payment_methods_blurb2: "Se necessiti di un forma di pagamento diverso.Per favore contattaci"
 #    sale_already_subscribed: "You're already subscribed!"
-#    sale_blurb1: "Save 35%"
+    sale_blurb1: "Risparmia il  35%"
 #    sale_blurb2: "off regular subscription price of $120 for a whole year!" # {changed}
 #    sale_button: "Sale!"
-#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
-#    sale_click_here: "Click Here"
+    sale_button_title: "Risparmi il 35% quando compri l'abbonamento per 1 anno"
+    sale_click_here: "Clicca qui"
 #    sale_ends: "Ends"
 #    sale_extended: "*Existing subscriptions will be extended by 1 year."
 #    sale_feature_here: "Here's what you'll get:"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
   skill_docs:
     writable: "scrivibile" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "sola lettura"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "nome"
     action_cooldown: "Richiede"
     action_specific_cooldown: "Riposo"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
 #    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "nel nostro blog"
     rules: "Regole"
     winners: "Vincitori"
 #    league: "League"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Statistiche"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
 #  guide:
 #    temp: "Temp"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Impostazioni multigiocatore" # We'll be changing this around significantly soon. Until then, it's not important to translate.

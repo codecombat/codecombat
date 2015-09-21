@@ -30,7 +30,7 @@
     @media screen and ( max-height: 800px )
       height: 510px
     
-  #play-button, #or-ipad, #apple-store-button, #slogan, .alert
+  #play-button, #or-ipad, #apple-store-button, #slogan, .alert, #news
     text-align: center
     text-transform: uppercase
     font-weight: bold
@@ -76,6 +76,27 @@
 
     @media screen and ( max-height: 800px )
       top: 363px
+
+  #news
+    background: rgba(0, 0, 0, 0.75)
+    border-radius: 20px
+    box-shadow: 0 0 30px rgb(149,255,253)
+    top: 531px
+    height: 132px
+    width: 350px
+    padding: 15px
+    font-size: 28px
+    line-height: 32px
+    @include rotate(-10deg)
+
+    a
+      color: rgb(149,255,253)
+
+      &:hover
+        color: rgb(75,230,180)
+
+    @media screen and ( max-height: 800px )
+      top: 301px
 
   #slogan
     top: 681px

@@ -30,6 +30,7 @@ module.exports = class HeroVictoryModal extends ModalView
     'click .return-to-ladder-button': 'onClickReturnToLadder'
     'click .sign-up-button': 'onClickSignupButton'
     'click .continue-from-offer-button': 'onClickContinueFromOffer'
+    'click .skip-offer-button': 'onClickSkipOffer'
 
     # Feedback events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -460,6 +461,9 @@ module.exports = class HeroVictoryModal extends ModalView
     }[@level.get('slug')]
     Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
     window.open url, '_blank' if url
+
+  onClickSkipOffer: (e) ->
+    Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
 
   # Ratings and reviews
 
