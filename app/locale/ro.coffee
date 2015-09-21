@@ -31,6 +31,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     contact: "Contact"
     twitter_follow: "Urmărește"
     teachers: "Educatori"
+#    careers: "Careers"
 
   modal:
     close: "Inchide"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     feature7: "<strong>Clanuri</strong> private"
     free: "Gratuit"
     month: "lună"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Abonează-te"
     unsubscribe: "Dezabonează-te"
     confirm_unsubscribe: "Confirmă Dezabonarea"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
   skill_docs:
     writable: "permisiuni de scriere" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "permisiuni doar de citire"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "nume"
     action_cooldown: "Ține"
     action_specific_cooldown: "Cooldown"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     free_1: "Sunt 80+ de nivele GRATIS ce parcurg fiecare concept în programare." # {change}
     free_2: "Un abonament lunar oferă acces la tutoriale video si nivele extra pentru practică."
     teacher_subs_title: "Educatori primesc abonamente gratuite!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
     teacher_subs_1: "Te rugăm sa completezi"
     teacher_subs_2: "Chestionarul Educatorului"
     teacher_subs_3: "pentru a configura abonamentul."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tournament_blurb: "Scrie cod, colectează aur, construiește armate, distruge inamici, câștigă premii, si îmbunătățeșteți cariera în turneul Lăcomiei de $40,000! Află detalii"
     tournament_blurb_criss_cross: "Caștigă pariuri, creează căi, păcălește-ți oponenți, strâange Pietre Prețioase, si îmbunătățeșteți cariera in turneul Criss-Cross! Află detalii"
     tournament_blurb_zero_sum: "Dezlănțuie creativitatea de programare în strângerea de aur sau în tactici de bătălie în alpine mirror match dintre vrăitori roșii și cei albaștrii.Turneul începe Vineri, 27 Martie și se va desfăsura până Luni, 6 Aprilie la 5PM PDT. Află detalii"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "pe blogul nostru"
     rules: "Reguli"
     winners: "Învingători"
 #    league: "League"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Statistici"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
   guide:
     temp: "Temp"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Setări Multiplayer" # We'll be changing this around significantly soon. Until then, it's not important to translate.

@@ -31,6 +31,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     contact: "Связаться"
     twitter_follow: "Подписаться"
     teachers: "Учителям"
+#    careers: "Careers"
 
   modal:
     close: "Закрыть"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     feature7: "Частные <strong>Кланы</strong>"
     free: "Бесплатно"
     month: "месяц"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Подпишись"
     unsubscribe: "Отписаться"
     confirm_unsubscribe: "Подтвердить отмену подписки"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   skill_docs:
     writable: "доступно для записи" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "только чтение"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "имя"
     action_cooldown: "Применяется"
     action_specific_cooldown: "Восстановление"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     free_1: "В наличии более 80 БЕСПЛАТНЫХ уровней, которые покрывают каждый концепт." # {change}
     free_2: "Месячная подписка предоставляет доступ к видео-урокам и дополнительным уровням."
     teacher_subs_title: "Учителя получают бесплатные подписки!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
     teacher_subs_1: "Пожалуйста, заполните нашу"
     teacher_subs_2: "Анкету учителя"
     teacher_subs_3: "для настройки вашей подписки."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tournament_blurb: "Пишите код, собирайте золото, стройте армию, крушите противников, получайте призы и улучшайте вашу карьеру в нашем \"$40,000 турнире жадности\"! Узнайте больше"
     tournament_blurb_criss_cross: "Выигрывайте ставки, создавайте пути, перехитрите оппонентов, собирайте самоцветы и улучшайте вашу карьеру в нашем турнире Criss-Cross! Узнайте больше"
     tournament_blurb_zero_sum: "Дайте волю своей программистской фантазии в собирании золота и боевой тактике в этом высокогорном зеркальном матче между красным волшебником и синим волшебником. Турнир начался в пятницу, 27 марта, и продолжится до 17.00 PDT понедельника, 6 апреля. Участвуйте для веселья и славы! Посмотрите детали"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "в нашем блоге"
     rules: "Правила"
     winners: "Победители"
     league: "Лига"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Характеристики"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   guide:
     temp: "Временный"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Настройки мультиплеера" # We'll be changing this around significantly soon. Until then, it's not important to translate.

@@ -31,6 +31,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     contact: "Kontakt"
     twitter_follow: "Sleduj na twitteri"
     teachers: "Učitelia"
+#    careers: "Careers"
 
   modal:
     close: "Zatvor"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    feature7: "Private <strong>Clans</strong>"
     free: "Zdarma"
     month: "mesiac"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Predplatné"
     unsubscribe: "Zrušiť predplatné"
     confirm_unsubscribe: "Potvrdiť zrušenie predplatného"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   skill_docs:
     writable: "zapisovatelné" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "iba na čítanie"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "názov"
     action_cooldown: "Zaberie"
     action_specific_cooldown: "Cooldown"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     free_1: "CodeCombat Basic is ZDARMA ! K dispozícii je 70+ úrovní pokrývajúcich každý koncept." # {change}
     free_2: "Mesačné predplatné poskytuje prístup k videonávodom a k úrovniam na precvičenie navyše."
     teacher_subs_title: "Pre učiteľov je predplatné zdarma !"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
     teacher_subs_1: "Napíšte na" # {change}
     teacher_subs_2: "pre zriadenie mesačného predplatného zdarma." # {change}
 #    teacher_subs_3: "to set up your subscription."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tournament_blurb: "Píš kód, zbieraj mince, stavaj armády, rozdrv nepriateľov, vyhraj ceny v hodnote  40,000$. Greed tournament! Pozri sa na detaily."
     tournament_blurb_criss_cross: "Vyhraj ponuky, buduj cesty, preľsti súperov,zbieraj diamanty grab gems a vylepši svoju kariéru v našom Krížovkárskom turnaji ! Pozri sa na detaily"
     tournament_blurb_zero_sum: "Odviaž svoju kódovaciu kreativitu pri zbieraní mincí a bojovej taktike v spravodlivom vysokohorskom súboji medzi medzi červenou a modrou čarodejkou. Turnaj začal v piatok 27. marca 2015  a skončil 6. apríla 2015. Súťaž pre zábavu a slávu ! Pozri sa na detaily"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "v našom blogu."
     rules: "Pravidlá"
     winners: "Víťazi"
 #    league: "League"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Stats"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
 #  guide:
 #    temp: "Temp"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
 #  multiplayer:
 #    multiplayer_title: "Multiplayer Settings" # We'll be changing this around significantly soon. Until then, it's not important to translate.

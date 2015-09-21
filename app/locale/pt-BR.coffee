@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     contact: "Contate-nos"
     twitter_follow: "Seguir"
     teachers: "Professores"
+#    careers: "Careers"
 
   modal:
     close: "Fechar"
@@ -57,7 +58,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     confirm: "Confirmar"
     owned: "Possui" # For items you own
     locked: "Bloqueado"
-    purchasable: "Comprável" # For a hero you unlocked but have not purchased
+    purchasable: "Comprável" # For a hero you unlocked but haven't purchased
     available: "Disponível"
     skills_granted: "Habilidades Concedidas" # Property documentation details
     heroes: "Heróis" # Tooltip on hero shop button from /play
@@ -137,7 +138,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     publish: "Publicar"
     create: "Criar"
     manual: "Manual"
-    fork: "Fork" # When used as a verb, like "To fork a repository"
+    fork: "Fork"
     play: "Jogar" # When used as an action verb, like "Play next level"
     retry: "Tente novamente"
     actions: "Ações"
@@ -360,7 +361,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     auth_caption: "Salve seu progresso."
 
   leaderboard:
-    leaderboard: "Líderança" # {rankings?}
+    leaderboard: "Líderança"
     view_other_solutions: "Ver Outras Soluções" # {change}
     scores: "Pontuação"
     top_players: "Top Jogadores por"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     feature7: "<strong>Clãs</strong> Privados"
     free: "Grátis"
     month: "mês"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Inscrever-se"
     unsubscribe: "Desinscrever-se"
     confirm_unsubscribe: "Confirmar Desinscrição"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   skill_docs:
     writable: "gravável" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "apenas leitura"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "nome"
     action_cooldown: "Demora"
     action_specific_cooldown: "Recarregando"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     free_1: "CodeCombat Basic é gratuito! Há mais de 80 níveis gratuitos que cobrem todos os conceitos." # {change}
     free_2: "Uma assinatura mensal dá acesso aos vídeos tutoriais e mais níveis para praticar."
     teacher_subs_title: "Professores recebem assinaturas gratuitas!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
     teacher_subs_1: "Por favor contate" # {change}
     teacher_subs_2: "para organizar uma assinatura mensal." # {change}
     teacher_subs_3: "para configurar sua assinatura"
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tournament_blurb: "Escreva códigos, colete ouro, construa exércitos, esmague inimigos, ganhe prêmios e aprimore sua carreira no nosso Torneio da Cobiça de $40,000! Veja os detalhes"
     tournament_blurb_criss_cross: "Ganhe leilões, construa caminhos, despiste oponentes, agarre joias e aprimore sua carreira no nosso Torneio de Cruzadas! Veja os detalhes"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "no nosso blog"
     rules: "Regras"
     winners: "Vencedores"
     league: "Liga"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Estatísticas"
@@ -1222,7 +1233,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    break_statements: "Break Statements"
     classes: "Classes"
 #    continue_statements: "Continue Statements"
-    for_loops: "Laço For" # or just 'For' #
+    for_loops: "Laço For"
     functions: "Funções"
 #    graphics: "Graphics"
 #    if_statements: "If Statements"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   guide:
     temp: "Temp"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Configurações de Multijogador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

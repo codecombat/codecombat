@@ -31,6 +31,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     contact: "联系我们"
     twitter_follow: "关注"
     teachers: "教师"
+#    careers: "Careers"
 
   modal:
     close: "关闭"
@@ -440,7 +441,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     payment_methods_blurb2: "如果您想用其他付费方式,请联系我们"
     sale_already_subscribed: "您已经订阅!"
     sale_blurb1: "和正常一年的订阅价格 $120 相比"
-    sale_blurb2: "年费订阅能节省 35%！"
+    sale_blurb2: "年费订阅能节省 35%！" # {changed}
     sale_button: "促销"
     sale_button_title: "年费订阅能节省 35% 的费用"
     sale_click_here: "点击这里"
@@ -463,7 +464,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     managed_by: "管理"
     will_be_cancelled: "将被取消"
     currently_free: "您目前有一个免费订阅"
-    currently_free_until: "您目前有一个订阅，直到"
+    currently_free_until: "您目前有一个订阅，直到" # {changed}
     was_free_until: "您有过一个免费订阅，直到"
     managed_subs: "管理订阅"
     managed_subs_desc: "为其他玩家（学生、儿童等）添加订阅。"
@@ -1083,10 +1084,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     rules: "规则"
     winners: "胜利者"
     league: "联盟"
-    red_ai: "红方 AI"  # "Red AI Wins", at end of multiplayer match playback
+    red_ai: "红方 AI" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "蓝方 AI"
-    wins: "胜利"  # At end of multiplayer match playback
-    humans: "红方"  # Ladder page display team name
+    wins: "胜利" # At end of multiplayer match playback
+    humans: "红方" # Ladder page display team name
     ogres: "蓝方"
 
   user:
@@ -1258,6 +1259,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   guide:
     temp: "临时"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "多人游戏设置" # We'll be changing this around significantly soon. Until then, it's not important to translate.

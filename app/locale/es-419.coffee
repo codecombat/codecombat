@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     contact: "Contacto"
     twitter_follow: "Seguir"
     teachers: "Maestros"
+#    careers: "Careers"
 
   modal:
     close: "Cerrar"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     feature7: "<strong>Clan</strong> Privado"
     free: "Gratis"
     month: "mes"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Suscribirse"
     unsubscribe: "Des-suscribirse"
     confirm_unsubscribe: "Confirmar cancelacion de suscripción"
@@ -462,7 +464,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     managed_by: "Administrado por"
     will_be_cancelled: "Será cancelado en"
     currently_free: "Actualmente tienes una suscripción gratuita"
-    currently_free_until: "Actualmente tienes una suscripción gratuita hasta"
+    currently_free_until: "Actualmente tienes una suscripción gratuita hasta" # {changed}
     was_free_until: "Tuviste una suscripción gratuita hasta"
     managed_subs: "Suscripciones administradas"
     managed_subs_desc: "Agregar suscripciones para otros jugadores (alumnos, hijos, etc.)"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   skill_docs:
     writable: "escribible" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "Sólo Lectura"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "nombre"
     action_cooldown: "Toma"
     action_specific_cooldown: "Enfriamiento"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto." # {change}
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
     teacher_subs_1: "Por favor contacte" # {change}
     teacher_subs_2: "para configurar una suscripción mensual gratis." # {change}
     teacher_subs_3: "para configurar su suscripción."
@@ -806,7 +811,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     my_clans: "Mis Clanes"
     clan_name: "Nombre del clan"
     name: "Nombre"
-    chieftain: "Cacique/Líder" #Chieftain/Leader literally
+    chieftain: "Cacique/Líder"
     type: "Tipo"
     edit_clan_name: "Editar el nombre del Clan"
     edit_clan_description: "Editar descripción del clan"
@@ -887,7 +892,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     thang_spritesheets: "Hojas de figuras( para animaciones )"
     thang_colors: "Colores"
     level_some_options: "¿Algunas opciones?"
-    level_tab_thangs: "Tiliches" #Verificar cual es mejor: Cachivache, Tiliche, Artilugio, Bagatela, Cosa
+    level_tab_thangs: "Tiliches"
     level_tab_scripts: "Scripts"
     level_tab_settings: "Opciones"
     level_tab_components: "Componentes"
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tournament_blurb: "Escribe código, recolecta oro, arma ejercitos, aplasta adversarios, gana premios, y asciende en tu carrera por $40,000 en el Torneo Codicia! Echa un vistazo a los detalles"
     tournament_blurb_criss_cross: "Gana apuestas, construye caminos, burla tus oponentes, agarra gemas, y asciende tu perfil en nuestro torneo Cruzado! Echa un vistazo a los detalles"
     tournament_blurb_zero_sum: "Suelta tus habilidades de código en recolección de oro y tácticas de batalla en este partido espejo alpino entre el hechicero rojo y el hechicero azul. El torneo comenzó el Viernes, 27 de Marzo y se extenderá hasta el Lunes, 6 de Abril a las 5PM PDT. Compite por la diversión y la gloria ! Echa un vistazo a los detalles:"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "en nuestro blog"
     rules: "Reglas"
     winners: "Ganadores"
     league: "Liga"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Estados"
@@ -1212,7 +1223,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     user_polls_record: "Historia de Visitas de Encuestas"
 
   concepts:
-    advanced_strings: "Manipulación Avanzada de Cadenas" #used Advanced Strings Handling instead of Advanced Strings
+    advanced_strings: "Manipulación Avanzada de Cadenas"
     algorithms: "Algoritmos"
     arguments: "Argumentos"
     arithmetic: "Aritmética"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   guide:
     temp: "Temp"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Configuración de Multijugador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     contact: "Kontakt"
     twitter_follow: "Følg"
     teachers: "Lærere"
+#    careers: "Careers"
 
   modal:
     close: "Lukk"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    feature7: "Private <strong>Clans</strong>"
     free: "Gratis"
     month: "måned"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Abonnér"
     unsubscribe: "Si opp abonnement"
     confirm_unsubscribe: "Bekreft oppsigelse"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
   skill_docs:
     writable: "skrivbar" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "skrivebeskyttet"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "navn"
     action_cooldown: "Tar"
     action_specific_cooldown: "Gjenopplading"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tournament_blurb: "Skriv kode, samle gull, bygg hærer, knus fiender, vinn premier, og oppgrader karrieren din i vår $40,000 Greed turnering! Sjekk detaljene på"
     tournament_blurb_criss_cross: "Vinn bud, bygg stier, overlist motstandere, ta juveler, og oppgrader karrieren din i vår Criss-Cross turnering! Sjekk detaljene på"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "bloggen vår"
     rules: "Regler"
     winners: "Vinnere"
 #    league: "League"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Statistikk"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
   guide:
     temp: "Midlertidig"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Flerspillerinnstillinger" # We'll be changing this around significantly soon. Until then, it's not important to translate.
