@@ -128,7 +128,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   common:
     back: "Voltar" # When used as an action verb, like "Navigate backward"
-    continue: "Continue" # When used as an action verb, like "Continue forward"
+    continue: "Continuar" # When used as an action verb, like "Continue forward"
     loading: "Carregando..."
     saving: "Salvando..."
     sending: "Enviando..."
@@ -300,7 +300,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_tell_friends: "Está gostando do CodeCombat? Divulgue para os seus amigos!"
     tip_beta_launch: "CodeCombat lançou sua versão beta em outubro de 2013."
     tip_think_solution: "Pense na solução, não no problema."
-    tip_theory_practice: "Na teoria, não existe diferença entre teoria e prática. Mas, na prática, há. - Yogi Berra"
+    tip_theory_practice: "Na teoria, não existe diferença entre teoria e prática. Mas, na prática, existe. - Yogi Berra"
     tip_error_free: "Existem duas formas de escrever programas sem erros; apenas a terceira funciona. - Alan Perlis"
     tip_debugging_program: "Se depurar é o processo de remover erros, então programar deve ser o processo de adicioná-los. - Edsger W. Dijkstra"
     tip_forums: "Vá aos fóruns e diga-nos o que você pensa!"
