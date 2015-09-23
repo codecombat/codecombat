@@ -1260,7 +1260,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   guide:
     temp: "Temp"
 
-#  temp:
+  temp:
     ace_of_coders_tournament: "Novo: jogue no torneir Era dos Programadores agora!"
 
   multiplayer:
