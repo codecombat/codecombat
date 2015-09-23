@@ -1078,6 +1078,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tournament_blurb: "写代码，收金币，建军队，碎敌军，赢奖品，以及在我们奖励多达$40,000的Greed tournament里升级您的事业！ 快去查阅详情！"
     tournament_blurb_criss_cross: "赢得竞拍，建造道路，智胜对手，夺取宝石，在纵横交错锦标赛中完成生涯晋级! 现在就查看详情！"
     tournament_blurb_zero_sum: "在红方法师和蓝方法师的山峰对决中, 同时在收集金币和战术上发挥你的代码创造力. 竞赛在3月27日开始, 在4月6日(星期一)的下午5点(PDT 太平洋时区)结束. 为乐趣和荣耀竞赛吧! 浏览了解更多"
+    tournament_blurb_ace_of_coders: "我的主场我主宰，在天寒地冻的冰原上和自己的镜像大战一场吧！本次比赛将由9月16日星期三开办到10月14日下午5点PDT。详情请查看"
     tournament_blurb_blog: "关注我们的博客"
     rules: "规则"
     winners: "胜利者"
