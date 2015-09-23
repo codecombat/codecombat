@@ -31,6 +31,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     contact: "Contacta"
     twitter_follow: "Síguenos en Twitter"
     teachers: "Profesores"
+#    careers: "Careers"
 
   modal:
     close: "Cerrar"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    feature7: "Private <strong>Clans</strong>"
     free: "Gratis"
     month: "mes"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Suscríbete"
 #    unsubscribe: "Unsubscribe"
 #    confirm_unsubscribe: "Confirm Unsubscribe"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "Solo lectura"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "nombres"
 #    action_cooldown: "Takes"
 #    action_specific_cooldown: "Cooldown"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tournament_blurb: "Escribe codigo, recolecta oro, construye ejercitos, aplasta a los malos, gana premios, y sube en tu carrera en nuestro Torneo de la Avaricia con $40,000! Ver los detalles"
     tournament_blurb_criss_cross: "Gana pujas, construye caminos, aniquila a tus oponentes, recoge gemas, y mejora tu carrera en nuestro torneo Criss-Cross! Mira los  detalles"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "en nuestro blog"
     rules: "Reglas"
     winners: "Ganadores"
 #    league: "League"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Estadisticas"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   guide:
     temp: "Temporal"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Ajustes de Multijugador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

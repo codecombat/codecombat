@@ -101,9 +101,10 @@ module.exports = class CastButtonView extends CocoView
     @casting = false
     if @hasCastOnce  # Don't play this sound the first time
       @playSound 'cast-end', 0.5
-      myHeroID = if me.team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
-      if @ladderSubmissionView and not e.world.thangMap[myHeroID]?.errorsOut
-        _.delay (=> @ladderSubmissionView?.rankSession()), 1000 if @ladderSubmissionView
+      # Worked great for live Ace of Coders tournament, but probably annoying for asynchronous tournament mode.
+      #myHeroID = if me.team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
+      #if @ladderSubmissionView and not e.world.thangMap[myHeroID]?.errorsOut
+      #  _.delay (=> @ladderSubmissionView?.rankSession()), 1000 if @ladderSubmissionView
     @hasCastOnce = true
     @updateCastButton()
     @world = e.world

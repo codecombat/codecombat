@@ -31,6 +31,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     contact: "צור קשר"
     twitter_follow: "עקוב אחרינו בטוויטר"
     teachers: "מורים"
+#    careers: "Careers"
 
   modal:
     close: "סגור"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     feature7: "פרטיים <strong>שבטים</strong>"
     free: "חינם"
     month: "חודש"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "רכוש מנוי"
     unsubscribe: "הסר מנוי"
     confirm_unsubscribe: "אשר הסרת מנוי"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   skill_docs:
     writable: "ניתן לכתיבה" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "לקריאה בלבד"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "שם"
     action_cooldown: "לוקח"
     action_specific_cooldown: ":זמן להתקררות"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
 #    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "בבלוג שלנו"
     rules: "חוקים"
     winners: "מנצחים"
 #    league: "League"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "נתונים"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   guide:
     temp: "זמני"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "הגדרות רב-משתתפים" # We'll be changing this around significantly soon. Until then, it's not important to translate.

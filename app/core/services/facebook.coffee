@@ -19,10 +19,10 @@ module.exports = initializeFacebook = ->
         # They have logged in to the app.
         Backbone.Mediator.publish 'auth:logged-in-with-facebook', response: response
 
-      else if response.status is 'not_authorized'
-        #
-      else
-        #
+      #else if response.status is 'not_authorized'
+      #  #
+      #else
+      #  #
 
   # Load the SDK asynchronously
   ((d) ->

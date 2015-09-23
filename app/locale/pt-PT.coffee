@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     contact: "Contactar"
     twitter_follow: "Seguir"
     teachers: "Professores"
+    careers: "Carreiras"
 
   modal:
     close: "Fechar"
@@ -527,8 +528,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   skill_docs:
     writable: "editável" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "apenas leitura"
-    action: "Ação-"
-    spell: "Feitiço-"
+    action: "Ação -"
+    spell: "Feitiço -"
     action_name: "nome"
     action_cooldown: "Demora"
     action_specific_cooldown: "Tempo de Recarga"
@@ -613,6 +614,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     free_1: "Há 110+ níveis GRATUITOS que abordam cada conceito."
     free_2: "Uma subscrição mensal garante acesso a tutoriais em vídeo e a níveis extra para praticar."
     teacher_subs_title: "Os professores recebem uma subscrição gratuita!"
+    teacher_subs_0: "Oferecemos subscrições gartuitas para professores, para fins de avaliação."
     teacher_subs_1: "Por favor, preenche o nosso"
     teacher_subs_2: "Inquérito para Professores"
     teacher_subs_3: "para configurares a tua subscrição."
@@ -1061,7 +1063,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tutorial_skip: "Saltar Tutorial"
     tutorial_not_sure: "Não tens a certeza do que se passa?"
     tutorial_play_first: "Joga o Tutorial primeiro."
-    simple_ai: "Inteligência Artificial Simples"
+    simple_ai: "IA Simples"
     warmup: "Aquecimento"
     friends_playing: "Amigos a Jogar"
     log_in_for_friends: "Inicia sessão para jogares com os teus amigos!"
@@ -1077,10 +1079,16 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tournament_blurb: "Escreve código, recolhe ouro, constrói exércitos, esmaga inimigos, ganha prémios e melhora a tua carreira no nosso torneio $40,000 Greed! Confere os detalhes"
     tournament_blurb_criss_cross: "Ganha ofertas, constrói caminhos, supera os adversários, apanha gemas e melhore a tua carreira no nosso torneio Criss-Cross! Confere os detalhes"
     tournament_blurb_zero_sum: "Liberta a tua criatividade de programação tanto na recolha de ouro como em táticas de combate nesta batalha-espelhada na montaha, entre o feiticeiro vermelho e o feiticeiro azul. O torneio começou na Sexta-feira, 27 de Março, e decorrerá até às 00:00 de Terça-feira, 7 de Abril. Compete por diversão e glória! Confere os detalhes"
+    tournament_blurb_ace_of_coders: "Luta no glaciar congelado nesta partida espelhada do estilo domínio! O torneio começou Quarta-feira, 16 de Setembro, e decorrerá até Quarta-feira, 14 de Outubro às 23:00. Confere os detalhes"
     tournament_blurb_blog: "no nosso blog"
     rules: "Regras"
     winners: "Vencedores"
     league: "Liga"
+    red_ai: "IA Vermelha" # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "IA Azul"
+    wins: "Vence" # At end of multiplayer match playback
+    humans: "Vermelho" # Ladder page display team name
+    ogres: "Azul"
 
   user:
     stats: "Estatísticas"
@@ -1251,6 +1259,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
 #  guide:
 #    temp: "Temp"
+
+  temp:
+    ace_of_coders_tournament: "Novidade: joga agora no torneio 'Ás dos Programadores'!"
 
   multiplayer:
     multiplayer_title: "Definições Multijogador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     contact: "Contact"
     twitter_follow: "Volgen"
     teachers: "Docenten"
+#    careers: "Careers"
 
   modal:
     close: "Sluiten"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    feature7: "Private <strong>Clans</strong>"
 #    free: "Free"
 #    month: "month"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Abonneren"
     unsubscribe: "Abonnement pzeggen"
     confirm_unsubscribe: "Opzegging Bevestigen"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
 #    read_only: "read-only"
+#    action: "Action"
+#    spell: "Spell"
 #    action_name: "name"
 #    action_cooldown: "Takes"
 #    action_specific_cooldown: "Cooldown"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tournament_blurb: "Schrijf code, verzamel goud, bouw legers, verpletter je tegenstanders, win prijzen en verbeter je carrière in ons $40,000 Greed toernooi! Zie de details"
     tournament_blurb_criss_cross: "Win biedingen, bouw paden, wees je tegenstander te slim af, pak edelstenen en verbeter je carrière in ons Criss-Cross toernooi! Zie de details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "op ons blog"
     rules: "Regels"
     winners: "Winnaars"
 #    league: "League"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Statistieken"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
 #  guide:
 #    temp: "Temp"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Multiplayer Instellingen" # We'll be changing this around significantly soon. Until then, it's not important to translate.

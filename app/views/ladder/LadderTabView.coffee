@@ -38,6 +38,7 @@ module.exports = class LadderTabView extends CocoView
     #@checkFriends()
 
   checkFriends: ->
+    return  # Skipping for now
     return if @checked or (not window.FB) or (not window.gapi)
     @checked = true
 

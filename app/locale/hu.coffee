@@ -31,6 +31,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     contact: "Kapcsolat"
     twitter_follow: "Követés"
     teachers: "Tanárok"
+#    careers: "Careers"
 
   modal:
     close: "Mégse"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    feature7: "Private <strong>Clans</strong>"
     free: "Ingyenes"
     month: "hónap"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Feliratkozás"
     unsubscribe: "Leiratkozás"
     confirm_unsubscribe: "Leiratkozás megerősítése"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   skill_docs:
     writable: "írható" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "csak olvasható"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "név"
     action_cooldown: "Újratöltés"
     action_specific_cooldown: "Speciális újratöltés"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     free_1: "CodeCombat Basic INGYENES! 70-nél is több pálya, amely minden tudást megad." # {change}
     free_2: "A havidíjas előfizetés hozzáférést biztosít az oktató videókhoz és az extra gyakoroló pályákhoz."
     teacher_subs_title: "Tanárok ingyenes előfizetést kapnak!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
     teacher_subs_1: "Lépjen kapcsolatba velünk," # {change}
     teacher_subs_2: "hogy megkapja az ingyenes havi előfizetést." # {change}
 #    teacher_subs_3: "to set up your subscription."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
 #    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
 #    tournament_blurb_blog: "on our blog"
     rules: "Szabályok"
     winners: "Győztesek"
 #    league: "League"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Statisztika"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
 #  guide:
 #    temp: "Temp"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Többjátékos beállítások" # We'll be changing this around significantly soon. Until then, it's not important to translate.

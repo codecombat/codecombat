@@ -31,6 +31,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     contact: "Kontakt"
     twitter_follow: "Sledovat na Twitteru"
     teachers: "Učitelé"
+#    careers: "Careers"
 
   modal:
     close: "Zavřít"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    feature7: "Private <strong>Clans</strong>"
     free: "Zdarma"
     month: "měsíc"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Předplatné"
     unsubscribe: "Zrušit předplatné"
     confirm_unsubscribe: "Potvrdit zrušení"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
   skill_docs:
     writable: "zapisovatelná" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "jen pro čtení"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "název"
     action_cooldown: "Zabere"
     action_specific_cooldown: "Cooldown"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tournament_blurb: "Pište kód, sbírejte zlato, budujte armádu, zabijte nepřátele, vyhrajte ceny a vylepšte si svou kariéru v našem turnaji o $40,000 dolarů! Podívejte se na detaily"
     tournament_blurb_criss_cross: "Vyhrajte nabídky, budujte cesty, přelstěte nepřátele, seberte drahokamy a velepšte si svou kariéru v našem Křížovkářském turnaji! Podívejte se na detaily"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
     tournament_blurb_blog: "na našem blogu"
     rules: "Pravidla"
     winners: "Vítězové"
 #    league: "League"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "Statistiky"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
   guide:
     temp: "Dočasné"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Nastavení Multiplayeru" # We'll be changing this around significantly soon. Until then, it's not important to translate.

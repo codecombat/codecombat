@@ -31,6 +31,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     contact: "お問い合わせ"
     twitter_follow: "フォロー"
     teachers: "教育関係者"
+#    careers: "Careers"
 
   modal:
     close: "閉じる"
@@ -410,6 +411,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     feature7: "プライベート<strong>クラン</strong>"
     free: "無料"
     month: "月"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "課金"
     unsubscribe: "無課金"
     confirm_unsubscribe: "課金の解約確認"
@@ -526,6 +528,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   skill_docs:
     writable: "書き込み可能な" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "リードオンリー"
+#    action: "Action"
+#    spell: "Spell"
     action_name: "ネーム"
     action_cooldown: "テイク"
     action_specific_cooldown: "クールダウン"
@@ -610,6 +614,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     free_1: "CodeCombat は基本的に無料です！110以上のレベルが無料です。" # {change}
     free_2: "月々の課金をするとビデオのチュートリアルにアクセスでき、また追加のレベルが楽しめます。"
     teacher_subs_title: "教育関係者は無料のサブスクリプションを得ることができます！"
+#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
     teacher_subs_1: "" # {change}
     teacher_subs_2: "に連絡して無料の月々のサブスクリプションを得ましょう。" # {change}
 #    teacher_subs_3: "to set up your subscription."
@@ -1074,10 +1079,16 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
 #    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
 #    tournament_blurb_blog: "on our blog"
     rules: "ルール"
     winners: "勝者"
     league: "リーグ"
+#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
+#    blue_ai: "Blue AI"
+#    wins: "Wins" # At end of multiplayer match playback
+#    humans: "Red" # Ladder page display team name
+#    ogres: "Blue"
 
   user:
     stats: "ステータス"
@@ -1248,6 +1259,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   guide:
     temp: "テンポラリー"
+
+#  temp:
+#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "マルチプレイ設定" # We'll be changing this around significantly soon. Until then, it's not important to translate.
