@@ -8,10 +8,6 @@ template = require 'templates/courses/course-details'
 User = require 'models/User'
 utils = require 'core/utils'
 
-# TODO: logged out experience
-# TODO: no course instances
-# TODO: no course instance selected
-
 module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
   template: template
@@ -20,6 +16,7 @@ module.exports = class CourseDetailsView extends RootView
     'change .progress-expand-checkbox': 'onCheckExpandedProgress'
     'click .btn-play-level': 'onClickPlayLevel'
     'click .btn-save-settings': 'onClickSaveSettings'
+    'click .btn-select-instance': 'onClickSelectInstance'
     'click .progress-member-header': 'onClickMemberHeader'
     'click .progress-header': 'onClickProgressHeader'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
@@ -30,10 +27,12 @@ module.exports = class CourseDetailsView extends RootView
     @courseInstanceID = utils.getQueryVariable('ciid', false) or options.courseInstanceID
     @adminMode = me.isAdmin()
     @memberSort = 'nameAsc'
-    unless me.isAnonymous()
-      @course = new Course _id: @courseID
-      @listenTo @course, 'sync', @onCourseSync
-      @supermodel.loadModel @course, 'course', cache: false
+    @course = @supermodel.getModel(Course, @courseID) or new Course _id: @courseID
+    @listenTo @course, 'sync', @onCourseSync
+    if @course.loaded
+      @onCourseSync()
+    else
+      @supermodel.loadModel @course, 'course'
 
   getRenderData: ->
     context = super()
@@ -42,9 +41,12 @@ module.exports = class CourseDetailsView extends RootView
     context.conceptsCompleted = @conceptsCompleted ? {}
     context.course = @course if @course?.loaded
     context.courseInstance = @courseInstance if @courseInstance?.loaded
+    context.courseInstances = @courseInstances?.models ? []
     context.levelConceptMap = @levelConceptMap ? {}
     context.memberSort = @memberSort
     context.memberUserMap = @memberUserMap ? {}
+    context.noCourseInstance = @noCourseInstance
+    context.noCourseInstanceSelected = @noCourseInstanceSelected
     context.showExpandedProgress = @showExpandedProgress
     context.sortedMembers = @sortedMembers ? []
     context.userConceptStateMap = @userConceptStateMap ? {}
@@ -53,10 +55,18 @@ module.exports = class CourseDetailsView extends RootView
 
   onCourseSync: ->
     # console.log 'onCourseSync'
+    if me.isAnonymous()
+      @noCourseInstance = true
+      @render?()
+      return
     return if @campaign?
-    @campaign = new Campaign _id: @course.get('campaignID')
+    campaignID = @course.get('campaignID')
+    @campaign = @supermodel.getModel(Campaign, campaignID) or new Campaign _id: campaignID
     @listenTo @campaign, 'sync', @onCampaignSync
-    @supermodel.loadModel @campaign, 'campaign', cache: false
+    if @campaign.loaded
+      @onCampaignSync()
+    else
+      @supermodel.loadModel @campaign, 'campaign'
     @render?()
 
   onCampaignSync: ->
@@ -77,19 +87,26 @@ module.exports = class CourseDetailsView extends RootView
   loadCourseInstance: (courseInstanceID) ->
     # console.log 'loadCourseInstance'
     return if @courseInstance?
-    @courseInstance = new CourseInstance _id: courseInstanceID
+    @courseInstance = @supermodel.getModel(CourseInstance, courseInstanceID) or new CourseInstance _id: courseInstanceID
     @listenTo @courseInstance, 'sync', @onCourseInstanceSync
-    @supermodel.loadModel @courseInstance, 'course_instance', cache: false
+    if @courseInstance.loaded
+      @onCourseInstanceSync()
+    else
+      @courseInstance = @supermodel.loadModel(@courseInstance, 'course_instance').model
 
   onCourseInstancesSync: ->
     # console.log 'onCourseInstancesSync'
     if @courseInstances.models.length is 1
       @loadCourseInstance(@courseInstances.models[0].id)
-    else if @courseInstances.models.length > 0
-      @loadCourseInstance(@courseInstances.models[0].id)
+    else
+      if @courseInstances.models.length is 0
+        @noCourseInstance = true
+      else
+        @noCourseInstanceSelected = true
+      @render?()
 
   onCourseInstanceSync: ->
-    console.log 'onCourseInstanceSync', @courseInstance.get('description')
+    # console.log 'onCourseInstanceSync'
     @adminMode = true if @courseInstance.get('ownerID') is me.id
     @levelSessions = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/level_sessions", model: LevelSession, comparator:'_id' })
     @listenToOnce @levelSessions, 'sync', @onLevelSessionsSync
@@ -160,6 +177,11 @@ module.exports = class CourseDetailsView extends RootView
     @courseInstance.set('description', description)
     @courseInstance.patch()
     $('#settingsModal').modal('hide')
+
+  onClickSelectInstance: (e) ->
+    courseInstanceID = $('.select-instance').val()
+    @noCourseInstanceSelected = false
+    @loadCourseInstance(courseInstanceID)
 
   onMouseEnterPoint: (e) ->
     $('.level-popup-container').hide()

@@ -9,8 +9,27 @@ block content
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
   div(style='border-bottom: 1px solid black;')
 
-  if me.isAnonymous()
-    h1 TODO: logged out
+  if (noCourseInstance || noCourseInstanceSelected) && course
+    h1= course.get('name')
+    if noCourseInstance
+      p You are not enrolled in this course.
+      p
+        span.spr Please visit the
+        a.spr(href="/courses") courses
+        span page to enroll.
+    else if noCourseInstanceSelected
+      p Select one of your classes
+      .container-fluid
+        .row
+          .col-md-6
+            select.form-control.select-instance
+              each courseInstance in courseInstances
+                if courseInstance.get('name')
+                  option(value="#{courseInstance.id}")= courseInstance.get('name')
+                else
+                  option(value="#{courseInstance.id}") *unnamed*
+          .col-md-6
+            button.btn.btn-success.btn-select-instance Select
   else if !course || !courseInstance
     h1 Loading...
   else
