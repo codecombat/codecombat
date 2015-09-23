@@ -360,7 +360,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     multiplayer_caption: "Spil med venner!"
     auth_caption: "Gem dit spil."
 
-#  leaderboard:
+  leaderboard:
 #    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Leaderboards"
 #    scores: "Scores"
