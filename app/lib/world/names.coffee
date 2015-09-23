@@ -868,6 +868,7 @@ module.exports.thangNames = thangNames =
     'Nordex'
     'Satish'
     'Vera'
+    'Charlotte'
   ]
   'Equestrian': [
     # Male
