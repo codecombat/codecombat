@@ -186,11 +186,11 @@ mixin progress-members-levels-expanded(memberID)
     - var i = 0
     each level, levelID in campaign.get('levels')
       if userLevelStateMap[memberID][levelID] === 'complete'
-        span.progress-level-cell.progress-level-cell-complete #{i + 1}
+        span.progress-level-cell.progress-level-cell-complete(data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
           span.spl= level.name.replace('Course: ', '')
           +progress-members-popup-completed(i, level)
       else if userLevelStateMap[memberID][levelID] === 'started'
-        span.progress-level-cell.progress-level-cell-started #{i + 1} #{level.name.replace('Course: ', '')}
+        span.progress-level-cell.progress-level-cell-started(data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1} #{level.name.replace('Course: ', '')}
           +progress-members-popup-started(i, level)
       else
         span.progress-level-cell #{i + 1} #{level.name.replace('Course: ', '')}
@@ -205,10 +205,10 @@ mixin progress-members-levels-condensed(memberID)
     - var i = 0
     each level, levelID in campaign.get('levels')
       if userLevelStateMap[memberID][levelID] === 'complete'
-        span.progress-level-cell.progress-level-cell-complete(style="width:#{levelCellWidth}%;") #{i + 1}
+        span.progress-level-cell.progress-level-cell-complete(style="width:#{levelCellWidth}%;", data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
           +progress-members-popup-completed(i, level)
       else if userLevelStateMap[memberID][levelID] === 'started'
-        span.progress-level-cell.progress-level-cell-started(style="width:#{levelCellWidth}%;") #{i + 1}
+        span.progress-level-cell.progress-level-cell-started(style="width:#{levelCellWidth}%;", data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
           +progress-members-popup-started(i, level)
       else
         break
@@ -217,15 +217,18 @@ mixin progress-members-levels-condensed(memberID)
 mixin progress-members-popup-completed(i, level)
   .progress-popup-container
     h3 #{i + 1}. #{level.name.replace('Course: ', '')}
-    p TODO: Time to solve
-    p TODO: Completed on
-    strong Click to view solution.
+    p Play time: #{moment.duration(level.playtime, "seconds").humanize()}
+    p Completed: #{moment(level.changed).format('MMMM Do YYYY, h:mm:ss a')}
+    if adminMode
+      strong Click to view solution.
 
 mixin progress-members-popup-started(i, level)
   .progress-popup-container
     h3 #{i + 1}. #{level.name.replace('Course: ', '')}
-    p TODO: last played on
-    strong Click to view solution.
+    p Play time: #{moment.duration(level.playtime, "seconds").humanize()}
+    p Last played: #{moment(level.changed).format('MMMM Do YYYY, h:mm:ss a')}
+    if adminMode
+      strong Click to view solution.
 
 mixin invite-tab
   p Invite students to join this class.

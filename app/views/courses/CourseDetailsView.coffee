@@ -19,6 +19,7 @@ module.exports = class CourseDetailsView extends RootView
     'click .btn-select-instance': 'onClickSelectInstance'
     'click .progress-member-header': 'onClickMemberHeader'
     'click .progress-header': 'onClickProgressHeader'
+    'click .progress-level-cell': 'onClickProgressLevelCell'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
 
@@ -123,6 +124,7 @@ module.exports = class CourseDetailsView extends RootView
     @instanceStats = averageLevelsCompleted: 0, furthestLevelCompleted: '', totalLevelsCompleted: 0, totalPlayTime: 0
     @memberStats = {}
     @userConceptStateMap = {}
+    @userLevelSessionMap = {}
     @userLevelStateMap = {}
     levelStateMap = {}
     for levelSession in @levelSessions.models
@@ -141,6 +143,9 @@ module.exports = class CourseDetailsView extends RootView
       @userConceptStateMap[userID] ?= {}
       for concept of @levelConceptMap[levelID]
         @userConceptStateMap[userID][concept] = state
+
+      @userLevelSessionMap[userID] ?= {}
+      @userLevelSessionMap[userID][levelID] = levelSession
 
       @userLevelStateMap[userID] ?= {}
       @userLevelStateMap[userID][levelID] = state
@@ -204,9 +209,24 @@ module.exports = class CourseDetailsView extends RootView
     @noCourseInstanceSelected = false
     @loadCourseInstance(courseInstanceID)
 
+  onClickProgressLevelCell: (e) ->
+    return unless @adminMode
+    levelID = $(e.currentTarget).data('level-id')
+    levelSlug = $(e.currentTarget).data('level-slug')
+    userID = $(e.currentTarget).data('user-id')
+    return unless levelID and levelSlug and userID
+    route = "/play/level/#{levelSlug}"
+    if @userLevelSessionMap[userID]?[levelID]
+      route += "?session=#{@userLevelSessionMap[userID][levelID].id}&observing=true"
+    Backbone.Mediator.publish 'router:navigate', {
+      route: route
+      viewClass: 'views/play/level/PlayLevelView'
+      viewArgs: [{}, levelSlug]
+    }
+
   onMouseEnterPoint: (e) ->
-    $('.level-popup-container').hide()
-    container = $(e.target).find('.level-popup-container').show()
+    $('.progress-popup-container').hide()
+    container = $(e.target).find('.progress-popup-container').show()
     margin = 20
     offset = $(e.target).offset()
     scrollTop = $('#page-container').scrollTop()
@@ -215,7 +235,7 @@ module.exports = class CourseDetailsView extends RootView
     container.css('top', offset.top + scrollTop - height - margin)
 
   onMouseLeavePoint: (e) ->
-    $(e.target).find('.level-popup-container').hide()
+    $(e.target).find('.progress-popup-container').hide()
 
   sortMembers: ->
     # Progress sort precedence: most completed concepts, most started concepts, most levels, name sort
