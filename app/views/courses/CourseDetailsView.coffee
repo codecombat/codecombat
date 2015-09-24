@@ -42,8 +42,10 @@ module.exports = class CourseDetailsView extends RootView
     context.course = @course if @course?.loaded
     context.courseInstance = @courseInstance if @courseInstance?.loaded
     context.courseInstances = @courseInstances?.models ? []
+    context.instanceStats = @instanceStats
     context.levelConceptMap = @levelConceptMap ? {}
     context.memberSort = @memberSort
+    context.memberStats = @memberStats
     context.memberUserMap = @memberUserMap ? {}
     context.noCourseInstance = @noCourseInstance
     context.noCourseInstanceSelected = @noCourseInstanceSelected
@@ -118,17 +120,36 @@ module.exports = class CourseDetailsView extends RootView
 
   onLevelSessionsSync: ->
     # console.log 'onLevelSessionsSync'
+    @instanceStats = averageLevelsCompleted: 0, furthestLevelCompleted: '', totalLevelsCompleted: 0, totalPlayTime: 0
+    @memberStats = {}
     @userConceptStateMap = {}
     @userLevelStateMap = {}
+    levelStateMap = {}
     for levelSession in @levelSessions.models
       userID = levelSession.get('creator')
       levelID = levelSession.get('level').original
-      @userConceptStateMap[userID] ?= {}
-      @userLevelStateMap[userID] ?= {}
       state = if levelSession.get('state')?.complete then 'complete' else 'started'
-      @userLevelStateMap[userID][levelID] = state
+      levelStateMap[levelID] = state
+
+      @instanceStats.totalLevelsCompleted++ if state is 'complete'
+      @instanceStats.totalPlayTime += levelSession.get('playtime')
+
+      @memberStats[userID] ?= totalLevelsCompleted: 0, totalPlayTime: 0
+      @memberStats[userID].totalLevelsCompleted++ if state is 'complete'
+      @memberStats[userID].totalPlayTime += levelSession.get('playtime')
+
+      @userConceptStateMap[userID] ?= {}
       for concept of @levelConceptMap[levelID]
         @userConceptStateMap[userID][concept] = state
+
+      @userLevelStateMap[userID] ?= {}
+      @userLevelStateMap[userID][levelID] = state
+
+    if @courseInstance.get('members').length > 0
+      @instanceStats.averageLevelsCompleted = @instanceStats.totalLevelsCompleted / @courseInstance.get('members').length
+    for levelID, level of @campaign.get('levels')
+      @instanceStats.furthestLevelCompleted = level.name if levelStateMap[levelID] is 'complete'
+
     @conceptsCompleted = {}
     for userID, conceptStateMap of @userConceptStateMap
       for concept, state of conceptStateMap

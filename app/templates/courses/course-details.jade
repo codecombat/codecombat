@@ -80,21 +80,28 @@ mixin progress-summary-stats
       td 
         if courseInstance
           div #{courseInstance.get('members').length}
-    tr
-      td Average level play time:
-      td TODO
-    tr
-      td Total play time:
-      td TODO
-    tr
-      td Average levels completed:
-      td TODO
-    tr
-      td Total levels completed:
-      td TODO
-    tr
-      td Furthest level completed:
-      td TODO
+    if instanceStats
+      tr
+        td Average level play time:
+        if instanceStats.averageLevelPlaytime > 0
+          td= moment.duration(instanceStats.averageLevelPlaytime, "seconds").humanize()
+        else
+          td 0
+      tr
+        td Total play time:
+        if instanceStats.totalPlayTime > 0
+          td= moment.duration(instanceStats.totalPlayTime, "seconds").humanize()
+        else
+          td 0
+      tr
+        td Average levels completed:
+        td #{instanceStats.averageLevelsCompleted.toFixed(2)}
+      tr
+        td Total levels completed:
+        td= instanceStats.totalLevelsCompleted
+      tr
+        td Furthest level completed:
+        td= instanceStats.furthestLevelCompleted.replace('Course: ', '')
 
 mixin progress-summary-concepts
   h3 Concepts Covered
@@ -160,9 +167,9 @@ mixin progress-members
 mixin progress-members-individual(memberID)
   - var name = memberUserMap[memberID] ? memberUserMap[memberID].get('name') : 'Anoner'
   a(href="/user/#{memberID}")= name || 'Anoner'
-  div TODO: levels completed
-  div TODO: total time played
-  div TODO: last played
+  if memberStats && memberStats[memberID]
+    div #{memberStats[memberID].totalLevelsCompleted} levels
+    div Played #{moment.duration(memberStats[memberID].totalPlayTime, "seconds").humanize()}
 
 mixin progress-members-concepts(memberID)
   if course && userLevelStateMap[memberID]
