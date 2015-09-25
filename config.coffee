@@ -3,7 +3,7 @@ _ = require 'lodash'
 _.str = require 'underscore.string'
 sysPath = require 'path'
 fs = require('fs')
-commonjsHeader = commonjsHeader = require('commonjs-require-definition')
+commonjsHeader = require('commonjs-require-definition')
 TRAVIS = process.env.COCO_TRAVIS_TEST
 
 
