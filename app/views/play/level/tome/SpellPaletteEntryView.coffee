@@ -51,7 +51,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     ).on 'shown.bs.popover', =>
       Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
       soundIndex = Math.floor(Math.random() * 4)
-      @playSound 'spell-palette-entry-open-#{soundIndex}', 0.75
+      @playSound "spell-palette-entry-open-#{soundIndex}", 0.75
       popover = @$el.data('bs.popover')
       popover?.$tip?.i18n()
       codeLanguage = @options.language
