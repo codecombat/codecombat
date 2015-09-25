@@ -31,7 +31,7 @@ block content
   else if !course || !courseInstance
     h1(data-i18n="common.loading") Loading...
   else
-    h1= courseInstance.get('name') || ($.i18n.t 'courses.unnamed_class')
+    h1= courseInstance.get('name') || $.i18n.t('courses.unnamed_class')
      small.spl (#{course.get('name')})
 
     p
