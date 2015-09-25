@@ -204,42 +204,29 @@ class SubscriptionHandler extends Handler
       if err
         @logSubscriptionError(req.user, "Redeem Prepaid Code find: #{JSON.stringify(err)}")
         return @sendDatabaseError(res, err)
-
-      return @sendForbiddenError(res) if prepaid is null
+      unless prepaid
+        @logSubscriptionError(req.user, "Could not find prepaid code #{req.body.ppc}")
+        return @sendForbiddenError(res)
 
       oldRedeemers = prepaid.get('redeemers') ? []
       return @sendForbiddenError(res) if oldRedeemers.length >= prepaid.get('maxRedeemers')
-
       months = parseInt(prepaid.get('properties')?.months)
       return @sendForbiddenError(res) if isNaN(months) or months < 1
-
       for redeemer in oldRedeemers
         return @sendForbiddenError(res) if redeemer.userID.equals(req.user._id)
 
       customerID = req.user.get('stripe')?.customerID
+      subscriptionID = req.user.get('stripe')?.subscriptionID
+      findStripeSubscription customerID, subscriptionID: subscriptionID, (subscription) =>
+        stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000) if subscription
 
-      unless customerID
-        @redeemCode(req, res, oldRedeemers, months)
-      else
-        stripe.customers.retrieve customerID, (err, customer) =>
+        @cancelSubscriptionImmediately req.user, subscription, (err) =>
           if err
-            @logSubscriptionError(req.user, "Redeem Prepaid Code get customer: #{JSON.stringify(err)}")
+            @logSubscriptionError(user, "Redeem Prepaid Code Stripe cancel subscription error: #{JSON.stringify(err)}")
             return @sendDatabaseError(res, err)
+          @redeemPrepaidCode(req, res, oldRedeemers, months, stripeSubscriptionPeriodEndDate)
 
-          findStripeSubscription customer.id, subscriptionID: req.user.get('stripe')?.subscriptionID, (subscription) =>
-            stripeSubscriptionPeriodEndDate = null
-            if subscription
-              stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000)
-
-
-            @cancelSubscriptionImmediately req.user, subscription, (err) =>
-              if err
-                @logSubscriptionError(user, "Redeem Prepaid Code Stripe cancel subscription error: #{JSON.stringify(err)}")
-                return @sendDatabaseError(res, err)
-
-              @redeemCode(req, res, oldRedeemers, months, stripeSubscriptionPeriodEndDate)
-
-  redeemCode: (req, res, oldRedeemers, months, startDate=null) =>
+  redeemPrepaidCode: (req, res, oldRedeemers, months, startDate=null) =>
     return @sendForbiddenError(res) unless req.user?
     return @sendForbiddenError(res) unless req.body?.ppc
     return @sendForbiddenError(res) unless oldRedeemers
@@ -257,9 +244,8 @@ class SubscriptionHandler extends Handler
 
       return @sendNotFoundError(res, "Error while updating prepaid redeemer") if num isnt 1
 
-
       # Add terminal subscription to User, extending existing subscriptions
-      # TODO: refactor this into some form useable by both this and purchaseYearSale?
+      # TODO: refactor this into some form useable by both this and purchaseYearSale
       stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
       endDate = new moment()
       if startDate

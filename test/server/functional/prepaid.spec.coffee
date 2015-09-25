@@ -199,6 +199,7 @@ describe '/db/prepaid', ->
             expect(prepaid.type).toEqual('terminal_subscription')
             expect(prepaid.code).toBeDefined()
             # Saving this code for later tests
+            # TODO: don't make tests dependent on each other
             joeCode = prepaid.code
             expect(prepaid.creator).toBeDefined()
             expect(prepaid.maxRedeemers).toEqual(3)
@@ -263,6 +264,8 @@ describe '/db/prepaid', ->
         expect(prepaid.maxRedeemers).toEqual(3)
         expect(prepaid.properties?.months).toEqual(3)
         done()
+
+  # TODO: Move redeem subscription prepaid code tests to subscription tests file
 
   it 'Creator can redeeem a prepaid code', (done) ->
     loginJoe (joe) ->
@@ -357,4 +360,3 @@ describe '/db/prepaid', ->
         expect(res.statusCode).not.toEqual(200)
         done()
   # TODO: add a bunch of parallel tests trying to redeem a code with a high maxRedeemers (50?) to see what happens
-
