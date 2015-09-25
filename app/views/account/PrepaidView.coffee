@@ -8,6 +8,7 @@ utils = require 'core/utils'
 RedeemModal = require 'views/account/PrepaidRedeemModal'
 forms = require 'core/forms'
 
+# TODO: remove redeem code modal
 
 module.exports = class PrepaidView extends RootView
   id: 'prepaid-view'
@@ -19,6 +20,8 @@ module.exports = class PrepaidView extends RootView
     'change #months': 'onMonthsChanged'
     'click #purchase-button': 'onPurchaseClicked'
     'click #redeem-button': 'onRedeemClicked'
+    'click .btn-check-code': 'onClickCheckCode'
+    'click .btn-redeem-code': 'onClickRedeemCode'
 
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'
@@ -38,15 +41,20 @@ module.exports = class PrepaidView extends RootView
       @render?()
     @codes.on 'sync', (code) =>
       @render?()
-
     @supermodel.loadCollection(@codes, 'prepaid', {cache: false})
+
     @ppc = utils.getQueryVariable('_ppc') ? ''
+    unless _.isEmpty(@ppc)
+      @ppcQuery = true
+      @loadPrepaid(@ppc)
 
   getRenderData: ->
     c = super()
     c.purchase = @purchase
     c.codes = @codes
     c.ppc = @ppc
+    c.ppcInfo = @ppcInfo ? []
+    c.ppcQuery = @ppcQuery ? false
     c
 
   afterRender: ->
@@ -59,7 +67,6 @@ module.exports = class PrepaidView extends RootView
   updateTotal: ->
     @purchase.total = getPrepaidCodeAmount(@baseAmount, @purchase.users, @purchase.months)
     @renderSelectors("#total", "#users", "#months")
-
 
   # Form Input Callbacks
   onUsersChanged: (e) ->
@@ -135,15 +142,16 @@ module.exports = class PrepaidView extends RootView
       data: { ppc: @ppc }
 
     options.error = (model, res, options, foo) =>
-      console.error 'FAILED redeeming prepaid code'
+      # console.error 'FAILED redeeming prepaid code'
       msg = model.responseText ? ''
       @statusMessage "Error: Could not redeem prepaid code. #{msg}", "error"
 
     options.success = (model, res, options) =>
-      console.log 'SUCCESS redeeming prepaid code'
+      # console.log 'SUCCESS redeeming prepaid code'
       @statusMessage "Prepaid Code Redeemed!", "success"
       @supermodel.loadCollection(@codes, 'prepaid', {cache: false})
       @codes.fetch()
+      me.fetch cache: false
 
     @supermodel.addRequestResource('subscribe_prepaid', options, 0).load()
 
@@ -171,9 +179,60 @@ module.exports = class PrepaidView extends RootView
       # Not sure when this will happen. Stripe popup seems to give appropriate error messages.
 
     options.success = (model, response, options) =>
-      console.log 'SUCCESS: Prepaid purchase', model.code
+      # console.log 'SUCCESS: Prepaid purchase', model.code
       @statusMessage "Successfully purchased Prepaid Code!", "success"
       @codes.add(model)
 
     @statusMessage "Finalizing purchase...", "information"
     @supermodel.addRequestResource('purchase_prepaid', options, 0).load()
+
+  loadPrepaid: (ppc) ->
+    return unless ppc
+    options =
+      cache: false
+      method: 'GET'
+      url: "/db/prepaid/-/code/#{ppc}"
+
+    options.success = (model, res, options) =>
+      @ppcInfo = []
+      if model.get('type') is 'terminal_subscription'
+        months = model.get('properties')?.months ? 0
+        maxRedeemers = model.get('maxRedeemers') ? 0
+        redeemers = model.get('redeemers') ? []
+        unlocksLeft = maxRedeemers - redeemers.length
+        @ppcInfo.push "This prepaid code adds <strong>#{months} months of subscription</strong> to your account."
+        @ppcInfo.push "It can be used <strong>#{unlocksLeft} more</strong> times."
+        # TODO: user needs to know they can't apply it more than once to their account
+      else
+        @ppcInfo.push "Type: #{model.get('type')}"
+      @render?()
+    options.error = (model, res, options) =>
+      @statusMessage "Unable to retrieve code.", "error"
+
+    @prepaid = new Prepaid()
+    @prepaid.fetch(options)
+
+  onClickCheckCode: (e) ->
+    @ppc = $('.input-ppc').val()
+    unless @ppc
+      @statusMessage "You must enter a code.", "error"
+      return
+    @ppcInfo = []
+    @render?()
+    @loadPrepaid(@ppc)
+
+  onClickRedeemCode: (e) ->
+    @ppc = $('.input-ppc').val()
+    options =
+      url: '/db/subscription/-/subscribe_prepaid'
+      method: 'POST'
+      data: { ppc: @ppc }
+    options.error = (model, res, options, foo) =>
+      msg = model.responseText ? ''
+      @statusMessage "Error: Could not redeem prepaid code. #{msg}", "error"
+    options.success = (model, res, options) =>
+      @statusMessage "Prepaid applied to your account!", "success"
+      @codes.fetch cache: false
+      me.fetch cache: false
+      @loadPrepaid(@ppc)
+    @supermodel.addRequestResource('subscribe_prepaid', options, 0).load()
