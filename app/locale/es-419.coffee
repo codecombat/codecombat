@@ -31,7 +31,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     contact: "Contacto"
     twitter_follow: "Seguir"
     teachers: "Maestros"
-#    careers: "Careers"
+    careers: "Carreras"
 
   modal:
     close: "Cerrar"
@@ -411,7 +411,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     feature7: "<strong>Clan</strong> Privado"
     free: "Gratis"
     month: "mes"
-#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+    must_be_logged: "Debes iniciar sesión primero. Por favor crea una cuenta o inicia sesión desde el menú superior."
     subscribe_title: "Suscribirse"
     unsubscribe: "Des-suscribirse"
     confirm_unsubscribe: "Confirmar cancelacion de suscripción"
@@ -528,8 +528,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   skill_docs:
     writable: "escribible" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "Sólo Lectura"
-#    action: "Action"
-#    spell: "Spell"
+    action: "Acción"
+    spell: "Conjuro"
     action_name: "nombre"
     action_cooldown: "Toma"
     action_specific_cooldown: "Enfriamiento"
@@ -614,7 +614,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto." # {change}
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+    teacher_subs_0: "Ofrecemos subscripciones gratuitas a profesores con propósitos de evaluación."
     teacher_subs_1: "Por favor contacte" # {change}
     teacher_subs_2: "para configurar una suscripción mensual gratis." # {change}
     teacher_subs_3: "para configurar su suscripción."
@@ -1087,8 +1087,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
 #    blue_ai: "Blue AI"
 #    wins: "Wins" # At end of multiplayer match playback
-#    humans: "Red" # Ladder page display team name
-#    ogres: "Blue"
+    humans: "Rojo" # Ladder page display team name
+    ogres: "Azul"
 
   user:
     stats: "Estados"
