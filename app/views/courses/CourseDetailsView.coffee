@@ -25,7 +25,8 @@ module.exports = class CourseDetailsView extends RootView
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
-    @courseInstanceID ?= utils.getQueryVariable('ciid', false) or options.courseInstanceID
+    @courseID ?= options.courseID
+    @courseInstanceID ?= options.courseInstanceID
     @adminMode = me.isAdmin()
     @memberSort = 'nameAsc'
     @course = @supermodel.getModel(Course, @courseID) or new Course _id: @courseID

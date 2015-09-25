@@ -408,7 +408,7 @@ module.exports = class HeroVictoryModal extends ModalView
       if @courseID
         link += "/#{@courseID}"
         if @courseInstanceID
-          link += "?ciid=#{@courseInstanceID}"
+          link += "/#{@courseInstanceID}"
     else
       link = '/play'
       nextCampaign = @getNextLevelCampaign()
@@ -436,10 +436,8 @@ module.exports = class HeroVictoryModal extends ModalView
       viewArgs = [options]
       if @courseID
         viewClass = require 'views/courses/CourseDetailsView'
-        options.courseID = @courseID
         viewArgs.push @courseID
         if @courseInstanceID
-          options.courseInstanceID = @courseInstanceID
           viewArgs.push @courseInstanceID
     else
       viewClass = require 'views/play/CampaignView'
