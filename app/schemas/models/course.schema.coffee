@@ -7,7 +7,7 @@ _.extend CourseSchema.properties,
   campaignID: c.objectId()
   concepts: c.array {title: 'Programming Concepts', uniqueItems: true}, c.concept
   description: {type: 'string'}
-  duration: {trype: 'number', description: 'Approximate hours of content'}
+  duration: {type: 'number', description: 'Approximate hours of content'}
   pricePerSeat: {type: 'number', description: 'Price per seat in USD cents.'}
   screenshot: c.url {title: 'URL', description: 'Link to course screenshot.'}
 
