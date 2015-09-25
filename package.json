@@ -83,6 +83,7 @@
     "coffee-script-brunch": "https://github.com/brunch/coffee-script-brunch/tarball/master",
     "coffeelint-brunch": "> 1.0 < 1.8",
     "compressible": "~1.0.1",
+    "commonjs-require-definition": "0.1.0",
     "css-brunch": "> 1.0 < 1.8",
     "jade": "0.33.x",
     "jade-brunch": "> 1.0 < 1.8",
