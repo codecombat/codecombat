@@ -23,9 +23,9 @@ module.exports = class CourseDetailsView extends RootView
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
 
-  constructor: (options, @courseID) ->
+  constructor: (options, @courseID, @courseInstanceID) ->
     super options
-    @courseInstanceID = utils.getQueryVariable('ciid', false) or options.courseInstanceID
+    @courseInstanceID ?= utils.getQueryVariable('ciid', false) or options.courseInstanceID
     @adminMode = me.isAdmin()
     @memberSort = 'nameAsc'
     @course = @supermodel.getModel(Course, @courseID) or new Course _id: @courseID
@@ -90,7 +90,8 @@ module.exports = class CourseDetailsView extends RootView
   loadCourseInstance: (courseInstanceID) ->
     # console.log 'loadCourseInstance'
     return if @courseInstance?
-    @courseInstance = @supermodel.getModel(CourseInstance, courseInstanceID) or new CourseInstance _id: courseInstanceID
+    @courseInstanceID = courseInstanceID
+    @courseInstance = @supermodel.getModel(CourseInstance, @courseInstanceID) or new CourseInstance _id: @courseInstanceID
     @listenTo @courseInstance, 'sync', @onCourseInstanceSync
     if @courseInstance.loaded
       @onCourseInstanceSync()
@@ -191,7 +192,7 @@ module.exports = class CourseDetailsView extends RootView
     Backbone.Mediator.publish 'router:navigate', {
       route: "/play/level/#{levelSlug}"
       viewClass: 'views/play/level/PlayLevelView'
-      viewArgs: [{}, levelSlug]
+      viewArgs: [{courseID: @courseID, courseInstanceID: @courseInstanceID}, levelSlug]
     }
 
   onClickSaveSettings:  (e) ->

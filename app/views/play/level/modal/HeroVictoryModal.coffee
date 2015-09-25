@@ -42,6 +42,9 @@ module.exports = class HeroVictoryModal extends ModalView
 
   constructor: (options) ->
     super(options)
+    @courseID = options.courseID
+    @courseInstanceID = options.courseInstanceID
+
     @session = options.session
     @level = options.level
     @thangTypes = {}
@@ -399,13 +402,17 @@ module.exports = class HeroVictoryModal extends ModalView
     if @level.get('type', true) is 'course' and nextLevel = @level.get('nextLevel') and not returnToCourse
       # need to do something more complicated to load its slug
       console.log 'have @nextLevel', @nextLevel, 'from nextLevel', nextLevel
-      return "/play/level/#{@nextLevel.get('slug')}"
+      link = "/play/level/#{@nextLevel.get('slug')}"
     else if @level.get('type', true) is 'course'
-      # TODO: figure out which course it is
-      return '/courses/mock1/0'
-    link = '/play'
-    nextCampaign = @getNextLevelCampaign()
-    link += '/' + nextCampaign
+      link = "/courses"
+      if @courseID
+        link += "/#{@courseID}"
+        if @courseInstanceID
+          link += "?ciid=#{@courseInstanceID}"
+    else
+      link = '/play'
+      nextCampaign = @getNextLevelCampaign()
+      link += '/' + nextCampaign
     link
 
   onClickContinue: (e, extraOptions=null) ->
@@ -418,11 +425,22 @@ module.exports = class HeroVictoryModal extends ModalView
     _.merge options, extraOptions if extraOptions
     if @level.get('type', true) is 'course' and @nextLevel and not options.returnToCourse
       viewClass = require 'views/play/level/PlayLevelView'
+      if @courseID
+        options.courseID = @courseID
+      if @courseInstanceID
+        options.courseInstanceID = @courseInstanceID
       viewArgs = [options, @nextLevel.get('slug')]
     else if @level.get('type', true) is 'course'
-      options.studentMode = true
-      viewClass = require 'views/courses/mock1/CourseDetailsView'
-      viewArgs = [options, '0']
+      # TODO: shouldn't set viewClass and route in different places
+      viewClass = require 'views/courses/CoursesView'
+      viewArgs = [options]
+      if @courseID
+        viewClass = require 'views/courses/CourseDetailsView'
+        options.courseID = @courseID
+        viewArgs.push @courseID
+        if @courseInstanceID
+          options.courseInstanceID = @courseInstanceID
+          viewArgs.push @courseInstanceID
     else
       viewClass = require 'views/play/CampaignView'
       viewArgs = [options, @getNextLevelCampaign()]
