@@ -1,0 +1,99 @@
+extends /templates/base
+
+block content
+
+  if me.get('anonymous')
+    p(data-i18n="account_settings.not_logged_in") Log in or create an account to change your settings.
+
+  else
+    ol.breadcrumb
+      li
+        a(href="/")
+          span.glyphicon.glyphicon-home
+      li
+        a(href="/account", data-i18n="nav.account")
+      li.active(data-i18n="account.prepaid")
+
+    .row
+      .col-md-12
+        .panel.panel-default
+          .panel-heading
+            .panel-title
+              a(data-toggle="collapse" href="#purchasepanel")
+                span(data-i18n="account_prepaid.purchase_code")
+          .panel-collapse.collapse(class=ppc ? "": "in")#purchasepanel
+            .panel-body
+              p Subscription Codes can be redeemed to add premium subscription time to one or more Code Combat accounts. 
+              p Each Code Combat account can only redeem a particular Subscription Code once.
+              p Subscription Code months will be added to the end of any existing subscription on the account.
+              .form-horizontal
+                .form-group
+                  label.control-label.col-md-2(for="users") Users
+                  .col-md-2
+                    input#users.form-control(name="users", type="number", value="#{purchase.users}", min=1)
+                .form-group
+                  label.control-label.col-md-2(for="months") Months
+                  .col-md-2
+                    input#months.form-control(name="months", type="number", value="#{purchase.months}", min=1)
+                .form-group
+                  label.control-label.col-md-2(data-i18n="account_prepaid.purchase_total")
+                  .col-md-10
+                    p.form-control-static $
+                      span#total #{purchase.total}
+                button#purchase-button.btn.btn-success.pull-right(data-i18n="account_prepaid.purchase_button")
+    .row
+      .col-md-12
+        .panel.panel-default
+          .panel-heading
+            .panel-title
+              a(data-toggle="collapse" href="#redeempanel")
+                span(data-i18n="account_prepaid.redeem_codes")
+          .panel-collapse.collapse.in#redeempanel
+            .panel-body
+              .form-horizontal
+                .form-group
+                  label.control-label.col-md-2(for="ppc") Code:
+                  .col-md-10
+                    input#ppc.form-control(name="ppc", type="text", value="#{ppc}" required)
+                button#redeem-button.btn.btn-success.pull-right View Code Details
+    .row
+      .col-md-12
+        .panel.panel-default
+          .panel-heading
+            .panel-title
+              a(data-toggle="collapse" href="#codeslist")
+                span(data-i18n="account_prepaid.your_codes")
+          .panel-collapse.collapse.in#codeslist
+            .panel-body
+              if codes && codes.length
+                table.table.table-striped
+                  tr
+                    th 
+                      span(title="You can copy the code's link and send it to someone.") Code 
+                        span.glyphicon.glyphicon-question-sign(aria-hidden="true")
+                    th Months
+                    th Quantity
+                    th Status
+                  for code in codes.models
+                    if code.get('type') === 'terminal_subscription'
+                      - var owner = (code.get('creator') == me.id ? true : false)
+                      - var properties = code.get('properties')
+                      - var redeemers = code.get('redeemers')
+                      if redeemers
+                        - var redeemed = redeemers.length
+                      else
+                        - var redeemed = '0'
+                      tr
+                        td
+                          a(href="/account/prepaid?_ppc=#{code.get('code')}")= code.get('code')
+                        td= properties.months || '-'
+                        if owner
+                          td= code.get('maxRedeemers') - redeemed
+                        else
+                          td - 
+                        if owner
+                          td Purchased
+                        else
+                          td Redeemed
+              else
+                p No codes yet!

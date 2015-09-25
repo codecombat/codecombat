@@ -297,6 +297,8 @@ describe 'Subscriptions', ->
       return done() unless sponsorCustomerID and sponsorStripe.sponsorSubscriptionID
       stripe.customers.retrieveSubscription sponsorCustomerID, sponsorStripe.sponsorSubscriptionID, (err, subscription) ->
         expect(err).toBeNull()
+        expect(subscription?).toBe(true)
+        return done() unless subscription?
         expect(subscription.plan.amount).toEqual(1)
         expect(subscription.customer).toEqual(sponsorCustomerID)
         expect(subscription.quantity).toEqual(utils.getSponsoredSubsAmount(subPrice, numSponsored, sponsorStripe.subscriptionID?))
@@ -361,6 +363,7 @@ describe 'Subscriptions', ->
               Payment.findOne paymentQuery, (err, payment) ->
                 expect(err).toBeNull()
                 expect(payment).not.toBeNull()
+                return done() if payment is null
                 expect(payment.get('amount')).toEqual(0)
                 expect(payment.get('gems')).toBeGreaterThan(subGems - 1)
                 done()
@@ -406,6 +409,8 @@ describe 'Subscriptions', ->
         expect(user.get('stripe').customerID).toBeDefined()
         expect(user.get('stripe').planID).toBeUndefined()
         expect(user.get('stripe').token).toBeUndefined()
+        expect(user.get('stripe').subscriptionID).toBeDefined()
+        return done() unless user.get('stripe').subscriptionID
         stripe.customers.retrieveSubscription user.get('stripe').customerID, user.get('stripe').subscriptionID, (err, subscription) ->
           expect(err).toBeNull()
           expect(subscription).not.toBeNull()
@@ -422,11 +427,11 @@ describe 'Subscriptions', ->
       expect(err).toBeNull()
       return done() if err
       expect(res.statusCode).toBe(200)
-      expect(body.stripe.customerID).toBeDefined()
+      expect(body.stripe?.customerID).toBeDefined()
       updatedUser = body
 
       # Call webhooks for invoices
-      options = customer: body.stripe.customerID, limit: 100
+      options = customer: body.stripe?.customerID, limit: 100
       stripe.invoices.list options, (err, invoices) ->
         expect(err).toBeNull()
         expect(invoices).not.toBeNull()
@@ -569,7 +574,7 @@ describe 'Subscriptions', ->
         user1.save (err, user1) ->
           expect(err).toBeNull()
           expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', 1, (err, res, prepaid) ->
+          createPrepaid 'subscription', 1, 0, (err, res, prepaid) ->
             expect(err).toBeNull()
             subscribeUser user1, null, prepaid.code, ->
               Prepaid.findById prepaid._id, (err, prepaid) ->
@@ -584,6 +589,8 @@ describe 'Subscriptions', ->
                       expect(err).toBeNull()
                       stripeInfo = user1.get('stripe')
                       expect(stripeInfo.prepaidCode).toEqual(prepaid.get('code'))
+                      expect(stripeInfo.subscriptionID).toBeDefined()
+                      return done() unless stripeInfo.subscriptionID
 
                       # Delete subscription
                       stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.subscriptionID, (err, subscription) ->
@@ -612,7 +619,7 @@ describe 'Subscriptions', ->
             subscribeUser user1, token, null, ->
               User.findById user1.id, (err, user1) ->
                 expect(err).toBeNull()
-                createPrepaid 'subscription', 1, (err, res, prepaid) ->
+                createPrepaid 'subscription', 1, 0, (err, res, prepaid) ->
                   expect(err).toBeNull()
                   subscribeUser user1, null, prepaid.code, ->
                     Prepaid.findById prepaid._id, (err, prepaid) ->
@@ -627,6 +634,7 @@ describe 'Subscriptions', ->
                         stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
                           expect(err).toBeNull()
                           expect(subscription).not.toBeNull()
+                          return done() unless subscription
                           expect(subscription.discount?.coupon?.id).toEqual('free')
                           done()
 
@@ -646,7 +654,7 @@ describe 'Subscriptions', ->
               request.put {uri: userURL, json: requestBody, headers: headers }, (err, res, updatedUser) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
-                createPrepaid 'subscription', 1, (err, res, prepaid) ->
+                createPrepaid 'subscription', 1, 0, (err, res, prepaid) ->
                   subscribeUser user1, null, prepaid.code, ->
                     Prepaid.findById prepaid._id, (err, prepaid) ->
                       expect(err).toBeNull()
@@ -660,7 +668,7 @@ describe 'Subscriptions', ->
                         stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
                           expect(err).toBeNull()
                           expect(subscription).not.toBeNull()
-                          expect(subscription.discount?.coupon?.id).toEqual('free')
+                          expect(subscription?.discount?.coupon?.id).toEqual('free')
                           done()
 
       it 'Subscribe with prepaid, then cancel', (done) ->
@@ -669,7 +677,7 @@ describe 'Subscriptions', ->
           user1.save (err, user1) ->
             expect(err).toBeNull()
             expect(user1.isAdmin()).toEqual(true)
-            createPrepaid 'subscription', 1, (err, res, prepaid) ->
+            createPrepaid 'subscription', 1, 0, (err, res, prepaid) ->
               expect(err).toBeNull()
               subscribeUser user1, null, prepaid.code, ->
                 Prepaid.findById prepaid._id, (err, prepaid) ->
@@ -691,7 +699,7 @@ describe 'Subscriptions', ->
           user1.save (err, user1) ->
             expect(err).toBeNull()
             expect(user1.isAdmin()).toEqual(true)
-            createPrepaid 'subscription', 1, (err, res, prepaid) ->
+            createPrepaid 'subscription', 1, 0, (err, res, prepaid) ->
               expect(err).toBeNull()
               subscribeUser user1, null, prepaid.code, ->
                 loginNewUser (user2) ->
@@ -714,7 +722,7 @@ describe 'Subscriptions', ->
           user1.save (err, user1) ->
             expect(err).toBeNull()
             expect(user1.isAdmin()).toEqual(true)
-            createPrepaid 'subscription', 2, (err, res, prepaid) ->
+            createPrepaid 'subscription', 2, 0, (err, res, prepaid) ->
               expect(err).toBeNull()
               subscribeUser user1, null, prepaid.code, ->
                 loginNewUser (user2) ->
@@ -730,7 +738,7 @@ describe 'Subscriptions', ->
           user1.save (err, user1) ->
             expect(err).toBeNull()
             expect(user1.isAdmin()).toEqual(true)
-            createPrepaid 'subscription', 1, (err, res, prepaid) ->
+            createPrepaid 'subscription', 1, 0, (err, res, prepaid) ->
               expect(err).toBeNull()
               subscribeUser user1, null, prepaid.code, ->
                 Prepaid.findById prepaid._id, (err, prepaid) ->
@@ -746,7 +754,7 @@ describe 'Subscriptions', ->
           user1.save (err, user1) ->
             expect(err).toBeNull()
             expect(user1.isAdmin()).toEqual(true)
-            createPrepaid 'subscription', 2, (err, res, prepaid) ->
+            createPrepaid 'subscription', 2, 0, (err, res, prepaid) ->
               expect(err).toBeNull()
               Prepaid.findById prepaid._id, (err, prepaid) ->
                 expect(err).toBeNull()
@@ -795,8 +803,13 @@ describe 'Subscriptions', ->
           createNewUser (user2) ->
             loginNewUser (user1) ->
               subscribeRecipients user1, [user2], token, (updatedUser) ->
-                customerID = updatedUser.stripe.customerID
-                subscriptionID = updatedUser.stripe.recipients[0].subscriptionID
+                expect(updatedUser).not.toBeNull()
+                return done() unless updatedUser
+                customerID = updatedUser.stripe?.customerID
+                expect(customerID).toBeDefined()
+                subscriptionID = updatedUser.stripe?.recipients[0]?.subscriptionID
+                expect(subscriptionID).toBeDefined()
+                return done() unless customerID and subscriptionID
                 loginUser user2, (user2) ->
                   request.del {uri: "#{userURL}/#{user2.id}"}, (err, res) ->
                     expect(err).toBeNull()
@@ -987,7 +1000,7 @@ describe 'Subscriptions', ->
                   user2.save (err, user1) ->
                     expect(err).toBeNull()
                     expect(user2.isAdmin()).toEqual(true)
-                    createPrepaid 'subscription', 1, (err, res, prepaid) ->
+                    createPrepaid 'subscription', 1, 0, (err, res, prepaid) ->
                       expect(err).toBeNull()
                       requestBody = user2.toObject()
                       requestBody.stripe =
@@ -1022,8 +1035,11 @@ describe 'Subscriptions', ->
             createNewUser (user2) ->
               loginNewUser (user1) ->
                 subscribeRecipients user1, [user2, user3], token, (updatedUser) ->
-                  customerID = updatedUser.stripe.customerID
-                  subscriptionID = updatedUser.stripe.sponsorSubscriptionID
+                  customerID = updatedUser?.stripe?.customerID
+                  subscriptionID = updatedUser?.stripe?.sponsorSubscriptionID
+                  expect(customerID).toBeDefined()
+                  expect(subscriptionID).toBeDefined()
+                  return done() unless customerID and subscriptionID
 
                   # Find Stripe sponsor subscription
                   stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
@@ -1041,6 +1057,7 @@ describe 'Subscriptions', ->
                         expect(err).toBeNull()
 
                         # Should have 2 cancelled recipient subs with cancel_at_period_end = true
+                        # TODO: is this correct, or do we terminate recipient subs immediately now?
                         User.findById user1.id, (err, user1) ->
                           expect(err).toBeNull()
                           stripeInfo = user1.get('stripe')
@@ -1159,7 +1176,7 @@ describe 'Subscriptions', ->
           user1.save (err, user1) ->
             expect(err).toBeNull()
             expect(user1.isAdmin()).toEqual(true)
-            createPrepaid 'subscription', 1, (err, res, prepaid) ->
+            createPrepaid 'subscription', 1, 0, (err, res, prepaid) ->
               expect(err).toBeNull()
               subscribeUser user1, null, prepaid.code, ->
                 stripe.tokens.create {
@@ -1233,7 +1250,7 @@ describe 'Subscriptions', ->
                                 stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, (err, subscription) ->
                                   expect(err).toBeNull()
                                   expect(subscription).not.toBeNull()
-                                  expect(subscription.quantity).toEqual(getSubscribedQuantity(1))
+                                  expect(subscription?.quantity).toEqual(getSubscribedQuantity(1))
 
                                   # Unsubscribe recipient1
                                   unsubscribeRecipient user1, recipients.get(1), ->
@@ -1245,6 +1262,7 @@ describe 'Subscriptions', ->
                                           stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, (err, subscription) ->
                                             expect(err).toBeNull()
                                             expect(subscription).not.toBeNull()
+                                            return done() unless subscription
                                             expect(subscription.quantity).toEqual(0)
                                             done()
 
@@ -1274,13 +1292,16 @@ describe 'Subscriptions', ->
                         unsubscribeRecipient user1, recipients.get(0), ->
                           User.findById user1.id, (err, user1) ->
                             stripeInfo = user1.get('stripe')
+                            expect(stripeInfo.customerID).toBeDefined()
+                            expect(stripeInfo.sponsorSubscriptionID).toBeDefined()
+                            return done() unless stripeInfo.customerID and stripeInfo.sponsorSubscriptionID
                             expect(stripeInfo.recipients.length).toEqual(recipientCount - 1)
                             verifyNotSponsoring user1.id, recipients.get(0).id, ->
                               verifyNotRecipient recipients.get(0).id, ->
                                 stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, (err, subscription) ->
                                   expect(err).toBeNull()
                                   expect(subscription).not.toBeNull()
-                                  expect(subscription.quantity).toEqual(getSubscribedQuantity(recipientCount - 1))
+                                  expect(subscription?.quantity).toEqual(getSubscribedQuantity(recipientCount - 1))
 
                                   # Unsubscribe second recipient
                                   unsubscribeRecipient user1, recipients.get(1), ->
@@ -1292,7 +1313,7 @@ describe 'Subscriptions', ->
                                           stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, (err, subscription) ->
                                             expect(err).toBeNull()
                                             expect(subscription).not.toBeNull()
-                                            expect(subscription.quantity).toEqual(getSubscribedQuantity(recipientCount - 2))
+                                            expect(subscription?.quantity).toEqual(getSubscribedQuantity(recipientCount - 2))
 
                                             # Unsubscribe self
                                             User.findById user1.id, (err, user1) ->
@@ -1312,7 +1333,7 @@ describe 'Subscriptions', ->
                                                             stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, (err, subscription) ->
                                                               expect(err).toBeNull()
                                                               expect(subscription).not.toBeNull()
-                                                              expect(subscription.quantity).toEqual(getSubscribedQuantity(recipientCount - 3))
+                                                              expect(subscription?.quantity).toEqual(getSubscribedQuantity(recipientCount - 3))
                                                               done()
 
         xit 'Unsubscribed user1 subscribes 13 users, unsubcribes 2', (done) ->

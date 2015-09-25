@@ -38,13 +38,15 @@ block header
               li
                 a(href="/account/subscription", data-i18n="account.subscription")
               li
+                a(href="/account/prepaid") Prepaid Codes
+              li
                 a#logout-button(data-i18n="login.log_out")
 
         else
           button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
           button.btn.btn-sm.btn-default.header-font.login-button(data-i18n="login.log_in")
         select.language-dropdown.form-control
-  
+
 
 block outer_content
   #site-content-area
@@ -75,15 +77,15 @@ block footer
           if !isIE
             a.twitter-follow-button(href="https://twitter.com/CodeCombat", data-show-count="true", data-show-screen-name="false", data-dnt="true", data-align="right", data-i18n="nav.twitter_follow") Follow
             iframe.github-star-button(src="https://ghbtns.com/github-btn.html?user=codecombat&repo=codecombat&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110", height="20")
-    
+
     #footer-credits
-      span 
+      span
         span © All Rights Reserved
         br
         span CodeCombat 2015
       img#footer-logo(src="/images/pages/base/logo.png", alt="CodeCombat")
-      span 
-        span Site Design by 
+      span
+        span Site Design by
         br
         a(href="http://www.fullyillustrated.com/") Fully Illustrated
       //a.firebase-bade(href="https://www.firebase.com/")  // Not using right now

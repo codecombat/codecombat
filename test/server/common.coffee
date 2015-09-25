@@ -120,11 +120,33 @@ wrapUpGetUser = (email, user, done) ->
 GLOBAL.getURL = (path) ->
   return 'http://localhost:3001' + path
 
-GLOBAL.createPrepaid = (type, maxRedeemers, done) ->
+GLOBAL.createPrepaid = (type, maxRedeemers, months, done) ->
   options = uri: GLOBAL.getURL('/db/prepaid/-/create')
   options.json =
     type: type
     maxRedeemers: maxRedeemers
+  if months
+    options.json.months = months
+  request.post options, done
+
+GLOBAL.fetchPrepaid = (ppc, done) ->
+  options = uri: GLOBAL.getURL('/db/prepaid/-/code/'+ppc)
+  request.get options, done
+
+GLOBAL.purchasePrepaid = (type, maxRedeemers, months, done) ->
+  options = uri: GLOBAL.getURL('/db/prepaid/-/purchase')
+  options.json =
+    type: type
+    maxRedeemers: maxRedeemers
+    months: months
+    stripe:
+      timestamp: new Date().getTime()
+  request.post options, done
+
+GLOBAL.subscribeWithPrepaid = (ppc, done) =>
+  options = url: GLOBAL.getURL('/db/subscription/-/subscribe_prepaid')
+  options.json =
+    ppc: ppc
   request.post options, done
 
 newUserCount = 0

@@ -63,6 +63,16 @@ block content
       if freeSubLink
         input#free-sub-input(type="text", readonly, value="#{freeSubLink}") 
 
+    .form-inline
+      .form-group
+        label(for="users") Users
+        input#users.form-control(name="users", type="number", min=1)
+      .form-group
+        label(for="months") Months
+        input#months.form-control(name="months", type="number", min=1)
+      a#terminal-create.btn.btn-default Create Terminal Subscription Code
+
+
   hr
 
   h3 Achievements

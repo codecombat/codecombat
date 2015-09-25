@@ -14,6 +14,7 @@ User = require '../users/User'
 {findStripeSubscription} = require '../lib/utils'
 {getSponsoredSubsAmount} = require '../../app/core/utils'
 StripeUtils = require '../lib/stripe_utils'
+moment = require 'moment'
 
 recipientCouponID = 'free'
 
@@ -38,6 +39,7 @@ class SubscriptionHandler extends Handler
     return @getStripeSubscriptions(req, res) if args[1] is 'stripe_subscriptions'
     return @getSubscribers(req, res) if args[1] is 'subscribers'
     return @purchaseYearSale(req, res) if args[1] is 'year_sale'
+    return @subscribeWithPrepaidCode(req, res) if args[1] is 'subscribe_prepaid'
     super(arguments...)
 
   getStripeEvents: (req, res) ->
@@ -117,22 +119,23 @@ class SubscriptionHandler extends Handler
         log.debug 'Analytics error:\n' + err
         @sendSuccess(res, userMap)
 
+  cancelSubscriptionImmediately: (user, subscription, done) =>
+    return done() unless user and subscription
+    stripe.customers.cancelSubscription subscription.customer, subscription.id, (err) =>
+      return done(err) if err
+      stripeInfo = _.cloneDeep(user.get('stripe') ? {})
+      delete stripeInfo.planID
+      delete stripeInfo.prepaidCode
+      delete stripeInfo.subscriptionID
+      user.set('stripe', stripeInfo)
+      user.save (err) =>
+        return done(err) if err
+        done()
+
+
   purchaseYearSale: (req, res) ->
     return @sendForbiddenError(res) unless req.user?
     return @sendForbiddenError(res) if req.user?.get('stripe')?.sponsorID
-
-    cancelSubscriptionImmediately = (user, subscription, done) =>
-      return done() unless user and subscription
-      stripe.customers.cancelSubscription subscription.customer, subscription.id, (err) =>
-        return done(err) if err
-        stripeInfo = _.cloneDeep(user.get('stripe') ? {})
-        delete stripeInfo.planID
-        delete stripeInfo.prepaidCode
-        delete stripeInfo.subscriptionID
-        user.set('stripe', stripeInfo)
-        user.save (err) =>
-          return done(err) if err
-          done()
 
     StripeUtils.getCustomer req.user, req.body.stripe?.token, (err, customer) =>
       if err
@@ -142,7 +145,7 @@ class SubscriptionHandler extends Handler
       findStripeSubscription customer.id, subscriptionID: req.user.get('stripe')?.subscriptionID, (subscription) =>
         stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000) if subscription
 
-        cancelSubscriptionImmediately req.user, subscription, (err) =>
+        @cancelSubscriptionImmediately req.user, subscription, (err) =>
           if err
             @logSubscriptionError(user, "Purchase year sale Stripe cancel subscription error: #{JSON.stringify(err)}")
             return @sendDatabaseError(res, err)
@@ -191,6 +194,95 @@ class SubscriptionHandler extends Handler
                 catch error
                   @logSubscriptionError(req.user, "Year sub sale HipChat tower msg error: #{JSON.stringify(error)}")
                 @sendSuccess(res, user)
+
+  subscribeWithPrepaidCode: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?
+    return @sendBadInputError(res,"You must provide a valid prepaid code") unless req.body?.ppc
+
+    # Check if code exists and has room for more redeemers
+    Prepaid.findOne({ code: req.body.ppc?.toString() }).exec (err, prepaid) =>
+      if err
+        @logSubscriptionError(req.user, "Redeem Prepaid Code find: #{JSON.stringify(err)}")
+        return @sendDatabaseError(res, err)
+
+      return @sendForbiddenError(res) if prepaid is null
+
+      oldRedeemers = prepaid.get('redeemers') ? []
+      return @sendForbiddenError(res) if oldRedeemers.length >= prepaid.get('maxRedeemers')
+
+      months = parseInt(prepaid.get('properties')?.months)
+      return @sendForbiddenError(res) if isNaN(months) or months < 1
+
+      for redeemer in oldRedeemers
+        return @sendForbiddenError(res) if redeemer.userID.equals(req.user._id)
+
+      customerID = req.user.get('stripe')?.customerID
+
+      unless customerID
+        @redeemCode(req, res, oldRedeemers, months)
+      else
+        stripe.customers.retrieve customerID, (err, customer) =>
+          if err
+            @logSubscriptionError(req.user, "Redeem Prepaid Code get customer: #{JSON.stringify(err)}")
+            return @sendDatabaseError(res, err)
+
+          findStripeSubscription customer.id, subscriptionID: req.user.get('stripe')?.subscriptionID, (subscription) =>
+            stripeSubscriptionPeriodEndDate = null
+            if subscription
+              stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000)
+
+
+            @cancelSubscriptionImmediately req.user, subscription, (err) =>
+              if err
+                @logSubscriptionError(user, "Redeem Prepaid Code Stripe cancel subscription error: #{JSON.stringify(err)}")
+                return @sendDatabaseError(res, err)
+
+              @redeemCode(req, res, oldRedeemers, months, stripeSubscriptionPeriodEndDate)
+
+  redeemCode: (req, res, oldRedeemers, months, startDate=null) =>
+    return @sendForbiddenError(res) unless req.user?
+    return @sendForbiddenError(res) unless req.body?.ppc
+    return @sendForbiddenError(res) unless oldRedeemers
+    return @sendForbiddenError(res) if isNaN(months) or months < 1
+
+    newRedeemerPush = { $push: { redeemers : { date: new Date().toISOString(), userID: req.user._id } }}
+
+    # Only update the prepaid document if the length of the redeemers array hasn't changed in the db.
+    # This will probably fail if redeemers isn't defined. new terminal_subscriptions created should be sure to set the redeemers array
+    # TODO: find a better way?
+    Prepaid.update { 'code': req.body.ppc, 'redeemers': { $size: oldRedeemers.length }}, newRedeemerPush, (err, num, info) =>
+      if err
+        @logSubscriptionError(req.user, "Subscribe with Prepaid Code update: #{JSON.stringify(err)}")
+        return @sendDatabaseError(res, err)
+
+      return @sendNotFoundError(res, "Error while updating prepaid redeemer") if num isnt 1
+
+
+      # Add terminal subscription to User, extending existing subscriptions
+      # TODO: refactor this into some form useable by both this and purchaseYearSale?
+      stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
+      endDate = new moment()
+      if startDate
+        endDate = new moment(startDate)
+      else if _.isString(stripeInfo.free) and new moment().isBefore(new moment(stripeInfo.free))
+        endDate = new moment(stripeInfo.free)
+
+      endDate = endDate.add(months, 'months')
+      stripeInfo.free = endDate.toISOString().substring(0, 10)
+      req.user.set('stripe', stripeInfo)
+
+      # Add gems to User
+      purchased = _.clone(req.user.get('purchased'))
+      purchased ?= {}
+      purchased.gems ?= 0
+      purchased.gems += subscriptions.basic.gems * months
+      req.user.set('purchased', purchased)
+
+      req.user.save (err, user) =>
+        if err
+          @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
+          return @sendDatabaseError(res, err)
+        @sendSuccess(res, user)
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
