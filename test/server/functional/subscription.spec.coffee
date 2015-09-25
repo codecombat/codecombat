@@ -449,7 +449,7 @@ describe 'Subscriptions', ->
           unless invoice.id of invoicesWebHooked
             invoicesWebHooked[invoice.id] = true
             webhookTasks.push makeWebhookCall(invoice)
-        async.parallel webhookTasks, (err, results) ->
+        async.series webhookTasks, (err, results) ->
           expect(err?).toEqual(false)
           done(updatedUser)
 
