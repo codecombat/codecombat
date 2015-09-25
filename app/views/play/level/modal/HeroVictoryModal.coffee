@@ -222,9 +222,10 @@ module.exports = class HeroVictoryModal extends ModalView
   initializeAnimations: ->
     if @level.get('type', true) is 'hero'
       @updateXPBars 0
+    #playVictorySound = => @playSound 'victory-title-appear'  # TODO: actually add this
     @$el.find('#victory-header').delay(250).queue(->
       $(@).removeClass('out').dequeue()
-      @playSound 'victory-title-appear'  # TODO: actually add this
+      #playVictorySound()
     )
     complete = _.once(_.bind(@beginSequentialAnimations, @))
     @animatedPanels = $()
