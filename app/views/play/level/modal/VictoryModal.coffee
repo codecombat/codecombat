@@ -82,7 +82,7 @@ module.exports = class VictoryModal extends ModalView
 
   afterInsert: ->
     super()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory'
+    @playSound 'victory'
     gapi?.plusone?.go? @$el[0]
     FB?.XFBML?.parse? @$el[0]
     twttr?.widgets?.load?()

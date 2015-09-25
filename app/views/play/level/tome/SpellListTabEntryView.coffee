@@ -83,7 +83,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
       content: docFormatter.formatPopover()
       container: @$el.parent()
     ).on 'show.bs.popover', =>
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: "spell-tab-entry-open", volume: 0.75
+      @playSound 'spell-tab-entry-open', 0.75
 
   onMouseEnterAvatar: (e) ->  # Don't call super
   onMouseLeaveAvatar: (e) ->  # Don't call super
@@ -94,7 +94,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   onDropdownClick: (e) ->
     return unless @controlsEnabled
     Backbone.Mediator.publish 'tome:toggle-spell-list', {}
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'spell-list-open', volume: 1
+    @playSound 'spell-list-open'
 
   onCodeReload: (e) ->
     #return unless @controlsEnabled
