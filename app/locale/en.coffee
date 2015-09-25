@@ -879,7 +879,7 @@
     send_invites: "Send Invites"
     title: "Title"
     description: "Description"
-    laguages_available: "Select programming languages available to the class:"
+    languages_available: "Select programming languages available to the class:"
     all_lang: "All Languages"
     show_progress: "Show student progress to everyone in the class"
     creating_class: "Creating class..."
@@ -1213,6 +1213,7 @@
     recently_played: "Recently Played"
     no_recent_games: "No games played during the past two weeks."
     payments: "Payments"
+    prepaid: "Prepaid"
     purchased: "Purchased"
     sale: "Sale"
     subscription: "Subscription"
@@ -1243,6 +1244,14 @@
     retrying: "Server error, retrying."
     success: "Successfully paid. Thanks!"
 
+  account_prepaid:
+    purchase_code: "Purchase a Subscription Code"
+    purchase_amount: "Amount"
+    purchase_total: "Total"
+    purchase_button: "Submit Purchase"
+    your_codes: "Your Codes:"
+    redeem_codes: "Redeem a Subscription Code"
+
   loading_error:
     could_not_load: "Error loading from server"
     connection_failure: "Connection failed."
@@ -1255,7 +1264,7 @@
     bad_input: "Bad input."
     server_error: "Server error."
     unknown: "Unknown error."
-	error: "ERROR"
+    error: "ERROR"
 
   resources:
     sessions: "Sessions"
