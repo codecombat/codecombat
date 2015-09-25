@@ -2,8 +2,6 @@ extends /templates/base
 
 block content
 
-  //- DO NOT localize / i18n
-
   div(style='border-bottom: 1px solid black')
     span *UNDER CONSTRUCTION, please send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
@@ -92,12 +90,13 @@ mixin teacher-dialog(course)
                   .container-fluid
                     .row
                       .col-md-8
-                        select.form-control.select-session
+                        select.form-control.select-session(data-course-id="#{course.id}")
                           each inst in instances
-                            if inst.get('name')
-                              option(value="#{inst.id}")= inst.get('name')
-                            else
-                              option(value="#{inst.id}") *unnamed*
+                            if inst.get('courseID') == course.id
+                              if inst.get('name')
+                                option(value="#{inst.id}")= inst.get('name')
+                              else
+                                option(value="#{inst.id}") *unnamed*
                       .col-md-4
                         button.btn.btn-success.btn-enter(data-course-id="#{course.id}") Enter
             .row.button-row.center.row-pick-class

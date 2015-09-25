@@ -51,7 +51,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     ).on 'shown.bs.popover', =>
       Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
       soundIndex = Math.floor(Math.random() * 4)
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: "spell-palette-entry-open-#{soundIndex}", volume: 0.75
+      @playSound "spell-palette-entry-open-#{soundIndex}", 0.75
       popover = @$el.data('bs.popover')
       popover?.$tip?.i18n()
       codeLanguage = @options.language
@@ -95,7 +95,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
       @$el.add('.spell-palette-popover.popover').removeClass 'pinned'
       $('.spell-palette-popover.popover .close').remove()
       @$el.popover 'hide'
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'spell-palette-entry-unpin', volume: 1
+      @playSound 'spell-palette-entry-unpin'
     else
       @popoverPinned = true
       @$el.popover 'show'
@@ -103,7 +103,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
       x = $('<button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>')
       $('.spell-palette-popover.popover').append x
       x.on 'click', @onClick
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'spell-palette-entry-pin', volume: 1
+      @playSound 'spell-palette-entry-pin'
     Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
   onClick: (e) =>

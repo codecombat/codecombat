@@ -2,15 +2,32 @@ extends /templates/base
 
 block content
 
-  //- DO NOT localize / i18n
-
   div
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
   div(style='border-bottom: 1px solid black;')
 
-  if me.isAnonymous()
-    h1 TODO: logged out
+  if (noCourseInstance || noCourseInstanceSelected) && course
+    h1= course.get('name')
+    if noCourseInstance
+      p You are not enrolled in this course.
+      p
+        span.spr Please visit the
+        a.spr(href="/courses") courses
+        span page to enroll.
+    else if noCourseInstanceSelected
+      p Select one of your classes
+      .container-fluid
+        .row
+          .col-md-6
+            select.form-control.select-instance
+              each courseInstance in courseInstances
+                if courseInstance.get('name')
+                  option(value="#{courseInstance.id}")= courseInstance.get('name')
+                else
+                  option(value="#{courseInstance.id}") *unnamed*
+          .col-md-6
+            button.btn.btn-success.btn-select-instance Select
   else if !course || !courseInstance
     h1 Loading...
   else
@@ -61,21 +78,28 @@ mixin progress-summary-stats
       td 
         if courseInstance
           div #{courseInstance.get('members').length}
-    tr
-      td Average level play time:
-      td TODO
-    tr
-      td Total play time:
-      td TODO
-    tr
-      td Average levels completed:
-      td TODO
-    tr
-      td Total levels completed:
-      td TODO
-    tr
-      td Furthest level completed:
-      td TODO
+    if instanceStats
+      tr
+        td Average level play time:
+        if instanceStats.averageLevelPlaytime > 0
+          td= moment.duration(instanceStats.averageLevelPlaytime, "seconds").humanize()
+        else
+          td 0
+      tr
+        td Total play time:
+        if instanceStats.totalPlayTime > 0
+          td= moment.duration(instanceStats.totalPlayTime, "seconds").humanize()
+        else
+          td 0
+      tr
+        td Average levels completed:
+        td #{instanceStats.averageLevelsCompleted.toFixed(2)}
+      tr
+        td Total levels completed:
+        td= instanceStats.totalLevelsCompleted
+      tr
+        td Furthest level completed:
+        td= instanceStats.furthestLevelCompleted.replace('Course: ', '')
 
 mixin progress-summary-concepts
   h3 Concepts Covered
@@ -141,9 +165,9 @@ mixin progress-members
 mixin progress-members-individual(memberID)
   - var name = memberUserMap[memberID] ? memberUserMap[memberID].get('name') : 'Anoner'
   a(href="/user/#{memberID}")= name || 'Anoner'
-  div TODO: levels completed
-  div TODO: total time played
-  div TODO: last played
+  if memberStats && memberStats[memberID]
+    div #{memberStats[memberID].totalLevelsCompleted} levels
+    div Played #{moment.duration(memberStats[memberID].totalPlayTime, "seconds").humanize()}
 
 mixin progress-members-concepts(memberID)
   if course && userLevelStateMap[memberID]
@@ -160,11 +184,11 @@ mixin progress-members-levels-expanded(memberID)
     - var i = 0
     each level, levelID in campaign.get('levels')
       if userLevelStateMap[memberID][levelID] === 'complete'
-        span.progress-level-cell.progress-level-cell-complete #{i + 1}
+        span.progress-level-cell.progress-level-cell-complete(data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
           span.spl= level.name.replace('Course: ', '')
           +progress-members-popup-completed(i, level)
       else if userLevelStateMap[memberID][levelID] === 'started'
-        span.progress-level-cell.progress-level-cell-started #{i + 1} #{level.name.replace('Course: ', '')}
+        span.progress-level-cell.progress-level-cell-started(data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1} #{level.name.replace('Course: ', '')}
           +progress-members-popup-started(i, level)
       else
         span.progress-level-cell #{i + 1} #{level.name.replace('Course: ', '')}
@@ -179,10 +203,10 @@ mixin progress-members-levels-condensed(memberID)
     - var i = 0
     each level, levelID in campaign.get('levels')
       if userLevelStateMap[memberID][levelID] === 'complete'
-        span.progress-level-cell.progress-level-cell-complete(style="width:#{levelCellWidth}%;") #{i + 1}
+        span.progress-level-cell.progress-level-cell-complete(style="width:#{levelCellWidth}%;", data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
           +progress-members-popup-completed(i, level)
       else if userLevelStateMap[memberID][levelID] === 'started'
-        span.progress-level-cell.progress-level-cell-started(style="width:#{levelCellWidth}%;") #{i + 1}
+        span.progress-level-cell.progress-level-cell-started(style="width:#{levelCellWidth}%;", data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
           +progress-members-popup-started(i, level)
       else
         break
@@ -191,15 +215,18 @@ mixin progress-members-levels-condensed(memberID)
 mixin progress-members-popup-completed(i, level)
   .progress-popup-container
     h3 #{i + 1}. #{level.name.replace('Course: ', '')}
-    p TODO: Time to solve
-    p TODO: Completed on
-    strong Click to view solution.
+    p Play time: #{moment.duration(level.playtime, "seconds").humanize()}
+    p Completed: #{moment(level.changed).format('MMMM Do YYYY, h:mm:ss a')}
+    if adminMode
+      strong Click to view solution.
 
 mixin progress-members-popup-started(i, level)
   .progress-popup-container
     h3 #{i + 1}. #{level.name.replace('Course: ', '')}
-    p TODO: last played on
-    strong Click to view solution.
+    p Play time: #{moment.duration(level.playtime, "seconds").humanize()}
+    p Last played: #{moment(level.changed).format('MMMM Do YYYY, h:mm:ss a')}
+    if adminMode
+      strong Click to view solution.
 
 mixin invite-tab
   p Invite students to join this class.

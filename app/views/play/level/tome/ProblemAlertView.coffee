@@ -59,7 +59,7 @@ module.exports = class ProblemAlertView extends CocoView
     if @problem?
       @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}").hide().fadeIn('slow')
       @$el.addClass('no-hint') unless @problem.aetherProblem.hint
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'error_appear', volume: 1.0
+      @playSound 'error_appear'
 
   onShowProblemAlert: (data) ->
     return unless $('#code-area').is(":visible")
@@ -80,7 +80,7 @@ module.exports = class ProblemAlertView extends CocoView
     return unless @problem?
     @$el.show() unless @$el.is(":visible")
     @$el.addClass 'jiggling'
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'error_appear', volume: 1.0
+    @playSound 'error_appear'
     pauseJiggle = =>
       @$el?.removeClass 'jiggling'
     _.delay pauseJiggle, 1000

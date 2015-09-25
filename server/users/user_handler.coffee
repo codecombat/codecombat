@@ -23,6 +23,7 @@ UserRemark = require './remarks/UserRemark'
 {isID} = require '../lib/utils'
 hipchat = require '../hipchat'
 sendwithus = require '../sendwithus'
+Prepaid = require '../prepaids/Prepaid'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
@@ -305,6 +306,7 @@ UserHandler = class UserHandler extends Handler
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
     return @getByIDs(req, res) if args[1] is 'users'
     return @getNamesByIDs(req, res) if args[1] is 'names'
+    return @getPrepaidCodes(req, res) if args[1] is 'prepaid_codes'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessionsForEmployer(req, res, args[0]) if args[1] is 'level.sessions' and args[2] is 'employer'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
@@ -452,6 +454,11 @@ UserHandler = class UserHandler extends Handler
       emailParams['email_id'] = sendwithus.templates.share_progress_email
 
     sendMail emailParams
+
+  getPrepaidCodes: (req, res) ->
+    orQuery = [{ creator: req.user._id }, { 'redeemers.userID' :  req.user._id }]
+    Prepaid.find({}).or(orQuery).exec (err, documents) =>
+      @sendSuccess(res, documents)
 
   agreeToCLA: (req, res) ->
     return @sendForbiddenError(res) unless req.user

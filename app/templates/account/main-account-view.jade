@@ -4,14 +4,14 @@ block content
 
   if me.get('anonymous')
     p(data-i18n="account_settings.not_logged_in") Log in or create an account to change your settings.
-  
+
   else
     ol.breadcrumb
       li
         a(href="/")
           span.glyphicon.glyphicon-home
       li.active(data-i18n="nav.account")
-        
+
     #account-links.panel.panel-default
       .panel-heading(data-i18n="nav.account")
       ul.list-group
@@ -23,4 +23,6 @@ block content
           a.btn.btn-lg.btn-primary(href="/account/payments", data-i18n="account.payments")
         li.list-group-item
           a.btn.btn-lg.btn-primary(href="/account/subscription", data-i18n="account.subscription")
+        li.list-group-item
+          a.btn.btn-lg.btn-primary(href="/account/prepaid") Prepaid Codes
 

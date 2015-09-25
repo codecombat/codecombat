@@ -74,10 +74,11 @@ module.exports = class CoursesView extends RootView
   onClickEnter: (e) ->
     $('.continue-dialog').modal('hide')
     courseID = $(e.target).data('course-id')
-    courseInstanceID = $('.select-session').val()
+    courseInstanceID = $(".select-session[data-course-id=#{courseID}]").val()
+    route = "/courses/#{courseID}/#{courseInstanceID}"
     viewClass = require 'views/courses/CourseDetailsView'
-    viewArgs = [{courseInstanceID:courseInstanceID}, courseID]
-    navigationEvent = route: "/courses/#{courseID}", viewClass: viewClass, viewArgs: viewArgs
+    viewArgs = [{}, courseID, courseInstanceID]
+    navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickStudent: (e) ->

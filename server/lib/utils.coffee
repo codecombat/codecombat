@@ -1,6 +1,7 @@
 AnalyticsString = require '../analytics/AnalyticsString'
 log = require 'winston'
 mongoose = require 'mongoose'
+config = require '../../server_config'
 
 module.exports =
   isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
@@ -21,6 +22,9 @@ module.exports =
     # Grabs latest subscription (e.g. in case of a resubscribe)
     return done() unless customerID?
     return done() unless options.subscriptionID? or options.userID?
+    # Some prepaid tests were calling this in such a way that stripe wasn't defined.
+    stripe = require('stripe')(config.stripe.secretKey) unless stripe
+
     subscriptionID = options.subscriptionID
     userID = options.userID
 

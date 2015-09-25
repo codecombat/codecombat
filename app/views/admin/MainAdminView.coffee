@@ -15,6 +15,7 @@ module.exports = class MainAdminView extends RootView
     'click #increment-button': 'incrementUserAttribute'
     'click #user-search-result': 'onClickUserSearchResult'
     'click #create-free-sub-btn': 'onClickFreeSubLink'
+    'click #terminal-create': 'onClickTerminalSubLink'
 
   getRenderData: ->
     context = super()
@@ -89,3 +90,27 @@ module.exports = class MainAdminView extends RootView
     options.error = (model, response, options) =>
       console.error 'Failed to create prepaid', response
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
+
+  onClickTerminalSubLink: (e) =>
+    @freeSubLink = ''
+    return unless me.isAdmin()
+
+    options =
+      url: '/db/prepaid/-/create'
+      method: 'POST'
+      data:
+        type: 'terminal_subscription'
+        maxRedeemers: parseInt($("#users").val())
+        months: parseInt($("#months").val())
+
+    options.success = (model, response, options) =>
+      # TODO: Don't hardcode domain.
+      if application.isProduction()
+        @freeSubLink = "https://codecombat.com/account/prepaid?_ppc=#{model.code}"
+      else
+        @freeSubLink = "http://localhost:3000/account/prepaid?_ppc=#{model.code}"
+      @render?()
+    options.error = (model, response, options) =>
+      console.error 'Failed to create prepaid', response
+    @supermodel.addRequestResource('create_prepaid', options, 0).load()
+

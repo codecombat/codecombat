@@ -8,10 +8,6 @@ template = require 'templates/courses/course-details'
 User = require 'models/User'
 utils = require 'core/utils'
 
-# TODO: logged out experience
-# TODO: no course instances
-# TODO: no course instance selected
-
 module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
   template: template
@@ -20,20 +16,25 @@ module.exports = class CourseDetailsView extends RootView
     'change .progress-expand-checkbox': 'onCheckExpandedProgress'
     'click .btn-play-level': 'onClickPlayLevel'
     'click .btn-save-settings': 'onClickSaveSettings'
+    'click .btn-select-instance': 'onClickSelectInstance'
     'click .progress-member-header': 'onClickMemberHeader'
     'click .progress-header': 'onClickProgressHeader'
+    'click .progress-level-cell': 'onClickProgressLevelCell'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
 
-  constructor: (options, @courseID) ->
+  constructor: (options, @courseID, @courseInstanceID) ->
     super options
-    @courseInstanceID = utils.getQueryVariable('ciid', false) or options.courseInstanceID
+    @courseID ?= options.courseID
+    @courseInstanceID ?= options.courseInstanceID
     @adminMode = me.isAdmin()
     @memberSort = 'nameAsc'
-    unless me.isAnonymous()
-      @course = new Course _id: @courseID
-      @listenTo @course, 'sync', @onCourseSync
-      @supermodel.loadModel @course, 'course', cache: false
+    @course = @supermodel.getModel(Course, @courseID) or new Course _id: @courseID
+    @listenTo @course, 'sync', @onCourseSync
+    if @course.loaded
+      @onCourseSync()
+    else
+      @supermodel.loadModel @course, 'course'
 
   getRenderData: ->
     context = super()
@@ -42,9 +43,14 @@ module.exports = class CourseDetailsView extends RootView
     context.conceptsCompleted = @conceptsCompleted ? {}
     context.course = @course if @course?.loaded
     context.courseInstance = @courseInstance if @courseInstance?.loaded
+    context.courseInstances = @courseInstances?.models ? []
+    context.instanceStats = @instanceStats
     context.levelConceptMap = @levelConceptMap ? {}
     context.memberSort = @memberSort
+    context.memberStats = @memberStats
     context.memberUserMap = @memberUserMap ? {}
+    context.noCourseInstance = @noCourseInstance
+    context.noCourseInstanceSelected = @noCourseInstanceSelected
     context.showExpandedProgress = @showExpandedProgress
     context.sortedMembers = @sortedMembers ? []
     context.userConceptStateMap = @userConceptStateMap ? {}
@@ -53,10 +59,18 @@ module.exports = class CourseDetailsView extends RootView
 
   onCourseSync: ->
     # console.log 'onCourseSync'
+    if me.isAnonymous()
+      @noCourseInstance = true
+      @render?()
+      return
     return if @campaign?
-    @campaign = new Campaign _id: @course.get('campaignID')
+    campaignID = @course.get('campaignID')
+    @campaign = @supermodel.getModel(Campaign, campaignID) or new Campaign _id: campaignID
     @listenTo @campaign, 'sync', @onCampaignSync
-    @supermodel.loadModel @campaign, 'campaign', cache: false
+    if @campaign.loaded
+      @onCampaignSync()
+    else
+      @supermodel.loadModel @campaign, 'campaign'
     @render?()
 
   onCampaignSync: ->
@@ -77,19 +91,27 @@ module.exports = class CourseDetailsView extends RootView
   loadCourseInstance: (courseInstanceID) ->
     # console.log 'loadCourseInstance'
     return if @courseInstance?
-    @courseInstance = new CourseInstance _id: courseInstanceID
+    @courseInstanceID = courseInstanceID
+    @courseInstance = @supermodel.getModel(CourseInstance, @courseInstanceID) or new CourseInstance _id: @courseInstanceID
     @listenTo @courseInstance, 'sync', @onCourseInstanceSync
-    @supermodel.loadModel @courseInstance, 'course_instance', cache: false
+    if @courseInstance.loaded
+      @onCourseInstanceSync()
+    else
+      @courseInstance = @supermodel.loadModel(@courseInstance, 'course_instance').model
 
   onCourseInstancesSync: ->
     # console.log 'onCourseInstancesSync'
     if @courseInstances.models.length is 1
       @loadCourseInstance(@courseInstances.models[0].id)
-    else if @courseInstances.models.length > 0
-      @loadCourseInstance(@courseInstances.models[0].id)
+    else
+      if @courseInstances.models.length is 0
+        @noCourseInstance = true
+      else
+        @noCourseInstanceSelected = true
+      @render?()
 
   onCourseInstanceSync: ->
-    console.log 'onCourseInstanceSync', @courseInstance.get('description')
+    # console.log 'onCourseInstanceSync'
     @adminMode = true if @courseInstance.get('ownerID') is me.id
     @levelSessions = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/level_sessions", model: LevelSession, comparator:'_id' })
     @listenToOnce @levelSessions, 'sync', @onLevelSessionsSync
@@ -101,17 +123,40 @@ module.exports = class CourseDetailsView extends RootView
 
   onLevelSessionsSync: ->
     # console.log 'onLevelSessionsSync'
+    @instanceStats = averageLevelsCompleted: 0, furthestLevelCompleted: '', totalLevelsCompleted: 0, totalPlayTime: 0
+    @memberStats = {}
     @userConceptStateMap = {}
+    @userLevelSessionMap = {}
     @userLevelStateMap = {}
+    levelStateMap = {}
     for levelSession in @levelSessions.models
       userID = levelSession.get('creator')
       levelID = levelSession.get('level').original
-      @userConceptStateMap[userID] ?= {}
-      @userLevelStateMap[userID] ?= {}
       state = if levelSession.get('state')?.complete then 'complete' else 'started'
-      @userLevelStateMap[userID][levelID] = state
+      levelStateMap[levelID] = state
+
+      @instanceStats.totalLevelsCompleted++ if state is 'complete'
+      @instanceStats.totalPlayTime += levelSession.get('playtime')
+
+      @memberStats[userID] ?= totalLevelsCompleted: 0, totalPlayTime: 0
+      @memberStats[userID].totalLevelsCompleted++ if state is 'complete'
+      @memberStats[userID].totalPlayTime += levelSession.get('playtime')
+
+      @userConceptStateMap[userID] ?= {}
       for concept of @levelConceptMap[levelID]
         @userConceptStateMap[userID][concept] = state
+
+      @userLevelSessionMap[userID] ?= {}
+      @userLevelSessionMap[userID][levelID] = levelSession
+
+      @userLevelStateMap[userID] ?= {}
+      @userLevelStateMap[userID][levelID] = state
+
+    if @courseInstance.get('members').length > 0
+      @instanceStats.averageLevelsCompleted = @instanceStats.totalLevelsCompleted / @courseInstance.get('members').length
+    for levelID, level of @campaign.get('levels')
+      @instanceStats.furthestLevelCompleted = level.name if levelStateMap[levelID] is 'complete'
+
     @conceptsCompleted = {}
     for userID, conceptStateMap of @userConceptStateMap
       for concept, state of conceptStateMap
@@ -148,7 +193,7 @@ module.exports = class CourseDetailsView extends RootView
     Backbone.Mediator.publish 'router:navigate', {
       route: "/play/level/#{levelSlug}"
       viewClass: 'views/play/level/PlayLevelView'
-      viewArgs: [{}, levelSlug]
+      viewArgs: [{courseID: @courseID, courseInstanceID: @courseInstanceID}, levelSlug]
     }
 
   onClickSaveSettings:  (e) ->
@@ -161,9 +206,29 @@ module.exports = class CourseDetailsView extends RootView
     @courseInstance.patch()
     $('#settingsModal').modal('hide')
 
+  onClickSelectInstance: (e) ->
+    courseInstanceID = $('.select-instance').val()
+    @noCourseInstanceSelected = false
+    @loadCourseInstance(courseInstanceID)
+
+  onClickProgressLevelCell: (e) ->
+    return unless @adminMode
+    levelID = $(e.currentTarget).data('level-id')
+    levelSlug = $(e.currentTarget).data('level-slug')
+    userID = $(e.currentTarget).data('user-id')
+    return unless levelID and levelSlug and userID
+    route = "/play/level/#{levelSlug}"
+    if @userLevelSessionMap[userID]?[levelID]
+      route += "?session=#{@userLevelSessionMap[userID][levelID].id}&observing=true"
+    Backbone.Mediator.publish 'router:navigate', {
+      route: route
+      viewClass: 'views/play/level/PlayLevelView'
+      viewArgs: [{}, levelSlug]
+    }
+
   onMouseEnterPoint: (e) ->
-    $('.level-popup-container').hide()
-    container = $(e.target).find('.level-popup-container').show()
+    $('.progress-popup-container').hide()
+    container = $(e.target).find('.progress-popup-container').show()
     margin = 20
     offset = $(e.target).offset()
     scrollTop = $('#page-container').scrollTop()
@@ -172,7 +237,7 @@ module.exports = class CourseDetailsView extends RootView
     container.css('top', offset.top + scrollTop - height - margin)
 
   onMouseLeavePoint: (e) ->
-    $(e.target).find('.level-popup-container').hide()
+    $(e.target).find('.progress-popup-container').hide()
 
   sortMembers: ->
     # Progress sort precedence: most completed concepts, most started concepts, most levels, name sort

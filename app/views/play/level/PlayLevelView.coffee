@@ -94,6 +94,9 @@ module.exports = class PlayLevelView extends RootView
     console.profile?() if PROFILE_ME
     super options
 
+    @courseID = options.courseID
+    @courseInstanceID = options.courseInstanceID
+
     @isEditorPreview = @getQueryVariable 'dev'
     @sessionID = @getQueryVariable 'session'
     @observing = @getQueryVariable 'observing'
@@ -248,7 +251,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.get('type') in ['hero-ladder', 'course-ladder']
-    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel}
+    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
 
   initVolume: ->
@@ -444,7 +447,7 @@ module.exports = class PlayLevelView extends RootView
   showVictory: ->
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @endHighlight()
-    options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning}
+    options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then HeroVictoryModal else VictoryModal
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
