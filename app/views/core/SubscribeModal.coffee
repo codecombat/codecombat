@@ -48,7 +48,6 @@ module.exports = class SubscribeModal extends ModalView
     popoverTitle = $.i18n.t 'subscribe.parent_email_title'
     popoverTitle += '<button type="button" class="close" onclick="$(&#39;.parent-button&#39;).popover(&#39;hide&#39;);">&times;</button>'
     popoverContent = ->
-      console.log 'found html', $('.parent-button-popover-content').html()
       $('.parent-button-popover-content').html()
     @$el.find('.parent-button').popover(
       animation: true
