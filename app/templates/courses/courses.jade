@@ -22,34 +22,34 @@ block content
           - i++
 
 mixin student-main
-  button.btn.btn-warning.btn-teacher Teachers Click Here
-  h1.center Courses on CodeCombat
+  button.btn.btn-warning.btn-teacher(data-i18n="courses.teachers_click")
+  h1.center(data-i18n="courses.courses_on_coco")
 
 mixin teacher-main
-  button.btn.btn-warning.btn-student Students Click Here
-  h1.center Courses on CodeCombat
+  button.btn.btn-warning.btn-student(data-i18n="courses.students_click")
+  h1.center(data-i18n="courses.courses_on_coco")
   .info-container
-    p Courses are designed to introduce computer science concepts using CodeCombat's fun and engaging environment. CodeCombat levels are organized around key topics to encourage progressive learning, over the course of 5 hours.
+    p(data-i18n="courses.designed_to")
     .container-fluid
       .row
         .col-md-6
           ul
-            li Learn more in less time
-            li No coding experience necesssary
-            li Easily monitor student progress
-            
-          p Purchase a course for your entire class. It's easy to sign up your students!
+            li(data-i18n="courses.more_in_less")
+            li(data-i18n="courses.no_experience")
+            li(data-i18n="courses.easy_monitor")
+
+          p(data-i18n="courses.purchase_for_class")
           p.faq-blurb
-            span.spr See the courses
-            a.spr.courses-faq FAQ
-            span for more information.
+            span.spr(data-i18n="courses.see_the")
+            a.courses-faq(data-i18n="courses.faq")
+            span.spl(data-i18n="courses.more_info")
         .col-md-6
           img.img-quote(src="/images/pages/courses/coco_complab.png")
     p
       .well.well-sm
         div.praise-quote "#{praise.quote}"
         div.praise-caption - #{praise.source}
-  h2.center Choose Your Course:
+  h2.center(data-i18n="courses.choose_course")
 
 mixin student-dialog(course)
   .modal.continue-dialog(id="continueModal#{course.id}")
@@ -64,13 +64,13 @@ mixin student-dialog(course)
             .col-md-12
               .well.well-sm
                 p
-                  div.instruction-label Enter an unlock code
+                  div.instruction-label(data-i18n="courses.enter_code")
                 .container-fluid
                   .row
                     .col-md-8
-                      input.code-input(type='text', placeholder="Enter unlock code")
+                      input.code-input(type='text', data-i18n="[placeholder]courses.enter_code1", placeholder="Enter unlock code")
                     .col-md-4
-                      button.btn.btn-success.btn-enroll Enroll
+                      button.btn.btn-success.btn-enroll(data-i18n="courses.enroll")
 
 mixin teacher-dialog(course)
   .modal.continue-dialog(id="continueModal#{course.id}")
@@ -86,7 +86,7 @@ mixin teacher-dialog(course)
               .col-md-12
                 .well.well-sm
                   p
-                    div.instruction-label Pick from your current classes
+                    div.instruction-label(data-i18n="courses.pick_from_classes")
                   .container-fluid
                     .row
                       .col-md-8
@@ -96,15 +96,15 @@ mixin teacher-dialog(course)
                               if inst.get('name')
                                 option(value="#{inst.id}")= inst.get('name')
                               else
-                                option(value="#{inst.id}") *unnamed*
+                                option(value="#{inst.id}", data-i18n="courses.unnamed")
                       .col-md-4
-                        button.btn.btn-success.btn-enter(data-course-id="#{course.id}") Enter
+                        button.btn.btn-success.btn-enter(data-course-id="#{course.id}", data-i18n="courses.enter")
             .row.button-row.center.row-pick-class
               .col-md-12
-                div.or Or
+                div.or(data-i18n="courses.or")
           .row.button-row.center
             .col-md-12
-              button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{course.id}") Buy this course
+              button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{course.id}", data-i18n="courses.buy_course1")
 
 mixin course-block(course)
   if studentMode
@@ -125,18 +125,20 @@ mixin course-block(course)
                img.course-image(src="#{course.get('screenshot')}")
           .row.button-row
             .col-md-6
-              strong Topics
+              strong(data-i18n="courses.topics")
               ul
                 each concept in course.get('concepts')
                   li(data-i18n="concepts." + concept)
-              strong Hours of content: #{course.get('duration')}
+              strong
+                span.spr(data-i18n="courses.hours_content")
+                span #{course.get('duration')}
             .col-md-6.center(style='margin-top: 40px;')
               if studentMode
                 if enrolledCourses[course.id]
-                  a.btn.btn-lg.btn-success.btn-continue(href="/courses/#{course.id}?student=true") Continue
+                  a.btn.btn-lg.btn-success.btn-continue(href="/courses/#{course.id}?student=true", data-i18n="common.continue")
                 else
-                  button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal#{course.id}") Enter
+                  button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal#{course.id}", data-i18n="courses.enter") Enter
               else if enrolledCourses[course.id]
-                button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal#{course.id}") Continue
+                button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal#{course.id}", data-i18n="common.continue")
               else
-                button.btn.btn-lg.btn-success.btn-buy(data-course-id="#{course.id}") #{course.get('pricePerSeat') === 0 ? 'Get FREE course' : 'Buy course'}
+                button.btn.btn-lg.btn-success.btn-buy(data-course-id="#{course.id}") #{course.get('pricePerSeat') === 0 ? $.i18n.t('courses.get_free') : $.i18n.t('courses.buy_course')}

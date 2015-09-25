@@ -9,67 +9,81 @@ block content
 
   if state === 'declined' || state === 'unknown_error'
     p
-      .alert.alert-danger ERROR #{stateMessage}
+      .alert.alert-danger
+        span.spr(data-i18n="loading_error.error")
+        span #{stateMessage}
 
   if state === 'creating'
     p
-      .alert.alert-info Creating class...
+      .alert.alert-info(data-i18n="courses.creating_class")
   else if state === 'purchasing'
     p
-      .alert.alert-info Purchasing course...
+      .alert.alert-info(data-i18n="courses.purchasing_course")
   else 
     .well.well-lg.enroll-container
       if price > 0
-        h1.center Buy Course
+        h1.center(data-i18n="courses.buy_course")
       else
-        h1.center Create Class
-      h3 1. Course
+        h1.center(data-i18n="courses.create_class")
+      h3
+        span 1.
+        span.spl(data-i18n="courses.course")
       if courses.length > 2
-        p Select 'All Courses' for a 50% discount!
+        p(data-i18n="courses.select_all_courses")
       .form-group
         select.form-control.course-select
           each course in courses
             option(value="#{course.id}")= course.get('name')
           if courses.length > 1
-            option(value="All Courses") All Courses
+            option(value="All Courses", data-i18n="courses.all_courses")
 
-      h3 2. Number of students
-      p Enter the number of students you need for this class.
+      h3
+        span 2.
+        span.spl(data-i18n="courses.number_students")
+      p(data-i18n="courses.enter_number_students")
       input.input-seats(type='text', value="#{seats}")
 
-      h3 3. Name your class
-      p This will be displayed on the course page for you and your students.  It can be changed later.
+      h3
+        span 3.
+        span.spl(data-i18n="courses.name_class")
+      p(data-i18n="courses.displayed_course_page")
       input.class-name(type='text', placeholder="Mrs. Smith's 4th Period", value="#{className ? className : ''}")
 
       if price > 0
-        h3 4. Buy
+        h3
+          span 4.
+          span.spl(data-i18n="courses.buy") Buy
       else
-        h3 4. Create Class
+        h3
+          span 4.
+          span.spl(data-i18n="courses.create_class")
       p
         if price > 0
-          span.spr You are purchasing a license for
+          span.spr(data-i18n="courses.purchasing_for")
         else
-          span.spr You are creating a class for
+          span.spr(data-i18n="courses.creating_for")
         strong.spr #{selectedCourseTitle}
-        span.spr for
-        strong #{seats} students
-        | .
-      p Afterwards you will receive an unlock code to distribute to your students, which they can use to enroll in your class.
+        span.spr(data-i18n="courses.for")
+        strong
+          span #{seats}
+          span.spl(data-i18n="courses.students1")
+        span .
+      p(data-i18n="courses.receive_code")
       p.center
         if price > 0
           button.btn.btn-success.btn-lg.btn-buy $#{(price / 100.0).toFixed(2)}
         else
-          button.btn.btn-success.btn-lg.btn-buy Create Class
+          button.btn.btn-success.btn-lg.btn-buy(data-i18n="courses.create_class")
       +trial-and-questions
 
 mixin trial-and-questions
-  h3 Free trial for teachers!
+  h3(data-i18n="courses.free_trial")
   p
-    span.spr Please fill out our
+    span.spr(data-i18n="teachers.teacher_subs_1")
     a(href='/teachers/freetrial', data-i18n="teachers.teacher_subs_2")
-    span.spl to get individual access to all courses for evalutaion purposes.
+    span.spl(data-i18n="courses.get_access")
 
-  h3 Questions?
+  h3(data-i18n="courses.questions")
   p
-    span Please contact
+    span(data-i18n="teachers_survey.contact_1")
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
