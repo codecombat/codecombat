@@ -322,7 +322,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
-#    tip_brute_force: "Süpheye düstüğünde kaba kuvveti kullan. - Ken Thompson"
+    tip_brute_force: "Süpheye düstüğünde kaba kuvveti kullan. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     tip_superpower: "Kodlama, süper güç sahibi olmaya en çok benzeyen şeydir."
     tip_control_destiny: "Gerçekten açık kaynaklı olan bir kodda, kendi kaderinizi kontrol edebilirsiniz. - Linus Torvalds"
@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    poll: "Poll"
 #    user_polls_record: "Poll Voting History"
 
-#  concepts:
+  concepts:
 #    advanced_strings: "Advanced Strings"
     algorithms: "Algoritmalar"
     arguments: "Argümanlar"
