@@ -17,8 +17,9 @@ table.table
     for document in documents
       - var data = document.attributes;
       tr(class=document.getOwner() == me.id ? 'mine' : '')
-        td
+        td(title=data.name).name-row
           a(href="/editor/#{page}/#{data.slug || data._id}")
             | #{data.name}
-        td.body-row #{data.description}
+        td(title=data.description).body-row
+          | #{data.description}
         td #{data.version.major}.#{data.version.minor}
