@@ -140,5 +140,7 @@ mixin course-block(course)
                   button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal#{course.id}", data-i18n="courses.enter") Enter
               else if enrolledCourses[course.id]
                 button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal#{course.id}", data-i18n="common.continue")
+              else if course.get('pricePerSeat') === 0
+                button.btn.btn-lg.btn-success.btn-buy(data-course-id="#{course.id}", data-i18n='courses.get_free')
               else
-                button.btn.btn-lg.btn-success.btn-buy(data-course-id="#{course.id}") #{course.get('pricePerSeat') === 0 ? $.i18n.t('courses.get_free') : $.i18n.t('courses.buy_course')}
+                button.btn.btn-lg.btn-success.btn-buy(data-course-id="#{course.id}", data-i18n='courses.buy_course')
