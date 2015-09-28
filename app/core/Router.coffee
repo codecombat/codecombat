@@ -26,6 +26,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'account/subscription': go('account/SubscriptionView')
     'account/subscription/sale': go('account/SubscriptionSaleView')
     'account/invoices': go('account/InvoicesView')
+    'account/prepaid': go('account/PrepaidView')
 
     'admin': go('admin/MainAdminView')
     'admin/candidates': go('admin/CandidatesView')
@@ -43,7 +44,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'beta': go('HomeView')
 
-    'careers(/:position)': go('CareersView')
+    'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
     'cla': go('CLAView')
 
@@ -65,7 +66,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'courses/mock1/:courseID': go('courses/mock1/CourseDetailsView')
     'courses': go('courses/CoursesView')
     'courses/enroll(/:courseID)': go('courses/CourseEnrollView')
-    'courses/:courseID': go('courses/CourseDetailsView')
+    'courses/:courseID(/:courseInstanceID)': go('courses/CourseDetailsView')
 
     'db/*path': 'routeToServer'
     'demo(/*subpath)': go('DemoView')

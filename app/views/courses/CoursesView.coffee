@@ -45,10 +45,10 @@ module.exports = class CoursesView extends RootView
     @enrolledCourses[courseInstance.get('courseID')] = true for courseInstance in @courseInstances.models
 
   setupCoursesFAQPopover: ->
-    popoverTitle = "<h3>Courses FAQ<button type='button' class='close' onclick='$(&#39;.courses-faq&#39;).popover(&#39;hide&#39;);'>&times;</button></h3>"
-    popoverContent = "<p><strong>Q:</strong> What's the difference between these courses and the single player game?</p>"
-    popoverContent += "<p><strong>A:</strong> The single player game is designed for individuals, while the courses are designed for classes.</p>"
-    popoverContent += "<p>The single player game has items, gems, hero selection, leveling up, and in-app purchases.  Courses have classroom management features and streamlined student-focused level pacing.</p>"
+    popoverTitle = "<h3>" + $.i18n.t('courses.faq') + "<button type='button' class='close' onclick='$(&#39;.courses-faq&#39;).popover(&#39;hide&#39;);'>&times;</button></h3>"
+    popoverContent = "<p><strong>" + $.i18n.t('courses.question') + "</strong> " + $.i18n.t('courses.question1') + "</p>"
+    popoverContent += "<p><strong>" + $.i18n.t('courses.answer') + "</strong> " + $.i18n.t('courses.answer1') + "</p>"
+    popoverContent += "<p>" + $.i18n.t('courses.answer2') + "</p>"
     @$el.find('.courses-faq').popover(
       animation: true
       html: true
@@ -74,10 +74,11 @@ module.exports = class CoursesView extends RootView
   onClickEnter: (e) ->
     $('.continue-dialog').modal('hide')
     courseID = $(e.target).data('course-id')
-    courseInstanceID = $('.select-session').val()
+    courseInstanceID = $(".select-session[data-course-id=#{courseID}]").val()
+    route = "/courses/#{courseID}/#{courseInstanceID}"
     viewClass = require 'views/courses/CourseDetailsView'
-    viewArgs = [{courseInstanceID:courseInstanceID}, courseID]
-    navigationEvent = route: "/courses/#{courseID}", viewClass: viewClass, viewArgs: viewArgs
+    viewArgs = [{}, courseID, courseInstanceID]
+    navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickStudent: (e) ->

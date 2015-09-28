@@ -46,14 +46,18 @@ module.exports.setup = (app) ->
 
     invoiceID = req.body.data.object.id
     stripe.invoices.retrieve invoiceID, (err, invoice) =>
-      return res.send(500, '') if err
+      if err
+        logStripeWebhookError("Retrieve invoice error: #{JSON.stringify(err)}")
+        return res.send(500, '')
       unless invoice.total or invoice.discount?.coupon?.id is 'free'
         # invoices made when trialing, probably given for people who resubscribe after unsubscribing
         return res.send(200, '')
       return res.send(200, '') unless invoice.lines?.data?.length > 0
 
       getUserID invoice.customer, (err, userID) =>
-        return res.send(500, '') if err
+        if err
+          logStripeWebhookError("Get user ID error: #{JSON.stringify(err)}")
+          return res.send(500, '')
 
         # User is recipient if no metadata.id
         recipientID = invoice.lines.data[0].metadata?.id or userID
@@ -62,7 +66,9 @@ module.exports.setup = (app) ->
         subscriptionID = invoice.lines.data[0].subscription or invoice.lines.data[0].id
 
         User.findById recipientID, (err, recipient) =>
-          return res.send(500, '') if err
+          if err
+            logStripeWebhookError("Find recipient user error: #{JSON.stringify(err)}")
+            return res.send(500, '')
           return res.send(200) unless recipient # just for the sake of testing...
 
           Payment.findOne {'stripe.invoiceID': invoiceID}, (err, payment) =>
@@ -82,7 +88,9 @@ module.exports.setup = (app) ->
             payment.set 'gems', 3500 if invoice.lines.data[0].plan?.id is 'basic'
 
             payment.save (err) =>
-              return res.send(500, '') if err
+              if err
+                logStripeWebhookError("Save payment error: #{JSON.stringify(err)}")
+                return res.send(500, '')
               return res.send(201, '') if invoice.lines.data[0].plan?.id isnt 'basic'
 
               # Update purchased gems
@@ -94,7 +102,9 @@ module.exports.setup = (app) ->
                 purchased.gems = gems
                 recipient.set('purchased', purchased)
                 recipient.save (err) ->
-                  return res.send(500, '') if err
+                  if err
+                    logStripeWebhookError("Save recipient user error: #{JSON.stringify(err)}")
+                    return res.send(500, '')
                   return res.send(201, '')
 
   handleSubscriptionDeleted = (req, res) ->

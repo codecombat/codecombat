@@ -28,6 +28,9 @@ module.exports = class ControlBarView extends CocoView
     'click #control-bar-sign-up-button': 'onClickSignupButton'
 
   constructor: (options) ->
+    @courseID = options.courseID
+    @courseInstanceID = options.courseInstanceID
+
     @worldName = options.worldName
     @session = options.session
     @level = options.level
@@ -88,13 +91,15 @@ module.exports = class ControlBarView extends CocoView
       @homeLink += '/' + campaign
       @homeViewArgs.push campaign
     else if @level.get('type', true) in ['course']
-      @homeLink = '/courses/mock1'
-      @homeViewClass = 'views/courses/mock1/CourseDetailsView'
-      #campaign = @level.get 'campaign'
-      #@homeLink += '/' + campaign
-      #@homeViewArgs.push campaign
-      @homeLink += '/' + '0'
-      @homeViewArgs.push '0'
+      @homeLink = '/courses'
+      @homeViewClass = 'views/courses/CoursesView'
+      if @courseID
+        @homeLink += "/#{@courseID}"
+        @homeViewArgs.push @courseID
+        @homeViewClass = 'views/courses/CourseDetailsView'
+        if @courseInstanceID
+          @homeLink += "/#{@courseInstanceID}"
+          @homeViewArgs.push @courseInstanceID
     else
       @homeLink = '/'
       @homeViewClass = 'views/HomeView'

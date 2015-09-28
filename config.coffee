@@ -3,7 +3,7 @@ _ = require 'lodash'
 _.str = require 'underscore.string'
 sysPath = require 'path'
 fs = require('fs')
-commonjsHeader = fs.readFileSync('node_modules/brunch/node_modules/commonjs-require-definition/require.js', {encoding: 'utf8'})
+commonjsHeader = require('commonjs-require-definition')
 TRAVIS = process.env.COCO_TRAVIS_TEST
 
 

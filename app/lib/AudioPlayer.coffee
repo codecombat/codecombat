@@ -62,7 +62,9 @@ class AudioPlayer extends CocoClass
     sup = @camera.worldToSurface pos
     svp = @camera.surfaceViewport
     pan = Math.max -1, Math.min 1, ((sup.x - svp.x) - svp.width / 2) / svp.width
+    pan = 0 if _.isNaN pan
     dst = @camera.distanceRatioTo pos
+    dst = 0.8 if _.isNaN dst
     vol = Math.min 1, options.volume / Math.pow (dst + 0.2), 2
     volume: options.volume, delay: options.delay, pan: pan
 

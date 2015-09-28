@@ -1,12 +1,12 @@
 module.exports = nativeDescription: "Português do Brasil", englishDescription: "Portuguese (Brazil)", translation:
   home:
     slogan: "Aprenda a programar enquanto se diverte jogando."
-    no_ie: "CodeCombat não roda em versões mais antigas que o Internet Explorer 10. Desculpe!" # Warning that only shows up in IE8 and older
-    no_mobile: "CodeCombat não foi projetado para dispositivos móveis e pode não funcionar!" # Warning that shows up on mobile devices
+    no_ie: "O CodeCombat não roda em versões mais antigas que o Internet Explorer 10. Desculpe!" # Warning that only shows up in IE8 and older
+    no_mobile: "O CodeCombat não foi projetado para dispositivos móveis e pode não funcionar!" # Warning that shows up on mobile devices
     play: "Jogar" # The big play button that opens up the campaign view.
     old_browser: "Ops, seu navegador é muito antigo para rodar o CodeCombat. Desculpe!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Você pode tentar de qualquer forma, mas provavelmente não irá funcionar."
-    ipad_browser: "Más notícias:CodeCombat não é executado no navegador do iPad. Boas notícias: Nosso app nativo do iPad esta esperando a aprovação da Apple."
+    ipad_browser: "Más notícias: O CodeCombat não é executado no navegador do iPad. Boas notícias: Nosso app nativo do iPad está esperando a aprovação da Apple."
     campaign: "Campanha"
     for_beginners: "Para Iniciantes"
     multiplayer: "Multijogador" # Not currently shown on home page
@@ -46,12 +46,12 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     pitch_body: "Desenvolvemos o CodeCombat em Inglês, mas já temos jogadores de todo o mundo. Muitos deles querem jogar em Português Brasileiro por não falar Inglês, por isso, se você conhece os dois idiomas, por favor, considere inscrever-se no programa para Diplomata e assim ajudar a traduzir tanto o site do CodeCombat quanto todos os estágios para o Português Brasileiro."
     missing_translations: "Até que possamos traduzir todo o conteúdo para o Português Brasileiro, você lerá o texto em Inglês quando a versão em Português Brasileiro não estiver disponível."
     learn_more: "Saiba mais sobre ser um Diplomata"
-    subscribe_as_diplomat: "Assinar como um Diplomata"
+    subscribe_as_diplomat: "Inscrever-se como um Diplomata"
 
   play:
     play_as: "Jogar Como " # Ladder page
     spectate: "Assistir" # Ladder page
-    players: "jogadores" # Hover over a level on /play
+    players: "Jogadores" # Hover over a level on /play
     hours_played: "Horas jogadas" # Hover over a level on /play
     items: "Itens" # Tooltip on item shop button from /play
     unlock: "Desbloquear" # For purchasing items and heroes
@@ -422,7 +422,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     sorry_to_see_you_go: "É uma pena ver você indo embora! Por favor, diga o que podemos fazer para melhorar."
     unsubscribe_feedback_placeholder: "Oh, o que nós fizemos?"
     parent_button: "Pergunte aos seus pais"
-    parent_email_description: "Nós enviaremos um e-mail para eles adquirir para você uma assinatura do CodeCombat."
+    parent_email_description: "Nós enviaremos um e-mail para eles adquirirem uma assinatura do CodeCombat para você."
     parent_email_input_invalid: "Endereço de e-mail inválido."
     parent_email_input_label: "Endereço de e-mail dos pais"
     parent_email_input_placeholder: "Informe o e-mail dos pais"
@@ -441,19 +441,19 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     payment_methods_blurb2: "Se você precisa de outra forma de pagamento, por favor contate"
     sale_already_subscribed: "Você já está subscrito!"
     sale_blurb1: "Economize 35%"
-    sale_blurb2: "desconto regular de assinatura por U$120 durante um ano inteiro!" # {changed}
+    sale_blurb2: "desconto regular de assinatura por U$120 durante um ano inteiro!"
     sale_button: "Venda!"
     sale_button_title: "Economize 35% quando você adquirir a assinatura de 1 ano"
     sale_click_here: "Clique Aqui"
-#    sale_ends: "Ends"
+    sale_ends: "Termina"
     sale_extended: "*Assinaturas existentes serão extendidas por 1 ano."
-#    sale_feature_here: "Here's what you'll get:"
+    sale_feature_here: "O que está incluso:"
     sale_feature2: "Acesso a 9 poderosos <strong>novos heróis</strong> com atributos únicos!"
-#    sale_feature4: "<strong>42,000 bonus gems</strong> awarded immediately!"
-#    sale_continue: "Ready to continue adventuring?"
-#    sale_limited_time: "Limited time offer!"
+    sale_feature4: "<strong>42,000 gemas bônus</strong> entregues imediatamente!"
+    sale_continue: "Pronto para continuar a aventura?"
+    sale_limited_time: "Oferta por tempo limitado!"
     sale_new_heroes: "Novos heróis!"
-#    sale_title: "Back to School Sale"
+    sale_title: "Promoção de volta às aulas"
 #    sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Inscrição Mensal"
     stripe_description_year_sale: "Assinatura de 1 Ano (35% de desconto"
@@ -464,7 +464,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     managed_by: "Gerenciada por"
     will_be_cancelled: "Será cancelada em"
     currently_free: "Atualmente você tem uma assinatura gratuita"
-    currently_free_until: "Sua assinatura gratuita é válida até" # {changed}
+    currently_free_until: "Sua assinatura gratuita é válida até"
     was_free_until: "Sua assinatura gratuita expirou em"
     managed_subs: "Assinaturas gerenciadas"
     managed_subs_desc: "Adicione assinaturas para outros jogadores (estudantes, crianças, etc)"
@@ -610,7 +610,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     intro_1: "CodeCombat é um jogo online que ensina programação. Estudantes criam código em linguagens de programação usadas na vida real."
     intro_2: "Não é necessário ter experiência!"
     free_title: "Quanto custa?"
-    cost_china: "CodeCombat na China é gratuito para os primeiros cinco níveis, depois disso o valor mensal para ter acesso a mais de 140 níveis nos nossos servidores exclusivos na China é de $9.99 dólares americanos."
+    cost_china: "CodeCombat na China é gratuito para os primeiros cinco níveis, depois disso o valor mesal para ter acesso a mais de 140 níveis nos nossos servidores exclusivos na China é de $9.99 dólares americanos."
     free_1: "CodeCombat Basic é gratuito! Há mais de 80 níveis gratuitos que cobrem todos os conceitos." # {change}
     free_2: "Uma assinatura mensal dá acesso aos vídeos tutoriais e mais níveis para praticar."
     teacher_subs_title: "Professores recebem assinaturas gratuitas!"
@@ -632,58 +632,58 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     monitor_progress_3: "Para adicionar estudantes, envie-os o link de convite para seu clã, que está na"
     monitor_progress_4: "página."
     monitor_progress_5: "Depois que eles se juntarem ao seu Clã, você verá um resumo do progresso dos estudantes na página do seu Clã."
-#    private_clans_1: "Private Clans provide increased privacy and detailed progress information for each student."
-#    private_clans_2: "To create a private Clan, check the 'Make clan private' checkbox when creating a"
+    private_clans_1: "Clãs privados proporcionam mais pricacidade e informações de progresso detalhadas para cada estudante."
+    private_clans_2: "Para criar um Clã privado, marque a caixa 'Tornar Clã privado' ao criar um"
     private_clans_3: "."
     who_for_title: "Para quem é indicado o CodeCombat?"
     who_for_1: "Nós recomendamos CodeCombat para estudantes a partir de 9 anos de idade. Nenhuma experiência anterior em programação é necessária."
-#    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
-#    material_title: "How much material is there?"
-#    material_china: "Approximately 40 hours of gameplay spread over 180+ subscriber-only levels so far."
-#    material_1: "Approximately 25 hours of free content and an additional 15 hours of subscriber content."
-#    concepts_title: "What concepts are covered?"
-#    how_much_title: "How much does a monthly subscription cost?"
-#    how_much_1: "A"
+    who_for_2: "Nós projetamos o CodeCombat para ser atraente à meninos e meninas."
+    material_title: "Quanto material existe?"
+    material_china: "Aproximadamente 40 horas de jogo espalhadas por mais de 180 níveis restritos até agora."
+    material_1: "Aproximadamente 25 horas de conteúdo livre e 15 horas adicionais de conteúdo restrito."
+    concepts_title: "Que conceitos são abordados?"
+    how_much_title: "Quanto custa uma assinatura mensal?"
+    how_much_1: "Uma"
     how_much_2: "assinatura mensal"
-#    how_much_3: "costs $9.99, and can be cancelled anytime."
-#    how_much_4: "Additionally, we provide discounts for larger groups:"
+    how_much_3: "custa $9.99, e pode ser cancelada a qualquer momento."
+    how_much_4: "Além disso, nós provemos descontos para grupos maiores:"
 #    how_much_5: "We accept discounted one-time purchases and yearly subscription purchases for groups, such as a class or school.  Please contact"
     how_much_6: "para mais detalhes."
     more_info_title: "Onde eu posso encontrar mais informações?"
-#    more_info_1: "Our"
-#    more_info_2: "teachers forum"
-#    more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
+    more_info_1: "Nosso"
+    more_info_2: "fórum de professores"
+    more_info_3: "é um bom lugar para se conectar com ótimos educadores que utilizam o CodeCombat."
     sys_requirements_title: "Requisitos de Sistema"
     sys_requirements_1: "Pelo motivo de CodeCombat ser um jogo, é mais intenso para ser processado em computadores do que tutoriais em vídeo ou escritos. Estamos otimizando para que rode rapidamente em todos navegadores modernos e também em computadores antigos, assim todos podem jogar. Sendo assim, aqui estão as nossas sugestões para tirar o máximo proveito da experiência de CodeCombat:" # {change}
     sys_requirements_2: "Use versões novas dos navegadores Chrome ou Firefox." # {change}
 
   teachers_survey:
-#    title: "Teacher Survey"
-#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
-#    retrieving: "Retrieving information..."
-#    being_reviewed_1: "Your application for a free trial subscription is being"
-#    being_reviewed_2: "reviewed."
-#    approved_1: "Your application for a free trial subscription was"
-#    approved_2: "approved."
-#    approved_3: "Further instructions have been sent to"
-#    denied_1: "Your application for a free trial subscription has been"
-#    denied_2: "denied."
-#    contact_1: "Please contact"
-#    contact_2: "if you have further questions."
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+    title: "Pesquisa de professor"
+    must_be_logged: "Você precisa fazer login primeiro. Por favor, crie uma conta ou faça login no menu acima."
+    retrieving: "Recuperando informações..."
+    being_reviewed_1: "Sua solicitação de teste grátis de assinatura está sendo"
+    being_reviewed_2: "revisada."
+    approved_1: "Sua solicitação de teste grátis de assinatura foi"
+    approved_2: "aprovada."
+    approved_3: "Mais intruções foram enviadas para"
+    denied_1: "Sua solicitação de teste grátis de assinatura foi"
+    denied_2: "negada."
+    contact_1: "Por favor, entre em contato"
+    contact_2: "caso você tenha dúvidas no futuro."
+    description_1: "Nós oferecemos assinaturas grátis à professores para fins de avaliação. Você pode encontrar mais informações na nossa"
     description_2: "professores"
     description_3: "página."
-#    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
+    description_4: "Por favor, preencha esta rápida pesquisa e nós o enviaremos as intruções de instalação por email."
     email: "Endereço de email"
     school: "Nome da Escola"
     location: "Nome da Cidade"
-#    age_students: "How old are your students?"
-#    under: "Under"
+    age_students: "Qual a idade dos seus alunos?"
+    under: "Embaixo"
     other: "Outro:"
-#    amount_students: "How many students do you teach?"
-#    hear_about: "How did you hear about CodeCombat?"
-#    fill_fields: "Please fill out all fields."
-#    thanks: "Thanks! We'll send you setup instructions shortly."
+    amount_students: "Quantos alunos você ensina?"
+    hear_about: "Como você ouviu falar do CodeCombat?"
+    fill_fields: "Por favor, preencha todos os campos."
+    thanks: "Obrigado! Enviaremos suas instruções de instalação em breve."
 
   versions:
     save_version_title: "Salvar nova versão"
@@ -693,7 +693,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "EU CONCORDO"
-#    owner_approve: "An owner will need to approve it before your changes will become visible."
+    owner_approve: "Outro dono terá de aprovar isso antes de suas alterações se tornarem visíveis."
 
   contact:
     contact_us: "Contate-nos"
@@ -843,6 +843,90 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     last_played: "Último Jogo"
     leagues_explanation: "Jogar em um campeonato contra outros membros do clã nestes casos de arena multiplayer."
 
+#  courses:
+#    course: "Course"
+#    courses: "courses"
+#    not_enrolled: "You are not enrolled in this course."
+#    visit_pref: "Please visit the"
+#    visit_suf: "page to enroll."
+#    select_class: "Select one of your classes"
+#    unnamed: "*unnamed*"
+#    select: "Select"
+#    unnamed_class: "Unnamed Class"
+#    edit_settings: "edit class settings"
+#    edit_settings1: "Edit Class Settings"
+#    progress: "Class Progress"
+#    add_students: "Add Students"
+#    stats: "Statistics"
+#    total_students: "Total students:"
+#    average_time: "Average level play time:"
+#    total_time: "Total play time:"
+#    average_levels: "Average levels completed:"
+#    total_levels: "Total levels completed:"
+#    furthest_level: "Furthest level completed:"
+#    concepts_covered: "Concepts Covered"
+#    students: "Students"
+#    students1: "students"
+#    expand_details: "Expand details"
+#    concepts: "Concepts"
+#    levels: "levels"
+#    played: "Played"
+#    play_time: "Play time:"
+#    completed: "Completed:"
+#    invite_students: "Invite students to join this class."
+#    enter_emails: "Enter student emails to invite, one per line"
+#    send_invites: "Send Invites"
+#    title: "Title"
+#    description: "Description"
+#    languages_available: "Select programming languages available to the class:"
+#    all_lang: "All Languages"
+#    show_progress: "Show student progress to everyone in the class"
+#    creating_class: "Creating class..."
+#    purchasing_course: "Purchasing course..."
+#    buy_course: "Buy Course"
+#    buy_course1: "Buy this course"
+#    create_class: "Create Class"
+#    select_all_courses: "Select 'All Courses' for a 50% discount!"
+#    all_courses: "All Courses"
+#    number_students: "Number of students"
+#    enter_number_students: "Enter the number of students you need for this class."
+#    name_class: "Name your class"
+#    displayed_course_page: "This will be displayed on the course page for you and your students. It can be changed later."
+#    buy: "Buy"
+#    purchasing_for: "You are purchasing a license for"
+#    creating_for: "You are creating a class for"
+#    for: "for" # Like in 'for 30 students'
+#    receive_code: "Afterwards you will receive an unlock code to distribute to your students, which they can use to enroll in your class."
+#    free_trial: "Free trial for teachers!"
+#    get_access: "to get individual access to all courses for evalutaion purposes."
+#    questions: "Questions?"
+#    faq: "Courses FAQ"
+#    question: "Q:" # Like in 'Question'
+#    question1: "What's the difference between these courses and the single player game?"
+#    answer: "A:" # Like in 'Answer'
+#    answer1: "The single player game is designed for individuals, while the courses are designed for classes."
+#    answer2: "The single player game has items, gems, hero selection, leveling up, and in-app purchases. Courses have classroom management features and streamlined student-focused level pacing."
+#    teachers_click: "Teachers Click Here"
+#    students_click: "Students Click Here"
+#    courses_on_coco: "Courses on CodeCombat"
+#    designed_to: "Courses are designed to introduce computer science concepts using CodeCombat's fun and engaging environment. CodeCombat levels are organized around key topics to encourage progressive learning, over the course of 5 hours."
+#    more_in_less: "Learn more in less time"
+#    no_experience: "No coding experience necesssary"
+#    easy_monitor: "Easily monitor student progress"
+#    purchase_for_class: "Purchase a course for your entire class. It's easy to sign up your students!"
+#    see_the: "See the"
+#    more_info: "for more information."
+#    choose_course: "Choose Your Course:"
+#    enter_code: "Enter an unlock code"
+#    enter_code1: "Enter unlock code"
+#    enroll: "Enroll"
+#    pick_from_classes: "Pick from your current classes"
+#    enter: "Enter"
+#    or: "Or"
+#    topics: "Topics"
+#    hours_content: "Hours of content:"
+#    get_free: "Get FREE course"
+
   classes:
     archmage_title: "Arquimago"
     archmage_title_description: "(Programador)"
@@ -948,8 +1032,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     pop_i18n: "Popular I18N"
     tasks: "Tarefas"
     clear_storage: "Limpar suas alterações locais"
-#    add_system_title: "Add Systems to Level"
-#    done_adding: "Done Adding"
+    add_system_title: "Adicionar sistemas ao nível"
+    done_adding: "Concluir adição"
 
   article:
     edit_btn_preview: "Prever"
@@ -1072,7 +1156,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     fight: "Lutem!"
     watch_victory: "Assista sua vitória"
     defeat_the: "Derrote"
-#    tournament_started: ", started"
+    tournament_started: ", iniciado"
     tournament_ends: "Fim do torneio"
     tournament_ended: "Torneio encerrado"
     tournament_rules: "Regras do Torneio"
@@ -1084,11 +1168,11 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     rules: "Regras"
     winners: "Vencedores"
     league: "Liga"
-#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
-#    blue_ai: "Blue AI"
-#    wins: "Wins" # At end of multiplayer match playback
-#    humans: "Red" # Ladder page display team name
-#    ogres: "Blue"
+    red_ai: "AI Vermelho" # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "AI Azul"
+    wins: "Vence" # At end of multiplayer match playback
+    humans: "Vermelho" # Ladder page display team name
+    ogres: "Azul"
 
   user:
     stats: "Estatísticas"
@@ -1128,6 +1212,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     recently_played: "Jogos Recentes"
     no_recent_games: "Não foram feitos jogos durante duas semanas."
     payments: "Pagamentos"
+#    prepaid: "Prepaid"
     purchased: "Comprado"
     sale: "Vender"
     subscription: "Assinatura"
@@ -1158,6 +1243,14 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     retrying: "Erro de servidor, tentando novamente."
     success: "A transação foi completada com sucesso. Obrigado!"
 
+#  account_prepaid:
+#    purchase_code: "Purchase a Subscription Code"
+#    purchase_amount: "Amount"
+#    purchase_total: "Total"
+#    purchase_button: "Submit Purchase"
+#    your_codes: "Your Codes:"
+#    redeem_codes: "Redeem a Subscription Code"
+
   loading_error:
     could_not_load: "Erro ao carregar do servidor"
     connection_failure: "Conexão falhou."
@@ -1170,6 +1263,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     bad_input: "Problema de entrada (bad input)."
     server_error: "Erro do servidor."
     unknown: "Erro desconhecido."
+#    error: "ERROR"
 
   resources:
     sessions: "Sessão"
@@ -1223,21 +1317,21 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    user_polls_record: "Poll Voting History"
 
   concepts:
-#    advanced_strings: "Advanced Strings"
+    advanced_strings: "Strings avançadas"
     algorithms: "Algorítmos"
-#    arguments: "Arguments"
-#    arithmetic: "Arithmetic"
+    arguments: "Argumentos"
+    arithmetic: "Aritmética"
     arrays: "Arrays"
     basic_syntax: "Sintaxe Básica"
     boolean_logic: "Lógica Booleana"
-#    break_statements: "Break Statements"
+    break_statements: "Comandos Break"
     classes: "Classes"
-#    continue_statements: "Continue Statements"
+    continue_statements: "Comandos continue"
     for_loops: "Laço For"
     functions: "Funções"
-#    graphics: "Graphics"
-#    if_statements: "If Statements"
-#    input_handling: "Input Handling"
+    graphics: "Gráficos"
+    if_statements: "Comandos se"
+    input_handling: "Tratamento de entrada"
     math_operations: "Operações Matemáticas"
     object_literals: "Objetos Literais"
     parameters: "Parâmetros"
@@ -1260,8 +1354,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   guide:
     temp: "Temp"
 
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
+  temp:
+    ace_of_coders_tournament: "Novo: jogue no torneir Era dos Programadores agora!"
 
   multiplayer:
     multiplayer_title: "Configurações de Multijogador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

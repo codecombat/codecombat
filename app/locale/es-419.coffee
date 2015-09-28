@@ -31,7 +31,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     contact: "Contacto"
     twitter_follow: "Seguir"
     teachers: "Maestros"
-#    careers: "Careers"
+    careers: "Carreras"
 
   modal:
     close: "Cerrar"
@@ -411,7 +411,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     feature7: "<strong>Clan</strong> Privado"
     free: "Gratis"
     month: "mes"
-#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+    must_be_logged: "Debes iniciar sesión primero. Por favor crea una cuenta o inicia sesión desde el menú superior."
     subscribe_title: "Suscribirse"
     unsubscribe: "Des-suscribirse"
     confirm_unsubscribe: "Confirmar cancelacion de suscripción"
@@ -441,7 +441,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     payment_methods_blurb2: "Si necesitas una forma alternativa de pago, por favor contactarse"
     sale_already_subscribed: "¡Ya estás subscrito!"
     sale_blurb1: "Ahorra 35%"
-    sale_blurb2: "de descuento en el precio regular de una subscripción de $120 USD por un año completo!" # {changed}
+    sale_blurb2: "de descuento en el precio regular de una subscripción de $120 USD por un año completo!"
     sale_button: "Venta!"
     sale_button_title: "Ahorra 35% al adquirir una subscripción por 1 año"
     sale_click_here: "Haz Click Aquí"
@@ -464,7 +464,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     managed_by: "Administrado por"
     will_be_cancelled: "Será cancelado en"
     currently_free: "Actualmente tienes una suscripción gratuita"
-    currently_free_until: "Actualmente tienes una suscripción gratuita hasta" # {changed}
+    currently_free_until: "Actualmente tienes una suscripción gratuita hasta"
     was_free_until: "Tuviste una suscripción gratuita hasta"
     managed_subs: "Suscripciones administradas"
     managed_subs_desc: "Agregar suscripciones para otros jugadores (alumnos, hijos, etc.)"
@@ -528,8 +528,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   skill_docs:
     writable: "escribible" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "Sólo Lectura"
-#    action: "Action"
-#    spell: "Spell"
+    action: "Acción"
+    spell: "Conjuro"
     action_name: "nombre"
     action_cooldown: "Toma"
     action_specific_cooldown: "Enfriamiento"
@@ -614,7 +614,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto." # {change}
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+    teacher_subs_0: "Ofrecemos subscripciones gratuitas a profesores con propósitos de evaluación."
     teacher_subs_1: "Por favor contacte" # {change}
     teacher_subs_2: "para configurar una suscripción mensual gratis." # {change}
     teacher_subs_3: "para configurar su suscripción."
@@ -842,6 +842,90 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     playtime: "Tiempo de juego"
     last_played: "Último jugado"
     leagues_explanation: "Juega en una liga contra otros miembros del clan en estas instancias de arena multijugador."
+
+#  courses:
+#    course: "Course"
+#    courses: "courses"
+#    not_enrolled: "You are not enrolled in this course."
+#    visit_pref: "Please visit the"
+#    visit_suf: "page to enroll."
+#    select_class: "Select one of your classes"
+#    unnamed: "*unnamed*"
+#    select: "Select"
+#    unnamed_class: "Unnamed Class"
+#    edit_settings: "edit class settings"
+#    edit_settings1: "Edit Class Settings"
+#    progress: "Class Progress"
+#    add_students: "Add Students"
+#    stats: "Statistics"
+#    total_students: "Total students:"
+#    average_time: "Average level play time:"
+#    total_time: "Total play time:"
+#    average_levels: "Average levels completed:"
+#    total_levels: "Total levels completed:"
+#    furthest_level: "Furthest level completed:"
+#    concepts_covered: "Concepts Covered"
+#    students: "Students"
+#    students1: "students"
+#    expand_details: "Expand details"
+#    concepts: "Concepts"
+#    levels: "levels"
+#    played: "Played"
+#    play_time: "Play time:"
+#    completed: "Completed:"
+#    invite_students: "Invite students to join this class."
+#    enter_emails: "Enter student emails to invite, one per line"
+#    send_invites: "Send Invites"
+#    title: "Title"
+#    description: "Description"
+#    languages_available: "Select programming languages available to the class:"
+#    all_lang: "All Languages"
+#    show_progress: "Show student progress to everyone in the class"
+#    creating_class: "Creating class..."
+#    purchasing_course: "Purchasing course..."
+#    buy_course: "Buy Course"
+#    buy_course1: "Buy this course"
+#    create_class: "Create Class"
+#    select_all_courses: "Select 'All Courses' for a 50% discount!"
+#    all_courses: "All Courses"
+#    number_students: "Number of students"
+#    enter_number_students: "Enter the number of students you need for this class."
+#    name_class: "Name your class"
+#    displayed_course_page: "This will be displayed on the course page for you and your students. It can be changed later."
+#    buy: "Buy"
+#    purchasing_for: "You are purchasing a license for"
+#    creating_for: "You are creating a class for"
+#    for: "for" # Like in 'for 30 students'
+#    receive_code: "Afterwards you will receive an unlock code to distribute to your students, which they can use to enroll in your class."
+#    free_trial: "Free trial for teachers!"
+#    get_access: "to get individual access to all courses for evalutaion purposes."
+#    questions: "Questions?"
+#    faq: "Courses FAQ"
+#    question: "Q:" # Like in 'Question'
+#    question1: "What's the difference between these courses and the single player game?"
+#    answer: "A:" # Like in 'Answer'
+#    answer1: "The single player game is designed for individuals, while the courses are designed for classes."
+#    answer2: "The single player game has items, gems, hero selection, leveling up, and in-app purchases. Courses have classroom management features and streamlined student-focused level pacing."
+#    teachers_click: "Teachers Click Here"
+#    students_click: "Students Click Here"
+#    courses_on_coco: "Courses on CodeCombat"
+#    designed_to: "Courses are designed to introduce computer science concepts using CodeCombat's fun and engaging environment. CodeCombat levels are organized around key topics to encourage progressive learning, over the course of 5 hours."
+#    more_in_less: "Learn more in less time"
+#    no_experience: "No coding experience necesssary"
+#    easy_monitor: "Easily monitor student progress"
+#    purchase_for_class: "Purchase a course for your entire class. It's easy to sign up your students!"
+#    see_the: "See the"
+#    more_info: "for more information."
+#    choose_course: "Choose Your Course:"
+#    enter_code: "Enter an unlock code"
+#    enter_code1: "Enter unlock code"
+#    enroll: "Enroll"
+#    pick_from_classes: "Pick from your current classes"
+#    enter: "Enter"
+#    or: "Or"
+#    topics: "Topics"
+#    hours_content: "Hours of content:"
+#    get_free: "Get FREE course"
 
   classes:
     archmage_title: "Archimago"
@@ -1087,8 +1171,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
 #    blue_ai: "Blue AI"
 #    wins: "Wins" # At end of multiplayer match playback
-#    humans: "Red" # Ladder page display team name
-#    ogres: "Blue"
+    humans: "Rojo" # Ladder page display team name
+    ogres: "Azul"
 
   user:
     stats: "Estados"
@@ -1128,6 +1212,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     recently_played: "Recientemente jugado"
     no_recent_games: "No juegos jugados duramente las últimas dos semanas."
     payments: "Pagos"
+#    prepaid: "Prepaid"
     purchased: "Comprado"
     sale: "Venta"
     subscription: "Suscripción"
@@ -1158,6 +1243,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     retrying: "Error de Servidor, reintentando..."
     success: "Listo, fue cobrado. Gracias!"
 
+#  account_prepaid:
+#    purchase_code: "Purchase a Subscription Code"
+#    purchase_amount: "Amount"
+#    purchase_total: "Total"
+#    purchase_button: "Submit Purchase"
+#    your_codes: "Your Codes:"
+#    redeem_codes: "Redeem a Subscription Code"
+
   loading_error:
     could_not_load: "Error cargando del servidor"
     connection_failure: "Fallo de conexión."
@@ -1170,6 +1263,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     bad_input: "Mala entrada."
     server_error: "Error de servidor."
     unknown: "Error desconocido."
+#    error: "ERROR"
 
   resources:
     sessions: "Sesiones"
