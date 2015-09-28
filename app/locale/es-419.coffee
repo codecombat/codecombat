@@ -843,7 +843,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     last_played: "Último jugado"
     leagues_explanation: "Juega en una liga contra otros miembros del clan en estas instancias de arena multijugador."
 
-#  courses:
+  courses:
     course: "Curso"
     courses: "cursos"
     not_enrolled: "No estás inscrito en este curso."
@@ -1243,7 +1243,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     retrying: "Error de Servidor, reintentando..."
     success: "Listo, fue cobrado. Gracias!"
 
-#  account_prepaid:
+  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
     purchase_amount: "Monto"
     purchase_total: "Total"
