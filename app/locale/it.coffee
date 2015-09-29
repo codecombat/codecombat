@@ -843,7 +843,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    last_played: "Last played"
 #    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
 
-#  courses:
+  courses:
 #    course: "Course"
 #    courses: "courses"
 #    not_enrolled: "You are not enrolled in this course."
