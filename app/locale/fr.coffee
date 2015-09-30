@@ -1032,8 +1032,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     pop_i18n: "Renseigner I18N"
     tasks: "Tâches"
     clear_storage: "Vider vos changements locaux"
-#    add_system_title: "Add Systems to Level"
-#    done_adding: "Done Adding"
+#    add_system_title: "Ajouter Systems dans niveau"
+    done_adding: "Fait Ajouter"
 
   article:
     edit_btn_preview: "Prévisualiser"
@@ -1168,11 +1168,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     rules: "Règles"
     winners: "Gagnants"
 #    league: "League"
-#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
-#    blue_ai: "Blue AI"
+    red_ai: "Rouge IA" # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "Bleue AI"
 #    wins: "Wins" # At end of multiplayer match playback
-#    humans: "Red" # Ladder page display team name
-#    ogres: "Blue"
+    humans: "Rouge" # Ladder page display team name
+    ogres: "Bleue"
 
   user:
     stats: "Stats"
@@ -1263,7 +1263,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     bad_input: "Données incorrectes ."
     server_error: "Erreur serveur."
     unknown: "Erreur inconnue."
-#    error: "ERROR"
+    error: "ERREUR"
 
   resources:
     sessions: "Sessions"
