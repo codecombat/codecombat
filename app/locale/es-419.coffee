@@ -905,7 +905,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     question1: "¿Cuál es la diferencia entre estos cursos y sus juegos de un solo jugador?"
     answer: "R:" # Like in 'Answer'
     answer1: "El juego de un solo jugador está diseñado para individuos, mientras que los cursos están diseñados para grupos."
-#    answer2: "El juego de un solo jugador tiene items, gemas, selección de héroe, aumento de niveles, y compras dentro de la aplicación. Los cursos tienen características de administración de salón y streamlined student-focused level pacing."
+    answer2: "El juego de un solo jugador tiene items, gemas, selección de héroe, aumento de niveles, y compras dentro de la aplicación. Los cursos tienen características de administración de salón y niveles ágiles enfocados al estudiante."
     teachers_click: "Maestros Click Aquí"
     students_click: "Estudiantes Click Aquí"
     courses_on_coco: "Curso en CodeCombat"
@@ -1163,7 +1163,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tournament_blurb: "Escribe código, recolecta oro, arma ejercitos, aplasta adversarios, gana premios, y asciende en tu carrera por $40,000 en el Torneo Codicia! Echa un vistazo a los detalles"
     tournament_blurb_criss_cross: "Gana apuestas, construye caminos, burla tus oponentes, agarra gemas, y asciende tu perfil en nuestro torneo Cruzado! Echa un vistazo a los detalles"
     tournament_blurb_zero_sum: "Suelta tus habilidades de código en recolección de oro y tácticas de batalla en este partido espejo alpino entre el hechicero rojo y el hechicero azul. El torneo comenzó el Viernes, 27 de Marzo y se extenderá hasta el Lunes, 6 de Abril a las 5PM PDT. Compite por la diversión y la gloria ! Echa un vistazo a los detalles:"
-#    tournament_blurb_ace_of_coders: "¡Battle it out en el glaciar congelado en este encuentro domination-style mirror! The tournament began on Wednesday, 16 de Septiembre y will run until Wednesday, 14 de October a las 5PM PDT. Check out los detalles"
+    tournament_blurb_ace_of_coders: "¡Lucha en el glaciar congelado en este encuentro con estilo dominación en espejo! El torneo comienza el Miércoles 16 de Septiembre, y se ejecutará hasta el Miércoles 14 de Octubre hasta las 5PM PDT. Revisa los detalles"
     tournament_blurb_blog: "en nuestro blog"
     rules: "Reglas"
     winners: "Ganadores"
