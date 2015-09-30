@@ -83,7 +83,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
-#  share_progress_modal:
+  share_progress_modal:
     blurb: "Je gaat snel vooruit! Vertel aan je ouders hoeveel je geleerd hebt met CodeCombat."
     email_invalid: "Emailaddress klopt niet."
     form_blurb: "Vul het emailadres van je ouders hieronder in en we zullen het ze laten zien!"
@@ -256,7 +256,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_new_item: "Nieuw Item"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
     victory_become_a_viking: "Word een Viking"
-#   victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
+#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
     victory_bloc_cta: "Ontmoet je mentor – leer over Bloc"
     guide_title: "Handleiding"
     tome_minion_spells: "Jouw Minions' Spreuken" # Only in old-style levels.
@@ -360,7 +360,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     multiplayer_caption: "Speel met vrienden!"
     auth_caption: "Bewaar je voortgang."
 
-#  leaderboard:
+  leaderboard:
     leaderboard: "Klassement"
     view_other_solutions: "Bekijk Klassement"
     scores: "Scores"
@@ -432,9 +432,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     parents: "Voor ouders"
     parents_title: "Uw kind leert programmeren." # {change}
     parents_blurb1: "Met CodeCombat leert uw kind door echte code te schrijven. Ze beginnen met simpele instructies en naarmate ze verder komen, komen er moeilijkere onderwerpen aan bod."
-#    parents_blurb1a: "Programmeren is een essentiële vaardigheid die uw kind als volwassene ongetwijfeld gaat gebruiken. In 2020 is de basis van programmeren nodig bij 77% van de banen en zijn softwareontwikkelaars dringend nodig in de wereld. Wist u dat informatica de hoogstbetaalde universitaire graad is?"
+    parents_blurb1a: "Programmeren is een essentiële vaardigheid die uw kind als volwassene ongetwijfeld gaat gebruiken. In 2020 is de basis van programmeren nodig bij 77% van de banen en zijn softwareontwikkelaars dringend nodig in de wereld. Wist u dat informatica de hoogstbetaalde universitaire graad is?"
 #    parents_blurb2: "For $9.99 USD/mo, your child will get new challenges every week and personal email support from professional programmers."
-#    parents_blurb3: "Geen risico's: 100% geld terug garantie, 1-klik uitschrijving."
+    parents_blurb3: "Geen risico's: 100% geld terug garantie, 1-klik uitschrijving."
     payment_methods: "Betaalmethoden"
     payment_methods_title: "Geaccepteerde betaalmethoden"
     payment_methods_blurb1: "Momenteel wordt allen credit cards en Alipay geaccepteerd."
@@ -525,7 +525,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Only certain heroes can play this level."
 
-#  skill_docs:
+  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
 #    read_only: "read-only"
     action: "Actie"
@@ -545,7 +545,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    returns: "Returns"
 #    granted_by: "Granted by"
 
-#  save_load:
+  save_load:
     granularity_saved_games: "Opgeslagen"
     granularity_change_history: "Geschiedenis"
 
@@ -605,7 +605,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     retrostyle_title: "Illustraties"
 #    retrostyle_blurb: "RetroStyle Games"
 
-#  teachers:
+  teachers:
     title: "CodeCombat: Info voor leerkrachten"
     intro_1: "CodeCombat is een online spel dat onderwijst in programmeren. Leerlingen schrijven code in echte programmeertalen."
     intro_2: "Geen ervaring nodig!"
@@ -657,7 +657,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     sys_requirements_1: "Een moderne webbrowser. Een nieuwe versie van Chrome, Firefox, of Safari. Internet Explorer 9 of later."
     sys_requirements_2: "CodeCombat ondersteund de IPad nog niet."
 
-#  teachers_survey:
+  teachers_survey:
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
@@ -758,7 +758,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     sample_profile: "Bekijk een voorbeeld kandidaat-profiel"
     view_profile: "Bekijk je eigen kandidaat-profiel"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
     space: "Spatsie"
     enter: "Enter"
@@ -1341,7 +1341,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    while_loops: "Loops"
 #    recursion: "Recursion"
 
-#  delta:
+  delta:
     added: "Toegevoegd"
     modified: "Veranderd"
     not_modified: "Niet veranderd"
