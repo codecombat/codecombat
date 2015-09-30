@@ -1243,7 +1243,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     retrying: "Error del servidor, reintentando."
     success: "Pago realizado correctamente. ¡Muchas gracias!"
 
-#  account_prepaid:
+  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
 #    purchase_amount: "Amount"
     purchase_total: "Total"
