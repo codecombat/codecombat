@@ -2,6 +2,7 @@ Handler = require '../commons/Handler'
 Prepaid = require './Prepaid'
 StripeUtils = require '../lib/stripe_utils'
 {getPrepaidCodeAmount} = require '../../app/core/utils'
+hipchat = require '../hipchat'
 
 # TODO: Should this happen on a save() call instead of a prepaid/-/create post?
 # TODO: Probably a better way to create a unique 8 charactor string property using db voodoo
@@ -116,6 +117,8 @@ PrepaidHandler = class PrepaidHandler extends Handler
                 months: req.body.months
             prepaid.save (err) =>
               return @sendDatabaseError(res, err) if err
+              msg = "Prepaid code (#{req.body.maxRedeemers} users / #{req.body.months} months) purchased by #{req.user.get('email')}"
+              hipchat.sendHipChatMessage msg, ['tower']
               @sendSuccess(res, prepaid.toObject())
 
 module.exports = new PrepaidHandler()
