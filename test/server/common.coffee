@@ -120,6 +120,23 @@ wrapUpGetUser = (email, user, done) ->
 GLOBAL.getURL = (path) ->
   return 'http://localhost:3001' + path
 
+nameCount = 0
+GLOBAL.createName = (name) ->
+  name + nameCount++
+
+GLOBAL.createCourse = (pricePerSeat, done) ->
+  name = createName 'course '
+  course = new Course
+    name: name
+    campaignID: ObjectId("55b29efd1cd6abe8ce07db0d")
+    concepts: ['basic_syntax', 'arguments', 'while_loops', 'strings', 'variables']
+    description: "Learn basic syntax, while loops, and the CodeCombat environment."
+    pricePerSeat: pricePerSeat
+    screenshot: "/images/pages/courses/101_info.png"
+  course.save (err, course) =>
+    return done(err) if err
+    done(err, course)
+
 GLOBAL.createPrepaid = (type, maxRedeemers, months, done) ->
   options = uri: GLOBAL.getURL('/db/prepaid/-/create')
   options.json =
@@ -133,14 +150,18 @@ GLOBAL.fetchPrepaid = (ppc, done) ->
   options = uri: GLOBAL.getURL('/db/prepaid/-/code/'+ppc)
   request.get options, done
 
-GLOBAL.purchasePrepaid = (type, maxRedeemers, months, done) ->
+GLOBAL.purchasePrepaid = (type, properties, maxRedeemers, token, done) ->
   options = uri: GLOBAL.getURL('/db/prepaid/-/purchase')
   options.json =
     type: type
     maxRedeemers: maxRedeemers
-    months: months
     stripe:
       timestamp: new Date().getTime()
+  options.json.stripe.token = token if token?
+  if type is 'terminal_subscription'
+    options.json.months = properties.months
+  else if type is 'course'
+    options.json.courseID = properties.courseID if properties?.courseID
   request.post options, done
 
 GLOBAL.subscribeWithPrepaid = (ppc, done) =>

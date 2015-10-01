@@ -2,10 +2,10 @@ app = require 'core/application'
 AuthModal = require 'views/core/AuthModal'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
-{getCoursesPrice} = require 'core/utils'
 RootView = require 'views/core/RootView'
 stripeHandler = require 'core/services/stripe'
 template = require 'templates/courses/course-enroll'
+utils = require 'core/utils'
 
 module.exports = class CourseEnrollView extends RootView
   id: 'course-enroll-view'
@@ -101,7 +101,9 @@ module.exports = class CourseEnrollView extends RootView
     data =
       name: @className
       seats: @seats
-      token: token
+      stripe:
+        token: token
+        timestamp: new Date().getTime()
     data.courseID = @selectedCourse.id if @selectedCourse
     jqxhr = $.post('/db/course_instance/-/create', data)
     jqxhr.done (data, textStatus, jqXHR) =>
@@ -109,9 +111,14 @@ module.exports = class CourseEnrollView extends RootView
       # TODO: handle fetch errors
       me.fetch(cache: false).always =>
         courseID = @selectedCourse?.id ? @courses.models[0]?.id
-        viewArgs = if data?.length > 0 then [courseInstanceID: data[0]._id, courseID] else [{}, courseID]
+        route = "/courses/#{courseID}"
+        viewArgs = [{}, courseID]
+        if data?.length > 0
+          courseInstanceID = data[0]._id
+          route += "/#{courseInstanceID}"
+          viewArgs[0].courseInstanceID = courseInstanceID
         Backbone.Mediator.publish 'router:navigate',
-          route: "/courses/#{courseID}"
+          route: route
           viewClass: 'views/courses/CourseDetailsView'
           viewArgs: viewArgs
     jqxhr.fail (xhr, textStatus, errorThrown) =>
@@ -127,7 +134,8 @@ module.exports = class CourseEnrollView extends RootView
 
   renderNewPrice: ->
     if @selectedCourse
-      @price = getCoursesPrice([@selectedCourse], @seats)
+      coursePrices = [@selectedCourse.get('pricePerSeat')]
     else
-      @price = getCoursesPrice(@courses.models, @seats)
+      coursePrices = (c.get('pricePerSeat') for c in @courses.models)
+    @price = utils.getCourseBundlePrice(coursePrices, @seats)
     @render?()
