@@ -1039,7 +1039,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     edit_btn_preview: "Voorbeeld"
     edit_article_title: "Wijzig Artikel"
 
-#  polls:
+  polls:
     priority: "Prioriteit"
 
   contribute:
