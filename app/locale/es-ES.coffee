@@ -294,7 +294,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     infinite_loop_reset_level: "Reiniciar nivel"
     infinite_loop_comment_out: "Comenta mi código"
     tip_toggle_play: "Alterna entre jugar/pausa con Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ y Ctrl+] rebobina y avanza hacia adelante." # {change}
+    tip_scrub_shortcut: "Ctrl+[ y Ctrl+] para rebobinar y avanza hacia adelantar."
     tip_guide_exists: "Haz clic en la guía arriba de la página para más información útil."
     tip_open_source: "¡CodeCombat es 100% open source!"
     tip_tell_friends: "¿Disfrutando de CodeCombat? ¡Cuéntale a tus amigos acerca de nosotros!"
@@ -336,7 +336,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_move_forward: "Lo que sea que hagas, sigue hacia adelante. - Martin Luther King Jr."
     tip_google: "¿Teneis un problema que no podeis resolver? ¡Googleadlo!"
     tip_adding_evil: "Añadiendo una pizca de maldad."
-#    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
+    tip_hate_computers: "Esto es lo que pasa con la gente que piensa que odia las computadoras. Lo que realmente odian es a los malos programadores. - Larry Niven"
     tip_open_source_contribute: "Puedes contribuir a mejorar CodeCombat!"
     tip_recurse: "Iterar es humano, recursar es divino. - L. Peter Deutsch"
     tip_free_your_mind: "Tienes que dejarlo ir, Neo. Miedo, dudas e incredulidad. Libera tu mente. - Morpheus"
@@ -1243,10 +1243,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     retrying: "Error del servidor, reintentando."
     success: "Pago realizado correctamente. ¡Muchas gracias!"
 
-#  account_prepaid:
+  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
 #    purchase_amount: "Amount"
-#    purchase_total: "Total"
+    purchase_total: "Total"
 #    purchase_button: "Submit Purchase"
 #    your_codes: "Your Codes:"
 #    redeem_codes: "Redeem a Subscription Code"
@@ -1263,7 +1263,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     bad_input: "Entrada incorrecta."
     server_error: "Error del servidor."
     unknown: "Error desconocido."
-#    error: "ERROR"
+    error: "ERROR"
 
   resources:
     sessions: "Sesiones"
@@ -1286,13 +1286,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     systems: "Sistemas"
     component: "Componente"
     components: "Componentes"
-#    thang: "Thang"
-#    thangs: "Thangs"
+    thang: "Artilugio" #Thang
+    thangs: "Artilugios"
     level_session: "Tu sesión"
     opponent_session: "Sesión del oponente"
     article: "Artículo"
     user_names: "Nombres de usuarios"
-    thang_names: "Nombres Thang"
+    thang_names: "Nombres de Artilugio"
     files: "Archivos"
     top_simulators: "Top simuladores"
     source_document: "Documento fuente"

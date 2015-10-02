@@ -74,7 +74,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
     campaign_beginner: "Campaña para principiantes"
-    awaiting_levels_adventurer_prefix: "Nosotros creamos 5 nuevos niveles cada semana" # {change}
+    awaiting_levels_adventurer_prefix: "Nosotros libreamos nuevos niveles cada semana"
     awaiting_levels_adventurer: "Registrate como un aventurero"
     awaiting_levels_adventurer_suffix: "para ser el primero en jugar nuevos niveles."
     adjust_volume: "Ajustar el volumen"
@@ -84,7 +84,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     campaign_old_multiplayer_description: "Reliquias de una era más civilizada. Ninguna simulación es ejecutada para estas arenas multijugador antiguas y sin héroes."
 
   share_progress_modal:
-    blurb: "¡Estás haciendo un gran progreso! Cuéntale a alguien cuánto has aprendido con CodeCombat." # {change}
+    blurb: "¡Estás haciendo un gran progreso! Cuéntale a tus padres cuánto has aprendido con CodeCombat."
     email_invalid: "Dirección de Email inválida."
     form_blurb: "¡Ingresa su email debajo y les enseñaremos!"
     form_label: "Dirección de Email"
@@ -294,7 +294,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     infinite_loop_reset_level: "Reiniciar Nivel"
     infinite_loop_comment_out: "Comente Mi Código"
     tip_toggle_play: "Activa jugar/pausa con Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ y Ctrl+] rebobina y avance rápido." # {change}
+    tip_scrub_shortcut: "Ctrl+[ y Ctrl+] para rebobinar y avanzar rápido." 
     tip_guide_exists: "Haga click en la guía en la parte superior de la página para obtener información útil"
     tip_open_source: "¡CodeCombat es 100% código abierto!"
     tip_tell_friends: "¿Disfrutando de CodeCombat? ¡Cuéntale a tus amigos acerca de nosotros!"
@@ -362,7 +362,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   leaderboard:
     leaderboard: "Tabla de Posiciones"
-    view_other_solutions: "Ver Otras Soluciones" # {change}
+    view_other_solutions: "Ver la Tabla de Posiciones"
     scores: "Puntajes"
     top_players: "Mejores jugadores"
     day: "Hoy"
@@ -402,10 +402,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   subscribe:
     comparison_blurb: "Agudiza tus habilidades con la suscripción a CodeCombat!"
-    feature1: "Más de 60 niveles basicos a lo largo de 4 mundos" # {change}
-    feature2: "7 poderosos <strong>nuevos heroés</strong> con habilidades unicas!" # {change}
-    feature3: "Más de 30 niveles extras" # {change}
-    feature4: "<strong>3500 gemas bonus</strong> cada mes!"
+    feature1: "Más de 110 niveles basicos a lo largo de 4 mundos"
+    feature2: "10 poderosos <strong>nuevos heroés</strong> con habilidades unicas!"
+    feature3: "Más de 70 niveles extras"
+    feature4: "<strong>3500 gemas de bono</strong> cada mes!"
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
     feature7: "<strong>Clan</strong> Privado"
@@ -586,15 +586,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     press_paragraph_1_link: "paquete de prensa"
     press_paragraph_1_suffix: ". Todos los logos e imágenes pueden ser usados sin contactarnos directamente."
     team: "Equipo"
-    george_title: "Director Ejecutivo"
+    george_title: "Cofundador"
     george_blurb: "Negociante"
-    scott_title: "Programador" # {change}
+    scott_title: "Cofundador"
     scott_blurb: "Razonable"
-    nick_title: "Programador" # {change}
+    nick_title: "Cofundador"
     nick_blurb: "Gurú motivacional"
     michael_title: "Programador"
     michael_blurb: "Sys Admin"
-    matt_title: "Programador" # {change}
+    matt_title: "Cofundador"
     matt_blurb: "Bicicletero"
     cat_title: "Jefe Artesano"
     cat_blurb: "Maestro del Aire"

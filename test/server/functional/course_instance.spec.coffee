@@ -9,29 +9,14 @@ describe 'CourseInstance', ->
   courseInstanceURL = getURL('/db/course_instance/-/create')
   userURL = getURL('/db/user')
 
-  nameCount = 0
-  createName = (name) -> name + nameCount++
-
-  createCourse = (pricePerSeat, done) ->
-    name = createName 'course '
-    course = new Course
-      name: name
-      campaignID: ObjectId("55b29efd1cd6abe8ce07db0d")
-      concepts: ['basic_syntax', 'arguments', 'while_loops', 'strings', 'variables']
-      description: "Learn basic syntax, while loops, and the CodeCombat environment."
-      pricePerSeat: pricePerSeat
-      screenshot: "/images/pages/courses/101_info.png"
-    course.save (err, course) ->
-      return done(err) if err
-      done(err, course)
-
   createCourseInstances = (user, courseID, seats, token, done) ->
     name = createName 'course instance '
     requestBody =
       courseID: courseID
       name: name
       seats: seats
-      token: token
+      stripe:
+        token: token
     request.post {uri: courseInstanceURL, json: requestBody }, (err, res) ->
       expect(err).toBeNull()
       expect(res.statusCode).toBe(201)
@@ -64,7 +49,7 @@ describe 'CourseInstance', ->
           return done(err) if err
           done(err, courseInstances)
 
-  it 'Clear database users and clans', (done) ->
+  it 'Clear database', (done) ->
     clearModels [User, Course, CourseInstance, Prepaid], (err) ->
       throw err if err
       done()
@@ -124,7 +109,12 @@ describe 'CourseInstance', ->
               expect(err).toBeNull()
               return done(err) if err
               expect(courseInstances.length).toEqual(1)
-              done()
+              Prepaid.findById courseInstances[0].get('prepaidID'), (err, prepaid) ->
+                expect(err).toBeNull()
+                return done(err) if err
+                expect(prepaid.get('maxRedeemers')).toEqual(1)
+                expect(prepaid.get('properties')?.courseIDs).toEqual([course.get('_id')])
+                done()
 
     it 'Create for paid course 50 seats', (done) ->
       stripe.tokens.create {
@@ -138,7 +128,12 @@ describe 'CourseInstance', ->
               expect(err).toBeNull()
               return done(err) if err
               expect(courseInstances.length).toEqual(1)
-              done()
+              Prepaid.findById courseInstances[0].get('prepaidID'), (err, prepaid) ->
+                expect(err).toBeNull()
+                return done(err) if err
+                expect(prepaid.get('maxRedeemers')).toEqual(50)
+                expect(prepaid.get('properties')?.courseIDs).toEqual([course.get('_id')])
+                done()
 
     it 'Create for paid course no token', (done) ->
       loginNewUser (user1) ->
@@ -192,4 +187,12 @@ describe 'CourseInstance', ->
                   expect(err).toBeNull()
                   return done(err) if err
                   expect(courseInstances.length).toEqual(courses.length)
-                  done()
+                  Prepaid.find creator: user1.get('_id'), (err, prepaids) ->
+                    expect(err).toBeNull()
+                    return done(err) if err
+                    expect(prepaids.length).toEqual(1)
+                    return done('no prepaids found') unless prepaids?.length > 0
+                    prepaid = prepaids[0]
+                    expect(prepaid.get('maxRedeemers')).toEqual(50)
+                    expect(prepaid.get('properties')?.courseIDs?.length).toEqual(courses.length)
+                    done()

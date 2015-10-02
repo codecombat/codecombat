@@ -7,6 +7,7 @@ module.exports =
     log.error "Stripe Utils Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 
   createCharge: (user, amount, metadata, done) ->
+    # TODO: create Stripe customer if necessary
     options =
       amount: amount
       currency: 'usd'

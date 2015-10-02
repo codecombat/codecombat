@@ -39,7 +39,7 @@ block content
                   label.control-label.col-md-2(data-i18n="account_prepaid.purchase_total")
                   .col-md-10
                     p.form-control-static $
-                      span#total #{purchase.total}
+                      span#total #{purchase.total.toFixed(2)}
                 button#purchase-button.btn.btn-success.pull-right(data-i18n="account_prepaid.purchase_button")
     .row
       .col-md-12

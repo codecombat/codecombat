@@ -61,6 +61,7 @@ module.exports = class CoursesView extends RootView
       application.tracker?.trackEvent 'Subscription payment methods hover'
 
   onClickBuy: (e) ->
+    $('.continue-dialog').modal('hide')
     courseID = $(e.target).data('course-id')
     route = "/courses/enroll/#{courseID}"
     viewClass = require 'views/courses/CourseEnrollView'
