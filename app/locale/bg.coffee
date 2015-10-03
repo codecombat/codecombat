@@ -525,43 +525,43 @@ module.exports = nativeDescription: "български език", englishDescri
     level_to_unlock: "Ниво на отключване:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Само определени герои могат да играят това ниво."
 
-#  skill_docs:
-     writable: "заменяем" # Hover over "attack" in Your Skills while playing a level to see most of this
-     read_only: "незаменяем"
-     action: "Действие"
-     spell: "Магия"
-     action_name: "име"
-     action_cooldown: "Отнема"
-     action_specific_cooldown: "Изчакване"
-     action_damage: "Удар"
-     action_range: "Обхват"
-     action_radius: "Радиус"
-     action_duration: "Времетраене"
-     example: "Пример"
-     ex: "пр." # Abbreviation of "example"
-     current_value: "Текуща стойност"
-     default_value: "Стойност по подразбиране"
-     parameters: "Параметри"
-     returns: "Връща"
+  skill_docs:
+    writable: "заменяем" # Hover over "attack" in Your Skills while playing a level to see most of this
+    read_only: "незаменяем"
+    action: "Действие"
+    spell: "Магия"
+    action_name: "име"
+    action_cooldown: "Отнема"
+    action_specific_cooldown: "Изчакване"
+    action_damage: "Удар"
+    action_range: "Обхват"
+    action_radius: "Радиус"
+    action_duration: "Времетраене"
+    example: "Пример"
+    ex: "пр." # Abbreviation of "example"
+    current_value: "Текуща стойност"
+    default_value: "Стойност по подразбиране"
+    parameters: "Параметри"
+    returns: "Връща"
 #    granted_by: "Granted by"
 
-#  save_load:
-     granularity_saved_games: "Записани"
-     granularity_change_history: "История"
+  save_load:
+    granularity_saved_games: "Записани"
+    granularity_change_history: "История"
 
-#  options:
-     general_options: "Общи настройки" # Check out the Options tab in the Game Menu while playing a level
-     volume_label: "Звук"
-     music_label: "Музика"
-     music_description: "Включи/изключи фоновата музика"
-     editor_config: "Настройки на редактора"
-     editor_config_title: "Конфигурация на редактора"
-     editor_config_level_language_label: "Език за това ниво"
-     editor_config_level_language_description: "Определи езика за програмиране за това ниво."
-     editor_config_default_language_label: "Програмен език по подразбиране"
+  options:
+    general_options: "Общи настройки" # Check out the Options tab in the Game Menu while playing a level
+    volume_label: "Звук"
+    music_label: "Музика"
+    music_description: "Включи/изключи фоновата музика"
+    editor_config: "Настройки на редактора"
+    editor_config_title: "Конфигурация на редактора"
+    editor_config_level_language_label: "Език за това ниво"
+    editor_config_level_language_description: "Определи езика за програмиране за това ниво."
+    editor_config_default_language_label: "Програмен език по подразбиране"
 #    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
-     editor_config_keybindings_label: "Клавишни комбинации"
-     editor_config_keybindings_default: "По подразбиране (Ace)"
+    editor_config_keybindings_label: "Клавишни комбинации"
+    editor_config_keybindings_default: "По подразбиране (Ace)"
 #    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
 #    editor_config_livecompletion_label: "Live Autocompletion"
 #    editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
