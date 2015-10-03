@@ -531,7 +531,7 @@ module.exports = nativeDescription: "български език", englishDescri
      action: "Действие"
      spell: "Магия"
      action_name: "име"
-     action_cooldown: "Takes"
+     action_cooldown: "Отнема"
      action_specific_cooldown: "Изчакване"
      action_damage: "Удар"
      action_range: "Обхват"
