@@ -247,11 +247,19 @@ mixin progress-members-popup-started(i, level)
 
 mixin invite-tab
   p(data-i18n="courses.invite_students")
-  p TODO: Student unlock code
-  p TODO: Class capacity
+  // TODO: finalize text here and then i18n it
+  h3 Link to join course
+  p Give this link to students you would like to have join the course.
+  a= document.location.origin + "/account/prepaid?_ppc=" + view.prepaid.get('code')
+  p Or have us email them directly:
   textarea.invite-emails(rows=3, data-i18n="[placeholder]courses.enter_emails", placeholder="Enter student emails to invite, one per line")
   div(style='margin-top:10px;')
     button.btn.btn-success.btn-invite(data-i18n="courses.send_invites")
+  h3 Class Capacity
+  if view.prepaid.loaded
+    p
+      span.spr Course slots used:
+      span #{view.prepaid.get('redeemers').length} / #{view.prepaid.get('maxRedeemers')}.
 
 mixin levels-tab
   table.table.table-striped.table-condensed

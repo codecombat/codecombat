@@ -7,6 +7,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/courses/course-details'
 User = require 'models/User'
 utils = require 'core/utils'
+Prepaid = require 'models/Prepaid'
 
 module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
@@ -22,6 +23,7 @@ module.exports = class CourseDetailsView extends RootView
     'click .progress-level-cell': 'onClickProgressLevelCell'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
+    'click .btn-invite': 'onClickButtonInvite'
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
@@ -31,6 +33,7 @@ module.exports = class CourseDetailsView extends RootView
     @memberSort = 'nameAsc'
     @course = @supermodel.getModel(Course, @courseID) or new Course _id: @courseID
     @listenTo @course, 'sync', @onCourseSync
+    @prepaid = new Prepaid()
     if @course.loaded
       @onCourseSync()
     else
@@ -55,6 +58,7 @@ module.exports = class CourseDetailsView extends RootView
     context.sortedMembers = @sortedMembers ? []
     context.userConceptStateMap = @userConceptStateMap ? {}
     context.userLevelStateMap = @userLevelStateMap ? {}
+    context.document = document
     context
 
   onCourseSync: ->
@@ -119,6 +123,20 @@ module.exports = class CourseDetailsView extends RootView
     @members = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/members", model: User, comparator: 'nameLower' })
     @listenToOnce @members, 'sync', @onMembersSync
     @supermodel.loadCollection @members, 'members', cache: false
+    if @adminMode
+      prepaidID = @course.get('prepaidID')
+      if not prepaidID
+        prepaidID = '560ef835444e5c9a847e0218'
+      # TODO: Just abort if no prepaidID
+      @prepaid = @supermodel.getModel(Prepaid, prepaidID) or new Prepaid _id: prepaidID
+      @listenTo @prepaid, 'sync', @onPrepaidSync
+      if @prepaid.loaded
+        @onPrepaidSync()
+      else
+        @supermodel.loadModel @prepaid, 'prepaid'
+    @render?()
+
+  onPrepaidSync: ->
     @render?()
 
   onLevelSessionsSync: ->
@@ -225,6 +243,9 @@ module.exports = class CourseDetailsView extends RootView
       viewClass: 'views/play/level/PlayLevelView'
       viewArgs: [{}, levelSlug]
     }
+
+  onClickButtonInvite: (e) ->
+
 
   onMouseEnterPoint: (e) ->
     $('.progress-popup-container').hide()
