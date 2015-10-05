@@ -23,7 +23,7 @@ module.exports = class CourseDetailsView extends RootView
     'click .progress-level-cell': 'onClickProgressLevelCell'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
-    'click .btn-invite': 'onClickButtonInvite'
+    'click #invite-btn': 'onClickInviteButton'
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
@@ -123,11 +123,7 @@ module.exports = class CourseDetailsView extends RootView
     @members = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/members", model: User, comparator: 'nameLower' })
     @listenToOnce @members, 'sync', @onMembersSync
     @supermodel.loadCollection @members, 'members', cache: false
-    if @adminMode
-      prepaidID = @course.get('prepaidID')
-      if not prepaidID
-        prepaidID = '560ef835444e5c9a847e0218'
-      # TODO: Just abort if no prepaidID
+    if @adminMode and prepaidID = @courseInstance.get('prepaidID')
       @prepaid = @supermodel.getModel(Prepaid, prepaidID) or new Prepaid _id: prepaidID
       @listenTo @prepaid, 'sync', @onPrepaidSync
       if @prepaid.loaded
@@ -244,8 +240,25 @@ module.exports = class CourseDetailsView extends RootView
       viewArgs: [{}, levelSlug]
     }
 
-  onClickButtonInvite: (e) ->
+  onClickInviteButton: (e) ->
+    emails = @$('#invite-emails-textarea').val()
+    emails = emails.split('\n')
+    emails = _.filter((_.string.trim(email) for email in emails))
+    if not emails.length
+      return
+    url = @courseInstance.url() + '/invite_students'
+    @$('#invite-btn, #invite-emails-textarea').addClass('hide')
+    @$('#invite-emails-sending-alert').removeClass('hide')
 
+    $.ajax({
+      url: url
+      data: {emails: emails}
+      method: 'POST'
+      context: @
+      success: ->
+        @$('#invite-emails-sending-alert').addClass('hide')
+        @$('#invite-emails-success-alert').removeClass('hide')
+    })
 
   onMouseEnterPoint: (e) ->
     $('.progress-popup-container').hide()

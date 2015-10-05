@@ -196,3 +196,25 @@ describe 'CourseInstance', ->
                     expect(prepaid.get('maxRedeemers')).toEqual(50)
                     expect(prepaid.get('properties')?.courseIDs?.length).toEqual(courses.length)
                     done()
+
+  describe 'Invite to course', ->
+    it 'takes a list of emails and sends invites', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          createCourse 0, (err, course) ->
+            expect(err).toBeNull()
+            return done(err) if err
+            createCourseInstances user1, course.get('_id'), 1, token.id, (err, courseInstances) ->
+              expect(err).toBeNull()
+              return done(err) if err
+              expect(courseInstances.length).toEqual(1)
+              inviteStudentsURL = getURL("/db/course_instance/#{courseInstances[0]._id}/invite_students")
+              requestBody = {
+                emails: ['test@test.com']
+              }
+              request.post { uri: inviteStudentsURL, json: requestBody }, (err, res) ->
+                expect(err).toBeNull()
+                expect(res.statusCode).toBe(200)
+                done()

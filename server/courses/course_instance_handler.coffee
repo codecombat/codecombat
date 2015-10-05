@@ -9,6 +9,7 @@ PrepaidHandler = require '../prepaids/prepaid_handler'
 User = require '../users/User'
 UserHandler = require '../users/user_handler'
 utils = require '../../app/core/utils'
+sendwithus = require '../sendwithus'
 
 CourseInstanceHandler = class CourseInstanceHandler extends Handler
   modelClass: CourseInstance
@@ -31,6 +32,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     return @createAPI(req, res) if relationship is 'create'
     return @getLevelSessionsAPI(req, res, args[0]) if args[1] is 'level_sessions'
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
+    return @inviteStudents(req, res, args[0]) if relationship is 'invite_students'
     super arguments...
 
   createAPI: (req, res) ->
@@ -100,5 +102,29 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
         return @sendDatabaseError(res, err) if err
         cleandocs = (UserHandler.formatEntity(req, doc) for doc in users)
         @sendSuccess(res, cleandocs)
+
+  inviteStudents: (req, res, courseInstanceID) ->
+    if not req.body.emails
+      return @sendBadInputError(res, 'Emails not included')
+    CourseInstance.findById courseInstanceID, (err, courseInstance) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless courseInstance
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, courseInstance)
+
+      Prepaid.findById courseInstance.get('prepaidID'), (err, prepaid) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res) unless prepaid
+        return @sendForbiddenError(res) unless prepaid.get('maxRedeemers') > prepaid.get('redeemers').length
+        for email in req.body.emails
+          context =
+            email_id: sendwithus.templates.course_invite_email
+            recipient:
+              address: email
+            email_data:
+              class_name: courseInstance.get('name')
+              join_link: "https://codecombat.com/account/prepaid?_ppc=" + prepaid.get('code')
+          sendwithus.api.send context, _.noop
+        return @sendSuccess(res, {})
+
 
 module.exports = new CourseInstanceHandler()
