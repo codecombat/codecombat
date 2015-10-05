@@ -10,13 +10,13 @@ block content
   if (noCourseInstance || noCourseInstanceSelected) && course
     h1= course.get('name')
     if noCourseInstance
-      p You are not enrolled in this course.
+      p(data-i18n="courses.not_enrolled")
       p
-        span.spr Please visit the
-        a.spr(href="/courses") courses
-        span page to enroll.
+        span.spr(data-i18n="courses.visit_pref")
+        a(href="/courses", data-i18n="courses.courses")
+        span.spl(data-i18n="courses.visit_suf")
     else if noCourseInstanceSelected
-      p Select one of your classes
+      p(data-i18n="courses.select_class")
       .container-fluid
         .row
           .col-md-6
@@ -25,14 +25,19 @@ block content
                 if courseInstance.get('name')
                   option(value="#{courseInstance.id}")= courseInstance.get('name')
                 else
-                  option(value="#{courseInstance.id}") *unnamed*
+                  option(value="#{courseInstance.id}", data-i18n="courses.unnamed")
           .col-md-6
-            button.btn.btn-success.btn-select-instance Select
+            button.btn.btn-success.btn-select-instance(data-i18n="courses.select")
   else if !course || !courseInstance
-    h1 Loading...
+    h1(data-i18n="common.loading") Loading...
   else
-    h1= courseInstance.get('name') || 'Unnamed Class'
-     small.spl (#{course.get('name')})
+    if courseInstance.get('name')
+      h1= courseInstance.get('name')
+        small.spl (#{course.get('name')})
+    else
+      h1
+        span(data-i18n='courses.unnamed_class')
+        small.spl (#{course.get('name')})
 
     p
       if courseInstance.get('description')
@@ -41,17 +46,17 @@ block content
     if adminMode && courseInstance
       +settings-dialog
       p
-        button.btn.btn-xs(data-toggle='modal', data-target='#settingsModal') edit class settings
+        button.btn.btn-xs(data-toggle='modal', data-target='#settingsModal', data-i18n="courses.edit_settings")
 
     div.well.well-sm(role='tabpanel')
       ul.nav.nav-pills(role='tablist')
         li.active(role='presentation')
-          a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab') Class Progress
+          a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
         if adminMode
           li(role='presentation')
-            a(href='#invite', aria-controls='invite', role='tab', data-toggle='tab') Add Students
+            a(href='#invite', aria-controls='invite', role='tab', data-toggle='tab', data-i18n="courses.add_students")
         li(role='presentation')
-          a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab') Levels
+          a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
     .tab-content
       .tab-pane.active#progress(role='tabpanel')
         +progress-tab
@@ -71,38 +76,38 @@ mixin progress-tab
   +progress-members
 
 mixin progress-summary-stats
-  h3 Statistics
+  h3(data-i18n="courses.stats")
   table.progress-stats-container
     tr
-      td Total students:
+      td(data-i18n="courses.total_students")
       td 
         if courseInstance
           div #{courseInstance.get('members').length}
     if instanceStats
       tr
-        td Average level play time:
+        td(data-i18n="courses.average_time")
         if instanceStats.averageLevelPlaytime > 0
           td= moment.duration(instanceStats.averageLevelPlaytime, "seconds").humanize()
         else
           td 0
       tr
-        td Total play time:
+        td(data-i18n="courses.total_time")
         if instanceStats.totalPlayTime > 0
           td= moment.duration(instanceStats.totalPlayTime, "seconds").humanize()
         else
           td 0
       tr
-        td Average levels completed:
+        td(data-i18n="courses.average_levels")
         td #{instanceStats.averageLevelsCompleted.toFixed(2)}
       tr
-        td Total levels completed:
+        td(data-i18n="courses.total_levels")
         td= instanceStats.totalLevelsCompleted
       tr
-        td Furthest level completed:
+        td(data-i18n="courses.furthest_level")
         td= instanceStats.furthestLevelCompleted.replace('Course: ', '')
 
 mixin progress-summary-concepts
-  h3 Concepts Covered
+  h3(data-i18n="courses.concepts_covered")
   if course && courseInstance && conceptsCompleted
     table.progress-concepts-container
       each concept in course.get('concepts')
@@ -116,29 +121,29 @@ mixin progress-summary-concepts
               span - #{conceptCompletion}%
 
 mixin progress-members
-  h3 Students
+  h3(data-i18n="courses.students")
   table.table.table-condensed
     thead
       tr
         th
-          span.progress-member-header.spr Name
+          span.progress-member-header.spr(data-i18n="clans.name")
           if memberSort === 'nameAsc'
             span.progress-member-header.glyphicon.glyphicon-chevron-up
           else if memberSort === 'nameDesc'
             span.progress-member-header.glyphicon.glyphicon-chevron-down
         th
-          span.progress-header.spr Progress
+          span.progress-header.spr(data-i18n="clans.progress")
           if memberSort === 'progressAsc'
             span.progress-header.glyphicon.glyphicon-chevron-up
           else if memberSort === 'progressDesc'
             span.progress-header.glyphicon.glyphicon-chevron-down
           else
             span(style='padding-left:16px;')
-          span.progress-key.progress-key-complete complete
-          span.progress-key.progress-key-started started
-          span.progress-key not started
+          span.progress-key.progress-key-complete(data-i18n="clans.complete_1")
+          span.progress-key.progress-key-started(data-i18n="clans.started_1")
+          span.progress-key(data-i18n="clans.not_started_1")
           input.progress-expand-checkbox(type='checkbox')
-          span.spl.progress-expand-label Expand details
+          span.spl.progress-expand-label(data-i18n="courses.expand_details")
     tbody
       each memberID in sortedMembers
         tr
@@ -146,19 +151,19 @@ mixin progress-members
             +progress-members-individual(memberID)
           td.progress-cell
             if showExpandedProgress
-              .progress-concepts-label Concepts
+              .progress-concepts-label(data-i18n="courses.concepts")
               +progress-members-concepts(memberID)
-              .progess-levels-label Levels
+              .progess-levels-label(data-i18n="nav.play")
               +progress-members-levels-expanded(memberID)
             else
               table
                 tbody
                   tr
-                    td.progress-concepts-label Concepts
+                    td.progress-concepts-label(data-i18n="courses.concepts")
                     td.progress-condensed-cell
                       +progress-members-concepts(memberID)
                   tr
-                    td.progess-levels-label Levels
+                    td.progess-levels-label(data-i18n="nav.play")
                     td.progress-condensed-cell
                       +progress-members-levels-condensed(memberID)
 
@@ -166,8 +171,12 @@ mixin progress-members-individual(memberID)
   - var name = memberUserMap[memberID] ? memberUserMap[memberID].get('name') : 'Anoner'
   a(href="/user/#{memberID}")= name || 'Anoner'
   if memberStats && memberStats[memberID]
-    div #{memberStats[memberID].totalLevelsCompleted} levels
-    div Played #{moment.duration(memberStats[memberID].totalPlayTime, "seconds").humanize()}
+    div
+      span #{memberStats[memberID].totalLevelsCompleted}
+      span.spl(data-i18n="courses.levels")
+    div
+      span.spr(data-i18n="courses.played")
+      span #{moment.duration(memberStats[memberID].totalPlayTime, "seconds").humanize()}
 
 mixin progress-members-concepts(memberID)
   if course && userLevelStateMap[memberID]
@@ -215,41 +224,49 @@ mixin progress-members-levels-condensed(memberID)
 mixin progress-members-popup-completed(i, level)
   .progress-popup-container
     h3 #{i + 1}. #{level.name.replace('Course: ', '')}
-    p Play time: #{moment.duration(level.playtime, "seconds").humanize()}
-    p Completed: #{moment(level.changed).format('MMMM Do YYYY, h:mm:ss a')}
+    p
+      span.spr(data-i18n="courses.play_time")
+      span #{moment.duration(level.playtime, "seconds").humanize()}
+    p
+      span.spr(data-i18n="courses.completed")
+      span #{moment(level.changed).format('MMMM Do YYYY, h:mm:ss a')}
     if adminMode
-      strong Click to view solution.
+      strong(data-i18n="clans.view_solution")
 
 mixin progress-members-popup-started(i, level)
   .progress-popup-container
     h3 #{i + 1}. #{level.name.replace('Course: ', '')}
-    p Play time: #{moment.duration(level.playtime, "seconds").humanize()}
-    p Last played: #{moment(level.changed).format('MMMM Do YYYY, h:mm:ss a')}
+    p
+      span.spr(data-i18n="courses.play_time")
+      span #{moment.duration(level.playtime, "seconds").humanize()}
+    p
+      span.spr(data-i18n="clans.last_played")
+      span #{moment(level.changed).format('MMMM Do YYYY, h:mm:ss a')}
     if adminMode
-      strong Click to view solution.
+      strong(data-i18n="clans.view_solution")
 
 mixin invite-tab
-  p Invite students to join this class.
+  p(data-i18n="courses.invite_students")
   p TODO: Student unlock code
   p TODO: Class capacity
-  textarea.invite-emails(rows=3, placeholder="Enter student emails to invite, one per line")
+  textarea.invite-emails(rows=3, data-i18n="[placeholder]courses.enter_emails", placeholder="Enter student emails to invite, one per line")
   div(style='margin-top:10px;')
-    button.btn.btn-success.btn-invite Send Invites
+    button.btn.btn-success.btn-invite(data-i18n="courses.send_invites")
 
 mixin levels-tab
   table.table.table-striped.table-condensed
     thead
       tr
         th
-        th Status
-        th Level
-        th Concepts
+        th(data-i18n="clans.status")
+        th(data-i18n="resources.level")
+        th(data-i18n="courses.concepts")
     tbody
       if campaign
         each level, levelID in campaign.get('levels')
           tr
             td
-              button.btn.btn-success.btn-play-level(data-level-slug=level.slug) Play
+              button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n="home.play")
             td
               if userLevelStateMap[me.id]
                 div= userLevelStateMap[me.id][levelID]
@@ -266,24 +283,24 @@ mixin settings-dialog
       .modal-header
         button.close(data-dismiss='modal')
           span &times;
-        h3.modal-title Edit Class Settings
+        h3.modal-title(data-i18n="courses.edit_settings1")
       .modal-body
         p
-          strong Title
+          strong(data-i18n="courses.title")
         p 
           input.settings-name-input(type='text', value="#{courseInstance.get('name') || ''}")
         p
-          strong Description
+          strong(data-i18n="courses.description")
         p 
           textarea.settings-description-input(rows=2)= courseInstance.get('description')
-        p Select programming languages available to the class:
+        p(data-i18n="courses.languages_available")
         p 
           select.form-control.settings-language-select
             option(value="Python") Python
             option(value="JavaScript") JavaScript
-            option(value="All Languages") All Languages
+            option(value="All Languages", data-i18n="courses.all_lang")
         p
           input.settings-public-progress(type='checkbox', checked)
-          span.spl Show student progress to everyone in the class
+          span.spl(data-i18n="courses.show_progress")
       .modal-footer
         button.btn.btn-save-settings(data-i18n="common.save_changes")

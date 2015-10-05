@@ -1,13 +1,14 @@
 async = require 'async'
 Handler = require '../commons/Handler'
-{getCoursesPrice} = require '../../app/core/utils'
 Course = require './Course'
 CourseInstance = require './CourseInstance'
 LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
 Prepaid = require '../prepaids/Prepaid'
+PrepaidHandler = require '../prepaids/prepaid_handler'
 User = require '../users/User'
 UserHandler = require '../users/user_handler'
+utils = require '../../app/core/utils'
 
 CourseInstanceHandler = class CourseInstanceHandler extends Handler
   modelClass: CourseInstance
@@ -15,7 +16,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
   allowedMethods: ['GET', 'POST', 'PUT', 'DELETE']
 
   logError: (user, msg) ->
-    console.warn "Course error: #{user.get('slug')} (#{user._id}): '#{msg}'"
+    console.warn "Course instance error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 
   hasAccess: (req) ->
     req.method in @allowedMethods or req.user?.isAdmin()
@@ -33,7 +34,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     super arguments...
 
   createAPI: (req, res) ->
-    return @sendUnauthorizedError(res) unless req.user?
+    return @sendUnauthorizedError(res) if not req.user? or req.user?.isAnonymous()
 
     # Required Input
     seats = req.body.seats
@@ -45,43 +46,30 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     # Optional
     name = req.body.name
     # Optional - as long as course(s) are all free
-    stripeToken = req.body.token
+    stripeToken = req.body.stripe?.token
 
-    @getCourses courseID, (err, courses) =>
+    query = if courseID? then {_id: courseID} else {}
+    Course.find query, (err, courses) =>
       if err
-        @logError(req.user, err)
-        return @sendDatabaseError(res, err)
+        @logError(user, "Find courses error: #{JSON.stringify(err)}")
+        return done(err)
 
-      price = getCoursesPrice(courses, seats)
-      if price > 0 and not stripeToken
-        @logError(req.user, 'Course create API missing required Stripe token')
-        return @sendBadInputError(res, 'Missing required Stripe token')
+      PrepaidHandler.purchasePrepaidCourse req.user, courses, seats, new Date().getTime(), stripeToken, (err, prepaid) =>
+        if err
+          @logError(req.user, err)
+          return @sendBadInputError(res, err) if err is 'Missing required Stripe token'
+          return @sendDatabaseError(res, err)
 
-      # TODO: purchase prepaid for courses, price, and seats
-      Prepaid.generateNewCode (code) =>
-        return @sendDatabaseError(res, 'Database error.') unless code
-        prepaid = new Prepaid
-          creator: req.user.get('_id')
-          type: 'course'
-          code: code
-          properties:
-            courseIDs: (course.get('_id') for course in courses)
-        prepaid.set('maxRedeemers', seats) if seats
-        prepaid.save (err) =>
+        courseInstances = []
+        makeCreateInstanceFn = (course, name, prepaid) =>
+          (done) =>
+            @createInstance req, course, name, prepaid, (err, newInstance)=>
+              courseInstances.push newInstance unless err
+              done(err)
+        tasks = (makeCreateInstanceFn(course, name, prepaid) for course in courses)
+        async.parallel tasks, (err, results) =>
           return @sendDatabaseError(res, err) if err
-
-          courseInstances = []
-          makeCreateInstanceFn = (course, name, prepaid) =>
-            (done) =>
-              @createInstance req, course, name, prepaid, (err, newInstance)=>
-                courseInstances.push newInstance unless err
-                done(err)
-          # tasks = []
-          # tasks.push(makeCreateInstanceFn(course, name, prepaid)) for course in courses
-          tasks = (makeCreateInstanceFn(course, name, prepaid) for course in courses)
-          async.parallel tasks, (err, results) =>
-            return @sendDatabaseError(res, err) if err
-            @sendCreated(res, courseInstances)
+          @sendCreated(res, courseInstances)
 
   createInstance: (req, course, name, prepaid, done) =>
     courseInstance = new CourseInstance
@@ -92,14 +80,6 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
       prepaidID: prepaid.get('_id')
     courseInstance.save (err, newInstance) =>
       done(err, newInstance)
-
-  getCourses: (courseID, done) =>
-    if courseID
-      Course.findById courseID, (err, document) =>
-        done(err, [document])
-    else
-      Course.find {}, (err, documents) =>
-        done(err, documents)
 
   getLevelSessionsAPI: (req, res, courseInstanceID) ->
     CourseInstance.findById courseInstanceID, (err, courseInstance) =>

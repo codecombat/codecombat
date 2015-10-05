@@ -44,7 +44,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'beta': go('HomeView')
 
-    'careers(/:position)': go('CareersView')
+    'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
     'cla': go('CLAView')
 

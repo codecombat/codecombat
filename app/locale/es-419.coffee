@@ -31,7 +31,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     contact: "Contacto"
     twitter_follow: "Seguir"
     teachers: "Maestros"
-#    careers: "Careers"
+    careers: "Carreras"
 
   modal:
     close: "Cerrar"
@@ -74,7 +74,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
     campaign_beginner: "Campaña para principiantes"
-    awaiting_levels_adventurer_prefix: "Nosotros creamos 5 nuevos niveles cada semana" # {change}
+    awaiting_levels_adventurer_prefix: "Nosotros libreamos nuevos niveles cada semana"
     awaiting_levels_adventurer: "Registrate como un aventurero"
     awaiting_levels_adventurer_suffix: "para ser el primero en jugar nuevos niveles."
     adjust_volume: "Ajustar el volumen"
@@ -84,7 +84,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     campaign_old_multiplayer_description: "Reliquias de una era más civilizada. Ninguna simulación es ejecutada para estas arenas multijugador antiguas y sin héroes."
 
   share_progress_modal:
-    blurb: "¡Estás haciendo un gran progreso! Cuéntale a alguien cuánto has aprendido con CodeCombat." # {change}
+    blurb: "¡Estás haciendo un gran progreso! Cuéntale a tus padres cuánto has aprendido con CodeCombat."
     email_invalid: "Dirección de Email inválida."
     form_blurb: "¡Ingresa su email debajo y les enseñaremos!"
     form_label: "Dirección de Email"
@@ -294,7 +294,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     infinite_loop_reset_level: "Reiniciar Nivel"
     infinite_loop_comment_out: "Comente Mi Código"
     tip_toggle_play: "Activa jugar/pausa con Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ y Ctrl+] rebobina y avance rápido." # {change}
+    tip_scrub_shortcut: "Ctrl+[ y Ctrl+] para rebobinar y avanzar rápido." 
     tip_guide_exists: "Haga click en la guía en la parte superior de la página para obtener información útil"
     tip_open_source: "¡CodeCombat es 100% código abierto!"
     tip_tell_friends: "¿Disfrutando de CodeCombat? ¡Cuéntale a tus amigos acerca de nosotros!"
@@ -362,7 +362,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   leaderboard:
     leaderboard: "Tabla de Posiciones"
-    view_other_solutions: "Ver Otras Soluciones" # {change}
+    view_other_solutions: "Ver la Tabla de Posiciones"
     scores: "Puntajes"
     top_players: "Mejores jugadores"
     day: "Hoy"
@@ -402,16 +402,16 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   subscribe:
     comparison_blurb: "Agudiza tus habilidades con la suscripción a CodeCombat!"
-    feature1: "Más de 60 niveles basicos a lo largo de 4 mundos" # {change}
-    feature2: "7 poderosos <strong>nuevos heroés</strong> con habilidades unicas!" # {change}
-    feature3: "Más de 30 niveles extras" # {change}
-    feature4: "<strong>3500 gemas bonus</strong> cada mes!"
+    feature1: "Más de 110 niveles basicos a lo largo de 4 mundos"
+    feature2: "10 poderosos <strong>nuevos heroés</strong> con habilidades unicas!"
+    feature3: "Más de 70 niveles extras"
+    feature4: "<strong>3500 gemas de bono</strong> cada mes!"
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
     feature7: "<strong>Clan</strong> Privado"
     free: "Gratis"
     month: "mes"
-#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+    must_be_logged: "Debes iniciar sesión primero. Por favor crea una cuenta o inicia sesión desde el menú superior."
     subscribe_title: "Suscribirse"
     unsubscribe: "Des-suscribirse"
     confirm_unsubscribe: "Confirmar cancelacion de suscripción"
@@ -441,7 +441,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     payment_methods_blurb2: "Si necesitas una forma alternativa de pago, por favor contactarse"
     sale_already_subscribed: "¡Ya estás subscrito!"
     sale_blurb1: "Ahorra 35%"
-    sale_blurb2: "de descuento en el precio regular de una subscripción de $120 USD por un año completo!" # {changed}
+    sale_blurb2: "de descuento en el precio regular de una subscripción de $120 USD por un año completo!"
     sale_button: "Venta!"
     sale_button_title: "Ahorra 35% al adquirir una subscripción por 1 año"
     sale_click_here: "Haz Click Aquí"
@@ -464,7 +464,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     managed_by: "Administrado por"
     will_be_cancelled: "Será cancelado en"
     currently_free: "Actualmente tienes una suscripción gratuita"
-    currently_free_until: "Actualmente tienes una suscripción gratuita hasta" # {changed}
+    currently_free_until: "Actualmente tienes una suscripción gratuita hasta"
     was_free_until: "Tuviste una suscripción gratuita hasta"
     managed_subs: "Suscripciones administradas"
     managed_subs_desc: "Agregar suscripciones para otros jugadores (alumnos, hijos, etc.)"
@@ -528,8 +528,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   skill_docs:
     writable: "escribible" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "Sólo Lectura"
-#    action: "Action"
-#    spell: "Spell"
+    action: "Acción"
+    spell: "Conjuro"
     action_name: "nombre"
     action_cooldown: "Toma"
     action_specific_cooldown: "Enfriamiento"
@@ -586,15 +586,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     press_paragraph_1_link: "paquete de prensa"
     press_paragraph_1_suffix: ". Todos los logos e imágenes pueden ser usados sin contactarnos directamente."
     team: "Equipo"
-    george_title: "Director Ejecutivo"
+    george_title: "Cofundador"
     george_blurb: "Negociante"
-    scott_title: "Programador" # {change}
+    scott_title: "Cofundador"
     scott_blurb: "Razonable"
-    nick_title: "Programador" # {change}
+    nick_title: "Cofundador"
     nick_blurb: "Gurú motivacional"
     michael_title: "Programador"
     michael_blurb: "Sys Admin"
-    matt_title: "Programador" # {change}
+    matt_title: "Cofundador"
     matt_blurb: "Bicicletero"
     cat_title: "Jefe Artesano"
     cat_blurb: "Maestro del Aire"
@@ -614,7 +614,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto." # {change}
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+    teacher_subs_0: "Ofrecemos subscripciones gratuitas a profesores con propósitos de evaluación."
     teacher_subs_1: "Por favor contacte" # {change}
     teacher_subs_2: "para configurar una suscripción mensual gratis." # {change}
     teacher_subs_3: "para configurar su suscripción."
@@ -842,6 +842,90 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     playtime: "Tiempo de juego"
     last_played: "Último jugado"
     leagues_explanation: "Juega en una liga contra otros miembros del clan en estas instancias de arena multijugador."
+
+  courses:
+    course: "Curso"
+    courses: "cursos"
+    not_enrolled: "No estás inscrito en este curso."
+    visit_pref: "Por favor visite la"
+    visit_suf: "página para inscribirse."
+    select_class: "Seleccione uno de sus grupos"
+    unnamed: "*anónimo*"
+    select: "Seleccionar"
+    unnamed_class: "Grupo Anónimo"
+    edit_settings: "editar configuraciónes de grupo"
+    edit_settings1: "Editar Configuraciónes de Grupos"
+    progress: "Progreso del Grupo"
+    add_students: "Agregar Estudiantes"
+    stats: "Estadísticas"
+    total_students: "Total de Estudiantes:"
+    average_time: "Tiempo Promedio de juego por nivel:"
+    total_time: "Tiempo total de juego:"
+    average_levels: "Niveles Promedio completados:"
+    total_levels: "Total de niveles completados:"
+    furthest_level: "Máximo nivel completado:"
+    concepts_covered: "Conceptos Cubiertos"
+    students: "Estudiantes"
+    students1: "estudiantes"
+    expand_details: "Expandir detalles"
+    concepts: "Conceptos"
+    levels: "niveles"
+    played: "Jugados"
+    play_time: "Tiempo de Juego:"
+    completed: "Completados:"
+    invite_students: "Invite a sus estudiantes a unirse a este grupo."
+    enter_emails: "Introducir los emails de los estudiantes a invitar, uno por línea"
+    send_invites: "¿Mandar Invitaciones?"
+    title: "Título" #person title or invitation title? It's currently invitation title
+    description: "Descripción"
+    languages_available: "Seleccione los languajes de programación disponibles para el grupo:"
+    all_lang: "Todos los Lenguajes"
+    show_progress: "Mostrar el progreso de los estudiantes a cualquiera en el grupo"
+    creating_class: "Creando clase..."
+    purchasing_course: "Adquiriendo curso..."
+    buy_course: "Comprar Curso"
+    buy_course1: "Comprar este curso"
+    create_class: "Crear Grupo"
+    select_all_courses: "Seleccione 'Todos los cursos' para un 50% de descuento!"
+    all_courses: "Todos los Cursos"
+    number_students: "Número de estudiantes"
+    enter_number_students: "Introducir el número de estudiantes que necesita para este grupo."
+    name_class: "Nombre de su grupo"
+    displayed_course_page: "Se mostrará en la página de curso para usted y sus estudiantes. Puede cambiarse después."
+    buy: "Comprar"
+    purchasing_for: "Está adquiriendo una licencia para"
+    creating_for: "Está creando un grupo para"
+    for: "para" # Like in 'for 30 students'
+    receive_code: "Posteriormente recibirá un código de desbloqueo con el fin de distribuirlo a sus estudiantes, el cual podrán usar para inscribirse en su grupo."
+    free_trial: "¡Prueba gratuita para maestros!"
+    get_access: "para obtener acceso individual a todos los cursos con propósitos de evaluación."
+    questions: "¿Preguntas?"
+    faq: "Preguntas frecuentes de Cursos"
+    question: "P:" # Like in 'Question'
+    question1: "¿Cuál es la diferencia entre estos cursos y sus juegos de un solo jugador?"
+    answer: "R:" # Like in 'Answer'
+    answer1: "El juego de un solo jugador está diseñado para individuos, mientras que los cursos están diseñados para grupos."
+    answer2: "El juego de un solo jugador tiene items, gemas, selección de héroe, aumento de niveles, y compras dentro de la aplicación. Los cursos tienen características de administración de salón y niveles ágiles enfocados al estudiante."
+    teachers_click: "Maestros Click Aquí"
+    students_click: "Estudiantes Click Aquí"
+    courses_on_coco: "Curso en CodeCombat"
+    designed_to: "Los cursos están diseñados para presentar los conceptos de ciencia computacional mediante el uso del divertido y envolvente ambiente de CodeCombat. Los niveles de CodeCombat están organizados en torno a los temas principales para alentar el aprendizaje progresivo, durante el curso de 5 horas."
+    more_in_less: "Aprenda más en menos tiempo"
+    no_experience: "No se necesita experiencia de programación"
+    easy_monitor: "Monitoree fácilmente el progreso del estudiante"
+    purchase_for_class: "Adquirir un curso para toda su grupo. ¡Es fácil registrar a sus estudiantes!"
+    see_the: "Vea la" #verify m o f
+    more_info: "para más información."
+    choose_course: "Elige tu Curso:"
+    enter_code: "Introducir un código de desbloqueo"
+    enter_code1: "Introducir código de desbloqueo"
+    enroll: "Inscribirse"
+    pick_from_classes: "Elije de tus clases actuales"
+    enter: "Entrar"
+    or: "O"
+    topics: "Tópicos"
+    hours_content: "Horas de contenido:"
+    get_free: "Obtenga curso GRATIS"
 
   classes:
     archmage_title: "Archimago"
@@ -1079,16 +1163,16 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tournament_blurb: "Escribe código, recolecta oro, arma ejercitos, aplasta adversarios, gana premios, y asciende en tu carrera por $40,000 en el Torneo Codicia! Echa un vistazo a los detalles"
     tournament_blurb_criss_cross: "Gana apuestas, construye caminos, burla tus oponentes, agarra gemas, y asciende tu perfil en nuestro torneo Cruzado! Echa un vistazo a los detalles"
     tournament_blurb_zero_sum: "Suelta tus habilidades de código en recolección de oro y tácticas de batalla en este partido espejo alpino entre el hechicero rojo y el hechicero azul. El torneo comenzó el Viernes, 27 de Marzo y se extenderá hasta el Lunes, 6 de Abril a las 5PM PDT. Compite por la diversión y la gloria ! Echa un vistazo a los detalles:"
-#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
+    tournament_blurb_ace_of_coders: "¡Lucha en el glaciar congelado en este encuentro con estilo dominación en espejo! El torneo comienza el Miércoles 16 de Septiembre, y se ejecutará hasta el Miércoles 14 de Octubre hasta las 5PM PDT. Revisa los detalles"
     tournament_blurb_blog: "en nuestro blog"
     rules: "Reglas"
     winners: "Ganadores"
     league: "Liga"
-#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
-#    blue_ai: "Blue AI"
-#    wins: "Wins" # At end of multiplayer match playback
-#    humans: "Red" # Ladder page display team name
-#    ogres: "Blue"
+    red_ai: "IA Roja" # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "IA Azul"
+    wins: "Gana" # At end of multiplayer match playback
+    humans: "Rojo" # Ladder page display team name
+    ogres: "Azul"
 
   user:
     stats: "Estados"
@@ -1128,6 +1212,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     recently_played: "Recientemente jugado"
     no_recent_games: "No juegos jugados duramente las últimas dos semanas."
     payments: "Pagos"
+    prepaid: "Prepagado"
     purchased: "Comprado"
     sale: "Venta"
     subscription: "Suscripción"
@@ -1158,6 +1243,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     retrying: "Error de Servidor, reintentando..."
     success: "Listo, fue cobrado. Gracias!"
 
+  account_prepaid:
+    purchase_code: "Adquirir un Código de Subscripción"
+    purchase_amount: "Monto"
+    purchase_total: "Total"
+    purchase_button: "Enviar Adquisición"
+    your_codes: "Tus Códigos:"
+    redeem_codes: "Reclamar un Código de Subscripción" #redimir ya no se usa
+
   loading_error:
     could_not_load: "Error cargando del servidor"
     connection_failure: "Fallo de conexión."
@@ -1170,6 +1263,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     bad_input: "Mala entrada."
     server_error: "Error de servidor."
     unknown: "Error desconocido."
+    error: "ERROR"
 
   resources:
     sessions: "Sesiones"
@@ -1260,8 +1354,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   guide:
     temp: "Temp"
 
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
+  temp:
+    ace_of_coders_tournament: "Nuevo: ¡Juega en el torneo As de los programadores ya!"
 
   multiplayer:
     multiplayer_title: "Configuración de Multijugador" # We'll be changing this around significantly soon. Until then, it's not important to translate.
