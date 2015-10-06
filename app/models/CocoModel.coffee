@@ -51,7 +51,10 @@ class CocoModel extends Backbone.Model
     @loading = false
     @jqxhr = null
     if jqxhr.status is 402
-      Backbone.Mediator.publish 'level:subscription-required', {}
+      if _.contains(jqxhr.responseText, 'be in a course')
+        Backbone.Mediator.publish 'level:course-membership-required', {}
+      else
+        Backbone.Mediator.publish 'level:subscription-required', {}
 
   onLoaded: ->
     @loaded = true

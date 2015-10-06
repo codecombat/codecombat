@@ -171,3 +171,5 @@ module.exports =
     hero: {type: 'object'}
 
   'level:subscription-required': c.object {}
+
+  'level:course-membership-required': c.object {}
