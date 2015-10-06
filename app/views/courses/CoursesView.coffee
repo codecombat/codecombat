@@ -26,6 +26,7 @@ module.exports = class CoursesView extends RootView
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
     @supermodel.loadCollection(@courseInstances, 'course_instances')
+    @courseEnroll(prepaidCode) if prepaidCode = utils.getQueryVariable('_ppc', false)
 
   getRenderData: ->
     context = super()
@@ -33,6 +34,8 @@ module.exports = class CoursesView extends RootView
     context.enrolledCourses = @enrolledCourses ? {}
     context.instances = @courseInstances.models ? []
     context.praise = @praise
+    context.state = @state
+    context.stateMessage = @stateMessage
     context.studentMode = @studentMode
     context
 
@@ -70,7 +73,10 @@ module.exports = class CoursesView extends RootView
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickEnroll: (e) ->
-    alert('TODO: redeem course prepaid and navigate to correct course instance')
+    $('.continue-dialog').modal('hide')
+    courseID = $(e.target).data('course-id')
+    prepaidCode = $(".code-input[data-course-id=#{courseID}]").val()
+    @courseEnroll(prepaidCode)
 
   onClickEnter: (e) ->
     $('.continue-dialog').modal('hide')
@@ -95,3 +101,32 @@ module.exports = class CoursesView extends RootView
     viewArgs = [studentMode: false]
     navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
     Backbone.Mediator.publish 'router:navigate', navigationEvent
+
+  courseEnroll: (prepaidCode) ->
+    @state = 'enrolling'
+    @render?()
+    data = prepaidCode: prepaidCode
+    jqxhr = $.post('/db/course_instance/-/redeem_prepaid', data)
+    jqxhr.done (data, textStatus, jqXHR) =>
+      application.tracker?.trackEvent 'Redeemed course prepaid code', {prepaidCode: prepaidCode}
+      # TODO: handle fetch errors
+      me.fetch(cache: false).always =>
+        if data?.length > 0 && data[0].courseID && data[0]._id
+          courseID = data[0].courseID
+          courseInstanceID = data[0]._id
+          route = "/courses/#{courseID}/#{courseInstanceID}"
+          viewArgs = [{}, courseID, courseInstanceID]
+          Backbone.Mediator.publish 'router:navigate',
+            route: route
+            viewClass: 'views/courses/CourseDetailsView'
+            viewArgs: viewArgs
+        else
+          @state = 'unknown_error'
+          @stateMessage = "Database error."
+          @render?()
+    jqxhr.fail (xhr, textStatus, errorThrown) =>
+      console.error 'Got an error redeeming a course prepaid code:', textStatus, errorThrown
+      application.tracker?.trackEvent 'Failed to redeem course prepaid code', status: textStatus
+      @state = 'unknown_error'
+      @stateMessage = "#{xhr.status}: #{xhr.responseText}"
+      @render?()

@@ -7,6 +7,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/courses/course-details'
 User = require 'models/User'
 utils = require 'core/utils'
+Prepaid = require 'models/Prepaid'
 
 module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
@@ -22,6 +23,7 @@ module.exports = class CourseDetailsView extends RootView
     'click .progress-level-cell': 'onClickProgressLevelCell'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
+    'click #invite-btn': 'onClickInviteButton'
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
@@ -31,6 +33,7 @@ module.exports = class CourseDetailsView extends RootView
     @memberSort = 'nameAsc'
     @course = @supermodel.getModel(Course, @courseID) or new Course _id: @courseID
     @listenTo @course, 'sync', @onCourseSync
+    @prepaid = new Prepaid()
     if @course.loaded
       @onCourseSync()
     else
@@ -55,6 +58,7 @@ module.exports = class CourseDetailsView extends RootView
     context.sortedMembers = @sortedMembers ? []
     context.userConceptStateMap = @userConceptStateMap ? {}
     context.userLevelStateMap = @userLevelStateMap ? {}
+    context.document = document
     context
 
   onCourseSync: ->
@@ -119,6 +123,16 @@ module.exports = class CourseDetailsView extends RootView
     @members = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/members", model: User, comparator: 'nameLower' })
     @listenToOnce @members, 'sync', @onMembersSync
     @supermodel.loadCollection @members, 'members', cache: false
+    if @adminMode and prepaidID = @courseInstance.get('prepaidID')
+      @prepaid = @supermodel.getModel(Prepaid, prepaidID) or new Prepaid _id: prepaidID
+      @listenTo @prepaid, 'sync', @onPrepaidSync
+      if @prepaid.loaded
+        @onPrepaidSync()
+      else
+        @supermodel.loadModel @prepaid, 'prepaid'
+    @render?()
+
+  onPrepaidSync: ->
     @render?()
 
   onLevelSessionsSync: ->
@@ -226,6 +240,26 @@ module.exports = class CourseDetailsView extends RootView
       viewArgs: [{}, levelSlug]
     }
 
+  onClickInviteButton: (e) ->
+    emails = @$('#invite-emails-textarea').val()
+    emails = emails.split('\n')
+    emails = _.filter((_.string.trim(email) for email in emails))
+    if not emails.length
+      return
+    url = @courseInstance.url() + '/invite_students'
+    @$('#invite-btn, #invite-emails-textarea').addClass('hide')
+    @$('#invite-emails-sending-alert').removeClass('hide')
+
+    $.ajax({
+      url: url
+      data: {emails: emails}
+      method: 'POST'
+      context: @
+      success: ->
+        @$('#invite-emails-sending-alert').addClass('hide')
+        @$('#invite-emails-success-alert').removeClass('hide')
+    })
+
   onMouseEnterPoint: (e) ->
     $('.progress-popup-container').hide()
     container = $(e.target).find('.progress-popup-container').show()
@@ -249,17 +283,17 @@ module.exports = class CourseDetailsView extends RootView
       when "progressAsc"
         @sortedMembers.sort (a, b) =>
           for levelID, level of @campaign.get('levels')
-            if @userLevelStateMap[a][levelID] isnt 'complete' and @userLevelStateMap[b][levelID] is 'complete'
+            if @userLevelStateMap[a]?[levelID] isnt 'complete' and @userLevelStateMap[b]?[levelID] is 'complete'
               return -1
-            else if @userLevelStateMap[a][levelID] is 'complete' and @userLevelStateMap[b][levelID] isnt 'complete'
+            else if @userLevelStateMap[a]?[levelID] is 'complete' and @userLevelStateMap[b]?[levelID] isnt 'complete'
               return 1
           0
       when "progressDesc"
         @sortedMembers.sort (a, b) =>
           for levelID, level of @campaign.get('levels')
-            if @userLevelStateMap[a][levelID] isnt 'complete' and @userLevelStateMap[b][levelID] is 'complete'
+            if @userLevelStateMap[a]?[levelID] isnt 'complete' and @userLevelStateMap[b]?[levelID] is 'complete'
               return 1
-            else if @userLevelStateMap[a][levelID] is 'complete' and @userLevelStateMap[b][levelID] isnt 'complete'
+            else if @userLevelStateMap[a]?[levelID] is 'complete' and @userLevelStateMap[b]?[levelID] isnt 'complete'
               return -1
           0
       else
