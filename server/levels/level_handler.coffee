@@ -8,6 +8,9 @@ mongoose = require 'mongoose'
 async = require 'async'
 utils = require '../lib/utils'
 log = require 'winston'
+Campaign = require '../campaigns/Campaign'
+Course = require  '../courses/Course'
+CourseInstance = require '../courses/CourseInstance'
 
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
@@ -105,10 +108,25 @@ LevelHandler = class LevelHandler extends Handler
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, doc) if doc?
+        if level.get('type') is 'course'
+          return @makeOrRejectCourseLevelSession(req, res, level, sessionQuery)
         requiresSubscription = level.get('requiresSubscription') or (req.user.get('chinaVersion') and level.get('campaign') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
         canPlayAnyway = req.user.isPremium() or level.get 'adventurer'
         return @sendPaymentRequiredError(res, err) if requiresSubscription and not canPlayAnyway
         @createAndSaveNewSession sessionQuery, req, res
+
+  makeOrRejectCourseLevelSession: (req, res, level, sessionQuery) ->
+    CourseInstance.find {members: req.user.get('_id')}, (err, courseInstances) =>
+      courseIDs = (ci.get('courseID') for ci in courseInstances)
+      Course.find { _id: { $in: courseIDs }}, (err, courses) =>
+        campaignIDs = (c.get('campaignID') for c in courses)
+        Campaign.find { _id: { $in: campaignIDs }}, (err, campaigns) =>
+          levelOriginals = (_.keys(c.get('levels')) for c in campaigns)
+          levelOriginals = _.flatten(levelOriginals)
+          if level.get('original').toString() in levelOriginals
+            @createAndSaveNewSession(sessionQuery, req, res)
+          else
+            return @sendPaymentRequiredError(res, 'You must be in a course which includes this level to play it')
 
   createAndSaveNewSession: (sessionQuery, req, res) =>
     initVals = sessionQuery
