@@ -68,9 +68,9 @@ mixin student-dialog(course)
                 .container-fluid
                   .row
                     .col-md-8
-                      input.code-input(type='text', data-i18n="[placeholder]courses.enter_code1", placeholder="Enter unlock code")
+                      input.code-input(type='text', data-course-id="#{course.id}", data-i18n="[placeholder]courses.enter_code1", placeholder="Enter unlock code")
                     .col-md-4
-                      button.btn.btn-success.btn-enroll(data-i18n="courses.enroll")
+                      button.btn.btn-success.btn-enroll(data-course-id="#{course.id}", data-i18n="courses.enroll")
 
 mixin teacher-dialog(course)
   .modal.continue-dialog(id="continueModal#{course.id}")
@@ -104,7 +104,10 @@ mixin teacher-dialog(course)
                 div.or(data-i18n="courses.or")
           .row.button-row.center
             .col-md-12
-              button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{course.id}", data-i18n="courses.buy_course1")
+              if course.get('pricePerSeat') === 0
+                button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{course.id}") Start new class
+              else
+                button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{course.id}", data-i18n="courses.buy_course1")
 
 mixin course-block(course)
   if studentMode

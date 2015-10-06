@@ -33,6 +33,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     return @getLevelSessionsAPI(req, res, args[0]) if args[1] is 'level_sessions'
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
     return @inviteStudents(req, res, args[0]) if relationship is 'invite_students'
+    return @redeemPrepaidCodeAPI(req, res) if args[1] is 'redeem_prepaid'
     super arguments...
 
   createAPI: (req, res) ->
@@ -126,5 +127,39 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
           sendwithus.api.send context, _.noop
         return @sendSuccess(res, {})
 
+  redeemPrepaidCodeAPI: (req, res) ->
+    return @sendUnauthorizedError(res) if not req.user? or req.user?.isAnonymous()
+    return @sendBadInputError(res) unless req.body?.prepaidCode
+
+    prepaidCode = req.body?.prepaidCode
+    Prepaid.find code: prepaidCode, (err, prepaids) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) if prepaids.length < 1
+      return @sendDatabaseError(res, "Multiple prepaid codes found for #{prepaidCode}") if prepaids.length > 1
+      prepaid = prepaids[0]
+
+      CourseInstance.find prepaidID: prepaid.get('_id'), (err, courseInstances) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendForbiddenError(res) if prepaid.get('redeemers')?.length >= prepaid.get('maxRedeemers')
+
+        # Add to prepaid redeemers
+        query =
+          _id: prepaid.get('_id')
+          'redeemers.userID': { $ne: req.user.get('_id') }
+          $where: "this.redeemers.length < #{prepaid.get('maxRedeemers')}"
+        update = { $push: { redeemers : { date: new Date(), userID: req.user.get('_id') } }}
+        Prepaid.update query, update, (err, nMatched) =>
+          return @sendDatabaseError(res, err) if err
+          if nMatched is 0
+            @logError(req.user, "Course instance update prepaid lost race on maxRedeemers")
+            return @sendForbiddenError(res)
+
+          # Add to each course instance
+          makeAddMemberToCourseInstanceFn = (courseInstance) =>
+            (done) => courseInstance.update({$addToSet: { members: req.user.get('_id')}}, done)
+          tasks = (makeAddMemberToCourseInstanceFn(courseInstance) for courseInstance in courseInstances)
+          async.parallel tasks, (err, results) =>
+            return @sendDatabaseError(res, err) if err
+            @sendSuccess(res)
 
 module.exports = new CourseInstanceHandler()

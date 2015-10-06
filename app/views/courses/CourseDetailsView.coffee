@@ -283,17 +283,17 @@ module.exports = class CourseDetailsView extends RootView
       when "progressAsc"
         @sortedMembers.sort (a, b) =>
           for levelID, level of @campaign.get('levels')
-            if @userLevelStateMap[a][levelID] isnt 'complete' and @userLevelStateMap[b][levelID] is 'complete'
+            if @userLevelStateMap[a]?[levelID] isnt 'complete' and @userLevelStateMap[b]?[levelID] is 'complete'
               return -1
-            else if @userLevelStateMap[a][levelID] is 'complete' and @userLevelStateMap[b][levelID] isnt 'complete'
+            else if @userLevelStateMap[a]?[levelID] is 'complete' and @userLevelStateMap[b]?[levelID] isnt 'complete'
               return 1
           0
       when "progressDesc"
         @sortedMembers.sort (a, b) =>
           for levelID, level of @campaign.get('levels')
-            if @userLevelStateMap[a][levelID] isnt 'complete' and @userLevelStateMap[b][levelID] is 'complete'
+            if @userLevelStateMap[a]?[levelID] isnt 'complete' and @userLevelStateMap[b]?[levelID] is 'complete'
               return 1
-            else if @userLevelStateMap[a][levelID] is 'complete' and @userLevelStateMap[b][levelID] isnt 'complete'
+            else if @userLevelStateMap[a]?[levelID] is 'complete' and @userLevelStateMap[b]?[levelID] isnt 'complete'
               return -1
           0
       else

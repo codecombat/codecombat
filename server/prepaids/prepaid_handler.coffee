@@ -19,7 +19,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
     console.warn "Prepaid Error: [#{user.get('slug')} (#{user._id})] '#{msg}'"
 
   hasAccess: (req) ->
-    req.user?.isAdmin()
+    req.method is 'GET' || req.user?.isAdmin()
 
   getByRelationship: (req, res, args...) ->
     relationship = args[1]
