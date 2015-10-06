@@ -250,7 +250,7 @@ mixin invite-tab
   h3(data-i18n="courses.invite_link_header")
   p(data-i18n="courses.invite_link_p_1")
   .alert.alert-info
-    strong= document.location.origin + "/account/prepaid?_ppc=" + view.prepaid.get('code')
+    strong= document.location.origin + "/courses?_ppc=" + view.prepaid.get('code')
   p(data-i18n="courses.invite_link_p_2")
   .form
     .form-group

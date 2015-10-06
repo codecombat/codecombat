@@ -7,19 +7,25 @@ block content
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
 
   br
-  if studentMode
-    +student-main
+  if state === 'enrolling'
+    .alert.alert-info Enrolling in course..
   else
-    +teacher-main
-  .container-fluid
-    - var i = 0
-    while i < courses.length
-      .row
-        +course-block(courses[i], instances)
-        - i++
-        if i < courses.length
+    if state === 'unknown_error'
+      .alert.alert-danger.alert-dismissible= stateMessage
+
+    if studentMode
+      +student-main
+    else
+      +teacher-main
+    .container-fluid
+      - var i = 0
+      while i < courses.length
+        .row
           +course-block(courses[i], instances)
           - i++
+          if i < courses.length
+            +course-block(courses[i], instances)
+            - i++
 
 mixin student-main
   button.btn.btn-warning.btn-teacher(data-i18n="courses.teachers_click")

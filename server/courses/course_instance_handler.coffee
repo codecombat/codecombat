@@ -123,7 +123,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
               address: email
             email_data:
               class_name: courseInstance.get('name')
-              join_link: "https://codecombat.com/account/prepaid?_ppc=" + prepaid.get('code')
+              join_link: "https://codecombat.com/courses?_ppc=" + prepaid.get('code')
           sendwithus.api.send context, _.noop
         return @sendSuccess(res, {})
 
@@ -160,6 +160,6 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
           tasks = (makeAddMemberToCourseInstanceFn(courseInstance) for courseInstance in courseInstances)
           async.parallel tasks, (err, results) =>
             return @sendDatabaseError(res, err) if err
-            @sendSuccess(res)
+            @sendSuccess(res, courseInstances)
 
 module.exports = new CourseInstanceHandler()
