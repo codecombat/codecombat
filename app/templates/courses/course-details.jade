@@ -50,21 +50,31 @@ block content
 
     div.well.well-sm(role='tabpanel')
       ul.nav.nav-pills(role='tablist')
-        li.active(role='presentation')
-          a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
         if adminMode
+          li.active(role='presentation')
+            a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
           li(role='presentation')
             a(href='#invite', aria-controls='invite', role='tab', data-toggle='tab', data-i18n="courses.add_students")
-        li(role='presentation')
-          a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
+          li(role='presentation')
+            a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
+        else
+          li.active(role='presentation')
+            a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
+          li(role='presentation')
+            a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
     .tab-content
-      .tab-pane.active#progress(role='tabpanel')
-        +progress-tab
       if adminMode
+        .tab-pane.active#progress(role='tabpanel')
+          +progress-tab
         .tab-pane#invite(role='tabpanel')
           +invite-tab
-      .tab-pane#levels(role='tabpanel')
-        +levels-tab
+        .tab-pane#levels(role='tabpanel')
+          +levels-tab
+      else
+        .tab-pane.active#levels(role='tabpanel')
+          +levels-tab
+        .tab-pane#progress(role='tabpanel')
+          +progress-tab
 
 mixin progress-tab
   .container-fluid.progress-summary-container
