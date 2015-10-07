@@ -265,7 +265,8 @@ mixin invite-tab
   .form
     .form-group
       textarea#invite-emails-textarea.form-control(
-        rows=3, data-i18n="[placeholder]courses.enter_emails", placeholder="Enter student emails to invite, one per line")
+        rows=3, data-i18n="[placeholder]courses.enter_emails")
+      .help-block(data-i18n="courses.enter_emails")
     .form-group
       button#invite-btn.btn.btn-success(data-i18n="courses.send_invites")
       #invite-emails-sending-alert.alert.alert-info.hide(data-i18n="common.sending")
