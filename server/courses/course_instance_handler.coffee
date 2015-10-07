@@ -1,5 +1,6 @@
 async = require 'async'
 Handler = require '../commons/Handler'
+Campaign = require '../campaigns/Campaign'
 Course = require './Course'
 CourseInstance = require './CourseInstance'
 LevelSession = require '../levels/sessions/LevelSession'
@@ -88,11 +89,19 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     CourseInstance.findById courseInstanceID, (err, courseInstance) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless courseInstance
-      memberIDs = _.map courseInstance.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
-      LevelSession.find {creator: {$in: memberIDs}}, (err, documents) =>
-        return @sendDatabaseError(res, err) if err?
-        cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
-        @sendSuccess(res, cleandocs)
+      Course.findById courseInstance.get('courseID'), (err, course) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res) unless course
+        Campaign.findById course.get('campaignID'), (err, campaign) =>
+          return @sendDatabaseError(res, err) if err
+          return @sendNotFoundError(res) unless campaign
+          levelIDs = (levelID for levelID of campaign.get('levels'))
+          memberIDs = _.map courseInstance.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
+          query = {$and: [{creator: {$in: memberIDs}}, {'level.original': {$in: levelIDs}}]}
+          LevelSession.find query, (err, documents) =>
+            return @sendDatabaseError(res, err) if err?
+            cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
+            @sendSuccess(res, cleandocs)
 
   getMembersAPI: (req, res, courseInstanceID) ->
     CourseInstance.findById courseInstanceID, (err, courseInstance) =>
