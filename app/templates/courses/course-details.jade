@@ -287,13 +287,18 @@ mixin levels-tab
         th(data-i18n="courses.concepts")
     tbody
       if campaign
+        - var lastLevelCompleted = true;
         each level, levelID in campaign.get('levels')
           tr
             td
-              button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n="home.play")
+              if lastLevelCompleted || adminMode
+                button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n="home.play")
             td
               if userLevelStateMap[me.id]
                 div= userLevelStateMap[me.id][levelID]
+                - lastLevelCompleted = userLevelStateMap[me.id][levelID] === 'complete'
+              else
+                - lastLevelCompleted = false
             td= level.name.replace('Course: ', '')
             td
               if levelConceptMap[levelID]
