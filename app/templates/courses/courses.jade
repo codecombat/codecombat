@@ -9,6 +9,8 @@ block content
   br
   if state === 'enrolling'
     .alert.alert-info Enrolling in course..
+  else if state === 'ppc_logged_out'
+    .alert.alert-success Log in or create an account to join this course.
   else
     if state === 'unknown_error'
       .alert.alert-danger.alert-dismissible= stateMessage
