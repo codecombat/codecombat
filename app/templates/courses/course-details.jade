@@ -323,14 +323,5 @@ mixin settings-dialog
           strong(data-i18n="courses.description")
         p 
           textarea.settings-description-input(rows=2)= courseInstance.get('description')
-        p(data-i18n="courses.languages_available")
-        p 
-          select.form-control.settings-language-select
-            option(value="Python") Python
-            option(value="JavaScript") JavaScript
-            option(value="All Languages", data-i18n="courses.all_lang")
-        p
-          input.settings-public-progress(type='checkbox', checked)
-          span.spl(data-i18n="courses.show_progress")
       .modal-footer
         button.btn.btn-save-settings(data-i18n="common.save_changes")
