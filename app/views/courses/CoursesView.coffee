@@ -20,7 +20,7 @@ module.exports = class CoursesView extends RootView
   constructor: (options) ->
     super(options)
     @praise = utils.getCoursePraise()
-    @studentMode = utils.getQueryVariable('student', false) or options.studentMode
+    @studentMode = Backbone.history.getFragment()?.indexOf('courses/students') >= 0
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
@@ -89,17 +89,15 @@ module.exports = class CoursesView extends RootView
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickStudent: (e) ->
-    route = "/courses?student=true"
+    route = "/courses/students"
     viewClass = require 'views/courses/CoursesView'
-    viewArgs = [studentMode: true]
-    navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
+    navigationEvent = route: route, viewClass: viewClass, viewArgs: []
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickTeacher: (e) ->
-    route = "/courses?student=false"
+    route = "/courses/teachers"
     viewClass = require 'views/courses/CoursesView'
-    viewArgs = [studentMode: false]
-    navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
+    navigationEvent = route: route, viewClass: viewClass, viewArgs: []
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   courseEnroll: (prepaidCode) ->
