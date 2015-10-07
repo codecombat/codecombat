@@ -142,6 +142,9 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
         return @sendDatabaseError(res, err) if err
         return @sendForbiddenError(res) if prepaid.get('redeemers')?.length >= prepaid.get('maxRedeemers')
 
+        if _.find((prepaid.get('redeemers') ? []), (a) -> a.userID.equals(req.user.id))
+          return @sendSuccess(res, courseInstances)
+
         # Add to prepaid redeemers
         query =
           _id: prepaid.get('_id')

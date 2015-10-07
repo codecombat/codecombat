@@ -222,7 +222,7 @@ describe 'CourseInstance', ->
 
   describe 'Redeem prepaid code', ->
 
-    it 'Redeem prepaid code an instance of max 2', (done) ->
+    it 'Redeem prepaid code for an instance of max 2', (done) ->
       stripe.tokens.create {
         card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
       }, (err, token) ->
@@ -264,7 +264,7 @@ describe 'CourseInstance', ->
                         expect(usersFound).toEqual(2)
                         done()
 
-    it 'Redeem full prepaid code on instance of max 1', (done) ->
+    it 'Redeem full prepaid code for on instance of max 1', (done) ->
       stripe.tokens.create {
         card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
       }, (err, token) ->
@@ -326,3 +326,29 @@ describe 'CourseInstance', ->
                     return done(err) if err
                     expect(prepaid.get('redeemers')?.length).toEqual(prepaid.get('maxRedeemers'))
                     done()
+
+    it 'Redeem prepaid code twice', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          createCourse 0, (err, course) ->
+            expect(err).toBeNull()
+            return done(err) if err
+            createCourseInstances user1, course.get('_id'), 2, token.id, (err, courseInstances) ->
+              expect(err).toBeNull()
+              return done(err) if err
+              expect(courseInstances.length).toEqual(1)
+              Prepaid.findById courseInstances[0].get('prepaidID'), (err, prepaid) ->
+                expect(err).toBeNull()
+                return done(err) if err
+                loginNewUser (user2) ->
+                  # Redeem once
+                  request.post {uri: courseInstanceRedeemURL, json: {prepaidCode: prepaid.get('code')} }, (err, res) ->
+                    expect(err).toBeNull()
+                    expect(res.statusCode).toBe(200)
+                    # Redeem twice
+                    request.post {uri: courseInstanceRedeemURL, json: {prepaidCode: prepaid.get('code')} }, (err, res) ->
+                      expect(err).toBeNull()
+                      expect(res.statusCode).toBe(200)
+                      done()
