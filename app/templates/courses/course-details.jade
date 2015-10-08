@@ -151,7 +151,8 @@ mixin progress-members
             span(style='padding-left:16px;')
           span.progress-key.progress-key-complete(data-i18n="clans.complete_1")
           span.progress-key.progress-key-started(data-i18n="clans.started_1")
-          span.progress-key(data-i18n="clans.not_started_1")
+          if showExpandedProgress
+            span.progress-key(data-i18n="clans.not_started_1")
           input.progress-expand-checkbox(type='checkbox')
           span.spl.progress-expand-label(data-i18n="courses.expand_details")
     tbody
