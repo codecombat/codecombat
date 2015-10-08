@@ -30,6 +30,7 @@ module.exports = class CoursesView extends RootView
       if me.isAnonymous()
         @state = 'ppc_logged_out'
       else
+        @studentMode = true
         @courseEnroll(prepaidCode)
 
   getRenderData: ->
