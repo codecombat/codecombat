@@ -151,11 +151,11 @@ module.exports = class CourseDetailsView extends RootView
       levelStateMap[levelID] = state
 
       @instanceStats.totalLevelsCompleted++ if state is 'complete'
-      @instanceStats.totalPlayTime += levelSession.get('playtime')
+      @instanceStats.totalPlayTime += parseInt(levelSession.get('playtime') ? 0)
 
       @memberStats[userID] ?= totalLevelsCompleted: 0, totalPlayTime: 0
       @memberStats[userID].totalLevelsCompleted++ if state is 'complete'
-      @memberStats[userID].totalPlayTime += levelSession.get('playtime')
+      @memberStats[userID].totalPlayTime += parseInt(levelSession.get('playtime') ? 0)
 
       @userConceptStateMap[userID] ?= {}
       for concept of @levelConceptMap[levelID]
