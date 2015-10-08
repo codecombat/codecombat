@@ -169,6 +169,7 @@ module.exports = class CourseDetailsView extends RootView
 
     if @courseInstance.get('members').length > 0
       @instanceStats.averageLevelsCompleted = @instanceStats.totalLevelsCompleted / @courseInstance.get('members').length
+      @instanceStats.averageLevelPlaytime = @instanceStats.totalPlayTime / @courseInstance.get('members').length
     for levelID, level of @campaign.get('levels')
       @instanceStats.furthestLevelCompleted = level.name if levelStateMap[levelID] is 'complete'
 
