@@ -611,19 +611,19 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     intro_2: "No se necesita experiencia previa!"
     free_title: "¿Cuánto cuesta?"
     cost_china: "CodeCombat es gratis en China por los primeros cinco niveles, despues cuesta $9.99(dólares) por mes para tener acceso a 180+ niveles que son exclusivos en nuestros servidores en China."
-    free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto." # {change}
+    free_1: "Hay más de 110 niveles gratis que cubren cada concepto."
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
     teacher_subs_0: "Ofrecemos subscripciones gratuitas a profesores con propósitos de evaluación."
-    teacher_subs_1: "Por favor contacte" # {change}
-    teacher_subs_2: "para configurar una suscripción mensual gratis." # {change}
+    teacher_subs_1: "Por favor llene nuestra"
+    teacher_subs_2: "Encuesta para maestros"
     teacher_subs_3: "para configurar su suscripción."
     sub_includes_title: "¿Qué se incluye en la suscripción?"
     sub_includes_1: "Adicionalmente a los más de 70 niveles básicos, los estudiantes con una suscripción mensual obtienen acceso a estas características adicionales:" # {change}
-    sub_includes_2: "Más de 40 niveles de práctica" # {change}
+    sub_includes_2: "Más de 70 niveles de práctica"
     sub_includes_3: "Video tutoriales"
     sub_includes_4: "Soporte de correo electronico Premium"
-    sub_includes_5: "7 héroes nuevos con habilidades unicas que dominar" # {change}
+    sub_includes_5: "10 héroes nuevos con habilidades unicas que dominar"
     sub_includes_6: "bonificación de 3500 gemas cada mes"
     sub_includes_7: "Clanes privados"
     monitor_progress_title: "¿Cómo monitoreo el progreso del estudiante?"
