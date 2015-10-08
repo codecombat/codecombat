@@ -2,168 +2,197 @@ extends /templates/base
 
 block content
 
-  p.row
+  h2(style='color:#CC0000;') Try CodeCombat Courses!
+  p
+    strong What are CodeCombat Courses?
+  p 
+    a.spr(href='/courses') Courses
+    span organize the same great levels into groups.  They make it easier for you to manage a class of students and monitor their progress.
+  p
+    strong How to use them:
+    ol
+      li
+        span.spr Navigate to the
+        a.spr(href='/courses') Courses
+        span page
+      li Click the green 'Get FREE course' button
+      li Follow the enrollment instructions
+      li Add students via the 'Add Students' tab
+  p
+    strong We Need Your Help!
+  p Courses are still in early development, and we need your feedback to make them great for the classroom.
+  p
+    strong How you can help:
+    ul
+      li
+        spa.spr Spend 5 minutes checking out
+        a.spr(href='/courses') Courses
+      li Enroll in a course and add a student
+      li Monitor a group of students working through the first course
+  p 
+    span.spr Send your feedback to
+    a(href='mailto:team@codecombat.com') team@codecombat.com
+  p Thanks!
+  br
 
-    .span5
+  h2 More Info for Teachers
+  p(data-i18n="teachers.intro_1")
+  p(data-i18n="teachers.intro_2")
 
-      h2(data-i18n="teachers.title")
-      p(data-i18n="teachers.intro_1")
-      p(data-i18n="teachers.intro_2")
+  h3(data-i18n="teachers.free_title")
+  if me.get('chinaVersion')
+    p(data-i18n="teachers.cost_china")
+  else
+    p(data-i18n="teachers.free_1")
+    p(data-i18n="teachers.free_2")
 
-      h3(data-i18n="teachers.free_title")
-      if me.get('chinaVersion')
-        p(data-i18n="teachers.cost_china")
-      else
-        p(data-i18n="teachers.free_1")
-        p(data-i18n="teachers.free_2")
+  h3.teachers-title(data-i18n="teachers.teacher_subs_title")
+  p(data-i18n="teachers.teacher_subs_0")
+  p
+    span.spr(data-i18n="teachers.teacher_subs_1")
+    a(href='/teachers/freetrial', data-i18n="teachers.teacher_subs_2")
+    span.spl(data-i18n="teachers.teacher_subs_3")
 
-      h3.teachers-title(data-i18n="teachers.teacher_subs_title")
-      p(data-i18n="teachers.teacher_subs_0")
-      p
-        span.spr(data-i18n="teachers.teacher_subs_1")
-        a(href='/teachers/freetrial', data-i18n="teachers.teacher_subs_2")
-        span.spl(data-i18n="teachers.teacher_subs_3")
+  h3(data-i18n="teachers.sub_includes_title")
+  p(data-i18n="teachers.sub_includes_1")
+  ul
+    li(data-i18n="teachers.sub_includes_2")
+    li(data-i18n="teachers.sub_includes_3")
+    li(data-i18n="teachers.sub_includes_4")
+    li(data-i18n="teachers.sub_includes_5")
+    li(data-i18n="teachers.sub_includes_6")
+    li(data-i18n="teachers.sub_includes_7")
 
-      h3(data-i18n="teachers.sub_includes_title")
-      p(data-i18n="teachers.sub_includes_1")
-      ul
-        li(data-i18n="teachers.sub_includes_2")
-        li(data-i18n="teachers.sub_includes_3")
-        li(data-i18n="teachers.sub_includes_4")
-        li(data-i18n="teachers.sub_includes_5")
-        li(data-i18n="teachers.sub_includes_6")
-        li(data-i18n="teachers.sub_includes_7")
+  h3(data-i18n="teachers.who_for_title")
+  p(data-i18n="teachers.who_for_1")
+  p(data-i18n="teachers.who_for_2")
 
-      h3(data-i18n="teachers.who_for_title")
-      p(data-i18n="teachers.who_for_1")
-      p(data-i18n="teachers.who_for_2")
+  h3(data-i18n="teachers.monitor_progress_title")
+  p
+    span.spr(data-i18n="teachers.monitor_progress_1")
+    a(href='/clans', data-i18n="clans.clan")
+    span.spl(data-i18n="teachers.monitor_progress_2")
+  p
+    span.spr(data-i18n="teachers.monitor_progress_3")
+    a(href='/clans', data-i18n="clans.clans")
+    span.spl(data-i18n="teachers.monitor_progress_4")
+  p(data-i18n="teachers.monitor_progress_5")
+  h4(data-i18n="teachers.sub_includes_7")
+  ul
+    li 
+      strong Track concepts
+      span.spl learned by each student
+    li Track levels completed for each student
+    li 
+      span See your students'
+      strong.spl solutions
+    li Sort students by name or progress
+    li 
+      strong Requires invitation
+      span.spl to join
+  p
+    img(src='/images/pages/clans/dashboard_preview.png' height='400')
+  p
+    span.spr(data-i18n="teachers.private_clans_2")
+    a(href='/clans', data-i18n="clans.clan")
+    span(data-i18n="teachers.private_clans_3")
+  p Private clans require a subscription to create or join.
 
-      h3(data-i18n="teachers.monitor_progress_title")
-      p
-        span.spr(data-i18n="teachers.monitor_progress_1")
-        a(href='/clans', data-i18n="clans.clan")
-        span.spl(data-i18n="teachers.monitor_progress_2")
-      p
-        span.spr(data-i18n="teachers.monitor_progress_3")
-        a(href='/clans', data-i18n="clans.clans")
-        span.spl(data-i18n="teachers.monitor_progress_4")
-      p(data-i18n="teachers.monitor_progress_5")
-      h4(data-i18n="teachers.sub_includes_7")
-      ul
-        li 
-          strong Track concepts
-          span.spl learned by each student
-        li Track levels completed for each student
-        li 
-          span See your students'
-          strong.spl solutions
-        li Sort students by name or progress
-        li 
-          strong Requires invitation
-          span.spl to join
-      p
-        img(src='/images/pages/clans/dashboard_preview.png' height='400')
-      p
-        span.spr(data-i18n="teachers.private_clans_2")
-        a(href='/clans', data-i18n="clans.clan")
-        span(data-i18n="teachers.private_clans_3")
-      p Private clans require a subscription to create or join.
+  h3(data-i18n="teachers.material_title")
+  if me.get('chinaVersion')
+    p(data-i18n="teachers.material_china")
+  else
+    p(data-i18n="teachers.material_1")
 
-      h3(data-i18n="teachers.material_title")
-      if me.get('chinaVersion')
-        p(data-i18n="teachers.material_china")
-      else
-        p(data-i18n="teachers.material_1")
+  h3(data-i18n="teachers.concepts_title")
 
-      h3(data-i18n="teachers.concepts_title")
+  //- TODO: i18n for concepts?
 
-      //- TODO: i18n for concepts?
+  table.table.table-condensed.concepts-table
+    thead
+      tr
+        th
+          a(href='/play/dungeon') Kithgard Dungeon
+        th
+          a(href='/play/forest') Backwoods Forest
+        th
+          a(href='/play/desert') Sarven Desert
+        th
+          a(href='/play/mountain') Cloudrip Mountain
+    tbody
+      tr
+        td Basic Syntax
+        td If Statements
+        td Arithmetic
+        td Object Literals
+      tr
+        td Methods
+        td Relational Operators
+        td While Loops
+        td For Loops
+      tr
+        td Parameters
+        td Object Properties
+        td Break Statements
+        td Functions
+      tr
+        td Strings
+        td Input Handling
+        td Arrays
+        td Drawing
+      tr
+        td Loops
+        td
+        td String Comparison
+        td Modulo
+      tr
+        td Variables
+        td
+        td Finding Min/Max
+        td
 
-      table.table.table-condensed.concepts-table
-        thead
-          tr
-            th
-              a(href='/play/dungeon') Kithgard Dungeon
-            th
-              a(href='/play/forest') Backwoods Forest
-            th
-              a(href='/play/desert') Sarven Desert
-            th
-              a(href='/play/mountain') Cloudrip Mountain
-        tbody
-          tr
-            td Basic Syntax
-            td If Statements
-            td Arithmetic
-            td Object Literals
-          tr
-            td Methods
-            td Relational Operators
-            td While Loops
-            td For Loops
-          tr
-            td Parameters
-            td Object Properties
-            td Break Statements
-            td Functions
-          tr
-            td Strings
-            td Input Handling
-            td Arrays
-            td Drawing
-          tr
-            td Loops
-            td
-            td String Comparison
-            td Modulo
-          tr
-            td Variables
-            td
-            td Finding Min/Max
-            td
+  h3(data-i18n="teachers.how_much_title")
+  p
+    span(data-i18n="teachers.how_much_1")
+    span.spr.spl
+      a(href='/account/subscription', data-i18n="teachers.how_much_2")
+    span.spr.spl(data-i18n="teachers.how_much_3")
+  p 
+    span.spr(data-i18n="teachers.how_much_5")
+    a(href='mailto:team@codecombat.com') team@codecombat.com
+    span.spl(data-i18n="teachers.how_much_6")
+  p(data-i18n="teachers.how_much_4")
+  h4
+    a(href='/account/subscription', data-i18n="subscribe.group_discounts")
+  p(data-i18n="subscribe.group_discounts_1")
+  table.table.table-condensed.discount-table
+    tr 
+      td(data-i18n="subscribe.group_discounts_1st")
+      td(data-i18n="subscribe.group_discounts_full")
+    tr
+      td(data-i18n="subscribe.group_discounts_2nd")
+      td(data-i18n="subscribe.group_discounts_20")
+    tr
+      td(data-i18n="subscribe.group_discounts_12th")
+      td(data-i18n="subscribe.group_discounts_40")
 
-      h3(data-i18n="teachers.how_much_title")
-      p
-        span(data-i18n="teachers.how_much_1")
-        span.spr.spl
-          a(href='/account/subscription', data-i18n="teachers.how_much_2")
-        span.spr.spl(data-i18n="teachers.how_much_3")
-      p 
-        span.spr(data-i18n="teachers.how_much_5")
-        a(href='mailto:team@codecombat.com') team@codecombat.com
-        span.spl(data-i18n="teachers.how_much_6")
-      p(data-i18n="teachers.how_much_4")
-      h4
-        a(href='/account/subscription', data-i18n="subscribe.group_discounts")
-      p(data-i18n="subscribe.group_discounts_1")
-      table.table.table-condensed.discount-table
-        tr 
-          td(data-i18n="subscribe.group_discounts_1st")
-          td(data-i18n="subscribe.group_discounts_full")
-        tr
-          td(data-i18n="subscribe.group_discounts_2nd")
-          td(data-i18n="subscribe.group_discounts_20")
-        tr
-          td(data-i18n="subscribe.group_discounts_12th")
-          td(data-i18n="subscribe.group_discounts_40")
+  h3(data-i18n="teachers.more_info_title")
+  p
+    span.spr(data-i18n="teachers.more_info_1")
+    a(href='http://discourse.codecombat.com/c/teachers', data-i18n="teachers.more_info_2")
+    span.spl(data-i18n="teachers.more_info_3")
 
-      h3(data-i18n="teachers.more_info_title")
-      p
-        span.spr(data-i18n="teachers.more_info_1")
-        a(href='http://discourse.codecombat.com/c/teachers', data-i18n="teachers.more_info_2")
-        span.spl(data-i18n="teachers.more_info_3")
+  h3(data-i18n="teachers.sys_requirements_title")
+  p(data-i18n="teachers.sys_requirements_1")
+  p(data-i18n="teachers.sys_requirements_2")
 
-      h3(data-i18n="teachers.sys_requirements_title")
-      p(data-i18n="teachers.sys_requirements_1")
-      p(data-i18n="teachers.sys_requirements_2")
-
-      if (me.get('preferredLanguage', true) || 'en-US') == 'pl'
-        h3 Fundacja IT Leader Club Polska
-        p
-          | CodeCombat w marcu 2015 roku nawiązał współpracę z Fundacją IT Leader Club Polska celem promowania nauki programowania wśród najmłodszych w Polsce. Język programowania stał się drugim językiem, bez którego bardzo trudno będzie młodym ludziom w przyszłości zaistnieć na konkurencyjnym rynku pracy.
-        p
-          | Poznając podstawy języka programowania z Fundacją IT Leader Club Polska z wykorzystaniem CodeCombat, polskie dzieci będą bardzo szybko potrafiły poznać kluczowe zagadnienia programowania. Poprzez zabawę i interaktywną grę, dzieci szybko przyswoją niezbędną teorię i zaczną czerpać z programowania nie tylko wiedzę ale i pasję na całe życie - czego życzymy wszystkim naszym młodym studentom. W przypadku pytań prosimy o kontakt z Panem Arkadiuszem Lefanowiczem, Przewodniczącym Fundacji IT Leader Club Polska, 
-          a(href="http://www.itleader.org.pl") itleader.org.pl
-          | , 
-          a(href="mailto:arkadiusz.lefanowicz@itleader.org.pl") arkadiusz.lefanowicz@itleader.org.pl
-          | .
+  if (me.get('preferredLanguage', true) || 'en-US') == 'pl'
+    h3 Fundacja IT Leader Club Polska
+    p
+      | CodeCombat w marcu 2015 roku nawiązał współpracę z Fundacją IT Leader Club Polska celem promowania nauki programowania wśród najmłodszych w Polsce. Język programowania stał się drugim językiem, bez którego bardzo trudno będzie młodym ludziom w przyszłości zaistnieć na konkurencyjnym rynku pracy.
+    p
+      | Poznając podstawy języka programowania z Fundacją IT Leader Club Polska z wykorzystaniem CodeCombat, polskie dzieci będą bardzo szybko potrafiły poznać kluczowe zagadnienia programowania. Poprzez zabawę i interaktywną grę, dzieci szybko przyswoją niezbędną teorię i zaczną czerpać z programowania nie tylko wiedzę ale i pasję na całe życie - czego życzymy wszystkim naszym młodym studentom. W przypadku pytań prosimy o kontakt z Panem Arkadiuszem Lefanowiczem, Przewodniczącym Fundacji IT Leader Club Polska, 
+      a(href="http://www.itleader.org.pl") itleader.org.pl
+      | , 
+      a(href="mailto:arkadiusz.lefanowicz@itleader.org.pl") arkadiusz.lefanowicz@itleader.org.pl
+      | .

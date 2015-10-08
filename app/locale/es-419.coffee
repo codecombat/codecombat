@@ -430,10 +430,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     parent_email_sent: "Email enviado!"
     parent_email_title: "Cuál es el email de tus padres?"
     parents: "Para padres"
-    parents_title: "Su hijo aprenderá a programar." # {change}
+    parents_title: "Estimado Padre de Familia: Su hijo está aprendiendo a programar. ¿Le apoyaría a continuar?"
     parents_blurb1: "Con CodeCombat, su hijo aprenderá a escribiendo código real. Empezaran aprendiendo comandos simples avanzando a temas más complejos."
     parents_blurb1a: "La Programación es una habilidad escencial que su hijo sin duda usará en la adultez. Para el 2020, habilidades básicas en software serán requeridas por el 77% de trabajos, y los ingenieros de software están en alta demanda alrededor del mundo. ¿Sabía que Ciencias de la Computación es la carrera mejor pagada?"
-    parents_blurb2: "Por $9.99 USD/mes, recibirán nuevos desafíos todas las semanas y soporte personal por email de programadores profesionales." # {change}
+    parents_blurb2: "Por $9.99 USD mensuales, su hijo recibirá nuevos desafíos todas las semanas y soporte personal por email de programadores profesionales."
     parents_blurb3: "Sin Riesgo: Garantía de 100% de devolución, fácil 1-click y des- suscribirse."
     payment_methods: "Metodos de pago"
     payment_methods_title: "Metodos de pago aceptados."
@@ -610,7 +610,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     intro_1: "CodeCombat es un juego online que enseña a programar.Los estudiantes escriben código en idiomas de programación real."
     intro_2: "No se necesita experiencia previa!"
     free_title: "¿Cuánto cuesta?"
-    cost_china: "CodeCombat es gratis en China por los primeros cinco niveles, despues cuesta $9.99(dólares) por mes para tener acceso a 120+ niveles que son exclusivos en nuestros servidores en China." # {change}
+    cost_china: "CodeCombat es gratis en China por los primeros cinco niveles, despues cuesta $9.99(dólares) por mes para tener acceso a 180+ niveles que son exclusivos en nuestros servidores en China."
     free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto." # {change}
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
