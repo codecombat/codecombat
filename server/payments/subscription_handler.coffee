@@ -196,7 +196,7 @@ class SubscriptionHandler extends Handler
                 @sendSuccess(res, user)
 
   subscribeWithPrepaidCode: (req, res) ->
-    return @sendForbiddenError(res) unless req.user?
+    return @sendUnauthorizedError(res) unless req.user?
     return @sendBadInputError(res,"You must provide a valid prepaid code") unless req.body?.ppc
 
     # Check if code exists and has room for more redeemers
@@ -206,14 +206,30 @@ class SubscriptionHandler extends Handler
         return @sendDatabaseError(res, err)
       unless prepaid
         @logSubscriptionError(req.user, "Could not find prepaid code #{req.body.ppc}")
-        return @sendForbiddenError(res)
+        return @sendNotFoundError(res, "Prepaid not found")
 
       oldRedeemers = prepaid.get('redeemers') ? []
-      return @sendForbiddenError(res) if oldRedeemers.length >= prepaid.get('maxRedeemers')
+      return @sendError(res, 403, "Too many redeemers") if oldRedeemers.length >= prepaid.get('maxRedeemers')
       months = parseInt(prepaid.get('properties')?.months)
-      return @sendForbiddenError(res) if isNaN(months) or months < 1
+      return @sendBadInputError(res, "Bad months") if isNaN(months) or months < 1
       for redeemer in oldRedeemers
-        return @sendForbiddenError(res) if redeemer.userID.equals(req.user._id)
+        return @sendError(res, 403, "User already redeemed") if redeemer.userID.equals(req.user._id)
+
+      @redeemPrepaidCode(req, res, months)
+
+  redeemPrepaidCode: (req, res, months) =>
+    return @sendUnauthorizedError(res) unless req.user?
+    return @sendForbiddenError(res) unless req.body?.ppc
+    return @sendForbiddenError(res) if isNaN(months) or months < 1
+
+    newRedeemerPush = { $push: { redeemers : { date: new Date(), userID: req.user._id } }}
+
+    Prepaid.update { 'code': req.body.ppc, 'redeemers.userID': { $ne: req.user._id }, '$where': 'this.redeemers.length < this.maxRedeemers'}, newRedeemerPush, (err, num, info) =>
+      if err
+        @logSubscriptionError(req.user, "Subscribe with Prepaid Code update: #{JSON.stringify(err)}")
+        return @sendDatabaseError(res, err)
+
+      return @sendError(res, 403, "Can't add user to prepaid redeemers") if num isnt 1
 
       customerID = req.user.get('stripe')?.customerID
       subscriptionID = req.user.get('stripe')?.subscriptionID
@@ -224,51 +240,32 @@ class SubscriptionHandler extends Handler
           if err
             @logSubscriptionError(user, "Redeem Prepaid Code Stripe cancel subscription error: #{JSON.stringify(err)}")
             return @sendDatabaseError(res, err)
-          @redeemPrepaidCode(req, res, oldRedeemers, months, stripeSubscriptionPeriodEndDate)
 
-  redeemPrepaidCode: (req, res, oldRedeemers, months, startDate=null) =>
-    return @sendForbiddenError(res) unless req.user?
-    return @sendForbiddenError(res) unless req.body?.ppc
-    return @sendForbiddenError(res) unless oldRedeemers
-    return @sendForbiddenError(res) if isNaN(months) or months < 1
+          # Add terminal subscription to User, extending existing subscriptions
+          # TODO: refactor this into some form useable by both this and purchaseYearSale
+          stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
+          endDate = new moment()
+          if stripeSubscriptionPeriodEndDate
+            endDate = new moment(stripeSubscriptionPeriodEndDate)
+          else if _.isString(stripeInfo.free) and new moment().isBefore(new moment(stripeInfo.free))
+            endDate = new moment(stripeInfo.free)
 
-    newRedeemerPush = { $push: { redeemers : { date: new Date().toISOString(), userID: req.user._id } }}
+          endDate = endDate.add(months, 'months')
+          stripeInfo.free = endDate.toISOString().substring(0, 10)
+          req.user.set('stripe', stripeInfo)
 
-    # Only update the prepaid document if the length of the redeemers array hasn't changed in the db.
-    # This will probably fail if redeemers isn't defined. new terminal_subscriptions created should be sure to set the redeemers array
-    # TODO: find a better way?
-    Prepaid.update { 'code': req.body.ppc, 'redeemers': { $size: oldRedeemers.length }}, newRedeemerPush, (err, num, info) =>
-      if err
-        @logSubscriptionError(req.user, "Subscribe with Prepaid Code update: #{JSON.stringify(err)}")
-        return @sendDatabaseError(res, err)
+          # Add gems to User
+          purchased = _.clone(req.user.get('purchased'))
+          purchased ?= {}
+          purchased.gems ?= 0
+          purchased.gems += subscriptions.basic.gems * months
+          req.user.set('purchased', purchased)
 
-      return @sendNotFoundError(res, "Error while updating prepaid redeemer") if num isnt 1
-
-      # Add terminal subscription to User, extending existing subscriptions
-      # TODO: refactor this into some form useable by both this and purchaseYearSale
-      stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
-      endDate = new moment()
-      if startDate
-        endDate = new moment(startDate)
-      else if _.isString(stripeInfo.free) and new moment().isBefore(new moment(stripeInfo.free))
-        endDate = new moment(stripeInfo.free)
-
-      endDate = endDate.add(months, 'months')
-      stripeInfo.free = endDate.toISOString().substring(0, 10)
-      req.user.set('stripe', stripeInfo)
-
-      # Add gems to User
-      purchased = _.clone(req.user.get('purchased'))
-      purchased ?= {}
-      purchased.gems ?= 0
-      purchased.gems += subscriptions.basic.gems * months
-      req.user.set('purchased', purchased)
-
-      req.user.save (err, user) =>
-        if err
-          @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
-          return @sendDatabaseError(res, err)
-        @sendSuccess(res, user)
+          req.user.save (err, user) =>
+            if err
+              @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
+              return @sendDatabaseError(res, err)
+            @sendSuccess(res, user)
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()

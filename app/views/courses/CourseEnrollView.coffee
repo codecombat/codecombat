@@ -58,13 +58,14 @@ module.exports = class CourseEnrollView extends RootView
   onClickBuy: (e) ->
     return @openModalView new AuthModal() if me.isAnonymous()
 
-    if @seats < 1 or not _.isFinite(@seats)
-      alert("Please enter the maximum number of students needed for your class.")
-      return
-
     if @price is 0
+      @seats = 9999
       @state = 'creating'
       @createClass()
+      return
+
+    if @seats < 1 or not _.isFinite(@seats)
+      alert("Please enter the maximum number of students needed for your class.")
       return
 
     @state = undefined

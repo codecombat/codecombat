@@ -22,3 +22,5 @@ module.exports.templates =
   generic_email: 'tem_JhRnQ4pvTS4KdQjYoZdbei'
   plain_text_email: 'tem_85UvKDCCNPXsFckERTig6Y'
   next_steps_email: 'tem_RDHhTG5inXQi8pthyqWr5D'
+  course_invite_email: 'tem_u6D2EFWYC5Ptk38bSykjsU'
+

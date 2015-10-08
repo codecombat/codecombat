@@ -50,21 +50,31 @@ block content
 
     div.well.well-sm(role='tabpanel')
       ul.nav.nav-pills(role='tablist')
-        li.active(role='presentation')
-          a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
         if adminMode
+          li.active(role='presentation')
+            a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
           li(role='presentation')
             a(href='#invite', aria-controls='invite', role='tab', data-toggle='tab', data-i18n="courses.add_students")
-        li(role='presentation')
-          a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
+          li(role='presentation')
+            a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
+        else
+          li.active(role='presentation')
+            a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
+          li(role='presentation')
+            a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
     .tab-content
-      .tab-pane.active#progress(role='tabpanel')
-        +progress-tab
       if adminMode
+        .tab-pane.active#progress(role='tabpanel')
+          +progress-tab
         .tab-pane#invite(role='tabpanel')
           +invite-tab
-      .tab-pane#levels(role='tabpanel')
-        +levels-tab
+        .tab-pane#levels(role='tabpanel')
+          +levels-tab
+      else
+        .tab-pane.active#levels(role='tabpanel')
+          +levels-tab
+        .tab-pane#progress(role='tabpanel')
+          +progress-tab
 
 mixin progress-tab
   .container-fluid.progress-summary-container
@@ -141,7 +151,8 @@ mixin progress-members
             span(style='padding-left:16px;')
           span.progress-key.progress-key-complete(data-i18n="clans.complete_1")
           span.progress-key.progress-key-started(data-i18n="clans.started_1")
-          span.progress-key(data-i18n="clans.not_started_1")
+          if showExpandedProgress
+            span.progress-key(data-i18n="clans.not_started_1")
           input.progress-expand-checkbox(type='checkbox')
           span.spl.progress-expand-label(data-i18n="courses.expand_details")
     tbody
@@ -247,11 +258,26 @@ mixin progress-members-popup-started(i, level)
 
 mixin invite-tab
   p(data-i18n="courses.invite_students")
-  p TODO: Student unlock code
-  p TODO: Class capacity
-  textarea.invite-emails(rows=3, data-i18n="[placeholder]courses.enter_emails", placeholder="Enter student emails to invite, one per line")
-  div(style='margin-top:10px;')
-    button.btn.btn-success.btn-invite(data-i18n="courses.send_invites")
+  h3(data-i18n="courses.invite_link_header")
+  p(data-i18n="courses.invite_link_p_1")
+  .alert.alert-info
+    strong= document.location.origin + "/courses/students?_ppc=" + view.prepaid.get('code')
+  p(data-i18n="courses.invite_link_p_2")
+  .form
+    .form-group
+      textarea#invite-emails-textarea.form-control(
+        rows=3, data-i18n="[placeholder]courses.enter_emails")
+      .help-block(data-i18n="courses.enter_emails")
+    .form-group
+      button#invite-btn.btn.btn-success(data-i18n="courses.send_invites")
+      #invite-emails-sending-alert.alert.alert-info.hide(data-i18n="common.sending")
+      #invite-emails-success-alert.alert.alert-success.hide(data-i18n="play_level.done")
+
+  if view.prepaid.loaded && pricePerSeat > 0
+    h3 Class Capacity
+    p
+      span.spr(data-i18n="courses.capacity_used")
+      span #{view.prepaid.get('redeemers').length} / #{view.prepaid.get('maxRedeemers')}.
 
 mixin levels-tab
   table.table.table-striped.table-condensed
@@ -263,13 +289,18 @@ mixin levels-tab
         th(data-i18n="courses.concepts")
     tbody
       if campaign
+        - var lastLevelCompleted = true;
         each level, levelID in campaign.get('levels')
           tr
             td
-              button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n="home.play")
+              if lastLevelCompleted || adminMode
+                button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n="home.play")
             td
               if userLevelStateMap[me.id]
                 div= userLevelStateMap[me.id][levelID]
+                - lastLevelCompleted = userLevelStateMap[me.id][levelID] === 'complete'
+              else
+                - lastLevelCompleted = false
             td= level.name.replace('Course: ', '')
             td
               if levelConceptMap[levelID]
@@ -293,14 +324,5 @@ mixin settings-dialog
           strong(data-i18n="courses.description")
         p 
           textarea.settings-description-input(rows=2)= courseInstance.get('description')
-        p(data-i18n="courses.languages_available")
-        p 
-          select.form-control.settings-language-select
-            option(value="Python") Python
-            option(value="JavaScript") JavaScript
-            option(value="All Languages", data-i18n="courses.all_lang")
-        p
-          input.settings-public-progress(type='checkbox', checked)
-          span.spl(data-i18n="courses.show_progress")
       .modal-footer
         button.btn.btn-save-settings(data-i18n="common.save_changes")

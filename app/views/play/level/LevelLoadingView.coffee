@@ -15,6 +15,7 @@ module.exports = class LevelLoadingView extends CocoView
   subscriptions:
     'level:loaded': 'onLevelLoaded'  # If Level loads after level loading view.
     'level:subscription-required': 'onSubscriptionRequired'  # If they'd need a subscription to start playing.
+    'level:course-membership-required': 'onCourseMembershipRequired'  # If they'd need a subscription to start playing.
     'subscribe-modal:subscribed': 'onSubscribed'
 
   shortcuts:
@@ -108,6 +109,10 @@ module.exports = class LevelLoadingView extends CocoView
   onSubscriptionRequired: (e) ->
     @$el.find('.level-loading-goals, .tip, .load-progress').hide()
     @$el.find('.subscription-required').show()
+
+  onCourseMembershipRequired: (e) ->
+    @$el.find('.level-loading-goals, .tip, .load-progress').hide()
+    @$el.find('.course-membership-required').show()
 
   onClickStartSubscription: (e) ->
     @openModalView new SubscribeModal()

@@ -244,7 +244,7 @@ GeneralArticleSchema = c.object {
   links: [{rel: 'db', href: '/db/article/{(original)}/version/{(majorVersion)}'}]
 },
   original: c.objectId(title: 'Original', description: 'A reference to the original Article.')#, format: 'hidden')  # hidden?
-  majorVersion: {title: 'Major Version', description: 'Which major version of the Article is being used.', type: 'integer', minimum: 0}#, format: 'hidden'}  # hidden?
+  majorVersion: {title: 'Major Version', description: 'Which major version of the Article is being used.', type: 'integer', minimum: 0} #, format: 'hidden'}  # hidden?
 
 LevelSchema = c.object {
   title: 'Level'

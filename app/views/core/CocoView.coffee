@@ -129,6 +129,7 @@ module.exports = class CocoView extends Backbone.View
     context.isIE = @isIE()
     context.moment = moment
     context.translate = $.i18n.t
+    context.view = @
     context
 
   afterRender: ->
