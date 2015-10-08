@@ -272,8 +272,8 @@ mixin invite-tab
       #invite-emails-sending-alert.alert.alert-info.hide(data-i18n="common.sending")
       #invite-emails-success-alert.alert.alert-success.hide(data-i18n="play_level.done")
 
-  h3 Class Capacity
-  if view.prepaid.loaded
+  if view.prepaid.loaded && pricePerSeat > 0
+    h3 Class Capacity
     p
       span.spr(data-i18n="courses.capacity_used")
       span #{view.prepaid.get('redeemers').length} / #{view.prepaid.get('maxRedeemers')}.

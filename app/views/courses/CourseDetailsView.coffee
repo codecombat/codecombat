@@ -54,6 +54,7 @@ module.exports = class CourseDetailsView extends RootView
     context.memberUserMap = @memberUserMap ? {}
     context.noCourseInstance = @noCourseInstance
     context.noCourseInstanceSelected = @noCourseInstanceSelected
+    context.pricePerSeat = @course.get('pricePerSeat')
     context.showExpandedProgress = @showExpandedProgress
     context.sortedMembers = @sortedMembers ? []
     context.userConceptStateMap = @userConceptStateMap ? {}
