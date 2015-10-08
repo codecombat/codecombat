@@ -6,7 +6,7 @@ PrepaidSchema.index({code: 1}, { unique: true })
 
 PrepaidSchema.statics.generateNewCode = (done) ->
   tryCode = ->
-    code = _.sample("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", 8).join('')
+    code = _.sample("abcdefghijklmnopqrstuvwxyz0123456789", 8).join('')
     Prepaid.findOne code: code, (err, prepaid) ->
       return done() if err
       return done(code) unless prepaid

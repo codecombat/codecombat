@@ -20,13 +20,18 @@ module.exports = class CoursesView extends RootView
   constructor: (options) ->
     super(options)
     @praise = utils.getCoursePraise()
-    @studentMode = utils.getQueryVariable('student', false) or options.studentMode
+    @studentMode = Backbone.history.getFragment()?.indexOf('courses/students') >= 0
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
     @supermodel.loadCollection(@courseInstances, 'course_instances')
-    @courseEnroll(prepaidCode) if prepaidCode = utils.getQueryVariable('_ppc', false)
+    if prepaidCode = utils.getQueryVariable('_ppc', false)
+      if me.isAnonymous()
+        @state = 'ppc_logged_out'
+      else
+        @studentMode = true
+        @courseEnroll(prepaidCode)
 
   getRenderData: ->
     context = super()
@@ -75,7 +80,7 @@ module.exports = class CoursesView extends RootView
   onClickEnroll: (e) ->
     $('.continue-dialog').modal('hide')
     courseID = $(e.target).data('course-id')
-    prepaidCode = $(".code-input[data-course-id=#{courseID}]").val()
+    prepaidCode = ($(".code-input[data-course-id=#{courseID}]").val() ? '').trim()
     @courseEnroll(prepaidCode)
 
   onClickEnter: (e) ->
@@ -89,17 +94,15 @@ module.exports = class CoursesView extends RootView
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickStudent: (e) ->
-    route = "/courses?student=true"
+    route = "/courses/students"
     viewClass = require 'views/courses/CoursesView'
-    viewArgs = [studentMode: true]
-    navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
+    navigationEvent = route: route, viewClass: viewClass, viewArgs: []
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickTeacher: (e) ->
-    route = "/courses?student=false"
+    route = "/courses/teachers"
     viewClass = require 'views/courses/CoursesView'
-    viewArgs = [studentMode: false]
-    navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
+    navigationEvent = route: route, viewClass: viewClass, viewArgs: []
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   courseEnroll: (prepaidCode) ->

@@ -15,6 +15,7 @@ module.exports.thangNames = thangNames =
     'Shmeal'
     'Upfish'
     'Yugark'
+    'Shema'
   ]
   'Ogre Munchkin M': [
     # Male
@@ -50,6 +51,7 @@ module.exports.thangNames = thangNames =
     'Weeb'
     'Yart'
     'Zozo'
+    'Zock'
   ]
   'Ogre Thrower': [
     # Female
@@ -90,6 +92,7 @@ module.exports.thangNames = thangNames =
     'Taric'
     'Vaelia'
     'Antary'
+    'Femae'
   ]
   'Ogre Witch': [
     # Female
@@ -121,12 +124,14 @@ module.exports.thangNames = thangNames =
     'Ganju'
     'Hopper'
     'Ralthora'
+    'Yugorota'
   ]
   'Burl': [
     # Animal
     'Borlit'
     'Burlosh'
     'Dorf'
+    'Teemer'
   ]
   'Sand Yak': [
     # Animal
@@ -468,6 +473,7 @@ module.exports.thangNames = thangNames =
     'Warshall'
     'Yue Fei'
     'Zhou Tong'
+    'Archy'
   ]
   'Peasant M': [
     # Male
@@ -497,6 +503,7 @@ module.exports.thangNames = thangNames =
     'Winkler'
     'Yorik'
     'Yusef'
+    'Yoltovic'
   ]
   'Peasant F': [
     # Female
@@ -522,6 +529,7 @@ module.exports.thangNames = thangNames =
     'Ruth'
     'Tabitha'
     'Thea'
+    'Lea'
   ]
   'Soldier M': [
     # Male
@@ -648,6 +656,7 @@ module.exports.thangNames = thangNames =
     'Randy'
     'Raymond'
     'Remy'
+    'Rex'
     'Ricardo'
     'Richard'
     'Robert'

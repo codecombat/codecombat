@@ -9,6 +9,8 @@ block content
   br
   if state === 'enrolling'
     .alert.alert-info Enrolling in course..
+  else if state === 'ppc_logged_out'
+    .alert.alert-success Log in or create an account to join this course.
   else
     if state === 'unknown_error'
       .alert.alert-danger.alert-dismissible= stateMessage
@@ -55,6 +57,14 @@ mixin teacher-main
       .well.well-sm
         div.praise-quote "#{praise.quote}"
         div.praise-caption - #{praise.source}
+
+  //- h1.center(data-i18n="courses.free_trial")
+  //- .info-container
+  //-   p
+  //-     span.spr(data-i18n="teachers.teacher_subs_1")
+  //-     a(href='/teachers/freetrial', data-i18n="teachers.teacher_subs_2")
+  //-     span.spl(data-i18n="courses.get_access")
+
   h2.center(data-i18n="courses.choose_course")
 
 mixin student-dialog(course)
