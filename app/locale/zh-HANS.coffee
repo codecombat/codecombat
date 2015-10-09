@@ -31,7 +31,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     contact: "联系我们"
     twitter_follow: "关注"
     teachers: "教师"
-#    careers: "Careers"
+    careers: "招聘"
 
   modal:
     close: "关闭"
