@@ -37,10 +37,7 @@ module.exports = class PrepaidView extends RootView
     @updateTotal()
 
     @codes = new CocoCollection([], { url: '/db/user/'+me.id+'/prepaid_codes', model: Prepaid })
-    @codes.on 'add', (code) =>
-      @render?()
-    @codes.on 'sync', (code) =>
-      @render?()
+    @codes.on 'sync', (code) => @render?()
     @supermodel.loadCollection(@codes, 'prepaid', {cache: false})
 
     @ppc = utils.getQueryVariable('_ppc') ? ''
