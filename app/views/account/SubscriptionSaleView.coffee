@@ -63,7 +63,7 @@ module.exports = class SubscriptionSaleView extends RootView
       amount: @yearSaleAmount
       description: @description
       bitcoin: true
-      alipay: if me.get('chinaVersion') or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
+      alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
 
   onStripeReceivedToken: (e) ->
     @state = 'purchasing'

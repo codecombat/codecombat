@@ -137,7 +137,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     save: "Sauvegarder"
     publish: "Publier"
     create: "Creer"
-    manual: "Manuel"
     fork: "Fork"
     play: "Jouer" # When used as an action verb, like "Play next level"
     retry: "Reessayer"
@@ -163,7 +162,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     submitter: "Soumissionnaire"
     submitted: "Soumis"
     commit_msg: "Message de mise à jour"
-    review: "Examen"
     version_history: "Historique des versions"
     version_history_for: "Historique des versions pour : "
     select_changes: "Sélectionner deux changements plus bas pour voir la différence."
@@ -272,7 +270,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tome_select_a_thang: "Sélectionnez une unité pour"
     tome_available_spells: "Sorts diponibles"
     tome_your_skills: "Vos compétences"
-    tome_help: "Aide"
     tome_current_method: "Méthode actuelle"
     hud_continue_short: "Continuer"
     code_saved: "Code sauvergardé"
@@ -281,7 +278,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     loading_ready: "Pret!"
     loading_start: "Démarrer niveau"
     problem_alert_title: "Corriger votre code"
-    problem_alert_help: "Aide"
     time_current: "Maintenant :"
     time_total: "Max :"
     time_goto: "Allez à :"
@@ -554,12 +550,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     volume_label: "Volume"
     music_label: "Musique"
     music_description: "Arrêter/Reprendre la musique de fond."
-    editor_config: "Config de l'éditeur"
     editor_config_title: "Configuration de l'éditeur"
-    editor_config_level_language_label: "Langage pour le niveau"
-    editor_config_level_language_description: "Définir le langage de programmation pour le niveau en particulier."
-    editor_config_default_language_label: "Langage de programmation par défaut"
-    editor_config_default_language_description: "Choississez le langage de programmation que vous souhaitez dans les nouveaux niveaux"
     editor_config_keybindings_label: "Raccourcis clavier"
     editor_config_keybindings_default: "Par défault (Ace)"
     editor_config_keybindings_description: "Ajouter de nouveaux raccourcis connus depuis l'éditeur commun."
@@ -610,7 +601,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     intro_1: "CodeCombat est un jeu en ligne qui enseigne la programmation. Les élèves écrivent du code dans de vrais langages de programmation."
     intro_2: "Aucune expérience requise !"
     free_title: "Combien cela coûte-t-il ?"
-    cost_china: "CodeCombat en Chine est gratuit pour les cinq premiers niveaux,après le jeu coûte 9.99$ US par mois pour avoir un accès aux autres 140+ niveaux sur les serveurs exlcusifs chinois"
+    cost_china: "CodeCombat en Chine est gratuit pour les cinq premiers niveaux,après le jeu coûte 9.99$ US par mois pour avoir un accès aux autres 140+ niveaux sur les serveurs exlcusifs chinois" # Deprecated
+#    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "La version de base de CodeCombat est gratuite ! Il y a 70+ niveaux gratuits qui couvrent chaque concepts." # {change}
     free_2: "Un abonnement mensuel fournit l'accès à des vidéos de tutoriels ainsi qu'à des niveaux d'entraînement supplémentaires."
     teacher_subs_title: "Les enseignants reçoivent un abonnement gratuit !"
@@ -639,7 +631,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     who_for_1: "Nous recommandons CodeCombat pour les élèves âgés de 9 ans ou plus. Aucune expérience préalable de programmation n'est requise."
     who_for_2: "Nous avons conçu CodeCombat pour plaire à la fois aux garçons et aux filles."
     material_title: "Quelle quantité de contenu y a t-il ?"
-    material_china: "Il y a en moyenne une trentaine d'heures de temps de jeu distribué sur plus de 140 abonnés jusqu'à maintenant avec des nouveaux niveaux qui s'ajoutent à chaque semaine." # {change}
+    material_premium_server: "Il y a en moyenne une trentaine d'heures de temps de jeu distribué sur plus de 140 abonnés jusqu'à maintenant avec des nouveaux niveaux qui s'ajoutent à chaque semaine." # {change}
     material_1: "Environ 8 heures de contenu gratuit et 14 heures de contenu supplémentaire reservé aux abonnés, avec 5 nouveaux niveaux chaque semaines." # {change}
     concepts_title: "Quels concepts sont couverts ?"
     how_much_title: "Combien coûte un abonnement mensuel ?"
@@ -874,6 +866,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    play_time: "Play time:"
 #    completed: "Completed:"
 #    invite_students: "Invite students to join this class."
+#    invite_link_header: "Link to join course"
+#    invite_link_p_1: "Give this link to students you would like to have join the course."
+#    invite_link_p_2: "Or have us email them directly:"
+#    capacity_used: "Course slots used:"
 #    enter_emails: "Enter student emails to invite, one per line"
 #    send_invites: "Send Invites"
 #    title: "Title"
@@ -1032,7 +1028,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     pop_i18n: "Renseigner I18N"
     tasks: "Tâches"
     clear_storage: "Vider vos changements locaux"
-#    add_system_title: "Ajouter Systems dans niveau"
+#    add_system_title: "Add Systems to Level"
     done_adding: "Fait Ajouter"
 
   article:
@@ -1117,7 +1113,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     simulation_explanation: "En simulant une partie, tu peux classer ton rang plus rapidement !"
 #    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "Simuler une partie !"
-    simulate_all: "REINITIALISER ET SIMULER DES PARTIES"
     games_simulated_by: "Parties que vous avez simulées :"
     games_simulated_for: "Parties simulées pour vous :"
     games_simulated: "Partie simulée"
@@ -1350,9 +1345,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     text_diff: "Différence de texte"
     merge_conflict_with: "Fusionner les conflits avec"
     no_changes: "Aucuns changements"
-
-  guide:
-    temp: "Temp"
 
 #  temp:
 #    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"

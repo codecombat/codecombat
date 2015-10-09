@@ -5,6 +5,7 @@ config.unittest = process.argv.indexOf('--unittest') > -1
 config.tokyo = process.env.TOKYO or false
 config.saoPaulo = process.env.SAOPAULO or false
 config.chinaDomain = "http://cn.codecombat.com"
+config.brazilDomain = "http://br.codecombat.com"
 config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or 3000
 config.ssl_port = process.env.COCO_SSL_PORT or process.env.COCO_SSL_NODE_PORT or 3443
 config.cloudflare =

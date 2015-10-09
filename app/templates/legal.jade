@@ -49,7 +49,7 @@ block content
       span.spl(data-i18n="legal.email_description_suffix")
         | or through links in the emails we send, 
         | you can change your preferences and easily unsubscribe at any time.
-    if !me.get('chinaVersion')
+    if !me.isOnPremiumServer()
       h4(data-i18n="legal.cost_title")
         | Cost
       p(data-i18n="legal.cost_description")

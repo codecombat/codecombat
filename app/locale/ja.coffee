@@ -137,7 +137,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     save: "セーブ"
     publish: "発行"
     create: "作成"
-    manual: "手動"
     fork: "分かれ"
     play: "ゲームスタート" # When used as an action verb, like "Play next level"
     retry: "リトライ"
@@ -163,7 +162,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     submitter: "提出者"
     submitted: "提出されました"
     commit_msg: "コミットメッセージ"
-    review: "レビュー"
     version_history: "バージョン履歴"
     version_history_for: "バージョン履歴："
     select_changes: "違いを見るには以下の二つの変更を選んで下さい"
@@ -272,7 +270,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tome_select_a_thang: "誰かを選択: "
     tome_available_spells: "利用できる呪文"
     tome_your_skills: "あなたのスキル"
-    tome_help: "ヘルプ"
     tome_current_method: "現在のメソッド"
     hud_continue_short: "コンテニュー"
     code_saved: "コードがセーブされました"
@@ -281,7 +278,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     loading_ready: "準備完了！"
     loading_start: "レベルスタート"
     problem_alert_title: "コードを修正して下さい"
-    problem_alert_help: "ヘルプ"
     time_current: "今："
     time_total: "最大："
     time_goto: "行く："
@@ -554,12 +550,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     volume_label: "音量"
     music_label: "音楽"
     music_description: "BGM をオン/オフ"
-    editor_config: "エディター設定"
     editor_config_title: "エディターの設定"
-    editor_config_level_language_label: "このレベルの言語"
-    editor_config_level_language_description: "このレベルのプログラミング言語を定義する。"
-    editor_config_default_language_label: "デフォルトプログラミング言語"
-    editor_config_default_language_description: "新しいレベルの起動時に、書きたいプログラミング言語を設定する。"
     editor_config_keybindings_label: "キーバインディング"
     editor_config_keybindings_default: "デフォルト(エース)"
     editor_config_keybindings_description: "一般的なエディターから知られているショートカットを追加する。"
@@ -610,7 +601,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     intro_1: "CodeCombat はプログラミングを教えるオンラインゲームです。生徒は本物のプログラム言語を書きます。"
     intro_2: "プログラミングの経験は必要ありません！"
     free_title: "価格について"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 180+ levels on our exclusive China servers."
+#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive China servers." # Deprecated
+#    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat は基本的に無料です！110以上のレベルが無料です。" # {change}
     free_2: "月々の課金をするとビデオのチュートリアルにアクセスでき、また追加のレベルが楽しめます。"
     teacher_subs_title: "教育関係者は無料のサブスクリプションを得ることができます！"
@@ -620,7 +612,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "サブスクリプションの内容について"
     sub_includes_1: "110以上の基本レベルに加えて、生徒は月々のサブスクリプションを得て次の機能が使えます:" # {change}
-    sub_includes_2: "70以上の練習レベル"
+    sub_includes_2: "70以上の練習レベル" # {change}
     sub_includes_3: "ビデオチュートリアル"
     sub_includes_4: "メールによるサポート"
     sub_includes_5: "10人の新しいヒーローとマスターのユニークなスキル" # {change}
@@ -639,7 +631,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     who_for_1: "私たちは CodeCombat を9歳以上の生徒にオススメしています。プログラミングの経験は必要ありません。"
     who_for_2: "私たちは男女問わず遊べるように CodeCombat をデザインしました。"
     material_title: "どのぐらいコンテンツがありますか？"
-#    material_china: "Approximately 40 hours of gameplay spread over 180+ subscriber-only levels so far."
+#    material_premium_server: "Approximately 50 hours of gameplay spread over 190+ subscriber-only levels so far."
     material_1: "8時間ほどの無料のコンテンツに加え、サブスクリプションによってさらに14時間ほどプレイすることができ、毎週5つの新しいレベルが追加されています。" # {change}
     concepts_title: "どのような概念がカバーされているかについて"
     how_much_title: "月々のサブスクリプションはいくらですか？"
@@ -874,6 +866,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    play_time: "Play time:"
 #    completed: "Completed:"
 #    invite_students: "Invite students to join this class."
+#    invite_link_header: "Link to join course"
+#    invite_link_p_1: "Give this link to students you would like to have join the course."
+#    invite_link_p_2: "Or have us email them directly:"
+#    capacity_used: "Course slots used:"
 #    enter_emails: "Enter student emails to invite, one per line"
 #    send_invites: "Send Invites"
 #    title: "Title"
@@ -1117,7 +1113,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
 #    simulate_games: "Simulate Games!"
-#    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
 #    games_simulated: "Games simulated"
@@ -1350,9 +1345,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
 #    no_changes: "No Changes"
-
-  guide:
-    temp: "テンポラリー"
 
 #  temp:
 #    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"

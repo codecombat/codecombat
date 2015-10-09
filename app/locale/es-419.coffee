@@ -137,7 +137,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     save: "Guardar"
     publish: "Publicar"
     create: "Crear"
-    manual: "Manual"
     fork: "Bifurcar"
     play: "Jugar" # When used as an action verb, like "Play next level"
     retry: "Reintentar"
@@ -163,7 +162,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     submitter: "Emisor"
     submitted: "Enviado"
     commit_msg: "Enviar mensaje"
-    review: "Revisión"
     version_history: "Historial de Versiones"
     version_history_for: "Historial de Versiones para: "
     select_changes: "Selcciona dos cambios abajo para ver la diferencia"
@@ -272,7 +270,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tome_select_a_thang: "Selecciona Alguien para "
     tome_available_spells: "Hechizos Disponibles"
     tome_your_skills: "Tus habilidades"
-    tome_help: "Ayuda"
     tome_current_method: "Método actual"
     hud_continue_short: "Continuar"
     code_saved: "Código Guardado"
@@ -281,7 +278,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     loading_ready: "¡Listo!"
     loading_start: "Iniciar nivel"
     problem_alert_title: "Revisa tu código"
-    problem_alert_help: "Ayuda"
     time_current: "Ahora:"
     time_total: "Max:"
     time_goto: "Ir a:"
@@ -554,12 +550,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     volume_label: "Volúmen"
     music_label: "Música"
     music_description: "Música encendida/apagada."
-    editor_config: "Config. de Editor"
     editor_config_title: "Configuración del Editor"
-    editor_config_level_language_label: "Lenguaje para este Nivel"
-    editor_config_level_language_description: "Definir el lenguaje de programación para este nivel."
-    editor_config_default_language_label: "Lenguaje de Programación Predeterminado"
-    editor_config_default_language_description: "Definir el lenguaje de programación que deseas para programar cuando inicias nuevos niveles."
     editor_config_keybindings_label: "Atajos de Teclado"
     editor_config_keybindings_default: "Default (As)"
     editor_config_keybindings_description: "Añade atajos adicionales conocidos de los editores comunes."
@@ -610,7 +601,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     intro_1: "CodeCombat es un juego online que enseña a programar.Los estudiantes escriben código en idiomas de programación real."
     intro_2: "No se necesita experiencia previa!"
     free_title: "¿Cuánto cuesta?"
-    cost_china: "CodeCombat es gratis en China por los primeros cinco niveles, despues cuesta $9.99(dólares) por mes para tener acceso a 180+ niveles que son exclusivos en nuestros servidores en China."
+    cost_china: "CodeCombat es gratis en China por los primeros cinco niveles, despues cuesta $9.99(dólares) por mes para tener acceso a 180+ niveles que son exclusivos en nuestros servidores en China." # Deprecated
+#    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "Hay más de 110 niveles gratis que cubren cada concepto."
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
@@ -620,7 +612,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     teacher_subs_3: "para configurar su suscripción."
     sub_includes_title: "¿Qué se incluye en la suscripción?"
     sub_includes_1: "Adicionalmente a los más de 70 niveles básicos, los estudiantes con una suscripción mensual obtienen acceso a estas características adicionales:" # {change}
-    sub_includes_2: "Más de 70 niveles de práctica"
+    sub_includes_2: "Más de 70 niveles de práctica" # {change}
     sub_includes_3: "Video tutoriales"
     sub_includes_4: "Soporte de correo electronico Premium"
     sub_includes_5: "10 héroes nuevos con habilidades unicas que dominar"
@@ -639,7 +631,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     who_for_1: "Recomendamos CodeCombat para estudiantes de edades 9 y arriba. No se require experiencia en programación."
     who_for_2: "Hemos diseñado a CodeCombat para atraer a niños y niñas."
     material_title: "Cuánto material hay?"
-    material_china: "Aproximadamente 22 horas de juego repartidas en más de 120 niveles sólo para suscriptores, con cinco nueveos niveles cada semana." # {change}
+    material_premium_server: "Aproximadamente 22 horas de juego repartidas en más de 120 niveles sólo para suscriptores, con cinco nueveos niveles cada semana." # {change}
     material_1: "Aproximadamente 8 horas de contenido gratis y un adicional de 14 horas de contenido de suscriptores, con cinco nueveos niveles cada semana." # {change}
     concepts_title: "¿Qué conceptos están cubiertos?"
     how_much_title: "¿Cuánto cuesta una subscripción mensual?"
@@ -874,9 +866,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     play_time: "Tiempo de Juego:"
     completed: "Completados:"
     invite_students: "Invite a sus estudiantes a unirse a este grupo."
+#    invite_link_header: "Link to join course"
+#    invite_link_p_1: "Give this link to students you would like to have join the course."
+#    invite_link_p_2: "Or have us email them directly:"
+#    capacity_used: "Course slots used:"
     enter_emails: "Introducir los emails de los estudiantes a invitar, uno por línea"
     send_invites: "¿Mandar Invitaciones?"
-    title: "Título" #person title or invitation title? It's currently invitation title
+    title: "Título"
     description: "Descripción"
     languages_available: "Seleccione los languajes de programación disponibles para el grupo:"
     all_lang: "Todos los Lenguajes"
@@ -914,7 +910,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     no_experience: "No se necesita experiencia de programación"
     easy_monitor: "Monitoree fácilmente el progreso del estudiante"
     purchase_for_class: "Adquirir un curso para toda su grupo. ¡Es fácil registrar a sus estudiantes!"
-    see_the: "Vea la" #verify m o f
+    see_the: "Vea la"
     more_info: "para más información."
     choose_course: "Elige tu Curso:"
     enter_code: "Introducir un código de desbloqueo"
@@ -1117,7 +1113,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     simulation_explanation: "¡Simulando tus juegos puedes mejorar tu posición más rápido!"
     simulation_explanation_leagues: "Principalmente ayudarás a simular juegos para jugadores aliados en tus clanes y cursos."
     simulate_games: "¡Simular Juegos!"
-    simulate_all: "REINICIAR Y SIMULAR JUEGOS"
     games_simulated_by: "Juegos simulados por ti:"
     games_simulated_for: "Juegos simulados para ti:"
     games_simulated: "Juegos simulados"
@@ -1249,7 +1244,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     purchase_total: "Total"
     purchase_button: "Enviar Adquisición"
     your_codes: "Tus Códigos:"
-    redeem_codes: "Reclamar un Código de Subscripción" #redimir ya no se usa
+    redeem_codes: "Reclamar un Código de Subscripción"
 
   loading_error:
     could_not_load: "Error cargando del servidor"
@@ -1334,6 +1329,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     input_handling: "Manejo de Entradas"
     math_operations: "Operaciones Matemáticas"
     object_literals: "Objetos Literales"
+#    parameters: "Parameters"
     strings: "Cadenas"
     variables: "Variables"
     vectors: "Vectores"
@@ -1349,9 +1345,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     text_diff: "Diferir Texto"
     merge_conflict_with: "UNIR CONFLICTO CON"
     no_changes: "Sin cambios"
-
-  guide:
-    temp: "Temp"
 
   temp:
     ace_of_coders_tournament: "Nuevo: ¡Juega en el torneo As de los programadores ya!"
