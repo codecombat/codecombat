@@ -311,7 +311,8 @@ _.extend UserSchema.properties,
 
   siteref: { type: 'string' }
   referrer: { type: 'string' }
-  chinaVersion: { type: 'boolean' }
+  chinaVersion: { type: 'boolean' }  # Old
+  country: { type: 'string', enum: ['brazil', 'china'] }  # New, supports multiple countries for different versions--only set for specific countries where we have premium servers right now
 
   clans: c.array {}, c.objectId()
 

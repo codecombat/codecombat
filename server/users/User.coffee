@@ -229,6 +229,9 @@ UserSchema.methods.isPremium = ->
   return true if @hasSubscription()
   return false
 
+UserSchema.methods.isOnPremiumServer = ->
+  @get('country') in ['china', 'brazil']
+
 UserSchema.methods.level = ->
   xp = @get('points') or 0
   a = 5
@@ -301,7 +304,7 @@ UserSchema.statics.hashPassword = (password) ->
 UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
-  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'chinaVersion'
+  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'chinaVersion', 'country'
 ]
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [

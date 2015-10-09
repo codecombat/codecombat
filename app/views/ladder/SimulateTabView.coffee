@@ -10,7 +10,6 @@ module.exports = class SimulateTabView extends CocoView
 
   events:
     'click #simulate-button': 'onSimulateButtonClick'
-    'click #simulate-all-button': 'onSimulateAllButtonClick'
 
   constructor: (options) ->
     super(options)

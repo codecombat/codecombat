@@ -40,8 +40,8 @@ block content
   p(data-i18n="teachers.intro_2")
 
   h3(data-i18n="teachers.free_title")
-  if me.get('chinaVersion')
-    p(data-i18n="teachers.cost_china")
+  if me.isOnPremiumServer()
+    p(data-i18n="teachers.cost_premium_server")
   else
     p(data-i18n="teachers.free_1")
     p(data-i18n="teachers.free_2")
@@ -99,8 +99,8 @@ block content
   p Private clans require a subscription to create or join.
 
   h3(data-i18n="teachers.material_title")
-  if me.get('chinaVersion')
-    p(data-i18n="teachers.material_china")
+  if me.isOnPremiumServer()
+    p(data-i18n="teachers.material_premium_server")
   else
     p(data-i18n="teachers.material_1")
 

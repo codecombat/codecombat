@@ -137,7 +137,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     save: "Сохранить"
     publish: "Опубликовать"
     create: "Создать"
-    manual: "Вручную"
     fork: "Форк"
     play: "Играть" # When used as an action verb, like "Play next level"
     retry: "Повторить"
@@ -163,7 +162,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     submitter: "Податель"
     submitted: "Представлено"
     commit_msg: "Сопроводительное сообщение"
-    review: "Обзор"
     version_history: "История версий"
     version_history_for: "История версий для: "
     select_changes: "Выберите два изменения ниже, чтобы увидеть различия."
@@ -272,7 +270,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
-    tome_help: "Помощь"
     tome_current_method: "Текущий метод"
     hud_continue_short: "Продолжить"
     code_saved: "Код сохранен"
@@ -281,7 +278,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     loading_ready: "Готово!"
     loading_start: "Начать уровень"
     problem_alert_title: "Исправьте ваш Код"
-    problem_alert_help: "Помощь"
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
@@ -554,12 +550,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     volume_label: "Громкость"
     music_label: "Музыка"
     music_description: "Фоновая музыка вкл/выкл"
-    editor_config: "Настройки редактора"
     editor_config_title: "Настройки редактора"
-    editor_config_level_language_label: "Язык для этого уровня"
-    editor_config_level_language_description: "Выберите язык программирования для этого конкретного уровня."
-    editor_config_default_language_label: "Язык по умолчанию"
-    editor_config_default_language_description: "Выберите язык программирования который вы хотите использовать когда начинаете новый уровень."
     editor_config_keybindings_label: "Сочетания клавиш"
     editor_config_keybindings_default: "По умолчанию (Ace)"
     editor_config_keybindings_description: "Добавляет дополнительные сочетания, известные из популярных редакторов."
@@ -610,7 +601,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     intro_1: "CodeCombat - это онлайн игра, которая обучает программированию. Ученики пишут код на реальных языках программирования."
     intro_2: "Опыт не обязателен!"
     free_title: "Сколько это стоит?"
-    cost_china: "Первые 5 уровней CodeCombat бесплатны в Китае. При оплате $9.99 в месяц вы получите доступ к последующим более чем 140 уровням на наших эксклюзивных серверах в Китае."
+    cost_china: "Первые 5 уровней CodeCombat бесплатны в Китае. При оплате $9.99 в месяц вы получите доступ к последующим более чем 140 уровням на наших эксклюзивных серверах в Китае." # Deprecated
+#    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "В наличии более 80 БЕСПЛАТНЫХ уровней, которые покрывают каждый концепт." # {change}
     free_2: "Месячная подписка предоставляет доступ к видео-урокам и дополнительным уровням."
     teacher_subs_title: "Учителя получают бесплатные подписки!"
@@ -639,7 +631,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     who_for_1: "Мы рекомендуем CodeCombat для учеников старше 9 лет. Какой-либо опыт программирования не требуется."
     who_for_2: "Мы разработали CodeCombat так, чтобы он подходил и мальчикам и девочкам."
     material_title: "Как много здесь материала?"
-    material_china: "Около 30 часов игрового процесса, распределенного более чем на 140 уровней для подписчиков с добавлением новых уровней каждую неделю." # {change}
+    material_premium_server: "Около 30 часов игрового процесса, распределенного более чем на 140 уровней для подписчиков с добавлением новых уровней каждую неделю." # {change}
     material_1: "Около 10 часов бесплатного контента и 20 часов дополнительного контента для подписчиков с добавлением новых уровней каждую неделю." # {change}
     concepts_title: "О каких концептах мы рассказываем?"
     how_much_title: "Сколько стоит месячная подписка?"
@@ -874,6 +866,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     play_time: "Время в игре:"
     completed: "Завершено:"
     invite_students: "Пригласите студентов в класс."
+#    invite_link_header: "Link to join course"
+#    invite_link_p_1: "Give this link to students you would like to have join the course."
+#    invite_link_p_2: "Or have us email them directly:"
+#    capacity_used: "Course slots used:"
     enter_emails: "Введите email студентов по одному на строке, которых вы хотите пригласить"
     send_invites: "Отправить приглашения"
     title: "Тема"
@@ -1117,7 +1113,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     simulation_explanation: "Симулированием игр вы сможете быстрее получить оценку игры!"
     simulation_explanation_leagues: "Вы поможете симулировать игры для союзных игроков в вашем клане или курсе."
     simulate_games: "Симулировать игры!"
-    simulate_all: "СБРОСИТЬ И СИМУЛИРОВАТЬ ИГРЫ"
     games_simulated_by: "Игры, симулированные вами:"
     games_simulated_for: "Игры, симулированные за вас:"
     games_simulated: "Игр симулировано"
@@ -1350,9 +1345,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     text_diff: "Разница"
     merge_conflict_with: "КОНФЛИКТ СЛИЯНИЯ С"
     no_changes: "Нет изменений"
-
-  guide:
-    temp: "Временный"
 
 #  temp:
 #    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"

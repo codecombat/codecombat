@@ -110,7 +110,7 @@ LevelHandler = class LevelHandler extends Handler
         return @sendSuccess(res, doc) if doc?
         if level.get('type') is 'course'
           return @makeOrRejectCourseLevelSession(req, res, level, sessionQuery)
-        requiresSubscription = level.get('requiresSubscription') or (req.user.get('chinaVersion') and level.get('campaign') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
+        requiresSubscription = level.get('requiresSubscription') or (req.user.isOnPremiumServer() and level.get('campaign') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
         canPlayAnyway = req.user.isPremium() or level.get 'adventurer'
         return @sendPaymentRequiredError(res, err) if requiresSubscription and not canPlayAnyway
         @createAndSaveNewSession sessionQuery, req, res

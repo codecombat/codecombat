@@ -137,7 +137,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     save: "Salvează"
     publish: "Publică"
     create: "Creează"
-    manual: "Manual"
     fork: "Fork"
     play: "Joacă" # When used as an action verb, like "Play next level"
     retry: "Reîncearca"
@@ -163,7 +162,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     submitter: "Expeditor"
     submitted: "Expediat"
     commit_msg: "Înregistrează Mesajul"
-    review: "Revizuie"
     version_history: "Istoricul versiunilor"
     version_history_for: "Istoricul versiunilor pentru: "
     select_changes: "Selectați două schimbări de mai jos pentru a vedea diferenţa."
@@ -272,7 +270,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tome_select_a_thang: "Alege pe cineva pentru "
     tome_available_spells: "Vrăji disponibile"
     tome_your_skills: "Skillurile tale"
-    tome_help: "Ajutor"
     tome_current_method: "Metoda curentă"
     hud_continue_short: "Continuă"
     code_saved: "Cod Salvat"
@@ -281,7 +278,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     loading_ready: "Gata!"
     loading_start: "Începe Level"
     problem_alert_title: "Repară codul"
-    problem_alert_help: "Ajutor"
     time_current: "Acum:"
     time_total: "Max:"
     time_goto: "Dute la:"
@@ -554,12 +550,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     volume_label: "Volum"
     music_label: "Muzică"
     music_description: "Oprește Muzica din fundal."
-    editor_config: "Editor Config"
     editor_config_title: "Configurare Editor"
-    editor_config_level_language_label: "Limbajul pentru acest nivel"
-    editor_config_level_language_description: "Definește limbajul de programare pentru acest nivel."
-    editor_config_default_language_label: "Limbajul de Programare Implicit"
-    editor_config_default_language_description: "Definește limbajul de programare în care vrei să scri codul când începi un nivel nou."
     editor_config_keybindings_label: "Mapare taste"
     editor_config_keybindings_default: "Implicit (Ace)"
     editor_config_keybindings_description: "Adaugă comenzi rapide suplimentare, cunoscute din editoarele obisnuite."
@@ -610,7 +601,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     intro_1: "CodeCombat este un joc online care te învață programare. Studenți scriu cod în limbaje de programare reale."
     intro_2: "Nu este nevoie de experiența în domeniu!"
     free_title: "Cât de mult costă?"
-    cost_china: "CodeCombat în China este gratis pentru primele 5 nivele, după care costă $9.99 USD pe lună pentru a accesa celelalte 140+ nivele pe serverele noaste exlusive din China."
+    cost_china: "CodeCombat în China este gratis pentru primele 5 nivele, după care costă $9.99 USD pe lună pentru a accesa celelalte 140+ nivele pe serverele noaste exlusive din China." # Deprecated
+#    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "Sunt 80+ de nivele GRATIS ce parcurg fiecare concept în programare." # {change}
     free_2: "Un abonament lunar oferă acces la tutoriale video si nivele extra pentru practică."
     teacher_subs_title: "Educatori primesc abonamente gratuite!"
@@ -639,7 +631,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     who_for_1: "Recomandăm CodeCombat pentru studenți cu vârsta de la 9 ani în sus. Nu este nevoie de experiență de programare."
     who_for_2: "Am proiectat CodeCombat pentru a atrage atât băieți cat si fete."
     material_title: "Cât de mult material conține?"
-    material_china: "Aproximativ 30 de ore de gameplay răspândite peste 140+ de nivele pentru abonați, si nivele noi în fiecare săptămână." # {change}
+    material_premium_server: "Aproximativ 30 de ore de gameplay răspândite peste 140+ de nivele pentru abonați, si nivele noi în fiecare săptămână." # {change}
     material_1: "Aproximativ 10 ore de material gratis si adițional 20 de ore în plus pentru abonați, cu nivele noi în fiecare săptămână." # {change}
     concepts_title: "Ce concepte sunt parcurse?"
     how_much_title: "Cât de mult costă un abonament lunar?"
@@ -874,6 +866,10 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    play_time: "Play time:"
 #    completed: "Completed:"
 #    invite_students: "Invite students to join this class."
+#    invite_link_header: "Link to join course"
+#    invite_link_p_1: "Give this link to students you would like to have join the course."
+#    invite_link_p_2: "Or have us email them directly:"
+#    capacity_used: "Course slots used:"
 #    enter_emails: "Enter student emails to invite, one per line"
 #    send_invites: "Send Invites"
 #    title: "Title"
@@ -1117,7 +1113,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     simulation_explanation: "Simulând jocuri poți afla poziția în clasament a jocului tău mai repede!"
 #    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "Simulează Jocuri!"
-    simulate_all: "RESETEAZĂ ȘI SIMULEAZĂ JOCURI"
     games_simulated_by: "Jocuri simulate de tine:"
     games_simulated_for: "Jocuri simulate pentru tine:"
     games_simulated: "Jocuri simulate"
@@ -1350,9 +1345,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     text_diff: "Diff Text"
     merge_conflict_with: "ÎBINĂ CONFLICTUL CU"
     no_changes: "Fară Schimbări"
-
-  guide:
-    temp: "Temp"
 
 #  temp:
 #    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
