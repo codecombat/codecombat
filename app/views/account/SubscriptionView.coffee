@@ -49,6 +49,7 @@ module.exports = class SubscriptionView extends RootView
     prepaidCode = utils.getQueryVariable '_ppc'
     @personalSub = new PersonalSub(@supermodel, prepaidCode)
     @recipientSubs = new RecipientSubs(@supermodel)
+    @emailValidator = new EmailValidator(@superModel)
     @personalSub.update => @render?()
     @recipientSubs.update => @render?()
 
@@ -56,6 +57,7 @@ module.exports = class SubscriptionView extends RootView
     c = super()
     c.personalSub = @personalSub
     c.recipientSubs = @recipientSubs
+    c.emailValidator = @emailValidator
     c
 
   # Personal Subscriptions
@@ -88,7 +90,8 @@ module.exports = class SubscriptionView extends RootView
 
   onClickRecipientsSubscribe: (e) ->
     emails = @$el.find('.recipient-emails').val().split('\n')
-    @recipientSubs.startSubscribe(emails)
+    valid = @emailValidator.validateEmails(emails, =>@render?())
+    @recipientSubs.startSubscribe(emails) if valid 
 
   onClickRecipientUnsubscribe: (e) ->
     $(e.target).addClass('hide')
@@ -102,6 +105,26 @@ module.exports = class SubscriptionView extends RootView
     @recipientSubs.finishSubscribe(e.token.id, => @render?())
 
 # Helper classes for managing subscription actions and updating UI state
+  
+
+class EmailValidator
+
+  validateEmails: (emails, render) ->
+    emailRegex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i
+    @validEmails = (emailRegex.test(email.trim().toLowerCase()) for email in emails)
+    return @emailsInvalid(render) if _.contains(@validEmails, false)
+    return @emailsValid(render)
+
+  emailsInvalid: (render) ->
+    @state = "invalid"
+    render()
+    return false
+
+  emailsValid: (render) ->
+    @state = "valid"
+    render()
+    return true
+
 
 class PersonalSub
   constructor: (@supermodel, @prepaidCode) ->
