@@ -30,7 +30,7 @@ module.exports = class TrialRequestsView extends RootView
           -1
         else
           1
-      @trialRequests = new CocoCollection([], { url: '/db/trial.request', model: TrialRequest, comparator: sortRequests })
+      @trialRequests = new CocoCollection([], { url: '/db/trial.request?conditions[sort]=-_id&conditions[limit]=500', model: TrialRequest, comparator: sortRequests })
       @supermodel.loadCollection(@trialRequests, 'trial-requests', {cache: false})
 
   getRenderData: ->
