@@ -4,7 +4,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_ie: "抱歉！ Internet Explorer 8 等老式浏览器无法使用本网站。" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat不是针对手机设备设计的，所以可能无法达到最好的体验！" # Warning that shows up on mobile devices
     play: "开始游戏" # The big play button that opens up the campaign view.
-    old_browser: "噢, 您的浏览器太老了, 不能运行CodeCombat. 抱歉!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser: "噢, 您的浏览器太老了, 不能运行CodeCombat。抱歉!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "您可以继续重试下去，但八成不起作用，更新浏览器吧亲～"
     ipad_browser: "坏消息:CodeCombat无法在iPad的浏览器中运行。好消息：我们的iPad应用正在等待苹果公司审批。"
     campaign: "战役模式"
@@ -256,7 +256,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_new_item: "新的物品"
     victory_viking_code_school: "这关真的超难! 如果您想成为一个软件开发人员，您就应该去试一下Viking Code School。在这里您可以把您的知识增长到另一个台阶。只需要14周您就能成为一个专业的网页开发人员。"
     victory_become_a_viking: "成为一个维京人吧"
-    victory_bloc: "干得好! 你的技能正在提升, 并且已经有人注意着你了. 如果你正考虑着当一名软件工程师, 现在可能就是你的幸运日. Bloc 是个能提供在线一对一专业指导的, 能锻炼你成为专业开发者的训练营! 通过 矮人骚乱 后, 你可以使用价值 $500 的优惠码: CCRULES"
+    victory_bloc: "干得好! 你的技能正在提升, 并且已经有人注意着你了。如果你正考虑着当一名软件工程师, 现在可能就是你的幸运日。Bloc 是个能提供在线一对一专业指导的, 能锻炼你成为专业开发者的训练营! 通过 矮人骚乱 后, 你可以使用价值 $500 的优惠码: CCRULES"
     victory_bloc_cta: "会晤你的导师 – 了解 Bloc"
     guide_title: "指南"
     tome_minion_spells: "助手的咒语" # Only in old-style levels.
@@ -340,7 +340,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_open_source_contribute: "您可以帮助「CodeCombat」进步！"
     tip_recurse: "迭代为人，递归为神 - L. Peter Deutsch"
     tip_free_your_mind: "丢掉一切私心杂念，丢掉害怕、疑问和拒信，解放您的思想。 - Morpheus《黑客帝国》"
-    tip_strong_opponents: "即使是最强大的对手也是有弱点的. - 宇智波鼬《火影忍者》"
+    tip_strong_opponents: "即使是最强大的对手也是有弱点的。- 宇智波鼬《火影忍者》"
     tip_paper_and_pen: "在您开始编码之前，您可以随时用一张纸和一支笔作计划。"
 
   game_menu:
@@ -418,7 +418,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     never_mind: "没关系，我们依然喜欢您"
     thank_you_months_prefix: "感谢您这"
     thank_you_months_suffix: "个月以来对我们的支持。"
-    thank_you: "感谢您支持CodeCombat."
+    thank_you: "感谢您支持CodeCombat。"
     sorry_to_see_you_go: "真舍不得亲离开啊! 请一定要让我们知道哪里做的还不够好。"
     unsubscribe_feedback_placeholder: "噢, 我们做了神马?"
     parent_button: "请求您的父母"
@@ -430,7 +430,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parent_email_sent: "邮件已发送!"
     parent_email_title: "什么是您父母的邮件地址？"
     parents: "致家长"
-    parents_title: "亲爱的家长: 您的孩子将要学习编程. 您会支持孩子发展吗?"
+    parents_title: "亲爱的家长: 您的孩子将要学习编程。您会支持孩子发展吗?"
     parents_blurb1: "您的孩子已经玩了 __nLevels__ 关，并且学习了编程基础。请您为了培养他们的兴趣而给他们订阅，他们能继续玩下去。"
     parents_blurb1a: "不用怀疑计算机编程能力将是您的孩子作为一个成年人的基本技能。到2020年，77%的工作将会需要编码能力，并且软件工程师将在世界各地成为高需求职业。您要知道计算机科学是收入最高的大学学位。"
     parents_blurb2: "每月支付9.99美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。"
@@ -515,12 +515,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     skills: "技能"
     attack_1: "造成"
     attack_2: "的实际伤害(使用当前"
-    attack_3: "时)."
+    attack_3: "时)。"
     health_1: "获得"
     health_2: "的装备血量(使用当前"
-    health_3: "时)."
+    health_3: "时)。"
     speed_1: "移动速度"
-    speed_2: "米每秒."
+    speed_2: "米每秒。"
     available_for_purchase: "可以购买" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "未解锁关卡：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "只有特定的英雄可以进入本关。"
@@ -654,8 +654,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     more_info_2: "教师论坛"
     more_info_3: "是个与其他使用CodeCombat的教育工作者联系的良好平台。"
     sys_requirements_title: "系统需求"
-    sys_requirements_1: "一个现代的浏览器. 需要更新的 Chrome, Firefox, Safari 或者 Internet Explorer 9 以上版本."
-    sys_requirements_2: "CodeCombat 暂时还不支持 iPad ."
+    sys_requirements_1: "一个现代的浏览器。需要更新的 Chrome, Firefox, Safari 或者 Internet Explorer 9 以上版本。"
+    sys_requirements_2: "CodeCombat 暂时还不支持 iPad 。"
 
   teachers_survey:
     title: "教师调查"
@@ -841,7 +841,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     latest_achievement: "最新成就"
     playtime: "游戏时间"
     last_played: "最后玩了"
-    leagues_explanation: "在部落里与其他成员组成联盟一起参加下面的多人竞技场."
+    leagues_explanation: "在部落里与其他成员组成联盟一起参加下面的多人竞技场。"
 
 #  courses:
 #    course: "Course"
@@ -1115,7 +1115,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     my_matches: "我的对手"
     simulate: "模拟"
     simulation_explanation: "通过模拟游戏，您可以让您的游戏更快的得到评分。"
-    simulation_explanation_leagues: "你会主要给在你的部落或者课程的同伴帮忙模拟游戏."
+    simulation_explanation_leagues: "你会主要给在你的部落或者课程的同伴帮忙模拟游戏。"
     simulate_games: "模拟游戏！"
     simulate_all: "重置并模拟游戏！"
     games_simulated_by: "由您模拟过的游戏数:"
@@ -1162,7 +1162,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tournament_rules: "锦标赛规则"
     tournament_blurb: "写代码，收金币，建军队，碎敌军，赢奖品，以及在我们奖励多达$40,000的Greed tournament里升级您的事业！ 快去查阅详情！"
     tournament_blurb_criss_cross: "赢得竞拍，建造道路，智胜对手，夺取宝石，在纵横交错锦标赛中完成生涯晋级! 现在就查看详情！"
-    tournament_blurb_zero_sum: "在红方法师和蓝方法师的山峰对决中, 同时在收集金币和战术上发挥你的代码创造力. 竞赛在3月27日开始, 在4月6日(星期一)的下午5点(PDT 太平洋时区)结束. 为乐趣和荣耀竞赛吧! 浏览了解更多"
+    tournament_blurb_zero_sum: "在红方法师和蓝方法师的山峰对决中, 同时在收集金币和战术上发挥你的代码创造力。竞赛在3月27日开始, 在4月6日(星期一)的下午5点(PDT 太平洋时区)结束。为乐趣和荣耀竞赛吧! 浏览了解更多"
     tournament_blurb_ace_of_coders: "我的主场我主宰，在天寒地冻的冰原上和自己的镜像大战一场吧！本次比赛将由9月16日星期三开办到10月14日下午5点PDT。详情请查看"
     tournament_blurb_blog: "关注我们的博客"
     rules: "规则"
@@ -1407,7 +1407,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     art_other: "所有制作关卡时公开的，不是代码的创造性产品。"
     art_access: "目前还没有简便通用的下载素材的方式。一般来讲，从网站上使用的URL下载，或者联系我们寻找帮助。当然您也可以帮我们扩展网站，让这些资源更容易下载。"
     art_paragraph_1: "关于署名，请说明并在使用处附近，或对媒体形式来说合适的地方提供一个CodeCombat.com 的链接。举例："
-    use_list_1: "如果是用在电影里或者其他游戏里，请在制作人员表中加入CodeCombat.com."
+    use_list_1: "如果是用在电影里或者其他游戏里，请在制作人员表中加入CodeCombat.com。"
     use_list_2: "如果用在网站上，将链接在使用的地方附近，比如图片下面，或者一个您放置其他 Creative Commons 署名和开源软件协议的专门页面。如果您的内容明确提到关于CodeCombat，那您就不需要额外署名。"
     art_paragraph_2: "如果您使用的内容不是由CodeCombat制作，而是由CodeCombat.com 上其他的用户制作的，那您应该给他们署名。如果相应资源的页面上有署名指示，那您应该遵循那些指示。"
     rights_title: "版权所有"
@@ -1428,7 +1428,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     blurb_2: "锦标赛规则"
     blurb_3: ", 给顶尖的人类和怪物玩家。"
     blurb_4: "两队表示获得的奖励将会是两倍!"
-    blurb_5: "(将有两个第一名, 两个第二名, 以此类推.)"
+    blurb_5: "(将有两个第一名, 两个第二名, 以此类推。)"
     rank: "排名"
     prizes: "奖项"
     total_value: "总价值"
