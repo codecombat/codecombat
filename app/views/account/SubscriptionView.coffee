@@ -197,6 +197,7 @@ class PersonalSub
         if sub = info.subscription
           periodEnd = new Date((sub.trial_end or sub.current_period_end) * 1000)
           if sub.cancel_at_period_end
+            periodEnd.setMonth(periodEnd.getMonth() + 1)
             @activeUntil = periodEnd
           else if sub.discount?.coupon?.id isnt 'free'
             @nextPaymentDate = periodEnd
