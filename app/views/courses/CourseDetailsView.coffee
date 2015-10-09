@@ -281,7 +281,10 @@ module.exports = class CourseDetailsView extends RootView
     @sortedMembers = @courseInstance.get('members')
     switch @memberSort
       when "nameDesc"
-        @sortedMembers.sort (a, b) => @memberUserMap[b]?.get('name').localeCompare(@memberUserMap[a]?.get('name'))
+        @sortedMembers.sort (a, b) =>
+          aName = @memberUserMap[a]?.get('name') ? 'Anoner'
+          bName = @memberUserMap[b]?.get('name') ? 'Anoner'
+          bName.localeCompare(aName)
       when "progressAsc"
         @sortedMembers.sort (a, b) =>
           for levelID, level of @campaign.get('levels')
@@ -299,4 +302,7 @@ module.exports = class CourseDetailsView extends RootView
               return -1
           0
       else
-        @sortedMembers.sort (a, b) => @memberUserMap[a]?.get('name').localeCompare(@memberUserMap[b]?.get('name'))
+        @sortedMembers.sort (a, b) =>
+          aName = @memberUserMap[a]?.get('name') ? 'Anoner'
+          bName = @memberUserMap[b]?.get('name') ? 'Anoner'
+          aName.localeCompare(bName)
