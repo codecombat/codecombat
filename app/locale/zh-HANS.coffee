@@ -304,7 +304,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_morale_improves: "在士气提升之前会一直进行加载。"
     tip_all_species: "我们相信每一个人都有同等的机会学习编程"
     tip_reticulating: "网格状锯齿。(指Maxis开发的许多游戏，如《模拟城市》、《孢子》中，加载进程中跑动时出现的卡顿现象)"
-    tip_harry: "巫师, "
+    tip_harry: "你是一名巫师, "
     tip_great_responsibility: "更强的编程技巧也意味着有更高的责任来进行调试。"
     tip_munchkin: "如果您不吃掉您的蔬菜, 一个小矮人将在您睡着之后来找您。"
     tip_binary: "这个世界上只有10种人: 那些懂二进制的, 还有那些不懂二进制的。"
