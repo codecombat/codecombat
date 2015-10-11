@@ -7,7 +7,7 @@ commentsMap = {}
 
 categorySplitPattern = /^[\s\n]*(?=[^:\n]+:\s*$)/gm
 categoryCapturePattern = /^([^:\n]+):\s*\n/
-commentPattern = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm    # " for Emacs close quote
+commentPattern = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm
 changePattern = /\s?\s?(#\s)?\{change\}/g
 
 splitByCategories = enSource.split(categorySplitPattern)
@@ -40,7 +40,7 @@ for file in dir when not (file in ['locale.coffee', 'en.coffee'])
     for enTag, enString of enTags
       tagMissing = not cat[enTag]?
       tag = (cat[enTag] ?= enString)
-      tag = tag.replace /"/g, '\\"'    # ' for Emacs close quote
+      tag = tag.replace /"/g, '\\"'
 
       comment = ""
       if commentsMap[enCat]? and commentsMap[enCat][enTag]?

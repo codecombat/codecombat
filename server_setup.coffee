@@ -78,25 +78,26 @@ setupPassportMiddleware = (app) ->
   app.use(authentication.initialize())
   app.use(authentication.session())
 
-setupChinaRedirectMiddleware = (app) ->
-  shouldRedirectToChinaVersion = (req) ->
+setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", languageCode="zh", serverID="tokyo") ->
+  shouldRedirectToCountryServer = (req) ->
     firstLanguage = req.acceptedLanguages[0]
-    speaksChinese = firstLanguage and firstLanguage.indexOf('zh') isnt -1
-    unless config.tokyo
+    speaksLanguage = firstLanguage and firstLanguage.indexOf(languageCode) isnt -1
+    unless config[serverID]
       ip = req.headers['x-forwarded-for'] or req.connection.remoteAddress
       ip = ip?.split(/,? /)[0]  # If there are two IP addresses, say because of CloudFlare, we just take the first.
       geo = geoip.lookup(ip)
-      #if speaksChinese or geo?.country is "CN"
-      #  log.info("Should we redirect to Tokyo server? speaksChinese: #{speaksChinese}, firstLanguage: #{firstLanguage}, ip: #{ip}, geo: #{geo} -- so redirecting? #{geo?.country is 'CN' and speaksChinese}")
-      return geo?.country is "CN" and speaksChinese
+      geo = country: 'CN'
+      #if speaksLanguage or geo?.country is countryCode
+      #  log.info("Should we redirect to #{serverID} server? speaksLanguage: #{speaksLanguage}, firstLanguage: #{firstLanguage}, ip: #{ip}, geo: #{geo} -- so redirecting? #{geo?.country is 'CN' and speaksLanguage}")
+      return geo?.country is countryCode and speaksLanguage
     else
-      #log.info("We are on Tokyo server. speaksChinese: #{speaksChinese}, acceptedLanguages: #{req.acceptedLanguages[0]}")
-      req.chinaVersion = true if speaksChinese
+      #log.info("We are on #{serverID} server. speaksLanguage: #{speaksLanguage}, acceptedLanguages: #{req.acceptedLanguages[0]}")
+      req.country = country if speaksLanguage
       return false  # If the user is already redirected, don't redirect them!
 
   app.use (req, res, next) ->
-    if shouldRedirectToChinaVersion req
-      res.writeHead 302, "Location": config.chinaDomain + req.url
+    if shouldRedirectToCountryServer req
+      res.writeHead 302, "Location": config[country + 'Domain'] + req.url
       res.end()
     else
       next()
@@ -135,7 +136,8 @@ setupTrailingSlashRemovingMiddleware = (app) ->
     next()
 
 exports.setupMiddleware = (app) ->
-  setupChinaRedirectMiddleware app
+  setupCountryRedirectMiddleware app, "china", "CN", "zh", "tokyo"
+  setupCountryRedirectMiddleware app, "brazil", "BR", "pt-BR", "saoPaulo"
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupPassportMiddleware app

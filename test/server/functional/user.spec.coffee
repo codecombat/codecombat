@@ -269,20 +269,10 @@ describe 'GET /db/user', ->
       expect(body.type).toBeDefined()
       done()
 
-  it 'is able to do a sweet query', (done) ->
-    conditions = [
-      ['limit', 20]
-      ['where', 'email']
-      ['equals', 'admin@afc.com']
-      ['sort', '-dateCreated']
-    ]
+  it 'is able to do a semi-sweet query', (done) ->
     options = {
-      url: getURL(urlUser)
-      qs: {
-        conditions: JSON.stringify(conditions)
-      }
+      url: getURL(urlUser) + "?conditions[limit]=20&conditions[sort]=-dateCreated"
     }
-
     req = request.get(options, (error, response) ->
       expect(response.statusCode).toBe(200)
       res = JSON.parse(response.body)
@@ -291,14 +281,8 @@ describe 'GET /db/user', ->
     )
 
   it 'rejects bad conditions', (done) ->
-    conditions = [
-      ['lime', 20]
-    ]
     options = {
-      url: getURL(urlUser)
-      qs: {
-        conditions: JSON.stringify(conditions)
-      }
+      url: getURL(urlUser) + "?conditions[lime]=20&conditions[sort]=-dateCreated"
     }
 
     req = request.get(options, (error, response) ->

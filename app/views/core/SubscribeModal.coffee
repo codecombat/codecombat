@@ -125,7 +125,7 @@ module.exports = class SubscribeModal extends ModalView
     options = {
       description: $.i18n.t('subscribe.stripe_description')
       amount: @product.amount
-      alipay: if me.get('chinaVersion') or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
+      alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
       alipayReusable: true
     }
 
@@ -149,7 +149,7 @@ module.exports = class SubscribeModal extends ModalView
     options =
       description: $.i18n.t('subscribe.stripe_description_year_sale')
       amount: @product.yearAmount
-      alipay: if me.get('chinaVersion') or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
+      alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
       alipayReusable: true
     @purchasedAmount = options.amount
     stripeHandler.open(options)

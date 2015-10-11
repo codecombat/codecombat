@@ -137,7 +137,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     save: "Spara"
     publish: "Publicera"
     create: "Skapa"
-    manual: "Manuellt"
     fork: "Förgrena"
     play: "Spela" # When used as an action verb, like "Play next level"
     retry: "Försök igen"
@@ -163,7 +162,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "Förbindelsemeddelande"
-#    review: "Review"
     version_history: "Ändringshistorik"
     version_history_for: "Ändringshistorik för: "
     select_changes: "Välj två ändringar nedan för att se skillnaden."
@@ -272,7 +270,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tome_select_a_thang: "Välj någon för "
     tome_available_spells: "Tillgängliga förmågor"
     tome_your_skills: "Dina färdigheter"
-    tome_help: "Hjälp"
     tome_current_method: "Nuvarande metod"
     hud_continue_short: "Fortsätt"
     code_saved: "Kod sparad"
@@ -281,7 +278,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     loading_ready: "Redo!"
     loading_start: "Starta Nivå"
     problem_alert_title: "Fixa din kod"
-    problem_alert_help: "Hjälp"
     time_current: "Nu:"
     time_total: "Max:"
     time_goto: "Gå till:"
@@ -404,7 +400,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "110+ basic levels across 4 worlds"
 #    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
-#    feature3: "70+ bonus levels"
+#    feature3: "80+ bonus levels"
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"
@@ -554,12 +550,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     volume_label: "Volym"
     music_label: "Musik"
     music_description: "Stäng av/sätt på bakgrundsmusik."
-    editor_config: "Ställ in redigerare"
     editor_config_title: "Redigerarinställningar"
-    editor_config_level_language_label: "Språk på den här nivån"
-#    editor_config_level_language_description: "Define the programming language for this particular level."
-#    editor_config_default_language_label: "Default Programming Language"
-#    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
     editor_config_keybindings_label: "Kortkommandon"
     editor_config_keybindings_default: "Standard (Ace)"
     editor_config_keybindings_description: "Lägger till ytterligare kortkommandon kända från vanliga redigerare."
@@ -610,7 +601,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     intro_1: "CodeCombat är ett onlinespel som lär ut programmering. Eleverna skriver kod i riktiga programspråk."
     intro_2: "Ingen erfarenhet krävs!"
     free_title: "Hur mycket kostar det?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 180+ levels on our exclusive China servers."
+#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive China servers." # Deprecated
+#    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat Basic är GRATIS! Det finns över 80 gratis nivåer som täcker alla koncept." # {change}
     free_2: "En månadsprenumeration ger tillgång till videogenomgångar och fler övningsnivåer."
     teacher_subs_title: "Lärare får gratis prenumerationer!"
@@ -639,7 +631,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     who_for_1: "Vi rekommenderar CodeCombat till elever som är minst 9 år. Inga programmeringskunskaper krävs."
     who_for_2: "Vi har skapat CodeCombat för att locka både pojkar och flickor."
     material_title: "Hur mycket material finns det?"
-    material_china: "Ungefär 30 timmars speltid över 140+ prenumerantnivåer - än så länge - med nya nivåer varje vecka." # {change}
+    material_premium_server: "Ungefär 30 timmars speltid över 140+ prenumerantnivåer - än så länge - med nya nivåer varje vecka." # {change}
     material_1: "Ungefär 10 timmar fritt innehåll och ytterligare 20 timmar prenumerantinnehåll med nya nivåer varje vecka." # {change}
     concepts_title: "Vilka koncept täcks?"
     how_much_title: "Hur mycket kostar en månadsprenumeration?"
@@ -874,6 +866,10 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    play_time: "Play time:"
 #    completed: "Completed:"
 #    invite_students: "Invite students to join this class."
+#    invite_link_header: "Link to join course"
+#    invite_link_p_1: "Give this link to students you would like to have join the course."
+#    invite_link_p_2: "Or have us email them directly:"
+#    capacity_used: "Course slots used:"
 #    enter_emails: "Enter student emails to invite, one per line"
 #    send_invites: "Send Invites"
 #    title: "Title"
@@ -1117,7 +1113,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     simulation_explanation: "Genom att simulera matcher kan du få dina matcher rankade fortare."
 #    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
     simulate_games: "Simulera matcher!"
-    simulate_all: "ÅTERSTÄLL OCH SIMULERA MATCHER"
     games_simulated_by: "Spel simulerade av dig:"
     games_simulated_for: "Spel simulerade åt dig:"
     games_simulated: "Simulerade spel"
@@ -1350,9 +1345,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "Inga ändringar"
-
-#  guide:
-#    temp: "Temp"
 
 #  temp:
 #    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"

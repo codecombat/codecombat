@@ -205,6 +205,6 @@ module.exports.makeNewUser = makeNewUser = (req) ->
   user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
   user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
   user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
-  user.set 'chinaVersion', true if req.chinaVersion
-  #log.info "making new user #{user.get('_id')} with language #{user.get('preferredLanguage')} of #{req.acceptedLanguages} and chinaVersion #{req.chinaVersion} on #{if config.tokyo then 'Tokyo' else 'US'} server and lastIP #{req.connection.remoteAddress}."
+  user.set 'country', req.country if req.country
+  #log.info "making new user #{user.get('_id')} with language #{user.get('preferredLanguage')} of #{req.acceptedLanguages} and country #{req.country} on #{if config.tokyo then 'Tokyo' else (if config.saoPaulo then 'Brazil' else 'US')} server and lastIP #{user.get('lastIP')}."
   user

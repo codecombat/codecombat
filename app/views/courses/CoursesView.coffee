@@ -1,4 +1,5 @@
 app = require 'core/application'
+AuthModal = require 'views/core/AuthModal'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
@@ -79,6 +80,7 @@ module.exports = class CoursesView extends RootView
 
   onClickEnroll: (e) ->
     $('.continue-dialog').modal('hide')
+    return @openModalView new AuthModal() if me.isAnonymous()
     courseID = $(e.target).data('course-id')
     prepaidCode = ($(".code-input[data-course-id=#{courseID}]").val() ? '').trim()
     @courseEnroll(prepaidCode)

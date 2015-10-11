@@ -137,7 +137,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     save: "Mentés"
     publish: "Publikálás"
     create: "Létrehozás"
-    manual: "Kézi"
     fork: "Villára vesz"
     play: "Játszd" # When used as an action verb, like "Play next level"
     retry: "Próbáld újra!"
@@ -163,7 +162,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     submitter: "Beküldő"
     submitted: "Beküldött"
     commit_msg: "Üzenet feladása"
-    review: "Áttekintés"
     version_history: "Verzió történet"
     version_history_for: "Verzió története ennek: "
     select_changes: "Válassz két lehetőséget alul, hogy lásd a különbséget."
@@ -272,7 +270,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tome_select_a_thang: "Válassz egy dolgot "
     tome_available_spells: "Elérhető varázslatok"
     tome_your_skills: "Képességeid"
-    tome_help: "Segítség"
     tome_current_method: "Aktuális módszer"
     hud_continue_short: "Folytatás"
     code_saved: "Kód mentve"
@@ -281,7 +278,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     loading_ready: "Kész!"
     loading_start: "Pálya kezdése"
     problem_alert_title: "Javítsd ki a Kódod"
-    problem_alert_help: "Segítség"
     time_current: "Most:"
     time_total: "Maximum:"
     time_goto: "Menj"
@@ -554,12 +550,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     volume_label: "Hangerő"
     music_label: "Zene"
     music_description: "Háttérzene ki/bekapcsolása"
-    editor_config: "Szerkesztő Config"
     editor_config_title: "Szerkesztő Beállítások"
-    editor_config_level_language_label: "Nyelv a szinthez"
-    editor_config_level_language_description: "Definiáld a programnyelvet ehhez a szinthez."
-    editor_config_default_language_label: "Programnyelv alapbeállítása"
-    editor_config_default_language_description: "Definiáld a programnyelvet, amin szeretnél kódolni, amikor új szintet kezdesz."
     editor_config_keybindings_label: "Gyors-billentyűk"
 #    editor_config_keybindings_default: "Default (Ace)"
 #    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
@@ -610,7 +601,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     intro_1: "CodeCombat egy online játék, amelyik programozni tanít. A tanulók valódi programnyelven kódolnak."
     intro_2: "Előzetes tapasztalat nem szükséges!"
     free_title: "Mennyibe kerül?"
-    cost_china: "CodeCombat Kínában ingyenes az első 5 pályára, aztán $9.99 /hó, hogy elérhető legyen 120+ pálya az exkluzív kínai szervereken." # {change}
+    cost_china: "CodeCombat Kínában ingyenes az első 5 pályára, aztán $9.99 /hó, hogy elérhető legyen 120+ pálya az exkluzív kínai szervereken." # Deprecated {change}
+#    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat Basic INGYENES! 70-nél is több pálya, amely minden tudást megad." # {change}
     free_2: "A havidíjas előfizetés hozzáférést biztosít az oktató videókhoz és az extra gyakoroló pályákhoz."
     teacher_subs_title: "Tanárok ingyenes előfizetést kapnak!"
@@ -639,7 +631,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     who_for_1: "A CodeCombat-ot 9 évesnél idősebb tanulóknak ajánljuk. Semmilyen programozási előismeret vagy tapasztalat nem szükséges."
     who_for_2: "Úgy terveztük meg a CodeCombat-ot, hogy fiúk és lányok számára is élvezetes legyen."
     material_title: "Mennyi anyagot tartalmaz?"
-    material_china: "Körülbelül 22 órányi játékidő a 120+ előfizetőknek járó pályákon, minden héten további 5 új pályával." # {change}
+    material_premium_server: "Körülbelül 22 órányi játékidő a 120+ előfizetőknek járó pályákon, minden héten további 5 új pályával." # {change}
     material_1: "Körülbelül 8 órányi ingyenes tartalom kiegészítve 14 órányi előfizetőknek járó tartalommal, minden héten további 5 új pályával." # {change}
 #    concepts_title: "What concepts are covered?"
     how_much_title: "Mennyibe kerül a havi előfizetés?"
@@ -874,6 +866,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    play_time: "Play time:"
 #    completed: "Completed:"
 #    invite_students: "Invite students to join this class."
+#    invite_link_header: "Link to join course"
+#    invite_link_p_1: "Give this link to students you would like to have join the course."
+#    invite_link_p_2: "Or have us email them directly:"
+#    capacity_used: "Course slots used:"
 #    enter_emails: "Enter student emails to invite, one per line"
 #    send_invites: "Send Invites"
 #    title: "Title"
@@ -1117,7 +1113,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
 #    simulate_games: "Simulate Games!"
-#    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
 #    games_simulated: "Games simulated"
@@ -1350,9 +1345,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
 #    no_changes: "No Changes"
-
-#  guide:
-#    temp: "Temp"
 
 #  temp:
 #    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"

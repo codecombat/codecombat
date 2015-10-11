@@ -37,10 +37,7 @@ module.exports = class PrepaidView extends RootView
     @updateTotal()
 
     @codes = new CocoCollection([], { url: '/db/user/'+me.id+'/prepaid_codes', model: Prepaid })
-    @codes.on 'add', (code) =>
-      @render?()
-    @codes.on 'sync', (code) =>
-      @render?()
+    @codes.on 'sync', (code) => @render?()
     @supermodel.loadCollection(@codes, 'prepaid', {cache: false})
 
     @ppc = utils.getQueryVariable('_ppc') ? ''
@@ -109,7 +106,7 @@ module.exports = class PrepaidView extends RootView
       amount: @stripeAmount
       description: @description
       bitcoin: true
-      alipay: if me.get('chinaVersion') or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
+      alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
 
   onRedeemClicked: (e) ->
     @ppc = $('#ppc').val()
