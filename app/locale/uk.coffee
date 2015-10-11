@@ -80,7 +80,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     campaign_multiplayer: "Арени для мультиплеєра"
     campaign_multiplayer_description: "... в яких Ви програмуєте віч-на-віч із іншими гравцями."
     campaign_old_multiplayer: "(Застарілий) Стара Мультіплеер Арена"
-#    campaign_old_multiplayer_description: " Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Ви робите великі успіхи! Розкажіть кому-небудь, як багато ви вивчили з CodeCombat." # {change}
