@@ -22,6 +22,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoClass = require 'core/CocoClass'
 SegmentedSprite = require './SegmentedSprite'
 SingularSprite = require './SingularSprite'
+ThangType = require 'models/ThangType'
 
 NEVER_RENDER_ANYTHING = false # set to true to test placeholders
 
@@ -42,7 +43,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   buildAutomatically: true
   buildAsync: true
   resolutionFactor: SPRITE_RESOLUTION_FACTOR
-  defaultActions: ['idle', 'die', 'move', 'attack']
   numThingsLoading: 0
   lanks: null
   spriteSheet: null
@@ -196,7 +196,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       @upsertActionToRender(lank.thangType)
     else
       for action in _.values(lank.thangType.getActions())
-        continue unless _.any @defaultActions, (prefix) -> _.string.startsWith(action.name, prefix)
+        continue unless _.any ThangType.defaultActions, (prefix) -> _.string.startsWith(action.name, prefix)
         @upsertActionToRender(lank.thangType, action.name, lank.options.colorConfig)
 
   upsertActionToRender: (thangType, actionName, colorConfig) ->
@@ -346,17 +346,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Rendering containers for segmented thang types
 
   renderSegmentedThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
-    containersToRender = {}
-    for actionName in actionNames
-      action = _.find(thangType.getActions(), {name: actionName})
-      if action.container
-        containersToRender[action.container] = true
-      else if action.animation
-        animationContainers = @getContainersForAnimation(thangType, action.animation, action)
-        containersToRender[container.gn] = true for container in animationContainers
-
+    containersToRender = thangType.getContainersForActions(actionNames)
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
-    for containerGlobalName in _.keys(containersToRender)
+    for containerGlobalName in containersToRender
       containerKey = @renderGroupingKey(thangType, containerGlobalName, colorConfig)
       if @spriteSheet?.resolutionFactor is @resolutionFactor and containerKey in @spriteSheet.getAnimations()
         container = new createjs.Sprite(@spriteSheet)
@@ -366,15 +358,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         container = spriteBuilder.buildContainerFromStore(containerGlobalName)
         frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (thangType.get('scale') or 1))
       spriteSheetBuilder.addAnimation(containerKey, [frame], false)
-
-  getContainersForAnimation: (thangType, animation, action) ->
-    rawAnimation = thangType.get('raw').animations[animation]
-    if not rawAnimation
-      console.error 'thang type', thangType.get('name'), 'is missing animation', animation, 'from action', action
-    containers = rawAnimation.containers
-    for animation in thangType.get('raw').animations[animation].animations
-      containers = containers.concat(@getContainersForAnimation(thangType, animation.gn, action))
-    return containers
 
   #- Rendering sprite sheets for singular thang types
 

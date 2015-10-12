@@ -169,6 +169,42 @@ _.extend ThangTypeSchema.properties,
   extendedName: {type: 'string', title: 'Extended Hero Name', description: 'The long form of the hero\'s name. Ex.: "Captain Anya Weston".'}
   unlockLevelName: {type: 'string', title: 'Unlock Level Name', description: 'The name of the level in which the hero is unlocked.'}
   tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this ThangType.'}, c.task
+  spriteSheets: c.array {title: 'SpriteSheets'},
+    c.object {title: 'SpriteSheet'},
+      actionNames: { type: 'array' }
+      animations:
+        type: 'object'
+        description: 'Third EaselJS SpriteSheet animations format'
+        additionalProperties: {
+          description: 'EaselJS animation'
+          type: 'object'
+          properties: {
+            frames: { type: 'array' }
+            next: { type: ['string', 'null'] }
+            speed: { type: 'number' }
+          }
+        }
+      colorConfig: c.colorConfig()
+      colorLabel: { enum: ['red', 'green', 'blue'] }
+      frames:
+        type: 'array'
+        description: 'Second EaselJS SpriteSheet frames format'
+        items:
+          type: 'array'
+          items: [
+            { type: 'number', title: 'x' }
+            { type: 'number', title: 'y' }
+            { type: 'number', title: 'width' }
+            { type: 'number', title: 'height' }
+            { type: 'number', title: 'imageIndex' }
+            { type: 'number', title: 'regX' }
+            { type: 'number', title: 'regY' }
+          ]
+      image: { type: 'string', format: 'image-file' }
+      resolutionFactor: {
+        type: 'number'
+      }
+      spriteType: { enum: ['singular', 'segmented'], title: 'Sprite Type' }
 
 
 ThangTypeSchema.required = []

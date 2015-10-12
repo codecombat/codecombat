@@ -35,6 +35,7 @@ module.exports = class ThangType extends CocoModel
   urlRoot: '/db/thang.type'
   building: {}
   editableByArtisans: true
+  @defaultActions: ['idle', 'die', 'move', 'attack']
 
   initialize: ->
     super()
@@ -77,6 +78,14 @@ module.exports = class ThangType extends CocoModel
   getActions: ->
     return {} unless @isFullyLoaded()
     return @actions or @buildActions()
+
+  getDefaultActions: ->
+    actions = []
+    for action in _.values(@getActions())
+      continue unless _.any ThangType.defaultActions, (prefix) ->
+        _.string.startsWith(action.name, prefix)
+      actions.push(action)
+    return actions
 
   buildActions: ->
     return null unless @isFullyLoaded()
@@ -479,3 +488,24 @@ module.exports = class ThangType extends CocoModel
     playerLevel = me.constructor.levelForTier playerTier
     #console.log 'Level required for', @get('name'), 'is', playerLevel, 'player tier', playerTier, 'because it is itemTier', itemTier, 'which is normally level', me.constructor.levelForTier(itemTier)
     playerLevel
+
+  getContainersForAnimation: (animation, action) ->
+    rawAnimation = @get('raw').animations[animation]
+    if not rawAnimation
+      console.error 'thang type', @get('name'), 'is missing animation', animation, 'from action', action
+    containers = rawAnimation.containers
+    for animation in @get('raw').animations[animation].animations
+      containers = containers.concat(@getContainersForAnimation(animation.gn, action))
+    return containers
+
+  getContainersForActions: (actionNames) ->
+    containersToRender = {}
+    actions = @getActions()
+    for actionName in actionNames
+      action = _.find(actions, {name: actionName})
+      if action.container
+        containersToRender[action.container] = true
+      else if action.animation
+        animationContainers = @getContainersForAnimation(action.animation, action)
+        containersToRender[container.gn] = true for container in animationContainers
+    return _.keys(containersToRender)

@@ -20,6 +20,7 @@ VectorIconSetupModal = require 'views/editor/thang/VectorIconSetupModal'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 template = require 'templates/editor/thang/thang-type-edit-view'
 storage = require 'core/storage'
+ExportThangTypeModal = require './ExportThangTypeModal'
 
 CENTER = {x: 200, y: 400}
 
@@ -157,6 +158,7 @@ module.exports = class ThangTypeEditView extends RootView
     'mousedown #canvas': 'onCanvasMouseDown'
     'mouseup #canvas': 'onCanvasMouseUp'
     'mousemove #canvas': 'onCanvasMouseMove'
+    'click #export-sprite-sheet-btn': 'onClickExportSpriteSheetButton'
 
   onClickSetVectorIcon: ->
     modal = new VectorIconSetupModal({}, @thangType)
@@ -208,6 +210,7 @@ module.exports = class ThangTypeEditView extends RootView
     @patchesView = @insertSubView(new PatchesView(@thangType), @$el.find('.patches-view'))
     @showReadOnly() if me.get('anonymous')
     @updatePortrait()
+    @onClickExportSpriteSheetButton()
 
   initComponents: =>
     options =
@@ -650,6 +653,10 @@ module.exports = class ThangTypeEditView extends RootView
     offset.y += Math.round @canvasDragOffset.y
     @canvasDragOffset = null
     node.set '/', offset
+
+  onClickExportSpriteSheetButton: ->
+    modal = new ExportThangTypeModal({}, @thangType)
+    @openModalView(modal)
 
   destroy: ->
     @camera?.destroy()
