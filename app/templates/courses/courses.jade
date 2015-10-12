@@ -51,7 +51,17 @@ mixin student-main
 
 mixin teacher-hoc
   button.btn.btn-warning.btn-student(data-i18n="courses.students_click")
-  h1.center(data-i18n="courses.courses_on_coco")
+  h1.center Welcome Hour of Code!
+  p
+    strong How to use CodeCombat with your students:
+    ol
+      li Click the green 'Get FREE course' button below
+      li Follow the enrollment instructions
+      li Add students via the 'Add Students' tab
+  p 
+    span.spr If you have any problems, please email
+    a(href='mailto:team@codecombat.com') team@codecombat.com
+  br
 
 mixin teacher-main
   button.btn.btn-warning.btn-student(data-i18n="courses.students_click")
