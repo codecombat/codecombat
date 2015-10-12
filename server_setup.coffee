@@ -86,7 +86,6 @@ setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", langua
       ip = req.headers['x-forwarded-for'] or req.connection.remoteAddress
       ip = ip?.split(/,? /)[0]  # If there are two IP addresses, say because of CloudFlare, we just take the first.
       geo = geoip.lookup(ip)
-      geo = country: 'CN'
       #if speaksLanguage or geo?.country is countryCode
       #  log.info("Should we redirect to #{serverID} server? speaksLanguage: #{speaksLanguage}, firstLanguage: #{firstLanguage}, ip: #{ip}, geo: #{geo} -- so redirecting? #{geo?.country is 'CN' and speaksLanguage}")
       return geo?.country is countryCode and speaksLanguage

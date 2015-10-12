@@ -673,7 +673,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     under: "低於"
     other: "其他:"
     amount_students: "請問您有多少學生需要教導？"
-    hear_about: "您是怎麼知道CodeComabat的？"
+    hear_about: "您是怎麼知道CodeCombat的？"
     fill_fields: "請填寫所有問題。"
     thanks: "非常感謝！我們會很快寄給您設置說明。"
 
