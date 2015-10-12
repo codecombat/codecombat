@@ -179,21 +179,18 @@ module.exports = class Handler
     # if it's not a text search but the user is an admin, let him try stuff anyway
     else if req.user?.isAdmin()
       # admins can send any sort of query down the wire
+      # Example URL: http://localhost:3000/db/user?filter[anonymous]=true
       filter = {}
-      filter[key] = (val for own key, val of req.query.filter when key not in specialParameters) if 'filter' of req.query
-
+      filter[key] = JSON.parse(val) for own key, val of req.query.filter when key not in specialParameters if 'filter' of req.query
       query = @modelClass.find(filter)
 
       # Conditions are chained query functions, for example: query.find().limit(20).sort('-dateCreated')
-      conditions = JSON.parse(req.query.conditions || '[]')
+      # Example URL: http://localhost:3000/db/user?conditions[limit]=20&conditions[sort]=-dateCreated
       hasLimit = false
       try
-        for condition in conditions
-          name = condition[0]
-          f = query[name]
-          args = condition[1..]
-          query = query[name](args...)
-          hasLimit ||= f is 'limit'
+        for own key, val of req.query.conditions
+          query = query[key](val)
+          hasLimit ||= key is 'limit'
       catch e
         return @sendError(res, 422, 'Badly formed conditions.')
       query.limit(2000) unless hasLimit
