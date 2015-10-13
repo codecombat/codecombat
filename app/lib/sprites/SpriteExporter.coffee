@@ -18,6 +18,7 @@ class SpriteExporter extends CocoClass
     @colorConfig = options.colorConfig or {}
     @resolutionFactor = options.resolutionFactor or 1
     @actionNames = options.actionNames or (action.name for action in @thangType.getDefaultActions())
+    @spriteType = options.spriteType or @thangType.get('spriteType')
     super()
 
   build: (renderType) ->

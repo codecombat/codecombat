@@ -24,12 +24,14 @@ module.exports = class ExportThangTypeModal extends ModalView
   getActionNames: -> _.map @$('input[name="action"]:checked'), (el) -> $(el).val()
   getResolutionFactor: -> parseInt(@$('#resolution-input').val()) or SPRITE_RESOLUTION_FACTOR
   getFilename: -> 'spritesheet-'+_.string.slugify(moment().format())+'.png'
+  getSpriteType: -> @thangType.get('spriteType') or 'segmented'
 
   onClickSaveButton: ->
     options = {
       resolutionFactor: @getResolutionFactor()
       actionNames: @getActionNames()
       colorConfig: @getColorConfig()
+      spriteType: @getSpriteType()
     }
     @exporter = new SpriteExporter(@thangType, options)
     @exporter.build()
@@ -61,14 +63,15 @@ module.exports = class ExportThangTypeModal extends ModalView
       ] for f in @spriteSheet._frames)
       image: "db/thang.type/#{@thangType.get('original')}/"+@getFilename()
       resolutionFactor: @getResolutionFactor()
+      spriteType: @getSpriteType()
     }
     if config = @getColorConfig()
       spriteSheetData.colorConfig = config
     if label = @getColorLabel()
       spriteSheetData.colorLabel = label
-    spriteSheets = _.clone(@thangType.get('spriteSheets') or [])
+    spriteSheets = _.clone(@thangType.get('prerenderedSpriteSheetData') or [])
     spriteSheets.push(spriteSheetData)
-    @thangType.set('spriteSheets', spriteSheets)
+    @thangType.set('prerenderedSpriteSheetData', spriteSheets)
     @thangType.save()
     @listenToOnce @thangType, 'sync', @hide
 

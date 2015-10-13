@@ -148,10 +148,12 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   addLank: (lank) ->
     lank.options.resolutionFactor = @resolutionFactor
-
     lank.layer = @
     @listenTo(lank, 'action-needs-render', @onActionNeedsRender)
     @lanks.push lank
+    lank.thangType.initPrerenderedSpriteSheets()
+    prerenderedSpriteSheet = lank.thangType.getPrerenderedSpriteSheet(lank.options.colorConfig, @defaultSpriteType)
+    prerenderedSpriteSheet?.markToLoad()
     @loadThangType(lank.thangType)
     @addDefaultActionsToRender(lank)
     @setSpriteToLank(lank)
@@ -175,6 +177,10 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     else if thangType.get('raster') and not thangType.loadedRaster
       thangType.loadRasterImage()
       @listenToOnce(thangType, 'raster-image-loaded', @somethingLoaded)
+      @numThingsLoading++
+    else if prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheetToLoad()
+      prerenderedSpriteSheet.loadImage()
+      @listenToOnce(prerenderedSpriteSheet, 'image-loaded', -> @somethingLoaded(thangType))
       @numThingsLoading++
 
   somethingLoaded: (thangType) ->
