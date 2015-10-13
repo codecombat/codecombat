@@ -189,11 +189,13 @@ module.exports = class HeroVictoryModal extends ModalView
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     isHourOfCode = me.get('hourOfCode') or elapsed < 120 * 60 * 1000
     # Later we should only check me.get('hourOfCode'), but for now so much traffic comes in that we just assume it.
+    # TODO: get rid of said assumption sometime in November 2015 when code.org/learn updates to the new version for Hour of Code tutorials.
     if isHourOfCode
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
-      enough = elapsed >= 20 * 60 * 1000
+      lastLevel = @level.get('slug') is 'course-kithgard-gates'
+      enough = elapsed >= 20 * 60 * 1000 or lastLevel
       tooMuch = elapsed > 120 * 60 * 1000
-      showDone = elapsed >= 30 * 60 * 1000 and not tooMuch
+      showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel
       if enough and not tooMuch and not me.get('hourOfCodeComplete')
         $('body').append($('<img src="http://code.org/api/hour/finish_codecombat.png" style="visibility: hidden;">'))
         me.set 'hourOfCodeComplete', true  # Note that this will track even for players who don't have hourOfCode set.

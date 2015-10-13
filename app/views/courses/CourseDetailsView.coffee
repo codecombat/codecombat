@@ -9,6 +9,8 @@ User = require 'models/User'
 utils = require 'core/utils'
 Prepaid = require 'models/Prepaid'
 
+autoplayedOnce = false
+
 module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
   template: template
@@ -64,7 +66,7 @@ module.exports = class CourseDetailsView extends RootView
 
   onCourseSync: ->
     # console.log 'onCourseSync'
-    if me.isAnonymous()
+    if me.isAnonymous() and not me.get('hourOfCode')
       @noCourseInstance = true
       @render?()
       return
@@ -117,7 +119,7 @@ module.exports = class CourseDetailsView extends RootView
 
   onCourseInstanceSync: ->
     # console.log 'onCourseInstanceSync'
-    @adminMode = true if @courseInstance.get('ownerID') is me.id
+    @adminMode = true if @courseInstance.get('ownerID') is me.id and @courseInstance.get('name') isnt 'Single Player'
     @levelSessions = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/level_sessions", model: LevelSession, comparator:'_id' })
     @listenToOnce @levelSessions, 'sync', @onLevelSessionsSync
     @supermodel.loadCollection @levelSessions, 'level_sessions', cache: false
@@ -179,6 +181,11 @@ module.exports = class CourseDetailsView extends RootView
         @conceptsCompleted[concept] ?= 0
         @conceptsCompleted[concept]++
     @render?()
+
+    # If we just joined a single-player course for Hour of Code, we automatically play.
+    if @instanceStats.totalLevelsCompleted is 0 and @instanceStats.totalPlayTime is 0 and @courseInstance.get('members').length is 1 and me.get('hourOfCode') and not @adminMode and not autoplayedOnce
+      autoplayedOnce = true
+      @$el.find('button.btn-play-level').click()
 
   onMembersSync: ->
     # console.log 'onMembersSync'
