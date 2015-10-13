@@ -22,7 +22,7 @@ module.exports = class ModalView extends CocoView
     @className = @className.replace ' fade', '' if options.instant or @instant
     @closeButton = options.closeButton if options.closeButton?
     @modalWidthPercent = options.modalWidthPercent if options.modalWidthPercent
-    super options
+    super arguments...
 
   getRenderData: (context={}) ->
     context = super(context)

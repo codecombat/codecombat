@@ -51,7 +51,7 @@ module.exports = class CocoView extends Backbone.View
     @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
     @warnConnectionError = _.throttle(@warnConnectionError, 3000)
 
-    super options
+    super arguments...
 
   destroy: ->
     @stopListening()
@@ -130,6 +130,7 @@ module.exports = class CocoView extends Backbone.View
     context.moment = moment
     context.translate = $.i18n.t
     context.view = @
+    context._ = _
     context
 
   afterRender: ->

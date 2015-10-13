@@ -15,23 +15,53 @@ block content
     if state === 'unknown_error'
       .alert.alert-danger.alert-dismissible= stateMessage
 
-    if studentMode
-      +student-main
+    if hocLandingPage
+      +hoc-landing
     else
-      +teacher-main
-    .container-fluid
-      - var i = 0
-      while i < courses.length
-        .row
-          +course-block(courses[i], instances)
-          - i++
-          if i < courses.length
+      if studentMode
+        +student-main
+      else 
+        if hocMode
+          +teacher-hoc
+        else
+          +teacher-main
+      .container-fluid
+        - var i = 0
+        while i < courses.length
+          .row
             +course-block(courses[i], instances)
             - i++
+            if i < courses.length
+              +course-block(courses[i], instances)
+              - i++
+
+mixin hoc-landing
+  h1.center Welcome Hour of Code!
+  br
+  .container-fluid
+    .row
+      .col-md-6.center
+        button.btn.btn-lg.btn-success.btn-student(data-i18n="courses.students_click")
+      .col-md-6.center
+        button.btn.btn-lg.btn-default.btn-teacher(data-i18n="courses.teachers_click")
 
 mixin student-main
   button.btn.btn-warning.btn-teacher(data-i18n="courses.teachers_click")
   h1.center(data-i18n="courses.courses_on_coco")
+
+mixin teacher-hoc
+  button.btn.btn-warning.btn-student(data-i18n="courses.students_click")
+  h1.center Welcome Hour of Code!
+  p
+    strong How to use CodeCombat with your students:
+    ol
+      li Click the green 'Get FREE course' button below
+      li Follow the enrollment instructions
+      li Add students via the 'Add Students' tab
+  p 
+    span.spr If you have any problems, please email
+    a(href='mailto:team@codecombat.com') team@codecombat.com
+  br
 
 mixin teacher-main
   button.btn.btn-warning.btn-student(data-i18n="courses.students_click")
@@ -87,6 +117,14 @@ mixin student-dialog(course)
                       input.code-input(type='text', data-course-id="#{course.id}", data-i18n="[placeholder]courses.enter_code1", placeholder="Enter unlock code")
                     .col-md-4
                       button.btn.btn-success.btn-enroll(data-course-id="#{course.id}", data-i18n="courses.enroll")
+                  if hocMode && course.get('pricePerSeat') === 0
+                    .row.button-row.center.row-pick-class
+                      .col-md-12
+                        br
+                        div.or(data-i18n="courses.or")
+                    .row.button-row.center
+                      .col-md-12
+                        button.btn.btn-success.btn-lg.btn-hoc-student-continue(data-course-id="#{course.id}") Continue by yourself
 
 mixin teacher-dialog(course)
   .modal.continue-dialog(id="continueModal#{course.id}")

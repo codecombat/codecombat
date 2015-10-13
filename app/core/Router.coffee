@@ -96,6 +96,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'github/*path': 'routeToServer'
 
+    'hoc': go('courses/CoursesView')
+
     'i18n': go('i18n/I18NHomeView')
     'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
     'i18n/component/:handle': go('i18n/I18NEditComponentView')
