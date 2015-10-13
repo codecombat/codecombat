@@ -10,7 +10,9 @@ block content
   if state === 'enrolling'
     .alert.alert-info Enrolling in course..
   else if state === 'ppc_logged_out'
-    .alert.alert-success Log in or create an account to join this course.
+    .alert.alert-danger.logged_out Create account or log in to join this course.
+    button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
+    button.btn.btn-sm.btn-default.header-font.login-button(data-i18n="login.log_in")
   else
     if state === 'unknown_error'
       .alert.alert-danger.alert-dismissible= stateMessage
@@ -36,7 +38,7 @@ block content
               - i++
 
 mixin hoc-landing
-  h1.center Welcome Hour of Code!
+  h1.center Welcome to CodeCombat's Hour of Code!
   br
   .container-fluid
     .row
@@ -51,7 +53,7 @@ mixin student-main
 
 mixin teacher-hoc
   button.btn.btn-warning.btn-student(data-i18n="courses.students_click")
-  h1.center Welcome Hour of Code!
+  h1.center Welcome to CodeCombat's Hour of Code!
   p
     strong How to use CodeCombat with your students:
     ol

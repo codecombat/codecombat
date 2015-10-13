@@ -17,15 +17,14 @@ module.exports = class CoursesView extends RootView
     'click .btn-buy': 'onClickBuy'
     'click .btn-enroll': 'onClickEnroll'
     'click .btn-enter': 'onClickEnter'
-    'click .btn-hoc-student-continue': 'onClickHocStudentContinue'
+    'click .btn-hoc-student-continue': 'onClickHOCStudentContinue'
     'click .btn-student': 'onClickStudent'
     'click .btn-teacher': 'onClickTeacher'
 
   constructor: (options) ->
     super(options)
+    @setUpHourOfCode()
     @praise = utils.getCoursePraise()
-    @hocLandingPage = Backbone.history.getFragment()?.indexOf('hoc') >= 0
-    @hocMode = utils.getQueryVariable('hoc', false)
     @studentMode = Backbone.history.getFragment()?.indexOf('courses/students') >= 0
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
@@ -38,6 +37,21 @@ module.exports = class CoursesView extends RootView
       else
         @studentMode = true
         @courseEnroll(prepaidCode)
+
+  setUpHourOfCode: ->
+    # If we are coming in at /hoc, then we show the landing page.
+    # If we have ?hoc=true (for the step after the landing page), then we show any HoC-specific instructions.
+    # If we haven't tracked this player as an hourOfCode player yet, and it's a new account, we do that now.
+    @hocLandingPage = Backbone.history.getFragment()?.indexOf('hoc') >= 0
+    @hocMode = utils.getQueryVariable('hoc', false)
+    elapsed = new Date() - new Date(me.get('dateCreated'))
+    if not me.get('hourOfCode') and (@hocLandingPage or @hocMode) and elapsed < 5 * 60 * 1000
+      me.set('hourOfCode', true)
+      me.patch()
+      $('body').append($('<img src="https://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
+      application.tracker?.trackEvent 'Hour of Code Begin'
+    if me.get('hourOfCode') and elapsed < 24 * 60 * 60 * 1000
+      @hocMode = true  # If they really just arrived, make sure we're still in hocMode even if they lost ?hoc=true.
 
   getRenderData: ->
     context = super()
@@ -102,10 +116,12 @@ module.exports = class CoursesView extends RootView
     navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
-  onClickHocStudentContinue: (e) ->
+  onClickHOCStudentContinue: (e) ->
     $('.continue-dialog').modal('hide')
-    return @openModalView new AuthModal() if me.isAnonymous()
-    courseID = $(e.target).data('course-id')
+    if e
+      courseID = $(e.target).data('course-id')
+    else
+      courseID = '560f1a9f22961295f9427742'
 
     @state = 'enrolling'
     @stateMessage = undefined
@@ -117,6 +133,7 @@ module.exports = class CoursesView extends RootView
       name: 'Single Player'
       seats: 9999
       courseID: courseID
+      hourOfCode: true
     jqxhr = $.post('/db/course_instance/-/create', data)
     jqxhr.done (data, textStatus, jqXHR) =>
       application.tracker?.trackEvent 'Finished HoC student course creation', {courseID: courseID}
@@ -145,6 +162,10 @@ module.exports = class CoursesView extends RootView
       @render?()
 
   onClickStudent: (e) ->
+    if @supermodel.finished() and @hocLandingPage
+      # Automatically enroll in first course
+      @onClickHOCStudentContinue()
+      return
     route = "/courses/students"
     route += "?hoc=true" if @hocLandingPage or @hocMode
     viewClass = require 'views/courses/CoursesView'

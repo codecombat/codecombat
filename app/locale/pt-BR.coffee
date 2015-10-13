@@ -1347,7 +1347,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     no_changes: "Sem Alterações"
 
   temp:
-    ace_of_coders_tournament: "Novo: jogue no torneir Era dos Programadores agora!"
+    ace_of_coders_tournament: "Novo: jogue no torneio Ás dos Programadores agora!"
 
   multiplayer:
     multiplayer_title: "Configurações de Multijogador" # We'll be changing this around significantly soon. Until then, it's not important to translate.
