@@ -813,7 +813,7 @@ block content
                 th Ogre wins/losses/ties
               else
                 th Ogre score
-              th Spectate
+              th(data-i18n="play.spectate") Spectate
           tbody
             each human, index in winners.humans
               - var ogre = winners.ogres[index]
@@ -855,7 +855,7 @@ block content
                     td
                       span= Math.round(100 * ogre.score)
                   td
-                    a(href="/play/spectate/" + level.get('slug') + "?session-one=" + human.sessionID + "&session-two=" + ogre.sessionID) Watch the battle
+                    a(href="/play/spectate/" + level.get('slug') + "?session-one=" + human.sessionID + "&session-two=" + ogre.sessionID, data-i18n="ladder.watch_battle") Watch the battle
                 else
                   td
                   td
