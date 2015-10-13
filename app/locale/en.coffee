@@ -338,6 +338,7 @@
     tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
     tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
     tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventory"
