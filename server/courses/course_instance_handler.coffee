@@ -38,7 +38,8 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     super arguments...
 
   createAPI: (req, res) ->
-    return @sendUnauthorizedError(res) if not req.user? or req.user?.isAnonymous()
+    return @sendUnauthorizedError(res) if not req.user?
+    return @sendUnauthorizedError(res) if req.user.isAnonymous() and not (req.body.hourOfCode and req.body.courseID is '560f1a9f22961295f9427742')
 
     # Required Input
     seats = req.body.seats

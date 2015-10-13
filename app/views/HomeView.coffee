@@ -46,6 +46,8 @@ module.exports = class HomeView extends RootView
     @$el.addClass 'hour-of-code' if @explainsHourOfCode
 
   setUpHourOfCode: ->
+    # All this HoC stuff is for the 2014-2015 year. 2015-2016 year lands at /hoc instead (the courses view).
+    # TODO: get rid of all this sometime in November 2015 when code.org/learn updates to the new version for Hour of Code tutorials.
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     if elapsed < 5 * 60 * 1000
       me.set 'hourOfCode', true
