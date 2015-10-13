@@ -31,7 +31,6 @@ module.exports = class ExportThangTypeModal extends ModalView
       actionNames: @getActionNames()
       colorConfig: @getColorConfig()
     }
-    console.log 'options?', options
     @exporter = new SpriteExporter(@thangType, options)
     @exporter.build()
     @listenToOnce @exporter, 'build', @onExporterBuild
