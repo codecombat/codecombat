@@ -159,6 +159,9 @@
     accepted: "Accepted"
     rejected: "Rejected"
     withdrawn: "Withdrawn"
+	accept: "Accept"
+	reject: "Reject"
+	withdraw: "Withdraw"
     submitter: "Submitter"
     submitted: "Submitted"
     commit_msg: "Commit Message"
@@ -214,6 +217,8 @@
 
   play_level:
     done: "Done"
+	next_game: "Next game"
+	show_menu: "Show game menu"
     home: "Home"  # Not used any more, will be removed soon.
     level: "Level"  # Like "Level: Dungeons of Kithgard"
     skip: "Skip"
@@ -1115,6 +1120,7 @@
     simulate_games: "Simulate Games!"
     games_simulated_by: "Games simulated by you:"
     games_simulated_for: "Games simulated for you:"
+	games_in_queue: "Games currently in the queue:"
     games_simulated: "Games simulated"
     games_played: "Games played"
     ratio: "Ratio"
@@ -1151,6 +1157,7 @@
     fight: "Fight!"
     watch_victory: "Watch your victory"
     defeat_the: "Defeat the"
+	watch_battle: "Watch the battle"
     tournament_started: ", started"
     tournament_ends: "Tournament ends"
     tournament_ended: "Tournament ended"
@@ -1208,6 +1215,7 @@
     no_recent_games: "No games played during the past two weeks."
     payments: "Payments"
     prepaid: "Prepaid"
+	prepaid_codes: "Prepaid Codes"
     purchased: "Purchased"
     sale: "Sale"
     subscription: "Subscription"
