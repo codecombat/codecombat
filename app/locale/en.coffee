@@ -913,7 +913,7 @@
     see_the: "See the"
     more_info: "for more information."
     choose_course: "Choose Your Course:"
-    enter_code: "Enter an unlock code"
+    enter_code: "Enter an unlock code to join an existing class" # {change}
     enter_code1: "Enter unlock code"
     enroll: "Enroll"
     pick_from_classes: "Pick from your current classes"

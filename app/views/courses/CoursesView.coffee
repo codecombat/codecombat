@@ -7,6 +7,8 @@ RootView = require 'views/core/RootView'
 template = require 'templates/courses/courses'
 utils = require 'core/utils'
 
+# TODO: Hour of Code (HoC) integration is a mess
+
 module.exports = class CoursesView extends RootView
   id: 'courses-view'
   template: template
@@ -15,12 +17,15 @@ module.exports = class CoursesView extends RootView
     'click .btn-buy': 'onClickBuy'
     'click .btn-enroll': 'onClickEnroll'
     'click .btn-enter': 'onClickEnter'
+    'click .btn-hoc-student-continue': 'onClickHocStudentContinue'
     'click .btn-student': 'onClickStudent'
     'click .btn-teacher': 'onClickTeacher'
 
   constructor: (options) ->
     super(options)
     @praise = utils.getCoursePraise()
+    @hocLandingPage = Backbone.history.getFragment()?.indexOf('hoc') >= 0
+    @hocMode = utils.getQueryVariable('hoc', false)
     @studentMode = Backbone.history.getFragment()?.indexOf('courses/students') >= 0
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
@@ -38,6 +43,8 @@ module.exports = class CoursesView extends RootView
     context = super()
     context.courses = @courses.models ? []
     context.enrolledCourses = @enrolledCourses ? {}
+    context.hocLandingPage = @hocLandingPage
+    context.hocMode = @hocMode
     context.instances = @courseInstances.models ? []
     context.praise = @praise
     context.state = @state
@@ -95,14 +102,58 @@ module.exports = class CoursesView extends RootView
     navigationEvent = route: route, viewClass: viewClass, viewArgs: viewArgs
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
+  onClickHocStudentContinue: (e) ->
+    $('.continue-dialog').modal('hide')
+    return @openModalView new AuthModal() if me.isAnonymous()
+    courseID = $(e.target).data('course-id')
+
+    @state = 'enrolling'
+    @stateMessage = undefined
+    @render?()
+
+    # TODO: Copied from CourseEnrollView
+
+    data =
+      name: 'Single Player'
+      seats: 9999
+      courseID: courseID
+    jqxhr = $.post('/db/course_instance/-/create', data)
+    jqxhr.done (data, textStatus, jqXHR) =>
+      application.tracker?.trackEvent 'Finished HoC student course creation', {courseID: courseID}
+      # TODO: handle fetch errors
+      me.fetch(cache: false).always =>
+        courseID = courseID
+        route = "/courses/#{courseID}"
+        viewArgs = [{}, courseID]
+        if data?.length > 0
+          courseInstanceID = data[0]._id
+          route += "/#{courseInstanceID}"
+          viewArgs[0].courseInstanceID = courseInstanceID
+        Backbone.Mediator.publish 'router:navigate',
+          route: route
+          viewClass: 'views/courses/CourseDetailsView'
+          viewArgs: viewArgs
+    jqxhr.fail (xhr, textStatus, errorThrown) =>
+      console.error 'Got an error purchasing a course:', textStatus, errorThrown
+      application.tracker?.trackEvent 'Failed HoC student course creation', status: textStatus
+      if xhr.status is 402
+        @state = 'declined'
+        @stateMessage = arguments[2]
+      else
+        @state = 'unknown_error'
+        @stateMessage = "#{xhr.status}: #{xhr.responseText}"
+      @render?()
+
   onClickStudent: (e) ->
     route = "/courses/students"
+    route += "?hoc=true" if @hocLandingPage or @hocMode
     viewClass = require 'views/courses/CoursesView'
     navigationEvent = route: route, viewClass: viewClass, viewArgs: []
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickTeacher: (e) ->
     route = "/courses/teachers"
+    route += "?hoc=true" if @hocLandingPage or @hocMode
     viewClass = require 'views/courses/CoursesView'
     navigationEvent = route: route, viewClass: viewClass, viewArgs: []
     Backbone.Mediator.publish 'router:navigate', navigationEvent
