@@ -210,7 +210,6 @@ module.exports = class ThangTypeEditView extends RootView
     @patchesView = @insertSubView(new PatchesView(@thangType), @$el.find('.patches-view'))
     @showReadOnly() if me.get('anonymous')
     @updatePortrait()
-    @onClickExportSpriteSheetButton()
 
   initComponents: =>
     options =

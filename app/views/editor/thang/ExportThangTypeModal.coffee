@@ -38,8 +38,6 @@ module.exports = class ExportThangTypeModal extends ModalView
 
   onExporterBuild: (e) ->
     @spriteSheet = e.spriteSheet
-    $('body').empty().append(@spriteSheet._images[0])
-    return
     src = @spriteSheet._images[0].toDataURL()
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
     body =
