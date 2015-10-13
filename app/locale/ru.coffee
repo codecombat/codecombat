@@ -159,6 +159,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     accepted: "Принято"
     rejected: "Отклонено"
     withdrawn: "Отозвано"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Податель"
     submitted: "Представлено"
     commit_msg: "Сопроводительное сообщение"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   play_level:
     done: "Готово"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "На главную" # Not used any more, will be removed soon.
     level: "Уровень" # Like "Level: Dungeons of Kithgard"
     skip: "Пропустить"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_free_your_mind: "Отвлекись от всего, Нео. Страх, неверие, сомнения отбрось — очисти свой разум. - Morpheus"
     tip_strong_opponents: "Даже сильнейший противник имеет слабость. - Itachi Uchiha"
     tip_paper_and_pen: "Прежде чем начать программировать, вы всегда можете попробовать с листом бумаги и ручкой."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     intro_1: "CodeCombat - это онлайн игра, которая обучает программированию. Ученики пишут код на реальных языках программирования."
     intro_2: "Опыт не обязателен!"
     free_title: "Сколько это стоит?"
-    cost_china: "Первые 5 уровней CodeCombat бесплатны в Китае. При оплате $9.99 в месяц вы получите доступ к последующим более чем 140 уровням на наших эксклюзивных серверах в Китае." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "В наличии более 80 БЕСПЛАТНЫХ уровней, которые покрывают каждый концепт." # {change}
     free_2: "Месячная подписка предоставляет доступ к видео-урокам и дополнительным уровням."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     see_the: "Смотрите"
     more_info: "для доп. информации."
     choose_course: "Выберите ваш курс:"
-    enter_code: "Введите код"
+    enter_code: "Введите код" # {change}
     enter_code1: "Введите код"
     enroll: "Записаться"
     pick_from_classes: "Выбрать из вашего класса"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     simulate_games: "Симулировать игры!"
     games_simulated_by: "Игры, симулированные вами:"
     games_simulated_for: "Игры, симулированные за вас:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Игр симулировано"
     games_played: "Игр сыграно"
     ratio: "Соотношение"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     fight: "В бой!"
     watch_victory: "Наблюдать за победой"
     defeat_the: "Победить"
+#    watch_battle: "Watch the battle"
     tournament_started: ", начат"
     tournament_ends: "Турнир заканчивается"
     tournament_ended: "Турнир закончился"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_recent_games: "Нет сыгранных игр за последние две недели."
     payments: "Платежи"
     prepaid: "Предоплата"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Куплено"
     sale: "Распродажа"
     subscription: "Подписка"

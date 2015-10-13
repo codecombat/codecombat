@@ -159,6 +159,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     accepted: "Прийнято"
     rejected: "Відхилено"
     withdrawn: "Відкликано"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Відправник"
     submitted: "Відправлено"
     commit_msg: "Доручити повідомлення"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   play_level:
     done: "Готово"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "На головну" # Not used any more, will be removed soon.
     level: "Рівень" # Like "Level: Dungeons of Kithgard"
     skip: "Пропустити"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tip_free_your_mind: "Нео, ти повинен усе подолати. Страх... сумніви і невіра. Звільни від них свій розум. - Морфіус"
     tip_strong_opponents: "Навіть наймогутніший суперник має свою слабкість. - Ітачі Учіха"
     tip_paper_and_pen: "Перш ніж почати програмувати, ви завжди можете спробувати з аркушем паперу і ручкою."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Інвентар"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     intro_1: "CodeCombat - це онлайн гра, що вчить програмуванню. Студенти пишуть код на реальних мовах програмування."
     intro_2: "Досвід не потрібен!"
     free_title: "Скільки це коштує?"
-    cost_china: "CodeCombat в Китаї безкоштовний протягом перших п'яти рівнів, після чого він коштує $ 9,99 USD в місяць за доступ до інших наших 180+ рівнів на наших ексклюзивних серверів в Китаї." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "Є 110+ БЕЗКОШТОВНИХ рівнів, які охоплюють всі поняття."
     free_2: "Місячна підписка надає доступ до відео-уроків і додаткових рівнів практики."
@@ -631,7 +636,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     who_for_1: "Ми рекомендуємо CodeCombat для учнів старше 9 років. Hіякий досвід програмування не потрібно."
     who_for_2: "Ми розробили CodeCombat так, щоб він підходив і хлопчикам і дівчаткам."
     material_title: "Як багато тут матеріалу?"
-    material_china: "Близько 30 годин ігрового процесу, розподіленого більш ніж на 140 рівнів для передплатників з додаванням нових рівнів щотижня."
+#    material_premium_server: "Approximately 50 hours of gameplay spread over 190+ subscriber-only levels so far."
     material_1: "Приблизно 25 годин безкоштовного контенту і додаткові 15 годин контенту для передплатників."
     concepts_title: "Про які концепти ми розповідаємо?"
     how_much_title: "Скільки коштує місячна передплата?"
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     simulate_games: "Моделювати ігри!"
     games_simulated_by: "Ігор модельовано Вами:"
     games_simulated_for: "Ігор модельовано для Вас:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Ігор модельовано"
     games_played: "Ігор зіграно"
     ratio: "Співвідношення"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     fight: "У бій!"
     watch_victory: "Подивитись Вашу перемогу"
     defeat_the: "Перемогти"
+#    watch_battle: "Watch the battle"
     tournament_started: ", розпочинається."
     tournament_ends: "Турнір завершується"
     tournament_ended: "Турнір завершено"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     no_recent_games: "Упродовж останніх двох тижнів не зіграно жодної гри."
     payments: "Платежі"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Придбано"
 #    sale: "Sale"
     subscription: "Підписка"

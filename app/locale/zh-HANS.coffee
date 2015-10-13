@@ -159,6 +159,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     accepted: "已接受"
     rejected: "未接受"
     withdrawn: "撤回"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "提交者"
     submitted: "已提交"
     commit_msg: "提交信息"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   play_level:
     done: "完成"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "主页" # Not used any more, will be removed soon.
     level: "关卡" # Like "Level: Dungeons of Kithgard"
     skip: "跳过"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_free_your_mind: "丢掉一切私心杂念，丢掉害怕、疑问和拒信，解放您的思想。 - Morpheus《黑客帝国》"
     tip_strong_opponents: "即使是最强大的对手也是有弱点的。- 宇智波鼬《火影忍者》"
     tip_paper_and_pen: "在您开始编码之前，您可以随时用一张纸和一支笔作计划。"
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -400,7 +406,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！"
     feature1: "110+ 基本关卡（4个世界）"
     feature2: "10 个强大 <strong>英雄</strong>以及各式非凡技能!"
-    feature3: "70+ 奖励关卡"
+    feature3: "70+ 奖励关卡" # {change}
     feature4: "每月享有3500额外宝石"
     feature5: "视频教学"
     feature6: "专业邮件支援"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     intro_1: "CodeCombat 是一个教编程的网上游戏。学生会用编程语言写代码。"
     intro_2: "无需经验!"
     free_title: "要多少钱?"
-    cost_china: "CodeCombat的前5个关卡在中国是免费的，在这之后需花费每月9.99美元来访问我们架设在中国专属服务器上的190多个关卡。" # Deprecated
     cost_premium_server: "CodeCombat的前5个关卡是免费的，在这之后需花费每月9.99美元来访问我们架设专属服务器上的190多个关卡。"
     free_1: "有110多个覆盖了所有理论的免费关卡。"
     free_2: "包月订阅可以访问视频教程和额外的练习关卡。"
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     simulate_games: "模拟游戏！"
     games_simulated_by: "由您模拟过的游戏数:"
     games_simulated_for: "为您模拟过的游戏数:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "模拟次数"
     games_played: "被模拟次数"
     ratio: "比率"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     fight: "战斗！"
     watch_victory: "观看您的胜利"
     defeat_the: "击败了"
+#    watch_battle: "Watch the battle"
     tournament_started: "，锦标赛已开始"
     tournament_ends: "锦标赛结束"
     tournament_ended: "锦标赛已结束"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_recent_games: "最近两个星期没有玩过游戏。"
     payments: "支付方式"
     prepaid: "预付费"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "已购买"
     sale: "促销"
     subscription: "订阅"

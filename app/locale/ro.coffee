@@ -159,6 +159,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     accepted: "Acceptat"
     rejected: "Respins"
     withdrawn: "Retrage"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Expeditor"
     submitted: "Expediat"
     commit_msg: "Înregistrează Mesajul"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
   play_level:
     done: "Gata"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "Acasă" # Not used any more, will be removed soon.
     level: "Nivel" # Like "Level: Dungeons of Kithgard"
     skip: "Sari peste"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tip_free_your_mind: "Trebuie sa lași totul, Neo. Frica, Îndoiala și necredința. Eliberează-ți mintea. ~Morpheus"
     tip_strong_opponents: "Și cei mai puternici dintre oponenți întodeauna au o slăbiciune. ~Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventar"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     intro_1: "CodeCombat este un joc online care te învață programare. Studenți scriu cod în limbaje de programare reale."
     intro_2: "Nu este nevoie de experiența în domeniu!"
     free_title: "Cât de mult costă?"
-    cost_china: "CodeCombat în China este gratis pentru primele 5 nivele, după care costă $9.99 USD pe lună pentru a accesa celelalte 140+ nivele pe serverele noaste exlusive din China." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "Sunt 80+ de nivele GRATIS ce parcurg fiecare concept în programare." # {change}
     free_2: "Un abonament lunar oferă acces la tutoriale video si nivele extra pentru practică."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     simulate_games: "Simulează Jocuri!"
     games_simulated_by: "Jocuri simulate de tine:"
     games_simulated_for: "Jocuri simulate pentru tine:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Jocuri simulate"
     games_played: "Jocuri jucate"
     ratio: "Rație"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     fight: "Luptă!"
     watch_victory: "Vizualizează victoria"
     defeat_the: "Învinge"
+#    watch_battle: "Watch the battle"
     tournament_started: ", a început"
     tournament_ends: "Turneul se termină"
     tournament_ended: "Turneul s-a terminat"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     no_recent_games: "Nici-un joc jucat de 2 săptămâni."
     payments: "Plăți"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Cumpărate"
 #    sale: "Sale"
     subscription: "Abonament"

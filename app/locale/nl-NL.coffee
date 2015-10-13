@@ -159,6 +159,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     accepted: "Geaccepteerd"
     rejected: "Afgewezen"
     withdrawn: "Teruggetrokken"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Toevoeger"
     submitted: "Toegevoegd"
     commit_msg: "Commit Bericht"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   play_level:
     done: "Klaar"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "Home" # Not used any more, will be removed soon.
     level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "Overslaan"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
     tip_strong_opponents: "Zelf de sterkste vijand heeft een zwakheid. - Itachi Uchiha"
     tip_paper_and_pen: "Voor je begint te programmeren, kan je altijd met pen en papier een plan maken."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventaris"
@@ -400,7 +406,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
     feature1: "meer dan 110+ basislevels over 4 werelden"
     feature2: "10 sterke <strong>nieuw helden</strong> met unieke vaardigheden!"
-    feature3: "70+ bonuslevels"
+    feature3: "70+ bonuslevels" # {change}
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
     feature5: "Video cursussen"
 #    feature6: "Premium email support"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     intro_1: "CodeCombat is een online spel dat onderwijst in programmeren. Leerlingen schrijven code in echte programmeertalen."
     intro_2: "Geen ervaring nodig!"
     free_title: "Hoeveel kost het?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive China servers." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "Er zijn meer dan 110 GRATIS levels, welke alle concepten omvatten."
     free_2: "Een maandelijkse inschrijving bied toegang tot video tutorials en extra oefenlevels."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     see_the: "Bekijk de"
     more_info: "voor meer informatie."
     choose_course: "Kies je cursus:"
-    enter_code: "voer een ontgrendelcode in"
+    enter_code: "voer een ontgrendelcode in" # {change}
     enter_code1: "Voer ontgrendelcode in"
     enroll: "Inschrijven"
     pick_from_classes: "Kies uit je hidige klas"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     simulate_games: "Simuleer spellen!"
     games_simulated_by: "Door jou gesimuleerde spellen:"
     games_simulated_for: "Voor jou gesimuleerde spellen:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Spellen gesimuleerd"
     games_played: "Spellen gespeeld"
     ratio: "Verhouding"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     fight: "Aanvallen!"
     watch_victory: "Aanschouw je overwinning!"
     defeat_the: "Versla de"
+#    watch_battle: "Watch the battle"
     tournament_started: ", begonnen"
     tournament_ends: "Toernooi eindigt"
     tournament_ended: "Toernooi geeindigd"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     no_recent_games: "De afgelopen 2 weken geen spellen gespeeld."
     payments: "Betalingen"
     prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Gekocht"
     sale: "Verkoop"
     subscription: "abonnement"

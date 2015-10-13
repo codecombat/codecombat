@@ -406,7 +406,7 @@
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
     feature1: "110+ basic levels across 4 worlds"
     feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "80+ bonus levels" # {change}
+    feature3: "80+ bonus levels"
     feature4: "<strong>3500 bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
@@ -919,7 +919,7 @@
     see_the: "See the"
     more_info: "for more information."
     choose_course: "Choose Your Course:"
-    enter_code: "Enter an unlock code to join an existing class" # {change}
+    enter_code: "Enter an unlock code to join an existing class"
     enter_code1: "Enter unlock code"
     enroll: "Enroll"
     pick_from_classes: "Pick from your current classes"

@@ -159,6 +159,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     accepted: "적용됨"
     rejected: "거부됨"
     withdrawn: "취소됨"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "제출자"
     submitted: "제출됨"
     commit_msg: "커밋 메세지"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   play_level:
     done: "완료"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "홈" # Not used any more, will be removed soon.
     level: "레벨" # Like "Level: Dungeons of Kithgard"
     skip: "넘어가기"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "인벤토리"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive China servers." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     simulate_games: "시뮬레이션 실행!"
     games_simulated_by: "내가 시뮬레이션한 게임 수:"
     games_simulated_for: "다른 사람에 의해 시뮬레이션된 게임 수:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "시뮬레이션 실행된 게임"
     games_played: "플레이한 게임"
     ratio: "비율"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     fight: "전투 시작!"
     watch_victory: "당신의 승리를 확인하세요"
 #    defeat_the: "Defeat the"
+#    watch_battle: "Watch the battle"
 #    tournament_started: ", started"
 #    tournament_ends: "Tournament ends"
 #    tournament_ended: "Tournament ended"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
 #    sale: "Sale"
 #    subscription: "Subscription"
