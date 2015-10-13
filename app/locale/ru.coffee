@@ -256,8 +256,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_new_item: "Новый предмет"
     victory_viking_code_school: "Ого, это было тяжелый уровень! Если вы еще не разработчик программ, вам стоит им стать. Вы только что ускорири принятие в Школу Викингов, где вы сможете поднять свои навыки на новый уровень и стать профессиональным веб-разработчиком за 14 недель."
     victory_become_a_viking: "Станьте Викингом"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
+    victory_bloc: "Отличная работа! Ваши навыки улучшаются! Если вы размышляете, как стать разработчиком программного обеспечения, это может быть ваш счастливый день. Bloc представляет собой онлайн учебный лагерь,который дает вам опытного наставника, который поможет  Вам стать профессиональным разработчиком! Победив Mayhem of Munchkins, вы имеете право на $ 500 уменьшение цены с кодом: CCRULES"
+    victory_bloc_cta: "Встретьте своего наставника - узнайте больше про Bloc"
     guide_title: "Руководство"
     tome_minion_spells: "Заклинания ваших миньонов" # Only in old-style levels.
     tome_read_only_spells: "Заклинания только для чтения" # Only in old-style levels.
@@ -341,7 +341,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_recurse: "Итерация свойственна человеку, рекурсия божественна. - L. Peter Deutsch"
     tip_free_your_mind: "Отвлекись от всего, Нео. Страх, неверие, сомнения отбрось — очисти свой разум. - Morpheus"
     tip_strong_opponents: "Даже сильнейший противник имеет слабость. - Itachi Uchiha"
-    tip_paper_and_pen: "Прежде чем приступить к решению, попробуй решить задачу с помощью бумаги и ручки."
+    tip_paper_and_pen: "Прежде чем начать программировать, вы всегда можете попробовать с листом бумаги и ручкой."
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -517,8 +517,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     attack_2: "от указанного"
     attack_3: "урона оружия."
     health_1: "Получает"
-    health_2: "от указанного"
-    health_3: "здоровья."
+    health_2: "от указанной"
+    health_3: "прочности брони."
     speed_1: "Передвигается со скоростью"
     speed_2: "метров в секунду."
     available_for_purchase: "Доступно для покупки" # Shows up when you have unlocked, but not purchased, a hero in the hero store
@@ -603,7 +603,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     jose_title: "Музыка"
     jose_blurb: "На взлет"
     retrostyle_title: "Иллюстрирование"
-    retrostyle_blurb: "RetroStyle Games"
+    retrostyle_blurb: "Игры в стиле ретро"
 
   teachers:
     title: "CodeCombat: Информация для учителей"
@@ -629,8 +629,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     monitor_progress_title: "Как мне следить за прогрессом студентов?"
     monitor_progress_1: "Прогресс студентов может быть отследить, создав"
     monitor_progress_2: "для вашего класса."
-    monitor_progress_3: "Чтобы добавить студентов, отправьте им ссылку-пришлашение в ваш Клан, которую можно найти на странице"
-    monitor_progress_4: "."
+    monitor_progress_3: "Чтобы добавить студентов, отправьте им ссылку-пришлашение в ваш Клан, которую можно найти на"
+    monitor_progress_4: "странице."
     monitor_progress_5: "После того, как они присоединятся, вы увидите сводку по прогрессам студентов на странице вашего Клана."
     private_clans_1: "Частные Кланы обеспечивают повышенную конфиденциальность и детальную информацию по прогрессу каждого студента."
     private_clans_2: "Чтобы создать частный Клан, отметьте флажок 'Сделать клан частным', когда будете создавать"
@@ -640,7 +640,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     who_for_2: "Мы разработали CodeCombat так, чтобы он подходил и мальчикам и девочкам."
     material_title: "Как много здесь материала?"
     material_china: "Около 30 часов игрового процесса, распределенного более чем на 140 уровней для подписчиков с добавлением новых уровней каждую неделю." # {change}
-    material_1: "Около 10 часов бесплатного контента и 20 часов дополнительного контента для подписчиков с добавлением новых уровней каждую неделю." # {change}
+    material_1: "Приблизно 25 часов бесплатного контента и дополнительные 15 часов контента для подписчиков." # {change}
     concepts_title: "О каких концептах мы рассказываем?"
     how_much_title: "Сколько стоит месячная подписка?"
     how_much_1: "Цена"
