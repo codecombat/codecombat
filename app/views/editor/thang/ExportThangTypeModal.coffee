@@ -20,7 +20,10 @@ module.exports = class ExportThangTypeModal extends ModalView
     green: { hue: 0.33, saturation: 0.75, lightness: 0.5 }
   }
   getColorLabel: -> @$('#color-config-select').val()
-  getColorConfig: -> @colorMap[@getColorLabel()]
+  getColorConfig: ->
+    color = @colorMap[@getColorLabel()]
+    return { team: color } if color
+    return null
   getActionNames: -> _.map @$('input[name="action"]:checked'), (el) -> $(el).val()
   getResolutionFactor: -> parseInt(@$('#resolution-input').val()) or SPRITE_RESOLUTION_FACTOR
   getFilename: -> 'spritesheet-'+_.string.slugify(moment().format())+'.png'

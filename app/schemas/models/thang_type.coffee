@@ -184,7 +184,7 @@ _.extend ThangTypeSchema.properties,
             speed: { type: 'number' }
           }
         }
-      colorConfig: c.colorConfig()
+      colorConfig: c.object {additionalProperties: c.colorConfig()}
       colorLabel: { enum: ['red', 'green', 'blue'] }
       frames:
         type: 'array'

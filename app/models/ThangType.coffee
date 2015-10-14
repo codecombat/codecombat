@@ -523,7 +523,8 @@ module.exports = class ThangType extends CocoModel
       return false if pss.get('spriteType') isnt spriteType
       otherColorConfig = pss.get('colorConfig')
       return true if _.isEmpty(colorConfig) and _.isEmpty(otherColorConfig)
-      return _.isEqual(colorConfig and otherColorConfig)
+      getHue = (config) -> _.result(_.result(config, 'team'), 'hue')
+      return getHue(colorConfig) is getHue(otherColorConfig)
 
   getPrerenderedSpriteSheetToLoad: ->
     return unless @prerenderedSpriteSheets
