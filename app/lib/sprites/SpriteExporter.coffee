@@ -21,7 +21,7 @@ class SpriteExporter extends CocoClass
     @spriteType = options.spriteType or @thangType.get('spriteType') or 'segmented'
     super()
 
-  build: (renderType) ->
+  build: ->
     spriteSheetBuilder = new createjs.SpriteSheetBuilder()
     if @spriteType is 'segmented'
       @renderSegmentedThangType(spriteSheetBuilder)
