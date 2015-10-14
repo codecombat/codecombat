@@ -511,6 +511,12 @@ module.exports = class ThangType extends CocoModel
         containersToRender[container.gn] = true for container in animationContainers
     return _.keys(containersToRender)
 
+  nextForAction: (action) ->
+    next = true
+    next = action.goesTo if action.goesTo
+    next = false if action.loops is false
+    return next
+
   initPrerenderedSpriteSheets: ->
     return if @prerenderedSpriteSheets or not data = @get('prerenderedSpriteSheetData')
     # creates a collection of prerendered sprite sheets

@@ -27,9 +27,12 @@ module.exports = class ExportThangTypeModal extends ModalView
   getActionNames: -> _.map @$('input[name="action"]:checked'), (el) -> $(el).val()
   getResolutionFactor: -> parseInt(@$('#resolution-input').val()) or SPRITE_RESOLUTION_FACTOR
   getFilename: -> 'spritesheet-'+_.string.slugify(moment().format())+'.png'
-  getSpriteType: -> @thangType.get('spriteType') or 'segmented'
+  getSpriteType: -> @$('input[name="sprite-type"]:checked').val()
 
   onClickSaveButton: ->
+    @$('.modal-footer button').addClass('hide')
+    @$('.modal-footer .progress').removeClass('hide')
+    @$('input, select').attr('disabled', true)
     options = {
       resolutionFactor: @getResolutionFactor()
       actionNames: @getActionNames()
