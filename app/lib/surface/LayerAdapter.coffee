@@ -179,7 +179,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       @listenToOnce(thangType, 'raster-image-loaded', @somethingLoaded)
       @numThingsLoading++
     else if prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheetToLoad()
-      prerenderedSpriteSheet.loadImage()
+      startedLoading = prerenderedSpriteSheet.loadImage()
+      return if not startedLoading
       @listenToOnce(prerenderedSpriteSheet, 'image-loaded', -> @somethingLoaded(thangType))
       @numThingsLoading++
 
@@ -353,6 +354,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   renderSegmentedThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
     prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheet(colorConfig, 'segmented')
+    if prerenderedSpriteSheet and not prerenderedSpriteSheet.loadedImage
+      return
     containersToRender = thangType.getContainersForActions(actionNames)
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
     for containerGlobalName in containersToRender
@@ -377,6 +380,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheet(colorConfig, 'singular')
     prerenderedFramesMap = {}
     if prerenderedSpriteSheet
+      if not prerenderedSpriteSheet.loadedImage
+        return
       scale = @resolutionFactor / (prerenderedSpriteSheet.get('resolutionFactor') or 1)
       for frame, i in prerenderedSpriteSheet.spriteSheet._frames
         sprite = new createjs.Sprite(prerenderedSpriteSheet.spriteSheet)

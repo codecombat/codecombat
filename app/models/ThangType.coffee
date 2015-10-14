@@ -541,8 +541,8 @@ class PrerenderedSpriteSheet extends CocoModel
   @className: 'PrerenderedSpriteSheet'
 
   loadImage: ->
-    return if @loadingImage or @loadedImage
-    return unless imageURL = @get('image')
+    return false if @loadingImage or @loadedImage
+    return false unless imageURL = @get('image')
     @image = $("<img src='/file/#{imageURL}' />")
     @loadingImage = true
     @image.one('load', =>
@@ -554,6 +554,7 @@ class PrerenderedSpriteSheet extends CocoModel
       @loadingImage = false
       @trigger('image-load-error', @)
     )
+    return true
 
   buildSpriteSheet: ->
     @spriteSheet = new createjs.SpriteSheet({
