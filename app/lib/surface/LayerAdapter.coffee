@@ -148,10 +148,12 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   addLank: (lank) ->
     lank.options.resolutionFactor = @resolutionFactor
-
     lank.layer = @
     @listenTo(lank, 'action-needs-render', @onActionNeedsRender)
     @lanks.push lank
+    lank.thangType.initPrerenderedSpriteSheets()
+    prerenderedSpriteSheet = lank.thangType.getPrerenderedSpriteSheet(lank.options.colorConfig, @defaultSpriteType)
+    prerenderedSpriteSheet?.markToLoad()
     @loadThangType(lank.thangType)
     @addDefaultActionsToRender(lank)
     @setSpriteToLank(lank)
@@ -175,6 +177,11 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     else if thangType.get('raster') and not thangType.loadedRaster
       thangType.loadRasterImage()
       @listenToOnce(thangType, 'raster-image-loaded', @somethingLoaded)
+      @numThingsLoading++
+    else if prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheetToLoad()
+      startedLoading = prerenderedSpriteSheet.loadImage()
+      return if not startedLoading
+      @listenToOnce(prerenderedSpriteSheet, 'image-loaded', -> @somethingLoaded(thangType))
       @numThingsLoading++
 
   somethingLoaded: (thangType) ->
@@ -346,6 +353,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Rendering containers for segmented thang types
 
   renderSegmentedThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
+    prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheet(colorConfig, 'segmented')
+    if prerenderedSpriteSheet and not prerenderedSpriteSheet.loadedImage
+      return
     containersToRender = thangType.getContainersForActions(actionNames)
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
     for containerGlobalName in containersToRender
@@ -354,6 +364,11 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         container = new createjs.Sprite(@spriteSheet)
         container.gotoAndStop(containerKey)
         frame = spriteSheetBuilder.addFrame(container)
+      else if prerenderedSpriteSheet
+        container = new createjs.Sprite(prerenderedSpriteSheet.spriteSheet)
+        container.gotoAndStop(containerGlobalName)
+        scale = @resolutionFactor / (prerenderedSpriteSheet.get('resolutionFactor') or 1)
+        frame = spriteSheetBuilder.addFrame(container, null, scale)
       else
         container = spriteBuilder.buildContainerFromStore(containerGlobalName)
         frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (thangType.get('scale') or 1))
@@ -362,6 +377,17 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Rendering sprite sheets for singular thang types
 
   renderSingularThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
+    prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheet(colorConfig, 'singular')
+    prerenderedFramesMap = {}
+    if prerenderedSpriteSheet
+      if not prerenderedSpriteSheet.loadedImage
+        return
+      scale = @resolutionFactor / (prerenderedSpriteSheet.get('resolutionFactor') or 1)
+      for frame, i in prerenderedSpriteSheet.spriteSheet._frames
+        sprite = new createjs.Sprite(prerenderedSpriteSheet.spriteSheet)
+        sprite.gotoAndStop(i)
+        prerenderedFramesMap[i] = spriteSheetBuilder.addFrame(sprite, null, scale)
+
     actionObjects = _.values(thangType.getActions())
     animationActions = []
     for a in actionObjects
@@ -387,8 +413,18 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         for key, index in actionKeys
           action = actions[index]
           frames = (framesMap[f] for f in @spriteSheet.getAnimation(key).frames)
-          next = @nextForAction(action)
+          next = thangType.nextForAction(action)
           spriteSheetBuilder.addAnimation(key, frames, next)
+        continue
+
+      if prerenderedSpriteSheet
+        for action in actions
+          name = @renderGroupingKey(thangType, action.name, colorConfig)
+          prerenderedFrames = prerenderedSpriteSheet.get('animations')?[action.name]?.frames
+          continue if not prerenderedFrames
+          frames = (prerenderedFramesMap[frame] for frame in prerenderedFrames)
+          next = thangType.nextForAction(action)
+          spriteSheetBuilder.addAnimation(name, frames, next)
         continue
 
       mc = spriteBuilder.buildMovieClip(animationName, null, null, null, {'temp':0})
@@ -412,7 +448,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           frames = (framesMap[parseInt(frame)] for frame in action.frames.split(','))
         else
           frames = _.sortBy(_.values(framesMap))
-        next = @nextForAction(action)
+        next = thangType.nextForAction(action)
         spriteSheetBuilder.addAnimation(name, frames, next)
 
     containerActions = []
@@ -423,18 +459,20 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
     containerGroups = _.groupBy containerActions, (action) -> action.container
     for containerName, actions of containerGroups
+      if prerenderedSpriteSheet
+        for action in actions
+          name = @renderGroupingKey(thangType, action.name, colorConfig)
+          prerenderedFrames = prerenderedSpriteSheet.get('animations')?[action.name]?.frames
+          continue if not prerenderedFrames
+          frame = prerenderedFramesMap[prerenderedFrames[0]]
+          spriteSheetBuilder.addAnimation(name, [frame], false)
+        continue
       container = spriteBuilder.buildContainerFromStore(containerName)
       scale = actions[0].scale or thangType.get('scale') or 1
       frame = spriteSheetBuilder.addFrame(container, null, scale * @resolutionFactor)
       for action in actions
         name = @renderGroupingKey(thangType, action.name, colorConfig)
         spriteSheetBuilder.addAnimation(name, [frame], false)
-
-  nextForAction: (action) ->
-    next = true
-    next = action.goesTo if action.goesTo
-    next = false if action.loops is false
-    return next
 
   #- Rendering frames for raster thang types
 

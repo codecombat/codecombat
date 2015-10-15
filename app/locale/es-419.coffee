@@ -159,6 +159,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     accepted: "Aceptado"
     rejected: "Rechazado"
     withdrawn: "Retirado"
+    accept: "Aceptar"
+    reject: "Rechazar"
+    withdraw: "Retirar"
     submitter: "Emisor"
     submitted: "Enviado"
     commit_msg: "Enviar mensaje"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   play_level:
     done: "Listo"
+    next_game: "Siguiente juego"
+    show_menu: "Mostrar menú de juego"
     home: "Inicio" # Not used any more, will be removed soon.
     level: "Nivel" # Like "Level: Dungeons of Kithgard"
     skip: "Omitir"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_free_your_mind: "Tienes que dejar ir todo, Neo. Miedo, duda, e incredulidad. Libera tu mente. - Morpheus"
     tip_strong_opponents: "Hasta los oponentes mas fuertes siempre tienen una debilidad. - Itachi Uchiha"
     tip_paper_and_pen: "Antes de comenzar a codificar, siempre puedes planear con una hoja de papel y un lapicero."
+    solve_then_write: "Primero, resuelve el problema. Y entonces, escribe el código. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -400,7 +406,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     comparison_blurb: "Agudiza tus habilidades con la suscripción a CodeCombat!"
     feature1: "Más de 110 niveles basicos a lo largo de 4 mundos"
     feature2: "10 poderosos <strong>nuevos heroés</strong> con habilidades unicas!"
-    feature3: "Más de 70 niveles extras"
+    feature3: "Más de 70 niveles extras" # {change}
     feature4: "<strong>3500 gemas de bono</strong> cada mes!"
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     intro_1: "CodeCombat es un juego online que enseña a programar.Los estudiantes escriben código en idiomas de programación real."
     intro_2: "No se necesita experiencia previa!"
     free_title: "¿Cuánto cuesta?"
-    cost_china: "CodeCombat es gratis en China por los primeros cinco niveles, despues cuesta $9.99(dólares) por mes para tener acceso a 180+ niveles que son exclusivos en nuestros servidores en China." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "Hay más de 110 niveles gratis que cubren cada concepto."
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     see_the: "Vea la"
     more_info: "para más información."
     choose_course: "Elige tu Curso:"
-    enter_code: "Introducir un código de desbloqueo"
+    enter_code: "Introducir un código de desbloqueo" # {change}
     enter_code1: "Introducir código de desbloqueo"
     enroll: "Inscribirse"
     pick_from_classes: "Elije de tus clases actuales"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     simulate_games: "¡Simular Juegos!"
     games_simulated_by: "Juegos simulados por ti:"
     games_simulated_for: "Juegos simulados para ti:"
+    games_in_queue: "Juegos actualmente en cola:"
     games_simulated: "Juegos simulados"
     games_played: "Juegos jugados"
     ratio: "Proporción"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     fight: "Pelea!"
     watch_victory: "Observa tu Victoria"
     defeat_the: "Derrota a"
+    watch_battle: "Mirar la batalla"
     tournament_started: ", iniciado"
     tournament_ends: "Final de Torneo"
     tournament_ended: "Finalizó el Torneo"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     no_recent_games: "No juegos jugados duramente las últimas dos semanas."
     payments: "Pagos"
     prepaid: "Prepagado"
+    prepaid_codes: "Códigos Prepagados"
     purchased: "Comprado"
     sale: "Venta"
     subscription: "Suscripción"
@@ -1329,7 +1337,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     input_handling: "Manejo de Entradas"
     math_operations: "Operaciones Matemáticas"
     object_literals: "Objetos Literales"
-#    parameters: "Parameters"
+    parameters: "Parámetros"
     strings: "Cadenas"
     variables: "Variables"
     vectors: "Vectores"

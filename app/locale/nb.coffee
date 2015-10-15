@@ -159,6 +159,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     accepted: "Akseptert"
     rejected: "Avvist"
     withdrawn: "Trukket tilbake"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Innsender"
     submitted: "Levert"
     commit_msg: "Commit-melding"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
   play_level:
     done: "Ferdig"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "Hjem" # Not used any more, will be removed soon.
     level: "Brett" # Like "Level: Dungeons of Kithgard"
     skip: "Hopp over"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Utstyr"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive China servers." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     simulate_games: "Simuler Spill!"
     games_simulated_by: "Spill simulert av deg:"
     games_simulated_for: "Spill simulert for deg:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Spill simulert"
     games_played: "Spill spilt"
     ratio: "Forhold"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     fight: "Slåss!"
     watch_victory: "Se seieren"
     defeat_the: "Overvinn"
+#    watch_battle: "Watch the battle"
 #    tournament_started: ", started"
     tournament_ends: "Turneringen slutter"
     tournament_ended: "Turneringen sluttet "
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     no_recent_games: "Ingen spill spilt de siste to ukene."
     payments: "Betalinger"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Kjøpt"
 #    sale: "Sale"
     subscription: "Abonnement"

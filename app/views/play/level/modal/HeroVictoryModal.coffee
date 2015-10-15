@@ -212,7 +212,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   afterRender: ->
     super()
-    @$el.toggleClass 'show-achievements', @level.get('type', true) is 'hero'
+    @$el.toggleClass 'with-achievements', @level.get('type', true) is 'hero'
     return unless @supermodel.finished()
     @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
     @updateSavingProgressStatus()

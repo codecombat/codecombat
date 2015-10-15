@@ -159,6 +159,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     accepted: "Accepté"
     rejected: "Rejeté"
     withdrawn: "Retiré"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Soumissionnaire"
     submitted: "Soumis"
     commit_msg: "Message de mise à jour"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   play_level:
     done: "Fait"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "Accueil" # Not used any more, will be removed soon.
     level: "Niveau" # Like "Level: Dungeons of Kithgard"
     skip: "Passer"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_free_your_mind: "Vous devez laisser aller , Neo . La peur , le doute et l'incrédulité . Libère ton esprit. - Morpheus"
     tip_strong_opponents: "Même les ennemis les plus puissant ont une faiblesse. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventaire"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     intro_1: "CodeCombat est un jeu en ligne qui enseigne la programmation. Les élèves écrivent du code dans de vrais langages de programmation."
     intro_2: "Aucune expérience requise !"
     free_title: "Combien cela coûte-t-il ?"
-    cost_china: "CodeCombat en Chine est gratuit pour les cinq premiers niveaux,après le jeu coûte 9.99$ US par mois pour avoir un accès aux autres 140+ niveaux sur les serveurs exlcusifs chinois" # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "La version de base de CodeCombat est gratuite ! Il y a 70+ niveaux gratuits qui couvrent chaque concepts." # {change}
     free_2: "Un abonnement mensuel fournit l'accès à des vidéos de tutoriels ainsi qu'à des niveaux d'entraînement supplémentaires."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     simulate_games: "Simuler une partie !"
     games_simulated_by: "Parties que vous avez simulées :"
     games_simulated_for: "Parties simulées pour vous :"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Partie simulée"
     games_played: "Parties jouées"
     ratio: "Moyenne"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     fight: "Combattez !"
     watch_victory: "Regardez votre victoire"
     defeat_the: "Vaincre le"
+#    watch_battle: "Watch the battle"
     tournament_started: ", a démarré"
     tournament_ends: "Fin du tournoi"
     tournament_ended: "Tournoi terminé"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     no_recent_games: "Aucune partie jouée au cours des deux dernières semaines."
     payments: "Paiements"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Acheté"
 #    sale: "Sale"
     subscription: "Souscrit"

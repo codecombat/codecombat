@@ -159,6 +159,9 @@
     accepted: "Accepted"
     rejected: "Rejected"
     withdrawn: "Withdrawn"
+    accept: "Accept"
+    reject: "Reject"
+    withdraw: "Withdraw"
     submitter: "Submitter"
     submitted: "Submitted"
     commit_msg: "Commit Message"
@@ -214,6 +217,8 @@
 
   play_level:
     done: "Done"
+    next_game: "Next game"
+    show_menu: "Show game menu"
     home: "Home"  # Not used any more, will be removed soon.
     level: "Level"  # Like "Level: Dungeons of Kithgard"
     skip: "Skip"
@@ -338,6 +343,7 @@
     tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
     tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
     tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventory"
@@ -400,7 +406,7 @@
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
     feature1: "110+ basic levels across 4 worlds"
     feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "80+ bonus levels" # {change}
+    feature3: "80+ bonus levels"
     feature4: "<strong>3500 bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
@@ -913,7 +919,7 @@
     see_the: "See the"
     more_info: "for more information."
     choose_course: "Choose Your Course:"
-    enter_code: "Enter an unlock code to join an existing class" # {change}
+    enter_code: "Enter an unlock code to join an existing class"
     enter_code1: "Enter unlock code"
     enroll: "Enroll"
     pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1121,7 @@
     simulate_games: "Simulate Games!"
     games_simulated_by: "Games simulated by you:"
     games_simulated_for: "Games simulated for you:"
+    games_in_queue: "Games currently in the queue:"
     games_simulated: "Games simulated"
     games_played: "Games played"
     ratio: "Ratio"
@@ -1151,6 +1158,7 @@
     fight: "Fight!"
     watch_victory: "Watch your victory"
     defeat_the: "Defeat the"
+    watch_battle: "Watch the battle"
     tournament_started: ", started"
     tournament_ends: "Tournament ends"
     tournament_ended: "Tournament ended"
@@ -1208,6 +1216,7 @@
     no_recent_games: "No games played during the past two weeks."
     payments: "Payments"
     prepaid: "Prepaid"
+    prepaid_codes: "Prepaid Codes"
     purchased: "Purchased"
     sale: "Sale"
     subscription: "Subscription"

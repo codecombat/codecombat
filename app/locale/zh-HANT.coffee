@@ -159,6 +159,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     accepted: "已接受"
     rejected: "未接受"
     withdrawn: "撤回"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "提交者"
     submitted: "已提交"
     commit_msg: "送出訊息"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   play_level:
     done: "完成"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "首頁" # Not used any more, will be removed soon.
     level: "關卡" # Like "Level: Dungeons of Kithgard"
     skip: "跳過"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tip_free_your_mind: "放下一切私心雜念，丟棄害怕、疑問和拒信，解放您的思維。 - 莫菲斯《駭客任務》"
     tip_strong_opponents: "即使是最强大的對手也有弱点的。 - 宇智波鼬《火影忍者》"
     tip_paper_and_pen: "在您開始編碼之前，您可以隨時用一張紙和一支筆作計劃。"
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "倉庫"
@@ -400,7 +406,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     comparison_blurb: "訂閱 CodeCombat 來磨練您的技巧!"
     feature1: "110 個以上的基本關卡散佈在4張地圖中"
     feature2: "10 個強壯的<strong>新英雄</strong>並每隻都有不同技巧!"
-    feature3: "70 個以上的額外關卡"
+    feature3: "70 個以上的額外關卡" # {change}
     feature4: "每個月<strong>3500顆額外寶石</strong>!"
     feature5: "視頻教學"
     feature6: "頂級信箱支援"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     intro_1: "CodeCombat 是一個教編程的網上游戲。學生會用編程語言寫代碼。"
     intro_2: "無需經驗！"
     free_title: "要多少錢？"
-    cost_china: "CodeCombat的前5個關卡在中國是免費的，在這之後需花費每月9.99美元來訪問我們架設在中國專屬服務器上的190多個關卡。" # Deprecated
     cost_premium_server: "CodeCombat的前5個關卡在中國是免費的，在這之後需花費每月9.99美元來訪問我們架設在中國專屬服務器上的190多個關卡。"
     free_1: "有110多個覆蓋了所有理論的免費關卡。"
     free_2: "包月訂閱可以訪問視頻教程和額外的練習關卡。"
@@ -835,7 +840,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     last_played: "最後玩了"
     leagues_explanation: "在部落裡與其他成員組成聯盟一起參加下面的多人競技場。"
 
-
   courses:
     course: "課程"
     courses: "課程"
@@ -868,7 +872,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     completed: "遊戲時間："
     invite_students: "邀請學生加入此課堂。"
     invite_link_header: "參與課堂的縺結"
-    invite_link_p_1: "把這個參與課堂的連結發給你認可的學生。" # there has few problem of my translation
+    invite_link_p_1: "把這個參與課堂的連結發給你認可的學生。"
     invite_link_p_2: "或讓我們代你直接發送電郵："
     capacity_used: "Course slots used:"
     enter_emails: "輸入學生電郵地址來邀請，每行一個"
@@ -877,7 +881,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     description: "描述"
     languages_available: "選擇編程語言："
     all_lang: "所有編程語言"
-    show_progress: "向所有該課堂的人展示學生的進度" 
+    show_progress: "向所有該課堂的人展示學生的進度"
     creating_class: "課堂創建中···"
     purchasing_course: "購買課程中···"
     buy_course: "購買課程"
@@ -914,7 +918,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     see_the: "詳細資訊請看"
     more_info: "。"
     choose_course: "選擇您的課程："
-    enter_code: "輸入一個解銷碼"
+    enter_code: "輸入一個解銷碼" # {change}
     enter_code1: "輸入解銷碼"
     enroll: "註冊"
     pick_from_classes: "從目前的課程選擇"
@@ -1116,6 +1120,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     simulate_games: "模擬遊戲!"
     games_simulated_by: "您模擬過的次數:"
     games_simulated_for: "替您模擬的次數:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "遊戲已模擬"
     games_played: "玩過的遊戲"
     ratio: "通過率"
@@ -1152,6 +1157,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     fight: "戰鬥!"
     watch_victory: "觀看您的勝利"
     defeat_the: "擊敗"
+#    watch_battle: "Watch the battle"
     tournament_started: "，錦標賽已開始"
     tournament_ends: "錦標賽結束"
     tournament_ended: "錦標賽已結束"
@@ -1209,6 +1215,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     no_recent_games: "在過去兩個星期沒有玩過遊戲。"
     payments: "付款"
     prepaid: "充值"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "已購買"
     sale: "促銷"
     subscription: "訂閱"

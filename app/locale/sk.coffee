@@ -159,6 +159,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     accepted: "Prijaté"
     rejected: "Zamietnuté"
     withdrawn: "Uzatvorené"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Odosielateľ"
     submitted: "Odoslané"
     commit_msg: "Popis ukladania"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
   play_level:
     done: "Hotovo"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "Domov" # Not used any more, will be removed soon.
     level: "Úroveň" # Like "Level: Dungeons of Kithgard"
     skip: "Preskočiť"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventár"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     intro_1: "CodeCombat je online hra, ktorá učí programovať. Študenti píšu kód v skutočných programovacích jazykoch."
     intro_2: "Nie sú nutné žiadne predchádzajúce skúsenosti !"
     free_title: "Koľko to stojí ?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive China servers." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat Basic is ZDARMA ! K dispozícii je 70+ úrovní pokrývajúcich každý koncept." # {change}
     free_2: "Mesačné predplatné poskytuje prístup k videonávodom a k úrovniam na precvičenie navyše."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     simulate_games: "Simuluj hry !"
     games_simulated_by: "Tebou simulované hry:"
     games_simulated_for: "Pre teba simulované hry:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Simulované hry"
     games_played: "Odohrané hry"
     ratio: "Pomer"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     fight: "Bojuj !"
     watch_victory: "Pozri si svoju výhru"
     defeat_the: "Poraz"
+#    watch_battle: "Watch the battle"
     tournament_started: ", spustený"
     tournament_ends: "Turnaj končí"
     tournament_ended: "Turnaj skončil"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
 #    sale: "Sale"
 #    subscription: "Subscription"

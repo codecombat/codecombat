@@ -159,6 +159,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     accepted: "התקבל"
     rejected: "נדחה"
     withdrawn: "האוייב נסוג"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "מוסר"
     submitted: "נמסר"
     commit_msg: "שלח הודעה"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   play_level:
     done: "סיים"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "בית" # Not used any more, will be removed soon.
     level: "שלב" # Like "Level: Dungeons of Kithgard"
     skip: "דלג"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "תיק"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive China servers." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     simulate_games: "הדמה משחקים"
     games_simulated_by: "משחקים שהדמית:"
     games_simulated_for: "משחקים שהודמו בשבילך:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "משחקים שהודמו"
     games_played: "מס' משחקים ששיחקת"
     ratio: "יחס"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     fight: "הלחם!"
     watch_victory: "צפה בניצחון שלך"
     defeat_the: "הבס את ה"
+#    watch_battle: "Watch the battle"
 #    tournament_started: ", started"
     tournament_ends: "תחרות נגמרת בעוד:"
     tournament_ended: "תחרות נגמרה"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     no_recent_games: "לא שיחקת במשחקים בשבועיים האחרונים."
     payments: "תשלומים"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "קניות"
 #    sale: "Sale"
     subscription: "מנויים"

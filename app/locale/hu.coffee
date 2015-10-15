@@ -159,6 +159,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     accepted: "Elfogadva"
     rejected: "Elutasítva"
     withdrawn: "Visszavon"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Beküldő"
     submitted: "Beküldött"
     commit_msg: "Üzenet feladása"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   play_level:
     done: "Kész"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "Kezdőlap" # Not used any more, will be removed soon.
     level: "Pálya" # Like "Level: Dungeons of Kithgard"
     skip: "Ugrás"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Raktár"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     intro_1: "CodeCombat egy online játék, amelyik programozni tanít. A tanulók valódi programnyelven kódolnak."
     intro_2: "Előzetes tapasztalat nem szükséges!"
     free_title: "Mennyibe kerül?"
-    cost_china: "CodeCombat Kínában ingyenes az első 5 pályára, aztán $9.99 /hó, hogy elérhető legyen 120+ pálya az exkluzív kínai szervereken." # Deprecated {change}
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat Basic INGYENES! 70-nél is több pálya, amely minden tudást megad." # {change}
     free_2: "A havidíjas előfizetés hozzáférést biztosít az oktató videókhoz és az extra gyakoroló pályákhoz."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    simulate_games: "Simulate Games!"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_in_queue: "Games currently in the queue:"
 #    games_simulated: "Games simulated"
 #    games_played: "Games played"
 #    ratio: "Ratio"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     fight: "Harc!"
 #    watch_victory: "Watch your victory"
 #    defeat_the: "Defeat the"
+#    watch_battle: "Watch the battle"
 #    tournament_started: ", started"
     tournament_ends: "A torna vége"
     tournament_ended: "A torna végetért"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     no_recent_games: "Nem játszottál az utóbbi két hétben."
     payments: "Befizetések"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Vásárolt"
 #    sale: "Sale"
     subscription: "Előfizetés"

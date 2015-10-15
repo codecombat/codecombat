@@ -159,6 +159,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     accepted: "Hyväksytty"
     rejected: "Hylätty"
     withdrawn: "Vedetty pois"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Lähettäjä"
     submitted: "Lähetetty"
     commit_msg: "Lähetä Viesti"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 
   play_level:
     done: "Valmis"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
 #    home: "Home" # Not used any more, will be removed soon.
     level: "Taso" # Like "Level: Dungeons of Kithgard"
     skip: "Ohita"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Luettelo"
@@ -400,7 +406,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     comparison_blurb: "Teroita kykyjäsi CodeCombat kuukausitilauksella!"
     feature1: "110+ perustasoa 4:ssä maailmassa"
     feature2: "10 mahtavaa <strong>uutta sankaria</strong> erilaisine kykyineen!"
-    feature3: "70+ lisätasoa"
+    feature3: "70+ lisätasoa" # {change}
     feature4: "<strong>3500 jalokiveä</strong> joka kuukausi!"
     feature5: "Video-oppaat"
     feature6: "Premium sähköpostituki"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     intro_1: "CodeCombat on selainpeli, joka opettaa ohjelmointia. Opiskelijat kirjoittavat ohjelmakoodia oikeilla ohjelmointikielillä."
     intro_2: "Aiempi kokemus ei ole tarpeen!"
     free_title: "Mitä kaikki maksaa?"
-    cost_china: "CodeCombat Kiinan alueella on maksuton viiden ensimmäisen tason osalta, jonka jälkeen hinta on $9.99 USD kuukaudessa pääsystä muihin 180+ tasoon Kiinan palvelimilla." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "Käytössäsi on 110+ ILMAISTA tasoa, jotka kattavat koko ohjelmoinnin perustan."
     free_2: "Maksullinen kuukausitilaus avaa pääsyn video-oppaisiin ja lisätasoihin."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    simulate_games: "Simulate Games!"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_in_queue: "Games currently in the queue:"
 #    games_simulated: "Games simulated"
 #    games_played: "Games played"
 #    ratio: "Ratio"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    fight: "Fight!"
 #    watch_victory: "Watch your victory"
 #    defeat_the: "Defeat the"
+#    watch_battle: "Watch the battle"
 #    tournament_started: ", started"
 #    tournament_ends: "Tournament ends"
 #    tournament_ended: "Tournament ended"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     no_recent_games: "Ei pelejä viimeisen kahden viikon aikana."
     payments: "Ostot"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Ostettu"
     sale: "Alennus"
     subscription: "Kuukausitilaus"
