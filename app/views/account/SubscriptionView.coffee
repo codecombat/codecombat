@@ -110,10 +110,15 @@ module.exports = class SubscriptionView extends RootView
 class EmailValidator
 
   validateEmails: (emails, render) ->
-    emailRegex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i
-    @validEmails = (emailRegex.test(email.trim().toLowerCase()) for email in emails)
-    return @emailsInvalid(render) if _.contains(@validEmails, false)
+    #taken from http://www.regular-expressions.info/email.html 
+    emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,4}/
+    @validEmails = (email for email in emails when emailRegex.test(email.trim().toLowerCase()))
+    return @emailsInvalid(render) if @validEmails.length < emails.length
     return @emailsValid(render)
+
+  emailString: ->
+    return unless @validEmails
+    return @validEmails.join('\n')
 
   emailsInvalid: (render) ->
     @state = "invalid"
