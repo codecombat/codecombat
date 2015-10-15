@@ -101,8 +101,8 @@ block content
     if level.get('name') == 'Ace of Coders'
       .tournament-blurb
         h2
-          span(data-i18n="ladder.tournament_ends") Tournament ends
-          //span(data-i18n="ladder.tournament_ended") Tournament ended
+          //span(data-i18n="ladder.tournament_ends") Tournament ends
+          span(data-i18n="ladder.tournament_ended") Tournament ended
           |  #{tournamentTimeLeft}
           span(data-i18n="ladder.tournament_started") , started
           |  #{tournamentTimeElapsed}
@@ -111,16 +111,17 @@ block content
           |  
           a(href="http://blog.codecombat.com/ace-of-coders-multiplayer-programming-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
           | .
-        //p
-        //  strong Tournament ended! 
+        p
+          strong Tournament ended! 
         //  a(href="#winners") Behold the winners
         //  | . Thanks for playing! You can 
-        //  strong still play
-        //  |  Ace of Coders as long as you like.
-        //p
-        //  | Want to commiserate? Head over to 
-        //  a(href="http://discourse.codecombat.com/") the forum
-        //  |  and discuss your strategies, your triumphs, and your turmoils.
+          | Thanks for playing! You can 
+          strong still play
+          |  Ace of Coders as long as you like.
+        p
+          | Want to commiserate? Head over to 
+          a(href="http://discourse.codecombat.com/") the forum
+          |  and discuss your strategies, your triumphs, and your turmoils.
 
     div#columns.row
       div.column.col-md-2
