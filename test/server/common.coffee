@@ -103,6 +103,7 @@ unittest.getUser = (name, email, password, done, force) ->
       req = request.post(getURL('/db/user'), (err, response, body) ->
         throw err if err
         User.findOne({email: email}).exec((err, user) ->
+          throw err if err
           user.set('permissions', if password is '80yqxpb38j' then ['admin'] else [])
           user.set('name', name)
           user.save (err) ->
