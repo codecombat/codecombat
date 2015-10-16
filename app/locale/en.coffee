@@ -1355,9 +1355,6 @@
     merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "No Changes"
 
-  temp:
-    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
-
   multiplayer:
     multiplayer_title: "Multiplayer Settings"  # We'll be changing this around significantly soon. Until then, it's not important to translate.
     multiplayer_toggle: "Enable multiplayer"
