@@ -1,44 +1,44 @@
 module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lithuanian", translation:
 #  home:
-#    slogan: "Learn to Code by Playing a Game"
-#    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!" # Warning that shows up on mobile devices
-#    play: "Play" # The big play button that opens up the campaign view.
+#    slogan: "Išmok programuoti žaisdamas!"
+#    no_ie: "CodeCombat su naršykle Internet Explorer 8 arba senesne. Atleiskite!" # Warning that only shows up in IE8 and older
+#    no_mobile: "CodeCombat neskirtas mobiliems įrenginiams ir gali veikti neteisingai!" # Warning that shows up on mobile devices
+#    play: "Žaisti" # The big play button that opens up the campaign view.
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
 #    campaign: "Campaign"
-#    for_beginners: "For Beginners"
+#    for_beginners: "Naujokams"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
 #    for_developers: "For Developers" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+#    or_ipad: "Arba atsisiųskite iPad'ui"
 
 #  nav:
-#    play: "Levels" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
+#    play: "Lygiai" # The top nav bar entry where players choose which levels to play
+#    community: "Bendruomenė"
+#    editor: "Redaktorius"
+#    blog: "Blog'as"
+#    forum: "Forumas"
+#    account: "Paskyra"
+#    profile: "Profilis"
+#    stats: "Statistika"
 #    code: "Code"
 #    admin: "Admin" # Only shows up when you are an admin
-#    home: "Home"
+#    home: "Pradžia"
 #    contribute: "Contribute"
 #    legal: "Legal"
-#    about: "About"
-#    contact: "Contact"
-#    twitter_follow: "Follow"
-#    teachers: "Teachers"
-#    careers: "Careers"
+#    about: "Apie"
+#    contact: "Kontaktai"
+#    twitter_follow: "Sekti Twitter"
+#    teachers: "Mokytojai"
+#    careers: "Karjera"
 
 #  modal:
-#    close: "Close"
-#    okay: "Okay"
+#    close: "Uždaryti"
+#    okay: "OK"
 
 #  not_found:
-#    page_not_found: "Page not found"
+#    page_not_found: "Puslapis nerastas"
 
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
@@ -49,31 +49,31 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
 #  play:
-#    play_as: "Play As" # Ladder page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+#    play_as: "Žaisti kaip" # Ladder page
+#    spectate: "Stebėtojas" # Ladder page
+#    players: "žaidėjai" # Hover over a level on /play
+#    hours_played: "valandų žaista" # Hover over a level on /play
+#    items: "Daiktai" # Tooltip on item shop button from /play
+#    unlock: "Atrakinti" # For purchasing items and heroes
+#    confirm: "Tvirtinti"
+#    owned: "Turima" # For items you own
+#    locked: "Užrakinta"
+#    purchasable: "Perkamas" # For a hero you unlocked but haven't purchased
 #    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
+#    heroes: "Herojai" # Tooltip on hero shop button from /play
+#    achievements: "Pasiekimai" # Tooltip on achievement list button from /play
+#    account: "Paskyra" # Tooltip on account button from /play
+#    settings: "Nustatymai" # Tooltip on settings button from /play
+#    poll: "Apklausa" # Tooltip on poll button from /play
+#    next: "Kitas" # Go from choose hero to choose inventory before playing a level
+#    change_hero: "Keisti Herojų" # Go back from choose inventory to choose hero
+#    choose_inventory: "Naudoti daiktus"
 #    buy_gems: "Buy Gems"
 #    subscription_required: "Subscription Required"
 #    anonymous: "Anonymous Player"
-#    level_difficulty: "Difficulty: "
-#    campaign_beginner: "Beginner Campaign"
+#    level_difficulty: "Sudėtingumas: "
+#    campaign_beginner: "Naujoko kampanija"
 #    awaiting_levels_adventurer_prefix: "We release new levels every week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
