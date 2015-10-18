@@ -1,17 +1,17 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
   home:
-    slogan: "通过游戏学习编程"
-    no_ie: "抱歉！ Internet Explorer 8 等老式浏览器无法使用本网站。" # Warning that only shows up in IE8 and older
-    no_mobile: "CodeCombat不是针对手机设备设计的，所以可能无法达到最好的体验！" # Warning that shows up on mobile devices
+    slogan: "通过玩游戏学习编程"
+    no_ie: "抱歉！Internet Explorer 8 等旧式浏览器无法使用本网站。" # Warning that only shows up in IE8 and older
+    no_mobile: "CodeCombat不是针对移动设备设计的，所以可能无法达到最佳体验！" # Warning that shows up on mobile devices
     play: "开始游戏" # The big play button that opens up the campaign view.
-    old_browser: "噢, 您的浏览器太老了, 不能运行CodeCombat。抱歉!" # Warning that shows up on really old Firefox/Chrome/Safari
-    old_browser_suffix: "您可以继续重试下去，但八成不起作用，更新浏览器吧亲～"
-    ipad_browser: "坏消息:CodeCombat无法在iPad的浏览器中运行。好消息：我们的iPad应用正在等待苹果公司审批。"
+    old_browser: "噢, 您的浏览器版本太旧了, 不能运行CodeCombat。抱歉!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser_suffix: "您可以继续重试下去，但很可能不起作用，更新浏览器吧亲～"
+    ipad_browser: "坏消息:CodeCombat无法在iPad的浏览器中运行。好消息：我们的iPad应用正在等待苹果公司审核通过。"
     campaign: "战役模式"
     for_beginners: "适合初学者"
     multiplayer: "多人游戏" # Not currently shown on home page
     for_developers: "适合开发者" # Not currently shown on home page.
-    or_ipad: "或下载入iPad"
+    or_ipad: "或下载iPad版本"
 
   nav:
     play: "关卡选择" # The top nav bar entry where players choose which levels to play
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   diplomat_suggestion:
     title: "帮助我们翻译CodeCombat" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "我们需要您的语言技能"
-    pitch_body: "我们开发了英文版的CodeCombat，但是CodeCombat的玩家遍布全球。对于不熟悉英语的中文玩家，他们希望能玩简体中文版的CodeCombat，如果您中英文都很熟练，考虑加入我们“外交官”行列并参与CodeCombat的翻译，帮忙把CodeCombat网站和所有关卡翻译成简体中文。感谢！"
+    pitch_body: "我们开发了英文版的CodeCombat，但是CodeCombat的玩家遍布全球。对于不熟悉英语的中文玩家，他们希望能玩简体中文版的CodeCombat，如果您中英文都很熟练，请考虑加入我们“外交官”行列并参与CodeCombat的翻译，帮忙把CodeCombat网站和所有关卡翻译成简体中文。感谢！"
     missing_translations: "没被翻译的文字将以英文显示。"
     learn_more: "了解更多成为翻译人员的说明"
     subscribe_as_diplomat: "提交翻译人员申请"
@@ -81,7 +81,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_multiplayer: "多人竞技场"
     campaign_multiplayer_description: "……在这里您可以与其他玩家进行代码肉搏战。"
     campaign_old_multiplayer: "（过时的）旧的多人竞技场"
-    campaign_old_multiplayer_description: "多个文明时代的遗迹。但已没有模拟运行这些陈旧、英雄芜绝的多人竞技场。"
+    campaign_old_multiplayer_description: "多个文明时代的遗迹。但已经不再模拟运行这些陈旧、英雄芜绝的多人竞技场。"
 
   share_progress_modal:
     blurb: "您的进度真快！快告诉您的家长, 您从CodeCombat学到了什么！"
@@ -119,8 +119,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     recovery_sent: "找回账户邮件已发送。"
 
   items:
-    primary: "主要武器"
-    secondary: "次要武器"
+    primary: "主武器"
+    secondary: "副武器"
     armor: "盔甲"
     accessories: "配饰"
     misc: "辅助道具"
@@ -195,8 +195,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     hard: "困难"
     player: "玩家"
     player_level: "等级" # Like player level 5, not like level: Dungeons of Kithgard
-    warrior: "武士"
-    ranger: "巡逻兵"
+    warrior: "战士"
+    ranger: "游骑兵"
     wizard: "巫师"
 
   units:
@@ -289,7 +289,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     non_user_code_problem_title: "不能读入关卡"
     infinite_loop_title: "有无限循环"
     infinite_loop_description: "建立世界的初始代码永远不会运行完毕。这可能是真的运行的很慢或者陷入了一个死循环。又或者可能存在bug。您可以尝试再次运行该代码，或者将代码重置为默认状态。如果仍旧解决不了，请告诉我们。"
-    check_dev_console: "您也可以打开开发者界面看一下有什么东西出错了。"
+    check_dev_console: "您也可以打开开发者界面查看有什么东西出错了。"
     check_dev_console_link: "(说明)"
     infinite_loop_try_again: "重试"
     infinite_loop_reset_level: "重置关卡"
@@ -318,7 +318,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_patience: "您必须要有耐心，年轻的学徒 - 尤达大师《星球大战》"
     tip_documented_bug: "一个写在文档里的漏洞不算漏洞, 那是个特色。"
     tip_impossible: "在事情未完成之前，一切都看似不可能。 - 纳尔逊·曼德拉"
-    tip_talk_is_cheap: "多说无用, 亮出您的代码。 - Linus Torvalds"
+    tip_talk_is_cheap: "多说无用, 放码过来。 - Linus Torvalds"
     tip_first_language: "您所经历过最可怕的事情是您的第一门编程语言。 - Alan Kay"
     tip_hardware_problem: "问：换一个电灯泡需要几位程序员参与？答：一个都不需要，因为这属于硬件问题。"
     tip_hofstadters_law: "侯世达定律：做事所花费的时间总是比您预期的要长，即使您的预期中考虑了侯世达定律。"
@@ -342,8 +342,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_recurse: "迭代为人，递归为神 - L. Peter Deutsch"
     tip_free_your_mind: "丢掉一切私心杂念，丢掉害怕、疑问和拒信，解放您的思想。 - Morpheus《黑客帝国》"
     tip_strong_opponents: "即使是最强大的对手也是有弱点的。- 宇智波鼬《火影忍者》"
-    tip_paper_and_pen: "在您开始编码之前，您可以随时用一张纸和一支笔作计划。"
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+    tip_paper_and_pen: "在您开始编程之前，您可以随时用一张纸和一支笔提前规划。"
+#    solve_then_write: "第一步，思考解决方案。第二步，编写代码。 - John Johnson"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -841,55 +841,55 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     leagues_explanation: "在部落里与其他成员组成联盟一起参加下面的多人竞技场。"
 
 #  courses:
-#    course: "Course"
-#    courses: "courses"
-#    not_enrolled: "You are not enrolled in this course."
-#    visit_pref: "Please visit the"
-#    visit_suf: "page to enroll."
-#    select_class: "Select one of your classes"
-#    unnamed: "*unnamed*"
-#    select: "Select"
-#    unnamed_class: "Unnamed Class"
-#    edit_settings: "edit class settings"
-#    edit_settings1: "Edit Class Settings"
-#    progress: "Class Progress"
-#    add_students: "Add Students"
-#    stats: "Statistics"
-#    total_students: "Total students:"
-#    average_time: "Average level play time:"
-#    total_time: "Total play time:"
-#    average_levels: "Average levels completed:"
-#    total_levels: "Total levels completed:"
+#    course: "课程"
+#    courses: "更多课程"
+#    not_enrolled: "您还没有报名参加本课程。"
+#    visit_pref: "请点击"
+#    visit_suf: "此页面报名参加。"
+#    select_class: "选择其中一项课程"
+#    unnamed: "*未命名*"
+#    select: "选择"
+#    unnamed_class: "未命名班级"
+#    edit_settings: "编辑班级设定"
+#    edit_settings1: "编辑班级设定"
+#    progress: "班级进度"
+#    add_students: "增加学生"
+#    stats: "统计"
+#    total_students: "学生总数:"
+#    average_time: "平均游戏时间:"
+#    total_time: "总共游戏时间:"
+#    average_levels: "平均完成关卡:"
+#    total_levels: "总共完成关卡:"
 #    furthest_level: "Furthest level completed:"
 #    concepts_covered: "Concepts Covered"
-#    students: "Students"
-#    students1: "students"
-#    expand_details: "Expand details"
+#    students: "学生"
+#    students1: "学生"
+#    expand_details: "扩展细节"
 #    concepts: "Concepts"
-#    levels: "levels"
+#    levels: "等级"
 #    played: "Played"
-#    play_time: "Play time:"
-#    completed: "Completed:"
-#    invite_students: "Invite students to join this class."
-#    invite_link_header: "Link to join course"
-#    invite_link_p_1: "Give this link to students you would like to have join the course."
-#    invite_link_p_2: "Or have us email them directly:"
+#    play_time: "游戏时间:"
+#    completed: "已完成:"
+#    invite_students: "邀请其他学生加入班级。"
+#    invite_link_header: "点击参加课程"
+#    invite_link_p_1: "分享给您想分享的其他人以加入课程"
+#    invite_link_p_2: "或者发送邮件给他们:"
 #    capacity_used: "Course slots used:"
-#    enter_emails: "Enter student emails to invite, one per line"
-#    send_invites: "Send Invites"
-#    title: "Title"
-#    description: "Description"
+#    enter_emails: "输入被邀请的E-mail地址，一行一个"
+#    send_invites: "发送邀请"
+#    title: "标题"
+#    description: "内容描述"
 #    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
+#    all_lang: "所有语言"
 #    show_progress: "Show student progress to everyone in the class"
-#    creating_class: "Creating class..."
+#    creating_class: "创建班级中..."
 #    purchasing_course: "Purchasing course..."
-#    buy_course: "Buy Course"
-#    buy_course1: "Buy this course"
-#    create_class: "Create Class"
+#    buy_course: "购买课程"
+#    buy_course1: "购买此课程"
+#    create_class: "创建班级"
 #    select_all_courses: "Select 'All Courses' for a 50% discount!"
-#    all_courses: "All Courses"
-#    number_students: "Number of students"
+#    all_courses: "所有课程"
+#    number_students: "学生数量"
 #    enter_number_students: "Enter the number of students you need for this class."
 #    name_class: "Name your class"
 #    displayed_course_page: "This will be displayed on the course page for you and your students. It can be changed later."
@@ -1420,7 +1420,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     rights_clarification: "澄清：所有在关卡编辑器里公开用于制作关卡的资源都是在CC协议下发布的，而使用关卡编辑器制作，或者在关卡制作过程中上传的内容则不是。"
     nutshell_title: "简而言之"
     nutshell_description: "我们在关卡编辑器里公开的任何资源，您都可以在制作关卡时随意使用，但我们保留限制在CodeCombat.com 之上创建的关卡本身传播的权利，因为我们以后可能决定为它们收费。"
-    canonical: "这篇说明的英文版本是权威版本。如果各个翻译版本之间有任何冲突，以英文版为准。"
+    canonical: "这篇说明的英文版本是权威版本。如果各个翻译版本之间有任何冲突，请以英文版为准。"
 
   ladder_prizes:
     title: "竞标赛奖项" # This section was for an old tournament and doesn't need new translations now.
