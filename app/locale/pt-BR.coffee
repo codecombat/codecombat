@@ -159,6 +159,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     accepted: "Aceito"
     rejected: "Rejeitado"
     withdrawn: "Retirado"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Enviar"
     submitted: "Enviado"
     commit_msg: "Mensagem de Submissão"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   play_level:
     done: "Pronto"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "Início" # Not used any more, will be removed soon.
     level: "Fase" # Like "Level: Dungeons of Kithgard"
     skip: "Pular"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_free_your_mind: "Você tem que deixar isso tudo passar, Neo. O medo, a dúvida e a descrença. Liberte sua mente - Morpheus"
     tip_strong_opponents: "Mesmo o mais forte dos adversários tem sua fraqueza. - Itachi Uchiha"
     tip_paper_and_pen: "Antes de começar a programar, você sempre deve planejar com papel e caneta."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     intro_1: "CodeCombat é um jogo online que ensina programação. Estudantes criam código em linguagens de programação usadas na vida real."
     intro_2: "Não é necessário ter experiência!"
     free_title: "Quanto custa?"
-    cost_china: "CodeCombat na China é gratuito para os primeiros cinco níveis, depois disso o valor mesal para ter acesso a mais de 140 níveis nos nossos servidores exclusivos na China é de $9.99 dólares americanos." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat Basic é gratuito! Há mais de 80 níveis gratuitos que cobrem todos os conceitos." # {change}
     free_2: "Uma assinatura mensal dá acesso aos vídeos tutoriais e mais níveis para praticar."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     simulate_games: "Simular Partidas!"
     games_simulated_by: "Partidas simuladas por você:"
     games_simulated_for: "Partidas simuladas para você:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Partidas simuladas"
     games_played: "Partidas jogadas"
     ratio: "Taxa"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     fight: "Lutem!"
     watch_victory: "Assista sua vitória"
     defeat_the: "Derrote"
+#    watch_battle: "Watch the battle"
     tournament_started: ", iniciado"
     tournament_ends: "Fim do torneio"
     tournament_ended: "Torneio encerrado"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     no_recent_games: "Não foram feitos jogos durante duas semanas."
     payments: "Pagamentos"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Comprado"
     sale: "Vender"
     subscription: "Assinatura"

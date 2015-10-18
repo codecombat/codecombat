@@ -159,6 +159,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     accepted: "Aceptado"
     rejected: "Rechazado"
     withdrawn: "Retirado"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Submitter"
     submitted: "Enviado"
     commit_msg: "Mensaje de Asignación o Commit"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   play_level:
     done: "Hecho"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "Inicio" # Not used any more, will be removed soon.
     level: "Nivel" # Like "Level: Dungeons of Kithgard"
     skip: "Saltar"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_free_your_mind: "Tienes que dejarlo ir, Neo. Miedo, dudas e incredulidad. Libera tu mente. - Morpheus"
     tip_strong_opponents: "Incluso el más fuerte de los opositores oculta debilidad. - Itachi Uchiha"
     tip_paper_and_pen: "Antes de empezar a programar, siempre puedes planificar con papel y lápiz."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -400,7 +406,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     comparison_blurb: "¡Mejora tus habilidades con una suscripción a CodeCombat!"
     feature1: "Más de 110 niveles básicos pasando por 4 mundos"
     feature2: "¡10 <strong>héroes nuevos</strong> con poderes únicos!"
-    feature3: "Más de 70 niveles extra"
+    feature3: "Más de 70 niveles extra" # {change}
     feature4: "¡<strong>3500 gemas extra</strong> cada mes!"
     feature5: "Vídeo tutoriales"
     feature6: "Soporte electrónico Premium"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
     intro_2: "¡No se necesita experiencia!"
     free_title: "¿Cuanto cuesta?"
-    cost_china: "CodeCombat en China es gratuito durante los primeros 5 niveles, después tiene un coste de $9.99 USD por mes con acceso a nuestros más de 180+ niveles en nuestros servidores exclusivos de China." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     simulate_games: "¡Simula juegos!"
     games_simulated_by: "Juegos simulados por ti:"
     games_simulated_for: "Juegos simulados para ti:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Juegos simulados"
     games_played: "Partidas jugadas"
     ratio: "Ratio"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     fight: "¡Pelea!"
     watch_victory: "Ver tu victoria"
     defeat_the: "Vence a"
+#    watch_battle: "Watch the battle"
     tournament_started: ", iniciado"
     tournament_ends: "El torneo termina"
     tournament_ended: "El torneo ha terminado"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     no_recent_games: "No he jugado juegos en las ultimas dos semanas."
     payments: "Pagos"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Adquirido"
     sale: "Venta"
     subscription: "Suscripción"

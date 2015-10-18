@@ -20,26 +20,31 @@ module.exports = class ExportThangTypeModal extends ModalView
     green: { hue: 0.33, saturation: 0.75, lightness: 0.5 }
   }
   getColorLabel: -> @$('#color-config-select').val()
-  getColorConfig: -> @colorMap[@getColorLabel()]
+  getColorConfig: ->
+    color = @colorMap[@getColorLabel()]
+    return { team: color } if color
+    return null
   getActionNames: -> _.map @$('input[name="action"]:checked'), (el) -> $(el).val()
   getResolutionFactor: -> parseInt(@$('#resolution-input').val()) or SPRITE_RESOLUTION_FACTOR
   getFilename: -> 'spritesheet-'+_.string.slugify(moment().format())+'.png'
+  getSpriteType: -> @$('input[name="sprite-type"]:checked').val()
 
   onClickSaveButton: ->
+    @$('.modal-footer button').addClass('hide')
+    @$('.modal-footer .progress').removeClass('hide')
+    @$('input, select').attr('disabled', true)
     options = {
       resolutionFactor: @getResolutionFactor()
       actionNames: @getActionNames()
       colorConfig: @getColorConfig()
+      spriteType: @getSpriteType()
     }
-    console.log 'options?', options
     @exporter = new SpriteExporter(@thangType, options)
     @exporter.build()
     @listenToOnce @exporter, 'build', @onExporterBuild
 
   onExporterBuild: (e) ->
     @spriteSheet = e.spriteSheet
-    $('body').empty().append(@spriteSheet._images[0])
-    return
     src = @spriteSheet._images[0].toDataURL()
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
     body =
@@ -64,14 +69,15 @@ module.exports = class ExportThangTypeModal extends ModalView
       ] for f in @spriteSheet._frames)
       image: "db/thang.type/#{@thangType.get('original')}/"+@getFilename()
       resolutionFactor: @getResolutionFactor()
+      spriteType: @getSpriteType()
     }
     if config = @getColorConfig()
       spriteSheetData.colorConfig = config
     if label = @getColorLabel()
       spriteSheetData.colorLabel = label
-    spriteSheets = _.clone(@thangType.get('spriteSheets') or [])
+    spriteSheets = _.clone(@thangType.get('prerenderedSpriteSheetData') or [])
     spriteSheets.push(spriteSheetData)
-    @thangType.set('spriteSheets', spriteSheets)
+    @thangType.set('prerenderedSpriteSheetData', spriteSheets)
     @thangType.save()
     @listenToOnce @thangType, 'sync', @hide
 

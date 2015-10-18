@@ -159,6 +159,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    accepted: "Accepted"
 #    rejected: "Rejected"
 #    withdrawn: "Withdrawn"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "Förbindelsemeddelande"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
   play_level:
     done: "Klar"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "Hem" # Not used any more, will be removed soon.
     level: "Nivå" # Like "Level: Dungeons of Kithgard"
     skip: "Hoppa över"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Utrustning"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     intro_1: "CodeCombat är ett onlinespel som lär ut programmering. Eleverna skriver kod i riktiga programspråk."
     intro_2: "Ingen erfarenhet krävs!"
     free_title: "Hur mycket kostar det?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive China servers." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat Basic är GRATIS! Det finns över 80 gratis nivåer som täcker alla koncept." # {change}
     free_2: "En månadsprenumeration ger tillgång till videogenomgångar och fler övningsnivåer."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     simulate_games: "Simulera matcher!"
     games_simulated_by: "Spel simulerade av dig:"
     games_simulated_for: "Spel simulerade åt dig:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Simulerade spel"
     games_played: "Spelade spel"
     ratio: "Förhållande"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    fight: "Fight!"
 #    watch_victory: "Watch your victory"
 #    defeat_the: "Defeat the"
+#    watch_battle: "Watch the battle"
 #    tournament_started: ", started"
 #    tournament_ends: "Tournament ends"
 #    tournament_ended: "Tournament ended"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     no_recent_games: "Inga spel spelade de senaste två veckorna."
     payments: "Betalningar"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
 #    sale: "Sale"
     subscription: "Prenumeration"

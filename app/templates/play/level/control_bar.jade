@@ -29,16 +29,16 @@ else
 .buttons-area
 
   if !observing
-    button.btn.btn-inverse#game-menu-button(title="Show game menu")
+    button.btn.btn-inverse#game-menu-button(data-i18n="[title]play_level.show_menu", title="Show game menu")
       .hamburger
         span.icon-bar
         span.icon-bar
         span.icon-bar
       span.game-menu-text(data-i18n="play_level.game_menu") Game Menu
-  
+
   if spectateGame
-    button.btn.btn-xs.btn-inverse.banner#next-game-button(title="Next Game", data-i18n="play_level.next-game") Next game!
-  
+    button.btn.btn-xs.btn-inverse.banner#next-game-button(data-i18n="play_level.next_game") Next game
+
   if !observing
     button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
 

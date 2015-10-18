@@ -8,18 +8,17 @@ p
   button(data-i18n="ladder.simulate_games").btn.btn-warning.btn-lg.highlight#simulate-button Simulate Games!
 
 p.simulation-count
-  span(data-i18n="ladder.games_simulated_by") Games simulated by you:
-  |  
+  span.spr(data-i18n="ladder.games_simulated_by") Games simulated by you:
   span#simulated-by-you= me.get('simulatedBy') || 0
 
 p.simulation-count
-  span(data-i18n="ladder.games_simulated_for") Games simulated for you:
-  |  
+  span.spr(data-i18n="ladder.games_simulated_for") Games simulated for you:
   span#simulated-for-you= me.get('simulatedFor') || 0
+
 p.simulation-count
-  span(data-i18n="ladder.games_in_queue") Games currently in the queue:
-  |  
+  span.spr(data-i18n="ladder.games_in_queue") Games currently in the queue:
   span#games-in-queue= numberOfGamesInQueue || 0
+
 table.table.table-bordered.table-condensed.table-hover
   thead
     tr

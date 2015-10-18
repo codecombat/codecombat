@@ -12,16 +12,14 @@ block modal-body-content
     else
       .alert.alert-danger Could not apply this delta to the current version.
 
-
 block modal-footer
   .modal-footer
     button(data-dismiss="modal", data-i18n="common.cancel").btn Cancel
     if isPatchCreator
       if status != 'withdrawn'
-        button.btn.btn-danger#withdraw-button Withdraw
+        button.btn.btn-danger#withdraw-button(data-i18n="general.withdraw") Withdraw
     if isPatchRecipient
       if status != 'accepted'
-        button.btn.btn-primary#accept-button Accept
+        button.btn.btn-primary#accept-button(data-i18n="general.accept") Accept
       if status != 'rejected'
-        button.btn.btn-danger#reject-button Reject
-                               
+        button.btn.btn-danger#reject-button(data-i18n="general.reject") Reject

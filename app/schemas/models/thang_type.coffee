@@ -169,7 +169,7 @@ _.extend ThangTypeSchema.properties,
   extendedName: {type: 'string', title: 'Extended Hero Name', description: 'The long form of the hero\'s name. Ex.: "Captain Anya Weston".'}
   unlockLevelName: {type: 'string', title: 'Unlock Level Name', description: 'The name of the level in which the hero is unlocked.'}
   tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this ThangType.'}, c.task
-  spriteSheets: c.array {title: 'SpriteSheets'},
+  prerenderedSpriteSheetData: c.array {title: 'Prerendered SpriteSheet Data'},
     c.object {title: 'SpriteSheet'},
       actionNames: { type: 'array' }
       animations:
@@ -184,7 +184,7 @@ _.extend ThangTypeSchema.properties,
             speed: { type: 'number' }
           }
         }
-      colorConfig: c.colorConfig()
+      colorConfig: c.object {additionalProperties: c.colorConfig()}
       colorLabel: { enum: ['red', 'green', 'blue'] }
       frames:
         type: 'array'

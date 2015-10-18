@@ -35,7 +35,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'unlockLevelName'
     'tasks'
     'terrains'
-    'spriteSheets'
+    'prerenderedSpriteSheetData'
   ]
 
   hasAccess: (req) ->

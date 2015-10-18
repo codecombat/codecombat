@@ -159,6 +159,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     accepted: "Přijato"
     rejected: "Odmítnuto"
     withdrawn: "Uzavřeno"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Odesílatel"
     submitted: "Odesláno"
     commit_msg: "Popisek ukládání"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
   play_level:
     done: "Hotovo"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "Domů" # Not used any more, will be removed soon.
     level: "Úroveň" # Like "Level: Dungeons of Kithgard"
     skip: "Přeskočit"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventář"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive China servers." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     simulate_games: "Simulovat hry!"
     games_simulated_by: "Hry simulovány vámi:"
     games_simulated_for: "Hry simulovány pro vás:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Her simulováno"
     games_played: "Her hráno"
     ratio: "Poměr"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     fight: "Boj!"
     watch_victory: "Sledovat vaši výhru"
     defeat_the: "Poraženo"
+#    watch_battle: "Watch the battle"
 #    tournament_started: ", started"
     tournament_ends: "Turnaj končí"
     tournament_ended: "Turnaj ukončen"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     no_recent_games: "Žádné hry během posledních dvou týdnů."
     payments: "Platby"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Zaplaceno"
 #    sale: "Sale"
     subscription: "Předplatné"

@@ -159,6 +159,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     accepted: "Accettate"
     rejected: "Rifiutate"
     withdrawn: "Ritirate"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "Autore"
     submitted: "Data creazione"
     commit_msg: "Messaggio di commit"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
   play_level:
     done: "Fatto"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "Pagina iniziale" # Not used any more, will be removed soon.
     level: "Livello" # Like "Level: Dungeons of Kithgard"
     skip: "Salta"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tip_free_your_mind: "Devi liberarti di tutto questo, Neo. Paura, dubbio, sfiducia. Libera la tua mente. - Morpheus"
     tip_strong_opponents: "Anche il più tenace degli avversari ha sempre una debolezza. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive China servers." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     simulate_games: "Simula partite!"
     games_simulated_by: "Partite simulate da te:"
     games_simulated_for: "Partite simulate per te:"
+#    games_in_queue: "Games currently in the queue:"
     games_simulated: "Partite simulate"
     games_played: "Partite giocate"
     ratio: "Rapporto"
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     fight: "Combatti!"
 #    watch_victory: "Watch your victory"
 #    defeat_the: "Defeat the"
+#    watch_battle: "Watch the battle"
     tournament_started: ", ha cominciato"
     tournament_ends: "Torneo conclude"
     tournament_ended: "Torneo concluso"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     no_recent_games: "Nessuna partita nelle ultime due settimane."
     payments: "Pagamenti"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
     purchased: "Acquistato"
 #    sale: "Sale"
     subscription: "Abbonamento"

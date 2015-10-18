@@ -91,7 +91,7 @@ block content
             if personalSub.activeUntil
               tr
                 th(data-i18n="account.active_until")
-                td= moment(activeUntil).format('l')
+                td= moment(personalSub.activeUntil).format('l')
             if personalSub.nextPaymentDate
               tr
                 th(data-i18n="account.next_payment")

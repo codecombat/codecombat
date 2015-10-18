@@ -133,6 +133,7 @@ module.exports = class CampaignEditorView extends RootView
     @campaign.set('levels', campaignLevels)
 
     for level in _.values campaignLevels
+      continue if /test/.test @campaign.get('slug')  # Don't overwrite level stuff for testing Campaigns
       model = @levels.findWhere {original: level.original}
       model.set key, level[key] for key in Campaign.denormalizedLevelProperties
       @toSave.add model if model.hasLocalChanges()
@@ -201,18 +202,19 @@ module.exports = class CampaignEditorView extends RootView
     @insertSubView @campaignView
 
   onTreemaChanged: (e, nodes) =>
-    for node in nodes
-      path = node.getPath()
-      if _.string.startsWith path, '/levels/'
-        parts = path.split('/')
-        original = parts[2]
-        level = @supermodel.getModelByOriginal Level, original
-        campaignLevel = @treema.get "/levels/#{original}"
+    unless /test/.test @campaign.get('slug')  # Don't overwrite level stuff for testing Campaigns
+      for node in nodes
+        path = node.getPath()
+        if _.string.startsWith path, '/levels/'
+          parts = path.split('/')
+          original = parts[2]
+          level = @supermodel.getModelByOriginal Level, original
+          campaignLevel = @treema.get "/levels/#{original}"
 
-        @updateRewardsForLevel level, campaignLevel.rewards
+          @updateRewardsForLevel level, campaignLevel.rewards
 
-        level.set key, campaignLevel[key] for key in Campaign.denormalizedLevelProperties
-        @toSave.add level if level.hasLocalChanges()
+          level.set key, campaignLevel[key] for key in Campaign.denormalizedLevelProperties
+          @toSave.add level if level.hasLocalChanges()
 
     @toSave.add @campaign
     @campaign.set key, value for key, value of @treema.data
@@ -329,6 +331,7 @@ class LevelNode extends TreemaObjectNode
   populateData: ->
     return if @data.name?
     data = _.pick LevelsNode.levels[@keyForParent].attributes, Campaign.denormalizedLevelProperties
+    console.log 'got the data', data
     _.extend @data, data
 
 class CampaignsNode extends TreemaObjectNode

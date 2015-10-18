@@ -184,7 +184,6 @@ module.exports = class CampaignView extends RootView
     context.levelDifficultyMap = @levelDifficultyMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
-    context.mapType = _.string.slugify @terrain
     context.requiresSubscription = @requiresSubscription
     context.editorMode = @editorMode
     context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign?.get('adjacentCampaigns') or {})), (ac) =>
@@ -378,7 +377,7 @@ module.exports = class CampaignView extends RootView
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
     for level in @campaign.renderedLevels ? {}
-      particleKey = ['level', @terrain]
+      particleKey = ['level', @terrain.replace('-branching-test', '')]
       particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])
       particleKey.push 'replayable' if level.replayable
       particleKey.push 'premium' if level.requiresSubscription

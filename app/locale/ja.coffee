@@ -159,6 +159,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     accepted: "容認された"
     rejected: "拒否された"
     withdrawn: "取り下げられました"
+#    accept: "Accept"
+#    reject: "Reject"
+#    withdraw: "Withdraw"
     submitter: "提出者"
     submitted: "提出されました"
     commit_msg: "コミットメッセージ"
@@ -214,6 +217,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   play_level:
     done: "完了"
+#    next_game: "Next game"
+#    show_menu: "Show game menu"
     home: "ホーム" # Not used any more, will be removed soon.
     level: "ゲームレベル" # Like "Level: Dungeons of Kithgard"
     skip: "スキップ"
@@ -338,6 +343,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_free_your_mind: "全ての雑念を捨てろ、恐怖、疑いも不信も 心を解き放つんだ - モーフィアス"
     tip_strong_opponents: "どんな強者にも弱点というものはあるんだ… - うちは　イタチ"
     tip_paper_and_pen: "コーディングを始める前に, 必ず紙とペンを用意して計画を立てましょう。"
+#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "インベントリー"
@@ -400,7 +406,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     comparison_blurb: "CodeCombatへ課金してスキルを磨きましょう！"
     feature1: "110以上の基本レベルが４つの世界に" # {change}
     feature2: "10人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!" # {change}
-    feature3: "70以上のボーナスレベル"
+    feature3: "70以上のボーナスレベル" # {change}
     feature4: "<strong>3500のジェム</strong>が毎月ボーナス!"
     feature5: "ビデオチュートリアル"
     feature6: "プレミアムメールサポート"
@@ -601,7 +607,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     intro_1: "CodeCombat はプログラミングを教えるオンラインゲームです。生徒は本物のプログラム言語を書きます。"
     intro_2: "プログラミングの経験は必要ありません！"
     free_title: "価格について"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive China servers." # Deprecated
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat は基本的に無料です！110以上のレベルが無料です。" # {change}
     free_2: "月々の課金をするとビデオのチュートリアルにアクセスでき、また追加のレベルが楽しめます。"
@@ -913,7 +918,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    see_the: "See the"
 #    more_info: "for more information."
 #    choose_course: "Choose Your Course:"
-#    enter_code: "Enter an unlock code"
+#    enter_code: "Enter an unlock code to join an existing class"
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
@@ -1115,6 +1120,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    simulate_games: "Simulate Games!"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_in_queue: "Games currently in the queue:"
 #    games_simulated: "Games simulated"
 #    games_played: "Games played"
     ratio: "比率  "
@@ -1151,6 +1157,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    fight: "Fight!"
 #    watch_victory: "Watch your victory"
 #    defeat_the: "Defeat the"
+#    watch_battle: "Watch the battle"
 #    tournament_started: ", started"
 #    tournament_ends: "Tournament ends"
 #    tournament_ended: "Tournament ended"
@@ -1208,6 +1215,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
 #    prepaid: "Prepaid"
+#    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
 #    sale: "Sale"
 #    subscription: "Subscription"

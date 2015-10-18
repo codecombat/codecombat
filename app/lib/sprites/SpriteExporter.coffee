@@ -18,11 +18,12 @@ class SpriteExporter extends CocoClass
     @colorConfig = options.colorConfig or {}
     @resolutionFactor = options.resolutionFactor or 1
     @actionNames = options.actionNames or (action.name for action in @thangType.getDefaultActions())
+    @spriteType = options.spriteType or @thangType.get('spriteType') or 'segmented'
     super()
 
-  build: (renderType) ->
+  build: ->
     spriteSheetBuilder = new createjs.SpriteSheetBuilder()
-    if (renderType or @thangType.get('spriteType') or 'segmented') is 'segmented'
+    if @spriteType is 'segmented'
       @renderSegmentedThangType(spriteSheetBuilder)
     else
       @renderSingularThangType(spriteSheetBuilder)
@@ -64,7 +65,7 @@ class SpriteExporter extends CocoClass
           frames = (framesMap[parseInt(frame)] for frame in action.frames.split(','))
         else
           frames = _.sortBy(_.values(framesMap))
-        next = @nextForAction(action)
+        next = @thangType.nextForAction(action)
         spriteSheetBuilder.addAnimation(action.name, frames, next)
 
     containerActions = []

@@ -11,7 +11,7 @@ describe 'LayerAdapter', ->
     layer = new LayerAdapter({webGL:true})
     layer.buildAutomatically = false
     layer.buildAsync = false
-  
+
   it 'creates containers for animated actions if set to spriteType=segmented', ->
     ogreMunchkinThangType.set('spriteType', 'segmented')
     colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
@@ -45,9 +45,10 @@ describe 'LayerAdapter', ->
     sheet = layer.renderNewSpriteSheet()
     key = layer.renderGroupingKey(treeThangType, 'idle')
     expect(key in sheet.getAnimations()).toBe(true)
-    
+
   it 'only renders frames used by actions when spriteType=singular', ->
-    layer.defaultActions = ['idle'] # uses the move side animation
+    oldDefaults = ThangType.defaultActions
+    ThangType.defaultActions = ['idle'] # uses the move side animation
     ogreMunchkinThangType.set('spriteType', 'singular')
     colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
     sprite = new Lank(ogreMunchkinThangType, {colorConfig: colorConfig})
@@ -58,6 +59,7 @@ describe 'LayerAdapter', ->
     expect(animations.length).toBe(1)
     expect(animations[0]).toBe(key)
     expect(sheet.getNumFrames()).toBe(2) # one idle frame, and the emptiness frame
+    ThangType.defaultActions = oldDefaults
 
   it 'renders a raster image onto a sheet', (done) ->
     bootsThangType = new ThangType(require 'test/app/fixtures/leather-boots.thang.type')
@@ -75,14 +77,14 @@ describe 'LayerAdapter', ->
       # skip this test...
       done()
     )
-  
+
   it 'loads ThangTypes for Lanks that are added to it and need to be loaded', ->
     thangType = new ThangType({_id: 1})
     sprite = new Lank(thangType)
     layer.addLank(sprite)
     expect(layer.numThingsLoading).toBe(1)
     expect(jasmine.Ajax.requests.count()).toBe(1)
-    
+
   it 'loads raster images for ThangType', ->
     bootsThangTypeData = require 'test/app/fixtures/leather-boots.thang.type'
     thangType = new ThangType({_id: 1})
@@ -98,7 +100,7 @@ describe 'LayerAdapter', ->
     thangType.trigger('raster-image-loaded', thangType)
     expect(layer.numThingsLoading).toBe(0)
     expect(layer.renderNewSpriteSheet).toHaveBeenCalled()
-    
+
   it 'renders a new SpriteSheet only once everything has loaded', ->
     bootsThangTypeData = require 'test/app/fixtures/leather-boots.thang.type'
     thangType1 = new ThangType({_id: 1})
