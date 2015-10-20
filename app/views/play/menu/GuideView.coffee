@@ -121,7 +121,6 @@ module.exports = class LevelGuideView extends CocoView
     tag.src = helpVideoURL + "?api=1&badge=0&byline=0&portrait=0&title=0"
     tag.height = @helpVideoHeight
     tag.width = @helpVideoWidth
-    tag.frameborder = '0'
     tag.allowFullscreen = true
     @$el.find('#help-video-player').replaceWith(tag)
 
