@@ -17,13 +17,13 @@ function objectIdWithTimestamp(timestamp)
 }
 
 var betaStartDate = new ISODate('2015-10-08');
-var minMembers = 9;
+var minMembers = 2;
 
 var classes = [];
 var ownerIDs = [];
 var cursor = db['course.instances'].find({$and: [
     {_id: {$gte: objectIdWithTimestamp(betaStartDate)}},
-    {$where: 'this.members.length > ' + minMembers}
+    {$where: 'this.members.length >= ' + minMembers}
 ]}).sort({_id: 1});
 while (cursor.hasNext()) {
     var doc = cursor.next();
@@ -59,7 +59,8 @@ classes.sort(function(a, b) {
 });
 
 for (var i = 0; i < classes.length; i++) {
-  print(classes[i].url + '\t' + classes[i].memberCount + '\t' + classes[i].email + '\t' + classes[i].name);
+  // print(classes[i].url + '\t' + classes[i].memberCount + '\t' + classes[i].email + '\t' + classes[i].name);
+  print(classes[i].email);
 }
 
-print(classes.length + ' course instances with over ' + minMembers + ' members');
+print(classes.length + ' course instances with at least ' + minMembers + ' members');
