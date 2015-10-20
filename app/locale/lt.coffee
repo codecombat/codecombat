@@ -385,7 +385,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     should_equip: "(double-click kad naudotum)"
     equipped: "(naudojama)"
     locked: "(užrakinta)"
-  restricted: "(uždrausta šiame lygyje)"
+    restricted: "(uždrausta šiame lygyje)"
     equip: "Naudoti"
     unequip: "Nenaudoti"
 
