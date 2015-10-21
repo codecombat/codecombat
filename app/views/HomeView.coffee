@@ -6,7 +6,7 @@ module.exports = class HomeView extends RootView
   template: template
 
   events:
-    'click #play-button': 'onClickBeginnerCampaign'
+    'click #play-button': 'onClickPlayButton'
 
   constructor: ->
     super()
@@ -34,7 +34,7 @@ module.exports = class HomeView extends RootView
     c.isIPadBrowser = @isIPadBrowser()
     c
 
-  onClickBeginnerCampaign: (e) ->
+  onClickPlayButton: (e) ->
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
