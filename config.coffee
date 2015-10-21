@@ -200,7 +200,7 @@ exports.config =
       output:
         semicolons: false
     sass:
-      mode: 'ruby'
+      mode: 'native'
       allowCache: true
     bless:
       cacheBuster: false
