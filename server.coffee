@@ -11,9 +11,9 @@ serverSetup = require './server_setup'
 module.exports.startServer = (port, path, callback) ->
   app = createAndConfigureApp()
   port = port or app.get('port')
-  http.createServer(app).listen(port, callback)
+  server = http.createServer(app).listen(port, callback)
   log.info('Express SSL server listening on port ' + port)
-  http
+  server
 
 createAndConfigureApp = ->
   serverSetup.setupLogging()
