@@ -8,11 +8,12 @@ http = require 'http'
 log = require 'winston'
 serverSetup = require './server_setup'
 
-module.exports.startServer = ->
+module.exports.startServer = (port, path, callback) ->
   app = createAndConfigureApp()
-  http.createServer(app).listen(app.get('port'))
-  log.info('Express SSL server listening on port ' + app.get('port'))
-  app
+  port = port or app.get('port')
+  http.createServer(app).listen(port, callback)
+  log.info('Express SSL server listening on port ' + port)
+  http
 
 createAndConfigureApp = ->
   serverSetup.setupLogging()

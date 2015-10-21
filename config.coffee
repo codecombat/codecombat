@@ -43,6 +43,10 @@ exports.config =
       watcher:
         usePolling: true
 
+  server:
+    port: 3000
+    path: 'server.coffee'
+
   files:
     javascripts:
       defaultExtension: 'coffee'

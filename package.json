@@ -32,7 +32,11 @@
     "start": "node ./index.js",
     "test": "./node_modules/.bin/karma start",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping brunch build --production",
-    "postdeploy": "echo Deployed. Unclench."
+    "postdeploy": "echo Deployed. Unclench.",
+    "postinstall": "bower install && brunch build",
+    "brunch": "brunch",
+    "bower": "bower",
+    "dev": "brunch watch --server"
   },
   "main": "index.js",
   "keywords": [
