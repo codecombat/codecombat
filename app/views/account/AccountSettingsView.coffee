@@ -13,12 +13,11 @@ module.exports = class AccountSettingsView extends CocoView
   className: 'countainer-fluid'
 
   events:
-    'change .panel input': 'onInputChanged'
-    'change #name': 'checkNameExists'
-    'click #toggle-all-button': 'toggleEmailSubscriptions'
-    'click .profile-photo': 'onEditProfilePhoto'
-    'click #upload-photo-button': 'onEditProfilePhoto'
-    'click #delete-account-button': 'confirmAccountDeletion'
+    'change .panel input': 'onChangePanelInput'
+    'change #name-input': 'onChangeNameInput'
+    'click #toggle-all-btn': 'onClickToggleAllButton'
+    'click #profile-photo-panel-body': 'onClickProfilePhotoPanelBody'
+    'click #delete-account-btn': 'onClickDeleteAccountButton'
 
   constructor: (options) ->
     super options
@@ -38,20 +37,20 @@ module.exports = class AccountSettingsView extends CocoView
 
 
   #- Form input callbacks
-  onInputChanged: (e) ->
+  onChangePanelInput: (e) ->
     $(e.target).addClass 'changed'
     if (JSON.stringify(document.getElementById('email1').className)).indexOf("changed") > -1 or (JSON.stringify(document.getElementById('password1').className)).indexOf("changed") > -1 
       $(e.target).removeClass 'changed'
     else
       @trigger 'input-changed'
 
-  toggleEmailSubscriptions: =>
+  onClickToggleAllButton: ->
     subs = @getSubscriptions()
     $('#email-panel input[type="checkbox"]', @$el).prop('checked', not _.any(_.values(subs))).addClass('changed')
     @trigger 'input-changed'
 
-  checkNameExists: =>
-    name = $('#name', @$el).val()
+  onChangeNameInput: ->
+    name = $('#name-input', @$el).val()
     return if name is me.get 'name'
     User.getUnconflictedName name, (newName) =>
       forms.clearFormAlerts(@$el)
@@ -67,7 +66,7 @@ module.exports = class AccountSettingsView extends CocoView
 
 
   #- Just copied from OptionsView, TODO refactor
-  confirmAccountDeletion: ->
+  onClickDeleteAccountButton: ->
     forms.clearFormAlerts(@$el)
     myEmail = me.get 'email'   
     email1 = document.getElementById('email1').value
@@ -141,7 +140,7 @@ module.exports = class AccountSettingsView extends CocoView
         layout: 'topCenter'
       url: "/db/user/#{myID}"
 
-  onEditProfilePhoto: (e) ->
+  onClickProfilePhotoPanelBody: (e) ->
     return if window.application.isIPadApp  # TODO: have an iPad-native way of uploading a photo, since we don't want to load FilePicker on iPad (memory)
     photoContainer = @$el.find('.profile-photo')
     onSaving = =>
@@ -229,8 +228,8 @@ module.exports = class AccountSettingsView extends CocoView
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
 
   grabOtherData: ->
-    @$el.find('#name').val @suggestedName if @suggestedName
-    me.set 'name', @$el.find('#name').val()
+    @$el.find('#name-input').val @suggestedName if @suggestedName
+    me.set 'name', @$el.find('#name-input').val()
     me.set 'email', @$el.find('#email').val()
     for emailName, enabled of @getSubscriptions()
       me.setEmailSubscription emailName, enabled
