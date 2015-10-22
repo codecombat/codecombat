@@ -44,8 +44,7 @@ exports.config =
         usePolling: true
 
   server:
-    port: 3000
-    path: 'server.coffee'
+    command: 'nodemon . --ext ".coffee|.js" --watch server --watch server_config.js --watch server_setup.coffee --watch app' + sysPath.sep + "schemas"
 
   files:
     javascripts:
