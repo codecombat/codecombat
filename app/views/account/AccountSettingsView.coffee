@@ -28,13 +28,11 @@ module.exports = class AccountSettingsView extends CocoView
     super()
     @openModalView new AuthModal() if me.get('anonymous')
 
-  getRenderData: ->
-    c = super()
-    return c unless me
-    c.subs = {}
-    c.subs[sub] = 1 for sub in me.getEnabledEmails()
-    c
-
+  getEmailSubsDict: ->
+    subs = {}
+    return subs unless me
+    subs[sub] = 1 for sub in me.getEnabledEmails()
+    return subs
 
   #- Form input callbacks
   onChangePanelInput: (e) ->

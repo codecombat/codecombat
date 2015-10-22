@@ -62,6 +62,8 @@ else
           button#delete-account-btn.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
 
     .col-md-6
+
+      - var subs = view.getEmailSubsDict();
           
       #email-panel.panel.panel-default
         .panel-heading
