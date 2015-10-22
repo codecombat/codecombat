@@ -39,7 +39,13 @@ CampaignHandler = class CampaignHandler extends Handler
   get: (req, res) ->
     return @sendForbiddenError(res) if not @hasAccess(req)
     # We don't have normal text search or anything set up to make /db/campaign work, so we'll just give them all campaigns, no problem.
-    q = @modelClass.find {}
+    query = {}
+    projection = {}
+    if @modelClass.schema.uses_coco_translation_coverage and req.query.view is 'i18n-coverage'
+      query = i18nCoverage: {$exists: true}
+      if req.query.project
+        projection[field] = 1 for field in req.query.project.split(',')
+    q = @modelClass.find query, projection
     q.exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       documents = (@formatEntity(req, doc) for doc in documents)
