@@ -13,14 +13,16 @@ if(config.stripe.secretKey.indexOf('sk_test_')==0) {
 stripe = require('stripe')(config.stripe.secretKey);
 
 var range = {
-  gt: ''+(new Date('2015-03-01').getTime()/1000),
-  lt: ''+(new Date('2015-04-01').getTime()/1000)
+  gt: ''+(new Date('2015-09-01').getTime()/1000),
+  lt: ''+(new Date('2015-10-01').getTime()/1000)
 }; 
 
+var lastStartDate = null;
 begin = function(starting_after) {
   var query = {date: range, limit: 100};
   if(starting_after) {
     query.starting_after = starting_after;
+    lastStartDate = starting_after;
   }
   stripe.invoices.list(query, onInvoicesReceived);
 }
@@ -28,6 +30,10 @@ begin = function(starting_after) {
 customersPaid = [];
 
 onInvoicesReceived = function(err, invoices) {
+  if(err) {
+    console.error("Got error fetching invoices:", err);
+    return begin(lastStartDate);
+  }
   for(var i in invoices.data) {
     var invoice = invoices.data[i];
     if(!invoice.paid) { continue; }
@@ -49,6 +55,7 @@ loadNewCustomers = function(starting_after) {
   query = {created: range, limit: 100};
   if(starting_after) {
     query.starting_after = starting_after;
+    lastStartDate = starting_after;
   }
   stripe.customers.list(query, onCustomersReceived);
 };
@@ -56,6 +63,10 @@ loadNewCustomers = function(starting_after) {
 newCustomersPaid = [];
 
 onCustomersReceived = function(err, customers) {
+  if(err) {
+    console.error("Got error fetching customers:", err);
+    return loadNewCustomers(lastStartDate);
+  }
   for(var i in customers.data) {
     var customer = customers.data[i];
     if(customersPaid.indexOf(customer.id) == -1) { continue; }
