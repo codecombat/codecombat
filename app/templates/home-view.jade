@@ -26,10 +26,10 @@ block outer_content
   .alert.alert-danger.lt-ie9
     strong(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 8 or older. Sorry!
   
-  if isIPadBrowser || isMobile
+  if view.isIPadBrowser() || view.isMobile()
     .alert.alert-danger.mobile
       strong(data-i18n="home.no_mobile") CodeCombat wasn't designed for mobile devices and may not work!
-  else if isOldBrowser
+  else if view.isOldBrowser()
     .alert.alert-danger.old-browser
       strong(data-i18n="home.old_browser") Uh oh, your browser is too old to run CodeCombat. Sorry!
       br
@@ -37,7 +37,7 @@ block outer_content
 
 
 block extra_footer_content
-  if explainsHourOfCode
+  if view.explainsHourOfCode
     // Does not show up unless lang is en-US.
     div.hour-of-code-explanation
       | The 'Hour of Code' is a nationwide initiative by 
