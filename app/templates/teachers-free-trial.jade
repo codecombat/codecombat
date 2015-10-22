@@ -4,21 +4,22 @@ block content
 
   h2(data-i18n="teachers_survey.title")
 
+  - var existingRequest = view.existingRequests.at(0)
   if me.isAnonymous()
     p.logged-out-blurb(data-i18n="teachers_survey.must_be_logged")
-  else if fetchingData
+  else if view.fetchingData
     h4(data-i18n="teachers_survey.retrieving")
-  else if existingRequests.length > 0
-    if existingRequests[0].get('status') === 'submitted'
+  else if existingRequest
+    if existingRequest.get('status') === 'submitted'
       p
         span.spr(data-i18n="teachers_survey.being_reviewed_1")
         strong(data-i18n="teachers_survey.being_reviewed_2")
-    else if existingRequests[0].get('status') === 'approved'
+    else if existingRequest.get('status') === 'approved'
       p
        span.spr(data-i18n="teachers_survey.approved_1")
        strong.spr(data-i18n="teachers_survey.approved_2")
        span.spr(data-i18n="teachers_survey.approved_3")
-       strong= existingRequests[0].get('properties').email
+       strong= existingRequest.get('properties').email
     else
       p
         span.spr(data-i18n="teachers_survey.denied_1")
@@ -36,7 +37,7 @@ block content
     p.container-email-address
       label.control-label(data-i18n="teachers_survey.email")
       br
-      input.control-label.input-email-address(type='text', value=email)
+      input.control-label.input-email-address(type='text', value=view.email)
     p.container-school
       label.control-label(data-i18n="teachers_survey.school")
       br
