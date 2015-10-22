@@ -152,7 +152,13 @@ module.exports = class Spell
     skipProtectAPI = @skipProtectAPI or not writable
     problemContext = @createProblemContext thang
     includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']) and not skipProtectAPI
-    aetherOptions = createAetherOptions functionName: @name, codeLanguage: @language, functionParameters: @parameters, skipProtectAPI: skipProtectAPI, includeFlow: includeFlow, problemContext: problemContext
+    aetherOptions = createAetherOptions
+      functionName: @name
+      codeLanguage: @language
+      functionParameters: @parameters
+      skipProtectAPI: skipProtectAPI
+      includeFlow: includeFlow
+      problemContext: problemContext
     aether = new Aether aetherOptions
     if @worker
       workerMessage =

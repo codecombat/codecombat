@@ -16,9 +16,6 @@ module.exports = class ArticleEditView extends RootView
     'click #history-button': 'showVersionHistory'
     'click #save-button': 'openSaveModal'
 
-  subscriptions:
-    'editor:save-new-version': 'saveNewArticle'
-
   constructor: (options, @articleID) ->
     super options
     @article = new Article(_id: @articleID)
@@ -82,7 +79,10 @@ module.exports = class ArticleEditView extends RootView
     return false
 
   openSaveModal: ->
-    @openModalView(new SaveVersionModal({model: @article}))
+    modal = new SaveVersionModal({model: @article})
+    @openModalView(modal)
+    @listenToOnce modal, 'save-new-version', @saveNewArticle
+    @listenToOnce modal, 'hidden', -> @stopListening(modal)
 
   saveNewArticle: (e) ->
     @treema.endExistingEdits()

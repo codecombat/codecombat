@@ -45,7 +45,7 @@ module.exports = class SaveVersionModal extends ModalView
     if @isPatch then @submitPatch() else @saveChanges()
 
   saveChanges: ->
-    Backbone.Mediator.publish 'editor:save-new-version', {
+    @trigger 'save-new-version', {
       major: @$el.find('#major-version').prop('checked')
       commitMessage: @$el.find('#commit-message').val()
     }

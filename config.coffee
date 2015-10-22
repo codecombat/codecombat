@@ -43,6 +43,9 @@ exports.config =
       watcher:
         usePolling: true
 
+  server:
+    command: 'nodemon . --ext ".coffee|.js" --watch server --watch server_config.js --watch server_setup.coffee --watch app' + sysPath.sep + "schemas"
+
   files:
     javascripts:
       defaultExtension: 'coffee'
