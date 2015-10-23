@@ -179,8 +179,6 @@ exports.config =
   framework: 'backbone'
 
   plugins:
-    autoReload:
-      delay: 300
     coffeelint:
       pattern: /^app\/.*\.coffee$/
 #      pattern: /^dne/ # use this pattern instead if you want to speed compilation
