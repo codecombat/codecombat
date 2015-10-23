@@ -107,7 +107,7 @@
     "marked": "0.2.x",
     "nodemon": "0.7.5",
     "requirejs": "~2.1.10",
-    "@basicer/sass-brunch": "^1.9.1",
+    "sass-brunch": "https://github.com/basicer/sass-brunch-bleeding/archive/1.8.8-bleeding.tar.gz",
     "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",
     "uglify-js-brunch": "^1.7.8"
   },
