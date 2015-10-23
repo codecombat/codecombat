@@ -44,7 +44,7 @@ exports.config =
         usePolling: true
 
   server:
-    command: 'nodemon . --ext ".coffee|.js" --watch server --watch server_config.js --watch server_setup.coffee --watch app' + sysPath.sep + "schemas"
+    command: 'nodemon .'
 
   files:
     javascripts:

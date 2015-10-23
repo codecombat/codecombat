@@ -36,7 +36,8 @@
     "postinstall": "bower install && brunch build",
     "brunch": "brunch",
     "bower": "bower",
-    "dev": "brunch watch --server"
+    "dev": "brunch watch --server",
+    "nodemon": "nodemon"
   },
   "main": "index.js",
   "keywords": [
@@ -105,7 +106,7 @@
     "karma-requirejs": "~0.2.1",
     "karma-script-launcher": "~0.1.0",
     "marked": "0.2.x",
-    "nodemon": "1.7.3",
+    "nodemon": "1.6.1",
     "requirejs": "~2.1.10",
     "sass-brunch": "https://github.com/basicer/sass-brunch-bleeding/archive/1.9.1-bleeding.tar.gz",
     "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",
