@@ -12,7 +12,7 @@ block content
           span.glyphicon.glyphicon-home
       li
         a(href="/account", data-i18n="nav.account")
-      li.active(data-i18n="account.prepaid")
+      li.active(data-i18n="account.prepaid_codes")
 
     .row
       .col-md-12
@@ -23,16 +23,16 @@ block content
                 span(data-i18n="account_prepaid.purchase_code")
           .panel-collapse.collapse(class=ppcQuery ? "": "in")#purchasepanel
             .panel-body
-              p Subscription Codes can be redeemed to add premium subscription time to one or more Code Combat accounts. 
-              p Each Code Combat account can only redeem a particular Subscription Code once.
-              p Subscription Code months will be added to the end of any existing subscription on the account.
+              p(data-i18n="account_prepaid.purchase_code1")
+              p(data-i18n="account_prepaid.purchase_code2")
+              p(data-i18n="account_prepaid.purchase_code3")
               .form-horizontal
                 .form-group
-                  label.control-label.col-md-2(for="users") Users
+                  label.control-label.col-md-2(for="users", data-i18n="account_prepaid.users")
                   .col-md-2
                     input#users-input.form-control(name="users", type="number", value="#{purchase.users}", min=1)
                 .form-group
-                  label.control-label.col-md-2(for="months") Months
+                  label.control-label.col-md-2(for="months", data-i18n="account_prepaid.months")
                   .col-md-2
                     input#months-input.form-control(name="months", type="number", value="#{purchase.months}", min=1)
                 .form-group
@@ -51,7 +51,8 @@ block content
           .panel-collapse.collapse.in#redeempanel
             .panel-body
               p
-                span.spr Prepaid Code:
+                span(data-i18n="account_prepaid.prepaid_code")
+                span.spr :
                 input.input-ppc(name="ppc", type="text", value="#{ppc}", required)
               if ppcInfo && ppcInfo.length > 0
                 p
@@ -60,9 +61,9 @@ block content
                       != info
               p
                 span.spr
-                  button#lookup-code-btn.btn.btn-info Lookup prepaid code
+                  button#lookup-code-btn.btn.btn-info(data-i18n="account_prepaid.lookup_code")
                 span
-                  button#redeem-code-btn.btn.btn-success Apply to your account
+                  button#redeem-code-btn.btn.btn-success(data-i18n="account_prepaid.apply_account")
     .row
       .col-md-12
         .panel.panel-default
@@ -76,11 +77,11 @@ block content
                 table.table.table-striped
                   tr
                     th 
-                      span(title="You can copy the code's link and send it to someone.") Code 
+                      span.spr(data-i18n="[title]account_prepaid.copy_link;general.code", title="You can copy the code's link and send it to someone.")
                         span.glyphicon.glyphicon-question-sign(aria-hidden="true")
-                    th Months
-                    th Quantity
-                    th Status
+                    th(data-i18n="account_prepaid.months")
+                    th(data-i18n="account_prepaid.quantity")
+                    th(data-i18n="user.status")
                   for code in codes.models
                     if code.get('type') === 'terminal_subscription'
                       - var owner = (code.get('creator') == me.id ? true : false)
@@ -99,8 +100,8 @@ block content
                         else
                           td - 
                         if owner
-                          td Purchased
+                          td(data-i18n="account.purchased")
                         else
-                          td Redeemed
+                          td(data-i18n="account_prepaid.redeemed")
               else
-                p No codes yet!
+                p(data-i18n="account_prepaid.no_codes")
