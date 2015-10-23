@@ -7,8 +7,6 @@ module.exports = class CommunityView extends RootView
 
   afterRender: ->
     super()
-    ajdfas()
-    
     @$el.find('.contribute-classes a').each ->
       characterClass = $(@).attr('href').split('/')[2]
       title = $.i18n.t("classes.#{characterClass}_title")
