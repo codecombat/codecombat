@@ -23,7 +23,7 @@ block content
         p
           span(data-i18n="ladder.tournament_blurb") Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details
           |  
-          a(href="http://blog.codecombat.com/multiplayer-programming-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
+          a(href="http://blog.codecombat.com/a-31-trillion-390-billion-statement-programming-war-between-545-wizards", data-i18n="ladder.tournament_blurb_blog") on our blog
           | .
         p
           strong Tournament ended! 
@@ -60,7 +60,7 @@ block content
         p
           span(data-i18n="ladder.tournament_blurb_criss_cross") Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details
           |  
-          a(href="http://blog.codecombat.com/6-programming-languages-one-victor-codecombats-newest-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
+          a(href="http://blog.codecombat.com/a-good-new-fashioned-programming-throwdown", data-i18n="ladder.tournament_blurb_blog") on our blog
           | .
         p
           strong Tournament ended! 
@@ -85,7 +85,7 @@ block content
         p
           span(data-i18n="ladder.tournament_blurb_zero_sum") Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details
           |  
-          a(href="http://blog.codecombat.com/zero-sum", data-i18n="ladder.tournament_blurb_blog") on our blog
+          a(href="http://blog.codecombat.com/kings-of-zero-sum-strategies-from-the-ai-wars", data-i18n="ladder.tournament_blurb_blog") on our blog
           | .
         p
           strong Tournament ended! 
@@ -109,13 +109,12 @@ block content
         p
           span(data-i18n="ladder.tournament_blurb_ace_of_coders") Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details
           |  
-          a(href="http://blog.codecombat.com/ace-of-coders-multiplayer-programming-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
+          a(href="http://blog.codecombat.com/the-true-ace-of-coders", data-i18n="ladder.tournament_blurb_blog") on our blog
           | .
         p
           strong Tournament ended! 
-        //  a(href="#winners") Behold the winners
-        //  | . Thanks for playing! You can 
-          | Thanks for playing! You can 
+          a(href="#winners") Behold the winners
+          | . Thanks for playing! You can 
           strong still play
           |  Ace of Coders as long as you like.
         p
@@ -151,7 +150,7 @@ block content
     if level.get('name') == 'Greed'
       li
         a(href="#rules", data-toggle="tab", data-i18n="ladder.rules") Rules
-    if level.get('name') == 'Greed' || level.get('name') == 'Criss-Cross' || level.get('name') == 'Zero Sum'
+    if level.get('name') == 'Greed' || level.get('name') == 'Criss-Cross' || level.get('name') == 'Zero Sum' || level.get('name') == 'Ace of Coders'
       li
         a(href="#winners", data-toggle="tab", data-i18n="ladder.winners") Winners
 
@@ -861,3 +860,32 @@ block content
                   td
                   td
                   td
+
+    if level.get('name') == 'Ace of Coders'
+      .tab-pane.well#winners
+        h1(data-i18n="ladder.winners") Winners
+  
+        table.table.table-hover.table-condensed
+          thead
+            tr
+              th(data-i18n="ladder_prizes.rank") Rank
+              th
+              th(data-i18n="general.player") Player
+              th Wins
+              th Losses
+              th(data-i18n="play.spectate") Spectate
+          tbody
+            each player in winners.humans
+              tr 
+                td= player.rank
+                td.code-language-cell(style="background-image: url(/images/common/code_languages/" + player.codeLanguage + "_icon.png)" title=_.string.capitalize(player.codeLanguage))
+                td= player.name
+                td
+                  span.win= player.wins
+                td
+                  span.loss= player.losses
+                td
+                  if player.team == "ogres"
+                    a(href="/play/spectate/" + level.get('slug') + "?session-one=55df8c9207d920b7e4262f33" + "&session-two=" + player.sessionID, data-i18n="ladder.watch_battle") Watch the battle
+                  else
+                    a(href="/play/spectate/" + level.get('slug') + "?session-one=" + player.sessionID + "&session-two=55e1d23686c019bc47b640fe", data-i18n="ladder.watch_battle") Watch the battle

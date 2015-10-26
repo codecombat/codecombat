@@ -159,7 +159,6 @@ module.exports = class Spell
       skipProtectAPI: skipProtectAPI
       includeFlow: includeFlow
       problemContext: problemContext
-      whileTrueAutoYield: @levelType is 'course'
     aether = new Aether aetherOptions
     if @worker
       workerMessage =

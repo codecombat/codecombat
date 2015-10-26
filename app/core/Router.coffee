@@ -112,7 +112,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'multiplayer': go('MultiplayerView')
 
-    'play': go('play/CampaignView')
+    'play(/)': go('play/CampaignView') # extra slash is to get Facebook app to work
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
@@ -131,10 +131,14 @@ module.exports = class CocoRouter extends Backbone.Router
     #'user/:slugOrID/profile': go('user/JobProfileView')
     'user/:slugOrID/profile': go('EmployersView')  # Show the not-recruiting-now screen
 
+    '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
 
   routeToServer: (e) ->
     window.location.href = window.location.href
+
+  removeTrailingSlash: (e) ->
+    @navigate e, {trigger: true}
 
   routeDirectly: (path, args) ->
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')

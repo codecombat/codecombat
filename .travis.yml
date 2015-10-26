@@ -18,15 +18,13 @@ cache:
     - bower_components
 
 before_install:
+  - "gem install sass"
+  - export COCO_TRAVIS_TEST=1
   - npm install -g npm@latest
 
 before_script:
   - export DISPLAY=:99.0
-  - export COCO_TRAVIS_TEST=1
   - sh -e /etc/init.d/xvfb start
-  - "./node_modules/.bin/bower install"
-  - "gem install sass"
-  - "./node_modules/.bin/brunch b"
   - "node index.js --unittest &"
   - "sleep 10" # to give node a chance to start
 

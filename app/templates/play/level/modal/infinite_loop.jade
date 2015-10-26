@@ -8,11 +8,11 @@ block modal-header-content
 
 block modal-body-content
   .modal-body
-    p(data-i18n="play_level.infinite_loop_explanation") The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know.
+    p(data-i18n="play_level.infinite_loop_description") The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know.
 
     p
       span.spr(data-i18n="play_level.check_dev_console") You can also open the developer console to see what might be going wrong.
-      a(href="http://webmasters.stackexchange.com/questions/8525/how-to-open-the-javascript-console-in-different-browsers/77337#77337", data-i18n="play_level.check_dev_console_instructions", target="_blank") (instructions)
+      a(href="http://webmasters.stackexchange.com/questions/8525/how-to-open-the-javascript-console-in-different-browsers/77337#77337", data-i18n="play_level.check_dev_console_link", target="_blank") (instructions)
 
 block modal-footer-content
   a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="play_level.infinite_loop_try_again").btn#restart-level-infinite-loop-retry-button Try Again

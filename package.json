@@ -32,7 +32,12 @@
     "start": "node ./index.js",
     "test": "./node_modules/.bin/karma start",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping brunch build --production",
-    "postdeploy": "echo Deployed. Unclench."
+    "postdeploy": "echo Deployed. Unclench.",
+    "postinstall": "bower install && brunch build",
+    "brunch": "brunch",
+    "bower": "bower",
+    "dev": "brunch watch --server",
+    "nodemon": "nodemon"
   },
   "main": "index.js",
   "keywords": [
@@ -79,18 +84,18 @@
     "auto-reload-brunch": "> 1.0 < 1.8",
     "bless-brunch": "https://github.com/ThomasConner/bless-brunch/tarball/master",
     "bower": "~1.3.8",
-    "brunch": "~1.7.4",
-    "coffee-script-brunch": "https://github.com/brunch/coffee-script-brunch/tarball/master",
-    "coffeelint-brunch": "> 1.0 < 1.8",
+    "brunch": "^1.8.5",
+    "coffee-script-brunch": "^1.8.3",
+    "coffeelint-brunch": "^1.7.1",
     "compressible": "~1.0.1",
     "commonjs-require-definition": "0.2.0",
-    "css-brunch": "> 1.0 < 1.8",
+    "css-brunch": "^1.7.0",
     "jade": "0.33.x",
-    "jade-brunch": "> 1.0 < 1.8",
+    "jade-brunch": "^1.8.1",
     "jasmine-node": "1.13.x",
     "jasmine-spec-reporter": "~0.3.0",
     "javascript-brunch": "> 1.0 < 1.8",
-    "karma": "~0.12",
+    "karma": "~0.13",
     "karma-chrome-launcher": "~0.1.2",
     "karma-coffee-preprocessor": "~0.1.2",
     "karma-coverage": "~0.5.1",
@@ -101,15 +106,16 @@
     "karma-requirejs": "~0.2.1",
     "karma-script-launcher": "~0.1.0",
     "marked": "0.2.x",
-    "nodemon": "0.7.5",
+    "nodemon": "1.6.1",
     "requirejs": "~2.1.10",
-    "sass-brunch": "^1.8.8",
+    "sass-brunch": "https://github.com/basicer/sass-brunch-bleeding/archive/1.9.1-bleeding.tar.gz",
     "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",
-    "uglify-js-brunch": "~1.7.4"
+    "uglify-js-brunch": "^1.7.8"
   },
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
-    "node": "0.10.x"
+    "node": "0.10.x",
+    "npm": "^3.0.0"
   }
 }

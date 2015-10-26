@@ -30,17 +30,17 @@ block content
                 .form-group
                   label.control-label.col-md-2(for="users") Users
                   .col-md-2
-                    input#users.form-control(name="users", type="number", value="#{purchase.users}", min=1)
+                    input#users-input.form-control(name="users", type="number", value="#{purchase.users}", min=1)
                 .form-group
                   label.control-label.col-md-2(for="months") Months
                   .col-md-2
-                    input#months.form-control(name="months", type="number", value="#{purchase.months}", min=1)
+                    input#months-input.form-control(name="months", type="number", value="#{purchase.months}", min=1)
                 .form-group
                   label.control-label.col-md-2(data-i18n="account_prepaid.purchase_total")
                   .col-md-10
                     p.form-control-static $
                       span#total #{purchase.total.toFixed(2)}
-                button#purchase-button.btn.btn-success.pull-right(data-i18n="account_prepaid.purchase_button")
+                button#purchase-btn.btn.btn-success.pull-right(data-i18n="account_prepaid.purchase_button")
     .row
       .col-md-12
         .panel.panel-default
@@ -60,9 +60,9 @@ block content
                       != info
               p
                 span.spr
-                  button.btn.btn-info.btn-check-code Lookup prepaid code
+                  button#lookup-code-btn.btn.btn-info Lookup prepaid code
                 span
-                  button.btn.btn-success.btn-redeem-code Apply to your account
+                  button#redeem-code-btn.btn.btn-success Apply to your account
     .row
       .col-md-12
         .panel.panel-default

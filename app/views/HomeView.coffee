@@ -6,7 +6,7 @@ module.exports = class HomeView extends RootView
   template: template
 
   events:
-    'click #play-button': 'onClickBeginnerCampaign'
+    'click #play-button': 'onClickPlayButton'
 
   constructor: ->
     super()
@@ -18,23 +18,7 @@ module.exports = class HomeView extends RootView
       # Show the Hour of Code footer explanation in English until it's been more than a day
       @explainsHourOfCode = true
 
-  getRenderData: ->
-    c = super()
-    if $.browser
-      majorVersion = $.browser.versionNumber
-      c.isOldBrowser = true if $.browser.mozilla && majorVersion < 25
-      c.isOldBrowser = true if $.browser.chrome && majorVersion < 31  # Noticed Gems in the Deep not loading with 30
-      c.isOldBrowser = true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
-    else
-      console.warn 'no more jquery browser version...'
-    c.isEnglish = _.string.startsWith (me.get('preferredLanguage') or 'en'), 'en'
-    c.languageName = me.get('preferredLanguage')
-    c.explainsHourOfCode = @explainsHourOfCode
-    c.isMobile = @isMobile()
-    c.isIPadBrowser = @isIPadBrowser()
-    c
-
-  onClickBeginnerCampaign: (e) ->
+  onClickPlayButton: (e) ->
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
@@ -44,6 +28,16 @@ module.exports = class HomeView extends RootView
   afterInsert: ->
     super(arguments...)
     @$el.addClass 'hour-of-code' if @explainsHourOfCode
+
+  isOldBrowser: ->
+    if $.browser
+      majorVersion = $.browser.versionNumber
+      return true if $.browser.mozilla && majorVersion < 25
+      return true if $.browser.chrome && majorVersion < 31  # Noticed Gems in the Deep not loading with 30
+      return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
+    else
+      console.warn 'no more jquery browser version...'
+    return false
 
   setUpHourOfCode: ->
     # All this HoC stuff is for the 2014-2015 year. 2015-2016 year lands at /hoc instead (the courses view).

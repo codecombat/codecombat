@@ -20,14 +20,6 @@ module.exports = class InvoicesView extends RootView
     @amount = utils.getQueryVariable('a', 0)
     @description = utils.getQueryVariable('d', '')
 
-  getRenderData: ->
-    c = super()
-    c.amount = (@amount / 100).toFixed(2)
-    c.description = @description
-    c.state = @state
-    c.stateMessage = @stateMessage
-    c
-
   onPayButton: ->
     @description = $('#description').val()
 

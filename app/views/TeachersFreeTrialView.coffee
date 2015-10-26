@@ -18,13 +18,6 @@ module.exports = class TeachersFreeTrialView extends RootView
     @email = me.get('email')
     @refreshData()
 
-  getRenderData: ->
-    context = super()
-    context.email = @email
-    context.existingRequests = @existingRequests.models
-    context.fetchingData = @fetchingData
-    context
-
   refreshData: ->
     @fetchingData = true
     @existingRequests = new CocoCollection([], { url: '/db/trial.request/-/own', model: TrialRequest, comparator: '_id' })

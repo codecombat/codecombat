@@ -16,12 +16,12 @@ module.exports = class PrepaidView extends RootView
   className: 'container-fluid'
 
   events:
-    'change #users': 'onUsersChanged'
-    'change #months': 'onMonthsChanged'
-    'click #purchase-button': 'onPurchaseClicked'
-    'click #redeem-button': 'onRedeemClicked'
-    'click .btn-check-code': 'onClickCheckCode'
-    'click .btn-redeem-code': 'onClickRedeemCode'
+    'change #users-input': 'onChangeUsersInput'
+    'change #months-input': 'onChangeMonthsInput'
+    'click #purchase-btn': 'onClickPurchaseButton'
+    'click #redeem-btn': 'onClickRedeemButton' # DNE?
+    'click #lookup-code-btn': 'onClickLookupCodeButton'
+    'click #redeem-code-btn': 'onClickRedeemCodeButton'
 
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'
@@ -63,10 +63,10 @@ module.exports = class PrepaidView extends RootView
 
   updateTotal: ->
     @purchase.total = getPrepaidCodeAmount(@baseAmount, @purchase.users, @purchase.months)
-    @renderSelectors("#total", "#users", "#months")
+    @renderSelectors("#total", "#users-input", "#months-input")
 
   # Form Input Callbacks
-  onUsersChanged: (e) ->
+  onChangeUsersInput: (e) ->
     newAmount = $(e.target).val()
     newAmount = 1 if newAmount < 1
     @purchase.users = newAmount
@@ -81,7 +81,7 @@ module.exports = class PrepaidView extends RootView
 
     @updateTotal()
 
-  onMonthsChanged: (e) ->
+  onChangeMonthsInput: (e) ->
     newAmount = $(e.target).val()
     newAmount = 1 if newAmount < 1
     @purchase.months = newAmount
@@ -96,8 +96,8 @@ module.exports = class PrepaidView extends RootView
 
     @updateTotal()
 
-  onPurchaseClicked: (e) ->
-    return unless $("#users").val() >= 3 or $("#months").val() >= 3
+  onClickPurchaseButton: (e) ->
+    return unless $("#users-input").val() >= 3 or $("#months-input").val() >= 3
     @purchaseTimestamp = new Date().getTime()
     @stripeAmount = @purchase.total * 100
     @description = "Prepaid Code for " + @purchase.users + " users / " + @purchase.months + " months"
@@ -108,7 +108,7 @@ module.exports = class PrepaidView extends RootView
       bitcoin: true
       alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
 
-  onRedeemClicked: (e) ->
+  onClickRedeemButton: (e) ->
     @ppc = $('#ppc').val()
 
     unless @ppc
@@ -209,7 +209,7 @@ module.exports = class PrepaidView extends RootView
     @prepaid = new Prepaid()
     @prepaid.fetch(options)
 
-  onClickCheckCode: (e) ->
+  onClickLookupCodeButton: (e) ->
     @ppc = $('.input-ppc').val()
     unless @ppc
       @statusMessage "You must enter a code.", "error"
@@ -218,7 +218,7 @@ module.exports = class PrepaidView extends RootView
     @render?()
     @loadPrepaid(@ppc)
 
-  onClickRedeemCode: (e) ->
+  onClickRedeemCodeButton: (e) ->
     @ppc = $('.input-ppc').val()
     options =
       url: '/db/subscription/-/subscribe_prepaid'

@@ -15,7 +15,7 @@ else
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             .form-group
               label.control-label(for="name", data-i18n="general.name") Name
-              input#name.form-control(name="name", type="text", value="#{name}")
+              input#name-input.form-control(name="name", type="text", value="#{name}")
             .form-group
               label.control-label(for="email", data-i18n="general.email") Email
               input#email.form-control(name="email", type="text", value="#{email}")
@@ -31,7 +31,7 @@ else
       .panel.panel-default
         .panel-heading
           .panel-title(data-i18n="account_settings.picture_tab")
-        .panel-body
+        #profile-photo-panel-body.panel-body
           img.profile-photo(src=me.getPhotoURL(230), draggable="false")
           input#photoURL(type="hidden", value=me.get('photoURL')||'')
           button#upload-photo-button.btn.form-control.btn-primary(data-i18n="account_settings.upload_picture")
@@ -59,9 +59,11 @@ else
             .form-group  
               label.control-label(for="password1", data-i18n="account_settings.type_in_password")
               input#password1.form-control(name="password1", type="password")  
-          button#delete-account-button.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
+          button#delete-account-btn.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
 
     .col-md-6
+
+      - var subs = view.getEmailSubsDict();
           
       #email-panel.panel.panel-default
         .panel-heading
@@ -159,6 +161,6 @@ else
               input#email_ambassadorNews(name="email_ambassadorNews", type="checkbox", checked=subs.ambassadorNews)
               span(data-i18n="contribute.ambassador_subscribe_desc").help-block Get emails on support updates and multiplayer developments.
                   
-            button#toggle-all-button.btn.btn-primary.form-control(data-i18n="account_settings.email_toggle") Toggle All
+            button#toggle-all-btn.btn.btn-primary.form-control(data-i18n="account_settings.email_toggle") Toggle All
 
 .clearfix

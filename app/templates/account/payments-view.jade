@@ -10,7 +10,7 @@ block content
       a(href="/account", data-i18n="nav.account")
     li.active(data-i18n="account.payments")
 
-  if payments.models.length
+  if view.payments.models.length
     table.table.table-striped
       tr
         th(data-i18n="account.purchased")
@@ -18,7 +18,7 @@ block content
         th(data-i18n="account.service")
         th(data-i18n="account.price")
         th(data-i18n="account.gems")
-      for payment in payments.models
+      for payment in view.payments.models
         - var service = payment.get('service')
         tr
           if payment.get('productID')

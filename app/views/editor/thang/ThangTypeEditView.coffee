@@ -167,7 +167,6 @@ module.exports = class ThangTypeEditView extends RootView
 
   subscriptions:
     'editor:thang-type-color-groups-changed': 'onColorGroupsChanged'
-    'editor:save-new-version': 'saveNewThangType'
 
   # init / render
 
@@ -590,7 +589,10 @@ module.exports = class ThangTypeEditView extends RootView
     _.delay((-> document.location.reload()), 500)
 
   openSaveModal: ->
-    @openModalView new SaveVersionModal model: @thangType
+    modal = new SaveVersionModal model: @thangType
+    @openModalView modal
+    @listenToOnce modal, 'save-new-version', @saveNewThangType
+    @listenToOnce modal, 'hidden', -> @stopListening(modal)
 
   startForking: (e) ->
     @openModalView new ForkModal model: @thangType, editorPath: 'thang'

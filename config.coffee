@@ -43,6 +43,9 @@ exports.config =
       watcher:
         usePolling: true
 
+  server:
+    command: 'nodemon .'
+
   files:
     javascripts:
       defaultExtension: 'coffee'
@@ -176,8 +179,6 @@ exports.config =
   framework: 'backbone'
 
   plugins:
-    autoReload:
-      delay: 300
     coffeelint:
       pattern: /^app\/.*\.coffee$/
 #      pattern: /^dne/ # use this pattern instead if you want to speed compilation
@@ -197,7 +198,7 @@ exports.config =
       output:
         semicolons: false
     sass:
-      mode: 'ruby'
+      mode: 'native'
       allowCache: true
     bless:
       cacheBuster: false
