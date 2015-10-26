@@ -58,7 +58,7 @@ block content
       //#contributor-list
       // TODO: collect CodeCombat userids for these guys so we can include a tiled list
       ul.diplomats
-        each stats, languageCode in languageStats
+        each stats, languageCode in view.calculateSpokenLanguageStats()
           if !(stats.completion < 0.02 && !stats.diplomats.length)
             li
               a(href=stats.githubURL)

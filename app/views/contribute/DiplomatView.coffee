@@ -61,13 +61,6 @@ module.exports = class DiplomatView extends ContributeClassView
   template: template
   contributorClassName: 'diplomat'
 
-  getRenderData: ->
-    context = super()
-    context.viewName = @viewName
-    context.user = @user unless @user?.isAnonymous()
-    context.languageStats = @calculateSpokenLanguageStats()
-    context
-
   calculateSpokenLanguageStats: ->
     @locale ?= require 'locale/locale'
     totalStrings = @countStrings @locale.en
