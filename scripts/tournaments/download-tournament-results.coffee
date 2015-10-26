@@ -598,6 +598,8 @@ request = require '../../node_modules/request'
 
 allSessionIDs = {}
 usernamesBySessionID = {}
+userIDsBySessionID = {}
+codeLanguagesByUserID = {}
 teamNames = ['humans', 'ogres']
 matchesByTeam = {humans: {}, ogres: {}}
 # Each object's first keys are first team session IDs, second are alternate teams' session IDs.
@@ -635,7 +637,7 @@ for file in files
 [sessionsDone, needed] = [0, 0]
 getName = (sessionID) ->
   ++needed
-  request "http://localhost:3000/db/level.session/#{sessionID}?project=creatorName,creator", (err, resp, body) ->
+  request "http://localhost:3000/db/level.session/#{sessionID}?project=creatorName,creator,submittedCodeLanguage", (err, resp, body) ->
     if err
       console.log '\nGot err fetching session', sessionID, err, '-- retrying...'
       --needed
@@ -648,6 +650,8 @@ getName = (sessionID) ->
       console.log '\nGot err parsing', session, err, '-- retrying...'
       return getName sessionID
     usernamesBySessionID[sessionID] = session.creatorName or session.creator
+    userIDsBySessionID[sessionID] = session.creator
+    codeLanguagesByUserID[session.creator] = session.submittedCodeLanguage
     if ++sessionsDone is needed
       console.log ""
       finish()
@@ -667,7 +671,7 @@ finish = ->
         sessionCreatorName = usernamesBySessionID[session]
         otherSessionCreatorName = usernamesBySessionID[otherSession]
         continue if sessionCreatorName is otherSessionCreatorName
-        teamRankings[team][sessionCreatorName] ?= {wins: 0, losses: 0}
+        teamRankings[team][sessionCreatorName] ?= {wins: 0, losses: 0, sessionID: session}
         if result is 1
           ++teamRankings[team][sessionCreatorName].wins
         else
@@ -686,15 +690,25 @@ finish = ->
     for playerName, teamScore of players
       player = playersSeenOnlyOnce[playerName]
       if player
-        player[1] += teamScore.wins
-        player[2] += teamScore.losses
+        player.wins += teamScore.wins
+        player.losses += teamScore.losses
         delete playersSeenOnlyOnce[playerName]
       else
-        topPlayers.push [playerName, teamScore.wins, teamScore.losses]
+        userID = userIDsBySessionID[teamScore.sessionID]
+        topPlayers.push {name: playerName, userID: userID, sessionID: teamScore.sessionID, wins: teamScore.wins, losses: teamScore.losses, codeLanguage: codeLanguagesByUserID[userID], team: team}
         playersSeenOnlyOnce[playerName] = topPlayers[topPlayers.length - 1]
 
-  topPlayers.sort (a, b) -> b[1] - a[1]
-  topPlayers = (p.join('\t') for p in topPlayers)
+  teamCounts = humans: Object.keys(teamRankings.humans).length, ogres: Object.keys(teamRankings.ogres).length
+  console.log '\nPlayers per team:', teamCounts.humans, 'humans,', teamCounts.ogres, 'ogres'
+
+  topPlayers.sort (a, b) ->
+    aScore = 1000 * a.wins - a.losses
+    bScore = 1000 * b.wins - b.losses
+    aScore *= 0.999 + (if a.team is 'ogres' then (teamCounts.ogres / teamCounts.humans) else (teamCounts.humans / teamCounts.ogres)) if a.name of playersSeenOnlyOnce
+    bScore *= 0.999 + (if b.team is 'ogres' then (teamCounts.ogres / teamCounts.humans) else (teamCounts.humans / teamCounts.ogres)) if b.name of playersSeenOnlyOnce
+    return bScore - aScore
+
+  topPlayers = (JSON.stringify(p, null, 0) for p in topPlayers)
 
   #console.log "Players seen only once:", playersSeenOnlyOnce
 
