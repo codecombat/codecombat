@@ -22,6 +22,7 @@ module.exports = class LadderHomeView extends RootView
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @getLevelPlayCounts()
+    @campaigns = campaigns
 
   onSessionsLoaded: (e) ->
     for session in @sessions.models
@@ -46,13 +47,6 @@ module.exports = class LadderHomeView extends RootView
       success: success
     }, 0
     levelPlayCountsRequest.load()
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.levelStatusMap = @levelStatusMap
-    context.levelPlayCountMap = @levelPlayCountMap
-    context.campaigns = campaigns
-    context
 
 heroArenas = [
   {
