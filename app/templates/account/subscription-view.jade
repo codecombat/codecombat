@@ -186,21 +186,24 @@ block content
           p= recipientSubs.card
     
         h4(data-i18n="subscribe.current_recipients")
-        table.table.table-striped.table-condensed.recipients-table
-          tr
-            th(data-i18n="general.email")
-            th(data-i18n="general.name")
-            th 
-          for recipient in recipientSubs.recipients
+        if recipientSubs.unsubscribingRecipients && recipientSubs.unsubscribingRecipients.length > 0
+          .alert.alert-info
+            span.spr(data-i18n="subscribe.unsubscribing")
+            span= recipientSubs.unsubscribingRecipients[0]
+        else
+          table.table.table-striped.table-condensed.recipients-table
             tr
-              td.recipient-email= recipient.emailLower
-              td.recipient-name= recipient.name
-              td.recipient-unsubscribe
-                if recipient.cancel_at_period_end
-                  div Ends #{moment(recipient.cancel_at_period_end).format('l')}
-                else if recipientSubs.unsubscribingRecipients.indexOf(recipient.emailLower) >= 0
-                  div(data-i18n="subscribe.unsubscribing")
-                else
-                  button.recipient-unsubscribe-button.btn.btn-sm.btn-warning Unsubscribe
-                  button.confirm-recipient-unsubscribe-button.btn.btn-sm.btn-primary.hide(data-i18n="play.confirm")
+              th(data-i18n="general.email")
+              th(data-i18n="general.name")
+              th 
+            for recipient in recipientSubs.recipients
+              tr
+                td.recipient-email= recipient.emailLower
+                td.recipient-name= recipient.name
+                td.recipient-unsubscribe
+                  if recipient.cancel_at_period_end
+                    div Ends #{moment(recipient.cancel_at_period_end).format('l')}
+                  else
+                    button.recipient-unsubscribe-button.btn.btn-sm.btn-warning Unsubscribe
+                    button.confirm-recipient-unsubscribe-button.btn.btn-sm.btn-primary.hide(data-i18n="play.confirm")
                   
