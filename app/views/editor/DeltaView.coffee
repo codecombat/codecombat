@@ -71,14 +71,8 @@ module.exports = class DeltaView extends CocoView
       if skip then skippedDeltas.push delta else newDeltas.push delta
     [newDeltas, skippedDeltas]
 
-  getRenderData: ->
-    c = super()
-    c.deltas = @expandedDeltas
-    c.counter = DeltaView.deltaCounter
-    DeltaView.deltaCounter += @expandedDeltas.length
-    c
-
   afterRender: ->
+    DeltaView.deltaCounter += @expandedDeltas.length
     deltas = @$el.find('.details')
     for delta, i in deltas
       deltaEl = $(delta)
