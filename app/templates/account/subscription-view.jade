@@ -30,12 +30,12 @@ block content
           .alert.alert-info(data-i18n="subscribe.subscribing")
         else if view.personalSub.sponsor
           div
-            span(data-i18n="subscribe.managed_by")
-            span.spl.spr #{view.personalSub.sponsorName} (#{view.personalSub.sponsorEmail})
+            span.spr(data-i18n="subscribe.managed_by")
+            span #{view.personalSub.sponsorName} (#{view.personalSub.sponsorEmail})
           if view.personalSub.endDate
             div
-              span(data-i18n="subscribe.will_be_cancelled")
-              span.spl.spr= moment(view.personalSub.endDate).format('l')
+              span.spr(data-i18n="subscribe.will_be_cancelled")
+              span= moment(view.personalSub.endDate).format('l')
 
         else if view.personalSub.usingPrepaidCode
           div(data-i18n="subscribe.using_prepaid")
@@ -56,24 +56,24 @@ block content
             br
 
           if !view.personalSub.subscribed || view.personalSub.prepaidCode
-            button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
+            button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title")
           else
-            button.end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.unsubscribe") Unsubscribe
+            button.end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.unsubscribe")
 
           .unsubscribe-feedback.row.secret
             .col-lg-7
               h3
                 if view.personalSub.monthsSubscribed > 1
-                  span(data-i18n="subscribe.thank_you_months_prefix") Thank you for supporting us these last
-                  span.spl.spr= view.personalSub.monthsSubscribed
-                  span(data-i18n="subscribe.thank_you_months_suffix") months.
+                  span.spr(data-i18n="subscribe.thank_you_months_prefix")
+                  span= view.personalSub.monthsSubscribed
+                  span.spl(data-i18n="subscribe.thank_you_months_suffix")
                 else
-                  span(data-i18n="subscribe.thank_you") Thank you for supporting CodeCombat.
-              div(data-i18n="subscribe.sorry_to_see_you_go") Sorry to see you go! Please let us know what we could have done better.
+                  span(data-i18n="subscribe.thank_you")
+              div(data-i18n="subscribe.sorry_to_see_you_go")
               textarea(rows=3, data-i18n="[placeholder]subscribe.unsubscribe_feedback_placeholder")
             .col-lg-5
-              button.cancel-end-subscription-button.btn.btn-lg.btn-default(data-i18n="subscribe.never_mind") Never Mind, I Still Love You
-              button.confirm-end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.confirm_unsubscribe") Confirm Unsubscribe
+              button.cancel-end-subscription-button.btn.btn-lg.btn-default(data-i18n="subscribe.never_mind")
+              button.confirm-end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.confirm_unsubscribe")
 
           table.table.table-striped.table-condensed
             tr
@@ -111,13 +111,13 @@ block content
           else if typeof view.personalSub.free === 'string'
             if new Date() < new Date(view.personalSub.free)
               div
-                span(data-i18n="subscribe.currently_free_until")
-                span.spl.spr= moment(new Date(view.personalSub.free)).format('l')
+                span.spr(data-i18n="subscribe.currently_free_until")
+                span= moment(new Date(view.personalSub.free)).format('l')
             else
-              span(data-i18n="subscribe.was_free_until")
-              span.spl.spr= moment(new Date(view.personalSub.free)).format('l')
+              span.spr(data-i18n="subscribe.was_free_until")
+              span= moment(new Date(view.personalSub.free)).format('l')
           else
-            button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
+            button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title")
 
     // - Prepaid Codes
     .panel.panel-default
@@ -127,7 +127,7 @@ block content
         p
           span.spr You can
           a(href="/account/prepaid") purchase a prepaid code
-          span  that can be applied to your own account or given to others.
+          span.spl that can be applied to your own account or given to others.
     //- Sponsored Subscriptions
 
     .panel.panel-default
@@ -206,4 +206,3 @@ block content
                   else
                     button.recipient-unsubscribe-button.btn.btn-sm.btn-warning Unsubscribe
                     button.confirm-recipient-unsubscribe-button.btn.btn-sm.btn-primary.hide(data-i18n="play.confirm")
-
