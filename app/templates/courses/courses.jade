@@ -25,6 +25,9 @@ block content
       if hocLandingPage
         +hoc-landing
       else
+        if view.courseInstances.size()
+          +course-instance-list
+
         if studentMode
           +student-main
         else 
@@ -52,6 +55,21 @@ mixin hoc-landing
         button.btn.btn-lg.btn-success.btn-student(data-i18n="courses.students_click")
       .col-md-6.center
         button.btn.btn-lg.btn-default.btn-teacher(data-i18n="courses.teachers_click")
+        
+mixin course-instance-list
+  h1.center Courses You Are In
+  .row
+    .col-md-10.col-md-offset-1
+      .list-group
+        for courseInstance in view.courseInstances.models
+          - var course = view.courses.get(courseInstance.get('courseID'));
+          .list-group-item
+            .list-group-item-heading
+              h3
+                a(href="/courses/#{course.id}/#{courseInstance.id}")
+                  span.spr #{courseInstance.get('name')}
+                  small (#{course.get('name')})
+              p= courseInstance.get('description')
 
 mixin student-main
   button.btn.btn-warning.btn-teacher(data-i18n="courses.teachers_click")
