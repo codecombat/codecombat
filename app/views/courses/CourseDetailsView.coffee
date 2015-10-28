@@ -133,6 +133,8 @@ module.exports = class CourseDetailsView extends RootView
     })
     me.patch()
     @supermodel.loadCollection @members, 'members', cache: false
+    @owner = new User({_id: @courseInstance.get('ownerID')})
+    @supermodel.loadModel @owner, 'user'
     if @adminMode and prepaidID = @courseInstance.get('prepaidID')
       @prepaid = @supermodel.getModel(Prepaid, prepaidID) or new Prepaid _id: prepaidID
       @listenTo @prepaid, 'sync', @onPrepaidSync
@@ -320,3 +322,10 @@ module.exports = class CourseDetailsView extends RootView
           aName = @memberUserMap[a]?.get('name') ? 'Anoner'
           bName = @memberUserMap[b]?.get('name') ? 'Anoner'
           aName.localeCompare(bName)
+
+  getOwnerName: ->
+    if @owner.isNew()
+      return '?'
+    if @owner.get('firstName') and @owner.get('lastName')
+      return "#{@owner.get('firstName')} #{@owner.get('lastName')}"
+    return @owner.get('name') or @owner.get('email') or '?'

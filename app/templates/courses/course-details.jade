@@ -31,13 +31,18 @@ block content
   else if !course || !courseInstance
     h1(data-i18n="common.loading") Loading...
   else
-    if courseInstance.get('name')
-      h1= courseInstance.get('name')
-        small.spl (#{course.get('name')})
-    else
-      h1
+    h1
+      if courseInstance.get('name')
+        | #{courseInstance.get('name')}
+      else
         span(data-i18n='courses.unnamed_class')
-        small.spl (#{course.get('name')})
+      small.spl (#{course.get('name')})
+      
+    if !view.owner.isNew()
+      p
+        span.spr Creator:
+        a(href="/user/#{view.owner.id}")
+          strong= view.getOwnerName()
 
     p
       if courseInstance.get('description')
