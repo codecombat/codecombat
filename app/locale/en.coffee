@@ -1268,7 +1268,7 @@
     months: "Months"
     purchase_total: "Total"
     purchase_button: "Submit Purchase"
-    your_codes: "Your Codes" # {change}
+    your_codes: "Your Codes"
     redeem_codes: "Redeem a Subscription Code"
     prepaid_code: "Prepaid Code"
     lookup_code: "Lookup prepaid code"

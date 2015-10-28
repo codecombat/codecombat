@@ -603,7 +603,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    title: "CodeCombat: Tietoa opettajille"
+#    more_info: "More Info for Teachers"
     intro_1: "CodeCombat on selainpeli, joka opettaa ohjelmointia. Opiskelijat kirjoittavat ohjelmakoodia oikeilla ohjelmointikielillä."
     intro_2: "Aiempi kokemus ei ole tarpeen!"
     free_title: "Mitä kaikki maksaa?"
@@ -839,6 +839,19 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     playtime: "Peliaika"
     last_played: "Viimeksi pelattu"
     leagues_explanation: "Pelaa liigaa muita klaanin jäseniä vastaan näillä moninpelaaja-areenoilla."
+#    track_concepts1: "Track concepts"
+#    track_concepts2a: "learned by each student"
+#    track_concepts2b: "learned by each member"
+#    track_concepts3a: "Track levels completed for each student"
+#    track_concepts3b: "Track levels completed for each member"
+#    track_concepts4a: "See your students'"
+#    track_concepts4b: "See your members'"
+#    track_concepts5: "solutions"
+#    track_concepts6a: "Sort students by name or progress"
+#    track_concepts6b: "Sort members by name or progress"
+#    track_concepts7: "Requires invitation"
+#    track_concepts8: "to join"
+#    private_require_sub: "Private clans require a subscription to create or join."
 
 #  courses:
 #    course: "Course"
@@ -1214,7 +1227,6 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     recently_played: "Viimeisin peli"
     no_recent_games: "Ei pelejä viimeisen kahden viikon aikana."
     payments: "Ostot"
-#    prepaid: "Prepaid"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Ostettu"
     sale: "Alennus"
@@ -1248,11 +1260,22 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 
 #  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
-#    purchase_amount: "Amount"
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
+#    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
+#    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+#    users: "Users"
+#    months: "Months"
 #    purchase_total: "Total"
 #    purchase_button: "Submit Purchase"
-#    your_codes: "Your Codes:"
+#    your_codes: "Your Codes"
 #    redeem_codes: "Redeem a Subscription Code"
+#    prepaid_code: "Prepaid Code"
+#    lookup_code: "Lookup prepaid code"
+#    apply_account: "Apply to your account"
+#    copy_link: "You can copy the code's link and send it to someone."
+#    quantity: "Quantity"
+#    redeemed: "Redeemed"
+#    no_codes: "No codes yet!"
 
   loading_error:
     could_not_load: "Virhe ladattaessa tietoja palvelimelta"

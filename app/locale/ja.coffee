@@ -603,7 +603,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     retrostyle_blurb: "レトロスタイルのゲーム"
 
   teachers:
-    title: "CodeCombat: 教育関係者へのお知らせ"
+    more_info: "教育関係者へのお知らせ"
     intro_1: "CodeCombat はプログラミングを教えるオンラインゲームです。生徒は本物のプログラム言語を書きます。"
     intro_2: "プログラミングの経験は必要ありません！"
     free_title: "価格について"
@@ -839,6 +839,19 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     playtime: "プレイ時間"
     last_played: "最終プレイ"
     leagues_explanation: "リーグで他のマルチアリーナインスタンス内の他のクランメンバーとプレイ"
+#    track_concepts1: "Track concepts"
+#    track_concepts2a: "learned by each student"
+#    track_concepts2b: "learned by each member"
+#    track_concepts3a: "Track levels completed for each student"
+#    track_concepts3b: "Track levels completed for each member"
+#    track_concepts4a: "See your students'"
+#    track_concepts4b: "See your members'"
+#    track_concepts5: "solutions"
+#    track_concepts6a: "Sort students by name or progress"
+#    track_concepts6b: "Sort members by name or progress"
+#    track_concepts7: "Requires invitation"
+#    track_concepts8: "to join"
+#    private_require_sub: "Private clans require a subscription to create or join."
 
 #  courses:
 #    course: "Course"
@@ -1214,7 +1227,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    recently_played: "Recently Played"
 #    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
-#    prepaid: "Prepaid"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
 #    sale: "Sale"
@@ -1248,11 +1260,22 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
 #  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
-#    purchase_amount: "Amount"
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
+#    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
+#    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+#    users: "Users"
+#    months: "Months"
 #    purchase_total: "Total"
 #    purchase_button: "Submit Purchase"
-#    your_codes: "Your Codes:"
+#    your_codes: "Your Codes"
 #    redeem_codes: "Redeem a Subscription Code"
+#    prepaid_code: "Prepaid Code"
+#    lookup_code: "Lookup prepaid code"
+#    apply_account: "Apply to your account"
+#    copy_link: "You can copy the code's link and send it to someone."
+#    quantity: "Quantity"
+#    redeemed: "Redeemed"
+#    no_codes: "No codes yet!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

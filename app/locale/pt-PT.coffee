@@ -603,7 +603,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    title: "CodeCombat: Informações para Professores"
+    more_info: "Informações para Professores"
     intro_1: "O CodeCombat é um jogo 'online' que ensina programação. Os estudantes escrevem código em linguagens de programação reais."
     intro_2: "Não é necessário ter experiência!"
     free_title: "Quanto custa?"
@@ -839,6 +839,19 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     playtime: "Tempo de jogo"
     last_played: "Última vez jogado"
     leagues_explanation: "Joga numa liga contra outros membros do clã nestas instâncias de arenas multijogador."
+#    track_concepts1: "Track concepts"
+#    track_concepts2a: "learned by each student"
+#    track_concepts2b: "learned by each member"
+#    track_concepts3a: "Track levels completed for each student"
+#    track_concepts3b: "Track levels completed for each member"
+#    track_concepts4a: "See your students'"
+#    track_concepts4b: "See your members'"
+#    track_concepts5: "solutions"
+#    track_concepts6a: "Sort students by name or progress"
+#    track_concepts6b: "Sort members by name or progress"
+#    track_concepts7: "Requires invitation"
+#    track_concepts8: "to join"
+#    private_require_sub: "Private clans require a subscription to create or join."
 
   courses:
     course: "Curso"
@@ -1214,7 +1227,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     recently_played: "Jogados Recentemente"
     no_recent_games: "Sem jogos jogados nas passadas duas semanas."
     payments: "Pagamentos"
-    prepaid: "Pré-pago"
     prepaid_codes: "Códigos Pré-pagos"
     purchased: "Adquirido"
     sale: "Promoção"
@@ -1248,11 +1260,22 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   account_prepaid:
     purchase_code: "Comprar um Código de Subscrição"
-    purchase_amount: "Quantidade"
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
+#    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
+#    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+#    users: "Users"
+#    months: "Months"
     purchase_total: "Total"
     purchase_button: "Submeter Compra"
-    your_codes: "Os Teus Códigos:"
+    your_codes: "Os Teus Códigos:" # {change}
     redeem_codes: "Resgata um Código de Subscrição"
+#    prepaid_code: "Prepaid Code"
+#    lookup_code: "Lookup prepaid code"
+#    apply_account: "Apply to your account"
+#    copy_link: "You can copy the code's link and send it to someone."
+#    quantity: "Quantity"
+#    redeemed: "Redeemed"
+#    no_codes: "No codes yet!"
 
   loading_error:
     could_not_load: "Erro ao carregar do servidor"

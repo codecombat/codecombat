@@ -603,7 +603,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     retrostyle_blurb: "复古风格的游戏"
 
   teachers:
-    title: "CodeCombat给教师的说明"
+    more_info: "教师的说明"
     intro_1: "CodeCombat 是一个教编程的网上游戏。学生会用编程语言写代码。"
     intro_2: "无需经验!"
     free_title: "要多少钱?"
@@ -839,6 +839,19 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     playtime: "游戏时间"
     last_played: "最后玩了"
     leagues_explanation: "在部落里与其他成员组成联盟一起参加下面的多人竞技场。"
+#    track_concepts1: "Track concepts"
+#    track_concepts2a: "learned by each student"
+#    track_concepts2b: "learned by each member"
+#    track_concepts3a: "Track levels completed for each student"
+#    track_concepts3b: "Track levels completed for each member"
+#    track_concepts4a: "See your students'"
+#    track_concepts4b: "See your members'"
+#    track_concepts5: "solutions"
+#    track_concepts6a: "Sort students by name or progress"
+#    track_concepts6b: "Sort members by name or progress"
+#    track_concepts7: "Requires invitation"
+#    track_concepts8: "to join"
+#    private_require_sub: "Private clans require a subscription to create or join."
 
   courses:
     course: "课程"
@@ -1214,7 +1227,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     recently_played: "最近玩过的关卡"
     no_recent_games: "最近两个星期没有玩过游戏。"
     payments: "支付方式"
-    prepaid: "预付费"
     prepaid_codes: "预付费码"
     purchased: "已购买"
     sale: "促销"
@@ -1248,11 +1260,22 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   account_prepaid:
     purchase_code: "购买订阅码"
-    purchase_amount: "数量"
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
+#    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
+#    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+#    users: "Users"
+#    months: "Months"
     purchase_total: "总共"
     purchase_button: "提交购买"
-    your_codes: "你的订阅码："
+    your_codes: "你的订阅码：" # {change}
     redeem_codes: "兑换订阅码"
+#    prepaid_code: "Prepaid Code"
+#    lookup_code: "Lookup prepaid code"
+#    apply_account: "Apply to your account"
+#    copy_link: "You can copy the code's link and send it to someone."
+#    quantity: "Quantity"
+#    redeemed: "Redeemed"
+#    no_codes: "No codes yet!"
 
   loading_error:
     could_not_load: "载入失败"
