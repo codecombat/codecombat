@@ -17,6 +17,10 @@ UserSchema = new mongoose.Schema({
   dateCreated:
     type: Date
     'default': Date.now
+  currentCourse: {
+    courseID: mongoose.Schema.Types.ObjectId
+    courseInstanceID: mongoose.Schema.Types.ObjectId
+  }
 }, {strict: false})
 
 UserSchema.index({'dateCreated': 1})
@@ -312,7 +316,7 @@ UserSchema.statics.editableProperties = [
   'firstName', 'lastName', 'gender', 'ageRange', 'facebookID', 'gplusID', 'emails',
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
-  'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer'
+  'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'currentCourse'
 ]
 
 UserSchema.plugin plugins.NamedPlugin

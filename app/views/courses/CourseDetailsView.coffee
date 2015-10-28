@@ -125,6 +125,13 @@ module.exports = class CourseDetailsView extends RootView
     @supermodel.loadCollection @levelSessions, 'level_sessions', cache: false
     @members = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/members", model: User, comparator: 'nameLower' })
     @listenToOnce @members, 'sync', @onMembersSync
+    me.set({
+      currentCourse: {
+        courseInstanceID: @courseInstance.id,
+        courseID: @course.id
+      }
+    })
+    me.patch()
     @supermodel.loadCollection @members, 'members', cache: false
     if @adminMode and prepaidID = @courseInstance.get('prepaidID')
       @prepaid = @supermodel.getModel(Prepaid, prepaidID) or new Prepaid _id: prepaidID
