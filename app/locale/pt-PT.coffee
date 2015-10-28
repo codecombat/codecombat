@@ -485,7 +485,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     users_subscribed: "Utilizadores subscritos:"
     no_users_subscribed: "Nenhum utilizador subscrito. Por favor, verifica os endereços de e-mail."
     current_recipients: "Beneficiários Atuais"
-    unsubscribing: "A Cancelar a Subscrição..." # {change}
+    unsubscribing: "A Cancelar a Subscrição"
     subscribe_prepaid: "Clica em Subscrever para usares um código pré-pago"
     using_prepaid: "A usar um código pré-pago para a subscrição mensal"
 
@@ -603,7 +603,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    more_info: "Informações para Professores"
+    more_info: "Mais Informações para Professores"
     intro_1: "O CodeCombat é um jogo 'online' que ensina programação. Os estudantes escrevem código em linguagens de programação reais."
     intro_2: "Não é necessário ter experiência!"
     free_title: "Quanto custa?"
@@ -1263,19 +1263,19 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
 #    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
-#    users: "Users"
-#    months: "Months"
+    users: "Utilizadores"
+    months: "Meses"
     purchase_total: "Total"
     purchase_button: "Submeter Compra"
-    your_codes: "Os Teus Códigos:" # {change}
+    your_codes: "Os Teus Códigos"
     redeem_codes: "Resgata um Código de Subscrição"
-#    prepaid_code: "Prepaid Code"
+    prepaid_code: "Código Pré-pago"
 #    lookup_code: "Lookup prepaid code"
 #    apply_account: "Apply to your account"
 #    copy_link: "You can copy the code's link and send it to someone."
-#    quantity: "Quantity"
-#    redeemed: "Redeemed"
-#    no_codes: "No codes yet!"
+    quantity: "Quantidade"
+    redeemed: "Resgatado"
+    no_codes: "Nenhum código ainda!"
 
   loading_error:
     could_not_load: "Erro ao carregar do servidor"
