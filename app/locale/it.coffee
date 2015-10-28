@@ -343,7 +343,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tip_free_your_mind: "Devi liberarti di tutto questo, Neo. Paura, dubbio, sfiducia. Libera la tua mente. - Morpheus"
     tip_strong_opponents: "Anche il più tenace degli avversari ha sempre una debolezza. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     users_subscribed: "Utenti sottoscritti:"
 #    no_users_subscribed: "No users subscribed, please double check your email addresses."
 #    current_recipients: "Current Recipients"
-#    unsubscribing: "Unsubscribing..."
+#    unsubscribing: "Unsubscribing"
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
 #    no_changes: "No Changes"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Impostazioni multigiocatore" # We'll be changing this around significantly soon. Until then, it's not important to translate.

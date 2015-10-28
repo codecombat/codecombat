@@ -343,7 +343,7 @@ module.exports = nativeDescription: "български език", englishDescri
     tip_free_your_mind: "Трябва да им позволиш да си отидат Нео. Страхът, съмнението и липсата на вяра. Освободи съзнанието си. - Морфеус"
     tip_strong_opponents: "Дори най-силният противник си има слабости. Винаги. - Itachi Uchiha"
     tip_paper_and_pen: "Преди да почнеш с програмирането, винаги започни с планиране на хартия."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Инвентар"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "български език", englishDescri
     users_subscribed: "Абонирани потребители:"
     no_users_subscribed: "Няма абонирани потребители, моля проверете email адресите отново."
     current_recipients: "Текущи получатели"
-    unsubscribing: "Прекратяване на абонамента..."
+    unsubscribing: "Прекратяване на абонамента..." # {change}
     subscribe_prepaid: "Кликнете 'Абонамент', за да използвате предплатен код"
     using_prepaid: "Използване на предплатен код за месечен абонамент"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "български език", englishDescri
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
 #    no_changes: "No Changes"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
 #  multiplayer:
 #    multiplayer_title: "Multiplayer Settings" # We'll be changing this around significantly soon. Until then, it's not important to translate.

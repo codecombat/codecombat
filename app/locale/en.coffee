@@ -486,7 +486,7 @@
     users_subscribed: "Users subscribed:"
     no_users_subscribed: "No users subscribed, please double check your email addresses."
     current_recipients: "Current Recipients"
-    unsubscribing: "Unsubscribing" # {change}
+    unsubscribing: "Unsubscribing"
     subscribe_prepaid: "Click Subscribe to use prepaid code"
     using_prepaid: "Using prepaid code for monthly subscription"
 

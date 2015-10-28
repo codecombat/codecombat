@@ -41,12 +41,12 @@ module.exports = nativeDescription: "Eesti", englishDescription: "Estonian", tra
 #    page_not_found: "Page not found"
 
   diplomat_suggestion:
-    #title: "Pomagajte prevesti CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-    #sub_heading: "Potrebujemo vaše znanje jezikov."
+#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+#    sub_heading: "We need your language skills."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Estonian but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Estonian."
     missing_translations: "Until we can translate everything into Estonian, you'll see English when Estonian isn't available."
-    #learn_more: "Več o tem kako postati Diplomat"
-    #subscribe_as_diplomat: "Naročite se kot Diplomat"
+#    learn_more: "Learn more about being a Diplomat"
+#    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
 #  play:
 #    play_as: "Play As" # Ladder page
@@ -92,7 +92,7 @@ module.exports = nativeDescription: "Eesti", englishDescription: "Estonian", tra
 #    title: "Excellent Work, Apprentice"
 
 #  login:
-#    sign_up: "Ustvari račun"
+#    sign_up: "Create Account"
 #    log_in: "Log In"
 #    logging_in: "Logging In"
 #    log_out: "Log Out"
@@ -127,27 +127,27 @@ module.exports = nativeDescription: "Eesti", englishDescription: "Estonian", tra
 #    books: "Books"
 
 #  common:
-#    back: "Nazaj" # When used as an action verb, like "Navigate backward"
-#    continue: "Nadaljuj" # When used as an action verb, like "Continue forward"
-#    loading: "Nalaganje ..."
-#    saving: "Shranjevanje ..."
-#    sending: "Pošiljanje ..."
-#    send: "Pošlji"
-#    cancel: "Prekliči"
-#    save: "Shrani"
-#    publish: "Objavi"
-#    create: "Ustvari"
-#    fork: "Razveji"
-#    play: "Poženi" # When used as an action verb, like "Play next level"
-#    retry: "Ponovni poskus"
-#    actions: "Dejanja"
+#    back: "Back" # When used as an action verb, like "Navigate backward"
+#    continue: "Continue" # When used as an action verb, like "Continue forward"
+#    loading: "Loading..."
+#    saving: "Saving..."
+#    sending: "Sending..."
+#    send: "Send"
+#    cancel: "Cancel"
+#    save: "Save"
+#    publish: "Publish"
+#    create: "Create"
+#    fork: "Fork"
+#    play: "Play" # When used as an action verb, like "Play next level"
+#    retry: "Retry"
+#    actions: "Actions"
 #    info: "Info"
-#    help: "Pomoč"
-#    watch: "Opazuj"
-#    unwatch: "Nehaj opazovati"
-#    submit_patch: "Pošlji popravek"
-#    submit_changes: "Pošlji spremembe"
-#    save_changes: "Shrani spremembe"
+#    help: "Help"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
+#    submit_changes: "Submit Changes"
+#    save_changes: "Save Changes"
 
 #  general:
 #    and: "and"
@@ -343,7 +343,7 @@ module.exports = nativeDescription: "Eesti", englishDescription: "Estonian", tra
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
 #  game_menu:
 #    inventory_tab: "Inventory"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "Eesti", englishDescription: "Estonian", tra
 #    users_subscribed: "Users subscribed:"
 #    no_users_subscribed: "No users subscribed, please double check your email addresses."
 #    current_recipients: "Current Recipients"
-#    unsubscribing: "Unsubscribing..."
+#    unsubscribing: "Unsubscribing"
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "Eesti", englishDescription: "Estonian", tra
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
 #    no_changes: "No Changes"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
 #  multiplayer:
 #    multiplayer_title: "Multiplayer Settings" # We'll be changing this around significantly soon. Until then, it's not important to translate.

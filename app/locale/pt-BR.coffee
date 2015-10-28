@@ -343,7 +343,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_free_your_mind: "Você tem que deixar isso tudo passar, Neo. O medo, a dúvida e a descrença. Liberte sua mente - Morpheus"
     tip_strong_opponents: "Mesmo o mais forte dos adversários tem sua fraqueza. - Itachi Uchiha"
     tip_paper_and_pen: "Antes de começar a programar, você sempre deve planejar com papel e caneta."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     users_subscribed: "Usuários inscritos"
     no_users_subscribed: "Nenhum usuário inscrito, por favor verifique os endereços de e-mail"
     current_recipients: "Destinatários atuais"
-    unsubscribing: "Cancelando assinatura"
+    unsubscribing: "Cancelando assinatura" # {change}
     subscribe_prepaid: "Clique em Assinar para utilizar um código pré-pago"
     using_prepaid: "Utilizando código pré-pago para assinatura mensal"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     text_diff: "Diff do Texto"
     merge_conflict_with: "MERGE DO CONFLITO COM"
     no_changes: "Sem Alterações"
-
-  temp:
-    ace_of_coders_tournament: "Novo: jogue no torneio Ás dos Programadores agora!"
 
   multiplayer:
     multiplayer_title: "Configurações de Multijogador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

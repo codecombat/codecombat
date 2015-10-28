@@ -343,7 +343,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventář"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    users_subscribed: "Users subscribed:"
 #    no_users_subscribed: "No users subscribed, please double check your email addresses."
 #    current_recipients: "Current Recipients"
-#    unsubscribing: "Unsubscribing..."
+#    unsubscribing: "Unsubscribing"
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     text_diff: "Rozdíl textu"
     merge_conflict_with: "SLOUČIT V ROZPORU S"
     no_changes: "Žádné změny"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Nastavení Multiplayeru" # We'll be changing this around significantly soon. Until then, it's not important to translate.

@@ -343,7 +343,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tip_free_your_mind: "Нео, ти повинен усе подолати. Страх... сумніви і невіра. Звільни від них свій розум. - Морфіус"
     tip_strong_opponents: "Навіть наймогутніший суперник має свою слабкість. - Ітачі Учіха"
     tip_paper_and_pen: "Перш ніж почати програмувати, ви завжди можете спробувати з аркушем паперу і ручкою."
-    solve_then_write: "Спочатку знайдіть рішення, а потім пишіть код. - Джон Джонсон"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Інвентар"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     users_subscribed: "Підписані користувачі:"
     no_users_subscribed: "Користувачі не підписані, будь ласка, перевірте Ваші ел. адреси."
     current_recipients: "Поточні отримувачі"
-    unsubscribing: "Скасування передплати..."
+    unsubscribing: "Скасування передплати..." # {change}
     subscribe_prepaid: "Натисніть Підписатися щоб використовувати передплачені коди"
     using_prepaid: "Використати передплачений код для щомісячної підписки"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     text_diff: "Різниця тексту"
     merge_conflict_with: "ОБ'ЄДНАТИ КОНФЛІКТ З"
     no_changes: "Без змін"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Налаштування мультиплеєра" # We'll be changing this around significantly soon. Until then, it's not important to translate.

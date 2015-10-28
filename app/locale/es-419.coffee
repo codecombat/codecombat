@@ -343,7 +343,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_free_your_mind: "Tienes que dejar ir todo, Neo. Miedo, duda, e incredulidad. Libera tu mente. - Morpheus"
     tip_strong_opponents: "Hasta los oponentes mas fuertes siempre tienen una debilidad. - Itachi Uchiha"
     tip_paper_and_pen: "Antes de comenzar a codificar, siempre puedes planear con una hoja de papel y un lapicero."
-    solve_then_write: "Primero, resuelve el problema. Y entonces, escribe el código. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     users_subscribed: "Usuarios suscritos:"
     no_users_subscribed: "No se suscribieron usuarios, por favor revisa las direcciones de email."
     current_recipients: "Recipientes actuales"
-    unsubscribing: "Desuscribiendo..."
+    unsubscribing: "Desuscribiendo..." # {change}
     subscribe_prepaid: "Click en suscribirse para utlizar un código prepago"
     using_prepaid: "Usar código prepago para una suscribción mensual"
 
@@ -873,7 +873,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     invite_students: "Invite a sus estudiantes a unirse a este grupo."
     invite_link_header: "Enlace para unirse al curso"
     invite_link_p_1: "Proporciones este enalce a los estudiantes que desee que se unan al curso."
-    #invite_link_p_2: "O have us email them directamente:"
+#    invite_link_p_2: "Or have us email them directly:"
     capacity_used: "Espacios de curso usados:"
     enter_emails: "Introducir los emails de los estudiantes a invitar, uno por línea"
     send_invites: "¿Mandar Invitaciones?"
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     text_diff: "Diferir Texto"
     merge_conflict_with: "UNIR CONFLICTO CON"
     no_changes: "Sin cambios"
-
-  temp:
-    ace_of_coders_tournament: "Nuevo: ¡Juega en el torneo As de los programadores ya!"
 
   multiplayer:
     multiplayer_title: "Configuración de Multijugador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

@@ -343,7 +343,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_free_your_mind: "丢掉一切私心杂念，丢掉害怕、疑问和拒信，解放您的思想。 - Morpheus《黑客帝国》"
     tip_strong_opponents: "即使是最强大的对手也是有弱点的。- 宇智波鼬《火影忍者》"
     tip_paper_and_pen: "在您开始编程之前，您可以随时用一张纸和一支笔提前规划。"
-    solve_then_write: "第一步，思考解决方案。第二步，编写代码。 - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     users_subscribed: "用户订阅："
     no_users_subscribed: "没有用户订阅，请仔细检查您的电子邮件地址。"
     current_recipients: "当前收件人"
-    unsubscribing: "取消订阅中..."
+    unsubscribing: "取消订阅中..." # {change}
     subscribe_prepaid: "点击订阅来使用预付费代码"
     using_prepaid: "使用预付费代码进行每月订阅"
 
@@ -842,7 +842,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   courses:
     course: "课程"
-    courses: "课程" #gonna see the script to determine the translation
+    courses: "课程"
     not_enrolled: "您还没有报名参加本课程。"
     visit_pref: "请到这个"
     visit_suf: "网页注册。"
@@ -872,16 +872,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     completed: "完成："
     invite_students: "邀请学生加入此班级。"
     invite_link_header: "参与班级的縺结"
-    invite_link_p_1: "分享给您想分享的其他人以加入课程。" #this translation may need to change
+    invite_link_p_1: "分享给您想分享的其他人以加入课程。"
     invite_link_p_2: "或让我们代你直接发送电邮："
-    capacity_used: "课程插槽已用：" # course slots? kinda in chinese
+    capacity_used: "课程插槽已用："
     enter_emails: "输入学生电邮地​​址来邀请，每行一个"
     send_invites: "发送邀请"
     title: "标题"
     description: "描述"
     languages_available: "选择编程语言："
     all_lang: "所有编程语言"
-    show_progress: "向所有该班级的人展示学生的进度" # translation may need to change
+    show_progress: "向所有该班级的人展示学生的进度"
     creating_class: "班级创建中..."
     purchasing_course: "购买课程中..."
     buy_course: "购买课程"
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     text_diff: "文本变化"
     merge_conflict_with: "合并冲突发生在"
     no_changes: "没有变化"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "多人游戏设置" # We'll be changing this around significantly soon. Until then, it's not important to translate.

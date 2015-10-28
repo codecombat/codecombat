@@ -485,7 +485,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     users_subscribed: "Utilizadores subscritos:"
     no_users_subscribed: "Nenhum utilizador subscrito. Por favor, verifica os endereços de e-mail."
     current_recipients: "Beneficiários Atuais"
-    unsubscribing: "A Cancelar a Subscrição..."
+    unsubscribing: "A Cancelar a Subscrição..." # {change}
     subscribe_prepaid: "Clica em Subscrever para usares um código pré-pago"
     using_prepaid: "A usar um código pré-pago para a subscrição mensal"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     text_diff: "Diferença de Texto"
     merge_conflict_with: "FUNDIR CONFLITO COM"
     no_changes: "Sem Alterações"
-
-  temp:
-    ace_of_coders_tournament: "Novidade: joga agora no torneio 'Ás dos Programadores'!"
 
   multiplayer:
     multiplayer_title: "Definições Multijogador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

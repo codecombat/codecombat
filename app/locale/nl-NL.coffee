@@ -343,7 +343,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
     tip_strong_opponents: "Zelf de sterkste vijand heeft een zwakheid. - Itachi Uchiha"
     tip_paper_and_pen: "Voor je begint te programmeren, kan je altijd met pen en papier een plan maken."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventaris"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     users_subscribed: "Gebruikers ingschreven:"
     no_users_subscribed: "Geen gebruikers ingeschreven, Controleer je emailadres nog een keer."
     current_recipients: "Huidige ontvangers"
-    unsubscribing: "Uitschrijven..."
+    unsubscribing: "Uitschrijven..." # {change}
     subscribe_prepaid: "Klik op inschrijven om een prepaidcode te gebruiken."
     using_prepaid: "Prepaidcode gebruiken voor maandelijkse inschrijving."
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "Geen veranderingen"
-
-  temp:
-    ace_of_coders_tournament: "Nieuw: Speel nu mee in het Ace of Coders toernament!"
 
   multiplayer:
     multiplayer_title: "Multiplayer Instellingen" # We'll be changing this around significantly soon. Until then, it's not important to translate.

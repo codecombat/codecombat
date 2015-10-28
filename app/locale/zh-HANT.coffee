@@ -343,7 +343,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tip_free_your_mind: "放下一切私心雜念，丟棄害怕、疑問和拒信，解放您的思維。 - 莫菲斯《駭客任務》"
     tip_strong_opponents: "即使是最强大的對手也有弱点的。 - 宇智波鼬《火影忍者》"
     tip_paper_and_pen: "在您開始編碼之前，您可以隨時用一張紙和一支筆作計劃。"
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "倉庫"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     users_subscribed: "用戶訂閱："
     no_users_subscribed: "沒有用戶訂閱，請仔細檢查您的電子郵件地址。"
     current_recipients: "當前收件人"
-    unsubscribing: "取消訂閱中・・・"
+    unsubscribing: "取消訂閱中・・・" # {change}
     subscribe_prepaid: "點擊訂閱來使用預付代碼"
     using_prepaid: "使用預付費代碼進行每月訂閱"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     text_diff: "文本變化"
     merge_conflict_with: "合併衝突出現在"
     no_changes: "沒有改變"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "多人遊戲設定" # We'll be changing this around significantly soon. Until then, it's not important to translate.

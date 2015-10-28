@@ -343,7 +343,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_free_your_mind: "Tienes que dejarlo ir, Neo. Miedo, dudas e incredulidad. Libera tu mente. - Morpheus"
     tip_strong_opponents: "Incluso el más fuerte de los opositores oculta debilidad. - Itachi Uchiha"
     tip_paper_and_pen: "Antes de empezar a programar, siempre puedes planificar con papel y lápiz."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    users_subscribed: "Users subscribed:"
 #    no_users_subscribed: "No users subscribed, please double check your email addresses."
     current_recipients: "Últimos recibos"
-    unsubscribing: "Dando de baja..."
+    unsubscribing: "Dando de baja..." # {change}
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     text_diff: "Diferencias"
     merge_conflict_with: "MERGE EN CONFLICTO CON"
     no_changes: "Sin Cambios"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Ajustes de Multijugador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

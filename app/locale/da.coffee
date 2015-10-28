@@ -343,7 +343,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
     tip_paper_and_pen: "Før du starter med at programmere, kan du altid sætte dig ned med et stykke papir og blyant."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Dine ting"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    users_subscribed: "Users subscribed:"
 #    no_users_subscribed: "No users subscribed, please double check your email addresses."
 #    current_recipients: "Current Recipients"
-#    unsubscribing: "Unsubscribing..."
+#    unsubscribing: "Unsubscribing"
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
 #    no_changes: "No Changes"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Flerspillerinstillinger" # We'll be changing this around significantly soon. Until then, it's not important to translate.

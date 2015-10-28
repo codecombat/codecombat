@@ -343,7 +343,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_free_your_mind: "Vous devez laisser aller , Neo . La peur , le doute et l'incrédulité . Libère ton esprit. - Morpheus"
     tip_strong_opponents: "Même les ennemis les plus puissant ont une faiblesse. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventaire"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     users_subscribed: "Usagers abonnés:"
     no_users_subscribed: "Aucun usager abonnés, veuillez vérifier vos courriels."
     current_recipients: "Recipients courant"
-    unsubscribing: "Desincription en cours..."
+    unsubscribing: "Desincription en cours..." # {change}
     subscribe_prepaid: "Cliquer S'abonner pour utiliser du code prépayé"
     using_prepaid: "Utiliser le code prépayé pour un abonnement mensuel"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     text_diff: "Différence de texte"
     merge_conflict_with: "Fusionner les conflits avec"
     no_changes: "Aucuns changements"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Préférences multijoueurs" # We'll be changing this around significantly soon. Until then, it's not important to translate.

@@ -343,7 +343,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tip_free_your_mind: "Trebuie sa lași totul, Neo. Frica, Îndoiala și necredința. Eliberează-ți mintea. ~Morpheus"
     tip_strong_opponents: "Și cei mai puternici dintre oponenți întodeauna au o slăbiciune. ~Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventar"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     users_subscribed: "Useri abonați:"
     no_users_subscribed: "Nici-un user abonat, verificațî adresele e-mail."
     current_recipients: "Recipienți curenți"
-    unsubscribing: "Te Dezabonăm..."
+    unsubscribing: "Te Dezabonăm..." # {change}
     subscribe_prepaid: "Dăi Click pe Abonare pentru a folosi un cod prepaid"
     using_prepaid: "Folosesc codul prepaid pentru un abonament lunar"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     text_diff: "Diff Text"
     merge_conflict_with: "ÎBINĂ CONFLICTUL CU"
     no_changes: "Fară Schimbări"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Setări Multiplayer" # We'll be changing this around significantly soon. Until then, it's not important to translate.

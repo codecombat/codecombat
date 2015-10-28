@@ -343,7 +343,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Utstyr"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    users_subscribed: "Users subscribed:"
 #    no_users_subscribed: "No users subscribed, please double check your email addresses."
 #    current_recipients: "Current Recipients"
-#    unsubscribing: "Unsubscribing..."
+#    unsubscribing: "Unsubscribing"
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
@@ -1353,9 +1353,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     text_diff: "Tekst Diff"
     merge_conflict_with: "MERGE KONFLIKT MED"
     no_changes: "Ingen Endringer"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Flerspillerinnstillinger" # We'll be changing this around significantly soon. Until then, it's not important to translate.
