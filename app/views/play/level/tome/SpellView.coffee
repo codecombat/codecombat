@@ -436,6 +436,7 @@ module.exports = class SpellView extends CocoView
             meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
+            importance: doc.autoCompletePriority ? 1.0
           haveFindNearestEnemy ||= doc.name is 'findNearestEnemy'
           haveFindNearest ||= doc.name is 'findNearest'
           if doc.name is 'attack'
