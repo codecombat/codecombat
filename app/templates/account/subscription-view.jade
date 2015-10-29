@@ -77,7 +77,7 @@ block content
 
           table.table.table-striped.table-condensed
             tr
-              th(data-i18n="user.status") Status
+              th(data-i18n="user.status")
               td
                 if view.personalSub.subscribed
                   strong(data-i18n="account.subscribed")
@@ -122,12 +122,12 @@ block content
     // - Prepaid Codes
     .panel.panel-default
       .panel-heading
-        h3 Prepaid Codes
+        h3(data-i18n="account.prepaid_codes")
       .panel-body
         p
-          span.spr You can
-          a(href="/account/prepaid") purchase a prepaid code
-          span.spl that can be applied to your own account or given to others.
+          span.spr(data-i18n="account_prepaid.you_can1")
+          a(href="/account/prepaid", data-i18n="account_prepaid.you_can2")
+          span.spl(data-i18n="account_prepaid.you_can3")
     //- Sponsored Subscriptions
 
     .panel.panel-default
@@ -204,5 +204,5 @@ block content
                   if recipient.cancel_at_period_end
                     div Ends #{moment(recipient.cancel_at_period_end).format('l')}
                   else
-                    button.recipient-unsubscribe-button.btn.btn-sm.btn-warning Unsubscribe
+                    button.recipient-unsubscribe-button.btn.btn-sm.btn-warning(data-i18n="subscribe.unsubscribe")
                     button.confirm-recipient-unsubscribe-button.btn.btn-sm.btn-primary.hide(data-i18n="play.confirm")
