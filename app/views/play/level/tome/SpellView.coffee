@@ -406,6 +406,7 @@ module.exports = class SpellView extends CocoView
       autoLineEndings:
         javascript: ';'
       popupFontSizePx: popupFontSizePx
+      popupLineHeightPx: 1.5 * popupFontSizePx
       popupWidthPx: 380
 
   updateAutocomplete: (@autocomplete) ->
