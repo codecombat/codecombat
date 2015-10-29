@@ -75,6 +75,7 @@ module.exports = class SpellView extends CocoView
     super()
     @createACE()
     @createACEShortcuts()
+    @hookACECustomBehavior()
     @fillACE()
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
@@ -256,6 +257,13 @@ module.exports = class SpellView extends CocoView
           @lastBackspace = nowDate
           @ace.remove "left"
 
+
+  hookACECustomBehavior: ->
+    @ace.commands.on 'exec', (e) =>
+      # When pressing enter with an active selection, just make a new line under it.
+      if e.command.name is 'enter-skip-delimiters'
+        e.editor.execCommand 'gotolineend'
+        return true
 
   fillACE: ->
     @ace.setValue @spell.source
