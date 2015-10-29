@@ -16,6 +16,8 @@ We've made it easy to fork the project, run a simple script that'll install all 
 
 Whether you're novice or pro, the CodeCombat team is ready to help you implement your ideas. Reach out on our [forum](http://discourse.codecombat.com), our [issue tracker](https://github.com/codecombat/codecombat/issues), or [our developer chat room on Slack](https://coco-slack-invite.herokuapp.com/), or see the docs for [more on how to contribute](https://github.com/codecombat/codecombat/wiki/Developer-organization).
 
+[![Slack Status](https://coco-slack-invite.herokuapp.com/badge.svg)](https://coco-slack-invite.herokuapp.com/)
+
 ### [License](https://github.com/codecombat/codecombat/blob/master/LICENSE)
 
 [MIT](https://github.com/codecombat/codecombat/blob/master/LICENSE) for the code, and [CC-BY](http://codecombat.com/legal) for the art and music. Please also [sign the CodeCombat contributor license agreement](http://codecombat.com/cla) so we can accept your pull requests. It is easy.
