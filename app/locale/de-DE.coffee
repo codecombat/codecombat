@@ -4,14 +4,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     no_ie: "CodeCombat läuft nicht im IE 8 oder älteren Browsern. Tut uns leid!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat ist nicht für Mobilgeräte optimiert und funktioniert möglicherweise nicht." # Warning that shows up on mobile devices
     play: "Spielen" # The big play button that opens up the campaign view.
-    old_browser: "Oh! Dein Browser ist zu alt für CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser: "Oh! Dein Browser ist zu alt für CodeCombat.  Tut uns leid!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kannst es trotzdem versuchen, aber es wird wahrscheinlich nicht funktionieren."
     ipad_browser: "Die schlechte Nachricht: CodeCombat läuft auf dem iPad nicht im Browser. Die gute Nachricht: Unsere iPad App wartet gerade auf die Zustimmung von Apple."
     campaign: "Kampagne"
     for_beginners: "Für Anfänger"
     multiplayer: "Mehrspieler" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
-    or_ipad: "Oder downloade es hier fürs iPad"
+    or_ipad: "Oder downloade es hier für das iPad"
 
   nav:
     play: "Spielen" # The top nav bar entry where players choose which levels to play
@@ -29,23 +29,23 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     legal: "Rechtliches"
     about: "Über"
     contact: "Kontakt"
-    twitter_follow: "Twitter"
+    twitter_follow: "Folge uns auf Twitter"
     teachers: "Lehrer"
-#    careers: "Careers"
+    careers: "Karriere mit CodeCombat!"
 
   modal:
     close: "Schließen"
     okay: "Okay"
 
   not_found:
-    page_not_found: "Seite nicht gefunden"
+    page_not_found: "Tut uns leid ! Wir haben die Seite nicht gefunden"
 
   diplomat_suggestion:
     title: "Hilf CodeCombat zu übersetzen!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Wir brauchen Deine Sprachfähigkeiten."
-    pitch_body: "Wir entwickeln CodeCombat in Englisch, aber wir haben Spieler in der ganzen Welt. Viele von ihnen wollen auf Deutsch spielen, sprechen aber kein Englisch. Wenn Du also beide Sprachen beherrscht, melde Dich an, um ein Diplomat zu werden und hilf die Website und die Levels ins Deutsche zu übersetzen."
+    pitch_body: "Wir entwickeln CodeCombat in Englisch, aber wir haben Spieler in der ganzen Welt. Viele von ihnen wollen auf Deutsch spielen, sprechen aber kein Englisch. Wenn Du also beide Sprachen beherrschst, melde Dich an, um ein Diplomat zu werden und hilf die Website und die Levels ins Deutsche zu übersetzen."
     missing_translations: "Solange wir nicht alles ins Deutsche übersetzt haben, siehst Du die englische Übersetzung dort, wo Deutsch leider noch nicht zur Verfügung steht."
-    learn_more: "Finde heraus, wie Du ein Diplomat werden kannst."
+    learn_more: "Mehr über Diplomaten:"
     subscribe_as_diplomat: "Schreibe dich als Diplomat ein."
 
   play:
@@ -62,13 +62,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     available: "Verfügbar"
     skills_granted: "Verfügbare Fähigkeiten" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
-    achievements: "Erfolge" # Tooltip on achievement list button from /play
+    achievements: "Medaillen" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
     settings: "Einstellungen" # Tooltip on settings button from /play
     poll: "Umfrage" # Tooltip on poll button from /play
     next: "Nächster" # Go from choose hero to choose inventory before playing a level
     change_hero: "Held wechseln" # Go back from choose inventory to choose hero
-    choose_inventory: "Gegenstände ausrüsten"
+    choose_inventory: "Inventar"
     buy_gems: "Edelsteine kaufen"
     subscription_required: "Abonnement benötigt"
     anonymous: "Anonymer Spieler"
@@ -78,30 +78,30 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     awaiting_levels_adventurer: "Registriere dich als ein Abenteurer"
     awaiting_levels_adventurer_suffix: "sei der Erste, der neue Levels spielt."
     adjust_volume: "Lautstärke anpassen"
-    campaign_multiplayer: "Mehrspieler Arena"
+    campaign_multiplayer: "Mehrspieler-Abenteuer"
     campaign_multiplayer_description: "... in der Du Kopf-an-Kopf gegen andere Spieler programmierst."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+    campaign_old_multiplayer: "Ältere Mehrspieler-Abenteuer"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
-    blurb: "Du machst dich gut! Sag jemanden wie viel du mit CodeCombat gelernt hast." # {change}
-    email_invalid: "Diese Email Adresse ist ungültig."
+    blurb: "Du machst dich gut! Sag deinen Eltern wie viel du mit CodeCombat gelernt hast." # {change}
+    email_invalid: "Diese Email-Adresse ist leider ungültig."
     form_blurb: "Schreibe hier ihre Emailadresse rein und wir werden es ihnen zeigen."
-    form_label: "Email Adresse"
-    placeholder: "Email Adresse"
+    form_label: "Email-Adresse"
+    placeholder: "Email-Adresse"
     title: "Gute Arbeit, Lehrling"
 
   login:
     sign_up: "Registrieren"
     log_in: "Einloggen"
-    logging_in: "Logge ein"
+    logging_in: "Logge dich ein"
     log_out: "Ausloggen"
     forgot_password: "Passwort vergessen?"
-    authenticate_gplus: "Authentifiziere G+"
-    load_profile: "Lade G+ Profil"
+    authenticate_gplus: "Autenthifizierung mit Google+"
+    load_profile: "Lade Google+ Profil"
     finishing: "Fertigstellen"
     sign_in_with_facebook: "Melde dich mit Facebook an"
-    sign_in_with_gplus: "Melde dich mit G+ an"
+    sign_in_with_gplus: "Melde dich mit Google+ an"
     signup_switch: "Willst du einen Account erstellen?"
 
   signup:
@@ -110,11 +110,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     sign_up: "Neuen Account anlegen"
     log_in: "mit Passwort einloggen"
     social_signup: "oder, du registrierst dich über Facebook oder G+."
-    required: "Du musst dich vorher einloggen um dort hin zu gehen."
-    login_switch: "Du hast schon einen Account?"
+    required: "Du musst dich vorher einloggen diesen Dienst zu nutzen"
+    login_switch: "Hast du schon einen Account?"
 
   recover:
-    recover_account_title: "Account Wiederherstellung"
+    recover_account_title: "Account-Wiederherstellung"
     send_password: "Wiederherstellungskennwort senden"
     recovery_sent: "Wiederherstellungs-Email versandt."
 
@@ -127,27 +127,27 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     books: "Bücher"
 
   common:
-    back: "zurückgehen" # When used as an action verb, like "Navigate backward"
-    continue: "weiter" # When used as an action verb, like "Continue forward"
+    back: "Zurück" # When used as an action verb, like "Navigate backward"
+    continue: "Weiter" # When used as an action verb, like "Continue forward"
     loading: "Lade..."
     saving: "Speichere..."
-    sending: "Übertrage..."
+    sending: "Sende..."
     send: "Senden"
     cancel: "Abbrechen"
     save: "Speichern"
-    publish: "Publiziere"
-    create: "Erstelle"
-    fork: "Fork"
-    play: "Spiel starten" # When used as an action verb, like "Play next level"
+    publish: "Veröffentlichen"
+    create: "Erstellen"
+    fork: "Kopieren"
+    play: "Nächstes Level starten" # When used as an action verb, like "Play next level"
     retry: "Erneut versuchen"
     actions: "Aktionen"
-    info: "Info"
+    info: "Informationen"
     help: "Hilfe"
     watch: "Beobachten"
     unwatch: "Nicht beobachten"
     submit_patch: "Patch einreichen"
     submit_changes: "Änderungen einreichen"
-#    save_changes: "Save Changes"
+    save_changes: "Änderungen speichern"
 
   general:
     and: "und"
@@ -159,8 +159,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     accepted: "akzeptiert"
     rejected: "abgelehnt"
     withdrawn: "zurückgezogen"
-#    accept: "Accept"
-#    reject: "Reject"
+#   accept: "Akzeptieren"
+#    reject: "Verwerfen"
 #    withdraw: "Withdraw"
     submitter: "Übermittler"
     submitted: "Übermittelt"
@@ -217,8 +217,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   play_level:
     done: "Fertig"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+   next_game: "Nächstes Spiel"
+   show_menu: " Menü anzeigen"
     home: "Startseite" # Not used any more, will be removed soon.
     level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "Überspringen"
@@ -251,13 +251,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_saving_progress: "Fortschritt speichern"
     victory_go_home: "Geh auf die Startseite"
     victory_review: "Erzähl uns davon!"
-#    victory_review_placeholder: "How was the level?"
+   victory_review_placeholder: "Wie war das Level?"
     victory_hour_of_code_done: "Bist Du fertig?"
     victory_hour_of_code_done_yes: "Ja, ich bin mit meiner Code-Stunde fertig!"
     victory_experience_gained: "Gewonnene XP"
     victory_gems_gained: "Gewonnene Edelsteine"
-#    victory_new_item: "New Item"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
+    victory_new_item: "Neuen Gegenstand gewonnen"
+    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
 #    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
 #    victory_bloc_cta: "Meet your mentor – learn about Bloc"
