@@ -445,6 +445,14 @@ module.exports = class SpellView extends CocoView
           else
             snippetEntries.push entry
 
+          if doc.userShouldCaptureReturn
+            varName = doc.userShouldCaptureReturn.variableName ? 'result'
+            entry.captureReturn = switch e.language
+              when 'io' then varName + ' := '
+              when 'javascript' then 'var ' + varName + ' = '
+              when 'clojure' then '(let [' + varName + ' ' 
+              else varName + ' = '
+
     # TODO: Generalize this snippet replacement
     # TODO: Where should this logic live, and what format should it be in?
     if attackEntry?
