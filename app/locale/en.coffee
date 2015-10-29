@@ -602,6 +602,8 @@
     jose_blurb: "Taking Off"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
+    rob_title: "Compiler Engineer"
+    rob_blurb: "Codes things and stuff"
 
   teachers:
     more_info: "More Info for Teachers"
@@ -1277,6 +1279,9 @@
     quantity: "Quantity"
     redeemed: "Redeemed"
     no_codes: "No codes yet!"
+    you_can1: "You can"
+    you_can2: "purchase a prepaid code"
+    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "Error loading from server"
