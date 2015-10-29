@@ -517,11 +517,13 @@ UserHandler = class UserHandler extends Handler
         projection[field] = 1 for field in req.query.project.split(',') when isAuthorized or not (field in LevelSessionHandler.privateProperties)
       else unless isAuthorized
         projection[field] = 0 for field in LevelSessionHandler.privateProperties
-      sort = {}
-      sort.changed = req.query.order if req.query.order
 
-      LevelSession.find(query).select(projection).sort(sort).exec (err, documents) =>
+      LevelSession.find(query).select(projection).exec (err, documents) =>
         return @sendDatabaseError(res, err) if err
+        if req.query.order
+          documents = _.sortBy documents, 'changed'
+          if req.query.order + '' is '-1'
+            documents.reverse()
         documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
         @sendSuccess(res, documents)
 
