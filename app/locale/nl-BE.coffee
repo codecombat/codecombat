@@ -83,7 +83,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
-#  share_progress_modal:
+  share_progress_modal:
 #    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
     email_invalid: "Ongeldig e-mailadres."
 #    form_blurb: "Enter your parent's email below and we’ll show them!"
@@ -207,7 +207,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     hour: "uur"
     hours: "uren"
     day: "dag"
-    days: "dagen" #dageb was wrong.
+    days: "dagen"
     week: "week"
     weeks: "weken"
     month: "maand"
@@ -283,7 +283,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     loading_ready: "Klaar!"
 #    loading_start: "Start Level"
 #    problem_alert_title: "Fix Your Code"
-    problem_alert_help: "Help"
     time_current: "Nu:"
     time_total: "Maximum:"
     time_goto: "Ga naar:"
@@ -334,7 +333,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
     tip_source_code: "Ik wil de wereld veranderen, maar ze willen me de broncode niet geven."
-    tip_javascript_java: "Java staat tot JavaScript zoals een Auto tot een Automaat. - Chris Heilmann" #automaat instead of carpet: joke lost in tranlation
+    tip_javascript_java: "Java staat tot JavaScript zoals een Auto tot een Automaat. - Chris Heilmann"
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
@@ -414,6 +413,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    feature7: "Private <strong>Clans</strong>"
     free: "Gratis"
     month: "maand"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     subscribe_title: "Registreren"
     unsubscribe: "Deregistreren"
     confirm_unsubscribe: "Bevestig deregistratie"
