@@ -139,4 +139,5 @@ module.exports = class CourseEnrollView extends RootView
     else
       coursePrices = (c.get('pricePerSeat') for c in @courses.models)
     @price = utils.getCourseBundlePrice(coursePrices, @seats)
+    @price = 0 if me.isAdmin()
     @render?()
