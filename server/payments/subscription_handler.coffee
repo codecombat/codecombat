@@ -192,7 +192,7 @@ class SubscriptionHandler extends Handler
                   msg = "Year subscription purchased by #{req.user.get('email')} #{req.user.id}"
                   hipchat.sendHipChatMessage msg, ['tower']
                 catch error
-                  @logSubscriptionError(req.user, "Year sub sale Slack tower msg error: #{JSON.stringify(error)}")
+                  @logSubscriptionError(req.user, "Year sub sale HipChat tower msg error: #{JSON.stringify(error)}")
                 @sendSuccess(res, user)
 
   subscribeWithPrepaidCode: (req, res) ->
