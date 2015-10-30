@@ -251,7 +251,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_saving_progress: "Fortschritt speichern"
     victory_go_home: "Geh auf die Startseite"
     victory_review: "Erzähl uns davon!"
-   victory_review_placeholder: "Wie war das Level?"
+    victory_review_placeholder: "Wie war das Level?"
     victory_hour_of_code_done: "Bist Du fertig?"
     victory_hour_of_code_done_yes: "Ja, ich bin mit meiner Code-Stunde fertig!"
     victory_experience_gained: "Gewonnene XP"
