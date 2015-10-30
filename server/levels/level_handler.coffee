@@ -182,10 +182,11 @@ LevelHandler = class LevelHandler extends Handler
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
-  getHistogramData: (req, res, slug) ->
-    match = levelID: slug, submitted: true, team: req.query.team
-    match['leagues.leagueID'] = league if league = req.query['leagues.leagueID']
+  getHistogramData: (req, res, id) ->
+    match = @makeLeaderboardQueryParameters req, id
+    delete match.totalScore
     project = totalScore: 1, _id: 0
+    league = req.query['leagues.leagueID']
     project['leagues.leagueID'] = project['leagues.stats.totalScore'] = 1 if league
     aggregate = Session.aggregate [
       {$match: match}
