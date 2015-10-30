@@ -66,7 +66,7 @@ getRandomSessions = (user, callback) ->
 
 # Sampling by level: we pick a level, then find a human and ogre session for that level, one at random, one biased towards recent submissions.
 #ladderLevelIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
-ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders']
+ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders', 'wakka-maul']
 sampleByLevel = (callback) ->
   levelID = _.sample ladderLevelIDs
   favorRecentHumans = Math.random() < 0.5  # We pick one session favoring recent submissions, then find another one uniformly to play against
