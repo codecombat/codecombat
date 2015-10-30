@@ -50,6 +50,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     courseID = req.body.courseID
     # Optional
     name = req.body.name
+    aceConfig = req.body.aceConfig or {}
     # Optional - as long as course(s) are all free
     stripeToken = req.body.stripe?.token
 
@@ -66,23 +67,24 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
           return @sendDatabaseError(res, err)
 
         courseInstances = []
-        makeCreateInstanceFn = (course, name, prepaid) =>
+        makeCreateInstanceFn = (course, name, prepaid, aceConfig) =>
           (done) =>
-            @createInstance req, course, name, prepaid, (err, newInstance)=>
+            @createInstance req, course, name, prepaid, aceConfig, (err, newInstance)=>
               courseInstances.push newInstance unless err
               done(err)
-        tasks = (makeCreateInstanceFn(course, name, prepaid) for course in courses)
+        tasks = (makeCreateInstanceFn(course, name, prepaid, aceConfig) for course in courses)
         async.parallel tasks, (err, results) =>
           return @sendDatabaseError(res, err) if err
           @sendCreated(res, courseInstances)
 
-  createInstance: (req, course, name, prepaid, done) =>
+  createInstance: (req, course, name, prepaid, aceConfig, done) =>
     courseInstance = new CourseInstance
       courseID: course.get('_id')
       members: [req.user.get('_id')]
       name: name
       ownerID: req.user.get('_id')
       prepaidID: prepaid.get('_id')
+      aceConfig: aceConfig
     courseInstance.save (err, newInstance) =>
       done(err, newInstance)
 

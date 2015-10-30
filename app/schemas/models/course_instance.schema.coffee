@@ -9,6 +9,8 @@ _.extend CourseInstanceSchema.properties,
   name: {type: 'string'}
   ownerID: c.objectId()
   prepaidID: c.objectId()
+  aceConfig:
+    language: {type: 'string', 'enum': ['python', 'javascript']}
 
 c.extendBasicProperties CourseInstanceSchema, 'CourseInstance'
 

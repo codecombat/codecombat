@@ -235,6 +235,9 @@ module.exports = class CourseDetailsView extends RootView
     description = $('.settings-description-input').val()
     console.log 'onClickSaveSettings', description
     @courseInstance.set('description', description)
+    @courseInstance.set('aceConfig', {
+      language: @$('#programming-language-select').val()
+    })
     @courseInstance.patch()
     $('#settingsModal').modal('hide')
 

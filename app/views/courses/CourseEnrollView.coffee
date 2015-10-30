@@ -16,6 +16,7 @@ module.exports = class CourseEnrollView extends RootView
     'change .class-name': 'onNameChange'
     'change .course-select': 'onChangeCourse'
     'change .input-seats': 'onSeatsChange'
+    'change #programming-language-select': 'onChangeProgrammingLanguageSelect'
 
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'
@@ -24,6 +25,7 @@ module.exports = class CourseEnrollView extends RootView
     super options
     @courseID ?= options.courseID
     @seats = 20
+    @selectedLanguage = 'python'
 
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @listenTo @courses, 'sync', @onCoursesLoaded
@@ -77,6 +79,9 @@ module.exports = class CourseEnrollView extends RootView
   onChangeCourse: (e) ->
     @selectedCourse = _.find @courses.models, (a) -> a.id is $(e.target).val()
     @renderNewPrice()
+    
+  onChangeProgrammingLanguageSelect: (e) ->
+    @selectedLanguage = @$('#programming-language-select').val()
 
   onNameChange: (e) ->
     @className = $('.class-name').val()
@@ -93,6 +98,8 @@ module.exports = class CourseEnrollView extends RootView
       stripe:
         token: token
         timestamp: new Date().getTime()
+      aceConfig: { language: @selectedLanguage }
+      
     data.courseID = @selectedCourse.id if @selectedCourse
     jqxhr = $.post('/db/course_instance/-/create', data)
     jqxhr.done (data, textStatus, jqXHR) =>

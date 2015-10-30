@@ -36,6 +36,11 @@ block content
             option(value="#{course.id}")= course.get('name')
           if view.courses.size() > 1
             option(value="All Courses", data-i18n="courses.all_courses")
+      .form-group
+        label(data-i18n="choose_hero.programming_language")
+        select.form-control#programming-language-select
+          option(value="python", selected=view.selectedLanguage==='python') Python
+          option(value="javascript", selected=view.selectedLanguage==='javascript') JavaScript
 
       if view.price > 0
         h3

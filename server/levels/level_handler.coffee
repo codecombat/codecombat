@@ -123,7 +123,15 @@ LevelHandler = class LevelHandler extends Handler
         Campaign.find { _id: { $in: campaignIDs }}, (err, campaigns) =>
           levelOriginals = (_.keys(c.get('levels')) for c in campaigns)
           levelOriginals = _.flatten(levelOriginals)
-          if level.get('original').toString() in levelOriginals
+          originalString = level.get('original').toString()
+          if originalString in levelOriginals
+            campaignStrings = (campaign.id.toString() for campaign in campaigns when campaign.get('levels')[originalString])
+            courses = _.filter(courses, (course) -> course.get('campaignID').toString() in campaignStrings)
+            courseStrings = (course.id.toString() for course in courses)
+            courseInstances = _.filter(courseInstances, (courseInstance) -> courseInstance.get('courseID').toString() in courseStrings)
+            aceConfigs = (ci.get('aceConfig') for ci in courseInstances)
+            aceConfig = _.filter(aceConfigs)[0] or {}
+            req.codeLanguage = aceConfig.language
             @createAndSaveNewSession(sessionQuery, req, res)
           else
             return @sendPaymentRequiredError(res, 'You must be in a course which includes this level to play it')
@@ -146,7 +154,7 @@ LevelHandler = class LevelHandler extends Handler
         access: 'write'
       }
     ]
-    initVals.codeLanguage = req.user.get('aceConfig')?.language ? 'python'
+    initVals.codeLanguage = req.codeLanguage ? req.user.get('aceConfig')?.language ? 'python'
     session = new Session(initVals)
 
     session.save (err) =>
