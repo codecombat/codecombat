@@ -4,7 +4,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     no_ie: "CodeCombat läuft nicht im IE 8 oder älteren Browsern. Tut uns leid!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat ist nicht für Mobilgeräte optimiert und funktioniert möglicherweise nicht." # Warning that shows up on mobile devices
     play: "Spielen" # The big play button that opens up the campaign view.
-    old_browser: "Oh! Dein Browser ist zu alt für CodeCombat.  Tut uns leid!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser: "Oh! Dein Browser ist zu alt für CodeCombat. Tut uns leid!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kannst es trotzdem versuchen, aber es wird wahrscheinlich nicht funktionieren."
     ipad_browser: "Die schlechte Nachricht: CodeCombat läuft auf dem iPad nicht im Browser. Die gute Nachricht: Unsere iPad App wartet gerade auf die Zustimmung von Apple."
     campaign: "Kampagne"
@@ -159,8 +159,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     accepted: "akzeptiert"
     rejected: "abgelehnt"
     withdrawn: "zurückgezogen"
-#   accept: "Akzeptieren"
-#    reject: "Verwerfen"
+    accept: "Akzeptieren"
+    reject: "Verwerfen"
 #    withdraw: "Withdraw"
     submitter: "Übermittler"
     submitted: "Übermittelt"
@@ -217,8 +217,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   play_level:
     done: "Fertig"
-   next_game: "Nächstes Spiel"
-   show_menu: " Menü anzeigen"
+    next_game: "Nächstes Spiel"
+    show_menu: "Menü anzeigen"
     home: "Startseite" # Not used any more, will be removed soon.
     level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "Überspringen"
@@ -257,7 +257,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_experience_gained: "Gewonnene XP"
     victory_gems_gained: "Gewonnene Edelsteine"
     victory_new_item: "Neuen Gegenstand gewonnen"
-    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
+#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
 #    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
 #    victory_bloc_cta: "Meet your mentor – learn about Bloc"
