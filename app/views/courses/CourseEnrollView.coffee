@@ -29,18 +29,6 @@ module.exports = class CourseEnrollView extends RootView
     @listenTo @courses, 'sync', @onCoursesLoaded
     @supermodel.loadCollection(@courses, 'courses')
 
-  getRenderData: ->
-    context = super()
-    context.className = @className
-    context.courses = @courses.models
-    context.price = @price ? 0
-    context.seats = @seats
-    context.selectedCourse = @selectedCourse
-    context.selectedCourseTitle = @selectedCourse?.get('name') ? 'All Courses'
-    context.state = @state
-    context.stateMessage = @stateMessage
-    context
-
   afterRender: ->
     super()
     if @selectedCourse
