@@ -792,7 +792,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     social_facebook: "Me Gusta CodeCombat en Facebook"
     social_twitter: "Sigue a CodeCombat en Twitter"
     social_gplus: "Únete a CodeCombat con Google+"
-    social_hipchat: "Chatea con nosotros en el chat público de CodeCombat en la sala HipChat"
+    social_hipchat: "Chatea con nosotros en el chat público de CodeCombat en la sala Slack"
     contribute_to_the_project: "Contribuir al proyecto"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     join_desc_3: ", o encuéntranos en "
     join_desc_4: "y ahí empezaremos!"
     join_url_email: "Escríbenos"
-    join_url_hipchat: "chat público HipChat"
+    join_url_hipchat: "chat público Slack"
     archmage_subscribe_desc: "Obten correos de nuevas oportunidades y anuncios."
     artisan_introduction_pref: "¡Debemos construir niveles adicionales! La gente ruega por más contenido, y podemos hacer tanto por nosotros mismos. De momento tu estación de trabajo es nivel 1 ; Nuestro editor de niveles es apenas útil incluso para sus creadores, así que sea cauteloso. Si tuviera visiones de campañas apareciendo para ciclos for"
     artisan_introduction_suf: ", entonces esta lase es ideal para ti."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     artisan_join_desc: "Sigue las siguientes indicaciones para usar el editor de niveles. Tómalo o déjalo:"
     artisan_join_step1: "Lee la documentación."
     artisan_join_step2: "Crea un nuevo nivel y explora los niveles existentes."
-    artisan_join_step3: "Busca nuestra sala pública de HipChat en busca de ayuda."
+    artisan_join_step3: "Busca nuestra sala pública de Slack en busca de ayuda."
     artisan_join_step4: "Publica tus niveles en el foro para recibir comentarios críticos."
     artisan_subscribe_desc: "Recibe correos sobre actualizaciones del editor de niveles y anuncios."
     adventurer_introduction: "Hablemos claro sobre tu papel: eres el tanque. Vas a recibir fuertes daños. Necesitamos gente para probar nuestros flamantes niveles y ayudar a mejorarlos. El dolor será enorme; hacer buenos juegos es un proceso largo y nadie lo consigue a la primera. Si puedes resistir y tener una puntuación alta en resistencia, entonces esta clase es para ti."

@@ -792,7 +792,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     social_facebook: "关注CodeCombat的Facebook主页"
     social_twitter: "关注CodeCombat的Twitter"
     social_gplus: "关注CodeCombat的Google+主页"
-    social_hipchat: "在公共的CodeCombat HipChat聊天室与我们进行交流"
+    social_hipchat: "在公共的CodeCombat Slack聊天室与我们进行交流"
     contribute_to_the_project: "为项目做贡献"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     join_desc_3: " 或者去我们的"
     join_desc_4: "，然后我们有话好说！"
     join_url_email: "给我们发邮件"
-    join_url_hipchat: " HipChat聊天室"
+    join_url_hipchat: " Slack聊天室"
     archmage_subscribe_desc: "通过电子邮件获得新的编码机会和公告。"
     artisan_introduction_pref: "我们必须设计更多的关卡! 大家为了更多的游戏内容在高声呐喊，但是我们靠自己只能创建这些。现在您的电脑就是第一关！我们的关卡编辑器刚刚完成了基本功能，所以创造关卡的时候请小心使用。只要您有制作关卡的灵感，不管是简单的for循环还是"
     artisan_introduction_suf: "这种东西，这个职业都很适合您。"
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     artisan_join_desc: "如下步骤使用关卡编辑器:"
     artisan_join_step1: "阅读文档。"
     artisan_join_step2: "创建一个新关卡 以及探索已经存在的关卡。"
-    artisan_join_step3: "来我们的HipChat聊天室寻求帮助。"
+    artisan_join_step3: "来我们的Slack聊天室寻求帮助。"
     artisan_join_step4: "把您的关卡发到论坛让别人给您评价。"
     artisan_subscribe_desc: "通过电子邮件获得关卡编辑器更新和公告。"
     adventurer_introduction: "现在就来了解您的角色吧：您是一辆战车，并将要承担沉重的攻击。我们需要人来尝试下我们新开的关卡以了解怎么样才能使每一样东西更美好。一开始虽然会非常辛苦；可是制造出一个最好的游戏是一个很长的过程，在这个过程中，没有人可以第一次就成功。如果您挺过去了并且自我感觉良好，那么这个位置就是为您而准备的。"

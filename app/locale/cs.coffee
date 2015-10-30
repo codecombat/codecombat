@@ -792,7 +792,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     social_facebook: "Dejte Like CodeCombat na Facebooku"
     social_twitter: "Sledujte CodeCombat na Twitteru"
     social_gplus: "Připojte se k CodeCombat na Google+"
-    social_hipchat: "Chatujte s námi ve veřejné CodeCombat HipChat místnosti"
+    social_hipchat: "Chatujte s námi ve veřejné CodeCombat Slack místnosti"
     contribute_to_the_project: "Přispějte tomuto projektu"
 
 #  clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     join_desc_3: ", nebo se s námi spojte v naší "
     join_desc_4: "!"
     join_url_email: "Pošlete nám email"
-    join_url_hipchat: "veřejné HipChat chatovací místnosti"
+    join_url_hipchat: "veřejné Slack chatovací místnosti"
     archmage_subscribe_desc: "Dostávat emailem oznámení a informacemi nových programovacích příležitostech"
     artisan_introduction_pref: "Musíme vytvářet další úrovně! Lidé nás prosí o další obsah, ale sami zvládáme vytvořit jen málo. Naším prvním pracovním zastavením je první úroveň. Editor úrovní je tak-tak použitelný i pro jeho vlastní tvůrce. Máte-li vizi pro vytvoření vnořených úrovní alá "
     artisan_introduction_suf: "pak neváhejte, toto je vaše destinace."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     artisan_join_desc: "Použijte editor úrovní v těchto postupných krocích:"
     artisan_join_step1: "Přečtěte si dokumentaci."
     artisan_join_step2: "Vytvořte novou úroveň a prozkoumejte existující úrovně."
-    artisan_join_step3: "Požádejte nás o pomoc ve veřejné  HipChat místnosti."
+    artisan_join_step3: "Požádejte nás o pomoc ve veřejné  Slack místnosti."
     artisan_join_step4: "Zveřejněte vaši úroveň na fóru pro připomínkování."
     artisan_subscribe_desc: "Dostávat emailem oznámení a informace o aktualizacích editoru úrovní."
     adventurer_introduction: "Ujasněme si dopředu jednu věc o vaší roli: budete jako tank. Projdete ohněm. Potřebujeme někoho, kdo odzkouší zbrusu nové úrovně a pomůže identifikovat kde je možno je zlepšit. Ten boj bude ohromný - tvorba her je dlouhý proces, který nikdo nezvládne na první pokus. Máte-li na to a vydržíte-li to, pak toto je vaše skupina."

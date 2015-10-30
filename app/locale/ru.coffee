@@ -792,7 +792,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     social_facebook: "Оцените CodeCombat на Facebook"
     social_twitter: "Следуйте за CodeCombat на Twitter"
     social_gplus: "Присоединяйтесь к CodeCombat на Google+"
-    social_hipchat: "Общайтесь с нами в публичной чат-комнате CodeCombat на HipChat"
+    social_hipchat: "Общайтесь с нами в публичной чат-комнате CodeCombat на Slack"
     contribute_to_the_project: "Сотрудничайте с проектом"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     join_desc_3: " или найдите нас в "
     join_desc_4: "и мы решим, откуда можно начать!"
     join_url_email: "Напишите нам"
-    join_url_hipchat: "публичной комнате HipChat"
+    join_url_hipchat: "публичной комнате Slack"
     archmage_subscribe_desc: "Получать email-ы о новых возможностях для программирования и объявления."
     artisan_introduction_pref: "Мы должны строить дополнительные уровни! Люди будут требовать больше контента и создавать его можем только мы сами. Сейчас ваша рабочая станция первого уровня; наш редактор уровней едва пригоден для использования создателями, так что будьте осторожны. Если у вас есть видение кампаний, связывающих циклы for в"
     artisan_introduction_suf: ", тогда этот класс для вас."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     artisan_join_desc: "Используйте редактор уровней, следуя этим шагам, плюс-минус:"
     artisan_join_step1: "Прочитайте документацию."
     artisan_join_step2: "Создайте новый уровень и изучите существующие уровни."
-    artisan_join_step3: "Найдите нас в нашей публичной комнате HipChat для помощи."
+    artisan_join_step3: "Найдите нас в нашей публичной комнате Slack для помощи."
     artisan_join_step4: "Разместите свои уровни на форуме для обратной связи."
     artisan_subscribe_desc: "Получать email-ы об обновлениях редактора уровней и объявления."
     adventurer_introduction: "Позвольте внести ясность о вашей роли: вы танк. Вы собираетесь принять тяжелые повреждения. Нам нужны люди, чтобы испытать совершенно новые уровни и помочь определить, как сделать лучше. Боль будет огромной; создание хороших игр - длительный процесс и никто не делает это правильно в первый раз. Если вы можете выдержать и имеете высокий балл конституции (D&D), этот класс для вас."

@@ -792,7 +792,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     social_facebook: "Like CodeCombat auf Facebook"
     social_twitter: "Folge CodeCombat auf Twitter"
     social_gplus: "Schließe dich CodeCombat bei Google+ an"
-    social_hipchat: "Chatte mit uns in unserem öffentlichen CodeCombat HipChat Raum"
+    social_hipchat: "Chatte mit uns in unserem öffentlichen CodeCombat Slack Raum"
     contribute_to_the_project: "Trage zu diesem Projekt bei"
 
 #  clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     join_desc_3: ", oder finde uns in unserem "
     join_desc_4: "und wir schauen von dort mal!"
     join_url_email: "Email uns"
-    join_url_hipchat: "öffentlicher HipChat Raum"
+    join_url_hipchat: "öffentlicher Slack Raum"
     archmage_subscribe_desc: "Erhalte Emails über neue Programmier-Möglichkeiten und Ankündigungen."
     artisan_introduction_pref: "Wir müssen neue Level erstellen. Problem: ihr wollt mehr und mehr Inhalte, aber unser Tag hat auch nur 24 Stunden. Und leider ist weder unsere Workstation die Beste, noch unser Leveleditor. Um es konkret zu sagen: selbst die Erschaffer des Level Editors können ihn gerade so benutzen, also Vorsicht. Wenn du aber Ideen für eine Kampagne hast, die von for-loops bis"
     artisan_introduction_suf: ", dann ist diese Klasse vielleicht für dich."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     artisan_join_desc: "Verwende den Level-Editor mit diesen Schritten, mehr oder weniger:"
     artisan_join_step1: "Lese die Dokumentation."
     artisan_join_step2: "Erstelle ein neues Level und erkunde existierende Level."
-    artisan_join_step3: "Finde uns im öffentlichen HipChat Raum, falls du Hilfe brauchst."
+    artisan_join_step3: "Finde uns im öffentlichen Slack Raum, falls du Hilfe brauchst."
     artisan_join_step4: "Poste deine Level im Forum um Feedback zu erhalten."
     artisan_subscribe_desc: "Erhalte Emails über Level-Editor Updates und Ankündigungen."
     adventurer_introduction: "Dein Job: du bist der Tank. Du wirst einstecken müssen, als gäbe es kein Morgen. Du wirst, fluchen, schwitzen und verzweifeln. Wir brauchen Leute, die unsere nagelneuen Level ausprobieren, und alle Bugs durchleiden. Spieldesign ist ein langer Prozeß, und niemand macht beim ersten Versuch alles richtig. Aber wenn du mithelfen willst, und aushalten kannst, dann sei dabei. Denn nur mit dieser deiner Klasse, gibt es beim zweiten, dritten, x-ten versuch ein besseres Level."

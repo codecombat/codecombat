@@ -792,7 +792,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     social_facebook: "Aimer CodeCombat sur Facebook"
     social_twitter: "Suivre CodeCombat sur Twitter"
     social_gplus: "Rejoindre CodeCombat sur Google+"
-    social_hipchat: "Chattez avec nous dans la salle HipChat publique CodeCombat"
+    social_hipchat: "Chattez avec nous dans la salle Slack publique CodeCombat"
     contribute_to_the_project: "Contribuer au projet"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     join_desc_3: ", ou trouvez-nous dans nos "
     join_desc_4: "et nous partirons de là !"
     join_url_email: "Contactez-nous"
-    join_url_hipchat: "conversation publique HipChat"
+    join_url_hipchat: "conversation publique Slack"
     archmage_subscribe_desc: "Recevoir un e-mail sur les nouvelles possibilités de développement et des annonces."
     artisan_introduction_pref: "Nous devons créer des niveaux additionnels ! Les gens veulent plus de contenu, et nous ne pouvons pas tous les créer nous-même. Maintenant votre station de travail est au niveau un ; notre éditeur de niveaux est à peine utilisable même par ses créateurs, donc méfiez-vous. Si vous avez des idées sur la boucle for de"
     artisan_introduction_suf: ", cette classe est faite pour vous."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     artisan_join_desc: "Utilisez le créateur de niveaux pour à peu près ces étapes :"
     artisan_join_step1: "Lire la documentation."
     artisan_join_step2: "Crééz un nouveau niveau et explorez les niveaux existants."
-    artisan_join_step3: "Retrouvez-nous dans notre conversation HipChat pour obtenir de l'aide."
+    artisan_join_step3: "Retrouvez-nous dans notre conversation Slack pour obtenir de l'aide."
     artisan_join_step4: "Postez vos niveaux dans le forum pour avoir des retours."
     artisan_subscribe_desc: "Recevoir un e-mail sur les annonces et mises à jour de l'éditeur de niveaux."
     adventurer_introduction: "Soyons clair à propos de votre rôle : vous êtes le tank. Vous allez subir beaucoup de dégâts. Nous avons besoin de gens pour essayer les nouveaux niveaux et aider à identifier comment améliorer les choses. La douleur sera énorme; faire de bons jeux est une longue tâche et personne n'y arrive du premier coup. Si vous pouvez résister et avez un gros score de constitution, alors cette classe est faite pour vous."

@@ -383,6 +383,6 @@ PaymentHandler = class PaymentHandler extends Handler
       message += " for #{options.payment.get('description')}" if options.payment?.get('description')
       hipchat.sendHipChatMessage message, ['tower']
     catch e
-      log.error "Couldn't send HipChat message on payment because of error: #{e}"
+      log.error "Couldn't send Slack message on payment because of error: #{e}"
 
 module.exports = new PaymentHandler()

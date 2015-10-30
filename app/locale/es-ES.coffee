@@ -792,7 +792,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     social_facebook: "Dale a Me Gusta a CodeCombat en Facebook"
     social_twitter: "Sigue a CodeCombat en Twitter"
     social_gplus: "Unete a CodeCombat en Google+"
-    social_hipchat: "Habla con nosotros en el chat publico de CodeCombat HipChat room"
+    social_hipchat: "Habla con nosotros en el chat publico de CodeCombat Slack channel"
     contribute_to_the_project: "Contribuye al proyecto"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     join_desc_3: ", o encuéntranos en nuestro "
     join_desc_4: "¡y partiremos desde ese punto!"
     join_url_email: "Escríbenos un correo electrónico"
-    join_url_hipchat: "sala pública en HipChat"
+    join_url_hipchat: "sala pública en Slack"
     archmage_subscribe_desc: "Recibe correos sobre nuevos anuncios y oportunidades de codificar."
     artisan_introduction_pref: "¡Debemos construir niveles adicionales! La gente clama por más contenido y solo podemos crear unos cuantos. Ahora mismo tu estación de trabajo es el nivel uno; nuestro editor de niveles es apenas usable por sus creadores, así que ten cuidado. Si tienes visiones de campañas que alcanzan el infinito"
     artisan_introduction_suf: ", entonces esta Clase es ideal para ti."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     artisan_join_desc: "Sigue las siguientes indicaciones para usar el editor de niveles. Tómalo o déjalo:"
     artisan_join_step1: "Lee la documentación."
     artisan_join_step2: "Crea un nuevo nivel y explora los niveles existentes."
-    artisan_join_step3: "Busca nuestra sala pública de HipChat en busca de ayuda."
+    artisan_join_step3: "Busca nuestra sala pública de Slack en busca de ayuda."
     artisan_join_step4: "Publica tus niveles en el foro para recibir comentarios críticos."
     artisan_subscribe_desc: "Recibe correos sobre actualizaciones del editor de niveles y anuncios."
     adventurer_introduction: "Hablemos claro sobre tu papel: eres el tanque. Vas a recibir fuertes daños. Necesitamos gente para probar nuestros flamantes niveles y ayudar a mejorarlos. El dolor será enorme; hacer buenos juegos es un proceso largo y nadie lo consigue a la primera. Si puedes resistir y tener una puntuación alta en Resistencia, entonces esta Clase es para ti."
