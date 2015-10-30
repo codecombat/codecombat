@@ -138,6 +138,13 @@ mixin student-dialog(course)
                 p
                   div.instruction-label(data-i18n="courses.enter_code")
                 .container-fluid
+                  .row.student-dialog-state-row
+                    .col-md-12
+                      if view.state === 'enrolling-by-modal'
+                        .progress.progress-striped.active
+                          .progress-bar(style="width: 100%")
+                      else if view.state === 'unknown_error'
+                        .alert.alert-danger= view.stateMessage
                   .row
                     .col-md-8
                       input.code-input(type='text', data-course-id="#{course.id}", data-i18n="[placeholder]courses.enter_code1", placeholder="Enter unlock code")

@@ -36,7 +36,7 @@ module.exports = class CoursesView extends RootView
         @state = 'ppc_logged_out'
       else
         @studentMode = true
-        @courseEnroll(prepaidCode)
+        @courseEnrollByURL(prepaidCode)
 
   setUpHourOfCode: ->
     # If we are coming in at /hoc, then we show the landing page.
@@ -100,11 +100,10 @@ module.exports = class CoursesView extends RootView
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickEnroll: (e) ->
-    $('.continue-dialog').modal('hide')
     return @openModalView new AuthModal() if me.isAnonymous()
     courseID = $(e.target).data('course-id')
     prepaidCode = ($(".code-input[data-course-id=#{courseID}]").val() ? '').trim()
-    @courseEnroll(prepaidCode)
+    @courseEnrollByModal(prepaidCode)
 
   onClickEnter: (e) ->
     $('.continue-dialog').modal('hide')
@@ -179,31 +178,61 @@ module.exports = class CoursesView extends RootView
     navigationEvent = route: route, viewClass: viewClass, viewArgs: []
     Backbone.Mediator.publish 'router:navigate', navigationEvent
 
-  courseEnroll: (prepaidCode) ->
+  courseEnrollByURL: (prepaidCode) ->
     @state = 'enrolling'
     @render?()
-    data = prepaidCode: prepaidCode
-    jqxhr = $.post('/db/course_instance/-/redeem_prepaid', data)
-    jqxhr.done (data, textStatus, jqXHR) =>
-      application.tracker?.trackEvent 'Redeemed course prepaid code', {prepaidCode: prepaidCode}
-      # TODO: handle fetch errors
-      me.fetch(cache: false).always =>
-        if data?.length > 0 && data[0].courseID && data[0]._id
-          courseID = data[0].courseID
-          courseInstanceID = data[0]._id
-          route = "/courses/#{courseID}/#{courseInstanceID}"
-          viewArgs = [{}, courseID, courseInstanceID]
-          Backbone.Mediator.publish 'router:navigate',
-            route: route
-            viewClass: 'views/courses/CourseDetailsView'
-            viewArgs: viewArgs
+    $.ajax({
+      method: 'POST'
+      url: '/db/course_instance/-/redeem_prepaid'
+      data: prepaidCode: prepaidCode
+      context: @
+      success: @onRedeemPrepaidSuccess
+      error: (xhr, textStatus, errorThrown) ->
+        console.error 'Got an error redeeming a course prepaid code:', textStatus, errorThrown
+        application.tracker?.trackEvent 'Failed to redeem course prepaid code by url', status: textStatus
+        @state = 'unknown_error'
+        @stateMessage = "Failed to redeem code: #{xhr.responseText}"
+        @render?()
+    })
+      
+  courseEnrollByModal: (prepaidCode) ->
+    @state = 'enrolling-by-modal'
+    @renderSelectors '.student-dialog-state-row'
+    $.ajax({
+      method: 'POST'
+      url: '/db/course_instance/-/redeem_prepaid'
+      data: prepaidCode: prepaidCode
+      context: @
+      success: ->
+        $('.continue-dialog').modal('hide')
+        @onRedeemPrepaidSuccess(arguments...)
+      error: (jqxhr, textStatus, errorThrown) ->
+        application.tracker?.trackEvent 'Failed to redeem course prepaid code by modal', status: textStatus
+        @state = 'unknown_error'
+        if jqxhr.status is 422
+          @stateMessage = 'Please enter a code.'
+        else if jqxhr.status is 404
+          @stateMessage = 'Code not found.'
         else
-          @state = 'unknown_error'
-          @stateMessage = "Database error."
-          @render?()
-    jqxhr.fail (xhr, textStatus, errorThrown) =>
-      console.error 'Got an error redeeming a course prepaid code:', textStatus, errorThrown
-      application.tracker?.trackEvent 'Failed to redeem course prepaid code', status: textStatus
-      @state = 'unknown_error'
-      @stateMessage = "#{xhr.status}: #{xhr.responseText}"
-      @render?()
+          @stateMessage = "#{jqxhr.responseText}"
+        @renderSelectors '.student-dialog-state-row'
+    })
+    
+  onRedeemPrepaidSuccess: (data, textStatus, jqxhr) ->
+    prepaidID = data[0]?.prepaidID
+    application.tracker?.trackEvent 'Redeemed course prepaid code', {prepaidCode: prepaidID}
+    me.fetch(cache: false).always =>
+      if data?.length > 0 && data[0].courseID && data[0]._id
+        courseID = data[0].courseID
+        courseInstanceID = data[0]._id
+        route = "/courses/#{courseID}/#{courseInstanceID}"
+        viewArgs = [{}, courseID, courseInstanceID]
+        Backbone.Mediator.publish 'router:navigate',
+          route: route
+          viewClass: 'views/courses/CourseDetailsView'
+          viewArgs: viewArgs
+      else
+        @state = 'unknown_error'
+        @stateMessage = "Database error."
+        @render?()
+
