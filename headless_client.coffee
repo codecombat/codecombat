@@ -45,7 +45,17 @@ disable = [
 GLOBAL.window = GLOBAL
 GLOBAL.document = location: pathname: 'headless_client'
 GLOBAL.console.debug = console.log
-GLOBAL.Worker = require('webworker-threads').Worker
+try
+  GLOBAL.Worker = require('webworker-threads').Worker
+catch
+  console.log ""
+  console.log "Headless client needs the webworker-threads package from NPM to function."
+  console.log "Try installing it with the command:"
+  console.log ""
+  console.log "    npm install webworker-threads"
+  console.log ""
+  process.exit(1)
+
 Worker::removeEventListener = (what) ->
   if what is 'message'
     @onmessage = -> #This webworker api has only one event listener at a time.
