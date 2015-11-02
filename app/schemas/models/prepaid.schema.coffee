@@ -10,6 +10,7 @@ PrepaidSchema = c.object({title: 'Prepaid', required: ['creator', 'type']}, {
   code: c.shortString(title: "Unique code to redeem")
   type: { type: 'string' }
   properties: {type: 'object'}
+  exhausted: { type: 'boolean' }
 })
 
 c.extendBasicProperties(PrepaidSchema, 'prepaid')

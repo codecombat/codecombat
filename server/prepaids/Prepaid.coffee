@@ -12,5 +12,10 @@ PrepaidSchema.statics.generateNewCode = (done) ->
       return done(code) unless prepaid
       tryCode()
   tryCode()
+  
+PrepaidSchema.pre('save', (next) ->
+  @set('exhausted', @get('maxRedeemers') <= _.size(@get('redeemers')))
+  next()
+)
 
 module.exports = Prepaid = mongoose.model('prepaid', PrepaidSchema)

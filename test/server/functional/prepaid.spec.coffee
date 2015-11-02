@@ -306,6 +306,7 @@ describe '/db/prepaid', ->
                 joeCode = prepaid.code
                 expect(prepaid.creator).toBeDefined()
                 expect(prepaid.maxRedeemers).toEqual(3)
+                expect(prepaid.exhausted).toBe(false)
                 expect(prepaid.properties).toBeDefined()
                 expect(prepaid.properties.months).toEqual(3)
                 done()
