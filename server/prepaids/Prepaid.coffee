@@ -3,6 +3,7 @@ config = require '../../server_config'
 PrepaidSchema = new mongoose.Schema {}, {strict: false, minimize: false,read:config.mongo.readpref}
 
 PrepaidSchema.index({code: 1}, { unique: true })
+PrepaidSchema.index({'redeemers.userID': 1})
 
 PrepaidSchema.statics.generateNewCode = (done) ->
   tryCode = ->
