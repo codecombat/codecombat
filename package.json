@@ -37,7 +37,8 @@
     "brunch": "brunch",
     "bower": "bower",
     "dev": "brunch watch --server",
-    "nodemon": "nodemon"
+    "nodemon": "nodemon",
+    "jasmine-node": "jasmine-node"
   },
   "main": "index.js",
   "keywords": [
