@@ -2,6 +2,7 @@ Course = require '../courses/Course'
 Handler = require '../commons/Handler'
 hipchat = require '../hipchat'
 Prepaid = require './Prepaid'
+User = require '../users/User'
 StripeUtils = require '../lib/stripe_utils'
 utils = require '../../app/core/utils'
 
@@ -26,6 +27,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
     return @getPrepaidAPI(req, res, args[2]) if relationship is 'code'
     return @createPrepaidAPI(req, res) if relationship is 'create'
     return @purchasePrepaidAPI(req, res) if relationship is 'purchase'
+    return @postRedeemerAPI(req, res, args[0]) if relationship is 'redeemers'
     super arguments...
 
   getPrepaidAPI: (req, res, code) ->
@@ -60,6 +62,30 @@ PrepaidHandler = class PrepaidHandler extends Handler
     @createPrepaid req.user, req.body.type, req.body.maxRedeemers, properties, (err, prepaid) =>
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, prepaid.toObject())
+
+  postRedeemerAPI: (req, res, prepaidID) ->
+    return @sendMethodNotAllowed(res, 'You may only POST redeemers.') if req.method isnt 'POST'
+    return @sendBadInputError(res, 'Need an object with a userID') unless req.body?.userID
+    Prepaid.findById(prepaidID).exec (err, prepaid) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) if not prepaid
+      return @sendForbiddenError(res) if prepaid.get('creator').toString() isnt req.user.id
+      return @sendForbiddenError(res) if _.size(prepaid.get('redeemers')) >= prepaid.get('maxRedeemers')
+      User.findById(req.body.userID).exec (err, user) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res, 'User for given ID not found') if not user
+        userID = user.get('_id')
+        Prepaid.count {'redeemers.userID': userID}, (err, count) =>
+          return @sendDatabaseError(res, err) if err
+          return @sendSuccess(res, @formatEntity(req, prepaid)) if count
+          redeemers = _.clone(prepaid.get('redeemers') or [])
+          redeemers.push({ date: new Date(), userID: userID })
+          prepaid.set('redeemers', redeemers)
+          # Not worrying about race conditions. Worst case: overwrite one user with another.
+          # You can't end up with more than maxRedeemers in the list of redeemers.
+          prepaid.save (err, prepaid) =>
+            return @sendDatabaseError(res, err) if err
+            @sendSuccess(res, @formatEntity(req, prepaid))      
 
   createPrepaid: (user, type, maxRedeemers, properties, done) ->
     Prepaid.generateNewCode (code) =>

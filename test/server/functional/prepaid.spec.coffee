@@ -34,6 +34,89 @@ describe '/db/prepaid', ->
     clearModels [Course, CourseInstance, Payment, Prepaid, User], (err) ->
       throw err if err
       done()
+      
+  describe 'POST /db/prepaid/<id>/redeemers', ->
+
+    it 'adds a given user to the redeemers property', (done) ->
+      loginNewUser (user1) ->
+        prepaid = new Prepaid({
+          maxRedeemers: 1,
+          redeemers: [],
+          creator: user1.get('_id')
+          code: 0
+        })
+        prepaid.save (err, prepaid) ->
+          otherUser = new User()
+          otherUser.save (err, otherUser) ->
+            url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
+            redeemer = { userID: otherUser.id }
+            request.post {uri: url, json: redeemer }, (err, res, body) ->
+              expect(body.redeemers.length).toBe(1)
+              expect(res.statusCode).toBe(200)
+              done()
+              
+    it 'does not allow more redeemers than maxRedeemers', (done) ->
+      loginNewUser (user1) ->
+        prepaid = new Prepaid({
+          maxRedeemers: 0,
+          redeemers: [],
+          creator: user1.get('_id')
+          code: 1
+        })
+        prepaid.save (err, prepaid) ->
+          otherUser = new User()
+          otherUser.save (err, otherUser) ->
+            url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
+            redeemer = { userID: otherUser.id }
+            request.post {uri: url, json: redeemer }, (err, res, body) ->
+              expect(res.statusCode).toBe(403)
+              done()
+
+    it 'only allows the owner of the prepaid to add redeemers', (done) ->
+      loginNewUser (user1) ->
+        prepaid = new Prepaid({
+          maxRedeemers: 1000,
+          redeemers: [],
+          creator: user1.get('_id')
+          code: 2
+        })
+        prepaid.save (err, prepaid) ->
+          loginNewUser (user2) ->
+            otherUser = new User()
+            otherUser.save (err, otherUser) ->
+              url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
+              redeemer = { userID: otherUser.id }
+              request.post {uri: url, json: redeemer }, (err, res, body) ->
+                expect(res.statusCode).toBe(403)
+                done()
+            
+    it 'is idempotent across prepaids collection', (done) ->
+      loginNewUser (user1) ->
+        otherUser = new User()
+        otherUser.save (err, otherUser) ->
+          prepaid1 = new Prepaid({
+            redeemers: [{userID: otherUser.get('_id')}],
+            code: 3
+          })
+          prepaid1.save (err, prepaid1) ->
+            prepaid2 = new Prepaid({
+              maxRedeemers: 10,
+              redeemers: [],
+              creator: user1.get('_id')
+              code: 4
+            })
+            prepaid2.save (err, prepaid2) ->
+              url = getURL("/db/prepaid/#{prepaid2.id}/redeemers")
+              redeemer = { userID: otherUser.id }
+              request.post {uri: url, json: redeemer }, (err, res, body) ->
+                expect(res.statusCode).toBe(200)
+                expect(body.redeemers.length).toBe(0)
+                done()
+
+  it 'Clear database', (done) ->
+    clearModels [Course, CourseInstance, Payment, Prepaid, User], (err) ->
+      throw err if err
+      done()
 
   it 'Anonymous creates prepaid code', (done) ->
     createPrepaid 'subscription', 1, 0, (err, res, body) ->
