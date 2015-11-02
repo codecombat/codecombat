@@ -792,7 +792,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     social_facebook: "Lasă un Like pentru CodeCombat pe facebook"
     social_twitter: "Urmărește CodeCombat pe Twitter"
     social_gplus: "Alăturăte pe Google+"
-    social_hipchat: "Vorbește cu noi pe chatul public HipChat camera CodeCombat"
+    social_hipchat: "Vorbește cu noi pe chatul public Slack camera CodeCombat"
     contribute_to_the_project: "Contribuie la proiect"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     join_desc_3: ", sau găsește-ne în "
     join_desc_4: "și pornim de acolo!"
     join_url_email: "Trimite-ne Email"
-    join_url_hipchat: "public HipChat room"
+    join_url_hipchat: "public Slack channel"
     archmage_subscribe_desc: "Primește email-uri despre noi oportunități de progrmare și anunțuri."
     artisan_introduction_pref: "Trebuie să construim nivele adiționale! Oamenii sunt nerăbdători pentru mai mult conținut, și noi putem face doar atât singuri. Momentan editorul de nivele abia este utilizabil până și de creatorii lui, așa că aveți grijă. Dacă ai viziuni cu campanii care cuprind loop-uri for pentru"
     artisan_introduction_suf: ", atunci aceasta ar fi clasa pentru tine."

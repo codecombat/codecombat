@@ -792,7 +792,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    social_facebook: "Like CodeCombat on Facebook"
 #    social_twitter: "Follow CodeCombat on Twitter"
 #    social_gplus: "Join CodeCombat on Google+"
-#    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
+#    social_hipchat: "Chat with us in the public CodeCombat Slack channel"
 #    contribute_to_the_project: "Contribute to the project"
 
 #  clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     join_desc_3: " 要勿到我裏個"
     join_desc_4: "，嚇我裏有較慢慢講！"
     join_url_email: "發信畀我裏"
-    join_url_hipchat: " HipChat 白嗒間"
+    join_url_hipchat: " Slack 白嗒間"
     archmage_subscribe_desc: "用電子郵箱收新個編碼機會搭公告。"
 #    artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
 #    artisan_introduction_suf: ", then this class might be for you."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    artisan_join_desc: "Use the Level Editor in these steps, give or take:"
     artisan_join_step1: "獨文檔。"
     artisan_join_step2: "做新關 搭打有個關數。"
-    artisan_join_step3: "趒我裏個 HipChat 白嗒間來尋幫手。"
+    artisan_join_step3: "趒我裏個 Slack 白嗒間來尋幫手。"
     artisan_join_step4: "畀爾個關發論壇讓別人畀爾評評。"
     artisan_subscribe_desc: "用電子郵箱收關編寫器個新消息。"
 #    adventurer_introduction: "Let's be clear about your role: you are the tank. You're going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class might be for you."

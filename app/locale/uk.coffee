@@ -792,7 +792,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     social_facebook: "Вподобайте CodeCombat на Facebook"
     social_twitter: "Слідкуйте за CodeCombat у Twitter"
     social_gplus: "Приєднайтесь до CodeCombat у Google+"
-    social_hipchat: "Напишіть нам у публічній кімнаті CodeCombat HipChat"
+    social_hipchat: "Напишіть нам у публічній кімнаті CodeCombat Slack"
     contribute_to_the_project: "Взяти участь у розробці"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     join_desc_3: " або знайдіть нас у нашій "
     join_desc_4: "- і ми вирішимо, з чого почати!"
     join_url_email: "Напишіть нам"
-    join_url_hipchat: "публічній HipChat кімнаті"
+    join_url_hipchat: "публічній Slack кімнаті"
     archmage_subscribe_desc: "Отримувати листи з анонсами та новими можливостями для розробки."
     artisan_introduction_pref: "Ми повинні будувати додаткові рівні! Люди вимагатимуть більше контенту, і ми можемо лише будувати, скільки самі зможемо. Саме зараз, Вашою робочою зоною є рівень один; наш редактор рівнів ледве використовується навіть його творцями, тож будьте обережними. Якщо Ви маєте бачення кампаній, що простягають цикли 'for' на "
     artisan_introduction_suf: ", тоді цей клас для Вас."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     artisan_join_desc: "Використовуйте Редактор рівнів на цих кроках, більше чи менше:"
     artisan_join_step1: "Читайте документацію."
     artisan_join_step2: "Створюйте новий рівень і досліджуйте існуючі рівні."
-    artisan_join_step3: "Просіть у нас допомоги у публічній HipChat."
+    artisan_join_step3: "Просіть у нас допомоги у публічній Slack."
     artisan_join_step4: "Публікуйте свої рівні на форумі, щоб отримати відгуки."
     artisan_subscribe_desc: "Отримувати листи з анонсами та новинами про вдосконалення редактора рівнів."
     adventurer_introduction: "Давайте будемо чесними щодо Вашої ролі: Ви танк. Вам доведеться мати багато втрат. Нам потрібні люди, щоб випробовувати нові рівні і допомагати визначати, що можна покращити. Це буде неймовірно боляче; створення хороших ігор - це довгий процес, і ніхто не проходить його з першого разу. Якшо Ви можеш терпіти і маєте великий запас витривалості, то цей клас для Вас."

@@ -792,7 +792,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     social_facebook: "Curta o CodeCombat no Facebook"
     social_twitter: "Siga o CodeCombat no Twitter"
     social_gplus: "Ingresse no CodeCombat no Google+"
-    social_hipchat: "Converse conosco na sala pública do CodeCombat no HipChat"
+    social_hipchat: "Converse conosco na sala pública do CodeCombat no Slack"
     contribute_to_the_project: "Contribuir para o projeto"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     join_desc_3: ", ou encontre-nos em nosso "
     join_desc_4: "e começaremos a partir de lá!"
     join_url_email: "Envie-nos um email"
-    join_url_hipchat: "Sala de bate-papo pública no HipChat"
+    join_url_hipchat: "Sala de bate-papo pública no Slack"
     archmage_subscribe_desc: "Receba email sobre novas oportunidades para codificar e anúncios."
     artisan_introduction_pref: "Nós devemos contruir níveis adicionais! Pessoas estão clamando por mais conteúdo, e só podemos contruir tantos de nós mesmos. Agora sua estação de trabalho é o nível um; nosso Editor de Níveis é pouco utilizável até mesmo para seus criadores, então fique esperto. Se você tem visões de campanhas abrangendo for-loops para"
     artisan_introduction_suf: ", esta classe pode ser para você."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     artisan_join_desc: "Use o Editor de Níveis nestas etapas, mais ou menos:"
     artisan_join_step1: "Leia a documentação."
     artisan_join_step2: "Crie um novo nível e explore os níveis existentes."
-    artisan_join_step3: "Encontre-nos na nossa sala pública no HipChat para ajuda."
+    artisan_join_step3: "Encontre-nos na nossa sala pública no Slack para ajuda."
     artisan_join_step4: "Publique seus níveis no fórum para avaliação."
     artisan_subscribe_desc: "Receba emails com novidades sobre o editor de níveis e anúncios."
     adventurer_introduction: "Vamos ser claros sobre o seu papel: você é o tanque. Você vai tomar dano pesado. Precisamos de pessoas para experimentar níveis inéditos e ajudar a identificar como fazer as coisas melhorarem. A dor será enorme, fazer bons jogos é um processo longo e ninguém acerta na primeira vez. Se você pode suportar e ter uma alta pontuação de constituição, então esta classe pode ser para você."

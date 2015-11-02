@@ -792,7 +792,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     social_facebook: "Lik CodeCombat på Facebook"
     social_twitter: "Følg CodeCombat på Twitter"
     social_gplus: "Følg CodeCombat på Google+"
-    social_hipchat: "Chat med oss i det åpne CodeCombat rommet på HipChat"
+    social_hipchat: "Chat med oss i det åpne CodeCombat rommet på Slack"
     contribute_to_the_project: "Bidra på prosjektet"
 
 #  clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     join_desc_3: ", eller finn oss i vårt "
     join_desc_4: "så tar vi det derfra!"
     join_url_email: "Send oss en epost"
-    join_url_hipchat: "offentlige HipChat rom"
+    join_url_hipchat: "offentlige Slack rom"
     archmage_subscribe_desc: "Få epost om nye muligheter til å kode og kunngjøringer."
     artisan_introduction_pref: "Vi må konstruere flere nye brett! Folk skriker etter mer innhold, og vi klarer bare å bygge så mange selv. Akkurat nå er arbeidsverktøyet ditt bare på nivå 1; brett-editoren vår er bare såvidt brukbar, selv for de som har laget den, så vær forberedt. Hvis du har visjoner om kampanjer med alt fra for-løkker til"
     artisan_introduction_suf: ", da er denne klassen kanskje for deg."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     artisan_join_desc: "Brett-editoren brukes omtrent på følgende måte"
     artisan_join_step1: "Les dokumentasjonen."
     artisan_join_step2: "Lag et nytt brett og utforsk eksisterende brett."
-    artisan_join_step3: "Finn oss i det offentlige HipChat rommet vårt for å få hjelp."
+    artisan_join_step3: "Finn oss i det offentlige Slack rommet vårt for å få hjelp."
     artisan_join_step4: "Legg ut brettene dine på forumet for å få tilbakemeldinger."
     artisan_subscribe_desc: "Få epost om oppdateringer i brett-editoren og kunngjøringer."
     adventurer_introduction: "La oss være tydelige på hva din rolle er: du må ta støyten. Du kommer til å få mye juling. Vi trenger folk som kan prøve helt nye brett og hjelpe oss å finne ut hvordan de kan gjøres bedre. Smerten vil bli enorm; å lage gode spill er en lang prosess og ingen får ting riktig første gangen. Hvis du kan holde ut og tåler en støyt, da er kanskje denne klassen for deg."

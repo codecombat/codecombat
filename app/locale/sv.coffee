@@ -792,7 +792,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     social_facebook: "Gilla CodeCombat på Facebook"
     social_twitter: "Följ CodeCombat på Twitter"
     social_gplus: "Följ CodeCombat på Google+"
-    social_hipchat: "Chatta med oss in det publika CodeCombat HipChatrummet"
+    social_hipchat: "Chatta med oss in det publika CodeCombat Slackrummet"
     contribute_to_the_project: "Bidra till projektet"
 
 #  clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     join_desc_3: ", eller hitta oss i vår "
     join_desc_4: "så tar vi det därifrån!"
     join_url_email: "Maila oss"
-    join_url_hipchat: "offentliga HipChat-rum"
+    join_url_hipchat: "offentliga Slack-rum"
     archmage_subscribe_desc: "Få mail om nya kodmöjligheter och tillkännagivanden."
     artisan_introduction_pref: "Vi måste bygga fler nivåer! Människor kräver mer innehåll, och vi kan bara bygga en viss mängd själva. Just nu är arbetsstation nivå ett; vår nivåredigerare är knappt användbar ens av dess skapare, så var uppmärksam. Om du har visioner av kampanjer som sträcker sig från for-loopar till"
     artisan_introduction_suf: ", är den här klassen kanske något för dig."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     artisan_join_desc: "Använd nivåredigeraren i dessa steg, mer eller mindre:"
     artisan_join_step1: "Läs dokumentationen."
     artisan_join_step2: "Skapa en ny nivå och utforska existerande nivåer."
-    artisan_join_step3: "Hitta oss i vårt offentliga HipChat-rum för hjälp."
+    artisan_join_step3: "Hitta oss i vårt offentliga Slack-rum för hjälp."
     artisan_join_step4: "Anslå dina nivåer på forumet för feedback."
     artisan_subscribe_desc: "Få mail om nivåredigeraruppdateringar och tillkännagivanden"
     adventurer_introduction: "Låt oss vara tydliga med din roll: du är tanken. Du kommer att ta stor skada. Vi behöver människor som kan testa splitternya nivåer och hjälpa till att identifiera hur man kan göra saker bättre. Smärtan kommer att vara enorm; att göra bra spel är en lång process och ingen gör rätt första gången. Om du kan härda ut och tål mycket stryk är det här klassen för dig."

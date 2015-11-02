@@ -792,7 +792,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     social_facebook: "Like CodeCombat op Facebook"
     social_twitter: "Volg CodeCombat op Twitter"
     social_gplus: "Join CodeCombat op Google+"
-    social_hipchat: "Chat met ons in de publieke CodeCombat HipChat room"
+    social_hipchat: "Chat met ons in de publieke CodeCombat Slack channel"
     contribute_to_the_project: "Help mee met het project"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     join_desc_3: ", of vind ons in "
     join_desc_4: "en we bekijken het verder vandaar!"
     join_url_email: "E-mail ons"
-    join_url_hipchat: "ons publiek (Engelstalig) HipChat kanaal"
+    join_url_hipchat: "ons publiek (Engelstalig) Slack kanaal"
     archmage_subscribe_desc: "Ontvang e-mails met nieuwe programmeer mogelijkheden en aankondigingen."
     artisan_introduction_pref: "We moeten meer levels bouwen! Mensen schreeuwen om meer inhoud, en er zijn ook maar zoveel levels dat wij kunnen maken. Momenteel is jouw werkplaats level een; onze level editor wordt zelfs door ons amper gebruikt, dus wees voorzichtig. Indien je een visie hebt van een campagne, gaande van for-loops tot"
     artisan_introduction_suf: ", dan is deze klasse waarschijnlijk iets voor jou."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     artisan_join_desc: "Gebruik de Level Editor min of meer in deze volgorde:"
     artisan_join_step1: "Lees de documentatie."
     artisan_join_step2: "Maak een nieuw level en bestudeer reeds bestaande levels."
-    artisan_join_step3: "Praat met ons in ons publieke (Engelstalige) HipChat kanaal voor hulp. (optioneel)"
+    artisan_join_step3: "Praat met ons in ons publieke (Engelstalige) Slack kanaal voor hulp. (optioneel)"
     artisan_join_step4: "Maak een bericht over jouw level op ons forum voor feedback."
     artisan_subscribe_desc: "Ontvang e-mails met nieuws over de Level Editor."
     adventurer_introduction: "Laten we duidelijk zijn over je rol: jij bent de tank. Jij krijgt de zware klappen te verduren. We hebben mensen nodig om spiksplinternieuwe levels uit te proberen en te kijken hoe deze beter kunnen. Je zult veel afzien.Het maken van een goede game is een lang proces en niemand doet het de eerste keer goed. Als jij dit kan verduren en een hoog uihoudingsvermogen hebt, dan is dit de klasse voor jou."

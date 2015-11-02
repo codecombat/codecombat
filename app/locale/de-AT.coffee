@@ -792,7 +792,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     social_facebook: "Like CodeCombat auf Facebook"
     social_twitter: "Folge CodeCombat auf Twitter"
     social_gplus: "Schließe dich CodeCombat bei Google+ an"
-    social_hipchat: "Chatte mit uns in unserem öffentlichen CodeCombat HipChat Raum"
+    social_hipchat: "Chatte mit uns in unserem öffentlichen CodeCombat Slack Raum"
     contribute_to_the_project: "Trage zu diesem Projekt bei"
 
 #  clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     join_desc_3: ", oder finde uns in unserem "
     join_desc_4: "und wir schauen von dort mal!"
     join_url_email: "Emaile uns"
-    join_url_hipchat: "öffentlicher HipChat Raum"
+    join_url_hipchat: "öffentlicher Slack Raum"
     archmage_subscribe_desc: "Erhalte Emails über neue Programmier-Möglichkeiten und Ankündigungen."
 #    artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
 #    artisan_introduction_suf: ", then this class might be for you."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     artisan_join_desc: "Verwende den Level-Editor mit diesen Schritten, mehr oder weniger:"
     artisan_join_step1: "Lese die Dokumentation."
     artisan_join_step2: "Erstelle ein neues Level und erkunde existierende Level."
-    artisan_join_step3: "Finde uns im öffentlichen HipChat Raum, falls du Hilfe brauchst."
+    artisan_join_step3: "Finde uns im öffentlichen Slack Raum, falls du Hilfe brauchst."
     artisan_join_step4: "Poste deine Level im Forum um Feedback zu erhalten."
     artisan_subscribe_desc: "Erhalte Emails über Level-Editor Updates und Ankündigungen."
 #    adventurer_introduction: "Let's be clear about your role: you are the tank. You're going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class might be for you."

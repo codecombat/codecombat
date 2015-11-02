@@ -792,7 +792,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     social_facebook: "Polub CodeCombat na Facebooku"
     social_twitter: "Obserwuj CodeCombat na Twitterze"
     social_gplus: "Dołącz do CodeCombat na Google+"
-    social_hipchat: "Pogadaj z nami na pblicznym czacie HipChat"
+    social_hipchat: "Pogadaj z nami na pblicznym czacie Slack"
     contribute_to_the_project: "Zostań współtwórcą CodeCombat"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     join_desc_3: " lub zajrzyj do naszego "
     join_desc_4: ", a dowiesz się wszystkiego!"
     join_url_email: "Napisz do nas"
-    join_url_hipchat: "publicznego pokoju HipChat"
+    join_url_hipchat: "publicznego pokoju Slack"
     archmage_subscribe_desc: "Otrzymuj e-maile dotyczące nowych okazji programistycznych oraz ogłoszeń."
     artisan_introduction_pref: "Musimy stworzyć dodatkowe poziomy! Ludzie będą oczekiwać nowych zasobów, a my mamy ograniczone możliwości co do naszych mocy przerobowych. Obecnie, twoja stacja robocza jest na poziomie pierwszym; nasz edytor poziomów jest ledwo używalny nawet przez jego twórców - bądź tego świadom. Jeśli masz wizję nowych kampanii, od pętli typu for do"
     artisan_introduction_suf: ", ta klasa może być dla ciebie."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     artisan_join_desc: "Używaj Edytora Poziomów mniej-więcej zgodnie z poniższymi krokami:"
     artisan_join_step1: "Przeczytaj dokumentację."
     artisan_join_step2: "Stwórz nowy poziom i przejrzyj istniejące poziomy."
-    artisan_join_step3: "Zajrzyj do naszego publicznego pokoju HipChat, aby uzyskać pomoc."
+    artisan_join_step3: "Zajrzyj do naszego publicznego pokoju Slack, aby uzyskać pomoc."
     artisan_join_step4: "Pokaż swoje poziomy na forum, aby uzyskać opinie."
     artisan_subscribe_desc: "Otrzymuj e-maile dotyczące aktualności w tworzeniu poziomów i ogłoszeń."
     adventurer_introduction: "Bądźmy szczerzy co do twojej roli: jesteś tankiem. Będziesz przyjmował ciężkie obrażenia. Potrzebujemy ludzi do testowania nowych poziomów i pomocy w rozpoznawaniu ulepszeń, które będzie można do nich zastosować. Będzie to bolesny proces; tworzenie dobrych gier to długi proces i nikt nie trafia w dziesiątkę za pierwszym razem. Jeśli jesteś wytrzymały i masz wysoki wskaźnik constitution (D&D), ta klasa jest dla ciebie."

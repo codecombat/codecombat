@@ -792,7 +792,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     social_facebook: "關注CodeCombat的Facebook"
     social_twitter: "關注CodeCombat的Twitter"
     social_gplus: "關注CodeCombat的Google+"
-    social_hipchat: "通過公共的HipChat與我們交流"
+    social_hipchat: "通過公共的Slack與我們交流"
     contribute_to_the_project: "貢獻這專案"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     join_desc_3: "， 或者找到我們在"
     join_desc_4: "讓我們從這開始!"
     join_url_email: "發信給我們"
-    join_url_hipchat: "公共的HipChat房間"
+    join_url_hipchat: "公共的Slack房間"
     archmage_subscribe_desc: "取得郵件關於新的編程機會和公告。"
     artisan_introduction_pref: "我們必須建造更多的關卡! 大家為了更多的內容在高聲吶喊， 但只靠我們只能建造這麼多。 現在您的工作場所就是一關; 我們的關卡編輯器是勉強可用的, 所以請小心. 只要您有新的靈感，不論從簡單的 for-loops 到"
     artisan_introduction_suf: "， 那個這職業會適合您。"
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     artisan_join_desc: "按照以下步驟使用關卡編輯器:"
     artisan_join_step1: "閱讀文擋。"
     artisan_join_step2: "創建新的關卡並且探索已存在的關卡。"
-    artisan_join_step3: "在公共的HipChat房間裡找到我們尋求幫助。"
+    artisan_join_step3: "在公共的Slack房間裡找到我們尋求幫助。"
     artisan_join_step4: "公佈您的關卡到論壇中尋求回饋。"
     artisan_subscribe_desc: "取得郵件關於關卡編輯器更新和公告。"
     adventurer_introduction: "讓我們清楚的定義您的角色: 您是部坦克。 您將遭受許多傷害。 我們需要玩家來嘗試我們全新的關卡並且幫助我們找出如何讓事情變得更好。 那痛苦將是巨大的; 製作優秀的遊戲是個長遠的過程並且沒有人可以第一次就把事情做對。 如果您可以忍受並且抵抗力高， 那麼這職業也許適合您。"

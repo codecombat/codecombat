@@ -31,5 +31,5 @@ module.exports.sendHipChatMessage = sendHipChatMessage = (message, rooms, option
       form.notify = true
     url = "https://api.hipchat.com/v2/room/#{roomID}/notification?auth_token=#{key}"
     request.post {uri: url, json: form}, (err, res, body) ->
-      return log.error 'Error sending HipChat message:', err or body if err or /error/i.test body
+      return log.error 'Error sending Slack message:', err or body if err or /error/i.test body
       #log.info "Got HipChat message response:", body

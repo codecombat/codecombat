@@ -792,7 +792,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     social_facebook: "Facebook で CodeCombat にいいね！する"
     social_twitter: "Twitter の CodeCombat をフォローする"
     social_gplus: "Google+ の CodeCombat に参加する"
-    social_hipchat: "公開されている CodeCombat の HipChat ルームで私たちとチャットする"
+    social_hipchat: "公開されている CodeCombat の Slack ルームで私たちとチャットする"
     contribute_to_the_project: "プロジェクトに貢献する"
 
   clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     join_desc_3: "をするか、私たちの"
     join_desc_4: "で私たちに連絡してください！"
     join_url_email: "メール"
-    join_url_hipchat: "公開の HipChat のルーム"
+    join_url_hipchat: "公開の Slack のルーム"
     archmage_subscribe_desc: "コーディングの機会やアナウンスをメールで受け取る"
     artisan_introduction_pref: "私たちは、追加のレベルを建設しなければなりません！皆さんはもっとコンテンツを、と叫んでいますが、私達がつくれるのは自分たちの分だけです。今、あなたのワークステーションはレベル１です。私達のレベルエディタをつかえばそんなクリエイターでもギリギリ使えます、そう警戒しないで。あなたがfor-loopにまたがるキャンペーンのビジョンを"
     artisan_introduction_suf: "にもっているなら、このクラスはあなたにピッタリです。"
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     artisan_join_desc: "レベルエディタを使うために以下のステップを利用してください。"
     artisan_join_step1: "ドキュメントを読む"
     artisan_join_step2: "新しいレベルを作成し、すでにあるレベルか探す"
-    artisan_join_step3: "ヘルプが必要なとき公開HipChatルームで私達を探す"
+    artisan_join_step3: "ヘルプが必要なとき公開Slackルームで私達を探す"
     artisan_join_step4: "フィードバックのためフォーラムにあなたのレベルを投稿する"
     artisan_subscribe_desc: "レベルエディタアップデートやアナウンスをメールで受け取る"
     adventurer_introduction: "あなたの役割をはっきりしましょう。あなたは戦車です。あなたには大きなダメージを負ってもらいます。私たちには新しいレベルを試し、どう改善するか見分けるの役立つ人が必要です。その苦痛は大きなものです。よいゲームを作ることは長い道のりで、最初から正しく動くものなどないのです。もしあなたが耐えることができ、高い生命力を持っているならこのクラスはあなたにピッタリでしょう。"

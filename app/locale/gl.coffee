@@ -792,7 +792,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     social_facebook: "Dalle a Gústame a CodeCombat en Facebook"
     social_twitter: "Segue a CodeCombat en Twitter"
     social_gplus: "Únete a CodeCombat en Google+"
-    social_hipchat: "Fala con nós no chat público de CodeCombat HipChat room"
+    social_hipchat: "Fala con nós no chat público de CodeCombat Slack channel"
     contribute_to_the_project: "Contribúe ao proxecto"
 
 #  clans:
@@ -1072,7 +1072,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     join_desc_3: ", ou atópanos no noso "
     join_desc_4: "e partiremos dende ese punto!"
     join_url_email: "Escríbenos un correo electrónico"
-    join_url_hipchat: "sala pública en HipChat"
+    join_url_hipchat: "sala pública en Slack"
     archmage_subscribe_desc: "Recibe correos sobre novos anuncios e oportunidades de codificar."
     artisan_introduction_pref: "Debemos construir niveis adicionais! A xente pide máis contidos e só podemos crear uns cantos. Agora mesmo a túa estación de traballo é o nivel un; o noso editor de niveis apenas é utilizable polos seus creadores, así que ten coidado. Se tes visións de campañas que acadan o infinito"
     artisan_introduction_suf: ", entón esta Clase é ideal para ti."
@@ -1082,7 +1082,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     artisan_join_desc: "Segue as seguintes indicacións para usar o editor de niveis. Tómao ou déixao:"
     artisan_join_step1: "Le a documentación."
     artisan_join_step2: "Crea un novo nivel e explora os niveis existentes."
-    artisan_join_step3: "Busca a nosa sala pública de HipChat en busca de axuda."
+    artisan_join_step3: "Busca a nosa sala pública de Slack en busca de axuda."
     artisan_join_step4: "Publica os teus niveis no foro para recibir comentarios críticos."
     artisan_subscribe_desc: "Recibe correos sobre actualizacións do editor de niveis e anuncios."
     adventurer_introduction: "Falemos claro sobre o teu papel: ti eres o tanque. Vas a recibir fortes danos. Precisamos xente que probe os niveis máis novos e axude a identificar como mellorar. A dor vai a ser enorme; facer bós xogos é un proceso longo e ninguén o fai ben a primeira vez. Se podes sobrevivir e obter unha puntuación alta en resistencia, entón esta clase é para ti."
