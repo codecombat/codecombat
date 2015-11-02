@@ -548,47 +548,47 @@ describe '/db/prepaid', ->
           expect(res.statusCode).not.toEqual(200)
           done()
 
-    it 'Test a bunch of people trying to redeem at once', (done) ->
-      doRedeem = (userX, code, testnum, retry, fnDone) =>
-        loginUser userX, () =>
-          endDate = new moment().add(3, 'months').toISOString().substring(0, 10)
-          subscribeWithPrepaid code, (err, res, result) ->
-            if err
-              return fnDone(err)
-
-            expect(err).toBeNull()
-            expect(result).toBeDefined()
-            if result.stripe
-              expect(result.stripe).toBeDefined()
-              expect(result.stripe.free).toEqual(endDate)
-              expect(result?.purchased?.gems).toEqual(10500)
-              return fnDone(null, {status: "ok", msg: "Redeemed " + retry})
-            else
-              return fnDone(null, {status: 'error', msg: "Redeem attempt Error #{result} (#{userX.id})" + retry })
-
-      redeemPrepaidFn = (code, testnum) =>
-        (fnDone) =>
-          loginNewUser (user1) =>
-            doRedeem(user1, code, testnum, 0, fnDone)
-
-      stripe.tokens.create {
-        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-      }, (err, token) ->
-        loginNewUser (user) =>
-          codeRedeemers = 50
-          codeMonths = 3
-          redeemers = 51
-          purchasePrepaid 'terminal_subscription', months: codeMonths, codeRedeemers, token.id, (err, res, prepaid) ->
-            expect(err).toBeNull()
-            expect(prepaid).toBeDefined()
-            expect(prepaid.code).toBeDefined()
-            tasks = (redeemPrepaidFn(prepaid.code, i) for i in [0...redeemers])
-            async.parallel tasks, (err, results) =>
-              redeemed = 0
-              error = 0
-              for result in results
-                redeemed += 1 if result.status is 'ok'
-                error += 1 if result.status is 'error'
-              expect(redeemed).toEqual(codeRedeemers)
-              expect(error).toEqual(redeemers - codeRedeemers)
-              done()
+#    it 'Test a bunch of people trying to redeem at once', (done) ->
+#      doRedeem = (userX, code, testnum, retry, fnDone) =>
+#        loginUser userX, () =>
+#          endDate = new moment().add(3, 'months').toISOString().substring(0, 10)
+#          subscribeWithPrepaid code, (err, res, result) ->
+#            if err
+#              return fnDone(err)
+#
+#            expect(err).toBeNull()
+#            expect(result).toBeDefined()
+#            if result.stripe
+#              expect(result.stripe).toBeDefined()
+#              expect(result.stripe.free).toEqual(endDate)
+#              expect(result?.purchased?.gems).toEqual(10500)
+#              return fnDone(null, {status: "ok", msg: "Redeemed " + retry})
+#            else
+#              return fnDone(null, {status: 'error', msg: "Redeem attempt Error #{result} (#{userX.id})" + retry })
+#
+#      redeemPrepaidFn = (code, testnum) =>
+#        (fnDone) =>
+#          loginNewUser (user1) =>
+#            doRedeem(user1, code, testnum, 0, fnDone)
+#
+#      stripe.tokens.create {
+#        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+#      }, (err, token) ->
+#        loginNewUser (user) =>
+#          codeRedeemers = 50
+#          codeMonths = 3
+#          redeemers = 51
+#          purchasePrepaid 'terminal_subscription', months: codeMonths, codeRedeemers, token.id, (err, res, prepaid) ->
+#            expect(err).toBeNull()
+#            expect(prepaid).toBeDefined()
+#            expect(prepaid.code).toBeDefined()
+#            tasks = (redeemPrepaidFn(prepaid.code, i) for i in [0...redeemers])
+#            async.parallel tasks, (err, results) =>
+#              redeemed = 0
+#              error = 0
+#              for result in results
+#                redeemed += 1 if result.status is 'ok'
+#                error += 1 if result.status is 'error'
+#              expect(redeemed).toEqual(codeRedeemers)
+#              expect(error).toEqual(redeemers - codeRedeemers)
+#              done()
