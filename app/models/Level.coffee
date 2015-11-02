@@ -164,22 +164,19 @@ module.exports = class Level extends CocoModel
     # TODO: anything that depends on Programmable will break right now.
 
     for thang in thangs ? []
-      programmableLevelComponent = null
-      plansLevelComponent = null
       sorted = []
-      visit = (c) ->
+      visit = (c, namesToIgnore) ->
         return if c in sorted
         lc = _.find levelComponents, {original: c.original}
         console.error thang.id or thang.name, 'couldn\'t find lc for', c, 'of', levelComponents unless lc
         return unless lc
+        return if namesToIgnore and lc.name in namesToIgnore
         if lc.name is 'Plans'
           # Plans always comes second-to-last, behind Programmable
-          plansLevelComponent = c
-          visit c2 for c2 in _.without thang.components, c, programmableLevelComponent
+          visit c2, [lc.name, 'Programmable'] for c2 in thang.components
         else if lc.name is 'Programmable'
           # Programmable always comes last
-          programmableLevelComponent = c
-          visit c2 for c2 in _.without thang.components, c
+          visit c2, [lc.name] for c2 in thang.components
         else
           for d in lc.dependencies or []
             c2 = _.find thang.components, {original: d.original}
