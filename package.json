@@ -77,7 +77,6 @@
     "stripe": "~2.9.0",
     "tv4": "~1.0.16",
     "underscore.string": "2.3.x",
-    "webworker-threads": "~0.5.5",
     "winston": "0.6.x"
   },
   "devDependencies": {
@@ -110,6 +109,9 @@
     "sass-brunch": "https://github.com/basicer/sass-brunch-bleeding/archive/1.9.1-bleeding.tar.gz",
     "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",
     "uglify-js-brunch": "^1.7.8"
+  },
+  "optionalDependencies": {
+    "webworker-threads": "~0.5.5"
   },
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
