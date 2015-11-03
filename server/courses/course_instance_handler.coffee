@@ -1,6 +1,7 @@
 async = require 'async'
 Handler = require '../commons/Handler'
 Campaign = require '../campaigns/Campaign'
+Classroom = require '../classrooms/Classroom'
 Course = require './Course'
 CourseInstance = require './CourseInstance'
 LevelSession = require '../levels/sessions/LevelSession'
@@ -36,57 +37,25 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     return @inviteStudents(req, res, args[0]) if relationship is 'invite_students'
     return @redeemPrepaidCodeAPI(req, res) if args[1] is 'redeem_prepaid'
     super arguments...
-
-  createAPI: (req, res) ->
-    return @sendUnauthorizedError(res) if not req.user?
-    return @sendUnauthorizedError(res) if req.user.isAnonymous() and not (req.body.hourOfCode and req.body.courseID is '560f1a9f22961295f9427742')
-
-    # Required Input
-    seats = req.body.seats
-    unless seats > 0
-      @logError(req.user, 'Course create API missing required seats count')
-      return @sendBadInputError(res, 'Missing required seats count')
-    # Optional - unspecified means create instances for all courses
-    courseID = req.body.courseID
-    # Optional
-    name = req.body.name
-    aceConfig = req.body.aceConfig or {}
-    # Optional - as long as course(s) are all free
-    stripeToken = req.body.stripe?.token
-
-    query = if courseID? then {_id: courseID} else {}
-    Course.find query, (err, courses) =>
-      if err
-        @logError(user, "Find courses error: #{JSON.stringify(err)}")
-        return done(err)
-
-      PrepaidHandler.purchasePrepaidCourse req.user, courses, seats, new Date().getTime(), stripeToken, (err, prepaid) =>
-        if err
-          @logError(req.user, err)
-          return @sendBadInputError(res, err) if err is 'Missing required Stripe token'
-          return @sendDatabaseError(res, err)
-
-        courseInstances = []
-        makeCreateInstanceFn = (course, name, prepaid, aceConfig) =>
-          (done) =>
-            @createInstance req, course, name, prepaid, aceConfig, (err, newInstance)=>
-              courseInstances.push newInstance unless err
-              done(err)
-        tasks = (makeCreateInstanceFn(course, name, prepaid, aceConfig) for course in courses)
-        async.parallel tasks, (err, results) =>
-          return @sendDatabaseError(res, err) if err
-          @sendCreated(res, courseInstances)
-
-  createInstance: (req, course, name, prepaid, aceConfig, done) =>
-    courseInstance = new CourseInstance
-      courseID: course.get('_id')
-      members: [req.user.get('_id')]
-      name: name
+    
+  post: (req, res) ->
+    return @sendBadInputError(res, 'No classroomID') unless req.body.classroomID
+    return @sendBadInputError(res, 'No courseID') unless req.body.courseID
+    Classroom.findById req.body.classroomID, (err, classroom) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res, 'Classroom not found') unless classroom
+      Course.findById req.body.courseID, (err, course) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res, 'Course not found') unless course
+        super(req, res)
+  
+  makeNewInstance: (req) ->
+    doc = new CourseInstance({
+      members: []
       ownerID: req.user.get('_id')
-      prepaidID: prepaid.get('_id')
-      aceConfig: aceConfig
-    courseInstance.save (err, newInstance) =>
-      done(err, newInstance)
+    })
+    doc.set('aceConfig', {}) # constructor will ignore empty objects
+    return doc
 
   getLevelSessionsAPI: (req, res, courseInstanceID) ->
     CourseInstance.findById courseInstanceID, (err, courseInstance) =>

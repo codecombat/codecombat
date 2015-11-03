@@ -3,14 +3,23 @@ config = require '../../server_config'
 plugins = require '../plugins/plugins'
 jsonSchema = require '../../app/schemas/models/course_instance.schema'
 
-CourseInstanceSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
+CourseInstanceSchema = new mongoose.Schema {
+  ownerID: mongoose.Schema.Types.ObjectId
+  courseID: mongoose.Schema.Types.ObjectId
+  classroomID: mongoose.Schema.Types.ObjectId
+  prepaidID: mongoose.Schema.Types.ObjectId
+  members: [mongoose.Schema.Types.ObjectId]
+}, {strict: false, minimize: false, read:config.mongo.readpref}
 
 CourseInstanceSchema.statics.privateProperties = []
 CourseInstanceSchema.statics.editableProperties = [
   'description'
-  'members'
   'name'
   'aceConfig'
+]
+CourseInstanceSchema.statics.postEditableProperties = [
+  'courseID'
+  'classroomID'
 ]
 
 CourseInstanceSchema.statics.jsonSchema = jsonSchema

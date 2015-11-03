@@ -1,14 +1,20 @@
 c = require './../schemas'
 
-CourseInstanceSchema = c.object {title: 'Course Instance'}
+CourseInstanceSchema = c.object {
+  title: 'Course Instance'
+  required: [
+    'courseID', 'classroomID', 'members', 'ownerID', 'aceConfig'
+  ]
+}
 
 _.extend CourseInstanceSchema.properties,
   courseID: c.objectId()
-  description: {type: 'string'}
+  classroomID: c.objectId()
+  description: {type: 'string'} # deprecated in favor of classrooms?
   members: c.array {title: 'Members'}, c.objectId()
-  name: {type: 'string'}
+  name: {type: 'string'} # deprecated in favor of classrooms?
   ownerID: c.objectId()
-  prepaidID: c.objectId()
+  prepaidID: c.objectId() # deprecated
   aceConfig:
     language: {type: 'string', 'enum': ['python', 'javascript']}
 
