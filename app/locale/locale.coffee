@@ -30,6 +30,7 @@ module.exports =
   'de-DE': { nativeDescription: 'Deutsch (Deutschland)', englishDescription: 'German (Germany)' }
   'de-AT': { nativeDescription: 'Deutsch (Österreich)', englishDescription: 'German (Austria)' }
   'de-CH': { nativeDescription: 'Deutsch (Schweiz)', englishDescription: 'German (Switzerland)' }
+  'et': { nativeDescription: 'Eesti', englishDescription: 'Estonian' }
   'el': { nativeDescription: 'Ελληνικά', englishDescription: 'Greek' }
   'eo': { nativeDescription: 'Esperanto', englishDescription: 'Esperanto' }
   'fa': { nativeDescription: 'فارسی', englishDescription: 'Persian' }

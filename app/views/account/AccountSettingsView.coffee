@@ -37,7 +37,7 @@ module.exports = class AccountSettingsView extends CocoView
   #- Form input callbacks
   onChangePanelInput: (e) ->
     $(e.target).addClass 'changed'
-    if (JSON.stringify(document.getElementById('email1').className)).indexOf("changed") > -1 or (JSON.stringify(document.getElementById('password1').className)).indexOf("changed") > -1 
+    if (JSON.stringify(document.getElementById('email1').className)).indexOf("changed") > -1 or (JSON.stringify(document.getElementById('password1').className)).indexOf("changed") > -1
       $(e.target).removeClass 'changed'
     else
       @trigger 'input-changed'
@@ -66,7 +66,7 @@ module.exports = class AccountSettingsView extends CocoView
   #- Just copied from OptionsView, TODO refactor
   onClickDeleteAccountButton: ->
     forms.clearFormAlerts(@$el)
-    myEmail = me.get 'email'   
+    myEmail = me.get 'email'
     email1 = document.getElementById('email1').value
     password1 = document.getElementById('password1').value
     if Boolean(email1) and email1 is myEmail
@@ -106,7 +106,7 @@ module.exports = class AccountSettingsView extends CocoView
             message = $.i18n.t('account_settings.wrong_password', defaultValue: 'Wrong Password.')
             err = [message: message, property: 'password1', formatted: true]
             forms.applyErrorsToForm(@$el, err)
-            $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})      
+            $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
       setTimeout callback, 100
     else
       message = $.i18n.t('account_settings.wrong_email', defaultValue: 'Wrong Email.')
@@ -126,6 +126,7 @@ module.exports = class AccountSettingsView extends CocoView
           type: 'success'
           layout: 'topCenter'
         _.delay ->
+          window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
           Backbone.Mediator.publish("auth:logging-out", {})
           window.tracker?.trackEvent 'Log Out', category:'Homepage' if @id is 'home-view'
           logoutUser($('#login-email').val())

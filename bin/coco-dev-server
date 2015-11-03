@@ -1,11 +1,6 @@
-#!/usr/bin/python
-from subprocess import call
-import os
-import sys
-#TODO: Upgrade this so it works on windows
-#These scripts will be placed in coco/bin
-current_directory = os.path.dirname(os.path.realpath(sys.argv[0]))
-coco_path = os.getenv("COCO_DIR",os.path.join(current_directory,os.pardir))
-nodemon_path = coco_path + os.sep + "node_modules" + os.sep + ".bin" + os.sep + "nodemon"
-
-call(nodemon_path + " . --ext \".coffee|.js\" --watch server --watch server_config.js --watch server_setup.coffee --watch app" + os.sep + "schemas",shell=True,cwd=coco_path)
+echo
+echo "coco-dev-server is deprecated." Instead, use:
+echo
+echo "\"npm run nodemon\" to run just node, or"
+echo "\"npm run dev\" to run brunch and node in one terminal." 
+echo

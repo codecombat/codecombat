@@ -91,6 +91,21 @@ PropertyDocumentationSchema = c.object {
         {title: 'Description', type: 'string', description: 'Description of the return value.', maxLength: 1000}
       ]
     i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this return value'}
+  autoCompletePriority:
+    type: 'number'
+    title: 'Autocomplete Priority'
+    description: 'How important this property is to autocomplete.'
+    minimum: 0
+    default: 1.0
+  userShouldCaptureReturn:
+    type: 'object'
+    title: 'User Should Capture Return'
+    properties:
+      variableName:
+        type: 'string'
+        title: 'Variable Name'
+        description: 'Variable name this property is autocompleted into.'
+        default: 'result'
 
 DependencySchema = c.object {
   title: 'Component Dependency'

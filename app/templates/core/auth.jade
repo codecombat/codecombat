@@ -60,9 +60,9 @@
             span(data-i18n="signup.email_announcements") Receive announcements by email
 
       if mode === 'login'
-        input.btn.btn-lg.btn-illustrated.btn-block#login-button(value=translate("login.log_in"), type="submit")
+        input.btn.btn-lg.btn-illustrated.btn-block.btn-success#login-button(value=translate("login.log_in"), type="submit")
       else if mode === 'signup'
-        input.btn.btn-lg.btn-illustrated.btn-block#signup-button(value=translate("signup.sign_up"), type="submit")
+        input.btn.btn-lg.btn-illustrated.btn-block.btn-success#signup-button(value=translate("signup.sign_up"), type="submit")
 
     .wait.secret
       if mode === 'login'
@@ -90,7 +90,7 @@
   .extra-pane
     if mode === 'login'
       .switch-explanation(data-i18n="login.signup_switch") Want to create an account?
-      .btn.btn-default.btn-lg.btn-illustrated#switch-to-signup-button(data-i18n="login.sign_up") Create Account
+      .btn.btn-lg.btn-illustrated.btn-warning#switch-to-signup-button(data-i18n="login.sign_up") Create Account
     else if mode === 'signup'
       .switch-explanation(data-i18n="signup.login_switch") Already have an account?
-      .btn.btn-default.btn-lg.btn-illustrated#switch-to-login-button(data-i18n="login.log_in")
+      .btn.btn-lg.btn-illustrated.btn-warning#switch-to-login-button(data-i18n="login.log_in")

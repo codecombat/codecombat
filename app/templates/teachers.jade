@@ -22,7 +22,7 @@ block content
     a(href='mailto:team@codecombat.com') team@codecombat.com
   br
 
-  h2 More Info for Teachers
+  h2(data-i18n="teachers.more_info")
   p(data-i18n="teachers.intro_1")
   p(data-i18n="teachers.intro_2")
 
@@ -67,23 +67,23 @@ block content
   h4(data-i18n="teachers.sub_includes_7")
   ul
     li 
-      strong Track concepts
-      span.spl learned by each student
-    li Track levels completed for each student
+      strong(data-i18n="clans.track_concepts1")
+      span.spl(data-i18n="clans.track_concepts2a")
+    li(data-i18n="clans.track_concepts3a")
     li 
-      span See your students'
-      strong.spl solutions
-    li Sort students by name or progress
+      span(data-i18n="clans.track_concepts4a")
+      strong.spl(data-i18n="clans.track_concepts5")
+    li(data-i18n="clans.track_concepts6a")
     li 
-      strong Requires invitation
-      span.spl to join
+      strong(data-i18n="clans.track_concepts7")
+      span.spl(data-i18n="clans.track_concepts8")
   p
     img(src='/images/pages/clans/dashboard_preview.png' height='400')
   p
     span.spr(data-i18n="teachers.private_clans_2")
     a(href='/clans', data-i18n="clans.clan")
     span(data-i18n="teachers.private_clans_3")
-  p Private clans require a subscription to create or join.
+  p(data-i18n="clans.private_require_sub")
 
   h3(data-i18n="teachers.material_title")
   if me.isOnPremiumServer()

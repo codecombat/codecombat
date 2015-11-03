@@ -125,11 +125,11 @@ PrepaidHandler = class PrepaidHandler extends Handler
     courseIDs = (c.get('_id') for c in courses)
     coursePrices = (c.get('pricePerSeat') for c in courses)
     amount = utils.getCourseBundlePrice(coursePrices, maxRedeemers)
-    if amount > 0 and not token
+    if amount > 0 and not (token or user.isAdmin())
       @logError(user, "Purchase prepaid courses missing required Stripe token #{amount}")
       return done('Missing required Stripe token')
 
-    if amount is 0
+    if amount is 0 or user.isAdmin()
       @createPrepaid(user, type, maxRedeemers, courseIDs: courseIDs, done)
 
     else

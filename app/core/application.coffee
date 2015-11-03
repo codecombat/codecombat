@@ -46,8 +46,10 @@ console.debug ?= console.log  # Needed for IE10 and earlier
 Application = initialize: ->
   Router = require('core/Router')
   @isProduction = -> document.location.href.search('https?://localhost:3000') is -1
-  @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('iPhone OS') isnt -1
+  @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('CodeCombat-iPad') isnt -1
   $('body').addClass 'ipad' if @isIPadApp
+  if $.browser.msie and parseInt($.browser.version) is 10
+    $("html").addClass("ie10")
   @tracker = new Tracker()
   @facebookHandler = new FacebookHandler()
   @gplusHandler = new GPlusHandler()

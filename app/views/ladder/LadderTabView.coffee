@@ -168,7 +168,8 @@ module.exports = class LadderTabView extends CocoView
       team = _.find @teams, name: histogramWrapper.data('team-name')
       histogramData = null
       $.when(
-        url = "/db/level/#{@level.get('slug')}/histogram_data?team=#{team.name.toLowerCase()}"
+        level = "#{@level.get('original')}.#{@level.get('version').major}"
+        url = "/db/level/#{level}/histogram_data?team=#{team.name.toLowerCase()}"
         url += '&leagues.leagueID=' + @options.league.id if @options.league
         $.get url, {cache: false}, (data) -> histogramData = data
       ).then =>

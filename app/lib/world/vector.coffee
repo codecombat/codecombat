@@ -5,10 +5,14 @@ class Vector
   for name in ['add', 'subtract', 'multiply', 'divide', 'limit', 'normalize', 'rotate']
     do (name) ->
       Vector[name] = (a, b, useZ) ->
-        a.copy()[name](b, useZ)
+        a.copy()["#{name}Self"](b, useZ)
+  for name in ['magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared']
+    do (name) ->
+      Vector[name] = (a, b, useZ) ->
+        a[name](b, useZ)
 
   isVector: true
-  apiProperties: ['x', 'y', 'z', 'magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared', 'rotate']
+  apiProperties: ['x', 'y', 'z', 'magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared', 'rotate', 'add', 'subtract', 'multiply', 'divide', 'limit', 'normalize', 'rotate']
 
   constructor: (x=0, y=0, z=0) ->
     return new Vector x, y, z unless @ instanceof Vector
@@ -16,6 +20,74 @@ class Vector
 
   copy: ->
     new Vector(@x, @y, @z)
+
+
+  # Mutating methods:
+
+  normalizeSelf: (useZ) ->
+    m = @magnitude useZ
+    @divideSelf m, useZ if m > 0
+    @
+
+  normalize: (useZ) ->
+    # Hack to detect when we are in player code so we can avoid mutation
+    (if @__aetherAPIValue? then @copy() else @).normalizeSelf(useZ)
+
+  limitSelf: (max) ->
+    if @magnitude() > max
+      @normalizeSelf()
+      @multiplySelf(max)
+    else
+      @
+
+  limit: (useZ) ->
+    (if @__aetherAPIValue? then @copy() else @).limitSelf(useZ)
+
+  subtractSelf: (other, useZ) ->
+    @x -= other.x
+    @y -= other.y
+    @z -= other.z if useZ
+    @
+
+  subtract: (other, useZ) ->
+    (if @__aetherAPIValue? then @copy() else @).subtractSelf(other, useZ)
+
+  addSelf: (other, useZ) ->
+    @x += other.x
+    @y += other.y
+    @z += other.z if useZ
+    @
+
+  add: (other, useZ) ->
+    (if @__aetherAPIValue? then @copy() else @).addSelf(other, useZ)
+
+  divideSelf: (n, useZ) ->
+    [@x, @y] = [@x / n, @y / n]
+    @z = @z / n if useZ
+    @
+
+  divide: (n, useZ) ->
+    (if @__aetherAPIValue? then @copy() else @).divideSelf(n, useZ)
+
+  multiplySelf: (n, useZ) ->
+    [@x, @y] = [@x * n, @y * n]
+    @z = @z * n if useZ
+    @
+
+  multiply: (n, useZ) ->
+    (if @__aetherAPIValue? then @copy() else @).multiplySelf(n, useZ)
+
+  # Rotate it around the origin
+  # If we ever want to make this also use z: https://en.wikipedia.org/wiki/Axes_conventions
+  rotateSelf: (theta) ->
+    return @ unless theta
+    [@x, @y] = [Math.cos(theta) * @x - Math.sin(theta) * @y, Math.sin(theta) * @x + Math.cos(theta) * @y]
+    @
+
+  rotate: (theta) ->
+    (if @__aetherAPIValue? then @copy() else @).rotateSelf(theta)
+
+  # Non-mutating methods:
 
   magnitude: (useZ) ->
     sum = @x * @x + @y * @y
@@ -26,18 +98,6 @@ class Vector
     sum = @x * @x + @y * @y
     sum += @z * @z if useZ
     sum
-
-  normalize: (useZ) ->
-    m = @magnitude useZ
-    @divide m, useZ if m > 0
-    @
-
-  limit: (max) ->
-    if @magnitude() > max
-      @normalize()
-      return @multiply(max)
-    else
-      @
 
   heading: ->
     -1 * Math.atan2(-1 * @y, @x)
@@ -60,28 +120,6 @@ class Vector
       sum += dz * dz
     sum
 
-  subtract: (other, useZ) ->
-    @x -= other.x
-    @y -= other.y
-    @z -= other.z if useZ
-    @
-
-  add: (other, useZ) ->
-    @x += other.x
-    @y += other.y
-    @z += other.z if useZ
-    @
-
-  divide: (n, useZ) ->
-    [@x, @y] = [@x / n, @y / n]
-    @z = @z / n if useZ
-    @
-
-  multiply: (n, useZ) ->
-    [@x, @y] = [@x * n, @y * n]
-    @z = @z * n if useZ
-    @
-
   dot: (other, useZ) ->
     sum = @x * other.x + @y * other.y
     sum += @z + other.z if useZ
@@ -89,7 +127,7 @@ class Vector
 
   # Not the strict projection, the other isn't converted to a unit vector first.
   projectOnto: (other, useZ) ->
-    other.copy().multiply(@dot(other, useZ), useZ)
+    other.copy().multiplySelf(@dot(other, useZ), useZ)
 
   isZero: (useZ) ->
     result = @x is 0 and @y is 0
@@ -100,13 +138,6 @@ class Vector
     result = other and @x is other.x and @y is other.y
     result = result and @z is other.z if useZ
     result
-
-  # Rotate it around the origin
-  # If we ever want to make this also use z: https://en.wikipedia.org/wiki/Axes_conventions
-  rotate: (theta) ->
-    return @ unless theta
-    [@x, @y] = [Math.cos(theta) * @x - Math.sin(theta) * @y, Math.sin(theta) * @x + Math.cos(theta) * @y]
-    @
 
   invalid: () ->
     return (@x is Infinity) || isNaN(@x) || @y is Infinity || isNaN(@y) || @z is Infinity || isNaN(@z)

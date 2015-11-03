@@ -23,6 +23,7 @@ module.exports = class GameMenuModal extends ModalView
 
   constructor: (options) ->
     super options
+    @level = @options.level
     @options.levelID = @options.level.get('slug')
     @options.startingSessionHeroConfig = $.extend {}, true, (@options.session.get('heroConfig') ? {})
     Backbone.Mediator.publish 'music-player:enter-menu', terrain: @options.level.get('terrain', true) ? 'Dungeon'
@@ -42,8 +43,12 @@ module.exports = class GameMenuModal extends ModalView
       'guide': 'list'
       'save-load': 'floppy-disk'
       'multiplayer': 'globe'
-    context.showsChooseHero = (@level?.get('type') not in ['course', 'course-ladder']) and (@options.levelID not in ['zero-sum', 'ace-of-coders'])
     context
+
+  showsChooseHero: ->
+    return false if @level?.get('type') in ['course', 'course-ladder']
+    return false if @options.levelID in ['zero-sum', 'ace-of-coders']
+    return true
 
   afterRender: ->
     super()

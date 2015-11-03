@@ -7,35 +7,44 @@ block content
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
 
   br
-  if state === 'enrolling'
-    .alert.alert-info Enrolling in course..
-  else if state === 'ppc_logged_out'
-    .alert.alert-danger.logged_out Create account or log in to join this course.
-    button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
-    button.btn.btn-sm.btn-default.header-font.login-button(data-i18n="login.log_in")
-  else
-    if state === 'unknown_error'
-      .alert.alert-danger.alert-dismissible= stateMessage
-
-    if hocLandingPage
-      +hoc-landing
+  
+  .hidden-md.hidden-lg
+    .alert.alert-danger Courses not supported on mobile devices.
+      
+  .hidden-xs.hidden-sm
+    if state === 'enrolling'
+      .alert.alert-info Enrolling in course..
+    else if state === 'ppc_logged_out'
+      .alert.alert-danger.logged_out Create account or log in to join this course.
+      button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
+      button.btn.btn-sm.btn-default.header-font.login-button(data-i18n="login.log_in")
     else
-      if studentMode
-        +student-main
-      else 
-        if hocMode
-          +teacher-hoc
-        else
-          +teacher-main
-      .container-fluid
-        - var i = 0
-        while i < courses.length
-          .row
-            +course-block(courses[i], instances)
-            - i++
-            if i < courses.length
+      if state === 'unknown_error'
+        .alert.alert-danger.alert-dismissible= stateMessage
+  
+      if hocLandingPage
+        +hoc-landing
+      else
+        if view.courseInstances.size()
+          +course-instance-list
+
+        if studentMode
+          +student-main
+        else 
+          if hocMode
+            +teacher-hoc
+          else
+            +teacher-main
+        .container-fluid
+          - var i = 0
+          while i < courses.length
+            .row
               +course-block(courses[i], instances)
               - i++
+              if i < courses.length
+                +course-block(courses[i], instances)
+                - i++
+    
 
 mixin hoc-landing
   h1.center Welcome to CodeCombat's Hour of Code!
@@ -46,6 +55,21 @@ mixin hoc-landing
         button.btn.btn-lg.btn-success.btn-student(data-i18n="courses.students_click")
       .col-md-6.center
         button.btn.btn-lg.btn-default.btn-teacher(data-i18n="courses.teachers_click")
+        
+mixin course-instance-list
+  h1.center Courses You Are In
+  .row
+    .col-md-10.col-md-offset-1
+      .list-group
+        for courseInstance in view.courseInstances.models
+          - var course = view.courses.get(courseInstance.get('courseID'));
+          .list-group-item
+            .list-group-item-heading
+              h3
+                a(href="/courses/#{course.id}/#{courseInstance.id}")
+                  span.spr #{courseInstance.get('name')}
+                  small (#{course.get('name')})
+              p= courseInstance.get('description')
 
 mixin student-main
   button.btn.btn-warning.btn-teacher(data-i18n="courses.teachers_click")
@@ -114,12 +138,19 @@ mixin student-dialog(course)
                 p
                   div.instruction-label(data-i18n="courses.enter_code")
                 .container-fluid
+                  .row.student-dialog-state-row
+                    .col-md-12
+                      if view.state === 'enrolling-by-modal'
+                        .progress.progress-striped.active
+                          .progress-bar(style="width: 100%")
+                      else if view.state === 'unknown_error'
+                        .alert.alert-danger= view.stateMessage
                   .row
                     .col-md-8
                       input.code-input(type='text', data-course-id="#{course.id}", data-i18n="[placeholder]courses.enter_code1", placeholder="Enter unlock code")
                     .col-md-4
                       button.btn.btn-success.btn-enroll(data-course-id="#{course.id}", data-i18n="courses.enroll")
-                  if hocMode && course.get('pricePerSeat') === 0
+                  if hocMode && course.get('pricePerSeat') === 0 || me.isAdmin()
                     .row.button-row.center.row-pick-class
                       .col-md-12
                         br
@@ -160,7 +191,7 @@ mixin teacher-dialog(course)
                 div.or(data-i18n="courses.or")
           .row.button-row.center
             .col-md-12
-              if course.get('pricePerSeat') === 0
+              if course.get('pricePerSeat') === 0 || me.isAdmin()
                 button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{course.id}") Start new class
               else
                 button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{course.id}", data-i18n="courses.buy_course1")
@@ -199,7 +230,7 @@ mixin course-block(course)
                   button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal#{course.id}", data-i18n="courses.enter") Enter
               else if enrolledCourses[course.id]
                 button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal#{course.id}", data-i18n="common.continue")
-              else if course.get('pricePerSeat') === 0
+              else if course.get('pricePerSeat') === 0 || me.isAdmin()
                 button.btn.btn-lg.btn-success.btn-buy(data-course-id="#{course.id}", data-i18n='courses.get_free')
               else
                 button.btn.btn-lg.btn-success.btn-buy(data-course-id="#{course.id}", data-i18n='courses.buy_course')

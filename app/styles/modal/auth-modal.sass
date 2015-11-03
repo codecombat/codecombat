@@ -146,22 +146,6 @@
       height: 70px
       font-size: 32px
       line-height: 42px
-      border-style: solid
-      border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
-      border-width: 14px 20px 20px 20px
-      color: white
-
-      span
-        pointer-events: none
-
-      &:hover
-        border-image: url(/images/level/code_toolbar_submit_button_zazz.png) 14 20 20 20 fill round
-        color: white
-
-      &:active
-        border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
-        padding: 2px 0 0 2px
-        color: white
 
 
   //- Footer area
@@ -263,23 +247,7 @@
 
     .extra-pane
       top: 408px
-
-
-html.no-borderimage #auth-modal
-  #login-button, #signup-button
-    border: 0
-    background-image: url(/images/level/code_toolbar_submit_button_active.png)
-    background-size: 100% 100%
-    padding: 7px 10px 10px 10px
-
-    &:hover
-      background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
-      border: 0
-
-    &:active
-      background-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png)
-      padding: 9px 8px 8px 12px
-      border: 0
-
-
-
+      
+.ie10 #auth-modal .auth-network-logins .btn.btn-lg.network-login .network-logo, .lt-ie10 #auth-modal .auth-network-logins .btn.btn-lg.network-login .network-logo
+  left: 15px
+  top: 15px  

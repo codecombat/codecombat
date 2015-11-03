@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", translation:
+module.exports = nativeDescription: "Eesti", englishDescription: "Estonian", translation:
 #  home:
 #    slogan: "Learn to Code by Playing a Game"
 #    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
@@ -43,8 +43,8 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
 #    sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Urdu but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Urdu."
-    missing_translations: "Until we can translate everything into Urdu, you'll see English when Urdu isn't available."
+    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Estonian but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Estonian."
+    missing_translations: "Until we can translate everything into Estonian, you'll see English when Estonian isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
@@ -126,10 +126,10 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    misc: "Misc"
 #    books: "Books"
 
-  common:
+#  common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
 #    continue: "Continue" # When used as an action verb, like "Continue forward"
-    loading: "Loading..."
+#    loading: "Loading..."
 #    saving: "Saving..."
 #    sending: "Sending..."
 #    send: "Send"

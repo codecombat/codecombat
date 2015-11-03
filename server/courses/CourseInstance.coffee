@@ -10,6 +10,7 @@ CourseInstanceSchema.statics.editableProperties = [
   'description'
   'members'
   'name'
+  'aceConfig'
 ]
 
 CourseInstanceSchema.statics.jsonSchema = jsonSchema

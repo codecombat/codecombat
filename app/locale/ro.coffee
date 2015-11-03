@@ -343,7 +343,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tip_free_your_mind: "Trebuie sa lași totul, Neo. Frica, Îndoiala și necredința. Eliberează-ți mintea. ~Morpheus"
     tip_strong_opponents: "Și cei mai puternici dintre oponenți întodeauna au o slăbiciune. ~Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventar"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     users_subscribed: "Useri abonați:"
     no_users_subscribed: "Nici-un user abonat, verificațî adresele e-mail."
     current_recipients: "Recipienți curenți"
-    unsubscribing: "Te Dezabonăm..."
+    unsubscribing: "Te Dezabonăm..." # {change}
     subscribe_prepaid: "Dăi Click pe Abonare pentru a folosi un cod prepaid"
     using_prepaid: "Folosesc codul prepaid pentru un abonament lunar"
 
@@ -603,7 +603,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    title: "CodeCombat: Info pentru Educatori"
+    more_info: "Info pentru Educatori"
     intro_1: "CodeCombat este un joc online care te învață programare. Studenți scriu cod în limbaje de programare reale."
     intro_2: "Nu este nevoie de experiența în domeniu!"
     free_title: "Cât de mult costă?"
@@ -792,7 +792,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     social_facebook: "Lasă un Like pentru CodeCombat pe facebook"
     social_twitter: "Urmărește CodeCombat pe Twitter"
     social_gplus: "Alăturăte pe Google+"
-    social_hipchat: "Vorbește cu noi pe chatul public HipChat camera CodeCombat"
+    social_hipchat: "Vorbește cu noi pe chatul public Slack camera CodeCombat"
     contribute_to_the_project: "Contribuie la proiect"
 
   clans:
@@ -839,6 +839,19 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     playtime: "Timp Jucat"
     last_played: "Ultima oară cănd ai jucat"
 #    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
+#    track_concepts1: "Track concepts"
+#    track_concepts2a: "learned by each student"
+#    track_concepts2b: "learned by each member"
+#    track_concepts3a: "Track levels completed for each student"
+#    track_concepts3b: "Track levels completed for each member"
+#    track_concepts4a: "See your students'"
+#    track_concepts4b: "See your members'"
+#    track_concepts5: "solutions"
+#    track_concepts6a: "Sort students by name or progress"
+#    track_concepts6b: "Sort members by name or progress"
+#    track_concepts7: "Requires invitation"
+#    track_concepts8: "to join"
+#    private_require_sub: "Private clans require a subscription to create or join."
 
 #  courses:
 #    course: "Course"
@@ -1059,7 +1072,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     join_desc_3: ", sau găsește-ne în "
     join_desc_4: "și pornim de acolo!"
     join_url_email: "Trimite-ne Email"
-    join_url_hipchat: "public HipChat room"
+    join_url_hipchat: "public Slack channel"
     archmage_subscribe_desc: "Primește email-uri despre noi oportunități de progrmare și anunțuri."
     artisan_introduction_pref: "Trebuie să construim nivele adiționale! Oamenii sunt nerăbdători pentru mai mult conținut, și noi putem face doar atât singuri. Momentan editorul de nivele abia este utilizabil până și de creatorii lui, așa că aveți grijă. Dacă ai viziuni cu campanii care cuprind loop-uri for pentru"
     artisan_introduction_suf: ", atunci aceasta ar fi clasa pentru tine."
@@ -1214,7 +1227,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     recently_played: "Recent Jucat"
     no_recent_games: "Nici-un joc jucat de 2 săptămâni."
     payments: "Plăți"
-#    prepaid: "Prepaid"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Cumpărate"
 #    sale: "Sale"
@@ -1248,11 +1260,22 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
 #  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
-#    purchase_amount: "Amount"
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
+#    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
+#    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+#    users: "Users"
+#    months: "Months"
 #    purchase_total: "Total"
 #    purchase_button: "Submit Purchase"
-#    your_codes: "Your Codes:"
+#    your_codes: "Your Codes"
 #    redeem_codes: "Redeem a Subscription Code"
+#    prepaid_code: "Prepaid Code"
+#    lookup_code: "Lookup prepaid code"
+#    apply_account: "Apply to your account"
+#    copy_link: "You can copy the code's link and send it to someone."
+#    quantity: "Quantity"
+#    redeemed: "Redeemed"
+#    no_codes: "No codes yet!"
 
   loading_error:
     could_not_load: "Eroare la încărcarea pe server"
@@ -1353,9 +1376,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     text_diff: "Diff Text"
     merge_conflict_with: "ÎBINĂ CONFLICTUL CU"
     no_changes: "Fară Schimbări"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Setări Multiplayer" # We'll be changing this around significantly soon. Until then, it's not important to translate.

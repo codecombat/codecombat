@@ -52,12 +52,6 @@ module.exports = class SubscriptionView extends RootView
     @personalSub.update => @render?()
     @recipientSubs.update => @render?()
 
-  getRenderData: ->
-    c = super()
-    c.personalSub = @personalSub
-    c.recipientSubs = @recipientSubs
-    c
-
   # Personal Subscriptions
 
   onClickStartSubscription: (e) ->

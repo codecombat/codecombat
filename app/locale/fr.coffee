@@ -343,7 +343,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_free_your_mind: "Vous devez laisser aller , Neo . La peur , le doute et l'incrédulité . Libère ton esprit. - Morpheus"
     tip_strong_opponents: "Même les ennemis les plus puissant ont une faiblesse. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventaire"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     users_subscribed: "Usagers abonnés:"
     no_users_subscribed: "Aucun usager abonnés, veuillez vérifier vos courriels."
     current_recipients: "Recipients courant"
-    unsubscribing: "Desincription en cours..."
+    unsubscribing: "Desincription en cours..." # {change}
     subscribe_prepaid: "Cliquer S'abonner pour utiliser du code prépayé"
     using_prepaid: "Utiliser le code prépayé pour un abonnement mensuel"
 
@@ -603,7 +603,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    title: "CodeCombat pour les enseignants"
+#    more_info: "More Info for Teachers"
     intro_1: "CodeCombat est un jeu en ligne qui enseigne la programmation. Les élèves écrivent du code dans de vrais langages de programmation."
     intro_2: "Aucune expérience requise !"
     free_title: "Combien cela coûte-t-il ?"
@@ -792,7 +792,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     social_facebook: "Aimer CodeCombat sur Facebook"
     social_twitter: "Suivre CodeCombat sur Twitter"
     social_gplus: "Rejoindre CodeCombat sur Google+"
-    social_hipchat: "Chattez avec nous dans la salle HipChat publique CodeCombat"
+    social_hipchat: "Chattez avec nous dans la salle Slack publique CodeCombat"
     contribute_to_the_project: "Contribuer au projet"
 
   clans:
@@ -839,6 +839,19 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     playtime: "Temps de jeu"
     last_played: "Dernière période de jeu"
 #    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
+#    track_concepts1: "Track concepts"
+#    track_concepts2a: "learned by each student"
+#    track_concepts2b: "learned by each member"
+#    track_concepts3a: "Track levels completed for each student"
+#    track_concepts3b: "Track levels completed for each member"
+#    track_concepts4a: "See your students'"
+#    track_concepts4b: "See your members'"
+#    track_concepts5: "solutions"
+#    track_concepts6a: "Sort students by name or progress"
+#    track_concepts6b: "Sort members by name or progress"
+#    track_concepts7: "Requires invitation"
+#    track_concepts8: "to join"
+#    private_require_sub: "Private clans require a subscription to create or join."
 
 #  courses:
 #    course: "Course"
@@ -1059,7 +1072,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     join_desc_3: ", ou trouvez-nous dans nos "
     join_desc_4: "et nous partirons de là !"
     join_url_email: "Contactez-nous"
-    join_url_hipchat: "conversation publique HipChat"
+    join_url_hipchat: "conversation publique Slack"
     archmage_subscribe_desc: "Recevoir un e-mail sur les nouvelles possibilités de développement et des annonces."
     artisan_introduction_pref: "Nous devons créer des niveaux additionnels ! Les gens veulent plus de contenu, et nous ne pouvons pas tous les créer nous-même. Maintenant votre station de travail est au niveau un ; notre éditeur de niveaux est à peine utilisable même par ses créateurs, donc méfiez-vous. Si vous avez des idées sur la boucle for de"
     artisan_introduction_suf: ", cette classe est faite pour vous."
@@ -1069,7 +1082,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     artisan_join_desc: "Utilisez le créateur de niveaux pour à peu près ces étapes :"
     artisan_join_step1: "Lire la documentation."
     artisan_join_step2: "Crééz un nouveau niveau et explorez les niveaux existants."
-    artisan_join_step3: "Retrouvez-nous dans notre conversation HipChat pour obtenir de l'aide."
+    artisan_join_step3: "Retrouvez-nous dans notre conversation Slack pour obtenir de l'aide."
     artisan_join_step4: "Postez vos niveaux dans le forum pour avoir des retours."
     artisan_subscribe_desc: "Recevoir un e-mail sur les annonces et mises à jour de l'éditeur de niveaux."
     adventurer_introduction: "Soyons clair à propos de votre rôle : vous êtes le tank. Vous allez subir beaucoup de dégâts. Nous avons besoin de gens pour essayer les nouveaux niveaux et aider à identifier comment améliorer les choses. La douleur sera énorme; faire de bons jeux est une longue tâche et personne n'y arrive du premier coup. Si vous pouvez résister et avez un gros score de constitution, alors cette classe est faite pour vous."
@@ -1214,7 +1227,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     recently_played: "Joué récemment"
     no_recent_games: "Aucune partie jouée au cours des deux dernières semaines."
     payments: "Paiements"
-#    prepaid: "Prepaid"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Acheté"
 #    sale: "Sale"
@@ -1248,11 +1260,22 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
 #  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
-#    purchase_amount: "Amount"
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
+#    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
+#    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+#    users: "Users"
+#    months: "Months"
 #    purchase_total: "Total"
 #    purchase_button: "Submit Purchase"
-#    your_codes: "Your Codes:"
+#    your_codes: "Your Codes"
 #    redeem_codes: "Redeem a Subscription Code"
+#    prepaid_code: "Prepaid Code"
+#    lookup_code: "Lookup prepaid code"
+#    apply_account: "Apply to your account"
+#    copy_link: "You can copy the code's link and send it to someone."
+#    quantity: "Quantity"
+#    redeemed: "Redeemed"
+#    no_codes: "No codes yet!"
 
   loading_error:
     could_not_load: "Erreur de chargement du serveur"
@@ -1353,9 +1376,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     text_diff: "Différence de texte"
     merge_conflict_with: "Fusionner les conflits avec"
     no_changes: "Aucuns changements"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Préférences multijoueurs" # We'll be changing this around significantly soon. Until then, it's not important to translate.

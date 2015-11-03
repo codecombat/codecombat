@@ -343,7 +343,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventář"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    users_subscribed: "Users subscribed:"
 #    no_users_subscribed: "No users subscribed, please double check your email addresses."
 #    current_recipients: "Current Recipients"
-#    unsubscribing: "Unsubscribing..."
+#    unsubscribing: "Unsubscribing"
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
@@ -603,7 +603,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    title: "CodeCombat pro učitele"
+#    more_info: "More Info for Teachers"  # Used to be: CodeCombat pro učitele
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
@@ -792,7 +792,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     social_facebook: "Dejte Like CodeCombat na Facebooku"
     social_twitter: "Sledujte CodeCombat na Twitteru"
     social_gplus: "Připojte se k CodeCombat na Google+"
-    social_hipchat: "Chatujte s námi ve veřejné CodeCombat HipChat místnosti"
+    social_hipchat: "Chatujte s námi ve veřejné CodeCombat Slack místnosti"
     contribute_to_the_project: "Přispějte tomuto projektu"
 
 #  clans:
@@ -839,6 +839,19 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    playtime: "Playtime"
 #    last_played: "Last played"
 #    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances."
+#    track_concepts1: "Track concepts"
+#    track_concepts2a: "learned by each student"
+#    track_concepts2b: "learned by each member"
+#    track_concepts3a: "Track levels completed for each student"
+#    track_concepts3b: "Track levels completed for each member"
+#    track_concepts4a: "See your students'"
+#    track_concepts4b: "See your members'"
+#    track_concepts5: "solutions"
+#    track_concepts6a: "Sort students by name or progress"
+#    track_concepts6b: "Sort members by name or progress"
+#    track_concepts7: "Requires invitation"
+#    track_concepts8: "to join"
+#    private_require_sub: "Private clans require a subscription to create or join."
 
 #  courses:
 #    course: "Course"
@@ -1059,7 +1072,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     join_desc_3: ", nebo se s námi spojte v naší "
     join_desc_4: "!"
     join_url_email: "Pošlete nám email"
-    join_url_hipchat: "veřejné HipChat chatovací místnosti"
+    join_url_hipchat: "veřejné Slack chatovací místnosti"
     archmage_subscribe_desc: "Dostávat emailem oznámení a informacemi nových programovacích příležitostech"
     artisan_introduction_pref: "Musíme vytvářet další úrovně! Lidé nás prosí o další obsah, ale sami zvládáme vytvořit jen málo. Naším prvním pracovním zastavením je první úroveň. Editor úrovní je tak-tak použitelný i pro jeho vlastní tvůrce. Máte-li vizi pro vytvoření vnořených úrovní alá "
     artisan_introduction_suf: "pak neváhejte, toto je vaše destinace."
@@ -1069,7 +1082,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     artisan_join_desc: "Použijte editor úrovní v těchto postupných krocích:"
     artisan_join_step1: "Přečtěte si dokumentaci."
     artisan_join_step2: "Vytvořte novou úroveň a prozkoumejte existující úrovně."
-    artisan_join_step3: "Požádejte nás o pomoc ve veřejné  HipChat místnosti."
+    artisan_join_step3: "Požádejte nás o pomoc ve veřejné  Slack místnosti."
     artisan_join_step4: "Zveřejněte vaši úroveň na fóru pro připomínkování."
     artisan_subscribe_desc: "Dostávat emailem oznámení a informace o aktualizacích editoru úrovní."
     adventurer_introduction: "Ujasněme si dopředu jednu věc o vaší roli: budete jako tank. Projdete ohněm. Potřebujeme někoho, kdo odzkouší zbrusu nové úrovně a pomůže identifikovat kde je možno je zlepšit. Ten boj bude ohromný - tvorba her je dlouhý proces, který nikdo nezvládne na první pokus. Máte-li na to a vydržíte-li to, pak toto je vaše skupina."
@@ -1214,7 +1227,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     recently_played: "Nedávno zaplaceno"
     no_recent_games: "Žádné hry během posledních dvou týdnů."
     payments: "Platby"
-#    prepaid: "Prepaid"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Zaplaceno"
 #    sale: "Sale"
@@ -1248,11 +1260,22 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
 #  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
-#    purchase_amount: "Amount"
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
+#    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
+#    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+#    users: "Users"
+#    months: "Months"
 #    purchase_total: "Total"
 #    purchase_button: "Submit Purchase"
-#    your_codes: "Your Codes:"
+#    your_codes: "Your Codes"
 #    redeem_codes: "Redeem a Subscription Code"
+#    prepaid_code: "Prepaid Code"
+#    lookup_code: "Lookup prepaid code"
+#    apply_account: "Apply to your account"
+#    copy_link: "You can copy the code's link and send it to someone."
+#    quantity: "Quantity"
+#    redeemed: "Redeemed"
+#    no_codes: "No codes yet!"
 
   loading_error:
     could_not_load: "Chyba při načítání ze serveru"
@@ -1353,9 +1376,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     text_diff: "Rozdíl textu"
     merge_conflict_with: "SLOUČIT V ROZPORU S"
     no_changes: "Žádné změny"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Nastavení Multiplayeru" # We'll be changing this around significantly soon. Until then, it's not important to translate.

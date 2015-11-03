@@ -55,18 +55,12 @@ require("locale/mk-MK")
 require("locale/eo")
 require("locale/uz")
 require("locale/my")
+require("locale/et")
 
 module.exports = class DiplomatView extends ContributeClassView
   id: 'diplomat-view'
   template: template
   contributorClassName: 'diplomat'
-
-  getRenderData: ->
-    context = super()
-    context.viewName = @viewName
-    context.user = @user unless @user?.isAnonymous()
-    context.languageStats = @calculateSpokenLanguageStats()
-    context
 
   calculateSpokenLanguageStats: ->
     @locale ?= require 'locale/locale'
@@ -143,3 +137,4 @@ module.exports = class DiplomatView extends ContributeClassView
     eo: []             # Esperanto, Esperanto
     uz: []             # O'zbekcha, Uzbek
     my: []             # မြန်မာစကား, Myanmar language
+    et: []             # Eesti, Estonian

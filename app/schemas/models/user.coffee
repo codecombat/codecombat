@@ -315,6 +315,10 @@ _.extend UserSchema.properties,
   country: { type: 'string', enum: ['brazil', 'china'] }  # New, supports multiple countries for different versions--only set for specific countries where we have premium servers right now
 
   clans: c.array {}, c.objectId()
+  currentCourse: c.object {}, {
+    courseID: c.objectId({})
+    courseInstanceID: c.objectId({})
+  }
 
 c.extendBasicProperties UserSchema, 'user'
 

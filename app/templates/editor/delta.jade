@@ -1,4 +1,5 @@
 - var i = 0
+- var counter = view.constructor.deltaCounter;
 
 mixin deltaPanel(delta, conflict)
   - delta.index = i++
@@ -41,8 +42,8 @@ mixin deltaPanel(delta, conflict)
         +deltaPanel(delta.conflict, true)
 
 .panel-group(id='delta-accordion-'+(counter))
-  for delta in deltas
+  for delta in view.expandedDeltas
     +deltaPanel(delta)
-  if !deltas.length
+  if !view.expandedDeltas.length
     alert.alert-warning(data-i18n="delta.no_changes") No changes
     

@@ -28,8 +28,9 @@ module.exports = class ControlBarView extends CocoView
     'click #control-bar-sign-up-button': 'onClickSignupButton'
 
   constructor: (options) ->
-    @courseID = options.courseID
-    @courseInstanceID = options.courseInstanceID
+    currentCourse = me.get('currentCourse') or {}
+    @courseID = options.courseID or currentCourse.courseID
+    @courseInstanceID = options.courseInstanceID or currentCourse.courseInstanceID 
 
     @worldName = options.worldName
     @session = options.session

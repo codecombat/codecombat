@@ -21,7 +21,7 @@ var courses =
   {
     name: "Computer Science 2",
     slug: "computer-science-2",
-    campaignID: ObjectId("55b29efd1cd6abe8ce07db0d"),
+    campaignID: ObjectId("562f88e84df18473073c74e2"),
     concepts: ['basic_syntax', 'arguments', 'while_loops', 'strings', 'variables', 'if_statements'],
     description: "Introduce Arguments, Variables, If Statements, and Arithmetic.",
     duration: NumberInt(5),
