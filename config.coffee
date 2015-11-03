@@ -15,6 +15,7 @@ regJoin = (s) -> new RegExp(s.replace(/\//g, '[\\\/\\\\]'))
 
 exports.config =
 
+  production: process.env.BRUNCH_ENV is 'production'
   paths:
     public: 'public'
     watched: [
