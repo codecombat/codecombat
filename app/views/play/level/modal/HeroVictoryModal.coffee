@@ -476,7 +476,6 @@ module.exports = class HeroVictoryModal extends ModalView
   onClickContinueFromOffer: (e) ->
     url = {
       'lost-viking': 'http://www.vikingcodeschool.com/codecombat?utm_source=codecombat&utm_medium=viking_level&utm_campaign=affiliate&ref=Code+Combat+Elite'
-      'a-mayhem-of-munchkins': 'https://www.bloc.io/web-developer-career-track?utm_campaign=affiliate&utm_source=codecombat&utm_medium=bloc_level'
     }[@level.get('slug')]
     Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
     window.open url, '_blank' if url
