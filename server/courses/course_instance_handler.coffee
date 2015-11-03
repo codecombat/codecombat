@@ -12,6 +12,7 @@ User = require '../users/User'
 UserHandler = require '../users/user_handler'
 utils = require '../../app/core/utils'
 sendwithus = require '../sendwithus'
+mongoose = require 'mongoose'
 
 CourseInstanceHandler = class CourseInstanceHandler extends Handler
   modelClass: CourseInstance
@@ -31,12 +32,37 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     relationship = args[1]
-    return @createAPI(req, res) if relationship is 'create'
     return @getLevelSessionsAPI(req, res, args[0]) if args[1] is 'level_sessions'
+    return @addMember(req, res, args[0]) if req.method is 'POST' and args[1] is 'members'
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
     return @inviteStudents(req, res, args[0]) if relationship is 'invite_students'
     return @redeemPrepaidCodeAPI(req, res) if args[1] is 'redeem_prepaid'
     super arguments...
+    
+  addMember: (req, res, courseInstanceID) ->
+    userID = req.body.userID
+    return @sendBadInputError(res, 'Input must be a MongoDB ID') unless utils.isID(userID)
+    CourseInstance.findById courseInstanceID, (err, courseInstance) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res, 'Course instance not found') unless courseInstance
+      return @sendForbiddenError(res) unless courseInstance.get('ownerID').equals(req.user.get('_id'))
+      Classroom.findById courseInstance.get('classroomID'), (err, classroom) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res, 'Classroom referenced by course instance not found') unless classroom
+        return @sendForbiddenError(res) unless _.any(classroom.get('members'), (memberID) -> memberID.toString() is userID)
+        Prepaid.find({ 'redeemers.userID': mongoose.Types.ObjectId(userID) }).count (err, userIsPrepaid) =>
+          return @sendDatabaseError(res, err) if err
+          Course.findById courseInstance.get('courseID'), (err, course) =>
+            return @sendDatabaseError(res, err) if err
+            return @sendNotFoundError(res, 'Course referenced by course instance not found') unless course
+            if not (course.get('free') or userIsPrepaid)
+              return @sendPaymentRequiredError(res, 'Cannot add this user to a course instance until they are added to a prepaid')
+            members = courseInstance.get('members')
+            members.push(userID)
+            courseInstance.set('members', members)
+            courseInstance.save (err, courseInstance) =>
+              return @sendDatabaseError(res, err) if err
+              @sendSuccess(res, @formatEntity(req, courseInstance))
     
   post: (req, res) ->
     return @sendBadInputError(res, 'No classroomID') unless req.body.classroomID
@@ -44,6 +70,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     Classroom.findById req.body.classroomID, (err, classroom) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res, 'Classroom not found') unless classroom
+      return @sendForbiddenError(res) unless classroom.get('ownerID').equals(req.user.get('_id'))
       Course.findById req.body.courseID, (err, course) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'Course not found') unless course

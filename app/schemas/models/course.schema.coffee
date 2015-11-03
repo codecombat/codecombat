@@ -8,7 +8,8 @@ _.extend CourseSchema.properties,
   concepts: c.array {title: 'Programming Concepts', uniqueItems: true}, c.concept
   description: {type: 'string'}
   duration: {type: 'number', description: 'Approximate hours of content'}
-  pricePerSeat: {type: 'number', description: 'Price per seat in USD cents.'}
+  pricePerSeat: {type: 'number', description: 'Price per seat in USD cents.'} # deprecated
+  free: { type: 'boolean' }
   screenshot: c.url {title: 'URL', description: 'Link to course screenshot.'}
 
 c.extendBasicProperties CourseSchema, 'Course'
