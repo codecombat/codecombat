@@ -96,3 +96,17 @@ describe 'POST /db/classrooms/:id/members', ->
           request.post { uri: url, json: data }, (err, res, body) ->
             expect(res.statusCode).toBe(200)
             done()
+
+
+describe 'POST /db/classrooms/:id/invite-members', ->
+
+  it 'takes a list of emails and sends invites', (done) ->
+    loginNewUser (user1) ->
+      data = { name: 'Classroom 6' }
+      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
+        expect(res.statusCode).toBe(200)
+        url = classroomsURL + '/' + body._id + '/invite-members'
+        data = { emails: ['test@test.com'] }
+        request.post { uri: url, json: data }, (err, res, body) ->
+          expect(res.statusCode).toBe(200)
+          done()
