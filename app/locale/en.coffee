@@ -605,7 +605,9 @@
     rob_title: "Compiler Engineer"
     rob_blurb: "Codes things and stuff"
     josh_c_title: "Game Designer"
-    josh_c_blurb: "Designs games."
+    josh_c_blurb: "Designs games"
+    carlos_title: "Region Manager"
+    carlos_blurb: "CodeCombat Brazil"
 
   teachers:
     more_info: "More Info for Teachers"
