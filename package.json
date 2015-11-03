@@ -37,6 +37,7 @@
     "brunch": "brunch",
     "bower": "bower",
     "dev": "brunch watch --server",
+    "multicore": "coffee multicore.coffee",
     "nodemon": "nodemon"
   },
   "main": "index.js",
