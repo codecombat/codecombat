@@ -32,6 +32,7 @@ models_path = [
   '../../server/articles/Article'
   '../../server/campaigns/Campaign'
   '../../server/clans/Clan'
+  '../../server/classrooms/Classroom'
   '../../server/courses/Course'
   '../../server/courses/CourseInstance'
   '../../server/levels/Level'
