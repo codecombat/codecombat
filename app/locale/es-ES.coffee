@@ -343,7 +343,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_free_your_mind: "Tienes que dejarlo ir, Neo. Miedo, dudas e incredulidad. Libera tu mente. - Morpheus"
     tip_strong_opponents: "Incluso el más fuerte de los opositores oculta debilidad. - Itachi Uchiha"
     tip_paper_and_pen: "Antes de empezar a programar, siempre puedes planificar con papel y lápiz."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    users_subscribed: "Users subscribed:"
 #    no_users_subscribed: "No users subscribed, please double check your email addresses."
     current_recipients: "Últimos recibos"
-    unsubscribing: "Dando de baja..."
+    unsubscribing: "Dando de baja..." # {change}
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
@@ -603,7 +603,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    title: "CodeCombat: Información para profesores"
+    more_info: "Información para profesores"
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
     intro_2: "¡No se necesita experiencia!"
     free_title: "¿Cuanto cuesta?"
@@ -792,7 +792,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     social_facebook: "Dale a Me Gusta a CodeCombat en Facebook"
     social_twitter: "Sigue a CodeCombat en Twitter"
     social_gplus: "Unete a CodeCombat en Google+"
-    social_hipchat: "Habla con nosotros en el chat publico de CodeCombat HipChat room"
+    social_hipchat: "Habla con nosotros en el chat publico de CodeCombat Slack channel"
     contribute_to_the_project: "Contribuye al proyecto"
 
   clans:
@@ -839,6 +839,19 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     playtime: "Tiempo de juego"
     last_played: "Último jugado"
     leagues_explanation: "Participa en una liga contra miembros de otro Clan en estas arenas multijugador."
+#    track_concepts1: "Track concepts"
+#    track_concepts2a: "learned by each student"
+#    track_concepts2b: "learned by each member"
+#    track_concepts3a: "Track levels completed for each student"
+#    track_concepts3b: "Track levels completed for each member"
+#    track_concepts4a: "See your students'"
+#    track_concepts4b: "See your members'"
+#    track_concepts5: "solutions"
+#    track_concepts6a: "Sort students by name or progress"
+#    track_concepts6b: "Sort members by name or progress"
+#    track_concepts7: "Requires invitation"
+#    track_concepts8: "to join"
+#    private_require_sub: "Private clans require a subscription to create or join."
 
 #  courses:
 #    course: "Course"
@@ -1059,7 +1072,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     join_desc_3: ", o encuéntranos en nuestro "
     join_desc_4: "¡y partiremos desde ese punto!"
     join_url_email: "Escríbenos un correo electrónico"
-    join_url_hipchat: "sala pública en HipChat"
+    join_url_hipchat: "sala pública en Slack"
     archmage_subscribe_desc: "Recibe correos sobre nuevos anuncios y oportunidades de codificar."
     artisan_introduction_pref: "¡Debemos construir niveles adicionales! La gente clama por más contenido y solo podemos crear unos cuantos. Ahora mismo tu estación de trabajo es el nivel uno; nuestro editor de niveles es apenas usable por sus creadores, así que ten cuidado. Si tienes visiones de campañas que alcanzan el infinito"
     artisan_introduction_suf: ", entonces esta Clase es ideal para ti."
@@ -1069,7 +1082,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     artisan_join_desc: "Sigue las siguientes indicaciones para usar el editor de niveles. Tómalo o déjalo:"
     artisan_join_step1: "Lee la documentación."
     artisan_join_step2: "Crea un nuevo nivel y explora los niveles existentes."
-    artisan_join_step3: "Busca nuestra sala pública de HipChat en busca de ayuda."
+    artisan_join_step3: "Busca nuestra sala pública de Slack en busca de ayuda."
     artisan_join_step4: "Publica tus niveles en el foro para recibir comentarios críticos."
     artisan_subscribe_desc: "Recibe correos sobre actualizaciones del editor de niveles y anuncios."
     adventurer_introduction: "Hablemos claro sobre tu papel: eres el tanque. Vas a recibir fuertes daños. Necesitamos gente para probar nuestros flamantes niveles y ayudar a mejorarlos. El dolor será enorme; hacer buenos juegos es un proceso largo y nadie lo consigue a la primera. Si puedes resistir y tener una puntuación alta en Resistencia, entonces esta Clase es para ti."
@@ -1214,7 +1227,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     recently_played: "Jugado Recientemente"
     no_recent_games: "No he jugado juegos en las ultimas dos semanas."
     payments: "Pagos"
-#    prepaid: "Prepaid"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Adquirido"
     sale: "Venta"
@@ -1248,11 +1260,22 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
-#    purchase_amount: "Amount"
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
+#    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
+#    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+#    users: "Users"
+#    months: "Months"
     purchase_total: "Total"
 #    purchase_button: "Submit Purchase"
-#    your_codes: "Your Codes:"
+#    your_codes: "Your Codes"
 #    redeem_codes: "Redeem a Subscription Code"
+#    prepaid_code: "Prepaid Code"
+#    lookup_code: "Lookup prepaid code"
+#    apply_account: "Apply to your account"
+#    copy_link: "You can copy the code's link and send it to someone."
+#    quantity: "Quantity"
+#    redeemed: "Redeemed"
+#    no_codes: "No codes yet!"
 
   loading_error:
     could_not_load: "Error al cargar desde el servidor."
@@ -1353,9 +1376,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     text_diff: "Diferencias"
     merge_conflict_with: "MERGE EN CONFLICTO CON"
     no_changes: "Sin Cambios"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "Ajustes de Multijugador" # We'll be changing this around significantly soon. Until then, it's not important to translate.

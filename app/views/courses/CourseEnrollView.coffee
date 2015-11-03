@@ -16,6 +16,7 @@ module.exports = class CourseEnrollView extends RootView
     'change .class-name': 'onNameChange'
     'change .course-select': 'onChangeCourse'
     'change .input-seats': 'onSeatsChange'
+    'change #programming-language-select': 'onChangeProgrammingLanguageSelect'
 
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'
@@ -24,22 +25,11 @@ module.exports = class CourseEnrollView extends RootView
     super options
     @courseID ?= options.courseID
     @seats = 20
+    @selectedLanguage = 'python'
 
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @listenTo @courses, 'sync', @onCoursesLoaded
     @supermodel.loadCollection(@courses, 'courses')
-
-  getRenderData: ->
-    context = super()
-    context.className = @className
-    context.courses = @courses.models
-    context.price = @price ? 0
-    context.seats = @seats
-    context.selectedCourse = @selectedCourse
-    context.selectedCourseTitle = @selectedCourse?.get('name') ? 'All Courses'
-    context.state = @state
-    context.stateMessage = @stateMessage
-    context
 
   afterRender: ->
     super()
@@ -89,6 +79,9 @@ module.exports = class CourseEnrollView extends RootView
   onChangeCourse: (e) ->
     @selectedCourse = _.find @courses.models, (a) -> a.id is $(e.target).val()
     @renderNewPrice()
+    
+  onChangeProgrammingLanguageSelect: (e) ->
+    @selectedLanguage = @$('#programming-language-select').val()
 
   onNameChange: (e) ->
     @className = $('.class-name').val()
@@ -105,6 +98,8 @@ module.exports = class CourseEnrollView extends RootView
       stripe:
         token: token
         timestamp: new Date().getTime()
+      aceConfig: { language: @selectedLanguage }
+      
     data.courseID = @selectedCourse.id if @selectedCourse
     jqxhr = $.post('/db/course_instance/-/create', data)
     jqxhr.done (data, textStatus, jqXHR) =>
@@ -139,4 +134,5 @@ module.exports = class CourseEnrollView extends RootView
     else
       coursePrices = (c.get('pricePerSeat') for c in @courses.models)
     @price = utils.getCourseBundlePrice(coursePrices, @seats)
+    @price = 0 if me.isAdmin()
     @render?()

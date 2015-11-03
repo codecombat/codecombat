@@ -8,8 +8,9 @@ block content
       li
         a(href="/editor/article", data-i18n="editor.article_title") Article Editor
       li.active
-        | #{article.attributes.name}
+        | #{view.article.attributes.name}
 
+  - var authorized = !me.get('anonymous');
   button.article-tool-button(data-i18n="general.version_history").btn.btn-primary#history-button Version History
   button.article-tool-button(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert", disabled=authorized === true ? undefined : "true").btn.btn-primary#revert-button Revert
   button.article-tool-button(data-i18n="article.edit_btn_preview", disabled=authorized === true ? undefined : "true").btn.btn-primary#preview-button Preview
@@ -17,15 +18,15 @@ block content
 
   h3(data-i18n="article.edit_article_title") Edit Article
     span
-     |: "#{article.attributes.name}"
+     |: "#{view.article.attributes.name}"
 
   #article-treema
-    
+
   #article-view
-  
+
   h3(data-i18n="resources.patches") Patches
   .patches-view
-  
+
   hr
 
   div#error-view

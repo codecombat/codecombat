@@ -343,7 +343,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "Luettelo"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     users_subscribed: "Tilattu käyttäjille:"
     no_users_subscribed: "Tilaus ei onnistunut, ole hyvä ja tarksita sähköpostiosoitteet."
     current_recipients: "Tämänhetkiset vastaanottajat"
-    unsubscribing: "Tilaus päätetään..."
+    unsubscribing: "Tilaus päätetään..." # {change}
     subscribe_prepaid: "Tilaa käyttämällä ennakkomaksettua koodinumeroa"
     using_prepaid: "Käytetään ennakkomaksettu koodinumero kuukausitilaukseen"
 
@@ -603,7 +603,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    title: "CodeCombat: Tietoa opettajille"
+#    more_info: "More Info for Teachers"
     intro_1: "CodeCombat on selainpeli, joka opettaa ohjelmointia. Opiskelijat kirjoittavat ohjelmakoodia oikeilla ohjelmointikielillä."
     intro_2: "Aiempi kokemus ei ole tarpeen!"
     free_title: "Mitä kaikki maksaa?"
@@ -792,7 +792,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    social_facebook: "Like CodeCombat on Facebook"
 #    social_twitter: "Follow CodeCombat on Twitter"
 #    social_gplus: "Join CodeCombat on Google+"
-#    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
+#    social_hipchat: "Chat with us in the public CodeCombat Slack channel"
 #    contribute_to_the_project: "Contribute to the project"
 
   clans:
@@ -839,6 +839,19 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     playtime: "Peliaika"
     last_played: "Viimeksi pelattu"
     leagues_explanation: "Pelaa liigaa muita klaanin jäseniä vastaan näillä moninpelaaja-areenoilla."
+#    track_concepts1: "Track concepts"
+#    track_concepts2a: "learned by each student"
+#    track_concepts2b: "learned by each member"
+#    track_concepts3a: "Track levels completed for each student"
+#    track_concepts3b: "Track levels completed for each member"
+#    track_concepts4a: "See your students'"
+#    track_concepts4b: "See your members'"
+#    track_concepts5: "solutions"
+#    track_concepts6a: "Sort students by name or progress"
+#    track_concepts6b: "Sort members by name or progress"
+#    track_concepts7: "Requires invitation"
+#    track_concepts8: "to join"
+#    private_require_sub: "Private clans require a subscription to create or join."
 
 #  courses:
 #    course: "Course"
@@ -1059,7 +1072,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    join_desc_3: ", or find us in our "
 #    join_desc_4: "and we'll go from there!"
 #    join_url_email: "Email us"
-#    join_url_hipchat: "public HipChat room"
+#    join_url_hipchat: "public Slack channel"
 #    archmage_subscribe_desc: "Get emails on new coding opportunities and announcements."
 #    artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
 #    artisan_introduction_suf: ", then this class might be for you."
@@ -1069,7 +1082,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    artisan_join_desc: "Use the Level Editor in these steps, give or take:"
 #    artisan_join_step1: "Read the documentation."
 #    artisan_join_step2: "Create a new level and explore existing levels."
-#    artisan_join_step3: "Find us in our public HipChat room for help."
+#    artisan_join_step3: "Find us in our public Slack channel for help."
 #    artisan_join_step4: "Post your levels on the forum for feedback."
 #    artisan_subscribe_desc: "Get emails on level editor updates and announcements."
 #    adventurer_introduction: "Let's be clear about your role: you are the tank. You're going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class might be for you."
@@ -1214,7 +1227,6 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     recently_played: "Viimeisin peli"
     no_recent_games: "Ei pelejä viimeisen kahden viikon aikana."
     payments: "Ostot"
-#    prepaid: "Prepaid"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Ostettu"
     sale: "Alennus"
@@ -1248,11 +1260,22 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 
 #  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
-#    purchase_amount: "Amount"
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
+#    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
+#    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+#    users: "Users"
+#    months: "Months"
 #    purchase_total: "Total"
 #    purchase_button: "Submit Purchase"
-#    your_codes: "Your Codes:"
+#    your_codes: "Your Codes"
 #    redeem_codes: "Redeem a Subscription Code"
+#    prepaid_code: "Prepaid Code"
+#    lookup_code: "Lookup prepaid code"
+#    apply_account: "Apply to your account"
+#    copy_link: "You can copy the code's link and send it to someone."
+#    quantity: "Quantity"
+#    redeemed: "Redeemed"
+#    no_codes: "No codes yet!"
 
   loading_error:
     could_not_load: "Virhe ladattaessa tietoja palvelimelta"
@@ -1353,9 +1376,6 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
 #    no_changes: "No Changes"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
 #  multiplayer:
 #    multiplayer_title: "Multiplayer Settings" # We'll be changing this around significantly soon. Until then, it's not important to translate.

@@ -2,6 +2,8 @@
 # and common libraries are available
 
 console.log 'IT BEGINS'
+if process.env.COCO_MONGO_HOST
+  throw Error('Tests may not run with production environment')
 
 require 'jasmine-spec-reporter'
 jasmine.getEnv().defaultTimeoutInterval = 300000

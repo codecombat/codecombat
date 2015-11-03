@@ -343,7 +343,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_free_your_mind: "丢掉一切私心杂念，丢掉害怕、疑问和拒信，解放您的思想。 - Morpheus《黑客帝国》"
     tip_strong_opponents: "即使是最强大的对手也是有弱点的。- 宇智波鼬《火影忍者》"
     tip_paper_and_pen: "在您开始编程之前，您可以随时用一张纸和一支笔提前规划。"
-    solve_then_write: "第一步，思考解决方案。第二步，编写代码。 - John Johnson"
+#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     users_subscribed: "用户订阅："
     no_users_subscribed: "没有用户订阅，请仔细检查您的电子邮件地址。"
     current_recipients: "当前收件人"
-    unsubscribing: "取消订阅中..."
+    unsubscribing: "取消订阅中..." # {change}
     subscribe_prepaid: "点击订阅来使用预付费代码"
     using_prepaid: "使用预付费代码进行每月订阅"
 
@@ -603,7 +603,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     retrostyle_blurb: "复古风格的游戏"
 
   teachers:
-    title: "CodeCombat给教师的说明"
+    more_info: "教师的说明"
     intro_1: "CodeCombat 是一个教编程的网上游戏。学生会用编程语言写代码。"
     intro_2: "无需经验!"
     free_title: "要多少钱?"
@@ -792,7 +792,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     social_facebook: "关注CodeCombat的Facebook主页"
     social_twitter: "关注CodeCombat的Twitter"
     social_gplus: "关注CodeCombat的Google+主页"
-    social_hipchat: "在公共的CodeCombat HipChat聊天室与我们进行交流"
+    social_hipchat: "在公共的CodeCombat Slack聊天室与我们进行交流"
     contribute_to_the_project: "为项目做贡献"
 
   clans:
@@ -839,10 +839,23 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     playtime: "游戏时间"
     last_played: "最后玩了"
     leagues_explanation: "在部落里与其他成员组成联盟一起参加下面的多人竞技场。"
+#    track_concepts1: "Track concepts"
+#    track_concepts2a: "learned by each student"
+#    track_concepts2b: "learned by each member"
+#    track_concepts3a: "Track levels completed for each student"
+#    track_concepts3b: "Track levels completed for each member"
+#    track_concepts4a: "See your students'"
+#    track_concepts4b: "See your members'"
+#    track_concepts5: "solutions"
+#    track_concepts6a: "Sort students by name or progress"
+#    track_concepts6b: "Sort members by name or progress"
+#    track_concepts7: "Requires invitation"
+#    track_concepts8: "to join"
+#    private_require_sub: "Private clans require a subscription to create or join."
 
   courses:
     course: "课程"
-    courses: "课程" #gonna see the script to determine the translation
+    courses: "课程"
     not_enrolled: "您还没有报名参加本课程。"
     visit_pref: "请到这个"
     visit_suf: "网页注册。"
@@ -872,16 +885,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     completed: "完成："
     invite_students: "邀请学生加入此班级。"
     invite_link_header: "参与班级的縺结"
-    invite_link_p_1: "分享给您想分享的其他人以加入课程。" #this translation may need to change
+    invite_link_p_1: "分享给您想分享的其他人以加入课程。"
     invite_link_p_2: "或让我们代你直接发送电邮："
-    capacity_used: "课程插槽已用：" # course slots? kinda in chinese
+    capacity_used: "课程插槽已用："
     enter_emails: "输入学生电邮地​​址来邀请，每行一个"
     send_invites: "发送邀请"
     title: "标题"
     description: "描述"
     languages_available: "选择编程语言："
     all_lang: "所有编程语言"
-    show_progress: "向所有该班级的人展示学生的进度" # translation may need to change
+    show_progress: "向所有该班级的人展示学生的进度"
     creating_class: "班级创建中..."
     purchasing_course: "购买课程中..."
     buy_course: "购买课程"
@@ -1059,7 +1072,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     join_desc_3: " 或者去我们的"
     join_desc_4: "，然后我们有话好说！"
     join_url_email: "给我们发邮件"
-    join_url_hipchat: " HipChat聊天室"
+    join_url_hipchat: " Slack聊天室"
     archmage_subscribe_desc: "通过电子邮件获得新的编码机会和公告。"
     artisan_introduction_pref: "我们必须设计更多的关卡! 大家为了更多的游戏内容在高声呐喊，但是我们靠自己只能创建这些。现在您的电脑就是第一关！我们的关卡编辑器刚刚完成了基本功能，所以创造关卡的时候请小心使用。只要您有制作关卡的灵感，不管是简单的for循环还是"
     artisan_introduction_suf: "这种东西，这个职业都很适合您。"
@@ -1069,7 +1082,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     artisan_join_desc: "如下步骤使用关卡编辑器:"
     artisan_join_step1: "阅读文档。"
     artisan_join_step2: "创建一个新关卡 以及探索已经存在的关卡。"
-    artisan_join_step3: "来我们的HipChat聊天室寻求帮助。"
+    artisan_join_step3: "来我们的Slack聊天室寻求帮助。"
     artisan_join_step4: "把您的关卡发到论坛让别人给您评价。"
     artisan_subscribe_desc: "通过电子邮件获得关卡编辑器更新和公告。"
     adventurer_introduction: "现在就来了解您的角色吧：您是一辆战车，并将要承担沉重的攻击。我们需要人来尝试下我们新开的关卡以了解怎么样才能使每一样东西更美好。一开始虽然会非常辛苦；可是制造出一个最好的游戏是一个很长的过程，在这个过程中，没有人可以第一次就成功。如果您挺过去了并且自我感觉良好，那么这个位置就是为您而准备的。"
@@ -1214,7 +1227,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     recently_played: "最近玩过的关卡"
     no_recent_games: "最近两个星期没有玩过游戏。"
     payments: "支付方式"
-    prepaid: "预付费"
     prepaid_codes: "预付费码"
     purchased: "已购买"
     sale: "促销"
@@ -1248,11 +1260,22 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   account_prepaid:
     purchase_code: "购买订阅码"
-    purchase_amount: "数量"
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
+#    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
+#    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+#    users: "Users"
+#    months: "Months"
     purchase_total: "总共"
     purchase_button: "提交购买"
-    your_codes: "你的订阅码："
+    your_codes: "你的订阅码：" # {change}
     redeem_codes: "兑换订阅码"
+#    prepaid_code: "Prepaid Code"
+#    lookup_code: "Lookup prepaid code"
+#    apply_account: "Apply to your account"
+#    copy_link: "You can copy the code's link and send it to someone."
+#    quantity: "Quantity"
+#    redeemed: "Redeemed"
+#    no_codes: "No codes yet!"
 
   loading_error:
     could_not_load: "载入失败"
@@ -1353,9 +1376,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     text_diff: "文本变化"
     merge_conflict_with: "合并冲突发生在"
     no_changes: "没有变化"
-
-#  temp:
-#    ace_of_coders_tournament: "New: play in the Ace of Coders tournament now!"
 
   multiplayer:
     multiplayer_title: "多人游戏设置" # We'll be changing this around significantly soon. Until then, it's not important to translate.

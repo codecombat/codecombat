@@ -55,6 +55,7 @@ require("locale/mk-MK")
 require("locale/eo")
 require("locale/uz")
 require("locale/my")
+require("locale/et")
 
 module.exports = class DiplomatView extends ContributeClassView
   id: 'diplomat-view'
@@ -136,3 +137,4 @@ module.exports = class DiplomatView extends ContributeClassView
     eo: []             # Esperanto, Esperanto
     uz: []             # O'zbekcha, Uzbek
     my: []             # မြန်မာစကား, Myanmar language
+    et: []             # Eesti, Estonian

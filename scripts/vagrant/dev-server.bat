@@ -1,3 +1,3 @@
 @ECHO OFF
-vagrant ssh -c "cd /vagrant && bin/coco-dev-server"
+vagrant ssh -c "cd /vagrant && npm run dev"
 

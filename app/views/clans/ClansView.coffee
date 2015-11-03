@@ -72,16 +72,16 @@ module.exports = class ClansView extends RootView
     @supermodel.addRequestResource('user_names', options, 0).load()
 
   setupPrivateInfoPopover: ->
-    popoverTitle = "<h3>Private Clans</h3>"
+    popoverTitle = "<h3>" + $.i18n.t('teachers.sub_includes_7') + "</h3>"
     popoverContent = "<ul>"
-    popoverContent += "<li><span style='font-weight:bold;'>Track concepts</span> learned by each member"
-    popoverContent += "<li>Track levels completed for each member"
-    popoverContent += "<li>See your members' <span style='font-weight:bold;'>solutions</span>"
-    popoverContent += "<li>Sort members by name or progress"
-    popoverContent += "<li><span style='font-weight:bold;'>Requires invitation</span> to join"
+    popoverContent += "<li><span style='font-weight:bold;'>" + $.i18n.t('clans.track_concepts1') + "</span> " + $.i18n.t('clans.track_concepts2b')
+    popoverContent += "<li>" + $.i18n.t('clans.track_concepts3b')
+    popoverContent += "<li>" + $.i18n.t('clans.track_concepts4b') + " <span style='font-weight:bold;'>" + $.i18n.t('clans.track_concepts5') + "</span>"
+    popoverContent += "<li>" + $.i18n.t('clans.track_concepts6b')
+    popoverContent += "<li><span style='font-weight:bold;'>" + $.i18n.t('clans.track_concepts7') + "</span> " + $.i18n.t('clans.track_concepts8')
     popoverContent += "</ul>"
     popoverContent += "<p><img src='/images/pages/clans/dashboard_preview.png' height='400'></p>"
-    popoverContent += "<p>Private clans require a subscription to create or join.</p>"
+    popoverContent += "<p>" + $.i18n.t('clans.private_require_sub') + "</p>"
     @$el.find('.private-more-info').popover(
       animation: true
       html: true

@@ -68,13 +68,6 @@ setUpBackboneMediator = ->
   Backbone.Mediator.addDefSchemas schemas for definition, schemas of definitionSchemas
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
   Backbone.Mediator.setValidationEnabled document.location.href.search(/codecombat.com/) is -1
-  if webkit?.messageHandlers
-    window.iPadSubscriptions = 'application:error': true  # We try to subscribe to this one before it's all set up, so just do it.
-    originalPublish = Backbone.Mediator.publish
-    Backbone.Mediator.publish = ->
-      originalPublish.apply Backbone.Mediator, arguments
-      if window.iPadSubscriptions[arguments[0]]
-        webkit.messageHandlers.backboneEventHandler?.postMessage channel: arguments[0], event: serializeForIOS(arguments[1] ? {})
 
 setUpMoment = ->
   {me} = require 'core/auth'

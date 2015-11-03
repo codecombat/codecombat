@@ -31,13 +31,18 @@ block content
   else if !course || !courseInstance
     h1(data-i18n="common.loading") Loading...
   else
-    if courseInstance.get('name')
-      h1= courseInstance.get('name')
-        small.spl (#{course.get('name')})
-    else
-      h1
+    h1
+      if courseInstance.get('name')
+        | #{courseInstance.get('name')}
+      else
         span(data-i18n='courses.unnamed_class')
-        small.spl (#{course.get('name')})
+      small.spl (#{course.get('name')})
+      
+    if !view.owner.isNew()
+      p
+        span.spr Creator:
+        a(href="/user/#{view.owner.id}")
+          strong= view.getOwnerName()
 
     p
       if courseInstance.get('description')
@@ -315,13 +320,19 @@ mixin settings-dialog
           span &times;
         h3.modal-title(data-i18n="courses.edit_settings1")
       .modal-body
-        p
-          strong(data-i18n="courses.title")
-        p 
-          input.settings-name-input(type='text', value="#{courseInstance.get('name') || ''}")
-        p
-          strong(data-i18n="courses.description")
-        p 
-          textarea.settings-description-input(rows=2)= courseInstance.get('description')
+        .form
+          .form-group
+            label(data-i18n="courses.title")
+            input.form-control.settings-name-input(type='text', value="#{courseInstance.get('name') || ''}")
+          .form-group
+            label(data-i18n="courses.description")
+            textarea.form-control.settings-description-input(rows=2)= courseInstance.get('description')
+          .form-group
+            label(data-i18n="choose_hero.programming_language")
+            select.form-control#programming-language-select
+              - var aceConfig = view.courseInstance.get('aceConfig') || {};
+              option(value="python", selected=aceConfig.language==='python') Python
+              option(value="javascript", selected=aceConfig.language==='javascript') JavaScript
+          
       .modal-footer
         button.btn.btn-save-settings(data-i18n="common.save_changes")

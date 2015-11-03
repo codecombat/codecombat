@@ -58,12 +58,6 @@ module.exports = class ArticleEditView extends RootView
         clearInterval(id)
     id = setInterval(onLoadHandler, 100)
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.article = @article
-    context.authorized = not me.get('anonymous')
-    context
-
   afterRender: ->
     super()
     return unless @supermodel.finished()

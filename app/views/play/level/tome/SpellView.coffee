@@ -75,6 +75,7 @@ module.exports = class SpellView extends CocoView
     super()
     @createACE()
     @createACEShortcuts()
+    @hookACECustomBehavior()
     @fillACE()
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
@@ -257,6 +258,13 @@ module.exports = class SpellView extends CocoView
           @ace.remove "left"
 
 
+  hookACECustomBehavior: ->
+    @ace.commands.on 'exec', (e) =>
+      # When pressing enter with an active selection, just make a new line under it.
+      if e.command.name is 'enter-skip-delimiters'
+        e.editor.execCommand 'gotolineend'
+        return true
+
   fillACE: ->
     @ace.setValue @spell.source
     @aceSession.setUndoManager(new UndoManager())
@@ -398,6 +406,7 @@ module.exports = class SpellView extends CocoView
       autoLineEndings:
         javascript: ';'
       popupFontSizePx: popupFontSizePx
+      popupLineHeightPx: 1.5 * popupFontSizePx
       popupWidthPx: 380
 
   updateAutocomplete: (@autocomplete) ->
@@ -436,6 +445,7 @@ module.exports = class SpellView extends CocoView
             meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
+            importance: doc.autoCompletePriority ? 1.0
           haveFindNearestEnemy ||= doc.name is 'findNearestEnemy'
           haveFindNearest ||= doc.name is 'findNearest'
           if doc.name is 'attack'
@@ -443,6 +453,14 @@ module.exports = class SpellView extends CocoView
             attackEntry = entry
           else
             snippetEntries.push entry
+
+          if doc.userShouldCaptureReturn
+            varName = doc.userShouldCaptureReturn.variableName ? 'result'
+            entry.captureReturn = switch e.language
+              when 'io' then varName + ' := '
+              when 'javascript' then 'var ' + varName + ' = '
+              when 'clojure' then '(let [' + varName + ' ' 
+              else varName + ' = '
 
     # TODO: Generalize this snippet replacement
     # TODO: Where should this logic live, and what format should it be in?
