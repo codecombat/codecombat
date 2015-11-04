@@ -41,7 +41,7 @@ module.exports = class LevelGuideView extends CocoView
     @docs = specific.concat(general)
     @docs = $.extend(true, [], @docs)
     @docs = [@docs[0]] if @firstOnly and @docs[0]
-    doc.html = marked(utils.i18n doc, 'body') for doc in @docs
+    doc.html = marked(@filterCodeLanguages(utils.i18n(doc, 'body'))) for doc in @docs
     doc.name = (utils.i18n doc, 'name') for doc in @docs
     doc.slug = _.string.slugify(doc.name) for doc in @docs
     super()
@@ -71,6 +71,12 @@ module.exports = class LevelGuideView extends CocoView
       @$el.find('.tab-content .tab-pane:first').addClass('active')
       @$el.find('.nav-tabs a').click(@clickTab)
     @playSound 'guide-open'
+
+  filterCodeLanguages: (text) ->
+    currentLanguage = me.get('aceConfig')?.language or 'python'
+    excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'io'], currentLanguage
+    exclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
+    text.replace exclusionRegex, ''
 
   clickSubscribe: (e) ->
     level = @levelSlug # Save ref to level slug
