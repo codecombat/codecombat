@@ -1,0 +1,29 @@
+extends /templates/base
+
+block content
+  
+  if me.isAdmin()
+    .container-fluid
+      .row
+        .col-md-5.big-stat.active-users
+          if activeUsers.length > 0
+            div.description 30-day Active Users
+            div.count= activeUsers[0].monthlyCount
+
+    h1 Active Users
+    table.table.table-striped.table-condensed
+      tr
+        th Day
+        th Daily Actives
+        th Monthly Actives
+        th DAUs / MAUs
+      each activeUser in activeUsers
+        tr
+          td= activeUser.day
+          td= activeUser.dailyCount
+          if activeUser.monthlyCount
+            td= activeUser.monthlyCount
+            td #{(activeUser.dailyCount / activeUser.monthlyCount * 100).toFixed(2)}%
+          else
+            td
+            td

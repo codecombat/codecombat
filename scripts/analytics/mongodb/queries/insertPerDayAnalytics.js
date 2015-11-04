@@ -17,8 +17,8 @@ try {
   var scriptStartTime = new Date();
   var analyticsStringCache = {};
 
-  // Look at last 30 days, same as Mixpanel
-  var numDays = 30;
+  var numDays = 32;
+  var daysInMonth = 30;
 
   var startDay = new Date();
   today = startDay.toISOString().substr(0, 10);
@@ -27,6 +27,7 @@ try {
 
   var levelCompletionFunnel = ['Started Level', 'Saw Victory'];
   var levelHelpEvents = ['Problem alert help clicked', 'Spell palette help clicked', 'Start help video'];
+  var activeUserEvents = ['Finished Signup', 'Started Level'];
 
   log("Today is " + today);
   log("Start day is " + startDay);
@@ -39,7 +40,7 @@ try {
     for (day in levelCompletionData[level]) {
       if (today === day) continue; // Never save data for today because it's incomplete
       for (event in levelCompletionData[level][day]) {
-        insertEventCount(event, level, day, levelCompletionData[level][day][event]);
+        insertLevelEventCount(event, level, day, levelCompletionData[level][day][event]);
       }
     }
   }
@@ -50,7 +51,7 @@ try {
   for (level in levelDropCounts) {
     for (day in levelDropCounts[level]) {
       if (today === day) continue; // Never save data for today because it's incomplete
-      insertEventCount('User Dropped', level, day, levelDropCounts[level][day]);
+      insertLevelEventCount('User Dropped', level, day, levelDropCounts[level][day]);
     }
   }
 
@@ -61,7 +62,7 @@ try {
     for (day in levelHelpCounts[level]) {
       if (today === day) continue; // Never save data for today because it's incomplete
       for (event in levelHelpCounts[level][day]) {
-        insertEventCount(event, level, day, levelHelpCounts[level][day][event]);
+        insertLevelEventCount(event, level, day, levelHelpCounts[level][day][event]);
       }
     }
   }
@@ -73,8 +74,19 @@ try {
     for (day in levelSubscriptionCounts[level]) {
       if (today === day) continue; // Never save data for today because it's incomplete
       for (event in levelSubscriptionCounts[level][day]) {
-        insertEventCount(event, level, day, levelSubscriptionCounts[level][day][event]);
+        insertLevelEventCount(event, level, day, levelSubscriptionCounts[level][day][event]);
       }
+    }
+  }
+
+  log("Getting active user counts...");
+  var activeUserCounts = getActiveUserCounts(startDay, activeUserEvents);
+  // printjson(activeUserCounts);
+  log("Inserting active user counts...");
+  for (day in activeUserCounts) {
+    if (today === day) continue; // Never save data for today because it's incomplete
+    for (event in activeUserCounts[day]) {
+      insertEventCount(event, day, activeUserCounts[day][event]);
     }
   }
 
@@ -383,7 +395,87 @@ function getLevelSubscriptionCounts(startDay) {
   return levelFunnelData;
 }
 
-function insertEventCount(event, level, day, count) {
+function getActiveUserCounts(startDay, activeUserEvents) {
+  // Counts active users per day
+  if (!startDay) return {};
+
+  var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+  var queryParams = {$and: [
+    {_id: {$gte: startObj}},
+    {'event': {$in: activeUserEvents}}
+  ]};
+  var cursor = logDB['log'].find(queryParams);
+
+  var dayUserMap = {};
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var created = doc._id.getTimestamp().toISOString();
+    var day = created.substring(0, 10);
+    var user = doc.user;
+
+    if (!dayUserMap[day]) dayUserMap[day] = {};
+    dayUserMap[day][user] = true;
+  }
+  // printjson(dayUserMap['2015-11-01']);
+
+  var activeUsersCounts = {};
+  var monthlyActives = [];
+  for (day in dayUserMap) {
+    activeUsersCounts[day] = {'Daily Active Users': Object.keys(dayUserMap[day]).length};
+    monthlyActives.push({day: day, users: dayUserMap[day]});
+  }
+
+  monthlyActives.sort(function (a, b) {return a.day.localeCompare(b.day);});
+
+  // Calculate monthly actives for each day, starting when we have enough data
+  for (var i = daysInMonth - 1; i < monthlyActives.length; i++) {
+    var monthUserMap = {};
+    for (var j = i - daysInMonth + 1; j <= i; j++) {
+      for (var user in monthlyActives[j].users) {
+        monthUserMap[user] = true;
+      }
+    }
+    activeUsersCounts[monthlyActives[i].day]['Monthly Active Users'] = Object.keys(monthUserMap).length;
+  }
+  return activeUsersCounts;
+}
+
+function insertEventCount(event, day, count) {
+  // analytics.perdays schema in server/analytics/AnalyticsPeryDay.coffee
+  day = day.replace(/-/g, '');
+
+  var eventID = getAnalyticsString(event);
+  var filterID = getAnalyticsString('all');
+
+  var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+  var queryParams = {$and: [{d: day}, {e: eventID}, {f: filterID}]};
+  var doc = db['analytics.perdays'].findOne(queryParams);
+  if (doc && doc.c === count) return;
+
+  if (doc && doc.c !== count) {
+    // Update existing count, assume new one is more accurate
+    // log("Updating count in db for " + day + " " + event + " " + doc.c + " => " + count);
+    var results = db['analytics.perdays'].update(queryParams, {$set: {c: count}});
+    if (results.nMatched !== 1 && results.nModified !== 1) {
+      log("ERROR: update event count failed");
+      printjson(results);
+    }
+  }
+  else {
+    var insertDoc = {d: day, e: eventID, f: filterID, c: count};
+    var results = db['analytics.perdays'].insert(insertDoc);
+    if (results.nInserted !== 1) {
+      log("ERROR: insert event failed");
+      printjson(results);
+      printjson(insertDoc);
+    }
+    // else {
+    //   log("Added " + day + " " + event + " " + count);
+    // }
+  }
+}
+
+function insertLevelEventCount(event, level, day, count) {
   // analytics.perdays schema in server/analytics/AnalyticsPeryDay.coffee
   day = day.replace(/-/g, '');
 
