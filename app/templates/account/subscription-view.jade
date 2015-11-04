@@ -150,7 +150,9 @@ block content
         if view.recipientSubs.state === 'subscribing'
           .alert.alert-info(data-i18n="subscribe.subscribing")
         else
-          textarea.recipient-emails(rows=3, data-i18n="[placeholder]subscribe.recipient_emails_placeholder")
+          if emailValidator.state === 'invalid'
+            div.invalid-email-message(aria-hidden="true") please make sure all entries are valid emails
+          textarea.recipient-emails(rows=3, data-i18n="[placeholder]subscribe.recipient_emails_placeholder")=emailValidator.emailString()
           div
             button.recipients-subscribe-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_users")
           if view.recipientSubs.state === 'declined'
