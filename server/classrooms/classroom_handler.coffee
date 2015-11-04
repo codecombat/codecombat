@@ -4,6 +4,7 @@ Handler = require '../commons/Handler'
 Classroom = require './Classroom'
 User = require '../users/User'
 sendwithus = require '../sendwithus'
+utils = require '../lib/utils'
 
 ClassroomHandler = class ClassroomHandler extends Handler
   modelClass: Classroom
@@ -77,6 +78,16 @@ ClassroomHandler = class ClassroomHandler extends Handler
 #            join_link: "https://codecombat.com/courses/students?_ppc=" + prepaid.get('code')
         sendwithus.api.send context, _.noop
       return @sendSuccess(res, {})
+      
+  get: (req, res) ->
+    if ownerID = req.query.ownerID
+      return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or ownerID is req.user.id)
+      return @sendBadInputError(res, 'Bad ownerID') unless utils.isID ownerID
+      Classroom.find {ownerID: mongoose.Types.ObjectId(ownerID)}, (err, classrooms) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendSuccess(res, (@formatEntity(req, classroom) for classroom in classrooms))
+    else
+      super(arguments...)
 
 
 module.exports = new ClassroomHandler()

@@ -5,13 +5,42 @@ mongoose = require 'mongoose'
 
 classroomsURL = getURL('/db/classroom')
 
+describe 'GET /db/classrooms?ownerID=:id', ->
+  it 'clears database users and classrooms', (done) ->
+    clearModels [User, Classroom], (err) ->
+      throw err if err
+      done()
+      
+  it 'returns an array of classrooms with the given owner', (done) ->
+    loginNewUser (user1) ->
+      new Classroom({name: 'Classroom 1', ownerID: user1.get('_id') }).save (err, classroom) ->
+        expect(err).toBeNull()
+        loginNewUser (user2) ->
+          new Classroom({name: 'Classroom 2', ownerID: user2.get('_id') }).save (err, classroom) ->
+            expect(err).toBeNull()
+            url = getURL('/db/classroom?ownerID='+user2.id)
+            request.get { uri: url, json: true }, (err, res, body) ->
+              expect(res.statusCode).toBe(200)
+              expect(body.length).toBe(1)
+              expect(body[0].name).toBe('Classroom 2')
+              done()
+              
+  it 'returns 403 when a non-admin tries to get classrooms for another user', (done) ->
+    loginNewUser (user1) ->
+      loginNewUser (user2) ->
+        url = getURL('/db/classroom?ownerID='+user1.id)
+        request.get { uri: url }, (err, res, body) ->
+          expect(res.statusCode).toBe(403)
+          done()
+  
+
 describe 'GET /db/classrooms/:id', ->
-  it 'Clear database users and clans', (done) ->
+  it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom], (err) ->
       throw err if err
       done()
 
-  it 'creates a new classroom for the given user', (done) ->
+  it 'returns the classroom for the given id', (done) ->
     loginNewUser (user1) ->
       data = { name: 'Classroom 1' }
       request.post {uri: classroomsURL, json: data }, (err, res, body) ->
@@ -24,7 +53,7 @@ describe 'GET /db/classrooms/:id', ->
 
 describe 'POST /db/classrooms', ->
   
-  it 'Clear database users and clans', (done) ->
+  it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom], (err) ->
       throw err if err
       done()
@@ -49,7 +78,7 @@ describe 'POST /db/classrooms', ->
         
 describe 'PUT /db/classrooms', ->
 
-  it 'Clear database users and clans', (done) ->
+  it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom], (err) ->
       throw err if err
       done()
