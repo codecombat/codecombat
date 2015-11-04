@@ -48,12 +48,11 @@ block content
     li
       a(href="/admin/pending-patches", data-i18n="resources.patches") Patches
     if me.isAdmin()
-      li Analytics
+      li
+        a(href="/admin/analytics") Analytics
         ul
           li
             a(href="/admin/analytics/subscriptions") Subscriptions
-          li
-            a(href="/admin/analytics/users") Users (needs updating)
 
   if me.isAdmin()
     hr
