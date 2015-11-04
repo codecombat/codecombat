@@ -33,7 +33,7 @@
     "test": "./node_modules/.bin/karma start",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping brunch build --production",
     "postdeploy": "echo Deployed. Unclench.",
-    "postinstall": "bower install && brunch build",
+    "postinstall": "bower install && brunch build --env fast",
     "brunch": "brunch",
     "bower": "bower",
     "dev": "brunch watch --server",
@@ -82,6 +82,7 @@
     "winston": "0.6.x"
   },
   "devDependencies": {
+    "after-brunch": "0.0.5",
     "assetsmanager-brunch": "^1.8.1",
     "auto-reload-brunch": "> 1.0 < 1.8",
     "bless-brunch": "https://github.com/ThomasConner/bless-brunch/tarball/master",
@@ -92,6 +93,7 @@
     "commonjs-require-definition": "0.2.0",
     "compressible": "~1.0.1",
     "css-brunch": "^1.7.0",
+    "fs-extra": "^0.26.2",
     "jade-brunch": "1.7.5",
     "jasmine-node": "1.13.x",
     "jasmine-spec-reporter": "~0.3.0",
@@ -111,7 +113,7 @@
     "requirejs": "~2.1.10",
     "sass-brunch": "https://github.com/basicer/sass-brunch-bleeding/archive/1.9.1-bleeding.tar.gz",
     "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",
-    "uglify-js-brunch": "^1.7.8"
+    "uglify-js": "^2.5.0"
   },
   "optionalDependencies": {
     "webworker-threads": "~0.5.5"
