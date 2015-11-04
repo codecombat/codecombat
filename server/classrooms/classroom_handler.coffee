@@ -39,10 +39,9 @@ ClassroomHandler = class ClassroomHandler extends Handler
 
   joinClassroomAPI: (req, res, classroomID) ->
     return @sendBadInputError(res, 'Need an object with a code') unless req.body?.code
-    Classroom.findById classroomID, (err, classroom) =>
+    Classroom.findOne {code: req.body.code}, (err, classroom) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) if not classroom
-      return @sendBadInputError(res, 'Bad code') unless req.body.code is classroom.get('code')
       members = _.clone(classroom.get('members'))
       if _.any(members, (memberID) -> memberID.equals(req.user.get('_id')))
         return @sendSuccess(res, @formatEntity(req, classroom))

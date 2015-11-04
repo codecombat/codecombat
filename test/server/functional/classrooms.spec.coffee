@@ -5,7 +5,7 @@ mongoose = require 'mongoose'
 
 classroomsURL = getURL('/db/classroom')
 
-describe 'GET /db/classrooms?ownerID=:id', ->
+describe 'GET /db/classroom?ownerID=:id', ->
   it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom], (err) ->
       throw err if err
@@ -34,7 +34,7 @@ describe 'GET /db/classrooms?ownerID=:id', ->
           done()
   
 
-describe 'GET /db/classrooms/:id', ->
+describe 'GET /db/classroom/:id', ->
   it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom], (err) ->
       throw err if err
@@ -51,7 +51,7 @@ describe 'GET /db/classrooms/:id', ->
           expect(body._id).toBe(classroomID = body._id)
           done()
 
-describe 'POST /db/classrooms', ->
+describe 'POST /db/classroom', ->
   
   it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom], (err) ->
@@ -76,7 +76,7 @@ describe 'POST /db/classrooms', ->
         done()
         
         
-describe 'PUT /db/classrooms', ->
+describe 'PUT /db/classroom', ->
 
   it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom], (err) ->
@@ -102,7 +102,7 @@ describe 'PUT /db/classrooms', ->
         expect(res.statusCode).toBe(200)
         classroomCode = body.code
         loginNewUser (user2) ->
-          url = classroomsURL + '/' + body._id + '/members'
+          url = getURL("/db/classroom/~/members")
           data = { code: classroomCode }
           request.post { uri: url, json: data }, (err, res, body) ->
             expect(res.statusCode).toBe(200)
@@ -111,8 +111,13 @@ describe 'PUT /db/classrooms', ->
               expect(res.statusCode).toBe(403)
               done()
             
-describe 'POST /db/classrooms/:id/members', ->
-  
+describe 'POST /db/classroom/:id/members', ->
+
+  it 'clears database users and classrooms', (done) ->
+    clearModels [User, Classroom], (err) ->
+      throw err if err
+      done()
+
   it 'adds the signed in user to the list of members in the classroom', (done) ->
     loginNewUser (user1) ->
       data = { name: 'Classroom 5' }
@@ -120,14 +125,14 @@ describe 'POST /db/classrooms/:id/members', ->
         classroomCode = body.code
         expect(res.statusCode).toBe(200)
         loginNewUser (user2) ->
-          url = classroomsURL + '/' + body._id + '/members'
+          url = getURL("/db/classroom/~/members")
           data = { code: classroomCode }
           request.post { uri: url, json: data }, (err, res, body) ->
             expect(res.statusCode).toBe(200)
             done()
 
 
-describe 'POST /db/classrooms/:id/invite-members', ->
+describe 'POST /db/classroom/:id/invite-members', ->
 
   it 'takes a list of emails and sends invites', (done) ->
     loginNewUser (user1) ->
