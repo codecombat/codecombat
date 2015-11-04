@@ -37,7 +37,7 @@ module.exports = class ThangAvatarView extends CocoView
     context = super context
     context.thang = @thang
     options = @thang?.getLankOptions() or {}
-    options.async = true
+    #options.async = true  # sync builds fail during async builds, and we build HUD version sync
     context.avatarURL = @thangType.getPortraitSource(options) unless @thangType.loading
     context.includeName = @includeName
     context

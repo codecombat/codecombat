@@ -32,13 +32,17 @@ exports.config =
   overrides:
     production:
       sourceMaps: 'absoluteUrl'
-      onCompile: (files) ->
-        # For some reason, production brunch produces two entries, the first of which is wrong:
-        # //# sourceMappingURL=public/javascripts/app.js.map
-        # //# sourceMappingURL=/javascripts/app.js.map
-        # So we remove the ones that have public in them.
-        exec = require('child_process').exec
-        exec "perl -pi -e 's/\\/\\/# sourceMappingURL=public.*//g' public/javascripts/*.js"
+      plugins:
+        coffeelint:
+          pattern: /\A\Z/
+        afterBrunch: [
+          "coffee scripts/minify.coffee",
+        ]
+    fast:
+      onCompile: (files) -> console.log "I feel the need, the need... for speed."
+      plugins:
+        coffeelint:
+          pattern: /\A\Z/   
     vagrant:
       watcher:
         usePolling: true
@@ -181,7 +185,6 @@ exports.config =
   plugins:
     coffeelint:
       pattern: /^app\/.*\.coffee$/
-#      pattern: /^dne/ # use this pattern instead if you want to speed compilation
       options:
         line_endings:
           value: 'unix'
@@ -192,16 +195,14 @@ exports.config =
           level: 'ignore'  # PyCharm can't just autostrip for .coffee, needed for .jade
         no_unnecessary_fat_arrows:
           level: 'ignore'
-    uglify:
-      mangle:
-        except: ['require']
-      output:
-        semicolons: false
     sass:
       mode: 'native'
       allowCache: true
     bless:
       cacheBuster: false
+    assetsmanager:
+      copyTo:
+        'lib/ace': ['node_modules/ace-builds/src-min-noconflict/*']
 
   modules:
     definition: (path, data) ->

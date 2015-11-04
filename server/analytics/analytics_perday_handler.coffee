@@ -14,12 +14,36 @@ class AnalyticsPerDayHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @sendForbiddenError res unless @hasAccess req
+    return @getActiveUsers(req, res) if args[1] is 'active_users'
     return @getCampaignCompletionsBySlug(req, res) if args[1] is 'campaign_completions'
     return @getLevelCompletionsBySlug(req, res) if args[1] is 'level_completions'
     return @getLevelDropsBySlugs(req, res) if args[1] is 'level_drops'
     return @getLevelHelpsBySlugs(req, res) if args[1] is 'level_helps'
     return @getLevelSubscriptionsBySlugs(req, res) if args[1] is 'level_subscriptions'
     super(arguments...)
+
+  getActiveUsers: (req, res) ->
+    AnalyticsString.find({v: {$in: ['Daily Active Users', 'Monthly Active Users']}}).exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      for doc in documents
+        dailyID = doc._id if doc.v is 'Daily Active Users'
+        monthlyID = doc._id if doc.v is 'Monthly Active Users'
+      return @sendSuccess res, [] unless dailyID? and monthlyID?
+
+      AnalyticsPerDay.find({e: {$in: [dailyID, monthlyID]}}).exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        dayCountsMap = {}
+        for doc in documents
+          dayCountsMap[doc.d] ?= {}
+          dayCountsMap[doc.d]['dailyCount'] = doc.c if doc.e is dailyID
+          dayCountsMap[doc.d]['monthlyCount'] = doc.c if doc.e is monthlyID
+        activeUsers = []
+        for key, val of dayCountsMap
+          data = day: key
+          data.dailyCount = val.dailyCount if val.dailyCount
+          data.monthlyCount = val.monthlyCount if val.monthlyCount
+          activeUsers.push data
+        @sendSuccess(res, activeUsers)
 
   getCampaignCompletionsBySlug: (req, res) ->
     # Send back an ordered array of level per-day starts and finishes

@@ -106,6 +106,7 @@ module.exports = class SpellView extends CocoView
     @ace.setAnimatedScroll true
     @ace.setShowFoldWidgets false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
+    @ace.$blockScrolling = Infinity
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -459,7 +460,7 @@ module.exports = class SpellView extends CocoView
             entry.captureReturn = switch e.language
               when 'io' then varName + ' := '
               when 'javascript' then 'var ' + varName + ' = '
-              when 'clojure' then '(let [' + varName + ' ' 
+              when 'clojure' then '(let [' + varName + ' '
               else varName + ' = '
 
     # TODO: Generalize this snippet replacement

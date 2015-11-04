@@ -6,12 +6,12 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     play: "Mula" # The big play button that opens up the campaign view.
     old_browser: "Uh oh, browser anda terlalu lama untuk CodeCombat berfungsi. Maaf!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Anda boleh mencuba, tapi mungkin ia tidak akan berfungsi."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
-#    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    ipad_browser: "Berita buruk: CodeCombat tidak boleh berfungsi pada iPad di dalam pelayar web. Berita baik: Aplikasi native iPad kami sedang menunggu pengesahan Apple."
+    campaign: "Kempen"
+    for_beginners: "Untuk Pemain Baru"
+    multiplayer: "Ramai-Pemain" # Not currently shown on home page
+    for_developers: "Untuk Pengaturcara" # Not currently shown on home page.
+    or_ipad: "Atau muat turun untuk iPad"
 
   nav:
     play: "Mula" # The top nav bar entry where players choose which levels to play
