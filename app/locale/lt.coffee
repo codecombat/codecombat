@@ -71,7 +71,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     choose_inventory: "Naudoti daiktus"
     buy_gems: "Pirkti Deimantus"
 #    subscription_required: "Subscription Required"
-#    anonymous: "Anonymous Player"
+    anonymous: "Anoniminis Žaidėjas"
     level_difficulty: "Sudėtingumas: "
     campaign_beginner: "Naujoko kampanija"
     awaiting_levels_adventurer_prefix: "Kiekvieną savaitę sukuriame naujus lygius."
