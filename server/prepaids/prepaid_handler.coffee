@@ -5,6 +5,7 @@ Prepaid = require './Prepaid'
 User = require '../users/User'
 StripeUtils = require '../lib/stripe_utils'
 utils = require '../../app/core/utils'
+mongoose = require 'mongoose'
 
 # TODO: Should this happen on a save() call instead of a prepaid/-/create post?
 # TODO: Probably a better way to create a unique 8 charactor string property using db voodoo
@@ -231,4 +232,15 @@ PrepaidHandler = class PrepaidHandler extends Handler
               hipchat.sendHipChatMessage msg, ['tower']
               return done(null, prepaid)
 
+
+  get: (req, res) ->
+    if creator = req.query.creator
+      return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or creator is req.user.id)
+      return @sendBadInputError(res, 'Bad creator') unless utils.isID creator
+      Prepaid.find {creator: mongoose.Types.ObjectId(creator)}, (err, prepaids) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendSuccess(res, (@formatEntity(req, prepaids) for prepaids in prepaids))
+    else
+      super(arguments...)
+      
 module.exports = new PrepaidHandler()
