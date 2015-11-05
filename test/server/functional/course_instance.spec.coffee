@@ -99,7 +99,7 @@ describe 'POST /db/course_instance/:id/members', ->
     ], makeTestIterator(@), done)
     
     
-  it 'returns 403 if the user does not own the course instance', (done) ->
+  it 'returns 403 if the user does not own the course instance and is not adding self', (done) ->
     async.eachSeries([
 
       addTestUserToClassroom,
@@ -111,6 +111,8 @@ describe 'POST /db/course_instance/:id/members', ->
             cb()
 
     ], makeTestIterator(@), done)
+    
+  it 'returns 200 if the user is a member of the classroom and is adding self', ->
 
   it 'return 402 if the course is not free and the user is not in a prepaid', (done) ->
     async.eachSeries([

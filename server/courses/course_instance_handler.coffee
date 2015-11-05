@@ -45,11 +45,13 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     CourseInstance.findById courseInstanceID, (err, courseInstance) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res, 'Course instance not found') unless courseInstance
-      return @sendForbiddenError(res) unless courseInstance.get('ownerID').equals(req.user.get('_id'))
       Classroom.findById courseInstance.get('classroomID'), (err, classroom) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'Classroom referenced by course instance not found') unless classroom
         return @sendForbiddenError(res) unless _.any(classroom.get('members'), (memberID) -> memberID.toString() is userID)
+        ownsCourseInstance = courseInstance.get('ownerID').equals(req.user.get('_id'))
+        addingSelf = userID is req.user.id
+        return @sendForbiddenError(res) unless ownsCourseInstance or addingSelf 
         Prepaid.find({ 'redeemers.userID': mongoose.Types.ObjectId(userID) }).count (err, userIsPrepaid) =>
           return @sendDatabaseError(res, err) if err
           Course.findById courseInstance.get('courseID'), (err, course) =>
