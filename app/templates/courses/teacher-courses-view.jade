@@ -7,4 +7,30 @@ block content
   
   hr
 
-  p Teacher courses view
+  for classroom in view.classrooms.models
+    h2= classroom.get('name')
+
+    if classroom.saving
+      .progress
+        .progress-bar(style="width: 100%")
+      
+    table.table
+      tr
+        th Student
+        for course in view.courses.models
+          th= course.get('name')
+        
+      if !_.size(classroom.get('members'))
+        tr
+          td(colspan=1+view.courses.size())
+            em No students in this class yet.
+      
+    button.add-students-btn.btn.btn-sm(data-classroom-id=classroom.id) Add Students
+
+    hr
+  
+  .row
+    .col-sm-3.col-sm-offset-3
+      button#create-new-class-btn.btn.btn-default.btn-block Create New Class
+    .col-sm-3
+      input#new-classroom-name-input.form-control(placeholder='new class name')

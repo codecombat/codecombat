@@ -70,11 +70,10 @@ ClassroomHandler = class ClassroomHandler extends Handler
           email_id: sendwithus.templates.course_invite_email
           recipient:
             address: email
-          subject: classroom.get('name')
           email_data:
             class_name: classroom.get('name')
             # TODO: join_link
-#            join_link: "https://codecombat.com/courses/students?_ppc=" + prepaid.get('code')
+            join_link: "https://codecombat.com/courses/students?_cc=" + classroom.get('code')
         sendwithus.api.send context, _.noop
       return @sendSuccess(res, {})
       

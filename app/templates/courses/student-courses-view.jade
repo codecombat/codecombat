@@ -4,19 +4,29 @@ block content
 
   p To join a class, ask your teacher for an unlock code.
   
-  .form-horizontal
+  #join-classroom-form.form-horizontal
     .form-group
       .col-sm-2
-        button.btn.btn-default.btn-block Join Class
+        button#join-class-btn.btn.btn-default.btn-block(disabled=view.state==='enrolling') Join Class
       .col-sm-6
-        input#classroom-code.form-control(placeholder='<enter unlock code here>')
-     
-    .panel.panel-default
-      .panel-heading
-        .panel-title My Courses
+        input#classroom-code-input.form-control(
+          placeholder='<enter unlock code here>',
+          value=view.classCode,
+          disabled=view.state==='enrolling')
         
-      .panel-body.row
-        .col-sm-3 Class 1
-        .col-sm-3 Course 1
-        .col-sm-6
-          button.btn.btn-default.btn-sm Enter
+    if view.state === 'enrolling'
+      .progress.progress-striped.active
+        .progress-bar(style="width: 100%") Joining class
+      
+    if view.state === 'unknown_error'
+      .alert.alert-danger= view.stateMessage
+     
+  .panel.panel-default
+    .panel-heading
+      .panel-title My Courses
+      
+    .panel-body.row
+      .col-sm-3 Class 1
+      .col-sm-3 Course 1
+      .col-sm-6
+        button.btn.btn-default.btn-sm Enter

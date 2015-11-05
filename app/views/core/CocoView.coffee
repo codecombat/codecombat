@@ -132,6 +132,7 @@ module.exports = class CocoView extends Backbone.View
     context.translate = $.i18n.t
     context.view = @
     context._ = _
+    context.document = document
     context
 
   afterRender: ->
