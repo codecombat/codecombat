@@ -135,40 +135,30 @@ PrepaidHandler = class PrepaidHandler extends Handler
         @sendSuccess(res, prepaid.toObject())
 
     else if req.body.type is 'course'
-      courseID = req.body.courseID
-
       maxRedeemers = parseInt(req.body.maxRedeemers)
       timestamp = req.body.stripe?.timestamp
       token = req.body.stripe?.token
 
       return @sendBadInputError(res) unless isNaN(maxRedeemers) is false and maxRedeemers > 0
 
-      query = if courseID? then {_id: courseID} else {}
-      Course.find query, (err, courses) =>
-        if err
-          @logError(user, "Find courses error: #{JSON.stringify(err)}")
-          return done(err)
-
-        @purchasePrepaidCourse req.user, courses, maxRedeemers, timestamp, token, (err, prepaid) =>
-          # TODO: this badinput detection is fragile, in course instance handler as well
-          return @sendBadInputError(res, err) if err is 'Missing required Stripe token'
-          return @sendDatabaseError(res, err) if err
-          @sendSuccess(res, prepaid.toObject())
+      @purchasePrepaidCourse req.user, maxRedeemers, timestamp, token, (err, prepaid) =>
+        # TODO: this badinput detection is fragile, in course instance handler as well
+        return @sendBadInputError(res, err) if err is 'Missing required Stripe token'
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, prepaid.toObject())
     else
       @sendForbiddenError(res)
 
-  purchasePrepaidCourse: (user, courses, maxRedeemers, timestamp, token, done) ->
+  purchasePrepaidCourse: (user, maxRedeemers, timestamp, token, done) ->
     type = 'course'
 
-    courseIDs = (c.get('_id') for c in courses)
-    coursePrices = (c.get('pricePerSeat') for c in courses)
-    amount = utils.getCourseBundlePrice(coursePrices, maxRedeemers)
+    amount = maxRedeemers * 200 # TODO: Actual price
     if amount > 0 and not (token or user.isAdmin())
       @logError(user, "Purchase prepaid courses missing required Stripe token #{amount}")
       return done('Missing required Stripe token')
 
     if amount is 0 or user.isAdmin()
-      @createPrepaid(user, type, maxRedeemers, courseIDs: courseIDs, done)
+      @createPrepaid(user, type, maxRedeemers, {}, done)
 
     else
       StripeUtils.getCustomer user, token, (err, customer) =>
@@ -180,10 +170,8 @@ PrepaidHandler = class PrepaidHandler extends Handler
           type: type
           userID: user.id
           timestamp: parseInt(timestamp)
-          description: if courses.length is 1 then courses[0].get('name') else 'All Courses'
           maxRedeemers: maxRedeemers
           productID: "prepaid #{type}"
-          courseIDs: courseIDs
 
         StripeUtils.createCharge user, amount, metadata, (err, charge) =>
           if err
@@ -194,9 +182,9 @@ PrepaidHandler = class PrepaidHandler extends Handler
             if err
               @logError(user, "createPayment error: #{JSON.stringify(err)}")
               return done(err)
-            msg = "Prepaid code purchased: #{type} seats=#{maxRedeemers} courseIDs=#{courseIDs} #{user.get('email')}"
+            msg = "Prepaid code purchased: #{type} seats=#{maxRedeemers} #{user.get('email')}"
             hipchat.sendHipChatMessage msg, ['tower']
-            @createPrepaid(user, type, maxRedeemers, courseIDs: courseIDs, done)
+            @createPrepaid(user, type, maxRedeemers, {}, done)
 
   purchasePrepaidTerminalSubscription: (user, description, maxRedeemers, months, timestamp, token, done) ->
     type = 'terminal_subscription'

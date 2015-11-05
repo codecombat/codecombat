@@ -19,7 +19,6 @@ describe '/db/prepaid', ->
     expect(prepaid.type).toEqual('course')
     expect(prepaid.maxRedeemers).toBeGreaterThan(0)
     expect(prepaid.code).toMatch(/^\w{8}$/)
-    expect(prepaid.properties?.courseIDs?.length).toBeGreaterThan(0)
     done()
 
   verifySubscriptionPrepaid = (user, prepaid, done) ->
@@ -229,68 +228,36 @@ describe '/db/prepaid', ->
             done() unless found
 
   describe 'Purchase course', ->
-    it 'Standard user purchases a prepaid for one course, 0 seats', (done) ->
+    it 'Standard user purchases a prepaid for 0 seats', (done) ->
       stripe.tokens.create {
         card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
       }, (err, token) ->
         loginNewUser (user1) ->
-          createCourse 700, (err, course) ->
+          purchasePrepaid 'course', {}, 0, token.id, (err, res, prepaid) ->
             expect(err).toBeNull()
-            purchasePrepaid 'course', courseID: course.id, 0, token.id, (err, res, prepaid) ->
-              expect(err).toBeNull()
-              expect(res.statusCode).toBe(422)
-              done()
-    it 'Standard user purchases a prepaid for one course, 1 seat', (done) ->
+            expect(res.statusCode).toBe(422)
+            done()
+            
+    it 'Standard user purchases a prepaid for 1 seat', (done) ->
       stripe.tokens.create {
         card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
       }, (err, token) ->
         loginNewUser (user1) ->
-          createCourse 700, (err, course) ->
+          purchasePrepaid 'course', {}, 1, token.id, (err, res, prepaid) ->
             expect(err).toBeNull()
-            purchasePrepaid 'course', courseID: course.id, 1, token.id, (err, res, prepaid) ->
-              expect(err).toBeNull()
-              expect(res.statusCode).toBe(200)
-              verifyCoursePrepaid(user1, prepaid, done)
-    it 'Standard user purchases a prepaid for one course, 3 seats', (done) ->
-      stripe.tokens.create {
-        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-      }, (err, token) ->
-        loginNewUser (user1) ->
-          createCourse 700, (err, course) ->
-            expect(err).toBeNull()
-            purchasePrepaid 'course', courseID: course.id, 3, token.id, (err, res, prepaid) ->
-              expect(err).toBeNull()
-              expect(res.statusCode).toBe(200)
-              verifyCoursePrepaid(user1, prepaid, done)
-    it 'Standard user purchases a prepaid for all courses, 10 seats', (done) ->
-      clearModels [Course, CourseInstance, Payment, Prepaid, User], (err) ->
-        throw err if err
-        stripe.tokens.create {
-          card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-        }, (err, token) ->
-          loginNewUser (user1) ->
-            createCourse 700, (err, course) ->
-              expect(err).toBeNull()
-              createCourse 700, (err, course) ->
-                expect(err).toBeNull()
-                purchasePrepaid 'course', null, 10, token.id, (err, res, prepaid) ->
-                  expect(err).toBeNull()
-                  expect(res.statusCode).toBe(200)
-                  expect(prepaid.properties?.courseIDs?.length).toEqual(2)
-                  verifyCoursePrepaid(user1, prepaid, done)
+            expect(res.statusCode).toBe(200)
+            verifyCoursePrepaid(user1, prepaid, done)
 
-    it 'Standard user purchases a prepaid course for 3', (done) ->
+    it 'Standard user purchases a prepaid for 3 seats', (done) ->
       stripe.tokens.create {
         card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
       }, (err, token) ->
         loginNewUser (user1) ->
-          createCourse 700, (err, course) ->
+          purchasePrepaid 'course', {}, 3, token.id, (err, res, prepaid) ->
             expect(err).toBeNull()
-            purchasePrepaid 'course', courseID: course.id, 3, token.id, (err, res, prepaid) ->
-              expect(err).toBeNull()
-              expect(res.statusCode).toBe(200)
-              done()
-
+            expect(res.statusCode).toBe(200)
+            verifyCoursePrepaid(user1, prepaid, done)
+            
   describe 'Purchase terminal_subscription', ->
     it 'Anonymous submits a prepaid purchase', (done) ->
       stripe.tokens.create {

@@ -164,8 +164,6 @@ GLOBAL.purchasePrepaid = (type, properties, maxRedeemers, token, done) ->
   options.json.stripe.token = token if token?
   if type is 'terminal_subscription'
     options.json.months = properties.months
-  else if type is 'course'
-    options.json.courseID = properties.courseID if properties?.courseID
   request.post options, done
 
 GLOBAL.subscribeWithPrepaid = (ppc, done) =>
