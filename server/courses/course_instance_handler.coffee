@@ -178,4 +178,20 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
             return @sendDatabaseError(res, err) if err
             @sendSuccess(res, courseInstances)
 
+  get: (req, res) ->
+    if ownerID = req.query.ownerID
+      return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or ownerID is req.user.id)
+      return @sendBadInputError(res, 'Bad ownerID') unless utils.isID ownerID
+      CourseInstance.find {ownerID: mongoose.Types.ObjectId(ownerID)}, (err, courseInstances) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendSuccess(res, (@formatEntity(req, courseInstance) for courseInstance in courseInstances))
+    else if memberID = req.query.memberID
+      return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or memberID is req.user.id)
+      return @sendBadInputError(res, 'Bad memberID') unless utils.isID memberID
+      CourseInstance.find {members: mongoose.Types.ObjectId(memberID)}, (err, courseInstances) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendSuccess(res, (@formatEntity(req, courseInstance) for courseInstance in courseInstances))
+    else
+      super(arguments...)
+
 module.exports = new CourseInstanceHandler()
