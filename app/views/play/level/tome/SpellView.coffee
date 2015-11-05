@@ -263,8 +263,10 @@ module.exports = class SpellView extends CocoView
     @ace.commands.on 'exec', (e) =>
       # When pressing enter with an active selection, just make a new line under it.
       if e.command.name is 'enter-skip-delimiters'
-        e.editor.execCommand 'gotolineend'
-        return true
+        selection = @ace.selection.getRange()
+        unless selection.start.column is selection.end.column and selection.start.row is selection.end.row
+          e.editor.execCommand 'gotolineend'
+          return true
 
   fillACE: ->
     @ace.setValue @spell.source
