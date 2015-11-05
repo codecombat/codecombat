@@ -143,7 +143,7 @@ ClanHandler = class ClanHandler extends Handler
   getPublicClans: (req, res) ->
     # Return 100 public clans, sorted by member count, created date
     query = [{ $match : {type : 'public'} }]
-    query.push {$project : {_id: 1, name: 1, slug: 1, type: 1, description: 1, members: 1, memberCount: {$size: "$members"}, ownerID: 1}}
+    query.push {$project : {_id: 1, name: 1, slug: 1, type: 1, description: 1, memberCount: {$size: "$members"}, ownerID: 1}}
     query.push {$sort: { memberCount: -1, _id: -1 }}
     query.push {$limit: 100}
     Clan.aggregate(query).exec (err, documents) =>
