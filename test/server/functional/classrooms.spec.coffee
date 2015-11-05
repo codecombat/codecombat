@@ -123,13 +123,16 @@ describe 'POST /db/classroom/:id/members', ->
       data = { name: 'Classroom 5' }
       request.post {uri: classroomsURL, json: data }, (err, res, body) ->
         classroomCode = body.code
+        classroomID = body._id
         expect(res.statusCode).toBe(200)
         loginNewUser (user2) ->
           url = getURL("/db/classroom/~/members")
           data = { code: classroomCode }
           request.post { uri: url, json: data }, (err, res, body) ->
             expect(res.statusCode).toBe(200)
-            done()
+            Classroom.findById classroomID, (err, classroom) ->
+              expect(classroom.get('members').length).toBe(1)
+              done()
 
 
 describe 'POST /db/classroom/:id/invite-members', ->

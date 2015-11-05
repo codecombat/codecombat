@@ -57,10 +57,11 @@ ClassroomHandler = class ClassroomHandler extends Handler
       members = _.clone(classroom.get('members'))
       if _.any(members, (memberID) -> memberID.equals(req.user.get('_id')))
         return @sendSuccess(res, @formatEntity(req, classroom))
-      members.push req.user.get('_id')
-      classroom.set('members', members)
-      classroom.save (err, classroom) =>
+      update = { $push: { members : req.user.get('_id')}}
+      classroom.update update, (err) =>
         return @sendDatabaseError(res, err) if err
+        members.push req.user.get('_id')
+        classroom.set('members', members)
         return @sendSuccess(res, @formatEntity(req, classroom))
       
   formatEntity: (req, doc) ->
