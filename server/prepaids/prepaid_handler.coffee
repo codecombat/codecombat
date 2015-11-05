@@ -78,14 +78,26 @@ PrepaidHandler = class PrepaidHandler extends Handler
         Prepaid.count {'redeemers.userID': userID}, (err, count) =>
           return @sendDatabaseError(res, err) if err
           return @sendSuccess(res, @formatEntity(req, prepaid)) if count
-          redeemers = _.clone(prepaid.get('redeemers') or [])
-          redeemers.push({ date: new Date(), userID: userID })
-          prepaid.set('redeemers', redeemers)
-          # Not worrying about race conditions. Worst case: overwrite one user with another.
-          # You can't end up with more than maxRedeemers in the list of redeemers.
-          prepaid.save (err, prepaid) =>
+
+          query =
+            _id: prepaid.get('_id')
+            'redeemers.userID': { $ne: req.user.get('_id') }
+            $where: "this.redeemers.length < #{prepaid.get('maxRedeemers')}"
+          update = { $push: { redeemers : { date: new Date(), userID: userID } }}
+          Prepaid.update query, update, (err, nMatched) =>
             return @sendDatabaseError(res, err) if err
-            @sendSuccess(res, @formatEntity(req, prepaid))      
+            if nMatched is 0
+              @logError(req.user, "POST prepaid redeemer lost race on maxRedeemers")
+              return @sendForbiddenError(res)
+              
+            user.set('coursePrepaidID', prepaid.get('_id'))
+            user.save (err, user) =>
+              return @sendDatabaseError(res, err) if err
+              # return prepaid with new redeemer added locally
+              redeemers = _.clone(prepaid.get('redeemers') or [])
+              redeemers.push({ date: new Date(), userID: userID })
+              prepaid.set('redeemers', redeemers)
+              @sendSuccess(res, @formatEntity(req, prepaid))      
 
   createPrepaid: (user, type, maxRedeemers, properties, done) ->
     Prepaid.generateNewCode (code) =>

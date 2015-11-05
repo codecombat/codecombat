@@ -53,7 +53,12 @@ describe '/db/prepaid', ->
             request.post {uri: url, json: redeemer }, (err, res, body) ->
               expect(body.redeemers.length).toBe(1)
               expect(res.statusCode).toBe(200)
-              done()
+              prepaid = Prepaid.findById body._id, (err, prepaid) ->
+                expect(err).toBeNull()
+                expect(prepaid.get('redeemers').length).toBe(1)
+                User.findById  otherUser.id, (err, user) ->
+                  expect(user.get('coursePrepaidID').equals(prepaid.get('_id'))).toBe(true)
+                  done()
               
     it 'does not allow more redeemers than maxRedeemers', (done) ->
       loginNewUser (user1) ->
