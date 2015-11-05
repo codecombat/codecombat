@@ -1,0 +1,41 @@
+extends /templates/base
+
+block content
+
+  if view.state === 'purchasing'
+    p.text-center Purchasing...
+    .progress.progress-striped.active
+      .progress-bar(style="width: 100%")
+    
+  else if view.state === 'purchased'
+    p Thank you for your purchase! You can now assign (more) students to paid courses.
+    
+    p.text-center
+      a(href="/courses/teachers") Return to course management.
+      
+  else
+    h3.text-center Purchase Courses for Students
+    
+    if view.state === 'error'
+      .alert.alert-danger= view.stateMessage
+    
+    .form-horizontal
+      .form-group
+        label.col-sm-3.control-label Students
+        .col-sm-6
+          input#students-input.form-control(
+            placeholder='<number of seats>'
+            value=view.numberOfStudents
+            type='number'
+          )
+          .help-block Each student will have access to all courses. 
+          
+      #price-form-group.form-group
+        label.col-sm-3.control-label Price
+        .col-sm-6
+          .form-control-static
+            | #{view.getPriceString()} ($#{view.pricePerStudent.toFixed(2)} per student)
+  
+      .form-group
+        .col-sm-offset-3.col-sm-10
+          button#purchase-btn.btn.btn-primary Purchase
