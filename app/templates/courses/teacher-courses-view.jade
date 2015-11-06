@@ -6,9 +6,20 @@ block content
   a.spl(href='mailto:team@codecombat.com') team@codecombat.com
   
   hr
+  
+  p Create a class and add students to it.
+  
+  - var totalRedeemers = view.prepaids.totalRedeemers();
+  - var totalMaxRedeemers = view.prepaids.totalMaxRedeemers();
+  
+  .text-right
+    span.spr Available paid seats: #{totalRedeemers}/#{totalMaxRedeemers}
+    a.btn.btn-default.btn-xs(href="/courses/purchase") Add
 
   for classroom in view.classrooms.models
     h2= classroom.get('name')
+    
+    - var courseInstances = view.courseInstances.where({classroomID: classroom.id})
 
     if classroom.saving
       .progress
@@ -17,13 +28,32 @@ block content
     table.table
       tr
         th Student
-        for course in view.courses.models
-          th= course.get('name')
+        for courseInstance in courseInstances
+          th
+            if courseInstance.course
+            | #{courseInstance.course.get('name')}
         
       if !_.size(classroom.get('members'))
         tr
           td(colspan=1+view.courses.size())
             em No students in this class yet.
+        
+      for member in classroom.get('members') || []
+        - var user = view.members.get(member);
+        if !user
+          - continue;
+        tr
+          td= user.get('name')
+          for courseInstance in courseInstances
+            td
+              if _.contains(courseInstance.get('members'), user.id)
+                span.glyphicon.glyphicon-ok
+              else
+                input.course-instance-membership-checkbox(
+                  type='checkbox'
+                  data-course-instance-id=courseInstance.id
+                  data-user-id=user.id
+                )
       
     button.add-students-btn.btn.btn-sm(data-classroom-id=classroom.id) Add Students
 
@@ -34,3 +64,29 @@ block content
       button#create-new-class-btn.btn.btn-default.btn-block Create New Class
     .col-sm-3
       input#new-classroom-name-input.form-control(placeholder='new class name')
+      
+  #fixed-area
+    .container
+      .row.well
+        if view.state === 'saving-changes'
+          p Saving changes
+          - var total = view.membershipAdditions.originalSize + view.usersToRedeem.originalSize;
+          - var left = view.membershipAdditions.size() + view.usersToRedeem.size();
+          - var pct = Math.max(10, (100 * (total - left) / total)).toFixed(1) + '%';
+          .progress.progress-striped.active
+            .progress-bar(style="width: #{pct}")
+        else
+          - var seatsLeft = totalMaxRedeemers - totalRedeemers - view.usersToRedeem.size();
+          if seatsLeft < 0
+            .alert.alert-danger
+              span.spr You do not have enough seats to accommodate all students you have selected.
+              a(href="/courses/purchase") Buy more seats.
+          else
+            .col-sm-2
+              button#save-changes-btn.btn.btn-primary.btn-block(disabled=!view.numCourseInstancesToAddTo) Save Changes
+            .col-sm-5
+              | Students to add to courses: #{view.numCourseInstancesToAddTo || 0}
+            .col-sm-5
+              | Seats to expend: #{view.usersToRedeem.size()} (will have #{seatsLeft} seats left)
+    
+block footer

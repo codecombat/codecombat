@@ -1,8 +1,11 @@
 app = require 'core/application'
 AuthModal = require 'views/core/AuthModal'
 CocoCollection = require 'collections/CocoCollection'
+CocoModel = require 'models/CocoModel'
 Course = require 'models/Course'
 Classroom = require 'models/Classroom'
+User = require 'models/User'
+Prepaid = require 'models/Prepaid'
 CourseInstance = require 'models/CourseInstance'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-courses-view'
@@ -16,15 +19,37 @@ module.exports = class TeacherCoursesView extends RootView
   events:
     'click #create-new-class-btn': 'onClickCreateNewclassButton'
     'click .add-students-btn': 'onClickAddStudentsButton'
+    'click .course-instance-membership-checkbox': 'onClickCourseInstanceMembershipCheckbox'
+    'click #save-changes-btn': 'onClickSaveChangesButton'
 
   constructor: (options) ->
     super(options)
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
-    @listenToOnce @classrooms, 'sync', @onCourseInstancesLoaded
+    @classrooms.comparator = '_id'
+    @listenToOnce @classrooms, 'sync', @onceClassroomsSync
     @supermodel.loadCollection(@classrooms, 'classrooms', {data: {ownerID: me.id}})
+    @courseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance })
+    @courseInstances.comparator = 'courseID'
+    @supermodel.loadCollection(@courseInstances, 'course_instances', {data: {ownerID: me.id}})
+    @members = new CocoCollection([], { model: User })
+    @prepaids = new CocoCollection([], { url: "/db/prepaid", model: Prepaid })
+    sum = (numbers) -> _.reduce(numbers, (a, b) -> a + b)
+    @prepaids.totalMaxRedeemers = -> sum((prepaid.get('maxRedeemers') for prepaid in @models)) 
+    @prepaids.totalRedeemers = -> sum((_.size(prepaid.get('redeemers')) for prepaid in @models))
+    @prepaids.comparator = '_id'
+    @supermodel.loadCollection(@prepaids, 'prepaids', {data: {creator: me.id}})
+    @listenTo @members, 'sync', @render
+    @usersToRedeem = new CocoCollection([], { model: User })
     @
+
+  onceClassroomsSync: ->
+    for classroom in @classrooms.models
+      @members.fetch({
+        remove: false
+        url: "/db/classroom/#{classroom.id}/members"
+      })
 
   onClickCreateNewclassButton: ->
     name = @$('#new-classroom-name-input').val()
@@ -43,3 +68,122 @@ module.exports = class TeacherCoursesView extends RootView
     classroom = @classrooms.get(classroomID)
     modal = new InviteToClassroomModal({classroom: classroom})
     @openModalView(modal)
+    
+  onLoaded: ->
+    super()
+    @linkCourseIntancesToCourses()
+    @fillMissingCourseInstances()
+
+  linkCourseIntancesToCourses: ->
+    for courseInstance in @courseInstances.models
+      courseInstance.course = @courses.get(courseInstance.get('courseID'))
+    
+  fillMissingCourseInstances: ->
+    # TODO: Give teachers control over which courses are enabled for a given class.
+    # Add/remove course instances and columns in the view to match.
+    for classroom in @classrooms.models
+      for course in @courses.models
+        courseInstance = @courseInstances.findWhere({classroomID: classroom.id, courseID: course.id})
+        if not courseInstance
+          courseInstance = new CourseInstance({
+            classroomID: classroom.id
+            courseID: course.id
+          })
+          # TODO: figure out a better way to get around triggering validation errors for properties
+          # that the server will end up filling in, like an empty members array, ownerID
+          courseInstance.save(null, {validate: false})
+          courseInstance.course = course
+          @courseInstances.add(courseInstance)
+          @listenToOnce courseInstance, 'sync', @fillMissingCourseInstances
+          return
+
+  onClickCourseInstanceMembershipCheckbox: ->
+    usersToRedeem = {}
+    checkedBoxes = @$('.course-instance-membership-checkbox:checked')
+    _.each checkedBoxes, (el) =>
+      $el = $(el)
+      userID = $el.data('user-id')
+      return if usersToRedeem[userID]
+      user = @members.get(userID)
+      return if user.get('coursePrepaidID')
+      courseInstanceID = $el.data('course-instance-id')
+      courseInstance = @courseInstances.get(courseInstanceID)
+      return if courseInstance.course.get('free')
+      usersToRedeem[userID] = user
+
+    @usersToRedeem = new CocoCollection(_.values(usersToRedeem), {model: User})
+    @numCourseInstancesToAddTo = checkedBoxes.length
+    @renderSelectors '#fixed-area'
+    
+  onClickSaveChangesButton: ->
+    @$('.course-instance-membership-checkbox').attr('disabled', true)
+    checkedBoxes = @$('.course-instance-membership-checkbox:checked')
+    raw = _.map checkedBoxes, (el) =>
+      $el = $(el)
+      userID = $el.data('user-id')
+      courseInstanceID = $el.data('course-instance-id')
+      courseInstance = @courseInstances.get(courseInstanceID)
+      return {
+        courseInstance: courseInstance
+        userID: userID
+      }
+    @membershipAdditions = new CocoCollection(raw, { model: User }) # TODO: Allow collections not to have models defined?
+    @membershipAdditions.originalSize = @membershipAdditions.size()
+    @usersToRedeem.originalSize = @usersToRedeem.size()
+    @state = 'saving-changes'
+    @renderSelectors '#fixed-area'
+    @redeemUsers()
+    
+  redeemUsers: ->
+    if not @usersToRedeem.size()
+      @addMemberships()
+      return
+    
+    user = @usersToRedeem.first()
+    prepaid = @prepaids.find (prepaid) -> prepaid.openSpots()
+    $.ajax({
+      method: 'POST'
+      url: _.result(prepaid, 'url') + '/redeemers'
+      data: { userID: user.id }
+      context: @
+      success: ->
+        @usersToRedeem.remove(user)
+        @renderSelectors '#fixed-area'
+        @redeemUsers()
+      error: (jqxhr, textStatus, errorThrown) ->
+        if jqxhr.status is 402
+          @state = 'error'
+          @stateMessage = arguments[2]
+        else
+          @state = 'error'
+          @stateMessage = "#{jqxhr.status}: #{jqxhr.responseText}"
+        @renderSelectors '#fixed-area'
+    })
+
+  addMemberships: ->
+    if not @membershipAdditions.size()
+      @renderSelectors '#fixed-area'
+      document.location.reload()
+      return
+      
+    membershipAddition = @membershipAdditions.first()
+    courseInstance = membershipAddition.get('courseInstance')
+    userID = membershipAddition.get('userID')
+    $.ajax({
+      method: 'POST'
+      url: _.result(courseInstance, 'url') + '/members'
+      data: { userID: userID }
+      context: @
+      success: ->
+        @membershipAdditions.remove(membershipAddition)
+        @renderSelectors '#fixed-area'
+        @addMemberships()
+      error: (jqxhr, textStatus, errorThrown) ->
+        if jqxhr.status is 402
+          @state = 'error'
+          @stateMessage = arguments[2]
+        else
+          @state = 'error'
+          @stateMessage = "#{jqxhr.status}: #{jqxhr.responseText}"
+        @renderSelectors '#fixed-area'
+    })
