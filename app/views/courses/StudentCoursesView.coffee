@@ -2,6 +2,8 @@ app = require 'core/application'
 AuthModal = require 'views/core/AuthModal'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
+Classroom = require 'models/Classroom'
+User = require 'models/User'
 CourseInstance = require 'models/CourseInstance'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/student-courses-view'
@@ -21,7 +23,10 @@ module.exports = class StudentCoursesView extends RootView
     super(options)
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @supermodel.loadCollection(@courseInstances, 'course_instances')
-    
+    @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
+    @supermodel.loadCollection(@classrooms, 'classrooms', { data: {memberID: me.id} })
+    @courses = new CocoCollection([], { url: "/db/course", model: Course})
+    @supermodel.loadCollection(@courses, 'courses')
     if (@classCode = utils.getQueryVariable('_cc', false)) and not me.isAnonymous()
       @joinClass()
 

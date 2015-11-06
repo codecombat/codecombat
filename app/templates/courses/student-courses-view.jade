@@ -25,8 +25,23 @@ block content
     .panel-heading
       .panel-title My Courses
       
-    .panel-body.row
-      .col-sm-3 Class 1
-      .col-sm-3 Course 1
-      .col-sm-6
-        button.btn.btn-default.btn-sm Enter
+    .list-group
+      for courseInstance in view.courseInstances.models
+        .list-group-item
+          .row
+            - var classroom = view.classrooms.get(courseInstance.get('classroomID'))
+            - var course = view.courses.get(courseInstance.get('courseID'))
+            .col-sm-3= classroom.get('name')
+            .col-sm-3= course.get('name')
+            .col-sm-6
+              a.btn.btn-default.btn-sm(href="/courses/#{course.id}/#{courseInstance.id}") Enter
+        
+  .panel.panel-default
+    .panel-heading
+      .panel-title My Classes
+    .list-group
+      for classroom in view.classrooms.models
+        .list-group-item
+          .row
+            .col-sm-3= classroom.get('name')
+            .col-sm-9= classroom.get('description')
