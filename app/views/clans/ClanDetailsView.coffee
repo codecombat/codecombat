@@ -64,7 +64,6 @@ module.exports = class ClanDetailsView extends RootView
     @supermodel.loadModel @clan, 'clan', cache: false
     @supermodel.loadCollection(@members, 'members', {cache: false})
     @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
-    @supermodel.loadCollection(@memberSessions, 'member_sessions', {cache: false})
 
   getRenderData: ->
     context = super()
@@ -115,7 +114,7 @@ module.exports = class ClanDetailsView extends RootView
           lastLevelIndex++
           levelCount++
 
-    @sortMembers(highestUserLevelCountMap, userConceptsMap) if @clan.get('dashboardType') is 'premium'
+    @sortMembers(highestUserLevelCountMap, userConceptsMap)# if @clan.get('dashboardType') is 'premium'
     context.members = @members?.models ? []
     context.lastUserCampaignLevelMap = lastUserCampaignLevelMap
     context.showExpandedProgress = maxLastUserCampaignLevel <= 30 or @showExpandedProgress
@@ -207,6 +206,8 @@ module.exports = class ClanDetailsView extends RootView
       @owner = new User _id: @clan.get('ownerID')
       @listenTo @owner, 'sync', => @render?()
       @supermodel.loadModel @owner, 'owner', cache: false
+    if @clan.get("dashboardType") is "premium"
+      @supermodel.loadCollection(@memberSessions, 'member_sessions', {cache: false})
     @render?()
 
   onMembersSync: ->

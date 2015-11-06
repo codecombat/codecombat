@@ -40,7 +40,7 @@ block content
                     a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
                   else
                     a(href="/clans/#{clan.id}")= clan.get('name')
-                td= clan.get('members').length
+                td= clan.get('memberCount')
                 td 
                   if idNameMap && idNameMap[clan.get('ownerID')]
                     a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]
@@ -70,7 +70,7 @@ block content
                     a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
                   else
                     a(href="/clans/#{clan.id}")= clan.get('name')
-                td= clan.get('members').length
+                td= clan.get('memberCount')
                 td 
                   if idNameMap && idNameMap[clan.get('ownerID')]
                     a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]

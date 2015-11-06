@@ -10,6 +10,8 @@ LevelSessionHandler = require '../levels/sessions/level_session_handler'
 User = require '../users/User'
 UserHandler = require '../users/user_handler'
 
+memberLimit = 200
+
 ClanHandler = class ClanHandler extends Handler
   modelClass: Clan
   jsonSchema: require '../../app/schemas/models/clan.schema'
@@ -94,17 +96,15 @@ ClanHandler = class ClanHandler extends Handler
 
   getMemberAchievements: (req, res, clanID) ->
     # TODO: add tests
-    memberLimit = 200
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
       memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
-      User.find {_id: {$in: memberIDs}}, 'nameLower', {sort: {nameLower: 1}}, (err, users) =>
+      User.find {_id: {$in: memberIDs}}, 'nameLower', {limit: memberLimit}, (err, users) =>
         return @sendDatabaseError(res, err) if err
         memberIDs = []
         for user in users
           memberIDs.push user.id
-          break unless memberIDs.length < memberLimit
         EarnedAchievement.find {user: {$in: memberIDs}}, 'achievementName user', (err, documents) =>
           return @sendDatabaseError(res, err) if err?
           cleandocs = (EarnedAchievementHandler.formatEntity(req, doc) for doc in documents)
@@ -115,8 +115,8 @@ ClanHandler = class ClanHandler extends Handler
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
-      memberIDs = clan.get('members') ? []
-      User.find {_id: {$in: memberIDs}}, 'name nameLower points heroConfig.thangType', {sort: {nameLower: 1}}, (err, users) =>
+      memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
+      User.find {_id: {$in: memberIDs}}, 'name nameLower points heroConfig.thangType', {}, (err, users) =>
         return @sendDatabaseError(res, err) if err
         cleandocs = (UserHandler.formatEntity(req, doc) for doc in users)
         @sendSuccess(res, cleandocs)
@@ -124,12 +124,12 @@ ClanHandler = class ClanHandler extends Handler
   getMemberSessions: (req, res, clanID) ->
     # TODO: add tests
     # TODO: restrict information returned based on clan type
-    memberLimit = 200
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
+      return @sendForbiddenError(res) unless clan.get('dashboardType') is 'premium'
       memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
-      User.find {_id: {$in: memberIDs}}, 'name', {sort: {name: 1}}, (err, users) =>
+      User.find {_id: {$in: memberIDs}}, 'name', {limit: memberLimit}, (err, users) =>
         return @sendDatabaseError(res, err) if err
         memberIDs = []
         for user in users
@@ -143,7 +143,7 @@ ClanHandler = class ClanHandler extends Handler
   getPublicClans: (req, res) ->
     # Return 100 public clans, sorted by member count, created date
     query = [{ $match : {type : 'public'} }]
-    query.push {$project : {_id: 1, name: 1, slug: 1, type: 1, description: 1, members: 1, memberCount: {$size: "$members"}, ownerID: 1}}
+    query.push {$project : {_id: 1, name: 1, slug: 1, type: 1, description: 1, memberCount: {$size: "$members"}, ownerID: 1}}
     query.push {$sort: { memberCount: -1, _id: -1 }}
     query.push {$limit: 100}
     Clan.aggregate(query).exec (err, documents) =>
