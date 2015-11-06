@@ -448,8 +448,6 @@ module.exports = class HeroVictoryModal extends ModalView
     navigationEvent = route: nextLevelLink, viewClass: viewClass, viewArgs: viewArgs
     if @level.get('slug') is 'lost-viking' and not (me.get('age') in ['0-13', '14-17'])
       @showOffer navigationEvent
-    else if @level.get('slug') is 'a-mayhem-of-munchkins' and not (me.get('age') in ['0-13']) and not options.showLeaderboard
-      @showOffer navigationEvent
     else
       Backbone.Mediator.publish 'router:navigate', navigationEvent
 
