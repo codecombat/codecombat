@@ -5,10 +5,26 @@ block content
   if me.isAdmin()
     .container-fluid
       .row
+        .col-md-5.big-stat.active-classes
+          if activeClasses.length > 0
+            div.description 30-day Active Classes
+            div.count= activeClasses[0].groups[activeClasses[0].groups.length - 1]
         .col-md-5.big-stat.active-users
           if activeUsers.length > 0
             div.description 30-day Active Users
             div.count= activeUsers[0].monthlyCount
+
+    h1 Active Classes
+    table.table.table-striped.table-condensed
+      tr
+        th Day
+        for group in activeClassGroups
+          th= group.replace('Active classes', '')
+      each activeClass in activeClasses
+        tr
+          td= activeClass.day
+          each val in activeClass.groups
+            td= val
 
     h1 Active Users
     table.table.table-striped.table-condensed

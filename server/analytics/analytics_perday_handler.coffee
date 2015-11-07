@@ -14,6 +14,7 @@ class AnalyticsPerDayHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @sendForbiddenError res unless @hasAccess req
+    return @getActiveClasses(req, res) if args[1] is 'active_classes'
     return @getActiveUsers(req, res) if args[1] is 'active_users'
     return @getCampaignCompletionsBySlug(req, res) if args[1] is 'campaign_completions'
     return @getLevelCompletionsBySlug(req, res) if args[1] is 'level_completions'
@@ -21,6 +22,34 @@ class AnalyticsPerDayHandler extends Handler
     return @getLevelHelpsBySlugs(req, res) if args[1] is 'level_helps'
     return @getLevelSubscriptionsBySlugs(req, res) if args[1] is 'level_subscriptions'
     super(arguments...)
+
+  getActiveClasses: (req, res) ->
+    events = [
+      'Active classes private clan',
+      'Active classes managed subscription',
+      'Active classes bulk subscription',
+      'Active classes prepaid',
+      'Active classes course']
+
+    AnalyticsString.find({v: {$in: events}}).exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      eventIDs = []
+      eventStringMap = {}
+      for doc in documents
+        eventStringMap[doc._id.valueOf()] = doc.v
+        eventIDs.push doc._id
+      return @sendSuccess res, [] unless eventIDs.length is events.length
+
+      AnalyticsPerDay.find({e: {$in: eventIDs}}).exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        dayCountsMap = {}
+        for doc in documents
+          dayCountsMap[doc.d] ?= {}
+          dayCountsMap[doc.d][eventStringMap[doc.e.valueOf()]] = doc.c
+        activeClasses = []
+        for key, val of dayCountsMap
+          activeClasses.push day: key, classes: dayCountsMap[key]
+        @sendSuccess(res, activeClasses)
 
   getActiveUsers: (req, res) ->
     AnalyticsString.find({v: {$in: ['Daily Active Users', 'Monthly Active Users']}}).exec (err, documents) =>
