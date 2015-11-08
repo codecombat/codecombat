@@ -10,7 +10,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     campaign: "Kampanija"
     for_beginners: "Naujokams"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
+    for_developers: "Programuotojams" # Not currently shown on home page.
     or_ipad: "Arba atsisiųskite iPad'ui"
 
   nav:
