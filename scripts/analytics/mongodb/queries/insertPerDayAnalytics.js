@@ -17,7 +17,7 @@ try {
   var scriptStartTime = new Date();
   var analyticsStringCache = {};
 
-  var numDays = 32;
+  var numDays = 40;
   var daysInMonth = 30;
 
   var startDay = new Date();
@@ -98,6 +98,17 @@ try {
     for (var day in activeClassCounts[event]) {
       if (today === day) continue; // Never save data for today because it's incomplete
       insertEventCount(event, day, activeClassCounts[event][day]);
+    }
+  }
+
+  log("Getting monthly recurring revenue counts...");
+  var recurringRevenueCounts = getRecurringRevenueCounts(startDay);
+  // printjson(recurringRevenueCounts);
+  log("Inserting monthly recurring revenue counts...");
+  for (var event in recurringRevenueCounts) {
+    for (var day in recurringRevenueCounts[event]) {
+      if (today === day) continue; // Never save data for today because it's incomplete
+      insertEventCount(event, day, recurringRevenueCounts[event][day]);
     }
   }
 
@@ -621,6 +632,53 @@ function getActiveClassCounts(startDay) {
     }
   }
   return activeClassCounts;
+}
+
+function getRecurringRevenueCounts(startDay) {
+  if (!startDay) return {};
+
+  var dailyRevenueCounts = {};
+  var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+  var cursor = db.payments.find({_id: {$gte: startObj}});
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var day = doc._id.getTimestamp().toISOString().substring(0, 10);
+
+    if (doc.service === 'ios' || doc.service === 'bitcoin') continue;
+
+    if (doc.productID && doc.productID.indexOf('gems_') === 0) {
+      if (!dailyRevenueCounts['DRR gems']) dailyRevenueCounts['DRR gems'] = {};
+      if (!dailyRevenueCounts['DRR gems'][day]) dailyRevenueCounts['DRR gems'][day] = 0;
+      dailyRevenueCounts['DRR gems'][day] += doc.amount
+    }
+    else if (doc.productID === 'custom' || doc.service === 'external' || doc.service === 'invoice') {
+      if (!dailyRevenueCounts['DRR school sales']) dailyRevenueCounts['DRR school sales'] = {};
+      if (!dailyRevenueCounts['DRR school sales'][day]) dailyRevenueCounts['DRR school sales'][day] = 0;
+      dailyRevenueCounts['DRR school sales'][day] += doc.amount
+    }
+    else if (doc.service === 'stripe' && doc.gems === 42000) {
+      if (!dailyRevenueCounts['DRR yearly subs']) dailyRevenueCounts['DRR yearly subs'] = {};
+      if (!dailyRevenueCounts['DRR yearly subs'][day]) dailyRevenueCounts['DRR yearly subs'][day] = 0;
+      dailyRevenueCounts['DRR yearly subs'][day] += doc.amount
+    }
+    else if (doc.service === 'stripe') {
+      // Catches prepaids, and assumes all are type terminal_subscription
+      if (!dailyRevenueCounts['DRR monthly subs']) dailyRevenueCounts['DRR monthly subs'] = {};
+      if (!dailyRevenueCounts['DRR monthly subs'][day]) dailyRevenueCounts['DRR monthly subs'][day] = 0;
+      dailyRevenueCounts['DRR monthly subs'][day] += doc.amount
+    }
+    else if (doc.service === 'paypal') {
+      if (!dailyRevenueCounts['DRR paypal']) dailyRevenueCounts['DRR paypal'] = {};
+      if (!dailyRevenueCounts['DRR paypal'][day]) dailyRevenueCounts['DRR paypal'][day] = 0;
+      dailyRevenueCounts['DRR paypal'][day] += doc.amount
+    }
+    // else {
+    //   // printjson(doc);
+    //   // print(doc.service, doc.amount, doc.description, JSON.stringify(doc.stripe));
+    // }
+  }
+
+  return dailyRevenueCounts;
 }
 
 function insertEventCount(event, day, count) {
