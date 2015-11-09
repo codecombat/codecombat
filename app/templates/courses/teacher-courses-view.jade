@@ -13,7 +13,7 @@ block content
       a(href="#manage-tab-pane" aria-controls="manage" role="tab" data-toggle="tab") Manage
     
   .tab-content
-    #courses-tab-pane.tab-pane.well
+    #courses-tab-pane.tab-pane.well.active
       h3 Your Courses
       - var courseInstances = view.courseInstances.sliceWithMembers();
       if !_.size(courseInstances)
@@ -62,7 +62,7 @@ block content
           
         
       
-    #manage-tab-pane.tab-pane.well.active
+    #manage-tab-pane.tab-pane.well
 
       p Create a class and add students to it.
       
