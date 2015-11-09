@@ -16,3 +16,4 @@ module.exports = class JobProfileCodeModal extends ModalView
     super()
     codeView = new LevelSessionCodeView({session:@session})
     @insertSubView(codeView, @$el.find('.level-session-code-view'))
+
