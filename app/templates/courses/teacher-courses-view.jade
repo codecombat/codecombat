@@ -13,7 +13,7 @@ block content
       a(href="#manage-tab-pane" aria-controls="manage" role="tab" data-toggle="tab") Manage
     
   .tab-content
-    #courses-tab-pane.tab-pane.active.well
+    #courses-tab-pane.tab-pane.well
       h3 Your Courses
       - var courseInstances = view.courseInstances.sliceWithMembers();
       if !_.size(courseInstances)
@@ -29,7 +29,6 @@ block content
             th Size
             th
           for courseInstance in courseInstances
-            - console.log('course instance!', courseInstance)
             tr
               td
                 - var classroom = view.classrooms.get(courseInstance.get('classroomID'));
@@ -63,7 +62,7 @@ block content
           
         
       
-    #manage-tab-pane.tab-pane.well
+    #manage-tab-pane.tab-pane.well.active
 
       p Create a class and add students to it.
       
@@ -79,39 +78,40 @@ block content
         
         - var courseInstances = view.courseInstances.where({classroomID: classroom.id})
     
-        if classroom.saving
-          .progress
+        if classroom.saving || classroom.filling
+          .progress.progress-striped.active
             .progress-bar(style="width: 100%")
           
-        table.table
-          tr
-            th Student
-            for courseInstance in courseInstances
-              th
-                if courseInstance.course
-                | #{courseInstance.course.get('name')}
-            
-          if !_.size(classroom.get('members'))
+        else
+          table.table
             tr
-              td(colspan=1+view.courses.size())
-                em No students in this class yet.
-            
-          for member in classroom.get('members') || []
-            - var user = view.members.get(member);
-            if !user
-              - continue;
-            tr
-              td= user.get('name')
+              th Student
               for courseInstance in courseInstances
-                td
-                  if _.contains(courseInstance.get('members'), user.id)
-                    span.glyphicon.glyphicon-ok
-                  else
-                    input.course-instance-membership-checkbox(
-                      type='checkbox'
-                      data-course-instance-id=courseInstance.id
-                      data-user-id=user.id
-                    )
+                th
+                  if courseInstance.course
+                  | #{courseInstance.course.get('name')}
+              
+            if !_.size(classroom.get('members'))
+              tr
+                td(colspan=1+view.courses.size())
+                  em No students in this class yet.
+              
+            for member in classroom.get('members') || []
+              - var user = view.members.get(member);
+              if !user
+                - continue;
+              tr
+                td= user.get('name')
+                for courseInstance in courseInstances
+                  td
+                    if _.contains(courseInstance.get('members'), user.id)
+                      span.glyphicon.glyphicon-ok
+                    else
+                      input.course-instance-membership-checkbox(
+                        type='checkbox'
+                        data-course-instance-id=courseInstance.id
+                        data-user-id=user.id
+                      )
           
         button.add-students-btn.btn.btn-sm(data-classroom-id=classroom.id) Add Students
     

@@ -42,7 +42,7 @@ module.exports = class TeacherCoursesView extends RootView
     @prepaids.totalRedeemers = -> sum((_.size(prepaid.get('redeemers')) for prepaid in @models)) or 0
     @prepaids.comparator = '_id'
     @supermodel.loadCollection(@prepaids, 'prepaids', {data: {creator: me.id}})
-    @listenTo @members, 'sync', @render
+    @listenTo @members, 'sync', @renderManageTab
     @usersToRedeem = new CocoCollection([], { model: User })
     @
 
@@ -60,10 +60,15 @@ module.exports = class TeacherCoursesView extends RootView
     classroom.save()
     @classrooms.add(classroom)
     classroom.saving = true
-    @render()
+    @renderManageTab()
     @listenTo classroom, 'sync', ->
       classroom.saving = false
-      @render()
+      @fillMissingCourseInstances()
+      
+  renderManageTab: ->
+    isActive = @$('#manage-tab-pane').hasClass('active')
+    @renderSelectors('#manage-tab-pane')
+    @$('#manage-tab-pane').toggleClass('active', isActive)
 
   onClickAddStudentsButton: (e) ->
     classroomID = $(e.target).data('classroom-id')
@@ -84,9 +89,11 @@ module.exports = class TeacherCoursesView extends RootView
     # TODO: Give teachers control over which courses are enabled for a given class.
     # Add/remove course instances and columns in the view to match.
     for classroom in @classrooms.models
+      classroom.filling = false
       for course in @courses.models
         courseInstance = @courseInstances.findWhere({classroomID: classroom.id, courseID: course.id})
         if not courseInstance
+          classroom.filling = true
           courseInstance = new CourseInstance({
             classroomID: classroom.id
             courseID: course.id
@@ -97,7 +104,9 @@ module.exports = class TeacherCoursesView extends RootView
           courseInstance.course = course
           @courseInstances.add(courseInstance)
           @listenToOnce courseInstance, 'sync', @fillMissingCourseInstances
+          @renderManageTab()
           return
+    @renderManageTab()
 
   onClickCourseInstanceMembershipCheckbox: ->
     usersToRedeem = {}
