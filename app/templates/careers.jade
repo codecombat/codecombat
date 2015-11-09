@@ -7,10 +7,10 @@ block content
   .center
     img(src="/images/pages/careers/recruiting.png")
 
-  if position === 'software-engineer'
+  if view.position === 'software-engineer'
     h1.center Software Engineer
     +company-blurb
-    
+
     .big-side-margins
       h3 Engineering at CodeCombat
 
@@ -24,7 +24,7 @@ block content
       h3 Upcoming Projects
 
       .big-text
-        p 
+        p
           strong iPad app
           div Bring the CodeCombat experience to the iPad
 
@@ -46,7 +46,7 @@ block content
 
       +next-steps
 
-  else if position === 'software-engineer-ios'
+  else if view.position === 'software-engineer-ios'
     h1.center Software Engineer, iOS
     +company-blurb
 
@@ -64,7 +64,7 @@ block content
 
       +next-steps
 
-  else if position === 'game-designer'
+  else if view.position === 'game-designer'
     h1.center Game Designer
     +company-blurb
 
@@ -109,7 +109,7 @@ block content
           a(href="/careers/game-designer") Game Designer
         br
         p Don't see a position that suits you, but still want to to contribute?
-        p 
+        p
           span.spr Please contact us at
           a(href="mailto:careers@codecombat.com") careers@codecombat.com
 

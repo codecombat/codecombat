@@ -1,7 +1,7 @@
 extends /templates/core/modal-base
 
 block modal-header-content
-  if nonUserCodeProblem
+  if view.options.nonUserCodeProblem
     h3(data-i18n="play_level.non_user_code_problem_title") Unable to Load Level
   else
     h3(data-i18n="play_level.infinite_loop_title") Infinite Loop Detected
