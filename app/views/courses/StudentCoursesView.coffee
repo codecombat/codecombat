@@ -27,8 +27,11 @@ module.exports = class StudentCoursesView extends RootView
     @supermodel.loadCollection(@classrooms, 'classrooms', { data: {memberID: me.id} })
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
+      
+  onLoaded: ->
     if (@classCode = utils.getQueryVariable('_cc', false)) and not me.isAnonymous()
       @joinClass()
+    super()
 
   onClickJoinClassButton: (e) ->
     return @openModalView new AuthModal() if me.isAnonymous()
@@ -57,19 +60,32 @@ module.exports = class StudentCoursesView extends RootView
     })
 
   onJoinClassroomSuccess: (data, textStatus, jqxhr) ->
-#    application.tracker?.trackEvent 'Redeemed course prepaid code', {prepaidCode: prepaidID}
-#    me.fetch(cache: false).always =>
-#      if data?.length > 0 && data[0].courseID && data[0]._id
-#        courseID = data[0].courseID
-#        courseInstanceID = data[0]._id
-#        route = "/courses/#{courseID}/#{courseInstanceID}"
-#        viewArgs = [{}, courseID, courseInstanceID]
-#        Backbone.Mediator.publish 'router:navigate',
-#          route: route
-#          viewClass: 'views/courses/CourseDetailsView'
-#          viewArgs: viewArgs
-#      else
-#        @state = 'unknown_error'
-#        @stateMessage = "Database error."
-#        @render?()
-
+    classroom = new Classroom(data)
+    application.tracker?.trackEvent 'Joined classroom', {
+      classroomID: classroom.id, 
+      classroomName: classroom.get('name')
+      ownerID: classroom.get('ownerID')
+    }
+    @classrooms.add(classroom)
+    @render()
+    
+    classroomCourseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance })
+    classroomCourseInstances.fetch({ data: {classroomID: classroom.id} })
+    @listenToOnce classroomCourseInstances, 'sync', ->
+      
+      # join any course instances in the classroom which are free to join
+      jqxhrs = []
+      for courseInstance in classroomCourseInstances.models
+        course = @courses.get(courseInstance.get('courseID'))
+        if course.get('free')
+          jqxhrs.push $.ajax({
+            method: 'POST'
+            url: _.result(courseInstance, 'url') + '/members'
+            data: { userID: me.id }
+            context: @
+            success: (data) ->
+              @courseInstances.add(data)
+          })
+      $.when(jqxhrs...).done =>
+        @state = ''
+        @render()

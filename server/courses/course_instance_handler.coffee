@@ -51,7 +51,9 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
         return @sendForbiddenError(res) unless _.any(classroom.get('members'), (memberID) -> memberID.toString() is userID)
         ownsCourseInstance = courseInstance.get('ownerID').equals(req.user.get('_id'))
         addingSelf = userID is req.user.id
-        return @sendForbiddenError(res) unless ownsCourseInstance or addingSelf 
+        return @sendForbiddenError(res) unless ownsCourseInstance or addingSelf
+        alreadyInCourseInstance = _.any courseInstance.get('members') or [], (memberID) -> memberID.toString() is userID
+        return @sendSuccess(res, @formatEntity(req, courseInstance)) if alreadyInCourseInstance
         Prepaid.find({ 'redeemers.userID': mongoose.Types.ObjectId(userID) }).count (err, userIsPrepaid) =>
           return @sendDatabaseError(res, err) if err
           Course.findById courseInstance.get('courseID'), (err, course) =>
@@ -193,6 +195,14 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
       CourseInstance.find {members: mongoose.Types.ObjectId(memberID)}, (err, courseInstances) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, (@formatEntity(req, courseInstance) for courseInstance in courseInstances))
+    else if classroomID = req.query.classroomID
+      return @sendForbiddenError(res) unless req.user
+      return @sendBadInputError(res, 'Bad memberID') unless utils.isID classroomID
+      Classroom.findById classroomID, (err, classroom) =>
+        return @sendForbiddenError(res) unless classroom.isMember(req.user._id) or classroom.isOwner(req.user._id)
+        CourseInstance.find {classroomID: mongoose.Types.ObjectId(classroomID)}, (err, courseInstances) =>
+          return @sendDatabaseError(res, err) if err
+          return @sendSuccess(res, (@formatEntity(req, courseInstance) for courseInstance in courseInstances))
     else
       super(arguments...)
 

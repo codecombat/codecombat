@@ -31,6 +31,12 @@ ClassroomSchema.pre('save', (next) ->
     next()
 )
 
+ClassroomSchema.methods.isOwner = (userID) ->
+  return userID.equals(@get('ownerID'))
+  
+ClassroomSchema.methods.isMember = (userID) ->
+  return _.any @get('members') or [], (memberID) -> userID.equals(memberID)
+
 ClassroomSchema.statics.jsonSchema = jsonSchema
 
 module.exports = Classroom = mongoose.model 'classroom', ClassroomSchema, 'classrooms'
