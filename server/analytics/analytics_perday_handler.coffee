@@ -21,6 +21,7 @@ class AnalyticsPerDayHandler extends Handler
     return @getLevelDropsBySlugs(req, res) if args[1] is 'level_drops'
     return @getLevelHelpsBySlugs(req, res) if args[1] is 'level_helps'
     return @getLevelSubscriptionsBySlugs(req, res) if args[1] is 'level_subscriptions'
+    return @getRecurringRevenue(req, res) if args[1] is 'recurring_revenue'
     super(arguments...)
 
   getActiveClasses: (req, res) ->
@@ -464,5 +465,34 @@ class AnalyticsPerDayHandler extends Handler
 
         @levelSubscriptionsCache[cacheKey] = subscriptions
         @sendSuccess res, subscriptions
+
+  getRecurringRevenue: (req, res) ->
+    events = [
+      'DRR gems',
+      'DRR school sales',
+      'DRR yearly subs',
+      'DRR monthly subs',
+      'DRR paypal']
+
+    AnalyticsString.find({v: {$in: events}}).exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      eventIDs = []
+      eventStringMap = {}
+      for doc in documents
+        eventStringMap[doc._id.valueOf()] = doc.v
+        eventIDs.push doc._id
+      return @sendSuccess res, [] unless eventIDs.length is events.length
+
+      AnalyticsPerDay.find({e: {$in: eventIDs}}).exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        dayCountsMap = {}
+        for doc in documents
+          dayCountsMap[doc.d] ?= {}
+          dayCountsMap[doc.d][eventStringMap[doc.e.valueOf()]] = doc.c
+        recurringRevenue = []
+        for key, val of dayCountsMap
+          recurringRevenue.push day: key, groups: dayCountsMap[key] ? {}
+        @sendSuccess(res, recurringRevenue)
+
 
 module.exports = new AnalyticsPerDayHandler()

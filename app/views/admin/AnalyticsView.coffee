@@ -9,22 +9,8 @@ module.exports = class AnalyticsView extends RootView
   constructor: (options) ->
     super options
 
-    startDay = utils.getUTCDay(-30).replace(/-/g, '')
-    endDay = utils.getUTCDay(-30).replace(/-/g, '')
-
-    @supermodel.addRequestResource('active_users', {
-      url: '/db/analytics_perday/-/active_users'
-      data: {startDay: startDay, endDay: endDay}
-      method: 'POST'
-      success: (data) =>
-        @activeUsers = data
-        @activeUsers.sort (a, b) -> b.day.localeCompare(a.day)
-        @render?()
-    }, 0).load()
-
     @supermodel.addRequestResource('active_classes', {
       url: '/db/analytics_perday/-/active_classes'
-      data: {startDay: startDay, endDay: endDay}
       method: 'POST'
       success: (data) =>
         @activeClassGroups = {}
@@ -51,9 +37,60 @@ module.exports = class AnalyticsView extends RootView
         @render?()
     }, 0).load()
 
+    @supermodel.addRequestResource('active_users', {
+      url: '/db/analytics_perday/-/active_users'
+      method: 'POST'
+      success: (data) =>
+        @activeUsers = data
+        @activeUsers.sort (a, b) -> b.day.localeCompare(a.day)
+        @render?()
+    }, 0).load()
+
+    @supermodel.addRequestResource('recurring_revenue', {
+      url: '/db/analytics_perday/-/recurring_revenue'
+      method: 'POST'
+      success: (data) =>
+        @revenueGroups = {}
+        dayGroupCountMap = {}
+        for dailyRevenue in data
+          dayGroupCountMap[dailyRevenue.day] ?= {}
+          dayGroupCountMap[dailyRevenue.day]['Daily'] = 0
+          for group, val of dailyRevenue.groups
+            @revenueGroups[group] = true
+            dayGroupCountMap[dailyRevenue.day][group] = val
+            dayGroupCountMap[dailyRevenue.day]['Daily'] += val
+        @revenueGroups = Object.keys(@revenueGroups)
+        @revenueGroups.push 'Daily'
+        @revenueGroups.push 'Monthly'
+        for day of dayGroupCountMap
+          for group in @revenueGroups
+            dayGroupCountMap[day][group] ?= 0
+        @revenue = []
+        for day of dayGroupCountMap
+          data = day: day, groups: []
+          for group in @revenueGroups
+            data.groups.push(dayGroupCountMap[day][group] ? 0)
+          @revenue.push data
+        @revenue.sort (a, b) -> b.day.localeCompare(a.day)
+        monthlyValues = []
+
+        return unless @revenue.length > 0
+
+        for i in [@revenue.length-1..0]
+          dailyTotal = @revenue[i].groups[@revenue[i].groups.length - 2]
+          monthlyValues.push(dailyTotal)
+          monthlyValues.shift() if monthlyValues.length > 30
+          if monthlyValues.length is 30
+            monthlyIndex = @revenue[i].groups.length - 1
+            @revenue[i].groups[monthlyIndex] = _.reduce(monthlyValues, (s, num) -> s + num)
+        @render?()
+    }, 0).load()
+
   getRenderData: ->
     context = super()
     context.activeClasses = @activeClasses ? []
     context.activeClassGroups = @activeClassGroups ? {}
     context.activeUsers = @activeUsers ? []
+    context.revenue = @revenue ? []
+    context.revenueGroups = @revenueGroups ? {}
     context
