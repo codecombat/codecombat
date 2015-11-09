@@ -21,6 +21,7 @@ module.exports = class TeacherCoursesView extends RootView
     'click .add-students-btn': 'onClickAddStudentsButton'
     'click .course-instance-membership-checkbox': 'onClickCourseInstanceMembershipCheckbox'
     'click #save-changes-btn': 'onClickSaveChangesButton'
+    'click #manage-tab-link': 'onClickManageTabLink'
 
   constructor: (options) ->
     super(options)
@@ -32,12 +33,13 @@ module.exports = class TeacherCoursesView extends RootView
     @supermodel.loadCollection(@classrooms, 'classrooms', {data: {ownerID: me.id}})
     @courseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance })
     @courseInstances.comparator = 'courseID'
+    @courseInstances.sliceWithMembers = -> return @filter (courseInstance) -> _.size(courseInstance.get('members'))
     @supermodel.loadCollection(@courseInstances, 'course_instances', {data: {ownerID: me.id}})
     @members = new CocoCollection([], { model: User })
     @prepaids = new CocoCollection([], { url: "/db/prepaid", model: Prepaid })
     sum = (numbers) -> _.reduce(numbers, (a, b) -> a + b)
-    @prepaids.totalMaxRedeemers = -> sum((prepaid.get('maxRedeemers') for prepaid in @models)) 
-    @prepaids.totalRedeemers = -> sum((_.size(prepaid.get('redeemers')) for prepaid in @models))
+    @prepaids.totalMaxRedeemers = -> sum((prepaid.get('maxRedeemers') for prepaid in @models)) or 0
+    @prepaids.totalRedeemers = -> sum((_.size(prepaid.get('redeemers')) for prepaid in @models)) or 0
     @prepaids.comparator = '_id'
     @supermodel.loadCollection(@prepaids, 'prepaids', {data: {creator: me.id}})
     @listenTo @members, 'sync', @render
@@ -187,3 +189,6 @@ module.exports = class TeacherCoursesView extends RootView
           @stateMessage = "#{jqxhr.status}: #{jqxhr.responseText}"
         @renderSelectors '#fixed-area'
     })
+
+  onClickManageTabLink: ->
+    @$('.nav-tabs a[href="#manage-tab-pane"]').tab('show')
