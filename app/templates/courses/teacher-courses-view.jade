@@ -98,7 +98,7 @@ block content
       - var totalMaxRedeemers = view.prepaids.totalMaxRedeemers();
       
       .text-right
-        span.spr Available paid seats: #{totalRedeemers}/#{totalMaxRedeemers}
+        span.spr Used paid seats: #{totalRedeemers}/#{totalMaxRedeemers}
         a.btn.btn-default.btn-xs(href="/courses/purchase") Add
     
       for classroom in view.classrooms.models
