@@ -1,7 +1,9 @@
 extends /templates/base
 
 block content
-  
+
+  //- NOTE: do not localize / i18n
+
   if me.isAdmin()
     .container-fluid
       .row
@@ -17,6 +19,21 @@ block content
           if activeUsers.length > 0
             div.description 30-day Active Users
             div.count= activeUsers[0].monthlyCount
+
+    h3 KPI 60 days
+    .kpi-recent-chart.line-chart-container
+
+    h3 KPI 300 days
+    .kpi-chart.line-chart-container
+
+    h3 Active Classes 90 days
+    .active-classes-chart.line-chart-container
+
+    h3 Recurring Revenue 90 days
+    .recurring-revenue-chart.line-chart-container
+
+    h3 Active Users 90 days
+    .active-users-chart.line-chart-container
 
     h1 Active Classes
     table.table.table-striped.table-condensed
