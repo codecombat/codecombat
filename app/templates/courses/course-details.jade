@@ -32,11 +32,16 @@ block content
     h1(data-i18n="common.loading") Loading...
   else
     h1
-      if courseInstance.get('name')
-        | #{courseInstance.get('name')}
-      else
-        span(data-i18n='courses.unnamed_class')
-      small.spl (#{course.get('name')})
+      | #{course.get('name')}
+      small.spl
+        if courseInstance.get('name')
+          | (#{courseInstance.get('name')})
+        else if view.classroom.get('name')
+          | (#{view.classroom.get('name')})
+        else
+          | (
+          span(data-i18n='courses.unnamed_class')
+          | )
       
     if !view.owner.isNew()
       p
@@ -48,10 +53,11 @@ block content
       if courseInstance.get('description')
         each line in courseInstance.get('description').split('\n')
           div= line
-    if adminMode && courseInstance
-      +settings-dialog
-      p
-        button.btn.btn-xs(data-toggle='modal', data-target='#settingsModal', data-i18n="courses.edit_settings")
+    // TODO: migrate these settings to classrooms
+    //if adminMode && courseInstance
+    //  +settings-dialog
+    //  p
+    //    button.btn.btn-xs(data-toggle='modal', data-target='#settingsModal', data-i18n="courses.edit_settings")
 
     div.well.well-sm(role='tabpanel')
       ul.nav.nav-pills(role='tablist')

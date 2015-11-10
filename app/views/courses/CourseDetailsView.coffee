@@ -2,6 +2,7 @@ Campaign = require 'models/Campaign'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
+Classroom = require 'models/Classroom'
 LevelSession = require 'models/LevelSession'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/course-details'
@@ -30,6 +31,7 @@ module.exports = class CourseDetailsView extends RootView
     super options
     @courseID ?= options.courseID
     @courseInstanceID ?= options.courseInstanceID
+    @classroom = new Classroom()
     @adminMode = me.isAdmin()
     @memberSort = 'nameAsc'
     @course = @supermodel.getModel(Course, @courseID) or new Course _id: @courseID
@@ -118,6 +120,9 @@ module.exports = class CourseDetailsView extends RootView
 
   onCourseInstanceSync: ->
     # console.log 'onCourseInstanceSync'
+    if @courseInstance.get('classroomID')
+      @classroom = new Classroom({_id: @courseInstance.get('classroomID')})
+      @supermodel.loadModel @classroom, 'classroom'
     @adminMode = true if @courseInstance.get('ownerID') is me.id and @courseInstance.get('name') isnt 'Single Player'
     @levelSessions = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/level_sessions", model: LevelSession, comparator:'_id' })
     @listenToOnce @levelSessions, 'sync', @onLevelSessionsSync
