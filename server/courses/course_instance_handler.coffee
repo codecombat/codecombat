@@ -55,6 +55,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
         name: 'Single Player'
         ownerID: req.user.get('_id')
         aceConfig: { language: 'python' }
+        hourOfCode: true
       })
       courseInstance.save (err, courseInstance) =>
         return @sendDatabaseError(res, err) if err

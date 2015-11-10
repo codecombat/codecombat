@@ -2,21 +2,48 @@ extends /templates/base
 
 block content
 
-  span *UNDER CONSTRUCTION, please send feedback to
-  a.spl(href='mailto:team@codecombat.com') team@codecombat.com
-  hr
+  if view.hoc
+    h1 Welcome to Hour of Code!
+    
+    p
+      | Thank you for choosing CodeCombat for your students.
+      span.spr.spl To get your kids started, simply send them to
+      a(href="/hoc") https://codecombat.com/hoc
+      span .
+    
+    p
+      | If you'd like to use our courses system to view their progress:
+    
+    ol
+      li Login/create your account if you have not already.
+      li Create a classroom on this page.
+      li Invite your students to the classroom.
+      
+    p
+      | You can invite your students even if they've already started playing CodeCombat.
+      
+    p
+      span.spr If you have any problems, please email
+      a(href="mailto:team@codecombat.com") team@codecombat.com
+      span .
   
-  ul.nav.nav-tabs(role='tablist')
-    li.active(role='presentation')
-      a(href="#courses-tab-pane" aria-controls="courses" role="tab" data-toggle="tab") Courses
-    li(role='presentation')
-      a(href="#manage-tab-pane" aria-controls="manage" role="tab" data-toggle="tab") Manage
+  if !me.isAnonymous()
+    ul.nav.nav-tabs(role='tablist')
+      li.active(role='presentation')
+        a(href="#courses-tab-pane" aria-controls="courses" role="tab" data-toggle="tab") Courses
+      li(role='presentation')
+        a(href="#manage-tab-pane" aria-controls="manage" role="tab" data-toggle="tab") Manage
     
   .tab-content
     #courses-tab-pane.tab-pane.well.active
       h3 Your Courses
       - var courseInstances = view.courseInstances.sliceWithMembers();
-      if !_.size(courseInstances)
+      
+      if me.isAnonymous()
+        .alert.alert-info
+          strong Please click "Create Account" or "Log In" above to view and manage your courses.
+
+      else if !_.size(courseInstances)
         .alert.alert-info
           span.spr You currently have no students assigned to courses.
           a#manage-tab-link Go to the manage tab to get set up.
@@ -35,8 +62,9 @@ block content
                 if classroom
                   | #{classroom.get('name')}
               td
-                if courseInstance.course
-                  | #{courseInstance.course.get('name')}
+                - var course = view.courses.get(courseInstance.get('courseID'))
+                if course
+                  | #{course.get('name')}
               td= _.size(courseInstance.get('members'))
               td
                 a.btn.btn-primary.btn-sm(href='/courses/#{courseInstance.get("courseID")}/#{courseInstance.id}') Enter

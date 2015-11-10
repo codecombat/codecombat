@@ -42,34 +42,8 @@ module.exports = class HourOfCodeView extends RootView
       url: '/db/course_instance/-/create-for-hoc'
       context: @
       success: (data) ->
+        application.tracker?.trackEvent 'Finished HoC student course creation', {courseID: data.courseID}
         app.router.navigate("/courses/#{data.courseID}/#{data._id}", {
           trigger: true
         })
     })
-
-#    jqxhr = $.post()
-#    jqxhr.done (data, textStatus, jqXHR) =>
-#      application.tracker?.trackEvent 'Finished HoC student course creation', {courseID: courseID}
-#      # TODO: handle fetch errors
-#      me.fetch(cache: false).always =>
-#        courseID = courseID
-#        route = "/courses/#{courseID}"
-#        viewArgs = [{}, courseID]
-#        if data?.length > 0
-#          courseInstanceID = data[0]._id
-#          route += "/#{courseInstanceID}"
-#          viewArgs[0].courseInstanceID = courseInstanceID
-#        Backbone.Mediator.publish 'router:navigate',
-#          route: route
-#          viewClass: 'views/courses/CourseDetailsView'
-#          viewArgs: viewArgs
-#    jqxhr.fail (xhr, textStatus, errorThrown) =>
-#      console.error 'Got an error purchasing a course:', textStatus, errorThrown
-#      application.tracker?.trackEvent 'Failed HoC student course creation', status: textStatus
-#      if xhr.status is 402
-#        @state = 'declined'
-#        @stateMessage = arguments[2]
-#      else
-#        @state = 'unknown_error'
-#        @stateMessage = "#{xhr.status}: #{xhr.responseText}"
-#      @render?()

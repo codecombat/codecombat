@@ -239,7 +239,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
       return @sendBadInputError(res, 'Bad creator') unless utils.isID creator
       Prepaid.find {creator: mongoose.Types.ObjectId(creator)}, (err, prepaids) =>
         return @sendDatabaseError(res, err) if err
-        return @sendSuccess(res, (@formatEntity(req, prepaids) for prepaids in prepaids))
+        return @sendSuccess(res, (@formatEntity(req, prepaid) for prepaid in prepaids))
     else
       super(arguments...)
       

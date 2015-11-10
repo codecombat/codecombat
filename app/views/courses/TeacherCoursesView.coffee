@@ -33,7 +33,7 @@ module.exports = class TeacherCoursesView extends RootView
     @supermodel.loadCollection(@classrooms, 'classrooms', {data: {ownerID: me.id}})
     @courseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance })
     @courseInstances.comparator = 'courseID'
-    @courseInstances.sliceWithMembers = -> return @filter (courseInstance) -> _.size(courseInstance.get('members'))
+    @courseInstances.sliceWithMembers = -> return @filter (courseInstance) -> _.size(courseInstance.get('members')) and courseInstance.get('classroomID')
     @supermodel.loadCollection(@courseInstances, 'course_instances', {data: {ownerID: me.id}})
     @members = new CocoCollection([], { model: User })
     @prepaids = new CocoCollection([], { url: "/db/prepaid", model: Prepaid })
@@ -44,6 +44,7 @@ module.exports = class TeacherCoursesView extends RootView
     @supermodel.loadCollection(@prepaids, 'prepaids', {data: {creator: me.id}})
     @listenTo @members, 'sync', @renderManageTab
     @usersToRedeem = new CocoCollection([], { model: User })
+    @hoc = utils.getQueryVariable('hoc')
     @
 
   onceClassroomsSync: ->

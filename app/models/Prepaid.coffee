@@ -12,3 +12,9 @@ module.exports = class Prepaid extends CocoModel
     for redeemer in @get('redeemers')
       return redeemer.date if redeemer.userID is userID
     return null
+    
+  initialize: ->
+    @listenTo @, 'add', ->
+      maxRedeemers = @get('maxRedeemers')
+      if _.isString(maxRedeemers)
+        @set 'maxRedeemers', parseInt(maxRedeemers)

@@ -27,12 +27,19 @@ block content
       
     .list-group
       for courseInstance in view.courseInstances.models
+        - var classroom = view.classrooms.get(courseInstance.get('classroomID'))
+        - var course = view.courses.get(courseInstance.get('courseID'))
+        if !(classroom && course)
+          - continue;
+
         .list-group-item
           .row
-            - var classroom = view.classrooms.get(courseInstance.get('classroomID'))
-            - var course = view.courses.get(courseInstance.get('courseID'))
-            .col-sm-3= classroom.get('name')
-            .col-sm-3= course.get('name')
+            .col-sm-3
+              if classroom
+                | #{classroom.get('name')}
+            .col-sm-3
+              if course
+                | #{course.get('name')}
             .col-sm-6
               a.btn.btn-default.btn-sm(href="/courses/#{course.id}/#{courseInstance.id}") Enter
         
