@@ -72,7 +72,13 @@ $level-resize-transition-time: 0.5s
     width: 55%
     position: relative
     overflow: hidden
-    @include transition($level-resize-transition-time ease-out)
+    @include transition(all $level-resize-transition-time ease-out, z-index 1.2s linear)
+    z-index: 0
+
+    &.preview-overlay
+      z-index: 20
+      #goals-view
+        visibility: hidden
     
   canvas#webgl-surface
     background-color: #333

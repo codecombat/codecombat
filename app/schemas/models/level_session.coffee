@@ -79,15 +79,15 @@ _.extend LevelSessionSchema.properties,
       currentScriptOffset:
         type: 'number'
 
-    selected:
+    selected:  # Not tracked any more, delete with old level types
       type: [
         'null'
         'string'
       ]
     playing:
-      type: 'boolean'  # Not tracked any more
+      type: 'boolean'  # Not tracked any more, delete with old level types
     frame:
-      type: 'number'  # Not tracked any more
+      type: 'number'  # Not tracked any more, delete with old level types
     thangs:   # ... what is this? Is this used?
       type: 'object'
       additionalProperties:

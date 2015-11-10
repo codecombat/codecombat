@@ -155,7 +155,7 @@ module.exports = class PlayLevelView extends RootView
   afterRender: ->
     super()
     window.onPlayLevelViewLoaded? @  # still a hack
-    @insertSubView @loadingView = new LevelLoadingView autoUnveil: @options.autoUnveil or @observing, level: @levelLoader?.level ? @level  # May not have @level loaded yet
+    @insertSubView @loadingView = new LevelLoadingView autoUnveil: @options.autoUnveil or @observing, level: @levelLoader?.level ? @level, session: @levelLoader?.session ? @session  # May not have @level loaded yet
     @$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
     $('body').bind('touchmove', false) if @isIPadApp()
@@ -177,7 +177,6 @@ module.exports = class PlayLevelView extends RootView
     @initVolume()
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
 
-    @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @initScriptManager()
@@ -341,14 +340,16 @@ module.exports = class PlayLevelView extends RootView
     if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface.showLevel()
+    Backbone.Mediator.publish 'level:set-time', time: 0
     if @isEditorPreview or @observing
       @loadingView.startUnveiling()
-      @loadingView.unveil()
+      @loadingView.unveil true
 
   onLoadingViewUnveiling: (e) ->
-    @restoreSessionState()
+    @selectHero()
 
   onLoadingViewUnveiled: (e) ->
+    Backbone.Mediator.publish 'level:set-playing', playing: true
     @loadingView.$el.remove()
     @removeSubView @loadingView
     @loadingView = null
@@ -372,21 +373,11 @@ module.exports = class PlayLevelView extends RootView
     @ambientSound = createjs.Sound.play src, loop: -1, volume: 0.1
     createjs.Tween.get(@ambientSound).to({volume: 1.0}, 10000)
 
-  restoreSessionState: ->
-    return if @alreadyLoadedState
-    @alreadyLoadedState = true
-    state = @originalSessionState
-    if not @level or @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
-      Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: true
-      Backbone.Mediator.publish 'tome:select-primary-sprite', {}
-      Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: false
-      @surface.focusOnHero()
-      Backbone.Mediator.publish 'level:set-time', time: 0
-      Backbone.Mediator.publish 'level:set-playing', playing: true
-    else
-      if state.selected
-        # TODO: Should also restore selected spell here by saving spellName
-        Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null
+  selectHero: ->
+    Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: true
+    Backbone.Mediator.publish 'tome:select-primary-sprite', {}
+    Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: false
+    @surface.focusOnHero()
 
   # callbacks
 

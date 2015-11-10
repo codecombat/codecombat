@@ -3,7 +3,7 @@ template = require 'templates/play/level/tome/spell_palette_entry'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 DocFormatter = require './DocFormatter'
-SpellView = require 'views/play/level/tome/SpellView'
+utils = require 'core/utils'
 
 module.exports = class SpellPaletteEntryView extends CocoView
   tagName: 'div'  # Could also try <code> instead of <div>, but would need to adjust colors
@@ -59,26 +59,8 @@ module.exports = class SpellPaletteEntryView extends CocoView
       @aceEditors = []
       aceEditors = @aceEditors
       popover?.$tip?.find('.docs-ace').each ->
-        contents = $(@).text()
-        editor = ace.edit @
-        editor.setOptions maxLines: Infinity
-        editor.setReadOnly true
-        editor.setTheme 'ace/theme/textmate'
-        editor.setShowPrintMargin false
-        editor.setShowFoldWidgets false
-        editor.setHighlightActiveLine false
-        editor.setHighlightActiveLine false
-        editor.setBehavioursEnabled false
-        editor.renderer.setShowGutter false
-        editor.setValue contents
-        editor.clearSelection()
-        session = editor.getSession()
-        session.setUseWorker false
-        session.setMode SpellView.editModes[codeLanguage]
-        session.setWrapLimitRange null
-        session.setUseWrapMode true
-        session.setNewLineMode 'unix'
-        aceEditors.push editor
+        aceEditor = utils.initializeACE @, codeLanguage
+        aceEditors.push aceEditor
 
   onMouseEnter: (e) ->
     # Make sure the doc has the updated Thang so it can regenerate its prop value

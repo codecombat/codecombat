@@ -14,6 +14,7 @@ module.exports = class LevelLoadingView extends CocoView
 
   subscriptions:
     'level:loaded': 'onLevelLoaded'  # If Level loads after level loading view.
+    'level:session-loaded': 'onSessionLoaded'
     'level:subscription-required': 'onSubscriptionRequired'  # If they'd need a subscription to start playing.
     'level:course-membership-required': 'onCourseMembershipRequired'  # If they'd need a subscription to start playing.
     'subscribe-modal:subscribed': 'onSubscribed'
@@ -44,6 +45,14 @@ module.exports = class LevelLoadingView extends CocoView
 
   onLevelLoaded: (e) ->
     @level = e.level
+    @prepareGoals()
+    @prepareTip()
+    @prepareIntro()
+
+  onSessionLoaded: (e) ->
+    @session = e.session if e.session.get('creator') is me.id
+
+  prepareGoals: ->
     goalContainer = @$el.find('.level-loading-goals')
     goalList = goalContainer.find('ul')
     goalCount = 0
@@ -55,56 +64,119 @@ module.exports = class LevelLoadingView extends CocoView
       goalContainer.removeClass('secret')
       if goalCount is 1
         goalContainer.find('.panel-heading').text $.i18n.t 'play_level.goal'  # Not plural
+
+  prepareTip: ->
     tip = @$el.find('.tip')
     if @level.get('loadingTip')
       loadingTip = utils.i18n @level.attributes, 'loadingTip'
       tip.text(loadingTip)
     tip.removeClass('secret')
 
+  prepareIntro: ->
+    @docs = @level.get('documentation') ? {}
+    specific = @docs.specificArticles or []
+    return unless @intro = _.find specific, name: 'Intro'
+    @intro.html = marked utils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'))
+    @intro.name = utils.i18n @intro, 'name'
+
   showReady: ->
     return if @shownReady
     @shownReady = true
-    _.delay @finishShowingReady, 1500  # Let any blocking JS hog the main thread before we show that we're done.
+    _.delay @finishShowingReady, 100  # Let any blocking JS hog the main thread before we show that we're done.
 
   finishShowingReady: =>
     return if @destroyed
-    if @options.autoUnveil
+    if @options.autoUnveil or (@session?.get('state').complete and not @getQueryVariable('intro'))
       @startUnveiling()
-      @unveil()
+      @unveil true
     else
       @playSound 'level_loaded', 0.75  # old: loading_ready
       @$el.find('.progress').hide()
       @$el.find('.start-level-button').show()
+      @unveil false
 
   startUnveiling: (e) ->
     @playSound 'menu-button-click'
+    @unveiling = true
     Backbone.Mediator.publish 'level:loading-view-unveiling', {}
     _.delay @onClickStartLevel, 1000  # If they never mouse-up for the click (or a modal shows up and interrupts the click), do it anyway.
 
   onClickStartLevel: (e) =>
     return if @destroyed
-    @unveil()
+    @unveil true
 
   onEnterPressed: (e) ->
-    return unless @shownReady and not @$el.hasClass 'unveiled'
+    return unless @shownReady and not @unveiled
     @startUnveiling()
     @onClickStartLevel()
 
-  unveil: ->
-    return if @$el.hasClass 'unveiled'
-    @$el.addClass 'unveiled'
-    loadingDetails = @$el.find('.loading-details')
-    duration = parseFloat loadingDetails.css 'transition-duration'
-    loadingDetails.css 'top', -loadingDetails.outerHeight(true)
+  unveil: (full) ->
+    return if @destroyed or @unveiled
+    @unveiled = full
+    @$loadingDetails = @$el.find('#loading-details')
+    duration = parseFloat(@$loadingDetails.css 'transition-duration') * 1000
+    unless @$el.hasClass 'unveiled'
+      @$el.addClass 'unveiled'
+      @unveilWings duration
+    if full
+      @unveilLoadingFull()
+      _.delay @onUnveilEnded, duration
+    else
+      @unveilLoadingPreview duration
+
+  unveilLoadingFull: ->
+    # Get rid of the loading details screen entirely--the level is totally ready.
+    unless @unveiling
+      Backbone.Mediator.publish 'level:loading-view-unveiling', {}
+      @unveiling = true
+    if @$el.hasClass 'preview-screen'
+      @$loadingDetails.css 'right', -@$loadingDetails.outerWidth(true)
+    else
+      @$loadingDetails.css 'top', -@$loadingDetails.outerHeight(true)
+    @$el.removeClass 'preview-screen'
+    $('#canvas-wrapper').removeClass 'preview-overlay'
+
+  unveilLoadingPreview: (duration) ->
+    # Move the loading details screen over the code editor to preview the level.
+    return if @$el.hasClass 'preview-screen'
+    $('#canvas-wrapper').addClass 'preview-overlay'
+    @$el.addClass('preview-screen')
+    @$loadingDetails.addClass('preview')
+    @resize()
+    @onWindowResize = _.debounce @onWindowResize, 700  # Wait a bit for other views to resize before we resize
+    $(window).on 'resize', @onWindowResize
+    if @intro
+      @$el.find('.progress-or-start-container').addClass('intro-footer')
+      @$el.find('#tip-wrapper').remove()
+      _.delay @unveilIntro, duration
+
+  resize: ->
+    maxHeight = $('#page-container').outerHeight(true)
+    minHeight = $('#code-area').outerHeight(true)
+    @$el.css height: maxHeight
+    @$loadingDetails.css minHeight: minHeight, maxHeight: maxHeight
+    $intro = @$el.find('.intro-doc')
+    $intro.css maxHeight: minHeight - $intro.offset().top - @$el.find('.progress-or-start-container').outerHeight() - 30 - 20
+
+  unveilWings: (duration) ->
+    @playSound 'loading-view-unveil', 0.5
     @$el.find('.left-wing').css left: '-100%', backgroundPosition: 'right -400px top 0'
     @$el.find('.right-wing').css right: '-100%', backgroundPosition: 'left -400px top 0'
-    @playSound 'loading-view-unveil', 0.5
-    _.delay @onUnveilEnded, duration * 1000
-    $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration * 1000)
+    $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration)
+
+  unveilIntro: =>
+    return if @destroyed or not @intro or @unveiled
+    @$el.find('.intro-doc').html @intro.html
+    @resize()
 
   onUnveilEnded: =>
     return if @destroyed
     Backbone.Mediator.publish 'level:loading-view-unveiled', view: @
+
+  onWindowResize: (e) =>
+    return if @destroyed
+    @$loadingDetails.css transition: 'none'
+    @resize()
 
   onSubscriptionRequired: (e) ->
     @$el.find('.level-loading-goals, .tip, .load-progress').hide()
@@ -120,3 +192,7 @@ module.exports = class LevelLoadingView extends CocoView
 
   onSubscribed: ->
     document.location.reload()
+
+  destroy: ->
+    $(window).off 'resize', @onWindowResize
+    super()
