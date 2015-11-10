@@ -25,7 +25,6 @@ module.exports = class CourseDetailsView extends RootView
     'click .progress-level-cell': 'onClickProgressLevelCell'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
-    'click #invite-btn': 'onClickInviteButton'
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
@@ -260,26 +259,6 @@ module.exports = class CourseDetailsView extends RootView
       viewClass: 'views/play/level/PlayLevelView'
       viewArgs: [{}, levelSlug]
     }
-
-  onClickInviteButton: (e) ->
-    emails = @$('#invite-emails-textarea').val()
-    emails = emails.split('\n')
-    emails = _.filter((_.string.trim(email) for email in emails))
-    if not emails.length
-      return
-    url = @courseInstance.url() + '/invite_students'
-    @$('#invite-btn, #invite-emails-textarea').addClass('hide')
-    @$('#invite-emails-sending-alert').removeClass('hide')
-
-    $.ajax({
-      url: url
-      data: {emails: emails}
-      method: 'POST'
-      context: @
-      success: ->
-        @$('#invite-emails-sending-alert').addClass('hide')
-        @$('#invite-emails-success-alert').removeClass('hide')
-    })
 
   onMouseEnterPoint: (e) ->
     $('.progress-popup-container').hide()
