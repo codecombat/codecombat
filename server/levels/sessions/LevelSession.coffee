@@ -44,6 +44,7 @@ LevelSessionSchema.post 'init', (doc) ->
 
 LevelSessionSchema.pre 'save', (next) ->
   User = require '../../users/User'  # Avoid mutual inclusion cycles
+  Level = require '../Level'
   @set('changed', new Date())
 
   id = @get('id')
@@ -54,12 +55,20 @@ LevelSessionSchema.pre 'save', (next) ->
 
   # Newly completed level
   if not (initd and @previousStateInfo['state.complete']) and @get('state.complete')
-    User.findByIdAndUpdate userID, {$inc: 'stats.gamesCompleted': 1}, {}, (err, doc) ->
+    Level.findOne({slug: levelID}).select('concepts -_id').lean().exec (err, level) ->
       log.error err if err?
-      oldCopy = doc.toObject()
-      oldCopy.stats = _.clone oldCopy.stats
-      oldCopy.stats.gamesCompleted = oldCopy.stats.gamesCompleted - 1
-      User.schema.statics.createNewEarnedAchievements doc, oldCopy
+      update = $inc: {'stats.gamesCompleted': 1}
+      for concept in level?.concepts ? []
+        update.$inc["stats.concepts.#{concept}"] = 1
+      User.findByIdAndUpdate userID, update, {}, (err, user) ->
+        log.error err if err?
+        oldCopy = user.toObject()
+        oldCopy.stats = _.clone oldCopy.stats
+        --oldCopy.stats.gamesCompleted
+        oldCopy.stats.concepts ?= {}
+        for concept in level?.concepts ? []
+          --oldCopy.stats.concepts[concept]
+        User.schema.statics.createNewEarnedAchievements user, oldCopy
     activeUserEvent = "level-completed/#{levelID}"
 
   # Spent at least 30s playing this level

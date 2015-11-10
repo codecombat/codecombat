@@ -106,6 +106,7 @@ module.exports = class SpellView extends CocoView
     @ace.setAnimatedScroll true
     @ace.setShowFoldWidgets false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
+    @ace.$blockScrolling = Infinity
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -262,8 +263,10 @@ module.exports = class SpellView extends CocoView
     @ace.commands.on 'exec', (e) =>
       # When pressing enter with an active selection, just make a new line under it.
       if e.command.name is 'enter-skip-delimiters'
-        e.editor.execCommand 'gotolineend'
-        return true
+        selection = @ace.selection.getRange()
+        unless selection.start.column is selection.end.column and selection.start.row is selection.end.row
+          e.editor.execCommand 'gotolineend'
+          return true
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -459,7 +462,7 @@ module.exports = class SpellView extends CocoView
             entry.captureReturn = switch e.language
               when 'io' then varName + ' := '
               when 'javascript' then 'var ' + varName + ' = '
-              when 'clojure' then '(let [' + varName + ' ' 
+              when 'clojure' then '(let [' + varName + ' '
               else varName + ' = '
 
     # TODO: Generalize this snippet replacement

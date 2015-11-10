@@ -448,8 +448,6 @@ module.exports = class HeroVictoryModal extends ModalView
     navigationEvent = route: nextLevelLink, viewClass: viewClass, viewArgs: viewArgs
     if @level.get('slug') is 'lost-viking' and not (me.get('age') in ['0-13', '14-17'])
       @showOffer navigationEvent
-    else if @level.get('slug') is 'a-mayhem-of-munchkins' and not (me.get('age') in ['0-13']) and not options.showLeaderboard
-      @showOffer navigationEvent
     else
       Backbone.Mediator.publish 'router:navigate', navigationEvent
 
@@ -476,7 +474,6 @@ module.exports = class HeroVictoryModal extends ModalView
   onClickContinueFromOffer: (e) ->
     url = {
       'lost-viking': 'http://www.vikingcodeschool.com/codecombat?utm_source=codecombat&utm_medium=viking_level&utm_campaign=affiliate&ref=Code+Combat+Elite'
-      'a-mayhem-of-munchkins': 'https://www.bloc.io/web-developer-career-track?utm_campaign=affiliate&utm_source=codecombat&utm_medium=bloc_level'
     }[@level.get('slug')]
     Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
     window.open url, '_blank' if url

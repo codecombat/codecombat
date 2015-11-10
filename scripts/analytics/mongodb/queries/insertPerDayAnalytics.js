@@ -17,8 +17,8 @@ try {
   var scriptStartTime = new Date();
   var analyticsStringCache = {};
 
-  // Look at last 30 days, same as Mixpanel
-  var numDays = 30;
+  var numDays = 40;
+  var daysInMonth = 30;
 
   var startDay = new Date();
   today = startDay.toISOString().substr(0, 10);
@@ -27,6 +27,7 @@ try {
 
   var levelCompletionFunnel = ['Started Level', 'Saw Victory'];
   var levelHelpEvents = ['Problem alert help clicked', 'Spell palette help clicked', 'Start help video'];
+  var activeUserEvents = ['Finished Signup', 'Started Level'];
 
   log("Today is " + today);
   log("Start day is " + startDay);
@@ -39,7 +40,7 @@ try {
     for (day in levelCompletionData[level]) {
       if (today === day) continue; // Never save data for today because it's incomplete
       for (event in levelCompletionData[level][day]) {
-        insertEventCount(event, level, day, levelCompletionData[level][day][event]);
+        insertLevelEventCount(event, level, day, levelCompletionData[level][day][event]);
       }
     }
   }
@@ -50,7 +51,7 @@ try {
   for (level in levelDropCounts) {
     for (day in levelDropCounts[level]) {
       if (today === day) continue; // Never save data for today because it's incomplete
-      insertEventCount('User Dropped', level, day, levelDropCounts[level][day]);
+      insertLevelEventCount('User Dropped', level, day, levelDropCounts[level][day]);
     }
   }
 
@@ -61,7 +62,7 @@ try {
     for (day in levelHelpCounts[level]) {
       if (today === day) continue; // Never save data for today because it's incomplete
       for (event in levelHelpCounts[level][day]) {
-        insertEventCount(event, level, day, levelHelpCounts[level][day][event]);
+        insertLevelEventCount(event, level, day, levelHelpCounts[level][day][event]);
       }
     }
   }
@@ -73,8 +74,41 @@ try {
     for (day in levelSubscriptionCounts[level]) {
       if (today === day) continue; // Never save data for today because it's incomplete
       for (event in levelSubscriptionCounts[level][day]) {
-        insertEventCount(event, level, day, levelSubscriptionCounts[level][day][event]);
+        insertLevelEventCount(event, level, day, levelSubscriptionCounts[level][day][event]);
       }
+    }
+  }
+
+  log("Getting active user counts...");
+  var activeUserCounts = getActiveUserCounts(startDay, activeUserEvents);
+  // printjson(activeUserCounts);
+  log("Inserting active user counts...");
+  for (day in activeUserCounts) {
+    if (today === day) continue; // Never save data for today because it's incomplete
+    for (event in activeUserCounts[day]) {
+      insertEventCount(event, day, activeUserCounts[day][event]);
+    }
+  }
+
+  log("Getting active class counts...");
+  var activeClassCounts = getActiveClassCounts(startDay);
+  // printjson(activeClassCounts);
+  log("Inserting active class counts...");
+  for (var event in activeClassCounts) {
+    for (var day in activeClassCounts[event]) {
+      if (today === day) continue; // Never save data for today because it's incomplete
+      insertEventCount(event, day, activeClassCounts[event][day]);
+    }
+  }
+
+  log("Getting monthly recurring revenue counts...");
+  var recurringRevenueCounts = getRecurringRevenueCounts(startDay);
+  // printjson(recurringRevenueCounts);
+  log("Inserting monthly recurring revenue counts...");
+  for (var event in recurringRevenueCounts) {
+    for (var day in recurringRevenueCounts[event]) {
+      if (today === day) continue; // Never save data for today because it's incomplete
+      insertEventCount(event, day, recurringRevenueCounts[event][day]);
     }
   }
 
@@ -383,7 +417,306 @@ function getLevelSubscriptionCounts(startDay) {
   return levelFunnelData;
 }
 
-function insertEventCount(event, level, day, count) {
+function getActiveUserCounts(startDay, activeUserEvents) {
+  // Counts active users per day
+  if (!startDay) return {};
+
+  var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+  var queryParams = {$and: [
+    {_id: {$gte: startObj}},
+    {'event': {$in: activeUserEvents}}
+  ]};
+  var cursor = logDB['log'].find(queryParams);
+
+  var dayUserMap = {};
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var created = doc._id.getTimestamp().toISOString();
+    var day = created.substring(0, 10);
+    var user = doc.user;
+
+    if (!dayUserMap[day]) dayUserMap[day] = {};
+    dayUserMap[day][user] = true;
+  }
+  // printjson(dayUserMap['2015-11-01']);
+
+  var activeUsersCounts = {};
+  var monthlyActives = [];
+  for (day in dayUserMap) {
+    activeUsersCounts[day] = {'Daily Active Users': Object.keys(dayUserMap[day]).length};
+    monthlyActives.push({day: day, users: dayUserMap[day]});
+  }
+
+  monthlyActives.sort(function (a, b) {return a.day.localeCompare(b.day);});
+
+  // Calculate monthly actives for each day, starting when we have enough data
+  for (var i = daysInMonth - 1; i < monthlyActives.length; i++) {
+    var monthUserMap = {};
+    for (var j = i - daysInMonth + 1; j <= i; j++) {
+      for (var user in monthlyActives[j].users) {
+        monthUserMap[user] = true;
+      }
+    }
+    activeUsersCounts[monthlyActives[i].day]['Monthly Active Users'] = Object.keys(monthUserMap).length;
+  }
+  return activeUsersCounts;
+}
+
+function getActiveClassCounts(startDay) {
+  // Tally active classes per day
+  // TODO: does not handle class membership changes
+
+  if (!startDay) return {};
+
+  var minGroupSize = 12;
+  var classes = {
+    'Active classes private clan': [],
+    'Active classes managed subscription': [],
+    'Active classes bulk subscription': [],
+    'Active classes prepaid': [],
+    'Active classes course': [],
+  };
+  var userPlayedMap = {};
+
+  // Private clans
+  // TODO: does not handle clan membership changes over time
+  var cursor = db.clans.find({$and: [{type: 'private'}, {$where: 'this.members.length >= ' + minGroupSize}]});
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var members = doc.members.map(function(a) {
+      userPlayedMap[a.valueOf()] = [];
+      return a.valueOf();
+    });
+    classes['Active classes private clan'].push({
+      owner: doc.ownerID.valueOf(),
+      members: members,
+      activeDayMap: {}
+    });
+  }
+
+  // Managed subscriptions
+  // TODO: does not handle former recipients playing after sponsorship ends
+  var bulkSubGroups = {};
+  cursor = db.payments.find({$and: [{service: 'stripe'}, {$where: '!this.purchaser.equals(this.recipient)'}]});
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var purchaser = doc.purchaser.valueOf();
+    if (!bulkSubGroups[purchaser]) bulkSubGroups[purchaser] = {};
+    bulkSubGroups[purchaser][doc.recipient.valueOf()] = true;
+  }
+  for (var purchaser in bulkSubGroups) {
+    if (Object.keys(bulkSubGroups[purchaser]).length >= minGroupSize) {
+      for (var member in bulkSubGroups[purchaser]) {
+        userPlayedMap[member] = [];
+      }
+      classes['Active classes managed subscription'].push({
+        owner: purchaser,
+        members: Object.keys(bulkSubGroups[purchaser]),
+        activeDayMap: {}
+      });
+    }
+  }
+
+  // Bulk subscriptions
+  bulkSubGroups = {};
+  cursor = db.payments.find({$and: [{service: 'external'}, {$where: '!this.purchaser.equals(this.recipient)'}]});
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var purchaser = doc.purchaser.valueOf();
+    if (!bulkSubGroups[purchaser]) bulkSubGroups[purchaser] = {};
+    bulkSubGroups[purchaser][doc.recipient.valueOf()] = true;
+  }
+  for (var purchaser in bulkSubGroups) {
+    if (Object.keys(bulkSubGroups[purchaser]).length >= minGroupSize) {
+      for (var member in bulkSubGroups[purchaser]) {
+        userPlayedMap[member] = [];
+      }
+      classes['Active classes bulk subscription'].push({
+        owner: purchaser,
+        members: Object.keys(bulkSubGroups[purchaser]),
+        activeDayMap: {}
+      });
+    }
+  }
+
+  // Prepaids terminal_subscription & course
+  bulkSubGroups = {};
+  cursor = db.prepaids.find(
+    {$and: [{type: {$in: ['terminal_subscription', 'course']}}, {$where: 'this.redeemers && this.redeemers.length >= ' + minGroupSize}]},
+    {creator: 1, type: 1, redeemers: 1}
+  );
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var owner = doc.creator.valueOf();
+    var members = [];
+    for (var i = 0 ; i < doc.redeemers.length; i++) {
+      userPlayedMap[doc.redeemers[i].userID.valueOf()] = [];
+      members.push(doc.redeemers[i].userID.valueOf());
+    }
+    var event = doc.type == 'terminal_subscription' ? 'Active classes prepaid' : 'Active classes course';
+    classes[event].push({
+      owner: owner,
+      members: members,
+      activeDayMap: {}
+    });
+  }
+
+  // printjson(classes);
+
+  // TODO: classrooms
+
+  // Find all the started level events for our class members, for startDay - daysInMonth
+  var startDate = ISODate(startDay + "T00:00:00.000Z");
+  startDate.setUTCDate(startDate.getUTCDate() - daysInMonth);
+  var endDate = ISODate(startDay + "T00:00:00.000Z");
+  var todayDate = new Date(new Date().toISOString().substring(0, 10));
+  var startObj = objectIdWithTimestamp(startDate);
+  var queryParams = {$and: [
+    {_id: {$gte: startObj}},
+    {event: 'Started Level'},
+    {user: {$in: Object.keys(userPlayedMap)}}
+  ]};
+  cursor = logDB['log'].find(queryParams, {user: 1});
+  // cursor = db['level.sessions'].find({$and: [{creator: {$in: Object.keys(userPlayedMap)}}, {changed: {$gte: startDate}}]}, {creator: 1, changed: 1});
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    userPlayedMap[doc.user].push(doc._id.getTimestamp());
+  }
+
+  // printjson(userPlayedMap);
+  // print(startDate, endDate, todayDate);
+
+  // Now we have a set of classes, and when users played
+  // For a given day, walk classes and find out how many members were active during the previous daysInMonth
+  while (endDate < todayDate) {
+    var endDay = endDate.toISOString().substring(0, 10);
+
+    // For each class
+    for (var event in classes) {
+      for (var i = 0; i < classes[event].length; i++) {
+
+        // For each member of current class
+        var activeMemberCount = 0;
+        for (var j = 0; j < classes[event][i].members.length; j++) {
+          var member = classes[event][i].members[j];
+
+          // Was member active during current timeframe?
+          if (userPlayedMap[member]) {
+            for (var k = 0; k < userPlayedMap[member].length; k++) {
+              if (userPlayedMap[member][k] > startDate && userPlayedMap[member][k] <= endDate) {
+                activeMemberCount++;
+                break;
+              }
+            }
+          }
+        }
+
+        // Classes active for a given day if has minGroupSize members, and at least 1/2 played in last daysInMonth days
+        if (activeMemberCount >= Math.round(classes[event][i].members.length / 2)) {
+          classes[event][i].activeDayMap[endDay] = true;
+        }
+      }
+    }
+    startDate.setUTCDate(startDate.getUTCDate() + 1);
+    endDate.setUTCDate(endDate.getUTCDate() + 1);
+  }
+
+  var activeClassCounts = {};
+  for (var event in classes) {
+    if (!activeClassCounts[event]) activeClassCounts[event] = {};
+    for (var i = 0; i < classes[event].length; i++) {
+      for (var endDay in classes[event][i].activeDayMap) {
+        if (!activeClassCounts[event][endDay]) activeClassCounts[event][endDay] = 0;
+        activeClassCounts[event][endDay]++;
+      }
+    }
+  }
+  return activeClassCounts;
+}
+
+function getRecurringRevenueCounts(startDay) {
+  if (!startDay) return {};
+
+  var dailyRevenueCounts = {};
+  var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+  var cursor = db.payments.find({_id: {$gte: startObj}});
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var day = doc._id.getTimestamp().toISOString().substring(0, 10);
+
+    if (doc.service === 'ios' || doc.service === 'bitcoin') continue;
+
+    if (doc.productID && doc.productID.indexOf('gems_') === 0) {
+      if (!dailyRevenueCounts['DRR gems']) dailyRevenueCounts['DRR gems'] = {};
+      if (!dailyRevenueCounts['DRR gems'][day]) dailyRevenueCounts['DRR gems'][day] = 0;
+      dailyRevenueCounts['DRR gems'][day] += doc.amount
+    }
+    else if (doc.productID === 'custom' || doc.service === 'external' || doc.service === 'invoice') {
+      if (!dailyRevenueCounts['DRR school sales']) dailyRevenueCounts['DRR school sales'] = {};
+      if (!dailyRevenueCounts['DRR school sales'][day]) dailyRevenueCounts['DRR school sales'][day] = 0;
+      dailyRevenueCounts['DRR school sales'][day] += doc.amount
+    }
+    else if (doc.service === 'stripe' && doc.gems === 42000) {
+      if (!dailyRevenueCounts['DRR yearly subs']) dailyRevenueCounts['DRR yearly subs'] = {};
+      if (!dailyRevenueCounts['DRR yearly subs'][day]) dailyRevenueCounts['DRR yearly subs'][day] = 0;
+      dailyRevenueCounts['DRR yearly subs'][day] += doc.amount
+    }
+    else if (doc.service === 'stripe') {
+      // Catches prepaids, and assumes all are type terminal_subscription
+      if (!dailyRevenueCounts['DRR monthly subs']) dailyRevenueCounts['DRR monthly subs'] = {};
+      if (!dailyRevenueCounts['DRR monthly subs'][day]) dailyRevenueCounts['DRR monthly subs'][day] = 0;
+      dailyRevenueCounts['DRR monthly subs'][day] += doc.amount
+    }
+    else if (doc.service === 'paypal') {
+      if (!dailyRevenueCounts['DRR paypal']) dailyRevenueCounts['DRR paypal'] = {};
+      if (!dailyRevenueCounts['DRR paypal'][day]) dailyRevenueCounts['DRR paypal'][day] = 0;
+      dailyRevenueCounts['DRR paypal'][day] += doc.amount
+    }
+    // else {
+    //   // printjson(doc);
+    //   // print(doc.service, doc.amount, doc.description, JSON.stringify(doc.stripe));
+    // }
+  }
+
+  return dailyRevenueCounts;
+}
+
+function insertEventCount(event, day, count) {
+  // analytics.perdays schema in server/analytics/AnalyticsPeryDay.coffee
+  day = day.replace(/-/g, '');
+
+  var eventID = getAnalyticsString(event);
+  var filterID = getAnalyticsString('all');
+
+  var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+  var queryParams = {$and: [{d: day}, {e: eventID}, {f: filterID}]};
+  var doc = db['analytics.perdays'].findOne(queryParams);
+  if (doc && doc.c === count) return;
+
+  if (doc && doc.c !== count) {
+    // Update existing count, assume new one is more accurate
+    // log("Updating count in db for " + day + " " + event + " " + doc.c + " => " + count);
+    var results = db['analytics.perdays'].update(queryParams, {$set: {c: count}});
+    if (results.nMatched !== 1 && results.nModified !== 1) {
+      log("ERROR: update event count failed");
+      printjson(results);
+    }
+  }
+  else {
+    var insertDoc = {d: day, e: eventID, f: filterID, c: count};
+    var results = db['analytics.perdays'].insert(insertDoc);
+    if (results.nInserted !== 1) {
+      log("ERROR: insert event failed");
+      printjson(results);
+      printjson(insertDoc);
+    }
+    // else {
+    //   log("Added " + day + " " + event + " " + count);
+    // }
+  }
+}
+
+function insertLevelEventCount(event, level, day, count) {
   // analytics.perdays schema in server/analytics/AnalyticsPeryDay.coffee
   day = day.replace(/-/g, '');
 

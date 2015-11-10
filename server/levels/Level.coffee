@@ -21,6 +21,7 @@ LevelSchema.index(
     'language_override': 'searchLanguage'
     'textIndexVersion': 2
   })
+
 LevelSchema.index(
   {
     original: 1
@@ -32,6 +33,7 @@ LevelSchema.index(
     unique: true
   })
 LevelSchema.index({slug: 1}, {name: 'slug index', sparse: true, unique: true})
+LevelSchema.index({index: 1}, {name: 'index index', sparse: true})  # because we can't use the text search index with no term
 
 LevelSchema.plugin(plugins.NamedPlugin)
 LevelSchema.plugin(plugins.PermissionsPlugin)

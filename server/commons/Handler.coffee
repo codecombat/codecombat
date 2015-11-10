@@ -166,6 +166,9 @@ module.exports = class Handler
             res.end()
         if term
           filter.filter.$text = $search: term
+        else if filters.length is 1 and filters[0].filter?.index is true
+          # All we are doing is an empty text search, but that doesn't hit the index, so we'll just look for the slug.
+          filter.filter = slug: {$exists: true}
         args = [filter.filter]
         args.push projection if projection
         q = @modelClass.find(args...)
