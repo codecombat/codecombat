@@ -242,5 +242,10 @@ PrepaidHandler = class PrepaidHandler extends Handler
         return @sendSuccess(res, (@formatEntity(req, prepaid) for prepaid in prepaids))
     else
       super(arguments...)
+
+  makeNewInstance: (req) ->
+    prepaid = super(req)
+    prepaid.set('redeemers', [])
+    return prepaid
       
 module.exports = new PrepaidHandler()

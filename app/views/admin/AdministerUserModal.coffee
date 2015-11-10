@@ -1,6 +1,7 @@
 ModalView = require 'views/core/ModalView'
 template = require 'templates/admin/administer-user-modal'
 User = require 'models/User'
+Prepaid = require 'models/Prepaid'
 
 module.exports = class AdministerUserModal extends ModalView
   id: "administer-user-modal"
@@ -9,6 +10,7 @@ module.exports = class AdministerUserModal extends ModalView
 
   events:
     'click #save-changes': 'onSaveChanges'
+    'click #add-seats-btn': 'onClickAddSeatsButton'
 
   constructor: (options, @userHandle) ->
     super(options)
@@ -58,3 +60,18 @@ module.exports = class AdministerUserModal extends ModalView
     options = {}
     options.success = => @hide()
     @user.patch(options)
+
+  onClickAddSeatsButton: ->
+    maxRedeemers = parseInt(@$('#seats-input').val())
+    return unless maxRedeemers and maxRedeemers > 0
+    prepaid = new Prepaid({
+      maxRedeemers: maxRedeemers
+      type: 'course'
+      creator: @user.id
+    })
+    prepaid.save()
+    @state = 'creating-prepaid'
+    @renderSelectors('#prepaid-form')
+    @listenTo prepaid, 'sync', ->
+      @state = 'made-prepaid'
+      @renderSelectors('#prepaid-form')
