@@ -22,6 +22,7 @@ module.exports = class StudentCoursesView extends RootView
   constructor: (options) ->
     super(options)
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
+    @courseInstances.comparator = (ci) -> return ci.get('classroomID') + ci.get('courseID')
     @supermodel.loadCollection(@courseInstances, 'course_instances')
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
     @supermodel.loadCollection(@classrooms, 'classrooms', { data: {memberID: me.id} })
@@ -85,6 +86,7 @@ module.exports = class StudentCoursesView extends RootView
             context: @
             success: (data) ->
               @courseInstances.add(data)
+              @courseInstances.get(data._id).justJoined = true
           })
       $.when(jqxhrs...).done =>
         @state = ''

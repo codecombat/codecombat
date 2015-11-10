@@ -20,12 +20,28 @@ block content
       
     if view.state === 'unknown_error'
       .alert.alert-danger= view.stateMessage
+    
+    - var justJoinedCourseInstance = view.courseInstances.find(function(ci) { return ci.justJoined; });
+    if justJoinedCourseInstance
+      - var course = view.courses.get(justJoinedCourseInstance.get('courseID'));
+      - var classroom = view.classrooms.get(justJoinedCourseInstance.get('classroomID'));
+      if course && classroom
+        .alert.alert-info
+          span.spr Successfully joined "#{classroom.get('name')}"!
+          a(href="/courses/#{course.id}/#{justJoinedCourseInstance.id}") 
+            strong Click here to start taking "#{course.get('name')}".
      
   .panel.panel-default
     .panel-heading
       .panel-title My Courses
       
     .list-group
+      .list-group-item
+        .row
+          .col-sm-3
+            strong Classroom
+          .col-sm-3
+            strong Course
       for courseInstance in view.courseInstances.models
         - var classroom = view.classrooms.get(courseInstance.get('classroomID'))
         - var course = view.courses.get(courseInstance.get('courseID'))
