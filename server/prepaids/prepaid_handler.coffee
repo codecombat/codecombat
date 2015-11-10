@@ -153,7 +153,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
   purchasePrepaidCourse: (user, maxRedeemers, timestamp, token, done) ->
     type = 'course'
 
-    amount = maxRedeemers * 200 # TODO: Actual price
+    amount = maxRedeemers * 400
     if amount > 0 and not (token or user.isAdmin())
       @logError(user, "Purchase prepaid courses missing required Stripe token #{amount}")
       return done('Missing required Stripe token')
