@@ -47,7 +47,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
   createPrepaidAPI: (req, res) ->
     return @sendForbiddenError(res) unless @hasAccess(req)
     return @sendForbiddenError(res) unless req.body.type in ['course', 'subscription','terminal_subscription']
-    return @sendForbiddenError(res) unless req.body.maxRedeemers > 0
+    return @sendForbiddenError(res) unless parseInt(req.body.maxRedeemers) > 0
 
     properties = {}
     type = req.body.type
@@ -107,7 +107,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
         creator: user._id
         type: type
         code: code
-        maxRedeemers: maxRedeemers
+        maxRedeemers: parseInt(maxRedeemers)
         properties: properties
         redeemers: []
 
@@ -222,7 +222,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
               creator: user._id
               type: type
               code: code
-              maxRedeemers: maxRedeemers
+              maxRedeemers: parseInt(maxRedeemers)
               redeemers: []
               properties:
                 months: months

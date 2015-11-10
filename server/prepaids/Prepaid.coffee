@@ -19,4 +19,7 @@ PrepaidSchema.pre('save', (next) ->
   next()
 )
 
+PrepaidSchema.post 'init', (doc) ->
+  doc.set('maxRedeemers', parseInt(doc.get('maxRedeemers')))
+
 module.exports = Prepaid = mongoose.model('prepaid', PrepaidSchema)
