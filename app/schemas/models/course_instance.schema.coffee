@@ -2,9 +2,9 @@ c = require './../schemas'
 
 CourseInstanceSchema = c.object {
   title: 'Course Instance'
-  required: [
-    'courseID', 'classroomID', 'members', 'ownerID', 'aceConfig'
-  ]
+#  required: [
+#    'courseID', 'classroomID', 'members', 'ownerID', 'aceConfig'
+#  ]
 }
 
 _.extend CourseInstanceSchema.properties,
