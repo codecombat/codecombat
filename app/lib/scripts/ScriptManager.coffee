@@ -132,6 +132,16 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
   setWorldLoading: (@worldLoading) ->
     @run() unless @worldLoading
 
+  initializeCamera: ->
+    # Fire off the first bounds-setting script now, before we're actually running any other ones.
+    for script in @scripts
+      for note in script.noteChain or []
+        if note.surface?.focus?
+          surfaceModule = _.find note.modules or [], (module) -> module.surfaceCameraNote
+          cameraNote = surfaceModule.surfaceCameraNote true
+          @publishNote cameraNote
+          return
+
   destroy: ->
     @onEndAll()
     clearInterval @tickInterval

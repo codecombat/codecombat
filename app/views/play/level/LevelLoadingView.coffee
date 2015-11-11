@@ -45,14 +45,14 @@ module.exports = class LevelLoadingView extends CocoView
 
   onLevelLoaded: (e) ->
     @level = e.level
-    @prepareGoals()
+    @prepareGoals e
     @prepareTip()
     @prepareIntro()
 
   onSessionLoaded: (e) ->
     @session = e.session if e.session.get('creator') is me.id
 
-  prepareGoals: ->
+  prepareGoals: (e) ->
     goalContainer = @$el.find('.level-loading-goals')
     goalList = goalContainer.find('ul')
     goalCount = 0

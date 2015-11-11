@@ -93,7 +93,7 @@ module.exports = class SpectateLevelView extends RootView
 
   afterRender: ->
     window.onPlayLevelViewLoaded? @  # still a hack
-    @insertSubView @loadingView = new LoadingView {}
+    @insertSubView @loadingView = new LoadingView autoUnveil: true, level: @levelLoader?.level ? @level
     @$el.find('#level-done-button').hide()
     super()
     $('body').addClass('is-playing')
@@ -151,7 +151,7 @@ module.exports = class SpectateLevelView extends RootView
   onLevelStarted: (e) ->
     go = =>
       @loadingView?.startUnveiling()
-      @loadingView?.unveil()
+      @loadingView?.unveil true
     _.delay go, 1000
 
   onLoadingViewUnveiled: (e) ->
