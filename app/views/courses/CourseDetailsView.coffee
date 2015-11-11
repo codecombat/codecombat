@@ -67,7 +67,7 @@ module.exports = class CourseDetailsView extends RootView
 
   onCourseSync: ->
     # console.log 'onCourseSync'
-    if me.isAnonymous() and not me.get('hourOfCode')
+    if me.isAnonymous() and (not me.get('hourOfCode') and not @course.get('hourOfCode'))
       @noCourseInstance = true
       @render?()
       return
