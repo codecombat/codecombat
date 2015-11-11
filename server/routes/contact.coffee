@@ -23,6 +23,7 @@ createMailContext = (req, done) ->
   user = req.user
   recipientID = req.body.recipientID
   subject = req.body.subject
+  country = req.body.country
 
   level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (user.get('points') + 100))) + 1 else 0
   premium = user?.isPremium()
@@ -30,7 +31,7 @@ createMailContext = (req, done) ->
     #{message}
 
     --
-    <a href='http://codecombat.com/user/#{user.get('slug') or user.get('_id')}'>#{user.get('name') or 'Anonymous'}</a> - Level #{level}#{if premium then ' - Subscriber' else ''}
+    <a href='http://codecombat.com/user/#{user.get('slug') or user.get('_id')}'>#{user.get('name') or 'Anonymous'}</a> - Level #{level}#{if premium then ' - Subscriber' else ''}#{if country then ' - ' + country else ''}
   """
   if req.body.browser
     content += "\n#{req.body.browser} - #{req.body.screenSize}"
@@ -46,7 +47,6 @@ createMailContext = (req, done) ->
     email_data:
       subject: "[CodeCombat] #{subject ? ('Feedback - ' + (sender or user.get('email')))}"
       content: content
-
   if recipientID and (user.isAdmin() or ('employer' in (user.get('permissions') ? [])))
     User.findById(recipientID, 'email').exec (err, document) ->
       if err
