@@ -119,9 +119,14 @@ module.exports = class AnalyticsView extends RootView
     points = []
     for entry, i in data
       points.push
-        x: i
-        y: entry.value
         day: entry.day
+        y: entry.value
+
+    # Trim points preceding days
+    for point, i in points
+      if point.day is days[0]
+        points.splice(0, i)
+        break
 
     # Ensure points for each day
     for day, i in days

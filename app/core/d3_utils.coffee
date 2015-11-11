@@ -1,11 +1,12 @@
 # Caller needs require 'vendor/d3'
 
-module.exports.createContiguousDays = (timeframeDays) ->
+module.exports.createContiguousDays = (timeframeDays, skipToday=true) ->
   # Return list of last 'timeframeDays' contiguous days in yyyy-mm-dd format
   days = []
   currentDate = new Date()
   currentDate.setUTCDate(currentDate.getUTCDate() - timeframeDays)
-  for i in [0..timeframeDays]
+  currentDate.setUTCDate(currentDate.getUTCDate() - 1) if skipToday
+  for i in [0...timeframeDays]
     currentDay = currentDate.toISOString().substr(0, 10)
     days.push(currentDay)
     currentDate.setUTCDate(currentDate.getUTCDate() + 1)
