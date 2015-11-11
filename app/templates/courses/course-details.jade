@@ -32,11 +32,16 @@ block content
     h1(data-i18n="common.loading") Loading...
   else
     h1
-      if courseInstance.get('name')
-        | #{courseInstance.get('name')}
-      else
-        span(data-i18n='courses.unnamed_class')
-      small.spl (#{course.get('name')})
+      | #{course.get('name')}
+      small.spl
+        if courseInstance.get('name')
+          | (#{courseInstance.get('name')})
+        else if view.classroom.get('name')
+          | (#{view.classroom.get('name')})
+        else
+          | (
+          span(data-i18n='courses.unnamed_class')
+          | )
       
     if !view.owner.isNew()
       p
@@ -48,18 +53,17 @@ block content
       if courseInstance.get('description')
         each line in courseInstance.get('description').split('\n')
           div= line
-    if adminMode && courseInstance
-      +settings-dialog
-      p
-        button.btn.btn-xs(data-toggle='modal', data-target='#settingsModal', data-i18n="courses.edit_settings")
+    // TODO: migrate these settings to classrooms
+    //if adminMode && courseInstance
+    //  +settings-dialog
+    //  p
+    //    button.btn.btn-xs(data-toggle='modal', data-target='#settingsModal', data-i18n="courses.edit_settings")
 
     div.well.well-sm(role='tabpanel')
       ul.nav.nav-pills(role='tablist')
         if adminMode
           li.active(role='presentation')
             a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
-          li(role='presentation')
-            a(href='#invite', aria-controls='invite', role='tab', data-toggle='tab', data-i18n="courses.add_students")
           li(role='presentation')
             a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
         else
@@ -71,8 +75,6 @@ block content
       if adminMode
         .tab-pane.active#progress(role='tabpanel')
           +progress-tab
-        .tab-pane#invite(role='tabpanel')
-          +invite-tab
         .tab-pane#levels(role='tabpanel')
           +levels-tab
       else
@@ -260,28 +262,6 @@ mixin progress-members-popup-started(i, level)
       span #{moment(level.changed).format('MMMM Do YYYY, h:mm:ss a')}
     if adminMode
       strong(data-i18n="clans.view_solution")
-
-mixin invite-tab
-  p(data-i18n="courses.invite_students")
-  h3(data-i18n="courses.invite_link_header")
-  p(data-i18n="courses.invite_link_p_1")
-  .alert.alert-info
-    strong= document.location.origin + "/courses/students?_ppc=" + view.prepaid.get('code')
-  p(data-i18n="courses.invite_link_p_2")
-  .form
-    .form-group
-      textarea#invite-emails-textarea.form-control
-      .help-block(data-i18n="courses.enter_emails")
-    .form-group
-      button#invite-btn.btn.btn-success(data-i18n="courses.send_invites")
-      #invite-emails-sending-alert.alert.alert-info.hide(data-i18n="common.sending")
-      #invite-emails-success-alert.alert.alert-success.hide(data-i18n="play_level.done")
-
-  if view.prepaid.loaded && pricePerSeat > 0
-    h3 Class Capacity
-    p
-      span.spr(data-i18n="courses.capacity_used")
-      span #{view.prepaid.get('redeemers').length} / #{view.prepaid.get('maxRedeemers')}.
 
 mixin levels-tab
   table.table.table-striped.table-condensed

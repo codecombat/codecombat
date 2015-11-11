@@ -9,6 +9,7 @@ SpellDebugView = require './SpellDebugView'
 SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
+utils = require 'core/utils'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -17,14 +18,6 @@ module.exports = class SpellView extends CocoView
   controlsEnabled: true
   eventsSuppressed: true
   writable: true
-
-  @editModes:
-    'javascript': 'ace/mode/javascript'
-    'coffeescript': 'ace/mode/coffee'
-    'python': 'ace/mode/python'
-    'clojure': 'ace/mode/clojure'
-    'lua': 'ace/mode/lua'
-    'io': 'ace/mode/text'
 
   keyBindings:
     'default': null
@@ -93,7 +86,7 @@ module.exports = class SpellView extends CocoView
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
     @aceSession.setUseWorker false
-    @aceSession.setMode SpellView.editModes[@spell.language]
+    @aceSession.setMode utils.aceEditModes[@spell.language]
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
     @aceSession.setNewLineMode 'unix'
@@ -479,7 +472,7 @@ module.exports = class SpellView extends CocoView
 
     # window.zatannaInstance = @zatanna  # For debugging. Make sure to not leave active when committing.
     # window.snippetEntries = snippetEntries
-    lang = SpellView.editModes[e.language].substr 'ace/mode/'.length
+    lang = utils.aceEditModes[e.language].substr 'ace/mode/'.length
     @zatanna.addSnippets snippetEntries, lang
     @editorLang = lang
 
@@ -1138,8 +1131,8 @@ module.exports = class SpellView extends CocoView
 
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()
-    @aceSession.setMode SpellView.editModes[e.language]
-    @zatanna?.set 'language', SpellView.editModes[e.language].substr('ace/mode/')
+    @aceSession.setMode utils.aceEditModes[e.language]
+    @zatanna?.set 'language', utils.aceEditModes[e.language].substr('ace/mode/')
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault

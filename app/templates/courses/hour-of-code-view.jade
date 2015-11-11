@@ -1,0 +1,11 @@
+extends /templates/base
+
+block content
+  h1.text-center Welcome to CodeCombat's Hour of Code!
+  br
+  .container-fluid
+    .row
+      .col-md-6.text-center
+        button#student-btn.btn.btn-lg.btn-success(data-i18n="courses.students_click")
+      .col-md-6.text-center
+        a.btn.btn-lg.btn-default(data-i18n="courses.teachers_click", href="/courses/teachers?hoc=true")

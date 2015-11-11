@@ -8,24 +8,48 @@
   background-position: top $backgroundPosition
   background-size: contain
 
+$UNVEIL_TIME: 1.2s
+
 #level-loading-view
   width: 100%
   height: 100%
   position: absolute
   z-index: 20
-  $UNVEIL_TIME: 1.2s
 
   &.unveiled
     pointer-events: none
-  
-  .loading-details
+
+  &.preview-screen
+    background-color: rgba(0, 0, 0, 0.5)
+
+  .left-wing, .right-wing
+    width: 100%
+    height: 100%
+    position: absolute
+    pointer-events: none
+
+  .left-wing
+    @include wing-background('/images/level/loading_left_wing_1920.jpg', right)
+    @media screen and ( max-width: 1366px )
+      @include wing-background('/images/level/loading_left_wing_1366.jpg', right)
+    left: -50%
+    @include transition(all $UNVEIL_TIME ease)
+
+  .right-wing
+    @include wing-background('/images/level/loading_right_wing_1920.jpg', left)
+    @media screen and ( max-width: 1366px )
+      @include wing-background('/images/level/loading_right_wing_1366.jpg', left)
+    right: -50%
+    @include transition(all $UNVEIL_TIME ease)
+
+  #loading-details
     position: absolute
     top: 86px
-    left: 50%
+    right: 50%
     $WIDTH: 450px
     width: $WIDTH
     height: 450px
-    margin-left: (-$WIDTH / 2)
+    margin-right: (-$WIDTH / 2)
     z-index: 100
     background: transparent url(/images/level/code_editor_background.png) no-repeat
     background-size: 100% 100%
@@ -34,8 +58,21 @@
     padding: 80px 80px 40px 80px
     text-align: center
     // http://matthewlein.com/ceaser/  Bounce down a bit, then snap up.
-    @include transition(top $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600))
+    @include transition($UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600))
     font-family: 'Open Sans Condensed'
+
+    &.preview
+      top: 0
+      right: 0
+      margin-right: 0
+      width: 45%
+      height: auto
+      pointer-events: all
+      @include transition($UNVEIL_TIME ease-in-out)
+
+      padding: 80px 70px 40px 50px
+      .progress-or-start-container.intro-footer
+        bottom: 30px
 
     .level-loading-goals
       text-align: left
@@ -49,12 +86,22 @@
         font-size: 20px
         color: black
 
+    .intro-doc
+      text-align: left
+      font-size: 16px
+      //overflow-y: scroll  // bad scroll bars
+      overflow: hidden
+
+      img
+        max-width: 100%
+
     .progress-or-start-container
       position: absolute
       bottom: 95px
-      width: 325px
       height: 80px
       left: 48px
+      right: 77px
+      @include transition(bottom $UNVEIL_TIME ease-out)
 
       .load-progress
         width: 100%
@@ -131,21 +178,7 @@
       width: 401px
       color: #666
 
-  .left-wing, .right-wing
-    width: 100%
-    height: 100%
-    position: absolute
-
-  .left-wing
-    @include wing-background('/images/level/loading_left_wing_1920.jpg', right)
-    @media screen and ( max-width: 1366px )
-      @include wing-background('/images/level/loading_left_wing_1366.jpg', right)
-    left: -50%
-    @include transition(all $UNVEIL_TIME ease)
-
-  .right-wing
-    @include wing-background('/images/level/loading_right_wing_1920.jpg', left)
-    @media screen and ( max-width: 1366px )
-      @include wing-background('/images/level/loading_right_wing_1366.jpg', left)
-    right: -50%
-    @include transition(all $UNVEIL_TIME ease)
+    &.preview #tip-wrapper
+      left: 48px
+      right: 77px
+      width: auto

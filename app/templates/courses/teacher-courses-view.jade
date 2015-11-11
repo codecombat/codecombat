@@ -1,0 +1,178 @@
+extends /templates/base
+
+block content
+
+  if view.hoc
+    h1 Welcome to Hour of Code!
+    
+    p
+      | Thank you for choosing CodeCombat for your students.
+      span.spr.spl To get your kids started, simply send them to
+      a(href="/hoc") https://codecombat.com/hoc
+      span .
+    
+    p
+      | If you'd like to use our courses system to view their progress:
+    
+    ol
+      li Login/create your account if you have not already.
+      li Create a classroom on this page.
+      li Invite your students to the classroom.
+      
+    p
+      | You can invite your students even if they've already started playing CodeCombat.
+      
+    p
+      span.spr If you have any problems, please email
+      a(href="mailto:team@codecombat.com") team@codecombat.com
+      span .
+  
+  if !me.isAnonymous()
+    ul.nav.nav-tabs(role='tablist')
+      li.active(role='presentation')
+        a(href="#courses-tab-pane" aria-controls="courses" role="tab" data-toggle="tab") Courses
+      li(role='presentation')
+        a(href="#manage-tab-pane" aria-controls="manage" role="tab" data-toggle="tab") Manage
+    
+  .tab-content
+    #courses-tab-pane.tab-pane.well.active
+      h3 Your Courses
+      - var courseInstances = view.courseInstances.sliceWithMembers();
+      
+      if me.isAnonymous()
+        .alert.alert-info
+          strong Please click "Create Account" or "Log In" above to view and manage your courses.
+
+      else if !_.size(courseInstances)
+        .alert.alert-info
+          span.spr You currently have no students assigned to courses.
+          a#manage-tab-link Go to the manage tab to get set up.
+        
+      else
+        table.table
+          tr
+            th Class
+            th Course
+            th Size
+            th
+          for courseInstance in courseInstances
+            tr
+              td
+                - var classroom = view.classrooms.get(courseInstance.get('classroomID'));
+                if classroom
+                  | #{classroom.get('name')}
+              td
+                - var course = view.courses.get(courseInstance.get('courseID'))
+                if course
+                  | #{course.get('name')}
+              td= _.size(courseInstance.get('members'))
+              td
+                a.btn.btn-primary.btn-sm(href='/courses/#{courseInstance.get("courseID")}/#{courseInstance.id}') Enter
+            
+      h3 Available Courses
+      
+      for course in view.courses.models
+        .media
+          .pull-left
+            img.media-object(src=course.get('screenshot'))
+          .media-body
+            h3.media-heading
+              span.spr= course.get('name')
+              if course.get('free')
+                em (free!)
+            p= course.get('description')
+            p
+              strong.spr Concepts:
+              span= (course.get('concepts') || []).join(', ')
+            p
+              strong.spr Length:
+              span #{course.get('duration') || 0} hours
+          
+        
+      
+    #manage-tab-pane.tab-pane.well
+
+      p Create a class and add students to it.
+      
+      - var totalRedeemers = view.prepaids.totalRedeemers();
+      - var totalMaxRedeemers = view.prepaids.totalMaxRedeemers();
+      
+      .text-right
+        span.spr Used paid seats: #{totalRedeemers}/#{totalMaxRedeemers}
+        a.btn.btn-default.btn-xs(href="/courses/purchase") Add
+    
+      for classroom in view.classrooms.models
+        h2= classroom.get('name')
+        
+        - var courseInstances = view.courseInstances.where({classroomID: classroom.id})
+    
+        if classroom.saving || classroom.filling
+          .progress.progress-striped.active
+            .progress-bar(style="width: 100%")
+          
+        else
+          table.table
+            tr
+              th Student
+              for courseInstance in courseInstances
+                th
+                  if courseInstance.course
+                  | #{courseInstance.course.get('name')}
+              
+            if !_.size(classroom.get('members'))
+              tr
+                td(colspan=1+view.courses.size())
+                  em No students in this class yet.
+              
+            for member in classroom.get('members') || []
+              - var user = view.members.get(member);
+              if !user
+                - continue;
+              tr
+                td= user.get('name')
+                for courseInstance in courseInstances
+                  td
+                    if _.contains(courseInstance.get('members'), user.id)
+                      span.glyphicon.glyphicon-ok
+                    else
+                      input.course-instance-membership-checkbox(
+                        type='checkbox'
+                        data-course-instance-id=courseInstance.id
+                        data-user-id=user.id
+                      )
+          
+        button.add-students-btn.btn.btn-sm(data-classroom-id=classroom.id) Add Students
+    
+        hr
+      
+      .row
+        .col-sm-3.col-sm-offset-3
+          button#create-new-class-btn.btn.btn-default.btn-block Create New Class
+        .col-sm-3
+          input#new-classroom-name-input.form-control(placeholder='new class name')
+          
+      #fixed-area
+        .container
+          .row.well
+            if view.state === 'saving-changes'
+              p Saving changes
+              - var total = view.membershipAdditions.originalSize + view.usersToRedeem.originalSize;
+              - var left = view.membershipAdditions.size() + view.usersToRedeem.size();
+              - var pct = Math.max(10, (100 * (total - left) / total)).toFixed(1) + '%';
+              .progress.progress-striped.active
+                .progress-bar(style="width: #{pct}")
+            else
+              - var seatsLeft = totalMaxRedeemers - totalRedeemers - view.usersToRedeem.size();
+              if seatsLeft < 0
+                .alert.alert-danger
+                  span.spr You do not have enough seats to accommodate all students you have selected.
+                  a(href="/courses/purchase") Buy more seats.
+              else
+                .col-sm-2
+                  button#save-changes-btn.btn.btn-primary.btn-block(disabled=!view.numCourseInstancesToAddTo) Save Changes
+                .col-sm-5
+                  | Students to add to courses: #{view.numCourseInstancesToAddTo || 0}
+                .col-sm-5
+                  | Seats to expend: #{view.usersToRedeem.size()} (will have #{seatsLeft} seats left)
+    
+block footer

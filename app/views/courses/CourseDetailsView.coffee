@@ -2,6 +2,7 @@ Campaign = require 'models/Campaign'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
+Classroom = require 'models/Classroom'
 LevelSession = require 'models/LevelSession'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/course-details'
@@ -25,12 +26,12 @@ module.exports = class CourseDetailsView extends RootView
     'click .progress-level-cell': 'onClickProgressLevelCell'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
-    'click #invite-btn': 'onClickInviteButton'
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
     @courseID ?= options.courseID
     @courseInstanceID ?= options.courseInstanceID
+    @classroom = new Classroom()
     @adminMode = me.isAdmin()
     @memberSort = 'nameAsc'
     @course = @supermodel.getModel(Course, @courseID) or new Course _id: @courseID
@@ -119,6 +120,9 @@ module.exports = class CourseDetailsView extends RootView
 
   onCourseInstanceSync: ->
     # console.log 'onCourseInstanceSync'
+    if @courseInstance.get('classroomID')
+      @classroom = new Classroom({_id: @courseInstance.get('classroomID')})
+      @supermodel.loadModel @classroom, 'classroom'
     @adminMode = true if @courseInstance.get('ownerID') is me.id and @courseInstance.get('name') isnt 'Single Player'
     @levelSessions = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/level_sessions", model: LevelSession, comparator:'_id' })
     @listenToOnce @levelSessions, 'sync', @onLevelSessionsSync
@@ -260,26 +264,6 @@ module.exports = class CourseDetailsView extends RootView
       viewClass: 'views/play/level/PlayLevelView'
       viewArgs: [{}, levelSlug]
     }
-
-  onClickInviteButton: (e) ->
-    emails = @$('#invite-emails-textarea').val()
-    emails = emails.split('\n')
-    emails = _.filter((_.string.trim(email) for email in emails))
-    if not emails.length
-      return
-    url = @courseInstance.url() + '/invite_students'
-    @$('#invite-btn, #invite-emails-textarea').addClass('hide')
-    @$('#invite-emails-sending-alert').removeClass('hide')
-
-    $.ajax({
-      url: url
-      data: {emails: emails}
-      method: 'POST'
-      context: @
-      success: ->
-        @$('#invite-emails-sending-alert').addClass('hide')
-        @$('#invite-emails-success-alert').removeClass('hide')
-    })
 
   onMouseEnterPoint: (e) ->
     $('.progress-popup-container').hide()

@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Українська", englishDescription: "Ukrainian", translation:
   home:
-    slogan: "Навчіться програмувати, граючи у гру"
+    slogan: "Навчіться програмувати граючи"
     no_ie: "На жаль, CodeCombat не працює в IE8 та старіших версіях!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не призначений для мобільних пристроїв і може не працювати!" # Warning that shows up on mobile devices
     play: "Грати" # The big play button that opens up the campaign view.
@@ -31,7 +31,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     contact: "Контакти"
     twitter_follow: "Фоловити"
     teachers: "Учителям"
-#    careers: "Careers"
+    careers: "Робота"
 
   modal:
     close: "Закрити"
@@ -74,7 +74,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     anonymous: "Гравець-анонім"
     level_difficulty: "Складність: "
     campaign_beginner: "Кампанія для початківців"
-    awaiting_levels_adventurer_prefix: "Ми випускаємо 5 рівнів на тиждень." # {change}
+    awaiting_levels_adventurer_prefix: "Ми щотижня додаємо нові рівні."
     awaiting_levels_adventurer: "Увійди як Шукач пригод"
     awaiting_levels_adventurer_suffix: "стань одним з перших, хто їх спробує."
     adjust_volume: "Підлаштувати гучність"
@@ -84,12 +84,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
-    blurb: "Ви робите великі успіхи! Розкажіть кому-небудь, як багато ви вивчили з CodeCombat." # {change}
+    blurb: "У тебе гарно виходить! Розкажи своїм батькам як багато ти знаєш завдяки CodeCombat."
     email_invalid: "Невірна електронна адреса."
     form_blurb: "Введіть їхні електронні адреси, і ми покажемо ім!"
     form_label: "Електронна адреса"
     placeholder: "електронна адреса"
-    title: "Досконала робота, Учень"
+    title: "Досконала робота, учню"
 
   login:
     sign_up: "створення акаунту"
@@ -161,7 +161,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     withdrawn: "Відкликано"
     accept: "Прийняти"
     reject: "Відхилити"
-#    withdraw: "Withdraw"
+    withdraw: "Відкликати"
     submitter: "Відправник"
     submitted: "Відправлено"
     commit_msg: "Доручити повідомлення"
@@ -343,7 +343,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tip_free_your_mind: "Нео, ти повинен усе подолати. Страх... сумніви і невіра. Звільни від них свій розум. - Морфіус"
     tip_strong_opponents: "Навіть наймогутніший суперник має свою слабкість. - Ітачі Учіха"
     tip_paper_and_pen: "Перш ніж почати програмувати, ви завжди можете спробувати з аркушем паперу і ручкою."
-#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+    tip_solve_then_write: "Спершу вирішуй проблему, а потім - пиши код. - Джон Джонсон"
 
   game_menu:
     inventory_tab: "Інвентар"
@@ -404,9 +404,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   subscribe:
     comparison_blurb: "Відточіть свої навички завдяки підписці на CodeCombat!"
-    feature1: "Більше 60 основних рівней на просторах 4 світів" # {change}
-    feature2: "7 могутніх <strong>нових героїв</strong> з унікальними здібностями!" # {change}
-    feature3: "Більше 30 бонусних рівнів" # {change}
+    feature1: "Більше 110 основних рівней на просторах 4 світів"
+    feature2: "10 могутніх <strong>нових героїв</strong> з унікальними здібностями!"
+    feature3: "Більше 80-ти бонусних рівнів"
     feature4: "<strong>3500 бонусних самоцвітів</strong> кожного місяця!"
     feature5: "Навчальні відеоролики"
     feature6: "Екслюзивна підтримка по електронній пошті"
@@ -432,8 +432,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     parent_email_sent: "Лист відправлено!"
     parent_email_title: "Яка в твоїх батьків електронна адреса?"
     parents: "Батькам"
-    parents_title: "Ваша дитина вчитиметься програмувати." # {change}
-    parents_blurb1: "Разом з CodeCombat Ваша дитина писатиме реальний код. Почне з простих команд та поступово буде розвиватись до складніших тем."
+    parents_title: "Дорога мамо/батьку, ваша дитина вчиться програмувати. Чи допоможите ви їй продовжити цю спрову?" # {change}
+    parents_blurb1: "Разом з CodeCombat Ваша дитина писатиме реальний код. Почне з простих команд та поступово буде розвиватись до складніших тем." # {change} 
     parents_blurb1a: "Коп'ютерне програмування є необхідними вмінням, що ваша дитина беззаперечно використовуватиме у дорослому віці. До 2020 року 77% професій потребуватимуть базових навичок у програмному забезпечені, а програмісти надзвичайно потрібні у всьому світі. Чи знали ви, що Комп'ютерні Науки - це найбільш високооплачувана університетьська спеціальність?"
     parents_blurb2: "За 9.99$ на місяць, вона отримуватиме нові завдання щотижня та персональні листи підтримки від професійних програмістів." # {change}
     parents_blurb3: "Жодного ризику: 100% гарантія повернення грошей, легке скасування абонементу одним кліком."
@@ -455,7 +455,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     sale_continue: "Готовий продовжити пригоди?"
     sale_limited_time: "Обмежена пропозиція!"
     sale_new_heroes: "Нові герої!"
-#    sale_title: "Back to School Sale"
+    sale_title: "Дошкільні знижки"
     sale_view_button: "Купити 1 рік підписки на"
     stripe_description: "Щомісячний абонемент"
     stripe_description_year_sale: "1 рік підписки (35% знижка)"
@@ -473,7 +473,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     managed_subs_desc_2: "Одержувачі повинні мати обліковий запис CodeCombat, пов'язаний з вказаною Вами адресою електронної пошти."
     group_discounts: "Групові знижки"
     group_discounts_1: "Ми також пропонуємо знижки для пакетних передплат."
-    group_discounts_1st: "1-ий абонемент (включає Ваш)" # {change}
+    group_discounts_1st: "1-ий абонемент"
     group_discounts_full: "Повна ціна"
     group_discounts_2nd: "2-11 абонементи"
     group_discounts_20: "Знижка 20%"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     users_subscribed: "Підписані користувачі:"
     no_users_subscribed: "Користувачі не підписані, будь ласка, перевірте Ваші ел. адреси."
     current_recipients: "Поточні отримувачі"
-    unsubscribing: "Скасування передплати..." # {change}
+    unsubscribing: "Триває скасування підписки..."
     subscribe_prepaid: "Натисніть Підписатися щоб використовувати передплачені коди"
     using_prepaid: "Використати передплачений код для щомісячної підписки"
 
@@ -583,15 +583,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     press_paragraph_1_link: "набору-для-преси"
     press_paragraph_1_suffix: ". Всі логотипи та зображення можна використовувати, не зв'язуючись із нами напряму."
     team: "Команда"
-    george_title: "Виконавчий директор" # {change}
+    george_title: "Співзасновник"
     george_blurb: "Бізнесмен"
-    scott_title: "Програміст" # {change}
+    scott_title: "Співзасновник"
     scott_blurb: "Розумник"
-    nick_title: "Програміст" # {change}
+    nick_title: "Співзасновник"
     nick_blurb: "Ґуру мотивації"
     michael_title: "Програміст"
     michael_blurb: "Сисадмін"
-    matt_title: "Програміст" # {change}
+    matt_title: "Співзасновник"
     matt_blurb: "Велосипедист"
     cat_title: "Головний ремісник"
     cat_blurb: "Маг повітря"
@@ -603,7 +603,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     retrostyle_blurb: "Ігри в стилі ретро"
 
   teachers:
-#    more_info: "More Info for Teachers"
+    more_info: "Додаткова інформація для вчителів"
     intro_1: "CodeCombat - це онлайн гра, що вчить програмуванню. Студенти пишуть код на реальних мовах програмування."
     intro_2: "Досвід не потрібен!"
     free_title: "Скільки це коштує?"
@@ -617,12 +617,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     teacher_subs_3: "щоб налаштувати підписку."
     sub_includes_title: "Що входить у підписку?"
     sub_includes_1: "На додаток до 110+ основних рівнів, студенти з щомісячною підпискою отримають доступ до цих додаткових функцій:"
-    sub_includes_2: "70 + рівнів практики" # {change}
+    sub_includes_2: "80+ рівнів практики"
     sub_includes_3: "Відео уроки"
     sub_includes_4: "Преміум підтримка по електронній пошті"
     sub_includes_5: "10 нових героїв з унікальними навичками для оволодіння"
-    sub_includes_6: "3500 бонусних дорогоцінних каменів кожен місяць"
-    sub_includes_7: "Приватні Клани"
+    sub_includes_6: "3500 бонусних самоцвітів кожен місяць"
+    sub_includes_7: "Приватні клани"
     monitor_progress_title: "Як мені стежити за прогресом студентів?"
     monitor_progress_1: "Прогрес студентів може бути відстежити, створивши"
     monitor_progress_2: "для вашого класу."
@@ -651,8 +651,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     more_info_2: "вчительський форум"
     more_info_3: "є гарним місцем для спілкування із колегами-педагогами, котрі використовують CodeCombat."
     sys_requirements_title: "Системні вимоги"
-    sys_requirements_1: "Оскільки CodeCombat — це гра, для нормальної роботи він вимагає у комп'ютерів більше, ніж відео чи текстові посібники. Ми оптимізували його для швидкої роботи в усіх сучасних браузерах і на старіших машинах, щоб кожен міг грати. І ось наші підказки, як отримати від CodeCombat якнайбільше:" # {change}
-    sys_requirements_2: "Використовуйте новіші версії Chrome або Firefox." # {change}
+    sys_requirements_1: "Сучасний веб-переглядач. Остання версія Chrome, Firefox або Safari. Internet Explorer 9 та вище."
+    sys_requirements_2: "CodeCombat наразі не підтримується на iPad."
 
   teachers_survey:
     title: "Анкета вчителя"
@@ -727,8 +727,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     admin: "Aдмін"
     new_password: "Новий пароль"
     new_password_verify: "Підтвердження паролю"
-    type_in_email: "Введіть свій email, щоб підтвердити вилучення" # {change}
-    type_in_password: "Так само введіть ваш пароль."
+    type_in_email: "Введіть свій email, аби підтвердити вилучення екаунту."
+    type_in_password: "Також, введіть свій пароль."
     email_subscriptions: "Email-підписки"
     email_subscriptions_none: "Жодних підписок."
     email_announcements: "Оголошення"
@@ -840,16 +840,16 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     last_played: "Остання гра"
     leagues_explanation: "Грайте в лізі проти інших членів клану на мультіплєєрній арені."
 #    track_concepts1: "Track concepts"
-#    track_concepts2a: "learned by each student"
-#    track_concepts2b: "learned by each member"
+    track_concepts2a: "вивчено усіма студентами"
+    track_concepts2b: "вивчено усіма учасниками"
 #    track_concepts3a: "Track levels completed for each student"
 #    track_concepts3b: "Track levels completed for each member"
 #    track_concepts4a: "See your students'"
 #    track_concepts4b: "See your members'"
-#    track_concepts5: "solutions"
+    track_concepts5: "рішення"
 #    track_concepts6a: "Sort students by name or progress"
 #    track_concepts6b: "Sort members by name or progress"
-#    track_concepts7: "Requires invitation"
+    track_concepts7: "Потребує запрошення"
 #    track_concepts8: "to join"
 #    private_require_sub: "Private clans require a subscription to create or join."
 
@@ -1183,11 +1183,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     rules: "Правила"
     winners: "Переможці"
     league: "Ліга"
-#    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
-#    blue_ai: "Blue AI"
-#    wins: "Wins" # At end of multiplayer match playback
-#    humans: "Red" # Ladder page display team name
-#    ogres: "Blue"
+    red_ai: "Червоний ШІ" # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "Синій ШІ"
+    wins: "переміг" # At end of multiplayer match playback
+    humans: "Червоний" # Ladder page display team name
+    ogres: "Синій"
 
   user:
     stats: "Статистика"
@@ -1258,22 +1258,22 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     retrying: "Помилка сервера, повторна спроба."
     success: "Успішно оплачено. Дякуємо!"
 
-#  account_prepaid:
+  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
 #    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
 #    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
-#    users: "Users"
-#    months: "Months"
-#    purchase_total: "Total"
+    users: "Користувачі"
+    months: "Місяці"
+    purchase_total: "Загалом"
 #    purchase_button: "Submit Purchase"
 #    your_codes: "Your Codes"
 #    redeem_codes: "Redeem a Subscription Code"
 #    prepaid_code: "Prepaid Code"
 #    lookup_code: "Lookup prepaid code"
-#    apply_account: "Apply to your account"
+    apply_account: "Застосувати до свого екаунту"
 #    copy_link: "You can copy the code's link and send it to someone."
-#    quantity: "Quantity"
+    quantity: "Кількіть"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
 
@@ -1350,12 +1350,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     arrays: "Масиви"
     basic_syntax: "Базовий синтаксис"
     boolean_logic: "Булева логіка"
-#    break_statements: "Break Statements"
+    break_statements: "Оператори зупинки"
     classes: "Класи"
-#    continue_statements: "Continue Statements"
+    continue_statements: "Оператори продовження"
     for_loops: "Цикл For"
     functions: "Функції"
-#    graphics: "Graphics"
+    graphics: "Графіка"
     if_statements: "Умовні оператори"
     input_handling: "Обробка введення"
     math_operations: "Математичні операції"
@@ -1490,7 +1490,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     next_photo: "додайте необов’язкове професійне фото."
     next_active: "відзначте що Ви у пошуках пропозицій, щобвідображатися у пошуку."
     example_blog: "Блог"
-    example_personal_site: "Особиста Сторінка"
+    example_personal_site: "Персональний сайт"
     links_header: "Особисті Посилання"
     links_blurb: "Посилання на інші сторінки або профілі, які б ви хотіли вказати. Наприклад: аккаунт на GitHub'і, LinkedIn, або ваш блог. "
     links_name: "Назва посилання"

@@ -4,8 +4,6 @@ Article = require 'models/Article'
 SubscribeModal = require 'views/core/SubscribeModal'
 utils = require 'core/utils'
 
-# let's implement this once we have the docs database schema set up
-
 module.exports = class LevelGuideView extends CocoView
   template: template
   id: 'guide-view'
@@ -41,10 +39,10 @@ module.exports = class LevelGuideView extends CocoView
     @docs = specific.concat(general)
     @docs = $.extend(true, [], @docs)
     @docs = [@docs[0]] if @firstOnly and @docs[0]
-    doc.html = marked(@filterCodeLanguages(utils.i18n(doc, 'body'))) for doc in @docs
+    doc.html = marked(utils.filterMarkdownCodeLanguages(utils.i18n(doc, 'body'))) for doc in @docs
     doc.name = (utils.i18n doc, 'name') for doc in @docs
     doc.slug = _.string.slugify(doc.name) for doc in @docs
-    super()
+    super options
 
   destroy: ->
     if @vimeoListenerAttached
@@ -52,6 +50,7 @@ module.exports = class LevelGuideView extends CocoView
         window.removeEventListener('message', @onMessageReceived, false)
       else
         window.detachEvent('onmessage', @onMessageReceived, false)
+    oldEditor.destroy() for oldEditor in @aceEditors ? []
     super()
 
   getRenderData: ->
@@ -70,13 +69,17 @@ module.exports = class LevelGuideView extends CocoView
       @$el.find('.nav-tabs li:first').addClass('active')
       @$el.find('.tab-content .tab-pane:first').addClass('active')
       @$el.find('.nav-tabs a').click(@clickTab)
+    @configureACEEditors()
     @playSound 'guide-open'
 
-  filterCodeLanguages: (text) ->
-    currentLanguage = me.get('aceConfig')?.language or 'python'
-    excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'io'], currentLanguage
-    exclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
-    text.replace exclusionRegex, ''
+  configureACEEditors: ->
+    oldEditor.destroy() for oldEditor in @aceEditors ? []
+    @aceEditors = []
+    aceEditors = @aceEditors
+    codeLanguage = me.get('aceConfig')?.language or 'python'
+    @$el.find('pre').each ->
+      aceEditor = utils.initializeACE @, codeLanguage
+      aceEditors.push aceEditor
 
   clickSubscribe: (e) ->
     level = @levelSlug # Save ref to level slug

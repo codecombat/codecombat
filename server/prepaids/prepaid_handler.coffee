@@ -2,11 +2,15 @@ Course = require '../courses/Course'
 Handler = require '../commons/Handler'
 hipchat = require '../hipchat'
 Prepaid = require './Prepaid'
+User = require '../users/User'
 StripeUtils = require '../lib/stripe_utils'
 utils = require '../../app/core/utils'
+mongoose = require 'mongoose'
 
 # TODO: Should this happen on a save() call instead of a prepaid/-/create post?
 # TODO: Probably a better way to create a unique 8 charactor string property using db voodoo
+
+cutoffID = mongoose.Types.ObjectId('5642877accc6494a01cc6bfe')
 
 PrepaidHandler = class PrepaidHandler extends Handler
   modelClass: Prepaid
@@ -26,6 +30,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
     return @getPrepaidAPI(req, res, args[2]) if relationship is 'code'
     return @createPrepaidAPI(req, res) if relationship is 'create'
     return @purchasePrepaidAPI(req, res) if relationship is 'purchase'
+    return @postRedeemerAPI(req, res, args[0]) if relationship is 'redeemers'
     super arguments...
 
   getPrepaidAPI: (req, res, code) ->
@@ -44,7 +49,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
   createPrepaidAPI: (req, res) ->
     return @sendForbiddenError(res) unless @hasAccess(req)
     return @sendForbiddenError(res) unless req.body.type in ['course', 'subscription','terminal_subscription']
-    return @sendForbiddenError(res) unless req.body.maxRedeemers > 0
+    return @sendForbiddenError(res) unless parseInt(req.body.maxRedeemers) > 0
 
     properties = {}
     type = req.body.type
@@ -61,6 +66,44 @@ PrepaidHandler = class PrepaidHandler extends Handler
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, prepaid.toObject())
 
+  postRedeemerAPI: (req, res, prepaidID) ->
+    return @sendForbiddenError(res) if prepaidID.toString() < cutoffID.toString()
+    return @sendMethodNotAllowed(res, 'You may only POST redeemers.') if req.method isnt 'POST'
+    return @sendBadInputError(res, 'Need an object with a userID') unless req.body?.userID
+    Prepaid.findById(prepaidID).exec (err, prepaid) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) if not prepaid
+      return @sendForbiddenError(res) if prepaid.get('creator').toString() isnt req.user.id
+      return @sendForbiddenError(res) if _.size(prepaid.get('redeemers')) >= prepaid.get('maxRedeemers')
+      return @sendForbiddenError(res) unless prepaid.get('type') is 'course'
+      User.findById(req.body.userID).exec (err, user) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res, 'User for given ID not found') if not user
+        userID = user.get('_id')
+#        Prepaid.count {'redeemers.userID': userID}, (err, count) =>
+#          return @sendDatabaseError(res, err) if err
+#          return @sendSuccess(res, @formatEntity(req, prepaid)) if count
+
+        query =
+          _id: prepaid.get('_id')
+          'redeemers.userID': { $ne: req.user.get('_id') }
+          $where: "this.redeemers.length < #{prepaid.get('maxRedeemers')}"
+        update = { $push: { redeemers : { date: new Date(), userID: userID } }}
+        Prepaid.update query, update, (err, nMatched) =>
+          return @sendDatabaseError(res, err) if err
+          if nMatched is 0
+            @logError(req.user, "POST prepaid redeemer lost race on maxRedeemers")
+            return @sendForbiddenError(res)
+            
+          user.set('coursePrepaidID', prepaid.get('_id'))
+          user.save (err, user) =>
+            return @sendDatabaseError(res, err) if err
+            # return prepaid with new redeemer added locally
+            redeemers = _.clone(prepaid.get('redeemers') or [])
+            redeemers.push({ date: new Date(), userID: userID })
+            prepaid.set('redeemers', redeemers)
+            @sendSuccess(res, @formatEntity(req, prepaid))      
+
   createPrepaid: (user, type, maxRedeemers, properties, done) ->
     Prepaid.generateNewCode (code) =>
       return done('Database error.') unless code
@@ -68,7 +111,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
         creator: user._id
         type: type
         code: code
-        maxRedeemers: maxRedeemers
+        maxRedeemers: parseInt(maxRedeemers)
         properties: properties
         redeemers: []
 
@@ -97,40 +140,30 @@ PrepaidHandler = class PrepaidHandler extends Handler
         @sendSuccess(res, prepaid.toObject())
 
     else if req.body.type is 'course'
-      courseID = req.body.courseID
-
       maxRedeemers = parseInt(req.body.maxRedeemers)
       timestamp = req.body.stripe?.timestamp
       token = req.body.stripe?.token
 
       return @sendBadInputError(res) unless isNaN(maxRedeemers) is false and maxRedeemers > 0
 
-      query = if courseID? then {_id: courseID} else {}
-      Course.find query, (err, courses) =>
-        if err
-          @logError(user, "Find courses error: #{JSON.stringify(err)}")
-          return done(err)
-
-        @purchasePrepaidCourse req.user, courses, maxRedeemers, timestamp, token, (err, prepaid) =>
-          # TODO: this badinput detection is fragile, in course instance handler as well
-          return @sendBadInputError(res, err) if err is 'Missing required Stripe token'
-          return @sendDatabaseError(res, err) if err
-          @sendSuccess(res, prepaid.toObject())
+      @purchasePrepaidCourse req.user, maxRedeemers, timestamp, token, (err, prepaid) =>
+        # TODO: this badinput detection is fragile, in course instance handler as well
+        return @sendBadInputError(res, err) if err is 'Missing required Stripe token'
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, prepaid.toObject())
     else
       @sendForbiddenError(res)
 
-  purchasePrepaidCourse: (user, courses, maxRedeemers, timestamp, token, done) ->
+  purchasePrepaidCourse: (user, maxRedeemers, timestamp, token, done) ->
     type = 'course'
 
-    courseIDs = (c.get('_id') for c in courses)
-    coursePrices = (c.get('pricePerSeat') for c in courses)
-    amount = utils.getCourseBundlePrice(coursePrices, maxRedeemers)
+    amount = maxRedeemers * 400
     if amount > 0 and not (token or user.isAdmin())
       @logError(user, "Purchase prepaid courses missing required Stripe token #{amount}")
       return done('Missing required Stripe token')
 
     if amount is 0 or user.isAdmin()
-      @createPrepaid(user, type, maxRedeemers, courseIDs: courseIDs, done)
+      @createPrepaid(user, type, maxRedeemers, {}, done)
 
     else
       StripeUtils.getCustomer user, token, (err, customer) =>
@@ -142,10 +175,8 @@ PrepaidHandler = class PrepaidHandler extends Handler
           type: type
           userID: user.id
           timestamp: parseInt(timestamp)
-          description: if courses.length is 1 then courses[0].get('name') else 'All Courses'
           maxRedeemers: maxRedeemers
           productID: "prepaid #{type}"
-          courseIDs: courseIDs
 
         StripeUtils.createCharge user, amount, metadata, (err, charge) =>
           if err
@@ -156,9 +187,9 @@ PrepaidHandler = class PrepaidHandler extends Handler
             if err
               @logError(user, "createPayment error: #{JSON.stringify(err)}")
               return done(err)
-            msg = "Prepaid code purchased: #{type} seats=#{maxRedeemers} courseIDs=#{courseIDs} #{user.get('email')}"
+            msg = "Prepaid code purchased: #{type} seats=#{maxRedeemers} #{user.get('email')}"
             hipchat.sendHipChatMessage msg, ['tower']
-            @createPrepaid(user, type, maxRedeemers, courseIDs: courseIDs, done)
+            @createPrepaid(user, type, maxRedeemers, {}, done)
 
   purchasePrepaidTerminalSubscription: (user, description, maxRedeemers, months, timestamp, token, done) ->
     type = 'terminal_subscription'
@@ -195,7 +226,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
               creator: user._id
               type: type
               code: code
-              maxRedeemers: maxRedeemers
+              maxRedeemers: parseInt(maxRedeemers)
               redeemers: []
               properties:
                 months: months
@@ -205,4 +236,25 @@ PrepaidHandler = class PrepaidHandler extends Handler
               hipchat.sendHipChatMessage msg, ['tower']
               return done(null, prepaid)
 
+
+  get: (req, res) ->
+    if creator = req.query.creator
+      return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or creator is req.user.id)
+      return @sendBadInputError(res, 'Bad creator') unless utils.isID creator
+      q = {
+        _id: {$gt: cutoffID}
+        creator: mongoose.Types.ObjectId(creator),
+        type: 'course'
+      }
+      Prepaid.find q, (err, prepaids) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendSuccess(res, (@formatEntity(req, prepaid) for prepaid in prepaids))
+    else
+      super(arguments...)
+
+  makeNewInstance: (req) ->
+    prepaid = super(req)
+    prepaid.set('redeemers', [])
+    return prepaid
+      
 module.exports = new PrepaidHandler()

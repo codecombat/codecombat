@@ -37,6 +37,8 @@
     "brunch": "brunch",
     "bower": "bower",
     "dev": "brunch watch --server",
+    "nodemon": "nodemon",
+    "jasmine-node": "jasmine-node",
     "multicore": "coffee multicore.coffee",
     "nodemon": "nodemon"
   },

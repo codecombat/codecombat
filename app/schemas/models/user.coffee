@@ -320,6 +320,9 @@ _.extend UserSchema.properties,
     courseID: c.objectId({})
     courseInstanceID: c.objectId({})
   }
+  coursePrepaidID: c.objectId({
+    description: 'Prepaid which has paid for this user\'s course access'
+  })
 
 c.extendBasicProperties UserSchema, 'user'
 

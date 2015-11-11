@@ -66,8 +66,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'courses/mock1/enroll/:courseID': go('courses/mock1/CourseEnrollView')
     'courses/mock1/:courseID': go('courses/mock1/CourseDetailsView')
     'courses': go('courses/CoursesView')
-    'courses/students': go('courses/CoursesView')
-    'courses/teachers': go('courses/CoursesView')
+    'courses/students': go('courses/StudentCoursesView')
+    'courses/teachers': go('courses/TeacherCoursesView')
+    'courses/purchase': go('courses/PurchaseCoursesView')
     'courses/enroll(/:courseID)': go('courses/CourseEnrollView')
     'courses/:courseID(/:courseInstanceID)': go('courses/CourseDetailsView')
 
@@ -97,7 +98,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'github/*path': 'routeToServer'
 
-    'hoc': go('courses/CoursesView')
+    'hoc': go('courses/HourOfCodeView')
 
     'i18n': go('i18n/I18NHomeView')
     'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
