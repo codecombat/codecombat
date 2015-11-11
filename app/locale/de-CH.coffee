@@ -639,7 +639,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    material_premium_server: "Approximately 50 hours of gameplay spread over 190+ subscriber-only levels so far."
 #    material_1: "Approximately 25 hours of free content and an additional 15 hours of subscriber content."
 #    concepts_title: "What concepts are covered?"
-     how_much_title: "Wievil choschtet es monatlichs Abo?"
+    how_much_title: "Wievil choschtet es monatlichs Abo?"
 #    how_much_1: "A"
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
