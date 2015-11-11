@@ -642,7 +642,13 @@ function getRecurringRevenueCounts(startDay) {
   var cursor = db.payments.find({_id: {$gte: startObj}});
   while (cursor.hasNext()) {
     var doc = cursor.next();
-    var day = doc._id.getTimestamp().toISOString().substring(0, 10);
+    var day;
+    if (doc.created) {
+      day = doc.created.substring(0, 10);
+    }
+    else {
+      day = doc._id.getTimestamp().toISOString().substring(0, 10);
+    }
 
     if (doc.service === 'ios' || doc.service === 'bitcoin') continue;
 

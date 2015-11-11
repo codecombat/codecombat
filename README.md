@@ -31,6 +31,7 @@ Whether you're novice or pro, the CodeCombat team is ready to help you implement
 ![Catherine Weresow](http://codecombat.com/images/pages/about/cat_small.png)
 ![Maka Gradin](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Maka%20Gradin/maka_gradin_100.png)
 ![Rob Blanckaert](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Rob%20Blanckaert/rob_blanckaert_100.png)
+![Josh Callebaut](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Josh%20Callebaut/josh_callebaut_100.png)
 ![Michael Schmatz](http://codecombat.com/images/pages/about/michael_small.png)
 ![Josh Lee](http://codecombat.com/images/pages/about/josh_small.png)
 ![Alex Cotsarelis](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Alex%20Cotsarelis/alex_100.png)
