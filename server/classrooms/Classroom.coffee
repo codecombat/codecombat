@@ -22,7 +22,7 @@ ClassroomSchema.statics.generateNewCode = (done) ->
       tryCode()
   tryCode()
 
-ClassroomSchema.plugin plugins.NamedPlugin
+#ClassroomSchema.plugin plugins.NamedPlugin
 
 ClassroomSchema.pre('save', (next) ->
   return next() if @get('code')
