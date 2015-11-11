@@ -429,6 +429,7 @@ module.exports = class SpellView extends CocoView
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
         if doc?.snippets?[e.language]
+          name = doc.name
           content = doc.snippets[e.language].code
           if /loop/.test(content) and @options.level.get 'moveRightLoopSnippet'
             # Replace default loop snippet with an embedded moveRight()
@@ -436,15 +437,29 @@ module.exports = class SpellView extends CocoView
               when 'python' then 'loop:\n    self.moveRight()\n    ${1:}'
               when 'javascript' then 'loop {\n    this.moveRight();\n    ${1:}\n}'
               else content
+          if /loop/.test(content) and @options.level.get('type') in ['course', 'course-ladder']
+            # Temporary hackery to make it look like we meant while True: in our loop snippets until we can update everything
+            content = switch e.language
+              when 'python' then content.replace /loop:/, 'while True:'
+              when 'javascript' then content.replace /loop/, 'while (true)'
+              when 'clojure' then content.replace /dotimes \[n 1000\]/, '(while true'
+              when 'lua' then content.replace /loop/, 'while true then'
+              when 'coffeescript' then content
+              when 'io' then content.replace /loop/, 'while true,'
+              else content
+            name = switch e.language
+              when 'python' then 'while True'
+              when 'coffeescript' then 'loop'
+              else 'while true'
           entry =
             content: content
             meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
-            name: doc.name
+            name: name
             tabTrigger: doc.snippets[e.language].tab
             importance: doc.autoCompletePriority ? 1.0
-          haveFindNearestEnemy ||= doc.name is 'findNearestEnemy'
-          haveFindNearest ||= doc.name is 'findNearest'
-          if doc.name is 'attack'
+          haveFindNearestEnemy ||= name is 'findNearestEnemy'
+          haveFindNearest ||= name is 'findNearest'
+          if name is 'attack'
             # Postpone this until we know if findNearestEnemy is available
             attackEntry = entry
           else
