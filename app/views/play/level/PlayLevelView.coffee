@@ -341,7 +341,7 @@ module.exports = class PlayLevelView extends RootView
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface.showLevel()
     Backbone.Mediator.publish 'level:set-time', time: 0
-    if @isEditorPreview or @observing
+    if (@isEditorPreview or @observing) and not @getQueryVariable('intro')
       @loadingView.startUnveiling()
       @loadingView.unveil true
 

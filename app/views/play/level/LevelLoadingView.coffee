@@ -75,9 +75,7 @@ module.exports = class LevelLoadingView extends CocoView
   prepareIntro: ->
     @docs = @level.get('documentation') ? {}
     specific = @docs.specificArticles or []
-    return unless @intro = _.find specific, name: 'Intro'
-    @intro.html = marked utils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'))
-    @intro.name = utils.i18n @intro, 'name'
+    @intro = _.find specific, name: 'Intro'
 
   showReady: ->
     return if @shownReady
@@ -86,7 +84,9 @@ module.exports = class LevelLoadingView extends CocoView
 
   finishShowingReady: =>
     return if @destroyed
-    if @options.autoUnveil or (@session?.get('state').complete and not @getQueryVariable('intro'))
+    showIntro = @getQueryVariable('intro')
+    autoUnveil = not showIntro and (@options.autoUnveil or @session?.get('state').complete)
+    if autoUnveil
       @startUnveiling()
       @unveil true
     else
@@ -166,7 +166,8 @@ module.exports = class LevelLoadingView extends CocoView
 
   unveilIntro: =>
     return if @destroyed or not @intro or @unveiled
-    @$el.find('.intro-doc').html @intro.html
+    html = marked utils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'))
+    @$el.find('.intro-doc').html html
     @resize()
 
   onUnveilEnded: =>
