@@ -52,13 +52,13 @@ else
         .panel-heading
           .panel-title#delete-account-panel-title(data-i18n="account_settings.delete_account_tab")
         .panel-body
-          .form
+          .form#delete-account-form
             .form-group
               label.control-label(for="email1", data-i18n="account_settings.type_in_email")
-              input#email1.form-control(name="email1", type="text")
-            .form-group  
+              input#email1.form-control(name="email", type="email")
+            .form-group
               label.control-label(for="password1", data-i18n="account_settings.type_in_password")
-              input#password1.form-control(name="password1", type="password")  
+              input#password1.form-control(name="password", type="password")  
           button#delete-account-btn.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
 
     .col-md-6
@@ -96,7 +96,7 @@ else
           hr
       
           h4(data-i18n="account_settings.contributor_emails") Contributor Class Emails
-          span(data-i18n="account_settings.contribute_prefix") We're looking for people to join our party! Check out the 
+          span(data-i18n="account_settings.contribute_prefix") We\'re looking for people to join our party! Check out the 
           a(href="/contribute", data-i18n="account_settings.contribute_page") contribute page
           span(data-i18n="account_settings.contribute_suffix")  to find out more.
       
@@ -162,5 +162,20 @@ else
               span(data-i18n="contribute.ambassador_subscribe_desc").help-block Get emails on support updates and multiplayer developments.
                   
             button#toggle-all-btn.btn.btn-primary.form-control(data-i18n="account_settings.email_toggle") Toggle All
+
+      .panel.panel-default
+        .panel-heading
+          .panel-title#reset-progress-panel-title(data-i18n="account_settings.reset_progress_tab")
+        .panel-body
+          .form#reset-progress-form
+            .form-group
+              label.control-label(for="email-reset-progress", data-i18n="account_settings.type_in_email_progress")
+              input#email-reset-progress.form-control(name="email", type="email")
+            .form-group
+              label.control-label(for="password-reset-progress", data-i18n="account_settings.type_in_password")
+              input#password-reset-progress.form-control(name="password", type="password")
+          button#reset-progress-btn.btn.form-control.btn-primary(data-i18n="account_settings.reset_your_progress")
+
+
 
 .clearfix

@@ -18,6 +18,7 @@ module.exports = class AccountSettingsView extends CocoView
     'click #toggle-all-btn': 'onClickToggleAllButton'
     'click #profile-photo-panel-body': 'onClickProfilePhotoPanelBody'
     'click #delete-account-btn': 'onClickDeleteAccountButton'
+    'click #reset-progress-btn': 'onClickResetProgressButton'
 
   constructor: (options) ->
     super options
@@ -62,61 +63,68 @@ module.exports = class AccountSettingsView extends CocoView
     @trigger 'inputChanged', e
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
+  onClickDeleteAccountButton: (e) ->
+    @validateCredentialsForDestruction @$el.find('#delete-account-form'), =>
+      renderData =
+        confirmTitle: 'Are you really sure?'
+        confirmBody: 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?'
+        confirmDecline: 'Not really'
+        confirmConfirm: 'Definitely'
+      confirmModal = new ConfirmModal renderData
+      confirmModal.on 'confirm', @deleteAccount
+      @openModalView confirmModal
 
-  #- Just copied from OptionsView, TODO refactor
-  onClickDeleteAccountButton: ->
-    forms.clearFormAlerts(@$el)
-    myEmail = me.get 'email'
-    email1 = document.getElementById('email1').value
-    password1 = document.getElementById('password1').value
-    if Boolean(email1) and email1 is myEmail
+  onClickResetProgressButton: ->
+    @validateCredentialsForDestruction @$el.find('#reset-progress-form'), =>
+      renderData =
+        confirmTitle: 'Are you really sure?'
+        confirmBody: 'This will completely erase your progress: code, levels, achievements, earned gems, etc. This action CANNOT be undone. Are you entirely sure?'
+        confirmDecline: 'Not really'
+        confirmConfirm: 'Definitely'
+      confirmModal = new ConfirmModal renderData
+      confirmModal.on 'confirm', @resetProgress
+      @openModalView confirmModal
+
+  validateCredentialsForDestruction: ($form, onSuccess) ->
+    forms.clearFormAlerts($form)
+    enteredEmail = $form.find('input[type="email"]').val()
+    enteredPassword = $form.find('input[type="password"]').val()
+    if enteredEmail and enteredEmail is me.get('email')
       isPasswordCorrect = false
       toBeDelayed = true
       $.ajax
         url: '/auth/login'
         type: 'POST'
         data:
-          {
-            username: email1,
-            password: password1
-          }
+          username: enteredEmail
+          password: enteredPassword
         parse: true
         error: (error) ->
           toBeDelayed = false
           'Bad Error. Can\'t connect to server or something. ' + error
         success: (response, textStatus, jqXHR) ->
           toBeDelayed = false
-          unless jqXHR.status is 200
-            return
+          return unless jqXHR.status is 200
           isPasswordCorrect = true
       callback = =>
         if toBeDelayed
           setTimeout callback, 100
         else
           if isPasswordCorrect
-            renderData =
-              'confirmTitle': 'Are you really sure?'
-              'confirmBody': 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?'
-              'confirmDecline': 'Not really'
-              'confirmConfirm': 'Definitely'
-            confirmModal = new ConfirmModal renderData
-            confirmModal.on 'confirm', @deleteAccount
-            @openModalView confirmModal
+            onSuccess()
           else
             message = $.i18n.t('account_settings.wrong_password', defaultValue: 'Wrong Password.')
-            err = [message: message, property: 'password1', formatted: true]
-            forms.applyErrorsToForm(@$el, err)
+            err = [message: message, property: 'password', formatted: true]
+            forms.applyErrorsToForm($form, err)
             $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
       setTimeout callback, 100
     else
       message = $.i18n.t('account_settings.wrong_email', defaultValue: 'Wrong Email.')
-      err = [message: message, property: 'email1', formatted: true]
-      forms.applyErrorsToForm(@$el, err)
+      err = [message: message, property: 'email', formatted: true]
+      forms.applyErrorsToForm($form, err)
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
 
-
   deleteAccount: ->
-    myID = me.id
     $.ajax
       type: 'DELETE'
       success: ->
@@ -133,11 +141,33 @@ module.exports = class AccountSettingsView extends CocoView
         , 500
       error: (jqXHR, status, error) ->
         console.error jqXHR
-        timeout: 5000
-        text: "Deleting account failed with error code #{jqXHR.status}"
-        type: 'error'
-        layout: 'topCenter'
-      url: "/db/user/#{myID}"
+        noty
+          timeout: 5000
+          text: "Deleting account failed with error code #{jqXHR.status}"
+          type: 'error'
+          layout: 'topCenter'
+      url: "/db/user/#{me.id}"
+
+  resetProgress: ->
+    $.ajax
+      type: 'POST'
+      success: ->
+        noty
+          timeout: 5000
+          text: 'Your progress is gone.'
+          type: 'success'
+          layout: 'topCenter'
+        localStorage.clear()
+        me.fetch cache: false
+        _.delay (-> window.location.reload()), 1000
+      error: (jqXHR, status, error) ->
+        console.error jqXHR
+        noty
+          timeout: 5000
+          text: "Resetting progress failed with error code #{jqXHR.status}"
+          type: 'error'
+          layout: 'topCenter'
+      url: "/db/user/#{me.id}/reset_progress"
 
   onClickProfilePhotoPanelBody: (e) ->
     return if window.application.isIPadApp  # TODO: have an iPad-native way of uploading a photo, since we don't want to load FilePicker on iPad (memory)

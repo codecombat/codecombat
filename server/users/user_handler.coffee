@@ -24,6 +24,8 @@ UserRemark = require './remarks/UserRemark'
 hipchat = require '../hipchat'
 sendwithus = require '../sendwithus'
 Prepaid = require '../prepaids/Prepaid'
+UserPollsRecord = require '../polls/UserPollsRecord'
+EarnedAchievement = require '../achievements/EarnedAchievement'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
@@ -326,6 +328,7 @@ UserHandler = class UserHandler extends Handler
     return @getSubSponsor(req, res) if args[1] is 'sub_sponsor'
     return @getSubSponsors(req, res) if args[1] is 'sub_sponsors'
     return @sendOneTimeEmail(req, res, args[0]) if args[1] is 'send_one_time_email'
+    return @resetProgress(req, res, args[0]) if args[1] is 'reset_progress'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -696,6 +699,19 @@ UserHandler = class UserHandler extends Handler
     User.find(query).select(projection).lean().exec (err, users) =>
       return @sendDatabaseError res, err if err
       @sendSuccess res, users
+
+  resetProgress: (req, res, userID) ->
+    return @sendMethodNotAllowed res unless req.method is 'POST'
+    return @sendForbiddenError res unless userID and userID is req.user?._id + ''  # Only you can reset your own progress
+    return @sendForbiddenError res if req.user?.isAdmin()  # Protect admins from resetting their progress
+    async.parallel [
+      (cb) -> LevelSession.remove {creator: req.user._id + ''}, cb
+      (cb) -> EarnedAchievement.remove {user: req.user._id + ''}, cb
+      (cb) -> UserPollsRecord.remove {user: req.user._id + ''}, cb
+      (cb) -> req.user.update {points: 0, 'stats.gamesCompleted': 0, 'stats.concepts': {}, 'earned.gems': 0, 'earned.levels': [], 'earned.items': [], 'earned.heroes': [], 'purchased.items': [], 'purchased.heroes': [], spent: 0}, cb
+    ], (err, results) =>
+      return @sendDatabaseError res, err if err
+      @sendSuccess res, result: 'success'
 
 
   countEdits = (model, done) ->
