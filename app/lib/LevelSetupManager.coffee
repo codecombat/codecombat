@@ -36,6 +36,7 @@ module.exports = class LevelSetupManager extends CocoClass
   loadSession: ->
     sessionURL = "/db/level/#{@options.levelID}/session"
     #sessionURL += "?team=#{@team}" if @options.team  # TODO: figure out how to get the teams for multiplayer PVP hero style
+    sessionURL += "?course=#{@options.courseID}" if @options.courseID
     @session = new LevelSession().setURL sessionURL
     onSessionSync = ->
       return if @destroyed

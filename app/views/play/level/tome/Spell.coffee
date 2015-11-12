@@ -63,6 +63,7 @@ module.exports = class Spell
   setLanguage: (@language) ->
     #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
     @originalSource = @languages[@language] ? @languages.javascript
+
     # Translate comments chosen spoken language.
     return unless @commentContext
     context = $.extend true, {}, @commentContext
@@ -78,6 +79,17 @@ module.exports = class Spell
       @originalSource = _.template @originalSource, context
     catch e
       console.error "Couldn't create example code template of", @originalSource, "\nwith context", context, "\nError:", e
+
+    if /loop/.test(@originalSource) and @levelType in ['course', 'course-ladder']
+      # Temporary hackery to make it look like we meant while True: in our sample code until we can update everything
+      @originalSource = switch @language
+        when 'python' then @originalSource.replace /loop:/, 'while True:'
+        when 'javascript' then @originalSource.replace /loop {/, 'while (true) {'
+        when 'clojure' then @originalSource.replace /dotimes \[n 1000\]/, '(while true'
+        when 'lua' then @originalSource.replace /loop\n/, 'while true then\n'
+        when 'coffeescript' then @originalSource
+        when 'io' then @originalSource.replace /loop\n/, 'while true,\n'
+        else @originalSource
 
   addThang: (thang) ->
     if @thangs[thang.id]
