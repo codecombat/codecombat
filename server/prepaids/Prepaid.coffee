@@ -15,7 +15,7 @@ PrepaidSchema.statics.generateNewCode = (done) ->
       return done(code) unless prepaid
       tryCode()
   tryCode()
-  
+
 PrepaidSchema.pre('save', (next) ->
   @set('exhausted', @get('maxRedeemers') <= _.size(@get('redeemers')))
   if not @get('code')
@@ -30,7 +30,7 @@ PrepaidSchema.post 'init', (doc) ->
   doc.set('maxRedeemers', parseInt(doc.get('maxRedeemers')))
 
 PrepaidSchema.statics.postEditableProperties = [
-  'creator', 'maxRedeemers', 'type'
+  'creator', 'maxRedeemers', 'properties', 'type'
 ]
 
 module.exports = Prepaid = mongoose.model('prepaid', PrepaidSchema)

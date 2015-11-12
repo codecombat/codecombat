@@ -68,6 +68,8 @@ module.exports = class AdministerUserModal extends ModalView
       maxRedeemers: maxRedeemers
       type: 'course'
       creator: @user.id
+      properties:
+        adminAdded: me.id
     })
     prepaid.save()
     @state = 'creating-prepaid'
