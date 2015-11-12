@@ -42,6 +42,7 @@ module.exports.handlerUrlOverrides =
   'level_session': 'level.session'
   'level_system': 'level.system'
   'thang_type': 'thang.type'
+  'thang_component': 'thang.component'
   'user_code_problem': 'user.code.problem'
   'user_remark': 'user.remark'
   'mail_sent': 'mail.sent'

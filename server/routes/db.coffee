@@ -26,7 +26,7 @@ module.exports.setup = (app) ->
 
       parts = req.path[4..].split('/')
 
-      return getSchema(req, res, module) if parts[1] is 'schema'
+      
       if (not req.user) and req.route.method isnt 'get'
         return errors.unauthorized(res, 'Must have an identity to do anything with the db. Do you have cookies enabled?')
 
@@ -55,6 +55,10 @@ module.exports.setup = (app) ->
     
     app.all '/db/' + moduleName + '/*', routeHandler
     app.all '/db/' + moduleName, routeHandler
+
+  app.get '/db/:module/schema', (req, res) ->
+    res.setHeader('Content-Type', 'application/json')
+    getSchema req, res, req.params.module
 
   for moduleNameUnder of handlers
     name = handlers[moduleNameUnder]
