@@ -4,7 +4,7 @@ module.exports.createContiguousDays = (timeframeDays, skipToday=true) ->
   # Return list of last 'timeframeDays' contiguous days in yyyy-mm-dd format
   days = []
   currentDate = new Date()
-  currentDate.setUTCDate(currentDate.getUTCDate() - timeframeDays)
+  currentDate.setUTCDate(currentDate.getUTCDate() - timeframeDays + 1)
   currentDate.setUTCDate(currentDate.getUTCDate() - 1) if skipToday
   for i in [0...timeframeDays]
     currentDay = currentDate.toISOString().substr(0, 10)

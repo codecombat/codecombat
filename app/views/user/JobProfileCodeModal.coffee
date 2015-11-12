@@ -7,18 +7,13 @@ module.exports = class JobProfileCodeModal extends ModalView
   template: template
   modalWidthPercent: 90
   plain: true
-  
+
   constructor: (options) ->
     super(arguments...)
     @session = options.session
-    
-  getRenderData: ->
-    c = super()
-    c.session = @session
-    c
 
   afterRender: ->
     super()
     codeView = new LevelSessionCodeView({session:@session})
     @insertSubView(codeView, @$el.find('.level-session-code-view'))
-    
+

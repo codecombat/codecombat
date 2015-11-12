@@ -11,6 +11,7 @@ CampaignHandler = class CampaignHandler extends Handler
     'name'
     'fullName'
     'description'
+    'type'
     'i18n'
     'i18nCoverage'
     'ambientSound'

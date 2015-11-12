@@ -7,8 +7,3 @@ module.exports = class CareersView extends RootView
 
   constructor: (options, @position) ->
     super options
-
-  getRenderData: ->
-    context = super()
-    context.position = @position
-    context

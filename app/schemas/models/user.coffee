@@ -312,11 +312,11 @@ _.extend UserSchema.properties,
 
   siteref: { type: 'string' }
   referrer: { type: 'string' }
-  chinaVersion: { type: 'boolean' }  # Old
+  chinaVersion: { type: 'boolean' }  # Old, can be removed after we make sure it's deleted from all users
   country: { type: 'string', enum: ['brazil', 'china'] }  # New, supports multiple countries for different versions--only set for specific countries where we have premium servers right now
 
   clans: c.array {}, c.objectId()
-  currentCourse: c.object {}, {
+  currentCourse: c.object {}, {  # Old, can be removed after we deploy and delete it from all users
     courseID: c.objectId({})
     courseInstanceID: c.objectId({})
   }

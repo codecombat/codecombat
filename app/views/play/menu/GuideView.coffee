@@ -23,7 +23,7 @@ module.exports = class LevelGuideView extends CocoView
     # A/B Testing video tutorial styles
     @helpVideosIndex = me.getVideoTutorialStylesIndex(@helpVideos.length)
     @helpVideo = @helpVideos[@helpVideosIndex] if @helpVideos.length > 0
-    @videoLocked = not @helpVideo?.free and @requiresSubscription
+    @videoLocked = not (@helpVideo?.free or options.level.get('type', true) is 'course') and @requiresSubscription
 
     @firstOnly = options.firstOnly
     @docs = options?.docs ? options.level.get('documentation') ? {}
