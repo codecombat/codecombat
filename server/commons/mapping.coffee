@@ -32,6 +32,22 @@ module.exports.handlers =
   'trial_request': 'trial_requests/trial_request_handler'
   'user_polls_record': 'polls/user_polls_record_handler'
 
+module.exports.handlerUrlOverrides =
+  'analytics_log_event': 'analytics_log_event'
+  'analytics_perday': 'analytics.perday'
+  'analytics_string': 'analytics.string'
+  'analytics_stripe_invoice': 'analytics.stripe.invoice'
+  'level_component': 'level.component'
+  'level_feedback': 'level.feedback'
+  'level_session': 'level.session'
+  'level_system': 'level.system'
+  'thang_type': 'thang.type'
+  'thang_component': 'thang.component'
+  'user_code_problem': 'user.code.problem'
+  'user_remark': 'user.remark'
+  'mail_sent': 'mail.sent'
+  'user_polls_record': 'user.polls.record'
+
 module.exports.routes =
   [
     'routes/admin'
