@@ -94,8 +94,8 @@ module.exports = class PlayLevelView extends RootView
     console.profile?() if PROFILE_ME
     super options
 
-    @courseID = options.courseID
-    @courseInstanceID = options.courseInstanceID
+    @courseID = options.courseID or @getQueryVariable 'course'
+    @courseInstanceID = options.courseInstanceID or @getQueryVariable 'course-instance'
 
     @isEditorPreview = @getQueryVariable 'dev'
     @sessionID = @getQueryVariable 'session'
@@ -133,7 +133,7 @@ module.exports = class PlayLevelView extends RootView
   load: ->
     @loadStartTime = new Date()
     @god = new God debugWorker: true
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing, courseID: @courseID
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
 
   trackLevelLoadEnd: ->

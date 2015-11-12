@@ -406,12 +406,14 @@ module.exports = class HeroVictoryModal extends ModalView
       # need to do something more complicated to load its slug
       console.log 'have @nextLevel', @nextLevel, 'from nextLevel', nextLevel
       link = "/play/level/#{@nextLevel.get('slug')}"
+      if @courseID
+        link += "?course=#{@courseID}"
+        link += "&course-instance=#{@courseInstanceID}" if @courseInstanceID
     else if @level.get('type', true) is 'course'
       link = "/courses"
       if @courseID
         link += "/#{@courseID}"
-        if @courseInstanceID
-          link += "/#{@courseInstanceID}"
+        link += "/#{@courseInstanceID}" if @courseInstanceID
     else
       link = '/play'
       nextCampaign = @getNextLevelCampaign()
@@ -428,10 +430,8 @@ module.exports = class HeroVictoryModal extends ModalView
     _.merge options, extraOptions if extraOptions
     if @level.get('type', true) is 'course' and @nextLevel and not options.returnToCourse
       viewClass = require 'views/play/level/PlayLevelView'
-      if @courseID
-        options.courseID = @courseID
-      if @courseInstanceID
-        options.courseInstanceID = @courseInstanceID
+      options.courseID = @courseID
+      options.courseInstanceID = @courseInstanceID
       viewArgs = [options, @nextLevel.get('slug')]
     else if @level.get('type', true) is 'course'
       # TODO: shouldn't set viewClass and route in different places
@@ -440,8 +440,7 @@ module.exports = class HeroVictoryModal extends ModalView
       if @courseID
         viewClass = require 'views/courses/CourseDetailsView'
         viewArgs.push @courseID
-        if @courseInstanceID
-          viewArgs.push @courseInstanceID
+        viewArgs.push @courseInstanceID if @courseInstanceID
     else
       viewClass = require 'views/play/CampaignView'
       viewArgs = [options, @getNextLevelCampaign()]

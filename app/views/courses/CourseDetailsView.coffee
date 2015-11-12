@@ -85,7 +85,7 @@ module.exports = class CourseDetailsView extends RootView
     # console.log 'onCampaignSync'
     if @courseInstanceID
       @loadCourseInstance(@courseInstanceID)
-    else if !me.isAnonymous()
+    else unless me.isAnonymous()
       @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
       @listenToOnce @courseInstances, 'sync', @onCourseInstancesSync
       @supermodel.loadCollection(@courseInstances, 'course_instances')
@@ -129,13 +129,6 @@ module.exports = class CourseDetailsView extends RootView
     @supermodel.loadCollection @levelSessions, 'level_sessions', cache: false
     @members = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/members", model: User, comparator: 'nameLower' })
     @listenToOnce @members, 'sync', @onMembersSync
-    me.set({
-      currentCourse: {
-        courseInstanceID: @courseInstance.id,
-        courseID: @course.id
-      }
-    })
-    me.patch()
     @supermodel.loadCollection @members, 'members', cache: false
     @owner = new User({_id: @courseInstance.get('ownerID')})
     @supermodel.loadModel @owner, 'user'
@@ -227,10 +220,13 @@ module.exports = class CourseDetailsView extends RootView
   onClickPlayLevel: (e) ->
     levelSlug = $(e.target).data('level-slug')
     Backbone.Mediator.publish 'router:navigate', {
-      route: "/play/level/#{levelSlug}"
+      route: @getLevelURL levelSlug
       viewClass: 'views/play/level/PlayLevelView'
       viewArgs: [{courseID: @courseID, courseInstanceID: @courseInstanceID}, levelSlug]
     }
+
+  getLevelURL: (levelSlug) ->
+    "/play/level/#{levelSlug}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
 
   onClickSaveSettings:  (e) ->
     return unless @courseInstance
@@ -256,9 +252,9 @@ module.exports = class CourseDetailsView extends RootView
     levelSlug = $(e.currentTarget).data('level-slug')
     userID = $(e.currentTarget).data('user-id')
     return unless levelID and levelSlug and userID
-    route = "/play/level/#{levelSlug}"
+    route = @getLevelURL levelSlug
     if @userLevelSessionMap[userID]?[levelID]
-      route += "?session=#{@userLevelSessionMap[userID][levelID].id}&observing=true"
+      route += "&session=#{@userLevelSessionMap[userID][levelID].id}&observing=true"
     Backbone.Mediator.publish 'router:navigate', {
       route: route
       viewClass: 'views/play/level/PlayLevelView'
