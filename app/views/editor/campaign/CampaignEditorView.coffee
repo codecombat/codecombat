@@ -127,7 +127,8 @@ module.exports = class CampaignEditorView extends RootView
             rewards.push rewardObject
       campaignLevel.rewards = rewards
       delete campaignLevel.unlocks
-      campaignLevel.campaign = @campaign.get 'slug'
+      # Save campaign to level, unless it's a course campaign, since we reuse hero levels for course levels.
+      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type', true) isnt 'course'
       campaignLevels[levelOriginal] = campaignLevel
 
     @campaign.set('levels', campaignLevels)

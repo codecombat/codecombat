@@ -57,10 +57,8 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   onLevelLoaded: ->
-    console.log 'is course?', @isCourse, 'type', @level.get('type', true), @level.get('type', true) not in ['course', 'course-ladder']
     if @isCourse and @level.get('type', true) not in ['course', 'course-ladder']
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
-      console.log 'doin it'
       originalGet = @level.get
       @level.get = ->
         return 'course' if arguments[0] is 'type'

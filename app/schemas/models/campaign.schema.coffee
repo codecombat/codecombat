@@ -1,12 +1,15 @@
 c = require './../schemas'
 
-CampaignSchema = c.object()
+CampaignSchema = c.object
+  default:
+    type: 'hero'
 c.extendNamedProperties CampaignSchema  # name first
 
 _.extend CampaignSchema.properties, {
   i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'fullName', 'description']}
   fullName: { type: 'string', title: 'Full Name', description: 'Ex.: "Kithgard Dungeon"' }
   description: { type: 'string', format: 'string', description: 'How long it takes and what players learn.' }
+  type: c.shortString(title: 'Type', description: 'What kind of campaign this is.', 'enum': ['hero', 'course'])
 
   ambientSound: c.object {},
     mp3: { type: 'string', format: 'sound-file' }
