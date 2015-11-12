@@ -11,10 +11,6 @@ module.exports = class SaveLoadView extends CocoView
   events:
     'change #save-granularity-toggle input': 'onSaveGranularityChanged'
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context
-
   afterRender: ->
     super()
 

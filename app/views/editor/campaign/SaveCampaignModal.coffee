@@ -13,11 +13,6 @@ module.exports = class SaveCampaignModal extends ModalView
   constructor: (options, @modelsToSave) ->
     super(options)
 
-  getRenderData: ->
-    c = super()
-    c.modelsToSave = @modelsToSave
-    c
-
   afterRender: ->
     @$el.find('.delta-view').each((i, el) =>
       $el = $(el)

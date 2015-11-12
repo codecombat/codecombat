@@ -4,14 +4,14 @@ block modal-header-content
   h3 Save Changes to Campaign
 
 block modal-body-content
-  if !modelsToSave.models.length
+  if !view.modelsToSave.models.length
     .alert.alert-info(data-i18n="delta.no_changes") No changes
-  
-  for model in modelsToSave.models
+
+  for model in view.modelsToSave.models
     .panel.panel-default
       .panel-heading
         span.panel-title.spr= model.get('name')
-        span.text-muted= model.constructor.className 
+        span.text-muted= model.constructor.className
       .panel-body
         .delta-view(data-model-id=model.id)
 
