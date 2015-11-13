@@ -8,9 +8,8 @@ block header
           img#small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
         a(href="/")
           span.glyphicon.glyphicon-home
-        a(href="/about", data-i18n="nav.about")
         a(href='/teachers', data-i18n="nav.teachers") Teachers
-        a(href='/clans', data-i18n="clans.clans") Clans
+        a(href='/courses', data-i18n="nav.courses")
         a(href='http://discourse.codecombat.com/', data-i18n="nav.forum")
         a(href='/community', data-i18n="nav.community")
 
@@ -60,11 +59,12 @@ block footer
     img#footer-background(src="/images/pages/base/nav_background.png")
 
     #footer-links
+      a(href="/about", data-i18n="nav.about")
       a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Contact
       a(href='http://blog.codecombat.com/', data-i18n="nav.blog")
       a(href='https://jobs.lever.co/codecombat', tabindex=-1, data-i18n="nav.careers") Careers
-      a(href='/contribute', tabindex=-1, data-i18n="nav.contribute") Contribute
       a(href='/legal', tabindex=-1, data-i18n="nav.legal") Legal
+      a(href='/contribute', tabindex=-1, data-i18n="nav.contribute") Contribute
       a(href='/play/ladder', tabindex=-1, data-i18n="home.multiplayer")
       if me.isAdmin()
         a(href='/admin', data-i18n="nav.admin") Admin

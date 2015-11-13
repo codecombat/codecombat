@@ -16,6 +16,7 @@
   nav:
     play: "Levels"  # The top nav bar entry where players choose which levels to play
     community: "Community"
+    courses: "Courses"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
