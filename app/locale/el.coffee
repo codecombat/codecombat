@@ -535,7 +535,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     action_name: "όνομα"
     action_cooldown: "Χρειάζεται"
     action_specific_cooldown: "Cooldown"
-     action_damage: "Ζημιά"
+    action_damage: "Ζημιά"
     action_range: "Εμβέλεια"
     action_radius: "Ακτίνα"
     action_duration: "Διάρκεια"
