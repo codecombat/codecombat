@@ -34,14 +34,3 @@ block outer_content
       strong(data-i18n="home.old_browser") Uh oh, your browser is too old to run CodeCombat. Sorry!
       br
       span(data-i18n="home.old_browser_suffix") You can try anyway, but it probably won't work.
-
-
-block extra_footer_content
-  if view.explainsHourOfCode
-    // Does not show up unless lang is en-US.
-    div.hour-of-code-explanation
-      | The 'Hour of Code' is a nationwide initiative by 
-      a(href="http://csedweek.org") Computer Science Education Week
-      |  and 
-      a(href="http://code.org") Code.org
-      |  to introduce millions of students to one hour of computer science and computer programming.
