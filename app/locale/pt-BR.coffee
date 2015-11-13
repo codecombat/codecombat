@@ -259,8 +259,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     victory_new_item: "Novo item"
     victory_viking_code_school: "Pelas barbas do profeta, esse foi um nível difícil! Se você ainda não é um desenvolvedor de software, você deveria ser. Você acaba de ser priorizado para aceitação na Viking Code School, onde você pode aprender mais e se tornar um desenvolvedor web profissional em 14 semanas."
     victory_become_a_viking: "Torne-se um viking"
-    victory_bloc: "Ótimo trabalho! Suas habilidades estão melhorando, e alguém está tomando conhecimento. Se você já pensou em se tornar um desenvolvedor de software, este pode ser o seu dia de sorte. Bloc é um campo de treinamento online em pares 1-a-1, você e um experiente mentor que irá lhe ajudar e treinar como um desenvolvedor profissional! Ao bater A Mayhem of Munchkins, você está elegível por uma redução de preço de U$500 com o código: CCRULES"
-    victory_bloc_cta: "Conheça seu mentor - aprenda sobre Bloc"
     guide_title: "Guia"
     tome_minion_spells: "Magias dos seus subordinados" # Only in old-style levels.
     tome_read_only_spells: "Magias não editáveis" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     auth_caption: "Salve seu progresso."
 
   leaderboard:
-    leaderboard: "Líderança"
     view_other_solutions: "Ver Outras Soluções" # {change}
     scores: "Pontuação"
     top_players: "Top Jogadores por"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     jose_blurb: "Sou descolado"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "Games estilo Retrô"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "Informações para Professores"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     wrong_password: "Senha Incorreta"
     upload_picture: "Enviar uma foto"
     delete_this_account: "Excluir essa conta definitivamente"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
     god_mode: "Modo Deus"
     password_tab: "Senha"
     emails_tab: "Emails"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     new_password: "Nova Senha"
     new_password_verify: "Confirmação"
     type_in_email: "Digite seu e-mail para confirmar a exclusão" # {change}
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "Digite sua senha."
     email_subscriptions: "Assinaturas para Notícias por Email"
     email_subscriptions_none: "Sem Assinaturas de Email"
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     last_earned: "Últimos Ganhos"
     amount_achieved: "Montante"
     achievement: "Conquista"
-    category_contributor: "Cotribuidor"
-    category_ladder: "Progressão"
-    category_level: "Nível"
-    category_miscellaneous: "Diversos"
-    category_levels: "Níveis"
-    category_undefined: "Sem categoria"
     current_xp_prefix: ""
     current_xp_postfix: " no total"
     new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     left_xp_postfix: ""
 
   account:
-    recently_played: "Jogos Recentes"
-    no_recent_games: "Não foram feitos jogos durante duas semanas."
     payments: "Pagamentos"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Comprado"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "Erro ao carregar do servidor"

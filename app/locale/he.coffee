@@ -259,8 +259,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_new_item: "חפץ חדש"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
     victory_become_a_viking: "הפוך לוויקינג"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "מדריך"
     tome_minion_spells: "הכישופים של המשרתים שלך" # Only in old-style levels.
     tome_read_only_spells: "כישופים לקריאה בלבד" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     auth_caption: "שמור שינויים"
 
   leaderboard:
-    leaderboard: "שיאים"
     view_other_solutions: "צפה בפתרונות אחרים" # {change}
     scores: "תוצאות"
     top_players: "סדר שחקנים טובים ביותר לפי"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
 #  teachers:
 #    more_info: "More Info for Teachers"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     wrong_password: "סיסמא שגוייה"
     upload_picture: "העלה תמונה"
     delete_this_account: "מחק את חשבון זה לתמיד"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
     god_mode: "מצב אל"
     password_tab: "סיסמה"
     emails_tab: "אימיילים"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     new_password: "סיסמה חדשה"
     new_password_verify: "חזור על הסיסמה שנית"
     type_in_email: "הזן את כתובת המייל שלך על מנת לבצע את המחיקה" # {change}
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "גםת הזן את סיסמתך."
     email_subscriptions: "הרשמויות אימייל"
     email_subscriptions_none: ".אין מנויי מייל"
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     last_earned: "Last Earned"
     amount_achieved: "כמות"
     achievement: "הישג"
-    category_contributor: "מתנדב"
-    category_ladder: "סולם"
-    category_level: "שלב"
-    category_miscellaneous: "אחר"
-    category_levels: "שלבים"
-    category_undefined: "לא בקטגוריה"
     current_xp_prefix: ""
     current_xp_postfix: " נצבר בכללי"
     new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     left_xp_postfix: ""
 
   account:
-    recently_played: "שוחק לאחרונה"
-    no_recent_games: "לא שיחקת במשחקים בשבועיים האחרונים."
     payments: "תשלומים"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "קניות"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "אירעה שגיאה בזמן טעינה מהשרת"

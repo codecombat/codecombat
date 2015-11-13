@@ -259,8 +259,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_new_item: "Новый предмет"
     victory_viking_code_school: "Ого, это было тяжелый уровень! Если вы еще не разработчик программ, вам стоит им стать. Вы только что ускорири принятие в Школу Викингов, где вы сможете поднять свои навыки на новый уровень и стать профессиональным веб-разработчиком за 14 недель."
     victory_become_a_viking: "Станьте Викингом"
-    victory_bloc: "Отличная работа! Ваши навыки улучшаются! Если вы размышляете, как стать разработчиком программного обеспечения, это может быть ваш счастливый день. Bloc представляет собой онлайн учебный лагерь,который дает вам опытного наставника, который поможет  Вам стать профессиональным разработчиком! Победив Mayhem of Munchkins, вы имеете право на $ 500 уменьшение цены с кодом: CCRULES"
-    victory_bloc_cta: "Встретьте своего наставника - узнайте больше про Bloc"
     guide_title: "Руководство"
     tome_minion_spells: "Заклинания ваших миньонов" # Only in old-style levels.
     tome_read_only_spells: "Заклинания только для чтения" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     auth_caption: "Сохранить прогресс."
 
   leaderboard:
-    leaderboard: "Таблица лидеров"
     view_other_solutions: "Посмотреть Таблицу лидеров"
     scores: "Рейтинг"
     top_players: "Сортировать игроков по"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     jose_blurb: "На взлет"
     retrostyle_title: "Иллюстрирование"
     retrostyle_blurb: "Игры в стиле ретро"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "Информация для учителей"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     wrong_password: "Неверный пароль"
     upload_picture: "Загрузить изображение"
     delete_this_account: "Удалить этот аккаунт навсегда"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
     god_mode: "Режим бога"
     password_tab: "Пароль"
     emails_tab: "Email-адреса"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     new_password: "Новый пароль"
     new_password_verify: "Подтверждение пароля"
     type_in_email: "Введите ваш email для подтверждения удаления аккаунта" # {change}
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "Так же введите ваш пароль" # {change}
     email_subscriptions: "Email-подписки"
     email_subscriptions_none: "Нет активных подписок."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     send_invites: "Отправить приглашения"
     title: "Тема"
     description: "Описание"
-    languages_available: "Выберите языки программирования, доступные классу:"
-    all_lang: "Все языки"
-    show_progress: "Показывать прогресс студентов всему классу"
     creating_class: "Создание класса..."
     purchasing_course: "Покупка курса..."
     buy_course: "Купить курс"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     last_earned: "Последнее"
     amount_achieved: "Количество"
     achievement: "Достижение"
-    category_contributor: "Помощь"
-    category_ladder: "Ладдер"
-    category_level: "Уровень"
-    category_miscellaneous: "Помощь"
-    category_levels: "Уровни"
-    category_undefined: "Неопределено"
     current_xp_prefix: ""
     current_xp_postfix: " в общем"
     new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     left_xp_postfix: ""
 
   account:
-    recently_played: "Недавно сыграно"
-    no_recent_games: "Нет сыгранных игр за последние две недели."
     payments: "Платежи"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Куплено"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "Ошибка загрузки с сервера"

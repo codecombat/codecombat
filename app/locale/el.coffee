@@ -259,8 +259,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     victory_new_item: "Νέο αντικείμενο"
     victory_viking_code_school: "Μπράβο σου, μόλις πέρασες ένα δύσκολο επίπεδο! Αν δεν είσαι ήδη προγραμματιστής, πρέπει να γίνεις. Είσαι σε καλό δρόμο για να γίνεις δεκτός στο Σχολείο Προγρααματισμού των Βίκινγκ, όπου μπορείς να πας τις ικανότητες στο επόμενο επίπεδο και να γίνεις ένας επαγγελματίας προγραμματιστής ιστού σε 14 weeks."
     victory_become_a_viking: "Γίνε Βίκιγκ"
-    victory_bloc: "Φανταστική δουλειά! Οι ικανότητές σου βελτιώνονται, και κάποιος άρχισε να το προσέχει. Αν το σκέφτεσαι να γίνεις προγραμματιστής, σήμερα μπορεί να είναι η τυχερή σου μέρα. Το Bloc είναι ένα δικτυακό κέντρο εκπαίδευσης που θα σου βρει έναν έμπειρο μέντορα, ο οποίος θα σε εκπαιδεύσει για να γίνεις ένας επαγγελματίας προγραμματιστήςς! Κερδίζοντας το Χαμό των Μωρών, δικαιούσαι για μια μείωση τιμής αξίας 5000 δολλαρίων ΗΠΑ με τον κωδικό: CCRULES"
-    victory_bloc_cta: "Συνάντησε το μέντορά σου – μάθε για το Bloc"
     guide_title: "Οδηγός"
     tome_minion_spells: "Ξόρκια για τα τσιράκια σας" # Only in old-style levels.
     tome_read_only_spells: "Ξορκια μονο για αναγνωση" # Only in old-style levels.
@@ -314,7 +312,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     tip_munchkin: "Αν δε φας τα δημητριακά σου, ένα μωράκι θα σε κυνηγήσει στον ύπνο σου."
     tip_binary: "Υπάρχουν 10 μόνο είδη ανθρώπων στον κόσμο: αυτοί που καταλαβαίνουν δυαδικό σύστημα και αυτοί που δεν καταλαβαίνουν"
     tip_commitment_yoda: "Ένας προγραμματιστής πρέπει να είναι απόλυτα προσηλωμένος και πολύ σοβαρός. ~ Yoda"
-    tip_no_try: "Ή θα κάνεις ή δε θα κάνεις. Δεν υπάρχει προσπάθεια"#"Do. Or do not. There is no try. - Yoda"
+    tip_no_try: "Ή θα κάνεις ή δε θα κάνεις. Δεν υπάρχει προσπάθεια"
     tip_patience: "Πρέπει να έχεις υπομονή νεαρέ Ακρίδα. - Yoda"
     tip_documented_bug: "Ένα τεκμηριωμένο σφάλμα δεν είναι σφάλμα. Είναι χαρακτηριστικό."
     tip_impossible: "Πάντα φαίνεται αδύνατο μέχρι να γίνει. - Nelson Mandela"
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     auth_caption: "Αποθήκευσε την πρόοδό σου."
 
   leaderboard:
-    leaderboard: "Πίνακας Πρωτοπόρων"
     view_other_solutions: "Προβολή Πίνακα Πρωτοπόρων"
     scores: "Σκορ"
     top_players: "Κορυφαίοι Παίκτες Κατά"
@@ -461,7 +458,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     stripe_description_year_sale: "Ετήσια Συνδρομή (35% έκπτωση)"
     subscription_required_to_play: "Πρέπει να είσαι συνδρομητής για να παίξεις αυτό το επίπεδο."
     unlock_help_videos: "Απέκτησε συνδρομή για να ξεκλειδώσεις όλα τα βίντεο βοηθήματα."
-    personal_sub: "Προσωπική Συνδρομή"
+    personal_sub: "Προσωπική Συνδρομή" # Accounts Subscription View below
     loading_info: "Οι πληροφορίες της συνδρομής φορτώνονται..."
     managed_by: "Διαχείρηση από"
     will_be_cancelled: "Θα ακυρωθεί στις"
@@ -523,8 +520,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     health_3: "υγεία ασπίδας."
     speed_1: "Κινείται με"
     speed_2: "μέτρα το δευτερόλεπτο."
-    available_for_purchase: "Διαθέσιμο για Αγορά" # Εμφανίζεται όταν έχεις ξεκλειδώσει αλλά δεν έχεις αγοράσει ακόμα έναν ήρωα στο κατάστημα των ηρώων
-    level_to_unlock: "Επίπεδο για ξεκλείδωμα:" # Ετικέτα για ποιό επίπεδο πρέπει να κερδίσει για να ξεκλειδώσεις ένα συγκεκριμένο ήρωα (πάτα σε έναν κλειδωμένο ήρωα στο κατάστημα για να δεις)
+    available_for_purchase: "Διαθέσιμο για Αγορά" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Επίπεδο για ξεκλείδωμα:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Μόνο συγκεκριμένοι ήρωες μπορούν να παίξουν αυτό το επίπεδο."
 
   skill_docs:
@@ -540,7 +537,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     action_radius: "Ακτίνα"
     action_duration: "Διάρκεια"
     example: "Παράδειγμα"
-    ex: "πχ" # Σύντμηση του  "παράδειγμα"
+    ex: "πχ" # Abbreviation of "example"
     current_value: "Τρέχουσα τιμή"
     default_value: "Προκαθορισμένη τιμή"
     parameters: "Παράμετροι"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     jose_blurb: "Απογείωση"
     retrostyle_title: "Εικονογράφηση"
     retrostyle_blurb: "Ρετρό Παιχνίδια"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "Περισσότερες Πληροφορίες για Εκπαιδευτικούς"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     wrong_password: "Λάθος Κωδικός"
     upload_picture: "Ανέβασμα φωτογραφίας"
     delete_this_account: "Μόνιμη διαγραφή λογαριασμού"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
     god_mode: "Κατάσταση Θεού!"
     password_tab: "Κωδικός"
     emails_tab: "Emails"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     new_password: "Καινούργιος Κωδικός"
     new_password_verify: " Επαλήθευση  Κωδικού"
     type_in_email: "Γράψτε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας για να επιβεβαιώσετε τη διαγραφή του λογαριασμού."
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "Επίσης, γράψτε τον κωδικό σας."
     email_subscriptions: "Συνδρομές ηλεκτρονικού ταχυδρομείου"
     email_subscriptions_none: "Δεν υπάρχουν συνδρομές ηλεκτρονικού ταχυδρομείου."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     send_invites: "Αποστολή Προσκλήσεων"
     title: "Τίτλος"
     description: "Περιγραφή"
-    languages_available: "Διάλεξε ποιες γλώσσες προγραμματισμού  θα είναι διαθέσιμες σε αυτήν την τάξη:"
-    all_lang: "Όλες οι Γλώσσες"
-    show_progress: "Δείξε την πρόοδο του μαθητή σε όλους στην τάξη"
     creating_class: "Δημιουργία τάξης..."
     purchasing_course: "Αγορά μαθήματος..."
     buy_course: "Αγορά Μαθήματος"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     last_earned: "Τελευταίο Απόκτημα"
     amount_achieved: "Ποσό"
     achievement: "Επίτευγμα"
-    category_contributor: "Συντελεστήςr"
-    category_ladder: "Ladder"
-    category_level: "Επίπεδο"
-    category_miscellaneous: "Διάφορα"
-    category_levels: "Επίπεδα"
-    category_undefined: "Χωρίς Κατηγορία"
     current_xp_prefix: ""
     current_xp_postfix: " συνολικά"
     new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     left_xp_postfix: ""
 
   account:
-    recently_played: "Παίχθηκε Πρόσφατα"
-    no_recent_games: "Δεν παίχτηκε κανένα παιχνίδι τις τελευταίες 2 εβδομάδες."
     payments: "Πληρωμές"
     prepaid_codes: "Προπληρωμένοι Κώδικες"
     purchased: "Αγοράστηκαν"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     quantity: "Ποσότητα"
     redeemed: "Εξαγοράστηκε"
     no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "Σφάλμα φόρτωσης από τον εξυπηρετητή"
@@ -1443,12 +1441,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     canonical: "Η Αγγλική έκδοση αυτού του εγγράφου είναι η απόλυτη , ρυθμιστική (canonical) έκδοση. Αν υπάρχουν αισθητές διαφορές μεταξύ των μεταφράσεων, το Αγγλικό έγγραφο προηγείται."
 
   ladder_prizes:
-#    title: "Βραβεία Τουρνουά" # This section was for an old tournament and doesn't need new translations now.
+    title: "Βραβεία Τουρνουά" # This section was for an old tournament and doesn't need new translations now.
 #    blurb_1: "These prizes will be awarded according to"
 #    blurb_2: "the tournament rules"
 #    blurb_3: "to the top human and ogre players."
-    blurb_5: "(Θα υπάρχουν δύο 1οι νικητές, δύο δεύτεροι νικητές, κλπ.)"
     blurb_4: "Δύο ομάδες σημαίνει διπλά βραβεία!"
+    blurb_5: "(Θα υπάρχουν δύο 1οι νικητές, δύο δεύτεροι νικητές, κλπ.)"
     rank: "Θέση"
     prizes: "Βραβεία"
     total_value: "Συνολική Αξία"

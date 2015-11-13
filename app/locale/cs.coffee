@@ -259,8 +259,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    victory_new_item: "New Item"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Průvodce"
     tome_minion_spells: "Vaše oblíbená kouzla" # Only in old-style levels.
     tome_read_only_spells: "Kouzla jen pro čtení" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     auth_caption: "Uložte váš postup."
 
   leaderboard:
-    leaderboard: "Žebříčky"
     view_other_solutions: "Zobrazit jiné řešení" # {change}
     scores: "Skóre"
 #    top_players: "Top Players by"
@@ -601,9 +598,15 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
-#    more_info: "More Info for Teachers"  # Used to be: CodeCombat pro učitele
+#    more_info: "More Info for Teachers"
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    wrong_password: "Wrong Password"
     upload_picture: "Nahrát obrázek"
 #    delete_this_account: "Delete this account permanently"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
 #    god_mode: "God Mode"
     password_tab: "Heslo"
     emails_tab: "Emaily"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     new_password: "Nové heslo"
     new_password_verify: "Potvrdit"
 #    type_in_email: "Type in your email to confirm account deletion."
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Odebírat emailem"
     email_subscriptions_none: "Žádné odebírání emailem."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     last_earned: "Poslední obdržený"
     amount_achieved: "Množství"
     achievement: "Úspěch"
-    category_contributor: "Přispěvatel"
-    category_ladder: "Žebříček"
-    category_level: "Úroveň"
-    category_miscellaneous: "Ostatní"
-    category_levels: "Úrovně"
-    category_undefined: "Nezařazeno"
     current_xp_prefix: ""
     current_xp_postfix: " celkem"
     new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     left_xp_postfix: ""
 
   account:
-    recently_played: "Nedávno zaplaceno"
-    no_recent_games: "Žádné hry během posledních dvou týdnů."
     payments: "Platby"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Zaplaceno"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "Chyba při načítání ze serveru"

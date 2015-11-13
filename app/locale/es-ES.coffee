@@ -259,8 +259,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_new_item: "Nuevo artículo"
     victory_viking_code_school: "Jolínes, el nivel que acabas de pasar era dificil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirteen un desarrollador web profesional en 14 semanas."
     victory_become_a_viking: "Convertirse en un vikingo"
-    victory_bloc: "¡Buen trabajo! Tus habilidades están mejorando, y alguien ya se dió cuenta. Si has considerado convertirte en un desarrollador de software, este podría ser tu día de suerte. Bloc es un campo de entrenamiento online que te conecta 1 a 1 con un mentor experto que te ayudará a entrenarte para convertirte ¡En un desarrollador profesional! Al vencer A Mayhem of Munchkins, eres elegible para una reducción de $500 USD usando el código: CCRULES"
-    victory_bloc_cta: "Conoce a tu mentor – aprende acerca de Bloc"
     guide_title: "Guía"
     tome_minion_spells: "Los hechizos de tus súbditos" # Only in old-style levels.
     tome_read_only_spells: "Hechizos de solo lectura" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     auth_caption: "Salvar tu progreso."
 
   leaderboard:
-    leaderboard: "Jefe de la liga"
     view_other_solutions: "Ver clasificaciones"
     scores: "Puntuaciones"
     top_players: "Mejores jugadores de"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    jose_blurb: "Taking Off"
     retrostyle_title: "Illustración"
 #    retrostyle_blurb: "RetroStyle Games"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "Información para profesores"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     wrong_password: "Contraseña incorrecta"
     upload_picture: "Sube una imagen"
     delete_this_account: "Eliminar esta cuenta de forma permanente"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
     god_mode: "Modo Dios"
     password_tab: "Contraseña"
     emails_tab: "Correos electrónicos"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     new_password: "Nueva contraseña"
     new_password_verify: "Verificar"
     type_in_email: "Introduce tu email para confirmar el borrado de esta cuenta"
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "Además, introduce tu contraseña."
     email_subscriptions: "Suscripciones de correo electrónico"
     email_subscriptions_none: "Sin suscripciones de correo electrónico."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     last_earned: "Ganado la ultima vez"
     amount_achieved: "Cantidad"
     achievement: "Logro"
-    category_contributor: "Contribuidor"
-    category_ladder: "Escalera"
-    category_level: "Nivel"
-    category_miscellaneous: "Miscelanea"
-    category_levels: "Niveles"
-    category_undefined: "Sin categorizar"
     current_xp_prefix: ""
     current_xp_postfix: " en total"
     new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     left_xp_postfix: ""
 
   account:
-    recently_played: "Jugado Recientemente"
-    no_recent_games: "No he jugado juegos en las ultimas dos semanas."
     payments: "Pagos"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Adquirido"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "Error al cargar desde el servidor."

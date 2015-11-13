@@ -259,8 +259,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     victory_new_item: "Nytt föremål"
     victory_viking_code_school: "Jösses vilken svår nivå du just klarade! Om du inte redan är en mjukvaruutvecklare så borde du vara det. Du bev precis fast-tracked för antagning vid Viking Code School, där du kan ta dina kunskaper till en ny nivå och bli en professionell webbutvecklare på 14 veckor."
     victory_become_a_viking: "Bli en Viking"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Guide"
     tome_minion_spells: "Dina soldaters förmågor" # Only in old-style levels.
     tome_read_only_spells: "Skrivskyddade förmågor" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     auth_caption: "Spara dina framsteg."
 
   leaderboard:
-    leaderboard: "Topplista"
     view_other_solutions: "Visa topplistor"
     scores: "Poäng"
     top_players: "Toppspelare efter"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     jose_blurb: "Taking Off"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "Info till lärare"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    wrong_password: "Wrong Password"
     upload_picture: "Ladda upp en bild"
     delete_this_account: "Ta bort det här kontot för alltid"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
 #    god_mode: "God Mode"
     password_tab: "Lösenord"
     emails_tab: "Mejladresser"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     new_password: "Nytt lösenord"
     new_password_verify: "Verifiera"
     type_in_email: "Skriv in din mejladress för att bekräfta borttagandet" # {change}
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Mejlprenumerationer"
     email_subscriptions_none: "Inga mejlprenumerationer."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     last_earned: "Senast förvärvad den"
     amount_achieved: "Antal"
     achievement: "Prestation"
-#    category_contributor: "Contributor"
-#    category_ladder: "Ladder"
-    category_level: "Nivå"
-    category_miscellaneous: "Övrigt"
-    category_levels: "Nivåer"
-    category_undefined: "Okategoriserad"
 #    current_xp_prefix: ""
 #    current_xp_postfix: " in total"
 #    new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    left_xp_postfix: ""
 
   account:
-    recently_played: "Spelade nyligen"
-    no_recent_games: "Inga spel spelade de senaste två veckorna."
     payments: "Betalningar"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

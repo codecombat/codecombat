@@ -259,8 +259,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_new_item: "Nieuw Item"
     victory_viking_code_school: "Wow, jij hebt net een moeilijk level gehaald! Als je nog geen programmeur was, zou je er een moeten worden! Je hebt net versneld toegang gekregen voor de Viking programmeerSchool, waar je je vaardigheden kan opkrikken en binnen 14 weken een professionele webontwikkelaar kunt worden."
     victory_become_a_viking: "Word een Viking"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-    victory_bloc_cta: "Ontmoet je mentor – leer over Bloc"
     guide_title: "Handleiding"
     tome_minion_spells: "Jouw Minions' Spreuken" # Only in old-style levels.
     tome_read_only_spells: "Read-Only Spreuken" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     auth_caption: "Bewaar je voortgang."
 
   leaderboard:
-    leaderboard: "Klassement"
     view_other_solutions: "Bekijk Klassement"
     scores: "Scores"
 #    top_players: "Top Players by"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    jose_blurb: "Taking Off"
     retrostyle_title: "Illustraties"
 #    retrostyle_blurb: "RetroStyle Games"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "Info voor Leerkrachten"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     wrong_password: "Verkeerd wachtwoord"
     upload_picture: "Je afbeelding opsturen"
     delete_this_account: "Verwijder dit account voor altijd"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
 #    god_mode: "God Mode"
     password_tab: "Wachtwoord"
     emails_tab: "Emails"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     new_password: "Nieuw Wachtwoord"
     new_password_verify: "Verifieer"
     type_in_email: "Typ je email in om de verwijdering te bevestigen."
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "Typ ook je wachtwoord in."
     email_subscriptions: "Email Abonnementen"
     email_subscriptions_none: "Geen Email Abonnementen."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     send_invites: "Verstuur uitnodigingen"
     title: "Titel"
     description: "beschrijving"
-    languages_available: "Selecteer beschikbare programmeertalen voor de klas:"
-    all_lang: "Alle programmeertalen"
-    show_progress: "Toon leerlingenvoortgang aan de hele klas"
     creating_class: "Aanmaken klas..."
     purchasing_course: "Aanschaffen cursus..."
     buy_course: "Cursus kopen"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     last_earned: "Laatst verdiend"
     amount_achieved: "Hoeveelheid"
     achievement: "Prestatie"
-    category_contributor: "Meehelper"
-    category_ladder: "Stand"
-    category_level: "Level"
-    category_miscellaneous: "Diversen"
-    category_levels: "Levels"
-    category_undefined: "Geen categorie"
     current_xp_prefix: ""
     current_xp_postfix: " in totaal"
     new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     left_xp_postfix: ""
 
   account:
-    recently_played: "Onlangs gespeeld"
-    no_recent_games: "De afgelopen 2 weken geen spellen gespeeld."
     payments: "Betalingen"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Gekocht"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "Fout bij het laden van de server"
