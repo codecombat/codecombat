@@ -34,7 +34,7 @@ module.exports.handlers =
 
 module.exports.handlerUrlOverrides =
   'analytics_log_event': 'analytics_log_event'
-  'analytics_perday': 'analytics.perday'
+  'analytics_perday': 'analytics_perday'
   'analytics_string': 'analytics.string'
   'analytics_stripe_invoice': 'analytics.stripe.invoice'
   'level_component': 'level.component'
