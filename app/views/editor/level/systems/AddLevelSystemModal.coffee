@@ -5,7 +5,7 @@ LevelSystem = require 'models/LevelSystem'
 CocoCollection = require 'collections/CocoCollection'
 
 class LevelSystemSearchCollection extends CocoCollection
-  url: '/db/level_system'
+  url: '/db/level.system'
   model: LevelSystem
 
 module.exports = class AddLevelSystemModal extends ModalView
