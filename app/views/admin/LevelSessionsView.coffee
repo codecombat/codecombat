@@ -4,7 +4,7 @@ LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 
 class LevelSessionCollection extends CocoCollection
-  url: '/db/level_session/x/active?project=screenshot,levelName,creatorName'
+  url: '/db/level.session/x/active?project=screenshot,levelName,creatorName'
   model: LevelSession
 
 module.exports = class LevelSessionsView extends RootView
