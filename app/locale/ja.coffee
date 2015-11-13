@@ -156,12 +156,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     body: "体"
     version: "バージョン"
     pending: "ペンディング"
-    accepted: "容認された"
-    rejected: "拒否された"
-    withdrawn: "取り下げられました"
-#    accept: "Accept"
-#    reject: "Reject"
-#    withdraw: "Withdraw"
+    accepted: "容認済み"
+    rejected: "拒否済み"
+    withdrawn: "取り下げ済み"
+    accept: "容認"
+    reject: "拒否"
+    withdraw: "取り下げ"
     submitter: "提出者"
     submitted: "提出されました"
     commit_msg: "コミットメッセージ"
@@ -217,8 +217,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   play_level:
     done: "完了"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+    next_game: "次のゲーム"
+    show_menu: "ゲームメニューを見る"
     home: "ホーム" # Not used any more, will be removed soon.
     level: "ゲームレベル" # Like "Level: Dungeons of Kithgard"
     skip: "スキップ"
@@ -340,8 +340,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_recurse: "繰り返しは人間、再帰は神。 - L・ピーター・ドイツ"
     tip_free_your_mind: "全ての雑念を捨てろ、恐怖、疑いも不信も 心を解き放つんだ - モーフィアス"
     tip_strong_opponents: "どんな強者にも弱点というものはあるんだ… - うちは　イタチ"
-    tip_paper_and_pen: "コーディングを始める前に, 必ず紙とペンを用意して計画を立てましょう。"
-#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+    tip_paper_and_pen: "コーディングを始める前に、 必ず紙とペンを用意して計画を立てましょう。"
+    tip_solve_then_write: "まず、問題を解決しよう。それから、コードを書こう。 - ジョン・ジョンソン"
 
   game_menu:
     inventory_tab: "インベントリー"
@@ -526,10 +526,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   skill_docs:
     writable: "書き込み可能な" # Hover over "attack" in Your Skills while playing a level to see most of this
-    read_only: "リードオンリー"
-#    action: "Action"
-#    spell: "Spell"
-    action_name: "ネーム"
+    read_only: "読み込み限定"
+    action: "アクション"
+    spell: "呪文"
+    action_name: "アクション名"
     action_cooldown: "テイク"
     action_specific_cooldown: "クールダウン"
     action_damage: "ダメージ"
@@ -966,7 +966,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   editor:
     main_title: "CodeCombatエディター"
-#    article_title: "Article Editor"
+    article_title: "アーティクル エディター"
     thang_title: "サングエディター"
     level_title: "レベルエディター"
     achievement_title: "実績エディター"
