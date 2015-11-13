@@ -1220,7 +1220,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     left_xp_infix: " ata o nivel"
     left_xp_postfix: ""
 
-  account:
+#  account:
 #    payments: "Payments"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"

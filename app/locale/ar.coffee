@@ -1220,7 +1220,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     left_xp_infix: "حتّى مستوى "
     left_xp_postfix: ""
 
-  account:
+#  account:
 #    payments: "Payments"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"

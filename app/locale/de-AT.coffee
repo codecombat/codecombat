@@ -1220,7 +1220,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    left_xp_infix: " until level "
 #    left_xp_postfix: ""
 
-  account:
+#  account:
 #    payments: "Payments"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
