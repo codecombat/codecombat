@@ -10,6 +10,8 @@ TrialRequestSchema = new mongoose.Schema {}, {strict: false, minimize: false, re
 
 TrialRequestSchema.pre 'save', (next) ->
   return next() unless @get('status') is 'approved'
+
+  # Add subscription
   Prepaid.generateNewCode (code) =>
     unless code
       log.error "Trial request pre save prepaid gen new code failure"
@@ -24,8 +26,20 @@ TrialRequestSchema.pre 'save', (next) ->
     prepaid.save (err) =>
       if err
         log.error "Trial request prepaid creation error: #{err}"
+        return next()
       @set('prepaidCode', code)
-      next()
+
+      # Add 2 course headcount
+      prepaid = new Prepaid
+        creator: @get('applicant')
+        type: 'course'
+        maxRedeemers: 2
+        properties:
+          trialRequestID: @get('_id')
+      prepaid.save (err) =>
+        if err
+          log.error "Trial request prepaid creation error: #{err}"
+        next()
 
 TrialRequestSchema.post 'save', (doc) ->
   if doc.get('status') is 'submitted'
