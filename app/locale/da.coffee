@@ -259,8 +259,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     victory_new_item: "Nyt udstyr"
     victory_viking_code_school: "For dælen det var en svær bane du lige slog! Hvis ikke du allerede er softwareudvikler, så burde du blive det. Du er lige kommet foran i køen til at blive accepteret hos Viking Code School, du kan tage dine evner til det næste niveau og blive en professionel webudvikler på 14 uger."
     victory_become_a_viking: "Bliv en Viking"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-    victory_bloc_cta: "Mød din mentor - Hør mere om Bloc"
     guide_title: "Instruktioner"
     tome_minion_spells: "Dine Minions' besværgelser" # Only in old-style levels.
     tome_read_only_spells: "Læsebesværgelser" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     auth_caption: "Gem dit spil."
 
   leaderboard:
-#    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Leaderboards"
 #    scores: "Scores"
 #    top_players: "Top Players by"
@@ -500,7 +497,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     coffeescript_blurb: "Pænere JavaScript syntax."
     clojure_blurb: "En moderne version af Lisp."
     lua_blurb: " Spil scripting sprog."
-#    io_blurb: "Simple but obscure." 
+#    io_blurb: "Simple but obscure."
     status: "Status"
     hero_type: "Type"
     weapons: "Våben"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
 #  teachers:
 #    more_info: "More Info for Teachers"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    wrong_password: "Wrong Password"
 #    upload_picture: "Upload a picture"
 #    delete_this_account: "Delete this account permanently"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
 #    god_mode: "God Mode"
     password_tab: "Password"
     emails_tab: "Emails"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     new_password: "Nyt Password"
     new_password_verify: "Bekræft"
 #    type_in_email: "Type in your email to confirm account deletion."
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Emailtilmeldinger"
 #    email_subscriptions_none: "No Email Subscriptions."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    last_earned: "Last Earned"
 #    amount_achieved: "Amount"
 #    achievement: "Achievement"
-#    category_contributor: "Contributor"
-#    category_ladder: "Ladder"
-#    category_level: "Level"
-#    category_miscellaneous: "Miscellaneous"
-#    category_levels: "Levels"
-#    category_undefined: "Uncategorized"
 #    current_xp_prefix: ""
 #    current_xp_postfix: " in total"
 #    new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    left_xp_postfix: ""
 
 #  account:
-#    recently_played: "Recently Played"
-#    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

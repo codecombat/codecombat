@@ -259,8 +259,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     victory_new_item: "عنصر جديد"
     victory_viking_code_school: "يدخن المقدسة، وكان ذلك على مستوى الثابت الذي فاز فقط! إذا لم تكن بالفعل مطور برامج، يجب أن تكون. كنت فقط حصلت على المسار السريع لقبوله مع مدرسة فايكنغ المدونة، حيث يمكنك أن تأخذ المهارات الخاصة بك إلى المستوى التالي وتصبح مطور ويب محترف في 14 أسبوعا."
     victory_become_a_viking: "تصبح فايكنغ"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "دليل"
     tome_minion_spells: "نوبات التوابع الخاصة بك" # Only in old-style levels.
     tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    auth_caption: "Save your progress."
 
 #  leaderboard:
-#    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Leaderboards"
 #    scores: "Scores"
 #    top_players: "Top Players by"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
 #  teachers:
 #    more_info: "More Info for Teachers"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     wrong_password: "كلمة مرور خاطئة"
 #    upload_picture: "Upload a picture"
     delete_this_account: "حذف هذا الحساب بشكل دائم"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
 #    god_mode: "God Mode"
 #    password_tab: "Password"
 #    emails_tab: "Emails"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     new_password: "كلمة سر جديدة"
     new_password_verify: "تحقق من"
     type_in_email: "اكتب في البريد الإلكتروني الخاص بك لتأكيد الحساب الحذف."
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "أيضا، اكتب كلمة المرور الخاصة بك."
     email_subscriptions: "الاشتراكات البريد الإلكتروني"
 #    email_subscriptions_none: "No Email Subscriptions."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     last_earned: "المكتسبات الأخيرة"
     amount_achieved: "مبلغ"
     achievement: "الإنجاز"
-    category_contributor: "مساهم"
-#    category_ladder: "Ladder"
-#    category_level: "Level"
-    category_miscellaneous: "متنوعة"
-    category_levels: "مستويات"
-    category_undefined: "غير مصنف"
     current_xp_prefix: ""
     current_xp_postfix: "في المجموع"
     new_xp_prefix: ""
@@ -1223,9 +1220,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     left_xp_infix: "حتّى مستوى "
     left_xp_postfix: ""
 
-  account:
-    recently_played: "لعبت مؤخّرا"
-    no_recent_games: "لا يوجد لعب لعبت خلال الأسبوعين الماضيين."
+#  account:
 #    payments: "Payments"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "خطأ في تحميل من الخادم"

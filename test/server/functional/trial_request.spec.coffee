@@ -110,7 +110,7 @@ describe 'Trial Requests', ->
       createTrialRequest user, 'subscription', properties, (trialRequest) ->
         loginNewUser (admin) ->
           admin.set('permissions', ['admin'])
-          admin.save (err, user) ->
+          admin.save (err, admin) ->
             requestBody = trialRequest.toObject()
             requestBody.status = 'approved'
             request.put {uri: URL, json: requestBody }, (err, res, body) ->
@@ -128,7 +128,13 @@ describe 'Trial Requests', ->
                 expect(new Date(doc.get('reviewDate'))).toBeLessThan(new Date())
                 expect(doc.get('reviewer')).toEqual(admin._id)
                 expect(doc.get('prepaidCode')).toBeDefined()
-                done()
+                Prepaid.findOne {'properties.trialRequestID': doc.get('_id')}, (err, doc) ->
+                  expect(err).toBeNull()
+                  return done(err) if err
+                  expect(doc.get('type')).toEqual('course')
+                  expect(doc.get('creator')).toEqual(user.get('_id'))
+                  expect(doc.get('maxRedeemers')).toEqual(2)
+                  done()
 
   it 'Deny trial request', (done) ->
     loginNewUser (user) ->

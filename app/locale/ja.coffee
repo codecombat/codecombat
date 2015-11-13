@@ -156,12 +156,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     body: "体"
     version: "バージョン"
     pending: "ペンディング"
-    accepted: "容認された"
-    rejected: "拒否された"
-    withdrawn: "取り下げられました"
-#    accept: "Accept"
-#    reject: "Reject"
-#    withdraw: "Withdraw"
+    accepted: "容認済み"
+    rejected: "拒否済み"
+    withdrawn: "取り下げ済み"
+    accept: "容認"
+    reject: "拒否"
+    withdraw: "取り下げ"
     submitter: "提出者"
     submitted: "提出されました"
     commit_msg: "コミットメッセージ"
@@ -217,8 +217,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   play_level:
     done: "完了"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+    next_game: "次のゲーム"
+    show_menu: "ゲームメニューを見る"
     home: "ホーム" # Not used any more, will be removed soon.
     level: "ゲームレベル" # Like "Level: Dungeons of Kithgard"
     skip: "スキップ"
@@ -259,8 +259,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_new_item: "ニューアイテム"
     victory_viking_code_school: "あなたはハードレベルのホーリー・スモークを打ち破りました! もしあなたが既にソフトウェア開発者でないなら, ぜひやってみましょう. あなたはちょうどViking Code Scoolで受け入れられるための出世街道にいます,そこでは次のレベルへのスキルを取得でき、14週間でプロのWeb開発者になれます。"
     victory_become_a_viking: "バイキングになる"
-    victory_bloc: "すばらしい偉業ですね！あなたのスキルは伸びています、そしてそれに注目している人もいます。もしあなたがソフトウェア開発者になろうと考えているなら今日は幸運な日です。Blocはエキスパートのメンターが一対一であなたをプロの開発者に訓練するブートキャンプです！Mayhem of Munchkinsを倒したあなたはコードにより500ドルの割引の対象となっています。: CCRULES"
-    victory_bloc_cta: "あなたのメンターに会う – Blockについて学ぶ"
     guide_title: "ガイド"
     tome_minion_spells: "操作できるキャラクターの呪文" # Only in old-style levels.
     tome_read_only_spells: "読込専用の呪文" # Only in old-style levels.
@@ -342,8 +340,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_recurse: "繰り返しは人間、再帰は神。 - L・ピーター・ドイツ"
     tip_free_your_mind: "全ての雑念を捨てろ、恐怖、疑いも不信も 心を解き放つんだ - モーフィアス"
     tip_strong_opponents: "どんな強者にも弱点というものはあるんだ… - うちは　イタチ"
-    tip_paper_and_pen: "コーディングを始める前に, 必ず紙とペンを用意して計画を立てましょう。"
-#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+    tip_paper_and_pen: "コーディングを始める前に、 必ず紙とペンを用意して計画を立てましょう。"
+    tip_solve_then_write: "まず、問題を解決しよう。それから、コードを書こう。 - ジョン・ジョンソン"
 
   game_menu:
     inventory_tab: "インベントリー"
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     auth_caption: "進行状況をセーブする"
 
   leaderboard:
-    leaderboard: "リーダーボード"
     view_other_solutions: "リーダーボードを見る"
     scores: "スコア"
     top_players: "上位プレイヤー順"
@@ -529,10 +526,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   skill_docs:
     writable: "書き込み可能な" # Hover over "attack" in Your Skills while playing a level to see most of this
-    read_only: "リードオンリー"
-#    action: "Action"
-#    spell: "Spell"
-    action_name: "ネーム"
+    read_only: "読み込み限定"
+    action: "アクション"
+    spell: "呪文"
+    action_name: "アクション名"
     action_cooldown: "テイク"
     action_specific_cooldown: "クールダウン"
     action_damage: "ダメージ"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     jose_blurb: "テークオフ"
     retrostyle_title: "イラスト"
     retrostyle_blurb: "レトロスタイルのゲーム"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "教育関係者へのお知らせ"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     wrong_password: "間違ったパスワード"
     upload_picture: "画像をアップロード"
     delete_this_account: "アカウントを完全削除する"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
     god_mode: "ゴッドモード"
     password_tab: "パスワード"
     emails_tab: "メール"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     new_password: "新パスワード"
     new_password_verify: "新パスワードを再入力"
     type_in_email: "アカウントの削除を確認するために、メールアドレスを入力して下さい"
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "そして、パスワードを入力してください。"
     email_subscriptions: "ニュースレターの購読"
     email_subscriptions_none: "No Email Subscriptions."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -963,7 +966,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   editor:
     main_title: "CodeCombatエディター"
-#    article_title: "Article Editor"
+    article_title: "アーティクル エディター"
     thang_title: "サングエディター"
     level_title: "レベルエディター"
     achievement_title: "実績エディター"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    last_earned: "Last Earned"
 #    amount_achieved: "Amount"
 #    achievement: "Achievement"
-#    category_contributor: "Contributor"
-#    category_ladder: "Ladder"
-#    category_level: "Level"
-#    category_miscellaneous: "Miscellaneous"
-#    category_levels: "Levels"
-#    category_undefined: "Uncategorized"
 #    current_xp_prefix: ""
 #    current_xp_postfix: " in total"
 #    new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    left_xp_postfix: ""
 
 #  account:
-#    recently_played: "Recently Played"
-#    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

@@ -259,8 +259,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     victory_new_item: "Item nou"
     victory_viking_code_school: "Wow, ăla a fost un nivel greu! Daca nu ești deja un dezvoltator de software, ar trebui să fi. Tocmai ai fost selectat pentru acceptare in Viking Code School, unde poți sa iți dezvolți abilitățile la nivelul următor și să devi un dezvoltator web profesionist în 14 săptămâni."
     victory_become_a_viking: "Devino Viking"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Ghid"
     tome_minion_spells: "Vrăjile Minionilor tăi" # Only in old-style levels.
     tome_read_only_spells: "Vrăji Read-Only" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     auth_caption: "Salvează progresul."
 
   leaderboard:
-    leaderboard: "Tabel Clasificare"
     view_other_solutions: "Vizualizează Tabelul de Clasificare"
     scores: "Scoruri"
     top_players: "Top Jucători"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "Info pentru Educatori"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    wrong_password: "Wrong Password"
     upload_picture: "Uploadează o imagine"
     delete_this_account: "Ștergere permanetă a acestui cont"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
 #    god_mode: "God Mode"
     password_tab: "Parolă"
     emails_tab: "Email-uri"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     new_password: "Parolă nouă"
     new_password_verify: "Verifică"
     type_in_email: "Scrie adresa de email ca să confirmi ștergerea" # {change}
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Subscripție Email"
     email_subscriptions_none: "Nu ai subscripții Email."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     last_earned: "Ultimul câstigat"
     amount_achieved: "Sumă"
     achievement: "Achievement"
-    category_contributor: "Contribuitor"
-    category_ladder: "Ladder"
-    category_level: "Nivel"
-    category_miscellaneous: "Diverse"
-    category_levels: "Nivele"
-    category_undefined: "Necategorizate"
     current_xp_prefix: ""
     current_xp_postfix: " în total"
     new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     left_xp_postfix: ""
 
   account:
-    recently_played: "Recent Jucat"
-    no_recent_games: "Nici-un joc jucat de 2 săptămâni."
     payments: "Plăți"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Cumpărate"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "Eroare la încărcarea pe server"

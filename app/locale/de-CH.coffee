@@ -259,8 +259,6 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    victory_new_item: "New Item"
     victory_viking_code_school: "Oh mein Gott, dass isch aber es stregs Level gsi und du heschs gschafft! Also wen du nu kei Software-Entwickler bisch, sötsch eine sii! Du hesch en Iiladig becho um at Viking Code Schuel zgha wodu dini Fähigkeite chasch wiiterentwickle und en professionele Entwickel in nur 14 Täg werde!"
     victory_become_a_viking: "Werd en Vikinger!"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Handbuech"
     tome_minion_spells: "Zaubersprüch vo dine Minions" # Only in old-style levels.
     tome_read_only_spells: "Read-Only Zaubersprüch" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     auth_caption: "Speichere din Fortschritt."
 
   leaderboard:
-    leaderboard: "Ranglischte"
     view_other_solutions: "Lueg der dRanglischte aa!"
     scores: "Pünkt"
     top_players: "Beschti Speiler"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "Info für Lehrer"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    wrong_password: "Wrong Password"
     upload_picture: "Es Bild ufelade"
     delete_this_account: "Dä Account für immer Lösche"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
     god_mode: "Gott Modus"
     password_tab: "Passwort"
     emails_tab: "E-Mails"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     new_password: "Neus Passwort"
     new_password_verify: "Bestätige"
 #    type_in_email: "Type in your email to confirm account deletion."
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "E-Mail Abos"
 #    email_subscriptions_none: "No Email Subscriptions."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    last_earned: "Last Earned"
 #    amount_achieved: "Amount"
 #    achievement: "Achievement"
-#    category_contributor: "Contributor"
-#    category_ladder: "Ladder"
-#    category_level: "Level"
-#    category_miscellaneous: "Miscellaneous"
-#    category_levels: "Levels"
-#    category_undefined: "Uncategorized"
 #    current_xp_prefix: ""
 #    current_xp_postfix: " in total"
 #    new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    left_xp_postfix: ""
 
 #  account:
-#    recently_played: "Recently Played"
-#    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

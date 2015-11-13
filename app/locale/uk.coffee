@@ -259,8 +259,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     victory_new_item: "Новий предмет"
     victory_viking_code_school: "Хай йому грець! Цей рівень був важким, але Ви справились! Якщо Ви ще не програміст, вам слід ним стати. Ви щойно екстерном пройшли процедуру прийняття у Viking Code School, де Ви матимете змогу значно покращити свої здібності та стати професійним веб-розробником за 14 тижнів."
     victory_become_a_viking: "Стати вікінгом"
-    victory_bloc: "Відмінна робота! Ваші навички покращуються! Якщо ви роздумуєте, як стати розробником програмного забезпечення, це може бути ваш щасливий день. Bloc являє собою навчальний табір онлайн, який дає вам досвідченого наставника, який допоможе Вам стати професійним розробником! Перемігши Mayhem of Munchkins, ви маєте право на знижку у 500$ з кодом: CCRULES"
-    victory_bloc_cta: "Зустріньте свого наставника - дізнайтеся більше про Bloc"
     guide_title: "Посібник"
     tome_minion_spells: "Заклинання Ваших міньонів" # Only in old-style levels.
     tome_read_only_spells: "Заклинання тільки для читання" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     auth_caption: "Збережіть свій поступ."
 
   leaderboard:
-    leaderboard: "Таблиця лідерів"
     view_other_solutions: "Переглянути таблицю лідерів"
     scores: "Рейтинг"
     top_players: "Сортувати гравців за"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     jose_blurb: "Hа зліт"
     retrostyle_title: "Ілюстрація"
     retrostyle_blurb: "Ігри в стилі ретро"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "Додаткова інформація для вчителів"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     wrong_password: "Невірний пароль"
     upload_picture: "Відвантажити зображення"
     delete_this_account: "Вилучити цей акаунт назовсім"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
     god_mode: "Режим Бога"
     password_tab: "Пароль"
     emails_tab: "Email-адреси"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     new_password: "Новий пароль"
     new_password_verify: "Підтвердження паролю"
     type_in_email: "Введіть свій email, аби підтвердити вилучення екаунту."
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "Також, введіть свій пароль."
     email_subscriptions: "Email-підписки"
     email_subscriptions_none: "Жодних підписок."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     send_invites: "Відправити запрошення"
     title: "Тема"
     description: "Опис"
-    languages_available: "Виберіть мови програмування, доступні класу:"
-    all_lang: "Всі мови"
-    show_progress: "Показувати прогрес студентів всьому класу"
     creating_class: "Триває створення класу ... "
     purchasing_course: "Триває придбання курсу ... "
     buy_course: "Купити курс"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     last_earned: "Останні отримані"
     amount_achieved: "Кількість"
     achievement: "Досягнення"
-    category_contributor: "Співучасник"
-    category_ladder: "Драбина"
-    category_level: "Рівень"
-    category_miscellaneous: "Різне"
-    category_levels: "Рівні"
-    category_undefined: "без категорії"
     current_xp_prefix: ""
     current_xp_postfix: " загалом"
     new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     left_xp_postfix: ""
 
   account:
-    recently_played: "Нещодавні ігри"
-    no_recent_games: "Упродовж останніх двох тижнів не зіграно жодної гри."
     payments: "Платежі"
     prepaid_codes: "Передплачені коди"
     purchased: "Придбано"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     quantity: "Кількіть"
 #    redeemed: "Redeemed"
     no_codes: "Коди відсутні!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "Помилка завантаження з сервера"

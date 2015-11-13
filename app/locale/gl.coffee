@@ -259,8 +259,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    victory_new_item: "New Item"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Guía"
     tome_minion_spells: "Os feitizos dos teus súbditos" # Only in old-style levels.
     tome_read_only_spells: "Feitizos de só lectura" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     auth_caption: "Gardar o teu progreso."
 
 #  leaderboard:
-#    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Leaderboards"
 #    scores: "Scores"
 #    top_players: "Top Players by"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
 #  teachers:
 #    more_info: "More Info for Teachers"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    wrong_password: "Wrong Password"
     upload_picture: "Sube unha imaxe"
 #    delete_this_account: "Delete this account permanently"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
 #    god_mode: "God Mode"
     password_tab: "Contrasinal"
     emails_tab: "Correos electrónicos"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     new_password: "Novo contrasinal"
     new_password_verify: "Verificar"
 #    type_in_email: "Type in your email to confirm account deletion."
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Suscripcións de correo electrónico"
     email_subscriptions_none: "Sen suscripcións de correo electrónico."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     last_earned: "Gañado a última vez"
     amount_achieved: "Cantidade"
     achievement: "Logro"
-    category_contributor: "Contribuidor"
-#    category_ladder: "Ladder"
-#    category_level: "Level"
-    category_miscellaneous: "Miscelánea"
-    category_levels: "Niveis"
-    category_undefined: "Sen categoría"
     current_xp_prefix: ""
     current_xp_postfix: " en total"
     new_xp_prefix: ""
@@ -1223,9 +1220,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     left_xp_infix: " ata o nivel"
     left_xp_postfix: ""
 
-  account:
-    recently_played: "Xogado Recientemente"
-    no_recent_games: "Non xogaches xogos nas últimas dúas semánas."
+#  account:
 #    payments: "Payments"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "Erro ao cargar dende o servidor."

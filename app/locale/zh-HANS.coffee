@@ -259,8 +259,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_new_item: "新的物品"
     victory_viking_code_school: "这关真的超难! 如果您想成为一个软件开发人员，您就应该去试一下Viking Code School。在这里您可以把您的知识增长到另一个台阶。只需要14周您就能成为一个专业的网页开发人员。"
     victory_become_a_viking: "成为一个维京人吧"
-    victory_bloc: "干得好! 你的技能正在提升, 并且已经有人注意着你了。如果你正考虑着当一名软件工程师, 现在可能就是你的幸运日。Bloc 是个能提供在线一对一专业指导的, 能锻炼你成为专业开发者的训练营! 通过 矮人骚乱 后, 你可以使用价值 $500 的优惠码: CCRULES"
-    victory_bloc_cta: "会晤你的导师 – 了解 Bloc"
     guide_title: "指南"
     tome_minion_spells: "助手的咒语" # Only in old-style levels.
     tome_read_only_spells: "只读的咒语" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     auth_caption: "保存进度"
 
   leaderboard:
-    leaderboard: "排行榜"
     view_other_solutions: "查看排行榜"
     scores: "分数"
     top_players: "顶尖玩家是"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     jose_blurb: "放轻松"
     retrostyle_title: "插画师"
     retrostyle_blurb: "复古风格的游戏"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "教师的说明"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     wrong_password: "密码错误"
     upload_picture: "上传一张图片"
     delete_this_account: "永久删除账户"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
     god_mode: "上帝模式"
     password_tab: "密码"
     emails_tab: "邮件"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     new_password: "新密码"
     new_password_verify: "再次输入密码"
     type_in_email: "输入您的邮箱地址来确认删除"
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "同样的，输入您的密码。"
     email_subscriptions: "邮箱订阅"
     email_subscriptions_none: "取消订阅"
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     send_invites: "发送邀请"
     title: "标题"
     description: "描述"
-    languages_available: "选择编程语言："
-    all_lang: "所有编程语言"
-    show_progress: "向所有该班级的人展示学生的进度"
     creating_class: "班级创建中..."
     purchasing_course: "购买课程中..."
     buy_course: "购买课程"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     last_earned: "最近取得的"
     amount_achieved: "数量"
     achievement: "成就"
-    category_contributor: "贡献者"
-    category_ladder: "排行榜"
-    category_level: "等级"
-    category_miscellaneous: "其他"
-    category_levels: "等级"
-    category_undefined: "未分类"
     current_xp_prefix: ""
     current_xp_postfix: "当前总共"
     new_xp_prefix: ""
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     left_xp_postfix: ""
 
   account:
-    recently_played: "最近玩过的关卡"
-    no_recent_games: "最近两个星期没有玩过游戏。"
     payments: "支付方式"
     prepaid_codes: "预付费码"
     purchased: "已购买"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "载入失败"

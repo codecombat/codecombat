@@ -259,8 +259,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     victory_new_item: "Nowy przedmiot"
     victory_viking_code_school: "O jejku, trudny był ten poziom, co? Jeśli jeszcze nie jesteś twórcą oprogramowania, możesz nim już zostać. Złóż swoje podanie o przyjęcie do Viking Code School, a z ich pomocą w zostaniesz na pewno w pełni profesjonalnym programistą."
     victory_become_a_viking: "Zostań wikingiem"
-#    victory_bloc: "Great work! Your skills are improving, and someone's taking notice. If you've considered becoming a software developer, this may be your lucky day. Bloc is an online bootcamp that pairs you 1-on-1 with an expert mentor who will help train you into a professional developer! By beating A Mayhem of Munchkins, you're now eligible for a $500 price reduction with the code: CCRULES"
-#    victory_bloc_cta: "Meet your mentor – learn about Bloc"
     guide_title: "Przewodnik"
     tome_minion_spells: "Czary twojego podopiecznego" # Only in old-style levels.
     tome_read_only_spells: "Czary tylko do odczytu" # Only in old-style levels.
@@ -363,7 +361,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     auth_caption: "Zapisz swój postęp."
 
   leaderboard:
-    leaderboard: "Najlepsze wyniki"
     view_other_solutions: "Pokaż tablicę wyników"
     scores: "Wyniki"
     top_players: "Najlepsi gracze"
@@ -601,6 +598,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     jose_blurb: "Odnosi Sukces"
     retrostyle_title: "Ilustracje"
     retrostyle_blurb: "RetroStyle Games"
+#    rob_title: "Compiler Engineer"
+#    rob_blurb: "Codes things and stuff"
+#    josh_c_title: "Game Designer"
+#    josh_c_blurb: "Designs games"
+#    carlos_title: "Region Manager, Brazil"
+#    carlos_blurb: "Celery Man"
 
   teachers:
     more_info: "Informacja dla nauczycieli"
@@ -721,6 +724,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     wrong_password: "Błędne zdjęcie"
     upload_picture: "Wgraj zdjęcie"
     delete_this_account: "Usuń to konto całkowicie"
+#    reset_progress_tab: "Reset All Progress"
+#    reset_your_progress: "Clear all your progress and start over"
     god_mode: "TRYB BOGA"
     password_tab: "Hasło"
     emails_tab: "Powiadomienia"
@@ -728,6 +733,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     new_password: "Nowe hasło"
     new_password_verify: "Zweryfikuj"
     type_in_email: "Wpisz swój email, aby potwierdzić usunięcie konta."
+#    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "Wpisz również swoje hasło."
     email_subscriptions: "Powiadomienia email"
     email_subscriptions_none: "Brak powiadomień e-mail."
@@ -892,9 +898,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    send_invites: "Send Invites"
 #    title: "Title"
 #    description: "Description"
-#    languages_available: "Select programming languages available to the class:"
-#    all_lang: "All Languages"
-#    show_progress: "Show student progress to everyone in the class"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
 #    buy_course: "Buy Course"
@@ -1209,12 +1212,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     last_earned: "Ostatnio zdobyty"
     amount_achieved: "Ilość"
     achievement: "Osiągnięcie"
-    category_contributor: "Współtwórca"
-    category_ladder: "Drabinka"
-    category_level: "Poziom"
-    category_miscellaneous: "Różne"
-    category_levels: "Poziomy"
-    category_undefined: "Poza kategorią"
 #    current_xp_prefix: ""
 #    current_xp_postfix: " in total"
     new_xp_prefix: "zdobyto "
@@ -1224,8 +1221,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     left_xp_postfix: ""
 
   account:
-    recently_played: "Ostatnio grane"
-#    no_recent_games: "No games played during the past two weeks."
     payments: "Płatności"
 #    prepaid_codes: "Prepaid Codes"
     purchased: "Zakupiono"
@@ -1276,6 +1271,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
+#    you_can1: "You can"
+#    you_can2: "purchase a prepaid code"
+#    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
     could_not_load: "Błąd podczas ładowania danych z serwera"
