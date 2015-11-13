@@ -31,12 +31,22 @@ var courses =
   {
     name: "Computer Science 3",
     slug: "computer-science-3",
-    campaignID: ObjectId("55b29efd1cd6abe8ce07db0d"),
+    campaignID: ObjectId("56462ac4410c528505e1160a"),
     concepts: ['if_statements', 'arithmetic'],
-    description: "Learn how to handle input.",
+    description: "Introduces arithmetic, counters, advanced while loops, break, continue, arrays.",
     duration: NumberInt(5),
     pricePerSeat: NumberInt(400),
     screenshot: "/images/pages/courses/103_info.png"
+  },
+  {
+    name: "Computer Science 4",
+    slug: "computer-science-4",
+    campaignID: ObjectId("56462c1133f1478605ebd018"),
+    concepts: ['if_statements', 'arithmetic'],
+    description: "Introduces object literals, for loops, function definitions, drawing, and modulo.",
+    duration: NumberInt(5),
+    pricePerSeat: NumberInt(400),
+    screenshot: "/images/pages/courses/104_info.png"
   }
 ];
 
