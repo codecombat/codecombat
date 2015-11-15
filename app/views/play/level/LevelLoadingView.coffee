@@ -155,8 +155,10 @@ module.exports = class LevelLoadingView extends CocoView
     minHeight = $('#code-area').outerHeight(true)
     @$el.css height: maxHeight
     @$loadingDetails.css minHeight: minHeight, maxHeight: maxHeight
-    $intro = @$el.find('.intro-doc')
-    $intro.css maxHeight: minHeight - $intro.offset().top - @$el.find('.progress-or-start-container').outerHeight() - 30 - 20
+    if @intro
+      $intro = @$el.find('.intro-doc')
+      $intro.css height: minHeight - $intro.offset().top - @$el.find('.progress-or-start-container').outerHeight() - 30 - 20
+      $intro.find('.nano').nanoScroller alwaysVisible: true
 
   unveilWings: (duration) ->
     @playSound 'loading-view-unveil', 0.5
@@ -167,7 +169,7 @@ module.exports = class LevelLoadingView extends CocoView
   unveilIntro: =>
     return if @destroyed or not @intro or @unveiled
     html = marked utils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'))
-    @$el.find('.intro-doc').html html
+    @$el.find('.intro-doc').removeClass('hidden').find('.intro-doc-content').html html
     @resize()
 
   onUnveilEnded: =>

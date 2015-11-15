@@ -70,7 +70,7 @@ module.exports = class CampaignView extends RootView
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     unless @terrain
-      @campaigns = @supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 0).model
+      @campaigns = @supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
       @listenToOnce @campaigns, 'sync', @onCampaignsLoaded
       return
 
@@ -126,6 +126,15 @@ module.exports = class CampaignView extends RootView
     @particleMan?.destroy()
     clearInterval @portalScrollInterval
     super()
+
+  showLoading: ($el) ->
+    unless @campaign
+      @$el.find('.game-controls, .user-status').addClass 'hidden'
+      @$el.find('.portal .campaign-name span').text $.i18n.t 'common.loading'
+
+  hideLoading: ->
+    unless @campaign
+      @$el.find('.game-controls, .user-status').removeClass 'hidden'
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()

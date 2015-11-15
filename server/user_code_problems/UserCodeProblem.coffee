@@ -8,4 +8,6 @@ UserCodeProblemSchema = new mongoose.Schema({
     'default': Date.now
 }, {strict: false,read:config.mongo.readpref})
 
+UserCodeProblemSchema.index {levelID: 1, _id: 1}, {name: 'user code problems by level and date index'}
+
 module.exports = UserCodeProblem = mongoose.model('user.code.problem', UserCodeProblemSchema)

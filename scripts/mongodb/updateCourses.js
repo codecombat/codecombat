@@ -16,6 +16,7 @@ var courses =
     description: "Learn basic syntax, while loops, and the CodeCombat environment.",
     duration: NumberInt(1),
     pricePerSeat: NumberInt(0),
+    free: true,
     screenshot: "/images/pages/courses/101_info.png"
   },
   {
@@ -26,6 +27,7 @@ var courses =
     description: "Introduce Arguments, Variables, If Statements, and Arithmetic.",
     duration: NumberInt(5),
     pricePerSeat: NumberInt(400),
+    free: false,
     screenshot: "/images/pages/courses/102_info.png"
   },
   {
@@ -36,6 +38,7 @@ var courses =
     description: "Introduces arithmetic, counters, advanced while loops, break, continue, arrays.",
     duration: NumberInt(5),
     pricePerSeat: NumberInt(400),
+    free: false,
     screenshot: "/images/pages/courses/103_info.png"
   },
   {
@@ -46,6 +49,7 @@ var courses =
     description: "Introduces object literals, for loops, function definitions, drawing, and modulo.",
     duration: NumberInt(5),
     pricePerSeat: NumberInt(400),
+    free: false,
     screenshot: "/images/pages/courses/104_info.png"
   }
 ];

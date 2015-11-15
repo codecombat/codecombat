@@ -115,6 +115,7 @@ describe '/db/prepaid', ->
               redeemer = { userID: otherUser.id }
               request.post {uri: url, json: redeemer }, (err, res, body) ->
                 expect(res.statusCode).toBe(200)
+                return done() unless res.statusCode is 200
                 expect(body.redeemers.length).toBe(0)
                 done()
 

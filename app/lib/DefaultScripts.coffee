@@ -15,6 +15,8 @@ module.exports = [
           play: true
       script:
         duration: 1
+      playback:
+        playing: false
     ]
   }
 ]

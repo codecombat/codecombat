@@ -19,11 +19,11 @@ LevelSessionSchema.index({'level.original': 1}, {name: 'Level Original'})
 LevelSessionSchema.index({'level.original': 1, 'level.majorVersion': 1, 'creator': 1, 'team': 1})
 LevelSessionSchema.index({creator: 1, level: 1})  # Looks like the ones operating on level as two separate fields might not be working, and sometimes this query uses the "level" index instead of the "creator" index.
 LevelSessionSchema.index({playtime: 1}, {name: 'Playtime'})
-LevelSessionSchema.index({submitDate: 1})
 LevelSessionSchema.index({submitted: 1}, {sparse: true})
 LevelSessionSchema.index({team: 1}, {sparse: true})
 LevelSessionSchema.index({totalScore: 1}, {sparse: true})
 LevelSessionSchema.index({user: 1, changed: -1}, {name: 'last played index', sparse: true})
+LevelSessionSchema.index({levelID: 1, changed: -1}, {name: 'last played by level index', sparse: true})  # Needed for getRecentSessions for CampaignLevelView
 LevelSessionSchema.index({'level.original': 1, 'state.topScores.type': 1, 'state.topScores.date': -1, 'state.topScores.score': -1}, {name: 'top scores index', sparse: true})
 LevelSessionSchema.index({submitted: 1, team: 1, level: 1, totalScore: -1}, {name: 'rank counting index', sparse: true})
 #LevelSessionSchema.index({level: 1, 'leagues.leagueID': 1, submitted: 1, team: 1, totalScore: -1}, {name: 'league rank counting index', sparse: true})  # needed for league leaderboards?

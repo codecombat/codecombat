@@ -47,45 +47,19 @@ class UserCodeProblemHandler extends Handler
 
     return @sendSuccess res, [] unless levelSlug?
 
-    # Cache results for 1 day
-    @commonLevelProblemsCache ?= {}
-    @commonLevelProblemsCachedSince ?= new Date()
-    if (new Date()) - @commonLevelProblemsCachedSince > 86400 * 1000  # Dumb cache expiration
-      @commonLevelProblemsCache = {}
-      @commonLevelProblemsCachedSince = new Date()
-    cacheKey = levelSlug
-    cacheKey += 's' + startDay if startDay?
-    cacheKey += 'e' + endDay if endDay?
-    return @sendSuccess res, commonProblems if commonProblems = @commonLevelProblemsCache[cacheKey]
-
     # Build query
-    match = if startDay? or endDay? then {$match: {$and: []}} else {$match: {}}
+    match = if startDay? or endDay? then {$match: {$and: [levelID: levelSlug]}} else {$match: {levelID: levelSlug}}
     match["$match"]["$and"].push _id: {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")} if startDay?
     match["$match"]["$and"].push _id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")} if endDay?
+    limit = {$limit: 100000}
     group = {"$group": {"_id": {"errMessage": "$errMessageNoLineInfo", "errHint": "$errHint", "language": "$language", "levelID": "$levelID"}, "count": {"$sum": 1}}}
     sort = { $sort : { "_id.levelID": 1, count : -1, "_id.language": 1 } }
-    query = UserCodeProblem.aggregate match, group, sort
+    query = UserCodeProblem.aggregate match, limit, group, sort
+    query.cache()
 
     query.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
-
-      # Build per-level common problem lists
-      commonProblems = {}
-      for item in data
-        levelID = item._id.levelID
-        commonProblems[levelID] ?= []
-        commonProblems[levelID].push
-          language: item._id.language
-          message: item._id.errMessage
-          hint: item._id.errHint
-          count: item.count
-
-      # Cache all the levels
-      for levelID of commonProblems
-        cacheKey = levelID
-        cacheKey += 's' + startDay if startDay?
-        cacheKey += 'e' + endDay if endDay?
-        @commonLevelProblemsCache[cacheKey] = commonProblems[levelID]
-      @sendSuccess res, commonProblems[levelSlug]
+      formatted = ({language: item._id.language, message: item._id.errMessage, hint: item._id.errHint, count: item.count} for item in data)
+      @sendSuccess res, formatted
 
 module.exports = new UserCodeProblemHandler()
