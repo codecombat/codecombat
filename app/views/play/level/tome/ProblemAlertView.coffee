@@ -18,7 +18,6 @@ module.exports = class ProblemAlertView extends CocoView
 
   events:
     'click .close': 'onRemoveClicked'
-    'click #problem-alert-help-button': 'onClickProblemAlertHelp'
 
   constructor: (options) ->
     super options
@@ -88,10 +87,6 @@ module.exports = class ProblemAlertView extends CocoView
   onHideProblemAlert: ->
     return unless @$el.is(':visible')
     @onRemoveClicked()
-
-  onClickProblemAlertHelp: ->
-    application.tracker?.trackEvent 'Problem alert help clicked', {levelID: @level.get('slug'), ls: @session?.get('_id')}
-    @openModalView new GameMenuModal showTab: 'guide', level: @level, session: @session, supermodel: @supermodel
 
   onRemoveClicked: ->
     @playSound 'menu-button-click'
