@@ -51,9 +51,10 @@ class UserCodeProblemHandler extends Handler
     match = if startDay? or endDay? then {$match: {$and: [levelID: levelSlug]}} else {$match: {levelID: levelSlug}}
     match["$match"]["$and"].push _id: {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")} if startDay?
     match["$match"]["$and"].push _id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")} if endDay?
+    limit = {$limit: 100000}
     group = {"$group": {"_id": {"errMessage": "$errMessageNoLineInfo", "errHint": "$errHint", "language": "$language", "levelID": "$levelID"}, "count": {"$sum": 1}}}
     sort = { $sort : { "_id.levelID": 1, count : -1, "_id.language": 1 } }
-    query = UserCodeProblem.aggregate match, group, sort
+    query = UserCodeProblem.aggregate match, limit, group, sort
     query.cache()
 
     query.exec (err, data) =>
