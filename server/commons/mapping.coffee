@@ -45,6 +45,7 @@ module.exports.handlerUrlOverrides =
   'mail_sent': 'mail.sent'
   'user_polls_record': 'user.polls.record'
   'trial_request': 'trial.request'
+  'user_code_problem': 'user.code.problem'
 
 module.exports.routes =
   [
