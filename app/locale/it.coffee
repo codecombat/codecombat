@@ -1358,11 +1358,11 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     input_handling: "Gestione dell'Input" #"Input Handling"
     math_operations: "Operazioni Matematiche" #"Math Operations"
 #    object_literals: "Object Literals"
-     parameters: "Parametri" #"Parameters"
-     strings: "Stringhe" #"Strings"
-     variables: "Variabili" #"Variables"
-     vectors: "Vettori" #"Vectors"
-     while_loops: "Cicli" #"Loops"
+    parameters: "Parametri" #"Parameters"
+    strings: "Stringhe" #"Strings"
+    variables: "Variabili" #"Variables"
+    vectors: "Vettori" #"Vectors"
+    while_loops: "Cicli" #"Loops"
     recursion: "Ricorsione" #"Recursion"
 
 #  delta:
