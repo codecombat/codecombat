@@ -14,6 +14,7 @@ defaultTasks = [
   'Do basic set decoration.'
   'Adjust script camera bounds.'
   'Choose music file in Introduction script.'
+  'Choose autoplay in Introduction script.'
 
   'Add to a campaign.'
   'Publish.'
