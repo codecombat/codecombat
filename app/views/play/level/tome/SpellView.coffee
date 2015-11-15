@@ -476,7 +476,7 @@ module.exports = class SpellView extends CocoView
     # TODO: Generalize this snippet replacement
     # TODO: Where should this logic live, and what format should it be in?
     if attackEntry?
-      unless haveFindNearestEnemy or haveFindNearest or @options.level.get('slug') is 'known-enemy'
+      unless haveFindNearestEnemy or haveFindNearest or @options.level.get('slug') in ['known-enemy', 'course-known-enemy']
         # No findNearestEnemy, so update attack snippet to string-based target
         # (On Known Enemy, we are introducing enemy2 = "Gert", so we want them to do attack(enemy2).)
         attackEntry.content = attackEntry.content.replace '${1:enemy}', '"${1:Enemy Name}"'

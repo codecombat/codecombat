@@ -68,6 +68,11 @@ setUpBackboneMediator = ->
   Backbone.Mediator.addDefSchemas schemas for definition, schemas of definitionSchemas
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
   Backbone.Mediator.setValidationEnabled document.location.href.search(/codecombat.com/) is -1
+  if false  # Debug which events are being fired
+    originalPublish = Backbone.Mediator.publish
+    Backbone.Mediator.publish = ->
+      console.log 'Publishing event:', arguments...
+      originalPublish.apply Backbone.Mediator, arguments
 
 setUpMoment = ->
   {me} = require 'core/auth'
