@@ -19,7 +19,6 @@ LevelSessionSchema.index({'level.original': 1}, {name: 'Level Original'})
 LevelSessionSchema.index({'level.original': 1, 'level.majorVersion': 1, 'creator': 1, 'team': 1})
 LevelSessionSchema.index({creator: 1, level: 1})  # Looks like the ones operating on level as two separate fields might not be working, and sometimes this query uses the "level" index instead of the "creator" index.
 LevelSessionSchema.index({playtime: 1}, {name: 'Playtime'})
-LevelSessionSchema.index({submitDate: 1})
 LevelSessionSchema.index({submitted: 1}, {sparse: true})
 LevelSessionSchema.index({team: 1}, {sparse: true})
 LevelSessionSchema.index({totalScore: 1}, {sparse: true})
