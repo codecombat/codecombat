@@ -136,6 +136,7 @@ module.exports =
 
   'tome:winnability-updated': c.object {title: 'Winnability Updated', description: 'When we think we can now win (or can no longer win), we may want to emphasize the submit button versus the run button (or vice versa), so this fires when we get new goal states (even preloaded goal states) suggesting success or failure change.', required: ['winnable']},
     winnable: {type: 'boolean'}
+    level: {type: 'object'}
 
   # Problem Alert
   'tome:show-problem-alert': c.object {title: 'Show Problem Alert', description: 'A problem alert needs to be shown.', required: ['problem']},
