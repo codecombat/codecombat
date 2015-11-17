@@ -72,6 +72,7 @@
     "mongoose-cache": "~0.1.4",
     "node-force-domain": "~0.1.0",
     "node-gyp": "~0.13.0",
+    "node-statsd": "^0.1.1",
     "passport": "0.1.x",
     "passport-local": "0.1.x",
     "redis": "",
