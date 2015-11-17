@@ -33,7 +33,7 @@ class LevelSessionsCollection extends CocoCollection
     @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID,state.difficulty,playtime"
 
 class CampaignsCollection extends CocoCollection
-  url: '/db/campaign'
+  url: '/db/campaign/-/overview'
   model: Campaign
   project: ['name', 'fullName', 'description', 'i18n']
 

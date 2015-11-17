@@ -52,8 +52,22 @@ CampaignHandler = class CampaignHandler extends Handler
       documents = (@formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
 
+  getOverview: (req, res) ->
+    return @sendForbiddenError(res) if not @hasAccess(req)
+    q = @modelClass.find {}, slug: 1, adjacentCampaigns: 1, fullName: 1, description: 1, color: 1
+    q.exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      formatCampaign = (doc) =>
+        obj = @formatEntity(req, doc)
+        obj.adjacentCampaigns = _.map(obj.adjacentCampaigns, (a) -> _.pick(a, ['showIfUnlocked', 'color', 'name', 'description' ]))
+        obj
+      documents = (formatCampaign(doc) for doc in documents)
+      @sendSuccess(res, documents)
+
   getByRelationship: (req, res, args...) ->
     relationship = args[1]
+    return @getOverview(req,res) if args[0] is '-' and relationship is 'overview'
+
     if relationship in ['levels', 'achievements']
       projection = {}
       if req.query.project
