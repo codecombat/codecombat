@@ -52,7 +52,7 @@ CampaignHandler = class CampaignHandler extends Handler
       documents = (@formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
 
-  getOverview: (req, res) ->
+  getOverworld: (req, res) ->
     return @sendForbiddenError(res) if not @hasAccess(req)
     q = @modelClass.find {}, slug: 1, adjacentCampaigns: 1, fullName: 1, description: 1, color: 1
     q.exec (err, documents) =>
@@ -66,7 +66,7 @@ CampaignHandler = class CampaignHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     relationship = args[1]
-    return @getOverview(req,res) if args[0] is '-' and relationship is 'overview'
+    return @getOverworld(req,res) if args[0] is '-' and relationship is 'overworld'
 
     if relationship in ['levels', 'achievements']
       projection = {}
