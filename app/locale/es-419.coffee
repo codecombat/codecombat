@@ -440,12 +440,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     payment_methods_blurb2: "Si necesitas una forma alternativa de pago, por favor contactarse"
     sale_already_subscribed: "¡Ya estás subscrito!"
     sale_blurb1: "Ahorra 35%"
-    sale_blurb2: "de descuento en el precio regular de una subscripción de $120 USD por un año completo!"
+    sale_blurb2: "de descuento en el precio regular de una suscripción de $120 USD por un año completo!"
     sale_button: "Venta!"
-    sale_button_title: "Ahorra 35% al adquirir una subscripción por 1 año"
+    sale_button_title: "Ahorra 35% al adquirir una suscripción por 1 año"
     sale_click_here: "Haz Click Aquí"
     sale_ends: "Termina"
-    sale_extended: "*Las subscripciones existentes se extenderán por un año."
+    sale_extended: "*Las suscripciones existentes se extenderán por un año."
     sale_feature_here: "Esto es lo que obtendrás:"
     sale_feature2: "¡Acceso a 9 poderosos <strong>nuevos héroes</strong> con habilidades únicas!"
     sale_feature4: "¡Una bonificación inmediata de <strong>42,000 gemas</strong>!"
@@ -453,9 +453,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     sale_limited_time: "¡Oferta por tiempo limitado!"
     sale_new_heroes: "¡Nuevos héroes!"
     sale_title: "Venta de regreso a clases"
-    sale_view_button: "Compra la subscripción de 1 año por"
+    sale_view_button: "Compra la suscripción de 1 año por"
     stripe_description: "Suscripción Mensual"
-    stripe_description_year_sale: "Subscripción por 1 año (35% descuento)"
+    stripe_description_year_sale: "Suscripción por 1 año (35% descuento)"
     subscription_required_to_play: "Necesitas una suscripción para jugar este nivel."
     unlock_help_videos: "Suscríbete para desbloquear todos los video tutoriales."
     personal_sub: "Suscripción Personal" # Accounts Subscription View below
@@ -613,8 +613,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     cost_premium_server: "CodeCombat es gratis para lso primeros 5 niveles, después de ellos cuesta $9.99 USD mensuales para accesar a nuestros otros más de 190 niveles en nuestraos exclusivos servidores específicos para cada país."
     free_1: "Hay más de 110 niveles gratis que cubren cada concepto."
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
-    teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
-    teacher_subs_0: "Ofrecemos subscripciones gratuitas a profesores con propósitos de evaluación."
+    teacher_subs_title: "¡Los amestros obtienen suscripciones gratuitas!"
+    teacher_subs_0: "Ofrecemos suscripciones gratuitas a profesores con propósitos de evaluación."
     teacher_subs_1: "Por favor llene nuestra"
     teacher_subs_2: "Encuesta para maestros"
     teacher_subs_3: "para configurar su suscripción."
@@ -642,7 +642,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     material_premium_server: "Aproximadamente 22 horas de juego repartidas en más de 120 niveles sólo para suscriptores, con cinco nueveos niveles cada semana." # {change}
     material_1: "Aproximadamente 8 horas de contenido gratis y un adicional de 14 horas de contenido de suscriptores, con cinco nueveos niveles cada semana." # {change}
     concepts_title: "¿Qué conceptos están cubiertos?"
-    how_much_title: "¿Cuánto cuesta una subscripción mensual?"
+    how_much_title: "¿Cuánto cuesta una suscripción mensual?"
     how_much_1: "una"
     how_much_2: "suscribción mensual"
     how_much_3: "Cuesta u$s9.99, y puede ser cancelada en cualquier momento."
@@ -857,7 +857,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     track_concepts6b: "Ordene a sus miembros por nombre o progreso"
     track_concepts7: "Requiere invitación"
     track_concepts8: "para unirse"
-    private_require_sub: "Los clanes privados requieren una subscripción para crearlos o unírseles."
+    private_require_sub: "Los clanes privados requieren una suscripción para crearlos o unírseles."
 
   courses:
     course: "Curso"
@@ -1254,7 +1254,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     success: "Listo, fue cobrado. Gracias!"
 
   account_prepaid:
-    purchase_code: "Adquirir un Código de Subscripción"
+    purchase_code: "Adquirir un Código de Suscripción"
 #    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
 #    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
@@ -1263,7 +1263,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     purchase_total: "Total"
     purchase_button: "Enviar Adquisición"
     your_codes: "Tus Códigos:" # {change}
-    redeem_codes: "Reclamar un Código de Subscripción"
+    redeem_codes: "Reclamar un Código de Suscripción"
     prepaid_code: "Código Prepagado"
 #    lookup_code: "Lookup prepaid code"
 #    apply_account: "Apply to your account"
