@@ -427,7 +427,8 @@ module.exports = class CampaignView extends RootView
   onSessionsLoaded: (e) ->
     return if @editorMode
     for session in @sessions.models
-      @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+      unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
+        @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
       @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
     @render()
     @loadUserPollsRecord() unless me.get 'anonymous'
