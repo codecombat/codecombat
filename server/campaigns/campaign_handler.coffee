@@ -59,7 +59,7 @@ CampaignHandler = class CampaignHandler extends Handler
       return @sendDatabaseError(res, err) if err
       formatCampaign = (doc) =>
         obj = @formatEntity(req, doc)
-        obj.adjacentCampaigns = _.map(obj.adjacentCampaigns, (a) -> _.pick(a, ['showIfUnlocked', 'color', 'name', 'description' ]))
+        obj.adjacentCampaigns = _.mapValues(obj.adjacentCampaigns, (a) -> _.pick(a, ['showIfUnlocked', 'color', 'name', 'description' ]))
         obj
       documents = (formatCampaign(doc) for doc in documents)
       @sendSuccess(res, documents)
