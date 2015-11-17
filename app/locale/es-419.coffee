@@ -1255,9 +1255,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   account_prepaid:
     purchase_code: "Adquirir un Código de Suscripción"
-#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
-#    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
-#    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+    purchase_code1: "Los códigos de suscripción pueden ser canjeados para agregar tiempo de suscripción premium para una o más cuentas CodeCombat."
+    purchase_code2: "Cada cuenta CodeCombat puede canjear una sola vez un Código de Suscripción en particular."
+    purchase_code3: "Los meses del Código de Suscripción serán agregados al final de la suscripción existente de la cuenta."
     users: "Usuarios"
     months: "Meses"
     purchase_total: "Total"
@@ -1265,15 +1265,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     your_codes: "Tus Códigos:" # {change}
     redeem_codes: "Reclamar un Código de Suscripción"
     prepaid_code: "Código Prepagado"
-#    lookup_code: "Lookup prepaid code"
-#    apply_account: "Apply to your account"
-#    copy_link: "You can copy the code's link and send it to someone."
+    lookup_code: "Buscar código prepagado"
+    apply_account: "Aplicara tu cuenta"
+    copy_link: "Puedes copiarl el enlace del código y enviarlo a alguien."
     quantity: "Cantidad"
     redeemed: "Reclamado"
     no_codes: "¡Aún sin códigos!"
-#    you_can1: "You can"
-#    you_can2: "purchase a prepaid code"
-#    you_can3: "that can be applied to your own account or given to others."
+    you_can1: "Puedes"
+    you_can2: "comprar un código prepagado"
+    you_can3: "que puede ser aplicado a tu propia cuenta o regalado a otros."
 
   loading_error:
     could_not_load: "Error cargando del servidor"
