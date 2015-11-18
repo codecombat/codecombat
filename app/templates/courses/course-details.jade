@@ -273,7 +273,7 @@ mixin levels-tab
           tr
             td
               if lastLevelCompleted || adminMode
-                button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n="home.play")
+                button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n="home.play", data-level-id=levelID)
             td
               if userLevelStateMap[me.id]
                 div= userLevelStateMap[me.id][levelID]

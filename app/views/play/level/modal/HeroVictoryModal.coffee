@@ -441,6 +441,13 @@ module.exports = class HeroVictoryModal extends ModalView
         viewClass = require 'views/courses/CourseDetailsView'
         viewArgs.push @courseID
         viewArgs.push @courseInstanceID if @courseInstanceID
+    else if @level.get('type', true) is 'course-ladder'
+      leagueID = @getQueryVariable 'league'
+      link = "/play/ladder/"+@level.get('slug')+"/course/"+leagueID
+      Backbone.Mediator.publish 'router:navigate', {
+        route: link
+      }
+      return
     else
       viewClass = require 'views/play/CampaignView'
       viewArgs = [options, @getNextLevelCampaign()]

@@ -13,7 +13,8 @@ LadderPlayModal = require './LadderPlayModal'
 CocoClass = require 'core/CocoClass'
 
 Clan = require 'models/Clan'
-#CourseInstance = require 'models/CourseInstance'
+CourseInstance = require 'models/CourseInstance'
+Course = require 'models/Course'
 
 HIGHEST_SCORE = 1000000
 
@@ -44,13 +45,20 @@ module.exports = class LadderView extends RootView
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
     @teams = []
     @loadLeague()
+    @course = new Course()
 
   loadLeague: ->
-    @leagueID = @leagueType = null unless @leagueType in ['clan']  #, 'course']
+    @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
     return unless @leagueID
-    modelClass = if @leagueType is 'clan' then Clan else null# else CourseInstance
-    resourceString = if @leagueType is 'clan' then 'clans.clan' else null# else 'courses.course'
+    modelClass = if @leagueType is 'clan' then Clan else CourseInstance
+    resourceString = if @leagueType is 'clan' then 'clans.clan' else 'courses.course'
     @league = @supermodel.loadModel(new modelClass(_id: @leagueID), resourceString).model
+    if @leagueType is 'course'
+      @listenToOnce @league, 'sync', @onCourseInstanceLoaded
+
+  onCourseInstanceLoaded: (courseInstance) ->
+    course = new Course({_id: courseInstance.get('courseID')})
+    @course = @supermodel.loadModel(course, 'courses.course').model
 
   onLoaded: ->
     @teams = teamDataFromLevel @level

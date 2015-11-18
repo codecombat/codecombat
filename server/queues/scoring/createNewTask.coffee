@@ -67,7 +67,7 @@ updateSessionToSubmit = (transpiledCode, user, sessionToUpdate, callback) ->
 
   # Reset all league stats as well, and enter the session into any leagues the user is currently part of (not retroactive when joining new leagues)
   leagueIDs = user.get('clans') or []
-  #leagueIDs = leagueIDs.concat user.get('courseInstances') or []
+  leagueIDs = leagueIDs.concat user.get('courseInstances') or []
   leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to save them as strings.
   newLeagues = []
   for leagueID in leagueIDs
