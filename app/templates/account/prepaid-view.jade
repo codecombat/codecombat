@@ -80,28 +80,26 @@ block content
                       span.spr(data-i18n="[title]account_prepaid.copy_link;general.code", title="You can copy the code's link and send it to someone.")
                         span.glyphicon.glyphicon-question-sign(aria-hidden="true")
                     th(data-i18n="account_prepaid.months")
-                    th(data-i18n="account_prepaid.quantity")
+                    th Remaining Users
+                    th Total Users
                     th(data-i18n="user.status")
                   for code in codes.models
                     if code.get('type') === 'terminal_subscription'
                       - var owner = (code.get('creator') == me.id ? true : false)
                       - var properties = code.get('properties')
                       - var redeemers = code.get('redeemers')
-                      if redeemers
-                        - var redeemed = redeemers.length
-                      else
-                        - var redeemed = '0'
+                      - var redeemed = redeemers ? redeemers.length : 0
                       tr
                         td
                           a(href="/account/prepaid?_ppc=#{code.get('code')}")= code.get('code')
                         td= properties.months || '-'
                         if owner
                           td= code.get('maxRedeemers') - redeemed
-                        else
-                          td - 
-                        if owner
+                          td= code.get('maxRedeemers')
                           td(data-i18n="account.purchased")
                         else
+                          td -
+                          td -
                           td(data-i18n="account_prepaid.redeemed")
               else
                 p(data-i18n="account_prepaid.no_codes")
