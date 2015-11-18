@@ -27,7 +27,6 @@ module.exports = class SubscribeModal extends ModalView
   constructor: (options) ->
     super(options)
     @state = 'standby'
-    @saleButtonTitle = $.i18n.t('subscribe.sale_button_title')
 
   afterRender: ->
     super()
