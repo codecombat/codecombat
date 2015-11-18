@@ -1,7 +1,7 @@
 extends /templates/base
 
 block content
-  - var authorized = me.isAdmin() or me.isArtisan();
+  - var authorized = me.isAdmin() || me.isArtisan();
   if authorized
     ol.breadcrumb
       li
