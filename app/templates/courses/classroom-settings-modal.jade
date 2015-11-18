@@ -1,0 +1,24 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  button.close(data-dismiss='modal')
+    span &times;
+  h3.modal-title(data-i18n="courses.edit_settings1")
+
+block modal-body-content
+  .form
+    .form-group
+      label(data-i18n="courses.title")
+      input.form-control.settings-name-input(type='text', value="#{view.classroom.get('name') || ''}")
+    .form-group
+      label(data-i18n="courses.description")
+      textarea.form-control.settings-description-input(rows=2)= view.classroom.get('description')
+    .form-group
+      label(data-i18n="choose_hero.programming_language")
+      select.form-control#programming-language-select
+        - var aceConfig = view.classroom.get('aceConfig') || {};
+        option(value="python", selected=aceConfig.language==='python') Python
+        option(value="javascript", selected=aceConfig.language==='javascript') JavaScript
+
+block modal-footer-content
+  button#save-settings-btn.btn(data-i18n="common.save_changes")

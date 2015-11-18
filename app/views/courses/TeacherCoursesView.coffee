@@ -11,6 +11,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-courses-view'
 utils = require 'core/utils'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal' 
+ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 
 module.exports = class TeacherCoursesView extends RootView
   id: 'teacher-courses-view'
@@ -22,6 +23,7 @@ module.exports = class TeacherCoursesView extends RootView
     'click .course-instance-membership-checkbox': 'onClickCourseInstanceMembershipCheckbox'
     'click #save-changes-btn': 'onClickSaveChangesButton'
     'click #manage-tab-link': 'onClickManageTabLink'
+    'click .edit-classroom-small': 'onClickEditClassroomSmall'
 
   constructor: (options) ->
     super(options)
@@ -70,6 +72,13 @@ module.exports = class TeacherCoursesView extends RootView
     isActive = @$('#manage-tab-pane').hasClass('active')
     @renderSelectors('#manage-tab-pane')
     @$('#manage-tab-pane').toggleClass('active', isActive)
+
+  onClickEditClassroomSmall: (e) ->
+    classroomID = $(e.target).closest('small').data('classroom-id')
+    classroom = @classrooms.get(classroomID)
+    modal = new ClassroomSettingsModal({classroom: classroom})
+    @openModalView(modal)
+    @listenToOnce modal, 'hide', @renderManageTab
 
   onClickAddStudentsButton: (e) ->
     classroomID = $(e.target).data('classroom-id')

@@ -102,7 +102,15 @@ block content
         a.btn.btn-default.btn-xs(href="/courses/purchase") Add
     
       for classroom in view.classrooms.models
-        h2= classroom.get('name')
+        h2
+          span.spr= classroom.get('name')
+          - var language = (classroom.get('aceConfig') || {}).language || 'python';
+          if language === 'python'
+            img(src="/images/common/code_languages/python_icon.png")
+          if language === 'javascript'
+            img(src="/images/common/code_languages/javascript_icon.png")
+          small.spl.edit-classroom-small(data-classroom-id=classroom.id)
+            span.glyphicon.glyphicon-pencil
         
         - var courseInstances = view.courseInstances.where({classroomID: classroom.id})
     
@@ -111,6 +119,9 @@ block content
             .progress-bar(style="width: 100%")
           
         else
+          - var description = classroom.get('description');
+          if description
+            p= description
           table.table
             tr
               th Student
