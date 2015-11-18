@@ -51,6 +51,7 @@
 
   play:
     play_as: "Play As"  # Ladder page
+    compete: "Compete!" # Course details page
     spectate: "Spectate"  # Ladder page
     players: "players"  # Hover over a level on /play
     hours_played: "hours played"  # Hover over a level on /play
