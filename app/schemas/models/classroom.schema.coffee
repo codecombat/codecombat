@@ -8,6 +8,8 @@ _.extend ClassroomSchema.properties,
   ownerID: c.objectId()
   description: {type: 'string'}
   code: c.shortString(title: "Unique code to redeem")
+  aceConfig:
+    language: {type: 'string', 'enum': ['python', 'javascript']}
 
 c.extendBasicProperties ClassroomSchema, 'Classroom'
 

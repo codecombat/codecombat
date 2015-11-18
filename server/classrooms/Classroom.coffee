@@ -11,6 +11,7 @@ ClassroomSchema.statics.privateProperties = []
 ClassroomSchema.statics.editableProperties = [
   'description'
   'name'
+  'aceConfig'
 ]
 
 ClassroomSchema.statics.generateNewCode = (done) ->

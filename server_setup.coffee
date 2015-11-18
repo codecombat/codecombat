@@ -8,6 +8,7 @@ compressible = require 'compressible'
 geoip = require 'geoip-lite'
 
 database = require './server/commons/database'
+perfmon = require './server/commons/perfmon'
 baseRoute = require './server/routes/base'
 user = require './server/users/user_handler'
 logging = require './server/commons/logging'
@@ -127,8 +128,11 @@ setupRedirectMiddleware = (app) ->
     nameOrID = req.path.split('/')[3]
     res.redirect 301, "/user/#{nameOrID}/profile"
 
+setupPerfMonMiddleware = (app) ->
+  app.use perfmon.middleware
 
 exports.setupMiddleware = (app) ->
+  setupPerfMonMiddleware app
   setupCountryRedirectMiddleware app, "china", "CN", "zh", "tokyo"
   setupCountryRedirectMiddleware app, "brazil", "BR", "pt-BR", "saoPaulo"
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app

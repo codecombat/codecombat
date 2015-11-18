@@ -38,7 +38,7 @@ module.exports = class RootView extends CocoView
   showNewAchievement: (achievement, earnedAchievement) ->
     earnedAchievement.set('notified', true)
     earnedAchievement.patch()
-    return if achievement.get('collection') is 'level.sessions'
+    return if achievement.get('collection') is 'level.sessions' and not achievement.get('query')?.team
     #return if @isIE()  # Some bugs in IE right now, TODO fix soon!  # Maybe working now with not caching achievement fetches in CocoModel?
     new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
 

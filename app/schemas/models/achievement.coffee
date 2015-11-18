@@ -26,6 +26,7 @@ MongoFindQuerySchema =
         {type: 'object'}
         {type: 'boolean'}
       ]
+  properties: {}
   additionalProperties: false
   definitions: {}
 

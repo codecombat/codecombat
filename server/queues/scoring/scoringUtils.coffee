@@ -52,12 +52,13 @@ module.exports.calculateSessionScores = (callback) ->
 
 retrieveOldSessionData = (sessionID, callback) ->
   formatOldScoreObject = (session) =>
-    oldScoreObject = 
+    oldScoreObject =
       standardDeviation: session.standardDeviation ? 25/3
       meanStrength: session.meanStrength ? 25
       totalScore: session.totalScore ? (25 - 1.8*(25/3))
       id: sessionID
       submittedCodeLanguage: session.submittedCodeLanguage
+      ladderAchievementDifficulty: session.ladderAchievementDifficulty
     if session.leagues?.length
       _.find(@clientResponseObject.sessions, sessionID: sessionID).leagues = session.leagues
       oldScoreObject.leagues = []
@@ -74,7 +75,7 @@ retrieveOldSessionData = (sessionID, callback) ->
   return formatOldScoreObject @levelSession if sessionID is @levelSession?._id  # No need to fetch again
 
   query = _id: sessionID
-  selection = 'standardDeviation meanStrength totalScore submittedCodeLanguage leagues'
+  selection = 'standardDeviation meanStrength totalScore submittedCodeLanguage leagues ladderAchievementDifficulty'
   LevelSession.findOne(query).select(selection).lean().exec (err, session) ->
     return callback err, {'error': 'There was an error retrieving the session.'} if err?
     callback err, formatOldScoreObject session
@@ -150,6 +151,13 @@ module.exports.addMatchToSessionsAndUpdate = (newScoreObject, callback) ->
   async.each sessionIDs, updateMatchesInSession.bind(@, matchObject), (err) ->
     callback err
 
+ladderBenchmarkAIs =
+  '564ba6cea33967be1312ae59': 0
+  '564ba830a33967be1312ae61': 1
+  '564ba91aa33967be1312ae65': 2
+  '564ba95ca33967be1312ae69': 3
+  '564ba9b7a33967be1312ae6d': 4
+
 updateMatchesInSession = (matchObject, sessionID, callback) ->
   currentMatchObject = {}
   currentMatchObject.date = matchObject.date
@@ -163,6 +171,11 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   #currentMatchObject.randomSeed = parseInt(@clientResponseObject.randomSeed or 0, 10)  # Uncomment when actively debugging simulation mismatches
   sessionUpdateObject = @levelSessionUpdates[sessionID]
   sessionUpdateObject.$push.matches = {$each: [currentMatchObject], $slice: -200}
+  if currentMatchObject.metrics.rank is 0 and defeatedAI = ladderBenchmarkAIs[currentMatchObject.opponents[0].userID]
+    mySession = _.find @clientResponseObject.sessions, sessionID: sessionID
+    newLadderAchievementDifficulty = Math.max defeatedAI, mySession.ladderAchievementDifficulty || 0
+    if newLadderAchievementDifficulty isnt mySession.ladderAchievementDifficulty
+      sessionUpdateObject.ladderAchievementDifficulty = newLadderAchievementDifficulty
 
   myScoreObject = @newScoresObject[sessionID]
   opponentSession = _.find @clientResponseObject.sessions, (session) -> session.sessionID isnt sessionID

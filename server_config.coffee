@@ -84,5 +84,10 @@ if not config.unittest and  not config.isProduction
   # change artificially slow down non-static requests for testing
   config.slow_down = false
 
+if process.env.COCO_STATSD_HOST
+  config.statsd =
+    host: process.env.COCO_STATSD_HOST
+    port: process.env.COCO_STATSD_PORT or 8125
+    prefix: process.env.COCO_STATSD_PREFIX or ''
 
 module.exports = config

@@ -53,12 +53,7 @@ block content
       if courseInstance.get('description')
         each line in courseInstance.get('description').split('\n')
           div= line
-    // TODO: migrate these settings to classrooms
-    //if adminMode && courseInstance
-    //  +settings-dialog
-    //  p
-    //    button.btn.btn-xs(data-toggle='modal', data-target='#settingsModal', data-i18n="courses.edit_settings")
-
+    
     div.well.well-sm(role='tabpanel')
       ul.nav.nav-pills(role='tablist')
         if adminMode
@@ -292,27 +287,3 @@ mixin levels-tab
                   if levelConceptMap[levelID][concept]
                     span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
 
-mixin settings-dialog
-  .modal#settingsModal
-    .modal-dialog
-      .modal-header
-        button.close(data-dismiss='modal')
-          span &times;
-        h3.modal-title(data-i18n="courses.edit_settings1")
-      .modal-body
-        .form
-          .form-group
-            label(data-i18n="courses.title")
-            input.form-control.settings-name-input(type='text', value="#{courseInstance.get('name') || ''}")
-          .form-group
-            label(data-i18n="courses.description")
-            textarea.form-control.settings-description-input(rows=2)= courseInstance.get('description')
-          .form-group
-            label(data-i18n="choose_hero.programming_language")
-            select.form-control#programming-language-select
-              - var aceConfig = view.courseInstance.get('aceConfig') || {};
-              option(value="python", selected=aceConfig.language==='python') Python
-              option(value="javascript", selected=aceConfig.language==='javascript') JavaScript
-          
-      .modal-footer
-        button.btn.btn-save-settings(data-i18n="common.save_changes")

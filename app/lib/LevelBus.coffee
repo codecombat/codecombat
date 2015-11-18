@@ -20,6 +20,7 @@ module.exports = class LevelBus extends Bus
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
     'tome:cast-spells': 'onCastSpells'
+    'tome:winnability-updated': 'onWinnabilityUpdated'
     'application:idle-changed': 'onIdleChanged'
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'god:new-world-created': 'onNewWorldCreated'
@@ -118,6 +119,11 @@ module.exports = class LevelBus extends Bus
     # We have incremented state.submissionCount and reset state.flagHistory.
     @changedSessionProperties.state = true
     @saveSession()
+
+  onWinnabilityUpdated: (e) ->
+    return unless @onPoint() and e.winnable
+    return unless e.level.get('slug') in ['ace-of-coders']  # Mirror matches don't otherwise show victory, so we win here.
+    @onVictory()
 
   onNewWorldCreated: (e) ->
     return unless @onPoint()
