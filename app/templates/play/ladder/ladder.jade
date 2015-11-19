@@ -3,16 +3,30 @@ block content
   - var base = "/images/pages/play/ladder/prize_";
 
   div#ladder-top
+    
+    if leagueType == 'course'
+      #course-header
+        #course-details-link
+          a(href="/courses/"+view.course.id+"/"+view.league.id)
+            span.glyphicon.glyphicon-arrow-left
+            span.spl Levels
+      
+        .text-center
+          span#course-name
+            span= view.course.get('name')
+            span.spl - Arena
+        
 
     div#level-column
+      if leagueType === 'course'
+        h1#course-h1= (level.get('name') || '').toUpperCase()
+      
       if levelDescription
         div!= levelDescription
-      else
-        h1= level.get('name')
 
-      if league
+      if leagueType === 'clan'
         h1.league-header
-          a(href="/#{leagueType == 'clan' ? 'clans' : leagueType}/#{league.id}")= league.get('name')
+          a(href="/clans/#{league.id}")= league.get('name')
           span.spl(data-i18n="ladder.league") League
 
     if level.get('name') == 'Greed'
@@ -132,9 +146,10 @@ block content
             span= team.displayName
       div.column.col-md-2
   
-    .spectate-button-container
-      a(href="/play/spectate/#{level.get('slug')}" + (league ? "?league=" + league.id : "")).spectate-button.btn.btn-illustrated.btn-info.center
-        span(data-i18n="play.spectate") Spectate
+    if leagueType !== 'course'
+      .spectate-button-container
+        a(href="/play/spectate/#{level.get('slug')}" + (league ? "?league=" + league.id : "")).spectate-button.btn.btn-illustrated.btn-info.center
+          span(data-i18n="play.spectate") Spectate
 
   ul.nav.nav-pills
     li.active
@@ -142,8 +157,9 @@ block content
     if !me.get('anonymous')
       li
         a(href="#my-matches", data-toggle="tab", data-i18n="ladder.my_matches") My Matches
-      li
-        a(href="#simulate", data-toggle="tab", data-i18n="ladder.simulate") Simulate
+      if leagueType !== 'course'
+        li
+          a(href="#simulate", data-toggle="tab", data-i18n="ladder.simulate") Simulate
     if level.get('name') == 'Greed'
       li
         a(href="#prizes", data-toggle="tab", data-i18n="ladder_prizes.prizes") Prizes

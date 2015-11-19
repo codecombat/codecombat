@@ -38,7 +38,7 @@ getRandomSessions = (user, callback) ->
   # Only people in a league will end up simulating internal league matches (for leagues they're in) except by dumb chance.
   # If we don't like that, we can rework sampleByLevel to have an opportunity to switch to internal leagues if the first session had a league affiliation.
   leagueIDs = user?.get('clans') or []
-  #leagueIDs = leagueIDs.concat user?.get('courseInstances') or []
+  leagueIDs = leagueIDs.concat user?.get('courseInstances') or []
   leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to fetch them as strings.
   return sampleByLevel callback unless leagueIDs.length and Math.random() > 1 / leagueIDs.length
   leagueID = _.sample leagueIDs

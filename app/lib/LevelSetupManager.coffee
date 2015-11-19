@@ -100,7 +100,6 @@ module.exports = class LevelSetupManager extends CocoClass
 
     @options.parent.openModalView(firstModal)
     #    @inventoryModal.onShown() # replace?
-    @playSound 'game-menu-open'
 
   #- Modal events
 
