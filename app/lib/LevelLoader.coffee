@@ -10,6 +10,7 @@ CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
 app = require 'core/application'
 World = require 'lib/world/world'
+utils = require 'core/utils'
 
 # This is an initial stab at unifying loading and setup into a single place which can
 # monitor everything and keep a LoadingScreen visible overall progress.
@@ -105,6 +106,8 @@ module.exports = class LevelLoader extends CocoClass
   loadDependenciesForSession: (session) ->
     if me.id isnt session.get 'creator'
       session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
+    else if codeLanguage = utils.getQueryVariable 'codeLanguage'
+      session.set 'codeLanguage', codeLanguage
     @loadCodeLanguagesForSession session
     if session is @session
       @addSessionBrowserInfo session
