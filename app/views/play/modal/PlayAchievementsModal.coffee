@@ -73,10 +73,8 @@ module.exports = class PlayAchievementsModal extends ModalView
       @onEverythingLoaded()
 
   onEverythingLoaded: =>
-    console.log 'got achievements', m.attributes for m in @achievements.models
     @achievements.set(@achievements.filter((m) -> m.get('collection') isnt 'level.sessions' or m.get('query')?.team))
     for achievement in @achievements.models
-      console.log 'kept achievement', achievement.attributes
       if earned = @earnedMap[achievement.id]
         achievement.earned = earned
         achievement.earnedDate = earned.getCreationDate()

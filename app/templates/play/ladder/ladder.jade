@@ -26,7 +26,7 @@ block content
 
       if leagueType === 'clan'
         h1.league-header
-          a(href="/#{leagueType == 'clan' ? 'clans' : leagueType}/#{league.id}")= league.get('name')
+          a(href="/clans/#{league.id}")= league.get('name')
           span.spl(data-i18n="ladder.league") League
 
     if level.get('name') == 'Greed'

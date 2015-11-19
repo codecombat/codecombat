@@ -60,7 +60,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
       courseInstance.save (err, courseInstance) =>
         return @sendDatabaseError(res, err) if err
         @sendCreated(res, courseInstance)
-    
+
   addMember: (req, res, courseInstanceID) ->
     userID = req.body.userID
     return @sendBadInputError(res, 'Input must be a MongoDB ID') unless utils.isID(userID)
@@ -88,8 +88,10 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
             courseInstance.set('members', members)
             courseInstance.save (err, courseInstance) =>
               return @sendDatabaseError(res, err) if err
-              @sendSuccess(res, @formatEntity(req, courseInstance))
-    
+              User.update {_id: mongoose.Types.ObjectId(userID)}, {$addToSet: {courseInstances: courseInstance.get('_id')}}, (err) =>
+                return @sendDatabaseError(res, err) if err
+                @sendSuccess(res, @formatEntity(req, courseInstance))
+
   post: (req, res) ->
     return @sendBadInputError(res, 'No classroomID') unless req.body.classroomID
     return @sendBadInputError(res, 'No courseID') unless req.body.courseID
@@ -101,7 +103,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'Course not found') unless course
         super(req, res)
-  
+
   makeNewInstance: (req) ->
     doc = new CourseInstance({
       members: []
