@@ -196,7 +196,7 @@ module.exports = class ClanDetailsView extends RootView
         if level.concepts?
           for concept in level.concepts
             @conceptsProgression.push concept unless concept in @conceptsProgression
-        if level.type is 'hero-ladder'
+        if level.type is 'hero-ladder' and level.slug not in ['capture-their-flag']
           @arenas.push level
       @campaignLevelProgressions.push campaignLevelProgression
     @render?()
