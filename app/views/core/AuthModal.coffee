@@ -42,6 +42,7 @@ module.exports = class AuthModal extends ModalView
   afterRender: ->
     super()
     @$el.toggleClass('signup', @mode is 'signup').toggleClass('login', @mode is 'login')
+    @playSound 'game-menu-open'
 
   afterInsert: ->
     super()
@@ -155,3 +156,7 @@ module.exports = class AuthModal extends ModalView
     el.i18n()
     @$el.find('.modal-body:visible').empty().append(el)
     @$el.find('.modal-footer').remove()
+
+  onHidden: ->
+    super()
+    @playSound 'game-menu-close'
