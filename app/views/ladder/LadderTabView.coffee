@@ -150,7 +150,7 @@ module.exports = class LadderTabView extends CocoView
 
   refreshLadder: ->
     @supermodel.resetProgress()
-    @ladderLimit ?= parseInt @getQueryVariable('top_players', 20)
+    @ladderLimit ?= parseInt @getQueryVariable('top_players', if @options.league then 100 else 20)
     for team in @teams
       if oldLeaderboard = @leaderboards[team.id]
         @supermodel.removeModelResource oldLeaderboard
