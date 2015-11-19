@@ -54,12 +54,17 @@ CampaignHandler = class CampaignHandler extends Handler
 
   getOverworld: (req, res) ->
     return @sendForbiddenError(res) if not @hasAccess(req)
-    q = @modelClass.find {}, slug: 1, adjacentCampaigns: 1, fullName: 1, description: 1, color: 1
+    projection = {}
+    if req.query.project
+      projection[field] = 1 for field in req.query.project.split(',')
+    q = @modelClass.find {}, projection
     q.exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       formatCampaign = (doc) =>
         obj = @formatEntity(req, doc)
         obj.adjacentCampaigns = _.mapValues(obj.adjacentCampaigns, (a) -> _.pick(a, ['showIfUnlocked', 'color', 'name', 'description' ]))
+        for original, level of obj.levels
+          obj.levels[original] = _.pick level, ['locked', 'disabled', 'original', 'rewards']
         obj
       documents = (formatCampaign(doc) for doc in documents)
       @sendSuccess(res, documents)

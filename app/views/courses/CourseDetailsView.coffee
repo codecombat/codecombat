@@ -221,9 +221,9 @@ module.exports = class CourseDetailsView extends RootView
     levelID = $(e.target).data('level-id')
     level = @campaign.get('levels')[levelID]
     if level.type is 'course-ladder'
-      Backbone.Mediator.publish 'router:navigate', {
-        route: '/play/ladder/' + levelSlug + '/course/' + @courseInstance.id
-      }
+      route = '/play/ladder/' + levelSlug
+      route += '/course'/ + @courseInstance.id if @courseInstance.get('members').length > 1  # No league for solo courses
+      Backbone.Mediator.publish 'router:navigate', route: route
     else
       Backbone.Mediator.publish 'router:navigate', {
         route: @getLevelURL levelSlug

@@ -33,9 +33,9 @@ class LevelSessionsCollection extends CocoCollection
     @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID,state.difficulty,playtime"
 
 class CampaignsCollection extends CocoCollection
-  url: '/db/campaign/-/overworld'
+  # We don't send all of levels, just the parts needed in countLevels
+  url: '/db/campaign/-/overworld?project=slug,adjacentCampaigns,name,fullName,description,i18n,color,levels'
   model: Campaign
-  project: ['name', 'fullName', 'description', 'i18n']
 
 module.exports = class CampaignView extends RootView
   id: 'campaign-view'

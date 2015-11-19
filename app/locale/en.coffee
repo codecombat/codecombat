@@ -247,7 +247,7 @@
     victory_title_suffix: " Complete"
     victory_sign_up: "Sign Up to Save Progress"
     victory_sign_up_poke: "Want to save your code? Create a free account!"
-    victory_rate_the_level: "Rate the level: "  # Only in old-style levels.
+    victory_rate_the_level: "How fun was this level?" # {change}
     victory_return_to_ladder: "Return to Ladder"
     victory_play_continue: "Continue"
     victory_saving_progress: "Saving Progress"
