@@ -19,6 +19,7 @@ TrialRequestHandler = class TrialRequestHandler extends Handler
   makeNewInstance: (req) ->
     instance = super(req)
     instance.set 'applicant', req.user._id
+    instance.set 'created', new Date()
     instance.set 'status', 'submitted'
     instance
 
