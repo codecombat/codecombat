@@ -12,13 +12,11 @@ block modal-body-content
     .form-group
       label.control-label(for="email")
         span(data-i18n="general.email")
-        | :
-      input#email.input-large.form-control(name="email", type="email", value=view.formValues.email)
+      input#email.input-large.form-control(name="email", type="email")
     .form-group
       label.control-label(for="password")
         span(data-i18n="general.password") Password
-        | :
-      input#password.input-large.form-control(name="password", type="password", value=view.formValues.password)
+      input#password.input-large.form-control(name="password", type="password")
         
     #errors-alert.alert.alert-danger.hide
 

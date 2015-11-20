@@ -8,9 +8,6 @@ module.exports = class StudentSignInModal extends ModalView
   id: 'student-log-in-modal'
   template: template
   
-  initialize: ->
-    @formValues = {}
-
   events:
     'click #log-in-btn': 'onClickLogInButton'
     'submit form': 'onSubmitForm'
