@@ -7,6 +7,7 @@ TrialRequestSchema = c.object {
 
 _.extend TrialRequestSchema.properties,
   applicant: c.objectId(links: [{rel: 'extra', href: '/db/user/{($)}'}])
+  created: c.date()
   prepaidCode: c.objectId()
   reviewDate: c.date({readOnly: true})
   reviewer: c.objectId(links: [{rel: 'extra', href: '/db/user/{($)}'}])

@@ -102,7 +102,7 @@ module.exports = class PatchesView extends RootView
       @render()
 
     modelNamesRequest = @supermodel.addRequestResource 'patches', {
-      url: "/db/#{collection}/names"
+      url: "/db/#{collection.replace('_', '.')}/names"
       data: {ids: ids}
       method: 'POST'
       success: success

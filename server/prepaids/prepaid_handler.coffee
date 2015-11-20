@@ -80,13 +80,11 @@ PrepaidHandler = class PrepaidHandler extends Handler
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'User for given ID not found') if not user
         userID = user.get('_id')
-#        Prepaid.count {'redeemers.userID': userID}, (err, count) =>
-#          return @sendDatabaseError(res, err) if err
-#          return @sendSuccess(res, @formatEntity(req, prepaid)) if count
+        return @sendSuccess(res, @formatEntity(req, prepaid)) if user.get('coursePrepaidID')
 
         query =
           _id: prepaid.get('_id')
-          'redeemers.userID': { $ne: req.user.get('_id') }
+          'redeemers.userID': { $ne: user.get('_id') }
           $where: "this.redeemers.length < #{prepaid.get('maxRedeemers')}"
         update = { $push: { redeemers : { date: new Date(), userID: userID } }}
         Prepaid.update query, update, (err, nMatched) =>
