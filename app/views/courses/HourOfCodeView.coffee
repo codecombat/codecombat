@@ -9,6 +9,7 @@ utils = require 'core/utils'
 LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
+StudentLogInModal = require 'views/courses/StudentLogInModal'
 
 
 module.exports = class HourOfCodeView extends RootView
@@ -18,6 +19,7 @@ module.exports = class HourOfCodeView extends RootView
   events:
     'click #student-btn': 'onClickStudentButton'
     'click #start-new-game-btn': 'onClickStartNewGameButton'
+    'click #log-in-btn': 'onClickLogInButton'
 
   initialize: ->
     @setUpHourOfCode()
@@ -82,6 +84,10 @@ module.exports = class HourOfCodeView extends RootView
         url = "/play/level/course-dungeons-of-kithgard?course=#{data.courseID}&course-instance=#{data._id}"
         app.router.navigate(url, { trigger: true })
     })
+
+  onClickLogInButton: ->
+    modal = new StudentLogInModal()
+    @openModalView(modal)
 
 #  onClickStudentButton: ->
 #    @state = 'enrolling'
