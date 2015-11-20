@@ -20,13 +20,11 @@ module.exports = class StudentSignInModal extends ModalView
     @login()
 
   login: ->
-    userObject = forms.formToObject @$el
-    res = tv4.validateMultiple userObject, User.schema
-    return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
+    data = forms.formToObject @$el
     @enableModalInProgress(@$el)
-    auth.loginUser userObject, (jqxhr) =>
+    auth.loginUser data, (jqxhr) =>
       error = jqxhr.responseJSON[0]
-      message = error.property + ' ' + error.message
+      message = _.filter([error.property, error.message]).join(' ')
       @disableModalInProgress(@$el)
       @$('#errors-alert').text(message).removeClass('hide')
       
