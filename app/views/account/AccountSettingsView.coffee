@@ -37,11 +37,9 @@ module.exports = class AccountSettingsView extends CocoView
 
   #- Form input callbacks
   onChangePanelInput: (e) ->
+    return if $(e.target).closest('.form').attr('id') in ['reset-progress-form', 'delete-account-form']
     $(e.target).addClass 'changed'
-    if (JSON.stringify(document.getElementById('email1').className)).indexOf("changed") > -1 or (JSON.stringify(document.getElementById('password1').className)).indexOf("changed") > -1
-      $(e.target).removeClass 'changed'
-    else
-      @trigger 'input-changed'
+    @trigger 'input-changed'
 
   onClickToggleAllButton: ->
     subs = @getSubscriptions()

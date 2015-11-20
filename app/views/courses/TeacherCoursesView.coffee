@@ -10,13 +10,13 @@ CourseInstance = require 'models/CourseInstance'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-courses-view'
 utils = require 'core/utils'
-InviteToClassroomModal = require 'views/courses/InviteToClassroomModal' 
+InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 
 module.exports = class TeacherCoursesView extends RootView
   id: 'teacher-courses-view'
   template: template
-  
+
   events:
     'click #create-new-class-btn': 'onClickCreateNewclassButton'
     'click .add-students-btn': 'onClickAddStudentsButton'
@@ -67,7 +67,7 @@ module.exports = class TeacherCoursesView extends RootView
     @listenTo classroom, 'sync', ->
       classroom.saving = false
       @fillMissingCourseInstances()
-      
+
   renderManageTab: ->
     isActive = @$('#manage-tab-pane').hasClass('active')
     @renderSelectors('#manage-tab-pane')
@@ -85,7 +85,7 @@ module.exports = class TeacherCoursesView extends RootView
     classroom = @classrooms.get(classroomID)
     modal = new InviteToClassroomModal({classroom: classroom})
     @openModalView(modal)
-    
+
   onLoaded: ->
     super()
     @linkCourseIntancesToCourses()
@@ -94,7 +94,7 @@ module.exports = class TeacherCoursesView extends RootView
   linkCourseIntancesToCourses: ->
     for courseInstance in @courseInstances.models
       courseInstance.course = @courses.get(courseInstance.get('courseID'))
-    
+
   fillMissingCourseInstances: ->
     # TODO: Give teachers control over which courses are enabled for a given class.
     # Add/remove course instances and columns in the view to match.
@@ -135,7 +135,7 @@ module.exports = class TeacherCoursesView extends RootView
     @usersToRedeem = new CocoCollection(_.values(usersToRedeem), {model: User})
     @numCourseInstancesToAddTo = checkedBoxes.length
     @renderSelectors '#fixed-area'
-    
+
   onClickSaveChangesButton: ->
     @$('.course-instance-membership-checkbox').attr('disabled', true)
     checkedBoxes = @$('.course-instance-membership-checkbox:checked')
@@ -154,12 +154,12 @@ module.exports = class TeacherCoursesView extends RootView
     @state = 'saving-changes'
     @renderSelectors '#fixed-area'
     @redeemUsers()
-    
+
   redeemUsers: ->
     if not @usersToRedeem.size()
       @addMemberships()
       return
-    
+
     user = @usersToRedeem.first()
     prepaid = @prepaids.find (prepaid) -> prepaid.openSpots()
     $.ajax({
@@ -186,7 +186,7 @@ module.exports = class TeacherCoursesView extends RootView
       @renderSelectors '#fixed-area'
       document.location.reload()
       return
-      
+
     membershipAddition = @membershipAdditions.first()
     courseInstance = membershipAddition.get('courseInstance')
     userID = membershipAddition.get('userID')
