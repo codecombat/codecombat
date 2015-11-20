@@ -74,12 +74,13 @@ module.exports = class MultiplayerView extends CocoView
   onGameSubmitted: (e) ->
     # Preserve the supermodel as we navigate back to the ladder.
     viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @levelID]
-    ladderURL = "/play/ladder/#{@levelID}#my-matches"
+    ladderURL = "/play/ladder/#{@levelID}"
     if leagueID = @getQueryVariable 'league'
       leagueType = if @level?.get('type') is 'course-ladder' then 'course' else 'clan'
       viewArgs.push leagueType
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"
+    ladderURL += '#my-matches'
     Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
 
   updateLinkSection: ->
