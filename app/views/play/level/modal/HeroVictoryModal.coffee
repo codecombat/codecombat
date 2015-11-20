@@ -381,12 +381,13 @@ module.exports = class HeroVictoryModal extends ModalView
   returnToLadder: ->
     # Preserve the supermodel as we navigate back to the ladder.
     viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
-    ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}#my-matches"
+    ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}"
     if leagueID = @getQueryVariable 'league'
       leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
       viewArgs.push leagueType
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"
+    ladderURL += '#my-matches'
     Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
 
   playSelectionSound: (hero, preload=false) ->
