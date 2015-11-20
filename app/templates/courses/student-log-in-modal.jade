@@ -21,10 +21,12 @@ block modal-body-content
         | :
       .input-border
         input#password.input-large.form-control(name="password", type="password", value=view.formValues.password)
+        
+    #errors-alert.alert.alert-danger.hide
 
-  .text-center
-    button#log-in-btn.btn.btn-default(data-i18n="login.log_in")
-    p
-      a#create-new-account-link(data-i18n="login.signup_switch")
+    .text-center
+      input#log-in-btn.btn.btn-default(data-i18n="login.log_in", type="submit")
+      p
+        a#create-new-account-link(data-i18n="login.signup_switch")
   
 block modal-footer-content
