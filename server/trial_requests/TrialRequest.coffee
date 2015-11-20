@@ -61,6 +61,7 @@ TrialRequestSchema.post 'save', (doc) ->
 
 TrialRequestSchema.statics.privateProperties = []
 TrialRequestSchema.statics.editableProperties = [
+  'created'
   'prepaidCode'
   'properties'
   'reviewDate'
