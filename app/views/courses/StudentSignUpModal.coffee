@@ -3,6 +3,7 @@ template = require 'templates/courses/student-sign-up-modal'
 auth = require 'core/auth'
 forms = require 'core/forms'
 User = require 'models/User'
+Classroom = require 'models/Classroom'
 
 module.exports = class StudentSignUpModal extends ModalView
   id: 'student-sign-up-modal'
@@ -22,10 +23,10 @@ module.exports = class StudentSignUpModal extends ModalView
 
   onSubmitForm: (e) ->
     e.preventDefault()
-    @signup()
+    @signupClassroomPrecheck()
 
   onClickSignUpButton: ->
-    @signup()
+    @signupClassroomPrecheck()
 
   emailCheck: ->
     email = @$('#email').val()
@@ -35,11 +36,27 @@ module.exports = class StudentSignUpModal extends ModalView
       return false
     return true
 
+  signupClassroomPrecheck: ->
+    if not _.all([@$('#email').val(), @$('#password').val(), @$('#name').val()])
+      @$('#errors-alert').text('Enter email, username and password').removeClass('hide')
+      return
+    classCode = @$('#class-code-input').val()
+    if not classCode
+      return @signup()
+    classroom = new Classroom()
+    classroom.fetch({ url: '/db/classroom?code='+classCode })
+    classroom.once 'sync', @signup, @
+    classroom.once 'error', @onClassroomFetchError, @
+    @enableModalInProgress(@$el)
+
+  onClassroomFetchError: ->
+    @disableModalInProgress(@$el)
+    @$('#errors-alert').text('Classroom code could not be found').removeClass('hide')
+
   signup: ->
     return unless @emailCheck()
     # TODO: consolidate with AuthModal logic, or make user creation process less magical, more RESTful
     data = forms.formToObject @$el
-    classCode = data['class-code']
     delete data['class-code']
     for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails']
       data[key] ?= val
@@ -53,15 +70,24 @@ module.exports = class StudentSignUpModal extends ModalView
     user.notyErrors = false
     user.save({}, {
       validate: false # make server deal with everything
-      error: (model, jqxhr) =>
-        # really need to make our server errors uniform
-        if jqxhr.responseJSON
-          error = jqxhr.responseJSON
-          error = error[0] if _.isArray(error) 
-          message = _.filter([error.property, error.message]).join(' ')
-        else
-          message =  jqxhr.responseText
-        @disableModalInProgress(@$el)
-        @$('#errors-alert').text(message).removeClass('hide')
-      success: -> window.location.reload()
+      error: @onCreateUserError
+      success: @onCreateUserSuccess
     })
+    
+  onCreateUserError: (model, jqxhr) =>
+    # really need to make our server errors uniform
+    if jqxhr.responseJSON
+      error = jqxhr.responseJSON
+      error = error[0] if _.isArray(error)
+      message = _.filter([error.property, error.message]).join(' ')
+    else
+      message =  jqxhr.responseText
+    @disableModalInProgress(@$el)
+    @$('#errors-alert').text(message).removeClass('hide')
+    
+  onCreateUserSuccess: =>
+    classCode = @$('#class-code-input').val()
+    if classCode
+      url = "/courses/students?_cc="+classCode
+      application.router.navigate(url)
+    window.location.reload()
