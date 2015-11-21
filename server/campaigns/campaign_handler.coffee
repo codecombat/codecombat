@@ -64,7 +64,7 @@ CampaignHandler = class CampaignHandler extends Handler
         obj = @formatEntity(req, doc)
         obj.adjacentCampaigns = _.mapValues(obj.adjacentCampaigns, (a) -> _.pick(a, ['showIfUnlocked', 'color', 'name', 'description' ]))
         for original, level of obj.levels
-          obj.levels[original] = _.pick level, ['locked', 'disabled', 'original', 'rewards']
+          obj.levels[original] = _.pick level, ['locked', 'disabled', 'original', 'rewards', 'slug']
         obj
       documents = (formatCampaign(doc) for doc in documents)
       @sendSuccess(res, documents)
