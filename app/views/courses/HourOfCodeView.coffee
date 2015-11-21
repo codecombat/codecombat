@@ -10,7 +10,7 @@ LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
 StudentLogInModal = require 'views/courses/StudentLogInModal'
-
+StudentSignUpModal = require 'views/courses/StudentSignUpModal'
 
 module.exports = class HourOfCodeView extends RootView
   id: 'hour-of-code-view'
@@ -88,10 +88,9 @@ module.exports = class HourOfCodeView extends RootView
   onClickLogInButton: ->
     modal = new StudentLogInModal()
     @openModalView(modal)
+    modal.on 'want-to-create-account', @onWantToCreateAccount, @
 
-#  onClickStudentButton: ->
-#    @state = 'enrolling'
-#    @stateMessage = undefined
-#    @render?()
-#
+  onWantToCreateAccount: ->
+    modal = new StudentSignUpModal()
+    @openModalView(modal)
    

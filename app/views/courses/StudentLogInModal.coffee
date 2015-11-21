@@ -11,6 +11,7 @@ module.exports = class StudentSignInModal extends ModalView
   events:
     'click #log-in-btn': 'onClickLogInButton'
     'submit form': 'onSubmitForm'
+    'click #create-new-account-link': 'onClickCreateNewAccountLink'
 
   onSubmitForm: (e) ->
     e.preventDefault()
@@ -27,4 +28,7 @@ module.exports = class StudentSignInModal extends ModalView
       message = _.filter([error.property, error.message]).join(' ')
       @disableModalInProgress(@$el)
       @$('#errors-alert').text(message).removeClass('hide')
-      
+
+  onClickCreateNewAccountLink: ->
+    @trigger 'want-to-create-account'
+    @hide?()
