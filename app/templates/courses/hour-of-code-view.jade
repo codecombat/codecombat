@@ -5,6 +5,17 @@ block content
   
   #main-content
     .well.text-center
+      if !me.isAnonymous()
+        p
+          strong.spr Logged in as:
+          strong= me.get('name') || me.get('email')
+        
+        p
+          span.spr This isn't you?
+          a#log-out-link Logout
+        
+        hr
+        
       if !view.lastLevel
         p
           strong Ready to play?

@@ -11,6 +11,7 @@ Level = require 'models/Level'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
 StudentLogInModal = require 'views/courses/StudentLogInModal'
 StudentSignUpModal = require 'views/courses/StudentSignUpModal'
+auth = require 'core/auth'
 
 module.exports = class HourOfCodeView extends RootView
   id: 'hour-of-code-view'
@@ -20,6 +21,7 @@ module.exports = class HourOfCodeView extends RootView
     'click #student-btn': 'onClickStudentButton'
     'click #start-new-game-btn': 'onClickStartNewGameButton'
     'click #log-in-btn': 'onClickLogInButton'
+    'click #log-out-link': 'onClickLogOutLink'
 
   initialize: ->
     @setUpHourOfCode()
@@ -93,4 +95,7 @@ module.exports = class HourOfCodeView extends RootView
   onWantToCreateAccount: ->
     modal = new StudentSignUpModal()
     @openModalView(modal)
+
+  onClickLogOutLink: ->
+    auth.logoutUser() 
    
