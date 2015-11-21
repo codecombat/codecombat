@@ -1,12 +1,30 @@
 extends /templates/base
 
 block content
+  .pull-right
+    a(href="/teachers") Teachers, click here!
 
-  h1.text-center Welcome to CodeCombat Courses
+  h1.text-center Adventurers, welcome to Courses!
   
-  .row
-    .col-sm-6.text-center
-      a(href="/courses/students").btn.btn-default Students Click Here
-      
-    .col-sm-6.text-center
-      a(href="/courses/teachers").btn.btn-default Teachers Click Here
+  #main-content
+    if me.isAnonymous()
+      .text-center
+        p
+          h3 Ready to play?
+        p
+          button#start-new-game-btn.btn.btn-default Start New Game
+        p - OR -
+        p
+          button#log-in-btn.btn.btn-default(data-i18n="login.log_in")
+          
+      h3#play-now-to-learn-header.text-center PLAY NOW TO LEARN
+      ul
+        li basic syntax to control your character
+        li while loops to solve pesky puzzles
+        li strings & variables to customize actions
+        li how to defeat an ogre (important life skills!)
+        
+  #begin-hoc-area.hide
+    h2.text-center(data-i18n="common.loading")
+    .progress.progress-striped.active
+      .progress-bar(style="width: 100%")

@@ -77,15 +77,11 @@ module.exports = class HourOfCodeView extends RootView
   startHourOfCodePlay: ->
     @$('#main-content').hide()
     @$('#begin-hoc-area').removeClass('hide')
-    $.ajax({
-      method: 'POST'
-      url: '/db/course_instance/-/create-for-hoc'
-      context: @
-      success: (data) ->
-        application.tracker?.trackEvent 'Finished HoC student course creation', {courseID: data.courseID}
-        url = "/play/level/course-dungeons-of-kithgard?course=#{data.courseID}&course-instance=#{data._id}"
-        app.router.navigate(url, { trigger: true })
-    })
+    hocCourseInstance = new CourseInstance()
+    hocCourseInstance.upsertForHOC()
+    @listenToOnce hocCourseInstance, 'sync', ->
+      url = hocCourseInstance.firstLevelURL()
+      app.router.navigate(url, { trigger: true })
 
   onClickLogInButton: ->
     modal = new StudentLogInModal()

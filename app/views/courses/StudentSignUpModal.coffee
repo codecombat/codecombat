@@ -16,10 +16,11 @@ module.exports = class StudentSignUpModal extends ModalView
 
   initialize: (options) ->
     options ?= {}
+    @willPlay = options.willPlay
 
   onClickSkipLink: ->
     @trigger 'click-skip-link' # defer to view that opened this modal
-    @hide()
+    @hide?()
 
   onSubmitForm: (e) ->
     e.preventDefault()

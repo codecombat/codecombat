@@ -6,5 +6,13 @@ module.exports = class CourseInstance extends CocoModel
   @schema: schema
   urlRoot: '/db/course_instance'
 
-  createForHOC: ->
-    # encapsulates creating a special course instance for HoC
+  upsertForHOC: (opts) ->
+    options = {
+      url: _.result(@, 'url') + '/~/create-for-hoc'
+      type: 'POST'
+    }
+    _.extend options, opts
+    @fetch(options)
+
+  firstLevelURL: ->
+    "/play/level/course-dungeons-of-kithgard?course=#{@get('courseID')}&course-instance=#{@id}"
