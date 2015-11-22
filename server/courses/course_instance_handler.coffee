@@ -38,6 +38,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
     return @inviteStudents(req, res, args[0]) if relationship is 'invite_students'
     return @redeemPrepaidCodeAPI(req, res) if args[1] is 'redeem_prepaid'
+    return @getMyCourseLevelSessionsAPI(req, res, args[0]) if args[1] is 'my-course-level-sessions'
     super arguments...
 
   createHOCAPI: (req, res) ->
@@ -125,6 +126,23 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
           levelIDs = (levelID for levelID of campaign.get('levels'))
           memberIDs = _.map courseInstance.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
           query = {$and: [{creator: {$in: memberIDs}}, {'level.original': {$in: levelIDs}}]}
+          LevelSession.find query, (err, documents) =>
+            return @sendDatabaseError(res, err) if err?
+            cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
+            @sendSuccess(res, cleandocs)
+
+  getMyCourseLevelSessionsAPI: (req, res, courseInstanceID) ->
+    CourseInstance.findById courseInstanceID, (err, courseInstance) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless courseInstance
+      Course.findById courseInstance.get('courseID'), (err, course) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res) unless course
+        Campaign.findById course.get('campaignID'), (err, campaign) =>
+          return @sendDatabaseError(res, err) if err
+          return @sendNotFoundError(res) unless campaign
+          levelIDs = (levelID for levelID, level of campaign.get('levels') when not _.contains(level.type, 'ladder'))
+          query = {$and: [{creator: req.user.id}, {'level.original': {$in: levelIDs}}]}
           LevelSession.find query, (err, documents) =>
             return @sendDatabaseError(res, err) if err?
             cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)

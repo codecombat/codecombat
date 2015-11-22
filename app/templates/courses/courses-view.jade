@@ -4,10 +4,11 @@ block content
   .pull-right
     a(href="/teachers") Teachers, click here!
 
-  h1.text-center Adventurers, welcome to Courses!
-  
   #main-content
     if me.isAnonymous()
+
+      h1.text-center Adventurers, welcome to Courses!
+
       .text-center
         p
           h3 Ready to play?
@@ -23,8 +24,25 @@ block content
         li while loops to solve pesky puzzles
         li strings & variables to customize actions
         li how to defeat an ogre (important life skills!)
+      
+    else
+      
+      h1.text-center Welcome to your Courses page!
+      
+      if view.hocCourseInstance
+        h2 Saved Games
+        hr
         
+        .course-instance-entry
+          h2
+            span.spr Hour of Code: Course 1
+            span.spr= (view.hocCourseInstance.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'
+            small
+              a#change-language-link change language
+      
   #begin-hoc-area.hide
     h2.text-center(data-i18n="common.loading")
     .progress.progress-striped.active
       .progress-bar(style="width: 100%")
+        
+mixin course-instance-entry(courseInstance, course, levels)
