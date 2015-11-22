@@ -1,14 +1,22 @@
 // subscriptionPromptGroup A/B Results
-// Test started 2015-09-18, ended 2015-11-20
-// Final results: ...
+// Test started 2015-09-18, ended 2015-11-22
+// Final results:
+// Subscribers by group: {
+//   "tactical-strike": 246,
+//   "boom-and-bust": 255,
+//   "favorable-odds": 303
+// }
 
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
+// Except actually now you run these scripts on the analytics server itself.
+// https://docs.google.com/document/d/1d5mOsTjioX2KRNAqhWXdGyBevuhxSPH1xX7UWlYPpwk/edit#
 
 load('abTestHelpers.js');
 
 var scriptStartTime = new Date();
 try {
+  var logDB = new Mongo("localhost").getDB("analytics");
   var startDay = '2015-09-18';
   log("Today is " + new Date().toISOString().substr(0, 10));
   log("Start day is " + startDay);
@@ -24,7 +32,7 @@ try {
     if (group === 2) return 'boom-and-bust';
   };
 
-  var funnelData = getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs);
+  var funnelData = getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs, logDB);
 
   printFunnelData(funnelData, function (day, level, browser, group, started, finished, rate) {
     if (day && level && browser && group) {
