@@ -315,10 +315,6 @@ module.exports = class CampaignView extends RootView
     foundNext = false
     dontPointTo = ['lost-viking', 'kithgard-mastery']  # Challenge levels we don't want most players bashing heads against
     subscriptionPrompts = [{slug: 'boom-and-bust', unless: 'defense-of-plainswood'}]
-    if me.getSubscriptionPromptGroup() is 'favorable-odds'
-      subscriptionPrompts.push slug: 'favorable-odds', unless: 'the-raised-sword'
-    if me.getSubscriptionPromptGroup() is 'tactical-strike'
-      subscriptionPrompts.push slug: 'tactical-strike', unless: 'a-mayhem-of-munchkins'
     for level in levels
       # Iterate through all levels in order and look to find the first unlocked one that meets all our criteria for being pointed out as the next level.
       level.nextLevels = (reward.level for reward in level.rewards ? [] when reward.level)

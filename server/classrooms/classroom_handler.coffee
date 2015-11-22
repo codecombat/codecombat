@@ -51,7 +51,8 @@ ClassroomHandler = class ClassroomHandler extends Handler
 
   joinClassroomAPI: (req, res, classroomID) ->
     return @sendBadInputError(res, 'Need an object with a code') unless req.body?.code
-    Classroom.findOne {code: req.body.code}, (err, classroom) =>
+    code = req.body.code.toLowerCase()
+    Classroom.findOne {code: code}, (err, classroom) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) if not classroom
       members = _.clone(classroom.get('members'))
@@ -63,16 +64,16 @@ ClassroomHandler = class ClassroomHandler extends Handler
         members.push req.user.get('_id')
         classroom.set('members', members)
         return @sendSuccess(res, @formatEntity(req, classroom))
-      
+
   formatEntity: (req, doc) ->
     if req.user?.isAdmin() or req.user?.get('_id').equals(doc.get('ownerID'))
       return doc.toObject()
-    return _.omit(doc.toObject(), 'code')
+    return _.omit(doc.toObject(), 'code', 'codeCamel')
 
   inviteStudents: (req, res, classroomID) ->
     if not req.body.emails
       return @sendBadInputError(res, 'Emails not included')
-      
+
     Classroom.findById classroomID, (err, classroom) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless classroom
@@ -86,10 +87,10 @@ ClassroomHandler = class ClassroomHandler extends Handler
           email_data:
             class_name: classroom.get('name')
             # TODO: join_link
-            join_link: "https://codecombat.com/courses/students?_cc=" + classroom.get('code')
+            join_link: "https://codecombat.com/courses/students?_cc=" + (classroom.get('codeCamel') or classroom.get('code'))
         sendwithus.api.send context, _.noop
       return @sendSuccess(res, {})
-      
+
   get: (req, res) ->
     if ownerID = req.query.ownerID
       return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or ownerID is req.user.id)

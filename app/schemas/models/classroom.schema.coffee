@@ -8,6 +8,7 @@ _.extend ClassroomSchema.properties,
   ownerID: c.objectId()
   description: {type: 'string'}
   code: c.shortString(title: "Unique code to redeem")
+  codeCamel: c.shortString(title: "UpperCamelCase version of code for display purposes")
   aceConfig:
     language: {type: 'string', 'enum': ['python', 'javascript']}
 

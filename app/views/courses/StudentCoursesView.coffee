@@ -28,7 +28,7 @@ module.exports = class StudentCoursesView extends RootView
     @supermodel.loadCollection(@classrooms, 'classrooms', { data: {memberID: me.id} })
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
-      
+
   onLoaded: ->
     if (@classCode = utils.getQueryVariable('_cc', false)) and not me.isAnonymous()
       @joinClass()
@@ -63,17 +63,17 @@ module.exports = class StudentCoursesView extends RootView
   onJoinClassroomSuccess: (data, textStatus, jqxhr) ->
     classroom = new Classroom(data)
     application.tracker?.trackEvent 'Joined classroom', {
-      classroomID: classroom.id, 
+      classroomID: classroom.id,
       classroomName: classroom.get('name')
       ownerID: classroom.get('ownerID')
     }
     @classrooms.add(classroom)
     @render()
-    
+
     classroomCourseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance })
     classroomCourseInstances.fetch({ data: {classroomID: classroom.id} })
     @listenToOnce classroomCourseInstances, 'sync', ->
-      
+
       # join any course instances in the classroom which are free to join
       jqxhrs = []
       for courseInstance in classroomCourseInstances.models
