@@ -57,7 +57,7 @@ CampaignHandler = class CampaignHandler extends Handler
     projection = {}
     if req.query.project
       projection[field] = 1 for field in req.query.project.split(',')
-    q = @modelClass.find {}, projection
+    q = @modelClass.find {type: 'hero'}, projection
     q.exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       formatCampaign = (doc) =>
