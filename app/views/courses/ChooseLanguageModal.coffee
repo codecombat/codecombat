@@ -13,14 +13,12 @@ module.exports = class ChooseLanguageModal extends ModalView
 
   onClickLanguageChoiceButton: (e) ->
     @chosenLanguage = $(e.target).data('language')
-    console.log 'click language choice button'
     if @logoutFirst
       @logoutUser()
     else
       @saveLanguageSetting()
       
   logoutUser: ->
-    console.log 'logout'
     $.ajax({
       method: 'POST'
       url: '/auth/logout'
@@ -29,7 +27,6 @@ module.exports = class ChooseLanguageModal extends ModalView
     })
 
   onUserLoggedOut: ->
-    console.log 'login new user'
     me.clear()
     me.fetch({
       url: '/auth/whoami'
