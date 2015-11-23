@@ -27,7 +27,22 @@ block content
       
     else
       
-      h1.text-center Welcome to your Courses page!
+      - var showHOCComplete = false;
+      if view.hocCourseInstance
+        - var campaign = view.campaigns.get(view.hocCourseInstance.get('CampaignID'));
+        - showHOCComplete = campaign.sessions.allDone();
+        
+      .text-center
+        if !showHOCComplete
+          h1 Welcome to your Courses page!
+        else
+          h1 Amazing! You've completed the Hour of Code course!
+          h2 Ready for more? Play the campaign mode!
+          ul
+            li Use gems to unlock new items!
+            li Play through brand new worlds and challenges
+            li Learn even more programming!
+          a.btn.btn-lg.btn-success(href="/play")
       
       if view.hocCourseInstance
         h2 Saved Games
@@ -39,10 +54,77 @@ block content
             span.spr= (view.hocCourseInstance.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'
             small
               a#change-language-link change language
+          +course-instance-body(hocCourseInstance)
+        
+      if view.classrooms.size()
+        h2 My Classes
+        for classroom in view.classrooms
+          - var classroomClass = classroom.justAdded ? 'just-added' : '';
+          if classroom.justAdded
+            .text-center.text-info Class successfully added!
+          div(class=classroomClass) // sigh
+            h2
+              span.spr= classroom.get('name')
+              span.spr (#{(view.hocCourseInstance.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'})
+              a(href="/courses/classroom/"+classroom.id) view class
+            
+            - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
+            for courseInstance in courseInstances
+              
+              .course-instance-body
+                - var course = view.courses.get(courseInstance.get('courseID'));
+                h2
+                  span.spr= course.get('name')
+                  small
+                    // TODO: where do we show list of levels?
+                    a(href="/courses/classrooms/"+classroom.id) view levels
+                +course-instance-body(hocCourseInstance)
+        
+    h2 Join A Class
+    
+    form#join-class-form.form-inline
+      .form-group
+        .help-block
+          em Ask your teacher if you have a CodeCombat class code! If so, enter it below:
+        input#class-code-input.form-control
+        input#join-class-button(type="submit" value="Join")
+        
+      if view.state === 'enrolling'
+        .progress.progress-striped.active
+          .progress-bar(style="width: 100%") Joining class
+  
+      if view.state === 'unknown_error'
+        .alert.alert-danger= view.stateMessage
+    
       
   #begin-hoc-area.hide
     h2.text-center(data-i18n="common.loading")
     .progress.progress-striped.active
       .progress-bar(style="width: 100%")
         
-mixin course-instance-entry(courseInstance, course, levels)
+        
+mixin course-instance-body(courseInstance)
+  - var course = view.courses.get(courseInstance.get('courseID'));
+  - var campaign = view.campaigns.get(course.get('CampaignID'));
+  - var levels = view.campaigns.levelsCollection();
+  if campaign.sessions.allDone()
+    .text-success
+      span.glyphicon.glyphicon-ok
+      span.spl Course Complete!
+  .pull-right
+    if campaign.sessions.allDone()
+      - var arenaLevel = sessions.findWhere({ type: 'course-ladder' });
+      - var arenaURL = "/play/ladder/"+arenaLevel.get('slug')+"/course/"+courseInstance.id;
+      a.btn.btn-warning.btn-lg(href=arenaURL)
+        | Play Arena
+    else if campaign.sessions.size()
+      - var lastSession = campaign.sessions.last();
+      - var lastLevel = levels.findWhere({original: lastSession.get('level').original});
+      - var levelURL = "/play/level/"+lastLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="courseInstance.id;
+      a.btn.btn-success.btn-lg(href=levelURL)
+        | Continue
+    else
+      - var firstLevel = levels.first();
+      - var levelURL = "/play/level/"+firstLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="courseInstance.id;
+      a.btn.btn-info.btn-lg(href=levelURL)
+        | Start

@@ -13,6 +13,15 @@ module.exports = class CourseInstance extends CocoModel
     }
     _.extend options, opts
     @fetch(options)
+    
+  addMember: (userID) ->
+    options = {
+      method: 'POST'
+      url: _.result(@, 'url') + '/~/members'
+      data: { userID: userID }
+    }
+    _.extend options, opts
+    @fetch(options)
 
   firstLevelURL: ->
     "/play/level/course-dungeons-of-kithgard?course=#{@get('courseID')}&course-instance=#{@id}"

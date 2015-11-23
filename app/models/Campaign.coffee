@@ -1,5 +1,6 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/campaign.schema'
+Level = require 'models/Level'
 
 module.exports = class Campaign extends CocoModel
   @className: 'Campaign'
@@ -8,3 +9,6 @@ module.exports = class Campaign extends CocoModel
   saveBackups: true
   @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['unlocks', 'position', 'rewards']))
   @denormalizedCampaignProperties: ['name', 'i18n', 'slug']
+  
+  levelsCollection: ->
+    new CocoCollection(_.values(@get('levels')), {model: Level})
