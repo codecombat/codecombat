@@ -51,7 +51,7 @@ block content
         .course-instance-entry
           h2
             span.spr Hour of Code: Course 1
-            span.spr= (view.hocCourseInstance.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'
+            span.spr= (me.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'
             small
               a#change-language-link change language
           +course-instance-body(hocCourseInstance)

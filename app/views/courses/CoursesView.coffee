@@ -4,6 +4,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/courses/courses-view'
 StudentLogInModal = require 'views/courses/StudentLogInModal'
 StudentSignUpModal = require 'views/courses/StudentSignUpModal'
+ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
 CourseInstance = require 'models/CourseInstance'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
@@ -22,6 +23,7 @@ module.exports = class CoursesView extends RootView
     'click #start-new-game-btn': 'onClickStartNewGameButton'
     'click #join-class-btn': 'onClickJoinClassButton'
     'submit #join-class-form': 'onSubmitJoinClassForm'
+    'click #change-language-link': 'onClickChangeLanguageLink'
   
   initialize: ->
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
@@ -125,3 +127,7 @@ module.exports = class CoursesView extends RootView
         @state = ''
         @render()
         delete newClassroom.justAdded
+        
+  onClickChangeLanguageLink: ->
+    modal = new ChangeCourseLanguageModal()
+    @openModalView(modal)
