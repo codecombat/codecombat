@@ -849,7 +849,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     track_concepts2a: "aprendido por cada estudante"
     track_concepts2b: "aprendido por cada membro"
     track_concepts3a: "Rastrear níveis completados por cada estudante"
-    track_concepts3b: "Track levels completed for each memberRastrear níveis completados por cada membro"
+    track_concepts3b: "Rastrear níveis completados por cada membro"
     track_concepts4a: "Ver seus alunos'"
     track_concepts4b: "Ver seus membros'"
     track_concepts5: "soluções"
