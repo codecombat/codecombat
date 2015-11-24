@@ -268,6 +268,7 @@ module.exports = class SpectateLevelView extends RootView
 
   onNextGamePressed: (e) ->
     @fetchRandomSessionPair (err, data) =>
+      return if @destroyed
       if err? then return console.log "There was an error fetching the random session pair: #{data}"
       @sessionOne = data[0]._id
       @sessionTwo = data[1]._id

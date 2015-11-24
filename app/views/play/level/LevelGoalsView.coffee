@@ -12,12 +12,12 @@ module.exports = class LevelGoalsView extends CocoView
   template: template
   className: 'secret expanded'
   playbackEnded: false
-  mouseEntered: false
 
   subscriptions:
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'tome:cast-spells': 'onTomeCast'
     'level:set-letterbox': 'onSetLetterbox'
+    'level:set-playing': 'onSetPlaying'
     'surface:playback-restarted': 'onSurfacePlaybackRestarted'
     'surface:playback-ended': 'onSurfacePlaybackEnded'
 
@@ -84,6 +84,13 @@ module.exports = class LevelGoalsView extends CocoView
     @$el.find('.goal-status').addClass('secret')
     @$el.find('.goal-status.running').removeClass('secret')
 
+  onSetPlaying: (e) ->
+    return unless e.playing
+    # Automatically hide it while we replay
+    @mouseEntered = false
+    @expanded = true
+    @updatePlacement()
+
   onSurfacePlaybackRestarted: ->
     @playbackEnded = false
     @$el.removeClass 'brighter'
@@ -105,11 +112,17 @@ module.exports = class LevelGoalsView extends CocoView
     @normalHeight = @$el.outerHeight()
 
   updatePlacement: ->
-    expand = @playbackEnded or @mouseEntered
+    # Expand it if it's at the end. Mousing over reverses this.
+    expand = @playbackEnded isnt @mouseEntered
     return if expand is @expanded
     @updateHeight()
     sound = if expand then 'goals-expand' else 'goals-collapse'
-    top = if expand then -5 else 41 - (@normalHeight ? @$el.outerHeight())
+    if expand
+      top = -5
+    else
+      height = @normalHeight
+      height = @$el.outerHeight() if not height or @playbackEnded
+      top = 41 - height
     @$el.css 'top', top
     if @soundTimeout
       # Don't play the sound we were going to play after all; the transition has reversed.
