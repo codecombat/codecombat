@@ -616,11 +616,15 @@
     cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "There are 110+ FREE levels which cover every concept."
     free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
-    teacher_subs_title: "Teachers get free subscriptions!"
-    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+    free_3: "The CodeCombat content is divided into"
+    free_4: "courses"
+    free_5: ".  The first course is free, and about an hour of material."
+    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Teachers get a free trial!" # {change}
+    teacher_subs_0: "We offer free trials to teachers." # {change}
     teacher_subs_1: "Please fill out our"
     teacher_subs_2: "Teacher Survey"
-    teacher_subs_3: "to set up your subscription."
+    teacher_subs_3: "to try out the paid courses." # {change}
     sub_includes_title: "What is included in the subscription?"
     sub_includes_1: "In addition to the 110+ basic levels, students with a monthly subscription get access to these additional features:"
     sub_includes_2: "80+ practice levels"
