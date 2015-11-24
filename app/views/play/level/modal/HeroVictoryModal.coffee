@@ -120,8 +120,10 @@ module.exports = class HeroVictoryModal extends ModalView
       @thangTypes[thangTypeOriginal] = @supermodel.loadModel(thangType, 'thang').model
 
     @newEarnedAchievements = []
+    hadOneCompleted = false
     for achievement in @achievements.models
       continue unless achievement.completed
+      hadOneCompleted = true
       ea = new EarnedAchievement({
         collection: achievement.get('collection')
         triggeredBy: @session.id
@@ -137,7 +139,7 @@ module.exports = class HeroVictoryModal extends ModalView
             @updateSavingProgressStatus()
           me.fetch cache: false unless me.loading
 
-    @readyToContinue = true if not @achievements.models.length
+    @readyToContinue = true unless hadOneCompleted
 
     # have to use a something resource because addModelResource doesn't handle models being upserted/fetched via POST like we're doing here
     @newEarnedAchievementsResource = @supermodel.addSomethingResource('earned achievements') if @newEarnedAchievements.length
