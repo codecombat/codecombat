@@ -269,6 +269,7 @@ mixin levels-tab
     tbody
       if campaign
         - var lastLevelCompleted = true;
+        - var levelCount = 0;
         each level, levelID in campaign.get('levels')
           tr
             td
@@ -281,7 +282,7 @@ mixin levels-tab
                 - lastLevelCompleted = userLevelStateMap[me.id][levelID] === 'complete'
               else
                 - lastLevelCompleted = false
-            td= level.name.replace('Course: ', '')
+            td= ++levelCount + '. ' + level.name.replace('Course: ', '')
             td
               if levelConceptMap[levelID]
                 each concept in course.get('concepts')

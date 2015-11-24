@@ -61,6 +61,7 @@ LevelHandler = class LevelHandler extends Handler
     'tasks'
     'helpVideos'
     'campaign'
+    'campaignIndex'
     'replayable'
     'buildTime'
     'scoreTypes'
