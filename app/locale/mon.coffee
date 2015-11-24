@@ -3,45 +3,45 @@ module.exports = nativeDescription: "Монгол (Мон)", englishDescription:
 #    slogan: "Тоглоом тоглонгоо код бичиж сураарай"
 #    no_ie: "Кодкомбат Интернэт Эксплорер 8 болон түүнээс хуучин хувилбарууд дээр ажиллахгүй. Уучилна биз дээ!" # Warning that only shows up in IE8 and older
 #    no_mobile: "Кодкомбат нь гар утсан дээр тоглохоор зохиогдоогүй тул ажиллахгүй байж магадгүй шүү!" # Warning that shows up on mobile devices
-#    play: "Play" # The big play button that opens up the campaign view.
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
-#    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+#    play: "Тоглох" # The big play button that opens up the campaign view.
+#    old_browser: "Өө балараа, браузер чинь Кодкомбат тоглоход хэтэрхий хуучин юм байна шдээ. Уучилна биз дээ!" # Warning that shows up on really old Firefox/Chrome/Safari
+#    old_browser_suffix: "За яахав, оролдоод үз үз. Гэхдээ бараг л ажиллахгүй байхаа даа."
+#    ipad_browser: "Муу мэдээ дуулгая: Кодкомбат iPad-ны браузер дээр ажилдаггүй юмаа. Сайн мэдээ дуулгая: Бидний iPad-д зориулсан аппликэйшн удахгүй Apple-аар батлагдах байх."
+#    campaign: "Үргэлжилсэн үе"
+#    for_beginners: "Анхлан суралцагчдад"
+#    multiplayer: "Олон тоглогчид" # Not currently shown on home page
+#    for_developers: "Хөгжүүлэгчдэд" # Not currently shown on home page.
+#    or_ipad: "Эсвэл iPad-ны хувилбар татаж авах"
 
 #  nav:
-#    play: "Levels" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
-#    admin: "Admin" # Only shows up when you are an admin
-#    home: "Home"
-#    contribute: "Contribute"
-#    legal: "Legal"
-#    about: "About"
-#    contact: "Contact"
-#    twitter_follow: "Follow"
-#    teachers: "Teachers"
-#    careers: "Careers"
+#    play: "Үеүүд" # The top nav bar entry where players choose which levels to play
+#    community: "Групп"
+#    editor: "Редактор"
+#    blog: "Блог"
+#    forum: "Форум"
+#    account: "Данс"
+#    profile: "Профайл"
+#    stats: "Статистик"
+#    code: "Код"
+#    admin: "Админ" # Only shows up when you are an admin
+#    home: "Нүүр хуудас"
+#    contribute: "Туслах"
+#    legal: "Хуулийн мэдэгдэл"
+#    about: "Бидний тухай"
+#    contact: "Холбоо барих"
+#    twitter_follow: "Дагах"
+#    teachers: "Багш нар"
+#    careers: "Ажлын байр"
 
 #  modal:
-#    close: "Close"
-#    okay: "Okay"
+#    close: "Хаах"
+#    okay: "Ойлголоо"
 
 #  not_found:
-#    page_not_found: "Page not found"
+#    page_not_found: "Хуудас олдсонгүй"
 
 #  diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+#    title: "Кодкомбатыг орчуулахад туслаарай!" # This shows up when a player switches to a non-English language using the language selector.
 #    sub_heading: "We need your language skills."
 #    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
 #    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
