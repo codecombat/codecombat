@@ -5,11 +5,12 @@ block modal-header-content
 
 block modal-body-content
   
-  h4.language-selection(data-i18n="ladder.select_your_language") Select your language!
-  .form-group.select-group
-    select#tome-language(name="language")
-      for option in languages
-        option(value=option.id selected=(language === option.id))= option.name
+  if view.level.get('type') != 'course-ladder'
+    h4.language-selection(data-i18n="ladder.select_your_language") Select your language!
+    .form-group.select-group
+      select#tome-language(name="language")
+        for option in languages
+          option(value=option.id selected=(language === option.id))= option.name
 
   div#noob-view.secret
     a(href="/play/level/#{levelID}-tutorial" + (league ? "?league=" + league.id : "")).btn.btn-success.btn-block.btn-lg
