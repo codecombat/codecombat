@@ -62,7 +62,9 @@ block content
           - var classroomClass = classroom.justAdded ? 'just-added' : '';
           if classroom.justAdded
             .text-center.text-info Class successfully added!
-          div(class=classroomClass) // sigh
+
+          //- sigh
+          div(class=classroomClass)
             h2
               span.spr= classroom.get('name')
               span.spr (#{(view.hocCourseInstance.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'})
@@ -92,7 +94,7 @@ block content
       if view.state === 'enrolling'
         .progress.progress-striped.active
           .progress-bar(style="width: 100%") Joining class
-  
+    
       if view.state === 'unknown_error'
         .alert.alert-danger= view.stateMessage
     
@@ -120,11 +122,11 @@ mixin course-instance-body(courseInstance)
     else if campaign.sessions.size()
       - var lastSession = campaign.sessions.last();
       - var lastLevel = levels.findWhere({original: lastSession.get('level').original});
-      - var levelURL = "/play/level/"+lastLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="courseInstance.id;
+      - var levelURL = "/play/level/"+lastLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
       a.btn.btn-success.btn-lg(href=levelURL)
         | Continue
     else
       - var firstLevel = levels.first();
-      - var levelURL = "/play/level/"+firstLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="courseInstance.id;
+      - var levelURL = "/play/level/"+firstLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
       a.btn.btn-info.btn-lg(href=levelURL)
         | Start
