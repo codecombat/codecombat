@@ -859,7 +859,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     track_concepts8: "para se juntar"
     private_require_sub: "Clãs particulares requerem uma assinatura para criar ou juntar-se."
 
-#  courses:
+  courses:
     course: "Curso"
     courses: "cursos"
     not_enrolled: "Você não está matriculado nesse curso."
