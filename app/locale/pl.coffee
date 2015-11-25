@@ -31,7 +31,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     contact: "Kontakt"
     twitter_follow: "Subskrybuj"
     teachers: "Nauczyciele"
-#    careers: "Careers"
+    careers: "Kariera"
 
   modal:
     close: "Zamknij"
@@ -159,9 +159,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     accepted: "Przyjęto"
     rejected: "Odrzucono"
     withdrawn: "Wycofano"
-#    accept: "Accept"
-#    reject: "Reject"
-#    withdraw: "Withdraw"
+    accept: "Akceptuj"
+    reject: "Odrzuć"
+    withdraw: "Wycofaj"
     submitter: "Przesyłający"
     submitted: "Przesłano"
     commit_msg: "Wiadomość do commitu"
@@ -217,8 +217,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
   play_level:
     done: "Zrobione"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+    next_game: "Następna gra"
+    show_menu: "Pokaż menu gry"
     home: "Strona główna" # Not used any more, will be removed soon.
     level: "Poziom" # Like "Level: Dungeons of Kithgard"
     skip: "Pomiń"
@@ -527,8 +527,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
   skill_docs:
     writable: "zapisywalny" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "tylko do odczytu"
-#    action: "Action"
-#    spell: "Spell"
+    action: "Akcja"
+    spell: "Zaklęcie"
     action_name: "nazwa"
     action_cooldown: "Zajmuje"
     action_specific_cooldown: "Odpoczynek"
@@ -859,9 +859,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    track_concepts8: "to join"
 #    private_require_sub: "Private clans require a subscription to create or join."
 
-#  courses:
-#    course: "Course"
-#    courses: "courses"
+  courses:
+    course: "Kurs"
+    courses: "kursy"
 #    not_enrolled: "You are not enrolled in this course."
 #    visit_pref: "Please visit the"
 #    visit_suf: "page to enroll."
@@ -872,8 +872,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    edit_settings: "edit class settings"
 #    edit_settings1: "Edit Class Settings"
 #    progress: "Class Progress"
-#    add_students: "Add Students"
-#    stats: "Statistics"
+    add_students: "Dodaj Studentów"
+    stats: "Statystyki"
 #    total_students: "Total students:"
 #    average_time: "Average level play time:"
 #    total_time: "Total play time:"
@@ -881,8 +881,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    total_levels: "Total levels completed:"
 #    furthest_level: "Furthest level completed:"
 #    concepts_covered: "Concepts Covered"
-#    students: "Students"
-#    students1: "students"
+    students: "Studenci"
+    students1: "studenci"
 #    expand_details: "Expand details"
 #    concepts: "Concepts"
 #    levels: "levels"
@@ -896,7 +896,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    capacity_used: "Course slots used:"
 #    enter_emails: "Enter student emails to invite, one per line"
 #    send_invites: "Send Invites"
-#    title: "Title"
+    title: "Tytuł"
 #    description: "Description"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
@@ -938,9 +938,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
-#    enter: "Enter"
-#    or: "Or"
-#    topics: "Topics"
+    enter: "Enter"
+    or: "Lub"
+    topics: "Tematy"
 #    hours_content: "Hours of content:"
 #    get_free: "Get FREE course"
 
@@ -1185,12 +1185,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    tournament_blurb_blog: "on our blog"
     rules: "Zasady"
     winners: "Zwycięzcy"
-#    league: "League"
+    league: "Liga"
 #    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
 #    blue_ai: "Blue AI"
 #    wins: "Wins" # At end of multiplayer match playback
-#    humans: "Red" # Ladder page display team name
-#    ogres: "Blue"
+    humans: "Czerwoni" # Ladder page display team name
+    ogres: "Niebiescy"
 
   user:
     stats: "Statystyki"
@@ -1227,7 +1227,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    sale: "Sale"
     subscription: "Subskrypcje"
     invoices: "Faktury"
-#    service_apple: "Apple"
+    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
 #    service: "Service"
@@ -1287,7 +1287,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     bad_input: "Złe dane wejściowe."
     server_error: "Błąd serwera."
     unknown: "Nieznany błąd."
-#    error: "ERROR"
+    error: "BŁĄD"
 
   resources:
     sessions: "Sesje"
@@ -1306,7 +1306,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     patches: "Łatki"
     patched_model: "Dokument źródłowy"
     model: "Model"
-#    system: "System"
+    system: "System"
 #    systems: "Systems"
     component: "Komponent"
     components: "Komponenty"
