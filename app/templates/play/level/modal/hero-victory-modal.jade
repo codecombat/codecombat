@@ -11,6 +11,19 @@ block modal-body-content
   if victoryText
     #victory-text= victoryText
 
+  if isCourseLevel
+    .container-fluid
+      .row
+        .col-md-6
+          if currentLevelName
+            .level-title Completed Level:
+            .level-name= currentLevelName
+        .col-md-6
+          if nextLevelName
+            .level-title Next Level:
+            .level-name= nextLevelName
+    br
+
   #level-feedback
     div.rating.secret
       div.rating-label(data-i18n="play_level.victory_rate_the_level") Rate the level:

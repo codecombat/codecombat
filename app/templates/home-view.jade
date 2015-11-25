@@ -16,11 +16,18 @@ block outer_content
   //a(href="https://itunes.apple.com/us/app/codecombat/id936523909?mt=8")
   //  img(src="/images/pages/home/app_store_badge.svg")#apple-store-button
 
-  // Example of how to throw down a temporary news link
-  //#news
-  //  a(href="/play/ladder/ace-of-coders", data-i18n="temp.ace_of_coders_tournament") New: play in the Ace of Coders tournament now!
-  
-  #slogan(data-i18n="home.slogan")
+  //- Example of how to throw down a temporary news link
+  //- #news
+  //-   a(href="/play/ladder/ace-of-coders", data-i18n="temp.ace_of_coders_tournament") New: play in the Ace of Coders tournament now!
+
+  //- TODO: Delete HoC section and replace with slogan below
+  #hour-of-code
+    h1(data-i18n="home.hoc_title")
+    div
+      a.btn.btn-lg.btn-info.btn-class-code(href='/courses/students', data-i18n="home.hoc_class_code")
+      a.btn.btn-lg.btn-success.btn-enter(href='/hoc', data-i18n="home.hoc_enter")
+
+  //- #slogan(data-i18n="home.slogan")
 
   //- TODO: This does not work on IE8
   .alert.alert-danger.lt-ie9
