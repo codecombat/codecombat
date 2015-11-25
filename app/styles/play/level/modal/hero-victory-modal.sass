@@ -25,9 +25,9 @@
         margin-top: -130px
         #victory-header
           display: none
-  
+
   //- Header
-  
+
   .background-wrapper
     //background: url("/images/pages/play/level/modal/victory_modal_background.png")
     width: 750px
@@ -57,10 +57,10 @@
       text-align: center
       background: transparent url(/images/pages/play/level/modal/victory_hero.png) no-repeat
       background-position: center -88px
-  
+
       &.out
         @include scale(0)
-    
+
       #victory-title
         display: inline-block
         margin-top: 74px
@@ -73,14 +73,14 @@
           margin: 0
           padding: 0
           text-shadow: black 8px 8px 0, black -8px -8px 0, black 8px -8px 0, black -8px 8px 0, black 8px 0px 0, black 0px -8px 0, black -8px 0px 0, black 0px 8px 0
-    
+
   //- Achievement panels
-  
+
   .modal-body
     padding: 0 20px
     min-height: 30px
     margin-top: 160px
-  
+
   .achievement-panel
     background: transparent url("/images/pages/play/level/modal/victory_modal_shelf.png") no-repeat center 73px
     width: 824px
@@ -127,9 +127,9 @@
     top: 0
     @include flexbox()
     @include flex-justify-center()
-    
+
   //- Reward panels
-  
+
   .reward-panel
     background: url("/images/pages/play/level/modal/reward_plate.png")
     width: 77px
@@ -167,10 +167,10 @@
 
       @include scale(0)
       @include transition-duration(0.5s)
-      
+
       &.show
         @include scale(1)
-      
+
       &.pending-reward-image
         img
           -webkit-filter: brightness(2000%) contrast(25%)
@@ -202,7 +202,7 @@
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis
-    
+
   //- Pulse effect
 
   +keyframes(rewardPulse)
@@ -222,7 +222,7 @@
 
   .gems .pulse
     @include animation(rewardPulse 0.25s infinite)
-    
+
 
   //- Footer - totals
 
@@ -282,7 +282,7 @@
         margin-top: 3px
         position: relative
         float: left
-      
+
         .xp-bar-already-achieved
           background-color: rgb(166, 213, 88)
           //background-color: white
@@ -290,7 +290,7 @@
           height: 100%
           position: absolute
           z-index: 1
-      
+
         .xp-bar-total
           background-color: rgb(253, 171, 45)
           border: 1px solid rgb(239, 177, 73)
@@ -300,13 +300,13 @@
 
 
   //- Footer - other stuff
-  
+
   .modal-footer
     // Negative bottom margin counteracts most of the extra the border image height.
     margin: 0 0 -80px 0
     padding: 0 20px
     text-align: center
-    
+
   .sign-up-poke
     width: 430px
 
@@ -328,7 +328,7 @@
       line-height: 30px
       margin: 0
       float: left
-    
+
   .leaderboard-button, .courses-button
     height: 60px
     line-height: 30px
@@ -397,6 +397,26 @@
     padding: 30px 13px 0 13px
     margin-bottom: 35px
     font-size: 24px
+    color: white
+    font-weight: bold
+    text-transform: uppercase
+    font-family: $headings-font-family
+    text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+  .level-title
+    z-index: 1
+    margin: 10px
+    font-size: 24px
+    color: $hero-yellow-text
+    font-weight: bold
+    text-transform: uppercase
+    font-family: $headings-font-family
+    text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+  .level-name
+    z-index: 1
+    text-align: center
+    font-size: 18px
     color: white
     font-weight: bold
     text-transform: uppercase

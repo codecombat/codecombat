@@ -209,6 +209,9 @@ module.exports = class HeroVictoryModal extends ModalView
     c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and @level.get('type', true) isnt 'course'
 
     c.showReturnToCourse = not c.showLeaderboard and not me.get('anonymous') and @level.get('type', true) in ['course', 'course-ladder']
+    c.isCourseLevel = @level.get('type', true) in ['course']
+    c.currentLevelName = @level?.get('name')
+    c.nextLevelName = @nextLevel?.get('name')
 
     return c
 
