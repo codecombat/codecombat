@@ -3,6 +3,29 @@
 
 #home-view
 
+  #hour-of-code
+    top: 632px
+    height: 190px
+    width: 400px
+    padding: 15px
+    border: 0
+    background: transparent url(/images/pages/play/level-info-background.png) no-repeat center center
+    background-size: 100% 100%
+
+    @media screen and ( max-height: 800px )
+      top: 382px
+    h1
+      color: rgb(255,253,149)
+      text-shadow: 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black
+    .btn-class-code
+      float: left
+      margin-left: 10px
+      margin-top: 10px
+    .btn-enter
+      float: right
+      margin-right: 10px
+      margin-top: 10px
+
   #kids-coding-container
     $coding-image-size: 272px
     position: relative
@@ -29,8 +52,8 @@
     height: 626px
     @media screen and ( max-height: 800px )
       height: 510px
-    
-  #play-button, #or-ipad, #apple-store-button, #slogan, .alert, #news
+
+  #play-button, #or-ipad, #apple-store-button, #slogan, .alert, #news, #hour-of-code
     text-align: center
     text-transform: uppercase
     font-weight: bold
@@ -40,7 +63,7 @@
     left: 0
     right: 0
     font-weight: bold
-  
+
   #play-button
     text-align: center
     padding-top: 170px
@@ -52,15 +75,15 @@
     height: 219px
     @media screen and ( max-height: 800px )
       top: 78px
-      
+
     background-image: url(/images/pages/home/play_button.png)
     background-position: 0 219px
-    
+
     &:hover
       background-position: 0 0
       color: rgb(230,180,75)
       text-decoration: none
-    
+
   #or-ipad
     top: 540px
     color: rgb(119,101,84)
@@ -69,7 +92,7 @@
 
     @media screen and ( max-height: 800px )
       top: 310px
-    
+
   #apple-store-button
     top: 593px
     height: 63px
@@ -113,18 +136,6 @@
   .alert
     top: 213px
     border: 5px solid darkred
-
-  &.hour-of-code
-    #site-footer
-      background-color: rgb(70, 58, 44)
-      height: 185px
-
-      .hour-of-code-explanation
-        color: #9e8777
-        text-align: center
-
-        a
-          color: lighten(#0b63bc, 10%)
 
 body[lang='ru'], body[lang^='de'], body[lang^='pt-BR'], body[lang='pl'], body[lang='tr'], body[lang^='nl'], body[lang^='cs'], body[lang^='sv'], body[lang^='el'], body[lang^='hu'], body[lang^='bg']
   #home-view #slogan

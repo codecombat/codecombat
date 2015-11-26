@@ -11,6 +11,23 @@ block modal-body-content
   if victoryText
     #victory-text= victoryText
 
+  if isCourseLevel
+    if currentCourseName
+      p
+        span.spr.level-title(data-i18n="play_level.course")
+        span.level-name= currentCourseName
+    .container-fluid
+      .row
+        .col-md-6
+          if currentLevelName
+            .level-title(data-i18n="play_level.completed_level")
+            .level-name= currentLevelName.replace('Course: ', '')
+        .col-md-6
+          if nextLevelName
+            .level-title(data-i18n="play_level.next_level")
+            .level-name= nextLevelName.replace('Course: ', '')
+    br
+
   #level-feedback
     div.rating.secret
       div.rating-label(data-i18n="play_level.victory_rate_the_level") Rate the level:

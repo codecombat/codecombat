@@ -14,6 +14,7 @@ var analyticsStringIDCache = {};
 // *** Helper functions ***
 
 function log(str) {
+  str = Array.prototype.slice.call(arguments).join(' ');
   print(new Date().toISOString() + " " + str);
 }
 
@@ -24,7 +25,7 @@ function objectIdWithTimestamp(timestamp) {
   var hexSeconds = Math.floor(timestamp/1000).toString(16);
   // Create an ObjectId with that hex timestamp
   var constructedObjectId = ObjectId(hexSeconds + "0000000000000000");
-  return constructedObjectId
+  return constructedObjectId;
 }
 
 function getAnalyticsString(strID) {
@@ -47,7 +48,7 @@ function getAnalyticsStringID(str) {
   throw new Error("ERROR: Did not find analytics.strings insert for: " + str);
 }
 
-function getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs) {
+function getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs, logDB) {
   if (!startDay || !eventFunnel || eventFunnel.length === 0 || !testGroupFn) return {};
 
   // log('getFunnelData:');
@@ -56,13 +57,14 @@ function getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs) {
 
   var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
   var queryParams = {$and: [{_id: {$gte: startObj}},{"event": {$in: eventFunnel}}]};
-  var cursor = db['analytics.log.events'].find(queryParams);
+  var cursor = (logDB.log || db['analytics.log.events']).find(queryParams);
 
   log("Fetching events..");
   // Map ordering: level, user, event, day
   var levelUserEventMap = {};
   var levelSessions = [];
   var users = [];
+  var eventsCounted = 0;
   while (cursor.hasNext()) {
     var doc = cursor.next();
     var created = doc._id.getTimestamp().toISOString();
@@ -72,10 +74,12 @@ function getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs) {
     var user = doc.user.valueOf();
     var level = 'n/a';
     var ls = null;
+    if (eventsCounted++ % 10000 == 0)
+      log("Counted", eventsCounted, "events, up to", created);
 
     // TODO: Switch to properties.levelID for 'Saw Victory'
     if (event === 'Saw Victory' && properties.level) level = properties.level.toLowerCase().replace(/ /g, '-');
-    else if (properties.levelID) level = properties.levelID
+    else if (properties.levelID) level = properties.levelID;
 
     if (levelSlugs && levelSlugs.indexOf(level) < 0) continue;
 
@@ -101,33 +105,52 @@ function getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs) {
 
   log("Fetching users..");
   var userGroupMap = {};
-  cursor = db['users'].find({_id : {$in: users}});
-  while (cursor.hasNext()) {
-    var doc = cursor.next();
-    var user = doc._id.valueOf();
-    userGroupMap[user] = testGroupFn(doc.testGroupNumber);
+  var groupSubscribedMap = {};
+  var countedSubscriberMap = {};
+  for (var userOffset = 0; userOffset < users.length; userOffset += 1000) {
+    cursor = db['users'].find({_id : {$in: users.slice(userOffset, userOffset + 1000)}});
+    while (cursor.hasNext()) {
+      var doc = cursor.next();
+      var user = doc._id.valueOf();
+      userGroupMap[user] = group = testGroupFn(doc.testGroupNumber);
+      if (!countedSubscriberMap[doc._id + ''] &&
+          doc.created >= ISODate(startDay + "T00:00:00.000Z") &&
+          doc.stripe &&
+          doc.stripe.customerID &&
+          doc.purchased &&
+          doc.purchased.gems &&
+          !doc.stripe.free
+        ) {
+          countedSubscriberMap[doc._id + ''] = true;
+          groupSubscribedMap[group] = (groupSubscribedMap[group] || 0) + 1;
+        }
+    }
+    log("Fetched", Math.min(userOffset, users.length), "users");
   }
   // printjson(userGroupMap);
 
   log("Fetching level sessions..");
   var lsBrowserMap = {};
   var userBrowserMap = {};
-  cursor = db['level.sessions'].find({_id : {$in: levelSessions}});
-  while (cursor.hasNext()) {
-    var doc = cursor.next();
-    var user = doc._id.valueOf();
-    var browser = doc.browser;
-    var browserInfo = '';
-    if (browser && browser.platform) {
-      browserInfo += browser.platform;
+  for (var sessionOffset = 0; sessionOffset < levelSessions.length; sessionOffset += 1000) {
+    cursor = db['level.sessions'].find({_id : {$in: levelSessions.slice(sessionOffset, sessionOffset + 1000)}});
+    while (cursor.hasNext()) {
+      var doc = cursor.next();
+      var user = doc._id.valueOf();
+      var browser = doc.browser;
+      var browserInfo = '';
+      if (browser && browser.platform) {
+        browserInfo += browser.platform;
+      }
+      if (browser && browser.name) {
+        browserInfo += browser.name;
+      }
+      if (browserInfo.length > 0) {
+        lsBrowserMap[doc._id.valueOf()] = browserInfo;
+        userBrowserMap[user] = browserInfo;
+      }
     }
-    if (browser && browser.name) {
-      browserInfo += browser.name;
-    }
-    if (browserInfo.length > 0) {
-      lsBrowserMap[doc._id.valueOf()] = browserInfo;
-      userBrowserMap[user] = browserInfo;
-    }
+    log("Fetched", Math.min(sessionOffset, levelSessions.length), "sessions");
   }
   // printjson(lsBrowserMap);
 
@@ -237,6 +260,8 @@ function getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs) {
     }
     return a.group < b.group ? -1 : 1;
   });
+
+  log("Subscribers by group:", JSON.stringify(groupSubscribedMap, null, 2));
 
   return funnelData;
 }

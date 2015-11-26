@@ -6,17 +6,10 @@ block content
   p
     strong Hi Teachers!
   p We're excited to participate in Hour of Code this year!
-  p We've set up an Introduction to Computer Science course, just for you.
   p
-    strong How to use CodeCombat with your students:
-    ol
-      li
-        span.spr Navigate to the
-        a(href='/courses/teachers?hoc=true') Courses
-        span.spl page
-      li Click the green 'Get FREE course' button under Introduction to Computer Science
-      li Follow the enrollment instructions
-      li Add students via the 'Add Students' tab
+    span.spr Navigate to the
+    a(href='/courses/teachers?hoc=true') CodeCombat Courses
+    span.spl page to get started.
   p
     span.spr If you have any problems, please email
     a(href='mailto:team@codecombat.com') team@codecombat.com
@@ -25,143 +18,26 @@ block content
   h2(data-i18n="teachers.more_info")
   p(data-i18n="teachers.intro_1")
   p(data-i18n="teachers.intro_2")
-
+  
   h3(data-i18n="teachers.free_title")
-  if me.isOnPremiumServer()
-    p(data-i18n="teachers.cost_premium_server")
-  else
-    p(data-i18n="teachers.free_1")
-    p(data-i18n="teachers.free_2")
-
+  p
+    span.spr(data-i18n="teachers.free_3")
+    a(href='/courses', data-i18n="teachers.free_4")
+    span(data-i18n="teachers.free_5")
+  p(data-i18n="teachers.free_6")
+  p
+    span.spr For more details, please email
+    a(href='mailto:team@codecombat.com') team@codecombat.com
+  
   h3.teachers-title(data-i18n="teachers.teacher_subs_title")
+  p 
+    strong.spr Hour of Code Special!
+    span Complete the survey by December 31st and enroll all your students in the paid courses for 2 months.
   p(data-i18n="teachers.teacher_subs_0")
   p
     span.spr(data-i18n="teachers.teacher_subs_1")
     a(href='/teachers/freetrial', data-i18n="teachers.teacher_subs_2")
     span.spl(data-i18n="teachers.teacher_subs_3")
-
-  h3(data-i18n="teachers.sub_includes_title")
-  p(data-i18n="teachers.sub_includes_1")
-  ul
-    li(data-i18n="teachers.sub_includes_2")
-    li(data-i18n="teachers.sub_includes_3")
-    li(data-i18n="teachers.sub_includes_4")
-    li(data-i18n="teachers.sub_includes_5")
-    li(data-i18n="teachers.sub_includes_6")
-    li(data-i18n="teachers.sub_includes_7")
-
-  h3(data-i18n="teachers.who_for_title")
-  p(data-i18n="teachers.who_for_1")
-  p(data-i18n="teachers.who_for_2")
-
-  h3(data-i18n="teachers.monitor_progress_title")
-  p
-    span.spr(data-i18n="teachers.monitor_progress_1")
-    a(href='/clans', data-i18n="clans.clan")
-    span.spl(data-i18n="teachers.monitor_progress_2")
-  p
-    span.spr(data-i18n="teachers.monitor_progress_3")
-    a(href='/clans', data-i18n="clans.clans")
-    span.spl(data-i18n="teachers.monitor_progress_4")
-  p(data-i18n="teachers.monitor_progress_5")
-  h4(data-i18n="teachers.sub_includes_7")
-  ul
-    li
-      strong(data-i18n="clans.track_concepts1")
-      span.spl(data-i18n="clans.track_concepts2a")
-    li(data-i18n="clans.track_concepts3a")
-    li
-      span(data-i18n="clans.track_concepts4a")
-      strong.spl(data-i18n="clans.track_concepts5")
-    li(data-i18n="clans.track_concepts6a")
-    li
-      strong(data-i18n="clans.track_concepts7")
-      span.spl(data-i18n="clans.track_concepts8")
-  p
-    img(src='/images/pages/clans/dashboard_preview.png' height='400')
-  p
-    span.spr(data-i18n="teachers.private_clans_2")
-    a(href='/clans', data-i18n="clans.clan")
-    span(data-i18n="teachers.private_clans_3")
-  p(data-i18n="clans.private_require_sub")
-
-  h3(data-i18n="teachers.material_title")
-  if me.isOnPremiumServer()
-    p(data-i18n="teachers.material_premium_server")
-  else
-    p(data-i18n="teachers.material_1")
-
-  h3(data-i18n="teachers.concepts_title")
-
-  //- TODO: i18n for concepts?
-
-  table.table.table-condensed.concepts-table
-    thead
-      tr
-        th
-          a(href='/play/dungeon') Kithgard Dungeon
-        th
-          a(href='/play/forest') Backwoods Forest
-        th
-          a(href='/play/desert') Sarven Desert
-        th
-          a(href='/play/mountain') Cloudrip Mountain
-    tbody
-      tr
-        td Basic Syntax
-        td If Statements
-        td Arithmetic
-        td Object Literals
-      tr
-        td Methods
-        td Relational Operators
-        td While Loops
-        td For Loops
-      tr
-        td Parameters
-        td Object Properties
-        td Break Statements
-        td Functions
-      tr
-        td Strings
-        td Input Handling
-        td Arrays
-        td Drawing
-      tr
-        td Loops
-        td
-        td String Comparison
-        td Modulo
-      tr
-        td Variables
-        td
-        td Finding Min/Max
-        td
-
-  h3(data-i18n="teachers.how_much_title")
-  p
-    span(data-i18n="teachers.how_much_1")
-    span.spr.spl
-      a(href='/account/subscription', data-i18n="teachers.how_much_2")
-    span.spr.spl(data-i18n="teachers.how_much_3")
-  p
-    span.spr(data-i18n="teachers.how_much_5")
-    a(href='mailto:team@codecombat.com') team@codecombat.com
-    span.spl(data-i18n="teachers.how_much_6")
-  p(data-i18n="teachers.how_much_4")
-  h4
-    a(href='/account/subscription', data-i18n="subscribe.group_discounts")
-  p(data-i18n="subscribe.group_discounts_1")
-  table.table.table-condensed.discount-table
-    tr
-      td(data-i18n="subscribe.group_discounts_1st")
-      td(data-i18n="subscribe.group_discounts_full")
-    tr
-      td(data-i18n="subscribe.group_discounts_2nd")
-      td(data-i18n="subscribe.group_discounts_20")
-    tr
-      td(data-i18n="subscribe.group_discounts_12th")
-      td(data-i18n="subscribe.group_discounts_40")
 
   h3(data-i18n="teachers.more_info_title")
   p

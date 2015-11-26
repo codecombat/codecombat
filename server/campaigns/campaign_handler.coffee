@@ -57,14 +57,14 @@ CampaignHandler = class CampaignHandler extends Handler
     projection = {}
     if req.query.project
       projection[field] = 1 for field in req.query.project.split(',')
-    q = @modelClass.find {}, projection
+    q = @modelClass.find {type: 'hero'}, projection
     q.exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       formatCampaign = (doc) =>
         obj = @formatEntity(req, doc)
         obj.adjacentCampaigns = _.mapValues(obj.adjacentCampaigns, (a) -> _.pick(a, ['showIfUnlocked', 'color', 'name', 'description' ]))
         for original, level of obj.levels
-          obj.levels[original] = _.pick level, ['locked', 'disabled', 'original', 'rewards']
+          obj.levels[original] = _.pick level, ['locked', 'disabled', 'original', 'rewards', 'slug']
         obj
       documents = (formatCampaign(doc) for doc in documents)
       @sendSuccess(res, documents)

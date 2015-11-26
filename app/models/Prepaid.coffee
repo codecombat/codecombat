@@ -6,13 +6,14 @@ module.exports = class Prepaid extends CocoModel
   urlRoot: '/db/prepaid'
 
   openSpots: ->
-    @get('maxRedeemers') - @get('redeemers')?.length
+    return @get('maxRedeemers') - @get('redeemers')?.length if @get('redeemers')?
+    @get('maxRedeemers')
 
   userHasRedeemed: (userID) ->
     for redeemer in @get('redeemers')
       return redeemer.date if redeemer.userID is userID
     return null
-    
+
   initialize: ->
     @listenTo @, 'add', ->
       maxRedeemers = @get('maxRedeemers')

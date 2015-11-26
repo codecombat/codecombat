@@ -31,6 +31,7 @@ module.exports = class CastButtonView extends CocoView
     @updateReplayabilityInterval = setInterval @updateReplayability, 1000
     @observing = options.session.get('creator') isnt me.id
     @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders']
+    @autoSubmitsToLadder = @options.level.get('slug') in ['wakka-maul']
 
   destroy: ->
     clearInterval @updateReplayabilityInterval
@@ -101,10 +102,10 @@ module.exports = class CastButtonView extends CocoView
     @casting = false
     if @hasCastOnce  # Don't play this sound the first time
       @playSound 'cast-end', 0.5
-      # Worked great for live Ace of Coders tournament, but probably annoying for asynchronous tournament mode.
-      #myHeroID = if me.team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
-      #if @ladderSubmissionView and not e.world.thangMap[myHeroID]?.errorsOut
-      #  _.delay (=> @ladderSubmissionView?.rankSession()), 1000 if @ladderSubmissionView
+      # Worked great for live beginner tournaments, but probably annoying for asynchronous tournament mode.
+      myHeroID = if me.team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
+      if @autoSubmitsToLadder and not e.world.thangMap[myHeroID]?.errorsOut
+        _.delay (=> @ladderSubmissionView?.rankSession()), 1000 if @ladderSubmissionView
     @hasCastOnce = true
     @updateCastButton()
     @world = e.world

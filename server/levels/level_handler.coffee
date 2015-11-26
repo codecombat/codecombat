@@ -61,6 +61,7 @@ LevelHandler = class LevelHandler extends Handler
     'tasks'
     'helpVideos'
     'campaign'
+    'campaignIndex'
     'replayable'
     'buildTime'
     'scoreTypes'
@@ -236,11 +237,8 @@ LevelHandler = class LevelHandler extends Handler
 
   getLeaderboard: (req, res, id) ->
     sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)
-
-    sortParameters =
-      'totalScore': req.query.order
-    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage', 'heroConfig', 'leagues.leagueID', 'leagues.stats.totalScore', 'submitDate']
-
+    sortParameters = totalScore: req.query.order
+    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage', 'heroConfig', 'leagues.leagueID', 'leagues.stats.totalScore', 'submitDate', 'team']
     query = Session
       .find(sessionsQueryParameters)
       .limit(req.query.limit)
@@ -251,7 +249,13 @@ LevelHandler = class LevelHandler extends Handler
     query.exec (err, resultSessions) =>
       return @sendDatabaseError(res, err) if err
       resultSessions ?= []
-      @sendSuccess res, resultSessions
+      leaderboardOptions = find: sessionsQueryParameters, limit: req.query.limit, sort: sortParameters, select: selectProperties
+      @interleaveAILeaderboardSessions leaderboardOptions, resultSessions, (err, resultSessions) =>
+        return @sendDatabaseError(res, err) if err
+        if league = req.query['leagues.leagueID']
+          resultSessions = _.sortBy resultSessions, (session) -> _.find(session.get('leagues'), leagueID: league)?.stats.totalScore ? session.get('totalScore') / 2
+          resultSessions.reverse() if sortParameters.totalScore is -1
+        @sendSuccess res, resultSessions
 
   getMyLeaderboardRank: (req, res, id) ->
     req.query.order = 1
@@ -281,6 +285,36 @@ LevelHandler = class LevelHandler extends Handler
     req.query.scoreOffset = parseFloat(req.query.scoreOffset) ? 100000
     req.query.team ?= 'humans'
     req.query.limit = parseInt(req.query.limit) ? 20
+
+  ladderBenchmarkAIs: [
+    '564ba6cea33967be1312ae59'
+    '564ba830a33967be1312ae61'
+    '564ba91aa33967be1312ae65'
+    '564ba95ca33967be1312ae69'
+    '564ba9b7a33967be1312ae6d'
+  ]
+
+  interleaveAILeaderboardSessions: (leaderboardOptions, sessions, cb) ->
+    return cb null, sessions unless leaderboardOptions.find['leagues.leagueID']
+    return cb null, sessions if leaderboardOptions.limit < 10  # Don't put them in when we're fetching sessions around another session
+    # Get our list of benchmark AI sessions
+    benchmarkSessions = Session
+      .find(level: leaderboardOptions.find.level, creator: {$in: @ladderBenchmarkAIs})
+      .sort(leaderboardOptions.sort)
+      .select(leaderboardOptions.select.join ' ')
+      .cache()  # TODO: How long does this cache? We will probably want these to be pretty long.
+      .exec (err, aiSessions) ->
+        return cb err if err
+        matchingAISessions = _.filter aiSessions, (aiSession) ->
+          return false unless aiSession.get('team') is leaderboardOptions.find.team
+          return false if $gt = leaderboardOptions.find.totalScore.$gt and aiSession.get('totalScore') <= $gt
+          return false if $lt = leaderboardOptions.find.totalScore.$lt and aiSession.get('totalScore') >= $lt
+          true
+        # TODO: these aren't real league scores for AIs, but rather the general leaderboard scores, which will make most AI scores artificially high. So we divide by 2 for AI scores not part of the league. Pretty weak, I know. Eventually we'd want them to actually play league matches as if they were in all leagues, but without having infinite space requirements or something? Or change the UI to take them out of the main league table and into their separate area.
+        sessions = _.sortBy sessions.concat(matchingAISessions), (session) -> _.find(session.get('leagues'), leagueID: leaderboardOptions.find['leagues.leagueID'])?.stats.totalScore ? session.get('totalScore') / 2
+        sessions.reverse() if leaderboardOptions.sort.totalScore is -1
+        sessions = sessions.slice 0, leaderboardOptions.limit
+        return cb null, sessions
 
   getLeaderboardFacebookFriends: (req, res, id) -> @getLeaderboardFriends(req, res, id, 'facebookID')
   getLeaderboardGPlusFriends: (req, res, id) -> @getLeaderboardFriends(req, res, id, 'gplusID')
