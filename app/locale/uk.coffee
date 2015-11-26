@@ -12,10 +12,14 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     multiplayer: "Командна гра" # Not currently shown on home page
     for_developers: "Для розробників" # Not currently shown on home page.
     or_ipad: "Або завантажте на iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Грати" # The top nav bar entry where players choose which levels to play
     community: "Спільнота"
+#    courses: "Courses"
     editor: "Редактор"
     blog: "Блоґ"
     forum: "Форум"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   play:
     play_as: "Грати за" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Спостерігати" # Ladder page
     players: "гравці" # Hover over a level on /play
     hours_played: "годин зіграно" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     years: "років"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Готово"
+#    next_level: "Next Level:"
     next_game: "Наступна гра"
     show_menu: "Показати меню гри"
     home: "На головну" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     victory_title_suffix: " завершено"
     victory_sign_up: "Підписатись на оновлення"
     victory_sign_up_poke: "Хочете отримувати останні новини на email? Створіть безкоштовний акаунт, і ми будемо тримати Вас у курсі!"
-    victory_rate_the_level: "Оцінити рівень: " # Only in old-style levels.
+    victory_rate_the_level: "Оцінити рівень: " # {change}
     victory_return_to_ladder: "Повернутися до таблиці рівнів"
     victory_play_continue: "Продовжити"
     victory_saving_progress: "Триває збереження прогресу"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     cost_premium_server: "CodeCombat безкоштовний протягом перших п'яти рівнів, після чого він коштуватиму 9,99$ на місяць за доступ до інших наших 190+ рівнів на наших ексклюзивних серверах."
     free_1: "Є 110+ БЕЗКОШТОВНИХ рівнів, які охоплюють всі поняття."
     free_2: "Місячний абонемент надає доступ до відео-уроків і додаткових рівнів практики."
-    teacher_subs_title: "Вчителі отримують безкоштовні підписки!"
-    teacher_subs_0: "Ми пропонуємо безкоштовну передплату для тестування студентів."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Вчителі отримують безкоштовні підписки!" # {change}
+    teacher_subs_0: "Ми пропонуємо безкоштовну передплату для тестування студентів." # {change}
     teacher_subs_1: "Будь ласка, заповніть "
     teacher_subs_2: "Анкету Вчителя"
-    teacher_subs_3: "щоб налаштувати підписку."
+    teacher_subs_3: "щоб налаштувати підписку." # {change}
     sub_includes_title: "Що входить у підписку?"
     sub_includes_1: "На додаток до 110+ основних рівнів, студенти з щомісячною підпискою отримають доступ до цих додаткових функцій:"
     sub_includes_2: "80+ рівнів практики"
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     title: "Анкета вчителя"
     must_be_logged: "Спочатку необхідно увійти до екаунту. Будь ласка, створіть екаунт або увійдіть через меню вгорі."
     retrieving: "Отримання інформації..."
-    being_reviewed_1: "Ваша заявка на безкоштовну пробну підписку зараз"
+    being_reviewed_1: "Ваша заявка на безкоштовну пробну підписку зараз" # {change}
     being_reviewed_2: "розглядається."
-    approved_1: "Вашу заявку на безкоштовну пробну підписку було"
+    approved_1: "Вашу заявку на безкоштовну пробну підписку було" # {change}
     approved_2: "схвалено."
     approved_3: "Подальші інструкції були вислані на"
-    denied_1: "Вашу заявку на безкоштовну пробну підписку було"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+    denied_1: "Вашу заявку на безкоштовну пробну підписку було" # {change}
     denied_2: "відхилено."
     contact_1: "Будь ласка, зв'яжіться з"
     contact_2: ", якщо у вас залишилися питання."
-    description_1: "Ми пропонуємо безкоштовні підписки вчителям в цілях ознайомлення. Ви можете знайти більше інформації на нашій сторінці"
+    description_1: "Ми пропонуємо безкоштовні підписки вчителям в цілях ознайомлення. Ви можете знайти більше інформації на нашій сторінці" # {change}
+#    description_1b: "You can find more information on our"
     description_2: "вчителів"
     description_3: "."
     description_4: "Будь ласка, заповніть цю маленьку анкету і ми надішлемо вам інструкції з настановами на email."

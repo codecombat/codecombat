@@ -12,10 +12,14 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     multiplayer: "Moninpeli" # Not currently shown on home page
     for_developers: "Kehittäjille" # Not currently shown on home page.
     or_ipad: "Tai lataa iPad:ille"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Tasot" # The top nav bar entry where players choose which levels to play
     community: "Yhteisö"
+#    courses: "Courses"
     editor: "Editori"
     blog: "Blogi"
     forum: "Foorumi"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 
   play:
     play_as: "Pelaa" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Tarkkaile" # Ladder page
     players: "pelaajat" # Hover over a level on /play
     hours_played: "pelatut tunnit" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     years: "vuodet"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Valmis"
+#    next_level: "Next Level:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
 #    home: "Home" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     victory_title_suffix: " Valmis"
     victory_sign_up: "Kirjaudu"
     victory_sign_up_poke: "Haluatko tallettaa koodisi? Luo ilmainen tili!"
-#    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
+#    victory_rate_the_level: "How fun was this level?"
     victory_return_to_ladder: "Palaa liigaan"
     victory_play_continue: "Jatka"
     victory_saving_progress: "Tallennetaan edistymisesi"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "Käytössäsi on 110+ ILMAISTA tasoa, jotka kattavat koko ohjelmoinnin perustan."
     free_2: "Maksullinen kuukausitilaus avaa pääsyn video-oppaisiin ja lisätasoihin."
-    teacher_subs_title: "Opettajat saavat ilmaisen kuukausitilauksen!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Opettajat saavat ilmaisen kuukausitilauksen!" # {change}
+#    teacher_subs_0: "We offer free trials to teachers."
     teacher_subs_1: "Ole hyvä ja täytä"
     teacher_subs_2: "opettajan kysely"
-    teacher_subs_3: "ottaaksesi tilauksesi käyttöön."
+    teacher_subs_3: "ottaaksesi tilauksesi käyttöön." # {change}
     sub_includes_title: "Mitä kuukausitilaukseen kuuluu?"
     sub_includes_1: "110+ perustason lisäksi, kuukausitilaus avaa jokaiselle oppilaalle seuraavat edut:"
     sub_includes_2: "70+ lisätasoa" # {change}
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     title: "Opettajan kysely"
     must_be_logged: "Teidän täytyy olla kirjautuneena sisään. Ole hyvä ja luo tili tai kirjaudu sisään valikosta ylhäällä."
     retrieving: "Noudetaan tietoja..."
-    being_reviewed_1: "Hakemuksenne ilmaiseen tutustumistilaukseen on"
+    being_reviewed_1: "Hakemuksenne ilmaiseen tutustumistilaukseen on" # {change}
     being_reviewed_2: "käsittelyssä."
-    approved_1: "Hakemuksenne ilmaiseen tutustumistilaukseen on"
+    approved_1: "Hakemuksenne ilmaiseen tutustumistilaukseen on" # {change}
     approved_2: "hyväksytty."
     approved_3: "Jatko-ohjeet on lähetetty"
-    denied_1: "Hakemuksenne ilmaiseen tutustumistilaukseen on"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+    denied_1: "Hakemuksenne ilmaiseen tutustumistilaukseen on" # {change}
     denied_2: "hylätty."
     contact_1: "Ole hyvä ja ota yhteyttä"
     contact_2: "jos teillä on jotain kysyttävää asiasta."
-    description_1: "Tarjoamme ilmaista kuukausitilausta opettajille arviointikäyttöön. Lisätietoa tilauksesta saat"
+    description_1: "Tarjoamme ilmaista kuukausitilausta opettajille arviointikäyttöön. Lisätietoa tilauksesta saat" # {change}
+#    description_1b: "You can find more information on our"
     description_2: "opettajat"
     description_3: "sivulta."
     description_4: "Ole hyvä ja täytä alla oleva kysely, niin lähetämme teille ohjeet käyttöönottoa varten."
@@ -732,7 +748,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     admin: "Ylläpitäjä"
     new_password: "Uusi Salasana"
     new_password_verify: "Varmista"
-    type_in_email: "Anna sähköpostiosoitteesi varmistukseksi" # {change}
+    type_in_email: "Anna sähköpostiosoitteesi varmistukseksi"
 #    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "Kirjoita myös salasanasi."
     email_subscriptions: "Sähköpostitiedotteet"

@@ -12,10 +12,14 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     multiplayer: "マルチプレイヤー" # Not currently shown on home page
     for_developers: "開発者向け" # Not currently shown on home page.
     or_ipad: "又はiPadでダウンロード"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "ゲームマップへ" # The top nav bar entry where players choose which levels to play
     community: "コミュニティー"
+#    courses: "Courses"
     editor: "レベルエディター"
     blog: "ブログ"
     forum: "掲示板"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   play:
     play_as: "としてプレー" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "観戦" # Ladder page
     players: "プレイヤー" # Hover over a level on /play
     hours_played: "プレイ時間" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     years: "年"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "完了"
+#    next_level: "Next Level:"
     next_game: "次のゲーム"
     show_menu: "ゲームメニューを見る"
     home: "ホーム" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_title_suffix: "クリア"
     victory_sign_up: "進行状況をセーブするにはアカウント登録をしてください"
     victory_sign_up_poke: "あなたのコードをセーブしてみませんか? 無料アカウント登録!"
-    victory_rate_the_level: "このレベルの評価: " # Only in old-style levels.
+    victory_rate_the_level: "このレベルの評価: " # {change}
     victory_return_to_ladder: "ラダーに戻る"
     victory_play_continue: "コンテニュー"
     victory_saving_progress: "セーブ中"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat は基本的に無料です！110以上のレベルが無料です。" # {change}
     free_2: "月々の課金をするとビデオのチュートリアルにアクセスでき、また追加のレベルが楽しめます。"
-    teacher_subs_title: "教育関係者は無料のサブスクリプションを得ることができます！"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "教育関係者は無料のサブスクリプションを得ることができます！" # {change}
+#    teacher_subs_0: "We offer free trials to teachers."
     teacher_subs_1: "" # {change}
     teacher_subs_2: "に連絡して無料の月々のサブスクリプションを得ましょう。" # {change}
-#    teacher_subs_3: "to set up your subscription."
+#    teacher_subs_3: "to try out the paid courses."
     sub_includes_title: "サブスクリプションの内容について"
     sub_includes_1: "110以上の基本レベルに加えて、生徒は月々のサブスクリプションを得て次の機能が使えます:" # {change}
     sub_includes_2: "70以上の練習レベル" # {change}
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
-#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_1: "Your application for a free trial is being"
 #    being_reviewed_2: "reviewed."
-#    approved_1: "Your application for a free trial subscription was"
+#    approved_1: "Your application for a free trial was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
-#    denied_1: "Your application for a free trial subscription has been"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+#    denied_1: "Your application for a free trial has been"
 #    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
+#    description_1b: "You can find more information on our"
 #    description_2: "teachers"
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."

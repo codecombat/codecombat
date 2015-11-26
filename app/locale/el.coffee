@@ -12,10 +12,14 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     multiplayer: "Πολλαπλοί Παίκτες" # Not currently shown on home page
     for_developers: "Για προγραμματιστές" # Not currently shown on home page.
     or_ipad: "Ή κατεβάστε για iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Επίπεδα" # The top nav bar entry where players choose which levels to play
     community: "Κοινότητα"
+#    courses: "Courses"
     editor: "Συγγραφέας"
     blog: "Ιστολόγιο"
     forum: "Φόρουμ"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   play:
     play_as: "Παίξτε ως" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Θεατής" # Ladder page
     players: "παίκτες" # Hover over a level on /play
     hours_played: "ώρες παιχνιδιού" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     years: "χρόνια"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Έτοιμο"
+#    next_level: "Next Level:"
     next_game: "Επόμενο παιχνίδι"
     show_menu: "Εμφάνιση μενού παιχνιδιού"
     home: "Αρχική" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     victory_title_suffix: " Ολοκληρώθηκε"
     victory_sign_up: "Εγγράψου για ενημερώσεις"
     victory_sign_up_poke: "Θέλεις να λαμβάνεις τα τελευταία νέα μέσω e-mail; Δημιούργησε έναν δωρεάν λογαριασμό και θα σε κρατάμε ενήμερο!"
-    victory_rate_the_level: "Βαθμολογήστε το επίπεδο: " # Only in old-style levels.
+    victory_rate_the_level: "Βαθμολογήστε το επίπεδο: " # {change}
     victory_return_to_ladder: "Επιστροφή στη Σκάλα"
     victory_play_continue: "Συνέχισε"
     victory_saving_progress: "Αποθήκευση προόδου"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     cost_premium_server: "Το CodeCombat είναι δωρεάν για τα πέντε πρώτα επίπεδα, μετά τα οποία κοστίζει $9.99 Δολλάρια ΗΠΑ το μήνα για να έχετε πρόσβαση στα πάνω από 190 επίπεδα στους αποκλειστικούς για τη χώρα εξυπηρετητές."
     free_1: "Υπάρχουν πάνω από 100 ΔΩΡΕΑΝ επίπεδα που καλύπτουν όλα τα αντικείμενα."
     free_2: "Η μηνιαία συνδρομή παρέχει πρόσβαση σε βίντεο βοηθήματα και παραπάνω επίπεδα για εξάσκηση."
-    teacher_subs_title: "Οι εκπαιδευτικοί παίρνουν δωρεάν συνδρομές!"
-    teacher_subs_0: "Προσφέρουμε δωρεάν συνδρομές σε εκπαιδευτικούς για να μπορέσουν να αξιολογήσουν το παιχνίδι."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Οι εκπαιδευτικοί παίρνουν δωρεάν συνδρομές!" # {change}
+    teacher_subs_0: "Προσφέρουμε δωρεάν συνδρομές σε εκπαιδευτικούς για να μπορέσουν να αξιολογήσουν το παιχνίδι." # {change}
     teacher_subs_1: "παρακαλούμε συμπληρώστε το"
     teacher_subs_2: "Ερωτηματολόγιο Εκπαιδευτικών"
-    teacher_subs_3: "για να δημιουργήσουμε τη συνδρομή σας."
+    teacher_subs_3: "για να δημιουργήσουμε τη συνδρομή σας." # {change}
     sub_includes_title: "Τι περιλαμβάνει η συνδρομή;"
     sub_includes_1: "Επιπλέον των πάνω από 110 βασικά επίπεδα, οι μαθητές που έχουν μηνιαία συνδρομή έχουν πρόσβαση και στα ακόλουθα μοναδικά χαρακτηριστικά:"
     sub_includes_2: "Πάνω από 80 επίπεδα για εξάσκηση"
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     title: "Έρευνα Εκπαιδευτικών"
     must_be_logged: "Πρέπει πρώτα να συνδεθείται. Παρακαλώ δημιουργήστε ένα λογαριασμό ή συνδεθείται από το μενού παραπάνω."
     retrieving: "Ανάκληση πληροφοριών..."
-    being_reviewed_1: "Η αίτησή σας για δωρεάν δοκιμαστική συνδρομή είναι"
+    being_reviewed_1: "Η αίτησή σας για δωρεάν δοκιμαστική συνδρομή είναι" # {change}
     being_reviewed_2: "υπό θεώρηση."
-    approved_1: "Η αίτησή σας για δωρεάν δοκιμαστική συνδρομή"
+    approved_1: "Η αίτησή σας για δωρεάν δοκιμαστική συνδρομή" # {change}
     approved_2: "εγκρίθηκε."
     approved_3: "Σας στείλαμε περισσότερες οδηγίες στο"
-    denied_1: "Η αίτησή σας για δωρεάν δοκιμαστική συνδρομή"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+    denied_1: "Η αίτησή σας για δωρεάν δοκιμαστική συνδρομή" # {change}
     denied_2: "απορίφθηκε."
     contact_1: "Παρακαλούμε επικοινωνείστε"
     contact_2: "αν έχετε περαιτέρω ερωτήσεις."
-    description_1: "Δίνουμε δωρεάν συνδρομές σε εκπαιδευτικούς για να αξιολογήσουν το παιχνίδι. Μπορείτε να βρείτε περισσότερες πληροφορίες στις"
+    description_1: "Δίνουμε δωρεάν συνδρομές σε εκπαιδευτικούς για να αξιολογήσουν το παιχνίδι. Μπορείτε να βρείτε περισσότερες πληροφορίες στις" # {change}
+#    description_1b: "You can find more information on our"
     description_2: "εκπαιδευτική"
     description_3: "σελίδα."
     description_4: "Παρακαλούμε, συμπληρώστε αυτή τη φόρμα και θα σας στείλουμε οδηγίες."
