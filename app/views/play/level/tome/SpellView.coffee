@@ -261,6 +261,51 @@ module.exports = class SpellView extends CocoView
           e.editor.execCommand 'gotolineend'
           return true
 
+    @aceSession.addDynamicMarker
+      update: (html, markerLayer, session, config) =>
+        Range = ace.require('ace/range').Range
+
+        foldWidgets = @aceSession.foldWidgets
+        return if not foldWidgets?
+
+        lines = @aceDoc.getAllLines()
+        startOfRow = (r) ->
+          str = lines[r]
+          ar = str.match(/^\s*/)
+          ar.pop().length
+
+        colors = ['50,150,200', '200,150,50', '255,0,0', '0,255,0']
+
+        for row in [0..@aceSession.getLength()]
+          foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
+          
+          continue if foldWidgets[row] isnt "start"
+          range = @aceSession.getFoldWidgetRange(row)
+
+          xstart = startOfRow(range.start.row)
+          level = Math.floor(xstart / 4)
+
+
+          data =
+            b: xstart
+            i: startOfRow(range.start.row + 1)
+            s: range.start.row, e: range.end.row, c: colors[level % colors.length]
+
+          color = data.c
+          t = markerLayer.$getTop(data.s + 1, config)
+          h = config.lineHeight * (data.e - data.s)
+          l = markerLayer.$padding + data.b * config.characterWidth
+          # w = (data.i - data.b) * config.characterWidth
+          w = 4 * config.characterWidth
+
+          html.push [
+            '<div style="',
+            "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color},0.2);"
+            "border-right: 3px solid rgba(#{color},0.4);",
+            '"></div>' ].join ''
+
+          markerLayer.drawTextMarker html, new Range(data.s,data.b, data.s, 1000), 'rob', config, "border: 3px solid rgba(#{color}, 0.4); position: absolute"
+
   fillACE: ->
     @ace.setValue @spell.source
     @aceSession.setUndoManager(new UndoManager())
