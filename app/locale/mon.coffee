@@ -43,44 +43,44 @@ module.exports = nativeDescription: "Монгол (Мон)", englishDescription:
 #  diplomat_suggestion:
 #    title: "Кодкомбатыг орчуулахад туслаарай!" # This shows up when a player switches to a non-English language using the language selector.
 #    sub_heading: "Бидэнд гадаад хэлний авъяастангууд дутагдаж байна."
-#    pitch_body: "Бид Кодкомбатыг Англи хэл дээр хөгжүүлдэг, гэхдээ үүнийг тоглодог хүмүүс нь дэлхий даяар байна.  all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
-#    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
-#    learn_more: "Learn more about being a Diplomat"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+#    pitch_body: "Бид Кодкомбатыг Англи хэл дээр хөгжүүлдэг, гэхдээ үүнийг тоглодог хүмүүс нь дэлхий даяар байна.  Зөндөө олон хүн үүнийг {Монгол} хэл дээр тогломоор байгаа ч англиар ярьдаггүй, тиймээс хэрэв чи хоёуланг нь мэддэг бол манайд бүртгүүлэн Дипломат болж, Кодкомбатын цахим хуудас, болон тоглоомын бүх үеийг {Монгол} хэл рүү хувиргаарай."
+#    missing_translations: "Бид бүх зүйлийг {Монгол} руу орчуулж дуустал, {Монгол} орчуулга оруулаагүй хэсэг англиар харагдана шүү."
+#    learn_more: "Дипломат болох талаар илүүг мэдэхийг хүсвэл:"
+#    subscribe_as_diplomat: "Дипломатын талаар гарсан мэдээллийг тогтмол авахаар захиалах"
 
 #  play:
-#    play_as: "Play As" # Ladder page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
-#    subscription_required: "Subscription Required"
-#    anonymous: "Anonymous Player"
-#    level_difficulty: "Difficulty: "
-#    campaign_beginner: "Beginner Campaign"
-#    awaiting_levels_adventurer_prefix: "We release new levels every week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    adjust_volume: "Adjust volume"
-#    campaign_multiplayer: "Multiplayer Arenas"
-#    campaign_multiplayer_description: "... in which you code head-to-head against other players."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    play_as: "Тоглох тал" # Ladder page
+#    spectate: "Ажиглах" # Ladder page
+#    players: "тоглогчид" # Hover over a level on /play
+#    hours_played: "тоглосон цаг" # Hover over a level on /play
+#    items: "Эд зүйлс" # Tooltip on item shop button from /play
+#    unlock: "Онгойлгох" # For purchasing items and heroes
+#    confirm: "Батлах"
+#    owned: "Эзэмшил" # For items you own
+#    locked: "Түгжигдсэн"
+#    purchasable: "Худалдаж авах боломжтой" # For a hero you unlocked but haven't purchased
+#    available: "Бэлэн байгаа"
+#    skills_granted: "Чадвар суусан" # Property documentation details
+#    heroes: "Баатарууд" # Tooltip on hero shop button from /play
+#    achievements: "Амжилтууд" # Tooltip on achievement list button from /play
+#    account: "Данс" # Tooltip on account button from /play
+#    settings: "Тохиргоо" # Tooltip on settings button from /play
+#    poll: "Санал асуулга" # Tooltip on poll button from /play
+#    next: "Дараагийнх" # Go from choose hero to choose inventory before playing a level
+#    change_hero: "Баатараа солих" # Go back from choose inventory to choose hero
+#    choose_inventory: "Эд зүйлсээр тоноглох"
+#    buy_gems: "Эрдэнэс худалдан авах"
+#    subscription_required: "Захиалга өгөх шаардлагатай"
+#    anonymous: "Нэргүй тоглогч"
+#    level_difficulty: "Хүндийн түвшин: "
+#    campaign_beginner: "Анхан суралцагчийн үргэлжилсэн үеүүд"
+#    awaiting_levels_adventurer_prefix: "Бид долоо хоног болгон шинэ үе гаргадаг."
+#    awaiting_levels_adventurer: "Адал явдлын ангуучаар бүртгүүлбэл"
+#    awaiting_levels_adventurer_suffix: "шинэ үеийг хамгийн түрүүнд тоглоно."
+#    adjust_volume: "Дууны тохиргоо"
+#    campaign_multiplayer: "Холбон тоглогчдын дэвжээ"
+#    campaign_multiplayer_description: "... энд чи бусад тоглогчидтой уралдан код бичнэ."
+#    campaign_old_multiplayer: "(Deprecated) Хуучин холбон тоглогчдын дэвжээ"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
 #  share_progress_modal:
