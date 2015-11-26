@@ -221,7 +221,10 @@
     years: "years"
 
   play_level:
+    completed_level: "Completed Level:"
+    course: "Course:"
     done: "Done"
+    next_level: "Next Level:"
     next_game: "Next game"
     show_menu: "Show game menu"
     home: "Home"  # Not used any more, will be removed soon.
@@ -250,7 +253,7 @@
     victory_title_suffix: " Complete"
     victory_sign_up: "Sign Up to Save Progress"
     victory_sign_up_poke: "Want to save your code? Create a free account!"
-    victory_rate_the_level: "How fun was this level?" # {change}
+    victory_rate_the_level: "How fun was this level?"
     victory_return_to_ladder: "Return to Ladder"
     victory_play_continue: "Continue"
     victory_saving_progress: "Saving Progress"
@@ -623,11 +626,11 @@
     free_4: "courses"
     free_5: ".  The first course is free, and about an hour of material."
     free_6: "Access to the additional courses can be unlocked with a one-time purchase."
-    teacher_subs_title: "Teachers get a free trial!" # {change}
-    teacher_subs_0: "We offer free trials to teachers." # {change}
+    teacher_subs_title: "Teachers get a free trial!"
+    teacher_subs_0: "We offer free trials to teachers."
     teacher_subs_1: "Please fill out our"
     teacher_subs_2: "Teacher Survey"
-    teacher_subs_3: "to try out the paid courses." # {change}
+    teacher_subs_3: "to try out the paid courses."
     sub_includes_title: "What is included in the subscription?"
     sub_includes_1: "In addition to the 110+ basic levels, students with a monthly subscription get access to these additional features:"
     sub_includes_2: "80+ practice levels"
@@ -671,19 +674,19 @@
     title: "Teacher Survey"
     must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     retrieving: "Retrieving information..."
-    being_reviewed_1: "Your application for a free trial is being" # {change}
+    being_reviewed_1: "Your application for a free trial is being"
     being_reviewed_2: "reviewed."
-    approved_1: "Your application for a free trial was" # {change}
+    approved_1: "Your application for a free trial was"
     approved_2: "approved."
     approved_3: "Further instructions have been sent to"
     approved_4: "Enroll your students on the"
     approved_5: "courses"
     approved_6: "page."
-    denied_1: "Your application for a free trial has been" # {change}
+    denied_1: "Your application for a free trial has been"
     denied_2: "denied."
     contact_1: "Please contact"
     contact_2: "if you have further questions."
-    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses." # {change}
+    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
     description_1b: "You can find more information on our"
     description_2: "teachers"
     description_3: "page."

@@ -12,10 +12,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     multiplayer: "Multijoueurs" # Not currently shown on home page
     for_developers: "Pour développeurs" # Not currently shown on home page.
     or_ipad: "Ou télécharger pour iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Jouer" # The top nav bar entry where players choose which levels to play
     community: "Communauté"
+#    courses: "Courses"
     editor: "Éditeur"
     blog: "Blog"
     forum: "Forum"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   play:
     play_as: "Jouer comme " # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Spectateur" # Ladder page
     players: "Joueurs" # Hover over a level on /play
     hours_played: "Heures jouées" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     years: "années"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Fait"
+#    next_level: "Next Level:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "Accueil" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_title_suffix: " Terminé"
     victory_sign_up: "Inscrivez-vous pour recevoir les mises à jour"
     victory_sign_up_poke: "Vous voulez recevoir les dernières actualités par e-mail ? Créez un compte gratuitement et nous vous tiendrons informés !"
-    victory_rate_the_level: "Notez ce niveau: " # Only in old-style levels.
+    victory_rate_the_level: "Notez ce niveau: " # {change}
     victory_return_to_ladder: "Retourner à l'échelle"
     victory_play_continue: "Continuer"
     victory_saving_progress: "Sauvegarder la progression"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "La version de base de CodeCombat est gratuite ! Il y a 70+ niveaux gratuits qui couvrent chaque concepts." # {change}
     free_2: "Un abonnement mensuel fournit l'accès à des vidéos de tutoriels ainsi qu'à des niveaux d'entraînement supplémentaires."
-    teacher_subs_title: "Les enseignants reçoivent un abonnement gratuit !"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Les enseignants reçoivent un abonnement gratuit !" # {change}
+#    teacher_subs_0: "We offer free trials to teachers."
     teacher_subs_1: "Merci de nous contacter" # {change}
     teacher_subs_2: "pour obtenir un abonnement mensuel gratuit." # {change}
-#    teacher_subs_3: "to set up your subscription."
+#    teacher_subs_3: "to try out the paid courses."
     sub_includes_title: "Qu'y a t-il d'inclus dans cet abonnement ?"
     sub_includes_1: "En plus des 70+ niveaux de base, les élèves avec un abonnement mensuel ont accès à ces fonctionnalités supplémentaires :" # {change}
     sub_includes_2: "40+ niveaux d'entrainement" # {change}
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
-#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_1: "Your application for a free trial is being"
 #    being_reviewed_2: "reviewed."
-#    approved_1: "Your application for a free trial subscription was"
+#    approved_1: "Your application for a free trial was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
-#    denied_1: "Your application for a free trial subscription has been"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+#    denied_1: "Your application for a free trial has been"
 #    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
+#    description_1b: "You can find more information on our"
 #    description_2: "teachers"
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
@@ -732,7 +748,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     admin: "Admin"
     new_password: "Nouveau mot de passe"
     new_password_verify: "Vérifier"
-    type_in_email: "Entrez votre adresse e-mail pour confirmer la supression de votre compte" # {change}
+    type_in_email: "Entrez votre adresse e-mail pour confirmer la supression de votre compte"
 #    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Abonnements"

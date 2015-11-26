@@ -11,6 +11,7 @@ LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 AudioPlayer = require 'lib/AudioPlayer'
 User = require 'models/User'
 utils = require 'core/utils'
+Course = require 'models/Course'
 Level = require 'models/Level'
 LevelFeedback = require 'models/LevelFeedback'
 
@@ -65,6 +66,9 @@ module.exports = class HeroVictoryModal extends ModalView
     if @level.get('type', true) is 'course' and nextLevel = @level.get('nextLevel')
       @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
       @nextLevel = @supermodel.loadModel(@nextLevel, 'level').model
+      if @courseID
+        @course = new Course().setURL "/db/course/#{@courseID}"
+        @course = @supermodel.loadModel(@course, 'course').model
     if @level.get('type', true) in ['course', 'course-ladder']
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
       @loadExistingFeedback()
@@ -210,6 +214,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
     c.showReturnToCourse = not c.showLeaderboard and not me.get('anonymous') and @level.get('type', true) in ['course', 'course-ladder']
     c.isCourseLevel = @level.get('type', true) in ['course']
+    c.currentCourseName = @course?.get('name')
     c.currentLevelName = @level?.get('name')
     c.nextLevelName = @nextLevel?.get('name')
 
@@ -387,7 +392,7 @@ module.exports = class HeroVictoryModal extends ModalView
     # Preserve the supermodel as we navigate back to the ladder.
     viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
     ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}"
-    if leagueID = @getQueryVariable 'league'
+    if leagueID = (@courseInstanceID or @getQueryVariable 'league')
       leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
       viewArgs.push leagueType
       viewArgs.push leagueID
@@ -448,7 +453,7 @@ module.exports = class HeroVictoryModal extends ModalView
         viewArgs.push @courseID
         viewArgs.push @courseInstanceID if @courseInstanceID
     else if @level.get('type', true) is 'course-ladder'
-      leagueID = @getQueryVariable 'league'
+      leagueID = @courseInstanceID or @getQueryVariable 'league'
       link = "/play/ladder/#{@level.get('slug')}"
       link += "/course/#{leagueID}" if leagueID
       Backbone.Mediator.publish 'router:navigate', route: link

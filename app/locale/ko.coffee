@@ -12,10 +12,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     multiplayer: "멀티플레이어" # Not currently shown on home page
     for_developers: "개발자용" # Not currently shown on home page.
 #    or_ipad: "Or download for iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "레벨" # The top nav bar entry where players choose which levels to play
     community: "커뮤니티"
+#    courses: "Courses"
     editor: "에디터"
     blog: "블로그"
     forum: "포럼"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   play:
     play_as: "Play As " # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "관중모드" # Ladder page
     players: "플레이어" # Hover over a level on /play
     hours_played: "플레이한 시간" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     years: "년"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "완료"
+#    next_level: "Next Level:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "홈" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_title_suffix: " 완료"
     victory_sign_up: "진행사항 저장을 위해 등록하세요"
     victory_sign_up_poke: "코드를 저장하고 싶으세요? 지금 등록하세요!"
-    victory_rate_the_level: "이번 레벨 평가: " # Only in old-style levels.
+    victory_rate_the_level: "이번 레벨 평가: " # {change}
     victory_return_to_ladder: "레더로 돌아가기"
     victory_play_continue: "계속하기"
     victory_saving_progress: "저장하기"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
-#    teacher_subs_title: "Teachers get free subscriptions!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+#    teacher_subs_title: "Teachers get a free trial!"
+#    teacher_subs_0: "We offer free trials to teachers."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
-#    teacher_subs_3: "to set up your subscription."
+#    teacher_subs_3: "to try out the paid courses."
 #    sub_includes_title: "What is included in the subscription?"
 #    sub_includes_1: "In addition to the 110+ basic levels, students with a monthly subscription get access to these additional features:"
 #    sub_includes_2: "80+ practice levels"
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
-#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_1: "Your application for a free trial is being"
 #    being_reviewed_2: "reviewed."
-#    approved_1: "Your application for a free trial subscription was"
+#    approved_1: "Your application for a free trial was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
-#    denied_1: "Your application for a free trial subscription has been"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+#    denied_1: "Your application for a free trial has been"
 #    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
+#    description_1b: "You can find more information on our"
 #    description_2: "teachers"
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."

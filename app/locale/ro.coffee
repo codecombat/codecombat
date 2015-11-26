@@ -12,10 +12,14 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Pentru Dezvoltatori" # Not currently shown on home page.
     or_ipad: "Sau descarcă pentru iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Nivele" # The top nav bar entry where players choose which levels to play
     community: "Communitate"
+#    courses: "Courses"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
   play:
     play_as: "Alege-ți echipa" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Spectator" # Ladder page
     players: "jucători" # Hover over a level on /play
     hours_played: "ore jucate" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     years: "ani"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Gata"
+#    next_level: "Next Level:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "Acasă" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     victory_title_suffix: " Terminat"
     victory_sign_up: "Înscrie-te pentru a salva progresul"
     victory_sign_up_poke: "Vrei să-ți salvezi codul? Crează un cont gratis!"
-    victory_rate_the_level: "Apreciază nivelul: " # Only in old-style levels.
+    victory_rate_the_level: "Apreciază nivelul: " # {change}
     victory_return_to_ladder: "Înapoi la jocurile de clasament"
     victory_play_continue: "Continuă"
     victory_saving_progress: "Salvează Progresul"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "Sunt 80+ de nivele GRATIS ce parcurg fiecare concept în programare." # {change}
     free_2: "Un abonament lunar oferă acces la tutoriale video si nivele extra pentru practică."
-    teacher_subs_title: "Educatori primesc abonamente gratuite!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Educatori primesc abonamente gratuite!" # {change}
+#    teacher_subs_0: "We offer free trials to teachers."
     teacher_subs_1: "Te rugăm sa completezi"
     teacher_subs_2: "Chestionarul Educatorului"
-    teacher_subs_3: "pentru a configura abonamentul."
+    teacher_subs_3: "pentru a configura abonamentul." # {change}
     sub_includes_title: "Ce e inclus în abonament?"
     sub_includes_1: "Pe langă 80+ de nivele de bază, studenții cu un abonament lunar au acces la aceste servicii suplimentare:" # {change}
     sub_includes_2: "60+ nivele pentru practică" # {change}
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     title: "Chestionar Educatori"
     must_be_logged: "Mai întâi trebuie să fi logat. Te rugăm să faci un cont sau să te loghezi în meniul de mai sus."
     retrieving: "Se preiau informațiile..."
-    being_reviewed_1: "Cererea pentru un abonament trial gratis este în curs de"
+    being_reviewed_1: "Cererea pentru un abonament trial gratis este în curs de" # {change}
     being_reviewed_2: "examinare" # {change}
-    approved_1: "Cererea pentru un abonament trial gratis a fost"
+    approved_1: "Cererea pentru un abonament trial gratis a fost" # {change}
     approved_2: "aprobată." # {change}
     approved_3: "Mai multe instrucțiuni au fost timiste la"
-    denied_1: "Cererea pentru un abonament trial gratis a fost"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+    denied_1: "Cererea pentru un abonament trial gratis a fost" # {change}
     denied_2: "refuzată" # {change}
     contact_1: "Contactează-ne"
     contact_2: "dacă ai alte întrebări."
-    description_1: "Oferim abonamente gratis Educatorilor pentru evaluare. Poți găsi mai multe informați pe"
+    description_1: "Oferim abonamente gratis Educatorilor pentru evaluare. Poți găsi mai multe informați pe" # {change}
+#    description_1b: "You can find more information on our"
     description_2: "pagina"
     description_3: "educatorilor."
     description_4: "Te rugăm să completezi acest formular rapid si îți vom trimite un email cu instrucțiuni."
@@ -732,7 +748,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     admin: "Admin"
     new_password: "Parolă nouă"
     new_password_verify: "Verifică"
-    type_in_email: "Scrie adresa de email ca să confirmi ștergerea" # {change}
+    type_in_email: "Scrie adresa de email ca să confirmi ștergerea"
 #    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Subscripție Email"

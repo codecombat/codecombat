@@ -12,10 +12,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     multiplayer: "Többjátékos" # Not currently shown on home page
     for_developers: "Fejlesztőknek" # Not currently shown on home page.
     or_ipad: "Vagy töltsd le iPadra"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Játék" # The top nav bar entry where players choose which levels to play
     community: "Közösség"
+#    courses: "Courses"
     editor: "Szerkesztő"
     blog: "Blog"
     forum: "Fórum"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   play:
     play_as: "Játssz mint" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Néző" # Ladder page
     players: "Játékosok" # Hover over a level on /play
     hours_played: "Játékidő" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     years: "évek"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Kész"
+#    next_level: "Next Level:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "Kezdőlap" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_title_suffix: "Kész"
     victory_sign_up: "Regisztrálj a friss infókért"
     victory_sign_up_poke: "Szeretnéd, ha levelet küldenénk neked az újításokról? Regisztrálj ingyen egy fiókot, és nem maradsz le semmiről!"
-    victory_rate_the_level: "Értékeld a pályát: " # Only in old-style levels.
+    victory_rate_the_level: "Értékeld a pályát: " # {change}
     victory_return_to_ladder: "Vissza a ranglétrához"
     victory_play_continue: "Tovább"
     victory_saving_progress: "Folyamat mentése"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat Basic INGYENES! 70-nél is több pálya, amely minden tudást megad." # {change}
     free_2: "A havidíjas előfizetés hozzáférést biztosít az oktató videókhoz és az extra gyakoroló pályákhoz."
-    teacher_subs_title: "Tanárok ingyenes előfizetést kapnak!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Tanárok ingyenes előfizetést kapnak!" # {change}
+#    teacher_subs_0: "We offer free trials to teachers."
     teacher_subs_1: "Lépjen kapcsolatba velünk," # {change}
     teacher_subs_2: "hogy megkapja az ingyenes havi előfizetést." # {change}
-#    teacher_subs_3: "to set up your subscription."
+#    teacher_subs_3: "to try out the paid courses."
     sub_includes_title: "Mit tartalmaz az előfizetés?"
     sub_includes_1: "A 80+ alap pályán kívül az előfizetéssel rendelkező tanulók az alábbi extrákhoz férnek hozzá:" # {change}
     sub_includes_2: "50+ gyakorló pálya" # {change}
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
-#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_1: "Your application for a free trial is being"
 #    being_reviewed_2: "reviewed."
-#    approved_1: "Your application for a free trial subscription was"
+#    approved_1: "Your application for a free trial was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
-#    denied_1: "Your application for a free trial subscription has been"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+#    denied_1: "Your application for a free trial has been"
 #    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
+#    description_1b: "You can find more information on our"
 #    description_2: "teachers"
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
@@ -732,7 +748,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     admin: "Adminisztrátor"
     new_password: "Új jelszó"
     new_password_verify: "Új jelszó megismétlése"
-    type_in_email: "Írd be az email-címed a törlés megerősítéséhez" # {change}
+    type_in_email: "Írd be az email-címed a törlés megerősítéséhez"
 #    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Hírlevél feliratkozások"

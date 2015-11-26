@@ -12,10 +12,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     multiplayer: "Multijugador" # Not currently shown on home page
     for_developers: "Para Desarrolladores" # Not currently shown on home page.
     or_ipad: "O descargar para iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
+#    courses: "Courses"
     editor: "Editor"
     blog: "Blog"
     forum: "Foro"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   play:
     play_as: "Jugar Como " # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Observar" # Ladder page
     players: "Jugadores" # Hover over a level on /play
     hours_played: "horas jugadas" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     years: "años"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Listo"
+#    next_level: "Next Level:"
     next_game: "Siguiente juego"
     show_menu: "Mostrar menú de juego"
     home: "Inicio" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_title_suffix: " Completo!"
     victory_sign_up: "Regístrate para recibir actualizaciones"
     victory_sign_up_poke: "¿Quieres recibir las ultimas noticias por correo? ¡Crea una cuenta gratuita y te mantendremos informado!"
-    victory_rate_the_level: "Valora el nivel: " # Only in old-style levels.
+    victory_rate_the_level: "Valora el nivel: " # {change}
     victory_return_to_ladder: "Volver a la escalera"
     victory_play_continue: "Continuar"
     victory_saving_progress: "Guardando Progreso"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     cost_premium_server: "CodeCombat es gratis para lso primeros 5 niveles, después de ellos cuesta $9.99 USD mensuales para accesar a nuestros otros más de 190 niveles en nuestraos exclusivos servidores específicos para cada país."
     free_1: "Hay más de 110 niveles gratis que cubren cada concepto."
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
-    teacher_subs_title: "¡Los amestros obtienen suscripciones gratuitas!"
-    teacher_subs_0: "Ofrecemos suscripciones gratuitas a profesores con propósitos de evaluación."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "¡Los amestros obtienen suscripciones gratuitas!" # {change}
+    teacher_subs_0: "Ofrecemos suscripciones gratuitas a profesores con propósitos de evaluación." # {change}
     teacher_subs_1: "Por favor llene nuestra"
     teacher_subs_2: "Encuesta para maestros"
-    teacher_subs_3: "para configurar su suscripción."
+    teacher_subs_3: "para configurar su suscripción." # {change}
     sub_includes_title: "¿Qué se incluye en la suscripción?"
     sub_includes_1: "Adicionalmente a los más de 70 niveles básicos, los estudiantes con una suscripción mensual obtienen acceso a estas características adicionales:" # {change}
     sub_includes_2: "Más de 70 niveles de práctica" # {change}
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     title: "Encuesta de Maestros"
     must_be_logged: "Debes ingresar primero. Por favor, crea una cuenta o ingresa desde el menú de arriba."
     retrieving: "Obteniendo información..."
-    being_reviewed_1: "Su aplicación a una suscripción gratuita está siendo"
+    being_reviewed_1: "Su aplicación a una suscripción gratuita está siendo" # {change}
     being_reviewed_2: "revisada."
-    approved_1: "Su aplicación a una suscripción gratuita fue"
+    approved_1: "Su aplicación a una suscripción gratuita fue" # {change}
     approved_2: "aprobada."
     approved_3: "Más instrucciones han sido enviadas a"
-    denied_1: "Su aplicación a una suscripción gratuita ha sido"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+    denied_1: "Su aplicación a una suscripción gratuita ha sido" # {change}
     denied_2: "denegada."
     contact_1: "Por favor contactarse"
     contact_2: "si tiene más preguntas."
-    description_1: "Ofrecemos suscripciones gratuitas a maestros con propósitos de evaluación. Puede hallar más información en nuestra"
+    description_1: "Ofrecemos suscripciones gratuitas a maestros con propósitos de evaluación. Puede hallar más información en nuestra" # {change}
+#    description_1b: "You can find more information on our"
     description_2: "página"
     description_3: "de maestros."
     description_4: "Por favor llene esta encuesta rápida y le mandaremos por email las instrucciones de configuración."

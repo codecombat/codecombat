@@ -12,10 +12,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Voor ontwikkelaars" # Not currently shown on home page.
     or_ipad: "Of download voor iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Gemeenschap"
+#    courses: "Courses"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   play:
     play_as: "Speel als " # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Toeschouwen" # Ladder page
     players: "Spelers" # Hover over a level on /play
     hours_played: "Speeltijd" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     years: "jaren"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Klaar"
+#    next_level: "Next Level:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "Home" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_title_suffix: " Compleet"
     victory_sign_up: "Schrijf je in om je vooruitgang op te slaan"
     victory_sign_up_poke: "Wil je jouw code opslaan? Maak een gratis account aan!"
-    victory_rate_the_level: "Beoordeel het level: " # Only in old-style levels.
+    victory_rate_the_level: "Beoordeel het level: " # {change}
     victory_return_to_ladder: "Keer terug naar de ladder"
     victory_play_continue: "Ga door"
     victory_saving_progress: "Voortgang opslaan"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "Er zijn meer dan 110 GRATIS levels, welke alle concepten omvatten."
     free_2: "Een maandelijkse inschrijving bied toegang tot video tutorials en extra oefenlevels."
-    teacher_subs_title: "Leerkrachten krijgen een gratis abonnement!"
-    teacher_subs_0: "Wij bieden gratis inschrijvingen aan leerkrachten voor evaluatiedoeleinden."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Leerkrachten krijgen een gratis abonnement!" # {change}
+    teacher_subs_0: "Wij bieden gratis inschrijvingen aan leerkrachten voor evaluatiedoeleinden." # {change}
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
-#    teacher_subs_3: "to set up your subscription."
+#    teacher_subs_3: "to try out the paid courses."
 #    sub_includes_title: "What is included in the subscription?"
 #    sub_includes_1: "In addition to the 110+ basic levels, students with a monthly subscription get access to these additional features:"
 #    sub_includes_2: "80+ practice levels"
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    title: "Teacher Survey"
     must_be_logged: "Je moet eerst ingelogd zijn. Maak een account aan of log in in het menu hierboven."
     retrieving: "Informatie ophalen..."
-    being_reviewed_1: "Je aanvraag voor een gratis proefabonnement wordt"
+    being_reviewed_1: "Je aanvraag voor een gratis proefabonnement wordt" # {change}
     being_reviewed_2: "beoordeeld."
-    approved_1: "Je aanvraag voor een gratis proefabonnement is"
+    approved_1: "Je aanvraag voor een gratis proefabonnement is" # {change}
     approved_2: "goedgekeurd."
     approved_3: "Meer informatie is verzonden naar"
-    denied_1: "Uw aanvraag voor een testaccount is"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+    denied_1: "Uw aanvraag voor een testaccount is" # {change}
     denied_2: "afgewezen."
     contact_1: "Neem contact op"
     contact_2: "als u meer vragen heeft."
-    description_1: "We bieden gratis abbonnementen aan, aan leerkrachten voor evaluatiedoeleinden. Meer informatie kan worden gevonden op onze"
+    description_1: "We bieden gratis abbonnementen aan, aan leerkrachten voor evaluatiedoeleinden. Meer informatie kan worden gevonden op onze" # {change}
+#    description_1b: "You can find more information on our"
     description_2: "leerkrachten"
     description_3: "pagina."
     description_4: "Vul alstublieft onze korte vragenlijst in en we zullen u instructies sturen om te beginnen."

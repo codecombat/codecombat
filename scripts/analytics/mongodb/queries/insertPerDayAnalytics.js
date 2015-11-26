@@ -101,10 +101,10 @@ try {
     }
   }
 
-  log("Getting monthly recurring revenue counts...");
+  log("Getting recurring revenue counts...");
   var recurringRevenueCounts = getRecurringRevenueCounts(startDay);
   // printjson(recurringRevenueCounts);
-  log("Inserting monthly recurring revenue counts...");
+  log("Inserting recurring revenue counts...");
   for (var event in recurringRevenueCounts) {
     for (var day in recurringRevenueCounts[event]) {
       if (today === day) continue; // Never save data for today because it's incomplete
@@ -674,9 +674,9 @@ function getRecurringRevenueCounts(startDay) {
       dailyRevenueCounts['DRR monthly subs'][day] += doc.amount
     }
     else if (doc.service === 'paypal') {
-      if (!dailyRevenueCounts['DRR paypal']) dailyRevenueCounts['DRR paypal'] = {};
-      if (!dailyRevenueCounts['DRR paypal'][day]) dailyRevenueCounts['DRR paypal'][day] = 0;
-      dailyRevenueCounts['DRR paypal'][day] += doc.amount
+      if (!dailyRevenueCounts['DRR monthly subs']) dailyRevenueCounts['DRR monthly subs'] = {};
+      if (!dailyRevenueCounts['DRR monthly subs'][day]) dailyRevenueCounts['DRR monthly subs'][day] = 0;
+      dailyRevenueCounts['DRR monthly subs'][day] += doc.amount
     }
     // else {
     //   // printjson(doc);
