@@ -24,4 +24,4 @@ module.exports = class CourseInstance extends CocoModel
     @fetch(options)
 
   firstLevelURL: ->
-    "/play/level/course-dungeons-of-kithgard?course=#{@get('courseID')}&course-instance=#{@id}"
+    "/play/level/dungeons-of-kithgard?course=#{@get('courseID')}&course-instance=#{@id}"
