@@ -858,6 +858,7 @@
     started_2: "Started"
     not_started_2: "Not Started"
     view_solution: "Click to view solution."
+    view_attempt: "Click to view attempt."
     latest_achievement: "Latest Achievement"
     playtime: "Playtime"
     last_played: "Last played"
