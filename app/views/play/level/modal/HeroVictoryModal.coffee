@@ -392,7 +392,7 @@ module.exports = class HeroVictoryModal extends ModalView
     # Preserve the supermodel as we navigate back to the ladder.
     viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
     ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}"
-    if leagueID = @getQueryVariable 'league'
+    if leagueID = (@courseInstanceID or @getQueryVariable 'league')
       leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
       viewArgs.push leagueType
       viewArgs.push leagueID
@@ -453,7 +453,7 @@ module.exports = class HeroVictoryModal extends ModalView
         viewArgs.push @courseID
         viewArgs.push @courseInstanceID if @courseInstanceID
     else if @level.get('type', true) is 'course-ladder'
-      leagueID = @getQueryVariable 'league'
+      leagueID = @courseInstanceID or @getQueryVariable 'league'
       link = "/play/ladder/#{@level.get('slug')}"
       link += "/course/#{leagueID}" if leagueID
       Backbone.Mediator.publish 'router:navigate', route: link
