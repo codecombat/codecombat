@@ -5,6 +5,7 @@ template = require 'templates/courses/courses-view'
 StudentLogInModal = require 'views/courses/StudentLogInModal'
 StudentSignUpModal = require 'views/courses/StudentSignUpModal'
 ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
+ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
 CourseInstance = require 'models/CourseInstance'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
@@ -62,7 +63,12 @@ module.exports = class CoursesView extends RootView
       @joinClass()
 
   onClickStartNewGameButton: ->
-    @openSignUpModal()
+    if me.isAnonymous()
+      @openSignUpModal()
+    else
+      modal = new ChooseLanguageModal()
+      @openModalView(modal)
+      @listenToOnce modal, 'set-language', @startHourOfCodePlay
 
   onClickLogInButton: ->
     modal = new StudentLogInModal()

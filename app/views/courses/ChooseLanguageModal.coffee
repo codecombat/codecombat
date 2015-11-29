@@ -9,6 +9,7 @@ module.exports = class ChooseLanguageModal extends ModalView
     'click .lang-choice-btn': 'onClickLanguageChoiceButton'
     
   initialize: (options) ->
+    options ?= {}
     @logoutFirst = options.logoutFirst
 
   onClickLanguageChoiceButton: (e) ->
