@@ -49,7 +49,7 @@ module.exports = class CoursesView extends RootView
         model: LevelSession 
       })
       courseInstance.sessions.comparator = 'changed'
-      @supermodel.loadCollection(courseInstance.sessions, 'sessions')
+      @supermodel.loadCollection(courseInstance.sessions, 'sessions', { data: { project: 'state.complete level.original' }})
       
     @hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
     if @hocCourseInstance

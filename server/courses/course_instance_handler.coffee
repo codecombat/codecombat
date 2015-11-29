@@ -126,7 +126,9 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
           levelIDs = (levelID for levelID of campaign.get('levels'))
           memberIDs = _.map courseInstance.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
           query = {$and: [{creator: {$in: memberIDs}}, {'level.original': {$in: levelIDs}}]}
-          LevelSession.find query, (err, documents) =>
+          cursor = LevelSession.find(query)
+          cursor = cursor.select(req.query.project) if req.query.project
+          cursor.exec (err, documents) =>
             return @sendDatabaseError(res, err) if err?
             cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
             @sendSuccess(res, cleandocs)
@@ -143,7 +145,9 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
           return @sendNotFoundError(res) unless campaign
           levelIDs = (levelID for levelID, level of campaign.get('levels') when not _.contains(level.type, 'ladder'))
           query = {$and: [{creator: req.user.id}, {'level.original': {$in: levelIDs}}]}
-          LevelSession.find query, (err, documents) =>
+          cursor = LevelSession.find(query)
+          cursor = cursor.select(req.query.project) if req.query.project
+          cursor.exec (err, documents) =>
             return @sendDatabaseError(res, err) if err?
             cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
             @sendSuccess(res, cleandocs)
