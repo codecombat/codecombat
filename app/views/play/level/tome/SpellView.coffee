@@ -883,6 +883,7 @@ module.exports = class SpellView extends CocoView
     @spellHasChanged = false
 
   onUserCodeProblem: (e) ->
+    return unless e.god is @options.god
     return @onInfiniteLoop e if e.problem.id is 'runtime_InfiniteLoop'
     return unless e.problem.userInfo.methodName is @spell.name
     return unless spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
@@ -893,6 +894,7 @@ module.exports = class SpellView extends CocoView
       @updateAether false, false
 
   onNonUserCodeProblem: (e) ->
+    return unless e.god is @options.god
     return unless @spellThang
     problem = @spellThang.aether.createUserCodeProblem type: 'runtime', kind: 'Unhandled', message: "Unhandled error: #{e.problem.message}"
     @spellThang.aether.addProblem problem

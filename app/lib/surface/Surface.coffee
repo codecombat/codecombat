@@ -49,7 +49,6 @@ module.exports = Surface = class Surface extends CocoClass
     navigateToSelection: true
     choosing: false # 'point', 'region', 'ratio-region'
     coords: null  # use world defaults, or set to false/true to override
-    playJingle: false
     showInvisible: false
     frameRate: 30  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
 

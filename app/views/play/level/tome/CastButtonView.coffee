@@ -123,6 +123,7 @@ module.exports = class CastButtonView extends CocoView
 
   onGoalsCalculated: (e) ->
     # When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.
+    return unless e.god is @god
     return unless e.preload
     return if @options.level.get 'hidesRealTimePlayback'
     return if @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']  # Don't show it until they actually win for this first one.

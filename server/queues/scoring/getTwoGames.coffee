@@ -10,7 +10,9 @@ module.exports = getTwoGames = (req, res) ->
   humansSessionID = req.body.humansGameID
   ogresSessionID = req.body.ogresGameID
   return getSpecificSessions res, humansSessionID, ogresSessionID if humansSessionID and ogresSessionID
-  getRandomSessions req.user, sendSessionsResponse(res)
+  options =
+    background: req.body.background
+  getRandomSessions req.user, options, sendSessionsResponse(res)
 
 sessionSelectionString = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate leagues'
 
@@ -33,18 +35,18 @@ getSpecificSession = (sessionID, callback) ->
     if err? then return callback "Couldn\'t find target simulation session #{sessionID}"
     callback null, session
 
-getRandomSessions = (user, callback) ->
+getRandomSessions = (user, options, callback) ->
   # Determine whether to play a random match, an internal league match, or an external league match.
   # Only people in a league will end up simulating internal league matches (for leagues they're in) except by dumb chance.
   # If we don't like that, we can rework sampleByLevel to have an opportunity to switch to internal leagues if the first session had a league affiliation.
   leagueIDs = user?.get('clans') or []
   leagueIDs = leagueIDs.concat user?.get('courseInstances') or []
   leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to fetch them as strings.
-  return sampleByLevel callback unless leagueIDs.length and Math.random() > 1 / leagueIDs.length
+  return sampleByLevel options, callback unless leagueIDs.length and Math.random() > 1 / leagueIDs.length
   leagueID = _.sample leagueIDs
   findRandomSession {'leagues.leagueID': leagueID}, (err, session) ->
     if err then return callback err
-    unless session then return sampleByLevel callback
+    unless session then return sampleByLevel options, callback
     otherTeam = scoringUtils.calculateOpposingTeam session.team
     queryParameters = team: otherTeam, levelID: session.levelID
     if Math.random() < 0.5
@@ -67,8 +69,9 @@ getRandomSessions = (user, callback) ->
 # Sampling by level: we pick a level, then find a human and ogre session for that level, one at random, one biased towards recent submissions.
 #ladderLevelIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
 ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders', 'wakka-maul']
-sampleByLevel = (callback) ->
-  levelID = _.sample ladderLevelIDs
+backgroundLadderLevelIDs = _.without ladderLevelIDs, 'zero-sum', 'ace-of-coders'
+sampleByLevel = (options, callback) ->
+  levelID = _.sample(if options.background then backgroundLadderLevelIDs else ladderLevelIDs)
   favorRecentHumans = Math.random() < 0.5  # We pick one session favoring recent submissions, then find another one uniformly to play against
   async.map [{levelID: levelID, team: 'humans', favorRecent: favorRecentHumans}, {levelID: levelID, team: 'ogres', favorRecent: not favorRecentHumans}], findRandomSession, callback
 

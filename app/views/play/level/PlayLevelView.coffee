@@ -19,6 +19,7 @@ LevelComponent = require 'models/LevelComponent'
 Article = require 'models/Article'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
+Simulator = require 'lib/simulator/Simulator'
 
 # subviews
 LevelLoadingView = require './LevelLoadingView'
@@ -49,7 +50,7 @@ module.exports = class PlayLevelView extends RootView
   isEditorPreview: false
 
   subscriptions:
-    'level:set-volume': (e) -> createjs.Sound.setVolume(if e.volume is 1 then 0.6 else e.volume)  # Quieter for now until individual sound FX controls work again.
+    'level:set-volume': 'onSetVolume'
     'level:show-victory': 'onShowVictory'
     'level:restart': 'onRestartLevel'
     'level:highlight-dom': 'onHighlightDOM'
@@ -139,11 +140,11 @@ module.exports = class PlayLevelView extends RootView
   trackLevelLoadEnd: ->
     return if @isEditorPreview
     @loadEndTime = new Date()
-    loadDuration = @loadEndTime - @loadStartTime
-    console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
+    @loadDuration = @loadEndTime - @loadStartTime
+    console.debug "Level unveiled after #{(@loadDuration / 1000).toFixed(2)}s"
     unless @observing
-      application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: loadDuration
-      application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
+      application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: @loadDuration
+      application.tracker?.trackTiming @loadDuration, 'Level Load Time', @levelID, @levelID
 
   # CocoView overridden methods ###############################################
 
@@ -195,6 +196,7 @@ module.exports = class PlayLevelView extends RootView
       @worldLoadFakeResources.push @supermodel.addSomethingResource "world_simulation_#{percent}%", 1
 
   onWorldLoadProgressChanged: (e) ->
+    return unless e.god is @god
     return unless @worldLoadFakeResources
     @lastWorldLoadPercent ?= 0
     worldLoadPercent = Math.floor 100 * e.progress
@@ -240,7 +242,7 @@ module.exports = class PlayLevelView extends RootView
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level, observing: @observing, courseID: @courseID, courseInstanceID: @courseInstanceID
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level, observing: @observing, courseID: @courseID, courseInstanceID: @courseInstanceID, god: @god
     @insertSubView new LevelPlaybackView session: @session, level: @level
     @insertSubView new GoalsView {}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
@@ -273,6 +275,7 @@ module.exports = class PlayLevelView extends RootView
   # Load Completed Setup ######################################################
 
   onSessionLoaded: (e) ->
+    return if @session
     Backbone.Mediator.publish "ipad:language-chosen", language: e.session.get('codeLanguage') ? "python"
     # Just the level and session have been loaded by the level loader
     if e.level.get('slug') is 'zero-sum'
@@ -288,7 +291,7 @@ module.exports = class PlayLevelView extends RootView
       e.session.set 'heroConfig', {"thangType":raider,"inventory":{}}
     else if e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] and not _.size e.session.get('heroConfig')?.inventory ? {}
       @setupManager?.destroy()
-      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, courseID: @courseID, courseInstanceID: @courseInstanceID})
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
       @setupManager.open()
 
     @onRealTimeMultiplayerLevelLoaded e.session if e.level.get('type') in ['hero-ladder', 'course-ladder']
@@ -321,7 +324,7 @@ module.exports = class PlayLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, observing: @observing, playerNames: @findPlayerNames())
+    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), observing: @observing, playerNames: @findPlayerNames())
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -365,10 +368,17 @@ module.exports = class PlayLevelView extends RootView
     # TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
     application.tracker?.trackEvent 'Started Level', category:'Play Level', levelID: @levelID, ls: @session?.get('_id') unless @observing
     $(window).trigger 'resize'
+    _.delay (=> @perhapsStartSimulating?()), 10 * 1000
+
+  onSetVolume: (e) ->
+    createjs.Sound.setVolume(if e.volume is 1 then 0.6 else e.volume)  # Quieter for now until individual sound FX controls work again.
+    if e.volume and not @ambientSound
+      @playAmbientSound()
 
   playAmbientSound: ->
     return if @destroyed
     return if @ambientSound
+    return unless me.get 'volume'
     return unless file = {Dungeon: 'ambient-dungeon', Grass: 'ambient-grass'}[@level.get('terrain')]
     src = "/file/interface/#{file}#{AudioPlayer.ext}"
     unless AudioPlayer.getStatus(src)?.loaded
@@ -383,6 +393,65 @@ module.exports = class PlayLevelView extends RootView
     Backbone.Mediator.publish 'tome:select-primary-sprite', {}
     Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: false
     @surface.focusOnHero()
+
+  perhapsStartSimulating: ->
+    return unless @shouldSimulate()
+    require "vendor/aether-#{codeLanguage}" for codeLanguage in ['javascript', 'python', 'coffeescript', 'lua', 'clojure', 'io']
+    @simulateNextGame()
+
+  simulateNextGame: ->
+    return @simulator.fetchAndSimulateOneGame() if @simulator
+    @simulator = new Simulator background: true
+    # Crude method of mitigating Simulator memory leak issues
+    fetchAndSimulateOneGameOriginal = @simulator.fetchAndSimulateOneGame
+    @simulator.fetchAndSimulateOneGame = =>
+      if @simulator.simulatedByYou >= 10
+        console.log '------------------- Destroying Simulator and making a new one -----------------'
+        @simulator.destroy()
+        @simulator = null
+        @simulateNextGame()
+      else
+        fetchAndSimulateOneGameOriginal.apply @simulator
+    @simulator.fetchAndSimulateOneGame()
+
+  shouldSimulate: ->
+    # Crude heuristics are crude.
+    defaultCores = 2
+    cores = window.navigator.hardwareConcurrency or defaultCores  # Available on Chrome/Opera, soon Safari
+    defaultHeapLimit = 793000000
+    heapLimit = window.performance?.memory?.jsHeapSizeLimit or defaultHeapLimit  # Only available on Chrome, basically just says 32- vs. 64-bit
+    levelType = @level.get 'type', true
+    gamesSimulated = me.get('simulatedBy')
+    console.debug "Should we start simulating? Cores:", window.navigator.hardwareConcurrency, "Heap limit:", window.performance?.memory?.jsHeapSizeLimit, "Load duration:", @loadDuration
+    return false unless $.browser?.desktop
+    return false if $.browser?.msie or $.browser?.msedge
+    return false if $.browser.linux
+    return false if me.level() < 8
+    if levelType is 'course'
+      return false
+    else if levelType is 'hero' and gamesSimulated
+      return false if cores < 8
+      return false if heapLimit < defaultHeapLimit
+      return false if @loadDuration > 10000
+    else if levelType is 'hero-ladder' and gamesSimulated
+      return false if cores < 4
+      return false if heapLimit < defaultHeapLimit
+      return false if @loadDuration > 15000
+    else if levelType is 'hero-ladder' and not gamesSimulated
+      return false if cores < 8
+      return false if heapLimit <= defaultHeapLimit
+      return false if @loadDuration > 20000
+    else if levelType is 'course-ladder'
+      return false if cores <= defaultCores
+      return false if heapLimit < defaultHeapLimit
+      return false if @loadDuration > 18000
+    else
+      console.warn "Unwritten level type simulation heuristics; fill these in for new level type #{levelType}?"
+      return false if cores < 8
+      return false if heapLimit < defaultHeapLimit
+      return false if @loadDuration > 10000
+    console.debug "We should have the power. Begin background ladder simulation."
+    true
 
   # callbacks
 
@@ -457,7 +526,7 @@ module.exports = class PlayLevelView extends RootView
     application.tracker?.trackEvent 'Confirmed Restart', category: 'Play Level', level: @level.get('name'), label: @level.get('name') unless @observing
 
   onInfiniteLoop: (e) ->
-    return unless e.firstWorld
+    return unless e.firstWorld and e.god is @god
     @openModalView new InfiniteLoopModal nonUserCodeProblem: e.nonUserCodeProblem
     application.tracker?.trackEvent 'Saw Initial Infinite Loop', category: 'Play Level', level: @level.get('name'), label: @level.get('name') unless @observing
 
@@ -557,6 +626,7 @@ module.exports = class PlayLevelView extends RootView
     @goalManager?.destroy()
     @scriptManager?.destroy()
     @setupManager?.destroy()
+    @simulator?.destroy()
     if ambientSound = @ambientSound
       # Doesn't seem to work; stops immediately.
       createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
