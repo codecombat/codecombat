@@ -32,7 +32,7 @@ block content
         - var course = view.courses.get(view.hocCourseInstance.get('courseID'));
         - var campaign = view.campaigns.get(course.get('campaignID'));
         - var stats = campaign.statsForSessions(view.hocCourseInstance.sessions);
-        - showHOCComplete = stats.levels.done;
+        - showHOCComplete = stats.levels.done && !view.classrooms.size();
         
       .text-center
         if !showHOCComplete
@@ -46,7 +46,7 @@ block content
             li Learn even more programming!
           a.btn.btn-lg.btn-success(href="/play") Play Now
       
-      if view.hocCourseInstance
+      if view.hocCourseInstance && !view.classrooms.size()
         h3 Saved Games
         hr
         
