@@ -1,6 +1,7 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/campaign.schema'
 Level = require 'models/Level'
+CocoCollection = require 'collections/CocoCollection'
 
 module.exports = class Campaign extends CocoModel
   @className: 'Campaign'

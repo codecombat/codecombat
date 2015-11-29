@@ -33,15 +33,14 @@ module.exports = class CoursesView extends RootView
     @supermodel.loadCollection(@classrooms, 'classrooms', { data: {memberID: me.id} })
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
-    @campaigns = new CocoCollection([], { url: "/db/campaigns", model: Campaign })
-    # TODO: fetch only course campaigns
-    @supermodel.loadCollection(@courses, 'courses')
+    @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign })
+    @supermodel.loadCollection(@campaigns, 'campaigns', { data: { type: 'course' }})
 
   onLoaded: ->
     for courseInstance in @courseInstances.models
       # TODO: fetch sessions for given course instance
       # TODO: make sure we only fetch one per courseID
-      courseInstance.sessions = new CocoCollection([], { url: '???' })
+      courseInstance.sessions = new CocoCollection([], { url: '???', model: LevelSession })
       courseInstance.sessions.allDone = ->
         # TODO: should return if all non-arena courses are complete
       
