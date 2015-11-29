@@ -16,8 +16,9 @@ module.exports = class GoalManager extends CocoClass
   nextGoalID: 0
   nicks: ['GoalManager']
 
-  constructor: (@world, @initialGoals, @team) ->
+  constructor: (@world, @initialGoals, @team, options) ->
     super()
+    @options = options or {}
     @init()
 
   init: ->
@@ -107,6 +108,7 @@ module.exports = class GoalManager extends CocoClass
     @addNewSubscription(channel, f(channel))
 
   notifyGoalChanges: ->
+    return if @options.headless
     overallStatus = @checkOverallStatus()
     event =
       goalStates: @goalStates

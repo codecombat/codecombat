@@ -7,13 +7,14 @@ module.exports =
     preload: {type: 'boolean'}
     realTime: {type: 'boolean'}
 
-  'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime', 'submissionCount', 'flagHistory', 'difficulty']},
-    spells: [type: 'object']
-    preload: [type: 'boolean']
-    realTime: [type: 'boolean']
-    submissionCount: [type: 'integer']
-    flagHistory: [type: 'array']
-    difficulty: [type: 'integer']
+  'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime', 'submissionCount', 'flagHistory', 'difficulty', 'god']},
+    spells: {type: 'object'}
+    preload: {type: 'boolean'}
+    realTime: {type: 'boolean'}
+    submissionCount: {type: 'integer'}
+    flagHistory: {type: 'array'}
+    difficulty: {type: 'integer'}
+    god: {type: 'object'}
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}

@@ -25,6 +25,7 @@ module.exports = class God extends CocoClass
       workerCode: options.workerCode or '/javascripts/workers/worker_world.js'  # Either path or function
       headless: options.headless  # Whether to just simulate the goals, or to deserialize all simulation results
       spectate: options.spectate
+      god: @
       godNick: @nick
       workQueue: []
       firstWorld: true
@@ -61,6 +62,7 @@ module.exports = class God extends CocoClass
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
 
   onTomeCast: (e) ->
+    return unless e.god is @
     @lastSubmissionCount = e.submissionCount
     @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
     @lastDifficulty = e.difficulty
@@ -142,9 +144,9 @@ module.exports = class God extends CocoClass
       when 'console-log'
         console.log "|#{@nick}'s debugger|", event.data.args...
       when 'debug-value-return'
-        Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized
+        Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized, god: @
       when 'debug-world-load-progress-changed'
-        Backbone.Mediator.publish 'god:debug-world-load-progress-changed', progress: event.data.progress
+        Backbone.Mediator.publish 'god:debug-world-load-progress-changed', progress: event.data.progress, god: @
 
   onNewWorldCreated: (e) ->
     @currentUserCodeMap = @filterUserCodeMapWhenFromWorld e.world.userCodeMap

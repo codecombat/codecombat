@@ -44,12 +44,14 @@ module.exports = class LevelLoadingView extends CocoView
       @$el.addClass('manually-sized').css('height', newHeight)
 
   onLevelLoaded: (e) ->
+    return if @level
     @level = e.level
     @prepareGoals e
     @prepareTip()
     @prepareIntro()
 
   onSessionLoaded: (e) ->
+    return if @session
     @session = e.session if e.session.get('creator') is me.id
 
   prepareGoals: (e) ->
