@@ -93,11 +93,13 @@ class AudioPlayer extends CocoClass
     return defaults[message.length % defaults.length]
 
   preloadInterfaceSounds: (names) ->
+    return unless me.get 'volume'
     for name in names
       filename = "/file/interface/#{name}#{@ext}"
       @preloadSound filename, name
 
   playInterfaceSound: (name, volume=1) ->
+    return unless volume and me.get 'volume'
     filename = "/file/interface/#{name}#{@ext}"
     if @hasLoadedSound filename
       @playSound name, volume
@@ -107,6 +109,7 @@ class AudioPlayer extends CocoClass
 
   playSound: (name, volume=1, delay=0, pos=null) ->
     return console.error 'Trying to play empty sound?' unless name
+    return unless volume and me.get 'volume'
     audioOptions = {volume: volume, delay: delay}
     filename = if _.string.startsWith(name, '/file/') then name else '/file/' + name
     unless @hasLoadedSound filename
@@ -120,9 +123,8 @@ class AudioPlayer extends CocoClass
     return false unless createjs.Sound.loadComplete filename
     true
 
-  # TODO: load Interface sounds somehow, somewhere, somewhen
-
   preloadSoundReference: (sound) ->
+    return unless me.get 'volume'
     return unless name = @nameForSoundReference sound
     filename = '/file/' + name
     @preloadSound filename, name

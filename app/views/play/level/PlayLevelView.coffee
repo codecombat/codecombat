@@ -50,7 +50,7 @@ module.exports = class PlayLevelView extends RootView
   isEditorPreview: false
 
   subscriptions:
-    'level:set-volume': (e) -> createjs.Sound.setVolume(if e.volume is 1 then 0.6 else e.volume)  # Quieter for now until individual sound FX controls work again.
+    'level:set-volume': 'onSetVolume'
     'level:show-victory': 'onShowVictory'
     'level:restart': 'onRestartLevel'
     'level:highlight-dom': 'onHighlightDOM'
@@ -324,7 +324,7 @@ module.exports = class PlayLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, observing: @observing, playerNames: @findPlayerNames())
+    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), observing: @observing, playerNames: @findPlayerNames())
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -370,9 +370,15 @@ module.exports = class PlayLevelView extends RootView
     $(window).trigger 'resize'
     _.delay (=> @perhapsStartSimulating?()), 10 * 1000
 
+  onSetVolume: (e) ->
+    createjs.Sound.setVolume(if e.volume is 1 then 0.6 else e.volume)  # Quieter for now until individual sound FX controls work again.
+    if e.volume and not @ambientSound
+      @playAmbientSound()
+
   playAmbientSound: ->
     return if @destroyed
     return if @ambientSound
+    return unless me.get 'volume'
     return unless file = {Dungeon: 'ambient-dungeon', Grass: 'ambient-grass'}[@level.get('terrain')]
     src = "/file/interface/#{file}#{AudioPlayer.ext}"
     unless AudioPlayer.getStatus(src)?.loaded

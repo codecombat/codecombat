@@ -16,6 +16,7 @@ module.exports = class MusicPlayer extends CocoClass
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'music-player:enter-menu': 'onEnterMenu'
     'music-player:exit-menu': 'onExitMenu'
+    'level:set-volume': 'onSetVolume'
 
   constructor: ->
     super arguments...
@@ -26,6 +27,9 @@ module.exports = class MusicPlayer extends CocoClass
 
   onPlayMusic: (e) ->
     return if application.isIPadApp  # Hard to measure, but just guessing this will save memory.
+    unless me.get 'volume'
+      @lastMusicEventIgnoredWhileMuted = e
+      return
     src = e.file
     src = "/file#{src}#{AudioPlayer.ext}"
     if (not e.file) or src is @currentMusic?.src
@@ -96,6 +100,11 @@ module.exports = class MusicPlayer extends CocoClass
     if @previousMusic
       @currentMusic = @previousMusic
       @restartCurrentMusic()
+
+  onSetVolume: (e) ->
+    return unless e.volume and @lastMusicEventIgnoredWhileMuted
+    @onPlayMusic @lastMusicEventIgnoredWhileMuted
+    @lastMusicEventIgnoredWhileMuted = null
 
   destroy: ->
     me.off 'change:music', @onMusicSettingChanged, @
