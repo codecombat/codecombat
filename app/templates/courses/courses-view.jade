@@ -32,7 +32,7 @@ block content
         - var course = view.courses.get(view.hocCourseInstance.get('courseID'));
         - var campaign = view.campaigns.get(course.get('campaignID'));
         - var stats = campaign.statsForSessions(view.hocCourseInstance.sessions);
-        - showHOCComplete = stats.levels.done;
+        - showHOCComplete = stats.levels.done && !view.classrooms.size();
         
       .text-center
         if !showHOCComplete
@@ -40,11 +40,11 @@ block content
         else
           h1 Amazing! You've completed the Hour of Code course!
           h2 Ready for more? Play the campaign mode!
-          ul
+          ul.text-left
             li Use gems to unlock new items!
             li Play through brand new worlds and challenges
             li Learn even more programming!
-          a.btn.btn-lg.btn-success(href="/play")
+          a.btn.btn-lg.btn-success(href="/play") Play Now
       
       if view.hocCourseInstance && !view.classrooms.size()
         h3 Saved Games
