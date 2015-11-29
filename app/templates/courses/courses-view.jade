@@ -64,9 +64,10 @@ block content
         hr
         
         for classroom in view.classrooms.models
-          - var classroomClass = classroom.justAdded ? 'just-added' : '';
-          if classroom.justAdded
-            .text-center.text-info Class successfully added!
+          - var justAdded = classroom.id === view.classroomJustAdded;
+          - var classroomClass = justAdded ? 'just-added' : '';
+          if justAdded
+            #just-added-text.text-center Class successfully added!
 
           //- sigh
           div(class=classroomClass)
@@ -94,15 +95,15 @@ block content
         .help-block
           em Ask your teacher if you have a CodeCombat class code! If so, enter it below:
         .form-group
-          input#class-code-input.form-control(placeholder="<Enter Class Code>")
+          input#class-code-input.form-control(placeholder="<Enter Class Code>", value=view.classCode)
         input#join-class-button.btn.btn-default(type="submit" value="Join")
           
         if view.state === 'enrolling'
           .progress.progress-striped.active
             .progress-bar(style="width: 100%") Joining class
       
-        if view.state === 'unknown_error'
-          .alert.alert-danger= view.stateMessage
+        if view.errorMessage
+          .alert.alert-danger= view.errorMessage
     
       
   #begin-hoc-area.hide

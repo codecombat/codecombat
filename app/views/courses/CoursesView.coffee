@@ -11,6 +11,7 @@ Course = require 'models/Course'
 Classroom = require 'models/Classroom'
 LevelSession = require 'models/LevelSession'
 Campaign = require 'models/Campaign'
+utils = require 'core/utils'
 
 # TODO: Test everything
 
@@ -54,6 +55,10 @@ module.exports = class CoursesView extends RootView
     @hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
     if @hocCourseInstance
       @courseInstances.remove(@hocCourseInstance)
+      
+  onLoaded: ->
+    if utils.getQueryVariable('_cc', false)
+      @joinClass()
 
   onClickStartNewGameButton: ->
     @openSignUpModal()
@@ -85,25 +90,31 @@ module.exports = class CoursesView extends RootView
     @joinClass()
 
   joinClass: ->
+    return if @state
     @state = 'enrolling'
-    @classCode = @$('#classroom-code-input').val() or utils.getQueryVariable('_cc', false)
-    return unless @classCode
-    @renderSelectors '#join-classroom-form'
+    @errorMessage = null
+    @classCode = @$('#class-code-input').val() or utils.getQueryVariable('_cc', false)
+    if not @classCode
+      @state = null
+      @errorMessage = 'Please enter a code.'
+      @renderSelectors '#join-class-form'
+      return
+    @renderSelectors '#join-class-form'
     newClassroom = new Classroom()
     newClassroom.joinWithCode(@classCode)
     newClassroom.on 'sync', @onJoinClassroomSuccess, @
     newClassroom.on 'error', @onJoinClassroomError, @
 
   onJoinClassroomError: (classroom, jqxhr, options) ->
+    @state = null
     application.tracker?.trackEvent 'Failed to join classroom with code', status: jqxhr.status
-    @state = 'unknown_error'
     if jqxhr.status is 422
       @errorMessage = 'Please enter a code.'
     else if jqxhr.status is 404
       @errorMessage = 'Code not found.'
     else
       @errorMessage = "#{jqxhr.responseText}"
-    @renderSelectors '#join-classroom-form'    
+    @renderSelectors '#join-class-form'    
 
   onJoinClassroomSuccess: (newClassroom, jqxhr, options) ->
     application.tracker?.trackEvent 'Joined classroom', {
@@ -112,11 +123,11 @@ module.exports = class CoursesView extends RootView
       ownerID: newClassroom.get('ownerID')
     }
     @classrooms.add(newClassroom)
-    newClassroom.justAdded = true
     @render()
+    @classroomJustAdded = newClassroom.id
     
     classroomCourseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance })
-    classroomCourseInstances.fetch({ data: {classroomID: classroom.id} })
+    classroomCourseInstances.fetch({ data: {classroomID: newClassroom.id} })
     @listenToOnce classroomCourseInstances, 'sync', ->
       # join any course instances in the classroom which are free to join
       jqxhrs = []
@@ -124,11 +135,15 @@ module.exports = class CoursesView extends RootView
         course = @courses.get(courseInstance.get('courseID'))
         if course.get('free')
           jqxhrs.push = courseInstance.addMember(me.id)
+          courseInstance.sessions = new Backbone.Collection()
           @courseInstances.add(courseInstance)
       $.when(jqxhrs...).done =>
-        @state = ''
+        @state = null
         @render()
-        delete newClassroom.justAdded
+        location.hash = ''
+        f = -> location.hash = '#just-added-text'
+        # quick and dirty scroll to just-added classroom
+        setTimeout(f, 10)
         
   onClickChangeLanguageLink: ->
     modal = new ChangeCourseLanguageModal()

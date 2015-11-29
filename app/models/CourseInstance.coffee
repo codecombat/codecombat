@@ -14,10 +14,10 @@ module.exports = class CourseInstance extends CocoModel
     _.extend options, opts
     @fetch(options)
     
-  addMember: (userID) ->
+  addMember: (userID, opts) ->
     options = {
       method: 'POST'
-      url: _.result(@, 'url') + '/~/members'
+      url: _.result(@, 'url') + '/members'
       data: { userID: userID }
     }
     _.extend options, opts
