@@ -80,8 +80,7 @@ block content
                 h3
                   span.spr= course.get('name')
                   small
-                    // TODO: where do we show list of levels?
-                    a(href="/courses/classrooms/"+classroom.id) view levels
+                    a(href="/courses/"+courseInstance.get('courseID')+'/'+courseInstance.id+'#levels') view levels
                 +course-instance-body(courseInstance)
                 .clearfix
         
@@ -113,16 +112,20 @@ mixin course-instance-body(courseInstance)
   - var course = view.courses.get(courseInstance.get('courseID'));
   - var campaign = view.campaigns.get(course.get('campaignID'));
   - var levels = campaign.levelsCollection();
-  if courseInstance.sessions.allDone()
+  - var complete = view.isCampaignComplete(campaign, courseInstance.sessions);
+  if complete
     .text-success
       span.glyphicon.glyphicon-ok
       span.spl Course Complete!
   .pull-right
-    if courseInstance.sessions.allDone()
-      - var arenaLevel = sessions.findWhere({ type: 'course-ladder' });
-      - var arenaURL = "/play/ladder/"+arenaLevel.get('slug')+"/course/"+courseInstance.id;
-      a.btn.btn-warning.btn-lg(href=arenaURL)
-        | Play Arena
+    if complete
+      - var arenaLevel = levels.findWhere({ type: 'course-ladder' });
+      if arenaLevel
+        - var arenaURL = "/play/ladder/"+arenaLevel.get('slug')+"/course/"+courseInstance.id;
+        a.btn.btn-warning.btn-lg(href=arenaURL)
+          | Play Arena
+      else
+        a.btn.btn-default.btn-lg(disabled=true) Course Complete
     else if courseInstance.sessions.size()
       - var lastSession = courseInstance.sessions.last();
       - var lastLevel = levels.findWhere({original: lastSession.get('level').original});

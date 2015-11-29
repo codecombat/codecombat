@@ -28,6 +28,7 @@ module.exports = class CoursesView extends RootView
   initialize: ->
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @courseInstances.comparator = (ci) -> return ci.get('classroomID') + ci.get('courseID')
+    @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
     @supermodel.loadCollection(@courseInstances, 'course_instances')
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
     @supermodel.loadCollection(@classrooms, 'classrooms', { data: {memberID: me.id} })
@@ -36,21 +37,30 @@ module.exports = class CoursesView extends RootView
     @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign })
     @supermodel.loadCollection(@campaigns, 'campaigns', { data: { type: 'course' }})
 
-  onLoaded: ->
+  onCourseInstancesLoaded: ->
+    map = {}
     for courseInstance in @courseInstances.models
-      # TODO: fetch sessions for given course instance
-      # TODO: make sure we only fetch one per courseID
-      courseInstance.sessions = new CocoCollection([], { url: '???', model: LevelSession })
-      courseInstance.sessions.allDone = ->
-        # TODO: should return if all non-arena courses are complete
+      courseID = courseInstance.get('courseID')
+      if map[courseID]
+        courseInstance.sessions = map[courseID]
+        continue
+      map[courseID] = courseInstance.sessions = new CocoCollection([], {
+        url: courseInstance.url() + '/my-course-level-sessions',
+        model: LevelSession 
+      })
+      courseInstance.sessions.comparator = 'changed'
+      @supermodel.loadCollection(courseInstance.sessions, 'sessions')
       
     @hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
     if @hocCourseInstance
       @courseInstances.remove(@hocCourseInstance)
-      @sessions = new CocoCollection([], { url: @hocCourseInstance.url() + '/my-course-level-sessions', model: LevelSession })
-      @sessions.comparator = 'changed'
-      @supermodel.loadCollection(@sessions, 'sessions')
-    super()
+
+  isCampaignComplete: (campaign, sessions) ->
+    levels = _.values(campaign.get('levels'))
+    levels = (level for level in levels when not _.contains(level.type, 'ladder'))
+    levelOriginals = _.pluck(levels, 'original')
+    sessionOriginals = (session.get('level').original for session in sessions.models)
+    return _.size(_.difference(levelOriginals, sessionOriginals)) is 0
     
   onClickStartNewGameButton: ->
     @openSignUpModal()
