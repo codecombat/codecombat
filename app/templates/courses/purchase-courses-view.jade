@@ -6,36 +6,40 @@ block content
     p.text-center Purchasing...
     .progress.progress-striped.active
       .progress-bar(style="width: 100%")
-    
+
   else if view.state === 'purchased'
-    p Thank you for your purchase! You can now assign (more) students to paid courses.
-    
+    p Thank you for your purchase! You can now assign #{view.numberOfStudents} more students to paid courses.
+
     p.text-center
       a(href="/courses/teachers") Return to course management.
       
   else
-    h3.text-center Purchase Courses for Students
-    
+
+    h2.text-center Purchase Student Enrollments
+    br
+
     if view.state === 'error'
       .alert.alert-danger= view.stateMessage
-    
-    .form-horizontal
-      .form-group
-        label.col-sm-3.control-label Students
-        .col-sm-6
-          input#students-input.form-control(
-            placeholder='<number of seats>'
-            value=view.numberOfStudents
-            type='number'
-          )
-          .help-block Each student will have access to all courses. 
-          
-      #price-form-group.form-group
-        label.col-sm-3.control-label Price
-        .col-sm-6
-          .form-control-static
-            | #{view.getPriceString()} ($#{view.pricePerStudent.toFixed(2)} per student)
-  
-      .form-group
-        .col-sm-offset-3.col-sm-10
-          button#purchase-btn.btn.btn-primary Purchase
+
+    p.text-center
+      strong How many enrollments do you need?
+    br
+
+    p.text-center
+      input#students-input(
+        placeholder='<number of enrollments>'
+        value=view.numberOfStudents
+        type='number'
+      )
+    br
+
+    .container-fluid
+      .row
+        .col-md-offset-3.col-md-6 One enrollment per student is required to assign them to paid CodeCombat courses.  A single student does not need multiple enrollments to access all paid courses.
+    br
+
+    p.text-center#price-form-group
+      strong Total: #{view.numberOfStudents} enrollments x $#{view.pricePerStudent.toFixed(2)} = #{view.getPriceString()}
+
+    p.text-center
+      button#purchase-btn.btn.btn-lg.btn-success.uppercase Purchase Now
