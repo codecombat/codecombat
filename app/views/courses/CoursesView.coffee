@@ -57,6 +57,7 @@ module.exports = class CoursesView extends RootView
       @courseInstances.remove(@hocCourseInstance)
       
   onLoaded: ->
+    super()
     if utils.getQueryVariable('_cc', false)
       @joinClass()
 
