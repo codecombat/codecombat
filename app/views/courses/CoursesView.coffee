@@ -49,19 +49,12 @@ module.exports = class CoursesView extends RootView
         model: LevelSession 
       })
       courseInstance.sessions.comparator = 'changed'
-      @supermodel.loadCollection(courseInstance.sessions, 'sessions', { data: { project: 'state.complete level.original' }})
+      @supermodel.loadCollection(courseInstance.sessions, 'sessions', { data: { project: 'state.complete level.original playtime changed' }})
       
     @hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
     if @hocCourseInstance
       @courseInstances.remove(@hocCourseInstance)
 
-  isCampaignComplete: (campaign, sessions) ->
-    levels = _.values(campaign.get('levels'))
-    levels = (level for level in levels when not _.contains(level.type, 'ladder'))
-    levelOriginals = _.pluck(levels, 'original')
-    sessionOriginals = (session.get('level').original for session in sessions.models)
-    return _.size(_.difference(levelOriginals, sessionOriginals)) is 0
-    
   onClickStartNewGameButton: ->
     @openSignUpModal()
 

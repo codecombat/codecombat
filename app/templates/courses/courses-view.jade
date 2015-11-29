@@ -28,8 +28,11 @@ block content
     else
       
       - var showHOCComplete = false;
-      if false && view.hocCourseInstance
-        - showHOCComplete = view.hocCourseInstance.sessions.allDone();
+      if view.hocCourseInstance
+        - var course = view.courses.get(view.hocCourseInstance.get('courseID'));
+        - var campaign = view.campaigns.get(course.get('campaignID'));
+        - var stats = campaign.statsForSessions(view.hocCourseInstance.sessions);
+        - showHOCComplete = stats.levels.done;
         
       .text-center
         if !showHOCComplete
@@ -43,7 +46,7 @@ block content
             li Learn even more programming!
           a.btn.btn-lg.btn-success(href="/play")
       
-      if false && view.hocCourseInstance
+      if view.hocCourseInstance && !view.classrooms.size()
         h3 Saved Games
         hr
         
@@ -56,7 +59,7 @@ block content
           +course-instance-body(view.hocCourseInstance)
           .clearfix
         
-      if view.classrooms.size()
+      else if view.classrooms.size()
         h3.text-uppercase My Classes
         hr
         
@@ -111,29 +114,43 @@ block content
 mixin course-instance-body(courseInstance)
   - var course = view.courses.get(courseInstance.get('courseID'));
   - var campaign = view.campaigns.get(course.get('campaignID'));
-  - var levels = campaign.levelsCollection();
-  - var complete = view.isCampaignComplete(campaign, courseInstance.sessions);
-  if complete
+  - var stats = campaign.statsForSessions(courseInstance.sessions);
+  if stats.levels.done
     .text-success
       span.glyphicon.glyphicon-ok
       span.spl Course Complete!
   .pull-right
-    if complete
-      - var arenaLevel = levels.findWhere({ type: 'course-ladder' });
+    if stats.levels.done
+      - var arenaLevel = stats.levels.arena;
       if arenaLevel
-        - var arenaURL = "/play/ladder/"+arenaLevel.get('slug')+"/course/"+courseInstance.id;
+        - var arenaURL = "/play/ladder/"+arenaLevel.slug+"/course/"+courseInstance.id;
         a.btn.btn-warning.btn-lg(href=arenaURL)
           | Play Arena
       else
         a.btn.btn-default.btn-lg(disabled=true) Course Complete
     else if courseInstance.sessions.size()
-      - var lastSession = courseInstance.sessions.last();
-      - var lastLevel = levels.findWhere({original: lastSession.get('level').original});
-      - var levelURL = "/play/level/"+lastLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
+      - var lastLevel = stats.levels.lastPlayed;
+      - var levelURL = "/play/level/"+lastLevel.slug+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
       a.btn.btn-success.btn-lg(href=levelURL)
         | Continue
     else
-      - var firstLevel = levels.first();
-      - var levelURL = "/play/level/"+firstLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
+      - var firstLevel = stats.levels.first;
+      - var levelURL = "/play/level/"+firstLevel.slug+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
       a.btn.btn-info.btn-lg(href=levelURL)
         | Start
+      
+  div
+    span Playtime
+    span.spr :
+    span= moment.duration(stats.playtime, 'seconds').humanize()
+    
+  if stats.levels.lastPlayed
+    div
+      span Last Level
+      span.spr :
+      span= stats.levels.lastPlayed.name
+
+  .progress
+    .progress-bar(style="width:"+stats.levels.pctDone)= stats.levels.pctDone
+    
+  
