@@ -1,6 +1,7 @@
 extends /templates/core/modal-base
 
 block modal-header-content
+  h3 Change Course Language
   .clearfix
 
 block modal-body-content
@@ -14,12 +15,12 @@ block modal-body-content
         
     p - OR -
     
-    if currentLanguage === 'javascript'
-      button.lang-choice-btn.btn.btn-default(data-language='javascript')
-        if currentLanguage === 'javascript'
-          | Keep Using JavaScript
-        else
-          | Switch to JavaScript
+    button.lang-choice-btn.btn.btn-default(data-language='javascript')
+      if currentLanguage === 'javascript'
+        | Keep Using JavaScript
+      else
+        | Switch to JavaScript
+        
   #saving-progress.progress.progress-striped.active.hide
     .progress-bar(style="width: 100%")
 

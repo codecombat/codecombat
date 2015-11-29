@@ -149,3 +149,4 @@ module.exports = class CoursesView extends RootView
   onClickChangeLanguageLink: ->
     modal = new ChangeCourseLanguageModal()
     @openModalView(modal)
+    modal.once 'hidden', @render, @
