@@ -444,13 +444,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     parents_blurb3: "Без риска: 100% гарантия возврата денег, возможность отписаться в 1 клик."
     payment_methods: "Методы оплаты"
     payment_methods_title: "Принимаемые методы оплаты"
-    payment_methods_blurb1: "На данный момент мы принимаем кредитные карты и Alipay."
+    payment_methods_blurb1: "На данный момент мы принимаем кредитные карты и Alipay." # {change}
     payment_methods_blurb2: "Если вам необходим альтернативный способ оплаты, пожалуйста, свяжитесь"
     sale_already_subscribed: "У вас уже есть подписка!"
-    sale_blurb1: "Скидка 35%"
+    sale_blurb1: "Скидка $21" # {change}
     sale_blurb2: "от годовой подписки за $120 на весь год!"
     sale_button: "Распродажа!"
-    sale_button_title: "Сэкономьте 35% при приобретении годовой подписки"
+    sale_button_title: "Сэкономьте $21 при приобретении годовой подписки" # {change}
     sale_click_here: "Нажмите сюда"
     sale_ends: "Заканчивается"
     sale_extended: "*Текущие подписки будут продлены на год."
@@ -463,7 +463,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sale_title: "Назад на школьную распродажу"
     sale_view_button: "Купи годовую подписку за"
     stripe_description: "Месячная подписка"
-    stripe_description_year_sale: "Годовая подписка (35% скидка)"
+    stripe_description_year_sale: "Годовая подписка ($21 скидка)" # {change}
     subscription_required_to_play: "Чтобы сыграть этот уровень нужна подписка."
     unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
     personal_sub: "Личная подписка" # Accounts Subscription View below
@@ -685,7 +685,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     denied_2: "отклонена." # {change}
     contact_1: "Пожалуйста, свяжитесь с"
     contact_2: ", если у вас остались вопросы."
-    description_1: "Мы предлагаем бесплатные подписки учителям в целях ознакомления. Вы можете найти больше информации на нашей странице" # {change}
+    description_1: "Мы предлагаем бесплатные подписки учителям в целях ознакомления. Вы можете найти больше информации на нашей странице"
 #    description_1b: "You can find more information on our"
     description_2: "учителей"
     description_3: ""
@@ -746,6 +746,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     password_tab: "Пароль"
     emails_tab: "Email-адреса"
     admin: "Админ"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Новый пароль"
     new_password_verify: "Подтверждение пароля"
     type_in_email: "Введите ваш email для подтверждения удаления аккаунта"
@@ -857,6 +858,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     started_2: "Начат"
     not_started_2: "Не начат"
     view_solution: "Нажмите, чтобы увидеть решение."
+#    view_attempt: "Click to view attempt."
     latest_achievement: "Последнее достижение"
     playtime: "Время игры"
     last_played: "Последняя игра"

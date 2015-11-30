@@ -444,13 +444,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     parents_blurb3: "Жодного ризику: 100% гарантія повернення грошей, легке скасування абонементу одним кліком."
     payment_methods: "Платіжні методи"
     payment_methods_title: "Платіжні методи, що приймаються"
-    payment_methods_blurb1: "Наразі ми приймаємо кредитні картки та Alpiay."
+    payment_methods_blurb1: "Наразі ми приймаємо кредитні картки та Alpiay." # {change}
     payment_methods_blurb2: "Якщо Вам необхідно використати інший спосіб оплати, будь ласка, зв'яжіться з нами."
     sale_already_subscribed: "Ви вже підписалися!"
-    sale_blurb1: "Зекономте 35%"
+    sale_blurb1: "Зекономте $21" # {change}
     sale_blurb2: "від звичайної ціни у 120$ на рік!"
     sale_button: "Розпродаж!"
-    sale_button_title: "Збережіть 35% при покупці абонементу на 1 рік"
+    sale_button_title: "Збережіть $21 при покупці абонементу на 1 рік" # {change}
     sale_click_here: "Натисніть тут"
     sale_ends: "Kінець"
     sale_extended: "*Існуючі підписки буде продовжено на 1 рік."
@@ -463,7 +463,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     sale_title: "Дошкільні знижки"
     sale_view_button: "Купити 1 рік підписки на"
     stripe_description: "Щомісячний абонемент"
-    stripe_description_year_sale: "1 рік підписки (35% знижка)"
+    stripe_description_year_sale: "1 рік підписки ($21 знижка)" # {change}
     subscription_required_to_play: "Аби грати в цьому рівні потрібен абонемент."
     unlock_help_videos: "Підпишіться, щоб відкрити усі навчальні відео."
     personal_sub: "Особистий абонемент" # Accounts Subscription View below
@@ -685,7 +685,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     denied_2: "відхилено."
     contact_1: "Будь ласка, зв'яжіться з"
     contact_2: ", якщо у вас залишилися питання."
-    description_1: "Ми пропонуємо безкоштовні підписки вчителям в цілях ознайомлення. Ви можете знайти більше інформації на нашій сторінці" # {change}
+    description_1: "Ми пропонуємо безкоштовні підписки вчителям в цілях ознайомлення. Ви можете знайти більше інформації на нашій сторінці"
 #    description_1b: "You can find more information on our"
     description_2: "вчителів"
     description_3: "."
@@ -746,6 +746,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     password_tab: "Пароль"
     emails_tab: "Email-адреси"
     admin: "Aдмін"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Новий пароль"
     new_password_verify: "Підтвердження паролю"
     type_in_email: "Введіть свій email, аби підтвердити вилучення екаунту."
@@ -857,6 +858,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     started_2: "Розпочато"
     not_started_2: "Не розпочато"
     view_solution: "Натисніть аби переглянути рішення."
+#    view_attempt: "Click to view attempt."
     latest_achievement: "Останнє досягнення"
     playtime: "Тривалість гри"
     last_played: "Остання гра"

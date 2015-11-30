@@ -444,13 +444,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     parents_blurb3: "Κανένα Ρίσκο: 100% εγγύση επιστροφής χρημάτων, εύκολη διακοπή συνδρομής, με 1 κλικ."
     payment_methods: "Τρόποι Πληρωμής"
     payment_methods_title: "Αποδεκτοί Τρόποι Πληρωμής"
-    payment_methods_blurb1: "Προς το παρόν δεχόμαστε πιστωτικές κάρτες και Alipay."
+    payment_methods_blurb1: "Προς το παρόν δεχόμαστε πιστωτικές κάρτες και Alipay." # {change}
     payment_methods_blurb2: "Αν ενδιαφέρεστε για άλλο τρόπο πληρωμής, παρακαλούμε επικοινωνείστε μαζί μας."
     sale_already_subscribed: "Είστε ήδη συνδρομητής!"
-    sale_blurb1: "Γλίτωσε 35%"
+    sale_blurb1: "Γλίτωσε $21" # {change}
     sale_blurb2: "από την τιμή της κανονικής συνδρομής των $120 το χρόνο!"
     sale_button: "Εκπτώσεις!"
-    sale_button_title: "Γλίτωσε 5% όταν αγοράσεις συνδρομή ετήσια συνδρομή"
+    sale_button_title: "Γλίτωσε $21 όταν αγοράσεις συνδρομή ετήσια συνδρομή" # {change}
     sale_click_here: "Πάτα εδώ"
     sale_ends: "Τελειώνει"
     sale_extended: "*Οι υπάρχουσες συνδρομές θα επεκταθούν για ένα χρόνο."
@@ -463,7 +463,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     sale_title: "Εκπτώσεις λόγω επιστροφής στο Σχολείο"
     sale_view_button: "Αγόρασε ετήσια συνδρομή για"
     stripe_description: "Μηνιαία Συνδρομή"
-    stripe_description_year_sale: "Ετήσια Συνδρομή (35% έκπτωση)"
+    stripe_description_year_sale: "Ετήσια Συνδρομή ($21 έκπτωση)" # {change}
     subscription_required_to_play: "Πρέπει να είσαι συνδρομητής για να παίξεις αυτό το επίπεδο."
     unlock_help_videos: "Απέκτησε συνδρομή για να ξεκλειδώσεις όλα τα βίντεο βοηθήματα."
     personal_sub: "Προσωπική Συνδρομή" # Accounts Subscription View below
@@ -685,7 +685,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     denied_2: "απορίφθηκε."
     contact_1: "Παρακαλούμε επικοινωνείστε"
     contact_2: "αν έχετε περαιτέρω ερωτήσεις."
-    description_1: "Δίνουμε δωρεάν συνδρομές σε εκπαιδευτικούς για να αξιολογήσουν το παιχνίδι. Μπορείτε να βρείτε περισσότερες πληροφορίες στις" # {change}
+    description_1: "Δίνουμε δωρεάν συνδρομές σε εκπαιδευτικούς για να αξιολογήσουν το παιχνίδι. Μπορείτε να βρείτε περισσότερες πληροφορίες στις"
 #    description_1b: "You can find more information on our"
     description_2: "εκπαιδευτική"
     description_3: "σελίδα."
@@ -746,6 +746,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     password_tab: "Κωδικός"
     emails_tab: "Emails"
     admin: "Διαχειριστής"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Καινούργιος Κωδικός"
     new_password_verify: " Επαλήθευση  Κωδικού"
     type_in_email: "Γράψτε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας για να επιβεβαιώσετε τη διαγραφή του λογαριασμού."
@@ -857,6 +858,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     started_2: "Ξεκίνησε"
     not_started_2: "Δεν ξεκίνησε"
     view_solution: "Πάτα για να δεις τη λύση."
+#    view_attempt: "Click to view attempt."
     latest_achievement: "Τελευταίο Επίτευγμα"
     playtime: "Χρόνος παιχνιδιού"
     last_played: "Έπαιξε τελευταία φορά"

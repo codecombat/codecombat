@@ -444,13 +444,13 @@
     parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
     payment_methods: "Payment Methods"
     payment_methods_title: "Accepted Payment Methods"
-    payment_methods_blurb1: "We currently accept credit cards and Alipay. You can also PayPal 29.97 USD to nick@codecombat.com with your account email in the memo to purchase three months' subscription and gems, or $99 for a year." # {change}
+    payment_methods_blurb1: "We currently accept credit cards and Alipay. You can also PayPal 29.97 USD to nick@codecombat.com with your account email in the memo to purchase three months' subscription and gems, or $99 for a year."
     payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     sale_already_subscribed: "You're already subscribed!"
-    sale_blurb1: "Save $21" # {change}
+    sale_blurb1: "Save $21"
     sale_blurb2: "off regular subscription price of $120 for a whole year!"
     sale_button: "Sale!"
-    sale_button_title: "Save $21 when you purchase a 1 year subscription" # {change}
+    sale_button_title: "Save $21 when you purchase a 1 year subscription"
     sale_click_here: "Click Here"
     sale_ends: "Ends"
     sale_extended: "*Existing subscriptions will be extended by 1 year."
@@ -463,7 +463,7 @@
     sale_title: "Back to School Sale"
     sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Monthly Subscription"
-    stripe_description_year_sale: "1 Year Subscription ($21 discount)" # {change}
+    stripe_description_year_sale: "1 Year Subscription ($21 discount)"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
 

@@ -444,13 +444,13 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     parents_blurb3: "Sem risco: 100% devolução do dinheiro garantida, basta um simples clique em desinscrever-se."
     payment_methods: "Formas de pagamento"
     payment_methods_title: "Formas de pagamento aceitas"
-    payment_methods_blurb1: "Aceitamos cartões de crédito e Alipay no momento."
+    payment_methods_blurb1: "Aceitamos cartões de crédito e Alipay no momento." # {change}
     payment_methods_blurb2: "Se você precisa de outra forma de pagamento, por favor contate"
     sale_already_subscribed: "Você já está subscrito!"
-    sale_blurb1: "Economize 35%"
+    sale_blurb1: "Economize $21" # {change}
     sale_blurb2: "desconto regular de assinatura por U$120 durante um ano inteiro!"
     sale_button: "Venda!"
-    sale_button_title: "Economize 35% quando você adquirir a assinatura de 1 ano"
+    sale_button_title: "Economize $21 quando você adquirir a assinatura de 1 ano" # {change}
     sale_click_here: "Clique Aqui"
     sale_ends: "Termina"
     sale_extended: "*Assinaturas existentes serão extendidas por 1 ano."
@@ -463,7 +463,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     sale_title: "Promoção de volta às aulas"
     sale_view_button: "Compre uma assinatura de 1 ano por"
     stripe_description: "Inscrição Mensal"
-    stripe_description_year_sale: "Assinatura de 1 Ano (35% de desconto"
+    stripe_description_year_sale: "Assinatura de 1 Ano ($21 de desconto" # {change}
     subscription_required_to_play: "Você precisará se inscrever para jogar este nível."
     unlock_help_videos: "Inscreva-se para desbloquear todos os vídeos tutoriais."
     personal_sub: "Inscrição individual" # Accounts Subscription View below
@@ -685,7 +685,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     denied_2: "negada."
     contact_1: "Por favor, entre em contato"
     contact_2: "caso você tenha dúvidas no futuro."
-    description_1: "Nós oferecemos assinaturas grátis à professores para fins de avaliação. Você pode encontrar mais informações na nossa" # {change}
+    description_1: "Nós oferecemos assinaturas grátis à professores para fins de avaliação. Você pode encontrar mais informações na nossa"
 #    description_1b: "You can find more information on our"
     description_2: "professores"
     description_3: "página."
@@ -746,6 +746,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     password_tab: "Senha"
     emails_tab: "Emails"
     admin: "Admin"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Nova Senha"
     new_password_verify: "Confirmação"
     type_in_email: "Digite seu e-mail para confirmar a exclusão" # {change}
@@ -857,6 +858,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     started_2: "Iniciado"
     not_started_2: "Não Iniciado"
     view_solution: "Clique para ver a solução."
+#    view_attempt: "Click to view attempt."
     latest_achievement: "Última Conquista"
     playtime: "Tempo de Jogo"
     last_played: "Último Jogo"
