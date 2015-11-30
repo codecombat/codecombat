@@ -203,7 +203,7 @@ exports.config =
     assetsmanager:
       copyTo:
         'lib/ace': ['node_modules/ace-builds/src-min-noconflict/*']
-    autoreload:
+    autoReload:
       delay: 1000
 
   modules:
