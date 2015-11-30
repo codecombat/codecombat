@@ -284,7 +284,10 @@ module.exports = class SpellView extends CocoView
             range = @aceSession.getFoldWidgetRange(row)
             if not range?
               guess = startOfRow(row)
-              range = new Range(row,guess,row+1,guess+4)
+              range = new Range(row,guess,row,guess+4)
+
+            if /^\s+$/.test lines[range.end.row+1]
+              range.end.row += 1
 
             xstart = startOfRow(range.start.row)
             level = Math.floor(xstart / 4)
