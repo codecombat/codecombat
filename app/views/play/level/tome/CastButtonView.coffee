@@ -23,6 +23,7 @@ module.exports = class CastButtonView extends CocoView
     'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'god:goals-calculated': 'onGoalsCalculated'
+    'playback:ended-changed': 'onPlaybackEndedChanged'
 
   constructor: (options) ->
     super options
@@ -128,6 +129,10 @@ module.exports = class CastButtonView extends CocoView
     return if @options.level.get 'hidesRealTimePlayback'
     return if @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']  # Don't show it until they actually win for this first one.
     @onNewGoalStates e
+
+  onPlaybackEndedChanged: (e) ->
+    return unless e.ended and @winnable
+    @$el.toggleClass 'has-seen-winning-replay', true
 
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded
