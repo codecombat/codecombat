@@ -280,9 +280,11 @@ module.exports = class SpellView extends CocoView
 
           for row in [0..@aceSession.getLength()]
             foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
-
-            continue if foldWidgets[row] isnt "start"
+            continue unless foldWidgets? and foldWidgets[row] is "start"
             range = @aceSession.getFoldWidgetRange(row)
+            if not range?
+              guess = startOfRow(row)
+              range = new Range(row,guess,row+1,guess+4)
 
             xstart = startOfRow(range.start.row)
             level = Math.floor(xstart / 4)
