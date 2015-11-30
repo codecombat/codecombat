@@ -357,7 +357,9 @@ module.exports = class PlayLevelView extends RootView
     @selectHero()
 
   onLoadingViewUnveiled: (e) ->
-    Backbone.Mediator.publish 'level:set-playing', playing: true if @level.get('type') in ['course-ladder', 'hero-ladder']  # We used to autoplay by default, but now we only do it if the level says to in the introduction script.
+    if @level.get('type') in ['course-ladder', 'hero-ladder'] or @observing
+      # We used to autoplay by default, but now we only do it if the level says to in the introduction script.
+      Backbone.Mediator.publish 'level:set-playing', playing: true
     @loadingView.$el.remove()
     @removeSubView @loadingView
     @loadingView = null
