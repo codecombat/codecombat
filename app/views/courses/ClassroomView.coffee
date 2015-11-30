@@ -10,7 +10,7 @@ User = require 'models/User'
 utils = require 'core/utils'
 Prepaid = require 'models/Prepaid'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
-
+ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 
 module.exports = class ClassroomView extends RootView
   id: 'classroom-view'
@@ -18,6 +18,8 @@ module.exports = class ClassroomView extends RootView
   
   events:
     'click #edit-class-details-link': 'onClickEditClassDetailsLink'
+    'click #activate-licenses-btn': 'onClickActivateLicensesButton'
+    'click .activate-single-license-btn': 'onClickActivateSingleLicenseButton'
 
   initialize: (options, classroomID) ->
     @classroom = new Classroom({_id: classroomID})
@@ -32,8 +34,7 @@ module.exports = class ClassroomView extends RootView
     @courseInstances.comparator = 'courseID'
     @supermodel.loadCollection(@courseInstances, 'course_instances', { data: { classroomID: classroomID } })
     @users = new CocoCollection([], { url: "/db/classroom/#{classroomID}/members", model: User })
-    @users.comparator = (user) =>
-      @makeDisplayName(user).toLowerCase()
+    @users.comparator = (user) => user.broadName().toLowerCase()
     @supermodel.loadCollection(@users, 'users')
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesSync
 
@@ -62,20 +63,30 @@ module.exports = class ClassroomView extends RootView
       courseInstance.sessions.campaign = campaign
     super()
 
+  onClickActivateLicensesButton: ->
+    modal = new ActivateLicensesModal({
+      classroom: @classroom
+      users: @users
+    })
+    @openModalView(modal)
+    modal.once 'redeem-users', -> document.location.reload()
+
+  onClickActivateSingleLicenseButton: (e) ->
+    userID = $(e.target).data('user-id')
+    user = @users.get(userID)
+    modal = new ActivateLicensesModal({
+      classroom: @classroom
+      users: @users
+      user: user
+    })
+    @openModalView(modal)
+    modal.once 'redeem-users', -> document.location.reload()
+
   onClickEditClassDetailsLink: ->
     modal = new ClassroomSettingsModal({classroom: @classroom})
     @openModalView(modal)
     @listenToOnce modal, 'hidden', @render
 
-  makeDisplayName: (user) ->
-    name = user.get('name')
-    return name if name
-    name = _.filter([user.get('firstName'), user.get('lastName')]).join('')
-    return name if name
-    email = user.get('email')
-    return email if email
-    return ''
-    
   makeLastPlayedString: (user) ->
     session = user.sessions.last()
     return '' if not session

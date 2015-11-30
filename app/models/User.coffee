@@ -16,6 +16,14 @@ module.exports = class User extends CocoModel
   isInGodMode: -> 'godmode' in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   displayName: -> @get('name', true)
+  broadName: ->
+    name = @get('name')
+    return name if name
+    name = _.filter([@get('firstName'), @get('lastName')]).join('')
+    return name if name
+    email = @get('email')
+    return email if email
+    return ''
 
   getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
     photoURL = if useJobProfilePhoto then @get('jobProfile')?.photoURL else null

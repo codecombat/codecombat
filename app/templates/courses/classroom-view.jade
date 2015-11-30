@@ -23,13 +23,13 @@ block content
     | Students
     .pull-right#main-button-area
       button.btn.btn-success Add Students
-      button.btn.btn-warning Activate Licenses
+      button#activate-licenses-btn.btn.btn-warning Activate Licenses
       a.btn.btn-warning(href="/courses/purchase?from-classroom="+view.classroom.id) Purchase Licenses
       
   hr
   
   for user in view.users.models
-    h2= view.makeDisplayName(user)
+    h2= user.broadName()
     - var lastPlayedString = view.makeLastPlayedString(user);
     if lastPlayedString
       p Last Played: #{lastPlayedString}
@@ -56,6 +56,6 @@ block content
         p
           em Activate a license to enable more courses for this student.
         p
-          button.btn.btn-info.btn-sm Activate
+          button.activate-single-license-btn.btn.btn-info.btn-sm(data-user-id=user.id) Activate
           
     hr
