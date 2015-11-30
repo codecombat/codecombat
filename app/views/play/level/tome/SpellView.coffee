@@ -92,7 +92,7 @@ module.exports = class SpellView extends CocoView
     @aceSession.setNewLineMode 'unix'
     @aceSession.setUseSoftTabs true
     @ace.setTheme 'ace/theme/textmate'
-    @ace.setDisplayIndentGuides aceConfig.indentGuides
+    @ace.setDisplayIndentGuides false
     @ace.setShowPrintMargin false
     @ace.setShowInvisibles aceConfig.invisibles
     @ace.setBehavioursEnabled aceConfig.behaviors
@@ -253,6 +253,7 @@ module.exports = class SpellView extends CocoView
 
 
   hookACECustomBehavior: ->
+    aceConfig = me.get('aceConfig') ? {}
     @ace.commands.on 'exec', (e) =>
       # When pressing enter with an active selection, just make a new line under it.
       if e.command.name is 'enter-skip-delimiters'
@@ -260,6 +261,46 @@ module.exports = class SpellView extends CocoView
         unless selection.start.column is selection.end.column and selection.start.row is selection.end.row
           e.editor.execCommand 'gotolineend'
           return true
+
+    if me.level() < 20 or aceConfig.indentGuides
+      @aceSession.addDynamicMarker
+        update: (html, markerLayer, session, config) =>
+          Range = ace.require('ace/range').Range
+
+          foldWidgets = @aceSession.foldWidgets
+          return if not foldWidgets?
+
+          lines = @aceDoc.getAllLines()
+          startOfRow = (r) ->
+            str = lines[r]
+            ar = str.match(/^\s*/)
+            ar.pop().length
+
+          colors = ['50,150,200', '200,150,50', '255,0,0', '0,255,0']
+
+          for row in [0..@aceSession.getLength()]
+            foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
+
+            continue if foldWidgets[row] isnt "start"
+            range = @aceSession.getFoldWidgetRange(row)
+
+            xstart = startOfRow(range.start.row)
+            level = Math.floor(xstart / 4)
+            indent = startOfRow(range.start.row + 1)
+            color = colors[level % colors.length]
+            t = markerLayer.$getTop(range.start.row + 1, config)
+            h = config.lineHeight * (range.end.row - range.start.row)
+            l = markerLayer.$padding + xstart * config.characterWidth
+            # w = (data.i - data.b) * config.characterWidth
+            w = 4 * config.characterWidth
+
+            html.push [
+              '<div style="',
+              "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color},0.2);"
+              "border-right: 3px solid rgba(#{color},0.4);",
+              '"></div>' ].join ''
+
+            markerLayer.drawTextMarker html, new Range(range.start.row,xstart, range.start.row, 1000), 'rob', config, "border: 3px solid rgba(#{color}, 0.4); position: absolute"
 
   fillACE: ->
     @ace.setValue @spell.source

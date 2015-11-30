@@ -42,6 +42,7 @@ module.exports = class AuthModal extends ModalView
   afterRender: ->
     super()
     @$el.toggleClass('signup', @mode is 'signup').toggleClass('login', @mode is 'login')
+    @playSound 'game-menu-open'
 
   afterInsert: ->
     super()
@@ -105,6 +106,7 @@ module.exports = class AuthModal extends ModalView
     createUser userObject, null, window.nextURL
 
   onLoggingInWithFacebook: (e) ->
+    @playSound 'menu-button-click'
     modal = $('.modal:visible', @$el)
     @enableModalInProgress(modal) # TODO: part of forms
 
@@ -155,3 +157,7 @@ module.exports = class AuthModal extends ModalView
     el.i18n()
     @$el.find('.modal-body:visible').empty().append(el)
     @$el.find('.modal-footer').remove()
+
+  onHidden: ->
+    super()
+    @playSound 'game-menu-close'
