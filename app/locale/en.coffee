@@ -1183,7 +1183,7 @@
     tutorial_skip: "Skip Tutorial"
     tutorial_not_sure: "Not sure what's going on?"
     tutorial_play_first: "Play the Tutorial first."
-    simple_ai: "Simple AI"
+    simple_ai: "Simple CPU" # {change}
     warmup: "Warmup"
     friends_playing: "Friends Playing"
     log_in_for_friends: "Log in to play with your friends!"
@@ -1205,8 +1205,8 @@
     rules: "Rules"
     winners: "Winners"
     league: "League"
-    red_ai: "Red AI"  # "Red AI Wins", at end of multiplayer match playback
-    blue_ai: "Blue AI"
+    red_ai: "Red CPU"  # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "Blue CPU" # {change}
     wins: "Wins"  # At end of multiplayer match playback
     humans: "Red"  # Ladder page display team name
     ogres: "Blue"
