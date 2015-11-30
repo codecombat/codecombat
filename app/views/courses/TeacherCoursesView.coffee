@@ -162,7 +162,7 @@ module.exports = class TeacherCoursesView extends RootView
 
     user = @usersToRedeem.first()
 
-    prepaid = @prepaids.find((prepaid) -> prepaid.get('properties').endDate? and prepaid.openSpots())
+    prepaid = @prepaids.find((prepaid) -> prepaid.get('properties')?.endDate? and prepaid.openSpots())
     prepaid = @prepaids.find((prepaid) -> prepaid.openSpots()) unless prepaid
     $.ajax({
       method: 'POST'

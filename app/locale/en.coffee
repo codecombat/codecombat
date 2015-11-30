@@ -747,6 +747,7 @@
     password_tab: "Password"
     emails_tab: "Emails"
     admin: "Admin"
+    manage_subscription: "Click here to manage your subscription."
     new_password: "New Password"
     new_password_verify: "Verify"
     type_in_email: "Type in your email to confirm account deletion."
