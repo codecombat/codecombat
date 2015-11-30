@@ -246,7 +246,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new LevelPlaybackView session: @session, level: @level
     @insertSubView new GoalsView {}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
-    @insertSubView new GoldView {}
+    @insertSubView new GoldView {} unless @level.get('slug') in ['wakka-maul']
     @insertSubView new HUDView {level: @level}
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session

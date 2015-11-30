@@ -38,7 +38,7 @@
     &.team-humans
       padding-right: 10px
 
-      .player-power
+      .player-power, .player-gold
         margin-right: 5px
 
     &.team-ogres
@@ -52,7 +52,7 @@
         .player-name
           text-align: right
 
-        .player-power
+        .player-power, .player-gold
           margin-left: 5px
           flex-direction: row-reverse
           text-align: right
@@ -85,14 +85,14 @@
       max-width: 130px
 
     $iconSize: 16px
-    .health-icon, .power-icon
+    .health-icon, .power-icon, .gold-icon
       display: inline-block
       width: $iconSize
       height: $iconSize
       background: transparent url(/images/level/hud_info_icons.png) no-repeat
       background-size: auto $iconSize
 
-    .player-health, .player-power
+    .player-health, .player-power, .player-gold
       height: 50%
       display: flex
       flex-direction: row
@@ -122,37 +122,21 @@
         vertical-align: top
 
     .player-power
-      
+
       .power-icon
         margin-top: 4px
         background-position: (-5 * $iconSize) 0px
-          
+
       .power-value
         min-width: 20px
         margin: 0px 5px
-    
-    //&.team-humans .team-gold
-    //  color: hsla(4,80%,51%,1)
-    //
-    //&.team-ogres .team-gold
-    //  color: hsla(205,100%,51%,1)
-    //
-    //.team-gold
-    //  font-size: 1.4vw
-    //  line-height: 1.4vw
-    //  margin: 0
-    //  color: hsla(205,0%,51%,1)
-    //  display: inline-block
-    //  padding: 0px 4px
-    //
-    //  img
-    //    width: 1.2vw
-    //    height: 1.2vw
-    //    border-radius: 2px
-    //    padding: 0.1vw
-    //    margin-top: -0.2vw
-    //    margin-right: 0.1vw
-    //
-    //  .gold-amount
-    //    display: inline-block
-    //    min-width: 20px
+
+    .player-gold
+
+      .gold-icon
+        margin-top: 4px
+        background-position: (-8 * $iconSize) 0px
+
+      .gold-value
+        min-width: 20px
+        margin: 0px 5px
