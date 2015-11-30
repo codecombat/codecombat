@@ -396,7 +396,14 @@ module.exports = class PlayLevelView extends RootView
 
   perhapsStartSimulating: ->
     return unless @shouldSimulate()
-    require "vendor/aether-#{codeLanguage}" for codeLanguage in ['javascript', 'python', 'coffeescript', 'lua', 'clojure', 'io']
+    # TODO: how can we not require these as part of /play bundle?
+    #require "vendor/aether-#{codeLanguage}" for codeLanguage in ['javascript', 'python', 'coffeescript', 'lua', 'clojure', 'io']
+    require 'vendor/aether-javascript'
+    require 'vendor/aether-python'
+    require 'vendor/aether-coffeescript'
+    require 'vendor/aether-lua'
+    require 'vendor/aether-clojure'
+    require 'vendor/aether-io'
     @simulateNextGame()
 
   simulateNextGame: ->
