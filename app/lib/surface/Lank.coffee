@@ -475,7 +475,10 @@ module.exports = Lank = class Lank extends CocoClass
       healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
       bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
     if @thang.showsName
-      @setNameLabel(if @thang.health <= 0 then '' else @thang.id)
+      if @thang.floatName?
+        @setNameLabel(if @thang.health <= 0 then '' else @thang.floatName)
+      else
+        @setNameLabel(if @thang.health <= 0 then '' else @thang.id)
     # Let's try just using the DuelStatsView instead of this.
     #else if @options.playerName
     #  @setNameLabel @options.playerName
