@@ -13,8 +13,10 @@ module.exports = class Campaign extends CocoModel
   
   statsForSessions: (sessions) ->
     # common code for crunching stats for a user's progress on a campaign/course
+    return null unless sessions
     stats = {}
-    sessions = _.sortBy sessions.models, (s) -> s.get('changed')
+    sessions = sessions.models or sessions
+    sessions = _.sortBy sessions, (s) -> s.get('changed')
     levels = _.values(@get('levels'))
     levels = (level for level in levels when not _.contains(level.type, 'ladder'))
     levelOriginals = _.pluck(levels, 'original')
@@ -31,6 +33,6 @@ module.exports = class Campaign extends CocoModel
       first: _.first(levels)
       arena: _.find _.values(@get('levels')), (level) -> _.contains(level.type, 'ladder')
     }
-    sum = (nums) -> _.reduce(nums, (s, num) -> s + num)
+    sum = (nums) -> _.reduce(nums, (s, num) -> s + num) or 0
     stats.playtime = sum((session.get('playtime') or 0 for session in sessions))
     return stats

@@ -11,7 +11,10 @@ block content
     p Thank you for your purchase! You can now assign #{view.numberOfStudents} more students to paid courses.
 
     p.text-center
-      a(href="/courses/teachers") Return to course management.
+      if view.fromClassroom
+        a(href="/courses/"+view.fromClassroom) Return to classroom
+      else
+        a(href="/courses/teachers") Return to course management.
       
   else
 
