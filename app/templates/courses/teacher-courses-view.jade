@@ -19,7 +19,7 @@ block content
     .no-students No classes yet!
 
   .text-center
-    button.btn.btn-lg.btn-success.uppercase create new class
+    button.btn.btn-lg.btn-success.uppercase.create-new-class create new class
 
   h3 Available Courses
   
@@ -47,29 +47,29 @@ block footer
 
 mixin classroom(classroom)
   .row
-    - var classMemberCount = classroom.get('members').length
+    - var classMemberCount = classroom.get('members') ? classroom.get('members').length : 0;
     if classMemberCount > 0
       .col-md-8
         p
           span.spr.class-name= classroom.get('name')
-          if classroom.get('aceConfig') && classroom.get('aceConfig').language
-            span.spr (#{classroom.get('aceConfig').language})
+          if classroom.get('aceConfig') && classroom.get('aceConfig').language === 'javascript'
+            span.spr.class-name (JavaScript)
           else
             span.spr.class-name (Python)
-          a edit class details
+          a.edit-classroom-small(data-i18n="courses.edit_settings", data-classroom-id="#{classroom.id}")
           .active-courses active courses
-          - var courseInstances = view.courseInstances.where({classroomID: classroom.id})
+          - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
           each courseInstance in courseInstances
             +course(courseInstance, classMemberCount)
     else
       .col-md-12
         p
           span.spr.class-name= classroom.get('name')
-          if classroom.get('aceConfig') && classroom.get('aceConfig').language
-            span.spr (#{classroom.get('aceConfig').language})
+          if classroom.get('aceConfig') && classroom.get('aceConfig').language === 'javascript'
+            span.spr.class-name (JavaScript)
           else
             span.spr.class-name (Python)
-          a edit class details
+          a.edit-classroom-small(data-i18n="courses.edit_settings", data-classroom-id="#{classroom.id}")
         .no-students No students yet!
         .text-center
           a.btn.btn-info.uppercase(href='/courses/#{classroom.id}') add students
@@ -84,9 +84,9 @@ mixin classroom(classroom)
       .divider
 
 mixin course(courseInstance, classMemberCount)
-  - var courseMemberCount = courseInstance.get('members').length
+  - var courseMemberCount = courseInstance.get('members') ? courseInstance.get('members').length : 0;
   if courseMemberCount > 0
-    - var course = view.courses.get(courseInstance.get('courseID'))
+    - var course = view.courses.get(courseInstance.get('courseID'));
     p
       .course-name= course.get('name')
       .course-enrolled #{courseMemberCount} / #{classMemberCount} students enrolled

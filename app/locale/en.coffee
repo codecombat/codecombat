@@ -879,6 +879,7 @@
   courses:
     course: "Course"
     courses: "courses"
+    create_new_class: "Create New Class"
     not_enrolled: "You are not enrolled in this course."
     visit_pref: "Please visit the"
     visit_suf: "page to enroll."
