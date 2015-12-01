@@ -67,7 +67,7 @@ mixin classroom(classroom)
           a.edit-classroom-small(data-i18n="courses.edit_settings", data-classroom-id="#{classroom.id}")
         .no-students No students yet!
         .text-center
-          a.btn.btn-info.uppercase(href='/courses/#{classroom.id}') add students
+          button.btn.btn-info.uppercase.btn-add-students(data-classroom-id="#{classroom.id}") add students
         br
     if classMemberCount > 0
       .col-md-4.text-center

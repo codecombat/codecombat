@@ -4,6 +4,7 @@ CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
 Course = require 'models/Course'
 Classroom = require 'models/Classroom'
+InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 User = require 'models/User'
 CourseInstance = require 'models/CourseInstance'
 RootView = require 'views/core/RootView'
@@ -15,6 +16,7 @@ module.exports = class TeacherCoursesView extends RootView
   template: template
 
   events:
+    'click .btn-add-students': 'onClickAddStudents'
     'click .create-new-class': 'onClickCreateNewClassButton'
     'click .edit-classroom-small': 'onClickEditClassroomSmall'
 
@@ -40,6 +42,15 @@ module.exports = class TeacherCoursesView extends RootView
         remove: false
         url: "/db/classroom/#{classroom.id}/members"
       })
+
+  onClickAddStudents: (e) ->
+    classroomID = $(e.target).data('classroom-id')
+    classroom = @classrooms.get(classroomID)
+    unless classroom
+      console.error 'No classroom ID found.'
+      return
+    modal = new InviteToClassroomModal({classroom: classroom})
+    @openModalView(modal)
 
   onClickCreateNewClassButton: ->
     return @openModalView new AuthModal() if me.get('anonymous')
