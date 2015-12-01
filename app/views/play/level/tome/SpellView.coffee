@@ -298,19 +298,26 @@ module.exports = class SpellView extends CocoView
             level = Math.floor(xstart / 4)
             indent = startOfRow(row + 1)
             color = colors[level % colors.length]
+            bw = 3
+            to = markerLayer.$getTop(range.start.row, config)
             t = markerLayer.$getTop(range.start.row + 1, config)
             h = config.lineHeight * (range.end.row - range.start.row)
             l = markerLayer.$padding + xstart * config.characterWidth
             # w = (data.i - data.b) * config.characterWidth
             w = 4 * config.characterWidth
+            fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
+
+            html.push [
+              '<div style="',
+              "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px; background-color: rgba(#{color},0.2);"
+              "border: #{bw}px solid rgba(#{color},0.4); border-left: none",
+              '"></div>' ].join ''
 
             html.push [
               '<div style="',
               "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color},0.2);"
-              "border-right: 3px solid rgba(#{color},0.4);",
+              "border-right: #{bw}px solid rgba(#{color},0.4);",
               '"></div>' ].join ''
-
-            markerLayer.drawTextMarker html, new Range(range.start.row,xstart, range.start.row, 1000), 'rob', config, "border: 3px solid rgba(#{color}, 0.4); position: absolute"
 
   fillACE: ->
     @ace.setValue @spell.source
