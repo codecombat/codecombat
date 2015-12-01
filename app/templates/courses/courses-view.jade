@@ -2,7 +2,10 @@ extends /templates/base
 
 block content
   .pull-right
-    a(href="/courses/teachers") Teachers, click here!
+    if me.isAnonymous()
+      a(href="/teachers") Teachers, click here!
+    else
+      a(href="/courses/teachers") Teachers, click here!
   br
 
   #main-content
