@@ -22,6 +22,7 @@ module.exports = class ClassroomView extends RootView
     'click #activate-licenses-btn': 'onClickActivateLicensesButton'
     'click .activate-single-license-btn': 'onClickActivateSingleLicenseButton'
     'click #add-students-btn': 'onClickAddStudentsButton'
+    'click .enable-btn': 'onClickEnableButton'
 
   initialize: (options, classroomID) ->
     @classroom = new Classroom({_id: classroomID})
@@ -100,3 +101,10 @@ module.exports = class ClassroomView extends RootView
   onClickAddStudentsButton: (e) ->
     modal = new InviteToClassroomModal({classroom: @classroom})
     @openModalView(modal)
+
+  onClickEnableButton: (e) ->
+    courseInstance = @courseInstances.get($(e.target).data('course-instance-id'))
+    userID = $(e.target).data('user-id')
+    courseInstance.addMember(userID)
+    $(e.target).attr('disabled', true)
+    @listenToOnce courseInstance, 'sync', @render

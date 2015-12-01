@@ -49,7 +49,7 @@ block content
             .progress
               .progress-bar(style='width:'+stats.levels.pctDone)
           else if paidFor
-            button.btn.btn-info.btn-sm Enable
+            button.enable-btn.btn.btn-info.btn-sm(data-user-id=user.id, data-course-instance-id=courseInstance.id) Enable
             
     if !paidFor
       .text-center
