@@ -444,13 +444,13 @@ module.exports = nativeDescription: "български език", englishDescri
     parents_blurb3: "Без Риск: 100% гаранция за възстановяване на средствата, прекратяване на абонамента с едно натискане на бутон."
     payment_methods: "Начини на плащане"
     payment_methods_title: "Възможни начини на плащане"
-    payment_methods_blurb1: "В момента приемаме кредитни карти и Alipay."
+    payment_methods_blurb1: "В момента приемаме кредитни карти и Alipay." # {change}
     payment_methods_blurb2: "Ако желаете алтернативна форма на плащане, свържете се с нас"
     sale_already_subscribed: "Вече имате абонамент!"
-    sale_blurb1: "Спестете 35%"
+    sale_blurb1: "Спестете $21" # {change}
     sale_blurb2: "от редовната абонаментна такса от $120 за цялата година!"
     sale_button: "Разпродажба!"
-    sale_button_title: "Спестете 35% като направите абонамент за 1 година"
+    sale_button_title: "Спестете $21 като направите абонамент за 1 година" # {change}
     sale_click_here: "Кликнете Тук"
     sale_ends: "Завършва"
     sale_extended: "*Съществуващият абонамент ще бъде продължен с 1 година."
@@ -463,7 +463,7 @@ module.exports = nativeDescription: "български език", englishDescri
     sale_title: "Назад към Училищната Разпродажба"
     sale_view_button: "Купи едногодишен абонамент за"
     stripe_description: "Месечен Абонамент"
-    stripe_description_year_sale: "Едногодишен абонамент (35% намаление)"
+    stripe_description_year_sale: "Едногодишен абонамент ($21 намаление)" # {change}
     subscription_required_to_play: "Необходим ви е абонамент за да играете това ниво."
     unlock_help_videos: "Абонирайте се за да отключите всичките видео уроци."
     personal_sub: "Персонален абонамент" # Accounts Subscription View below
@@ -746,6 +746,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    password_tab: "Password"
 #    emails_tab: "Emails"
 #    admin: "Admin"
+#    manage_subscription: "Click here to manage your subscription."
 #    new_password: "New Password"
 #    new_password_verify: "Verify"
 #    type_in_email: "Type in your email to confirm account deletion."
@@ -857,6 +858,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    started_2: "Started"
 #    not_started_2: "Not Started"
 #    view_solution: "Click to view solution."
+#    view_attempt: "Click to view attempt."
 #    latest_achievement: "Latest Achievement"
 #    playtime: "Playtime"
 #    last_played: "Last played"

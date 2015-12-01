@@ -10,8 +10,9 @@ utils = require 'core/utils'
 module.exports = class SubscriptionSaleView extends RootView
   id: "subscription-sale-view"
   template: template
-  yearSaleAmount: 7900
+  yearSaleAmount: 9900
   saleEndDate: new Date('2015-09-05')
+  onSale: false
 
   events:
     'click #pay-button': 'onPayButton'

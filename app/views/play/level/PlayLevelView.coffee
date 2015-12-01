@@ -246,7 +246,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new LevelPlaybackView session: @session, level: @level
     @insertSubView new GoalsView {}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
-    @insertSubView new GoldView {}
+    @insertSubView new GoldView {} unless @level.get('slug') in ['wakka-maul']
     @insertSubView new HUDView {level: @level}
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
@@ -324,7 +324,7 @@ module.exports = class PlayLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), observing: @observing, playerNames: @findPlayerNames())
+    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), observing: @observing, playerNames: @findPlayerNames(), levelType: @level.get('type', true))
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -357,7 +357,9 @@ module.exports = class PlayLevelView extends RootView
     @selectHero()
 
   onLoadingViewUnveiled: (e) ->
-    Backbone.Mediator.publish 'level:set-playing', playing: true if @level.get('type') in ['course-ladder', 'hero-ladder']  # We used to autoplay by default, but now we only do it if the level says to in the introduction script.
+    if @level.get('type') in ['course-ladder', 'hero-ladder'] or @observing
+      # We used to autoplay by default, but now we only do it if the level says to in the introduction script.
+      Backbone.Mediator.publish 'level:set-playing', playing: true
     @loadingView.$el.remove()
     @removeSubView @loadingView
     @loadingView = null

@@ -12,7 +12,7 @@ module.exports = class SubscribeModal extends ModalView
   product:
     amount: 999
     planID: 'basic'
-    yearAmount: 7900
+    yearAmount: 9900
 
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'

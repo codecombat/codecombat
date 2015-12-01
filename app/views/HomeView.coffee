@@ -13,9 +13,16 @@ module.exports = class HomeView extends RootView
     window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage'
     if @getQueryVariable 'hour_of_code'
       application.router.navigate "/hoc", trigger: true
+    if @justPlaysCourses()
+      @playURL = '/courses'
+      @alternatePlayURL = '/play'
+      @alternatePlayText = 'home.play_campaign_version'
+    else
+      @playURL = '/play'
 
   onClickPlayButton: (e) ->
     @playSound 'menu-button-click'
+    return if @playURL isnt '/play'
     e.preventDefault()
     e.stopImmediatePropagation()
     window.tracker?.trackEvent 'Click Play', category: 'Homepage'
@@ -33,3 +40,7 @@ module.exports = class HomeView extends RootView
     else
       console.warn 'no more jquery browser version...'
     return false
+
+  justPlaysCourses: ->
+    # This heuristic could be better, but currently we don't add to me.get('courseInstances') for single-player anonymous intro courses, so they have to beat a level without choosing a hero.
+    return me.get('stats')?.gamesCompleted and not me.get('heroConfig')

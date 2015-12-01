@@ -444,13 +444,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     parents_blurb3: "沒有風險: 保證 100% 退費, 一步取消訂閱。"
     payment_methods: "付費方法"
     payment_methods_title: "可接受的付款方式"
-    payment_methods_blurb1: "我們現有的付費方式有信用卡和支付寶"
+    payment_methods_blurb1: "我們現有的付費方式有信用卡和支付寶" # {change}
     payment_methods_blurb2: "如果您想用其他付費方式,請聯繫我們"
     sale_already_subscribed: "您已經訂閱！"
-    sale_blurb1: "和正常一年的訂閱價格 $120 相比"
-    sale_blurb2: "年費訂閱能節省 35%!"
+    sale_blurb1: "和正常一年的訂閱價格 $120 相比" # {change}
+    sale_blurb2: "年費訂閱能節省 $21!"
     sale_button: "促銷！"
-    sale_button_title: "年費訂閱能節省 35% 的費用"
+    sale_button_title: "年費訂閱能節省 $21 的費用" # {change}
     sale_click_here: "點擊這裡"
     sale_ends: "結束"
     sale_extended: "*已訂閱用戶會續期一年。"
@@ -463,7 +463,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     sale_title: "開學促銷"
     sale_view_button: "購買年費訂閱："
     stripe_description: "每月訂閱"
-    stripe_description_year_sale: "年費訂閱 (35% 優惠)"
+    stripe_description_year_sale: "年費訂閱 ($21 優惠)" # {change}
     subscription_required_to_play: "您將需要訂閱來開啟這關。"
     unlock_help_videos: "訂閱來解開所有鎖住得教學影片。"
     personal_sub: "個人訂閱" # Accounts Subscription View below
@@ -685,7 +685,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     denied_2: "拒絕。"
     contact_1: "請聯繫"
     contact_2: "如果您有更多的疑問。"
-    description_1: "我們為教師提供免費訂閱用評估的目的。您可以找到更多的信息在我們的" # {change}
+    description_1: "我們為教師提供免費訂閱用評估的目的。您可以找到更多的信息在我們的"
 #    description_1b: "You can find more information on our"
     description_2: "教師"
     description_3: "頁面。"
@@ -746,6 +746,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     password_tab: "密碼"
     emails_tab: "郵件"
     admin: "管理員"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "新密碼"
     new_password_verify: "確認密碼"
     type_in_email: "輸入您的Email來確認刪除"
@@ -857,6 +858,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     started_2: "已開始"
     not_started_2: "尚未開始"
     view_solution: "點擊查閱答案。"
+#    view_attempt: "Click to view attempt."
     latest_achievement: "最新成就"
     playtime: "遊戲時間"
     last_played: "最後玩了"

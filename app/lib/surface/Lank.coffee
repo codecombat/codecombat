@@ -476,9 +476,8 @@ module.exports = Lank = class Lank extends CocoClass
       bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
     if @thang.showsName
       @setNameLabel(if @thang.health <= 0 then '' else @thang.id)
-    # Let's try just using the DuelStatsView instead of this.
-    #else if @options.playerName
-    #  @setNameLabel @options.playerName
+    else if @options.playerName
+      @setNameLabel @options.playerName
 
   configureMouse: ->
     @sprite.cursor = 'pointer' if @thang?.isSelectable
