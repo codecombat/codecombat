@@ -394,12 +394,12 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     equip: "Använd"
     unequip: "Sluta använda"
 
-#  buy_gems:
+  buy_gems:
     few_gems: "Ett par ädelstenar"
     pile_gems: "Hög med ädelstenar"
     chest_gems: "Kista med ädelstenar"
     purchasing: "Köp pågår..."
-     declined: "Köp nekat"
+    declined: "Köp nekat"
     retrying: "Serverfel, försöker igen."
     prompt_title: "Inte tillräckligt många ädelstenar"
     prompt_body: "Vill du skaffa flera?"
@@ -593,7 +593,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     scott_title: "Medgrundare"
 #    scott_blurb: "Reasonable One"
     nick_title: "Medgrundare"
-#   nick_blurb: "Motivation Guru"
+#    nick_blurb: "Motivation Guru"
     michael_title: "Programmerare"
     michael_blurb: "Sys Admin"
     matt_title: "Medgrundare"
@@ -818,7 +818,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     social_hipchat: "Chatta med oss in det publika CodeCombat Slackrummet"
     contribute_to_the_project: "Bidra till projektet"
 
-#  clans:
+  clans:
     clan: "Klan"
     clans: "Klaner"
     new_name: "Namn på ny klan"
@@ -877,7 +877,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    track_concepts8: "to join"
 #    private_require_sub: "Private clans require a subscription to create or join."
 
-#  courses:
+  courses:
     course: "Lektion"
     courses: "lektioner"
     not_enrolled: "Du är inte inskriven på denna kurs."
@@ -1050,7 +1050,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     new_article_title_login: "Logga in för att skapa en ny artikel"
     new_thang_title_login: "Logga in för att ska en ny typ av enhet"
     new_level_title_login: "Logga in för att skapa en ny nivå"
-    new_achievement_title: "Skapa en ny prestation"
     new_achievement_title: "Skapa en ny prestation"
     new_achievement_title_login: "Logga in för att skapa en ny prestation"
     new_poll_title: "Skapa en ny omröstning"
