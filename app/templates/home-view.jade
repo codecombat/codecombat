@@ -8,7 +8,11 @@ block append site_nav
 block outer_content
   #spacer
   
-  a#play-button(href="/play", data-i18n="[html]home.play")
+  a#play-button(href=view.playURL, data-i18n="[html]home.play")
+
+  if view.alternatePlayURL
+    #alternate-play-button
+      a.btn.btn-illustrated.btn-primary(href=view.alternatePlayURL, data-i18n=view.alternatePlayText)
 
   //a(href="https://itunes.apple.com/us/app/codecombat/id936523909?mt=8")
   //  #or-ipad(data-i18n="home.or_ipad")
@@ -24,8 +28,8 @@ block outer_content
   #hour-of-code
     h1(data-i18n="home.hoc_title")
     div
-      a.btn.btn-lg.btn-info.btn-class-code(href='/courses/students', data-i18n="home.hoc_class_code")
-      a.btn.btn-lg.btn-success.btn-enter(href='/hoc', data-i18n="home.hoc_enter")
+      a.btn.btn-illustrated.btn-lg.btn-primary.btn-class-code(href='/courses/students', data-i18n="home.hoc_class_code")
+      a.btn.btn-illustrated.btn-lg.btn-success.btn-enter(href='/hoc', data-i18n="home.hoc_enter")
 
   //- #slogan(data-i18n="home.slogan")
 
