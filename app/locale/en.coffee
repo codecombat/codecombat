@@ -79,6 +79,7 @@
     subscription_required: "Subscription Required"
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
+    play_classroom_version: "Play Classroom Version"  # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Beginner Campaign"
     awaiting_levels_adventurer_prefix: "We release new levels every week."
     awaiting_levels_adventurer: "Sign up as an Adventurer"
