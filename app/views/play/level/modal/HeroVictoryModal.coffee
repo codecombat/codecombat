@@ -105,6 +105,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @showStars()
 
   onAchievementsLoaded: ->
+    @achievements.models = _.filter @achievements.models, (m) -> not m.get('query')?.ladderAchievementDifficulty  # Don't show higher AI difficulty achievements
     @$el.toggleClass 'full-achievements', @achievements.models.length is 3
     thangTypeOriginals = []
     achievementIDs = []
