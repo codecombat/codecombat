@@ -54,9 +54,13 @@ module.exports = class LadderView extends RootView
     resourceString = if @leagueType is 'clan' then 'clans.clan' else 'courses.course'
     @league = @supermodel.loadModel(new modelClass(_id: @leagueID), resourceString).model
     if @leagueType is 'course'
-      @listenToOnce @league, 'sync', @onCourseInstanceLoaded
+      if @league.loaded
+        @onCourseInstanceLoaded @league
+      else
+        @listenToOnce @league, 'sync', @onCourseInstanceLoaded
 
   onCourseInstanceLoaded: (courseInstance) ->
+    return if @destroyed
     course = new Course({_id: courseInstance.get('courseID')})
     @course = @supermodel.loadModel(course, 'courses.course').model
 
