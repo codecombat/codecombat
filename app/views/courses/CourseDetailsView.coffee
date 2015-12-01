@@ -300,8 +300,7 @@ module.exports = class CourseDetailsView extends RootView
           aName.localeCompare(bName)
 
   getOwnerName: ->
-    if @owner.isNew()
-      return '?'
+    return if @owner.isNew()
     if @owner.get('firstName') and @owner.get('lastName')
       return "#{@owner.get('firstName')} #{@owner.get('lastName')}"
-    return @owner.get('name') or @owner.get('email') or '?'
+    @owner.get('name') or @owner.get('email')

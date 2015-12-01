@@ -43,7 +43,7 @@ block content
           span(data-i18n='courses.unnamed_class')
           | )
       
-    if !view.owner.isNew()
+    if !view.owner.isNew() && view.getOwnerName()
       p
         span.spr Creator:
         a(href="/user/#{view.owner.id}")
@@ -54,18 +54,19 @@ block content
         each line in courseInstance.get('description').split('\n')
           div= line
     
-    div.well.well-sm(role='tabpanel')
-      ul.nav.nav-pills(role='tablist')
-        if adminMode
-          li.active(role='presentation')
-            a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
-          li(role='presentation')
-            a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
-        else
-          li.active(role='presentation')
-            a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
-          li(role='presentation')
-            a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
+    if !me.isAnonymous()
+      div.well.well-sm(role='tabpanel')
+        ul.nav.nav-pills(role='tablist')
+          if adminMode
+            li.active(role='presentation')
+              a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
+            li(role='presentation')
+              a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
+          else
+            li.active(role='presentation')
+              a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
+            li(role='presentation')
+              a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
     .tab-content
       if adminMode
         .tab-pane.active#progress(role='tabpanel')
@@ -288,4 +289,3 @@ mixin levels-tab
                 each concept in course.get('concepts')
                   if levelConceptMap[levelID][concept]
                     span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
-
