@@ -11,6 +11,7 @@ utils = require 'core/utils'
 Prepaid = require 'models/Prepaid'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
+InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 
 module.exports = class ClassroomView extends RootView
   id: 'classroom-view'
@@ -20,6 +21,7 @@ module.exports = class ClassroomView extends RootView
     'click #edit-class-details-link': 'onClickEditClassDetailsLink'
     'click #activate-licenses-btn': 'onClickActivateLicensesButton'
     'click .activate-single-license-btn': 'onClickActivateSingleLicenseButton'
+    'click #add-students-btn': 'onClickAddStudentsButton'
 
   initialize: (options, classroomID) ->
     @classroom = new Classroom({_id: classroomID})
@@ -94,4 +96,7 @@ module.exports = class ClassroomView extends RootView
     levelOriginal = session.get('level').original
     campaignLevel = campaign.get('levels')[levelOriginal]
     return "#{campaign.get('fullName')}, #{campaignLevel.name}"
-    
+
+  onClickAddStudentsButton: (e) ->
+    modal = new InviteToClassroomModal({classroom: @classroom})
+    @openModalView(modal)
