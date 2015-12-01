@@ -1,6 +1,13 @@
 extends /templates/base
 
 block content
+  .pull-right
+    if me.isAnonymous()
+      a(href="/teachers") Teachers, click here!
+    else
+      a(href="/courses/teachers") Teachers, click here!
+  br
+
   h1.text-center Adventurers, welcome to our Hour of Code!
   
   #main-content
