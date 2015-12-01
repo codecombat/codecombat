@@ -106,7 +106,6 @@ module.exports = class AuthModal extends ModalView
     createUser userObject, null, window.nextURL
 
   onLoggingInWithFacebook: (e) ->
-    @playSound 'menu-button-click'
     modal = $('.modal:visible', @$el)
     @enableModalInProgress(modal) # TODO: part of forms
 
