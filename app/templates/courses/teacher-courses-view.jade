@@ -90,17 +90,7 @@ mixin course(courseInstance, classMemberCount)
 
 mixin course-info(course)
   .media
-    .corner-ribbon-container
-      if course.get('free')
-        .corner-ribbon.top-left.sticky.shadow.uppercase free
-      img.media-object(src=course.get('screenshot'))
-      .star-container
-        if course.get('duration') === 1
-          .star-text #{course.get('duration') || 0} hr
-          .round-star-label
-        else
-          .star-text-big #{course.get('duration') || 0} hrs
-          .round-star-label-big
+    img.media-object(src=course.get('screenshot'))
     .media-body
       span.spr.course-name= course.get('name')
       p= course.get('description')
