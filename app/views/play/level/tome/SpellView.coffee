@@ -263,6 +263,7 @@ module.exports = class SpellView extends CocoView
           return true
 
     if me.level() < 20 or aceConfig.indentGuides
+      # Add visual ident guides
       @aceSession.addDynamicMarker
         update: (html, markerLayer, session, config) =>
           Range = ace.require('ace/range').Range
@@ -281,17 +282,21 @@ module.exports = class SpellView extends CocoView
           for row in [0..@aceSession.getLength()]
             foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
             continue unless foldWidgets? and foldWidgets[row] is "start"
-            range = @aceSession.getFoldWidgetRange(row)
-            if not range?
+            docRange = @aceSession.getFoldWidgetRange(row)
+            if not docRange?
               guess = startOfRow(row)
-              range = new Range(row,guess,row,guess+4)
+              docRange = new Range(row,guess,row,guess+4)
 
-            if /^\s+$/.test lines[range.end.row+1]
-              range.end.row += 1
+            if /^\s+$/.test lines[docRange.end.row+1]
+              docRange.end.row += 1
 
-            xstart = startOfRow(range.start.row)
+            rstart = @aceSession.documentToScreenPosition docRange.start.row, docRange.start.column
+            rend = @aceSession.documentToScreenPosition docRange.end.row, docRange.end.column
+            range = new Range rstart.row, rstart.column, rend.row, rend.column
+
+            xstart = startOfRow(row)
             level = Math.floor(xstart / 4)
-            indent = startOfRow(range.start.row + 1)
+            indent = startOfRow(row + 1)
             color = colors[level % colors.length]
             t = markerLayer.$getTop(range.start.row + 1, config)
             h = config.lineHeight * (range.end.row - range.start.row)
