@@ -90,11 +90,12 @@ mixin course(courseInstance, classMemberCount)
 
 mixin course-info(course)
   .media
-    img.media-object(src=course.get('screenshot'))
+    .corner-ribbon-container
+      if course.get('free')
+        .corner-ribbon.top-left.sticky.shadow.uppercase free
+      img.media-object(src=course.get('screenshot'))
     .media-body
       span.spr.course-name= course.get('name')
-      if course.get('free')
-        em.course-name (free!)
       p= course.get('description')
       p
         strong.spr Concepts:
