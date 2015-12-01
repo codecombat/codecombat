@@ -104,14 +104,6 @@ module.exports = class CampaignView extends RootView
     @listenTo me, 'change:earned', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:heroConfig', -> @updateHero()
     window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', label: @terrain
-
-    # If it's a new player who didn't appear to come from Hour of Code, we register her here without setting the hourOfCode property.
-    # TODO: get rid of all this sometime in November 2015 when code.org/learn updates to the new version for Hour of Code tutorials.
-    elapsed = (new Date() - new Date(me.get('dateCreated')))
-    if not trackedHourOfCode and not me.get('hourOfCode') and elapsed < 5 * 60 * 1000
-      $('body').append($('<img src="https://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
-      trackedHourOfCode = true
-
     @requiresSubscription = not me.isPremium()
 
   destroy: ->

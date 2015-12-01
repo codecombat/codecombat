@@ -12,10 +12,14 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     multiplayer: "Flera spelare" # Not currently shown on home page
     for_developers: "För utvecklare" # Not currently shown on home page.
     or_ipad: "Eller ladda ner till iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Spela" # The top nav bar entry where players choose which levels to play
     community: "Community"
+#    courses: "Courses"
     editor: "Nivåredigerare"
     blog: "Blogg"
     forum: "Forum"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
   play:
     play_as: "Spela som " # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Titta på" # Ladder page
     players: "spelare" # Hover over a level on /play
     hours_played: "timmar spelade" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     years: "år"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Klar"
+#    next_level: "Next Level:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "Hem" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     victory_title_suffix: " Genomförd"
     victory_sign_up: "Registrera dig för att få uppdateringar"
     victory_sign_up_poke: "Vill du ha de senaste nyheterna via mejl? Skapa ett gratiskonto så håller vi dig informerad!"
-    victory_rate_the_level: "Betygsätt nivån: " # Only in old-style levels.
+    victory_rate_the_level: "Betygsätt nivån: " # {change}
     victory_return_to_ladder: "Gå tillbaka till stegen"
     victory_play_continue: "Fortsätt"
     victory_saving_progress: "Sparar framsteg"
@@ -436,13 +444,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay. You can also PayPal 29.97 USD to nick@codecombat.com with your account email in the memo to purchase three months' subscription and gems, or $99 for a year."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
 #    sale_already_subscribed: "You're already subscribed!"
-#    sale_blurb1: "Save 35%"
+#    sale_blurb1: "Save $21"
 #    sale_blurb2: "off regular subscription price of $120 for a whole year!"
 #    sale_button: "Sale!"
-#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_button_title: "Save $21 when you purchase a 1 year subscription"
 #    sale_click_here: "Click Here"
 #    sale_ends: "Ends"
 #    sale_extended: "*Existing subscriptions will be extended by 1 year."
@@ -455,7 +463,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    sale_title: "Back to School Sale"
 #    sale_view_button: "Buy 1 year subscription for"
 #    stripe_description: "Monthly Subscription"
-#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
+#    stripe_description_year_sale: "1 Year Subscription ($21 discount)"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat Basic är GRATIS! Det finns över 80 gratis nivåer som täcker alla koncept." # {change}
     free_2: "En månadsprenumeration ger tillgång till videogenomgångar och fler övningsnivåer."
-    teacher_subs_title: "Lärare får gratis prenumerationer!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Lärare får gratis prenumerationer!" # {change}
+#    teacher_subs_0: "We offer free trials to teachers."
     teacher_subs_1: "Kontakta" # {change}
     teacher_subs_2: "för att sätta upp en gratis månadsprenumeration." # {change}
-#    teacher_subs_3: "to set up your subscription."
+#    teacher_subs_3: "to try out the paid courses."
     sub_includes_title: "Vad ingår i prenumerationen?"
     sub_includes_1: "Förutom de 80+ grundläggande nivåerna får elever med en månadsprenumeration tillgång till följande:" # {change}
     sub_includes_2: "60+ övningsnivåer" # {change}
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
-#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_1: "Your application for a free trial is being"
 #    being_reviewed_2: "reviewed."
-#    approved_1: "Your application for a free trial subscription was"
+#    approved_1: "Your application for a free trial was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
-#    denied_1: "Your application for a free trial subscription has been"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+#    denied_1: "Your application for a free trial has been"
 #    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
+#    description_1b: "You can find more information on our"
 #    description_2: "teachers"
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
@@ -730,9 +746,10 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     password_tab: "Lösenord"
     emails_tab: "Mejladresser"
     admin: "Administratör"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Nytt lösenord"
     new_password_verify: "Verifiera"
-    type_in_email: "Skriv in din mejladress för att bekräfta borttagandet" # {change}
+    type_in_email: "Skriv in din mejladress för att bekräfta borttagandet"
 #    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Mejlprenumerationer"
@@ -841,6 +858,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    started_2: "Started"
 #    not_started_2: "Not Started"
 #    view_solution: "Click to view solution."
+#    view_attempt: "Click to view attempt."
 #    latest_achievement: "Latest Achievement"
 #    playtime: "Playtime"
 #    last_played: "Last played"

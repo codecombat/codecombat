@@ -23,6 +23,7 @@ module.exports = class CastButtonView extends CocoView
     'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'god:goals-calculated': 'onGoalsCalculated'
+    'playback:ended-changed': 'onPlaybackEndedChanged'
 
   constructor: (options) ->
     super options
@@ -104,7 +105,7 @@ module.exports = class CastButtonView extends CocoView
       @playSound 'cast-end', 0.5
       # Worked great for live beginner tournaments, but probably annoying for asynchronous tournament mode.
       myHeroID = if me.team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
-      if @autoSubmitsToLadder and not e.world.thangMap[myHeroID]?.errorsOut
+      if @autoSubmitsToLadder and not e.world.thangMap[myHeroID]?.errorsOut and not me.get('anonymous')
         _.delay (=> @ladderSubmissionView?.rankSession()), 1000 if @ladderSubmissionView
     @hasCastOnce = true
     @updateCastButton()
@@ -123,10 +124,15 @@ module.exports = class CastButtonView extends CocoView
 
   onGoalsCalculated: (e) ->
     # When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.
+    return unless e.god is @god
     return unless e.preload
     return if @options.level.get 'hidesRealTimePlayback'
     return if @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']  # Don't show it until they actually win for this first one.
     @onNewGoalStates e
+
+  onPlaybackEndedChanged: (e) ->
+    return unless e.ended and @winnable
+    @$el.toggleClass 'has-seen-winning-replay', true
 
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded

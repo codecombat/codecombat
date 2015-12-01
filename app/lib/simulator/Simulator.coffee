@@ -45,6 +45,7 @@ module.exports = class Simulator extends CocoClass
         humansGameID: humanGameID
         ogresGameID: ogresGameID
         simulator: @simulator
+        background: Boolean(@options.background)
       error: (errorData) ->
         console.warn "There was an error fetching two games! #{JSON.stringify errorData}"
         if errorData?.responseText?.indexOf("Old simulator") isnt -1
@@ -84,8 +85,8 @@ module.exports = class Simulator extends CocoClass
       @handleSingleSimulationError error
 
   commenceSingleSimulation: ->
-    Backbone.Mediator.subscribeOnce 'god:infinite-loop', @handleSingleSimulationInfiniteLoop, @
-    Backbone.Mediator.subscribeOnce 'god:goals-calculated', @processSingleGameResults, @
+    @listenToOnce @god, 'infinite-loop', @handleSingleSimulationInfiniteLoop
+    @listenToOnce @god, 'goals-calculated', @processSingleGameResults
     @god.createWorld @generateSpellsObject()
 
   handleSingleSimulationError: (error) ->
@@ -96,7 +97,7 @@ module.exports = class Simulator extends CocoClass
       process.exit(0)
     @cleanupAndSimulateAnotherTask()
 
-  handleSingleSimulationInfiniteLoop: ->
+  handleSingleSimulationInfiniteLoop: (e) ->
     console.log 'There was an infinite loop in the single game!'
     return if @destroyed
     if @options.headlessClient and @options.simulateOnlyOneGame
@@ -105,7 +106,6 @@ module.exports = class Simulator extends CocoClass
     @cleanupAndSimulateAnotherTask()
 
   processSingleGameResults: (simulationResults) ->
-    return console.error "Weird, we destroyed the Simulator before it processed results?" if @destroyed
     try
       taskResults = @formTaskResultsObject simulationResults
     catch error
@@ -165,6 +165,7 @@ module.exports = class Simulator extends CocoClass
     @simulateAnotherTaskAfterDelay()
 
   handleNoGamesResponse: ->
+    @noTasks = true
     info = 'Finding game to simulate...'
     console.log info
     @trigger 'statusUpdate', info
@@ -223,7 +224,7 @@ module.exports = class Simulator extends CocoClass
     @god.setLevel @level.serialize(@supermodel, @session, @otherSession)
     @god.setLevelSessionIDs (session.sessionID for session in @task.getSessions())
     @god.setWorldClassMap @world.classMap
-    @god.setGoalManager new GoalManager(@world, @level.get 'goals')
+    @god.setGoalManager new GoalManager @world, @level.get('goals'), null, {headless: true}
     humanFlagHistory = _.filter @session.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@session.get('team') ? 'humans')
     ogreFlagHistory = _.filter @otherSession.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@otherSession.get('team') ? 'ogres')
     @god.lastFlagHistory = humanFlagHistory.concat ogreFlagHistory
@@ -232,8 +233,8 @@ module.exports = class Simulator extends CocoClass
     @god.lastDifficulty = 0
 
   commenceSimulationAndSetupCallback: ->
-    Backbone.Mediator.subscribeOnce 'god:infinite-loop', @onInfiniteLoop, @
-    Backbone.Mediator.subscribeOnce 'god:goals-calculated', @processResults, @
+    @listenToOnce @god, 'infinite-loop', @onInfiniteLoop
+    @listenToOnce @god, 'goals-calculated', @processResults
     @god.createWorld @generateSpellsObject()
 
     # Search for leaks, headless-client only.
@@ -260,14 +261,13 @@ module.exports = class Simulator extends CocoClass
                 process.exit()
               @hd = new @memwatch.HeapDiff()
 
-  onInfiniteLoop: ->
+  onInfiniteLoop: (e) ->
     return if @destroyed
     console.warn 'Skipping infinitely looping game.'
     @trigger 'statusUpdate', "Infinite loop detected; grabbing a new game in #{@retryDelayInSeconds} seconds."
     _.delay @cleanupAndSimulateAnotherTask, @retryDelayInSeconds * 1000
 
   processResults: (simulationResults) ->
-    return console.error "Weird, we destroyed the Simulator before it processed results?" if @destroyed
     try
       taskResults = @formTaskResultsObject simulationResults
     catch error
@@ -317,9 +317,13 @@ module.exports = class Simulator extends CocoClass
   cleanupAndSimulateAnotherTask: =>
     return if @destroyed
     @cleanupSimulation()
-    @fetchAndSimulateTask()
+    if @options.background or @noTasks
+      @fetchAndSimulateOneGame()
+    else
+      @fetchAndSimulateTask()
 
   cleanupSimulation: ->
+    @stopListening @god
     @world = null
     @level = null
 

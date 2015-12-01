@@ -18,6 +18,7 @@ module.exports = class ProblemAlertView extends CocoView
 
   events:
     'click .close': 'onRemoveClicked'
+    'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
 
   constructor: (options) ->
     super options
@@ -91,6 +92,7 @@ module.exports = class ProblemAlertView extends CocoView
   onRemoveClicked: ->
     @playSound 'menu-button-click'
     @$el.hide()
+    Backbone.Mediator.publish 'tome:focus-editor', {}
 
   onWindowResize: (e) =>
     # TODO: This all seems a little hacky

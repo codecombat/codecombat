@@ -1,6 +1,6 @@
 if docs.length === 1
   if showVideo
-    h3(id='help-video-heading', data-i18n="game_menu.guide_video_tutorial")
+    h3#help-video-heading(data-i18n="game_menu.guide_video_tutorial")
     if videoLocked
       p(data-i18n="subscribe.unlock_help_videos") Subscribe to unlock all video tutorials.
       button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
@@ -12,9 +12,19 @@ if docs.length === 1
 
 else
   ul.nav.nav-tabs
+    if showVideo
+      li
+        a(data-target="#docs_tab_help_video", data-toggle="tab", data-i18n="game_menu.guide_video_tutorial")
     for doc in docs
       li
         a(data-target="#docs_tab_#{doc.slug}", data-toggle="tab") #{doc.name}
   div.tab-content
+    if showVideo
+      div.tab-pane(id="docs_tab_help_video")
+        if videoLocked
+          p(data-i18n="subscribe.unlock_help_videos") Subscribe to unlock all video tutorials.
+          button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
+        else
+          div(id="help-video-player")
     for doc in docs
       div.tab-pane(id="docs_tab_#{doc.slug}")!= doc.html

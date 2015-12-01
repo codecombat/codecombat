@@ -705,15 +705,17 @@ UserHandler = class UserHandler extends Handler
     return @sendMethodNotAllowed res unless req.method is 'POST'
     return @sendForbiddenError res unless userID and userID is req.user?._id + ''  # Only you can reset your own progress
     return @sendForbiddenError res if req.user?.isAdmin()  # Protect admins from resetting their progress
-    async.parallel [
-      (cb) -> LevelSession.remove {creator: req.user._id + ''}, cb
-      (cb) -> EarnedAchievement.remove {user: req.user._id + ''}, cb
-      (cb) -> UserPollsRecord.remove {user: req.user._id + ''}, cb
-      (cb) -> req.user.update {points: 0, 'stats.gamesCompleted': 0, 'stats.concepts': {}, 'earned.gems': 0, 'earned.levels': [], 'earned.items': [], 'earned.heroes': [], 'purchased.items': [], 'purchased.heroes': [], spent: 0}, cb
-    ], (err, results) =>
+    @constructor.resetProgressForUser req.user, (err, results) =>
       return @sendDatabaseError res, err if err
       @sendSuccess res, result: 'success'
 
+  @resetProgressForUser: (user, cb) ->
+    async.parallel [
+      (cb) -> LevelSession.remove {creator: user._id + ''}, cb
+      (cb) -> EarnedAchievement.remove {user: user._id + ''}, cb
+      (cb) -> UserPollsRecord.remove {user: user._id + ''}, cb
+      (cb) -> user.update {points: 0, 'stats.gamesCompleted': 0, 'stats.concepts': {}, 'earned.gems': 0, 'earned.levels': [], 'earned.items': [], 'earned.heroes': [], 'purchased.items': [], 'purchased.heroes': [], spent: 0}, cb
+    ], cb
 
   countEdits = (model, done) ->
     statKey = User.statsMapping.edits[model.modelName]
