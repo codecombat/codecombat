@@ -9,28 +9,28 @@ block content
   br
 
   h1.text-center Adventurers, welcome to our Hour of Code!
-  
+
   #main-content
     .well.text-center
       if !me.isAnonymous()
         p
           strong.spr Logged in as:
           strong= me.get('name') || me.get('email')
-        
+
         p
           span.spr This isn't you?
           a#log-out-link Logout
-        
+
         hr
-        
+
       if !view.lastLevel
         p
           strong Ready to play?
-        
+
         p
           button#start-new-game-btn.btn.btn-success.btn-lg Start New Game
       else
-      
+
         p
           strong Hi adventurer, welcome back!
         p
@@ -39,24 +39,25 @@ block content
           em.spr
             span.spr Last Played:
             span= view.lastLevel.get('name').replace('Course :', '')
-          
-        p
-          strong More options:
-        p
-          button#start-new-game-btn.btn.btn-default Start New Game
-  
+
+        if me.isAnonymous()
+          p
+            strong More options:
+          p
+            button#start-new-game-btn.btn.btn-default Start New Game
+
       if me.isAnonymous()
         p - OR -
-  
+
         p
           button#log-in-btn.btn.btn-default(data-i18n="login.log_in")
-          
+
   #begin-hoc-area.hide
     h2.text-center(data-i18n="common.loading")
     .progress.progress-striped.active
       .progress-bar(style="width: 100%")
-      
-  
+
+
   h3.text-center PLAY NOW TO LEARN
   ul
     li basic syntax to control your character
