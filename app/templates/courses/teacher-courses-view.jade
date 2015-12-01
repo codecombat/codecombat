@@ -21,27 +21,22 @@ block content
   .text-center
     button.btn.btn-lg.btn-success.uppercase.create-new-class create new class
 
-  h3 Available Courses
-  
-  for course in view.courses.models
-    .media
-      .pull-left
-        img.media-object(src=course.get('screenshot'))
-      .media-body
-        h3.media-heading
-          span.spr= course.get('name')
-          if course.get('free')
-            em (free!)
-        p= course.get('description')
-        p
-          strong.spr Concepts:
-          each concept in course.get('concepts')
-            span(data-i18n="concepts." + concept)
-            if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
-              span.spr ,
-        p
-          strong.spr Length:
-          span #{course.get('duration') || 0} hours
+  br
+  .section-header Available Courses
+  .container-fluid
+    - var courses = view.courses.models;
+    - var i = 0;
+    while i < courses.length
+      - var course = courses[i];
+      - i++;
+      .row
+        .col-md-6
+          +course-info(course)
+        if i < courses.length
+          - course = courses[i];
+          - i++;
+          .col-md-6
+            +course-info(course)
 
 block footer
 
@@ -92,3 +87,21 @@ mixin course(courseInstance, classMemberCount)
       .course-enrolled #{courseMemberCount} / #{classMemberCount} students enrolled
       each concept in course.get('concepts')
         span.spr.course-concept(data-i18n="concepts." + concept)
+
+mixin course-info(course)
+  .media
+    img.media-object(src=course.get('screenshot'))
+    .media-body
+      span.spr.course-name= course.get('name')
+      if course.get('free')
+        em.course-name (free!)
+      p= course.get('description')
+      p
+        strong.spr Concepts:
+        each concept in course.get('concepts')
+          span(data-i18n="concepts." + concept)
+          if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
+            span.spr ,
+      p
+        strong.spr Length:
+        span #{course.get('duration') || 0} hours
