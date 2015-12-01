@@ -69,12 +69,12 @@ block content
           - var classroomClass = justAdded ? 'just-added' : '';
           if justAdded
             #just-added-text.text-center Class successfully added!
-
+        
           //- sigh
           div(class=classroomClass)
             h3
               span.spr= classroom.get('name')
-              span.spr (#{(view.hocCourseInstance.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'})
+              span.spr (#{(classroom.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'})
               a(href="/courses/classroom/"+classroom.id) view class
             
             - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
