@@ -85,8 +85,19 @@ describe 'POST /db/course_instance/:id/members', ->
           cb()
           
     ], makeTestIterator(@), done)
-      
     
+  it 'adds the CourseInstance id to the user', (done) ->
+    async.eachSeries([
+
+      addTestUserToClassroom,
+      (test, cb) ->
+        url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
+        request.post {uri: url, json: {userID: test.user.id}}, (err, res, body) ->
+          User.findById(test.user.id).exec (err, user) ->
+            expect(_.size(user.get('courseInstances'))).toBe(1)
+            cb()
+    ], makeTestIterator(@), done)
+
   it 'return 403 if the member is not in the classroom', (done) ->
     async.eachSeries([
       
@@ -154,6 +165,68 @@ describe 'POST /db/course_instance/:id/members', ->
   addTestUserToPrepaid = (test, cb) ->
     test.prepaid.set('redeemers', [{userID: test.user.get('_id')}])
     test.prepaid.save cb
+
+
+describe 'DELETE /db/course_instance/:id/members', ->
+
+  beforeEach (done) -> clearModels([CourseInstance, Course, User, Classroom, Prepaid], done)
+  beforeEach (done) -> loginJoe (@joe) => done()
+  beforeEach init.course({free: true})
+  beforeEach init.classroom()
+  beforeEach init.courseInstance()
+  beforeEach init.user()
+  beforeEach init.prepaid()
+
+  it 'removes a member to the given CourseInstance', (done) ->
+    async.eachSeries([
+
+      addTestUserToClassroom,
+      addTestUserToCourseInstance,
+      (test, cb) ->
+        url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
+        request.del {uri: url, json: {userID: test.user.id}}, (err, res, body) ->
+          expect(res.statusCode).toBe(200)
+          expect(body.members.length).toBe(0)
+          cb()
+
+    ], makeTestIterator(@), done)
+    
+  it 'removes the CourseInstance from the User.courseInstances', (done) ->
+    async.eachSeries([
+
+      addTestUserToClassroom,
+      addTestUserToCourseInstance,
+      (test, cb) ->
+        User.findById(test.user.id).exec (err, user) ->
+          expect(_.size(user.get('courseInstances'))).toBe(1)
+          cb()
+      removeTestUserFromCourseInstance,
+      (test, cb) ->
+        User.findById(test.user.id).exec (err, user) ->
+          expect(_.size(user.get('courseInstances'))).toBe(0)
+          cb()
+
+    ], makeTestIterator(@), done)
+
+  addTestUserToClassroom = (test, cb) ->
+    test.classroom.set('members', [test.user.get('_id')])
+    test.classroom.save cb
+
+  addTestUserToCourseInstance = (test, cb) ->
+    url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
+    request.post {uri: url, json: {userID: test.user.id}}, (err, res, body) ->
+      expect(res.statusCode).toBe(200)
+      expect(body.members.length).toBe(1)
+      expect(body.members[0]).toBe(test.user.id)
+      cb()
+      
+  removeTestUserFromCourseInstance = (test, cb) ->
+    url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
+    request.del {uri: url, json: {userID: test.user.id}}, (err, res, body) ->
+      expect(res.statusCode).toBe(200)
+      expect(body.members.length).toBe(0)
+      cb()
+  
 
 makeTestIterator = (testObject) -> (func, callback) -> func(testObject, callback)
   

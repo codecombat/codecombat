@@ -12,6 +12,7 @@ Prepaid = require 'models/Prepaid'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
+RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 
 module.exports = class ClassroomView extends RootView
   id: 'classroom-view'
@@ -23,6 +24,7 @@ module.exports = class ClassroomView extends RootView
     'click .activate-single-license-btn': 'onClickActivateSingleLicenseButton'
     'click #add-students-btn': 'onClickAddStudentsButton'
     'click .enable-btn': 'onClickEnableButton'
+    'click .remove-student-link': 'onClickRemoveStudentLink'
 
   initialize: (options, classroomID) ->
     @classroom = new Classroom({_id: classroomID})
@@ -108,3 +110,17 @@ module.exports = class ClassroomView extends RootView
     courseInstance.addMember(userID)
     $(e.target).attr('disabled', true)
     @listenToOnce courseInstance, 'sync', @render
+
+  onClickRemoveStudentLink: (e) ->
+    user = @users.get($(e.target).closest('a').data('user-id'))
+    modal = new RemoveStudentModal({
+      classroom: @classroom
+      user: user
+      courseInstances: @courseInstances
+    })
+    @openModalView(modal)
+    modal.once 'remove-student', @onStudentRemoved, @
+    
+  onStudentRemoved: (e) ->
+    @users.remove(e.user)
+    @render()

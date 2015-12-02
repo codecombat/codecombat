@@ -23,5 +23,14 @@ module.exports = class CourseInstance extends CocoModel
     _.extend options, opts
     @fetch(options)
 
+  removeMember: (userID, opts) ->
+    options = {
+      url: _.result(@, 'url') + '/members'
+      type: 'DELETE'
+      data: { userID: userID }
+    }
+    _.extend options, opts
+    @fetch(options)
+    
   firstLevelURL: ->
     "/play/level/dungeons-of-kithgard?course=#{@get('courseID')}&course-instance=#{@id}"

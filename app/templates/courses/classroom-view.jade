@@ -29,6 +29,10 @@ block content
   hr
   
   for user in view.users.models
+    a.remove-student-link.pull-right.text-uppercase(data-user-id=user.id)
+      span.glyphicon.glyphicon-remove
+      span.spl remove student
+    
     h2= user.broadName()
     - var lastPlayedString = view.makeLastPlayedString(user);
     if lastPlayedString

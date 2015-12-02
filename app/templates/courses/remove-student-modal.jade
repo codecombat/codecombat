@@ -1,0 +1,27 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  .text-center
+    h3.modal-title Remove Student
+    span.glyphicon.glyphicon-warning-sign.text-danger
+    h3 Are you sure you want to remove this student from this class?
+    
+block modal-body-content
+  p.text-center
+    | Student will lose access to this classroom and assigned classes.
+    |  Progress and gameplay is NOT lost, and the student can be added back to the classroom at any time.
+    if view.user.get('coursePrepaidID')
+      |  The activated paid license will not be returned.
+        
+block modal-footer-content
+  #remove-student-buttons.text-center
+    p
+      button.btn.btn-lg.btn-success.text-uppercase(data-dismiss="modal") Keep Student
+    p - OR -
+    p
+      button#remove-student-btn.btn.btn-lg.btn-default.text-uppercase Remove Student
+  
+  #remove-student-progress.text-center.hide
+    .progress
+      .progress-bar
+    p.text-info Removing user
