@@ -11,6 +11,12 @@ module.exports = class TeachersView extends RootView
     'click .btn-login-account': 'onClickLogin'
     'click .link-register': 'onClickSignup'
 
+  constructor: ->
+    super()
+    unless me.isAnonymous()
+      _.defer ->
+        application.router.navigate "/courses/teachers", trigger: true
+
   onClickLogin: (e) ->
     @openModalView new AuthModal(mode: 'login') if me.get('anonymous')
 

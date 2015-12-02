@@ -1,15 +1,25 @@
 extends /templates/base
 
 block content
-  
-  p.bigger-text
-    strong Teachers
-    span - share CodeCombat's Hour of Code with your class!
-
   .container-fluid
     .row
       .col-md-6
-        .bigger-text
+        .pull-left
+          a(href="/") <- to main CodeCombat website
+      .col-md-6
+        .pull-right
+          a(href="/hoc") Students, click here!
+    .row
+      .col-md-12
+        br
+        .text-center
+          .title 
+            strong.spr Teachers
+            span - share CodeCombat's Hour of Code with your class!
+    .row
+      .col-md-4
+      .col-md-4
+        p
           div In just one hour, students will learn:
           ul
             li basic Python syntex
@@ -17,19 +27,7 @@ block content
             li strings
             li while loops
             li variables
-      .col-md-5
-        .well
-          strong.uppercase These easy steps to get started:
-          ol
-            if me.isAnonymous()
-              li
-                a.spr.link-register Register
-                span for a free teacher account to manage classes and monitor student progress
-            else
-              li Register (you've already done this)
-            li
-              a.spr(href='/courses/teachers') Create a class
-              span and invite students via email, unique passcode, or URL.
+  br
 
   if me.isAnonymous()
     .text-center
@@ -37,38 +35,24 @@ block content
     .text-center
       button.btn.btn-lg.btn-primary.uppercase.btn-login-account Log into Teacher Account
 
-  h2 Free Trial for Teachers!
-  p 
-    strong.spr Hour of Code Special!
-    span Complete the survey by December 31st and enroll all your students in the paid courses for 2 months.
-  p(data-i18n="teachers.teacher_subs_0")
-  p
-    span.spr(data-i18n="teachers.teacher_subs_1")
-    a(href='/teachers/freetrial', data-i18n="teachers.teacher_subs_2")
-    span.spl(data-i18n="teachers.teacher_subs_3")
+  br
+  br
+  h2.text-center Hour of Code FAQ
 
-  h2 FAQ
+  .container-fluid
+    .row
+      .col-md-2
+      .col-md-8
+        .faq-question(data-i18n="teachers.who_for_title")
+        p(data-i18n="teachers.who_for_1")
+        p(data-i18n="teachers.who_for_2")
 
-  h3(data-i18n="teachers.who_for_title")
-  p(data-i18n="teachers.who_for_1")
-  p(data-i18n="teachers.who_for_2")
+        .faq-question Does it cost anything to play Hour of Code?
+        p No! The first hour of CodeCombat is completely free.
+        p Teachers, please see the free trial information above for further details.
 
-  h3 Does it cost anything to play Hour of Code?
-  p No! The first hour of CodeCombat is completely free.
-  p Teachers, please see the free trial information above for further details.
-
-  //- h3 How much are the paid courses?
-  //- p
-  //-   span.spr(data-i18n="teachers.free_3")
-  //-   a(href='/courses', data-i18n="teachers.free_4")
-  //-   span(data-i18n="teachers.free_5")
-  //- p(data-i18n="teachers.free_6")
-  //- p
-  //-   span.spr For more details, please email
-  //-   a(href='mailto:team@codecombat.com') team@codecombat.com
-
-  h3(data-i18n="teachers.more_info_title")
-  p
-    span.spr(data-i18n="teachers.more_info_1")
-    a(href='http://discourse.codecombat.com/c/teachers', data-i18n="teachers.more_info_2")
-    span.spl(data-i18n="teachers.more_info_3")
+        .faq-question(data-i18n="teachers.more_info_title")
+        p
+          span.spr(data-i18n="teachers.more_info_1")
+          a(href='http://discourse.codecombat.com/c/teachers', data-i18n="teachers.more_info_2")
+          span.spl(data-i18n="teachers.more_info_3")
