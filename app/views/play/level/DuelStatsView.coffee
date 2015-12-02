@@ -85,6 +85,8 @@ module.exports = class DuelStatsView extends CocoView
       'arrow-tower': 100
       palisade: 10
       peasant: 50
+      thrower: 9
+      scout: 18
     powers = humans: 0, ogres: 0
     for thang in @options.thangs when thang.health > 0 and thang.exists
       powers[thang.team] += @costTable[thang.type] or 0 if powers[thang.team]?
