@@ -1,12 +1,165 @@
 extends /templates/base
 
 block content
+  .pull-right
+    if me.isAnonymous()
+      a(href="/teachers") Teachers, click here!
+    else
+      a(href="/courses/teachers") Teachers, click here!
+  br
 
-  h1.text-center Welcome to CodeCombat Courses
-  
-  .row
-    .col-sm-6.text-center
-      a(href="/courses/students").btn.btn-default Students Click Here
+  #main-content
+    if me.isAnonymous()
+
+      h1.text-center Adventurers, welcome to Courses!
+
+      .text-center
+        p
+          h3 Ready to play?
+        p
+          button#start-new-game-btn.btn.btn-default Start New Game
+        p - OR -
+        p
+          button#log-in-btn.btn.btn-default(data-i18n="login.log_in")
+          
+      h3#play-now-to-learn-header.text-center PLAY NOW TO LEARN
+      ul
+        li basic syntax to control your character
+        li while loops to solve pesky puzzles
+        li strings & variables to customize actions
+        li how to defeat an ogre (important life skills!)
       
-    .col-sm-6.text-center
-      a(href="/courses/teachers").btn.btn-default Teachers Click Here
+    else
+      
+      - var showHOCComplete = false;
+      if view.hocCourseInstance
+        - var course = view.courses.get(view.hocCourseInstance.get('courseID'));
+        - var campaign = view.campaigns.get(course.get('campaignID'));
+        - var stats = campaign.statsForSessions(view.hocCourseInstance.sessions);
+        - showHOCComplete = stats.levels.done && !view.classrooms.size();
+        
+      .text-center
+        if !showHOCComplete
+          h1 Welcome to your Courses page!
+        else
+          h1 Amazing! You've completed the Hour of Code course!
+          h2 Ready for more? Play the campaign mode!
+          ul.text-left
+            li Use gems to unlock new items!
+            li Play through brand new worlds and challenges
+            li Learn even more programming!
+          a.btn.btn-lg.btn-success(href="/play") Play Now
+      
+      if view.hocCourseInstance && !view.classrooms.size()
+        h3 Saved Games
+        hr
+        
+        .course-instance-entry
+          h3
+            span.spr Hour of Code: Course 1
+            span.spr= (me.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'
+            small
+              a#change-language-link change language
+          +course-instance-body(view.hocCourseInstance)
+          .clearfix
+        
+      else if view.classrooms.size()
+        h3.text-uppercase My Classes
+        hr
+        
+        for classroom in view.classrooms.models
+          - var justAdded = classroom.id === view.classroomJustAdded;
+          - var classroomClass = justAdded ? 'just-added' : '';
+          if justAdded
+            #just-added-text.text-center Class successfully added!
+        
+          //- sigh
+          div(class=classroomClass)
+            h3
+              span.spr= classroom.get('name')
+              span.spr (#{(classroom.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'})
+              a(href="/courses/"+classroom.id) view class
+            
+            - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
+            for courseInstance in courseInstances
+              
+              .course-instance-entry
+                - var course = view.courses.get(courseInstance.get('courseID'));
+                h3
+                  span.spr= course.get('name')
+                  small
+                    a(href="/courses/"+courseInstance.get('courseID')+'/'+courseInstance.id+'#levels') view levels
+                +course-instance-body(courseInstance)
+                .clearfix
+        
+      else
+        .text-center
+          button#start-new-game-btn.btn.btn-success.btn-lg Start New Game
+        
+      h3.text-uppercase Join A Class
+      hr
+      
+      form#join-class-form.form-inline
+        .help-block
+          em Ask your teacher if you have a CodeCombat class code! If so, enter it below:
+        .form-group
+          input#class-code-input.form-control(placeholder="<Enter Class Code>", value=view.classCode)
+        input#join-class-button.btn.btn-default(type="submit" value="Join")
+          
+        if view.state === 'enrolling'
+          .progress.progress-striped.active
+            .progress-bar(style="width: 100%") Joining class
+      
+        if view.errorMessage
+          .alert.alert-danger= view.errorMessage
+    
+      
+  #begin-hoc-area.hide
+    h3.text-center(data-i18n="common.loading")
+    .progress.progress-striped.active
+      .progress-bar(style="width: 100%")
+        
+        
+mixin course-instance-body(courseInstance)
+  - var course = view.courses.get(courseInstance.get('courseID'));
+  - var campaign = view.campaigns.get(course.get('campaignID'));
+  - var stats = campaign.statsForSessions(courseInstance.sessions);
+  if stats.levels.done
+    .text-success
+      span.glyphicon.glyphicon-ok
+      span.spl Course Complete!
+  .pull-right
+    if stats.levels.done
+      - var arenaLevel = stats.levels.arena;
+      if arenaLevel
+        - var arenaURL = "/play/ladder/"+arenaLevel.slug+"/course/"+courseInstance.id;
+        a.btn.btn-warning.btn-lg(href=arenaURL)
+          | Play Arena
+      else
+        a.btn.btn-default.btn-lg(disabled=true) Course Complete
+    else if courseInstance.sessions.size()
+      - var lastLevel = stats.levels.lastPlayed;
+      - var levelURL = "/play/level/"+lastLevel.slug+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
+      a.btn.btn-success.btn-lg(href=levelURL)
+        | Continue
+    else
+      - var firstLevel = stats.levels.first;
+      - var levelURL = "/play/level/"+firstLevel.slug+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
+      a.btn.btn-info.btn-lg(href=levelURL)
+        | Start
+      
+  div
+    span Playtime
+    span.spr :
+    span= moment.duration(stats.playtime, 'seconds').humanize()
+    
+  if stats.levels.lastPlayed
+    div
+      span Last Level
+      span.spr :
+      span= stats.levels.lastPlayed.name
+
+  .progress
+    .progress-bar(style="width:"+stats.levels.pctDone)= stats.levels.pctDone
+    
+  

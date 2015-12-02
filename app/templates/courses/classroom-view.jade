@@ -1,0 +1,65 @@
+extends /templates/base
+
+block content
+
+  - var isOwner = view.classroom.get('ownerID') === me.id;
+  if isOwner
+    a(href="/courses/teachers") Back to my classrooms
+  else
+    a(href="/courses") Back to my courses
+    
+  h1
+    span.spr= view.classroom.get('name')
+    if isOwner
+      a#edit-class-details-link
+        small Edit class details
+        
+  if view.classroom.get('description')
+    p= view.classroom.get('description')
+    
+  // TODO: Add classroom statistics (grab from CourseDetailsView)
+    
+  h1
+    | Students
+    .pull-right#main-button-area
+      button#add-students-btn.btn.btn-success Add Students
+      button#activate-licenses-btn.btn.btn-warning Activate Licenses
+      a.btn.btn-warning(href="/courses/purchase?from-classroom="+view.classroom.id) Purchase Licenses
+      
+  hr
+  
+  for user in view.users.models
+    a.remove-student-link.pull-right.text-uppercase(data-user-id=user.id)
+      span.glyphicon.glyphicon-remove
+      span.spl remove student
+    
+    h2= user.broadName()
+    - var lastPlayedString = view.makeLastPlayedString(user);
+    if lastPlayedString
+      p Last Played: #{lastPlayedString}
+      
+    - var paidFor = user.get('coursePrepaidID');
+    for courseInstance in view.courseInstances.models
+      - var inCourse = _.contains(courseInstance.get('members'), user.id);
+      - var course = view.courses.get(courseInstance.get('courseID'));
+      - var campaign = view.campaigns.get(course.get('campaignID'));
+      - var stats = campaign.statsForSessions(courseInstance.sessionsByUser[user.id] || []);
+      if !(course.get('free') || paidFor)
+        - continue;
+      .row
+        .col-sm-3.col-sm-offset-1= campaign.get('fullName')
+        .col-sm-7
+          if inCourse
+            .progress
+              .progress-bar(style='width:'+stats.levels.pctDone)
+          else if paidFor
+            button.enable-btn.btn.btn-info.btn-sm(data-user-id=user.id, data-course-instance-id=courseInstance.id) Enable
+            
+    if !paidFor
+      .text-center
+        p
+          em Activate a license to enable more courses for this student.
+        p
+          button.activate-single-license-btn.btn.btn-info.btn-sm(data-user-id=user.id) Activate
+          
+    hr

@@ -9,12 +9,16 @@ template = require 'templates/courses/course-details'
 User = require 'models/User'
 utils = require 'core/utils'
 Prepaid = require 'models/Prepaid'
+storage = require 'core/storage'
 
 autoplayedOnce = false
 
 module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
   template: template
+  teacherMode: false
+  singlePlayerMode: false
+  memberSort: 'nameAsc'
 
   events:
     'change .progress-expand-checkbox': 'onCheckExpandedProgress'
@@ -25,14 +29,13 @@ module.exports = class CourseDetailsView extends RootView
     'click .progress-level-cell': 'onClickProgressLevelCell'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
+    'submit #school-form': 'onSubmitSchoolForm'
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
     @courseID ?= options.courseID
     @courseInstanceID ?= options.courseInstanceID
     @classroom = new Classroom()
-    @adminMode = me.isAdmin()
-    @memberSort = 'nameAsc'
     @course = @supermodel.getModel(Course, @courseID) or new Course _id: @courseID
     @listenTo @course, 'sync', @onCourseSync
     @prepaid = new Prepaid()
@@ -43,7 +46,6 @@ module.exports = class CourseDetailsView extends RootView
 
   getRenderData: ->
     context = super()
-    context.adminMode = @adminMode ? false
     context.campaign = @campaign
     context.conceptsCompleted = @conceptsCompleted ? {}
     context.course = @course if @course?.loaded
@@ -62,13 +64,22 @@ module.exports = class CourseDetailsView extends RootView
     context.userConceptStateMap = @userConceptStateMap ? {}
     context.userLevelStateMap = @userLevelStateMap ? {}
     context.document = document
+    context.promptForSchool = @courseComplete and not me.isAnonymous() and not me.get('schoolName') and not storage.load('no-school')
     context
 
+  afterRender: ->
+    super()
+    if @supermodel.finished() and @courseComplete and me.isAnonymous() and @options.justBeatLevel
+      # TODO: Make an intermediate modal that tells them they've finished HoC and has some snazzy stuff for convincing players to sign up instead of just throwing up the bare AuthModal
+      AuthModal = require 'views/core/AuthModal'
+      @openModalView new AuthModal showSignupRationale: true
+
   onCourseSync: ->
+    return if @destroyed
     # console.log 'onCourseSync'
     if me.isAnonymous() and (not me.get('hourOfCode') and not @course.get('hourOfCode'))
       @noCourseInstance = true
-      @render?()
+      @render()
       return
     return if @campaign?
     campaignID = @course.get('campaignID')
@@ -78,24 +89,36 @@ module.exports = class CourseDetailsView extends RootView
       @onCampaignSync()
     else
       @supermodel.loadModel @campaign, 'campaign'
-    @render?()
+    @render()
 
   onCampaignSync: ->
+    return if @destroyed
     # console.log 'onCampaignSync'
     if @courseInstanceID
       @loadCourseInstance(@courseInstanceID)
     else unless me.isAnonymous()
-      @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
-      @listenToOnce @courseInstances, 'sync', @onCourseInstancesSync
-      @supermodel.loadCollection(@courseInstances, 'course_instances')
+      @loadCourseInstances()
     @levelConceptMap = {}
     for levelID, level of @campaign.get('levels')
       @levelConceptMap[levelID] ?= {}
       for concept in level.concepts
         @levelConceptMap[levelID][concept] = true
-    @render?()
+      if level.type is 'course-ladder'
+        @arenaLevel = level
+    @render()
+
+  loadCourseInstances: ->
+    @courseInstances = new CocoCollection [], {url: "/db/user/#{me.id}/course_instances", model: CourseInstance, comparator: 'courseID'}
+    @listenToOnce @courseInstances, 'sync', @onCourseInstancesSync
+    @supermodel.loadCollection @courseInstances, 'course_instances'
+
+  loadAllCourses: ->
+    @allCourses = new CocoCollection [], {url: "/db/course", model: Course, comparator: '_id'}
+    @listenToOnce @allCourses, 'sync', @onAllCoursesSync
+    @supermodel.loadCollection @allCourses, 'courses'
 
   loadCourseInstance: (courseInstanceID) ->
+    return if @destroyed
     # console.log 'loadCourseInstance'
     return if @courseInstance?
     @courseInstanceID = courseInstanceID
@@ -107,23 +130,29 @@ module.exports = class CourseDetailsView extends RootView
       @courseInstance = @supermodel.loadModel(@courseInstance, 'course_instance').model
 
   onCourseInstancesSync: ->
+    return if @destroyed
     # console.log 'onCourseInstancesSync'
-    if @courseInstances.models.length is 1
-      @loadCourseInstance(@courseInstances.models[0].id)
-    else
-      if @courseInstances.models.length is 0
-        @noCourseInstance = true
+    @findNextCourseInstance()
+    if not @courseInstance
+      # We are loading these to find the one we want to display.
+      if @courseInstances.models.length is 1
+        @loadCourseInstance(@courseInstances.models[0].id)
       else
-        @noCourseInstanceSelected = true
-      @render?()
+        if @courseInstances.models.length is 0
+          @noCourseInstance = true
+        else
+          @noCourseInstanceSelected = true
+        @render()
 
   onCourseInstanceSync: ->
+    return if @destroyed
     # console.log 'onCourseInstanceSync'
     if @courseInstance.get('classroomID')
       @classroom = new Classroom({_id: @courseInstance.get('classroomID')})
       @supermodel.loadModel @classroom, 'classroom'
-    @adminMode = true if @courseInstance.get('ownerID') is me.id and @courseInstance.get('name') isnt 'Single Player'
-    @levelSessions = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/level_sessions", model: LevelSession, comparator:'_id' })
+    @singlePlayerMode = @courseInstance.get('name') is 'Single Player'
+    @teacherMode = @courseInstance.get('ownerID') is me.id and not @singlePlayerMode
+    @levelSessions = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/level_sessions", model: LevelSession, comparator: '_id' })
     @listenToOnce @levelSessions, 'sync', @onLevelSessionsSync
     @supermodel.loadCollection @levelSessions, 'level_sessions', cache: false
     @members = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/members", model: User, comparator: 'nameLower' })
@@ -131,19 +160,22 @@ module.exports = class CourseDetailsView extends RootView
     @supermodel.loadCollection @members, 'members', cache: false
     @owner = new User({_id: @courseInstance.get('ownerID')})
     @supermodel.loadModel @owner, 'user'
-    if @adminMode and prepaidID = @courseInstance.get('prepaidID')
+    if @teacherMode and prepaidID = @courseInstance.get('prepaidID')
       @prepaid = @supermodel.getModel(Prepaid, prepaidID) or new Prepaid _id: prepaidID
       @listenTo @prepaid, 'sync', @onPrepaidSync
       if @prepaid.loaded
         @onPrepaidSync()
       else
         @supermodel.loadModel @prepaid, 'prepaid'
-    @render?()
+    @render()
 
   onPrepaidSync: ->
-    @render?()
+    return if @destroyed
+    # TODO: why do we rerender here? Template doesn't use prepaid.
+    @render()
 
   onLevelSessionsSync: ->
+    return if @destroyed
     # console.log 'onLevelSessionsSync'
     @instanceStats = averageLevelsCompleted: 0, furthestLevelCompleted: '', totalLevelsCompleted: 0, totalPlayTime: 0
     @memberStats = {}
@@ -152,17 +184,28 @@ module.exports = class CourseDetailsView extends RootView
     @userLevelStateMap = {}
     levelStateMap = {}
     for levelSession in @levelSessions.models
+      continue if levelSession.skipMe   # Don't track second arena session as another completed level
       userID = levelSession.get('creator')
       levelID = levelSession.get('level').original
       state = if levelSession.get('state')?.complete then 'complete' else 'started'
+      playtime = parseInt(levelSession.get('playtime') ? 0, 10)
+      do (userID, levelID) =>
+        secondSessionForLevel = _.find(@levelSessions.models, ((otherSession) ->
+          otherSession.get('creator') is userID and otherSession.get('level').original is levelID and otherSession.id isnt levelSession.id
+        ))
+        if secondSessionForLevel
+          state = 'complete' if secondSessionForLevel.get('state')?.complete
+          playtime = playtime + parseInt(secondSessionForLevel.get('playtime') ? 0, 10)
+          secondSessionForLevel.skipMe = true
+
       levelStateMap[levelID] = state
 
       @instanceStats.totalLevelsCompleted++ if state is 'complete'
-      @instanceStats.totalPlayTime += parseInt(levelSession.get('playtime') ? 0)
+      @instanceStats.totalPlayTime += playtime
 
       @memberStats[userID] ?= totalLevelsCompleted: 0, totalPlayTime: 0
       @memberStats[userID].totalLevelsCompleted++ if state is 'complete'
-      @memberStats[userID].totalPlayTime += parseInt(levelSession.get('playtime') ? 0)
+      @memberStats[userID].totalPlayTime += playtime
 
       @userConceptStateMap[userID] ?= {}
       for concept of @levelConceptMap[levelID]
@@ -185,36 +228,58 @@ module.exports = class CourseDetailsView extends RootView
       for concept, state of conceptStateMap
         @conceptsCompleted[concept] ?= 0
         @conceptsCompleted[concept]++
-    @render?()
+
+    if @memberStats[me.id]?.totalLevelsCompleted >= _.size(@campaign.get('levels')) - 1  # Don't need to complete arena
+      @courseComplete = true
+      @loadCourseInstances() unless @courseInstances  # Find the next course instance to do.
+
+    @render()
 
     # If we just joined a single-player course for Hour of Code, we automatically play.
-    if @instanceStats.totalLevelsCompleted is 0 and @instanceStats.totalPlayTime is 0 and @courseInstance.get('members').length is 1 and me.get('hourOfCode') and not @adminMode and not autoplayedOnce
+    if @instanceStats.totalLevelsCompleted is 0 and @instanceStats.totalPlayTime is 0 and @singlePlayerMode and not autoplayedOnce
       autoplayedOnce = true
       @$el.find('button.btn-play-level').click()
 
   onMembersSync: ->
+    return if @destroyed
     # console.log 'onMembersSync'
     @memberUserMap = {}
     for user in @members.models
       @memberUserMap[user.id] = user
     @sortMembers()
-    @render?()
+    @render()
+
+  onAllCoursesSync: ->
+    @findNextCourseInstance()
+
+  findNextCourseInstance: ->
+    @nextCourseInstance = _.find @courseInstances.models, (ci) =>
+      # Sorted by courseID
+      ci.get('classroomID') is @courseInstance.get('classroomID') and ci.id isnt @courseInstance.id and ci.get('courseID') > @course.id
+    if @nextCourseInstance
+      nextCourseID = @nextCourseInstance.get('courseID')
+      @nextCourse = @supermodel.getModel(Course, nextCourseID) or new Course _id: nextCourseID
+      @nextCourse = @supermodel.loadModel(@nextCourse, 'course').model
+    else if @allCourses?.loaded
+      @nextCourse = _.find @allCourses.models, (course) => course.id > @course.id
+    else
+      @loadAllCourses()
 
   onCheckExpandedProgress: (e) ->
     @showExpandedProgress = $('.progress-expand-checkbox').prop('checked')
     # TODO: why does render reset the checkbox to be unchecked?
-    @render?()
+    @render()
     $('.progress-expand-checkbox').attr('checked', @showExpandedProgress)
 
   onClickMemberHeader: (e) ->
     @memberSort = if @memberSort is 'nameAsc' then 'nameDesc' else 'nameAsc'
     @sortMembers()
-    @render?()
+    @render()
 
   onClickProgressHeader: (e) ->
     @memberSort = if @memberSort is 'progressAsc' then 'progressDesc' else 'progressAsc'
     @sortMembers()
-    @render?()
+    @render()
 
   onClickPlayLevel: (e) ->
     levelSlug = $(e.target).data('level-slug')
@@ -224,7 +289,7 @@ module.exports = class CourseDetailsView extends RootView
       viewClass = 'views/ladder/LadderView'
       viewArgs = [{supermodel: @supermodel}, levelSlug]
       route = '/play/ladder/' + levelSlug
-      if @courseInstance.get('members').length > 1  # No league for solo courses
+      unless @singlePlayerMode  # No league for solo courses
         route += '/course/' + @courseInstance.id
         viewArgs = viewArgs.concat ['course', @courseInstance.id]
     else
@@ -242,7 +307,7 @@ module.exports = class CourseDetailsView extends RootView
     @loadCourseInstance(courseInstanceID)
 
   onClickProgressLevelCell: (e) ->
-    return unless @adminMode
+    return unless @teacherMode or me.isAdmin()
     levelID = $(e.currentTarget).data('level-id')
     levelSlug = $(e.currentTarget).data('level-slug')
     userID = $(e.currentTarget).data('user-id')
@@ -302,8 +367,17 @@ module.exports = class CourseDetailsView extends RootView
           aName.localeCompare(bName)
 
   getOwnerName: ->
-    if @owner.isNew()
-      return '?'
+    return if @owner.isNew()
     if @owner.get('firstName') and @owner.get('lastName')
       return "#{@owner.get('firstName')} #{@owner.get('lastName')}"
-    return @owner.get('name') or @owner.get('email') or '?'
+    @owner.get('name') or @owner.get('email')
+
+  onSubmitSchoolForm: (e) ->
+    e.preventDefault()
+    schoolName = @$el.find('#course-complete-school-input').val().trim()
+    if schoolName and schoolName isnt me.get('schoolName')
+      me.set 'schoolName', schoolName
+      me.patch()
+    else
+      storage.save 'no-school', true
+    @$el.find('#school-form').slideUp('slow')

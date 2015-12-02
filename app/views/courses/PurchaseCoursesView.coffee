@@ -15,6 +15,7 @@ module.exports = class PurchaseCoursesView extends RootView
   
   initialize: (options) ->
     @listenTo stripeHandler, 'received-token', @onStripeReceivedToken
+    @fromClassroom = utils.getQueryVariable('from-classroom')
     super(options)
   
   events:

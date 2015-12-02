@@ -1,17 +1,13 @@
 extends /templates/core/modal-base
 
 block modal-header-content
-  h2 Invite Students to Classroom
+  h2 Add Students
   h3= view.classroom.get('name')
 
 block modal-body-content
-  p(data-i18n="courses.invite_students")
-  h3(data-i18n="courses.invite_link_header")
-  p(data-i18n="courses.invite_link_p_1")
-  .alert.alert-info
-    
-    strong= document.location.origin + "/courses/students?_cc=" + (view.classroom.get('codeCamel') || view.classroom.get('code'))
-  p(data-i18n="courses.invite_link_p_2")
+  h3 Option 1: Invite students via email
+  p Students will automatically be sent an invitation to join this class, and will
+    | need to create an account with a username and password.
   .form
     .form-group
       textarea#invite-emails-textarea.form-control
@@ -20,3 +16,21 @@ block modal-body-content
       button#send-invites-btn.btn.btn-success(data-i18n="courses.send_invites")
       #invite-emails-sending-alert.alert.alert-info.hide(data-i18n="common.sending")
       #invite-emails-success-alert.alert.alert-success.hide(data-i18n="play_level.done")
+
+  h3 Option 2: Send URL to your students
+  p Students will be asked to enter an email address, username and password to create an account.
+  
+  .row
+    .col-sm-9
+      input.form-control#join-url-input(value=view.joinURL)
+    .col-sm-3
+      button#copy-url-btn.btn.btn-fixed.btn-default.text-uppercase Copy URL
+  #copied-alert.alert.alert-info.hide Copied
+  #copy-failed-alert.alert.alert-danger.hide Error copying
+  
+  h3 Option 3: Direct students to codecombat.com/courses
+  p Give students the following passcode to enter along with an email address,
+    | username and password when they create an account.
+  
+  .text-center
+    #class-code-well.well= view.classCode
