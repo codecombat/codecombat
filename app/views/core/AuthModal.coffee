@@ -91,6 +91,7 @@ module.exports = class AuthModal extends ModalView
     userObject = forms.formToObject @$el
     delete userObject.subscribe
     delete userObject.name if userObject.name is ''
+    delete userObject.schoolName if userObject.schoolName is ''
     userObject.name = @suggestedName if @suggestedName
     for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails', 'schoolName']
       userObject[key] ?= val
