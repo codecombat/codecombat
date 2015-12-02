@@ -91,7 +91,7 @@ module.exports = class AuthModal extends ModalView
     delete userObject.subscribe
     delete userObject.name if userObject.name is ''
     userObject.name = @suggestedName if @suggestedName
-    for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails']
+    for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails', 'schoolName']
       userObject[key] ?= val
     subscribe = @$el.find('#subscribe').prop('checked')
     userObject.emails ?= {}
