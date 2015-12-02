@@ -8,7 +8,7 @@ Classroom = require 'models/Classroom'
 module.exports = class StudentSignUpModal extends ModalView
   id: 'student-sign-up-modal'
   template: template
-  
+
   events:
     'click #sign-up-btn': 'onClickSignUpButton'
     'submit form': 'onSubmitForm'
@@ -58,8 +58,8 @@ module.exports = class StudentSignUpModal extends ModalView
     return unless @emailCheck()
     # TODO: consolidate with AuthModal logic, or make user creation process less magical, more RESTful
     data = forms.formToObject @$el
-    delete data['class-code']
-    for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails']
+    delete data.classCode
+    for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails', 'schoolName']
       data[key] ?= val
     Backbone.Mediator.publish "auth:signed-up", {}
     data.emails ?= {}
@@ -74,7 +74,7 @@ module.exports = class StudentSignUpModal extends ModalView
       error: @onCreateUserError
       success: @onCreateUserSuccess
     })
-    
+
   onCreateUserError: (model, jqxhr) =>
     # really need to make our server errors uniform
     if jqxhr.responseJSON
@@ -85,7 +85,7 @@ module.exports = class StudentSignUpModal extends ModalView
       message =  jqxhr.responseText
     @disableModalInProgress(@$el)
     @$('#errors-alert').text(message).removeClass('hide')
-    
+
   onCreateUserSuccess: =>
     classCode = @$('#class-code-input').val()
     if classCode
