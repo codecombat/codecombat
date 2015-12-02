@@ -1,3 +1,5 @@
+require 'newrelic' if process.env.NEW_RELIC_LICENSE_KEY?
+
 do (setupLodash = this) ->
   GLOBAL._ = require 'lodash'
   _.str = require 'underscore.string'
