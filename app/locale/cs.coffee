@@ -1358,7 +1358,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    poll: "Poll"
 #    user_polls_record: "Poll Voting History"
 
-#  concepts:
+  concepts:
     advanced_strings: "Pokročilé řetězce"
     algorithms: "Algoritmy"
     arguments: "Parametry"
