@@ -79,7 +79,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
       alreadyNotInClassroom = not _.any classroom.get('members') or [], (memberID) -> memberID.toString() is userID
       return @sendSuccess(res, @formatEntity(req, classroom)) if alreadyNotInClassroom
       members = _.clone(classroom.get('members'))
-      members.splice(members.indexOf(userID), 1)
+      members = (m for m in members when m.toString() isnt userID)
       classroom.set('members', members)
       classroom.save (err, classroom) =>
         return @sendDatabaseError(res, err) if err
