@@ -1,0 +1,28 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3 Change Course Language
+  .clearfix
+
+block modal-body-content
+  #choice-area.text-center
+    - var currentLanguage = (me.get('aceConfig') || {}).language || 'python';
+    button.lang-choice-btn.btn.btn-success.btn-lg(data-language='python')
+      if currentLanguage === 'python'
+        | Keep Using Python
+      else
+        | Switch To Python
+        
+    p - OR -
+    
+    button.lang-choice-btn.btn.btn-default(data-language='javascript')
+      if currentLanguage === 'javascript'
+        | Keep Using JavaScript
+      else
+        | Switch to JavaScript
+        
+  #saving-progress.progress.progress-striped.active.hide
+    .progress-bar(style="width: 100%")
+
+block modal-footer-content
+  

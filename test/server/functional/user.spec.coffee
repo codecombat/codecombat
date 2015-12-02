@@ -74,15 +74,16 @@ describe 'POST /db/user', ->
       done()
 
   it 'serves the user through /db/user/id', (done) ->
-    unittest.getNormalJoe (user) ->
-      url = getURL(urlUser+'/'+user._id)
-      request.get url, (err, res, body) ->
-        expect(res.statusCode).toBe(200)
-        user = JSON.parse(body)
-        expect(user.name).toBe('Joe')  # Anyone should be served the username.
-        expect(user.email).toBeUndefined()  # Shouldn't be available to just anyone.
-        expect(user.passwordHash).toBeUndefined()
-        done()
+    request.post getURL('/auth/logout'), ->
+      unittest.getNormalJoe (user) ->
+        url = getURL(urlUser+'/'+user._id)
+        request.get url, (err, res, body) ->
+          expect(res.statusCode).toBe(200)
+          user = JSON.parse(body)
+          expect(user.name).toBe('Joe')  # Anyone should be served the username.
+          expect(user.email).toBeUndefined()  # Shouldn't be available to just anyone.
+          expect(user.passwordHash).toBeUndefined()
+          done()
 
   it 'creates admins based on passwords', (done) ->
     request.post getURL('/auth/logout'), ->
@@ -353,12 +354,14 @@ describe 'Statistics', ->
       session.save (err) ->
         expect(err).toBeNull()
 
-        User.findById joe.get('id'), (err, guy) ->
-          expect(err).toBeNull()
-          expect(guy.get 'id').toBe joe.get 'id'
-          expect(guy.get 'stats.gamesCompleted').toBe 1
-
-          done()
+        f = ->
+          User.findById joe.get('id'), (err, guy) ->
+            expect(err).toBeNull()
+            expect(guy.get 'id').toBe joe.get 'id'
+            expect(guy.get 'stats.gamesCompleted').toBe 1
+            done()
+            
+        setTimeout f, 100
 
   it 'recalculates games completed', (done) ->
     unittest.getNormalJoe (joe) ->

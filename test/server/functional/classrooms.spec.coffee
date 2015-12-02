@@ -111,7 +111,7 @@ describe 'PUT /db/classroom', ->
               expect(res.statusCode).toBe(403)
               done()
             
-describe 'POST /db/classroom/:id/members', ->
+describe 'POST /db/classroom/~/members', ->
 
   it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom], (err) ->
@@ -133,6 +133,36 @@ describe 'POST /db/classroom/:id/members', ->
             Classroom.findById classroomID, (err, classroom) ->
               expect(classroom.get('members').length).toBe(1)
               done()
+
+
+describe 'DELETE /db/classroom/:id/members', ->
+
+  it 'clears database users and classrooms', (done) ->
+    clearModels [User, Classroom], (err) ->
+      throw err if err
+      done()
+
+  it 'removes the given user from the list of members in the classroom', (done) ->
+    loginNewUser (user1) ->
+      data = { name: 'Classroom 6' }
+      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
+        classroomCode = body.code
+        classroomID = body._id
+        expect(res.statusCode).toBe(200)
+        loginNewUser (user2) ->
+          url = getURL("/db/classroom/~/members")
+          data = { code: classroomCode }
+          request.post { uri: url, json: data }, (err, res, body) ->
+            expect(res.statusCode).toBe(200)
+            Classroom.findById classroomID, (err, classroom) ->
+              expect(classroom.get('members').length).toBe(1)
+              url = getURL("/db/classroom/#{classroom.id}/members")
+              data = { userID: user2.id }
+              request.del { uri: url, json: data }, (err, res, body) ->
+                expect(res.statusCode).toBe(200)
+                Classroom.findById classroomID, (err, classroom) ->
+                  expect(classroom.get('members').length).toBe(0)
+                  done()
 
 
 describe 'POST /db/classroom/:id/invite-members', ->

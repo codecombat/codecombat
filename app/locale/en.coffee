@@ -886,6 +886,7 @@
   courses:
     course: "Course"
     courses: "courses"
+    create_new_class: "Create New Class"
     not_enrolled: "You are not enrolled in this course."
     visit_pref: "Please visit the"
     visit_suf: "page to enroll."
@@ -1363,6 +1364,15 @@
     campaigns: "Campaigns"
     poll: "Poll"
     user_polls_record: "Poll Voting History"
+    course: "Course"
+    courses: "Courses"
+    course_instance: "Course Instance"
+    courses_instances: "Course Instances"
+    classroom: "Classroom"
+    classrooms: "Classrooms"
+    clan: "Clan"
+    clans: "Clans"
+    members: "Members"
 
   concepts:
     advanced_strings: "Advanced Strings"

@@ -1,0 +1,69 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  .clearfix
+  .text-center
+    h2 Activate Licenses
+    p= view.classroom.get('name')
+
+block modal-body-content
+  - var usedLic = view.prepaids.totalRedeemers();
+  - var totalLic = view.prepaids.totalMaxRedeemers();
+  - var remainingLic = totalLic - usedLic;
+  .text-center
+    p
+      strong.spr Licenses remaining:
+      strong= remainingLic
+
+  .row
+    .col-sm-10.col-sm-offset-1
+      form.form
+        if view.user
+          .form-group
+            .radio
+              label
+                input(type="radio", name="targets" value="given" checked=true)
+                span.spr Activate license for student:
+                span= view.user.get('name')
+            .radio
+              label
+                input(type="radio", name="targets" value="selection")
+                span.spr Activate licenses for the following students:
+        else
+          p Activate licenses for the following students:
+          
+        .well.form-group
+          for user in view.users.models
+            .checkbox
+              label
+                - var paid = user.get('coursePrepaidID')
+                input(type="checkbox", disabled=paid, checked=true, data-user-id=user.id, name='user')
+                span.spr= user.broadName()
+
+        #error-alert.alert.alert-danger.hide
+            
+        #progress-area.hide
+          .progress
+            .progress-bar
+            
+        #submit-form-area.text-center
+          p
+            span.spr Total students:
+            span#total-selected-span.spr
+            span#not-depleted-span
+              | (
+              span.spr licenses remaining:
+              span#licenses-remaining-span
+              | )
+            span#depleted-span 
+              | (
+              span insufficient licenses
+              | )
+
+          p
+            button#activate-licenses-btn.btn.btn-success.text-uppercase(type="submit") Activate Licenses
+            
+          p
+            a#get-more-licenses-btn.btn.btn-info.text-uppercase(href="/courses/purchase") Get More Licenses
+            
+block modal-footer-content

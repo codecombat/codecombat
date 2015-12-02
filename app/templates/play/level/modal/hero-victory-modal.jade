@@ -12,10 +12,11 @@ block modal-body-content
     #victory-text= victoryText
 
   if isCourseLevel
-    if currentCourseName
-      p
-        span.spr.level-title(data-i18n="play_level.course")
-        span.level-name= currentCourseName
+    .course-name-container
+      if currentCourseName
+        p
+          span.spr.level-title(data-i18n="play_level.course")
+          span.level-name= currentCourseName
     .container-fluid
       .row
         .col-md-6
@@ -26,6 +27,10 @@ block modal-body-content
           if nextLevelName
             .level-title(data-i18n="play_level.next_level")
             .level-name= nextLevelName.replace('Course: ', '')
+          else
+            .level-title(data-i18n="play_level.course")
+            .level-name(data-i18n="play_level.victory_title_suffix")
+
     br
 
   #level-feedback

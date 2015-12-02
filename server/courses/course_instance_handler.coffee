@@ -35,9 +35,11 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     return @createHOCAPI(req, res) if relationship is 'create-for-hoc'
     return @getLevelSessionsAPI(req, res, args[0]) if args[1] is 'level_sessions'
     return @addMember(req, res, args[0]) if req.method is 'POST' and args[1] is 'members'
+    return @removeMember(req, res, args[0]) if req.method is 'DELETE' and args[1] is 'members'
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
     return @inviteStudents(req, res, args[0]) if relationship is 'invite_students'
     return @redeemPrepaidCodeAPI(req, res) if args[1] is 'redeem_prepaid'
+    return @getMyCourseLevelSessionsAPI(req, res, args[0]) if args[1] is 'my-course-level-sessions'
     return @findByLevel(req, res, args[2]) if args[1] is 'find_by_level'
     super arguments...
 
@@ -93,6 +95,30 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
                 return @sendDatabaseError(res, err) if err
                 @sendSuccess(res, @formatEntity(req, courseInstance))
 
+  removeMember: (req, res, courseInstanceID) ->
+    userID = req.body.userID
+    return @sendBadInputError(res, 'Input must be a MongoDB ID') unless utils.isID(userID)
+    CourseInstance.findById courseInstanceID, (err, courseInstance) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res, 'Course instance not found') unless courseInstance
+      Classroom.findById courseInstance.get('classroomID'), (err, classroom) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res, 'Classroom referenced by course instance not found') unless classroom
+        return @sendForbiddenError(res) unless _.any(classroom.get('members'), (memberID) -> memberID.toString() is userID)
+        ownsCourseInstance = courseInstance.get('ownerID').equals(req.user.get('_id'))
+        removingSelf = userID is req.user.id
+        return @sendForbiddenError(res) unless ownsCourseInstance or removingSelf
+        alreadyNotInCourseInstance = not _.any courseInstance.get('members') or [], (memberID) -> memberID.toString() is userID
+        return @sendSuccess(res, @formatEntity(req, courseInstance)) if alreadyNotInCourseInstance
+        members = _.clone(courseInstance.get('members'))
+        members.splice(members.indexOf(userID), 1)
+        courseInstance.set('members', members)
+        courseInstance.save (err, courseInstance) =>
+          return @sendDatabaseError(res, err) if err
+          User.update {_id: mongoose.Types.ObjectId(userID)}, {$pull: {courseInstances: courseInstance.get('_id')}}, (err) =>
+            return @sendDatabaseError(res, err) if err
+            @sendSuccess(res, @formatEntity(req, courseInstance))
+
   post: (req, res) ->
     return @sendBadInputError(res, 'No classroomID') unless req.body.classroomID
     return @sendBadInputError(res, 'No courseID') unless req.body.courseID
@@ -126,7 +152,28 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
           levelIDs = (levelID for levelID of campaign.get('levels'))
           memberIDs = _.map courseInstance.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
           query = {$and: [{creator: {$in: memberIDs}}, {'level.original': {$in: levelIDs}}]}
-          LevelSession.find query, (err, documents) =>
+          cursor = LevelSession.find(query)
+          cursor = cursor.select(req.query.project) if req.query.project
+          cursor.exec (err, documents) =>
+            return @sendDatabaseError(res, err) if err?
+            cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
+            @sendSuccess(res, cleandocs)
+
+  getMyCourseLevelSessionsAPI: (req, res, courseInstanceID) ->
+    CourseInstance.findById courseInstanceID, (err, courseInstance) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless courseInstance
+      Course.findById courseInstance.get('courseID'), (err, course) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res) unless course
+        Campaign.findById course.get('campaignID'), (err, campaign) =>
+          return @sendDatabaseError(res, err) if err
+          return @sendNotFoundError(res) unless campaign
+          levelIDs = (levelID for levelID, level of campaign.get('levels') when not _.contains(level.type, 'ladder'))
+          query = {$and: [{creator: req.user.id}, {'level.original': {$in: levelIDs}}]}
+          cursor = LevelSession.find(query)
+          cursor = cursor.select(req.query.project) if req.query.project
+          cursor.exec (err, documents) =>
             return @sendDatabaseError(res, err) if err?
             cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
             @sendSuccess(res, cleandocs)
