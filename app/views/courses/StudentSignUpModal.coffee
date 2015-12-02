@@ -4,6 +4,7 @@ auth = require 'core/auth'
 forms = require 'core/forms'
 User = require 'models/User'
 Classroom = require 'models/Classroom'
+utils = require 'core/utils'
 
 module.exports = class StudentSignUpModal extends ModalView
   id: 'student-sign-up-modal'
@@ -17,6 +18,7 @@ module.exports = class StudentSignUpModal extends ModalView
   initialize: (options) ->
     options ?= {}
     @willPlay = options.willPlay
+    @classCode = utils.getQueryVariable('_cc') or ''
 
   onClickSkipLink: ->
     @trigger 'click-skip-link' # defer to view that opened this modal
@@ -89,6 +91,6 @@ module.exports = class StudentSignUpModal extends ModalView
   onCreateUserSuccess: =>
     classCode = @$('#class-code-input').val()
     if classCode
-      url = "/courses/students?_cc="+classCode
+      url = "/courses?_cc="+classCode
       application.router.navigate(url)
     window.location.reload()
