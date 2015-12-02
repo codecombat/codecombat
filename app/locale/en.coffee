@@ -119,6 +119,9 @@
     social_signup: "Or, you can sign up through Facebook or G+:"
     required: "You need to log in before you can go that way."
     login_switch: "Already have an account?"
+    school_name: "School Name and City"
+    optional: "optional"
+    school_name_placeholder: "Example High School, Springfield, IL"
 
   recover:
     recover_account_title: "Recover Account"
