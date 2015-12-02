@@ -2,11 +2,6 @@ extends /templates/base
 
 block content
 
-  div
-    span *UNDER CONSTRUCTION, send feedback to
-    a.spl(href='mailto:team@codecombat.com') team@codecombat.com
-  div(style='border-bottom: 1px solid black;')
-
   if (noCourseInstance || noCourseInstanceSelected) && course
     h1= course.get('name')
     if noCourseInstance
@@ -31,24 +26,26 @@ block content
   else if !course || !courseInstance
     h1(data-i18n="common.loading") Loading...
   else
-    h1
-      | #{course.get('name')}
-      small.spl
+    p
+      // TODO: format this text all good and stuff
+      strong
         if courseInstance.get('name')
-          | (#{courseInstance.get('name')})
+          span= courseInstance.get('name')
         else if view.classroom.get('name')
-          | (#{view.classroom.get('name')})
+          span= view.classroom.get('name')
         else
-          | (
           span(data-i18n='courses.unnamed_class')
-          | )
-      
-    if !view.owner.isNew() && view.getOwnerName()
-      p
-        span.spr Creator:
+
+      if !view.owner.isNew() && view.getOwnerName()
+        span.spl.spr - Teacher:
         a(href="/user/#{view.owner.id}")
           strong= view.getOwnerName()
 
+    h1
+      | #{course.get('name')}
+      if view.courseComplete
+        span.spl - Complete!
+      
     p
       if courseInstance.get('description')
         each line in courseInstance.get('description').split('\n')

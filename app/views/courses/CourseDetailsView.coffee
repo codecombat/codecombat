@@ -152,17 +152,28 @@ module.exports = class CourseDetailsView extends RootView
     @userLevelStateMap = {}
     levelStateMap = {}
     for levelSession in @levelSessions.models
+      continue if levelSession.skipMe   # Don't track second arena session as another completed level
       userID = levelSession.get('creator')
       levelID = levelSession.get('level').original
       state = if levelSession.get('state')?.complete then 'complete' else 'started'
+      playtime = parseInt(levelSession.get('playtime') ? 0, 10)
+      do (userID, levelID) =>
+        secondSessionForLevel = _.find(@levelSessions.models, ((otherSession) ->
+          otherSession.get('creator') is userID and otherSession.get('level').original is levelID and otherSession.id isnt levelSession.id
+        ))
+        if secondSessionForLevel
+          state = 'complete' if secondSessionForLevel.get('state')?.complete
+          playtime = playtime + parseInt(secondSessionForLevel.get('playtime') ? 0, 10)
+          secondSessionForLevel.skipMe = true
+
       levelStateMap[levelID] = state
 
       @instanceStats.totalLevelsCompleted++ if state is 'complete'
-      @instanceStats.totalPlayTime += parseInt(levelSession.get('playtime') ? 0)
+      @instanceStats.totalPlayTime += playtime
 
       @memberStats[userID] ?= totalLevelsCompleted: 0, totalPlayTime: 0
       @memberStats[userID].totalLevelsCompleted++ if state is 'complete'
-      @memberStats[userID].totalPlayTime += parseInt(levelSession.get('playtime') ? 0)
+      @memberStats[userID].totalPlayTime += playtime
 
       @userConceptStateMap[userID] ?= {}
       for concept of @levelConceptMap[levelID]
@@ -185,6 +196,11 @@ module.exports = class CourseDetailsView extends RootView
       for concept, state of conceptStateMap
         @conceptsCompleted[concept] ?= 0
         @conceptsCompleted[concept]++
+
+    if @memberStats[me.id]?.totalLevelsCompleted >= _.size @campaign.get('levels')
+      console.log @memberStats[me.id]?.totalLevelsCompleted, 'course complete!'
+      @courseComplete = true
+
     @render?()
 
     # If we just joined a single-player course for Hour of Code, we automatically play.
