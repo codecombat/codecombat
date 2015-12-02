@@ -26,6 +26,10 @@ module.exports = class StudentSignInModal extends ModalView
     auth.loginUser data, (jqxhr) =>
       error = jqxhr.responseJSON[0]
       message = _.filter([error.property, error.message]).join(' ')
+      if message is 'Missing credentials'
+        message = 'Enter both username and password'
+        # TODO: Make the server return better error message
+      message = _.string.capitalize(message)
       @disableModalInProgress(@$el)
       @$('#errors-alert').text(message).removeClass('hide')
 
