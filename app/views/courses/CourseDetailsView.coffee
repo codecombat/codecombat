@@ -9,6 +9,7 @@ template = require 'templates/courses/course-details'
 User = require 'models/User'
 utils = require 'core/utils'
 Prepaid = require 'models/Prepaid'
+storage = require 'core/storage'
 
 autoplayedOnce = false
 
@@ -28,6 +29,7 @@ module.exports = class CourseDetailsView extends RootView
     'click .progress-level-cell': 'onClickProgressLevelCell'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
+    'submit #school-form': 'onSubmitSchoolForm'
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
@@ -62,6 +64,7 @@ module.exports = class CourseDetailsView extends RootView
     context.userConceptStateMap = @userConceptStateMap ? {}
     context.userLevelStateMap = @userLevelStateMap ? {}
     context.document = document
+    context.promptForSchool = @courseComplete and not me.isAnonymous() and not me.get('schoolName') and not storage.load('no-school')
     context
 
   afterRender: ->
@@ -368,3 +371,13 @@ module.exports = class CourseDetailsView extends RootView
     if @owner.get('firstName') and @owner.get('lastName')
       return "#{@owner.get('firstName')} #{@owner.get('lastName')}"
     @owner.get('name') or @owner.get('email')
+
+  onSubmitSchoolForm: (e) ->
+    e.preventDefault()
+    schoolName = @$el.find('#course-complete-school-input').val().trim()
+    if schoolName and schoolName isnt me.get('schoolName')
+      me.set 'schoolName', schoolName
+      me.patch()
+    else
+      storage.save 'no-school', true
+    @$el.find('#school-form').slideUp('slow')

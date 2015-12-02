@@ -54,14 +54,27 @@ block content
 
     if view.courseComplete && !view.teacherMode
       .jumbotron
+        if promptForSchool
+          .row
+            .col-md-6.col-md-offset-3
+              form.form#school-form
+                .form-group
+                  label.control-label(for="course-complete-school-input")
+                    span.spr(data-i18n="signup.school_name") School Name and City
+                    em.optional-note
+                      | (
+                      span(data-i18n="signup.optional") optional
+                      | ):
+                  .input-border
+                    input#course-complete-school-input.input-large.form-control(name="schoolName", data-i18n="[placeholder]signup.school_name_placeholder")
+                button.btn.btn-primary.btn-submit.no-school(type="submit") None
+                button.btn.btn-info.btn-submit.save-school(type="submit") Save
         .row
           if view.singlePlayerMode && !me.isAnonymous()
-            .col-md-3
-            .col-md-6
+            .col-md-6.col-md-offset-3
               a.btn.btn-lg.btn-success(href="/play")
                 h1 Play the Campaign
                 p You’re ready to take the next step! Explore hundreds of challenging levels, learn advanced programming skills, and compete in multiplayer arenas!
-            .col-md-3
           else if view.singlePlayerMode && me.isAnonymous()
             .col-md-6
               a.btn.btn-lg.btn-success.signup-button
