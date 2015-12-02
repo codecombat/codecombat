@@ -8,6 +8,33 @@ block content
     else
       .welcome Welcome, #{me.get('name')}!
 
+  .container-fluid
+    .row
+      .col-md-2
+      .col-md-8
+        .well
+          .text-center
+            strong.uppercase Getting Started with Courses
+          br
+          .text-center
+            a.btn.btn-info(href='/docs/HourofCodeGettingStartedGuide.pdf') Download Getting Started Guide [PDF]
+          br
+          ol
+            li Create a new class by clicking the green "Create New Class" button below.
+            li Once you've created a class, click the blue "Add Students" button.
+            li You'll see student's progress below as they sign up and join your class.
+          br
+          .text-center
+            strong Additional Resources
+          ul
+            li
+              span.spr Complete our
+              a.spr(href='/teachers/freetrial') Teacher Survey
+              span to get 15 more hours of content for FREE for 2 months.
+            li
+              span.spr Visit our
+              a.spr(href='http://discourse.codecombat.com/c/teachers') Teacher Forums
+              span to connect to fellow educators who are using CodeCombat.
 
   .section-header Your Classes
 
