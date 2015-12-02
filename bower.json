@@ -112,6 +112,7 @@
     }
   },
   "devDependencies": {
-    "modernizr-mixin": "~3.0.0"
+    "modernizr-mixin": "~3.0.0",
+    "openSansCondensed": "https://google-fonts.azurewebsites.net/googleFonts/openSansCondensed?family=Open+Sans+Condensed:700&subset=latin,latin-ext,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic"
   }
 }

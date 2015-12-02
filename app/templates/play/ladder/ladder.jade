@@ -18,9 +18,6 @@ block content
         
 
     div#level-column
-      if leagueType === 'course'
-        h1#course-h1= (level.get('name') || '').toUpperCase()
-      
       if levelDescription
         div!= levelDescription
 

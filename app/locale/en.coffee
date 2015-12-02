@@ -79,6 +79,7 @@
     subscription_required: "Subscription Required"
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
+    play_classroom_version: "Play Classroom Version"  # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Beginner Campaign"
     awaiting_levels_adventurer_prefix: "We release new levels every week."
     awaiting_levels_adventurer: "Sign up as an Adventurer"
@@ -118,6 +119,9 @@
     social_signup: "Or, you can sign up through Facebook or G+:"
     required: "You need to log in before you can go that way."
     login_switch: "Already have an account?"
+    school_name: "School Name and City"
+    optional: "optional"
+    school_name_placeholder: "Example High School, Springfield, IL"
 
   recover:
     recover_account_title: "Recover Account"

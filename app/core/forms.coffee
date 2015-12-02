@@ -6,6 +6,7 @@ module.exports.formToObject = (el) ->
     input = $(input)
     continue unless name = input.attr('name')
     obj[name] = input.val()
+    obj[name] = obj[name].trim() if obj[name]?.trim
 
   obj
 

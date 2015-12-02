@@ -263,6 +263,7 @@ module.exports = class SpellView extends CocoView
           return true
 
     if me.level() < 20 or aceConfig.indentGuides
+      # Add visual ident guides
       @aceSession.addDynamicMarker
         update: (html, markerLayer, session, config) =>
           Range = ace.require('ace/range').Range
@@ -281,31 +282,42 @@ module.exports = class SpellView extends CocoView
           for row in [0..@aceSession.getLength()]
             foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
             continue unless foldWidgets? and foldWidgets[row] is "start"
-            range = @aceSession.getFoldWidgetRange(row)
-            if not range?
+            docRange = @aceSession.getFoldWidgetRange(row)
+            if not docRange?
               guess = startOfRow(row)
-              range = new Range(row,guess,row,guess+4)
+              docRange = new Range(row,guess,row,guess+4)
 
-            if /^\s+$/.test lines[range.end.row+1]
-              range.end.row += 1
+            if /^\s+$/.test lines[docRange.end.row+1]
+              docRange.end.row += 1
 
-            xstart = startOfRow(range.start.row)
+            rstart = @aceSession.documentToScreenPosition docRange.start.row, docRange.start.column
+            rend = @aceSession.documentToScreenPosition docRange.end.row, docRange.end.column
+            range = new Range rstart.row, rstart.column, rend.row, rend.column
+
+            xstart = startOfRow(row)
             level = Math.floor(xstart / 4)
-            indent = startOfRow(range.start.row + 1)
+            indent = startOfRow(row + 1)
             color = colors[level % colors.length]
+            bw = 3
+            to = markerLayer.$getTop(range.start.row, config)
             t = markerLayer.$getTop(range.start.row + 1, config)
             h = config.lineHeight * (range.end.row - range.start.row)
             l = markerLayer.$padding + xstart * config.characterWidth
             # w = (data.i - data.b) * config.characterWidth
             w = 4 * config.characterWidth
+            fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
+
+            html.push [
+              '<div style="',
+              "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px; background-color: rgba(#{color},0.2);"
+              "border: #{bw}px solid rgba(#{color},0.4); border-left: none",
+              '"></div>' ].join ''
 
             html.push [
               '<div style="',
               "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color},0.2);"
-              "border-right: 3px solid rgba(#{color},0.4);",
+              "border-right: #{bw}px solid rgba(#{color},0.4);",
               '"></div>' ].join ''
-
-            markerLayer.drawTextMarker html, new Range(range.start.row,xstart, range.start.row, 1000), 'rob', config, "border: 3px solid rgba(#{color}, 0.4); position: absolute"
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -626,18 +638,20 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang, preload: preload, realTime: realTime
 
   notifySpellChanged: =>
+    return if @destroyed
     Backbone.Mediator.publish 'tome:spell-changed', spell: @spell
 
   notifyEditingEnded: =>
-    return if @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed or @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-ended', {}
 
   notifyEditingBegan: =>
-    return if @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed or @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-began', {}
 
   updateLines: =>
     # Make sure there are always blank lines for the player to type on, and that the editor resizes to the height of the lines.
+    return if @destroyed
     lineCount = @aceDoc.getLength()
     lastLine = @aceDoc.$lines[lineCount - 1]
     if lastLine isnt ''
@@ -669,6 +683,7 @@ module.exports = class SpellView extends CocoView
       spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
 
   hideProblemAlert: ->
+    return if @destroyed
     Backbone.Mediator.publish 'tome:hide-problem-alert', {}
 
   onManualCast: (e) ->
