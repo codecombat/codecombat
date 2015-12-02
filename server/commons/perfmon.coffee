@@ -25,7 +25,8 @@ exports.middleware = (req, res, next) ->
       path = req.route?.path or '/*'
       stat = req.method + "." + path.replace /[^A-Za-z0-9]+/g, '_'
       realClient.timing stat, ms
-      
+      name = req.user?._id
+      realClient.unique 'users', name if name
 
     res.once 'finish', recordMetrics
     res.once 'error', cleanup
@@ -39,5 +40,5 @@ exports.trace = (name, callback) ->
   return callback unless realClient
   time = process.hrtime()
   (args...) ->
-    realClient.timing name, ms
+    realClient.timing name.replace(/[^A-Za-z0-9]+/g, '_'), ms
     return callback.apply(this, args)

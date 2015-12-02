@@ -424,6 +424,7 @@ module.exports = class PlayLevelView extends RootView
     @simulator.fetchAndSimulateOneGame()
 
   shouldSimulate: ->
+    return false  # Performance is too bad right now, gotta fix it first.
     # Crude heuristics are crude.
     defaultCores = 2
     cores = window.navigator.hardwareConcurrency or defaultCores  # Available on Chrome/Opera, soon Safari
