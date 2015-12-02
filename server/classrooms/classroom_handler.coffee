@@ -106,8 +106,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
             address: email
           email_data:
             class_name: classroom.get('name')
-            # TODO: join_link
-            join_link: "https://codecombat.com/courses/students?_cc=" + (classroom.get('codeCamel') or classroom.get('code'))
+            join_link: "https://codecombat.com/courses?_cc=" + (classroom.get('codeCamel') or classroom.get('code'))
         sendwithus.api.send context, _.noop
       return @sendSuccess(res, {})
 
