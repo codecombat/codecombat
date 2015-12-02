@@ -44,12 +44,14 @@ module.exports = class LevelLoadingView extends CocoView
       @$el.addClass('manually-sized').css('height', newHeight)
 
   onLevelLoaded: (e) ->
+    return if @level
     @level = e.level
     @prepareGoals e
     @prepareTip()
     @prepareIntro()
 
   onSessionLoaded: (e) ->
+    return if @session
     @session = e.session if e.session.get('creator') is me.id
 
   prepareGoals: (e) ->
@@ -158,7 +160,7 @@ module.exports = class LevelLoadingView extends CocoView
     if @intro
       $intro = @$el.find('.intro-doc')
       $intro.css height: minHeight - $intro.offset().top - @$el.find('.progress-or-start-container').outerHeight() - 30 - 20
-      $intro.find('.nano').nanoScroller alwaysVisible: true
+      _.defer -> $intro.find('.nano').nanoScroller alwaysVisible: true
 
   unveilWings: (duration) ->
     @playSound 'loading-view-unveil', 0.5

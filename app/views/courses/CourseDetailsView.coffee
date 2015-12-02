@@ -283,15 +283,17 @@ module.exports = class CourseDetailsView extends RootView
     levelID = $(e.target).data('level-id')
     level = @campaign.get('levels')[levelID]
     if level.type is 'course-ladder'
+      viewClass = 'views/ladder/LadderView'
+      viewArgs = [{supermodel: @supermodel}, levelSlug]
       route = '/play/ladder/' + levelSlug
-      route += '/course/' + @courseInstance.id unless @singlePlayerMode  # No league for solo courses
-      Backbone.Mediator.publish 'router:navigate', route: route
+      unless @singlePlayerMode  # No league for solo courses
+        route += '/course/' + @courseInstance.id
+        viewArgs = viewArgs.concat ['course', @courseInstance.id]
     else
-      Backbone.Mediator.publish 'router:navigate', {
-        route: @getLevelURL levelSlug
-        viewClass: 'views/play/level/PlayLevelView'
-        viewArgs: [{courseID: @courseID, courseInstanceID: @courseInstanceID}, levelSlug]
-      }
+      route = @getLevelURL levelSlug
+      viewClass = 'views/play/level/PlayLevelView'
+      viewArgs = [{courseID: @courseID, courseInstanceID: @courseInstanceID, supermodel: @supermodel}, levelSlug]
+    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: viewClass, viewArgs: viewArgs
 
   getLevelURL: (levelSlug) ->
     "/play/level/#{levelSlug}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
@@ -313,7 +315,7 @@ module.exports = class CourseDetailsView extends RootView
     Backbone.Mediator.publish 'router:navigate', {
       route: route
       viewClass: 'views/play/level/PlayLevelView'
-      viewArgs: [{}, levelSlug]
+      viewArgs: [{supermodel: @supermodel}, levelSlug]
     }
 
   onMouseEnterPoint: (e) ->

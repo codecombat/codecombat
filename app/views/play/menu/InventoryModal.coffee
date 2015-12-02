@@ -484,6 +484,7 @@ module.exports = class InventoryModal extends ModalView
     # Called when the modal itself is dismissed
     @endHighlight()
     super()
+    @playSound 'game-menu-close'
 
   onClickChooseHero: ->
     @playSound 'menu-button-click'

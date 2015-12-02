@@ -62,7 +62,7 @@ module.exports = class TomeView extends CocoView
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
     unless @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel, level: @options.level
-    @castButton = @insertSubView new CastButtonView spells: @spells, level: @options.level, session: @options.session
+    @castButton = @insertSubView new CastButtonView spells: @spells, level: @options.level, session: @options.session, god: @options.god
     @teamSpellMap = @generateTeamSpellMap(@spells)
     unless programmableThangs.length
       @cast()
@@ -136,6 +136,7 @@ module.exports = class TomeView extends CocoView
             observing: @options.observing
             levelID: @options.levelID
             level: @options.level
+            god: @options.god
 
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
@@ -168,7 +169,7 @@ module.exports = class TomeView extends CocoView
     difficulty = sessionState.difficulty ? 0
     if @options.observing
       difficulty = Math.max 0, difficulty - 1  # Show the difficulty they won, not the next one.
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? [], difficulty: difficulty
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? [], difficulty: difficulty, god: @options.god
 
   onToggleSpellList: (e) ->
     @spellList?.rerenderEntries()

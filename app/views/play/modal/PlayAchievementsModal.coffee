@@ -74,6 +74,7 @@ module.exports = class PlayAchievementsModal extends ModalView
 
   onEverythingLoaded: =>
     @achievements.set(@achievements.filter((m) -> m.get('collection') isnt 'level.sessions' or m.get('query')?.team))
+    achievementsByDescription = earned: {}, unearned: {}
     for achievement in @achievements.models
       if earned = @earnedMap[achievement.id]
         achievement.earned = earned
@@ -82,6 +83,20 @@ module.exports = class PlayAchievementsModal extends ModalView
         achievement.earnedGems = Math.round (achievement.get('rewards')?.gems or 0) * expFunction earned.get('achievedAmount')
         achievement.earnedPoints = Math.round (achievement.get('worth', true) or 0) * expFunction earned.get('achievedAmount')
       achievement.earnedDate ?= ''
+    for achievement in @achievements.models
+      if achievement.earned
+        holder = achievementsByDescription.earned
+      else
+        holder = achievementsByDescription.unearned
+      nextInSet = holder[achievement.get('description')]
+      [a, b] = [achievement.get('worth', true), nextInSet?.get('worth', true) ? 0]
+      if achievement.earned
+        shouldKeep = not nextInSet or a > b
+      else
+        shouldKeep = not nextInSet or a < b
+      if shouldKeep
+        holder[achievement.get('description')] = achievement
+    @achievements.set _.values(achievementsByDescription.earned).concat(_.values(achievementsByDescription.unearned))
     @achievements.comparator = (m) -> m.earnedDate
     @achievements.sort()
     @achievements.set(@achievements.models.reverse())

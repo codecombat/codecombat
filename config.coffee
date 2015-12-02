@@ -203,6 +203,9 @@ exports.config =
     assetsmanager:
       copyTo:
         'lib/ace': ['node_modules/ace-builds/src-min-noconflict/*']
+        'fonts': ['bower_components/openSansCondensed/*']
+    autoReload:
+      delay: 1000
 
   modules:
     definition: (path, data) ->

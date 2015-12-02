@@ -444,13 +444,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     parents_blurb3: "Geen risico's: 100% geld terug garantie, 1-klik uitschrijving."
     payment_methods: "Betaalmethoden"
     payment_methods_title: "Geaccepteerde betaalmethoden"
-    payment_methods_blurb1: "Momenteel worden alleen credit cards en Alipay geaccepteerd."
+    payment_methods_blurb1: "Momenteel worden alleen credit cards en Alipay geaccepteerd." # {change}
     payment_methods_blurb2: "Als u op een andere manier wilt betalen, neem dan alstublieft contact op"
     sale_already_subscribed: "Je bent al ingeschreven!"
-    sale_blurb1: "bespaar 35%"
+    sale_blurb1: "bespaar $21" # {change}
 #    sale_blurb2: "off regular subscription price of $120 for a whole year!"
     sale_button: "Koopje!"
-    sale_button_title: "Bespaar 35% bij aankoop van een 1-jaars abonnement"
+    sale_button_title: "Bespaar $21 bij aankoop van een 1-jaars abonnement" # {change}
     sale_click_here: "Klik hier"
     sale_ends: "Eindigt"
     sale_extended: "*Bestaande abbonementen zullen worden verlengd met 1 jaar."
@@ -463,7 +463,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    sale_title: "Back to School Sale"
     sale_view_button: "Koop een 1-jarig abonnement voor"
     stripe_description: "Maandelijks abonnement"
-    stripe_description_year_sale: "1-jarig abonnement (35% korting)"
+    stripe_description_year_sale: "1-jarig abonnement ($21 korting)" # {change}
     subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -685,7 +685,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     denied_2: "afgewezen."
     contact_1: "Neem contact op"
     contact_2: "als u meer vragen heeft."
-    description_1: "We bieden gratis abbonnementen aan, aan leerkrachten voor evaluatiedoeleinden. Meer informatie kan worden gevonden op onze" # {change}
+    description_1: "We bieden gratis abbonnementen aan, aan leerkrachten voor evaluatiedoeleinden. Meer informatie kan worden gevonden op onze"
 #    description_1b: "You can find more information on our"
     description_2: "leerkrachten"
     description_3: "pagina."
@@ -746,6 +746,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     password_tab: "Wachtwoord"
     emails_tab: "Emails"
     admin: "Administrator"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Nieuw Wachtwoord"
     new_password_verify: "Verifieer"
     type_in_email: "Typ je email in om de verwijdering te bevestigen."
@@ -857,6 +858,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     started_2: "Gestart"
     not_started_2: "Niet gestart"
     view_solution: "Klik om oplossing te bekijken."
+#    view_attempt: "Click to view attempt."
 #    latest_achievement: "Latest Achievement"
     playtime: "Speeltijd"
     last_played: "Laatst gespeeld"

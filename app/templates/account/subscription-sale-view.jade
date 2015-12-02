@@ -20,16 +20,18 @@ block content
     if state === 'purchasing'
       .alert.alert-info(data-i18n="account_invoices.purchasing")
     else
-      div.sale-ends
-        if new Date() < saleEndDate
-          span.spr(data-i18n="subscribe.sale_ends")
-          span #{moment(saleEndDate).fromNow()}
-        else
-          span(data-i18n="subscribe.sale_limited_time")
-      h1.center(data-i18n="subscribe.sale_title")
-      p.center
-        img(src="/images/pages/account/subscription/teacher-banner.png")
-      br
+      if view.onSale
+        div.sale-ends
+          if new Date() < saleEndDate
+            span.spr(data-i18n="subscribe.sale_ends")
+            span #{moment(saleEndDate).fromNow()}
+          else
+            span(data-i18n="subscribe.sale_limited_time")
+      if view.onSale
+        h1.center(data-i18n="subscribe.sale_title")
+        p.center
+          img(src="/images/pages/account/subscription/teacher-banner.png")
+        br
       .above-blurb
         p.sale-blurb
           strong.spr(data-i18n="subscribe.sale_blurb1")

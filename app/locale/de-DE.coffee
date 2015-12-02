@@ -444,13 +444,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     parents_blurb3: "Kein Risiko: 100% Geld zurück Garantie, und 1-Klick Abokündigung."
     payment_methods: "Zahlungsarten"
     payment_methods_title: "Akzeptierte Zahlungsarten"
-    payment_methods_blurb1: "Momentan akzeptieren wir nur Kreditkarten und Alipay."
+    payment_methods_blurb1: "Momentan akzeptieren wir nur Kreditkarten und Alipay." # {change}
     payment_methods_blurb2: "Wenn Sie auf eine andere Art zahlen wollen, bitte kontaktieren Sie"
     sale_already_subscribed: "Sie haben bereits ein Abonnement!"
-    sale_blurb1: "Spare 35%"
+    sale_blurb1: "Spare $21" # {change}
     sale_blurb2: "vom regelmäßigen Abonnementpreis von $120 für ein ganzes Jahr!"
     sale_button: "Angebot!"
-    sale_button_title: "Spare 35% beim Kauf eines Jahresabonnements"
+    sale_button_title: "Spare $21 beim Kauf eines Jahresabonnements" # {change}
     sale_click_here: "Hier klicken"
 #    sale_ends: "Ends"
     sale_extended: "*Bestehende Abonnements werden um 1 Jahr verlängert."
@@ -463,7 +463,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     sale_title: "Angebot zum neuen Schuljahr"
     sale_view_button: "Kaufe ein Jahresabonnement für"
     stripe_description: "Monatsabo"
-    stripe_description_year_sale: "Jahresabonnement (35% Angebot)"
+    stripe_description_year_sale: "Jahresabonnement ($21 Angebot)" # {change}
     subscription_required_to_play: "Leider musst du ein Abo haben, um dieses Level spielen zu können."
     unlock_help_videos: "Abonniere, um alle Videoanleitungen freizuschalten."
     personal_sub: "Persönliches Abonnement" # Accounts Subscription View below
@@ -746,6 +746,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     password_tab: "Passwort"
     emails_tab: "Emails"
     admin: "Admin"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Neues Passwort"
     new_password_verify: "Passwort verifizieren"
     type_in_email: "Email eingeben um das Löschen des Accounts zu bestätigen"
@@ -857,6 +858,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    started_2: "Started"
 #    not_started_2: "Not Started"
 #    view_solution: "Click to view solution."
+#    view_attempt: "Click to view attempt."
 #    latest_achievement: "Latest Achievement"
 #    playtime: "Playtime"
 #    last_played: "Last played"

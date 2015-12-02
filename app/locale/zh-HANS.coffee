@@ -444,13 +444,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parents_blurb3: "无风险承诺：100%退款，一键取消订阅。"
     payment_methods: "付费方式"
     payment_methods_title: "可接受的付款方式"
-    payment_methods_blurb1: "我们现有的付费方式有信用卡和支付宝"
+    payment_methods_blurb1: "我们现有的付费方式有信用卡和支付宝" # {change}
     payment_methods_blurb2: "如果您想用其他付费方式,请联系我们"
     sale_already_subscribed: "您已经订阅!"
-    sale_blurb1: "和正常一年的订阅价格 $120 相比"
-    sale_blurb2: "年费订阅能节省 35%！"
+    sale_blurb1: "和正常一年的订阅价格 $120 相比" # {change}
+    sale_blurb2: "年费订阅能节省 $21！"
     sale_button: "促销"
-    sale_button_title: "年费订阅能节省 35% 的费用"
+    sale_button_title: "年费订阅能节省 $21 的费用" # {change}
     sale_click_here: "点击这里"
     sale_ends: "结束"
     sale_extended: "*已订阅用户会续期一年。"
@@ -463,7 +463,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     sale_title: "开学促销"
     sale_view_button: "购买年费订阅："
     stripe_description: "每月订阅"
-    stripe_description_year_sale: "年费订阅 (优惠 35%)"
+    stripe_description_year_sale: "年费订阅 (优惠 $21)" # {change}
     subscription_required_to_play: "订阅后才可开始本关"
     unlock_help_videos: "订阅后才可以解锁视频教学哦！"
     personal_sub: "个人订阅" # Accounts Subscription View below
@@ -685,7 +685,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     denied_2: "拒绝。"
     contact_1: "如果你有进一步的问题, 请联系"
     contact_2: "。"
-    description_1: "我们可为教师提供用于评估的免费订阅。你可以在我们的" # {change}
+    description_1: "我们可为教师提供用于评估的免费订阅。你可以在我们的"
 #    description_1b: "You can find more information on our"
     description_2: "教师"
     description_3: "页面找到更多的信息。"
@@ -746,6 +746,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     password_tab: "密码"
     emails_tab: "邮件"
     admin: "管理"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "新密码"
     new_password_verify: "再次输入密码"
     type_in_email: "输入您的邮箱地址"
@@ -857,6 +858,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     started_2: "已开始"
     not_started_2: "还没开始"
     view_solution: "点击查阅答案。"
+#    view_attempt: "Click to view attempt."
     latest_achievement: "最新成就"
     playtime: "游戏时间"
     last_played: "最后玩了"

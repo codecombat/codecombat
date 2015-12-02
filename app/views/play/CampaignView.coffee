@@ -21,6 +21,7 @@ UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 storage = require 'core/storage'
+CourseInstance = require 'models/CourseInstance'
 
 trackedHourOfCode = false
 
@@ -50,6 +51,7 @@ module.exports = class CampaignView extends RootView
     'dblclick .level a': 'onDoubleClickLevel'
     'click .level-info-container .start-level': 'onClickStartLevel'
     'click .level-info-container .view-solutions': 'onClickViewSolutions'
+    'click .level-info-container .course-version button': 'onClickCourseVersion'
     'click #volume-button': 'onToggleVolume'
     'click #back-button': 'onClickBack'
     'click #clear-storage-button': 'onClickClearStorage'
@@ -104,14 +106,6 @@ module.exports = class CampaignView extends RootView
     @listenTo me, 'change:earned', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:heroConfig', -> @updateHero()
     window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', label: @terrain
-
-    # If it's a new player who didn't appear to come from Hour of Code, we register her here without setting the hourOfCode property.
-    # TODO: get rid of all this sometime in November 2015 when code.org/learn updates to the new version for Hour of Code tutorials.
-    elapsed = (new Date() - new Date(me.get('dateCreated')))
-    if not trackedHourOfCode and not me.get('hourOfCode') and elapsed < 5 * 60 * 1000
-      $('body').append($('<img src="https://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
-      trackedHourOfCode = true
-
     @requiresSubscription = not me.isPremium()
 
   destroy: ->
@@ -467,6 +461,7 @@ module.exports = class CampaignView extends RootView
     if @editorMode
       return @trigger 'level-clicked', levelOriginal
     @$levelInfo = @$el.find(".level-info-container[data-level-slug=#{levelSlug}]").show()
+    @checkForCourseOption levelOriginal
     @adjustLevelInfoPosition e
     @endHighlight()
     @preloadLevel levelSlug
@@ -491,6 +486,13 @@ module.exports = class CampaignView extends RootView
     else
       @startLevel levelElement
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
+
+  onClickCourseVersion: (e) ->
+    levelSlug = $(e.target).parents('.level-info-container').data 'level-slug'
+    courseID = $(e.target).parents('.course-version').data 'course-id'
+    courseInstanceID = $(e.target).parents('.course-version').data 'course-instance-id'
+    url = "/play/level/#{levelSlug}?course=#{courseID}&course-instance=#{courseInstanceID}"
+    Backbone.Mediator.publish 'router:navigate', route: url
 
   startLevel: (levelElement) ->
     @setupManager?.destroy()
@@ -562,6 +564,19 @@ module.exports = class CampaignView extends RootView
     musicFile = '/music/music-menu'
     Backbone.Mediator.publish 'music-player:play-music', play: true, file: musicFile
     storage.save("loaded-menu-music", true) unless @probablyCachedMusic
+
+  checkForCourseOption: (levelOriginal) ->
+    return unless me.get('courseInstances')?.length
+    @courseOptionsChecked ?= {}
+    return if @courseOptionsChecked[levelOriginal]
+    @courseOptionsChecked[levelOriginal] = true
+    courseInstances = new CocoCollection [], url: "/db/course_instance/-/find_by_level/#{levelOriginal}", model: CourseInstance
+    courseInstances.comparator = (ci) -> return -(ci.get('members') ? []).length
+    @supermodel.loadCollection courseInstances, 'course_instances'
+    @listenToOnce courseInstances, 'sync', =>
+      return if @destroyed
+      return unless courseInstance = courseInstances.models[0]
+      @$el.find(".course-version[data-level-original='#{levelOriginal}']").removeClass('hidden').data('course-id': courseInstance.get('courseID'), 'course-instance-id': courseInstance.id)
 
   preloadTopHeroes: ->
     for heroID in ['captain', 'knight']

@@ -305,7 +305,7 @@ mixin progress-members-popup-started(i, level, session)
       span.spr(data-i18n="clans.last_played")
       span #{moment(session.get('changed')).format('MMMM Do YYYY, h:mm:ss a')}
     if view.teacherMode || me.isAdmin()
-      strong(data-i18n="clans.view_solution")
+      strong(data-i18n="clans.view_attempt")
 
 mixin levels-tab
   table.table.table-striped.table-condensed

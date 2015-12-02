@@ -15,7 +15,7 @@ module.exports = class DuelStatsView extends CocoView
   template: template
 
   subscriptions:
-    #'surface:gold-changed': 'onGoldChanged'
+    'surface:gold-changed': 'onGoldChanged'
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'surface:frame-changed': 'onFrameChanged'
@@ -29,13 +29,10 @@ module.exports = class DuelStatsView extends CocoView
         team: if options.session.get('team') is 'humans' then 'ogres' else 'humans'
         heroConfig: options.session.get('heroConfig')
       }[prop]
-    #@teamGold = {}
-    #@teamGoldEarned = {}
-
-  getRenderData: (c) ->
-    c = super c
-    c.players = @players = (@formatPlayer team for team in ['humans', 'ogres'])
-    c
+    @showsGold = options.level.get('slug') in ['wakka-maul']
+    @showsPower = options.level.get('slug') not in ['wakka-maul', 'dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove']
+    @teamGold = {}
+    @players = (@formatPlayer team for team in ['humans', 'ogres'])
 
   formatPlayer: (team) ->
     p = team: team
@@ -69,7 +66,7 @@ module.exports = class DuelStatsView extends CocoView
     for player in @players
       thang = _.find @options.thangs, id: @avatars[player.team].thang.id
       @updateHealth thang
-    @updatePower()
+    @updatePower() if @showsPower
 
   updateHealth: (thang) ->
     $health = @$find thang.team, '.player-health'
@@ -88,6 +85,8 @@ module.exports = class DuelStatsView extends CocoView
       'arrow-tower': 100
       palisade: 10
       peasant: 50
+      thrower: 9
+      scout: 18
     powers = humans: 0, ogres: 0
     for thang in @options.thangs when thang.health > 0 and thang.exists
       powers[thang.team] += @costTable[thang.type] or 0 if powers[thang.team]?
@@ -101,21 +100,8 @@ module.exports = class DuelStatsView extends CocoView
     avatar.destroy() for team, avatar of @avatars ? {}
     super()
 
-  #onGoldChanged: (e) ->
-  #  return if @teamGold[e.team] is e.gold and @teamGoldEarned[e.team] is e.goldEarned
-  #  @teamGold[e.team] = e.gold
-  #  @teamGoldEarned[e.team] = e.goldEarned
-  #  goldEl = @$find e.team, '.gold-amount'
-  #  text = '' + e.gold
-  #  if e.goldEarned and e.goldEarned > e.gold
-  #    text += " (#{e.goldEarned})"
-  #  goldEl.text text
-  #  @updateTitle()
-  #
-  #updateTitle: ->
-  #  for team, gold of @teamGold
-  #    if @teamGoldEarned[team]
-  #      title = "Team '#{team}' has #{gold} now of #{@teamGoldEarned[team]} gold earned."
-  #    else
-  #      title = "Team '#{team}' has #{gold} gold."
-  #    @$find(team, '.player-gold').attr 'title', title
+  onGoldChanged: (e) ->
+    return unless @showsGold
+    return if @teamGold[e.team] is e.gold
+    @teamGold[e.team] = e.gold
+    utils.replaceText @$find(e.team, '.gold-value'), '' + e.gold

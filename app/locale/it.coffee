@@ -444,13 +444,13 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     parents_blurb3: "Nessun rischio: 100% restituzione dei soldi con un semplice processo di deregistrazione"
     payment_methods: "Metodi di Pagamento"
     payment_methods_title: "Metodi di Pagamento Accetati"
-    payment_methods_blurb1: "Attualmente accettiamo come metodi di pagamento la carta di credito e Alipay."
+    payment_methods_blurb1: "Attualmente accettiamo come metodi di pagamento la carta di credito e Alipay." # {change}
     payment_methods_blurb2: "Se necessiti di un forma di pagamento diverso.Per favore contattaci"
     sale_already_subscribed: "Sei già abbonato!"
-    sale_blurb1: "Risparmia il  35%"
+    sale_blurb1: "Risparmia il  $21" # {change}
     sale_blurb2: "rispetto all'abbinamento ordinario di 120$ per l'intero anno!"
     sale_button: "Saldi!"
-    sale_button_title: "Risparmi il 35% quando compri l'abbonamento per 1 anno"
+    sale_button_title: "Risparmi il $21 quando compri l'abbonamento per 1 anno" # {change}
     sale_click_here: "Clicca qui"
     sale_ends: "Fine"
     sale_extended: "*Gli abbonamenti in corso verranno estesi per 1 anno."
@@ -463,7 +463,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     sale_title: "Saldi di inizio scuola"
     sale_view_button: "Compra un abbonamento annuale per "
     stripe_description: "Sottoscrizione mensile"
-    stripe_description_year_sale: "Abbonamneto annuale (sconto 35%)"
+    stripe_description_year_sale: "Abbonamneto annuale (sconto $21)" # {change}
     subscription_required_to_play: "Devi essere abbonato per giocare su questo livello."
     unlock_help_videos: "Abbonati per accedere a tutti i tutorial video."
     personal_sub: "Sottoscrizione Personale" # Accounts Subscription View below
@@ -746,6 +746,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     password_tab: "Password"
     emails_tab: "Email"
     admin: "Amministratore"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Nuova password"
     new_password_verify: "Verifica"
     type_in_email: "Scrivi il tuo indirizzo email per confermare la cancellazione" # {change}
@@ -857,6 +858,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     started_2: "Cominciato"
 #    not_started_2: "Not Started"
 #    view_solution: "Click to view solution."
+#    view_attempt: "Click to view attempt."
     latest_achievement: "Ultima impresa"
 #    playtime: "Playtime"
 #    last_played: "Last played"

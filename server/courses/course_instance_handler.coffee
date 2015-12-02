@@ -39,6 +39,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     return @inviteStudents(req, res, args[0]) if relationship is 'invite_students'
     return @redeemPrepaidCodeAPI(req, res) if args[1] is 'redeem_prepaid'
     return @getMyCourseLevelSessionsAPI(req, res, args[0]) if args[1] is 'my-course-level-sessions'
+    return @findByLevel(req, res, args[2]) if args[1] is 'find_by_level'
     super arguments...
 
   createHOCAPI: (req, res) ->
@@ -227,6 +228,23 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
           async.parallel tasks, (err, results) =>
             return @sendDatabaseError(res, err) if err
             @sendSuccess(res, courseInstances)
+
+  findByLevel: (req, res, levelOriginal) ->
+    # Find all CourseInstances that req.user is a part of that match the given level.
+    CourseInstance.find {_id: {$in: req.user.get('courseInstances')}},  (err, courseInstances) =>
+      return @sendDatabaseError res, err if err
+      return @sendSuccess res, [] unless courseInstances.length
+      courseIDs = _.uniq (ci.get('courseID') for ci in courseInstances)
+      Course.find {_id: {$in: courseIDs}}, {name: 1, campaignID: 1}, (err, courses) =>
+        return @sendDatabaseError res, err if err
+        return @sendSuccess res, [] unless courses.length
+        campaignIDs = _.uniq (c.get('campaignID') for c in courses)
+        Campaign.find {_id: {$in: campaignIDs}, "levels.#{levelOriginal}": {$exists: true}}, {_id: 1}, (err, campaigns) =>
+          return @sendDatabaseError res, err if err
+          return @sendSuccess res, [] unless campaigns.length
+          courses = _.filter courses, (course) -> _.find campaigns, (campaign) -> campaign.get('_id').toString() is course.get('campaignID').toString()
+          courseInstances = _.filter courseInstances, (courseInstance) -> _.find courses, (course) -> course.get('_id').toString() is courseInstance.get('courseID').toString()
+          return @sendSuccess res, courseInstances
 
   get: (req, res) ->
     if ownerID = req.query.ownerID

@@ -31,7 +31,7 @@
                 td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{(session.get('heroConfig') || {}).thangType || '529ffbf1cf1818f2be000001'}/portrait.png)")
               td.rank-cell= rank + 1
               td.score-cell= Math.round((sessionStats.totalScore || session.get('totalScore') / 2) * 100)
-              td(class='name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) AI')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
+              td(class='name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
               td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
               td.fight-cell
                 a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
@@ -51,7 +51,7 @@
                   td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{(session.get('heroConfig') || {}).thangType || '529ffbf1cf1818f2be000001'}/portrait.png)")
                 td.rank-cell= session.rank
                 td.score-cell= Math.round((sessionStats.totalScore || session.get('totalScore') / 2) * 100)
-                td(class='name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) AI')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
+                td(class='name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
                 td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
                 td.fight-cell
                   a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))

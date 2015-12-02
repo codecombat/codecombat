@@ -209,6 +209,7 @@ module.exports = class ThangsTabView extends CocoView
       thangTypes: @supermodel.getModels(ThangType)
       showInvisible: true
       frameRate: 15
+      levelType: @level.get 'type', true
     }
     @surface.playing = false
     @surface.setWorld @world

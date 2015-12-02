@@ -106,6 +106,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @showStars()
 
   onAchievementsLoaded: ->
+    @achievements.models = _.filter @achievements.models, (m) -> not m.get('query')?.ladderAchievementDifficulty  # Don't show higher AI difficulty achievements
     @$el.toggleClass 'full-achievements', @achievements.models.length is 3
     thangTypeOriginals = []
     achievementIDs = []
@@ -194,10 +195,7 @@ module.exports = class HeroVictoryModal extends ModalView
     c.i18n = utils.i18n
 
     elapsed = (new Date() - new Date(me.get('dateCreated')))
-    isHourOfCode = me.get('hourOfCode') or elapsed < 120 * 60 * 1000
-    # Later we should only check me.get('hourOfCode'), but for now so much traffic comes in that we just assume it.
-    # TODO: get rid of said assumption sometime in November 2015 when code.org/learn updates to the new version for Hour of Code tutorials.
-    if isHourOfCode
+    if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
       lastLevel = @level.get('slug') is 'course-kithgard-gates'
       enough = elapsed >= 20 * 60 * 1000 or lastLevel
@@ -209,7 +207,7 @@ module.exports = class HeroVictoryModal extends ModalView
         me.patch()
         window.tracker?.trackEvent 'Hour of Code Finish'
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
-      c.showHourOfCodeDoneButton = me.get('hourOfCode') and showDone
+      c.showHourOfCodeDoneButton = showDone
 
     c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and @level.get('type', true) isnt 'course'
 
@@ -455,10 +453,11 @@ module.exports = class HeroVictoryModal extends ModalView
         viewArgs.push @courseInstanceID if @courseInstanceID
     else if @level.get('type', true) is 'course-ladder'
       leagueID = @courseInstanceID or @getQueryVariable 'league'
-      link = "/play/ladder/#{@level.get('slug')}"
-      link += "/course/#{leagueID}" if leagueID
-      Backbone.Mediator.publish 'router:navigate', route: link
-      return
+      nextLevelLink = "/play/ladder/#{@level.get('slug')}"
+      nextLevelLink += "/course/#{leagueID}" if leagueID
+      viewClass = 'views/ladder/LadderView'
+      viewArgs = [options, @level.get('slug')]
+      viewArgs = viewArgs.concat ['course', leagueID] if leagueID
     else
       viewClass = require 'views/play/CampaignView'
       viewArgs = [options, @getNextLevelCampaign()]
