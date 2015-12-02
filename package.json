@@ -119,6 +119,7 @@
     "uglify-js": "^2.5.0"
   },
   "optionalDependencies": {
+    "newrelic": "^1.24.0",
     "webworker-threads": "~0.5.5"
   },
   "license": "MIT for the code, and CC-BY for the art and music",
