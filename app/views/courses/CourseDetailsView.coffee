@@ -198,7 +198,6 @@ module.exports = class CourseDetailsView extends RootView
         @conceptsCompleted[concept]++
 
     if @memberStats[me.id]?.totalLevelsCompleted >= _.size @campaign.get('levels')
-      console.log @memberStats[me.id]?.totalLevelsCompleted, 'course complete!'
       @courseComplete = true
 
     @render?()
