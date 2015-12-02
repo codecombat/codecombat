@@ -111,7 +111,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
         alreadyNotInCourseInstance = not _.any courseInstance.get('members') or [], (memberID) -> memberID.toString() is userID
         return @sendSuccess(res, @formatEntity(req, courseInstance)) if alreadyNotInCourseInstance
         members = _.clone(courseInstance.get('members'))
-        members.splice(members.indexOf(userID), 1)
+        members = (m for m in members when m.toString() isnt userID)
         courseInstance.set('members', members)
         courseInstance.save (err, courseInstance) =>
           return @sendDatabaseError(res, err) if err
