@@ -18,7 +18,7 @@ block content
           strong= me.get('name') || me.get('email')
 
         p
-          span.spr This isn't you?
+          span.spr Not you?
           a#log-out-link Logout
 
         hr
@@ -34,7 +34,7 @@ block content
         p
           strong Hi adventurer, welcome back!
         p
-          a#continue-playing-btn.btn.btn-default(href=view.continuePlayingLink()) Continue playing
+          a#continue-playing-btn.btn.btn-success.btn-lg(href=view.continuePlayingLink()) Continue Playing
         p
           em.spr
             span.spr Last Played:
@@ -44,13 +44,13 @@ block content
           p
             strong More options:
           p
-            button#start-new-game-btn.btn.btn-default Start New Game
+            button#start-new-game-btn.btn.btn-default.btn-lg Start New Game
 
       if me.isAnonymous()
         p - OR -
 
         p
-          button#log-in-btn.btn.btn-default(data-i18n="login.log_in")
+          button#log-in-btn.btn.btn-default.btn-lg(data-i18n="login.log_in")
 
   #begin-hoc-area.hide
     h2.text-center(data-i18n="common.loading")
