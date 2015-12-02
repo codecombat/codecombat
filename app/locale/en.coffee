@@ -1360,6 +1360,15 @@
     campaigns: "Campaigns"
     poll: "Poll"
     user_polls_record: "Poll Voting History"
+    course: "Course"
+    courses: "Courses"
+    course_instance: "Course Instance"
+    courses_instances: "Course Instances"
+    classroom: "Classroom"
+    classrooms: "Classrooms"
+    clan: "Clan"
+    clans: "Clans"
+    members: "Members"
 
   concepts:
     advanced_strings: "Advanced Strings"

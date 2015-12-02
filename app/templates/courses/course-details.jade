@@ -38,7 +38,8 @@ block content
 
       if !view.owner.isNew() && view.getOwnerName()
         span.spl.spr - Teacher:
-        a(href="/user/#{view.owner.id}")
+        //a(href="/user/#{view.owner.id}")  // Don't link to profiles until we improve them
+        span
           strong= view.getOwnerName()
 
     h1
@@ -50,11 +51,61 @@ block content
       if courseInstance.get('description')
         each line in courseInstance.get('description').split('\n')
           div= line
-    
+
+    if view.courseComplete && !view.teacherMode
+      .jumbotron
+        .row
+          if view.singlePlayerMode && !me.isAnonymous()
+            .col-md-3
+            .col-md-6
+              a.btn.btn-lg.btn-success(href="/play")
+                h1 Play the Campaign
+                p You’re ready to take the next step! Explore hundreds of challenging levels, learn advanced programming skills, and compete in multiplayer arenas!
+            .col-md-3
+          else if view.singlePlayerMode && me.isAnonymous()
+            .col-md-6
+              a.btn.btn-lg.btn-success.signup-button
+                h1 Create an Account
+                p Sign up for a FREE CodeCombat account and gain access to more levels, more programming skills, and more fun!
+            .col-md-6
+              a.btn.btn-lg.btn-success(href="/play")
+                h1 Preview Campaign
+                p Take a sneak peek at all that CodeCombat has to offer before signing up for your FREE account.
+          else if !view.singlePlayerMode
+            .col-md-6
+              if view.arenaLevel
+                a.btn.btn-lg.btn-success.btn-play-level(data-level-slug=view.arenaLevel.slug, data-level-id=view.arenaLevel.original)
+                  h1
+                    span Arena
+                    | :
+                    span.spl= view.arenaLevel.name
+                  p= view.arenaLevel.description.replace(/!\[.*?\)/, '')
+              else
+                a.btn.btn-lg.btn-success.disabled
+                  h1 Arena Coming Soon
+                  p We are working on a multiplayer arena for classrooms at the end of #{course.get('name')}.
+            .col-md-6
+              if view.nextCourseInstance
+                a.btn.btn-lg.btn-success(href="/courses/#{view.nextCourse.id}/#{view.nextCourseInstance.id}")
+                  h1= view.nextCourse.get('name')
+                  p= view.nextCourse.get('description')
+              else if view.nextCourse
+                a.btn.btn-lg.btn-success.disabled
+                  h1= view.nextCourse.get('name')
+                  p
+                    em NOT ENROLLED
+                  p Ask your teacher to enroll you in the next course.
+              else
+                a.btn.btn-lg.btn-success(disabled=!view.nextCourse ? "disabled" : "")
+                  h1 Next Course
+                  p
+                    em COMING SOON
+                  p We are hard at work making more courses for you!
+
     if !me.isAnonymous()
       div.well.well-sm(role='tabpanel')
         ul.nav.nav-pills(role='tablist')
-          if adminMode
+          if view.teacherMode
             li.active(role='presentation')
               a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
             li(role='presentation')
@@ -65,7 +116,7 @@ block content
             li(role='presentation')
               a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
     .tab-content
-      if adminMode
+      if view.teacherMode
         .tab-pane.active#progress(role='tabpanel')
           +progress-tab
         .tab-pane#levels(role='tabpanel')
@@ -241,7 +292,7 @@ mixin progress-members-popup-completed(i, level, session)
     p
       span.spr(data-i18n="courses.completed")
       span #{moment(session.get('changed')).format('MMMM Do YYYY, h:mm:ss a')}
-    if adminMode
+    if view.teacherMode || me.isAdmin()
       strong(data-i18n="clans.view_solution")
 
 mixin progress-members-popup-started(i, level, session)
@@ -253,7 +304,7 @@ mixin progress-members-popup-started(i, level, session)
     p
       span.spr(data-i18n="clans.last_played")
       span #{moment(session.get('changed')).format('MMMM Do YYYY, h:mm:ss a')}
-    if adminMode
+    if view.teacherMode || me.isAdmin()
       strong(data-i18n="clans.view_solution")
 
 mixin levels-tab
@@ -271,7 +322,7 @@ mixin levels-tab
         each level, levelID in campaign.get('levels')
           tr
             td
-              if lastLevelCompleted || adminMode
+              if lastLevelCompleted || view.teacherMode
                 - var i18n = level.type === 'course-ladder' ? 'play.compete' : 'home.play';
                 button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n=i18n, data-level-id=levelID)
             td

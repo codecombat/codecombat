@@ -63,9 +63,10 @@ module.exports = class HeroVictoryModal extends ModalView
     else
       @readyToContinue = true
     @playSound 'victory'
-    if @level.get('type', true) is 'course' and nextLevel = @level.get('nextLevel')
-      @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
-      @nextLevel = @supermodel.loadModel(@nextLevel, 'level').model
+    if @level.get('type', true) is 'course'
+      if nextLevel = @level.get('nextLevel')
+        @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
+        @nextLevel = @supermodel.loadModel(@nextLevel, 'level').model
       if @courseID
         @course = new Course().setURL "/db/course/#{@courseID}"
         @course = @supermodel.loadModel(@course, 'course').model
