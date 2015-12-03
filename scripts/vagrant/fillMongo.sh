@@ -4,11 +4,14 @@ mkdir -p /vagrant/temp
 cd /vagrant/temp
 rm -f dump.tar.gz
 rm -rf dump
-wget http://analytics.codecombat.com:8080/dump.tar.gz
-tar xzvf dump.tar.gz --no-same-owner
-mongorestore --drop
+echo "Downloading mongo dump file..."
+wget --no-verbose http://analytics.codecombat.com:8080/dump.tar.gz
+tar xzf dump.tar.gz --no-same-owner
+echo "Restoring mongo dump file..."
+mongorestore --quiet --drop
 if [ -d /vagrant/temp/backup ]
 then
+  echo "Restoring mongo backup..."
   cd /vagrant/temp/backup
-  mongorestore
+  mongorestore --quiet
 fi
