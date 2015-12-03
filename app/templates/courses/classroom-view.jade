@@ -35,8 +35,13 @@ block content
     
     h2= user.broadName()
     - var lastPlayedString = view.makeLastPlayedString(user);
-    if lastPlayedString
-      p Last Played: #{lastPlayedString}
+    - var playtime = view.makePlaytimeString(user);
+    if lastPlayedString || playtime
+      #student-stats-row.row
+        if lastPlayedString
+          .col-sm-6 Last Played: #{lastPlayedString}
+        if playtime
+          .col-sm-6 Playtime: #{playtime}
       
     - var paidFor = user.get('coursePrepaidID');
     for courseInstance in view.courseInstances.models

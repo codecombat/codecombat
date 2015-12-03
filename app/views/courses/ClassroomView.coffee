@@ -122,6 +122,11 @@ module.exports = class ClassroomView extends RootView
     campaignLevel = campaign.get('levels')[levelOriginal]
     return "#{campaign.get('fullName')}, #{campaignLevel.name}"
 
+  makePlaytimeString: (user) ->
+    playtime = _.reduce user.sessions.pluck('playtime'), (s1, s2) -> (s1 or 0) + (s2 or 0)
+    return '' unless playtime
+    return moment.duration(playtime, 'seconds').humanize()
+
   onClickAddStudentsButton: (e) ->
     modal = new InviteToClassroomModal({classroom: @classroom})
     @openModalView(modal)
