@@ -44,6 +44,7 @@ module.exports = class ClassroomView extends RootView
     @users.comparator = (user) => user.broadName().toLowerCase()
     @supermodel.loadCollection(@users, 'users')
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesSync
+    @sessions = new CocoCollection([], { model: LevelSession })
 
   onCourseInstancesSync: ->
     @sessions = new CocoCollection([], { model: LevelSession })
@@ -115,7 +116,7 @@ module.exports = class ClassroomView extends RootView
     @openModalView(modal)
     @listenToOnce modal, 'hidden', @render
 
-  makeLastPlayedString: (user) ->
+  userLastPlayedString: (user) ->
     session = user.sessions.last()
     return '' if not session
     campaign = session.collection.campaign
@@ -123,10 +124,27 @@ module.exports = class ClassroomView extends RootView
     campaignLevel = campaign.get('levels')[levelOriginal]
     return "#{campaign.get('fullName')}, #{campaignLevel.name}"
 
-  makePlaytimeString: (user) ->
+  userPlaytimeString: (user) ->
     playtime = _.reduce user.sessions.pluck('playtime'), (s1, s2) -> (s1 or 0) + (s2 or 0)
     return '' unless playtime
     return moment.duration(playtime, 'seconds').humanize()
+
+  classStats: ->
+    stats = {}
+    
+    playtime = 0
+    total = 0
+    for session in @sessions.models
+      pt = session.get('playtime') or 0
+      playtime += pt
+      total += 1
+    stats.averagePlaytime = if playtime and total then moment.duration(playtime / total, "seconds").humanize() else 0
+    stats.totalPlaytime = if playtime then moment.duration(playtime, "seconds").humanize() else 0
+    
+    completeSessions = @sessions.filter (s) -> s.get('state').complete
+    stats.averageLevelsComplete = if @users.size() then (_.size(completeSessions) / @users.size()).toFixed(1) else 'N/A'
+    stats.totalLevelsComplete = _.size(completeSessions)
+    return stats
 
   onClickAddStudentsButton: (e) ->
     modal = new InviteToClassroomModal({classroom: @classroom})

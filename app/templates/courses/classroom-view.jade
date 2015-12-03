@@ -17,7 +17,24 @@ block content
   if view.classroom.get('description')
     p= view.classroom.get('description')
     
-  // TODO: Add classroom statistics (grab from CourseDetailsView)
+  h3(data-i18n="courses.stats")
+  table.progress-stats-container
+    - var stats = view.classStats()
+    tr
+      td(data-i18n="courses.total_students")
+      td= _.size(view.classroom.get('members'))
+    tr
+      td(data-i18n="courses.average_time")
+      td= stats.averagePlaytime
+    tr
+      td(data-i18n="courses.total_time")
+      td= stats.totalPlaytime
+    tr
+      td(data-i18n="courses.average_levels")
+      td= stats.averageLevelsComplete
+    tr
+      td(data-i18n="courses.total_levels")
+      td= stats.totalLevelsComplete
     
   h1
     | Students
@@ -36,8 +53,8 @@ block content
         span.spl remove student
     
     h2= user.broadName()
-    - var lastPlayedString = view.makeLastPlayedString(user);
-    - var playtime = view.makePlaytimeString(user);
+    - var lastPlayedString = view.userLastPlayedString(user);
+    - var playtime = view.userPlaytimeString(user);
     if lastPlayedString || playtime
       #student-stats-row.row
         if lastPlayedString
