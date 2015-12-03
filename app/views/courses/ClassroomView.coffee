@@ -163,7 +163,7 @@ module.exports = class ClassroomView extends RootView
     @render()
 
   levelPopoverContent: (level, session, i) ->
-    return null unless level and session
+    return null unless level
     context = {
       moment: moment
       level: level
