@@ -61,14 +61,14 @@ block content
             .progress
               each level, levelID in campaign.get('levels')
                 - var session = sessionMap[levelID];
+                if !session
+                  - break;
                 a(href=view.getLevelURL(level, course, courseInstance, session))
                   - var content = view.levelPopoverContent(level, session, i);
                   if session && session.get('state').complete
-                  .progress-bar.progress-bar-success(style=css, data-content=content, data-toggle='popover')= i + 1
-                  else if session
-                    .progress-bar.progress-bar-warning(style=css, data-content=content, data-toggle='popover')= i + 1
+                    .progress-bar.progress-bar-success(style=css, data-content=content, data-toggle='popover')= i + 1
                   else
-                    - break;
+                    .progress-bar.progress-bar-warning(style=css, data-content=content, data-toggle='popover')= i + 1
                   - i++
           else if paidFor
             button.enable-btn.btn.btn-info.btn-sm(data-user-id=user.id, data-course-instance-cid=courseInstance.cid) Enable
