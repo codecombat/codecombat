@@ -7,7 +7,7 @@ module.exports = class InviteToClassroomModal extends ModalView
   
   events:
     'click #send-invites-btn': 'onClickSendInvitesButton'
-    'click #copy-url-btn': 'onClickCopyURLButton'
+    'click #copy-url-btn, #join-url-input': 'copyURL'
 
   initialize: (options) ->
     @classroom = options.classroom
@@ -34,7 +34,7 @@ module.exports = class InviteToClassroomModal extends ModalView
         @$('#invite-emails-success-alert').removeClass('hide')
     })
 
-  onClickCopyURLButton: ->
+  copyURL: ->
     @$('#join-url-input').val(@joinURL).select()
     try
       document.execCommand('copy')

@@ -26,7 +26,7 @@ module.exports = class PurchaseCoursesView extends RootView
   getPrice: -> @pricePerStudent * @numberOfStudents
 
   onInputStudentsInput: ->
-    @numberOfStudents = parseInt(@$('#students-input').val()) or 0
+    @numberOfStudents = Math.max(parseInt(@$('#students-input').val()) or 0, 0)
     @updatePrice()
 
   updatePrice: ->
@@ -54,7 +54,6 @@ module.exports = class PurchaseCoursesView extends RootView
   onStripeReceivedToken: (e) ->
     @state = 'purchasing'
     @render?()
-    console.log 'e', e
     
     data =
       maxRedeemers: @numberOfStudents
