@@ -61,7 +61,7 @@ module.exports = class ControlBarView extends CocoView
   getRenderData: (c={}) ->
     super c
     c.worldName = @worldName
-    c.campaignIndex = @level.get('campaignIndex') if @level.get('type') is 'course'
+    c.campaignIndex = @level.get('campaignIndex') + 1 if @level.get('type') is 'course' and @level.get('campaignIndex')?
     c.multiplayerEnabled = @session.get('multiplayer')
     c.ladderGame = @level.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
     if c.isMultiplayerLevel = @isMultiplayerLevel

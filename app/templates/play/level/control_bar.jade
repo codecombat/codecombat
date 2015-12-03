@@ -22,7 +22,7 @@ else
     .level-name-area
       .level-label(data-i18n="play_level.level")
       .level-name(title=difficultyTitle || "")
-        span= (campaignIndex ? (campaignIndex + 1) + '. ' : '') + worldName.replace('Course: ', '')
+        span= (campaignIndex ? campaignIndex + '. ' : '') + worldName.replace('Course: ', '')
         if levelDifficulty
           sup.level-difficulty= levelDifficulty
 
