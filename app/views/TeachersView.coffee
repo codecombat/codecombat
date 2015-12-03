@@ -19,6 +19,8 @@ module.exports = class TeachersView extends RootView
 
   onClickLogin: (e) ->
     @openModalView new AuthModal(mode: 'login') if me.get('anonymous')
+    window.tracker?.trackEvent 'Started Signup', category: 'Teachers', label: 'Teachers Login'
 
   onClickSignup: (e) ->
     @openModalView new AuthModal() if me.get('anonymous')
+    window.tracker?.trackEvent 'Started Signup', category: 'Teachers', label: 'Teachers Create'
