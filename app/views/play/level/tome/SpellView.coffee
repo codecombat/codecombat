@@ -277,7 +277,7 @@ module.exports = class SpellView extends CocoView
             ar = str.match(/^\s*/)
             ar.pop().length
 
-          colors = ['50,150,200', '200,150,50', '255,0,0', '0,255,0']
+          colors = ['50,150,200', '200,150,50']
 
           for row in [0..@aceSession.getLength()]
             foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
