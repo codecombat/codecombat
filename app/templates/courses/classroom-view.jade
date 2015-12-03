@@ -21,17 +21,19 @@ block content
     
   h1
     | Students
-    .pull-right#main-button-area
-      button#add-students-btn.btn.btn-success Add Students
-      button#activate-licenses-btn.btn.btn-warning Activate Licenses
-      a.btn.btn-warning(href="/courses/purchase?from-classroom="+view.classroom.id) Purchase Licenses
+    if view.teacherMode
+      .pull-right#main-button-area
+        button#add-students-btn.btn.btn-success Add Students
+        button#activate-licenses-btn.btn.btn-warning Activate Licenses
+        a.btn.btn-warning(href="/courses/purchase?from-classroom="+view.classroom.id) Purchase Licenses
       
   hr
   
   for user in view.users.models
-    a.remove-student-link.pull-right.text-uppercase(data-user-id=user.id)
-      span.glyphicon.glyphicon-remove
-      span.spl remove student
+    if view.teacherMode
+      a.remove-student-link.pull-right.text-uppercase(data-user-id=user.id)
+        span.glyphicon.glyphicon-remove
+        span.spl remove student
     
     h2= user.broadName()
     - var lastPlayedString = view.makeLastPlayedString(user);
@@ -46,6 +48,8 @@ block content
     - var paidFor = user.get('coursePrepaidID');
     for courseInstance in view.courseInstances.models
       - var inCourse = _.contains(courseInstance.get('members'), user.id);
+      if !(inCourse || view.teacherMode)
+        - continue;
       - var course = view.courses.get(courseInstance.get('courseID'));
       - var campaign = view.campaigns.get(course.get('campaignID'));
       - var sessions = courseInstance.sessionsByUser[user.id] || [];
@@ -77,8 +81,9 @@ block content
                   - i++
           else if paidFor
             button.enable-btn.btn.btn-info.btn-sm(data-user-id=user.id, data-course-instance-cid=courseInstance.cid) Enable
+
             
-    if !paidFor
+    if view.teacherMode && !paidFor
       .text-center
         p
           em Activate a license to enable more courses for this student.

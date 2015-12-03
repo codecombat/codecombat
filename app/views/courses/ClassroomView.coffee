@@ -69,6 +69,7 @@ module.exports = class ClassroomView extends RootView
         courseInstance.sessionsByUser = {}
 
   onLoaded: ->
+    @teacherMode = me.isAdmin() or @classroom.get('ownerID') is me.id
     userSessions = @sessions.groupBy('creator')
     for user in @users.models
       user.sessions = new CocoCollection(userSessions[user.id], { model: LevelSession })
@@ -162,16 +163,16 @@ module.exports = class ClassroomView extends RootView
     @render()
 
   levelPopoverContent: (level, session, i) ->
-    return '' unless level and session
+    return null unless level and session
     context = {
       moment: moment
       level: level
       session: session
       i: i
-      canViewSolution: me.isAdmin() or @classroom.get('ownerID') is me.id
+      canViewSolution: @teacherMode
     }
     return popoverTemplate(context)
 
   getLevelURL: (level, course, courseInstance, session) ->
-    return '#' unless _.all(arguments)
+    return null unless @teacherMode and _.all(arguments)
     "/play/level/#{level.slug}?course=#{course.id}&course-instance=#{courseInstance.id}&session=#{session.id}&observing=true"
