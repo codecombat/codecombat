@@ -31,6 +31,7 @@ AchievementSchema.index(
   })
 AchievementSchema.index({i18nCoverage: 1}, {name: 'translation coverage index', sparse: true})
 AchievementSchema.index({slug: 1}, {name: 'slug index', sparse: true, unique: true})
+AchievementSchema.index({related: 1}, {name: 'related index', sparse: true})
 
 AchievementSchema.methods.objectifyQuery = ->
   try
