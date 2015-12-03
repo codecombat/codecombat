@@ -50,10 +50,22 @@ module.exports = class ClassroomView extends RootView
       @supermodel.loadCollection(sessions, 'sessions')
       courseInstance.sessions = sessions
       sessions.courseInstance = courseInstance
+      courseInstance.sessionsByUser = {}
       @listenToOnce sessions, 'sync', (sessions) ->
         @sessions.add(sessions.slice())
         sessions.courseInstance.sessionsByUser = sessions.groupBy('creator')
-      
+    
+    # generate course instance JIT, in the meantime have models w/out equivalents in the db
+    for course in @courses.models
+      query = {courseID: course.id, classroomID: @classroom.id}
+      courseInstance = @courseInstances.findWhere(query)
+      if not courseInstance
+        courseInstance = new CourseInstance(query)
+        @courseInstances.add(courseInstance)
+        courseInstance.sessions = new CocoCollection([], {model: LevelSession})
+        sessions.courseInstance = courseInstance
+        courseInstance.sessionsByUser = {}
+
   onLoaded: ->
     userSessions = @sessions.groupBy('creator')
     for user in @users.models
@@ -105,11 +117,20 @@ module.exports = class ClassroomView extends RootView
     @openModalView(modal)
 
   onClickEnableButton: (e) ->
-    courseInstance = @courseInstances.get($(e.target).data('course-instance-id'))
+    courseInstance = @courseInstances.get($(e.target).data('course-instance-cid'))
     userID = $(e.target).data('user-id')
-    courseInstance.addMember(userID)
     $(e.target).attr('disabled', true)
-    @listenToOnce courseInstance, 'sync', @render
+
+    onCourseInstanceCreated = =>
+      courseInstance.addMember(userID)
+      @listenToOnce courseInstance, 'sync', @render
+      
+    if courseInstance.isNew()
+      # adding the first student to this course, so generate the course instance for it
+      courseInstance.save(null, {validate: false})
+      courseInstance.once 'sync', onCourseInstanceCreated
+    else
+      onCourseInstanceCreated()
 
   onClickRemoveStudentLink: (e) ->
     user = @users.get($(e.target).closest('a').data('user-id'))
