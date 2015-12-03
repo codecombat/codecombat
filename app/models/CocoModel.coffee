@@ -22,6 +22,8 @@ class CocoModel extends Backbone.Model
     @saveBackup = _.debounce(@saveBackup, 500)
     @usesVersions = @schema()?.properties?.version?
 
+  created: -> new Date(parseInt(@id.substring(0, 8), 16) * 1000)
+
   backupKey: ->
     if @usesVersions then @id else @id  # + ':' + @attributes.__v  # TODO: doesn't work because __v doesn't actually increment. #2061
     # if fixed, RevertModal will also need the fix
