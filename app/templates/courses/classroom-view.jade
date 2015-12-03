@@ -43,15 +43,33 @@ block content
       - var inCourse = _.contains(courseInstance.get('members'), user.id);
       - var course = view.courses.get(courseInstance.get('courseID'));
       - var campaign = view.campaigns.get(course.get('campaignID'));
-      - var stats = campaign.statsForSessions(courseInstance.sessionsByUser[user.id] || []);
+      - var sessions = courseInstance.sessionsByUser[user.id] || [];
       if !(course.get('free') || paidFor)
         - continue;
       .row
-        .col-sm-3.col-sm-offset-1= campaign.get('fullName')
-        .col-sm-7
+        .col-sm-3.text-right= campaign.get('fullName')
+        .col-sm-9
           if inCourse
+            - var levels = campaign.get('levels');
+            - var numLevels = Object.keys(levels).length;
+            - var sessionMap = _.zipObject(_.map(sessions, function(s) { return s.get('level').original; }), sessions);
+            - var levelCellWidth = 100.00;
+            if numLevels > 0
+              - levelCellWidth = 100.00 / numLevels;
+            - var css = "width:"+levelCellWidth+"%;"
+            - var i = 0;
             .progress
-              .progress-bar(style='width:'+stats.levels.pctDone)
+              each level, levelID in campaign.get('levels')
+                - var session = sessionMap[levelID];
+                a(href=view.getLevelURL(level, course, courseInstance, session))
+                  - var content = view.levelPopoverContent(level, session, i);
+                  if session && session.get('state').complete
+                  .progress-bar.progress-bar-success(style=css, data-content=content, data-toggle='popover')= i + 1
+                  else if session
+                    .progress-bar.progress-bar-warning(style=css, data-content=content, data-toggle='popover')= i + 1
+                  else
+                    - break;
+                  - i++
           else if paidFor
             button.enable-btn.btn.btn-info.btn-sm(data-user-id=user.id, data-course-instance-cid=courseInstance.cid) Enable
             

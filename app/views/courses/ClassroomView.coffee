@@ -13,10 +13,12 @@ ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
+popoverTemplate = require 'templates/courses/classroom-level-popover'
 
 module.exports = class ClassroomView extends RootView
   id: 'classroom-view'
   template: template
+  teacherMode: false
   
   events:
     'click #edit-class-details-link': 'onClickEditClassDetailsLink'
@@ -78,6 +80,14 @@ module.exports = class ClassroomView extends RootView
       campaignID = course.get('campaignID')
       campaign = @campaigns.get(campaignID)
       courseInstance.sessions.campaign = campaign
+    super()
+    
+  afterRender: ->
+    @$('[data-toggle="popover"]').popover({
+      html: true
+      trigger: 'hover'
+      placement: 'top'
+    })
     super()
 
   onClickActivateLicensesButton: ->
@@ -145,3 +155,18 @@ module.exports = class ClassroomView extends RootView
   onStudentRemoved: (e) ->
     @users.remove(e.user)
     @render()
+
+  levelPopoverContent: (level, session, i) ->
+    return '' unless level and session
+    context = {
+      moment: moment
+      level: level
+      session: session
+      i: i
+      canViewSolution: me.isAdmin() or @classroom.get('ownerID') is me.id
+    }
+    return popoverTemplate(context)
+
+  getLevelURL: (level, course, courseInstance, session) ->
+    return '#' unless _.all(arguments)
+    "/play/level/#{level.slug}?course=#{course.id}&course-instance=#{courseInstance.id}&session=#{session.id}&observing=true"
