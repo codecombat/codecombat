@@ -12,14 +12,14 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     multiplayer: "Moninpeli" # Not currently shown on home page
     for_developers: "Kehittäjille" # Not currently shown on home page.
     or_ipad: "Tai lataa iPad:ille"
-#    hoc_class_code: "I Have a Class Code"
-#    hoc_enter: "Enter"
-#    hoc_title: "Hour of Code?"
+    hoc_class_code: "Minulla on Luokkakoodi"
+    hoc_enter: "Sisään"
+    hoc_title: "Kooditunti?"
 
   nav:
     play: "Tasot" # The top nav bar entry where players choose which levels to play
     community: "Yhteisö"
-#    courses: "Courses"
+    courses: "Kurssit"
     editor: "Editori"
     blog: "Blogi"
     forum: "Foorumi"
@@ -35,7 +35,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     contact: "Ota yhteyttä"
     twitter_follow: "Seuraa"
     teachers: "Opettajat"
-#    careers: "Careers"
+    careers: "Ura"
 
   modal:
     close: "Sulje"
@@ -54,7 +54,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 
   play:
     play_as: "Pelaa" # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "Kilpaile!" # Course details page
     spectate: "Tarkkaile" # Ladder page
     players: "pelaajat" # Hover over a level on /play
     hours_played: "pelatut tunnit" # Hover over a level on /play
@@ -164,9 +164,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     accepted: "Hyväksytty"
     rejected: "Hylätty"
     withdrawn: "Vedetty pois"
-#    accept: "Accept"
-#    reject: "Reject"
-#    withdraw: "Withdraw"
+    accept: "Hyväksy"
+    reject: "Hylkää"
+    withdraw: "Peruuta"
     submitter: "Lähettäjä"
     submitted: "Lähetetty"
     commit_msg: "Lähetä Viesti"
@@ -221,12 +221,12 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     years: "vuodet"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "Suoritit tason:"
+    course: "Kurssi:"
     done: "Valmis"
-#    next_level: "Next Level:"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+    next_level: "Seuraava taso:"
+    next_game: "Seuraava peli"
+    show_menu: "Näytä pelivalikko"
 #    home: "Home" # Not used any more, will be removed soon.
     level: "Taso" # Like "Level: Dungeons of Kithgard"
     skip: "Ohita"
@@ -253,7 +253,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     victory_title_suffix: " Valmis"
     victory_sign_up: "Kirjaudu"
     victory_sign_up_poke: "Haluatko tallettaa koodisi? Luo ilmainen tili!"
-#    victory_rate_the_level: "How fun was this level?"
+    victory_rate_the_level: "Kuinka hauska tämä taso oli?"
     victory_return_to_ladder: "Palaa liigaan"
     victory_play_continue: "Jatka"
     victory_saving_progress: "Tallennetaan edistymisesi"
@@ -266,7 +266,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     victory_gems_gained: "Jalokiviä"
     victory_new_item: "Uusi esine"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
+    victory_become_a_viking: "Tule viikingiksi"
     guide_title: "Opas"
 #    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
 #    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
@@ -312,8 +312,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     tip_debugging_program: "Jos debuggaus tarkoittaa virheiden poistamista ohjelmasta, niin ohjelmoinnin on tarkoitettava niiden lisäämistä. - Edsger W. Dijkstra"
     tip_forums: "Tulepa keskustelupalstalle kertomaan mielipiteesi!"
     tip_baby_coders: "Tulevaisuudessa jopa vauvoista tulee Arkkimaageja."
-#    tip_morale_improves: "Loading will continue until morale improves."
-#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+    tip_morale_improves: "Lataus jatkuu kunnes moraalisi kohenee."
+    tip_all_species: "Me uskomme tasa-arvoisiin mahdollisuuksiin koodauksen oppimisessa."
 #    tip_reticulating: "Reticulating spines."
 #    tip_harry: "Yer a Wizard, "
 #    tip_great_responsibility: "With great coding skill comes great debug responsibility."
@@ -349,7 +349,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 #    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+    tip_solve_then_write: "Ratkaise ensin ongelma. Kirjoita sitten koodi. - John Johnson"
 
   game_menu:
     inventory_tab: "Luettelo"
@@ -418,7 +418,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     feature7: "<strong>Yksityisklaanit</strong>"
     free: "Ilmainen"
     month: "kuukausi"
-#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+    must_be_logged: "Kirjaudu ensin sisään. Ole hyvä, luo tunnus tai kirjaudu sisään yläpuolella olevasta valikosta."
     subscribe_title: "Tilaa"
     unsubscribe: "Poista tilaus"
     confirm_unsubscribe: "Varmista tilauksen poisto"
@@ -614,19 +614,19 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    carlos_blurb: "Celery Man"
 
   teachers:
-#    more_info: "More Info for Teachers"
+    more_info: "Lisää tietoa opettajille"
     intro_1: "CodeCombat on selainpeli, joka opettaa ohjelmointia. Opiskelijat kirjoittavat ohjelmakoodia oikeilla ohjelmointikielillä."
     intro_2: "Aiempi kokemus ei ole tarpeen!"
     free_title: "Mitä kaikki maksaa?"
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "Käytössäsi on 110+ ILMAISTA tasoa, jotka kattavat koko ohjelmoinnin perustan."
     free_2: "Maksullinen kuukausitilaus avaa pääsyn video-oppaisiin ja lisätasoihin."
-#    free_3: "The CodeCombat content is divided into"
-#    free_4: "courses"
-#    free_5: ".  The first course is free, and about an hour of material."
-#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    free_3: "CodeCombat sivusto on jaettu content is divided into"
+    free_4: "kursseihin"
+    free_5: ".  Ensimmäinen kurssi on ilmainen. Se on kestoltaan noin tunnin."
+    free_6: "Pääsyn lisätehtäviin voit avata kertaostoksella."
     teacher_subs_title: "Opettajat saavat ilmaisen kuukausitilauksen!" # {change}
-#    teacher_subs_0: "We offer free trials to teachers."
+    teacher_subs_0: "Tarjoamme ilmaisen kokeilun opettajille."
     teacher_subs_1: "Ole hyvä ja täytä"
     teacher_subs_2: "opettajan kysely"
     teacher_subs_3: "ottaaksesi tilauksesi käyttöön." # {change}
@@ -678,15 +678,15 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     approved_1: "Hakemuksenne ilmaiseen tutustumistilaukseen on" # {change}
     approved_2: "hyväksytty."
     approved_3: "Jatko-ohjeet on lähetetty"
-#    approved_4: "Enroll your students on the"
-#    approved_5: "courses"
-#    approved_6: "page."
+    approved_4: "Liitä oppilaasi"
+    approved_5: "kurssit"
+    approved_6: "sivulla."
     denied_1: "Hakemuksenne ilmaiseen tutustumistilaukseen on" # {change}
     denied_2: "hylätty."
     contact_1: "Ole hyvä ja ota yhteyttä"
     contact_2: "jos teillä on jotain kysyttävää asiasta."
     description_1: "Tarjoamme ilmaista kuukausitilausta opettajille arviointikäyttöön. Lisätietoa tilauksesta saat"
-#    description_1b: "You can find more information on our"
+    description_1b: "Saat lisätietoja"
     description_2: "opettajat"
     description_3: "sivulta."
     description_4: "Ole hyvä ja täytä alla oleva kysely, niin lähetämme teille ohjeet käyttöönottoa varten."
@@ -701,15 +701,15 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     fill_fields: "Ole hyvä ja täytä kaikki kentät."
     thanks: "Kiitos! Lähetämme teille ohjeet pikimmiten."
 
-#  versions:
-#    save_version_title: "Save New Version"
-#    new_major_version: "New Major Version"
-#    submitting_patch: "Submitting Patch..."
-#    cla_prefix: "To save changes, first you must agree to our"
-#    cla_url: "CLA"
-#    cla_suffix: "."
-#    cla_agree: "I AGREE"
-#    owner_approve: "An owner will need to approve it before your changes will become visible."
+  versions:
+    save_version_title: "Tallenna Uusi Versio"
+    new_major_version: "Uusi Pääversio"
+    submitting_patch: "Lähetetään Patchi..."
+    cla_prefix: "Tallentaaksesi muutokset sinun pitää ensin hyväksyä"
+    cla_url: "käyttöehdot"
+    cla_suffix: "."
+    cla_agree: "HYVÄKSYN"
+    owner_approve: "Omistajan pitää ensin hyväksyä se ennen kuin muutokset tulevat voimaan."
 
   contact:
     contact_us: "Ota yhteyttä CodeCombat"
@@ -740,13 +740,13 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     wrong_password: "Virheellinen salasana"
     upload_picture: "Lataa kuva"
     delete_this_account: "Poista tili lopullisesti"
-#    reset_progress_tab: "Reset All Progress"
-#    reset_your_progress: "Clear all your progress and start over"
+    reset_progress_tab: "Resetoi edistymisesi"
+    reset_your_progress: "Tyhjennä edistymisesi ja aloita alusta"
     god_mode: "Pääkäyttäjä tila"
     password_tab: "Salasana"
     emails_tab: "Sähköpostitiedotteet"
     admin: "Ylläpitäjä"
-#    manage_subscription: "Click here to manage your subscription."
+    manage_subscription: "Klikkaa tässä hallitaksesi tilaustasi."
     new_password: "Uusi Salasana"
     new_password_verify: "Varmista"
     type_in_email: "Anna sähköpostiosoitteesi varmistukseksi"
@@ -776,7 +776,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 #    sample_profile: "See a sample profile"
-#    view_profile: "View Your Profile"
+    view_profile: "Tutki profiiliasi"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Pikanäppäimet"
@@ -799,9 +799,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     beautify: "Viimeistele ohjelmakoodisi, muotoilemalla se yhdenmukaisesti."
     maximize_editor: "Laajenna/pienennä koodieditori."
 
-#  community:
-#    main_title: "CodeCombat Community"
-#    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
+  community:
+    main_title: "CodeCombat Yhteisö"
+    introduction: "Katso miten voit auttaa ja mieti mikä kuulostaa hauskimmalta. Kuulemme mielellään sinusta!"
 #    level_editor_prefix: "Use the CodeCombat"
 #    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!"
 #    thang_editor_prefix: "We call units within the game 'thangs'. Use the"
@@ -858,7 +858,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     started_2: "Aloitettu"
     not_started_2: "Ei aloitettu"
     view_solution: "Paina katsoaksesi ratkaisut."
-#    view_attempt: "Click to view attempt."
+    view_attempt: "Paina katsoaksesi yrityksesi."
     latest_achievement: "Viimeisin saavutus"
     playtime: "Peliaika"
     last_played: "Viimeksi pelattu"
@@ -1240,7 +1240,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 
   account:
     payments: "Ostot"
-#    prepaid_codes: "Prepaid Codes"
+    prepaid_codes: "Prepaid koodi"
     purchased: "Ostettu"
     sale: "Alennus"
     subscription: "Kuukausitilaus"
@@ -1305,7 +1305,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     bad_input: "Virheellinen syöte."
     server_error: "Palvelinvirhe."
     unknown: "Tuntematon virhe."
-#    error: "ERROR"
+    error: "VIRHE"
 
 #  resources:
 #    sessions: "Sessions"
