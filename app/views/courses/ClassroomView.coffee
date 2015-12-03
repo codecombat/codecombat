@@ -49,7 +49,7 @@ module.exports = class ClassroomView extends RootView
     @sessions = new CocoCollection([], { model: LevelSession })
     for courseInstance in @courseInstances.models
       sessions = new CocoCollection([], { url: "/db/course_instance/#{courseInstance.id}/level_sessions", model: LevelSession })
-      @supermodel.loadCollection(sessions, 'sessions')
+      @supermodel.loadCollection(sessions, 'sessions', { data: { project: ['level', 'playtime', 'creator', 'changed', 'state.complete'].join(' ') } })
       courseInstance.sessions = sessions
       sessions.courseInstance = courseInstance
       courseInstance.sessionsByUser = {}
