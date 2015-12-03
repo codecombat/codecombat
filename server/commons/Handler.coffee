@@ -501,9 +501,9 @@ module.exports = class Handler
     if Handler.isID(idOrSlug)
       query = @modelClass.findById(idOrSlug)
     else
-       if not idOrSlug or idOrSlug is 'undefined'
-         console.error "What? Why are we fetching the slug: #{idOrSlug}?"
-         console.trace()
+      if not idOrSlug or idOrSlug is 'undefined'
+        console.error "What? Why are we fetching the slug: #{idOrSlug}?"
+        console.trace()
       query = @modelClass.findOne {slug: idOrSlug}
     query.select projection if projection
     query.exec (err, document) ->

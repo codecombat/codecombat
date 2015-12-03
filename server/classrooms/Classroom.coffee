@@ -7,6 +7,10 @@ jsonSchema = require '../../app/schemas/models/classroom.schema'
 
 ClassroomSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
 
+ClassroomSchema.index({ownerID: 1}, {name: 'ownerID index'})
+ClassroomSchema.index({members: 1}, {name: 'members index'})
+ClassroomSchema.index({code: 1}, {name: 'code index', unique: true})
+
 ClassroomSchema.statics.privateProperties = []
 ClassroomSchema.statics.editableProperties = [
   'description'
