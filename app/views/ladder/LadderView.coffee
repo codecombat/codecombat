@@ -63,6 +63,7 @@ module.exports = class LadderView extends RootView
     return if @destroyed
     course = new Course({_id: courseInstance.get('courseID')})
     @course = @supermodel.loadModel(course, 'courses.course').model
+    @listenToOnce @course, 'sync', @render
 
   onLoaded: ->
     @teams = teamDataFromLevel @level
