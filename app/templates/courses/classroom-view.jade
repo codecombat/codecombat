@@ -73,7 +73,7 @@ block content
       if !(course.get('free') || paidFor)
         - continue;
       .row
-        .col-sm-3.text-right= campaign.get('fullName')
+        .col-sm-3.text-right= course.get('name')
         .col-sm-9
           if inCourse
             - var levels = campaign.get('levels');
