@@ -682,9 +682,8 @@
     being_reviewed_1: "Your application for a free trial is being"
     being_reviewed_2: "reviewed."
     approved_1: "Your application for a free trial was"
-    approved_2: "approved."
-    approved_3: "Further instructions have been sent to"
-    approved_4: "Enroll your students on the"
+    approved_2: "approved!" # {change}
+    approved_4: "You can now enroll your students on the" # {change}
     approved_5: "courses"
     approved_6: "page."
     denied_1: "Your application for a free trial has been"
