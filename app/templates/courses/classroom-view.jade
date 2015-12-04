@@ -90,7 +90,7 @@ block content
                 - var session = sessionMap[levelID];
                 a(href=view.getLevelURL(level, course, courseInstance, session))
                   - var content = view.levelPopoverContent(level, session, i);
-                  if session && session.get('state').complete
+                  if session && session.get('state') && session.get('state').complete
                     .progress-bar.progress-bar-success(style=css, data-content=content, data-toggle='popover')= i
                   else if session
                     .progress-bar.progress-bar-warning(style=css, data-content=content, data-toggle='popover')= i

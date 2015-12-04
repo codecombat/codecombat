@@ -19,7 +19,7 @@ module.exports = class ClassroomView extends RootView
   id: 'classroom-view'
   template: template
   teacherMode: false
-  
+
   events:
     'click #edit-class-details-link': 'onClickEditClassDetailsLink'
     'click #activate-licenses-btn': 'onClickActivateLicensesButton'
@@ -57,7 +57,7 @@ module.exports = class ClassroomView extends RootView
       @listenToOnce sessions, 'sync', (sessions) ->
         @sessions.add(sessions.slice())
         sessions.courseInstance.sessionsByUser = sessions.groupBy('creator')
-    
+
     # generate course instance JIT, in the meantime have models w/out equivalents in the db
     for course in @courses.models
       query = {courseID: course.id, classroomID: @classroom.id}
@@ -83,7 +83,7 @@ module.exports = class ClassroomView extends RootView
       campaign = @campaigns.get(campaignID)
       courseInstance.sessions.campaign = campaign
     super()
-    
+
   afterRender: ->
     @$('[data-toggle="popover"]').popover({
       html: true
@@ -131,7 +131,7 @@ module.exports = class ClassroomView extends RootView
 
   classStats: ->
     stats = {}
-    
+
     playtime = 0
     total = 0
     for session in @sessions.models
@@ -140,8 +140,8 @@ module.exports = class ClassroomView extends RootView
       total += 1
     stats.averagePlaytime = if playtime and total then moment.duration(playtime / total, "seconds").humanize() else 0
     stats.totalPlaytime = if playtime then moment.duration(playtime, "seconds").humanize() else 0
-    
-    completeSessions = @sessions.filter (s) -> s.get('state').complete
+
+    completeSessions = @sessions.filter (s) -> s.get('state')?.complete
     stats.averageLevelsComplete = if @users.size() then (_.size(completeSessions) / @users.size()).toFixed(1) else 'N/A'
     stats.totalLevelsComplete = _.size(completeSessions)
     return stats
@@ -158,7 +158,7 @@ module.exports = class ClassroomView extends RootView
     onCourseInstanceCreated = =>
       courseInstance.addMember(userID)
       @listenToOnce courseInstance, 'sync', @render
-      
+
     if courseInstance.isNew()
       # adding the first student to this course, so generate the course instance for it
       courseInstance.save(null, {validate: false})
@@ -175,7 +175,7 @@ module.exports = class ClassroomView extends RootView
     })
     @openModalView(modal)
     modal.once 'remove-student', @onStudentRemoved, @
-    
+
   onStudentRemoved: (e) ->
     @users.remove(e.user)
     @render()
