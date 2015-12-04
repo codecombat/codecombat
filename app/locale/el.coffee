@@ -262,8 +262,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     victory_review_placeholder: "Πως σου φάνηκε το επίπεδο;"
     victory_hour_of_code_done: "Τελείωσες;"
     victory_hour_of_code_done_yes: "Ναι, έχω τελειώσει με την Hour of Code!"
-    victory_experience_gained: "Κερδισμενοι Πόντοι Εμπειρίας"
-    victory_gems_gained: "Κερδισμένα Πετράδια"
+    victory_experience_gained: "Κερδισμενη Εμπειρία"
+    victory_gems_gained: "Κερδισμενα Πετραδια"
     victory_new_item: "Νέο αντικείμενο"
     victory_viking_code_school: "Μπράβο σου, μόλις πέρασες ένα δύσκολο επίπεδο! Αν δεν είσαι ήδη προγραμματιστής, πρέπει να γίνεις. Είσαι σε καλό δρόμο για να γίνεις δεκτός στο Σχολείο Προγρααματισμού των Βίκινγκ, όπου μπορείς να πας τις ικανότητες στο επόμενο επίπεδο και να γίνεις ένας επαγγελματίας προγραμματιστής ιστού σε 14 weeks."
     victory_become_a_viking: "Γίνε Βίκιγκ"
@@ -271,7 +271,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     tome_minion_spells: "Ξόρκια για τα τσιράκια σας" # Only in old-style levels.
     tome_read_only_spells: "Ξορκια μονο για αναγνωση" # Only in old-style levels.
     tome_other_units: "Άλλες μονάδες" # Only in old-style levels.
-    tome_cast_button_run: "Εκτέλση"
+    tome_cast_button_run: "Εκτελεση"
     tome_cast_button_running: "Εκτελείται"
     tome_cast_button_ran: "Εκτελέστηκε"
     tome_submit_button: "Υποβολή"
