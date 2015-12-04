@@ -9,8 +9,6 @@ template = require 'templates/courses/course-details'
 User = require 'models/User'
 storage = require 'core/storage'
 
-autoplayedOnce = false
-
 module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
   template: template
@@ -143,11 +141,9 @@ module.exports = class CourseDetailsView extends RootView
   onLevelSessionsSync: ->
     return if @destroyed
     # console.log 'onLevelSessionsSync'
-    @instanceStats = averageLevelsCompleted: 0, furthestLevelCompleted: '', totalLevelsCompleted: 0, totalPlayTime: 0
     @memberStats = {}
     @userConceptStateMap = {}
     @userLevelStateMap = {}
-    levelStateMap = {}
     for levelSession in @levelSessions.models
       continue if levelSession.skipMe   # Don't track second arena session as another completed level
       userID = levelSession.get('creator')
@@ -163,11 +159,6 @@ module.exports = class CourseDetailsView extends RootView
           playtime = playtime + parseInt(secondSessionForLevel.get('playtime') ? 0, 10)
           secondSessionForLevel.skipMe = true
 
-      levelStateMap[levelID] = state
-
-      @instanceStats.totalLevelsCompleted++ if state is 'complete'
-      @instanceStats.totalPlayTime += playtime
-
       @memberStats[userID] ?= totalLevelsCompleted: 0, totalPlayTime: 0
       @memberStats[userID].totalLevelsCompleted++ if state is 'complete'
       @memberStats[userID].totalPlayTime += playtime
@@ -178,12 +169,6 @@ module.exports = class CourseDetailsView extends RootView
 
       @userLevelStateMap[userID] ?= {}
       @userLevelStateMap[userID][levelID] = state
-
-    if @courseInstance.get('members').length > 0
-      @instanceStats.averageLevelsCompleted = @instanceStats.totalLevelsCompleted / @courseInstance.get('members').length
-      @instanceStats.averageLevelPlaytime = @instanceStats.totalPlayTime / @courseInstance.get('members').length
-    for levelID, level of @campaign.get('levels')
-      @instanceStats.furthestLevelCompleted = level.name if levelStateMap[levelID] is 'complete'
 
     @conceptsCompleted = {}
     for userID, conceptStateMap of @userConceptStateMap
@@ -196,11 +181,6 @@ module.exports = class CourseDetailsView extends RootView
       @loadCourseInstances() unless @courseInstances  # Find the next course instance to do.
 
     @render()
-
-    # If we just joined a single-player course for Hour of Code, we automatically play.
-    if @instanceStats.totalLevelsCompleted is 0 and @instanceStats.totalPlayTime is 0 and @singlePlayerMode and not autoplayedOnce
-      autoplayedOnce = true
-      @$el.find('button.btn-play-level').click()
 
   onAllCoursesSync: ->
     @findNextCourseInstance()
