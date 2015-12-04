@@ -89,7 +89,7 @@ module.exports = class SubscriptionView extends RootView
   onClickRecipientsSubscribe: (e) ->
     emails = @$el.find('.recipient-emails').val().split('\n')
     valid = @emailValidator.validateEmails(emails, =>@render?())
-    @recipientSubs.startSubscribe(emails) if valid 
+    @recipientSubs.startSubscribe(emails) if valid
 
   onClickRecipientUnsubscribe: (e) ->
     $(e.target).addClass('hide')
@@ -108,8 +108,8 @@ class EmailValidator
 
   validateEmails: (emails, render) ->
     @lastEmails = emails.join('\n')
-    #taken from http://www.regular-expressions.info/email.html 
-    emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,4}/
+    #taken from http://www.regular-expressions.info/email.html
+    emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,63}/
     @validEmails = (email for email in emails when emailRegex.test(email.trim().toLowerCase()))
     return @emailsInvalid(render) if @validEmails.length < emails.length
     return @emailsValid(render)
