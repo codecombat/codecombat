@@ -4,21 +4,21 @@ template = require 'templates/courses/choose-language-modal'
 module.exports = class ChooseLanguageModal extends ModalView
   id: 'choose-language-modal'
   template: template
-  
+
   events:
     'click .lang-choice-btn': 'onClickLanguageChoiceButton'
-    
+
   initialize: (options) ->
     options ?= {}
     @logoutFirst = options.logoutFirst
 
   onClickLanguageChoiceButton: (e) ->
-    @chosenLanguage = $(e.target).data('language')
+    @chosenLanguage = $(e.target).closest('.lang-choice-btn').data('language')
     if @logoutFirst
       @logoutUser()
     else
       @saveLanguageSetting()
-      
+
   logoutUser: ->
     $.ajax({
       method: 'POST'
@@ -45,7 +45,8 @@ module.exports = class ChooseLanguageModal extends ModalView
       @listenToOnce me, 'sync', @onLanguageSettingSaved
     else
       @onLanguageSettingSaved()
-        
+
   onLanguageSettingSaved: ->
     @trigger('set-language')
+    window.tracker?.trackEvent 'Chose language', category: 'Courses', label: @chosenLanguage
     @hide()

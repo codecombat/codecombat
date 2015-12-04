@@ -7,7 +7,7 @@ User = require 'models/User'
 module.exports = class StudentSignInModal extends ModalView
   id: 'student-log-in-modal'
   template: template
-  
+
   events:
     'click #log-in-btn': 'onClickLogInButton'
     'submit form': 'onSubmitForm'
@@ -16,11 +16,13 @@ module.exports = class StudentSignInModal extends ModalView
   onSubmitForm: (e) ->
     e.preventDefault()
     @login()
-    
+
   onClickLogInButton: ->
     @login()
 
   login: ->
+    # TODO: doesn't track failed login
+    window.tracker?.trackEvent 'Finished Login', category: 'Courses', label: 'Courses Student Login'
     data = forms.formToObject @$el
     @enableModalInProgress(@$el)
     auth.loginUser data, (jqxhr) =>

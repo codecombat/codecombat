@@ -23,7 +23,7 @@ module.exports = class StudentSignUpModal extends ModalView
   afterInsert: ->
     super()
     _.delay (=> @$('input:visible:first').focus()), 500
-      
+
   onClickSkipLink: ->
     @trigger 'click-skip-link' # defer to view that opened this modal
     @hide?()
@@ -71,7 +71,8 @@ module.exports = class StudentSignUpModal extends ModalView
     data.emails ?= {}
     data.emails.generalNews ?= {}
     data.emails.generalNews.enabled = false
-    window.tracker?.trackEvent 'Finished Student Signup', label: 'CodeCombat'
+    # TODO: Doesn't handle failed user creation.  Double posts when placed in onCreateUserSuccess.
+    window.tracker?.trackEvent 'Finished Student Signup', category: 'Courses', label: 'Courses Student Signup'
     @enableModalInProgress(@$el)
     user = new User(data)
     user.notyErrors = false
