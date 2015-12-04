@@ -26,12 +26,13 @@ module.exports = class LevelSetupManager extends CocoClass
     levelURL = "/db/level/#{@options.levelID}"
     @level = new Level().setURL levelURL
     @level = @supermodel.loadModel(@level, 'level').model
-    onLevelSync = ->
-      return if @destroyed
-      if @waitingToLoadModals
-        @waitingToLoadModals = false
-        @loadModals()
-    onLevelSync.call @ if @level.loaded
+    if @level.loaded then @onLevelSync() else @listenToOnce @level, 'sync', @onLevelSync
+
+  onLevelSync: ->
+    return if @destroyed
+    if @waitingToLoadModals
+      @waitingToLoadModals = false
+      @loadModals()
 
   loadSession: ->
     sessionURL = "/db/level/#{@options.levelID}/session"
@@ -104,6 +105,7 @@ module.exports = class LevelSetupManager extends CocoClass
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
 
     @options.parent.openModalView(firstModal)
+    @trigger 'open'
     #    @inventoryModal.onShown() # replace?
 
   #- Modal events

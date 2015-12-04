@@ -28,6 +28,8 @@ if campaign
         div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + (levelStatusMap[level.slug] || ""))
         .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
           - var playCount = levelPlayCountMap[level.slug]
+          .progress.progress-striped.active.hide
+            .progress-bar(style="width: 100%")
           div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : ""))
             .level-status
             h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))

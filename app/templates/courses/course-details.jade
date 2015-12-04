@@ -1,6 +1,13 @@
 extends /templates/base
 
 block content
+  
+  h2
+    if view.teacherMode
+      a(href="/courses/teachers") Back to my classrooms
+    else
+      a(href="/courses") Back to my courses
+  hr
 
   if (noCourseInstance || noCourseInstanceSelected) && course
     h1= course.get('name')
@@ -36,7 +43,7 @@ block content
         else
           span(data-i18n='courses.unnamed_class')
 
-      if !view.owner.isNew() && view.getOwnerName()
+      if !view.owner.isNew() && view.getOwnerName() && courseInstance.get('name') != 'Single Player'
         span.spl.spr - Teacher:
         //a(href="/user/#{view.owner.id}")  // Don't link to profiles until we improve them
         span
