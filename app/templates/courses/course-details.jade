@@ -43,7 +43,7 @@ block content
         else
           span(data-i18n='courses.unnamed_class')
 
-      if !view.owner.isNew() && view.getOwnerName()
+      if !view.owner.isNew() && view.getOwnerName() && courseInstance.get('name') != 'Single Player'
         span.spl.spr - Teacher:
         //a(href="/user/#{view.owner.id}")  // Don't link to profiles until we improve them
         span
