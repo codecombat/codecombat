@@ -37,7 +37,7 @@ module.exports = class ActivateLicensesModal extends ModalView
     depleted = remaining < 0
     @$('#not-depleted-span').toggleClass('hide', depleted)
     @$('#depleted-span').toggleClass('hide', !depleted)
-    @$('#activate-licenses-btn').toggleClass('disabled', depleted)
+    @$('#activate-licenses-btn').toggleClass('disabled', depleted).toggleClass('btn-success', not depleted).toggleClass('btn-default', depleted)
     
   showProgress: ->
     @$('#submit-form-area').addClass('hide')

@@ -39,6 +39,10 @@ block modal-body-content
                 - var paid = user.get('coursePrepaidID')
                 input(type="checkbox", disabled=paid, checked=true, data-user-id=user.id, name='user')
                 span.spr= user.broadName()
+                if paid
+                  span (
+                  span already enrolled
+                  span )
 
         #error-alert.alert.alert-danger.hide
             
@@ -61,7 +65,7 @@ block modal-body-content
               | )
 
           p
-            button#activate-licenses-btn.btn.btn-success.text-uppercase(type="submit") Activate Licenses
+            button#activate-licenses-btn.btn.btn-success.text-uppercase(type="submit") Enroll Students
             
           p
             a#get-more-licenses-btn.btn.btn-info.text-uppercase(href="/courses/purchase") Get More Licenses
