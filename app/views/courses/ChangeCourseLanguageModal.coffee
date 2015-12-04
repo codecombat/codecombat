@@ -22,5 +22,6 @@ module.exports = class ChangeCourseLanguageModal extends ModalView
       @onLanguageSettingSaved()
 
   onLanguageSettingSaved: ->
+    application.tracker?.trackEvent 'Student changed language', category: 'Courses', label: @chosenLanguage
     @trigger('set-language')
     @hide()

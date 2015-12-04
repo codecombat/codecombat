@@ -26,7 +26,7 @@ module.exports = class CoursesView extends RootView
     'click #join-class-btn': 'onClickJoinClassButton'
     'submit #join-class-form': 'onSubmitJoinClassForm'
     'click #change-language-link': 'onClickChangeLanguageLink'
-  
+
   initialize: ->
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @courseInstances.comparator = (ci) -> return ci.get('classroomID') + ci.get('courseID')
@@ -48,15 +48,15 @@ module.exports = class CoursesView extends RootView
         continue
       map[courseID] = courseInstance.sessions = new CocoCollection([], {
         url: courseInstance.url() + '/my-course-level-sessions',
-        model: LevelSession 
+        model: LevelSession
       })
       courseInstance.sessions.comparator = 'changed'
       @supermodel.loadCollection(courseInstance.sessions, 'sessions', { data: { project: 'state.complete level.original playtime changed' }})
-      
+
     @hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
     if @hocCourseInstance
       @courseInstances.remove(@hocCourseInstance)
-      
+
   onLoaded: ->
     super()
     if utils.getQueryVariable('_cc', false)
@@ -68,17 +68,25 @@ module.exports = class CoursesView extends RootView
     else
       modal = new ChooseLanguageModal()
       @openModalView(modal)
-      @listenToOnce modal, 'set-language', @startHourOfCodePlay
+      @listenToOnce modal, 'set-language', =>
+        @startHourOfCodePlay()
+        application.tracker?.trackEvent 'Automatic start hour of code play', category: 'Courses', label: 'set language'
+      application.tracker?.trackEvent 'Start New Game', category: 'Courses'
 
   onClickLogInButton: ->
     modal = new StudentLogInModal()
     @openModalView(modal)
     modal.on 'want-to-create-account', @openSignUpModal, @
+    application.tracker?.trackEvent 'Started Student Login', category: 'Courses'
 
   openSignUpModal: ->
     modal = new StudentSignUpModal({ willPlay: true })
     @openModalView(modal)
-    modal.once 'click-skip-link', @startHourOfCodePlay, @
+    modal.once 'click-skip-link', (=>
+      @startHourOfCodePlay()
+      application.tracker?.trackEvent 'Automatic start hour of code play', category: 'Courses', label: 'skip link'
+      ), @
+    application.tracker?.trackEvent 'Started Student Signup', category: 'Courses'
 
   startHourOfCodePlay: ->
     @$('#main-content').hide()
@@ -92,7 +100,7 @@ module.exports = class CoursesView extends RootView
   onSubmitJoinClassForm: (e) ->
     e.preventDefault()
     @joinClass()
-      
+
   onClickJoinClassButton: (e) ->
     @joinClass()
 
@@ -114,25 +122,27 @@ module.exports = class CoursesView extends RootView
 
   onJoinClassroomError: (classroom, jqxhr, options) ->
     @state = null
-    application.tracker?.trackEvent 'Failed to join classroom with code', status: jqxhr.status
+    application.tracker?.trackEvent 'Failed to join classroom with code', category: 'Courses', status: jqxhr.status
     if jqxhr.status is 422
       @errorMessage = 'Please enter a code.'
     else if jqxhr.status is 404
       @errorMessage = 'Code not found.'
     else
       @errorMessage = "#{jqxhr.responseText}"
-    @renderSelectors '#join-class-form'    
+    @renderSelectors '#join-class-form'
 
   onJoinClassroomSuccess: (newClassroom, jqxhr, options) ->
     application.tracker?.trackEvent 'Joined classroom', {
-      classroomID: newClassroom.id,
+      category: 'Courses'
+      classCode: @classCode
+      classroomID: newClassroom.id
       classroomName: newClassroom.get('name')
       ownerID: newClassroom.get('ownerID')
     }
     @classrooms.add(newClassroom)
     @render()
     @classroomJustAdded = newClassroom.id
-    
+
     classroomCourseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance })
     classroomCourseInstances.fetch({ data: {classroomID: newClassroom.id} })
     @listenToOnce classroomCourseInstances, 'sync', ->
@@ -151,8 +161,9 @@ module.exports = class CoursesView extends RootView
         f = -> location.hash = '#just-added-text'
         # quick and dirty scroll to just-added classroom
         setTimeout(f, 10)
-        
+
   onClickChangeLanguageLink: ->
+    application.tracker?.trackEvent 'Student clicked change language', category: 'Courses'
     modal = new ChangeCourseLanguageModal()
     @openModalView(modal)
     modal.once 'hidden', @render, @
