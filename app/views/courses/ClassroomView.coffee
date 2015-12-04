@@ -146,6 +146,9 @@ module.exports = class ClassroomView extends RootView
     completeSessions = @sessions.filter (s) -> s.get('state')?.complete
     stats.averageLevelsComplete = if @users.size() then (_.size(completeSessions) / @users.size()).toFixed(1) else 'N/A'
     stats.totalLevelsComplete = _.size(completeSessions)
+
+    enrolledUsers = @users.filter (user) -> user.get('coursePrepaidID')
+    stats.enrolledUsers = _.size(enrolledUsers)
     return stats
 
   onClickAddStudentsButton: (e) ->

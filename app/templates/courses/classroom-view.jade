@@ -22,7 +22,12 @@ block content
     - var stats = view.classStats()
     tr
       td(data-i18n="courses.total_students")
-      td= _.size(view.classroom.get('members'))
+      td
+        span.spr= _.size(view.classroom.get('members'))
+        span (
+        span.spr enrolled in paid courses:
+        span= stats.enrolledUsers
+        span )
     tr
       td(data-i18n="courses.average_time")
       td= stats.averagePlaytime
@@ -40,9 +45,9 @@ block content
     | Students
     if view.teacherMode
       .pull-right#main-button-area
-        button#add-students-btn.btn.btn-success Add Students
-        button#activate-licenses-btn.btn.btn-warning Activate Licenses
-        a.btn.btn-warning(href="/courses/purchase?from-classroom="+view.classroom.id) Purchase Licenses
+        button#add-students-btn.btn.btn-primary.text-uppercase Add Students
+        button#activate-licenses-btn.btn.btn-info.text-uppercase Enroll Students in Paid Courses
+        a.btn.btn-success.text-uppercase(href="/courses/purchase?from-classroom="+view.classroom.id) Purchase Enrollments
       
   hr
   
@@ -97,7 +102,7 @@ block content
                   else
                     .progress-bar.progress-bar-default(style=css, data-content=content, data-toggle='popover')= i
           else if paidFor
-            button.enable-btn.btn.btn-info.btn-sm(data-user-id=user.id, data-course-instance-cid=courseInstance.cid) Enable
+            button.enable-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id, data-course-instance-cid=courseInstance.cid) Assign
 
             
     if view.teacherMode && !paidFor
