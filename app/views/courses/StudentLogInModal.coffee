@@ -36,3 +36,7 @@ module.exports = class StudentSignInModal extends ModalView
   onClickCreateNewAccountLink: ->
     @trigger 'want-to-create-account'
     @hide?()
+
+  afterInsert: ->
+    super()
+    _.delay (=> @$('input:visible:first').focus()), 500

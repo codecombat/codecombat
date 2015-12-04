@@ -4,7 +4,7 @@ block content
 
   div#ladder-top
     
-    if leagueType == 'course'
+    if leagueType == 'course' && view.course.id
       #course-header
         #course-details-link
           a(href="/courses/"+view.course.id+"/"+view.league.id)

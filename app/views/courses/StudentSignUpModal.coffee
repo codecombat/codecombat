@@ -20,6 +20,10 @@ module.exports = class StudentSignUpModal extends ModalView
     @willPlay = options.willPlay
     @classCode = utils.getQueryVariable('_cc') or ''
 
+  afterInsert: ->
+    super()
+    _.delay (=> @$('input:visible:first').focus()), 500
+      
   onClickSkipLink: ->
     @trigger 'click-skip-link' # defer to view that opened this modal
     @hide?()

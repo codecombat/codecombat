@@ -10,9 +10,8 @@ module.exports = class Campaign extends CocoModel
   saveBackups: true
   @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['unlocks', 'position', 'rewards']))
   @denormalizedCampaignProperties: ['name', 'i18n', 'slug']
-  
+
   statsForSessions: (sessions) ->
-    # common code for crunching stats for a user's progress on a campaign/course
     return null unless sessions
     stats = {}
     sessions = sessions.models or sessions
