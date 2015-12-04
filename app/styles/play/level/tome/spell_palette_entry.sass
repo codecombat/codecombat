@@ -60,6 +60,8 @@ body:not(.dialogue-view-active)
   border-image: url(/images/level/popover_border_background.png) 16 12 fill round
   border-width: 16px 12px
   @include box-shadow(0 0 0 #000)
+  // Prevent flickering in weird scenarios where popover goes over its own property
+  pointer-events: none
 
   // Jiggle animation
   // TODO: consolidate with problem_alert.sass jiggle

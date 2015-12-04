@@ -68,6 +68,11 @@ module.exports = class LevelSetupManager extends CocoClass
       @session.set 'heroConfig', {"thangType":goliath,"inventory":{"eyes":"53eb99f41a100989a40ce46e","neck":"54693274a2b1f53ce79443c9","wrists":"54693797a2b1f53ce79443e9","feet":"546d4d8e9df4a17d0d449acd","minion":"54eb5bf649fa2d5c905ddf4a","programming-book":"557871261ff17fef5abee3ee"}}
       @onInventoryModalPlayClicked()
       return
+    if @level.get('slug') is 'assembly-speed'
+      raider = '55527eb0b8abf4ba1fe9a107'
+      @session.set 'heroConfig', {"thangType":raider,"inventory":{}}
+      @onInventoryModalPlayClicked()
+      return
     if @level.get('type', true) in ['course', 'course-ladder']
       @onInventoryModalPlayClicked()
       return

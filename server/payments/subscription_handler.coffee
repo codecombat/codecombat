@@ -25,7 +25,7 @@ subscriptions = {
     amount: 999 # For calculating incremental quantity before sub creation
   }
   year_sale: {
-    amount: 7900
+    amount: 9900
   }
 }
 

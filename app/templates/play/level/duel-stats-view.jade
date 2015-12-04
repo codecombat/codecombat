@@ -1,21 +1,22 @@
-for player in players
+for player in view.players
   div(class="player-container team-" + player.team)
     .player-portrait
       .thang-avatar-placeholder
     .player-info
       .name-and-power
-        .player-power
-          .power-icon
-          .power-value
+        if view.showsPower
+          .player-power
+            .power-icon
+            .power-value
+        if view.showsGold
+          .player-gold
+            .gold-icon
+            .gold-value
         .player-name= player.name || 'Anoner'
       .player-health
         .health-icon
         .health-bar-container
           .health-bar
         .health-value
-      //.player-gold
-      //  .team-gold
-      //    img(src="/images/level/gold_icon.png", alt="", draggable="false")
-      //    .gold-amount
 
 

@@ -12,10 +12,14 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     multiplayer: "Multijugador" # Not currently shown on home page
     for_developers: "Para programadores" # Not currently shown on home page.
     or_ipad: "O descargalo para iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
+#    courses: "Courses"
     editor: "Editor"
     blog: "Blog"
     forum: "Foro"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   play:
     play_as: "Jugar como" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Observar" # Ladder page
     players: "jugadores" # Hover over a level on /play
     hours_played: "horas jugadas" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     years: "años"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Hecho"
+#    next_level: "Next Level:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "Inicio" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_title_suffix: " Completado!"
     victory_sign_up: "Regístrate para recibir actualizaciones."
     victory_sign_up_poke: "¿Quieres recibir las últimas noticias en tu correo electrónico? ¡Crea una cuente gratuita y te mantendremos informado!"
-    victory_rate_the_level: "Puntúa este nivel: " # Only in old-style levels.
+    victory_rate_the_level: "Puntúa este nivel: " # {change}
     victory_return_to_ladder: "Volver a Clasificación"
     victory_play_continue: "Continuar"
     victory_saving_progress: "Salvando Progreso"
@@ -436,13 +444,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     parents_blurb3: "Sin riesgo: 100% garantía de devoluación de dinero, desuscripción con un simple click."
     payment_methods: "Métodos de pago"
     payment_methods_title: "Métodos de pago permitidos"
-    payment_methods_blurb1: "Actualmente aceptamos pagos a través de tarjetas de crédito / débito y Alipay."
+    payment_methods_blurb1: "Actualmente aceptamos pagos a través de tarjetas de crédito / débito y Alipay." # {change}
     payment_methods_blurb2: "Si necesitas una forma alternativa de pago, puedes contactarnos"
     sale_already_subscribed: "Ya estás suscrito!"
-    sale_blurb1: "¡Ahorra un 35%"
+    sale_blurb1: "¡Ahorra un $21" # {change}
     sale_blurb2: "de una suscripción normal de 120$ por un año entero!!"
     sale_button: "Comprar!"
-    sale_button_title: "Ahorra un 35% si compras una suscripción de 1 año"
+    sale_button_title: "Ahorra un $21 si compras una suscripción de 1 año" # {change}
     sale_click_here: "Haz click aquí"
     sale_ends: "Finaliza"
     sale_extended: "*Las suscripciones actuales se extenderán un año más."
@@ -455,7 +463,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     sale_title: "Venta de Vuelta al Colegio"
     sale_view_button: "Compra una suscripción de 1 año por"
     stripe_description: "Suscripción mensual"
-    stripe_description_year_sale: "Suscripción de 1 año (35% descuento)"
+    stripe_description_year_sale: "Suscripción de 1 año ($21 descuento)" # {change}
     subscription_required_to_play: "Necesitas una suscripción para jugar este nivel."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
-#    teacher_subs_title: "Teachers get free subscriptions!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+#    teacher_subs_title: "Teachers get a free trial!"
+#    teacher_subs_0: "We offer free trials to teachers."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
-#    teacher_subs_3: "to set up your subscription."
+#    teacher_subs_3: "to try out the paid courses."
 #    sub_includes_title: "What is included in the subscription?"
 #    sub_includes_1: "In addition to the 110+ basic levels, students with a monthly subscription get access to these additional features:"
 #    sub_includes_2: "80+ practice levels"
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
-#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_1: "Your application for a free trial is being"
 #    being_reviewed_2: "reviewed."
-#    approved_1: "Your application for a free trial subscription was"
+#    approved_1: "Your application for a free trial was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
-#    denied_1: "Your application for a free trial subscription has been"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+#    denied_1: "Your application for a free trial has been"
 #    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
+#    description_1b: "You can find more information on our"
 #    description_2: "teachers"
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
@@ -730,6 +746,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     password_tab: "Contraseña"
     emails_tab: "Correos electrónicos"
     admin: "Admin"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Nueva contraseña"
     new_password_verify: "Verificar"
     type_in_email: "Introduce tu email para confirmar el borrado de esta cuenta"
@@ -841,6 +858,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     started_2: "Iniciado"
     not_started_2: "No iniciado"
     view_solution: "Click para ver solución."
+#    view_attempt: "Click to view attempt."
     latest_achievement: "Último logro"
     playtime: "Tiempo de juego"
     last_played: "Último jugado"

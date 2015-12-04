@@ -29,7 +29,8 @@ module.exports = class LevelBus extends Bus
     super(arguments...)
     @changedSessionProperties = {}
     if application.isProduction()
-      @saveSession = _.debounce(@reallySaveSession, 4000, {maxWait: 10000})  # Save slower on production.
+      #@saveSession = _.debounce(@reallySaveSession, 4000, {maxWait: 10000})  # Save slower on production.
+      @saveSession = _.debounce(@reallySaveSession, 10000, {maxWait: 30000})  # Save even slower during HoC.
     else
       @saveSession = _.debounce(@reallySaveSession, 1000, {maxWait: 5000})  # Save quickly in development.
     @playerIsIdle = false
@@ -123,6 +124,7 @@ module.exports = class LevelBus extends Bus
   onWinnabilityUpdated: (e) ->
     return unless @onPoint() and e.winnable
     return unless e.level.get('slug') in ['ace-of-coders']  # Mirror matches don't otherwise show victory, so we win here.
+    return if @session.get('state')?.complete
     @onVictory()
 
   onNewWorldCreated: (e) ->

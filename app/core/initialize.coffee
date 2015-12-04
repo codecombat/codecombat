@@ -71,7 +71,7 @@ setUpBackboneMediator = ->
   if false  # Debug which events are being fired
     originalPublish = Backbone.Mediator.publish
     Backbone.Mediator.publish = ->
-      console.log 'Publishing event:', arguments...
+      console.log 'Publishing event:', arguments... unless /(tick|frame-changed)/.test(arguments[0])
       originalPublish.apply Backbone.Mediator, arguments
 
 setUpMoment = ->

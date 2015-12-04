@@ -12,10 +12,14 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Dla developerów" # Not currently shown on home page.
     or_ipad: "Albo ściągnij na swojego iPada"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Poziomy" # The top nav bar entry where players choose which levels to play
     community: "Społeczność"
+#    courses: "Courses"
     editor: "Edytor"
     blog: "Blog"
     forum: "Forum"
@@ -31,7 +35,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     contact: "Kontakt"
     twitter_follow: "Subskrybuj"
     teachers: "Nauczyciele"
-#    careers: "Careers"
+    careers: "Kariera"
 
   modal:
     close: "Zamknij"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
   play:
     play_as: "Graj jako " # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Oglądaj" # Ladder page
     players: "graczy" # Hover over a level on /play
     hours_played: "rozegranych godzin" # Hover over a level on /play
@@ -159,9 +164,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     accepted: "Przyjęto"
     rejected: "Odrzucono"
     withdrawn: "Wycofano"
-#    accept: "Accept"
-#    reject: "Reject"
-#    withdraw: "Withdraw"
+    accept: "Akceptuj"
+    reject: "Odrzuć"
+    withdraw: "Wycofaj"
     submitter: "Przesyłający"
     submitted: "Przesłano"
     commit_msg: "Wiadomość do commitu"
@@ -216,9 +221,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     years: "lat"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Zrobione"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+#    next_level: "Next Level:"
+    next_game: "Następna gra"
+    show_menu: "Pokaż menu gry"
     home: "Strona główna" # Not used any more, will be removed soon.
     level: "Poziom" # Like "Level: Dungeons of Kithgard"
     skip: "Pomiń"
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     victory_title_suffix: " ukończony"
     victory_sign_up: "Zarejestruj się, by zapisać postępy"
     victory_sign_up_poke: "Chcesz zapisać swój kod? Stwórz bezpłatne konto!"
-    victory_rate_the_level: "Oceń poziom: " # Only in old-style levels.
+    victory_rate_the_level: "Oceń poziom: " # {change}
     victory_return_to_ladder: "Powrót do drabinki"
     victory_play_continue: "Dalej"
     victory_saving_progress: "Zapisywanie postępów"
@@ -436,13 +444,13 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay. You can also PayPal 29.97 USD to nick@codecombat.com with your account email in the memo to purchase three months' subscription and gems, or $99 for a year."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
 #    sale_already_subscribed: "You're already subscribed!"
-#    sale_blurb1: "Save 35%"
+#    sale_blurb1: "Save $21"
 #    sale_blurb2: "off regular subscription price of $120 for a whole year!"
 #    sale_button: "Sale!"
-#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_button_title: "Save $21 when you purchase a 1 year subscription"
 #    sale_click_here: "Click Here"
 #    sale_ends: "Ends"
 #    sale_extended: "*Existing subscriptions will be extended by 1 year."
@@ -455,7 +463,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    sale_title: "Back to School Sale"
 #    sale_view_button: "Buy 1 year subscription for"
 #    stripe_description: "Monthly Subscription"
-#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
+#    stripe_description_year_sale: "1 Year Subscription ($21 discount)"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -527,8 +535,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
   skill_docs:
     writable: "zapisywalny" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "tylko do odczytu"
-#    action: "Action"
-#    spell: "Spell"
+    action: "Akcja"
+    spell: "Zaklęcie"
     action_name: "nazwa"
     action_cooldown: "Zajmuje"
     action_specific_cooldown: "Odpoczynek"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
-#    teacher_subs_title: "Teachers get free subscriptions!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+#    teacher_subs_title: "Teachers get a free trial!"
+#    teacher_subs_0: "We offer free trials to teachers."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
-#    teacher_subs_3: "to set up your subscription."
+#    teacher_subs_3: "to try out the paid courses."
 #    sub_includes_title: "What is included in the subscription?"
 #    sub_includes_1: "In addition to the 110+ basic levels, students with a monthly subscription get access to these additional features:"
 #    sub_includes_2: "80+ practice levels"
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     title: "Ankieta dla nauczycieli"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
-#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_1: "Your application for a free trial is being"
 #    being_reviewed_2: "reviewed."
-#    approved_1: "Your application for a free trial subscription was"
+#    approved_1: "Your application for a free trial was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
-#    denied_1: "Your application for a free trial subscription has been"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+#    denied_1: "Your application for a free trial has been"
 #    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
+#    description_1b: "You can find more information on our"
 #    description_2: "teachers"
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
@@ -730,6 +746,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     password_tab: "Hasło"
     emails_tab: "Powiadomienia"
     admin: "Administrator"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Nowe hasło"
     new_password_verify: "Zweryfikuj"
     type_in_email: "Wpisz swój email, aby potwierdzić usunięcie konta."
@@ -841,6 +858,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     started_2: "Rozpoczęto"
     not_started_2: "Nie rozpoczęto"
     view_solution: "Kliknij, aby obejrzeć rozwiązanie."
+#    view_attempt: "Click to view attempt."
     latest_achievement: "Ostatnie osiągnięcia"
     playtime: "Czas gyr"
     last_played: "Ostatnio grany"
@@ -859,9 +877,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    track_concepts8: "to join"
 #    private_require_sub: "Private clans require a subscription to create or join."
 
-#  courses:
-#    course: "Course"
-#    courses: "courses"
+  courses:
+    course: "Kurs"
+    courses: "kursy"
 #    not_enrolled: "You are not enrolled in this course."
 #    visit_pref: "Please visit the"
 #    visit_suf: "page to enroll."
@@ -872,8 +890,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    edit_settings: "edit class settings"
 #    edit_settings1: "Edit Class Settings"
 #    progress: "Class Progress"
-#    add_students: "Add Students"
-#    stats: "Statistics"
+    add_students: "Dodaj Studentów"
+    stats: "Statystyki"
 #    total_students: "Total students:"
 #    average_time: "Average level play time:"
 #    total_time: "Total play time:"
@@ -881,8 +899,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    total_levels: "Total levels completed:"
 #    furthest_level: "Furthest level completed:"
 #    concepts_covered: "Concepts Covered"
-#    students: "Students"
-#    students1: "students"
+    students: "Studenci"
+    students1: "studenci"
 #    expand_details: "Expand details"
 #    concepts: "Concepts"
 #    levels: "levels"
@@ -896,7 +914,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    capacity_used: "Course slots used:"
 #    enter_emails: "Enter student emails to invite, one per line"
 #    send_invites: "Send Invites"
-#    title: "Title"
+    title: "Tytuł"
 #    description: "Description"
 #    creating_class: "Creating class..."
 #    purchasing_course: "Purchasing course..."
@@ -938,9 +956,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    enter_code1: "Enter unlock code"
 #    enroll: "Enroll"
 #    pick_from_classes: "Pick from your current classes"
-#    enter: "Enter"
-#    or: "Or"
-#    topics: "Topics"
+    enter: "Enter"
+    or: "Lub"
+    topics: "Tematy"
 #    hours_content: "Hours of content:"
 #    get_free: "Get FREE course"
 
@@ -1185,12 +1203,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    tournament_blurb_blog: "on our blog"
     rules: "Zasady"
     winners: "Zwycięzcy"
-#    league: "League"
+    league: "Liga"
 #    red_ai: "Red AI" # "Red AI Wins", at end of multiplayer match playback
 #    blue_ai: "Blue AI"
 #    wins: "Wins" # At end of multiplayer match playback
-#    humans: "Red" # Ladder page display team name
-#    ogres: "Blue"
+    humans: "Czerwoni" # Ladder page display team name
+    ogres: "Niebiescy"
 
   user:
     stats: "Statystyki"
@@ -1227,7 +1245,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    sale: "Sale"
     subscription: "Subskrypcje"
     invoices: "Faktury"
-#    service_apple: "Apple"
+    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
 #    service: "Service"
@@ -1287,7 +1305,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     bad_input: "Złe dane wejściowe."
     server_error: "Błąd serwera."
     unknown: "Nieznany błąd."
-#    error: "ERROR"
+    error: "BŁĄD"
 
   resources:
     sessions: "Sesje"
@@ -1306,7 +1324,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     patches: "Łatki"
     patched_model: "Dokument źródłowy"
     model: "Model"
-#    system: "System"
+    system: "System"
 #    systems: "Systems"
     component: "Komponent"
     components: "Komponenty"

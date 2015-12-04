@@ -12,10 +12,14 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
     or_ipad: "Oder lads fürs iPad abä"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Community"
+#    courses: "Courses"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 
   play:
     play_as: "Spiel als" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Zueluege" # Ladder page
     players: "Spieler" # Hover over a level on /play
     hours_played: "Stunde gspilt" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     years: "Johr"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Fertig"
+#    next_level: "Next Level:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "Home" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     victory_title_suffix: " Vollständig"
     victory_sign_up: "Meld dich ah zum din Fortschritt speichere"
     victory_sign_up_poke: "Wötsch din Code speichere? Erstell gratis en Account!"
-    victory_rate_the_level: "Bewerte das Level: " # Only in old-style levels.
+    victory_rate_the_level: "Bewerte das Level: " # {change}
     victory_return_to_ladder: "Zrugg zum letzte Level"
     victory_play_continue: "Wiiter spile"
     victory_saving_progress: "Fortschritt abspaicherä"
@@ -436,13 +444,13 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     parents_blurb3: "Kei Risikos, 100% Geld zrugg Garantie und ganz eifaches deaboniere mid eim Klick"
     payment_methods: "Zalligs Methode"
     payment_methods_title: "Akzeptierti Zalligs Methode"
-    payment_methods_blurb1: "Mier akzeptiered immoment Kreditchartene und  Alipay."
+    payment_methods_blurb1: "Mier akzeptiered immoment Kreditchartene und  Alipay." # {change}
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
 #    sale_already_subscribed: "You're already subscribed!"
-#    sale_blurb1: "Save 35%"
+#    sale_blurb1: "Save $21"
 #    sale_blurb2: "off regular subscription price of $120 for a whole year!"
 #    sale_button: "Sale!"
-#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_button_title: "Save $21 when you purchase a 1 year subscription"
 #    sale_click_here: "Click Here"
 #    sale_ends: "Ends"
 #    sale_extended: "*Existing subscriptions will be extended by 1 year."
@@ -455,7 +463,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    sale_title: "Back to School Sale"
 #    sale_view_button: "Buy 1 year subscription for"
 #    stripe_description: "Monthly Subscription"
-#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
+#    stripe_description_year_sale: "1 Year Subscription ($21 discount)"
     subscription_required_to_play: "Du bruchsch es Abo um das Level zspile."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
-#    teacher_subs_title: "Teachers get free subscriptions!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+#    teacher_subs_title: "Teachers get a free trial!"
+#    teacher_subs_0: "We offer free trials to teachers."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
-#    teacher_subs_3: "to set up your subscription."
+#    teacher_subs_3: "to try out the paid courses."
 #    sub_includes_title: "What is included in the subscription?"
 #    sub_includes_1: "In addition to the 110+ basic levels, students with a monthly subscription get access to these additional features:"
 #    sub_includes_2: "80+ practice levels"
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
-#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_1: "Your application for a free trial is being"
 #    being_reviewed_2: "reviewed."
-#    approved_1: "Your application for a free trial subscription was"
+#    approved_1: "Your application for a free trial was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
-#    denied_1: "Your application for a free trial subscription has been"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+#    denied_1: "Your application for a free trial has been"
 #    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
+#    description_1b: "You can find more information on our"
 #    description_2: "teachers"
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
@@ -730,6 +746,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     password_tab: "Passwort"
     emails_tab: "E-Mails"
     admin: "Admin"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Neus Passwort"
     new_password_verify: "Bestätige"
 #    type_in_email: "Type in your email to confirm account deletion."
@@ -841,6 +858,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    started_2: "Started"
 #    not_started_2: "Not Started"
 #    view_solution: "Click to view solution."
+#    view_attempt: "Click to view attempt."
 #    latest_achievement: "Latest Achievement"
 #    playtime: "Playtime"
 #    last_played: "Last played"

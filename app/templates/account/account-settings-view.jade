@@ -26,6 +26,15 @@ else
               .form-group.checkbox
                 label(for="godmode", data-i18n="account_settings.god_mode") God Mode
                 input#godmode(name="godmode", type="checkbox", checked=godmode)
+            if me.hasSubscription()
+              .form-group
+                label(data-i18n="account.subscription")
+                br
+                span.spr ✓
+                span(data-i18n="account.active")
+                span.spr= '.'
+                // TODO: show better summary states, like active, subscribed, free, and active until.
+                a(href="/account/subscription", data-i18n="account_settings.manage_subscription")
                 
     
       .panel.panel-default

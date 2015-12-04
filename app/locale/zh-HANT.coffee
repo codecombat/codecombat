@@ -12,10 +12,14 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     multiplayer: "多人連線" # Not currently shown on home page
     for_developers: "開發者專區" # Not currently shown on home page.
     or_ipad: "或下載 iPad 版"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "返回地圖" # The top nav bar entry where players choose which levels to play
     community: "社群"
+#    courses: "Courses"
     editor: "編輯"
     blog: "官方部落格"
     forum: "論壇"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   play:
     play_as: "扮演" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "旁觀" # Ladder page
     players: "玩家" # Hover over a level on /play
     hours_played: "小時已玩" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     years: "年"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "完成"
+#    next_level: "Next Level:"
     next_game: "下一個遊戲"
     show_menu: "顯示遊戲菜單"
     home: "首頁" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     victory_title_suffix: "完成"
     victory_sign_up: "保存進度"
     victory_sign_up_poke: "想保存您的程式碼？建立一個免費帳號吧！"
-    victory_rate_the_level: "評估關卡: " # Only in old-style levels.
+    victory_rate_the_level: "評估關卡: " # {change}
     victory_return_to_ladder: "返回升級比賽模式"
     victory_play_continue: "繼續"
     victory_saving_progress: "儲存進度"
@@ -436,13 +444,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     parents_blurb3: "沒有風險: 保證 100% 退費, 一步取消訂閱。"
     payment_methods: "付費方法"
     payment_methods_title: "可接受的付款方式"
-    payment_methods_blurb1: "我們現有的付費方式有信用卡和支付寶"
+    payment_methods_blurb1: "我們現有的付費方式有信用卡和支付寶" # {change}
     payment_methods_blurb2: "如果您想用其他付費方式,請聯繫我們"
     sale_already_subscribed: "您已經訂閱！"
-    sale_blurb1: "和正常一年的訂閱價格 $120 相比"
-    sale_blurb2: "年費訂閱能節省 35%!"
+    sale_blurb1: "和正常一年的訂閱價格 $120 相比" # {change}
+    sale_blurb2: "年費訂閱能節省 $21!"
     sale_button: "促銷！"
-    sale_button_title: "年費訂閱能節省 35% 的費用"
+    sale_button_title: "年費訂閱能節省 $21 的費用" # {change}
     sale_click_here: "點擊這裡"
     sale_ends: "結束"
     sale_extended: "*已訂閱用戶會續期一年。"
@@ -455,7 +463,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     sale_title: "開學促銷"
     sale_view_button: "購買年費訂閱："
     stripe_description: "每月訂閱"
-    stripe_description_year_sale: "年費訂閱 (35% 優惠)"
+    stripe_description_year_sale: "年費訂閱 ($21 優惠)" # {change}
     subscription_required_to_play: "您將需要訂閱來開啟這關。"
     unlock_help_videos: "訂閱來解開所有鎖住得教學影片。"
     personal_sub: "個人訂閱" # Accounts Subscription View below
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     cost_premium_server: "CodeCombat的前5個關卡在中國是免費的，在這之後需花費每月9.99美元來訪問我們架設在中國專屬服務器上的190多個關卡。"
     free_1: "有110多個覆蓋了所有理論的免費關卡。"
     free_2: "包月訂閱可以訪問視頻教程和額外的練習關卡。"
-    teacher_subs_title: "教師可免費訂閱！"
-    teacher_subs_0: "我們可為教師提供用於評估的免費訂閱。"
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "教師可免費訂閱！" # {change}
+    teacher_subs_0: "我們可為教師提供用於評估的免費訂閱。" # {change}
     teacher_subs_1: "請聯繫"
     teacher_subs_2: "教師調查"
-    teacher_subs_3: "建立您的訂閱。"
+    teacher_subs_3: "建立您的訂閱。" # {change}
     sub_includes_title: "訂閱裡包含了什麼內容？"
     sub_includes_1: "除了110＋個基礎關卡，學生包月訂閱還可以使用這些附加功能："
     sub_includes_2: "超過70個練習關卡" # {change}
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     title: "教師調查"
     must_be_logged: "您需要先登入。請先註冊或者在上方的目錄中點擊登入。"
     retrieving: "檢索信息中..."
-    being_reviewed_1: "您的免費訂閱試用申請正在"
+    being_reviewed_1: "您的免費訂閱試用申請正在" # {change}
     being_reviewed_2: "審核。"
-    approved_1: "您的免費訂閱試用申請已被"
+    approved_1: "您的免費訂閱試用申請已被" # {change}
     approved_2: "批准。"
     approved_3: "進一步的說明已被送往"
-    denied_1: "您的免費訂閱試用申請已被"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+    denied_1: "您的免費訂閱試用申請已被" # {change}
     denied_2: "拒絕。"
     contact_1: "請聯繫"
     contact_2: "如果您有更多的疑問。"
     description_1: "我們為教師提供免費訂閱用評估的目的。您可以找到更多的信息在我們的"
+#    description_1b: "You can find more information on our"
     description_2: "教師"
     description_3: "頁面。"
     description_4: "請填寫此簡單問卷，我們將會向您的電子郵件發送設置說明。"
@@ -730,6 +746,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     password_tab: "密碼"
     emails_tab: "郵件"
     admin: "管理員"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "新密碼"
     new_password_verify: "確認密碼"
     type_in_email: "輸入您的Email來確認刪除"
@@ -841,6 +858,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     started_2: "已開始"
     not_started_2: "尚未開始"
     view_solution: "點擊查閱答案。"
+#    view_attempt: "Click to view attempt."
     latest_achievement: "最新成就"
     playtime: "遊戲時間"
     last_played: "最後玩了"

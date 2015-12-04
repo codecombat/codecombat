@@ -4,6 +4,7 @@
     no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"  # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"  # Warning that shows up on mobile devices
     play: "Play"  # The big play button that opens up the campaign view.
+    play_campaign_version: "Play Campaign Version"  # Shows up under big play button if you only play /courses
     old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"  # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "You can try anyway, but it probably won't work."
     ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -12,6 +13,9 @@
     multiplayer: "Multiplayer"  # Not currently shown on home page
     for_developers: "For Developers"  # Not currently shown on home page.
     or_ipad: "Or download for iPad"
+    hoc_class_code: "I Have a Class Code"
+    hoc_enter: "Enter"
+    hoc_title: "Hour of Code?"
 
   nav:
     play: "Levels"  # The top nav bar entry where players choose which levels to play
@@ -218,7 +222,10 @@
     years: "years"
 
   play_level:
+    completed_level: "Completed Level:"
+    course: "Course:"
     done: "Done"
+    next_level: "Next Level:"
     next_game: "Next game"
     show_menu: "Show game menu"
     home: "Home"  # Not used any more, will be removed soon.
@@ -247,7 +254,7 @@
     victory_title_suffix: " Complete"
     victory_sign_up: "Sign Up to Save Progress"
     victory_sign_up_poke: "Want to save your code? Create a free account!"
-    victory_rate_the_level: "How fun was this level?" # {change}
+    victory_rate_the_level: "How fun was this level?"
     victory_return_to_ladder: "Return to Ladder"
     victory_play_continue: "Continue"
     victory_saving_progress: "Saving Progress"
@@ -438,13 +445,13 @@
     parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
     payment_methods: "Payment Methods"
     payment_methods_title: "Accepted Payment Methods"
-    payment_methods_blurb1: "We currently accept credit cards and Alipay."
+    payment_methods_blurb1: "We currently accept credit cards and Alipay. You can also PayPal 29.97 USD to nick@codecombat.com with your account email in the memo to purchase three months' subscription and gems, or $99 for a year."
     payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     sale_already_subscribed: "You're already subscribed!"
-    sale_blurb1: "Save 35%"
+    sale_blurb1: "Save $21"
     sale_blurb2: "off regular subscription price of $120 for a whole year!"
     sale_button: "Sale!"
-    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+    sale_button_title: "Save $21 when you purchase a 1 year subscription"
     sale_click_here: "Click Here"
     sale_ends: "Ends"
     sale_extended: "*Existing subscriptions will be extended by 1 year."
@@ -457,7 +464,7 @@
     sale_title: "Back to School Sale"
     sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Monthly Subscription"
-    stripe_description_year_sale: "1 Year Subscription (35% discount)"
+    stripe_description_year_sale: "1 Year Subscription ($21 discount)"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
 
@@ -616,11 +623,15 @@
     cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "There are 110+ FREE levels which cover every concept."
     free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
-    teacher_subs_title: "Teachers get free subscriptions!"
-    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+    free_3: "The CodeCombat content is divided into"
+    free_4: "courses"
+    free_5: ".  The first course is free, and about an hour of material."
+    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Teachers get a free trial!"
+    teacher_subs_0: "We offer free trials to teachers."
     teacher_subs_1: "Please fill out our"
     teacher_subs_2: "Teacher Survey"
-    teacher_subs_3: "to set up your subscription."
+    teacher_subs_3: "to try out the paid courses."
     sub_includes_title: "What is included in the subscription?"
     sub_includes_1: "In addition to the 110+ basic levels, students with a monthly subscription get access to these additional features:"
     sub_includes_2: "80+ practice levels"
@@ -664,19 +675,19 @@
     title: "Teacher Survey"
     must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     retrieving: "Retrieving information..."
-    being_reviewed_1: "Your application for a free trial is being" # {change}
+    being_reviewed_1: "Your application for a free trial is being"
     being_reviewed_2: "reviewed."
-    approved_1: "Your application for a free trial was" # {change}
+    approved_1: "Your application for a free trial was"
     approved_2: "approved."
     approved_3: "Further instructions have been sent to"
     approved_4: "Enroll your students on the"
     approved_5: "courses"
     approved_6: "page."
-    denied_1: "Your application for a free trial has been" # {change}
+    denied_1: "Your application for a free trial has been"
     denied_2: "denied."
     contact_1: "Please contact"
     contact_2: "if you have further questions."
-    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses." # {change}
+    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
     description_1b: "You can find more information on our"
     description_2: "teachers"
     description_3: "page."
@@ -737,6 +748,7 @@
     password_tab: "Password"
     emails_tab: "Emails"
     admin: "Admin"
+    manage_subscription: "Click here to manage your subscription."
     new_password: "New Password"
     new_password_verify: "Verify"
     type_in_email: "Type in your email to confirm account deletion."
@@ -848,6 +860,7 @@
     started_2: "Started"
     not_started_2: "Not Started"
     view_solution: "Click to view solution."
+    view_attempt: "Click to view attempt."
     latest_achievement: "Latest Achievement"
     playtime: "Playtime"
     last_played: "Last played"
@@ -1171,7 +1184,7 @@
     tutorial_skip: "Skip Tutorial"
     tutorial_not_sure: "Not sure what's going on?"
     tutorial_play_first: "Play the Tutorial first."
-    simple_ai: "Simple AI"
+    simple_ai: "Simple CPU" # {change}
     warmup: "Warmup"
     friends_playing: "Friends Playing"
     log_in_for_friends: "Log in to play with your friends!"
@@ -1193,8 +1206,8 @@
     rules: "Rules"
     winners: "Winners"
     league: "League"
-    red_ai: "Red AI"  # "Red AI Wins", at end of multiplayer match playback
-    blue_ai: "Blue AI"
+    red_ai: "Red CPU"  # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "Blue CPU" # {change}
     wins: "Wins"  # At end of multiplayer match playback
     humans: "Red"  # Ladder page display team name
     ogres: "Blue"

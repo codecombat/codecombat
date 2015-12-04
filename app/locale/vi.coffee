@@ -12,10 +12,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     multiplayer: "Nhiều người chơi" # Not currently shown on home page
     for_developers: "Dành cho nhà phát triển" # Not currently shown on home page.
     or_ipad: "Hoặc tải phiên bản dành cho iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Chơi" # The top nav bar entry where players choose which levels to play
     community: "Cộng đồng"
+#    courses: "Courses"
     editor: "Chỉnh sửa"
     blog: "Blog"
     forum: "Diễn đàn"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   play:
     play_as: "Chơi là" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Quan sát" # Ladder page
     players: "Những người chơi" # Hover over a level on /play
     hours_played: "Thời gian chơi" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     years: "năm"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Hoàn thành"
+#    next_level: "Next Level:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
 #    home: "Home" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     victory_title_suffix: " Xong"
     victory_sign_up: "Đăng kí để lưu tiến trình của bạn"
     victory_sign_up_poke: "Bạn có muốn lưu code của mình lại không ? Hãy tạo một tài khoản miễn phí!"
-    victory_rate_the_level: "Đánh giá màn chơi: " # Only in old-style levels.
+    victory_rate_the_level: "Đánh giá màn chơi: " # {change}
     victory_return_to_ladder: "Quay lại bảng điểm"
     victory_play_continue: "Tiếp tục"
     victory_saving_progress: "Đang lưu tiến trình"
@@ -436,13 +444,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     parents_blurb3: "Không hề có rủi ro: Nếu bạn không hài lòng bạn có thể nhận lại 100% số tiền mình bỏ ra chỉ với 1 cú nhấp chuốt."
     payment_methods: "Những phương thức thanh toán"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay. You can also PayPal 29.97 USD to nick@codecombat.com with your account email in the memo to purchase three months' subscription and gems, or $99 for a year."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
 #    sale_already_subscribed: "You're already subscribed!"
-#    sale_blurb1: "Save 35%"
+#    sale_blurb1: "Save $21"
 #    sale_blurb2: "off regular subscription price of $120 for a whole year!"
 #    sale_button: "Sale!"
-#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_button_title: "Save $21 when you purchase a 1 year subscription"
 #    sale_click_here: "Click Here"
 #    sale_ends: "Ends"
 #    sale_extended: "*Existing subscriptions will be extended by 1 year."
@@ -455,7 +463,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    sale_title: "Back to School Sale"
 #    sale_view_button: "Buy 1 year subscription for"
 #    stripe_description: "Monthly Subscription"
-#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
+#    stripe_description_year_sale: "1 Year Subscription ($21 discount)"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
 #    free_1: "There are 110+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
-#    teacher_subs_title: "Teachers get free subscriptions!"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+#    teacher_subs_title: "Teachers get a free trial!"
+#    teacher_subs_0: "We offer free trials to teachers."
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
-#    teacher_subs_3: "to set up your subscription."
+#    teacher_subs_3: "to try out the paid courses."
 #    sub_includes_title: "What is included in the subscription?"
 #    sub_includes_1: "In addition to the 110+ basic levels, students with a monthly subscription get access to these additional features:"
 #    sub_includes_2: "80+ practice levels"
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
-#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_1: "Your application for a free trial is being"
 #    being_reviewed_2: "reviewed."
-#    approved_1: "Your application for a free trial subscription was"
+#    approved_1: "Your application for a free trial was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
-#    denied_1: "Your application for a free trial subscription has been"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+#    denied_1: "Your application for a free trial has been"
 #    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
+#    description_1b: "You can find more information on our"
 #    description_2: "teachers"
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
@@ -730,6 +746,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     password_tab: "Mật khẩu"
     emails_tab: "Emails"
     admin: "Admin"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Mật khẩu mới"
     new_password_verify: "Xác nhận"
 #    type_in_email: "Type in your email to confirm account deletion."
@@ -841,6 +858,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    started_2: "Started"
 #    not_started_2: "Not Started"
 #    view_solution: "Click to view solution."
+#    view_attempt: "Click to view attempt."
 #    latest_achievement: "Latest Achievement"
 #    playtime: "Playtime"
 #    last_played: "Last played"
@@ -1110,7 +1128,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    diplomat_i18n_page: "translations page"
 #    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
 #    diplomat_join_pref_github: "Find your language locale file "
-    diplomat_github_url:  "ở trên GitHub"
+    diplomat_github_url: "ở trên GitHub"
 #    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"
 #    diplomat_subscribe_desc: "Get emails about i18n developments and levels to translate."
 #    ambassador_introduction: "This is a community we're building, and you are the connections. We've got forums, emails, and social networks with lots of people to talk with and help get acquainted with the game and learn from. If you want to help people get involved and have fun, and get a good feel of the pulse of CodeCombat and where we're going, then this class might be for you."

@@ -25,9 +25,10 @@ module.exports = class Angel extends CocoClass
     super()
     @say 'Got my wings.'
     isIE = window.navigator and (window.navigator.userAgent.search('MSIE') isnt -1 or window.navigator.appName is 'Microsoft Internet Explorer')
-    if isIE or @shared.headless
-      # Since IE is so slow to serialize without transferable objects, we can't trust it.
-      # We also noticed the headless_client simulator needing more time. (This does both Simulators, though.)
+    slowerSimulations = isIE  #or @shared.headless
+    # Since IE is so slow to serialize without transferable objects, we can't trust it.
+    # We also noticed the headless_client simulator needing more time. (This does both Simulators, though.) If we need to use lots of headless clients, enable this.
+    if slowerSimulations
       @infiniteLoopIntervalDuration *= 10
       @infiniteLoopTimeoutDuration *= 10
       @abortTimeoutDuration *= 10
@@ -89,7 +90,7 @@ module.exports = class Angel extends CocoClass
 
       # We have to abort like an infinite loop if we see one of these; they're not really recoverable
       when 'non-user-code-problem'
-        Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem
+        Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem, god: @shared.god
         if @shared.firstWorld
           @infinitelyLooped(false, true)  # For now, this should do roughly the right thing if it happens during load.
         else
@@ -108,9 +109,9 @@ module.exports = class Angel extends CocoClass
       when 'console-log'
         @log event.data.args...
       when 'user-code-problem'
-        Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
+        Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem, god: @shared.god
       when 'world-load-progress-changed'
-        Backbone.Mediator.publish 'god:world-load-progress-changed', progress: event.data.progress
+        Backbone.Mediator.publish 'god:world-load-progress-changed', progress: event.data.progress, god: @shared.god
         unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or (@shared.firstWorld and not @shared.spectate)
           @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
 
@@ -126,7 +127,8 @@ module.exports = class Angel extends CocoClass
 
   beholdGoalStates: (goalStates, overallStatus, preload=false) ->
     return if @aborting
-    Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates, preload: preload, overallStatus: overallStatus
+    Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates, preload: preload, overallStatus: overallStatus, god: @shared.god
+    @shared.god.trigger 'goals-calculated', goalStates: goalStates, preload: preload, overallStatus: overallStatus
     @finishWork() if @shared.headless
 
   beholdWorld: (serialized, goalStates, startFrame, endFrame, streamingWorld) ->
@@ -176,8 +178,9 @@ module.exports = class Angel extends CocoClass
     return if @aborting
     problem = type: 'runtime', level: 'error', id: 'runtime_InfiniteLoop', message: 'Code never finished. It\'s either really slow or has an infinite loop.'
     problem.message = 'Escape pressed; code aborted.' if escaped
-    Backbone.Mediator.publish 'god:user-code-problem', problem: problem
-    Backbone.Mediator.publish 'god:infinite-loop', firstWorld: @shared.firstWorld, nonUserCodeProblem: nonUserCodeProblem
+    Backbone.Mediator.publish 'god:user-code-problem', problem: problem, god: @shared.god
+    Backbone.Mediator.publish 'god:infinite-loop', firstWorld: @shared.firstWorld, nonUserCodeProblem: nonUserCodeProblem, god: @shared.god
+    @shared.god.trigger 'infinite-loop', firstWorld: @shared.firstWorld, nonUserCodeProblem: nonUserCodeProblem  # For Simulator. TODO: refactor all the god:* Mediator events to be local events.
     @reportLoadError() if nonUserCodeProblem
     @fireWorker()
 
@@ -308,7 +311,7 @@ module.exports = class Angel extends CocoClass
     i = 0
     while i < work.testWorld.totalFrames
       frame = work.testWorld.getFrame i++
-    Backbone.Mediator.publish 'god:world-load-progress-changed', progress: 1
+    Backbone.Mediator.publish 'god:world-load-progress-changed', progress: 1, god: @shared.god
     work.testWorld.ended = true
     system.finish work.testWorld.thangs for system in work.testWorld.systems
     work.t2 = now()

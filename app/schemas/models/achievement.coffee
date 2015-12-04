@@ -19,7 +19,7 @@ MongoFindQuerySchema =
   title: 'Query'
   type: 'object'
   patternProperties:
-    '^[-a-zA-Z0-9.]*$':
+    '^[-a-zA-Z0-9._]*$':
       anyOf: [
         {$ref: '#/definitions/mongoQueryOperator'},
         {type: 'string'}

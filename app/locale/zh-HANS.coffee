@@ -12,10 +12,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     multiplayer: "多人游戏" # Not currently shown on home page
     for_developers: "适合开发者" # Not currently shown on home page.
     or_ipad: "或下载iPad版本"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "关卡选择" # The top nav bar entry where players choose which levels to play
     community: "社区"
+#    courses: "Courses"
     editor: "编辑器"
     blog: "博客"
     forum: "论坛"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   play:
     play_as: "扮演" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "旁观他人的游戏" # Ladder page
     players: "玩家" # Hover over a level on /play
     hours_played: "游戏时长" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     years: "年"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "完成"
+#    next_level: "Next Level:"
     next_game: "下一场游戏"
     show_menu: "显示游戏菜单"
     home: "主页" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_title_suffix: " 完成"
     victory_sign_up: "保存进度"
     victory_sign_up_poke: "想保存您的代码？创建一个免费账户吧！"
-    victory_rate_the_level: "评估关卡：" # Only in old-style levels.
+    victory_rate_the_level: "评估关卡：" # {change}
     victory_return_to_ladder: "返回"
     victory_play_continue: "继续游戏"
     victory_saving_progress: "保存进度"
@@ -436,13 +444,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parents_blurb3: "无风险承诺：100%退款，一键取消订阅。"
     payment_methods: "付费方式"
     payment_methods_title: "可接受的付款方式"
-    payment_methods_blurb1: "我们现有的付费方式有信用卡和支付宝"
+    payment_methods_blurb1: "我们现有的付费方式有信用卡和支付宝" # {change}
     payment_methods_blurb2: "如果您想用其他付费方式,请联系我们"
     sale_already_subscribed: "您已经订阅!"
-    sale_blurb1: "和正常一年的订阅价格 $120 相比"
-    sale_blurb2: "年费订阅能节省 35%！"
+    sale_blurb1: "和正常一年的订阅价格 $120 相比" # {change}
+    sale_blurb2: "年费订阅能节省 $21！"
     sale_button: "促销"
-    sale_button_title: "年费订阅能节省 35% 的费用"
+    sale_button_title: "年费订阅能节省 $21 的费用" # {change}
     sale_click_here: "点击这里"
     sale_ends: "结束"
     sale_extended: "*已订阅用户会续期一年。"
@@ -455,7 +463,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     sale_title: "开学促销"
     sale_view_button: "购买年费订阅："
     stripe_description: "每月订阅"
-    stripe_description_year_sale: "年费订阅 (优惠 35%)"
+    stripe_description_year_sale: "年费订阅 (优惠 $21)" # {change}
     subscription_required_to_play: "订阅后才可开始本关"
     unlock_help_videos: "订阅后才可以解锁视频教学哦！"
     personal_sub: "个人订阅" # Accounts Subscription View below
@@ -601,9 +609,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     rob_title: "编译器工程师"
     rob_blurb: "编代码之类的"
     josh_c_title: "游戏设计师"
-    josh_c_blurb: "设计游戏" # or what
+    josh_c_blurb: "设计游戏"
     carlos_title: "地区经理, 巴西"
-    carlos_blurb: "食草男" # unless you have a better one for "celery man"
+    carlos_blurb: "食草男"
 
   teachers:
     more_info: "教师的说明"
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     cost_premium_server: "CodeCombat的前5个关卡是免费的，在这之后需花费每月9.99美元来访问我们架设专属服务器上的190多个关卡。"
     free_1: "有110多个覆盖了所有理论的免费关卡。"
     free_2: "包月订阅可以访问视频教程和额外的练习关卡。"
-    teacher_subs_title: "教师可免费订阅!"
-    teacher_subs_0: "我们可为教师提供用于评估的免费订阅。"
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "教师可免费订阅!" # {change}
+    teacher_subs_0: "我们可为教师提供用于评估的免费订阅。" # {change}
     teacher_subs_1: "请填写我们的"
     teacher_subs_2: "教师调查"
-    teacher_subs_3: "建立您的订阅。"
+    teacher_subs_3: "建立您的订阅。" # {change}
     sub_includes_title: "订阅里包含了什么内容？"
     sub_includes_1: "除了110+个基础关卡，学生包月订阅还可以使用这些附加功能："
     sub_includes_2: "超过70个练习关卡" # {change}
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     title: "教师调查"
     must_be_logged: "您需要先登陆。请先注册或者在上方的目录中点击登陆。"
     retrieving: "检索信息中..."
-    being_reviewed_1: "您的免费订阅试用申请正在"
+    being_reviewed_1: "您的免费订阅试用申请正在" # {change}
     being_reviewed_2: "审核。"
-    approved_1: "您的免费订阅试用申请已被"
+    approved_1: "您的免费订阅试用申请已被" # {change}
     approved_2: "批准。"
     approved_3: "进一步的说明已被送往"
-    denied_1: "您的免费订阅试用申请已被"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+    denied_1: "您的免费订阅试用申请已被" # {change}
     denied_2: "拒绝。"
     contact_1: "如果你有进一步的问题, 请联系"
     contact_2: "。"
     description_1: "我们可为教师提供用于评估的免费订阅。你可以在我们的"
+#    description_1b: "You can find more information on our"
     description_2: "教师"
     description_3: "页面找到更多的信息。"
     description_4: "请填写此简单问卷，我们将会向您的电子邮件发送设置说明。"
@@ -730,6 +746,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     password_tab: "密码"
     emails_tab: "邮件"
     admin: "管理"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "新密码"
     new_password_verify: "再次输入密码"
     type_in_email: "输入您的邮箱地址"
@@ -841,6 +858,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     started_2: "已开始"
     not_started_2: "还没开始"
     view_solution: "点击查阅答案。"
+#    view_attempt: "Click to view attempt."
     latest_achievement: "最新成就"
     playtime: "游戏时间"
     last_played: "最后玩了"

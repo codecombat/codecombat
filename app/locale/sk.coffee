@@ -12,10 +12,14 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     multiplayer: "Viac hráčov" # Not currently shown on home page
     for_developers: "Pre vývojárov" # Not currently shown on home page.
     or_ipad: "Alebo stiahni pre iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Hraj" # The top nav bar entry where players choose which levels to play
     community: "Komunita"
+#    courses: "Courses"
     editor: "Editor"
     blog: "Blog"
     forum: "Fórum"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
   play:
     play_as: "Hraj ako" # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Sledovať" # Ladder page
     players: "hráči" # Hover over a level on /play
     hours_played: "odohratých hodín" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     years: "rokov"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Hotovo"
+#    next_level: "Next Level:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "Domov" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     victory_title_suffix: " Kompletné"
     victory_sign_up: "Přihlásit se pre uloženie progresu"
     victory_sign_up_poke: "Chceš uložiť svoj kód? Vytvorte si účet zdarma!"
-    victory_rate_the_level: "Ohodnoťte túto úroveň: " # Only in old-style levels.
+    victory_rate_the_level: "Ohodnoťte túto úroveň: " # {change}
     victory_return_to_ladder: "Rebríčky"
     victory_play_continue: "Pokračovať"
     victory_saving_progress: "Stav ukladania"
@@ -436,13 +444,13 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay. You can also PayPal 29.97 USD to nick@codecombat.com with your account email in the memo to purchase three months' subscription and gems, or $99 for a year."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
 #    sale_already_subscribed: "You're already subscribed!"
-#    sale_blurb1: "Save 35%"
+#    sale_blurb1: "Save $21"
 #    sale_blurb2: "off regular subscription price of $120 for a whole year!"
 #    sale_button: "Sale!"
-#    sale_button_title: "Save 35% when you purchase a 1 year subscription"
+#    sale_button_title: "Save $21 when you purchase a 1 year subscription"
 #    sale_click_here: "Click Here"
 #    sale_ends: "Ends"
 #    sale_extended: "*Existing subscriptions will be extended by 1 year."
@@ -455,7 +463,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    sale_title: "Back to School Sale"
 #    sale_view_button: "Buy 1 year subscription for"
 #    stripe_description: "Monthly Subscription"
-#    stripe_description_year_sale: "1 Year Subscription (35% discount)"
+#    stripe_description_year_sale: "1 Year Subscription ($21 discount)"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    cost_premium_server: "CodeCombat is free for the first five levels, after which it costs $9.99 USD per month for access to our other 190+ levels on our exclusive country-specific servers."
     free_1: "CodeCombat Basic is ZDARMA ! K dispozícii je 70+ úrovní pokrývajúcich každý koncept." # {change}
     free_2: "Mesačné predplatné poskytuje prístup k videonávodom a k úrovniam na precvičenie navyše."
-    teacher_subs_title: "Pre učiteľov je predplatné zdarma !"
-#    teacher_subs_0: "We offer free subscriptions to teachers for evaluation purposes."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Pre učiteľov je predplatné zdarma !" # {change}
+#    teacher_subs_0: "We offer free trials to teachers."
     teacher_subs_1: "Napíšte na" # {change}
     teacher_subs_2: "pre zriadenie mesačného predplatného zdarma." # {change}
-#    teacher_subs_3: "to set up your subscription."
+#    teacher_subs_3: "to try out the paid courses."
     sub_includes_title: "Čo zahrnuje predplatné ?"
     sub_includes_1: "Študenti s mesačným predplatným získajú ku 70+ základným úrovniam  aj :" # {change}
     sub_includes_2: "40+ tréningových úrovní" # {change}
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
-#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_1: "Your application for a free trial is being"
 #    being_reviewed_2: "reviewed."
-#    approved_1: "Your application for a free trial subscription was"
+#    approved_1: "Your application for a free trial was"
 #    approved_2: "approved."
 #    approved_3: "Further instructions have been sent to"
-#    denied_1: "Your application for a free trial subscription has been"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+#    denied_1: "Your application for a free trial has been"
 #    denied_2: "denied."
 #    contact_1: "Please contact"
 #    contact_2: "if you have further questions."
-#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
+#    description_1b: "You can find more information on our"
 #    description_2: "teachers"
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
@@ -730,9 +746,10 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     password_tab: "Heslo"
     emails_tab: "E-maily"
     admin: "Spravovať"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Nové heslo"
     new_password_verify: "Overenie"
-    type_in_email: "Zadaj email na potvrdenie zrušenia účtu" # {change}
+    type_in_email: "Zadaj email na potvrdenie zrušenia účtu"
 #    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Odoberať emailom"
@@ -841,6 +858,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    started_2: "Started"
 #    not_started_2: "Not Started"
 #    view_solution: "Click to view solution."
+#    view_attempt: "Click to view attempt."
 #    latest_achievement: "Latest Achievement"
 #    playtime: "Playtime"
 #    last_played: "Last played"

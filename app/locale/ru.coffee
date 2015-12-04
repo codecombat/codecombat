@@ -12,10 +12,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     multiplayer: "Мультиплеер" # Not currently shown on home page
     for_developers: "Разработчикам" # Not currently shown on home page.
     or_ipad: "Или скачайте на iPad"
+#    hoc_class_code: "I Have a Class Code"
+#    hoc_enter: "Enter"
+#    hoc_title: "Hour of Code?"
 
   nav:
     play: "Уровни" # The top nav bar entry where players choose which levels to play
     community: "Сообщество"
+#    courses: "Courses"
     editor: "Редактор"
     blog: "Блог"
     forum: "Форум"
@@ -50,6 +54,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   play:
     play_as: "Играть за " # Ladder page
+#    compete: "Compete!" # Course details page
     spectate: "Наблюдать" # Ladder page
     players: "игроки" # Hover over a level on /play
     hours_played: "часов сыграно" # Hover over a level on /play
@@ -216,7 +221,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     years: "лет"
 
   play_level:
+#    completed_level: "Completed Level:"
+#    course: "Course:"
     done: "Готово"
+#    next_level: "Next Level:"
     next_game: "Следующая игра"
     show_menu: "Показать меню игры"
     home: "На главную" # Not used any more, will be removed soon.
@@ -245,7 +253,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_title_suffix: " завершён"
     victory_sign_up: "Зарегистрируйтесь, чтобы сохранить прогресс"
     victory_sign_up_poke: "Хотите сохранить ваш код? Создайте бесплатный аккаунт!"
-    victory_rate_the_level: "Оцените уровень:" # Only in old-style levels.
+    victory_rate_the_level: "Оцените уровень:" # {change}
     victory_return_to_ladder: "Вернуться к ладдеру"
     victory_play_continue: "Продолжить"
     victory_saving_progress: "Процесс сохранения"
@@ -436,13 +444,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     parents_blurb3: "Без риска: 100% гарантия возврата денег, возможность отписаться в 1 клик."
     payment_methods: "Методы оплаты"
     payment_methods_title: "Принимаемые методы оплаты"
-    payment_methods_blurb1: "На данный момент мы принимаем кредитные карты и Alipay."
+    payment_methods_blurb1: "На данный момент мы принимаем кредитные карты и Alipay." # {change}
     payment_methods_blurb2: "Если вам необходим альтернативный способ оплаты, пожалуйста, свяжитесь"
     sale_already_subscribed: "У вас уже есть подписка!"
-    sale_blurb1: "Скидка 35%"
+    sale_blurb1: "Скидка $21" # {change}
     sale_blurb2: "от годовой подписки за $120 на весь год!"
     sale_button: "Распродажа!"
-    sale_button_title: "Сэкономьте 35% при приобретении годовой подписки"
+    sale_button_title: "Сэкономьте $21 при приобретении годовой подписки" # {change}
     sale_click_here: "Нажмите сюда"
     sale_ends: "Заканчивается"
     sale_extended: "*Текущие подписки будут продлены на год."
@@ -455,7 +463,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sale_title: "Назад на школьную распродажу"
     sale_view_button: "Купи годовую подписку за"
     stripe_description: "Месячная подписка"
-    stripe_description_year_sale: "Годовая подписка (35% скидка)"
+    stripe_description_year_sale: "Годовая подписка ($21 скидка)" # {change}
     subscription_required_to_play: "Чтобы сыграть этот уровень нужна подписка."
     unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
     personal_sub: "Личная подписка" # Accounts Subscription View below
@@ -613,11 +621,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     cost_premium_server: "CodeCombat бесплатный в течение первых пяти уровней, после чего он стоит $ 9,99 USD в месяц за доступ к другим нашим 190+ уровням на наших эксклюзивных серверах."
     free_1: "В наличии более 80 БЕСПЛАТНЫХ уровней, которые покрывают каждый концепт." # {change}
     free_2: "Месячная подписка предоставляет доступ к видео-урокам и дополнительным уровням."
-    teacher_subs_title: "Учителя получают бесплатные подписки!"
-    teacher_subs_0: "Мы предлагаем бесплатную подписку для тестирования студентов."
+#    free_3: "The CodeCombat content is divided into"
+#    free_4: "courses"
+#    free_5: ".  The first course is free, and about an hour of material."
+#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    teacher_subs_title: "Учителя получают бесплатные подписки!" # {change}
+    teacher_subs_0: "Мы предлагаем бесплатную подписку для тестирования студентов." # {change}
     teacher_subs_1: "Пожалуйста, заполните нашу"
     teacher_subs_2: "Анкету учителя"
-    teacher_subs_3: "для настройки вашей подписки."
+    teacher_subs_3: "для настройки вашей подписки." # {change}
     sub_includes_title: "Что включено в подписку?"
     sub_includes_1: "В дополнение к более чем 80 бесплатным уровням ученики с месячной подпиской получат доступ к дополнительным возможностям:" # {change}
     sub_includes_2: "Более 60 уровней для дополнительной практики" # {change}
@@ -661,16 +673,20 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     title: "Анкета учителя"
     must_be_logged: "Сначала необходимо войти в аккаунт. Пожалуйста, создайте аккаунт или войдите через меню вверху."
     retrieving: "Получение информации..."
-    being_reviewed_1: "Ваша заявка на бесплатную пробную подписку сейчас"
+    being_reviewed_1: "Ваша заявка на бесплатную пробную подписку сейчас" # {change}
     being_reviewed_2: "на рассмотрении." # {change}
-    approved_1: "Ваша заявка на бесплатную пробную подписку была"
+    approved_1: "Ваша заявка на бесплатную пробную подписку была" # {change}
     approved_2: "утверждена." # {change}
     approved_3: "Дальнейшие инструкции были высланы на"
-    denied_1: "Ваша заявка на бесплатную пробную подписку была"
+#    approved_4: "Enroll your students on the"
+#    approved_5: "courses"
+#    approved_6: "page."
+    denied_1: "Ваша заявка на бесплатную пробную подписку была" # {change}
     denied_2: "отклонена." # {change}
     contact_1: "Пожалуйста, свяжитесь с"
     contact_2: ", если у вас остались вопросы."
     description_1: "Мы предлагаем бесплатные подписки учителям в целях ознакомления. Вы можете найти больше информации на нашей странице"
+#    description_1b: "You can find more information on our"
     description_2: "учителей"
     description_3: ""
     description_4: "Пожалуйста, заполните эту маленькую анкету и мы вышлем вам инструкции по установке на email."
@@ -730,9 +746,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     password_tab: "Пароль"
     emails_tab: "Email-адреса"
     admin: "Админ"
+#    manage_subscription: "Click here to manage your subscription."
     new_password: "Новый пароль"
     new_password_verify: "Подтверждение пароля"
-    type_in_email: "Введите ваш email для подтверждения удаления аккаунта" # {change}
+    type_in_email: "Введите ваш email для подтверждения удаления аккаунта"
 #    type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "Так же введите ваш пароль" # {change}
     email_subscriptions: "Email-подписки"
@@ -841,6 +858,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     started_2: "Начат"
     not_started_2: "Не начат"
     view_solution: "Нажмите, чтобы увидеть решение."
+#    view_attempt: "Click to view attempt."
     latest_achievement: "Последнее достижение"
     playtime: "Время игры"
     last_played: "Последняя игра"
