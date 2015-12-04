@@ -10,6 +10,7 @@ CourseInstance = require 'models/CourseInstance'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-courses-view'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
+Prepaids = require 'collections/Prepaids'
 
 module.exports = class TeacherCoursesView extends RootView
   id: 'teacher-courses-view'
@@ -32,6 +33,11 @@ module.exports = class TeacherCoursesView extends RootView
     @courseInstances.comparator = 'courseID'
     @courseInstances.sliceWithMembers = -> return @filter (courseInstance) -> _.size(courseInstance.get('members')) and courseInstance.get('classroomID')
     @supermodel.loadCollection(@courseInstances, 'course_instances', {data: {ownerID: me.id}})
+    @prepaids = new Prepaids()
+    @prepaids.comparator = '_id'
+    if not me.isAnonymous()
+      @prepaids.fetchByCreator(me.id)
+      @supermodel.loadCollection(@prepaids, 'prepaids') # just registers
     @members = new CocoCollection([], { model: User })
     @listenTo @members, 'sync', @render
     @

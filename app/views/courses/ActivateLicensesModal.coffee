@@ -1,7 +1,7 @@
 ModalView = require 'views/core/ModalView'
 template = require 'templates/courses/activate-licenses-modal'
 CocoCollection = require 'collections/CocoCollection'
-Prepaid = require 'models/Prepaid'
+Prepaids = require 'collections/Prepaids'
 User = require 'models/User'
 
 module.exports = class ActivateLicensesModal extends ModalView
@@ -16,12 +16,10 @@ module.exports = class ActivateLicensesModal extends ModalView
     @classroom = options.classroom
     @users = options.users
     @user = options.user
-    @prepaids = new CocoCollection([], { url: "/db/prepaid", model: Prepaid })
-    sum = (numbers) -> _.reduce(numbers, (a, b) -> a + b)
-    @prepaids.totalMaxRedeemers = -> sum((prepaid.get('maxRedeemers') for prepaid in @models)) or 0
-    @prepaids.totalRedeemers = -> sum((_.size(prepaid.get('redeemers')) for prepaid in @models)) or 0
+    @prepaids = new Prepaids()
     @prepaids.comparator = '_id'
-    @supermodel.loadCollection(@prepaids, 'prepaids', {data: {creator: me.id}})
+    @prepaids.fetchByCreator(me.id)
+    @supermodel.loadCollection(@prepaids, 'prepaids')
     
   afterRender: ->
     super()
