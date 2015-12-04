@@ -13,7 +13,15 @@ module.exports = class HomeView extends RootView
     window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage'
     if @getQueryVariable 'hour_of_code'
       application.router.navigate "/hoc", trigger: true
-    if @justPlaysCourses()
+
+    isHourOfCodeWeek = true  # Temporary: default to /hoc flow during the main event week
+    if isHourOfCodeWeek and (@isNewPlayer() or (@justPlaysCourses() and me.isAnonymous()))
+      # Go/return straight to playing single-player HoC course on Play click
+      @playURL = '/hoc?go=true'
+      @alternatePlayURL = '/play'
+      @alternatePlayText = 'home.play_campaign_version'
+    else if @justPlaysCourses()
+      # Save players who might be in a classroom from getting into the campaign
       @playURL = '/courses'
       @alternatePlayURL = '/play'
       @alternatePlayText = 'home.play_campaign_version'
@@ -44,3 +52,6 @@ module.exports = class HomeView extends RootView
   justPlaysCourses: ->
     # This heuristic could be better, but currently we don't add to me.get('courseInstances') for single-player anonymous intro courses, so they have to beat a level without choosing a hero.
     return me.get('stats')?.gamesCompleted and not me.get('heroConfig')
+
+  isNewPlayer: ->
+    not me.get('stats')?.gamesCompleted and not me.get('heroConfig')

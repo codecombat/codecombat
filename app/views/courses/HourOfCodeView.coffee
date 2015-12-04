@@ -52,7 +52,7 @@ module.exports = class HourOfCodeView extends RootView
           project: 'name,slug'
         }
       })
-    
+
   setUpHourOfCode: ->
     # If we haven't tracked this player as an hourOfCode player yet, and it's a new account, we do that now.
     elapsed = new Date() - new Date(me.get('dateCreated'))
@@ -62,6 +62,10 @@ module.exports = class HourOfCodeView extends RootView
       $('body').append($('<img src="https://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
       application.tracker?.trackEvent 'Hour of Code Begin'
 
+  afterRender: ->
+    super()
+    @onClickStartNewGameButton() if @getQueryVariable('go') and not @lastLevel
+
   onClickStartNewGameButton: ->
     # user without hour of code course instance, creates one, starts playing
     modal = new ChooseLanguageModal({
@@ -69,7 +73,7 @@ module.exports = class HourOfCodeView extends RootView
     })
     @openModalView(modal)
     @listenToOnce modal, 'set-language', @startHourOfCodePlay
-    
+
   continuePlayingLink: ->
     ci = @hourOfCodeCourseInstance
     "/play/level/#{@lastLevel.get('slug')}?course=#{ci.get('courseID')}&course-instance=#{ci.id}"
@@ -93,5 +97,4 @@ module.exports = class HourOfCodeView extends RootView
     @openModalView(modal)
 
   onClickLogOutLink: ->
-    auth.logoutUser() 
-   
+    auth.logoutUser()
