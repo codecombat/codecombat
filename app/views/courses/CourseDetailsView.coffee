@@ -199,8 +199,8 @@ module.exports = class CourseDetailsView extends RootView
       @loadAllCourses()
 
   onClickPlayLevel: (e) ->
-    levelSlug = $(e.target).data('level-slug')
-    levelID = $(e.target).data('level-id')
+    levelSlug = $(e.target).closest('.btn-play-level').data('level-slug')
+    levelID = $(e.target).closest('.btn-play-level').data('level-id')
     level = @campaign.get('levels')[levelID]
     if level.type is 'course-ladder'
       viewClass = 'views/ladder/LadderView'
