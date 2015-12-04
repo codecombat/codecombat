@@ -123,7 +123,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
       Classroom.find {members: mongoose.Types.ObjectId(memberID)}, (err, classrooms) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, (@formatEntity(req, classroom) for classroom in classrooms))
-    else if code = req.query.code.toLowerCase()
+    else if code = req.query.code
       code = code.toLowerCase()
       Classroom.findOne {code: code}, (err, classroom) =>
         return @sendDatabaseError(res, err) if err
