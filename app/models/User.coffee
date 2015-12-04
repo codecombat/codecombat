@@ -131,17 +131,6 @@ module.exports = class User extends CocoModel
     application.tracker.identify fourthLevelGroup: @fourthLevelGroup unless me.isAdmin()
     @fourthLevelGroup
 
-  getSubscriptionPromptGroup: ->
-    return @subscriptionPromptGroup if @subscriptionPromptGroup
-    group = me.get('testGroupNumber') % 3
-    @subscriptionPromptGroup = switch group
-      when 0 then 'favorable-odds'
-      when 1 then 'tactical-strike'
-      when 2 then 'boom-and-bust'
-    @subscriptionPromptGroup = 'favorable-odds' if me.isAdmin()
-    application.tracker.identify subscriptionPromptGroup: @subscriptionPromptGroup unless me.isAdmin()
-    @subscriptionPromptGroup
-
   getVideoTutorialStylesIndex: (numVideos=0)->
     # A/B Testing video tutorial styles
     # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)

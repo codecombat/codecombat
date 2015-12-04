@@ -19,7 +19,6 @@ module.exports = class CourseDetailsView extends RootView
   events:
     'change .progress-expand-checkbox': 'onCheckExpandedProgress'
     'click .btn-play-level': 'onClickPlayLevel'
-    'click .btn-save-settings': 'onClickSaveSettings'
     'click .btn-select-instance': 'onClickSelectInstance'
     'click .progress-member-header': 'onClickMemberHeader'
     'click .progress-header': 'onClickProgressHeader'
@@ -219,27 +218,21 @@ module.exports = class CourseDetailsView extends RootView
 
   onClickPlayLevel: (e) ->
     levelSlug = $(e.target).data('level-slug')
-    Backbone.Mediator.publish 'router:navigate', {
-      route: @getLevelURL levelSlug
-      viewClass: 'views/play/level/PlayLevelView'
-      viewArgs: [{courseID: @courseID, courseInstanceID: @courseInstanceID}, levelSlug]
-    }
+    levelID = $(e.target).data('level-id')
+    level = @campaign.get('levels')[levelID]
+    if level.type is 'course-ladder'
+      route = '/play/ladder/' + levelSlug
+      route += '/course/' + @courseInstance.id if @courseInstance.get('members').length > 1  # No league for solo courses
+      Backbone.Mediator.publish 'router:navigate', route: route
+    else
+      Backbone.Mediator.publish 'router:navigate', {
+        route: @getLevelURL levelSlug
+        viewClass: 'views/play/level/PlayLevelView'
+        viewArgs: [{courseID: @courseID, courseInstanceID: @courseInstanceID}, levelSlug]
+      }
 
   getLevelURL: (levelSlug) ->
     "/play/level/#{levelSlug}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
-
-  onClickSaveSettings:  (e) ->
-    return unless @courseInstance
-    if name = $('.settings-name-input').val()
-      @courseInstance.set('name', name)
-    description = $('.settings-description-input').val()
-    console.log 'onClickSaveSettings', description
-    @courseInstance.set('description', description)
-    @courseInstance.set('aceConfig', {
-      language: @$('#programming-language-select').val()
-    })
-    @courseInstance.patch()
-    $('#settingsModal').modal('hide')
 
   onClickSelectInstance: (e) ->
     courseInstanceID = $('.select-instance').val()

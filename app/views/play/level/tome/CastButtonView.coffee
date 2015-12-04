@@ -56,7 +56,7 @@ module.exports = class CastButtonView extends CocoView
       @$el.find('.submit-button').hide()  # Hide Submit for the first few until they run it once.
     if @options.session.get('state')?.complete and @options.level.get 'hidesRealTimePlayback'
       @$el.find('.done-button').show()
-    if @options.level.get('slug') is 'thornbush-farm'# and not @options.session.get('state')?.complete
+    if @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
       @$el.find('.submit-button').hide()  # Hide submit until first win so that script can explain it.
     @updateReplayability()
     @updateLadderSubmissionViews()
@@ -114,17 +114,17 @@ module.exports = class CastButtonView extends CocoView
     return if @winnable is winnable
     @winnable = winnable
     @$el.toggleClass 'winnable', @winnable
-    Backbone.Mediator.publish 'tome:winnability-updated', winnable: @winnable
+    Backbone.Mediator.publish 'tome:winnability-updated', winnable: @winnable, level: @options.level
     if @options.level.get 'hidesRealTimePlayback'
       @$el.find('.done-button').toggle @winnable
-    else if @winnable and @options.level.get('slug') is 'thornbush-farm'
+    else if @winnable and @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
       @$el.find('.submit-button').show()  # Hide submit until first win so that script can explain it.
 
   onGoalsCalculated: (e) ->
     # When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.
     return unless e.preload
     return if @options.level.get 'hidesRealTimePlayback'
-    return if @options.level.get('slug') is 'thornbush-farm'  # Don't show it until they actually win for this first one.
+    return if @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']  # Don't show it until they actually win for this first one.
     @onNewGoalStates e
 
   updateCastButton: ->

@@ -48,7 +48,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @session = options.session
     @level = options.level
     @thangTypes = {}
-    if @level.get('type', true) is 'hero'
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'course', 'course-ladder']
       achievements = new CocoCollection([], {
         url: "/db/achievement?related=#{@session.get('level').original}"
         model: Achievement
@@ -212,7 +212,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   afterRender: ->
     super()
-    @$el.toggleClass 'with-achievements', @level.get('type', true) is 'hero'
+    @$el.toggleClass 'with-achievements', @level.get('type', true) in ['hero', 'hero-ladder']
     return unless @supermodel.finished()
     @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
     @updateSavingProgressStatus()
@@ -222,8 +222,8 @@ module.exports = class HeroVictoryModal extends ModalView
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
   initializeAnimations: ->
-    if @level.get('type', true) is 'hero'
-      @updateXPBars 0
+    return @endSequentialAnimations() unless @level.get('type', true) in ['hero', 'hero-ladder']
+    @updateXPBars 0
     #playVictorySound = => @playSound 'victory-title-appear'  # TODO: actually add this
     @$el.find('#victory-header').delay(250).queue(->
       $(@).removeClass('out').dequeue()
@@ -253,7 +253,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   beginSequentialAnimations: ->
     return if @destroyed
-    return unless @level.get('type', true) is 'hero'
+    return unless @level.get('type', true) in ['hero', 'hero-ladder']
     @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
       previousNumber: $(panel).data('previous-number')
@@ -381,12 +381,13 @@ module.exports = class HeroVictoryModal extends ModalView
   returnToLadder: ->
     # Preserve the supermodel as we navigate back to the ladder.
     viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
-    ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}#my-matches"
+    ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}"
     if leagueID = @getQueryVariable 'league'
       leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
       viewArgs.push leagueType
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"
+    ladderURL += '#my-matches'
     Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
 
   playSelectionSound: (hero, preload=false) ->
@@ -441,6 +442,12 @@ module.exports = class HeroVictoryModal extends ModalView
         viewClass = require 'views/courses/CourseDetailsView'
         viewArgs.push @courseID
         viewArgs.push @courseInstanceID if @courseInstanceID
+    else if @level.get('type', true) is 'course-ladder'
+      leagueID = @getQueryVariable 'league'
+      link = "/play/ladder/#{@level.get('slug')}"
+      link += "/course/#{leagueID}" if leagueID
+      Backbone.Mediator.publish 'router:navigate', route: link
+      return
     else
       viewClass = require 'views/play/CampaignView'
       viewArgs = [options, @getNextLevelCampaign()]

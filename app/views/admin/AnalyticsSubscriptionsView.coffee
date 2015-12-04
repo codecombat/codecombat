@@ -311,7 +311,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     getAnalyticsInvoices = (done) =>
       @updateFetchDataState "Fetching invoices #{Object.keys(invoices).length}..."
       options =
-        url: '/db/analytics_stripe_invoice/-/all'
+        url: '/db/analytics.stripe.invoice/-/all'
         method: 'GET'
       options.error = (model, response, options) =>
         return if @destroyed

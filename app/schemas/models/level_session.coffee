@@ -169,6 +169,11 @@ _.extend LevelSessionSchema.properties,
   chat:
     type: 'array'
 
+  ladderAchievementDifficulty:
+    type: 'integer'
+    minimum: 0
+    description: 'What ogre AI difficulty, 0-4, this human session has beaten in a multiplayer arena.'
+
   meanStrength:
     type: 'number'
 

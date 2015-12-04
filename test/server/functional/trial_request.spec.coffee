@@ -120,20 +120,24 @@ describe 'Trial Requests', ->
               expect(body.reviewDate).toBeDefined()
               expect(new Date(body.reviewDate)).toBeLessThan(new Date())
               expect(body.reviewer).toEqual(admin.id)
-              expect(body.prepaidCode).toBeDefined()
               TrialRequest.findById body._id, (err, doc) ->
                 expect(err).toBeNull()
                 expect(doc.get('status')).toEqual('approved')
                 expect(doc.get('reviewDate')).toBeDefined()
                 expect(new Date(doc.get('reviewDate'))).toBeLessThan(new Date())
                 expect(doc.get('reviewer')).toEqual(admin._id)
-                expect(doc.get('prepaidCode')).toBeDefined()
-                Prepaid.findOne {'properties.trialRequestID': doc.get('_id')}, (err, doc) ->
+                Prepaid.find {'properties.trialRequestID': doc.get('_id')}, (err, prepaids) ->
                   expect(err).toBeNull()
                   return done(err) if err
-                  expect(doc.get('type')).toEqual('course')
-                  expect(doc.get('creator')).toEqual(user.get('_id'))
-                  expect(doc.get('maxRedeemers')).toEqual(2)
+                  expect(prepaids.length).toEqual(2)
+                  for prepaid in prepaids
+                    expect(prepaid.get('type')).toEqual('course')
+                    expect(prepaid.get('creator')).toEqual(user.get('_id'))
+                    if prepaid.get('properties').endDate
+                      expect(prepaid.get('maxRedeemers')).toEqual(500)
+                      expect(prepaid.get('properties').endDate).toBeGreaterThan(new Date())
+                    else
+                      expect(prepaid.get('maxRedeemers')).toEqual(2)
                   done()
 
   it 'Deny trial request', (done) ->

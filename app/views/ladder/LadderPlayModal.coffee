@@ -81,6 +81,7 @@ module.exports = class LadderPlayModal extends ModalView
   # PART 4: Render
 
   finishRendering: ->
+    return if @destroyed
     @checkTutorialLevelExists (exists) =>
       @tutorialLevelExists = exists
       @render()

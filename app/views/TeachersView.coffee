@@ -7,6 +7,6 @@ module.exports = class TeachersView extends RootView
 
   constructor: ->
     super()
-
-    # Redirect to HoC version of /courses/teachers until we update the /teachers landing page
-    application.router.navigate "/courses/teachers?hoc=true", trigger: true
+    _.defer ->
+      # Redirect to HoC version of /courses/teachers until we update the /teachers landing page
+      application.router.navigate "/courses/teachers?hoc=true", trigger: true

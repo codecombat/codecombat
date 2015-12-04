@@ -116,6 +116,7 @@ _.extend CampaignSchema.properties, {
       }}
 
       campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
+      campaignIndex: c.int title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden'  # Automatically set by campaign editor.
 
       tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task
       concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.'}, c.concept

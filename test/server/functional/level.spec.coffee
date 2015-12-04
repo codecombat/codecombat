@@ -68,29 +68,41 @@ describe 'GET /db/level/<id>/session', ->
               course.save (err) ->
 
                 expect(err).toBeNull()
-
+                
                 loginJoe (joe) ->
 
-                  courseInstance = new CourseInstance({
-                    name: 'Course Instance'
-                    members: [
-                      joe.get('_id')
-                    ]
-                    courseID: ObjectId(course.id)
+                  classroom = new Classroom({
+                    name: 'Test Classroom'
+                    members: [ joe.get('_id') ]
+                    aceConfig: { language: 'javascript' }
                   })
 
-                  courseInstance.save (err) ->
-
+                  classroom.save (err, classroom) ->
+                    
                     expect(err).toBeNull()
-                    done()
+
+                    courseInstance = new CourseInstance({
+                      name: 'Course Instance'
+                      members: [
+                        joe.get('_id')
+                      ]
+                      courseID: ObjectId(course.id)
+                      classroomID: ObjectId(classroom.id)
+                    })
+  
+                    courseInstance.save (err) ->
+  
+                      expect(err).toBeNull()
+                      done()
 
     it 'creates a new session if the user is in a course with that level', (done) ->
       loginJoe (joe) ->
 
         url = getURL("/db/level/#{levelID}/session")
 
-        request.get { uri: url }, (err, res, body) ->
+        request.get { uri: url, json: true }, (err, res, body) ->
           expect(res.statusCode).toBe(200)
+          expect(body.codeLanguage).toBe('javascript')
           done()
 
     it 'does not create a new session if the user is not in a course with that level', (done) ->

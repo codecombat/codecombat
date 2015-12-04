@@ -53,12 +53,7 @@ block content
       if courseInstance.get('description')
         each line in courseInstance.get('description').split('\n')
           div= line
-    // TODO: migrate these settings to classrooms
-    //if adminMode && courseInstance
-    //  +settings-dialog
-    //  p
-    //    button.btn.btn-xs(data-toggle='modal', data-target='#settingsModal', data-i18n="courses.edit_settings")
-
+    
     div.well.well-sm(role='tabpanel')
       ul.nav.nav-pills(role='tablist')
         if adminMode
@@ -213,10 +208,10 @@ mixin progress-members-levels-expanded(memberID)
       if userLevelStateMap[memberID][levelID] === 'complete'
         span.progress-level-cell.progress-level-cell-complete(data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
           span.spl= level.name.replace('Course: ', '')
-          +progress-members-popup-completed(i, level)
+          +progress-members-popup-completed(i, level, (view.userLevelSessionMap[memberID] || {})[levelID])
       else if userLevelStateMap[memberID][levelID] === 'started'
         span.progress-level-cell.progress-level-cell-started(data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1} #{level.name.replace('Course: ', '')}
-          +progress-members-popup-started(i, level)
+          +progress-members-popup-started(i, level, (view.userLevelSessionMap[memberID] || {})[levelID])
       else
         span.progress-level-cell #{i + 1} #{level.name.replace('Course: ', '')}
       - i++
@@ -231,35 +226,35 @@ mixin progress-members-levels-condensed(memberID)
     each level, levelID in campaign.get('levels')
       if userLevelStateMap[memberID][levelID] === 'complete'
         span.progress-level-cell.progress-level-cell-complete(style="width:#{levelCellWidth}%;", data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
-          +progress-members-popup-completed(i, level)
+          +progress-members-popup-completed(i, level, (view.userLevelSessionMap[memberID] || {})[levelID])
       else if userLevelStateMap[memberID][levelID] === 'started'
         span.progress-level-cell.progress-level-cell-started(style="width:#{levelCellWidth}%;", data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
-          +progress-members-popup-started(i, level)
+          +progress-members-popup-started(i, level, (view.userLevelSessionMap[memberID] || {})[levelID])
       else
         break
       - i++
 
-mixin progress-members-popup-completed(i, level)
+mixin progress-members-popup-completed(i, level, session)
   .progress-popup-container
     h3 #{i + 1}. #{level.name.replace('Course: ', '')}
     p
       span.spr(data-i18n="courses.play_time")
-      span #{moment.duration(level.playtime, "seconds").humanize()}
+      span #{moment.duration(session.get('playtime'), "seconds").humanize()}
     p
       span.spr(data-i18n="courses.completed")
-      span #{moment(level.changed).format('MMMM Do YYYY, h:mm:ss a')}
+      span #{moment(session.get('changed')).format('MMMM Do YYYY, h:mm:ss a')}
     if adminMode
       strong(data-i18n="clans.view_solution")
 
-mixin progress-members-popup-started(i, level)
+mixin progress-members-popup-started(i, level, session)
   .progress-popup-container
     h3 #{i + 1}. #{level.name.replace('Course: ', '')}
     p
       span.spr(data-i18n="courses.play_time")
-      span #{moment.duration(level.playtime, "seconds").humanize()}
+      span #{moment.duration(session.get('playtime'), "seconds").humanize()}
     p
       span.spr(data-i18n="clans.last_played")
-      span #{moment(level.changed).format('MMMM Do YYYY, h:mm:ss a')}
+      span #{moment(session.get('changed')).format('MMMM Do YYYY, h:mm:ss a')}
     if adminMode
       strong(data-i18n="clans.view_solution")
 
@@ -274,45 +269,23 @@ mixin levels-tab
     tbody
       if campaign
         - var lastLevelCompleted = true;
+        - var levelCount = 0;
         each level, levelID in campaign.get('levels')
           tr
             td
               if lastLevelCompleted || adminMode
-                button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n="home.play")
+                - var i18n = level.type === 'course-ladder' ? 'play.compete' : 'home.play';
+                button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n=i18n, data-level-id=levelID)
             td
               if userLevelStateMap[me.id]
                 div= userLevelStateMap[me.id][levelID]
                 - lastLevelCompleted = userLevelStateMap[me.id][levelID] === 'complete'
               else
                 - lastLevelCompleted = false
-            td= level.name.replace('Course: ', '')
+            td= ++levelCount + '. ' + level.name.replace('Course: ', '')
             td
               if levelConceptMap[levelID]
                 each concept in course.get('concepts')
                   if levelConceptMap[levelID][concept]
                     span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
 
-mixin settings-dialog
-  .modal#settingsModal
-    .modal-dialog
-      .modal-header
-        button.close(data-dismiss='modal')
-          span &times;
-        h3.modal-title(data-i18n="courses.edit_settings1")
-      .modal-body
-        .form
-          .form-group
-            label(data-i18n="courses.title")
-            input.form-control.settings-name-input(type='text', value="#{courseInstance.get('name') || ''}")
-          .form-group
-            label(data-i18n="courses.description")
-            textarea.form-control.settings-description-input(rows=2)= courseInstance.get('description')
-          .form-group
-            label(data-i18n="choose_hero.programming_language")
-            select.form-control#programming-language-select
-              - var aceConfig = view.courseInstance.get('aceConfig') || {};
-              option(value="python", selected=aceConfig.language==='python') Python
-              option(value="javascript", selected=aceConfig.language==='javascript') JavaScript
-          
-      .modal-footer
-        button.btn.btn-save-settings(data-i18n="common.save_changes")

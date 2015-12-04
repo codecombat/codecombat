@@ -31,6 +31,7 @@ module.exports = class PlayAchievementsModal extends ModalView
       'rewards'
       'collection'
       'function'
+      'query'
     ])
 
     earnedAchievementsFetcher = new CocoCollection([], {url: '/db/earned_achievement', model: EarnedAchievement})
@@ -72,7 +73,7 @@ module.exports = class PlayAchievementsModal extends ModalView
       @onEverythingLoaded()
 
   onEverythingLoaded: =>
-    @achievements.set(@achievements.filter((m) -> m.get('collection') isnt 'level.sessions'))
+    @achievements.set(@achievements.filter((m) -> m.get('collection') isnt 'level.sessions' or m.get('query')?.team))
     for achievement in @achievements.models
       if earned = @earnedMap[achievement.id]
         achievement.earned = earned

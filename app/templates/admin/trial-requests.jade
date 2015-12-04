@@ -31,7 +31,7 @@ block content
             if numReviewed > maxReviewedShown
               - break
             tr
-              td.created= new Date(parseInt(trialRequest.get('_id').substring(0, 8), 16) * 1000).toISOString().substring(0, 10)
+              td.created= trialRequest.get('created').substring(0, 10)
               td.reviewed
                 if trialRequest.get('reviewDate')
                   span= trialRequest.get('reviewDate').substring(0, 10)

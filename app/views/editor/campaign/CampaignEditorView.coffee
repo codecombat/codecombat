@@ -92,7 +92,7 @@ module.exports = class CampaignEditorView extends RootView
   onLoaded: ->
     @toSave.add @campaign if @campaign.hasLocalChanges()
     campaignLevels = $.extend({}, @campaign.get('levels'))
-    for level in @levels.models
+    for level, levelIndex in @levels.models
       levelOriginal = level.get('original')
       campaignLevel = campaignLevels[levelOriginal]
       continue if not campaignLevel
@@ -129,6 +129,8 @@ module.exports = class CampaignEditorView extends RootView
       delete campaignLevel.unlocks
       # Save campaign to level, unless it's a course campaign, since we reuse hero levels for course levels.
       campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type', true) isnt 'course'
+      # Save campaign index to level if it's a course campaign, since we show linear level order numbers for course levels.
+      campaignLevel.campaignIndex = (@levels.models.length - levelIndex - 1) if @campaign.get('type', true) is 'course'
       campaignLevels[levelOriginal] = campaignLevel
 
     @campaign.set('levels', campaignLevels)

@@ -51,6 +51,7 @@
 
   play:
     play_as: "Play As"  # Ladder page
+    compete: "Compete!" # Course details page
     spectate: "Spectate"  # Ladder page
     players: "players"  # Hover over a level on /play
     hours_played: "hours played"  # Hover over a level on /play
@@ -246,7 +247,7 @@
     victory_title_suffix: " Complete"
     victory_sign_up: "Sign Up to Save Progress"
     victory_sign_up_poke: "Want to save your code? Create a free account!"
-    victory_rate_the_level: "Rate the level: "  # Only in old-style levels.
+    victory_rate_the_level: "How fun was this level?" # {change}
     victory_return_to_ladder: "Return to Ladder"
     victory_play_continue: "Continue"
     victory_saving_progress: "Saving Progress"
@@ -663,16 +664,20 @@
     title: "Teacher Survey"
     must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     retrieving: "Retrieving information..."
-    being_reviewed_1: "Your application for a free trial subscription is being"
+    being_reviewed_1: "Your application for a free trial is being" # {change}
     being_reviewed_2: "reviewed."
-    approved_1: "Your application for a free trial subscription was"
+    approved_1: "Your application for a free trial was" # {change}
     approved_2: "approved."
     approved_3: "Further instructions have been sent to"
-    denied_1: "Your application for a free trial subscription has been"
+    approved_4: "Enroll your students on the"
+    approved_5: "courses"
+    approved_6: "page."
+    denied_1: "Your application for a free trial has been" # {change}
     denied_2: "denied."
     contact_1: "Please contact"
     contact_2: "if you have further questions."
-    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses." # {change}
+    description_1b: "You can find more information on our"
     description_2: "teachers"
     description_3: "page."
     description_4: "Please fill out this quick survey and we’ll email you setup instructions."

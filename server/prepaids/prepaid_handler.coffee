@@ -74,27 +74,26 @@ PrepaidHandler = class PrepaidHandler extends Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) if not prepaid
       return @sendForbiddenError(res) if prepaid.get('creator').toString() isnt req.user.id
-      return @sendForbiddenError(res) if _.size(prepaid.get('redeemers')) >= prepaid.get('maxRedeemers')
+      return @sendForbiddenError(res) if prepaid.get('redeemers')? and _.size(prepaid.get('redeemers')) >= prepaid.get('maxRedeemers')
       return @sendForbiddenError(res) unless prepaid.get('type') is 'course'
+      return @sendForbiddenError(res) if prepaid.get('properties')?.endDate < new Date()
       User.findById(req.body.userID).exec (err, user) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'User for given ID not found') if not user
         userID = user.get('_id')
-#        Prepaid.count {'redeemers.userID': userID}, (err, count) =>
-#          return @sendDatabaseError(res, err) if err
-#          return @sendSuccess(res, @formatEntity(req, prepaid)) if count
+        return @sendSuccess(res, @formatEntity(req, prepaid)) if user.get('coursePrepaidID')
 
         query =
           _id: prepaid.get('_id')
-          'redeemers.userID': { $ne: req.user.get('_id') }
-          $where: "this.redeemers.length < #{prepaid.get('maxRedeemers')}"
+          'redeemers.userID': { $ne: user.get('_id') }
+          $where: "this.maxRedeemers > 0 && (!this.redeemers || this.redeemers.length < #{prepaid.get('maxRedeemers')})"
         update = { $push: { redeemers : { date: new Date(), userID: userID } }}
         Prepaid.update query, update, (err, nMatched) =>
           return @sendDatabaseError(res, err) if err
           if nMatched is 0
             @logError(req.user, "POST prepaid redeemer lost race on maxRedeemers")
             return @sendForbiddenError(res)
-            
+
           user.set('coursePrepaidID', prepaid.get('_id'))
           user.save (err, user) =>
             return @sendDatabaseError(res, err) if err
@@ -102,7 +101,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
             redeemers = _.clone(prepaid.get('redeemers') or [])
             redeemers.push({ date: new Date(), userID: userID })
             prepaid.set('redeemers', redeemers)
-            @sendSuccess(res, @formatEntity(req, prepaid))      
+            @sendSuccess(res, @formatEntity(req, prepaid))
 
   createPrepaid: (user, type, maxRedeemers, properties, done) ->
     Prepaid.generateNewCode (code) =>
@@ -243,12 +242,15 @@ PrepaidHandler = class PrepaidHandler extends Handler
       return @sendBadInputError(res, 'Bad creator') unless utils.isID creator
       q = {
         _id: {$gt: cutoffID}
-        creator: mongoose.Types.ObjectId(creator),
+        creator: mongoose.Types.ObjectId(creator)
         type: 'course'
       }
       Prepaid.find q, (err, prepaids) =>
         return @sendDatabaseError(res, err) if err
-        return @sendSuccess(res, (@formatEntity(req, prepaid) for prepaid in prepaids))
+        documents = []
+        for prepaid in prepaids
+          documents.push(@formatEntity(req, prepaid)) unless prepaid.get('properties')?.endDate < new Date()
+        return @sendSuccess(res, documents)
     else
       super(arguments...)
 
@@ -256,5 +258,5 @@ PrepaidHandler = class PrepaidHandler extends Handler
     prepaid = super(req)
     prepaid.set('redeemers', [])
     return prepaid
-      
+
 module.exports = new PrepaidHandler()

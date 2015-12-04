@@ -459,6 +459,7 @@ UserHandler = class UserHandler extends Handler
     sendMail emailParams
 
   getPrepaidCodes: (req, res) ->
+    return @sendSuccess(res, []) unless req.user?
     orQuery = [{ creator: req.user._id }, { 'redeemers.userID' :  req.user._id }]
     Prepaid.find({}).or(orQuery).exec (err, documents) =>
       @sendSuccess(res, documents)
