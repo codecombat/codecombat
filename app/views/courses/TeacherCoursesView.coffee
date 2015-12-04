@@ -57,6 +57,7 @@ module.exports = class TeacherCoursesView extends RootView
       return
     modal = new InviteToClassroomModal({classroom: classroom})
     @openModalView(modal)
+    application.tracker?.trackEvent 'Classroom started add students', category: 'Courses', classroomID: classroom.id
 
   onClickCreateNewClassButton: ->
     return @openModalView new AuthModal() if me.get('anonymous')
@@ -76,7 +77,7 @@ module.exports = class TeacherCoursesView extends RootView
     modal = new ClassroomSettingsModal({classroom: classroom})
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
-    
+
   onLoaded: ->
     super()
     @addFreeCourseInstances()

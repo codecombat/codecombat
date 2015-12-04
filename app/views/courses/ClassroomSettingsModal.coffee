@@ -14,7 +14,7 @@ module.exports = class AddLevelSystemModal extends ModalView
     if @classroom
       application.tracker?.trackEvent 'Classroom started edit settings', category: 'Courses', classroomID: @classroom.id
     else
-      application.tracker?.trackEvent 'Classroom started edit settings', category: 'Courses'
+      application.tracker?.trackEvent 'Create new class', category: 'Courses'
 
   onClickSaveSettingsButton: ->
     name = $('.settings-name-input').val()
