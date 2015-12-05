@@ -74,6 +74,7 @@ module.exports = class SimulateTabView extends CocoView
     @simulator.fetchAndSimulateTask()
 
   refresh: ->
+    return  # Queue-based scoring is currently not active anyway, so don't keep checking this until we fix it.
     success = (numberOfGamesInQueue) ->
       $('#games-in-queue').text numberOfGamesInQueue
     $.ajax '/queue/messagesInQueueCount', cache: false, success: success

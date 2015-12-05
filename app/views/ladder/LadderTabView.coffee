@@ -149,6 +149,9 @@ module.exports = class LadderTabView extends CocoView
   # LADDER LOADING
 
   refreshLadder: ->
+    # Only do this so often if not in a league; servers cache a lot of this data for a few minutes anyway.
+    return if not @options.league and (new Date() - 2 * 60 * 1000 < @lastRefreshTime)
+    @lastRefreshTime = new Date()
     @supermodel.resetProgress()
     @ladderLimit ?= parseInt @getQueryVariable('top_players', if @options.league then 100 else 20)
     for team in @teams
@@ -171,7 +174,7 @@ module.exports = class LadderTabView extends CocoView
         level = "#{@level.get('original')}.#{@level.get('version').major}"
         url = "/db/level/#{level}/histogram_data?team=#{team.name.toLowerCase()}"
         url += '&leagues.leagueID=' + @options.league.id if @options.league
-        $.get url, {cache: false}, (data) -> histogramData = data
+        $.get url, (data) -> histogramData = data
       ).then =>
         @generateHistogram(histogramWrapper, histogramData, team.name.toLowerCase()) unless @destroyed
 
@@ -311,6 +314,7 @@ module.exports = class LadderTabView extends CocoView
   onLoadMoreLadderEntries: (e) ->
     @ladderLimit ?= 100
     @ladderLimit += 100
+    @lastRefreshTime = null
     @refreshLadder()
 
 module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends CocoClass

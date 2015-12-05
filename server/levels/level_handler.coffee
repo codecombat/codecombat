@@ -208,7 +208,7 @@ LevelHandler = class LevelHandler extends Handler
       {$match: match}
       {$project: project}
     ]
-    aggregate.cache() unless league
+    aggregate.cache(10 * 60 * 1000) unless league
 
     aggregate.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
@@ -244,7 +244,7 @@ LevelHandler = class LevelHandler extends Handler
       .limit(req.query.limit)
       .sort(sortParameters)
       .select(selectProperties.join ' ')
-    query.cache() if sessionsQueryParameters.totalScore.$lt is 1000000
+    query.cache(5 * 60 * 1000) if sessionsQueryParameters.totalScore.$lt is 1000000
 
     query.exec (err, resultSessions) =>
       return @sendDatabaseError(res, err) if err
@@ -302,7 +302,7 @@ LevelHandler = class LevelHandler extends Handler
       .find(level: leaderboardOptions.find.level, creator: {$in: @ladderBenchmarkAIs})
       .sort(leaderboardOptions.sort)
       .select(leaderboardOptions.select.join ' ')
-      .cache()  # TODO: How long does this cache? We will probably want these to be pretty long.
+      .cache(30 * 60 * 1000)
       .exec (err, aiSessions) ->
         return cb err if err
         matchingAISessions = _.filter aiSessions, (aiSession) ->
@@ -350,9 +350,9 @@ LevelHandler = class LevelHandler extends Handler
       findParameters['slug'] = slugOrID
     selectString = 'original version'
     query = Level.findOne(findParameters)
-    .select(selectString)
-    .lean()
-    .cache()
+      .select(selectString)
+      .lean()
+      .cache(60 * 60 * 1000)
 
     query.exec (err, level) =>
       return @sendDatabaseError(res, err) if err
@@ -364,27 +364,25 @@ LevelHandler = class LevelHandler extends Handler
           majorVersion: level.version.major
         submitted: true
 
-      query = Session.find(sessionsQueryParameters).distinct('team').cache()
-      query.exec (err, teams) =>
-        return @sendDatabaseError res, err if err? or not teams
-        findTop20Players = (sessionQueryParams, team, cb) ->
-          sessionQueryParams['team'] = team
-          aggregate = Session.aggregate [
-            {$match: sessionQueryParams}
-            {$sort: {'totalScore': -1}}
-            {$limit: 20}
-            {$project: {'totalScore': 1}}
-          ]
-          aggregate.cache()
-          aggregate.exec cb
+      teams = ['humans', 'ogres']
+      findTop20Players = (sessionQueryParams, team, cb) ->
+        sessionQueryParams['team'] = team
+        aggregate = Session.aggregate [
+          {$match: sessionQueryParams}
+          {$sort: {'totalScore': -1}}
+          {$limit: 20}
+          {$project: {'totalScore': 1}}
+        ]
+        aggregate.cache(3 * 60 * 1000)
+        aggregate.exec cb
 
-        async.map teams, findTop20Players.bind(@, sessionsQueryParameters), (err, map) =>
-          if err? then return @sendDatabaseError(res, err)
-          sessions = []
-          for mapItem in map
-            sessions.push _.sample(mapItem)
-          if map.length != 2 then return @sendDatabaseError res, 'There aren\'t sessions of 2 teams, so cannot choose random opponents!'
-          @sendSuccess res, sessions
+      async.map teams, findTop20Players.bind(@, sessionsQueryParameters), (err, map) =>
+        if err? then return @sendDatabaseError(res, err)
+        sessions = []
+        for mapItem in map
+          sessions.push _.sample(mapItem)
+        if map.length != 2 then return @sendDatabaseError res, 'There aren\'t sessions of 2 teams, so cannot choose random opponents!'
+        @sendSuccess res, sessions
 
   getFeedback: (req, res, levelID) ->
     return @sendNotFoundError(res) unless req.user

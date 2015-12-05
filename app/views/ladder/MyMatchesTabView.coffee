@@ -14,9 +14,9 @@ module.exports = class MyMatchesTabView extends CocoView
     super(options)
     @nameMap = {}
     @previouslyRankingTeams = {}
-    @refreshMatches()
+    @refreshMatches 20
 
-  refreshMatches: ->
+  refreshMatches: (@refreshDelay) ->
     @teams = teamDataFromLevel @level
     @loadNames()
 
@@ -74,7 +74,7 @@ module.exports = class MyMatchesTabView extends CocoView
       state = 'win'
       state = 'loss' if match.metrics.rank > opponent.metrics.rank
       state = 'tie' if match.metrics.rank is opponent.metrics.rank
-      fresh = match.date > (new Date(new Date() - 20 * 1000)).toISOString()
+      fresh = match.date > (new Date(new Date() - @refreshDelay * 1000)).toISOString()
       if fresh
         @playSound 'chat_received'
       {

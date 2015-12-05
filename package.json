@@ -69,7 +69,7 @@
     "moment": "~2.5.0",
     "mongodb": "^2.0.28",
     "mongoose": "3.8.x",
-    "mongoose-cache": "~0.1.4",
+    "mongoose-cache": "https://github.com/nwinter/mongoose-cache/tarball/master",
     "node-force-domain": "~0.1.0",
     "node-gyp": "~0.13.0",
     "node-statsd": "^0.1.1",

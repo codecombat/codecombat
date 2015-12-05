@@ -92,7 +92,14 @@ module.exports = class LadderView extends RootView
     @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
     @insertSubView(@simulateTab = new SimulateTabView(league: @league))
-    @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), 60 * 1000)
+    highLoad = true
+    @refreshDelay = switch
+      when not application.isProduction() then 10  # Refresh very quickly in develompent.
+      when @league then 20                         # Refresh quickly when looking at a league ladder.
+      when not highLoad then 30                    # Refresh slowly when in production.
+      when not me.isAnonymous() then 60            # Refresh even more slowly during HoC scaling.
+      else 300                                     # Refresh super slowly if anonymous during HoC scaling.
+    @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), @refreshDelay * 1000)
     hash = document.location.hash[1..] if document.location.hash
     if hash and not (hash in ['my-matches', 'simulate', 'ladder', 'prizes', 'rules', 'winners'])
       @showPlayModal(hash) if @sessions.loaded
@@ -105,7 +112,7 @@ module.exports = class LadderView extends RootView
     return if @destroyed or application.userIsIdle
     @lastRefreshTime = new Date()
     @ladderTab.refreshLadder()
-    @myMatchesTab.refreshMatches()
+    @myMatchesTab.refreshMatches @refreshDelay
     @simulateTab.refresh()
 
   onIdleChanged: (e) ->
