@@ -79,6 +79,7 @@ module.exports = class Tracker
   trackPageView: ->
     name = Backbone.history.getFragment()
     console.log "Would track analytics pageview: '/#{name}'" if debugAnalytics
+    @trackEventInternal 'Pageview', url: name unless me?.isAdmin() and @isProduction
     return unless @isProduction and not me.isAdmin()
 
     # Google Analytics

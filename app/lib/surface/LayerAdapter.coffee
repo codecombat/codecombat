@@ -480,10 +480,15 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     unless thangType.rasterImage
       console.error("Cannot render the LayerAdapter SpriteSheet until the raster image for <#{thangType.get('name')}> is loaded.")
 
+    # hack for IE9, otherwise width/height are not set
+    $img = $(thangType.rasterImage[0])
+    $('body').append($img)
+
     bm = new createjs.Bitmap(thangType.rasterImage[0])
     scale = thangType.get('scale') or 1
     frame = spriteSheetBuilder.addFrame(bm, null, scale)
     spriteSheetBuilder.addAnimation(@renderGroupingKey(thangType), [frame], false)
+    $img.remove()
 
   #- Distributing new Segmented/Singular/RasterSprites to Lanks
 

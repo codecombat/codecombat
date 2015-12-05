@@ -55,10 +55,11 @@ block content
   br
   .section-header Available Courses
   
-  p.text-center
-    strong.spr Unused enrollments available:
-    strong.spr= view.prepaids.totalAvailable()
-    a.btn.btn-success.btn(href="/courses/purchase") Purchase Enrollments
+  if !me.isAnonymous()
+    p.text-center
+      strong.spr Unused enrollments available:
+      strong.spr= view.prepaids.totalAvailable()
+      a.btn.btn-success.btn(href="/courses/purchase") Purchase Enrollments
     
   p
     | All students get access to Introduction to Computer Science for free.
