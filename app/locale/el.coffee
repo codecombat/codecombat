@@ -12,14 +12,14 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     multiplayer: "Πολλαπλοί Παίκτες" # Not currently shown on home page
     for_developers: "Για προγραμματιστές" # Not currently shown on home page.
     or_ipad: "Ή κατεβάστε για iPad"
-#    hoc_class_code: "I Have a Class Code"
-#    hoc_enter: "Enter"
-#    hoc_title: "Hour of Code?"
+    hoc_class_code: "Έχω Κωδικό Τάξης "
+    hoc_enter: "Είσοδος"
+    hoc_title: "Ώρα του Κώδικα?"
 
   nav:
     play: "Επίπεδα" # The top nav bar entry where players choose which levels to play
     community: "Κοινότητα"
-#    courses: "Courses"
+    courses: "Μαθήματα"
     editor: "Συγγραφέας"
     blog: "Ιστολόγιο"
     forum: "Φόρουμ"
@@ -54,7 +54,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   play:
     play_as: "Παίξτε ως" # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "Αγωνίσου!" # Course details page
     spectate: "Θεατής" # Ladder page
     players: "παίκτες" # Hover over a level on /play
     hours_played: "ώρες παιχνιδιού" # Hover over a level on /play
@@ -65,7 +65,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     locked: "Κλειδωμένο"
     purchasable: "Διαθέσιμο για αγορά" # For a hero you unlocked but haven't purchased
     available: "Διαθέσιμο"
-#    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "Παρεχόμενες Ικανότητες" # Property documentation details
     heroes: "Ήρωες" # Tooltip on hero shop button from /play
     achievements: "Επιτεύγματα" # Tooltip on achievement list button from /play
     account: "Λογαριασμός" # Tooltip on account button from /play
@@ -187,7 +187,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     password: "Κωδικός"
     message: "Μήνυμα"
     code: "Κώδικας"
-#    ladder: "Ladder"
+    ladder: "Κατατάξη"
     when: "Όταν"
     opponent: "Αντίπαλος"
     rank: "Κατηγορία"
@@ -221,10 +221,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     years: "χρόνια"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "Ολοκληρωμένο Επίπεδο:"
+    course: "Μάθημα:"
     done: "Έτοιμο"
-#    next_level: "Next Level:"
+    next_level: "Επομένο Επίπεδο:"
     next_game: "Επόμενο παιχνίδι"
     show_menu: "Εμφάνιση μενού παιχνιδιού"
     home: "Αρχική" # Not used any more, will be removed soon.
@@ -254,7 +254,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     victory_sign_up: "Εγγράψου για ενημερώσεις"
     victory_sign_up_poke: "Θέλεις να λαμβάνεις τα τελευταία νέα μέσω e-mail; Δημιούργησε έναν δωρεάν λογαριασμό και θα σε κρατάμε ενήμερο!"
     victory_rate_the_level: "Βαθμολογήστε το επίπεδο: " # {change}
-    victory_return_to_ladder: "Επιστροφή στη Σκάλα"
+    victory_return_to_ladder: "Επιστροφή στη Κατατάξη"
     victory_play_continue: "Συνέχισε"
     victory_saving_progress: "Αποθήκευση προόδου"
     victory_go_home: "Πήγαινε στην Αρχική"
@@ -262,8 +262,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     victory_review_placeholder: "Πως σου φάνηκε το επίπεδο;"
     victory_hour_of_code_done: "Τελείωσες;"
     victory_hour_of_code_done_yes: "Ναι, έχω τελειώσει με την Hour of Code!"
-    victory_experience_gained: "Κερδισμενη Εμπειρία"
-    victory_gems_gained: "Κερδισμενα Πετραδια"
+    victory_experience_gained: "Εμπειρία"
+    victory_gems_gained: "Πετραδια"
     victory_new_item: "Νέο αντικείμενο"
     victory_viking_code_school: "Μπράβο σου, μόλις πέρασες ένα δύσκολο επίπεδο! Αν δεν είσαι ήδη προγραμματιστής, πρέπει να γίνεις. Είσαι σε καλό δρόμο για να γίνεις δεκτός στο Σχολείο Προγρααματισμού των Βίκινγκ, όπου μπορείς να πας τις ικανότητες στο επόμενο επίπεδο και να γίνεις ένας επαγγελματίας προγραμματιστής ιστού σε 14 weeks."
     victory_become_a_viking: "Γίνε Βίκιγκ"
@@ -371,11 +371,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   leaderboard:
     view_other_solutions: "Προβολή Πίνακα Πρωτοπόρων"
     scores: "Σκορ"
-    top_players: "Κορυφαίοι Παίκτες Κατά"
-    day: "Ημέρα"
-    week: "Αυτήν την εβδομάδα"
-    all: "Παντοτινά"
-    time: "Χρόνος"
+    top_players: "Κορυφαιοι Παικτες "
+    day: "Ημερας"
+    week: "Εβδομαδας"
+    all: "Ολων των Εποχων"
+    time: "τη διαρκεια της"
     damage_taken: "Ζημιά που δέχθηκες"
     damage_dealt: "Ζημιά που αντιμετώπησες"
     difficulty: "δυσκολία"
@@ -621,10 +621,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     cost_premium_server: "Το CodeCombat είναι δωρεάν για τα πέντε πρώτα επίπεδα, μετά τα οποία κοστίζει $9.99 Δολλάρια ΗΠΑ το μήνα για να έχετε πρόσβαση στα πάνω από 190 επίπεδα στους αποκλειστικούς για τη χώρα εξυπηρετητές."
     free_1: "Υπάρχουν πάνω από 100 ΔΩΡΕΑΝ επίπεδα που καλύπτουν όλα τα αντικείμενα."
     free_2: "Η μηνιαία συνδρομή παρέχει πρόσβαση σε βίντεο βοηθήματα και παραπάνω επίπεδα για εξάσκηση."
-#    free_3: "The CodeCombat content is divided into"
-#    free_4: "courses"
-#    free_5: ".  The first course is free, and about an hour of material."
-#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    free_3: "Το περιεχομένο του CodeCombat χωρίζεται σε"
+    free_4: "μαθήματα"
+    free_5: ".   Η πρώτη σειρά μαθημάτων είναι δωρεάν και περιέχει περίπου μια ώρα υλικού."
+    free_6: "Πρόσβαση σε πρόσθετα μαθημάτα μπορεί να αποκτηθεί με αγορά συνδρομής."
     teacher_subs_title: "Οι εκπαιδευτικοί παίρνουν δωρεάν συνδρομές!" # {change}
     teacher_subs_0: "Προσφέρουμε δωρεάν συνδρομές σε εκπαιδευτικούς για να μπορέσουν να αξιολογήσουν το παιχνίδι." # {change}
     teacher_subs_1: "παρακαλούμε συμπληρώστε το"
@@ -678,15 +678,15 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     approved_1: "Η αίτησή σας για δωρεάν δοκιμαστική συνδρομή" # {change}
     approved_2: "εγκρίθηκε."
     approved_3: "Σας στείλαμε περισσότερες οδηγίες στο"
-#    approved_4: "Enroll your students on the"
-#    approved_5: "courses"
-#    approved_6: "page."
+    approved_4: "Γράψτε τους μάθητες σας στη"
+    approved_5: "μαθήματα"
+    approved_6: "σελίδα."
     denied_1: "Η αίτησή σας για δωρεάν δοκιμαστική συνδρομή" # {change}
     denied_2: "απορίφθηκε."
     contact_1: "Παρακαλούμε επικοινωνείστε"
     contact_2: "αν έχετε περαιτέρω ερωτήσεις."
     description_1: "Δίνουμε δωρεάν συνδρομές σε εκπαιδευτικούς για να αξιολογήσουν το παιχνίδι. Μπορείτε να βρείτε περισσότερες πληροφορίες στις"
-#    description_1b: "You can find more information on our"
+    description_1b: "Μπορείτε να βρείτε περισσότερες πληροφορίες στη"
     description_2: "εκπαιδευτική"
     description_3: "σελίδα."
     description_4: "Παρακαλούμε, συμπληρώστε αυτή τη φόρμα και θα σας στείλουμε οδηγίες."
@@ -779,7 +779,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     view_profile: "Προβολή του προφίλ σου"
 
   keyboard_shortcuts:
-    keyboard_shortcuts: "Συντομεύσει πληκτρολογίοθ"
+    keyboard_shortcuts: "Συντομεύσεις πληκτρολογίου"
     space: "Κενό"
     enter: "Enter"
     press_enter: "πατείστε enter"
@@ -1289,9 +1289,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     quantity: "Ποσότητα"
     redeemed: "Εξαγοράστηκε"
     no_codes: "No codes yet!"
-#    you_can1: "You can"
-#    you_can2: "purchase a prepaid code"
-#    you_can3: "that can be applied to your own account or given to others."
+    you_can1: "Μπορείτε"
+    you_can2: "να αγοράσετε ένα προπληρωμένο κωδικό"
+    you_can3: "που θα χρησιμοποιήσετε στο δικό σας λογαριασμό ή θα το δώσετε σε άλλους."
 
   loading_error:
     could_not_load: "Σφάλμα φόρτωσης από τον εξυπηρετητή"
