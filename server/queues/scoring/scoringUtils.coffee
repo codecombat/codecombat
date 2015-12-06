@@ -36,7 +36,8 @@ module.exports.formatSessionInformation = (session) ->
   creatorName: session.creatorName
   creator: session.creator
   totalScore: session.totalScore
-
+  submitDate: session.submitDate
+  shouldUpdateLastOpponentSubmitDateForLeague: session.shouldUpdateLastOpponentSubmitDateForLeague
 
 module.exports.calculateSessionScores = (callback) ->
   sessionIDs = _.pluck @clientResponseObject.sessions, 'sessionID'
@@ -59,6 +60,7 @@ retrieveOldSessionData = (sessionID, callback) ->
       id: sessionID
       submittedCodeLanguage: session.submittedCodeLanguage
       ladderAchievementDifficulty: session.ladderAchievementDifficulty
+      submitDate: session.submitDate
     if session.leagues?.length
       _.find(@clientResponseObject.sessions, sessionID: sessionID).leagues = session.leagues
       oldScoreObject.leagues = []
@@ -75,7 +77,7 @@ retrieveOldSessionData = (sessionID, callback) ->
   return formatOldScoreObject @levelSession if sessionID is @levelSession?._id  # No need to fetch again
 
   query = _id: sessionID
-  selection = 'standardDeviation meanStrength totalScore submittedCodeLanguage leagues ladderAchievementDifficulty'
+  selection = 'standardDeviation meanStrength totalScore submittedCodeLanguage leagues ladderAchievementDifficulty submitDate'
   LevelSession.findOne(query).select(selection).lean().exec (err, session) ->
     return callback err, {'error': 'There was an error retrieving the session.'} if err?
     callback err, formatOldScoreObject session
@@ -115,12 +117,13 @@ createSessionScoreUpdate = (scoreObject) ->
     newTotalScore = league.stats.meanStrength - 1.8 * league.stats.standardDeviation
     scoreHistoryAddition = [scoreHistoryAddition[0], newTotalScore]
     leagueSetPrefix = "leagues.#{leagueIndex}.stats."
-    @levelSessionUpdates[scoreObject.id].$set ?= {}
-    @levelSessionUpdates[scoreObject.id].$push ?= {}
-    @levelSessionUpdates[scoreObject.id].$set[leagueSetPrefix + 'meanStrength'] = league.stats.meanStrength
-    @levelSessionUpdates[scoreObject.id].$set[leagueSetPrefix + 'standardDeviation'] = league.stats.standardDeviation
-    @levelSessionUpdates[scoreObject.id].$set[leagueSetPrefix + 'totalScore'] = newTotalScore
-    @levelSessionUpdates[scoreObject.id].$push[leagueSetPrefix + 'scoreHistory'] = {$each: [scoreHistoryAddition], $slice: -1000}
+    sessionUpdateObject = @levelSessionUpdates[scoreObject.id]
+    sessionUpdateObject.$set ?= {}
+    sessionUpdateObject.$push ?= {}
+    sessionUpdateObject.$set[leagueSetPrefix + 'meanStrength'] = league.stats.meanStrength
+    sessionUpdateObject.$set[leagueSetPrefix + 'standardDeviation'] = league.stats.standardDeviation
+    sessionUpdateObject.$set[leagueSetPrefix + 'totalScore'] = newTotalScore
+    sessionUpdateObject.$push[leagueSetPrefix + 'scoreHistory'] = {$each: [scoreHistoryAddition], $slice: -1000}
 
 
 module.exports.indexNewScoreArray = (newScoreArray, callback) ->
@@ -185,6 +188,8 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
     leagueMatch = _.cloneDeep currentMatchObject
     leagueMatch.opponents[0].totalScore = opponentLeagueTotalScore
     sessionUpdateObject.$push["leagues.#{leagueIndex}.stats.matches"] = {$each: [leagueMatch], $slice: -200}
+    if _.find(@clientResponseObject.sessions, sessionID: sessionID).shouldUpdateLastOpponentSubmitDateForLeague is league.leagueID
+      sessionUpdateObject.$set["leagues.#{leagueIndex}.lastOpponentSubmitDate"] = new Date(opponentSession.submitDate)  # TODO: somewhere, if these are already the same, don't record the match, since we likely just recorded the same match?
 
   #log.info "Update for #{sessionID} is #{JSON.stringify(sessionUpdateObject, null, 2)}"
   LevelSession.update {_id: sessionID}, sessionUpdateObject, callback

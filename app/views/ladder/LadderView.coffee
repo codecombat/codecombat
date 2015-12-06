@@ -91,7 +91,7 @@ module.exports = class LadderView extends RootView
     return unless @supermodel.finished()
     @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
-    @insertSubView(@simulateTab = new SimulateTabView(league: @league))
+    @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
     @refreshDelay = switch
       when not application.isProduction() then 10  # Refresh very quickly in develompent.

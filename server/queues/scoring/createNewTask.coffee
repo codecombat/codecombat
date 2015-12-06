@@ -72,13 +72,14 @@ updateSessionToSubmit = (transpiledCode, user, sessionToUpdate, callback) ->
   leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to save them as strings.
   newLeagues = []
   for leagueID in leagueIDs
-    league = _.find(sessionToUpdate.leagues, leagueID: leagueID) ? leagueID: leagueID
+    league = _.clone(_.find(sessionToUpdate.leagues, leagueID: leagueID) ? leagueID: leagueID)
     league.stats ?= {}
     league.stats.standardDeviation = 25 / 3
     league.stats.numberOfWinsAndTies = 0
     league.stats.numberOfLosses = 0
     league.stats.meanStrength ?= 25
     league.stats.totalScore ?= 10
+    delete league.lastOpponentSubmitDate
     newLeagues.push(league)
   unless _.isEqual newLeagues, sessionToUpdate.leagues
     sessionUpdateObject.leagues = sessionToUpdate.leagues = newLeagues
