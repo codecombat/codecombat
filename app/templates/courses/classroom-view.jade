@@ -98,9 +98,9 @@ block content
                     a(href=view.getLevelURL(level, course, courseInstance, session))
                       - var content = view.levelPopoverContent(level, session, i);
                       if session && session.get('state') && session.get('state').complete
-                        .progress-bar.progress-bar-success(style=css, data-content=content, data-toggle='popover')= i
+                        .progress-bar.progress-bar-complete(style=css, data-content=content, data-toggle='popover')= i
                       else if session
-                        .progress-bar.progress-bar-warning(style=css, data-content=content, data-toggle='popover')= i
+                        .progress-bar.progress-bar-started(style=css, data-content=content, data-toggle='popover')= i
                       else
                         .progress-bar.progress-bar-default(style=css, data-content=content, data-toggle='popover')= i
         else if paidFor

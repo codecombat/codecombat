@@ -174,6 +174,8 @@ module.exports = class ClassroomView extends RootView
     else
       onCourseInstanceCreated()
 
+    # TODO: update newly visible level progress bar (currently all white)
+
   onClickRemoveStudentLink: (e) ->
     user = @users.get($(e.target).closest('a').data('user-id'))
     modal = new RemoveStudentModal({
