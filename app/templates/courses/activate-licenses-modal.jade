@@ -3,7 +3,7 @@ extends /templates/core/modal-base
 block modal-header-content
   .clearfix
   .text-center
-    h2 Activate Licenses
+    h2 Enroll Students in Paid Courses
     p= view.classroom.get('name')
 
 block modal-body-content
@@ -12,8 +12,9 @@ block modal-body-content
   - var remainingLic = totalLic - usedLic;
   .text-center
     p
-      strong.spr Licenses remaining:
-      strong= remainingLic
+      strong.spr You have
+      strong.spr= remainingLic
+      strong unused paid enrollments
 
   .row
     .col-sm-10.col-sm-offset-1
@@ -23,15 +24,14 @@ block modal-body-content
             .radio
               label
                 input(type="radio", name="targets" value="given" checked=true)
-                span.spr Activate license for student:
-                span= view.user.get('name')
+                span.spr Use 1 paid enrollment for #{view.user.broadName()}
             .radio
               label
                 input(type="radio", name="targets" value="selection")
-                span.spr Activate licenses for the following students:
+                span.spr Use paid enrollments for the following students:
         else
-          p Activate licenses for the following students:
-          
+          p Use paid enrollments for the following students:
+
         .well.form-group
           for user in view.users.models
             .checkbox
@@ -61,13 +61,13 @@ block modal-body-content
               | )
             span#depleted-span 
               | (
-              span insufficient licenses
+              span insufficient paid enrollments
               | )
 
           p
             button#activate-licenses-btn.btn.btn-success.text-uppercase(type="submit") Enroll Students
             
           p
-            a#get-more-licenses-btn.btn.btn-info.text-uppercase(href="/courses/purchase") Get More Licenses
+            a#get-more-licenses-btn.btn.btn-info.text-uppercase(href="/courses/purchase") Get More Enrollments
             
 block modal-footer-content

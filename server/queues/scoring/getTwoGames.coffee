@@ -12,6 +12,8 @@ module.exports = getTwoGames = (req, res) ->
   return getSpecificSessions res, humansSessionID, ogresSessionID if humansSessionID and ogresSessionID
   options =
     background: req.body.background
+    levelID: req.body.levelID
+    leagueID: req.body.leagueID
   getRandomSessions req.user, options, sendSessionsResponse(res)
 
 sessionSelectionString = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate leagues'
@@ -39,12 +41,15 @@ getRandomSessions = (user, options, callback) ->
   # Determine whether to play a random match, an internal league match, or an external league match.
   # Only people in a league will end up simulating internal league matches (for leagues they're in) except by dumb chance.
   # If we don't like that, we can rework sampleByLevel to have an opportunity to switch to internal leagues if the first session had a league affiliation.
-  leagueIDs = user?.get('clans') or []
-  leagueIDs = leagueIDs.concat user?.get('courseInstances') or []
-  leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to fetch them as strings.
-  return sampleByLevel options, callback unless leagueIDs.length and Math.random() > 1 / leagueIDs.length
-  leagueID = _.sample leagueIDs
-  findRandomSession {'leagues.leagueID': leagueID}, (err, session) ->
+  if not leagueID = options.leagueID
+    leagueIDs = user?.get('clans') or []
+    leagueIDs = leagueIDs.concat user?.get('courseInstances') or []
+    leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to fetch them as strings.
+    return sampleByLevel options, callback unless leagueIDs.length and Math.random() > 1 / leagueIDs.length
+    leagueID = _.sample leagueIDs
+  queryParameters = {'leagues.leagueID': leagueID}
+  queryParameters.levelID = options.levelID if options.levelID
+  findRandomSession queryParameters, (err, session) ->
     if err then return callback err
     unless session then return sampleByLevel options, callback
     otherTeam = scoringUtils.calculateOpposingTeam session.team
@@ -52,11 +57,15 @@ getRandomSessions = (user, options, callback) ->
     if Math.random() < 0.5
       # Try to play a match on the internal league ladder for this level
       queryParameters['leagues.leagueID'] = leagueID
-      findRandomSession queryParameters, (err, otherSession) ->
+      findNextLeagueOpponent session, queryParameters, (err, otherSession) ->
         if err then return callback err
-        if otherSession then return callback null, [session, otherSession]
+        if otherSession
+          console.log 'start off with it man', leagueID
+          session.shouldUpdateLastOpponentSubmitDateForLeague = leagueID
+          return callback null, [session, otherSession]
         # No opposing league session found; try to play an external match
         delete queryParameters['leagues.leagueID']
+        delete queryParameters.submitDate
         findRandomSession queryParameters, (err, otherSession) ->
           if err then return callback err
           callback null, [session, otherSession]
@@ -71,9 +80,25 @@ getRandomSessions = (user, options, callback) ->
 ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders', 'wakka-maul']
 backgroundLadderLevelIDs = _.without ladderLevelIDs, 'zero-sum', 'ace-of-coders'
 sampleByLevel = (options, callback) ->
-  levelID = _.sample(if options.background then backgroundLadderLevelIDs else ladderLevelIDs)
+  levelID = options.levelID or _.sample(if options.background then backgroundLadderLevelIDs else ladderLevelIDs)
   favorRecentHumans = Math.random() < 0.5  # We pick one session favoring recent submissions, then find another one uniformly to play against
   async.map [{levelID: levelID, team: 'humans', favorRecent: favorRecentHumans}, {levelID: levelID, team: 'ogres', favorRecent: not favorRecentHumans}], findRandomSession, callback
+
+findNextLeagueOpponent = (session, queryParams, callback) ->
+  queryParams.submitted = true
+  league = _.find session.leagues, leagueID: queryParams['leagues.leagueID']
+  lastOpponentSubmitDate = league.lastOpponentSubmitDate or new Date()
+  queryParams.submitDate = $lt: lastOpponentSubmitDate
+  sort = submitDate: -1
+  console.log "Making query", queryParams
+  LevelSession.findOne(queryParams).sort(sort).select(sessionSelectionString).lean().exec (err, otherSession) ->
+    return callback err if err
+    if otherSession and otherSession.creator + '' is session.creator + ''
+      console.log 'Do not play a league match against ourselves', queryParams.submitDate.$lt, typeof queryParams.submitDate.$lt
+      queryParams.submitDate.$lt = new Date(new Date(queryParams.submitDate.$lt) - 1)
+      console.log '   ', queryParams.submitDate, '-- is that better?'
+      return LevelSession.findOne(queryParams).sort(sort).select(sessionSelectionString).lean().exec callback
+    callback null, otherSession
 
 findRandomSession = (queryParams, callback) ->
   # In MongoDB 3.2, we will be able to easily get a random document with aggregate $sample: https://jira.mongodb.org/browse/SERVER-533

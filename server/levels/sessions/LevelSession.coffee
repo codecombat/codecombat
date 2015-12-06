@@ -64,6 +64,7 @@ LevelSessionSchema.pre 'save', (next) ->
         log.error err if err?
         oldCopy = user.toObject()
         oldCopy.stats = _.clone oldCopy.stats
+        oldCopy.stats ?= {gamesCompleted: 0}
         --oldCopy.stats.gamesCompleted
         oldCopy.stats.concepts ?= {}
         for concept in level?.concepts ? []

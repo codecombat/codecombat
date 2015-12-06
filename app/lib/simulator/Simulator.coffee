@@ -46,6 +46,8 @@ module.exports = class Simulator extends CocoClass
         ogresGameID: ogresGameID
         simulator: @simulator
         background: Boolean(@options.background)
+        levelID: @options.levelID
+        leagueID: @options.leagueID
       error: (errorData) ->
         console.warn "There was an error fetching two games! #{JSON.stringify errorData}"
         if errorData?.responseText?.indexOf("Old simulator") isnt -1
@@ -139,6 +141,8 @@ module.exports = class Simulator extends CocoClass
 
   fetchAndSimulateTask: =>
     return if @destroyed
+    # Because there's some bug where the chained rankings don't work, let's just do getTwoGames until we fix it.
+    return @fetchAndSimulateOneGame()
 
     if @options.headlessClient
       if @dumpThisTime # The first heapdump would be useless to find leaks.
@@ -347,6 +351,7 @@ module.exports = class Simulator extends CocoClass
         totalScore: session.totalScore
         metrics:
           rank: @calculateSessionRank session.sessionID, simulationResults.goalStates, @task.generateTeamToSessionMap()
+        shouldUpdateLastOpponentSubmitDateForLeague: session.shouldUpdateLastOpponentSubmitDateForLeague
       if session.sessionID is taskResults.originalSessionID
         taskResults.originalSessionRank = sessionResult.metrics.rank
         taskResults.originalSessionTeam = session.team

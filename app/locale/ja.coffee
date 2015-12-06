@@ -19,7 +19,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   nav:
     play: "ゲームマップへ" # The top nav bar entry where players choose which levels to play
     community: "コミュニティー"
-#    courses: "Courses"
+    courses: "コース"
     editor: "レベルエディター"
     blog: "ブログ"
     forum: "掲示板"
@@ -53,8 +53,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     subscribe_as_diplomat: "外交官登録"
 
   play:
-    play_as: "としてプレー" # Ladder page
-#    compete: "Compete!" # Course details page
+    play_as: "プレイモード" # Ladder page
+    compete: "コンプリート!" # Course details page
     spectate: "観戦" # Ladder page
     players: "プレイヤー" # Hover over a level on /play
     hours_played: "プレイ時間" # Hover over a level on /play
@@ -221,10 +221,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     years: "年"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "コンプリートレベル:"
+    course: "コース:"
     done: "完了"
-#    next_level: "Next Level:"
+    next_level: "次のレベル:"
     next_game: "次のゲーム"
     show_menu: "ゲームメニューを見る"
     home: "ホーム" # Not used any more, will be removed soon.
@@ -418,7 +418,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     feature7: "プライベート<strong>クラン</strong>"
     free: "無料"
     month: "月"
-#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+    must_be_logged: "まずログインしてください。 アカウントを作るかメニューの上からログインをお願いします。"
     subscribe_title: "課金"
     unsubscribe: "無課金"
     confirm_unsubscribe: "課金の解約確認"
@@ -606,12 +606,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     jose_blurb: "テークオフ"
     retrostyle_title: "イラスト"
     retrostyle_blurb: "レトロスタイルのゲーム"
-#    rob_title: "Compiler Engineer"
-#    rob_blurb: "Codes things and stuff"
-#    josh_c_title: "Game Designer"
-#    josh_c_blurb: "Designs games"
-#    carlos_title: "Region Manager, Brazil"
-#    carlos_blurb: "Celery Man"
+    rob_title: "コンパイラーエンジニアー"
+    rob_blurb: "コードの道具と材料"
+    josh_c_title: "ゲームデザイナー"
+    josh_c_blurb: "ゲームのデザイン"
+    carlos_title: "地域部長, ブラジル"
+    carlos_blurb: "サラリーマン"
 
   teachers:
     more_info: "教育関係者へのお知らせ"
@@ -1010,25 +1010,25 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     thang_main: "メイン"
     thang_spritesheets: "スプライトシート"
     thang_colors: "色"
-#    level_some_options: "Some Options?"
-#    level_tab_thangs: "Thangs"
-#    level_tab_scripts: "Scripts"
-#    level_tab_settings: "Settings"
-#    level_tab_components: "Components"
-#    level_tab_systems: "Systems"
-#    level_tab_docs: "Documentation"
-#    level_tab_thangs_title: "Current Thangs"
-#    level_tab_thangs_all: "All"
-#    level_tab_thangs_conditions: "Starting Conditions"
-#    level_tab_thangs_add: "Add Thangs"
-#    level_tab_thangs_search: "Search thangs"
-#    add_components: "Add Components"
-#    component_configs: "Component Configurations"
-#    config_thang: "Double click to configure a thang"
-#    delete: "Delete"
-#    duplicate: "Duplicate"
-#    stop_duplicate: "Stop Duplicate"
-#    rotate: "Rotate"
+    level_some_options: "オプションを付けますか?"
+    level_tab_thangs: "サング"
+    level_tab_scripts: "スクリプト"
+    level_tab_settings: "セッティング"
+    level_tab_components: "コンポーネント"
+    level_tab_systems: "システム"
+    level_tab_docs: "文章"
+    level_tab_thangs_title: "現在のサング"
+    level_tab_thangs_all: "すべて"
+    level_tab_thangs_conditions: "コンディションの開始"
+    level_tab_thangs_add: "サングの追加"
+    level_tab_thangs_search: "サングの検索"
+    add_components: "コンポーネントの追加"
+    component_configs: "コンポーネントの設定"
+    config_thang: "ダブルクリックでサングの設定"
+    delete: "削除"
+    duplicate: "重複"
+    stop_duplicate: "重複をやめる"
+    rotate: "回転"
 #    level_settings_title: "Settings"
 #    level_component_tab_title: "Current Components"
 #    level_component_btn_new: "Create New Component"
@@ -1070,9 +1070,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    add_system_title: "Add Systems to Level"
 #    done_adding: "Done Adding"
 
-#  article:
-#    edit_btn_preview: "Preview"
-#    edit_article_title: "Edit Article"
+  article:
+    edit_btn_preview: "プレビュー"
+    edit_article_title: "アーティクルの設定"
 
   polls:
     priority: "プライオリティ"

@@ -2,114 +2,119 @@ extends /templates/base
 
 block content
 
-  - var isOwner = view.classroom.get('ownerID') === me.id;
+  - var isOwner = view.classroom ? view.classroom.get('ownerID') === me.id : false;
   if isOwner
     a(href="/courses/teachers") Back to my classrooms
   else
     a(href="/courses") Back to my courses
-    
-  h1
-    span.spr= view.classroom.get('name')
-    if isOwner
-      a#edit-class-details-link
-        small Edit class details
-        
-  if view.classroom.get('description')
-    p= view.classroom.get('description')
-    
-  h3(data-i18n="courses.stats")
-  table.progress-stats-container
-    - var stats = view.classStats()
-    tr
-      td(data-i18n="courses.total_students")
-      td
-        span.spr= _.size(view.classroom.get('members'))
-        span (
-        span.spr enrolled in paid courses:
-        span= stats.enrolledUsers
-        span )
-    tr
-      td(data-i18n="courses.average_time")
-      td= stats.averagePlaytime
-    tr
-      td(data-i18n="courses.total_time")
-      td= stats.totalPlaytime
-    tr
-      td(data-i18n="courses.average_levels")
-      td= stats.averageLevelsComplete
-    tr
-      td(data-i18n="courses.total_levels")
-      td= stats.totalLevelsComplete
-    
-  h1
-    | Students
-    if view.teacherMode
-      .pull-right#main-button-area
-        button#add-students-btn.btn.btn-primary.text-uppercase Add Students
-        button#activate-licenses-btn.btn.btn-info.text-uppercase Enroll Students in Paid Courses
-        a.btn.btn-success.text-uppercase(href="/courses/purchase?from-classroom="+view.classroom.id) Purchase Enrollments
-      
-  hr
   
-  for user in view.users.models
-    if view.teacherMode
-      a.remove-student-link.pull-right.text-uppercase(data-user-id=user.id)
-        span.glyphicon.glyphicon-remove
-        span.spl remove student
-    
-    h2= user.broadName()
-    - var lastPlayedString = view.userLastPlayedString(user);
-    - var playtime = view.userPlaytimeString(user);
-    if lastPlayedString || playtime
-      #student-stats-row.row
-        if lastPlayedString
-          .col-sm-6 Last Played: #{lastPlayedString}
-        if playtime
-          .col-sm-6 Playtime: #{playtime}
-      
-    - var paidFor = user.get('coursePrepaidID');
-    for courseInstance in view.courseInstances.models
-      - var inCourse = _.contains(courseInstance.get('members'), user.id);
-      if !(inCourse || view.teacherMode)
-        - continue;
-      - var course = view.courses.get(courseInstance.get('courseID'));
-      - var campaign = view.campaigns.get(course.get('campaignID'));
-      - var sessions = courseInstance.sessionsByUser[user.id] || [];
-      if !(course.get('free') || paidFor)
-        - continue;
-      .row
-        .col-sm-3.text-right= course.get('name')
-        .col-sm-9
-          if inCourse
-            - var levels = campaign.get('levels');
-            - var numLevels = Object.keys(levels).length;
-            - var sessionMap = _.zipObject(_.map(sessions, function(s) { return s.get('level').original; }), sessions);
-            - var levelCellWidth = 100.00;
-            if numLevels > 0
-              - levelCellWidth = 100.00 / numLevels;
-            - var css = "width:"+levelCellWidth+"%;"
-            - var i = 0;
-            .progress
-              each level, levelID in campaign.get('levels')
-                - i++
-                - var session = sessionMap[levelID];
-                a(href=view.getLevelURL(level, course, courseInstance, session))
-                  - var content = view.levelPopoverContent(level, session, i);
-                  if session && session.get('state') && session.get('state').complete
-                    .progress-bar.progress-bar-success(style=css, data-content=content, data-toggle='popover')= i
-                  else if session
-                    .progress-bar.progress-bar-warning(style=css, data-content=content, data-toggle='popover')= i
-                  else
-                    .progress-bar.progress-bar-default(style=css, data-content=content, data-toggle='popover')= i
-          else if paidFor
-            button.enable-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id, data-course-instance-cid=courseInstance.cid) Assign
-
-            
-    if view.teacherMode && !paidFor
-      .text-center
-        p
-          em Enroll this student to assign paid courses
-        p
-          button.activate-single-license-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id) Enroll
+  if !me.isAnonymous()
+    h1
+      span.spr= view.classroom.get('name')
+      if isOwner
+        a#edit-class-details-link
+          small Edit class details
           
+    if view.classroom.get('description')
+      p= view.classroom.get('description')
+      
+    h3(data-i18n="courses.stats")
+    table.progress-stats-container
+      - var stats = view.classStats()
+      tr
+        td(data-i18n="courses.total_students")
+        td
+          span.spr= _.size(view.classroom.get('members'))
+          span (
+          span.spr enrolled in paid courses:
+          span= stats.enrolledUsers
+          span )
+      tr
+        td(data-i18n="courses.average_time")
+        td= stats.averagePlaytime
+      tr
+        td(data-i18n="courses.total_time")
+        td= stats.totalPlaytime
+      tr
+        td(data-i18n="courses.average_levels")
+        td= stats.averageLevelsComplete
+      tr
+        td(data-i18n="courses.total_levels")
+        td= stats.totalLevelsComplete
+      
+    h1
+      | Students
+      if view.teacherMode
+        .pull-right#main-button-area
+          button#add-students-btn.btn.btn-primary.text-uppercase Add Students
+          button#activate-licenses-btn.btn.btn-info.text-uppercase Enroll Students in Paid Courses
+          a.btn.btn-success.text-uppercase(href="/courses/purchase?from-classroom="+view.classroom.id) Purchase Enrollments
+        
     hr
+    
+    for user in view.users.models
+      if view.teacherMode
+        a.remove-student-link.pull-right.text-uppercase(data-user-id=user.id)
+          span.glyphicon.glyphicon-remove
+          span.spl remove student
+      
+      h2= user.broadName()
+      - var lastPlayedString = view.userLastPlayedString(user);
+      - var playtime = view.userPlaytimeString(user);
+      if lastPlayedString || playtime
+        #student-stats-row.row
+          if lastPlayedString
+            .col-sm-6 Last Played: #{lastPlayedString}
+          if playtime
+            .col-sm-6 Playtime: #{playtime}
+        
+      - var paidFor = user.get('coursePrepaidID');
+      for courseInstance in view.courseInstances.models
+        - var inCourse = _.contains(courseInstance.get('members'), user.id);
+        if !(inCourse || view.teacherMode)
+          - continue;
+        - var course = view.courses.get(courseInstance.get('courseID'));
+        - var campaign = view.campaigns.get(course.get('campaignID'));
+        - var sessions = courseInstance.sessionsByUser[user.id] || [];
+        if !(course.get('free') || paidFor)
+          - continue;
+        if inCourse
+          .row
+            .col-sm-3.text-right= course.get('name')
+            .col-sm-9
+              if inCourse
+                - var levels = campaign.get('levels');
+                - var numLevels = Object.keys(levels).length;
+                - var sessionMap = _.zipObject(_.map(sessions, function(s) { return s.get('level').original; }), sessions);
+                - var levelCellWidth = 100.00;
+                if numLevels > 0
+                  - levelCellWidth = 100.00 / numLevels;
+                - var css = "width:"+levelCellWidth+"%;"
+                - var i = 0;
+                .progress
+                  each level, levelID in campaign.get('levels')
+                    - i++
+                    - var session = sessionMap[levelID];
+                    a(href=view.getLevelURL(level, course, courseInstance, session))
+                      - var content = view.levelPopoverContent(level, session, i);
+                      if session && session.get('state') && session.get('state').complete
+                        .progress-bar.progress-bar-success(style=css, data-content=content, data-toggle='popover')= i
+                      else if session
+                        .progress-bar.progress-bar-warning(style=css, data-content=content, data-toggle='popover')= i
+                      else
+                        .progress-bar.progress-bar-default(style=css, data-content=content, data-toggle='popover')= i
+        else if paidFor
+          .text-center
+            button.enable-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id, data-course-instance-cid=courseInstance.cid) Assign #{course.get('name')}
+
+              
+      if view.teacherMode && !paidFor
+        .text-center
+          p
+            em
+              span.spr Enroll
+              strong.spr= user.broadName()
+              span to assign paid courses.
+          p
+            button.activate-single-license-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id) Enroll #{user.broadName()}
+      hr

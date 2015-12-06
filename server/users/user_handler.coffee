@@ -199,7 +199,7 @@ UserHandler = class UserHandler extends Handler
   getSimulatorLeaderboard: (req, res) ->
     queryParameters = @getSimulatorLeaderboardQueryParameters(req)
     leaderboardQuery = User.find(queryParameters.query).select('name simulatedBy simulatedFor').sort({'simulatedBy': queryParameters.sortOrder}).limit(queryParameters.limit)
-    leaderboardQuery.cache() if req.query.scoreOffset is -1
+    leaderboardQuery.cache(10 * 60 * 1000) if req.query.scoreOffset is -1
     leaderboardQuery.exec (err, otherUsers) ->
       otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1 and req.user
       otherUsers ?= []

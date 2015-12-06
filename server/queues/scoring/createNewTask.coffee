@@ -18,8 +18,9 @@ module.exports = createNewTask = (req, res) ->
     fetchAndVerifyLevelType.bind(yetiGuru, currentLevelID)
     fetchSessionObjectToSubmit.bind(yetiGuru, requestSessionID)
     updateSessionToSubmit.bind(yetiGuru, transpiledCode, req.user)
-    fetchInitialSessionsToRankAgainst.bind(yetiGuru, requestLevelMajorVersion, originalLevelID)
-    generateAndSendTaskPairsToTheQueue
+    # Because there's some bug where the chained rankings don't work, and this is super slow, let's just not do this until we fix it.
+    #fetchInitialSessionsToRankAgainst.bind(yetiGuru, requestLevelMajorVersion, originalLevelID)
+    #generateAndSendTaskPairsToTheQueue
   ], (err, successMessageObject) ->
     if err? then return errors.serverError res, "There was an error submitting the game to the queue: #{err}"
     scoringUtils.sendResponseObject res, successMessageObject
@@ -71,13 +72,14 @@ updateSessionToSubmit = (transpiledCode, user, sessionToUpdate, callback) ->
   leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to save them as strings.
   newLeagues = []
   for leagueID in leagueIDs
-    league = _.find(sessionToUpdate.leagues, leagueID: leagueID) ? leagueID: leagueID
+    league = _.clone(_.find(sessionToUpdate.leagues, leagueID: leagueID) ? leagueID: leagueID)
     league.stats ?= {}
     league.stats.standardDeviation = 25 / 3
     league.stats.numberOfWinsAndTies = 0
     league.stats.numberOfLosses = 0
     league.stats.meanStrength ?= 25
     league.stats.totalScore ?= 10
+    delete league.lastOpponentSubmitDate
     newLeagues.push(league)
   unless _.isEqual newLeagues, sessionToUpdate.leagues
     sessionUpdateObject.leagues = sessionToUpdate.leagues = newLeagues

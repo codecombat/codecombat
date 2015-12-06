@@ -11,13 +11,13 @@ p.simulation-count
   span.spr(data-i18n="ladder.games_simulated_by") Games simulated by you:
   span#simulated-by-you= me.get('simulatedBy') || 0
 
-p.simulation-count
-  span.spr(data-i18n="ladder.games_simulated_for") Games simulated for you:
-  span#simulated-for-you= me.get('simulatedFor') || 0
+//p.simulation-count
+//  span.spr(data-i18n="ladder.games_simulated_for") Games simulated for you:
+//  span#simulated-for-you= me.get('simulatedFor') || 0
 
-p.simulation-count
-  span.spr(data-i18n="ladder.games_in_queue") Games currently in the queue:
-  span#games-in-queue= numberOfGamesInQueue || 0
+//p.simulation-count
+//  span.spr(data-i18n="ladder.games_in_queue") Games currently in the queue:
+//  span#games-in-queue= numberOfGamesInQueue || 0
 
 table.table.table-bordered.table-condensed.table-hover
   thead
@@ -25,8 +25,8 @@ table.table.table-bordered.table-condensed.table-hover
       th
       th(data-i18n="general.player").name-col-cell Player
       th(data-i18n="ladder.games_simulated") Games simulated
-      th(data-i18n="ladder.games_played") Games played
-      th(data-i18n="ladder.ratio") Ratio
+      //th(data-i18n="ladder.games_played") Games played
+      //th(data-i18n="ladder.ratio") Ratio
   tbody
     - var topSimulators = simulatorsLeaderboardData.topSimulators.models;
     - var showJustTop = simulatorsLeaderboardData.inTopSimulators() || me.get('anonymous');
@@ -37,8 +37,8 @@ table.table.table-bordered.table-condensed.table-hover
         td.simulator-leaderboard-cell= rank + 1
         td.name-col-cell= user.get('name') || "Anonymous"
         td.simulator-leaderboard-cell= user.get('simulatedBy')
-        td.simulator-leaderboard-cell= user.get('simulatedFor')
-        td.simulator-leaderboard-cell= Math.round((user.get('simulatedBy') / user.get('simulatedFor')) * 10) / 10
+        //td.simulator-leaderboard-cell= user.get('simulatedFor')
+        //td.simulator-leaderboard-cell= Math.round((user.get('simulatedBy') / user.get('simulatedFor')) * 10) / 10
 
     if !showJustTop && simulatorsLeaderboardData.nearbySimulators().length
       tr(class="active")
@@ -50,5 +50,5 @@ table.table.table-bordered.table-condensed.table-hover
           td.simulator-leaderboard-cell= user.rank
           td.name-col-cell= user.get('name') || "Anonymous"
           td.simulator-leaderboard-cell= user.get('simulatedBy')
-          td.simulator-leaderboard-cell= user.get('simulatedFor')
-          td.simulator-leaderboard-cell= _.isNaN(ratio) || ratio == Infinity ? '' : ratio.toFixed(1)
+          //td.simulator-leaderboard-cell= user.get('simulatedFor')
+          //td.simulator-leaderboard-cell= _.isNaN(ratio) || ratio == Infinity ? '' : ratio.toFixed(1)

@@ -18,7 +18,8 @@ module.exports.connect = () ->
   # https://github.com/LearnBoost/mongoose/issues/1910
   Level = require '../levels/Level'
   Aggregate = Level.aggregate().constructor
-  mongooseCache.install(mongoose, {max: 200, maxAge: 1 * 60 * 1000, debug: false}, Aggregate)
+  maxAge = (Math.random() * 10 + 10) * 60 * 1000  # Randomize so that each server doesn't refresh cache from db at same times
+  mongooseCache.install(mongoose, {max: 1000, maxAge: maxAge, debug: false}, Aggregate)
 
 module.exports.generateMongoConnectionString = ->
   if not testing and config.tokyo

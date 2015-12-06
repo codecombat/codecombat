@@ -29,6 +29,7 @@ module.exports = class ClassroomView extends RootView
     'click .remove-student-link': 'onClickRemoveStudentLink'
 
   initialize: (options, classroomID) ->
+    return if me.isAnonymous()
     @classroom = new Classroom({_id: classroomID})
     @supermodel.loadModel @classroom, 'classroom'
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
