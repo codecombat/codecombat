@@ -18,7 +18,7 @@ block content
       
   else
 
-    h2.text-center Purchase Student Enrollments
+    h2.text-center Purchase Enrollments
     br
 
     if view.state === 'error'
@@ -29,8 +29,7 @@ block content
     br
 
     p.text-center
-      input#students-input(
-        placeholder='<number of enrollments>'
+      input#students-input.text-center.enrollment-count(
         value=view.numberOfStudents
         type='number'
       )
@@ -39,7 +38,7 @@ block content
     .container-fluid
       .row
         .col-md-offset-3.col-md-6 
-          | Each student in a class will get access to Course 2 and up once they are enrolled in paid courses. 
+          | Each student in a class will get access to Courses 2-4 once they are enrolled in paid courses.
           | You may assign each course to each student individually.
     br
 
