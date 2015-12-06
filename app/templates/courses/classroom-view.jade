@@ -78,39 +78,43 @@ block content
         - var sessions = courseInstance.sessionsByUser[user.id] || [];
         if !(course.get('free') || paidFor)
           - continue;
-        .row
-          .col-sm-3.text-right= course.get('name')
-          .col-sm-9
-            if inCourse
-              - var levels = campaign.get('levels');
-              - var numLevels = Object.keys(levels).length;
-              - var sessionMap = _.zipObject(_.map(sessions, function(s) { return s.get('level').original; }), sessions);
-              - var levelCellWidth = 100.00;
-              if numLevels > 0
-                - levelCellWidth = 100.00 / numLevels;
-              - var css = "width:"+levelCellWidth+"%;"
-              - var i = 0;
-              .progress
-                each level, levelID in campaign.get('levels')
-                  - i++
-                  - var session = sessionMap[levelID];
-                  a(href=view.getLevelURL(level, course, courseInstance, session))
-                    - var content = view.levelPopoverContent(level, session, i);
-                    if session && session.get('state') && session.get('state').complete
-                      .progress-bar.progress-bar-success(style=css, data-content=content, data-toggle='popover')= i
-                    else if session
-                      .progress-bar.progress-bar-warning(style=css, data-content=content, data-toggle='popover')= i
-                    else
-                      .progress-bar.progress-bar-default(style=css, data-content=content, data-toggle='popover')= i
-            else if paidFor
-              button.enable-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id, data-course-instance-cid=courseInstance.cid) Assign
+        if inCourse
+          .row
+            .col-sm-3.text-right= course.get('name')
+            .col-sm-9
+              if inCourse
+                - var levels = campaign.get('levels');
+                - var numLevels = Object.keys(levels).length;
+                - var sessionMap = _.zipObject(_.map(sessions, function(s) { return s.get('level').original; }), sessions);
+                - var levelCellWidth = 100.00;
+                if numLevels > 0
+                  - levelCellWidth = 100.00 / numLevels;
+                - var css = "width:"+levelCellWidth+"%;"
+                - var i = 0;
+                .progress
+                  each level, levelID in campaign.get('levels')
+                    - i++
+                    - var session = sessionMap[levelID];
+                    a(href=view.getLevelURL(level, course, courseInstance, session))
+                      - var content = view.levelPopoverContent(level, session, i);
+                      if session && session.get('state') && session.get('state').complete
+                        .progress-bar.progress-bar-success(style=css, data-content=content, data-toggle='popover')= i
+                      else if session
+                        .progress-bar.progress-bar-warning(style=css, data-content=content, data-toggle='popover')= i
+                      else
+                        .progress-bar.progress-bar-default(style=css, data-content=content, data-toggle='popover')= i
+        else if paidFor
+          .text-center
+            button.enable-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id, data-course-instance-cid=courseInstance.cid) Assign #{course.get('name')}
 
               
       if view.teacherMode && !paidFor
         .text-center
           p
-            em Enroll this student to assign paid courses
+            em
+              span.spr Enroll
+              strong.spr= user.broadName()
+              span to assign paid courses.
           p
-            button.activate-single-license-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id) Enroll
-            
+            button.activate-single-license-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id) Enroll #{user.broadName()}
       hr
