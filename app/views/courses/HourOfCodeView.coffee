@@ -28,7 +28,7 @@ module.exports = class HourOfCodeView extends RootView
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
     @courseInstances.comparator = (ci) -> return ci.get('classroomID') + ci.get('courseID')
-    @supermodel.loadCollection(@courseInstances, 'course_instances')
+    @supermodel.loadCollection(@courseInstances, 'course_instances', { cache: false })
 
   onCourseInstancesLoaded: ->
     @hourOfCodeCourseInstance = @courseInstances.findWhere({hourOfCode: true})
@@ -39,7 +39,7 @@ module.exports = class HourOfCodeView extends RootView
       })
       @sessions.comparator = 'created'
       @listenTo @sessions, 'sync', @onSessionsLoaded
-      @supermodel.loadCollection(@sessions, 'sessions')
+      @supermodel.loadCollection(@sessions, 'sessions', { cache: false })
 
   onSessionsLoaded: ->
     @lastSession = @sessions.last()
@@ -88,10 +88,10 @@ module.exports = class HourOfCodeView extends RootView
     @$('#main-content').hide()
     @$('#begin-hoc-area').removeClass('hide')
     hocCourseInstance = new CourseInstance()
-    hocCourseInstance.upsertForHOC()
+    hocCourseInstance.upsertForHOC({cache: false})
     @listenToOnce hocCourseInstance, 'sync', ->
       url = hocCourseInstance.firstLevelURL()
-      app.router.navigate(url, { trigger: true })
+      document.location.href = url
 
   onClickLogInButton: ->
     modal = new StudentLogInModal()

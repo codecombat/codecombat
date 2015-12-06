@@ -18,8 +18,9 @@ module.exports = createNewTask = (req, res) ->
     fetchAndVerifyLevelType.bind(yetiGuru, currentLevelID)
     fetchSessionObjectToSubmit.bind(yetiGuru, requestSessionID)
     updateSessionToSubmit.bind(yetiGuru, transpiledCode, req.user)
-    fetchInitialSessionsToRankAgainst.bind(yetiGuru, requestLevelMajorVersion, originalLevelID)
-    generateAndSendTaskPairsToTheQueue
+    # Because there's some bug where the chained rankings don't work, and this is super slow, let's just not do this until we fix it.
+    #fetchInitialSessionsToRankAgainst.bind(yetiGuru, requestLevelMajorVersion, originalLevelID)
+    #generateAndSendTaskPairsToTheQueue
   ], (err, successMessageObject) ->
     if err? then return errors.serverError res, "There was an error submitting the game to the queue: #{err}"
     scoringUtils.sendResponseObject res, successMessageObject

@@ -69,6 +69,7 @@
     "moment": "~2.5.0",
     "mongodb": "^2.0.28",
     "mongoose": "3.8.x",
+    "mongoose": "^4.2.9",
     "mongoose-cache": "https://github.com/nwinter/mongoose-cache/tarball/master",
     "node-force-domain": "~0.1.0",
     "node-gyp": "~0.13.0",
@@ -125,7 +126,7 @@
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
-    "node": "0.10.x",
+    "node": "^5.1.1",
     "npm": "^3.0.0"
   }
 }

@@ -29,6 +29,7 @@ module.exports = class ClassroomView extends RootView
     'click .remove-student-link': 'onClickRemoveStudentLink'
 
   initialize: (options, classroomID) ->
+    return if me.isAnonymous()
     @classroom = new Classroom({_id: classroomID})
     @supermodel.loadModel @classroom, 'classroom'
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
@@ -99,6 +100,7 @@ module.exports = class ClassroomView extends RootView
     })
     @openModalView(modal)
     modal.once 'redeem-users', -> document.location.reload()
+    application.tracker?.trackEvent 'Classroom started enroll students', category: 'Courses'
 
   onClickActivateSingleLicenseButton: (e) ->
     userID = $(e.target).data('user-id')
@@ -110,6 +112,7 @@ module.exports = class ClassroomView extends RootView
     })
     @openModalView(modal)
     modal.once 'redeem-users', -> document.location.reload()
+    application.tracker?.trackEvent 'Classroom started enroll student', category: 'Courses', userID: userID
 
   onClickEditClassDetailsLink: ->
     modal = new ClassroomSettingsModal({classroom: @classroom})
@@ -144,16 +147,21 @@ module.exports = class ClassroomView extends RootView
     completeSessions = @sessions.filter (s) -> s.get('state')?.complete
     stats.averageLevelsComplete = if @users.size() then (_.size(completeSessions) / @users.size()).toFixed(1) else 'N/A'
     stats.totalLevelsComplete = _.size(completeSessions)
+
+    enrolledUsers = @users.filter (user) -> user.get('coursePrepaidID')
+    stats.enrolledUsers = _.size(enrolledUsers)
     return stats
 
   onClickAddStudentsButton: (e) ->
     modal = new InviteToClassroomModal({classroom: @classroom})
     @openModalView(modal)
+    application.tracker?.trackEvent 'Classroom started add students', category: 'Courses', classroomID: @classroom.id
 
   onClickEnableButton: (e) ->
     courseInstance = @courseInstances.get($(e.target).data('course-instance-cid'))
     userID = $(e.target).data('user-id')
     $(e.target).attr('disabled', true)
+    application.tracker?.trackEvent 'Course assign student', category: 'Courses', courseInstanceID: courseInstance.id, userID: userID
 
     onCourseInstanceCreated = =>
       courseInstance.addMember(userID)
@@ -179,6 +187,7 @@ module.exports = class ClassroomView extends RootView
   onStudentRemoved: (e) ->
     @users.remove(e.user)
     @render()
+    application.tracker?.trackEvent 'Classroom removed student', category: 'Courses', courseInstanceID: @courseInstance.id, userID: e.user.id
 
   levelPopoverContent: (level, session, i) ->
     return null unless level
