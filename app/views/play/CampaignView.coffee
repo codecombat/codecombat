@@ -552,6 +552,7 @@ module.exports = class CampaignView extends RootView
     @testParticles() if @particleMan
 
   playAmbientSound: ->
+    return unless me.get 'volume'
     return if @ambientSound
     return unless file = @campaign?.get('ambientSound')?[AudioPlayer.ext.substr 1]
     src = "/file/#{file}"
@@ -600,6 +601,7 @@ module.exports = class CampaignView extends RootView
     if volume isnt me.get 'volume'
       me.set 'volume', volume
       me.patch()
+      @playAmbientSound() if volume
 
   onToggleVolume: (e) ->
     button = $(e.target).closest('#volume-button')
