@@ -60,7 +60,6 @@ getRandomSessions = (user, options, callback) ->
       findNextLeagueOpponent session, queryParameters, (err, otherSession) ->
         if err then return callback err
         if otherSession
-          console.log 'start off with it man', leagueID
           session.shouldUpdateLastOpponentSubmitDateForLeague = leagueID
           return callback null, [session, otherSession]
         # No opposing league session found; try to play an external match
@@ -90,13 +89,10 @@ findNextLeagueOpponent = (session, queryParams, callback) ->
   lastOpponentSubmitDate = league.lastOpponentSubmitDate or new Date()
   queryParams.submitDate = $lt: lastOpponentSubmitDate
   sort = submitDate: -1
-  console.log "Making query", queryParams
   LevelSession.findOne(queryParams).sort(sort).select(sessionSelectionString).lean().exec (err, otherSession) ->
     return callback err if err
     if otherSession and otherSession.creator + '' is session.creator + ''
-      console.log 'Do not play a league match against ourselves', queryParams.submitDate.$lt, typeof queryParams.submitDate.$lt
       queryParams.submitDate.$lt = new Date(new Date(queryParams.submitDate.$lt) - 1)
-      console.log '   ', queryParams.submitDate, '-- is that better?'
       return LevelSession.findOne(queryParams).sort(sort).select(sessionSelectionString).lean().exec callback
     callback null, otherSession
 
