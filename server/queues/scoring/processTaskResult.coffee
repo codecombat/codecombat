@@ -83,8 +83,6 @@ checkSubmissionDate = (callback) ->
     callback null
 
 logTaskComputation = (callback) ->
-  @taskLog.set('calculationTimeMS', @clientResponseObject.calculationTimeMS)
-  @taskLog.set('sessions')  # Huh?
   @taskLog.calculationTimeMS = @clientResponseObject.calculationTimeMS
   @taskLog.sessions = @clientResponseObject.sessions
   @taskLog.save (err, saved) ->
