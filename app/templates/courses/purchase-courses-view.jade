@@ -24,13 +24,46 @@ block content
     if view.state === 'error'
       .alert.alert-danger= view.stateMessage
 
+    - var usedEnrollments = view.prepaids.totalRedeemers();
+    - var totalEnrollments = view.prepaids.totalMaxRedeemers();
+    - var remainingEnrollments = totalEnrollments - usedEnrollments;
+    .row
+      .col-md-4
+      .col-md-3
+        strong.uppercase unused paid enrollments
+      .col-md-1
+        strong= remainingEnrollments
+    br
+    .row
+      .col-md-4
+      .col-md-3
+        strong.uppercase students not enrolled
+    .row
+      .col-md-4
+      .col-md-3
+        each classroom in view.classrooms.models
+          if classroom.get('members').length > 0
+            .not-enrolled= classroom.get('name')
+        .not-enrolled Total Across All Classes
+      .col-md-1
+        - var totalNotEnrolled = 0
+        each classroom in view.classrooms.models
+          if classroom.get('members').length > 0 && view.classroomNotEnrolledMap
+            .not-enrolled
+              strong= view.classroomNotEnrolledMap[classroom.id]
+        .not-enrolled
+          strong= view.totalNotEnrolled
+
+    br
+    br
+
     p.text-center
       strong How many additional paid enrollments do you need?
     br
 
     p.text-center
       input#students-input.text-center.enrollment-count(
-        value=view.numberOfStudents
+        value= view.numberOfStudents
         type='number'
       )
     br
