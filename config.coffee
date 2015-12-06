@@ -48,7 +48,7 @@ exports.config =
         usePolling: true
 
   server:
-    command: 'nodemon .'
+    command: "#{if process.platform is 'win32' then 'node_modules\\.bin\\nodemon.cmd' else 'nodemon'} ."
 
   files:
     javascripts:

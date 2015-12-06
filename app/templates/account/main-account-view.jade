@@ -11,17 +11,17 @@ block content
         a(href="/")
           span.glyphicon.glyphicon-home
       li.active(data-i18n="nav.account")
-
-    #account-links.panel.panel-default
-      .panel-heading(data-i18n="nav.account")
-      ul.list-group
-        li.list-group-item
-          a.btn.btn-lg.btn-primary(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
-        li.list-group-item
+    #account-link.panel.panel-default
+      div.row
+        #account-links
+         a.btn.btn-lg.btn-primary(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
+      div.row
+        #account-links
           a.btn.btn-lg.btn-primary(href="/account/settings", data-i18n="play.settings")
-        li.list-group-item
+      div.row
+        #account-links
           a.btn.btn-lg.btn-primary(href="/account/payments", data-i18n="account.payments")
-        li.list-group-item
+      div.col-md-4
+        #account-links
           a.btn.btn-lg.btn-primary(href="/account/subscription", data-i18n="account.subscription")
-        li.list-group-item
           a.btn.btn-lg.btn-primary(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
