@@ -78,9 +78,9 @@ module.exports = class PurchaseCoursesView extends RootView
 
     # Show Stripe handler
     application.tracker?.trackEvent 'Started course prepaid purchase', {
-      price: @pricePerStudent, students: @pricePerStudent}
+      price: @pricePerStudent, students: @numberOfStudents}
     stripeHandler.open
-      amount: @price
+      amount: @numberOfStudents * @pricePerStudent * 100
       description: "Full course access for #{@numberOfStudents} students"
       bitcoin: true
       alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
