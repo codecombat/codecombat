@@ -42,13 +42,14 @@ exports.config =
       onCompile: (files) -> console.log "I feel the need, the need... for speed."
       plugins:
         coffeelint:
-          pattern: /\A\Z/   
+          pattern: /\A\Z/
     vagrant:
       watcher:
         usePolling: true
 
   server:
-    command: 'nodemon .'
+    # NOTE: This is a temporary workaround for https://github.com/nodejs/node-v0.x-archive/issues/2318
+    command: "#{if process.platform is 'win32' then 'node_modules\\.bin\\nodemon.cmd' else 'nodemon'} ."
 
   files:
     javascripts:
