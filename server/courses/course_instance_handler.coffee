@@ -296,6 +296,8 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
       return @sendForbiddenError(res) unless req.user
       return @sendBadInputError(res, 'Bad memberID') unless utils.isID classroomID
       Classroom.findById classroomID, (err, classroom) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res) unless classroom
         return @sendForbiddenError(res) unless classroom.isMember(req.user._id) or classroom.isOwner(req.user._id)
         CourseInstance.find {classroomID: mongoose.Types.ObjectId(classroomID)}, (err, courseInstances) =>
           return @sendDatabaseError(res, err) if err
