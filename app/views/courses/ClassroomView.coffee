@@ -189,7 +189,7 @@ module.exports = class ClassroomView extends RootView
   onStudentRemoved: (e) ->
     @users.remove(e.user)
     @render()
-    application.tracker?.trackEvent 'Classroom removed student', category: 'Courses', courseInstanceID: @courseInstance.id, userID: e.user.id
+    application.tracker?.trackEvent 'Classroom removed student', category: 'Courses', classroomID: @classroom.id, userID: e.user.id
 
   levelPopoverContent: (level, session, i) ->
     return null unless level
