@@ -57,9 +57,10 @@ module.exports = class ClassroomView extends RootView
       courseInstance.sessionsByUser = {}
       @listenToOnce sessions, 'sync', (sessions) ->
         @sessions.add(sessions.slice())
-        sessions.courseInstance.sessionsByUser = sessions.groupBy('creator')
+        for courseInstance in @courseInstances.models
+          courseInstance.sessionsByUser = courseInstance.sessions.groupBy('creator')
 
-    # generate course instance JIT, in the meantime have models w/out equivalents in the db
+    # Generate course instance JIT, in the meantime have models w/out equivalents in the db
     for course in @courses.models
       query = {courseID: course.id, classroomID: @classroom.id}
       courseInstance = @courseInstances.findWhere(query)
@@ -120,14 +121,16 @@ module.exports = class ClassroomView extends RootView
     @listenToOnce modal, 'hidden', @render
 
   userLastPlayedString: (user) ->
+    return '' unless user.sessions?
     session = user.sessions.last()
-    return '' if not session
+    return '' unless session
     campaign = session.collection.campaign
     levelOriginal = session.get('level').original
     campaignLevel = campaign.get('levels')[levelOriginal]
     return "#{campaign.get('fullName')}, #{campaignLevel.name}"
 
   userPlaytimeString: (user) ->
+    return '' unless user.sessions?
     playtime = _.reduce user.sessions.pluck('playtime'), (s1, s2) -> (s1 or 0) + (s2 or 0)
     return '' unless playtime
     return moment.duration(playtime, 'seconds').humanize()
