@@ -31,11 +31,6 @@ module.exports = class LevelThangEditView extends CocoView
     @oldPath = options.oldPath
     @reportChanges = _.debounce @reportChanges, 1000
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.thang = @thangData
-    context
-
   onLoaded: -> @render()
   afterRender: ->
     super()

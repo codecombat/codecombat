@@ -16,11 +16,6 @@ module.exports = class ModelModal extends ModalView
       @supermodel.loadModel model, 'source_document'
       model.fetch cache: false
 
-  getRenderData: ->
-    c = super()
-    c.models = @models
-    c
-
   afterRender: ->
     return unless @supermodel.finished()
     @modelTreemas = {}

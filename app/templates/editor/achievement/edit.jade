@@ -1,14 +1,15 @@
 extends /templates/base
 
 block content
-  if !unauthorized
+  - var authorized = me.isAdmin() || me.isArtisan();
+  if authorized
     ol.breadcrumb
       li
         a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
       li
         a(href="/editor/achievement", data-i18n="editor.achievement_title") Achievement Editor
       li.active
-        | #{achievement.attributes.name}
+        | #{view.achievement.attributes.name}
 
     button.achievement-tool-button(data-i18n="", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#recalculate-all-button Recalculate All
     button.achievement-tool-button(data-i18n="", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#recalculate-button Recalculate
@@ -17,7 +18,7 @@ block content
 
     h3(data-i18n="achievement.edit_achievement_title") Edit Achievement
       span
-        |: "#{achievement.attributes.name}"
+        |: "#{view.achievement.attributes.name}"
 
     #achievement-treema
 
