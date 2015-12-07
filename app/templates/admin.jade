@@ -1,7 +1,7 @@
 extends /templates/base
 
 block content
-  
+
   .form-horizontal
     .form-group
       label.control-label.col-sm-2(for="espionage-name-or-email" data-i18n="admin.av_espionage") Espionage
@@ -19,11 +19,11 @@ block content
         button.btn(data-i18n="admin.av_usersearch_search").btn-primary.btn-large#user-search-button  Search
   #user-search-result
 
-  
+
   h3(data-i18n="admin.av_title") Admin Views
 
   h4(data-i18n="admin.av_entities_sub_title") Entities
-  
+
   ul
     li
       a(href="/admin/level-sessions", data-i18n="admin.av_entities_active_instances_url") Active Instances
@@ -59,8 +59,8 @@ block content
     h3 Prepaids
     a.btn.btn-secondary#create-free-sub-btn Create Free Subscription Link
     span.spl.spr
-      if freeSubLink
-        input#free-sub-input(type="text", readonly, value="#{freeSubLink}") 
+      if view.freeSubLink
+        input#free-sub-input(type="text", readonly, value="#{view.freeSubLink}")
 
     .form-inline
       .form-group

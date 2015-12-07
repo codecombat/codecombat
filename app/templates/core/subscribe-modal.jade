@@ -1,9 +1,9 @@
 .modal-dialog
   .modal-content
-    if state === 'purchasing'
+    if view.state === 'purchasing'
       .alert.alert-info(data-i18n="buy_gems.purchasing")
-    
-    else if state === 'retrying'
+
+    else if view.state === 'retrying'
       #retrying-alert.alert.alert-danger(data-i18n="buy_gems.retrying")
 
     else
@@ -24,7 +24,7 @@
               th.free-cell(data-i18n="subscribe.free")
             th
               //- TODO: find a better way to localize '$9.99/month'
-              span $#{price}/
+              span $#{(view.product.amount / 100)}/
               span(data-i18n="subscribe.month")
         tbody
           tr
@@ -81,21 +81,21 @@
       #payment-methods-info(data-i18n="subscribe.payment_methods")
 
       button.btn.btn-lg.btn-illustrated.parent-button(data-i18n="subscribe.parent_button")
-      button.btn.btn-lg.btn-illustrated.sale-button(title="#{saleButtonTitle}", data-i18n="subscribe.sale_button")
+      button.btn.btn-lg.btn-illustrated.sale-button(data-i18n="[title]subscribe.sale_button_title", data-i18n="subscribe.sale_button")
       button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="subscribe.subscribe_title")
 
-      if state === 'declined'
+      if view.state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible
           span(data-i18n="buy_gems.declined")
           button.close(type="button" data-dismiss="alert")
-            span(aria-hidden="true") &times;      
-          
-      if state === 'unknown_error'
+            span(aria-hidden="true") &times;
+
+      if view.state === 'unknown_error'
         #error-alert.alert.alert-danger.alert-dismissible
           button.close(type="button" data-dismiss="alert")
             span(aria-hidden="true") &times;
           p(data-i18n="loading_error.unknown")
-          p= stateMessage
+          p= view.stateMessage
 
     .parent-button-popover-content.hidden
       .email-parent-form

@@ -1,12 +1,11 @@
 extends /templates/base
 
 block content
-  .pull-right
+  h3.text-right
     if me.isAnonymous()
       a(href="/teachers") Teachers, click here!
     else
       a(href="/courses/teachers") Teachers, click here!
-  br
 
   #main-content
     if me.isAnonymous()

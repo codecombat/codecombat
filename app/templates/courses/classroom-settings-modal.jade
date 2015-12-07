@@ -22,6 +22,7 @@ block modal-body-content
         - var aceConfig = view.classroom ? view.classroom.get('aceConfig') || {} : {};
         option(value="python", selected=aceConfig.language==='python') Learn Python
         option(value="javascript", selected=aceConfig.language==='javascript') Learn JavaScript
+      .language-locked Language cannot be changed once students join a class.
 
 block modal-footer-content
   if view.classroom
