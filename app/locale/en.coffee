@@ -1364,12 +1364,13 @@
     course: "Course"
     courses: "Courses"
     course_instance: "Course Instance"
-    courses_instances: "Course Instances"
+    course_instances: "Course Instances"
     classroom: "Classroom"
     classrooms: "Classrooms"
     clan: "Clan"
     clans: "Clans"
     members: "Members"
+    users: "Users"
 
   concepts:
     advanced_strings: "Advanced Strings"
