@@ -641,7 +641,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     monitor_progress_title: "Come controllo i progressi dei miei studenti?"
     monitor_progress_1: "I progressi degli studenti possono essere controllati creando un"
     monitor_progress_2: "per la tua classe."
-    monitor_progress_3: "Per aggiungere uno studente, inviagli un link per il tuo Clan, che è sulla pagina
+    monitor_progress_3: "Per aggiungere uno studente, inviagli un link per il tuo Clan, che è sulla pagina"
     monitor_progress_4: "."
     monitor_progress_5: "Quando accederà, potrai visualizzare un riassunto dei progressi dello studente sulla pagina del tuo Clan."
     private_clans_1: "I Clan Privati consentono un'ulteriore privacy ed informazioni dettagliate sui progressi di ogni studente."
@@ -657,10 +657,10 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     how_much_title: "Quanto costa l'abbonamento mensile?"
     how_much_1: "Un"
     how_much_2: "abbonamento mensile"
-    how_much_3: "costa $9.99 e può essere annullato in ogni momento.
+    how_much_3: "costa $9.99 e può essere annullato in ogni momento."
     how_much_4: "Inoltre, forniamo sconti per gruppi più grandi:"
     how_much_5: "Accettiamo pagamenti una-tantum ed abbonamenti annuali per gruppi, come classi o scuole."
-    how_much_6: "per ulteriori dettagli:
+    how_much_6: "per ulteriori dettagli:"
     more_info_title: "Dove posso trovare ulteriori informaazioni?"
     more_info_1: "Il nostro"
     more_info_2: "forum insegnanti"
@@ -668,7 +668,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     sys_requirements_title: "Requisiti di sistema"
     sys_requirements_1: "Un moderno broswer. Chrome, Firefox o Safari vanno bene. Internet Explorer funziona dalla versione 9 in su."
     sys_requirements_2: "CodeCombat non è ancora supportato su iPad."
-    
 
   teachers_survey:
     title: "Sondaggio Insegnanti"
@@ -728,7 +727,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     where_reply: "Dove dovremmo risponderti?"
     send: "Invia feedback"
     contact_candidate: "Contatta Candidato" # Deprecated
-    recruitment_reminder: "Usa questo form per raggiungere i candidati a cui sei interessato. Ricorda che CodeCombat richiede il 15% dello stipendio del primo anno. Il pagamento è dovuto all'atto dell'assunzione ed è rimborsabile per 90 giorni se il dipendente non resta in azienda. Gli impiegati part-time, removi ed contratto sono gratuiti, essendo interni.
+    recruitment_reminder: "Usa questo form per raggiungere i candidati a cui sei interessato. Ricorda che CodeCombat richiede il 15% dello stipendio del primo anno. Il pagamento è dovuto all'atto dell'assunzione ed è rimborsabile per 90 giorni se il dipendente non resta in azienda. Gli impiegati part-time, removi ed contratto sono gratuiti, essendo interni."
 
   account_settings:
     title: "Impostazioni account"
@@ -1068,7 +1067,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     pop_i18n: "Popola I18N"
     tasks: "Lavori"
     clear_storage: "Cancella le i tuoi cambiamenti locali"
-    add_system_title: "Aggiungi Sistemi al Livello""
+    add_system_title: "Aggiungi Sistemi al Livello"
     done_adding: "Aggiunta completata"
 
   article:
@@ -1136,7 +1135,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     ambassador_attribute_1: "Capacità di comunucazione. Esser capace di identificare i problemi che stanno avendo i giocatori e risolverli. Ed anche, tra l'altro, mantenere noi altri aggiornati su quel che i giocatori stanno dicendo, quel che gli piace, e quel che più vorrebbero!"
     ambassador_join_desc: "dicci un po' di te stesso, cos'hai fatto, e cosa ti piacerebbe fare. Cominciamo da qui!"
     ambassador_join_note_strong: "Nota"
-                                 
     ambassador_join_note_desc: "Una delle nostre prirità maggiori è costruire la parte multiplayer in cui i giocatori che stanno avendo difficoltà a completare un livello possano chiedere aiuto ad altri maghi del software. Questo sarebbe un buon modo per un ambasciatore per fare il proprio lavoro. Ti faremo sapere!"
     ambassador_subscribe_desc: "Ricevere email di aggiornamento sul supporto e sullo sviluppo del multiplayer."
     changes_auto_save: "Le modifiche vengono salvate automaticamente quando si segnano le caselle."
@@ -1275,7 +1273,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
   account_prepaid:
     purchase_code: "Compra un codice abbonamento"
-    purchase_code1: "I codici abbonamento possono essere riscossi per aggiungere del tempo da un account CodeCombat con abbonamento premium.
+    purchase_code1: "I codici abbonamento possono essere riscossi per aggiungere del tempo da un account CodeCombat con abbonamento premium."
     purchase_code2: "Ogni account CodeCombat può risquotere solo un codice abbonamento."
     purchase_code3: "I mesi dati dai codici abbonamento saranno aggiunti alla fine dell'abbonamento esistente su questo account."
     users: "Utenti"
@@ -1650,4 +1648,3 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     ucp_title: "Problemi codice utenti"
     lg_title: "Ultime partite"
     clas: "Accordi CLA"
-use
