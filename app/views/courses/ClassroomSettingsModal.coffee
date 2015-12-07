@@ -16,6 +16,12 @@ module.exports = class AddLevelSystemModal extends ModalView
     else
       application.tracker?.trackEvent 'Create new class', category: 'Courses'
 
+  afterRender: ->
+    super()
+    disableLangSelect = @classroom?.get('members')?.length > 0
+    @$('#programming-language-select').prop('disabled', disableLangSelect)
+    @$('.language-locked').toggle(disableLangSelect)
+
   onClickSaveSettingsButton: ->
     name = $('.settings-name-input').val()
     unless @classroom
