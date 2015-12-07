@@ -74,7 +74,6 @@
     poll: "Poll"  # Tooltip on poll button from /play
     next: "Next"  # Go from choose hero to choose inventory before playing a level
     change_hero: "Change Hero"  # Go back from choose inventory to choose hero
-    choose_inventory: "Equip Items"
     buy_gems: "Buy Gems"
     subscription_required: "Subscription Required"
     anonymous: "Anonymous Player"
@@ -387,7 +386,6 @@
     gold_collected: "Gold Collected"
 
   inventory:
-    choose_inventory: "Equip Items"
     equipped_item: "Equipped"
     required_purchase_title: "Required"
     available_item: "Available"
