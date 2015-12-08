@@ -264,6 +264,13 @@ module.exports = class SpellView extends CocoView
 
     if me.level() < 20 or aceConfig.indentGuides
       # Add visual ident guides
+      language = @spell.language
+      ensureLineStartsBlock = (line) ->
+        return false unless language is "python"
+        match = /^\s*([^#]+)/.exec(line)
+        return false if not match?
+        return /:\s*$/.test(match[1])
+
       @aceSession.addDynamicMarker
         update: (html, markerLayer, session, config) =>
           Range = ace.require('ace/range').Range
@@ -286,6 +293,8 @@ module.exports = class SpellView extends CocoView
             if not docRange?
               guess = startOfRow(row)
               docRange = new Range(row,guess,row,guess+4)
+
+            continue unless ensureLineStartsBlock(lines[row])
 
             if /^\s+$/.test lines[docRange.end.row+1]
               docRange.end.row += 1
