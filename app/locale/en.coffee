@@ -969,6 +969,7 @@
     greetings: "Greetings!"
     learn_p: "Learn Python"
     learn_j: "Learn JavaScript"
+    language_cannot_change: "Language cannot be changed once students join a class."
     back_classrooms: "Back to my classrooms"
     back_courses: "Back to my courses"
     edit_details: "Edit class details"
