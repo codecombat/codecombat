@@ -24,28 +24,11 @@ query = dateCreated: {$gt: startDate}, emailLower: {$exists: true}
 selection = 'name emailLower schoolName courseInstances clans ageRange dateCreated referrer points lastIP hourOfCode preferredLanguage lastLevel'
 User.find(query).select(selection).lean().exec (err, users) ->
   usersWithSchools = _.filter users, 'schoolName'
-  schoolNames = _.uniq (u.schoolName for u in usersWithSchools)
-  log.info "Found #{usersWithSchools.length} users of #{users.length} users registered after #{startDate} with schools like:\n\t#{schoolNames.slice(0, 10).join('\n\t')}"
-
-  # For each user, come up with a confidence that their school is correct.
-  # For users with low confidence, look for similarities to other users with high confidence.
-  # If we have enough data, prompt to update the school.
-  # After each update, recalculate confidence to find the next user with low confidence.
-
-  # How do we come up with confidence estimate?
-  # If there are many students with the same school name, it's either correct or a rename must happen.
-  # If the school name is unique but similar to a school name with many students, it's probably incorrect.
-  #   But if we determine it is correct, how can we record this fact so it doesn't keep asking?
-
-  # How can we infer the school name when we think it's not correct?
-  # We look for users with confident schoolNames in shared courseInstances.
-  # ... in shared clans.
-  # ... with the same lastIP that doesn't cover the lastIP of students from multiple schools.
-  # If we find a school-district-formatted email domain, we could try to match to other schoolNames in that domain, but I doubt that will be helpful until we have a lot of data and a lot of time to manually look things up.
-
+  log.info "Found #{usersWithSchools.length} users of #{users.length} users registered after #{startDate}."
   nextPrompt users
 
 nextPrompt = (users, question) ->
+  # We look for the next top user to classify based on the number of suggestions we can make about what the school name should be.
   sortUsers users
   return console.log('Done.') or process.exit() unless [userToSchool, suggestions] = findUserToSchool users
   question ?= formatSuggestions userToSchool, suggestions
@@ -66,7 +49,7 @@ nextPrompt = (users, question) ->
 
 finalizePrompt = (userToSchool, suggestions, schoolName, users) ->
   console.log "Selected schoolName: \"#{schoolName}\""
-  question = "Also apply this to other users? Ex.: 'all', '0 1 2 5', 'all -3 -4 -5', '0' to just do this one, or blank to retype school name.\n> "
+  question = "Also apply this to other users? Ex.: 'all', '0 1 2 5 9-14', 'all but 38 59-65', '0' to just do this one, or blank to retype school name.\n> "
   prompt question, (answer) ->
     answer = answer.trim()
     if answer is ''
@@ -76,15 +59,15 @@ finalizePrompt = (userToSchool, suggestions, schoolName, users) ->
       targets = [userToSchool].concat (s.user for s in suggestions)
       console.log "Doing all #{targets.length} users..."
     else if /^all/.test answer
+      numbers = findNumbers answer, suggestions.length
       targets = [userToSchool].concat (s.user for s in suggestions)
-      numbers = _.filter (parseInt(d, 10) for d in answer.split(/ *-/)), (n) -> not _.isNaN n
       for number in numbers
         skip = if number then suggestions[number - 1].user else userToSchool
         targets = _.without targets, skip
       console.log "Doing all #{targets.length} users without #{numbers}..."
     else
-      numbers = _.filter (parseInt(d, 10) for d in answer.split(/ +/)), (n) -> not _.isNaN n
-      targets = ((if number then suggestions[number - 1].user else userToSchool) for number in numbers)
+      numbers = findNumbers answer, suggestions.length
+      targets = _.filter ((if number then suggestions[number - 1].user else userToSchool) for number in numbers)
       console.log "Doing #{targets.length} users for #{numbers}..."
     #User.update {_id: {$in: (_.map targets, '_id')}}, {schoolName: schoolName}, {multi: true}, (err, result) ->
     User.update {_id: {$in: []}}, {schoolName: schoolName}, {multi: true}, (err, result) ->
@@ -92,8 +75,21 @@ finalizePrompt = (userToSchool, suggestions, schoolName, users) ->
         console.error "Ran into error doing the save:", err
         return finalizePrompt userToSchool, suggestions, schoolName, users
       console.log "Updated users' schoolNames. Result:", result
+      # Take these users out of the pool to make suggestions about before going on to next suggestions.
       remainingUsers = _.without users, targets...
       nextPrompt remainingUsers
+
+findNumbers = (answer, max) ->
+  numbers = (parseInt(d, 10) for d in (' ' + answer + ' ').match(/ (\d+) /g) ? [])
+  ranges = answer.match(/(\d+-\d+)/g) or []
+  for range in ranges
+    bounds = (parseInt(d, 10) for d in range.split('-'))
+    for number in [bounds[0] .. bounds[1]]
+      numbers.push number
+  for number in numbers
+    if number > max
+      console.log "Incorrect number #{number} higher than max: #{max}"
+  numbers
 
 formatUser = (user) ->
   # TODO: replace date string with relative time since signup compared to target user
@@ -110,6 +106,7 @@ formatSuggestions = (userToSchool, suggestions) ->
   > """
 
 findUserToSchool = (users) ->
+  # We find the top user from the top group that we can make the most reasoned suggestions about what the school name would be.
   # TODO: don't show users where everyone in the suggestion already has the same school (because we have already done this group)
   [bestTarget, bestTargetSuggestions, mostReasons] = [null, [], 0]
   for field, groups of topGroups
@@ -124,6 +121,7 @@ findUserToSchool = (users) ->
   return [bestTarget, bestTargetSuggestions]
 
 findSuggestions = (target) ->
+  # Look for other users with the same IP, course instances, clans, or similar school names or non-common shared email domains.
   suggestions = []
   if target.lastIP
     for otherUser in userCategories.lastIP[target.lastIP] when otherUser isnt target
@@ -151,6 +149,13 @@ findSuggestions = (target) ->
           existingSuggestion.reasons.push reason
         else
           suggestions.push schoolName: match, reasons: [reason], user: otherUser
+  if domain = getDomain target
+    for otherUser in userCategories.domain[domain] when otherUser isnt target
+      reason = "Domain match"
+      if existingSuggestion = _.find(suggestions, user: otherUser)
+        existingSuggestion.reasons.push reason
+      else
+        suggestions.push schoolName: otherUser.schoolName, reasons: [reason], user: otherUser
   return _.uniq suggestions, 'user'
 
 userCategories = {}
@@ -160,22 +165,32 @@ usersCategorized = {}
 sortUsers = (users) ->
   users = _.sortBy users, (u) -> -u.points
   users = _.sortBy users, ['schoolName', 'lastIP']
-  # TODO: also match users by shared school email domains when we can identify those
-  for field in ['courseInstances', 'lastIP', 'schoolName', 'clans']
+  for field in ['courseInstances', 'lastIP', 'schoolName', 'domain', 'clans']
     userCategories[field] = categorizeUsers users, field
     topGroups[field] = _.sortBy _.keys(userCategories[field]), (key) -> -userCategories[field][key].length
     topGroups[field] = (group for group in topGroups[field] when 2 < userCategories[field][group].length < (if field is 'clans' then 30 else 5000))
 
 categorizeUsers = (users, field) ->
   categories = {}
-  for user in users when value = user[field]
+  for user in users
+    if field is 'domain'
+      value = getDomain user
+    else
+      value = user[field]
+    continue unless value
     values = if _.isArray(value) then value else [value]
     for value in values when value
-      continue if value.trim and not value.trim()
+      continue if value.trim and not value = value.trim()
       categories[value] ?= []
       categories[value].push user
   categories
 
+getDomain = (user) ->
+  domain = user.emailLower.split('@')[1]
+  return null if commonEmailDomainMap[domain]
+  typo = _.find commonEmailDomains, (commonDomain) -> stringScore(commonDomain, domain, 0.8) > 0.9
+  return null if typo
+  domain
 
 # https://github.com/joshaven/string_score
 stringScore = (_a, word, fuzziness) ->
@@ -228,3 +243,47 @@ prompt = (question, callback) ->
   process.stdout.write question
   process.stdin.once 'data', (data) ->
     callback data.toString().trim()
+
+# https://github.com/mailcheck/mailcheck/wiki/List-of-Popular-Domains
+commonEmailDomains = [
+  # Default domains included
+  "aol.com", "att.net", "comcast.net", "facebook.com", "gmail.com", "gmx.com", "googlemail.com",
+  "google.com", "hotmail.com", "hotmail.co.uk", "mac.com", "me.com", "mail.com", "msn.com",
+  "live.com", "sbcglobal.net", "verizon.net", "yahoo.com", "yahoo.co.uk",
+
+  # Other global domains
+  "email.com", "games.com", "gmx.net", "hush.com", "hushmail.com", "icloud.com", "inbox.com",
+  "lavabit.com", "love.com", "outlook.com", "pobox.com", "rocketmail.com",
+  "safe-mail.net", "wow.com", "ygm.com", "ymail.com", "zoho.com", "fastmail.fm",
+
+  # United States ISP domains
+  "bellsouth.net", "charter.net", "comcast.net", "cox.net", "earthlink.net", "juno.com",
+
+  # British ISP domains
+  "btinternet.com", "virginmedia.com", "blueyonder.co.uk", "freeserve.co.uk", "live.co.uk",
+  "ntlworld.com", "o2.co.uk", "orange.net", "sky.com", "talktalk.co.uk", "tiscali.co.uk",
+  "virgin.net", "wanadoo.co.uk", "bt.com",
+
+  # Domains used in Asia
+  "sina.com", "qq.com", "naver.com", "hanmail.net", "daum.net", "nate.com", "yahoo.co.jp", "yahoo.co.kr", "yahoo.co.id", "yahoo.co.in", "yahoo.com.sg", "yahoo.com.ph",
+
+  # French ISP domains
+  "hotmail.fr", "live.fr", "laposte.net", "yahoo.fr", "wanadoo.fr", "orange.fr", "gmx.fr", "sfr.fr", "neuf.fr", "free.fr",
+
+  # German ISP domains
+  "gmx.de", "hotmail.de", "live.de", "online.de", "t-online.de", "web.de", "yahoo.de",
+
+  # Russian ISP domains
+  "mail.ru", "rambler.ru", "yandex.ru", "ya.ru", "list.ru",
+
+  # Belgian ISP domains
+  "hotmail.be", "live.be", "skynet.be", "voo.be", "tvcablenet.be", "telenet.be",
+
+  # Argentinian ISP domains
+  "hotmail.com.ar", "live.com.ar", "yahoo.com.ar", "fibertel.com.ar", "speedy.com.ar", "arnet.com.ar",
+
+  # Domains used in Mexico
+  "hotmail.com", "gmail.com", "yahoo.com.mx", "live.com.mx", "yahoo.com", "hotmail.es", "live.com", "hotmail.com.mx", "prodigy.net.mx", "msn.com"
+]
+commonEmailDomainMap = {}
+commonEmailDomainMap[domain] = true for domain in commonEmailDomainMap
