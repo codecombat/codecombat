@@ -49,7 +49,7 @@ TrialRequestSchema.post 'save', (doc) ->
         address: doc.get('properties')?.email
       email_id: sendwithus.templates.teacher_free_trial_hoc
       email_data:
-        endDate: endDate
+        endDate: endDate.toDateString()
     sendwithus.api.send emailParams, (err, result) =>
       log.error "sendwithus trial request approved error: #{err}, result: #{result}" if err
 
