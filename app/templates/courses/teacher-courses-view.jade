@@ -4,9 +4,13 @@ block content
 
   .text-center
     if me.isAnonymous() || !me.get('name')
-      .welcome Welcome!
+      .welcome
+        span(data-i18n="courses.welcome")
+        span !
     else
-      .welcome Welcome, #{me.get('name')}!
+      .welcome
+        span(data-i18n="courses.welcome")
+        span , #{me.get('name')}!
 
   .container-fluid
     .row
@@ -14,58 +18,55 @@ block content
       .col-md-8
         .well
           .text-center
-            strong.uppercase Getting Started with Courses
+            strong.uppercase(data-i18n="courses.getting_started")
           br
           .text-center
-            a.btn.btn-info(href='http://codecombat.com/docs/CodeCombatHourofCodeGettingStartedGuide.pdf') Download Getting Started Guide [PDF]
+            a.btn.btn-info(href='http://codecombat.com/docs/CodeCombatHourofCodeGettingStartedGuide.pdf', data-i18n="courses.download_getting_started")
           br
           ol
-            li Create a new class by clicking the green "Create New Class" button below.
-            li Once you've created a class, click the blue "Add Students" button.
-            li You'll see student's progress below as they sign up and join your class.
+            li(data-i18n="courses.getting_started_1")
+            li(data-i18n="courses.getting_started_2")
+            li(data-i18n="courses.getting_started_3")
           br
           .text-center
-            strong Additional Resources
+            strong(data-i18n="courses.addicional_resources")
           ul
             li
-              span.spr Download/print our
-              a.spr(href='http://codecombat.com/docs/CodeCombatTeacherGuideCourse1.pdf') Course 1 Teacher's Guide
-              span for explanations and solutions to each level.
+              span.spr(data-i18n="courses.addicional_resources_1_pref")
+              a(href='http://codecombat.com/docs/CodeCombatTeacherGuideCourse1.pdf', data-i18n="courses.addicional_resources_1_mid")
+              span.spl(data-i18n="courses.addicional_resources_1_suff")
             li
-              span.spr Complete our
-              a.spr(href='/teachers/freetrial') Teacher Survey
-              span to get 15 more hours of content for FREE for 2 months.
+              span.spr(data-i18n="courses.addicional_resources_2_pref")
+              a(href='/teachers/freetrial', data-i18n="teachers_survey.title")
+              span.spl(data-i18n="courses.addicional_resources_2_suff")
             li
-              span.spr Visit our
-              a.spr(href='http://discourse.codecombat.com/c/teachers') Teacher Forums
-              span to connect to fellow educators who are using CodeCombat.
+              span.spr(data-i18n="courses.addicional_resources_3_pref")
+              a(href='http://discourse.codecombat.com/c/teachers', data-i18n="courses.addicional_resources_3_mid")
+              span.spl(data-i18n="courses.addicional_resources_3_suff")
 
-  .section-header Your Classes
+  .section-header(data-i18n="courses.your_classes")
 
   if view.classrooms.models.length > 0
     .container-fluid
       each classroom in view.classrooms.models
         +classroom(classroom)
   else
-    .no-students No classes yet!
+    .no-students(data-i18n="courses.no_classes")
 
   .text-center
-    button.btn.btn-lg.btn-success.uppercase.create-new-class create new class
+    button.btn.btn-lg.btn-success.uppercase.create-new-class(data-i18n="courses.create_new_class1")
 
   br
-  .section-header Available Courses
-  
+  .section-header(data-i18n="courses.available_courses")
+
   if !me.isAnonymous()
     p.text-center
-      strong.spr Unused enrollments available:
+      strong.spr(data-i18n="courses.unused_enrollments")
       strong.spr= view.prepaids.totalAvailable()
-      a.btn.btn-success.btn(href="/courses/purchase") Purchase Enrollments
-    
-  p
-    | All students get access to Introduction to Computer Science for free.
-    | One enrollment per student is required to assign them to paid CodeCombat courses.
-    | A single student does not need multiple enrollments to access all paid courses.
-    
+      a.btn.btn-success.btn(href="/courses/purchase", data-i18n="courses.purchase_enrollments")
+
+  p(data-i18n="courses.students_access")
+
   .container-fluid
     - var courses = view.courses.models;
     - var i = 0;
@@ -95,7 +96,7 @@ mixin classroom(classroom)
           else
             span.spr.class-name (Python)
           a.edit-classroom-small(data-i18n="courses.edit_settings", data-classroom-id="#{classroom.id}")
-          .active-courses active courses
+          .active-courses(data-i18n="courses.active_courses")
           - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
           each courseInstance in courseInstances
             +course(courseInstance, classMemberCount)
@@ -108,15 +109,15 @@ mixin classroom(classroom)
           else
             span.spr.class-name (Python)
           a.edit-classroom-small(data-i18n="courses.edit_settings", data-classroom-id="#{classroom.id}")
-        .no-students No students yet!
+        .no-students(data-i18n="courses.no_students")
         .text-center
-          button.btn.btn-info.uppercase.btn-add-students(data-classroom-id="#{classroom.id}") add students
+          button.btn.btn-info.uppercase.btn-add-students(data-classroom-id="#{classroom.id}", data-i18n="courses.add_students1")
         br
     if classMemberCount > 0
       .col-md-4.text-center
         .class-count= classMemberCount
-        .active-courses(style='margin:6px;') students
-        a.btn.btn-info.uppercase(href='/courses/#{classroom.id}') view/edit
+        .active-courses(style='margin:6px;', data-i18n="courses.students1")
+        a.btn.btn-info.uppercase(href='/courses/#{classroom.id}', data-i18n="courses.view_edit")
   .row
     .col-md-12
       .divider
@@ -127,7 +128,9 @@ mixin course(courseInstance, classMemberCount)
     - var course = view.courses.get(courseInstance.get('courseID'));
     p
       .course-name= course.get('name')
-      .course-enrolled #{courseMemberCount} / #{classMemberCount} students enrolled
+      .course-enrolled
+        span #{courseMemberCount} / #{classMemberCount}
+        span.spl(data-i18n="courses.students_enrolled")
       each concept in course.get('concepts')
         span.spr.course-concept(data-i18n="concepts." + concept)
 
@@ -138,11 +141,14 @@ mixin course-info(course)
       span.spr.course-name= course.get('name')
       p= course.get('description')
       p
-        strong.spr Concepts:
+        strong
+          span(data-i18n="courses.concepts")
+          span.spr :
         each concept in course.get('concepts')
           span(data-i18n="concepts." + concept)
           if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
             span.spr ,
       p
-        strong.spr Length:
-        span #{course.get('duration') || 0} hours
+        strong.spr(data-i18n="courses.length")
+        span= course.get('duration') || 0
+        span.spl(data-i18n="units.hours")

@@ -121,7 +121,7 @@ block modal-footer-content
     else if level.get('type') === 'hero-ladder'
       button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
     else
-      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.victory_play_continue") Continue
+      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
 
   if !me.get('anonymous') && !showHourOfCodeDoneButton && showLeaderboard
     button.btn.btn-illustrated.btn-success.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions") View Other Solutions
