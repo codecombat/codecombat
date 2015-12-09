@@ -40,7 +40,7 @@ EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, origin
       if rewards.length
         update.$addToSet ?= {}
         update.$addToSet["earned.#{rewardType}"] = $each: rewards
-    User.update {_id: mongoose.Types.ObjectId(userID)}, update, {}, (err, count) ->
+    User.update {_id: mongoose.Types.ObjectId(userID)}, update, {}, (err, result) ->
       log.error err if err?
       done?(earnedAchievementDoc)
 

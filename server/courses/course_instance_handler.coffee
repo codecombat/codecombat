@@ -247,9 +247,9 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
           'redeemers.userID': { $ne: req.user.get('_id') }
           $where: "this.redeemers.length < #{prepaid.get('maxRedeemers')}"
         update = { $push: { redeemers : { date: new Date(), userID: req.user.get('_id') } }}
-        Prepaid.update query, update, (err, nMatched) =>
+        Prepaid.update query, update, (err, result) =>
           return @sendDatabaseError(res, err) if err
-          if nMatched is 0
+          if result?.nModified is 0
             @logError(req.user, "Course instance update prepaid lost race on maxRedeemers")
             return @sendForbiddenError(res)
 

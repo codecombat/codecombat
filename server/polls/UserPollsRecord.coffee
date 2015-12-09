@@ -37,18 +37,18 @@ updatePollVotes = (userID, pollID, answer, previousAnswer) ->
     _.find(answers, key: previousAnswer)?.votes-- if previousAnswer
     poll.set 'answers', answers
     poll.markModified 'answers'
-    poll.save (err, newPoll, numberAffected) ->
+    poll.save (err, newPoll, result) ->
       return log.error err if err
     updateUserProperty userID, userProperty, answer if userProperty = poll.get 'userProperty'
 
 updateUserProperty = (userID, userProperty, answer) ->
   update = $set: {"#{userProperty}": answer}
-  User.update {_id: mongoose.Types.ObjectId(userID)}, update, (err, numberAffected) ->
+  User.update {_id: mongoose.Types.ObjectId(userID)}, update, (err, result) ->
     return log.error err if err
 
 updateUserGems = (userID, gemDelta) ->
   update = $inc: {'earned.gems': gemDelta}
-  User.update {_id: mongoose.Types.ObjectId(userID)}, update, (err, numberAffected) ->
+  User.update {_id: mongoose.Types.ObjectId(userID)}, update, (err, result) ->
     return log.error err if err
 
 UserPollsRecordSchema.statics.privateProperties = []
