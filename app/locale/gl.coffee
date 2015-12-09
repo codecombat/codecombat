@@ -380,7 +380,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    difficulty: "Difficulty"
 #    gold_collected: "Gold Collected"
 
-  inventory:
+#  inventory:
 #    equipped_item: "Equipped"
 #    required_purchase_title: "Required"
 #    available_item: "Available"
