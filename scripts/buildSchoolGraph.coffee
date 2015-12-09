@@ -17,8 +17,7 @@ database.connect()
 UserHandler = require '../server/users/user_handler'
 User = require '../server/users/User'
 
-#startDate = new Date 2015, 11, 1
-startDate = new Date 2015, 11, 8  # Testing
+startDate = new Date 2015, 11, 1
 
 query = dateCreated: {$gt: startDate}, emailLower: {$exists: true}
 selection = 'name emailLower schoolName courseInstances clans ageRange dateCreated referrer points lastIP hourOfCode preferredLanguage lastLevel'
@@ -33,10 +32,10 @@ nextPrompt = (users, question) ->
   return console.log('Done.') or process.exit() unless [userToSchool, suggestions] = findUserToSchool users
   question ?= formatSuggestions userToSchool, suggestions
   prompt question, (answer) ->
-    return console.log('Bye.') or process.exit() if answer in ['q', 'quit']
     answer = answer.trim()
+    return console.log('Bye.') or process.exit() if answer in ['q', 'quit']
     if answer is ''
-      users = _.without users, userToSchool
+      return nextPrompt _.without users, userToSchool
     else unless _.isNaN(num = parseInt(answer, 10))
       schoolName = if num then suggestions[num - 1]?.schoolName else userToSchool.schoolName
       return finalizePrompt userToSchool, suggestions, schoolName, users
@@ -45,13 +44,13 @@ nextPrompt = (users, question) ->
       return nextPrompt users, "> "
     else
       return finalizePrompt userToSchool, suggestions, answer, users
-    nextPrompt users
 
 finalizePrompt = (userToSchool, suggestions, schoolName, users) ->
   console.log "Selected schoolName: \"#{schoolName}\""
-  question = "Also apply this to other users? Ex.: 'all', '0 1 2 5 9-14', 'all but 38 59-65', '0' to just do this one, or blank to retype school name.\n> "
+  question = "Also apply this to other users? Ex.: 'all', '0 1 2 5 9-14', 'all but 38 59-65', '0' to just do this one, q to quit, or blank to retype school name.\n> "
   prompt question, (answer) ->
     answer = answer.trim()
+    return console.log('Bye.') or process.exit() if answer in ['q', 'quit']
     if answer is ''
       console.log "Should just do", userToSchool._id, userToSchool.emailLower, userToSchool.schoolName
       targets = [userToSchool]
@@ -69,8 +68,8 @@ finalizePrompt = (userToSchool, suggestions, schoolName, users) ->
       numbers = findNumbers answer, suggestions.length
       targets = _.filter ((if number then suggestions[number - 1].user else userToSchool) for number in numbers)
       console.log "Doing #{targets.length} users for #{numbers}..."
-    #User.update {_id: {$in: (_.map targets, '_id')}}, {schoolName: schoolName}, {multi: true}, (err, result) ->
-    User.update {_id: {$in: []}}, {schoolName: schoolName}, {multi: true}, (err, result) ->
+    User.update {_id: {$in: (_.map targets, '_id')}}, {schoolName: schoolName}, {multi: true}, (err, result) ->
+    #User.update {_id: {$in: []}}, {schoolName: schoolName}, {multi: true}, (err, result) ->
       if err
         console.error "Ran into error doing the save:", err
         return finalizePrompt userToSchool, suggestions, schoolName, users
@@ -92,11 +91,11 @@ findNumbers = (answer, max) ->
   numbers
 
 formatUser = (user) ->
-  # TODO: replace date string with relative time since signup compared to target user
+  # TODO: replace date string with relative time since signup compared to target user, and actually make suggestions based on students that signed up at almost the same time
   _.values(_.pick(user, ['name', 'emailLower', 'ageRange', 'dateCreated', 'lastLevel', 'points', 'referrer', 'hourOfCode'])).join('  ')
 
 formatSuggestions = (userToSchool, suggestions) ->
-  suggestionPrompts = ("#{_.str.rpad(i + 1, 3)}  #{_.str.rpad(s.schoolName, 50)} #{s.reasons.join(' + ')}\tfrom user: #{formatUser(s.user)}" for s, i in suggestions).join('\n')
+  suggestionPrompts = ("#{_.str.rpad(i + 1, 3)}  #{_.str.rpad(s.schoolName, 50)} #{s.reasons.length} #{if s.reasons.length > 1 then 'Matches' else 'Match'}: #{s.reasons.join(', ')}\tfrom user: #{formatUser(s.user)}" for s, i in suggestions).join('\n')
   """
   What should the school for this user be?
   0    #{_.str.rpad(userToSchool.schoolName, 50)} #{formatUser(userToSchool)}
@@ -107,35 +106,60 @@ formatSuggestions = (userToSchool, suggestions) ->
 
 findUserToSchool = (users) ->
   # We find the top user from the top group that we can make the most reasoned suggestions about what the school name would be.
-  # TODO: don't show users where everyone in the suggestion already has the same school (because we have already done this group)
   [bestTarget, bestTargetSuggestions, mostReasons] = [null, [], 0]
   for field, groups of topGroups
-    largestGroup = groups[0]
-    target = userCategories[field][largestGroup][0]
-    suggestions = findSuggestions target
-    reasons = _.reduce suggestions, ((sum, suggestion) -> sum + (if suggestion.schoolName then suggestion.reasons.length else 0)), 0
-    if reasons > mostReasons
-      bestTarget = target
-      bestTargetSuggestions = suggestions
-      mostReasons = reasons
+    for nextLargestGroup in groups
+      possibleTargets = userCategories[field][nextLargestGroup]
+      schoolNames = _.uniq possibleTargets, 'schoolName'
+      # TODO: better method to avoid showing users where everyone in the suggestion already has the same school (because we have already done this group)
+      for schoolName in schoolNames
+        if _.filter(possibleTargets, schoolName: schoolName).length > 0.5 * possibleTargets.length
+          alreadyDone = true
+      continue if alreadyDone
+      nSamples = Math.min 15, Math.max(4, Math.floor possibleTargets.length / 20)
+      console.log 'Checking', nSamples, 'samples of', possibleTargets.length, 'players in the biggest', field, 'group:', nextLargestGroup
+      for i in [0 ... nSamples]
+        target = possibleTargets[Math.floor i * possibleTargets.length / (nSamples + 1)]
+        suggestions = findSuggestions target
+        reasons = _.reduce suggestions, ((sum, suggestion) ->
+          for suggestion in suggestions
+            for reason in suggestion.reasons
+              sum += switch reason
+                when 'Course instances' then 50
+                when 'IP' then 40
+                when 'Name' then 30
+                when 'Referrer' then 20
+                when 'Domain' then (if getDomain(target) is 'cps.edu' then 1 else 10)
+                when 'Clans' then 0.1
+          sum
+        ), 0
+        if reasons > mostReasons
+          bestTarget = target
+          bestTargetSuggestions = suggestions
+          mostReasons = reasons
+      break
   return [bestTarget, bestTargetSuggestions]
 
 findSuggestions = (target) ->
   # Look for other users with the same IP, course instances, clans, or similar school names or non-common shared email domains.
   suggestions = []
+  t0 = new Date()
+  console.log '  Checking suggestions for', target.emailLower, target.schoolName, (new Date()) - t0
   if target.lastIP
-    for otherUser in userCategories.lastIP[target.lastIP] when otherUser isnt target
-      suggestions.push schoolName: otherUser.schoolName, reasons: ["IP match"], user: otherUser
+    for otherUser in (userCategories.lastIP[target.lastIP] ? []) when otherUser isnt target
+      suggestions.push schoolName: otherUser.schoolName, reasons: ['IP'], user: otherUser
   for leagueType in ['courseInstances', 'clans']
+    console.log '    Now checking', leagueType, (new Date()) - t0
     if target[leagueType]?.length
       for league in target[leagueType]
-        for otherUser in userCategories[leagueType][league] when otherUser isnt target
-          reason = "#{_.str.humanize(leagueType)} match"
+        for otherUser in (userCategories[leagueType][league] ? []) when otherUser isnt target
+          reason = _.str.humanize(leagueType)
           if existingSuggestion = _.find(suggestions, user: otherUser)
             existingSuggestion.reasons.push reason
           else
             suggestions.push schoolName: otherUser.schoolName, reasons: [reason], user: otherUser
   if target.schoolName?.length > 5
+    console.log '    Now checking schoolName', (new Date()) - t0
     nameMatches = []
     for otherSchoolName in topGroups.schoolName
       score = stringScore otherSchoolName, target.schoolName, 0.8
@@ -143,20 +167,31 @@ findSuggestions = (target) ->
       nameMatches.push schoolName: otherSchoolName, score: score
     nameMatches = (match.schoolName for match in (_.sortBy nameMatches, (match) -> -match.score))
     for match in nameMatches.slice(0, 10)
-      reason = "Name match"
-      for otherUser in userCategories.schoolName[match] when otherUser isnt target
+      reason = "Name"
+      for otherUser in (userCategories.schoolName[match] ? []) when otherUser isnt target
         if existingSuggestion = _.find(suggestions, user: otherUser)
           existingSuggestion.reasons.push reason
         else
           suggestions.push schoolName: match, reasons: [reason], user: otherUser
+  console.log '    Now checking domain', (new Date()) - t0
   if domain = getDomain target
-    for otherUser in userCategories.domain[domain] when otherUser isnt target
-      reason = "Domain match"
+    for otherUser in (userCategories.domain[domain] ? []) when otherUser isnt target
+      reason = "Domain"
       if existingSuggestion = _.find(suggestions, user: otherUser)
         existingSuggestion.reasons.push reason
       else
         suggestions.push schoolName: otherUser.schoolName, reasons: [reason], user: otherUser
-  return _.uniq suggestions, 'user'
+  console.log '    Now checking referrer', (new Date()) - t0
+  if referrer = getReferrer target
+    for otherUser in (userCategories.referrer[referrer] ? []) when otherUser isnt target
+      reason = "Referrer"
+      if existingSuggestion = _.find(suggestions, user: otherUser)
+        existingSuggestion.reasons.push reason
+      else
+        suggestions.push schoolName: otherUser.schoolName, reasons: [reason], user: otherUser
+  suggestions = _.sortBy suggestions, 'schoolName'
+  suggestions = _.sortBy suggestions, (s) -> -s.reasons.length
+  return suggestions
 
 userCategories = {}
 topGroups = {}
@@ -165,7 +200,7 @@ usersCategorized = {}
 sortUsers = (users) ->
   users = _.sortBy users, (u) -> -u.points
   users = _.sortBy users, ['schoolName', 'lastIP']
-  for field in ['courseInstances', 'lastIP', 'schoolName', 'domain', 'clans']
+  for field in ['courseInstances', 'lastIP', 'schoolName', 'domain', 'clans', 'referrer']
     userCategories[field] = categorizeUsers users, field
     topGroups[field] = _.sortBy _.keys(userCategories[field]), (key) -> -userCategories[field][key].length
     topGroups[field] = (group for group in topGroups[field] when 2 < userCategories[field][group].length < (if field is 'clans' then 30 else 5000))
@@ -175,6 +210,8 @@ categorizeUsers = (users, field) ->
   for user in users
     if field is 'domain'
       value = getDomain user
+    else if field is 'referrer'
+      value = getReferrer user
     else
       value = user[field]
     continue unless value
@@ -185,12 +222,26 @@ categorizeUsers = (users, field) ->
       categories[value].push user
   categories
 
+typoCache = {}
 getDomain = (user) ->
-  domain = user.emailLower.split('@')[1]
+  return null unless domain = user.emailLower.split('@')[1]
   return null if commonEmailDomainMap[domain]
+  typo = typoCache[domain]
+  return null if typo
+  return domain if typo is false
   typo = _.find commonEmailDomains, (commonDomain) -> stringScore(commonDomain, domain, 0.8) > 0.9
+  typoCache[domain] = Boolean(typo)
   return null if typo
   domain
+
+commonReferrersRegex = /(google|bing\.|yahoo|duckduckgo|jobs\.lever|code\.org|twitter|facebook|dollarclick|stumbleupon|vk\.com|playpcesor|reddit|lifehacker|favorite|bnext|freelance|taringa|blogthinkbig|graphism|inside\.com|korben|habrahabr|iplaysoft|geekbrains|playground|ycombinator|github\.com)/
+getReferrer = (user) ->
+  return null unless referrer = user.referrer?.toLowerCase().trim()
+  referrer = referrer.replace /^https?:\/\//, ''
+  return null if commonReferrersRegex.test referrer
+  return classCode if classCode = referrer.match(/\?_cc=(\S+)/)?[1]
+  return null if /codecombat/.test referrer
+  referrer
 
 # https://github.com/joshaven/string_score
 stringScore = (_a, word, fuzziness) ->

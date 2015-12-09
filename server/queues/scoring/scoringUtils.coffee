@@ -3,6 +3,7 @@ async = require 'async'
 bayes = new (require 'bayesian-battle')()
 LevelSession = require '../../levels/sessions/LevelSession'
 User = require '../../users/User'
+perfmon = require '../../commons/perfmon'
 
 SIMULATOR_VERSION = 3
 
@@ -199,6 +200,7 @@ module.exports.updateUserSimulationCounts = (reqUserID, callback) ->
   incrementUserSimulationCount reqUserID, 'simulatedBy', (err) =>
     if err? then return callback err
     #console.log 'Incremented user simulation count!'
+    perfmon.client.increment 'simulations'
     unless @isRandomMatch
       incrementUserSimulationCount @levelSession.creator, 'simulatedFor', callback
     else
