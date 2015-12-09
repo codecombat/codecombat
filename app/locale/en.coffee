@@ -675,8 +675,8 @@
     being_reviewed_1: "Your application for a free trial is being"
     being_reviewed_2: "reviewed."
     approved_1: "Your application for a free trial was"
-    approved_2: "approved!" # {change}
-    approved_4: "You can now enroll your students on the" # {change}
+    approved_2: "approved!"
+    approved_4: "You can now enroll your students on the"
     approved_5: "courses"
     approved_6: "page."
     denied_1: "Your application for a free trial has been"
@@ -1317,7 +1317,7 @@
     tutorial_skip: "Skip Tutorial"
     tutorial_not_sure: "Not sure what's going on?"
     tutorial_play_first: "Play the Tutorial first."
-    simple_ai: "Simple CPU" # {change}
+    simple_ai: "Simple CPU"
     warmup: "Warmup"
     friends_playing: "Friends Playing"
     log_in_for_friends: "Log in to play with your friends!"
@@ -1340,7 +1340,7 @@
     winners: "Winners"
     league: "League"
     red_ai: "Red CPU"  # "Red AI Wins", at end of multiplayer match playback
-    blue_ai: "Blue CPU" # {change}
+    blue_ai: "Blue CPU"
     wins: "Wins"  # At end of multiplayer match playback
     humans: "Red"  # Ladder page display team name
     ogres: "Blue"
