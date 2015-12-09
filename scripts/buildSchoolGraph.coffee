@@ -4,6 +4,7 @@ database = require '../server/commons/database'
 mongoose = require 'mongoose'
 log = require 'winston'
 async = require 'async'
+moment = require 'moment'
 
 ### SET UP ###
 do (setupLodash = this) ->
@@ -19,6 +20,8 @@ User = require '../server/users/User'
 
 startDate = new Date 2015, 11, 1
 
+debugging = false
+
 query = dateCreated: {$gt: startDate}, emailLower: {$exists: true}
 selection = 'name emailLower schoolName courseInstances clans ageRange dateCreated referrer points lastIP hourOfCode preferredLanguage lastLevel'
 User.find(query).select(selection).lean().exec (err, users) ->
@@ -26,10 +29,11 @@ User.find(query).select(selection).lean().exec (err, users) ->
   log.info "Found #{usersWithSchools.length} users of #{users.length} users registered after #{startDate}."
   nextPrompt users
 
-nextPrompt = (users, question) ->
+nextPrompt = (users, question, userToSchool, suggestions) ->
   # We look for the next top user to classify based on the number of suggestions we can make about what the school name should be.
   sortUsers users
-  return console.log('Done.') or process.exit() unless [userToSchool, suggestions] = findUserToSchool users
+  unless userToSchool
+    return console.log('Done.') or process.exit() unless [userToSchool, suggestions] = findUserToSchool users
   question ?= formatSuggestions userToSchool, suggestions
   prompt question, (answer) ->
     answer = answer.trim()
@@ -41,7 +45,10 @@ nextPrompt = (users, question) ->
       return finalizePrompt userToSchool, suggestions, schoolName, users
     else if answer.length < 10
       console.log "#{answer}? That's kind of short--I don't think school names and locations can be this short. What should it really be?"
-      return nextPrompt users, "> "
+      return nextPrompt users, "> ", userToSchool, suggestions
+    else unless /,.+,/.test answer
+      console.log "#{answer}? We need the full location (with two commas), like Example High School, Springfield, IL. What should it really be?"
+      return nextPrompt users, "> ", userToSchool, suggestions
     else
       return finalizePrompt userToSchool, suggestions, answer, users
 
@@ -79,7 +86,7 @@ finalizePrompt = (userToSchool, suggestions, schoolName, users) ->
       nextPrompt remainingUsers
 
 findNumbers = (answer, max) ->
-  numbers = (parseInt(d, 10) for d in (' ' + answer + ' ').match(/ (\d+) /g) ? [])
+  numbers = (parseInt(d, 10) for d in (' ' + answer + ' ').replace(/ /g, '  ').match(/ (\d+) /g) ? [])
   ranges = answer.match(/(\d+-\d+)/g) or []
   for range in ranges
     bounds = (parseInt(d, 10) for d in range.split('-'))
@@ -90,12 +97,14 @@ findNumbers = (answer, max) ->
       console.log "Incorrect number #{number} higher than max: #{max}"
   numbers
 
-formatUser = (user) ->
+formatUser = (user, relativeToUser) ->
   # TODO: replace date string with relative time since signup compared to target user, and actually make suggestions based on students that signed up at almost the same time
-  _.values(_.pick(user, ['name', 'emailLower', 'ageRange', 'dateCreated', 'lastLevel', 'points', 'referrer', 'hourOfCode'])).join('  ')
+  props = _.pick(user, ['name', 'emailLower', 'ageRange', 'dateCreated', 'lastLevel', 'points', 'referrer', 'hourOfCode'])
+  props.dateCreated = if relativeToUser then moment(props.dateCreated).from(relativeToUser.dateCreated) else moment(props.dateCreated).fromNow()
+  _.values(props).join('  ')
 
 formatSuggestions = (userToSchool, suggestions) ->
-  suggestionPrompts = ("#{_.str.rpad(i + 1, 3)}  #{_.str.rpad(s.schoolName, 50)} #{s.reasons.length} #{if s.reasons.length > 1 then 'Matches' else 'Match'}: #{s.reasons.join(', ')}\tfrom user: #{formatUser(s.user)}" for s, i in suggestions).join('\n')
+  suggestionPrompts = ("#{_.str.rpad(i + 1, 3)}  #{_.str.rpad(s.schoolName, 50)} #{s.reasons.length} #{if s.reasons.length > 1 then 'Matches' else 'Match'}: #{s.reasons.join(', ')}\tfrom user: #{formatUser(s.user, userToSchool)}" for s, i in suggestions).join('\n')
   """
   What should the school for this user be?
   0    #{_.str.rpad(userToSchool.schoolName, 50)} #{formatUser(userToSchool)}
@@ -104,20 +113,24 @@ formatSuggestions = (userToSchool, suggestions) ->
   Choose a number, type a name, enter to skip, or q to quit.
   > """
 
+checkedTopGroups = {}
 findUserToSchool = (users) ->
   # We find the top user from the top group that we can make the most reasoned suggestions about what the school name would be.
-  [bestTarget, bestTargetSuggestions, mostReasons] = [null, [], 0]
+  [bestTarget, bestTargetSuggestions, mostReasons, bestGroup] = [null, [], 0, null]
   for field, groups of topGroups
-    for nextLargestGroup in groups
+    for nextLargestGroup in groups when not checkedTopGroups[nextLargestGroup]
       possibleTargets = userCategories[field][nextLargestGroup]
-      schoolNames = _.uniq possibleTargets, 'schoolName'
+      schoolNames = (t.schoolName for t in _.uniq possibleTargets, 'schoolName')
       # TODO: better method to avoid showing users where everyone in the suggestion already has the same school (because we have already done this group)
-      for schoolName in schoolNames
-        if _.filter(possibleTargets, schoolName: schoolName).length > 0.5 * possibleTargets.length
+      alreadyDone = false
+      for schoolName in schoolNames when schoolName?.length > 10 and /,.+,/.test schoolName  # Long enough school name with location info (two commas)
+        sharedCount = _.filter(possibleTargets, schoolName: schoolName).length
+        if sharedCount > 0.5 * possibleTargets.length
+          console.log 'Already done', schoolName, sharedCount, possibleTargets.length, 'for', field, nextLargestGroup
           alreadyDone = true
       continue if alreadyDone
       nSamples = Math.min 15, Math.max(4, Math.floor possibleTargets.length / 20)
-      console.log 'Checking', nSamples, 'samples of', possibleTargets.length, 'players in the biggest', field, 'group:', nextLargestGroup
+      if debugging then console.log 'Checking', nSamples, 'samples of', possibleTargets.length, 'players in the biggest', field, 'group:', nextLargestGroup
       for i in [0 ... nSamples]
         target = possibleTargets[Math.floor i * possibleTargets.length / (nSamples + 1)]
         suggestions = findSuggestions target
@@ -130,26 +143,28 @@ findUserToSchool = (users) ->
                 when 'Name' then 30
                 when 'Referrer' then 20
                 when 'Domain' then (if getDomain(target) is 'cps.edu' then 1 else 10)
-                when 'Clans' then 0.1
+                when 'Clans' then 0.01
           sum
         ), 0
         if reasons > mostReasons
           bestTarget = target
           bestTargetSuggestions = suggestions
           mostReasons = reasons
+          bestGroup = nextLargestGroup
       break
+  checkedTopGroups[bestGroup] = true
   return [bestTarget, bestTargetSuggestions]
 
 findSuggestions = (target) ->
   # Look for other users with the same IP, course instances, clans, or similar school names or non-common shared email domains.
   suggestions = []
   t0 = new Date()
-  console.log '  Checking suggestions for', target.emailLower, target.schoolName, (new Date()) - t0
+  if debugging then console.log '  Checking suggestions for', target.emailLower, target.schoolName, (new Date()) - t0
   if target.lastIP
     for otherUser in (userCategories.lastIP[target.lastIP] ? []) when otherUser isnt target
       suggestions.push schoolName: otherUser.schoolName, reasons: ['IP'], user: otherUser
   for leagueType in ['courseInstances', 'clans']
-    console.log '    Now checking', leagueType, (new Date()) - t0
+    if debugging then console.log '    Now checking', leagueType, (new Date()) - t0
     if target[leagueType]?.length
       for league in target[leagueType]
         for otherUser in (userCategories[leagueType][league] ? []) when otherUser isnt target
@@ -159,7 +174,7 @@ findSuggestions = (target) ->
           else
             suggestions.push schoolName: otherUser.schoolName, reasons: [reason], user: otherUser
   if target.schoolName?.length > 5
-    console.log '    Now checking schoolName', (new Date()) - t0
+    if debugging then console.log '    Now checking schoolName', (new Date()) - t0
     nameMatches = []
     for otherSchoolName in topGroups.schoolName
       score = stringScore otherSchoolName, target.schoolName, 0.8
@@ -173,7 +188,7 @@ findSuggestions = (target) ->
           existingSuggestion.reasons.push reason
         else
           suggestions.push schoolName: match, reasons: [reason], user: otherUser
-  console.log '    Now checking domain', (new Date()) - t0
+  if debugging then console.log '    Now checking domain', (new Date()) - t0
   if domain = getDomain target
     for otherUser in (userCategories.domain[domain] ? []) when otherUser isnt target
       reason = "Domain"
@@ -181,7 +196,7 @@ findSuggestions = (target) ->
         existingSuggestion.reasons.push reason
       else
         suggestions.push schoolName: otherUser.schoolName, reasons: [reason], user: otherUser
-  console.log '    Now checking referrer', (new Date()) - t0
+  if debugging then console.log '    Now checking referrer', (new Date()) - t0
   if referrer = getReferrer target
     for otherUser in (userCategories.referrer[referrer] ? []) when otherUser isnt target
       reason = "Referrer"
@@ -189,6 +204,7 @@ findSuggestions = (target) ->
         existingSuggestion.reasons.push reason
       else
         suggestions.push schoolName: otherUser.schoolName, reasons: [reason], user: otherUser
+  if debugging then console.log '    Done checking referrer', (new Date()) - t0
   suggestions = _.sortBy suggestions, 'schoolName'
   suggestions = _.sortBy suggestions, (s) -> -s.reasons.length
   return suggestions
@@ -226,20 +242,21 @@ typoCache = {}
 getDomain = (user) ->
   return null unless domain = user.emailLower.split('@')[1]
   return null if commonEmailDomainMap[domain]
-  typo = typoCache[domain]
-  return null if typo
-  return domain if typo is false
-  typo = _.find commonEmailDomains, (commonDomain) -> stringScore(commonDomain, domain, 0.8) > 0.9
-  typoCache[domain] = Boolean(typo)
-  return null if typo
+  # Too slow? Is this actually slow?
+  #typo = typoCache[domain]
+  #return null if typo
+  #return domain if typo is false
+  #typo = _.find commonEmailDomains, (commonDomain) -> stringScore(commonDomain, domain, 0.8) > 0.9
+  #typoCache[domain] = Boolean(typo)
+  #return null if typo
   domain
 
-commonReferrersRegex = /(google|bing\.|yahoo|duckduckgo|jobs\.lever|code\.org|twitter|facebook|dollarclick|stumbleupon|vk\.com|playpcesor|reddit|lifehacker|favorite|bnext|freelance|taringa|blogthinkbig|graphism|inside\.com|korben|habrahabr|iplaysoft|geekbrains|playground|ycombinator|github\.com)/
+commonReferrersRegex = /(google|bing\.|yahoo|duckduckgo|jobs\.lever|code\.org|twitter|facebook|dollarclick|stumbleupon|vk\.com|playpcesor|reddit|lifehacker|favorite|bnext|freelance|taringa|blogthinkbig|graphism|inside\.com|korben|habrahabr|iplaysoft|geekbrains|playground|ycombinator|github)/
 getReferrer = (user) ->
   return null unless referrer = user.referrer?.toLowerCase().trim()
   referrer = referrer.replace /^https?:\/\//, ''
   return null if commonReferrersRegex.test referrer
-  return classCode if classCode = referrer.match(/\?_cc=(\S+)/)?[1]
+  return classCode if classCode = referrer.match(/\?_cc=(\S+)$/)?[1]
   return null if /codecombat/.test referrer
   referrer
 
@@ -316,7 +333,7 @@ commonEmailDomains = [
   "virgin.net", "wanadoo.co.uk", "bt.com",
 
   # Domains used in Asia
-  "sina.com", "qq.com", "naver.com", "hanmail.net", "daum.net", "nate.com", "yahoo.co.jp", "yahoo.co.kr", "yahoo.co.id", "yahoo.co.in", "yahoo.com.sg", "yahoo.com.ph",
+  "sina.com", "qq.com", "naver.com", "hanmail.net", "daum.net", "nate.com", "yahoo.co.jp", "yahoo.co.kr", "yahoo.co.id", "yahoo.co.in", "yahoo.com.sg", "yahoo.com.ph", "yahoo.com.tw"
 
   # French ISP domains
   "hotmail.fr", "live.fr", "laposte.net", "yahoo.fr", "wanadoo.fr", "orange.fr", "gmx.fr", "sfr.fr", "neuf.fr", "free.fr",
@@ -337,4 +354,4 @@ commonEmailDomains = [
   "hotmail.com", "gmail.com", "yahoo.com.mx", "live.com.mx", "yahoo.com", "hotmail.es", "live.com", "hotmail.com.mx", "prodigy.net.mx", "msn.com"
 ]
 commonEmailDomainMap = {}
-commonEmailDomainMap[domain] = true for domain in commonEmailDomainMap
+commonEmailDomainMap[domain] = true for domain in commonEmailDomains
