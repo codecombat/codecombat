@@ -197,8 +197,14 @@ module.exports.loginUser = loginUser = (req, res, user, send=true, next=null) ->
     )
   )
 
+module.exports.idCounter = 0
+  
 module.exports.makeNewUser = makeNewUser = (req) ->
   user = new User({anonymous: true})
+  if global.testing
+    # allows tests some control over user id creation
+    newID = _.pad((module.exports.idCounter++).toString(16), 24, '0')
+    user.set('_id', newID)
   user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
   lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'

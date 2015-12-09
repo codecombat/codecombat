@@ -1,0 +1,15 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17GCVaKaReE7xLUdfcArqe1K",
+            "card": {
+                "id": "card_17GCVaKaReE7xLUdQXuE34GK"
+            },
+            "type": "card"
+        }
+    }
+]

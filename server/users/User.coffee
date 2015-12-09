@@ -149,7 +149,7 @@ UserSchema.statics.updateServiceSettings = (doc, callback) ->
     doc.updatedMailChimp = true
     callback?()
 
-  mc?.lists.subscribe params, onSuccess, onFailure unless config.unittest
+  mc?.lists.subscribe params, onSuccess, onFailure
 
 UserSchema.statics.statsMapping =
   edits:

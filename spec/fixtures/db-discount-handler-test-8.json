@@ -1,0 +1,61 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "DELETE",
+        "path": "/v1/customers/cus_7VCuNWxO5eWsQG/discount",
+        "status": 200,
+        "response": {}
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/customers/cus_7VCuNWxO5eWsQG",
+        "status": 200,
+        "response": {
+            "id": "cus_7VCuNWxO5eWsQG",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "00000000000000000000005d"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCUnKaReE7xLUdZ8FpRcR5",
+                        "customer": "cus_7VCuNWxO5eWsQG"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "data": [
+                    {
+                        "id": "sub_7VCuZWrSt0bF8c",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452363418,
+                        "current_period_start": 1449685018,
+                        "customer": "cus_7VCuNWxO5eWsQG",
+                        "discount": {
+                            "coupon": {
+                                "id": "500off"
+                            },
+                            "customer": "cus_7VCuNWxO5eWsQG",
+                            "subscription": "sub_7VCuZWrSt0bF8c"
+                        },
+                        "metadata": {
+                            "id": "00000000000000000000005d"
+                        },
+                        "plan": {
+                            "id": "basic",
+                            "amount": 999
+                        },
+                        "quantity": 1
+                    }
+                ],
+                "has_more": false
+            }
+        }
+    }
+]

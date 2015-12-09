@@ -1,0 +1,11 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/coupons/500off",
+        "status": 200,
+        "response": {
+            "id": "500off"
+        }
+    }
+]

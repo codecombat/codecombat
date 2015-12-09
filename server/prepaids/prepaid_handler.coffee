@@ -80,8 +80,8 @@ PrepaidHandler = class PrepaidHandler extends Handler
       User.findById(req.body.userID).exec (err, user) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'User for given ID not found') if not user
-        userID = user.get('_id')
         return @sendSuccess(res, @formatEntity(req, prepaid)) if user.get('coursePrepaidID')
+        userID = user.get('_id')
 
         query =
           _id: prepaid.get('_id')

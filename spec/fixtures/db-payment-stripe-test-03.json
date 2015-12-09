@@ -1,0 +1,55 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "data": [
+                {
+                    "id": "ch_17GCUxKaReE7xLUddy1fN9Nl",
+                    "amount": 499,
+                    "customer": "cus_7VCubHuvGFt4nH",
+                    "metadata": {
+                        "productID": "gems_5",
+                        "gems": "5000",
+                        "timestamp": "1447443579286"
+                    },
+                    "paid": true,
+                    "refunds": {
+                        "has_more": false
+                    },
+                    "source": {
+                        "id": "card_17GCUvKaReE7xLUdBp1HF9sT",
+                        "customer": "cus_7VCubHuvGFt4nH"
+                    }
+                }
+            ],
+            "has_more": false
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "id": "ch_17GCUzKaReE7xLUdviRu5P6Z",
+            "amount": 499,
+            "customer": "cus_7VCubHuvGFt4nH",
+            "metadata": {
+                "productID": "gems_5",
+                "gems": "5000",
+                "timestamp": "1449685028592"
+            },
+            "paid": true,
+            "refunds": {
+                "has_more": false
+            },
+            "source": {
+                "id": "card_17GCUvKaReE7xLUdBp1HF9sT",
+                "customer": "cus_7VCubHuvGFt4nH"
+            }
+        }
+    }
+]

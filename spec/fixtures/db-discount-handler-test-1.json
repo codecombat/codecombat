@@ -1,0 +1,13 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/coupons/DNE",
+        "status": 404,
+        "response": {
+            "error": {
+                "type": "invalid_request_error"
+            }
+        }
+    }
+]

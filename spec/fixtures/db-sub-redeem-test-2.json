@@ -1,0 +1,96 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17GCVlKaReE7xLUdrgB5G5sg",
+            "card": {
+                "id": "card_17GCVkKaReE7xLUdhnarn1rx"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 200,
+        "response": {
+            "id": "cus_7VCvhVTldJ0ArC",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user98@me.com",
+            "metadata": {
+                "id": "00000000000000000000008c"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCVkKaReE7xLUdhnarn1rx",
+                        "customer": "cus_7VCvhVTldJ0ArC"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7VCvhVTldJ0ArC",
+        "status": 200,
+        "response": {
+            "id": "cus_7VCvhVTldJ0ArC",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user98@me.com",
+            "metadata": {
+                "id": "00000000000000000000008c"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCVkKaReE7xLUdhnarn1rx",
+                        "customer": "cus_7VCvhVTldJ0ArC"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "id": "ch_17GCVlKaReE7xLUd5D6k1v4E",
+            "amount": 2997,
+            "customer": "cus_7VCvhVTldJ0ArC",
+            "metadata": {
+                "type": "terminal_subscription",
+                "timestamp": "1449685077119",
+                "months": "1",
+                "productID": "prepaid terminal_subscription"
+            },
+            "paid": true,
+            "refunds": {
+                "has_more": false
+            },
+            "source": {
+                "id": "card_17GCVkKaReE7xLUdhnarn1rx",
+                "customer": "cus_7VCvhVTldJ0ArC"
+            }
+        }
+    }
+]

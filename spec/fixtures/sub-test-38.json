@@ -1,0 +1,94 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17GD0NKaReE7xLUd6Y69uvhH",
+            "card": {
+                "id": "card_17GD0NKaReE7xLUdvoT4Bxbf"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 200,
+        "response": {
+            "id": "cus_7VDR4GCxl8RkvD",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user164@me.com",
+            "metadata": {
+                "id": "0000000000000000000186e2"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GD0NKaReE7xLUdvoT4Bxbf",
+                        "customer": "cus_7VDR4GCxl8RkvD"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7VDR4GCxl8RkvD",
+        "status": 200,
+        "response": {
+            "id": "cus_7VDR4GCxl8RkvD",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user164@me.com",
+            "metadata": {
+                "id": "0000000000000000000186e2"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GD0NKaReE7xLUdvoT4Bxbf",
+                        "customer": "cus_7VDR4GCxl8RkvD"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "id": "ch_17GD0OKaReE7xLUdqjX31jEh",
+            "amount": 9900,
+            "customer": "cus_7VDR4GCxl8RkvD",
+            "metadata": {
+                "gems": "42000",
+                "timestamp": "2015"
+            },
+            "paid": true,
+            "refunds": {
+                "has_more": false
+            },
+            "source": {
+                "id": "card_17GD0NKaReE7xLUdvoT4Bxbf",
+                "customer": "cus_7VDR4GCxl8RkvD"
+            }
+        }
+    }
+]
