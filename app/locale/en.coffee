@@ -616,6 +616,8 @@
     josh_c_blurb: "Designs games"
     carlos_title: "Region Manager, Brazil"
     carlos_blurb: "Celery Man"
+    maka_title: "Customer Advocate"
+    maka_blurb: "Storyteller"
 
   teachers:
     more_info: "More Info for Teachers"
