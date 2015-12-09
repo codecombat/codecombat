@@ -3,9 +3,9 @@ extends /templates/base
 block content
 
   if view.teacherMode
-    a(href="/courses/teachers") Back to my classrooms
+    a(href="/courses/teachers", data-i18n="courses.back_classrooms")
   else
-    a(href="/courses") Back to my courses
+    a(href="/courses", data-i18n="courses.back_courses")
   br
   br
 
@@ -31,7 +31,7 @@ block content
           .col-md-6
             button.btn.btn-success.btn-select-instance(data-i18n="courses.select")
   else if !course || !courseInstance
-    h1(data-i18n="common.loading") Loading...
+    h1(data-i18n="common.loading")
   else
     p
       // TODO: format this text all good and stuff
@@ -44,7 +44,9 @@ block content
           span(data-i18n='courses.unnamed_class')
 
       if !view.owner.isNew() && view.getOwnerName() && courseInstance.get('name') != 'Single Player'
-        span.spl.spr - Teacher:
+        span.spl -
+        span.spl(data-i18n='courses.teacher')
+        span.spr :
         //a(href="/user/#{view.owner.id}")  // Don't link to profiles until we improve them
         span
           strong= view.getOwnerName()
@@ -52,8 +54,10 @@ block content
     h1
       | #{course.get('name')}
       if view.courseComplete
-        span.spl - Complete!
-      
+        span.spl -
+        span.spl(data-i18n='courses.complete')
+        span !
+
     p
       if courseInstance.get('description')
         each line in courseInstance.get('description').split('\n')
@@ -67,43 +71,46 @@ block content
               form.form#school-form
                 .form-group
                   label.control-label(for="course-complete-school-input")
-                    span.spr(data-i18n="signup.school_name") School Name and City
+                    span.spr(data-i18n="signup.school_name")
                     em.optional-note
                       | (
-                      span(data-i18n="signup.optional") optional
+                      span(data-i18n="signup.optional")
                       | ):
                   .input-border
                     input#course-complete-school-input.input-large.form-control(name="schoolName", data-i18n="[placeholder]signup.school_name_placeholder")
-                button.btn.btn-primary.btn-submit.no-school(type="submit") None
-                button.btn.btn-info.btn-submit.save-school(type="submit") Save
+                button.btn.btn-primary.btn-submit.no-school(type="submit", data-i18n='courses.none')
+                button.btn.btn-info.btn-submit.save-school(type="submit", data-i18n='courses.save')
         .row
           if view.singlePlayerMode && !me.isAnonymous()
             .col-md-6.col-md-offset-3
               a.btn.btn-lg.btn-success(href="/play")
-                h1 Play the Campaign
-                p You’re ready to take the next step! Explore hundreds of challenging levels, learn advanced programming skills, and compete in multiplayer arenas!
+                h1(data-i18n='courses.play_campaign_title')
+                p(data-i18n='courses.play_campaign_description')
           else if view.singlePlayerMode && me.isAnonymous()
             .col-md-6
               a.btn.btn-lg.btn-success.signup-button
-                h1 Create an Account
-                p Sign up for a FREE CodeCombat account and gain access to more levels, more programming skills, and more fun!
+                h1(data-i18n='courses.create_account_title')
+                p(data-i18n='courses.create_account_description')
             .col-md-6
               a.btn.btn-lg.btn-success(href="/play")
-                h1 Preview Campaign
-                p Take a sneak peek at all that CodeCombat has to offer before signing up for your FREE account.
+                h1(data-i18n='courses.preview_campaign_title')
+                p(data-i18n='courses.preview_campaign_description')
           else if !view.singlePlayerMode
             .col-md-6
               if view.arenaLevel
                 a.btn.btn-lg.btn-success.btn-play-level(data-level-slug=view.arenaLevel.slug, data-level-id=view.arenaLevel.original)
                   h1
-                    span Arena
-                    | :
-                    span.spl= view.arenaLevel.name
+                    span(data-i18n='courses.arena')
+                    span.spr :
+                    span= view.arenaLevel.name
                   p= view.arenaLevel.description.replace(/!\[.*?\)/, '')
               else
                 a.btn.btn-lg.btn-success.disabled
-                  h1 Arena Coming Soon
-                  p We are working on a multiplayer arena for classrooms at the end of #{course.get('name')}.
+                  h1(data-i18n='courses.arena_soon_title')
+                  p
+                    span.spr(data-i18n='courses.arena_soon_description')
+                    span= course.get('name')
+                    span .
             .col-md-6
               if view.nextCourseInstance
                 a.btn.btn-lg.btn-success(href="/courses/#{view.nextCourse.id}/#{view.nextCourseInstance.id}")
@@ -112,17 +119,17 @@ block content
               else if view.nextCourse
                 a.btn.btn-lg.btn-success.disabled
                   h1= view.nextCourse.get('name')
-                  p
-                    em NOT ENROLLED
-                  p Ask your teacher to enroll you in the next course.
+                  p.text-uppercase
+                    em(data-i18n='courses.not_enrolled1')
+                  p(data-i18n='courses.not_enrolled2')
               else
                 a.btn.btn-lg.btn-success(disabled=!view.nextCourse ? "disabled" : "")
-                  h1 Next Course
-                  p
-                    em COMING SOON
-                  p We are hard at work making more courses for you!
+                  h1(data-i18n='courses.next_course')
+                  p.text-uppercase
+                    em(data-i18n='courses.coming_soon1')
+                  p(data-i18n='courses.coming_soon2')
 
-    .available-courses-title Available Levels
+    .available-courses-title(data-i18n='courses.available_levels')
     table.table.table-striped.table-condensed
       thead
         tr

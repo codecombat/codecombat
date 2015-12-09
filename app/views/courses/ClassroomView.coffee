@@ -104,7 +104,7 @@ module.exports = class ClassroomView extends RootView
     application.tracker?.trackEvent 'Classroom started enroll students', category: 'Courses'
 
   onClickActivateSingleLicenseButton: (e) ->
-    userID = $(e.target).data('user-id')
+    userID = $(e.target).closest('.btn').data('user-id')
     user = @users.get(userID)
     modal = new ActivateLicensesModal({
       classroom: @classroom
@@ -148,7 +148,7 @@ module.exports = class ClassroomView extends RootView
     stats.totalPlaytime = if playtime then moment.duration(playtime, "seconds").humanize() else 0
 
     completeSessions = @sessions.filter (s) -> s.get('state')?.complete
-    stats.averageLevelsComplete = if @users.size() then (_.size(completeSessions) / @users.size()).toFixed(1) else 'N/A'
+    stats.averageLevelsComplete = if @users.size() then (_.size(completeSessions) / @users.size()).toFixed(1) else 'N/A'  # '
     stats.totalLevelsComplete = _.size(completeSessions)
 
     enrolledUsers = @users.filter (user) -> user.get('coursePrepaidID')
@@ -161,9 +161,11 @@ module.exports = class ClassroomView extends RootView
     application.tracker?.trackEvent 'Classroom started add students', category: 'Courses', classroomID: @classroom.id
 
   onClickEnableButton: (e) ->
-    courseInstance = @courseInstances.get($(e.target).data('course-instance-cid'))
-    userID = $(e.target).data('user-id')
-    $(e.target).attr('disabled', true)
+    $button = $(e.target).closest('.btn')
+    courseInstance = @courseInstances.get($button.data('course-instance-cid'))
+    console.log 'looking for course instance', courseInstance, 'for', $button.data('course-instance-cid'), 'out of', @courseInstances
+    userID = $button.data('user-id')
+    $button.attr('disabled', true)
     application.tracker?.trackEvent 'Course assign student', category: 'Courses', courseInstanceID: courseInstance.id, userID: userID
 
     onCourseInstanceCreated = =>

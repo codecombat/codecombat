@@ -108,7 +108,7 @@ class EarnedAchievementHandler extends Handler
       if rewards.length
         update.$addToSet ?= {}
         update.$addToSet["earned.#{rewardType}"] = $each: rewards
-    User.update {_id: user._id}, update, {}, (err, count) ->
+    User.update {_id: user._id}, update, {}, (err, result) ->
       log.error err if err?
       done?(err)
 

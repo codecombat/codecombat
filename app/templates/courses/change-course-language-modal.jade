@@ -1,7 +1,7 @@
 extends /templates/core/modal-base
 
 block modal-header-content
-  h3 Change Course Language
+  h3(data-i18n="courses.change_language")
   .clearfix
 
 block modal-body-content
@@ -9,20 +9,26 @@ block modal-body-content
     - var currentLanguage = (me.get('aceConfig') || {}).language || 'python';
     button.lang-choice-btn.btn.btn-success.btn-lg(data-language='python')
       if currentLanguage === 'python'
-        | Keep Using Python
+        span.spr(data-i18n="courses.keep_using")
+        span Python
       else
-        | Switch To Python
-        
-    p - OR -
-    
+        span.spr(data-i18n="courses.switch_to")
+        span Python
+
+    p
+      span.spr -
+      span.text-uppercase(data-i18n="general.or")
+      span.spl -
+
     button.lang-choice-btn.btn.btn-default(data-language='javascript')
       if currentLanguage === 'javascript'
-        | Keep Using JavaScript
+        span.spr(data-i18n="courses.keep_using")
+        span JavaScript
       else
-        | Switch to JavaScript
-        
+        span.spr(data-i18n="courses.switch_to")
+        span JavaScript
+
   #saving-progress.progress.progress-striped.active.hide
     .progress-bar(style="width: 100%")
 
 block modal-footer-content
-  

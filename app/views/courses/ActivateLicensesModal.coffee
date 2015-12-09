@@ -7,11 +7,11 @@ User = require 'models/User'
 module.exports = class ActivateLicensesModal extends ModalView
   id: 'activate-licenses-modal'
   template: template
-  
+
   events:
     'change input': 'updateSelectionSpans'
     'submit form': 'onSubmitForm'
-  
+
   initialize: (options) ->
     @classroom = options.classroom
     @users = options.users
@@ -20,7 +20,7 @@ module.exports = class ActivateLicensesModal extends ModalView
     @prepaids.comparator = '_id'
     @prepaids.fetchByCreator(me.id)
     @supermodel.loadCollection(@prepaids, 'prepaids')
-    
+
   afterRender: ->
     super()
     @updateSelectionSpans()
@@ -38,11 +38,11 @@ module.exports = class ActivateLicensesModal extends ModalView
     @$('#not-depleted-span').toggleClass('hide', depleted)
     @$('#depleted-span').toggleClass('hide', !depleted)
     @$('#activate-licenses-btn').toggleClass('disabled', depleted).toggleClass('btn-success', not depleted).toggleClass('btn-default', depleted)
-    
+
   showProgress: ->
     @$('#submit-form-area').addClass('hide')
     @$('#progress-area').removeClass('hide')
-    
+
   hideProgress: ->
     @$('#submit-form-area').removeClass('hide')
     @$('#progress-area').addClass('hide')
@@ -91,5 +91,5 @@ module.exports = class ActivateLicensesModal extends ModalView
         @$('#error-alert').text(message).removeClass('hide')
     })
 
-  finishRedeemUsers: -> 
+  finishRedeemUsers: ->
     @trigger 'redeem-users'

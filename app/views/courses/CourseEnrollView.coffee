@@ -79,7 +79,7 @@ module.exports = class CourseEnrollView extends RootView
   onChangeCourse: (e) ->
     @selectedCourse = _.find @courses.models, (a) -> a.id is $(e.target).val()
     @renderNewPrice()
-    
+
   onChangeProgrammingLanguageSelect: (e) ->
     @selectedLanguage = @$('#programming-language-select').val()
 
@@ -99,7 +99,7 @@ module.exports = class CourseEnrollView extends RootView
         token: token
         timestamp: new Date().getTime()
       aceConfig: { language: @selectedLanguage }
-      
+
     data.courseID = @selectedCourse.id if @selectedCourse
     jqxhr = $.post('/db/course_instance/-/create', data)
     jqxhr.done (data, textStatus, jqXHR) =>

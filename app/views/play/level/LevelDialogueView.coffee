@@ -66,7 +66,7 @@ module.exports = class LevelDialogueView extends CocoView
         group.append(button)
         response.button = $('button:last', group)
     else
-      s = $.i18n.t('play_level.hud_continue_short', defaultValue: 'Continue')
+      s = $.i18n.t('common.continue', defaultValue: 'Continue')
       sk = $.i18n.t('play_level.skip_tutorial', defaultValue: 'skip: esc')
       if not @escapePressed and not @isFullScreen()
         group.append('<span class="hud-hint">' + sk + '</span>')

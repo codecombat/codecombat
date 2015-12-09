@@ -210,7 +210,7 @@ incrementUserSimulationCount = (userID, type, callback) =>
   return callback null unless userID
   inc = {}
   inc[type] = 1
-  User.update {_id: userID}, {$inc: inc}, (err, affected) ->
+  User.update {_id: userID}, {$inc: inc}, (err, result) ->
     log.error "Error incrementing #{type} for #{userID}: #{err}" if err
     callback err
 

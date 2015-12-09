@@ -4,7 +4,7 @@ template = require 'templates/courses/remove-student-modal'
 module.exports = class RemoveStudentModal extends ModalView
   id: 'remove-student-modal'
   template: template
-  
+
   events:
     'click #remove-student-btn': 'onClickRemoveStudentButton'
 
@@ -33,5 +33,4 @@ module.exports = class RemoveStudentModal extends ModalView
     pct = (100 * (@totalJobs - @toRemove.length) / @totalJobs).toFixed(1) + '%'
     @$('#remove-student-progress .progress-bar').css('width', pct)
     @listenToOnce model, 'sync', ->
-      @removeStudent()    
-    
+      @removeStudent()

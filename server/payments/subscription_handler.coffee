@@ -224,12 +224,12 @@ class SubscriptionHandler extends Handler
 
     newRedeemerPush = { $push: { redeemers : { date: new Date(), userID: req.user._id } }}
 
-    Prepaid.update { 'code': req.body.ppc, 'redeemers.userID': { $ne: req.user._id }, '$where': 'this.redeemers.length < this.maxRedeemers'}, newRedeemerPush, (err, num, info) =>
+    Prepaid.update { 'code': req.body.ppc, 'redeemers.userID': { $ne: req.user._id }, '$where': 'this.redeemers.length < this.maxRedeemers'}, newRedeemerPush, (err, result) =>
       if err
         @logSubscriptionError(req.user, "Subscribe with Prepaid Code update: #{JSON.stringify(err)}")
         return @sendDatabaseError(res, err)
 
-      return @sendError(res, 403, "Can't add user to prepaid redeemers") if num isnt 1
+      return @sendError(res, 403, "Can't add user to prepaid redeemers") if result.nModified isnt 1
 
       customerID = req.user.get('stripe')?.customerID
       subscriptionID = req.user.get('stripe')?.subscriptionID
@@ -348,14 +348,14 @@ class SubscriptionHandler extends Handler
           userID: user.get('_id')
           date: new Date()
         update = {redeemers: redeemers}
-        Prepaid.update query, update, {}, (err, numAffected) =>
+        Prepaid.update query, update, {}, (err, result) =>
           if err
             @logSubscriptionError(user, 'Prepaid update error. ' + err)
             return done({res: 'Database error.', code: 500})
-          if numAffected > 1
-            @logSubscriptionError(user, "Prepaid numAffected=#{numAffected} error.")
+          if result.nModified > 1
+            @logSubscriptionError(user, "Prepaid nModified=#{result.nModified} error.")
             return done({res: 'Database error.', code: 500})
-          if numAffected < 1
+          if result.nModified < 1
             return done({res: 'Prepaid not active', code: 403})
 
           # Update user
