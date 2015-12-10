@@ -99,8 +99,6 @@
     "fs-extra": "^0.26.2",
     "jade-brunch": "1.7.5",
     "jasmine": "^2.3.2",
-    "jasmine-node": "1.13.x",
-    "jasmine-spec-reporter": "~0.3.0",
     "javascript-brunch": "> 1.0 < 1.8",
     "karma": "~0.13",
     "karma-chrome-launcher": "~0.1.2",
