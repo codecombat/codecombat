@@ -284,7 +284,7 @@ module.exports = class SpellView extends CocoView
             ar = str.match(/^\s*/)
             ar.pop().length
 
-          colors = ['50,150,200', '200,150,50']
+          colors = [{border: '74,144,226', fill: '108,162,226'}, {border: '132,180,235', fill: '230,237,245'}]
 
           for row in [0..@aceSession.getLength()]
             foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
@@ -316,17 +316,19 @@ module.exports = class SpellView extends CocoView
             w = 4 * config.characterWidth
             fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
 
-            html.push [
-              '<div style="',
-              "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px; background-color: rgba(#{color},0.2);"
-              "border: #{bw}px solid rgba(#{color},0.4); border-left: none",
-              '"></div>' ].join ''
-
-            html.push [
-              '<div style="',
-              "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color},0.2);"
-              "border-right: #{bw}px solid rgba(#{color},0.4);",
-              '"></div>' ].join ''
+            html.push """
+              <div style=
+                "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
+                 border: #{bw}px solid rgba(#{color.border},1); border-left: none;"
+              ></div>
+              <div style=
+                "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
+                 border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);"
+              ></div>
+              <div style=
+                "position: absolute; top: #{t + h}px; left: #{l}px; width: #{500}px; height: #{bw}px; background-color: rgba(#{color.border},1);"
+              ></div>
+            """
 
   fillACE: ->
     @ace.setValue @spell.source
