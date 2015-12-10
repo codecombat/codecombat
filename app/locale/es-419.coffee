@@ -4,7 +4,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     no_ie: "¡Lo sentimos! CodeCombat no funciona en Internet Explorer 8 o versiones anteriores." # Warning that only shows up in IE8 and older
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y quizás no funcione!" # Warning that shows up on mobile devices
     play: "Jugar" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Jugar Versión Campaña" # Shows up under big play button if you only play /courses
     old_browser: "¡Oh! ¡Oh! Tu navegador es muy antiguo para correr CodeCombat. ¡Lo sentimos!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Puedes probar de todas formas, pero probablemente no funcione."
     ipad_browser: "Malas noticias: CodeCombat no funciona en el navegador de iPad. Buenas noticias: nuestra propia aplicación de iPad esta en espera para ser aprobada por Apple."
@@ -13,14 +13,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     multiplayer: "Multijugador" # Not currently shown on home page
     for_developers: "Para Desarrolladores" # Not currently shown on home page.
     or_ipad: "O descargar para iPad"
-#    hoc_class_code: "I Have a Class Code"
+    hoc_class_code: "Tengo un Código de Clase"
 #    hoc_enter: "Enter"
 #    hoc_title: "Hour of Code?"
 
   nav:
     play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
-#    courses: "Courses"
+    courses: "Cursos"
     editor: "Editor"
     blog: "Blog"
     forum: "Foro"
@@ -55,7 +55,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   play:
     play_as: "Jugar Como " # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "¡Competir!" # Course details page
     spectate: "Observar" # Ladder page
     players: "Jugadores" # Hover over a level on /play
     hours_played: "horas jugadas" # Hover over a level on /play
@@ -78,7 +78,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     subscription_required: "Requiere Suscripción"
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "Jugar la Versión de Aula" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Campaña para principiantes"
     awaiting_levels_adventurer_prefix: "Nosotros libreamos nuevos niveles cada semana"
     awaiting_levels_adventurer: "Registrate como un aventurero"
@@ -119,7 +119,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     required: "Necesitas entrar a tu cuenta antes de continuar."
     login_switch: "¿Ya tienes una cuenta?"
 #    school_name: "School Name and City"
-#    optional: "optional"
+    optional: "opcional"
 #    school_name_placeholder: "Example High School, Springfield, IL"
 
   recover:
@@ -226,9 +226,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   play_level:
 #    completed_level: "Completed Level:"
-#    course: "Course:"
+    course: "Curso:"
     done: "Listo"
-#    next_level: "Next Level:"
+    next_level: "Siguiente Nivel:"
     next_game: "Siguiente juego"
     show_menu: "Mostrar menú de juego"
     home: "Inicio" # Not used any more, will be removed soon.
@@ -620,7 +620,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     free_1: "Hay más de 110 niveles gratis que cubren cada concepto."
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
 #    free_3: "The CodeCombat content is divided into"
-#    free_4: "courses"
+    free_4: "cursos"
 #    free_5: ".  The first course is free, and about an hour of material."
 #    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
     teacher_subs_title: "¡Los amestros obtienen suscripciones gratuitas!" # {change}
@@ -966,8 +966,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    keep_using: "Keep Using"
 #    switch_to: "Switch To"
 #    greetings: "Greetings!"
-#    learn_p: "Learn Python"
-#    learn_j: "Learn JavaScript"
+    learn_p: "Aprender Python"
+    learn_j: "Aprender JavaScript"
 #    language_cannot_change: "Language cannot be changed once students join a class."
 #    back_classrooms: "Back to my classrooms"
 #    back_courses: "Back to my courses"
@@ -977,7 +977,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    remove_student: "remove student"
 #    assign: "Assign"
 #    to_assign: "to assign paid courses."
-#    teacher: "Teacher"
+    teacher: "Maestro"
 #    complete: "Complete"
 #    none: "None"
 #    save: "Save"
@@ -1092,7 +1092,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    active_courses: "active courses"
 #    no_students: "No students yet!"
 #    add_students1: "add students"
-#    view_edit: "view/edit"
+    view_edit: "vee/editar"
 #    students_enrolled: "students enrolled"
 #    length: "Length:"
 
@@ -1491,16 +1491,16 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     campaigns: "Campañas"
     poll: "Encuesta"
     user_polls_record: "Historia de Visitas de Encuestas"
-#    course: "Course"
-#    courses: "Courses"
+    course: "Curso"
+    courses: "Cursos"
 #    course_instance: "Course Instance"
 #    course_instances: "Course Instances"
 #    classroom: "Classroom"
 #    classrooms: "Classrooms"
-#    clan: "Clan"
-#    clans: "Clans"
+    clan: "Clan"
+    clans: "Clanes"
 #    members: "Members"
-#    users: "Users"
+    users: "Usuarios"
 
   concepts:
     advanced_strings: "Cadenas - Avanzado"
