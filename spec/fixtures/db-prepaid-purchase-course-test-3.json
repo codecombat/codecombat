@@ -1,0 +1,67 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17GCVXKaReE7xLUdOVrQZisx",
+            "card": {
+                "id": "card_17GCVXKaReE7xLUdFEluXOeu"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 200,
+        "response": {
+            "id": "cus_7VCvUi50nXhjWn",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user89@me.com",
+            "metadata": {
+                "id": "000000000000000000000081"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCVXKaReE7xLUdFEluXOeu",
+                        "customer": "cus_7VCvUi50nXhjWn"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "id": "ch_17GCVYKaReE7xLUdstf63Kol",
+            "amount": 1200,
+            "customer": "cus_7VCvUi50nXhjWn",
+            "metadata": {
+                "type": "course",
+                "timestamp": "1449685063457",
+                "productID": "prepaid course"
+            },
+            "paid": true,
+            "refunds": {
+                "has_more": false
+            },
+            "source": {
+                "id": "card_17GCVXKaReE7xLUdFEluXOeu",
+                "customer": "cus_7VCvUi50nXhjWn"
+            }
+        }
+    }
+]

@@ -1,0 +1,572 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17GCyBKaReE7xLUd9G37bRkd",
+            "card": {
+                "id": "card_17GCyBKaReE7xLUdDzcyOMq0"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 200,
+        "response": {
+            "id": "cus_7VDPUcT1ISx3qE",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user138@me.com",
+            "metadata": {
+                "id": "0000000000000000000186c8"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCyBKaReE7xLUdDzcyOMq0",
+                        "customer": "cus_7VDPUcT1ISx3qE"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7VDPUcT1ISx3qE",
+        "status": 200,
+        "response": {
+            "id": "cus_7VDPUcT1ISx3qE",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user138@me.com",
+            "metadata": {
+                "id": "0000000000000000000186c8"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCyBKaReE7xLUdDzcyOMq0",
+                        "customer": "cus_7VDPUcT1ISx3qE"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/customers/cus_7VDPUcT1ISx3qE/subscriptions",
+        "status": 200,
+        "response": {
+            "has_more": false
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7VDPUcT1ISx3qE/subscriptions",
+        "status": 200,
+        "response": {
+            "id": "sub_7VDPRTLVZfr2xD",
+            "cancel_at_period_end": false,
+            "current_period_end": 1452365241,
+            "current_period_start": 1449686841,
+            "customer": "cus_7VDPUcT1ISx3qE",
+            "discount": {
+                "coupon": {
+                    "id": "free"
+                },
+                "customer": "cus_7VDPUcT1ISx3qE",
+                "subscription": "sub_7VDPRTLVZfr2xD"
+            },
+            "metadata": {
+                "id": "0000000000000000000186c7"
+            },
+            "plan": {
+                "id": "basic",
+                "amount": 999
+            },
+            "quantity": 1
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7VDPUcT1ISx3qE",
+        "status": 200,
+        "response": {
+            "id": "cus_7VDPUcT1ISx3qE",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user138@me.com",
+            "metadata": {
+                "id": "0000000000000000000186c8"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCyBKaReE7xLUdDzcyOMq0",
+                        "customer": "cus_7VDPUcT1ISx3qE"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "data": [
+                    {
+                        "id": "sub_7VDPRTLVZfr2xD",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452365241,
+                        "current_period_start": 1449686841,
+                        "customer": "cus_7VDPUcT1ISx3qE",
+                        "discount": {
+                            "coupon": {
+                                "id": "free"
+                            },
+                            "customer": "cus_7VDPUcT1ISx3qE",
+                            "subscription": "sub_7VDPRTLVZfr2xD"
+                        },
+                        "metadata": {
+                            "id": "0000000000000000000186c7"
+                        },
+                        "plan": {
+                            "id": "basic",
+                            "amount": 999
+                        },
+                        "quantity": 1
+                    }
+                ],
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7VDPUcT1ISx3qE/subscriptions",
+        "status": 200,
+        "response": {
+            "id": "sub_7VDPKfPdazIoWu",
+            "cancel_at_period_end": false,
+            "current_period_end": 1452365243,
+            "current_period_start": 1449686843,
+            "customer": "cus_7VDPUcT1ISx3qE",
+            "metadata": {
+                "id": "0000000000000000000186c8"
+            },
+            "plan": {
+                "id": "incremental",
+                "amount": 1
+            },
+            "quantity": 999
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/invoices",
+        "status": 200,
+        "response": {
+            "data": [
+                {
+                    "id": "in_17GCyFKaReE7xLUdq9pABNeA",
+                    "customer": "cus_7VDPUcT1ISx3qE",
+                    "lines": {
+                        "data": [
+                            {
+                                "id": "sub_7VDPKfPdazIoWu",
+                                "amount": 999,
+                                "metadata": {
+                                    "id": "0000000000000000000186c8"
+                                },
+                                "plan": {
+                                    "id": "incremental",
+                                    "amount": 1
+                                },
+                                "proration": false,
+                                "quantity": 999,
+                                "type": "subscription"
+                            }
+                        ],
+                        "has_more": false
+                    },
+                    "paid": true,
+                    "subscription": "sub_7VDPKfPdazIoWu",
+                    "total": 999
+                },
+                {
+                    "id": "in_17GCyDKaReE7xLUdyDnGhQKL",
+                    "customer": "cus_7VDPUcT1ISx3qE",
+                    "discount": {
+                        "coupon": {
+                            "id": "free"
+                        },
+                        "customer": "cus_7VDPUcT1ISx3qE",
+                        "subscription": "sub_7VDPRTLVZfr2xD"
+                    },
+                    "lines": {
+                        "data": [
+                            {
+                                "id": "sub_7VDPRTLVZfr2xD",
+                                "amount": 999,
+                                "metadata": {
+                                    "id": "0000000000000000000186c7"
+                                },
+                                "plan": {
+                                    "id": "basic",
+                                    "amount": 999
+                                },
+                                "proration": false,
+                                "quantity": 1,
+                                "type": "subscription"
+                            }
+                        ],
+                        "has_more": false
+                    },
+                    "paid": true,
+                    "subscription": "sub_7VDPRTLVZfr2xD",
+                    "total": 0
+                }
+            ],
+            "has_more": false
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/invoices/in_17GCyFKaReE7xLUdq9pABNeA",
+        "status": 200,
+        "response": {
+            "id": "in_17GCyFKaReE7xLUdq9pABNeA",
+            "customer": "cus_7VDPUcT1ISx3qE",
+            "lines": {
+                "data": [
+                    {
+                        "id": "sub_7VDPKfPdazIoWu",
+                        "amount": 999,
+                        "metadata": {
+                            "id": "0000000000000000000186c8"
+                        },
+                        "plan": {
+                            "id": "incremental",
+                            "amount": 1
+                        },
+                        "proration": false,
+                        "quantity": 999,
+                        "type": "subscription"
+                    }
+                ],
+                "has_more": false
+            },
+            "paid": true,
+            "subscription": "sub_7VDPKfPdazIoWu",
+            "total": 999
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7VDPUcT1ISx3qE",
+        "status": 200,
+        "response": {
+            "id": "cus_7VDPUcT1ISx3qE",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user138@me.com",
+            "metadata": {
+                "id": "0000000000000000000186c8"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCyBKaReE7xLUdDzcyOMq0",
+                        "customer": "cus_7VDPUcT1ISx3qE"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "data": [
+                    {
+                        "id": "sub_7VDPKfPdazIoWu",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452365243,
+                        "current_period_start": 1449686843,
+                        "customer": "cus_7VDPUcT1ISx3qE",
+                        "metadata": {
+                            "id": "0000000000000000000186c8"
+                        },
+                        "plan": {
+                            "id": "incremental",
+                            "amount": 1
+                        },
+                        "quantity": 999
+                    },
+                    {
+                        "id": "sub_7VDPRTLVZfr2xD",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452365241,
+                        "current_period_start": 1449686841,
+                        "customer": "cus_7VDPUcT1ISx3qE",
+                        "discount": {
+                            "coupon": {
+                                "id": "free"
+                            },
+                            "customer": "cus_7VDPUcT1ISx3qE",
+                            "subscription": "sub_7VDPRTLVZfr2xD"
+                        },
+                        "metadata": {
+                            "id": "0000000000000000000186c7"
+                        },
+                        "plan": {
+                            "id": "basic",
+                            "amount": 999
+                        },
+                        "quantity": 1
+                    }
+                ],
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/customers/cus_7VDPUcT1ISx3qE",
+        "status": 200,
+        "response": {
+            "id": "cus_7VDPUcT1ISx3qE",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user138@me.com",
+            "metadata": {
+                "id": "0000000000000000000186c8"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCyBKaReE7xLUdDzcyOMq0",
+                        "customer": "cus_7VDPUcT1ISx3qE"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "data": [
+                    {
+                        "id": "sub_7VDPKfPdazIoWu",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452365243,
+                        "current_period_start": 1449686843,
+                        "customer": "cus_7VDPUcT1ISx3qE",
+                        "metadata": {
+                            "id": "0000000000000000000186c8"
+                        },
+                        "plan": {
+                            "id": "incremental",
+                            "amount": 1
+                        },
+                        "quantity": 999
+                    },
+                    {
+                        "id": "sub_7VDPRTLVZfr2xD",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452365241,
+                        "current_period_start": 1449686841,
+                        "customer": "cus_7VDPUcT1ISx3qE",
+                        "discount": {
+                            "coupon": {
+                                "id": "free"
+                            },
+                            "customer": "cus_7VDPUcT1ISx3qE",
+                            "subscription": "sub_7VDPRTLVZfr2xD"
+                        },
+                        "metadata": {
+                            "id": "0000000000000000000186c7"
+                        },
+                        "plan": {
+                            "id": "basic",
+                            "amount": 999
+                        },
+                        "quantity": 1
+                    }
+                ],
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7VDPUcT1ISx3qE",
+        "status": 200,
+        "response": {
+            "id": "cus_7VDPUcT1ISx3qE",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user138@me.com",
+            "metadata": {
+                "id": "0000000000000000000186c8"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCyBKaReE7xLUdDzcyOMq0",
+                        "customer": "cus_7VDPUcT1ISx3qE"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "data": [
+                    {
+                        "id": "sub_7VDPKfPdazIoWu",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452365243,
+                        "current_period_start": 1449686843,
+                        "customer": "cus_7VDPUcT1ISx3qE",
+                        "metadata": {
+                            "id": "0000000000000000000186c8"
+                        },
+                        "plan": {
+                            "id": "incremental",
+                            "amount": 1
+                        },
+                        "quantity": 999
+                    },
+                    {
+                        "id": "sub_7VDPRTLVZfr2xD",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452365241,
+                        "current_period_start": 1449686841,
+                        "customer": "cus_7VDPUcT1ISx3qE",
+                        "discount": {
+                            "coupon": {
+                                "id": "free"
+                            },
+                            "customer": "cus_7VDPUcT1ISx3qE",
+                            "subscription": "sub_7VDPRTLVZfr2xD"
+                        },
+                        "metadata": {
+                            "id": "0000000000000000000186c7"
+                        },
+                        "plan": {
+                            "id": "basic",
+                            "amount": 999
+                        },
+                        "quantity": 1
+                    }
+                ],
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/invoices/in_17GCyDKaReE7xLUdyDnGhQKL",
+        "status": 200,
+        "response": {
+            "id": "in_17GCyDKaReE7xLUdyDnGhQKL",
+            "customer": "cus_7VDPUcT1ISx3qE",
+            "discount": {
+                "coupon": {
+                    "id": "free"
+                },
+                "customer": "cus_7VDPUcT1ISx3qE",
+                "subscription": "sub_7VDPRTLVZfr2xD"
+            },
+            "lines": {
+                "data": [
+                    {
+                        "id": "sub_7VDPRTLVZfr2xD",
+                        "amount": 999,
+                        "metadata": {
+                            "id": "0000000000000000000186c7"
+                        },
+                        "plan": {
+                            "id": "basic",
+                            "amount": 999
+                        },
+                        "proration": false,
+                        "quantity": 1,
+                        "type": "subscription"
+                    }
+                ],
+                "has_more": false
+            },
+            "paid": true,
+            "subscription": "sub_7VDPRTLVZfr2xD",
+            "total": 0
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/customers/cus_7VDPUcT1ISx3qE/subscriptions/sub_7VDPKfPdazIoWu",
+        "status": 200,
+        "response": {
+            "id": "sub_7VDPKfPdazIoWu",
+            "cancel_at_period_end": false,
+            "current_period_end": 1452365243,
+            "current_period_start": 1449686843,
+            "customer": "cus_7VDPUcT1ISx3qE",
+            "metadata": {
+                "id": "0000000000000000000186c8"
+            },
+            "plan": {
+                "id": "incremental",
+                "amount": 1
+            },
+            "quantity": 999
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/customers/cus_7VDPUcT1ISx3qE/subscriptions/sub_7VDPRTLVZfr2xD",
+        "status": 200,
+        "response": {
+            "id": "sub_7VDPRTLVZfr2xD",
+            "cancel_at_period_end": false,
+            "current_period_end": 1452365241,
+            "current_period_start": 1449686841,
+            "customer": "cus_7VDPUcT1ISx3qE",
+            "discount": {
+                "coupon": {
+                    "id": "free"
+                },
+                "customer": "cus_7VDPUcT1ISx3qE",
+                "subscription": "sub_7VDPRTLVZfr2xD"
+            },
+            "metadata": {
+                "id": "0000000000000000000186c7"
+            },
+            "plan": {
+                "id": "basic",
+                "amount": 999
+            },
+            "quantity": 1
+        }
+    }
+]

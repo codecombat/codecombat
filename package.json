@@ -40,7 +40,7 @@
     "nodemon": "nodemon",
     "jasmine-node": "jasmine-node",
     "multicore": "coffee multicore.coffee",
-    "nodemon": "nodemon"
+    "jasmine": "jasmine"
   },
   "main": "index.js",
   "keywords": [
@@ -98,8 +98,7 @@
     "css-brunch": "^1.7.0",
     "fs-extra": "^0.26.2",
     "jade-brunch": "1.7.5",
-    "jasmine-node": "1.13.x",
-    "jasmine-spec-reporter": "~0.3.0",
+    "jasmine": "^2.3.2",
     "javascript-brunch": "> 1.0 < 1.8",
     "karma": "~0.13",
     "karma-chrome-launcher": "~0.1.2",
@@ -112,6 +111,7 @@
     "karma-requirejs": "~0.2.1",
     "karma-script-launcher": "~0.1.0",
     "marked": "0.2.x",
+    "nock": "^2.17.0",
     "nodemon": "1.6.1",
     "requirejs": "~2.1.10",
     "sass-brunch": "https://github.com/basicer/sass-brunch-bleeding/archive/1.9.1-bleeding.tar.gz",
