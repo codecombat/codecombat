@@ -139,7 +139,6 @@ module.exports = class CoursesView extends RootView
       classroomName: newClassroom.get('name')
       ownerID: newClassroom.get('ownerID')
     }
-    location.search = '' # Prevent another student from logging in later with the _cc query param in place
     @classrooms.add(newClassroom)
     @render()
     @classroomJustAdded = newClassroom.id
