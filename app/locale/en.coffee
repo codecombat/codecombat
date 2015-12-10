@@ -1082,7 +1082,7 @@
     additional_resources_1_mid: "Course 1 Teacher's Guide"
     additional_resources_1_suff: "explanations and solutions to each level."
     additional_resources_2_pref: "Complete our"
-    additional_resources_2_suff: "to get 15 more hours of content for FREE for 2 months."
+    additional_resources_2_suff: "to get 15 more hours of content! For a limited time, enroll as many students as you want in our three paid courses."
     additional_resources_3_pref: "Visit our"
     additional_resources_3_mid: "Teacher Forums"
     additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."
