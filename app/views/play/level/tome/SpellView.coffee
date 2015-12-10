@@ -325,9 +325,6 @@ module.exports = class SpellView extends CocoView
                 "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
                  border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);"
               ></div>
-              <div style=
-                "position: absolute; top: #{t + h}px; left: #{l}px; width: #{500}px; height: #{bw}px; background-color: rgba(#{color.border},1);"
-              ></div>
             """
 
   fillACE: ->
