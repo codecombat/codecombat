@@ -1,11 +1,74 @@
 extends /templates/base
 
 block content
-  h1.text-center Welcome to CodeCombat's Hour of Code!
+  .pull-right
+    if me.isAnonymous()
+      a(href="/teachers")
+        span(data-i18n="courses.teachers_click")
+        span !
+    else
+      a(href="/courses/teachers")
+        span(data-i18n="courses.teachers_click")
+        span !
   br
-  .container-fluid
-    .row
-      .col-md-6.text-center
-        button#student-btn.btn.btn-lg.btn-success(data-i18n="courses.students_click")
-      .col-md-6.text-center
-        a.btn.btn-lg.btn-default(data-i18n="courses.teachers_click", href="/courses/teachers?hoc=true")
+
+  h1.text-center(data-i18n="courses.welcome_to_hoc")
+
+  #main-content
+    .well.text-center
+      if !me.isAnonymous()
+        p
+          strong.spr(data-i18n="courses.logged_in_as")
+          strong= me.get('name') || me.get('email')
+
+        p
+          span.spr(data-i18n="courses.not_you")
+          a#log-out-link(data-i18n="login.logout")
+
+        hr
+
+      if !view.lastLevel
+        p
+          strong(data-i18n="courses.ready_to_play")
+
+        p
+          button#start-new-game-btn.btn.btn-success.btn-lg(data-i18n="courses.start_new_game")
+      else
+
+        p
+          strong(data-i18n="courses.welcome_back")
+        p
+          button#continue-playing-btn.btn.btn-success.btn-lg(data-i18n="courses.continue_playing")
+        p
+          em.spr
+            span(data-i18n="clans.last_played")
+            span.spr :
+            span= view.lastLevel.get('name').replace('Course :', '')
+
+        if me.isAnonymous()
+          p
+            strong(data-i18n="courses.more_options")
+          p
+            button#start-new-game-btn.btn.btn-default.btn-lg(data-i18n="courses.start_new_game")
+
+      if me.isAnonymous()
+        p
+          span.spr -
+          span.text-uppercase(data-i18n="general.or")
+          span.spl -
+
+        p
+          button#log-in-btn.btn.btn-default.btn-lg(data-i18n="login.log_in")
+
+  #begin-hoc-area.hide
+    h2.text-center(data-i18n="common.loading")
+    .progress.progress-striped.active
+      .progress-bar(style="width: 100%")
+
+
+  h3.text-center.text-uppercase(data-i18n="courses.play_now_learn_header")
+  ul
+    li(data-i18n="courses.play_now_learn_1")
+    li(data-i18n="courses.play_now_learn_2")
+    li(data-i18n="courses.play_now_learn_3")
+    li(data-i18n="courses.play_now_learn_4")

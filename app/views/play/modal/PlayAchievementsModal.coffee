@@ -105,11 +105,6 @@ module.exports = class PlayAchievementsModal extends ModalView
       achievement.description = utils.i18n achievement.attributes, 'description'
     @render()
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.achievements = @achievements.models
-    context
-
   afterRender: ->
     super()
     return unless @supermodel.finished()

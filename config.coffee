@@ -42,12 +42,16 @@ exports.config =
       onCompile: (files) -> console.log "I feel the need, the need... for speed."
       plugins:
         coffeelint:
-          pattern: /\A\Z/   
+          pattern: /\A\Z/
     vagrant:
       watcher:
         usePolling: true
 
   server:
+<<<<<<< HEAD
+=======
+    # NOTE: This is a temporary workaround for https://github.com/nodejs/node-v0.x-archive/issues/2318
+>>>>>>> 4458a577715fd672254203208d099cd539afc9fb
     command: "#{if process.platform is 'win32' then 'node_modules\\.bin\\nodemon.cmd' else 'nodemon'} ."
 
   files:
@@ -203,6 +207,7 @@ exports.config =
     assetsmanager:
       copyTo:
         'lib/ace': ['node_modules/ace-builds/src-min-noconflict/*']
+        'fonts': ['bower_components/openSansCondensed/*']
     autoReload:
       delay: 1000
 

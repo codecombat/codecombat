@@ -1,61 +1,58 @@
 extends /templates/base
 
 block content
-
-  h2 Hour of Code(Combat)
-  p
-    strong Hi Teachers!
-  p We're excited to participate in Hour of Code this year!
-  p
-    span.spr Navigate to the
-    a(href='/courses/teachers?hoc=true') CodeCombat Courses
-    span.spl page to get started.
-  p
-    span.spr If you have any problems, please email
-    a(href='mailto:team@codecombat.com') team@codecombat.com
+  .container-fluid
+    .row
+      .col-md-6
+        .pull-left
+          a(href="/") <- to main CodeCombat website
+      .col-md-6
+        .pull-right
+          a(href="/hoc") Students, click here!
+    .row
+      .col-md-12
+        br
+        .text-center
+          .title 
+            strong.spr Teachers
+            span - share CodeCombat's Hour of Code with your class!
+    .row
+      .col-md-4
+      .col-md-4
+        p
+          div In just one hour, students will learn:
+          ul
+            li basic Python syntex
+            li arguments
+            li strings
+            li while loops
+            li variables
   br
 
-  h2(data-i18n="teachers.more_info")
-  p(data-i18n="teachers.intro_1")
-  p(data-i18n="teachers.intro_2")
-  
-  h3(data-i18n="teachers.free_title")
-  p
-    span.spr(data-i18n="teachers.free_3")
-    a(href='/courses', data-i18n="teachers.free_4")
-    span(data-i18n="teachers.free_5")
-  p(data-i18n="teachers.free_6")
-  p
-    span.spr For more details, please email
-    a(href='mailto:team@codecombat.com') team@codecombat.com
-  
-  h3.teachers-title(data-i18n="teachers.teacher_subs_title")
-  p 
-    strong.spr Hour of Code Special!
-    span Complete the survey by December 31st and enroll all your students in the paid courses for 2 months.
-  p(data-i18n="teachers.teacher_subs_0")
-  p
-    span.spr(data-i18n="teachers.teacher_subs_1")
-    a(href='/teachers/freetrial', data-i18n="teachers.teacher_subs_2")
-    span.spl(data-i18n="teachers.teacher_subs_3")
+  if me.isAnonymous()
+    .text-center
+      button.btn.btn-lg.btn-success.uppercase.btn-create-account Create Teacher account
+    .text-center
+      button.btn.btn-lg.btn-primary.uppercase.btn-login-account Log into Teacher Account
 
-  h3(data-i18n="teachers.more_info_title")
-  p
-    span.spr(data-i18n="teachers.more_info_1")
-    a(href='http://discourse.codecombat.com/c/teachers', data-i18n="teachers.more_info_2")
-    span.spl(data-i18n="teachers.more_info_3")
+  br
+  br
+  h2.text-center Hour of Code FAQ
 
-  h3(data-i18n="teachers.sys_requirements_title")
-  p(data-i18n="teachers.sys_requirements_1")
-  p(data-i18n="teachers.sys_requirements_2")
+  .container-fluid
+    .row
+      .col-md-2
+      .col-md-8
+        .faq-question(data-i18n="teachers.who_for_title")
+        p(data-i18n="teachers.who_for_1")
+        p(data-i18n="teachers.who_for_2")
 
-  if (me.get('preferredLanguage', true) || 'en-US') == 'pl'
-    h3 Fundacja IT Leader Club Polska
-    p
-      | CodeCombat w marcu 2015 roku nawiązał współpracę z Fundacją IT Leader Club Polska celem promowania nauki programowania wśród najmłodszych w Polsce. Język programowania stał się drugim językiem, bez którego bardzo trudno będzie młodym ludziom w przyszłości zaistnieć na konkurencyjnym rynku pracy.
-    p
-      | Poznając podstawy języka programowania z Fundacją IT Leader Club Polska z wykorzystaniem CodeCombat, polskie dzieci będą bardzo szybko potrafiły poznać kluczowe zagadnienia programowania. Poprzez zabawę i interaktywną grę, dzieci szybko przyswoją niezbędną teorię i zaczną czerpać z programowania nie tylko wiedzę ale i pasję na całe życie - czego życzymy wszystkim naszym młodym studentom. W przypadku pytań prosimy o kontakt z Panem Arkadiuszem Lefanowiczem, Przewodniczącym Fundacji IT Leader Club Polska, 
-      a(href="http://www.itleader.org.pl") itleader.org.pl
-      | , 
-      a(href="mailto:arkadiusz.lefanowicz@itleader.org.pl") arkadiusz.lefanowicz@itleader.org.pl
-      | .
+        .faq-question Does it cost anything to play Hour of Code?
+        p No! The first hour of CodeCombat is completely free.
+        p Teachers, please see the free trial information above for further details.
+
+        .faq-question(data-i18n="teachers.more_info_title")
+        p
+          span.spr(data-i18n="teachers.more_info_1")
+          a(href='http://discourse.codecombat.com/c/teachers', data-i18n="teachers.more_info_2")
+          span.spl(data-i18n="teachers.more_info_3")

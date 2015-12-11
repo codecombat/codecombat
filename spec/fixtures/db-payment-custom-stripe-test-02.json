@@ -1,0 +1,95 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17GCVPKaReE7xLUdJcZimvbF",
+            "card": {
+                "id": "card_17GCVPKaReE7xLUdRwBCjoW4"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7VCvZ7KBrJ8csQ",
+        "status": 200,
+        "response": {
+            "id": "cus_7VCvZ7KBrJ8csQ",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "00000000000000000000006b"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCVPKaReE7xLUdRwBCjoW4",
+                        "customer": "cus_7VCvZ7KBrJ8csQ"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "data": [
+                {
+                    "id": "ch_17GCVOKaReE7xLUd1ZQVMJKB",
+                    "amount": 5000,
+                    "customer": "cus_7VCvZ7KBrJ8csQ",
+                    "metadata": {
+                        "productID": "custom",
+                        "timestamp": "1447445242091",
+                        "description": "A sweet Coco t-shirt"
+                    },
+                    "paid": true,
+                    "refunds": {
+                        "has_more": false
+                    },
+                    "source": {
+                        "id": "card_17GCVMKaReE7xLUdZVTFHMmq",
+                        "customer": "cus_7VCvZ7KBrJ8csQ"
+                    }
+                }
+            ],
+            "has_more": false
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "id": "ch_17GCVSKaReE7xLUdd5E7dowz",
+            "amount": 73000,
+            "customer": "cus_7VCvZ7KBrJ8csQ",
+            "metadata": {
+                "productID": "custom",
+                "timestamp": "1447445242092"
+            },
+            "paid": true,
+            "refunds": {
+                "has_more": false
+            },
+            "source": {
+                "id": "card_17GCVPKaReE7xLUdRwBCjoW4",
+                "customer": "cus_7VCvZ7KBrJ8csQ"
+            }
+        }
+    }
+]

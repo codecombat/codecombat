@@ -12,10 +12,11 @@ block modal-body-content
     #victory-text= victoryText
 
   if isCourseLevel
-    if currentCourseName
-      p
-        span.spr.level-title(data-i18n="play_level.course")
-        span.level-name= currentCourseName
+    .course-name-container
+      if currentCourseName
+        p
+          span.spr.level-title(data-i18n="play_level.course")
+          span.level-name= currentCourseName
     .container-fluid
       .row
         .col-md-6
@@ -26,6 +27,10 @@ block modal-body-content
           if nextLevelName
             .level-title(data-i18n="play_level.next_level")
             .level-name= nextLevelName.replace('Course: ', '')
+          else
+            .level-title(data-i18n="play_level.course")
+            .level-name(data-i18n="play_level.victory_title_suffix")
+
     br
 
   #level-feedback
@@ -116,7 +121,7 @@ block modal-footer-content
     else if level.get('type') === 'hero-ladder'
       button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
     else
-      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.victory_play_continue") Continue
+      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
 
   if !me.get('anonymous') && !showHourOfCodeDoneButton && showLeaderboard
     button.btn.btn-illustrated.btn-success.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions") View Other Solutions

@@ -28,11 +28,13 @@ module.exports = class LevelBus extends Bus
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
-    if application.isProduction()
-      #@saveSession = _.debounce(@reallySaveSession, 4000, {maxWait: 10000})  # Save slower on production.
-      @saveSession = _.debounce(@reallySaveSession, 10000, {maxWait: 30000})  # Save even slower during HoC.
-    else
-      @saveSession = _.debounce(@reallySaveSession, 1000, {maxWait: 5000})  # Save quickly in development.
+    highLoad = true
+    [wait, maxWait] = switch
+      when not application.isProduction() then [1, 5]  # Save quickly in development.
+      when not highLoad then [4, 10]                   # Save slowly when in production.
+      when not me.isAnonymous() then [10, 30]          # Save even more slowly during HoC scaling.
+      else [20, 60]                                    # Save super slowly if anonymous during HoC scaling.
+    @saveSession = _.debounce @reallySaveSession, wait * 1000, {maxWait: maxWait * 1000}
     @playerIsIdle = false
 
   init: ->

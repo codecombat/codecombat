@@ -11,17 +11,23 @@ block content
         a(href="/")
           span.glyphicon.glyphicon-home
       li.active(data-i18n="nav.account")
-    #account-link.panel.panel-default
-      div.row
+    div.row.row-top-buffer
+      div.col-md-4
         #account-links
          a.btn.btn-lg.btn-primary(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
-      div.row
+      div.col-md-4
         #account-links
           a.btn.btn-lg.btn-primary(href="/account/settings", data-i18n="play.settings")
-        #account-links
-          a.btn.btn-lg.btn-primary(href="/account/subscription", data-i18n="account.subscription")
-      div.row
+      div.col-md-4
         #account-links
           a.btn.btn-lg.btn-primary(href="/account/payments", data-i18n="account.payments")
+    div.row.row-bot-buffer
+      div.col-md-4
+        #account-links
+          a.btn.btn-lg.btn-primary(href="/account/subscription", data-i18n="account.subscription")
+      div.col-md-4
         #account-links
           a.btn.btn-lg.btn-primary(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
+      div.col-md-4
+        #account-links
+         a.btn.btn-lg.btn-primary.logout-btn(href="/account", data-i18n="login.log_out")

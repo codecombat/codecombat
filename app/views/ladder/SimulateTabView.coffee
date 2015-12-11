@@ -26,8 +26,9 @@ module.exports = class SimulateTabView extends CocoView
   onLoaded: ->
     super()
     @render()
-    if document.location.hash is '#simulate' and not @simulator
-      @startSimulating()
+    # Save our MongoDB oplog!
+    #if (document.location.hash is '#simulate' or @options.level.get('type') is 'course-ladder') and not @simulator
+    #  @startSimulating()
 
   getRenderData: ->
     ctx = super()
@@ -59,11 +60,12 @@ module.exports = class SimulateTabView extends CocoView
 
   simulateNextGame: ->
     unless @simulator
-      @simulator = new Simulator()
+      @simulator = new Simulator levelID: @options.level.get('slug'), leagueID: @options.leagueID
       @listenTo @simulator, 'statusUpdate', @updateSimulationStatus
       # Work around simulator getting super slow on Chrome
       fetchAndSimulateTaskOriginal = @simulator.fetchAndSimulateTask
       @simulator.fetchAndSimulateTask = =>
+        return if @destroyed
         if @simulator.simulatedByYou >= 20
           console.log '------------------- Destroying  Simulator and making a new one -----------------'
           @simulator.destroy()
@@ -74,6 +76,7 @@ module.exports = class SimulateTabView extends CocoView
     @simulator.fetchAndSimulateTask()
 
   refresh: ->
+    return  # Queue-based scoring is currently not active anyway, so don't keep checking this until we fix it.
     success = (numberOfGamesInQueue) ->
       $('#games-in-queue').text numberOfGamesInQueue
     $.ajax '/queue/messagesInQueueCount', cache: false, success: success

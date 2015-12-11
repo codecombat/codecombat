@@ -26,25 +26,26 @@ module.exports = class LevelSetupManager extends CocoClass
     levelURL = "/db/level/#{@options.levelID}"
     @level = new Level().setURL levelURL
     @level = @supermodel.loadModel(@level, 'level').model
-    onLevelSync = ->
-      return if @destroyed
-      if @waitingToLoadModals
-        @waitingToLoadModals = false
-        @loadModals()
-    onLevelSync.call @ if @level.loaded
+    if @level.loaded then @onLevelSync() else @listenToOnce @level, 'sync', @onLevelSync
 
   loadSession: ->
     sessionURL = "/db/level/#{@options.levelID}/session"
     #sessionURL += "?team=#{@team}" if @options.team  # TODO: figure out how to get the teams for multiplayer PVP hero style
     sessionURL += "?course=#{@options.courseID}" if @options.courseID
     @session = new LevelSession().setURL sessionURL
-    onSessionSync = ->
-      return if @destroyed
-      @session.url = -> '/db/level.session/' + @id
-      @fillSessionWithDefaults()
-    @listenToOnce @session, 'sync', onSessionSync
     @session = @supermodel.loadModel(@session, 'level_session').model
-    onSessionSync.call @ if @session.loaded
+    if @session.loaded then @onSessionSync() else @listenToOnce @session, 'sync', @onSessionSync
+
+  onLevelSync: ->
+    return if @destroyed
+    if @waitingToLoadModals
+      @waitingToLoadModals = false
+      @loadModals()
+
+  onSessionSync: ->
+    return if @destroyed
+    @session.url = -> '/db/level.session/' + @id
+    @fillSessionWithDefaults()
 
   fillSessionWithDefaults: ->
     heroConfig = _.merge {}, me.get('heroConfig'), @session.get('heroConfig')
@@ -104,6 +105,7 @@ module.exports = class LevelSetupManager extends CocoClass
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
 
     @options.parent.openModalView(firstModal)
+    @trigger 'open'
     #    @inventoryModal.onShown() # replace?
 
   #- Modal events

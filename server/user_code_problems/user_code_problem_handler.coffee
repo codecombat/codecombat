@@ -55,7 +55,7 @@ class UserCodeProblemHandler extends Handler
     group = {"$group": {"_id": {"errMessage": "$errMessageNoLineInfo", "errHint": "$errHint", "language": "$language", "levelID": "$levelID"}, "count": {"$sum": 1}}}
     sort = { $sort : { "_id.levelID": 1, count : -1, "_id.language": 1 } }
     query = UserCodeProblem.aggregate match, limit, group, sort
-    query.cache()
+    query.cache(30 * 60 * 1000)
 
     query.exec (err, data) =>
       if err? then return @sendDatabaseError res, err

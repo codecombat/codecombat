@@ -68,7 +68,7 @@ module.exports = class TeachersFreeTrialView extends RootView
 
     # Save trial request
     trialRequest = new TrialRequest
-      type: 'subscription'
+      type: 'course'
       properties:
         email: @email
         school: school

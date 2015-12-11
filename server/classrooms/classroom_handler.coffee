@@ -36,6 +36,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
     method = req.method.toLowerCase()
     return @inviteStudents(req, res, args[0]) if args[1] is 'invite-members'
     return @joinClassroomAPI(req, res, args[0]) if method is 'post' and args[1] is 'members'
+    return @removeMember(req, res, args[0]) if req.method is 'DELETE' and args[1] is 'members'
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
     super(arguments...)
 
@@ -65,6 +66,25 @@ ClassroomHandler = class ClassroomHandler extends Handler
         classroom.set('members', members)
         return @sendSuccess(res, @formatEntity(req, classroom))
 
+  removeMember: (req, res, classroomID) ->
+    userID = req.body.userID
+    return @sendBadInputError(res, 'Input must be a MongoDB ID') unless utils.isID(userID)
+    Classroom.findById classroomID, (err, classroom) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res, 'Classroom referenced by course instance not found') unless classroom
+      return @sendForbiddenError(res) unless _.any(classroom.get('members'), (memberID) -> memberID.toString() is userID)
+      ownsClassroom = classroom.get('ownerID').equals(req.user.get('_id'))
+      removingSelf = userID is req.user.id
+      return @sendForbiddenError(res) unless ownsClassroom or removingSelf
+      alreadyNotInClassroom = not _.any classroom.get('members') or [], (memberID) -> memberID.toString() is userID
+      return @sendSuccess(res, @formatEntity(req, classroom)) if alreadyNotInClassroom
+      members = _.clone(classroom.get('members'))
+      members = (m for m in members when m.toString() isnt userID)
+      classroom.set('members', members)
+      classroom.save (err, classroom) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, @formatEntity(req, classroom))
+
   formatEntity: (req, doc) ->
     if req.user?.isAdmin() or req.user?.get('_id').equals(doc.get('ownerID'))
       return doc.toObject()
@@ -86,8 +106,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
             address: email
           email_data:
             class_name: classroom.get('name')
-            # TODO: join_link
-            join_link: "https://codecombat.com/courses/students?_cc=" + (classroom.get('codeCamel') or classroom.get('code'))
+            join_link: "https://codecombat.com/courses?_cc=" + (classroom.get('codeCamel') or classroom.get('code'))
         sendwithus.api.send context, _.noop
       return @sendSuccess(res, {})
 
@@ -104,6 +123,12 @@ ClassroomHandler = class ClassroomHandler extends Handler
       Classroom.find {members: mongoose.Types.ObjectId(memberID)}, (err, classrooms) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, (@formatEntity(req, classroom) for classroom in classrooms))
+    else if code = req.query.code
+      code = code.toLowerCase()
+      Classroom.findOne {code: code}, (err, classroom) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res) unless classroom
+        return @sendSuccess(res, @formatEntity(req, classroom))
     else
       super(arguments...)
 

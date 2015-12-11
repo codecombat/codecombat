@@ -250,6 +250,7 @@ module.exports.getPrepaidCodeAmount = getPrepaidCodeAmount = (price=999, users=0
   total
 
 module.exports.filterMarkdownCodeLanguages = (text) ->
+  return '' unless text
   currentLanguage = me.get('aceConfig')?.language or 'python'
   excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'io'], currentLanguage
   exclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'

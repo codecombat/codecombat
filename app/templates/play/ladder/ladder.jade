@@ -4,7 +4,7 @@ block content
 
   div#ladder-top
     
-    if leagueType == 'course'
+    if leagueType == 'course' && view.course.id
       #course-header
         #course-details-link
           a(href="/courses/"+view.course.id+"/"+view.league.id)
@@ -18,9 +18,6 @@ block content
         
 
     div#level-column
-      if leagueType === 'course'
-        h1#course-h1= (level.get('name') || '').toUpperCase()
-      
       if levelDescription
         div!= levelDescription
 

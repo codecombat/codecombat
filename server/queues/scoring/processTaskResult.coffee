@@ -52,14 +52,14 @@ verifyClientResponse = (responseObject, callback) ->
     callback null, responseObject
 
 fetchTaskLog = (responseObject, callback) ->
-  TaskLog.findOne(_id: responseObject.taskID).lean().exec (err, taskLog) =>
+  TaskLog.findOne(_id: responseObject.taskID).exec (err, taskLog) =>
     return callback new Error("Couldn't find TaskLog for _id #{responseObject.taskID}!") unless taskLog
     @taskLog = taskLog
     callback err, taskLog
 
 checkTaskLog = (taskLog, callback) ->
-  if taskLog.calculationTimeMS then return callback 'That computational task has already been performed'
-  if hasTaskTimedOut taskLog.sentDate then return callback 'The task has timed out'
+  if taskLog.get('calculationTimeMS') then return callback 'That computational task has already been performed'
+  if hasTaskTimedOut taskLog.get('sentDate') then return callback 'The task has timed out'
   callback null
 
 hasTaskTimedOut = (taskSentTimestamp) ->
@@ -83,10 +83,8 @@ checkSubmissionDate = (callback) ->
     callback null
 
 logTaskComputation = (callback) ->
-  @taskLog.set('calculationTimeMS', @clientResponseObject.calculationTimeMS)
-  @taskLog.set('sessions')  # Huh?
-  @taskLog.calculationTimeMS = @clientResponseObject.calculationTimeMS
-  @taskLog.sessions = @clientResponseObject.sessions
+  @taskLog.set 'calculationTimeMS', @clientResponseObject.calculationTimeMS
+  @taskLog.set 'sessions', @clientResponseObject.sessions
   @taskLog.save (err, saved) ->
     callback err
 

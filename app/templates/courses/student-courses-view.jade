@@ -2,46 +2,50 @@ extends /templates/base
 
 block content
 
-  p To join a class, ask your teacher for an unlock code.
-  
+  p(data-i18n="courses.to_join_ask")
+
   #join-classroom-form.form-horizontal
     .form-group
       .col-sm-2
-        button#join-class-btn.btn.btn-default.btn-block(disabled=view.state==='enrolling') Join Class
+        button#join-class-btn.btn.btn-default.btn-block(disabled=view.state==='enrolling', data-i18n="courses.join_this_class")
       .col-sm-6
         input#classroom-code-input.form-control(
+          data-i18n="[placeholder]courses.enter_here",
           placeholder='<enter unlock code here>',
           value=view.classCode,
           disabled=view.state==='enrolling')
-        
+
     if view.state === 'enrolling'
       .progress.progress-striped.active
-        .progress-bar(style="width: 100%") Joining class
-      
+        .progress-bar(style="width: 100%", data-i18n="courses.joining")
+
     if view.state === 'unknown_error'
       .alert.alert-danger= view.stateMessage
-    
+
     - var justJoinedCourseInstance = view.courseInstances.find(function(ci) { return ci.justJoined; });
     if justJoinedCourseInstance
       - var course = view.courses.get(justJoinedCourseInstance.get('courseID'));
       - var classroom = view.classrooms.get(justJoinedCourseInstance.get('classroomID'));
       if course && classroom
         .alert.alert-info
-          span.spr Successfully joined "#{classroom.get('name')}"!
-          a(href="/courses/#{course.id}/#{justJoinedCourseInstance.id}") 
-            strong Click here to start taking "#{course.get('name')}".
-     
+          span.spr(data-i18n="courses.successfully_joined")
+          span.spr "#{classroom.get('name')}"!
+          a(href="/courses/#{course.id}/#{justJoinedCourseInstance.id}")
+            strong
+              span.spr(data-i18n="courses.click_to_start")
+              span "#{course.get('name')}".
+
   .panel.panel-default
     .panel-heading
-      .panel-title My Courses
-      
+      .panel-title(data-i18n="courses.my_courses")
+
     .list-group
       .list-group-item
         .row
           .col-sm-3
-            strong Classroom
+            strong(data-i18n="courses.classroom")
           .col-sm-3
-            strong Course
+            strong(data-i18n="courses.course")
       for courseInstance in view.courseInstances.models
         - var classroom = view.classrooms.get(courseInstance.get('classroomID'))
         - var course = view.courses.get(courseInstance.get('courseID'))
@@ -57,11 +61,11 @@ block content
               if course
                 | #{course.get('name')}
             .col-sm-6
-              a.btn.btn-default.btn-sm(href="/courses/#{course.id}/#{courseInstance.id}") Enter
-        
+              a.btn.btn-default.btn-sm(href="/courses/#{course.id}/#{courseInstance.id}", data-i18n="courses.enter")
+
   .panel.panel-default
     .panel-heading
-      .panel-title My Classes
+      .panel-title(data-i18n="courses.my_classes")
     .list-group
       for classroom in view.classrooms.models
         .list-group-item

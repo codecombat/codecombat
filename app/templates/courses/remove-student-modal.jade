@@ -1,0 +1,26 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  .text-center
+    h3.modal-title(data-i18n="courses.remove_student1")
+    span.glyphicon.glyphicon-warning-sign.text-danger
+    h3(data-i18n="courses.are_you_sure")
+
+block modal-body-content
+  p.text-center
+    span(data-i18n="courses.remove_description1")
+    if view.user.get('coursePrepaidID')
+      span(data-i18n="courses.remove_description2")
+
+block modal-footer-content
+  #remove-student-buttons.text-center
+    p
+      button.btn.btn-lg.btn-success.text-uppercase(data-dismiss="modal", data-i18n="courses.keep_student")
+    p - OR -
+    p
+      button#remove-student-btn.btn.btn-lg.btn-default.text-uppercase(data-i18n="courses.remove_student1")
+
+  #remove-student-progress.text-center.hide
+    .progress
+      .progress-bar
+    p.text-info(data-i18n="courses.removing_user")

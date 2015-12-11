@@ -2,10 +2,12 @@ extends /templates/base
 
 block content
 
-  div
-    span *UNDER CONSTRUCTION, send feedback to
-    a.spl(href='mailto:team@codecombat.com') team@codecombat.com
-  div(style='border-bottom: 1px solid black;')
+  if view.teacherMode
+    a(href="/courses/teachers", data-i18n="courses.back_classrooms")
+  else
+    a(href="/courses", data-i18n="courses.back_courses")
+  br
+  br
 
   if (noCourseInstance || noCourseInstanceSelected) && course
     h1= course.get('name')
@@ -29,263 +31,131 @@ block content
           .col-md-6
             button.btn.btn-success.btn-select-instance(data-i18n="courses.select")
   else if !course || !courseInstance
-    h1(data-i18n="common.loading") Loading...
+    h1(data-i18n="common.loading")
   else
+    p
+      // TODO: format this text all good and stuff
+      strong
+        if courseInstance.get('name')
+          span= courseInstance.get('name')
+        else if view.classroom.get('name')
+          span= view.classroom.get('name')
+        else
+          span(data-i18n='courses.unnamed_class')
+
+      if !view.owner.isNew() && view.getOwnerName() && courseInstance.get('name') != 'Single Player'
+        span.spl -
+        span.spl(data-i18n='courses.teacher')
+        span.spr :
+        //a(href="/user/#{view.owner.id}")  // Don't link to profiles until we improve them
+        span
+          strong= view.getOwnerName()
+
     h1
       | #{course.get('name')}
-      small.spl
-        if courseInstance.get('name')
-          | (#{courseInstance.get('name')})
-        else if view.classroom.get('name')
-          | (#{view.classroom.get('name')})
-        else
-          | (
-          span(data-i18n='courses.unnamed_class')
-          | )
-      
-    if !view.owner.isNew()
-      p
-        span.spr Creator:
-        a(href="/user/#{view.owner.id}")
-          strong= view.getOwnerName()
+      if view.courseComplete
+        span.spl -
+        span.spl(data-i18n='courses.complete')
+        span !
 
     p
       if courseInstance.get('description')
         each line in courseInstance.get('description').split('\n')
           div= line
-    
-    div.well.well-sm(role='tabpanel')
-      ul.nav.nav-pills(role='tablist')
-        if adminMode
-          li.active(role='presentation')
-            a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
-          li(role='presentation')
-            a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
-        else
-          li.active(role='presentation')
-            a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab', data-i18n="nav.play")
-          li(role='presentation')
-            a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab', data-i18n="courses.progress")
-    .tab-content
-      if adminMode
-        .tab-pane.active#progress(role='tabpanel')
-          +progress-tab
-        .tab-pane#levels(role='tabpanel')
-          +levels-tab
-      else
-        .tab-pane.active#levels(role='tabpanel')
-          +levels-tab
-        .tab-pane#progress(role='tabpanel')
-          +progress-tab
 
-mixin progress-tab
-  .container-fluid.progress-summary-container
-    .row
-      .col-md-6
-        +progress-summary-stats
-      .col-md-6
-        +progress-summary-concepts
-  +progress-members
-
-mixin progress-summary-stats
-  h3(data-i18n="courses.stats")
-  table.progress-stats-container
-    tr
-      td(data-i18n="courses.total_students")
-      td 
-        if courseInstance
-          div #{courseInstance.get('members').length}
-    if instanceStats
-      tr
-        td(data-i18n="courses.average_time")
-        if instanceStats.averageLevelPlaytime > 0
-          td= moment.duration(instanceStats.averageLevelPlaytime, "seconds").humanize()
-        else
-          td 0
-      tr
-        td(data-i18n="courses.total_time")
-        if instanceStats.totalPlayTime > 0
-          td= moment.duration(instanceStats.totalPlayTime, "seconds").humanize()
-        else
-          td 0
-      tr
-        td(data-i18n="courses.average_levels")
-        td #{instanceStats.averageLevelsCompleted.toFixed(2)}
-      tr
-        td(data-i18n="courses.total_levels")
-        td= instanceStats.totalLevelsCompleted
-      tr
-        td(data-i18n="courses.furthest_level")
-        td= instanceStats.furthestLevelCompleted.replace('Course: ', '')
-
-mixin progress-summary-concepts
-  h3(data-i18n="courses.concepts_covered")
-  if course && courseInstance && conceptsCompleted
-    table.progress-concepts-container
-      each concept in course.get('concepts')
-        - var conceptCompletion = Math.round(parseFloat(conceptsCompleted[concept]) / courseInstance.get('members').length * 100)
-        if isNaN(conceptCompletion)
-          - conceptCompletion = 0
-        tr
-          td.progress-concept-completion-container
-            span.progress-concept-summary(style="width:#{conceptCompletion}%;")
-              span.spr(data-i18n="concepts." + concept)
-              span - #{conceptCompletion}%
-
-mixin progress-members
-  h3(data-i18n="courses.students")
-  table.table.table-condensed
-    thead
-      tr
-        th
-          span.progress-member-header.spr(data-i18n="clans.name")
-          if memberSort === 'nameAsc'
-            span.progress-member-header.glyphicon.glyphicon-chevron-up
-          else if memberSort === 'nameDesc'
-            span.progress-member-header.glyphicon.glyphicon-chevron-down
-        th
-          span.progress-header.spr(data-i18n="clans.progress")
-          if memberSort === 'progressAsc'
-            span.progress-header.glyphicon.glyphicon-chevron-up
-          else if memberSort === 'progressDesc'
-            span.progress-header.glyphicon.glyphicon-chevron-down
-          else
-            span(style='padding-left:16px;')
-          span.progress-key.progress-key-complete(data-i18n="clans.complete_1")
-          span.progress-key.progress-key-started(data-i18n="clans.started_1")
-          if showExpandedProgress
-            span.progress-key(data-i18n="clans.not_started_1")
-          input.progress-expand-checkbox(type='checkbox')
-          span.spl.progress-expand-label(data-i18n="courses.expand_details")
-    tbody
-      each memberID in sortedMembers
-        tr
-          td.progress-member-cell
-            +progress-members-individual(memberID)
-          td.progress-cell
-            if showExpandedProgress
-              .progress-concepts-label(data-i18n="courses.concepts")
-              +progress-members-concepts(memberID)
-              .progess-levels-label(data-i18n="nav.play")
-              +progress-members-levels-expanded(memberID)
-            else
-              table
-                tbody
-                  tr
-                    td.progress-concepts-label(data-i18n="courses.concepts")
-                    td.progress-condensed-cell
-                      +progress-members-concepts(memberID)
-                  tr
-                    td.progess-levels-label(data-i18n="nav.play")
-                    td.progress-condensed-cell
-                      +progress-members-levels-condensed(memberID)
-
-mixin progress-members-individual(memberID)
-  - var name = memberUserMap[memberID] ? memberUserMap[memberID].get('name') : 'Anoner'
-  a(href="/user/#{memberID}")= name || 'Anoner'
-  if memberStats && memberStats[memberID]
-    div
-      span #{memberStats[memberID].totalLevelsCompleted}
-      span.spl(data-i18n="courses.levels")
-    div
-      span.spr(data-i18n="courses.played")
-      span #{moment.duration(memberStats[memberID].totalPlayTime, "seconds").humanize()}
-
-mixin progress-members-concepts(memberID)
-  if course && userLevelStateMap[memberID]
-    each concept in course.get('concepts')
-      if userConceptStateMap[memberID][concept] === 'complete'
-        span.spr.progress-concept-cell.progress-concept-cell-complete(data-i18n="concepts." + concept)
-      else if userConceptStateMap[memberID][concept] === 'started'
-        span.spr.progress-concept-cell.progress-concept-cell-started(data-i18n="concepts." + concept)
-      else if showExpandedProgress
-        span.spr.progress-concept-cell.progress-concept-cell-not-started(data-i18n="concepts." + concept)
-
-mixin progress-members-levels-expanded(memberID)
-  if campaign && userLevelStateMap[memberID]
-    - var i = 0
-    each level, levelID in campaign.get('levels')
-      if userLevelStateMap[memberID][levelID] === 'complete'
-        span.progress-level-cell.progress-level-cell-complete(data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
-          span.spl= level.name.replace('Course: ', '')
-          +progress-members-popup-completed(i, level, (view.userLevelSessionMap[memberID] || {})[levelID])
-      else if userLevelStateMap[memberID][levelID] === 'started'
-        span.progress-level-cell.progress-level-cell-started(data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1} #{level.name.replace('Course: ', '')}
-          +progress-members-popup-started(i, level, (view.userLevelSessionMap[memberID] || {})[levelID])
-      else
-        span.progress-level-cell #{i + 1} #{level.name.replace('Course: ', '')}
-      - i++
-
-mixin progress-members-levels-condensed(memberID)
-  if campaign && userLevelStateMap[memberID]
-    - var numLevels = Object.keys(campaign.get('levels')).length
-    - var levelCellWidth = 100.00
-    if numLevels > 0
-      levelCellWidth = 100.00 / numLevels
-    - var i = 0
-    each level, levelID in campaign.get('levels')
-      if userLevelStateMap[memberID][levelID] === 'complete'
-        span.progress-level-cell.progress-level-cell-complete(style="width:#{levelCellWidth}%;", data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
-          +progress-members-popup-completed(i, level, (view.userLevelSessionMap[memberID] || {})[levelID])
-      else if userLevelStateMap[memberID][levelID] === 'started'
-        span.progress-level-cell.progress-level-cell-started(style="width:#{levelCellWidth}%;", data-level-id=levelID, data-level-slug=level.slug, data-user-id=memberID) #{i + 1}
-          +progress-members-popup-started(i, level, (view.userLevelSessionMap[memberID] || {})[levelID])
-      else
-        break
-      - i++
-
-mixin progress-members-popup-completed(i, level, session)
-  .progress-popup-container
-    h3 #{i + 1}. #{level.name.replace('Course: ', '')}
-    p
-      span.spr(data-i18n="courses.play_time")
-      span #{moment.duration(session.get('playtime'), "seconds").humanize()}
-    p
-      span.spr(data-i18n="courses.completed")
-      span #{moment(session.get('changed')).format('MMMM Do YYYY, h:mm:ss a')}
-    if adminMode
-      strong(data-i18n="clans.view_solution")
-
-mixin progress-members-popup-started(i, level, session)
-  .progress-popup-container
-    h3 #{i + 1}. #{level.name.replace('Course: ', '')}
-    p
-      span.spr(data-i18n="courses.play_time")
-      span #{moment.duration(session.get('playtime'), "seconds").humanize()}
-    p
-      span.spr(data-i18n="clans.last_played")
-      span #{moment(session.get('changed')).format('MMMM Do YYYY, h:mm:ss a')}
-    if adminMode
-      strong(data-i18n="clans.view_attempt")
-
-mixin levels-tab
-  table.table.table-striped.table-condensed
-    thead
-      tr
-        th
-        th(data-i18n="clans.status")
-        th(data-i18n="resources.level")
-        th(data-i18n="courses.concepts")
-    tbody
-      if campaign
-        - var lastLevelCompleted = true;
-        - var levelCount = 0;
-        each level, levelID in campaign.get('levels')
-          tr
-            td
-              if lastLevelCompleted || adminMode
-                - var i18n = level.type === 'course-ladder' ? 'play.compete' : 'home.play';
-                button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n=i18n, data-level-id=levelID)
-            td
-              if userLevelStateMap[me.id]
-                div= userLevelStateMap[me.id][levelID]
-                - lastLevelCompleted = userLevelStateMap[me.id][levelID] === 'complete'
+    if view.courseComplete && !view.teacherMode
+      .jumbotron
+        if promptForSchool
+          .row
+            .col-md-6.col-md-offset-3
+              form.form#school-form
+                .form-group
+                  label.control-label(for="course-complete-school-input")
+                    span.spr(data-i18n="signup.school_name")
+                    em.optional-note
+                      | (
+                      span(data-i18n="signup.optional")
+                      | ):
+                  .input-border
+                    input#course-complete-school-input.input-large.form-control(name="schoolName", data-i18n="[placeholder]signup.school_name_placeholder")
+                button.btn.btn-primary.btn-submit.no-school(type="submit", data-i18n='courses.none')
+                button.btn.btn-info.btn-submit.save-school(type="submit", data-i18n='courses.save')
+        .row
+          if view.singlePlayerMode && !me.isAnonymous()
+            .col-md-6.col-md-offset-3
+              a.btn.btn-lg.btn-success(href="/play")
+                h1(data-i18n='courses.play_campaign_title')
+                p(data-i18n='courses.play_campaign_description')
+          else if view.singlePlayerMode && me.isAnonymous()
+            .col-md-6
+              a.btn.btn-lg.btn-success.signup-button
+                h1(data-i18n='courses.create_account_title')
+                p(data-i18n='courses.create_account_description')
+            .col-md-6
+              a.btn.btn-lg.btn-success(href="/play")
+                h1(data-i18n='courses.preview_campaign_title')
+                p(data-i18n='courses.preview_campaign_description')
+          else if !view.singlePlayerMode
+            .col-md-6
+              if view.arenaLevel
+                a.btn.btn-lg.btn-success.btn-play-level(data-level-slug=view.arenaLevel.slug, data-level-id=view.arenaLevel.original)
+                  h1
+                    span(data-i18n='courses.arena')
+                    span.spr :
+                    span= view.arenaLevel.name
+                  p= view.arenaLevel.description.replace(/!\[.*?\)/, '')
               else
-                - lastLevelCompleted = false
-            td= ++levelCount + '. ' + level.name.replace('Course: ', '')
-            td
-              if levelConceptMap[levelID]
-                each concept in course.get('concepts')
-                  if levelConceptMap[levelID][concept]
-                    span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
+                a.btn.btn-lg.btn-success.disabled
+                  h1(data-i18n='courses.arena_soon_title')
+                  p
+                    span.spr(data-i18n='courses.arena_soon_description')
+                    span= course.get('name')
+                    span .
+            .col-md-6
+              if view.nextCourseInstance
+                a.btn.btn-lg.btn-success(href="/courses/#{view.nextCourse.id}/#{view.nextCourseInstance.id}")
+                  h1= view.nextCourse.get('name')
+                  p= view.nextCourse.get('description')
+              else if view.nextCourse
+                a.btn.btn-lg.btn-success.disabled
+                  h1= view.nextCourse.get('name')
+                  p.text-uppercase
+                    em(data-i18n='courses.not_enrolled1')
+                  p(data-i18n='courses.not_enrolled2')
+              else
+                a.btn.btn-lg.btn-success(disabled=!view.nextCourse ? "disabled" : "")
+                  h1(data-i18n='courses.next_course')
+                  p.text-uppercase
+                    em(data-i18n='courses.coming_soon1')
+                  p(data-i18n='courses.coming_soon2')
 
+    .available-courses-title(data-i18n='courses.available_levels')
+    table.table.table-striped.table-condensed
+      thead
+        tr
+          th
+          th(data-i18n="clans.status")
+          th(data-i18n="resources.level")
+          th(data-i18n="courses.concepts")
+      tbody
+        if campaign
+          - var lastLevelCompleted = true;
+          - var levelCount = 0;
+          each level, levelID in campaign.get('levels')
+            tr
+              td
+                if lastLevelCompleted || view.teacherMode
+                  - var i18n = level.type === 'course-ladder' ? 'play.compete' : 'home.play';
+                  button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n=i18n, data-level-id=levelID)
+              td
+                if userLevelStateMap[me.id]
+                  div= userLevelStateMap[me.id][levelID]
+                  - lastLevelCompleted = userLevelStateMap[me.id][levelID] === 'complete'
+                else
+                  - lastLevelCompleted = false
+              td= ++levelCount + '. ' + level.name.replace('Course: ', '')
+              td
+                if levelConceptMap[levelID]
+                  each concept in course.get('concepts')
+                    if levelConceptMap[levelID][concept]
+                      span.spr.concept(data-i18n="concepts." + concept)

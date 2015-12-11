@@ -9,6 +9,7 @@ hipchat = require '../hipchat'
 config = require '../../server_config'
 request = require 'request'
 async = require 'async'
+apple_utils = require '../lib/apple_utils'
 
 products = {
   'gems_5': {
@@ -99,11 +100,9 @@ PaymentHandler = class PaymentHandler extends Handler
   #- Apple payments
 
   handleApplePaymentPost: (req, res, receipt, transactionID, localPrice) ->
-    formFields = { 'receipt-data': receipt }
-
     #- verify receipt with Apple
 
-    verifyReq = request.post({url: config.apple.verifyURL, json: formFields}, (err, verifyRes, body) =>
+    apple_utils.verifyReceipt(receipt, (err, body) =>
       if err or not body?.receipt?.in_app or (not body?.bundle_id is 'com.codecombat.CodeCombat')
         console.warn 'apple receipt error?', err, body
         @logPaymentError(req, 'Unable to verify apple receipt')

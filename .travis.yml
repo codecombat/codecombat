@@ -3,7 +3,7 @@ sudo: false
 language: node_js
 
 node_js:
-  - 0.10
+  - 5.1.1
 
 addons:
   apt:
@@ -18,7 +18,6 @@ cache:
     - bower_components
 
 before_install:
-  - "gem install sass"
   - export COCO_TRAVIS_TEST=1
   - npm install -g npm@latest
 
@@ -29,5 +28,5 @@ before_script:
   - "sleep 10" # to give node a chance to start
 
 script:
-  - "./node_modules/jasmine-node/bin/jasmine-node test/server/ --coffee --captureExceptions"
   - "./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters progress"
+  - "npm run jasmine"

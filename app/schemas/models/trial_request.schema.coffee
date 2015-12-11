@@ -13,7 +13,7 @@ _.extend TrialRequestSchema.properties,
   reviewer: c.objectId(links: [{rel: 'extra', href: '/db/user/{($)}'}])
   properties: {type: 'object', description: 'Data specific to this request.'}
   status: {type: 'string', 'enum': ['submitted', 'approved', 'denied']}
-  type: {type: 'string', 'enum': ['subscription']}
+  type: {type: 'string', 'enum': ['course', 'subscription']}
 
 c.extendBasicProperties TrialRequestSchema, 'TrialRequest'
 module.exports = TrialRequestSchema

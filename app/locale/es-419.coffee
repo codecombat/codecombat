@@ -4,6 +4,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     no_ie: "¡Lo sentimos! CodeCombat no funciona en Internet Explorer 8 o versiones anteriores." # Warning that only shows up in IE8 and older
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y quizás no funcione!" # Warning that shows up on mobile devices
     play: "Jugar" # The big play button that opens up the campaign view.
+    play_campaign_version: "Jugar Versión Campaña" # Shows up under big play button if you only play /courses
     old_browser: "¡Oh! ¡Oh! Tu navegador es muy antiguo para correr CodeCombat. ¡Lo sentimos!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Puedes probar de todas formas, pero probablemente no funcione."
     ipad_browser: "Malas noticias: CodeCombat no funciona en el navegador de iPad. Buenas noticias: nuestra propia aplicación de iPad esta en espera para ser aprobada por Apple."
@@ -12,14 +13,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     multiplayer: "Multijugador" # Not currently shown on home page
     for_developers: "Para Desarrolladores" # Not currently shown on home page.
     or_ipad: "O descargar para iPad"
-#    hoc_class_code: "I Have a Class Code"
+    hoc_class_code: "Tengo un Código de Clase"
 #    hoc_enter: "Enter"
 #    hoc_title: "Hour of Code?"
 
   nav:
     play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
-#    courses: "Courses"
+    courses: "Cursos"
     editor: "Editor"
     blog: "Blog"
     forum: "Foro"
@@ -54,7 +55,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   play:
     play_as: "Jugar Como " # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "¡Competir!" # Course details page
     spectate: "Observar" # Ladder page
     players: "Jugadores" # Hover over a level on /play
     hours_played: "horas jugadas" # Hover over a level on /play
@@ -73,11 +74,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     poll: "Encuestas" # Tooltip on poll button from /play
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Cambiar héroe" # Go back from choose inventory to choose hero
-    choose_inventory: "Equipar objetos"
     buy_gems: "Comprar gemas"
     subscription_required: "Requiere Suscripción"
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
+    play_classroom_version: "Jugar la Versión de Aula" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Campaña para principiantes"
     awaiting_levels_adventurer_prefix: "Nosotros libreamos nuevos niveles cada semana"
     awaiting_levels_adventurer: "Registrate como un aventurero"
@@ -117,6 +118,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     social_signup: "O puedes conectarte a través de Facebook o G+:"
     required: "Necesitas entrar a tu cuenta antes de continuar."
     login_switch: "¿Ya tienes una cuenta?"
+#    school_name: "School Name and City"
+    optional: "opcional"
+#    school_name_placeholder: "Example High School, Springfield, IL"
 
   recover:
     recover_account_title: "recuperar cuenta"
@@ -222,9 +226,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   play_level:
 #    completed_level: "Completed Level:"
-#    course: "Course:"
+    course: "Curso:"
     done: "Listo"
-#    next_level: "Next Level:"
+    next_level: "Siguiente Nivel:"
     next_game: "Siguiente juego"
     show_menu: "Mostrar menú de juego"
     home: "Inicio" # Not used any more, will be removed soon.
@@ -255,7 +259,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_sign_up_poke: "¿Quieres recibir las ultimas noticias por correo? ¡Crea una cuenta gratuita y te mantendremos informado!"
     victory_rate_the_level: "Valora el nivel: " # {change}
     victory_return_to_ladder: "Volver a la escalera"
-    victory_play_continue: "Continuar"
     victory_saving_progress: "Guardando Progreso"
     victory_go_home: "Ir al Inicio"
     victory_review: "¡Cuéntanos más!"
@@ -268,9 +271,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_viking_code_school: "¡Changos macacos!, el nivel que acabas de pasar era dificil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirteen un desarrollador web profesional en 14 semanas."
     victory_become_a_viking: "Conviértete en un Vikingo"
     guide_title: "Guía"
-    tome_minion_spells: "Hechizos de tus Secuaces" # Only in old-style levels.
-    tome_read_only_spells: "Hechizos de Sólo Lectura" # Only in old-style levels.
-    tome_other_units: "Otras Unidades" # Only in old-style levels.
     tome_cast_button_run: "Ejecutar"
     tome_cast_button_running: "Ejecutando"
     tome_cast_button_ran: "Ejecutado"
@@ -282,7 +282,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tome_available_spells: "Hechizos Disponibles"
     tome_your_skills: "Tus habilidades"
     tome_current_method: "Método actual"
-    hud_continue_short: "Continuar"
     code_saved: "Código Guardado"
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atajos de teclado"
@@ -382,7 +381,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     gold_collected: "Oro Recolectado"
 
   inventory:
-    choose_inventory: "Equipar objetos"
     equipped_item: "Equipado"
     required_purchase_title: "Requerido"
     available_item: "Disponible"
@@ -622,7 +620,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     free_1: "Hay más de 110 niveles gratis que cubren cada concepto."
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
 #    free_3: "The CodeCombat content is divided into"
-#    free_4: "courses"
+    free_4: "cursos"
 #    free_5: ".  The first course is free, and about an hour of material."
 #    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
     teacher_subs_title: "¡Los amestros obtienen suscripciones gratuitas!" # {change}
@@ -676,9 +674,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     being_reviewed_1: "Su aplicación a una suscripción gratuita está siendo" # {change}
     being_reviewed_2: "revisada."
     approved_1: "Su aplicación a una suscripción gratuita fue" # {change}
-    approved_2: "aprobada."
-    approved_3: "Más instrucciones han sido enviadas a"
-#    approved_4: "Enroll your students on the"
+    approved_2: "aprobada." # {change}
+#    approved_4: "You can now enroll your students on the"
 #    approved_5: "courses"
 #    approved_6: "page."
     denied_1: "Su aplicación a una suscripción gratuita ha sido" # {change}
@@ -880,6 +877,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   courses:
     course: "Curso"
     courses: "cursos"
+#    create_new_class: "Create New Class"
     not_enrolled: "No estás inscrito en este curso."
     visit_pref: "Por favor visite la"
     visit_suf: "página para inscribirse."
@@ -901,7 +899,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     concepts_covered: "Conceptos Cubiertos"
     students: "Estudiantes"
     students1: "estudiantes"
-    expand_details: "Expandir detalles"
     concepts: "Conceptos"
     levels: "niveles"
     played: "Jugados"
@@ -935,12 +932,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     free_trial: "¡Prueba gratuita para maestros!"
     get_access: "para obtener acceso individual a todos los cursos con propósitos de evaluación."
     questions: "¿Preguntas?"
-    faq: "Preguntas frecuentes de Cursos"
-    question: "P:" # Like in 'Question'
-    question1: "¿Cuál es la diferencia entre estos cursos y sus juegos de un solo jugador?"
-    answer: "R:" # Like in 'Answer'
-    answer1: "El juego de un solo jugador está diseñado para individuos, mientras que los cursos están diseñados para grupos."
-    answer2: "El juego de un solo jugador tiene items, gemas, selección de héroe, aumento de niveles, y compras dentro de la aplicación. Los cursos tienen características de administración de salón y niveles ágiles enfocados al estudiante."
     teachers_click: "Maestros Click Aquí"
     students_click: "Estudiantes Click Aquí"
     courses_on_coco: "Curso en CodeCombat"
@@ -961,6 +952,149 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     topics: "Tópicos"
     hours_content: "Horas de contenido:"
     get_free: "Obtenga curso GRATIS"
+#    enroll_paid: "Enroll Students in Paid Courses"
+#    you_have1: "You have"
+#    you_have2: "unused paid enrollments"
+#    use_one: "Use 1 paid enrollment for"
+#    use_multiple: "Use paid enrollments for the following students:"
+#    already_enrolled: "already enrolled"
+#    licenses_remaining: "licenses remaining:"
+#    insufficient_enrollments: "insufficient paid enrollments"
+#    enroll_students: "Enroll Students"
+#    get_enrollments: "Get More Enrollments"
+#    change_language: "Change Course Language"
+#    keep_using: "Keep Using"
+#    switch_to: "Switch To"
+#    greetings: "Greetings!"
+    learn_p: "Aprender Python"
+    learn_j: "Aprender JavaScript"
+#    language_cannot_change: "Language cannot be changed once students join a class."
+#    back_classrooms: "Back to my classrooms"
+#    back_courses: "Back to my courses"
+#    edit_details: "Edit class details"
+#    enrolled_courses: "enrolled in paid courses:"
+#    purchase_enrollments: "Purchase Enrollments"
+#    remove_student: "remove student"
+#    assign: "Assign"
+#    to_assign: "to assign paid courses."
+    teacher: "Maestro"
+#    complete: "Complete"
+#    none: "None"
+#    save: "Save"
+#    play_campaign_title: "Play the Campaign"
+#    play_campaign_description: "You’re ready to take the next step! Explore hundreds of challenging levels, learn advanced programming skills, and compete in multiplayer arenas!"
+#    create_account_title: "Create an Account"
+#    create_account_description: "Sign up for a FREE CodeCombat account and gain access to more levels, more programming skills, and more fun!"
+#    preview_campaign_title: "Preview Campaign"
+#    preview_campaign_description: "Take a sneak peek at all that CodeCombat has to offer before signing up for your FREE account."
+#    arena: "Arena"
+#    arena_soon_title: "Arena Coming Soon"
+#    arena_soon_description: "We are working on a multiplayer arena for classrooms at the end of"
+#    not_enrolled1: "Not enrolled"
+#    not_enrolled2: "Ask your teacher to enroll you in the next course."
+#    next_course: "Next Course"
+#    coming_soon1: "Coming soon"
+#    coming_soon2: "We are hard at work making more courses for you!"
+#    available_levels: "Available Levels"
+#    welcome_to_courses: "Adventurers, welcome to Courses!"
+#    ready_to_play: "Ready to play?"
+#    start_new_game: "Start New Game"
+#    play_now_learn_header: "Play now to learn"
+#    play_now_learn_1: "basic syntax to control your character"
+#    play_now_learn_2: "while loops to solve pesky puzzles"
+#    play_now_learn_3: "strings & variables to customize actions"
+#    play_now_learn_4: "how to defeat an ogre (important life skills!)"
+#    welcome_to_page: "Welcome to your Courses page!"
+#    completed_hoc: "Amazing! You've completed the Hour of Code course!"
+#    ready_for_more_header: "Ready for more? Play the campaign mode!"
+#    ready_for_more_1: "Use gems to unlock new items!"
+#    ready_for_more_2: "Play through brand new worlds and challenges"
+#    ready_for_more_3: "Learn even more programming!"
+#    saved_games: "Saved Games"
+#    hoc: "Hour of Code"
+#    my_classes: "My Classes"
+#    class_added: "Class successfully added!"
+#    view_class: "view class"
+#    view_levels: "view levels"
+#    join_class: "Join A Class"
+#    ask_teacher_for_code: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
+#    enter_c_code: "<Enter Class Code>"
+#    join: "Join"
+#    joining: "Joining class"
+#    course_complete: "Course Complete"
+#    play_arena: "Play Arena"
+#    start: "Start"
+#    last_level: "Last Level"
+#    welcome_to_hoc: "Adventurers, welcome to our Hour of Code!"
+#    logged_in_as: "Logged in as:"
+#    not_you: "Not you?"
+#    welcome_back: "Hi adventurer, welcome back!"
+#    continue_playing: "Continue Playing"
+#    more_options: "More options:"
+#    option1_header: "Option 1: Invite students via email"
+#    option1_body: "Students will automatically be sent an invitation to join this class, and will need to create an account with a username and password."
+#    option2_header: "Option 2: Send URL to your students"
+#    option2_body: "Students will be asked to enter an email address, username and password to create an account."
+#    option3_header: "Option 3: Direct students to codecombat.com/courses"
+#    option3_body: "Give students the following passcode to enter along with an email address, username and password when they create an account."
+#    thank_you_pref: "Thank you for your purchase! You can now assign"
+#    thank_you_suff: "more students to paid courses."
+#    return_to_class: "Return to classroom"
+#    return_to_course_man: "Return to course management."
+#    students_not_enrolled: "students not enrolled"
+#    total_all_classes: "Total Across All Classes"
+#    how_many_enrollments: "How many additional paid enrollments do you need?"
+#    each_student_access: "Each student in a class will get access to Courses 2-4 once they are enrolled in paid courses. You may assign each course to each student individually."
+#    purchase_now: "Purchase Now"
+#    enrollments: "enrollments"
+#    remove_student1: "Remove Student"
+#    are_you_sure: "Are you sure you want to remove this student from this class?"
+#    remove_description1: "Student will lose access to this classroom and assigned classes. Progress and gameplay is NOT lost, and the student can be added back to the classroom at any time."
+#    remove_description2: "The activated paid license will not be returned."
+#    keep_student: "Keep Student"
+#    removing_user: "Removing user"
+#    to_join_ask: "To join a class, ask your teacher for an unlock code."
+#    join_this_class: "Join Class"
+#    enter_here: "<enter unlock code here>"
+#    successfully_joined: "Successfully joined"
+#    click_to_start: "Click here to start taking"
+#    my_courses: "My Courses"
+#    classroom: "Classroom"
+#    use_school_email: "use your school email if you have one"
+#    unique_name: "a unique name no one has chosen"
+#    pick_something: "pick something you can remember"
+#    class_code: "Class Code"
+#    optional_ask: "optional - ask your teacher to give you one!"
+#    optional_school: "optional - what school do you go to?"
+#    start_playing: "Start Playing"
+#    skip_this: "Skip this, I'll create an account later!"
+#    welcome: "Welcome"
+#    getting_started: "Getting Started with Courses"
+#    download_getting_started: "Download Getting Started Guide [PDF]"
+#    getting_started_1: "Create a new class by clicking the green 'Create New Class' button below."
+#    getting_started_2: "Once you've created a class, click the blue 'Add Students' button."
+#    getting_started_3: "You'll see student's progress below as they sign up and join your class."
+#    additional_resources: "Additional Resources"
+#    additional_resources_1_pref: "Download/print our"
+#    additional_resources_1_mid: "Course 1 Teacher's Guide"
+#    additional_resources_1_suff: "explanations and solutions to each level."
+#    additional_resources_2_pref: "Complete our"
+#    additional_resources_2_suff: "to get 15 more hours of content for FREE for 2 months."
+#    additional_resources_3_pref: "Visit our"
+#    additional_resources_3_mid: "Teacher Forums"
+#    additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."
+#    your_classes: "Your Classes"
+#    no_classes: "No classes yet!"
+#    create_new_class1: "create new class"
+#    available_courses: "Available Courses"
+#    unused_enrollments: "Unused enrollments available:"
+#    students_access: "All students get access to Introduction to Computer Science for free. One enrollment per student is required to assign them to paid CodeCombat courses. A single student does not need multiple enrollments to access all paid courses."
+#    active_courses: "active courses"
+#    no_students: "No students yet!"
+#    add_students1: "add students"
+    view_edit: "vee/editar"
+#    students_enrolled: "students enrolled"
+#    length: "Length:"
 
   classes:
     archmage_title: "Archimago"
@@ -1182,7 +1316,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tutorial_skip: "Saltar Tutorial"
     tutorial_not_sure: "¿No estás seguro de que sucede?"
     tutorial_play_first: "Juega el Tutorial primero."
-    simple_ai: "IA Simple"
+    simple_ai: "IA Simple" # {change}
     warmup: "Calentamiento"
     friends_playing: "Amigos Jugando"
     log_in_for_friends: "Ingresa para jugar con tus amigos!"
@@ -1205,7 +1339,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     winners: "Ganadores"
     league: "Liga"
     red_ai: "IA Roja" # "Red AI Wins", at end of multiplayer match playback
-    blue_ai: "IA Azul"
+    blue_ai: "IA Azul" # {change}
     wins: "Gana" # At end of multiplayer match playback
     humans: "Rojo" # Ladder page display team name
     ogres: "Azul"
@@ -1357,6 +1491,16 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     campaigns: "Campañas"
     poll: "Encuesta"
     user_polls_record: "Historia de Visitas de Encuestas"
+    course: "Curso"
+    courses: "Cursos"
+#    course_instance: "Course Instance"
+#    course_instances: "Course Instances"
+#    classroom: "Classroom"
+#    classrooms: "Classrooms"
+    clan: "Clan"
+    clans: "Clanes"
+#    members: "Members"
+    users: "Usuarios"
 
   concepts:
     advanced_strings: "Cadenas - Avanzado"

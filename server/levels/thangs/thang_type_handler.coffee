@@ -71,7 +71,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
       if limit? and limit < 1000
         q.limit(limit)
 
-      q.cache()
+      q.cache(10 * 60 * 1000)
 
       q.exec (err, documents) =>
         return @sendDatabaseError(res, err) if err

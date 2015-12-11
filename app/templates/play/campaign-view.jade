@@ -28,6 +28,8 @@ if campaign
         div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + (levelStatusMap[level.slug] || ""))
         .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
           - var playCount = levelPlayCountMap[level.slug]
+          .progress.progress-striped.active.hide
+            .progress-bar(style="width: 100%")
           div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : ""))
             .level-status
             h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
@@ -55,6 +57,13 @@ if campaign
                 button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
                   span(data-i18n="leaderboard.scores")
               button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
+              if me.get('courseInstances') && me.get('courseInstances').length
+                .course-version.hidden(data-level-original=level.original)
+                  em(data-i18n="general.or")
+                  | ...
+                  br
+                  button.btn.btn-primary.btn.btn-lg.btn-illustrated
+                    span(data-i18n="play.play_classroom_version") Play Classroom Version
       else if level.unlocksHero && !level.purchasedHero
         img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png", style="left: #{level.position.x}%; bottom: #{level.position.y}%;")
 

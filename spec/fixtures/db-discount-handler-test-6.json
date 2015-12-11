@@ -1,0 +1,99 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17GCUnKaReE7xLUdVx6ixF1h",
+            "card": {
+                "id": "card_17GCUnKaReE7xLUdZ8FpRcR5"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 200,
+        "response": {
+            "id": "cus_7VCuNWxO5eWsQG",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "00000000000000000000005d"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17GCUnKaReE7xLUdZ8FpRcR5",
+                        "customer": "cus_7VCuNWxO5eWsQG"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7VCuNWxO5eWsQG/subscriptions",
+        "status": 200,
+        "response": {
+            "id": "sub_7VCuZWrSt0bF8c",
+            "cancel_at_period_end": false,
+            "current_period_end": 1452363418,
+            "current_period_start": 1449685018,
+            "customer": "cus_7VCuNWxO5eWsQG",
+            "discount": {
+                "coupon": {
+                    "id": "500off"
+                },
+                "customer": "cus_7VCuNWxO5eWsQG",
+                "subscription": "sub_7VCuZWrSt0bF8c"
+            },
+            "metadata": {
+                "id": "00000000000000000000005d"
+            },
+            "plan": {
+                "id": "basic",
+                "amount": 999
+            },
+            "quantity": 1
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/customers/cus_7VCuNWxO5eWsQG/subscriptions/sub_7VCuZWrSt0bF8c",
+        "status": 200,
+        "response": {
+            "id": "sub_7VCuZWrSt0bF8c",
+            "cancel_at_period_end": false,
+            "current_period_end": 1452363418,
+            "current_period_start": 1449685018,
+            "customer": "cus_7VCuNWxO5eWsQG",
+            "discount": {
+                "coupon": {
+                    "id": "500off"
+                },
+                "customer": "cus_7VCuNWxO5eWsQG",
+                "subscription": "sub_7VCuZWrSt0bF8c"
+            },
+            "metadata": {
+                "id": "00000000000000000000005d"
+            },
+            "plan": {
+                "id": "basic",
+                "amount": 999
+            },
+            "quantity": 1
+        }
+    }
+]

@@ -1,0 +1,24 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  .clearfix
+  .text-center
+    h2.modal-title(data-i18n="courses.greetings")
+    h3(data-i18n="choose_hero.programming_language_description")
+
+block modal-body-content
+  #choice-area.text-center
+    button.lang-choice-btn.btn.btn-success.btn-lg(data-language='python')
+      img(src="/images/common/code_languages/python_small.png")
+      span.spl Python
+    p(data-i18n="choose_hero.python_blurb")
+
+    button.lang-choice-btn.btn.btn-default(data-language='javascript')
+      img(src="/images/common/code_languages/javascript_small.png")
+      span.spl JavaScript
+    p(data-i18n="choose_hero.javascript_blurb")
+
+  #saving-progress.progress.progress-striped.active.hide
+    .progress-bar(style="width: 100%")
+
+block modal-footer-content

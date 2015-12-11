@@ -60,7 +60,7 @@ LevelSessionSchema.pre 'save', (next) ->
       update = $inc: {'stats.gamesCompleted': 1}
       for concept in level?.concepts ? []
         update.$inc["stats.concepts.#{concept}"] = 1
-      User.findByIdAndUpdate userID, update, {}, (err, user) ->
+      User.findByIdAndUpdate userID, update, {new: true}, (err, user) ->
         log.error err if err?
         oldCopy = user.toObject()
         oldCopy.stats = _.clone oldCopy.stats

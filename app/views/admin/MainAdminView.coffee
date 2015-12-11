@@ -17,11 +17,6 @@ module.exports = class MainAdminView extends RootView
     'click #create-free-sub-btn': 'onClickFreeSubLink'
     'click #terminal-create': 'onClickTerminalSubLink'
 
-  getRenderData: ->
-    context = super()
-    context.freeSubLink = @freeSubLink
-    context
-
   checkForFormSubmissionEnterPress: (e) ->
     if e.which is 13 and @$el.find('#espionage-name-or-email').val() isnt ''
       @enterEspionageMode()

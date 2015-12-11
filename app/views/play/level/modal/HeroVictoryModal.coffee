@@ -63,9 +63,10 @@ module.exports = class HeroVictoryModal extends ModalView
     else
       @readyToContinue = true
     @playSound 'victory'
-    if @level.get('type', true) is 'course' and nextLevel = @level.get('nextLevel')
-      @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
-      @nextLevel = @supermodel.loadModel(@nextLevel, 'level').model
+    if @level.get('type', true) is 'course'
+      if nextLevel = @level.get('nextLevel')
+        @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
+        @nextLevel = @supermodel.loadModel(@nextLevel, 'level').model
       if @courseID
         @course = new Course().setURL "/db/course/#{@courseID}"
         @course = @supermodel.loadModel(@course, 'course').model
@@ -105,6 +106,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @showStars()
 
   onAchievementsLoaded: ->
+    @achievements.models = _.filter @achievements.models, (m) -> not m.get('query')?.ladderAchievementDifficulty  # Don't show higher AI difficulty achievements
     @$el.toggleClass 'full-achievements', @achievements.models.length is 3
     thangTypeOriginals = []
     achievementIDs = []
@@ -451,10 +453,11 @@ module.exports = class HeroVictoryModal extends ModalView
         viewArgs.push @courseInstanceID if @courseInstanceID
     else if @level.get('type', true) is 'course-ladder'
       leagueID = @courseInstanceID or @getQueryVariable 'league'
-      link = "/play/ladder/#{@level.get('slug')}"
-      link += "/course/#{leagueID}" if leagueID
-      Backbone.Mediator.publish 'router:navigate', route: link
-      return
+      nextLevelLink = "/play/ladder/#{@level.get('slug')}"
+      nextLevelLink += "/course/#{leagueID}" if leagueID
+      viewClass = 'views/ladder/LadderView'
+      viewArgs = [options, @level.get('slug')]
+      viewArgs = viewArgs.concat ['course', leagueID] if leagueID
     else
       viewClass = require 'views/play/CampaignView'
       viewArgs = [options, @getNextLevelCampaign()]

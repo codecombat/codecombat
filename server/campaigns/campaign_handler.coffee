@@ -46,6 +46,8 @@ CampaignHandler = class CampaignHandler extends Handler
       query = i18nCoverage: {$exists: true}
       if req.query.project
         projection[field] = 1 for field in req.query.project.split(',')
+    if req.query.type
+      query.type = req.query.type
     q = @modelClass.find query, projection
     q.exec (err, documents) =>
       return @sendDatabaseError(res, err) if err

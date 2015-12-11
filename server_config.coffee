@@ -1,6 +1,6 @@
 config = {}
 
-config.unittest = process.argv.indexOf('--unittest') > -1
+config.unittest = global.testing
 
 config.tokyo = process.env.TOKYO or false
 config.saoPaulo = process.env.SAOPAULO or false

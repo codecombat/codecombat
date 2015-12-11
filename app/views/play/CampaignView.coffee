@@ -21,6 +21,7 @@ UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 storage = require 'core/storage'
+CourseInstance = require 'models/CourseInstance'
 
 trackedHourOfCode = false
 
@@ -50,6 +51,7 @@ module.exports = class CampaignView extends RootView
     'dblclick .level a': 'onDoubleClickLevel'
     'click .level-info-container .start-level': 'onClickStartLevel'
     'click .level-info-container .view-solutions': 'onClickViewSolutions'
+    'click .level-info-container .course-version button': 'onClickCourseVersion'
     'click #volume-button': 'onToggleVolume'
     'click #back-button': 'onClickBack'
     'click #clear-storage-button': 'onClickClearStorage'
@@ -459,6 +461,7 @@ module.exports = class CampaignView extends RootView
     if @editorMode
       return @trigger 'level-clicked', levelOriginal
     @$levelInfo = @$el.find(".level-info-container[data-level-slug=#{levelSlug}]").show()
+    @checkForCourseOption levelOriginal
     @adjustLevelInfoPosition e
     @endHighlight()
     @preloadLevel levelSlug
@@ -484,13 +487,23 @@ module.exports = class CampaignView extends RootView
       @startLevel levelElement
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
 
+  onClickCourseVersion: (e) ->
+    levelSlug = $(e.target).parents('.level-info-container').data 'level-slug'
+    courseID = $(e.target).parents('.course-version').data 'course-id'
+    courseInstanceID = $(e.target).parents('.course-version').data 'course-instance-id'
+    url = "/play/level/#{levelSlug}?course=#{courseID}&course-instance=#{courseInstanceID}"
+    Backbone.Mediator.publish 'router:navigate', route: url
+
   startLevel: (levelElement) ->
     @setupManager?.destroy()
     levelSlug = levelElement.data 'level-slug'
     session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
     @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session
+    @$levelInfo.find('.level-info, .progress').toggleClass('hide')
+    @listenToOnce @setupManager, 'open', ->
+      @$levelInfo.find('.level-info, .progress').toggleClass('hide')
+      @$levelInfo?.hide()
     @setupManager.open()
-    @$levelInfo?.hide()
 
   onClickViewSolutions: (e) ->
     levelElement = $(e.target).parents('.level-info-container')
@@ -539,6 +552,7 @@ module.exports = class CampaignView extends RootView
     @testParticles() if @particleMan
 
   playAmbientSound: ->
+    return unless me.get 'volume'
     return if @ambientSound
     return unless file = @campaign?.get('ambientSound')?[AudioPlayer.ext.substr 1]
     src = "/file/#{file}"
@@ -554,6 +568,19 @@ module.exports = class CampaignView extends RootView
     musicFile = '/music/music-menu'
     Backbone.Mediator.publish 'music-player:play-music', play: true, file: musicFile
     storage.save("loaded-menu-music", true) unless @probablyCachedMusic
+
+  checkForCourseOption: (levelOriginal) ->
+    return unless me.get('courseInstances')?.length
+    @courseOptionsChecked ?= {}
+    return if @courseOptionsChecked[levelOriginal]
+    @courseOptionsChecked[levelOriginal] = true
+    courseInstances = new CocoCollection [], url: "/db/course_instance/-/find_by_level/#{levelOriginal}", model: CourseInstance
+    courseInstances.comparator = (ci) -> return -(ci.get('members') ? []).length
+    @supermodel.loadCollection courseInstances, 'course_instances'
+    @listenToOnce courseInstances, 'sync', =>
+      return if @destroyed
+      return unless courseInstance = courseInstances.models[0]
+      @$el.find(".course-version[data-level-original='#{levelOriginal}']").removeClass('hidden').data('course-id': courseInstance.get('courseID'), 'course-instance-id': courseInstance.id)
 
   preloadTopHeroes: ->
     for heroID in ['captain', 'knight']
@@ -574,6 +601,7 @@ module.exports = class CampaignView extends RootView
     if volume isnt me.get 'volume'
       me.set 'volume', volume
       me.patch()
+      @playAmbientSound() if volume
 
   onToggleVolume: (e) ->
     button = $(e.target).closest('#volume-button')

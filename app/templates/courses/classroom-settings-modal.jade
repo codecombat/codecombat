@@ -1,24 +1,31 @@
 extends /templates/core/modal-base
 
 block modal-header-content
-  button.close(data-dismiss='modal')
-    span &times;
-  h3.modal-title(data-i18n="courses.edit_settings1")
+  if view.classroom
+    h3.modal-title(data-i18n="courses.edit_settings1")
+  else
+    h3.modal-title(data-i18n="courses.create_new_class")
 
 block modal-body-content
   .form
     .form-group
       label(data-i18n="courses.title")
-      input.form-control.settings-name-input(type='text', value="#{view.classroom.get('name') || ''}")
+      - var name = view.classroom && view.classroom.get('name') ? view.classroom.get('name') : '';
+      input.form-control.settings-name-input(type='text', value="#{name}")
     .form-group
       label(data-i18n="courses.description")
-      textarea.form-control.settings-description-input(rows=2)= view.classroom.get('description')
+      - var description = view.classroom && view.classroom.get('description') ? view.classroom.get('description') : '';
+      textarea.form-control.settings-description-input(rows=2)= description
     .form-group
       label(data-i18n="choose_hero.programming_language")
       select.form-control#programming-language-select
-        - var aceConfig = view.classroom.get('aceConfig') || {};
-        option(value="python", selected=aceConfig.language==='python') Python
-        option(value="javascript", selected=aceConfig.language==='javascript') JavaScript
+        - var aceConfig = view.classroom ? view.classroom.get('aceConfig') || {} : {};
+        option(value="python", selected=aceConfig.language==='python', data-i18n="courses.learn_p")
+        option(value="javascript", selected=aceConfig.language==='javascript', data-i18n="courses.learn_j")
+      .language-locked(data-i18n="courses.language_cannot_change")
 
 block modal-footer-content
-  button#save-settings-btn.btn(data-i18n="common.save_changes")
+  if view.classroom
+    button#save-settings-btn.btn(data-i18n="common.save_changes")
+  else
+    button#save-settings-btn.btn(data-i18n="courses.create_class")

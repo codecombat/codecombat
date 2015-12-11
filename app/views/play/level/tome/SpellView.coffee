@@ -264,6 +264,13 @@ module.exports = class SpellView extends CocoView
 
     if me.level() < 20 or aceConfig.indentGuides
       # Add visual ident guides
+      language = @spell.language
+      ensureLineStartsBlock = (line) ->
+        return false unless language is "python"
+        match = /^\s*([^#]+)/.exec(line)
+        return false if not match?
+        return /:\s*$/.test(match[1])
+
       @aceSession.addDynamicMarker
         update: (html, markerLayer, session, config) =>
           Range = ace.require('ace/range').Range
@@ -277,7 +284,7 @@ module.exports = class SpellView extends CocoView
             ar = str.match(/^\s*/)
             ar.pop().length
 
-          colors = ['50,150,200', '200,150,50', '255,0,0', '0,255,0']
+          colors = [{border: '74,144,226', fill: '108,162,226'}, {border: '132,180,235', fill: '230,237,245'}]
 
           for row in [0..@aceSession.getLength()]
             foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
@@ -286,6 +293,8 @@ module.exports = class SpellView extends CocoView
             if not docRange?
               guess = startOfRow(row)
               docRange = new Range(row,guess,row,guess+4)
+
+            continue unless ensureLineStartsBlock(lines[row])
 
             if /^\s+$/.test lines[docRange.end.row+1]
               docRange.end.row += 1
@@ -307,17 +316,16 @@ module.exports = class SpellView extends CocoView
             w = 4 * config.characterWidth
             fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
 
-            html.push [
-              '<div style="',
-              "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px; background-color: rgba(#{color},0.2);"
-              "border: #{bw}px solid rgba(#{color},0.4); border-left: none",
-              '"></div>' ].join ''
-
-            html.push [
-              '<div style="',
-              "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color},0.2);"
-              "border-right: #{bw}px solid rgba(#{color},0.4);",
-              '"></div>' ].join ''
+            html.push """
+              <div style=
+                "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
+                 border: #{bw}px solid rgba(#{color.border},1); border-left: none;"
+              ></div>
+              <div style=
+                "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
+                 border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);"
+              ></div>
+            """
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -638,18 +646,20 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang, preload: preload, realTime: realTime
 
   notifySpellChanged: =>
+    return if @destroyed
     Backbone.Mediator.publish 'tome:spell-changed', spell: @spell
 
   notifyEditingEnded: =>
-    return if @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed or @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-ended', {}
 
   notifyEditingBegan: =>
-    return if @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed or @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-began', {}
 
   updateLines: =>
     # Make sure there are always blank lines for the player to type on, and that the editor resizes to the height of the lines.
+    return if @destroyed
     lineCount = @aceDoc.getLength()
     lastLine = @aceDoc.$lines[lineCount - 1]
     if lastLine isnt ''
@@ -681,6 +691,7 @@ module.exports = class SpellView extends CocoView
       spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
 
   hideProblemAlert: ->
+    return if @destroyed
     Backbone.Mediator.publish 'tome:hide-problem-alert', {}
 
   onManualCast: (e) ->
