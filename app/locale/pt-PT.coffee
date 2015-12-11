@@ -4,7 +4,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     no_ie: "O CodeCombat não funciona no Internet Explorer 8 ou anterior. Desculpa!" # Warning that only shows up in IE8 and older
     no_mobile: "O CodeCombat não foi feito para dispositivos móveis e pode não funcionar!" # Warning that shows up on mobile devices
     play: "Jogar" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Jogar Versão da Campanha" # Shows up under big play button if you only play /courses
     old_browser: "Uh oh, o teu navegador é demasiado antigo para que o CodeCombat funcione. Desculpa!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Podes tentar na mesma, mas provavelmente não vai funcionar."
     ipad_browser: "Más notícias: o CodeCombat não funciona no navegador do iPad. Boas notícias: a nossa aplicação nativa para iPad está à espera da aprovação da Apple."
@@ -78,7 +78,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     subscription_required: "Subscrição Necessária"
     anonymous: "Jogador Anónimo"
     level_difficulty: "Dificuldade: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "Jogar Versão da Turma" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Campanha para Iniciantes"
     awaiting_levels_adventurer_prefix: "Lançamos novos níveis todas as semanas."
     awaiting_levels_adventurer: "Regista-te como Aventureiro"
@@ -118,9 +118,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     social_signup: "Ou podes registar-te através do FB ou do Google+:"
     required: "Precisas de iniciar sessão antes de prosseguires."
     login_switch: "Já tens uma conta?"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
+    school_name: "Nome e Cidade da Escola"
+    optional: "opcional"
+    school_name_placeholder: "Exemplo: Escola Secundária, Springfield, Illinois"
 
   recover:
     recover_account_title: "Recuperar Conta"
@@ -674,8 +674,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     being_reviewed_1: "A tua aplicação para uma avaliação gratuita está a ser"
     being_reviewed_2: "revista."
     approved_1: "A tua aplicação para uma avaliação gratuita foi"
-    approved_2: "aprovada." # {change}
-    approved_4: "Inscreve os teus alunos na" # {change}
+    approved_2: "aprovada!"
+    approved_4: "Agora podes inscrever os teus alunos na"
     approved_5: "página"
     approved_6: "dos cursos."
     denied_1: "A tua aplicação para uma avaliação gratuita foi"
@@ -860,24 +860,24 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     playtime: "Tempo de jogo"
     last_played: "Última vez jogado"
     leagues_explanation: "Joga numa liga contra outros membros do clã nestas instâncias de arenas multijogador."
-#    track_concepts1: "Track concepts"
-#    track_concepts2a: "learned by each student"
-#    track_concepts2b: "learned by each member"
-#    track_concepts3a: "Track levels completed for each student"
-#    track_concepts3b: "Track levels completed for each member"
-#    track_concepts4a: "See your students'"
-#    track_concepts4b: "See your members'"
-#    track_concepts5: "solutions"
-#    track_concepts6a: "Sort students by name or progress"
-#    track_concepts6b: "Sort members by name or progress"
-#    track_concepts7: "Requires invitation"
-#    track_concepts8: "to join"
-#    private_require_sub: "Private clans require a subscription to create or join."
+    track_concepts1: "Acompanhe os conceitos"
+    track_concepts2a: "aprendidos por cada estudante"
+    track_concepts2b: "aprendidos por cada membro"
+    track_concepts3a: "Acompanhe os níveis completados por cada estudante"
+    track_concepts3b: "Acompanhe os níveis completados por cada membro"
+    track_concepts4a: "Veja, dos seus alunos, as"
+    track_concepts4b: "Veja, dos seus membros, as"
+    track_concepts5: "soluções"
+    track_concepts6a: "Ordene os alunos por nome ou progresso"
+    track_concepts6b: "Ordene os membros por nome ou progresso"
+    track_concepts7: "É necessário um convite"
+    track_concepts8: "para se juntar"
+    private_require_sub: "É necessária uma subscrição para criar ou entrar num clã privado."
 
   courses:
     course: "Curso"
     courses: "cursos"
-#    create_new_class: "Create New Class"
+    create_new_class: "Criar Turma Nova"
     not_enrolled: "Não estás inscrito neste curso."
     visit_pref: "Por favor visita a página dos"
     visit_suf: "para te inscreveres."
@@ -1316,7 +1316,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tutorial_skip: "Saltar Tutorial"
     tutorial_not_sure: "Não tens a certeza do que se passa?"
     tutorial_play_first: "Joga o Tutorial primeiro."
-    simple_ai: "IA Simples" # {change}
+    simple_ai: "CPU Simples"
     warmup: "Aquecimento"
     friends_playing: "Amigos a Jogar"
     log_in_for_friends: "Inicia sessão para jogares com os teus amigos!"
@@ -1338,8 +1338,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     rules: "Regras"
     winners: "Vencedores"
     league: "Liga"
-    red_ai: "IA Vermelha" # "Red AI Wins", at end of multiplayer match playback
-    blue_ai: "IA Azul" # {change}
+    red_ai: "CPU Vermelho" # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "CPU Azul"
     wins: "Vence" # At end of multiplayer match playback
     humans: "Vermelho" # Ladder page display team name
     ogres: "Azul"
@@ -1491,16 +1491,16 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     campaigns: "Campanhas"
     poll: "Votações"
     user_polls_record: "Histórico das Votações"
-#    course: "Course"
-#    courses: "Courses"
-#    course_instance: "Course Instance"
-#    course_instances: "Course Instances"
-#    classroom: "Classroom"
-#    classrooms: "Classrooms"
-#    clan: "Clan"
-#    clans: "Clans"
-#    members: "Members"
-#    users: "Users"
+    course: "Curso"
+    courses: "Cursos"
+    course_instance: "Instância do Curso"
+    course_instances: "Instâncias do Curso"
+    classroom: "Turma"
+    classrooms: "Turmas"
+    clan: "Clã"
+    clans: "Clãs"
+    members: "Membros"
+    users: "Utilizadores"
 
   concepts:
     advanced_strings: "'Strings' Avançadas"
