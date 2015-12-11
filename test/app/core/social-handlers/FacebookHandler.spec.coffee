@@ -51,6 +51,7 @@ mockMe =
 
 window.FB ?= {
   api: ->
+  login: ->
 }
 
 describe 'lib/FacebookHandler.coffee', ->
@@ -61,7 +62,8 @@ describe 'lib/FacebookHandler.coffee', ->
 
     spyOn FB, 'api'
 
-    new FacebookHandler()
+    facebookHandler = new FacebookHandler()
+    facebookHandler.loginThroughFacebook()
     Backbone.Mediator.publish 'auth:logged-in-with-facebook', mockAuthEvent
 
     expect(FB.api).toHaveBeenCalled()

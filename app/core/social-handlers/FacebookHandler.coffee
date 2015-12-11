@@ -29,7 +29,7 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
         break
         
     if @waitingForLogin and @loggedIn
-      @fetchMeForLogin
+      @fetchMeForLogin()
     
   loginThroughFacebook: ->
     if @loggedIn
