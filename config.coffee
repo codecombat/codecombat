@@ -48,10 +48,9 @@ exports.config =
         usePolling: true
 
   server:
-<<<<<<< HEAD
-=======
+
     # NOTE: This is a temporary workaround for https://github.com/nodejs/node-v0.x-archive/issues/2318
->>>>>>> 4458a577715fd672254203208d099cd539afc9fb
+
     command: "#{if process.platform is 'win32' then 'node_modules\\.bin\\nodemon.cmd' else 'nodemon'} ."
 
   files:
