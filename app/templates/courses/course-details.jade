@@ -139,23 +139,30 @@ block content
           th(data-i18n="courses.concepts")
       tbody
         if campaign
-          - var lastLevelCompleted = true;
+          - var previousLevelCompleted = true;
+          - var lastLevelCompleted = view.getLastLevelCompleted();
+          - var passedLastCompletedLevel = false;
           - var levelCount = 0;
           each level, levelID in campaign.get('levels')
+            - var levelStatus = null;
+            if userLevelStateMap[me.id]
+              - levelStatus = userLevelStateMap[me.id][levelID]
             tr
               td
-                if lastLevelCompleted || view.teacherMode
+                if previousLevelCompleted || view.teacherMode || !passedLastCompletedLevel || levelStatus
                   - var i18n = level.type === 'course-ladder' ? 'play.compete' : 'home.play';
                   button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n=i18n, data-level-id=levelID)
               td
                 if userLevelStateMap[me.id]
                   div= userLevelStateMap[me.id][levelID]
-                  - lastLevelCompleted = userLevelStateMap[me.id][levelID] === 'complete'
+                  - previousLevelCompleted = userLevelStateMap[me.id][levelID] === 'complete'
                 else
-                  - lastLevelCompleted = false
+                  - previousLevelCompleted = false
               td= ++levelCount + '. ' + level.name.replace('Course: ', '')
               td
                 if levelConceptMap[levelID]
                   each concept in course.get('concepts')
                     if levelConceptMap[levelID][concept]
                       span.spr.concept(data-i18n="concepts." + concept)
+              if levelID === lastLevelCompleted
+                - passedLastCompletedLevel = true
