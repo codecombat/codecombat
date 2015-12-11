@@ -19,6 +19,7 @@ module.exports = class AuthModal extends ModalView
     'keyup #name': 'onNameChange'
     'click #gplus-login-button': 'onClickGPlusLogin'
     'click #close-modal': 'hide'
+    'click #facebook-login-btn': 'onClickFacebookLoginButton'
 
   subscriptions:
     'errors:server-error': 'onServerError'
@@ -157,6 +158,9 @@ module.exports = class AuthModal extends ModalView
     el.i18n()
     @$el.find('.modal-body:visible').empty().append(el)
     @$el.find('.modal-footer').remove()
+
+  onClickFacebookLoginButton: ->
+    application.facebookHandler.loginThroughFacebook()
 
   onHidden: ->
     super()
