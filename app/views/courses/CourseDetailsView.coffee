@@ -238,3 +238,10 @@ module.exports = class CourseDetailsView extends RootView
     else
       storage.save 'no-school', true
     @$el.find('#school-form').slideUp('slow')
+
+  getLastLevelCompleted: ->
+    lastLevelCompleted = null
+    for levelID in _.keys(@campaign.get('levels'))
+      if @userLevelStateMap?[me.id]?[levelID] is 'complete'
+        lastLevelCompleted = levelID
+    return lastLevelCompleted
