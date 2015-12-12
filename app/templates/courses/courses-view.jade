@@ -66,7 +66,7 @@ block content
             span.spr :
             span.spr(data-i18n="courses.course")
             span 1
-            span.spr= (me.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'
+            span.spr= (me.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'
             small
               a#change-language-link(data-i18n="courses.change_language")
           +course-instance-body(view.hocCourseInstance)
@@ -86,7 +86,7 @@ block content
           div(class=classroomClass)
             h3
               span.spr= classroom.get('name')
-              span.spr (#{(classroom.get('aceConfig') || {}).language === 'python' ? 'Python' : 'JavaScript'})
+              span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
               a(href="/courses/"+classroom.id, data-i18n="courses.view_class")
 
             - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
