@@ -131,7 +131,7 @@ module.exports = class DiplomatView extends ContributeClassView
     hi: []             # मानक हिन्दी, Hindi
     ur: []             # اُردُو, Urdu
     ms: []             # Bahasa Melayu, Bahasa Malaysia
-    ca: ['ArniMcFrag']             # Català, Catalan
+    ca: ['ArniMcFrag', 'Nainufar']             # Català, Catalan
     gl: ['mcaeiror']             # Galego, Galician
     'mk-MK': ['SuperPranx']             # Македонски, Macedonian
     eo: []             # Esperanto, Esperanto
