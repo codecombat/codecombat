@@ -438,7 +438,6 @@ function getActiveUserCounts(startDay, activeUserEvents) {
     if (!dayUserMap[day]) dayUserMap[day] = {};
     dayUserMap[day][user] = true;
   }
-  // printjson(dayUserMap['2015-11-01']);
 
   var activeUsersCounts = {};
   var monthlyActives = [];
@@ -474,7 +473,8 @@ function getActiveClassCounts(startDay) {
     'Active classes managed subscription': [],
     'Active classes bulk subscription': [],
     'Active classes prepaid': [],
-    'Active classes course': [],
+    'Active classes course free': [],
+    'Active classes course paid': []
   };
   var userPlayedMap = {};
 
@@ -539,10 +539,10 @@ function getActiveClassCounts(startDay) {
     }
   }
 
-  // Prepaids terminal_subscription & course
+  // Prepaids terminal_subscription
   bulkSubGroups = {};
   cursor = db.prepaids.find(
-    {$and: [{type: {$in: ['terminal_subscription', 'course']}}, {$where: 'this.redeemers && this.redeemers.length >= ' + minGroupSize}]},
+    {$and: [{type: 'terminal_subscription'}, {$where: 'this.redeemers && this.redeemers.length >= ' + minGroupSize}]},
     {creator: 1, type: 1, redeemers: 1}
   );
   while (cursor.hasNext()) {
@@ -553,17 +553,37 @@ function getActiveClassCounts(startDay) {
       userPlayedMap[doc.redeemers[i].userID.valueOf()] = [];
       members.push(doc.redeemers[i].userID.valueOf());
     }
-    var event = doc.type == 'terminal_subscription' ? 'Active classes prepaid' : 'Active classes course';
-    classes[event].push({
+    classes['Active classes prepaid'].push({
       owner: owner,
       members: members,
       activeDayMap: {}
     });
   }
 
-  // printjson(classes);
+  // Classrooms
+  var classroomCourseInstancesMap = {};
+  cursor = db.course.instances.find(
+    {$where: 'this.members && this.members.length >= ' + minGroupSize},
+    {classroomID: 1, courseID: 1, members: 1, ownerID: 1}
+  );
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var owner = doc.ownerID.valueOf();
+    var classroom = doc.classroomID ? doc.classroomID.valueOf() : doc._id.valueOf();
+    var members = [];
+    for (var i = 0 ; i < doc.members.length; i++) {
+      userPlayedMap[doc.members[i].valueOf()] = [];
+      members.push(doc.members[i].valueOf());
+    }
+    if (!classroomCourseInstancesMap[classroom]) classroomCourseInstancesMap[classroom] = [];
+    classroomCourseInstancesMap[classroom].push({
+      course: doc.courseID.valueOf(),
+      owner: owner,
+      members: members,
+    });
+  }
 
-  // TODO: classrooms
+  // printjson(classroomCourseInstancesMap);
 
   // Find all the started level events for our class members, for startDay - daysInMonth
   var startDate = ISODate(startDay + "T00:00:00.000Z");
@@ -573,11 +593,10 @@ function getActiveClassCounts(startDay) {
   var startObj = objectIdWithTimestamp(startDate);
   var queryParams = {$and: [
     {_id: {$gte: startObj}},
-    {event: 'Started Level'},
-    {user: {$in: Object.keys(userPlayedMap)}}
+    {user: {$in: Object.keys(userPlayedMap)}},
+    {event: 'Started Level'}
   ]};
   cursor = logDB['log'].find(queryParams, {user: 1});
-  // cursor = db['level.sessions'].find({$and: [{creator: {$in: Object.keys(userPlayedMap)}}, {changed: {$gte: startDate}}]}, {creator: 1, changed: 1});
   while (cursor.hasNext()) {
     var doc = cursor.next();
     userPlayedMap[doc.user].push(doc._id.getTimestamp());
@@ -620,6 +639,108 @@ function getActiveClassCounts(startDay) {
     startDate.setUTCDate(startDate.getUTCDate() + 1);
     endDate.setUTCDate(endDate.getUTCDate() + 1);
   }
+
+  // Classrooms are processed differently because they could be free or paid active classes
+  var courseNameMap = {};
+  cursor = db.courses.find({}, {name: 1});
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    courseNameMap[doc._id.valueOf()] = doc.name;
+  }
+
+  // For each classroom, check free and paid members separately
+  for (var classroom in classroomCourseInstancesMap) {
+    var freeMembers = {};
+    var paidMembers = {};
+    var owner = null;
+    for (var i = 0; i < classroomCourseInstancesMap[classroom].length; i++) {
+      var courseInstance = classroomCourseInstancesMap[classroom][i];
+      if (!owner) owner = courseInstance.owner;
+      for (var j = 0; j < courseInstance.members.length; j++) {
+        if (courseNameMap[courseInstance.course] === 'Introduction to Computer Science') {
+          freeMembers[courseInstance.members[j]] = true;
+        }
+        else {
+          paidMembers[courseInstance.members[j]] = true;
+        }
+      }
+    }
+
+    var freeClass = {
+      owner: owner,
+      members: Object.keys(freeMembers),
+      activeDayMap: {}
+    };
+    var paidClass = {
+      owner: owner,
+      members: Object.keys(paidMembers),
+      activeDayMap: {}
+    };
+
+    // print('Processing classroom', classroom, freeClass.members.length, paidClass.members.length);
+
+    startDate = ISODate(startDay + "T00:00:00.000Z");
+    startDate.setUTCDate(startDate.getUTCDate() - daysInMonth);
+    endDate = ISODate(startDay + "T00:00:00.000Z");
+    while (endDate < todayDate) {
+      var endDay = endDate.toISOString().substring(0, 10);
+
+      // For each paid member of current class
+      var paidActiveMemberCount = 0;
+      for (var j = 0; j < paidClass.members.length; j++) {
+        var member = paidClass.members[j];
+
+        // Was member active during current timeframe?
+        if (userPlayedMap[member]) {
+          for (var k = 0; k < userPlayedMap[member].length; k++) {
+            if (userPlayedMap[member][k] > startDate && userPlayedMap[member][k] <= endDate) {
+              paidActiveMemberCount++;
+              break;
+            }
+          }
+        }
+      }
+
+      // Classes active for a given day if has minGroupSize members, and at least 1/2 played in last daysInMonth days
+      if (paidClass.members.length > minGroupSize && paidActiveMemberCount >= Math.round(paidClass.members.length / 2)) {
+        // print('paid classroom', classroom, endDay);
+        paidClass.activeDayMap[endDay] = true;
+      }
+      else {
+        // For each free member of current class
+        var freeActiveMemberCount = 0;
+        for (var j = 0; j < freeClass.members.length; j++) {
+          var member = freeClass.members[j];
+
+          // Was member active during current timeframe?
+          if (userPlayedMap[member]) {
+            for (var k = 0; k < userPlayedMap[member].length; k++) {
+              if (userPlayedMap[member][k] > startDate && userPlayedMap[member][k] <= endDate) {
+                freeActiveMemberCount++;
+                break;
+              }
+            }
+          }
+        }
+
+        if (freeClass.members.length > minGroupSize && freeActiveMemberCount >= Math.round(freeClass.members.length / 2)) {
+          // print('free classroom', classroom, endDay);
+          freeClass.activeDayMap[endDay] = true;
+        }
+
+      }
+      startDate.setUTCDate(startDate.getUTCDate() + 1);
+      endDate.setUTCDate(endDate.getUTCDate() + 1);
+    }
+
+    // printjson(freeClass);
+    // printjson(paidClass);
+
+    classes['Active classes course free'].push(freeClass);
+    classes['Active classes course paid'].push(paidClass);
+  }
+
+  // printjson(classes['Active classes course paid']);
 
   var activeClassCounts = {};
   for (var event in classes) {
