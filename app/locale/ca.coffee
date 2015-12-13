@@ -4,7 +4,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     no_ie: "CodeCombat no funciona en Internet Explorer 8 o versions anteriors. Perdó!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat no ha estat dissenyat per dispositius mòbils i per tant no funcionarà!" # Warning that shows up on mobile devices
     play: "Jugar" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Juga a la versió campanya" # Shows up under big play button if you only play /courses
     old_browser: "Uh oh, el teu navegador és massa antic per fer funcionar CodeCombat. Perdó!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Pots probar-ho igualment, però el més segur és que no funcioni."
     ipad_browser: "Males notícies: CodeCombat no funciona en el navegador d'iPad. Bones notícies: la nostre aplicació d'iPad està esperant l'aprovació d'Apple."
@@ -13,16 +13,16 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     multiplayer: "Multijugador" # Not currently shown on home page
     for_developers: "Per a Desenvolupadors" # Not currently shown on home page.
     or_ipad: "O descarrèga'l per iPad"
-#    hoc_class_code: "I Have a Class Code"
-#    hoc_enter: "Enter"
-#    hoc_title: "Hour of Code?"
+    hoc_class_code: "Tinc un codi de classe"
+    hoc_enter: "Introduir"
+    hoc_title: "Hora del codi?"
 
   nav:
     play: "Nivells" # The top nav bar entry where players choose which levels to play
     community: "Comunitat"
-#    courses: "Courses"
+    courses: "Cursos"
     editor: "Editor"
-    blog: "Blog"
+    blog: "Bloc"
     forum: "Fòrum"
     account: "Compte"
     profile: "Perfil"
@@ -35,30 +35,30 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     about: "Sobre Nosaltres"
     contact: "Contacta"
     twitter_follow: "Segueix-nos"
-    teachers: "Profesors"
-#    careers: "Careers"
+    teachers: "Professors"
+    careers: "Professions"
 
   modal:
     close: "Tancar"
-    okay: "Okey"
+    okay: "D'acord"
 
   not_found:
-    page_not_found: "Pagina no trobada"
+    page_not_found: "Pàgina no trobada"
 
   diplomat_suggestion:
     title: "Ajuda a traduir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Neccesitem les teves habilitats lingüístiques."
-    pitch_body: "Hem desenvolupat CodeCombat en anglès, peró tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdós llengües, siusplau considereu iniciar sesió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivell en Català."
+    pitch_body: "Hem desenvolupat CodeCombat en anglès, però tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdues llengües, siusplau considereu iniciar sessió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivells en Català."
     missing_translations: "Fins que puguem traduir-ho tot en català, ho veuràs en anglès quant no estigui en català."
     learn_more: "Aprèn més sobre ser un diplomàtic"
     subscribe_as_diplomat: "Subscriu-te com a diplomàtic"
 
   play:
     play_as: "Jugar com" # Ladder page
-#    compete: "Compete!" # Course details page
-    spectate: "Spectate" # Ladder page
-    players: "jugadors" # Hover over a level on /play
-    hours_played: "hores de joc" # Hover over a level on /play
+    compete: "Competir!" # Course details page
+    spectate: "Espectador" # Ladder page
+    players: "Jugadors" # Hover over a level on /play
+    hours_played: "Hores jugades" # Hover over a level on /play
     items: "Objectes" # Tooltip on item shop button from /play
     unlock: "Desbloquejar" # For purchasing items and heroes
     confirm: "Confirmar"
@@ -71,23 +71,23 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     achievements: "Triomfs" # Tooltip on achievement list button from /play
     account: "Compte" # Tooltip on account button from /play
     settings: "Configuració" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Enquesta" # Tooltip on poll button from /play
     next: "Següent" # Go from choose hero to choose inventory before playing a level
     change_hero: "Canviar heroi" # Go back from choose inventory to choose hero
     buy_gems: "Comprar Gemes"
     subscription_required: "Subscripció necessària"
     anonymous: "Jugador anònim"
     level_difficulty: "Dificultat: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "Juga a la versió de classe" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Campanya del principiant"
     awaiting_levels_adventurer_prefix: "Fem cinc nivells per setmana" # {change}
-    awaiting_levels_adventurer: "Inicia sessió com aventurer"
-    awaiting_levels_adventurer_suffix: "sigues el primer en jugar els nous nivells"
+    awaiting_levels_adventurer: "Inicia sessió com a aventurer"
+    awaiting_levels_adventurer_suffix: "Sigues el primer en jugar els nous nivells"
     adjust_volume: "Ajustar volum"
     campaign_multiplayer: "Arenes Multijugador"
     campaign_multiplayer_description: "... on programes cara a cara contra altres jugadors."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_old_multiplayer: "(Obsolet) Arenes multijugador antigues"
+    campaign_old_multiplayer_description: "Relíquies d'una era més civilitzada. No hi ha simulacions per aquestes arenes multijugador antigues."
 
   share_progress_modal:
     blurb: "Estàs progressant molt! Digues a algú quan n'has après amb CodeCombat." # {change}
