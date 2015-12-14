@@ -9,12 +9,13 @@ stripeHandler = require 'core/services/stripe'
 template = require 'templates/courses/purchase-courses-view'
 User = require 'models/User'
 utils = require 'core/utils'
+Products = require 'collections/Products'
 
 module.exports = class PurchaseCoursesView extends RootView
   id: 'purchase-courses-view'
   template: template
   numberOfStudents: 30
-  pricePerStudent: 4
+  pricePerStudent: 0
 
   initialize: (options) ->
     @listenTo stripeHandler, 'received-token', @onStripeReceivedToken
@@ -29,13 +30,19 @@ module.exports = class PurchaseCoursesView extends RootView
     @prepaids.comparator = '_id'
     @prepaids.fetchByCreator(me.id)
     @supermodel.loadCollection(@prepaids, 'prepaids')
+    @products = new Products()
+    @supermodel.loadCollection(@products, 'products')
     super(options)
 
   events:
     'input #students-input': 'onInputStudentsInput'
     'click #purchase-btn': 'onClickPurchaseButton'
+    
+  onLoaded: ->
+    @pricePerStudent = @products.findWhere({name: 'course'}).get('amount')
+    super()
 
-  getPriceString: -> '$' + (@getPrice()).toFixed(2)
+  getPriceString: -> '$' + (@getPrice()/100).toFixed(2)
   getPrice: -> @pricePerStudent * @numberOfStudents
 
   onceClassroomsSync: ->
@@ -80,7 +87,7 @@ module.exports = class PurchaseCoursesView extends RootView
     application.tracker?.trackEvent 'Started course prepaid purchase', {
       price: @pricePerStudent, students: @numberOfStudents}
     stripeHandler.open
-      amount: @numberOfStudents * @pricePerStudent * 100
+      amount: @numberOfStudents * @pricePerStudent
       description: "Full course access for #{@numberOfStudents} students"
       bitcoin: true
       alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'

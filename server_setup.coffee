@@ -14,6 +14,7 @@ user = require './server/users/user_handler'
 logging = require './server/commons/logging'
 config = require './server_config'
 auth = require './server/routes/auth'
+routes = require './server/routes'
 UserHandler = require './server/users/user_handler'
 hipchat = require './server/hipchat'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
@@ -166,6 +167,7 @@ setupFacebookCrossDomainCommunicationRoute = (app) ->
     res.sendfile path.join(__dirname, 'public', 'channel.html')
 
 exports.setupRoutes = (app) ->
+  routes.setup(app)
   app.use app.router
 
   baseRoute.setup app

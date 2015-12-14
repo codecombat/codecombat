@@ -1,10 +1,10 @@
 .modal-dialog
   .modal-content
       
-    if state === 'purchasing'
+    if view.state === 'purchasing'
       .alert.alert-info(data-i18n="buy_gems.purchasing")
     
-    else if state === 'retrying'
+    else if view.state === 'retrying'
       #retrying-alert.alert.alert-danger(data-i18n="buy_gems.retrying")
 
     else
@@ -12,12 +12,12 @@
       h1(data-i18n="play.buy_gems")
       
       #products
-        for product in products
+        for product in view.products.models
           .product
-            h4 x#{product.gems}
-            h3(data-i18n=product.i18n)
-            button.btn.btn-illustrated.btn-lg(value=product.id)
-              span= product.price
+            h4 x#{product.get('gems')}
+            h3(data-i18n=product.get('i18n'))
+            button.btn.btn-illustrated.btn-lg(value=product.get('name'))
+              span= product.get('priceString')
 
         .product
           h4(data-i18n="buy_gems.price") x3500 / mo
@@ -29,20 +29,20 @@
           else
             button.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
                 
-      if state === 'declined'
+      if view.state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible
           span(data-i18n="buy_gems.declined")
           button.close(type="button" data-dismiss="alert")
             span(aria-hidden="true") &times;      
           
-      if state === 'unknown_error'
+      if view.state === 'unknown_error'
         #error-alert.alert.alert-danger.alert-dismissible
           button.close(type="button" data-dismiss="alert")
             span(aria-hidden="true") &times;
           p(data-i18n="loading_error.unknown")
-          p= stateMessage
+          p= view.stateMessage
       
-      if state === 'recovered_charge'
+      if view.state === 'recovered_charge'
         #recovered-alert.alert.alert-danger.alert-dismissible
           span(data-i18n="buy_gems.recovered")
           button.close(type="button" data-dismiss="alert")

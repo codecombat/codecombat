@@ -1,4 +1,5 @@
 Payment = require './Payment'
+Product = require '../models/Product'
 User = require '../users/User'
 Handler = require '../commons/Handler'
 {handlers} = require '../commons/mapping'
@@ -11,30 +12,6 @@ request = require 'request'
 async = require 'async'
 apple_utils = require '../lib/apple_utils'
 
-products = {
-  'gems_5': {
-    amount: 499
-    gems: 5000
-    id: 'gems_5'
-  }
-
-  'gems_10': {
-    amount: 999
-    gems: 11000
-    id: 'gems_10'
-  }
-
-  'gems_20': {
-    amount: 1999
-    gems: 25000
-    id: 'gems_20'
-  }
-
-  'custom': {
-    # amount expected in request body
-    id: 'custom'
-  }
-}
 
 PaymentHandler = class PaymentHandler extends Handler
   modelClass: Payment
@@ -134,33 +111,34 @@ PaymentHandler = class PaymentHandler extends Handler
 
         payment = @makeNewInstance(req)
         payment.set 'service', 'ios'
-        product = products[transaction.product_id]
-
-        payment.set 'amount', product.amount
-        payment.set 'gems', product.gems
-        payment.set 'ios', {
-          transactionID: transactionID
-          rawReceipt: receipt
-          localPrice: localPrice
-        }
-
-        validation = @validateDocumentInput(payment.toObject())
-        if validation.valid is false
-          @logPaymentError(req, 'Invalid apple payment object.')
-          return @sendBadInputError(res, validation.errors)
-
-        payment.save((err) =>
-          if err
-            @logPaymentError(req, 'Apple payment save error.'+err)
-            return @sendDatabaseError(res, err)
-          @incrementGemsFor(req.user, product.gems, (err) =>
+        Product.findOne({name: transaction.product_id}).exec (err, product) =>
+          return @sendDatabaseError(res, err) if err
+          return @sendNotFoundError(res) if not product
+          payment.set 'amount', product.get('amount')
+          payment.set 'gems', product.get('gems')
+          payment.set 'ios', {
+            transactionID: transactionID
+            rawReceipt: receipt
+            localPrice: localPrice
+          }
+  
+          validation = @validateDocumentInput(payment.toObject())
+          if validation.valid is false
+            @logPaymentError(req, 'Invalid apple payment object.')
+            return @sendBadInputError(res, validation.errors)
+  
+          payment.save((err) =>
             if err
-              @logPaymentError(req, 'Apple incr db error.'+err)
+              @logPaymentError(req, 'Apple payment save error.'+err)
               return @sendDatabaseError(res, err)
-            @sendPaymentHipChatMessage user: req.user, payment: payment
-            @sendCreated(res, @formatEntity(req, payment))
+            @incrementGemsFor(req.user, product.get('gems'), (err) =>
+              if err
+                @logPaymentError(req, 'Apple incr db error.'+err)
+                return @sendDatabaseError(res, err)
+              @sendPaymentHipChatMessage user: req.user, payment: payment
+              @sendCreated(res, @formatEntity(req, payment))
+            )
           )
-        )
       )
     )
 
@@ -203,7 +181,6 @@ PaymentHandler = class PaymentHandler extends Handler
 
 
   beginStripePayment: (req, res, timestamp, productID) ->
-    product = products[productID]
 
     async.parallel([
       ((callback) ->
@@ -218,6 +195,10 @@ PaymentHandler = class PaymentHandler extends Handler
           charge = _.find recentCharges.data, (c) -> c.metadata.timestamp is timestamp
           callback(null, charge)
         )
+      ),
+      ((callback) ->
+        Product.findOne({name: productID}).exec (err, product) =>
+          callback(err, product)
       )
     ],
 
@@ -225,7 +206,10 @@ PaymentHandler = class PaymentHandler extends Handler
         if err
           @logPaymentError(req, 'Stripe async load db error. '+err)
           return @sendDatabaseError(res, err)
-        [payment, charge] = results
+        [payment, charge, product] = results
+        
+        if not product
+          return @sendNotFoundError(res, 'could not find product with id '+productID)
 
         if not (payment or charge)
           # Proceed normally from the beginning
@@ -236,7 +220,7 @@ PaymentHandler = class PaymentHandler extends Handler
           @recordStripeCharge(req, res, charge)
 
         else
-          return @sendSuccess(res, @formatEntity(req, payment)) if product.id is 'custom'
+          return @sendSuccess(res, @formatEntity(req, payment)) if product.get('name') is 'custom'
 
           # Charged Stripe and recorded it. Recalculate gems to make sure credited the purchase.
           @recalculateGemsFor(req.user, (err) =>
@@ -250,7 +234,7 @@ PaymentHandler = class PaymentHandler extends Handler
     )
 
   chargeStripe: (req, res, product) ->
-    amount = parseInt product.amount ? req.body.amount
+    amount = parseInt product.get('amount') ? req.body.amount
     return @sendError(res, 400, "Invalid amount.") if isNaN(amount)
 
     stripe.charges.create({
@@ -258,9 +242,9 @@ PaymentHandler = class PaymentHandler extends Handler
       currency: 'usd'
       customer: req.user.get('stripe')?.customerID
       metadata: {
-        productID: product.id
+        productID: product.get('name')
         userID: req.user._id + ''
-        gems: product.gems
+        gems: product.get('gems')
         timestamp: parseInt(req.body.stripe?.timestamp)
         description: req.body.description
       }

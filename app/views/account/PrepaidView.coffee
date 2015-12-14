@@ -7,6 +7,7 @@ Prepaid = require '../../models/Prepaid'
 utils = require 'core/utils'
 RedeemModal = require 'views/account/PrepaidRedeemModal'
 forms = require 'core/forms'
+Products = require 'collections/Products'
 
 # TODO: remove redeem code modal
 
@@ -26,12 +27,10 @@ module.exports = class PrepaidView extends RootView
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'
 
-  baseAmount: 9.99
-
   constructor: (options) ->
     super(options)
     @purchase =
-      total: @baseAmount
+      total: 0
       users: 3
       months: 3
     @updateTotal()
@@ -44,6 +43,14 @@ module.exports = class PrepaidView extends RootView
     unless _.isEmpty(@ppc)
       @ppcQuery = true
       @loadPrepaid(@ppc)
+
+    @products = new Products()
+    @supermodel.loadCollection(@products, 'products')
+    
+  onLoaded: ->
+    @prepaidProduct = @products.findWhere { name: 'prepaid_subscription' }
+    @updateTotal()
+    super()
 
   getRenderData: ->
     c = super()
@@ -62,7 +69,8 @@ module.exports = class PrepaidView extends RootView
     noty text: message, layout: 'topCenter', type: type, killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3
 
   updateTotal: ->
-    @purchase.total = getPrepaidCodeAmount(@baseAmount, @purchase.users, @purchase.months)
+    return unless @prepaidProduct
+    @purchase.total = getPrepaidCodeAmount(@prepaidProduct.get('amount'), @purchase.users, @purchase.months)
     @renderSelectors("#total", "#users-input", "#months-input")
 
   # Form Input Callbacks
@@ -99,7 +107,7 @@ module.exports = class PrepaidView extends RootView
   onClickPurchaseButton: (e) ->
     return unless $("#users-input").val() >= 3 or $("#months-input").val() >= 3
     @purchaseTimestamp = new Date().getTime()
-    @stripeAmount = @purchase.total * 100
+    @stripeAmount = @purchase.total
     @description = "Prepaid Code for " + @purchase.users + " users / " + @purchase.months + " months"
 
     stripeHandler.open
@@ -179,6 +187,7 @@ module.exports = class PrepaidView extends RootView
       # console.log 'SUCCESS: Prepaid purchase', model.code
       @statusMessage "Successfully purchased Prepaid Code!", "success"
       @codes.add(model)
+      @renderSelectors('#codes-panel')
 
     @statusMessage "Finalizing purchase...", "information"
     @supermodel.addRequestResource('purchase_prepaid', options, 0).load()
