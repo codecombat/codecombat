@@ -152,8 +152,10 @@ module.exports = class SubscribeModal extends ModalView
     @playSound 'menu-button-click'
     return @openModalView new AuthModal() if me.get('anonymous')
     application.tracker?.trackEvent 'Started 1 year subscription purchase'
+    discount = @basicProduct.get('amount') * 12 - @yearProduct.get('amount')
+    discountString = (discount/100).toFixed(2)
     options =
-      description: $.i18n.t('subscribe.stripe_description_year_sale')
+      description: $.i18n.t('subscribe.stripe_description_year_sale1').replace('{{discount}}', discountString)
       amount: @yearProduct.get('amount')
       alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
       alipayReusable: true
