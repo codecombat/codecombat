@@ -56,11 +56,15 @@ module.exports = class SubscribeModal extends ModalView
       application.tracker?.trackEvent 'Subscription ask parent button click'
 
   setupParentInfoPopover: ->
+    return unless @products.size()
     popoverTitle = $.i18n.t 'subscribe.parents_title'
     levelsCompleted = me.get('stats')?.gamesCompleted or 'several'
     popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1', nLevels: levelsCompleted) + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb1a') + "</p>"
-    popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2') + "</p>"
+    popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2a') + "</p>"
+    price = (@products.findWhere({'name': 'basic_subscription'}).get('amount') / 100).toFixed(2)
+    # TODO: Update i18next and use its own interpolation system instead
+    popoverContent = popoverContent.replace('{{price}}', price)
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb3') + "</p>"
     #popoverContent = popoverContent.replace /9[.,]99/g, '3.99'  # Sale
     @$el.find('#parents-info').popover(
@@ -75,9 +79,15 @@ module.exports = class SubscribeModal extends ModalView
       application.tracker?.trackEvent 'Subscription parent hover'
 
   setupPaymentMethodsInfoPopover: ->
+    return unless @products.size()
     popoverTitle = $.i18n.t('subscribe.payment_methods_title')
+    three_month_price = (@products.findWhere({'name': 'basic_subscription'}).get('amount') * 3 / 100).toFixed(2)
+    year_price = (@products.findWhere({name: 'year_subscription'}).get('amount') / 100).toFixed(2)
     popoverTitle += '<button type="button" class="close" onclick="$(&#39;#payment-methods-info&#39;).popover(&#39;hide&#39;);">&times;</button>'
-    popoverContent = "<p>" + $.i18n.t('subscribe.payment_methods_blurb1') + "</p>"
+    popoverContent = "<p>" + $.i18n.t('subscribe.payment_methods_blurb1a') + "</p>"
+    # TODO: Update i18next and use its own interpolation system instead
+    popoverContent = popoverContent.replace('{{three_month_price}}', three_month_price)
+    popoverContent = popoverContent.replace('{{year_price}}', year_price)
     popoverContent += "<p>" + $.i18n.t('subscribe.payment_methods_blurb2') + " <a href='mailto:support@codecombat.com'>support@codecombat.com</a>."
     @$el.find('#payment-methods-info').popover(
       animation: true
