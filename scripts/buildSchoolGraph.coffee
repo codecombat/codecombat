@@ -138,11 +138,11 @@ findUserToSchool = (users) ->
           for suggestion in suggestions
             for reason in suggestion.reasons
               sum += switch reason
-                when 'Course instances' then 50
+                when 'Course instances' then 150
                 when 'IP' then 40
-                when 'Name' then 30
                 when 'Referrer' then 20
-                when 'Domain' then (if getDomain(target) is 'cps.edu' then 1 else 10)
+                when 'Name' then 15
+                when 'Domain' then (if getDomain(target) in ['cps.edu', 'mynewcaneyisd.org', 'fsusd.org'] then 1 else 10)
                 when 'Clans' then 0.01
           sum
         ), 0
@@ -205,7 +205,7 @@ findSuggestions = (target) ->
       else
         suggestions.push schoolName: otherUser.schoolName, reasons: [reason], user: otherUser
   if debugging then console.log '    Done checking referrer', (new Date()) - t0
-  suggestions = _.sortBy suggestions, 'schoolName'
+  suggestions = _.sortBy suggestions, (s) -> (s.schoolName or '').toLowerCase()
   suggestions = _.sortBy suggestions, (s) -> -s.reasons.length
   return suggestions
 
@@ -215,7 +215,8 @@ usersCategorized = {}
 
 sortUsers = (users) ->
   users = _.sortBy users, (u) -> -u.points
-  users = _.sortBy users, ['schoolName', 'lastIP']
+  users = _.sortBy users, 'lastIP'
+  users = _.sortBy users, (u) -> (u.schoolName or '').toLowerCase()
   for field in ['courseInstances', 'lastIP', 'schoolName', 'domain', 'clans', 'referrer']
     userCategories[field] = categorizeUsers users, field
     topGroups[field] = _.sortBy _.keys(userCategories[field]), (key) -> -userCategories[field][key].length
