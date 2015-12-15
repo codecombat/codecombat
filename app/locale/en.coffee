@@ -461,7 +461,7 @@
     sale_title: "Back to School Sale"
     sale_view_button: "Buy 1 year subscription for"
     stripe_description: "Monthly Subscription"
-    stripe_description_year_sale: "1 Year Subscription ($21 discount)"
+    stripe_description_year_sale1: "1 Year Subscription (${{discount}} discount)"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
 
