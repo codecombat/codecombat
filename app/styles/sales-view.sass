@@ -1,6 +1,9 @@
 #sales-view
 
   background-color: #F5F5F5
+  font-family: Helvetica, sans-serif
+  font-size: 15px
+  line-height: 20px
 
   // TODO: better way to remove content styling?
   #site-content-area
@@ -13,7 +16,7 @@
 
   .btn-contact-us
     background-color: #3878DE
-    color: #F5F5F5
+    color: #FFFFFF
     font-size: 20px
     margin-top: 20px
     padding: 20px
@@ -22,7 +25,7 @@
 
   .btn-create-account
     background-color: #09AC48
-    color: #F5F5F5
+    color: #FFFFFF
     display: inline-block
     font-size: 20px
     margin: 10px
@@ -31,7 +34,7 @@
     text-transform: uppercase
 
   .btn-login-account
-    color: #F5F5F5
+    color: #FFFFFF
     text-decoration: underline
 
   .btn-setup-class
@@ -58,16 +61,27 @@
   #top-page-content
     background-image: url('/images/pages/sales/hero_background.png')
     background-size: cover
-    color: #F5F5F5
+    color: #FFFFFF
 
-    #top-amazing-quote-container
+    .hero-quote-container
       margin: 20px
       width: 60%
-      #top-amazing-quote
-        font-size: 40px
-      #top-amazing-quote-attribution
-        font-size: 18px
-        text-align: right
+
+    .hero-quote
+      font-family: Merriweather
+      font-size: 30px
+      font-weight: 700
+      color: #FFFFFF
+      line-height: 37px
+
+    .hero-quote-attribution
+      font-family: Helvetica, sans-serif
+      font-style: italic
+      font-size: 13px
+      color: #FFFFFF
+      line-height: 16px
+      margin-right: 100px
+      text-align: right
 
     #down-arrow
       padding: 20px
@@ -92,6 +106,13 @@
       img
         width: 100%
 
+    .img-caption
+      font-family: Helvetica, sans-serif
+      font-style: italic
+      font-size: 11px
+      color: #727272
+      line-height: 13px
+
     .img-face
       background-color: #f0e5c7
       border-radius: 50%
@@ -101,17 +122,23 @@
     .img-game
       width: 100%
 
-    .hero-quote
+    .teacher-quote
       font-family: Merriweather
-      font-size: 19px
+      font-weight: 300
+      font-size: 18px
+      line-height: 20px
+
+    .teacher-name
+      font-family: Helvetica, sans-serif
       font-weight: 700
+      font-size: 16px
       line-height: 19px
 
-    .hero-quote-attribution
+    .teacher-location
       font-family: Helvetica, sans-serif
       font-style: italic
-      font-size: 13px
-      line-height: 16px
+      font-size: 12px
+      line-height: 14px
 
     #quote1-container
       background-image: url('/images/pages/sales/quote1.png')
@@ -132,14 +159,17 @@
       padding: 12px
       margin-left: 10px
 
-      .hero-quote
+      .teacher-quote
         margin-top: 60px
 
       .hero-quote-attribution
         margin-top: 20px
 
-    .twitter-text
+    .twitter-attribution
+      font-family: Helvetica
+      font-weight: 700
+      font-size: 11px
+      line-height: 14px
       color: black
       display: inline-block
-      font-weight: bold
       text-decoration: none
