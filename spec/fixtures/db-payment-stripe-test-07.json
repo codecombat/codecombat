@@ -5,9 +5,9 @@
         "path": "/v1/tokens",
         "status": 200,
         "response": {
-            "id": "tok_17GCV9KaReE7xLUdelU9sCaA",
+            "id": "tok_17IOPDKaReE7xLUdOTkDGNQH",
             "card": {
-                "id": "card_17GCV9KaReE7xLUd5uODONlo"
+                "id": "card_17IOPDKaReE7xLUdOPYVzwbP"
             },
             "type": "card"
         }
@@ -15,7 +15,7 @@
     {
         "scope": "https://api.stripe.com:443",
         "method": "POST",
-        "path": "/v1/customers/cus_7VCuzP303kt1eU",
+        "path": "/v1/customers/cus_7XTL5uSTRsbBAg",
         "status": 402,
         "response": {
             "error": {
@@ -31,21 +31,21 @@
         "response": {
             "data": [
                 {
-                    "id": "ch_17GCV9KaReE7xLUduvVirhN5",
-                    "amount": 499,
-                    "customer": "cus_7VCuzP303kt1eU",
+                    "id": "ch_17IOPCKaReE7xLUdjfj5TqZH",
+                    "amount": 100,
+                    "customer": "cus_7XTL5uSTRsbBAg",
                     "metadata": {
                         "productID": "gems_5",
                         "gems": "5000",
-                        "timestamp": "1449685037831"
+                        "timestamp": "1450207452790"
                     },
                     "paid": false,
                     "refunds": {
                         "has_more": false
                     },
                     "source": {
-                        "id": "card_17GCV7KaReE7xLUdiPjgEUMd",
-                        "customer": "cus_7VCuzP303kt1eU"
+                        "id": "card_17IOPAKaReE7xLUdbLiixDCY",
+                        "customer": "cus_7XTL5uSTRsbBAg"
                     }
                 }
             ],

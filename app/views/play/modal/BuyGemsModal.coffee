@@ -10,12 +10,6 @@ module.exports = class BuyGemsModal extends ModalView
   template: template
   plain: true
 
-  originalProducts: [
-    { price: '$4.99', gems: 5000, amount: 499, id: 'gems_5', i18n: 'buy_gems.few_gems' }
-    { price: '$9.99', gems: 11000, amount: 999, id: 'gems_10', i18n: 'buy_gems.pile_gems' }
-    { price: '$19.99', gems: 25000, amount: 1999, id: 'gems_20', i18n: 'buy_gems.chest_gems' }
-  ]
-
   subscriptions:
     'ipad:products': 'onIPadProducts'
     'ipad:iap-complete': 'onIAPComplete'

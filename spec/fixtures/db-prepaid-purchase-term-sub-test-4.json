@@ -5,9 +5,9 @@
         "path": "/v1/tokens",
         "status": 200,
         "response": {
-            "id": "tok_17GCVaKaReE7xLUdfcArqe1K",
+            "id": "tok_17IOQkKaReE7xLUdN8oUK1vt",
             "card": {
-                "id": "card_17GCVaKaReE7xLUdQXuE34GK"
+                "id": "card_17IOQkKaReE7xLUd89WMMmJy"
             },
             "type": "card"
         }

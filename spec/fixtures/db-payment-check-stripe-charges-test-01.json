@@ -5,9 +5,9 @@
         "path": "/v1/tokens",
         "status": 200,
         "response": {
-            "id": "tok_17GCVJKaReE7xLUdzpXOGZ9v",
+            "id": "tok_17IOPOKaReE7xLUdfaGNs2bY",
             "card": {
-                "id": "card_17GCVJKaReE7xLUdKOWpllRX"
+                "id": "card_17IOPOKaReE7xLUdynADA8zk"
             },
             "type": "card"
         }
@@ -18,7 +18,7 @@
         "path": "/v1/customers",
         "status": 200,
         "response": {
-            "id": "cus_7VCvE20H99SoVJ",
+            "id": "cus_7XTMkthRYmfilo",
             "alipay_accounts": {
                 "has_more": false
             },
@@ -29,8 +29,8 @@
             "sources": {
                 "data": [
                     {
-                        "id": "card_17GCVJKaReE7xLUdKOWpllRX",
-                        "customer": "cus_7VCvE20H99SoVJ"
+                        "id": "card_17IOPOKaReE7xLUdynADA8zk",
+                        "customer": "cus_7XTMkthRYmfilo"
                     }
                 ],
                 "has_more": false
@@ -52,10 +52,10 @@
     {
         "scope": "https://api.stripe.com:443",
         "method": "POST",
-        "path": "/v1/customers/cus_7VCvE20H99SoVJ",
+        "path": "/v1/customers/cus_7XTMkthRYmfilo",
         "status": 200,
         "response": {
-            "id": "cus_7VCvE20H99SoVJ",
+            "id": "cus_7XTMkthRYmfilo",
             "alipay_accounts": {
                 "has_more": false
             },
@@ -66,8 +66,8 @@
             "sources": {
                 "data": [
                     {
-                        "id": "card_17GCVJKaReE7xLUdKOWpllRX",
-                        "customer": "cus_7VCvE20H99SoVJ"
+                        "id": "card_17IOPOKaReE7xLUdynADA8zk",
+                        "customer": "cus_7XTMkthRYmfilo"
                     }
                 ],
                 "has_more": false
@@ -83,21 +83,21 @@
         "path": "/v1/charges",
         "status": 200,
         "response": {
-            "id": "ch_17GCVLKaReE7xLUdb9DcZ4om",
-            "amount": 499,
-            "customer": "cus_7VCvE20H99SoVJ",
+            "id": "ch_17IOPQKaReE7xLUdsAmwl7fg",
+            "amount": 100,
+            "customer": "cus_7XTMkthRYmfilo",
             "metadata": {
                 "productID": "gems_5",
                 "gems": "5000",
-                "timestamp": "1449685049575"
+                "timestamp": "1450207466249"
             },
             "paid": true,
             "refunds": {
                 "has_more": false
             },
             "source": {
-                "id": "card_17GCVJKaReE7xLUdKOWpllRX",
-                "customer": "cus_7VCvE20H99SoVJ"
+                "id": "card_17IOPOKaReE7xLUdynADA8zk",
+                "customer": "cus_7XTMkthRYmfilo"
             }
         }
     },
@@ -109,21 +109,21 @@
         "response": {
             "data": [
                 {
-                    "id": "ch_17GCVLKaReE7xLUdb9DcZ4om",
-                    "amount": 499,
-                    "customer": "cus_7VCvE20H99SoVJ",
+                    "id": "ch_17IOPQKaReE7xLUdsAmwl7fg",
+                    "amount": 100,
+                    "customer": "cus_7XTMkthRYmfilo",
                     "metadata": {
                         "productID": "gems_5",
                         "gems": "5000",
-                        "timestamp": "1449685049575"
+                        "timestamp": "1450207466249"
                     },
                     "paid": true,
                     "refunds": {
                         "has_more": false
                     },
                     "source": {
-                        "id": "card_17GCVJKaReE7xLUdKOWpllRX",
-                        "customer": "cus_7VCvE20H99SoVJ"
+                        "id": "card_17IOPOKaReE7xLUdynADA8zk",
+                        "customer": "cus_7XTMkthRYmfilo"
                     }
                 }
             ],

@@ -2,10 +2,10 @@
     {
         "scope": "https://api.stripe.com:443",
         "method": "GET",
-        "path": "/v1/customers/cus_7VCvUEDSyqS8aN",
+        "path": "/v1/customers/cus_7XTE2tCcVgwJps",
         "status": 200,
         "response": {
-            "id": "cus_7VCvUEDSyqS8aN",
+            "id": "cus_7XTE2tCcVgwJps",
             "alipay_accounts": {
                 "has_more": false
             },
@@ -16,8 +16,8 @@
             "sources": {
                 "data": [
                     {
-                        "id": "card_17GCVoKaReE7xLUdpf0crA0p",
-                        "customer": "cus_7VCvUEDSyqS8aN"
+                        "id": "card_17IOHeKaReE7xLUdsx1siboK",
+                        "customer": "cus_7XTE2tCcVgwJps"
                     }
                 ],
                 "has_more": false
@@ -25,17 +25,17 @@
             "subscriptions": {
                 "data": [
                     {
-                        "id": "sub_7VCvXO37PhGOUY",
+                        "id": "sub_7XTEeDaljXocIE",
                         "cancel_at_period_end": true,
-                        "current_period_end": 1452363481,
-                        "current_period_start": 1449685081,
-                        "customer": "cus_7VCvUEDSyqS8aN",
+                        "current_period_end": 1452885387,
+                        "current_period_start": 1450206987,
+                        "customer": "cus_7XTE2tCcVgwJps",
                         "metadata": {
                             "id": "0000000000000000000186a1"
                         },
                         "plan": {
                             "id": "basic",
-                            "amount": 999
+                            "amount": 100
                         },
                         "quantity": 1
                     }
@@ -47,22 +47,22 @@
     {
         "scope": "https://api.stripe.com:443",
         "method": "GET",
-        "path": "/v1/customers/cus_7VCvUEDSyqS8aN/subscriptions",
+        "path": "/v1/customers/cus_7XTE2tCcVgwJps/subscriptions",
         "status": 200,
         "response": {
             "data": [
                 {
-                    "id": "sub_7VCvXO37PhGOUY",
+                    "id": "sub_7XTEeDaljXocIE",
                     "cancel_at_period_end": true,
-                    "current_period_end": 1452363481,
-                    "current_period_start": 1449685081,
-                    "customer": "cus_7VCvUEDSyqS8aN",
+                    "current_period_end": 1452885387,
+                    "current_period_start": 1450206987,
+                    "customer": "cus_7XTE2tCcVgwJps",
                     "metadata": {
                         "id": "0000000000000000000186a1"
                     },
                     "plan": {
                         "id": "basic",
-                        "amount": 999
+                        "amount": 100
                     },
                     "quantity": 1
                 }
@@ -73,20 +73,20 @@
     {
         "scope": "https://api.stripe.com:443",
         "method": "DELETE",
-        "path": "/v1/customers/cus_7VCvUEDSyqS8aN/subscriptions/sub_7VCvXO37PhGOUY",
+        "path": "/v1/customers/cus_7XTE2tCcVgwJps/subscriptions/sub_7XTEeDaljXocIE",
         "status": 200,
         "response": {
-            "id": "sub_7VCvXO37PhGOUY",
+            "id": "sub_7XTEeDaljXocIE",
             "cancel_at_period_end": true,
-            "current_period_end": 1452363481,
-            "current_period_start": 1449685081,
-            "customer": "cus_7VCvUEDSyqS8aN",
+            "current_period_end": 1452885387,
+            "current_period_start": 1450206987,
+            "customer": "cus_7XTE2tCcVgwJps",
             "metadata": {
                 "id": "0000000000000000000186a1"
             },
             "plan": {
                 "id": "basic",
-                "amount": 999
+                "amount": 100
             },
             "quantity": 1
         }
@@ -94,20 +94,20 @@
     {
         "scope": "https://api.stripe.com:443",
         "method": "POST",
-        "path": "/v1/customers/cus_7VCvUEDSyqS8aN/subscriptions",
+        "path": "/v1/customers/cus_7XTE2tCcVgwJps/subscriptions",
         "status": 200,
         "response": {
-            "id": "sub_7VCv1YWFAmGmed",
+            "id": "sub_7XTE0T8sIdVZQ5",
             "cancel_at_period_end": false,
-            "current_period_end": 1452363481,
-            "current_period_start": 1449685087,
-            "customer": "cus_7VCvUEDSyqS8aN",
+            "current_period_end": 1452885387,
+            "current_period_start": 1450206995,
+            "customer": "cus_7XTE2tCcVgwJps",
             "metadata": {
                 "id": "0000000000000000000186a1"
             },
             "plan": {
                 "id": "basic",
-                "amount": 999
+                "amount": 100
             },
             "quantity": 1
         }

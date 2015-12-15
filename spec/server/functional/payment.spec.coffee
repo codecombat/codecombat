@@ -124,7 +124,7 @@ describe '/db/payment', ->
               expect(body.stripe.timestamp).toBe(timestamp)
               expect(body.stripe.customerID).toBeDefined()
               expect(body.gems).toBe(5000)
-              expect(body.amount).toBe(499)
+              expect(body.amount).toBe(100)
               expect(body.productID).toBe('gems_5')
               expect(body.service).toBe('stripe')
               expect(body.recipient).toBe(joeID)
