@@ -15,12 +15,15 @@ block content
       .hero-quote "CodeCombat is without question the most engaging platform for learning programming languages."
       .hero-quote-attribution Jonathan P., Elementary Computers Teacher
 
-    .text-center
-      a.btn-create-account set up a free class
-    .text-center
-      span.spr Already have an account?
-      a.btn-login-account Log in here.
-      
+    if me.isAnonymous()
+      .text-center
+        a.btn-create-account set up a free class
+      .text-center
+        span.spr Already have an account?
+        a.btn-login-account Log in here.
+    else
+      .text-center
+        a.btn-enter-courses(href="/courses/teachers") set up a free class
 
     p.text-center
       a(href='#getting-started')
@@ -51,7 +54,7 @@ block content
               strong.spr real, typed code
               span to support healthy learning curve with programming.
             p
-              span.spr CodeCombat's Courses consist of levels that have been specifically playtested to work best in a classroom setting, designed to be used by teachers with little to
+              span.spr CodeCombat's Courses consist of levels that have been specifically playtested to work best in a classroom setting, designed to be used by teachers with
               strong.spr no prior coding experience necessary.
               span Current Courses are available in JavaScript and Python, with solution guides provided for both.
       br
@@ -78,11 +81,12 @@ block content
             i 
               small Teachers can monitor progress, manage classrooms and more.
 
-      br
-      .text-center
-        a.btn-create-account set up a free class
-      br
-      br
+      if me.isAnonymous()
+        br
+        .text-center
+          a.btn-create-account set up a free class
+        br
+        br
 
       p.text-center
         span.section-header Students (and parents) love us!
@@ -174,7 +178,7 @@ block content
         .col-md-8
           p.text-center
             span.section-header What are paid courses?
-          p The one-hour long "Introduction to Computer Science" course will always be free for an unlimited number of students. Paid enrollments allow each student access to Computer Science 2, 3, and 4, which is an additional 15 hours of content on top of the free contnet.  Paid enrolmments never expire.
+          p The one-hour long "Introduction to Computer Science" course will always be free for an unlimited number of students. Paid enrollments allow each student access to Computer Science 2, 3, and 4, which is an additional 15 hours of content on top of the free contnet.  Paid enrollments never expire.
 
           #course-comparisons
             img(src='/images/pages/sales/content_table.png')
