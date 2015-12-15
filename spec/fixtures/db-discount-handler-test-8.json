@@ -2,17 +2,17 @@
     {
         "scope": "https://api.stripe.com:443",
         "method": "DELETE",
-        "path": "/v1/customers/cus_7VCuNWxO5eWsQG/discount",
+        "path": "/v1/customers/cus_7XTLw21mDCPduP/discount",
         "status": 200,
         "response": {}
     },
     {
         "scope": "https://api.stripe.com:443",
         "method": "GET",
-        "path": "/v1/customers/cus_7VCuNWxO5eWsQG",
+        "path": "/v1/customers/cus_7XTLw21mDCPduP",
         "status": 200,
         "response": {
-            "id": "cus_7VCuNWxO5eWsQG",
+            "id": "cus_7XTLw21mDCPduP",
             "alipay_accounts": {
                 "has_more": false
             },
@@ -23,8 +23,8 @@
             "sources": {
                 "data": [
                     {
-                        "id": "card_17GCUnKaReE7xLUdZ8FpRcR5",
-                        "customer": "cus_7VCuNWxO5eWsQG"
+                        "id": "card_17IOOlKaReE7xLUdwvPnfV15",
+                        "customer": "cus_7XTLw21mDCPduP"
                     }
                 ],
                 "has_more": false
@@ -32,24 +32,24 @@
             "subscriptions": {
                 "data": [
                     {
-                        "id": "sub_7VCuZWrSt0bF8c",
+                        "id": "sub_7XTLVSO3Guyty9",
                         "cancel_at_period_end": false,
-                        "current_period_end": 1452363418,
-                        "current_period_start": 1449685018,
-                        "customer": "cus_7VCuNWxO5eWsQG",
+                        "current_period_end": 1452885828,
+                        "current_period_start": 1450207428,
+                        "customer": "cus_7XTLw21mDCPduP",
                         "discount": {
                             "coupon": {
                                 "id": "500off"
                             },
-                            "customer": "cus_7VCuNWxO5eWsQG",
-                            "subscription": "sub_7VCuZWrSt0bF8c"
+                            "customer": "cus_7XTLw21mDCPduP",
+                            "subscription": "sub_7XTLVSO3Guyty9"
                         },
                         "metadata": {
                             "id": "00000000000000000000005d"
                         },
                         "plan": {
                             "id": "basic",
-                            "amount": 999
+                            "amount": 100
                         },
                         "quantity": 1
                     }

@@ -23,7 +23,7 @@
             if !me.isOnPremiumServer()
               th.free-cell(data-i18n="subscribe.free")
             th
-              //- TODO: find a better way to localize '$9.99/month'
+              //- TODO: find a better way to localize price
               if view.basicProduct
                 span $#{(view.basicProduct.get('amount') / 100)}/
                 span(data-i18n="subscribe.month")
