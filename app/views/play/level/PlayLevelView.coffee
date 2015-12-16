@@ -427,7 +427,7 @@ module.exports = class PlayLevelView extends RootView
 
   shouldSimulate: ->
     return true if @getQueryVariable('simulate') is true
-    return false  # Save our MongoDB oplog!
+    return false if @getQueryVariable('simulate') is false
     stillBuggy = true  # Keep this true while we still haven't fixed the zombie worker problem when simulating the more difficult levels on Chrome
     defaultCores = 2
     cores = window.navigator.hardwareConcurrency or defaultCores  # Available on Chrome/Opera, soon Safari
