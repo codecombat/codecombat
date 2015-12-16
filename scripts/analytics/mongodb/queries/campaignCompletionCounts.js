@@ -1,42 +1,38 @@
-// Average level playtimes in seconds by campaign, broken up by course and campaign levels
+// Campaign completion counts
 
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
-
-// NOTE: faster to use find() instead of aggregate()
-// NOTE: faster to ask for one level at a time.
 
 var courseCampaigns = ['intro', 'course-2', 'course-3', 'course-4'];
 var individualCampaigns = ['dungeon', 'forest', 'desert', 'mountain'];
 
 var scriptStartTime = new Date();
-var startDay = '2015-12-06';
-var endDay = '2015-12-13';
+var startDay = '2015-11-08';
+var endDay = '2015-11-15';  // Not inclusive
 
-print("Dates: " + startDay + " to " + endDay);
+log("Dates: " + startDay + " to " + endDay);
 
-// Print out playtimes for each campaign
 var campaigns = getCampaigns(courseCampaigns);
+// var campaigns = getCampaigns(individualCampaigns);
+// printjson(campaigns);
 
 for (var i = 0; i < campaigns.length; i++) {
   var campaign = campaigns[i];
   print(campaign.slug);
-  print("Sessions\tAverage\tSessions\tAverage\tLevel");
+  print("Total\tCampaign\tCourse\tLevel");
+  var completionCounts = getCompletionCounts(campaign.levelSlugs);
   for (var j = 0; j < campaign.levelSlugs.length; j++) {
     var levelSlug = campaign.levelSlugs[j];
-    var levelPlaytimes = getPlaytimes([levelSlug]);
-    if (levelPlaytimes[levelSlug]) {
-      print(levelPlaytimes[levelSlug].campaign.count,
-        '\t', levelPlaytimes[levelSlug].campaign.average,
-        '\t', levelPlaytimes[levelSlug].course.count,
-        '\t', levelPlaytimes[levelSlug].course.average,
+    if (completionCounts[levelSlug]) {
+      print(completionCounts[levelSlug].campaign + completionCounts[levelSlug].course,
+        '\t', completionCounts[levelSlug].campaign,
+        '\t', completionCounts[levelSlug].course,
         '\t', levelSlug);
     }
     else {
-      print(0, '\t', 0, '\t', 0, '\t', 0, '\t', levelSlug);
+      print(0, '\t', 0, '\t', 0, '\t', levelSlug);
     }
   }
-  // break;
 }
 
 log("Script runtime: " + (new Date() - scriptStartTime));
@@ -79,62 +75,32 @@ function getCampaigns(campaignSlugs) {
   return campaigns;
 }
 
-function getPlaytimes(levelSlugs) {
-  // printjson(levelSlugs);
+function getCompletionCounts(levelSlugs) {
   var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
   var endObj = objectIdWithTimestamp(ISODate(endDay + "T00:00:00.000Z"))
   var cursor = db['level.sessions'].find({
     $and:
     [
       {"state.complete": true},
-      {"playtime": {$gt: 0}},
       {levelID: {$in: levelSlugs}},
       {_id: {$gte: startObj}},
       {_id: {$lt: endObj}}
     ]
-  }, {heroConfig: 1, levelID: 1, playtime: 1});
+  }, {heroConfig: 1, levelID: 1});
 
-  var playtimes = {};
+  var completionCounts = {};
   while (cursor.hasNext()) {
     var myDoc = cursor.next();
     var levelID = myDoc.levelID;
 
-    if (!playtimes[levelID]) playtimes[levelID] = {campaign: [], course: []};
+    if (!completionCounts[levelID]) completionCounts[levelID] = {campaign: 0, course: 0};
     if (myDoc.heroConfig) {
-      playtimes[levelID].campaign.push(myDoc.playtime);
+      completionCounts[levelID].campaign++;
     }
     else {
-      playtimes[levelID].course.push(myDoc.playtime);
+      completionCounts[levelID].course++;
     }
   }
-  // printjson(playtimes);
 
-  var data = {};
-  for (levelID in playtimes) {
-    var campaignTotal = 0;
-    var courseTotal = 0;
-    if (playtimes[levelID].campaign.length > 0) {
-      campaignTotal = playtimes[levelID].campaign.reduce(function(a, b) {return a + b;});
-    }
-    if (playtimes[levelID].course.length > 0) {
-      courseTotal = playtimes[levelID].course.reduce(function(a, b) {return a + b;});
-    }
-
-    var campaignAverage = parseInt(playtimes[levelID].campaign.length > 0 ? parseInt(campaignTotal / playtimes[levelID].campaign.length): 0);
-    var courseAverage = parseInt(playtimes[levelID].course.length > 0 ? parseInt(courseTotal / playtimes[levelID].course.length): 0);
-
-    data[levelID] = {
-      campaign: {
-        count: playtimes[levelID].campaign.length,
-        total: campaignTotal,
-        average: campaignAverage
-      },
-      course: {
-        count: playtimes[levelID].course.length,
-        total: courseTotal,
-        average: courseAverage
-      }
-    };
-  }
-  return data;
+  return completionCounts;
 }
