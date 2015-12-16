@@ -10,17 +10,12 @@ module.exports = class LegalView extends RootView
     @products = new Products()
     @supermodel.loadCollection(@products, 'products')
     
-  onLoaded: ->
-    basicSub = @products.findWhere({name: 'basic_subscription'})
-    @price = (basicSub.get('amount') / 100).toFixed(2)
-    @gems = basicSub.get('gems')
-    super()
-    
   afterRender: ->
     super()
-    # TODO: Figure out how to use i18n interpolation in this case
-    $el = @$('#cost-description')
-    f = =>
-      $el.text($el.text().replace('{{price}}', @price))
-      $el.text($el.text().replace('{{gems}}', @gems))
-    _.defer(f) # i18n call gets made immediately after render
+    basicSub = @products.findWhere({name: 'basic_subscription'})
+    return unless basicSub
+    text = $.i18n.t('legal.cost_description_a')
+    text = text.replace('{{price}}', (basicSub.get('amount') / 100).toFixed(2))
+    text = text.replace('{{gems}}', basicSub.get('gems'))
+    @$('#cost-description').text(text)
+  
