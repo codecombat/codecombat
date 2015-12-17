@@ -14,8 +14,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     for_developers: "Para Desarrolladores" # Not currently shown on home page.
     or_ipad: "O descargar para iPad"
     hoc_class_code: "Tengo un Código de Clase"
-#    hoc_enter: "Enter"
-#    hoc_title: "Hour of Code?"
+    hoc_enter: "¿Entrar"
+    hoc_title: " a la Hora de Código?"
 
   nav:
     play: "Jugar" # The top nav bar entry where players choose which levels to play
@@ -619,9 +619,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     cost_premium_server: "CodeCombat es gratis para lso primeros 5 niveles, después de ellos cuesta $9.99 USD mensuales para accesar a nuestros otros más de 190 niveles en nuestraos exclusivos servidores específicos para cada país."
     free_1: "Hay más de 110 niveles gratis que cubren cada concepto."
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
-#    free_3: "The CodeCombat content is divided into"
+    free_3: "El contenido de CodeCombat está dividido en"
     free_4: "cursos"
-#    free_5: ".  The first course is free, and about an hour of material."
+    free_5: ".  El primer curso es gratis, y aproximadamente una hora de material."
 #    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
     teacher_subs_title: "¡Los amestros obtienen suscripciones gratuitas!" # {change}
     teacher_subs_0: "Ofrecemos suscripciones gratuitas a profesores con propósitos de evaluación." # {change}
@@ -676,14 +676,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     approved_1: "Su aplicación a una suscripción gratuita fue" # {change}
     approved_2: "aprobada." # {change}
 #    approved_4: "You can now enroll your students on the"
-#    approved_5: "courses"
+    approved_5: "cursos"
 #    approved_6: "page."
     denied_1: "Su aplicación a una suscripción gratuita ha sido" # {change}
     denied_2: "denegada."
     contact_1: "Por favor contactarse"
     contact_2: "si tiene más preguntas."
     description_1: "Ofrecemos suscripciones gratuitas a maestros con propósitos de evaluación. Puede hallar más información en nuestra"
-#    description_1b: "You can find more information on our"
+    description_1b: "Puede hallar más información en nuestra"
     description_2: "página"
     description_3: "de maestros."
     description_4: "Por favor llene esta encuesta rápida y le mandaremos por email las instrucciones de configuración."
@@ -855,7 +855,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     started_2: "Iniciado"
     not_started_2: "No inciiado"
     view_solution: "Click para ver la solución."
-#    view_attempt: "Click to view attempt."
+    view_attempt: "Click para ver intento."
     latest_achievement: "último logro"
     playtime: "Tiempo de juego"
     last_played: "Último jugado"

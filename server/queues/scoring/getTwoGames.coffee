@@ -3,6 +3,7 @@ async = require 'async'
 errors = require '../../commons/errors'
 scoringUtils = require './scoringUtils'
 LevelSession = require '../../levels/sessions/LevelSession'
+Mandate = require '../../models/Mandate'
 
 module.exports = getTwoGames = (req, res) ->
   #return errors.unauthorized(res, 'You need to be logged in to get games.') unless req.user?.get('email')
@@ -10,11 +11,15 @@ module.exports = getTwoGames = (req, res) ->
   humansSessionID = req.body.humansGameID
   ogresSessionID = req.body.ogresGameID
   return getSpecificSessions res, humansSessionID, ogresSessionID if humansSessionID and ogresSessionID
-  options =
-    background: req.body.background
-    levelID: req.body.levelID
-    leagueID: req.body.leagueID
-  getRandomSessions req.user, options, sendSessionsResponse(res)
+  Mandate.findOne({}).cache(5 * 60 * 1000).exec (err, mandate) ->
+    if err then return errors.serverError res, "Error fetching our Mandate: #{err}"
+    if (throughputRatio = mandate?.get 'simulationThroughputRatio')? and Math.random() > throughputRatio
+      return sendSessionsResponse(res)(null, [])
+    options =
+      background: req.body.background
+      levelID: req.body.levelID
+      leagueID: req.body.leagueID
+    getRandomSessions req.user, options, sendSessionsResponse(res)
 
 sessionSelectionString = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate leagues'
 
@@ -22,7 +27,6 @@ sendSessionsResponse = (res) ->
   (err, sessions) ->
     if err then return errors.serverError res, "Couldn't get two games to simulate: #{err}"
     unless _.filter(sessions).length is 2
-      console.log 'No games to score.', sessions.length
       res.send 204, 'No games to score.'
       return res.end()
     taskObject = messageGenerated: Date.now(), sessions: (scoringUtils.formatSessionInformation session for session in sessions)

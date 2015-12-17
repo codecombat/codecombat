@@ -39,7 +39,7 @@ block content
                   label.control-label.col-md-2(data-i18n="account_prepaid.purchase_total")
                   .col-md-10
                     p.form-control-static $
-                      span#total #{purchase.total.toFixed(2)}
+                      span#total #{(purchase.total/100).toFixed(2)}
                 button#purchase-btn.btn.btn-success.pull-right(data-i18n="account_prepaid.purchase_button")
     .row
       .col-md-12
@@ -66,7 +66,7 @@ block content
                   button#redeem-code-btn.btn.btn-success(data-i18n="account_prepaid.apply_account")
     .row
       .col-md-12
-        .panel.panel-default
+        #codes-panel.panel.panel-default
           .panel-heading
             .panel-title
               a(data-toggle="collapse" href="#codeslist")

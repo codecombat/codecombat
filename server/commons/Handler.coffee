@@ -192,6 +192,9 @@ module.exports = class Handler
       hasLimit = false
       try
         for own key, val of req.query.conditions
+          numeric = parseInt val, 10
+          if not _.isNaN(numeric) and numeric + '' is val
+            val = numeric
           query = query[key](val)
           hasLimit ||= key is 'limit'
       catch e

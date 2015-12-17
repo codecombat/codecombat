@@ -565,7 +565,7 @@ describe '/db/prepaid', ->
           expect(err).toBeNull()
           expect(payments).not.toBeNull()
           expect(payments.length).toEqual(1)
-          expect(payments[0].get('amount')).toEqual(8991)
+          expect(payments[0].get('amount')).toEqual(900)
           done()
 
     it 'Anonymous cant redeem a prepaid code', (done) ->

@@ -67,5 +67,14 @@ describe('Server Test Helper', function() {
       if (err) { console.log(err); }
       done(); 
     });
+  });
+    
+  it('initializes products', function(done) {
+    var request = require('request');
+    request.get(getURL('/db/products'), function(err, res, body) {
+      expect(err).toBe(null);
+      expect(res.statusCode).toBe(200);
+      done();
+    });
   })
 });

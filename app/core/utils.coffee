@@ -244,7 +244,7 @@ module.exports.getCoursePraise = getCoursePraise = ->
   ]
   praise[_.random(0, praise.length - 1)]
 
-module.exports.getPrepaidCodeAmount = getPrepaidCodeAmount = (price=999, users=0, months=0) ->
+module.exports.getPrepaidCodeAmount = getPrepaidCodeAmount = (price=0, users=0, months=0) ->
   return 0 unless users > 0 and months > 0
   total = price * users * months
   total

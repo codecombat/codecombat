@@ -4,7 +4,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     no_ie: "CodeCombat no funciona en Internet Explorer 8 o versions anteriors. Perdó!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat no ha estat dissenyat per dispositius mòbils i per tant no funcionarà!" # Warning that shows up on mobile devices
     play: "Jugar" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Juga a la versió campanya" # Shows up under big play button if you only play /courses
     old_browser: "Uh oh, el teu navegador és massa antic per fer funcionar CodeCombat. Perdó!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Pots probar-ho igualment, però el més segur és que no funcioni."
     ipad_browser: "Males notícies: CodeCombat no funciona en el navegador d'iPad. Bones notícies: la nostre aplicació d'iPad està esperant l'aprovació d'Apple."
@@ -12,17 +12,17 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     for_beginners: "Per a principiants"
     multiplayer: "Multijugador" # Not currently shown on home page
     for_developers: "Per a Desenvolupadors" # Not currently shown on home page.
-    or_ipad: "O descarrèga'l per iPad"
-#    hoc_class_code: "I Have a Class Code"
-#    hoc_enter: "Enter"
-#    hoc_title: "Hour of Code?"
+    or_ipad: "O descarrega'l per iPad"
+    hoc_class_code: "Tinc un codi de classe"
+    hoc_enter: "Introduir"
+    hoc_title: "Hora del codi?"
 
   nav:
     play: "Nivells" # The top nav bar entry where players choose which levels to play
     community: "Comunitat"
-#    courses: "Courses"
+    courses: "Cursos"
     editor: "Editor"
-    blog: "Blog"
+    blog: "Bloc"
     forum: "Fòrum"
     account: "Compte"
     profile: "Perfil"
@@ -35,30 +35,30 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     about: "Sobre Nosaltres"
     contact: "Contacta"
     twitter_follow: "Segueix-nos"
-    teachers: "Profesors"
-#    careers: "Careers"
+    teachers: "Professors"
+    careers: "Professions"
 
   modal:
     close: "Tancar"
-    okay: "Okey"
+    okay: "D'acord"
 
   not_found:
-    page_not_found: "Pagina no trobada"
+    page_not_found: "Pàgina no trobada"
 
   diplomat_suggestion:
     title: "Ajuda a traduir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Neccesitem les teves habilitats lingüístiques."
-    pitch_body: "Hem desenvolupat CodeCombat en anglès, peró tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdós llengües, siusplau considereu iniciar sesió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivell en Català."
+    pitch_body: "Hem desenvolupat CodeCombat en anglès, però tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdues llengües, siusplau considereu iniciar sessió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivells en Català."
     missing_translations: "Fins que puguem traduir-ho tot en català, ho veuràs en anglès quant no estigui en català."
     learn_more: "Aprèn més sobre ser un diplomàtic"
     subscribe_as_diplomat: "Subscriu-te com a diplomàtic"
 
   play:
     play_as: "Jugar com" # Ladder page
-#    compete: "Compete!" # Course details page
-    spectate: "Spectate" # Ladder page
-    players: "jugadors" # Hover over a level on /play
-    hours_played: "hores de joc" # Hover over a level on /play
+    compete: "Competir!" # Course details page
+    spectate: "Espectador" # Ladder page
+    players: "Jugadors" # Hover over a level on /play
+    hours_played: "Hores jugades" # Hover over a level on /play
     items: "Objectes" # Tooltip on item shop button from /play
     unlock: "Desbloquejar" # For purchasing items and heroes
     confirm: "Confirmar"
@@ -71,31 +71,31 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     achievements: "Triomfs" # Tooltip on achievement list button from /play
     account: "Compte" # Tooltip on account button from /play
     settings: "Configuració" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Enquesta" # Tooltip on poll button from /play
     next: "Següent" # Go from choose hero to choose inventory before playing a level
     change_hero: "Canviar heroi" # Go back from choose inventory to choose hero
     buy_gems: "Comprar Gemes"
     subscription_required: "Subscripció necessària"
     anonymous: "Jugador anònim"
     level_difficulty: "Dificultat: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "Juga a la versió de classe" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Campanya del principiant"
     awaiting_levels_adventurer_prefix: "Fem cinc nivells per setmana" # {change}
-    awaiting_levels_adventurer: "Inicia sessió com aventurer"
-    awaiting_levels_adventurer_suffix: "sigues el primer en jugar els nous nivells"
+    awaiting_levels_adventurer: "Inicia sessió com a aventurer"
+    awaiting_levels_adventurer_suffix: "Sigues el primer en jugar els nous nivells"
     adjust_volume: "Ajustar volum"
     campaign_multiplayer: "Arenes Multijugador"
     campaign_multiplayer_description: "... on programes cara a cara contra altres jugadors."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_old_multiplayer: "(Obsolet) Arenes multijugador antigues"
+    campaign_old_multiplayer_description: "Relíquies d'una era més civilitzada. No hi ha simulacions per aquestes arenes multijugador antigues."
 
   share_progress_modal:
     blurb: "Estàs progressant molt! Digues a algú quan n'has après amb CodeCombat." # {change}
-    email_invalid: "Correu electrònic invalid."
+    email_invalid: "Correu electrònic invàlid."
     form_blurb: "Escriu els seus emails a sota i els hi ensenyarem!"
     form_label: "Correu electrònic"
     placeholder: "adreça de correu electrònic"
-    title: "Excelent feina, Aprenent"
+    title: "Excel·lent feina, aprenent"
 
   login:
     sign_up: "Crear un compte"
@@ -115,12 +115,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     creating: "Creant Compte..."
     sign_up: "Registrar-se"
     log_in: "Iniciar sessió amb la teva contrasenya"
-    social_signup: "O, pots iniciar sessió desde Facebook o G+:"
+    social_signup: "O pots iniciar sessió desde Facebook o G+:"
     required: "Neccesites iniciar sessió abans ."
     login_switch: "Ja tens un compte?"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
+    school_name: "Nom de l'institut i ciutat"
+    optional: "opcional"
+    school_name_placeholder: "Exemple: IES Mossèn Alcover, Manacor"
 
   recover:
     recover_account_title: "Recuperar Compte"
@@ -156,7 +156,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     unwatch: "Amaga"
     submit_patch: "Enviar pegat"
     submit_changes: "Puja canvis"
-#    save_changes: "Save Changes"
+    save_changes: "Guarda canvis"
 
   general:
     and: "i"
@@ -168,15 +168,15 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     accepted: "Acceptat"
     rejected: "Rebutjat"
     withdrawn: "Retirat"
-#    accept: "Accept"
-#    reject: "Reject"
-#    withdraw: "Withdraw"
+    accept: "Accepta"
+    reject: "Refusa"
+    withdraw: "Retira"
     submitter: "Remitent"
     submitted: "Presentat"
-    commit_msg: "nissatge de Commir"
+    commit_msg: "Enviar missatge"
     version_history: "Historial de versions"
     version_history_for: "Historial de versions per: "
-    select_changes: "Seleciona dos canvis sota per veure les diferencies."
+    select_changes: "Selecciona dos canvis de sota per veure les diferències."
     undo_prefix: "Desfer"
     undo_shortcut: "(Ctrl+Z)"
     redo_prefix: "Refés"
@@ -186,8 +186,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     results: "Resultats"
     description: "Descripció"
     or: "o"
-    subject: "Subjecte"
-    email: "Email"
+    subject: "Tema"
+    email: "Correu electrònic"
     password: "Contrasenya"
     message: "Missatge"
     code: "Codi"
@@ -205,7 +205,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     player: "Jugador"
     player_level: "Nivell" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Guerrer"
-    ranger: "Ranger"
+    ranger: "Guardabosc"
     wizard: "Mag"
 
   units:
@@ -225,22 +225,22 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     years: "anys"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "Nivell completat:"
+    course: "Curs:"
     done: "Fet"
-#    next_level: "Next Level:"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+    next_level: "Següent nivell:"
+    next_game: "Següent joc"
+    show_menu: "Mostrar menú del joc"
     home: "Inici" # Not used any more, will be removed soon.
     level: "Nivell" # Like "Level: Dungeons of Kithgard"
     skip: "Ometre"
-    game_menu: "Menu de joc"
+    game_menu: "Menú de joc"
     guide: "Guia"
-    restart: "Recomençar"
+    restart: "Reiniciar"
     goals: "Objectius"
     goal: "Objectiu"
     running: "Executant..."
-    success: "Exit!"
+    success: "Èxit!"
     incomplete: "Incomplet"
     timed_out: "S'ha acabat el temps"
     failing: "Fallant"
@@ -250,88 +250,88 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     control_bar_join_game: "Entrar al joc"
     reload: "Recarregar"
     reload_title: "Recarregar tot el codi?"
-    reload_really: "Estàs segur que vos recarregar aquest nivell al principi?"
+    reload_really: "Estàs segur que vols recarregar aquest nivell des del principi?"
     reload_confirm: "Recarregar tot"
     victory: "Victòria"
     victory_title_prefix: ""
     victory_title_suffix: " Complet"
     victory_sign_up: "Inicia sessió per a desar el progressos"
-    victory_sign_up_poke: "Vols guardar el teu codi? Crea un compte gratuit!"
+    victory_sign_up_poke: "Vols guardar el teu codi? Crea un compte gratuït!"
     victory_rate_the_level: "Valora el nivell: " # {change}
     victory_return_to_ladder: "Retorna a les Escales"
     victory_saving_progress: "Desa progrés"
     victory_go_home: "Tornar a l'inici"
-    victory_review: "Diguens més!"
-#    victory_review_placeholder: "How was the level?"
+    victory_review: "Explica'ns més!"
+    victory_review_placeholder: "Com ha anat el nivell?"
     victory_hour_of_code_done: "Has acabat?"
-    victory_hour_of_code_done_yes: "Sí, He acabat amb la meva Hora de Codi™!"
+    victory_hour_of_code_done_yes: "Sí, he acabat amb la meva Hora del Codi™!"
     victory_experience_gained: "XP Guanyada"
     victory_gems_gained: "Gemmes guanyades"
-#    victory_new_item: "New Item"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
+    victory_new_item: "Objecte nou"
+    victory_viking_code_school: "Ostres! Aquest nivell era un nivell difícil de superar! Si no ets un programador, ho hauries de ser. Acabes d'aconseguir una acceptació per la via ràpida a l'Escola de Programació Vikinga, on pot millorar les teves habilitats fins al següent nivell i esdevenir un programador de webs professional en 14 setmanes."
+    victory_become_a_viking: "Converteix-te en un víking"
     guide_title: "Guia"
     tome_cast_button_run: "Executar"
     tome_cast_button_running: "Executant"
     tome_cast_button_ran: "Executat"
     tome_submit_button: "Envia"
-    tome_reload_method: "Recarrega el codi original code per aquest metòde" # Title text for individual method reload button.
+    tome_reload_method: "Recarrega el codi original per aquest metòde" # Title text for individual method reload button.
     tome_select_method: "Selecciona un mètode"
     tome_see_all_methods: "Veure tots els mètodes que pots editar" # Title text for method list selector (shown when there are multiple programmable methods).
-    tome_select_a_thang: "Selecciona Algú Per"
+    tome_select_a_thang: "Selecciona algú Per"
     tome_available_spells: "Encanteris disponibles"
     tome_your_skills: "Les teves habilitats"
     tome_current_method: "Mètode actual"
     code_saved: "Codi Guardat"
-    skip_tutorial: "Passar (esc)"
+    skip_tutorial: "Ometre (esc)"
     keyboard_shortcuts: "Dreceres del teclat"
     loading_ready: "Preparat!"
     loading_start: "Comença el nivell"
     problem_alert_title: "Arregla el Teu Codi"
     time_current: "Ara:"
-    time_total: "Maxim:"
+    time_total: "Màxim:"
     time_goto: "Ves a:"
-#    non_user_code_problem_title: "Unable to Load Level"
-#    infinite_loop_title: "Infinite Loop Detected"
-#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
-#    check_dev_console: "You can also open the developer console to see what might be going wrong."
-#    check_dev_console_link: "(instructions)"
+    non_user_code_problem_title: "Impossible carregar el nivell"
+    infinite_loop_title: "Detectat un bucle infinit"
+    infinite_loop_description: "El codi inicial mai acaba d'executar-se. Probablement sigui molt lent o tingui un bucle infinit. O pot ser un error. Pots provar de tornar a executar el codi o reiniciar-lo al seu estat original. Si no es soluciona, si us plau, fes-nos-ho saber."
+    check_dev_console: "També pots obrir la consola de desenvolupament per veure què surt malament."
+    check_dev_console_link: "(instruccions)"
     infinite_loop_try_again: "Tornar a intentar"
     infinite_loop_reset_level: "Reiniciar nivell"
-    infinite_loop_comment_out: "Descommenta el Meu Codi"
+    infinite_loop_comment_out: "Treu els comentaris del meu codi"
     tip_toggle_play: "Canvia entre reproduir/pausa amb Ctrl+P"
     tip_scrub_shortcut: "Ctrl+[ i Ctrl+] per rebobinar i avançar" # {change}
-#    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
+    tip_guide_exists: "Clica a la guia dins el menú del joc (a la part superior de la pàgina) per informació útil."
     tip_open_source: "CodeCombat és 100% codi lliure!"
-#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "Gaudint de CodeCombat? Explica'ls-ho als teus amics!"
     tip_beta_launch: "CodeCombat va llançar la seva beta l'octubre de 2013."
-    tip_think_solution: "Pensa en la solució,no en el problema."
+    tip_think_solution: "Pensa en la solució, no en el problema."
     tip_theory_practice: "En teoria no hi ha diferència entre la teoria i la pràctica. Però a la pràctica si que n'hi ha. - Yogi Berra"
     tip_error_free: "Només hi ha dues maneres d'escriure programes sense errors; la tercera és la única que funciona. - Alan Perlis"
-    tip_debugging_program: "Si debuguejar és el procés d'eliminar errors, llavors programar és el procés de posar-los. - Edsger W. Dijkstra"
-#    tip_forums: "Head over to the forums and tell us what you think!"
-    tip_baby_coders: "En el futur fins i tot els bebés podran ser Artximags."
-#    tip_morale_improves: "Loading will continue until morale improves."
-#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
-#    tip_reticulating: "Reticulating spines."
-#    tip_harry: "Yer a Wizard, "
-#    tip_great_responsibility: "With great coding skill comes great debug responsibility."
-#    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
-    tip_binary: "Hi ha 10 tipus de persones al mon, les que saben programar en binari i les que no"
-#    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
-#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
-#    tip_patience: "Patience you must have, young Padawan. - Yoda"
-#    tip_documented_bug: "A documented bug is not a bug; it is a feature."
-#    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
-#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
-#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
-#    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
-#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
-#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
-#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
-#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-#    tip_superpower: "Coding is the closest thing we have to a superpower."
-#    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
+    tip_debugging_program: "Si depurar és el procés per eliminar errors, llavors programar és el procés de posar-los. - Edsger W. Dijkstra"
+    tip_forums: "Passa pels fòrums i digues el que penses!"
+    tip_baby_coders: "En el futur fins i tot els nadons podran ser mags."
+    tip_morale_improves: "La càrrega continuarà fins que la moral millori."
+    tip_all_species: "Creiem en la igualtat d'oportunitats per aprendre a programar per a totes les espècies."
+    tip_reticulating: "Reticulant punxes."
+    tip_harry: "Ets un bruixot, "
+    tip_great_responsibility: "Un gran coneixement del codi comporta una gran responsabilitat per a depurar-lo."
+    tip_munchkin: "Si no menges les teves verdures, un munchkin vindrà mentre dormis."
+    tip_binary: "Hi ha 10 tipus de persones al món, les que saben programar en binari i les que no"
+    tip_commitment_yoda: "Un programador ha de tenir un compromís profund, una ment seriosa. ~ Yoda"
+    tip_no_try: "Fes-ho. O no ho facis. Però no ho intentis. - Yoda"
+    tip_patience: "Pacient has de ser, jove Padawan. - Yoda"
+    tip_documented_bug: "Un error documentat no és un error; és un atractiu."
+    tip_impossible: "Sempre sembla impossible fins que es fa. - Nelson Mandela"
+    tip_talk_is_cheap: "Parlar és barat. Mostra'm el codi. - Linus Torvalds"
+    tip_first_language: "La cosa més desastrosa que aprendràs mai és el teu primer llenguatge de programació. - Alan Kay"
+    tip_hardware_problem: "P: Quants programadors són necessaris per canviar una bombeta?  R: Cap, és un problema de hardware."
+    tip_hofstadters_law: "Llei de Hofstadter: Sempre et portarà més feina del que esperaves, fins i tot tenint en compte la llei de Hofstadter."
+    tip_premature_optimization: "La optimització prematura és l'arrel de la maldat. - Donald Knuth"
+    tip_brute_force: "Quan dubtis, usa força bruta. - Ken Thompson"
+    tip_extrapolation: "Hi ha dos tipus de persones: aquells que poden extrapolar des de dades incompletes..."
+    tip_superpower: "Programar és el que més s'aproxima a un super poder."
+    tip_control_destiny: "En un codi obert real tens el dret a controlar el teu propi destí. - Linus Torvalds"
 #    tip_no_code: "No code is faster than no code."
 #    tip_code_never_lies: "Code never lies, comments sometimes do. — Ron Jeffries"
 #    tip_reusable_software: "Before software can be reusable it first has to be usable."

@@ -24,7 +24,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'account/profile': go('EmployersView')  # Show the not-recruiting-now screen
     'account/payments': go('account/PaymentsView')
     'account/subscription': go('account/SubscriptionView')
-    'account/subscription/sale': go('account/SubscriptionSaleView')
     'account/invoices': go('account/InvoicesView')
     'account/prepaid': go('account/PrepaidView')
 
@@ -125,6 +124,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/:map': go('play/CampaignView')
 
     'preview': go('HomeView')
+
+    'schools': go('SalesView')
 
     'teachers': go('TeachersView')
     'teachers/freetrial': go('TeachersFreeTrialView')

@@ -59,6 +59,7 @@ module.exports = class Simulator extends CocoClass
       success: (taskData) =>
         return if @destroyed
         unless taskData
+          @retryDelayInSeconds = 10
           @trigger 'statusUpdate', "No games to simulate. Trying another game in #{@retryDelayInSeconds} seconds."
           @simulateAnotherTaskAfterDelay()
           return
