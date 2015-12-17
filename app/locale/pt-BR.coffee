@@ -4,7 +4,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     no_ie: "O CodeCombat não roda em versões mais antigas que o Internet Explorer 10. Desculpe!" # Warning that only shows up in IE8 and older
     no_mobile: "O CodeCombat não foi projetado para dispositivos móveis e pode não funcionar!" # Warning that shows up on mobile devices
     play: "Jogar" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Jogar Modo Campanha" # Shows up under big play button if you only play /courses
     old_browser: "Ops, seu navegador é muito antigo para rodar o CodeCombat. Desculpe!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Você pode tentar de qualquer forma, mas provavelmente não irá funcionar."
     ipad_browser: "Más notícias: O CodeCombat não é executado no navegador do iPad. Boas notícias: Nosso app nativo do iPad está esperando a aprovação da Apple."
@@ -13,14 +13,14 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     multiplayer: "Multijogador" # Not currently shown on home page
     for_developers: "Para Desenvolvedores" # Not currently shown on home page.
     or_ipad: "Ou baixe para iPad"
-#    hoc_class_code: "I Have a Class Code"
-#    hoc_enter: "Enter"
-#    hoc_title: "Hour of Code?"
+    hoc_class_code: "Eu tenho um codigo de turma"
+    hoc_enter: "Entrar"
+    hoc_title: "Hora do Código?"
 
   nav:
     play: "Jogar" # The top nav bar entry where players choose which levels to play
     community: "Comunidade"
-#    courses: "Courses"
+    courses: "Percurso"
     editor: "Editor"
     blog: "Blog"
     forum: "Fórum"
