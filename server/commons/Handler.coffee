@@ -249,7 +249,7 @@ module.exports = class Handler
         criteria = {}
         criteria[if nonVersioned then '_id' else 'original'] = mongoose.Types.ObjectId(id)
         @modelClass.findOne(criteria, project).sort(sort).exec (err, document) ->
-          return done(err) if err
+          return callback err if err
           callback(null, document?.toObject() or null)
 
     funcs = {}
