@@ -71,6 +71,8 @@ GLOBAL.saveModels = (models, done) ->
 GLOBAL.simplePermissions = [target: 'public', access: 'owner']
 GLOBAL.ObjectId = mongoose.Types.ObjectId
 GLOBAL.request = require 'request'
+Promise = require 'bluebird'
+Promise.promisifyAll(request, {multiArgs: true})
 
 GLOBAL.unittest = {}
 unittest.users = unittest.users or {}
