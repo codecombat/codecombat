@@ -171,3 +171,5 @@ module.exports = class RootView extends CocoView
       console.warn 'Error saving language:', errors
     res.success (model, response, options) ->
       #console.log 'Saved language:', newLang
+
+  logoutRedirectURL: '/'

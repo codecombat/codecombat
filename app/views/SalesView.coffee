@@ -25,3 +25,5 @@ module.exports = class SalesView extends RootView
   onClickSignup: (e) ->
     @openModalView new AuthModal() if me.get('anonymous')
     window.tracker?.trackEvent 'Started Signup', category: 'Sales', label: 'Sales Create'
+
+  logoutRedirectURL: false
