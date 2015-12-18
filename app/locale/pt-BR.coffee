@@ -20,7 +20,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   nav:
     play: "Jogar" # The top nav bar entry where players choose which levels to play
     community: "Comunidade"
-    courses: "Percurso"
+    courses: "Cursos"
     editor: "Editor"
     blog: "Blog"
     forum: "Fórum"
@@ -55,7 +55,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   play:
     play_as: "Jogar Como " # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "Concorrer!" # Course details page
     spectate: "Assistir" # Ladder page
     players: "Jogadores" # Hover over a level on /play
     hours_played: "Horas jogadas" # Hover over a level on /play
@@ -78,7 +78,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     subscription_required: "Requer assinatura"
     anonymous: "Jogador Anônimo"
     level_difficulty: "Dificuldade: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "Jogue a versão de classe" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Campanha Iniciante"
     awaiting_levels_adventurer_prefix: "Nós liberamos cinco níveis por semana." # {change}
     awaiting_levels_adventurer: "Cadastre-se como um aventureiro"
@@ -86,8 +86,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     adjust_volume: "Ajuste o volume"
     campaign_multiplayer: "Arenas Multijogador"
     campaign_multiplayer_description: "... nas quais você programará cara-a-cara contra outros jogadores."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_old_multiplayer: "(Depreciado) Velhas Arenas Multijogador"
+    campaign_old_multiplayer_description: "Reliquias de uma era mais civilizada.Nenhuma simulação roda nessa antiguidade ,arenas multijogador sem heróis."
 
   share_progress_modal:
     blurb: "Você está fazendo bastante progresso! Compartilhe com alguém o quanto você já aprendeu com o CodeCombat!" # {change}
@@ -118,9 +118,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     social_signup: "Ou, você pode fazer login pelo Facebook ou G+:"
     required: "Você precisa fazer login antes de ir por esse caminho."
     login_switch: "Já possui uma conta?"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
+    school_name: "Nome da Escola e da cidade"
+    optional: "Opcional"
+    school_name_placeholder: "Escola de exemplo, Cotia, SP"
 
   recover:
     recover_account_title: "Recuperar conta"
@@ -225,10 +225,10 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     years: "anos"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "Nivel Completo:"
+    course: "Curso:"
     done: "Pronto"
-#    next_level: "Next Level:"
+    next_level: "Proximo Nivel:"
     next_game: "Próximo jogo"
     show_menu: "Mostrar menu do jogo"
     home: "Início" # Not used any more, will be removed soon.
@@ -619,12 +619,12 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     cost_premium_server: "CodeCombat é gratuito para os primeiros cinco níveis, depois disso custa $9.99 USD por mês para ter acesso aos nossos outros 190+ níveis em nossos servidores exclusivos por países."
     free_1: "CodeCombat Basic é gratuito! Há mais de 80 níveis gratuitos que cobrem todos os conceitos." # {change}
     free_2: "Uma assinatura mensal dá acesso aos vídeos tutoriais e mais níveis para praticar."
-#    free_3: "The CodeCombat content is divided into"
-#    free_4: "courses"
-#    free_5: ".  The first course is free, and about an hour of material."
-#    free_6: "Access to the additional courses can be unlocked with a one-time purchase."
+    free_3: "O conteudo do CodeCombat é dividio em"
+    free_4: "Cursos"
+    free_5: ".  O primeiro curos é de graça, e tem quase uma hora de material."
+    free_6: "Acesso aos cursos adicionais podem ser desbloqueados com a compra dos mesmos"
     teacher_subs_title: "Professores recebem assinaturas gratuitas!" # {change}
-#    teacher_subs_0: "We offer free trials to teachers."
+    teacher_subs_0: "Nós oferecemos testes gratuitos para professores"
     teacher_subs_1: "Por favor contate" # {change}
     teacher_subs_2: "para organizar uma assinatura mensal." # {change}
     teacher_subs_3: "para configurar sua assinatura" # {change}
@@ -657,7 +657,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     how_much_2: "assinatura mensal"
     how_much_3: "custa $9.99, e pode ser cancelada a qualquer momento."
     how_much_4: "Além disso, nós provemos descontos para grupos maiores:"
-#    how_much_5: "We accept discounted one-time purchases and yearly subscription purchases for groups, such as a class or school.  Please contact"
+    how_much_5: "Nós aceitamos dar descontos em assinaturas de compra unica e de assianturas anuais para grupos , como classes e escolas .Por favor entre em contato."
     how_much_6: "para mais detalhes."
     more_info_title: "Onde eu posso encontrar mais informações?"
     more_info_1: "Nosso"
@@ -675,17 +675,17 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     being_reviewed_2: "revisada."
     approved_1: "Sua solicitação de teste grátis de assinatura foi" # {change}
     approved_2: "aprovada." # {change}
-#    approved_4: "You can now enroll your students on the"
-#    approved_5: "courses"
-#    approved_6: "page."
+    approved_4: "Agora você pode inscrever os seus estudantes na"
+    approved_5: "página"
+    approved_6: "cursos."
     denied_1: "Sua solicitação de teste grátis de assinatura foi" # {change}
     denied_2: "negada."
     contact_1: "Por favor, entre em contato"
     contact_2: "caso você tenha dúvidas no futuro."
     description_1: "Nós oferecemos assinaturas grátis à professores para fins de avaliação. Você pode encontrar mais informações na nossa"
-#    description_1b: "You can find more information on our"
-    description_2: "professores"
-    description_3: "página."
+    description_1b: "Você pode achar mais informações na sua "
+    description_2: "página"
+    description_3: "professores."
     description_4: "Por favor, preencha esta rápida pesquisa e nós o enviaremos as intruções de instalação por email."
     email: "Endereço de email"
     school: "Nome da Escola"
@@ -743,7 +743,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     password_tab: "Senha"
     emails_tab: "Emails"
     admin: "Admin"
-#    manage_subscription: "Click here to manage your subscription."
+    manage_subscription: "Clique a aqui para administrar a sua assinatura."
     new_password: "Nova Senha"
     new_password_verify: "Confirmação"
     type_in_email: "Digite seu e-mail para confirmar a exclusão" # {change}
@@ -855,7 +855,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     started_2: "Iniciado"
     not_started_2: "Não Iniciado"
     view_solution: "Clique para ver a solução."
-#    view_attempt: "Click to view attempt."
+    view_attempt: "Clique para ver a tentativa."
     latest_achievement: "Última Conquista"
     playtime: "Tempo de Jogo"
     last_played: "Último Jogo"
@@ -877,7 +877,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   courses:
     course: "Curso"
     courses: "cursos"
-#    create_new_class: "Create New Class"
+    create_new_class: "Criar nova classe"
     not_enrolled: "Você não está matriculado nesse curso."
     visit_pref: "Por gentileza, visite a"
     visit_suf: "página para matricular-se."
@@ -899,35 +899,35 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     concepts_covered: "Conceitos Abordados"
     students: "Estudantes"
     students1: "estudantes"
-#    concepts: "Concepts"
-#    levels: "levels"
-#    played: "Played"
-#    play_time: "Play time:"
-#    completed: "Completed:"
-#    invite_students: "Invite students to join this class."
-#    invite_link_header: "Link to join course"
-#    invite_link_p_1: "Give this link to students you would like to have join the course."
-#    invite_link_p_2: "Or have us email them directly:"
-#    capacity_used: "Course slots used:"
-#    enter_emails: "Enter student emails to invite, one per line"
-#    send_invites: "Send Invites"
-#    title: "Title"
-#    description: "Description"
-#    creating_class: "Creating class..."
-#    purchasing_course: "Purchasing course..."
-#    buy_course: "Buy Course"
-#    buy_course1: "Buy this course"
-#    create_class: "Create Class"
-#    select_all_courses: "Select 'All Courses' for a 50% discount!"
-#    all_courses: "All Courses"
-#    number_students: "Number of students"
-#    enter_number_students: "Enter the number of students you need for this class."
-#    name_class: "Name your class"
-#    displayed_course_page: "This will be displayed on the course page for you and your students. It can be changed later."
-#    buy: "Buy"
-#    purchasing_for: "You are purchasing a license for"
-#    creating_for: "You are creating a class for"
-#    for: "for" # Like in 'for 30 students'
+    concepts: "Conceitos"
+    levels: "Níveis"
+    played: "Jogado"
+    play_time: "Tempo de jogo:"
+    completed: "Completado:"
+    invite_students: "Convidar estudantes para se juntar a classe."
+    invite_link_header: "Link para se juntar ao curso"
+    invite_link_p_1: "Dê esse link para os estudantes que você queira que se junte ao curso."
+    invite_link_p_2: "Ou mande um e-mail a eles:"
+    capacity_used: "Espaço de curso usado:"
+    enter_emails: "Insira os e-mails dos estudantes , um por linha"
+    send_invites: "Enviar convites"
+    title: "Título"
+    description: "Descrição"
+    creating_class: "Criando classe..."
+    purchasing_course: "Comprando curso..."
+    buy_course: "Comprar curso"
+    buy_course1: "Compre esse curos"
+    create_class: "Criar Classe"
+    select_all_courses: "Selecione 'Todos os Cursos' para ter um desconto de 50%!"
+    all_courses: "Todos os Cursos"
+    number_students: "Número de estudantes"
+    enter_number_students: "Insira o número de estudantes que você precissa para essa classe."
+    name_class: "Nomeie sua Classe"
+    displayed_course_page: "Isso vai ser mostrado na pagina do curso para você e seus estudantes.Pode ser mudado mais tarde."
+    buy: "Comprar"
+    purchasing_for: "Você esta comprando uma licensa para"
+    creating_for: "Você esta criando uma classe para"
+    for: "para" # Like in 'for 30 students'
 #    receive_code: "Afterwards you will receive an unlock code to distribute to your students, which they can use to enroll in your class."
 #    free_trial: "Free trial for teachers!"
 #    get_access: "to get individual access to all courses for evalutaion purposes."
