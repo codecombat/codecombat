@@ -717,9 +717,7 @@ describe '/db/prepaid', ->
           expect(res.statusCode).not.toEqual(200)
           done()
 
-    # TODO: Fix this server test
-          
-    xit 'Test a bunch of people trying to redeem at once', (done) ->
+    it 'Test a bunch of people trying to redeem at once', (done) ->
       nockUtils.setupNock 'db-sub-redeem-test-3.json', (err, nockDone) ->
         doRedeem = (userX, code, testnum, retry, fnDone) =>
           loginUser userX, () =>
