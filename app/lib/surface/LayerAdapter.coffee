@@ -151,7 +151,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     lank.layer = @
     @listenTo(lank, 'action-needs-render', @onActionNeedsRender)
     @lanks.push lank
-    lank.thangType.initPrerenderedSpriteSheets()
+    lank.thangType.initPrerenderedSpriteSheets() unless currentView.getQueryVariable 'jitSpritesheets'
     prerenderedSpriteSheet = lank.thangType.getPrerenderedSpriteSheet(lank.options.colorConfig, @defaultSpriteType)
     prerenderedSpriteSheet?.markToLoad()
     @loadThangType(lank.thangType)
@@ -273,6 +273,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         builder.buildAsync()
       catch e
         @resolutionFactor *= 0.9
+        #console.log "  Rerendering sprite sheet didn't fit, going down to resolutionFactor", @resolutionFactor, "async", async
         return @_renderNewSpriteSheet(async)
       builder.on 'complete', @onBuildSpriteSheetComplete, @, true, builder
       @asyncBuilder = builder
@@ -290,7 +291,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       # get a rough estimate of how much smaller the spritesheet needs to be
       for image, index in builder.spriteSheet._images
         total += image.height / builder.maxHeight
-      @resolutionFactor /= (Math.max(1.1, Math.sqrt(total)))
+      @resolutionFactor /= (Math.max(1.25, Math.sqrt(total)))
+      #console.log "#{@name} rerendering new sprite sheet with resolutionFactor", @resolutionFactor, "async", e.async
       @_renderNewSpriteSheet(e.async)
       return
 
@@ -357,6 +359,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if prerenderedSpriteSheet and not prerenderedSpriteSheet.loadedImage
       return
     containersToRender = thangType.getContainersForActions(actionNames)
+    #console.log 'render segmented', thangType.get('name'), actionNames, colorConfig, 'because we do not have prerendered sprite sheet?', prerenderedSpriteSheet
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
     for containerGlobalName in containersToRender
       containerKey = @renderGroupingKey(thangType, containerGlobalName, colorConfig)
@@ -387,6 +390,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         sprite = new createjs.Sprite(prerenderedSpriteSheet.spriteSheet)
         sprite.gotoAndStop(i)
         prerenderedFramesMap[i] = spriteSheetBuilder.addFrame(sprite, null, scale)
+    #else
+    #  console.log '    Rerendering singular thang type', thangType.get('name'), thangType.get('spriteType'), colorConfig, actionNames
 
     actionObjects = _.values(thangType.getActions())
     animationActions = []
