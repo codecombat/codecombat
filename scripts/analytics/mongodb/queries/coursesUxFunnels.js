@@ -83,7 +83,7 @@ log("Script runtime: " + (new Date() - scriptStartTime));
 function getFunnelEvents(startDay, endDay, events) {
 
   var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
-  var endObj = objectIdWithTimestamp(ISODate(endDay + "T00:00:00.000Z"))
+  var endObj = objectIdWithTimestamp(ISODate(endDay + "T00:00:00.000Z"));
 
   var normalEvents = [];
   var pageviewEvents = [];
