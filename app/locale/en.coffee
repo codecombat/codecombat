@@ -13,9 +13,6 @@
     multiplayer: "Multiplayer"  # Not currently shown on home page
     for_developers: "For Developers"  # Not currently shown on home page.
     or_ipad: "Or download for iPad"
-    hoc_class_code: "I Have a Class Code"
-    hoc_enter: "Enter"
-    hoc_title: "Hour of Code?"
 
   nav:
     play: "Levels"  # The top nav bar entry where players choose which levels to play
