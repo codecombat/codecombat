@@ -6,75 +6,112 @@
 try {
   logDB = new Mongo("localhost").getDB("analytics")
   var scriptStartTime = new Date();
+
+  var StringCache = function() {
+    this.lookup = {};
+    this.strings = [];
+  }
+  StringCache.prototype.get = function(index) {
+    return this.strings[parseInt(index)];
+  }
+  StringCache.prototype.set = function(str) {
+    if (!this.lookup.hasOwnProperty(str)) {
+      this.lookup[str] = this.strings.length;
+      this.strings.push(str);
+    }
+    return this.lookup[str];
+  }
+
+  var dayCache = new StringCache();
+  var eventCache = new StringCache();
+  var levelCache = new StringCache();
+  var userCache = new StringCache();
+
+  // TODO: convert to StringCache?
   var analyticsStringCache = {};
 
+  // This needs to be enough days to encompass the start and finish events for most levels
   var numDays = 20;
-
-  var startDay = new Date();
-  today = startDay.toISOString().substr(0, 10);
-  startDay.setUTCDate(startDay.getUTCDate() - numDays);
-  startDay = startDay.toISOString().substr(0, 10);
-
   var levelCompletionFunnel = ['Started Level', 'Saw Victory'];
 
+  var today = new Date().toISOString().substr(0, 10);
   log("Today is " + today);
-  log("Start day is " + startDay);
+  log("numDays " + numDays);
+
+  var campaignLevelSlugs = getCampaignLevelSlugs();
 
   log("Getting level drop counts...");
-  var levelDropCounts = getLevelDropCounts(startDay, levelCompletionFunnel);
+  var levelDropCounts = getLevelDropCounts(numDays, levelCompletionFunnel, campaignLevelSlugs);
   log("Inserting level drop counts...");
-  for (level in levelDropCounts) {
-    for (day in levelDropCounts[level]) {
-      if (today === day) continue; // Never save data for today because it's incomplete
-      insertLevelEventCount('User Dropped', level, day, levelDropCounts[level][day]);
+  for (var level in levelDropCounts) {
+    for (var day in levelDropCounts[level]) {
+      if (today === dayCache.get(day)) continue; // Never save data for today because it's incomplete
+      // print('User Dropped', levelCache.get(level), dayCache.get(day), levelDropCounts[level][day]);
+      insertLevelEventCount(numDays, 'User Dropped', levelCache.get(level), dayCache.get(day), levelDropCounts[level][day]);
     }
   }
 
-  log("Script runtime: " + (new Date() - scriptStartTime));
+  log("Script runtime: " + (new Date().getTime() - scriptStartTime.getTime()));
 }
 catch(err) {
   log("ERROR: " + err);
   printjson(err);
 }
 
-function getLevelDropCounts(startDay, events) {
+function getLevelDropCounts(startDay, eventFunnel) {
   // How many unique users did one of these events last?
   // Return level/day breakdown
 
-  if (!startDay || !events || events.length === 0) return {};
+  // Faster to request analytics db data in batches of days
+  var dayIncrement = 3;
+  var startDate = new Date();
+  startDate.setUTCDate(startDate.getUTCDate() - numDays);
+  var startDay = startDate.toISOString().substr(0, 10);
+  var endDate = new Date();
+  endDate.setUTCDate(endDate.getUTCDate() - numDays + dayIncrement);
+  var endDay = endDate.toISOString().substr(0, 10);
 
-  var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
-  var queryParams = {$and: [{_id: {$gte: startObj}},{"event": {$in: events}}]};
-  var cursor = logDB['log'].find(queryParams);
+  log("Start day is " + startDay);
 
   var userProgression = {};
-  while (cursor.hasNext()) {
-    var doc = cursor.next();
-    var created = doc._id.getTimestamp().toISOString();
-    var event = doc.event;
-    var properties = doc.properties;
-    var user = doc.user;
-    var level;
+  while (startDay < today) {
+    // log(startDay + " " + endDay);
+    var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+    var endObj = objectIdWithTimestamp(ISODate(endDay + "T00:00:00.000Z"));
 
-    // TODO: Switch to properties.levelID for 'Saw Victory'
-    if (event === 'Saw Victory' && properties.level) level = slugify(properties.level);
-    else if (properties.levelID) level = properties.levelID
-    else continue
+    for (var i = 0; i < eventFunnel.length; i++) {
+      var queryParams = {$and: [{_id: {$gte: startObj}}, {_id: {$lt: endObj}}, {"event": eventFunnel[i]}, {'properties.levelID': {$in: campaignLevelSlugs}}]};
+      var selectParams = {event: 1, 'properties.levelID': 1, user: 1};
+      var cursor = logDB['log'].find(queryParams);
+      while (cursor.hasNext()) {
+        var doc = cursor.next();
+        if (!doc.properties || !doc.properties.levelID) continue;
 
-    if (!userProgression[user]) userProgression[user] = [];
-    userProgression[user].push({
-      created: created,
-      event: event,
-      level: level
-    });
+        var created = doc._id.getTimestamp().toISOString();
+        var event = eventCache.set(doc.event);
+        var level = levelCache.set(doc.properties.levelID);
+        var user = userCache.set(doc.user);
+
+        if (!userProgression[user]) userProgression[user] = [];
+        userProgression[user].push({
+          created: created,
+          event: event,
+          level: level
+        });
+      }
+    }
+    startDate.setUTCDate(startDate.getUTCDate() + dayIncrement);
+    startDay = startDate.toISOString().substr(0, 10);
+    endDate.setUTCDate(endDate.getUTCDate() + dayIncrement);
+    endDay = endDate.toISOString().substr(0, 10);
   }
 
   var levelDropCounts = {};
-  for (user in userProgression) {
+  for (var user in userProgression) {
     userProgression[user].sort(function (a,b) {return a.created < b.created ? -1 : 1});
     var lastEvent = userProgression[user][userProgression[user].length - 1];
     var level = lastEvent.level;
-    var day = lastEvent.created.substring(0, 10);
+    var day = dayCache.set(lastEvent.created.substring(0, 10));
     if (!levelDropCounts[level]) levelDropCounts[level] = {};
     if (!levelDropCounts[level][day]) levelDropCounts[level][day] = 0
       levelDropCounts[level][day]++;
@@ -152,7 +189,11 @@ function insertLevelEventCount(event, level, day, count) {
   var levelID = getAnalyticsString(level);
   var filterID = getAnalyticsString('all');
 
+  var startDate = new Date();
+  startDate.setUTCDate(startDate.getUTCDate() - numDays);
+  var startDay = startDate.toISOString().substr(0, 10);
   var startObj = objectIdWithTimestamp(new Date(startDay + "T00:00:00.000Z"));
+
   var queryParams = {$and: [{d: day}, {e: eventID}, {l: levelID}, {f: filterID}]};
   var doc = db['analytics.perdays'].findOne(queryParams);
   if (doc && doc.c === count) return;
@@ -178,4 +219,16 @@ function insertLevelEventCount(event, level, day, count) {
     //   log("Added " + day + " " + event + " " + count + " " + level);
     // }
   }
+}
+
+function getCampaignLevelSlugs() {
+  var campaignLevelSlugMap = {};
+  var cursor = db.campaigns.find({}, {levels: 1});
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    for (var levelID in doc.levels) {
+      campaignLevelSlugMap[doc.levels[levelID].slug] = true;
+    }
+  }
+  return Object.keys(campaignLevelSlugMap);
 }

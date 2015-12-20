@@ -11,15 +11,35 @@
 try {
   logDB = new Mongo("localhost").getDB("analytics")
   var scriptStartTime = new Date();
+
+  var StringCache = function() {
+    this.lookup = {};
+    this.strings = [];
+  }
+  StringCache.prototype.get = function(index) {
+    return this.strings[parseInt(index)];
+  }
+  StringCache.prototype.set = function(str) {
+    if (!this.hasOwnProperty(str)) {
+      this.lookup[str] = this.strings.length;
+      this.strings.push(str);
+    }
+    return this.lookup[str];
+  }
+
+  var dayCache = new StringCache();
+  var eventCache = new StringCache();
+  var levelCache = new StringCache();
+  var userCache = new StringCache();
+
+  // TODO: convert to StringCache?
   var analyticsStringCache = {};
 
   // This needs to be enough days to encompass the start and finish events for most levels
   var numDays = 20;
-
-  var today = new Date().toISOString().substr(0, 10);
-
   var levelCompletionFunnel = ['Started Level', 'Saw Victory'];
 
+  var today = new Date().toISOString().substr(0, 10);
   log("Today is " + today);
   log("numDays " + numDays);
 
@@ -28,36 +48,24 @@ try {
   log("Getting level completion data...");
   var levelCompletionData = getLevelFunnelData(numDays, levelCompletionFunnel, campaignLevelSlugs);
   log("Inserting aggregated level completion data...");
-  for (level in levelCompletionData) {
-    for (day in levelCompletionData[level]) {
-      if (today === day) continue; // Never save data for today because it's incomplete
-      for (event in levelCompletionData[level][day]) {
-        insertLevelEventCount(event, level, day, levelCompletionData[level][day][event]);
+  for (var level in levelCompletionData) {
+    for (var day in levelCompletionData[level]) {
+      if (today === dayCache.get(day)) continue; // Never save data for today because it's incomplete
+      for (var event in levelCompletionData[level][day]) {
+        // print(numDays, eventCache.get(event), levelCache.get(level), dayCache.get(day), levelCompletionData[level][day][event]);
+        insertLevelEventCount(numDays, eventCache.get(event), levelCache.get(level), dayCache.get(day), levelCompletionData[level][day][event]);
       }
     }
   }
 
-  log("Script runtime: " + (new Date() - scriptStartTime));
+  log("Script runtime: " + (new Date().getTime() - scriptStartTime.getTime()));
 }
 catch(err) {
   log("ERROR: " + err);
   printjson(err);
 }
 
-function getCampaignLevelSlugs() {
-  var campaignLevelSlugMap = {};
-  var cursor = db.campaigns.find({}, {levels: 1});
-  while (cursor.hasNext()) {
-    var doc = cursor.next();
-    for (var levelID in doc.levels) {
-      campaignLevelSlugMap[doc.levels[levelID].slug] = true;
-    }
-  }
-  return Object.keys(campaignLevelSlugMap);
-}
-
 function getLevelFunnelData(numDays, eventFunnel, campaignLevelSlugs) {
-
   // Faster to request analytics db data in batches of days
   var dayIncrement = 3;
   var startDate = new Date();
@@ -82,17 +90,18 @@ function getLevelFunnelData(numDays, eventFunnel, campaignLevelSlugs) {
       var cursor = logDB.log.find(queryParams, selectParams);
       while (cursor.hasNext()) {
         var doc = cursor.next();
-        var created = doc._id.getTimestamp().toISOString();
-        var day = created.substring(0, 10);
-        var event = doc.event;
-        var level = doc.properties ? doc.properties.levelID : null;
-        var user = doc.user;
+        if (!doc.properties || !doc.properties.levelID) continue;
 
-        if (!level) continue;
+        var created = doc._id.getTimestamp().toISOString();
+        var dayStr = created.substring(0, 10);
+        var day = dayCache.set(dayStr);
+        var event = eventCache.set(doc.event);
+        var level = levelCache.set(doc.properties.levelID);
+        var user = userCache.set(doc.user);
 
         if (!userDataMap[level]) userDataMap[level] = {};
         if (!userDataMap[level][user]) userDataMap[level][user] = {};
-        if (!userDataMap[level][user][event] || userDataMap[level][user][event].localeCompare(day) > 0) {
+        if (!userDataMap[level][user][event] || dayCache.get(userDataMap[level][user][event]).localeCompare(dayStr) > 0) {
           userDataMap[level][user][event] = day;
         }
       }
@@ -103,21 +112,19 @@ function getLevelFunnelData(numDays, eventFunnel, campaignLevelSlugs) {
     endDay = endDate.toISOString().substr(0, 10);
   }
 
-  log("Finished getting events");
-
   // Data: level, day, event
   var levelFunnelData = {};
-  for (level in userDataMap) {
-    for (user in userDataMap[level]) {
+  for (var level in userDataMap) {
+    for (var user in userDataMap[level]) {
 
       // Find first event date
       var funnelStartDay = null;
-      for (event in userDataMap[level][user]) {
+      for (var event in userDataMap[level][user]) {
         var day = userDataMap[level][user][event];
         if (!levelFunnelData[level]) levelFunnelData[level] = {};
         if (!levelFunnelData[level][day]) levelFunnelData[level][day] = {};
         if (!levelFunnelData[level][day][event]) levelFunnelData[level][day][event] = 0;
-        if (eventFunnel[0] === event) {
+        if (eventFunnel[0] === eventCache.get(event)) {
           // First event gets attributed to current date
           levelFunnelData[level][day][event]++;
           funnelStartDay = day;
@@ -127,13 +134,13 @@ function getLevelFunnelData(numDays, eventFunnel, campaignLevelSlugs) {
 
       if (funnelStartDay) {
         // Add remaining funnel steps/events to first step's date
-        for (event in userDataMap[level][user]) {
+        for (var event in userDataMap[level][user]) {
           if (!levelFunnelData[level][funnelStartDay][event]) levelFunnelData[level][funnelStartDay][event] = 0;
-          if (eventFunnel[0] != event) levelFunnelData[level][funnelStartDay][event]++;
+          if (eventFunnel[0] !== eventCache.get(event)) levelFunnelData[level][funnelStartDay][event]++;
         }
         // Zero remaining funnel events
         for (var i = 1; i < eventFunnel.length; i++) {
-          var event = eventFunnel[i];
+          var event = eventCache.set(eventFunnel[i]);
           if (!levelFunnelData[level][funnelStartDay][event]) levelFunnelData[level][funnelStartDay][event] = 0;
         }
       }
@@ -205,7 +212,7 @@ function getAnalyticsString(str) {
   throw new Error("ERROR: Did not find analytics.strings insert for: " + str);
 }
 
-function insertLevelEventCount(event, level, day, count) {
+function insertLevelEventCount(numDays, event, level, day, count) {
   // analytics.perdays schema in server/analytics/AnalyticsPeryDay.coffee
   day = day.replace(/-/g, '');
 
@@ -213,7 +220,11 @@ function insertLevelEventCount(event, level, day, count) {
   var levelID = getAnalyticsString(level);
   var filterID = getAnalyticsString('all');
 
+  var startDate = new Date();
+  startDate.setUTCDate(startDate.getUTCDate() - numDays);
+  var startDay = startDate.toISOString().substr(0, 10);
   var startObj = objectIdWithTimestamp(new Date(startDay + "T00:00:00.000Z"));
+
   var queryParams = {$and: [{d: day}, {e: eventID}, {l: levelID}, {f: filterID}]};
   var doc = db['analytics.perdays'].findOne(queryParams);
   if (doc && doc.c === count) return;
@@ -239,4 +250,16 @@ function insertLevelEventCount(event, level, day, count) {
     //   log("Added " + day + " " + event + " " + count + " " + level);
     // }
   }
+}
+
+function getCampaignLevelSlugs() {
+  var campaignLevelSlugMap = {};
+  var cursor = db.campaigns.find({}, {levels: 1});
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    for (var levelID in doc.levels) {
+      campaignLevelSlugMap[doc.levels[levelID].slug] = true;
+    }
+  }
+  return Object.keys(campaignLevelSlugMap);
 }
