@@ -20,7 +20,7 @@ try {
     return this.strings[parseInt(index)];
   }
   StringCache.prototype.set = function(str) {
-    if (!this.hasOwnProperty(str)) {
+    if (!this.lookup.hasOwnProperty(str)) {
       this.lookup[str] = this.strings.length;
       this.strings.push(str);
     }
