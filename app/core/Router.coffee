@@ -92,6 +92,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/campaign/:campaignID': go('editor/campaign/CampaignEditorView')
     'editor/poll': go('editor/poll/PollSearchView')
     'editor/poll/:articleID': go('editor/poll/PollEditView')
+    'editor/thang-tasks': go('editor/ThangTasksView')
 
     'employers': go('EmployersView')
 
