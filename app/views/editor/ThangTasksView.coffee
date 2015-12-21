@@ -18,28 +18,31 @@ module.exports = class ThangTasksView extends RootView
       comparator: @sortThangs
     )
     @lastLoad = (new Date()).getTime()
-    @listenTo(@thangs, 'sync', @onColLoaded)
+    @listenTo(@thangs, 'sync', @onThangsLoaded)
     @supermodel.loadCollection(@thangs, 'thangs')
 
   searchUpdate: ->
-    if !@lastLoad? or (new Date()).getTime() - @lastLoad > 60 * 1000 * 1 # Update only after a minute from last update.
+    if not @lastLoad? or (new Date()).getTime() - @lastLoad > 60 * 1000 * 1 # Update only after a minute from last update.
       @thangs.fetch()
-      @listenTo(@thangs, 'sync', @onColLoaded)
+      @listenTo(@thangs, 'sync', @onThangsLoaded)
       @supermodel.loadCollection(@thangs, 'thangs')
       @lastLoad = (new Date()).getTime()
     else
-      @onColLoaded()
-    
-  onColLoaded: ->
-    @processedThangs = @thangs.filter((_elem) -> 
-      return _elem.get('name').toLowerCase().indexOf($('#nameSearch')[0].value.toLowerCase()) isnt -1
-    )
+      @onThangsLoaded()
+      
+  onThangsLoaded: ->
+    @processedThangs = @thangs.filter (_elem) ->
+      # Case-insensitive search of input vs name.
+      return ///#{$('#nameSearch')[0].value}///i.test _elem.get('name')
     for thang in @processedThangs
-      thang.tasks = _.filter(thang.attributes.tasks, (_elem) ->
-        return _elem.name.toLowerCase().indexOf($('#descSearch')[0].value.toLowerCase()) isnt -1
-      )
-    newContent = $(template({me:me, view:@}))
-    @$el.find('#taskTable').replaceWith($(newContent[1]).find('#taskTable'))
+      thang.tasks = _.filter thang.attributes.tasks, (_elem) ->
+        # Similar case-insensitive search of input vs description (name).
+        return ///#{$('#descSearch')[0].value}///i.test _elem.name
+    @renderSelectors '#thangTable'
 
   sortThangs: (a, b) ->
     a.get('name').localeCompare(b.get('name'))
+
+  # Jade helper
+  hasIncompleteTasks: (thang) ->
+    return thang.tasks and thang.tasks.filter((_elem) -> return not _elem.complete).length > 0

@@ -7,44 +7,23 @@ block content
     input#descSearch(placeholder='Filter: Task Description')
     hr
     if view.processedThangs
-      table.table#taskTable
+      table.table.table-striped#thangTable
         tr
           th Thang Name
           th Task List
         for thang in view.processedThangs
-          if (thang.tasks && thang.tasks.filter(function(_elem) {return !_elem.complete}).length > 0) || false
-            tr
-              td.taskOwner
-                a(href= 'thang/'  + thang.get('slug'))
-                  | #{thang.get('name')}
-              td.tasksTable
-                for task in (thang.tasks || [])
-                  if !task.complete
-                    div.taskDescription
-                      | #{task.name}
+          if view.hasIncompleteTasks(thang)
+            +thangRow(thang)
     else
       span No view.processedThangs
 
-//
-  block content
-    #thang-tasks-view
-      if view.processedThangs
-        input#search
-        hr
-        table.table#taskTable
-          tr
-            th Thang Name
-            th Task List
-          for thang in view.processedThangs.models
-            if (thang.get('tasks') && thang.get('tasks').filter(function(_elem) {return !_elem.complete}).length > 0) || false
-              tr
-                td.taskOwner
-                  a(href= 'thang/' + thang.get('slug'))
-                    | #{thang.get('name')}
-                td.tasksTable
-                  for task in (thang.get('tasks') || [])
-                    if !task.complete
-                      div.taskDescription
-                        | #{task.name}
-      else
-        span Loading...
+mixin thangRow(thang)
+  tr
+    td.taskOwner
+      a(href= 'thang/' + thang.get('slug'))= thang.get('name')
+    td.tasks
+      table.table-striped.table-hover.tasksTable
+        for task in (thang.tasks || [])
+          if !task.complete
+            tr
+              td= task.name
