@@ -11,6 +11,7 @@ module.exports = class SalesView extends RootView
     'click .btn-contact-us': 'onClickContactUs'
     'click .btn-create-account': 'onClickSignup'
     'click .btn-login-account': 'onClickLogin'
+    'click #down-arrow': 'onClickDownArrow'
 
   getTitle: ->
     'CodeCombat'
@@ -27,3 +28,9 @@ module.exports = class SalesView extends RootView
     window.tracker?.trackEvent 'Started Signup', category: 'Sales', label: 'Sales Create'
 
   logoutRedirectURL: false
+
+  onClickDownArrow: (e) ->
+    $('#page-container').animate({
+      scrollTop: $('[name="' + $(e.target).closest('a').attr('href').substr(1) + '"]').offset().top
+    }, 300)
+    false
