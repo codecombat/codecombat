@@ -1,3 +1,4 @@
+ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 app = require 'core/application'
 AuthModal = require 'views/core/AuthModal'
 CocoCollection = require 'collections/CocoCollection'
@@ -17,6 +18,7 @@ module.exports = class TeacherCoursesView extends RootView
   template: template
 
   events:
+    'click #activate-licenses-btn': 'onClickActivateLicensesButton'
     'click .btn-add-students': 'onClickAddStudents'
     'click .create-new-class': 'onClickCreateNewClassButton'
     'click .edit-classroom-small': 'onClickEditClassroomSmall'
@@ -48,6 +50,14 @@ module.exports = class TeacherCoursesView extends RootView
         remove: false
         url: "/db/classroom/#{classroom.id}/members"
       })
+
+  onClickActivateLicensesButton: ->
+    modal = new ActivateLicensesModal({
+      users: @members
+    })
+    @openModalView(modal)
+    modal.once 'redeem-users', -> document.location.reload()
+    application.tracker?.trackEvent 'Courses teachers started enroll students', category: 'Courses'
 
   onClickAddStudents: (e) ->
     classroomID = $(e.target).data('classroom-id')
