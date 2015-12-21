@@ -27,11 +27,6 @@ module.exports = class LevelSystemEditView extends CocoView
     @levelSystem = @supermodel.getModelByOriginalAndMajorVersion LevelSystem, options.original, options.majorVersion or 0
     console.log 'Couldn\'t get levelSystem for', options, 'from', @supermodel.models unless @levelSystem
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.editTitle = "#{@levelSystem.get('name')}"
-    context
-
   afterRender: ->
     super()
     @buildSettingsTreema()

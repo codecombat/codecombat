@@ -1,6 +1,6 @@
 button.btn.btn-primary#new-achievement-button(disabled=(me.isAdmin() === true || me.isArtisan() === true) ? undefined : "true" data-i18n="editor.new_achievement_title") Create a New Achievement
 
-if !achievements.models.length
+if !view.achievements.models.length
   .panel
     .panel-body
       p(data-i18n="editor.no_achievements") No achievements added for this level yet.
@@ -13,7 +13,7 @@ else
         th(data-i18n="general.description") Description
         th XP
     tbody
-      each achievement in achievements.models
+      each achievement in view.achievements.models
         tr
           td(style="width: 20px")
             img.achievement-icon-small(src=achievement.getImageURL() alt="#{achievement.get('name') icon")

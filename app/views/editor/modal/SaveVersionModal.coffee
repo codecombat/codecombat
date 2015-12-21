@@ -24,8 +24,7 @@ module.exports = class SaveVersionModal extends ModalView
 
   getRenderData: ->
     c = super()
-    c.isPatch = @isPatch
-    c.hasChanges = @model.hasLocalChanges()
+    c.hasChanges = @view.model.hasLocalChanges()
     c
 
   afterRender: (insertDeltaView=true) ->
