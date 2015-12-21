@@ -11,9 +11,14 @@ block content
         img(src='/images/pages/sales/chat_icon.png')
         div contact us for pricing and a free trial
 
-    .hero-quote-container
-      .hero-quote "CodeCombat is without question the most engaging platform for learning programming languages."
-      .hero-quote-attribution Jonathan P., Elementary Computers Teacher
+    table
+      tr
+        td
+          .big-quote-mark “
+        td
+          .hero-quote-container
+            .hero-quote CodeCombat is without question the most engaging platform for learning programming languages.”
+            .hero-quote-attribution - Jonathan P., Elementary Computers Teacher
 
     if me.isAnonymous()
       .text-center
@@ -115,7 +120,7 @@ block content
                     .teacher-location.text-right Global Learning Charter Public School
                 .col-md-4
               .teacher-quote
-                span.spr "My girls, who were apprehensive about taking a coding class, ar some of my top students.
+                span.spr "My girls, who were apprehensive about taking a coding class, are some of my top students.
                 strong They work together and explain the code to each other to make sure each understands."
       br
 
@@ -168,7 +173,7 @@ block content
           ul
             li Students collaborate and help each other solve levels.
             li Appeals to all genders and a wide range of age groups.
-        .cold-md-6
+        .col-md-6
           ul
             li Typed code gives students an advantage over block-based programs.
             li Success with both high-performing and low-performing students, as well as ESL.
@@ -178,7 +183,7 @@ block content
         .col-md-8
           p.text-center
             span.section-header What are paid courses?
-          p The one-hour long "Introduction to Computer Science" course will always be free for an unlimited number of students. Paid enrollments allow each student access to Computer Science 2, 3, and 4, which is an additional 15 hours of content on top of the free contnet.  Paid enrollments never expire.
+          p The one-hour long "Introduction to Computer Science" course will always be free for an unlimited number of students. Paid enrollments allow each student access to Computer Science 2, 3, and 4, which is an additional 15 hours of content on top of the free content.  Paid enrollments never expire.
 
           #course-comparisons
             img(src='/images/pages/sales/content_table.png')
@@ -203,7 +208,9 @@ block content
                 small Solution guides and additional lesson plans available for paid courses.
             p
               i
-                small Contact team@codecombat.com with additional requests.
+                small.spr Contact
+                a(href='mailto:team@codecombat.com') team@codecombat.com
+                small.spl with additional requests.
       br
       br
 
