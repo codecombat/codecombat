@@ -96,6 +96,10 @@ mixin classroom(classroom)
           else
             span.spr.class-name (Python)
           a.edit-classroom-small(data-i18n="courses.edit_settings", data-classroom-id="#{classroom.id}")
+          if classMemberCount === 1
+            p There is #{classMemberCount} student in this class.
+          else
+            p There are #{classMemberCount} students in this class.
           .active-courses(data-i18n="courses.active_courses")
           - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
           each courseInstance in courseInstances
@@ -126,13 +130,13 @@ mixin course(courseInstance, classMemberCount)
   - var courseMemberCount = courseInstance.get('members') ? courseInstance.get('members').length : 0;
   if courseMemberCount > 0
     - var course = view.courses.get(courseInstance.get('courseID'));
-    p
-      .course-name= course.get('name')
-      .course-enrolled
-        span #{courseMemberCount} / #{classMemberCount}
-        span.spl(data-i18n="courses.students_enrolled")
-      each concept in course.get('concepts')
-        span.spr.course-concept(data-i18n="concepts." + concept)
+    .row
+      .col-md-6
+        .course-name= course.get('name')
+      .col-md-6
+        .course-enrolled
+          span #{courseMemberCount} / #{classMemberCount}
+          span.spl(data-i18n="courses.students_enrolled")
 
 mixin course-info(course)
   .media
