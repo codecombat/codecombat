@@ -82,6 +82,7 @@ module.exports = class ActivateLicensesModal extends ModalView
         @usersToRedeem.remove(user)
         pct = 100 * (@usersToRedeem.originalSize - @usersToRedeem.size() / @usersToRedeem.originalSize)
         @$('#progress-area .progress-bar').css('width', "#{pct.toFixed(1)}%")
+        application.tracker?.trackEvent 'Enroll modal finished enroll student', category: 'Courses', userID: user.id
         @redeemUsers()
       error: (jqxhr, textStatus, errorThrown) ->
         if jqxhr.status is 402

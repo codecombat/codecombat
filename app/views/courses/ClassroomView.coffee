@@ -4,6 +4,7 @@ Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 Classroom = require 'models/Classroom'
 LevelSession = require 'models/LevelSession'
+Prepaids = require 'collections/Prepaids'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/classroom-view'
 User = require 'models/User'
@@ -41,6 +42,10 @@ module.exports = class ClassroomView extends RootView
     @courseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance})
     @courseInstances.comparator = 'courseID'
     @supermodel.loadCollection(@courseInstances, 'course_instances', { data: { classroomID: classroomID } })
+    @prepaids = new Prepaids()
+    @prepaids.comparator = '_id'
+    @prepaids.fetchByCreator(me.id)
+    @supermodel.loadCollection(@prepaids, 'prepaids')
     @users = new CocoCollection([], { url: "/db/classroom/#{classroomID}/members", model: User })
     @users.comparator = (user) => user.broadName().toLowerCase()
     @supermodel.loadCollection(@users, 'users')
@@ -105,15 +110,35 @@ module.exports = class ClassroomView extends RootView
 
   onClickActivateSingleLicenseButton: (e) ->
     userID = $(e.target).closest('.btn').data('user-id')
-    user = @users.get(userID)
-    modal = new ActivateLicensesModal({
-      classroom: @classroom
-      users: @users
-      user: user
-    })
-    @openModalView(modal)
-    modal.once 'redeem-users', -> document.location.reload()
-    application.tracker?.trackEvent 'Classroom started enroll student', category: 'Courses', userID: userID
+    if @prepaids.totalMaxRedeemers() - @prepaids.totalRedeemers() > 0
+      # Have an unused enrollment, enroll student immediately instead of opening the enroll modal
+      prepaid = @prepaids.find((prepaid) -> prepaid.get('properties')?.endDate? and prepaid.openSpots())
+      prepaid = @prepaids.find((prepaid) -> prepaid.openSpots()) unless prepaid
+      $.ajax({
+        method: 'POST'
+        url: _.result(prepaid, 'url') + '/redeemers'
+        data: { userID: userID }
+        success: =>
+          application.tracker?.trackEvent 'Classroom finished enroll student', category: 'Courses', userID: userID
+          # TODO: do a lighter refresh here. @render() did not work out.
+          document.location.reload()
+        error: (jqxhr, textStatus, errorThrown) ->
+          if jqxhr.status is 402
+            message = arguments[2]
+          else
+            message = "#{jqxhr.status}: #{jqxhr.responseText}"
+          console.err message
+      })
+    else
+      user = @users.get(userID)
+      modal = new ActivateLicensesModal({
+        classroom: @classroom
+        users: @users
+        user: user
+      })
+      @openModalView(modal)
+      modal.once 'redeem-users', -> document.location.reload()
+      application.tracker?.trackEvent 'Classroom started enroll student', category: 'Courses', userID: userID
 
   onClickEditClassDetailsLink: ->
     modal = new ClassroomSettingsModal({classroom: @classroom})

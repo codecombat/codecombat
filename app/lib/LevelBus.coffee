@@ -28,7 +28,7 @@ module.exports = class LevelBus extends Bus
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
-    highLoad = true
+    highLoad = false
     [wait, maxWait] = switch
       when not application.isProduction() then [1, 5]  # Save quickly in development.
       when not highLoad then [4, 10]                   # Save slowly when in production.
