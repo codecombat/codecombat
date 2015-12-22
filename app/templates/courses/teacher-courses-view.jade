@@ -107,8 +107,10 @@ mixin classroom(classroom)
             p There are #{classMemberCount} students in this class.
           .active-courses(data-i18n="courses.active_courses")
           - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
-          each courseInstance in courseInstances
-            +course(courseInstance, classMemberCount)
+          table.active-course-container
+            each courseInstance in courseInstances
+              tr
+                +course(courseInstance, classMemberCount)
     else
       .col-md-12
         p
@@ -135,13 +137,12 @@ mixin course(courseInstance, classMemberCount)
   - var courseMemberCount = courseInstance.get('members') ? courseInstance.get('members').length : 0;
   if courseMemberCount > 0
     - var course = view.courses.get(courseInstance.get('courseID'));
-    .row
-      .col-md-6
-        .course-name= course.get('name')
-      .col-md-6
-        .course-enrolled
-          span #{courseMemberCount} / #{classMemberCount}
-          span.spl(data-i18n="courses.students_enrolled")
+    td
+      span.course-name= course.get('name')
+    td
+      span.course-enrolled
+        span #{courseMemberCount} / #{classMemberCount}
+        span.spl(data-i18n="courses.students_enrolled")
 
 mixin course-info(course)
   .media
