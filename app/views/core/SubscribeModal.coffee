@@ -27,7 +27,7 @@ module.exports = class SubscribeModal extends ModalView
     @state = 'standby'
     @products = new Products()
     @supermodel.loadCollection(@products, 'products')
-    
+
   onLoaded: ->
     @basicProduct = @products.findWhere { name: 'basic_subscription' }
     @yearProduct = @products.findWhere { name: 'year_subscription' }
@@ -61,12 +61,11 @@ module.exports = class SubscribeModal extends ModalView
     levelsCompleted = me.get('stats')?.gamesCompleted or 'several'
     popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1', nLevels: levelsCompleted) + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb1a') + "</p>"
-    popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2a') + "</p>"
+    popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2') + "</p>"
     price = (@products.findWhere({'name': 'basic_subscription'}).get('amount') / 100).toFixed(2)
     # TODO: Update i18next and use its own interpolation system instead
     popoverContent = popoverContent.replace('{{price}}', price)
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb3') + "</p>"
-    #popoverContent = popoverContent.replace /9[.,]99/g, '3.99'  # Sale
     @$el.find('#parents-info').popover(
       animation: true
       html: true
@@ -84,7 +83,7 @@ module.exports = class SubscribeModal extends ModalView
     three_month_price = (@products.findWhere({'name': 'basic_subscription'}).get('amount') * 3 / 100).toFixed(2)
     year_price = (@products.findWhere({name: 'year_subscription'}).get('amount') / 100).toFixed(2)
     popoverTitle += '<button type="button" class="close" onclick="$(&#39;#payment-methods-info&#39;).popover(&#39;hide&#39;);">&times;</button>'
-    popoverContent = "<p>" + $.i18n.t('subscribe.payment_methods_blurb1a') + "</p>"
+    popoverContent = "<p>" + $.i18n.t('subscribe.payment_methods_blurb1') + "</p>"
     # TODO: Update i18next and use its own interpolation system instead
     popoverContent = popoverContent.replace('{{three_month_price}}', three_month_price)
     popoverContent = popoverContent.replace('{{year_price}}', year_price)
@@ -155,7 +154,7 @@ module.exports = class SubscribeModal extends ModalView
     discount = @basicProduct.get('amount') * 12 - @yearProduct.get('amount')
     discountString = (discount/100).toFixed(2)
     options =
-      description: $.i18n.t('subscribe.stripe_description_year_sale1').replace('{{discount}}', discountString)
+      description: $.i18n.t('subscribe.stripe_description_year_sale').replace('{{discount}}', discountString)
       amount: @yearProduct.get('amount')
       alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
       alipayReusable: true

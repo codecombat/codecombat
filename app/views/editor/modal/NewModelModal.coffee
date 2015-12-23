@@ -47,3 +47,4 @@ module.exports = class NewModelModal extends ModalView
 
   focusOnName: (e) ->
     $('#name').focus() # TODO Why isn't this working anymore.. It does get called
+x

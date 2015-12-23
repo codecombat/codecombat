@@ -432,16 +432,16 @@
     parents_title: "Dear Parent: Your child is learning to code. Will you help them continue?"
     parents_blurb1: "Your child has played __nLevels__ levels and learned programming basics. Help cultivate their interest and buy them a subscription so they can keep playing."
     parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
-    parents_blurb2a: "For ${{price}} USD/mo, your child will get new challenges every week and personal email support from professional programmers."
+    parents_blurb2: "For ${{price}} USD/mo, your child will get new challenges every week and personal email support from professional programmers."
     parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
     payment_methods: "Payment Methods"
     payment_methods_title: "Accepted Payment Methods"
-    payment_methods_blurb1a: "We currently accept credit cards and Alipay. You can also PayPal {{three_month_price}} USD to nick@codecombat.com with your account email in the memo to purchase three months' subscription and gems, or ${{year_price}} for a year."
+    payment_methods_blurb1: "We currently accept credit cards and Alipay. You can also PayPal {{three_month_price}} USD to nick@codecombat.com with your account email in the memo to purchase three months' subscription and gems, or ${{year_price}} for a year."
     payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     sale_button: "Sale!"
     sale_button_title: "Save $21 when you purchase a 1 year subscription"
     stripe_description: "Monthly Subscription"
-    stripe_description_year_sale1: "1 Year Subscription (${{discount}} discount)"
+    stripe_description_year_sale: "1 Year Subscription (${{discount}} discount)"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
 
@@ -582,8 +582,8 @@
 
   teachers:
     who_for_title: "Who is CodeCombat for?"
-    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed. We've designed CodeCombat to appeal to both boys and girls." # {change}
-    who_for_2: "Our Courses system allows teachers to set up classrooms, track progress and assign additional content to students through a dedicated interface." # {change}
+    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed. We've designed CodeCombat to appeal to both boys and girls."
+    who_for_2: "Our Courses system allows teachers to set up classrooms, track progress and assign additional content to students through a dedicated interface."
     more_info_title: "Where can I find more information?"
     more_info_1: "Our"
     more_info_2: "teachers forum"
@@ -1484,7 +1484,7 @@
     email_settings_url: "your email settings"
     email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
     cost_title: "Cost"
-    cost_description_a: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Copyrights and Licenses"
     contributor_title: "Contributor License Agreement"
     contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
