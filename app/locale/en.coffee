@@ -1553,6 +1553,8 @@
     nutshell_title: "In a Nutshell"
     nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
     canonical: "The English version of this document is the definitive, canonical version. If there are any discrepancies between translations, the English document takes precedence."
+    third_party_title: "Third Party Services"
+    third_party_description: "CodeCombat uses the following third party services (among others):"
 
   ladder_prizes:
     title: "Tournament Prizes"  # This section was for an old tournament and doesn't need new translations now.
