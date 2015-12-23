@@ -137,9 +137,10 @@ block modal-footer-content
         span(data-i18n="play_level.victory_hour_of_code_done_yes") Yes, I am finished with my Hour of Code!
       .clearfix
 
-  .offer.lost-viking
-    p
-      img.pull-left(src="/file/db/level/55144b509f0c4854051769c1/viking1.png")
-      img.pull-right(src="/file/db/level/55144b509f0c4854051769c1/viking_2.png")
-      span(data-i18n="play_level.victory_viking_code_school")
-    button.btn.btn-illustrated.btn-primary.btn-lg.world-map-button.continue-from-offer-button(data-i18n="play_level.victory_become_a_viking") Become a Viking
+  if view.level.get('slug') == 'lost-viking'
+    .offer.lost-viking
+      p
+        img.pull-left(src="/file/db/level/55144b509f0c4854051769c1/viking1.png")
+        img.pull-right(src="/file/db/level/55144b509f0c4854051769c1/viking_2.png")
+        span(data-i18n="play_level.victory_viking_code_school")
+      button.btn.btn-illustrated.btn-primary.btn-lg.world-map-button.continue-from-offer-button(data-i18n="play_level.victory_become_a_viking") Become a Viking
