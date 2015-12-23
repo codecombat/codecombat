@@ -14,10 +14,6 @@ module.exports = class PlayAccountModal extends ModalView
   constructor: (options) ->
     super options
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context
-
   afterRender: ->
     super()
     return unless @supermodel.finished()

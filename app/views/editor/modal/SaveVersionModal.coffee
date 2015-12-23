@@ -22,12 +22,6 @@ module.exports = class SaveVersionModal extends ModalView
     @model = options.model or options.level
     @isPatch = not @model.hasWriteAccess()
 
-  getRenderData: ->
-    c = super()
-    c.isPatch = @isPatch
-    c.hasChanges = @model.hasLocalChanges()
-    c
-
   afterRender: (insertDeltaView=true) ->
     super()
     @$el.find(if me.get('signedCLA') then '#accept-cla-wrapper' else '#save-version-button').hide()

@@ -17,9 +17,3 @@ module.exports = class LevelSessionsView extends RootView
 
   getLevelSessions: ->
     @sessions = @supermodel.loadCollection(new LevelSessionCollection(), 'sessions', {cache: false}).model
-
-  getRenderData: =>
-    c = super()
-    c.sessions = @sessions.models
-    c.moment = moment
-    c

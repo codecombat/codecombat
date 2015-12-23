@@ -19,12 +19,6 @@ module.exports = class NewModelModal extends ModalView
     @properties = options.properties
     $('#name').ready @focusOnName
 
-  getRenderData: ->
-    c = super()
-    c.modelLabel = @modelLabel
-    c.newModelTitle = @newModelTitle
-    c
-
   makeNewModel: ->
     model = new @modelClass
     name = @$el.find('#name').val()

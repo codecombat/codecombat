@@ -24,13 +24,6 @@ module.exports = class ModalView extends CocoView
     super arguments...
     @options ?= {}
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.closeButton = @closeButton
-    context.headerContent = @options.headerContent
-    context.bodyContent = @options.bodyContent
-    context
-
   subscriptions:
     {}
 
