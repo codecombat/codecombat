@@ -571,18 +571,18 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "'RetroStyle Games'"
     rob_title: "Engenheiro de Compilação"
-    rob_blurb: "Programa coisas e mais coisas"
+    rob_blurb: "Programa Muitas Coisas"
     josh_c_title: "'Designer' de Jogos"
-    josh_c_blurb: "Projeta jogos"
+    josh_c_blurb: "Projeta Jogos"
     carlos_title: "Gestor Regional, Brasil"
     carlos_blurb: "Homem do Dinheiro"
-#    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
+    maka_title: "Defensor dos Clientes"
+    maka_blurb: "Contador de Histórias"
 
   teachers:
     who_for_title: "Para quem é o CodeCombat?"
-    who_for_1: "Recomendamos o CodeCombat para estudantes com idade superior a 9. Não é necessária nenhuma experiência de programação prévia." # {change}
-    who_for_2: "O CodeCombat foi pensado de forma a ser apelativo tanto para rapazes como para raparigas." # {change}
+    who_for_1: "Recomendamos o CodeCombat para estudantes com idade superior a 9. Não é necessária nenhuma experiência de programação prévia. O CodeCombat foi pensado de forma a ser apelativo tanto para rapazes como para raparigas."
+    who_for_2: "O nosso sistema de Cursos permite que os professores criem turmas, acompanhem o progresso e atribuam conteúdo adicional aos estudantes através de uma interface dedicada."
     more_info_title: "Onde posso encontrar mais informação?"
     more_info_1: "O nosso"
     more_info_2: "fórum para professores"
@@ -738,7 +738,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     subs_only: "apenas para subscritores"
     create_clan: "Criar um Novo Clã"
     private_preview: "Pré-visualização"
-#    private_clans: "Private Clans"
+    private_clans: "Clãs Privados"
     public_clans: "Clãs Públicos"
     my_clans: "Os Meus Clãs"
     clan_name: "Nome do Clã"
@@ -1518,8 +1518,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     nutshell_title: "Resumidamente"
     nutshell_description: "Qualquer um dos recursos que fornecemos no Editor de Níveis são de uso livre para criares Níveis. Mas reservamos o direito de distribuição restrita dos próprios Níveis (que são criados em codecombat.com) pelo que podemos cobrar por eles no futuro, se for isso que acabar por acontecer."
     canonical: "A versão Inglesa deste documento é a versão definitiva e soberana. Se houver discrepâncias entre traduções, o documento Inglês prevalece."
-#    third_party_title: "Third Party Services"
-#    third_party_description: "CodeCombat uses the following third party services (among others):"
+    third_party_title: "Serviços de Terceiros"
+    third_party_description: "O CodeCombat usa os seguintes serviços de terceiros (entre outros):"
 
   ladder_prizes:
     title: "Prémios do Torneio" # This section was for an old tournament and doesn't need new translations now.
