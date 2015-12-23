@@ -14,6 +14,10 @@ module.exports = class NewLevelComponentModal extends ModalView
     'click #new-level-component-submit': 'makeNewLevelComponent'
     'submit form': 'makeNewLevelComponent'
 
+  constructor: (options) ->
+    super options
+    @systems = LevelComponent.schema.properties.system.enum
+
   makeNewLevelComponent: (e) ->
     e.preventDefault()
     system = @$el.find('#level-component-system').val()
