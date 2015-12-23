@@ -17,7 +17,6 @@ module.exports = class NewModelModal extends ModalView
     @modelLabel = options.modelLabel
     @newModelTitle = "editor.new_#{_.string.slugify @modelLabel}_title"
     @properties = options.properties
-    $('#name').ready @focusOnName
 
   makeNewModel: ->
     model = new @modelClass
@@ -45,6 +44,6 @@ module.exports = class NewModelModal extends ModalView
       @trigger 'model-created', model
       #Backbone.Mediator.publish 'model-save-success', model
 
-  focusOnName: (e) ->
-    $('#name').focus() # TODO Why isn't this working anymore.. It does get called
-x
+  afterInsert: ->
+    super()
+    _.delay (=> @$el?.find('#name').focus()), 500
