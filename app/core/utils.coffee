@@ -252,7 +252,7 @@ module.exports.getPrepaidCodeAmount = getPrepaidCodeAmount = (price=0, users=0, 
 module.exports.filterMarkdownCodeLanguages = (text) ->
   return '' unless text
   currentLanguage = me.get('aceConfig')?.language or 'python'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'io'], currentLanguage
+  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'java', 'io'], currentLanguage
   exclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
   text.replace exclusionRegex, ''
 
@@ -260,6 +260,7 @@ module.exports.aceEditModes = aceEditModes =
   'javascript': 'ace/mode/javascript'
   'coffeescript': 'ace/mode/coffee'
   'python': 'ace/mode/python'
+  'java': 'ace/mode/java'
   'clojure': 'ace/mode/clojure'
   'lua': 'ace/mode/lua'
   'io': 'ace/mode/text'

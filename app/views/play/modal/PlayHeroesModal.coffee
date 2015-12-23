@@ -113,6 +113,7 @@ module.exports = class PlayHeroesModal extends ModalView
         {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
         {id: 'clojure', name: "Clojure (#{$.i18n.t('choose_hero.experimental')})"}
         {id: 'lua', name: 'Lua'}
+        {id: 'java', name: 'Java'}
         #{id: 'io', name: "Io (#{$.i18n.t('choose_hero.experimental')})"}
       ]
 
