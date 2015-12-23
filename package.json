@@ -120,7 +120,7 @@
   },
   "optionalDependencies": {
     "newrelic": "^1.24.0",
-    "webworker-threads": "~0.5.5"
+    "webworker-threads": "~0.6.2"
   },
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
