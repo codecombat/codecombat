@@ -120,7 +120,7 @@ module.exports = class Level extends CocoModel
           copy = $.extend true, {}, placeholderConfig
           programmableProperties = config?.programmableProperties ? []
           copy.programmableProperties = _.union programmableProperties, copy.programmableProperties ? []
-          config = _.merge copy, config
+          levelThangComponent.config = config = _.merge copy, config
         else if placeholderConfig.extraHUDProperties
           config.extraHUDProperties = _.union(config.extraHUDProperties ? [], placeholderConfig.extraHUDProperties)
         else if placeholderConfig.voiceRange  # Pull in voiceRange
