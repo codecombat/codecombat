@@ -46,9 +46,11 @@ module.exports = class MainUserView extends UserView
         if count > mostUsedCount
           mostUsedCount = count
           favoriteLanguage = language
+      playerLevel = @user.level()
       context.singlePlayerSessions = singlePlayerSessions
       context.multiPlayerSessions = multiPlayerSessions
       context.favoriteLanguage = favoriteLanguage
+      context.playerLevel = playerLevel
     if @earnedAchievements and @earnedAchievements.loaded
       context.earnedAchievements = @earnedAchievements
     if @clans and @clans.loaded
