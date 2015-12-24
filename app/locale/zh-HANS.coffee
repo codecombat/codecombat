@@ -114,9 +114,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     log_in: "登录"
     required: "在做这件事情之前您必须先注册。"
     login_switch: "已经注册过账户?"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
+    school_name: "就读学校及所在城市"
+    optional: "选填"
+    school_name_placeholder: "范例: XX中学, 上海"
 
   recover:
     recover_account_title: "找回账户"
@@ -221,10 +221,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     years: "年"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "完成关卡:"
+    course: "课程:"
     done: "完成"
-#    next_level: "Next Level:"
+    next_level: "下一个关卡:"
     next_game: "下一场游戏"
     show_menu: "显示游戏菜单"
     home: "主页" # Not used any more, will be removed soon.
@@ -342,7 +342,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_free_your_mind: "丢掉一切私心杂念，丢掉害怕、疑问和拒信，解放您的思想。 - Morpheus《黑客帝国》"
     tip_strong_opponents: "即使是最强大的对手也是有弱点的。- 宇智波鼬《火影忍者》"
     tip_paper_and_pen: "在您开始编程之前，您可以随时用一张纸和一支笔提前规划。"
-#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+    tip_solve_then_write: "要先想清楚问题如何解决, 再进行编码的动作. - John Johnson"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -403,7 +403,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！"
     feature1: "110+ 基本关卡（4个世界）"
     feature2: "10 个强大 <strong>英雄</strong>以及各式非凡技能!"
-    feature3: "70+ 奖励关卡" # {change}
+    feature3: "80+ 奖励关卡"
     feature4: "每月享有3500额外宝石"
     feature5: "视频教学"
     feature6: "专业邮件支援"
@@ -439,7 +439,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     payment_methods_blurb1: "我们现有的付费方式有信用卡和支付宝" # {change}
     payment_methods_blurb2: "如果您想用其他付费方式,请联系我们"
     sale_button: "促销"
-    sale_button_title: "年费订阅能节省 ${{discount}} 的费用" # {change}
+    sale_button_title: "年费订阅能节省 ${{discount}} 的费用"
     stripe_description: "每月订阅"
     stripe_description_year_sale: "年费订阅 (优惠 ${{discount}})" # {change}
     subscription_required_to_play: "订阅后才可开始本关"
@@ -662,7 +662,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     password_tab: "密码"
     emails_tab: "邮件"
     admin: "管理"
-#    manage_subscription: "Click here to manage your subscription."
+    manage_subscription: "点此管理您的订阅"
     new_password: "新密码"
     new_password_verify: "再次输入密码"
     type_in_email: "输入您的邮箱地址"
@@ -770,7 +770,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     started_2: "已开始"
     not_started_2: "还没开始"
     view_solution: "点击查阅答案。"
-#    view_attempt: "Click to view attempt."
+    view_attempt: "点击查阅解题的尝试"
     latest_achievement: "最新成就"
     playtime: "游戏时间"
     last_played: "最后玩了"
@@ -792,7 +792,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   courses:
     course: "课程"
     courses: "课程"
-#    create_new_class: "Create New Class"
+    create_new_class: "建立新的课堂"
     not_enrolled: "您还没有报名参加本课程。"
     visit_pref: "请到这个"
     visit_suf: "网页注册。"
