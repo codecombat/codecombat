@@ -28,7 +28,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     context.levelNeedsSave = @level.hasLocalChanges()
     context.modifiedComponents = _.filter @supermodel.getModels(LevelComponent), @shouldSaveEntity
     context.modifiedSystems = _.filter @supermodel.getModels(LevelSystem), @shouldSaveEntity
-    context.hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
+    @hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
     @lastContext = context
     context
 
