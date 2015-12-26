@@ -104,31 +104,28 @@ module.exports = class Level extends CocoModel
       if isHero and placeholderComponent = placeholders[defaultThangComponent.original]
         placeholdersUsed[placeholderComponent.original] = true
         placeholderConfig = placeholderComponent.config ? {}
+        levelThangComponent.config ?= {}
+        config = levelThangComponent.config
         if placeholderConfig.pos  # Pull in Physical pos x and y
-          levelThangComponent.config ?= {}
-          levelThangComponent.config.pos ?= {}
-          levelThangComponent.config.pos.x = placeholderConfig.pos.x
-          levelThangComponent.config.pos.y = placeholderConfig.pos.y
-          levelThangComponent.config.rotation = placeholderConfig.rotation
+          config.pos ?= {}
+          config.pos.x = placeholderConfig.pos.x
+          config.pos.y = placeholderConfig.pos.y
+          config.rotation = placeholderConfig.rotation
         else if placeholderConfig.team  # Pull in Allied team
-          levelThangComponent.config ?= {}
-          levelThangComponent.config.team = placeholderConfig.team
+          config.team = placeholderConfig.team
         else if placeholderConfig.significantProperty  # For levels where we cheat on what counts as an enemy
-          levelThangComponent.config ?= {}
-          levelThangComponent.config.significantProperty = placeholderConfig.significantProperty
+          config.significantProperty = placeholderConfig.significantProperty
         else if placeholderConfig.programmableMethods
           # Take the ThangType default Programmable and merge level-specific Component config into it
           copy = $.extend true, {}, placeholderConfig
-          programmableProperties = levelThangComponent.config?.programmableProperties ? []
+          programmableProperties = config?.programmableProperties ? []
           copy.programmableProperties = _.union programmableProperties, copy.programmableProperties ? []
-          levelThangComponent.config = _.merge copy, levelThangComponent.config
+          levelThangComponent.config = config = _.merge copy, config
         else if placeholderConfig.extraHUDProperties
-          levelThangComponent.config ?= {}
-          levelThangComponent.config.extraHUDProperties = _.union(levelThangComponent.config.extraHUDProperties ? [], placeholderConfig.extraHUDProperties)
+          config.extraHUDProperties = _.union(config.extraHUDProperties ? [], placeholderConfig.extraHUDProperties)
         else if placeholderConfig.voiceRange  # Pull in voiceRange
-          levelThangComponent.config ?= {}
-          levelThangComponent.config.voiceRange = placeholderConfig.voiceRange
-          levelThangComponent.config.cooldown = placeholderConfig.cooldown
+          config.voiceRange = placeholderConfig.voiceRange
+          config.cooldown = placeholderConfig.cooldown
 
     if isHero
       if equips = _.find levelThang.components, {original: LevelComponent.EquipsID}

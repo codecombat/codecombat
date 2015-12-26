@@ -21,12 +21,7 @@ module.exports = class SaveVersionModal extends ModalView
     super options
     @model = options.model or options.level
     @isPatch = not @model.hasWriteAccess()
-
-  getRenderData: ->
-    c = super()
-    c.isPatch = @isPatch
-    c.hasChanges = @model.hasLocalChanges()
-    c
+    @hasChanges = @model.hasLocalChanges()
 
   afterRender: (insertDeltaView=true) ->
     super()

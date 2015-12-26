@@ -37,8 +37,8 @@ nav.navbar.navbar-default(role='navigation')
           a(data-i18n="general.version_history") Version History
 
   .navbar-header
-    span.navbar-brand= editTitle
-  
+    span.navbar-brand= view.levelSystem.get('name')
+
 .tab-content
   .tab-pane.active#system-code
     #system-code-editor

@@ -22,6 +22,10 @@ block append content
                 span(data-i18n="user.favorite_prefix") Favorite language is
                 strong.favorite-language= favoriteLanguage
                 span(data-i18n="user.favorite_postfix") .
+            if playerLevel
+              div.extra-info
+                span.spr(data-i18n="general.player_level") Level
+                strong= playerLevel
         - var emails = user.getEnabledEmails()
         // TODO: fix this, use some other method for finding contributor classes other than email settings, since they're private... Maybe achievements?
         if emails

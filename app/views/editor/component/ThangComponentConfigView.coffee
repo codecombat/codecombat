@@ -21,13 +21,6 @@ module.exports = class ThangComponentConfigView extends CocoView
     @level = options.level
     @callback = options.callback
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.component = @component.attributes
-    context.configProperties = []
-    context.isDefaultComponent = @isDefaultComponent
-    context
-
   afterRender: ->
     super()
     @buildTreema()
