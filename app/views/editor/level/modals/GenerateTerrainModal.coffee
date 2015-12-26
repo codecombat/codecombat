@@ -344,6 +344,11 @@ module.exports = class GenerateTerrainModal extends ModalView
   events:
     'click .choose-option': 'onGenerate'
 
+  constructor: (options) ->
+    super options
+    @presets = presets
+    @presetSizes = presetSizes
+
   onRevertModel: (e) ->
     id = $(e.target).val()
     CocoModel.backedUp[id].revert()
