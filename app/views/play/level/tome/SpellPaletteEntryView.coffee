@@ -31,11 +31,6 @@ module.exports = class SpellPaletteEntryView extends CocoView
     @doc.initialHTML = @docFormatter.formatPopover()
     @aceEditors = []
 
-  getRenderData: ->
-    c = super()
-    c.doc = @doc
-    c
-
   afterRender: ->
     super()
     @$el.addClass(@doc.type)

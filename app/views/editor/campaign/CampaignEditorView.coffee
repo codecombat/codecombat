@@ -144,11 +144,6 @@ module.exports = class CampaignEditorView extends RootView
 
     super()
 
-  getRenderData: ->
-    c = super()
-    c.campaign = @campaign
-    c
-
   onClickPatches: (e) ->
     @patchesView = @insertSubView(new PatchesView(@campaign), @$el.find('.patches-view'))
     @patchesView.load()
