@@ -281,7 +281,6 @@ module.exports = class PlayHeroesModal extends ModalView
     popover?.$tip?.i18n()
 
   onBuyGemsPromptButtonClicked: (e) ->
-    @playSound 'menu-button-click'
     return @askToSignUp() if me.get('anonymous')
     @openModalView new BuyGemsModal()
 

@@ -53,11 +53,6 @@ module.exports = class SubscriptionView extends RootView
     @personalSub.update => @render?()
     @recipientSubs.update => @render?()
 
-  getRenderData: ->
-    c = super()
-    c.emailValidator = @emailValidator
-    c
-
   # Personal Subscriptions
 
   onClickStartSubscription: (e) ->

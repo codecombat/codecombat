@@ -33,6 +33,7 @@ module.exports = class ContactModal extends ModalView
     res = tv4.validateMultiple contactMessage, contactSchema
     return forms.applyErrorsToForm @$el, res.errors unless res.valid
     @populateBrowserData contactMessage
+    contactMessage = _.merge contactMessage, @options
     contactMessage.country = me.get('country')
     window.tracker?.trackEvent 'Sent Feedback', message: contactMessage
     sendContactMessage contactMessage, @$el
