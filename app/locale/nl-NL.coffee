@@ -17,7 +17,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Gemeenschap"
-#    courses: "Courses"
+    courses: "Lessen"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
@@ -52,7 +52,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   play:
     play_as: "Speel als " # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "Compleet!" # Course details page //in English it says 'complete', so translated that instead.
     spectate: "Toeschouwen" # Ladder page
     players: "Spelers" # Hover over a level on /play
     hours_played: "Speeltijd" # Hover over a level on /play
@@ -63,7 +63,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     locked: "Vergrendeld"
     purchasable: "Te koop" # For a hero you unlocked but haven't purchased
     available: "Beschikbaar"
-#    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "Verleende vaardigheden" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
     achievements: "Prestaties" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
@@ -75,7 +75,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     subscription_required: "Abonnement nodig"
     anonymous: "Anonieme Speler"
     level_difficulty: "Moeilijkheidsgraad: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "Speel de klassikale versie" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Beginnercampagne"
     awaiting_levels_adventurer_prefix: "We brengen 5 nieuwe levels per week uit." # {change}
     awaiting_levels_adventurer: "Schrijf je in als Avonturier"
@@ -114,9 +114,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     log_in: "inloggen met wachtwoord"
     required: "Je moet inloggen om daarheen te gaan."
     login_switch: "Heb je al een account?"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
+    school_name: "School naam en stad"
+    optional: "optioneel"
+    school_name_placeholder: "Voorbeeld middelbare school, Amsterdam"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -160,13 +160,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     date: "Datum"
     body: "Inhoud"
     version: "Versie"
-#    pending: "Pending"
+    pending: "In afwachting"
     accepted: "Geaccepteerd"
     rejected: "Afgewezen"
     withdrawn: "Teruggetrokken"
-#    accept: "Accept"
-#    reject: "Reject"
-#    withdraw: "Withdraw"
+    accept: "Accepteer"
+    reject: "Weiger"
+    withdraw: "Intrekken"
     submitter: "Toevoeger"
     submitted: "Toegevoegd"
     commit_msg: "Commit Bericht"
@@ -221,12 +221,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     years: "jaren"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "Voltooid Level:"
+    course: "Les:"
     done: "Klaar"
-#    next_level: "Next Level:"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+    next_level: "Volgende Level:"
+    next_game: "Volgende spel"
+    show_menu: "Geef spelmenu weer"
     home: "Home" # Not used any more, will be removed soon.
     level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "Overslaan"
@@ -324,25 +324,25 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_premature_optimization: "vroegtijdig optimaliseren is de wortel van al het kwaad. - Donald Knuth"
     tip_brute_force: "Wanneer je twijfelt, gebruik brute force. - Ken Thompson"
     tip_extrapolation: "Er zijn twee soorten mensen: Zij die iets kunnen afleiden van onvolledige gegevens..."
-#    tip_superpower: "Coding is the closest thing we have to a superpower."
-#    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
+    tip_superpower: "Van alle dingen komt programmeren het dichtst in de buurt van een superkracht."
+    tip_control_destiny: "In echte open source, hebt je het recht om je eigen toekomst te bepalen. - Linus Torvalds"
     tip_no_code: "Geen code is sneller dan geen code."
     tip_code_never_lies: "Code liegt niet, commentaar soms wel. — Ron Jeffries"
     tip_reusable_software: "voor code herbruikbaar kan zijn, moet het bruikbaar zijn."
-#    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
+    tip_optimization_operator: "Iedere taal heeft een optimalisatie operator. In de meeste talen is die operator ‘//’"
     tip_lines_of_code: "programmeervoortgang meten met lijnen code, is als vliegtuigbouwvoortgang meten bij gewicht. — Bill Gates"
     tip_source_code: "Ik wil de wereld veranderen, maar ze geven me de broncode niet."
-#    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
+    tip_javascript_java: "Java staat tot JavaScript, als Kar staat tot Karpet. - Chris Heilmann"
     tip_move_forward: "Wat je ook doet, ga vooruit. - Martin Luther King Jr."
     tip_google: "Heb je een probleem dat je niet kan oplossen? Googel het!"
     tip_adding_evil: "Een snufje kwaad toevoegen."
     tip_hate_computers: "Mensen die denken dat ze de computer haten, haten eigenlijk slechte programmeurs. - Larry Niven"
     tip_open_source_contribute: "Je kunt helpen CodeCombat te verbeteren!"
-#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
+    tip_recurse: "Itereren is menselijk, recursiveren is goddelijk. - L. Peter Deutsch"
     tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
     tip_strong_opponents: "Zelf de sterkste vijand heeft een zwakheid. - Itachi Uchiha"
     tip_paper_and_pen: "Voor je begint te programmeren, kan je altijd met pen en papier een plan maken."
-#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+    tip_solve_then_write: "Los eerst het probleem op. Schrijf dan de code. - John Johnson"
 
   game_menu:
     inventory_tab: "Inventaris"
@@ -357,20 +357,20 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     choose_hero_caption: "Kies held, taal"
     save_load_caption: "... en bekijk de geschiedenis"
     options_caption: "Instellingen"
-#    guide_caption: "Docs and tips"
+    guide_caption: "Documenten en tips"
     multiplayer_caption: "Speel met vrienden!"
     auth_caption: "Bewaar je voortgang."
 
   leaderboard:
     view_other_solutions: "Bekijk Klassement"
     scores: "Scores"
-#    top_players: "Top Players by"
+    top_players: "Top Spelers per"
     day: "Vandaag"
     week: "Deze week"
     all: "Altijd"
     time: "tijd"
-#    damage_taken: "Damage Taken"
-#    damage_dealt: "Damage Dealt"
+    damage_taken: "Schade ontvangen"
+    damage_dealt: "Schade uitgedeeld"
     difficulty: "Moeilijkheidsgraad"
     gold_collected: "Goud verzameld"
 
@@ -400,14 +400,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    price: "x3500 / mo"
 
   subscribe:
-#    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
+    comparison_blurb: "Verbeter je vaardigheden met een abonement op CodeCombat!"
     feature1: "meer dan 110+ basislevels over 4 werelden"
     feature2: "10 sterke <strong>nieuwe helden</strong> met unieke vaardigheden!"
     feature3: "70+ bonuslevels" # {change}
-#    feature4: "<strong>3500 bonus gems</strong> every month!"
+    feature4: "<strong>3500 bonus edelstenen</strong> elke maand!"
     feature5: "Video cursussen"
-#    feature6: "Premium email support"
-#    feature7: "Private <strong>Clans</strong>"
+    feature6: "Hoogwaardige e-mail ondersteuning"
+    feature7: "Besloten <strong>Clans</strong>"
     free: "Gratis"
     month: "maand"
     must_be_logged: "Je moet eerst ingelogd zijn. Maak een account aan of log in in het menu hierboven."
@@ -443,8 +443,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     stripe_description: "Maandelijks abonnement"
     stripe_description_year_sale: "1-jarig abonnement (${{discount}} korting)" # {change}
     subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
-#    unlock_help_videos: "Subscribe to unlock all video tutorials."
-#    personal_sub: "Personal Subscription" # Accounts Subscription View below
+    unlock_help_videos: "Abonneer om toegang te krijgen tot alle instructievideos."
+    personal_sub: "Persoonlijk Abonnement" # Accounts Subscription View below
 #    loading_info: "Loading subscription information..."
 #    managed_by: "Managed by"
 #    will_be_cancelled: "Will be cancelled on"
