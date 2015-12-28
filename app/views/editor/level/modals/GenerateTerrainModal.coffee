@@ -344,6 +344,11 @@ module.exports = class GenerateTerrainModal extends ModalView
   events:
     'click .choose-option': 'onGenerate'
 
+  constructor: (options) ->
+    super options
+    @presets = presets
+    @presetSizes = presetSizes
+
   onRevertModel: (e) ->
     id = $(e.target).val()
     CocoModel.backedUp[id].revert()
@@ -634,12 +639,6 @@ module.exports = class GenerateTerrainModal extends ModalView
 
   getRandomThang: (thangList) ->
     return thangList[_.random(0, thangList.length-1)]
-
-  getRenderData: ->
-    c = super()
-    c.presets = presets
-    c.presetSizes = presetSizes
-    c
 
   onHidden: ->
     location.reload() if @reloadOnClose
