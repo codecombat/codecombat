@@ -4,9 +4,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     no_ie: "CodeCombat werkt niet in IE8 of ouder. Sorry!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat is niet gemaakt voor mobiele apparaten en werkt misschien niet!" # Warning that shows up on mobile devices
     play: "Speel" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Speel de Campagne Versie" # Shows up under big play button if you only play /courses
     old_browser: "Uh oh, jouw browser is te oud om CodeCombat te kunnen spelen, Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
-    old_browser_suffix: "Je kan toch proberen, maar het zal waarschijnlijk niet werken!"
+    old_browser_suffix: "Je kan het toch proberen, maar het zal waarschijnlijk niet werken!"
     ipad_browser: "Slecht nieuws: CodeCombat draait niet in je browser op iPad. Goed nieuws: onze iPad-app wordt op het moment beoordeeld door Apple."
     campaign: "Campagne"
     for_beginners: "Voor Beginners"
@@ -25,10 +25,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     profile: "Profiel"
     stats: "Statistieken"
     code: "Code"
-    admin: "Administrator" # Only shows up when you are an admin
+    admin: "Beheerder" # Only shows up when you are an admin
     home: "Home"
     contribute: "Bijdragen"
-    legal: "Legaal"
+    legal: "Rechten" # "Legaal" is used in a context of legal/iligal. "Rechten" is used in context of applicable laws and rules.
     about: "Over Ons"
     contact: "Contact"
     twitter_follow: "Volgen"
@@ -45,7 +45,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   diplomat_suggestion:
     title: "Help CodeCombat vertalen!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "We hebben je taalvaardigheden nodig."
-    pitch_body: "We ontwikkelen CodeCombat in het Engels, maar we hebben al spelers van over de hele wereld. Veel van hen willen in het Nederlands spelen, maar kunnen geen Engels. Dus als je beiden spreekt, overweeg a.u.b. om je aan te melden als Diplomaat en help zowel de CodeCombat website als alle levels te vertalen naar het Nederlands."
+    pitch_body: "We ontwikkelen CodeCombat in het Engels, maar we hebben al spelers van over de hele wereld. Veel van hen willen in het Nederlands spelen want zij spreken onvoldoende Engels. Dus als je beiden spreekt, overweeg a.u.b. om je aan te melden als Diplomaat en help zowel de CodeCombat website als alle levels te vertalen naar het Nederlands."
     missing_translations: "Totdat we alles hebben vertaald naar het Nederlands zul je Engels zien waar Nederlands niet beschikbaar is."
     learn_more: "Meer informatie over het zijn van een Diplomaat"
     subscribe_as_diplomat: "Abonneren als Diplomaat"
@@ -68,7 +68,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     achievements: "Prestaties" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
     settings: "Instellingen" # Tooltip on settings button from /play
-    poll: "Stemming" # Tooltip on poll button from /play
+    poll: "Enquête" # Tooltip on poll button from /play 
     next: "Volgende" # Go from choose hero to choose inventory before playing a level
     change_hero: "Verander held" # Go back from choose inventory to choose hero
     buy_gems: "Edelstenen kopen"
@@ -84,14 +84,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     campaign_multiplayer: "Multiplayer Arena's"
     campaign_multiplayer_description: "... waarin je direct tegen andere spelers speelt."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_old_multiplayer_description: "Reliquien van een meer beschaafdere tijd. Er worden geen simulaties uitgevoerd voor deze oudere heldloze arena's."
 
   share_progress_modal:
     blurb: "Je gaat snel vooruit! Vertel aan je ouders hoeveel je geleerd hebt met CodeCombat."
-    email_invalid: "Emailaddress klopt niet."
-    form_blurb: "Vul het emailadres van je ouders hieronder in en we zullen het ze laten zien!"
-    form_label: "Emailaddress"
-    placeholder: "emailaddress"
+    email_invalid: "E-mailaddress klopt niet."
+    form_blurb: "Vul het e-mailadres van je ouders hieronder in en we zullen het ze laten zien!"
+    form_label: "E-mailaddress"
+    placeholder: "e-mailaddress"
     title: "Goed werk, leerling"
 
   login:
@@ -108,13 +108,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     signup_switch: "Wil je een account maken?"
 
   signup:
-    email_announcements: "Ontvang aankondigingen via email"
+    email_announcements: "Ontvang aankondigingen via e-mail"
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
     required: "Je moet inloggen om daarheen te gaan."
     login_switch: "Heb je al een account?"
-    school_name: "School naam en stad"
+    school_name: "Schoolnaam en stad"
     optional: "optioneel"
     school_name_placeholder: "Voorbeeld middelbare school, Amsterdam"
 
@@ -183,7 +183,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     description: "Beschrijving"
     or: "of"
     subject: "Onderwerp"
-    email: "Email"
+    email: "E-mail"
     password: "Wachtwoord"
     message: "Bericht"
     code: "Code"
@@ -195,7 +195,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     win: "Win"
     loss: "Verlies"
     tie: "Gelijkstand"
-    easy: "Gemakkelijk"
+    easy: "Makkelijk"
     medium: "Medium"
     hard: "Moeilijk"
     player: "Speler"
@@ -249,7 +249,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory: "Gewonnen"
     victory_title_prefix: ""
     victory_title_suffix: " Compleet"
-    victory_sign_up: "Schrijf je in om je vooruitgang op te slaan"
+    victory_sign_up: "Schrijf je in om je vooruitgang op te kunnen slaan"
     victory_sign_up_poke: "Wil je jouw code opslaan? Maak een gratis account aan!"
     victory_rate_the_level: "Beoordeel het level: " # {change}
     victory_return_to_ladder: "Keer terug naar de ladder"
@@ -287,8 +287,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     time_goto: "Ga naar:"
     non_user_code_problem_title: "Kan level niet laden"
     infinite_loop_title: "Oneindige Loop gedetecteerd"
-#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
-#    check_dev_console: "You can also open the developer console to see what might be going wrong."
+    infinite_loop_description: "De oorspronkelijke code om de wereld te bouwen is niet gestopt. De code is erg langzaam, bevat een oneindige loop of bevat een bug. Je kunt proberen de code opnieuw uit te voeren of de code te resetten naar de standaardinstelling. Als het dan nog problemen blijft geven, neem dan a.u.b. contact met ons op."
+    check_dev_console: "Je kunt ook de ontwikkelaarsconsole openen om te kijken wat er fout ging".
     check_dev_console_link: "(instructies)"
     infinite_loop_try_again: "Probeer opnieuw"
     infinite_loop_reset_level: "Level resetten"
@@ -313,7 +313,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_munchkin: "Als je je groentjes niet opeet zal een munchkin je ontvoeren terwijl je slaapt."
     tip_binary: "Er zijn 10 soorten mensen in de wereld: Mensen die binair kunnen tellen en mensen die dat niet kunnen."
     tip_commitment_yoda: "Een programmeur moet de grootste inzet hebben, een meest serieuze geest. ~ Yoda"
-    tip_no_try: "Doe het. Of doe het niet. Je kunt niet proberen. - Yoda"
+    tip_no_try: "Doe het. Of doe het niet. Proberen bestaat niet. - Yoda"
     tip_patience: "Geduld moet je hebben, jonge Padawan. - Yoda"
     tip_documented_bug: "Een gedocumenteerde fout is geen fout; het is deel van het programma."
     tip_impossible: "Het lijkt altijd onmogelijk tot het gedaan wordt. - Nelson Mandela"
@@ -339,8 +339,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_hate_computers: "Mensen die denken dat ze de computer haten, haten eigenlijk slechte programmeurs. - Larry Niven"
     tip_open_source_contribute: "Je kunt helpen CodeCombat te verbeteren!"
     tip_recurse: "Itereren is menselijk, recursiveren is goddelijk. - L. Peter Deutsch"
-    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
-    tip_strong_opponents: "Zelf de sterkste vijand heeft een zwakheid. - Itachi Uchiha"
+    tip_free_your_mind: "Je moet alles loslaten, Neo. Angst, twijfel, en ongeloof. Bevrijd je gedachten. - Morpheus"
+    tip_strong_opponents: "Zelfs de sterkste vijand heeft een zwakke plek. - Itachi Uchiha"
     tip_paper_and_pen: "Voor je begint te programmeren, kan je altijd met pen en papier een plan maken."
     tip_solve_then_write: "Los eerst het probleem op. Schrijf dan de code. - John Johnson"
 
@@ -364,7 +364,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   leaderboard:
     view_other_solutions: "Bekijk Klassement"
     scores: "Scores"
-    top_players: "Top Spelers per"
+    top_players: "Top Spelers van" 
     day: "Vandaag"
     week: "Deze week"
     all: "Altijd"
@@ -379,8 +379,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     required_purchase_title: "Verplicht"
     available_item: "Beschikbaar"
     restricted_title: "Onbeschikbaar"
-    should_equip: "(double-click om te kiezen)"
-    equipped: "(gekozen)"
+    should_equip: "(dubbelklik om te kiezen)"
+    equipped: "(gekozen)" 
     locked: "(versleuteld)"
     restricted: "(onbeschikbaar in dit level)"
     equip: "Kies"
@@ -390,14 +390,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     few_gems: "Een paar edelstenen"
     pile_gems: "Berg edelstenen"
     chest_gems: "Schatkist met edelstenen"
-    purchasing: "Aan het kopen..."
+    purchasing: "kopen..."
     declined: "Je kaart is geweigerd"
-    retrying: "Server fout, opnieuw aan het proberen."
+    retrying: "Serverfout, opnieuw aan het proberen."
     prompt_title: "Niet genoeg edelstenen"
     prompt_body: "Wil je meer krijgen?"
     prompt_button: "Naar de winkel"
-#    recovered: "Previous gems purchase recovered. Please refresh the page."
-#    price: "x3500 / mo"
+    recovered: "Vorige edelstenen aankoop hersteld. Vernieuw a.u.b. deze pagina"
+#    price: "x3500 / mo" # What is the context here?
 
   subscribe:
     comparison_blurb: "Verbeter je vaardigheden met een abonement op CodeCombat!"
@@ -415,19 +415,19 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     unsubscribe: "Abonnement opzeggen"
     confirm_unsubscribe: "Opzegging Bevestigen"
     never_mind: "Laat Maar, Ik Hou Nog Steeds Van Je"
-    thank_you_months_prefix: "Bedankt voor je steun in de laatste"
+    thank_you_months_prefix: "Bedankt voor je steun de afgelopen" #Thanks for your support the previous....
     thank_you_months_suffix: "maanden."
     thank_you: "Bedankt dat je CodeCombat steunt."
     sorry_to_see_you_go: "Jammer dat je weggaat! Laat ons alsjeblieft weten wat we beter hadden kunnen doen."
-    unsubscribe_feedback_placeholder: "O, wat hebben we gedaan?"
-    parent_button: "Vraag het aan je ouder"
-    parent_email_description: "We zullen ze een email sturen zodat zij een CodeCombat-abonnement voor je kunnen kopen."
-    parent_email_input_invalid: "Emailaddress ongeldig."
-    parent_email_input_label: "Emailadres van ouders"
-    parent_email_input_placeholder: "Vul het emailadres van de ouders in"
-    parent_email_send: "Stuur email"
-    parent_email_sent: "Email verzonden!!"
-    parent_email_title: "Wat is het emailadres van je ouders?"
+    unsubscribe_feedback_placeholder: "Oh, wat hebben we gedaan?"
+    parent_button: "Vraag het aan je ouder" # Ouder is the sigular form (parent), is this intended? (Plural = Ouders)
+    parent_email_description: "We zullen ze een e-mail sturen zodat zij een CodeCombat-abonnement voor je kunnen kopen."
+    parent_email_input_invalid: "E-mailadres ongeldig."
+    parent_email_input_label: "E-mailadres van ouders"
+    parent_email_input_placeholder: "Vul het e-mailadres van de ouders in" #this says: fill in the emailaddress of THE parents. Shoudn't it be "your"?
+    parent_email_send: "Stuur e-mail"
+    parent_email_sent: "E-mail verzonden!!"
+    parent_email_title: "Wat is het e-mailadres van je ouders?"
     parents: "Voor ouders"
     parents_title: "Uw kind leert programmeren." # {change}
     parents_blurb1: "Met CodeCombat leert uw kind door echte code te schrijven. Ze beginnen met simpele instructies en naarmate ze verder komen, komen er moeilijkere onderwerpen aan bod."
@@ -442,15 +442,15 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     sale_button_title: "Bespaar ${{discount}} bij aankoop van een 1-jaars abonnement" # {change}
     stripe_description: "Maandelijks abonnement"
     stripe_description_year_sale: "1-jarig abonnement (${{discount}} korting)" # {change}
-    subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
+    subscription_required_to_play: "Je hebt een abonnement nodig om dit level kunnen te spelen."
     unlock_help_videos: "Abonneer om toegang te krijgen tot alle instructievideos."
     personal_sub: "Persoonlijk Abonnement" # Accounts Subscription View below
-#    loading_info: "Loading subscription information..."
-#    managed_by: "Managed by"
-#    will_be_cancelled: "Will be cancelled on"
+    loading_info: "Abonement informatie wordt geladen..."
+    managed_by: "Beheerd door"
+    will_be_cancelled: "Wordt geanuleerd op"
     currently_free: "Je hebt momenteel een gratis account"
-#    currently_free_until: "You currently have a subscription until"
-#    was_free_until: "You had a free subscription until"
+    currently_free_until: "Momenteel heeft u een abonement dat loopt tot"
+    was_free_until: "U had een gratis abonement tot"
 #    managed_subs: "Managed Subscriptions"
     subscribing: "Inschrijven..."
     current_recipients: "Huidige ontvangers"
@@ -482,13 +482,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     regeneration: "Herstel"
     range: "Bereik" # As in "attack or visual range"
     blocks: "Blokkeert" # As in "this shield blocks this much damage"
-#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
+    backstab: "Rugsteek" # As in "this dagger does this much backstab damage"
     skills: "Vaardigheden"
-#   attack_1: "brengt [x damge] toe" # In Dutch we say 'brings [x damge] to...' Alternative: 'veroorzaakt [x damage] (causes [x damage])
-#    attack_2: "of listed" # what is the context?
+   attack_1: "Veroorzaakt" # As in this "causes" x damage.
+    attack_2: "van vermelde" 
     attack_3: "Wapen schade."
-#    health_1: "Gains"
-#    health_2: "of listed"
+    health_1: "stijgt" # There is no literal Dutch translation. "Stijgt" is more like increase. 
+    health_2: "van vermelde"
     health_3: "pantser gezondheid."
     speed_1: "Beweegt met"
     speed_2: "meter per seconde."
@@ -498,7 +498,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   skill_docs:
     writable: "beschrijfbaar" # Hover over "attack" in Your Skills while playing a level to see most of this
-    read_only: "read-only"
+    read_only: "alleen lezen"
     action: "Actie"
     spell: "toverspreuk"
     action_name: "naam"
@@ -513,7 +513,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     current_value: "Huidige waarde"
     default_value: "Standaard waarde"
     parameters: "Parameters"
-#    returns: "Returns" 
+    returns: "Geeft" # As in "gives". Alternativly "geeft [somthing] terug" meaning "gives [somthing] back"
     granted_by: "Verleend door"
 
   save_load:
