@@ -114,9 +114,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     log_in: "パスワードでログイン"
     required: "ログインする必要があります"
     login_switch: "すでにアカウントをお持ちですか？"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
+    school_name: "学校名と市名"
+    optional: "オプション"
+    school_name_placeholder: "エグザンプル高校, なんとか市, 日本"
 
   recover:
     recover_account_title: "パスワードを忘れた場合"
@@ -576,17 +576,17 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     josh_c_blurb: "ゲームのデザイン"
     carlos_title: "地域部長, ブラジル"
     carlos_blurb: "サラリーマン"
-#    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
+    maka_title: "顧客主義"
+    maka_blurb: "ストーリーテラー"
 
   teachers:
     who_for_title: "CodeCombat が必要なひと"
     who_for_1: "私たちは CodeCombat を9歳以上の生徒にオススメしています。プログラミングの経験は必要ありません。" # {change}
     who_for_2: "私たちは男女問わず遊べるように CodeCombat をデザインしました。" # {change}
-#    more_info_title: "Where can I find more information?"
-#    more_info_1: "Our"
-#    more_info_2: "teachers forum"
-#    more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
+    more_info_title: "もっと情報がほしい人"
+    more_info_1: "私たちの"
+    more_info_2: "ティーチャーフォーラム"
+    more_info_3: "でCodeCombatを使っている教育者の仲間とつながりましょう。"
 
   teachers_survey:
 #    title: "Teacher Survey"
@@ -1211,7 +1211,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    games_played: "Games played"
     ratio: "比率  "
     leaderboard: "リーダーボード"
-#    battle_as: "Battle as "
+    battle_as: "対戦  "
     summary_your: "あなたの "
     summary_matches: "戦闘数 - "
     summary_wins: " 勝利数, "
@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     rank_submitted: "ランキングに送信されました。"
     rank_failed: "ランキングに送信できませんでした。"
     rank_being_ranked: "ランキングにのっています"
-#    rank_last_submitted: "submitted "
+    rank_last_submitted: "送信"
 #    help_simulate: "Help simulate games?"
 #    code_being_simulated: "Your new code is being simulated by other players for ranking. This will refresh as new matches come in."
 #    no_ranked_matches_pre: "No ranked matches for the "
@@ -1256,11 +1256,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     rules: "ルール"
     winners: "勝者"
     league: "リーグ"
-#    red_ai: "Red CPU" # "Red AI Wins", at end of multiplayer match playback
-#    blue_ai: "Blue CPU"
-#    wins: "Wins" # At end of multiplayer match playback
-#    humans: "Red" # Ladder page display team name
-#    ogres: "Blue"
+    red_ai: "レッドCPU" # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "ブルーCPU"
+    wins: "勝利" # At end of multiplayer match playback
+    humans: "レッド" # Ladder page display team name
+    ogres: "ブルー"
 
   user:
     stats: "ステータス"
