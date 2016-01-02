@@ -473,7 +473,7 @@ module.exports = class ThangType extends CocoModel
     name: name, display: display, matchedShortName: matchedShortName
 
   isSilhouettedItem: ->
-    return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get('gems') or @get('tier')
+    return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get('gems')? or @get('tier')?
     console.info "Add (or make sure you have fetched) a tier for #{@get('name')} to more accurately determine whether it is silhouetted." unless @get('tier')?
     tier = @get 'tier'
     if tier?
