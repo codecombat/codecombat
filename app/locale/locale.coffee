@@ -16,7 +16,7 @@ module.exports =
   'en-US': { nativeDescription: 'English (US)', englishDescription: 'English (US)' }
   'en-GB': { nativeDescription: 'English (UK)', englishDescription: 'English (UK)' }
   'zh-HANS': { nativeDescription: '简体中文', englishDescription: 'Chinese (Simplified)' }
-  'zh-HANT': { nativeDescription: '繁体中文', englishDescription: 'Chinese (Traditional)' }
+  'zh-HANT': { nativeDescription: '繁體中文', englishDescription: 'Chinese (Traditional)' }
   'ru': { nativeDescription: 'русский', englishDescription: 'Russian' }
   'es-ES': { nativeDescription: 'español (ES)', englishDescription: 'Spanish (Spain)' }
   'es-419': { nativeDescription: 'español (América Latina)', englishDescription: 'Spanish (Latin America)' }
