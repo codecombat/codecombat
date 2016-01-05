@@ -159,7 +159,7 @@ module.exports = class HeroVictoryModal extends ModalView
     for achievement in (@achievements?.models or [])
       earnedAchievement = earnedAchievementMap[achievement.id]
       if earnedAchievement
-        achievement.completedAWhileAgo = new Date().getTime() - Date.parse(earnedAchievement.get('created')) > 30 * 1000
+        achievement.completedAWhileAgo = new Date().getTime() - Date.parse(earnedAchievement.attributes.changed) > 30 * 1000
       achievement.worth = achievement.get 'worth', true
       achievement.gems = achievement.get('rewards')?.gems
     c.achievements = @achievements?.models.slice() or []
