@@ -407,6 +407,7 @@ module.exports = class PlayLevelView extends RootView
     require 'vendor/aether-java'
     require 'vendor/aether-clojure'
     require 'vendor/aether-io'
+    require 'vendor/aether-java'
     @simulateNextGame()
 
   simulateNextGame: ->

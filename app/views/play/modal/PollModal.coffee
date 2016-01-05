@@ -132,3 +132,4 @@ commentStarts =
   clojure: '; '
   lua: '-- '
   io: '// '
+  java: '// '

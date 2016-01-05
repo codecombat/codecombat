@@ -113,9 +113,11 @@ module.exports = class PlayHeroesModal extends ModalView
         {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
         {id: 'clojure', name: "Clojure (#{$.i18n.t('choose_hero.experimental')})"}
         {id: 'lua', name: 'Lua'}
-        {id: 'java', name: 'Java'}
         #{id: 'io', name: "Io (#{$.i18n.t('choose_hero.experimental')})"}
       ]
+
+      if me.isAdmin() or not application.isProduction()
+        @codeLanguageList.push {id: 'java', name: "Java (#{$.i18n.t('choose_hero.experimental')})"}
 
   onHeroChanged: (e) ->
     direction = e.direction  # 'left' or 'right'

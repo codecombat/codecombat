@@ -264,6 +264,7 @@ module.exports.aceEditModes = aceEditModes =
   'clojure': 'ace/mode/clojure'
   'lua': 'ace/mode/lua'
   'io': 'ace/mode/text'
+  'java': 'ace/mode/java'
 
 module.exports.initializeACE = (el, codeLanguage) ->
   contents = $(el).text().trim()
