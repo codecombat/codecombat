@@ -579,6 +579,8 @@
     carlos_blurb: "Celery Man"
     maka_title: "Customer Advocate"
     maka_blurb: "Storyteller"
+    robin_title: "UX Design & Research"
+    robin_blurb: "Scaffolding"
 
   teachers:
     who_for_title: "Who is CodeCombat for?"
