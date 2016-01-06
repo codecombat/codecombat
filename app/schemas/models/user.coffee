@@ -117,7 +117,7 @@ _.extend UserSchema.properties,
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
   aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
-    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'io']}
+    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'java', 'io']}
     keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}
     invisibles: {type: 'boolean' }
     indentGuides: {type: 'boolean' }
