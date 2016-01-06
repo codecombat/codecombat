@@ -49,6 +49,7 @@ module.exports = class MainUserView extends UserView
       context.singlePlayerSessions = singlePlayerSessions
       context.multiPlayerSessions = multiPlayerSessions
       context.favoriteLanguage = favoriteLanguage
+      context.playerLevel = @user.level()
     if @earnedAchievements and @earnedAchievements.loaded
       context.earnedAchievements = @earnedAchievements
     if @clans and @clans.loaded

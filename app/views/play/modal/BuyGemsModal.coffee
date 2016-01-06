@@ -3,17 +3,12 @@ template = require 'templates/play/modal/buy-gems-modal'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
 SubscribeModal = require 'views/core/SubscribeModal'
+Products = require 'collections/Products'
 
 module.exports = class BuyGemsModal extends ModalView
   id: 'buy-gems-modal'
   template: template
   plain: true
-
-  originalProducts: [
-    { price: '$4.99', gems: 5000, amount: 499, id: 'gems_5', i18n: 'buy_gems.few_gems' }
-    { price: '$9.99', gems: 11000, amount: 999, id: 'gems_10', i18n: 'buy_gems.pile_gems' }
-    { price: '$19.99', gems: 25000, amount: 1999, id: 'gems_20', i18n: 'buy_gems.chest_gems' }
-  ]
 
   subscriptions:
     'ipad:products': 'onIPadProducts'
@@ -29,22 +24,21 @@ module.exports = class BuyGemsModal extends ModalView
     super(options)
     @timestampForPurchase = new Date().getTime()
     @state = 'standby'
+    @products = new Products()
+    @products.comparator = 'amount'
     if application.isIPadApp
       @products = []
       Backbone.Mediator.publish 'buy-gems-modal:update-products'
     else
-      @products = @originalProducts
+      @supermodel.loadCollection(@products, 'products')
       $.post '/db/payment/check-stripe-charges', (something, somethingElse, jqxhr) =>
         if jqxhr.status is 201
           @state = 'recovered_charge'
           @render()
 
-  getRenderData: ->
-    c = super()
-    c.products = @products
-    c.state = @state
-    c.stateMessage = @stateMessage
-    return c
+  onLoaded: ->
+    @products.reset @products.filter (product) -> _.string.startsWith(product.get('name'), 'gems_')
+    super()
 
   afterRender: ->
     super()
@@ -56,19 +50,20 @@ module.exports = class BuyGemsModal extends ModalView
     @playSound 'game-menu-close'
 
   onIPadProducts: (e) ->
-    newProducts = []
-    for iapProduct in e.products
-      localProduct = _.find @originalProducts, { id: iapProduct.id }
-      continue unless localProduct
-      localProduct.price = iapProduct.price
-      newProducts.push localProduct
-    @products = _.sortBy newProducts, 'gems'
-    @render()
+    # TODO: Update to handle new products collection
+#    newProducts = []
+#    for iapProduct in e.products
+#      localProduct = _.find @originalProducts, { id: iapProduct.id }
+#      continue unless localProduct
+#      localProduct.price = iapProduct.price
+#      newProducts.push localProduct
+#    @products = _.sortBy newProducts, 'gems'
+#    @render()
 
   onClickProductButton: (e) ->
     @playSound 'menu-button-click'
     productID = $(e.target).closest('button').val()
-    product = _.find @products, { id: productID }
+    product = @products.findWhere { name: productID }
 
     if application.isIPadApp
       Backbone.Mediator.publish 'buy-gems-modal:purchase-initiated', { productID: productID }
@@ -76,8 +71,8 @@ module.exports = class BuyGemsModal extends ModalView
     else
       application.tracker?.trackEvent 'Started gem purchase', { productID: productID }
       stripeHandler.open({
-        description: $.t(product.i18n)
-        amount: product.amount
+        description: $.t(product.get('i18n'))
+        amount: product.get('amount')
         bitcoin: true
         alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
       })
@@ -86,7 +81,7 @@ module.exports = class BuyGemsModal extends ModalView
 
   onStripeReceivedToken: (e) ->
     data = {
-      productID: @productBeingPurchased.id
+      productID: @productBeingPurchased.get('name')
       stripe: {
         token: e.token.id
         timestamp: @timestampForPurchase
@@ -97,8 +92,8 @@ module.exports = class BuyGemsModal extends ModalView
     jqxhr = $.post('/db/payment', data)
     jqxhr.done(=>
       application.tracker?.trackEvent 'Finished gem purchase',
-        productID: @productBeingPurchased.id
-        value: @productBeingPurchased.amount
+        productID: @productBeingPurchased.get('name')
+        value: @productBeingPurchased.get('amount')
       document.location.reload()
     )
     jqxhr.fail(=>
@@ -116,7 +111,7 @@ module.exports = class BuyGemsModal extends ModalView
     )
 
   onIAPComplete: (e) ->
-    product = _.find @products, { id: e.productID }
+    product = @products.findWhere { name: e.productID }
     purchased = me.get('purchased') ? {}
     purchased = _.clone purchased
     purchased.gems ?= 0

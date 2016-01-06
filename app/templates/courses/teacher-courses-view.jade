@@ -21,7 +21,7 @@ block content
             strong.uppercase(data-i18n="courses.getting_started")
           br
           .text-center
-            a.btn.btn-info(href='http://codecombat.com/docs/CodeCombatHourofCodeGettingStartedGuide.pdf', data-i18n="courses.download_getting_started")
+            a.btn.btn-info(href='http://codecombat.com/docs/CodeCombatCoursesGettingStartedGuide.pdf', data-i18n="courses.download_getting_started")
           br
           ol
             li(data-i18n="courses.getting_started_1")
@@ -43,6 +43,10 @@ block content
               span.spr(data-i18n="courses.additional_resources_3_pref")
               a(href='http://discourse.codecombat.com/c/teachers', data-i18n="courses.additional_resources_3_mid")
               span.spl(data-i18n="courses.additional_resources_3_suff")
+            li
+              span.spr(data-i18n="courses.additional_resources_4_pref")
+              a(href='/schools', data-i18n="courses.additional_resources_4_mid")
+              span.spl(data-i18n="courses.additional_resources_4_suff")
 
   .section-header(data-i18n="courses.your_classes")
 
@@ -64,6 +68,7 @@ block content
       strong.spr(data-i18n="courses.unused_enrollments")
       strong.spr= view.prepaids.totalAvailable()
       a.btn.btn-success.btn(href="/courses/purchase", data-i18n="courses.purchase_enrollments")
+      button#activate-licenses-btn.btn.btn-info(data-i18n="courses.enroll_paid")
 
   p(data-i18n="courses.students_access")
 
@@ -96,10 +101,16 @@ mixin classroom(classroom)
           else
             span.spr.class-name (Python)
           a.edit-classroom-small(data-i18n="courses.edit_settings", data-classroom-id="#{classroom.id}")
+          if classMemberCount === 1
+            p There is #{classMemberCount} student in this class.
+          else
+            p There are #{classMemberCount} students in this class.
           .active-courses(data-i18n="courses.active_courses")
           - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
-          each courseInstance in courseInstances
-            +course(courseInstance, classMemberCount)
+          table.active-course-container
+            each courseInstance in courseInstances
+              tr
+                +course(courseInstance, classMemberCount)
     else
       .col-md-12
         p
@@ -126,13 +137,12 @@ mixin course(courseInstance, classMemberCount)
   - var courseMemberCount = courseInstance.get('members') ? courseInstance.get('members').length : 0;
   if courseMemberCount > 0
     - var course = view.courses.get(courseInstance.get('courseID'));
-    p
-      .course-name= course.get('name')
-      .course-enrolled
+    td
+      span.course-name= course.get('name')
+    td
+      span.course-enrolled
         span #{courseMemberCount} / #{classMemberCount}
         span.spl(data-i18n="courses.students_enrolled")
-      each concept in course.get('concepts')
-        span.spr.course-concept(data-i18n="concepts." + concept)
 
 mixin course-info(course)
   .media

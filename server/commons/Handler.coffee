@@ -192,6 +192,9 @@ module.exports = class Handler
       hasLimit = false
       try
         for own key, val of req.query.conditions
+          numeric = parseInt val, 10
+          if not _.isNaN(numeric) and numeric + '' is val
+            val = numeric
           query = query[key](val)
           hasLimit ||= key is 'limit'
       catch e
@@ -246,7 +249,7 @@ module.exports = class Handler
         criteria = {}
         criteria[if nonVersioned then '_id' else 'original'] = mongoose.Types.ObjectId(id)
         @modelClass.findOne(criteria, project).sort(sort).exec (err, document) ->
-          return done(err) if err
+          return callback err if err
           callback(null, document?.toObject() or null)
 
     funcs = {}

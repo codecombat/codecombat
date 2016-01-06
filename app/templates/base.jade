@@ -10,7 +10,7 @@ block header
           span.glyphicon.glyphicon-home
         a(href='/teachers', data-i18n="nav.teachers") Teachers
         a(href='/courses', data-i18n="nav.courses")
-        a(href='http://discourse.codecombat.com/', data-i18n="nav.forum")
+        a(href=view.forumLink(), data-i18n="nav.forum")
         a(href='/community', data-i18n="nav.community")
 
         if me.get('anonymous') === false

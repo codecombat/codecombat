@@ -14,10 +14,9 @@ module.exports = class NewLevelComponentModal extends ModalView
     'click #new-level-component-submit': 'makeNewLevelComponent'
     'submit form': 'makeNewLevelComponent'
 
-  getRenderData: ->
-    c = super()
-    c.systems = LevelComponent.schema.properties.system.enum
-    c
+  constructor: (options) ->
+    super options
+    @systems = LevelComponent.schema.properties.system.enum
 
   makeNewLevelComponent: (e) ->
     e.preventDefault()

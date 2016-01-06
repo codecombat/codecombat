@@ -20,8 +20,8 @@ invoiceChargeSampleEvent = {
       period_start: 1417574897,
       period_end: 1417574897,
       lines: {},
-      subtotal: 999,
-      total: 999,
+      subtotal: 100,
+      total: 100,
       customer: 'cus_5Fz9MVWP2bDPGV',
       object: 'invoice',
       attempted: true,
@@ -30,7 +30,7 @@ invoiceChargeSampleEvent = {
       paid: true,
       livemode: false,
       attempt_count: 1,
-      amount_due: 999,
+      amount_due: 100,
       currency: 'usd',
       starting_balance: 0,
       ending_balance: 0,
@@ -246,7 +246,7 @@ describe 'Subscriptions', ->
   userURL = getURL('/db/user')
   webhookURL = getURL('/stripe/webhook')
   headers = {'X-Change-Plan': 'true'}
-  subPrice = 999
+  subPrice = 100
   subGems = 3500
   invoicesWebHooked = {}
   afterEach nockUtils.teardownNock

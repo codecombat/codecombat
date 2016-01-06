@@ -52,6 +52,7 @@ module.exports = class DocFormatter
       @doc.owner ?= 'this'
       ownerName = @doc.ownerName = if @doc.owner isnt 'this' then @doc.owner else switch @options.language
         when 'python', 'lua' then 'self'
+        when 'java' then 'hero'
         when 'coffeescript' then '@'
         else 'this'
       if @doc.type is 'function'

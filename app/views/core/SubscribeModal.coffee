@@ -3,16 +3,14 @@ template = require 'templates/core/subscribe-modal'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
 AuthModal = require 'views/core/AuthModal'
+Products = require 'collections/Products'
 
 module.exports = class SubscribeModal extends ModalView
   id: 'subscribe-modal'
   template: template
   plain: true
   closesOnClickOutside: false
-  product:
-    amount: 999
-    planID: 'basic'
-    yearAmount: 9900
+  planID: 'basic'
 
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'
@@ -27,6 +25,13 @@ module.exports = class SubscribeModal extends ModalView
   constructor: (options) ->
     super(options)
     @state = 'standby'
+    @products = new Products()
+    @supermodel.loadCollection(@products, 'products')
+
+  onLoaded: ->
+    @basicProduct = @products.findWhere { name: 'basic_subscription' }
+    @yearProduct = @products.findWhere { name: 'year_subscription' }
+    super()
 
   afterRender: ->
     super()
@@ -51,13 +56,16 @@ module.exports = class SubscribeModal extends ModalView
       application.tracker?.trackEvent 'Subscription ask parent button click'
 
   setupParentInfoPopover: ->
+    return unless @products.size()
     popoverTitle = $.i18n.t 'subscribe.parents_title'
     levelsCompleted = me.get('stats')?.gamesCompleted or 'several'
     popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1', nLevels: levelsCompleted) + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb1a') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2') + "</p>"
+    price = (@products.findWhere({'name': 'basic_subscription'}).get('amount') / 100).toFixed(2)
+    # TODO: Update i18next and use its own interpolation system instead
+    popoverContent = popoverContent.replace('{{price}}', price)
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb3') + "</p>"
-    #popoverContent = popoverContent.replace /9[.,]99/g, '3.99'  # Sale
     @$el.find('#parents-info').popover(
       animation: true
       html: true
@@ -70,9 +78,15 @@ module.exports = class SubscribeModal extends ModalView
       application.tracker?.trackEvent 'Subscription parent hover'
 
   setupPaymentMethodsInfoPopover: ->
+    return unless @products.size()
     popoverTitle = $.i18n.t('subscribe.payment_methods_title')
+    three_month_price = (@products.findWhere({'name': 'basic_subscription'}).get('amount') * 3 / 100).toFixed(2)
+    year_price = (@products.findWhere({name: 'year_subscription'}).get('amount') / 100).toFixed(2)
     popoverTitle += '<button type="button" class="close" onclick="$(&#39;#payment-methods-info&#39;).popover(&#39;hide&#39;);">&times;</button>'
     popoverContent = "<p>" + $.i18n.t('subscribe.payment_methods_blurb1') + "</p>"
+    # TODO: Update i18next and use its own interpolation system instead
+    popoverContent = popoverContent.replace('{{three_month_price}}', three_month_price)
+    popoverContent = popoverContent.replace('{{year_price}}', year_price)
     popoverContent += "<p>" + $.i18n.t('subscribe.payment_methods_blurb2') + " <a href='mailto:support@codecombat.com'>support@codecombat.com</a>."
     @$el.find('#payment-methods-info').popover(
       animation: true
@@ -109,12 +123,13 @@ module.exports = class SubscribeModal extends ModalView
     @$el.find('.parent-button').popover('hide')
 
   onClickPurchaseButton: (e) ->
+    return unless @basicProduct and @yearProduct
     @playSound 'menu-button-click'
     return @openModalView new AuthModal() if me.get('anonymous')
     application.tracker?.trackEvent 'Started subscription purchase'
     options = {
       description: $.i18n.t('subscribe.stripe_description')
-      amount: @product.amount
+      amount: @basicProduct.get('amount')
       alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
       alipayReusable: true
     }
@@ -136,9 +151,11 @@ module.exports = class SubscribeModal extends ModalView
     @playSound 'menu-button-click'
     return @openModalView new AuthModal() if me.get('anonymous')
     application.tracker?.trackEvent 'Started 1 year subscription purchase'
+    discount = @basicProduct.get('amount') * 12 - @yearProduct.get('amount')
+    discountString = (discount/100).toFixed(2)
     options =
-      description: $.i18n.t('subscribe.stripe_description_year_sale')
-      amount: @product.yearAmount
+      description: $.i18n.t('subscribe.stripe_description_year_sale').replace('{{discount}}', discountString)
+      amount: @yearProduct.get('amount')
       alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
       alipayReusable: true
     @purchasedAmount = options.amount
@@ -148,15 +165,15 @@ module.exports = class SubscribeModal extends ModalView
     @state = 'purchasing'
     @render()
 
-    if @purchasedAmount is @product.amount
+    if @purchasedAmount is @basicProduct.get('amount')
       stripe = _.clone(me.get('stripe') ? {})
-      stripe.planID = @product.planID
+      stripe.planID = @basicProduct.get('planID')
       stripe.token = e.token.id
       me.set 'stripe', stripe
       @listenToOnce me, 'sync', @onSubscriptionSuccess
       @listenToOnce me, 'error', @onSubscriptionError
       me.patch({headers: {'X-Change-Plan': 'true'}})
-    else if @purchasedAmount is @product.yearAmount
+    else if @purchasedAmount is @yearProduct.get('amount')
       # Purchasing a year
       data =
         stripe:

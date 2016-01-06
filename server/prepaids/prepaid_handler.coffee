@@ -6,6 +6,7 @@ User = require '../users/User'
 StripeUtils = require '../lib/stripe_utils'
 utils = require '../../app/core/utils'
 mongoose = require 'mongoose'
+Product = require '../models/Product'
 
 # TODO: Should this happen on a save() call instead of a prepaid/-/create post?
 # TODO: Probably a better way to create a unique 8 charactor string property using db voodoo
@@ -16,8 +17,6 @@ PrepaidHandler = class PrepaidHandler extends Handler
   modelClass: Prepaid
   jsonSchema: require '../../app/schemas/models/prepaid.schema'
   allowedMethods: ['GET','POST']
-
-  baseAmount: 999
 
   logError: (user, msg) ->
     console.warn "Prepaid Error: [#{user.get('slug')} (#{user._id})] '#{msg}'"
@@ -134,9 +133,13 @@ PrepaidHandler = class PrepaidHandler extends Handler
       return @sendBadInputError(res) unless isNaN(months) is false and months > 0
       return @sendError(res, 403, "Users or Months must be greater than 3") if maxRedeemers < 3 and months < 3
 
-      @purchasePrepaidTerminalSubscription req.user, description, maxRedeemers, months, timestamp, token, (err, prepaid) =>
+      Product.findOne({name: 'prepaid_subscription'}).exec (err, product) =>
         return @sendDatabaseError(res, err) if err
-        @sendSuccess(res, prepaid.toObject())
+        return @sendNotFoundError(res, 'prepaid_subscription product not found') if not product
+          
+        @purchasePrepaidTerminalSubscription req.user, description, maxRedeemers, months, timestamp, token, product, (err, prepaid) =>
+          return @sendDatabaseError(res, err) if err
+          @sendSuccess(res, prepaid.toObject())
 
     else if req.body.type is 'course'
       maxRedeemers = parseInt(req.body.maxRedeemers)
@@ -145,18 +148,22 @@ PrepaidHandler = class PrepaidHandler extends Handler
 
       return @sendBadInputError(res) unless isNaN(maxRedeemers) is false and maxRedeemers > 0
 
-      @purchasePrepaidCourse req.user, maxRedeemers, timestamp, token, (err, prepaid) =>
-        # TODO: this badinput detection is fragile, in course instance handler as well
-        return @sendBadInputError(res, err) if err is 'Missing required Stripe token'
+      Product.findOne({name: 'course'}).exec (err, product) =>
         return @sendDatabaseError(res, err) if err
-        @sendSuccess(res, prepaid.toObject())
+        return @sendNotFoundError(res, 'course product not found') if not product
+
+        @purchasePrepaidCourse req.user, maxRedeemers, timestamp, token, product, (err, prepaid) =>
+          # TODO: this badinput detection is fragile, in course instance handler as well
+          return @sendBadInputError(res, err) if err is 'Missing required Stripe token'
+          return @sendDatabaseError(res, err) if err
+          @sendSuccess(res, prepaid.toObject())
     else
       @sendForbiddenError(res)
 
-  purchasePrepaidCourse: (user, maxRedeemers, timestamp, token, done) ->
+  purchasePrepaidCourse: (user, maxRedeemers, timestamp, token, product, done) ->
     type = 'course'
 
-    amount = maxRedeemers * 400
+    amount = maxRedeemers * product.get('amount')
     if amount > 0 and not (token or user.isAdmin())
       @logError(user, "Purchase prepaid courses missing required Stripe token #{amount}")
       return done('Missing required Stripe token')
@@ -190,7 +197,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
             hipchat.sendHipChatMessage msg, ['tower']
             @createPrepaid(user, type, maxRedeemers, {}, done)
 
-  purchasePrepaidTerminalSubscription: (user, description, maxRedeemers, months, timestamp, token, done) ->
+  purchasePrepaidTerminalSubscription: (user, description, maxRedeemers, months, timestamp, token, product, done) ->
     type = 'terminal_subscription'
 
     StripeUtils.getCustomer user, token, (err, customer) =>
@@ -207,7 +214,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
         months: months
         productID: "prepaid #{type}"
 
-      amount = utils.getPrepaidCodeAmount(@baseAmount, maxRedeemers, months)
+      amount = utils.getPrepaidCodeAmount(product.get('amount'), maxRedeemers, months)
 
       StripeUtils.createCharge user, amount, metadata, (err, charge) =>
         if err

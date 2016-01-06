@@ -13,6 +13,10 @@ module.exports = class TeachersView extends RootView
 
   constructor: ->
     super()
+    if me.isAnonymous()
+      _.defer ->
+        # Just go to /schools for now, that page is better than this one. TODO: figure out real URLs/flow/content.
+        application.router.navigate "/schools", trigger: true
     unless me.isAnonymous()
       _.defer ->
         application.router.navigate "/courses/teachers", trigger: true
@@ -24,3 +28,5 @@ module.exports = class TeachersView extends RootView
   onClickSignup: (e) ->
     @openModalView new AuthModal() if me.get('anonymous')
     window.tracker?.trackEvent 'Started Signup', category: 'Teachers', label: 'Teachers Create'
+
+  logoutRedirectURL: false

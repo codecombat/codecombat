@@ -5,6 +5,8 @@ mongoose = require 'mongoose'
 log = require 'winston'
 async = require 'async'
 moment = require 'moment'
+fs = require 'fs'
+exec = require('child_process').exec
 
 ### SET UP ###
 do (setupLodash = this) ->
@@ -35,6 +37,7 @@ nextPrompt = (users, question, userToSchool, suggestions) ->
   unless userToSchool
     return console.log('Done.') or process.exit() unless [userToSchool, suggestions] = findUserToSchool users
   question ?= formatSuggestions userToSchool, suggestions
+  openTSV userToSchool, suggestions
   prompt question, (answer) ->
     answer = answer.trim()
     return console.log('Bye.') or process.exit() if answer in ['q', 'quit']
@@ -86,6 +89,7 @@ finalizePrompt = (userToSchool, suggestions, schoolName, users) ->
       nextPrompt remainingUsers
 
 findNumbers = (answer, max) ->
+  answer = answer.replace /,/g, ' '
   numbers = (parseInt(d, 10) for d in (' ' + answer + ' ').replace(/ /g, '  ').match(/ (\d+) /g) ? [])
   ranges = answer.match(/(\d+-\d+)/g) or []
   for range in ranges
@@ -97,11 +101,14 @@ findNumbers = (answer, max) ->
       console.log "Incorrect number #{number} higher than max: #{max}"
   numbers
 
-formatUser = (user, relativeToUser) ->
-  # TODO: replace date string with relative time since signup compared to target user, and actually make suggestions based on students that signed up at almost the same time
-  props = _.pick(user, ['name', 'emailLower', 'ageRange', 'dateCreated', 'lastLevel', 'points', 'referrer', 'hourOfCode'])
-  props.dateCreated = if relativeToUser then moment(props.dateCreated).from(relativeToUser.dateCreated) else moment(props.dateCreated).fromNow()
-  _.values(props).join('  ')
+formatUser = (user, relativeToUser, separator='  ') ->
+  values = []
+  for key in ['name', 'emailLower', 'ageRange', 'dateCreated', 'lastLevel', 'points', 'referrer', 'hourOfCode']
+    val = user[key]
+    if key is 'dateCreated'
+      val = if relativeToUser then moment(val).from(relativeToUser.dateCreated) else moment(val).fromNow()
+    values.push val
+  values.join separator
 
 formatSuggestions = (userToSchool, suggestions) ->
   suggestionPrompts = ("#{_.str.rpad(i + 1, 3)}  #{_.str.rpad(s.schoolName, 50)} #{s.reasons.length} #{if s.reasons.length > 1 then 'Matches' else 'Match'}: #{s.reasons.join(', ')}\tfrom user: #{formatUser(s.user, userToSchool)}" for s, i in suggestions).join('\n')
@@ -113,10 +120,22 @@ formatSuggestions = (userToSchool, suggestions) ->
   Choose a number, type a name, enter to skip, or q to quit.
   > """
 
+openTSV = (userToSchool, suggestions) ->
+  header = ['#', 'School Name', 'Matches', 'Name', 'Email', 'Age', 'Signup', 'Last Level', 'Points', 'Referrer', 'HoC'].join '\t'
+  rows = [[0, userToSchool.schoolName, '', formatUser(userToSchool, null, '\t')].join '\t']
+  for s, i in suggestions
+    matches = s.reasons.length + ' ' + if s.reasons.length > 1 then 'Matches' else 'Match' + ': ' + s.reasons.join(', ')
+    rows.push [i + 1, s.schoolName, matches, formatUser(s.user, userToSchool, '\t')].join '\t'
+  contents = [header].concat(rows).join('\n') + '\n'
+  path = "#{process.env.HOME}/Downloads/#{userToSchool.emailLower}.tsv"
+  fs.writeFile path, contents, {flags: 'w'}, (err) ->
+    console.log 'Error writing school suggestions TSV:', err if err
+    exec "open -a /Applications/Numbers.app #{path}"
+
 checkedTopGroups = {}
 findUserToSchool = (users) ->
   # We find the top user from the top group that we can make the most reasoned suggestions about what the school name would be.
-  [bestTarget, bestTargetSuggestions, mostReasons, bestGroup] = [null, [], 0, null]
+  [bestTarget, bestTargetSuggestions, bestSuggestionsScore, bestGroup] = [null, [], 0, null]
   for field, groups of topGroups
     for nextLargestGroup in groups when not checkedTopGroups[nextLargestGroup]
       possibleTargets = userCategories[field][nextLargestGroup]
@@ -125,7 +144,7 @@ findUserToSchool = (users) ->
       alreadyDone = false
       for schoolName in schoolNames when schoolName?.length > 10 and /,.+,/.test schoolName  # Long enough school name with location info (two commas)
         sharedCount = _.filter(possibleTargets, schoolName: schoolName).length
-        if sharedCount > 0.5 * possibleTargets.length
+        if sharedCount > 20 and sharedCount > 0.25 * possibleTargets.length
           console.log 'Already done', schoolName, sharedCount, possibleTargets.length, 'for', field, nextLargestGroup
           alreadyDone = true
       continue if alreadyDone
@@ -134,22 +153,11 @@ findUserToSchool = (users) ->
       for i in [0 ... nSamples]
         target = possibleTargets[Math.floor i * possibleTargets.length / (nSamples + 1)]
         suggestions = findSuggestions target
-        reasons = _.reduce suggestions, ((sum, suggestion) ->
-          for suggestion in suggestions
-            for reason in suggestion.reasons
-              sum += switch reason
-                when 'Course instances' then 50
-                when 'IP' then 40
-                when 'Name' then 30
-                when 'Referrer' then 20
-                when 'Domain' then (if getDomain(target) is 'cps.edu' then 1 else 10)
-                when 'Clans' then 0.01
-          sum
-        ), 0
-        if reasons > mostReasons
+        suggestionsScore = scoreSuggestions suggestions, target
+        if suggestionsScore > bestSuggestionsScore
           bestTarget = target
           bestTargetSuggestions = suggestions
-          mostReasons = reasons
+          bestSuggestionsScore = suggestionsScore
           bestGroup = nextLargestGroup
       break
   checkedTopGroups[bestGroup] = true
@@ -157,6 +165,7 @@ findUserToSchool = (users) ->
 
 findSuggestions = (target) ->
   # Look for other users with the same IP, course instances, clans, or similar school names or non-common shared email domains.
+  # TODO: Actually make suggestions based on students that signed up at almost the same time
   suggestions = []
   t0 = new Date()
   if debugging then console.log '  Checking suggestions for', target.emailLower, target.schoolName, (new Date()) - t0
@@ -205,9 +214,23 @@ findSuggestions = (target) ->
       else
         suggestions.push schoolName: otherUser.schoolName, reasons: [reason], user: otherUser
   if debugging then console.log '    Done checking referrer', (new Date()) - t0
-  suggestions = _.sortBy suggestions, 'schoolName'
-  suggestions = _.sortBy suggestions, (s) -> -s.reasons.length
+  suggestions = _.sortBy suggestions, (s) -> (s.schoolName or '').toLowerCase()
+  suggestions = _.sortBy suggestions, (s) -> -scoreSuggestions [s], target
   return suggestions
+
+scoreSuggestions = (suggestions, target) ->
+  _.reduce suggestions, ((sum, suggestion) ->
+    for suggestion in suggestions
+      for reason in suggestion.reasons
+        sum += switch reason
+          when 'Course instances' then 150
+          when 'IP' then 40
+          when 'Referrer' then 20
+          when 'Name' then 15
+          when 'Domain' then (if getDomain(target) in ['cps.edu', 'mynewcaneyisd.org', 'fsusd.org', 'edison.k12.nj.us'] then 1 else 10)
+          when 'Clans' then 0.01
+    sum
+  ), 0
 
 userCategories = {}
 topGroups = {}
@@ -215,7 +238,8 @@ usersCategorized = {}
 
 sortUsers = (users) ->
   users = _.sortBy users, (u) -> -u.points
-  users = _.sortBy users, ['schoolName', 'lastIP']
+  users = _.sortBy users, 'lastIP'
+  users = _.sortBy users, (u) -> (u.schoolName or '').toLowerCase()
   for field in ['courseInstances', 'lastIP', 'schoolName', 'domain', 'clans', 'referrer']
     userCategories[field] = categorizeUsers users, field
     topGroups[field] = _.sortBy _.keys(userCategories[field]), (key) -> -userCategories[field][key].length

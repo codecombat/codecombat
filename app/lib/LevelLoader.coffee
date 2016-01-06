@@ -245,7 +245,7 @@ module.exports = class LevelLoader extends CocoClass
     if extantRequiredThangTypes.length < requiredThangTypes.length
       console.error "Some Thang had a blank required ThangType in components list:", components
     for thangType in extantRequiredThangTypes
-      url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind"
+      url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   onThangNamesLoaded: (thangNames) ->

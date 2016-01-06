@@ -188,6 +188,7 @@ for codeFile in [
     'app/vendor/aether-javascript.js'
     'app/vendor/aether-lua.js'
     'app/vendor/aether-python.js'
+    'app/vendor/aether-java.js'
   ]
   codeFileContents.push fs.readFileSync(__dirname + "/../public/javascripts/#{codeFile}", 'utf8')
 

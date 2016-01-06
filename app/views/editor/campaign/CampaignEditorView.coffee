@@ -144,11 +144,6 @@ module.exports = class CampaignEditorView extends RootView
 
     super()
 
-  getRenderData: ->
-    c = super()
-    c.campaign = @campaign
-    c
-
   onClickPatches: (e) ->
     @patchesView = @insertSubView(new PatchesView(@campaign), @$el.find('.patches-view'))
     @patchesView.load()
@@ -254,6 +249,7 @@ module.exports = class CampaignEditorView extends RootView
     @$el.find('#campaign-view').hide()
 
   updateRewardsForLevel: (level, rewards) ->
+    return  # Don't risk destruction of level unlock links
     achievements = @supermodel.getModels(Achievement)
     achievements = (a for a in achievements when a.get('related') is level.get('original'))
     for achievement in achievements

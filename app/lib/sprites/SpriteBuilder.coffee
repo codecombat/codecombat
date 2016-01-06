@@ -128,6 +128,7 @@ module.exports = class SpriteBuilder
     @colorMap = {}
     colorGroups = @thangType.get('colorGroups')
     return if _.isEmpty colorGroups
+    return unless _.size @shapeStore  # We don't have the shapes loaded because we are doing a prerendered spritesheet approach
     colorConfig = @options.colorConfig
 #    colorConfig ?= {team: {hue:0.4, saturation: -0.5, lightness: -0.5}} # test config
     return if not colorConfig

@@ -7,9 +7,9 @@
         "response": {
             "data": [
                 {
-                    "id": "ch_17GCUxKaReE7xLUddy1fN9Nl",
-                    "amount": 499,
-                    "customer": "cus_7VCubHuvGFt4nH",
+                    "id": "ch_17IOOyKaReE7xLUdzY39hxln",
+                    "amount": 100,
+                    "customer": "cus_7XTLZvrxxi9h67",
                     "metadata": {
                         "productID": "gems_5",
                         "gems": "5000",
@@ -20,8 +20,8 @@
                         "has_more": false
                     },
                     "source": {
-                        "id": "card_17GCUvKaReE7xLUdBp1HF9sT",
-                        "customer": "cus_7VCubHuvGFt4nH"
+                        "id": "card_17IOOxKaReE7xLUdaA1sZ1RB",
+                        "customer": "cus_7XTLZvrxxi9h67"
                     }
                 }
             ],
@@ -34,21 +34,21 @@
         "path": "/v1/charges",
         "status": 200,
         "response": {
-            "id": "ch_17GCUzKaReE7xLUdviRu5P6Z",
-            "amount": 499,
-            "customer": "cus_7VCubHuvGFt4nH",
+            "id": "ch_17IOP1KaReE7xLUdLHaawQjF",
+            "amount": 100,
+            "customer": "cus_7XTLZvrxxi9h67",
             "metadata": {
                 "productID": "gems_5",
                 "gems": "5000",
-                "timestamp": "1449685028592"
+                "timestamp": "1450207442600"
             },
             "paid": true,
             "refunds": {
                 "has_more": false
             },
             "source": {
-                "id": "card_17GCUvKaReE7xLUdBp1HF9sT",
-                "customer": "cus_7VCubHuvGFt4nH"
+                "id": "card_17IOOxKaReE7xLUdaA1sZ1RB",
+                "customer": "cus_7XTLZvrxxi9h67"
             }
         }
     }

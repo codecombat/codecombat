@@ -5,9 +5,9 @@
         "path": "/v1/tokens",
         "status": 200,
         "response": {
-            "id": "tok_17GD0HKaReE7xLUd0rxsuvV4",
+            "id": "tok_17IONKKaReE7xLUdSNAEOE56",
             "card": {
-                "id": "card_17GD0HKaReE7xLUd8s6L2LQd"
+                "id": "card_17IONKKaReE7xLUdzpopEZsK"
             },
             "type": "card"
         }
@@ -18,19 +18,19 @@
         "path": "/v1/customers",
         "status": 200,
         "response": {
-            "id": "cus_7VDR3TICfZ2dOG",
+            "id": "cus_7XTJyDBIHBugfk",
             "alipay_accounts": {
                 "has_more": false
             },
-            "email": "user161@me.com",
+            "email": "user61@me.com",
             "metadata": {
                 "id": "0000000000000000000186df"
             },
             "sources": {
                 "data": [
                     {
-                        "id": "card_17GD0HKaReE7xLUd8s6L2LQd",
-                        "customer": "cus_7VDR3TICfZ2dOG"
+                        "id": "card_17IONKKaReE7xLUdzpopEZsK",
+                        "customer": "cus_7XTJyDBIHBugfk"
                     }
                 ],
                 "has_more": false
@@ -43,22 +43,22 @@
     {
         "scope": "https://api.stripe.com:443",
         "method": "POST",
-        "path": "/v1/customers/cus_7VDR3TICfZ2dOG",
+        "path": "/v1/customers/cus_7XTJyDBIHBugfk",
         "status": 200,
         "response": {
-            "id": "cus_7VDR3TICfZ2dOG",
+            "id": "cus_7XTJyDBIHBugfk",
             "alipay_accounts": {
                 "has_more": false
             },
-            "email": "user161@me.com",
+            "email": "user61@me.com",
             "metadata": {
                 "id": "0000000000000000000186df"
             },
             "sources": {
                 "data": [
                     {
-                        "id": "card_17GD0HKaReE7xLUd8s6L2LQd",
-                        "customer": "cus_7VDR3TICfZ2dOG"
+                        "id": "card_17IONKKaReE7xLUdzpopEZsK",
+                        "customer": "cus_7XTJyDBIHBugfk"
                     }
                 ],
                 "has_more": false
@@ -74,9 +74,9 @@
         "path": "/v1/charges",
         "status": 200,
         "response": {
-            "id": "ch_17GD0IKaReE7xLUd0tKU82hA",
-            "amount": 9900,
-            "customer": "cus_7VDR3TICfZ2dOG",
+            "id": "ch_17IONMKaReE7xLUdWXD5omBn",
+            "amount": 1000,
+            "customer": "cus_7XTJyDBIHBugfk",
             "metadata": {
                 "gems": "42000",
                 "timestamp": "2015"
@@ -86,8 +86,8 @@
                 "has_more": false
             },
             "source": {
-                "id": "card_17GD0HKaReE7xLUd8s6L2LQd",
-                "customer": "cus_7VDR3TICfZ2dOG"
+                "id": "card_17IONKKaReE7xLUdzpopEZsK",
+                "customer": "cus_7XTJyDBIHBugfk"
             }
         }
     }

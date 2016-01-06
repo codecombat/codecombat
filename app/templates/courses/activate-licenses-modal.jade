@@ -4,7 +4,8 @@ block modal-header-content
   .clearfix
   .text-center
     h2(data-i18n="courses.enroll_paid")
-    p= view.classroom.get('name')
+    if view.classroom
+      p= view.classroom.get('name')
 
 block modal-body-content
   - var usedLic = view.prepaids.totalRedeemers();

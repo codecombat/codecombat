@@ -5,11 +5,11 @@
         "path": "/v1/customers",
         "status": 200,
         "response": {
-            "id": "cus_7VDMGD6KRcGwXR",
+            "id": "cus_7XTFWmiA0hMYfl",
             "alipay_accounts": {
                 "has_more": false
             },
-            "email": "user113@me.com",
+            "email": "user13@me.com",
             "metadata": {
                 "id": "0000000000000000000186af"
             },

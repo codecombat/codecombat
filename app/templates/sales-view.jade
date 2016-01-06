@@ -1,0 +1,219 @@
+extends /templates/base
+
+//- Do NOT localize / i18n
+
+block content
+  #top-page-content
+    br
+    br
+    .text-right
+      button.btn-contact-us(href='/teachers/freetrial')
+        img(src='/images/pages/sales/chat_icon.png')
+        div contact us for pricing and a free trial
+
+    table
+      tr
+        td
+          .big-quote-mark “
+        td
+          .hero-quote-container
+            .hero-quote CodeCombat is without question the most engaging platform for learning programming languages.”
+            .hero-quote-attribution - Jonathan P., Elementary Computers Teacher
+
+    if me.isAnonymous()
+      .text-center
+        a.btn-create-account set up a free class
+      .text-center
+        span.spr Already have an account?
+        a.btn-login-account Log in here.
+    else
+      .text-center
+        a.btn-enter-courses(href="/courses/teachers") set up a free class
+
+    p.text-center
+      a(href='#getting-started')
+        img#down-arrow(src='/images/pages/sales/down_arrow.png')
+    a(name="getting-started")
+
+  .text-center
+    #main-content
+      br
+      p.text-center
+        span.section-header What are CodeCombat Courses?
+      p.text-center.section-subheader An entire semesters' worth of computer science curriculum for teachers who want to bring programming into their 4th-12th grade classes.
+      br
+
+      .row
+        .col-md-5
+          img#img-game(src='/images/pages/sales/screen1.png')
+          .text-center
+            i 
+              small Students learn by writing code to complete levels in the game.
+        .col-md-7
+          #blurb1
+            //- TODO: why don't jade inline tags work here?
+            //- http://stackoverflow.com/questions/10953326/what-is-a-concise-way-to-create-inline-elements-in-jade
+            p 
+              strong.spr CodeCombat
+              span.spr is a platform for students to learn programming all while playing a game with their classmates.  We believe in encouraging
+              strong.spr real, typed code
+              span to support healthy learning curve with programming.
+            p
+              span.spr CodeCombat's Courses consist of levels that have been specifically playtested to work best in a classroom setting, designed to be used by teachers with
+              strong.spr no prior coding experience necessary.
+              span Current Courses are available in JavaScript and Python, with solution guides provided for both.
+      br
+      br
+
+      .row
+        .col-md-7
+          #blurb2
+            p.text-center.blurb-subtitle Designed with Teachers in Mind
+            ul
+              li Intuitive dashboard to track student progress
+              li Course-specific teacher guides with full solutions to each levels
+              li Teachers' forum and community-generated lesson plans.
+              li Optional leaderboards to encourage friendly competitions
+              li
+                span.spr Auto-generate student progress reports
+                i (coming soon!)
+              li
+                span.spr Multiple administrative accounts
+                i (coming soon!)
+        .col-md-5
+          img.img-game(src='/images/pages/sales/screen2.png')
+          .text-center
+            i 
+              small Teachers can monitor progress, manage classrooms and more.
+
+      if me.isAnonymous()
+        br
+        .text-center
+          a.btn-create-account set up a free class
+        br
+        br
+
+      p.text-center
+        span.section-header Students (and parents) love us!
+      br
+
+      table
+        tr
+          td
+            #quote1-container
+              .teacher-quote
+                span.spr "My class had been struggling with the basics of Python all year. Today they were having fun and getting into it
+                strong - I think they actually forgot that they were actually learning something."
+              .row
+                .col-md-4
+                .col-md-8
+                  .hero-quote-attribution
+                    .teacher-name Tim M.
+                    .teacher-location Director of Technology, Tilton School
+          td
+            #quote2-container
+              .row
+                .col-md-8
+                  .hero-quote-attribution
+                    .teacher-name.text-right Darlease M.
+                    .teacher-location.text-right Technology Coordinator,
+                    .teacher-location.text-right Global Learning Charter Public School
+                .col-md-4
+              .teacher-quote
+                span.spr "My girls, who were apprehensive about taking a coding class, are some of my top students.
+                strong They work together and explain the code to each other to make sure each understands."
+      br
+
+      .text-center.section-subheader Students play CodeCombat during #HourOfCode 2015
+      table(cellpadding=4)
+        tr
+          td
+            img(src='/images/pages/sales/classroom3.png')
+            .text-right
+              a(href='https://twitter.com/flinng/status/674238468747354112')
+                img(src='/images/twitter_icon.png')
+                span.twitter-attribution @flinng
+          td
+            img(src='/images/pages/sales/classroom4.png')
+            .text-right
+              a(href='https://twitter.com/HikariKishi/status/674359511566577664')
+                img(src='/images/twitter_icon.png')
+                span.twitter-attribution @HikariKishi
+          td
+            img(src='/images/pages/sales/classroom2.png')
+            .text-right
+              a(href='https://twitter.com/Coderdojovno/status/675743290461941760')
+                img(src='/images/twitter_icon.png')
+                span.twitter-attribution @Coderdojovno
+      table(cellpadding=4)
+        tr
+          td
+            img(src='/images/pages/sales/classroom6.png')
+            .text-right
+              a(href='https://twitter.com/teachercoulter/status/674734565487828992')
+                img(src='/images/twitter_icon.png')
+                span.twitter-attribution @teachercoulter
+          td
+            img(src='/images/pages/sales/classroom1.png')
+            .text-right
+              a(href='https://twitter.com/CentreHigh/status/674643613360324608')
+                img(src='/images/twitter_icon.png')
+                span.twitter-attribution @CentreHigh
+          td
+            img(src='/images/pages/sales/classroom5.png')
+            .text-right
+              a(href='https://twitter.com/MrsYassen_GRE/status/674747949902090244')
+                img(src='/images/twitter_icon.png')
+                span.twitter-attribution @MrsYassen_GRE
+      br
+
+      p.blurb-subtitle Facts about CodeCombat:
+      .row
+        .col-md-6
+          ul
+            li Students collaborate and help each other solve levels.
+            li Appeals to all genders and a wide range of age groups.
+        .col-md-6
+          ul
+            li Typed code gives students an advantage over block-based programs.
+            li Success with both high-performing and low-performing students, as well as ESL.
+      br
+
+      .row
+        .col-md-8
+          p.text-center
+            span.section-header What are paid courses?
+          p The one-hour long "Introduction to Computer Science" course will always be free for an unlimited number of students. Paid enrollments allow each student access to Computer Science 2, 3, and 4, which is an additional 15 hours of content on top of the free content.  Paid enrollments never expire.
+
+          #course-comparisons
+            img(src='/images/pages/sales/content_table.png')
+          br
+
+          p Per-student pricing allows us to better support flexibility for both large and small schools. Contact us if you are interested in purchasing paid course enrollments for your classroom or school.  Free trials are also available upon request.
+
+        .col-md-4
+          .well 
+            p.text-center.blurb-subtitle Resources for Teachers
+            p
+              a(href='http://codecombat.com/docs/CodeCombatHourofCodeGettingStartedGuide.pdf')
+                img(src='/images/Adobe_PDF_file_icon_32x32.png')
+                span Getting Started Guide
+            p
+              a(href='http://codecombat.com/docs/CodeCombatTeacherGuideCourse1.pdf')
+                img(style='float:left;', src='/images/Adobe_PDF_file_icon_32x32.png')
+                span Introduction to Computer Science Teacher's Guide
+            br
+            p
+              i
+                small Solution guides and additional lesson plans available for paid courses.
+            p
+              i
+                small.spr Contact
+                a(href='mailto:team@codecombat.com') team@codecombat.com
+                small.spl with additional requests.
+      br
+      br
+
+      p.text-center
+        button.btn-contact-us contact us for a free trial
+      br

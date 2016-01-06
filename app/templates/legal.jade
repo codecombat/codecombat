@@ -52,8 +52,7 @@ block content
     if !me.isOnPremiumServer()
       h4(data-i18n="legal.cost_title")
         | Cost
-      p(data-i18n="legal.cost_description")
-        | CodeCombat is free to play for all of its core levels, with a $9.99 USD/mo subscription for access to extra level branches and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee.
+      p#cost-description Loading...
     
   h2(data-i18n="legal.copyrights_title")
     | Copyrights and Licenses
@@ -167,6 +166,18 @@ block content
     | so that they may be charged for in the future, 
     | if that's what ends up happening.
   
+  h3(data-i18n="legal.third_party_title")
+    | Third Party Services
+  
+  p(data-i18n="legal.third_party_description")
+    | CodeCombat uses the following third party services (among others):
+
+  ul
+
+    a(href="https://www.browserstack.com/", data-i18n="browserstack_url")
+      | BrowserStack
+    span
+
   hr
 
   p(data-i18n="legal.canonical") The English version of this document is the definitive, canonical version.

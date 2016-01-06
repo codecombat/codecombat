@@ -72,7 +72,7 @@ module.exports = class ClansView extends RootView
     @supermodel.addRequestResource('user_names', options, 0).load()
 
   setupPrivateInfoPopover: ->
-    popoverTitle = "<h3>" + $.i18n.t('teachers.sub_includes_7') + "</h3>"
+    popoverTitle = "<h3>" + $.i18n.t('clans.private_clans') + "</h3>"
     popoverContent = "<ul>"
     popoverContent += "<li><span style='font-weight:bold;'>" + $.i18n.t('clans.track_concepts1') + "</span> " + $.i18n.t('clans.track_concepts2b')
     popoverContent += "<li>" + $.i18n.t('clans.track_concepts3b')

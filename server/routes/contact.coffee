@@ -24,6 +24,7 @@ createMailContext = (req, done) ->
   recipientID = req.body.recipientID
   subject = req.body.subject
   country = req.body.country
+  sentFromLevel = levelID: req.body.levelID, courseID: req.body.courseID, courseInstanceID: req.body.courseInstanceID
 
   level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (user.get('points') + 100))) + 1 else 0
   premium = user?.isPremium()
@@ -58,7 +59,7 @@ createMailContext = (req, done) ->
       done context
   else
     async.waterfall [
-      fetchRecentSessions.bind undefined, user, context
+      fetchRecentSessions.bind undefined, user, context, sentFromLevel
       # Can add other data-grabbing stuff here if we want.
     ], (err, results) ->
       console.error "Error getting contact message context for #{sender}: #{err}" if err
@@ -66,13 +67,7 @@ createMailContext = (req, done) ->
         context.email_data.content += "\n<img src='#{req.body.screenshotURL}' />"
       done context
 
-  # I'll try having it just send the emails instead of spamming the chat.
-  #if /Level Load Error/.test context.email_data.subject
-  #  message = "#{user.get('name') or user.get('email')} saw #{context.email_data.subject} <a href=\"http://direct.codecombat.com/editor/level/#{req.body.levelSlug}\">(level editor)</a>"
-  #  hipchat.sendHipChatMessage message, ['tower'], color: 'red'
-
-
-fetchRecentSessions = (user, context, callback) ->
+fetchRecentSessions = (user, context, sentFromLevel, callback) ->
   query = creator: user.get('_id') + ''
   projection = levelID: 1, levelName: 1, changed: 1, team: 1, codeLanguage: 1, 'state.complete': 1, playtime: 1
   sort = changed: -1
@@ -83,5 +78,11 @@ fetchRecentSessions = (user, context, callback) ->
       else if s.playtime < 7200 then playtime = "#{Math.round(s.playtime / 60)}m played"
       else playtime = "#{Math.round(s.playtime / 3600)}h played"
       ago = moment(s.changed).fromNow()
-      context.email_data.content += "\n<a href='http://codecombat.com/play/level/#{s.levelID}?session=#{s._id}&team=#{s.team or 'humans'}&dev=true'>#{s.levelName}#{if s.team is 'ogres' then ' ' + s.team else ''}</a>#{if s.state?.complete then ' complete ' else ''}- #{s.codeLanguage}, #{playtime}, #{ago}"
+      url = "http://codecombat.com/play/level/#{s.levelID}?session=#{s._id}&team=#{s.team or 'humans'}&dev=true"
+      urlName = "#{s.levelName}#{if s.team is 'ogres' then ' ' + s.team else ''}"
+      sessionStatus = "#{if s.state?.complete then ' complete ' else ''}- #{s.codeLanguage}, #{playtime}, #{ago}"
+      if sentFromLevel?.levelID is s.levelID and sentFromLevel?.courseID
+        url += "&course=#{sentFromLevel.courseID}&course-instance=#{sentFromLevel.courseInstanceID}"
+        urlName += ' (course)'
+      context.email_data.content += "\n<a href='#{url}'>#{urlName}</a>#{sessionStatus}"
     callback null

@@ -220,14 +220,16 @@ describe 'Recalculate Achievements', ->
   EarnedAchievementHandler = require '../../../server/achievements/earned_achievement_handler'
 
   it 'remove earned achievements', (done) ->
-    clearModels [EarnedAchievement], (err) ->
-      expect(err).toBeNull()
-      EarnedAchievement.find {}, (err, earned) ->
-        expect(earned.length).toBe 0
-
-        User.update {}, {$set: {points: 0}}, {multi:true}, (err) ->
-          expect(err).toBeNull()
-          done()
+    f = ->
+      clearModels [EarnedAchievement], (err) ->
+        expect(err).toBeNull()
+        EarnedAchievement.find {}, (err, earned) ->
+          expect(earned.length).toBe 0
+  
+          User.update {}, {$set: {points: 0}}, {multi:true}, (err) ->
+            expect(err).toBeNull()
+            done()
+    setTimeout f, 100 # wait for previous tests to wrap up to avoid race condition
 
   it 'can not be accessed by regular users', (done) ->
     loginJoe -> request.post {uri:getURL '/admin/earned_achievement/recalculate'}, (err, res, body) ->

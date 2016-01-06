@@ -51,7 +51,6 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
       if courseInstance
         console.log 'already made a course instance'
       return @sendSuccess(res, courseInstance) if courseInstance
-      console.log 'making a new course instance'
       courseInstance = new CourseInstance({
         courseID: courseID
         members: [req.user.get('_id')]

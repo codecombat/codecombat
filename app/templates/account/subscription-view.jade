@@ -133,54 +133,12 @@ block content
     .panel.panel-default
       .panel-heading
         h3(data-i18n="subscribe.managed_subs")
-        p(data-i18n="subscribe.managed_subs_desc")
-        p(data-i18n="subscribe.managed_subs_desc_2")
-        h4(data-i18n="subscribe.group_discounts")
-        table.table.table-striped.table-condensed.discount-table
-          tr
-            td(data-i18n="subscribe.group_discounts_1st")
-            td(data-i18n="subscribe.group_discounts_full")
-          tr
-            td(data-i18n="subscribe.group_discounts_2nd")
-            td(data-i18n="subscribe.group_discounts_20")
-          tr
-            td(data-i18n="subscribe.group_discounts_12th")
-            td(data-i18n="subscribe.group_discounts_40")
-      .panel-body
-        if view.recipientSubs.state === 'subscribing'
-          .alert.alert-info(data-i18n="subscribe.subscribing")
-        else
-          if emailValidator.state === 'invalid'
-            div.invalid-email-message(aria-hidden="true") please make sure all entries are valid emails
-          textarea.recipient-emails(rows=3, data-i18n="[placeholder]subscribe.recipient_emails_placeholder")=emailValidator.lastEmails
-          div
-            button.recipients-subscribe-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_users")
-          if view.recipientSubs.state === 'declined'
-            br
-            .alert.alert-danger.alert-dismissible
-              span(data-i18n="buy_gems.declined")
-              button.close(type="button" data-dismiss="alert")
-                span(aria-hidden="true") &times;
-          else if view.recipientSubs.state === 'unknown_error'
-            br
-            .alert.alert-danger.alert-dismissible
-              button.close(type="button" data-dismiss="alert")
-                span(aria-hidden="true") &times;
-              p(data-i18n="loading_error.unknown")
-              p= view.recipientSubs.stateMessage
-          else if view.recipientSubs.justSubscribed && view.recipientSubs.justSubscribed.length > 0
-            br
-            .alert.alert-success.alert-dismissible
-              if view.recipientSubs.justSubscribed.length > 0
-                div(data-i18n="subscribe.users_subscribed")
-                ul
-                  each email in view.recipientSubs.justSubscribed
-                    li= email
-          else if view.recipientSubs.justSubscribed && view.recipientSubs.justSubscribed.length === 0
-            br
-            .alert.alert-success.alert-dismissible
-              div(data-i18n="subscribe.no_users_subscribed")
+        p
+          span.spr Managed subscriptions are discontinued. Please contact
+          a(href='mailto:team@codecombat.com') team@codecombat.com
+          span.spl for more information.
 
+      .panel-body
         if view.recipientSubs.nextPaymentAmount > 0 && view.recipientSubs.sponsorSub
           h4(data-i18n="account.next_payment")
           p= moment(new Date(view.recipientSubs.sponsorSub.current_period_end * 1000)).format('l')

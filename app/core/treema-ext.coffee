@@ -240,6 +240,7 @@ codeLanguages =
   python: 'ace/mode/python'
   clojure: 'ace/mode/clojure'
   lua: 'ace/mode/lua'
+  java: 'ace/mode/java'
   io: 'ace/mode/text'
 
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
@@ -256,7 +257,9 @@ class CodeTreema extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
     @workingSchema.aceTabSize = 4
-    @workingSchema.aceMode ?= mode if mode = codeLanguages[@keyForParent]
+    # TODO: Find a less hacky solution for this
+    @workingSchema.aceMode = mode if mode = codeLanguages[@keyForParent]
+    @workingSchema.aceMode = mode if mode = codeLanguages[@parent?.data?.language]
 
 class CoffeeTreema extends CodeTreema
   constructor: ->

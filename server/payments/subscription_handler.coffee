@@ -15,19 +15,9 @@ User = require '../users/User'
 {getSponsoredSubsAmount} = require '../../app/core/utils'
 StripeUtils = require '../lib/stripe_utils'
 moment = require 'moment'
+Product = require '../models/Product'
 
 recipientCouponID = 'free'
-
-# TODO: rename this to avoid collisions with 'subscriptions' variables
-subscriptions = {
-  basic: {
-    gems: 3500
-    amount: 999 # For calculating incremental quantity before sub creation
-  }
-  year_sale: {
-    amount: 9900
-  }
-}
 
 class SubscriptionHandler extends Handler
   logSubscriptionError: (user, msg) ->
@@ -149,51 +139,56 @@ class SubscriptionHandler extends Handler
           if err
             @logSubscriptionError(user, "Purchase year sale Stripe cancel subscription error: #{JSON.stringify(err)}")
             return @sendDatabaseError(res, err)
-          metadata =
-            type: req.body.type
-            userID: req.user._id + ''
-            gems: subscriptions.basic.gems * 12
-            timestamp: parseInt(req.body.stripe?.timestamp)
-            description: req.body.description
-
-          StripeUtils.createCharge req.user, subscriptions.year_sale.amount, metadata, (err, charge) =>
-            if err
-              @logSubscriptionError(req.user, "Purchase year sale create charge: #{JSON.stringify(err)}")
-              return @sendDatabaseError(res, err)
-
-            StripeUtils.createPayment req.user, charge, (err, payment) =>
+            
+          Product.findOne({name: 'year_subscription'}).exec (err, product) =>
+            return @sendDatabaseError(res, err) if err
+            return @sendNotFoundError(res, 'year_subscription product not found') if not product
+            
+            metadata =
+              type: req.body.type
+              userID: req.user._id + ''
+              gems: product.get('gems')
+              timestamp: parseInt(req.body.stripe?.timestamp)
+              description: req.body.description
+  
+            StripeUtils.createCharge req.user, product.get('amount'), metadata, (err, charge) =>
               if err
-                @logSubscriptionError(req.user, "Purchase year sale create payment: #{JSON.stringify(err)}")
+                @logSubscriptionError(req.user, "Purchase year sale create charge: #{JSON.stringify(err)}")
                 return @sendDatabaseError(res, err)
-
-              # Add terminal subscription to User with extensions for existing subscriptions
-              stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
-              endDate = new Date()
-              if stripeSubscriptionPeriodEndDate
-                endDate = stripeSubscriptionPeriodEndDate
-              else if _.isString(stripeInfo.free) and new Date() < new Date(stripeInfo.free)
-                endDate = new Date(stripeInfo.free)
-              endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-              stripeInfo.free = endDate.toISOString().substring(0, 10)
-              req.user.set('stripe', stripeInfo)
-
-              # Add year's worth of gems to User
-              purchased = _.clone(req.user.get('purchased'))
-              purchased ?= {}
-              purchased.gems ?= 0
-              purchased.gems += parseInt(charge.metadata.gems)
-              req.user.set('purchased', purchased)
-
-              req.user.save (err, user) =>
+  
+              StripeUtils.createPayment req.user, charge, (err, payment) =>
                 if err
-                  @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
+                  @logSubscriptionError(req.user, "Purchase year sale create payment: #{JSON.stringify(err)}")
                   return @sendDatabaseError(res, err)
-                try
-                  msg = "Year subscription purchased by #{req.user.get('email')} #{req.user.id}"
-                  hipchat.sendHipChatMessage msg, ['tower']
-                catch error
-                  @logSubscriptionError(req.user, "Year sub sale HipChat tower msg error: #{JSON.stringify(error)}")
-                @sendSuccess(res, user)
+  
+                # Add terminal subscription to User with extensions for existing subscriptions
+                stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
+                endDate = new Date()
+                if stripeSubscriptionPeriodEndDate
+                  endDate = stripeSubscriptionPeriodEndDate
+                else if _.isString(stripeInfo.free) and new Date() < new Date(stripeInfo.free)
+                  endDate = new Date(stripeInfo.free)
+                endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
+                stripeInfo.free = endDate.toISOString().substring(0, 10)
+                req.user.set('stripe', stripeInfo)
+  
+                # Add year's worth of gems to User
+                purchased = _.clone(req.user.get('purchased'))
+                purchased ?= {}
+                purchased.gems ?= 0
+                purchased.gems += parseInt(charge.metadata.gems)
+                req.user.set('purchased', purchased)
+  
+                req.user.save (err, user) =>
+                  if err
+                    @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
+                    return @sendDatabaseError(res, err)
+                  try
+                    msg = "Year subscription purchased by #{req.user.get('email')} #{req.user.id}"
+                    hipchat.sendHipChatMessage msg, ['tower']
+                  catch error
+                    @logSubscriptionError(req.user, "Year sub sale HipChat tower msg error: #{JSON.stringify(error)}")
+                  @sendSuccess(res, user)
 
   subscribeWithPrepaidCode: (req, res) ->
     return @sendUnauthorizedError(res) unless req.user?
@@ -241,31 +236,35 @@ class SubscriptionHandler extends Handler
             @logSubscriptionError(user, "Redeem Prepaid Code Stripe cancel subscription error: #{JSON.stringify(err)}")
             return @sendDatabaseError(res, err)
 
-          # Add terminal subscription to User, extending existing subscriptions
-          # TODO: refactor this into some form useable by both this and purchaseYearSale
-          stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
-          endDate = new moment()
-          if stripeSubscriptionPeriodEndDate
-            endDate = new moment(stripeSubscriptionPeriodEndDate)
-          else if _.isString(stripeInfo.free) and new moment().isBefore(new moment(stripeInfo.free))
-            endDate = new moment(stripeInfo.free)
+          Product.findOne({name: 'basic_subscription'}).exec (err, product) =>
+            return @sendDatabaseError(res, err) if err
+            return @sendNotFoundError(res, 'basic_subscription product not found') if not product
 
-          endDate = endDate.add(months, 'months')
-          stripeInfo.free = endDate.toISOString().substring(0, 10)
-          req.user.set('stripe', stripeInfo)
-
-          # Add gems to User
-          purchased = _.clone(req.user.get('purchased'))
-          purchased ?= {}
-          purchased.gems ?= 0
-          purchased.gems += subscriptions.basic.gems * months
-          req.user.set('purchased', purchased)
-
-          req.user.save (err, user) =>
-            if err
-              @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
-              return @sendDatabaseError(res, err)
-            @sendSuccess(res, user)
+            # Add terminal subscription to User, extending existing subscriptions
+            # TODO: refactor this into some form useable by both this and purchaseYearSale
+            stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
+            endDate = new moment()
+            if stripeSubscriptionPeriodEndDate
+              endDate = new moment(stripeSubscriptionPeriodEndDate)
+            else if _.isString(stripeInfo.free) and new moment().isBefore(new moment(stripeInfo.free))
+              endDate = new moment(stripeInfo.free)
+  
+            endDate = endDate.add(months, 'months')
+            stripeInfo.free = endDate.toISOString().substring(0, 10)
+            req.user.set('stripe', stripeInfo)
+  
+            # Add gems to User
+            purchased = _.clone(req.user.get('purchased'))
+            purchased ?= {}
+            purchased.gems ?= 0
+            purchased.gems += product.get('gems') * months
+            req.user.set('purchased', purchased)
+  
+            req.user.save (err, user) =>
+              if err
+                @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
+                return @sendDatabaseError(res, err)
+              @sendSuccess(res, user)
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
@@ -427,18 +426,22 @@ class SubscriptionHandler extends Handler
     req.body.stripe = stripeInfo
     user.set('stripe', stripeInfo)
 
-    if increment
-      purchased = _.clone(user.get('purchased'))
-      purchased ?= {}
-      purchased.gems ?= 0
-      purchased.gems += subscriptions.basic.gems # TODO: Put actual subscription amount here
-      user.set('purchased', purchased)
+    Product.findOne({name: 'basic_subscription'}).exec (err, product) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res, 'basic_subscription product not found') if not product
 
-    user.save (err) =>
-      if err
-        @logSubscriptionError(user, 'Stripe user plan saving error. ' + err)
-        return done({res: 'Database error.', code: 500})
-      done()
+      if increment
+        purchased = _.clone(user.get('purchased'))
+        purchased ?= {}
+        purchased.gems ?= 0
+        purchased.gems += product.get('gems') # TODO: Put actual subscription amount here
+        user.set('purchased', purchased)
+  
+      user.save (err) =>
+        if err
+          @logSubscriptionError(user, 'Stripe user plan saving error. ' + err)
+          return done({res: 'Database error.', code: 500})
+        done()
 
   updateStripeRecipientSubscriptions: (req, user, customer, done) ->
     return done({res: 'Database error.', code: 500}) unless req.body.stripe?.subscribeEmails?
@@ -527,36 +530,40 @@ class SubscriptionHandler extends Handler
         @logSubscriptionError(user, 'User saving stripe error. ' + err)
         return done({res: 'Database error.', code: 500})
 
-      createUpdateFn = (recipient, increment) =>
-        (done) =>
-          # Update recipient
-          stripeInfo = _.cloneDeep(recipient.get('stripe') ? {})
-          stripeInfo.sponsorID = user.id
-          recipient.set 'stripe', stripeInfo
-          if increment
-            purchased = _.clone(recipient.get('purchased'))
-            purchased ?= {}
-            purchased.gems ?= 0
-            purchased.gems += subscriptions.basic.gems
-            recipient.set('purchased', purchased)
-          recipient.save (err) =>
-            if err
-              @logSubscriptionError(user, 'Stripe user saving stripe error. ' + err)
-              return done({res: 'Database error.', code: 500})
-            done()
+      Product.findOne({name: 'basic_subscription'}).exec (err, product) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res, 'basic_subscription product not found') if not product
 
-      tasks = []
-      for sub in stripeRecipients
-        tasks.push createUpdateFn(sub.recipient, sub.increment)
+        createUpdateFn = (recipient, increment) =>
+          (done) =>
+            # Update recipient
+            stripeInfo = _.cloneDeep(recipient.get('stripe') ? {})
+            stripeInfo.sponsorID = user.id
+            recipient.set 'stripe', stripeInfo
+            if increment
+              purchased = _.clone(recipient.get('purchased'))
+              purchased ?= {}
+              purchased.gems ?= 0
+              purchased.gems += product.get('gems')
+              recipient.set('purchased', purchased)
+            recipient.save (err) =>
+              if err
+                @logSubscriptionError(user, 'Stripe user saving stripe error. ' + err)
+                return done({res: 'Database error.', code: 500})
+              done()
+  
+        tasks = []
+        for sub in stripeRecipients
+          tasks.push createUpdateFn(sub.recipient, sub.increment)
+  
+        async.parallel tasks, (err, results) =>
+          return done(err) if err
+          @updateStripeSponsorSubscription(req, user, customer, product, done)
 
-      async.parallel tasks, (err, results) =>
-        return done(err) if err
-        @updateStripeSponsorSubscription(req, user, customer, done)
-
-  updateStripeSponsorSubscription: (req, user, customer, done) ->
+  updateStripeSponsorSubscription: (req, user, customer, product, done) ->
     stripeInfo = user.get('stripe') ? {}
     numSponsored = stripeInfo.recipients.length
-    quantity = getSponsoredSubsAmount(subscriptions.basic.amount, numSponsored, stripeInfo.subscriptionID?)
+    quantity = getSponsoredSubsAmount(product.get('amount'), numSponsored, stripeInfo.subscriptionID?)
 
     findStripeSubscription customer.id, subscriptionID: stripeInfo.sponsorSubscriptionID, (subscription) =>
       if stripeInfo.sponsorSubscriptionID? and not subscription?
@@ -656,38 +663,42 @@ class SubscriptionHandler extends Handler
         @logSubscriptionError(user, 'Unable to find recipient subscription. ')
         return done({res: 'Database error.', code: 500})
 
-      # Update recipient user
-      deleteUserStripeProp(recipient, 'sponsorID')
-      recipient.save (err) =>
-        if err
-          @logSubscriptionError(user, 'Recipient user save unsubscribe error. ' + err)
-          return done({res: 'Database error.', code: 500})
+      Product.findOne({name: 'basic_subscription'}).exec (err, product) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendNotFoundError(res, 'basic_subscription product not found') if not product
 
-        # Cancel Stripe subscription
-        stripe.customers.cancelSubscription stripeInfo.customerID, sponsoredEntry.subscriptionID, (err) =>
+        # Update recipient user
+        deleteUserStripeProp(recipient, 'sponsorID')
+        recipient.save (err) =>
           if err
-            @logSubscriptionError(user, "Stripe cancel sponsored subscription failed. " + err)
+            @logSubscriptionError(user, 'Recipient user save unsubscribe error. ' + err)
             return done({res: 'Database error.', code: 500})
-
-          # Update sponsor user
-          _.remove(stripeInfo.recipients, (s) -> s.userID is recipient.id)
-          delete stripeInfo.unsubscribeEmail
-          user.set('stripe', stripeInfo)
-          req.body.stripe = stripeInfo
-          user.save (err) =>
+  
+          # Cancel Stripe subscription
+          stripe.customers.cancelSubscription stripeInfo.customerID, sponsoredEntry.subscriptionID, (err) =>
             if err
-              @logSubscriptionError(user, 'Sponsor user save unsubscribe error. ' + err)
+              @logSubscriptionError(user, "Stripe cancel sponsored subscription failed. " + err)
               return done({res: 'Database error.', code: 500})
-
-            return done() unless stripeInfo.sponsorSubscriptionID?
-
-            # Update sponsored subscription quantity
-            options =
-              quantity: getSponsoredSubsAmount(subscriptions.basic.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
-            stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
+  
+            # Update sponsor user
+            _.remove(stripeInfo.recipients, (s) -> s.userID is recipient.id)
+            delete stripeInfo.unsubscribeEmail
+            user.set('stripe', stripeInfo)
+            req.body.stripe = stripeInfo
+            user.save (err) =>
               if err
-                @logSubscriptionError(user, 'Sponsored subscription quantity update error. ' + JSON.stringify(err))
+                @logSubscriptionError(user, 'Sponsor user save unsubscribe error. ' + err)
                 return done({res: 'Database error.', code: 500})
-              done()
+  
+              return done() unless stripeInfo.sponsorSubscriptionID?
+  
+              # Update sponsored subscription quantity
+              options =
+                quantity: getSponsoredSubsAmount(product.get('amount'), stripeInfo.recipients.length, stripeInfo.subscriptionID?)
+              stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
+                if err
+                  @logSubscriptionError(user, 'Sponsored subscription quantity update error. ' + JSON.stringify(err))
+                  return done({res: 'Database error.', code: 500})
+                done()
 
 module.exports = new SubscriptionHandler()

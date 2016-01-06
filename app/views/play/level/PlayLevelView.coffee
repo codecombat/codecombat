@@ -404,8 +404,10 @@ module.exports = class PlayLevelView extends RootView
     require 'vendor/aether-python'
     require 'vendor/aether-coffeescript'
     require 'vendor/aether-lua'
+    require 'vendor/aether-java'
     require 'vendor/aether-clojure'
     require 'vendor/aether-io'
+    require 'vendor/aether-java'
     @simulateNextGame()
 
   simulateNextGame: ->
@@ -427,7 +429,7 @@ module.exports = class PlayLevelView extends RootView
 
   shouldSimulate: ->
     return true if @getQueryVariable('simulate') is true
-    return false  # Save our MongoDB oplog!
+    return false if @getQueryVariable('simulate') is false
     stillBuggy = true  # Keep this true while we still haven't fixed the zombie worker problem when simulating the more difficult levels on Chrome
     defaultCores = 2
     cores = window.navigator.hardwareConcurrency or defaultCores  # Available on Chrome/Opera, soon Safari
@@ -570,7 +572,7 @@ module.exports = class PlayLevelView extends RootView
     session.save {screenshot: screenshot}, {patch: true, type: 'PUT'}
 
   onContactClicked: (e) ->
-    @openModalView contactModal = new ContactModal()
+    @openModalView contactModal = new ContactModal levelID: @level.get('slug') or @level.id, courseID: @courseID, courseInstanceID: @courseInstanceID
     screenshot = @surface.screenshot(1, 'image/png', 1.0, 1)
     body =
       b64png: screenshot.replace 'data:image/png;base64,', ''

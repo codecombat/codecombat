@@ -14,7 +14,7 @@ module.exports = class HomeView extends RootView
     if @getQueryVariable 'hour_of_code'
       application.router.navigate "/hoc", trigger: true
 
-    isHourOfCodeWeek = true  # Temporary: default to /hoc flow during the main event week
+    isHourOfCodeWeek = false  # Temporary: default to /hoc flow during the main event week
     if isHourOfCodeWeek and (@isNewPlayer() or (@justPlaysCourses() and me.isAnonymous()))
       # Go/return straight to playing single-player HoC course on Play click
       @playURL = '/hoc?go=true'

@@ -5,9 +5,9 @@
         "path": "/v1/tokens",
         "status": 200,
         "response": {
-            "id": "tok_17GCVlKaReE7xLUdrgB5G5sg",
+            "id": "tok_17IOQxKaReE7xLUdIT2cvKAt",
             "card": {
-                "id": "card_17GCVkKaReE7xLUdhnarn1rx"
+                "id": "card_17IOQxKaReE7xLUdls71CTWN"
             },
             "type": "card"
         }
@@ -18,7 +18,7 @@
         "path": "/v1/customers",
         "status": 200,
         "response": {
-            "id": "cus_7VCvhVTldJ0ArC",
+            "id": "cus_7XTN2QmGLf0x5K",
             "alipay_accounts": {
                 "has_more": false
             },
@@ -29,36 +29,8 @@
             "sources": {
                 "data": [
                     {
-                        "id": "card_17GCVkKaReE7xLUdhnarn1rx",
-                        "customer": "cus_7VCvhVTldJ0ArC"
-                    }
-                ],
-                "has_more": false
-            },
-            "subscriptions": {
-                "has_more": false
-            }
-        }
-    },
-    {
-        "scope": "https://api.stripe.com:443",
-        "method": "POST",
-        "path": "/v1/customers/cus_7VCvhVTldJ0ArC",
-        "status": 200,
-        "response": {
-            "id": "cus_7VCvhVTldJ0ArC",
-            "alipay_accounts": {
-                "has_more": false
-            },
-            "email": "user98@me.com",
-            "metadata": {
-                "id": "00000000000000000000008c"
-            },
-            "sources": {
-                "data": [
-                    {
-                        "id": "card_17GCVkKaReE7xLUdhnarn1rx",
-                        "customer": "cus_7VCvhVTldJ0ArC"
+                        "id": "card_17IOQxKaReE7xLUdls71CTWN",
+                        "customer": "cus_7XTN2QmGLf0x5K"
                     }
                 ],
                 "has_more": false
@@ -74,12 +46,12 @@
         "path": "/v1/charges",
         "status": 200,
         "response": {
-            "id": "ch_17GCVlKaReE7xLUd5D6k1v4E",
-            "amount": 2997,
-            "customer": "cus_7VCvhVTldJ0ArC",
+            "id": "ch_17IOQyKaReE7xLUdftH7lIJF",
+            "amount": 300,
+            "customer": "cus_7XTN2QmGLf0x5K",
             "metadata": {
                 "type": "terminal_subscription",
-                "timestamp": "1449685077119",
+                "timestamp": "1450207563299",
                 "months": "1",
                 "productID": "prepaid terminal_subscription"
             },
@@ -88,8 +60,8 @@
                 "has_more": false
             },
             "source": {
-                "id": "card_17GCVkKaReE7xLUdhnarn1rx",
-                "customer": "cus_7VCvhVTldJ0ArC"
+                "id": "card_17IOQxKaReE7xLUdls71CTWN",
+                "customer": "cus_7XTN2QmGLf0x5K"
             }
         }
     }

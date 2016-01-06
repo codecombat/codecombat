@@ -30,7 +30,9 @@ class AnalyticsPerDayHandler extends Handler
       'Active classes managed subscription',
       'Active classes bulk subscription',
       'Active classes prepaid',
-      'Active classes course']
+      'Active classes course free',
+      'Active classes course paid'
+    ]
 
     AnalyticsString.find({v: {$in: events}}).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
