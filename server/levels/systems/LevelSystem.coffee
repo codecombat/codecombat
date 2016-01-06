@@ -16,7 +16,7 @@ LevelSystemSchema.index(
   {
     name: 'search index'
     sparse: true
-    weights: {description: 1, name: 1, name: 1}
+    weights: {description: 1, name: 1}
     default_language: 'english'
     'language_override': 'searchLanguage'
     'textIndexVersion': 2
