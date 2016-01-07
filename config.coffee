@@ -130,7 +130,7 @@ exports.config =
 
         #- test, demo libraries
         'javascripts/app/tests.js': regJoin('^test/app/')
-        'javascripts/demo-app.js': regJoin('^test/demo/')
+        'javascripts/app/demo-app.js': regJoin('^test/demo/')
 
         #- More output files are generated at the below
 
