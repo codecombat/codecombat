@@ -52,7 +52,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   play:
     play_as: "Играть за " # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "Пройден!" # Course details page
     spectate: "Наблюдать" # Ladder page
     players: "игроки" # Hover over a level on /play
     hours_played: "часов сыграно" # Hover over a level on /play
@@ -114,8 +114,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     log_in: "вход с паролем"
     required: "Войдите для того, чтобы продолжить."
     login_switch: "Уже есть аккаунт?"
-#    school_name: "School Name and City"
-#    optional: "optional"
+    school_name: "Номер школы и город"
+    optional: "опцинально"
 #    school_name_placeholder: "Example High School, Springfield, IL"
 
   recover:
@@ -221,10 +221,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     years: "лет"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "Пройденный уровень:"
+    course: "Курс:"
     done: "Готово"
-#    next_level: "Next Level:"
+    next_level: "Следующий уровень:"
     next_game: "Следующая игра"
     show_menu: "Показать меню игры"
     home: "На главную" # Not used any more, will be removed soon.
@@ -342,7 +342,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_free_your_mind: "Отвлекись от всего, Нео. Страх, неверие, сомнения отбрось — очисти свой разум. - Morpheus"
     tip_strong_opponents: "Даже сильнейший противник имеет слабость. - Itachi Uchiha"
     tip_paper_and_pen: "Прежде чем начать программировать, вы всегда можете попробовать с листом бумаги и ручкой."
-#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+    tip_solve_then_write: "Сначала решите проблему, потом пишите код. - Джон Джонсон"
 
   game_menu:
     inventory_tab: "Инвентарь"
