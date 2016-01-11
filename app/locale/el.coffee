@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     prompt_body: "Θέλεις να πάρεις περισσότερα;"
     prompt_button: "Μπες στο κατάστημα"
     recovered: "Ανακτήθηκε η προηγούμενη αγορά πετραδιών. Παρακαλώ ανανέωσε τη σελίδα."
-    price: "x3500 / μήνα"
+    price: "x{{gems}} / μήνα"
 
   subscribe:
     comparison_blurb: "Ακόνησε τις ικανότητές σου με μια συνδρομή στο CodeCombat!"
     feature1: "110+ βασικά επίπεδα που εκτείνονται σε 4 κόσμους"
     feature2: "10 παντοδύναμοι <strong>νέοι ήρωες</strong> με μοναδικές ικανότητες!"
     feature3: "80+ επίπεδα δώρο"
-    feature4: "<strong>3500 πετράδια δώρο</strong> κάθε μήνα!"
+    feature4: "<strong>{{gems}} πετράδια δώρο</strong> κάθε μήνα!"
     feature5: "Βίντεο Βοηθήματα"
     feature6: "Προνομιακή υποστήριξη μέσω ηλεκτρονικού ταχυδρομείου"
     feature7: "Ιδιωτικές <strong>Φατρίες</strong>"

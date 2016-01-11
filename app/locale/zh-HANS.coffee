@@ -397,14 +397,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     prompt_body: "还需要更多吗？"
     prompt_button: "进入商店"
     recovered: "之前购买的宝石已恢复。请刷新页面。"
-    price: "x3500 / 月"
+    price: "x{{gems}} / 月"
 
   subscribe:
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！"
     feature1: "110+ 基本关卡（4个世界）"
     feature2: "10 个强大 <strong>英雄</strong>以及各式非凡技能!"
     feature3: "80+ 奖励关卡"
-    feature4: "每月享有3500额外宝石"
+    feature4: "每月享有{{gems}}额外宝石"
     feature5: "视频教学"
     feature6: "专业邮件支援"
     feature7: "私人 <strong>部落</strong>"

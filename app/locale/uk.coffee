@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     prompt_body: "Хочете отримати ще?"
     prompt_button: "Увійти до крамниці"
     recovered: "Попередні покупки самоцвітів відновлені. Будь ласка, поновіть сторінку."
-    price: "x3500 / міс"
+    price: "x{{gems}} / міс"
 
   subscribe:
     comparison_blurb: "Відточіть свої навички завдяки підписці на CodeCombat!"
     feature1: "Більше 110 основних рівней на просторах 4 світів"
     feature2: "10 могутніх <strong>нових героїв</strong> з унікальними здібностями!"
     feature3: "Більше 80-ти бонусних рівнів"
-    feature4: "<strong>3500 бонусних самоцвітів</strong> кожного місяця!"
+    feature4: "<strong>{{gems}} бонусних самоцвітів</strong> кожного місяця!"
     feature5: "Навчальні відеоролики"
     feature6: "Екслюзивна підтримка по електронній пошті"
     feature7: "Приватні <strong>клани</strong>"

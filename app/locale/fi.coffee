@@ -397,14 +397,14 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     prompt_body: "Haluatko ostaa lisää?"
     prompt_button: "Siirry kauppaan"
     recovered: "Aiempi jalokiviostos palautettu. Ole hyvä ja päivitä sivu."
-    price: "x3500 / kk"
+    price: "x{{gems}} / kk"
 
   subscribe:
     comparison_blurb: "Teroita kykyjäsi CodeCombat kuukausitilauksella!"
     feature1: "110+ perustasoa 4:ssä maailmassa"
     feature2: "10 mahtavaa <strong>uutta sankaria</strong> erilaisine kykyineen!"
     feature3: "70+ lisätasoa" # {change}
-    feature4: "<strong>3500 jalokiveä</strong> joka kuukausi!"
+    feature4: "<strong>{{gems}} jalokiveä</strong> joka kuukausi!"
     feature5: "Video-oppaat"
     feature6: "Premium sähköpostituki"
     feature7: "<strong>Yksityisklaanit</strong>"

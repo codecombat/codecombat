@@ -85,7 +85,11 @@ module.exports.setup = (app) ->
                 subscriptionID: subscriptionID
               }
             })
-            payment.set 'gems', 3500 if invoice.lines.data[0].plan?.id is 'basic'
+            # TODO: load gems from correct Product
+            productGems = 3500
+            if recipient.get('country') is 'brazil'
+              productGems = 1500
+            payment.set 'gems', productGems if invoice.lines.data[0].plan?.id is 'basic'
 
             payment.save (err) =>
               if err

@@ -397,14 +397,14 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     prompt_body: "Ar norite gauti daugiau?"
     prompt_button: "Į Parduotuvę"
     recovered: "Atstatyta deimantų pirkimo operacija. Prašome pakraukite puslapį iš naujo."
-    price: "x3500 / mėn"
+    price: "x{{gems}} / mėn"
 
 #  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "110+ basic levels across 4 worlds"
 #    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
 #    feature3: "80+ bonus levels"
-#    feature4: "<strong>3500 bonus gems</strong> every month!"
+#    feature4: "<strong>{{gems}} bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"
 #    feature7: "Private <strong>Clans</strong>"

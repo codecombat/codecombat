@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     prompt_body: "Ban có muốn nhiều ngọc hơn không ?"
     prompt_button: "Vào cửa hàng"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
-#    price: "x3500 / mo"
+#    price: "x{{gems}} / mo"
 
   subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "110+ basic levels across 4 worlds"
     feature2: "7 <strong>nhât vật mới</strong> mạnh mẽ với những kĩ năng đặc biệt!" # {change}
 #    feature3: "80+ bonus levels"
-    feature4: "<strong>Được thưởng thêm 3500 ngọc</strong> mỗi tháng!"
+    feature4: "<strong>Được thưởng thêm {{gems}} ngọc</strong> mỗi tháng!"
     feature5: "Những video hướng dẫn qua bàn"
     feature6: "Sự hỗ trợ tận tình qua email"
 #    feature7: "Private <strong>Clans</strong>"

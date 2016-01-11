@@ -397,14 +397,14 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     prompt_body: "Chcesz zdobyć więcej?"
     prompt_button: "Wejdź do sklepu"
     recovered: "Przywrócono poprzednie zakupy. Prosze odświeżyć stronę."
-    price: "x3500 / mieś."
+    price: "x{{gems}} / mieś."
 
   subscribe:
     comparison_blurb: "Popraw swoje umiejętności z subskrypcją CodeCombat!"
     feature1: "Ponad 100 poziomów w 4 różnych śwoatach" # {change}
     feature2: "10 potężnych, <strong>nowych bohaterów</strong> z unikalnymi umiejętnościami!" # {change}
     feature3: "Ponad 70 bonusowych poziomów" # {change}
-    feature4: "Dodatkowe <strong>3500 klejnotów</strong> co miesiąc!"
+    feature4: "Dodatkowe <strong>{{gems}} klejnotów</strong> co miesiąc!"
     feature5: "Poradniki wideo"
     feature6: "Priorytetowe wsparcie przez e-mail"
     feature7: "Prywatne <strong>Klany</strong>"

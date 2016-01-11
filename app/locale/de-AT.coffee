@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     prompt_body: "Möchtest du mehr?"
     prompt_button: "Shop betreten"
     recovered: "Voriger Juwelenkauf wiederhergestellt. Bitte die Seite neu laden."
-#    price: "x3500 / mo"
+#    price: "x{{gems}} / mo"
 
 #  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "110+ basic levels across 4 worlds"
 #    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
 #    feature3: "80+ bonus levels"
-#    feature4: "<strong>3500 bonus gems</strong> every month!"
+#    feature4: "<strong>{{gems}} bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"
 #    feature7: "Private <strong>Clans</strong>"

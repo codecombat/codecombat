@@ -397,14 +397,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     prompt_body: "gem이 더 필요하신가요?"
     prompt_button: "Enter Shop"
     recovered: "gem 구매후 브라우져를 새로고침 하세요."
-    price: "x3500 / 한달"
+    price: "x{{gems}} / 한달"
 
 #  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "110+ basic levels across 4 worlds"
 #    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
 #    feature3: "80+ bonus levels"
-#    feature4: "<strong>3500 bonus gems</strong> every month!"
+#    feature4: "<strong>{{gems}} bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"
 #    feature7: "Private <strong>Clans</strong>"

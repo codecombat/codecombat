@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     prompt_body: "En vols més?"
     prompt_button: "Entrar a la botiga"
     recovered: "S'han recuperat les anteriors compres de gemmes. Si us plaus, recarrega al pàgina."
-    price: "x3500 / més"
+    price: "x{{gems}} / més"
 
   subscribe:
     comparison_blurb: "Afina les teves habilitats amb una subscripció a CodeCombat!"
     feature1: "Més de 60 nivells bàsics a traves de 4 móns" # {change}
     feature2: "10 <strong>nous herois</strong> poderosos amb habilitats úniques!"
     feature3: "Més de 80 nivells bonus"
-    feature4: "<strong>3500 gemmes bonus</strong> cada mes!"
+    feature4: "<strong>{{gems}} gemmes bonus</strong> cada mes!"
     feature5: "Vídeo tutorials"
     feature6: "Suport Premium per correu electrònic"
     feature7: "Privat <strong>Clans</strong>"

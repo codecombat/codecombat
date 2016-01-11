@@ -397,14 +397,14 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     prompt_body: "Chcete získat více?"
     prompt_button: "Vstoupit do obchodu"
     recovered: "Obnovení již zakoupených drahokamů proběhlo úspěšně. Aktualizujte stránku prosím."
-    price: "x3500 / měs."
+    price: "x{{gems}} / měs."
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
     feature1: "60+ základních úrovní napříč 4 světy" # {change}
     feature2: "7 silných <strong>nových hrdinů</strong> s jedinečnými dovednostmi!" # {change}
     feature3: "30+ bonusových úrovní" # {change}
-    feature4: "<strong>3500 bonusových drahokamů</strong> každý měsíc!"
+    feature4: "<strong>{{gems}} bonusových drahokamů</strong> každý měsíc!"
     feature5: "Video tutoriály"
     feature6: "Premiová e-mailová podpora"
     feature7: "Soukromé <strong>Klany</strong>"

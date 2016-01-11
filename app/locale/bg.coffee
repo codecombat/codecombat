@@ -397,14 +397,14 @@ module.exports = nativeDescription: "български език", englishDescri
     prompt_body: "Искате ли още?"
     prompt_button: "Влез в Магазина"
     recovered: "Предишните покупки на скъпоценни камъни са възстановени. Моля опреснете страницата."
-    price: "x3500 / месец"
+    price: "x{{gems}} / месец"
 
   subscribe:
     comparison_blurb: "Изостри уменията си в CodeCombat с абонамент!"
     feature1: "110+ основни нива в 4 свята"
     feature2: "10 силни <strong>нови герои</strong> с уникални умения!"
     feature3: "70+ бонус нива" # {change}
-    feature4: "<strong>3500 скъпоценни камъни бонус</strong> всеки месец!"
+    feature4: "<strong>{{gems}} скъпоценни камъни бонус</strong> всеки месец!"
     feature5: "Видео уроци"
     feature6: "Премиум email поддръжка"
     feature7: "Частни <strong>Кланове</strong>"

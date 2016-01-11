@@ -198,7 +198,7 @@ module.exports.loginUser = loginUser = (req, res, user, send=true, next=null) ->
   )
 
 module.exports.idCounter = 0
-  
+
 module.exports.makeNewUser = makeNewUser = (req) ->
   user = new User({anonymous: true})
   if global.testing

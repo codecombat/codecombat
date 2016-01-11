@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     prompt_body: "Benötigst du mehr?"
     prompt_button: "Laden betreten"
     recovered: "Vorangegangener Edelsteinkauf rückgängig gemacht. Aktualisiere bitte die Seite."
-    price: "x3500 / Monat"
+    price: "x{{gems}} / Monat"
 
   subscribe:
     comparison_blurb: "Verbessere deine Fähigkeiten mit einem CodeCombat Abonnement"
     feature1: "60+ Basislevel in 4 Gebieten" # {change}
     feature2: "7 mächtige <strong>neue Helden</strong> mit einzigartigen Fertigkeiten" # {change}
     feature3: "30+ Bonuslevel" # {change}
-    feature4: "<strong>3500 Bonusedelsteine</strong> jeden Monat!"
+    feature4: "<strong>{{gems}} Bonusedelsteine</strong> jeden Monat!"
     feature5: "Videoanleitungen"
     feature6: "Premium Emailsupport"
 #    feature7: "Private <strong>Clans</strong>"

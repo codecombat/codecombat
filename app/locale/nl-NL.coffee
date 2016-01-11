@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     prompt_body: "Wil je meer krijgen?"
     prompt_button: "Naar de winkel"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
-#    price: "x3500 / mo"
+#    price: "x{{gems}} / mo"
 
   subscribe:
     comparison_blurb: "Verbeter je vaardigheden met een abonement op CodeCombat!"
     feature1: "meer dan 110+ basislevels over 4 werelden"
     feature2: "10 sterke <strong>nieuwe helden</strong> met unieke vaardigheden!"
     feature3: "70+ bonuslevels" # {change}
-    feature4: "<strong>3500 bonus edelstenen</strong> elke maand!"
+    feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!"
     feature5: "Video cursussen"
     feature6: "Hoogwaardige e-mail ondersteuning"
     feature7: "Besloten <strong>Clans</strong>"
@@ -513,7 +513,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     current_value: "Huidige waarde"
     default_value: "Standaard waarde"
     parameters: "Parameters"
-#    returns: "Returns" 
+#    returns: "Returns"
     granted_by: "Verleend door"
 
   save_load:
@@ -671,7 +671,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     email_subscriptions: "E-mail Abonnementen"
     email_subscriptions_none: "Geen E-mail Abonnementen."
     email_announcements: "Aankondigingen"
-    email_announcements_description: "Ontvang e-mails over het laatste nieuws en de ontwikkelingen bij CodeCombat." 
+    email_announcements_description: "Ontvang e-mails over het laatste nieuws en de ontwikkelingen bij CodeCombat."
     email_notifications: "Notificaties"
     email_notifications_summary: "Instellingen voor gepersonaliseerde, automatische meldingen via e-mail omtrent je activiteit op CodeCombat."
     email_any_notes: "Alle Meldingen"

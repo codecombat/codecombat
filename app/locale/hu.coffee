@@ -397,14 +397,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     prompt_body: "Szeretnél többet?"
     prompt_button: "Lépj be a boltba"
     recovered: "Az előző drágakő vásárlás helyreállt. Kérlek frissítsd az oldalt."
-#    price: "x3500 / mo"
+#    price: "x{{gems}} / mo"
 
   subscribe:
     comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!"
     feature1: "60+ alap pálya, 4 világon át" # {change}
     feature2: "7 erőteljes <strong>új hős</strong> egyedi képességekkel!" # {change}
     feature3: "30+ bónusz pálya" # {change}
-    feature4: "<strong>3500 bónusz drágakő</strong> minden hónapban!"
+    feature4: "<strong>{{gems}} bónusz drágakő</strong> minden hónapban!"
     feature5: "Videó oktatóanyagok"
     feature6: "Prémium email támogatás"
 #    feature7: "Private <strong>Clans</strong>"
