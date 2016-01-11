@@ -37,7 +37,7 @@ class LevelSessionHandler extends Handler
     return @sendForbiddenError(res) unless req.user?.isAdmin()
 
     levelSlug = req.query.slug or req.body.slug
-    limit = req.query.limit or req.body.limit or 7
+    limit = parseInt req.query.limit or req.body.limit or 7
 
     return @sendSuccess res, [] unless levelSlug?
 
