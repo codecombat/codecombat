@@ -11,7 +11,7 @@ countries.forEach(function(country) {
   var inactiveUsers = [];
   while (cursor.hasNext()) {
     var user = cursor.next();
-    if (!user.stripe.planID) {
+    if (!user.stripe.subscriptionID) {
       inactiveUsers.push(user);
       continue;
     }
