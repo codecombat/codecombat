@@ -993,7 +993,7 @@
     additional_resources_1_mid: "Course 1 Teacher's Guide"
     additional_resources_1_suff: "explanations and solutions to each level."
     additional_resources_2_pref: "Complete our"
-    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
+    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses." # {change}
     additional_resources_3_pref: "Visit our"
     additional_resources_3_mid: "Teacher Forums"
     additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."
