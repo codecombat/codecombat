@@ -1292,7 +1292,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   account:
     payments: "付款"
-    prepaid_codes: "充值碼"
+    prepaid_codes: "儲值碼"
     purchased: "已購買"
     subscription: "訂閱"
     invoices: "收據"
