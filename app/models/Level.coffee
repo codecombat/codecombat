@@ -28,7 +28,13 @@ module.exports = class Level extends CocoModel
     # Figure out ThangTypes' Components
     tmap = {}
     tmap[t.thangType] = true for t in o.thangs ? []
-    o.thangTypes = (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')) for tt in supermodel.getModels ThangType when tmap[tt.get('original')] or (tt.get('components') and not tt.notInLevel))
+    sessionHeroes = [session?.get('heroConfig')?.thangType, otherSession?.get('heroConfig')?.thangType]
+    o.thangTypes = []
+    for tt in supermodel.getModels ThangType
+      if tmap[tt.get('original')] or
+        (tt.get('kind') isnt 'Hero' and tt.get('kind')? and tt.get('components') and not tt.notInLevel) or
+        (tt.get('kind') is 'Hero' and ((@get('type', true) in ['course', 'course-ladder']) or tt.get('original') in sessionHeroes))
+          o.thangTypes.push (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')))
     @sortThangComponents o.thangTypes, o.levelComponents, 'ThangType'
     @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents
 

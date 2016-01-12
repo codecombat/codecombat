@@ -52,7 +52,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   play:
     play_as: "Speel als " # Ladder page
-    compete: "Compleet!" # Course details page //in English it says 'complete', so translated that instead.
+    compete: "Compleet!" # Course details page
     spectate: "Toeschouwen" # Ladder page
     players: "Spelers" # Hover over a level on /play
     hours_played: "Speeltijd" # Hover over a level on /play
@@ -484,8 +484,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     blocks: "Blokkeert" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "Vaardigheden"
-#   attack_1: "brengt [x damge] toe" # In Dutch we say 'brings [x damge] to...' Alternative: 'veroorzaakt [x damage] (causes [x damage])
-#    attack_2: "of listed" # what is the context?
+#    attack_1: "Deals"
+#    attack_2: "of listed"
     attack_3: "Wapen schade."
 #    health_1: "Gains"
 #    health_2: "of listed"
@@ -502,8 +502,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     action: "Actie"
     spell: "toverspreuk"
     action_name: "naam"
-    action_cooldown: "Duurt" # As in duration
-    action_specific_cooldown: "Afkoeling" # This literally means cooldown/coolingdown. If it needs to include a time element, it should be 'afkoeltijd'.
+    action_cooldown: "Duurt"
+    action_specific_cooldown: "Afkoeling"
     action_damage: "Schade"
     action_range: "Bereik"
     action_radius: "Straal"
@@ -513,7 +513,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     current_value: "Huidige waarde"
     default_value: "Standaard waarde"
     parameters: "Parameters"
-#    returns: "Returns" 
+#    returns: "Returns"
     granted_by: "Verleend door"
 
   save_load:
@@ -552,32 +552,30 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     press_paragraph_1_link: "journalistieke pakket"
     press_paragraph_1_suffix: ". Alle logo's en afbeeldingen mogen worden gebruikt zonder direct contact met ons op te nemen."
     team: "Team"
-    george_title: "CEO" # {change}
-    george_blurb: "Zaken type"
-    scott_title: "Programmeur" # {change}
-    scott_blurb: "de Redelijke"
     nick_title: "Programmeur" # {change}
     nick_blurb: "Motivatie Goeroe"
-    michael_title: "Programmeur"
-    michael_blurb: "Systeembeheerder"
     matt_title: "Programmeur" # {change}
     matt_blurb: "Fietser"
-    cat_title: "Hoofd Ambachtsman"
+    cat_title: "Hoofd Ambachtsman" # {change}
 #    cat_blurb: "Airbender"
-    josh_title: "Game Designer" # In Dutch people would use the english term.
-    josh_blurb: "Vloer Is Lava"
-    jose_title: "Muziek"
-#    jose_blurb: "Taking Off"
-    retrostyle_title: "Illustraties"
-    retrostyle_blurb: "RetroStijl Games"
-    rob_title: "Compiler Ontwerper"
+    scott_title: "Programmeur" # {change}
+    scott_blurb: "de Redelijke"
+    maka_title: "Klanten Ombudsman"
+    maka_blurb: "VerhalenVerteller"
+    rob_title: "Compiler Ontwerper" # {change}
     rob_blurb: "Programmeert dingen en spullen"
     josh_c_title: "Game Designer"
     josh_c_blurb: "Ontwikkeld games"
+#    robin_title: "UX Design & Research"
+#    robin_blurb: "Scaffolding"
+    josh_title: "Game Designer"
+    josh_blurb: "Vloer Is Lava"
+    retrostyle_title: "Illustraties"
+    retrostyle_blurb: "RetroStijl Games"
+    jose_title: "Muziek"
+#    jose_blurb: "Taking Off"
     carlos_title: "Regio Manager, Brazilië"
     carlos_blurb: "Selderij Man"
-    maka_title: "Klanten Ombudsman"
-    maka_blurb: "VerhalenVerteller"
 
   teachers:
     who_for_title: "Voor wie is CodeCombat?"
@@ -664,14 +662,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     admin: "Beheerder"
     manage_subscription: "Klik hier om je abonnement te beheren."
     new_password: "Nieuw Wachtwoord"
-    new_password_verify: "Controleer" # Controleer means 'check'. Verifieer also means check, but it is very formal. Children wouldn't know what it means.
+    new_password_verify: "Controleer"
     type_in_email: "Typ je e-mail in om de verwijdering te bevestigen."
     type_in_email_progress: "Vul je e-mail in om te bevestigen dat je jouw voortgang wilt verwijderen."
     type_in_password: "Typ ook je wachtwoord in."
     email_subscriptions: "E-mail Abonnementen"
     email_subscriptions_none: "Geen E-mail Abonnementen."
     email_announcements: "Aankondigingen"
-    email_announcements_description: "Ontvang e-mails over het laatste nieuws en de ontwikkelingen bij CodeCombat." 
+    email_announcements_description: "Ontvang e-mails over het laatste nieuws en de ontwikkelingen bij CodeCombat."
     email_notifications: "Notificaties"
     email_notifications_summary: "Instellingen voor gepersonaliseerde, automatische meldingen via e-mail omtrent je activiteit op CodeCombat."
     email_any_notes: "Alle Meldingen"
@@ -704,7 +702,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    scrub_playback: "Scrub back and forward through time."
 #    single_scrub_playback: "Scrub back and forward through time by a single frame."
 #    scrub_execution: "Scrub through current spell execution."
-    toggle_debug: "Toggle debug display." # This already is correct Dutch.
+    toggle_debug: "Toggle debug display."
     toggle_grid: "Toggle rooster weergave."
     toggle_pathfinding: "Toggle padvind weergave."
     beautify: "Verfraai je code door de opmaak overal gelijk te maken."
@@ -755,7 +753,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     average_achievements: "Gemiddelde Prestaties"
     delete_clan: "Delete Clan"
     leave_clan: "Verlaat Clan"
-    join_clan: "Ga bij een Clan" # Now it says 'join a clan', like: "click here to join a clan". If the context is more like: join THIS clan. Then the current translation is wrong.
+    join_clan: "Ga bij een Clan"
     invite_1: "Uitnodigen:"
     invite_2: "*Nodig spelers uit in deze clan door hen deze link te sturen."
     members: "Leden"
@@ -994,7 +992,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    additional_resources_1_mid: "Course 1 Teacher's Guide"
 #    additional_resources_1_suff: "explanations and solutions to each level."
 #    additional_resources_2_pref: "Complete our"
-#    additional_resources_2_suff: "to get 15 more hours of content! For a limited time, enroll as many students as you want in our three paid courses."
+#    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
 #    additional_resources_3_pref: "Visit our"
 #    additional_resources_3_mid: "Teacher Forums"
 #    additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."
@@ -1483,7 +1481,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     email_settings_url: "jouw e-mail instellingen"
     email_description_suffix: "of via urls in de emails die wij verzenden, kan je jouw instellingen wijzigen en ten allen tijden uitschrijven."
     cost_title: "Kosten"
-#    cost_description_a: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Auteursrechten en licenties"
     contributor_title: "Licentieovereenkomst voor vrijwilligers"
     contributor_description_prefix: "Alle bijdragen, zowel op de website als op onze GitHub repository, vallen onder onze"

@@ -553,17 +553,17 @@
     press_paragraph_1_link: "press packet"
     press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
     team: "Team"
-    nick_title: "Cofounder, CEO" # {change}
+    nick_title: "Cofounder, CEO"
     nick_blurb: "Motivation Guru"
-    matt_title: "Cofounder, CTO" # {change}
+    matt_title: "Cofounder, CTO"
     matt_blurb: "Bicyclist"
-    cat_title: "Game Designer" # {change}
+    cat_title: "Game Designer"
     cat_blurb: "Airbender"
-    scott_title: "Cofounder, Software Engineer" # {change}
+    scott_title: "Cofounder, Software Engineer"
     scott_blurb: "Reasonable One"
     maka_title: "Customer Advocate"
     maka_blurb: "Storyteller"
-    rob_title: "Software Engineer" # {change}
+    rob_title: "Software Engineer"
     rob_blurb: "Codes things and stuff"
     josh_c_title: "Game Designer"
     josh_c_blurb: "Designs games"
@@ -993,7 +993,7 @@
     additional_resources_1_mid: "Course 1 Teacher's Guide"
     additional_resources_1_suff: "explanations and solutions to each level."
     additional_resources_2_pref: "Complete our"
-    additional_resources_2_suff: "to get 15 more hours of content! For a limited time, enroll as many students as you want in our three paid courses."
+    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
     additional_resources_3_pref: "Visit our"
     additional_resources_3_mid: "Teacher Forums"
     additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."

@@ -1,23 +1,23 @@
 module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lithuanian", translation:
   home:
     slogan: "Išmok programuoti žaisdamas!"
-    no_ie: "CodeCombat su naršykle Internet Explorer 8 arba senesne. Atleiskite!" # Warning that only shows up in IE8 and older
-    no_mobile: "CodeCombat neskirtas mobiliems įrenginiams ir gali veikti neteisingai!" # Warning that shows up on mobile devices
+    no_ie: "Atsiprašome! CodeCombat neveikia su Internet Explorer 8 arba senesne naršyklės versija." # Warning that only shows up in IE8 and older
+    no_mobile: "CodeCombat neskirtas mobiliems įrenginiams ir gali neveikti!" # Warning that shows up on mobile devices
     play: "Žaisti" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    play_campaign_version: "Žaisti Kampanijos Versiją" # Shows up under big play button if you only play /courses
+    old_browser: "Atsiprašome! Jūsų naršyklės versija per sena, kad galėtumėt žaisti CodeCombat." # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser_suffix: "Galite bandyti, bet greičiausiai žaisti nepavyks."
+    ipad_browser: "Bloga žinia: CodeCombat neveikia iPad naršyklėje. Gera žinia: mūsų iPad žaidimo versija laukia Apple patvirtinimo."
     campaign: "Kampanija"
     for_beginners: "Naujokams"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
+    for_developers: "Programuotojams" # Not currently shown on home page.
     or_ipad: "Arba atsisiųskite iPad'ui"
 
   nav:
     play: "Lygiai" # The top nav bar entry where players choose which levels to play
     community: "Bendruomenė"
-#    courses: "Courses"
+    courses: "Kursai"
     editor: "Redaktorius"
     blog: "Blog'as"
     forum: "Forumas"
@@ -43,17 +43,17 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     page_not_found: "Puslapis nerastas"
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-#    sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Lithuanian but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Lithuanian."
-    missing_translations: "Until we can translate everything into Lithuanian, you'll see English when Lithuanian isn't available."
-#    learn_more: "Learn more about being a Diplomat"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    title: "Padėkite išversti CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Mums reikia jūsų kalbos įgudžių."
+    pitch_body: "Mes kuriame CodeCombat Angliškai, bet mes turime žaidėjų visame pasaulyje. Daugelis jų norėtų žaisti Lietuvoje, tačiau nesupranta Angliškai. Jei tu gerai moki abi kalbas, prašom užsiregistruoti ir tapti Diplomatu. Taip galėsi padėti išversti CodeCombat interneto svetainę ir visus lygius į Lietuvių kalbą."
+    missing_translations: "Kol viską išversime į Lietuvių kalbą, dar neišverstą tekstą matysite užrašytą Anglų kalba."
+    learn_more: "Sužinoti daugiau apie tapimą Diplomatu"
+    subscribe_as_diplomat: "Noriu tapti Diplomatu"
 
   play:
     play_as: "Žaisti kaip" # Ladder page
-#    compete: "Compete!" # Course details page
-    spectate: "Stebėtojas" # Ladder page
+    compete: "Varžytis!" # Course details page
+    spectate: "Stebėti" # Ladder page
     players: "žaidėjai" # Hover over a level on /play
     hours_played: "valandų žaista" # Hover over a level on /play
     items: "Daiktai" # Tooltip on item shop button from /play
@@ -72,7 +72,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     next: "Kitas" # Go from choose hero to choose inventory before playing a level
     change_hero: "Keisti Herojų" # Go back from choose inventory to choose hero
     buy_gems: "Pirkti Deimantus"
-#    subscription_required: "Subscription Required"
+    subscription_required: "Reikalingas patvirtinimas"
     anonymous: "Anoniminis Žaidėjas"
     level_difficulty: "Sudėtingumas: "
 #    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
@@ -86,13 +86,13 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
-#    form_blurb: "Enter your parent's email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
+  share_progress_modal:
+    blurb: "Tau puikiai sekasi! Parodyk tėvams kiek jau išmokai su CodeCombat."
+    email_invalid: "Neteisingas el. pašto adresas."
+    form_blurb: "Įvesk tėvų el. pašto adresą ir mes jiems parodysim!"
+    form_label: "El. pašto adresas"
+    placeholder: "el. pašto adresas"
+    title: "Puikiai padirbėta, Mokinį!"
 
   login:
     sign_up: "Sukurti paskyrą"
@@ -114,14 +114,14 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     log_in: "prisijungti slaptažodžio pagalba"
     required: "PRieš tęsiant kelią turite prisijungti."
     login_switch: "Jau turite paskyrą?"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
+    school_name: "Mokyklos pavadinimas ir miestas"
+    optional: "nebūtinas"
+    school_name_placeholder: "Pavyzdžiui: Šiaulių Kolegija, Šiauliai"
 
-#  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
-#    recovery_sent: "Recovery email sent."
+  recover:
+    recover_account_title: "Susigrąžinti paskyrą"
+    send_password: "Siųsti susigrąžinimo slaptažodį"
+    recovery_sent: "Susigražinimo laiškas išsiųstas."
 
   items:
     primary: "Pagrindiniai"
@@ -148,50 +148,50 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     actions: "Veiksmai"
     info: "Informacija"
     help: "Pagalba"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
-#    submit_patch: "Submit Patch"
-#    submit_changes: "Submit Changes"
-#    save_changes: "Save Changes"
+    watch: "Žiūrėti"
+    unwatch: "Nebežiūrėti"
+    submit_patch: "Pateikti pataisymą"
+    submit_changes: "Pateikti pakeitimus"
+    save_changes: "Saugoti pakeitimus"
 
   general:
     and: "ir"
     name: "Vardas"
     date: "Data"
 #    body: "Body"
-#    version: "Version"
-#    pending: "Pending"
-#    accepted: "Accepted"
-#    rejected: "Rejected"
-#    withdrawn: "Withdrawn"
+    version: "Versija"
+    pending: "Laukiama"
+    accepted: "Priimtas"
+    rejected: "Atmestas"
+    withdrawn: "Pasitraukęs"
     accept: "Priimti"
     reject: "Atmesti"
-#    withdraw: "Withdraw"
-#    submitter: "Submitter"
-#    submitted: "Submitted"
-#    commit_msg: "Commit Message"
-#    version_history: "Version History"
-#    version_history_for: "Version History for: "
-#    select_changes: "Select two changes below to see the difference."
-#    undo_prefix: "Undo"
-#    undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Redo"
-#    redo_shortcut: "(Ctrl+Shift+Z)"
-#    play_preview: "Play preview of current level"
-#    result: "Result"
-#    results: "Results"
-#    description: "Description"
+    withdraw: "Pasitraukti"
+    submitter: "Teikėjas"
+    submitted: "Pateikta"
+    commit_msg: "Patvirtinti Žinutę"
+    version_history: "Versijų Istorija"
+    version_history_for: "Versijos istorija: "
+    select_changes: "Kad pamatytum skirtumą, pažymėk du pakeitimus žemiau."
+    undo_prefix: "Atgal"
+    undo_shortcut: "(Ctrl+Z)"
+    redo_prefix: "Pirmyn"
+    redo_shortcut: "(Ctrl+Shift+Z)"
+    play_preview: "Esamo žaidimo lygio peržiūra"
+    result: "Rezultatas"
+    results: "Rezultatai"
+    description: "Aprašymas"
     or: "arba"
-#    subject: "Subject"
-#    email: "Email"
+    subject: "Tema"
+    email: "El. paštas"
     password: "Slaptažodis"
-#    message: "Message"
+    message: "Žinutė"
     code: "Kodas"
 #    ladder: "Ladder"
-#    when: "When"
-#    opponent: "Opponent"
+    when: "Kai"
+    opponent: "Priešininkas"
     rank: "Rangas"
-#    score: "Score"
+    score: "Taškai"
     win: "Pergalė"
     loss: "Pralaimėjimas"
     tie: "Lygiosios"
@@ -221,10 +221,10 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     years: "metai"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "Įveiktas Lygis:"
+    course: "Kursas:"
     done: "Gerai"
-#    next_level: "Next Level:"
+    next_level: "Kitas Lygis:"
     next_game: "Kitas žaidimas"
     show_menu: "Parodyti žaidimo meniu"
 #    home: "Home" # Not used any more, will be removed soon.
@@ -242,34 +242,34 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     failing: "Nesėkmingai"
     control_bar_multiplayer: "Žaidimas keliese"
     control_bar_join_game: "Prisijungti prie žaidimo"
-    reload: "Perkrauti"
-    reload_title: "Perkrauti visą kodą?"
+    reload: "Atstatyti"
+    reload_title: "Atstatyti visą kodą?"
     reload_really: "Ar tikrai norite atsukti visą lygį į pradžią?"
-    reload_confirm: "Perkrauti viską"
+    reload_confirm: "Atstatyti viską"
     victory: "Pergalė"
     victory_title_prefix: ""
     victory_title_suffix: " baigta"
     victory_sign_up: "Užsiregistruokite, kad išsaugotumėte pažangą"
     victory_sign_up_poke: "Norite išsaugoti savo kodą? Sukurkite paskyrą nemokamai!"
-#    victory_rate_the_level: "How fun was this level?"
+    victory_rate_the_level: "Ar patiko šis lygis?"
 #    victory_return_to_ladder: "Return to Ladder"
     victory_saving_progress: "Išsaugoma pažanga"
     victory_go_home: "Į Pradžią"
-#    victory_review: "Tell us more!"
+    victory_review: "Papasakok daugiau!"
     victory_review_placeholder: "Ar Jums patiko lygis?"
     victory_hour_of_code_done: "Ar pabaigėte?"
-#    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
+    victory_hour_of_code_done_yes: "Taip, aš užbaigiau savo Kodo Valandą™!"
     victory_experience_gained: "Gauta XP"
     victory_gems_gained: "Gauta Deimantų"
     victory_new_item: "Naujas Daiktas"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
+    victory_viking_code_school: "Po paraliais, tu katik įveikei sunkujį lygį! Jei tu dar nesi programuotojas, tai bent turėtum būti. Tu katik paspartinai priėmimą į Vikingų Kodo Mokyklą, kur savo įgudžius gali perkelti į naują lygį ir, per 14 sąvaičių, gali tapti profesionaliu internetinių sistemų programuotoju."
+    victory_become_a_viking: "Tapk Vikingu"
     guide_title: "Vedlys"
     tome_cast_button_run: "Paleisti"
     tome_cast_button_running: "Leidžiama"
     tome_cast_button_ran: "Paleista"
     tome_submit_button: "Pateikti"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+    tome_reload_method: "Atstatyti originalų kodą šiam metodui" # Title text for individual method reload button.
     tome_select_method: "Pasirinkti Metodą"
     tome_see_all_methods: "Visi metodai, kuriuos galite keisti" # Title text for method list selector (shown when there are multiple programmable methods).
 #    tome_select_a_thang: "Select Someone for "
@@ -290,9 +290,9 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
 #    check_dev_console: "You can also open the developer console to see what might be going wrong."
 #    check_dev_console_link: "(instructions)"
-#    infinite_loop_try_again: "Try Again"
-#    infinite_loop_reset_level: "Reset Level"
-#    infinite_loop_comment_out: "Comment Out My Code"
+    infinite_loop_try_again: "Bandyk dar kartą"
+    infinite_loop_reset_level: "Pradėti lygi išnaujo"
+    infinite_loop_comment_out: "Užkomentuoti mano kodą"
     tip_toggle_play: "Įjunkite ir išjunkite Pauzę spaudžiant Ctrl+P."
     tip_scrub_shortcut: "Naudokite Ctrl+[ ir Ctrl+] persukimui pirmyn ir atgal."
     tip_guide_exists: "Pasirinkite punktą Vedlys žaidimo meniu (puslapio viršuje), jame rasite naudingos informacijos."
@@ -301,10 +301,10 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     tip_beta_launch: "CodeCombat Beta versija startavo 2013 m. spalio mėnesį."
     tip_think_solution: "Galvok ne apie problemą, o apie sprendimą."
     tip_theory_practice: "Teoriškai nėra skirtuma tarp teorijos ir praktikos. Praktiškai - yra. - Yogi Berra"
-#    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
-#    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
+    tip_error_free: "Yra du būdai parašyti programą be klaidų; tik trečiasis suveikia. - Alan Perlis"
+    tip_debugging_program: "Jei derinimas yra procesas klaidoms šalinti, tai programavimas turėtų būti procesas klaidoms padaryti. - Edsger W. Dijkstra"
     tip_forums: "Aplankykite forumą ir parašykite mums Jūsų nuomonę!"
-#    tip_baby_coders: "In the future, even babies will be Archmages."
+    tip_baby_coders: "Ateityje ir kūdikiai bus Arkimagais."
 #    tip_morale_improves: "Loading will continue until morale improves."
 #    tip_all_species: "We believe in equal opportunities to learn programming for all species."
 #    tip_reticulating: "Reticulating spines."
@@ -463,7 +463,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     programming_language: "Programavimo kalba"
     programming_language_description: "Kokią programavimo kalbą norėtum naudoti?"
     default: "Numatytasis"
-#    experimental: "Experimental"
+    experimental: "Eksperimentinis"
     python_blurb: "Paprasta bet galinga. Puikiai tinka ir naujokams ir ekspertams."
     javascript_blurb: "WWW tinklo kalba. (Nepainiokite su Java.)"
     coffeescript_blurb: "JavaScript su malonesne sintakse."
@@ -516,9 +516,9 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    returns: "Returns"
 #    granted_by: "Granted by"
 
-#  save_load:
-#    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+  save_load:
+    granularity_saved_games: "Išsaugotas"
+    granularity_change_history: "Istorija"
 
   options:
     general_options: "Bendri nustatymai" # Check out the Options tab in the Game Menu while playing a level
@@ -552,32 +552,30 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
 #    team: "Team"
-#    george_title: "Cofounder"
-#    george_blurb: "Businesser"
-#    scott_title: "Cofounder"
-#    scott_blurb: "Reasonable One"
-#    nick_title: "Cofounder"
+#    nick_title: "Cofounder, CEO"
 #    nick_blurb: "Motivation Guru"
-#    michael_title: "Programmer"
-#    michael_blurb: "Sys Admin"
-#    matt_title: "Cofounder"
+#    matt_title: "Cofounder, CTO"
 #    matt_blurb: "Bicyclist"
-#    cat_title: "Chief Artisan"
+#    cat_title: "Game Designer"
 #    cat_blurb: "Airbender"
-#    josh_title: "Game Designer"
-#    josh_blurb: "Floor Is Lava"
-#    jose_title: "Music"
-#    jose_blurb: "Taking Off"
-#    retrostyle_title: "Illustration"
-#    retrostyle_blurb: "RetroStyle Games"
-#    rob_title: "Compiler Engineer"
+#    scott_title: "Cofounder, Software Engineer"
+#    scott_blurb: "Reasonable One"
+#    maka_title: "Customer Advocate"
+#    maka_blurb: "Storyteller"
+#    rob_title: "Software Engineer"
 #    rob_blurb: "Codes things and stuff"
 #    josh_c_title: "Game Designer"
 #    josh_c_blurb: "Designs games"
+#    robin_title: "UX Design & Research"
+#    robin_blurb: "Scaffolding"
+#    josh_title: "Game Designer"
+#    josh_blurb: "Floor Is Lava"
+#    retrostyle_title: "Illustration"
+#    retrostyle_blurb: "RetroStyle Games"
+#    jose_title: "Music"
+#    jose_blurb: "Taking Off"
 #    carlos_title: "Region Manager, Brazil"
 #    carlos_blurb: "Celery Man"
-#    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
 
 #  teachers:
 #    who_for_title: "Who is CodeCombat for?"
@@ -994,7 +992,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    additional_resources_1_mid: "Course 1 Teacher's Guide"
 #    additional_resources_1_suff: "explanations and solutions to each level."
 #    additional_resources_2_pref: "Complete our"
-#    additional_resources_2_suff: "to get 15 more hours of content! For a limited time, enroll as many students as you want in our three paid courses."
+#    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
 #    additional_resources_3_pref: "Visit our"
 #    additional_resources_3_mid: "Teacher Forums"
 #    additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."
@@ -1017,22 +1015,22 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
   classes:
     archmage_title: "Arkimagas"
     archmage_title_description: "(Koderis)"
-#    archmage_summary: "If you are a developer interested in coding educational games, become an archmage to help us build CodeCombat!"
-    artisan_title: "Menininkas"
+    archmage_summary: "Jei tu esi programuotojas ir norėtum programuoti mokomuosius žiadimus, tapk Arkimagu ir padėk mums kurti CodeCombat!"
+    artisan_title: "Meistras"
     artisan_title_description: "(Lygių architektas)"
-#    artisan_summary: "Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program."
+    artisan_summary: "Kurk ir dalinkis lygiais su savo draugais. Tapk Meistru ir mokykis meno mokyti kitus programuoti."
     adventurer_title: "Nuotykių ieškotojas"
     adventurer_title_description: "(Lygių bandytojas)"
-#    adventurer_summary: "Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release."
+    adventurer_summary: "Gauk naujausius lygius nemokamai. Net savaitę anksčiau ir padėk mums ištaisyti klaidas prieš oficialų pristatymą."
     scribe_title: "Raštininkas"
     scribe_title_description: "(Straipsnių redaktorius)"
-#    scribe_summary: "Good code needs good documentation. Write, edit, and improve the docs read by millions of players across the globe."
+    scribe_summary: "Geram kodui reikia geros dokumentacijos. Kurk, redaguok ir tobulink dokumentus, kuriuos skaito milijonai žaidėjų visame pasaulyje."
     diplomat_title: "Diplomatas"
     diplomat_title_description: "(Vertėjas)"
-#    diplomat_summary: "CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations."
+    diplomat_summary: "Diplomatų dėka CodeCombat yra verčiamas į daugiau kaip 45 kalbas. Tu gali mums padėti tapdamas vertėju."
     ambassador_title: "Ambasadorius"
     ambassador_title_description: "(Palaikymas)"
-#    ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world."
+    ambassador_summary: "Nuramink mūsų forumo naudotojus ir suteik pagalbą tiems kas turi klausimų. Mūsų Ambasadoriai atstovauja CodeCombat visam pasauliui."
 
 #  editor:
 #    main_title: "CodeCombat Editors"
@@ -1126,8 +1124,8 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    edit_btn_preview: "Preview"
 #    edit_article_title: "Edit Article"
 
-#  polls:
-#    priority: "Priority"
+  polls:
+    priority: "Prioritetas"
 
 #  contribute:
 #    page_title: "Contributing"
@@ -1483,7 +1481,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    email_settings_url: "your email settings"
 #    email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
 #    cost_title: "Cost"
-#    cost_description_a: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
 #    copyrights_title: "Copyrights and Licenses"
 #    contributor_title: "Contributor License Agreement"
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
