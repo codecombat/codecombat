@@ -397,14 +397,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     prompt_body: "?רוצה לקבל עוד"
     prompt_button: "היכנס לחנות"
     recovered: ".רכישה אחרונה שוחזרה. טען את הדף מחדש בבקשה"
-    price: "x3500  לחודש"
+    price: "x{{gems}}  לחודש"
 
   subscribe:
     comparison_blurb: ".CodeCombatחדד את כישוריך עם מנוי ל"
     feature1: "60+ שלבים בסיסיים ב 4 עולמות שונים." # {change}
     feature2: "!עם כישורים מיוחדים <strong>גיבורים עוצמתיים חדשים</strong> 7" # {change}
     feature3: "30+ שלבי בונוס" # {change}
-    feature4: "!בחינם כל חודש <strong>3500 אבני חן</strong>"
+    feature4: "!בחינם כל חודש <strong>{{gems}} אבני חן</strong>"
     feature5: "הדרכות וידאו"
     feature6: "תמיכת מייל בעדיפות ראשונה"
     feature7: "פרטיים <strong>שבטים</strong>"

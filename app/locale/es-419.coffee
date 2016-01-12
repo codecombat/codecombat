@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     prompt_body: "¿Quieres obtener más?"
     prompt_button: "Entrar al mercado"
     recovered: "Se recuperaron las anteriores compras de gemas. Por favor recarga la página"
-    price: "x3500 / mes"
+    price: "x{{gems}} / mes"
 
   subscribe:
     comparison_blurb: "Agudiza tus habilidades con la suscripción a CodeCombat!"
     feature1: "Más de 110 niveles basicos a lo largo de 4 mundos"
     feature2: "10 poderosos <strong>nuevos heroés</strong> con habilidades unicas!"
     feature3: "Más de 70 niveles extras" # {change}
-    feature4: "<strong>3500 gemas de bono</strong> cada mes!"
+    feature4: "<strong>{{gems}} gemas de bono</strong> cada mes!"
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
     feature7: "<strong>Clan</strong> Privado"

@@ -397,14 +397,14 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     prompt_body: "もっと購入しますか？"
     prompt_button: "ショップに入る"
     recovered: "前のジェム購入をリカバリーしました。ページを更新してください。"
-    price: "x3500 / 月"
+    price: "x{{gems}} / 月"
 
   subscribe:
     comparison_blurb: "CodeCombatへ課金してスキルを磨きましょう！"
     feature1: "110以上の基本レベルが４つの世界に" # {change}
     feature2: "10人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!" # {change}
     feature3: "70以上のボーナスレベル" # {change}
-    feature4: "<strong>3500のジェム</strong>が毎月ボーナス!"
+    feature4: "<strong>{{gems}}のジェム</strong>が毎月ボーナス!"
     feature5: "ビデオチュートリアル"
     feature6: "プレミアムメールサポート"
     feature7: "プライベート<strong>クラン</strong>"

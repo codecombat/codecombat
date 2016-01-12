@@ -17,7 +17,7 @@ module.exports.get = (req, res) ->
 
 ###
 Stub data, used in tests and dev environment.
-  
+
 These values are only upserted when the test/dev db does not already contain them.
 If you are testing products and need to change them, you'll need to edit the db values directly.
 ###
@@ -75,5 +75,12 @@ initProducts = [
   {
     name: 'course'
     amount: 100
+  }
+
+  {
+    name: 'brazil_basic_subscription'
+    amount: 0
+    gems: 1500
+    planID: 'basic'
   }
 ]

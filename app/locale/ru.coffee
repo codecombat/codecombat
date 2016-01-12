@@ -397,14 +397,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     prompt_body: "Хотите еще?"
     prompt_button: "Войти в магазин"
     recovered: "Предыдущие покупки самоцветов восстановлены. Пожалуйста, обновите страницу."
-    price: "x3500 / месяц"
+    price: "x{{gems}} / месяц"
 
   subscribe:
     comparison_blurb: "Отточите свое мастерство благодаря подписке на CodeCombat!"
     feature1: "80+ основных уровней на просторах 4-х миров" # {change}
     feature2: "7 могущественных <strong>новых героев</strong> с уникальными способностями!" # {change}
     feature3: "60+ дополнительных уровней" # {change}
-    feature4: "<strong>3500 бонусных самоцветов</strong> каждый месяц!"
+    feature4: "<strong>{{gems}} бонусных самоцветов</strong> каждый месяц!"
     feature5: "Обучающие видеоролики"
     feature6: "Эксклюзивная поддержка по электронной почте"
     feature7: "Частные <strong>Кланы</strong>"

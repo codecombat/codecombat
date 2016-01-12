@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     prompt_body: "Queres obter mais?"
     prompt_button: "Entra na Loja"
     recovered: "A compra de gemas anterior foi recuperada. Por favor atualiza a página."
-    price: "x3500 / mês"
+    price: "x{{gems}} / mês"
 
   subscribe:
     comparison_blurb: "Aperfeiçoa as tuas habilidades com uma subscrição do CodeCombat!"
     feature1: "110+ níveis básicos dispersos por 4 mundos"
     feature2: "10 <strong>heróis novos</strong> e poderosos com habilidades únicas!"
     feature3: "80+ níveis de bónus"
-    feature4: "<strong>3500 gemas de bónus</strong> por mês!"
+    feature4: "<strong>{{gems}} gemas de bónus</strong> por mês!"
     feature5: "Tutoriais em vídeo"
     feature6: "Apoio por e-mail prioritário"
     feature7: "<strong>Clãs</strong> Privados"

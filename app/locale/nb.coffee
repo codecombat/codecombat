@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     prompt_body: "Har du lyst på flere?"
     prompt_button: "Til Butikken"
     recovered: "Tidligere juvelkjøp hentet. Vennligst last siden på nytt"
-#    price: "x3500 / mo"
+#    price: "x{{gems}} / mo"
 
   subscribe:
     comparison_blurb: "Spiss dine kunnskaper med et CodeCombat abonnement!"
     feature1: "60+ grunnleggende brett fordelt på 4 verdener" # {change}
     feature2: "7 kraftfulle <strong>nye helter</strong> med unike ferdigheter!" # {change}
     feature3: "30+ bonusbrett" # {change}
-    feature4: "<strong>3500 bonusjuveler</strong> hver måned!"
+    feature4: "<strong>{{gems}} bonusjuveler</strong> hver måned!"
     feature5: "Videoveiledninger"
     feature6: "Premium e-poststøtte"
 #    feature7: "Private <strong>Clans</strong>"
