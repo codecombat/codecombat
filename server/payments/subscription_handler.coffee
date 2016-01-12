@@ -428,7 +428,11 @@ class SubscriptionHandler extends Handler
     req.body.stripe = stripeInfo
     user.set('stripe', stripeInfo)
 
-    Product.findOne({name: 'basic_subscription'}).exec (err, product) =>
+    productName = 'basic_subscription'
+    if user.get('country') in ['brazil']
+      productName = "#{user.get('country')}_basic_subscription"
+
+    Product.findOne({name: productName}).exec (err, product) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res, 'basic_subscription product not found') if not product
 
@@ -436,7 +440,7 @@ class SubscriptionHandler extends Handler
         purchased = _.clone(user.get('purchased'))
         purchased ?= {}
         purchased.gems ?= 0
-        purchased.gems += product.get('gems') # TODO: Put actual subscription amount here
+        purchased.gems += product.get('gems')
         user.set('purchased', purchased)
 
       user.save (err) =>
