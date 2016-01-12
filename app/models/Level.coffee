@@ -28,7 +28,7 @@ module.exports = class Level extends CocoModel
     # Figure out ThangTypes' Components
     tmap = {}
     tmap[t.thangType] = true for t in o.thangs ? []
-    sessionHeroes = [session.get('heroConfig')?.thangType, otherSession?.get('heroConfig')?.thangType]
+    sessionHeroes = [session?.get('heroConfig')?.thangType, otherSession?.get('heroConfig')?.thangType]
     o.thangTypes = []
     for tt in supermodel.getModels ThangType
       if tmap[tt.get('original')] or
