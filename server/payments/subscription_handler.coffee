@@ -139,28 +139,28 @@ class SubscriptionHandler extends Handler
           if err
             @logSubscriptionError(user, "Purchase year sale Stripe cancel subscription error: #{JSON.stringify(err)}")
             return @sendDatabaseError(res, err)
-            
+
           Product.findOne({name: 'year_subscription'}).exec (err, product) =>
             return @sendDatabaseError(res, err) if err
             return @sendNotFoundError(res, 'year_subscription product not found') if not product
-            
+
             metadata =
               type: req.body.type
               userID: req.user._id + ''
               gems: product.get('gems')
               timestamp: parseInt(req.body.stripe?.timestamp)
               description: req.body.description
-  
+
             StripeUtils.createCharge req.user, product.get('amount'), metadata, (err, charge) =>
               if err
                 @logSubscriptionError(req.user, "Purchase year sale create charge: #{JSON.stringify(err)}")
                 return @sendDatabaseError(res, err)
-  
+
               StripeUtils.createPayment req.user, charge, (err, payment) =>
                 if err
                   @logSubscriptionError(req.user, "Purchase year sale create payment: #{JSON.stringify(err)}")
                   return @sendDatabaseError(res, err)
-  
+
                 # Add terminal subscription to User with extensions for existing subscriptions
                 stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
                 endDate = new Date()
@@ -171,14 +171,14 @@ class SubscriptionHandler extends Handler
                 endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
                 stripeInfo.free = endDate.toISOString().substring(0, 10)
                 req.user.set('stripe', stripeInfo)
-  
+
                 # Add year's worth of gems to User
                 purchased = _.clone(req.user.get('purchased'))
                 purchased ?= {}
                 purchased.gems ?= 0
                 purchased.gems += parseInt(charge.metadata.gems)
                 req.user.set('purchased', purchased)
-  
+
                 req.user.save (err, user) =>
                   if err
                     @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
@@ -248,18 +248,18 @@ class SubscriptionHandler extends Handler
               endDate = new moment(stripeSubscriptionPeriodEndDate)
             else if _.isString(stripeInfo.free) and new moment().isBefore(new moment(stripeInfo.free))
               endDate = new moment(stripeInfo.free)
-  
+
             endDate = endDate.add(months, 'months')
             stripeInfo.free = endDate.toISOString().substring(0, 10)
             req.user.set('stripe', stripeInfo)
-  
+
             # Add gems to User
             purchased = _.clone(req.user.get('purchased'))
             purchased ?= {}
             purchased.gems ?= 0
             purchased.gems += product.get('gems') * months
             req.user.set('purchased', purchased)
-  
+
             req.user.save (err, user) =>
               if err
                 @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
@@ -366,6 +366,8 @@ class SubscriptionHandler extends Handler
 
     else
       couponID = user.get('stripe')?.couponID
+      if user.get('country') is 'brazil'
+        couponID ?= 'brazil'
       # SALE LOGIC
       # overwrite couponID with another for everyone-sales
       #couponID = 'hoc_399' if not couponID
@@ -426,7 +428,11 @@ class SubscriptionHandler extends Handler
     req.body.stripe = stripeInfo
     user.set('stripe', stripeInfo)
 
-    Product.findOne({name: 'basic_subscription'}).exec (err, product) =>
+    productName = 'basic_subscription'
+    if user.get('country') in ['brazil']
+      productName = "#{user.get('country')}_basic_subscription"
+
+    Product.findOne({name: productName}).exec (err, product) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res, 'basic_subscription product not found') if not product
 
@@ -434,9 +440,9 @@ class SubscriptionHandler extends Handler
         purchased = _.clone(user.get('purchased'))
         purchased ?= {}
         purchased.gems ?= 0
-        purchased.gems += product.get('gems') # TODO: Put actual subscription amount here
+        purchased.gems += product.get('gems')
         user.set('purchased', purchased)
-  
+
       user.save (err) =>
         if err
           @logSubscriptionError(user, 'Stripe user plan saving error. ' + err)
@@ -551,11 +557,11 @@ class SubscriptionHandler extends Handler
                 @logSubscriptionError(user, 'Stripe user saving stripe error. ' + err)
                 return done({res: 'Database error.', code: 500})
               done()
-  
+
         tasks = []
         for sub in stripeRecipients
           tasks.push createUpdateFn(sub.recipient, sub.increment)
-  
+
         async.parallel tasks, (err, results) =>
           return done(err) if err
           @updateStripeSponsorSubscription(req, user, customer, product, done)
@@ -673,13 +679,13 @@ class SubscriptionHandler extends Handler
           if err
             @logSubscriptionError(user, 'Recipient user save unsubscribe error. ' + err)
             return done({res: 'Database error.', code: 500})
-  
+
           # Cancel Stripe subscription
           stripe.customers.cancelSubscription stripeInfo.customerID, sponsoredEntry.subscriptionID, (err) =>
             if err
               @logSubscriptionError(user, "Stripe cancel sponsored subscription failed. " + err)
               return done({res: 'Database error.', code: 500})
-  
+
             # Update sponsor user
             _.remove(stripeInfo.recipients, (s) -> s.userID is recipient.id)
             delete stripeInfo.unsubscribeEmail
@@ -689,9 +695,9 @@ class SubscriptionHandler extends Handler
               if err
                 @logSubscriptionError(user, 'Sponsor user save unsubscribe error. ' + err)
                 return done({res: 'Database error.', code: 500})
-  
+
               return done() unless stripeInfo.sponsorSubscriptionID?
-  
+
               # Update sponsored subscription quantity
               options =
                 quantity: getSponsoredSubsAmount(product.get('amount'), stripeInfo.recipients.length, stripeInfo.subscriptionID?)

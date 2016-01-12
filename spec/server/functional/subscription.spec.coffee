@@ -6,6 +6,9 @@ mongoose = require 'mongoose'
 TRAVIS = process.env.COCO_TRAVIS_TEST
 nockUtils = require '../nock-utils'
 
+subPrice = 100
+subGems = 3500
+subGemsBrazil = 1500
 
 # sample data that comes in through the webhook when you subscribe
 invoiceChargeSampleEvent = {
@@ -143,7 +146,7 @@ describe '/db/user, editing stripe property', ->
           request.put {uri: userURL, json: joeData, headers: headers }, (err, res, body) ->
             joeData = body
             expect(res.statusCode).toBe(200)
-            expect(joeData.purchased.gems).toBe(3500)
+            expect(joeData.purchased.gems).toBe(subGems)
             expect(joeData.stripe.customerID).toBeDefined()
             expect(firstSubscriptionID = joeData.stripe.subscriptionID).toBeDefined()
             expect(joeData.stripe.planID).toBe('basic')
@@ -158,13 +161,13 @@ describe '/db/user, editing stripe property', ->
         expect(invoices.data.length).toBe(1)
         event = _.cloneDeep(invoiceChargeSampleEvent)
         event.data.object = invoices.data[0]
-  
+
         request.post {uri: webhookURL, json: event}, (err, res, body) ->
           expect(res.statusCode).toBe(201)
           Payment.find {}, (err, payments) ->
             expect(payments.length).toBe(1)
             User.findById joeData._id, (err, user) ->
-              expect(user.get('purchased').gems).toBe(3500)
+              expect(user.get('purchased').gems).toBe(subGems)
               nockDone()
               done()
 
@@ -188,7 +191,7 @@ describe '/db/user, editing stripe property', ->
       joeData.stripe.planID = 'basic'
       request.put {uri: userURL, json: joeData, headers: headers }, (err, res, body) ->
         joeData = body
-  
+
         expect(res.statusCode).toBe(200)
         expect(joeData.stripe.customerID).toBeDefined()
         expect(joeData.stripe.subscriptionID).toBeDefined()
@@ -204,13 +207,13 @@ describe '/db/user, editing stripe property', ->
         expect(invoices.data[0].total).toBe(0)
         event = _.cloneDeep(invoiceChargeSampleEvent)
         event.data.object = invoices.data[0]
-  
+
         request.post {uri: webhookURL, json: event}, (err, res, body) ->
           expect(res.statusCode).toBe(200)
           Payment.find {}, (err, payments) ->
             expect(payments.length).toBe(1)
             User.findById joeData._id, (err, user) ->
-              expect(user.get('purchased').gems).toBe(3500)
+              expect(user.get('purchased').gems).toBe(subGems)
               nockDone()
               done()
 
@@ -221,7 +224,7 @@ describe '/db/user, editing stripe property', ->
         event.data.object = subscription
         request.post {uri: webhookURL, json: event}, (err, res, body) ->
           User.findById joeData._id, (err, user) ->
-            expect(user.get('purchased').gems).toBe(3500)
+            expect(user.get('purchased').gems).toBe(subGems)
             expect(user.get('stripe').subscriptionID).toBeUndefined()
             expect(user.get('stripe').planID).toBeUndefined()
             nockDone()
@@ -246,8 +249,6 @@ describe 'Subscriptions', ->
   userURL = getURL('/db/user')
   webhookURL = getURL('/stripe/webhook')
   headers = {'X-Change-Plan': 'true'}
-  subPrice = 100
-  subGems = 3500
   invoicesWebHooked = {}
   afterEach nockUtils.teardownNock
 
@@ -620,7 +621,7 @@ describe 'Subscriptions', ->
                         expect(stripeInfo.prepaidCode).toEqual(prepaid.get('code'))
                         expect(stripeInfo.subscriptionID).toBeDefined()
                         return done() unless stripeInfo.subscriptionID
-  
+
                         # Delete subscription
                         stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.subscriptionID, (err, subscription) ->
                           expect(err).toBeNull()
@@ -843,7 +844,7 @@ describe 'Subscriptions', ->
                   nockDone()
                   done()
 
-    
+
     it 'Recipient user delete unsubscribes', (done) ->
       nockUtils.setupNock 'sub-test-14.json', (err, nockDone) ->
         stripe.tokens.create {
@@ -942,7 +943,7 @@ describe 'Subscriptions', ->
                       verifyNotRecipient user2.id, ->
                         nockDone()
                         done()
-                      
+
 
     it 'Unsubscribed user1 immediately resubscribes user2, one token', (done) ->
       nockUtils.setupNock 'sub-test-18.json', (err, nockDone) ->
@@ -1318,25 +1319,25 @@ describe 'Subscriptions', ->
           recipientCount = 2
           recipientsToVerify = [0, 1]
           recipients = new SubbedRecipients recipientCount, recipientsToVerify
-  
+
           # Create recipients
           recipients.createRecipients ->
             expect(recipients.length()).toEqual(recipientCount)
-  
+
             stripe.tokens.create {
               card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
             }, (err, token) ->
-  
+
               # Create sponsor user
               loginNewUser (user1) ->
                 subscribeUser user1, token, null, (updatedUser) ->
                   User.findById user1.id, (err, user1) ->
                     expect(err).toBeNull()
-  
+
                     # Subscribe recipients
                     recipients.subRecipients user1, null, ->
                       User.findById user1.id, (err, user1) ->
-  
+
                         # Unsubscribe recipient0
                         unsubscribeRecipient user1, recipients.get(0), ->
                           User.findById user1.id, (err, user1) ->
@@ -1348,7 +1349,7 @@ describe 'Subscriptions', ->
                                   expect(err).toBeNull()
                                   expect(subscription).not.toBeNull()
                                   expect(subscription?.quantity).toEqual(getSubscribedQuantity(1))
-  
+
                                   # Unsubscribe recipient1
                                   unsubscribeRecipient user1, recipients.get(1), ->
                                     User.findById user1.id, (err, user1) ->
@@ -1519,11 +1520,11 @@ describe 'Subscriptions', ->
                 endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
                 expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
                 expect(stripeInfo.customerID).toBeDefined()
-                expect(user1.get('purchased')?.gems).toEqual(3500*12)
+                expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                 Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
                   expect(err).toBeNull()
-                  expect(payment).toBeDefined()
-                  expect(payment.get('gems')).toEqual(3500*12)
+                  expect(payment).toBeTruthy()
+                  expect(payment.get('gems')).toEqual(subGems*12)
                   nockDone()
                   done()
 
@@ -1553,11 +1554,11 @@ describe 'Subscriptions', ->
                   endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
                   expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
                   expect(stripeInfo.customerID).toBeDefined()
-                  expect(user1.get('purchased')?.gems).toEqual(3500*12)
+                  expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                   Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
                     expect(err).toBeNull()
-                    expect(payment).toBeDefined()
-                    expect(payment.get('gems')).toEqual(3500*12)
+                    expect(payment).toBeTruthy()
+                    expect(payment.get('gems')).toEqual(subGems*12)
                     nockDone()
                     done()
 
@@ -1589,11 +1590,11 @@ describe 'Subscriptions', ->
                   endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
                   expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
                   expect(stripeInfo.customerID).toBeDefined()
-                  expect(user1.get('purchased')?.gems).toEqual(3500*12)
+                  expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                   Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
                     expect(err).toBeNull()
-                    expect(payment).toBeDefined()
-                    expect(payment.get('gems')).toEqual(3500*12)
+                    expect(payment).toBeTruthy()
+                    expect(payment.get('gems')).toEqual(subGems*12)
                     nockDone()
                     done()
 
@@ -1626,11 +1627,11 @@ describe 'Subscriptions', ->
                   endDate.setUTCDate(endDate.getUTCDate() + 5)
                   expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
                   expect(stripeInfo.customerID).toBeDefined()
-                  expect(user1.get('purchased')?.gems).toEqual(3500*12)
+                  expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                   Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
                     expect(err).toBeNull()
-                    expect(payment).toBeDefined()
-                    expect(payment.get('gems')).toEqual(3500*12)
+                    expect(payment).toBeTruthy()
+                    expect(payment.get('gems')).toEqual(subGems*12)
                     nockDone()
                     done()
 
@@ -1667,11 +1668,11 @@ describe 'Subscriptions', ->
                         endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
                         expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
                         expect(stripeInfo.customerID).toBeDefined()
-                        expect(user1.get('purchased')?.gems).toEqual(3500+3500*12)
+                        expect(user1.get('purchased')?.gems).toEqual(subGems+subGems*12)
                         Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
                           expect(err).toBeNull()
-                          expect(payment).toBeDefined()
-                          expect(payment.get('gems')).toEqual(3500*12)
+                          expect(payment).toBeTruthy()
+                          expect(payment.get('gems')).toEqual(subGems*12)
                           nockDone()
                           done()
 
@@ -1693,3 +1694,47 @@ describe 'Subscriptions', ->
                 expect(err).toBeNull()
                 nockDone()
                 done()
+
+  describe 'Countries', ->
+    it 'Brazil users get Brazil coupon', (done) ->
+      nockUtils.setupNock 'sub-test-41.json', (err, nockDone) ->
+        stripe.tokens.create {
+          card: { number: '4242424242424242', exp_month: 12, exp_year: 2030, cvc: '123' }
+        }, (err, token) ->
+          loginNewUser (user1) ->
+            user1.set('country', 'brazil')
+            user1.save (err, user1) ->
+              requestBody = user1.toObject()
+              requestBody.stripe =
+                planID: 'basic'
+                token: token.id
+              request.put {uri: userURL, json: requestBody, headers: headers }, (err, res, updatedUser) ->
+                expect(err).toBeNull()
+                expect(res.statusCode).toBe(200)
+                expect(updatedUser.country).toBe('brazil')
+                expect(updatedUser.purchased.gems).toBe(subGemsBrazil)
+                expect(updatedUser.stripe.planID).toBe('basic')
+                expect(updatedUser.stripe.customerID).toBeTruthy()
+
+                stripe.invoices.list {customer: updatedUser.stripe.customerID}, (err, invoices) ->
+                  expect(err).toBeNull()
+                  expect(invoices).not.toBeNull()
+                  expect(invoices.data.length).toBe(1)
+                  expect(invoices.data[0].discount?.coupon).toBeTruthy()
+                  expect(invoices.data[0].discount?.coupon?.id).toBe('brazil')
+                  expect(invoices.data[0].total).toBeLessThan(subPrice)
+
+                  # Now we hit our webhook to see if the right Payment is made.
+                  event = _.cloneDeep(invoiceChargeSampleEvent)
+                  event.data.object = invoices.data[0]
+                  request.post {uri: webhookURL, json: event}, (err, res, body) ->
+                    expect(err).toBeNull()
+                    expect(res.statusCode).toBe(201)
+                    Payment.findOne 'stripe.customerID': updatedUser.stripe.customerID, (err, payment) ->
+                      expect(err).toBeNull()
+                      expect(payment).toBeTruthy()
+                      return done() unless payment
+                      expect(payment.get('gems')).toEqual(subGemsBrazil)
+                      expect(payment.get('amount')).toBeLessThan(subPrice)
+                      nockDone()
+                      done()

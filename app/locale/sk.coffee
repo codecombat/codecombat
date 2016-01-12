@@ -397,14 +397,14 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     prompt_body: "Chcete získať viac?"
     prompt_button: "Vstúpiť do obchodu"
     recovered: "Obnovenie už zakúpených drahokamov prebehlo úspěšne. Aktualizujte stránku prosím."
-    price: "x3500 / mesiac"
+    price: "x{{gems}} / mesiac"
 
   subscribe:
     comparison_blurb: "Uč sa dôkladnejšie vďaka predplatnému !"
     feature1: "60+ základných úrovní v štyroch svetoch" # {change}
     feature2: "7 mocných <strong>new hrdinov</strong> s jedinečnými schopnosťami!" # {change}
     feature3: "30+ bonusových úrovní" # {change}
-    feature4: "<strong>3500 bonusových diamantov</strong> každý mesiac !"
+    feature4: "<strong>{{gems}} bonusových diamantov</strong> každý mesiac !"
     feature5: "Video tutoriály"
     feature6: "Prémiová emailová podpora"
 #    feature7: "Private <strong>Clans</strong>"

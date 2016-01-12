@@ -397,14 +397,14 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     prompt_body: "Vrei mai multe?"
     prompt_button: "Intră în magazin."
     recovered: "Pietre Prețioase cumpărate anterior recuperate.Va rugăm să dați refresh la pagină."
-    price: "x3500 / mo"
+    price: "x{{gems}} / mo"
 
   subscribe:
     comparison_blurb: "Îmbunătățeșteți abilitățile cu abonamentul CodeCombat"
     feature1: "80+ de nivele de bază în 4 lumi diferite!" # {change}
     feature2: "7 <strong>Eroi Noi</strong> puternici, cu skilluri unice!" # {change}
     feature3: "60+ nivele bonus" # {change}
-    feature4: "<strong>3500 de Pietre Prețioase bonus</strong> în fiecare lună!"
+    feature4: "<strong>{{gems}} de Pietre Prețioase bonus</strong> în fiecare lună!"
     feature5: "Tutoriale Video"
     feature6: "Suport e-mail premium"
     feature7: "<strong>Clanuri</strong> private"

@@ -20,7 +20,7 @@
               span= product.get('priceString')
 
         .product
-          h4(data-i18n="buy_gems.price") x3500 / mo
+          h4.subscription-gem-amount x{{gems}} / mo
           h3(data-i18n="account.subscription")
           if me.isPremium()
             button.disabled.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success

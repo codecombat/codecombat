@@ -397,14 +397,14 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     prompt_body: "想要取得更多？"
     prompt_button: "進入商店"
     recovered: "先前購買的寶石已回復，請重新載入頁面。"
-    price: "x3500 / 月"
+    price: "x{{gems}} / 月"
 
   subscribe:
     comparison_blurb: "訂閱 CodeCombat 來磨練您的技巧！"
     feature1: "110 個以上的基本關卡散佈在4張地圖中"
     feature2: "10 個強壯的<strong>新英雄</strong>並每位都有不同技巧！"
     feature3: "80 個以上的額外關卡"
-    feature4: "每個月<strong>3500顆額外寶石</strong>！"
+    feature4: "每個月<strong>{{gems}}顆額外寶石</strong>！"
     feature5: "影片教學"
     feature6: "頂級信箱支援"
     feature7: "私密<strong>部落</strong>"

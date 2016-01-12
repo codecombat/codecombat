@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     prompt_body: "Wil je meer krijgen?"
     prompt_button: "Naar de winkel"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
-#    price: "x3500 / mo"
+#    price: "x{{gems}} / mo"
 
   subscribe:
     comparison_blurb: "Verbeter je vaardigheden met een abonement op CodeCombat!"
     feature1: "meer dan 110+ basislevels over 4 werelden"
     feature2: "10 sterke <strong>nieuwe helden</strong> met unieke vaardigheden!"
     feature3: "70+ bonuslevels" # {change}
-    feature4: "<strong>3500 bonus edelstenen</strong> elke maand!"
+    feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!"
     feature5: "Video cursussen"
     feature6: "Hoogwaardige e-mail ondersteuning"
     feature7: "Besloten <strong>Clans</strong>"

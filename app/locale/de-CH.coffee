@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     prompt_body: "Wetsch mee chaufe?"
     prompt_button: "zum Shop"
     recovered: "Früenere Ichauf zruggerstatet. Bitte dSite neu lade!"
-#    price: "x3500 / mo"
+#    price: "x{{gems}} / mo"
 
   subscribe:
     comparison_blurb: "Verschärf dins Chönne midme CodeCombat Abonement."
     feature1: "80+ basis levels in 4 Weltete!" # {change}
 #    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
     feature3: "50+ bonus levels" # {change}
-#    feature4: "<strong>3500 bonus gems</strong> every month!"
+#    feature4: "<strong>{{gems}} bonus gems</strong> every month!"
     feature5: "Video Aleitige"
     feature6: "Premium Email Hilf"
 #    feature7: "Private <strong>Clans</strong>"
