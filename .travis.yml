@@ -25,7 +25,7 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - "node index.js --unittest &"
-  - "sleep 10" # to give node a chance to start
+  - "sleep 15" # to give node a chance to start
 
 script:
   - "./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters progress"
