@@ -28,6 +28,8 @@ block header
         li
           a(href="#systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems
         li
+          a(href="#editor-level-tasks-tab-view", data-toggle="tab", data-i18n="editor.level_tab_tasks")#tasks-tab= "Tasks" + " " + view.getTaskCompletionRatio()
+        li
           a(href="#editor-level-patches", data-toggle="tab")#patches-tab
             span(data-i18n="resources.patches").spr Patches
             - var patches = level.get('patches')
@@ -50,6 +52,9 @@ block header
         li#redo-button
             a
               span.glyphicon-arrow-right.glyphicon
+        li#artisan-guide-button
+          a
+            span.glyphicon-book.glyphicon
         if authorized
           li#commit-level-start-button
             a
@@ -58,7 +63,7 @@ block header
           li#level-patch-button
             a
               span.glyphicon-floppy-disk.glyphicon
-        
+
         if level.get('type') === 'ladder'
           li.dropdown
             a(data-toggle='dropdown').play-with-team-parent
@@ -124,6 +129,8 @@ block outer_content
       div.tab-pane#editor-level-components-tab-view
 
       div.tab-pane#systems-tab-view
+
+      div.tab-pane#editor-level-tasks-tab-view
     
       div.tab-pane#editor-level-patches
         .patches-view
