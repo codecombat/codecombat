@@ -93,7 +93,6 @@ module.exports = class LevelEditView extends RootView
   getRenderData: (context={}) ->
     context = super(context)
     context.level = @level
-    console.log context.level
     context.authorized = me.isAdmin() or @level.hasWriteAccess(me)
     context.anonymous = me.get('anonymous')
     context.recentlyPlayedOpponents = storage.load('recently-played-matches')?[@levelID] ? []
@@ -177,7 +176,7 @@ module.exports = class LevelEditView extends RootView
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   showArtisanGuide: (e) ->
-    @openModalView new ArtisanGuideModal()
+    @openModalView new ArtisanGuideModal level: @level
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   startForking: (e) ->

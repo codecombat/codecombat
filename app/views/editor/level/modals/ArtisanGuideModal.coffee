@@ -25,7 +25,15 @@ module.exports = class ArtisanGuideModal extends ModalView
 
   constructor: (options) ->
     super options
+    @level = options.level
+    @options = level: @level.get 'name'
+    @render()
 
+  getRenderData: ->
+    c = super()
+    c.creator = @level.get 'creator'
+    c.meID = me.id
+    c
 
   levelSubmit: ->
     @playSound 'menu-button-click'
@@ -36,7 +44,6 @@ module.exports = class ArtisanGuideModal extends ModalView
     @populateBrowserData contactMessage
     contactMessage = _.merge contactMessage, @options
     contactMessage.country = me.get('country')
-    window.tracker?.trackEvent 'Sent Feedback', message: contactMessage
     sendContactMessage contactMessage, @$el
     $.post "/db/user/#{me.id}/track/contact_codecombat"
 
