@@ -201,13 +201,13 @@ module.exports = class SubscribeModal extends ModalView
       @state = 'unknown_error'
       @stateMessage = "Uknown problem occurred while processing Stripe request"
 
-  onSubscriptionSuccess: =>
+  onSubscriptionSuccess: ->
     application.tracker?.trackEvent 'Finished subscription purchase', value: @purchasedAmount
     Backbone.Mediator.publish 'subscribe-modal:subscribed', {}
     @playSound 'victory'
     @hide()
 
-  onSubscriptionError: (user, response, options) =>
+  onSubscriptionError: (user, response, options) ->
     console.error 'We got an error subscribing with Stripe from our server:', response
     application.tracker?.trackEvent 'Failed to finish subscription purchase', status: options.xhr?.status, value: @purchasedAmount
     stripe = me.get('stripe') ? {}
