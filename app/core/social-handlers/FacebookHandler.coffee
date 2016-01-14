@@ -15,7 +15,7 @@ userPropsToSave =
 module.exports = FacebookHandler = class FacebookHandler extends CocoClass
   subscriptions:
     'auth:logged-in-with-facebook': 'onFacebookLoggedIn'
-  
+
   loggedIn: false
 
   onFacebookLoggedIn: (e) ->
@@ -27,19 +27,19 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
       unless me.get(userProp)
         @loggedIn = true
         break
-        
+
     if @waitingForLogin and @loggedIn
       @fetchMeForLogin()
-    
+
   loginThroughFacebook: ->
     if @loggedIn
       @fetchMeForLogin()
     else
       FB.login()
       @waitingForLogin = true
-      
+
   fetchMeForLogin: ->
-    FB.api('/me', @onReceiveMeInfo)
+    FB.api('/me', {fields: 'email,last_name,first_name,gender'}, @onReceiveMeInfo)
 
   onReceiveMeInfo: (r) =>
     unless r.email
