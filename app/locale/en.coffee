@@ -990,10 +990,10 @@
     getting_started_3: "You'll see student's progress below as they sign up and join your class."
     additional_resources: "Additional Resources"
     additional_resources_1_pref: "Download/print our"
-    additional_resources_1_mid: "Course 1"
-    additional_resources_1_mid2: " and "
+    additional_resources_1_mid: "Course 1" # {change}
+    additional_resources_1_mid2: "and"
     additional_resources_1_mid3: "Course 2"
-    additional_resources_1_suff: "teacher's guides with solutions for each level."
+    additional_resources_1_suff: "teacher's guides with solutions for each level." # {change}
     additional_resources_2_pref: "Complete our"
     additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
     additional_resources_3_pref: "Visit our"
