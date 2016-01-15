@@ -12,10 +12,8 @@ var courses =
     name: "Introduction to Computer Science",
     slug: "introduction-to-computer-science",
     campaignID: ObjectId("55b29efd1cd6abe8ce07db0d"),
-    concepts: ['basic_syntax', 'arguments', 'while_loops', 'strings', 'variables'],
     description: "Learn basic syntax, while loops, and the CodeCombat environment.",
     duration: NumberInt(1),
-    pricePerSeat: NumberInt(0),
     free: true,
     screenshot: "/images/pages/courses/101_info.png"
   },
@@ -23,10 +21,8 @@ var courses =
     name: "Computer Science 2",
     slug: "computer-science-2",
     campaignID: ObjectId("562f88e84df18473073c74e2"),
-    concepts: ['basic_syntax', 'arguments', 'while_loops', 'strings', 'variables', 'if_statements'],
     description: "Introduce Arguments, Variables, If Statements, and Arithmetic.",
     duration: NumberInt(5),
-    pricePerSeat: NumberInt(400),
     free: false,
     screenshot: "/images/pages/courses/102_info.png"
   },
@@ -34,10 +30,8 @@ var courses =
     name: "Computer Science 3",
     slug: "computer-science-3",
     campaignID: ObjectId("56462ac4410c528505e1160a"),
-    concepts: ['if_statements', 'arithmetic'],
     description: "Introduces arithmetic, counters, advanced while loops, break, continue, arrays.",
     duration: NumberInt(5),
-    pricePerSeat: NumberInt(400),
     free: false,
     screenshot: "/images/pages/courses/103_info.png"
   },
@@ -45,12 +39,19 @@ var courses =
     name: "Computer Science 4",
     slug: "computer-science-4",
     campaignID: ObjectId("56462c1133f1478605ebd018"),
-    concepts: ['if_statements', 'arithmetic'],
     description: "Introduces object literals, for loops, function definitions, drawing, and modulo.",
     duration: NumberInt(5),
-    pricePerSeat: NumberInt(400),
     free: false,
     screenshot: "/images/pages/courses/104_info.png"
+  },
+  {
+    name: "Computer Science 5",
+    slug: "computer-science-5",
+    campaignID: ObjectId("568ad069a6584820004437f2"),
+    description: "Introduces function parameters, function return values and algorithms.",
+    duration: NumberInt(5),
+    free: false,
+    screenshot: "/images/pages/courses/105_info.png"
   }
 ];
 
