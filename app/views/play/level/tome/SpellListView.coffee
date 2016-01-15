@@ -4,9 +4,9 @@
 
 # TODO: showTopDivider should change when we reorder
 
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/spell_list'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 SpellListEntryView = require './SpellListEntryView'
 
 module.exports = class SpellListView extends CocoView
@@ -61,7 +61,7 @@ module.exports = class SpellListView extends CocoView
       theseThangs = _.keys(spell.thangs)
       changedThangs = not lastThangs or not _.isEqual theseThangs, lastThangs
       lastThangs = theseThangs
-      newEntries.push entry = new SpellListEntryView spell: spell, showTopDivider: changedThangs, supermodel: @supermodel
+      newEntries.push entry = new SpellListEntryView spell: spell, showTopDivider: changedThangs, supermodel: @supermodel, level: @options.level
       @entries.push entry
     for entry in newEntries
       @$el.append entry.el

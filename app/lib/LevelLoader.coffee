@@ -6,10 +6,11 @@ LevelSession = require 'models/LevelSession'
 ThangType = require 'models/ThangType'
 ThangNamesCollection = require 'collections/ThangNamesCollection'
 
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
-app = require 'application'
+app = require 'core/application'
 World = require 'lib/world/world'
+utils = require 'core/utils'
 
 # This is an initial stab at unifying loading and setup into a single place which can
 # monitor everything and keep a LoadingScreen visible overall progress.
@@ -31,12 +32,13 @@ module.exports = class LevelLoader extends CocoClass
     @opponentSessionID = options.opponentSessionID
     @team = options.team
     @headless = options.headless
-    @inLevelEditor = options.inLevelEditor
+    @sessionless = options.sessionless
     @spectateMode = options.spectateMode ? false
+    @observing = options.observing
+    @courseID = options.courseID
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
-    @loadSession()
     @loadLevel()
     @loadAudio()
     @playJingle()
@@ -45,60 +47,136 @@ module.exports = class LevelLoader extends CocoClass
     else
       @listenToOnce @supermodel, 'loaded-all', @onSupermodelLoaded
 
-  playJingle: ->
-    return if @headless
-    # Apparently the jingle, when it tries to play immediately during all this loading, you can't hear it.
-    # Add the timeout to fix this weird behavior.
-    f = ->
-      jingles = ['ident_1', 'ident_2']
-      AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length]
-    setTimeout f, 500
-
-  # Session Loading
-
-  loadSession: ->
-    return if @headless
-    if @sessionID
-      url = "/db/level_session/#{@sessionID}"
-    else
-      url = "/db/level/#{@levelID}/session"
-      url += "?team=#{@team}" if @team
-
-    session = new LevelSession().setURL url
-    @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
-    @session = @sessionResource.model
-    @listenToOnce @session, 'sync', @onSessionLoaded
-
-    if @opponentSessionID
-      opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
-      @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
-      @opponentSession = @opponentSessionResource.model
-      @listenToOnce @opponentSession, 'sync', @onSessionLoaded
-
-  onSessionLoaded: (session) ->
-    session.url = -> '/db/level.session/' + @id
-    if heroConfig = session.get('heroConfig')
-      url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components,original"
-      @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
-
-      for itemThangType in _.values(heroConfig.inventory)
-        url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
-        @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
-    @populateHero() if @level?.loaded
-
   # Supermodel (Level) Loading
 
   loadLevel: ->
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
     if @level.loaded
-      @populateLevel()
+      @onLevelLoaded()
     else
       @level = @supermodel.loadModel(@level, 'level').model
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   onLevelLoaded: ->
+    if @courseID and @level.get('type', true) not in ['course', 'course-ladder']
+      # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
+      originalGet = @level.get
+      @level.get = ->
+        return 'course' if arguments[0] is 'type'
+        originalGet.apply @, arguments
+    @loadSession() unless @sessionless
     @populateLevel()
-    @populateHero() if @session?.loaded
+
+  # Session Loading
+
+  loadSession: ->
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+      @sessionDependenciesRegistered = {}
+
+    if @sessionID
+      url = "/db/level.session/#{@sessionID}"
+    else
+      url = "/db/level/#{@levelID}/session"
+      url += "?team=#{@team}" if @team
+      url += "?course=#{@courseID}" if @courseID
+
+    session = new LevelSession().setURL url
+    session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state'] if @headless
+    @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
+    @session = @sessionResource.model
+    if @opponentSessionID
+      opponentSession = new LevelSession().setURL "/db/level.session/#{@opponentSessionID}"
+      opponentSession.project = session.project if @headless
+      @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
+      @opponentSession = @opponentSessionResource.model
+
+    if @session.loaded
+      @session.setURL '/db/level.session/' + @session.id
+      @loadDependenciesForSession @session
+    else
+      @listenToOnce @session, 'sync', ->
+        @session.setURL '/db/level.session/' + @session.id
+        @loadDependenciesForSession @session
+    if @opponentSession
+      if @opponentSession.loaded
+        @loadDependenciesForSession @opponentSession
+      else
+        @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
+
+  loadDependenciesForSession: (session) ->
+    if me.id isnt session.get 'creator'
+      session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
+    else if codeLanguage = utils.getQueryVariable 'codeLanguage'
+      session.set 'codeLanguage', codeLanguage
+    @loadCodeLanguagesForSession session
+    if session is @session
+      @addSessionBrowserInfo session
+      # hero-ladder games require the correct session team in level:loaded
+      team = @team ? @session.get('team')
+      Backbone.Mediator.publish 'level:loaded', level: @level, team: team
+      Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
+      @consolidateFlagHistory() if @opponentSession?.loaded
+    else if session is @opponentSession
+      @consolidateFlagHistory() if @session.loaded
+    return unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    heroConfig = session.get('heroConfig')
+    heroConfig ?= me.get('heroConfig') if session is @session and not @headless
+    heroConfig ?= {}
+    heroConfig.inventory ?= feet: '53e237bf53457600003e3f05'  # If all else fails, assign simple boots.
+    heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # If all else fails, assign Tharin as the hero.
+    session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
+    url = "/db/thang.type/#{heroConfig.thangType}/version"
+    if heroResource = @maybeLoadURL(url, ThangType, 'thang')
+      @worldNecessities.push heroResource
+    else
+      heroThangType = @supermodel.getModel url
+      @loadDefaultComponentsForThangType heroThangType
+      @loadThangsRequiredByThangType heroThangType
+
+    for itemThangType in _.values(heroConfig.inventory)
+      url = "/db/thang.type/#{itemThangType}/version?project=name,components,original,rasterIcon,kind"
+      if itemResource = @maybeLoadURL(url, ThangType, 'thang')
+        @worldNecessities.push itemResource
+      else
+        itemThangType = @supermodel.getModel url
+        @loadDefaultComponentsForThangType itemThangType
+        @loadThangsRequiredByThangType itemThangType
+    @sessionDependenciesRegistered[session.id] = true
+    if _.size(@sessionDependenciesRegistered) is 2 and @checkAllWorldNecessitiesRegisteredAndLoaded()
+      @onWorldNecessitiesLoaded()
+
+  loadCodeLanguagesForSession: (session) ->
+    codeLanguages = _.uniq _.filter [session.get('codeLanguage') or 'python', session.get('submittedCodeLanguage')]
+    for codeLanguage in codeLanguages
+      do (codeLanguage) =>
+        modulePath = "vendor/aether-#{codeLanguage}"
+        return unless application.moduleLoader?.load modulePath
+        languageModuleResource = @supermodel.addSomethingResource 'language_module'
+        onModuleLoaded = (e) ->
+          return unless e.id is modulePath
+          languageModuleResource.markLoaded()
+          @stopListening application.moduleLoader, 'loaded', onModuleLoaded  # listenToOnce might work here instead, haven't tried
+        @listenTo application.moduleLoader, 'loaded', onModuleLoaded
+
+  addSessionBrowserInfo: (session) ->
+    return unless me.id is session.get 'creator'
+    return unless $.browser?
+    browser = {}
+    browser['desktop'] = $.browser.desktop if $.browser.desktop
+    browser['name'] = $.browser.name if $.browser.name
+    browser['platform'] = $.browser.platform if $.browser.platform
+    browser['version'] = $.browser.version if $.browser.version
+    session.set 'browser', browser
+    session.patch()
+
+  consolidateFlagHistory: ->
+    state = @session.get('state') ? {}
+    myFlagHistory = _.filter state.flagHistory ? [], team: @session.get('team')
+    opponentFlagHistory = _.filter @opponentSession.get('state')?.flagHistory ? [], team: @opponentSession.get('team')
+    state.flagHistory = myFlagHistory.concat opponentFlagHistory
+    @session.set 'state', state
+
+  # Grabbing the rest of the required data for the level
 
   populateLevel: ->
     thangIDs = []
@@ -106,9 +184,10 @@ module.exports = class LevelLoader extends CocoClass
     systemVersions = []
     articleVersions = []
 
-    for thang in @level.get('thangs') or []
+    flagThang = thangType: '53fa25f25bc220000052c2be', id: 'Placeholder Flag', components: []
+    for thang in (@level.get('thangs') or []).concat [flagThang]
       thangIDs.push thang.thangType
-      @loadItemThangsEquippedByLevelThang(thang)
+      @loadThangsRequiredByLevelThang(thang)
       for comp in thang.components or []
         componentVersions.push _.pick(comp, ['original', 'majorVersion'])
 
@@ -142,41 +221,39 @@ module.exports = class LevelLoader extends CocoClass
     for obj in objUniq articleVersions
       url = "/db/article/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Article, 'article'
-    if obj = @level.get 'nextLevel'
+    if obj = @level.get 'nextLevel'  # TODO: update to get next level from campaigns, not this old property
       url = "/db/level/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Level, 'level'
 
-    unless @headless
-      wizard = ThangType.loadUniversalWizard()
-      @supermodel.loadModel wizard, 'thang'
-
     @worldNecessities = @worldNecessities.concat worldNecessities
 
-  populateHero: ->
-    return
-    return if @inLevelEditor
-    return unless @level.get('type') is 'hero' and hero = _.find @level.get('thangs'), id: 'Hero Placeholder'
-    heroConfig = @session.get('heroConfig')
-    hero.thangType = heroConfig.thangType  # Will mutate the level, but we're okay showing the last-used Hero here
-    #hero.id = ... ?  # What do we want to do about this?
-    # Actually, swapping out inventory and placeholder Components is done in Level's denormalizeThang
+  loadThangsRequiredByLevelThang: (levelThang) ->
+    @loadThangsRequiredFromComponentList levelThang.components
 
-  loadItemThangsEquippedByLevelThang: (levelThang) ->
-    return unless levelThang.components
-    for component in levelThang.components
-      if component.original is LevelComponent.EquipsID and inventory = component.config?.inventory
-        for itemThangType in _.values(inventory)
-          unless itemThangType
-            console.warn "Empty item in inventory for", levelThang
-            continue
-          url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
-          @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
+  loadThangsRequiredByThangType: (thangType) ->
+    @loadThangsRequiredFromComponentList thangType.get('components')
+
+  loadThangsRequiredFromComponentList: (components) ->
+    return unless components
+    requiredThangTypes = []
+    for component in components when component.config
+      if component.original is LevelComponent.EquipsID
+        requiredThangTypes.push itemThangType for itemThangType in _.values (component.config.inventory ? {})
+      else if component.config.requiredThangTypes
+        requiredThangTypes = requiredThangTypes.concat component.config.requiredThangTypes
+    extantRequiredThangTypes = _.filter requiredThangTypes
+    if extantRequiredThangTypes.length < requiredThangTypes.length
+      console.error "Some Thang had a blank required ThangType in components list:", components
+    for thangType in extantRequiredThangTypes
+      url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData"
+      @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   onThangNamesLoaded: (thangNames) ->
-    if @level.get('type') is 'hero'
-      for thangType in thangNames.models
-        @loadDefaultComponentsForThangType(thangType)
-        @loadEquippedItemsInheritedFromThangType(thangType)
+    for thangType in thangNames.models
+      @loadDefaultComponentsForThangType(thangType)
+      @loadThangsRequiredByThangType(thangType)
+    @thangNamesLoaded = true
+    @onWorldNecessitiesLoaded() if @checkAllWorldNecessitiesRegisteredAndLoaded()
 
   loadDefaultComponentsForThangType: (thangType) ->
     return unless components = thangType.get('components')
@@ -184,30 +261,25 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level.component/#{component.original}/version/#{component.majorVersion}"
       @worldNecessities.push @maybeLoadURL(url, LevelComponent, 'component')
 
-  loadEquippedItemsInheritedFromThangType: (thangType) ->
-    for levelThang in @level.get('thangs') or []
-      if levelThang.thangType is thangType.get('original')
-        levelThang = $.extend true, {}, levelThang
-        @level.denormalizeThang(levelThang, @supermodel)
-        equipsComponent = _.find levelThang.components, {original: LevelComponent.EquipsID}
-        inventory = equipsComponent?.config?.inventory
-        continue unless inventory
-        for itemThangType in _.values inventory
-          url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
-          @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
-
   onWorldNecessityLoaded: (resource) ->
     index = @worldNecessities.indexOf(resource)
-    if (@level?.loading or (@level?.get('type') is 'hero')) and resource.name is 'thang'
+    if resource.name is 'thang'
       @loadDefaultComponentsForThangType(resource.model)
-      @loadEquippedItemsInheritedFromThangType(resource.model)
+      @loadThangsRequiredByThangType(resource.model)
 
     return unless index >= 0
     @worldNecessities.splice(index, 1)
     @worldNecessities = (r for r in @worldNecessities when r?)
-    @onWorldNecessitiesLoaded() if @worldNecessities.length is 0
+    @onWorldNecessitiesLoaded() if @checkAllWorldNecessitiesRegisteredAndLoaded()
 
-  onWorldNecessitiesLoaded: =>
+  checkAllWorldNecessitiesRegisteredAndLoaded: ->
+    return false unless _.filter(@worldNecessities).length is 0
+    return false unless @thangNamesLoaded
+    return false if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id] and not @sessionless
+    return false if @sessionDependenciesRegistered and @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id] and not @sessionless
+    true
+
+  onWorldNecessitiesLoaded: ->
     @initWorld()
     @supermodel.clearMaxProgress()
     @trigger 'world-necessities-loaded'
@@ -215,20 +287,19 @@ module.exports = class LevelLoader extends CocoClass
     thangsToLoad = _.uniq( (t.spriteName for t in @world.thangs when t.exists) )
     nameModelTuples = ([thangType.get('name'), thangType] for thangType in @thangNames.models)
     nameModelMap = _.zipObject nameModelTuples
-    @spriteSheetsToBuild = []
+    @spriteSheetsToBuild ?= []
 
-    for thangTypeName in thangsToLoad
-      thangType = nameModelMap[thangTypeName]
-      console.log 'found ThangType', thangType, 'for', thangTypeName, 'of nameModelMap', nameModelMap unless thangType
-      continue if thangType.isFullyLoaded()
-      thangType.fetch()
-      thangType = @supermodel.loadModel(thangType, 'thang').model
-      res = @supermodel.addSomethingResource 'sprite_sheet', 5
-      res.thangType = thangType
-      res.markLoading()
-      @spriteSheetsToBuild.push res
+#    for thangTypeName in thangsToLoad
+#      thangType = nameModelMap[thangTypeName]
+#      continue if not thangType or thangType.isFullyLoaded()
+#      thangType.fetch()
+#      thangType = @supermodel.loadModel(thangType, 'thang').model
+#      res = @supermodel.addSomethingResource 'sprite_sheet', 5
+#      res.thangType = thangType
+#      res.markLoading()
+#      @spriteSheetsToBuild.push res
 
-    @buildLoopInterval = setInterval @buildLoop, 5
+    @buildLoopInterval = setInterval @buildLoop, 5 if @spriteSheetsToBuild.length
 
   maybeLoadURL: (url, Model, resourceName) ->
     return if @supermodel.getModel(url)
@@ -240,11 +311,10 @@ module.exports = class LevelLoader extends CocoClass
     console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms'
     @loadLevelSounds()
     @denormalizeSession()
-    app.tracker.updatePlayState(@level, @session) unless @headless
 
   buildLoop: =>
     someLeft = false
-    for spriteSheetResource, i in @spriteSheetsToBuild
+    for spriteSheetResource, i in @spriteSheetsToBuild ? []
       continue if spriteSheetResource.spriteSheetKeys
       someLeft = true
       thangType = spriteSheetResource.thangType
@@ -262,11 +332,12 @@ module.exports = class LevelLoader extends CocoClass
     resource = null
     for resource in @spriteSheetsToBuild
       break if e.thangType is resource.thangType
+    return console.error 'Did not find spriteSheetToBuildResource for', e unless resource
     resource.spriteSheetKeys = (k for k in resource.spriteSheetKeys when k isnt e.key)
     resource.markLoaded() if resource.spriteSheetKeys.length is 0
 
   denormalizeSession: ->
-    return if @headless or @sessionDenormalized or @spectateMode
+    return if @headless or @sessionDenormalized or @spectateMode or @sessionless
     patch =
       'levelName': @level.get('name')
       'levelID': @level.get('slug') or @level.id
@@ -278,7 +349,7 @@ module.exports = class LevelLoader extends CocoClass
     unless _.isEmpty patch
       @session.set key, value for key, value of patch
       tempSession = new LevelSession _id: @session.id
-      tempSession.save(patch, {patch: true})
+      tempSession.save(patch, {patch: true, type: 'PUT'})
     @sessionDenormalized = true
 
   # Building sprite sheets
@@ -305,6 +376,8 @@ module.exports = class LevelLoader extends CocoClass
     @grabTeamConfigs()
     @thangTypeTeams = {}
     for thang in @level.get('thangs')
+      if @level.get('type', true) in ['hero', 'course'] and thang.id is 'Hero Placeholder'
+        continue  # No team colors for heroes on single-player levels
       for component in thang.components
         if team = component.config?.team
           @thangTypeTeams[thang.thangType] ?= []
@@ -333,18 +406,35 @@ module.exports = class LevelLoader extends CocoClass
     @initialized = true
     @world = new World()
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
-    serializedLevel = @level.serialize(@supermodel, @session)
+    @world.submissionCount = @session?.get('state')?.submissionCount ? 0
+    @world.flagHistory = @session?.get('state')?.flagHistory ? []
+    @world.difficulty = @session?.get('state')?.difficulty ? 0
+    if @observing
+      @world.difficulty = Math.max 0, @world.difficulty - 1  # Show the difficulty they won, not the next one.
+    serializedLevel = @level.serialize(@supermodel, @session, @opponentSession)
     @world.loadFromLevel serializedLevel, false
     console.log 'World has been initialized from level loader.'
 
   # Initial Sound Loading
 
+  playJingle: ->
+    return if @headless or not me.get('volume')
+    volume = 0.5
+    if me.level() < 3
+      volume = 0.25  # Start softly, since they may not be expecting it
+    # Apparently the jingle, when it tries to play immediately during all this loading, you can't hear it.
+    # Add the timeout to fix this weird behavior.
+    f = ->
+      jingles = ['ident_1', 'ident_2']
+      AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length], volume
+    setTimeout f, 500
+
   loadAudio: ->
-    return if @headless
+    return if @headless or not me.get('volume')
     AudioPlayer.preloadInterfaceSounds ['victory']
 
   loadLevelSounds: ->
-    return if @headless
+    return if @headless or not me.get('volume')
     scripts = @level.get 'scripts'
     return unless scripts
 

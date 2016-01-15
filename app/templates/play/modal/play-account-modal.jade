@@ -1,0 +1,10 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="play.account") Account
+
+block modal-body-content
+  #account-settings-view
+
+block modal-footer-content
+  #save-button.btn-lg.btn.disabled(data-i18n="delta.no_changes" disabled="true") No Changes

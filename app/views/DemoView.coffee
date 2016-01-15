@@ -1,10 +1,13 @@
-RootView = require 'views/kinds/RootView'
-ModalView = require 'views/kinds/ModalView'
+RootView = require 'views/core/RootView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/demo'
 requireUtils = require 'lib/requireUtils'
 
 DEMO_REQUIRE_PREFIX = 'test/demo/'
 DEMO_URL_PREFIX = '/demo/'
+
+require 'vendor/jasmine-bundle'
+require 'demo-app'
 
 ###
   What are demo files?
@@ -33,24 +36,8 @@ module.exports = DemoView = class DemoView extends RootView
   constructor: (options, @subPath='') ->
     super(options)
     @subPath = @subPath[1..] if @subPath[0] is '/'
-    @loadDemoingLibs() unless DemoView.loaded
-
-  loadDemoingLibs: ->
-    DemoView.loaded = true
-    @queue = new createjs.LoadQueue()
-    @queue.on('complete', @scriptsLoaded, @)
-    window.jasmine = {} # so that mock-ajax properly loads. It expects jasmine to be loaded
-    for f in ['mock-ajax', 'demo-app']
-      @queue.loadFile({
-        src: "/javascripts/#{f}.js"
-        type: createjs.LoadQueue.JAVASCRIPT
-      })
-
-  scriptsLoaded: ->
     @initDemoFiles()
     @children = requireUtils.parseImmediateChildren(@demoFiles, @subPath, DEMO_REQUIRE_PREFIX, DEMO_URL_PREFIX)
-    @render()
-    @runDemo()
 
   # RENDER DATA
 
@@ -61,6 +48,10 @@ module.exports = DemoView = class DemoView extends RootView
     parts = @subPath.split('/')
     c.currentFolder = parts[parts.length-1] or parts[parts.length-2] or 'All'
     c
+    
+  afterInsert: ->
+    super()
+    @runDemo()
 
   # RUNNING DEMOS
 
@@ -68,7 +59,7 @@ module.exports = DemoView = class DemoView extends RootView
     @demoFiles = @getAllDemoFiles()
     if @subPath
       prefix = DEMO_REQUIRE_PREFIX + @subPath
-      @demoFiles = (f for f in @demoFiles when f.startsWith prefix)
+      @demoFiles = (f for f in @demoFiles when _.string.startsWith f, prefix)
 
   runDemo: ->
     # TODO: Maybe have an option to run all demos in this folder at the same time?
@@ -82,6 +73,7 @@ module.exports = DemoView = class DemoView extends RootView
     jasmine.Ajax.install()
     view = demoFunc()
     return unless view
+    @ranDemo = true
     if view instanceof ModalView
       @openModalView(view)
     else
@@ -97,4 +89,5 @@ module.exports = DemoView = class DemoView extends RootView
   destroy: ->
     # hack to get jasmine tests to properly run again on clicking links, and make sure if you
     # leave this page (say, back to the main site) that test stuff doesn't follow you.
-    document.location.reload()
+    if @ranDemo
+      document.location.reload()

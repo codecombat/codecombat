@@ -67,7 +67,7 @@ var Box2D = {};
 })(Box2D);
 
 //#TODO remove assignments from global namespace
-var Vector = Array;
+var Box2DVector = Array;
 var Vector_a2j_Number = Box2D.NVector;
 //package structure
 if (typeof(Box2D) === "undefined") Box2D = {};
@@ -1012,7 +1012,7 @@ Box2D.postDefs = [];
       tClip.id.features.incidentVertex = 1;
    }
    b2Collision.MakeClipPointVector = function () {
-      var r = new Vector(2);
+      var r = new Box2DVector(2);
       r[0] = new ClipVertex();
       r[1] = new ClipVertex();
       return r;
@@ -1424,7 +1424,7 @@ Box2D.postDefs = [];
       case b2Shape.e_circleShape:
          {
             var circle = (shape instanceof b2CircleShape ? shape : null);
-            this.m_vertices = new Vector(1, true);
+            this.m_vertices = new Box2DVector(1, true);
             this.m_vertices[0] = circle.m_p;
             this.m_count = 1;
             this.m_radius = circle.m_radius;
@@ -1534,7 +1534,7 @@ Box2D.postDefs = [];
    }
    b2DynamicTree.prototype.Query = function (callback, aabb) {
       if (this.m_root == null) return;
-      var stack = new Vector();
+      var stack = new Box2DVector();
       var count = 0;
       stack[count++] = this.m_root;
       while (count > 0) {
@@ -1570,7 +1570,7 @@ Box2D.postDefs = [];
          segmentAABB.upperBound.x = Math.max(p1.x, tX);
          segmentAABB.upperBound.y = Math.max(p1.y, tY);
       }
-      var stack = new Vector();
+      var stack = new Box2DVector();
       var count = 0;
       stack[count++] = this.m_root;
       while (count > 0) {
@@ -1713,8 +1713,8 @@ Box2D.postDefs = [];
    }
    b2DynamicTreeBroadPhase.b2DynamicTreeBroadPhase = function () {
       this.m_tree = new b2DynamicTree();
-      this.m_moveBuffer = new Vector();
-      this.m_pairBuffer = new Vector();
+      this.m_moveBuffer = new Box2DVector();
+      this.m_pairBuffer = new Box2DVector();
       this.m_pairCount = 0;
    };
    b2DynamicTreeBroadPhase.prototype.CreateProxy = function (aabb, userData) {
@@ -1819,7 +1819,7 @@ Box2D.postDefs = [];
       this.m_pointCount = 0;
    };
    b2Manifold.prototype.b2Manifold = function () {
-      this.m_points = new Vector(b2Settings.b2_maxManifoldPoints);
+      this.m_points = new Box2DVector(b2Settings.b2_maxManifoldPoints);
       for (var i = 0; i < b2Settings.b2_maxManifoldPoints; i++) {
          this.m_points[i] = new b2ManifoldPoint();
       }
@@ -2177,7 +2177,7 @@ Box2D.postDefs = [];
       this.m_v1 = new b2SimplexVertex();
       this.m_v2 = new b2SimplexVertex();
       this.m_v3 = new b2SimplexVertex();
-      this.m_vertices = new Vector(3);
+      this.m_vertices = new Box2DVector(3);
    };
    b2Simplex.prototype.b2Simplex = function () {
       this.m_vertices[0] = this.m_v1;
@@ -2535,7 +2535,7 @@ Box2D.postDefs = [];
       this.m_normal = new b2Vec2();
    };
    b2WorldManifold.prototype.b2WorldManifold = function () {
-      this.m_points = new Vector(b2Settings.b2_maxManifoldPoints);
+      this.m_points = new Box2DVector(b2Settings.b2_maxManifoldPoints);
       for (var i = 0; i < b2Settings.b2_maxManifoldPoints; i++) {
          this.m_points[i] = new b2Vec2();
       }
@@ -3099,7 +3099,7 @@ Box2D.postDefs = [];
    }
    b2PolygonShape.prototype.SetAsArray = function (vertices, vertexCount) {
       if (vertexCount === undefined) vertexCount = 0;
-      var v = new Vector();
+      var v = new Box2DVector();
       var i = 0,
          tVec;
       for (i = 0;
@@ -3468,8 +3468,8 @@ Box2D.postDefs = [];
       this.__super.b2Shape.call(this);
       this.m_type = b2Shape.e_polygonShape;
       this.m_centroid = new b2Vec2();
-      this.m_vertices = new Vector();
-      this.m_normals = new Vector();
+      this.m_vertices = new Box2DVector();
+      this.m_normals = new Box2DVector();
    }
    b2PolygonShape.prototype.Reserve = function (count) {
       if (count === undefined) count = 0;
@@ -3504,7 +3504,7 @@ Box2D.postDefs = [];
    b2PolygonShape.ComputeOBB = function (obb, vs, count) {
       if (count === undefined) count = 0;
       var i = 0;
-      var p = new Vector(count + 1);
+      var p = new Box2DVector(count + 1);
       for (i = 0;
       i < count; ++i) {
          p[i] = vs[i];
@@ -5450,9 +5450,9 @@ Box2D.postDefs = [];
    }
    b2Island.b2Island = function () {};
    b2Island.prototype.b2Island = function () {
-      this.m_bodies = new Vector();
-      this.m_contacts = new Vector();
-      this.m_joints = new Vector();
+      this.m_bodies = new Box2DVector();
+      this.m_contacts = new Box2DVector();
+      this.m_joints = new Box2DVector();
    }
    b2Island.prototype.Initialize = function (bodyCapacity, contactCapacity, jointCapacity, allocator, listener, contactSolver) {
       if (bodyCapacity === undefined) bodyCapacity = 0;
@@ -5691,7 +5691,7 @@ Box2D.postDefs = [];
       this.warmStarting = step.warmStarting;
    }
    b2World.b2World = function () {
-      this.s_stack = new Vector();
+      this.s_stack = new Box2DVector();
       this.m_contactManager = new b2ContactManager();
       this.m_contactSolver = new b2ContactSolver();
       this.m_island = new b2Island();
@@ -6156,7 +6156,7 @@ Box2D.postDefs = [];
    }
    b2World.prototype.RayCastAll = function (point1, point2) {
       var __this = this;
-      var result = new Vector();
+      var result = new Box2DVector();
 
       function RayCastAllWrapper(fixture, point, normal, fraction) {
          if (fraction === undefined) fraction = 0;
@@ -6521,7 +6521,7 @@ Box2D.postDefs = [];
             var poly = ((shape instanceof b2PolygonShape ? shape : null));
             var vertexCount = parseInt(poly.GetVertexCount());
             var localVertices = poly.GetVertices();
-            var vertices = new Vector(vertexCount);
+            var vertices = new Box2DVector(vertexCount);
             for (i = 0;
             i < vertexCount; ++i) {
                vertices[i] = b2Math.MulX(xf, localVertices[i]);
@@ -6543,7 +6543,7 @@ Box2D.postDefs = [];
       Box2D.Dynamics.b2World.s_backupA = new b2Sweep();
       Box2D.Dynamics.b2World.s_backupB = new b2Sweep();
       Box2D.Dynamics.b2World.s_timestep = new b2TimeStep();
-      Box2D.Dynamics.b2World.s_queue = new Vector();
+      Box2D.Dynamics.b2World.s_queue = new Box2DVector();
       Box2D.Dynamics.b2World.s_jointColor = new b2Color(0.5, 0.8, 0.8);
       Box2D.Dynamics.b2World.e_newFixture = 0x0001;
       Box2D.Dynamics.b2World.e_locked = 0x0002;
@@ -6827,7 +6827,7 @@ Box2D.postDefs = [];
       this.K = new b2Mat22();
    };
    b2ContactConstraint.prototype.b2ContactConstraint = function () {
-      this.points = new Vector(b2Settings.b2_maxManifoldPoints);
+      this.points = new Box2DVector(b2Settings.b2_maxManifoldPoints);
       for (var i = 0; i < b2Settings.b2_maxManifoldPoints; i++) {
          this.points[i] = new b2ContactConstraintPoint();
       }
@@ -6856,9 +6856,9 @@ Box2D.postDefs = [];
       }
    }
    b2ContactFactory.prototype.InitializeRegisters = function () {
-      this.m_registers = new Vector(b2Shape.e_shapeTypeCount);
+      this.m_registers = new Box2DVector(b2Shape.e_shapeTypeCount);
       for (var i = 0; i < b2Shape.e_shapeTypeCount; i++) {
-         this.m_registers[i] = new Vector(b2Shape.e_shapeTypeCount);
+         this.m_registers[i] = new Box2DVector(b2Shape.e_shapeTypeCount);
          for (var j = 0; j < b2Shape.e_shapeTypeCount; j++) {
             this.m_registers[i][j] = new b2ContactRegister();
          }
@@ -6922,7 +6922,7 @@ Box2D.postDefs = [];
    };
    b2ContactSolver.b2ContactSolver = function () {
       this.m_step = new b2TimeStep();
-      this.m_constraints = new Vector();
+      this.m_constraints = new Box2DVector();
    };
    b2ContactSolver.prototype.b2ContactSolver = function () {}
    b2ContactSolver.prototype.Initialize = function (step, contacts, contactCount, allocator) {
@@ -7414,7 +7414,7 @@ Box2D.postDefs = [];
    b2PositionSolverManifold.prototype.b2PositionSolverManifold = function () {
       this.m_normal = new b2Vec2();
       this.m_separations = new Vector_a2j_Number(b2Settings.b2_maxManifoldPoints);
-      this.m_points = new Vector(b2Settings.b2_maxManifoldPoints);
+      this.m_points = new Box2DVector(b2Settings.b2_maxManifoldPoints);
       for (var i = 0; i < b2Settings.b2_maxManifoldPoints; i++) {
          this.m_points[i] = new b2Vec2();
       }

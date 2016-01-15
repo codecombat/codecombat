@@ -1,0 +1,146 @@
+extends /templates/core/modal-base
+block modal-header-content
+  #victory-header.out
+    #victory-title
+      if !me.get('preferredLanguage') || me.get('preferredLanguage').split('-')[0] == 'en'
+        img(src="/images/pages/play/level/modal/victory_word.png", draggable="false")
+      else
+        h1(data-i18n="play_level.victory") Victory
+
+block modal-body-content
+  if victoryText
+    #victory-text= victoryText
+
+  if isCourseLevel
+    .course-name-container
+      if currentCourseName
+        p
+          span.spr.level-title(data-i18n="play_level.course")
+          span.level-name= currentCourseName
+    .container-fluid
+      .row
+        .col-md-6
+          if currentLevelName
+            .level-title(data-i18n="play_level.completed_level")
+            .level-name= currentLevelName.replace('Course: ', '')
+        .col-md-6
+          if nextLevelName
+            .level-title(data-i18n="play_level.next_level")
+            .level-name= nextLevelName.replace('Course: ', '')
+          else
+            .level-title(data-i18n="play_level.course")
+            .level-name(data-i18n="play_level.victory_title_suffix")
+
+    br
+
+  #level-feedback
+    div.rating.secret
+      div.rating-label(data-i18n="play_level.victory_rate_the_level") Rate the level:
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+    if !me.get('anonymous')
+      span.review-label.secret(data-i18n="play_level.victory_review") Tell us more!
+      .review.secret
+        br
+        textarea(data-i18n="[placeholder]play_level.victory_review_placeholder")
+    .clearfix
+
+  if level.get('type', true) === 'hero' || level.get('type') == 'hero-ladder'
+    for achievement in achievements
+      - var animate = achievement.completed && !achievement.completedAWhileAgo
+      .achievement-panel(class=achievement.completedAWhileAgo ? 'earned' : '' data-achievement-id=achievement.id data-animate=animate)
+        - var rewards = achievement.get('rewards') || {};
+
+        div.achievement-description= achievement.description
+
+        div.achievement-rewards
+          - var worth = achievement.worth;
+          - var previousWorth = achievement.previousWorth;
+          - var gems = achievement.gems;
+          - var previousGems = achievement.previousGems;
+          if worth
+            .reward-panel.numerical.xp(data-number=worth, data-number-unit='xp', data-previous-number=previousWorth || 0)
+              .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                img(src="/images/pages/play/level/modal/reward_icon_xp.png")
+              .reward-text= animate ? '+0' : '+'+worth
+
+          if gems
+            .reward-panel.numerical.gems(data-number=gems, data-number-unit='gem', data-previous-number=previousGems || 0)
+              .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                img(src="/images/pages/play/level/modal/reward_icon_gems.png")
+              .reward-text= animate ? '+0' : '+'+gems
+
+          if rewards.heroes
+            for hero in rewards.heroes
+              - var hero = thangTypes[hero];
+              .reward-panel.hero(data-hero-thang-type=hero.get('original'))
+                .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                  img(src=hero.getPortraitURL())
+                .reward-text= animate ? 'New Hero' : hero.get('name')
+
+          if rewards.items
+            for item in rewards.items
+              - var item = thangTypes[item];
+              .reward-panel.item(data-item-thang-type=item.get('original'))
+                .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                  img(src=item.getPortraitURL())
+                if animate
+                  .reward-text(data-i18n="play_level.victory_new_item") New Item
+                else
+                  .reward-text= i18n(item.attributes, 'name')
+
+block modal-footer-content
+  #totals
+    .total-wrapper#xp-wrapper
+      .total-count#xp-total 0
+      .total-label
+        span.spr(data-i18n="play_level.victory_experience_gained") XP Gained
+        | -
+        span.spl.spr(data-i18n="general.player_level") Level
+        span.level= me.level()
+      .xp-bar-outer
+        .xp-bar-already-achieved
+        .xp-bar-total
+    .total-wrapper#gem-wrapper
+      .total-count#gem-total 0
+      .total-label(data-i18n="play_level.victory_gems_gained") Gems Gained
+
+  if me.get('anonymous')
+    .sign-up-poke.hide
+      .sign-up-blurb(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
+      button.btn.btn-illustrated.btn-warning.sign-up-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
+
+  button.btn.btn-illustrated.btn-lg.btn-warning.hide#saving-progress-label(disabled, data-i18n="play_level.victory_saving_progress") Saving Progress
+
+  .next-level-buttons
+    if readyToRank
+      .ladder-submission-view
+    else if level.get('type') === 'hero-ladder'
+      button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
+    else
+      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
+
+  if !me.get('anonymous') && !showHourOfCodeDoneButton && showLeaderboard
+    button.btn.btn-illustrated.btn-success.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions") View Other Solutions
+  else if showReturnToCourse
+    button.btn.btn-illustrated.btn-warning.return-to-course-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
+
+  if showHourOfCodeDoneButton
+    .hour-of-code-done
+      a.image-link(href="http://code.org/api/hour/finish")
+        img(src="/images/level/csedweek-logo-final-small.jpg", alt="CS Ed Week Hour of Code", title="I'm finished with my Hour of Code", width=80)
+      strong(data-i18n="play_level.victory_hour_of_code_done") Are You Done?
+      a.text-link(href="http://code.org/api/hour/finish")
+        span(data-i18n="play_level.victory_hour_of_code_done_yes") Yes, I am finished with my Hour of Code!
+      .clearfix
+
+  if view.level.get('slug') == 'lost-viking'
+    .offer.lost-viking
+      p
+        img.pull-left(src="/file/db/level/55144b509f0c4854051769c1/viking1.png")
+        img.pull-right(src="/file/db/level/55144b509f0c4854051769c1/viking_2.png")
+        span(data-i18n="play_level.victory_viking_code_school")
+      button.btn.btn-illustrated.btn-primary.btn-lg.world-map-button.continue-from-offer-button(data-i18n="play_level.victory_become_a_viking") Become a Viking

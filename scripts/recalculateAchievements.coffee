@@ -8,6 +8,7 @@ do (setupLodash = this) ->
   GLOBAL._ = require 'lodash'
   _.str = require 'underscore.string'
   _.mixin _.str.exports()
+  GLOBAL.tv4 = require('tv4').tv4
 
 database.connect()
 

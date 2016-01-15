@@ -1,5 +1,5 @@
-@import "app/styles/bootstrap/mixins"
 @import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
 
 .thang-avatar-view
 
@@ -7,10 +7,8 @@
     @include box-shadow(0px 0px 10px rgba(79, 79, 213, 1.0))
 
   .thang-avatar-wrapper
+    width: 100%
     position: relative
-    margin: 5px 5px 1px
-    border: 1px solid #888
-    border-radius: 4px
     @include gradient-radial-custom-stops(hsla(205,0%,74%,1), 20%, hsla(205,0%,31%,1), 70%)
 
     &.team-humans
@@ -24,6 +22,15 @@
     &.team-allies, &.team-minions
       border-color: darkgreen
       @include gradient-radial-custom-stops(hsla(116,80%,74%,1), 20%, hsla(116,80%,31%,1), 70%)
+
+    .avatar
+      width: 100%
+
+    .avatar-frame
+      position: absolute
+      left: -18%
+      top: -19%
+      width: 145%
 
     .badge
       $radius: 8px

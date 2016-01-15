@@ -1,5 +1,4 @@
 mongoose = require('mongoose')
-textSearch = require('mongoose-text-search')
 log = require 'winston'
 utils = require '../lib/utils'
 
@@ -116,7 +115,7 @@ module.exports.PermissionsPlugin = (schema) ->
     allowed = allowed[method] or []
 
     for permission in @permissions
-      if permission.target is 'public' or actor._id.equals(permission.target)
+      if permission.target is 'public' or actor?._id.equals(permission.target)
         return true if permission.access in allowed
 
     return false
@@ -281,7 +280,7 @@ module.exports.SearchablePlugin = (schema, options) ->
 
   searchable = options.searchable
   unless searchable
-    throw Error('SearchablePlugin options must include list of searchable properties.')
+    throw new Error('SearchablePlugin options must include list of searchable properties.')
 
   index = {}
 
@@ -293,7 +292,6 @@ module.exports.SearchablePlugin = (schema, options) ->
   index[prop] = 'text' for prop in searchable
 
   # should now have something like {'index': 1, name: 'text', body: 'text'}
-  schema.plugin(textSearch)
   schema.index(index, {sparse: true, name: 'search index', language_override: 'searchLanguage'})
 
   schema.pre 'save', (next) ->
@@ -307,3 +305,19 @@ module.exports.SearchablePlugin = (schema, options) ->
       @index = @getOwner() unless access
 
     next()
+
+module.exports.TranslationCoveragePlugin = (schema, options) ->
+
+  schema.uses_coco_translation_coverage = true
+  schema.set('autoIndex', true)
+
+  index = {}
+
+  if schema.uses_coco_versions
+    if not schema.uses_coco_names
+      throw Error('If using translation coverage and versioning, should also use names for indexing.')
+    index.slug = 1
+
+  index.i18nCoverage = 1
+
+  schema.index(index, {sparse: true, name: 'translation coverage index', background: true})

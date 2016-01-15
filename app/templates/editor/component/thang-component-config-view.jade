@@ -1,7 +1,7 @@
 .panel.panel-default
-  .panel-heading
-    em #{component.system}.
-    strong.panel-title.spr= component.name
-    span#description.text-muted= component.description
+  .panel-heading(class=view.isDefaultComponent ? "is-default-component" : "")
+    em #{view.component.attributes.system}.
+    strong.panel-title.spr= view.component.attributes.name
+    span#description.text-muted= view.component.attributes.description
   .panel-body
     .treema

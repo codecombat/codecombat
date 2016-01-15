@@ -3,14 +3,12 @@
 .level-content
   #control-bar-view
   #canvas-wrapper
-    canvas(width=1848, height=1178)#surface
+    canvas(width=924, height=589)#webgl-surface
+    canvas(width=924, height=589)#normal-surface
     #canvas-left-gradient.gradient
     #canvas-top-gradient.gradient
   #gold-view.secret.expanded
   #level-chat-view
+  #duel-stats-view
   #playback-view
   #thang-hud
-.footer
-  .content
-    p(class='footer-link-text')
-      a(title='Send CodeCombat a message', tabindex=-1, data-toggle="coco-modal", data-target="modal/ContactModal", data-i18n="nav.contact") Contact

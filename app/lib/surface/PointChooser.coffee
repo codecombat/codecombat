@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 module.exports = class PointChooser extends CocoClass
   constructor: (@options) ->
@@ -21,16 +21,14 @@ module.exports = class PointChooser extends CocoClass
     @shape.mouseEnabled = false
     @shape.graphics.setStrokeStyle(1, 'round').beginStroke('#000000').beginFill('#fedcba')
     @shape.graphics.drawCircle(0, 0, 4).endFill()
-    @shape.layerIndex = 100
 
   onMouseDown: (e) =>
-    console.log 'got stagemousedown', e, key.shift
     return unless key.shift
     @setPoint @options.camera.screenToWorld {x: e.stageX, y: e.stageY}
-    Backbone.Mediator.publish 'choose-point', point: @point
+    Backbone.Mediator.publish 'surface:choose-point', point: @point
 
   updateShape: ->
     sup = @options.camera.worldToSurface @point
-    @options.surfaceLayer.addChild @shape
+    @options.surfaceLayer.addChild @shape unless @shape.parent
     @shape.x = sup.x
     @shape.y = sup.y

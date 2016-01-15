@@ -2,7 +2,7 @@ c = require './../schemas'
 
 LevelFeedbackLevelSchema = c.object {required: ['original', 'majorVersion']}, {
   original: c.objectId({})
-  majorVersion: {type: 'integer', minimum: 0, default: 0}}
+  majorVersion: {type: 'integer', minimum: 0 }}
 
 LevelFeedbackSchema = c.object {
   title: 'Feedback'

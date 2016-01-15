@@ -1,5 +1,5 @@
 CocoModel = require 'models/CocoModel'
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 class BlandClass extends CocoModel
   @className: 'Bland'
@@ -22,7 +22,24 @@ describe 'CocoModel', ->
       b.fetch()
       request = jasmine.Ajax.requests.mostRecent()
       expect(decodeURIComponent(request.url).indexOf('project=number,object')).toBeGreaterThan(-1)
-  
+
+    it 'can update its projection', ->
+      baseURL = '/db/bland/test?filter-creator=Mojambo&project=number,object&ignore-evil=false'
+      unprojectedURL = baseURL.replace /&project=number,object/, ''
+      b = new BlandClass({})
+      b.setURL baseURL
+      expect(b.getURL()).toBe baseURL
+      b.setProjection ['number', 'object']
+      expect(b.getURL()).toBe baseURL
+      b.setProjection ['number']
+      expect(b.getURL()).toBe baseURL.replace /,object/, ''
+      b.setProjection []
+      expect(b.getURL()).toBe unprojectedURL
+      b.setProjection null
+      expect(b.getURL()).toBe unprojectedURL
+      b.setProjection ['object', 'number']
+      expect(b.getURL()).toBe unprojectedURL + '&project=object,number'
+
   describe 'save', ->
 
     it 'saves to db/<urlRoot>', ->
@@ -76,7 +93,7 @@ describe 'CocoModel', ->
       b.patch()
       request = jasmine.Ajax.requests.mostRecent()
       attrs = JSON.stringify(b.attributes) # server responds with all
-      request.response({status: 200, responseText: attrs})
+      request.respondWith({status: 200, responseText: attrs})
 
       b.set('number', 3)
       b.patch()
@@ -95,7 +112,7 @@ describe 'CocoModel', ->
   xdescribe 'Achievement polling', ->
     NewAchievementCollection = require 'collections/NewAchievementCollection'
     EarnedAchievement = require 'models/EarnedAchievement'
-    
+
     # TODO: Figure out how to do debounce in tests so that this test doesn't need to use keepDoingUntil
 
     it 'achievements are polled upon saving a model', (done) ->
@@ -108,7 +125,7 @@ describe 'CocoModel', ->
       b = new BlandClass({})
       res = b.save()
       request = jasmine.Ajax.requests.mostRecent()
-      request.response(status: 200, responseText: '{}')
+      request.respondWith(status: 200, responseText: '{}')
 
       collection = []
       model =
@@ -123,7 +140,7 @@ describe 'CocoModel', ->
           ready true
         else return ready false
 
-        request.response {status: 200, responseText: JSON.stringify collection}
+        request.respondWith {status: 200, responseText: JSON.stringify collection}
 
         utils.keepDoingUntil (ready) ->
           request = jasmine.Ajax.requests.mostRecent()
@@ -132,5 +149,28 @@ describe 'CocoModel', ->
             ready true
           else return ready false
 
-          request.response {status:200, responseText: JSON.stringify me}
+          request.respondWith {status:200, responseText: JSON.stringify me}
 
+  describe 'updateI18NCoverage', ->
+    class FlexibleClass extends CocoModel
+      @className: 'Flexible'
+      @schema: {}
+
+    it 'only includes languages for which all objects include a translation', ->
+      m = new FlexibleClass({
+        i18n: { es: {}, fr: {} }
+        prop1: 1
+        prop2: 'string'
+        prop3: true
+        innerObject: {
+          i18n: { es: {}, de: {}, fr: {} }
+          prop4: [
+            {
+              i18n: { es: {} }
+            }
+          ]
+        }
+      })
+
+      m.updateI18NCoverage()
+      expect(JSON.stringify(m.get('i18nCoverage'))).toBe('["es"]')

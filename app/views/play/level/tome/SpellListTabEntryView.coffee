@@ -3,32 +3,39 @@ ThangAvatarView = require 'views/play/level/ThangAvatarView'
 template = require 'templates/play/level/tome/spell_list_tab_entry'
 LevelComponent = require 'models/LevelComponent'
 DocFormatter = require './DocFormatter'
-filters = require 'lib/image_filter'
+ReloadLevelModal = require 'views/play/level/modal/ReloadLevelModal'
 
 module.exports = class SpellListTabEntryView extends SpellListEntryView
   template: template
   id: 'spell-list-tab-entry-view'
 
   subscriptions:
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
     'tome:spell-loaded': 'onSpellLoaded'
     'tome:spell-changed': 'onSpellChanged'
     'god:new-world-created': 'onNewWorld'
     'tome:spell-changed-language': 'onSpellChangedLanguage'
-    'tome:fullscreen-view': 'onFullscreenClick'
+    'tome:toggle-maximize': 'onToggleMaximize'
 
   events:
     'click .spell-list-button': 'onDropdownClick'
     'click .reload-code': 'onCodeReload'
     'click .beautify-code': 'onBeautifyClick'
-    'click .fullscreen-code': 'onFullscreenClick'
+    'click .fullscreen-code': 'onToggleMaximize'
 
   constructor: (options) ->
     super options
 
   getRenderData: (context={}) ->
     context = super context
+    ctrl = if @isMac() then 'Cmd' else 'Ctrl'
+    shift = $.i18n.t 'keyboard_shortcuts.shift'
+    context.beautifyShortcutVerbose = "#{ctrl}+#{shift}+B: #{$.i18n.t 'keyboard_shortcuts.beautify'}"
+    context.maximizeShortcutVerbose = "#{ctrl}+#{shift}+M: #{$.i18n.t 'keyboard_shortcuts.maximize_editor'}"
+    context.includeSpellList = @options.level.get('slug') in ['break-the-prison', 'zone-of-danger', 'k-means-cluster-wars', 'brawlwood', 'dungeon-arena', 'sky-span', 'minimax-tic-tac-toe']
+    context.codeLanguage = @options.codeLanguage
+    context.levelType = @options.level.get 'type', true
     context
 
   afterRender: ->
@@ -57,6 +64,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     @avatar.render()
 
   buildDocs: ->
+    return if @spell.name is 'plan'  # Too confusing for beginners
     @docsBuilt = true
     lcs = @supermodel.getModels LevelComponent
     found = false
@@ -66,15 +74,16 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
           found = true
           break
     return unless found
-    docFormatter = new DocFormatter doc: doc, thang: @thang, language: @options.language, selectedMethod: true
-    @$el.find('code').popover(
+    docFormatter = new DocFormatter doc: doc, thang: @thang, language: @options.codeLanguage, selectedMethod: true
+    @$el.find('.method-signature').popover(
       animation: true
       html: true
       placement: 'bottom'
       trigger: 'hover'
       content: docFormatter.formatPopover()
       container: @$el.parent()
-    )
+    ).on 'show.bs.popover', =>
+      @playSound 'spell-tab-entry-open', 0.75
 
   onMouseEnterAvatar: (e) ->  # Don't call super
   onMouseLeaveAvatar: (e) ->  # Don't call super
@@ -84,21 +93,24 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   onDropdownClick: (e) ->
     return unless @controlsEnabled
-    Backbone.Mediator.publish 'tome:toggle-spell-list'
+    Backbone.Mediator.publish 'tome:toggle-spell-list', {}
+    @playSound 'spell-list-open'
 
-  onCodeReload: ->
+  onCodeReload: (e) ->
+    #return unless @controlsEnabled
+    #Backbone.Mediator.publish 'tome:reload-code', spell: @spell  # Old: just reload the current code
+    @openModalView new ReloadLevelModal()                # New: prompt them to restart the level
+
+  onBeautifyClick: (e) ->
     return unless @controlsEnabled
-    Backbone.Mediator.publish 'tome:reload-code', spell: @spell
+    Backbone.Mediator.publish 'tome:spell-beautify', spell: @spell
 
-  onBeautifyClick: ->
-    return unless @controlsEnabled
-    Backbone.Mediator.publish 'spell-beautify', spell: @spell
-
-  onFullscreenClick: ->
+  onToggleMaximize: (e) ->
     $codearea = $('html')
     $('#code-area').css 'z-index', 20 unless $codearea.hasClass 'fullscreen-editor'
     $('html').toggleClass 'fullscreen-editor'
     $('.fullscreen-code').toggleClass 'maximized'
+    Backbone.Mediator.publish 'tome:maximize-toggled', {}
 
   updateReloadButton: ->
     changed = @spell.hasChanged null, @spell.getSource()
@@ -114,11 +126,12 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   onSpellChangedLanguage: (e) ->
     return unless e.spell is @spell
-    @options.language = e.language
-    @$el.find('code').popover 'destroy'
+    @options.codeLanguage = e.language
+    @$el.find('.method-signature').popover 'destroy'
     @render()
     @docsBuilt = false
     @buildDocs() if @thang
+    @updateReloadButton()
 
   toggleControls: (e, enabled) ->
     # Don't call super; do it differently
@@ -126,21 +139,11 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.toggleClass 'read-only', not enabled
-    @toggleBackground()
-
-  toggleBackground: =>
-    # TODO: make the palette background an actual background and do the CSS trick
-    # used in spell_list_entry.sass for disabling
-    background = @$el.find('img.spell-tab-image-hidden')[0]
-    if background.naturalWidth is 0  # not loaded yet
-      return _.delay @toggleBackground, 100
-    filters.revertImage background, '.spell-list-entry-view.spell-tab' if @controlsEnabled
-    filters.darkenImage background, '.spell-list-entry-view.spell-tab', 0.8 unless @controlsEnabled
 
   attachTransitionEventListener: =>
     transitionListener = ''
     testEl = document.createElement 'fakeelement'
-    transitions = 
+    transitions =
       'transition':'transitionend'
       'OTransition':'oTransitionEnd'
       'MozTransition':'transitionend'
@@ -151,10 +154,10 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
         break
     $codearea = $('#code-area')
     $codearea.on transitionListener, =>
-      $codearea.css 'z-index', 1 unless $('html').hasClass 'fullscreen-editor'
+      $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
 
 
   destroy: ->
     @avatar?.destroy()
-    @$el.find('code').popover 'destroy'
+    @$el.find('.method-signature').popover 'destroy'
     super()

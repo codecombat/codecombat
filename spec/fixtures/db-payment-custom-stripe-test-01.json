@@ -1,0 +1,104 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17IOPSKaReE7xLUdyZv4jUA6",
+            "card": {
+                "id": "card_17IOPSKaReE7xLUdOOKz1MOG"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTMBOnMy9jbYM",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "00000000000000000000006b"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOPSKaReE7xLUdOOKz1MOG",
+                        "customer": "cus_7XTMBOnMy9jbYM"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "has_more": false
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7XTMBOnMy9jbYM",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTMBOnMy9jbYM",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "00000000000000000000006b"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOPSKaReE7xLUdOOKz1MOG",
+                        "customer": "cus_7XTMBOnMy9jbYM"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "id": "ch_17IOPUKaReE7xLUd1gLXrdte",
+            "amount": 5000,
+            "customer": "cus_7XTMBOnMy9jbYM",
+            "metadata": {
+                "productID": "custom",
+                "timestamp": "1447445242091",
+                "description": "A sweet Coco t-shirt"
+            },
+            "paid": true,
+            "refunds": {
+                "has_more": false
+            },
+            "source": {
+                "id": "card_17IOPSKaReE7xLUdOOKz1MOG",
+                "customer": "cus_7XTMBOnMy9jbYM"
+            }
+        }
+    }
+]

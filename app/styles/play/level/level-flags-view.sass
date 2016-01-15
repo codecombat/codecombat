@@ -1,0 +1,53 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#level-flags-view
+  display: none
+  position: absolute
+  bottom: 0
+  left: 0
+  width: 200px
+  // Width must match level.sass playback offset
+  z-index: 1
+  @include transition(box-shadow .2s linear)
+  @include user-select(none)
+  padding: 4px
+  background: transparent url(/images/level/gold_background.png) no-repeat
+  background-size: 100% 100%
+  border-radius: 4px
+
+  &:hover
+    box-shadow: 2px 2px 2px black
+
+  .flag-button
+    margin: 3px
+    font-size: 14px
+    position: relative
+    padding: 2px 15px 18px 15px
+    margin-left: 5px
+
+    .glyphicon
+      font-size: 24px
+
+    .flag-shortcut
+      text-decoration: underline
+
+    &.green-flag
+      .glyphicon, .flag-shortcut
+        color: hsl(120, 50%, 50%)
+    &.black-flag
+      .glyphicon, .flag-shortcut
+        color: hsl(0, 0%, 25%)
+    &.violet-flag
+      .glyphicon, .flag-shortcut
+        color: hsl(300, 50%, 50%)
+
+    .flag-caption
+      position: absolute
+      background-color: rgba(0, 0, 0, 0.1)
+      color: black
+      bottom: 0
+      left: 0
+      width: 100%
+      border-bottom-right-radius: 6px
+      border-bottom-left-radius: 6px

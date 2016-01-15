@@ -6,6 +6,7 @@ schema = require '../../app/schemas/models/patch'
 mongoose = require 'mongoose'
 log = require 'winston'
 sendwithus = require '../sendwithus'
+hipchat = require '../hipchat'
 
 PatchHandler = class PatchHandler extends Handler
   modelClass: Patch
@@ -24,6 +25,17 @@ PatchHandler = class PatchHandler extends Handler
     return @setStatus(req, res, args[0]) if req.route.method is 'put' and args[1] is 'status'
     super(arguments...)
 
+  get: (req, res) ->
+    if req.query.view in ['pending']
+      query = status: 'pending'
+      q = Patch.find(query)
+      q.exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        documents = (@formatEntity(req, doc) for doc in documents)
+        @sendSuccess(res, documents)
+    else
+      super(arguments...)
+
   setStatus: (req, res, id) ->
     newStatus = req.body.status
     unless newStatus in ['rejected', 'accepted', 'withdrawn']
@@ -36,18 +48,18 @@ PatchHandler = class PatchHandler extends Handler
       targetHandler = require('../' + handlers[targetInfo.collection])
       targetModel = targetHandler.modelClass
 
-      query = { 'original': targetInfo.original }
+      query = { $or: [{'original': targetInfo.original}, {'_id': mongoose.Types.ObjectId(targetInfo.original)}] }
       sort = { 'version.major': -1, 'version.minor': -1 }
       targetModel.findOne(query).sort(sort).exec (err, target) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res) unless target?
-        return @sendUnauthorizedError(res) unless targetHandler.hasAccessToDocument(req, target, 'get')
+        return @sendForbiddenError(res) unless targetHandler.hasAccessToDocument(req, target, 'get')
 
         if newStatus in ['rejected', 'accepted']
-          return @sendUnauthorizedError(res) unless targetHandler.hasAccessToDocument(req, target, 'put')
+          return @sendForbiddenError(res) unless targetHandler.hasAccessToDocument(req, target, 'put')
 
         if newStatus is 'withdrawn'
-          return @sendUnauthorizedError(res) unless req.user.get('_id').equals patch.get('creator')
+          return @sendForbiddenError(res) unless req.user.get('_id').equals patch.get('creator')
 
         patch.set 'status', newStatus
 
@@ -75,14 +87,17 @@ PatchHandler = class PatchHandler extends Handler
   onPostSuccess: (req, doc) ->
     log.error 'Error sending patch created: could not find the loaded target on the patch object.' unless doc.targetLoaded
     return unless doc.targetLoaded
+    docLink = "http://codecombat.com#{req.headers['x-current-path']}"
+    @sendPatchCreatedHipChatMessage creator: req.user, patch: doc, target: doc.targetLoaded, docLink: docLink
     watchers = doc.targetLoaded.get('watchers') or []
-    watchers = (w for w in watchers when not w.equals(req.user.get('_id')))
+    # Don't send these emails to the person who submitted the patch, or to Nick, George, or Scott.
+    watchers = (w for w in watchers when not w.equals(req.user.get('_id')) and not (w + '' in ['512ef4805a67a8c507000001', '5162fab9c92b4c751e000274', '51538fdb812dd9af02000001']))
     return unless watchers?.length
     User.find({_id: {$in: watchers}}).select({email: 1, name: 1}).exec (err, watchers) =>
       for watcher in watchers
-        @sendPatchCreatedEmail req.user, watcher, doc, doc.targetLoaded, req.headers['x-current-path']
+        @sendPatchCreatedEmail req.user, watcher, doc, doc.targetLoaded, docLink
 
-  sendPatchCreatedEmail: (patchCreator, watcher, patch, target, editPath) ->
+  sendPatchCreatedEmail: (patchCreator, watcher, patch, target, docLink) ->
 #    return if watcher._id is patchCreator._id
     context =
       email_id: sendwithus.templates.patch_created
@@ -92,8 +107,12 @@ PatchHandler = class PatchHandler extends Handler
       email_data:
         doc_name: target.get('name') or '???'
         submitter_name: patchCreator.get('name') or '???'
-        doc_link: "http://codecombat.com#{editPath}"
+        doc_link: docLink
         commit_message: patch.get('commitMessage')
     sendwithus.api.send context, (err, result) ->
+
+  sendPatchCreatedHipChatMessage: (options) ->
+    message = "#{options.creator.get('name')} submitted a patch to <a href=\"#{options.docLink}\">#{options.target.get('name')}</a>: #{options.patch.get('commitMessage')}"
+    hipchat.sendHipChatMessage message, ['main']
 
 module.exports = new PatchHandler()

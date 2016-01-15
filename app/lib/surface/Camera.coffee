@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 # If I were the kind of math major who remembered his math, this would all be done with matrix transforms.
 
@@ -40,9 +40,9 @@ module.exports = class Camera extends CocoClass
   # INIT
 
   subscriptions:
-    'camera-zoom-in': 'onZoomIn'
-    'camera-zoom-out': 'onZoomOut'
-    'camera-zoom-to': 'onZoomTo'
+    'camera:zoom-in': 'onZoomIn'
+    'camera:zoom-out': 'onZoomOut'
+    'camera:zoom-to': 'onZoomTo'
     'level:restarted': 'onLevelRestarted'
     'surface:mouse-scrolled': 'onMouseScrolled'
     'sprite:mouse-down': 'onMouseDown'
@@ -62,6 +62,7 @@ module.exports = class Camera extends CocoClass
   onResize: (newCanvasWidth, newCanvasHeight) ->
     @canvasScaleFactorX = newCanvasWidth / @canvasWidth
     @canvasScaleFactorY = newCanvasHeight / @canvasHeight
+    Backbone.Mediator.publish 'camera:zoom-updated', camera: @, zoom: @zoom, surfaceViewport: @surfaceViewport
 
   calculateViewingAngle: (angle) ->
     # Operate on open interval between 0 - 90 degrees to make the math easier
@@ -187,7 +188,7 @@ module.exports = class Camera extends CocoClass
       y: target.y + (@lastPos.y - e.originalEvent.rawY) / @zoom
     @zoomTo newPos, @zoom, 0
     @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
-    Backbone.Mediator.publish 'camera:dragged'
+    Backbone.Mediator.publish 'camera:dragged', {}
 
   onLevelRestarted: ->
     @setBounds(@firstBounds, false)
@@ -282,8 +283,9 @@ module.exports = class Camera extends CocoClass
       target = @boundTarget @target, @zoom
       return if not force and _.isEqual target, @currentTarget
     @currentTarget = target
-    @updateViewports target
-    Backbone.Mediator.publish 'camera:zoom-updated', camera: @, zoom: @zoom, surfaceViewport: @surfaceViewport
+    viewportDifference = @updateViewports target
+    if viewportDifference > 0.1  # Roughly 0.1 pixel difference in what we can see
+      Backbone.Mediator.publish 'camera:zoom-updated', camera: @, zoom: @zoom, surfaceViewport: @surfaceViewport, minZoom: @minZoom
 
   boundTarget: (pos, zoom) ->
     # Given an {x, y} in Surface coordinates, return one that will keep our viewport on the Surface.
@@ -302,6 +304,11 @@ module.exports = class Camera extends CocoClass
     sv = width: @canvasWidth / @zoom, height: @canvasHeight / @zoom, cx: target.x, cy: target.y
     sv.x = sv.cx - sv.width / 2
     sv.y = sv.cy - sv.height / 2
+    if @surfaceViewport
+      # Calculate how different this viewport is. (If it's basically not different, we can avoid visualizing the update.)
+      viewportDifference = Math.abs(@surfaceViewport.x - sv.x) + 1.01 * Math.abs(@surfaceViewport.y - sv.y) + 1.02 * Math.abs(@surfaceViewport.width - sv.width)
+    else
+      viewportDifference = 9001
     @surfaceViewport = sv
 
     wv = @surfaceToWorld sv  # get x and y
@@ -310,6 +317,8 @@ module.exports = class Camera extends CocoClass
     wv.cx = wv.x + wv.width / 2
     wv.cy = wv.y + wv.height / 2
     @worldViewport = wv
+
+    viewportDifference
 
   lock: ->
     @target = @currentTarget
@@ -322,5 +331,5 @@ module.exports = class Camera extends CocoClass
     createjs.Tween.removeTweens @
     super()
 
-  onZoomTo: (pos, time) ->
-    @zoomTo @worldToSurface(pos), @zoom, time
+  onZoomTo: (e) ->
+    @zoomTo @worldToSurface(e.pos), @zoom, e.duration

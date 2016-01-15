@@ -1,49 +1,39 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 VersionHistoryView = require './ArticleVersionsModal'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
-SaveVersionModal = require 'views/modal/SaveVersionModal'
+SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
+require 'views/modal/RevertModal'
+require 'vendor/treema'
 
 module.exports = class ArticleEditView extends RootView
   id: 'editor-article-edit-view'
   template: template
-  startsLoading: true
 
   events:
     'click #preview-button': 'openPreview'
     'click #history-button': 'showVersionHistory'
     'click #save-button': 'openSaveModal'
 
-  subscriptions:
-    'save-new-version': 'saveNewArticle'
-
   constructor: (options, @articleID) ->
     super options
     @article = new Article(_id: @articleID)
     @article.saveBackups = true
-
-    @listenToOnce(@article, 'error',
-      () =>
-        @hideLoading()
-
-        # Hack: editor components appear after calling insertSubView.
-        # So we need to hide them first.
-        $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
-
-        @insertSubView(new ErrorView())
-    )
-
-    @article.fetch()
-    @listenToOnce(@article, 'sync', @buildTreema)
+    @supermodel.loadModel @article, 'article'
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
-    
+
+  onLoaded: ->
+    super()
+    @buildTreema()
+    @listenTo @article, 'change', =>
+      @article.updateI18NCoverage()
+      @treema.set('/', @article.attributes)
+
   buildTreema: ->
     return if @treema? or (not @article.loaded)
     unless @article.attributes.body
       @article.set('body', '')
-    @startsLoading = false
-    @render()
     data = $.extend(true, {}, @article.attributes)
     options =
       data: data
@@ -53,7 +43,6 @@ module.exports = class ArticleEditView extends RootView
       callbacks:
         change: @pushChangesToPreview
     @treema = @$el.find('#article-treema').treema(options)
-
     @treema.build()
 
   pushChangesToPreview: =>
@@ -62,30 +51,32 @@ module.exports = class ArticleEditView extends RootView
     return unless @treema and @preview
     m = marked(@treema.data.body)
     b = $(@preview.document.body)
-    b.find('#insert').html(m)
-    b.find('#title').text(@treema.data.name)
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.article = @article
-    context.authorized = not me.get('anonymous')
-    context
+    onLoadHandler = =>
+      if b.find('#insert').length == 1
+        b.find('#insert').html(m)
+        b.find('#title').text(@treema.data.name)
+        clearInterval(id)
+    id = setInterval(onLoadHandler, 100)
 
   afterRender: ->
     super()
-    return if @startsLoading
+    return unless @supermodel.finished()
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@article), @$el.find('.patches-view'))
     @patchesView.load()
 
   openPreview: ->
-    @preview = window.open('/editor/article/preview', 'preview', 'height=800,width=600')
+    if not @preview or @preview.closed
+      @preview = window.open('/editor/article/preview', 'preview', 'height=800,width=600')
     @preview.focus() if window.focus
     @preview.onload = => @pushChangesToPreview()
     return false
 
   openSaveModal: ->
-    @openModalView(new SaveVersionModal({model: @article}))
+    modal = new SaveVersionModal({model: @article})
+    @openModalView(modal)
+    @listenToOnce modal, 'save-new-version', @saveNewArticle
+    @listenToOnce modal, 'hidden', -> @stopListening(modal)
 
   saveNewArticle: (e) ->
     @treema.endExistingEdits()
@@ -94,7 +85,7 @@ module.exports = class ArticleEditView extends RootView
 
     newArticle = if e.major then @article.cloneNewMajorVersion() else @article.cloneNewMinorVersion()
     newArticle.set('commitMessage', e.commitMessage)
-    res = newArticle.save()
+    res = newArticle.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
     return unless res
     modal = @$el.find('#save-version-modal')
     @enableModalInProgress(modal)
@@ -111,4 +102,4 @@ module.exports = class ArticleEditView extends RootView
   showVersionHistory: (e) ->
     versionHistoryView = new VersionHistoryView article: @article, @articleID
     @openModalView versionHistoryView
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}

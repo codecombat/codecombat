@@ -1,17 +1,41 @@
 config = {}
 
-config.unittest = process.argv.indexOf('--unittest') > -1
+config.unittest = global.testing
 
-config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or 3000
+config.tokyo = process.env.TOKYO or false
+config.saoPaulo = process.env.SAOPAULO or false
+config.chinaDomain = "http://cn.codecombat.com"
+config.brazilDomain = "http://br.codecombat.com"
+config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or process.env.PORT  or 3000
 config.ssl_port = process.env.COCO_SSL_PORT or process.env.COCO_SSL_NODE_PORT or 3443
 config.cloudflare =
   token: process.env.COCO_CLOUDFLARE_API_KEY or ''
+
+config.github =
+  client_id: process.env.COCO_GITHUB_CLIENT_ID or 'fd5c9d34eb171131bc87'
+  client_secret: process.env.COCO_GITHUB_CLIENT_SECRET or '2555a86b83f850bc44a98c67c472adb2316a3f05'
 
 config.mongo =
   port: process.env.COCO_MONGO_PORT or 27017
   host: process.env.COCO_MONGO_HOST or 'localhost'
   db: process.env.COCO_MONGO_DATABASE_NAME or 'coco'
+  analytics_port: process.env.COCO_MONGO_ANALYTICS_PORT or 27017
+  analytics_host: process.env.COCO_MONGO_ANALYTICS_HOST or 'localhost'
+  analytics_db: process.env.COCO_MONGO_ANALYTICS_DATABASE_NAME or 'analytics'
   mongoose_replica_string: process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING or ''
+  mongoose_tokyo_replica_string: process.env.COCO_MONGO_MONGOOSE_TOKYO_REPLICA_STRING or ''
+  mongoose_saoPaulo_replica_string : process.env.COCO_MONGO_MONGOOSE_SAOPAULO_REPLICA_STRING or ''
+
+if config.tokyo or config.saoPaulo
+  config.mongo.readpref = 'nearest'
+else
+  config.mongo.readpref = 'primary'
+
+config.apple =
+  verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://sandbox.itunes.apple.com/verifyReceipt'
+
+config.stripe =
+  secretKey: process.env.COCO_STRIPE_SECRET_KEY or 'sk_test_MFnZHYD0ixBbiBuvTlLjl2da'
 
 config.redis =
   port: process.env.COCO_REDIS_PORT or 6379
@@ -26,9 +50,9 @@ else
   config.mongo.password = process.env.COCO_MONGO_PASSWORD or ''
 
 config.mail =
-  service: process.env.COCO_MAIL_SERVICE_NAME or 'Zoho'
   username: process.env.COCO_MAIL_SERVICE_USERNAME or ''
-  password: process.env.COCO_MAIL_SERVICE_PASSWORD or ''
+  supportPrimary: process.env.COCO_MAIL_SUPPORT_PRIMARY or ''
+  supportPremium: process.env.COCO_MAIL_SUPPORT_PREMIUM or ''
   mailchimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
   mailchimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''
@@ -36,6 +60,11 @@ config.mail =
   delightedAPIKey: process.env.COCO_DELIGHTED_API_KEY or ''
   cronHandlerPublicIP: process.env.COCO_CRON_PUBLIC_IP or ''
   cronHandlerPrivateIP: process.env.COCO_CRON_PRIVATE_IP or ''
+
+config.hipchat =
+  main: process.env.COCO_HIPCHAT_API_KEY or ''
+  tower: process.env.COCO_HIPCHAT_TOWER_API_KEY or ''
+  artisans: process.env.COCO_HIPCHAT_ARTISANS_API_KEY or ''
 
 config.queue =
   accessKeyId: process.env.COCO_AWS_ACCESS_KEY_ID or ''
@@ -55,5 +84,10 @@ if not config.unittest and  not config.isProduction
   # change artificially slow down non-static requests for testing
   config.slow_down = false
 
+if process.env.COCO_STATSD_HOST
+  config.statsd =
+    host: process.env.COCO_STATSD_HOST
+    port: process.env.COCO_STATSD_PORT or 8125
+    prefix: process.env.COCO_STATSD_PREFIX or ''
 
 module.exports = config

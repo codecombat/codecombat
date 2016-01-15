@@ -5,8 +5,9 @@ UserHandler = require '../users/user_handler'
 LevelSession = require '../levels/sessions/LevelSession'
 config = require '../../server_config'
 errors = require '../commons/errors'
-mail = require '../commons/mail'
 languages = require '../routes/languages'
+sendwithus = require '../sendwithus'
+log = require 'winston'
 
 module.exports.setup = (app) ->
   authentication.serializeUser((user, done) -> done(null, user._id))
@@ -15,7 +16,14 @@ module.exports.setup = (app) ->
 
   authentication.use(new LocalStrategy(
     (username, password, done) ->
-      User.findOne({emailLower: username.toLowerCase()}).exec((err, user) ->
+
+      # kind of a hacky way to make it possible for iPads to 'log in' with their unique device id
+      if username.length is 36 and '@' not in username # must be an identifier for vendor
+        q = { iosIdentifierForVendor: username }
+      else
+        q = { emailLower: username.toLowerCase() }
+
+      User.findOne(q).exec((err, user) ->
         return done(err) if err
         return done(null, false, {message: 'not found', property: 'email'}) if not user
         passwordReset = (user.get('passwordReset') or '').toLowerCase()
@@ -25,30 +33,21 @@ module.exports.setup = (app) ->
 
         hash = User.hashPassword(password)
         unless user.get('passwordHash') is hash
-          return done(null, false, {message: 'is wrong.', property: 'password'})
+          return done(null, false, {message: 'is wrong', property: 'password'})
         return done(null, user)
       )
   ))
 
   app.post '/auth/spy', (req, res, next) ->
     if req?.user?.isAdmin()
-
-      username = req.body.usernameLower
-      emailLower = req.body.emailLower
-      if emailLower
-        query = {'emailLower': emailLower}
-      else if username
-        query = {'nameLower': username}
-      else
-        return errors.badInput res, 'You need to supply one of emailLower or username'
-
+      target = req.body.nameOrEmailLower
+      return errors.badInput res, 'Specify a username or email to espionage.' unless target
+      query = $or: [{nameLower: target}, {emailLower: target}]
       User.findOne query, (err, user) ->
         if err? then return errors.serverError res, 'There was an error finding the specified user'
-
         unless user then return errors.badInput res, 'The specified user couldn\'t be found'
-
         req.logIn user, (err) ->
-          if err? then return errors.serverError res, 'There was an error logging in with the specified'
+          if err? then return errors.serverError res, 'There was an error logging in with the specified user'
           res.send(UserHandler.formatEntity(req, user))
           return res.end()
     else
@@ -83,7 +82,10 @@ module.exports.setup = (app) ->
 
   sendSelf = (req, res) ->
     res.setHeader('Content-Type', 'text/json')
-    res.send(UserHandler.formatEntity(req, req.user))
+    if req.query.callback
+      res.jsonp UserHandler.formatEntity(req, req.user, true)
+    else
+      res.send UserHandler.formatEntity(req, req.user, false)
     res.end()
 
   app.post('/auth/logout', (req, res) ->
@@ -97,16 +99,23 @@ module.exports.setup = (app) ->
 
     User.findOne({emailLower: req.body.email.toLowerCase()}).exec((err, user) ->
       if not user
-        return errors.notFound(res, [{message: 'not found.', property: 'email'}])
+        return errors.notFound(res, [{message: 'not found', property: 'email'}])
 
       user.set('passwordReset', Math.random().toString(36).slice(2, 7).toUpperCase())
       user.save (err) =>
         return errors.serverError(res) if err
-        if config.isProduction
-          options = createMailOptions req.body.email, user.get('passwordReset')
-          mail.transport.sendMail options, (error, response) ->
-            if error
-              console.error "Error sending mail: #{error.message or error}"
+        unless config.unittest
+          context =
+            email_id: sendwithus.templates.generic_email
+            recipient:
+              address: req.body.email
+            email_data:
+              subject: 'CodeCombat Recovery Password'
+              title: 'Recovery Password'
+              content: "<p>Your CodeCombat recovery password for email #{req.body.email} is: #{user.get('passwordReset')}</p><p>Log in at <a href=\"http://codecombat.com/account/settings\">http://codecombat.com/account/settings</a> and change it.</p><p>Hope this helps!</p>"
+          sendwithus.api.send context, (err, result) ->
+            if err
+              console.error "Error sending password reset email: #{err.message or err}"
               return errors.serverError(res) if err
             else
               return res.end()
@@ -117,7 +126,7 @@ module.exports.setup = (app) ->
     )
   )
 
-  app.get '/auth/unsubscribe', (req, res) ->  
+  app.get '/auth/unsubscribe', (req, res) ->
     req.query.email = decodeURIComponent(req.query.email)
     email = req.query.email
     unless req.query.email
@@ -130,9 +139,9 @@ module.exports.setup = (app) ->
         session.set 'unsubscribed', true
         session.save (err) ->
           return errors.serverError res, 'Database failure.' if err
-          res.send "Unsubscribed #{req.query.email} from CodeCombat emails for #{session.levelName} #{session.team} ladder updates. Sorry to see you go! <p><a href='/play/ladder/#{session.levelID}#my-matches'>Ladder preferences</a></p>"
+          res.send "Unsubscribed #{req.query.email} from CodeCombat emails for #{session.get('levelName')} #{session.get('team')} ladder updates. Sorry to see you go! <p><a href='/play/ladder/#{session.levelID}#my-matches'>Ladder preferences</a></p>"
           res.end()
-    
+
     User.findOne({emailLower: req.query.email.toLowerCase()}).exec (err, user) ->
       if not user
         return errors.notFound res, "No user found with email '#{req.query.email}'"
@@ -147,7 +156,7 @@ module.exports.setup = (app) ->
       else if req.query.employerNotes
         emails.employerNotes ?= {}
         emails.employerNotes.enabled = false
-        
+
         msg = "Unsubscribed #{req.query.email} from employer emails."
       else
         msg = "Unsubscribed #{req.query.email} from all CodeCombat emails. Sorry to see you go!"
@@ -188,16 +197,20 @@ module.exports.loginUser = loginUser = (req, res, user, send=true, next=null) ->
     )
   )
 
+module.exports.idCounter = 0
+
 module.exports.makeNewUser = makeNewUser = (req) ->
   user = new User({anonymous: true})
-  user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
-  user.set 'preferredLanguage', languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
-
-createMailOptions = (receiver, password) ->
-  # TODO: use email templates here
-  options =
-    from: config.mail.username
-    to: receiver
-    replyTo: config.mail.username
-    subject: '[CodeCombat] Password Reset'
-    text: "You can log into your account with: #{password}"
+  if global.testing
+    # allows tests some control over user id creation
+    newID = _.pad((module.exports.idCounter++).toString(16), 24, '0')
+    user.set('_id', newID)
+  user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
+  lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+  user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
+  user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
+  user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
+  user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
+  user.set 'country', req.country if req.country
+  #log.info "making new user #{user.get('_id')} with language #{user.get('preferredLanguage')} of #{req.acceptedLanguages} and country #{req.country} on #{if config.tokyo then 'Tokyo' else (if config.saoPaulo then 'Brazil' else 'US')} server and lastIP #{user.get('lastIP')}."
+  user

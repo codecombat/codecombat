@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 module.exports = class Label extends CocoClass
   @STYLE_DIALOGUE = 'dialogue'  # A speech bubble from a script
@@ -35,8 +35,11 @@ module.exports = class Label extends CocoClass
     true
 
   build: ->
-    @layer.removeChild @background if @background
-    @layer.removeChild @label if @label
+    if @layer and not @layer.destroyed
+      @layer.removeChild @background if @background
+      @layer.removeChild @label if @label
+    @label = null
+    @background = null
     return unless @text  # null or '' should both be skipped
     o = @buildLabelOptions()
     @layer.addChild @label = @buildLabel o
@@ -44,14 +47,25 @@ module.exports = class Label extends CocoClass
     @layer.updateLayerOrder()
 
   update: ->
-    return unless @text
+    return unless @text and @sprite.sprite
     offset = @sprite.getOffset? (if @style in ['dialogue', 'say'] then 'mouth' else 'aboveHead')
-    offset ?= x: 0, y: 0  # temp (if not CocoSprite)
+    offset ?= x: 0, y: 0  # temp (if not Lank)
     rotation = @sprite.getRotation()
     offset.x *= -1 if rotation >= 135 or rotation <= -135
-    @label.x = @background.x = @sprite.imageObject.x + offset.x
-    @label.y = @background.y = @sprite.imageObject.y + offset.y
+    @label.x = @background.x = @sprite.sprite.x + offset.x
+    @label.y = @background.y = @sprite.sprite.y + offset.y
     null
+
+  show: ->
+    return unless @label
+    @layer.addChild @label
+    @layer.addChild @background
+    @layer.updateLayerOrder()
+
+  hide: ->
+    return unless @label
+    @layer.removeChild @background
+    @layer.removeChild @label
 
   buildLabelOptions: ->
     o = {}
@@ -61,10 +75,14 @@ module.exports = class Label extends CocoClass
     o.fontWeight = {D: 'bold', S: 'bold', N: 'bold'}[st]
     o.shadow = {D: false, S: true, N: true}[st]
     o.shadowColor = {D: '#FFF', S: '#000', N: '#FFF'}[st]
-    o.fontSize = {D: 25, S: 12, N: 12}[st]
+    o.fontSize = {D: 25, S: 12, N: 24}[st]
     fontFamily = {D: 'Arial', S: 'Arial', N: 'Arial'}[st]
     o.fontDescriptor = "#{o.fontWeight} #{o.fontSize}px #{fontFamily}"
-    o.fontColor = {D: '#000', S: '#FFF', N: '#00a'}[st]
+    o.fontColor = {D: '#000', S: '#FFF', N: '#0a0'}[st]
+    if @style is 'name' and @sprite?.thang?.team is 'humans'
+      o.fontColor = '#a00'
+    else if @style is 'name' and @sprite?.thang?.team is 'ogres'
+      o.fontColor = '#00a'
     o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(255,255,255,0.5)'}[st]
     o.backgroundStrokeColor = {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)'}[st]
     o.backgroundStrokeStyle = {D: 2, S: 1, N: 1}[st]
@@ -86,6 +104,8 @@ module.exports = class Label extends CocoClass
     label.shadow = new createjs.Shadow o.shadowColor, 1, 1, 0 if o.shadow
     label.layerPriority = o.layerPriority
     label.name = "Sprite Label - #{@style}"
+    bounds = label.getBounds()
+    label.cache(bounds.x, bounds.y, bounds.width, bounds.height)
     o.textHeight = label.getMeasuredHeight()
     o.label = label
     label
@@ -108,7 +128,7 @@ module.exports = class Label extends CocoClass
       pointerWidth += radius  # Convenience value including pointer width and border radius
 
       # Figure out the position of the pointer for the bubble
-      sup = x: @sprite.imageObject.x, y: @sprite.imageObject.y  # a little more accurate to aim for mouth--how?
+      sup = x: @sprite.sprite.x, y: @sprite.sprite.y  # a little more accurate to aim for mouth--how?
       cap = @camera.surfaceToCanvas sup
       hPos = if cap.x / @camera.canvasWidth > 0.53 then 'right' else 'left'
       vPos = if cap.y / @camera.canvasHeight > 0.53 then 'bottom' else 'top'
@@ -156,6 +176,7 @@ module.exports = class Label extends CocoClass
 
     o.label.regX = background.regX - o.marginX
     o.label.regY = background.regY - o.marginY
+    background.cache(-10, -10, w+20, h+20) # give a wide berth for speech box pointers
 
     g.endStroke()
     g.endFill()

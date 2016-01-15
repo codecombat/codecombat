@@ -1,8 +1,4 @@
-#!/bin/bash
-
-# full script path
-_scriptDir="$(cd "$(dirname "$0")" && pwd -P)"
-
-cd $_scriptDir
-cd ../
-node_modules/jasmine-node/bin/jasmine-node test/server/ --coffee --autotest --captureExceptions
+echo
+echo coco-server-test-runner is deprecated.
+echo Instead, use \"npm run jasmine\" to run server tests
+echo

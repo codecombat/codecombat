@@ -3,6 +3,22 @@ emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'a
 
 UserSchema = c.object
   title: 'User'
+  default:
+    visa: 'Authorized to work in the US'
+    music: true
+    name: 'Anoner'
+    autocastDelay: 5000
+    emails: {}
+    permissions: []
+    anonymous: true
+    points: 0
+    preferredLanguage: 'en-US'
+    aceConfig: {}
+    simulatedBy: 0
+    simulatedFor: 0
+    jobProfile: {}
+    earned: {heroes: [], items: [], levels: [], gems: 0}
+    purchased: {heroes: [], items: [], levels: [], gems: 0}
 
 c.extendNamedProperties UserSchema  # let's have the name be the first property
 
@@ -11,19 +27,19 @@ phoneScreenFilter =
   title: 'Phone screened'
   type: 'boolean'
   description: 'Whether the candidate has been phone screened.'
-schoolFilter = 
+schoolFilter =
   title: 'School'
   type: 'string'
   enum: ['Top School', 'Other']
-locationFilter = 
+locationFilter =
   title: 'Location'
   type: 'string'
   enum: ['Bay Area', 'New York', 'Other US', 'International']
-roleFilter = 
+roleFilter =
   title: 'Role'
   type: 'string'
   enum: ['Web Developer', 'Software Developer', 'Mobile Developer']
-seniorityFilter = 
+seniorityFilter =
   title: 'Seniority'
   type: 'string'
   enum: ['College Student', 'Recent Grad', 'Junior', 'Senior']
@@ -31,28 +47,31 @@ visa = c.shortString
   title: 'US Work Status'
   description: 'Are you authorized to work in the US, or do you need visa sponsorship? (If you live in Canada or Australia, mark authorized.)'
   enum: ['Authorized to work in the US', 'Need visa sponsorship']
-  default: 'Authorized to work in the US'
-  
+
 _.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
+  iosIdentifierForVendor: c.shortString({format: 'hidden'})
   firstName: c.shortString({title: 'First Name'})
   lastName: c.shortString({title: 'Last Name'})
-  gender: {type: 'string', 'enum': ['male', 'female']}
+  gender: {type: 'string'} # , 'enum': ['male', 'female', 'secret', 'trans', 'other']
+  ageRange: {type: 'string'}  # 'enum': ['0-13', '14-17', '18-24', '25-34', '35-44', '45-100']
   password: {type: 'string', maxLength: 256, minLength: 2, title: 'Password'}
   passwordReset: {type: 'string'}
   photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image to serve as your profile picture.'}
 
   facebookID: c.shortString({title: 'Facebook ID'})
+  githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
 
-  wizardColor1: c.pct({title: 'Wizard Clothes Color'})
+  wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
-  music: {type: 'boolean', default: true}
-  autocastDelay: {type: 'integer', 'default': 5000}
-  lastLevel: {type: 'string'}
+  music: { type: 'boolean' }
+  autocastDelay: { type: 'integer' }  # No longer used
+  lastLevel: { type: 'string' }
+  heroConfig: c.HeroConfigSchema
 
   emailSubscriptions: c.array {uniqueItems: true}, {'enum': emailSubscriptions}
-  emails: c.object {title: 'Email Settings', default: {generalNews: {enabled: true}, anyNotes: {enabled: true}, recruitNotes: {enabled: true}}},
+  emails: c.object {title: 'Email Settings', default: generalNews: {enabled: true}, anyNotes: {enabled: true}, recruitNotes: {enabled: true} },
     # newsletters
     generalNews: {$ref: '#/definitions/emailSubscription'}
     adventurerNews: {$ref: '#/definitions/emailSubscription'}
@@ -67,14 +86,21 @@ _.extend UserSchema.properties,
     recruitNotes: {$ref: '#/definitions/emailSubscription'}
     employerNotes: {$ref: '#/definitions/emailSubscription'}
 
+    oneTimes: c.array {title: 'One-time emails'},
+      c.object {title: 'One-time email', required: ['type', 'email']},
+        type: c.shortString() # E.g 'subscribe modal parent'
+        email: c.shortString()
+        sent: c.date() # Set when sent
+
   # server controlled
-  permissions: c.array {'default': []}, c.shortString()
+  permissions: c.array {}, c.shortString()
   dateCreated: c.date({title: 'Date Joined'})
-  anonymous: {type: 'boolean', 'default': true}
+  anonymous: {type: 'boolean' }
   testGroupNumber: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
+  lastIP: {type: 'string'}
 
   emailLower: c.shortString()
   nameLower: c.shortString()
@@ -84,36 +110,37 @@ _.extend UserSchema.properties,
   emailHash: {type: 'string'}
 
   #Internationalization stuff
-  preferredLanguage: {type: 'string', default: 'en', 'enum': c.getLanguageCodeArray()}
+  preferredLanguage: {'enum': [null].concat(c.getLanguageCodeArray())}
 
   signedCLA: c.date({title: 'Date Signed the CLA'})
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
-  aceConfig: c.object {},
-    language: {type: 'string', 'default': 'javascript', 'enum': ['javascript', 'coffeescript', 'python', 'clojure', 'lua', 'io']}
-    keyBindings: {type: 'string', 'default': 'default', 'enum': ['default', 'vim', 'emacs']}
-    invisibles: {type: 'boolean', 'default': false}
-    indentGuides: {type: 'boolean', 'default': false}
-    behaviors: {type: 'boolean', 'default': false}
-    liveCompletion: {type: 'boolean', 'default': true}
+  aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
+    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'java', 'io']}
+    keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}
+    invisibles: {type: 'boolean' }
+    indentGuides: {type: 'boolean' }
+    behaviors: {type: 'boolean' }
+    liveCompletion: {type: 'boolean' }
 
-  simulatedBy: {type: 'integer', minimum: 0, default: 0}
-  simulatedFor: {type: 'integer', minimum: 0, default: 0}
+  simulatedBy: {type: 'integer', minimum: 0 }
+  simulatedFor: {type: 'integer', minimum: 0 }
 
-  jobProfile: c.object {title: 'Job Profile', required: ['lookingFor', 'jobTitle', 'active', 'name', 'city', 'country', 'skills', 'experience', 'shortDescription', 'longDescription', 'visa', 'work', 'education', 'projects', 'links']},
-    lookingFor: {title: 'Looking For', type: 'string', enum: ['Full-time', 'Part-time', 'Remote', 'Contracting', 'Internship'], default: 'Full-time', description: 'What kind of developer position do you want?'}
-    jobTitle: {type: 'string', maxLength: 50, title: 'Desired Job Title', description: 'What role are you looking for? Ex.: "Full Stack Engineer", "Front-End Developer", "iOS Developer"', default: 'Software Developer'}
+  # Deprecated. TODO: Figure out how to remove.
+  jobProfile: c.object {title: 'Job Profile', default: { active: false, lookingFor: 'Full-time', jobTitle: 'Software Developer', city: 'Defaultsville, CA', country: 'USA', skills: ['javascript'], shortDescription: 'Programmer seeking to build great software.', longDescription: '* I write great code.\n* You need great code?\n* Great!' }},
+    lookingFor: {title: 'Looking For', type: 'string', enum: ['Full-time', 'Part-time', 'Remote', 'Contracting', 'Internship'], description: 'What kind of developer position do you want?'}
+    jobTitle: {type: 'string', maxLength: 50, title: 'Desired Job Title', description: 'What role are you looking for? Ex.: "Full Stack Engineer", "Front-End Developer", "iOS Developer"' }
     active: {title: 'Open to Offers', type: 'boolean', description: 'Want interview offers right now?'}
     updated: c.date {title: 'Last Updated', description: 'How fresh your profile appears to employers. Profiles go inactive after 4 weeks.'}
     name: c.shortString {title: 'Name', description: 'Name you want employers to see, like "Nick Winter".'}
-    city: c.shortString {title: 'City', description: 'City you want to work in (or live in now), like "San Francisco" or "Lubbock, TX".', default: 'Defaultsville, CA', format: 'city'}
-    country: c.shortString {title: 'Country', description: 'Country you want to work in (or live in now), like "USA" or "France".', default: 'USA', format: 'country'}
-    skills: c.array {title: 'Skills', description: 'Tag relevant developer skills in order of proficiency.', default: ['javascript'], minItems: 1, maxItems: 30, uniqueItems: true},
+    city: c.shortString {title: 'City', description: 'City you want to work in (or live in now), like "San Francisco" or "Lubbock, TX".', format: 'city'}
+    country: c.shortString {title: 'Country', description: 'Country you want to work in (or live in now), like "USA" or "France".', format: 'country'}
+    skills: c.array {title: 'Skills', description: 'Tag relevant developer skills in order of proficiency', maxItems: 30, uniqueItems: true},
       {type: 'string', minLength: 1, maxLength: 50, description: 'Ex.: "objective-c", "mongodb", "rails", "android", "javascript"', format: 'skill'}
     experience: {type: 'integer', title: 'Years of Experience', minimum: 0, description: 'How many years of professional experience (getting paid) developing software do you have?'}
-    shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.', default: 'Programmer seeking to build great software.'}
-    longDescription: {type: 'string', maxLength: 600, title: 'Description', description: 'Describe yourself to potential employers. Keep it short and to the point. We recommend outlining the position that would most interest you. Tasteful markdown okay; 600 characters max.', format: 'markdown', default: '* I write great code.\n* You need great code?\n* Great!'}
+    shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.' }
+    longDescription: {type: 'string', maxLength: 600, title: 'Description', description: 'Describe yourself to potential employers. Keep it short and to the point. We recommend outlining the position that would most interest you. Tasteful markdown okay; 600 characters max.', format: 'markdown' }
     visa: visa
     work: c.array {title: 'Work Experience', description: 'List your relevant work experience, most recent first.'},
       c.object {title: 'Job', description: 'Some work experience you had.', required: ['employer', 'role', 'duration']},
@@ -129,14 +156,14 @@ _.extend UserSchema.properties,
         description: {type: 'string', title: 'Description', description: 'Highlight anything about this educational experience. (140 chars; optional)', maxLength: 140}
     projects: c.array {title: 'Projects (Top 3)', description: 'Highlight your projects to amaze employers.', maxItems: 3},
       c.object {title: 'Project', description: 'A project you created.', required: ['name', 'description', 'picture'], default: {name: 'My Project', description: 'A project I worked on.', link: 'http://example.com', picture: ''}},
-        name: c.shortString {title: 'Project Name', description: 'What was the project called?', default: 'My Project'}
-        description: {type: 'string', title: 'Description', description: 'Briefly describe the project.', maxLength: 400, default: 'A project I worked on.', format: 'markdown'}
+        name: c.shortString {title: 'Project Name', description: 'What was the project called?' }
+        description: {type: 'string', title: 'Description', description: 'Briefly describe the project.', maxLength: 400, format: 'markdown'}
         picture: {type: 'string', title: 'Picture', format: 'image-file', description: 'Upload a 230x115px or larger image showing off the project.'}
-        link: c.url {title: 'Link', description: 'Link to the project.', default: 'http://example.com'}
+        link: c.url {title: 'Link', description: 'Link to the project.'}
     links: c.array {title: 'Personal and Social Links', description: 'Link any other sites or profiles you want to highlight, like your GitHub, your LinkedIn, or your blog.'},
-      c.object {title: 'Link', description: 'A link to another site you want to highlight, like your GitHub, your LinkedIn, or your blog.', required: ['name', 'link']},
+      c.object {title: 'Link', description: 'A link to another site you want to highlight, like your GitHub, your LinkedIn, or your blog.', required: ['name', 'link'], default: {link: 'http://example.com'}},
         name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: "Personal Website", "GitHub"', format: 'link-name'}
-        link: c.url {title: 'Link', description: 'The URL.', default: 'http://example.com'}
+        link: c.url {title: 'Link', description: 'The URL.' }
     photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image if you want to show a different profile picture to employers than your normal avatar.'}
     curated: c.object {title: 'Curated', required: ['shortDescription', 'mainTag', 'location', 'education', 'workHistory', 'phoneScreenFilter', 'schoolFilter', 'locationFilter', 'roleFilter', 'seniorityFilter']},
       shortDescription:
@@ -169,7 +196,7 @@ _.extend UserSchema.properties,
         description: 'Should this candidate be prominently featured on the site?'
   jobProfileApproved: {title: 'Job Profile Approved', type: 'boolean', description: 'Whether your profile has been approved by CodeCombat.'}
   jobProfileApprovedDate: c.date {title: 'Approved date', description: 'The date that the candidate was approved'}
-  jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: 'CodeCombat\'s notes on the candidate.', format: 'markdown', default: ''}
+  jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: 'CodeCombat\'s notes on the candidate.', format: 'markdown' }
   employerAt: c.shortString {description: 'If given employer permissions to view job candidates, for which employer?'}
   signedEmployerAgreement: c.object {},
     linkedinID: c.shortString {title: 'LinkedInID', description: 'The user\'s LinkedIn ID when they signed the contract.'}
@@ -186,7 +213,7 @@ _.extend UserSchema.properties,
     phoneScreenFilter:
       title: 'Phone screen filter values'
       type: 'array'
-      items: 
+      items:
         type: 'boolean'
     schoolFilter:
       title: 'School filter values'
@@ -194,32 +221,32 @@ _.extend UserSchema.properties,
       items:
         type: schoolFilter.type
         enum: schoolFilter.enum
-    locationFilter: 
+    locationFilter:
       title: 'Location filter values'
       type: 'array'
       items:
         type: locationFilter.type
         enum: locationFilter.enum
-    roleFilter: 
+    roleFilter:
       title: 'Role filter values'
       type: 'array'
       items:
         type: roleFilter.type
         enum: roleFilter.enum
-    seniorityFilter: 
+    seniorityFilter:
       title: 'Seniority filter values'
       type: 'array'
       items:
         type: roleFilter.type
         enum: seniorityFilter.enum
-    visa: 
+    visa:
       title: 'Visa filter values'
       type: 'array'
       items:
         type: visa.type
         enum: visa.enum
   })
-    
+
   points: {type: 'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
   stats: c.object {additionalProperties: false},
@@ -248,14 +275,65 @@ _.extend UserSchema.properties,
     levelSystemMiscPatches: c.int()
     thangTypeTranslationPatches: c.int()
     thangTypeMiscPatches: c.int()
+    achievementTranslationPatches: c.int()
+    achievementMiscPatches: c.int()
+    pollTranslationPatches: c.int()
+    pollMiscPatches: c.int()
+    campaignTranslationPatches: c.int()
+    campaignMiscPatches: c.int()
+    concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
 
+  earned: c.RewardSchema 'earned by achievements'
+  purchased: c.RewardSchema 'purchased with gems or money'
+  deleted: {type: 'boolean'}
+  dateDeleted: c.date()
+  spent: {type: 'number'}
+  stripeCustomerID: { type: 'string' } # TODO: Migrate away from this property
+
+  stripe: c.object {}, {
+    customerID: { type: 'string' }
+    planID: { enum: ['basic'], description: 'Determines if a user has or wants to subscribe' }
+    subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
+    token: { type: 'string' }
+    couponID: { type: 'string' }
+    free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
+    prepaidCode: c.shortString description: 'Prepaid code to apply to sub purchase'
+
+    # Sponsored subscriptions
+    subscribeEmails: c.array { description: 'Input for subscribing other users' }, c.shortString()
+    unsubscribeEmail: { type: 'string', description: 'Input for unsubscribing a sponsored user' }
+    recipients: c.array { title: 'Recipient subscriptions owned by this user' },
+      c.object { required: ['userID', 'subscriptionID'] },
+        userID: c.objectId { description: 'User ID of recipient' }
+        subscriptionID: { type: 'string' }
+        couponID: { type: 'string' }
+    sponsorID: c.objectId { description: "User ID that owns this user's subscription" }
+    sponsorSubscriptionID: { type: 'string', description: 'Sponsor aggregate subscription used to pay for all recipient subs' }
+  }
+
+  siteref: { type: 'string' }
+  referrer: { type: 'string' }
+  chinaVersion: { type: 'boolean' }  # Old, can be removed after we make sure it's deleted from all users
+  country: { type: 'string', enum: ['brazil', 'china'] }  # New, supports multiple countries for different versions--only set for specific countries where we have premium servers right now
+
+  clans: c.array {}, c.objectId()
+  courseInstances: c.array {}, c.objectId()
+  currentCourse: c.object {}, {  # Old, can be removed after we deploy and delete it from all users
+    courseID: c.objectId({})
+    courseInstanceID: c.objectId({})
+  }
+  coursePrepaidID: c.objectId({
+    description: 'Prepaid which has paid for this user\'s course access'
+  })
+  schoolName: {type: 'string'}
 
 c.extendBasicProperties UserSchema, 'user'
 
-c.definitions =
-  emailSubscription =
+UserSchema.definitions =
+  emailSubscription: c.object { default:  { enabled: true, count: 0 } }, {
     enabled: {type: 'boolean'}
     lastSent: c.date()
     count: {type: 'integer'}
+  }
 
 module.exports = UserSchema

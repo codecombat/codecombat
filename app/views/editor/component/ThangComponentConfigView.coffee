@@ -1,35 +1,40 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/component/thang-component-config-view'
 
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
 nodes = require '../level/treema_nodes'
+require 'vendor/treema'
 
 module.exports = class ThangComponentConfigView extends CocoView
   className: 'thang-component-config-view'
   template: template
   changed: false
 
-  events:
-    'click .treema-shortened': -> console.log 'clicked treema root'
-
   constructor: (options) ->
     super options
     @component = options.component
     @config = options.config or {}
+    @additionalDefaults = options.additionalDefaults
+    @isDefaultComponent = false
     @world = options.world
     @level = options.level
     @callback = options.callback
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.component = @component.attributes
-    context.configProperties = []
-    context
-
   afterRender: ->
     super()
     @buildTreema()
+
+  setConfig: (config) ->
+    @handlingChange = true
+    @editThangTreema.set('/', config)
+    @handlingChange = false
+
+  setIsDefaultComponent: (isDefaultComponent) ->
+    changed = @isDefaultComponent isnt isDefaultComponent
+    if isDefaultComponent then @config = undefined
+    @isDefaultComponent = isDefaultComponent
+    @render() if changed
 
   buildTreema: ->
     thangs = if @level? then @level.get('thangs') else []
@@ -37,14 +42,16 @@ module.exports = class ThangComponentConfigView extends CocoView
     teams = _.filter(_.pluck(thangs, 'team'))
     superteams = _.filter(_.pluck(thangs, 'superteam'))
     superteams = _.union(teams, superteams)
-    config = $.extend true, {}, @config
     schema = $.extend true, {}, @component.get('configSchema')
-    if @level?.get('type') is 'hero'
+    schema.default ?= {}
+    _.merge schema.default, @additionalDefaults if @additionalDefaults
+
+    if @level?.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
       schema.required = []
     treemaOptions =
       supermodel: @supermodel
       schema: schema
-      data: config
+      data: @config
       callbacks: {change: @onConfigEdited}
       world: @world
       view: @
@@ -64,7 +71,9 @@ module.exports = class ThangComponentConfigView extends CocoView
         'seconds': nodes.SecondsNode
         'speed': nodes.SpeedNode
         'acceleration': nodes.AccelerationNode
+        'thang-type': nodes.ThangTypeNode
         'item-thang-type': nodes.ItemThangTypeNode
+        'solutions': SolutionsNode
 
     @editThangTreema = @$el.find('.treema').treema treemaOptions
     @editThangTreema.build()
@@ -73,10 +82,43 @@ module.exports = class ThangComponentConfigView extends CocoView
       @$el.find('.panel-body').hide()
 
   onConfigEdited: =>
+    return if @destroyed or @handlingChange
+    @config = @data()
     @changed = true
-    @trigger 'changed', { component: @component, config: @data() }
+    @trigger 'changed', { component: @component, config: @config }
 
   data: -> @editThangTreema.data
 
+  destroy: ->
+    @editThangTreema?.destroy()
+    super()
+
 class ComponentConfigNode extends TreemaObjectNode
   nodeDescription: 'Component Property'
+
+class SolutionsNode extends TreemaArrayNode
+  buildValueForDisplay: (valEl, data) ->
+    btn = $('<button class="btn btn-default btn-xs">Fill defaults</button>')
+    btn.on('click', @onClickFillDefaults)
+    valEl.append(btn)
+
+  onClickFillDefaults: (e) =>
+    e.preventDefault()
+    sources = {}
+    if source = @parent.data.source
+      sources.javascript = source
+    
+    sources = { javascript: @parent.data.source }
+    _.extend sources, @parent.data.languages or {}
+    solutions = _.clone(@data)
+    for language in _.keys(sources)
+      source = sources[language]
+      solution = _.findWhere(solutions, {language: language})
+      continue if solution
+      solutions.push({
+        source: source
+        language: language
+        passes: true
+      })
+      
+    @set('/', solutions)

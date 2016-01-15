@@ -1,94 +1,156 @@
-@import "../../../bootstrap/mixins"
-
-// keyframes mixin from https://gist.github.com/ericam/1607696
-=keyframes($name)
-  @-webkit-keyframes #{$name}
-    @content
-  @-moz-keyframes #{$name}
-    @content
-  @-ms-keyframes #{$name}
-    @content
-  @-o-keyframes #{$name}
-    @content
-  @keyframes #{$name}
-    @content
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
 
 +keyframes(castablePulse)
   from
     @include box-shadow(0px 0px 8px #333)
-  50%
-    @include box-shadow(0px 0px 35px skyblue)
-  to
-    @include box-shadow(0px 0px 8px #333)
-
-+keyframes(castablePulseButton)
-  from
     color: white
   50%
+    @include box-shadow(0px 0px 35px skyblue)
     color: skyblue
   to
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+
++keyframes(winnablePulse)
+  from
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+  50%
+    @include box-shadow(0px 0px 35px #87CEFF)
+    color: #87CEFF
+  to
+    @include box-shadow(0px 0px 8px #333)
     color: white
 
 #cast-button-view
   display: none
   position: absolute
-  width: 35%
 
-  .cast-button-group
-    z-index: 2
+  z-index: 2
+  width: 100%
+  border-radius: 6px
+
+  background: transparent url(/images/level/code_toolbar_background.png)
+  background-size: 100% 100%
+  left: -15px
+  right: 15px
+  height: 94px
+  margin-top: -8px
+  padding: 20px 2.8%
+
+  .btn.btn-illustrated
+    height: 46px
+    font-size: 24px
+    line-height: 24px
+    width: 45%
+    width: -webkit-calc(50% - 10px)
+    width: calc(50% - 10px)
+    border-style: solid
+    border-image: url(/images/level/code_toolbar_run_button_active.png) 14 20 20 20 fill round
+    border-width: 7px 10px 10px 10px
+
+    &:active
+      border-image: url(/images/level/code_toolbar_run_button_active_pressed.png) 14 20 20 20 fill round
+      padding: 2px 0 0 2px
+
+    &.submit-button, &.done-button, &.rank-button
+      margin-left: 10px
+      border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
+      
+      &:active
+        border-image: url(/images/level/code_toolbar_submit_button_active_pressed.png) 14 20 20 20 fill round
+
+  .ladder-submission-view
+    width: 45%
+    width: -webkit-calc(50% - 10px)
+    width: calc(50% - 10px)
+    display: inline-block
+
+    .btn.btn-illustrated
+      width: 100%
+      font-size: 18px
+
+  
+  .cast-button
     @include opacity(0.77)
-    width: 100%
-    border-radius: 6px
-    
-    .button-progress-overlay
-      position: absolute
-      left: -1px
-      top: -1px
-      bottom: -1px
-      border-radius: 6px
-      z-index: 10
-      pointer-events: none
-      // This transition time should roughly match the world progress update interval
-      @include transition(width .2s linear)
-      @include transition(box-shadow .2s linear)
-
-    &.casting .button-progress-overlay
-      background-color: green
-      @include opacity(0.5)
-      @include box-shadow(0px 0px 15px green)
-
+  
     &:hover, &.castable
       @include opacity(1)
 
-    &.castable
-      -webkit-animation-name: castablePulse
-      -webkit-animation-duration: 3s
-      -webkit-animation-iteration-count: infinite
+  .submit-button > *, .done-button > *
+    @include opacity(0.9)
+  
+    &:hover
+      @include opacity(1)
 
-      .cast-button
+  &:not(.winnable)
+
+    .btn.btn-illustrated
+
+      &.cast-button.castable
         font-weight: bold
-        -webkit-animation-name: castablePulseButton
-        -webkit-animation-duration: 3s
-        -webkit-animation-iteration-count: infinite
-    &:not(.castable):not(:hover)
-      .cast-options-button
-        // Mimic the disabled visuals
-        @include opacity(0.65)
-        background-image: none
-        @include box-shadow(none)
-        
-    .btn
-      padding: 3px 10px
-      height: 40px
+        @include animation(castablePulse 3s infinite)
+        border-image: url(/images/level/code_toolbar_run_button_zazz.png) 14 20 20 20 fill round
 
-    .cast-button
-      width: 100%
-      border-top-left-radius: 6px
-      border-bottom-left-radius: 6px
+        &:active
+          border-image: url(/images/level/code_toolbar_run_button_zazz_pressed.png) 14 20 20 20 fill round
 
-      @media screen and (max-width: 1440px)
+      &.submit-button
         font-size: 16px
-      @media screen and (max-width: 1280px)
-        font-size: 14px
-      @media screen and (max-width: 1024px)
-        font-size: 12px
+
+  &.winnable .btn.btn-illustrated.cast-button
+    font-size: 16px
+
+  &.winnable.has-seen-winning-replay
+
+    .btn.btn-illustrated
+      &.submit-button, &.done-button
+        font-weight: bold
+        @include animation(winnablePulse 3s infinite)
+
+        border-image: url(/images/level/code_toolbar_submit_button_zazz.png) 14 20 20 20 fill round
+
+        &:active
+          border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
+
+
+html.no-borderimage #cast-button-view
+  .btn.btn-illustrated
+    border: 0
+    background-image: url(/images/level/code_toolbar_run_button_active.png)
+    background-size: 100% 100%
+    padding: 7px 10px 10px 10px
+  
+    &:active
+      background-image: url(/images/level/code_toolbar_run_button_active_pressed.png)
+      padding: 9px 8px 8px 12px
+      border: 0
+
+    &.submit-button, &.done-button
+      background-image: url(/images/level/code_toolbar_submit_button_active.png)
+      border: 0
+
+      &:active
+        background-image: url(/images/level/code_toolbar_submit_button_active_pressed.png)
+        border: 0
+
+  &:not(.winnable)
+    .btn.btn-illustrated
+      &.cast-button.castable
+        border: 0
+        background-image: url(/images/level/code_toolbar_run_button_zazz.png)
+
+        &:active
+          background-image: url(/images/level/code_toolbar_run_button_zazz_pressed.png)
+
+  &.winnable
+    .btn.btn-illustrated
+      &.submit-button, &.done-button
+        border: 0
+        background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
+
+        &:active
+          border: 0
+          background-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png)
+          

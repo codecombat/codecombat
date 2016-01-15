@@ -1,23 +1,69 @@
+c = require 'schemas/schemas'
+
 module.exports =
-  'audio-played:loaded':
-    {} # TODO schema
+  'application:idle-changed': c.object {},
+    idle: {type: 'boolean'}
 
-  # TODO location is debatable
-  'note-group-started':
-    {} # TODO schema
+  'application:error': c.object {},
+    message: {type: 'string'}
+    stack: {type: 'string'}
 
-  'note-group-ended':
-    {} # TODO schema
+  'audio-player:loaded': c.object {required: ['sender']},
+    sender: {type: 'object'}
 
-  'modal-opened':
-    {} # TODO schema
+  'audio-player:play-sound': c.object {required: ['trigger']},
+    trigger: {type: 'string'}
+    volume: {type: 'number', minimum: 0, maximum: 1}
 
-  'modal-closed':
-    {} # TODO schema
+  'music-player:play-music': c.object {required: ['play']},
+    play: {type: 'boolean'}
+    file: {type: 'string'}
+    delay: {type: 'integer', minimum: 0, format: 'milliseconds'}
 
-  # TODO I propose prepending 'modal:'
-  'save-new-version':
-    {} # TODO schema
+  'music-player:enter-menu': c.object {required: []},
+    terrain: {type: 'string'}
 
-  'router:navigate':
-    {} # TODO schema
+  'music-player:exit-menu': c.object {}
+
+  'modal:opened': c.object {}
+
+  'modal:closed': c.object {}
+
+  'modal:open-modal-view': c.object {required: ['modalPath']},
+    modalPath: {type: 'string'}
+
+  'router:navigate': c.object {required: ['route']},
+    route: {type: 'string'}
+    view: {type: 'object'}
+    viewClass: {type: ['function', 'string']}
+    viewArgs: {type: 'array'}
+
+  'router:navigated': c.object {required: ['route']},
+    route: {type: 'string'}
+
+  'achievements:new': c.object {required: ['earnedAchievements']},
+    earnedAchievements: {type: 'object'}
+
+  'ladder:game-submitted': c.object {required: ['session', 'level']},
+    session: {type: 'object'}
+    level: {type: 'object'}
+
+  'buy-gems-modal:update-products': { }
+
+  'buy-gems-modal:purchase-initiated': c.object {required: ['productID']},
+    productID: { type: 'string' }
+
+  'subscribe-modal:subscribed': c.object {}
+
+  'stripe:received-token': c.object { required: ['token'] },
+    token: { type: 'object', properties: {
+      id: {type: 'string'}
+    }}
+
+  'store:item-purchased': c.object {required: ['item', 'itemSlug']},
+    item: {type: 'object'}
+    itemSlug: {type: 'string'}
+
+  'store:hero-purchased': c.object {required: ['hero', 'heroSlug']},
+    hero: {type: 'object'}
+    heroSlug: {type: 'string'}

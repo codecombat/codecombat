@@ -1,9 +1,9 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/related-achievements'
 RelatedAchievementsCollection = require 'collections/RelatedAchievementsCollection'
 Achievement = require 'models/Achievement'
 NewAchievementModal = require './modals/NewAchievementModal'
-app = require 'application'
+app = require 'core/application'
 
 module.exports = class RelatedAchievementsView extends CocoView
   id: 'related-achievements-view'
@@ -13,28 +13,32 @@ module.exports = class RelatedAchievementsView extends CocoView
   events:
     'click #new-achievement-button': 'makeNewAchievement'
 
+  subscriptions:
+    'editor:view-switched': 'onViewSwitched'
+
   constructor: (options) ->
     super options
     @level = options.level
-    @relatedID = @level.id
+    @relatedID = @level.get('original')
     @achievements = new RelatedAchievementsCollection @relatedID
+
+  loadAchievements: ->
+    return if @loadingAchievements
     @supermodel.loadCollection @achievements, 'achievements'
-
-  onLoaded: ->
-    console.debug 'related achievements loaded'
-    @achievements.loading = false
-    super()
-
-  getRenderData: ->
-    c = super()
-    c.achievements = @achievements
-    c.relatedID = @relatedID
-    c
+    @loadingAchievements = true
+    @render()
 
   onNewAchievementSaved: (achievement) ->
-    app.router.navigate('/editor/achievement/' + (achievement.get('slug') or achievement.id), {trigger: true})
+    # We actually open the new tab in NewAchievementModal, so we don't replace this window.
+    #url = '/editor/achievement/' + (achievement.get('slug') or achievement.id)
+    #app.router.navigate(, {trigger: true})  # Let's open a new tab instead.
 
   makeNewAchievement: ->
     modal = new NewAchievementModal model: Achievement, modelLabel: 'Achievement', level: @level
     modal.once 'model-created', @onNewAchievementSaved
     @openModalView modal
+
+  onViewSwitched: (e) ->
+    # Lazily load.
+    return unless e.targetURL is '#related-achievements-view'
+    @loadAchievements()

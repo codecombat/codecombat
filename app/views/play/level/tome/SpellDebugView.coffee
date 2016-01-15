@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/spell_debug'
 Range = ace.require('ace/range').Range
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
@@ -102,15 +102,15 @@ module.exports = class SpellDebugView extends CocoView
     @thang = thangAndSpellObject.thang
     @spell = thangAndSpellObject.spell
 
-  handleDebugValue: (returnObject) ->
+  handleDebugValue: (e) ->
+    {key, value} = e
     @workerIsSimulating = false
-    {key, value} = returnObject
     @updateCache(@thang.id, @spell.name, key.split('.'), @lastFrameRequested, value)
     if @variableChain and not key is @variableChain.join('.') then return
     @setTooltipKeyAndValue(key, value)
 
-  handleWorldLoadProgressChanged: (data) ->
-    @progress = data.progress
+  handleWorldLoadProgressChanged: (e) ->
+    @progress = e.progress
 
   afterRender: ->
     super()
@@ -171,7 +171,7 @@ module.exports = class SpellDebugView extends CocoView
     @frameRate = e.world.frameRate
 
   onFrameChanged: (data) ->
-    @currentFrame = data.frame
+    @currentFrame = Math.round(data.frame)
     @frameRate = data.world.frameRate
 
   onSpellChangedCalculation: (data) ->

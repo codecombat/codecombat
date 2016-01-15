@@ -1,9 +1,10 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
+AuthModal = require 'views/core/AuthModal'
 template = require 'templates/play/level/modal/victory'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 LevelFeedback = require 'models/LevelFeedback'
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 module.exports = class VictoryModal extends ModalView
   id: 'level-victory-modal'
@@ -13,7 +14,7 @@ module.exports = class VictoryModal extends ModalView
     'ladder:game-submitted': 'onGameSubmitted'
 
   events:
-    'click .next-level-button': 'onPlayNextLevel'
+    'click .sign-up-button': 'onClickSignupButton'
 
     # review events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -23,11 +24,9 @@ module.exports = class VictoryModal extends ModalView
       @$el.find('.review').show()
     'keypress .review textarea': -> @saveReviewEventually()
 
-  shortcuts:
-    'enter': -> 'onPlayNextLevel'
-
   constructor: (options) ->
-    victory = options.level.get('victory')
+    application.router.initializeSocialMediaServices()
+    victory = options.level.get('victory', true)
     body = utils.i18n(victory, 'body') or 'Sorry, this level has no victory message yet.'
     @body = marked(body)
     @level = options.level
@@ -39,8 +38,8 @@ module.exports = class VictoryModal extends ModalView
   loadExistingFeedback: ->
     url = "/db/level/#{@level.id}/feedback"
     @feedback = new LevelFeedback()
-    @feedback.url = -> url
-    @feedback.fetch()
+    @feedback.setURL url
+    @feedback.fetch cache: false
     @listenToOnce(@feedback, 'sync', -> @onFeedbackLoaded())
     @listenToOnce(@feedback, 'error', -> @onFeedbackNotFound())
 
@@ -57,9 +56,10 @@ module.exports = class VictoryModal extends ModalView
     @feedback.set('level', {majorVersion: @level.get('version').major, original: @level.get('original')})
     @showStars()
 
-  onPlayNextLevel: ->
-    @saveReview() if @$el.find('.review textarea').val()
-    Backbone.Mediator.publish('play-next-level')
+  onClickSignupButton: (e) ->
+    e.preventDefault()
+    window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Victory Modal', level: @level.get('slug')
+    @openModalView new AuthModal {mode: 'signup'}
 
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
@@ -69,23 +69,10 @@ module.exports = class VictoryModal extends ModalView
     c = super()
     c.body = @body
     c.me = me
-    c.hasNextLevel = _.isObject(@level.get('nextLevel'))
     c.levelName = utils.i18n @level.attributes, 'name'
     c.level = @level
     if c.level.get('type') is 'ladder'
       c.readyToRank = @session.readyToRank()
-    if me.get 'hourOfCode'
-      # Show the Hour of Code "I'm Done" tracking pixel after they played for 30 minutes
-      elapsed = (new Date() - new Date(me.get('dateCreated')))
-      enough = not c.hasNextLevel or elapsed >= 30 * 60 * 1000
-      if enough and not me.get('hourOfCodeComplete')
-        $('body').append($('<img src="http://code.org/api/hour/finish_codecombat.png" style="visibility: hidden;">'))
-        me.set 'hourOfCodeComplete', true
-        me.patch()
-        window.tracker?.trackEvent 'Hour of Code Finish', {}
-      # Show the "I'm done" button if they get to the end, unless it's been over two hours
-      tooMuch = elapsed >= 120 * 60 * 1000
-      c.showHourOfCodeDoneButton = not c.hasNextLevel and not tooMuch
     c
 
   afterRender: ->
@@ -95,13 +82,10 @@ module.exports = class VictoryModal extends ModalView
 
   afterInsert: ->
     super()
-    Backbone.Mediator.publish 'play-sound', trigger: 'victory'
+    @playSound 'victory'
     gapi?.plusone?.go? @$el[0]
     FB?.XFBML?.parse? @$el[0]
     twttr?.widgets?.load?()
-
-  onHidden: ->
-    Backbone.Mediator.publish 'level:victory-hidden'
 
   destroy: ->
     @saveReview() if @$el.find('.review textarea').val()

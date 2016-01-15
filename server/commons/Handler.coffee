@@ -6,9 +6,11 @@ log = require 'winston'
 Patch = require '../patches/Patch'
 User = require '../users/User'
 sendwithus = require '../sendwithus'
+hipchat = require '../hipchat'
+deltasLib = require '../../app/core/deltas'
 
-PROJECT = {original: 1, name: 1, version: 1, description: 1, slug: 1, kind: 1}
-FETCH_LIMIT = 200
+PROJECT = {original: 1, name: 1, version: 1, description: 1, slug: 1, kind: 1, created: 1, permissions: 1}
+FETCH_LIMIT = 1000  # So many ThangTypes
 
 module.exports = class Handler
   # subclasses should override these properties
@@ -21,19 +23,38 @@ module.exports = class Handler
   allowedMethods: ['GET', 'POST', 'PUT', 'PATCH']
 
   constructor: ->
-    # TODO The second 'or' is for backward compatibility only is for backward compatibility only
-    @privateProperties = @modelClass.privateProperties or @privateProperties or []
-    @editableProperties = @modelClass.editableProperties or @editableProperties or []
-    @postEditableProperties = @modelClass.postEditableProperties or @postEditableProperties or []
-    @jsonSchema = @modelClass.jsonSchema or @jsonSchema or {}
+    # TODO The second 'or' is for backward compatibility only
+    @privateProperties = @modelClass?.privateProperties or @privateProperties or []
+    @editableProperties = @modelClass?.editableProperties or @editableProperties or []
+    @postEditableProperties = @modelClass?.postEditableProperties or @postEditableProperties or []
+    @jsonSchema = @modelClass?.jsonSchema or @jsonSchema or {}
 
   # subclasses should override these methods
   hasAccess: (req) -> true
   hasAccessToDocument: (req, document, method=null) ->
     return true if req.user?.isAdmin()
+
+    if @modelClass.schema.uses_coco_translation_coverage and (method or req.method).toLowerCase() in ['post', 'put']
+      return true if @isJustFillingTranslations(req, document)
+
     if @modelClass.schema.uses_coco_permissions
       return document.hasPermissionsForMethod?(req.user, method or req.method)
     return true
+
+  isJustFillingTranslations: (req, document) ->
+    differ = deltasLib.makeJSONDiffer()
+    omissions = ['original'].concat(deltasLib.DOC_SKIP_PATHS)
+    delta = differ.diff(_.omit(document.toObject(), omissions), _.omit(req.body, omissions))
+    flattened = deltasLib.flattenDelta(delta)
+    _.all flattened, (delta) ->
+      # sometimes coverage gets moved around... allow other changes to happen to i18nCoverage
+      return false unless _.isArray(delta.o)
+      return true if 'i18nCoverage' in delta.dataPath
+      return false unless delta.o.length is 1
+      index = delta.deltaPath.indexOf('i18n')
+      return false if index is -1
+      return false if delta.deltaPath[index+1] in ['en', 'en-US', 'en-GB']  # English speakers are most likely just spamming, so always treat those as patches, not saves.
+      return true
 
   formatEntity: (req, document) -> document?.toObject()
   getEditableProperties: (req, document) ->
@@ -41,7 +62,7 @@ module.exports = class Handler
     isBrandNew = req.method is 'POST' and not req.body.original
     props = props.concat @postEditableProperties if isBrandNew
 
-    if @modelClass.schema.uses_coco_permissions
+    if @modelClass.schema.uses_coco_permissions and req.user
       # can only edit permissions if this is a brand new property,
       # or you are an owner of the old one
       isOwner = document.getAccessForUserObjectId(req.user._id) is 'owner'
@@ -54,28 +75,29 @@ module.exports = class Handler
     props
 
   # sending functions
-  sendUnauthorizedError: (res) -> errors.forbidden(res) #TODO: rename sendUnauthorizedError to sendForbiddenError
+  sendUnauthorizedError: (res) -> errors.unauthorized(res)
   sendForbiddenError: (res) -> errors.forbidden(res)
   sendNotFoundError: (res, message) -> errors.notFound(res, message)
   sendMethodNotAllowed: (res, message) -> errors.badMethod(res, @allowedMethods, message)
   sendBadInputError: (res, message) -> errors.badInput(res, message)
+  sendPaymentRequiredError: (res, message) -> errors.paymentRequired(res, message)
   sendDatabaseError: (res, err) ->
-    return @sendError(res, err.code, err.response) if err.response and err.code
+    return @sendError(res, err.code, err.response) if err?.response and err?.code
     log.error "Database error, #{err}"
     errors.serverError(res, 'Database error, ' + err)
 
   sendError: (res, code, message) ->
     errors.custom(res, code, message)
 
-  sendSuccess: (res, message) ->
-    res.send(message)
+  sendSuccess: (res, message='{}') ->
+    res.send 200, message
     res.end()
 
-  sendCreated: (res, message) ->
+  sendCreated: (res, message='{}') ->
     res.send 201, message
     res.end()
 
-  sendAccepted: (res, message) ->
+  sendAccepted: (res, message='{}') ->
     res.send 202, message
     res.end()
 
@@ -85,15 +107,40 @@ module.exports = class Handler
 
   # generic handlers
   get: (req, res) ->
-    @sendUnauthorizedError(res) if not @hasAccess(req)
+    return @sendForbiddenError(res) if not @hasAccess(req)
 
     specialParameters = ['term', 'project', 'conditions']
 
+    if @modelClass.schema.uses_coco_translation_coverage and req.query.view is 'i18n-coverage'
+      # TODO: generalize view, project, limit and skip query parameters
+      projection = {}
+      if req.query.project
+        projection[field] = 1 for field in req.query.project.split(',')
+      query = {slug: {$exists: true}, i18nCoverage: {$exists: true}}
+      q = @modelClass.find(query, projection)
+
+      skip = parseInt(req.query.skip)
+      if skip? and skip < 1000000
+        q.skip(skip)
+
+      limit = parseInt(req.query.limit)
+      if limit? and limit < 1000
+        q.limit(limit)
+
+      q.exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        documents = (@formatEntity(req, doc) for doc in documents)
+        @sendSuccess(res, documents)
+
     # If the model uses coco search it's probably a text search
-    if @modelClass.schema.uses_coco_search
+    else if @modelClass.schema.uses_coco_search
       term = req.query.term
       matchedObjects = []
       filters = if @modelClass.schema.uses_coco_versions or @modelClass.schema.uses_coco_permissions then [filter: {index: true}] else [filter: {}]
+
+      skip = parseInt(req.query.skip)
+      limit = parseInt(req.query.limit)
+
       if @modelClass.schema.uses_coco_permissions and req.user
         filters.push {filter: {index: req.user.get('id')}}
       projection = null
@@ -118,30 +165,41 @@ module.exports = class Handler
             res.send matchedObjects
             res.end()
         if term
-          filter.project = projection
-          @modelClass.textSearch term, filter, callback
+          filter.filter.$text = $search: term
+        else if filters.length is 1 and filters[0].filter?.index is true
+          # All we are doing is an empty text search, but that doesn't hit the index, so we'll just look for the slug.
+          filter.filter = slug: {$exists: true}
+        args = [filter.filter]
+        args.push projection if projection
+        q = @modelClass.find(args...)
+        if skip? and skip < 1000000
+          q.skip(skip)
+        if limit? and limit < FETCH_LIMIT
+          q.limit(limit)
         else
-          args = [filter.filter]
-          args.push projection if projection
-          @modelClass.find(args...).limit(FETCH_LIMIT).exec callback
+          q.limit(FETCH_LIMIT)
+        q.exec callback
     # if it's not a text search but the user is an admin, let him try stuff anyway
     else if req.user?.isAdmin()
       # admins can send any sort of query down the wire
+      # Example URL: http://localhost:3000/db/user?filter[anonymous]=true
       filter = {}
-      filter[key] = (val for own key, val of req.query.filter when key not in specialParameters) if 'filter' of req.query
-
+      filter[key] = JSON.parse(val) for own key, val of req.query.filter when key not in specialParameters if 'filter' of req.query
       query = @modelClass.find(filter)
 
       # Conditions are chained query functions, for example: query.find().limit(20).sort('-dateCreated')
-      conditions = JSON.parse(req.query.conditions || '[]')
+      # Example URL: http://localhost:3000/db/user?conditions[limit]=20&conditions[sort]=-dateCreated
+      hasLimit = false
       try
-        for condition in conditions
-          name = condition[0]
-          f = query[name]
-          args = condition[1..]
-          query = query[name](args...)
+        for own key, val of req.query.conditions
+          numeric = parseInt val, 10
+          if not _.isNaN(numeric) and numeric + '' is val
+            val = numeric
+          query = query[key](val)
+          hasLimit ||= key is 'limit'
       catch e
         return @sendError(res, 422, 'Badly formed conditions.')
+      query.limit(2000) unless hasLimit
 
       query.exec (err, documents) =>
         return @sendDatabaseError(res, err) if err
@@ -149,16 +207,18 @@ module.exports = class Handler
         @sendSuccess(res, documents)
     # regular users are only allowed text searches for now, without any additional filters or sorting
     else
-      return @sendUnauthorizedError(res)
+      return @sendForbiddenError(res)
 
   getById: (req, res, id) ->
-    # return @sendNotFoundError(res) # for testing
-    return @sendUnauthorizedError(res) unless @hasAccess(req)
-
-    @getDocumentForIdOrSlug id, (err, document) =>
+    return @sendForbiddenError(res) unless @hasAccess(req)
+    if req.query.project
+      projection = {}
+      projection[field] = 1 for field in req.query.project.split(',')
+    @getDocumentForIdOrSlug id, projection, (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, document)
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, document)
+      res.setHeader 'Cache-Control', 'no-cache' unless Handler.isID(id + '')  # Don't cache if it's a slug instead of an ID
       @sendSuccess(res, @formatEntity(req, document))
 
   getByRelationship: (req, res, args...) ->
@@ -174,21 +234,22 @@ module.exports = class Handler
       return @getNamesByOriginals(req, res)
     @getPropertiesFromMultipleDocuments res, User, 'name', ids
 
-  getNamesByOriginals: (req, res) ->
+  getNamesByOriginals: (req, res, nonVersioned=false) ->
     ids = req.query.ids or req.body.ids
     ids = ids.split(',') if _.isString ids
     ids = _.uniq ids
 
-    # HACK: levels loading thang types need the components returned as well
+    # Hack: levels loading thang types need the components returned as well.
     # Need a way to specify a projection for a query.
-    project = {name:1, original:1, kind:1, components: 1}
-    sort = {'version.major':-1, 'version.minor':-1}
+    project = {name: 1, original: 1, kind: 1, components: 1, prerenderedSpriteSheetData: 1}
+    sort = if nonVersioned then {} else {'version.major': -1, 'version.minor': -1}
 
     makeFunc = (id) =>
       (callback) =>
-        criteria = {original:mongoose.Types.ObjectId(id)}
+        criteria = {}
+        criteria[if nonVersioned then '_id' else 'original'] = mongoose.Types.ObjectId(id)
         @modelClass.findOne(criteria, project).sort(sort).exec (err, document) ->
-          return done(err) if err
+          return callback err if err
           callback(null, document?.toObject() or null)
 
     funcs = {}
@@ -202,7 +263,12 @@ module.exports = class Handler
       res.end()
 
   getPatchesFor: (req, res, id) ->
-    query = { 'target.original': mongoose.Types.ObjectId(id), status: req.query.status or 'pending' }
+    query =
+      $or: [
+        {'target.original': id+''}
+        {'target.original': mongoose.Types.ObjectId(id)}
+      ]
+      status: req.query.status or 'pending'
     Patch.find(query).sort('-created').exec (err, patches) =>
       return @sendDatabaseError(res, err) if err
       patches = (patch.toObject() for patch in patches)
@@ -210,7 +276,7 @@ module.exports = class Handler
 
   setWatching: (req, res, id) ->
     @getDocumentForIdOrSlug id, (err, document) =>
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, document, 'get')
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, document, 'get')
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
       watchers = document.get('watchers') or []
@@ -246,6 +312,8 @@ module.exports = class Handler
 
   getLatestVersion: (req, res, original, version) ->
     # can get latest overall version, latest of a major version, or a specific version
+    return @sendBadInputError(res, 'Invalid MongoDB id: '+original) if not Handler.isID(original)
+
     query = { 'original': mongoose.Types.ObjectId(original) }
     if version?
       version = version.split('.')
@@ -259,31 +327,47 @@ module.exports = class Handler
       projection = {}
       fields = if req.query.project is 'true' then _.keys(PROJECT) else req.query.project.split(',')
       projection[field] = 1 for field in fields
+      # Make sure that permissions and version are fetched, but not sent back if they didn't ask for them.
+      extraProjectionProps = []
+      extraProjectionProps.push 'permissions' unless projection.permissions
+      extraProjectionProps.push 'version' unless projection.version
+      projection.permissions = 1
+      projection.version = 1
       args.push projection
     @modelClass.findOne(args...).sort(sort).exec (err, doc) =>
       return @sendNotFoundError(res) unless doc?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, doc)
+      doc = _.omit doc, extraProjectionProps if extraProjectionProps?
       res.send(doc)
       res.end()
 
   patch: ->
+    console.warn 'Received unexpected PATCH request'
     @put(arguments...)
 
   put: (req, res, id) ->
-    return @postNewVersion(req, res) if @modelClass.schema.uses_coco_versions
+    # Client expects PATCH behavior for PUTs
+    # Real PATCHs return incorrect HTTP responses in some environments (e.g. Browserstack, schools)
+    return @sendForbiddenError(res) if @modelClass.schema.uses_coco_versions and not req.user.isAdmin()  # Campaign editor just saves over things.
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
-    return @sendUnauthorizedError(res) unless @hasAccess(req)
-    @getDocumentForIdOrSlug req.body._id or id, (err, document) =>
+    return @sendForbiddenError(res) unless @hasAccess(req)
+    idOrSlug = req.body._id or id
+    if not idOrSlug or idOrSlug is 'undefined'
+      console.error "Bad PUT trying to fetching the slug: #{idOrSlug} for #{@modelClass.collection?.name} from #{req.headers['x-current-path']}?"
+      return @sendBadInputError(res, 'No _id field provided.')
+    @getDocumentForIdOrSlug idOrSlug, (err, document) =>
       return @sendBadInputError(res, 'Bad id.') if err and err.name is 'CastError'
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, document)
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, document)
       @doWaterfallChecks req, document, (err, document) =>
+        return if err is true
         return @sendError(res, err.code, err.res) if err
         @saveChangesToDocument req, document, (err) =>
           return @sendBadInputError(res, err.errors) if err?.valid is false
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, @formatEntity(req, document))
+          @onPutSuccess(req, document)
 
   post: (req, res) ->
     if @modelClass.schema.uses_coco_versions
@@ -294,7 +378,7 @@ module.exports = class Handler
 
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'id should not be included.') if req.body._id
-    return @sendUnauthorizedError(res) unless @hasAccess(req)
+    return @sendForbiddenError(res) unless @hasAccess(req)
     document = @makeNewInstance(req)
     @saveChangesToDocument req, document, (err) =>
       return @sendBadInputError(res, err.errors) if err?.valid is false
@@ -303,6 +387,7 @@ module.exports = class Handler
       @onPostSuccess(req, document)
 
   onPostSuccess: (req, doc) ->
+  onPutSuccess: (req, doc) ->
 
   ###
   TODO: think about pulling some common stuff out of postFirstVersion/postNewVersion
@@ -313,7 +398,7 @@ module.exports = class Handler
   postFirstVersion: (req, res) ->
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'id should not be included.') if req.body._id
-    return @sendUnauthorizedError(res) unless @hasAccess(req)
+    return @sendForbiddenError(res) unless @hasAccess(req)
     document = @makeNewInstance(req)
     document.set('original', document._id)
     document.set('creator', req.user._id)
@@ -336,12 +421,12 @@ module.exports = class Handler
     """
     return @sendBadInputError(res, 'This entity is not versioned') unless @modelClass.schema.uses_coco_versions
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
-    return @sendUnauthorizedError(res) unless @hasAccess(req)
+    return @sendForbiddenError(res) unless @hasAccess(req)
     @getDocumentForIdOrSlug req.body._id, (err, parentDocument) =>
       return @sendBadInputError(res, 'Bad id.') if err and err.name is 'CastError'
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless parentDocument?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, parentDocument)
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, parentDocument)
       editableProperties = @getEditableProperties req, parentDocument
       updatedObject = parentDocument.toObject()
       for prop in editableProperties
@@ -370,8 +455,11 @@ module.exports = class Handler
         parentDocument.makeNewMajorVersion(updatedObject, done)
 
   notifyWatchersOfChange: (editor, changedDocument, editPath) ->
+    docLink = "http://codecombat.com#{editPath}"
+    @sendChangedHipChatMessage creator: editor, target: changedDocument, docLink: docLink
     watchers = changedDocument.get('watchers') or []
-    watchers = (w for w in watchers when not w.equals(editor.get('_id')))
+    # Don't send these emails to the person who submitted the patch, or to Nick, George, or Scott.
+    watchers = (w for w in watchers when not w.equals(editor.get('_id')) and not (w + '' in ['512ef4805a67a8c507000001', '5162fab9c92b4c751e000274', '51538fdb812dd9af02000001']))
     return unless watchers.length
     User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) =>
       for watcher in watchers
@@ -390,9 +478,19 @@ module.exports = class Handler
         commit_message: changedDocument.get('commitMessage')
     sendwithus.api.send context, (err, result) ->
 
+  sendChangedHipChatMessage: (options) ->
+    message = "#{options.creator.get('name')} saved a change to <a href=\"#{options.docLink}\">#{options.target.get('name')}</a>: #{options.target.get('commitMessage') or '(no commit message)'}"
+    rooms = if /Diplomat submission/.test(message) then ['main'] else ['main', 'artisans']
+    hipchat.sendHipChatMessage message, rooms
+
   makeNewInstance: (req) ->
     model = new @modelClass({})
-    model.set 'watchers', [req.user.get('_id')] if @modelClass.schema.is_patchable
+    if @modelClass.schema.is_patchable
+      watchers = [req.user.get('_id')]
+      if req.user.isAdmin()  # https://github.com/codecombat/codecombat/issues/1105
+        nick = mongoose.Types.ObjectId('512ef4805a67a8c507000001')
+        watchers.push nick unless _.find watchers, (id) -> id.equals nick
+      model.set 'watchers', watchers
     model
 
   validateDocumentInput: (input) ->
@@ -402,14 +500,22 @@ module.exports = class Handler
 
   @isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
 
-  getDocumentForIdOrSlug: (idOrSlug, done) ->
+  getDocumentForIdOrSlug: (idOrSlug, projection, done) ->
+    unless done
+      done = projection  # projection is optional argument
+      projection = null
     idOrSlug = idOrSlug+''
     if Handler.isID(idOrSlug)
-      @modelClass.findById(idOrSlug).exec (err, document) ->
-        done(err, document)
+      query = @modelClass.findById(idOrSlug)
     else
-      @modelClass.findOne {slug: idOrSlug}, (err, document) ->
-        done(err, document)
+      if not idOrSlug or idOrSlug is 'undefined'
+        console.error "Bad request trying to fetching the slug: #{idOrSlug} for #{@modelClass.collection?.name}"
+        console.trace()
+        return done null, null
+      query = @modelClass.findOne {slug: idOrSlug}
+    query.select projection if projection
+    query.exec (err, document) ->
+      done(err, document)
 
   doWaterfallChecks: (req, document, done) ->
     return done(null, document) unless @waterfallFunctions.length
@@ -461,7 +567,7 @@ module.exports = class Handler
 
   # This is not a Mongoose user
   projectionForUser: (req, model, ownerID) ->
-    return {} if 'privateProperties' not of model or req.user._id + '' is ownerID + '' or req.user.isAdmin()
+    return {} if 'privateProperties' not of model or req.user?._id + '' is ownerID + '' or req.user.isAdmin()
     projection = {}
     projection[field] = 0 for field in model.privateProperties
     projection

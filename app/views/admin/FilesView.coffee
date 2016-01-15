@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/admin/files'
 tableTemplate = require 'templates/admin/files_table'
 
@@ -12,6 +12,7 @@ module.exports = class FilesView extends RootView
 
   afterRender: ->
     super()
+    require('core/services/filepicker')()  # Initialize if needed
     @loadFiles()
 
   onFileChosen: (InkBlob) =>
@@ -36,6 +37,7 @@ module.exports = class FilesView extends RootView
     $.ajax
       url: "/file/#{@currentFolder()}/"
       success: @onLoadedFiles
+      cache: false
 
   onLoadedFiles: (res) =>
     table = tableTemplate({files:res})

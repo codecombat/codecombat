@@ -1,0 +1,73 @@
+extends /templates/base
+
+block header
+  if model.loading
+    nav.navbar.navbar-default(role='navigation')
+      .container-fluid
+        ul.nav.navbar-nav
+          li
+            a(href="/i18n")
+              span.glyphicon-home.glyphicon
+  
+  else
+    nav.navbar.navbar-default(role='navigation')
+      ul.nav.navbar-nav
+        li
+          a(href="/i18n")
+            span.glyphicon-home.glyphicon
+
+      .navbar-header
+        span.navbar-brand #{model.get('name')}
+
+      ul.nav.navbar-nav.navbar-right
+        li
+          button.btn.btn-info.btn-sm.pull-right#patch-submit(disabled=model.hasLocalChanges() ? null : 'disabled', value=model.id, data-i18n="common.submit_changes") Submit Changes
+
+        li.dropdown
+  
+          a(data-toggle='dropdown')
+            span.glyphicon-chevron-down.glyphicon
+  
+          ul.dropdown-menu
+            li.dropdown-header(data-i18n="common.actions") Actions
+  
+            li(class=anonymous ? "disabled": "")
+              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
+  
+            li.divider
+            li.dropdown-header(data-i18n="common.info") Info
+            li#history-button
+              a(href='#', data-i18n="general.version_history") Version History
+            li.divider
+            li.dropdown-header(data-i18n="common.help") Help
+            li
+              a(href='https://github.com/codecombat/codecombat/wiki', data-i18n="editor.wiki", target="_blank") Wiki
+            li
+              a(href='https://coco-slack-invite.herokuapp.com/', data-i18n="editor.live_chat", target="_blank") Live Chat
+            li
+              a(href='http://discourse.codecombat.com/category/diplomat', data-i18n="nav.forum", target="_blank") Forum
+            li
+              a(data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Email
+
+block outer_content
+  .outer-content
+    
+    select.form-control#language-select
+
+    for row in translationList
+      table.table
+        tr
+          th= row.title
+        tr(data-format=row.format || '')
+          td.english-value-row
+            div= row.enValue
+        tr(data-format=row.format || '')
+          td.to-value-row
+            if row.format === 'markdown'
+              div(data-index=row.index.toString())= row.toValue
+            else
+              input.input-sm.form-control.translation-input(data-index=row.index.toString(), value=row.toValue)
+
+  div#error-view
+    .clearfix
+block footer

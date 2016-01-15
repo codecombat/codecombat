@@ -1,20 +1,46 @@
 #ladder-view
-  .main-content-area
+
+  #ladder-top
     background-color: whitesmoke
+    margin: -14px -12px 20px -12px
+    padding-bottom: 30px
+    border-bottom: 1px solid #888
+    
+  #course-header
+    background-color: black
+    font-size: 24px
+    padding: 6px 4px 8px
+    font-weight: bold
 
-  #level-column img
-    margin: -14px -12px 0px -12px
-    width: 100%
-    width: -webkit-calc(100% + 24px)
-    width: calc(100% + 24px)
+    #course-details-link
+      position: absolute
+      background-color: white
+      padding: 2px 5px
+      a
+        color: black
+      
+    #course-name
+      color: white
 
+  #level-column
+    padding-top: 14px
+    text-align: center
+
+    img
+      margin-top: -14px
+      width: 100%
+      
   h1
     text-align: center
 
+    &.league-header
+      margin: 15px 0 20px 0
+
   .tournament-blurb
-    margin: -20px -12px 20px -12px
-    padding: 10px
-    background-color: white
+    margin-top: -10px
+    margin-bottom: 10px
+    padding: 10px 20px
+    background-color: whitesmoke
 
     h2
       text-align: center
@@ -56,13 +82,19 @@
   .play-button
     margin-bottom: 10px
     background-image: none
+    color: white
+    font-size: 24px
 
   .spectate-button-container
     margin-top: 10px
     text-align: center
 
+    .btn.spectate-button
+      font-size: 18px
+      color: white
+
   .name-col-cell
-    max-width: 300px
+    max-width: 100px
     text-overflow: ellipsis
     white-space: nowrap
     overflow: hidden
@@ -137,6 +169,10 @@
       color: #172
     .loss
       color: #712
+    .code-language-cell
+      padding: 0 10px
+      background: transparent url(/images/common/code_languages/javascript_icon.png) no-repeat center center
+      height: 16px
 
 @media only screen and (max-width: 800px)
   #ladder-view

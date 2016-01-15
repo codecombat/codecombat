@@ -1,5 +1,9 @@
-@import "app/styles/bootstrap/mixins"
 @import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#level-view.hero .spell-palette-entry-view
+  // Not clickable.
+  cursor: default
 
 .spell-palette-entry-view
   display: block
@@ -9,6 +13,10 @@
   border: 1px solid transparent
   cursor: pointer
   @include user-select(all)
+  height: 19px
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
 
   &:hover
     border: 1px solid #000000
@@ -16,23 +24,61 @@
   &.pinned
     background-color: darken(#FFFFFF, 25%)
 
-  // Pulling these colors from the most relevant textmate-theme classes
-  &.function
-    color: #0066FF
-  &.object
-    color: rgb(6, 150, 14)
-  &.string
-    color: rgb(3, 106, 7)
-  &.number
-    color: rgb(0, 0, 205)
-  &.boolean
-    color: rgb(88, 92, 246)
-  &.undefined
-    color: rgb(197, 6, 11)
+  &.single-entry
+    height: 38px
+    line-height: 38px
+
+  // Originally pulled these colors from the most relevant textmate-theme classes, but then fudged them a lot.
+  //&.function
+  //  color: black
+  //&.object
+  //  color: rgb(6, 150, 14)
+  //&.string
+  //  color: rgb(3, 106, 7)
+  //&.number
+  //  color: rgb(0, 0, 205)
+  //&.boolean
+  //  color: rgb(88, 92, 246)
+  //&.snippet
+  //  color: blue
+  //&.undefined
+  //  color: rgb(197, 6, 11)
+  color: rgb(243, 169, 49)
+
+
+body:not(.dialogue-view-active)
+  .spell-palette-popover.popover
+    right: 45%
+    min-width: 500px
+    margin-top: -17%
 
 .spell-palette-popover.popover
   // Only those popovers which are our direct children (spell documentation)
   max-width: 600px
+  padding: 0
+  border-style: solid
+  border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+  border-width: 16px 12px
+  @include box-shadow(0 0 0 #000)
+  // Prevent flickering in weird scenarios where popover goes over its own property
+  pointer-events: none
+
+  // Jiggle animation
+  // TODO: consolidate with problem_alert.sass jiggle
+  +keyframes(jiggle)
+    0%
+      transform: rotate(0deg)
+    25%
+      transform: rotate(1deg)
+    50%
+      transform: rotate(0deg)
+    75%
+      transform: rotate(-1deg)
+    100%
+      transform: rotate(0deg)
+
+  &.jiggling
+    @include animation(jiggle .3s infinite)
 
   &.pinned
     left: auto !important
@@ -60,13 +106,9 @@
       &:hover
         @include opacity(1)
 
-  padding: 10px 10px 30px 10px
-  border-image: url(/images/level/popover_background.png) 18 fill round
-  border-width: 15px
-  @include box-shadow(0 0 0 #000)
-
   h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+    font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+    font-variant: normal
 
   .popover-title
     background-color: transparent
@@ -90,6 +132,24 @@
   &.right .arrow
     left: -3%
 
+  .docs-ace-container
+    padding: 2px 4px
+    border-radius: 4px
+
+    &, .docs-ace
+      background-color: #f9f2f4
+      font-size: 12px
+      font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+
+    .docs-ace
+      .ace_cursor, .ace_bracket
+        display: none
+
+  code
+    color: black
+    font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+    font-size: 12px
+
 html.no-borderimage
   .spell-palette-popover.popover
     background: transparent url(/images/level/popover_background.png)
@@ -102,3 +162,15 @@ html.fullscreen-editor
     bottom: inherit
     right: 50%
     margin-right: -300px
+
+// iPad property docs
+
+.tome-inventory-property-documentation
+  background-color: #e3d39a
+  padding: 10px
+  padding-bottom: 65px
+  width: 320px
+  min-height: 480px
+
+  h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace

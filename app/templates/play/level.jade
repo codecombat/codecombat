@@ -2,34 +2,48 @@
 
 .level-content
   #control-bar-view
-  
+
+  #fullscreen-editor-background-screen(title="Click to minimize the code editor")
+
   #code-area
     #code-area-gradient.gradient
     #tome-view
-  
-  #canvas-wrapper
-    canvas(width=924, height=589)#surface
-    #canvas-left-gradient.gradient
-    #canvas-top-gradient.gradient
-    #goals-view.secret
-  
-  #gold-view.secret.expanded
 
-  #level-chat-view
-  
-  #playback-view
-  
-  #thang-hud
+  #game-area
 
-.footer
-  .content
+    #canvas-wrapper
+      canvas(width=924, height=589)#webgl-surface
+      canvas(width=924, height=589)#normal-surface
+      #ascii-surface
+      #canvas-left-gradient.gradient
+      #canvas-top-gradient.gradient
+      #goals-view
+
+    #level-flags-view
+
+    #gold-view
+
+    #problem-alert-view
+
+    #level-chat-view
+
+    #multiplayer-status-view
+
+    #duel-stats-view
+
+    #playback-view
+
+    #thang-hud
+
+    #level-dialogue-view
+
+  button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback", data-i18n="play_level.skip") Skip
+
+#level-footer-shadow
+#level-footer-background
+
+if !me.get('anonymous')
+  #play-footer(class=me.isPremium() ? "premium" : "")
     p(class='footer-link-text')
-      a(title='Send CodeCombat a message', tabindex=-1, data-toggle="coco-modal", data-target="modal/ContactModal", data-i18n="nav.contact") Contact
-    if explainHourOfCode
-      // Does not show up unless lang is en-US.
-      div.hour-of-code-explanation
-        | The 'Hour of Code' is a nationwide initiative by 
-        a(href="http://csedweek.org") Computer Science Education Week
-        |  and 
-        a(href="http://code.org") Code.org
-        |  to introduce millions of students to one hour of computer science and computer programming.
+      a.contact-link(title='Send CodeCombat a message', tabindex=-1, data-i18n="nav.contact") Contact
+

@@ -1,0 +1,118 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+
+#item-details-view
+
+  .big-font
+    text-transform: uppercase
+    font-family: $headings-font-family
+    font-weight: bold
+
+  .one-line
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  .nano-content
+    padding: 10px
+
+  #item-title
+    position: absolute
+    width: 228px
+    height: 50px
+    left: 910px
+    top: 60px
+    z-index: 2
+    
+    h2
+      font-size: 20px
+      margin: 12px 20px
+      text-align: center
+      color: rgb(53,40,25)
+
+  #item-details-body
+    position: absolute
+    left: 860px
+    top: 126px
+    width: 353px
+    height: 449px
+    
+    .nano-content
+      right: 24px
+    
+    //background: rgba(100,100,100,0.5)
+
+    #item-container
+      height: 163px
+      width: 100%
+
+    .item-img, .item-shadow
+      width: 130px
+      height: 130px
+
+    .item-img
+      top: 15px
+
+    .item-shadow
+      top: 25px
+      left: 5px
+      @include filter(contrast(0%) brightness(0%))
+      opacity: 0.2
+
+    img.hr
+      width: 80%
+      margin: 0 10% -3px
+      
+      &.faded
+        opacity: 0.4
+      
+    .stat-row
+      height: 24px
+      position: relative
+      font-size: 20px
+      font-weight: bold
+
+      .stat-label
+        position: absolute
+        left: 54px
+        color: rgb(93,73,52)
+        
+      .stat
+        position: absolute
+        left: 150px
+        color: rgb(42,38,28)
+
+      &:not(.short-name)
+        text-align: center
+
+        .stat-label, .stat
+          position: static
+          display: inline-block
+
+        .stat-label
+          margin-right: 8px
+
+    .item-description
+      margin: 15px 15px 0 25px
+      
+    #skills
+      margin: 15px 15px 0 25px
+      
+      h3
+        color: rgb(41,35,25)
+        
+      strong
+        color: rgb(50,50,30)
+      
+  #selected-item-unlock-button, .unequippable
+    left: 856px
+    top: 594px
+    width: 337px
+    height: 41px
+    font-size: 16px
+    
+    img
+      height: 16px
+
+  .unequippable
+    position: absolute

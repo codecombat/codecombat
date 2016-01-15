@@ -1,7 +1,7 @@
 Bus = require './Bus'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 LevelSession = require 'models/LevelSession'
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 module.exports = class LevelBus extends Bus
 
@@ -10,25 +10,31 @@ module.exports = class LevelBus extends Bus
     return Bus.getFromCache(docName) or new LevelBus docName
 
   subscriptions:
-    'self-wizard:target-changed': 'onSelfWizardTargetChanged'
     'tome:editing-began': 'onEditingBegan'
     'tome:editing-ended': 'onEditingEnded'
     'script:state-changed': 'onScriptStateChanged'
     'script:ended': 'onScriptEnded'
     'script:reset': 'onScriptReset'
-    'surface:frame-changed': 'onFrameChanged'
     'surface:sprite-selected': 'onSpriteSelected'
-    'level-set-playing': 'onSetPlaying'
-    'level-show-victory': 'onVictory'
+    'level:show-victory': 'onVictory'
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
+    'tome:cast-spells': 'onCastSpells'
+    'tome:winnability-updated': 'onWinnabilityUpdated'
     'application:idle-changed': 'onIdleChanged'
     'goal-manager:new-goal-states': 'onNewGoalStates'
+    'god:new-world-created': 'onNewWorldCreated'
 
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
-    @saveSession = _.debounce(@saveSession, 1000, {maxWait: 5000})
+    highLoad = false
+    [wait, maxWait] = switch
+      when not application.isProduction() then [1, 5]  # Save quickly in development.
+      when not highLoad then [4, 10]                   # Save slowly when in production.
+      when not me.isAnonymous() then [10, 30]          # Save even more slowly during HoC scaling.
+      else [20, 60]                                    # Save super slowly if anonymous during HoC scaling.
+    @saveSession = _.debounce @reallySaveSession, wait * 1000, {maxWait: maxWait * 1000}
     @playerIsIdle = false
 
   init: ->
@@ -45,32 +51,19 @@ module.exports = class LevelBus extends Bus
   incrementSessionPlaytime: =>
     if @playerIsIdle then return
     @changedSessionProperties.playtime = true
-    @session.set('playtime', @session.get('playtime') + 1)
+    @session.set('playtime', (@session.get('playtime') ? 0) + 1)
 
   onPoint: ->
     return true unless @session?.get('multiplayer')
     super()
 
-  onSelfWizardTargetChanged: =>
-    wizardSprite = @getSelfWizard()
-    @wizardRef?.child('targetPos').set(wizardSprite?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(wizardSprite?.targetSprite?.thang.id or null)
-
   onMeSynced: =>
     super()
-    @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
 
   join: ->
     super()
-    @wizardRef = @myConnection.child('wizard')
-    wizardSprite = @getSelfWizard()
-    @wizardRef?.child('targetPos').set(wizardSprite?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(wizardSprite?.targetSprite?.thang.id or null)
-    @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
 
   disconnect: ->
-    @wizardRef?.off()
-    @wizardRef = null
     @fireScriptsRef?.off()
     @fireScriptsRef = null
     super()
@@ -81,15 +74,10 @@ module.exports = class LevelBus extends Bus
     @fireRef.remove()
     @onDisconnect.cancel(-> callback?())
 
-  getSelfWizard: ->
-    e = {}
-    Backbone.Mediator.publish('echo-self-wizard-sprite', e)
-    return e.payload
-
   # UPDATING FIREBASE AND SESSION
 
-  onEditingBegan: -> @wizardRef?.child('editing').set(true)
-  onEditingEnded: -> @wizardRef?.child('editing').set(false)
+  onEditingBegan: -> #@wizardRef?.child('editing').set(true)  # no more wizards
+  onEditingEnded: -> #@wizardRef?.child('editing').set(false)  # no more wizards
 
   # HACK: Backbone does not work with nested documents, but we want to
   #   patch only those props that have changed. Look into plugins to
@@ -125,14 +113,38 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.teamSpells = true
     @session.set({'teamSpells': @teamSpellMap})
     @saveSession()
-    if spellTeam is me.team or spellTeam is 'common'
+    if spellTeam is me.team or (e.spell.otherSession and spellTeam isnt e.spell.otherSession.get('team'))
+      # https://github.com/codecombat/codecombat/issues/81
       @onSpellChanged e  # Save the new spell to the session, too.
+
+  onCastSpells: (e) ->
+    return unless @onPoint() and e.realTime
+    # We have incremented state.submissionCount and reset state.flagHistory.
+    @changedSessionProperties.state = true
+    @saveSession()
+
+  onWinnabilityUpdated: (e) ->
+    return unless @onPoint() and e.winnable
+    return unless e.level.get('slug') in ['ace-of-coders']  # Mirror matches don't otherwise show victory, so we win here.
+    return if @session.get('state')?.complete
+    @onVictory()
+
+  onNewWorldCreated: (e) ->
+    return unless @onPoint()
+    # Record the flag history.
+    state = @session.get('state')
+    flagHistory = (flag for flag in e.world.flagHistory when flag.source isnt 'code')
+    return if _.isEqual state.flagHistory, flagHistory
+    state.flagHistory = flagHistory
+    @changedSessionProperties.state = true
+    @session.set('state', state)
+    @saveSession()
 
   onScriptStateChanged: (e) ->
     return unless @onPoint()
     @fireScriptsRef?.update(e)
     state = @session.get('state')
-    scripts = state.scripts
+    scripts = state.scripts ? {}
     scripts.currentScript = e.currentScript
     scripts.currentScriptOffset = e.currentScriptOffset
     @changedSessionProperties.state = true
@@ -157,15 +169,7 @@ module.exports = class LevelBus extends Bus
     @fireScriptsRef?.set({})
     state = @session.get('state')
     state.scripts = {}
-    state.complete = false
-    @session.set('state', state)
-    @changedSessionProperties.state = true
-    @saveSession()
-
-  onFrameChanged: (e) ->
-    return unless @onPoint()
-    state = @session.get('state')
-    state.frame = e.frame
+    #state.complete = false  # Keep it complete once ever completed.
     @session.set('state', state)
     @changedSessionProperties.state = true
     @saveSession()
@@ -178,26 +182,33 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.state = true
     @saveSession()
 
-  onSetPlaying: (e) ->
-    return unless @onPoint()
-    state = @session.get('state')
-    state.playing = e.playing
-    @session.set('state', state)
-    @changedSessionProperties.state = true
-    @saveSession()
-
   onVictory: ->
     return unless @onPoint()
     state = @session.get('state')
     state.complete = true
     @session.set('state', state)
     @changedSessionProperties.state = true
-    @saveSession()
+    @reallySaveSession()  # Make sure it saves right away; don't debounce it.
 
-  onNewGoalStates: ({goalStates})->
-    state = @session.get 'state'
-    unless utils.kindaEqual state.goalStates, goalStates # Only save when goals really change
-      state.goalStates = goalStates
+  onNewGoalStates: (e) ->
+    # TODO: this log doesn't capture when null-status goals are being set during world streaming. Where can they be coming from?
+    goalStates = e.goalStates
+    return console.error("Somehow trying to save null goal states!", newGoalStates) if _.find(newGoalStates, (gs) -> not gs.status)
+
+    return unless e.overallStatus is 'success'
+    newGoalStates = goalStates
+    state = @session.get('state')
+    oldGoalStates = state.goalStates or {}
+
+    changed = false
+    for goalKey, goalState of newGoalStates
+      continue if oldGoalStates[goalKey]?.status is 'success' and goalState.status isnt 'success' # don't undo success, this property is for keying off achievements
+      continue if utils.kindaEqual state.goalStates?[goalKey], goalState # Only save when goals really change
+      changed = true
+      oldGoalStates[goalKey] = _.cloneDeep newGoalStates[goalKey]
+
+    if changed
+      state.goalStates = oldGoalStates
       @session.set 'state', state
       @changedSessionProperties.state = true
       @saveSession()
@@ -232,7 +243,8 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.permissions = true
     @saveSession()
 
-  saveSession: ->
+  # Debounced as saveSession
+  reallySaveSession: ->
     return if _.isEmpty @changedSessionProperties
     # don't let peeking admins mess with the session accidentally
     return unless @session.get('multiplayer') or @session.get('creator') is me.id
@@ -244,7 +256,7 @@ module.exports = class LevelBus extends Bus
     # since updates are coming fast and loose for session objects
     # don't let what the server returns overwrite changes since the save began
     tempSession = new LevelSession _id: @session.id
-    tempSession.save(patch, {patch: true})
+    tempSession.save(patch, {patch: true, type: 'PUT'})
 
   destroy: ->
     clearInterval(@timerIntervalID)

@@ -25,18 +25,17 @@ module.exports = class PlaybackScriptModule extends ScriptModule
 
   playingNote: ->
     note =
-      channel: 'level-set-playing'
+      channel: 'level:set-playing'
       event: {playing: @noteGroup.playback.playing}
     return note
 
   scrubNote: (instant=false) ->
     scrub = @noteGroup.playback.scrub
     note =
-      channel: 'level-set-time'
+      channel: 'level:set-time'
       event:
         frameOffset: scrub.frameOffset or 2
         scrubDuration: if instant then 0 else scrub.duration
     note.event.time = scrub.toTime if scrub.toTime?
     note.event.ratio = scrub.toRatio if scrub.toRatio?
     return note
-

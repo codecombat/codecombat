@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 ThangAvatarView = require 'views/play/level/ThangAvatarView'
 template = require 'templates/play/level/tome/spell_list_entry_thangs'
 
@@ -13,12 +13,6 @@ module.exports = class SpellListEntryThangsView extends CocoView
     @spell = options.spell
     @avatars = []
 
-  getRenderData: (context={}) ->
-    context = super context
-    context.thangs = @thangs
-    context.spell = @spell
-    context
-
   afterRender: ->
     super()
     avatar.destroy() for avatar in @avatars if @avatars
@@ -30,7 +24,7 @@ module.exports = class SpellListEntryThangsView extends CocoView
       avatar.render()
       avatar.setSelected thang is @thang
       avatar.$el.data('thang-id', thang.id).click (e) ->
-        Backbone.Mediator.publish 'level-select-sprite', thangID: $(@).data('thang-id'), spellName: spellName
+        Backbone.Mediator.publish 'level:select-sprite', thangID: $(@).data('thang-id'), spellName: spellName
       avatar.onProblemsUpdated spell: @spell
       @avatars.push avatar
 

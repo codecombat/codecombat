@@ -1,0 +1,91 @@
+extends /templates/base
+
+block content
+
+  if view.state === 'purchasing'
+    p.text-center(data-i18n="buy_gems.purchasing")
+    .progress.progress-striped.active
+      .progress-bar(style="width: 100%")
+
+  else if view.state === 'purchased'
+    p
+      span.spr(data-i18n="courses.thank_you_pref")
+      span= view.numberOfStudents
+      span.spl(data-i18n="courses.thank_you_suff")
+
+    p.text-center
+      if view.fromClassroom
+        a(href="/courses/"+view.fromClassroom, data-i18n="courses.return_to_class")
+      else
+        a(href="/courses/teachers", data-i18n="courses.return_to_course_man")
+
+  else
+
+    h2.text-center(data-i18n="courses.purchase_enrollments")
+    br
+
+    if view.state === 'error'
+      .alert.alert-danger= view.stateMessage
+
+    - var usedEnrollments = view.prepaids.totalRedeemers();
+    - var totalEnrollments = view.prepaids.totalMaxRedeemers();
+    - var remainingEnrollments = totalEnrollments - usedEnrollments;
+    .row
+      .col-md-4
+      .col-md-3
+        strong.uppercase(data-i18n="courses.you_have2")
+      .col-md-1
+        strong= remainingEnrollments
+    br
+    .row
+      .col-md-4
+      .col-md-3
+        strong.uppercase(data-i18n="courses.students_not_enrolled")
+    .row
+      .col-md-4
+      .col-md-3
+        each classroom in view.classrooms.models
+          if classroom.get('members').length > 0
+            .not-enrolled= classroom.get('name')
+        .not-enrolled(data-i18n="courses.total_all_classes")
+      .col-md-1
+        - var totalNotEnrolled = 0
+        each classroom in view.classrooms.models
+          if classroom.get('members').length > 0 && view.classroomNotEnrolledMap
+            .not-enrolled
+              strong= view.classroomNotEnrolledMap[classroom.id]
+        .not-enrolled
+          strong= view.totalNotEnrolled
+
+    br
+    br
+
+    p.text-center
+      strong(data-i18n="courses.how_many_enrollments")
+    br
+
+    p.text-center
+      input#students-input.text-center.enrollment-count(
+        value= view.numberOfStudents
+        type='number'
+      )
+    br
+
+    .container-fluid
+      .row
+        .col-md-offset-3.col-md-6
+          span(data-i18n="courses.each_student_access")
+    br
+
+    p.text-center#price-form-group
+      if view.numberOfStudentsIsValid()
+        strong
+          span(data-i18n="account_prepaid.purchase_total")
+          span.spr : #{view.numberOfStudents}
+          span(data-i18n="courses.enrollments")
+          span.spl x $#{(view.pricePerStudent/100).toFixed(2)} = #{view.getPriceString()}
+      else
+        strong Invalid number of students
+
+    p.text-center
+      button#purchase-btn.btn.btn-lg.btn-success.uppercase(data-i18n="courses.purchase_now")

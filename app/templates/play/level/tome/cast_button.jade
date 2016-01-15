@@ -1,3 +1,17 @@
-div.btn-group.btn-group-lg.cast-button-group.dropup
-  .button-progress-overlay
-  button.btn.btn-inverse.banner.cast-button(title=castShortcutVerbose + ": Cast current spell", data-i18n="play_level.tome_cast_button_cast") Spell Cast
+button.btn.btn-lg.btn-illustrated.cast-button(title=castVerbose)
+  span(data-i18n="play_level.tome_run_button_ran") Ran
+
+if !observing
+  if mirror
+    .ladder-submission-view
+  else
+    button.btn.btn-lg.btn-illustrated.submit-button(title=castRealTimeVerbose)
+      span(data-i18n="play_level.tome_submit_button") Submit
+      span.spl.secret.submit-again-time
+
+    button.btn.btn-lg.btn-illustrated.btn-success.done-button.secret
+      span(data-i18n="play_level.done") Done
+
+    if view.autoSubmitsToLadder
+      .hidden
+        .ladder-submission-view

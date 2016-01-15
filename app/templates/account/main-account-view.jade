@@ -1,0 +1,33 @@
+extends /templates/base
+
+block content
+
+  if me.get('anonymous')
+    p(data-i18n="account_settings.not_logged_in") Log in or create an account to change your settings.
+
+  else
+    ol.breadcrumb
+      li
+        a(href="/")
+          span.glyphicon.glyphicon-home
+      li.active(data-i18n="nav.account")
+    div.row.row-top-buffer
+      div.col-md-4
+        #account-links
+         a.btn.btn-lg.btn-primary(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
+      div.col-md-4
+        #account-links
+          a.btn.btn-lg.btn-primary(href="/account/settings", data-i18n="play.settings")
+      div.col-md-4
+        #account-links
+          a.btn.btn-lg.btn-primary(href="/account/payments", data-i18n="account.payments")
+    div.row.row-bot-buffer
+      div.col-md-4
+        #account-links
+          a.btn.btn-lg.btn-primary(href="/account/subscription", data-i18n="account.subscription")
+      div.col-md-4
+        #account-links
+          a.btn.btn-lg.btn-primary(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
+      div.col-md-4
+        #account-links
+         a.btn.btn-lg.btn-primary.logout-btn(href="/account", data-i18n="login.log_out")

@@ -13,7 +13,7 @@ module.exports = class SurfaceScriptModule extends ScriptModule
 
   endNotes: ->
     notes = []
-    notes.push({channel:'level-highlight-sprites', event: {thangIDs: []}}) if @noteGroup.surface.highlight?
+    notes.push({channel:'sprite:highlight-sprites', event: {thangIDs: []}}) if @noteGroup.surface.highlight?
     notes.push(@surfaceCameraNote(true)) if @noteGroup.surface.focus?
     notes.push(@surfaceLockSelectNote()) if @noteGroup.surface.lockSelect?
     return notes
@@ -33,12 +33,12 @@ module.exports = class SurfaceScriptModule extends ScriptModule
     e.duration = if focus.duration? then focus.duration else 1500
     e.duration = 0 if instant
     e.bounds = focus.bounds if focus.bounds?
-    return { channel: 'level-set-surface-camera', event: e }
+    return { channel: 'camera:set-camera', event: e }
 
   surfaceHighlightNote: ->
     highlight = @noteGroup.surface.highlight
     note =
-      channel: 'level-highlight-sprites'
+      channel: 'sprite:highlight-sprites'
       event:
         thangIDs: highlight.targets
         delay: highlight.delay
@@ -46,4 +46,4 @@ module.exports = class SurfaceScriptModule extends ScriptModule
     return note
 
   surfaceLockSelectNote: ->
-    return { channel: 'level-lock-select', event: {lock: @noteGroup.surface.lockSelect} }
+    return { channel: 'level:lock-select', event: {lock: @noteGroup.surface.lockSelect} }

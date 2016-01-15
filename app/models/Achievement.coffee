@@ -1,19 +1,22 @@
 CocoModel = require './CocoModel'
-utils = require '../lib/utils'
+utils = require '../core/utils'
 
 module.exports = class Achievement extends CocoModel
   @className: 'Achievement'
   @schema: require 'schemas/models/achievement'
   urlRoot: '/db/achievement'
+  editableByArtisans: true
 
   isRepeatable: ->
     @get('proportionalTo')?
 
-  # TODO logic is duplicated in Mongoose Achievement schema
   getExpFunction: ->
-    kind = @get('function')?.kind or jsonschema.properties.function.default.kind
-    parameters = @get('function')?.parameters or jsonschema.properties.function.default.parameters
-    return utils.functionCreators[kind](parameters) if kind of utils.functionCreators
+    func = @get('function', true)
+    return utils.functionCreators[func.kind](func.parameters) if func.kind of utils.functionCreators
+
+  save: ->
+    @populateI18N()
+    super(arguments...)
 
   @styleMapping:
     1: 'achievement-wood'
@@ -22,7 +25,7 @@ module.exports = class Achievement extends CocoModel
     4: 'achievement-gold'
     5: 'achievement-diamond'
 
-  getStyle: -> Achievement.styleMapping[@get 'difficulty']
+  getStyle: -> Achievement.styleMapping[@get 'difficulty', true]
 
   @defaultImageURL: '/images/achievements/default.png'
 

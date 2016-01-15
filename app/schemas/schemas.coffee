@@ -15,9 +15,13 @@ me.object = (ext, props) -> combine({type: 'object', additionalProperties: false
 me.array = (ext, items) -> combine({type: 'array', items: items or {}}, ext)
 me.shortString = (ext) -> combine({type: 'string', maxLength: 100}, ext)
 me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
-me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)
-# should just be string (Mongo ID), but sometimes mongoose turns them into objects representing those, so we are lenient
-me.objectId = (ext) -> schema = combine({type: ['object', 'string']}, ext)
+
+# Dates should usually be strings, ObjectIds should be strings: https://github.com/codecombat/codecombat/issues/1384
+me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)  # old
+me.stringDate = (ext) -> combine({type: ['string'], format: 'date-time'}, ext)  # new
+me.objectId = (ext) -> schema = combine({type: ['object', 'string']}, ext)  # old
+me.stringID = (ext) -> schema = combine({type: 'string', minLength: 24, maxLength: 24}, ext)  # use for anything new
+
 me.url = (ext) -> combine({type: 'string', format: 'url', pattern: urlPattern}, ext)
 me.int = (ext) -> combine {type: 'integer'}, ext
 me.float = (ext) -> combine {type: 'number'}, ext
@@ -143,6 +147,10 @@ me.getLanguageCodeArray = ->
 
 me.getLanguagesObject = -> return Language
 
+me.extendTranslationCoverageProperties = (schema) ->
+  schema.properties = {} unless schema.properties?
+  schema.properties.i18nCoverage = { title: 'i18n Coverage', type: 'array', items: { type: 'string' }}
+
 # OTHER
 
 me.classNamePattern = '^[A-Z][A-Za-z0-9]*$'  # starts with capital letter; just letters and numbers
@@ -161,6 +169,7 @@ me.FunctionArgumentSchema = me.object {
   required: ['name', 'type', 'example', 'description']
 },
   name: {type: 'string', pattern: me.identifierPattern, title: 'Name', description: 'Name of the function argument.'}
+  i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this argument'}
   # not actual JS types, just whatever they describe...
   type: me.shortString(title: 'Type', description: 'Intended type of the argument.')
   example:
@@ -171,7 +180,7 @@ me.FunctionArgumentSchema = me.object {
         description: 'Examples by code language.',
         additionalProperties: me.shortString(description: 'Example value for the argument.')
         format: 'code-languages-object'
-        default: {javascript: ''}
+        default: {javascript: '', python: ''}
       }
       me.shortString(title: 'Example', description: 'Example value for the argument.')
     ]
@@ -183,7 +192,7 @@ me.FunctionArgumentSchema = me.object {
         description: 'Example argument descriptions by code language.',
         additionalProperties: {type: 'string', description: 'Description of the argument.', maxLength: 1000}
         format: 'code-languages-object'
-        default: {javascript: ''}
+        default: {javascript: '', python: ''}
       }
       {title: 'Description', type: 'string', description: 'Description of the argument.', maxLength: 1000}
     ]
@@ -193,10 +202,62 @@ me.FunctionArgumentSchema = me.object {
     'default': null
 
 me.codeSnippet = me.object {description: 'A language-specific code snippet'},
-  code: {type: 'string', title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments'}
+  code: {type: 'string', format: 'code', title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments'}
   tab: {type: 'string', title: 'Tab Trigger', description: 'Tab completion text. Will be expanded to the snippet if typed and hit tab.'}
 
 me.activity = me.object {description: 'Stats on an activity'},
   first: me.date()
   last: me.date()
   count: {type: 'integer', minimum: 0}
+
+me.terrainString = me.shortString {enum: ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano'], title: 'Terrain', description: 'Which terrain type this is.'}
+
+me.HeroConfigSchema = me.object {description: 'Which hero the player is using, equipped with what inventory.'},
+  inventory:
+    type: 'object'
+    description: 'The inventory of the hero: slots to item ThangTypes.'
+    additionalProperties: me.objectId(description: 'An item ThangType.')
+  thangType: me.objectId(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type')
+
+me.RewardSchema = (descriptionFragment='earned by achievements') ->
+  type: 'object'
+  additionalProperties: false
+  description: "Rewards #{descriptionFragment}."
+  properties:
+    heroes: me.array {uniqueItems: true, description: "Heroes #{descriptionFragment}."},
+      me.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Hero ThangType', description: 'A reference to the earned hero ThangType.', format: 'thang-type')
+    items: me.array {uniqueItems: true, description: "Items #{descriptionFragment}."},
+      me.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Item ThangType', description: 'A reference to the earned item ThangType.', format: 'thang-type')
+    levels: me.array {uniqueItems: true, description: "Levels #{descriptionFragment}."},
+      me.stringID(links: [{rel: 'db', href: '/db/level/{($)}/version'}], title: 'Level', description: 'A reference to the earned Level.', format: 'latest-version-original-reference')
+    gems: me.float {description: "Gems #{descriptionFragment}."}
+
+me.task = me.object {title: 'Task', description: 'A task to be completed', format: 'task', default: {name: 'TODO', complete: false}},
+  name: {title: 'Name', description: 'What must be done?', type: 'string'}
+  complete: {title: 'Complete', description: 'Whether this task is done.', type: 'boolean', format: 'checkbox'}
+
+me.concept = me.shortString enum: [
+    'advanced_strings'
+    'algorithms'
+    'arguments'
+    'arithmetic'
+    'arrays'
+    'basic_syntax'
+    'boolean_logic'
+    'break_statements'
+    'classes'
+    'continue_statements'
+    'for_loops'
+    'functions'
+    'graphics'
+    'if_statements'
+    'input_handling'
+    'math_operations'
+    'object_literals'
+    'parameters'
+    'strings'
+    'variables'
+    'vectors'
+    'while_loops'
+    'recursion'
+  ]

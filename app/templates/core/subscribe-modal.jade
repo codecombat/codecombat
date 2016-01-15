@@ -1,0 +1,116 @@
+.modal-dialog
+  .modal-content
+    if view.state === 'purchasing'
+      .alert.alert-info(data-i18n="buy_gems.purchasing")
+
+    else if view.state === 'retrying'
+      #retrying-alert.alert.alert-danger(data-i18n="buy_gems.retrying")
+
+    else
+      img#subscribe-background(src="/images/pages/play/modal/subscribe-background-blank.png")
+      img.subscribe-image(src="/images/pages/play/modal/subscribe-heroes.png")
+
+      h1(data-i18n="subscribe.subscribe_title") Subscribe
+
+      div#close-modal
+        span.glyphicon.glyphicon-remove
+
+      div.comparison-blurb(data-i18n="subscribe.comparison_blurb")
+      table.table.table-condensed.table-bordered.comparison-table
+        thead
+          tr
+            th
+            if !me.isOnPremiumServer()
+              th.free-cell(data-i18n="subscribe.free")
+            th
+              //- TODO: find a better way to localize price
+              if view.basicProduct
+                span $#{(view.basicProduct.get('amount') / 100)}/
+                span(data-i18n="subscribe.month")
+              else
+                span '...'
+        tbody
+          tr
+            td.feature-description
+              span(data-i18n="subscribe.feature1")
+            if !me.isOnPremiumServer()
+              td.center-ok.free-cell
+                span.glyphicon.glyphicon-ok
+            td.center-ok
+              span.glyphicon.glyphicon-ok
+          tr
+            td.feature-description
+              span(data-i18n="[html]subscribe.feature2")
+            if !me.isOnPremiumServer()
+              td.free-cell
+            td.center-ok
+              span.glyphicon.glyphicon-ok
+          tr
+            td.feature-description
+              span(data-i18n="subscribe.feature3")
+            if !me.isOnPremiumServer()
+              td.free-cell
+            td.center-ok
+              span.glyphicon.glyphicon-ok
+          tr
+            td.feature-description.gem-amount
+              span(data-i18n="[html]subscribe.feature4")
+            if !me.isOnPremiumServer()
+              td.free-cell
+            td.center-ok
+              span.glyphicon.glyphicon-ok
+          tr
+            td.feature-description
+              span(data-i18n="subscribe.feature5")
+            if !me.isOnPremiumServer()
+              td.free-cell
+            td.center-ok
+              span.glyphicon.glyphicon-ok
+          tr
+            td.feature-description
+              span(data-i18n="subscribe.feature6")
+            if !me.isOnPremiumServer()
+              td.free-cell
+            td.center-ok
+              span.glyphicon.glyphicon-ok
+          tr
+            td.feature-description
+              span(data-i18n="[html]subscribe.feature7")
+            if !me.isOnPremiumServer()
+              td.free-cell
+            td.center-ok
+              span.glyphicon.glyphicon-ok
+      #parents-info(data-i18n="subscribe.parents")
+      #payment-methods-info(data-i18n="subscribe.payment_methods")
+
+      if !me.isOnPremiumServer()
+        button.btn.btn-lg.btn-illustrated.parent-button(data-i18n="subscribe.parent_button")
+      if view.yearProduct
+        button.btn.btn-lg.btn-illustrated.sale-button(data-i18n="[title]subscribe.sale_button_title", data-i18n="subscribe.sale_button")
+      button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="subscribe.subscribe_title")
+
+      if view.state === 'declined'
+        #declined-alert.alert.alert-danger.alert-dismissible
+          span(data-i18n="buy_gems.declined")
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+
+      if view.state === 'unknown_error'
+        #error-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p(data-i18n="loading_error.unknown")
+          p= view.stateMessage
+
+    .parent-button-popover-content.hidden
+      .email-parent-form
+        p(data-i18n="subscribe.parent_email_description")
+        form
+          .form-group
+            label(data-i18n="subscribe.parent_email_input_label")
+            input.parent-input.form-control(type='email', data-i18n="[placeholder]subscribe.parent_email_input_placeholder")
+            .parent-email-validator.email_invalid(data-i18n="subscribe.parent_email_input_invalid")
+          button.parent-send.btn.btn-default(type='submit', data-i18n="subscribe.parent_email_send")
+      .email-parent-complete
+        p(data-i18n="subscribe.parent_email_sent")
+        button.btn(type='button', onclick="$('.parent-button').popover('hide');", data-i18n="modal.close")

@@ -46,7 +46,27 @@ describe 'SuperModel', ->
       s.once 'loaded-all', -> triggered = true
       s.loadModel(m, 'user')
       request = jasmine.Ajax.requests.mostRecent()
-      request.response({status: 200, responseText: '{}'})
+      request.respondWith({status: 200, responseText: '{}'})
       _.defer ->
         expect(triggered).toBe(true)
         done()
+
+  describe 'collection loading', ->
+    it 'combines models which are fetched from multiple sources', ->
+      s = new SuperModel()
+
+      c1 = new ComponentsCollection()
+      c1.url = '/db/level.component?v=1'
+      s.loadCollection(c1, 'components')
+
+      c2 = new ComponentsCollection()
+      c2.url = '/db/level.component?v=2'
+      s.loadCollection(c2, 'components')
+
+      request = jasmine.Ajax.requests.sendResponses({
+        '/db/level.component?v=1': [{"_id":"id","name":"Something"}]
+        '/db/level.component?v=2': [{"_id":"id","description":"This is something"}]
+      })
+
+      expect(s.models['/db/level.component/id'].get('name')).toBe('Something')
+      expect(s.models['/db/level.component/id'].get('description')).toBe('This is something')

@@ -1,259 +1,126 @@
-@import "bootstrap/mixins"
-@import "bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
 
 #home-view
-  
-  h1
+
+  #kids-coding-container
+    $coding-image-size: 272px
+    position: relative
+    width: 960px + $coding-image-size
+    margin: 0px auto
+
+    @media screen and ( max-width: 1279px )
+      display: none
+
+    .kid-coding
+      position: absolute
+      z-index: 1
+      top: -57px
+      @media screen and ( max-height: 800px )
+        top: 50px
+
+      &#boy-coding
+        left: -$coding-image-size / 2
+
+      &#girl-coding
+        right: -$coding-image-size / 2
+
+  #spacer
+    height: 626px
+    @media screen and ( max-height: 800px )
+      height: 510px
+
+  #play-button, #or-ipad, #apple-store-button, #slogan, .alert, #news, #alternate-play-button
     text-align: center
-    margin-top: 0
-    
-  #front-screenshot
-    margin: 15px 0 40px 150px
+    text-transform: uppercase
+    font-weight: bold
+    position: absolute
+    margin-right: auto
+    margin-left: auto
+    left: 0
+    right: 0
+    font-weight: bold
 
-  #trailer-wrapper
-    position: relative
-    margin: 0 auto 40px
-    width: 950px
-    iframe
-      display: block
-      margin: 0 auto
-      position: relative
-      top: 8px
-    img
-      position: absolute
-      left: 0
-      top: 0
-      pointer-events: none
+  #play-button
+    text-align: center
+    padding-top: 170px
+    font-size: 50px
+    color: rgb(255,253,149)
+    text-shadow: 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black
+    top: 308px
+    width: 218px
+    height: 219px
+    @media screen and ( max-height: 800px )
+      top: 78px
 
-  .game-mode-wrapper
-    position: relative
-    margin-bottom: 60px
-    
-    img
-      display: block
-      margin: 0 auto
-      @include transition(box-shadow .50s ease-in-out)
-
-    text-shadow: 2px 2px 5px black
-    
-    h3
-      color: $yellow
-      position: absolute
-      top: 10px
-      left: 40px
-      font-size: 70px
-      margin-top: 0
-      
-    h4
-      color: #e8d9c5
-      position: absolute
-      top: 75px
-      left: 140px
-      font-size: 30px
-      margin-top: 0
-      
-    .play-text
-      position: absolute
-      right: 45px
-      bottom: -25px
-      color: $yellow
-      font-size: 90px
-      font-family: Bangers
-      @include transition(color .25s ease-in-out)
-          
-    &:hover div, &.hovered div
-      color: lighten($yellow, 20%)
-    &:hover img, &.hovered img
-      filter: brightness(1.2)
-      -webkit-filter: brightness(1.2)
-      box-shadow: 0 0 15px black
-
-    .code-language-logo
-      background-color: transparent
-      background-repeat: no-repeat
-      position: absolute
-      right: 35px
-      top: 15px
-      width: 50px
-      height: 50px
-
-      &.inverted
-        filter: invert(100%)
-        -webkit-filter: invert(100%)
-
-  .code-languages
-    margin: 10px 0 30px 0
+    background-image: url(/images/pages/home/play_button.png)
+    background-position: 0 219px
 
     &:hover
-      .code-language
-        opacity: 0.6
+      background-position: 0 0
+      color: rgb(230,180,75)
+      text-decoration: none
 
-      .code-language.selected-language:not(:hover)
-        opacity: 0.8
+  #or-ipad
+    top: 540px
+    color: rgb(119,101,84)
+    font-size: 17px
+    max-width: 211px
 
-        h2, h3
-          text-shadow: none
+    @media screen and ( max-height: 800px )
+      top: 310px
 
-        .code-wizard
-          opacity: 0.5
+  #alternate-play-button
+    top: 570px
 
-    .code-language
-      cursor: pointer
-      text-align: center
-      position: relative
-      opacity: 0.6
+    @media screen and ( max-height: 800px )
+      top: 330px
+
+  #apple-store-button
+    top: 593px
+    height: 63px
+
+    @media screen and ( max-height: 800px )
+      top: 363px
+
+  #news
+    background: rgba(0, 0, 0, 0.75)
+    border-radius: 20px
+    box-shadow: 0 0 30px rgb(149,255,253)
+    top: 531px
+    height: 132px
+    width: 350px
+    padding: 15px
+    font-size: 28px
+    line-height: 32px
+    @include rotate(-10deg)
+
+    a
+      color: rgb(149,255,253)
 
       &:hover
-        opacity: 1
+        color: rgb(75,230,180)
 
-        h2, h3
-          text-shadow: 0px 0px 5px white
+    @media screen and ( max-height: 800px )
+      top: 301px
 
-        .code-wizard
-          display: block
-          opacity: 1
+  #slogan
+    top: 681px
+    height: 132px
+    width: 276px
+    padding: 15px
+    font-size: 28px
+    line-height: 32px
+    color: rgb(50,40,31)
 
-      &.selected-language
-        opacity: 1
+    @media screen and ( max-height: 800px )
+      top: 451px
 
-        h2, h3
-          text-shadow: 0px 0px 5px white
+  .alert
+    top: 213px
+    border: 5px solid darkred
 
-        .code-wizard
-          display: block
-
-      .code-wizard
-        position: absolute
-        background: transparent url(/images/pages/home/wizard.png) no-repeat
-        background-size: contain
-        width: 111px
-        height: 97px
-        display: none
-
-      .code-language-beta
-        background: transparent url(/images/pages/home/language_beta_sticker.png) no-repeat
-        background-size: contain
-        width: 100px
-        height: 32px
-        position: absolute
-        right: 20px
-        top: -7px
-
-    .primary-code-languages
-
-      #javascript
-        background: transparent url(/images/pages/home/language_js.png) no-repeat
-        padding-right: 150px
-
-        .code-wizard
-          left: 120px
-
-      #python
-        background: transparent url(/images/pages/home/language_python.png) no-repeat
-        padding-left: 150px
-
-        .code-wizard
-          right: 120px
-
-      .code-language
-        width: 498px
-        height: 153px
-        padding: 30px
-        margin: 0px 0 0 -6px
-
-        .code-wizard
-          top: -65px
-
-        h2
-          margin: 15px 0 5px
-
-        p
-          overflow: hidden
-          height: 40px
-
-    .secondary-code-languages
-      margin-left: -10px
-
-      .col-md-3
-        padding: 0px
-
-      .code-language
-        background: transparent url(/images/pages/home/language_background_small.png) no-repeat
-        width: 250px
-        height: 80px
-        margin: 20px 0 20px 0
-        padding: 20px 20px 20px 70px
-
-        .code-wizard
-          top: -51px
-          left: 89px
-          height: 63px
-
-        .code-language-logo
-          position: absolute
-          left: 15px
-          top: 17px
-          width: 50px
-          height: 50px
-
-        .code-language-beta
-          right: -15px
-          top: -16px
-          height: 24px
-
-        h3
-          margin: 0
-          padding: 0
-
-        p
-          white-space: nowrap
-          text-overflow: ellipsis
-          overflow: hidden
-
-      #coffeescript .code-language-logo
-        background: transparent url(/images/common/code_languages/coffeescript_small.png) no-repeat center
-
-      #clojure .code-language-logo
-        background: transparent url(/images/common/code_languages/clojure_small.png) no-repeat center
-
-      #lua .code-language-logo
-        background: transparent url(/images/common/code_languages/lua_small.png) no-repeat center
-
-      #io .code-language-logo
-        background: transparent url(/images/common/code_languages/io_small.png) no-repeat center
-
-  
-#mobile-trailer-wrapper
-  display: none
-  
-@media only screen and (max-width: 800px)
-  #home-view
-    #site-slogan
-      font-size: 30px
-    #trailer-wrapper 
-      display: none
-    #front-screenshot
-      display: none
-    #mobile-trailer-wrapper
-      display: inline-block
-      
-      width: 100%
-      iframe
-        display: block
-        margin: 0 auto
-    .game-mode-wrapper
-      width: 100%
-      img
-        width: 100%
-      .play-text
-        position: absolute
-        right: 45px
-        bottom: 0px
-        color: $yellow
-        font-size: 50px
-        font-family: Bangers
-        @include transition(color .10s linear)
-     
-  h1
-    text-align: center
-    margin-top: 0
+body[lang='ru'], body[lang^='de'], body[lang^='pt-BR'], body[lang='pl'], body[lang='tr'], body[lang^='nl'], body[lang^='cs'], body[lang^='sv'], body[lang^='el'], body[lang^='hu'], body[lang^='bg']
+  #home-view #slogan
+    font-size: 22px
+    line-height: 23px

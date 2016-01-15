@@ -1,10 +1,11 @@
-SaveVersionModal = require 'views/modal/SaveVersionModal'
+SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 template = require 'templates/editor/level/save'
-forms = require 'lib/forms'
+forms = require 'core/forms'
 LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
 DeltaView = require 'views/editor/DeltaView'
 PatchModal = require 'views/editor/PatchModal'
+deltasLib = require 'core/deltas'
 
 module.exports = class SaveLevelModal extends SaveVersionModal
   template: template
@@ -19,6 +20,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
   constructor: (options) ->
     super options
     @level = options.level
+    @buildTime = options.buildTime
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -26,7 +28,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     context.levelNeedsSave = @level.hasLocalChanges()
     context.modifiedComponents = _.filter @supermodel.getModels(LevelComponent), @shouldSaveEntity
     context.modifiedSystems = _.filter @supermodel.getModels(LevelSystem), @shouldSaveEntity
-    context.hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
+    @hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
     @lastContext = context
     context
 
@@ -40,7 +42,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     for changeEl, i in changeEls
       model = models[i]
       try
-        deltaView = new DeltaView({model: model, skipPaths: PatchModal.DOC_SKIP_PATHS})
+        deltaView = new DeltaView({model: model, skipPaths: deltasLib.DOC_SKIP_PATHS})
         @insertSubView(deltaView, $(changeEl))
       catch e
         console.error 'Couldn\'t create delta view:', e
@@ -52,11 +54,14 @@ module.exports = class SaveLevelModal extends SaveVersionModal
       console.log "Should we save", m.get('system'), m.get('name'), m, "? localChanges:", m.hasLocalChanges(), "version:", m.get('version'), 'isPublished:', m.isPublished(), 'collection:', m.collection
       return false
     return true if m.hasLocalChanges()
+    console.error "Trying to check major version of #{m.type()} #{m.get('name')}, but it doesn't have a version:", m unless m.get('version')
     return true if (m.get('version').major is 0 and m.get('version').minor is 0) or not m.isPublished() and not m.collection
     # Sometimes we have two versions: one in a search collection and one with a URL. We only save changes to the latter.
     false
 
-  commitLevel: ->
+  commitLevel: (e) ->
+    e.preventDefault()
+    @level.set 'buildTime', @buildTime
     modelsToSave = []
     formsToSave = []
     for form in @$el.find('form')
@@ -93,7 +98,8 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     @showLoading()
     tuples = _.zip(modelsToSave, formsToSave)
     for [newModel, form] in tuples
-      res = newModel.save()
+      newModel.updateI18NCoverage() if newModel.get('i18nCoverage')
+      res = newModel.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
       do (newModel, form) =>
         res.error =>
           @hideLoading()

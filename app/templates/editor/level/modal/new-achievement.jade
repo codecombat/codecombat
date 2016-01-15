@@ -1,4 +1,4 @@
-extends /templates/modal/new_model
+extends /templates/editor/modal/new-model-modal
 
 block modal-body-content
   form.form
@@ -13,7 +13,7 @@ block modal-body-content
       label
         input(type="checkbox", name="queryOptions" id="misc-level-completion" value="misc-level-completion")
         span.spl(data-i18n="editor.level_completion") Level Completion
-    - var goals = level.get('goals');
+    - var goals = view.level.get('goals');
     if goals && goals.length
       h4(data-i18n="editor.achievement_query_goals") Key achievement off of level goals
       each goal in goals
@@ -21,3 +21,8 @@ block modal-body-content
           label
             input(type="checkbox", name="queryOptions" id="#{goal.id}" value="#{goal.id}")
             span.spl= goal.name
+
+block modal-footer
+  .modal-footer
+    button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
+    button#save-new-achievement-link.btn.btn-primary.new-model-submit(data-i18n="common.create") Create

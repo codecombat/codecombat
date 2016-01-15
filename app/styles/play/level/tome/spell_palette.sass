@@ -1,64 +1,65 @@
-@import "../../../bootstrap/mixins"
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
 
 #spell-palette-view
   position: absolute
-  bottom: 10px
   left: 10px
   right: 10px
-  height: 140px
-  // Height relates to .tab-content height
-  padding-top: 35px
-  padding-left: 12px
-  padding-right: 4px
-  color: #333
-  // Get crazy with the backgrounds so that we can lower the opacity on the editor background above it, making a gradient of the disabled background color on the top around where it's usually covered
+  padding: 0 4px 10px 3%
   background-color: transparent
   background-size: 100% 100%
-  z-index: 0
-  //overflow-y: auto
-  
+  z-index: 2
+  @include transition(top 0.25s ease-in-out, height 0.25s ease-in-out)
+  box-shadow: 10px 4px 4px black
+  overflow-y: hidden
+
   .code-palette-background
-    position: absolute
-    left: 0
-    top: 0
     width: 100%
-    height: 100%
+    height: 592px
+    position: absolute
+    left: 0px
     z-index: -1
-    
-  span.code-palette-background
-    border-width: 25px
-    border-image: url(/images/level/code_palette_background.png) 25 fill round
+    background: transparent url(/images/level/code_palette_wood_background.png)
+    background-size: 100% 592px
+    overflow: visible
 
-  img.code-palette-background
-    display: none
+  &.controls-disabled
+    .code-palette-background
+      @include filter(brightness(75%))
 
-  &.disabled
-    @include opacity(0.80)
+    > :not(.code-palette-background)
+      @include opacity(0.50)
 
   h4
-    color: #333
+    color: white
     font-size: 16px
     line-height: 16px
-    margin: 0 4px
+    margin: 25px 0 5px 2px
     font-weight: normal
+    text-transform: uppercase
 
   .nav > li > a
     padding: 2px 20px 0px 20px
     margin-bottom: 3px
 
   ul.nav.nav-pills
+    margin-top: 3%
+
+    h4
+      margin-top: 2px
     li.active a
       background-color: transparent
     &.multiple-tabs li.active a
-      background-color: lighten(rgb(230, 212, 146), 10%)
+      background-color: darken(rgb(230, 212, 146), 30%)
     &.multiple-tabs li:not(.active) a
       cursor: pointer
 
-  .tab-content
-    height: 80px
-    .nano-pane
-      width: 7px
-      right: 5px
+  &:not(.hero)
+    .tab-content
+      height: 80px
+      .nano-pane
+        width: 7px
+        right: 5px
 
   //.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus
   //  background-color: lighten(rgb(230, 212, 146), 10%)
@@ -67,41 +68,55 @@
     display: inline-block
     margin-right: 3px
     vertical-align: top
+    
+  #spell-palette-help-button
+    margin: 3% 0px 4px
 
-  .code-language-logo
-    position: absolute
-    width: 16px
-    height: 16px
-    left: 16px
-    top: 36px
-    z-index: 10
-    background-color: transparent
-    background-repeat: no-repeat
-    background-size: contain
-    cursor: pointer
+  &.hero .properties
+    @include flexbox()
+    @include flex-wrap()
+    @include flex-column()
+    @include flex-align-content-start()
 
-    &.javascript
-      background-image: url(/images/common/code_languages/javascript_icon.png)
-    &.python
-      background-image: url(/images/common/code_languages/python_icon.png)
-    &.coffeescript
-      background-image: url(/images/common/code_languages/coffeescript_icon.png)
-    &.clojure
-      background-image: url(/images/common/code_languages/clojure_icon.png)
-    &.lua
-      background-image: url(/images/common/code_languages/lua_icon.png)
-    &.io
-      background-image: url(/images/common/code_languages/io_icon.png)
+    &.no-help
+      margin-top: 3%
 
-    &:hover
-      outline: 1px outset #ccc
+    .property-entry-item-group
+      display: inline-block
+      min-height: 38px
+      width: 212px
+      @include flexbox()
+      @include flex-wrap()
+      @include flex-center()
+      position: relative
+      background-color: rgb(20, 13, 8)
+      margin: 1px
+  
+      img.item-image
+        width: 38px
+        height: 38px
+        position: absolute
 
-      &:active
-        outline: 1px inset #ccc
+      &:not(:hover) img.item-image
+        -webkit-filter: contrast(50%) sepia(100%) saturate(500%) hue-rotate(7deg)
+        filter: contrast(50%) sepia(100%) saturate(1000%) hue-rotate(7deg)
+  
+      .spell-palette-entry-view
+        margin-left: 38px
+        width: 174px
+        width: -webkit-calc(100% - 38px)
+        width: calc(100% - 38px)
 
-html.no-borderimage
+  &.shortenize.hero .properties
+    .property-entry-item-group
+      width: 175px
+
+      .spell-palette-entry-view
+        width: 137px
+        width: -webkit-calc(100% - 38px)
+        width: calc(100% - 38px)
+
+@media only screen and (max-width: 1100px)
   #spell-palette-view
-    span.code-palette-background
-      display: none
-    img.code-palette-background
-      display: block
+    // Make sure we have enough room for at least two columns
+    padding-left: 12px

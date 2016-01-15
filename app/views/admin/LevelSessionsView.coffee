@@ -1,10 +1,10 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/admin/level_sessions'
 LevelSession = require 'models/LevelSession'
+CocoCollection = require 'collections/CocoCollection'
 
-# Placeholder
-class LevelSessionCollection extends Backbone.Collection
-  url: '/db/level_session/x/active'
+class LevelSessionCollection extends CocoCollection
+  url: '/db/level.session/x/active?project=screenshot,levelName,creatorName'
   model: LevelSession
 
 module.exports = class LevelSessionsView extends RootView
@@ -16,12 +16,4 @@ module.exports = class LevelSessionsView extends RootView
     @getLevelSessions()
 
   getLevelSessions: ->
-    @sessions = new LevelSessionCollection()
-    @sessions.fetch()
-    @listenToOnce @sessions, 'all', @render
-
-  getRenderData: =>
-    c = super()
-    c.sessions = @sessions.models
-    c.moment = moment
-    c
+    @sessions = @supermodel.loadCollection(new LevelSessionCollection(), 'sessions', {cache: false}).model

@@ -1,9 +1,7 @@
 SpellView = require './SpellView'
 SpellListTabEntryView = require './SpellListTabEntryView'
-{me} = require 'lib/auth'
-
-Aether.addGlobal 'Vector', require 'lib/world/vector'
-Aether.addGlobal '_', _
+{me} = require 'core/auth'
+{createAetherOptions} = require 'lib/aether_utils'
 
 module.exports = class Spell
   loaded: false
@@ -16,12 +14,17 @@ module.exports = class Spell
     @session = options.session
     @otherSession = options.otherSession
     @spectateView = options.spectateView
+    @spectateOpponentCodeLanguage = options.spectateOpponentCodeLanguage
+    @observing = options.observing
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
     @levelID = options.levelID
+    @levelType = options.level.get('type', true)
 
     p = options.programmableMethod
+    @commentI18N = p.i18n
+    @commentContext = p.context
     @languages = p.languages ? {}
     @languages.javascript ?= p.source
     @name = p.name
@@ -29,32 +32,64 @@ module.exports = class Spell
     if @canWrite()
       @setLanguage options.language
     else if @isEnemySpell()
-      @setLanguage options.otherSession.get 'submittedCodeLanguage'
+      @setLanguage @otherSession?.get('submittedCodeLanguage') ? @spectateOpponentCodeLanguage
     else
       @setLanguage 'javascript'
     @useTranspiledCode = @shouldUseTranspiledCode()
-    console.log 'Spell', @spellKey, 'is using transpiled code (should only happen if it\'s an enemy/spectate writable method).' if @useTranspiledCode
+    #console.log 'Spell', @spellKey, 'is using transpiled code (should only happen if it\'s an enemy/spectate writable method).' if @useTranspiledCode
 
     @source = @originalSource
     @parameters = p.parameters
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
-      @source = sessionSource
+      if sessionSource isnt '// Should fill in some default source\n'  # TODO: figure out why session is getting this default source in there and stop it
+        @source = sessionSource
+    if p.aiSource and not @otherSession and not @canWrite()
+      @source = @originalSource = p.aiSource
     @thangs = {}
-    @view = new SpellView {spell: @, session: @session, worker: @worker}
-    @view.render()  # Get it ready and code loaded in advance
-    @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, language: @language
-    @tabView.render()
+    if @canRead()  # We can avoid creating these views if we'll never use them.
+      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god}
+      @view.render()  # Get it ready and code loaded in advance
+      @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, codeLanguage: @language, level: options.level
+      @tabView.render()
     @team = @permissions.readwrite[0] ? 'common'
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 
   destroy: ->
-    @view.destroy()
-    @tabView.destroy()
+    @view?.destroy()
+    @tabView?.destroy()
     @thangs = null
     @worker = null
 
   setLanguage: (@language) ->
-    @originalSource = @languages[language] ? @languages.javascript
+    #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
+    @originalSource = @languages[@language] ? @languages.javascript
+
+    # Translate comments chosen spoken language.
+    return unless @commentContext
+    context = $.extend true, {}, @commentContext
+    if @commentI18N
+      spokenLanguage = me.get 'preferredLanguage'
+      while spokenLanguage
+        spokenLanguage = spokenLanguage.substr 0, spokenLanguage.lastIndexOf('-') if fallingBack?
+        if spokenLanguageContext = @commentI18N[spokenLanguage]?.context
+          context = _.merge context, spokenLanguageContext
+          break
+        fallingBack = true
+    try
+      @originalSource = _.template @originalSource, context
+    catch e
+      console.error "Couldn't create example code template of", @originalSource, "\nwith context", context, "\nError:", e
+
+    if /loop/.test(@originalSource) and @levelType in ['course', 'course-ladder']
+      # Temporary hackery to make it look like we meant while True: in our sample code until we can update everything
+      @originalSource = switch @language
+        when 'python' then @originalSource.replace /loop:/, 'while True:'
+        when 'javascript' then @originalSource.replace /loop {/, 'while (true) {'
+        when 'clojure' then @originalSource.replace /dotimes \[n 1000\]/, '(while true'
+        when 'lua' then @originalSource.replace /loop\n/, 'while true then\n'
+        when 'coffeescript' then @originalSource
+        when 'io' then @originalSource.replace /loop\n/, 'while true,\n'
+        else @originalSource
 
   addThang: (thang) ->
     if @thangs[thang.id]
@@ -72,7 +107,7 @@ module.exports = class Spell
     (team ? me.team) in @permissions.readwrite
 
   getSource: ->
-    @view.getSource()
+    @view?.getSource() ? @source
 
   transpile: (source) ->
     if source
@@ -107,48 +142,42 @@ module.exports = class Spell
     unless aether
       console.error @toString(), 'couldn\'t find a spellThang with aether of', @thangs
       cb false
-    workerMessage =
-      function: 'hasChangedSignificantly'
-      a: (newSource ? @originalSource)
-      spellKey: @spellKey
-      b: (currentSource ? @source)
-      careAboutLineNumbers: true
-      careAboutLint: true
-    @worker.addEventListener 'message', (e) =>
-      workerData = JSON.parse e.data
-      if workerData.function is 'hasChangedSignificantly' and workerData.spellKey is @spellKey
-        @worker.removeEventListener 'message', arguments.callee, false
-        cb(workerData.hasChanged)
-    @worker.postMessage JSON.stringify(workerMessage)
+    if @worker
+      workerMessage =
+        function: 'hasChangedSignificantly'
+        a: (newSource ? @originalSource)
+        spellKey: @spellKey
+        b: (currentSource ? @source)
+        careAboutLineNumbers: true
+        careAboutLint: true
+      @worker.addEventListener 'message', (e) =>
+        workerData = JSON.parse e.data
+        if workerData.function is 'hasChangedSignificantly' and workerData.spellKey is @spellKey
+          @worker.removeEventListener 'message', arguments.callee, false
+          cb(workerData.hasChanged)
+      @worker.postMessage JSON.stringify(workerMessage)
+    else
+      cb(aether.hasChangedSignificantly((newSource ? @originalSource), (currentSource ? @source), true, true))
 
   createAether: (thang) ->
-    aceConfig = me.get('aceConfig') ? {}
     writable = @permissions.readwrite.length > 0
-    aetherOptions =
-      problems:
-        jshint_W040: {level: 'ignore'}
-        jshint_W030: {level: 'ignore'}  # aether_NoEffect instead
-        jshint_W038: {level: 'ignore'}  # eliminates hoisting problems
-        jshint_W091: {level: 'ignore'}  # eliminates more hoisting problems
-        jshint_E043: {level: 'ignore'}  # https://github.com/codecombat/codecombat/issues/813 -- since we can't actually tell JSHint to really ignore things
-        jshint_Unknown: {level: 'ignore'}  # E043 also triggers Unknown, so ignore that, too
-        aether_MissingThis: {level: 'error'}
-      language: @language
+    skipProtectAPI = @skipProtectAPI or not writable
+    problemContext = @createProblemContext thang
+    includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']) and not skipProtectAPI
+    aetherOptions = createAetherOptions
       functionName: @name
+      codeLanguage: @language
       functionParameters: @parameters
-      yieldConditionally: thang.plan?
-      globals: ['Vector', '_']
-      # TODO: Gridmancer doesn't currently work with protectAPI, so hack it off
-      protectAPI: not (@skipProtectAPI or window.currentView?.level.get('name').match('Gridmancer')) and writable  # If anyone can write to this method, we must protect it.
-      includeFlow: false
-      executionLimit: 1 * 1000 * 1000
-    #console.log 'creating aether with options', aetherOptions
+      skipProtectAPI: skipProtectAPI
+      includeFlow: includeFlow
+      problemContext: problemContext
     aether = new Aether aetherOptions
-    workerMessage =
-      function: 'createAether'
-      spellKey: @spellKey
-      options: aetherOptions
-    @worker.postMessage JSON.stringify workerMessage
+    if @worker
+      workerMessage =
+        function: 'createAether'
+        spellKey: @spellKey
+        options: aetherOptions
+      @worker.postMessage JSON.stringify workerMessage
     aether
 
   updateLanguageAether: (@language) ->
@@ -156,10 +185,11 @@ module.exports = class Spell
       spellThang.aether?.setLanguage @language
       spellThang.castAether = null
       Backbone.Mediator.publish 'tome:spell-changed-language', spell: @, language: @language
-    workerMessage =
-      function: 'updateLanguageAether'
-      newLanguage: @language
-    @worker.postMessage JSON.stringify workerMessage
+    if @worker
+      workerMessage =
+        function: 'updateLanguageAether'
+        newLanguage: @language
+      @worker.postMessage JSON.stringify workerMessage
     @transpile()
 
   toString: ->
@@ -167,7 +197,7 @@ module.exports = class Spell
 
   isEnemySpell: ->
     return false unless @permissions.readwrite.length
-    return false unless @otherSession
+    return false unless @otherSession or @spectateView
     teamSpells = @session.get('teamSpells')
     team = @session.get('team') ? 'humans'
     teamSpells and not _.contains(teamSpells[team], @spellKey)
@@ -177,5 +207,38 @@ module.exports = class Spell
     return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
     return true if @isEnemySpell()  # Use transpiled for enemy spells.
     # Players without permissions can't view the raw code.
-    return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions'))
+    return false if @observing and @levelType in ['hero', 'course']
+    return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions', true))
     false
+
+  createProblemContext: (thang) ->
+    # Create problemContext Aether can use to craft better error messages
+    # stringReferences: values that should be referred to as a string instead of a variable (e.g. "Brak", not Brak)
+    # thisMethods: methods available on the 'this' object
+    # thisProperties: properties available on the 'this' object
+    # commonThisMethods: methods that are available sometimes, but not awlays
+
+    # NOTE: Assuming the first createProblemContext call has everything we need, and we'll use that forevermore
+    return @problemContext if @problemContext?
+
+    @problemContext = { stringReferences: [], thisMethods: [], thisProperties: [] }
+    # TODO: These should be read from the database
+    @problemContext.commonThisMethods = ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attack', 'findNearestEnemy', 'buildXY', 'moveXY', 'say', 'move', 'distance', 'findEnemies', 'findFriends', 'addFlag', 'findFlag', 'removeFlag', 'findFlags', 'attackRange', 'cast', 'buildTypes', 'jump', 'jumpTo', 'attackXY']
+    return @problemContext unless thang?
+
+    # Populate stringReferences
+    for key, value of thang.world?.thangMap
+      if (value.isAttackable or value.isSelectable) and value.id not in @problemContext.stringReferences
+        @problemContext.stringReferences.push value.id
+
+    # Populate thisMethods and thisProperties
+    if thang.programmableProperties?
+      for prop in thang.programmableProperties
+        if _.isFunction(thang[prop])
+          @problemContext.thisMethods.push prop
+        else
+          @problemContext.thisProperties.push prop
+
+    # TODO: See SpellPaletteView.createPalette() for other interesting contextual properties
+
+    @problemContext

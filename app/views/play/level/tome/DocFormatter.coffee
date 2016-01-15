@@ -1,6 +1,7 @@
 popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover'
 {downTheChain} = require 'lib/world/world_utils'
 window.Vector = require 'lib/world/vector'  # So we can document it
+utils = require 'core/utils'
 
 safeJSONStringify = (input, maxDepth) ->
   recursion = (input, path, depth) ->
@@ -37,7 +38,7 @@ safeJSONStringify = (input, maxDepth) ->
 
 module.exports = class DocFormatter
   constructor: (@options) ->
-    @doc = _.cloneDeep options.doc
+    @doc = _.cloneDeep @options.doc
     @fillOutDoc()
 
   fillOutDoc: ->
@@ -51,19 +52,21 @@ module.exports = class DocFormatter
       @doc.owner ?= 'this'
       ownerName = @doc.ownerName = if @doc.owner isnt 'this' then @doc.owner else switch @options.language
         when 'python', 'lua' then 'self'
+        when 'java' then 'hero'
         when 'coffeescript' then '@'
         else 'this'
       if @doc.type is 'function'
+        [docName, args] = @getDocNameAndArguments()
         sep = {clojure: ' '}[@options.language] ? ', '
-        argNames = (arg.name for arg in @doc.args ? []).join sep
+        argNames = args.join sep
         argString = if argNames then '__ARGS__' else ''
         @doc.shortName = switch @options.language
-          when 'coffeescript' then "#{ownerName}#{if ownerName is '@' then '' else '.'}#{@doc.name}#{if argString then ' ' + argString else '()'}"
-          when 'python' then "#{ownerName}.#{@doc.name}(#{argString})"
-          when 'lua' then "#{ownerName}:#{@doc.name}(#{argString})"
-          when 'clojure' then "(.#{@doc.name} #{ownerName}#{if argNames then ' ' + argString else ''})"
-          when 'io' then "#{if ownerName is 'this' then '' else ownerName + ' '}#{@doc.name}#{if argNames then '(' + argNames + ')' else ''}"
-          else "#{ownerName}.#{@doc.name}(#{argString});"
+          when 'coffeescript' then "#{ownerName}#{if ownerName is '@' then '' else '.'}#{docName}#{if argString then ' ' + argString else '()'}"
+          when 'python' then "#{ownerName}.#{docName}(#{argString})"
+          when 'lua' then "#{ownerName}:#{docName}(#{argString})"
+          when 'clojure' then "(.#{docName} #{ownerName}#{if argNames then ' ' + argString else ''})"
+          when 'io' then "#{if ownerName is 'this' then '' else ownerName + ' '}#{docName}#{if argNames then '(' + argNames + ')' else ''}"
+          else "#{ownerName}.#{docName}(#{argString});"
       else
         @doc.shortName = switch @options.language
           when 'coffeescript' then "#{ownerName}#{if ownerName is '@' then '' else '.'}#{@doc.name}"
@@ -75,28 +78,98 @@ module.exports = class DocFormatter
       @doc.shorterName = @doc.shortName
       if @doc.type is 'function' and argString
         @doc.shortName = @doc.shorterName.replace argString, argNames
-        @doc.shorterName = @doc.shorterName.replace argString, (if argNames.length > 6 then '...' else argNames)
+        @doc.shorterName = @doc.shorterName.replace argString, (if not /cast[A-Z]/.test(@doc.name) and argNames.length > 6 then '...' else argNames)
       if @options.language is 'javascript'
         @doc.shorterName = @doc.shortName.replace ';', ''
         if @doc.owner is 'this' or @options.tabbify
           @doc.shorterName = @doc.shorterName.replace /^this\./, ''
+      else if (@options.language in ['python', 'lua']) and (@doc.owner is 'this' or @options.tabbify)
+        @doc.shorterName = @doc.shortName.replace /^self[:.]/, ''
       @doc.title = if @options.shortenize then @doc.shorterName else @doc.shortName
 
     # Grab the language-specific documentation for some sub-properties, if we have it.
-    toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}, {obj: @doc, prop: 'returns'}]
+    toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}]
     for arg in (@doc.args ? [])
       toTranslate.push {obj: arg, prop: 'example'}, {obj: arg, prop: 'description'}
+    if @doc.returns
+      toTranslate.push {obj: @doc.returns, prop: 'example'}, {obj: @doc.returns, prop: 'description'}
     for {obj, prop} in toTranslate
+      # Translate into chosen code language.
       if val = obj[prop]?[@options.language]
         obj[prop] = val
       else unless _.isString obj[prop]
         obj[prop] = null
 
+      # Translate into chosen spoken language.
+      if val = originalVal = obj[prop]
+        context = @doc.context
+        obj[prop] = val = utils.i18n obj, prop
+        # For multiplexed-by-both-code-and-spoken-language objects, now also get code language again.
+        if _.isObject(val)
+          if valByCodeLanguage = obj[prop]?[@options.language]
+            obj[prop] = val = valByCodeLanguage
+          else
+            obj[prop] = originalVal  # Never mind, we don't have that code language for that spoken language.
+        if @doc.i18n
+          spokenLanguage = me.get 'preferredLanguage'
+          while spokenLanguage
+            spokenLanguage = spokenLanguage.substr 0, spokenLanguage.lastIndexOf('-') if fallingBack?
+            if spokenLanguageContext = @doc.i18n[spokenLanguage]?.context
+              context = _.merge context, spokenLanguageContext
+              break
+            fallingBack = true
+        if context
+          try
+            obj[prop] = _.template val, context
+          catch e
+            console.error "Couldn't create docs template of", val, "\nwith context", context, "\nError:", e
+        obj[prop] = @replaceSpriteName obj[prop]  # Do this before using the template, otherwise marked might get us first.
+
+    if @doc.shortName is 'loop' and @options.level.get('type', true) in ['course', 'course-ladder']
+      @replaceSimpleLoops()
+
+  replaceSimpleLoops: ->
+    # Temporary hackery to make it look like we meant while True: in our loop: docs until we can update everything
+    @doc.shortName = @doc.shorterName = @doc.title = @doc.name = switch @options.language
+      when 'coffeescript' then "loop"
+      when 'python' then "while True:"
+      when 'lua' then "while true do"
+      when 'clojure' then "(while true)"
+      when 'io' then "while(true)"
+      else "while (true)"
+    for field in ['example', 'description']
+      [simpleLoop, whileLoop] = switch @options.language
+        when 'coffeescript' then [/loop/g, "loop"]
+        when 'python' then [/loop:/g, "while True:"]
+        when 'lua' then [/loop/g, "while true do"]
+        when 'clojure' then [/\(dotimes( \[n \d+\])?/g, "(while true"]
+        when 'io' then [/loop\(/g, "while(true,"]
+        else [/loop/g, "while (true)"]
+      @doc[field] = @doc[field].replace simpleLoop, whileLoop
+
   formatPopover: ->
-    content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns()
+    [docName, args] = @getDocNameAndArguments()
+    argumentExamples = (arg.example or arg.default or arg.name for arg in @doc.args ? [])
+    argumentExamples.unshift args[0] if args.length > argumentExamples.length
+    content = popoverTemplate doc: @doc, docName: docName, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: argumentExamples, writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns(), item: @options.item
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
-    content = content.replace /#{spriteName}/g, @options.thang.type ? @options.thang.spriteName  # Prefer type, and excluded the quotes we'd get with @formatValue
+    content = @replaceSpriteName content
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
+
+  replaceSpriteName: (s) ->
+    # Prefer type, and excluded the quotes we'd get with @formatValue
+    name = @options.thang.type ? @options.thang.spriteName
+    name = 'hero' if /Hero Placeholder/.test @options.thang.id
+    s.replace /#{spriteName}/g, name
+
+  getDocNameAndArguments: ->
+    return [@doc.name, []] unless @doc.type is 'function'
+    docName = @doc.name
+    args = (arg.name for arg in @doc.args ? [])
+    if /cast[A-Z]/.test docName
+      docName = 'cast'
+      args.unshift '"' + _.string.dasherize(@doc.name).replace('cast-', '') + '"'
+    [docName, args]
 
   formatValue: (v) ->
     return null if @doc.type is 'snippet'
@@ -107,10 +180,14 @@ module.exports = class DocFormatter
         v = @options.thang[@doc.name]
       else
         v = window[@doc.owner][@doc.name]  # grab Math or Vector
-    if @doc.type is 'number' and not isNaN v
-      if v == Math.round v
+    if @doc.type is 'number' and not _.isNaN v
+      if v is Math.round v
         return v
-      return v.toFixed 2
+      if _.isNumber v
+        return v.toFixed 2
+      unless v
+        return 'null'
+      return '' + v
     if _.isString v
       return "\"#{v}\""
     if v?.id
@@ -139,5 +216,9 @@ module.exports = class DocFormatter
     return null unless action
     cooldowns = cooldown: action.cooldown, specificCooldown: action.specificCooldown, name: actionName, type: type
     for prop in ['range', 'radius', 'duration', 'damage']
-      cooldowns[prop] = owner[_.string.camelize actionName + _.string.capitalize(prop)]
+      v = owner[_.string.camelize actionName + _.string.capitalize(prop)]
+      continue if prop is 'range' and v <= 5  # Don't confuse players by showing melee ranges, they will inappropriately use distanceTo(enemy) < 3.
+      cooldowns[prop] = v
+      if _.isNumber(v) and v isnt Math.round v
+        cooldowns[prop] = v.toFixed 2
     cooldowns

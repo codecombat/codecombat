@@ -1,8 +1,8 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/play/spectate'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 ThangType = require 'models/ThangType'
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 World = require 'lib/world/world'
 
@@ -28,6 +28,7 @@ ControlBarView = require './level/ControlBarView'
 PlaybackView = require './level/LevelPlaybackView'
 GoalsView = require './level/LevelGoalsView'
 GoldView = require './level/LevelGoldView'
+DuelStatsView = require './level/DuelStatsView'
 VictoryModal = require './level/modal/VictoryModal'
 InfiniteLoopModal = require './level/modal/InfiniteLoopModal'
 
@@ -37,39 +38,20 @@ module.exports = class SpectateLevelView extends RootView
   id: 'spectate-level-view'
   template: template
   cache: false
-  shortcutsEnabled: true
-  startsLoading: true
   isEditorPreview: false
 
   subscriptions:
-    'level-set-volume': (e) -> createjs.Sound.setVolume(e.volume)
-    'level-highlight-dom': 'onHighlightDom'
-    'end-level-highlight-dom': 'onEndHighlight'
-    'level-focus-dom': 'onFocusDom'
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
+    'level:set-volume': (e) -> createjs.Sound.setVolume(if e.volume is 1 then 0.6 else e.volume)  # Quieter for now until individual sound FX controls work again.
     'god:new-world-created': 'onNewWorld'
+    'god:streaming-world-updated': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
-    'level-reload-from-data': 'onLevelReloadFromData'
-    'play-next-level': 'onPlayNextLevel'
-    'surface:world-set-up': 'onSurfaceSetUpNewWorld'
-    'level:set-team': 'setTeam'
-    'god:new-world-created': 'loadSoundsForWorld'
-    'next-game-pressed': 'onNextGamePressed'
+    'level:next-game-pressed': 'onNextGamePressed'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
-
-  events:
-    'click #level-done-button': 'onDonePressed'
-
-  shortcuts:
-    'ctrl+s': 'onCtrlS'
 
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
     super options
-    $(window).on('resize', @onWindowResize)
-    @listenToOnce(@supermodel, 'error', @onLevelLoadError)
 
     @sessionOne = @getQueryVariable 'session-one'
     @sessionTwo = @getQueryVariable 'session-two'
@@ -86,11 +68,8 @@ module.exports = class SpectateLevelView extends RootView
     else
       @load()
 
-  onLevelLoadError: (e) =>
-    application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
-
   setLevel: (@level, @supermodel) ->
-    serializedLevel = @level.serialize @supermodel, @session
+    serializedLevel = @level.serialize @supermodel, @session, @otherSession
     @god?.setLevel serializedLevel
     if @world
       @world.loadFromLevel serializedLevel, false
@@ -105,8 +84,7 @@ module.exports = class SpectateLevelView extends RootView
       opponentSessionID: @sessionTwo
       spectateMode: true
       team: @getQueryVariable('team')
-    @listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
-    @god = new God maxAngels: 1
+    @god = new God maxAngels: 1, spectate: true
 
   getRenderData: ->
     c = super()
@@ -115,47 +93,20 @@ module.exports = class SpectateLevelView extends RootView
 
   afterRender: ->
     window.onPlayLevelViewLoaded? @  # still a hack
-    @insertSubView @loadingView = new LoadingView {}
+    @insertSubView @loadingView = new LoadingView autoUnveil: true, level: @levelLoader?.level ? @level
     @$el.find('#level-done-button').hide()
     super()
     $('body').addClass('is-playing')
 
-  updateProgress: (progress) ->
-    super(progress)
-    return if @seenDocs
-    return unless showFrequency = @levelLoader.level.get('showGuide')
-    session = @levelLoader.session
-    diff = new Date().getTime() - new Date(session.get('created')).getTime()
-    return if showFrequency is 'first-time' and diff > (5 * 60 * 1000)
-    return unless @levelLoader.level.loaded
-    articles = @levelLoader.supermodel.getModels Article
-    for article in articles
-      return unless article.loaded
-    @showGuide()
-
-  showGuide: ->
-    @seenDocs = true
-    LevelGuideModal = require './level/modal/LevelGuideModal'
-    options = {docs: @levelLoader.level.get('documentation'), supermodel: @supermodel}
-    @openModalView(new LevelGuideModal(options), true)
-    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
-    return true
-
   onLoaded: ->
-    _.defer => @onLevelLoaded()
+    _.defer => @onLevelLoaderLoaded()
 
-  onLevelLoaded: ->
-    return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
-    # Save latest level played in local storage
-    if window.currentModal and not window.currentModal.destroyed
-      @loadingView.showReady()
-      return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
-
+  onLevelLoaderLoaded: ->
     @grabLevelLoaderData()
     #at this point, all requisite data is loaded, and sessions are not denormalized
     team = @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @god.setLevel @level.serialize @supermodel, @session
+    @god.setLevel @level.serialize @supermodel, @session, @otherSession
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap
     @setTeam team
@@ -169,18 +120,6 @@ module.exports = class SpectateLevelView extends RootView
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
-    if me.id isnt @session.get 'creator'
-      @surface.createOpponentWizard
-        id: @session.get('creator')
-        name: @session.get('creatorName')
-        team: @session.get('team')
-        levelSlug: @level.get('slug')
-
-    @surface.createOpponentWizard
-      id: @otherSession.get('creator')
-      name: @otherSession.get('creatorName')
-      team: @otherSession.get('team')
-      levelSlug: @level.get('slug')
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -210,12 +149,17 @@ module.exports = class SpectateLevelView extends RootView
       @session.set 'multiplayer', false
 
   onLevelStarted: (e) ->
-    @loadingView?.unveil()
+    go = =>
+      @loadingView?.startUnveiling()
+      @loadingView?.unveil true
+    _.delay go, 1000
 
   onLoadingViewUnveiled: (e) ->
     # Don't remove it; we want its decoration around on large screens.
     #@removeSubView @loadingView
     #@loadingView = null
+    Backbone.Mediator.publish 'level:set-playing', playing: false
+    Backbone.Mediator.publish 'level:set-time', time: 1  # Helps to have perhaps built a few Thangs and gotten a good list of spritesheets we need to render for our initial paused frame
 
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
@@ -232,159 +176,39 @@ module.exports = class SpectateLevelView extends RootView
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, spectateView: true
-    @insertSubView new PlaybackView {}
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, spectateView: true, spectateOpponentCodeLanguage: @otherSession?.get('submittedCodeLanguage'), level: @level, god: @god
+    @insertSubView new PlaybackView session: @session, level: @level
 
     @insertSubView new GoldView {}
-    @insertSubView new HUDView {}
-    worldName = utils.i18n @level.attributes, 'name'
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, spectateGame: true}
-    #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick'
-
-  afterInsert: ->
-    super()
+    @insertSubView new HUDView {level: @level}
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.get('type') in ['hero-ladder', 'course-ladder']
+    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
 
   # callbacks
 
-  onCtrlS: (e) ->
-    e.preventDefault()
-
-  onLevelReloadFromData: (e) ->
-    isReload = Boolean @world
-    @setLevel e.level, e.supermodel
-    if isReload
-      @scriptManager.setScripts(e.level.get('scripts'))
-      Backbone.Mediator.publish 'tome:cast-spell'  # a bit hacky
-
-  onWindowResize: (s...) ->
-    $('#pointer').css('opacity', 0.0)
-
-  onDisableControls: (e) ->
-    return if e.controls and not ('level' in e.controls)
-    @shortcutsEnabled = false
-    @wasFocusedOn = document.activeElement
-    $('body').focus()
-
-  onEnableControls: (e) ->
-    return if e.controls? and not ('level' in e.controls)
-    @shortcutsEnabled = true
-    $(@wasFocusedOn).focus() if @wasFocusedOn
-    @wasFocusedOn = null
-
-  onDonePressed: -> return
-
-
-  onNewWorld: (e) ->
-    @world = e.world
-
   onInfiniteLoop: (e) ->
-    return unless e.firstWorld
+    return unless e.firstWorld and e.god is @god
     @openModalView new InfiniteLoopModal()
     window.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @world.name, label: @world.name
 
-  onPlayNextLevel: ->
-    nextLevel = @getNextLevel()
-    nextLevelID = nextLevel.get('slug') or nextLevel.id
-    url = "/play/level/#{nextLevelID}"
-    Backbone.Mediator.publish 'router:navigate', {
-      route: url,
-      viewClass: PlayLevelView,
-      viewArgs: [{supermodel:@supermodel}, nextLevelID]}
-
-  getNextLevel: ->
-    nextLevelOriginal = @level.get('nextLevel')?.original
-    levels = @supermodel.getModels(Level)
-    return l for l in levels when l.get('original') is nextLevelOriginal
-
-  onHighlightDom: (e) ->
-    if e.delay
-      delay = e.delay
-      delete e.delay
-      @pointerInterval = _.delay((=> @onHighlightDom e), delay)
-      return
-    @addPointer()
-    selector = e.selector + ':visible'
-    dom = $(selector)
-    return if parseFloat(dom.css('opacity')) is 0.0
-    offset = dom.offset()
-    return if not offset
-    target_left = offset.left + dom.outerWidth() * 0.5
-    target_top = offset.top + dom.outerHeight() * 0.5
-    body = $('#level-view')
-
-    if e.sides
-      if 'left' in e.sides then target_left = offset.left
-      if 'right' in e.sides then target_left = offset.left + dom.outerWidth()
-      if 'top' in e.sides then target_top = offset.top
-      if 'bottom' in e.sides then target_top = offset.top + dom.outerHeight()
-    else
-      # aim to hit the side if the target is entirely on one side of the screen
-      if offset.left > body.outerWidth()*0.5
-        target_left = offset.left
-      else if offset.left + dom.outerWidth() < body.outerWidth()*0.5
-        target_left = offset.left + dom.outerWidth()
-
-      # aim to hit the bottom or top if the target is entirely on the top or bottom of the screen
-      if offset.top > body.outerWidth()*0.5
-        target_top = offset.top
-      else if  offset.top + dom.outerHeight() < body.outerHeight()*0.5
-        target_top = offset.top + dom.outerHeight()
-
-    if e.offset
-      target_left += e.offset.x
-      target_top += e.offset.y
-
-    @pointerRadialDistance = -47 # - Math.sqrt(Math.pow(dom.outerHeight()*0.5, 2), Math.pow(dom.outerWidth()*0.5))
-    @pointerRotation = e.rotation ? Math.atan2(body.outerWidth()*0.5 - target_left, target_top - body.outerHeight()*0.5)
-    pointer = $('#pointer')
-    pointer
-    .css('opacity', 1.0)
-    .css('transition', 'none')
-    .css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)")
-    .css('top', target_top - 50)
-    .css('left', target_left - 50)
-    setTimeout((=>
-      @animatePointer()
-      clearInterval(@pointerInterval)
-      @pointerInterval = setInterval(@animatePointer, 1200)
-    ), 1)
-
-  animatePointer: ->
-    pointer = $('#pointer')
-    pointer.css('transition', 'all 0.6s ease-out')
-    pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)")
-    setTimeout((=>
-      pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)").css('transition', 'all 0.4s ease-in')), 800)
-
-  onFocusDom: (e) -> $(e.selector).focus()
-
-  onEndHighlight: ->
-    $('#pointer').css('opacity', 0.0)
-    clearInterval(@pointerInterval)
-
-  onMultiplayerChanged: (e) ->
-    if @session.get('multiplayer')
-      @bus.connect()
-    else
-      @bus.removeFirebaseData =>
-        @bus.disconnect()
-
   # initialization
 
-  addPointer: ->
-    p = $('#pointer')
-    return if p.length
-    @$el.append($('<img src="/images/level/pointer.png" id="pointer">'))
-
   initSurface: ->
-    surfaceCanvas = $('canvas#surface', @$el)
-    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true)
+    webGLSurface = $('canvas#webgl-surface', @$el)
+    normalSurface = $('canvas#normal-surface', @$el)
+    @surface = new Surface @world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), spectateGame: true, playerNames: @findPlayerNames(), levelType: @level.get('type', true)
     worldBounds = @world.getBounds()
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
     zoom = =>
       @surface.camera.zoomTo({x: (worldBounds.right - worldBounds.left) / 2, y: (worldBounds.top - worldBounds.bottom) / 2}, 0.1, 0)
     _.delay zoom, 4000  # call it later for some reason (TODO: figure this out)
+
+  findPlayerNames: ->
+    playerNames = {}
+    for session in [@session, @otherSession] when session?.get('team')
+      playerNames[session.get('team')] = session.get('creatorName') or 'Anoner'
+    playerNames
 
   initGoalManager: ->
     @goalManager = new GoalManager(@world, @level.get('goals'))
@@ -393,25 +217,17 @@ module.exports = class SpectateLevelView extends RootView
   initScriptManager: ->
     if @world.scripts
       nonVictoryPlaybackScripts = _.reject @world.scripts, (script) ->
-        script.id.indexOf('Set Camera Boundaries and Goals') == -1
+        script.id.indexOf('Set Camera Boundaries') is -1
     else
       console.log 'World scripts don\'t exist!'
       nonVictoryPlaybackScripts = []
-    console.log nonVictoryPlaybackScripts
     @scriptManager = new ScriptManager({scripts: nonVictoryPlaybackScripts, view:@, session: @session})
     @scriptManager.loadFromSession()
 
   initVolume: ->
     volume = me.get('volume')
     volume = 1.0 unless volume?
-    Backbone.Mediator.publish 'level-set-volume', volume: volume
-
-  onSurfaceSetUpNewWorld: ->
-    return if @alreadyLoadedState
-    @alreadyLoadedState = true
-    state = @originalSessionState
-    if state.playing?
-      Backbone.Mediator.publish 'level-set-playing', { playing: state.playing }
+    Backbone.Mediator.publish 'level:set-volume', volume: volume
 
   register: -> return
 
@@ -422,7 +238,7 @@ module.exports = class SpectateLevelView extends RootView
   # Throttled
   saveScreenshot: (session) =>
     return unless screenshot = @surface?.screenshot()
-    session.save {screenshot: screenshot}, {patch: true}
+    session.save {screenshot: screenshot}, {patch: true, type: 'PUT'}
 
   setTeam: (team) ->
     team = team?.team unless _.isString team
@@ -432,22 +248,33 @@ module.exports = class SpectateLevelView extends RootView
 
   # Dynamic sound loading
 
-  loadSoundsForWorld: (e) ->
+  onNewWorld: (e) ->
     return if @headless
-    world = e.world
+    scripts = @world.scripts  # Since these worlds don't have scripts, preserve them.
+    @world = e.world
+    @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
-    for [spriteName, message] in world.thangDialogueSounds()
+    startFrame = @lastWorldFramesLoaded ? 0
+    if @world.frames.length is @world.totalFrames  # Finished loading
+      @lastWorldFramesLoaded = 0
+      unless @getQueryVariable('autoplay') is false
+        Backbone.Mediator.publish 'level:set-playing', playing: true  # Since we paused at first, now we autostart playback.
+    else
+      @lastWorldFramesLoaded = @world.frames.length
+    for [spriteName, message] in @world.thangDialogueSounds startFrame
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
 
   onNextGamePressed: (e) ->
-    console.log 'You want to see the next game!'
     @fetchRandomSessionPair (err, data) =>
+      return if @destroyed
       if err? then return console.log "There was an error fetching the random session pair: #{data}"
       @sessionOne = data[0]._id
       @sessionTwo = data[1]._id
       url = "/play/spectate/#{@levelID}?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
+      if leagueID = @getQueryVariable 'league'
+        url += "&league=" + leagueID
       Backbone.Mediator.publish 'router:navigate', {
         route: url,
         viewClass: SpectateLevelView,
@@ -467,6 +294,7 @@ module.exports = class SpectateLevelView extends RootView
     $.ajax
       url: randomSessionPairURL
       type: 'GET'
+      cache: false
       complete: (jqxhr, textStatus) ->
         if textStatus isnt 'success'
           cb('error', jqxhr.statusText)
@@ -477,10 +305,8 @@ module.exports = class SpectateLevelView extends RootView
     @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
-    $(window).off('resize', @onWindowResize)
     @goalManager?.destroy()
     @scriptManager?.destroy()
     delete window.world # not sure where this is set, but this is one way to clean it up
-    clearInterval(@pointerInterval)
     console.profileEnd?() if PROFILE_ME
     super()

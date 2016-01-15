@@ -1,0 +1,278 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#subscribe-modal
+
+  //- Clear modal defaults
+  .modal-dialog
+    margin: 60px auto 0 auto
+    padding: 0
+    width: 746px
+    height: 520px
+    background: none
+
+
+  //- Background
+  #subscribe-background
+    position: absolute
+    top: -61px
+    left: 0px
+
+  //- Header
+  h1
+    position: absolute
+    left: 170px
+    top: 25px
+    margin: 0
+    width: 410px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 38px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0, black 6px 6px 6px
+    font-variant: normal
+    text-transform: uppercase
+
+
+  //- Close modal button
+
+  #close-modal
+    position: absolute
+    left: 568px
+    top: 17px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+  //- Popovers
+
+  .popover
+    z-index: 1050
+    min-width: 400px
+
+    h3
+      background: transparent
+      border: 0
+      font-size: 30px
+      color: black
+
+  //- Sales image
+
+  .subscribe-image
+    position: absolute
+    top: 114px
+    right: 65px
+
+  //- Feature comparison table
+
+  .comparison-blurb
+    position: absolute
+    left: 10%
+    top: 132px
+    width: 450px
+    background: rgba(0, 0, 0, 0.0)
+    font-weight: normal
+    line-height: 18px
+    color: black
+    font-family: $headings-font-family
+    font-size: 18px
+
+  .comparison-table
+    position: absolute
+    left: 10%
+    top: 160px
+    width: 450px
+    background: rgba(0, 0, 0, 0.0)
+    border-width: 0px
+    .free-cell
+      border-right-width: 1px
+    thead
+      tr
+        th
+          font-size: 24px
+          font-variant: small-caps
+          font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+          font-weight: 700
+          line-height: 1.1
+          color: #317EAC
+          padding: 4px
+          border-width: 0px
+          border-color: rgba(85, 85, 85, 0.1)
+    tbody
+      font-size: 14px
+      .center-ok
+        text-align: center
+      tr
+        td
+          padding: 3px
+          border-width: 0px
+          border-top-width: 1px
+          border-color: rgba(85, 85, 85, 0.1)
+
+  //- Parent info popover link
+
+  #parents-info
+    position: absolute
+    left: 38px
+    top: 389px
+    text-decoration: underline
+    cursor: pointer
+    font-weight: bold
+    line-height: 18px
+    color: black
+    font-family: $headings-font-family
+    font-size: 18px
+
+  .popover-title
+    line-height: 26px
+
+  //- Payment methods info popover link
+
+  #payment-methods-info
+    position: absolute
+    right: 38px
+    top: 389px
+    text-decoration: underline
+    cursor: pointer
+    font-weight: bold
+    line-height: 18px
+    color: black
+    font-family: $headings-font-family
+    font-size: 18px
+
+  //- Purchase button
+
+  .purchase-button
+    position: absolute
+    right: 24px
+    width: 300px
+    height: 70px
+    top: 430px
+    font-size: 32px
+    line-height: 42px
+    border-style: solid
+    border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+
+    span
+      pointer-events: none
+
+    &:hover
+      border-image: url(/images/level/code_toolbar_submit_button_zazz.png) 14 20 20 20 fill round
+      color: white
+
+    &:active
+      border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
+      padding: 2px 0 0 2px
+      color: white
+
+  //- Parent button
+  //- TODO: Add hover and active effects
+
+  .parent-button
+    position: absolute
+    left: 24px
+    width: 250px
+    height: 70px
+    top: 430px
+    font-size: 28px
+    line-height: 38px
+    border-style: solid
+    border-image: url(/images/common/button-background-warning-disabled.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+
+  //- Sale button
+
+  .sale-button
+    position: absolute
+    left: 290px
+    width: 115px
+    height: 70px
+    top: 430px
+    font-size: 32px
+    line-height: 42px
+    border-style: solid
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+
+    span
+      pointer-events: none
+
+  .email-parent-form
+    .email_invalid
+      color: red
+      display: none
+  .email-parent-complete
+    display: none
+
+  //- Errors
+
+  .alert
+    position: absolute
+    left: 10%
+    width: 80%
+    top: 20px
+    border: 5px solid gray
+
+
+html.no-borderimage #subscribe-modal
+  .purchase-button, .parent-button, .sale-button
+    border: 0
+    background-size: 100% 100%
+    padding: 7px 10px 10px 10px
+
+    &:hover
+      border: 0
+
+    &:active
+      padding: 9px 8px 8px 12px
+      border: 0
+  
+  .purchase-button
+    background-image: url(/images/level/code_toolbar_submit_button_active.png)
+    &:hover
+      background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
+  
+  .parent-button
+    background-image: url(/images/common/button-background-warning-active.png)
+    &:hover, &:active
+      background-image: url(/images/common/button-background-warning-pressed.png)
+  
+  .sale-button
+    background-image: url(/images/common/button-background-primary-active.png)
+    &:hover, &:active
+      background-image: url(/images/common/button-background-primary-pressed.png)
+
+body[lang='fr']
+  #subscribe-modal .parent-button
+    font-size: 21px
+
+  #subscribe-modal .comparison-table tbody
+    font-size: 13px
+
+body[lang='de-DE']
+  #subscribe-modal .comparison-blurb
+    font-size: 16px
+
+  #subscribe-modal .comparison-table tbody
+    font-size: 12px
+
+body[lang='pt-PT']
+  #subscribe-modal .comparison-blurb
+    font-size: 16px
+
+  #subscribe-modal .comparison-table tbody
+    font-size: 12px
+
+  #subscribe-modal .parent-button
+    font-size: 18px

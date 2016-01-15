@@ -1,0 +1,168 @@
+extends /templates/base
+
+block content
+
+  if view.teacherMode
+    a(href="/courses/teachers", data-i18n="courses.back_classrooms")
+  else
+    a(href="/courses", data-i18n="courses.back_courses")
+  br
+  br
+
+  if (noCourseInstance || noCourseInstanceSelected) && course
+    h1= course.get('name')
+    if noCourseInstance
+      p(data-i18n="courses.not_enrolled")
+      p
+        span.spr(data-i18n="courses.visit_pref")
+        a(href="/courses", data-i18n="courses.courses")
+        span.spl(data-i18n="courses.visit_suf")
+    else if noCourseInstanceSelected
+      p(data-i18n="courses.select_class")
+      .container-fluid
+        .row
+          .col-md-6
+            select.form-control.select-instance
+              each courseInstance in courseInstances
+                if courseInstance.get('name')
+                  option(value="#{courseInstance.id}")= courseInstance.get('name')
+                else
+                  option(value="#{courseInstance.id}", data-i18n="courses.unnamed")
+          .col-md-6
+            button.btn.btn-success.btn-select-instance(data-i18n="courses.select")
+  else if !course || !courseInstance
+    h1(data-i18n="common.loading")
+  else
+    p
+      // TODO: format this text all good and stuff
+      strong
+        if courseInstance.get('name')
+          span= courseInstance.get('name')
+        else if view.classroom.get('name')
+          span= view.classroom.get('name')
+        else
+          span(data-i18n='courses.unnamed_class')
+
+      if !view.owner.isNew() && view.getOwnerName() && courseInstance.get('name') != 'Single Player'
+        span.spl -
+        span.spl(data-i18n='courses.teacher')
+        span.spr :
+        //a(href="/user/#{view.owner.id}")  // Don't link to profiles until we improve them
+        span
+          strong= view.getOwnerName()
+
+    h1
+      | #{course.get('name')}
+      if view.courseComplete
+        span.spl -
+        span.spl(data-i18n='courses.complete')
+        span !
+
+    p
+      if courseInstance.get('description')
+        each line in courseInstance.get('description').split('\n')
+          div= line
+
+    if view.courseComplete && !view.teacherMode
+      .jumbotron
+        if promptForSchool
+          .row
+            .col-md-6.col-md-offset-3
+              form.form#school-form
+                .form-group
+                  label.control-label(for="course-complete-school-input")
+                    span.spr(data-i18n="signup.school_name")
+                    em.optional-note
+                      | (
+                      span(data-i18n="signup.optional")
+                      | ):
+                  .input-border
+                    input#course-complete-school-input.input-large.form-control(name="schoolName", data-i18n="[placeholder]signup.school_name_placeholder")
+                button.btn.btn-primary.btn-submit.no-school(type="submit", data-i18n='courses.none')
+                button.btn.btn-info.btn-submit.save-school(type="submit", data-i18n='courses.save')
+        .row
+          if view.singlePlayerMode && !me.isAnonymous()
+            .col-md-6.col-md-offset-3
+              a.btn.btn-lg.btn-success(href="/play")
+                h1(data-i18n='courses.play_campaign_title')
+                p(data-i18n='courses.play_campaign_description')
+          else if view.singlePlayerMode && me.isAnonymous()
+            .col-md-6
+              a.btn.btn-lg.btn-success.signup-button
+                h1(data-i18n='courses.create_account_title')
+                p(data-i18n='courses.create_account_description')
+            .col-md-6
+              a.btn.btn-lg.btn-success(href="/play")
+                h1(data-i18n='courses.preview_campaign_title')
+                p(data-i18n='courses.preview_campaign_description')
+          else if !view.singlePlayerMode
+            .col-md-6
+              if view.arenaLevel
+                a.btn.btn-lg.btn-success.btn-play-level(data-level-slug=view.arenaLevel.slug, data-level-id=view.arenaLevel.original)
+                  h1
+                    span(data-i18n='courses.arena')
+                    span.spr :
+                    span= view.arenaLevel.name
+                  p= view.arenaLevel.description.replace(/!\[.*?\)/, '')
+              else
+                a.btn.btn-lg.btn-success.disabled
+                  h1(data-i18n='courses.arena_soon_title')
+                  p
+                    span.spr(data-i18n='courses.arena_soon_description')
+                    span= course.get('name')
+                    span .
+            .col-md-6
+              if view.nextCourseInstance
+                a.btn.btn-lg.btn-success(href="/courses/#{view.nextCourse.id}/#{view.nextCourseInstance.id}")
+                  h1= view.nextCourse.get('name')
+                  p= view.nextCourse.get('description')
+              else if view.nextCourse
+                a.btn.btn-lg.btn-success.disabled
+                  h1= view.nextCourse.get('name')
+                  p.text-uppercase
+                    em(data-i18n='courses.not_enrolled1')
+                  p(data-i18n='courses.not_enrolled2')
+              else
+                a.btn.btn-lg.btn-success(disabled=!view.nextCourse ? "disabled" : "")
+                  h1(data-i18n='courses.next_course')
+                  p.text-uppercase
+                    em(data-i18n='courses.coming_soon1')
+                  p(data-i18n='courses.coming_soon2')
+
+    .available-courses-title(data-i18n='courses.available_levels')
+    table.table.table-striped.table-condensed
+      thead
+        tr
+          th
+          th(data-i18n="clans.status")
+          th(data-i18n="resources.level")
+          th(data-i18n="courses.concepts")
+      tbody
+        if campaign
+          - var previousLevelCompleted = true;
+          - var lastLevelCompleted = view.getLastLevelCompleted();
+          - var passedLastCompletedLevel = false;
+          - var levelCount = 0;
+          each level, levelID in campaign.get('levels')
+            - var levelStatus = null;
+            if userLevelStateMap[me.id]
+              - levelStatus = userLevelStateMap[me.id][levelID]
+            tr
+              td
+                if previousLevelCompleted || view.teacherMode || !passedLastCompletedLevel || levelStatus
+                  - var i18n = level.type === 'course-ladder' ? 'play.compete' : 'home.play';
+                  button.btn.btn-success.btn-play-level(data-level-slug=level.slug, data-i18n=i18n, data-level-id=levelID)
+              td
+                if userLevelStateMap[me.id]
+                  div= userLevelStateMap[me.id][levelID]
+                  - previousLevelCompleted = userLevelStateMap[me.id][levelID] === 'complete'
+                else
+                  - previousLevelCompleted = false
+              td= ++levelCount + '. ' + level.name.replace('Course: ', '')
+              td
+                if levelConceptMap[levelID]
+                  each concept in course.get('concepts')
+                    if levelConceptMap[levelID][concept]
+                      span.spr.concept(data-i18n="concepts." + concept)
+              if levelID === lastLevelCompleted
+                - passedLastCompletedLevel = true

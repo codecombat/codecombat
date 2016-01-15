@@ -1,0 +1,35 @@
+extends /templates/base
+
+block content
+
+  ol.breadcrumb
+    li
+      a(href="/")
+        span.glyphicon.glyphicon-home
+    li
+      a(href="/account", data-i18n="nav.account")
+    li.active(data-i18n="account.payments")
+
+  if view.payments.models.length
+    table.table.table-striped
+      tr
+        th(data-i18n="account.purchased")
+        th(data-i18n="account.paid_on")
+        th(data-i18n="account.service")
+        th(data-i18n="account.price")
+        th(data-i18n="account.gems")
+      for payment in view.payments.models
+        - var service = payment.get('service')
+        tr
+          if payment.get('productID')
+            td(data-i18n='account.gems')
+          else
+            td(data-i18n='subscribe.stripe_description')
+          td= moment(payment.getCreationDate()).format('l')
+          if service === 'ios'
+            td(data-i18n="account.service_apple")
+            td= payment.get('ios').localPrice
+          else
+            td(data-i18n="account.service_web")
+            td $#{(payment.get('amount')/100).toFixed(2)}
+          td= payment.get('gems')

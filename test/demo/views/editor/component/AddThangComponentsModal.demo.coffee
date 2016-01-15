@@ -155,6 +155,6 @@ response =
 module.exports = ->
   view = new AddThangComponentsModal({skipOriginals:['52437c851d9e25b8dc000008']}) # FollowsNearest original
   console.log jasmine.Ajax.requests.all()
-  jasmine.Ajax.requests.mostRecent().response({status: 200, responseText: JSON.stringify(response)})
+  jasmine.Ajax.requests.mostRecent().respondWith({status: 200, responseText: JSON.stringify(response)})
   view.render()
   return view

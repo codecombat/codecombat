@@ -18,14 +18,19 @@ LevelSessionLevelSchema = c.object {required: ['original', 'majorVersion'], link
   majorVersion:
     type: 'integer'
     minimum: 0
-    default: 0
 
 LevelSessionSchema = c.object
   title: 'Session'
   description: 'A single session for a given level.'
+  default:
+    codeLanguage: 'python'
+    submittedCodeLanguage: 'python'
+    playtime: 0
 
 _.extend LevelSessionSchema.properties,
   # denormalization
+  browser:
+    type: 'object'
   creatorName:
     type: 'string'
   levelName:
@@ -56,12 +61,7 @@ _.extend LevelSessionSchema.properties,
   screenshot:
     type: 'string'
 
-  heroConfig: c.object {description: 'Which hero the player is using, equipped with what inventory.'},
-    inventory:
-      type: 'object'
-      description: 'The inventory of the hero: slots to item ThangTypes.'
-      additionalProperties: c.objectId(description: 'An item ThangType.')
-    thangType: c.objectId(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type')
+  heroConfig: c.HeroConfigSchema
 
   state: c.object {},
     complete:
@@ -79,16 +79,16 @@ _.extend LevelSessionSchema.properties,
       currentScriptOffset:
         type: 'number'
 
-    selected:
+    selected:  # Not tracked any more, delete with old level types
       type: [
         'null'
         'string'
       ]
     playing:
-      type: 'boolean'
+      type: 'boolean'  # Not tracked any more, delete with old level types
     frame:
-      type: 'number'
-    thangs:
+      type: 'number'  # Not tracked any more, delete with old level types
+    thangs:   # ... what is this? Is this used?
       type: 'object'
       additionalProperties:
         title: 'Thang'
@@ -112,6 +112,35 @@ _.extend LevelSessionSchema.properties,
         type: 'object'
         properties:
           status: enum: ['failure', 'incomplete', 'success']
+    submissionCount:
+      description: 'How many times the session has been submitted for real-time playback (can affect the random seed).'
+      type: 'integer'
+      minimum: 0
+    difficulty:
+      description: 'The highest difficulty level beaten, for use in increasing-difficulty replayable levels.'
+      type: 'integer'
+      minimum: 0
+    lastUnsuccessfulSubmissionTime: c.date
+      description: 'The last time that real-time submission was started without resulting in a win.'
+    flagHistory:
+      description: 'The history of flag events during the last real-time playback submission.'
+      type: 'array'
+      items: c.object {required: ['player', 'color', 'time', 'active']},
+        player: {type: 'string'}
+        team: {type: 'string'}
+        color: {type: 'string', enum: ['green', 'black', 'violet']}
+        time: {type: 'number', minimum: 0}
+        active: {type: 'boolean'}
+        pos: c.object {required: ['x', 'y']},
+          x: {type: 'number'}
+          y: {type: 'number'}
+        source: {type: 'string', enum: ['click']}  # Do not store 'code' flag events in the session.
+    topScores: c.array {},
+      c.object {},
+        type: c.shortString('enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty'])
+        date: c.date
+          description: 'When the submission achieving this score happened.'
+        score: {type: 'number'}  # Store 'time' and 'damage-taken' as negative numbers so the index works.
 
   code:
     type: 'object'
@@ -119,16 +148,14 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
-        format: 'javascript'
+        format: 'code'
 
   codeLanguage:
     type: 'string'
-    default: 'javascript'
 
   playtime:
     type: 'number'
     title: 'Playtime'
-    default: 0
     description: 'The total playtime on this session'
 
   teamSpells:
@@ -141,6 +168,11 @@ _.extend LevelSessionSchema.properties,
 
   chat:
     type: 'array'
+
+  ladderAchievementDifficulty:
+    type: 'integer'
+    minimum: 0
+    description: 'What ogre AI difficulty, 0-4, this human session has beaten in a multiplayer arena.'
 
   meanStrength:
     type: 'number'
@@ -164,10 +196,10 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
+        format: 'code'
 
   submittedCodeLanguage:
     type: 'string'
-    default: 'javascript'
 
   transpiledCode:
     type: 'object'
@@ -175,10 +207,17 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
+        format: 'code'
 
   isRanking:
     type: 'boolean'
     description: 'Whether this session is still in the first ranking chain after being submitted.'
+
+  randomSimulationIndex:
+    type: 'number'
+    description: 'A random updated every time the game is randomly simulated for a uniform random distribution of simulations (see #2448).'
+    minimum: 0
+    maximum: 1
 
   unsubscribed:
     type: 'boolean'
@@ -213,7 +252,7 @@ _.extend LevelSessionSchema.properties,
           description: 'The date a match was computed.'
         playtime:
           title: 'Playtime so far'
-          description: 'The total seconds of playtime on this session when the match was computed.'
+          description: 'The total seconds of playtime on this session when the match was computed. Not currently tracked.'
           type: 'number'
         metrics:
           type: 'object'
@@ -255,8 +294,19 @@ _.extend LevelSessionSchema.properties,
                     description: 'The opponent\'s ranking in a given match'
                     type: 'number'
               codeLanguage:
-                type: 'string'
+                type: ['string', 'null']  # 'null' in case an opponent session got corrupted, don't care much here
                 description: 'What submittedCodeLanguage the opponent used during the match'
+        simulator: {type: 'object', description: 'Holds info on who simulated the match, and with what tools.'}
+        randomSeed: {description: 'Stores the random seed that was used during this match.'}
+
+  leagues:
+    c.array {description: 'Multiplayer data for the league corresponding to Clans and CourseInstances the player is a part of.'},
+      c.object {},
+        leagueID: {type: 'string', description: 'The _id of a Clan or CourseInstance the user belongs to.'}
+        stats: c.object {description: 'Multiplayer match statistics corresponding to this entry in the league.'}
+        lastOpponentSubmitDate: c.date {description: 'The submitDate of the last league session we selected to play against (for playing through league opponents in order).'}
+
+LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
 c.extendPermissionsProperties LevelSessionSchema, 'level.session'

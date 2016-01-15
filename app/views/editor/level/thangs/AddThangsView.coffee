@@ -1,20 +1,19 @@
-CocoView = require 'views/kinds/CocoView'
-add_thangs_template = require 'templates/editor/level/add_thangs'
+CocoView = require 'views/core/CocoView'
+add_thangs_template = require 'templates/editor/level/add-thangs-view'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 
 class ThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang.type?project=true'
+  url: '/db/thang.type?project=original,name,version,description,slug,kind,rasterIcon'
   model: ThangType
 
   addTerm: (term) ->
     @url += "&term=#{term}" if term
 
 module.exports = class AddThangsView extends CocoView
-  id: 'add-thangs-column'
-  className: 'add-thangs-palette thangs-column'
+  id: 'add-thangs-view'
+  className: 'add-thangs-palette'
   template: add_thangs_template
-  startsLoading: false
 
   events:
     'keyup input#thang-search': 'runSearch'
@@ -33,22 +32,26 @@ module.exports = class AddThangsView extends CocoView
     else
       models = @supermodel.getModels(ThangType)
 
-    thangTypes = (thangType.attributes for thangType in models)
-    thangTypes = _.uniq thangTypes, false, 'original'
-    thangTypes = _.reject thangTypes, kind: 'Mark'
+    thangTypes = _.uniq models, false, (thangType) -> thangType.get('original')
+    thangTypes = _.reject thangTypes, (thangType) -> thangType.get('kind') in ['Mark', 'Item', undefined]
     groupMap = {}
     for thangType in thangTypes
-      groupMap[thangType.kind] ?= []
-      groupMap[thangType.kind].push thangType
+      kind = thangType.get('kind')
+      groupMap[kind] ?= []
+      groupMap[kind].push thangType
 
     groups = []
     for groupName in Object.keys(groupMap).sort()
       someThangTypes = groupMap[groupName]
-      someThangTypes = _.sortBy someThangTypes, 'name'
+      someThangTypes = _.sortBy someThangTypes, (thangType) -> thangType.get('name')
       group =
         name: groupName
         thangs: someThangTypes
       groups.push group
+
+    groups = _.sortBy groups, (group) ->
+      index = ['Wall', 'Floor', 'Unit', 'Doodad', 'Misc'].indexOf group.name
+      if index is -1 then 9001 else index
 
     context.thangTypes = thangTypes
     context.groups = groups
@@ -56,6 +59,10 @@ module.exports = class AddThangsView extends CocoView
 
   afterRender: ->
     super()
+    @buildAddThangPopovers()
+
+  buildAddThangPopovers: ->
+    @$el.find('#thangs-list .add-thang-palette-icon').addClass('has-tooltip').tooltip(container: 'body', animation: false)
 
   runSearch: (e) =>
     if e?.which is 27

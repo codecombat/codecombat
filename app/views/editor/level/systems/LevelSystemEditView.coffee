@@ -1,12 +1,13 @@
-CocoView = require 'views/kinds/CocoView'
-template = require 'templates/editor/level/system/edit'
+CocoView = require 'views/core/CocoView'
+template = require 'templates/editor/level/system/level-system-edit-view'
 LevelSystem = require 'models/LevelSystem'
 SystemVersionsModal = require 'views/editor/level/systems/SystemVersionsModal'
 PatchesView = require 'views/editor/PatchesView'
-SaveVersionModal = require 'views/modal/SaveVersionModal'
+SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
+require 'vendor/treema'
 
 module.exports = class LevelSystemEditView extends CocoView
-  id: 'editor-level-system-edit-view'
+  id: 'level-system-edit-view'
   template: template
   editableSettings: ['name', 'description', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']
 
@@ -26,23 +27,20 @@ module.exports = class LevelSystemEditView extends CocoView
     @levelSystem = @supermodel.getModelByOriginalAndMajorVersion LevelSystem, options.original, options.majorVersion or 0
     console.log 'Couldn\'t get levelSystem for', options, 'from', @supermodel.models unless @levelSystem
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.editTitle = "#{@levelSystem.get('name')}"
-    context
-
   afterRender: ->
     super()
     @buildSettingsTreema()
     @buildConfigSchemaTreema()
     @buildCodeEditor()
     @patchesView = @insertSubView(new PatchesView(@levelSystem), @$el.find('.patches-view'))
+    @updatePatchButton()
 
   buildSettingsTreema: ->
     data = _.pick @levelSystem.attributes, (value, key) => key in @editableSettings
     schema = _.cloneDeep LevelSystem.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
+    schema.default = _.pick schema.default, (value, key) => key in @editableSettings
 
     treemaOptions =
       supermodel: @supermodel
@@ -58,14 +56,13 @@ module.exports = class LevelSystemEditView extends CocoView
     # Make sure it validates first?
     for key, value of @systemSettingsTreema.data
       @levelSystem.set key, value unless key is 'js' # will compile code if needed
-    Backbone.Mediator.publish 'level-system-edited', levelSystem: @levelSystem
-    null
+    @updatePatchButton()
 
   buildConfigSchemaTreema: ->
     treemaOptions =
       supermodel: @supermodel
       schema: LevelSystem.schema.properties.configSchema
-      data: @levelSystem.get 'configSchema'
+      data: $.extend true, {}, @levelSystem.get 'configSchema'
       callbacks: {change: @onConfigSchemaEdited}
     treemaOptions.readOnly = me.get('anonymous')
     @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
@@ -76,10 +73,10 @@ module.exports = class LevelSystemEditView extends CocoView
 
   onConfigSchemaEdited: =>
     @levelSystem.set 'configSchema', @configSchemaTreema.data
-    Backbone.Mediator.publish 'level-system-edited', levelSystem: @levelSystem
+    @updatePatchButton()
 
   buildCodeEditor: ->
-    @editor?.destroy()
+    @destroyAceEditor(@editor)
     editorEl = $('<div></div>').text(@levelSystem.get('code')).addClass('inner-editor')
     @$el.find('#system-code-editor').empty().append(editorEl)
     @editor = ace.edit(editorEl[0])
@@ -93,21 +90,23 @@ module.exports = class LevelSystemEditView extends CocoView
 
   onEditorChange: =>
     @levelSystem.set 'code', @editor.getValue()
-    Backbone.Mediator.publish 'level-system-edited', levelSystem: @levelSystem
-    null
+    @updatePatchButton()
+
+  updatePatchButton: ->
+    @$el.find('#patch-system-button').toggle Boolean @levelSystem.hasLocalChanges()
 
   endEditing: (e) ->
-    Backbone.Mediator.publish 'level-system-editing-ended', levelSystem: @levelSystem
+    Backbone.Mediator.publish 'editor:level-system-editing-ended', system: @levelSystem
     null
 
   showVersionHistory: (e) ->
     systemVersionsModal = new SystemVersionsModal {}, @levelSystem.id
     @openModalView systemVersionsModal
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   startPatchingSystem: (e) ->
     @openModalView new SaveVersionModal({model: @levelSystem})
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   toggleWatchSystem: ->
     console.log 'toggle watch system?'
@@ -116,5 +115,7 @@ module.exports = class LevelSystemEditView extends CocoView
     button.find('> span').toggleClass('secret')
 
   destroy: ->
-    @editor?.destroy()
+    @destroyAceEditor(@editor)
+    @systemSettingsTreema?.destroy()
+    @configSchemaTreema?.destroy()
     super()

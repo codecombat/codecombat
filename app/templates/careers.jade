@@ -1,0 +1,137 @@
+extends /templates/base
+
+block content
+
+  //- DO NOT localize / i18n
+
+  .center
+    img(src="/images/pages/careers/recruiting.png")
+
+  if view.position === 'software-engineer'
+    h1.center Software Engineer
+    +company-blurb
+
+    .big-side-margins
+      h3 Engineering at CodeCombat
+
+      .big-text
+        p Although we've already reached millions of players, we are just getting started, and there is so much more to build. Over the next year, we'll be pushing hard on mobile, gameplay, and education tools. We are looking for strong engineers who are eager to jump in and take the lead on shipping these projects and more.
+
+        p CodeCombat is built with Node, Backbone, and CoffeeScript. If you don’t know these particular technologies yet we’ll help you ramp up in no time.
+
+        p CodeCombat is 100% open source, which is a lot of fun–you'll get to work with 400 open source contributors and be able to take your code (and your awesome GitHub profile) wherever you go.
+
+      h3 Upcoming Projects
+
+      .big-text
+        p
+          strong iPad app
+          div Bring the CodeCombat experience to the iPad
+
+        p
+          strong Social debugging
+          div Allow players to jump in and help others that are stuck
+
+        p
+          strong Language parsing and manipulation
+          div Dial up the intelligence behind our language parsers so we can help players fix their code
+
+        p
+          strong Adaptive pacing
+          div Modify level difficulties or skip some altogether to ensure players are at maximum fun
+
+        p
+          strong Real-time multiplayer
+          div Wouldn’t it be cool if players could battle head-to-head or team up in an epic real-time dungeon crawl?  Great, you should come help us build it!
+
+      +next-steps
+
+  else if view.position === 'software-engineer-ios'
+    h1.center Software Engineer, iOS
+    +company-blurb
+
+    .big-side-margins
+      h3 iOS at CodeCombat
+
+      .big-text
+        p Want to write the first iPad app for CodeCombat?  We’re looking for a product-focused engineer to translate our core gameplay and educational tools into an experience that feels like it was born on the iPad.
+
+        p Building a great iPad experience is important to CodeCombat because many classrooms are using iPads instead of desktops with their students.  It’s essential that we bring CodeCombat to those students as well.
+
+        p We’re looking for someone who is well-versed in iOS development, has a strong understanding of good UX, and isn’t afraid to get their hands dirty in the backend code.
+
+        p (Typing real code on a iPad–how could that be any fun? Well, just wait until you see what we've been working on.)
+
+      +next-steps
+
+  else if view.position === 'game-designer'
+    h1.center Game Designer
+    +company-blurb
+
+    .big-side-margins
+
+      h3 Game Design at CodeCombat
+
+      .big-text
+        p Our game levels are a core piece of CodeCombat.  Much of the work we do revolves around improving them or the way they’re accessed by our players.
+
+      h3 Example Projects
+
+      .big-text
+        p
+          strong Build levels
+          div Turn learning computer science concepts into a game!  For example, teach loops by creating a patterned maze.
+
+        p
+          strong Tune levels
+          div We have extensive analytics on where players get confused or stop having fun. You’ll dig into that data to come up with balance tweaks, helpful asides, and improved pacing for all our levels.
+
+        p
+          strong Create level components
+          div Code up new hero abilities, spells, items, and enemies that will be used across multiple levels.
+
+      h3 Requirements
+
+      .big-text
+        p We’re looking for someone with some programming experience, has played through the CodeCombat levels, can creatively bring levels to life, and has an eye for detail.
+
+      +next-steps
+
+  else
+    .center
+      h1 Available Positions – San Francisco
+      .big-text
+        p
+          a(href="/careers/software-engineer") Software Engineer
+        p
+          a(href="/careers/software-engineer-ios") Software Engineer, iOS
+        p
+          a(href="/careers/game-designer") Game Designer
+        br
+        p Don't see a position that suits you, but still want to to contribute?
+        p
+          span.spr Please contact us at
+          a(href="mailto:careers@codecombat.com") careers@codecombat.com
+
+mixin company-blurb
+  .big-side-margins.big-text
+    p CodeCombat is changing how kids learn computer science, using real programming languages to explore an adventure game.  Students start with simple function calls to move a hero and before long they’re writing functions to send archers to the eastern defenses.
+
+    p Our teacher tools allow CodeCombat to create classroom experiences that inspire students to become programmers. Can you imagine how cool it would have been to play CodeCombat in school when you were growing up? We are bringing the wizardry of programming to everyone.
+
+    .big-side-margins
+      p
+        .praise-quote My students have started working on CodeCombat and love it! I love that they are learning coding and problem solving skills without them even knowing it!!
+        .praise-author - Kristin Huff, Teacher, Webb City School District
+
+    p We’re looking for team members who can help us reach our students around the world. If you are passionate about gaming or education, a self starter, and looking to join a small, scrappy team, we want to meet you!
+
+mixin next-steps
+  h3 Next Steps
+  .big-text
+    p If this sounds exciting to you, we want to hear from you!
+    p
+      span.spr Please send a resume (and anything else you’d like us to see) to
+      a(href="mailto:careers@codecombat.com") careers@codecombat.com
+    p
+      em Note: you'll be working in our San Francisco office, so you'll need US work authorization.

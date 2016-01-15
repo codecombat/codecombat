@@ -1,0 +1,52 @@
+extends /templates/base
+
+block content
+
+  if me.get('anonymous')
+    p(data-i18n="account_invoices.not_logged_in")
+  else
+    ol.breadcrumb
+      li
+        a(href="/")
+          span.glyphicon.glyphicon-home
+      li
+        a(href="/account", data-i18n="nav.account")
+      li.active(data-i18n="account.invoices")
+
+    if state === 'purchasing'
+      .alert.alert-info(data-i18n="account_invoices.purchasing")
+    else if state === 'retrying'
+      #retrying-alert.alert.alert-danger(data-i18n="account_invoices.retrying")
+    else
+      .form
+        .form-group
+          label.control-label(for="amount", data-i18n="account_invoices.amount")
+          input#amount.form-control(name="amount", type="text", value="#{(view.amount / 100).toFixed(2)}")
+        .form-group
+          label.control-label(for="description", data-i18n="general.description")
+          input#description.form-control(name="description", type="text", value="#{view.description}")
+        button#pay-button.btn.form-control.btn-primary(data-i18n="account_invoices.pay")
+
+      br
+
+      if view.state === 'invoice_paid'
+        #declined-alert.alert.alert-success.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p= view.stateMessage
+      if view.state === 'validation_error'
+        #declined-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p= view.stateMessage
+      if view.state === 'declined'
+        #declined-alert.alert.alert-danger.alert-dismissible
+          span(data-i18n="account_invoices.declined")
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+      if view.state === 'unknown_error'
+        #error-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p(data-i18n="loading_error.unknown")
+          p= view.stateMessage

@@ -18,7 +18,7 @@ block header
               
       ul.nav.navbar-nav.nav-tabs
         li.active
-          a(href="#editor-level-thangs-tab-view", data-toggle="tab", data-i18n="editor.level_tab_thangs") Thangs
+          a(href="#thangs-tab-view", data-toggle="tab", data-i18n="editor.level_tab_thangs") Thangs
         li
           a(href="#editor-level-scripts-tab-view", data-toggle="tab", data-i18n="editor.level_tab_scripts") Scripts
         li
@@ -26,7 +26,7 @@ block header
         li
           a(href="#editor-level-components-tab-view", data-toggle="tab", data-i18n="editor.level_tab_components")#components-tab Components
         li
-          a(href="#editor-level-systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems
+          a(href="#systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems
         li
           a(href="#editor-level-patches", data-toggle="tab")#patches-tab
             span(data-i18n="resources.patches").spr Patches
@@ -34,19 +34,22 @@ block header
             if patches && patches.length
               span.badge= patches.length
         li
-          a(href="#related-achievements-view", data-toggle="tab") Achievements
+          a(href="#related-achievements-view", data-toggle="tab", data-i18n="user.achievements_title") Achievements
         li
-          a(href="#docs-components-view", data-toggle="tab", data-i18n="editor.level_tab_docs") Documentation
+          a(href="#editor-level-documentation", data-toggle="tab", data-i18n="editor.level_tab_docs") Documentation
+        li
+          a(href="#level-feedback-view", data-toggle="tab")
+            .glyphicon.glyphicon-star
       .navbar-header
         span.navbar-brand #{level.attributes.name}
 
       ul.nav.navbar-nav.navbar-right
-        li#undo-button(title="Undo (Ctrl+Z)")
+        li#undo-button
           a
             span.glyphicon-arrow-left.glyphicon
-        li#redo-button(title="Redo (Ctrl+Shift+Z)")
+        li#redo-button
             a
-              span.glyphicon-repeat.glyphicon
+              span.glyphicon-arrow-right.glyphicon
         if authorized
           li#commit-level-start-button
             a
@@ -64,17 +67,19 @@ block header
               li.dropdown-header Play As Which Team?
               li
                 for team in ['humans', 'ogres']
-                  a.play-with-team-button(data-team=team)= team
+                  a.play-with-team-button(data-team=team)= team + ' vs. AI'
+                for match in recentlyPlayedOpponents
+                  a.play-with-team-button(data-team=match.yourTeam, data-opponent=match.opponentSessionID)= match.yourTeam + ' vs. ' + match.opponentName
         
         else
-          li(title="⌃↩ or ⌘↩: Play preview of current level")#play-button
+          li(data-i18n="[title]general.play_preview", title="Play preview of current level")#play-button
             a
               span.glyphicon-play.glyphicon
         li.dropdown
           a(data-toggle='dropdown')
             span.glyphicon-chevron-down.glyphicon
           ul.dropdown-menu
-            li.dropdown-header Actions
+            li.dropdown-header(data-i18n="common.actions") Actions
             li
               a#level-watch-button
                 span.watch
@@ -87,30 +92,30 @@ block header
             li(class=anonymous ? "disabled": "")
               a(data-i18n="common.fork")#fork-start-button Fork
             li(class=anonymous ? "disabled": "")
-              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
+              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert", disabled=anonymous)#revert-button Revert
             li(class=anonymous ? "disabled": "")
-              a(data-toggle="coco-modal", data-target="editor/level/modals/TerrainRandomizeModal", data-i18n="editor.randomize")#randomize-button Randomize
+              a(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain", disabled=anonymous).generate-terrain-button Generate Terrain
             li(class=anonymous ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
             li.divider
-            li.dropdown-header Info
+            li.dropdown-header(data-i18n="common.info") Info
             li#level-history-button
               a(href='#', data-i18n="general.version_history") Version History
             li.divider
-            li.dropdown-header Help
+            li.dropdown-header(data-i18n="common.help") Help
             li
               a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', data-i18n="editor.wiki", target="_blank") Wiki
             li
-              a(href='http://www.hipchat.com/g3plnOKqa', data-i18n="editor.live_chat", target="_blank") Live Chat
+              a(href='https://coco-slack-invite.herokuapp.com/', data-i18n="editor.live_chat", target="_blank") Live Chat
             li
               a(href='http://discourse.codecombat.com/category/artisan', data-i18n="nav.forum", target="_blank") Forum
             li
-              a(data-toggle="coco-modal", data-target="modal/ContactModal", data-i18n="nav.contact") Email
+              a(data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Email
 
 block outer_content
   .outer-content
     div.tab-content#level-editor-tabs
-      div.tab-pane.active#editor-level-thangs-tab-view
+      div.tab-pane.active#thangs-tab-view
         
       div.tab-pane#editor-level-scripts-tab-view
   
@@ -118,14 +123,24 @@ block outer_content
 
       div.tab-pane#editor-level-components-tab-view
 
-      div.tab-pane#editor-level-systems-tab-view
+      div.tab-pane#systems-tab-view
     
       div.tab-pane#editor-level-patches
         .patches-view
 
       div.tab-pane#related-achievements-view
 
-      div.tab-pane#docs-components-view
+      div.tab-pane#editor-level-documentation
+        ul.nav.nav-pills.nav-justified
+          li
+            a(href="#components-documentation-view", data-toggle="pill", data-i18n="resources.components") Components
+          li
+            a(href="#systems-documentation-view", data-toggle="pill", data-i18n="resources.systems") Systems
+        div.tab-content
+          div.tab-pane#components-documentation-view
+          div.tab-pane#systems-documentation-view
+
+      div.tab-pane#level-feedback-view
 
     div#error-view
 

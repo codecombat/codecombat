@@ -1,0 +1,430 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+$heroCanvasHeight: 275px
+
+#play-heroes-modal
+  @include user-select(none)
+
+  //- Clear modal defaults
+
+  .modal-dialog
+    padding: 0
+    width: 820px
+    height: 658px
+
+
+  //- Background
+
+  #play-heroes-background
+    position: absolute
+    top: -59px
+    left: -20px
+
+
+  //- Header
+
+  h1
+    position: absolute
+    left: 154px
+    top: 25px
+    margin: 0
+    width: 450px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 38px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0
+
+
+  //- Gems count
+
+  #gems-count-container
+    position: absolute
+    right: 39px
+    top: 470px
+
+    #gems-count
+      font-family: $headings-font-family
+      font-size: 24.5px
+      color: lighten(rgb(1,64,91), 50%)
+
+
+  //- Close modal button
+
+  #close-modal
+    position: absolute
+    left: 615px
+    top: 17px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+
+  //- Carousel character portraits
+
+  #hero-carousel
+    width: 750px
+    height: 386px
+    position: absolute
+    left: 34px
+    top: 117px
+
+    .carousel-indicator-container
+      position: relative
+      z-index: 1
+
+      .carousel-indicators
+        position: static
+        width: 100%
+        margin-left: 0
+        white-space: nowrap
+
+        .hero-indicator
+          width: 97px
+          height: 98px
+          margin: 0 -11px
+          position: relative
+          background: url(/images/pages/play/modal/hero-portrait.png)
+          border: none
+          &.active
+            background: url(/images/pages/play/modal/hero-portrait-selected.png)
+            z-index: 5
+
+          .hero-avatar
+            width: 61px
+            height: 61px
+            background-size: contain
+            position: relative
+            left: 21px
+            top: 18px
+
+          &.locked:not(.purchasable)
+            .hero-avatar
+              background-color: goldenrod
+              @include filter(contrast(50%) brightness(65%))
+
+              &.ie
+                @include opacity(0.35)
+
+            .lock-indicator
+              position: absolute
+              width: 40%
+              left: 30%
+              top: 30%
+              @include filter(invert(90%))
+
+          &.purchasable
+            .hero-avatar
+              background-color: goldenrod
+
+          &.restricted
+            @include opacity(0.25)
+            .hero-avatar
+              background-color: black
+
+
+  //- Small transformations to jumble the hero icons a little
+
+  .hero-index-0
+    transform: rotate(-5deg)
+    z-index: 2
+
+  .hero-index-1
+    top: -3px
+    z-index: 1
+
+  .hero-index-2
+    top: -3px
+    transform: rotate(5deg)
+    z-index: 1
+
+  .hero-index-3
+    transform: rotate(-1deg)
+    z-index: 0
+
+  .hero-index-4
+    transform: rotate(3deg)
+
+  .hero-index-5
+    z-index: 0
+
+  .hero-index-6
+    transform: rotate(6deg)
+    top: -8px
+    z-index: 1
+
+  .hero-index-8
+    transform: rotate(4deg)
+
+
+  //- Carousel panel
+
+  #hero-carousel
+    .hero-item
+
+      &.locked:not(.purchasable), &.restricted
+        @include opacity(0.6)
+
+      canvas, .hero-feature-image
+        width: 334px
+        height: $heroCanvasHeight
+        float: left
+
+      .hero-stats
+        width: 400px
+        height: $heroCanvasHeight
+        float: left
+
+      .hero-feature-image
+        display: none
+        text-align: center
+
+        img
+          height: $heroCanvasHeight
+
+      .hero-stats
+        color: white
+        @include user-select(text)
+
+        h2
+          margin-top: 0px
+          color: white
+
+        .hero-description
+          margin-bottom: 4px
+
+        .hero-stat-row
+          margin: 3px 0
+
+          .stat-label
+            float: left
+            width: 100px
+            color: rgb(203,170,148)
+
+          .stat-value
+            display: inline-block
+            width: 280px
+            color: rgb(244,189,68)
+
+          .stat-progress
+            background: rgb(32,27,22)
+            height: 15px
+            padding: 4px 5px
+            border-radius: 16px
+            position: relative
+            top: 2px
+            left: -3px
+            width: 70%
+
+            .stat-progress-bar
+              height: 7px
+              border-radius: 7px
+
+
+          &.attack .stat-progress-bar
+            background: #c32424
+
+          &.health .stat-progress-bar
+            background: #0f802a
+
+          &.speed .stat-progress-bar
+            background: #4d52ab
+
+
+    //- Carousel switch buttons
+
+    a.left, a.right
+      color: rgb(74,61,51)
+      position: absolute
+      top: 195px
+      width: 40px
+      height: 84px
+      font-size: 24px
+
+      .glyphicon
+        position: relative
+        top: 27px
+        left: 8px
+
+      &:hover, &:active
+        color: rgb(126,105,88)
+
+    a.right
+      right: -49px
+
+    a.left
+      left: -46px
+      .glyphicon
+        @include scaleXY(-1, 1)
+
+  //- Different footer states
+
+  #hero-footer
+    @include user-select(text)
+
+  #purchasable-hero-explanation, #loading-hero-explanation
+    position: absolute
+    left: 32px
+    top: 532px
+    width: 541px
+    height: 97px
+    padding: 10px 40px
+
+    h2
+      color: #333
+      text-align: center
+
+  #locked-hero-explanation, #restricted-hero-explanation
+    position: absolute
+    left: 32px
+    top: 527px
+    width: 541px
+    height: 102px
+    padding: 10px 40px
+    text-align: center
+
+    h2
+      color: #333
+      margin-top: 12px
+      margin-bottom: 5px
+
+  #restricted-hero-button, #purchase-hero-button
+    width: 209px
+    height: 110px
+    position: absolute
+    left: 588px
+    top: 522px
+    line-height: 100px
+    text-align: center
+    text-transform: uppercase
+    font-size: 24.5px
+    font-family: $headings-font-family
+    color: white
+
+  #purchase-hero-button
+    border: 3px solid rgb(7,65,83)
+    background: rgb(0,119,168)
+    border-radius: 0
+
+    &:disabled
+      background: rgb(72, 106, 113)
+      opacity: 1
+      color: rgba(255,255,255, 0.4)
+
+    > *
+      @include opacity(0.9)
+
+    &:hover > *
+      @include opacity(1)
+
+  //#restricted-hero-button
+
+  //- Programming select box
+
+  .form
+    position: absolute
+    left: 32px
+    top: 527px
+    width: 541px
+    height: 102px
+    padding: 10px 40px
+
+    .help-block
+      color: rgb(51,51,51)
+      font-size: 14px
+      font-weight: bold
+
+    select
+      font-size: 18px
+
+    .fancy-select
+      display: inline-block
+      width: 100%
+
+      .options
+        text-transform: none
+
+      .trigger, .options
+        background-color: rgb(239,232,217)
+        color: black
+
+      .trigger
+        text-transform: uppercase
+        border: 3px solid black
+        font-size: 16px
+        padding: 5px 10px
+        width: 100%
+
+        //- the little triangle on the right side of the fancy select box
+        &:after
+          border: 8px solid transparent
+          border-top-color: black
+          top: 13px
+          right: 11px
+
+      .options
+        padding-left: 5px
+        overflow: visible
+
+        .selected
+          color: black
+
+        .hover
+          color: black
+          background-color: #abc
+
+      .options
+        li
+          padding-left: 40px
+          background: transparent url(/images/common/code_languages/javascript_small.png) no-repeat left center
+          background-size: 32px 32px
+          margin-bottom: -1px
+
+          &[data-value="python"]
+            background-image: url(/images/common/code_languages/python_small.png)
+          &[data-value="coffeescript"]
+            background-image: url(/images/common/code_languages/coffeescript_small.png)
+          &[data-value="clojure"]
+            background-image: url(/images/common/code_languages/clojure_small.png)
+          &[data-value="lua"]
+            background-image: url(/images/common/code_languages/lua_small.png)
+          &[data-value="java"]
+            background-image: url(/images/common/code_languages/java_small.png)
+          &[data-value="io"]
+            background-image: url(/images/common/code_languages/io_small.png)
+
+  #confirm-button
+    background: url(/images/pages/play/modal/confirm-button.png)
+    width: 209px
+    height: 110px
+    position: absolute
+    left: 588px
+    top: 522px
+    padding: 36px 0
+    text-align: center
+    text-transform: uppercase
+    font-size: 26px
+    font-family: $headings-font-family
+    color: white
+
+
+body.ipad #play-heroes-modal
+  // iPad is Python-only for now, and has its own reset button.
+  .form
+    display: none
+
+body[lang='ru']
+  #play-heroes-modal
+    #hero-carousel .hero-item .hero-stats h2
+      font-size: 24px
+
+    #purchase-hero-button
+      font-size: 18px

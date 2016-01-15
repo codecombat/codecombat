@@ -1,3 +1,6 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
 #ladder-play-modal
   #noob-view p
     font-size: 30px
@@ -16,30 +19,27 @@
     height: 100px
     overflow: hidden
     background: white
-    border: 1px solid #333
+    border-radius: 8px
     position: relative
-
-    -webkit-transition: opacity 0.3s ease-in-out
-    -moz-transition: opacity 0.3s ease-in-out
-    -ms-transition: opacity 0.3s ease-in-out
-    -o-transition: opacity 0.3s ease-in-out
-    transition: opacity 0.3s ease-in-out
+    @include transition(opacity 0.3s ease-in-out, margin 0.1s linear, box-shadow 0.1s linear)
     
-    opacity: 0.4
-    
-    border-radius: 5px
     .only-one
-      -webkit-transition: opacity 0.3s ease-in-out
-      -moz-transition: opacity 0.3s ease-in-out
-      -ms-transition: opacity 0.3s ease-in-out
-      -o-transition: opacity 0.3s ease-in-out
-      transition: opacity 0.3s ease-in-out
       opacity: 0
+
+    box-shadow: 2px 2px 4px black
+
+  #normal-view:hover
+    .play-option
+      opacity: 0.4
     
-  .play-option:hover
-    opacity: 1
-    .only-one
+    .play-option:hover
       opacity: 1
+      box-shadow: 4px 4px 6px black
+      margin-left: -2px
+      margin-top: -2px
+      margin-bottom: 17px
+      .only-one
+        opacity: 1
     
   .my-icon
     position: relative
@@ -50,15 +50,15 @@
   .my-team-icon
     height: 60px
     position: relative
-    top: -10px
-    left: 10px
+    top: -3.5px
+    left: 13.5px
     z-index: 0
     
   .opponent-team-icon
     height: 60px
     position: relative
-    top: 10px
-    right: 10px
+    top: 16.5px
+    right: 13.5px
     z-index: 0
     float: right
     -moz-transform: scaleX(-1)
@@ -82,19 +82,19 @@
     z-index: 1
     
   .name-label
-    border-bottom: 20px solid lightslategray
-    height: 0
+    height: 20px
     width: 40%
     position: absolute
     bottom: 0
-    color: black
+    color: white
     font-weight: bold
+    text-shadow: -1px -1px 0px black
     text-align: center
     z-index: 2
     
     span
       position: relative
-      top: 1px
+      top: 4px
 
     .code-language
       position: absolute
@@ -120,9 +120,6 @@
       right: 3px
   
   .difficulty
-    border-top: 25px solid darkgray
-    border-left: 20px solid transparent
-    border-right: 20px solid transparent
     height: 0
     width: 30%
     position: absolute
@@ -135,17 +132,21 @@
 
     span
       position: relative
-      top: -25px
+      top: 6px
+
+  .play-option
+    background-image: url(/images/pages/play/ladder/warmup_button.png)
       
-  .easy-option .difficulty
-    border-top: 25px solid limegreen
+  .easy-option
+    background-image: url(/images/pages/play/ladder/easy_button.png)
       
-  .medium-option .difficulty
-    border-top: 25px solid darkorange
+  .medium-option
+    background-image: url(/images/pages/play/ladder/medium_button.png)
     
-  .hard-option .difficulty
-    border-top: 25px solid black
-    color: white
+  .hard-option
+    background-image: url(/images/pages/play/ladder/hard_button.png)
+    .difficulty
+      color: white
 
   .vs
     position: absolute

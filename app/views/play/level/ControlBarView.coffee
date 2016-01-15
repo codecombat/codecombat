@@ -1,8 +1,12 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/control_bar'
+{me} = require 'core/auth'
 
-LevelGuideModal = require './modal/LevelGuideModal'
-GameMenuModal = require 'views/game-menu/GameMenuModal'
+GameMenuModal = require 'views/play/menu/GameMenuModal'
+RealTimeModel = require 'models/RealTimeModel'
+RealTimeCollection = require 'collections/RealTimeCollection'
+LevelSetupManager = require 'lib/LevelSetupManager'
+GameMenuModal = require 'views/play/menu/GameMenuModal'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -10,27 +14,35 @@ module.exports = class ControlBarView extends CocoView
 
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
+    'ipad:memory-warning': 'onIPadMemoryWarning'
 
   events:
-    'click #docs-button': ->
-      window.tracker?.trackEvent 'Clicked Docs', level: @level.get('name'), label: @level.get('name')
-      @showGuideModal()
-
-    'click #next-game-button': ->
-      Backbone.Mediator.publish 'next-game-pressed'
-
-    'click #game-menu-button': ->
-      @showGameMenuModal()
-
-    'click': -> Backbone.Mediator.publish 'tome:focus-editor'
+    'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
+    'click #game-menu-button': 'showGameMenuModal'
+    'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
+    'click .levels-link-area': 'onClickHome'
+    'click .home a': 'onClickHome'
+    'click .multiplayer-area': 'onClickMultiplayer'
+    'click #control-bar-sign-up-button': 'onClickSignupButton'
 
   constructor: (options) ->
+    @courseID = options.courseID
+    @courseInstanceID = options.courseInstanceID
+
     @worldName = options.worldName
     @session = options.session
     @level = options.level
-    @playableTeams = options.playableTeams
+    @levelID = @level.get('slug') or @level.id
     @spectateGame = options.spectateGame ? false
+    @observing = options.session.get('creator') isnt me.id
     super options
+    if @level.get('type') in ['hero-ladder', 'course-ladder'] and me.isAdmin()
+      @isMultiplayerLevel = true
+      @multiplayerStatusManager = new MultiplayerStatusManager @levelID, @onMultiplayerStateChanged
+    if @level.get 'replayable'
+      @listenTo @session, 'change-difficulty', @onSessionDifficultyChanged
 
   setBus: (@bus) ->
 
@@ -44,35 +56,150 @@ module.exports = class ControlBarView extends CocoView
     text += " (#{numPlayers})" if numPlayers > 1
     $('#multiplayer-button', @$el).text(text)
 
+  onMultiplayerStateChanged: => @render?()
+
   getRenderData: (c={}) ->
     super c
     c.worldName = @worldName
+    c.campaignIndex = @level.get('campaignIndex') + 1 if @level.get('type') is 'course' and @level.get('campaignIndex')?
     c.multiplayerEnabled = @session.get('multiplayer')
-    c.ladderGame = @level.get('type') is 'ladder'
+    c.ladderGame = @level.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
+    if c.isMultiplayerLevel = @isMultiplayerLevel
+      c.multiplayerStatus = @multiplayerStatusManager?.status
+    if @level.get 'replayable'
+      c.levelDifficulty = @session.get('state')?.difficulty ? 0
+      if @observing
+        c.levelDifficulty = Math.max 0, c.levelDifficulty - 1  # Show the difficulty they won, not the next one.
+      c.difficultyTitle = "#{$.i18n.t 'play.level_difficulty'}#{c.levelDifficulty}"
+      @lastDifficulty = c.levelDifficulty
     c.spectateGame = @spectateGame
-    if @level.get('type') in ['ladder', 'ladder-tutorial']
-      c.homeLink = '/play/ladder/' + @level.get('slug').replace /\-tutorial$/, ''
+    c.observing = @observing
+    @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
+    if @level.get('type', true) in ['ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder']
+      levelID = @level.get('slug')?.replace(/\-tutorial$/, '') or @level.id
+      @homeLink = '/play/ladder/' + levelID
+      @homeViewClass = 'views/ladder/LadderView'
+      @homeViewArgs.push levelID
+      if leagueID = @getQueryVariable 'league'
+        leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
+        @homeViewArgs.push leagueType
+        @homeViewArgs.push leagueID
+        @homeLink += "/#{leagueType}/#{leagueID}"
+    else if @level.get('type', true) in ['hero', 'hero-coop']
+      @homeLink = '/play'
+      @homeViewClass = 'views/play/CampaignView'
+      campaign = @level.get 'campaign'
+      @homeLink += '/' + campaign
+      @homeViewArgs.push campaign
+    else if @level.get('type', true) in ['course']
+      @homeLink = '/courses'
+      @homeViewClass = 'views/courses/CoursesView'
+      if @courseID
+        @homeLink += "/#{@courseID}"
+        @homeViewArgs.push @courseID
+        @homeViewClass = 'views/courses/CourseDetailsView'
+        if @courseInstanceID
+          @homeLink += "/#{@courseInstanceID}"
+          @homeViewArgs.push @courseInstanceID
     else
-      c.homeLink = '/'
+      @homeLink = '/'
+      @homeViewClass = 'views/HomeView'
+    c.editorLink = "/editor/level/#{@level.get('slug') or @level.id}"
+    c.homeLink = @homeLink
     c
 
-  afterRender: ->
-    super()
-    @guideHighlightInterval ?= setInterval @onGuideHighlight, 5 * 60 * 1000
+  showGameMenuModal: (e, tab=null) ->
+    gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel, showTab: tab
+    @openModalView gameMenuModal
+    @listenToOnce gameMenuModal, 'change-hero', ->
+      @setupManager?.destroy()
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, courseID: @courseID, courseInstanceID: @courseInstanceID})
+      @setupManager.open()
+
+  onClickHome: (e) ->
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs
+
+  onClickMultiplayer: (e) ->
+    @showGameMenuModal e, 'multiplayer'
+
+  onClickSignupButton: (e) ->
+    window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Control Bar', level: @levelID
+
+  onDisableControls: (e) -> @toggleControls e, false
+  onEnableControls: (e) -> @toggleControls e, true
+  toggleControls: (e, enabled) ->
+    return if e.controls and not ('level' in e.controls)
+    return if enabled is @controlsEnabled
+    @controlsEnabled = enabled
+    @$el.toggleClass 'controls-disabled', not enabled
+
+  onIPadMemoryWarning: (e) ->
+    @hasReceivedMemoryWarning = true
+
+  onSessionDifficultyChanged: ->
+    return if @session.get('state')?.difficulty is @lastDifficulty
+    @render()
 
   destroy: ->
-    clearInterval @guideHighlightInterval if @guideHighlightInterval
+    @setupManager?.destroy()
+    @multiplayerStatusManager?.destroy()
     super()
 
-  onGuideHighlight: =>
-    return if @destroyed or @guideShownOnce
-    @$el.find('#docs-button').hide().show('highlight', 4000)
+# MultiplayerStatusManager ######################################################
+#
+# Manages the multiplayer status, and calls @statusChangedCallback when it changes.
+#
+# It monitors these:
+#   Real-time multiplayer players
+#   Internal multiplayer status
+#
+# Real-time state variables:
+#   @playersCollection - Real-time multiplayer players
+#
+# TODO: Not currently using player counts.  Should remove if we keep simple design.
+#
+class MultiplayerStatusManager
 
-  showGuideModal: ->
-    options = {docs: @level.get('documentation'), supermodel: @supermodel}
-    @openModalView(new LevelGuideModal(options))
-    clearInterval @guideHighlightInterval
-    @guideHighlightInterval = null
+  constructor: (@levelID, @statusChangedCallback) ->
+    @status = ''
+    # @players = {}
+    # @playersCollection = new RealTimeCollection('multiplayer_players/' + @levelID)
+    # @playersCollection.on 'add', @onPlayerAdded
+    # @playersCollection.each (player) => @onPlayerAdded player
+    Backbone.Mediator.subscribe 'real-time-multiplayer:player-status', @onMultiplayerPlayerStatus
 
-  showGameMenuModal: ->
-    @openModalView new GameMenuModal level: @level, session: @session, playableTeams: @playableTeams
+  destroy: ->
+    Backbone.Mediator.unsubscribe 'real-time-multiplayer:player-status', @onMultiplayerPlayerStatus
+    # @playersCollection?.off 'add', @onPlayerAdded
+    # player.off 'change', @onPlayerChanged for id, player of @players
+
+  onMultiplayerPlayerStatus: (e) =>
+    @status = e.status
+    @statusChangedCallback()
+
+  # onPlayerAdded: (player) =>
+  #   unless player.id is me.id
+  #     @players[player.id] = new RealTimeModel('multiplayer_players/' + @levelID + '/' + player.id)
+  #     @players[player.id].on 'change', @onPlayerChanged
+  #   @countPlayers player
+  #
+  # onPlayerChanged: (player) =>
+  #   @countPlayers player
+  #
+  # countPlayers: (changedPlayer) =>
+  #   # TODO: save this stale hearbeat threshold setting somewhere
+  #   staleHeartbeat = new Date()
+  #   staleHeartbeat.setMinutes staleHeartbeat.getMinutes() - 3
+  #   @playerCount = 0
+  #   @playersCollectionAvailable = 0
+  #   @playersCollectionUnavailable = 0
+  #   @playersCollection.each (player) =>
+  #     # Assume changedPlayer is fresher than entry in @playersCollection collection
+  #     player = changedPlayer if changedPlayer? and player.id is changedPlayer.id
+  #     unless staleHeartbeat >= new Date(player.get('heartbeat'))
+  #       @playerCount++
+  #       @playersCollectionAvailable++ if player.get('state') is 'available'
+  #       @playersCollectionUnavailable++ if player.get('state') is 'unavailable'
+  #   @statusChangedCallback()

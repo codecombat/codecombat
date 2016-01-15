@@ -2,166 +2,187 @@ extends /templates/base
 
 block content
 
+  img(src="/images/pages/about/coco_comic.jpg")
+
   .row
 
     .col-sm-6
 
-      h2(data-i18n="about.who_is_codecombat")
-        | Who is CodeCombat?
-    
-      p
-        a(href="http://georgesaines.com/") George
-        span , 
-        a(href="http://scotterickson.info/") Scott
-        span , 
-        span(data-i18n="general.and") and
-        span  
-        a(href="http://www.nickwinter.net") Nick
-        span  
-        span(data-i18n="about.who_description_prefix")
-          | together started CodeCombat in 2013. We also created 
-        a(href="http://www.skritter.com/") Skritter
-        span  
-        span(data-i18n="about.who_description_suffix")
-          | in 2008, growing it to the #1 web and iOS application 
-          | for learning to write Chinese and Japanese characters.
-
-      p(data-i18n="about.who_description_ending")
-        | Now it's time to teach people to write code.
-    
       h2(data-i18n="about.why_codecombat")
         | Why CodeCombat?
-      
+
       p(data-i18n="about.why_paragraph_1")
-        | When making Skritter, George didn't know how to program and was constantly 
-        | frustrated by his inability to implement his ideas. Afterwards, 
-        | he tried learning, but the lessons were too slow. His housemate, 
-        | wanting to reskill and stop teaching, tried Codecademy, but "got bored." 
-        | Each week another friend started Codecademy, then dropped off. 
-        | We realized it was the same problem we'd solved with Skritter: 
-        | people learning a skill via slow, intensive lessons when what they need is fast,
-        | extensive practice. We know how to fix that.
-    
-      p(data-i18n="about.why_paragraph_2")
-        | Need to learn to code? You don't need lessons. 
+        | If you want to learn to program, you don't need lessons. 
         | You need to write a lot of code and have a great time doing it.
 
       p
-        span(data-i18n="about.why_paragraph_3_prefix")
+        span(data-i18n="about.why_paragraph_2_prefix")
           | That's what programming is about. It's gotta be fun.
           | Not fun like
         span  
-        i(data-i18n="about.why_paragraph_3_italic")
+        i(data-i18n="about.why_paragraph_2_italic")
           | yay a badge
         span  
-        span(data-i18n="about.why_paragraph_3_center")
+        span(data-i18n="about.why_paragraph_2_center")
           | but fun like
         span  
-        i(data-i18n="about.why_paragraph_3_italic_caps")
+        i(data-i18n="about.why_paragraph_2_italic_caps")
           | NO MOM I HAVE TO FINISH THE LEVEL!
         span  
-        span(data-i18n="about.why_paragraph_3_suffix")
+        span(data-i18n="about.why_paragraph_2_suffix")
           | That's why CodeCombat is a multiplayer game,
           | not a gamified lesson course. We won't stop 
           | until you can't stop--but this time, that's a good thing.
 
-      p(data-i18n="about.why_paragraph_4")
+      p(data-i18n="about.why_paragraph_3")
         | If you're going to get addicted to some game, 
         | get addicted to this one and become one of the wizards of the tech age.
 
-      p.lead
-        span(data-i18n="about.why_ending")
-          | And hey, it's free. 
-        a(href="/", data-i18n="about.why_ending_url")
-          | Start wizarding now!
-    
+      h2(data-i18n="about.press_title")
+        | Bloggers/Press
+
+      p
+        span.spr(data-i18n="about.press_paragraph_1_prefix")
+          | Want to write about us? Feel free to download and use all of the resources included in our
+        a(href="https://s3.amazonaws.com/CodeCombatMisc/press_packet.zip", data-i18n="about.press_paragraph_1_link") press packet
+        span(data-i18n="about.press_paragraph_1_suffix")
+          | . All logos and images may be used without contacting us directly.
+
+      h2(data-i18n="nav.contact")
+        | Contact
+      p
+        span CodeCombat Inc.
+        br
+        span 360 3rd St Suite 700 (Livefyre)
+        br
+        span San Francisco, CA 94107
+        br
+        a(href='mailto:team@codecombat.com') team@codecombat.com
+      if me.get('preferredLanguage') == 'pt-BR'
+        span CodeCombat, Brazil
+        br
+        span Rua 1814 Militão Chaves
+        br
+        span Natal, Brazil, RN 59064-500
 
     ul.col-sm-6.team-column
- 
+
       ul.thumbnails
-    
-        li.row
-    
-          a(href="http://georgesaines.com")
-            img(src="/images/pages/about/george_small.png").img-thumbnail
-  
-          .col-sm-8
-  
-            h3
-              a(href="http://georgesaines.com") George Saines
 
-            p(data-i18n="about.george_description")
-              | CEO, business guy, web designer, game designer, 
-              | and champion of beginning programmers everywhere.
-    
         li.row
 
-          a(href="http://scotterickson.info")
-            img(src="/images/pages/about/scott_small.png").img-thumbnail
-  
-          .col-sm-8
+          h2(data-i18n="about.team") Team
 
-            h3
-              a(href="http://scotterickson.info") Scott Erickson
-  
-            p(data-i18n="about.scott_description")
-              | Programmer extraordinaire, software architect, 
-              | kitchen wizard, and master of finances. 
-              | Scott is the reasonable one.
-    
-        li.row
-    
+          // Full time
+
           a(href="http://www.nickwinter.net")
             img(src="/images/pages/about/nick_small.png").img-thumbnail
-  
-          .col-sm-8
-
-            h3
+          .team_bio
+            h4.team_name
               a(href="http://www.nickwinter.net") Nick Winter
-    
-            p(data-i18n="about.nick_description")
-              | Programming wizard, eccentric motivation mage, 
-              | and upside-down experimenter. 
-              | Nick can do anything and chooses to build CodeCombat.
+            div(data-i18n="about.nick_title")
+            div(data-i18n="about.nick_blurb")
 
-        li.row
-    
-          a(href="http://michaelschmatz.com")
-            img(src="/images/pages/about/michael_small.png").img-thumbnail
-  
-          .col-sm-8
-
-            h3
-              a(href="http://michaelschmatz.com/") Michael Schmatz
-    
-            p(data-i18n="about.michael_description")
-              | Programmer, sys-admin, and undergrad technical wunderkind, 
-              | Michael is the person keeping our servers online.
-
-        li.row
-    
-          img(src="/images/pages/about/jeremy_small.png").img-thumbnail
-  
-          .col-sm-8
-
-            h3 Jeremy Arns
-    
-            p(data-i18n="about.jeremy_description")
-              | Customer support mage, usability tester, 
-              | and community organizer; you've probably 
-              | already spoken with Jeremy.
-
-        li.row
-    
-          img(src="/images/pages/contribute/archmage.png").img-thumbnail
-  
-          .col-sm-8
-
-            h3
+          a(href="http://www.mattlott.com/")
+            img(src="/images/pages/about/matt_small.png").img-thumbnail
+          .team_bio
+            h4.team_name
               a(href="http://www.mattlott.com/") Matt Lott
-    
-            p(data-i18n="about.matt_description")
-              | Bicyclist, Software Engineer, reader of heroic fantasy, connoisseur 
-              | of peanut butter, sipper of coffee.
+            div(data-i18n="about.matt_title")
+            div(data-i18n="about.matt_blurb")
 
+        li.row
+
+          a(href="http://cat.zdh.com/")
+            img(src="/images/pages/about/cat_small.png").img-thumbnail
+          .team_bio
+            h4.team_name
+              a(href="http://cat.zdh.com/") Catherine Weresow
+            div(data-i18n="about.cat_title")
+            div(data-i18n="about.cat_blurb")
+
+          img(src="/images/pages/about/scott_small.png").img-thumbnail
+          .team_bio
+            h4.team_name Scott Erickson
+            div(data-i18n="about.scott_title")
+            div(data-i18n="about.scott_blurb")
+
+        li.row
+
+          img(src="/images/pages/about/maka_small.png").img-thumbnail
+          .team_bio
+            h4.team_name Michael 'Maka' Gradin
+            div(data-i18n="about.maka_title")
+            div(data-i18n="about.maka_blurb")
+
+          a(href="http://basicer.com/")
+            img(src="/images/pages/about/rob_small.png").img-thumbnail
+          .team_bio
+            h4.team_name
+              a(href="http://basicer.com/") Rob Blanckaert
+            div(data-i18n="about.rob_title")
+            div(data-i18n="about.rob_blurb")
+
+        li.row
+
+          img(src="/images/pages/about/josh_c_small.png").img-thumbnail
+          .team_bio
+            h4.team_name Josh Callebaut
+            div(data-i18n="about.josh_c_title")
+            div(data-i18n="about.josh_c_blurb")
+
+          a(href="http://robinyang.com/")
+            img(src="/images/pages/about/robin_small.png").img-thumbnail
+          .team_bio
+            h4.team_name
+              a(href="http://robinyang.com/") Robin Yang
+            div(data-i18n="about.robin_title")
+            div(data-i18n="about.robin_blurb")
+
+
+        // Part time / contract
+
+        li.row
+
+          a(href="http://floor.is/lava/")
+            img(src="/images/pages/about/josh_small.png").img-thumbnail
+          .team_bio
+            h4.team_name
+              a(href="http://floor.is/lava/") Josh Lee
+            div(data-i18n="about.josh_title")
+            div(data-i18n="about.josh_blurb")
+
+          a(href="https://soundcloud.com/taking-off")
+            img(src="/images/pages/about/jose_small.png").img-thumbnail
+          .team_bio
+            h4.team_name
+              a(href="https://soundcloud.com/taking-off") Jose Antonini
+            div(data-i18n="about.jose_title")
+            div(data-i18n="about.jose_blurb")
+
+        li.row
+
+          a(href="http://retrostylegames.com/")
+            img(src="/images/pages/about/pavel_small.png").img-thumbnail
+          .team_bio
+            h4.team_name
+              a(href="http://retrostylegames.com/") Pavel Konstantinov
+            div(data-i18n="about.retrostyle_title")
+            div(data-i18n="about.retrostyle_blurb")
+
+          a(href="http://retrostylegames.com/")
+            img(src="/images/pages/about/oleg_small.png").img-thumbnail
+          .team_bio
+            h4.team_name
+              a(href="http://retrostylegames.com/") Oleg Ulyanickiy
+            div(data-i18n="about.retrostyle_title")
+            div(data-i18n="about.retrostyle_blurb")
+
+        li.row
+
+          img(src="/images/pages/about/carlos_small.png").img-thumbnail
+          .team_bio
+            h4.team_name Carlos Maia
+            div(data-i18n="about.carlos_title")
+            div(data-i18n="about.carlos_blurb")
 

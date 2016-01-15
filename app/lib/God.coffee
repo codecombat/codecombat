@@ -4,7 +4,7 @@
 
 {now} = require 'lib/world/world_utils'
 World = require 'lib/world/world'
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 Angel = require 'lib/Angel'
 
 module.exports = class God extends CocoClass
@@ -24,6 +24,8 @@ module.exports = class God extends CocoClass
     @angelsShare =
       workerCode: options.workerCode or '/javascripts/workers/worker_world.js'  # Either path or function
       headless: options.headless  # Whether to just simulate the goals, or to deserialize all simulation results
+      spectate: options.spectate
+      god: @
       godNick: @nick
       workQueue: []
       firstWorld: true
@@ -33,8 +35,15 @@ module.exports = class God extends CocoClass
       angels: []
       busyAngels: []  # Busy angels will automatically register here.
 
+    # Determine how many concurrent Angels/web workers to use at a time
     # ~20MB per idle worker + angel overhead - every Angel maps to 1 worker
-    angelCount = options.maxAngels ? 2  # How many concurrent Angels/web workers to use at a time
+    if options.maxAngels?
+      angelCount = options.maxAngels
+    else if window.application.isIPadApp
+      angelCount = 1
+    else
+      angelCount = 2
+
     # Don't generate all Angels at once.
     _.delay (=> new Angel @angelsShare unless @destroyed), 250 * i for i in [0 ... angelCount]
 
@@ -53,9 +62,13 @@ module.exports = class God extends CocoClass
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
 
   onTomeCast: (e) ->
-    @createWorld e.spells, e.preload
+    return unless e.god is @
+    @lastSubmissionCount = e.submissionCount
+    @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
+    @lastDifficulty = e.difficulty
+    @createWorld e.spells, e.preload, e.realTime
 
-  createWorld: (spells, preload=false) ->
+  createWorld: (spells, preload, realTime) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
 
@@ -65,7 +78,7 @@ module.exports = class God extends CocoClass
       isPreloading = angel.running and angel.work.preload and _.isEqual angel.work.userCodeMap, userCodeMap, (a, b) ->
         return a.raw is b.raw if a?.raw? and b?.raw?
         undefined  # Let default equality test suffice.
-      if not hadPreloader and isPreloading
+      if not hadPreloader and isPreloading and not realTime
         angel.finalizePreload()
         hadPreloader = true
       else if preload and angel.running and not angel.work.preload
@@ -80,16 +93,21 @@ module.exports = class God extends CocoClass
       userCodeMap: userCodeMap
       level: @level
       levelSessionIDs: @levelSessionIDs
+      submissionCount: @lastSubmissionCount
+      flagHistory: @lastFlagHistory
+      difficulty: @lastDifficulty
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless
       preload: preload
       synchronous: not Worker?  # Profiling world simulation is easier on main thread, or we are IE9.
+      realTime: realTime
     angel.workIfIdle() for angel in @angelsShare.angels
 
   getUserCodeMap: (spells) ->
     userCodeMap = {}
     for spellKey, spell of spells
       for thangID, spellThang of spell.thangs
+        continue if spellThang.thang?.programmableMethods[spell.name].cloneOf
         (userCodeMap[thangID] ?= {})[spell.name] = spellThang.aether.serialize()
     userCodeMap
 
@@ -107,6 +125,9 @@ module.exports = class God extends CocoClass
         userCodeMap: @currentUserCodeMap
         level: @level
         levelSessionIDs: @levelSessionIDs
+        submissionCount: @lastSubmissionCount
+        flagHistory: @lastFlagHistory
+        difficulty: @lastDifficulty
         goals: @goalManager?.getGoals()
         frame: args.frame
         currentThangID: args.thangID
@@ -123,9 +144,9 @@ module.exports = class God extends CocoClass
       when 'console-log'
         console.log "|#{@nick}'s debugger|", event.data.args...
       when 'debug-value-return'
-        Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized
+        Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized, god: @
       when 'debug-world-load-progress-changed'
-        Backbone.Mediator.publish 'god:debug-world-load-progress-changed', event.data
+        Backbone.Mediator.publish 'god:debug-world-load-progress-changed', progress: event.data.progress, god: @
 
   onNewWorldCreated: (e) ->
     @currentUserCodeMap = @filterUserCodeMapWhenFromWorld e.world.userCodeMap

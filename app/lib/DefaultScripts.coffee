@@ -1,25 +1,22 @@
 module.exports = [
   {
-    channel: "god:new-world-created"
-    noteChain: []
     id: "Introduction"
-  }
-  {
-    channel: "world:won"
-    noteChain: []
-    id: "Victory Playback"
-    scriptPrereqs: ["Introduction"]
-  }
-  {
-    channel: "level-set-playing"
-    noteChain: []
-    scriptPrereqs: ["Victory Playback"]
-    id: "Victory Playback Started"
-  }
-  {
-    channel: "surface:frame-changed"
-    noteChain: []
-    scriptPrereqs: ["Victory Playback Started"]
-    id: "Show Victory"
+    channel: "god:new-world-created"
+    noteChain: [
+      name: "Set camera, start music."
+      surface:
+        focus:
+          bounds: [{x: 0, y: 0}, {x: 80, y: 68}]
+          target: "Hero Placeholder"
+          zoom: 0.5
+      sound:
+        music:
+          file: "/music/music_level_2"
+          play: true
+      script:
+        duration: 1
+      playback:
+        playing: false
+    ]
   }
 ]

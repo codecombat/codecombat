@@ -1,0 +1,54 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3 Administer User
+  h4 #{user.get('name') || 'Unnamed'} / #{user.get('email')}
+  span= user.id
+
+
+block modal-body-content
+  
+  h3 Stripe Benefit
+  .form
+    .form-group
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="" checked=none)
+          | None
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="free" checked=free)
+          | Free
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="free-until" checked=FreeUntil)
+          | Free Until
+          input.form-control.spl(type="date" name="stripe-free-until" value=freeUntilDate)#free-until-date
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="coupon" checked=coupon)
+          | Coupon
+        select.form-control#coupon-select
+          for couponOption in coupons
+            option(value=couponOption.id selected=coupon===couponOption.id)= couponOption.format
+    button#save-changes.btn.btn-primary Save Changes
+    
+  h3 Grant Prepaid for Courses
+  #prepaid-form.form
+    if view.state === 'creating-prepaid'
+      .progress.progress-striped.active
+        .progress-bar(style="width: 100%")
+      
+    else if view.state === 'made-prepaid'
+      .alert.alert-success Prepaid created!
+      
+    else
+      .form-group
+        label Seats
+        input#seats-input.form-control(type="number")
+      .form-group
+        button#add-seats-btn.btn.btn-primary Add Seats
+            
+block modal-footer-content
+  
+

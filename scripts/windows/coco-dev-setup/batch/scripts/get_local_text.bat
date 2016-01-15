@@ -1,1 +1,0 @@
-call get_text %language_id% %1 %2 %3 %4 %5

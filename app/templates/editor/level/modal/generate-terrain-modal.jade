@@ -1,0 +1,17 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="editor.pick_a_terrain") Pick a Terrain
+
+block modal-body-content
+  div#normal-view
+    each sizeObject, size in view.presetSizes
+      each preset in view.presets
+        a(href="#")
+          div.choose-option(data-preset-type=preset.type, data-preset-size=size, style="background:url(/images/pages/editor/level/preset_"+preset.type+"_"+size+".jpg) no-repeat center; background-size: cover")
+            div.preset-size.name-label.capitalize
+              span(data-i18n="editor."+size) #{size}
+            div.preset-name.capitalize
+              span(data-i18n="editor."+preset.type) #{preset.type}
+    .clearfix
+block modal-footer

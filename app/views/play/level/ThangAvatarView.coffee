@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/thang_avatar'
 ThangType = require 'models/ThangType'
 
@@ -36,8 +36,8 @@ module.exports = class ThangAvatarView extends CocoView
   getRenderData: (context={}) ->
     context = super context
     context.thang = @thang
-    options = @thang?.getSpriteOptions() or {}
-    options.async = true
+    options = @thang?.getLankOptions() or {}
+    #options.async = true  # sync builds fail during async builds, and we build HUD version sync
     context.avatarURL = @thangType.getPortraitSource(options) unless @thangType.loading
     context.includeName = @includeName
     context
@@ -70,7 +70,7 @@ module.exports = class ThangAvatarView extends CocoView
     @setProblems myProblems.length, worstLevel
 
   onNewWorld: (e) ->
-    @options.thang = @thang = e.world.thangMap[@thang.id] if @thang
+    @options.thang = @thang = e.world.thangMap[@thang.id] if @thang and e.world.thangMap[@thang.id]
 
   destroy: ->
     super()

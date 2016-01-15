@@ -13,10 +13,6 @@ module.exports.setup = (app) ->
     handler = loadQueueHandler 'scoring'
     handler.messagesInQueueCount req, res
 
-  app.post '/queue/scoring/resimulateAllSessions', (req, res) ->
-    handler = loadQueueHandler 'scoring'
-    handler.resimulateAllSessions req, res
-
   app.post '/queue/scoring/getTwoGames', (req, res) ->
     handler = loadQueueHandler 'scoring'
     handler.getTwoGames req, res
@@ -36,7 +32,7 @@ module.exports.setup = (app) ->
       else if isHTTPMethodPut req
         handler.processTaskResult req, res
       else if isHTTPMethodPost req
-        handler.createNewTask req, res #TODO: do not use this in production
+        handler.createNewTask req, res 
       else
         sendMethodNotSupportedError req, res
     catch error
