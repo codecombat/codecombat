@@ -7,7 +7,7 @@ class PendingPatchesCollection extends CocoCollection
   url: '/db/patch?view=pending'
   model: Patch
 
-module.exports = class PatchesView extends RootView
+module.exports = class PendingPatchesView extends RootView
   id: 'pending-patches-view'
   template: template
 
