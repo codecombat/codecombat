@@ -455,7 +455,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     managed_subs: "Suscripciones Administradas"
     subscribing: "Suscribiendo..."
     current_recipients: "Beneficiarios Actuales"
-    unsubscribing: "Dando de bajo..."
+    unsubscribing: "Dando de baja..."
     subscribe_prepaid: "Click en Suscribirse para utilizar un código prepago"
     using_prepaid: "Usando código prepago para una suscribción mensual"
 
