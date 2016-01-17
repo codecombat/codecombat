@@ -399,7 +399,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     recovered: "gem 구매후 브라우져를 새로고침 하세요."
     price: "x{{gems}} / 한달"
 
-#  subscribe:
+  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "110+ basic levels across 4 worlds"
 #    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
@@ -496,7 +496,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
-#  skill_docs:
+  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
 #    read_only: "read-only"
 #    action: "Action"
@@ -516,7 +516,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     returns: "뒤로가기"
 #    granted_by: "Granted by"
 
-#  save_load:
+  save_load:
     granularity_saved_games: "저장됨"
     granularity_change_history: "기록"
 
@@ -586,7 +586,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    more_info_2: "teachers forum"
 #    more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
 
-#  teachers_survey:
+  teachers_survey:
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
