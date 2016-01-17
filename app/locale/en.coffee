@@ -1037,6 +1037,7 @@
     ambassador_title: "Ambassador"
     ambassador_title_description: "(Support)"
     ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world."
+    teacher_title: "Teacher"
 
   editor:
     main_title: "CodeCombat Editors"
@@ -1193,6 +1194,7 @@
     ambassador_join_note_strong: "Note"
     ambassador_join_note_desc: "One of our top priorities is to build multiplayer where players having difficulty solving levels can summon higher level wizards to help them. This will be a great way for ambassadors to do their thing. We'll keep you posted!"
     ambassador_subscribe_desc: "Get emails on support updates and multiplayer developments."
+    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
     changes_auto_save: "Changes are saved automatically when you toggle checkboxes."
     diligent_scribes: "Our Diligent Scribes:"
     powerful_archmages: "Our Powerful Archmages:"

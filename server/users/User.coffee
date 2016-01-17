@@ -76,6 +76,7 @@ emailNameMap =
   diplomatNews: 'translator'
   ambassadorNews: 'support'
   anyNotes: 'notification'
+  teacherNews: 'teacher'
 
 UserSchema.methods.setEmailSubscription = (newName, enabled) ->
   oldSubs = _.clone @get('emailSubscriptions')
