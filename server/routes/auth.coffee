@@ -8,6 +8,7 @@ errors = require '../commons/errors'
 languages = require '../routes/languages'
 sendwithus = require '../sendwithus'
 log = require 'winston'
+utils = require '../lib/utils'
 
 module.exports.setup = (app) ->
   authentication.serializeUser((user, done) -> done(null, user._id))
@@ -101,7 +102,10 @@ module.exports.setup = (app) ->
       if not user
         return errors.notFound(res, [{message: 'not found', property: 'email'}])
 
-      user.set('passwordReset', Math.random().toString(36).slice(2, 7).toUpperCase())
+      user.set('passwordReset', utils.getCodeCamel())
+      emailContent = "<h3>Your temporary password: <b>#{user.get('passwordReset')}</b></h3>"
+      emailContent += "<p>Reset your password at <a href=\"http://codecombat.com/account/settings\">http://codecombat.com/account/settings</a></p>"
+      emailContent += "<p>Your old password cannot be retrieved.</p>"
       user.save (err) =>
         return errors.serverError(res) if err
         unless config.unittest
@@ -111,8 +115,8 @@ module.exports.setup = (app) ->
               address: req.body.email
             email_data:
               subject: 'CodeCombat Recovery Password'
-              title: 'Recovery Password'
-              content: "<p>Your CodeCombat recovery password for email #{req.body.email} is: #{user.get('passwordReset')}</p><p>Log in at <a href=\"http://codecombat.com/account/settings\">http://codecombat.com/account/settings</a> and change it.</p><p>Hope this helps!</p>"
+              title: ''
+              content: emailContent
           sendwithus.api.send context, (err, result) ->
             if err
               console.error "Error sending password reset email: #{err.message or err}"
