@@ -41,7 +41,7 @@ module.exports.formatSessionInformation = (session) ->
   shouldUpdateLastOpponentSubmitDateForLeague: session.shouldUpdateLastOpponentSubmitDateForLeague
 
 module.exports.calculateSessionScores = (callback) ->
-  sessionIDs = _.pluck @clientResponseObject.sessions, 'sessionID'
+  sessionIDs = _.map @clientResponseObject.sessions, 'sessionID'
   async.map sessionIDs, retrieveOldSessionData.bind(@), (err, oldScores) =>
     if err? then return callback err, {error: 'There was an error retrieving the old scores'}
     try
@@ -151,7 +151,7 @@ module.exports.addMatchToSessionsAndUpdate = (newScoreObject, callback) ->
   #log.info "Match object computed, result: #{JSON.stringify(matchObject, null, 2)}"
   #log.info 'Writing match object to database...'
   #use bind with async to do the writes
-  sessionIDs = _.pluck @clientResponseObject.sessions, 'sessionID'
+  sessionIDs = _.map @clientResponseObject.sessions, 'sessionID'
   async.each sessionIDs, updateMatchesInSession.bind(@, matchObject), (err) ->
     callback err
 
