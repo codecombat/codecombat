@@ -134,7 +134,11 @@ describe 'Trial Requests', ->
                   expect(prepaid.get('type')).toEqual('course')
                   expect(prepaid.get('creator')).toEqual(user.get('_id'))
                   expect(prepaid.get('maxRedeemers')).toEqual(2)
-                  done()
+                  User.findById user._id, (err, user) =>
+                    expect(err).toBeNull()
+                    return done(err) if err
+                    expect(user.get('emails')?.teacherNews?.enabled).toEqual(true)
+                    done()
 
   it 'Deny trial request', (done) ->
     loginNewUser (user) ->

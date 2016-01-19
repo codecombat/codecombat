@@ -11,8 +11,8 @@ class LevelSessionsCollection extends CocoCollection
     super()
     @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
 
-module.exports = class LadderHomeView extends RootView
-  id: 'ladder-home-view'
+module.exports = class MainLadderView extends RootView
+  id: 'main-ladder-view'
   template: template
 
   constructor: (options) ->

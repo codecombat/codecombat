@@ -2,7 +2,7 @@ Classroom = require 'models/Classroom'
 ModalView = require 'views/core/ModalView'
 template = require 'templates/courses/classroom-settings-modal'
 
-module.exports = class AddLevelSystemModal extends ModalView
+module.exports = class ClassroomSettingsModal extends ModalView
   id: 'classroom-settings-modal'
   template: template
 
