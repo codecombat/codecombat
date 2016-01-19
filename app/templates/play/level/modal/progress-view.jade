@@ -1,0 +1,42 @@
+.modal-header
+  #close-modal.well.well-sm.well-parchment(data-dismiss="modal")
+    span.glyphicon.glyphicon-remove
+  .well.well-sm.well-parchment
+    h1 Level Complete
+
+.modal-body
+  .container-fluid
+    .row
+      - var colClass = view.nextLevel ? 'col-sm-7' : 'col-sm-12'
+      div(class=colClass)
+        .well.well-sm.well-parchment
+          h3.text-uppercase Completed Level:
+          h2.text-uppercase.text-center= i18n(view.level.attributes, 'name')
+        .well.well-sm.well-parchment
+          h3.text-uppercase Course:
+          .row
+            .col-sm-8
+              h3.text-uppercase.text-center= i18n(view.course.attributes, 'name')
+            .col-sm-4
+              - var stats = view.campaign.statsForSessions(view.levelSessions)
+              h1
+                span #{stats.levels.numDone}/#{stats.levels.size}
+          
+        
+      if view.nextLevel
+        .col-sm-5
+          .well.well-sm.well-parchment
+            h3.text-uppercase Next Level:
+            h2.text-uppercase= i18n(view.nextLevel.attributes, 'name')
+            
+            p= i18n(view.nextLevel.attributes, 'description')
+        
+    .row
+      .col-sm-5.col-sm-offset-2
+      // TODO: Add this and rest of campaign functionality
+      //  button#continue-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase View Leaderboards
+      .col-sm-5
+        if view.nextLevel
+          button#next-level-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase Next Level
+        else
+          button#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase Done

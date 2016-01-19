@@ -1,0 +1,19 @@
+.modal-header
+  #close-modal.well.well-sm.well-parchment(data-dismiss="modal")
+    span.glyphicon.glyphicon-remove
+  .well.well-sm.well-parchment
+    h1(data-i18n="play_level.victory_new_item")
+
+.modal-body
+  .container-fluid
+    .row
+      .col-sm-5.text-center
+        img.img-rounded.img-prize(src=view.item.getPortraitURL())
+        h3#item-header
+          #item-label.label.label-banner= i18n(view.item.attributes, 'name')
+      .col-sm-7
+        .well.well-parchment= i18n(view.item.attributes, 'description')
+
+    .row
+      .col-sm-3.col-sm-offset-9
+        button#continue-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase Continue

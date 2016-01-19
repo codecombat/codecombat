@@ -36,6 +36,7 @@ GoldView = require './LevelGoldView'
 DuelStatsView = require './DuelStatsView'
 VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
+CourseVictoryModal = require './modal/CourseVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ContactModal = require 'views/core/ContactModal'
@@ -533,6 +534,7 @@ module.exports = class PlayLevelView extends RootView
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then HeroVictoryModal else VictoryModal
+    ModalClass = CourseVictoryModal if @courseID and @courseInstanceID
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     if me.get('anonymous')
