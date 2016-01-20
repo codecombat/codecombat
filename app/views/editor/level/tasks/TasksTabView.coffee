@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/level/tasks_tab'
+template = require 'templates/editor/level/tasks-tab'
 Level = require 'models/Level'
 
 module.exports = class TasksTabView extends CocoView
@@ -7,11 +7,11 @@ module.exports = class TasksTabView extends CocoView
   className: 'tab-pane'
   template: template
   events:
-    'click .taskRow': 'onTaskRowClicked'
-    'click .taskInput': 'onTaskCompletionClicked'
-    'click .startEdit': 'onTaskEditClicked'
-    'click #createTask': 'onTaskCreateClicked'
-    'keydown #curEdit': 'onCurEditKeyDown'
+    'click .taskRow': 'onClickTaskRow'
+    'click .taskInput': 'onClickTaskInput'
+    'click .startEdit': 'onClickStartEdit'
+    'click #createTask': 'onClickCreateTask'
+    'keydown #curEdit': 'onKeyDownCurEdit'
 
   subscriptions:
     'editor:level-loaded': 'onLevelLoaded'
@@ -54,123 +54,96 @@ module.exports = class TasksTabView extends CocoView
     'Do thorough set decoration.':'./'
     'Add a walkthrough video.':'./'
 
-  constructor: (options) ->
-    super options
-    @render()
+  taskMap: ->
+    return @tasks?.map((_obj) -> return (name: _obj.get('name'), complete: (_obj.get('complete') || false)))
+
+  taskArray: ->
+    return @tasks?.toArray()
+
+  findTask: (_name) ->
+    return @tasks.findWhere(name:_name)
 
   onLoaded: ->
   onLevelLoaded: (e) ->
     @level = e.level
-    if e.level._revertAttributes
-      @revertTasks = e.level._revertAttributes.tasks
-    else
-      @revertTasks = @level.get 'tasks'
-    @tasks = @level.get 'tasks'
-    @tTasks = _.clone @tasks, true
-    for task in @tTasks
-      if @revertTasks[_.findKey(@revertTasks, {'name':task.name})]
-        task.reversion = @revertTasks[_.findKey(@revertTasks, {'name':task.name})].complete || null
-      else
-        task.reversion = false
+    Task = Backbone.Model.extend({
+      initialize: ->
+        if e?.level?._revertAttributes?.tasks?
+          if _.find(e.level._revertAttributes.tasks, {name:arguments[0].name})
+            @set 'revert', _.find(e.level._revertAttributes.tasks, {name:arguments[0].name})
+          else
+            @set 'revert', arguments[0]
+        else
+          @set 'revert', arguments[0]
+    })
+    TaskList = Backbone.Collection.extend({
+      model: Task
+    })
+    @tasks = new TaskList(@level.get 'tasks')
     @render()
-  
-  getRenderData: ->
-    c = super()
-    c.tasks = @tasks
-    c.status
-    c
+
 
   pushTasks: ->
-    for task in @tTasks
-      taskKey = @findTaskByName(@tasks, task.name)
-      oTaskKey = @findTaskByName(@tasks, task.oldName)
-      if taskKey?
-        @tasks[taskKey].complete = task.complete
-      else if oTaskKey?
-        if task.name is ''
-          @tasks.splice(oTaskKey, 1)
-          @tTasks.splice(@tTasks.indexOf(task), 1)
-          break
-          @pushTasks()
-        else
-          @tasks[oTaskKey].name = task.name
-          @tasks[oTaskKey].complete = task.complete
-      else
-        if task.name is ''
-          @tasks.splice(oTaskKey, 1)
-          @tTasks.splice(@tTasks.indexOf(task), 1)
-        else
-          @tasks.push
-            name: task.name
-            complete: task.complete
-    @level.set 'tasks', @tasks
-    @parent.renderSelectors '#tasks-tab'
+    @level.set 'tasks', @taskMap()
 
-  onTaskRowClicked: (e) ->
+  onClickTaskRow: (e) ->
     if not $(e.target).is('input') and not $(e.target).is('a') and not $(e.target).hasClass('startEdit')
-      checkBox = $(e.currentTarget).find('.taskInput')[0]
-      tTaskKey = @findTaskByName(@tTasks, @getData e)
-      if tTaskKey?
-        if checkBox.checked
-          checkBox.checked = false
-        else
-          checkBox.checked = true
-        console.log(checkBox.checked)
-        @tTasks[tTaskKey].complete = checkBox.checked
+      task = @findTask($(e.target).closest('tr').data('task').name)
+      checkbox = $(e.currentTarget).find('.taskInput')[0]
+      if task.get 'complete'
+        task.set 'complete', false
+      else
+        task.set 'complete', true
+      checkbox.checked = task.get 'complete'
       @pushTasks()
 
-  onTaskCompletionClicked: (e) ->
-    tTaskKey = @findTaskByName(@tTasks, @getData e)
-    if tTaskKey?
-      @tTasks[tTaskKey].complete = e.currentTarget.checked
+  onClickTaskInput: (e) ->
+    task = @findTask($(e.target).closest('tr').data('task').name)
+    task.set 'complete', e.currentTarget.checked
     @pushTasks()
 
-  onTaskCreateClicked: (e) ->
+  onClickStartEdit: (e) ->
     if $('#curEdit').length is 0
-      @tTasks.push
-        name: ''
-        complete: false
-        reversion: false
-        curEdit: true
+      task = @findTask($(e.target).closest('tr').data('task').name)
+      task.set 'curEdit', true
       @render()
     editDiv = $('#curEdit')[0]
     editDiv.focus()
     len = editDiv.value.length * 2
     editDiv.setSelectionRange len, len
 
-  onCurEditKeyDown: (e) ->
-    editDiv = $('#curEdit')[0]
+  onKeyDownCurEdit: (e) ->
     if e.keyCode is 13
-      taskIndex = @findTaskByName(@tasks, editDiv.value)
-      tTaskIndex = _.findKey(@tTasks, {'curEdit':true})
-      if taskIndex? and tTaskIndex? and taskIndex isnt tTaskIndex
+      editDiv = $('#curEdit')[0]
+      task = @findTask($(e.target).closest('tr').data('task').name)
+      potentialTask = @findTask(editDiv.value)
+      if potentialTask and potentialTask isnt task
         noty
           timeout: 5000
-          text: 'Task with name already exists.'
+          text: 'Task with name already exists!'
           type: 'error'
           layout: 'topCenter'
+      else if editDiv.value is ''
+        @tasks.remove task
+        @pushTasks()
+        @render()
       else
-        @tTasks[tTaskIndex].oldName = @tTasks[tTaskIndex].name
-        @tTasks[tTaskIndex].name = curEdit.value
-        @tTasks[tTaskIndex].curEdit = false
+        task.set 'name', editDiv.value
+        task.set 'curEdit', false
+        @pushTasks()
+        @render()
 
-      @pushTasks()
-      @render()
-
-  onTaskEditClicked: (e) ->
+  onClickCreateTask: (e) ->
     if $('#curEdit').length is 0
-      taskIndex = @findTaskByName(@tTasks, @getData e)
-      @tTasks[taskIndex].curEdit = true
+      @tasks.add
+        name: ''
+        complete: false
+        curEdit: true
+        revert:
+          name: 'null'
+          complete: false
       @render()
     editDiv = $('#curEdit')[0]
     editDiv.focus()
     len = editDiv.value.length * 2
     editDiv.setSelectionRange len, len
-
-  findTaskByName: (obj, name) ->
-    return _.findKey(obj, {'name':name})
-
-  getData: (elem) ->
-    return elem.currentTarget.getAttribute('data')
-
-    

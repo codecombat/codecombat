@@ -1,0 +1,41 @@
+mixin task-row(task)
+  - var taskName = task.get('name');
+  - var isComplete = task.get('complete')
+  - var taskLink = view.defaultTaskLinks[taskName]
+  tr.taskRow(data-task=task)
+    td.taskCheck
+      div.checkbox
+        input(type='checkbox', checked=(isComplete || false)).taskInput
+    if task.get('curEdit') === true
+      td.editCell
+      td
+        input(type="input", value=taskName)#curEdit
+    else
+      td.editCell
+        span.startEdit ✎
+      td
+        if taskLink
+          if taskLink === './'
+            a.noArticle(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', target='blank')= taskName
+          else
+            a(href=taskLink, target='_blank')= taskName
+        else
+          span= taskName
+
+block
+  table.table.table-striped.table-hover
+    tr
+      th.taskCheck Complete
+      th Edit
+      th Incomplete Tasks
+    for task in (view.taskArray() || [])
+      if task.get('revert').complete !== true
+        +task-row(task)
+    tr
+      th
+      th
+      th Completed Tasks
+    for task in (view.taskArray() || [])
+      if task.get('revert').complete === true
+        +task-row(task)
+  button#createTask.btn.btn-default Add Task

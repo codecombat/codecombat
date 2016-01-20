@@ -23,17 +23,11 @@ module.exports = class ArtisanGuideModal extends ModalView
   events:
     'click #level-submit': 'levelSubmit'
 
-  constructor: (options) ->
-    super options
+  initialize: (options) ->
     @level = options.level
     @options = level: @level.get 'name'
-    @render()
-
-  getRenderData: ->
-    c = super()
-    c.creator = @level.get 'creator'
-    c.meID = me.id
-    c
+    @creator = @level.get 'creator'
+    @meID = me.id
 
   levelSubmit: ->
     @playSound 'menu-button-click'
