@@ -55,7 +55,7 @@
     "aether": "~0.4.0",
     "async": "0.2.x",
     "aws-sdk": "~2.0.0",
-    "bayesian-battle": "0.0.x",
+    "bayesian-battle": "https://github.com/codecombat/bayesian-battle/tarball/master",
     "coffee-script": "1.9.x",
     "connect": "2.7.x",
     "express": "~3.0.6",
