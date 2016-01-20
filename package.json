@@ -98,7 +98,7 @@
     "css-brunch": "^1.7.0",
     "fs-extra": "^0.26.2",
     "jade-brunch": "1.7.5",
-    "jasmine": "^2.3.2",
+    "jasmine": "^2.4.1",
     "javascript-brunch": "> 1.0 < 1.8",
     "karma": "~0.13",
     "karma-chrome-launcher": "~0.1.2",
