@@ -44,13 +44,10 @@ module.exports.calculateSessionScores = (callback) ->
   sessionIDs = _.map @clientResponseObject.sessions, 'sessionID'
   async.map sessionIDs, retrieveOldSessionData.bind(@), (err, oldScores) =>
     if err? then return callback err, {error: 'There was an error retrieving the old scores'}
-    try
-      oldScoreArray = _.toArray putRankingFromMetricsIntoScoreObject @clientResponseObject, oldScores
-      newScoreArray = updatePlayerSkills oldScoreArray
-      createSessionScoreUpdate.call @, scoreObject for scoreObject in newScoreArray
-      callback err, newScoreArray
-    catch e
-      callback e
+    oldScoreArray = _.toArray putRankingFromMetricsIntoScoreObject @clientResponseObject, oldScores
+    newScoreArray = updatePlayerSkills oldScoreArray
+    createSessionScoreUpdate.call @, scoreObject for scoreObject in newScoreArray
+    callback null, newScoreArray
 
 retrieveOldSessionData = (sessionID, callback) ->
   formatOldScoreObject = (session) =>
