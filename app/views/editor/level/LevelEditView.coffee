@@ -221,7 +221,7 @@ module.exports = class LevelEditView extends RootView
     ++@levelBuildTime
 
   getTaskCompletionRatio: ->
-    if !@level.get('tasks')?
-      return {}
+    if not @level.get('tasks')?
+      return []
     else
       return _.filter(@level.get('tasks'), (_elem) -> return _elem.complete).length + "/" + @level.get('tasks').length

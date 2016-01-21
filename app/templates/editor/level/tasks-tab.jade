@@ -1,22 +1,23 @@
-mixin task-row(task)
+mixin task-row(cid)
+  - var task = view.getTaskByCID(cid)
   - var taskName = task.get('name');
   - var isComplete = task.get('complete')
   - var taskLink = view.defaultTaskLinks[taskName]
-  tr.taskRow(data-task=task)
-    td.taskCheck
+  tr.task-row(data-task-cid=cid)
+    td.task-check
       div.checkbox
-        input(type='checkbox', checked=(isComplete || false)).taskInput
-    if task.get('curEdit') === true
-      td.editCell
-      td
-        input(type="input", value=taskName)#curEdit
+        input(type='checkbox', checked=(isComplete || false)).task-input
+    if task.get('curEdit') == true
+      td.edit-cell
+      td.task-name
+        input(type="input", value=taskName)#cur-edit
     else
-      td.editCell
-        span.startEdit ✎
-      td
+      td.edit-cell
+        span.glyphicon.glyphicon-edit.start-edit
+      td.task-name
         if taskLink
           if taskLink === './'
-            a.noArticle(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', target='blank')= taskName
+            a.no-article(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', target='blank')= taskName
           else
             a(href=taskLink, target='_blank')= taskName
         else
@@ -25,17 +26,17 @@ mixin task-row(task)
 block
   table.table.table-striped.table-hover
     tr
-      th.taskCheck Complete
-      th Edit
+      th.task-check Complete
+      th.edit-cell Edit
       th Incomplete Tasks
     for task in (view.taskArray() || [])
       if task.get('revert').complete !== true
-        +task-row(task)
+        +task-row(task.cid)
     tr
-      th
-      th
+      th.task-check
+      th.edit-cell
       th Completed Tasks
     for task in (view.taskArray() || [])
       if task.get('revert').complete === true
-        +task-row(task)
-  button#createTask.btn.btn-default Add Task
+        +task-row(task.cid)
+  button#create-task.btn.btn-default Add Task
