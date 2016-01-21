@@ -64,7 +64,7 @@ module.exports = class Tracker
 
     for userTrait in ['email', 'anonymous', 'dateCreated', 'name', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange']
       traits[userTrait] ?= me.get(userTrait)
-    console.log 'Would identify', traits if debugAnalytics
+    console.log 'Would identify', me.id, traits if debugAnalytics
     return unless @isProduction and not me.isAdmin()
 
     # Errorception
@@ -76,19 +76,29 @@ module.exports = class Tracker
     __insp?.push ['identify', me.id]
     __insp?.push ['tagSession', traits]
 
+    # Mixpanel
+    # https://mixpanel.com/help/reference/javascript
+    mixpanel.identify(me.id)
+    mixpanel.register(traits)
+
   trackPageView: ->
     name = Backbone.history.getFragment()
-    console.log "Would track analytics pageview: '/#{name}'" if debugAnalytics
+    url = "/#{name}"
+    console.log "Would track analytics pageview: #{url}" if debugAnalytics
     @trackEventInternal 'Pageview', url: name unless me?.isAdmin() and @isProduction
     return unless @isProduction and not me.isAdmin()
 
     # Google Analytics
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
-    ga? 'send', 'pageview', "/#{name}"
+    ga? 'send', 'pageview', url
 
-  trackEvent: (action, properties={}) =>
+    # Mixpanel
+    mixpanelIncludes = ['courses', 'courses/purchase', 'courses/teachers', 'courses/students', 'schools', 'teachers', 'teachers/freetrial']
+    mixpanel.track('page viewed', 'page name' : name, url : url) if name in mixpanelIncludes
+
+  trackEvent: (action, properties={}, includeIntegrations=[]) =>
     @trackEventInternal action, _.cloneDeep properties unless me?.isAdmin() and @isProduction
-    console.log 'Tracking external analytics event:', action, properties if debugAnalytics
+    console.log 'Tracking external analytics event:', action, properties, includeIntegrations if debugAnalytics
     return unless me and @isProduction and not me.isAdmin()
 
     # Google Analytics
@@ -104,6 +114,10 @@ module.exports = class Tracker
     # Inspectlet
     # http://www.inspectlet.com/docs#tagging
     __insp?.push ['tagSession', action: action, properies: properties]
+
+    # Mixpanel
+    # Only log explicit events for now
+    mixpanel.track(action, properties) if 'Mixpanel' in includeIntegrations
 
   trackEventInternal: (event, properties) =>
     # Skipping heavily logged actions we don't use internally

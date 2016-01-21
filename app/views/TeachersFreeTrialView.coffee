@@ -82,3 +82,4 @@ module.exports = class TeachersFreeTrialView extends RootView
         console.error 'Error saving trial request', response
       success: (model, response, options) =>
         @refreshData()
+        window.tracker?.trackEvent 'Submit Trial Request', category: 'Teachers', label: 'Trial Request', ['Mixpanel']
