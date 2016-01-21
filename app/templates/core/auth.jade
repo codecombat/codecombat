@@ -50,7 +50,7 @@
                 | :
               .input-border
                 if me.get('name')
-                  input#name.input-large.form-control(name="name", type="text", value="#{me.get('name')}")
+                  input#name.input-large.form-control(name="name", type="text", value=me.get('name'))
                 else
                   input#name.input-large.form-control(name="name", type="text", value="", placeholder="e.g. Alex W the Skater")
           .col-md-6
@@ -62,7 +62,7 @@
                   span(data-i18n="signup.optional") optional
                   | ):
               .input-border
-                input#school-input.input-large.form-control(name="schoolName", data-i18n="[placeholder]signup.school_name_placeholder")
+                input#school-input.input-large.form-control(name="schoolName", data-i18n="[placeholder]signup.school_name_placeholder", value=formValues.schoolName || '')
         .form-group.checkbox
           label.control-label(for="subscribe")
             .input-border
