@@ -152,7 +152,7 @@
   .purchase-button
     position: absolute
     right: 24px
-    width: 400px
+    width: 300px
     height: 70px
     top: 430px
     font-size: 32px
@@ -190,6 +190,24 @@
     border-width: 14px 20px 20px 20px
     color: darken(white, 5%)
 
+  //- Sale button
+
+  .sale-button
+    position: absolute
+    left: 290px
+    width: 115px
+    height: 70px
+    top: 430px
+    font-size: 32px
+    line-height: 42px
+    border-style: solid
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+
+    span
+      pointer-events: none
+
   .email-parent-form
     .email_invalid
       color: red
@@ -208,20 +226,32 @@
 
 
 html.no-borderimage #subscribe-modal
-  .purchase-button
+  .purchase-button, .parent-button, .sale-button
     border: 0
-    background-image: url(/images/level/code_toolbar_submit_button_active.png)
     background-size: 100% 100%
     padding: 7px 10px 10px 10px
 
     &:hover
-      background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
       border: 0
 
     &:active
-      background-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png)
       padding: 9px 8px 8px 12px
       border: 0
+  
+  .purchase-button
+    background-image: url(/images/level/code_toolbar_submit_button_active.png)
+    &:hover
+      background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
+  
+  .parent-button
+    background-image: url(/images/common/button-background-warning-active.png)
+    &:hover, &:active
+      background-image: url(/images/common/button-background-warning-pressed.png)
+  
+  .sale-button
+    background-image: url(/images/common/button-background-primary-active.png)
+    &:hover, &:active
+      background-image: url(/images/common/button-background-primary-pressed.png)
 
 body[lang='fr']
   #subscribe-modal .parent-button

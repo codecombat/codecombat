@@ -9,6 +9,7 @@ SpellDebugView = require './SpellDebugView'
 SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
+utils = require 'core/utils'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -17,14 +18,6 @@ module.exports = class SpellView extends CocoView
   controlsEnabled: true
   eventsSuppressed: true
   writable: true
-
-  @editModes:
-    'javascript': 'ace/mode/javascript'
-    'coffeescript': 'ace/mode/coffee'
-    'python': 'ace/mode/python'
-    'clojure': 'ace/mode/clojure'
-    'lua': 'ace/mode/lua'
-    'io': 'ace/mode/text'
 
   keyBindings:
     'default': null
@@ -75,6 +68,7 @@ module.exports = class SpellView extends CocoView
     super()
     @createACE()
     @createACEShortcuts()
+    @hookACECustomBehavior()
     @fillACE()
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
@@ -92,19 +86,20 @@ module.exports = class SpellView extends CocoView
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
     @aceSession.setUseWorker false
-    @aceSession.setMode SpellView.editModes[@spell.language]
+    @aceSession.setMode utils.aceEditModes[@spell.language]
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
     @aceSession.setNewLineMode 'unix'
     @aceSession.setUseSoftTabs true
     @ace.setTheme 'ace/theme/textmate'
-    @ace.setDisplayIndentGuides aceConfig.indentGuides
+    @ace.setDisplayIndentGuides false
     @ace.setShowPrintMargin false
     @ace.setShowInvisibles aceConfig.invisibles
     @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setAnimatedScroll true
     @ace.setShowFoldWidgets false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
+    @ace.$blockScrolling = Infinity
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -223,6 +218,7 @@ module.exports = class SpellView extends CocoView
         disableSpaces = @options.level.get('disableSpaces') or false
         aceConfig = me.get('aceConfig') ? {}
         disableSpaces = false if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Not in vim/emacs mode
+        disableSpaces = false if @spell.language in ['clojure', 'lua', 'java', 'coffeescript', 'io']  # Don't disable for more advanced/experimental languages
         if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.level())
           return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
@@ -255,6 +251,81 @@ module.exports = class SpellView extends CocoView
           @lastBackspace = nowDate
           @ace.remove "left"
 
+
+  hookACECustomBehavior: ->
+    aceConfig = me.get('aceConfig') ? {}
+    @ace.commands.on 'exec', (e) =>
+      # When pressing enter with an active selection, just make a new line under it.
+      if e.command.name is 'enter-skip-delimiters'
+        selection = @ace.selection.getRange()
+        unless selection.start.column is selection.end.column and selection.start.row is selection.end.row
+          e.editor.execCommand 'gotolineend'
+          return true
+
+    if me.level() < 20 or aceConfig.indentGuides
+      # Add visual ident guides
+      language = @spell.language
+      ensureLineStartsBlock = (line) ->
+        return false unless language is "python"
+        match = /^\s*([^#]+)/.exec(line)
+        return false if not match?
+        return /:\s*$/.test(match[1])
+
+      @aceSession.addDynamicMarker
+        update: (html, markerLayer, session, config) =>
+          Range = ace.require('ace/range').Range
+
+          foldWidgets = @aceSession.foldWidgets
+          return if not foldWidgets?
+
+          lines = @aceDoc.getAllLines()
+          startOfRow = (r) ->
+            str = lines[r]
+            ar = str.match(/^\s*/)
+            ar.pop().length
+
+          colors = [{border: '74,144,226', fill: '108,162,226'}, {border: '132,180,235', fill: '230,237,245'}]
+
+          for row in [0..@aceSession.getLength()]
+            foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
+            continue unless foldWidgets? and foldWidgets[row] is "start"
+            docRange = @aceSession.getFoldWidgetRange(row)
+            if not docRange?
+              guess = startOfRow(row)
+              docRange = new Range(row,guess,row,guess+4)
+
+            continue unless ensureLineStartsBlock(lines[row])
+
+            if /^\s+$/.test lines[docRange.end.row+1]
+              docRange.end.row += 1
+
+            rstart = @aceSession.documentToScreenPosition docRange.start.row, docRange.start.column
+            rend = @aceSession.documentToScreenPosition docRange.end.row, docRange.end.column
+            range = new Range rstart.row, rstart.column, rend.row, rend.column
+
+            xstart = startOfRow(row)
+            level = Math.floor(xstart / 4)
+            indent = startOfRow(row + 1)
+            color = colors[level % colors.length]
+            bw = 3
+            to = markerLayer.$getTop(range.start.row, config)
+            t = markerLayer.$getTop(range.start.row + 1, config)
+            h = config.lineHeight * (range.end.row - range.start.row)
+            l = markerLayer.$padding + xstart * config.characterWidth
+            # w = (data.i - data.b) * config.characterWidth
+            w = 4 * config.characterWidth
+            fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
+
+            html.push """
+              <div style=
+                "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
+                 border: #{bw}px solid rgba(#{color.border},1); border-left: none;"
+              ></div>
+              <div style=
+                "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
+                 border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);"
+              ></div>
+            """
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -397,6 +468,7 @@ module.exports = class SpellView extends CocoView
       autoLineEndings:
         javascript: ';'
       popupFontSizePx: popupFontSizePx
+      popupLineHeightPx: 1.5 * popupFontSizePx
       popupWidthPx: 380
 
   updateAutocomplete: (@autocomplete) ->
@@ -423,6 +495,7 @@ module.exports = class SpellView extends CocoView
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
         if doc?.snippets?[e.language]
+          name = doc.name
           content = doc.snippets[e.language].code
           if /loop/.test(content) and @options.level.get 'moveRightLoopSnippet'
             # Replace default loop snippet with an embedded moveRight()
@@ -430,23 +503,46 @@ module.exports = class SpellView extends CocoView
               when 'python' then 'loop:\n    self.moveRight()\n    ${1:}'
               when 'javascript' then 'loop {\n    this.moveRight();\n    ${1:}\n}'
               else content
+          if /loop/.test(content) and @options.level.get('type') in ['course', 'course-ladder']
+            # Temporary hackery to make it look like we meant while True: in our loop snippets until we can update everything
+            content = switch e.language
+              when 'python' then content.replace /loop:/, 'while True:'
+              when 'javascript' then content.replace /loop/, 'while (true)'
+              when 'clojure' then content.replace /dotimes \[n 1000\]/, '(while true'
+              when 'lua' then content.replace /loop/, 'while true then'
+              when 'coffeescript' then content
+              when 'io' then content.replace /loop/, 'while true,'
+              else content
+            name = switch e.language
+              when 'python' then 'while True'
+              when 'coffeescript' then 'loop'
+              else 'while true'
           entry =
             content: content
-            meta: 'press enter'
-            name: doc.name
+            meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
+            name: name
             tabTrigger: doc.snippets[e.language].tab
-          haveFindNearestEnemy ||= doc.name is 'findNearestEnemy'
-          haveFindNearest ||= doc.name is 'findNearest'
-          if doc.name is 'attack'
+            importance: doc.autoCompletePriority ? 1.0
+          haveFindNearestEnemy ||= name is 'findNearestEnemy'
+          haveFindNearest ||= name is 'findNearest'
+          if name is 'attack'
             # Postpone this until we know if findNearestEnemy is available
             attackEntry = entry
           else
             snippetEntries.push entry
 
+          if doc.userShouldCaptureReturn
+            varName = doc.userShouldCaptureReturn.variableName ? 'result'
+            entry.captureReturn = switch e.language
+              when 'io' then varName + ' := '
+              when 'javascript' then 'var ' + varName + ' = '
+              when 'clojure' then '(let [' + varName + ' '
+              else varName + ' = '
+
     # TODO: Generalize this snippet replacement
     # TODO: Where should this logic live, and what format should it be in?
     if attackEntry?
-      unless haveFindNearestEnemy or haveFindNearest or @options.level.get('slug') is 'known-enemy'
+      unless haveFindNearestEnemy or haveFindNearest or @options.level.get('slug') in ['known-enemy', 'course-known-enemy']
         # No findNearestEnemy, so update attack snippet to string-based target
         # (On Known Enemy, we are introducing enemy2 = "Gert", so we want them to do attack(enemy2).)
         attackEntry.content = attackEntry.content.replace '${1:enemy}', '"${1:Enemy Name}"'
@@ -457,7 +553,7 @@ module.exports = class SpellView extends CocoView
 
     # window.zatannaInstance = @zatanna  # For debugging. Make sure to not leave active when committing.
     # window.snippetEntries = snippetEntries
-    lang = SpellView.editModes[e.language].substr 'ace/mode/'.length
+    lang = utils.aceEditModes[e.language].substr 'ace/mode/'.length
     @zatanna.addSnippets snippetEntries, lang
     @editorLang = lang
 
@@ -518,7 +614,7 @@ module.exports = class SpellView extends CocoView
     @createToolbarView()
 
   createDebugView: ->
-    return if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']  # We'll turn this on later, maybe, but not yet.
+    return if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 
@@ -550,18 +646,20 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang, preload: preload, realTime: realTime
 
   notifySpellChanged: =>
+    return if @destroyed
     Backbone.Mediator.publish 'tome:spell-changed', spell: @spell
 
   notifyEditingEnded: =>
-    return if @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed or @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-ended', {}
 
   notifyEditingBegan: =>
-    return if @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed or @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-began', {}
 
   updateLines: =>
     # Make sure there are always blank lines for the player to type on, and that the editor resizes to the height of the lines.
+    return if @destroyed
     lineCount = @aceDoc.getLength()
     lastLine = @aceDoc.$lines[lineCount - 1]
     if lastLine isnt ''
@@ -593,6 +691,7 @@ module.exports = class SpellView extends CocoView
       spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
 
   hideProblemAlert: ->
+    return if @destroyed
     Backbone.Mediator.publish 'tome:hide-problem-alert', {}
 
   onManualCast: (e) ->
@@ -761,6 +860,7 @@ module.exports = class SpellView extends CocoView
     hashValue = aether.raw + aetherProblem.message
     return if hashValue of @savedProblems
     @savedProblems[hashValue] = true
+    return unless Math.random() < 0.01  # Let's only save a tiny fraction of these during HoC to reduce writes.
 
     # Save new problem
     @userCodeProblem = new UserCodeProblem()
@@ -812,6 +912,14 @@ module.exports = class SpellView extends CocoView
     @_singleLineCommentRegex = new RegExp "[ \t]*#{commentStart}[^\"'\n]*", 'g'
     @_singleLineCommentRegex
 
+  lineWithCodeRegex: ->
+    if @_lineWithCodeRegex
+      @_lineWithCodeRegex.lastIndex = 0
+      return @_lineWithCodeRegex
+    commentStart = commentStarts[@spell.language] or '//'
+    @_lineWithCodeRegex = new RegExp "^[ \t]*(?!( |]t|#{commentStart}))+", 'g'
+    @_lineWithCodeRegex
+
   commentOutMyCode: ->
     prefix = if @spell.language is 'javascript' then 'return;  ' else 'return  '
     comment = prefix + commentStarts[@spell.language]
@@ -845,6 +953,7 @@ module.exports = class SpellView extends CocoView
     @spellHasChanged = false
 
   onUserCodeProblem: (e) ->
+    return unless e.god is @options.god
     return @onInfiniteLoop e if e.problem.id is 'runtime_InfiniteLoop'
     return unless e.problem.userInfo.methodName is @spell.name
     return unless spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
@@ -855,6 +964,7 @@ module.exports = class SpellView extends CocoView
       @updateAether false, false
 
   onNonUserCodeProblem: (e) ->
+    return unless e.god is @options.god
     return unless @spellThang
     problem = @spellThang.aether.createUserCodeProblem type: 'runtime', kind: 'Unhandled', message: "Unhandled error: #{e.problem.message}"
     @spellThang.aether.addProblem problem
@@ -917,7 +1027,7 @@ module.exports = class SpellView extends CocoView
 
   highlightCurrentLine: (flow) =>
     # TODO: move this whole thing into SpellDebugView or somewhere?
-    @highlightComments() unless @destroyed
+    @highlightEntryPoints() unless @destroyed
     flow ?= @spellThang?.castAether?.flow
     return unless flow and @thang
     executed = []
@@ -993,17 +1103,62 @@ module.exports = class SpellView extends CocoView
     @debugView?.setVariableStates {} unless gotVariableStates
     null
 
-  highlightComments: ->
-    return  # Slightly buggy and not that great, so let's not do it.
-    lines = $(@ace.container).find('.ace_text-layer .ace_line_group')
+  highlightEntryPoints: ->
+    # Put a yellow arrow in the gutter pointing to each place we expect them to put in code.
+    # Usually, this is indicated by a blank line after a comment line, except for the first comment lines.
+    # If we need to indicate an entry point on a line that has code, we use ∆ in a comment on that line.
+    # If the entry point line has been changed (beyond the most basic shifted lines), we don't point it out.
+    lines = @aceDoc.$lines
+    originalLines = @spell.originalSource.split '\n'
     session = @aceSession
-    top = Math.floor @ace.renderer.getScrollTopRow()
-    $(@ace.container).find('.ace_gutter-cell').each (index, el) ->
-      line = $(lines[index])
-      index = index - top
-      session.removeGutterDecoration index, 'comment-line'
-      if line.find('.ace_comment').length
-        session.addGutterDecoration index, 'comment-line'
+    commentStart = commentStarts[@spell.language] or '//'
+    seenAnEntryPoint = false
+    previousLine = null
+    previousLineHadComment = false
+    previousLineHadCode = false
+    previousLineWasBlank = false
+    pastIntroComments = false
+    for line, index in lines
+      session.removeGutterDecoration index, 'entry-point'
+      session.removeGutterDecoration index, 'next-entry-point'
+
+      lineHasComment = @singleLineCommentRegex().test line
+      lineHasCode = line.trim()[0] and not _.string.startsWith line.trim(), commentStart
+      lineIsBlank = /^[ \t]*$/.test line
+      lineHasExplicitMarker = line.indexOf('∆') isnt -1
+
+      originalLine = originalLines[index]
+      lineHasChanged = line isnt originalLine
+
+      isEntryPoint = lineIsBlank and previousLineHadComment and not previousLineHadCode and pastIntroComments
+      if isEntryPoint and lineHasChanged
+        # It might just be that the line was shifted around by the player inserting more code.
+        # We also look for the unchanged comment line in a new position to find what line we're really on.
+        movedIndex = originalLines.indexOf previousLine
+        if movedIndex isnt -1 and line is originalLines[movedIndex + 1]
+          lineHasChanged = false
+        else
+          isEntryPoint = false
+
+      if lineHasExplicitMarker
+        if lineHasChanged
+          if originalLines.indexOf(line) isnt -1
+            lineHasChanged = false
+            isEntryPoint = true
+        else
+          isEntryPoint = true
+
+      if isEntryPoint
+        session.addGutterDecoration index, 'entry-point'
+        unless seenAnEntryPoint
+          session.addGutterDecoration index, 'next-entry-point'
+          seenAnEntryPoint = true
+
+      previousLine = line
+      previousLineHadComment = lineHasComment
+      previousLineHadCode = lineHasCode
+      previousLineWasBlank = lineIsBlank
+      pastIntroComments ||= lineHasCode or previousLineWasBlank
 
   onAnnotationClick: ->
     # @ is the gutter element
@@ -1063,8 +1218,8 @@ module.exports = class SpellView extends CocoView
 
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()
-    @aceSession.setMode SpellView.editModes[e.language]
-    @zatanna?.set 'language', SpellView.editModes[e.language].substr('ace/mode/')
+    @aceSession.setMode utils.aceEditModes[e.language]
+    @zatanna?.set 'language', utils.aceEditModes[e.language].substr('ace/mode/')
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault

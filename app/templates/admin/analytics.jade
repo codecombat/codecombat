@@ -1,0 +1,78 @@
+extends /templates/base
+
+block content
+
+  //- NOTE: do not localize / i18n
+
+  if me.isAdmin()
+    .container-fluid
+      .row
+        .col-md-5.big-stat.active-classes
+          if activeClasses.length > 0
+            div.description 30-day Active Classes
+            div.count= activeClasses[0].groups[activeClasses[0].groups.length - 1]
+        .col-md-5.big-stat.recurring-revenue
+          if revenue.length > 0
+            div.description 30-day Monthly Recurring Revenue
+            div.count $#{Math.round((revenue[0].groups[revenue[0].groups.length - 1]) / 100)}
+        .col-md-5.big-stat.active-users
+          if activeUsers.length > 0
+            div.description 30-day Active Users
+            div.count= activeUsers[0].monthlyCount
+
+    h3 KPI 60 days
+    .kpi-recent-chart.line-chart-container
+
+    h3 KPI 300 days
+    .kpi-chart.line-chart-container
+
+    h3 Active Classes 90 days
+    .active-classes-chart.line-chart-container
+
+    h3 Recurring Revenue 90 days
+    .recurring-revenue-chart.line-chart-container
+
+    h3 Active Users 90 days
+    .active-users-chart.line-chart-container
+
+    h1 Active Classes
+    table.table.table-striped.table-condensed
+      tr
+        th Day
+        for group in activeClassGroups
+          th= group.replace('Active classes', '')
+      each activeClass in activeClasses
+        tr
+          td= activeClass.day
+          each val in activeClass.groups
+            td= val
+
+    h1 Recurring Revenue
+    table.table.table-striped.table-condensed
+      tr
+        th Day
+        for group in revenueGroups
+          th= group.replace('DRR ', '')
+      each entry in revenue
+        tr
+          td= entry.day
+          each val in entry.groups
+            td $#{(val / 100).toFixed(2)}
+
+    h1 Active Users
+    table.table.table-striped.table-condensed
+      tr
+        th Day
+        th Daily Actives
+        th Monthly Actives
+        th DAUs / MAUs
+      each activeUser in activeUsers
+        tr
+          td= activeUser.day
+          td= activeUser.dailyCount
+          if activeUser.monthlyCount
+            td= activeUser.monthlyCount
+            td #{(activeUser.dailyCount / activeUser.monthlyCount * 100).toFixed(2)}%
+          else
+            td
+            td

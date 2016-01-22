@@ -10,7 +10,7 @@ block content
     input(type='checkbox').private-clan-checkbox
     span.spl(data-i18n="clans.make_private") Make clan private
     span.spl (
-    a.private-more-info(data-i18n="clans.subs_only") subscribers only
+    a.private-more-info(data-i18n="clans.private_preview")
     span )
   p
     button.btn.btn-success.create-clan-btn(data-i18n="clans.create_clan") Create New Clan
@@ -40,7 +40,7 @@ block content
                     a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
                   else
                     a(href="/clans/#{clan.id}")= clan.get('name')
-                td= clan.get('members').length
+                td= clan.get('memberCount')
                 td 
                   if idNameMap && idNameMap[clan.get('ownerID')]
                     a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]
@@ -70,7 +70,7 @@ block content
                     a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
                   else
                     a(href="/clans/#{clan.id}")= clan.get('name')
-                td= clan.get('members').length
+                td= clan.get('memberCount')
                 td 
                   if idNameMap && idNameMap[clan.get('ownerID')]
                     a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]

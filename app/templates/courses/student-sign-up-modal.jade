@@ -1,0 +1,51 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  .clearfix
+
+
+block modal-body-content
+  .text-center
+    h2.modal-title(data-i18n="signup.sign_up")
+
+  form.form
+    .form-group
+      label.control-label(for="email")
+        span(data-i18n="general.email")
+      input#email.input-large.form-control(name="email", type="email")
+      .help-block(data-i18n="courses.use_school_email")
+    .form-group
+      label.control-label(for="name")
+        span(data-i18n="general.name")
+      if me.get('name')
+        input#name.input-large.form-control(name="name", type="text", value="#{me.get('name')}")
+      else
+        input#name.input-large.form-control(name="name", type="text", value="", placeholder="e.g. Alex W the Skater")
+      .help-block(data-i18n="courses.unique_name")
+    .form-group
+      label.control-label(for="password")
+        span(data-i18n="general.password")
+      input#password.input-large.form-control(name="password", type="password")
+      .help-block(data-i18n="courses.pick_something")
+    .form-group
+      label.control-label(for="class-code-input")
+        span(data-i18n="courses.class_code")
+      input#class-code-input.input-large.form-control(name="classCode", value=view.classCode)
+      .help-block(data-i18n="courses.optional_ask")
+    .form-group
+      label.control-label(for="school-input")
+        span(data-i18n="signup.school_name")
+      input#school-input.input-large.form-control(name="schoolName", data-i18n="[placeholder]signup.school_name_placeholder")
+      .help-block(data-i18n="courses.optional_school")
+
+    #errors-alert.alert.alert-danger.hide
+
+    .text-center
+      if view.willPlay
+        input#sign-up-btn.btn.btn-default(type="submit", data-i18n="[value]courses.start_playing", value="Start Playing")
+        p
+          a#skip-link(data-i18n="courses.skip_this")
+      else
+        input#sign-up-btn.btn.btn-default(data-i18n="[value]signup.sign_up", type="submit")
+
+block modal-footer-content

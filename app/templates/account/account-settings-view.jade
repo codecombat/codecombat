@@ -15,7 +15,7 @@ else
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             .form-group
               label.control-label(for="name", data-i18n="general.name") Name
-              input#name.form-control(name="name", type="text", value="#{name}")
+              input#name-input.form-control(name="name", type="text", value="#{name}")
             .form-group
               label.control-label(for="email", data-i18n="general.email") Email
               input#email.form-control(name="email", type="text", value="#{email}")
@@ -26,12 +26,21 @@ else
               .form-group.checkbox
                 label(for="godmode", data-i18n="account_settings.god_mode") God Mode
                 input#godmode(name="godmode", type="checkbox", checked=godmode)
+            if me.hasSubscription()
+              .form-group
+                label(data-i18n="account.subscription")
+                br
+                span.spr ✓
+                span(data-i18n="account.active")
+                span.spr= '.'
+                // TODO: show better summary states, like active, subscribed, free, and active until.
+                a(href="/account/subscription", data-i18n="account_settings.manage_subscription")
                 
     
       .panel.panel-default
         .panel-heading
           .panel-title(data-i18n="account_settings.picture_tab")
-        .panel-body
+        #profile-photo-panel-body.panel-body
           img.profile-photo(src=me.getPhotoURL(230), draggable="false")
           input#photoURL(type="hidden", value=me.get('photoURL')||'')
           button#upload-photo-button.btn.form-control.btn-primary(data-i18n="account_settings.upload_picture")
@@ -52,13 +61,18 @@ else
         .panel-heading
           .panel-title#delete-account-panel-title(data-i18n="account_settings.delete_account_tab")
         .panel-body
-          .form
+          .form#delete-account-form
             .form-group
-              label.control-label(for="email1", data-i18n="account_settings.type_in_email") Type in your email to confirm the deletion
-              input#email1.form-control(name="email1", type="text")
-            button#delete-account-button.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
+              label.control-label(for="email1", data-i18n="account_settings.type_in_email")
+              input#email1.form-control(name="email", type="email")
+            .form-group
+              label.control-label(for="password1", data-i18n="account_settings.type_in_password")
+              input#password1.form-control(name="password", type="password")  
+          button#delete-account-btn.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
 
     .col-md-6
+
+      - var subs = view.getEmailSubsDict();
           
       #email-panel.panel.panel-default
         .panel-heading
@@ -91,7 +105,7 @@ else
           hr
       
           h4(data-i18n="account_settings.contributor_emails") Contributor Class Emails
-          span(data-i18n="account_settings.contribute_prefix") We're looking for people to join our party! Check out the 
+          span(data-i18n="account_settings.contribute_prefix") We\'re looking for people to join our party! Check out the 
           a(href="/contribute", data-i18n="account_settings.contribute_page") contribute page
           span(data-i18n="account_settings.contribute_suffix")  to find out more.
       
@@ -145,7 +159,7 @@ else
                   | (Translator)
               input#email_diplomatNews(name="email_diplomatNews", type="checkbox", checked=subs.diplomatNews)
               span(data-i18n="contribute.diplomat_subscribe_desc").help-block Get emails about i18n developments and, eventually, levels to translate.
-      
+
             .form-group.checkbox
               label.control-label(for="email_ambassadorNews")
                 span(data-i18n="classes.ambassador_title")
@@ -155,7 +169,28 @@ else
                   | (Support)
               input#email_ambassadorNews(name="email_ambassadorNews", type="checkbox", checked=subs.ambassadorNews)
               span(data-i18n="contribute.ambassador_subscribe_desc").help-block Get emails on support updates and multiplayer developments.
-                  
-            button#toggle-all-button.btn.btn-primary.form-control(data-i18n="account_settings.email_toggle") Toggle All
+
+            .form-group.checkbox
+              label.control-label(for="email_teacherNews")
+                span(data-i18n="classes.teacher_title")
+              input#email_teacherNews(name="email_teacherNews", type="checkbox", checked=subs.teacherNews)
+              span(data-i18n="contribute.teacher_subscribe_desc").help-block
+
+            button#toggle-all-btn.btn.btn-primary.form-control(data-i18n="account_settings.email_toggle") Toggle All
+
+      .panel.panel-default
+        .panel-heading
+          .panel-title#reset-progress-panel-title(data-i18n="account_settings.reset_progress_tab")
+        .panel-body
+          .form#reset-progress-form
+            .form-group
+              label.control-label(for="email-reset-progress", data-i18n="account_settings.type_in_email_progress")
+              input#email-reset-progress.form-control(name="email", type="email")
+            .form-group
+              label.control-label(for="password-reset-progress", data-i18n="account_settings.type_in_password")
+              input#password-reset-progress.form-control(name="password", type="password")
+          button#reset-progress-btn.btn.form-control.btn-primary(data-i18n="account_settings.reset_your_progress")
+
+
 
 .clearfix

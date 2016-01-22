@@ -28,12 +28,6 @@ module.exports = class RelatedAchievementsView extends CocoView
     @loadingAchievements = true
     @render()
 
-  getRenderData: ->
-    c = super()
-    c.achievements = @achievements
-    c.relatedID = @relatedID
-    c
-
   onNewAchievementSaved: (achievement) ->
     # We actually open the new tab in NewAchievementModal, so we don't replace this window.
     #url = '/editor/achievement/' + (achievement.get('slug') or achievement.id)

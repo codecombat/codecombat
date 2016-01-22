@@ -51,7 +51,7 @@ module.exports = class CocoView extends Backbone.View
     @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
     @warnConnectionError = _.throttle(@warnConnectionError, 3000)
 
-    super options
+    super arguments...
 
   destroy: ->
     @stopListening()
@@ -97,8 +97,9 @@ module.exports = class CocoView extends Backbone.View
 
   renderSelectors: (selectors...) ->
     newTemplate = $(@template(@getRenderData()))
-    for selector in selectors
-      @$el.find(selector).replaceWith(newTemplate.find(selector))
+    for selector, i in selectors
+      for elPair in _.zip(@$el.find(selector), newTemplate.find(selector))
+        $(elPair[0]).replaceWith($(elPair[1]))
     @delegateEvents()
     @$el.i18n()
 
@@ -129,6 +130,9 @@ module.exports = class CocoView extends Backbone.View
     context.isIE = @isIE()
     context.moment = moment
     context.translate = $.i18n.t
+    context.view = @
+    context._ = _
+    context.document = document
     context
 
   afterRender: ->
@@ -381,7 +385,7 @@ module.exports = class CocoView extends Backbone.View
     setTimeout (=> $pointer.css transition: 'all 0.4s ease-in', transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)"), 800
 
   endHighlight: ->
-    @getPointer(false).css('opacity', 0.0)
+    @getPointer(false).css({'opacity': 0.0, 'transition': 'none', top: '-50px', right: '-50px'}) 
     clearInterval @pointerInterval
     clearTimeout @pointerDelayTimeout
     clearTimeout @pointerDurationTimeout

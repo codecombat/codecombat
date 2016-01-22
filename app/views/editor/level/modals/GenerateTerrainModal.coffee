@@ -107,6 +107,14 @@ clusters = {
     'thangs': ['Mountain 1','Mountain 3']
     'margin': 6
   }
+  'glacier_floor': {
+    'thangs': ['Firn 1', 'Firn 2', 'Firn 3', 'Firn 4', 'Firn 5', 'Firn 6']
+    'margin': -1
+  }
+  'glacier_walls': {
+    'thangs': ['Ice Wall']
+    'margin': 2
+  }
 }
 
 presets = {
@@ -274,6 +282,32 @@ presets = {
         }
       }
     }
+  },
+  'glacier': {
+    'terrainName': 'Glacier'
+    'type': 'glacier'
+    'floors': 'glacier_floor'
+    'borders': 'glacier_walls'
+    'borderNoise': 0
+    'borderSize': 4
+    'borderThickness': 1
+    'decorations': {
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
+      'Room': {
+        'num': [1,1]
+        'width': [12, 20]
+        'height': [8, 16]
+        'thickness': [2,2]
+        'cluster': 'glacier_walls'
+      }
+    }
   }
 }
 
@@ -309,6 +343,11 @@ module.exports = class GenerateTerrainModal extends ModalView
 
   events:
     'click .choose-option': 'onGenerate'
+
+  constructor: (options) ->
+    super options
+    @presets = presets
+    @presetSizes = presetSizes
 
   onRevertModel: (e) ->
     id = $(e.target).val()
@@ -600,12 +639,6 @@ module.exports = class GenerateTerrainModal extends ModalView
 
   getRandomThang: (thangList) ->
     return thangList[_.random(0, thangList.length-1)]
-
-  getRenderData: ->
-    c = super()
-    c.presets = presets
-    c.presetSizes = presetSizes
-    c
 
   onHidden: ->
     location.reload() if @reloadOnClose

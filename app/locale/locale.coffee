@@ -16,7 +16,7 @@ module.exports =
   'en-US': { nativeDescription: 'English (US)', englishDescription: 'English (US)' }
   'en-GB': { nativeDescription: 'English (UK)', englishDescription: 'English (UK)' }
   'zh-HANS': { nativeDescription: '简体中文', englishDescription: 'Chinese (Simplified)' }
-  'zh-HANT': { nativeDescription: '繁体中文', englishDescription: 'Chinese (Traditional)' }
+  'zh-HANT': { nativeDescription: '繁體中文', englishDescription: 'Chinese (Traditional)' }
   'ru': { nativeDescription: 'русский', englishDescription: 'Russian' }
   'es-ES': { nativeDescription: 'español (ES)', englishDescription: 'Spanish (Spain)' }
   'es-419': { nativeDescription: 'español (América Latina)', englishDescription: 'Spanish (Latin America)' }
@@ -30,6 +30,7 @@ module.exports =
   'de-DE': { nativeDescription: 'Deutsch (Deutschland)', englishDescription: 'German (Germany)' }
   'de-AT': { nativeDescription: 'Deutsch (Österreich)', englishDescription: 'German (Austria)' }
   'de-CH': { nativeDescription: 'Deutsch (Schweiz)', englishDescription: 'German (Switzerland)' }
+  'et': { nativeDescription: 'Eesti', englishDescription: 'Estonian' }
   'el': { nativeDescription: 'Ελληνικά', englishDescription: 'Greek' }
   'eo': { nativeDescription: 'Esperanto', englishDescription: 'Esperanto' }
   'fa': { nativeDescription: 'فارسی', englishDescription: 'Persian' }
@@ -43,11 +44,13 @@ module.exports =
   'mk-MK': { nativeDescription: 'Македонски', englishDescription: 'Macedonian' }
   'hi': { nativeDescription: 'मानक हिन्दी', englishDescription: 'Hindi' }
   'ms': { nativeDescription: 'Bahasa Melayu', englishDescription: 'Bahasa Malaysia' }
+  'my': { nativeDescription: 'မြန်မာစကား', englishDescription: 'Myanmar language' }
   'nl-BE': { nativeDescription: 'Nederlands (België)', englishDescription: 'Dutch (Belgium)' }
   'nl-NL': { nativeDescription: 'Nederlands (Nederland)', englishDescription: 'Dutch (Netherlands)' }
   'ja': { nativeDescription: '日本語', englishDescription: 'Japanese' }
   'nb': { nativeDescription: 'Norsk Bokmål', englishDescription: 'Norwegian (Bokmål)' }
   'nn': { nativeDescription: 'Norsk Nynorsk', englishDescription: 'Norwegian (Nynorsk)' }
+  'uz': { nativeDescription: "O'zbekcha", englishDescription: 'Uzbek' }
   'pl': { nativeDescription: 'język polski', englishDescription: 'Polish' }
   'pt-PT': { nativeDescription: 'Português (Portugal)', englishDescription: 'Portuguese (Portugal)' }
   'pt-BR': { nativeDescription: 'português do Brasil', englishDescription: 'Portuguese (Brazil)' }

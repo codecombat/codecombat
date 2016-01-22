@@ -51,12 +51,6 @@ module.exports = class AchievementEditView extends RootView
     @treema.childrenTreemas.rewards?.open(3)
     @pushChangesToPreview()
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.achievement = @achievement
-    context.authorized = me.isAdmin() or me.isArtisan()
-    context
-
   afterRender: ->
     super()
     return unless @supermodel.finished()

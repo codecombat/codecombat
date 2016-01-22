@@ -2,7 +2,6 @@
 # This function needs to run inside an environment that has a 'self'.
 # This specific worker is targeted towards the node.js headless_client environment.
 
-JASON = require 'JASON'
 fs = require 'fs'
 GLOBAL.Aether = Aether = require 'aether'
 GLOBAL._ = _ = require 'lodash'
@@ -10,12 +9,12 @@ GLOBAL.CoffeeScript = require 'coffee-script'
 
 betterConsole = () ->
 
-  self.logLimit = 200;
-  self.logsLogged = 0;
+  self.logLimit = 200
+  self.logsLogged = 0
 
   self.transferableSupported = () -> true
 
-  self.console = log: ->
+  self.console = log: (args...) ->
     if self.logsLogged++ is self.logLimit
       self.postMessage
         type: 'console-log'
@@ -23,7 +22,6 @@ betterConsole = () ->
         id: self.workerID
 
     else if self.logsLogged < self.logLimit
-      args = [].slice.call(arguments)
       i = 0
 
       while i < args.length
@@ -111,7 +109,7 @@ work = () ->
     t1 = new Date()
     diff = t1 - self.t0
     if (self.world.headless)
-      return console.log("Headless simulation completed in #{diff}ms.");
+      return console.log("Headless simulation completed in #{diff}ms.")
 
     transferableSupported = self.transferableSupported()
     try
@@ -190,12 +188,11 @@ for codeFile in [
     'app/vendor/aether-javascript.js'
     'app/vendor/aether-lua.js'
     'app/vendor/aether-python.js'
+    'app/vendor/aether-java.js'
   ]
-  codeFileContents.push fs.readFileSync("./public/javascripts/#{codeFile}", 'utf8')
+  codeFileContents.push fs.readFileSync(__dirname + "/../public/javascripts/#{codeFile}", 'utf8')
 
 #window.BOX2D_ENABLED = true;
-
-newConsole = "newConsole = #{}JASON.stringify newConsole}()";
 
 ret = """
 
@@ -204,7 +201,7 @@ ret = """
 
   self.workerID = 'Worker';
 
-  console = #{JASON.stringify betterConsole}();
+  console = (#{betterConsole.toString()})();
 
   try {
     // the world javascript file
@@ -215,7 +212,7 @@ ret = """
     self.native_fs_ = native_fs_ = null;
 
     // the actual function
-    #{JASON.stringify work}();
+    (#{work.toString()})();
   } catch (error) {
     self.postMessage({'type': 'console-log', args: ['An unhandled error occured: ', error.toString(), error.stack], id: -1});
   }

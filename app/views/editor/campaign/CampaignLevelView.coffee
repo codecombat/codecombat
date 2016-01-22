@@ -403,7 +403,7 @@ module.exports = class CampaignLevelView extends CocoView
       @analytics.commonProblems.data = data
       doneCallback()
     request = @supermodel.addRequestResource 'common_problems', {
-      url: '/db/user_code_problem/-/common_problems'
+      url: '/db/user.code.problem/-/common_problems'
       data: {startDay: startDay, endDay: endDay, slug: @levelSlug}
       method: 'POST'
       success: success
@@ -464,7 +464,7 @@ module.exports = class CampaignLevelView extends CocoView
       @analytics.recentSessions.data = data
       doneCallback()
     request = @supermodel.addRequestResource 'level_sessions_recent', {
-      url: "/db/level_session/-/recent"
+      url: "/db/level.session/-/recent"
       data: {slug: @levelSlug, limit: limit}
       method: 'POST'
       success: success

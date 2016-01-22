@@ -7,7 +7,7 @@
 .levels-link-area
   a.levels-link(href=homeLink || "/")
     .glyphicon.glyphicon-play
-    span(data-i18n="nav.play").home-text Levels
+    span(data-i18n=ladderGame ? "general.ladder" : "nav.play").home-text Levels
 
 if isMultiplayerLevel && !observing
   .multiplayer-area-container
@@ -22,23 +22,23 @@ else
     .level-name-area
       .level-label(data-i18n="play_level.level")
       .level-name(title=difficultyTitle || "")
-        span= worldName
+        span= (campaignIndex ? campaignIndex + '. ' : '') + worldName.replace('Course: ', '')
         if levelDifficulty
           sup.level-difficulty= levelDifficulty
 
 .buttons-area
 
   if !observing
-    button.btn.btn-inverse#game-menu-button(title="Show game menu")
+    button.btn.btn-inverse#game-menu-button(data-i18n="[title]play_level.show_menu", title="Show game menu")
       .hamburger
         span.icon-bar
         span.icon-bar
         span.icon-bar
       span.game-menu-text(data-i18n="play_level.game_menu") Game Menu
-  
+
   if spectateGame
-    button.btn.btn-xs.btn-inverse.banner#next-game-button(title="Next Game", data-i18n="play_level.next-game") Next game!
-  
+    button.btn.btn-xs.btn-inverse.banner#next-game-button(data-i18n="play_level.next_game") Next game
+
   if !observing
     button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
 

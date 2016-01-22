@@ -16,20 +16,33 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
   subscriptions:
     'auth:logged-in-with-facebook': 'onFacebookLoggedIn'
 
+  loggedIn: false
+
   onFacebookLoggedIn: (e) ->
     # user is logged in also when the page first loads, so check to see
     # if we really need to do the lookup
-    return if not me
-
-    doIt = false
+    @loggedIn = false
     @authResponse = e.response.authResponse
     for fbProp, userProp of userPropsToSave
       unless me.get(userProp)
-        doIt = true
+        @loggedIn = true
         break
-    FB.api('/me', @onReceiveMeInfo) if doIt
+
+    if @waitingForLogin and @loggedIn
+      @fetchMeForLogin()
+
+  loginThroughFacebook: ->
+    if @loggedIn
+      @fetchMeForLogin()
+    else
+      FB.login()
+      @waitingForLogin = true
+
+  fetchMeForLogin: ->
+    FB.api('/me', {fields: 'email,last_name,first_name,gender'}, @onReceiveMeInfo)
 
   onReceiveMeInfo: (r) =>
+    console.log "Got Facebook user info:", r
     unless r.email
       console.error('could not get data, since no email provided')
       return

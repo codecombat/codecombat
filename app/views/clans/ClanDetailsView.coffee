@@ -10,6 +10,7 @@ LevelSession = require 'models/LevelSession'
 SubscribeModal = require 'views/core/SubscribeModal'
 ThangType = require 'models/ThangType'
 User = require 'models/User'
+utils = require 'core/utils'
 
 # TODO: Add message for clan not found
 # TODO: Progress visual for premium levels?
@@ -27,6 +28,8 @@ module.exports = class ClanDetailsView extends RootView
     'click .edit-name-save-btn': 'onEditNameSave'
     'click .join-clan-btn': 'onJoinClan'
     'click .leave-clan-btn': 'onLeaveClan'
+    'click .member-header': 'onClickMemberHeader'
+    'click .progress-header': 'onClickProgressHeader'
     'click .progress-level-cell': 'onClickLevel'
     'click .remove-member-btn': 'onRemoveMember'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
@@ -41,13 +44,13 @@ module.exports = class ClanDetailsView extends RootView
 
   initData: ->
     @showExpandedProgress = false
+    @memberSort = 'nameAsc'
     @stats = {}
 
     @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign, comparator:'_id' })
     @clan = new Clan _id: @clanID
     @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator: 'nameLower' })
     @memberAchievements = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_achievements", model: EarnedAchievement, comparator:'_id' })
-    # MemberSessions: only loads creatorName, levelName, codeLanguage, submittedCodeLanguage for each session
     @memberSessions = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_sessions", model: LevelSession, comparator:'_id' })
 
     @listenTo me, 'sync', => @render?()
@@ -57,16 +60,16 @@ module.exports = class ClanDetailsView extends RootView
     @listenTo @memberAchievements, 'sync', @onMemberAchievementsSync
     @listenTo @memberSessions, 'sync', @onMemberSessionsSync
 
-    @supermodel.loadModel @campaigns, 'clan', cache: false
+    @supermodel.loadModel @campaigns, 'campaigns', cache: false
     @supermodel.loadModel @clan, 'clan', cache: false
     @supermodel.loadCollection(@members, 'members', {cache: false})
     @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
-    @supermodel.loadCollection(@memberSessions, 'member_sessions', {cache: false})
 
   getRenderData: ->
     context = super()
     context.campaignLevelProgressions = @campaignLevelProgressions ? []
     context.clan = @clan
+    context.conceptsProgression = @conceptsProgression ? []
     if application.isProduction()
       context.joinClanLink = "https://codecombat.com/clans/#{@clanID}"
     else
@@ -76,21 +79,25 @@ module.exports = class ClanDetailsView extends RootView
     context.memberLanguageMap = @memberLanguageMap
     context.memberLevelStateMap = @memberLevelMap ? {}
     context.memberMaxLevelCount = @memberMaxLevelCount
-    context.members = @members?.models
+    context.memberSort = @memberSort
     context.isOwner = @clan.get('ownerID') is me.id
     context.isMember = @clanID in (me.get('clans') ? [])
     context.stats = @stats
 
     # Find last campaign level for each user
+    # TODO: why do we do this for every render?
+    highestUserLevelCountMap = {}
     lastUserCampaignLevelMap = {}
     maxLastUserCampaignLevel = 0
+    userConceptsMap = {}
     if @campaigns.loaded
-      for campaign in @campaigns.models
+      levelCount = 0
+      for campaign in @campaigns.models when campaign.get('type') is 'hero'
         campaignID = campaign.id
         lastLevelIndex = 0
         for levelID, level of campaign.get('levels')
           levelSlug = level.slug
-          for member in context.members
+          for member in @members?.models ? []
             if context.memberLevelStateMap[member.id]?[levelSlug]
               lastUserCampaignLevelMap[member.id] ?= {}
               lastUserCampaignLevelMap[member.id][campaignID] ?= {}
@@ -98,10 +105,22 @@ module.exports = class ClanDetailsView extends RootView
                 levelSlug: levelSlug
                 index: lastLevelIndex
               maxLastUserCampaignLevel = lastLevelIndex if lastLevelIndex > maxLastUserCampaignLevel
+              if level.concepts?
+                userConceptsMap[member.id] ?= {}
+                for concept in level.concepts
+                  continue if userConceptsMap[member.id][concept] is 'complete'
+                  userConceptsMap[member.id][concept] = context.memberLevelStateMap[member.id][levelSlug].state
+              highestUserLevelCountMap[member.id] = levelCount
           lastLevelIndex++
+          levelCount++
 
+    @sortMembers(highestUserLevelCountMap, userConceptsMap)# if @clan.get('dashboardType') is 'premium'
+    context.members = @members?.models ? []
     context.lastUserCampaignLevelMap = lastUserCampaignLevelMap
     context.showExpandedProgress = maxLastUserCampaignLevel <= 30 or @showExpandedProgress
+    context.userConceptsMap = userConceptsMap
+    context.arenas = @arenas
+    context.i18n = utils.i18n
     context
 
   afterRender: ->
@@ -114,6 +133,42 @@ module.exports = class ClanDetailsView extends RootView
     @memberAchievements.fetch cache: false
     @memberSessions.fetch cache: false
 
+  sortMembers: (highestUserLevelCountMap, userConceptsMap) ->
+    # Progress sort precedence: most completed concepts, most started concepts, most levels, name sort
+    return unless @members? and @memberSort?
+    switch @memberSort
+      when "nameDesc"
+        @members.comparator = (a, b) -> return (b.get('name') or 'Anoner').localeCompare(a.get('name') or 'Anoner')
+      when "progressAsc"
+        @members.comparator = (a, b) ->
+          aComplete = (concept for concept, state of userConceptsMap[a.id] when state is 'complete')
+          bComplete = (concept for concept, state of userConceptsMap[b.id] when state is 'complete')
+          aStarted = (concept for concept, state of userConceptsMap[a.id] when state is 'started')
+          bStarted = (concept for concept, state of userConceptsMap[b.id] when state is 'started')
+          if aComplete < bComplete then return -1
+          else if aComplete > bComplete then return 1
+          else if aStarted < bStarted then return -1
+          else if aStarted > bStarted then return 1
+          if highestUserLevelCountMap[a.id] < highestUserLevelCountMap[b.id] then return -1
+          else if highestUserLevelCountMap[a.id] > highestUserLevelCountMap[b.id] then return 1
+          (a.get('name') or 'Anoner').localeCompare(b.get('name') or 'Anoner')
+      when "progressDesc"
+        @members.comparator = (a, b) ->
+          aComplete = (concept for concept, state of userConceptsMap[a.id] when state is 'complete')
+          bComplete = (concept for concept, state of userConceptsMap[b.id] when state is 'complete')
+          aStarted = (concept for concept, state of userConceptsMap[a.id] when state is 'started')
+          bStarted = (concept for concept, state of userConceptsMap[b.id] when state is 'started')
+          if aComplete > bComplete then return -1
+          else if aComplete < bComplete then return 1
+          else if aStarted > bStarted then return -1
+          else if aStarted < bStarted then return 1
+          if highestUserLevelCountMap[a.id] > highestUserLevelCountMap[b.id] then return -1
+          else if highestUserLevelCountMap[a.id] < highestUserLevelCountMap[b.id] then return 1
+          (b.get('name') or 'Anoner').localeCompare(a.get('name') or 'Anoner')
+      else
+        @members.comparator = (a, b) -> return (a.get('name') or 'Anoner').localeCompare(b.get('name') or 'Anoner')
+    @members.sort()
+
   updateHeroIcons: ->
     return unless @members?.models?
     for member in @members.models
@@ -124,25 +179,24 @@ module.exports = class ClanDetailsView extends RootView
   onCampaignSync: ->
     return unless @campaigns.loaded
     @campaignLevelProgressions = []
-    for campaign in @campaigns.models
-      continue if campaign.get('slug') is 'auditions'
+    @conceptsProgression = []
+    @arenas = []
+    for campaign in @campaigns.models when campaign.get('type') is 'hero'
       campaignLevelProgression =
         ID: campaign.id
         slug: campaign.get('slug')
-        name: campaign.get('name')
+        name: utils.i18n(campaign.attributes, 'fullName') or utils.i18n(campaign.attributes, 'name')
         levels: []
-      # TODO: Where do these proper names come from?
-      campaignLevelProgression.name = switch
-        when campaignLevelProgression.slug is 'dungeon' then 'Kithgard Dungeon'
-        when campaignLevelProgression.slug is 'forest' then 'Backwoods Forest'
-        when campaignLevelProgression.slug is 'desert' then 'Sarven Desert'
-        when campaignLevelProgression.slug is 'mountain' then 'Cloudrip Mountain'
-        else campaignLevelProgression.name
       for levelID, level of campaign.get('levels')
         campaignLevelProgression.levels.push
           ID: levelID
           slug: level.slug
-          name: level.name
+          name: utils.i18n level, 'name'
+        if level.concepts?
+          for concept in level.concepts
+            @conceptsProgression.push concept unless concept in @conceptsProgression
+        if level.type is 'hero-ladder' and level.slug not in ['capture-their-flag']
+          @arenas.push level
       @campaignLevelProgressions.push campaignLevelProgression
     @render?()
 
@@ -151,6 +205,8 @@ module.exports = class ClanDetailsView extends RootView
       @owner = new User _id: @clan.get('ownerID')
       @listenTo @owner, 'sync', => @render?()
       @supermodel.loadModel @owner, 'owner', cache: false
+    if @clan.get("dashboardType") is "premium"
+      @supermodel.loadCollection(@memberSessions, 'member_sessions', {cache: false})
     @render?()
 
   onMembersSync: ->
@@ -278,6 +334,14 @@ module.exports = class ClanDetailsView extends RootView
         console.error 'Error leaving clan', response
       success: (model, response, options) => @refreshData()
     @supermodel.addRequestResource( 'leave_clan', options).load()
+
+  onClickMemberHeader: (e) ->
+    @memberSort = if @memberSort is 'nameAsc' then 'nameDesc' else 'nameAsc'
+    @render?()
+
+  onClickProgressHeader: (e) ->
+    @memberSort = if @memberSort is 'progressAsc' then 'progressDesc' else 'progressAsc'
+    @render?()
 
   onRemoveMember: (e) ->
     return unless window.confirm("Remove Hero?")

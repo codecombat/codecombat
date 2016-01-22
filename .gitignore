@@ -77,7 +77,6 @@ coverage/
 FLOOBITS_README.md
 
 # mongodb
-db/
 bin/node/
 bin/mongo/
 
@@ -94,5 +93,8 @@ login.coffee
 npm-debug.log*
 
 temp/
+Dockerfile
 ### If you add something here, copy it to the end of .npmignore, too. ###
 
+# Visual Studio Code
+.vscode/

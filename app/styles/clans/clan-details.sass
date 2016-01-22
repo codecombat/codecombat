@@ -38,6 +38,9 @@
     margin: 0px 2px
     vertical-align: middle
 
+  td.hero-icon-cell
+    display: table-cell
+
   .level-cell
     width: 50px
     text-align: center
@@ -55,8 +58,11 @@
     vertical-align: middle
 
 
+  .member-header
+    cursor: pointer
+
   .progress-header
-    margin-right: 14px
+    cursor: pointer
 
   .progress-key
     cursor: default
@@ -74,6 +80,7 @@
 
   .progress-key-complete
     background-color: lightgray
+    margin-left: 14px
 
   .expand-progress-checkbox
     margin-left: 14px
@@ -95,9 +102,23 @@
       background-color: blanchedalmond
       font-size: 10pt
 
-  .level-progression-campaign
+  .level-progression-concepts
+    color: #317EAC
     font-size: 12pt
     font-weight: bold
+    margin-top: 8px
+    margin-bottom: 4px
+
+  .level-progression-levels
+    color: #317EAC
+    font-size: 12pt
+    font-weight: bold
+    margin-top: 8px
+
+  .level-progression-campaign
+    font-size: 10pt
+    font-weight: bold
+    margin-bottom: 4px
     margin-top: 4px
 
   .progress-level-cell
@@ -149,6 +170,10 @@
 
   td.code-language-cell
     width: 30px
+    vertical-align: middle
+
+    .code-language-cell
+      vertical-align: middle
 
   span.code-language-cell
     background: transparent url(/images/common/code_languages/javascript_small.png)
@@ -157,3 +182,6 @@
     width: 30px
     height: 30px
     margin: 0px 2px
+
+  .remove-member-cell
+    vertical-align: middle

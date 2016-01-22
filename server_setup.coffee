@@ -8,11 +8,13 @@ compressible = require 'compressible'
 geoip = require 'geoip-lite'
 
 database = require './server/commons/database'
+perfmon = require './server/commons/perfmon'
 baseRoute = require './server/routes/base'
 user = require './server/users/user_handler'
 logging = require './server/commons/logging'
 config = require './server_config'
 auth = require './server/routes/auth'
+routes = require './server/routes'
 UserHandler = require './server/users/user_handler'
 hipchat = require './server/hipchat'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
@@ -28,6 +30,7 @@ productionLogging = (tokens, req, res) ->
   else if status >= 300 then color = 36
   elapsed = (new Date()) - req._startTime
   elapsedColor = if elapsed < 500 then 90 else 31
+  return null if status is 404 and /\/feedback/.test req.originalUrl  # We know that these usually 404 by design (bad design?)
   if (status isnt 200 and status isnt 201 and status isnt 204 and status isnt 304 and status isnt 302) or elapsed > 500
     return "\x1b[90m#{req.method} #{req.originalUrl} \x1b[#{color}m#{res.statusCode} \x1b[#{elapsedColor}m#{elapsed}ms\x1b[0m"
   null
@@ -78,20 +81,24 @@ setupPassportMiddleware = (app) ->
   app.use(authentication.initialize())
   app.use(authentication.session())
 
-setupChinaRedirectMiddleware = (app) ->
-  shouldRedirectToChinaVersion = (req) ->
-    speaksChinese = req.acceptedLanguages[0]?.indexOf('zh') isnt -1
-    unless config.tokyo
+setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", languageCode="zh", serverID="tokyo") ->
+  shouldRedirectToCountryServer = (req) ->
+    speaksLanguage = _.any req.acceptedLanguages, (language) -> language.indexOf languageCode isnt -1
+    unless config[serverID]
       ip = req.headers['x-forwarded-for'] or req.connection.remoteAddress
+      ip = ip?.split(/,? /)[0]  # If there are two IP addresses, say because of CloudFlare, we just take the first.
       geo = geoip.lookup(ip)
-      return geo?.country is "CN" and speaksChinese
+      #if speaksLanguage or geo?.country is countryCode
+      #  log.info("Should we redirect to #{serverID} server? speaksLanguage: #{speaksLanguage}, acceptedLanguages: #{req.acceptedLanguages}, ip: #{ip}, geo: #{geo} -- so redirecting? #{geo?.country is 'CN' and speaksLanguage}")
+      return geo?.country is countryCode and speaksLanguage
     else
-      req.chinaVersion = true if speaksChinese
+      #log.info("We are on #{serverID} server. speaksLanguage: #{speaksLanguage}, acceptedLanguages: #{req.acceptedLanguages[0]}")
+      req.country = country if speaksLanguage
       return false  # If the user is already redirected, don't redirect them!
 
   app.use (req, res, next) ->
-    if shouldRedirectToChinaVersion req
-      res.writeHead 302, "Location": config.chinaDomain + req.url
+    if shouldRedirectToCountryServer req
+      res.writeHead 302, "Location": config[country + 'Domain'] + req.url
       res.end()
     else
       next()
@@ -123,19 +130,17 @@ setupRedirectMiddleware = (app) ->
     nameOrID = req.path.split('/')[3]
     res.redirect 301, "/user/#{nameOrID}/profile"
 
-setupTrailingSlashRemovingMiddleware = (app) ->
-  app.use (req, res, next) ->
-    # Remove trailing slashes except for in /file/.../ URLs, because those are treated as directory listings.
-    return res.redirect 301, req.url[...-1] if req.url.length > 1 and req.url.slice(-1) is '/' and not /\/file\//.test req.url
-    next()
+setupPerfMonMiddleware = (app) ->
+  app.use perfmon.middleware
 
 exports.setupMiddleware = (app) ->
-  setupChinaRedirectMiddleware app
+  setupPerfMonMiddleware app
+  setupCountryRedirectMiddleware app, "china", "CN", "zh", "tokyo"
+  setupCountryRedirectMiddleware app, "brazil", "BR", "pt-BR", "saoPaulo"
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupPassportMiddleware app
   setupOneSecondDelayMiddleware app
-  setupTrailingSlashRemovingMiddleware app
   setupRedirectMiddleware app
   setupErrorMiddleware app
   setupJavascript404s app
@@ -163,6 +168,7 @@ setupFacebookCrossDomainCommunicationRoute = (app) ->
     res.sendfile path.join(__dirname, 'public', 'channel.html')
 
 exports.setupRoutes = (app) ->
+  routes.setup(app)
   app.use app.router
 
   baseRoute.setup app

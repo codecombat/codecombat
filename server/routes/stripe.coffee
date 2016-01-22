@@ -46,14 +46,19 @@ module.exports.setup = (app) ->
 
     invoiceID = req.body.data.object.id
     stripe.invoices.retrieve invoiceID, (err, invoice) =>
-      return res.send(500, '') if err
-      unless invoice.total or invoice.discount?.coupon?.id is 'free'
+      if err
+        logStripeWebhookError("Retrieve invoice error: #{JSON.stringify(err)}")
+        return res.send(500, '')
+      unless invoice.total or invoice.discount?.coupon?.id in ['free', 'brazil']
         # invoices made when trialing, probably given for people who resubscribe after unsubscribing
+        # also I can't change the test-mode brazil coupon to not end up with a zero price now
         return res.send(200, '')
       return res.send(200, '') unless invoice.lines?.data?.length > 0
 
       getUserID invoice.customer, (err, userID) =>
-        return res.send(500, '') if err
+        if err
+          logStripeWebhookError("Get user ID error: #{JSON.stringify(err)}")
+          return res.send(500, '')
 
         # User is recipient if no metadata.id
         recipientID = invoice.lines.data[0].metadata?.id or userID
@@ -62,7 +67,9 @@ module.exports.setup = (app) ->
         subscriptionID = invoice.lines.data[0].subscription or invoice.lines.data[0].id
 
         User.findById recipientID, (err, recipient) =>
-          return res.send(500, '') if err
+          if err
+            logStripeWebhookError("Find recipient user error: #{JSON.stringify(err)}")
+            return res.send(500, '')
           return res.send(200) unless recipient # just for the sake of testing...
 
           Payment.findOne {'stripe.invoiceID': invoiceID}, (err, payment) =>
@@ -79,10 +86,16 @@ module.exports.setup = (app) ->
                 subscriptionID: subscriptionID
               }
             })
-            payment.set 'gems', 3500 if invoice.lines.data[0].plan?.id is 'basic'
+            # TODO: load gems from correct Product
+            productGems = 3500
+            if recipient.get('country') is 'brazil'
+              productGems = 1500
+            payment.set 'gems', productGems if invoice.lines.data[0].plan?.id is 'basic'
 
             payment.save (err) =>
-              return res.send(500, '') if err
+              if err
+                logStripeWebhookError("Save payment error: #{JSON.stringify(err)}")
+                return res.send(500, '')
               return res.send(201, '') if invoice.lines.data[0].plan?.id isnt 'basic'
 
               # Update purchased gems
@@ -94,7 +107,9 @@ module.exports.setup = (app) ->
                 purchased.gems = gems
                 recipient.set('purchased', purchased)
                 recipient.save (err) ->
-                  return res.send(500, '') if err
+                  if err
+                    logStripeWebhookError("Save recipient user error: #{JSON.stringify(err)}")
+                    return res.send(500, '')
                   return res.send(201, '')
 
   handleSubscriptionDeleted = (req, res) ->
@@ -141,6 +156,15 @@ module.exports.setup = (app) ->
     checkRecipientSubscription = (done) ->
       return done() unless subscription.plan.id is 'basic'
       return done() unless subscription.metadata?.id # Shouldn't be possible
+
+      deleteUserStripeProp = (user, propName) ->
+        stripeInfo = _.cloneDeep(user.get('stripe') ? {})
+        delete stripeInfo[propName]
+        if _.isEmpty stripeInfo
+          user.set 'stripe', undefined
+        else
+          user.set 'stripe', stripeInfo
+
       User.findById subscription.metadata.id, (err, recipient) =>
         if err
           logStripeWebhookError(err)
@@ -148,6 +172,10 @@ module.exports.setup = (app) ->
         unless recipient
           logStripeWebhookError("Recipient not found #{subscription.metadata.id}")
           return res.send(500, '')
+
+        # Recipient cancellations are immediate, no work to perform if recipient's sponsorID is already gone
+        return res.send(200, '') unless recipient.get('stripe')?.sponsorID?
+
         User.findById recipient.get('stripe').sponsorID, (err, sponsor) =>
           if err
             logStripeWebhookError(err)
@@ -158,29 +186,55 @@ module.exports.setup = (app) ->
 
           # Update sponsor subscription
           stripeInfo = _.cloneDeep(sponsor.get('stripe') ? {})
-          _.remove(stripeInfo.recipients, (s) -> s.userID is recipient.id)
-          options =
-            quantity: utils.getSponsoredSubsAmount(subscription.plan.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
-          stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
-            if err
-              logStripeWebhookError(err)
-              return res.send(500, '')
+          stripeInfo.recipients ?= []
 
-            # Update sponsor user
-            sponsor.set 'stripe', stripeInfo
-            sponsor.save (err) =>
+          if stripeInfo.sponsorSubscriptionID
+            _.remove(stripeInfo.recipients, (s) -> s.userID is recipient.id)
+            options =
+              quantity: utils.getSponsoredSubsAmount(subscription.plan.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
+            stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
               if err
                 logStripeWebhookError(err)
                 return res.send(500, '')
 
-              # Update recipient user
-              stripeInfo = recipient.get('stripe')
-              delete stripeInfo.sponsorID
-              if _.isEmpty stripeInfo
-                recipient.set 'stripe', undefined
-              else
-                recipient.set 'stripe', stripeInfo
-              recipient.save (err) =>
+              # Update sponsor user
+              sponsor.set 'stripe', stripeInfo
+              sponsor.save (err) =>
+                if err
+                  logStripeWebhookError(err)
+                  return res.send(500, '')
+
+                # Update recipient user
+                deleteUserStripeProp recipient, 'sponsorID'
+                recipient.save (err) =>
+                  if err
+                    logStripeWebhookError(err)
+                    return res.send(500, '')
+                  return res.send(200, '')
+          else
+            # Remove sponsorships from sponsor and recipients
+            console.error "Couldn't find sponsorSubscriptionID from stripeInfo", stripeInfo, 'for customer', stripeInfo.customerID, 'with options', options, 'and subscription', subscription, 'for user', recipient.id, 'with sponsor', sponsor.id
+
+            # Update recipients
+            createUpdateFn = (recipientID) ->
+              (callback) ->
+                User.findById recipientID, (err, recipient) =>
+                  if err
+                    logStripeWebhookError(err)
+                    return callback(err)
+
+                  deleteUserStripeProp recipient, 'sponsorID'
+                  recipient.save (err) =>
+                    logStripeWebhookError(err) if err
+                    callback(err)
+            async.parallel (createUpdateFn(recipient.userID) for recipient in stripeInfo.recipients), (err, results) =>
+              if err
+                logStripeWebhookError(err)
+                return res.send(500, '')
+
+              # Update sponsor
+              deleteUserStripeProp sponsor, 'recipients'
+              sponsor.save (err) =>
                 if err
                   logStripeWebhookError(err)
                   return res.send(500, '')

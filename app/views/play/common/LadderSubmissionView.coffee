@@ -1,6 +1,7 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/common/ladder_submission'
 {createAetherOptions} = require 'lib/aether_utils'
+LevelSession = require 'models/LevelSession'
 
 module.exports = class LadderSubmissionView extends CocoView
   className: 'ladder-submission-view'
@@ -13,6 +14,7 @@ module.exports = class LadderSubmissionView extends CocoView
   constructor: (options) ->
     super options
     @session = options.session
+    @mirrorSession = options.mirrorSession
     @level = options.level
 
   getRenderData: ->
@@ -62,20 +64,37 @@ module.exports = class LadderSubmissionView extends CocoView
       console.log jqxhr.responseText
       @setRankingButtonText 'failed' unless @destroyed
     @transpileSession (transpiledCode) =>
-
       ajaxData =
         session: @session.id
         levelID: @level.id
         originalLevelID: @level.get('original')
         levelMajorVersion: @level.get('version').major
         transpiledCode: transpiledCode
-
-      $.ajax '/queue/scoring', {
+      ajaxOptions =
         type: 'POST'
         data: ajaxData
         success: success
         error: failure
-      }
+      if @mirrorSession and @mirrorSession.get('submittedCode')
+        # Also submit the mirrorSession after the main session submits successfully.
+        mirrorAjaxData = _.clone ajaxData
+        mirrorAjaxData.session = @mirrorSession.id
+        mirrorCode = @mirrorSession.get('code')
+        if @session.get('team') is 'humans'
+          mirrorAjaxData.transpiledCode = 'hero-placeholder-1': transpiledCode['hero-placeholder']
+          mirrorCode['hero-placeholder-1'] = @session.get('code')['hero-placeholder']
+        else
+          mirrorAjaxData.transpiledCode = 'hero-placeholder': transpiledCode['hero-placeholder-1']
+          mirrorCode['hero-placeholder'] = @session.get('code')['hero-placeholder-1']
+        mirrorAjaxOptions = _.clone ajaxOptions
+        mirrorAjaxOptions.data = mirrorAjaxData
+        ajaxOptions.success = =>
+          patch = code: mirrorCode, codeLanguage: @session.get('codeLanguage'), submittedCodeLanguage: @session.get('submittedCodeLanguage')
+          tempSession = new LevelSession _id: @mirrorSession.id
+          tempSession.save patch, patch: true, type: 'PUT', success: ->
+            $.ajax '/queue/scoring', mirrorAjaxOptions
+
+      $.ajax '/queue/scoring', ajaxOptions
 
   transpileSession: (callback) ->
     submittedCode = @session.get('code')

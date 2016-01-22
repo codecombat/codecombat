@@ -31,4 +31,6 @@ module.exports = class FlagLank extends IndieLank
   toggleCursor: (to) ->
     @options.isCursor = to
     @thang.alpha = if to then 0.33 else 0.67  # 1.0 is for flags that have been placed
+    #@thang.action = if to then 'idle' else 'appear'  # TODO: why doesn't this work? Does it not render the action or something?
+    @thang.action = 'appear'
     @updateAlpha()

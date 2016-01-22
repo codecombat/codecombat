@@ -21,12 +21,7 @@ module.exports = class SaveVersionModal extends ModalView
     super options
     @model = options.model or options.level
     @isPatch = not @model.hasWriteAccess()
-
-  getRenderData: ->
-    c = super()
-    c.isPatch = @isPatch
-    c.hasChanges = @model.hasLocalChanges()
-    c
+    @hasChanges = @model.hasLocalChanges()
 
   afterRender: (insertDeltaView=true) ->
     super()
@@ -45,7 +40,7 @@ module.exports = class SaveVersionModal extends ModalView
     if @isPatch then @submitPatch() else @saveChanges()
 
   saveChanges: ->
-    Backbone.Mediator.publish 'editor:save-new-version', {
+    @trigger 'save-new-version', {
       major: @$el.find('#major-version').prop('checked')
       commitMessage: @$el.find('#commit-message').val()
     }

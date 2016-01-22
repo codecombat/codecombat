@@ -54,12 +54,23 @@
       border-image: url(/images/level/code_toolbar_run_button_active_pressed.png) 14 20 20 20 fill round
       padding: 2px 0 0 2px
 
-    &.submit-button, &.done-button
+    &.submit-button, &.done-button, &.rank-button
       margin-left: 10px
       border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
       
       &:active
         border-image: url(/images/level/code_toolbar_submit_button_active_pressed.png) 14 20 20 20 fill round
+
+  .ladder-submission-view
+    width: 45%
+    width: -webkit-calc(50% - 10px)
+    width: calc(50% - 10px)
+    display: inline-block
+
+    .btn.btn-illustrated
+      width: 100%
+      font-size: 18px
+
   
   .cast-button
     @include opacity(0.77)
@@ -88,7 +99,10 @@
       &.submit-button
         font-size: 16px
 
-  &.winnable
+  &.winnable .btn.btn-illustrated.cast-button
+    font-size: 16px
+
+  &.winnable.has-seen-winning-replay
 
     .btn.btn-illustrated
       &.submit-button, &.done-button
@@ -100,8 +114,6 @@
         &:active
           border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
 
-      &.cast-button
-        font-size: 16px
 
 html.no-borderimage #cast-button-view
   .btn.btn-illustrated

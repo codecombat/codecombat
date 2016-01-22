@@ -22,6 +22,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoClass = require 'core/CocoClass'
 SegmentedSprite = require './SegmentedSprite'
 SingularSprite = require './SingularSprite'
+ThangType = require 'models/ThangType'
 
 NEVER_RENDER_ANYTHING = false # set to true to test placeholders
 
@@ -42,7 +43,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   buildAutomatically: true
   buildAsync: true
   resolutionFactor: SPRITE_RESOLUTION_FACTOR
-  defaultActions: ['idle', 'die', 'move', 'move', 'attack']
   numThingsLoading: 0
   lanks: null
   spriteSheet: null
@@ -147,14 +147,13 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Adding, removing children for WebGL layers.
 
   addLank: (lank) ->
-    # TODO: Move this into the production DB rather than setting it dynamically.
-    if lank.thangType?.get('name') is 'Highlight'
-      lank.thangType.set('spriteType', 'segmented')
     lank.options.resolutionFactor = @resolutionFactor
-
     lank.layer = @
     @listenTo(lank, 'action-needs-render', @onActionNeedsRender)
     @lanks.push lank
+    lank.thangType.initPrerenderedSpriteSheets() unless currentView.getQueryVariable 'jitSpritesheets'
+    prerenderedSpriteSheet = lank.thangType.getPrerenderedSpriteSheet(lank.options.colorConfig, @defaultSpriteType)
+    prerenderedSpriteSheet?.markToLoad()
     @loadThangType(lank.thangType)
     @addDefaultActionsToRender(lank)
     @setSpriteToLank(lank)
@@ -179,6 +178,11 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       thangType.loadRasterImage()
       @listenToOnce(thangType, 'raster-image-loaded', @somethingLoaded)
       @numThingsLoading++
+    else if prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheetToLoad()
+      startedLoading = prerenderedSpriteSheet.loadImage()
+      return if not startedLoading
+      @listenToOnce(prerenderedSpriteSheet, 'image-loaded', -> @somethingLoaded(thangType))
+      @numThingsLoading++
 
   somethingLoaded: (thangType) ->
     @numThingsLoading--
@@ -199,7 +203,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       @upsertActionToRender(lank.thangType)
     else
       for action in _.values(lank.thangType.getActions())
-        continue unless _.any @defaultActions, (prefix) -> _.string.startsWith(action.name, prefix)
+        continue unless _.any ThangType.defaultActions, (prefix) -> _.string.startsWith(action.name, prefix)
         @upsertActionToRender(lank.thangType, action.name, lank.options.colorConfig)
 
   upsertActionToRender: (thangType, actionName, colorConfig) ->
@@ -269,6 +273,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         builder.buildAsync()
       catch e
         @resolutionFactor *= 0.9
+        #console.log "  Rerendering sprite sheet didn't fit, going down to resolutionFactor", @resolutionFactor, "async", async
         return @_renderNewSpriteSheet(async)
       builder.on 'complete', @onBuildSpriteSheetComplete, @, true, builder
       @asyncBuilder = builder
@@ -286,7 +291,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       # get a rough estimate of how much smaller the spritesheet needs to be
       for image, index in builder.spriteSheet._images
         total += image.height / builder.maxHeight
-      @resolutionFactor /= (Math.max(1.1, Math.sqrt(total)))
+      @resolutionFactor /= (Math.max(1.25, Math.sqrt(total)))
+      #console.log "#{@name} rerendering new sprite sheet with resolutionFactor", @resolutionFactor, "async", e.async
       @_renderNewSpriteSheet(e.async)
       return
 
@@ -349,39 +355,44 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Rendering containers for segmented thang types
 
   renderSegmentedThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
-    containersToRender = {}
-    for actionName in actionNames
-      action = _.find(thangType.getActions(), {name: actionName})
-      if action.container
-        containersToRender[action.container] = true
-      else if action.animation
-        animationContainers = @getContainersForAnimation(thangType, action.animation, action)
-        containersToRender[container.gn] = true for container in animationContainers
-
+    prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheet(colorConfig, 'segmented')
+    if prerenderedSpriteSheet and not prerenderedSpriteSheet.loadedImage
+      return
+    containersToRender = thangType.getContainersForActions(actionNames)
+    #console.log 'render segmented', thangType.get('name'), actionNames, colorConfig, 'because we do not have prerendered sprite sheet?', prerenderedSpriteSheet
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
-    for containerGlobalName in _.keys(containersToRender)
+    for containerGlobalName in containersToRender
       containerKey = @renderGroupingKey(thangType, containerGlobalName, colorConfig)
       if @spriteSheet?.resolutionFactor is @resolutionFactor and containerKey in @spriteSheet.getAnimations()
         container = new createjs.Sprite(@spriteSheet)
         container.gotoAndStop(containerKey)
         frame = spriteSheetBuilder.addFrame(container)
+      else if prerenderedSpriteSheet
+        container = new createjs.Sprite(prerenderedSpriteSheet.spriteSheet)
+        container.gotoAndStop(containerGlobalName)
+        scale = @resolutionFactor / (prerenderedSpriteSheet.get('resolutionFactor') or 1)
+        frame = spriteSheetBuilder.addFrame(container, null, scale)
       else
         container = spriteBuilder.buildContainerFromStore(containerGlobalName)
         frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (thangType.get('scale') or 1))
       spriteSheetBuilder.addAnimation(containerKey, [frame], false)
 
-  getContainersForAnimation: (thangType, animation, action) ->
-    rawAnimation = thangType.get('raw').animations[animation]
-    if not rawAnimation
-      console.error 'thang type', thangType.get('name'), 'is missing animation', animation, 'from action', action
-    containers = rawAnimation.containers
-    for animation in thangType.get('raw').animations[animation].animations
-      containers = containers.concat(@getContainersForAnimation(thangType, animation.gn, action))
-    return containers
-
   #- Rendering sprite sheets for singular thang types
 
   renderSingularThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
+    prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheet(colorConfig, 'singular')
+    prerenderedFramesMap = {}
+    if prerenderedSpriteSheet
+      if not prerenderedSpriteSheet.loadedImage
+        return
+      scale = @resolutionFactor / (prerenderedSpriteSheet.get('resolutionFactor') or 1)
+      for frame, i in prerenderedSpriteSheet.spriteSheet._frames
+        sprite = new createjs.Sprite(prerenderedSpriteSheet.spriteSheet)
+        sprite.gotoAndStop(i)
+        prerenderedFramesMap[i] = spriteSheetBuilder.addFrame(sprite, null, scale)
+    #else
+    #  console.log '    Rerendering singular thang type', thangType.get('name'), thangType.get('spriteType'), colorConfig, actionNames
+
     actionObjects = _.values(thangType.getActions())
     animationActions = []
     for a in actionObjects
@@ -407,8 +418,18 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         for key, index in actionKeys
           action = actions[index]
           frames = (framesMap[f] for f in @spriteSheet.getAnimation(key).frames)
-          next = @nextForAction(action)
+          next = thangType.nextForAction(action)
           spriteSheetBuilder.addAnimation(key, frames, next)
+        continue
+
+      if prerenderedSpriteSheet
+        for action in actions
+          name = @renderGroupingKey(thangType, action.name, colorConfig)
+          prerenderedFrames = prerenderedSpriteSheet.get('animations')?[action.name]?.frames
+          continue if not prerenderedFrames
+          frames = (prerenderedFramesMap[frame] for frame in prerenderedFrames)
+          next = thangType.nextForAction(action)
+          spriteSheetBuilder.addAnimation(name, frames, next)
         continue
 
       mc = spriteBuilder.buildMovieClip(animationName, null, null, null, {'temp':0})
@@ -432,7 +453,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           frames = (framesMap[parseInt(frame)] for frame in action.frames.split(','))
         else
           frames = _.sortBy(_.values(framesMap))
-        next = @nextForAction(action)
+        next = thangType.nextForAction(action)
         spriteSheetBuilder.addAnimation(name, frames, next)
 
     containerActions = []
@@ -443,6 +464,14 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
     containerGroups = _.groupBy containerActions, (action) -> action.container
     for containerName, actions of containerGroups
+      if prerenderedSpriteSheet
+        for action in actions
+          name = @renderGroupingKey(thangType, action.name, colorConfig)
+          prerenderedFrames = prerenderedSpriteSheet.get('animations')?[action.name]?.frames
+          continue if not prerenderedFrames
+          frame = prerenderedFramesMap[prerenderedFrames[0]]
+          spriteSheetBuilder.addAnimation(name, [frame], false)
+        continue
       container = spriteBuilder.buildContainerFromStore(containerName)
       scale = actions[0].scale or thangType.get('scale') or 1
       frame = spriteSheetBuilder.addFrame(container, null, scale * @resolutionFactor)
@@ -450,22 +479,21 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         name = @renderGroupingKey(thangType, action.name, colorConfig)
         spriteSheetBuilder.addAnimation(name, [frame], false)
 
-  nextForAction: (action) ->
-    next = true
-    next = action.goesTo if action.goesTo
-    next = false if action.loops is false
-    return next
-
   #- Rendering frames for raster thang types
 
   renderRasterThangType: (thangType, spriteSheetBuilder) ->
     unless thangType.rasterImage
       console.error("Cannot render the LayerAdapter SpriteSheet until the raster image for <#{thangType.get('name')}> is loaded.")
 
+    # hack for IE9, otherwise width/height are not set
+    $img = $(thangType.rasterImage[0])
+    $('body').append($img)
+
     bm = new createjs.Bitmap(thangType.rasterImage[0])
     scale = thangType.get('scale') or 1
     frame = spriteSheetBuilder.addFrame(bm, null, scale)
     spriteSheetBuilder.addAnimation(@renderGroupingKey(thangType), [frame], false)
+    $img.remove()
 
   #- Distributing new Segmented/Singular/RasterSprites to Lanks
 

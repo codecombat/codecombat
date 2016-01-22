@@ -18,18 +18,11 @@ module.exports = class ModalView extends CocoView
     'esc': 'hide'
 
   constructor: (options) ->
-    options ?= {}
-    @className = @className.replace ' fade', '' if options.instant or @instant
-    @closeButton = options.closeButton if options.closeButton?
-    @modalWidthPercent = options.modalWidthPercent if options.modalWidthPercent
-    super options
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.closeButton = @closeButton
-    context.headerContent = @options.headerContent
-    context.bodyContent = @options.bodyContent
-    context
+    @className = @className.replace ' fade', '' if options?.instant or @instant
+    @closeButton = options.closeButton if options?.closeButton?
+    @modalWidthPercent = options.modalWidthPercent if options?.modalWidthPercent
+    super arguments...
+    @options ?= {}
 
   subscriptions:
     {}

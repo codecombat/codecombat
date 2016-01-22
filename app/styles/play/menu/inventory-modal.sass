@@ -350,9 +350,15 @@ $itemSlotGridHeight: 51px
           img
             margin: 1px
           button
-            margin-top: -2px
-            height: 19px
+            //margin-top: -2px
+            //height: 19px
             font-size: 12px
+            margin: -1px 1px 1px 1px
+
+            &:active, &.active
+              background-position: -57px * 2 0
+              color: white
+              text-shadow: 0 1px 0 black, 1px 0 0 black, -1px 0 0 black, 0 -1px 0 black
 
       img
         width: 56px
@@ -360,22 +366,32 @@ $itemSlotGridHeight: 51px
         display: block
       
       button
-        width: 100%
-        height: 17px
-        border: 1px solid rgb(46,46,46)
-        background: white
+        background: transparent url(/images/pages/play/modal/equip-buttons.png)
+        width: 56px
+        height: 21px
+        border: 0
+        //border: 1px solid rgb(46,46,46)
+        //background: white
         font-size: 11px
         border-radius: 1px
-        padding: 0
-        @include transition(0.1s ease)
+        padding: 0 0 2px 0
+        @include transition(font-size 0.1s ease)
+        //text-shadow: 0 1px 0 white, 1px 0 0 white, -1px 0 0 white, 0 -1px 0 white
+
+        text-transform: uppercase
+        font-weight: bold
+        color: black
+        text-spacing: 0px
 
       &.active
         background-color: rgb(81,153,236)
 
         button
-          background-color: lighten(rgb(89,136,47), 10%)
+          //background-color: lighten(rgb(89,136,47), 10%)
           box-shadow: 1px 1px 4px #333
           color: white
+          text-shadow: 0 1px 0 black, 1px 0 0 black, -1px 0 0 black, 0 -1px 0 black
+          background-position: -57px 0
     
         //.status-message .should-equip-message
         //  display: inline
@@ -594,3 +610,12 @@ $itemSlotGridHeight: 51px
       &.male
         left: -16px
 
+body[lang='ja'], body[lang^='zh'], body[lang='ca'], body[lang^='es'], body[lang^='pt'], body[lang='ro'], body[lang='fi'], body[lang='sv'], body[lang='uk'], body[lang='vi'], body[lang='cz']
+  #inventory-modal #unequipped .item button
+    font-weight: normal
+    letter-spacing: -1px
+    padding-bottom: 1px
+
+body[lang='ro'], body[lang='fi'], body[lang='uk']
+  #inventory-modal #unequipped .item button
+    text-transform: none

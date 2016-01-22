@@ -6,11 +6,13 @@ block content
   
   table.table.table-striped.table-bordered.table-condensed#clas
     tbody
-      each cla in clas
+      - var models = view.clas.models
+      - var models = _.uniq(models, true, function(model) { return model.get('githubUsername'); });
+      each cla in models
         tr
-          td #{cla.name}
+          td #{cla.get('name')}
           if me.isAdmin()
-            td #{cla.email}
-          td #{cla.githubUsername}
-          td #{cla.created}
+            td #{cla.get('email')}
+          td #{cla.get('githubUsername')}
+          td #{cla.get('created')}
  

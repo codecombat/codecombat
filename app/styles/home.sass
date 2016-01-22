@@ -2,13 +2,35 @@
 @import "app/styles/bootstrap/variables"
 
 #home-view
-  
+
+  #kids-coding-container
+    $coding-image-size: 272px
+    position: relative
+    width: 960px + $coding-image-size
+    margin: 0px auto
+
+    @media screen and ( max-width: 1279px )
+      display: none
+
+    .kid-coding
+      position: absolute
+      z-index: 1
+      top: -57px
+      @media screen and ( max-height: 800px )
+        top: 50px
+
+      &#boy-coding
+        left: -$coding-image-size / 2
+
+      &#girl-coding
+        right: -$coding-image-size / 2
+
   #spacer
     height: 626px
     @media screen and ( max-height: 800px )
       height: 510px
-    
-  #play-button, #or-ipad, #apple-store-button, #slogan, .alert
+
+  #play-button, #or-ipad, #apple-store-button, #slogan, .alert, #news, #alternate-play-button
     text-align: center
     text-transform: uppercase
     font-weight: bold
@@ -18,7 +40,7 @@
     left: 0
     right: 0
     font-weight: bold
-  
+
   #play-button
     text-align: center
     padding-top: 170px
@@ -30,15 +52,15 @@
     height: 219px
     @media screen and ( max-height: 800px )
       top: 78px
-      
+
     background-image: url(/images/pages/home/play_button.png)
     background-position: 0 219px
-    
+
     &:hover
       background-position: 0 0
       color: rgb(230,180,75)
       text-decoration: none
-    
+
   #or-ipad
     top: 540px
     color: rgb(119,101,84)
@@ -47,13 +69,40 @@
 
     @media screen and ( max-height: 800px )
       top: 310px
-    
+
+  #alternate-play-button
+    top: 570px
+
+    @media screen and ( max-height: 800px )
+      top: 330px
+
   #apple-store-button
     top: 593px
     height: 63px
 
     @media screen and ( max-height: 800px )
       top: 363px
+
+  #news
+    background: rgba(0, 0, 0, 0.75)
+    border-radius: 20px
+    box-shadow: 0 0 30px rgb(149,255,253)
+    top: 531px
+    height: 132px
+    width: 350px
+    padding: 15px
+    font-size: 28px
+    line-height: 32px
+    @include rotate(-10deg)
+
+    a
+      color: rgb(149,255,253)
+
+      &:hover
+        color: rgb(75,230,180)
+
+    @media screen and ( max-height: 800px )
+      top: 301px
 
   #slogan
     top: 681px
@@ -70,18 +119,6 @@
   .alert
     top: 213px
     border: 5px solid darkred
-
-  &.hour-of-code
-    #site-footer
-      background-color: rgb(70, 58, 44)
-      height: 185px
-
-      .hour-of-code-explanation
-        color: #9e8777
-        text-align: center
-
-        a
-          color: lighten(#0b63bc, 10%)
 
 body[lang='ru'], body[lang^='de'], body[lang^='pt-BR'], body[lang='pl'], body[lang='tr'], body[lang^='nl'], body[lang^='cs'], body[lang^='sv'], body[lang^='el'], body[lang^='hu'], body[lang^='bg']
   #home-view #slogan

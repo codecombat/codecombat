@@ -15,11 +15,7 @@ module.exports = class MainAdminView extends RootView
     'click #increment-button': 'incrementUserAttribute'
     'click #user-search-result': 'onClickUserSearchResult'
     'click #create-free-sub-btn': 'onClickFreeSubLink'
-
-  getRenderData: ->
-    context = super()
-    context.freeSubLink = @freeSubLink
-    context
+    'click #terminal-create': 'onClickTerminalSubLink'
 
   checkForFormSubmissionEnterPress: (e) ->
     if e.which is 13 and @$el.find('#espionage-name-or-email').val() isnt ''
@@ -77,7 +73,7 @@ module.exports = class MainAdminView extends RootView
     return unless me.isAdmin()
     options =
       url: '/db/prepaid/-/create'
-      data: {type: 'subscription'}
+      data: {type: 'subscription', maxRedeemers: 1}
       method: 'POST'
     options.success = (model, response, options) =>
       # TODO: Don't hardcode domain.
@@ -89,3 +85,27 @@ module.exports = class MainAdminView extends RootView
     options.error = (model, response, options) =>
       console.error 'Failed to create prepaid', response
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
+
+  onClickTerminalSubLink: (e) =>
+    @freeSubLink = ''
+    return unless me.isAdmin()
+
+    options =
+      url: '/db/prepaid/-/create'
+      method: 'POST'
+      data:
+        type: 'terminal_subscription'
+        maxRedeemers: parseInt($("#users").val())
+        months: parseInt($("#months").val())
+
+    options.success = (model, response, options) =>
+      # TODO: Don't hardcode domain.
+      if application.isProduction()
+        @freeSubLink = "https://codecombat.com/account/prepaid?_ppc=#{model.code}"
+      else
+        @freeSubLink = "http://localhost:3000/account/prepaid?_ppc=#{model.code}"
+      @render?()
+    options.error = (model, response, options) =>
+      console.error 'Failed to create prepaid', response
+    @supermodel.addRequestResource('create_prepaid', options, 0).load()
+

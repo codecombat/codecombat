@@ -7,13 +7,14 @@ module.exports =
     preload: {type: 'boolean'}
     realTime: {type: 'boolean'}
 
-  'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime', 'submissionCount', 'flagHistory', 'difficulty']},
-    spells: [type: 'object']
-    preload: [type: 'boolean']
-    realTime: [type: 'boolean']
-    submissionCount: [type: 'integer']
-    flagHistory: [type: 'array']
-    difficulty: [type: 'integer']
+  'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime', 'submissionCount', 'flagHistory', 'difficulty', 'god']},
+    spells: {type: 'object'}
+    preload: {type: 'boolean'}
+    realTime: {type: 'boolean'}
+    submissionCount: {type: 'integer'}
+    flagHistory: {type: 'array'}
+    difficulty: {type: 'integer'}
+    god: {type: 'object'}
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}
@@ -136,6 +137,7 @@ module.exports =
 
   'tome:winnability-updated': c.object {title: 'Winnability Updated', description: 'When we think we can now win (or can no longer win), we may want to emphasize the submit button versus the run button (or vice versa), so this fires when we get new goal states (even preloaded goal states) suggesting success or failure change.', required: ['winnable']},
     winnable: {type: 'boolean'}
+    level: {type: 'object'}
 
   # Problem Alert
   'tome:show-problem-alert': c.object {title: 'Show Problem Alert', description: 'A problem alert needs to be shown.', required: ['problem']},

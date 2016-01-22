@@ -1,6 +1,6 @@
 a(href="/")
   img#small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-      
+
 if campaign
   .map
     .gradient.horizontal-gradient.top-gradient
@@ -28,6 +28,8 @@ if campaign
         div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + (levelStatusMap[level.slug] || ""))
         .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
           - var playCount = levelPlayCountMap[level.slug]
+          .progress.progress-striped.active.hide
+            .progress-bar(style="width: 100%")
           div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : ""))
             .level-status
             h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
@@ -39,6 +41,10 @@ if campaign
                 a.spr(href="/contribute/adventurer")
                   strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
                 span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
+            if level.displayConcepts && level.displayConcepts.length
+              p
+                for concept in level.displayConcepts
+                  kbd(data-i18n="concepts." + concept)
 
             if !level.disabled && !level.locked
               if playCount && playCount.sessions
@@ -51,6 +57,13 @@ if campaign
                 button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
                   span(data-i18n="leaderboard.scores")
               button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
+              if me.get('courseInstances') && me.get('courseInstances').length
+                .course-version.hidden(data-level-original=level.original)
+                  em(data-i18n="general.or")
+                  | ...
+                  br
+                  button.btn.btn-primary.btn.btn-lg.btn-illustrated
+                    span(data-i18n="play.play_classroom_version") Play Classroom Version
       else if level.unlocksHero && !level.purchasedHero
         img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png", style="left: #{level.position.x}%; bottom: #{level.position.y}%;")
 
@@ -61,7 +74,7 @@ if campaign
 else
   .portal
     .portals
-      for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'ice', 'volcano']
+      for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
         - var campaign = campaigns[campaignSlug];
         - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
         div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
@@ -86,6 +99,7 @@ else
 
 .game-controls.header-font
   button.btn.poll.hidden(data-i18n="[title]play.poll")
+  a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
   button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
   button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
   button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
@@ -97,7 +111,7 @@ else
   //  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
   if me.get('anonymous', true)
     button.btn.settings(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="[title]play.settings")
-  
+
 .user-status.header-font
   .user-status-line
     span.gem.gem-30
@@ -114,9 +128,6 @@ else
       button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
       if me.isPremium()
         button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
-    span.spl
-      a.btn.btn-illustrated(href='/clans', data-i18n="clans.clans") Clans
-
 
 button.btn.btn-lg.btn-inverse.campaign-control-button#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
   .glyphicon.glyphicon-volume-off

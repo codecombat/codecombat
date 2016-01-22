@@ -28,7 +28,13 @@ module.exports = class Level extends CocoModel
     # Figure out ThangTypes' Components
     tmap = {}
     tmap[t.thangType] = true for t in o.thangs ? []
-    o.thangTypes = (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')) for tt in supermodel.getModels ThangType when tmap[tt.get('original')] or (tt.get('components') and not tt.notInLevel))
+    sessionHeroes = [session?.get('heroConfig')?.thangType, otherSession?.get('heroConfig')?.thangType]
+    o.thangTypes = []
+    for tt in supermodel.getModels ThangType
+      if tmap[tt.get('original')] or
+        (tt.get('kind') isnt 'Hero' and tt.get('kind')? and tt.get('components') and not tt.notInLevel) or
+        (tt.get('kind') is 'Hero' and ((@get('type', true) in ['course', 'course-ladder']) or tt.get('original') in sessionHeroes))
+          o.thangTypes.push (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')))
     @sortThangComponents o.thangTypes, o.levelComponents, 'ThangType'
     @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents
 
@@ -50,14 +56,14 @@ module.exports = class Level extends CocoModel
 
   denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
-    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
       for levelThang in o.thangs
         @denormalizeThang(levelThang, supermodel, session, otherSession)
     o
 
   denormalizeThang: (levelThang, supermodel, session, otherSession) ->
     levelThang.components ?= []
-    isHero = /Hero Placeholder/.test levelThang.id
+    isHero = /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     if isHero and otherSession
       # If it's a hero and there's another session, find the right session for it.
       # If there is no other session (playing against default code, or on single player), clone all placeholders.
@@ -104,31 +110,28 @@ module.exports = class Level extends CocoModel
       if isHero and placeholderComponent = placeholders[defaultThangComponent.original]
         placeholdersUsed[placeholderComponent.original] = true
         placeholderConfig = placeholderComponent.config ? {}
+        levelThangComponent.config ?= {}
+        config = levelThangComponent.config
         if placeholderConfig.pos  # Pull in Physical pos x and y
-          levelThangComponent.config ?= {}
-          levelThangComponent.config.pos ?= {}
-          levelThangComponent.config.pos.x = placeholderConfig.pos.x
-          levelThangComponent.config.pos.y = placeholderConfig.pos.y
-          levelThangComponent.config.rotation = placeholderConfig.rotation
+          config.pos ?= {}
+          config.pos.x = placeholderConfig.pos.x
+          config.pos.y = placeholderConfig.pos.y
+          config.rotation = placeholderConfig.rotation
         else if placeholderConfig.team  # Pull in Allied team
-          levelThangComponent.config ?= {}
-          levelThangComponent.config.team = placeholderConfig.team
+          config.team = placeholderConfig.team
         else if placeholderConfig.significantProperty  # For levels where we cheat on what counts as an enemy
-          levelThangComponent.config ?= {}
-          levelThangComponent.config.significantProperty = placeholderConfig.significantProperty
+          config.significantProperty = placeholderConfig.significantProperty
         else if placeholderConfig.programmableMethods
           # Take the ThangType default Programmable and merge level-specific Component config into it
           copy = $.extend true, {}, placeholderConfig
-          programmableProperties = levelThangComponent.config?.programmableProperties ? []
+          programmableProperties = config?.programmableProperties ? []
           copy.programmableProperties = _.union programmableProperties, copy.programmableProperties ? []
-          levelThangComponent.config = _.merge copy, levelThangComponent.config
+          levelThangComponent.config = config = _.merge copy, config
         else if placeholderConfig.extraHUDProperties
-          levelThangComponent.config ?= {}
-          levelThangComponent.config.extraHUDProperties = _.union(levelThangComponent.config.extraHUDProperties ? [], placeholderConfig.extraHUDProperties)
+          config.extraHUDProperties = _.union(config.extraHUDProperties ? [], placeholderConfig.extraHUDProperties)
         else if placeholderConfig.voiceRange  # Pull in voiceRange
-          levelThangComponent.config ?= {}
-          levelThangComponent.config.voiceRange = placeholderConfig.voiceRange
-          levelThangComponent.config.cooldown = placeholderConfig.cooldown
+          config.voiceRange = placeholderConfig.voiceRange
+          config.cooldown = placeholderConfig.cooldown
 
     if isHero
       if equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
@@ -164,22 +167,19 @@ module.exports = class Level extends CocoModel
     # TODO: anything that depends on Programmable will break right now.
 
     for thang in thangs ? []
-      programmableLevelComponent = null
-      plansLevelComponent = null
       sorted = []
-      visit = (c) ->
+      visit = (c, namesToIgnore) ->
         return if c in sorted
         lc = _.find levelComponents, {original: c.original}
         console.error thang.id or thang.name, 'couldn\'t find lc for', c, 'of', levelComponents unless lc
         return unless lc
+        return if namesToIgnore and lc.name in namesToIgnore
         if lc.name is 'Plans'
           # Plans always comes second-to-last, behind Programmable
-          plansLevelComponent = c
-          visit c2 for c2 in _.without thang.components, c, programmableLevelComponent
+          visit c2, [lc.name, 'Programmable'] for c2 in thang.components
         else if lc.name is 'Programmable'
           # Programmable always comes last
-          programmableLevelComponent = c
-          visit c2 for c2 in _.without thang.components, c
+          visit c2, [lc.name] for c2 in thang.components
         else
           for d in lc.dependencies or []
             c2 = _.find thang.components, {original: d.original}

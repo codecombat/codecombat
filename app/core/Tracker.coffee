@@ -3,6 +3,7 @@ SuperModel = require 'models/SuperModel'
 utils = require 'core/utils'
 
 debugAnalytics = false
+targetInspectJSLevelSlugs = ['cupboards-of-kithgard']
 
 module.exports = class Tracker
   constructor: ->
@@ -13,6 +14,33 @@ module.exports = class Tracker
     @trackReferrers()
     @identify()
     @supermodel = new SuperModel()
+
+  enableInspectletJS: (levelSlug) ->
+    # InspectletJS loading is delayed and targeting specific levels for more focused investigations
+    return @disableInspectletJS() unless levelSlug in targetInspectJSLevelSlugs
+
+    scriptLoaded = =>
+      # Identify and track pageview here, because inspectlet is loaded too late for standard Tracker calls
+      @identify()
+      # http://www.inspectlet.com/docs#virtual_pageviews
+      window.__insp?.push(['virtualPage'])
+    window.__insp = [['wid', 2102699786]]
+    insp = document.createElement('script')
+    insp.type = 'text/javascript'
+    insp.async = true
+    insp.id = 'inspsync'
+    insp.src = (if 'https:' == document.location.protocol then 'https' else 'http') + '://cdn.inspectlet.com/inspectlet.js'
+    insp.onreadystatechange = => scriptLoaded() if insp.readyState is 'complete'
+    insp.onload = scriptLoaded
+    x = document.getElementsByTagName('script')[0]
+    @inspectletScriptNode = x.parentNode.insertBefore insp, x
+
+  disableInspectletJS: ->
+    if @inspectletScriptNode
+      x = document.getElementsByTagName('script')[0]
+      x.parentNode.removeChild(@inspectletScriptNode)
+      @inspectletScriptNode = null
+    delete window.__insp
 
   trackReferrers: ->
     elapsed = new Date() - new Date(me.get('dateCreated'))
@@ -36,7 +64,7 @@ module.exports = class Tracker
 
     for userTrait in ['email', 'anonymous', 'dateCreated', 'name', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange']
       traits[userTrait] ?= me.get(userTrait)
-    console.log 'Would identify', traits if debugAnalytics
+    console.log 'Would identify', me.id, traits if debugAnalytics
     return unless @isProduction and not me.isAdmin()
 
     # Errorception
@@ -48,22 +76,29 @@ module.exports = class Tracker
     __insp?.push ['identify', me.id]
     __insp?.push ['tagSession', traits]
 
+    # Mixpanel
+    # https://mixpanel.com/help/reference/javascript
+    mixpanel.identify(me.id)
+    mixpanel.register(traits)
+
   trackPageView: ->
     name = Backbone.history.getFragment()
-    console.log "Would track analytics pageview: '/#{name}'" if debugAnalytics
+    url = "/#{name}"
+    console.log "Would track analytics pageview: #{url}" if debugAnalytics
+    @trackEventInternal 'Pageview', url: name unless me?.isAdmin() and @isProduction
     return unless @isProduction and not me.isAdmin()
 
     # Google Analytics
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
-    ga? 'send', 'pageview', "/#{name}"
+    ga? 'send', 'pageview', url
 
-    # Inspectlet
-    # http://www.inspectlet.com/docs#virtual_pageviews
-    __insp?.push ['virtualPage']
+    # Mixpanel
+    mixpanelIncludes = ['courses', 'courses/purchase', 'courses/teachers', 'courses/students', 'schools', 'teachers', 'teachers/freetrial']
+    mixpanel.track('page viewed', 'page name' : name, url : url) if name in mixpanelIncludes
 
-  trackEvent: (action, properties={}) =>
+  trackEvent: (action, properties={}, includeIntegrations=[]) =>
     @trackEventInternal action, _.cloneDeep properties unless me?.isAdmin() and @isProduction
-    console.log 'Tracking external analytics event:', action, properties if debugAnalytics
+    console.log 'Tracking external analytics event:', action, properties, includeIntegrations if debugAnalytics
     return unless me and @isProduction and not me.isAdmin()
 
     # Google Analytics
@@ -79,6 +114,10 @@ module.exports = class Tracker
     # Inspectlet
     # http://www.inspectlet.com/docs#tagging
     __insp?.push ['tagSession', action: action, properies: properties]
+
+    # Mixpanel
+    # Only log explicit events for now
+    mixpanel.track(action, properties) if 'Mixpanel' in includeIntegrations
 
   trackEventInternal: (event, properties) =>
     # Skipping heavily logged actions we don't use internally
@@ -104,7 +143,7 @@ module.exports = class Tracker
           console.error "Analytics post failed!"
       else
         request = @supermodel.addRequestResource 'log_event', {
-          url: '/db/analytics_log_event/-/log_event'
+          url: '/db/analytics.log.event/-/log_event'
           data: {event: event, properties: properties}
           method: 'POST'
         }, 0

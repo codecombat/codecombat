@@ -1,0 +1,34 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h2(data-i18n="courses.add_students")
+  h3= view.classroom.get('name')
+
+block modal-body-content
+  h3(data-i18n="courses.option1_header")
+  p(data-i18n="courses.option1_body")
+  .form
+    .form-group
+      textarea#invite-emails-textarea.form-control
+      .help-block(data-i18n="courses.enter_emails")
+    .form-group
+      button#send-invites-btn.btn.btn-success(data-i18n="courses.send_invites")
+      #invite-emails-sending-alert.alert.alert-info.hide(data-i18n="common.sending")
+      #invite-emails-success-alert.alert.alert-success.hide(data-i18n="play_level.done")
+
+  h3(data-i18n="courses.option2_header")
+  p(data-i18n="courses.option2_body")
+
+  .row
+    .col-sm-9
+      input.form-control#join-url-input(value=view.joinURL)
+    .col-sm-3
+      button#copy-url-btn.btn.btn-fixed.btn-default.text-uppercase Copy URL
+  #copied-alert.alert.alert-info.hide Copied
+  #copy-failed-alert.alert.alert-danger.hide Error copying
+
+  h3(data-i18n="courses.option3_header")
+  p(data-i18n="courses.option3_body")
+
+  .text-center
+    #class-code-well.well= view.classCode

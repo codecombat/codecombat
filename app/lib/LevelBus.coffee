@@ -10,8 +10,6 @@ module.exports = class LevelBus extends Bus
     return Bus.getFromCache(docName) or new LevelBus docName
 
   subscriptions:
-    'self-wizard:target-changed': 'onSelfWizardTargetChanged'
-    'self-wizard:created': 'onSelfWizardCreated'
     'tome:editing-began': 'onEditingBegan'
     'tome:editing-ended': 'onEditingEnded'
     'script:state-changed': 'onScriptStateChanged'
@@ -22,6 +20,7 @@ module.exports = class LevelBus extends Bus
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
     'tome:cast-spells': 'onCastSpells'
+    'tome:winnability-updated': 'onWinnabilityUpdated'
     'application:idle-changed': 'onIdleChanged'
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'god:new-world-created': 'onNewWorldCreated'
@@ -29,10 +28,13 @@ module.exports = class LevelBus extends Bus
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
-    if application.isProduction()
-      @saveSession = _.debounce(@reallySaveSession, 4000, {maxWait: 10000})  # Save slower on production.
-    else
-      @saveSession = _.debounce(@reallySaveSession, 1000, {maxWait: 5000})  # Save quickly in development.
+    highLoad = false
+    [wait, maxWait] = switch
+      when not application.isProduction() then [1, 5]  # Save quickly in development.
+      when not highLoad then [4, 10]                   # Save slowly when in production.
+      when not me.isAnonymous() then [10, 30]          # Save even more slowly during HoC scaling.
+      else [20, 60]                                    # Save super slowly if anonymous during HoC scaling.
+    @saveSession = _.debounce @reallySaveSession, wait * 1000, {maxWait: maxWait * 1000}
     @playerIsIdle = false
 
   init: ->
@@ -55,27 +57,13 @@ module.exports = class LevelBus extends Bus
     return true unless @session?.get('multiplayer')
     super()
 
-  onSelfWizardCreated: (e) ->
-    @selfWizardLank = e.sprite
-
-  onSelfWizardTargetChanged: (e) ->
-    @wizardRef?.child('targetPos').set(@selfWizardLank?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(@selfWizardLank?.targetSprite?.thang.id or null)
-
   onMeSynced: =>
     super()
-    @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
 
   join: ->
     super()
-    @wizardRef = @myConnection.child('wizard')
-    @wizardRef?.child('targetPos').set(@selfWizardLank?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(@selfWizardLank?.targetSprite?.thang.id or null)
-    @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
 
   disconnect: ->
-    @wizardRef?.off()
-    @wizardRef = null
     @fireScriptsRef?.off()
     @fireScriptsRef = null
     super()
@@ -88,8 +76,8 @@ module.exports = class LevelBus extends Bus
 
   # UPDATING FIREBASE AND SESSION
 
-  onEditingBegan: -> @wizardRef?.child('editing').set(true)
-  onEditingEnded: -> @wizardRef?.child('editing').set(false)
+  onEditingBegan: -> #@wizardRef?.child('editing').set(true)  # no more wizards
+  onEditingEnded: -> #@wizardRef?.child('editing').set(false)  # no more wizards
 
   # HACK: Backbone does not work with nested documents, but we want to
   #   patch only those props that have changed. Look into plugins to
@@ -134,6 +122,12 @@ module.exports = class LevelBus extends Bus
     # We have incremented state.submissionCount and reset state.flagHistory.
     @changedSessionProperties.state = true
     @saveSession()
+
+  onWinnabilityUpdated: (e) ->
+    return unless @onPoint() and e.winnable
+    return unless e.level.get('slug') in ['ace-of-coders']  # Mirror matches don't otherwise show victory, so we win here.
+    return if @session.get('state')?.complete
+    @onVictory()
 
   onNewWorldCreated: (e) ->
     return unless @onPoint()

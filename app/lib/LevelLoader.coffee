@@ -10,6 +10,7 @@ CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
 app = require 'core/application'
 World = require 'lib/world/world'
+utils = require 'core/utils'
 
 # This is an initial stab at unifying loading and setup into a single place which can
 # monitor everything and keep a LoadingScreen visible overall progress.
@@ -34,6 +35,7 @@ module.exports = class LevelLoader extends CocoClass
     @sessionless = options.sessionless
     @spectateMode = options.spectateMode ? false
     @observing = options.observing
+    @courseID = options.courseID
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
@@ -56,6 +58,12 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   onLevelLoaded: ->
+    if @courseID and @level.get('type', true) not in ['course', 'course-ladder']
+      # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
+      originalGet = @level.get
+      @level.get = ->
+        return 'course' if arguments[0] is 'type'
+        originalGet.apply @, arguments
     @loadSession() unless @sessionless
     @populateLevel()
 
@@ -70,6 +78,7 @@ module.exports = class LevelLoader extends CocoClass
     else
       url = "/db/level/#{@levelID}/session"
       url += "?team=#{@team}" if @team
+      url += "?course=#{@courseID}" if @courseID
 
     session = new LevelSession().setURL url
     session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state'] if @headless
@@ -97,6 +106,8 @@ module.exports = class LevelLoader extends CocoClass
   loadDependenciesForSession: (session) ->
     if me.id isnt session.get 'creator'
       session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
+    else if codeLanguage = utils.getQueryVariable 'codeLanguage'
+      session.set 'codeLanguage', codeLanguage
     @loadCodeLanguagesForSession session
     if session is @session
       @addSessionBrowserInfo session
@@ -214,10 +225,6 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Level, 'level'
 
-    unless @headless or @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
-      wizard = ThangType.loadUniversalWizard()
-      @supermodel.loadModel wizard, 'thang'
-
     @worldNecessities = @worldNecessities.concat worldNecessities
 
   loadThangsRequiredByLevelThang: (levelThang) ->
@@ -238,7 +245,7 @@ module.exports = class LevelLoader extends CocoClass
     if extantRequiredThangTypes.length < requiredThangTypes.length
       console.error "Some Thang had a blank required ThangType in components list:", components
     for thangType in extantRequiredThangTypes
-      url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind"
+      url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   onThangNamesLoaded: (thangNames) ->
@@ -369,7 +376,7 @@ module.exports = class LevelLoader extends CocoClass
     @grabTeamConfigs()
     @thangTypeTeams = {}
     for thang in @level.get('thangs')
-      if @level.get('type', true) is 'hero' and thang.id is 'Hero Placeholder'
+      if @level.get('type', true) in ['hero', 'course'] and thang.id is 'Hero Placeholder'
         continue  # No team colors for heroes on single-player levels
       for component in thang.components
         if team = component.config?.team
@@ -411,20 +418,23 @@ module.exports = class LevelLoader extends CocoClass
   # Initial Sound Loading
 
   playJingle: ->
-    return if @headless
+    return if @headless or not me.get('volume')
+    volume = 0.5
+    if me.level() < 3
+      volume = 0.25  # Start softly, since they may not be expecting it
     # Apparently the jingle, when it tries to play immediately during all this loading, you can't hear it.
     # Add the timeout to fix this weird behavior.
     f = ->
       jingles = ['ident_1', 'ident_2']
-      AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length]
+      AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length], volume
     setTimeout f, 500
 
   loadAudio: ->
-    return if @headless
+    return if @headless or not me.get('volume')
     AudioPlayer.preloadInterfaceSounds ['victory']
 
   loadLevelSounds: ->
-    return if @headless
+    return if @headless or not me.get('volume')
     scripts = @level.get 'scripts'
     return unless scripts
 

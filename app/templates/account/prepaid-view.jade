@@ -1,0 +1,105 @@
+extends /templates/base
+
+block content
+
+  if me.get('anonymous')
+    p(data-i18n="account_settings.not_logged_in") Log in or create an account to change your settings.
+
+  else
+    ol.breadcrumb
+      li
+        a(href="/")
+          span.glyphicon.glyphicon-home
+      li
+        a(href="/account", data-i18n="nav.account")
+      li.active(data-i18n="account.prepaid_codes")
+
+    .row
+      .col-md-12
+        .panel.panel-default
+          .panel-heading
+            .panel-title
+              a(data-toggle="collapse" href="#purchasepanel")
+                span(data-i18n="account_prepaid.purchase_code")
+          .panel-collapse.collapse(class=ppcQuery ? "": "in")#purchasepanel
+            .panel-body
+              p(data-i18n="account_prepaid.purchase_code1")
+              p(data-i18n="account_prepaid.purchase_code2")
+              p(data-i18n="account_prepaid.purchase_code3")
+              .form-horizontal
+                .form-group
+                  label.control-label.col-md-2(for="users", data-i18n="account_prepaid.users")
+                  .col-md-2
+                    input#users-input.form-control(name="users", type="number", value="#{purchase.users}", min=1)
+                .form-group
+                  label.control-label.col-md-2(for="months", data-i18n="account_prepaid.months")
+                  .col-md-2
+                    input#months-input.form-control(name="months", type="number", value="#{purchase.months}", min=1)
+                .form-group
+                  label.control-label.col-md-2(data-i18n="account_prepaid.purchase_total")
+                  .col-md-10
+                    p.form-control-static $
+                      span#total #{(purchase.total/100).toFixed(2)}
+                button#purchase-btn.btn.btn-success.pull-right(data-i18n="account_prepaid.purchase_button")
+    .row
+      .col-md-12
+        .panel.panel-default
+          .panel-heading
+            .panel-title
+              a(data-toggle="collapse" href="#redeempanel")
+                span(data-i18n="account_prepaid.redeem_codes")
+          .panel-collapse.collapse.in#redeempanel
+            .panel-body
+              p
+                span(data-i18n="account_prepaid.prepaid_code")
+                span.spr :
+                input.input-ppc(name="ppc", type="text", value="#{ppc}", required)
+              if ppcInfo && ppcInfo.length > 0
+                p
+                  each info in ppcInfo
+                    div
+                      != info
+              p
+                span.spr
+                  button#lookup-code-btn.btn.btn-info(data-i18n="account_prepaid.lookup_code")
+                span
+                  button#redeem-code-btn.btn.btn-success(data-i18n="account_prepaid.apply_account")
+    .row
+      .col-md-12
+        #codes-panel.panel.panel-default
+          .panel-heading
+            .panel-title
+              a(data-toggle="collapse" href="#codeslist")
+                span(data-i18n="account_prepaid.your_codes")
+          .panel-collapse.collapse.in#codeslist
+            .panel-body
+              if codes && codes.length
+                table.table.table-striped
+                  tr
+                    th 
+                      span.spr(data-i18n="[title]account_prepaid.copy_link;general.code", title="You can copy the code's link and send it to someone.")
+                        span.glyphicon.glyphicon-question-sign(aria-hidden="true")
+                    th(data-i18n="account_prepaid.months")
+                    th Remaining Users
+                    th Total Users
+                    th(data-i18n="user.status")
+                  for code in codes.models
+                    if code.get('type') === 'terminal_subscription'
+                      - var owner = (code.get('creator') == me.id ? true : false)
+                      - var properties = code.get('properties')
+                      - var redeemers = code.get('redeemers')
+                      - var redeemed = redeemers ? redeemers.length : 0
+                      tr
+                        td
+                          a(href="/account/prepaid?_ppc=#{code.get('code')}")= code.get('code')
+                        td= properties.months || '-'
+                        if owner
+                          td= code.get('maxRedeemers') - redeemed
+                          td= code.get('maxRedeemers')
+                          td(data-i18n="account.purchased")
+                        else
+                          td -
+                          td -
+                          td(data-i18n="account_prepaid.redeemed")
+              else
+                p(data-i18n="account_prepaid.no_codes")

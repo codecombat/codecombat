@@ -11,6 +11,7 @@ CampaignHandler = class CampaignHandler extends Handler
     'name'
     'fullName'
     'description'
+    'type'
     'i18n'
     'i18nCoverage'
     'ambientSound'
@@ -39,14 +40,41 @@ CampaignHandler = class CampaignHandler extends Handler
   get: (req, res) ->
     return @sendForbiddenError(res) if not @hasAccess(req)
     # We don't have normal text search or anything set up to make /db/campaign work, so we'll just give them all campaigns, no problem.
-    q = @modelClass.find {}
+    query = {}
+    projection = {}
+    if @modelClass.schema.uses_coco_translation_coverage and req.query.view is 'i18n-coverage'
+      query = i18nCoverage: {$exists: true}
+      if req.query.project
+        projection[field] = 1 for field in req.query.project.split(',')
+    if req.query.type
+      query.type = req.query.type
+    q = @modelClass.find query, projection
     q.exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       documents = (@formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
 
+  getOverworld: (req, res) ->
+    return @sendForbiddenError(res) if not @hasAccess(req)
+    projection = {}
+    if req.query.project
+      projection[field] = 1 for field in req.query.project.split(',')
+    q = @modelClass.find {type: 'hero'}, projection
+    q.exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      formatCampaign = (doc) =>
+        obj = @formatEntity(req, doc)
+        obj.adjacentCampaigns = _.mapValues(obj.adjacentCampaigns, (a) -> _.pick(a, ['showIfUnlocked', 'color', 'name', 'description' ]))
+        for original, level of obj.levels
+          obj.levels[original] = _.pick level, ['locked', 'disabled', 'original', 'rewards', 'slug']
+        obj
+      documents = (formatCampaign(doc) for doc in documents)
+      @sendSuccess(res, documents)
+
   getByRelationship: (req, res, args...) ->
     relationship = args[1]
+    return @getOverworld(req,res) if args[0] is '-' and relationship is 'overworld'
+
     if relationship in ['levels', 'achievements']
       projection = {}
       if req.query.project

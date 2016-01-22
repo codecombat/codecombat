@@ -1,0 +1,68 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "DELETE",
+        "path": "/v1/customers/cus_7XTE2tCcVgwJps/subscriptions/sub_7XTEeDaljXocIE",
+        "status": 200,
+        "response": {
+            "id": "sub_7XTEeDaljXocIE",
+            "cancel_at_period_end": true,
+            "current_period_end": 1452885387,
+            "current_period_start": 1450206987,
+            "customer": "cus_7XTE2tCcVgwJps",
+            "metadata": {
+                "id": "0000000000000000000186a1"
+            },
+            "plan": {
+                "id": "basic",
+                "amount": 100
+            },
+            "quantity": 1
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/customers/cus_7XTE2tCcVgwJps",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTE2tCcVgwJps",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "0000000000000000000186a1"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOHeKaReE7xLUdsx1siboK",
+                        "customer": "cus_7XTE2tCcVgwJps"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "data": [
+                    {
+                        "id": "sub_7XTEeDaljXocIE",
+                        "cancel_at_period_end": true,
+                        "current_period_end": 1452885387,
+                        "current_period_start": 1450206987,
+                        "customer": "cus_7XTE2tCcVgwJps",
+                        "metadata": {
+                            "id": "0000000000000000000186a1"
+                        },
+                        "plan": {
+                            "id": "basic",
+                            "amount": 100
+                        },
+                        "quantity": 1
+                    }
+                ],
+                "has_more": false
+            }
+        }
+    }
+]

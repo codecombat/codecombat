@@ -7,7 +7,7 @@ class PendingPatchesCollection extends CocoCollection
   url: '/db/patch?view=pending'
   model: Patch
 
-module.exports = class PatchesView extends RootView
+module.exports = class PendingPatchesView extends RootView
   id: 'pending-patches-view'
   template: template
 
@@ -102,7 +102,7 @@ module.exports = class PatchesView extends RootView
       @render()
 
     modelNamesRequest = @supermodel.addRequestResource 'patches', {
-      url: "/db/#{collection}/names"
+      url: "/db/#{collection.replace('_', '.')}/names"
       data: {ids: ids}
       method: 'POST'
       success: success

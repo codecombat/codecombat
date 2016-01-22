@@ -1,8 +1,6 @@
 gplusClientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
 # TODO: Move to GPlusHandler
 
-NotFoundView = require('views/core/NotFoundView')
-
 go = (path) -> -> @routeDirectly path, arguments
 
 module.exports = class CocoRouter extends Backbone.Router
@@ -22,26 +20,28 @@ module.exports = class CocoRouter extends Backbone.Router
     'account': go('account/MainAccountView')
     'account/settings': go('account/AccountSettingsRootView')
     'account/unsubscribe': go('account/UnsubscribeView')
-    #'account/profile': go('user/JobProfileView')  # legacy URL, sent in emails
-    'account/profile': go('EmployersView')  # Show the not-recruiting-now screen
     'account/payments': go('account/PaymentsView')
     'account/subscription': go('account/SubscriptionView')
     'account/invoices': go('account/InvoicesView')
+    'account/prepaid': go('account/PrepaidView')
 
     'admin': go('admin/MainAdminView')
-    'admin/candidates': go('admin/CandidatesView')
     'admin/clas': go('admin/CLAsView')
-    'admin/employers': go('admin/EmployersListView')
+    'admin/design-elements': go('admin/DesignElementsView')
     'admin/files': go('admin/FilesView')
-    'admin/analytics/users': go('admin/AnalyticsUsersView')
+    'admin/analytics': go('admin/AnalyticsView')
     'admin/analytics/subscriptions': go('admin/AnalyticsSubscriptionsView')
     'admin/level-sessions': go('admin/LevelSessionsView')
     'admin/users': go('admin/UsersView')
     'admin/base': go('admin/BaseView')
+    'admin/trial-requests': go('admin/TrialRequestsView')
     'admin/user-code-problems': go('admin/UserCodeProblemsView')
     'admin/pending-patches': go('admin/PendingPatchesView')
 
     'beta': go('HomeView')
+
+    'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
+    'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
     'cla': go('CLAView')
 
@@ -57,6 +57,15 @@ module.exports = class CocoRouter extends Backbone.Router
     'contribute/artisan': go('contribute/ArtisanView')
     'contribute/diplomat': go('contribute/DiplomatView')
     'contribute/scribe': go('contribute/ScribeView')
+
+    'courses': go('courses/CoursesView')
+    'Courses': go('courses/CoursesView')
+    'courses/students': go('courses/StudentCoursesView')
+    'courses/teachers': go('courses/TeacherCoursesView')
+    'courses/purchase': go('courses/PurchaseCoursesView')
+    'courses/enroll(/:courseID)': go('courses/CourseEnrollView')
+    'courses/:classroomID': go('courses/ClassroomView')
+    'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView')
 
     'db/*path': 'routeToServer'
     'demo(/*subpath)': go('DemoView')
@@ -77,12 +86,13 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/campaign/:campaignID': go('editor/campaign/CampaignEditorView')
     'editor/poll': go('editor/poll/PollSearchView')
     'editor/poll/:articleID': go('editor/poll/PollEditView')
-
-    'employers': go('EmployersView')
+    'editor/thang-tasks': go('editor/ThangTasksView')
 
     'file/*path': 'routeToServer'
 
     'github/*path': 'routeToServer'
+
+    'hoc': go('courses/HourOfCodeView')
 
     'i18n': go('i18n/I18NHomeView')
     'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
@@ -98,8 +108,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'multiplayer': go('MultiplayerView')
 
-    'play-old': go('play/MainPlayView')  # This used to be 'play'.
-    'play': go('play/CampaignView')
+    'play(/)': go('play/CampaignView') # extra slash is to get Facebook app to work
+    'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
@@ -108,18 +118,23 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'preview': go('HomeView')
 
+    'schools': go('SalesView')
+
     'teachers': go('TeachersView')
+    'teachers/freetrial': go('TeachersFreeTrialView')
 
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
-    #'user/:slugOrID/profile': go('user/JobProfileView')
-    'user/:slugOrID/profile': go('EmployersView')  # Show the not-recruiting-now screen
 
-    '*name': 'showNotFoundView'
+    '*name/': 'removeTrailingSlash'
+    '*name': go('NotFoundView')
 
   routeToServer: (e) ->
     window.location.href = window.location.href
+
+  removeTrailingSlash: (e) ->
+    @navigate e, {trigger: true}
 
   routeDirectly: (path, args) ->
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
@@ -139,13 +154,6 @@ module.exports = class CocoRouter extends Backbone.Router
     catch error
       if error.toString().search('Cannot find module "' + path + '" from') is -1
         throw error
-
-  showNotFoundView: ->
-    @openView @notFoundView()
-
-  notFoundView: ->
-    view = new NotFoundView()
-    view.render()
 
   openView: (view) ->
     @closeCurrentView()

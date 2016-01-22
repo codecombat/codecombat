@@ -11,8 +11,10 @@ log = require 'winston'
 moment = require 'moment'
 AnalyticsLogEvent = require '../analytics/AnalyticsLogEvent'
 Clan = require '../clans/Clan'
+CourseInstance = require '../courses/CourseInstance'
 LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
+Payment = require '../payments/Payment'
 SubscriptionHandler = require '../payments/subscription_handler'
 DiscountHandler = require '../payments/discount_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
@@ -21,6 +23,9 @@ UserRemark = require './remarks/UserRemark'
 {isID} = require '../lib/utils'
 hipchat = require '../hipchat'
 sendwithus = require '../sendwithus'
+Prepaid = require '../prepaids/Prepaid'
+UserPollsRecord = require '../polls/UserPollsRecord'
+EarnedAchievement = require '../achievements/EarnedAchievement'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
@@ -170,8 +175,15 @@ UserHandler = class UserHandler extends Handler
 
   getById: (req, res, id) ->
     if Handler.isID(id) and req.user?._id.equals(id)
-      return @sendSuccess(res, @formatEntity(req, req.user, 256))
+      return @sendSuccess(res, @formatEntity(req, req.user))
     super(req, res, id)
+
+  getByIDs: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
+    User.find {_id: {$in: req.body.ids}}, (err, users) =>
+      return @sendDatabaseError(res, err) if err
+      cleandocs = (@formatEntity(req, doc) for doc in users)
+      @sendSuccess(res, cleandocs)
 
   getNamesByIDs: (req, res) ->
     ids = req.query.ids or req.body.ids
@@ -187,7 +199,7 @@ UserHandler = class UserHandler extends Handler
   getSimulatorLeaderboard: (req, res) ->
     queryParameters = @getSimulatorLeaderboardQueryParameters(req)
     leaderboardQuery = User.find(queryParameters.query).select('name simulatedBy simulatedFor').sort({'simulatedBy': queryParameters.sortOrder}).limit(queryParameters.limit)
-    leaderboardQuery.cache() if req.query.scoreOffset is -1
+    leaderboardQuery.cache(10 * 60 * 1000) if req.query.scoreOffset is -1
     leaderboardQuery.exec (err, otherUsers) ->
       otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1 and req.user
       otherUsers ?= []
@@ -241,29 +253,68 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError res, err if err
       return @sendNotFoundError res unless user
       return @sendForbiddenError res unless @hasAccessToDocument(req, user)
-      obj = user.toObject()
-      for prop, val of obj
-        user.set(prop, undefined) unless prop is '_id'
-      user.set('deleted', true)
 
-      # Hack to get saving of Users to work. Probably should replace these props with strings
-      # so that validation doesn't get hung up on Date objects in the documents.
-      delete obj.dateCreated
+      # Delete subscriptions attached to this user first
+      # TODO: check sponsored subscriptions (stripe.recipients)
+      checkPersonalSubscription = (user, done) =>
+        try
+          return done() unless user.get('stripe')?.subscriptionID?
+          SubscriptionHandler.unsubscribeUser {body: user.toObject()}, user, (err) =>
+            log.error("User delete check personal sub " + err) if err
+            done()
+        catch error
+          log.error("User delete check personal sub " + error)
+          done()
+      checkRecipientSubscription = (user, done) =>
+        try
+          return done() unless sponsorID = user.get('stripe')?.sponsorID
+          User.findById sponsorID, (err, sponsor) =>
+            if err
+              log.error("User delete check recipient sub " + err)
+              return done()
+            unless sponsor
+              log.error("User delete check recipient sub no sponsor #{user.get('stripe').sponsorID}")
+              return done()
+            sponsorObject = sponsor.toObject()
+            sponsorObject.stripe.unsubscribeEmail = user.get('email')
+            SubscriptionHandler.unsubscribeRecipient {body: sponsorObject}, sponsor, (err) =>
+              log.error("User delete check recipient sub " + err) if err
+              done()
+        catch error
+          log.error("User delete check recipient sub " + error)
+          done()
+      deleteSubscriptions = (user, done) =>
+        checkPersonalSubscription user, (err) =>
+          checkRecipientSubscription user, done
 
-      user.save (err) =>
-        return @sendDatabaseError(res, err) if err
-        @sendNoContent res
+      deleteSubscriptions user, =>
+        obj = user.toObject()
+        for prop, val of obj
+          user.set(prop, undefined) unless prop is '_id'
+        user.set('dateDeleted', new Date())
+        user.set('deleted', true)
+
+        # Hack to get saving of Users to work. Probably should replace these props with strings
+        # so that validation doesn't get hung up on Date objects in the documents.
+        delete obj.dateCreated
+
+        user.save (err) =>
+          return @sendDatabaseError(res, err) if err
+          @sendNoContent res
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
     return @agreeToEmployerAgreement(req, res) if args[1] is 'agreeToEmployerAgreement'
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
+    return @getByIDs(req, res) if args[1] is 'users'
     return @getNamesByIDs(req, res) if args[1] is 'names'
+    return @getPrepaidCodes(req, res) if args[1] is 'prepaid_codes'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessionsForEmployer(req, res, args[0]) if args[1] is 'level.sessions' and args[2] is 'employer'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
     return @getClans(req, res, args[0]) if args[1] is 'clans'
+    return @getCourseInstances(req, res, args[0]) if args[1] is 'course_instances'
     return @getEmployers(req, res) if args[1] is 'employers'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
@@ -275,7 +326,9 @@ UserHandler = class UserHandler extends Handler
     return @getStripeInfo(req, res, args[0]) if args[1] is 'stripe'
     return @getSubRecipients(req, res) if args[1] is 'sub_recipients'
     return @getSubSponsor(req, res) if args[1] is 'sub_sponsor'
+    return @getSubSponsors(req, res) if args[1] is 'sub_sponsors'
     return @sendOneTimeEmail(req, res, args[0]) if args[1] is 'send_one_time_email'
+    return @resetProgress(req, res, args[0]) if args[1] is 'reset_progress'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -348,6 +401,16 @@ UserHandler = class UserHandler extends Handler
         @sendDatabaseError(res, 'No sponsored subscription found') unless info.subscription?
         @sendSuccess(res, info)
 
+  getSubSponsors: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
+    Payment.find {$where: 'this.purchaser.valueOf() != this.recipient.valueOf()'}, (err, payments) =>
+      return @sendDatabaseError(res, err) if err
+      sponsorIDs = (payment.get('purchaser') for payment in payments)
+      User.find {$and: [{_id: {$in: sponsorIDs}}, {"stripe.sponsorSubscriptionID": {$exists: true}}]}, (err, users) =>
+        return @sendDatabaseError(res, err) if err
+        sponsors = (@formatEntity(req, doc) for doc in users when doc.get('stripe').recipients?.length > 0)
+        @sendSuccess(res, sponsors)
+
   sendOneTimeEmail: (req, res) ->
     # TODO: Should this API be somewhere else?
     # TODO: Where should email types be stored?
@@ -394,6 +457,12 @@ UserHandler = class UserHandler extends Handler
       emailParams['email_id'] = sendwithus.templates.share_progress_email
 
     sendMail emailParams
+
+  getPrepaidCodes: (req, res) ->
+    return @sendSuccess(res, []) unless req.user?
+    orQuery = [{ creator: req.user._id }, { 'redeemers.userID' :  req.user._id }]
+    Prepaid.find({}).or(orQuery).exec (err, documents) =>
+      @sendSuccess(res, documents)
 
   agreeToCLA: (req, res) ->
     return @sendForbiddenError(res) unless req.user
@@ -452,11 +521,13 @@ UserHandler = class UserHandler extends Handler
         projection[field] = 1 for field in req.query.project.split(',') when isAuthorized or not (field in LevelSessionHandler.privateProperties)
       else unless isAuthorized
         projection[field] = 0 for field in LevelSessionHandler.privateProperties
-      sort = {}
-      sort.changed = req.query.order if req.query.order
 
-      LevelSession.find(query).select(projection).sort(sort).exec (err, documents) =>
+      LevelSession.find(query).select(projection).exec (err, documents) =>
         return @sendDatabaseError(res, err) if err
+        if req.query.order
+          documents = _.sortBy documents, 'changed'
+          if req.query.order + '' is '-1'
+            documents.reverse()
         documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
         @sendSuccess(res, documents)
 
@@ -549,6 +620,13 @@ UserHandler = class UserHandler extends Handler
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, documents)
 
+  getCourseInstances: (req, res, userIDOrSlug) ->
+    @getDocumentForIdOrSlug userIDOrSlug, (err, user) =>
+      return @sendNotFoundError(res) unless user
+      CourseInstance.find {members: {$in: [user.get('_id')]}}, (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, documents)
+
   formatCandidate: (authorized, document) ->
     fields = if authorized then ['name', 'jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['_id','jobProfile', 'jobProfileApproved']
     obj = _.pick document.toObject(), fields
@@ -623,6 +701,21 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError res, err if err
       @sendSuccess res, users
 
+  resetProgress: (req, res, userID) ->
+    return @sendMethodNotAllowed res unless req.method is 'POST'
+    return @sendForbiddenError res unless userID and userID is req.user?._id + ''  # Only you can reset your own progress
+    return @sendForbiddenError res if req.user?.isAdmin()  # Protect admins from resetting their progress
+    @constructor.resetProgressForUser req.user, (err, results) =>
+      return @sendDatabaseError res, err if err
+      @sendSuccess res, result: 'success'
+
+  @resetProgressForUser: (user, cb) ->
+    async.parallel [
+      (cb) -> LevelSession.remove {creator: user._id + ''}, cb
+      (cb) -> EarnedAchievement.remove {user: user._id + ''}, cb
+      (cb) -> UserPollsRecord.remove {user: user._id + ''}, cb
+      (cb) -> user.update {points: 0, 'stats.gamesCompleted': 0, 'stats.concepts': {}, 'earned.gems': 0, 'earned.levels': [], 'earned.items': [], 'earned.heroes': [], 'purchased.items': [], 'purchased.heroes': [], spent: 0}, cb
+    ], cb
 
   countEdits = (model, done) ->
     statKey = User.statsMapping.edits[model.modelName]

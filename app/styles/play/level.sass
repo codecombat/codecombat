@@ -45,9 +45,12 @@ $level-resize-transition-time: 0.5s
       .team-gold
         font-size: 2vw
         line-height: 2vw
-      img
-        width: 1.8vw
-        heighT: 1.8vw
+        img
+          width: 1.8vw
+          height: 1.8vw
+    #duel-stats-view
+      right: calc(1% + 100px)
+      bottom: 50px
     #control-bar-view .title
       left: 20%
       width: 60%
@@ -69,7 +72,13 @@ $level-resize-transition-time: 0.5s
     width: 55%
     position: relative
     overflow: hidden
-    @include transition($level-resize-transition-time ease-out)
+    @include transition(all $level-resize-transition-time ease-out, z-index 1.2s linear)
+    z-index: 0
+
+    &.preview-overlay
+      z-index: 20
+      #goals-view
+        visibility: hidden
     
   canvas#webgl-surface
     background-color: #333

@@ -35,6 +35,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'unlockLevelName'
     'tasks'
     'terrains'
+    'prerenderedSpriteSheetData'
   ]
 
   hasAccess: (req) ->
@@ -70,7 +71,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
       if limit? and limit < 1000
         q.limit(limit)
 
-      q.cache()
+      q.cache(10 * 60 * 1000)
 
       q.exec (err, documents) =>
         return @sendDatabaseError(res, err) if err
@@ -78,5 +79,17 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
         @sendSuccess(res, documents)
     else
       super(arguments...)
+
+  # Was testing to see what the bandwidth savings are here. This would need more logic to determine whether we need the vector data, probably with extra info from the client.
+  #formatEntity: (req, document) ->
+  #  result = document?.toObject()
+  #  if false and result.prerenderedSpriteSheetData and result.raw and result.kind isnt 'Mark'
+  #    if false and result.spriteType is 'singular'  # Wait, do we need animations and containers for Singular?
+  #      result.raw = shapes: {}, containers: {}, animations: {}
+  #    else
+  #      result.raw.shapes = {}
+  #      #result.raw.containers = {}  # Segmented and Singular sprites currently look at the bounds of containers to determine scale sometimes; wonder if we need that, or if containers are ever even that big
+  #  result
+
 
 module.exports = new ThangTypeHandler()

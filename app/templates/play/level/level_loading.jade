@@ -2,13 +2,18 @@
 
 .right-wing
 
-.loading-details.loading-container
+#loading-details.loading-container
 
   .level-loading-goals.secret
     .goals-title(data-i18n="play_level.goals") Goals
     ul.list-unstyled
 
   .errors
+
+  .intro-doc.hidden
+    .nano
+      .nano-content
+        .intro-doc-content
 
   .progress-or-start-container
     button.start-level-button.btn.btn-lg.btn-success.btn-illustrated.header-font.needsclick(data-i18n="play_level.loading_start") Start Level
@@ -24,11 +29,16 @@
       span(data-i18n="subscribe.subscription_required_to_play") You'll need a subscription to play this level.
       button.start-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.subscribe") Subscribe
 
+    .course-membership-required
+      span(data-i18n="courses.course_membership_required_to_play") You'll need to join a course to play this level.
+      a.btn.btn-lg.btn-warning(data-i18n="courses.go_to_courses", href="/courses") Go To Courses
+
   #tip-wrapper
     strong.tip(data-i18n='play_level.tip_toggle_play') Toggle play/paused with Ctrl+P.
     strong.tip(data-i18n='play_level.tip_scrub_shortcut') Ctrl+[ and Ctrl+] rewind and fast-forward.
     strong.tip(data-i18n='play_level.tip_guide_exists') Click the guide, inside game menu (at the top of the page), for useful info.
     strong.tip(data-i18n='play_level.tip_open_source') CodeCombat is 100% open source!
+    strong.tip(data-i18n='play_level.tip_tell_friends') Enjoying CodeCombat? Tell your friends about us!
     strong.tip(data-i18n='play_level.tip_beta_launch') CodeCombat launched its beta in October, 2013.
     strong.tip(data-i18n='play_level.tip_think_solution') Think of the solution, not the problem.
     strong.tip(data-i18n='play_level.tip_theory_practice') In theory there is no difference between theory and practice; in practice there is. - Yogi Berra
@@ -38,6 +48,7 @@
     strong.tip(data-i18n='play_level.tip_impossible') It always seems impossible until it's done. - Nelson Mandela
     strong.tip(data-i18n='play_level.tip_move_forward') Whatever you do, keep moving forward. - Martin Luther King Jr.
     strong.tip(data-i18n='play_level.tip_google') Have a problem you can't solve? Google it!
+    strong.tip(data-i18n='play_level.tip_solve_then_write') First, solve the problem. Then, write the code. — John Johnson
 
     strong.tip.rare(data-i18n='play_level.tip_baby_coders') In the future, even babies will be Archmages.
     strong.tip.rare(data-i18n='play_level.tip_hardware_problem') Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem.
@@ -76,3 +87,4 @@
     strong.tip.rare(data-i18n='play_level.tip_recurse') To iterate is human, to recurse divine. - L. Peter Deutsch 
     strong.tip.rare(data-i18n='play_level.tip_free_your_mind') You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus
     strong.tip.rare(data-i18n='play_level.tip_strong_opponents') Even the strongest of opponents always has a weakness. - Itachi Uchiha
+    strong.tip.rare(data-i18n='play_level.tip_paper_and_pen') Before you start coding, you can always plan with a sheet of paper and a pen.

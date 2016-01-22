@@ -12,7 +12,7 @@ module.exports = class VectorIconSetupModal extends ModalView
     'click #center': 'onClickCenter'
     'click #zero-bounds': 'onClickZeroBounds'
     'click #done-button': 'onClickDone'
-    
+
   shortcuts:
     'shift+-': -> @incrScale(-0.02)
     'shift+=': -> @incrScale(0.02)
@@ -40,18 +40,11 @@ module.exports = class VectorIconSetupModal extends ModalView
     actions.portrait.container = @container
     @thangType.set('actions', actions)
     @thangType.buildActions()
-    
-  getRenderData: -> 
-    c = super()
-    c.containers = @containers
-    c.chosenContainer = @container
-    c.demoSize = @demoSize
-    c
-    
+
   afterRender: ->
     @initStage()
     super()
-    
+
   initStage: ->
     return unless @containers and @container
     @stage = @thangType.getVectorPortraitStage(@demoSize)
@@ -65,7 +58,7 @@ module.exports = class VectorIconSetupModal extends ModalView
     @container = $(e.target).val()
     @saveChanges()
     @initStage()
-    
+
   refreshSprite: ->
     return unless @stage
     stage = @thangType.getVectorPortraitStage(@demoSize)
@@ -100,7 +93,7 @@ module.exports = class VectorIconSetupModal extends ModalView
     @scale += amount
     @updateSpriteProperties()
     @stage.update()
-    
+
   incrRegX: (amount) ->
     @regX += amount
     @updateSpriteProperties()
@@ -110,7 +103,7 @@ module.exports = class VectorIconSetupModal extends ModalView
     @regY += amount
     @updateSpriteProperties()
     @stage.update()
-    
+
   onClickDone: ->
     @saveChanges()
     @trigger 'done'

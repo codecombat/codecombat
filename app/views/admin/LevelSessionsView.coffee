@@ -4,7 +4,7 @@ LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 
 class LevelSessionCollection extends CocoCollection
-  url: '/db/level_session/x/active?project=screenshot,levelName,creatorName'
+  url: '/db/level.session/x/active?project=screenshot,levelName,creatorName'
   model: LevelSession
 
 module.exports = class LevelSessionsView extends RootView
@@ -17,9 +17,3 @@ module.exports = class LevelSessionsView extends RootView
 
   getLevelSessions: ->
     @sessions = @supermodel.loadCollection(new LevelSessionCollection(), 'sessions', {cache: false}).model
-
-  getRenderData: =>
-    c = super()
-    c.sessions = @sessions.models
-    c.moment = moment
-    c

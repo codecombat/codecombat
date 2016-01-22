@@ -51,8 +51,9 @@ module.exports.loginUser = (userObject, failure=genericFailure, nextURL=null) ->
 module.exports.logoutUser = ->
   FB?.logout?()
   callback = ->
-    if (window.location.href.indexOf("/account/settings") > -1)
-      window.location = '/'
+    location = _.result(currentView, 'logoutRedirectURL')
+    if location
+      window.location = location
     else
       window.location.reload()
   res = $.post('/auth/logout', {}, callback)

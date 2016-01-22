@@ -17,3 +17,5 @@ module.exports = class CommunityView extends RootView
 
     @$el.find('.logo-row img').each ->
       $(@).popover(placement: 'top', trigger: 'hover', container: 'body')
+
+  logoutRedirectURL: false

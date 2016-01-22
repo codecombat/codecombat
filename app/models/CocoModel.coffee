@@ -22,6 +22,8 @@ class CocoModel extends Backbone.Model
     @saveBackup = _.debounce(@saveBackup, 500)
     @usesVersions = @schema()?.properties?.version?
 
+  created: -> new Date(parseInt(@id.substring(0, 8), 16) * 1000)
+
   backupKey: ->
     if @usesVersions then @id else @id  # + ':' + @attributes.__v  # TODO: doesn't work because __v doesn't actually increment. #2061
     # if fixed, RevertModal will also need the fix
@@ -51,7 +53,10 @@ class CocoModel extends Backbone.Model
     @loading = false
     @jqxhr = null
     if jqxhr.status is 402
-      Backbone.Mediator.publish 'level:subscription-required', {}
+      if _.contains(jqxhr.responseText, 'be in a course')
+        Backbone.Mediator.publish 'level:course-membership-required', {}
+      else
+        Backbone.Mediator.publish 'level:subscription-required', {}
 
   onLoaded: ->
     @loaded = true

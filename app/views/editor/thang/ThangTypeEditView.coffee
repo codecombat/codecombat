@@ -20,6 +20,7 @@ VectorIconSetupModal = require 'views/editor/thang/VectorIconSetupModal'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 template = require 'templates/editor/thang/thang-type-edit-view'
 storage = require 'core/storage'
+ExportThangTypeModal = require './ExportThangTypeModal'
 
 CENTER = {x: 200, y: 400}
 
@@ -70,6 +71,7 @@ defaultTasks =
     'Add other Components like Shoots or Casts if needed.'
     'Configure other Components, like Moves, Attackable, Attacks, etc.'
     'Override the HasAPI type if it will not be correctly inferred.'
+    'Add to Existence System power table.'
   ]
   Hero: commonTasks.concat animatedThangTypeTasks.concat purchasableTasks.concat [
     'Set the hero class.'
@@ -156,6 +158,7 @@ module.exports = class ThangTypeEditView extends RootView
     'mousedown #canvas': 'onCanvasMouseDown'
     'mouseup #canvas': 'onCanvasMouseUp'
     'mousemove #canvas': 'onCanvasMouseMove'
+    'click #export-sprite-sheet-btn': 'onClickExportSpriteSheetButton'
 
   onClickSetVectorIcon: ->
     modal = new VectorIconSetupModal({}, @thangType)
@@ -164,7 +167,6 @@ module.exports = class ThangTypeEditView extends RootView
 
   subscriptions:
     'editor:thang-type-color-groups-changed': 'onColorGroupsChanged'
-    'editor:save-new-version': 'saveNewThangType'
 
   # init / render
 
@@ -540,7 +542,7 @@ module.exports = class ThangTypeEditView extends RootView
       @lastKind = kind
       Backbone.Mediator.publish 'editor:thang-type-kind-changed', kind: kind
       if kind in ['Doodad', 'Floor', 'Wall'] and not @treema.data.terrains
-        @treema.set '/terrains', ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain']  # So editors know to set them.
+        @treema.set '/terrains', ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano']  # So editors know to set them.
       if not @treema.data.tasks
         @treema.set '/tasks', (name: t for t in defaultTasks[kind])
 
@@ -587,7 +589,10 @@ module.exports = class ThangTypeEditView extends RootView
     _.delay((-> document.location.reload()), 500)
 
   openSaveModal: ->
-    @openModalView new SaveVersionModal model: @thangType
+    modal = new SaveVersionModal model: @thangType
+    @openModalView modal
+    @listenToOnce modal, 'save-new-version', @saveNewThangType
+    @listenToOnce modal, 'hidden', -> @stopListening(modal)
 
   startForking: (e) ->
     @openModalView new ForkModal model: @thangType, editorPath: 'thang'
@@ -649,6 +654,10 @@ module.exports = class ThangTypeEditView extends RootView
     offset.y += Math.round @canvasDragOffset.y
     @canvasDragOffset = null
     node.set '/', offset
+
+  onClickExportSpriteSheetButton: ->
+    modal = new ExportThangTypeModal({}, @thangType)
+    @openModalView(modal)
 
   destroy: ->
     @camera?.destroy()

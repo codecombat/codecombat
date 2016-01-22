@@ -73,7 +73,7 @@ module.exports = class PollModal extends ModalView
   onClickAnswer: (e) ->
     $selectedAnswer = $(e.target).closest('.answer')
     pollVotes = @userPollsRecord.get('polls') ? {}
-    pollVotes[@poll.id] = $selectedAnswer.data('answer')
+    pollVotes[@poll.id] = $selectedAnswer.data('answer').toString()
     @userPollsRecord.set 'polls', pollVotes
     @updateAnswers true
     @userPollsRecord.save {polls: pollVotes}, {success: => @awardRandomGems?()}
@@ -87,6 +87,7 @@ module.exports = class PollModal extends ModalView
     randomNumber = reward.random
     randomGems = Math.ceil 2 * randomNumber * reward.level
     totalGems = if @previousReward then me.gems() else Math.round me.gems() + randomGems
+    playSound = @playSound
 
     if @previousReward
       utils.replaceText @$randomNumber.show(), commentStart + randomNumber.toFixed(7)
@@ -103,7 +104,7 @@ module.exports = class PollModal extends ModalView
             if Math.random() < randomGems / 40
               gemTrigger = 'gem-' + (gemNoisesPlayed % 4)  # 4 gem sounds
               ++gemNoisesPlayed
-              Backbone.Mediator.publish 'audio-player:play-sound', trigger: gemTrigger, volume: 0.475 + i / 2000
+              playSound gemTrigger, (0.475 + i / 2000)
           @$randomNumber.delay 25
       @$randomGems.delay(1100).queue ->
         utils.replaceText $(@), commentStart + randomGems
@@ -131,3 +132,4 @@ commentStarts =
   clojure: '; '
   lua: '-- '
   io: '// '
+  java: '// '

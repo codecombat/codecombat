@@ -676,7 +676,7 @@ handleNextSteps = (req, res) ->
     startTime = getTimeFromDaysAgo now, daysAgo
     endTime = startTime + 5 * 60 * 1000
     findParameters = {dateCreated: {$gt: new Date(startTime), $lte: new Date(endTime)}, emailLower: {$exists: true}}
-    selectString = 'name firstName lastName lastLevel points email gender emailSubscriptions emails dateCreated preferredLanguage aceConfig.language activity stats earned testGroupNumber ageRange'
+    selectString = 'name firstName lastName lastLevel points email gender emailSubscriptions emails dateCreated preferredLanguage aceConfig.language activity stats earned testGroupNumber ageRange courseInstances'
     query = User.find(findParameters).select(selectString)
     do (daysAgo) ->
       query.exec (err, results) ->
@@ -718,23 +718,7 @@ sendNextStepsEmail = (user, now, daysAgo) ->
       isVeryFast = shadowGuardSession and shadowGuardSession.playtime < 75
       isAdult = user.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']
       isKid = not isAdult  # Assume kid if not specified
-      offers =
-        'app-academy': isAdult and isVeryFast
-        'designlab': isAdult and Math.random() < 0.25
-        'tealeaf-academy': isAdult and isFast
-        'talent-buddy': isAdult and Math.random() < 0.25
-        'coding-campus': isAdult and Math.random() < 0.25  # TODO: geodetect UT and give priority
-        'viking': isAdult and isFast
-        'maker-square': isAdult and isFast
-        'the-firehose-project': isAdult and isFast
-        #'mv-code-club': isKid  # TODO: geodetect, get landing page URL
-        'breakout-mentors': isKid
-      nAdditionalOffers = Math.max 0, 4 - _.filter(offers).length
-      possibleAdditionalOffers = ['ostraining', 'code-school', 'one-month', 'learnable', 'pluralsight']
-      for offer in _.sample possibleAdditionalOffers, nAdditionalOffers
-        offers[offer] = true
-      if user.isPremium()
-        offers = null
+      # Used to use these categories to customize the email; not doing it right now. TODO: customize it again in Sendwithus.
       # TODO: do something with the preferredLanguage?
       context =
         email_id: sendwithus.templates.next_steps_email
@@ -749,7 +733,7 @@ sendNextStepsEmail = (user, now, daysAgo) ->
           secretLevelName: secretLevel.name
           secretLevelLink: "http://codecombat.com/play/level/#{secretLevel.slug}"
           levelsComplete: complete.length
-          offers: offers
+          isCoursePlayer: user.get('courseInstances')?.length > 0
       log.info "Sending next steps email to #{context.recipient.address} with #{context.email_data.nextLevelName} next and #{context.email_data.levelsComplete} levels complete since #{daysAgo} day(s) ago." if DEBUGGING
       sendwithus.api.send context, (err, result) ->
         log.error "Error sending next steps email: #{err} with result #{result}" if err

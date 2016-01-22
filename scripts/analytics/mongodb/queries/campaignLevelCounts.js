@@ -3,6 +3,7 @@
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
 
+print("free premium all campaign");
 var cursor = db.campaigns.find({}, {slug: 1, levels: 1});
 var allFree = 0;
 var allPremium = 0;

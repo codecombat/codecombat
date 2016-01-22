@@ -75,6 +75,11 @@
 // Set z-index of autocomplete popup smaller than the one of popovers
 .ace_editor.ace_autocomplete 
   z-index: 20 !important
+  .ace_content
+    .ace_line .ace_rightAlignedText
+      display: none
+    .ace_line.ace_selected .ace_rightAlignedText
+      display: inline-block
 
 html.no-borderimage
   #tome-view

@@ -103,6 +103,7 @@ temp/
 
 # local settings
 login.coffee
+Dockerfile
 
 # debugging
 *.heapsnapshot

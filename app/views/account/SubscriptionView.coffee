@@ -49,14 +49,9 @@ module.exports = class SubscriptionView extends RootView
     prepaidCode = utils.getQueryVariable '_ppc'
     @personalSub = new PersonalSub(@supermodel, prepaidCode)
     @recipientSubs = new RecipientSubs(@supermodel)
+    @emailValidator = new EmailValidator(@superModel)
     @personalSub.update => @render?()
     @recipientSubs.update => @render?()
-
-  getRenderData: ->
-    c = super()
-    c.personalSub = @personalSub
-    c.recipientSubs = @recipientSubs
-    c
 
   # Personal Subscriptions
 
@@ -88,7 +83,8 @@ module.exports = class SubscriptionView extends RootView
 
   onClickRecipientsSubscribe: (e) ->
     emails = @$el.find('.recipient-emails').val().split('\n')
-    @recipientSubs.startSubscribe(emails)
+    valid = @emailValidator.validateEmails(emails, =>@render?())
+    @recipientSubs.startSubscribe(emails) if valid
 
   onClickRecipientUnsubscribe: (e) ->
     $(e.target).addClass('hide')
@@ -102,6 +98,31 @@ module.exports = class SubscriptionView extends RootView
     @recipientSubs.finishSubscribe(e.token.id, => @render?())
 
 # Helper classes for managing subscription actions and updating UI state
+
+class EmailValidator
+
+  validateEmails: (emails, render) ->
+    @lastEmails = emails.join('\n')
+    #taken from http://www.regular-expressions.info/email.html
+    emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,63}/
+    @validEmails = (email for email in emails when emailRegex.test(email.trim().toLowerCase()))
+    return @emailsInvalid(render) if @validEmails.length < emails.length
+    return @emailsValid(render)
+
+  emailString: ->
+    return unless @validEmails
+    return @validEmails.join('\n')
+
+  emailsInvalid: (render) ->
+    @state = "invalid"
+    render()
+    return false
+
+  emailsValid: (render) ->
+    @state = "valid"
+    render()
+    return true
+
 
 class PersonalSub
   constructor: (@supermodel, @prepaidCode) ->
@@ -306,7 +327,7 @@ class RecipientSubs
 
     options = { cache: false, url: "/db/user/#{me.id}/stripe" }
     options.success = (info) =>
-      @sponsorSub = info.subscription
+      @sponsorSub = info.sponsorSubscription
       if card = info.card
         @card = "#{card.brand}: x#{card.last4}"
       render()

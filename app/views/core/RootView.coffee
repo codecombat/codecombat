@@ -38,7 +38,7 @@ module.exports = class RootView extends CocoView
   showNewAchievement: (achievement, earnedAchievement) ->
     earnedAchievement.set('notified', true)
     earnedAchievement.patch()
-    return if achievement.get('collection') is 'level.sessions'
+    return if achievement.get('collection') is 'level.sessions' and not achievement.get('query')?.team
     #return if @isIE()  # Some bugs in IE right now, TODO fix soon!  # Maybe working now with not caching achievement fetches in CocoModel?
     new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
 
@@ -50,6 +50,7 @@ module.exports = class RootView extends CocoView
         cache: false
 
   logoutAccount: ->
+    window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
     Backbone.Mediator.publish("auth:logging-out", {})
     window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
     logoutUser($('#login-email').val())
@@ -98,6 +99,13 @@ module.exports = class RootView extends CocoView
     c = super()
     c.usesSocialMedia = @usesSocialMedia
     c
+
+  forumLink: ->
+    link = 'http://discourse.codecombat.com/'
+    lang = (me.get('preferredLanguage') or 'en-US').split('-')[0]
+    if lang in ['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt']
+      link += "c/other-languages/#{lang}"
+    link
 
   afterRender: ->
     if @$el.find('#site-nav').length # hack...
@@ -170,3 +178,5 @@ module.exports = class RootView extends CocoView
       console.warn 'Error saving language:', errors
     res.success (model, response, options) ->
       #console.log 'Saved language:', newLang
+
+  logoutRedirectURL: '/'

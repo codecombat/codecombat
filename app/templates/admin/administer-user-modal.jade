@@ -31,7 +31,24 @@ block modal-body-content
         select.form-control#coupon-select
           for couponOption in coupons
             option(value=couponOption.id selected=coupon===couponOption.id)= couponOption.format
-
+    button#save-changes.btn.btn-primary Save Changes
+    
+  h3 Grant Prepaid for Courses
+  #prepaid-form.form
+    if view.state === 'creating-prepaid'
+      .progress.progress-striped.active
+        .progress-bar(style="width: 100%")
+      
+    else if view.state === 'made-prepaid'
+      .alert.alert-success Prepaid created!
+      
+    else
+      .form-group
+        label Seats
+        input#seats-input.form-control(type="number")
+      .form-group
+        button#add-seats-btn.btn.btn-primary Add Seats
+            
 block modal-footer-content
-  button#save-changes.btn.btn-primary Save Changes
+  
 

@@ -3,7 +3,7 @@ _ = require 'lodash'
 _.str = require 'underscore.string'
 sysPath = require 'path'
 fs = require('fs')
-commonjsHeader = fs.readFileSync('node_modules/brunch/node_modules/commonjs-require-definition/require.js', {encoding: 'utf8'})
+commonjsHeader = require('commonjs-require-definition')
 TRAVIS = process.env.COCO_TRAVIS_TEST
 
 
@@ -32,16 +32,24 @@ exports.config =
   overrides:
     production:
       sourceMaps: 'absoluteUrl'
-      onCompile: (files) ->
-        # For some reason, production brunch produces two entries, the first of which is wrong:
-        # //# sourceMappingURL=public/javascripts/app.js.map
-        # //# sourceMappingURL=/javascripts/app.js.map
-        # So we remove the ones that have public in them.
-        exec = require('child_process').exec
-        exec "perl -pi -e 's/\\/\\/# sourceMappingURL=public.*//g' public/javascripts/*.js"
+      plugins:
+        coffeelint:
+          pattern: /\A\Z/
+        afterBrunch: [
+          "coffee scripts/minify.coffee",
+        ]
+    fast:
+      onCompile: (files) -> console.log "I feel the need, the need... for speed."
+      plugins:
+        coffeelint:
+          pattern: /\A\Z/
     vagrant:
       watcher:
         usePolling: true
+
+  server:
+    # NOTE: This is a temporary workaround for https://github.com/nodejs/node-v0.x-archive/issues/2318
+    command: "#{if process.platform is 'win32' then 'node_modules\\.bin\\nodemon.cmd' else 'nodemon'} ."
 
   files:
     javascripts:
@@ -106,7 +114,9 @@ exports.config =
         'javascripts/app/vendor/aether-io.js': 'bower_components/aether/build/io.js'
         'javascripts/app/vendor/aether-javascript.js': 'bower_components/aether/build/javascript.js'
         'javascripts/app/vendor/aether-lua.js': 'bower_components/aether/build/lua.js'
+        'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
         'javascripts/app/vendor/aether-python.js': 'bower_components/aether/build/python.js'
+        'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
 
         # Any vendor libraries we don't want the client to load immediately
         'javascripts/app/vendor/d3.js': regJoin('^bower_components/d3')
@@ -120,7 +130,7 @@ exports.config =
 
         #- test, demo libraries
         'javascripts/app/tests.js': regJoin('^test/app/')
-        'javascripts/demo-app.js': regJoin('^test/demo/')
+        'javascripts/app/demo-app.js': regJoin('^test/demo/')
 
         #- More output files are generated at the below
 
@@ -176,11 +186,8 @@ exports.config =
   framework: 'backbone'
 
   plugins:
-    autoReload:
-      delay: 300
     coffeelint:
       pattern: /^app\/.*\.coffee$/
-#      pattern: /^dne/ # use this pattern instead if you want to speed compilation
       options:
         line_endings:
           value: 'unix'
@@ -191,16 +198,17 @@ exports.config =
           level: 'ignore'  # PyCharm can't just autostrip for .coffee, needed for .jade
         no_unnecessary_fat_arrows:
           level: 'ignore'
-    uglify:
-      mangle:
-        except: ['require']
-      output:
-        semicolons: false
     sass:
-      mode: 'ruby'
+      mode: 'native'
       allowCache: true
     bless:
       cacheBuster: false
+    assetsmanager:
+      copyTo:
+        'lib/ace': ['node_modules/ace-builds/src-min-noconflict/*']
+        'fonts': ['bower_components/openSansCondensed/*']
+    autoReload:
+      delay: 1000
 
   modules:
     definition: (path, data) ->

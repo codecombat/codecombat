@@ -3,7 +3,7 @@ template = require 'templates/play/level/tome/spell_palette_entry'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 DocFormatter = require './DocFormatter'
-SpellView = require 'views/play/level/tome/SpellView'
+utils = require 'core/utils'
 
 module.exports = class SpellPaletteEntryView extends CocoView
   tagName: 'div'  # Could also try <code> instead of <div>, but would need to adjust colors
@@ -31,11 +31,6 @@ module.exports = class SpellPaletteEntryView extends CocoView
     @doc.initialHTML = @docFormatter.formatPopover()
     @aceEditors = []
 
-  getRenderData: ->
-    c = super()
-    c.doc = @doc
-    c
-
   afterRender: ->
     super()
     @$el.addClass(@doc.type)
@@ -51,7 +46,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     ).on 'shown.bs.popover', =>
       Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
       soundIndex = Math.floor(Math.random() * 4)
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: "spell-palette-entry-open-#{soundIndex}", volume: 0.75
+      @playSound "spell-palette-entry-open-#{soundIndex}", 0.75
       popover = @$el.data('bs.popover')
       popover?.$tip?.i18n()
       codeLanguage = @options.language
@@ -59,26 +54,8 @@ module.exports = class SpellPaletteEntryView extends CocoView
       @aceEditors = []
       aceEditors = @aceEditors
       popover?.$tip?.find('.docs-ace').each ->
-        contents = $(@).text()
-        editor = ace.edit @
-        editor.setOptions maxLines: Infinity
-        editor.setReadOnly true
-        editor.setTheme 'ace/theme/textmate'
-        editor.setShowPrintMargin false
-        editor.setShowFoldWidgets false
-        editor.setHighlightActiveLine false
-        editor.setHighlightActiveLine false
-        editor.setBehavioursEnabled false
-        editor.renderer.setShowGutter false
-        editor.setValue contents
-        editor.clearSelection()
-        session = editor.getSession()
-        session.setUseWorker false
-        session.setMode SpellView.editModes[codeLanguage]
-        session.setWrapLimitRange null
-        session.setUseWrapMode true
-        session.setNewLineMode 'unix'
-        aceEditors.push editor
+        aceEditor = utils.initializeACE @, codeLanguage
+        aceEditors.push aceEditor
 
   onMouseEnter: (e) ->
     # Make sure the doc has the updated Thang so it can regenerate its prop value
@@ -95,7 +72,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
       @$el.add('.spell-palette-popover.popover').removeClass 'pinned'
       $('.spell-palette-popover.popover .close').remove()
       @$el.popover 'hide'
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'spell-palette-entry-unpin', volume: 1
+      @playSound 'spell-palette-entry-unpin'
     else
       @popoverPinned = true
       @$el.popover 'show'
@@ -103,11 +80,11 @@ module.exports = class SpellPaletteEntryView extends CocoView
       x = $('<button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>')
       $('.spell-palette-popover.popover').append x
       x.on 'click', @onClick
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'spell-palette-entry-pin', volume: 1
+      @playSound 'spell-palette-entry-pin'
     Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
   onClick: (e) =>
-    if true or @options.level.get('type', true) is 'hero'
+    if true or @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
       # Jiggle instead of pin for hero levels
       # Actually, do it all the time, because we recently busted the pin CSS. TODO: restore pinning
       jigglyPopover = $('.spell-palette-popover.popover')

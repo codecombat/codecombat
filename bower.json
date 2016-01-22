@@ -32,7 +32,7 @@
     "firepad": "~0.1.2",
     "marked": "~0.3.0",
     "moment": "~2.5.0",
-    "aether": "~0.3.0",
+    "aether": "~0.4.0",
     "underscore.string": "~2.3.3",
     "firebase": "~1.0.2",
     "d3": "~3.4.4",
@@ -47,7 +47,7 @@
     "modernizr": "~2.8.3",
     "backfire": "~0.3.0",
     "fastclick": "~1.0.3",
-    "three.js": "*",
+    "three.js": "~0.71.0",
     "lscache": "~1.0.5"
   },
   "overrides": {
@@ -107,11 +107,13 @@
         "build/io.js",
         "build/javascript.js",
         "build/lua.js",
-        "build/python.js"
+        "build/python.js",
+        "build/java.js"
       ]
     }
   },
   "devDependencies": {
-    "modernizr-mixin": "~3.0.0"
+    "modernizr-mixin": "~3.0.0",
+    "openSansCondensed": "https://google-fonts.azurewebsites.net/googleFonts/openSansCondensed?family=Open+Sans+Condensed:700&subset=latin,latin-ext,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic"
   }
 }

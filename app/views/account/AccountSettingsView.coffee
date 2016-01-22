@@ -13,12 +13,12 @@ module.exports = class AccountSettingsView extends CocoView
   className: 'countainer-fluid'
 
   events:
-    'change .panel input': 'onInputChanged'
-    'change #name': 'checkNameExists'
-    'click #toggle-all-button': 'toggleEmailSubscriptions'
-    'click .profile-photo': 'onEditProfilePhoto'
-    'click #upload-photo-button': 'onEditProfilePhoto'
-    'click #delete-account-button': 'confirmAccountDeletion'
+    'change .panel input': 'onChangePanelInput'
+    'change #name-input': 'onChangeNameInput'
+    'click #toggle-all-btn': 'onClickToggleAllButton'
+    'click #profile-photo-panel-body': 'onClickProfilePhotoPanelBody'
+    'click #delete-account-btn': 'onClickDeleteAccountButton'
+    'click #reset-progress-btn': 'onClickResetProgressButton'
 
   constructor: (options) ->
     super options
@@ -29,29 +29,25 @@ module.exports = class AccountSettingsView extends CocoView
     super()
     @openModalView new AuthModal() if me.get('anonymous')
 
-  getRenderData: ->
-    c = super()
-    return c unless me
-    c.subs = {}
-    c.subs[sub] = 1 for sub in me.getEnabledEmails()
-    c
-
+  getEmailSubsDict: ->
+    subs = {}
+    return subs unless me
+    subs[sub] = 1 for sub in me.getEnabledEmails()
+    return subs
 
   #- Form input callbacks
-  onInputChanged: (e) ->
+  onChangePanelInput: (e) ->
+    return if $(e.target).closest('.form').attr('id') in ['reset-progress-form', 'delete-account-form']
     $(e.target).addClass 'changed'
-    if (JSON.stringify(document.getElementById('email1').className)).indexOf("changed") > -1
-      $(e.target).removeClass 'changed'
-    else
-      @trigger 'input-changed'
+    @trigger 'input-changed'
 
-  toggleEmailSubscriptions: =>
+  onClickToggleAllButton: ->
     subs = @getSubscriptions()
     $('#email-panel input[type="checkbox"]', @$el).prop('checked', not _.any(_.values(subs))).addClass('changed')
     @trigger 'input-changed'
 
-  checkNameExists: =>
-    name = $('#name', @$el).val()
+  onChangeNameInput: ->
+    name = $('#name-input', @$el).val()
     return if name is me.get 'name'
     User.getUnconflictedName name, (newName) =>
       forms.clearFormAlerts(@$el)
@@ -65,30 +61,68 @@ module.exports = class AccountSettingsView extends CocoView
     @trigger 'inputChanged', e
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
-
-  #- Just copied from OptionsView, TODO refactor
-
-  confirmAccountDeletion: ->
-    forms.clearFormAlerts(@$el)
-    myEmail = me.get 'email'
-    email1 = document.getElementById('email1').value
-    if Boolean(email1) and email1 is myEmail
+  onClickDeleteAccountButton: (e) ->
+    @validateCredentialsForDestruction @$el.find('#delete-account-form'), =>
       renderData =
-        'confirmTitle': 'Are you really sure?'
-        'confirmBody': 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?'
-        'confirmDecline': 'Not really'
-        'confirmConfirm': 'Definitely'
+        confirmTitle: 'Are you really sure?'
+        confirmBody: 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?'
+        confirmDecline: 'Not really'
+        confirmConfirm: 'Definitely'
       confirmModal = new ConfirmModal renderData
       confirmModal.on 'confirm', @deleteAccount
       @openModalView confirmModal
+
+  onClickResetProgressButton: ->
+    @validateCredentialsForDestruction @$el.find('#reset-progress-form'), =>
+      renderData =
+        confirmTitle: 'Are you really sure?'
+        confirmBody: 'This will completely erase your progress: code, levels, achievements, earned gems, etc. This action CANNOT be undone. Are you entirely sure?'
+        confirmDecline: 'Not really'
+        confirmConfirm: 'Definitely'
+      confirmModal = new ConfirmModal renderData
+      confirmModal.on 'confirm', @resetProgress
+      @openModalView confirmModal
+
+  validateCredentialsForDestruction: ($form, onSuccess) ->
+    forms.clearFormAlerts($form)
+    enteredEmail = $form.find('input[type="email"]').val()
+    enteredPassword = $form.find('input[type="password"]').val()
+    if enteredEmail and enteredEmail is me.get('email')
+      isPasswordCorrect = false
+      toBeDelayed = true
+      $.ajax
+        url: '/auth/login'
+        type: 'POST'
+        data:
+          username: enteredEmail
+          password: enteredPassword
+        parse: true
+        error: (error) ->
+          toBeDelayed = false
+          'Bad Error. Can\'t connect to server or something. ' + error
+        success: (response, textStatus, jqXHR) ->
+          toBeDelayed = false
+          return unless jqXHR.status is 200
+          isPasswordCorrect = true
+      callback = =>
+        if toBeDelayed
+          setTimeout callback, 100
+        else
+          if isPasswordCorrect
+            onSuccess()
+          else
+            message = $.i18n.t('account_settings.wrong_password', defaultValue: 'Wrong Password.')
+            err = [message: message, property: 'password', formatted: true]
+            forms.applyErrorsToForm($form, err)
+            $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
+      setTimeout callback, 100
     else
       message = $.i18n.t('account_settings.wrong_email', defaultValue: 'Wrong Email.')
-      err = [message: message, property: 'email1', formatted: true]
-      forms.applyErrorsToForm(@$el, err)
+      err = [message: message, property: 'email', formatted: true]
+      forms.applyErrorsToForm($form, err)
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
 
   deleteAccount: ->
-    myID = me.id
     $.ajax
       type: 'DELETE'
       success: ->
@@ -98,19 +132,42 @@ module.exports = class AccountSettingsView extends CocoView
           type: 'success'
           layout: 'topCenter'
         _.delay ->
+          window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
           Backbone.Mediator.publish("auth:logging-out", {})
           window.tracker?.trackEvent 'Log Out', category:'Homepage' if @id is 'home-view'
           logoutUser($('#login-email').val())
         , 500
       error: (jqXHR, status, error) ->
         console.error jqXHR
-        timeout: 5000
-        text: "Deleting account failed with error code #{jqXHR.status}"
-        type: 'error'
-        layout: 'topCenter'
-      url: "/db/user/#{myID}"
+        noty
+          timeout: 5000
+          text: "Deleting account failed with error code #{jqXHR.status}"
+          type: 'error'
+          layout: 'topCenter'
+      url: "/db/user/#{me.id}"
 
-  onEditProfilePhoto: (e) ->
+  resetProgress: ->
+    $.ajax
+      type: 'POST'
+      success: ->
+        noty
+          timeout: 5000
+          text: 'Your progress is gone.'
+          type: 'success'
+          layout: 'topCenter'
+        localStorage.clear()
+        me.fetch cache: false
+        _.delay (-> window.location.reload()), 1000
+      error: (jqXHR, status, error) ->
+        console.error jqXHR
+        noty
+          timeout: 5000
+          text: "Resetting progress failed with error code #{jqXHR.status}"
+          type: 'error'
+          layout: 'topCenter'
+      url: "/db/user/#{me.id}/reset_progress"
+
+  onClickProfilePhotoPanelBody: (e) ->
     return if window.application.isIPadApp  # TODO: have an iPad-native way of uploading a photo, since we don't want to load FilePicker on iPad (memory)
     photoContainer = @$el.find('.profile-photo')
     onSaving = =>
@@ -198,8 +255,8 @@ module.exports = class AccountSettingsView extends CocoView
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
 
   grabOtherData: ->
-    @$el.find('#name').val @suggestedName if @suggestedName
-    me.set 'name', @$el.find('#name').val()
+    @$el.find('#name-input').val @suggestedName if @suggestedName
+    me.set 'name', @$el.find('#name-input').val()
     me.set 'email', @$el.find('#email').val()
     for emailName, enabled of @getSubscriptions()
       me.setEmailSubscription emailName, enabled

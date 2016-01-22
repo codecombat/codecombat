@@ -1,8 +1,4 @@
-#!/bin/bash
-
-# full script path
-_scriptDir="$(cd "$(dirname "$0")" && pwd -P)"
-
-cd $_scriptDir
-cd ../
-node_modules/.bin/nodemon . --ext ".coffee|.js" --watch server --watch server.coffee --unittest
+echo
+echo coco-test-server is deprecated.
+echo Instead, use \"npm run jasmine\" to run server tests
+echo

@@ -45,18 +45,29 @@ disable = [
 GLOBAL.window = GLOBAL
 GLOBAL.document = location: pathname: 'headless_client'
 GLOBAL.console.debug = console.log
-GLOBAL.Worker = require('webworker-threads').Worker
+try
+  GLOBAL.Worker = require('webworker-threads').Worker
+catch
+  console.log ""
+  console.log "Headless client needs the webworker-threads package from NPM to function."
+  console.log "Try installing it with the command:"
+  console.log ""
+  console.log "    npm install webworker-threads"
+  console.log ""
+  process.exit(1)
+
 Worker::removeEventListener = (what) ->
   if what is 'message'
     @onmessage = -> #This webworker api has only one event listener at a time.
 GLOBAL.tv4 = require('tv4').tv4
-GLOBAL.TreemaUtils = require './bower_components/treema/treema-utils.js'
+GLOBAL.TreemaUtils = require bowerComponentsPath + 'treema/treema-utils'
 GLOBAL.marked = setOptions: ->
 store = {}
 GLOBAL.localStorage =
     getItem: (key) => store[key]
     setItem: (key, s) => store[key] = s
     removeItem: (key) => delete store[key]
+GLOBAL.lscache = require bowerComponentsPath + 'lscache/lscache'
 
 # Hook node.js require. See https://github.com/mfncooper/mockery/blob/master/mockery.js
 # The signature of this function *must* match that of Node's Module._load,

@@ -42,15 +42,27 @@
           input#password.input-large.form-control(name="password", type="password", value=formValues.password)
 
       if mode === 'signup'
-        .form-group
-          label.control-label(for="name")
-            span(data-i18n="general.name") Name
-            | :
-          .input-border
-            if me.get('name')
-              input#name.input-large.form-control(name="name", type="text", value="#{me.get('name')}")
-            else
-              input#name.input-large.form-control(name="name", type="text", value="", placeholder="Anoner")
+        .row
+          .col-md-6
+            .form-group
+              label.control-label(for="name")
+                span(data-i18n="general.name") Name
+                | :
+              .input-border
+                if me.get('name')
+                  input#name.input-large.form-control(name="name", type="text", value="#{me.get('name')}")
+                else
+                  input#name.input-large.form-control(name="name", type="text", value="", placeholder="e.g. Alex W the Skater")
+          .col-md-6
+            .form-group
+              label.control-label(for="school-input")
+                span.spr(data-i18n="signup.school_name") School Name and City
+                em.optional-note
+                  | (
+                  span(data-i18n="signup.optional") optional
+                  | ):
+              .input-border
+                input#school-input.input-large.form-control(name="schoolName", data-i18n="[placeholder]signup.school_name_placeholder")
         .form-group.checkbox
           label.control-label(for="subscribe")
             .input-border
@@ -60,9 +72,9 @@
             span(data-i18n="signup.email_announcements") Receive announcements by email
 
       if mode === 'login'
-        input.btn.btn-lg.btn-illustrated.btn-block#login-button(value=translate("login.log_in"), type="submit")
+        input.btn.btn-lg.btn-illustrated.btn-block.btn-success#login-button(value=translate("login.log_in"), type="submit")
       else if mode === 'signup'
-        input.btn.btn-lg.btn-illustrated.btn-block#signup-button(value=translate("signup.sign_up"), type="submit")
+        input.btn.btn-lg.btn-illustrated.btn-block.btn-success#signup-button(value=translate("signup.sign_up"), type="submit")
 
     .wait.secret
       if mode === 'login'
@@ -76,11 +88,9 @@
     //  btn.btn.btn-sm.github-login-button#github-login-button
     //    img(src="/images/pages/modal/auth/github_icon.png")
     //    | GitHub
-    .btn.btn-primary.btn-lg.btn-illustrated.network-login
+    #facebook-login-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login
       img.network-logo(src="/images/pages/community/logo_facebook.png", draggable="false")
       span.sign-in-blurb(data-i18n="login.sign_in_with_facebook") Sign in with Facebook
-      .facebook-login-wrapper
-        .fb-login-button(data-show-faces="false", data-width="200", data-max-rows="1", data-scope="email")
     .btn.btn-danger.btn-lg.btn-illustrated.network-login
       img.network-logo(src="/images/pages/community/logo_g+.png", draggable="false")
       span.sign-in-blurb(data-i18n="login.sign_in_with_gplus") Sign in with G+
@@ -90,7 +100,7 @@
   .extra-pane
     if mode === 'login'
       .switch-explanation(data-i18n="login.signup_switch") Want to create an account?
-      .btn.btn-default.btn-lg.btn-illustrated#switch-to-signup-button(data-i18n="login.sign_up") Create Account
+      .btn.btn-lg.btn-illustrated.btn-warning#switch-to-signup-button(data-i18n="login.sign_up") Create Account
     else if mode === 'signup'
       .switch-explanation(data-i18n="signup.login_switch") Already have an account?
-      .btn.btn-default.btn-lg.btn-illustrated#switch-to-login-button(data-i18n="login.log_in")
+      .btn.btn-lg.btn-illustrated.btn-warning#switch-to-login-button(data-i18n="login.log_in")

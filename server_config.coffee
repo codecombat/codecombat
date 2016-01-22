@@ -1,10 +1,12 @@
 config = {}
 
-config.unittest = process.argv.indexOf('--unittest') > -1
+config.unittest = global.testing
 
 config.tokyo = process.env.TOKYO or false
+config.saoPaulo = process.env.SAOPAULO or false
 config.chinaDomain = "http://cn.codecombat.com"
-config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or 3000
+config.brazilDomain = "http://br.codecombat.com"
+config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or process.env.PORT  or 3000
 config.ssl_port = process.env.COCO_SSL_PORT or process.env.COCO_SSL_NODE_PORT or 3443
 config.cloudflare =
   token: process.env.COCO_CLOUDFLARE_API_KEY or ''
@@ -22,8 +24,9 @@ config.mongo =
   analytics_db: process.env.COCO_MONGO_ANALYTICS_DATABASE_NAME or 'analytics'
   mongoose_replica_string: process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING or ''
   mongoose_tokyo_replica_string: process.env.COCO_MONGO_MONGOOSE_TOKYO_REPLICA_STRING or ''
+  mongoose_saoPaulo_replica_string : process.env.COCO_MONGO_MONGOOSE_SAOPAULO_REPLICA_STRING or ''
 
-if config.tokyo
+if config.tokyo or config.saoPaulo
   config.mongo.readpref = 'nearest'
 else
   config.mongo.readpref = 'primary'
@@ -50,7 +53,6 @@ config.mail =
   username: process.env.COCO_MAIL_SERVICE_USERNAME or ''
   supportPrimary: process.env.COCO_MAIL_SUPPORT_PRIMARY or ''
   supportPremium: process.env.COCO_MAIL_SUPPORT_PREMIUM or ''
-  username: process.env.COCO_MAIL_SERVICE_USERNAME or ''
   mailchimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
   mailchimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''
@@ -82,5 +84,10 @@ if not config.unittest and  not config.isProduction
   # change artificially slow down non-static requests for testing
   config.slow_down = false
 
+if process.env.COCO_STATSD_HOST
+  config.statsd =
+    host: process.env.COCO_STATSD_HOST
+    port: process.env.COCO_STATSD_PORT or 8125
+    prefix: process.env.COCO_STATSD_PREFIX or ''
 
 module.exports = config

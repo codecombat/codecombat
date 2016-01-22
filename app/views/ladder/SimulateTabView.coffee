@@ -10,7 +10,6 @@ module.exports = class SimulateTabView extends CocoView
 
   events:
     'click #simulate-button': 'onSimulateButtonClick'
-    'click #simulate-all-button': 'onSimulateAllButtonClick'
 
   constructor: (options) ->
     super(options)
@@ -21,13 +20,14 @@ module.exports = class SimulateTabView extends CocoView
     require 'vendor/aether-python'
     require 'vendor/aether-coffeescript'
     require 'vendor/aether-lua'
+    require 'vendor/aether-java'
     require 'vendor/aether-clojure'
     require 'vendor/aether-io'
 
   onLoaded: ->
     super()
     @render()
-    if document.location.hash is '#simulate' and not @simulator
+    if (document.location.hash is '#simulate' or @options.level.get('type') is 'course-ladder') and not @simulator
       @startSimulating()
 
   getRenderData: ->
@@ -60,11 +60,12 @@ module.exports = class SimulateTabView extends CocoView
 
   simulateNextGame: ->
     unless @simulator
-      @simulator = new Simulator()
+      @simulator = new Simulator levelID: @options.level.get('slug'), leagueID: @options.leagueID
       @listenTo @simulator, 'statusUpdate', @updateSimulationStatus
       # Work around simulator getting super slow on Chrome
       fetchAndSimulateTaskOriginal = @simulator.fetchAndSimulateTask
       @simulator.fetchAndSimulateTask = =>
+        return if @destroyed
         if @simulator.simulatedByYou >= 20
           console.log '------------------- Destroying  Simulator and making a new one -----------------'
           @simulator.destroy()
@@ -75,6 +76,7 @@ module.exports = class SimulateTabView extends CocoView
     @simulator.fetchAndSimulateTask()
 
   refresh: ->
+    return  # Queue-based scoring is currently not active anyway, so don't keep checking this until we fix it.
     success = (numberOfGamesInQueue) ->
       $('#games-in-queue').text numberOfGamesInQueue
     $.ajax '/queue/messagesInQueueCount', cache: false, success: success
@@ -97,19 +99,6 @@ module.exports = class SimulateTabView extends CocoView
       console.log "There was a problem with the named simulation status: #{e}"
     link = if @simulationSpectateLink then "<a href=#{@simulationSpectateLink}>#{_.string.escapeHTML(@simulationMatchDescription)}</a>" else ''
     $('#simulation-status-text').html "<h3>#{@simulationStatus}</h3>#{link}"
-
-  resimulateAllSessions: ->
-    postData =
-      originalLevelID: @level.get('original')
-      levelMajorVersion: @level.get('version').major
-    console.log postData
-
-    $.ajax
-      url: '/queue/scoring/resimulateAllSessions'
-      method: 'POST'
-      data: postData
-      complete: (jqxhr) ->
-        console.log jqxhr.responseText
 
   destroy: ->
     clearTimeout @simulationPageRefreshTimeout

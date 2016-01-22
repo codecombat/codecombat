@@ -94,6 +94,7 @@ describe 'LevelLoader', ->
   describe 'loadDependenciesForSession', ->
     it 'loads hero and item thang types from heroConfig in the given session', ->
       levelLoader = new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
+      levelLoader.sessionDependenciesRegistered = {}
       session = new LevelSession(sessionWithAnyaWithGloves)
       levelLoader.loadDependenciesForSession(session)
       requests = jasmine.Ajax.requests.all()
@@ -103,6 +104,7 @@ describe 'LevelLoader', ->
 
     it 'loads components for the hero in the heroConfig in the given session', ->
       levelLoader = new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
+      levelLoader.sessionDependenciesRegistered = {}
       session = new LevelSession(sessionWithAnyaWithGloves)
       levelLoader.loadDependenciesForSession(session)
       responses = {
@@ -141,7 +143,7 @@ describe 'LevelLoader', ->
     jasmine.Ajax.requests.sendResponses(responses)
     requests = jasmine.Ajax.requests.all()
     urls = (r.url for r in requests)
-    expect('/db/thang.type/mace/version?project=name,components,original,rasterIcon,kind' in urls).toBeTruthy()
+    expect('/db/thang.type/mace/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData' in urls).toBeTruthy()
 
   it 'loads components which are inherited by level thangs from thang type default components', ->
     new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
@@ -165,7 +167,7 @@ describe 'LevelLoader', ->
     jasmine.Ajax.requests.sendResponses(responses)
     requests = jasmine.Ajax.requests.all()
     urls = (r.url for r in requests)
-    expect('/db/thang.type/wand/version?project=name,components,original,rasterIcon,kind' in urls).toBeTruthy()
+    expect('/db/thang.type/wand/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData' in urls).toBeTruthy()
 
   it 'loads components for item thang types which are inherited by level thangs from thang type default equips component configs', ->
     new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})

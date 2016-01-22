@@ -7,6 +7,8 @@ config = require '../../server_config'
 errors = require '../commons/errors'
 languages = require '../routes/languages'
 sendwithus = require '../sendwithus'
+log = require 'winston'
+utils = require '../lib/utils'
 
 module.exports.setup = (app) ->
   authentication.serializeUser((user, done) -> done(null, user._id))
@@ -98,9 +100,12 @@ module.exports.setup = (app) ->
 
     User.findOne({emailLower: req.body.email.toLowerCase()}).exec((err, user) ->
       if not user
-        return errors.notFound(res, [{message: 'not found.', property: 'email'}])
+        return errors.notFound(res, [{message: 'not found', property: 'email'}])
 
-      user.set('passwordReset', Math.random().toString(36).slice(2, 7).toUpperCase())
+      user.set('passwordReset', utils.getCodeCamel())
+      emailContent = "<h3>Your temporary password: <b>#{user.get('passwordReset')}</b></h3>"
+      emailContent += "<p>Reset your password at <a href=\"http://codecombat.com/account/settings\">http://codecombat.com/account/settings</a></p>"
+      emailContent += "<p>Your old password cannot be retrieved.</p>"
       user.save (err) =>
         return errors.serverError(res) if err
         unless config.unittest
@@ -110,8 +115,8 @@ module.exports.setup = (app) ->
               address: req.body.email
             email_data:
               subject: 'CodeCombat Recovery Password'
-              title: 'Recovery Password'
-              content: "<p>Your CodeCombat recovery password for email #{req.body.email} is: #{user.get('passwordReset')}</p><p>Log in at <a href=\"http://codecombat.com/account/settings\">http://codecombat.com/account/settings</a> and change it.</p><p>Hope this helps!</p>"
+              title: ''
+              content: emailContent
           sendwithus.api.send context, (err, result) ->
             if err
               console.error "Error sending password reset email: #{err.message or err}"
@@ -196,11 +201,20 @@ module.exports.loginUser = loginUser = (req, res, user, send=true, next=null) ->
     )
   )
 
+module.exports.idCounter = 0
+
 module.exports.makeNewUser = makeNewUser = (req) ->
   user = new User({anonymous: true})
-  user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
+  if global.testing
+    # allows tests some control over user id creation
+    newID = _.pad((module.exports.idCounter++).toString(16), 24, '0')
+    user.set('_id', newID)
+  user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
   lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
-  user.set 'lastIP', req.connection.remoteAddress
-  user.set 'chinaVersion', true if req.chinaVersion
+  user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
+  user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
+  user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
+  user.set 'country', req.country if req.country
+  #log.info "making new user #{user.get('_id')} with language #{user.get('preferredLanguage')} of #{req.acceptedLanguages} and country #{req.country} on #{if config.tokyo then 'Tokyo' else (if config.saoPaulo then 'Brazil' else 'US')} server and lastIP #{user.get('lastIP')}."
   user

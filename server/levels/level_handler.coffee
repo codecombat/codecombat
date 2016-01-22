@@ -8,6 +8,10 @@ mongoose = require 'mongoose'
 async = require 'async'
 utils = require '../lib/utils'
 log = require 'winston'
+Campaign = require '../campaigns/Campaign'
+Course = require  '../courses/Course'
+CourseInstance = require '../courses/CourseInstance'
+Classroom = require '../classrooms/Classroom'
 
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
@@ -57,9 +61,11 @@ LevelHandler = class LevelHandler extends Handler
     'tasks'
     'helpVideos'
     'campaign'
+    'campaignIndex'
     'replayable'
     'buildTime'
     'scoreTypes'
+    'concepts'
   ]
 
   postEditableProperties: ['name']
@@ -104,10 +110,39 @@ LevelHandler = class LevelHandler extends Handler
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, doc) if doc?
-        requiresSubscription = level.get('requiresSubscription') or (req.user.get('chinaVersion') and level.get('campaign') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
+        if level.get('type') is 'course' or req.query.course?
+          return @makeOrRejectCourseLevelSession(req, res, level, sessionQuery)
+        requiresSubscription = level.get('requiresSubscription') or (req.user.isOnPremiumServer() and level.get('campaign') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
         canPlayAnyway = req.user.isPremium() or level.get 'adventurer'
         return @sendPaymentRequiredError(res, err) if requiresSubscription and not canPlayAnyway
         @createAndSaveNewSession sessionQuery, req, res
+
+  makeOrRejectCourseLevelSession: (req, res, level, sessionQuery) ->
+    CourseInstance.find {members: req.user.get('_id')}, (err, courseInstances) =>
+      courseIDs = (ci.get('courseID') for ci in courseInstances)
+      Course.find { _id: { $in: courseIDs }}, (err, courses) =>
+        campaignIDs = (c.get('campaignID') for c in courses)
+        Campaign.find { _id: { $in: campaignIDs }}, (err, campaigns) =>
+          levelOriginals = (_.keys(c.get('levels')) for c in campaigns)
+          levelOriginals = _.flatten(levelOriginals)
+          originalString = level.get('original').toString()
+          if originalString in levelOriginals
+            campaignStrings = (campaign.id.toString() for campaign in campaigns when campaign.get('levels')[originalString])
+            courses = _.filter(courses, (course) -> course.get('campaignID').toString() in campaignStrings)
+            courseStrings = (course.id.toString() for course in courses)
+            courseInstances = _.filter(courseInstances, (courseInstance) -> courseInstance.get('courseID').toString() in courseStrings)
+            classroomIDs = (courseInstance.get('classroomID') for courseInstance in courseInstances)
+            classroomIDs = _.filter _.uniq classroomIDs, false, (objectID='') -> objectID.toString()
+            if classroomIDs.length
+              Classroom.find({ _id: { $in: classroomIDs }}).exec (err, classrooms) =>
+                aceConfigs = (c.get('aceConfig') for c in classrooms)
+                aceConfig = _.filter(aceConfigs)[0] or {}
+                req.codeLanguage = aceConfig.language
+                @createAndSaveNewSession(sessionQuery, req, res)
+            else
+              @createAndSaveNewSession(sessionQuery, req, res)
+          else
+            return @sendPaymentRequiredError(res, 'You must be in a course which includes this level to play it')
 
   createAndSaveNewSession: (sessionQuery, req, res) =>
     initVals = sessionQuery
@@ -127,7 +162,7 @@ LevelHandler = class LevelHandler extends Handler
         access: 'write'
       }
     ]
-    initVals.codeLanguage = req.user.get('aceConfig')?.language ? 'python'
+    initVals.codeLanguage = req.codeLanguage ? req.user.get('aceConfig')?.language ? 'python'
     session = new Session(initVals)
 
     session.save (err) =>
@@ -159,20 +194,28 @@ LevelHandler = class LevelHandler extends Handler
         creator: req.user._id+''
 
       query = Session.find(sessionQuery).select('-screenshot -transpiledCode')
-      # TODO: take out "code" as well, since that can get huge containing the transpiled code for the lat hero, and find another way of having the LadderSubmissionViews in the MyMatchesTab determine rankin readiness
+      # TODO: take out "code" as well, since that can get huge containing the transpiled code for the lat hero, and find another way of having the LadderSubmissionViews in the MyMatchesTab determine ranking readiness
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
-  getHistogramData: (req, res, slug) ->
+  getHistogramData: (req, res, id) ->
+    match = @makeLeaderboardQueryParameters req, id
+    delete match.totalScore
+    project = totalScore: 1, _id: 0
+    league = req.query['leagues.leagueID']
+    project['leagues.leagueID'] = project['leagues.stats.totalScore'] = 1 if league
     aggregate = Session.aggregate [
-      {$match: {'levelID': slug, 'submitted': true, 'team': req.query.team}}
-      {$project: {totalScore: 1, _id: 0}}
+      {$match: match}
+      {$project: project}
     ]
-    aggregate.cache()
+    aggregate.cache(10 * 60 * 1000) unless league
 
     aggregate.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
-      valueArray = _.pluck data, 'totalScore'
+      if league
+        valueArray = _.pluck data, (session) -> _.find(session.leagues, leagueID: league)?.stats?.totalScore or 10
+      else
+        valueArray = _.pluck data, 'totalScore'
       @sendSuccess res, valueArray
 
   checkExistence: (req, res, slugOrID) ->
@@ -194,22 +237,25 @@ LevelHandler = class LevelHandler extends Handler
 
   getLeaderboard: (req, res, id) ->
     sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)
-
-    sortParameters =
-      'totalScore': req.query.order
-    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage', 'heroConfig']
-
+    sortParameters = totalScore: req.query.order
+    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage', 'heroConfig', 'leagues.leagueID', 'leagues.stats.totalScore', 'submitDate', 'team']
     query = Session
       .find(sessionsQueryParameters)
       .limit(req.query.limit)
       .sort(sortParameters)
       .select(selectProperties.join ' ')
-    query.cache() if sessionsQueryParameters.totalScore.$lt is 1000000
+    query.cache(5 * 60 * 1000) if sessionsQueryParameters.totalScore.$lt is 1000000
 
     query.exec (err, resultSessions) =>
       return @sendDatabaseError(res, err) if err
       resultSessions ?= []
-      @sendSuccess res, resultSessions
+      leaderboardOptions = find: sessionsQueryParameters, limit: req.query.limit, sort: sortParameters, select: selectProperties
+      @interleaveAILeaderboardSessions leaderboardOptions, resultSessions, (err, resultSessions) =>
+        return @sendDatabaseError(res, err) if err
+        if league = req.query['leagues.leagueID']
+          resultSessions = _.sortBy resultSessions, (session) -> _.find(session.get('leagues'), leagueID: league)?.stats.totalScore ? session.get('totalScore') / 2
+          resultSessions.reverse() if sortParameters.totalScore is -1
+        @sendSuccess res, resultSessions
 
   getMyLeaderboardRank: (req, res, id) ->
     req.query.order = 1
@@ -231,6 +277,7 @@ LevelHandler = class LevelHandler extends Handler
       team: req.query.team
       totalScore: scoreQuery
       submitted: true
+    query['leagues.leagueID'] = league if league = req.query['leagues.leagueID']
     query
 
   validateLeaderboardRequestParameters: (req) ->
@@ -238,6 +285,36 @@ LevelHandler = class LevelHandler extends Handler
     req.query.scoreOffset = parseFloat(req.query.scoreOffset) ? 100000
     req.query.team ?= 'humans'
     req.query.limit = parseInt(req.query.limit) ? 20
+
+  ladderBenchmarkAIs: [
+    '564ba6cea33967be1312ae59'
+    '564ba830a33967be1312ae61'
+    '564ba91aa33967be1312ae65'
+    '564ba95ca33967be1312ae69'
+    '564ba9b7a33967be1312ae6d'
+  ]
+
+  interleaveAILeaderboardSessions: (leaderboardOptions, sessions, cb) ->
+    return cb null, sessions unless leaderboardOptions.find['leagues.leagueID']
+    return cb null, sessions if leaderboardOptions.limit < 10  # Don't put them in when we're fetching sessions around another session
+    # Get our list of benchmark AI sessions
+    benchmarkSessions = Session
+      .find(level: leaderboardOptions.find.level, creator: {$in: @ladderBenchmarkAIs})
+      .sort(leaderboardOptions.sort)
+      .select(leaderboardOptions.select.join ' ')
+      .cache(30 * 60 * 1000)
+      .exec (err, aiSessions) ->
+        return cb err if err
+        matchingAISessions = _.filter aiSessions, (aiSession) ->
+          return false unless aiSession.get('team') is leaderboardOptions.find.team
+          return false if $gt = leaderboardOptions.find.totalScore.$gt and aiSession.get('totalScore') <= $gt
+          return false if $lt = leaderboardOptions.find.totalScore.$lt and aiSession.get('totalScore') >= $lt
+          true
+        # TODO: these aren't real league scores for AIs, but rather the general leaderboard scores, which will make most AI scores artificially high. So we divide by 2 for AI scores not part of the league. Pretty weak, I know. Eventually we'd want them to actually play league matches as if they were in all leagues, but without having infinite space requirements or something? Or change the UI to take them out of the main league table and into their separate area.
+        sessions = _.sortBy sessions.concat(matchingAISessions), (session) -> _.find(session.get('leagues'), leagueID: leaderboardOptions.find['leagues.leagueID'])?.stats.totalScore ? session.get('totalScore') / 2
+        sessions.reverse() if leaderboardOptions.sort.totalScore is -1
+        sessions = sessions.slice 0, leaderboardOptions.limit
+        return cb null, sessions
 
   getLeaderboardFacebookFriends: (req, res, id) -> @getLeaderboardFriends(req, res, id, 'facebookID')
   getLeaderboardGPlusFriends: (req, res, id) -> @getLeaderboardFriends(req, res, id, 'gplusID')
@@ -273,9 +350,9 @@ LevelHandler = class LevelHandler extends Handler
       findParameters['slug'] = slugOrID
     selectString = 'original version'
     query = Level.findOne(findParameters)
-    .select(selectString)
-    .lean()
-    .cache()
+      .select(selectString)
+      .lean()
+      .cache(60 * 60 * 1000)
 
     query.exec (err, level) =>
       return @sendDatabaseError(res, err) if err
@@ -287,27 +364,25 @@ LevelHandler = class LevelHandler extends Handler
           majorVersion: level.version.major
         submitted: true
 
-      query = Session.find(sessionsQueryParameters).distinct('team').cache()
-      query.exec (err, teams) =>
-        return @sendDatabaseError res, err if err? or not teams
-        findTop20Players = (sessionQueryParams, team, cb) ->
-          sessionQueryParams['team'] = team
-          aggregate = Session.aggregate [
-            {$match: sessionQueryParams}
-            {$sort: {'totalScore': -1}}
-            {$limit: 20}
-            {$project: {'totalScore': 1}}
-          ]
-          aggregate.cache()
-          aggregate.exec cb
+      teams = ['humans', 'ogres']
+      findTop20Players = (sessionQueryParams, team, cb) ->
+        sessionQueryParams['team'] = team
+        aggregate = Session.aggregate [
+          {$match: sessionQueryParams}
+          {$sort: {'totalScore': -1}}
+          {$limit: 20}
+          {$project: {'totalScore': 1}}
+        ]
+        aggregate.cache(3 * 60 * 1000)
+        aggregate.exec cb
 
-        async.map teams, findTop20Players.bind(@, sessionsQueryParameters), (err, map) =>
-          if err? then return @sendDatabaseError(res, err)
-          sessions = []
-          for mapItem in map
-            sessions.push _.sample(mapItem)
-          if map.length != 2 then return @sendDatabaseError res, 'There aren\'t sessions of 2 teams, so cannot choose random opponents!'
-          @sendSuccess res, sessions
+      async.map teams, findTop20Players.bind(@, sessionsQueryParameters), (err, map) =>
+        if err? then return @sendDatabaseError(res, err)
+        sessions = []
+        for mapItem in map
+          sessions.push _.sample(mapItem)
+        if map.length != 2 then return @sendDatabaseError res, 'There aren\'t sessions of 2 teams, so cannot choose random opponents!'
+        @sendSuccess res, sessions
 
   getFeedback: (req, res, levelID) ->
     return @sendNotFoundError(res) unless req.user

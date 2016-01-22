@@ -59,12 +59,6 @@ module.exports = class PollEditView extends RootView
     @treema.childrenTreemas.answers?.open 1
     @pushChangesToPreview()
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.poll = @poll
-    context.authorized = me.isAdmin()
-    context
-
   afterRender: ->
     super()
     return unless @supermodel.finished()

@@ -7,7 +7,7 @@ block content
   else
 
     if total === 0
-      h4 Fetching dashboard data...
+      h4= refreshDataState
     else
       .container-fluid
         .row
@@ -16,15 +16,15 @@ block content
             div.count= total
           .col-md-5.big-stat.remaining-count
             div.description Remaining
-            div.count= total - cancelled
+            div.count= total - outstandingCancels.length
           .col-md-5.big-stat.cancelled-count
-            div.description Cancelled
-            div.count= cancelled
+            div.description Cancels Outstanding
+            div.count= outstandingCancels.length
           .col-md-5.big-stat.growth-rate
             div.description 30 Day Total Growth
             div.count #{monthlyGrowth.toFixed(1)}%
           .col-md-5.big-stat.churn-count
-            div.description Monthly Churn (cancelled / total)
+            div.description 30 Day Churn (cancelled / total)
             div.count #{monthlyChurn.toFixed(1)}%
 
       each graph in analytics.graphs
@@ -38,7 +38,7 @@ block content
 
     h2 Recent Subscribers
     if !subscribers || subscribers.length < 1
-      h4 Fetching recent subscribers...
+      h4= refreshDataState
     else
       table.table.table-striped.table-condensed
         thead.subscribers-thead
@@ -63,10 +63,10 @@ block content
               td
                 a(href="https://dashboard.stripe.com/customers/#{subscriber.customerID}", target="_blank")= subscriber.subscriptionID
               td= subscriber.user.dateCreated.substring(0, 10)
-              td= subscriber.start.substring(0, 10)
+              td= subscriber.start.toISOString().substring(0, 10)
               td
                 if subscriber.cancel
-                  span= subscriber.cancel.substring(0, 10)
+                  span= subscriber.cancel.toISOString().substring(0, 10)
               td
                 if subscriber.user.stripe && subscriber.user.stripe.sponsorID
                   span *sponsored*
@@ -87,7 +87,7 @@ block content
 
     h2 Recent Cancellations
     if !cancellations || cancellations.length < 1
-      h4 Fetching recent cancellations...
+      h4= refreshDataState
     else
       table.table.table-striped.table-condensed
         thead.subscribers-thead
@@ -116,9 +116,9 @@ block content
                 td= cancellation.user.dateCreated.substring(0, 10)
               else
                 td
-              td= cancellation.start.substring(0, 10)
-              td= cancellation.cancel.substring(0, 10)
-              td= moment.duration(new Date(cancellation.cancel) - new Date(cancellation.start)).humanize()
+              td= cancellation.start.toISOString().substring(0, 10)
+              td= cancellation.cancel.toISOString().substring(0, 10)
+              td= moment.duration(cancellation.cancel - cancellation.start).humanize()
               td= cancellation.level
               if cancellation.user
                 td= cancellation.user.ageRange
@@ -132,10 +132,12 @@ block content
                 td
                 td
                 td
+      if !showMoreCancellations
+        button.btn.btn-sm.btn-show-more-cancellations Show More Cancellations
 
     h2 Subscriptions
     if !subs || subs.length < 1
-      h4 Fetching subscriptions...
+      h4= refreshDataState
     else
       table.table.table-condensed
         thead

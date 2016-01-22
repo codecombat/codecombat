@@ -15,7 +15,7 @@ module.exports = class Label extends CocoClass
     @sprite = options.sprite
     @camera = options.camera
     @layer = options.layer
-    @style = options.style ? Label.STYLE_SAY
+    @style = options.style ? (@sprite?.thang?.labelStyle || Label.STYLE_SAY)
     console.error @toString(), 'needs a sprite.' unless @sprite
     console.error @toString(), 'needs a camera.' unless @camera
     console.error @toString(), 'needs a layer.' unless @layer
@@ -78,7 +78,11 @@ module.exports = class Label extends CocoClass
     o.fontSize = {D: 25, S: 12, N: 24}[st]
     fontFamily = {D: 'Arial', S: 'Arial', N: 'Arial'}[st]
     o.fontDescriptor = "#{o.fontWeight} #{o.fontSize}px #{fontFamily}"
-    o.fontColor = {D: '#000', S: '#FFF', N: '#00a'}[st]
+    o.fontColor = {D: '#000', S: '#FFF', N: '#0a0'}[st]
+    if @style is 'name' and @sprite?.thang?.team is 'humans'
+      o.fontColor = '#a00'
+    else if @style is 'name' and @sprite?.thang?.team is 'ogres'
+      o.fontColor = '#00a'
     o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(255,255,255,0.5)'}[st]
     o.backgroundStrokeColor = {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)'}[st]
     o.backgroundStrokeStyle = {D: 2, S: 1, N: 1}[st]

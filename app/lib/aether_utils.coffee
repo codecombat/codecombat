@@ -13,6 +13,7 @@ module.exports.createAetherOptions = (options) ->
     skipDuplicateUserInfoInFlow: true  # Optimization that won't work if we are stepping with frames
     yieldConditionally: options.functionName is 'plan'
     simpleLoops: true
+    whileTrueAutoYield: true
     globals: ['Vector', '_']
     problems:
       jshint_W040: {level: 'ignore'}

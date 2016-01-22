@@ -31,6 +31,7 @@ module.exports = class PlayAchievementsModal extends ModalView
       'rewards'
       'collection'
       'function'
+      'query'
     ])
 
     earnedAchievementsFetcher = new CocoCollection([], {url: '/db/earned_achievement', model: EarnedAchievement})
@@ -43,6 +44,7 @@ module.exports = class PlayAchievementsModal extends ModalView
 
     @listenTo achievementsFetcher, 'sync', @onAchievementsLoaded
     @listenTo earnedAchievementsFetcher, 'sync', @onEarnedAchievementsLoaded
+    @stopListening @supermodel, 'loaded-all'
 
     @supermodel.loadCollection(achievementsFetcher, 'achievement')
     @supermodel.loadCollection(earnedAchievementsFetcher, 'achievement')
@@ -71,7 +73,8 @@ module.exports = class PlayAchievementsModal extends ModalView
       @onEverythingLoaded()
 
   onEverythingLoaded: =>
-    @achievements.set(@achievements.filter((m) -> m.get('collection') isnt 'level.sessions'))
+    @achievements.set(@achievements.filter((m) -> m.get('collection') isnt 'level.sessions' or m.get('query')?.team))
+    achievementsByDescription = earned: {}, unearned: {}
     for achievement in @achievements.models
       if earned = @earnedMap[achievement.id]
         achievement.earned = earned
@@ -80,6 +83,20 @@ module.exports = class PlayAchievementsModal extends ModalView
         achievement.earnedGems = Math.round (achievement.get('rewards')?.gems or 0) * expFunction earned.get('achievedAmount')
         achievement.earnedPoints = Math.round (achievement.get('worth', true) or 0) * expFunction earned.get('achievedAmount')
       achievement.earnedDate ?= ''
+    for achievement in @achievements.models
+      if achievement.earned
+        holder = achievementsByDescription.earned
+      else
+        holder = achievementsByDescription.unearned
+      nextInSet = holder[achievement.get('description')]
+      [a, b] = [achievement.get('worth', true), nextInSet?.get('worth', true) ? 0]
+      if achievement.earned
+        shouldKeep = not nextInSet or a > b
+      else
+        shouldKeep = not nextInSet or a < b
+      if shouldKeep
+        holder[achievement.get('description')] = achievement
+    @achievements.set _.values(achievementsByDescription.earned).concat(_.values(achievementsByDescription.unearned))
     @achievements.comparator = (m) -> m.earnedDate
     @achievements.sort()
     @achievements.set(@achievements.models.reverse())
@@ -87,11 +104,6 @@ module.exports = class PlayAchievementsModal extends ModalView
       achievement.name = utils.i18n achievement.attributes, 'name'
       achievement.description = utils.i18n achievement.attributes, 'description'
     @render()
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.achievements = @achievements.models
-    context
 
   afterRender: ->
     super()
