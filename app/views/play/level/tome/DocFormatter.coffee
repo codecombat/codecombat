@@ -154,7 +154,10 @@ module.exports = class DocFormatter
     content = popoverTemplate doc: @doc, docName: docName, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: argumentExamples, writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns(), item: @options.item
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
     content = @replaceSpriteName content
-    content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
+    content = content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
+    content = content.replace /{([a-z]+)}([^]*?){\/\1}/g, (s, language, text) =>
+      if language is @options.language then return text
+      return ''
 
   replaceSpriteName: (s) ->
     # Prefer type, and excluded the quotes we'd get with @formatValue
