@@ -39,4 +39,6 @@ block
     for task in (view.taskArray() || [])
       if task.get('revert').complete === true
         +task-row(task.cid)
-  button#create-task.btn.btn-default Add Task
+  button#create-task.btn.btn-primary Add Task
+  if view.missingDefaults().length !== 0
+    button#add-default-tasks.btn.btn-default Add Default Tasks

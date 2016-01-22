@@ -13,6 +13,7 @@ module.exports = class TasksTabView extends CocoView
     'click #create-task': 'onClickCreateTask'
     'keydown #cur-edit': 'onKeyDownCurEdit'
     'blur #cur-edit': 'onBlurCurEdit'
+    'click #add-default-tasks': 'onClickAddDefaultTasks'
 
   subscriptions:
     'editor:level-loaded': 'onLevelLoaded'
@@ -55,9 +56,30 @@ module.exports = class TasksTabView extends CocoView
     'Do thorough set decoration.':'./'
     'Add a walkthrough video.':'./'
 
+  missingDefaults: ->
+    missingTasks = []
+    if @level
+      for task in @level.schema().properties.tasks.default
+        unless _.findIndex(@level.get('tasks'), {name: task.name}) isnt -1
+          missingTasks.push task
+    return missingTasks
+
+  onClickAddDefaultTasks: ->
+    results = @missingDefaults()
+    for result in results
+      @tasks.add
+        name: result.name
+        complete: result.complete
+        curEdit: false
+        revert:
+          name: result.name
+          complete: false
+    @pushTasks()
+    @render()
+
   applyTaskName: (_task, _input) ->
     name = _input.value
-    potentialTask = @findTask(name)
+    potentialTask = @tasks.findWhere({'name':_input})
     if potentialTask and potentialTask isnt _task
       noty
         timeout: 5000
@@ -76,10 +98,11 @@ module.exports = class TasksTabView extends CocoView
       @render()
 
   focusEditInput: ->
-    editInput = $('cur-edit')[0]
-    editInput.focus()
-    len = editInput.value.length * 2
-    editInput.setSelectionRange len, len
+    editInput = @$el.find('#cur-edit')[0]
+    if editInput
+      editInput.focus()
+      len = editInput.value.length * 2
+      editInput.setSelectionRange len, len
 
   getTaskByCID: (_cid) ->
     return @tasks.get _cid
@@ -115,9 +138,9 @@ module.exports = class TasksTabView extends CocoView
     @level.set 'tasks', @taskMap()
 
   onClickTaskRow: (e) ->
-    if not $(e.target).is('input') and not $(e.target).is('a') and not $(e.target).hasClass('start-edit') and $('#cur-edit').length is 0
-      task = @tasks.get $(e.target).closest('tr').data('task-cid')
-      checkbox = $(e.currentTarget).find('.task-input')[0]
+    if not @$el.find(e.target).is('input') and not @$el.find(e.target).is('a') and not @$el.find(e.target).hasClass('start-edit') and @$el.find('#cur-edit').length is 0
+      task = @tasks.get @$el.find(e.target).closest('tr').data('task-cid')
+      checkbox = @$el.find(e.currentTarget).find('.task-input')[0]
       if task.get 'complete'
         task.set 'complete', false
       else
@@ -126,31 +149,29 @@ module.exports = class TasksTabView extends CocoView
       @pushTasks()
 
   onClickTaskInput: (e) ->
-    task = @tasks.get $(e.target).closest('tr').data('task-cid')
+    task = @tasks.get @$el.find(e.target).closest('tr').data('task-cid')
     task.set 'complete', e.currentTarget.checked
     @pushTasks()
 
-
-
   onClickStartEdit: (e) ->
-    if $('#cur-edit').length is 0
-      task = @tasks.get $(e.target).closest('tr').data('task-cid')
+    if @$el.find('#cur-edit').length is 0
+      task = @tasks.get @$el.find(e.target).closest('tr').data('task-cid')
       task.set 'curEdit', true
       @render()
-    @focusEditInput()
+      @focusEditInput()
 
   onKeyDownCurEdit: (e) ->
     if e.keyCode is 13
-      editInput = $('#cur-edit')[0]
+      editInput = @$el.find('#cur-edit')[0]
       editInput.blur()
 
   onBlurCurEdit: (e) ->
-    editInput = $('#cur-edit')[0]
-    task = @tasks.get $(e.target).closest('tr').data('task-cid')
+    editInput = @$el.find('#cur-edit')[0]
+    task = @tasks.get @$el.find(e.target).closest('tr').data('task-cid')
     @applyTaskName(task, editInput)
 
   onClickCreateTask: (e) ->
-    if $('#cur-edit').length is 0
+    if @$el.find('#cur-edit').length is 0
       @tasks.add
         name: ''
         complete: false
@@ -159,4 +180,4 @@ module.exports = class TasksTabView extends CocoView
           name: 'null'
           complete: false
       @render()
-    @focusEditInput()
+      @focusEditInput()
