@@ -62,7 +62,7 @@ module.exports = class Tracker
     @explicitTraits ?= {}
     @explicitTraits[key] = value for key, value of traits
 
-    for userTrait in ['email', 'anonymous', 'dateCreated', 'name', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange']
+    for userTrait in ['email', 'anonymous', 'dateCreated', 'name', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID']
       traits[userTrait] ?= me.get(userTrait)
     console.log 'Would identify', me.id, traits if debugAnalytics
     return unless @isProduction and not me.isAdmin()
