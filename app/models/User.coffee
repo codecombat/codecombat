@@ -19,11 +19,11 @@ module.exports = class User extends CocoModel
   broadName: ->
     name = @get('name')
     return name if name
-    name = _.filter([@get('firstName'), @get('lastName')]).join('')
+    name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
     return name if name
     email = @get('email')
     return email if email
-    return ''
+    return 'Anoner'
 
   getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
     photoURL = if useJobProfilePhoto then @get('jobProfile')?.photoURL else null
