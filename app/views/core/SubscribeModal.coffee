@@ -43,6 +43,7 @@ module.exports = class SubscribeModal extends ModalView
     @setupPaymentMethodsInfoPopover()
     if @basicProduct
       @$el.find('.gem-amount').html $.i18n.t('subscribe.feature4').replace('{{gems}}', @basicProduct.get('gems'))
+    @playSound 'game-menu-open'
 
   setupParentButtonPopover: ->
     popoverTitle = $.i18n.t 'subscribe.parent_email_title'
@@ -221,3 +222,7 @@ module.exports = class SubscribeModal extends ModalView
       @state = 'unknown_error'
       @stateMessage = "#{xhr.status}: #{xhr.responseText}"
     @render()
+
+  onHidden: ->
+    super()
+    @playSound 'game-menu-close'

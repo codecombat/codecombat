@@ -42,6 +42,7 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
     FB.api('/me', {fields: 'email,last_name,first_name,gender'}, @onReceiveMeInfo)
 
   onReceiveMeInfo: (r) =>
+    console.log "Got Facebook user info:", r
     unless r.email
       console.error('could not get data, since no email provided')
       return

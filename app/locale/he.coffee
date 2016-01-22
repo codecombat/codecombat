@@ -4,7 +4,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     no_ie: "המשחק לא עובד באקפלורר 8 וישן יותר. סליחה!" # Warning that only shows up in IE8 and older
     no_mobile: "המשחק לא עוצב לטלפונים ואולי לא יעבוד" # Warning that shows up on mobile devices
     play: "שחק" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "שחק בגרסת המסע" # Shows up under big play button if you only play /courses
     old_browser: "או או, נראה כי הדפדפן שלך יותר מידי ישן כדי להריץ את המשחק. סליחה!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "אתה יכול לנסות בכול מקרה אבל זה כנראה לא יעבוד."
     ipad_browser: "חדשות רעות: CodeCombat לא עובד בדפדפן של הiPad-. חדשות טובות: גרסת הiPad של המשחק ממתינה לאישור מחברת Apple."
@@ -17,7 +17,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   nav:
     play: "שלבים" # The top nav bar entry where players choose which levels to play
     community: "קהילה"
-#    courses: "Courses"
+    courses: "מסלולים"
     editor: "עורך"
     blog: "בלוג"
     forum: "פורום"
@@ -33,7 +33,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     contact: "צור קשר"
     twitter_follow: "עקוב אחרינו בטוויטר"
     teachers: "מורים"
-#    careers: "Careers"
+    careers: "קריירות"
 
   modal:
     close: "סגור"
@@ -52,7 +52,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   play:
     play_as: "שחק בתור " # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "הושלם!" # Course details page
     spectate: "צופה" # Ladder page
     players: "שחקנים" # Hover over a level on /play
     hours_played: "שעות משחק" # Hover over a level on /play
@@ -75,7 +75,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     subscription_required: "יש צורך במנוי"
     anonymous: "משתמש אנונימי"
     level_difficulty: "רמת קושי: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "שיק בגרסה הכיתתית" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "מסע המתחילים"
     awaiting_levels_adventurer_prefix: ".אנחנו מוסיפים חמישה שלבים בכל שבוע" # {change}
     awaiting_levels_adventurer: "הירשם כהרפתקן"
@@ -83,7 +83,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     adjust_volume: "שנה ווליום"
     campaign_multiplayer: "זירות רב-המשתתפים"
     campaign_multiplayer_description: "..."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+    campaign_old_multiplayer: "(לא מומלץ) זירות מרובי משתתפים ישנות"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
@@ -114,9 +114,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     log_in: "כנס עם סיסמה"
     required: ".יש להתחבר על מנת לגשת לשלב זה"
     login_switch: "? כבר יש לך משתמש"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
+    school_name: "שם בית ספר ועיר"
+    optional: "רשות"
+    school_name_placeholder: "לדוגמה: תיכון עירוני X, תל אביב."
 
   recover:
     recover_account_title: "שחזר סיסמה"
@@ -157,15 +157,15 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   general:
     and: "וגם"
     name: "שם"
-    date: "Date"
+    date: "תאריך"
     body: "גוף"
     version: "גרסה"
     pending: "ממתין"
     accepted: "התקבל"
     rejected: "נדחה"
     withdrawn: "האוייב נסוג"
-#    accept: "Accept"
-#    reject: "Reject"
+    accept: "מסכים"
+    reject: "דחה"
 #    withdraw: "Withdraw"
     submitter: "מוסר"
     submitted: "נמסר"
@@ -221,12 +221,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     years: "שנים"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "שלב שהושלם:"
+    course: "מסלול:"
     done: "סיים"
-#    next_level: "Next Level:"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+    next_level: "השלב הבא:"
+    next_game: "המשחק הבא"
+    show_menu: "הצג תפריט משחק"
     home: "בית" # Not used any more, will be removed soon.
     level: "שלב" # Like "Level: Dungeons of Kithgard"
     skip: "דלג"
@@ -256,13 +256,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_saving_progress: "שומר התקדמות"
     victory_go_home: "חזור הביתה"
     victory_review: "!ספר לנו עוד"
-#    victory_review_placeholder: "How was the level?"
+    victory_review_placeholder: "איך היה השלב?"
     victory_hour_of_code_done: "?סיימת"
     victory_hour_of_code_done_yes: "שלי Hour of Code™! כן, סיימתי עם ה"
     victory_experience_gained: "שנצבר XP"
     victory_gems_gained: "אבני חן שנצברו"
     victory_new_item: "חפץ חדש"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
+    victory_viking_code_school: "אבוקדו קדוש, זה היה שלב קשה שסיימת! אם אתה עדיין לא מפתח תוכנה, אתה צריך להיות אחד. בדיוק עלית על הכביש המהיר בכדי להתקבל ל Viking Code School, שם תוכל לשאת את כישוריך לרמה הבאה ותוכל להפוך למפתח רשת מקצועי תוך 14 שבועות בלבד."
     victory_become_a_viking: "הפוך לוויקינג"
     guide_title: "מדריך"
     tome_cast_button_run: "הפעל"
@@ -297,7 +297,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tip_scrub_shortcut: "Ctrl+[ ו Ctrl+] האץ אחורה וקדימה באמצעות" # {change}
     tip_guide_exists: ".לחץ על המדריך, בתוך תפריט המשחק (למעלה בקצה העמוד), למידע שימושי"
     tip_open_source: "!הוא 100% קוד פתוח CodeCombat"
-#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "נהנה מCodeCombat? ספר לחבריךעלינו!"
     tip_beta_launch: ".הפיץ את גרסת הבטא באוקטובר, 2013 CodeCombat"
     tip_think_solution: ".תחשוב על הפתרון, לא על הבעיה"
     tip_theory_practice: "תיאורטית, אין הבדל בין התאוריה לאימון. אבל באימון, יש. - יוגי ברה"
@@ -307,7 +307,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tip_baby_coders: ".בעתיד, אפילו תינוקות יהיו כשפי על"
     tip_morale_improves: ".הטעינה תמשיך עד שהמורל ישתפר"
     tip_all_species: ".אנחנו מאמינים בשוויון הזדמנויות לכל היצורים בלמידת תכנות"
-#    tip_reticulating: "Reticulating spines."
+    tip_reticulating: "Reticulating spines."
     tip_harry: " ,תה' מכשף"
     tip_great_responsibility: "עם כישרון גדול בתכנות באה גם אחריות דיבאגינג גדולה."
     tip_munchkin: "אם לא תאכל את הירקות, מאצ'קין יבוא אליך בלילה כשאתה ישן."
@@ -410,7 +410,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     feature7: "פרטיים <strong>שבטים</strong>"
     free: "חינם"
     month: "חודש"
-#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+    must_be_logged: "עליך להיות מחובר תחילה. אנא צור חשבון חדש או היכנס לחשבונך באמצעות התפריט למעלה."
     subscribe_title: "רכוש מנוי"
     unsubscribe: "הסר מנוי"
     confirm_unsubscribe: "אשר הסרת מנוי"
@@ -484,10 +484,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     blocks: "הגנה" # As in "this shield blocks this much damage"
     backstab: "פגיעה בגב" # As in "this dagger does this much backstab damage"
     skills: "מיומנויות"
-#    attack_1: "Deals"
+    attack_1: "מבצעים"
 #    attack_2: "of listed"
 #    attack_3: "weapon damage."
-#    health_1: "Gains"
+    health_1: "רווחים"
 #    health_2: "of listed"
 #    health_3: "armor health."
     speed_1: "זז במהירות של"
@@ -499,8 +499,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   skill_docs:
     writable: "ניתן לכתיבה" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "לקריאה בלבד"
-#    action: "Action"
-#    spell: "Spell"
+    action: "פעולה"
+    spell: "כישוף"
     action_name: "שם"
     action_cooldown: "לוקח"
     action_specific_cooldown: ":זמן להתקררות"
