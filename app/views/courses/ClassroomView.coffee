@@ -79,6 +79,7 @@ module.exports = class ClassroomView extends RootView
   onLoaded: ->
     @teacherMode = me.isAdmin() or @classroom.get('ownerID') is me.id
     userSessions = @sessions.groupBy('creator')
+    @users.remove(@users.where({ deleted: true }))
     for user in @users.models
       user.sessions = new CocoCollection(userSessions[user.id], { model: LevelSession })
       user.sessions.comparator = 'changed'
