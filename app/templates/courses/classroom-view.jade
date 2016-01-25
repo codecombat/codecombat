@@ -55,7 +55,7 @@ block content
     for user in view.users.models
       .row
         .col-md-6
-          .student-name= user.broadName() || 'Anoner'
+          .student-name= user.broadName()
         .col-md-6
           if view.teacherMode
             a.remove-student-link.pull-right.text-uppercase(data-user-id=user.id)
