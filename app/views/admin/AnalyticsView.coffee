@@ -1,3 +1,6 @@
+CocoCollection = require 'collections/CocoCollection'
+Course = require 'models/Course'
+CourseInstance = require 'models/CourseInstance'
 require 'vendor/d3'
 d3Utils = require 'core/d3_utils'
 RootView = require 'views/core/RootView'
@@ -7,6 +10,7 @@ utils = require 'core/utils'
 module.exports = class AnalyticsView extends RootView
   id: 'admin-analytics-view'
   template: template
+  furthestCourseDayRange: 30
   lineColors: ['red', 'blue', 'green', 'purple', 'goldenrod', 'brown', 'darkcyan']
 
   constructor: (options) ->
@@ -114,6 +118,56 @@ module.exports = class AnalyticsView extends RootView
         @updateRevenueChartData()
         @render?()
     }, 0).load()
+    
+    @courses = new CocoCollection([], { url: "/db/course", model: Course})
+    @courses.comparator = "_id" 
+    @listenToOnce @courses, 'sync', @onCoursesSync
+    @supermodel.loadCollection(@courses, 'courses')
+
+  onCoursesSync: ->
+    # Assumes courses retrieved in order
+    @courseOrderMap = {}
+    @courseOrderMap[@courses.models[i].get('_id')] = i for i in [0...@courses.models.length]
+
+    startDay = new Date()
+    startDay.setUTCDate(startDay.getUTCDate() - @furthestCourseDayRange)
+    startDay = startDay.toISOString().substring(0, 10)
+    options =
+      url: '/db/course_instance/-/recent'
+      method: 'POST'
+      data: {startDay: startDay}
+    options.error = (models, response, options) =>
+      return if @destroyed
+      console.error 'Failed to get recent course instances', response
+    options.success = (models) =>
+      @courseInstances = models ? [] 
+      @onCourseInstancesSync()
+      @render?()
+    @supermodel.addRequestResource('get_recent_course_instances', options, 0).load()
+
+  onCourseInstancesSync: ->
+    return unless @courseInstances
+
+    # Find highest course for teachers and students
+    @teacherFurthestCourseMap = {}
+    @studentFurthestCourseMap = {}
+    for courseInstance in @courseInstances
+      courseID = courseInstance.courseID
+      teacherID = courseInstance.ownerID
+      if not @teacherFurthestCourseMap[teacherID] or @teacherFurthestCourseMap[teacherID] < @courseOrderMap[courseID]
+        @teacherFurthestCourseMap[teacherID] = @courseOrderMap[courseID]
+      for studentID in courseInstance.members
+        if not @studentFurthestCourseMap[studentID] or @studentFurthestCourseMap[studentID] < @courseOrderMap[courseID]
+          @studentFurthestCourseMap[studentID] = @courseOrderMap[courseID]
+
+    @teacherCourseDistribution = {}
+    for teacherID, courseIndex of @teacherFurthestCourseMap
+      @teacherCourseDistribution[courseIndex] ?= 0
+      @teacherCourseDistribution[courseIndex]++
+    @studentCourseDistribution = {}
+    for studentID, courseIndex of @studentFurthestCourseMap
+      @studentCourseDistribution[courseIndex] ?= 0
+      @studentCourseDistribution[courseIndex]++
 
   createLineChartPoints: (days, data) ->
     points = []
