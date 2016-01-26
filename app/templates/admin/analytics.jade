@@ -35,6 +35,27 @@ block content
     h3 Active Users 90 days
     .active-users-chart.line-chart-container
 
+    h3 Furthest Course
+    .small Teacher: owner of a course instance
+    .small Student: member of a course instance (assigned to course)
+    .small For course instances created in last #{view.furthestCourseDayRange} days, not Single Player, hourOfCode != true
+    .small Counts are not summed.  I.e. a student or teacher only contributes to the count of one course.
+    if view.teacherCourseDistribution
+      table.table.table-striped.table-condensed
+        tr
+          th Course
+          th Teachers
+          th Students
+          th Avg students per teacher
+        each count, courseIndex in view.teacherCourseDistribution
+          tr
+            td= view.courses.models[courseIndex].get('name')
+            td= count
+            td= view.studentCourseDistribution[courseIndex] || 0
+            td= Math.round((view.studentCourseDistribution[courseIndex] || 0) / count)
+    else
+      div Loading ...
+
     h1 Active Classes
     table.table.table-striped.table-condensed
       tr

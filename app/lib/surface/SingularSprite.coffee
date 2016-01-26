@@ -79,7 +79,6 @@ module.exports = class SingularSprite extends createjs.Sprite
         @baseScaleY *= @camera.y2x * 0.85
       else
         @baseScaleY *= @camera.y2x / 0.85
-      console.log 'it is a cliff!', actionName, @baseScaleX, @baseScaleY
     @currentAnimation = actionName
     return
 

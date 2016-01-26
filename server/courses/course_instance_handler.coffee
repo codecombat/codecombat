@@ -11,6 +11,7 @@ PrepaidHandler = require '../prepaids/prepaid_handler'
 User = require '../users/User'
 UserHandler = require '../users/user_handler'
 utils = require '../../app/core/utils'
+{objectIdFromTimestamp} = require '../lib/utils'
 sendwithus = require '../sendwithus'
 mongoose = require 'mongoose'
 
@@ -38,6 +39,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     return @removeMember(req, res, args[0]) if req.method is 'DELETE' and args[1] is 'members'
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
     return @inviteStudents(req, res, args[0]) if relationship is 'invite_students'
+    return @getRecentAPI(req, res) if relationship is 'recent'
     return @redeemPrepaidCodeAPI(req, res) if args[1] is 'redeem_prepaid'
     return @getMyCourseLevelSessionsAPI(req, res, args[0]) if args[1] is 'my-course-level-sessions'
     return @findByLevel(req, res, args[2]) if args[1] is 'find_by_level'
@@ -192,6 +194,15 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
         return @sendDatabaseError(res, err) if err
         cleandocs = (UserHandler.formatEntity(req, doc) for doc in users)
         @sendSuccess(res, cleandocs)
+
+  getRecentAPI: (req, res) ->
+    return @sendUnauthorizedError(res) unless req.user?.isAdmin()
+    query = {$and: [{name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
+    query["$and"].push(_id: {$gte: objectIdFromTimestamp(req.body.startDay + "T00:00:00.000Z")}) if req.body.startDay?
+    query["$and"].push(_id: {$lt: objectIdFromTimestamp(req.body.endDay + "T00:00:00.000Z")}) if req.body.endDay?
+    CourseInstance.find query, (err, courseInstances) =>
+      return @sendDatabaseError(res, err) if err
+      @sendSuccess(res, courseInstances)
 
   inviteStudents: (req, res, courseInstanceID) ->
     return @sendUnauthorizedError(res) if not req.user?

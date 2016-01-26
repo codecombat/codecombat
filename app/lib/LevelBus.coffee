@@ -125,7 +125,7 @@ module.exports = class LevelBus extends Bus
 
   onWinnabilityUpdated: (e) ->
     return unless @onPoint() and e.winnable
-    return unless e.level.get('slug') in ['ace-of-coders']  # Mirror matches don't otherwise show victory, so we win here.
+    return unless e.level.get('slug') in ['ace-of-coders', 'elemental-wars']  # Mirror matches don't otherwise show victory, so we win here.
     return if @session.get('state')?.complete
     @onVictory()
 
