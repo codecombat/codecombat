@@ -6,12 +6,6 @@ BlandView = class BlandView extends CocoView
   initialize: ->
     @user = new User()
     @supermodel.loadModel(@user)
-  afterRender: ->
-    @$el.css({
-      'border': '2px solid black'
-      'background': 'white'
-      'padding': '20px'
-    })
 
 describe 'CocoView', ->
   describe 'network error handling', ->
