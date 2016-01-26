@@ -142,7 +142,7 @@ module.exports = class Tracker
         $.post("#{window.location.protocol or 'http:'}//analytics.codecombat.com/analytics", dataToSend).fail ->
           console.error "Analytics post failed!"
       else
-        request = @supermodel.addRequestResource 'log_event', {
+        request = @supermodel.addRequestResource {
           url: '/db/analytics.log.event/-/log_event'
           data: {event: event, properties: properties}
           method: 'POST'

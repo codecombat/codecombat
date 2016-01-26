@@ -34,6 +34,11 @@
     twitter_follow: "Follow"
     teachers: "Teachers"
     careers: "Careers"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    create_a_class: "Create a Class"
+    other: "Other"
+    learn_to_code: "Learn to Code!"
 
   modal:
     close: "Close"
@@ -1352,17 +1357,22 @@
 
   loading_error:
     could_not_load: "Error loading from server"
-    connection_failure: "Connection failed."
+    connection_failure: "Connection Failed" # {change}
+    login_required: "Login Required"
+    login_required_desc: " You need to be logged in to access this page."
     unauthorized: "You need to be signed in. Do you have cookies disabled?"
-    forbidden: "You do not have the permissions."
-    not_found: "Not found."
+    forbidden: "Forbidden" # {change}
+    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
+    not_found: "Not Found" # {change}
+    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "Method not allowed."
-    timeout: "Server timeout."
+    timeout: "Server Timeout" # {change}
     conflict: "Resource conflict."
     bad_input: "Bad input."
     server_error: "Server error."
-    unknown: "Unknown error."
+    unknown: "Unknown Error" # {change}
     error: "ERROR"
+    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 
   resources:
     sessions: "Sessions"

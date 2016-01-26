@@ -28,6 +28,10 @@ module.exports = class SuperModel extends Backbone.Model
     unfinished
 
   loadModel: (model, name, fetchOptions, value=1) ->
+    # Deprecating name. Handle if name is not included
+    value = fetchOptions if _.isNumber(fetchOptions)
+    fetchOptions = name if _.isObject(name)
+      
     # hero-ladder levels need remote opponent_session for latest session data (e.g. code)
     # Can't apply to everything since other features rely on cached models being more recent (E.g. level_session)
     # E.g.#2 heroConfig isn't necessarily saved to db in world map inventory modal, so we need to load the cached session on level start
@@ -48,6 +52,10 @@ module.exports = class SuperModel extends Backbone.Model
       return res
 
   loadCollection: (collection, name, fetchOptions, value=1) ->
+    # Deprecating name. Handle if name is not included
+    value = fetchOptions if _.isNumber(fetchOptions)
+    fetchOptions = name if _.isObject(name)
+    
     url = collection.getURL()
     if cachedCollection = @collections[url]
       console.debug 'Collection cache hit', url, 'already loaded', cachedCollection.loaded
@@ -135,6 +143,10 @@ module.exports = class SuperModel extends Backbone.Model
     return @progress is 1.0 or not @denom
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
+    # Deprecating name. Handle if name is not included
+    value = fetchOptions if _.isNumber(fetchOptions)
+    fetchOptions = name if _.isObject(name)
+    
     modelOrCollection.saveBackups = modelOrCollection.saveBackups or @shouldSaveBackups(modelOrCollection)
     @checkName(name)
     res = new ModelResource(modelOrCollection, name, fetchOptions, value)
@@ -145,20 +157,25 @@ module.exports = class SuperModel extends Backbone.Model
     @removeResource _.find(@resources, (resource) -> resource?.model is modelOrCollection)
 
   addRequestResource: (name, jqxhrOptions, value=1) ->
+    # Deprecating name. Handle if name is not included
+    value = jqxhrOptions if _.isNumber(jqxhrOptions)
+    jqxhrOptions = name if _.isObject(name)
+    
     @checkName(name)
     res = new RequestResource(name, jqxhrOptions, value)
     @storeResource(res, value)
     return res
 
   addSomethingResource: (name, value=1) ->
+    value = name if _.isNumber(name)
     @checkName(name)
     res = new SomethingResource(name, value)
     @storeResource(res, value)
     return res
 
   checkName: (name) ->
-    if not name
-      throw new Error('Resource name should not be empty.')
+    if _.isString(name)
+      console.warn("SuperModel name property deprecated. Remove '#{name}' from code.")
 
   storeResource: (resource, value) ->
     @rid++
