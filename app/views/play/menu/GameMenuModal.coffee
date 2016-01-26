@@ -34,7 +34,7 @@ module.exports = class GameMenuModal extends ModalView
     submenus = ['guide', 'options', 'save-load', 'multiplayer']
     submenus = _.without submenus, 'guide' unless docs.specificArticles?.length or docs.generalArticles?.length
     submenus = _.without submenus, 'save-load' unless me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
-    submenus = _.without submenus, 'multiplayer' unless me.isAdmin() or (@level?.get('type') in ['ladder', 'hero-ladder', 'course-ladder'] and @level.get('slug') not in ['ace-of-coders'])
+    submenus = _.without submenus, 'multiplayer' unless me.isAdmin() or (@level?.get('type') in ['ladder', 'hero-ladder', 'course-ladder'] and @level.get('slug') not in ['ace-of-coders', 'elemental-wars'])
     @includedSubmenus = submenus
     context.showTab = @options.showTab ? submenus[0]
     context.submenus = submenus
@@ -47,7 +47,7 @@ module.exports = class GameMenuModal extends ModalView
 
   showsChooseHero: ->
     return false if @level?.get('type') in ['course', 'course-ladder']
-    return false if @options.levelID in ['zero-sum', 'ace-of-coders']
+    return false if @options.levelID in ['zero-sum', 'ace-of-coders', 'elemental-wars']
     return true
 
   afterRender: ->
