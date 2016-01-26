@@ -11,6 +11,12 @@ ol.breadcrumb
   #testing-area
     
 .nav.nav-pills.nav-stacked.pull-right.well#test-nav
+  if view.demosOn
+    button#hide-demos-btn.btn.btn-danger.btn-block Hide Demos
+  else
+    button#show-demos-btn.btn.btn-info.btn-block Show Demos
+    
+  hr
   for child in children
     li(class=child.type)
       a(href=child.url).small
