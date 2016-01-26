@@ -31,7 +31,7 @@
     
   else if !jqxhr.status
     h1(data-i18n="loading_error.connection_failure")
-    p It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page.
+    p(data-i18n="loading_error.connection_failure_desc")
     
   else
     if jqxhr.status === 408
@@ -49,41 +49,49 @@
 
   #links-row.row
     .col-sm-3
-      strong(data-i18n="cmomon.help") Help
-      br
-      a(href="/", data-i18n="nav.home")
-      br
-      a(href=view.forumLink(), data-i18n="nav.forum")
-      br
-      a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact")
-      br
-      a(href='/community', data-i18n="nav.community")
+      ul.list-unstyled
+        li
+          strong(data-i18n="common.help")
+        li
+          a(href="/", data-i18n="nav.home")
+        li
+          a(href=view.forumLink(), data-i18n="nav.forum")
+        li
+          a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact")
+        li
+          a(href='/community', data-i18n="nav.community")
       
     .col-sm-3
-      strong(data-i18n="courses.students")
-      br
-      a(href="/courses/students", data-i18n="nav.learn_to_code")
-      if me.isAnonymous()
-        br
-        a.login-btn(data-i18n="login.log_in")
-      br
-      a(href="/courses", data-i18n="courses.join_class")
+      ul.list-unstyled
+        li
+          strong(data-i18n="courses.students")
+        li
+          a(href="/courses/students", data-i18n="nav.learn_to_code")
+        if me.isAnonymous()
+          li
+            a.login-btn(data-i18n="login.log_in")
+        li
+          a(href="/courses", data-i18n="courses.join_class")
      
     .col-sm-3
-      strong(data-i18n="nav.teachers")
-      br
-      a(href="/schools", data-i18n="about.why_codecombat")
-      if me.isAnonymous()
-        br
-        a.login-btn(data-i18n="login.log_in")
-      br
-      a(href="/courses/teachers", data-i18n="nav.create_a_class")
+      ul.list-unstyled
+        li
+          strong(data-i18n="nav.teachers")
+        li
+          a(href="/schools", data-i18n="about.why_codecombat")
+        if me.isAnonymous()
+          li
+            a.login-btn(data-i18n="login.log_in")
+        li
+          a(href="/courses/teachers", data-i18n="nav.create_a_class")
       
     .col-sm-3
-      strong(data-i18n="nav.other")
-      br
-      a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
-      br
-      a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
-      br
-      a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
+      ul.list-unstyled
+        li
+          strong(data-i18n="nav.other")
+        li
+          a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
+        li
+          a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
+        li
+          a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")

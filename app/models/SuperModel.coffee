@@ -140,7 +140,7 @@ module.exports = class SuperModel extends Backbone.Model
   # Tracking resources being loaded for this supermodel
 
   finished: ->
-    return @progress is 1.0 or not @denom
+    return (@progress is 1.0) or (not @denom) or @failed 
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
     # Deprecating name. Handle if name is not included
@@ -203,6 +203,7 @@ module.exports = class SuperModel extends Backbone.Model
 
   onResourceFailed: (r) ->
     return unless @resources[r.rid]
+    @failed = true
     @trigger('failed', resource: r)
     r.clean()
 

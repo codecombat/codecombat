@@ -2,21 +2,50 @@ CocoView = require 'views/core/CocoView'
 User = require 'models/User'
 
 BlandView = class BlandView extends CocoView
-  template: -> ''
+  template: ->
+    return if @specialMessage then '<div id="content">custom message</div>' else '<div id="content">normal message</div>'
+    
   initialize: ->
-    @user = new User()
-    @supermodel.loadModel(@user)
+    @user1 = new User({_id: _.uniqueId()})
+    @supermodel.loadModel(@user1)
+    @user2 = new User({_id: _.uniqueId()})
+    @supermodel.loadModel(@user2)
+
+  onResourceLoadFailed: (e) ->
+    resource = e.resource
+    if resource.jqxhr.status is 400 and resource.model is @user1
+      @specialMessage = true
+      @render()
+    else
+      super(arguments...)
+    
 
 describe 'CocoView', ->
   describe 'network error handling', ->
     view = null
-    respond = (code, json) ->
-      request = jasmine.Ajax.requests.mostRecent()
+    respond = (code, index=0) ->
       view.render()
-      request.respondWith({status: code, responseText: JSON.stringify(json or {})})
+      requests = jasmine.Ajax.requests.all()
+      requests[index].respondWith({status: code, responseText: JSON.stringify({})})
     
     beforeEach ->
       view = new BlandView()
+      
+    
+    describe 'when the view overrides onResourceLoadFailed', ->
+      beforeEach ->
+        view.render()
+        expect(view.$('#content').hasClass('hidden')).toBe(true)
+        respond(400)
+        
+      it 'can show a custom message for a given error and model', ->
+        expect(view.$('#content').hasClass('hidden')).toBe(false)
+        expect(view.$('#content').text()).toBe('custom message')
+        respond(200, 1)
+        expect(view.$('#content').hasClass('hidden')).toBe(false)
+        expect(view.$('#content').text()).toBe('custom message')
+
+      it '(demo)', -> jasmine.demoEl(view.$el)
       
       
     describe 'when the server returns 401', ->
@@ -39,7 +68,7 @@ describe 'CocoView', ->
         expect(view.openModalView).toHaveBeenCalled()
 
       it 'says "Login Required"', ->
-        expect(view.$el.text().indexOf('Login Required')).toBeGreaterThan(-1)
+        expect(view.$('[data-i18n="loading_error.login_required"]').length).toBeTruthy()
 
       it '(demo)', -> jasmine.demoEl(view.$el)
       
@@ -84,10 +113,10 @@ describe 'CocoView', ->
       beforeEach -> respond(408)
       
       it 'includes "Server Timeout" in the header', ->
-        expect(view.$el.text().indexOf('Server Timeout')).toBeGreaterThan(-1)
+        expect(view.$('[data-i18n="loading_error.timeout"]').length).toBeTruthy()
       
       it 'shows a message encouraging refreshing the page or following links', ->
-        expect(view.$el.text().indexOf('refresh')).toBeGreaterThan(-1)
+        expect(view.$('[data-i18n="loading_error.general_desc"]').length).toBeTruthy()
 
       it '(demo)', -> jasmine.demoEl(view.$el)
 
@@ -98,7 +127,7 @@ describe 'CocoView', ->
         respond()
 
       it 'shows "Connection Failed"', ->
-        expect(view.$el.text().indexOf('Connection Failed')).toBeGreaterThan(-1)
+        expect(view.$('[data-i18n="loading_error.connection_failure"]').length).toBeTruthy()
 
       it '(demo)', -> jasmine.demoEl(view.$el)
 
@@ -108,10 +137,10 @@ describe 'CocoView', ->
       beforeEach -> respond(9001)
 
       it 'includes "Unknown Error" in the header', ->
-        expect(view.$el.text().indexOf('Unknown Error')).toBeGreaterThan(-1)
+        expect(view.$('[data-i18n="loading_error.unknown"]').length).toBeTruthy()
 
       it 'shows a message encouraging refreshing the page or following links', ->
-        expect(view.$el.text().indexOf('refresh')).toBeGreaterThan(-1)
+        expect(view.$('[data-i18n="loading_error.general_desc"]').length).toBeTruthy()
 
       it '(demo)', -> jasmine.demoEl(view.$el)
         
