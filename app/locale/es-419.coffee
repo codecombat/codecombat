@@ -596,7 +596,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     approved_2: "revisada."
     approved_4: "Ahora puedes inscribir a tus estudiantes en los"
     approved_5: "cursos"
-    approved_6: "página."."
+    approved_6: "página."
     denied_1: "Su aplicación para una prueba gratuita ha sido"
     denied_2: "denegada."
     contact_1: "Por favor contactarse"
