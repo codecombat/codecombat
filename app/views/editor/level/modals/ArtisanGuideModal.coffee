@@ -32,9 +32,13 @@ module.exports = class ArtisanGuideModal extends ModalView
   levelSubmit: ->
     @playSound 'menu-button-click'
     forms.clearFormAlerts @$el
-    contactMessage = forms.formToObject @$el
-    res = tv4.validateMultiple contactMessage, contactSchema
+    results = forms.formToObject @$el
+    res = tv4.validateMultiple results, contactSchema
     return forms.applyErrorsToForm @$el, res.errors unless res.valid
+    contactMessage = {message:"""Name: #{results.creditName}
+      Purpose: #{results.levelPurpose}
+      Inspiration: #{results.levelInspiration}
+      Location: #{results.levelLocation}"""}
     @populateBrowserData contactMessage
     contactMessage = _.merge contactMessage, @options
     contactMessage.country = me.get('country')
