@@ -25,7 +25,9 @@ module.exports = class ArtisanGuideModal extends ModalView
 
   initialize: (options) ->
     @level = options.level
-    @options = level: @level.get 'name'
+    @options = 
+      level:@level.get('name')
+      levelSlug:@level.get('slug')
     @creator = @level.get 'creator'
     @meID = me.id
 
@@ -35,7 +37,8 @@ module.exports = class ArtisanGuideModal extends ModalView
     results = forms.formToObject @$el
     res = tv4.validateMultiple results, contactSchema
     return forms.applyErrorsToForm @$el, res.errors unless res.valid
-    contactMessage = {message:"""Name: #{results.creditName}
+    contactMessage = {message:"""User Name: #{results.creditName}
+      Level: <a href="http://codecombat.com/editor/level/#{@options.levelSlug}">#{@options.level}</a>
       Purpose: #{results.levelPurpose}
       Inspiration: #{results.levelInspiration}
       Location: #{results.levelLocation}"""}
