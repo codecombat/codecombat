@@ -28,8 +28,6 @@ module.exports = class ArtisanGuideModal extends ModalView
     @options = 
       level:@level.get('name')
       levelSlug:@level.get('slug')
-    @creator = @level.get 'creator'
-    @meID = me.id
 
   levelSubmit: ->
     @playSound 'menu-button-click'
@@ -53,3 +51,9 @@ module.exports = class ArtisanGuideModal extends ModalView
       context.browser = "#{$.browser.platform} #{$.browser.name} #{$.browser.versionNumber}"
     context.screenSize = "#{screen?.width ? $(window).width()} x #{screen?.height ? $(window).height()}"
     context.screenshotURL = @screenshotURL
+
+  hasOwnership: ->
+    for permObj in @level.get('permissions')
+      if permObj.target is me.id and permObj.access is 'owner'
+        return true
+    return false
