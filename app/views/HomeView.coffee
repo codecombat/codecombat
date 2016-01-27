@@ -8,8 +8,9 @@ module.exports = class HomeView extends RootView
   events:
     'click #play-button': 'onClickPlayButton'
 
-  constructor: ->
+  constructor: (options={}) ->
     super()
+    @withTeacherNote = options.withTeacherNote
     window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage'
     if @getQueryVariable 'hour_of_code'
       application.router.navigate "/hoc", trigger: true

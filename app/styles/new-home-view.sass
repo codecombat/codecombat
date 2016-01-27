@@ -1,0 +1,482 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+
+// TODO: Move flat style into probably several files and Bootstrap variables
+
+// Variables
+
+$headline-font: 'Arvo', serif
+$body-font: 'Open Sans', sans-serif
+
+$burgandy: #7D0101
+$gold: #F2BE19
+$navy: #0E4C60
+$forest: #20572B
+
+.style-flat
+  background: white
+  
+  // Fonts
+  h1, h2, h3, h4, h5, h6
+    // Unsetting game styles
+    font-variant: normal
+    color: black
+    margin: 0
+  
+  h1
+    font-family: $headline-font
+    font-weight: normal
+    font-size: 46px
+    line-height: 62px
+    
+  h2
+    font-family: $body-font
+    font-weight: lighter
+    font-size: 30px
+    line-height: 42px
+    
+  h3
+    font-family: $headline-font
+    font-weight: normal
+    font-size: 33px
+    line-height: 45px
+    
+  h4
+    font-family: $body-font
+    font-weight: lighter
+    font-size: 22px
+    line-height: 32px
+    
+  h5
+    font-family: $headline-font
+    font-weight: bold
+    font-size: 20px
+    line-height: 31px
+    
+  h6
+    font-family: $body-font
+    font-weight: bold
+    font-size: 14px
+    line-height: 20px
+    
+  p
+    margin: 0 0 14px
+    
+  .small
+    font-weight: normal
+    font-size: 14px
+    line-height: 20px
+
+  font-family: $body-font
+  font-size: 18px
+  line-height: 29px
+  
+  blockquote
+    border: none
+    
+    &:before 
+      font-family: "Monaco"
+      content: "\201C"
+      position: absolute
+      left: 0px
+      top: 20px
+      font-size: 40px
+      opacity: 0.5
+  
+  // Navbar
+
+  .navbar
+    background: white
+    margin-bottom: 0
+
+    a.navbar-brand
+      #logo-img
+        width: 210px
+        height: 65px
+        margin-right: 10px
+
+      .glyphicon-home
+        position: relative
+        top: 4px
+
+      color: $burgandy
+      &:hover
+        color: white
+        background: $burgandy
+        
+    .navbar-toggle
+      color: black
+      margin: 30px 25px 0
+
+    .nav > li > a
+      // TODO: Move this to bootstrap variables for navbars
+      font-weight: bold
+      font-family: $body-font
+      font-size: 16px
+      padding: 38px 15px 37px
+      color: $burgandy
+      text-shadow: 0 0 0
+
+      &:hover
+        background: $burgandy
+        color: white
+
+    #language-dropdown-wrapper
+      display: inline-block
+      padding: 30px 20px
+      .language-dropdown
+        width: 200px
+
+    .language-dropdown
+      width: 250px
+      
+    @media (max-width: $screen-sm-min)
+      .nav > li > a
+        padding: 10px 20px
+      #language-dropdown-wrapper
+        display: inline-block
+        padding: 10px 10px
+        .language-dropdown
+          width: 150px
+      
+  // Buttons
+ 
+  .btn
+    border: none
+    border-radius: 5px
+    font-family: $body-font
+    font-weight: normal
+    background-image: none // overrides legacy buttons
+
+  .btn-primary, .btn-navy
+    background-color: $navy
+    color: white
+  
+  .btn-primary-alt, .btn-navy-alt
+    background-color: white
+    border: 1px solid $navy
+    color: $navy
+    
+  .btn-forest
+    background-color: $forest
+    color: white
+    
+  .btn-forest-alt
+    background-color: white
+    border: 1px solid $forest
+    color: $forest
+    
+  .btn-gold
+    background-color: $gold
+    color: white
+    
+  .btn-gold-alt
+    background-color: white
+    border: 1px solid $gold
+    color: $gold
+  
+  .btn-lg
+    font-size: 18px
+    padding: 13px 35px
+    
+  // Classes
+  
+  .text-navy
+    color: $navy
+    
+  .bg-navy
+    background-color: $navy
+    color: white
+    h1, h2, h3, h4, h5, h6, a
+      color: white
+    a.btn-primary-alt
+      color: $navy
+
+
+#new-home-view
+  
+  #jumbotron-container-fluid
+    background-image: url("/images/pages/home/character_jumbotron.png")
+    background-position: 50% 55%
+    
+    @media (min-width : 1200px)
+      background-size: 100% auto
+      
+    @media (max-width : 1200px)
+      background-size: 1200px auto
+      
+    .container
+      min-height: 750px
+      background-repeat: no-repeat
+      
+      .btn
+        margin: 10px 0
+        
+      h1
+        color: white
+        margin-top: 130px
+        @media (max-width: $screen-md-min)
+          margin-top: 170px
+          font-size: 33px
+          line-height: 45px
+        
+      .well
+        border-radius: 8px
+        background: rgba(255, 255, 255, 0.5)
+        margin-top: 170px
+        #classroom-edition-header
+          margin-top: 40px
+        #learn-to-code-header
+          margin-top: 80px
+
+      #learn-more-row
+        margin-top: 80px
+        h2, h6
+          color: white
+
+        h6
+          margin-top: 10px
+      
+    &.alt-image
+      background-image: url("/images/pages/home/student_jumbotron.png")
+      background-position: 60% 35%
+
+      .container h1
+        margin-top: 420px
+        @media (max-width: $screen-md-min)
+          margin-top: 380px
+        @media (max-width: $screen-sm-min)
+          margin-top: 360px
+  
+  #classroom-in-box-row
+    margin: 40px 0
+    
+  #feature-spread-row
+    .col-sm-4
+      padding: 40px
+      
+    img
+      margin-bottom: 20px
+      
+  .testimonials-rows
+    background: $navy
+    color: white
+    position: relative
+    padding: 60px 0 40px
+    margin: 100px 0
+    
+    h3, h6
+      color: white
+      
+    .testimonials-filler-left
+      position: absolute
+      width: 2000px
+      left: -2000px
+      top: 0px
+      background: $navy
+      height: 100%
+      
+    .testimonials-filler-right
+      position: absolute
+      width: 2000px
+      right: -2000px
+      top: 0px
+      background: $navy
+      height: 100%
+      
+    img
+      margin: 0 auto 10px
+      
+    .row
+      margin: 20px 0
+      
+  #benefit-row-1, #benefit-row-2, #benefit-row-3
+    margin: 50px 0
+    
+  #benefit-graphic-1, #benefit-graphic-2, #benefit-graphic-3
+    padding: 30px 40px
+    position: relative
+    min-height: 250px
+
+    h2
+      color: white
+      width: 50%
+
+
+  #benefit-graphic-1
+    background: $burgandy
+      
+    img
+      position: absolute
+      right: 0
+      bottom: 0
+      
+    #benefit-graphic-1-filler
+      background: $burgandy
+      height: 100%
+      width: 2000px
+      position: absolute
+      left: 100%
+      top: 0
+      
+  #benefit-graphic-2
+    background: $navy
+
+    h2
+      float: right
+
+    img
+      position: absolute
+      left: 0
+      bottom: 0
+
+    #benefit-graphic-2-filler
+      background: $navy
+      height: 100%
+      width: 2000px
+      position: absolute
+      right: 100%
+      top: 0
+      
+  #benefit-graphic-3
+    background: $forest
+
+    img
+      position: absolute
+      right: 0
+      bottom: 0
+
+    #benefit-graphic-3-filler
+      background: $forest
+      height: 100%
+      width: 2000px
+      position: absolute
+      left: 100%
+      top: 0
+
+  #school-level-label
+    margin: 15px 15px 0 0
+    display: inline-block
+
+  #school-level-dropdown
+    display: inline-block
+    width: 250px
+
+  #request-demo-row
+    margin: 100px 0
+
+    .btn
+      margin: 20px 10px
+      
+  #courses-container
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-between
+
+    .media
+      width: 222px
+      margin: 20px 0 0 0
+      border: 1px solid navy
+      border-radius: 8px
+      padding: 50px 15px 0
+      text-align: center
+      position: relative
+      height: 350px
+      color: $navy
+
+      &:first-child
+        border-color: $forest
+        color: $forest
+        h6
+          color: $forest
+
+      &.disabled
+        $disabled-color: rgb(155, 155, 155)
+        border-color: $disabled-color
+        color: $disabled-color
+        h6
+          color: $disabled-color
+        .media-object
+          @include filter(grayscale(100%))
+
+      h6
+        padding: 0 5px
+        color: $navy
+
+      .media-object
+        width: 147px
+        height: 147px
+        border-radius: 74px
+        background-position: -30px -26px
+        background-repeat: no-repeat
+        background-size: 312px auto
+        margin: 15px auto
+        position: absolute
+        left: 38px
+        left: calc((100% - 147px) / 2)
+        bottom: 50px
+
+      .course-duration
+        position: absolute
+        bottom: 25px
+        width: 192px
+        width: calc(100% - 30px)
+        padding: 0
+
+      .free-course
+        background-color: $forest
+        width: 100%
+        height: 33px
+        position: absolute
+        top: 0
+        left: 0px
+        border-top-left-radius: 7px
+        border-top-right-radius: 7px
+
+        h6
+          margin-top: 6px
+          color: white
+          
+    .text-center
+      width: 100%
+      margin-top: 30px
+      img
+        margin-right: 20px
+        
+  #footer
+    background-image: url("/images/pages/home/footer_background.png")
+    height: 229px
+    margin: -22px auto 0
+    color: white
+
+    @media (max-width: $screen-sm-min)
+      background-color: #201a15
+      background-image: none
+      height: auto
+    
+    ul
+      margin: 30px
+      li:first-child
+        border-bottom: 1px solid white
+        margin-bottom: 10px
+    a
+      color: white
+      
+  #final-footer
+    position: absolute
+    left: 0
+    right: 0
+    height: 60px
+    color: white
+    background-color: #463a2c
+    @media (max-width: $screen-sm-min)
+      position: inherit
+      padding: 20px
+      height: auto
+    
+    a
+      color: white
+    
+    img
+      width: 150px
+      margin: 0 10px
