@@ -98,6 +98,7 @@ module.exports.thangNames = thangNames =
     # Female
     'Vyrryx'
     'Yzzrith'
+    'Xith'
   ]
   'Ogre Chieftain': [
     # Female
@@ -146,6 +147,8 @@ module.exports.thangNames = thangNames =
     # Animal
     'Nevermore'
     'Baltimore'
+    'Columbia'
+    'Dawnstar'
   ]
   'Cougar': [
     # Animal
@@ -368,6 +371,7 @@ module.exports.thangNames = thangNames =
   'Goliath': [
     # Male
     'Okar'
+    'Ivan'
   ]
   'Guardian': [
     # Female
