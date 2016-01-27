@@ -251,7 +251,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_title_suffix: " Completo!"
     victory_sign_up: "Regístrate para recibir actualizaciones"
     victory_sign_up_poke: "¿Quieres recibir las ultimas noticias por correo? ¡Crea una cuenta gratuita y te mantendremos informado!"
-    victory_rate_the_level: "Valora el nivel: " # {change}
+    victory_rate_the_level: "¿Cómo de divertido estuvo este nivel?"
     victory_return_to_ladder: "Volver a la escalera"
     victory_saving_progress: "Guardando Progreso"
     victory_go_home: "Ir al Inicio"
@@ -403,7 +403,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     comparison_blurb: "Agudiza tus habilidades con la suscripción a CodeCombat!"
     feature1: "Más de 110 niveles basicos a lo largo de 4 mundos"
     feature2: "10 poderosos <strong>nuevos heroés</strong> con habilidades unicas!"
-    feature3: "Más de 70 niveles extras" # {change}
+    feature3: "+80 niveles extras"
     feature4: "<strong>{{gems}} gemas de bono</strong> cada mes!"
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
@@ -436,12 +436,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     parents_blurb3: "Sin Riesgo: Garantía de 100% de devolución, fácil 1-click y des- suscribirse."
     payment_methods: "Metodos de pago"
     payment_methods_title: "Metodos de pago aceptados."
-    payment_methods_blurb1: "Actualmente aceptamos tarjetas de credito y Alipay." # {change}
+    payment_methods_blurb1: "Actualmente aceptamos tarjetas de credito y Alipay. Tambíen puedes usar PayPal, enviando a nick@codecombat tu correo electrónico, y pudiendo adquirir por {{three_month_price}} USD una suscripción de tres meses y gemas, o por ${{year_price}} una de un año."
     payment_methods_blurb2: "Si necesitas una forma alternativa de pago, por favor contactarse"
     sale_button: "Venta!"
-    sale_button_title: "Ahorra ${{discount}} al adquirir una suscripción por 1 año" # {change}
+    sale_button_title: "Ahorre $21 al adquirir una suscripción por 1 año"
     stripe_description: "Suscripción Mensual"
-    stripe_description_year_sale: "Suscripción por 1 año (${{discount}} descuento)" # {change}
+    stripe_description_year_sale: "Suscripción por 1 año (${{discount}} de descuento)"
     subscription_required_to_play: "Necesitas una suscripción para jugar este nivel."
     unlock_help_videos: "Suscríbete para desbloquear todos los video tutoriales."
     personal_sub: "Suscripción Personal" # Accounts Subscription View below
@@ -454,7 +454,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     managed_subs: "Suscripciones administradas"
     subscribing: "Suscribiendo..."
     current_recipients: "Recipientes actuales"
-    unsubscribing: "Desuscribiendo..." # {change}
+    unsubscribing: "Dando de baja..."
     subscribe_prepaid: "Click en suscribirse para utlizar un código prepago"
     using_prepaid: "Usar código prepago para una suscribción mensual"
 
@@ -552,17 +552,17 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     press_paragraph_1_link: "paquete de prensa"
     press_paragraph_1_suffix: ". Todos los logos e imágenes pueden ser usados sin contactarnos directamente."
     team: "Equipo"
-    nick_title: "Cofundador" # {change}
+    nick_title: "Cofundador, CEO"
     nick_blurb: "Gurú motivacional"
-    matt_title: "Cofundador" # {change}
+    matt_title: "Cofundador, CTO"
     matt_blurb: "Bicicletero"
-    cat_title: "Jefe Artesano" # {change}
+    cat_title: "Diseñadora de Juegos"
     cat_blurb: "Maestro del Aire"
-    scott_title: "Cofundador" # {change}
+    scott_title: "Cofundador, Ingeniero de Software"
     scott_blurb: "Razonable"
     maka_title: "Defensor del Consumidor"
     maka_blurb: "Cuentista"
-    rob_title: "Ingeniero de Compilación" # {change}
+    rob_title: "Ingeniero de Software"
     rob_blurb: "Hace código y demás"
     josh_c_title: "Diseñador de Juegos"
     josh_c_blurb: "Diseña juegos"
@@ -579,8 +579,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   teachers:
     who_for_title: "¿Para quienes es CodeCombat?"
-    who_for_1: "Recomendamos CodeCombat para estudiantes de edades 9 y arriba. No se require experiencia en programación." # {change}
-    who_for_2: "Hemos diseñado a CodeCombat para atraer a niños y niñas." # {change}
+    who_for_1: "Recomendamos CodeCombat para estudiantes con +9 años de edad. No se require experiencia en programación. Diseñamos CodeCombat para que sea atractivo tanto para los chicos como para las chicas."
+    who_for_2: "Nuestro sistema de Cursos permite a los maestros configurar las clases, monitorizar el progreso y asignar contenido adicional a los estudiantes a través de una interfaz dedicada."
     more_info_title: "¿Dónde puedo encontrar más información?"
     more_info_1: "Nuestro"
     more_info_2: "el foro de profesores"
@@ -590,14 +590,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     title: "Encuesta de Maestros"
     must_be_logged: "Debes ingresar primero. Por favor, crea una cuenta o ingresa desde el menú de arriba."
     retrieving: "Obteniendo información..."
-    being_reviewed_1: "Su aplicación a una suscripción gratuita está siendo" # {change}
+    being_reviewed_1: "Su aplicación a una suscripción gratuita está siendo"
     being_reviewed_2: "revisada."
-    approved_1: "Su aplicación a una suscripción gratuita fue" # {change}
-    approved_2: "aprobada." # {change}
+    approved_1: "Su aplicación para una prueba gratuita está siendo"
+    approved_2: "revisada."
     approved_4: "Ahora puedes inscribir a tus estudiantes en los"
     approved_5: "cursos"
     approved_6: "página."."
-    denied_1: "Su aplicación a una suscripción gratuita ha sido" # {change}
+    denied_1: "Su aplicación para una prueba gratuita ha sido"
     denied_2: "denegada."
     contact_1: "Por favor contactarse"
     contact_2: "si tiene más preguntas."
@@ -856,7 +856,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     see_the: "Vea la"
     more_info: "para más información."
     choose_course: "Elige tu Curso:"
-    enter_code: "Introducir un código de desbloqueo" # {change}
+    enter_code: "Introducir un código de desbloqueo para ingresar a una clase"
     enter_code1: "Introducir código de desbloqueo"
     enroll: "Inscribirse"
     pick_from_classes: "Elije de tus clases actuales"
@@ -1232,7 +1232,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tutorial_skip: "Saltar Tutorial"
     tutorial_not_sure: "¿No estás seguro de que sucede?"
     tutorial_play_first: "Juega el Tutorial primero."
-    simple_ai: "IA Simple" # {change}
+    simple_ai: "IA Simple"
     warmup: "Calentamiento"
     friends_playing: "Amigos Jugando"
     log_in_for_friends: "Ingresa para jugar con tus amigos!"
@@ -1255,7 +1255,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     winners: "Ganadores"
     league: "Liga"
     red_ai: "IA Roja" # "Red AI Wins", at end of multiplayer match playback
-    blue_ai: "IA Azul" # {change}
+    blue_ai: "IA Azul"
     wins: "Gana" # At end of multiplayer match playback
     humans: "Rojo" # Ladder page display team name
     ogres: "Azul"
@@ -1329,7 +1329,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     months: "Meses"
     purchase_total: "Total"
     purchase_button: "Enviar Adquisición"
-    your_codes: "Tus Códigos:" # {change}
+    your_codes: "Tus Códigos:"
     redeem_codes: "Reclamar un Código de Suscripción"
     prepaid_code: "Código Prepagado"
     lookup_code: "Buscar código prepagado"
