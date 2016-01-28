@@ -98,7 +98,7 @@ module.exports = class TasksTabView extends CocoView
       @render()
 
   focusEditInput: ->
-    editInput = @$el.find('#cur-edit')[0]
+    editInput = @$('#cur-edit')[0]
     if editInput
       editInput.focus()
       len = editInput.value.length * 2
@@ -138,9 +138,9 @@ module.exports = class TasksTabView extends CocoView
     @level.set 'tasks', @taskMap()
 
   onClickTaskRow: (e) ->
-    if not @$el.find(e.target).is('input') and not @$el.find(e.target).is('a') and not @$el.find(e.target).hasClass('start-edit') and @$el.find('#cur-edit').length is 0
-      task = @tasks.get @$el.find(e.target).closest('tr').data('task-cid')
-      checkbox = @$el.find(e.currentTarget).find('.task-input')[0]
+    if not $(e.target).is('input') and not $(e.target).is('a') and not $(e.target).hasClass('start-edit') and @$('#cur-edit').length is 0
+      task = @tasks.get $(e.target).closest('tr').data('task-cid')
+      checkbox = $(e.currentTarget).find('.task-input')[0]
       if task.get 'complete'
         task.set 'complete', false
       else
@@ -149,29 +149,29 @@ module.exports = class TasksTabView extends CocoView
       @pushTasks()
 
   onClickTaskInput: (e) ->
-    task = @tasks.get @$el.find(e.target).closest('tr').data('task-cid')
+    task = @tasks.get $(e.target).closest('tr').data('task-cid')
     task.set 'complete', e.currentTarget.checked
     @pushTasks()
 
   onClickStartEdit: (e) ->
-    if @$el.find('#cur-edit').length is 0
-      task = @tasks.get @$el.find(e.target).closest('tr').data('task-cid')
+    if @$('#cur-edit').length is 0
+      task = @tasks.get $(e.target).closest('tr').data('task-cid')
       task.set 'curEdit', true
       @render()
       @focusEditInput()
 
   onKeyDownCurEdit: (e) ->
     if e.keyCode is 13
-      editInput = @$el.find('#cur-edit')[0]
+      editInput = @$('#cur-edit')[0]
       editInput.blur()
 
   onBlurCurEdit: (e) ->
-    editInput = @$el.find('#cur-edit')[0]
-    task = @tasks.get @$el.find(e.target).closest('tr').data('task-cid')
+    editInput = @$('#cur-edit')[0]
+    task = @tasks.get $(e.target).closest('tr').data('task-cid')
     @applyTaskName(task, editInput)
 
   onClickCreateTask: (e) ->
-    if @$el.find('#cur-edit').length is 0
+    if @$('#cur-edit').length is 0
       @tasks.add
         name: ''
         complete: false

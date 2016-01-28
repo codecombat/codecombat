@@ -53,7 +53,6 @@ module.exports = class ArtisanGuideModal extends ModalView
     context.screenshotURL = @screenshotURL
 
   hasOwnership: ->
-    for permObj in @level.get('permissions')
-      if permObj.target is me.id and permObj.access is 'owner'
-        return true
+    if @level.getOwner() is me.id
+      return true
     return false
