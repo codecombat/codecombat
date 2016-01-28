@@ -93,7 +93,7 @@ module.exports = class Tracker
     ga? 'send', 'pageview', url
 
     # Mixpanel
-    mixpanelIncludes = ['courses', 'courses/purchase', 'courses/teachers', 'courses/students', 'schools', 'teachers', 'teachers/freetrial']
+    mixpanelIncludes = ['', 'courses', 'courses/purchase', 'courses/teachers', 'courses/students', 'schools', 'teachers', 'teachers/freetrial']
     mixpanel.track('page viewed', 'page name' : name, url : url) if name in mixpanelIncludes
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
