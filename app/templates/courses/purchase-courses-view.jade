@@ -78,11 +78,14 @@ block content
     br
 
     p.text-center#price-form-group
-      strong
-        span(data-i18n="account_prepaid.purchase_total")
-        span.spr : #{view.numberOfStudents}
-        span(data-i18n="courses.enrollments")
-        span.spl x $#{(view.pricePerStudent/100).toFixed(2)} = #{view.getPriceString()}
+      if view.numberOfStudentsIsValid()
+        strong
+          span(data-i18n="account_prepaid.purchase_total")
+          span.spr : #{view.numberOfStudents}
+          span(data-i18n="courses.enrollments")
+          span.spl x $#{(view.pricePerStudent/100).toFixed(2)} = #{view.getPriceString()}
+      else
+        strong Invalid number of students
 
     p.text-center
       button#purchase-btn.btn.btn-lg.btn-success.uppercase(data-i18n="courses.purchase_now")

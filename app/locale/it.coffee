@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     prompt_body: "Ne vuoi comprare altre?"
     prompt_button: "Entra nel negozio"
     recovered: "Acquisto precedente recuperato. Ricaricare la pagina."
-    price: "x3500 / mese"
+    price: "x{{gems}} / mese"
 
   subscribe:
     comparison_blurb: "Aumenta le tue competenze con un abbonamento a CodeCombat!"
     feature1: "80+ livelli base in 4 mondi" # {change}
     feature2: "7 potenti <strong>nuovi eroi</strong> con capacità uniche!" # {change}
     feature3: "50+ livelli bonus" # {change}
-    feature4: "<strong>3500 gemme bonus</strong> ogni mese!"
+    feature4: "<strong>{{gems}} gemme bonus</strong> ogni mese!"
     feature5: "Video tutorial"
     feature6: "Supporto via email premium"
     feature7: "Clan <strong>privati</strong>"
@@ -552,32 +552,30 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     press_paragraph_1_link: "pacchetto per la stampa"
     press_paragraph_1_suffix: ". Tutti i loghi e le immagini possono essere usate senza contattarci direttamente."
     team: "Team"
-    george_title: "Co-fondatore"
-    george_blurb: "Imprenditore"
-    scott_title: "Programmatore" # {change}
-    scott_blurb: "Un Tipo Ragionevole"
     nick_title: "Programmatore" # {change}
     nick_blurb: "Guru motivatore"
-    michael_title: "Programmatore"
-    michael_blurb: "Amministratore di sistema"
     matt_title: "Programmatore" # {change}
     matt_blurb: "Ciclista"
-    cat_title: "Mastro artigiano"
+    cat_title: "Mastro artigiano" # {change}
     cat_blurb: "Manipolatore dell'aria"
-    josh_title: "Game Designer"
-    josh_blurb: "Il pavimento è lava"
-    jose_title: "Musicista"
-    jose_blurb: "Prendiamo il volo"
-    retrostyle_title: "Illustratore"
-    retrostyle_blurb: "Giochi retrò"
-    rob_title: "Ingegnere compilazione"
+    scott_title: "Programmatore" # {change}
+    scott_blurb: "Un Tipo Ragionevole"
+#    maka_title: "Customer Advocate"
+#    maka_blurb: "Storyteller"
+    rob_title: "Ingegnere compilazione" # {change}
     rob_blurb: "Programmi, fatti e cose"
     josh_c_title: "Game Designer"
     josh_c_blurb: "Progettista giochi"
+#    robin_title: "UX Design & Research"
+#    robin_blurb: "Scaffolding"
+    josh_title: "Game Designer"
+    josh_blurb: "Il pavimento è lava"
+    retrostyle_title: "Illustratore"
+    retrostyle_blurb: "Giochi retrò"
+    jose_title: "Musicista"
+    jose_blurb: "Prendiamo il volo"
     carlos_title: "Manager Regionale, Brasile"
 #    carlos_blurb: "Celery Man"
-#    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
 
   teachers:
     who_for_title: "A chi è indirizzato CodeCombat?"
@@ -994,7 +992,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    additional_resources_1_mid: "Course 1 Teacher's Guide"
 #    additional_resources_1_suff: "explanations and solutions to each level."
 #    additional_resources_2_pref: "Complete our"
-#    additional_resources_2_suff: "to get 15 more hours of content! For a limited time, enroll as many students as you want in our three paid courses."
+#    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
 #    additional_resources_3_pref: "Visit our"
 #    additional_resources_3_mid: "Teacher Forums"
 #    additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."

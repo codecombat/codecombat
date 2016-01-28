@@ -25,6 +25,9 @@ module.exports = class TeachersFreeTrialView extends RootView
     @listenToOnce @existingRequests, 'sync', =>
       @fetchingData = false
       @render?()
+      existingRequest = @existingRequests.at(0)
+      if existingRequest?.get('status') isnt 'submitted' and existingRequest?.get('status') isnt 'approved'
+        window.tracker?.trackEvent 'View Trial Request', category: 'Teachers', label: 'View Trial Request', ['Mixpanel'] 
     @supermodel.loadCollection(@existingRequests, 'own_trial_requests', {cache: false})
 
   onClickTextBox: (e) ->
@@ -82,3 +85,4 @@ module.exports = class TeachersFreeTrialView extends RootView
         console.error 'Error saving trial request', response
       success: (model, response, options) =>
         @refreshData()
+        window.tracker?.trackEvent 'Submit Trial Request', category: 'Teachers', label: 'Trial Request', ['Mixpanel']

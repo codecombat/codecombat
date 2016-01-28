@@ -117,7 +117,7 @@ module.exports = class MyMatchesTabView extends CocoView
       placeholder = $(el)
       sessionID = placeholder.data('session-id')
       session = _.find @sessions.models, {id: sessionID}
-      if @level.get('slug') in ['ace-of-coders']
+      if @level.get('slug') in ['ace-of-coders', 'elemental-wars']
         mirrorSession = (s for s in @sessions.models when s.get('team') isnt session.get('team'))[0]
       ladderSubmissionView = new LadderSubmissionView session: session, level: @level, mirrorSession: mirrorSession
       @insertSubView ladderSubmissionView, placeholder

@@ -15,7 +15,7 @@ module.exports = class Label extends CocoClass
     @sprite = options.sprite
     @camera = options.camera
     @layer = options.layer
-    @style = options.style ? Label.STYLE_SAY
+    @style = options.style ? (@sprite?.thang?.labelStyle || Label.STYLE_SAY)
     console.error @toString(), 'needs a sprite.' unless @sprite
     console.error @toString(), 'needs a camera.' unless @camera
     console.error @toString(), 'needs a layer.' unless @layer

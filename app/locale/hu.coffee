@@ -397,14 +397,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     prompt_body: "Szeretnél többet?"
     prompt_button: "Lépj be a boltba"
     recovered: "Az előző drágakő vásárlás helyreállt. Kérlek frissítsd az oldalt."
-#    price: "x3500 / mo"
+#    price: "x{{gems}} / mo"
 
   subscribe:
     comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!"
     feature1: "60+ alap pálya, 4 világon át" # {change}
     feature2: "7 erőteljes <strong>új hős</strong> egyedi képességekkel!" # {change}
     feature3: "30+ bónusz pálya" # {change}
-    feature4: "<strong>3500 bónusz drágakő</strong> minden hónapban!"
+    feature4: "<strong>{{gems}} bónusz drágakő</strong> minden hónapban!"
     feature5: "Videó oktatóanyagok"
     feature6: "Prémium email támogatás"
 #    feature7: "Private <strong>Clans</strong>"
@@ -552,32 +552,30 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
     team: "Csapat"
-    george_title: "Főigazgató" # {change}
-    george_blurb: "Üzletelő"
-    scott_title: "Programozó" # {change}
-    scott_blurb: "Megfontolt"
     nick_title: "Programozó" # {change}
     nick_blurb: "Motivátor"
-    michael_title: "Programozó"
-    michael_blurb: "Rendszer Admin"
     matt_title: "Programozó" # {change}
     matt_blurb: "Bringás"
-#    cat_title: "Chief Artisan"
+#    cat_title: "Game Designer"
 #    cat_blurb: "Airbender"
-#    josh_title: "Game Designer"
-#    josh_blurb: "Floor Is Lava"
-#    jose_title: "Music"
-#    jose_blurb: "Taking Off"
-#    retrostyle_title: "Illustration"
-#    retrostyle_blurb: "RetroStyle Games"
-#    rob_title: "Compiler Engineer"
+    scott_title: "Programozó" # {change}
+    scott_blurb: "Megfontolt"
+#    maka_title: "Customer Advocate"
+#    maka_blurb: "Storyteller"
+#    rob_title: "Software Engineer"
 #    rob_blurb: "Codes things and stuff"
 #    josh_c_title: "Game Designer"
 #    josh_c_blurb: "Designs games"
+#    robin_title: "UX Design & Research"
+#    robin_blurb: "Scaffolding"
+#    josh_title: "Game Designer"
+#    josh_blurb: "Floor Is Lava"
+#    retrostyle_title: "Illustration"
+#    retrostyle_blurb: "RetroStyle Games"
+#    jose_title: "Music"
+#    jose_blurb: "Taking Off"
 #    carlos_title: "Region Manager, Brazil"
 #    carlos_blurb: "Celery Man"
-#    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
 
   teachers:
     who_for_title: "Kinek való a CodeCombat?"
@@ -994,7 +992,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    additional_resources_1_mid: "Course 1 Teacher's Guide"
 #    additional_resources_1_suff: "explanations and solutions to each level."
 #    additional_resources_2_pref: "Complete our"
-#    additional_resources_2_suff: "to get 15 more hours of content! For a limited time, enroll as many students as you want in our three paid courses."
+#    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
 #    additional_resources_3_pref: "Visit our"
 #    additional_resources_3_mid: "Teacher Forums"
 #    additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."
@@ -1483,7 +1481,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    email_settings_url: "your email settings"
 #    email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
 #    cost_title: "Cost"
-#    cost_description_a: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
 #    copyrights_title: "Copyrights and Licenses"
 #    contributor_title: "Contributor License Agreement"
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"

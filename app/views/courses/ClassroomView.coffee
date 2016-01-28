@@ -32,23 +32,23 @@ module.exports = class ClassroomView extends RootView
   initialize: (options, classroomID) ->
     return if me.isAnonymous()
     @classroom = new Classroom({_id: classroomID})
-    @supermodel.loadModel @classroom, 'classroom'
+    @supermodel.loadModel @classroom
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @courses.comparator = '_id'
-    @supermodel.loadCollection(@courses, 'courses')
+    @supermodel.loadCollection(@courses)
     @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign })
     @courses.comparator = '_id'
-    @supermodel.loadCollection(@campaigns, 'campaigns', { data: { type: 'course' }})
+    @supermodel.loadCollection(@campaigns, { data: { type: 'course' }})
     @courseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance})
     @courseInstances.comparator = 'courseID'
-    @supermodel.loadCollection(@courseInstances, 'course_instances', { data: { classroomID: classroomID } })
+    @supermodel.loadCollection(@courseInstances, { data: { classroomID: classroomID } })
     @prepaids = new Prepaids()
     @prepaids.comparator = '_id'
     @prepaids.fetchByCreator(me.id)
-    @supermodel.loadCollection(@prepaids, 'prepaids')
+    @supermodel.loadCollection(@prepaids)
     @users = new CocoCollection([], { url: "/db/classroom/#{classroomID}/members", model: User })
     @users.comparator = (user) => user.broadName().toLowerCase()
-    @supermodel.loadCollection(@users, 'users')
+    @supermodel.loadCollection(@users)
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesSync
     @sessions = new CocoCollection([], { model: LevelSession })
 
@@ -56,7 +56,7 @@ module.exports = class ClassroomView extends RootView
     @sessions = new CocoCollection([], { model: LevelSession })
     for courseInstance in @courseInstances.models
       sessions = new CocoCollection([], { url: "/db/course_instance/#{courseInstance.id}/level_sessions", model: LevelSession })
-      @supermodel.loadCollection(sessions, 'sessions', { data: { project: ['level', 'playtime', 'creator', 'changed', 'state.complete'].join(' ') } })
+      @supermodel.loadCollection(sessions, { data: { project: ['level', 'playtime', 'creator', 'changed', 'state.complete'].join(' ') } })
       courseInstance.sessions = sessions
       sessions.courseInstance = courseInstance
       courseInstance.sessionsByUser = {}
@@ -79,6 +79,7 @@ module.exports = class ClassroomView extends RootView
   onLoaded: ->
     @teacherMode = me.isAdmin() or @classroom.get('ownerID') is me.id
     userSessions = @sessions.groupBy('creator')
+    @users.remove(@users.where({ deleted: true }))
     for user in @users.models
       user.sessions = new CocoCollection(userSessions[user.id], { model: LevelSession })
       user.sessions.comparator = 'changed'

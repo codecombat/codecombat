@@ -100,13 +100,6 @@ module.exports = class RootView extends CocoView
     c.usesSocialMedia = @usesSocialMedia
     c
 
-  forumLink: ->
-    link = 'http://discourse.codecombat.com/'
-    lang = (me.get('preferredLanguage') or 'en-US').split('-')[0]
-    if lang in ['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt']
-      link += "c/other-languages/#{lang}"
-    link
-
   afterRender: ->
     if @$el.find('#site-nav').length # hack...
       @$el.addClass('site-chrome')

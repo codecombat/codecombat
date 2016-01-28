@@ -71,7 +71,7 @@ def which(cmd, mode=os.F_OK | os.X_OK, path=None):
 
 
 current_directory = os.path.dirname(os.path.realpath(sys.argv[0]))
-allowedMongoVersions = ["v2.6", "v3.0"]
+allowedMongoVersions = ["v2.6", "v3.0", "v3.2"]
 if which("mongod") and any(i in subprocess.check_output("mongod --version",shell=True) for i in allowedMongoVersions):
     mongo_executable = "mongod"
 else:

@@ -4,20 +4,20 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     no_ie: "죄송하지만 코드컴뱃은 인터넷 익스플로러 8에서는 동작하지 않습니다." # Warning that only shows up in IE8 and older
     no_mobile: "코드 컴뱃은 모바일 기기용으로 제작되지 않았습니다. 아마 동작하지 않을 가능성이 높습니다." # Warning that shows up on mobile devices
     play: "시작" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "캠페인 버전 플레이" # Shows up under big play button if you only play /courses
     old_browser: "브라우저가 너무 오래된 버전이라 코드 컴뱃을 실행할 수 없습니다." # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "시도해볼 수는 있겠지만..안될 수도 있습니다."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "슬픈 소식: 코드컴뱃은 아이패드의 브라우저에서 구동되지않습니다. 좋은 소식: 우리의 아이패드 앱은 애플의 승인을 기다리고있습니다 ."
     campaign: "캠페인"
     for_beginners: "초보자용"
     multiplayer: "멀티플레이어" # Not currently shown on home page
     for_developers: "개발자용" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "또는 아이패드의 다운로드"
 
   nav:
     play: "레벨" # The top nav bar entry where players choose which levels to play
     community: "커뮤니티"
-#    courses: "Courses"
+    courses: "코스"
     editor: "에디터"
     blog: "블로그"
     forum: "포럼"
@@ -33,7 +33,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     contact: "문의"
     twitter_follow: "팔로우"
     teachers: "선생님들"
-#    careers: "Careers"
+    careers: "채용"
 
   modal:
     close: "닫기"
@@ -52,7 +52,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   play:
     play_as: "Play As " # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "경쟁!" # Course details page
     spectate: "관중모드" # Ladder page
     players: "플레이어" # Hover over a level on /play
     hours_played: "플레이한 시간" # Hover over a level on /play
@@ -68,14 +68,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     achievements: "성취한 목표" # Tooltip on achievement list button from /play
     account: "계정" # Tooltip on account button from /play
     settings: "설정" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "투표" # Tooltip on poll button from /play
     next: "다음" # Go from choose hero to choose inventory before playing a level
     change_hero: "영웅 교체" # Go back from choose inventory to choose hero
     buy_gems: "젬 구매"
-#    subscription_required: "Subscription Required"
+    subscription_required: "가입 필수"
     anonymous: "이름없는 플레이어"
     level_difficulty: "난이도: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "교실 버전 플레이" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "초보자 캠페인"
     awaiting_levels_adventurer_prefix: "매주 마다 새로운 레벨이 생깁니다."
     awaiting_levels_adventurer: "모험자로 등록 하세요!"
@@ -83,16 +83,16 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     adjust_volume: "소리 조절"
     campaign_multiplayer: "멀티 플레이어 전투장"
     campaign_multiplayer_description: "... 이곳에서 당신은 다른 인간 플레이어들과 직접 결투할 수 있습니다."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_old_multiplayer: "(추천하지 않습니다) 숙련된 멀티플레이어 경쟁"
+    campaign_old_multiplayer_description: "더 문명화 된 시대의 유물. 어떤 시뮬레이션은 이러한 이전, 영웅없는 멀티 경기장에 대해 실행되지 않습니다."
 
   share_progress_modal:
-#    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
+    blurb: "당신은 큰 진전을 보이고있습니다! 당신이 코드컴뱃으로 얼마나 많이 배웠는지 부모님게 말하십시오."
     email_invalid: "이메일 주소가 올바르지 않습니다."
-#    form_blurb: "Enter your parent's email below and we’ll show them!"
+    form_blurb: "아래에 부모님의 이메일을 입력하고 우리는 그것들을 보여줍니다!"
     form_label: "이메일"
     placeholder: "이메일"
-#    title: "Excellent Work, Apprentice"
+    title: "우수한, 초심자"
 
   login:
     sign_up: "계정 생성"
@@ -100,8 +100,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     logging_in: "로그인 중"
     log_out: "로그아웃"
     forgot_password: "비밀번호를 잊으셨나요?"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
+    authenticate_gplus: "G+ 인증"
+    load_profile: "G+ 프로필 불러오기"
     finishing: "완료중.."
     sign_in_with_facebook: "Facebook으로 로그인"
     sign_in_with_gplus: "G+로 로그인"
@@ -114,9 +114,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     log_in: "비밀번호로 로그인"
     required: "진행하기 전에 로그인이 필요합니다."
     login_switch: "이미 계정이 있으신가요?"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
+    school_name: "학교 이름과 도시"
+    optional: "옵션"
+    school_name_placeholder: "예시 고등학교, 스프링필드, IL"
 
   recover:
     recover_account_title: "계정 복구"
@@ -142,7 +142,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     save: "저장"
     publish: "내보내기"
     create: "생성"
-    fork: "Fork"
+    fork: "포크"
     play: "시작" # When used as an action verb, like "Play next level"
     retry: "재시도"
     actions: "행동"
@@ -164,20 +164,20 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     accepted: "적용됨"
     rejected: "거부됨"
     withdrawn: "취소됨"
-#    accept: "Accept"
-#    reject: "Reject"
-#    withdraw: "Withdraw"
+    accept: "승인"
+    reject: "보류"
+    withdraw: "철수"
     submitter: "제출자"
     submitted: "제출됨"
     commit_msg: "커밋 메세지"
     version_history: "버전 히스토리"
     version_history_for: "버전 히스토리 : "
-#    select_changes: "Select two changes below to see the difference."
-#    undo_prefix: "Undo"
+    select_changes: "차이를 보기위해 두 가지 사항을 변경하도록 선택합니다."
+    undo_prefix: "되돌리기"
     undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Redo"
+    redo_prefix: "다시하기"
     redo_shortcut: "(Ctrl+Shift+Z)"
-#    play_preview: "Play preview of current level"
+    play_preview: "현재 수준의 미리보기 재생"
     result: "결과"
     results: "결과들"
     description: "설명"
@@ -221,12 +221,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     years: "년"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "완료된 레벨:"
+    course: "코스:"
     done: "완료"
-#    next_level: "Next Level:"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+    next_level: "다음 레벨:"
+    next_game: "다음 게임"
+    show_menu: "게임 매뉴 보이기"
     home: "홈" # Not used any more, will be removed soon.
     level: "레벨" # Like "Level: Dungeons of Kithgard"
     skip: "넘어가기"
@@ -256,40 +256,40 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_saving_progress: "저장하기"
     victory_go_home: "홈으로"
     victory_review: "리뷰를 남겨주세요"
-#    victory_review_placeholder: "How was the level?"
+    victory_review_placeholder: "어떤 레벨입니까?"
     victory_hour_of_code_done: "정말 종료합니까?"
     victory_hour_of_code_done_yes: "네 내 Hour of Code™ 완료했습니다!"
     victory_experience_gained: "획득한 경험치"
     victory_gems_gained: "획득한 젬"
     victory_new_item: "새로운 아이템"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
+    victory_viking_code_school: "놀랍습니다, 당신은 그냥 이길 힘든 수준이었습니다! 이미 소프트웨어 개발자가 아닌 경우, 당신은 비이킹 코드 학교에서 빠르게 이해할것입니다, 당신이 다음 레벨에서 자신의 능력을 14주 동안 전문 웹 개발자가 될 수있는 곳입니다."
     victory_become_a_viking: "바이킹이 되세요"
     guide_title: "가이드"
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Submit"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
-#    tome_select_method: "Select a Method"
-#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methods).
+    tome_cast_button_run: "실행"
+    tome_cast_button_running: "실행중"
+    tome_cast_button_ran: "실행됨"
+    tome_submit_button: "적용"
+    tome_reload_method: "이 방법에 대한 원래의 코드를 다시불러오기" # Title text for individual method reload button.
+    tome_select_method: "방법 선택"
+    tome_see_all_methods: "편집 할 수있는 모든 방법을 참조하십시오" # Title text for method list selector (shown when there are multiple programmable methods).
     tome_select_a_thang: "누군가를 선택하세요. "
     tome_available_spells: "사용 가능한 마법"
-#    tome_your_skills: "Your Skills"
-#    tome_current_method: "Current Method"
-#    code_saved: "Code Saved"
+    tome_your_skills: "당신의 스킬"
+    tome_current_method: "최근 방법"
+    code_saved: "코드가 저장됨"
     skip_tutorial: "넘기기 (esc)"
     keyboard_shortcuts: "단축키"
     loading_ready: "준비!"
-#    loading_start: "Start Level"
+    loading_start: "레벨 시작"
     problem_alert_title: "코드를 수정하세요"
     time_current: "현재:"
     time_total: "최대:"
-#    time_goto: "Go to:"
-#    non_user_code_problem_title: "Unable to Load Level"
-#    infinite_loop_title: "Infinite Loop Detected"
-#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
-#    check_dev_console: "You can also open the developer console to see what might be going wrong."
-#    check_dev_console_link: "(instructions)"
+    time_goto: "가기:"
+    non_user_code_problem_title: "레벨을 로드 할 수 없습니다"
+    infinite_loop_title: "무한 루프 감지"
+    infinite_loop_description: "세계를 구축하는 초기 코드는 결코 실행이 완료되지 않습니다. 아마도 하나의 정말 느리거나 또는 무한 루프가 있습니다. 혹은 버그일수있습니다. 당신은 다시 이 코드를 실행하려고하거나 기본 상태로 코드를 재설정 할 수 있습니다. 그게 해결되지 않으면, 저희에게 알려 주시기 바랍니다."
+    check_dev_console: "또한 잘못 갈 수를 알기 위해 개발자 콘솔을 열 수 있습니다."
+    check_dev_console_link: "(명령어)"
     infinite_loop_try_again: "다시 시도해보세요."
     infinite_loop_reset_level: "레벨 리셋"
     infinite_loop_comment_out: "내 코드를 일시적 주석처리하기"
@@ -297,7 +297,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tip_scrub_shortcut: "Ctrl+[, Ctrl+] 를 이용해 실행 속도를 빠르게 할 수 있어요"
     tip_guide_exists: "화면 상단의 가이드를 클릭해보세요. 유용한 정보를 얻을 수 있습니다."
     tip_open_source: "코드 컴뱃은 100% 오픈 소스 기반입니다!"
-#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "코드 컴뱃을 즐기셨나요? 친구에게 알려주십시오"
     tip_beta_launch: "코드 컴뱃은 2013년 10월에 베타 서비스를 출시했습니다."
     tip_think_solution: "해결 방법을 고민해보세요, 문제를 고민하지 말구요"
 #    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
@@ -326,7 +326,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
 #    tip_superpower: "Coding is the closest thing we have to a superpower."
 #    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
-#    tip_no_code: "No code is faster than no code."
+    tip_no_code: "코드가 없는것보다 빠른것은 없습니다."
     tip_code_never_lies: "코드는 절대로 거짓말을 하지 않는다. 주석은 가끔 하지만.  — Ron Jeffries"
 #    tip_reusable_software: "Before software can be reusable it first has to be usable."
 #    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
@@ -341,8 +341,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
-#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+    tip_paper_and_pen: "코딩을 하기전에, 당신은 항상 종이와 펜으로 계획을 지니고 있어야합니다."
+    tip_solve_then_write: "먼저, 문제를 해결하세요. 그러고, 코드를 쓰는겁니다. - John Johnson"
 
   game_menu:
     inventory_tab: "인벤토리"
@@ -355,24 +355,24 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     auth_tab: "가입하기"
     inventory_caption: "장비 장착"
     choose_hero_caption: "영웅 및 언어 선택 "
-#    save_load_caption: "... and view history"
+    save_load_caption: "... 그리고 기록보기"
     options_caption: "설정들을 바꾸기"
     guide_caption: "문서들과 팁들"
     multiplayer_caption: "친구들과 플레이 하세요!"
     auth_caption: "진행사항을 저장하세요"
 
   leaderboard:
-#    view_other_solutions: "View Leaderboards"
+    view_other_solutions: "리더보드 보기"
     scores: "점수"
     top_players: "상위 플레이어"
     day: "오늘"
     week: "이번 주"
-#    all: "All-Time"
-#    time: "Time"
-#    damage_taken: "Damage Taken"
-#    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
-#    gold_collected: "Gold Collected"
+    all: "모든-시간"
+    time: "시간"
+    damage_taken: "데미지 정도"
+    damage_dealt: "죽음을 맞은 데미지"
+    difficulty: "난이도"
+    gold_collected: "수집된 골드"
 
   inventory:
     equipped_item: "장착됨"
@@ -391,33 +391,33 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     pile_gems: "gem 묶음"
     chest_gems: "gem 상자"
     purchasing: "구매중..."
-    declined: "Your card was declined"
+    declined: "귀하의 카드가 거부되었습니다"
     retrying: "서버에러, 다시 시도하세요."
     prompt_title: "gem 부족"
     prompt_body: "gem이 더 필요하신가요?"
-    prompt_button: "Enter Shop"
+    prompt_button: "샵 앤터"
     recovered: "gem 구매후 브라우져를 새로고침 하세요."
-    price: "x3500 / 한달"
+    price: "x{{gems}} / 한달"
 
-#  subscribe:
+  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "110+ basic levels across 4 worlds"
 #    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
-#    feature3: "80+ bonus levels"
-#    feature4: "<strong>3500 bonus gems</strong> every month!"
-#    feature5: "Video tutorials"
-#    feature6: "Premium email support"
+    feature3: "80+ 보너스 레벨들"
+#    feature4: "<strong>{{gems}} bonus gems</strong> every month!"
+    feature5: "영상 튜토리얼"
+    feature6: "프리미엄 이메일 지원"
 #    feature7: "Private <strong>Clans</strong>"
-#    free: "Free"
-#    month: "month"
+    free: "프리"
+    month: "달"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
-#    subscribe_title: "Subscribe"
-#    unsubscribe: "Unsubscribe"
-#    confirm_unsubscribe: "Confirm Unsubscribe"
+    subscribe_title: "구독"
+    unsubscribe: "구독 해제"
+    confirm_unsubscribe: "구독 해제 확인"
 #    never_mind: "Never Mind, I Still Love You"
 #    thank_you_months_prefix: "Thank you for supporting us these last"
 #    thank_you_months_suffix: "months."
-#    thank_you: "Thank you for supporting CodeCombat."
+    thank_you: "CodeCombat을 도와주셔서 감사합니다."
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
 #    parent_button: "Ask your parent"
@@ -496,29 +496,29 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
-#  skill_docs:
+  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
 #    read_only: "read-only"
 #    action: "Action"
 #    spell: "Spell"
-#    action_name: "name"
+    action_name: "이름"
 #    action_cooldown: "Takes"
 #    action_specific_cooldown: "Cooldown"
-#    action_damage: "Damage"
-#    action_range: "Range"
+    action_damage: "데미지"
+    action_range: "사거리"
 #    action_radius: "Radius"
 #    action_duration: "Duration"
-#    example: "Example"
-#    ex: "ex" # Abbreviation of "example"
+    example: "예제"
+    ex: "예시" # Abbreviation of "example"
 #    current_value: "Current Value"
 #    default_value: "Default value"
 #    parameters: "Parameters"
-#    returns: "Returns"
+    returns: "뒤로가기"
 #    granted_by: "Granted by"
 
-#  save_load:
-#    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+  save_load:
+    granularity_saved_games: "저장됨"
+    granularity_change_history: "기록"
 
   options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
@@ -552,32 +552,30 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
     team: "팀"
-    george_title: "최고경영자" # {change}
-#    george_blurb: "Businesser"
-    scott_title: "프로그래머" # {change}
-#    scott_blurb: "Reasonable One"
     nick_title: "프로그래머" # {change}
 #    nick_blurb: "Motivation Guru"
-    michael_title: "프로그래머"
-#    michael_blurb: "Sys Admin"
     matt_title: "프로그래머" # {change}
     matt_blurb: "자전거 타는 사람"
-#    cat_title: "Chief Artisan"
+#    cat_title: "Game Designer"
 #    cat_blurb: "Airbender"
-#    josh_title: "Game Designer"
-#    josh_blurb: "Floor Is Lava"
-#    jose_title: "Music"
-#    jose_blurb: "Taking Off"
-#    retrostyle_title: "Illustration"
-#    retrostyle_blurb: "RetroStyle Games"
-#    rob_title: "Compiler Engineer"
+    scott_title: "프로그래머" # {change}
+#    scott_blurb: "Reasonable One"
+#    maka_title: "Customer Advocate"
+#    maka_blurb: "Storyteller"
+#    rob_title: "Software Engineer"
 #    rob_blurb: "Codes things and stuff"
 #    josh_c_title: "Game Designer"
 #    josh_c_blurb: "Designs games"
+#    robin_title: "UX Design & Research"
+#    robin_blurb: "Scaffolding"
+#    josh_title: "Game Designer"
+#    josh_blurb: "Floor Is Lava"
+#    retrostyle_title: "Illustration"
+#    retrostyle_blurb: "RetroStyle Games"
+#    jose_title: "Music"
+#    jose_blurb: "Taking Off"
 #    carlos_title: "Region Manager, Brazil"
 #    carlos_blurb: "Celery Man"
-#    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
 
 #  teachers:
 #    who_for_title: "Who is CodeCombat for?"
@@ -588,20 +586,20 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    more_info_2: "teachers forum"
 #    more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
 
-#  teachers_survey:
+  teachers_survey:
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
 #    being_reviewed_1: "Your application for a free trial is being"
-#    being_reviewed_2: "reviewed."
+    being_reviewed_2: "검토됨."
 #    approved_1: "Your application for a free trial was"
 #    approved_2: "approved!"
 #    approved_4: "You can now enroll your students on the"
 #    approved_5: "courses"
-#    approved_6: "page."
+    approved_6: "페이지."
 #    denied_1: "Your application for a free trial has been"
-#    denied_2: "denied."
-#    contact_1: "Please contact"
+    denied_2: "거절됨."
+    contact_1: "연락해주세요."
 #    contact_2: "if you have further questions."
 #    description_1: "We offer free trials to teachers.  You will be given 2 free enrollments which can be used to enroll students in paid courses."
 #    description_1b: "You can find more information on our"
@@ -622,7 +620,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   versions:
     save_version_title: "새로운 버전을 저장합니다"
     new_major_version: "신규 버전"
-#    submitting_patch: "Submitting Patch..."
+    submitting_patch: "패치 적용중..."
     cla_prefix: "변경사항을 저장하기 위해서는, 먼저 계약사항에 동의 하셔야 합니다."
     cla_url: "CLA"
     cla_suffix: "."
@@ -994,7 +992,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    additional_resources_1_mid: "Course 1 Teacher's Guide"
 #    additional_resources_1_suff: "explanations and solutions to each level."
 #    additional_resources_2_pref: "Complete our"
-#    additional_resources_2_suff: "to get 15 more hours of content! For a limited time, enroll as many students as you want in our three paid courses."
+#    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
 #    additional_resources_3_pref: "Visit our"
 #    additional_resources_3_mid: "Teacher Forums"
 #    additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."
@@ -1483,7 +1481,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     email_settings_url: "이메일 설정"
 #    email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
 #    cost_title: "Cost"
-#    cost_description_a: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
 #    copyrights_title: "Copyrights and Licenses"
 #    contributor_title: "Contributor License Agreement"
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"

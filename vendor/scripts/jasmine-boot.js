@@ -1,5 +1,29 @@
+// Changes made to this file from the default are marked with CHANGE comment
+
+/*
+ Copyright (c) 2008-2015 Pivotal Labs
+
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 /**
- Starting with version 2.0, this file "boots" Jasmine, performing all of the necessary initialization before executing the loaded environment and all of a project's specs. This file should be loaded after `jasmine.js`, but before any project source files or spec files are loaded. Thus this file can also be used to customize Jasmine for a project.
+ Starting with version 2.0, this file "boots" Jasmine, performing all of the necessary initialization before executing the loaded environment and all of a project's specs. This file should be loaded after `jasmine.js` and `jasmine_html.js`, but before any project source files or spec files are loaded. Thus this file can also be used to customize Jasmine for a project.
 
  If a project is using Jasmine via the standalone distribution, this file can be customized directly. If a project is using Jasmine via the [Ruby gem][jasmine-gem], this file can be copied into the support directory via `jasmine copy_boot_js`. Other environments (e.g., Python) will have different mechanisms.
 
@@ -32,77 +56,12 @@
    *
    * Build up the functions that will be exposed as the Jasmine public interface. A project can customize, rename or alias any of these functions as desired, provided the implementation remains unchanged.
    */
-  var jasmineInterface = {
-    describe: function(description, specDefinitions) {
-      return env.describe(description, specDefinitions);
-    },
-
-    xdescribe: function(description, specDefinitions) {
-      return env.xdescribe(description, specDefinitions);
-    },
-
-    it: function(desc, func) {
-      return env.it(desc, func);
-    },
-
-    xit: function(desc, func) {
-      return env.xit(desc, func);
-    },
-
-    beforeEach: function(beforeEachFunction) {
-      return env.beforeEach(beforeEachFunction);
-    },
-
-    afterEach: function(afterEachFunction) {
-      return env.afterEach(afterEachFunction);
-    },
-
-    expect: function(actual) {
-      return env.expect(actual);
-    },
-
-    pending: function() {
-      return env.pending();
-    },
-
-    spyOn: function(obj, methodName) {
-      return env.spyOn(obj, methodName);
-    },
-
-    jsApiReporter: new jasmine.JsApiReporter({
-      timer: new jasmine.Timer()
-    })
-  };
+  var jasmineInterface = jasmineRequire.interface(jasmine, env);
 
   /**
-   * Add all of the Jasmine global/public interface to the proper global, so a project can use the public interface directly. For example, calling `describe` in specs instead of `jasmine.getEnv().describe`.
+   * Add all of the Jasmine global/public interface to the global scope, so a project can use the public interface directly. For example, calling `describe` in specs instead of `jasmine.getEnv().describe`.
    */
-  if (typeof window == "undefined" && typeof exports == "object") {
-    extend(exports, jasmineInterface);
-  } else {
-    extend(window, jasmineInterface);
-  }
-
-  /**
-   * Expose the interface for adding custom equality testers.
-   */
-  jasmine.addCustomEqualityTester = function(tester) {
-    env.addCustomEqualityTester(tester);
-  };
-
-  /**
-   * Expose the interface for adding custom expectation matchers
-   */
-  jasmine.addMatchers = function(matchers) {
-    return env.addMatchers(matchers);
-  };
-
-  /**
-   * Expose the mock interface for the JavaScript timeout functions
-   */
-  jasmine.clock = function() {
-    return env.clock;
-  };
+  extend(window, jasmineInterface);
 
   /**
    * ## Runner Parameters
@@ -114,8 +73,20 @@
     getWindowLocation: function() { return window.location; }
   });
 
-  var catchingExceptions = false; // Setting to false always for CodeCombat, because Jasmine-HTML's reporter doesn't do source maps, and Chrome console does.
+  // CHANGE: Setting to false always, because Jasmine-HTML's reporter doesn't do source maps, and Chrome console does.
+  var catchingExceptions = false;
   env.catchExceptions(typeof catchingExceptions === "undefined" ? true : catchingExceptions);
+
+  var throwingExpectationFailures = queryString.getParam("throwFailures");
+  env.throwOnExpectationFailure(throwingExpectationFailures);
+
+  var random = queryString.getParam("random");
+  env.randomizeTests(random);
+
+  var seed = queryString.getParam("seed");
+  if (seed) {
+    env.seed(seed);
+  }
 
   /**
    * ## Reporters
@@ -123,7 +94,11 @@
    */
   var htmlReporter = new jasmine.HtmlReporter({
     env: env,
-    onRaiseExceptionsClick: function() { queryString.setParam("catch", !env.catchingExceptions()); },
+    onRaiseExceptionsClick: function() { queryString.navigateWithNewParam("catch", !env.catchingExceptions()); },
+    onThrowExpectationsClick: function() { queryString.navigateWithNewParam("throwFailures", !env.throwingExpectationFailures()); },
+    onRandomClick: function() { queryString.navigateWithNewParam("random", !env.randomTests()); },
+    addToExistingQueryString: function(key, value) { return queryString.fullStringWithNewParam(key, value); },
+    // CHANGE: put #testing-area, not body
     getContainer: function() { return $('#testing-area')[0]; },
     createElement: function() { return document.createElement.apply(document, arguments); },
     createTextNode: function() { return document.createTextNode.apply(document, arguments); },
@@ -160,6 +135,7 @@
    *
    * Replace the browser window's `onload`, ensure it's called, and then run all of the loaded specs. This includes initializing the `HtmlReporter` instance and then executing the loaded Jasmine environment. All of this will happen after all of the specs are loaded.
    */
+  // CHANGE: give start control to testing page
   window.runJasmine = function() {
     htmlReporter.initialize();
     env.execute();

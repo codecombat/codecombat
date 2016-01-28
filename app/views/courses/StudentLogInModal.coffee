@@ -4,7 +4,7 @@ auth = require 'core/auth'
 forms = require 'core/forms'
 User = require 'models/User'
 
-module.exports = class StudentSignInModal extends ModalView
+module.exports = class StudentLogInModal extends ModalView
   id: 'student-log-in-modal'
   template: template
 

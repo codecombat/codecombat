@@ -37,6 +37,9 @@ module.exports = class BuyGemsModal extends ModalView
           @render()
 
   onLoaded: ->
+    @basicProduct = @products.findWhere { name: 'basic_subscription' }
+    if countrySpecificProduct = @products.findWhere { name: "#{me.get('country')}_basic_subscription" }
+      @basicProduct = countrySpecificProduct
     @products.reset @products.filter (product) -> _.string.startsWith(product.get('name'), 'gems_')
     super()
 
@@ -44,6 +47,8 @@ module.exports = class BuyGemsModal extends ModalView
     super()
     return unless @supermodel.finished()
     @playSound 'game-menu-open'
+    if @basicProduct
+      @$el.find('.subscription-gem-amount').text $.i18n.t('buy_gems.price').replace('{{gems}}', @basicProduct.get('gems'))
 
   onHidden: ->
     super()

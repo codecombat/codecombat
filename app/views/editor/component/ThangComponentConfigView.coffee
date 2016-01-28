@@ -104,13 +104,11 @@ class SolutionsNode extends TreemaArrayNode
 
   onClickFillDefaults: (e) =>
     e.preventDefault()
-    sources = {}
-    if source = @parent.data.source
-      sources.javascript = source
-    
+
     sources = { javascript: @parent.data.source }
     _.extend sources, @parent.data.languages or {}
     solutions = _.clone(@data)
+    solutions = _.filter(solutions, (solution) -> not _.isEmpty(solution) )
     for language in _.keys(sources)
       source = sources[language]
       solution = _.findWhere(solutions, {language: language})
@@ -120,5 +118,5 @@ class SolutionsNode extends TreemaArrayNode
         language: language
         passes: true
       })
-      
+
     @set('/', solutions)

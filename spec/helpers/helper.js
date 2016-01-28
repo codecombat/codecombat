@@ -38,43 +38,58 @@ if (database.generateMongoConnectionString() !== dbString) {
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000 * 120; // for long Stripe tests
 
-describe('Server Test Helper', function() {
-  it('starts the test server', function(done) {
-    var server = require('../../server');
-    server.startServer(done);
+var initialized = false;
+beforeEach(function(done) {
+  if (initialized) {
+    return done();
+  }
+
+  var async = require('async');
+  async.series([
+    function(cb) {
+      // Start the server
+      var server = require('../../server');
+      server.startServer(cb);
+    },
+    function(cb) {
+      // 5. Check actual database
+      var User = require('../../server/users/User');
+      User.find({}).count(function(err, count) {
+        // For this to serve as a line of defense against testing with the
+        // production DB, tests must be run with 
+        expect(err).toBeNull();
+        expect(count).toBeLessThan(100);
+        if(err || count >= 100) {
+          // the only way to be sure we don't keep going with the tests
+          process.exit(1);
+        }
+        GLOBAL.mc.lists.subscribe = _.noop;
+        cb()
+      });
+    },
+    function(cb) {
+      // Clear db
+      var mongoose = require('mongoose');
+      mongoose.connection.db.command({dropDatabase:1}, function(err, result) {
+        if (err) { console.log(err); }
+        cb(err);
+      });
+    },
+    function(cb) {
+      // Initialize products
+      var request = require('request');
+      request.get(getURL('/db/products'), function(err, res, body) {
+        expect(err).toBe(null);
+        expect(res.statusCode).toBe(200);
+        cb(err);
+      });
+    }
+  ],
+  function(err) {
+    if (err) {
+      process.exit(1);
+    }
+    initialized = true;
+    done();
   });
-  
-  it('checks the db is fairly empty', function(done) {
-    // 5. Check actual database.
-    var User = require('../../server/users/User');
-    User.find({}).count(function(err, count) {
-      // For this to serve as a line of defense against testing with the
-      // production DB, tests must be run with 
-      expect(err).toBeNull();
-      expect(count).toBeLessThan(100);
-      if(err || count >= 100) {
-        // the only way to be sure we don't keep going with the tests
-        process.exit(1);
-      }
-      GLOBAL.mc.lists.subscribe = _.noop;
-      done()
-    });
-  });
-  
-  it('clears the db', function(done) {
-    var mongoose = require('mongoose');
-    mongoose.connection.db.command({dropDatabase:1}, function(err, result) {
-      if (err) { console.log(err); }
-      done(); 
-    });
-  });
-    
-  it('initializes products', function(done) {
-    var request = require('request');
-    request.get(getURL('/db/products'), function(err, res, body) {
-      expect(err).toBe(null);
-      expect(res.statusCode).toBe(200);
-      done();
-    });
-  })
 });

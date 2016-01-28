@@ -129,16 +129,16 @@ describe 'Trial Requests', ->
                 Prepaid.find {'properties.trialRequestID': doc.get('_id')}, (err, prepaids) ->
                   expect(err).toBeNull()
                   return done(err) if err
-                  expect(prepaids.length).toEqual(2)
-                  for prepaid in prepaids
-                    expect(prepaid.get('type')).toEqual('course')
-                    expect(prepaid.get('creator')).toEqual(user.get('_id'))
-                    if prepaid.get('properties').endDate
-                      expect(prepaid.get('maxRedeemers')).toEqual(500)
-                      expect(prepaid.get('properties').endDate).toBeGreaterThan(new Date())
-                    else
-                      expect(prepaid.get('maxRedeemers')).toEqual(2)
-                  done()
+                  expect(prepaids.length).toEqual(1)
+                  prepaid = prepaids[0]
+                  expect(prepaid.get('type')).toEqual('course')
+                  expect(prepaid.get('creator')).toEqual(user.get('_id'))
+                  expect(prepaid.get('maxRedeemers')).toEqual(2)
+                  User.findById user._id, (err, user) =>
+                    expect(err).toBeNull()
+                    return done(err) if err
+                    expect(user.get('emails')?.teacherNews?.enabled).toEqual(true)
+                    done()
 
   it 'Deny trial request', (done) ->
     loginNewUser (user) ->

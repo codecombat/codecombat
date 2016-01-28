@@ -684,7 +684,10 @@ module.exports = Lank = class Lank extends CocoClass
     return unless @thang
     blurb = if @thang.health <= 0 then null else @thang.sayMessage  # Dead men tell no tales
     blurb = null if blurb in ['For Thoktar!', 'Bones!', 'Behead!', 'Destroy!', 'Die, humans!']  # Let's just hear, not see, these ones.
-    labelStyle = if /Hero Placeholder/.test(@thang.id) then Label.STYLE_DIALOGUE else Label.STYLE_SAY
+    if /Hero Placeholder/.test(@thang.id)
+      labelStyle = Label.STYLE_DIALOGUE
+    else
+      labelStyle = @thang.labelStyle ? Label.STYLE_SAY
     @addLabel 'say', labelStyle if blurb
     if @labels.say?.setText blurb
       @notifySpeechUpdated blurb: blurb

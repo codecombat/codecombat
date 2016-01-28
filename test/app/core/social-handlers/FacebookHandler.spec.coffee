@@ -69,7 +69,7 @@ describe 'lib/FacebookHandler.coffee', ->
     expect(FB.api).toHaveBeenCalled()
     apiArgs = FB.api.calls.argsFor(0)
     expect(apiArgs[0]).toBe('/me')
-    apiArgs[1](mockMe) # sending the 'response'
+    apiArgs[2](mockMe) # sending the 'response'
     request = jasmine.Ajax.requests.mostRecent()
     expect(request).toBeDefined()
     params = JSON.parse request.params

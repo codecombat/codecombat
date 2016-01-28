@@ -3,6 +3,7 @@ utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
 loadingScreenTemplate = require 'templates/core/loading'
 loadingErrorTemplate = require 'templates/core/loading-error'
+auth = require 'core/auth'
 
 lastToggleModalCall = 0
 visibleModal = null
@@ -16,8 +17,9 @@ module.exports = class CocoView extends Backbone.View
   template: -> ''
 
   events:
-    'click .retry-loading-resource': 'onRetryResource'
-    'click .skip-loading-resource': 'onSkipResource'
+    'click #loading-error .login-btn': 'onClickLoadingErrorLoginButton'
+    'click #loading-error #create-account-btn': 'onClickLoadingErrorCreateAccountButton'
+    'click #loading-error #logout-btn': 'onClickLoadingErrorLogoutButton'
 
   subscriptions: {}
   shortcuts: {}
@@ -133,6 +135,7 @@ module.exports = class CocoView extends Backbone.View
     context.view = @
     context._ = _
     context.document = document
+    context.i18n = utils.i18n
     context
 
   afterRender: ->
@@ -155,44 +158,27 @@ module.exports = class CocoView extends Backbone.View
   # Error handling for loading
   onResourceLoadFailed: (e) ->
     r = e.resource
+    @stopListening @supermodel
     return if r.jqxhr?.status is 402 # payment-required failures are handled separately
-    if r.jqxhr?.status is 0
-      r.retries ?= 0
-      r.retries += 1
-      if r.retries > 20
-        msg = 'Your computer or our servers appear to be offline. Please try refreshing.'
-        noty text: msg, layout: 'center', type: 'error', killer: true
-        return
-      else
-        @warnConnectionError()
-        return _.delay (=> r.load()), 3000
-
-    @$el.find('.loading-container .errors').append(loadingErrorTemplate({
-      status: r.jqxhr?.status
-      name: r.name
-      resourceIndex: r.rid,
-      responseText: r.jqxhr?.responseText
-    })).i18n()
-    @$el.find('.progress').hide()
+    @showError(r.jqxhr)
 
   warnConnectionError: ->
     msg = $.i18n.t 'loading_error.connection_failure', defaultValue: 'Connection failed.'
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
 
-  onRetryResource: (e) ->
-    res = @supermodel.getResource($(e.target).data('resource-index'))
-    # different views may respond to this call, and not all have the resource to reload
-    return unless res and res.isFailed
-    res.load()
-    @$el.find('.progress').show()
-    $(e.target).closest('.loading-error-alert').remove()
-
-  onSkipResource: (e) ->
-    res = @supermodel.getResource($(e.target).data('resource-index'))
-    return unless res and res.isFailed
-    res.markLoaded()
-    @$el.find('.progress').show()
-    $(e.target).closest('.loading-error-alert').remove()
+  onClickLoadingErrorLoginButton: (e) ->
+    e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
+    AuthModal = require 'views/core/AuthModal'
+    @openModalView(new AuthModal({mode: 'login'}))
+  
+  onClickLoadingErrorCreateAccountButton: (e) ->
+    e.stopPropagation()
+    AuthModal = require 'views/core/AuthModal'
+    @openModalView(new AuthModal({mode: 'signup'}))
+  
+  onClickLoadingErrorLogoutButton: (e) ->
+    e.stopPropagation()
+    auth.logoutUser()
 
   # Modals
 
@@ -253,6 +239,23 @@ module.exports = class CocoView extends Backbone.View
     @_lastLoading.find('.loading-screen').remove()
     @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null
+    
+  showError: (jqxhr) ->
+    return unless @_lastLoading?
+    context = {
+      jqxhr: jqxhr
+      view: @
+      me: me
+    }
+    @_lastLoading.find('.loading-screen').replaceWith((loadingErrorTemplate(context)))
+    @_lastLoading.i18n()
+
+  forumLink: ->
+    link = 'http://discourse.codecombat.com/'
+    lang = (me.get('preferredLanguage') or 'en-US').split('-')[0]
+    if lang in ['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt']
+      link += "c/other-languages/#{lang}"
+    link
 
   showReadOnly: ->
     return if me.isAdmin() or me.isArtisan()

@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     prompt_body: "Benötigst du mehr?"
     prompt_button: "Laden betreten"
     recovered: "Vorangegangener Edelsteinkauf rückgängig gemacht. Aktualisiere bitte die Seite."
-    price: "x3500 / Monat"
+    price: "x{{gems}} / Monat"
 
   subscribe:
     comparison_blurb: "Verbessere deine Fähigkeiten mit einem CodeCombat Abonnement"
     feature1: "60+ Basislevel in 4 Gebieten" # {change}
     feature2: "7 mächtige <strong>neue Helden</strong> mit einzigartigen Fertigkeiten" # {change}
     feature3: "30+ Bonuslevel" # {change}
-    feature4: "<strong>3500 Bonusedelsteine</strong> jeden Monat!"
+    feature4: "<strong>{{gems}} Bonusedelsteine</strong> jeden Monat!"
     feature5: "Videoanleitungen"
     feature6: "Premium Emailsupport"
 #    feature7: "Private <strong>Clans</strong>"
@@ -552,32 +552,30 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     press_paragraph_1_link: "Presse-Paket"
     press_paragraph_1_suffix: ". Alle Logos und Bilder können ohne unsere vorherige Zustimmung verwendet werden."
     team: "Team"
-    george_title: "CEO"
-    george_blurb: "Vertriebler"
-    scott_title: "Programmierer"
-    scott_blurb: "Der Vernünftige"
-    nick_title: "Programmierer"
+    nick_title: "Programmierer" # {change}
     nick_blurb: "Motivationsguru"
-    michael_title: "Programmierer"
-    michael_blurb: "Sys Admin"
     matt_title: "Programmierer" # {change}
     matt_blurb: "Radfahrer"
-    cat_title: "Chief Artisan"
+    cat_title: "Chief Artisan" # {change}
     cat_blurb: "Luftbändiger"
-    josh_title: "Spiel Designer"
-    josh_blurb: "Boden ist Lava"
-    jose_title: "Musik"
-    jose_blurb: "Taking Off"
-    retrostyle_title: "Illustration"
-    retrostyle_blurb: "RetroStyle Games"
-#    rob_title: "Compiler Engineer"
+    scott_title: "Programmierer" # {change}
+    scott_blurb: "Der Vernünftige"
+#    maka_title: "Customer Advocate"
+#    maka_blurb: "Storyteller"
+#    rob_title: "Software Engineer"
 #    rob_blurb: "Codes things and stuff"
 #    josh_c_title: "Game Designer"
 #    josh_c_blurb: "Designs games"
+#    robin_title: "UX Design & Research"
+#    robin_blurb: "Scaffolding"
+    josh_title: "Spiel Designer"
+    josh_blurb: "Boden ist Lava"
+    retrostyle_title: "Illustration"
+    retrostyle_blurb: "RetroStyle Games"
+    jose_title: "Musik"
+    jose_blurb: "Taking Off"
 #    carlos_title: "Region Manager, Brazil"
 #    carlos_blurb: "Celery Man"
-#    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
 
   teachers:
     who_for_title: "An wen richtet sich CodeCombat?"
@@ -994,7 +992,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    additional_resources_1_mid: "Course 1 Teacher's Guide"
 #    additional_resources_1_suff: "explanations and solutions to each level."
 #    additional_resources_2_pref: "Complete our"
-#    additional_resources_2_suff: "to get 15 more hours of content! For a limited time, enroll as many students as you want in our three paid courses."
+#    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
 #    additional_resources_3_pref: "Visit our"
 #    additional_resources_3_mid: "Teacher Forums"
 #    additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."

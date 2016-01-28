@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     prompt_body: "Har du lyst på flere?"
     prompt_button: "Til Butikken"
     recovered: "Tidligere juvelkjøp hentet. Vennligst last siden på nytt"
-#    price: "x3500 / mo"
+#    price: "x{{gems}} / mo"
 
   subscribe:
     comparison_blurb: "Spiss dine kunnskaper med et CodeCombat abonnement!"
     feature1: "60+ grunnleggende brett fordelt på 4 verdener" # {change}
     feature2: "7 kraftfulle <strong>nye helter</strong> med unike ferdigheter!" # {change}
     feature3: "30+ bonusbrett" # {change}
-    feature4: "<strong>3500 bonusjuveler</strong> hver måned!"
+    feature4: "<strong>{{gems}} bonusjuveler</strong> hver måned!"
     feature5: "Videoveiledninger"
     feature6: "Premium e-poststøtte"
 #    feature7: "Private <strong>Clans</strong>"
@@ -552,32 +552,30 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     press_paragraph_1_link: "pressepakke"
     press_paragraph_1_suffix: ". Alle logoer og bilder kan brukes uten å kontakte oss direkte."
     team: "Teamet"
-    george_title: "Adm.dir." # {change}
-    george_blurb: "Business-nisse"
-    scott_title: "Programmerer" # {change}
-    scott_blurb: "Den fornuftige"
     nick_title: "Programmerer" # {change}
     nick_blurb: "Motivasjonsguru"
-    michael_title: "Programmerer"
-    michael_blurb: "Systemadministrator"
     matt_title: "Programmerer" # {change}
     matt_blurb: "Syklist"
-#    cat_title: "Chief Artisan"
+#    cat_title: "Game Designer"
 #    cat_blurb: "Airbender"
-#    josh_title: "Game Designer"
-#    josh_blurb: "Floor Is Lava"
-#    jose_title: "Music"
-#    jose_blurb: "Taking Off"
-#    retrostyle_title: "Illustration"
-#    retrostyle_blurb: "RetroStyle Games"
-#    rob_title: "Compiler Engineer"
+    scott_title: "Programmerer" # {change}
+    scott_blurb: "Den fornuftige"
+#    maka_title: "Customer Advocate"
+#    maka_blurb: "Storyteller"
+#    rob_title: "Software Engineer"
 #    rob_blurb: "Codes things and stuff"
 #    josh_c_title: "Game Designer"
 #    josh_c_blurb: "Designs games"
+#    robin_title: "UX Design & Research"
+#    robin_blurb: "Scaffolding"
+#    josh_title: "Game Designer"
+#    josh_blurb: "Floor Is Lava"
+#    retrostyle_title: "Illustration"
+#    retrostyle_blurb: "RetroStyle Games"
+#    jose_title: "Music"
+#    jose_blurb: "Taking Off"
 #    carlos_title: "Region Manager, Brazil"
 #    carlos_blurb: "Celery Man"
-#    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
 
 #  teachers:
 #    who_for_title: "Who is CodeCombat for?"
@@ -994,7 +992,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    additional_resources_1_mid: "Course 1 Teacher's Guide"
 #    additional_resources_1_suff: "explanations and solutions to each level."
 #    additional_resources_2_pref: "Complete our"
-#    additional_resources_2_suff: "to get 15 more hours of content! For a limited time, enroll as many students as you want in our three paid courses."
+#    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
 #    additional_resources_3_pref: "Visit our"
 #    additional_resources_3_mid: "Teacher Forums"
 #    additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."
@@ -1483,7 +1481,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     email_settings_url: "epost-innstillingene dine"
     email_description_suffix: "eller via linker i epostene vi sender til deg, kan du endre hvilke eposter du ønsker å motta og enkelt avslutte abonnementet når som helst."
     cost_title: "Pris"
-#    cost_description_a: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Kopirettigheter og lisenser"
     contributor_title: "Lisensavtale for bidragsytere"
     contributor_description_prefix: "Alle bidrag, både gjort gjennom brukergrensesnittet og i kodelageret på GitHub, er underlagt vår"

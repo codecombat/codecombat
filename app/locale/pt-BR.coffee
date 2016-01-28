@@ -397,14 +397,14 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     prompt_body: "Você quer adquirir mais gemas?"
     prompt_button: "Entrar na loja"
     recovered: "Gemas das compras anteriores recuperadas. Por favor atualize a pagina."
-    price: "x3500 / mês"
+    price: "x{{gems}} / mês"
 
   subscribe:
     comparison_blurb: "Afine suas habilidades com uma assinatura CodeCombat!"
     feature1: "Mais de 60 níveis básicos entre 4 mundos" # {change}
     feature2: "7 poderosos <strong>novos heróis</strong> com habilidades únicas!" # {change}
     feature3: "Mais de 30 níveis bônus" # {change}
-    feature4: "<strong>3500 gemas bônus</strong> todo mês!"
+    feature4: "<strong>{{gems}} gemas bônus</strong> todo mês!"
     feature5: "Vídeo tutorials"
     feature6: "Suporte via e-mail Premium"
     feature7: "<strong>Clãs</strong> Privados"
@@ -552,32 +552,30 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     press_paragraph_1_link: "Midia Kit"
     press_paragraph_1_suffix: ". Todas as logomarcas e imagens podem ser usadas sem nos contactar previamente."
     team: "Time"
-    george_title: "Cofundador"
-    george_blurb: "Administrador"
-    scott_title: "Cofundador"
-    scott_blurb: "O Sensato"
-    nick_title: "Cofundador"
+    nick_title: "Cofundador" # {change}
     nick_blurb: "Guru Motivacional"
-    michael_title: "Programador"
-    michael_blurb: "Administrador de Sistemas"
-    matt_title: "Cofundador"
+    matt_title: "Cofundador" # {change}
     matt_blurb: "O Ciclista"
-    cat_title: "Chefe Artesão"
+    cat_title: "Chefe Artesão" # {change}
     cat_blurb: "Corta-vento"
-    josh_title: "Game Designer"
-    josh_blurb: "O chão vai tremer"
-    jose_title: "Músico"
-    jose_blurb: "Sou descolado"
-    retrostyle_title: "Ilustração"
-    retrostyle_blurb: "Games estilo Retrô"
-    rob_title: "Engenheiro Compilador"
+    scott_title: "Cofundador" # {change}
+    scott_blurb: "O Sensato"
+#    maka_title: "Customer Advocate"
+#    maka_blurb: "Storyteller"
+    rob_title: "Engenheiro Compilador" # {change}
     rob_blurb: "Os paranauês dos códigos"
     josh_c_title: "Game Designer"
     josh_c_blurb: "Desenha jogos"
+#    robin_title: "UX Design & Research"
+#    robin_blurb: "Scaffolding"
+    josh_title: "Game Designer"
+    josh_blurb: "O chão vai tremer"
+    retrostyle_title: "Ilustração"
+    retrostyle_blurb: "Games estilo Retrô"
+    jose_title: "Músico"
+    jose_blurb: "Sou descolado"
     carlos_title: "Gerente Regional, Brasil"
     carlos_blurb: "O Homem Célere"
-#    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
 
   teachers:
     who_for_title: "Para quem é indicado o CodeCombat?"
@@ -994,7 +992,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    additional_resources_1_mid: "Course 1 Teacher's Guide"
 #    additional_resources_1_suff: "explanations and solutions to each level."
 #    additional_resources_2_pref: "Complete our"
-#    additional_resources_2_suff: "to get 15 more hours of content! For a limited time, enroll as many students as you want in our three paid courses."
+#    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
 #    additional_resources_3_pref: "Visit our"
 #    additional_resources_3_mid: "Teacher Forums"
 #    additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."
@@ -1483,7 +1481,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     email_settings_url: "das suas configurações de email"
     email_description_suffix: "ou através de links nos emails que enviarmos, você pode trocar as preferências e facilmente se desinscrever a qualquer hora."
     cost_title: "Custo"
-#    cost_description_a: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Direitos Autorais e Licenças"
     contributor_title: "Contrato de Licença de Colaborador"
     contributor_description_prefix: "Todos os colaboradores, tanto no nosso site quando no nosso repositório no GitHub estão sujeitos ao nosso"

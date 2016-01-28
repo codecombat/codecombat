@@ -397,14 +397,14 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     prompt_body: "Chcete získat více?"
     prompt_button: "Vstoupit do obchodu"
     recovered: "Obnovení již zakoupených drahokamů proběhlo úspěšně. Aktualizujte stránku prosím."
-    price: "x3500 / měs."
+    price: "x{{gems}} / měs."
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
     feature1: "60+ základních úrovní napříč 4 světy" # {change}
     feature2: "7 silných <strong>nových hrdinů</strong> s jedinečnými dovednostmi!" # {change}
     feature3: "30+ bonusových úrovní" # {change}
-    feature4: "<strong>3500 bonusových drahokamů</strong> každý měsíc!"
+    feature4: "<strong>{{gems}} bonusových drahokamů</strong> každý měsíc!"
     feature5: "Video tutoriály"
     feature6: "Premiová e-mailová podpora"
     feature7: "Soukromé <strong>Klany</strong>"
@@ -552,32 +552,30 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     press_paragraph_1_link: "balíčku pro tisk"
     press_paragraph_1_suffix: ". Všechny loga a obrázky mohou být použity bez toho, abyste nás museli přímo kontaktovat."
     team: "Tým"
-    george_title: "Výkonný ředitel" # {change}
-    george_blurb: "Obchodník"
-    scott_title: "Programátor" # {change}
-    scott_blurb: "Ten potřebný"
     nick_title: "Programátor" # {change}
     nick_blurb: "Motivační guru"
-    michael_title: "Programátor"
-    michael_blurb: "Systémový administrátor"
     matt_title: "Programátor" # {change}
     matt_blurb: "Cyklista"
-#    cat_title: "Chief Artisan"
+#    cat_title: "Game Designer"
 #    cat_blurb: "Airbender"
-#    josh_title: "Game Designer"
-#    josh_blurb: "Floor Is Lava"
-#    jose_title: "Music"
-#    jose_blurb: "Taking Off"
-#    retrostyle_title: "Illustration"
-#    retrostyle_blurb: "RetroStyle Games"
-#    rob_title: "Compiler Engineer"
+    scott_title: "Programátor" # {change}
+    scott_blurb: "Ten potřebný"
+#    maka_title: "Customer Advocate"
+#    maka_blurb: "Storyteller"
+#    rob_title: "Software Engineer"
 #    rob_blurb: "Codes things and stuff"
 #    josh_c_title: "Game Designer"
 #    josh_c_blurb: "Designs games"
+#    robin_title: "UX Design & Research"
+#    robin_blurb: "Scaffolding"
+#    josh_title: "Game Designer"
+#    josh_blurb: "Floor Is Lava"
+#    retrostyle_title: "Illustration"
+#    retrostyle_blurb: "RetroStyle Games"
+#    jose_title: "Music"
+#    jose_blurb: "Taking Off"
 #    carlos_title: "Region Manager, Brazil"
 #    carlos_blurb: "Celery Man"
-#    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
 
 #  teachers:
 #    who_for_title: "Who is CodeCombat for?"
@@ -994,7 +992,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    additional_resources_1_mid: "Course 1 Teacher's Guide"
 #    additional_resources_1_suff: "explanations and solutions to each level."
 #    additional_resources_2_pref: "Complete our"
-#    additional_resources_2_suff: "to get 15 more hours of content! For a limited time, enroll as many students as you want in our three paid courses."
+#    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
 #    additional_resources_3_pref: "Visit our"
 #    additional_resources_3_mid: "Teacher Forums"
 #    additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."
@@ -1483,7 +1481,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     email_settings_url: " nastavení emailu"
     email_description_suffix: "nebo skrze odkazy v odeslaných emailech si můžete nastavit nebo se kdykoliv odhlásit z naší korespondence."
     cost_title: "Cena"
-#    cost_description_a: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Copyrights a Licence"
     contributor_title: "Licenční ujednání přispívatelů (CLA)"
     contributor_description_prefix: "Všichni přispívatelé jak na webu tak do projektu na GitHubu spadají pod naše "

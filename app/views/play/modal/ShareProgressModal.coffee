@@ -2,7 +2,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/share-progress-modal'
 storage = require 'core/storage'
 
-module.exports = class SubscribeModal extends ModalView
+module.exports = class ShareProgressModal extends ModalView
   id: 'share-progress-modal'
   template: template
   plain: true
