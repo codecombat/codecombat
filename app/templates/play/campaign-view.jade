@@ -30,7 +30,9 @@ if campaign
           - var playCount = levelPlayCountMap[level.slug]
           .progress.progress-striped.active.hide
             .progress-bar(style="width: 100%")
-          div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : ""))
+          - var showsLeaderboard = levelStatusMap[level.slug] === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder'].indexOf(level.type) !== -1);
+
+          div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
             .level-status
             h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
             - var description = i18n(level, 'description') || level.description || ""
@@ -53,7 +55,7 @@ if campaign
                   span(data-i18n="play.players") players
                   span.spr , #{Math.round(playCount.playtime / 3600)}
                   span(data-i18n="play.hours_played") hours played
-              if levelStatusMap[level.slug] === 'complete'
+              if showsLeaderboard
                 button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
                   span(data-i18n="leaderboard.scores")
               button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
