@@ -1257,8 +1257,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     red_ai: "CPU красного" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "CPU синего"
     wins: "Побеждает" # At end of multiplayer match playback
-    humans: "Красный" # Ladder page display team name
-    ogres: "Синий"
+    humans: "Красных" # Ladder page display team name
+    ogres: "Синих"
 
   user:
     stats: "Характеристики"
