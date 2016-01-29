@@ -54,7 +54,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     play_as: "Играј као" # Ladder page
     compete: "Такмичи се!" # Course details page
     spectate: "Посматрај" # Ladder page
-   players: "играчи" # Hover over a level on /play
+    players: "играчи" # Hover over a level on /play
     hours_played: "потребно сати играња" # Hover over a level on /play
     items: "Ствари" # Tooltip on item shop button from /play
     unlock: "Откључај" # For purchasing items and heroes
@@ -64,7 +64,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     purchasable: "Могуће купити" # For a hero you unlocked but haven't purchased
     available: "Доступни"
     skills_granted: "Обезбеђени скилови" # Property documentation details
-   heroes: "Хероји" # Tooltip on hero shop button from /play
+    heroes: "Хероји" # Tooltip on hero shop button from /play
     achievements: "Достигнућа" # Tooltip on achievement list button from /play
     account: "Налог" # Tooltip on account button from /play
     settings: "Подешавања" # Tooltip on settings button from /play
@@ -123,7 +123,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     send_password: "Пошаљи помоћну шифру"
     recovery_sent: "Послат мејл за потврду опоравка."
 
-#  items:
+  items:
     primary: "Примарни"
     secondary: "Секундарни"
     armor: "Оклоп"
@@ -141,7 +141,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     cancel: "Откажи"
     save: "Сачувај"
     publish: "Објави"
-   create: "Створи"
+    create: "Створи"
 #    fork: "Fork"
     play: "Нивои" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
@@ -150,7 +150,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     help: "Помоћ"
     watch: "Одгледај"
     unwatch: "Не гледај"
-   submit_patch: "Потврди закрпу"
+    submit_patch: "Потврди закрпу"
     submit_changes: "Потврди измене"
     save_changes: "Сачувај измене"
 
@@ -268,7 +268,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Потврди"
+    tome_submit_button: "Потврди"
 #    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
 #    tome_select_method: "Select a Method"
 #    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methods).
@@ -374,13 +374,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    difficulty: "Difficulty"
 #    gold_collected: "Gold Collected"
 
-#  inventory:
+  inventory:
     equipped_item: "Опремљен"
     required_purchase_title: "Потребно"
     available_item: "Доступно"
     restricted_title: "Забрањено"
     should_equip: "(Дупли-клик за опремање)"
-   equipped: "(опремљен/а)"
+    equipped: "(опремљен/а)"
 #    locked: "(locked)"
 #    restricted: "(restricted in this level)"
     equip: "Опреми"
