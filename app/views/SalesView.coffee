@@ -17,7 +17,7 @@ module.exports = class SalesView extends RootView
     'CodeCombat'
 
   onClickContactUs: (e) ->
-    app.router.navigate '/teachers/freetrial', trigger: true
+    app.router.navigate '/teachers/quote', trigger: true
 
   onClickLogin: (e) ->
     @openModalView new AuthModal(mode: 'login') if me.get('anonymous')
