@@ -204,7 +204,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     ranger: "Извиђач"
     wizard: "Маг"
 
-#  units:
+  units:
     second: "секунда"
     seconds: "секунде"
     minute: "минут"
@@ -212,7 +212,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     hour: "сат"
     hours: "сати"
     day: "дан"
-   days: "дани"
+    days: "дани"
     week: "недеља"
     weeks: "недеље"
     month: "месец"
@@ -241,7 +241,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     timed_out: "Истекло времe"
     failing: "Губљење"
     control_bar_multiplayer: "Мултиплејер"
-   control_bar_join_game: "Прикључи се игри"
+    control_bar_join_game: "Прикључи се игри"
     reload: "Поновно учитавање"
     reload_title: "Поновно учитавање целог кода?"
     reload_really: "Да ли сте сигурни да желите да кренете ниво испочетка?"
@@ -361,9 +361,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    multiplayer_caption: "Play with friends!"
 #    auth_caption: "Save your progress."
 
-#  leaderboard:
+  leaderboard:
     view_other_solutions: "Види табелу напредовања"
-   scores: "Резултати"
+    scores: "Резултати"
     top_players: "Рангирање играча по"
     day: "Данас"
     week: "Ове недеље"
@@ -458,7 +458,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
-#  choose_hero:
+  choose_hero:
     choose_hero: "Изабери свог хероја"
     programming_language: "Програмски језик"
     programming_language_description: "Који програмски језик желиш да користиш у игри?"
