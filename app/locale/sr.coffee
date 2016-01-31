@@ -8,23 +8,23 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
-#    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    campaign: "Кампања"
+    for_beginners: "За почетнике"
+    multiplayer: "Мултиплејер" # Not currently shown on home page
+    for_developers: "За Девелопере" # Not currently shown on home page.
+    or_ipad: "Или скини за iPad"
 
   nav:
     play: "Нивои" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-#    courses: "Courses"
+    community: "Заједница"
+    courses: "Курсеви"
     editor: "Уређивач"
     blog: "Блог"
     forum: "Форум"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+    account: "Налог"
+    profile: "Профил"
+    stats: "Статистика"
+    code: "Код"
     admin: "Админ" # Only shows up when you are an admin
     home: "Почетна"
     contribute: "Допринеси"
@@ -32,8 +32,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     about: "О нама"
     contact: "Контакт"
     twitter_follow: "Прати"
-#    teachers: "Teachers"
-#    careers: "Careers"
+    teachers: "Учитељи"
+    careers: "Каријере"
 
   modal:
     close: "Затвори"
@@ -51,29 +51,29 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     subscribe_as_diplomat: "Претплати се као Дипломата"
 
   play:
-#    play_as: "Play As" # Ladder page
-#    compete: "Compete!" # Course details page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    buy_gems: "Buy Gems"
-#    subscription_required: "Subscription Required"
-#    anonymous: "Anonymous Player"
+    play_as: "Играј као" # Ladder page
+    compete: "Такмичи се!" # Course details page
+    spectate: "Посматрај" # Ladder page
+    players: "играчи" # Hover over a level on /play
+    hours_played: "потребно сати играња" # Hover over a level on /play
+    items: "Ствари" # Tooltip on item shop button from /play
+    unlock: "Откључај" # For purchasing items and heroes
+    confirm: "Потврди"
+    owned: "У поседу" # For items you own
+    locked: "Закључани"
+    purchasable: "Могуће купити" # For a hero you unlocked but haven't purchased
+    available: "Доступни"
+    skills_granted: "Обезбеђени скилови" # Property documentation details
+    heroes: "Хероји" # Tooltip on hero shop button from /play
+    achievements: "Достигнућа" # Tooltip on achievement list button from /play
+    account: "Налог" # Tooltip on account button from /play
+    settings: "Подешавања" # Tooltip on settings button from /play
+    poll: "Покрени" # Tooltip on poll button from /play
+    next: "Следећи" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Промени Хероја" # Go back from choose inventory to choose hero
+    buy_gems: "Купи драгуље"
+    subscription_required: "Потребна пријава"
+    anonymous: "Анонимни играч"
     level_difficulty: "Тежина: "
 #    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Почетничка кампања"
@@ -97,72 +97,72 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
   login:
     sign_up: "Направи Налог"
     log_in: "Улогуј Се"
-#    logging_in: "Logging In"
+    logging_in: "Логовање"
     log_out: "Излогуј Се"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "Да ли си заборавио шифру?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    finishing: "Завршавање"
+    sign_in_with_facebook: "Учлани се преко Фејсбука"
+    sign_in_with_gplus: "Учлани се преко Гугл +"
+    signup_switch: "Да ли желиш да направиш налог?"
 
   signup:
     email_announcements: "Примај обавештења на мејл"
     creating: "Прављење налога..."
     sign_up: "Упиши се"
     log_in: "улогуј се са шифром"
-#    required: "You need to log in before you can go that way."
-#    login_switch: "Already have an account?"
-#    school_name: "School Name and City"
-#    optional: "optional"
+    required: "Мораш да се улогујеш пре него што наставиш"
+    login_switch: "Већ имаш налог?"
+    school_name: "Име школе и града"
+    optional: "опционо"
 #    school_name_placeholder: "Example High School, Springfield, IL"
 
   recover:
     recover_account_title: "Поврати налог"
-#    send_password: "Send Recovery Password"
-#    recovery_sent: "Recovery email sent."
+    send_password: "Пошаљи помоћну шифру"
+    recovery_sent: "Послат мејл за потврду опоравка."
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "Примарни"
+    secondary: "Секундарни"
+    armor: "Оклоп"
+    accessories: "Опрема"
+    misc: "Остало"
+    books: "Књиге"
 
   common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
+    back: "Уназад" # When used as an action verb, like "Navigate backward"
 #    continue: "Continue" # When used as an action verb, like "Continue forward"
     loading: "Учитавање"
     saving: "Чување..."
     sending: "Шаље се..."
-#    send: "Send"
+    send: "Пошаљи"
     cancel: "Откажи"
-#    save: "Save"
-#    publish: "Publish"
-#    create: "Create"
+    save: "Сачувај"
+    publish: "Објави"
+    create: "Створи"
 #    fork: "Fork"
     play: "Нивои" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    actions: "Actions"
-#    info: "Info"
-#    help: "Help"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
-#    submit_patch: "Submit Patch"
-#    submit_changes: "Submit Changes"
-#    save_changes: "Save Changes"
+    info: "Инфо"
+    help: "Помоћ"
+    watch: "Одгледај"
+    unwatch: "Не гледај"
+    submit_patch: "Потврди закрпу"
+    submit_changes: "Потврди измене"
+    save_changes: "Сачувај измене"
 
   general:
 #    and: "and"
     name: "Име"
-#    date: "Date"
-#    body: "Body"
-#    version: "Version"
-#    pending: "Pending"
-#    accepted: "Accepted"
-#    rejected: "Rejected"
+    date: "Датум"
+    body: "Тело"
+    version: "Верзија"
+    pending: "Учитавање"
+    accepted: "Прихваћен"
+    rejected: "Одбијен"
 #    withdrawn: "Withdrawn"
 #    accept: "Accept"
 #    reject: "Reject"
@@ -178,103 +178,103 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    redo_prefix: "Redo"
 #    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
-#    result: "Result"
-#    results: "Results"
-#    description: "Description"
+    result: "Резултат"
+    results: "Резултати"
+    description: "Опис"
     or: "или"
-#    subject: "Subject"
+    subject: "Субјекат"
     email: "Мејл"
-#    password: "Password"
+    password: "Шифра"
     message: "Порука"
-#    code: "Code"
+    code: "Код"
 #    ladder: "Ladder"
 #    when: "When"
-#    opponent: "Opponent"
-#    rank: "Rank"
-#    score: "Score"
-#    win: "Win"
-#    loss: "Loss"
-#    tie: "Tie"
-#    easy: "Easy"
-#    medium: "Medium"
-#    hard: "Hard"
-#    player: "Player"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Warrior"
-#    ranger: "Ranger"
-#    wizard: "Wizard"
+    opponent: "Противник"
+    rank: "Чин"
+    score: "Поен"
+    win: "Победа"
+    loss: "Пораз"
+    tie: "Нерешено"
+    easy: "Лако"
+    medium: "Средње"
+    hard: "Тешко"
+    player: "Играч"
+    player_level: "Ранг играча" # Like player level 5, not like level: Dungeons of Kithgard
+    warrior: "Ратник"
+    ranger: "Извиђач"
+    wizard: "Маг"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "секунда"
+    seconds: "секунде"
+    minute: "минут"
+    minutes: "минути"
+    hour: "сат"
+    hours: "сати"
+    day: "дан"
+    days: "дани"
+    week: "недеља"
+    weeks: "недеље"
+    month: "месец"
+    months: "месеци"
+    year: "година"
+    years: "године"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "Завршен ниво:"
+    course: "Курс:"
     done: "Урађено"
-#    next_level: "Next Level:"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+    next_level: "Следећи ниво:"
+    next_game: "Следећа игра"
+    show_menu: "Види мени игре"
     home: "Почетна" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
+    level: "Ниво" # Like "Level: Dungeons of Kithgard"
+    skip: "Прескочи"
+    game_menu: "Мени игре"
     guide: "Водич"
     restart: "Поновно учитавање"
     goals: "Циљеви"
-#    goal: "Goal"
-#    running: "Running..."
-#    success: "Success!"
-#    incomplete: "Incomplete"
-#    timed_out: "Ran out of time"
-#    failing: "Failing"
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    goal: "Циљ"
+    running: "Покретање..."
+    success: "Успех!"
+    incomplete: "Недовољно"
+    timed_out: "Истекло времe"
+    failing: "Губљење"
+    control_bar_multiplayer: "Мултиплејер"
+    control_bar_join_game: "Прикључи се игри"
+    reload: "Поновно учитавање"
     reload_title: "Поновно учитавање целог кода?"
     reload_really: "Да ли сте сигурни да желите да кренете ниво испочетка?"
     reload_confirm: "Поновно учитавање свега"
-#    victory: "Victory"
-#    victory_title_prefix: ""
+    victory: "Победа"
+    victory_title_prefix: "Урааа победааа!"
     victory_title_suffix: " Завршено"
     victory_sign_up: "Пријави се за новости"
     victory_sign_up_poke: "Желиш ли да примаш најновије вести на мејл? Направи бесплатан налог и ми ћемо те обавештавати!"
     victory_rate_the_level: "Оцени ниво: " # {change}
-#    victory_return_to_ladder: "Return to Ladder"
-#    victory_saving_progress: "Saving Progress"
+    victory_return_to_ladder: "Врати се на лествицу"
+    victory_saving_progress: "Чување напретка"
     victory_go_home: "Иди на почетну"
     victory_review: "Реци нам више!"
-#    victory_review_placeholder: "How was the level?"
+    victory_review_placeholder: "Колико је био тежак ниво?"
     victory_hour_of_code_done: "Јеси ли завршио?"
     victory_hour_of_code_done_yes: "Да, завршио сам свој Сат Кода!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
-#    victory_new_item: "New Item"
+    victory_experience_gained: "Добијено искуство"
+    victory_gems_gained: "Добијени драгуљи"
+    victory_new_item: "Нови Итем"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
+    victory_become_a_viking: "Постани Викинг"
     guide_title: "Водич"
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Submit"
+    tome_submit_button: "Потврди"
 #    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
 #    tome_select_method: "Select a Method"
 #    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methods).
     tome_select_a_thang: "Изабери неког за "
     tome_available_spells: "Доступне чини"
-#    tome_your_skills: "Your Skills"
+    tome_your_skills: "Твоје вештине"
 #    tome_current_method: "Current Method"
 #    code_saved: "Code Saved"
 #    skip_tutorial: "Skip (esc)"
@@ -361,30 +361,30 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    multiplayer_caption: "Play with friends!"
 #    auth_caption: "Save your progress."
 
-#  leaderboard:
-#    view_other_solutions: "View Leaderboards"
-#    scores: "Scores"
-#    top_players: "Top Players by"
-#    day: "Today"
-#    week: "This Week"
-#    all: "All-Time"
-#    time: "Time"
-#    damage_taken: "Damage Taken"
-#    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
-#    gold_collected: "Gold Collected"
+  leaderboard:
+    view_other_solutions: "Види табелу напредовања"
+    scores: "Резултати"
+    top_players: "Рангирање играча по"
+    day: "Данас"
+    week: "Ове недеље"
+    all: "Све-време"
+    time: "Време"
+    damage_taken: "Претпљена штета"
+    damage_dealt: "Нанета штета"
+    difficulty: "Тежина"
+    gold_collected: "Сакупљено злата"
 
-#  inventory:
-#    equipped_item: "Equipped"
-#    required_purchase_title: "Required"
-#    available_item: "Available"
-#    restricted_title: "Restricted"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
+  inventory:
+    equipped_item: "Опремљен"
+    required_purchase_title: "Потребно"
+    available_item: "Доступно"
+    restricted_title: "Забрањено"
+    should_equip: "(Дупли-клик за опремање)"
+    equipped: "(опремљен/а)"
 #    locked: "(locked)"
 #    restricted: "(restricted in this level)"
-#    equip: "Equip"
-#    unequip: "Unequip"
+    equip: "Опреми"
+    unequip: "Скини"
 
 #  buy_gems:
 #    few_gems: "A few gems"
@@ -458,12 +458,12 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
-#  choose_hero:
-#    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
-#    programming_language_description: "Which programming language do you want to use?"
+  choose_hero:
+    choose_hero: "Изабери свог хероја"
+    programming_language: "Програмски језик"
+    programming_language_description: "Који програмски језик желиш да користиш у игри?"
 #    default: "Default"
-#    experimental: "Experimental"
+    experimental: "Експеро+иментални"
 #    python_blurb: "Simple yet powerful, great for beginners and experts."
 #    javascript_blurb: "The language of the web. (Not the same as Java.)"
 #    coffeescript_blurb: "Nicer JavaScript syntax."

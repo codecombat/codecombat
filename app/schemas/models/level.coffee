@@ -254,6 +254,7 @@ LevelSchema = c.object {
   'default':
     name: 'Ineffable Wizardry'
     description: 'This level is indescribably flarmy.'
+    tasks: (name: t, complete: false for t in defaultTasks)
     documentation: {}
     scripts: []
     thangs: []

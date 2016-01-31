@@ -30,6 +30,7 @@ module.exports = class AuthModal extends ModalView
     @onNameChange = _.debounce @checkNameExists, 500
     super options
     @mode = options.mode if options.mode
+    @previousFormInputs = options.initialValues or {}
 
   getRenderData: ->
     c = super()

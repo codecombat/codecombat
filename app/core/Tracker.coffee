@@ -93,7 +93,7 @@ module.exports = class Tracker
     ga? 'send', 'pageview', url
 
     # Mixpanel
-    mixpanelIncludes = ['courses', 'courses/purchase', 'courses/teachers', 'courses/students', 'schools', 'teachers', 'teachers/freetrial']
+    mixpanelIncludes = ['', 'courses', 'courses/purchase', 'courses/teachers', 'courses/students', 'schools', 'teachers', 'teachers/freetrial', 'teachers/quote']
     mixpanel.track('page viewed', 'page name' : name, url : url) if name in mixpanelIncludes
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
@@ -142,7 +142,7 @@ module.exports = class Tracker
         $.post("#{window.location.protocol or 'http:'}//analytics.codecombat.com/analytics", dataToSend).fail ->
           console.error "Analytics post failed!"
       else
-        request = @supermodel.addRequestResource 'log_event', {
+        request = @supermodel.addRequestResource {
           url: '/db/analytics.log.event/-/log_event'
           data: {event: event, properties: properties}
           method: 'POST'

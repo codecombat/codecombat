@@ -51,7 +51,7 @@ describe 'CourseVictoryModal', ->
       expect(_.size(modal.views)).toBe(1)
       expect(modal.views[0] instanceof ProgressView).toBe(true)
 
-    xit '(demo)', -> currentView.openModalView(modal)
+    it '(demo)', -> jasmine.demoModal(modal)
     
     describe 'its ProgressView', ->
       it 'has a next level button which navigates to the next level on click', ->
@@ -93,7 +93,7 @@ describe 'CourseVictoryModal', ->
         button.click()
         expect(application.router.navigate).toHaveBeenCalled()
 
-    xit '(demo)', -> currentView.openModalView(modal)
+    it '(demo)', -> jasmine.demoModal(modal)
       
 
   describe 'given a course level with a new item', ->
@@ -120,5 +120,5 @@ describe 'CourseVictoryModal', ->
       expect(modal.currentView instanceof NewItemView).toBe(true)
       modal.$el.find('#continue-btn').click()
       expect(modal.currentView instanceof ProgressView).toBe(true)
-    
-    xit '(demo)', -> currentView.openModalView(modal)
+
+    it '(demo)', -> jasmine.demoModal(modal)

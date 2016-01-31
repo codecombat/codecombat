@@ -15,7 +15,9 @@ SettingsTabView = require './settings/SettingsTabView'
 ScriptsTabView = require './scripts/ScriptsTabView'
 ComponentsTabView = require './components/ComponentsTabView'
 SystemsTabView = require './systems/SystemsTabView'
+TasksTabView = require './tasks/TasksTabView'
 SaveLevelModal = require './modals/SaveLevelModal'
+ArtisanGuideModal = require './modals/ArtisanGuideModal'
 ForkModal = require 'views/editor/ForkModal'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
@@ -56,6 +58,7 @@ module.exports = class LevelEditView extends RootView
     'mouseenter #redo-button': 'showRedoDescription'
     'click #patches-tab': -> @patchesView.load()
     'click #components-tab': -> @subviews.editor_level_components_tab_view.refreshLevelThangsTreema @level.get('thangs')
+    'click #artisan-guide-button': 'showArtisanGuide'
     'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
     'click li:not(.disabled) > #pop-level-i18n-button': 'onPopulateI18N'
@@ -105,10 +108,12 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @insertSubView new ComponentsTabView supermodel: @supermodel
     @insertSubView new SystemsTabView supermodel: @supermodel, world: @world
+    @insertSubView new TasksTabView world: @world, supermodel: @supermodel, level: @level
     @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
     @insertSubView new ComponentsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new SystemsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new LevelFeedbackView level: @level
+    
 
     Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
@@ -170,6 +175,10 @@ module.exports = class LevelEditView extends RootView
     @openModalView new SaveLevelModal level: @level, supermodel: @supermodel, buildTime: @levelBuildTime
     Backbone.Mediator.publish 'editor:view-switched', {}
 
+  showArtisanGuide: (e) ->
+    @openModalView new ArtisanGuideModal level: @level
+    Backbone.Mediator.publish 'editor:view-switched', {}
+
   startForking: (e) ->
     @openModalView new ForkModal model: @level, editorPath: 'level'
     Backbone.Mediator.publish 'editor:view-switched', {}
@@ -210,3 +219,9 @@ module.exports = class LevelEditView extends RootView
     return if application.userIsIdle
     @levelBuildTime ?= @level.get('buildTime') ? 0
     ++@levelBuildTime
+
+  getTaskCompletionRatio: ->
+    if not @level.get('tasks')?
+      return '0/0'
+    else
+      return _.filter(@level.get('tasks'), (_elem) -> return _elem.complete).length + '/' + @level.get('tasks').length

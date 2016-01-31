@@ -31,13 +31,13 @@ module.exports = class CoursesView extends RootView
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @courseInstances.comparator = (ci) -> return ci.get('classroomID') + ci.get('courseID')
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
-    @supermodel.loadCollection(@courseInstances, 'course_instances')
+    @supermodel.loadCollection(@courseInstances)
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
-    @supermodel.loadCollection(@classrooms, 'classrooms', { data: {memberID: me.id} })
+    @supermodel.loadCollection(@classrooms, { data: {memberID: me.id} })
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
-    @supermodel.loadCollection(@courses, 'courses')
+    @supermodel.loadCollection(@courses)
     @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign })
-    @supermodel.loadCollection(@campaigns, 'campaigns', { data: { type: 'course' }})
+    @supermodel.loadCollection(@campaigns, { data: { type: 'course' }})
 
   onCourseInstancesLoaded: ->
     map = {}
@@ -51,7 +51,7 @@ module.exports = class CoursesView extends RootView
         model: LevelSession
       })
       courseInstance.sessions.comparator = 'changed'
-      @supermodel.loadCollection(courseInstance.sessions, 'sessions', { data: { project: 'state.complete level.original playtime changed' }})
+      @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete level.original playtime changed' }})
 
     @hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
     if @hocCourseInstance
