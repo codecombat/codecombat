@@ -31,9 +31,11 @@ schoolCounts.sort(function(a, b) {
   return 1; 
 });
 
+var count = 0;
 for (var i = 0; i < schoolCounts.length; i++) {
-  if (schoolCounts[i].count >= 10)
-    print(schoolCounts[i].count, schoolCounts[i].schoolName);
+  if (schoolCounts[i].count >= 2) {
+    print(++count, '\t', schoolCounts[i].count, schoolCounts[i].schoolName);
+  }
 }
 
 log("Script runtime: " + (new Date() - scriptStartTime));
