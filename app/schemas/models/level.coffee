@@ -4,44 +4,49 @@ ThangComponentSchema = require './thang_component'
 defaultTasks = [
   'Name the level.'
   'Create a Referee stub, if needed.'
+  'Do basic set decoration.'
+  'Publish.'
+
   'Build the level.'
   'Set up goals.'
+  'Write the sample code.'
+  'Make sure the level ends promptly on success and failure.'
+
   'Choose the Existence System lifespan and frame rate.'
   'Choose the UI System paths and coordinate hover if needed.'
   'Choose the AI System pathfinding and Vision System line of sight.'
-  'Write the sample code.'
 
-  'Do basic set decoration.'
   'Adjust script camera bounds.'
   'Choose music file in Introduction script.'
   'Choose autoplay in Introduction script.'
 
-  'Add to a campaign.'
-  'Publish.'
-  'Choose level options like required/restricted gear.'
-  'Create achievements, including unlocking next level.'
+  'Add Clojure/Lua/CoffeeScript.'
+
+  'Write the description.'
+  'Write the guide.'
+
+  'Write a loading tip, if needed.'
+  'Add programming concepts covered.'
+  'Mark whether it requires a subscription.'
   'Choose leaderboard score types.'
 
+  'Do thorough set decoration.'
   'Playtest with a slow/tough hero.'
   'Playtest with a fast/weak hero.'
   'Playtest with a couple random seeds.'
-  'Make sure the level ends promptly on success and failure.'
   'Remove/simplify unnecessary doodad collision.'
+
+  'Add to a campaign.'
+  'Choose level options like required/restricted gear.'
+  'Create achievements, including unlocking next level.'
+
+  'Click the Populate i18n button.'
+  'Add i18n field for the sample code comments.'
   'Release to adventurers via MailChimp.'
 
-  'Write the description.'
-  'Add i18n field for the sample code comments.'
-  'Add Clojure/Lua/CoffeeScript.'
-  'Write the guide.'
-  'Write a loading tip, if needed.'
-  'Click the Populate i18n button.'
-  'Add programming concepts covered.'
-
-  'Mark whether it requires a subscription.'
   'Release to everyone via MailChimp.'
 
   'Check completion/engagement/problem analytics.'
-  'Do thorough set decoration.'
   'Add a walkthrough video.'
 ]
 
