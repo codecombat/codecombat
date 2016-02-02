@@ -204,7 +204,7 @@ module.exports = class CocoView extends Backbone.View
       return visibleModal.hide() if visibleModal.$el.is(':visible') # close, then this will get called again
       return @modalClosed(visibleModal) # was closed, but modalClosed was not called somehow
     modalView.render()
-    $('#modal-wrapper').empty().append modalView.el
+    $('#modal-wrapper').removeClass('hide').empty().append modalView.el
     modalView.afterInsert()
     visibleModal = modalView
     modalOptions = {show: true, backdrop: if modalView.closesOnClickOutside then true else 'static'}
@@ -219,6 +219,7 @@ module.exports = class CocoView extends Backbone.View
     visibleModal = null
     window.currentModal = null
     #$('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
+    $('#modal-wrapper').addClass('hide')
     if waitingModal
       wm = waitingModal
       waitingModal = null

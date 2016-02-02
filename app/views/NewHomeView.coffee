@@ -3,12 +3,7 @@ template = require 'templates/new-home-view'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 
-###
-  TODO:
-  * Get rid of modal wrapper shadow at top of page
-  * auto margin feature paragraphs
-
-###
+#  TODO: auto margin feature paragraphs
 
 module.exports = class NewHomeView extends RootView
   id: 'new-home-view'
