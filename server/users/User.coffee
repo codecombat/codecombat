@@ -32,6 +32,7 @@ UserSchema.index({'stripe.subscriptionID': 1}, {unique: true, sparse: true})
 UserSchema.index({'siteref': 1}, {name: 'siteref index', sparse: true})
 UserSchema.index({'schoolName': 1}, {name: 'schoolName index', sparse: true})
 UserSchema.index({'country': 1}, {name: 'country index', sparse: true})
+UserSchema.index({'role': 1}, {name: 'role index', sparse: true})
 
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
@@ -315,7 +316,7 @@ UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
   'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'chinaVersion', 'country',
-  'schoolName', 'ageRange'
+  'schoolName', 'ageRange', 'role'
 ]
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [
@@ -323,7 +324,7 @@ UserSchema.statics.editableProperties = [
   'firstName', 'lastName', 'gender', 'ageRange', 'facebookID', 'gplusID', 'emails',
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
-  'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName'
+  'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role'
 ]
 
 UserSchema.plugin plugins.NamedPlugin

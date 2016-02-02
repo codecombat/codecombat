@@ -90,6 +90,7 @@ module.exports = class TeacherCoursesView extends RootView
 
   onLoaded: ->
     super()
+    me.setRole 'teacher'
     @addFreeCourseInstances()
 
   addFreeCourseInstances: ->

@@ -59,6 +59,17 @@ module.exports = class User extends CocoModel
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
+  setRole: (role, force=false) ->
+    return if me.isAdmin()
+    oldRole = @get 'role'
+    console.log 'had role', oldRole, 'new role', role
+    return if oldRole is role or (oldRole and not force)
+    console.log 'gonna set it!'
+    @set 'role', role
+    @patch()
+    application.tracker?.updateRole()
+    return @get 'role'
+
   a = 5
   b = 100
   c = b

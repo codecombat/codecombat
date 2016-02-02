@@ -52,6 +52,7 @@ module.exports = class CocoClass
     # for initting subscriptions
     return unless Backbone?.Mediator?
     for channel, func of @subscriptions
+      console.log @nick, 'listening to', channel, 'with', func
       func = utils.normalizeFunc(func, @)
       Backbone.Mediator.subscribe(channel, func, @)
 

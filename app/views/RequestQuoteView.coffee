@@ -27,24 +27,24 @@ formSchema = {
 module.exports = class RequestQuoteView extends RootView
   id: 'request-quote-view'
   template: require 'templates/request-quote-view'
-  
+
   events:
     'submit form': 'onSubmitForm'
     'click #login-btn': 'onClickLoginButton'
     'click #signup-btn': 'onClickSignupButton'
-    
+
   initialize: ->
     @trialRequest = new TrialRequest()
     @trialRequests = new TrialRequests()
     @trialRequests.fetchOwn()
     @supermodel.loadCollection(@trialRequests)
-    
+
   onLoaded: ->
     if @trialRequests.size()
       @trialRequest = @trialRequests.first()
-      
+    me.setRole 'teacher'
     super()
-    
+
   onSubmitForm: (e) ->
     e.preventDefault()
     form = @$('form')
@@ -73,6 +73,7 @@ module.exports = class RequestQuoteView extends RootView
     @trialRequest.save()
     @trialRequest.on 'sync', @onTrialRequestSubmit, @
     @trialRequest.on 'error', @onTrialRequestError, @
+    me.setRole attrs.role.toLowerCase(), true
 
   onTrialRequestError: ->
     @$('#submit-request-btn').text('Submit').attr('disabled', false)
@@ -87,13 +88,13 @@ module.exports = class RequestQuoteView extends RootView
     })
     @openModalView(modal)
     window.nextURL = '/courses/teachers' unless @trialRequest.isNew()
-    
+
   onClickSignupButton: ->
     props = @trialRequest.get('properties') or {}
     me.set('name', props.name)
     modal = new AuthModal({
       mode: 'signup'
-      initialValues: { 
+      initialValues: {
         email: props.email
         schoolName: props.organization
       }

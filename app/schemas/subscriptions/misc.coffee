@@ -67,3 +67,6 @@ module.exports =
   'store:hero-purchased': c.object {required: ['hero', 'heroSlug']},
     hero: {type: 'object'}
     heroSlug: {type: 'string'}
+
+  'application:service-loaded': c.object {required: ['service']},
+    service: {type: 'string'}  # 'segment'
