@@ -53,12 +53,18 @@ module.exports = class RequestQuoteView extends RootView
       attrs.educationLevel.push(@$('#other-education-level-input').val())
     forms.clearFormAlerts(form)
     result = tv4.validateMultiple(attrs, formSchema)
+    error = true
     if not result.valid
-      return forms.applyErrorsToForm(form, result.errors)
-    if not /^.+@.+\..+$/.test(attrs.email)
-      return forms.setErrorToProperty(form, 'email', 'Invalid email.')
-    if not _.size(attrs.educationLevel)
+      forms.applyErrorsToForm(form, result.errors)
+    else if not /^.+@.+\..+$/.test(attrs.email)
+      forms.setErrorToProperty(form, 'email', 'Invalid email.')
+    else if not _.size(attrs.educationLevel)
       return forms.setErrorToProperty(form, 'educationLevel', 'Check at least one.')
+    else
+      error = false
+    if error
+      forms.scrollToFirstError()
+      return
     @trialRequest = new TrialRequest({
       type: 'course'
       properties: attrs

@@ -62,6 +62,11 @@ module.exports.setErrorToProperty = setErrorToProperty = (el, property, message,
     return console.error "#{property} not found in", el, "so couldn't show message:", message
 
   setErrorToField input, message, warning
+  
+module.exports.scrollToFirstError = ($el=$('body')) ->
+  $first = $el.find('.has-error, .alert-danger, .error-help-block, .has-warning, .alert-warning, .warning-help-block').first()
+  $('body').nanoScroller({scroll: 'top'}) # normalizes offset().top value
+  $('body').nanoScroller({scrollTop: $first.offset().top - 20})
 
 module.exports.clearFormAlerts = (el) ->
   $('.has-error', el).removeClass('has-error')
