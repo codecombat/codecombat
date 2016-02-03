@@ -327,6 +327,7 @@ _.extend UserSchema.properties,
     description: 'Prepaid which has paid for this user\'s course access'
   })
   schoolName: {type: 'string'}
+  role: {type: 'string'}  # unset, 'student', 'teacher', 'parent', 'technology coordinator', 'advisor', 'principal', 'superintendent', ...
 
 c.extendBasicProperties UserSchema, 'user'
 

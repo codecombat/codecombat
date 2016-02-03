@@ -34,3 +34,7 @@ module.exports = class SalesView extends RootView
       scrollTop: $('[name="' + $(e.target).closest('a').attr('href').substr(1) + '"]').offset().top
     }, 300)
     false
+
+  constructor: ->
+    super arguments...
+    me.setRole 'teacher'
