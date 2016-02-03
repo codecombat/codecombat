@@ -139,6 +139,18 @@ $forest: #20572B
         .language-dropdown
           width: 150px
       
+    .img-circle
+      border: $gold 8px solid
+      width: 98px
+      height: 98px // Includes the border
+      
+    .user-level
+      position: absolute
+      top: 76px
+      right: 42px
+      color: $gold
+      text-shadow: 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black
+      
   // Buttons
  
   .btn
@@ -221,11 +233,12 @@ $forest: #20572B
           line-height: 45px
         
       .well
+        border: none
         border-radius: 8px
         background: rgba(255, 255, 255, 0.5)
         margin-top: 170px
         #classroom-edition-header
-          margin-top: 40px
+          margin-top: 10px
         #learn-to-code-header
           margin-top: 80px
 
@@ -233,9 +246,10 @@ $forest: #20572B
         margin-top: 80px
         h2, h6
           color: white
-
         h6
           margin-top: 10px
+        a:hover
+          text-decoration: none
       
     &.alt-image
       background-image: url("/images/pages/home/student_jumbotron.png")
@@ -362,12 +376,15 @@ $forest: #20572B
     display: inline-block
     width: 250px
 
-  #request-demo-row
+  .request-demo-row
     margin: 100px 0
 
     .btn
       margin: 20px 10px
       
+  #total-hours-header
+    margin-top: 10px
+    
   #courses-container
     display: flex
     flex-wrap: wrap
