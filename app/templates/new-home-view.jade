@@ -15,18 +15,20 @@ nav.navbar.navbar-default
         li
           a(href="/about") About
         li
+          a(href="/courses") Courses
+        li
           a(href="/courses/teachers") Teachers
         li
           a(href="https://discourse.codecombat.com/") Forum
         if me.isAnonymous()
           li
-            a#create-account-link.signup-button Signup
+            a#create-account-link.signup-button Create Account
           li
             a#login-link.login-button Login
         else
           li.dropdown
             a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
-              span.spr Account
+              span.spr My Account
             ul.dropdown-menu
               li.user-dropdown-header.text-center
                 span.user-level= me.level()
