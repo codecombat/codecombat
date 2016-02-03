@@ -7,6 +7,7 @@ module.exports = class HomeView extends RootView
 
   events:
     'click #play-button': 'onClickPlayButton'
+    'click #close-teacher-note-link': 'onClickCloseTeacherNoteLink'
 
   constructor: (options={}) ->
     super()
@@ -56,3 +57,6 @@ module.exports = class HomeView extends RootView
 
   isNewPlayer: ->
     not me.get('stats')?.gamesCompleted and not me.get('heroConfig')
+
+  onClickCloseTeacherNoteLink: ->
+    @$('.style-flat').addClass('hide')
