@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
+# Test comment
 # Original content copyright (c) 2014 dpen2000 licensed under the MIT license
 
 VAGRANTFILE_API_VERSION = "2"
