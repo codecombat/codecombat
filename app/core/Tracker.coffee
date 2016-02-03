@@ -3,7 +3,7 @@ SuperModel = require 'models/SuperModel'
 utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
 
-debugAnalytics = true
+debugAnalytics = false
 targetInspectJSLevelSlugs = ['cupboards-of-kithgard']
 
 module.exports = class Tracker extends CocoClass
@@ -16,7 +16,6 @@ module.exports = class Tracker extends CocoClass
       console.error 'Overwrote our Tracker!', window.tracker
     window.tracker = @
     @isProduction = document.location.href.search('codecombat.com') isnt -1
-    @isProduction = true
     @trackReferrers()
     @identify()
     @supermodel = new SuperModel()
@@ -92,6 +91,7 @@ module.exports = class Tracker extends CocoClass
     mixpanel.register(traits)
 
     if @isTeacher() and @segmentLoaded
+      traits.createdAt = me.get 'dateCreated'  # Intercom, at least, wants this
       analytics.identify me.id, traits
 
   trackPageView: (includeIntegrations=[]) ->

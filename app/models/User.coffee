@@ -62,9 +62,7 @@ module.exports = class User extends CocoModel
   setRole: (role, force=false) ->
     return if me.isAdmin()
     oldRole = @get 'role'
-    console.log 'had role', oldRole, 'new role', role
     return if oldRole is role or (oldRole and not force)
-    console.log 'gonna set it!'
     @set 'role', role
     @patch()
     application.tracker?.updateRole()
@@ -135,7 +133,7 @@ module.exports = class User extends CocoModel
     @announcesActionAudioGroup = 'all-audio' if me.isAdmin()
     application.tracker.identify announcesActionAudioGroup: @announcesActionAudioGroup unless me.isAdmin()
     @announcesActionAudioGroup
-    
+
   getHomepageGroup: ->
 #    return 'control'
 #    return 'home-with-note'
