@@ -1,8 +1,8 @@
 button.close(type="button") &times;
 h3.problem-alert-title(data-i18n="play_level.problem_alert_title") Fix Your Code
-if hint
-  span.problem-title!= hint
+if view.hint
+  span.problem-title!= view.hint
   br
-  span.problem-subtitle!= message
+  span.problem-subtitle!= view.message
 else
-  span.problem-title!= message
+  span.problem-title!= view.message
