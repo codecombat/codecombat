@@ -18,44 +18,6 @@ module.exports = class TasksTabView extends CocoView
   subscriptions:
     'editor:level-loaded': 'onLevelLoaded'
 
-  defaultTaskLinks:
-    # Order doesn't matter.
-    'Name the level.':'./'
-    'Create a Referee stub, if needed.':'./'
-    'Build the level.':'./'
-    'Set up goals.':'./'
-    'Choose the Existence System lifespan and frame rate.':'./'
-    'Choose the UI System paths and coordinate hover if needed.':'./'
-    'Choose the AI System pathfinding and Vision System line of sight.':'./'
-    'Write the sample code.':'./'
-    'Do basic set decoration.':'./'
-    'Adjust script camera bounds.':'./'
-    'Choose music file in Introduction script.':'./'
-    'Choose autoplay in Introduction script.':'./'
-    'Add to a campaign.':'./'
-    'Publish.':'./'
-    'Choose level options like required/restricted gear.':'./'
-    'Create achievements, including unlocking next level.':'./'
-    'Choose leaderboard score types.':'./'
-    'Playtest with a slow/tough hero.':'./'
-    'Playtest with a fast/weak hero.':'./'
-    'Playtest with a couple random seeds.':'./'
-    'Make sure the level ends promptly on success and failure.':'./'
-    'Remove/simplify unnecessary doodad collision.':'./'
-    'Release to adventurers via MailChimp.':'./'
-    'Write the description.':'./'
-    'Add i18n field for the sample code comments.':'./'
-    'Add Clojure/Lua/CoffeeScript.':'./'
-    'Write the guide.':'./'
-    'Write a loading tip, if needed.':'./'
-    'Click the Populate i18n button.':'./'
-    'Add programming concepts covered.':'./'
-    'Mark whether it requires a subscription.':'./'
-    'Release to everyone via MailChimp.':'./'
-    'Check completion/engagement/problem analytics.':'./'
-    'Do thorough set decoration.':'./'
-    'Add a walkthrough video.':'./'
-
   missingDefaults: ->
     missingTasks = []
     if @level
@@ -115,6 +77,7 @@ module.exports = class TasksTabView extends CocoView
 
   onLevelLoaded: (e) ->
     @level = e.level
+    @defaultTasks = @level.schema().properties.tasks.default
     Task = Backbone.Model.extend({
       initialize: ->
         # We want to keep track of the revertAttributes easily without digging back into the level every time.
@@ -181,3 +144,8 @@ module.exports = class TasksTabView extends CocoView
           complete: false
       @render()
       @focusEditInput()
+
+  getTaskURL: (_n) ->
+    if _.find(@defaultTasks, {name:_n})?
+      return _.string.slugify(_n)
+    return null
