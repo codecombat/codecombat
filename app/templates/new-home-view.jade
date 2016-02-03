@@ -8,6 +8,7 @@ nav.navbar.navbar-default
         span.icon-bar
       a.navbar-brand(href="/")
         img#logo-img(src="/images/pages/base/logo.png")
+        span.glyphicon.glyphicon-home
         
     #navbar-collapse.collapse.navbar-collapse
       ul.nav.navbar-nav
@@ -17,10 +18,33 @@ nav.navbar.navbar-default
           a(href="/courses/teachers") Teachers
         li
           a(href="https://discourse.codecombat.com/") Forum
-        li
-          a#create-account-link.signup-button Signup
-        li
-          a#login-link.login-button Login
+        if me.isAnonymous()
+          li
+            a#create-account-link.signup-button Signup
+          li
+            a#login-link.login-button Login
+        else
+          li.dropdown
+            a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
+              span.spr Account
+            ul.dropdown-menu
+              li.user-dropdown-header.text-center
+                span.user-level= me.level()
+                a(href="/user/#{me.getSlugOrID()}")
+                  img.img-circle(src=me.getPhotoURL())
+                h5=me.displayName()
+              li
+                a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
+              li
+                a(href="/account/settings", data-i18n="play.settings")
+              li
+                a(href="/account/payments", data-i18n="account.payments")
+              li
+                a(href="/account/subscription", data-i18n="account.subscription")
+              li
+                a(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
+              li
+                a#logout-button(data-i18n="login.log_out")
         
       #language-dropdown-wrapper.pull-right.hidden-xs.hidden-sm
         select.language-dropdown.form-control
@@ -154,7 +178,7 @@ nav.navbar.navbar-default
       img(src="/images/pages/home/G3_game.png")
       #benefit-graphic-3-filler
         
-  #request-demo-row.text-center
+  .request-demo-row.text-center
     h3 Curious? Request a demo and we'll show you the ropes
     h4 Or create a class and see it for yourself!
     p
@@ -168,7 +192,9 @@ nav.navbar.navbar-default
       option(value='elementary') Elementary School
       option(value='middle', selected=true) Middle School
       option(value='high') High School
-  h4#semester-duration.text-center
+  h5.text-center#total-hours-header
+    span.spr Total curriculum hours:
+    span#semester-duration
   #courses-container
     - var conceptsSeen = {};
     - var lastScreenshot = "";
@@ -189,7 +215,7 @@ nav.navbar.navbar-default
                   span.spr ,
                 - pastFirstConcept = true;
                 span(data-i18n="concepts." + concept)
-          .media-object(style="background-image: url(" + course.get('screenshot') + ")")
+          img.media-object(src="/images/pages/home/course"+(courseIndex+1)+".png")
           - lastScreenshot = course.get('screenshot');
           h6.course-duration
             span.spr Lesson time:

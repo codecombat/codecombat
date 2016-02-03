@@ -72,4 +72,4 @@ module.exports = class NewHomeView extends RootView
     @scrollToLink('#classroom-in-box-container')
 
   onClickTeacherButton: ->
-    @scrollToLink('#request-demo-row', 600)
+    @scrollToLink('.request-demo-row', 600)
