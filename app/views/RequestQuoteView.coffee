@@ -43,6 +43,8 @@ module.exports = class RequestQuoteView extends RootView
     if @trialRequests.size()
       @trialRequest = @trialRequests.first()
     me.setRole 'teacher'
+    if @trialRequest and @trialRequest.get('status') isnt 'submitted' and @trialRequest.get('status') isnt 'approved'
+      window.tracker?.trackEvent 'View Trial Request', category: 'Teachers', label: 'View Trial Request', ['Mixpanel']
     super()
 
   onSubmitForm: (e) ->
@@ -80,6 +82,7 @@ module.exports = class RequestQuoteView extends RootView
 
   onTrialRequestSubmit: ->
     @$('form, #form-submit-success').toggleClass('hide')
+    window.tracker?.trackEvent 'Submit Trial Request', category: 'Teachers', label: 'Trial Request', ['Mixpanel']
 
   onClickLoginButton: ->
     modal = new AuthModal({
