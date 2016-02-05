@@ -26,12 +26,9 @@ class AnalyticsPerDayHandler extends Handler
 
   getActiveClasses: (req, res) ->
     events = [
-      'Active classes private clan',
-      'Active classes managed subscription',
-      'Active classes bulk subscription',
-      'Active classes prepaid',
-      'Active classes course free',
-      'Active classes course paid'
+      'Active classes paid',
+      'Active classes trial',
+      'Active classes free'
     ]
 
     AnalyticsString.find({v: {$in: events}}).exec (err, documents) =>
