@@ -1,3 +1,16 @@
+.container-fluid.text-center
+  .alert.alert-danger.lt-ie9
+    strong(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 8 or older. Sorry!
+
+  if view.isIPadBrowser() || view.isMobile()
+    .alert.alert-danger.mobile
+      strong(data-i18n="home.no_mobile") CodeCombat wasn't designed for mobile devices and may not work!
+  else if view.isOldBrowser()
+    .alert.alert-danger.old-browser
+      strong(data-i18n="home.old_browser") Uh oh, your browser is too old to run CodeCombat. Sorry!
+      br
+      span(data-i18n="home.old_browser_suffix") You can try anyway, but it probably won't work.
+
 nav.navbar.navbar-default
   .container-fluid
     .navbar-header
