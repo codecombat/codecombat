@@ -57,6 +57,22 @@ block content
     else
       div Loading ...
 
+    h3 School Counts
+    .small Only including schools with #{view.minSchoolCount}+ counts
+    if view.schoolCounts
+      table.table.table-striped.table-condensed
+        tr
+          th
+          th School Name
+          th User Count
+        each val, i in view.schoolCounts
+          tr
+            td= i + 1
+            td= val.schoolName
+            td= val.count
+    else
+      div Loading ...
+
     h1 Active Classes
     table.table.table-striped.table-condensed
       tr
