@@ -58,7 +58,7 @@ function getActiveClassCounts(startDay) {
 
   // Classrooms
   // paid: at least one paid member
-  // free trial: not paid, at least one trial member
+  // trial: not paid, at least one trial member
   // free: not paid, not free trial
   // user.coursePrepaidID set means access to paid courses
   // prepaid.properties.trialRequestID means access was via trial
