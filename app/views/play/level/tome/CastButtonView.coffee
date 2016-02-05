@@ -32,23 +32,12 @@ module.exports = class CastButtonView extends CocoView
     @updateReplayabilityInterval = setInterval @updateReplayability, 1000
     @observing = options.session.get('creator') isnt me.id
     @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders', 'elemental-wars']
+    @mirror = @mirrorSession?
     @autoSubmitsToLadder = @options.level.get('slug') in ['wakka-maul']
 
   destroy: ->
     clearInterval @updateReplayabilityInterval
     super()
-
-  getRenderData: (context={}) ->
-    context = super context
-    shift = $.i18n.t 'keyboard_shortcuts.shift'
-    enter = $.i18n.t 'keyboard_shortcuts.enter'
-    castShortcutVerbose = "#{shift}+#{enter}"
-    castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + castShortcutVerbose
-    context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_code')
-    context.castRealTimeVerbose = castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
-    context.observing = @observing
-    context.mirror = @mirrorSession?
-    context
 
   afterRender: ->
     super()
@@ -65,6 +54,18 @@ module.exports = class CastButtonView extends CocoView
 
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
+
+  castShortcutVerbose: ->
+    shift = $.i18n.t 'keyboard_shortcuts.shift'
+    enter = $.i18n.t 'keyboard_shortcuts.enter'
+    "#{shift}+#{enter}"
+
+  castVerbose: ->
+    @castShortcutVerbose() + ': ' + $.i18n.t('keyboard_shortcuts.run_code')
+
+  castRealTimeVerbose: ->
+    castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + @castShortcutVerbose()
+    castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
 
   onCastButtonClick: (e) ->
     Backbone.Mediator.publish 'tome:manual-cast', {}

@@ -12,6 +12,7 @@ module.exports = class AnalyticsView extends RootView
   template: template
   furthestCourseDayRange: 30
   lineColors: ['red', 'blue', 'green', 'purple', 'goldenrod', 'brown', 'darkcyan']
+  minSchoolCount: 20
 
   constructor: (options) ->
     super options
@@ -118,7 +119,19 @@ module.exports = class AnalyticsView extends RootView
         @updateRevenueChartData()
         @render?()
     }, 0).load()
-    
+
+    @supermodel.addRequestResource('school_counts', {
+      url: '/db/user/-/school_counts'
+      method: 'POST'
+      data: {minCount: @minSchoolCount}
+      success: (@schoolCounts) =>
+        @schoolCounts?.sort (a, b) ->
+          return -1 if a.count > b.count
+          return 0 if a.count is b.count
+          1
+        @render?()
+    }, 0).load()
+
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @courses.comparator = "_id" 
     @listenToOnce @courses, 'sync', @onCoursesSync

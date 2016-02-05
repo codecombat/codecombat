@@ -309,6 +309,7 @@ UserHandler = class UserHandler extends Handler
     return @getByIDs(req, res) if args[1] is 'users'
     return @getNamesByIDs(req, res) if args[1] is 'names'
     return @getPrepaidCodes(req, res) if args[1] is 'prepaid_codes'
+    return @getSchoolCounts(req, res) if args[1] is 'school_counts'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessionsForEmployer(req, res, args[0]) if args[1] is 'level.sessions' and args[2] is 'employer'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
@@ -463,6 +464,27 @@ UserHandler = class UserHandler extends Handler
     orQuery = [{ creator: req.user._id }, { 'redeemers.userID' :  req.user._id }]
     Prepaid.find({}).or(orQuery).exec (err, documents) =>
       @sendSuccess(res, documents)
+
+  getSchoolCounts: (req, res) ->
+    return @sendSuccess(res, []) unless req.user?.isAdmin()
+    minCount = req.body.minCount ? 20
+    query = {$and: [
+        {anonymous: false},
+        {schoolName: {$exists: true}},
+        {schoolName: {$ne: ''}}
+        ]}
+    User.find(query, {schoolName: 1}).exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      schoolCountMap = {}
+      for doc in documents
+        schoolName = doc.get('schoolName')
+        schoolCountMap[schoolName] ?= 0;
+        schoolCountMap[schoolName]++;
+      schoolCounts = []
+      for schoolName, count of schoolCountMap
+        continue unless count >= minCount
+        schoolCounts.push schoolName: schoolName, count: count
+      @sendSuccess(res, schoolCounts)
 
   agreeToCLA: (req, res) ->
     return @sendForbiddenError(res) unless req.user

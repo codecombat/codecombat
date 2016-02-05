@@ -183,9 +183,16 @@ nav.navbar.navbar-default
   .request-demo-row.text-center
     h3 Curious? Request a demo and we'll show you the ropes
     h4 Or create a class and see it for yourself!
-    p
+    div
       a.btn.btn-primary.btn-lg(href="/teachers/freetrial") Request a Demo
       a.btn.btn-primary-alt.btn-lg(href="/courses/teachers") Create a Class
+    div
+      if me.isAnonymous()
+        span.spr Already have an account?
+        a.login-button Login
+      else
+        span.spr You are currently logged in as #{me.broadName()}.
+        a#logout-button Logout?
     
   h3.text-center Computer science courses for all ages
   h4.text-center

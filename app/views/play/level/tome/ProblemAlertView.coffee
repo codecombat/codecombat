@@ -36,8 +36,14 @@ module.exports = class ProblemAlertView extends CocoView
     $(window).off 'resize', @onWindowResize
     super()
 
-  getRenderData: (context={}) ->
-    context = super context
+  afterRender: ->
+    super()
+    if @problem?
+      @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}").hide().fadeIn('slow')
+      @$el.addClass('no-hint') unless @problem.aetherProblem.hint
+      @playSound 'error_appear'
+
+  setProblemMessage: ->
     if @problem?
       format = (s) -> marked(s.replace(/</g, '&lt;').replace(/>/g, '&gt;')) if s?
       message = @problem.aetherProblem.message
@@ -50,16 +56,8 @@ module.exports = class ProblemAlertView extends CocoView
             message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"
           else
             message = "Time #{age.toFixed(1)}: #{message}"
-      context.message = format message
-      context.hint = format @problem.aetherProblem.hint
-    context
-
-  afterRender: ->
-    super()
-    if @problem?
-      @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}").hide().fadeIn('slow')
-      @$el.addClass('no-hint') unless @problem.aetherProblem.hint
-      @playSound 'error_appear'
+      @message = format message
+      @hint = format @problem.aetherProblem.hint
 
   onShowProblemAlert: (data) ->
     return unless $('#code-area').is(":visible")
@@ -72,6 +70,7 @@ module.exports = class ProblemAlertView extends CocoView
     @lineOffsetPx = data.lineOffsetPx or 0
     @$el.show()
     @onWindowResize()
+    @setProblemMessage()
     @render()
     @onJiggleProblemAlert()
     application.tracker?.trackEvent 'Show problem alert', {levelID: @level.get('slug'), ls: @session?.get('_id')}

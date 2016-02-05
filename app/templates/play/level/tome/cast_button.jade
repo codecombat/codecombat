@@ -1,11 +1,11 @@
-button.btn.btn-lg.btn-illustrated.cast-button(title=castVerbose)
+button.btn.btn-lg.btn-illustrated.cast-button(title=view.castVerbose())
   span(data-i18n="play_level.tome_run_button_ran") Ran
 
-if !observing
-  if mirror
+if !view.observing
+  if view.mirror
     .ladder-submission-view
   else
-    button.btn.btn-lg.btn-illustrated.submit-button(title=castRealTimeVerbose)
+    button.btn.btn-lg.btn-illustrated.submit-button(title=view.castRealTimeVerbose())
       span(data-i18n="play_level.tome_submit_button") Submit
       span.spl.secret.submit-again-time
 
