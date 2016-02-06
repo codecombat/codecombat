@@ -30,6 +30,9 @@ module.exports.normalizeFunc = (func_thing, object) ->
     func_thing = func
   return func_thing
 
+module.exports.objectIdToDate = (objectID) ->
+  new Date(parseInt(objectID.toString().slice(0,8), 16)*1000)
+
 module.exports.hexToHSL = (hex) ->
   rgbToHsl(hexToR(hex), hexToG(hex), hexToB(hex))
 

@@ -23,7 +23,7 @@ block content
     h3 KPI 60 days
     .kpi-recent-chart.line-chart-container
 
-    h3 KPI 300 days
+    h3 KPI 365 days
     .kpi-chart.line-chart-container
 
     h3 Active Classes 90 days
@@ -40,6 +40,9 @@ block content
 
     h3 Active Users 90 days
     .active-users-chart.line-chart-container
+
+    h3 Enrollments Issued and Redeemed 90 days
+    .paid-courses-chart.line-chart-container
 
     h3 Furthest Course
     .small Teacher: owner of a course instance
@@ -119,3 +122,25 @@ block content
           else
             td
             td
+
+    h1 Enrollments
+    table.table.table-striped.table-condensed
+      tr
+        th Day
+        th Paid Enrollments Issued
+        th Paid Enrollments Redeemed
+        th Trial Enrollments Issued
+        th Trial Enrollments Redeemed
+      each day in enrollmentDays
+        tr
+          td= day
+          if dayEnrollmentsMap[day] 
+            td= dayEnrollmentsMap[day].paidIssued || 0
+            td= dayEnrollmentsMap[day].paidRedeemed || 0
+            td= dayEnrollmentsMap[day].trialIssued || 0
+            td= dayEnrollmentsMap[day].trialRedeemed || 0
+          else
+            td 0
+            td 0
+            td 0
+            td 0

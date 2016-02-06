@@ -26,11 +26,24 @@ PrepaidHandler = class PrepaidHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     relationship = args[1]
+    return @getCoursePrepaidsAPI(req, res) if relationship is 'courses'
     return @getPrepaidAPI(req, res, args[2]) if relationship is 'code'
     return @createPrepaidAPI(req, res) if relationship is 'create'
     return @purchasePrepaidAPI(req, res) if relationship is 'purchase'
     return @postRedeemerAPI(req, res, args[0]) if relationship is 'redeemers'
     super arguments...
+
+  getCoursePrepaidsAPI: (req, res, code) ->
+    return @sendSuccess(res, []) unless req.user?.isAdmin()
+    query = {$and: [
+      {type: 'course'}, 
+      {maxRedeemers: {$ne: "9999"}}, 
+      {'properties.courseIDs': {$exists: false}},
+      {_id: {$gt: cutoffID}}
+      ]}
+    Prepaid.find(query, req.body.project).exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      @sendSuccess(res, documents)
 
   getPrepaidAPI: (req, res, code) ->
     return @sendForbiddenError(res) unless req.user?
