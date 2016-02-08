@@ -139,7 +139,7 @@ module.exports = class User extends CocoModel
     return @homepageGroup if @homepageGroup
     group = me.get('testGroupNumber') % 4
     @homepageGroup = switch group
-      when 0, 1 'home-with-note'
+      when 0, 1 then 'home-with-note'
       when 2, 3 then 'new-home-student'
     application.tracker.identify newHomepageGroup: @homepageGroup unless me.isAdmin()
     return @homepageGroup
