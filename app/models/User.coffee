@@ -135,18 +135,13 @@ module.exports = class User extends CocoModel
     @announcesActionAudioGroup
 
   getHomepageGroup: ->
-#    return 'control'
-#    return 'home-with-note'
-#    return 'new-home-student'
-#    return 'new-home-characters'
+    return 'home-with-note' unless _.string.startsWith(me.get('preferredLanguage', true) or 'en-US', 'en')
     return @homepageGroup if @homepageGroup
     group = me.get('testGroupNumber') % 4
     @homepageGroup = switch group
-      when 0 then 'control'
-      when 1 then 'home-with-note'
-      when 2 then 'new-home-student'
-      when 3 then 'new-home-characters'
-    application.tracker.identify newHomepageGroup: group unless me.isAdmin()
+      when 0, 1 'home-with-note'
+      when 2, 3 then 'new-home-student'
+    application.tracker.identify newHomepageGroup: @homepageGroup unless me.isAdmin()
     return @homepageGroup
 
   # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
