@@ -133,7 +133,14 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
       Course.findById req.body.courseID, (err, course) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'Course not found') unless course
-        super(req, res)
+        q = { 
+          courseID: mongoose.Types.ObjectId(req.body.courseID)
+          classroomID: mongoose.Types.ObjectId(req.body.classroomID)
+        }
+        CourseInstance.findOne(q).exec (err, doc) =>
+          return @sendDatabaseError(res, err) if err
+          return @sendSuccess(res, @formatEntity(req, doc)) if doc
+          super(req, res)
 
   makeNewInstance: (req) ->
     doc = new CourseInstance({

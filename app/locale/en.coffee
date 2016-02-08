@@ -1408,7 +1408,7 @@
     strings: "Strings"
     variables: "Variables"
     vectors: "Vectors"
-    while_loops: "Loops"
+    while_loops: "While Loops" # {change}
     recursion: "Recursion"
 
   delta:

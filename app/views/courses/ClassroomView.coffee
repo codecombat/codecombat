@@ -200,7 +200,9 @@ module.exports = class ClassroomView extends RootView
 
     if courseInstance.isNew()
       # adding the first student to this course, so generate the course instance for it
-      courseInstance.save(null, {validate: false})
+      if not courseInstance.saving
+        courseInstance.save(null, {validate: false})
+        courseInstance.saving = true
       courseInstance.once 'sync', onCourseInstanceCreated
     else
       onCourseInstanceCreated()
