@@ -3,6 +3,7 @@ module.exports =
   auth: require './auth'
   classrooms: require './classrooms'
   campaigns: require './campaigns'
+  codelogs: require './codelogs'
   courseInstances: require './course-instances'
   files: require './files'
   named: require './named'
