@@ -23,6 +23,25 @@ describe 'POST /db/course_instance', ->
       expect(res.statusCode).toBe(200)
       expect(body.classroomID).toBeDefined()
       done()
+      
+  it 'returns the same CourseInstance if you POST twice', (done) ->
+    test = @
+    url = getURL('/db/course_instance')
+    data = {
+      name: 'Some Name'
+      courseID: test.course.id
+      classroomID: test.classroom.id
+    }
+    request.post {uri: url, json: data}, (err, res, body) ->
+      expect(res.statusCode).toBe(200)
+      expect(body.classroomID).toBeDefined()
+      firstID = body._id
+      request.post {uri: url, json: data}, (err, res, body) ->
+        expect(res.statusCode).toBe(200)
+        expect(body.classroomID).toBeDefined()
+        secondID = body._id
+        expect(firstID).toBe(secondID)
+        done()
 
   it 'returns 404 if the Course does not exist', (done) ->
     test = @

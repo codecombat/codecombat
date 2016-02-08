@@ -53,11 +53,6 @@ module.exports = class ClassroomView extends RootView
     @sessions = new CocoCollection([], { model: LevelSession })
 
   onCourseInstancesSync: ->
-    # clear duplicates with lodash magic
-    groups = _.groupBy @courseInstances.models, (ci) -> ci.get('courseID')
-    @courseInstances.reset(_.map(_.values(groups), _.first))
-    # TODO: Make having multiple course instances for a classroom/course pair impossible in the db
-    
     @sessions = new CocoCollection([], { model: LevelSession })
     for courseInstance in @courseInstances.models
       sessions = new CocoCollection([], { url: "/db/course_instance/#{courseInstance.id}/level_sessions", model: LevelSession })
@@ -205,7 +200,9 @@ module.exports = class ClassroomView extends RootView
 
     if courseInstance.isNew()
       # adding the first student to this course, so generate the course instance for it
-      courseInstance.save(null, {validate: false})
+      if not courseInstance.saving
+        courseInstance.save(null, {validate: false})
+        courseInstance.saving = true
       courseInstance.once 'sync', onCourseInstanceCreated
     else
       onCourseInstanceCreated()
