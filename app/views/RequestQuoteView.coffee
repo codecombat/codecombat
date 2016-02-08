@@ -42,7 +42,6 @@ module.exports = class RequestQuoteView extends RootView
   onLoaded: ->
     if @trialRequests.size()
       @trialRequest = @trialRequests.first()
-    me.setRole 'teacher'
     if @trialRequest and @trialRequest.get('status') isnt 'submitted' and @trialRequest.get('status') isnt 'approved'
       window.tracker?.trackEvent 'View Trial Request', category: 'Teachers', label: 'View Trial Request', ['Mixpanel']
     super()
