@@ -204,8 +204,10 @@ nav.navbar.navbar-default
         span.spr Already have an account?
         a.login-button Login
       else
-        span.spr You are currently logged in as #{me.broadName()}.
-        a#logout-button Logout?
+          span.spr You are currently logged in as #{me.broadName()}.
+          a(href="/courses/teachers") View my classes
+          span.spr.spl or
+          a#logout-button logout
     
   h3.text-center Computer science courses for all ages
   h4.text-center
