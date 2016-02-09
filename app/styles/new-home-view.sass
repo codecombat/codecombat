@@ -88,22 +88,23 @@ $forest: #20572B
   .navbar
     background: white
     margin-bottom: 0
+    white-space: nowrap // prevent home icon from going under brand
 
     a.navbar-brand
       #logo-img
-        width: 210px
+        width: 230px
         height: 65px
         margin-right: 10px
-
-      .glyphicon-home
-        position: relative
-        top: 4px
 
       color: $burgandy
       &:hover
         color: white
         background: $burgandy
         
+      .glyphicon-home
+        position: relative
+        top: 3px
+
     .navbar-toggle
       color: black
       margin: 30px 25px 0
@@ -123,12 +124,8 @@ $forest: #20572B
 
     #language-dropdown-wrapper
       display: inline-block
-      padding: 30px 20px
-      .language-dropdown
-        width: 200px
-
-    .language-dropdown
-      width: 250px
+      padding: 30px 10px
+      width: 100%
       
     @media (max-width: $screen-sm-min)
       .nav > li > a
@@ -189,7 +186,6 @@ $forest: #20572B
   
   .btn-lg
     font-size: 18px
-    padding: 13px 35px
     
   // Classes
   
@@ -218,7 +214,7 @@ $forest: #20572B
       background-size: 1200px auto
       
     .container
-      min-height: 750px
+      min-height: 720px
       background-repeat: no-repeat
       
       .btn
@@ -228,7 +224,7 @@ $forest: #20572B
         color: white
         margin-top: 130px
         @media (max-width: $screen-md-min)
-          margin-top: 170px
+          margin-top: 60px
           font-size: 33px
           line-height: 45px
         
@@ -241,6 +237,8 @@ $forest: #20572B
           margin-top: 10px
         #learn-to-code-header
           margin-top: 80px
+        @media (max-width: $screen-md-min)
+          margin-top: 320px
 
       #learn-more-row
         margin-top: 80px
@@ -250,13 +248,20 @@ $forest: #20572B
           margin-top: 10px
         a:hover
           text-decoration: none
+        @media (max-width: $screen-md-min)
+          margin-top: 10px
       
     &.alt-image
       background-image: url("/images/pages/home/student_jumbotron.png")
       background-position: 60% 35%
+      
+      .well
+        @media (max-width: $screen-md-min)
+          margin-top: 0px
 
       .container h1
         margin-top: 420px
+        margin-bottom: 20px
         @media (max-width: $screen-md-min)
           margin-top: 380px
         @media (max-width: $screen-sm-min)
@@ -311,6 +316,7 @@ $forest: #20572B
     padding: 30px 40px
     position: relative
     min-height: 250px
+    margin-bottom: 20px
 
     h2
       color: white
@@ -385,15 +391,11 @@ $forest: #20572B
   #total-hours-header
     margin-top: 10px
     
-  #courses-container
-    display: flex
-    flex-wrap: wrap
-    justify-content: space-between
-
+  #courses-row
     .media
       width: 222px
-      margin: 20px 0 0 0
-      border: 1px solid navy
+      margin: 20px auto 0
+      border: 1px solid $navy
       border-radius: 8px
       padding: 50px 15px 0
       text-align: center
@@ -458,7 +460,7 @@ $forest: #20572B
       width: 100%
       margin-top: 30px
       img
-        margin-right: 20px
+        margin-bottom: 20px
         
   #footer
     background-image: url("/images/pages/home/footer_background.png")
