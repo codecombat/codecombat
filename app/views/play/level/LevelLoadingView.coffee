@@ -193,7 +193,9 @@ module.exports = class LevelLoadingView extends CocoView
 
   onClickStartSubscription: (e) ->
     @openModalView new SubscribeModal()
-    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'level loading', level: @level?.get('slug') or @options.level?.get('slug')
+    levelSlug = @level?.get('slug') or @options.level?.get('slug')
+    # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later. 
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'level loading', level: levelSlug, levelID: levelSlug
 
   onSubscribed: ->
     document.location.reload()
