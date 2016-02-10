@@ -75,7 +75,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     subscription_required: "Cần đăng kí"
     anonymous: "Người chơi vô danh"
     level_difficulty: "Khó: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "Chơi Phiên Bản Lớp Học" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Chiến dịch chế độ đơn giản"
     awaiting_levels_adventurer_prefix: "Chúng tôi cho ra 5 bàn mới mỗi tuần." # {change}
     awaiting_levels_adventurer: "Đăng kí với tư cách là nhà thám hiểm"
@@ -114,7 +114,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     log_in: "đăng nhập với mật khẩu"
     required: "Bạn cần phải đăng nhập trước khi đi bạn có thể đi hướng đó."
     login_switch: "Bạn đã có tài khoản rồi ?"
-#    school_name: "School Name and City"
+    school_name: "Tên Trường và Thành Phố"
 #    optional: "optional"
 #    school_name_placeholder: "Example High School, Springfield, IL"
 
@@ -164,9 +164,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     accepted: "Đã được chấp nhận"
     rejected: "Không được chấp nhận"
     withdrawn: "Thu Hồi"
-#    accept: "Accept"
-#    reject: "Reject"
-#    withdraw: "Withdraw"
+    accept: "Chấp Nhận"
+    reject: "Từ Chối"
+    withdraw: "Rút Lui"
     submitter: "Người gửi"
     submitted: "Đã gửi"
     commit_msg: "Tin nhắn sự thay đổi"
@@ -221,12 +221,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     years: "năm"
 
   play_level:
-#    completed_level: "Completed Level:"
+    completed_level: "Hoàn thành Level:"
 #    course: "Course:"
     done: "Hoàn thành"
-#    next_level: "Next Level:"
+    next_level: "Level tiếp theo:"
 #    next_game: "Next game"
-#    show_menu: "Show game menu"
+    show_menu: "Hiện game menu"
 #    home: "Home" # Not used any more, will be removed soon.
     level: "Bàn" # Like "Level: Dungeons of Kithgard"
     skip: "Bỏ qua"
@@ -261,7 +261,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     victory_hour_of_code_done_yes: "Đúng vậy, tôi đã hoàn tất thời gian lập trình!"
     victory_experience_gained: "XP nhận được"
     victory_gems_gained: "Ngọc nhận được"
-#    victory_new_item: "New Item"
+    victory_new_item: "Vật phẩm mới"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "Hướng dẫn"
