@@ -723,9 +723,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    social_discource: "Join the discussion on our Discourse forum"
     social_facebook: "Hãy thích trang Facebook của CodeCombat"
     social_twitter: "Theo dõi CodeCombat trên Twitter"
-#    social_gplus: "Join CodeCombat on Google+"
-#    social_hipchat: "Chat with us in the public CodeCombat Slack channel"
-#    contribute_to_the_project: "Contribute to the project"
+    social_gplus: "Gia nhập CodeCombat trên Google+"
+    social_hipchat: "Tán gẫu với chúng tôi trên kênh cộng đồng của CodeCombat trên Slack"
+    contribute_to_the_project: "Đóng góp vào dự án này"
 
   clans:
     clan: "Clan"
