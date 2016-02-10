@@ -1,15 +1,15 @@
 module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietnamese", translation:
   home:
-    slogan: "Học code bằng chơi Games"
-    no_ie: "Codecombat không chạy trong Internet Explorer 8 hoặc cũ hơn. Xin lỗi!" # Warning that only shows up in IE8 and older
-    no_mobile: "Codecombat không được thiết kế cho các thiết bị di động và có thể không hoạt động được!" # Warning that shows up on mobile devices
+    slogan: "Học code bằng chơi Games"
+    no_ie: "Codecombat không chạy trong Internet Explorer 8 hoặc cũ hơn. Xin lỗi!" # Warning that only shows up in IE8 and older
+    no_mobile: "Codecombat không được thiết kế cho các thiết bị di động và có thể không hoạt động được!" # Warning that shows up on mobile devices
     play: "Chơi" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Chơi phiên bản Campaign" # Shows up under big play button if you only play /courses
     old_browser: "Trình duyệt của bạn quá cũ để chạy CodeCombat. Thật sự xin lỗi!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Bạn có thể thử nếu bạn muốn, nhưng tôi nghĩ nó sẽ không hoạt động."
     ipad_browser: "Tin xấu: CodeCombat không chạy trên trình duyệt web của iPad. Tin tốt: Ứng dụng dành cho iPad của chúng tôi đang chờ sự chấp thuận của Apple."
     campaign: "Chiến dịch"
-    for_beginners: "Dành cho người bắt đầu chơi"
+    for_beginners: "Dành cho người bắt đầu chơi"
     multiplayer: "Nhiều người chơi" # Not currently shown on home page
     for_developers: "Dành cho nhà phát triển" # Not currently shown on home page.
     or_ipad: "Hoặc tải phiên bản dành cho iPad"
@@ -17,34 +17,34 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   nav:
     play: "Chơi" # The top nav bar entry where players choose which levels to play
     community: "Cộng đồng"
-#    courses: "Courses"
-    editor: "Chỉnh sửa"
+    courses: "Khoá học"
+    editor: "Chỉnh sửa"
     blog: "Blog"
     forum: "Diễn đàn"
     account: "Tài khoản"
     profile: "Thông tin cá nhân"
     stats: "Các chỉ số"
     code: "Code"
-    admin: "Quản trị viên" # Only shows up when you are an admin
-    home: "Nhà"
+    admin: "Quản trị viên" # Only shows up when you are an admin
+    home: "Nhà"
     contribute: "Đóng góp"
     legal: "Hợp pháp"
     about: "Giới thiệu"
     contact: "Liên hệ"
     twitter_follow: "Theo dõi"
     teachers: "Dành cho giáo viên"
-#    careers: "Careers"
+    careers: "Sự nghiệp"
 
   modal:
-    close: "Đóng"
-    okay: "Được rồi"
+    close: "Đóng"
+    okay: "Được rồi"
 
   not_found:
-    page_not_found: "không tìm thấy trang"
+    page_not_found: "không tìm thấy trang"
 
   diplomat_suggestion:
-    title: "Hãy giúp dịch thuật cho  CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-    sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
+    title: "Hãy giúp dịch thuật cho  CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
     pitch_body: "Chúng tôi ban đầu thiết kế Codecombat dựa trên ngôn ngữ Tiếng Anh, tuy nhiên có rất nhiều bạn trẻ trên toàn thế giới đã tham gia vào trò chơi này. Rất nhiều các bạn rất muốn chơi và có giao diện Tiếng Việt, vì vậy nếu như bạn có thể đọc và viết cả 2 ngôn ngữ xin hãy đăng kí làm thông dịch viên cho chúng tôi."
     missing_translations: "Bạn sẽ tiếp tục thấy tiếng Anh cho đến khi chúng tôi kiếm được người dịch tất cả những từ này qua Tiếng Việt."
     learn_more: "Để biết thêm chi tiết làm thông dịch viên"
@@ -74,14 +74,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     buy_gems: "Mua ngọc"
     subscription_required: "Cần đăng kí"
     anonymous: "Người chơi vô danh"
-    level_difficulty: "Khó: "
+    level_difficulty: "Khó: "
 #    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Chiến dịch chế độ đơn giản"
     awaiting_levels_adventurer_prefix: "Chúng tôi cho ra 5 bàn mới mỗi tuần." # {change}
     awaiting_levels_adventurer: "Đăng kí với tư cách là nhà thám hiểm"
     awaiting_levels_adventurer_suffix: "để trở thành những người đầu tiên chơi những bàn mới."
     adjust_volume: "Tùy chỉnh âm lượng"
-    campaign_multiplayer: "Khu vực đa người chơi"
+    campaign_multiplayer: "Khu vực đa người chơi"
     campaign_multiplayer_description: "... nơi mà bạn thử thách với một người chơi khác."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
@@ -98,7 +98,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     sign_up: "Tạo tài khoản"
     log_in: "Đăng nhập"
     logging_in: "Đang đăng nhập"
-    log_out: "Đăng xuất"
+    log_out: "Đăng xuất"
     forgot_password: "Quên mật khẩu?"
     authenticate_gplus: "Cho phép G+"
     load_profile: "Đọc tài khoản G+"
@@ -108,10 +108,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     signup_switch: "Bạn có muốn tạo tài khoản mới?"
 
   signup:
-    email_announcements: "Nhận thông báo bằng email"
-    creating: "Tạo tài khoản..."
-    sign_up: "Đăng ký"
-    log_in: "đăng nhập với mật khẩu"
+    email_announcements: "Nhận thông báo bằng email"
+    creating: "Tạo tài khoản..."
+    sign_up: "Đăng ký"
+    log_in: "đăng nhập với mật khẩu"
     required: "Bạn cần phải đăng nhập trước khi đi bạn có thể đi hướng đó."
     login_switch: "Bạn đã có tài khoản rồi ?"
 #    school_name: "School Name and City"
@@ -119,8 +119,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    school_name_placeholder: "Example High School, Springfield, IL"
 
   recover:
-    recover_account_title: "Khôi phục tài khoản"
-    send_password: "Gởi mật mã khôi phục"
+    recover_account_title: "Khôi phục tài khoản"
+    send_password: "Gởi mật mã khôi phục"
     recovery_sent: "Đã gửi email giúp bạn khôi phục mật khẩu."
 
   items:
@@ -134,16 +134,16 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   common:
     back: "Quay trở lại" # When used as an action verb, like "Navigate backward"
     continue: "Tiếp tục" # When used as an action verb, like "Continue forward"
-    loading: "Tải..."
+    loading: "Tải..."
     saving: "Lưu..."
-    sending: "Gởi..."
-    send: "Gởi đi"
-    cancel: "Hủy"
+    sending: "Gởi..."
+    send: "Gởi đi"
+    cancel: "Hủy"
     save: "Lưu"
     publish: "Chia sẻ"
     create: "Làm mới"
     fork: "Nĩa"
-    play: "Các cấp độ" # When used as an action verb, like "Play next level"
+    play: "Các cấp độ" # When used as an action verb, like "Play next level"
     retry: "Chơi lại"
     actions: "Các Hành Động"
     info: "Thông tin"
@@ -238,7 +238,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     running: "Đang chạy..."
     success: "Thắng!"
     incomplete: "Chưa hoàn thành"
-    timed_out: "Hết giờ"
+    timed_out: "Hết giờ"
     failing: "Đang thua"
     control_bar_multiplayer: "Nhiều người chơi"
     control_bar_join_game: "Tham gia"
@@ -618,20 +618,20 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    thanks: "Thanks! We'll send you setup instructions shortly."
 
   versions:
-    save_version_title: "Lưu Phiên bản Mới"
-    new_major_version: "Phiên bản chính mới"
+    save_version_title: "Lưu Phiên bản Mới"
+    new_major_version: "Phiên bản chính mới"
     submitting_patch: "Đang gửi một bản vá..."
-    cla_prefix: "Để lưu thay đổi, bạn phải chấp thuận với chúng tôi trước"
+    cla_prefix: "Để lưu thay đổi, bạn phải chấp thuận với chúng tôi trước"
     cla_url: "CLA"
     cla_suffix: "."
-    cla_agree: "TÔI ĐỒNG Ý"
+    cla_agree: "TÔI ĐỒNG Ý"
 #    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
-    contact_us: "Liên hệ CodeCombat"
-    welcome: "Rất vui được nhận tin từ bạn! Hãy dùng đơn này để gởi mail cho chúng tôi. "
+    contact_us: "Liên hệ CodeCombat"
+    welcome: "Rất vui được nhận tin từ bạn! Hãy dùng đơn này để gởi mail cho chúng tôi. "
 #    forum_prefix: "For anything public, please try "
-    forum_page: "Diễn đàn của chúng tôi"
+    forum_page: "Diễn đàn của chúng tôi"
 #    forum_suffix: " instead."
 #    faq_prefix: "There's also a"
     faq: "Những câu hỏi thường gặp"
@@ -641,14 +641,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
 #    screenshot_included: "Screenshot included."
 #    where_reply: "Where should we reply?"
-    send: "Gởi phản hồi"
+    send: "Gởi phản hồi"
 
   account_settings:
-    title: "Cài đặt Tài khoản"
-    not_logged_in: "Đăng nhập hoặc tạo tài khoản để thay đổi cài đặt."
-    autosave: "Tự động lưu thay đổi"
+    title: "Cài đặt Tài khoản"
+    not_logged_in: "Đăng nhập hoặc tạo tài khoản để thay đổi cài đặt."
+    autosave: "Tự động lưu thay đổi"
     me_tab: "Tôi"
-    picture_tab: "Bức tranh"
+    picture_tab: "Bức tranh"
     delete_account_tab: "Xóa tài khoản của bạn"
     wrong_email: "Email không đúng"
     wrong_password: "Mật khẩu không đúng"
@@ -657,19 +657,19 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    reset_progress_tab: "Reset All Progress"
 #    reset_your_progress: "Clear all your progress and start over"
 #    god_mode: "God Mode"
-    password_tab: "Mật khẩu"
+    password_tab: "Mật khẩu"
     emails_tab: "Emails"
     admin: "Admin"
 #    manage_subscription: "Click here to manage your subscription."
-    new_password: "Mật khẩu mới"
-    new_password_verify: "Xác nhận"
+    new_password: "Mật khẩu mới"
+    new_password_verify: "Xác nhận"
 #    type_in_email: "Type in your email to confirm account deletion."
 #    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Thuê bao Email"
 #    email_subscriptions_none: "No Email Subscriptions."
-    email_announcements: "Thông báo"
-    email_announcements_description: "Nhận email về tin tức mới nhất và sự phát triển của Codecombat."
+    email_announcements: "Thông báo"
+    email_announcements_description: "Nhận email về tin tức mới nhất và sự phát triển của Codecombat."
 #    email_notifications: "Notifications"
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
 #    email_any_notes: "Any Notifications"
@@ -678,13 +678,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     email_recruit_notes: "Cơ hội việc làm"
     email_recruit_notes_description: "Nếu bạn chơi trò này rất giỏi, chúng tôi có thể sẽ liên lạc với bạn về cơ hội nghề nghiệp."
 #    contributor_emails: "Contributor Class Emails"
-    contribute_prefix: "Chúng tôi đang tìm thêm người vào nhóm của chúng tôi! Hãy kiểm "
-    contribute_page: "trang đóng góp"
-    contribute_suffix: " để tìm hiểu thêm."
+    contribute_prefix: "Chúng tôi đang tìm thêm người vào nhóm của chúng tôi! Hãy kiểm "
+    contribute_page: "trang đóng góp"
+    contribute_suffix: " để tìm hiểu thêm."
 #    email_toggle: "Toggle All"
-    error_saving: "Lỗi lưu"
-    saved: "Thay đổi được lưu"
-    password_mismatch: "Mật khẩu không khớp."
+    error_saving: "Lỗi lưu"
+    saved: "Thay đổi được lưu"
+    password_mismatch: "Mật khẩu không khớp."
     password_repeat: "Hãy nhập lại mật khẩu của bạn một lần nữa."
 
   keyboard_shortcuts:
