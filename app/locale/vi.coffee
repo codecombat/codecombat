@@ -52,7 +52,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   play:
     play_as: "Chơi là" # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "Hoàn thành!" # Course details page
     spectate: "Quan sát" # Ladder page
     players: "Những người chơi" # Hover over a level on /play
     hours_played: "Thời gian chơi" # Hover over a level on /play
