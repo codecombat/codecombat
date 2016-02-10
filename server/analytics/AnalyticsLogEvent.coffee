@@ -18,6 +18,7 @@ AnalyticsLogEventSchema = new mongoose.Schema({
 
 AnalyticsLogEventSchema.index({event: 1, _id: -1})
 AnalyticsLogEventSchema.index({event: 1, 'properties.level': 1})
+AnalyticsLogEventSchema.index({event: 1, 'properties.levelID': 1})
 AnalyticsLogEventSchema.index({user: 1, event: 1})
 
 AnalyticsLogEventSchema.statics.logEvent = (user, event, properties={}) ->
