@@ -15,7 +15,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     or_ipad: "Hoặc tải phiên bản dành cho iPad"
 
   nav:
-    play: "Chơi" # The top nav bar entry where players choose which levels to play
+    play: "Chơi!!" # The top nav bar entry where players choose which levels to play
     community: "Cộng đồng"
     courses: "Khoá học"
     editor: "Chỉnh sửa"
@@ -74,7 +74,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     buy_gems: "Mua ngọc"
     subscription_required: "Cần đăng kí"
     anonymous: "Người chơi vô danh"
-    level_difficulty: "Khó: "
+    level_difficulty: "Độ khó: "
     play_classroom_version: "Chơi Phiên Bản Lớp Học" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Chiến dịch chế độ đơn giản"
     awaiting_levels_adventurer_prefix: "Chúng tôi cho ra 5 bàn mới mỗi tuần." # {change}
@@ -92,7 +92,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     form_blurb: "Nhập địa chỉ email của người bạn muốn tìm và chúng tôi sẽ cho bạn thấy!"
     form_label: "Địa chỉ email"
     placeholder: "địa chỉ email"
-    title: "Làm tốt lắm, thực tập viên"
+    title: "Làm tốt lắm, thực tập viên!"
 
   login:
     sign_up: "Tạo tài khoản"
@@ -733,8 +733,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     clan: "Clan"
 #    clans: "Clans"
 #    new_name: "New clan name"
+    new_name: "Tên mới cho bè đảng" 
 #    new_description: "New clan description"
+    new_description: "Miêu tả cho bè đảng mới này"
 #    make_private: "Make clan private"
+    make_private: "Tạo bè đảng kín"
 #    subs_only: "subscribers only"
     create_clan: "Tạo một clan mới"
 #    private_preview: "Preview"
@@ -809,7 +812,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    average_time: "Average level play time:"
     total_time: "Tổng thời gian chơi:"
 #    average_levels: "Average levels completed:"
+    average_levels: "Lượng cấp độ trung bình đã hoàn thành:"
 #    total_levels: "Total levels completed:"
+    total_levels: "Tổng số cấp độ đã hoàn thành"
 #    furthest_level: "Furthest level completed:"
 #    concepts_covered: "Concepts Covered"
 #    students: "Students"
@@ -1016,23 +1021,34 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   classes:
 #    archmage_title: "Archmage"
+    archmage: "Đại Pháp Sư"
     archmage_title_description: "(Lập trình viên)"
 #    archmage_summary: "If you are a developer interested in coding educational games, become an archmage to help us build CodeCombat!"
+    archmage_summary: "Nếu bạn là một lập trình viên và có hứng thú với việc viết những trò chơi học tập, hãy trở thành một Đại pháp sư và cùng chung tay với chúng tôi để xây dựng CodeCombat!"
+    
 #    artisan_title: "Artisan"
+    artisan_title: "Thợ Thủ Công"
     artisan_title_description: "(Người xây dựng những bàn mới)"
 #    artisan_summary: "Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program."
-    adventurer_title: "Nhà thám hiểm"
+    artisan_summary: "Gầy dựng và chia sẽ những cấp độ do bạn tạo ra cho các bạn của mình cùng chơi. Hãy trở thành thợ thủ công để học nghệ thuật hướng dẫn lập trình cho người khác."
+    
+    adventurer_title: "Nhà Thám Hiểm"
     adventurer_title_description: "(Người chơi thử những bàn mới)"
 #    adventurer_summary: "Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release."
-#    scribe_title: "Scribe"
+    adventurer_summary: "Dấn thân vào những cấp độ mới nhất(thậm chí là những nội dung chỉ có khi đăng kí) miễn phí trước một tuần và giúp chúng tôi tìm lỗi trước ngày thị chúng." 
+    #    scribe_title: "Scribe"
+    scribe_title: "Thơ kí" 
     scribe_title_description: "(Người chỉnh sửa những bài viết)"
 #    scribe_summary: "Good code needs good documentation. Write, edit, and improve the docs read by millions of players across the globe."
+    scribe_summary: "Dòng lệnh tốt cần tài liệu hay. Viết, chỉnh sửa, và phát triển những tài liệu được đọc bởi hàng triệu người khắp năm châu." 
     diplomat_title: "Nhà Ngoại Giao"
     diplomat_title_description: "(Người phiên dịch)"
     diplomat_summary: "CodeCombat đã được địa phương hóa cho hơn 45 ngôn ngữ nhờ sự giúp đỡ của những nhà ngoại giao. Hãy giúp chúng tôi với việc dịch thuật nếu bạn có thể."
 #    ambassador_title: "Ambassador"
+    ambassador_title: "Sứ Giả"
     ambassador_title_description: "(Hỗ trợ)"
 #    ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world."
+    ambassador_summary: "Thuần hóa những thành viện trong diễn đàn và đưa ra hướng dẫn cho những thắc mắc. Đoàn sứ giả của chúng tôi là bộ mặt của CodeCombat gửi gắm cho thế giới."
 
   editor:
 #    main_title: "CodeCombat Editors"
