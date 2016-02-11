@@ -491,7 +491,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    health_2: "of listed"
 #    health_3: "armor health."
 #    speed_1: "Moves at"
+    speed_1: "Di chuyển với vận tốc"
 #    speed_2: "meters per second."
+    speed_2: "mét trên giây." 
 #    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
