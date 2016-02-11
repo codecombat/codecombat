@@ -662,7 +662,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     password_tab: "Mật khẩu"
     emails_tab: "Emails"
     admin: "Admin"
-#    manage_subscription: "Nhấn vào đây để chỉnh sửa thuê bao."
+    manage_subscription: "Nhấn vào đây để chỉnh sửa gói đăng ký."
     new_password: "Mật khẩu mới"
     new_password_verify: "Xác nhận"
 #    type_in_email: "Type in your email to confirm account deletion."
@@ -1147,7 +1147,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   contribute:
 #    page_title: "Contributing"
-    page title: "Đóng góp" 
+    page_title: "Đóng góp" 
     intro_blurb: "CodeCombat là một sản phẩm mã nguồn mở 100% ! Nhờ sự giúp đỡ của hàng trăm người chơi tốt bụng, chúng tôi mới có thể xây dựng trò chơi này được như ngày hôm nay. Hãy tham gia cùng chúng tôi để giúp CodeCombat có thể hoàn thành sứ mệnh lớn lao của nó là dạy lập trình đến tất cả mọi người trên thế giới !"
     alert_account_message_intro: "Này bạn!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
@@ -1231,7 +1231,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     creative_artisans: "Những Thợ thủ công tràn trề sức Sáng tạo của chúng tôi:"
 #    creative_artisans: "Our Creative Artisans:"
     brave_adventurers: "Những nhà thám hiểm Dũng cảm của chúng tôi:"
-    translating_diplomats: "Những Sứ giả phiên dịch của chúng tôi: "
+    translating_diplomats: "Những Nhà Ngoại Giao phiên dịch của chúng tôi: "
 #    translating_diplomats: "Our Translating Diplomats:"
     helpful_ambassadors: "Những Sứ giả đầy Hữu ích của chúng tôi:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
@@ -1563,6 +1563,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   ladder_prizes:
     title: "Các giải thưởng của cuộc thi" # This section was for an old tournament and doesn't need new translations now.
 #    blurb_1: "These prizes will be awarded according to"
+    blurb_1: "Những phần thưởng này sẽ được giao dựa trên" 
     blurb_2: "Luật của cuộc thi"
 #    blurb_3: "to the top human and ogre players."
 #    blurb_4: "Two teams means double the prizes!"
