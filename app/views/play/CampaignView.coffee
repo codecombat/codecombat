@@ -482,7 +482,8 @@ module.exports = class CampaignView extends RootView
     canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug]
     if requiresSubscription and not canPlayAnyway
       @openModalView new SubscribeModal()
-      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug
+      # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later. 
+      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug, levelID: levelSlug
     else
       @startLevel levelElement
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
