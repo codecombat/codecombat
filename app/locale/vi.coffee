@@ -326,7 +326,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
     tip_impossible: "Sự việc đều tưởng như bất khả thi cho tới khi nó được hoàn thành. - Nelson Mandela"
 ##    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
-    tip-talk_is_cheap: "Lời nói rất rẻ tiền. Hãy cho tôi thấy code của bạn. - Linus Torvalds"   
+    tip_talk_is_cheap: "Lời nói rất rẻ tiền. Hãy cho tôi thấy code của bạn. - Linus Torvalds"   
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
     tip_hardware_problem: "Câu hỏi: Cần bao nhiêu lập trình viên để thay 1 bóng đèn?  Trá lời: 0 người. Đó là vấn đề về phần cứng."
 ##    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
