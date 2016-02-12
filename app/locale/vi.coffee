@@ -581,7 +581,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     why_codecombat: "Tại sao lại sử dụng CodeCombat?"
     why_paragraph_1: "Nếu bạn muốn học lập trình, bạn không cần phải tham gia kháo học nào. Bạn chỉ cần phải viết thật nhiều dòng lệnh và có một khoảng thời gian tuyệt vời khi làm chuyện đó."
 #    why_paragraph_2_prefix: "That's what programming is about. It's gotta be fun. Not fun like"
-    why_paragraph_2_prefix: "Nó chính là bản chất việc lập trình. Nó phải vui chớ phải có thể vui. "
+    why_paragraph_2_prefix: "Nó chính là bản chất việc lập trình. Nó phải vui chớ phải có vẻ vui. "
     why_paragraph_2_italic: "Yay một cái phù hiệu" 
 #    why_paragraph_2_italic: "yay a badge"
     why_paragraph_2_center: "Nhưng nó có vẽ vui"
