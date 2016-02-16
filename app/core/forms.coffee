@@ -19,6 +19,25 @@ module.exports.formToObject = ($el, options) ->
       if value or (not options.ignoreEmptyString)
         obj[name] = value
   obj
+  
+module.exports.objectToForm = ($el, obj, options={}) ->
+  options = _.extend({ overwriteExisting: false })
+  inputs = $('input, textarea, select', $el)
+  for input in inputs
+    input = $(input)
+    continue unless name = input.attr('name')
+    continue unless obj[name]?
+    if input.attr('type') is 'checkbox'
+      value = input.val()
+      if _.contains(obj[name], value)
+        input.attr('checked', true)
+    else if input.attr('type') is 'radio'
+      value = input.val()
+      if obj[name] is value
+        input.attr('checked', true)
+    else
+      if options.overwriteExisting or (not input.val())
+        input.val(obj[name])
 
 module.exports.applyErrorsToForm = (el, errors, warning=false) ->
   errors = [errors] if not $.isArray(errors)
@@ -65,8 +84,7 @@ module.exports.setErrorToProperty = setErrorToProperty = (el, property, message,
   
 module.exports.scrollToFirstError = ($el=$('body')) ->
   $first = $el.find('.has-error, .alert-danger, .error-help-block, .has-warning, .alert-warning, .warning-help-block').first()
-  $('body').nanoScroller({scroll: 'top'}) # normalizes offset().top value
-  $('body').nanoScroller({scrollTop: $first.offset().top - 20})
+  $('body').animate({ scrollTop: $first.offset().top - 20 }, 300)
 
 module.exports.clearFormAlerts = (el) ->
   $('.has-error', el).removeClass('has-error')
