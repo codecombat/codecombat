@@ -15,6 +15,11 @@ module.exports.setup = (app) ->
   authentication.deserializeUser((id, done) ->
     User.findById(id, (err, user) -> done(err, user)))
 
+  if config.picoCTF
+    pico = require('../lib/picoctf');
+    authentication.use new pico.PicoStrategy()
+    return
+
   authentication.use(new LocalStrategy(
     (username, password, done) ->
 
