@@ -2,7 +2,6 @@ mixin task-row(cid)
   - var task = view.getTaskByCID(cid)
   - var taskName = task.get('name');
   - var isComplete = task.get('complete')
-  - var taskLink = view.defaultTaskLinks[taskName]
   tr.task-row(data-task-cid=cid)
     td.task-check
       div.checkbox
@@ -15,11 +14,10 @@ mixin task-row(cid)
       td.edit-cell
         span.glyphicon.glyphicon-edit.start-edit
       td.task-name
-        if taskLink
-          if taskLink === './'
-            a.no-article(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', target='blank')= taskName
-          else
-            a(href=taskLink, target='_blank')= taskName
+        - var result = view.getTaskURL(taskName)
+        if result !== null
+          // https://github.com/codecombat/codecombat/wiki/Tasks-Tab#<slug goes here>
+          a(href='https://github.com/codecombat/codecombat/wiki/Tasks-Tab#' + result, target='blank')= taskName
         else
           span= taskName
 

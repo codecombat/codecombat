@@ -66,6 +66,7 @@ LevelHandler = class LevelHandler extends Handler
     'buildTime'
     'scoreTypes'
     'concepts'
+    'picoCTFProblem'
   ]
 
   postEditableProperties: ['name']
@@ -110,7 +111,7 @@ LevelHandler = class LevelHandler extends Handler
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, doc) if doc?
-        if level.get('type') is 'course' or req.query.course?
+        if level.get('type') in ['course', 'course-ladder'] or req.query.course?
           return @makeOrRejectCourseLevelSession(req, res, level, sessionQuery)
         requiresSubscription = level.get('requiresSubscription') or (req.user.isOnPremiumServer() and level.get('campaign') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
         canPlayAnyway = req.user.isPremium() or level.get 'adventurer'

@@ -123,6 +123,7 @@ _.extend CampaignSchema.properties, {
 
       tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task
       concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.'}, c.concept
+      picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' }
 
       #- normal properties
       position: c.point2d()

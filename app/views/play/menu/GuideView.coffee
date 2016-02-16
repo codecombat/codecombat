@@ -89,7 +89,8 @@ module.exports = class LevelGuideView extends CocoView
   clickSubscribe: (e) ->
     level = @levelSlug # Save ref to level slug
     @openModalView new SubscribeModal()
-    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'help video clicked', level: level
+    # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later. 
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'help video clicked', level: level, levelID: level
 
   clickTab: (e) =>
     @$el.find('li.active').removeClass('active')

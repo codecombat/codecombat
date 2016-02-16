@@ -75,7 +75,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     subscription_required: "Kräver prenumeration"
     anonymous: "Anonym Spelare"
     level_difficulty: "Svårighetsgrad: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "Spela klassrumsversion" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Nybörjarkampanj"
     awaiting_levels_adventurer_prefix: "Vi släpper nya nivåer varje vecka." # {change}
     awaiting_levels_adventurer: "Registrera dig som äventyrare"
@@ -114,9 +114,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     log_in: "logga in med lösenord"
     required: "Du måste logga in innan du kan gå dit"
     login_switch: "Har du redan ett konto?"
-#    school_name: "School Name and City"
+    school_name: "Namn på skolan och stad"
 #    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
+    school_name_placeholder: "Exempel Högstadiet Stenhamre, Ljusdal"
 
   recover:
     recover_account_title: "Återskapa ditt konto"
@@ -553,15 +553,15 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     press_paragraph_1_suffix: ". Alla loggor och bilder kan användas utan att kontakta oss direkt."
     team: "Team"
     nick_title: "Medgrundare" # {change}
-#    nick_blurb: "Motivation Guru"
+    nick_blurb: "Moitivationsguru"
     matt_title: "Medgrundare" # {change}
     matt_blurb: "Cyklist"
     cat_title: "Chefshantverkare" # {change}
-#    cat_blurb: "Airbender"
+    cat_blurb: "Luftbändare"
     scott_title: "Medgrundare" # {change}
 #    scott_blurb: "Reasonable One"
 #    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
+    maka_blurb: "Sagoberättare"
     rob_title: "Kompileringsingenjör" # {change}
     rob_blurb: "Kodar saker"
     josh_c_title: "Speldesigner"
@@ -699,11 +699,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     continue_script: "Fortsätt förbi nuvarande kod."
     skip_scripts: "Hoppa över all kod som kan hoppas över."
     toggle_playback: "Spela/Pausa."
-#    scrub_playback: "Scrub back and forward through time."
-#    single_scrub_playback: "Scrub back and forward through time by a single frame."
-#    scrub_execution: "Scrub through current spell execution."
-#    toggle_debug: "Toggle debug display."
-#    toggle_grid: "Toggle grid overlay."
+    scrub_playback: "Spela bakåt och framåt genom tiden."
+    single_scrub_playback: "Spela bakåt och framåt genom tiden, en frame i taget."
+    scrub_execution: "Spela genom nuvarande magiska trollformel."
+    toggle_debug: "Toggla debug display."
+    toggle_grid: "Toggla grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
     maximize_editor: "Maximera/minimera kodredigeraren."
@@ -736,7 +736,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     subs_only: "endast följare"
     create_clan: "Skapa ny klan"
     private_preview: "Förhandsgranska"
-#    private_clans: "Private Clans"
+    private_clans: "Privata klaner"
     public_clans: "Publik klan"
     my_clans: "Mina klaner"
     clan_name: "Klanens namn"

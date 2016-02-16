@@ -25,16 +25,21 @@ module.exports = class ArtisanGuideModal extends ModalView
 
   initialize: (options) ->
     @level = options.level
-    @options = level: @level.get 'name'
-    @creator = @level.get 'creator'
-    @meID = me.id
+    @options = 
+      level:@level.get('name')
+      levelSlug:@level.get('slug')
 
   levelSubmit: ->
     @playSound 'menu-button-click'
     forms.clearFormAlerts @$el
-    contactMessage = forms.formToObject @$el
-    res = tv4.validateMultiple contactMessage, contactSchema
+    results = forms.formToObject @$el
+    res = tv4.validateMultiple results, contactSchema
     return forms.applyErrorsToForm @$el, res.errors unless res.valid
+    contactMessage = {message:"""User Name: #{results.creditName}
+      Level: <a href="http://codecombat.com/editor/level/#{@options.levelSlug}">#{@options.level}</a>
+      Purpose: #{results.levelPurpose}
+      Inspiration: #{results.levelInspiration}
+      Location: #{results.levelLocation}"""}
     @populateBrowserData contactMessage
     contactMessage = _.merge contactMessage, @options
     contactMessage.country = me.get('country')
@@ -46,3 +51,8 @@ module.exports = class ArtisanGuideModal extends ModalView
       context.browser = "#{$.browser.platform} #{$.browser.name} #{$.browser.versionNumber}"
     context.screenSize = "#{screen?.width ? $(window).width()} x #{screen?.height ? $(window).height()}"
     context.screenshotURL = @screenshotURL
+
+  hasOwnership: ->
+    if @level.getOwner() is me.id
+      return true
+    return false
