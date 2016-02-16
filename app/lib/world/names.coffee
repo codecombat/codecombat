@@ -286,6 +286,7 @@ module.exports.thangNames = thangNames =
     'Gom'
     'Grek'
     'Gror'
+    'Grue'
     'Il\'Du\'duka'
     'Makas'
     'Mogadishu'
