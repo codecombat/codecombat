@@ -9,16 +9,28 @@ block content
       .row
         .col-md-5.big-stat.active-classes
           if activeClasses.length > 0
-            div.description 30-day Active Classes
+            div.description Monthly Active Classes
             div.count= activeClasses[0].groups[activeClasses[0].groups.length - 1]
         .col-md-5.big-stat.recurring-revenue
           if revenue.length > 0
-            div.description 30-day Monthly Recurring Revenue
+            div.description Monthly Recurring Revenue
             div.count $#{Math.round((revenue[0].groups[revenue[0].groups.length - 1]) / 100)}
-        .col-md-5.big-stat.active-users
+        .col-md-5.big-stat.classroom-active-users
           if activeUsers.length > 0
-            div.description 30-day Active Users
-            div.count= activeUsers[0].monthlyCount
+            - var classroomBigMAU = 0; 
+            each count, event in activeUsers[0].events
+              if event.indexOf('MAU classroom') >= 0
+                - classroomBigMAU += count;
+            div.description Classroom Monthly Active Users
+            div.count= classroomBigMAU
+        .col-md-5.big-stat.campaign-active-users
+          if activeUsers.length > 0
+            - var campaignBigMAU = 0; 
+            each count, event in activeUsers[0].events
+              if event.indexOf('MAU campaign') >= 0
+                - campaignBigMAU += count;
+            div.description Campaign Monthly Active Users
+            div.count= campaignBigMAU
 
     h3 KPI 60 days
     .kpi-recent-chart.line-chart-container
@@ -26,7 +38,39 @@ block content
     h3 KPI 365 days
     .kpi-chart.line-chart-container
 
-    h3 Active Classes 90 days
+    h1 Table of Contents
+    b Graphs
+    div
+      a(href='#active-classes-graph') Active Classes
+    div
+      a(href='#recurring-revenue-graph') Recurring Revenue
+    div
+      a(href='#classroom-daus-graph') Classroom Daily Active Users
+    div
+      a(href='#classroom-maus-graph') Classroom Monthly Active Users
+    div
+      a(href='#campaign-daus-graph') Campaign Daily Active Users
+    div
+      a(href='#campaign-maus-graph') Campaign Monthly Active Users
+    div
+      a(href='#furthest-courses-table') Campaign vs Classroom Paid Monthly Active Users
+    div
+      a(href='#furthest-courses-table') Enrollments Issued and Redeemed
+    b Tables
+    div
+      a(href='#furthest-courses-table') Furthest Course
+    div
+      a(href='#school-counts-table') School Counts
+    div
+      a(href='#active-classes-table') Active Classes
+    div
+      a(href='#recurring-revenue-table') Recurring Revenue
+    div
+      a(href='#active-users-table') Active Users
+    div
+      a(href='#enrollments-table') Enrollments
+
+    h3#active-classes-graph Active Classes 90 days
     .small Active class: 12+ students in a classroom, with 6+ who played in last 30 days.
     .small Paid student: user.coursePrepaidID set and prepaid.properties.trialRequestID NOT set
     .small Trial student: user.coursePrepaidID set and prepaid.properties.trialRequestID set
@@ -35,16 +79,33 @@ block content
     .small Free class: not paid, not trial
     .active-classes-chart.line-chart-container
 
-    h3 Recurring Revenue 90 days
+    h3#recurring-revenue-graph Recurring Revenue 90 days
     .recurring-revenue-chart.line-chart-container
 
-    h3 Active Users 90 days
-    .active-users-chart.line-chart-container
+    h3#classroom-daus-graph Classroom Daily Active Users 90 days
+    .small Paid student: user.coursePrepaidID set and prepaid.properties.trialRequestID NOT set
+    .small Trial student: user.coursePrepaidID set and prepaid.properties.trialRequestID set
+    .small Free student: not paid, not trial
+    .classroom-daily-active-users-chart.line-chart-container
+
+    h3#classroom-maus-graph Classroom Monthly Active Users 90 days
+    .classroom-monthly-active-users-chart.line-chart-container
+
+    h3#campaign-daus-graph Campaign Daily Active Users 90 days
+    .small Paid user: had monthly or yearly sub on given day
+    .small Free user: not paid
+    .campaign-daily-active-users-chart.line-chart-container
+
+    h3#campaign-maus-graph Campaign Monthly Active Users 90 days
+    .campaign-monthly-active-users-chart.line-chart-container
+
+    h3 Campaign vs Classroom Paid Monthly Active Users 90 days
+    .campaign-vs-classroom-monthly-active-users-chart.line-chart-container
 
     h3 Enrollments Issued and Redeemed 90 days
     .paid-courses-chart.line-chart-container
 
-    h3 Furthest Course
+    h3#furthest-courses-table Furthest Course
     .small Teacher: owner of a course instance
     .small Student: member of a course instance (assigned to course)
     .small For course instances created in last #{view.furthestCourseDayRange} days, not Single Player, hourOfCode != true
@@ -65,7 +126,7 @@ block content
     else
       div Loading ...
 
-    h3 School Counts
+    h3#school-counts-table School Counts
     .small Only including schools with #{view.minSchoolCount}+ counts
     if view.schoolCounts
       table.table.table-striped.table-condensed
@@ -81,7 +142,7 @@ block content
     else
       div Loading ...
 
-    h1 Active Classes
+    h1#active-classes-table Active Classes
     table.table.table-striped.table-condensed
       tr
         th Day
@@ -93,7 +154,7 @@ block content
           each val in activeClass.groups
             td= val
 
-    h1 Recurring Revenue
+    h1#recurring-revenue-table Recurring Revenue
     table.table.table-striped.table-condensed
       tr
         th Day
@@ -105,25 +166,33 @@ block content
           each val in entry.groups
             td $#{(val / 100).toFixed(2)}
 
-    h1 Active Users
-    table.table.table-striped.table-condensed
-      tr
-        th Day
-        th Daily Actives
-        th Monthly Actives
-        th DAUs / MAUs
-      each activeUser in activeUsers
+    h1#active-users-table Active Users
+    if activeUsers.length > 0
+      - var eventNames = [];
+        each count, event in activeUsers[0].events
+          - eventNames.push(event)
+      table.table.table-striped.table-condensed
         tr
-          td= activeUser.day
-          td= activeUser.dailyCount
-          if activeUser.monthlyCount
-            td= activeUser.monthlyCount
-            td #{(activeUser.dailyCount / activeUser.monthlyCount * 100).toFixed(2)}%
-          else
-            td
-            td
+          th(style='min-width:85px;') Day
+          each eventName in eventNames
+            th= eventName
+          th DAU Campaign Total
+          th DAU Classroom Total
+        each activeUser in activeUsers
+          tr
+            td= activeUser.day
+            - var dauCampaignTotal = 0
+            - var dauClassroomTotal = 0
+            each eventName in eventNames
+              td= activeUser.events[eventName] || 0
+              if eventName.indexOf('DAU campaign') >= 0
+                - dauCampaignTotal += (activeUser.events[eventName] || 0);
+              else if eventName.indexOf('DAU classroom') >= 0
+                - dauClassroomTotal += (activeUser.events[eventName] || 0);
+            td= dauCampaignTotal
+            td= dauClassroomTotal
 
-    h1 Enrollments
+    h1#enrollments-table Enrollments
     table.table.table-striped.table-condensed
       tr
         th Day

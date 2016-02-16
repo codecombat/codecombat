@@ -250,18 +250,19 @@ module.exports = class AnalyticsView extends RootView
         y: entry.value
 
     # Trim points preceding days
-    for point, i in points
-      if point.day is days[0]
-        points.splice(0, i)
-        break
+    if points.length and days.length and points[0].day.localeCompare(days[0]) < 0
+      for point, i in points
+        if point.day.localeCompare(days[0]) >= 0
+          points.splice(0, i)
+          break
 
     # Ensure points for each day
     for day, i in days
       if points.length <= i or points[i].day isnt day
         prevY = if i > 0 then points[i - 1].y else 0.0
         points.splice i, 0,
-          y: prevY
           day: day
+          y: prevY
       points[i].x = i
 
     points.splice(0, points.length - days.length) if points.length > days.length
@@ -271,7 +272,11 @@ module.exports = class AnalyticsView extends RootView
     d3Utils.createLineChart('.kpi-recent-chart', @kpiRecentChartLines)
     d3Utils.createLineChart('.kpi-chart', @kpiChartLines)
     d3Utils.createLineChart('.active-classes-chart', @activeClassesChartLines)
-    d3Utils.createLineChart('.active-users-chart', @activeUsersChartLines)
+    d3Utils.createLineChart('.classroom-daily-active-users-chart', @classroomDailyActiveUsersChartLines)
+    d3Utils.createLineChart('.classroom-monthly-active-users-chart', @classroomMonthlyActiveUsersChartLines)
+    d3Utils.createLineChart('.campaign-daily-active-users-chart', @campaignDailyActiveUsersChartLines)
+    d3Utils.createLineChart('.campaign-monthly-active-users-chart', @campaignMonthlyActiveUsersChartLines)
+    d3Utils.createLineChart('.campaign-vs-classroom-monthly-active-users-chart.line-chart-container', @campaignVsClassroomMonthlyActiveUsersChartLines)
     d3Utils.createLineChart('.paid-courses-chart', @enrollmentsChartLines)
     d3Utils.createLineChart('.recurring-revenue-chart', @revenueChartLines)
 
@@ -284,6 +289,7 @@ module.exports = class AnalyticsView extends RootView
   updateKPIChartData: (timeframeDays, chartLines) ->
     days = d3Utils.createContiguousDays(timeframeDays)
 
+    # Build active classes KPI line
     if @activeClasses?.length > 0
       data = []
       for entry in @activeClasses
@@ -294,13 +300,14 @@ module.exports = class AnalyticsView extends RootView
       points = @createLineChartPoints(days, data)
       chartLines.push
         points: points
-        description: '30-day Active Classes'
+        description: 'Monthly Active Classes'
         lineColor: 'blue'
         strokeWidth: 1
         min: 0
         max: _.max(points, 'y').y
         showYScale: true
 
+    # Build recurring revenue KPI line
     if @revenue?.length > 0
       data = []
       for entry in @revenue
@@ -311,26 +318,55 @@ module.exports = class AnalyticsView extends RootView
       points = @createLineChartPoints(days, data)
       chartLines.push
         points: points
-        description: '30-day Recurring Revenue (in thousands)'
+        description: 'Monthly Recurring Revenue (in thousands)'
         lineColor: 'green'
         strokeWidth: 1
         min: 0
         max: _.max(points, 'y').y
         showYScale: true
 
+    # Build campaign and classroom MAU KPI lines
     if @activeUsers?.length > 0
-      data = []
+      eventDayDataMap = {}
       for entry in @activeUsers
-        break unless entry.monthlyCount
-        data.push
-          day: entry.day
-          value: entry.monthlyCount / 1000
-      data.reverse()
-      points = @createLineChartPoints(days, data)
+        day = entry.day
+        for event, count of entry.events
+          if event.indexOf('MAU campaign') >= 0
+            eventDayDataMap['MAU campaign'] ?= {}
+            eventDayDataMap['MAU campaign'][day] ?= 0
+            eventDayDataMap['MAU campaign'][day] += count
+          else if event.indexOf('MAU classroom') >= 0
+            eventDayDataMap['MAU classroom'] ?= {}
+            eventDayDataMap['MAU classroom'][day] ?= 0
+            eventDayDataMap['MAU classroom'][day] += count
+
+      campaignData = []
+      classroomData = []
+      for event, entry of eventDayDataMap
+        if event is 'MAU campaign'
+          for day, count of entry
+            campaignData.push day: day, value: count / 1000
+        else
+          for day, count of entry
+            classroomData.push day: day, value: count / 1000
+      campaignData.reverse()
+      classroomData.reverse()
+
+      points = @createLineChartPoints(days, classroomData)
       chartLines.push
         points: points
-        description: '30-day Active Users (in thousands)'
+        description: 'Classroom Monthly Active Users (in thousands)'
         lineColor: 'red'
+        strokeWidth: 1
+        min: 0
+        max: _.max(points, 'y').y
+        showYScale: true
+
+      points = @createLineChartPoints(days, campaignData)
+      chartLines.push
+        points: points
+        description: 'Campaign Monthly Active Users (in thousands)'
+        lineColor: 'purple'
         strokeWidth: 1
         min: 0
         max: _.max(points, 'y').y
@@ -370,55 +406,95 @@ module.exports = class AnalyticsView extends RootView
     line.max = totalMax for line in @activeClassesChartLines
 
   updateActiveUsersChartData: ->
-    @activeUsersChartLines = []
+    # Create chart lines for the active user events returned by active_users in analytics_perday_handler
+    @campaignDailyActiveUsersChartLines = []
+    @campaignMonthlyActiveUsersChartLines = []
+    @classroomDailyActiveUsersChartLines = []
+    @classroomMonthlyActiveUsersChartLines = []
+    @campaignVsClassroomMonthlyActiveUsersChartLines = []
     return unless @activeUsers?.length
     days = d3Utils.createContiguousDays(90)
 
-    dailyData = []
-    monthlyData = []
-    dausmausData = []
-    colorIndex = 0
+    # Separate day/value arrays by event
+    eventDataMap = {}
     for entry in @activeUsers
-      dailyData.push
-        day: entry.day
-        value: entry.dailyCount / 1000
-      if entry.monthlyCount
-        monthlyData.push
+      day = entry.day
+      for event, count of entry.events
+        eventDataMap[event] ?= []
+        eventDataMap[event].push 
           day: entry.day
-          value: entry.monthlyCount / 1000
-        dausmausData.push
-          day: entry.day
-          value: Math.round(entry.dailyCount / entry.monthlyCount * 100)
-    dailyData.reverse()
-    monthlyData.reverse()
-    dausmausData.reverse()
-    dailyPoints = @createLineChartPoints(days, dailyData)
-    monthlyPoints = @createLineChartPoints(days, monthlyData)
-    dausmausPoints = @createLineChartPoints(days, dausmausData)
-    @activeUsersChartLines.push
-      points: dailyPoints
-      description: 'Daily active users (in thousands)'
-      lineColor: @lineColors[colorIndex++ % @lineColors.length]
-      strokeWidth: 1
-      min: 0
-      max: _.max(dailyPoints, 'y').y
-      showYScale: true
-    @activeUsersChartLines.push
-      points: monthlyPoints
-      description: 'Monthly active users (in thousands)'
-      lineColor: @lineColors[colorIndex++ % @lineColors.length]
-      strokeWidth: 1
-      min: 0
-      max: _.max(monthlyPoints, 'y').y
-      showYScale: true
-    @activeUsersChartLines.push
-      points: dausmausPoints
-      description: 'DAUs/MAUs %'
-      lineColor: @lineColors[colorIndex++ % @lineColors.length]
-      strokeWidth: 1
-      min: 0
-      max: _.max(dausmausPoints, 'y').y
-      showYScale: true
+          value: count
+
+    # Build chart lines for each event
+    eventLineMap = 
+      'DAU campaign': {max: 0, colorIndex: 0}
+      'MAU campaign': {max: 0, colorIndex: 0}
+      'DAU classroom': {max: 0, colorIndex: 0}
+      'MAU classroom': {max: 0, colorIndex: 0}
+    for event, data of eventDataMap
+      data.reverse()
+      points = @createLineChartPoints(days, data)
+      max = _.max(points, 'y').y
+      if event.indexOf('DAU campaign') >= 0
+        chartLines = @campaignDailyActiveUsersChartLines
+        eventLineMap['DAU campaign'].max = Math.max(eventLineMap['DAU campaign'].max, max)
+        lineColor = @lineColors[eventLineMap['DAU campaign'].colorIndex++ % @lineColors.length]
+      else if event.indexOf('MAU campaign') >= 0
+        chartLines = @campaignMonthlyActiveUsersChartLines
+        eventLineMap['MAU campaign'].max = Math.max(eventLineMap['MAU campaign'].max, max) 
+        lineColor = @lineColors[eventLineMap['MAU campaign'].colorIndex++ % @lineColors.length]
+      else if event.indexOf('DAU classroom') >= 0
+        chartLines = @classroomDailyActiveUsersChartLines
+        eventLineMap['DAU classroom'].max = Math.max(eventLineMap['DAU classroom'].max, max) 
+        lineColor = @lineColors[eventLineMap['DAU classroom'].colorIndex++ % @lineColors.length]
+      else if event.indexOf('MAU classroom') >= 0
+        chartLines = @classroomMonthlyActiveUsersChartLines 
+        eventLineMap['MAU classroom'].max = Math.max(eventLineMap['MAU classroom'].max, max) 
+        lineColor = @lineColors[eventLineMap['MAU classroom'].colorIndex++ % @lineColors.length]
+      chartLines.push
+        points: points
+        description: event
+        lineColor: lineColor 
+        strokeWidth: 1
+        min: 0
+        showYScale: false
+
+    # Update line Y scales and maxes
+    showYScaleSet = false
+    for line in @campaignDailyActiveUsersChartLines
+      line.max = eventLineMap['DAU campaign'].max
+      unless showYScaleSet
+        line.showYScale = true
+        showYScaleSet = true 
+    showYScaleSet = false
+    for line in @campaignMonthlyActiveUsersChartLines
+      line.max = eventLineMap['MAU campaign'].max
+      unless showYScaleSet
+        line.showYScale = true
+        showYScaleSet = true
+      if line.description is 'MAU campaign paid'
+        @campaignVsClassroomMonthlyActiveUsersChartLines.push(_.cloneDeep(line))
+    showYScaleSet = false
+    for line in @classroomDailyActiveUsersChartLines
+      line.max = eventLineMap['DAU classroom'].max
+      unless showYScaleSet
+        line.showYScale = true
+        showYScaleSet = true 
+    showYScaleSet = false
+    for line in @classroomMonthlyActiveUsersChartLines
+      line.max = eventLineMap['MAU classroom'].max
+      unless showYScaleSet
+        line.showYScale = true
+        showYScaleSet = true 
+      if line.description is 'MAU classroom paid'
+        @campaignVsClassroomMonthlyActiveUsersChartLines.push(_.cloneDeep(line))
+
+    max = 0
+    for line in @campaignVsClassroomMonthlyActiveUsersChartLines
+      max = Math.max(_.max(line.points, 'y').y, max)
+    for line in @campaignVsClassroomMonthlyActiveUsersChartLines
+      line.max = max
+      line.showYScale = true if line.description is 'MAU campaign paid'
 
   updateEnrollmentsChartData: ->
     @enrollmentsChartLines = []
