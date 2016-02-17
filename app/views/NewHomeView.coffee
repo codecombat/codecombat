@@ -2,6 +2,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/new-home-view'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
+utils = require 'core/utils'
 
 #  TODO: auto margin feature paragraphs
 
@@ -17,7 +18,7 @@ module.exports = class NewHomeView extends RootView
     'click #learn-more-link': 'onClickLearnMoreLink'
 
   initialize: (options) ->
-    @jumbotron = options.jumbotron or 'student' # or 'characters'
+    @jumbotron = options.jumbotron or utils.getQueryVariable('jumbotron') or 'student' # or 'characters'
     @courses = new CocoCollection [], {url: "/db/course", model: Course}
     @supermodel.loadCollection(@courses, 'courses')
 

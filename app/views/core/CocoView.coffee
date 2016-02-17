@@ -442,7 +442,7 @@ module.exports = class CocoView extends Backbone.View
     
   scrollToLink: (link, speed=300) ->
     scrollTo = $(link).offset().top
-    $('body').animate({ scrollTop: scrollTo }, speed)
+    $('html, body').animate({ scrollTop: scrollTo }, speed)
 
   toggleFullscreen: (e) ->
     # https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode?redirectlocale=en-US&redirectslug=Web/Guide/DOM/Using_full_screen_mode

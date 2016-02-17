@@ -64,6 +64,10 @@ module.exports = class LevelLoader extends CocoClass
       @level.get = ->
         return 'course' if arguments[0] is 'type'
         originalGet.apply @, arguments
+    if window.serverConfig.picoCTF
+      @supermodel.addRequestResource(url: '/picoctf/problems', success: (picoCTFProblems) =>
+        @level?.picoCTFProblem = _.find picoCTFProblems, pid: @level.get('picoCTFProblem')
+      ).load()
     @loadSession() unless @sessionless
     @populateLevel()
 
