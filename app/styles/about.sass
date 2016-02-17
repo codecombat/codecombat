@@ -1,36 +1,323 @@
-#about-view
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
 
-  @import "bootstrap/variables"
+// TODO: Move flat style into probably several files and Bootstrap variables
 
-  .team-column
-    padding-left: 0
+// Variables
 
-    ul.thumbnails
-      margin-left: 40px
-      padding: 0
+$headline-font: 'Arvo', serif
+$body-font: 'Open Sans', sans-serif
 
-      li
-        list-style-type: none
+$burgandy: #7D0101
+$gold: #F2BE19
+$navy: #0E4C60
+$forest: #20572B
 
-
-    img.img-thumbnail
-      background-color: transparent
-      &:hover
-        background-color: rgba(200, 244, 255, 0.2)
-      float: left
-      width: 80px
-      height: 80px
-      margin: 0px 10px 22px 0px
-
-  .team_name
+.style-flat
+  background: white
+  
+  // Fonts
+  h1, h2, h3, h4, h5, h6
+    // Unsetting game styles
+    font-variant: normal
+    color: black
+    margin: 0
+  
+  h1
+    font-family: $headline-font
+    font-weight: normal
+    font-size: 46px
+    line-height: 62px
+    
+  h2
+    font-family: $body-font
+    font-weight: lighter
+    font-size: 30px
+    line-height: 42px
+    
+  h3
+    font-family: $headline-font
+    font-weight: normal
+    font-size: 33px
+    line-height: 45px
+    
+  h4
+    font-family: $body-font
+    font-weight: lighter
+    font-size: 22px
+    line-height: 32px
+    
+  h5
+    font-family: $headline-font
+    font-weight: bold
     font-size: 20px
-    margin-top: 0
+    line-height: 31px
+    
+  h6
+    font-family: $body-font
+    font-weight: bold
+    font-size: 14px
+    line-height: 20px
+    
+  p
+    margin: 0 0 14px
+    
+  .small
+    font-weight: normal
+    font-size: 14px
+    line-height: 20px
 
-  .team_bio
-    width: 150px
-    float: left
+  font-family: $body-font
+  font-size: 18px
+  line-height: 29px
+  
+  blockquote
+    border: none
+    
+    &:before 
+      font-family: "Monaco"
+      content: "\201C"
+      position: absolute
+      left: 0px
+      top: 20px
+      font-size: 40px
+      opacity: 0.5
+  
+  // Navbar
 
-    div
-      font-size: 12px
-      line-height: 14px
-      padding-bottom: 5px
+  .navbar
+    background: white
+    margin-bottom: 0
+
+    a.navbar-brand
+      #logo-img
+        width: 210px
+        height: 65px
+        margin-right: 10px
+
+      .glyphicon-home
+        position: relative
+        top: 4px
+
+      color: $burgandy
+      &:hover
+        color: white
+        background: $burgandy
+        
+    .navbar-toggle
+      color: black
+      margin: 30px 25px 0
+
+    .nav > li > a
+      // TODO: Move this to bootstrap variables for navbars
+      font-weight: bold
+      font-family: $body-font
+      font-size: 16px
+      padding: 38px 15px 37px
+      color: $burgandy
+      text-shadow: 0 0 0
+
+      &:hover
+        background: $burgandy
+        color: white
+
+    #language-dropdown-wrapper
+      display: inline-block
+      padding: 30px 20px
+      .language-dropdown
+        width: 200px
+
+    .language-dropdown
+      width: 250px
+      
+    @media (max-width: $screen-sm-min)
+      .nav > li > a
+        padding: 10px 20px
+      #language-dropdown-wrapper
+        display: inline-block
+        padding: 10px 10px
+        .language-dropdown
+          width: 150px
+      
+    .img-circle
+      border: $gold 8px solid
+      width: 98px
+      height: 98px // Includes the border
+      
+    .user-level
+      position: absolute
+      top: 76px
+      right: 42px
+      color: $gold
+      text-shadow: 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black
+      
+  // Buttons
+ 
+  .btn
+    border: none
+    border-radius: 5px
+    font-family: $body-font
+    font-weight: normal
+    background-image: none // overrides legacy buttons
+
+  .btn-primary, .btn-navy
+    background-color: $navy
+    color: white
+  
+  .btn-primary-alt, .btn-navy-alt
+    background-color: white
+    border: 1px solid $navy
+    color: $navy
+    
+  .btn-forest
+    background-color: $forest
+    color: white
+    
+  .btn-forest-alt
+    background-color: white
+    border: 1px solid $forest
+    color: $forest
+    
+  .btn-gold
+    background-color: $gold
+    color: white
+    
+  .btn-gold-alt
+    background-color: white
+    border: 1px solid $gold
+    color: $gold
+  
+  .btn-lg
+    font-size: 18px
+    padding: 13px 35px
+    
+  // Classes
+  
+  .text-navy
+    color: $navy
+    
+  .bg-navy
+    background-color: $navy
+    color: white
+    h1, h2, h3, h4, h5, h6, a
+      color: white
+    a.btn-primary-alt
+      color: $navy
+
+
+#about-view
+  
+  #jumbotron-container-fluid
+    background: $navy
+    // height: 365px
+    
+  h1
+    color: white
+    margin-top: 100px
+    
+  h2
+    color: white
+    margin-bottom: 100px
+    
+  h3, h4
+    text-align: center
+  
+  #about-container
+    margin-top: 60px
+    background-color: white
+  
+  #mission-row, #community-row
+    margin: 50px 0
+  
+  #mission-graphic, #community-graphic
+    padding: 30px 40px
+    position: relative
+    min-height: 250px
+
+    h2
+      color: white
+      width: 70%
+    
+  #mission-graphic
+    background: $navy
+    
+    h2
+      float: right
+    
+    img
+      position: absolute
+      left: 0
+      bottom: 0
+      
+    #mission-graphic-filler
+      background: $navy
+      height: 100%
+      width: 2000px
+      position: absolute
+      right: 100%
+      top: 0
+  #team-row-1
+    margin: 50px 0
+    ul
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
+      margin-top: 40px
+      padding: 0
+      li
+        width: 200px
+        height: 230px
+        list-style: none
+        display: inline-block
+        text-align: center
+        color: black
+        small
+          display: block
+          white-space: nowrap
+        .img-thumbnail
+          border-radius: 50%
+  #community-row-1
+    margin: 100px 0
+    img
+      margin: 20px 0
+
+  #community-graphic
+    background: $burgandy
+
+    img
+      position: absolute
+      right: 0
+      bottom: 0
+
+    #community-graphic-filler
+      background: $burgandy
+      height: 100%
+      width: 2000px
+      position: absolute
+      left: 100%
+      top: 0
+  #story-row
+    margin: 100px 0
+    font-family: $headline-font
+    font-variant: normal
+    margin: 0
+    img
+      display: inline-block
+    .big-text
+      //same as H1
+      font-weight: normal
+      font-size: 46px
+      line-height: 62px
+    .small-text
+      //same as h5
+      color: black
+      font-weight: bold
+      font-size: 20px
+      line-height: 31px
+    #story-graphic-1
+      .big-text
+        color: $burgandy
+    #story-graphic-2
+      .big-text
+        color: $burgandy
+    
