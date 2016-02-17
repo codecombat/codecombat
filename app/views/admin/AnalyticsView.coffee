@@ -88,13 +88,13 @@ module.exports = class AnalyticsView extends RootView
         dayGroupCountMap = {}
         for dailyRevenue in data
           dayGroupCountMap[dailyRevenue.day] ?= {}
-          dayGroupCountMap[dailyRevenue.day]['Daily'] = 0
+          dayGroupCountMap[dailyRevenue.day]['Daily Total'] = 0
           for group, val of dailyRevenue.groups
             groupMap[group] = true
             dayGroupCountMap[dailyRevenue.day][group] = val
-            dayGroupCountMap[dailyRevenue.day]['Daily'] += val
+            dayGroupCountMap[dailyRevenue.day]['Daily Total'] += val
         @revenueGroups = Object.keys(groupMap)
-        @revenueGroups.push 'Daily'
+        @revenueGroups.push 'Daily Total'
         # Build list of recurring revenue entries, where each entry is a day of individual group values
         @revenue = []
         for day of dayGroupCountMap
@@ -604,12 +604,12 @@ module.exports = class AnalyticsView extends RootView
       points = @createLineChartPoints(days, data)
       @revenueChartLines.push
         points: points
-        description: group.replace('DRR ', '')
+        description: group.replace('DRR ', 'Daily ')
         lineColor: @lineColors[colorIndex++ % @lineColors.length]
         strokeWidth: 1
         min: 0
         max: _.max(points, 'y').y
-        showYScale: group in ['Daily', 'Monthly']
-      dailyMax = _.max(points, 'y').y if group is 'Daily'
+        showYScale: group in ['Daily Total', 'Monthly']
+      dailyMax = _.max(points, 'y').y if group is 'Daily Total'
       for line in @revenueChartLines when line.description isnt 'Monthly'
         line.max = dailyMax

@@ -159,7 +159,7 @@ block content
       tr
         th Day
         for group in revenueGroups
-          th= group.replace('DRR ', '')
+          th= group.replace('DRR ', 'Daily ')
       each entry in revenue
         tr
           td= entry.day

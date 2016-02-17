@@ -1,10 +1,13 @@
+/* global printjson */
+/* global db */
 // Insert per-day recurring revenue counts into analytics.perdays collection
 
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
 
+// TODO: Investigate school sales amount == zero. Manual input error?
+
 try {
-  logDB = new Mongo("localhost").getDB("analytics")
   var scriptStartTime = new Date();
   var analyticsStringCache = {};
 
@@ -26,6 +29,7 @@ try {
   for (var event in recurringRevenueCounts) {
     for (var day in recurringRevenueCounts[event]) {
       if (today === day) continue; // Never save data for today because it's incomplete
+      // print(event, day, recurringRevenueCounts[event][day]);
       insertEventCount(event, day, recurringRevenueCounts[event][day]);
     }
   }
@@ -41,11 +45,13 @@ function getRecurringRevenueCounts(startDay) {
   if (!startDay) return {};
 
   var dailyRevenueCounts = {};
+  var day;
+  var prepaidIDs = [];
+  var prepaidDayAmountMap = {};
   var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
   var cursor = db.payments.find({_id: {$gte: startObj}});
   while (cursor.hasNext()) {
     var doc = cursor.next();
-    var day;
     if (doc.created) {
       day = doc.created.substring(0, 10);
     }
@@ -55,7 +61,15 @@ function getRecurringRevenueCounts(startDay) {
 
     if (doc.service === 'ios' || doc.service === 'bitcoin') continue;
 
-    if (doc.productID && doc.productID.indexOf('gems_') === 0) {
+    if (doc.prepaidID) {
+      if (prepaidDayAmountMap[doc.prepaidID.valueOf()]) {
+        console.log("ERROR! prepaid", doc.prepaidID.valueOf(), "attached to multiple payments", doc._id.valueOf(), prepaidDayAmountMap[doc.prepaidID.valueOf()]);
+        return {}; 
+      }
+      prepaidDayAmountMap[doc.prepaidID.valueOf()] = {day: day, amount: doc.amount};
+      prepaidIDs.push(doc.prepaidID);
+    }
+    else if (doc.productID && doc.productID.indexOf('gems_') === 0) {
       if (!dailyRevenueCounts['DRR gems']) dailyRevenueCounts['DRR gems'] = {};
       if (!dailyRevenueCounts['DRR gems'][day]) dailyRevenueCounts['DRR gems'][day] = 0;
       dailyRevenueCounts['DRR gems'][day] += doc.amount
@@ -85,6 +99,22 @@ function getRecurringRevenueCounts(startDay) {
     //   // printjson(doc);
     //   // print(doc.service, doc.amount, doc.description, JSON.stringify(doc.stripe));
     // }
+  }
+
+  // Add revenue from prepaids connected to payments
+  cursor = db.prepaids.find({_id: {$in: prepaidIDs}});
+  while (cursor.hasNext()) {
+    doc = cursor.next();
+    if (prepaidDayAmountMap[doc._id.valueOf()]) {
+      day = prepaidDayAmountMap[doc._id.valueOf()].day;
+      var amount = prepaidDayAmountMap[doc._id.valueOf()].amount;
+      if (doc.type === 'course' || doc.type === 'terminal_subscription') {
+        var revenueType = doc.type === 'course' ? 'DRR school sales' : 'DRR monthly subs';
+        if (!dailyRevenueCounts[revenueType]) dailyRevenueCounts[revenueType] = {};
+        if (!dailyRevenueCounts[revenueType][day]) dailyRevenueCounts[revenueType][day] = 0;
+        dailyRevenueCounts[revenueType][day] += amount;
+      }
+    }
   }
 
   return dailyRevenueCounts;
@@ -156,10 +186,10 @@ function insertEventCount(event, day, count) {
   // analytics.perdays schema in server/analytics/AnalyticsPeryDay.coffee
   day = day.replace(/-/g, '');
 
+  var results;
   var eventID = getAnalyticsString(event);
   var filterID = getAnalyticsString('all');
 
-  var startObj = objectIdWithTimestamp(new Date(startDay + "T00:00:00.000Z"));
   var queryParams = {$and: [{d: day}, {e: eventID}, {f: filterID}]};
   var doc = db['analytics.perdays'].findOne(queryParams);
   if (doc && doc.c === count) return;
@@ -167,7 +197,7 @@ function insertEventCount(event, day, count) {
   if (doc && doc.c !== count) {
     // Update existing count, assume new one is more accurate
     // log("Updating count in db for " + day + " " + event + " " + doc.c + " => " + count);
-    var results = db['analytics.perdays'].update(queryParams, {$set: {c: count}});
+    results = db['analytics.perdays'].update(queryParams, {$set: {c: count}});
     if (results.nMatched !== 1 && results.nModified !== 1) {
       log("ERROR: update event count failed");
       printjson(results);
@@ -175,7 +205,7 @@ function insertEventCount(event, day, count) {
   }
   else {
     var insertDoc = {d: day, e: eventID, f: filterID, c: count};
-    var results = db['analytics.perdays'].insert(insertDoc);
+    results = db['analytics.perdays'].insert(insertDoc);
     if (results.nInserted !== 1) {
       log("ERROR: insert event failed");
       printjson(results);
