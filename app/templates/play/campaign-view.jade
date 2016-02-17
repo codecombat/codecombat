@@ -1,5 +1,12 @@
-a(href="/")
-  img#small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+a(href="/").picoctf-hide
+  img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+
+.picoctf-show
+  a(href="http://staging.picoctf.com").picoctf-logo
+    img.small-nav-logo(src="http://picoctf.com/img/2014_logo_blue2.svg", title="picoCTF home", alt="picoCTF home")
+  a(href="http://codecombat.com").picoctf-powered-by
+    em.spr powered by
+    img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
 if campaign
   .map
@@ -36,7 +43,7 @@ if campaign
             .level-status
             h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
             - var description = i18n(level, 'description') || level.description || ""
-            .level-description!= marked(description)
+            .level-description!= marked(description, {sanitize: !picoCTF})
             if level.disabled
               p
                 span.spr(data-i18n="play.awaiting_levels_adventurer_prefix") We release five levels per week.
@@ -99,7 +106,7 @@ else
               p.campaign-description
                 span= i18n(campaign.attributes, 'description')
 
-.game-controls.header-font
+.game-controls.header-font.picoctf-hide
   button.btn.poll.hidden(data-i18n="[title]play.poll")
   a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
   button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
@@ -114,7 +121,7 @@ else
   if me.get('anonymous', true)
     button.btn.settings(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="[title]play.settings")
 
-.user-status.header-font
+.user-status.header-font.picoctf-hide
   .user-status-line
     span.gem.gem-30
     span#gems-count.spr= me.gems()
@@ -137,7 +144,7 @@ button.btn.btn-lg.btn-inverse.campaign-control-button#volume-button(data-i18n="[
   .glyphicon.glyphicon-volume-up
 
 if campaign && !editorMode
-  button.btn.btn-lg.btn-inverse.campaign-control-button#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
+  button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
     .glyphicon.glyphicon-globe
 
 if editorMode

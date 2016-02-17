@@ -37,7 +37,7 @@ module.exports = class PrepaidView extends RootView
 
     @codes = new CocoCollection([], { url: '/db/user/'+me.id+'/prepaid_codes', model: Prepaid })
     @codes.on 'sync', (code) => @render?()
-    @supermodel.loadCollection(@codes, 'prepaid', {cache: false})
+    @supermodel.loadCollection(@codes, {cache: false})
 
     @ppc = utils.getQueryVariable('_ppc') ? ''
     unless _.isEmpty(@ppc)
@@ -45,7 +45,7 @@ module.exports = class PrepaidView extends RootView
       @loadPrepaid(@ppc)
 
     @products = new Products()
-    @supermodel.loadCollection(@products, 'products')
+    @supermodel.loadCollection(@products)
     
   onLoaded: ->
     @prepaidProduct = @products.findWhere { name: 'prepaid_subscription' }
@@ -190,7 +190,7 @@ module.exports = class PrepaidView extends RootView
       @renderSelectors('#codes-panel')
 
     @statusMessage "Finalizing purchase...", "information"
-    @supermodel.addRequestResource('purchase_prepaid', options, 0).load()
+    @supermodel.addRequestResource(options, 0).load()
 
   loadPrepaid: (ppc) ->
     return unless ppc
