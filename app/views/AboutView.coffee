@@ -6,3 +6,17 @@ module.exports = class AboutView extends RootView
   template: template
 
   logoutRedirectURL: false
+  
+  afterRender: ->
+    super(arguments...)
+    @$('nav').affix({
+      offset:
+        top: ->
+          $('#jumbotron').outerHeight()
+    })
+    #TODO: Maybe cache top value between page resizes to save CPU
+    $('body').scrollspy(
+      target: '#nav-container'
+      offset: 150
+    )
+    @$('#screenshot-lightbox').modal()

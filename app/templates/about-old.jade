@@ -1,0 +1,189 @@
+
+extends /templates/base
+
+block content
+
+img(src="/images/pages/about/coco_comic.jpg")
+
+.row
+
+.col-sm-6
+
+h2(data-i18n="about.why_codecombat")
+  | Why CodeCombat?
+
+p(data-i18n="about.why_paragraph_1")
+  | If you want to learn to program, you don't need lessons. 
+  | You need to write a lot of code and have a great time doing it.
+
+p
+  span(data-i18n="about.why_paragraph_2_prefix")
+    | That's what programming is about. It's gotta be fun.
+    | Not fun like
+  span  
+  i(data-i18n="about.why_paragraph_2_italic")
+    | yay a badge
+  span  
+  span(data-i18n="about.why_paragraph_2_center")
+    | but fun like
+  span  
+  i(data-i18n="about.why_paragraph_2_italic_caps")
+    | NO MOM I HAVE TO FINISH THE LEVEL!
+  span  
+  span(data-i18n="about.why_paragraph_2_suffix")
+    | That's why CodeCombat is a multiplayer game,
+    | not a gamified lesson course. We won't stop 
+    | until you can't stop--but this time, that's a good thing.
+
+p(data-i18n="about.why_paragraph_3")
+  | If you're going to get addicted to some game, 
+  | get addicted to this one and become one of the wizards of the tech age.
+
+h2(data-i18n="about.press_title")
+  | Bloggers/Press
+
+p
+  span.spr(data-i18n="about.press_paragraph_1_prefix")
+    | Want to write about us? Feel free to download and use all of the resources included in our
+  a(href="https://s3.amazonaws.com/CodeCombatMisc/press_packet.zip", data-i18n="about.press_paragraph_1_link") press packet
+  span(data-i18n="about.press_paragraph_1_suffix")
+    | . All logos and images may be used without contacting us directly.
+
+h2(data-i18n="nav.contact")
+  | Contact
+p
+  span CodeCombat Inc.
+  br
+  span 360 3rd St Suite 700 (Livefyre)
+  br
+  span San Francisco, CA 94107
+  br
+  a(href='mailto:team@codecombat.com') team@codecombat.com
+if me.get('preferredLanguage') == 'pt-BR'
+  span CodeCombat, Brazil
+  br
+  span Rua 1814 Militão Chaves
+  br
+  span Natal, Brazil, RN 59064-500
+
+ul.col-sm-6.team-column
+
+ul.thumbnails
+
+  li.row
+
+    h2(data-i18n="about.team") Team
+
+    // Full time
+
+    a(href="http://www.nickwinter.net")
+      img(src="/images/pages/about/nick_small.png").img-thumbnail
+    .team_bio
+      h4.team_name
+        a(href="http://www.nickwinter.net") Nick Winter
+      div(data-i18n="about.nick_title")
+      div(data-i18n="about.nick_blurb")
+
+    a(href="http://www.mattlott.com/")
+      img(src="/images/pages/about/matt_small.png").img-thumbnail
+    .team_bio
+      h4.team_name
+        a(href="http://www.mattlott.com/") Matt Lott
+      div(data-i18n="about.matt_title")
+      div(data-i18n="about.matt_blurb")
+
+  li.row
+
+    a(href="http://cat.zdh.com/")
+      img(src="/images/pages/about/cat_small.png").img-thumbnail
+    .team_bio
+      h4.team_name
+        a(href="http://cat.zdh.com/") Catherine Weresow
+      div(data-i18n="about.cat_title")
+      div(data-i18n="about.cat_blurb")
+
+    img(src="/images/pages/about/scott_small.png").img-thumbnail
+    .team_bio
+      h4.team_name Scott Erickson
+      div(data-i18n="about.scott_title")
+      div(data-i18n="about.scott_blurb")
+
+  li.row
+
+    img(src="/images/pages/about/maka_small.png").img-thumbnail
+    .team_bio
+      h4.team_name Michael 'Maka' Gradin
+      div(data-i18n="about.maka_title")
+      div(data-i18n="about.maka_blurb")
+
+    a(href="http://basicer.com/")
+      img(src="/images/pages/about/rob_small.png").img-thumbnail
+    .team_bio
+      h4.team_name
+        a(href="http://basicer.com/") Rob Blanckaert
+      div(data-i18n="about.rob_title")
+      div(data-i18n="about.rob_blurb")
+
+  li.row
+
+    img(src="/images/pages/about/josh_c_small.png").img-thumbnail
+    .team_bio
+      h4.team_name Josh Callebaut
+      div(data-i18n="about.josh_c_title")
+      div(data-i18n="about.josh_c_blurb")
+
+    a(href="http://robinyang.com/")
+      img(src="/images/pages/about/robin_small.png").img-thumbnail
+    .team_bio
+      h4.team_name
+        a(href="http://robinyang.com/") Robin Yang
+      div(data-i18n="about.robin_title")
+      div(data-i18n="about.robin_blurb")
+
+
+  // Part time / contract
+
+  li.row
+
+    a(href="http://floor.is/lava/")
+      img(src="/images/pages/about/josh_small.png").img-thumbnail
+    .team_bio
+      h4.team_name
+        a(href="http://floor.is/lava/") Josh Lee
+      div(data-i18n="about.josh_title")
+      div(data-i18n="about.josh_blurb")
+
+    a(href="https://soundcloud.com/taking-off")
+      img(src="/images/pages/about/jose_small.png").img-thumbnail
+    .team_bio
+      h4.team_name
+        a(href="https://soundcloud.com/taking-off") Jose Antonini
+      div(data-i18n="about.jose_title")
+      div(data-i18n="about.jose_blurb")
+
+  li.row
+
+    a(href="http://retrostylegames.com/")
+      img(src="/images/pages/about/pavel_small.png").img-thumbnail
+    .team_bio
+      h4.team_name
+        a(href="http://retrostylegames.com/") Pavel Konstantinov
+      div(data-i18n="about.retrostyle_title")
+      div(data-i18n="about.retrostyle_blurb")
+
+    a(href="http://retrostylegames.com/")
+      img(src="/images/pages/about/oleg_small.png").img-thumbnail
+    .team_bio
+      h4.team_name
+        a(href="http://retrostylegames.com/") Oleg Ulyanickiy
+      div(data-i18n="about.retrostyle_title")
+      div(data-i18n="about.retrostyle_blurb")
+
+  li.row
+
+    img(src="/images/pages/about/carlos_small.png").img-thumbnail
+    .team_bio
+      h4.team_name Carlos Maia
+      div(data-i18n="about.carlos_title")
+      div(data-i18n="about.carlos_blurb")
+
