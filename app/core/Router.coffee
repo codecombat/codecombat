@@ -185,7 +185,10 @@ module.exports = class CocoRouter extends Backbone.Router
     window.currentView.destroy()
     $('.popover').popover 'hide'
     $('#flying-focus').css({top: 0, left: 0}) # otherwise it might make the page unnecessarily tall
-    _.delay (-> $('body')[0].scrollTop = 0), 10
+    _.delay (-> 
+      $('html')[0].scrollTop = 0
+      $('body')[0].scrollTop = 0
+    ), 10
 
   onGPlusAPILoaded: =>
     @renderLoginButtons()
