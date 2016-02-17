@@ -6,9 +6,9 @@ http = require 'http'
 authstr = new Buffer("#{config.picoCTF_auth.username}:#{config.picoCTF_auth.password}").toString 'base64'
 
 papi = (url, req, cb) ->
-  request 
+  request
       url: "#{config.picoCTF_api_url}#{url}"
-      headers: 
+      headers:
         Cookie: "flask=#{req.cookies.flask}"
         Authorization: 'Basic ' + authstr
     , cb
@@ -35,6 +35,7 @@ class PicoStrategy
           name: data.team_name
           email: fakeEmail
           emailLower: fakeEmail
+          aceConfig: {language: 'javascript'}
         user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
         user.save (err) =>
           console.log "New user created!", user
@@ -51,7 +52,7 @@ init = (app) ->
       res.json JSON.parse(body).data
 
   app.post '/picoctf/submit', (req, res) ->
-    request 
+    request
       url: "#{config.picoCTF_APIURL}/submit"
       headers:
         Cookie: "flask=#{req.cookies.flask}"
@@ -59,6 +60,6 @@ init = (app) ->
     , (err, rr, body) ->
       res.json JSON.parse(body)
 
-module.exports = 
+module.exports =
   PicoStrategy: PicoStrategy
   init: init

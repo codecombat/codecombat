@@ -515,11 +515,12 @@ module.exports = class CampaignView extends RootView
     levelSlug = levelElement.data 'level-slug'
     session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
     @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session
-    @$levelInfo.find('.level-info, .progress').toggleClass('hide')
-    @listenToOnce @setupManager, 'open', ->
+    unless @setupManager?.navigatingToPlay
       @$levelInfo.find('.level-info, .progress').toggleClass('hide')
-      @$levelInfo?.hide()
-    @setupManager.open()
+      @listenToOnce @setupManager, 'open', ->
+        @$levelInfo?.find('.level-info, .progress').toggleClass('hide')
+        @$levelInfo?.hide()
+      @setupManager.open()
 
   onClickViewSolutions: (e) ->
     levelElement = $(e.target).parents('.level-info-container')
@@ -599,6 +600,7 @@ module.exports = class CampaignView extends RootView
       @$el.find(".course-version[data-level-original='#{levelOriginal}']").removeClass('hidden').data('course-id': courseInstance.get('courseID'), 'course-instance-id': courseInstance.id)
 
   preloadTopHeroes: ->
+    return if window.serverConfig.picoCTF
     for heroID in ['captain', 'knight']
       url = "/db/thang.type/#{ThangType.heroes[heroID]}/version"
       continue if @supermodel.getModel url
