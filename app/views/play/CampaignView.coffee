@@ -71,7 +71,7 @@ module.exports = class CampaignView extends RootView
     @levelPlayCountMap = {}
     @levelDifficultyMap = {}
     if window.serverConfig.picoCTF
-      @supermodel.addRequestResource(url: '/picoctf/problems', success: @onPicoCTFProblemsLoaded).load()
+      @supermodel.addRequestResource(url: '/picoctf/problems', success: (@picoCTFProblems) =>).load()
     else
       @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
       @listenToOnce @sessions, 'sync', @onSessionsLoaded
@@ -280,7 +280,7 @@ module.exports = class CampaignView extends RootView
         level.locked = false if problem.unlocked
         level.description = """
           ### #{problem.name}
-          #{problem.description}
+          #{level.description or problem.description}
 
           #{problem.category} - #{problem.score} points
         """  # Skipping #{problem.hints}
@@ -438,8 +438,6 @@ module.exports = class CampaignView extends RootView
 
   onCampaignsLoaded: (e) ->
     @render()
-
-  onPicoCTFProblemsLoaded: (@picoCTFProblems) =>
 
   preloadLevel: (levelSlug) ->
     levelURL = "/db/level/#{levelSlug}"
