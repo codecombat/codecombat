@@ -63,18 +63,22 @@ module.exports = class CampaignView extends RootView
 
   constructor: (options, @terrain) ->
     super options
+    @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
     if @editorMode
       @terrain ?= 'dungeon'
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @levelDifficultyMap = {}
-    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
-    @listenToOnce @sessions, 'sync', @onSessionsLoaded
-    unless @terrain
-      @campaigns = @supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
-      @listenToOnce @campaigns, 'sync', @onCampaignsLoaded
-      return
+    if window.serverConfig.picoCTF
+      @supermodel.addRequestResource(url: '/picoctf/problems', success: @onPicoCTFProblemsLoaded).load()
+    else
+      @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
+      @listenToOnce @sessions, 'sync', @onSessionsLoaded
+      unless @terrain
+        @campaigns = @supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
+        @listenToOnce @campaigns, 'sync', @onCampaignsLoaded
+        return
 
     @campaign = new Campaign({_id:@terrain})
     @campaign.saveBackups = @editorMode
@@ -187,6 +191,7 @@ module.exports = class CampaignView extends RootView
     context.levelDifficultyMap = @levelDifficultyMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
+    context.picoCTF = window.serverConfig.picoCTF
     context.requiresSubscription = @requiresSubscription
     context.editorMode = @editorMode
     context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign?.get('adjacentCampaigns') or {})), (ac) =>
@@ -267,10 +272,18 @@ module.exports = class CampaignView extends RootView
     level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
     level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
     level.locked = false if @editorMode
-    level.locked = false if @campaign?.get('name') is 'Auditions'
-    level.locked = false if @campaign?.get('name') is 'Intro'
+    level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
     level.locked = false if me.isInGodMode()
     #level.locked = false if level.slug is 'robot-ragnarok'
+    if window.serverConfig.picoCTF
+      if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
+        level.locked = false if problem.unlocked
+        level.description = """
+          ### #{problem.name}
+          #{problem.description}
+
+          #{problem.category} - #{problem.score} points
+        """  # Skipping #{problem.hints}
     level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
     level.disabled = false if me.isInGodMode()
     level.color = 'rgb(255, 80, 60)'
@@ -338,7 +351,7 @@ module.exports = class CampaignView extends RootView
     adultPoint = me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']  # They have to have answered the poll for this, likely after Shadow Guard.
     speedPoints = 0
     for [levelSlug, speedThreshold] in [['dungeons-of-kithgard', 50], ['gems-in-the-deep', 55], ['shadow-guard', 55], ['forgetful-gemsmith', 40], ['true-names', 40]]
-      if _.find(@sessions.models, (session) -> session.get('levelID') is levelSlug)?.attributes.playtime <= speedThreshold
+      if _.find(@sessions?.models, (session) -> session.get('levelID') is levelSlug)?.attributes.playtime <= speedThreshold
         ++speedPoints
     experienceScore = adultPoint + speedPoints  # 0-6 score of how likely we think they are to be experienced and ready for Kithgard Mastery
     return experienceScore
@@ -421,10 +434,12 @@ module.exports = class CampaignView extends RootView
         @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
       @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
     @render()
-    @loadUserPollsRecord() unless me.get 'anonymous'
+    @loadUserPollsRecord() unless me.get('anonymous') or window.serverConfig.picoCTF
 
   onCampaignsLoaded: (e) ->
     @render()
+
+  onPicoCTFProblemsLoaded: (@picoCTFProblems) =>
 
   preloadLevel: (levelSlug) ->
     levelURL = "/db/level/#{levelSlug}"
@@ -447,7 +462,7 @@ module.exports = class CampaignView extends RootView
 
   onClickMap: (e) ->
     @$levelInfo?.hide()
-    if @sessions.models.length < 3
+    if @sessions?.models.length < 3
       # Restore the next level higlight for very new players who might otherwise get lost.
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
 
@@ -482,7 +497,7 @@ module.exports = class CampaignView extends RootView
     canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug]
     if requiresSubscription and not canPlayAnyway
       @openModalView new SubscribeModal()
-      # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later. 
+      # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
       window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug, levelID: levelSlug
     else
       @startLevel levelElement

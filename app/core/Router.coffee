@@ -14,6 +14,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
   routes:
     '': ->
+      if window.serverConfig.picoCTF
+        return @routeDirectly 'play/CampaignView', ['picoctf'], {}
       # Testing new home page
       group = me.getHomepageGroup()
       return @routeDirectly('HomeView', [], { withTeacherNote: true }) if group is 'home-with-note'
@@ -147,6 +149,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args, options={}) ->
+    path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views\/)?play/.test(path)
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
     if not ViewClass and application.moduleLoader.load(path)
