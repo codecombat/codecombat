@@ -6,3 +6,15 @@ module.exports = class AboutView extends RootView
   template: template
 
   logoutRedirectURL: false
+  
+  afterRender: ->
+    super(arguments...)
+    args =
+      offset:
+        top: ->
+          console.log "top called"
+          return 200
+    $('#nav-container').affix(args)
+    console.log args
+    console.log "afterRender called"
+    

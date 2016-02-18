@@ -208,8 +208,13 @@ $forest: #20572B
 #about-view
   #nav-container
     height: 55px
-    width: 100%
     background: $gold
+    &.affix-top
+      top: 204px
+    &.affix
+      position: fixed
+      top: 0
+      width: 100%
     nav
       ul
         list-style: none
