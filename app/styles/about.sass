@@ -237,14 +237,14 @@ $forest: #20572B
     background-repeat: no-repeat
     // height: 365px
     
-  h1
-    color: white
-    margin-top: 100px
-    
-  h2
-    color: white
-    margin-bottom: 100px
-    
+    h1
+      color: white
+      margin-top: 100px
+      
+    h2
+      color: white
+      margin-bottom: 100px
+      
   h3, h4
     text-align: center
   
@@ -262,7 +262,7 @@ $forest: #20572B
 
     h2
       color: white
-      width: 70%
+      width: 50%
     
   #mission-graphic
     background: $navy
@@ -282,6 +282,7 @@ $forest: #20572B
       position: absolute
       right: 100%
       top: 0
+
   #team
     margin-top: 150px
     ul
@@ -359,6 +360,8 @@ $forest: #20572B
       display: flex
       flex-direction: column
       align-items: center
+      img
+        margin-top: 20px
       #story-bracketed-text
         .big-text
           // width: 70%
@@ -385,11 +388,11 @@ $forest: #20572B
     margin-top: 100px
     #jobs-row
       #benefits, .job-listing
-        // Wonks up centering
-        // max-width: 390px
+        margin-top: 65px
         border: thin solid $navy
         border-radius: 8px
         padding: 50px
+        width: 370px
         height: 420px
         h5
           text-align: center
@@ -424,6 +427,7 @@ $forest: #20572B
     border-radius: 8px
     .label
       color: black
+      display: block
     #screenshots
       text-align: center
       #screenshot-grid
@@ -436,14 +440,18 @@ $forest: #20572B
       //   max-width: 345px
       //   width: 100%
     #downloads
+      //TODO: How do I center this in small view?
+      width: 260px
       margin: 100px 50px
       ul
+        width: 260px
         margin-top: 10px
         margin-bottom: 20px
         margin-left: -30px
       a
         color: black
       #download-button
+        margin: 0 auto
         color: $navy
         .glyphicon-download-alt
           margin-right: 15px
@@ -451,8 +459,10 @@ $forest: #20572B
           font-size: 1.5em
 
   #location
-    margin-top: 80px
+    margin-top: 40px
     text-align: center
+    p.bold
+      margin-top: 40px
     a
       color: inherit
       text-decoration: underline
