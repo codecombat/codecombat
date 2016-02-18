@@ -33,12 +33,8 @@ module.exports.setup = (app) ->
             return log.error err if err?
             githubUserEmails = JSON.parse response
             log.info 'Got GitHub user emails', githubUserEmails
-          
-            for email in githubUserEmails
-              if email.primary == true
-                emailLower = email.email.toLowerCase()
-                break
-          
+            
+            emailLower = _.find githubUserEmails, (email) -> email.primary is true
             log.info 'Got primary Github email', emailLower
           
             if not emailLower
