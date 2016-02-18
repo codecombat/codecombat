@@ -9,9 +9,31 @@ block content
         .row
           .col-xs-8
             h2 At CodeCombat, our job is to make sure you're doing that with a smile on your face.
-      
+    
+    #nav-container
+      nav.text-center
+        ul.center-block
+          li
+            a(href="#mission") 
+              small Mission
+          li
+            a(href="#team") 
+              small Team
+          li
+            a(href="#community") 
+              small Community
+          li
+            a(href="#story") 
+              small Story
+          li
+            a(href="#jobs") 
+              small Careers
+          li
+            a(href="#contact") 
+              small Press
+    
     .container#about-container
-      #mission-row.row
+      #mission.row
         .col-sm-6#mission-graphic
           img(src="/images/pages/about/Globe_white.png")
           h2 Our mission: make programming accessible to every student on Earth.
@@ -138,27 +160,27 @@ block content
               h6.label.team_name Carlos Maia
               small(data-i18n="about.carlos_title")
               small(data-i18n="about.carlos_blurb")
+      #community
+        #community-row-1.row
+          .col-sm-12
+            h3 ...and our open-source community
+            //TODO: Update this text
+            h4 Over 450 contributors have helped build CodeCombat, with more joining every week!
+            img(src="/images/pages/about/github_avatars.png")#community-avatars
+        
+        #community-row-2.row
+          .col-sm-5
+            p
+              | CodeCombat is already a community project, with hundreds of players volunteering to create levels, contribute to our GitHub repositories, playtest, and even translate the game into 50 languages so far. Anyone can join the CodeCombat community! Check out our 
+              a(href="/contribute") contribute page 
+              | for more info.
+          .col-sm-6.col-sm-offset-1#community-graphic
+            //TODO: Update this text
+            h2 Over 450 contributors have lent their support and time to this project.
+            img(src="/images/pages/about/Github.png")
+            #community-graphic-filler
             
-      #community-row-1.row
-        .col-sm-12
-          h3 ...and our open-source community
-          //TODO: Update this text
-          h4 Over 450 contributors have helped build CodeCombat, with more joining every week!
-          img(src="/images/pages/about/github_avatars.png")#community-avatars
-      
-      #community-row-2.row
-        .col-sm-5
-          p
-            | CodeCombat is already a community project, with hundreds of players volunteering to create levels, contribute to our GitHub repositories, playtest, and even translate the game into 50 languages so far. Anyone can join the CodeCombat community! Check out our 
-            a(href="/contribute") contribute page 
-            | for more info.
-        .col-sm-6.col-sm-offset-1#community-graphic
-          //TODO: Update this text
-          h2 Over 450 contributors have lent their support and time to this project.
-          img(src="/images/pages/about/Github.png")
-          #community-graphic-filler
-          
-      #story-section
+      #story
         h3 Our story so far
         h4 Since 2013, CodeCombat has grown from a mere set of sketches to a living, thriving game.
         .row

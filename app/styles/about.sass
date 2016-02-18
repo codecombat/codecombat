@@ -206,7 +206,24 @@ $forest: #20572B
 
 
 #about-view
-  
+  #nav-container
+    height: 55px
+    width: 100%
+    background: $gold
+    nav
+      ul
+        list-style: none
+        li
+          height: 22pt
+          display: inline-block
+          margin: 10px 18px
+          a
+            color: white
+            text-transform: uppercase
+            text-decoration: none
+        li.active
+          border-bottom: 4px solid white
+    
   #jumbotron-container-fluid
     background: $navy
     // height: 365px
@@ -226,7 +243,7 @@ $forest: #20572B
     margin-top: 60px
     background-color: white
   
-  #mission-row, #community-row-2
+  #mission, #community-row-2
     margin: 50px 0
   
   #mission-graphic, #community-graphic
@@ -299,7 +316,7 @@ $forest: #20572B
       position: absolute
       left: 100%
       top: 0
-  #story-section
+  #story
     margin-top: 150px
     font-family: $headline-font
     font-variant: normal
