@@ -1,7 +1,7 @@
 block content
   .style-flat
     .container-fluid#jumbotron-container-fluid
-      .container.bg-navy
+      .container
         .row
           //TODO: Size these correctly
           .col-xs-10
@@ -15,22 +15,22 @@ block content
         ul.center-block
           li
             a(href="#mission") 
-              small Mission
+              small.label Mission
           li
             a(href="#team") 
-              small Team
+              small.label Team
           li
             a(href="#community") 
-              small Community
+              small.label Community
           li
             a(href="#story") 
-              small Story
+              small.label Story
           li
             a(href="#jobs") 
-              small Careers
+              small.label Careers
           li
             a(href="#contact") 
-              small Press
+              small.label Press
     
     .container#about-container
       #mission.row
@@ -323,4 +323,4 @@ block content
             a(href="mailto:team@codecombat.com") team@codecombat.com
           .col-sm-4
             b We're located in downtown SF:
-            //TODO: Embed GMaps here
+            iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo&q=CodeCombat")

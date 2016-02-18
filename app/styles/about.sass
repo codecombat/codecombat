@@ -209,14 +209,13 @@ $forest: #20572B
   #nav-container
     height: 55px
     background: $gold
-    &.affix-top
-      top: 204px
     &.affix
       position: fixed
       top: 0
       width: 100%
     nav
       ul
+        padding-left: 0
         list-style: none
         li
           height: 22pt
@@ -230,7 +229,10 @@ $forest: #20572B
           border-bottom: 4px solid white
     
   #jumbotron-container-fluid
-    background: $navy
+    background-color: $navy
+    background-image: url("/images/pages/about/codebackground_zoom_compressed.png")
+    background-size: cover
+    background-repeat: no-repeat
     // height: 365px
     
   h1
