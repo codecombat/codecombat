@@ -139,13 +139,13 @@ block content
               small(data-i18n="about.carlos_blurb")
             
       #community-row-1.row
-        h3 ...and our open-source community
-        //TODO: Update this text
-        h4 Over 450 contributors have helped build CodeCombat, with more joining every week!
-        //TODO: Use real image
-        img(style='width: 1100px;height:175px')
+        .col-sm-12
+          h3 ...and our open-source community
+          //TODO: Update this text
+          h4 Over 450 contributors have helped build CodeCombat, with more joining every week!
+          img(src="/images/pages/about/github_avatars.png")#community-avatars
       
-      #community-row.row
+      #community-row-2.row
         .col-sm-5
           p
             | CodeCombat is already a community project, with hundreds of players volunteering to create levels, contribute to our GitHub repositories, playtest, and even translate the game into 50 languages so far. Anyone can join the CodeCombat community! Check out our 
@@ -157,25 +157,36 @@ block content
           img(src="/images/pages/about/Github.png")
           #community-graphic-filler
           
-      #story-row.row
+      #story-section
         h3 Our story so far
         h4 Since 2013, CodeCombat has grown from a mere set of sketches to a living, thriving game.
-        #story-graphic-1.col-sm-6
-          img(src="/images/pages/about/Character_Silouhette.png")
-          p
-            span.big-text 5,000,000+ total players
-            span.small-text have started their programming journey through CodeCombat
-        #story-graphic-2.col-sm.6
-          img(src="/images/pages/about/Globe_Green.png")
-          p
-            span.small-text We’ve been translated into over 50 languages - our players hail from
-            span.big-text 5,000,000+ total players
-            
+        .row
+          #story-graphic-1.col-lg-6
+            .media
+              .pull-left
+                img.media-object#story-image-1(src="/images/pages/about/Character_Silouhette.png")
+              .media-body
+                .media-heading
+                  | 5,000,000+
+                  br
+                  | total players
+                p have started their programming journey through CodeCombat
+          #story-graphic-2.col-lg-6
+            .media
+              p We’ve been translated into over 50 languages - our players hail from
+              .pull-right
+                img(src="/images/pages/about/Globe_Green.png")
+              .media-body
+                .media-heading 200+ countries
+                
         #story-graphic-3
           p
             span.small-text Together, they have written
             span.big-text 1 billion lines of code
             span.small-text across six different programming languages
+          img.hidden-xs(src="/images/pages/about/Languages.png")
+          img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group1.png")
+          img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group2.png")
         
         #story-graphic-4
           p

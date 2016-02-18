@@ -226,7 +226,7 @@ $forest: #20572B
     margin-top: 60px
     background-color: white
   
-  #mission-row, #community-row
+  #mission-row, #community-row-2
     margin: 50px 0
   
   #mission-graphic, #community-graphic
@@ -278,8 +278,11 @@ $forest: #20572B
           border-radius: 50%
   #community-row-1
     margin: 100px 0
-    img
-      margin: 20px 0
+    display: flex
+    justify-content: center
+    #community-avatars
+      width: 90%
+      margin: 20px 5%
 
   #community-graphic
     background: $burgandy
@@ -296,30 +299,30 @@ $forest: #20572B
       position: absolute
       left: 100%
       top: 0
-  #story-row
+  #story-section
     margin: 100px 0
     font-family: $headline-font
     font-variant: normal
-    margin: 0
-    img
-      display: inline-block
-    .big-text
+    .media-heading
       //same as H1
       font-weight: normal
       font-size: 46px
       line-height: 62px
-    .small-text
+    .media
       //same as h5
       color: black
       font-weight: bold
       font-size: 20px
       line-height: 31px
     #story-graphic-1
-      .big-text
+      .media-heading
         color: $burgandy
-      p
-        display: inline-block
+      // p
+      //   display: inline-block
+      //   width: 60%
     #story-graphic-2
-      .big-text
-        color: $burgandy
+      max-width: 390px
+      margin: 0 auto
+      .media-heading
+        color: $forest
     
