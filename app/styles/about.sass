@@ -206,6 +206,8 @@ $forest: #20572B
 
 
 #about-view
+  .bold
+    font-weight: bold
   #nav-container
     height: 55px
     background: $gold
@@ -406,11 +408,11 @@ $forest: #20572B
           color: grey
         .row
           //TODO: Fix to bottom AND center, without flexbox?
-          position: absolute
-          bottom: 45px
-          a
-            display: block
-            bottom: 45px
+          // position: absolute
+          // bottom: 45px
+          // a
+            // display: block
+            // bottom: 45px
             
   #contact
     margin-top: 130px
@@ -420,6 +422,8 @@ $forest: #20572B
     margin-top: 50px
     border: thin solid gray
     border-radius: 8px
+    .label
+      color: black
     #screenshots
       text-align: center
       #screenshot-grid
@@ -433,6 +437,18 @@ $forest: #20572B
       //   width: 100%
     #downloads
       margin: 100px 50px
+      ul
+        margin-top: 10px
+        margin-bottom: 20px
+        margin-left: -30px
+      a
+        color: black
+      #download-button
+        color: $navy
+        .glyphicon-download-alt
+          margin-right: 15px
+          vertical-align: middle
+          font-size: 1.5em
 
   #location
     margin-top: 80px
@@ -440,8 +456,5 @@ $forest: #20572B
     a
       color: inherit
       text-decoration: underline
-      
-
-      
-        
-    
+    iframe
+      border: 2px solid lightgray
