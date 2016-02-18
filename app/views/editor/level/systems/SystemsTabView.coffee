@@ -30,7 +30,7 @@ module.exports = class SystemsTabView extends CocoView
     for system in @buildDefaultSystems()
       url = "/db/level.system/#{system.original}/version/#{system.majorVersion}"
       ls = new LevelSystem().setURL(url)
-      @supermodel.loadModel(ls, 'system')
+      @supermodel.loadModel(ls)
 
   afterRender: ->
     @buildSystemsTreema()

@@ -14,7 +14,7 @@ module.exports = class AdministerUserModal extends ModalView
 
   constructor: (options, @userHandle) ->
     super(options)
-    @user = @supermodel.loadModel(new User({_id:@userHandle}), 'user', {cache: false}).model
+    @user = @supermodel.loadModel(new User({_id:@userHandle}), {cache: false}).model
     options = {cache: false, url: '/stripe/coupons'}
     options.success = (@coupons) =>
     @couponsResource = @supermodel.addRequestResource('coupon', options)

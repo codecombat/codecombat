@@ -54,7 +54,7 @@ module.exports = class LevelLoader extends CocoClass
     if @level.loaded
       @onLevelLoaded()
     else
-      @level = @supermodel.loadModel(@level, 'level').model
+      @level = @supermodel.loadModel(@level).model
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   onLevelLoaded: ->
@@ -86,12 +86,12 @@ module.exports = class LevelLoader extends CocoClass
 
     session = new LevelSession().setURL url
     session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state'] if @headless
-    @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
+    @sessionResource = @supermodel.loadModel(session, {cache: false})
     @session = @sessionResource.model
     if @opponentSessionID
       opponentSession = new LevelSession().setURL "/db/level.session/#{@opponentSessionID}"
       opponentSession.project = session.project if @headless
-      @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
+      @opponentSessionResource = @supermodel.loadModel(opponentSession, {cache: false})
       @opponentSession = @opponentSessionResource.model
 
     if @session.loaded
@@ -130,7 +130,7 @@ module.exports = class LevelLoader extends CocoClass
     heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # If all else fails, assign Tharin as the hero.
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version"
-    if heroResource = @maybeLoadURL(url, ThangType, 'thang')
+    if heroResource = @maybeLoadURL(url, ThangType)
       @worldNecessities.push heroResource
     else
       heroThangType = @supermodel.getModel url
@@ -139,7 +139,7 @@ module.exports = class LevelLoader extends CocoClass
 
     for itemThangType in _.values(heroConfig.inventory)
       url = "/db/thang.type/#{itemThangType}/version?project=name,components,original,rasterIcon,kind"
-      if itemResource = @maybeLoadURL(url, ThangType, 'thang')
+      if itemResource = @maybeLoadURL(url, ThangType)
         @worldNecessities.push itemResource
       else
         itemThangType = @supermodel.getModel url
@@ -218,16 +218,16 @@ module.exports = class LevelLoader extends CocoClass
 
     for obj in objUniq componentVersions
       url = "/db/level.component/#{obj.original}/version/#{obj.majorVersion}"
-      worldNecessities.push @maybeLoadURL(url, LevelComponent, 'component')
+      worldNecessities.push @maybeLoadURL(url, LevelComponent)
     for obj in objUniq systemVersions
       url = "/db/level.system/#{obj.original}/version/#{obj.majorVersion}"
-      worldNecessities.push @maybeLoadURL(url, LevelSystem, 'system')
+      worldNecessities.push @maybeLoadURL(url, LevelSystem)
     for obj in objUniq articleVersions
       url = "/db/article/#{obj.original}/version/#{obj.majorVersion}"
-      @maybeLoadURL url, Article, 'article'
+      @maybeLoadURL url, Article
     if obj = @level.get 'nextLevel'  # TODO: update to get next level from campaigns, not this old property
       url = "/db/level/#{obj.original}/version/#{obj.majorVersion}"
-      @maybeLoadURL url, Level, 'level'
+      @maybeLoadURL url, Level
 
     @worldNecessities = @worldNecessities.concat worldNecessities
 
@@ -250,7 +250,7 @@ module.exports = class LevelLoader extends CocoClass
       console.error "Some Thang had a blank required ThangType in components list:", components
     for thangType in extantRequiredThangTypes
       url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData"
-      @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
+      @worldNecessities.push @maybeLoadURL(url, ThangType)
 
   onThangNamesLoaded: (thangNames) ->
     for thangType in thangNames.models
@@ -263,7 +263,7 @@ module.exports = class LevelLoader extends CocoClass
     return unless components = thangType.get('components')
     for component in components
       url = "/db/level.component/#{component.original}/version/#{component.majorVersion}"
-      @worldNecessities.push @maybeLoadURL(url, LevelComponent, 'component')
+      @worldNecessities.push @maybeLoadURL(url, LevelComponent)
 
   onWorldNecessityLoaded: (resource) ->
     index = @worldNecessities.indexOf(resource)
@@ -297,7 +297,7 @@ module.exports = class LevelLoader extends CocoClass
 #      thangType = nameModelMap[thangTypeName]
 #      continue if not thangType or thangType.isFullyLoaded()
 #      thangType.fetch()
-#      thangType = @supermodel.loadModel(thangType, 'thang').model
+#      thangType = @supermodel.loadModel(thangType).model
 #      res = @supermodel.addSomethingResource 'sprite_sheet', 5
 #      res.thangType = thangType
 #      res.markLoading()
@@ -305,10 +305,10 @@ module.exports = class LevelLoader extends CocoClass
 
     @buildLoopInterval = setInterval @buildLoop, 5 if @spriteSheetsToBuild.length
 
-  maybeLoadURL: (url, Model, resourceName) ->
+  maybeLoadURL: (url, Model) ->
     return if @supermodel.getModel(url)
     model = new Model().setURL url
-    @supermodel.loadModel(model, resourceName)
+    @supermodel.loadModel(model)
 
   onSupermodelLoaded: ->
     return if @destroyed
