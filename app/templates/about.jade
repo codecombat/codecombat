@@ -1,6 +1,6 @@
 block content
   .style-flat
-    .container-fluid#jumbotron-container-fluid.hide
+    .container-fluid#jumbotron-container-fluid
       .container.bg-navy
         .row
           //TODO: Size these correctly
@@ -11,7 +11,7 @@ block content
             h2 At CodeCombat, our job is to make sure you're doing that with a smile on your face.
       
     .container#about-container
-      #mission-row.row.hide
+      #mission-row.row
         .col-sm-6#mission-graphic
           img(src="/images/pages/about/Globe_white.png")
           h2 Our mission: make programming accessible to every student on Earth.
@@ -19,10 +19,11 @@ block content
         .col-sm-5.col-sm-offset-1
           p
             span.spr Programming is magic. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips, straight from the first keystroke. With game-based learning, players not only get more excited about computer science, but they learn faster, too. Way faster. It's like having a conversation instead of reading a book. We want to bring that conversation to every school and to every student, because we believe that everyone should have a chance to become a native speaker of code.
-      #team-row-1.row.hide
+
+      #team
         h3 Meet the CodeCombat team
         h4 [how would we describe our team’s values? this might be a good place to state that]
-        ul#team-row-2
+        ul
           // Full time
           li
             a(href="http://www.nickwinter.net")
@@ -138,14 +139,14 @@ block content
               small(data-i18n="about.carlos_title")
               small(data-i18n="about.carlos_blurb")
             
-      #community-row-1.row.hide
+      #community-row-1.row
         .col-sm-12
           h3 ...and our open-source community
           //TODO: Update this text
           h4 Over 450 contributors have helped build CodeCombat, with more joining every week!
           img(src="/images/pages/about/github_avatars.png")#community-avatars
       
-      #community-row-2.row.hide
+      #community-row-2.row
         .col-sm-5
           p
             | CodeCombat is already a community project, with hundreds of players volunteering to create levels, contribute to our GitHub repositories, playtest, and even translate the game into 50 languages so far. Anyone can join the CodeCombat community! Check out our 
@@ -157,7 +158,7 @@ block content
           img(src="/images/pages/about/Github.png")
           #community-graphic-filler
           
-      #story-section.hide
+      #story-section
         h3 Our story so far
         h4 Since 2013, CodeCombat has grown from a mere set of sketches to a living, thriving game.
         .row
@@ -191,10 +192,11 @@ block content
                 | and counting
               div
                 img(src="/images/pages/about/Bracket_right.png")
-            div.small-text across six different programming languages
-          img.hidden-xs(src="/images/pages/about/Languages.png")
-          img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group1.png")
-          img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group2.png")
+          p
+            .small-text across six different programming languages
+            img.hidden-xs(src="/images/pages/about/Languages.png")
+            img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group1.png")
+            img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group2.png")
         
         #story-graphic-4
           p
@@ -203,13 +205,14 @@ block content
               img(src="/images/pages/about/sketch.png")
               figcaption
                 small Nick's very first sketch depicting a programming game in action.
-            div.small-text we still have much to do before we complete our quest, so...
+          p
+            .small-text we still have much to do before we complete our quest, so...
         
-      #jobs.hide
+      #jobs
         h3 Come work with us and help write CodeCombat history!
         h4 Don't see a good fit but interested in keeping in touch? See our "Create Your Own" listing.
-        #jobs-row
-          #benefits.col-xs-4
+        #jobs-row.row
+          #benefits.col-sm-6.col-lg-4
             h5 Employee Benefits
             ul
               li
@@ -224,26 +227,26 @@ block content
                 small Professional development and continuing education support
               li
                 small Medical/dental/vision insurance
-          .job-listing.col-xs-4
+          .job-listing.col-sm-6.col-lg-4
             h5 Software Engineer
             small.label
               | San Francisco • Fulltime
             .row
               a.btn.btn-lg.btn-navy.center-block
                 | Learn More
-          .job-listing.col-xs-4
+          .job-listing.col-sm-6.col-lg-4
             h5 Software Engineer, iOS
             small.label
               | San Francisco • Fulltime
-          .job-listing.col-xs-4
+          .job-listing.col-sm-6.col-lg-4
             h5 Head of Sales
             small.label
               | San Francisco • Fulltime
-          .job-listing.col-xs-4
+          .job-listing.col-sm-6.col-lg-4
             h5 Sales Representative
             small.label
               | San Francisco • Fulltime
-          .job-listing.col-xs-4
+          .job-listing.col-sm-6.col-lg-4
             h5 Create Your Own
             small.label
               | San Francisco • Fulltime
@@ -260,17 +263,15 @@ block content
               //TODO: This makes spacing weird. 
               //      How should I do it nicely with correct spacing, wrapping,
               //      and no flexboxes?
-              .row
-                .col-sm-6
-                  img(src="/images/pages/about/Screenshot_Desert.png")
-                .col-sm-6
-                  img(src="/images/pages/about/Screenshot_Desert.png")
-              .row
-                .col-sm-6
-                  img(src="/images/pages/about/Screenshot_Desert.png")
-                .col-sm-6
-                  img(src="/images/pages/about/Screenshot_Desert.png")
-              | (click to view full size)
+              .hidden-sm.hidden-md.hidden-lg
+                | (click to view full size)
+              #screenshot-grid
+                img(src="/images/pages/about/Screenshot_Desert.png")
+                img(src="/images/pages/about/Screenshot_Forest.png")
+                img(src="/images/pages/about/Screenshot_Dungeon.png")
+                img(src="/images/pages/about/Screenshot_Glacier.png")
+              .clearfix.hidden-xs
+                | (click to view full size)
           .col-md-4
             #downloads
               b Download Assets & Information
@@ -287,9 +288,17 @@ block content
                   a Character Art (.png)
               .btn.btn-lg.btn-primary-alt
                 a Download All
-              
-              
-              
         
       #location
-        //TODO
+        .row
+          .col-sm-4.col-sm-offset-2
+            //TODO: Correct way to do this text?
+            p
+              b CodeCombat Inc.
+            p 360 3rd St.
+            p Suite 700 (Livefyre)
+            p San Francisco, CA 94107
+            a(href="mailto:team@codecombat.com") team@codecombat.com
+          .col-sm-4
+            b We're located in downtown SF:
+            //TODO: Embed GMaps here

@@ -256,8 +256,8 @@ $forest: #20572B
       position: absolute
       right: 100%
       top: 0
-  #team-row-1
-    margin: 50px 0
+  #team
+    margin-top: 150px
     ul
       display: flex
       flex-wrap: wrap
@@ -300,7 +300,7 @@ $forest: #20572B
       left: 100%
       top: 0
   #story-section
-    margin: 100px 0
+    margin-top: 150px
     font-family: $headline-font
     font-variant: normal
     .media-heading, .big-text
@@ -315,17 +315,21 @@ $forest: #20572B
       font-size: 20px
       line-height: 31px
     #story-graphic-1
+      margin-top: 100px
       .media-heading
         color: $burgandy
-      // p
-      //   display: inline-block
-      //   width: 60%
     #story-graphic-2
+      //TODO: Fix left-margin of this
+      margin-top: 100px
+      margin-left: auto
+      margin-right: auto
       max-width: 390px
-      margin: 0 auto
       .media-heading
         color: $forest
     #story-graphic-3
+      margin-top: 80px
+      p
+        margin-top: 30px
       display: flex
       flex-direction: column
       align-items: center
@@ -341,6 +345,9 @@ $forest: #20572B
         justify-content: center
         text-align: center
     #story-graphic-4
+      margin-top: 70px
+      p
+        margin-top: 20px
       display: flex
       flex-direction: column
       align-items: center
@@ -349,8 +356,11 @@ $forest: #20572B
           display: block
           margin: 0 auto
   #jobs
+    margin-top: 100px
     #jobs-row
       #benefits, .job-listing
+        // Wonks up centering
+        // max-width: 390px
         border: thin solid $navy
         border-radius: 8px
         padding: 50px
@@ -377,19 +387,35 @@ $forest: #20572B
           a
             display: block
             bottom: 45px
+            
+  #contact
+    margin-top: 130px
+          
   #files
+    padding: 30px 0
+    margin-top: 50px
     border: thin solid gray
     border-radius: 8px
     #screenshots
       text-align: center
-      img
-        display: block
-        margin: 25px
-        max-width: 345px
-        width: 100%
+      #screenshot-grid
+        img
+          display: inline-block
+          margin: 6.5px
+      // img
+      //   display: block
+      //   margin: 25px
+      //   max-width: 345px
+      //   width: 100%
     #downloads
       margin: 100px 50px
 
+  #location
+    margin-top: 80px
+    text-align: center
+    a
+      color: inherit
+      text-decoration: underline
       
 
       
