@@ -72,28 +72,28 @@ function getRecurringRevenueCounts(startDay) {
     else if (doc.productID && doc.productID.indexOf('gems_') === 0) {
       if (!dailyRevenueCounts['DRR gems']) dailyRevenueCounts['DRR gems'] = {};
       if (!dailyRevenueCounts['DRR gems'][day]) dailyRevenueCounts['DRR gems'][day] = 0;
-      dailyRevenueCounts['DRR gems'][day] += doc.amount
+      dailyRevenueCounts['DRR gems'][day] += doc.amount;
     }
     else if (doc.productID === 'custom' || doc.service === 'external' || doc.service === 'invoice') {
       if (!dailyRevenueCounts['DRR school sales']) dailyRevenueCounts['DRR school sales'] = {};
       if (!dailyRevenueCounts['DRR school sales'][day]) dailyRevenueCounts['DRR school sales'][day] = 0;
-      dailyRevenueCounts['DRR school sales'][day] += doc.amount
+      dailyRevenueCounts['DRR school sales'][day] += doc.amount;
     }
     else if (doc.service === 'stripe' && doc.gems === 42000) {
       if (!dailyRevenueCounts['DRR yearly subs']) dailyRevenueCounts['DRR yearly subs'] = {};
       if (!dailyRevenueCounts['DRR yearly subs'][day]) dailyRevenueCounts['DRR yearly subs'][day] = 0;
-      dailyRevenueCounts['DRR yearly subs'][day] += doc.amount
+      dailyRevenueCounts['DRR yearly subs'][day] += doc.amount;
     }
     else if (doc.service === 'stripe') {
       // Catches prepaids, and assumes all are type terminal_subscription
       if (!dailyRevenueCounts['DRR monthly subs']) dailyRevenueCounts['DRR monthly subs'] = {};
       if (!dailyRevenueCounts['DRR monthly subs'][day]) dailyRevenueCounts['DRR monthly subs'][day] = 0;
-      dailyRevenueCounts['DRR monthly subs'][day] += doc.amount
+      dailyRevenueCounts['DRR monthly subs'][day] += doc.amount;
     }
     else if (doc.service === 'paypal') {
       if (!dailyRevenueCounts['DRR monthly subs']) dailyRevenueCounts['DRR monthly subs'] = {};
       if (!dailyRevenueCounts['DRR monthly subs'][day]) dailyRevenueCounts['DRR monthly subs'][day] = 0;
-      dailyRevenueCounts['DRR monthly subs'][day] += doc.amount
+      dailyRevenueCounts['DRR monthly subs'][day] += doc.amount;
     }
     // else {
     //   // printjson(doc);
