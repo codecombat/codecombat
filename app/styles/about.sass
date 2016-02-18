@@ -209,20 +209,21 @@ $forest: #20572B
   .bold
     font-weight: bold
   #nav-container
-    height: 55px
-    background: $gold
-    &.affix
-      position: fixed
-      top: 0
-      width: 100%
+    min-height: 55px
     nav
+      background: $gold
+      &.affix
+        z-index: 1
+        position: fixed
+        top: 0
+        width: 100%
       ul
         padding-left: 0
         list-style: none
         li
           height: 22pt
           display: inline-block
-          margin: 10px 18px
+          margin: 10px 18px 0 18px
           a
             color: white
             text-transform: uppercase
@@ -230,7 +231,7 @@ $forest: #20572B
         li.active
           border-bottom: 4px solid white
     
-  #jumbotron-container-fluid
+  #jumbotron
     background-color: $navy
     background-image: url("/images/pages/about/codebackground_zoom_compressed.png")
     background-size: cover
@@ -303,29 +304,35 @@ $forest: #20572B
           white-space: nowrap
         .img-thumbnail
           border-radius: 50%
+  #community
+    margin-top: 100px
+    
   #community-row-1
-    margin: 100px 0
     display: flex
     justify-content: center
     #community-avatars
       width: 90%
       margin: 20px 5%
 
-  #community-graphic
-    background: $burgandy
-
-    img
-      position: absolute
-      right: 0
-      bottom: 0
-
-    #community-graphic-filler
+  #community-row-2
+    margin-top: 100px
+    
+    #community-graphic
       background: $burgandy
-      height: 100%
-      width: 2000px
-      position: absolute
-      left: 100%
-      top: 0
+
+      img
+        position: absolute
+        right: 0
+        bottom: 0
+
+      #community-graphic-filler
+        background: $burgandy
+        height: 100%
+        width: 2000px
+        position: absolute
+        left: 100%
+        top: 0
+
   #story
     margin-top: 150px
     font-family: $headline-font
@@ -468,3 +475,9 @@ $forest: #20572B
       text-decoration: underline
     iframe
       border: 2px solid lightgray
+
+.anchor::before
+  content: ""
+  display: block
+  height: 55px
+  margin: -55px 0 0 0

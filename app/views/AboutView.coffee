@@ -9,12 +9,9 @@ module.exports = class AboutView extends RootView
   
   afterRender: ->
     super(arguments...)
-    args =
+    @$('nav').affix({
       offset:
         top: ->
-          console.log "top called"
-          return 200
-    $('#nav-container').affix(args)
-    console.log args
-    console.log "afterRender called"
-    
+          $('#jumbotron').outerHeight()
+    })
+    #TODO: Maybe cache top value between page resizes to save CPU
