@@ -20,7 +20,7 @@ module.exports = class InvoicesView extends RootView
     @amount = utils.getQueryVariable('a', 0)
     @description = utils.getQueryVariable('d', '')
     # adding @currency 2.17.2016
-    @currency = utils.getQueryVariable('c', 'usd') # added 2.17.2016
+    @currency = utils.getQueryVariable('c', 'USD') # added 2.17.2016
 
   onPayButton: ->
     @description = $('#description').val()
@@ -66,7 +66,7 @@ module.exports = class InvoicesView extends RootView
     jqxhr.done =>
       application.tracker?.trackEvent 'Finished invoice payment',
         amount: @amount
-        currench: @currency # added 2.17.2016
+        currency: @currency # added 2.17.2016
         description: @description
 
       # Show success UI
