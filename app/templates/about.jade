@@ -205,7 +205,7 @@ block content
                 small Nick's very first sketch depicting a programming game in action.
             div.small-text we still have much to do before we complete our quest, so...
         
-      #jobs
+      #jobs.hide
         h3 Come work with us and help write CodeCombat history!
         h4 Don't see a good fit but interested in keeping in touch? See our "Create Your Own" listing.
         #jobs-row
@@ -228,6 +228,9 @@ block content
             h5 Software Engineer
             small.label
               | San Francisco • Fulltime
+            .row
+              a.btn.btn-lg.btn-navy.center-block
+                | Learn More
           .job-listing.col-xs-4
             h5 Software Engineer, iOS
             small.label
@@ -244,13 +247,49 @@ block content
             h5 Create Your Own
             small.label
               | San Francisco • Fulltime
-        //TODO
         
-      #contact-row
-        //TODO
+      #contact
+        h3 Press & Contact
+        h4 Need more information? Get in touch with us at team@codecombat.com
         
-      #screenshots-row
-        //TODO
+      #files
+        .row
+          .col-md-8
+            #screenshots
+              b Game Screenshots
+              //TODO: This makes spacing weird. 
+              //      How should I do it nicely with correct spacing, wrapping,
+              //      and no flexboxes?
+              .row
+                .col-sm-6
+                  img(src="/images/pages/about/Screenshot_Desert.png")
+                .col-sm-6
+                  img(src="/images/pages/about/Screenshot_Desert.png")
+              .row
+                .col-sm-6
+                  img(src="/images/pages/about/Screenshot_Desert.png")
+                .col-sm-6
+                  img(src="/images/pages/about/Screenshot_Desert.png")
+              | (click to view full size)
+          .col-md-4
+            #downloads
+              b Download Assets & Information
+              ul
+                li
+                  a About CodeCombat (.pdf)
+                li
+                  a Logo (.ai)
+                li
+                  a Logo (.png)
+                li
+                  a Screenshots (.zip)
+                li
+                  a Character Art (.png)
+              .btn.btn-lg.btn-primary-alt
+                a Download All
+              
+              
+              
         
-      #location-row
+      #location
         //TODO

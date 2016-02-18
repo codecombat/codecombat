@@ -352,7 +352,7 @@ $forest: #20572B
     #jobs-row
       #benefits, .job-listing
         border: thin solid $navy
-        border-radius: 10px
+        border-radius: 8px
         padding: 50px
         height: 420px
         h5
@@ -370,6 +370,26 @@ $forest: #20572B
         .label
           text-transform: uppercase
           color: grey
+        .row
+          //TODO: Fix to bottom AND center, without flexbox?
+          position: absolute
+          bottom: 45px
+          a
+            display: block
+            bottom: 45px
+  #files
+    border: thin solid gray
+    border-radius: 8px
+    #screenshots
+      text-align: center
+      img
+        display: block
+        margin: 25px
+        max-width: 345px
+        width: 100%
+    #downloads
+      margin: 100px 50px
+
       
 
       
