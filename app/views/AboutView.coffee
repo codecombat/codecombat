@@ -15,3 +15,7 @@ module.exports = class AboutView extends RootView
           $('#jumbotron').outerHeight()
     })
     #TODO: Maybe cache top value between page resizes to save CPU
+    $('body').scrollspy(
+      target: '#nav-container'
+      offset: 150
+    )

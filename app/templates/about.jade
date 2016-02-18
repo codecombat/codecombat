@@ -1,5 +1,5 @@
 block content
-  .style-flat
+  .style-flat(data-spy="scroll", data-target="#nav-container")
     .container-fluid#jumbotron
       .container
         .row
@@ -11,10 +11,10 @@ block content
             h2 At CodeCombat, our job is to make sure you're doing that with a smile on your face.
     
     #nav-container
-      nav.navbar.navbar-default
+      nav.nav.navbar
         .container-fluid.text-center
           ul.center-block
-            li
+            li.active
               a(href="#mission") 
                 small.label Mission
             li
