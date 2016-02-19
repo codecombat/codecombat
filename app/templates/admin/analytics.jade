@@ -53,9 +53,11 @@ block content
     div
       a(href='#campaign-maus-graph') Campaign Monthly Active Users
     div
-      a(href='#furthest-courses-table') Campaign vs Classroom Paid Monthly Active Users
+      a(href='#campaign-vs-classroom-paid-maus-recent-graph') Campaign vs Classroom Paid Monthly Active Users (90 days)
     div
-      a(href='#furthest-courses-table') Enrollments Issued and Redeemed
+      a(href='#campaign-vs-classroom-paid-maus-graph') Campaign vs Classroom Paid Monthly Active Users (365 days)
+    div
+      a(href='#enrollments-graph') Enrollments Issued and Redeemed
     b Tables
     div
       a(href='#furthest-courses-table') Furthest Course
@@ -99,10 +101,14 @@ block content
     h3#campaign-maus-graph Campaign Monthly Active Users 90 days
     .campaign-monthly-active-users-chart.line-chart-container
 
-    h3 Campaign vs Classroom Paid Monthly Active Users 90 days
+    h3#campaign-vs-classroom-paid-maus-recent-graph Campaign vs Classroom Paid Monthly Active Users 90 days
+    .campaign-vs-classroom-monthly-active-users-recent-chart.line-chart-container
+
+    h3#campaign-vs-classroom-paid-maus-graph Campaign vs Classroom Paid Monthly Active Users 365 days
+    .small TODO: aggregate active user data from last year
     .campaign-vs-classroom-monthly-active-users-chart.line-chart-container
 
-    h3 Enrollments Issued and Redeemed 90 days
+    h3#enrollments-graph Enrollments Issued and Redeemed 90 days
     .paid-courses-chart.line-chart-container
 
     h3#furthest-courses-table Furthest Course
@@ -171,6 +177,17 @@ block content
       - var eventNames = [];
         each count, event in activeUsers[0].events
           - eventNames.push(event)
+      - eventNames.sort(function (a, b) {
+        - if (a.indexOf('campaign') == b.indexOf('campaign') || a.indexOf('classroom') == b.indexOf('classroom')) {
+          - return a.localeCompare(b);
+        - }
+        - else if (a.indexOf('campaign') > b.indexOf('campaign')) {
+          - return 1;
+        - }
+        - else {
+          - return -1;
+        - }
+      - });
       table.table.table-striped.table-condensed
         tr
           th(style='min-width:85px;') Day
