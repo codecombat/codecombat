@@ -14,6 +14,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
   routes:
     '': ->
+      if window.serverConfig.picoCTF
+        return @routeDirectly 'play/CampaignView', ['picoctf'], {}
       # Testing new home page
       group = me.getHomepageGroup()
       return @routeDirectly('HomeView', [], { withTeacherNote: true }) if group is 'home-with-note'
@@ -147,6 +149,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args, options={}) ->
+    path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views)?\/?play/.test(path)
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
     if not ViewClass and application.moduleLoader.load(path)
@@ -181,6 +184,11 @@ module.exports = class CocoRouter extends Backbone.Router
     return unless window.currentView?
     window.currentView.destroy()
     $('.popover').popover 'hide'
+    $('#flying-focus').css({top: 0, left: 0}) # otherwise it might make the page unnecessarily tall
+    _.delay (-> 
+      $('html')[0].scrollTop = 0
+      $('body')[0].scrollTop = 0
+    ), 10
 
   onGPlusAPILoaded: =>
     @renderLoginButtons()

@@ -37,6 +37,7 @@ DuelStatsView = require './DuelStatsView'
 VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
 CourseVictoryModal = require './modal/CourseVictoryModal'
+PicoCTFVictoryModal = require './modal/PicoCTFVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ContactModal = require 'views/core/ContactModal'
@@ -192,9 +193,9 @@ module.exports = class PlayLevelView extends RootView
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
     @otherSession = @levelLoader.opponentSession
-    @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
+    @worldLoadFakeResources = []  # first element (0) is 1%, last (99) is 100%
     for percent in [1 .. 100]
-      @worldLoadFakeResources.push @supermodel.addSomethingResource "world_simulation_#{percent}%", 1
+      @worldLoadFakeResources.push @supermodel.addSomethingResource 1
 
   onWorldLoadProgressChanged: (e) ->
     return unless e.god is @god
@@ -535,6 +536,7 @@ module.exports = class PlayLevelView extends RootView
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then HeroVictoryModal else VictoryModal
     ModalClass = CourseVictoryModal if @courseID and @courseInstanceID
+    ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     if me.get('anonymous')

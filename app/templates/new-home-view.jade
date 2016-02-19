@@ -1,77 +1,95 @@
 .container-fluid.text-center
   .alert.alert-danger.lt-ie9
-    strong(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 8 or older. Sorry!
+    strong(data-i18n="home.no_ie") The CodeCombat game does not run in Internet Explorer 8 or older. Sorry!
 
   if view.isIPadBrowser() || view.isMobile()
     .alert.alert-danger.mobile
-      strong(data-i18n="home.no_mobile") CodeCombat wasn't designed for mobile devices and may not work!
+      strong(data-i18n="home.no_mobile") CodeCombat gameplay was not designed for mobile devices and may not work!
   else if view.isOldBrowser()
     .alert.alert-danger.old-browser
-      strong(data-i18n="home.old_browser") Uh oh, your browser is too old to run CodeCombat. Sorry!
+      strong(data-i18n="home.old_browser") Uh oh, your browser is too old to play CodeCombat. Sorry!
       br
       span(data-i18n="home.old_browser_suffix") You can try anyway, but it probably won't work.
 
 nav.navbar.navbar-default
-  .container-fluid
-    .navbar-header
-      button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      a.navbar-brand(href="/")
-        img#logo-img(src="/images/pages/base/logo.png")
-        span.glyphicon.glyphicon-home
-        
-    #navbar-collapse.collapse.navbar-collapse
-      ul.nav.navbar-nav
-        li
-          a(href="/about") About
-        li
-          a(href="/courses") Courses
-        li
-          a(href="/courses/teachers") Teachers
-        li
-          a(href="https://discourse.codecombat.com/") Forum
-        if me.isAnonymous()
-          li
-            a#create-account-link.signup-button Create Account
-          li
-            a#login-link.login-button Login
-        else
-          li.dropdown
-            a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
-              span.spr My Account
-            ul.dropdown-menu
-              li.user-dropdown-header.text-center
-                span.user-level= me.level()
-                a(href="/user/#{me.getSlugOrID()}")
-                  img.img-circle(src=me.getPhotoURL())
-                h5=me.displayName()
+  .container
+    .row
+      .col-md-3.col-sm-4
+        .navbar-header
+          button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="/")
+            img#logo-img(src="/images/pages/base/logo.png")
+            span.glyphicon.glyphicon-home
+          
+      .col-md-9.col-sm-8
+        #navbar-collapse.collapse.navbar-collapse
+          ul.nav.navbar-nav.pull-left
+            li
+              a(href="/about") About
+            li
+              a(href="/courses") Courses
+            li
+              a(href="/courses/teachers") Teachers
+            li
+              a(href="https://discourse.codecombat.com/") Forum
+            if me.isAnonymous()
               li
-                a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
+                a#create-account-link.signup-button Create Account
               li
-                a(href="/account/settings", data-i18n="play.settings")
-              li
-                a(href="/account/payments", data-i18n="account.payments")
-              li
-                a(href="/account/subscription", data-i18n="account.subscription")
-              li
-                a(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
-              li
-                a#logout-button(data-i18n="login.log_out")
-        
-      #language-dropdown-wrapper.pull-right.hidden-xs.hidden-sm
-        select.language-dropdown.form-control
+                a#login-link.login-button Login
+            else
+              li.dropdown
+                a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
+                  span.spr My Account
+                ul.dropdown-menu
+                  li.user-dropdown-header.text-center
+                    span.user-level= me.level()
+                    a(href="/user/#{me.getSlugOrID()}")
+                      img.img-circle(src=me.getPhotoURL())
+                    h5=me.displayName()
+                  li
+                    a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
+                  li
+                    a(href="/account/settings", data-i18n="play.settings")
+                  li
+                    a(href="/account/payments", data-i18n="account.payments")
+                  li
+                    a(href="/account/subscription", data-i18n="account.subscription")
+                  li
+                    a(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
+                  li
+                    a#logout-button(data-i18n="login.log_out")
+          
+            li
+              #language-dropdown-wrapper
+                select.language-dropdown.form-control
 
 .container-fluid#jumbotron-container-fluid(class=view.jumbotron === 'student' ? 'alt-image' : '')
   .container
     .row
-      .col-lg-7.col-md-8.col-sm-8.col-xs-6
+      .col-lg-7.col-md-8
         h1 The most engaging game for learning programming.
         
-      .col-lg-3.col-lg-offset-2.col-md-4.col-sm-4.col-xs-6
-        .well.text-center
+      .col-lg-3.col-lg-offset-2.col-md-4
+        .well.text-center.hidden-md.hidden-lg
+          .row
+            .col-xs-8 
+              h6 Classroom Edition:
+            .col-xs-4
+              h6 Learn to code:
+          .row
+            .col-xs-4
+              button#teacher-btn.btn.btn-primary.btn-lg.btn-block Teacher
+            .col-xs-4
+              a.btn.btn-forest.btn-lg.btn-block(href="/courses") Student
+            .col-xs-4
+              a.btn.btn-gold.btn-lg.btn-block(href=view.playURL) Play Now
+        
+        .well.text-center.hidden-xs.hidden-sm
           h6#classroom-edition-header Classroom Edition:
           div
             button#teacher-btn.btn.btn-primary.btn-lg.btn-block I'm a Teacher
@@ -136,19 +154,25 @@ nav.navbar.navbar-default
         .small Director of Technology, Tilton School
       
     .row
-      .col-lg-2.col-sm-3.col-lg-offset-1.text-center
+      .col-lg-7.col-sm-8.col-sm-push-4.col-lg-push-3
+        blockquote
+          h3 Coding is something I've always wanted to do, and I never thought I would be able to learn it in school.
+          
+      .col-lg-2.col-sm-3.col-lg-offset-1.text-center.col-sm-pull-8.col-lg-pull-7
         img.img-circle(src="/images/pages/home/dylan.png")
         h6 Dylan
         .small 3rd Grader
           
-      .col-lg-7.col-sm-8
-        blockquote
-          h3 Coding is something I've always wanted to do, and I never thought I would be able to learn it in school.
           
   h3.text-center Why is learning through games important?
   
   #benefit-row-1.row
-    .col-sm-5
+    #benefit-graphic-1.col-sm-6.col-sm-offset-1.col-sm-push-6
+      h2 Games reward the productive struggle.
+      img(src="/images/pages/home/G1_reward.png")
+      #benefit-graphic-1-filler
+        
+    .col-sm-5.col-sm-pull-6
       p
         | Gaming is a medium that encourages interaction, discovery, and trial-and-error.
         | A good game challenges the player to master skills over time,
@@ -160,13 +184,10 @@ nav.navbar.navbar-default
         a(href="http://www.gamesandlearning.org/2014/06/09/teachers-on-using-games-in-class/" target="_blank") motivating
         | , not tedious.
 
-    .col-sm-6.col-sm-offset-1#benefit-graphic-1
-      h2 Games reward the productive struggle.
-      img(src="/images/pages/home/G1_reward.png")
-      #benefit-graphic-1-filler
+    
       
   #benefit-row-2.row
-    .col-sm-6#benefit-graphic-2
+    #benefit-graphic-2.col-sm-6
       h2 Studies suggest gaming is good for children’s brains. (it’s true!)
       img(src="/images/pages/home/G2_brains.png")
       #benefit-graphic-2-filler
@@ -182,16 +203,17 @@ nav.navbar.navbar-default
         | Games also provide real-time feedback that allows students to adjust their solution path and understand concepts more holistically, instead of being limited to just “correct” or “incorrect” answers.
       
   #benefit-row-3.row
-    .col-sm-5
+    #benefit-graphic-3.col-sm-6.col-sm-offset-1.col-sm-push-6
+      h2 A real game, played with real coding.
+      img(src="/images/pages/home/G3_game.png")
+      #benefit-graphic-3-filler
+        
+    .col-sm-5.col-sm-pull-6
       p
         | A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence. 
       p
         | CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code.
 
-    .col-sm-6.col-sm-offset-1#benefit-graphic-3
-      h2 A real game, played with real coding.
-      img(src="/images/pages/home/G3_game.png")
-      #benefit-graphic-3-filler
         
   .request-demo-row.text-center
     h3 Curious? Request a demo and we'll show you the ropes
@@ -219,7 +241,7 @@ nav.navbar.navbar-default
   h5.text-center#total-hours-header
     span.spr Total curriculum hours:
     span#semester-duration
-  #courses-container
+  #courses-row.row
     - var conceptsSeen = {};
     - var lastScreenshot = "";
     for course, courseIndex in view.courses.models
@@ -231,13 +253,19 @@ nav.navbar.navbar-default
           .media-body(title=course.get('description'))
             h6.course-name= course.get('name') + ':'
             p.small
-              - var pastFirstConcept = false;
+              - var total = 0;
               each concept in course.get('concepts')
                 - if (conceptsSeen[concept]) continue;
                 - conceptsSeen[concept] = true;
-                if pastFirstConcept
+                if total === 3
+                  - total += 1;
+                  span ...
+                  - continue;
+                else if total > 3
+                  - continue;
+                else if total > 0
                   span.spr ,
-                - pastFirstConcept = true;
+                - total += 1;
                 span(data-i18n="concepts." + concept)
           img.media-object(src="/images/pages/home/course"+(courseIndex+1)+".png")
           - lastScreenshot = course.get('screenshot');
@@ -252,15 +280,12 @@ nav.navbar.navbar-default
             h6.course-name= upcomingCourse + ':'
             p.small Coming soon!
           img.media-object(src="/images/pages/home/inprogress.png")
-          h6.course-duration
-            span.spr Lesson time:
-            span.course-hours 5
-            span.spl(data-i18n="units.hours")
 
+    .clearfix
     .text-center
       h4
         img(src="/images/pages/home/course_languages.png")
-        | Courses are available in JavaScript, Python, and Java (coming soon!)
+        div Courses are available in JavaScript, Python, and Java (coming soon!)
       
   .testimonials-rows
     .testimonials-filler-left
@@ -276,14 +301,14 @@ nav.navbar.navbar-default
         .small opensource.com
 
     .row
-      .col-lg-2.col-sm-3.col-lg-offset-1.text-center
+      .col-lg-7.col-sm-8.col-sm-push-4.col-lg-push-3
+        blockquote
+          h3 A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable.
+          
+      .col-lg-2.col-sm-3.col-lg-offset-1.text-center.col-sm-pull-8.col-lg-pull-7
         img.img-circle(src="/images/pages/home/pcmag.png")
         h6 PC Mag
         .small pcmag.com
-
-      .col-lg-7.col-sm-8
-        blockquote
-          h3 A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable.
           
           
   .request-demo-row.text-center
@@ -354,7 +379,9 @@ nav.navbar.navbar-default
               
   #final-footer.small.text-center
     | Copyright ©2016 CodeCombat. All Rights Reserved.
+    br.hidden-lg.hidden-md
     img(src="/images/pages/base/logo.png" alt="CodeCombat")
+    br.hidden-lg.hidden-md
     span.spr Need help? Email
     a(href="mailto:team@codecombat.com") team@codecombat.com
     span.spl and we'll get in touch!

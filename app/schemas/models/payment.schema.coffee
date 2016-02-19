@@ -10,6 +10,7 @@ PaymentSchema = c.object({title: 'Payment', required: []}, {
   gems: { type: 'integer', description: 'The number of gems acquired.' }
   productID: { enum: ['gems_5', 'gems_10', 'gems_20', 'custom']}
   description: { type: 'string' }
+  prepaidID: c.objectId()
 
   ios: c.object({title: 'iOS IAP Data'}, {
     transactionID: { type: 'string' }

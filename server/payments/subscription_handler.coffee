@@ -156,7 +156,7 @@ class SubscriptionHandler extends Handler
                 @logSubscriptionError(req.user, "Purchase year sale create charge: #{JSON.stringify(err)}")
                 return @sendDatabaseError(res, err)
 
-              StripeUtils.createPayment req.user, charge, (err, payment) =>
+              StripeUtils.createPayment req.user, charge, {}, (err, payment) =>
                 if err
                   @logSubscriptionError(req.user, "Purchase year sale create payment: #{JSON.stringify(err)}")
                   return @sendDatabaseError(res, err)
@@ -200,7 +200,7 @@ class SubscriptionHandler extends Handler
         @logSubscriptionError(req.user, "Redeem Prepaid Code find: #{JSON.stringify(err)}")
         return @sendDatabaseError(res, err)
       unless prepaid
-        @logSubscriptionError(req.user, "Could not find prepaid code #{req.body.ppc}")
+        @logSubscriptionError(req.user, "Could not find prepaid code #{req.body.ppc?.toString()}")
         return @sendNotFoundError(res, "Prepaid not found")
 
       oldRedeemers = prepaid.get('redeemers') ? []

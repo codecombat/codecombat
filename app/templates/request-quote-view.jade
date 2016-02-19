@@ -8,13 +8,16 @@ block content
     .row
       .col-sm-offset-2.col-sm-4
         .form-group
-          label.control-label(data-i18n="general.name") 
-          input.form-control(name="name")
+          label.control-label(data-i18n="general.name")
+          - var name = me.get('name') || '';
+          input.form-control(name="name" value=name, disabled=!!name)
           
       .col-sm-4
-        .form-group
+        #email-form-group.form-group
           label.control-label(data-i18n="general.email")
-          input.form-control(name="email" type="email")
+          - var email = me.get('email') || '';
+          input.form-control(name="email" type="email", value=email, disabled=!!email)
+            
     
     .row
       .col-sm-offset-2.col-sm-4
@@ -104,6 +107,8 @@ block content
             input(type="checkbox" name="educationLevel" value="High")
             span(data-i18n="teachers_quote.high_school")
         .col-sm-6
+          // Other field uses custom logic, so no name field is included in either input.
+          // That way the forms library ignores it.
           .checkbox-inline
             label.control-label
               input#other-education-level-checkbox(type="checkbox")

@@ -66,11 +66,12 @@ module.exports.createLineChart = (containerSelector, chartLines) ->
         .call(xAxis)
         .selectAll("text")
         .attr("dy", ".35em")
-        .attr("transform", "translate(" + (margin + yAxisWidth) + "," + (height + margin) + ")")
+        .attr("transform", "translate(" + (margin + yAxisWidth * yScaleCount) + "," + (height + margin) + ")")
         .style("text-anchor", "start")
 
     if line.showYScale
       # y-Axis
+      lineColor = if yScaleCount > 1 then line.lineColor else 'black' 
       yAxisRange = d3.scale.linear().range([height, 0]).domain([line.min, line.max])
       yAxis = d3.svg.axis()
         .scale(yRange)
@@ -78,12 +79,12 @@ module.exports.createLineChart = (containerSelector, chartLines) ->
       svg.append("g")
         .attr("class", "y axis")
         .attr("transform", "translate(" + (margin + yAxisWidth * currentYScale) + "," + margin + ")")
-        .style("color", line.lineColor)
+        .style("color", lineColor)
         .call(yAxis)
         .selectAll("text")
         .attr("y", 0)
         .attr("x", 0)
-        .attr("fill", line.lineColor)
+        .attr("fill", lineColor)
         .style("text-anchor", "start")
       currentYScale++
 
