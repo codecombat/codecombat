@@ -11,7 +11,7 @@ try {
   var scriptStartTime = new Date();
   var analyticsStringCache = {};
 
-  var numDays = 30;
+  var numDays = 50;
   var daysInMonth = 30;
 
   var startDay = new Date();
@@ -20,6 +20,9 @@ try {
   startDay = startDay.toISOString().substr(0, 10);
 
   var activeUserEvents = ['Finished Signup', 'Started Level'];
+
+  // Analytics logging failure resulted in lost data for 2/2/16 through 2/9/16.
+  var missingDataDays = ['2016-02-02', '2016-02-03', '2016-02-04', '2016-02-05', '2016-02-06', '2016-02-07', '2016-02-08', '2016-02-09'];
 
   log("Today is " + today);
   log("Start day is " + startDay);
@@ -155,47 +158,30 @@ function getActiveUserCounts(startDay, activeUserEvents) {
     }
   }
 
-  var updateActiveUserCounts = function (activeUsersCounts, day, user, isMAU) {
-    var event = userEventMap[user];
-    if (!event) {
-      if (dayUserPaidMap[day] && dayUserPaidMap[day][user]) {
-        event = 'DAU campaign paid';
-      }
-      else {
-        event = 'DAU campaign free';
-      }
-    }
-    if (isMAU) event = event.replace('DAU', 'MAU');
-    if (!activeUsersCounts[day]) activeUsersCounts[day] = {};
-    if (!activeUsersCounts[day][event]) activeUsersCounts[day][event] = 0;
-    activeUsersCounts[day][event]++;
-  };
-
   log("Calculating DAUs..");
   var activeUsersCounts = {};
-  var monthlyActives = [];
+  var dailyEventNames = {};
   for (day in dayUserMap) {
     for (var user in dayUserMap[day]) {
-      updateActiveUserCounts(activeUsersCounts, day, user, false);
-    }
-    monthlyActives.push({day: day, users: dayUserMap[day]});
-  }
-
-  // Calculate monthly actives for each day, starting when we have enough data
-  log("Calculating MAUs..");
-  monthlyActives.sort(function (a, b) {return a.day.localeCompare(b.day);});
-  for (var i = daysInMonth - 1; i < monthlyActives.length; i++) {
-    for (var j = i - daysInMonth + 1; j <= i; j++) {
-      day = monthlyActives[i].day;
-      for (var user in monthlyActives[j].users) {
-        updateActiveUserCounts(activeUsersCounts, day, user, true);
+      var event = userEventMap[user];
+      if (!event) {
+        if (dayUserPaidMap[day] && dayUserPaidMap[day][user]) {
+          event = 'DAU campaign paid';
+        }
+        else {
+          event = 'DAU campaign free';
+        }
       }
+      dailyEventNames[event] = true;
+      if (!activeUsersCounts[day]) activeUsersCounts[day] = {};
+      if (!activeUsersCounts[day][event]) activeUsersCounts[day][event] = 0;
+      activeUsersCounts[day][event]++;
     }
   }
-  
+  // printjson(dailyEventNames)
+
   // NOTE: analytics logging failure resulted in lost data for 2/2/16 through 2/9/16.  Approximating those missing days here.
   // Correction for a given event: previous week's value + previous week's diff from start to end if > 0
-  var missingDataDays = ['2016-02-02', '2016-02-03', '2016-02-04', '2016-02-05', '2016-02-06', '2016-02-07', '2016-02-08', '2016-02-09'];
   for (var day in activeUsersCounts) {
     if (missingDataDays.indexOf(day) >= 0) {
       var prevDate = new Date(day + "T00:00:00.000Z");
@@ -203,16 +189,43 @@ function getActiveUserCounts(startDay, activeUserEvents) {
       var prevStartDate = new Date(prevDate);
       prevStartDate.setUTCDate(prevStartDate.getUTCDate() - 7);
       var prevStartDay = prevStartDate.toISOString().substring(0, 10);
-      if (activeUsersCounts[prevStartDay]) {
-        var prevDay = prevDate.toISOString().substring(0, 10);
-        for (var event in activeUsersCounts[day]) {
+      var prevDay = prevDate.toISOString().substring(0, 10);
+      for (var event in dailyEventNames) {
+        if (activeUsersCounts[prevDay] && activeUsersCounts[prevStartDay]) {
           var prevValue = activeUsersCounts[prevDay][event];
           var prevStartValue = activeUsersCounts[prevStartDay][event];
           var prevWeekDiff = Math.max(prevValue - prevStartValue, 0);
           var betterValue = prevValue + prevWeekDiff;
+          // var currentValue = activeUsersCounts[day][event] || 0;
           activeUsersCounts[day][event] = betterValue;
-          // var currentValue = activeUsersCounts[day][event];
           // print(prevStartDay, '\t', prevDay, '\t', prevValue, '-', prevStartValue, '\t', prevWeekDiff, '\t', day, '\t', event, '\t', prevValue, '\t', currentValue, '\t', betterValue);
+        }
+      }
+    }
+  }
+
+  // Calculate monthly actives for each day, starting when we have enough data
+  log("Calculating MAUs..");
+  var days = [];
+  for (var day in activeUsersCounts) {
+    days.push(day);
+  }
+  days.sort(function (a, b) {return a.localeCompare(b);});
+  // print('Num days', days.length);
+
+  // For each day, starting when we have daysInMonth days of prior data
+  for (var i = daysInMonth - 1; i < days.length; i++) {
+    // For the last daysInMonth days up to the current day
+    var targetMonthlyDay = days[i];
+    for (var j = i - daysInMonth + 1; j <= i; j++) {
+      var targetDailyDay = days[j];
+      // For each daily event
+      for (var event in dailyEventNames) {
+        // print(day, event, activeUsersCounts[day][event]);
+        var mauEvent = event.replace('DAU', 'MAU');
+        if (!activeUsersCounts[targetMonthlyDay][mauEvent]) activeUsersCounts[targetMonthlyDay][mauEvent] = 0
+        if (activeUsersCounts[targetDailyDay][event]) {
+          activeUsersCounts[targetMonthlyDay][mauEvent] += activeUsersCounts[targetDailyDay][event];
         }
       }
     }
@@ -285,11 +298,14 @@ function insertEventCount(event, day, count) {
 
   if (doc && doc.c !== count) {
     // Update existing count, assume new one is more accurate
+    // Don't overwrite missing data days
     // log("Updating count in db for " + day + " " + event + " " + doc.c + " => " + count);
-    var results = db['analytics.perdays'].update(queryParams, {$set: {c: count}});
-    if (results.nMatched !== 1 && results.nModified !== 1) {
-      log("ERROR: update event count failed");
-      printjson(results);
+    if (missingDataDays.indexOf(day) < 0 || doc.c < count) {
+      var results = db['analytics.perdays'].update(queryParams, {$set: {c: count}});
+      if (results.nMatched !== 1 && results.nModified !== 1) {
+        log("ERROR: update event count failed");
+        printjson(results);
+      }
     }
   }
   else {
