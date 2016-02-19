@@ -35,6 +35,7 @@ module.exports.setup = (app) ->
             log.info 'Got GitHub user emails', githubUserEmails
             
             emailLower = _.find githubUserEmails, (email) -> email.primary is true
+            emailLower = emailLower.email.toLowerCase()
             log.info 'Got primary Github email', emailLower
           
             if not emailLower
