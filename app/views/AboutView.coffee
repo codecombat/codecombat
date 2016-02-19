@@ -19,3 +19,4 @@ module.exports = class AboutView extends RootView
       target: '#nav-container'
       offset: 150
     )
+    @$('#screenshot-lightbox').modal()
