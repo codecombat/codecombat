@@ -80,7 +80,16 @@ module.exports = class SuperModel extends Backbone.Model
       res = @addModelResource(collection, name, fetchOptions, value)
       res.load() if not (res.isLoading or res.isLoaded)
       return res
-
+      
+  # Eventually should use only these functions. Use SuperModel just to track progress.
+  trackModel: (model, value) ->
+    res = @addModelResource(collection, '', {}, value)
+    res.listen()
+  
+  trackCollection: (collection, value) ->
+    res = @addModelResource(collection, '', {}, value)
+    res.listen()
+      
   # replace or overwrite
   shouldSaveBackups: (model) -> false
 
@@ -275,6 +284,9 @@ class ModelResource extends Resource
 
   fetchModel: ->
     @jqxhr = @model.fetch(@fetchOptions) unless @model.loading
+    @listen()
+    
+  listen: ->
     @listenToOnce @model, 'sync', -> @markLoaded()
     @listenToOnce @model, 'error', -> @markFailed()
 
