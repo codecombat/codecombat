@@ -1,3 +1,5 @@
+extends /templates/base-flat
+
 block content
   .style-flat(data-spy="scroll", data-target="#nav-container")
     .container-fluid#jumbotron
@@ -11,7 +13,7 @@ block content
             h2 At CodeCombat, our job is to make sure you're doing that with a smile on your face.
     
     #nav-container
-      nav.nav.navbar
+      nav#fixed-nav.nav.navbar
         .container-fluid.text-center
           ul.center-block
             li.active
@@ -161,6 +163,7 @@ block content
               h6.label.team_name Carlos Maia
               small(data-i18n="about.carlos_title")
               small(data-i18n="about.carlos_blurb")
+              
       #community.anchor
         #community-row-1.row
           .col-sm-12
@@ -190,53 +193,54 @@ block content
               .pull-left
                 img.media-object#story-image-1(src="/images/pages/about/Character_Silouhette.png")
               .media-body
-                .media-heading
+                .media-heading.text-h1
                   | 5,000,000+
                   br
                   | total players
-                p have started their programming journey through CodeCombat
+                p.text-h5 have started their programming journey through CodeCombat
+                
           #story-graphic-2.col-lg-6
             .media
-              p We’ve been translated into over 50 languages - our players hail from
+              p.text-h5 We’ve been translated into over 50 languages - our players hail from
               .pull-right
                 img(src="/images/pages/about/Globe_Green.png")
               .media-body
-                .media-heading 200+ countries
+                .media-heading.text-h1 200+ countries
                 
         #story-graphic-3
           p
-            div.small-text Together, they have written
+            div.text-h5 Together, they have written
             #story-bracketed-text
-              div
+              div#left-bracket
                 img(src="/images/pages/about/Bracket_left.png")
-              div.big-text
+              div.text-h1
                 | 1 billion lines of code
                 br
                 | and counting
-              div
+              div#right-bracket
                 img(src="/images/pages/about/Bracket_right.png")
           p
-            .small-text across six different programming languages
+            .text-h5 across six different programming languages
             img.hidden-xs(src="/images/pages/about/Languages.png")
             img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group1.png")
             img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group2.png")
         
         #story-graphic-4
           p
-            div.small-text Though we've come a long way...
+            div.text-h5 Though we've come a long way...
             figure
               img(src="/images/pages/about/sketch.png")
               figcaption
                 small Nick's very first sketch depicting a programming game in action.
           p
-            .small-text we still have much to do before we complete our quest, so...
+            .text-h5 we still have much to do before we complete our quest, so...
         
       #jobs.anchor
         h3 Come work with us and help write CodeCombat history!
         h4 Don't see a good fit but interested in keeping in touch? See our "Create Your Own" listing.
         #jobs-row.row
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            #benefits.center-block
+            #benefits
               h5 Employee Benefits
               ul
                 li
@@ -256,10 +260,9 @@ block content
               h5 Software Engineer
               small.label
                 | San Francisco • Fulltime
-              .row
-                .col-xs-8.col-xs-offset-2
-                  a.btn.btn-lg.btn-navy.center-block
-                    | Learn More
+              .text-center
+                a.btn.btn-lg.btn-navy
+                  | Learn More
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing.center-block
               h5 Software Engineer, iOS
@@ -353,11 +356,13 @@ block content
       #location
         .row
           .col-sm-4.col-sm-offset-2
-            p.bold CodeCombat Inc.
+            p
+              b CodeCombat Inc.
             p 360 3rd St.
             p Suite 700 (Livefyre)
             p San Francisco, CA 94107
             a(href="mailto:team@codecombat.com") team@codecombat.com
           .col-sm-4
-            p.bold We're located in downtown SF:
+            p
+              b We're located in downtown SF:
             iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo&q=360+3rd+St+Suite+700,+San+Francisco,+CA+94107")
