@@ -9,7 +9,7 @@ module.exports = class AboutView extends RootView
   
   afterRender: ->
     super(arguments...)
-    @$('nav').affix({
+    @$('#fixed-nav').affix({
       offset:
         top: ->
           $('#jumbotron').outerHeight()
