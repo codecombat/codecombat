@@ -12,7 +12,7 @@ module.exports = class AboutView extends RootView
     @$('#fixed-nav').affix({
       offset:
         top: ->
-          $('#jumbotron').outerHeight()
+          $('#nav-container').offset().top
     })
     #TODO: Maybe cache top value between page resizes to save CPU
     $('body').scrollspy(
