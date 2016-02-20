@@ -31,7 +31,6 @@
     background-image: url("/images/pages/about/codebackground_zoom_compressed.png")
     background-size: cover
     background-repeat: no-repeat
-    // height: 365px
     
     h1
       color: white
@@ -43,24 +42,44 @@
       
   h3, h4
     text-align: center
+      
+  .responsive-side-margins, h3, h4, p
+    max-width: 460px
+    margin-left: auto
+    margin-right: auto
+    @media (min-width: $screen-sm-min)
+      max-width: inherit
+      
+  h3
+    margin-top: 60px
+    @media (min-width: $screen-sm-min)
+      margin-top: 150px
   
   #about-container
-    margin-top: 60px
+    @media (min-width: $screen-sm-min)
+      margin-top: 85px
     background-color: white
   
-  #mission, #community-row-2
-    margin: 50px 0
+  #mission-text
+    margin-top: 30px
+    @media (min-width: $screen-sm-min)
+      margin-top: 45px
   
   #mission-graphic, #community-graphic
     padding: 30px 40px
     position: relative
-    min-height: 250px
+    min-height: 320px
+    @media (min-width: $screen-sm-min)
+      min-height: 250px
 
     h2
       color: white
       width: 50%
     
   #mission-graphic
+    margin-top: 30px
+    @media (min-width: $screen-sm-min)
+      margin-top: 45px
     background: $navy
     
     h2
@@ -68,8 +87,8 @@
     
     img
       position: absolute
-      left: 0
       bottom: 0
+      left: 0
       
     #mission-graphic-filler
       background: $navy
@@ -78,13 +97,13 @@
       position: absolute
       right: 100%
       top: 0
-
+      
   #team
-    margin-top: 150px
+    margin-top: 60px
+    @media (min-width: $screen-sm-min)
+      margin-top: 150px
     ul
-      display: flex
-      flex-wrap: wrap
-      justify-content: center
+      text-align: center
       margin-top: 40px
       padding: 0
       li
@@ -100,18 +119,18 @@
         .img-thumbnail
           border-radius: 50%
           
-  #community
-    margin-top: 100px
+  // #community
+  //   margin-top: 100px
     
   #community-row-1
-    display: flex
-    justify-content: center
     #community-avatars
       width: 90%
       margin: 20px 5%
 
   #community-row-2
-    margin-top: 100px
+    margin-top: 35px
+    @media (min-width: $screen-sm-min)
+      margin-top: 70px
     
     #community-graphic
       background: $burgandy
@@ -130,60 +149,77 @@
         top: 0
 
   #story
-    margin-top: 150px
+    // margin-top: 150px
     font-family: $headline-font
     font-variant: normal
     #story-graphic-1
-      margin-top: 100px
+      max-width: 580px
+      margin-top: 50px
+      @media (min-width: $screen-sm-min)
+        margin-top: 80px
+      margin-left: auto
+      margin-right: auto
       .media-heading
         color: $burgandy
     #story-graphic-2
       //TODO: Fix left-margin of this
-      margin-top: 100px
+      margin-top: 50px
+      @media (min-width: $screen-sm-min)
+        margin-top: 80px
       margin-left: auto
       margin-right: auto
       max-width: 390px
       .media-heading
         color: $forest
     #story-graphic-3
-      margin-top: 80px
+      margin-top: 50px
+      @media (min-width: $screen-sm-min)
+        margin-top: 80px
       p
         margin-top: 30px
-      display: flex
-      flex-direction: column
-      align-items: center
       img
         margin-top: 20px
       #story-bracketed-text
         width: 100%
         max-width: 640px
+        margin: 0 auto
         .text-h1
+          display: inline-block
           margin: auto 0
           color: $navy
+          width: 80%
+          vertical-align: bottom
         img
           margin: auto 0
-          max-height: 100%
-          max-width: 100%
         #left-bracket
-          margin-right: 30px
+          width: 10%
+          display: inline-block
         #right-bracket
-          margin-left: 30px
-        display: flex
-        justify-content: center
-        text-align: center
+          width: 10%
+          display: inline-block
+      #story-languages
+        margin-top: 50px
+        #language-icons
+          display: inline-block
+          padding-left: auto
+          padding-right: auto
+      
     #story-graphic-4
-      margin-top: 70px
+      margin-left: auto
+      margin-right: auto
+      margin-top: 50px
+      @media (min-width: $screen-sm-min)
+        margin-top: 150px
       p
         margin-top: 20px
-      display: flex
-      flex-direction: column
-      align-items: center
       figure
         img
           display: block
           margin: 0 auto
   #jobs
-    margin-top: 100px
+    // margin-top: 50px
+    // @media (min-width: $screen-sm-min)
+    //   margin-top: 100px
     #jobs-row
       #benefits, .job-listing
         margin-top: 65px
@@ -192,6 +228,8 @@
         padding: 50px
         width: 370px
         height: 420px
+        margin-left: auto
+        margin-right: auto
         h5
           text-align: center
           color: inherit
@@ -203,12 +241,20 @@
       .job-listing
         color: $navy
         background: white
-        text-align: center
+        // centering hack
+        position: relative
         .label
           text-transform: uppercase
           color: grey
-        a
-          max-width: 175px
+        a.job-link
+          width: 170px
+          bottom: 45px
+          // centering hack
+          position: absolute
+          left: 50%
+          margin-left: -85px
+        p
+          margin-top: 15px
             
   #contact
     margin-top: 130px
@@ -227,30 +273,32 @@
         img
           display: inline-block
           margin: 6.5px
-      // img
-      //   display: block
-      //   margin: 25px
-      //   max-width: 345px
-      //   width: 100%
-    #downloads
-      //TODO: How do I center this in small view?
-      width: 260px
-      margin: 100px 50px
-      ul
-        width: 260px
-        margin-top: 10px
-        margin-bottom: 20px
-        margin-left: -30px
-      a
-        color: black
-      #download-button
-        margin: 0 auto
-        color: $navy
-        .glyphicon-download-alt
-          margin-right: 15px
-          vertical-align: middle
-          font-size: 1.5em
           
+    #downloads-container
+      position: relative
+      height: 250px
+      #downloads
+        //TODO: How do I center this in small view?
+        position: absolute
+        width: 260px
+        margin-left: -130px
+        left: 50%
+        // margin: 100px 50px
+        ul
+          width: 260px
+          margin-top: 10px
+          margin-bottom: 20px
+          margin-left: -30px
+        a
+          color: black
+        #download-button
+          margin: 0 auto
+          color: $navy
+          .glyphicon-download-alt
+            margin-right: 15px
+            vertical-align: middle
+            font-size: 1.5em
+            
   #screenshot-lightbox
     .modal-dialog
       width: auto
