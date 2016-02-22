@@ -76,6 +76,7 @@ module.exports = class AnalyticsView extends RootView
 
         @updateAllKPIChartData()
         @updateActiveUsersChartData()
+        @updateCampaignVsClassroomActiveUsersChartData()
         @render?()
     }, 0).load()
 
@@ -83,18 +84,20 @@ module.exports = class AnalyticsView extends RootView
       url: '/db/analytics_perday/-/recurring_revenue'
       method: 'POST'
       success: (data) =>
+
         # Organize data by day, then group
         groupMap = {}
         dayGroupCountMap = {}
         for dailyRevenue in data
           dayGroupCountMap[dailyRevenue.day] ?= {}
-          dayGroupCountMap[dailyRevenue.day]['Daily'] = 0
+          dayGroupCountMap[dailyRevenue.day]['DRR Total'] = 0
           for group, val of dailyRevenue.groups
             groupMap[group] = true
             dayGroupCountMap[dailyRevenue.day][group] = val
-            dayGroupCountMap[dailyRevenue.day]['Daily'] += val
+            dayGroupCountMap[dailyRevenue.day]['DRR Total'] += val
         @revenueGroups = Object.keys(groupMap)
-        @revenueGroups.push 'Daily'
+        @revenueGroups.push 'DRR Total'
+
         # Build list of recurring revenue entries, where each entry is a day of individual group values
         @revenue = []
         for day of dayGroupCountMap
@@ -103,23 +106,35 @@ module.exports = class AnalyticsView extends RootView
           for group in @revenueGroups
             data.groups.push(dayGroupCountMap[day][group] ? 0)
           @revenue.push data
+
+        # Order present to past
         @revenue.sort (a, b) -> b.day.localeCompare(a.day)
 
         return unless @revenue.length > 0
 
         # Add monthly recurring revenue values
-        @revenueGroups.push 'Monthly'
-        monthlyValues = []
-        for i in [@revenue.length-1..0]
-          dailyTotal = @revenue[i].groups[@revenue[i].groups.length - 1]
-          monthlyValues.push(dailyTotal)
-          monthlyValues.shift() while monthlyValues.length > 30
-          if monthlyValues.length is 30
-            @revenue[i].groups.push(_.reduce(monthlyValues, (s, num) -> s + num))
+        
+        # For each daily group, add up monthly values walking forward through time, and add to revenue groups
+        monthlyDailyGroupMap = {}
+        dailyGroupIndexMap = {}
+        for group, i in @revenueGroups
+          monthlyDailyGroupMap[group.replace('DRR', 'MRR')] = group
+          dailyGroupIndexMap[group] = i 
+        for monthlyGroup, dailyGroup of monthlyDailyGroupMap
+          monthlyValues = []
+          for i in [@revenue.length-1..0]
+            dailyTotal = @revenue[i].groups[dailyGroupIndexMap[dailyGroup]]
+            monthlyValues.push(dailyTotal)
+            monthlyValues.shift() while monthlyValues.length > 30
+            if monthlyValues.length is 30
+              @revenue[i].groups.push(_.reduce(monthlyValues, (s, num) -> s + num))
+        for monthlyGroup, dailyGroup of monthlyDailyGroupMap
+          @revenueGroups.push monthlyGroup
 
         @updateAllKPIChartData()
         @updateRevenueChartData()
         @render?()
+
     }, 0).load()
 
     @supermodel.addRequestResource({
@@ -131,7 +146,7 @@ module.exports = class AnalyticsView extends RootView
           return -1 if a.count > b.count
           return 0 if a.count is b.count
           1
-        @render?()
+        @renderSelectors?('#school-counts')
     }, 0).load()
 
     @supermodel.addRequestResource({
@@ -269,16 +284,21 @@ module.exports = class AnalyticsView extends RootView
     points
 
   createLineCharts: ->
-    d3Utils.createLineChart('.kpi-recent-chart', @kpiRecentChartLines)
-    d3Utils.createLineChart('.kpi-chart', @kpiChartLines)
-    d3Utils.createLineChart('.active-classes-chart', @activeClassesChartLines)
-    d3Utils.createLineChart('.classroom-daily-active-users-chart', @classroomDailyActiveUsersChartLines)
-    d3Utils.createLineChart('.classroom-monthly-active-users-chart', @classroomMonthlyActiveUsersChartLines)
-    d3Utils.createLineChart('.campaign-daily-active-users-chart', @campaignDailyActiveUsersChartLines)
-    d3Utils.createLineChart('.campaign-monthly-active-users-chart', @campaignMonthlyActiveUsersChartLines)
-    d3Utils.createLineChart('.campaign-vs-classroom-monthly-active-users-chart.line-chart-container', @campaignVsClassroomMonthlyActiveUsersChartLines)
-    d3Utils.createLineChart('.paid-courses-chart', @enrollmentsChartLines)
-    d3Utils.createLineChart('.recurring-revenue-chart', @revenueChartLines)
+    visibleWidth = $('.kpi-recent-chart').width()
+    d3Utils.createLineChart('.kpi-recent-chart', @kpiRecentChartLines, visibleWidth)
+    d3Utils.createLineChart('.kpi-chart', @kpiChartLines, visibleWidth)
+    d3Utils.createLineChart('.active-classes-chart', @activeClassesChartLines, visibleWidth)
+    d3Utils.createLineChart('.classroom-daily-active-users-chart', @classroomDailyActiveUsersChartLines, visibleWidth)
+    d3Utils.createLineChart('.classroom-monthly-active-users-chart', @classroomMonthlyActiveUsersChartLines, visibleWidth)
+    d3Utils.createLineChart('.campaign-daily-active-users-chart', @campaignDailyActiveUsersChartLines, visibleWidth)
+    d3Utils.createLineChart('.campaign-monthly-active-users-chart', @campaignMonthlyActiveUsersChartLines, visibleWidth)
+    d3Utils.createLineChart('.campaign-vs-classroom-monthly-active-users-recent-chart.line-chart-container', @campaignVsClassroomMonthlyActiveUsersRecentChartLines, visibleWidth)
+    d3Utils.createLineChart('.campaign-vs-classroom-monthly-active-users-chart.line-chart-container', @campaignVsClassroomMonthlyActiveUsersChartLines, visibleWidth)
+    d3Utils.createLineChart('.paid-courses-chart', @enrollmentsChartLines, visibleWidth)
+    d3Utils.createLineChart('.recurring-daily-revenue-chart-90', @revenueDailyChartLines90Days, visibleWidth)
+    d3Utils.createLineChart('.recurring-monthly-revenue-chart-90', @revenueMonthlyChartLines90Days, visibleWidth)
+    d3Utils.createLineChart('.recurring-daily-revenue-chart-365', @revenueDailyChartLines365Days, visibleWidth)
+    d3Utils.createLineChart('.recurring-monthly-revenue-chart-365', @revenueMonthlyChartLines365Days, visibleWidth)
 
   updateAllKPIChartData: ->
     @kpiRecentChartLines = []
@@ -411,7 +431,6 @@ module.exports = class AnalyticsView extends RootView
     @campaignMonthlyActiveUsersChartLines = []
     @classroomDailyActiveUsersChartLines = []
     @classroomMonthlyActiveUsersChartLines = []
-    @campaignVsClassroomMonthlyActiveUsersChartLines = []
     return unless @activeUsers?.length
     days = d3Utils.createContiguousDays(90)
 
@@ -472,8 +491,6 @@ module.exports = class AnalyticsView extends RootView
       unless showYScaleSet
         line.showYScale = true
         showYScaleSet = true
-      if line.description is 'MAU campaign paid'
-        @campaignVsClassroomMonthlyActiveUsersChartLines.push(_.cloneDeep(line))
     showYScaleSet = false
     for line in @classroomDailyActiveUsersChartLines
       line.max = eventLineMap['DAU classroom'].max
@@ -486,15 +503,77 @@ module.exports = class AnalyticsView extends RootView
       unless showYScaleSet
         line.showYScale = true
         showYScaleSet = true 
-      if line.description is 'MAU classroom paid'
-        @campaignVsClassroomMonthlyActiveUsersChartLines.push(_.cloneDeep(line))
 
+  updateCampaignVsClassroomActiveUsersChartData: ->
+    @campaignVsClassroomMonthlyActiveUsersRecentChartLines = []
+    @campaignVsClassroomMonthlyActiveUsersChartLines = []
+    return unless @activeUsers?.length
+
+    # Separate day/value arrays by event
+    eventDataMap = {}
+    for entry in @activeUsers
+      day = entry.day
+      for event, count of entry.events
+        eventDataMap[event] ?= []
+        eventDataMap[event].push 
+          day: entry.day
+          value: count
+
+    days = d3Utils.createContiguousDays(90)
+    colorIndex = 0
     max = 0
-    for line in @campaignVsClassroomMonthlyActiveUsersChartLines
-      max = Math.max(_.max(line.points, 'y').y, max)
+    for event, data of eventDataMap
+      if event is 'MAU campaign paid'
+        points = @createLineChartPoints(days, _.cloneDeep(data).reverse())
+        max = Math.max(max, _.max(points, 'y').y)
+        @campaignVsClassroomMonthlyActiveUsersRecentChartLines.push
+          points: points
+          description: event
+          lineColor: @lineColors[colorIndex++ % @lineColors.length] 
+          strokeWidth: 1
+          min: 0
+          showYScale: true
+      else if event is 'MAU classroom paid'
+        points = @createLineChartPoints(days, _.cloneDeep(data).reverse())
+        max = Math.max(max, _.max(points, 'y').y)
+        @campaignVsClassroomMonthlyActiveUsersRecentChartLines.push
+          points: points
+          description: event
+          lineColor: @lineColors[colorIndex++ % @lineColors.length] 
+          strokeWidth: 1
+          min: 0
+          showYScale: false
+
+    for line in @campaignVsClassroomMonthlyActiveUsersRecentChartLines
+      line.max = max
+
+    days = d3Utils.createContiguousDays(365)
+    colorIndex = 0
+    max = 0
+    for event, data of eventDataMap
+      if event is 'MAU campaign paid'
+        points = @createLineChartPoints(days, _.cloneDeep(data).reverse())
+        max = Math.max(max, _.max(points, 'y').y)
+        @campaignVsClassroomMonthlyActiveUsersChartLines.push
+          points: points
+          description: event
+          lineColor: @lineColors[colorIndex++ % @lineColors.length] 
+          strokeWidth: 1
+          min: 0
+          showYScale: true
+      else if event is 'MAU classroom paid'
+        points = @createLineChartPoints(days, _.cloneDeep(data).reverse())
+        max = Math.max(max, _.max(points, 'y').y)
+        @campaignVsClassroomMonthlyActiveUsersChartLines.push
+          points: points
+          description: event
+          lineColor: @lineColors[colorIndex++ % @lineColors.length] 
+          strokeWidth: 1
+          min: 0
+          showYScale: false
+
     for line in @campaignVsClassroomMonthlyActiveUsersChartLines
       line.max = max
-      line.showYScale = true if line.description is 'MAU campaign paid'
 
   updateEnrollmentsChartData: ->
     @enrollmentsChartLines = []
@@ -581,9 +660,11 @@ module.exports = class AnalyticsView extends RootView
     line.max = dailyMax for line in @enrollmentsChartLines
 
   updateRevenueChartData: ->
-    @revenueChartLines = []
+    @revenueDailyChartLines90Days = []
+    @revenueMonthlyChartLines90Days = []
+    @revenueDailyChartLines365Days = []
+    @revenueMonthlyChartLines365Days = []
     return unless @revenue?.length
-    days = d3Utils.createContiguousDays(90)
 
     groupDayMap = {}
     for entry in @revenue
@@ -592,24 +673,31 @@ module.exports = class AnalyticsView extends RootView
         groupDayMap[@revenueGroups[i]][entry.day] ?= 0
         groupDayMap[@revenueGroups[i]][entry.day] += count
 
-    colorIndex = 0
-    dailyMax = 0
-    for group, entries of groupDayMap
-      data = []
-      for day, count of entries
-        data.push
-          day: day
-          value: count / 100
-      data.reverse()
-      points = @createLineChartPoints(days, data)
-      @revenueChartLines.push
-        points: points
-        description: group.replace('DRR ', '')
-        lineColor: @lineColors[colorIndex++ % @lineColors.length]
-        strokeWidth: 1
-        min: 0
-        max: _.max(points, 'y').y
-        showYScale: group in ['Daily', 'Monthly']
-      dailyMax = _.max(points, 'y').y if group is 'Daily'
-      for line in @revenueChartLines when line.description isnt 'Monthly'
-        line.max = dailyMax
+    addRevenueChartLine = (days, eventPrefix, lines) =>
+      colorIndex = 0
+      dailyMax = 0
+      for group, entries of groupDayMap
+        continue unless group.indexOf(eventPrefix) >= 0
+        data = []
+        for day, count of entries
+          data.push
+            day: day
+            value: count / 100
+        data.reverse()
+        points = @createLineChartPoints(days, data)
+        lines.push
+          points: points
+          description: group.replace(eventPrefix + ' ', 'Daily ')
+          lineColor: @lineColors[colorIndex++ % @lineColors.length]
+          strokeWidth: 1
+          min: 0
+          max: _.max(points, 'y').y
+          showYScale: group is eventPrefix + ' Total'
+        dailyMax = _.max(points, 'y').y if group is eventPrefix + ' Total'
+        for line in lines
+          line.max = dailyMax
+
+    addRevenueChartLine(d3Utils.createContiguousDays(90), 'DRR', @revenueDailyChartLines90Days)
+    addRevenueChartLine(d3Utils.createContiguousDays(90), 'MRR', @revenueMonthlyChartLines90Days)
+    addRevenueChartLine(d3Utils.createContiguousDays(365), 'DRR', @revenueDailyChartLines365Days)
+    addRevenueChartLine(d3Utils.createContiguousDays(365), 'MRR', @revenueMonthlyChartLines365Days)

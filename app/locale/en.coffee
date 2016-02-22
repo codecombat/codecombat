@@ -596,6 +596,7 @@
     name: "Quote Form"
     title: "Request a Quote"
     subtitle: "Get CodeCombat in your classroom, club, school or district!"
+    email_exists: "User exists with this email."
     phone_number: "Phone number"
     phone_number_help: "Where can we reach you during the workday?"
     role_label: "Your role"
