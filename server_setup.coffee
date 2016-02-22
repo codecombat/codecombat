@@ -79,7 +79,11 @@ setupExpressMiddleware = (app) ->
 
 setupPassportMiddleware = (app) ->
   app.use(authentication.initialize())
-  app.use(authentication.session())
+  if config.picoCTF
+    app.use authentication.authenticate('local', failureRedirect: config.picoCTF_login_URL)
+    require('./server/lib/picoctf').init app
+  else
+    app.use(authentication.session())
 
 setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", languageCode="zh", serverID="tokyo") ->
   shouldRedirectToCountryServer = (req) ->
@@ -157,6 +161,11 @@ setupFallbackRouteToIndex = (app) ->
       log.error "Error modifying main.html: #{err}" if err
       # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
       user = if req.user then JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/') else '{}'
+      
+      data = data.replace '"serverConfigTag"', JSON.stringify
+        picoCTF: config.picoCTF,
+        production: config.isProduction
+        
       data = data.replace('"userObjectTag"', user)
       res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
       res.header 'Pragma', 'no-cache'

@@ -3,6 +3,7 @@ log = require 'winston'
 mongoose = require 'mongoose'
 Handler = require '../commons/Handler'
 TrialRequest = require './TrialRequest'
+User = require '../users/User'
 
 TrialRequestHandler = class TrialRequestHandler extends Handler
   modelClass: TrialRequest
@@ -22,6 +23,18 @@ TrialRequestHandler = class TrialRequestHandler extends Handler
     instance.set 'created', new Date()
     instance.set 'status', 'submitted'
     instance
+    
+  post: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?
+    if req.user.isAnonymous()
+      email = req.body?.properties?.email
+      return @sendBadInputError(res, 'email not provided') unless email
+      User.findOne({emailLower: req.body.properties.email}).exec (err, user) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendError(res, 409, 'User with this email already exists.') if user
+        super(req, res)
+    else
+      super(req, res)
 
   put: (req, res, id) ->
     req.body.reviewDate = new Date()

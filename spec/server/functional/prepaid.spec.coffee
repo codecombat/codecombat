@@ -20,7 +20,12 @@ describe '/db/prepaid', ->
     expect(prepaid.type).toEqual('course')
     expect(prepaid.maxRedeemers).toBeGreaterThan(0)
     expect(prepaid.code).toMatch(/^\w{8}$/)
-    done()
+    return done() if user.isAdmin()
+    Payment.findOne {prepaidID: new ObjectId(prepaid._id)}, (err, payment) ->
+      expect(err).toBeNull()
+      expect(payment).not.toBeNull()
+      expect(payment?.get('purchaser')).toEqual(user._id)
+      done()
 
   verifySubscriptionPrepaid = (user, prepaid, done) ->
     expect(prepaid.creator).toEqual(user.id)
@@ -28,13 +33,18 @@ describe '/db/prepaid', ->
     expect(prepaid.maxRedeemers).toBeGreaterThan(0)
     expect(prepaid.code).toMatch(/^\w{8}$/)
     expect(prepaid.properties?.couponID).toEqual('free')
-    done()
+    return done() if user.isAdmin()
+    Payment.findOne {prepaidID: new ObjectId(prepaid._id)}, (err, payment) ->
+      expect(err).toBeNull()
+      expect(payment).not.toBeNull()
+      expect(payment?.get('purchaser')).toEqual(user._id)
+      done()
 
   it 'Clear database', (done) ->
     clearModels [Course, CourseInstance, Payment, Prepaid, User], (err) ->
       throw err if err
       done()
-      
+
   describe 'POST /db/prepaid/<id>/redeemers', ->
 
     it 'adds a given user to the redeemers property', (done) ->
@@ -60,7 +70,7 @@ describe '/db/prepaid', ->
                 User.findById  otherUser.id, (err, user) ->
                   expect(user.get('coursePrepaidID').equals(prepaid.get('_id'))).toBe(true)
                   done()
-              
+
     it 'does not allow more redeemers than maxRedeemers', (done) ->
       loginNewUser (user1) ->
         prepaid = new Prepaid({
@@ -97,7 +107,7 @@ describe '/db/prepaid', ->
               request.post {uri: url, json: redeemer }, (err, res, body) ->
                 expect(res.statusCode).toBe(403)
                 done()
-            
+
     it 'is idempotent across prepaids collection', (done) ->
       loginNewUser (user1) ->
         otherUser = new User({
@@ -279,7 +289,7 @@ describe '/db/prepaid', ->
             request.post {uri: url, json: redeemer }, (err, res, body) ->
               expect(res.statusCode).toBe(403)
               done()
-                      
+
   it 'Clear database', (done) ->
     clearModels [Course, CourseInstance, Payment, Prepaid, User], (err) ->
       throw err if err
@@ -392,7 +402,7 @@ describe '/db/prepaid', ->
 
   describe 'Purchase course', ->
     afterEach nockUtils.teardownNock
-    
+
     it 'Standard user purchases a prepaid for 0 seats', (done) ->
       nockUtils.setupNock 'db-prepaid-purchase-course-test-1.json', (err, nockDone) ->
         stripe.tokens.create {
@@ -404,7 +414,7 @@ describe '/db/prepaid', ->
               expect(res.statusCode).toBe(422)
               nockDone()
               done()
-            
+
     it 'Standard user purchases a prepaid for 1 seat', (done) ->
       nockUtils.setupNock 'db-prepaid-purchase-course-test-2.json', (err, nockDone) ->
         stripe.tokens.create {
@@ -430,7 +440,7 @@ describe '/db/prepaid', ->
               verifyCoursePrepaid user1, prepaid, ->
                 nockDone()
                 done()
-            
+
   describe 'Purchase terminal_subscription', ->
     afterEach nockUtils.teardownNock
     
@@ -624,7 +634,7 @@ describe '/db/prepaid', ->
           expect(joeData.stripe?.customerID).toBeDefined()
           expect(joeData.stripe?.subscriptionID).toBeDefined()
           return done() unless joeData.stripe?.customerID
-  
+
           # joe has a stripe subscription, so test if the months are added to the end of it.
           stripe.customers.retrieve joeData.stripe.customerID, (err, customer) =>
             expect(err).toBeNull()
@@ -635,7 +645,7 @@ describe '/db/prepaid', ->
               else
                 expect(stripeSubscriptionPeriodEndDate).toBeDefined()
                 return done()
-  
+
               subscribeWithPrepaid joeCode, (err, res, result) =>
                 expect(err).toBeNull()
                 expect(res.statusCode).toEqual(200)
@@ -690,7 +700,6 @@ describe '/db/prepaid', ->
           expect(res.statusCode).toEqual(403)
           done()
 
-
     it 'Can fetch a list of purchased and redeemed prepaid codes', (done) ->
       nockUtils.setupNock 'db-sub-redeem-test-2.json', (err, nockDone) ->
         stripe.tokens.create {
@@ -735,12 +744,12 @@ describe '/db/prepaid', ->
                 return fnDone(null, {status: "ok", msg: "Redeemed " + retry})
               else
                 return fnDone(null, {status: 'error', msg: "Redeem attempt Error #{result} (#{userX.id})" + retry })
-  
+
         redeemPrepaidFn = (code, testnum) =>
           (fnDone) =>
             loginNewUser (user1) =>
               doRedeem(user1, code, testnum, 0, fnDone)
-  
+
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
         }, (err, token) ->

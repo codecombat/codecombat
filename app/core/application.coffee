@@ -49,6 +49,7 @@ Application = initialize: ->
   @isProduction = -> document.location.href.search('https?://localhost:3000') is -1
   @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('CodeCombat-iPad') isnt -1
   $('body').addClass 'ipad' if @isIPadApp
+  $('body').addClass 'picoctf' if window.serverConfig.picoCTF
   if $.browser.msie and parseInt($.browser.version) is 10
     $("html").addClass("ie10")
   @tracker = new Tracker()
