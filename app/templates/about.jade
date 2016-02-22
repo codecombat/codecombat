@@ -42,12 +42,12 @@ block content
           h2 Our mission: make programming accessible to every student on Earth.
           #mission-graphic-filler
         .col-sm-5.col-sm-offset-1
-          p
+          p#mission-text
             span.spr Programming is magic. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips, straight from the first keystroke. With game-based learning, players not only get more excited about computer science, but they learn faster, too. Way faster. It's like having a conversation instead of reading a book. We want to bring that conversation to every school and to every student, because we believe that everyone should have a chance to become a native speaker of code.
 
       #team.anchor
         h3 Meet the CodeCombat team
-        h4 [how would we describe our team’s values? this might be a good place to state that]
+        h4 We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team.
         ul
           // Full time
           li
@@ -165,7 +165,7 @@ block content
               small(data-i18n="about.carlos_blurb")
               
       #community.anchor
-        #community-row-1.row
+        #community-row-1.row.text-center
           .col-sm-12
             h3 ...and our open-source community
             //TODO: Update this text
@@ -207,25 +207,25 @@ block content
               .media-body
                 .media-heading.text-h1 200+ countries
                 
-        #story-graphic-3
+        #story-graphic-3.text-center
           p
             div.text-h5 Together, they have written
             #story-bracketed-text
               div#left-bracket
                 img(src="/images/pages/about/Bracket_left.png")
               div.text-h1
-                | 1 billion lines of code
-                br
-                | and counting
+                | 1 billion lines of code and counting
               div#right-bracket
                 img(src="/images/pages/about/Bracket_right.png")
-          p
-            .text-h5 across six different programming languages
-            img.hidden-xs(src="/images/pages/about/Languages.png")
-            img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group1.png")
-            img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group2.png")
+          #story-languages
+            .text-center
+              .text-h5 across six different programming languages
+            #language-icons.text-center
+              img.hidden-xs(src="/images/pages/about/Languages.png")
+              img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group1.png")
+              img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group2.png")
         
-        #story-graphic-4
+        #story-graphic-4.text-center
           p
             div.text-h5 Though we've come a long way...
             figure
@@ -256,9 +256,8 @@ block content
                 small.label
                   | San Francisco • Fulltime
               p.small Want to write the first iPad app for CodeCombat? We’re looking for a product-focused engineer to translate our core gameplay and educational tools into an experience that feels like it was born on the iPad.
-              .text-center
-                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/eb190007-7195-49ee-a322-893b0d1cdcb4")
-                  | Learn More
+              a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/eb190007-7195-49ee-a322-893b0d1cdcb4")
+                | Learn More
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
               h5 Head of Sales
@@ -266,9 +265,8 @@ block content
                 small.label
                   | San Francisco • Fulltime
               p.small School districts are scrambling to offer computer science classes to all their students as a core subject. They have had no solution, because they can't afford to hire enough programming teachers – until now. 
-              .text-center
-                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/2d0194ed-7c69-4aab-b1f9-363ca4b9f04b")
-                  | Learn More
+              a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/2d0194ed-7c69-4aab-b1f9-363ca4b9f04b")
+                | Learn More
           .col-sm-6.col-md-5.col-lg-4
             .job-listing
               h5 Sales Representative
@@ -276,9 +274,8 @@ block content
                 small.label
                   | San Francisco • Fulltime
               p.small School districts are scrambling to offer computer science classes to all their students as a core subject. They have had no solution, because they can't afford to hire enough programming teachers – until now. 
-              .text-center
-                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/3f6ff123-16ce-4ecb-aba3-dcf4e8927c47")
-                  | Learn More
+              a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/3f6ff123-16ce-4ecb-aba3-dcf4e8927c47")
+                | Learn More
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
               h5 Create Your Own
@@ -290,9 +287,6 @@ block content
                 | Send us a note at 
                 a(href="mailto:team@codecombat.com") team@codecombat.com 
                 | introducing yourself and we might get in touch in the future!
-              .text-center
-                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/3f6ff123-16ce-4ecb-aba3-dcf4e8927c47")
-                  | Learn More
         
       #contact.anchor
         h3 Press & Contact
@@ -336,6 +330,7 @@ block content
                 li
                   a.small Character Art (.png)
               .btn.btn-lg.btn-primary-alt
+                // TODO: Put an href on this!
                 a#download-button
                   span.glyphicon.glyphicon-download-alt
                   | Download All

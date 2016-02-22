@@ -31,7 +31,6 @@
     background-image: url("/images/pages/about/codebackground_zoom_compressed.png")
     background-size: cover
     background-repeat: no-repeat
-    // height: 365px
     
     h1
       color: white
@@ -45,7 +44,7 @@
     text-align: center
   
   #about-container
-    margin-top: 60px
+    margin-top: 15px
     background-color: white
   
   #mission, #community-row-2
@@ -61,6 +60,7 @@
       width: 50%
     
   #mission-graphic
+    margin-top: 45px
     background: $navy
     
     h2
@@ -78,13 +78,14 @@
       position: absolute
       right: 100%
       top: 0
+      
+  #mission-text
+    margin-top: 45px
 
   #team
     margin-top: 150px
     ul
-      display: flex
-      flex-wrap: wrap
-      justify-content: center
+      text-align: center
       margin-top: 40px
       padding: 0
       li
@@ -104,8 +105,6 @@
     margin-top: 100px
     
   #community-row-1
-    display: flex
-    justify-content: center
     #community-avatars
       width: 90%
       margin: 20px 5%
@@ -149,35 +148,39 @@
       margin-top: 80px
       p
         margin-top: 30px
-      display: flex
-      flex-direction: column
-      align-items: center
       img
         margin-top: 20px
       #story-bracketed-text
         width: 100%
         max-width: 640px
+        margin: 0 auto
         .text-h1
+          display: inline-block
           margin: auto 0
           color: $navy
+          width: 80%
+          vertical-align: bottom
         img
           margin: auto 0
-          max-height: 100%
-          max-width: 100%
         #left-bracket
-          margin-right: 30px
+          width: 10%
+          display: inline-block
         #right-bracket
-          margin-left: 30px
-        display: flex
-        justify-content: center
-        text-align: center
+          width: 10%
+          display: inline-block
+      #story-languages
+        margin-top: 50px
+        #language-icons
+          display: inline-block
+          padding-left: auto
+          padding-right: auto
+      
     #story-graphic-4
-      margin-top: 70px
+      margin-left: auto
+      margin-right: auto
+      margin-top: 150px
       p
         margin-top: 20px
-      display: flex
-      flex-direction: column
-      align-items: center
       figure
         img
           display: block
@@ -192,6 +195,8 @@
         padding: 50px
         width: 370px
         height: 420px
+        margin-left: auto
+        margin-right: auto
         h5
           text-align: center
           color: inherit
@@ -203,14 +208,20 @@
       .job-listing
         color: $navy
         background: white
-        // text-align: center
+        // centering hack
+        position: relative
         .label
           text-transform: uppercase
           color: grey
         a.job-link
-          max-width: 175px
+          width: 170px
+          bottom: 45px
+          // centering hack
+          position: absolute
+          left: 50%
+          margin-left: -85px
         p
-          margin-top: 25px
+          margin-top: 15px
             
   #contact
     margin-top: 130px
@@ -229,11 +240,6 @@
         img
           display: inline-block
           margin: 6.5px
-      // img
-      //   display: block
-      //   margin: 25px
-      //   max-width: 345px
-      //   width: 100%
     #downloads
       //TODO: How do I center this in small view?
       width: 260px
