@@ -978,3 +978,25 @@ module.exports.thangNames = thangNames =
     'Yasuo'
     'Yi'
   ]
+
+  'Angels': [
+    # Male and Female
+    'Adam'
+    'Lilith'
+    'Sachiel'
+    'Shamshel'
+    'Ramiel'
+    'Gaghiel'
+    'Israfel'
+    'Sandalphon'
+    'Matarael'
+    'Sahaquiel'
+    'Ireul'
+    'Leliel'
+    'Bardiel'
+    'Zeruel'
+    'Arael'
+    'Armisael'
+    'Tabris'
+    'Lilin'
+  ]
