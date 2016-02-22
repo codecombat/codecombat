@@ -9,12 +9,12 @@ describe 'GET /db/article', ->
   articleData2 = { name: 'Article 2', body: 'Article 2 body moo' }
   
   beforeEach utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
-    @admin = yield utils.initAdminAsync({})
-    yield utils.loginUserAsync(@admin)
+    yield utils.clearModels([Article])
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
     yield request.postAsync(getURL('/db/article'), { json: articleData1 })
     yield request.postAsync(getURL('/db/article'), { json: articleData2 })
-    yield utils.logoutAsync()
+    yield utils.logout()
     done()
       
       
@@ -68,22 +68,22 @@ describe 'GET /db/article', ->
     
       
   it 'accepts custom filter parameters', utils.wrap (done) ->
-    yield utils.loginUserAsync(@admin)
+    yield utils.loginUser(@admin)
     [res, body] = yield request.getAsync {uri: getURL('/db/article?filter[slug]="article-1"'), json: true}
     expect(body.length).toBe(1)
     done()
   
 
   it 'ignores custom filter parameters for non-admins', utils.wrap (done) ->
-    user = yield utils.initUserAsync()
-    yield utils.loginUserAsync(user)
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
     [res, body] = yield request.getAsync {uri: getURL('/db/article?filter[slug]="article-1"'), json: true}
     expect(body.length).toBe(2)
     done()
   
     
   it 'accepts custom condition parameters', utils.wrap (done) ->
-    yield utils.loginUserAsync(@admin)
+    yield utils.loginUser(@admin)
     [res, body] = yield request.getAsync {uri: getURL('/db/article?conditions[select]="slug body"'), json: true}
     expect(body.length).toBe(2)
     for doc in body
@@ -92,8 +92,8 @@ describe 'GET /db/article', ->
   
     
   it 'ignores custom condition parameters for non-admins', utils.wrap (done) ->
-    user = yield utils.initUserAsync()
-    yield utils.loginUserAsync(user)
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
     [res, body] = yield request.getAsync {uri: getURL('/db/article?conditions[select]="slug body"'), json: true}
     expect(body.length).toBe(2)
     for doc in body
@@ -120,9 +120,9 @@ describe 'POST /db/article', ->
   articleData = { name: 'Article', body: 'Article', otherProp: 'not getting set' }
   
   beforeEach utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
-    @admin = yield utils.initAdminAsync({})
-    yield utils.loginUserAsync(@admin)
+    yield utils.clearModels([Article])
+    @admin = yield utils.initAdmin({})
+    yield utils.loginUser(@admin)
     [@res, @body] = yield request.postAsync {
       uri: getURL('/db/article'), json: articleData 
     }
@@ -172,26 +172,26 @@ describe 'POST /db/article', ->
   
     
   it 'allows artisans to create Articles', utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
-    artisan = yield utils.initArtisanAsync({})
-    yield utils.loginUserAsync(artisan)
+    yield utils.clearModels([Article])
+    artisan = yield utils.initArtisan({})
+    yield utils.loginUser(artisan)
     [res, body] = yield request.postAsync({uri: getURL('/db/article'), json: articleData })
     expect(res.statusCode).toBe(201)
     done()
   
   
   it 'does not allow normal users to create Articles', utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
-    user = yield utils.initUserAsync({})
-    yield utils.loginUserAsync(user)
+    yield utils.clearModels([Article])
+    user = yield utils.initUser({})
+    yield utils.loginUser(user)
     [res, body] = yield request.postAsync({uri: getURL('/db/article'), json: articleData })
     expect(res.statusCode).toBe(403)
     done()
       
     
   it 'does not allow anonymous users to create Articles', utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
-    yield utils.logoutAsync()
+    yield utils.clearModels([Article])
+    yield utils.logout()
     [res, body] = yield request.postAsync({uri: getURL('/db/article'), json: articleData })
     expect(res.statusCode).toBe(401)
     done()
@@ -214,9 +214,9 @@ describe 'GET /db/article/:handle', ->
   articleData = { name: 'Some Name', body: 'Article' }
 
   beforeEach utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
-    @admin = yield utils.initAdminAsync({})
-    yield utils.loginUserAsync(@admin)
+    yield utils.clearModels([Article])
+    @admin = yield utils.initAdmin({})
+    yield utils.loginUser(@admin)
     [@res, @body] = yield request.postAsync {
       uri: getURL('/db/article'), json: articleData
     }
@@ -247,9 +247,9 @@ putTests = (method='PUT') ->
   articleData = { name: 'Some Name', body: 'Article' }
 
   beforeEach utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
-    @admin = yield utils.initAdminAsync({})
-    yield utils.loginUserAsync(@admin)
+    yield utils.clearModels([Article])
+    @admin = yield utils.initAdmin({})
+    yield utils.loginUser(@admin)
     [@res, @body] = yield request.postAsync {
       uri: getURL('/db/article'), json: articleData
     }
@@ -270,8 +270,8 @@ putTests = (method='PUT') ->
 
 
   it 'does not allow normal artisan, non-admins to make changes', utils.wrap (done) ->
-    artisan = yield utils.initArtisanAsync({})
-    yield utils.loginUserAsync(artisan)
+    artisan = yield utils.initArtisan({})
+    yield utils.loginUser(artisan)
     [res, body] = yield requestAsync {method: method, uri: getURL("/db/article/#{@body._id}"), json: { name: 'Another name' }}
     expect(res.statusCode).toBe(403)
     done()
@@ -286,9 +286,9 @@ describe 'POST /db/article/:handle/new-version', ->
   articleID = null
   
   beforeEach utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
-    @admin = yield utils.initAdminAsync({})
-    yield utils.loginUserAsync(@admin)
+    yield utils.clearModels([Article])
+    @admin = yield utils.initAdmin({})
+    yield utils.loginUser(@admin)
     [res, body] = yield request.postAsync { uri: getURL('/db/article'), json: articleData }
     expect(res.statusCode).toBe(201)
     articleID = body._id
@@ -418,9 +418,9 @@ describe 'POST /db/article/:handle/new-version', ->
   
   
   it 'works for artisans', utils.wrap (done) ->
-    yield utils.logoutAsync()
-    artisan = yield utils.initArtisanAsync()
-    yield utils.loginUserAsync(artisan)
+    yield utils.logout()
+    artisan = yield utils.initArtisan()
+    yield utils.loginUser(artisan)
     yield postNewVersion({ name: 'Article name', body: 'New body' })
     articles = yield Article.find()
     expect(articles.length).toBe(2)
@@ -428,9 +428,9 @@ describe 'POST /db/article/:handle/new-version', ->
     
     
   it 'works for normal users submitting translations', utils.wrap (done) ->
-    yield utils.logoutAsync()
-    user = yield utils.initUserAsync()
-    yield utils.loginUserAsync(user)
+    yield utils.logout()
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
     yield postNewVersion({ name: 'Article name', body: 'Article body', i18n: { fr: { name: 'Le Article' }}}, 201)
     articles = yield Article.find()
     expect(articles.length).toBe(2)
@@ -438,9 +438,9 @@ describe 'POST /db/article/:handle/new-version', ->
 
 
   it 'does not work for normal users', utils.wrap (done) ->
-    yield utils.logoutAsync()
-    user = yield utils.initUserAsync()
-    yield utils.loginUserAsync(user)
+    yield utils.logout()
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
     yield postNewVersion({ name: 'Article name', body: 'New body' }, 403)
     articles = yield Article.find()
     expect(articles.length).toBe(1)
@@ -448,7 +448,7 @@ describe 'POST /db/article/:handle/new-version', ->
 
 
   it 'does not work for anonymous users', utils.wrap (done) ->
-    yield utils.logoutAsync()
+    yield utils.logout()
     yield postNewVersion({ name: 'Article name', body: 'New body' }, 401)
     articles = yield Article.find()
     expect(articles.length).toBe(1)
@@ -490,9 +490,9 @@ describe 'version fetching endpoints', ->
 
 
   beforeEach utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
-    @admin = yield utils.initAdminAsync({})
-    yield utils.loginUserAsync(@admin)
+    yield utils.clearModels([Article])
+    @admin = yield utils.initAdmin({})
+    yield utils.loginUser(@admin)
     [res, body] = yield request.postAsync { uri: getURL('/db/article'), json: articleData }
     expect(res.statusCode).toBe(201)
     articleOriginal = body._id
@@ -548,10 +548,10 @@ describe 'version fetching endpoints', ->
 describe 'GET /db/article/:handle/files', ->
   
   it 'returns an array of file metadata for the given original article', utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
+    yield utils.clearModels([Article])
     articleData = { name: 'Article', body: 'Article' }
-    admin = yield utils.initAdminAsync({})
-    yield utils.loginUserAsync(admin)
+    admin = yield utils.initAdmin({})
+    yield utils.loginUser(admin)
     [res, article] = yield request.postAsync { uri: getURL('/db/article'), json: articleData }
     expect(res.statusCode).toBe(201)
     [res, body] = yield request.postAsync(getURL('/file'), { json: {
@@ -572,12 +572,12 @@ describe 'GET and POST /db/article/:handle/names', ->
   articleData2 = { name: 'Article 2', body: 'Article 2 body' }
 
   it 'returns an object mapping ids to names', utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
-    admin = yield utils.initAdminAsync({})
-    yield utils.loginUserAsync(admin)
+    yield utils.clearModels([Article])
+    admin = yield utils.initAdmin({})
+    yield utils.loginUser(admin)
     [res, article1] = yield request.postAsync(getURL('/db/article'), { json: articleData1 })
     [res, article2] = yield request.postAsync(getURL('/db/article'), { json: articleData2 })
-    yield utils.logoutAsync()
+    yield utils.logout()
     [res, body] = yield request.getAsync { uri: getURL('/db/article/names?ids='+[article1._id, article2._id].join(',')), json: true }
     expect(body.length).toBe(2)
     expect(body[0].name).toBe('Article 1')
@@ -590,10 +590,10 @@ describe 'GET and POST /db/article/:handle/names', ->
 describe 'GET /db/article/:handle/patches', ->
   
   it 'returns pending patches for the given original article', utils.wrap (done) ->
-    yield utils.clearModelsAsync([Article])
+    yield utils.clearModels([Article])
     articleData = { name: 'Article', body: 'Article' }
-    admin = yield utils.initAdminAsync({})
-    yield utils.loginUserAsync(admin)
+    admin = yield utils.initAdmin({})
+    yield utils.loginUser(admin)
     [res, article] = yield request.postAsync { uri: getURL('/db/article'), json: articleData }
     expect(res.statusCode).toBe(201)
     [res, patch] = yield request.postAsync { uri: getURL('/db/patch'), json: {
@@ -620,17 +620,17 @@ describe 'POST /db/article/:handle/watchers', ->
   
   it 'adds self to the list of watchers, and is idempotent', utils.wrap (done) ->
     # create article
-    yield utils.clearModelsAsync([Article])
+    yield utils.clearModels([Article])
     articleData = { name: 'Article', body: 'Article' }
-    admin = yield utils.initAdminAsync({})
-    yield utils.loginUserAsync(admin)
+    admin = yield utils.initAdmin({})
+    yield utils.loginUser(admin)
     [res, article] = yield request.postAsync { uri: getURL('/db/article'), json: articleData }
     expect(res.statusCode).toBe(201)
     
     # add new user as watcher
-    yield utils.logoutAsync()
-    user = yield utils.initUserAsync()
-    yield utils.loginUserAsync(user)
+    yield utils.logout()
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
     [res, article] = yield request.postAsync { uri: getURL("/db/article/#{article._id}/watchers"), json: true }
     expect(res.statusCode).toBe(200)
     expect(_.contains(article.watchers, user.id)).toBe(true)
@@ -649,17 +649,17 @@ describe 'DELETE /db/article/:handle/watchers', ->
   
   it 'removes self from the list of watchers, and is idempotent', utils.wrap (done) ->
     # create article
-    yield utils.clearModelsAsync([Article])
+    yield utils.clearModels([Article])
     articleData = { name: 'Article', body: 'Article' }
-    admin = yield utils.initAdminAsync({})
-    yield utils.loginUserAsync(admin)
+    admin = yield utils.initAdmin({})
+    yield utils.loginUser(admin)
     [res, article] = yield request.postAsync { uri: getURL('/db/article'), json: articleData }
     expect(res.statusCode).toBe(201)
 
     # add new user as watcher
-    yield utils.logoutAsync()
-    user = yield utils.initUserAsync()
-    yield utils.loginUserAsync(user)
+    yield utils.logout()
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
     [res, article] = yield request.postAsync { uri: getURL("/db/article/#{article._id}/watchers"), json: true }
     expect(_.contains(article.watchers, user.id)).toBe(true)
 

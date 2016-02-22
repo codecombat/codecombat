@@ -4,16 +4,18 @@ wrap = require 'co-express'
 Promise = require 'bluebird'
 Patch = require '../models/Patch'
 mongoose = require 'mongoose'
+database = require '../commons/database'
+parse = require '../commons/parse'
 
 module.exports =
   patches: (options={}) -> wrap (req, res) ->
     dbq = Patch.find()
-    dbq.limit(utils.getLimitFromReq(req))
-    dbq.skip(utils.getSkipFromReq(req))
-    dbq.select(utils.getProjectFromReq(req))
+    dbq.limit(parse.getLimitFromReq(req))
+    dbq.skip(parse.getSkipFromReq(req))
+    dbq.select(parse.getProjectFromReq(req))
 
     id = req.params.handle
-    if not utils.isID(id)
+    if not database.isID(id)
       throw new errors.UnprocessableEntity('Invalid ID')
       
     query =
@@ -27,10 +29,10 @@ module.exports =
     res.status(200).send(patches)
 
   joinWatchers: (Model, options={}) -> wrap (req, res) ->
-    doc = yield utils.getDocFromHandleAsync(req, Model)
+    doc = yield database.getDocFromHandle(req, Model)
     if not doc
       throw new errors.NotFound('Document not found.')
-    if not utils.hasAccessToDocument(req, doc, 'get')
+    if not database.hasAccessToDocument(req, doc, 'get')
       throw new errors.Forbidden()
     updateResult = yield doc.update({ $addToSet: { watchers: req.user.get('_id') }})
     if updateResult.nModified
@@ -40,7 +42,7 @@ module.exports =
     res.status(200).send(doc)
     
   leaveWatchers: (Model, options={}) -> wrap (req, res) ->
-    doc = yield utils.getDocFromHandleAsync(req, Model)
+    doc = yield database.getDocFromHandle(req, Model)
     if not doc
       throw new errors.NotFound('Document not found.')
     updateResult = yield doc.update({ $pull: { watchers: req.user.get('_id') }})

@@ -6,10 +6,12 @@ hipchat = require '../hipchat'
 _ = require 'lodash'
 wrap = require 'co-express'
 mongoose = require 'mongoose'
+database = require '../commons/database'
+parse = require '../commons/parse'
 
 module.exports =
   postNewVersion: (Model, options={}) -> wrap (req, res) ->
-    parent = yield utils.getDocFromHandleAsync(req, Model)
+    parent = yield database.getDocFromHandle(req, Model)
     if not parent
       throw new errors.NotFound('Parent not found.')
       
@@ -19,14 +21,14 @@ module.exports =
       permissions = [permissions] if _.isString(permissions)
       permissions = ['admin'] if not _.isArray(permissions)
       hasPermission = _.any(req.user?.hasPermission(permission) for permission in permissions)
-      if not (hasPermission or utils.isJustFillingTranslations(req, parent))
+      if not (hasPermission or database.isJustFillingTranslations(req, parent))
         throw new errors.Forbidden()
 
-    doc = utils.initDoc(req, Model)
+    doc = database.initDoc(req, Model)
     ATTRIBUTES_NOT_INHERITED = ['_id', 'version', 'created', 'creator']
     doc.set(_.omit(parent.toObject(), ATTRIBUTES_NOT_INHERITED))
 
-    utils.assignBody(req, doc, { unsetMissing: true })
+    database.assignBody(req, doc, { unsetMissing: true })
 
     # Get latest version
     major = req.body.version?.major
@@ -124,7 +126,7 @@ module.exports =
     # can get latest overall version, latest of a major version, or a specific version
     original = req.params.handle
     version = req.params.version
-    if not utils.isID(original)
+    if not database.isID(original)
       throw new errors.UnprocessableEntity('Invalid MongoDB id: '+original) 
 
     query = { 'original': mongoose.Types.ObjectId(original) }
@@ -139,7 +141,7 @@ module.exports =
     dbq.sort({ 'version.major': -1, 'version.minor': -1 })
 
     # Make sure that permissions and version are fetched, but not sent back if they didn't ask for them.
-    projection = utils.getProjectFromReq(req)
+    projection = parse.getProjectFromReq(req)
     if projection
       extraProjectionProps = []
       extraProjectionProps.push 'permissions' unless projection.permissions
@@ -150,7 +152,7 @@ module.exports =
 
     doc = yield dbq.exec()
     throw new errors.NotFound() if not doc
-    throw new errors.Forbidden() unless utils.hasAccessToDocument(req, doc)
+    throw new errors.Forbidden() unless database.hasAccessToDocument(req, doc)
     doc = _.omit doc, extraProjectionProps if extraProjectionProps?
     
     res.status(200).send(doc.toObject())
@@ -160,9 +162,9 @@ module.exports =
     original = req.params.handle
     dbq = Model.find({'original': mongoose.Types.ObjectId(original)})
     dbq.sort({'created': -1})
-    dbq.limit(utils.getLimitFromReq(req))
-    dbq.skip(utils.getSkipFromReq(req))
-    dbq.select(utils.getProjectFromReq(req) or 'slug name version commitMessage created creator permissions')
+    dbq.limit(parse.getLimitFromReq(req))
+    dbq.skip(parse.getSkipFromReq(req))
+    dbq.select(parse.getProjectFromReq(req) or 'slug name version commitMessage created creator permissions')
     
     results = yield dbq.exec()
     res.status(200).send(results)

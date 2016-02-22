@@ -1,11 +1,12 @@
 async = require 'async'
 utils = require '../../server/lib/utils'
 co = require 'co'
+Promise = require 'bluebird'
 
 module.exports = mw =
   getURL: (path) -> 'http://localhost:3001' + path
       
-  clearModels: (models, done) ->
+  clearModels: Promise.promisify (models, done) ->
     funcs = []
     for model in models
       wrapped = (m) ->
@@ -25,11 +26,11 @@ module.exports = mw =
       password: 'password'
       permissions: options.permissions
     }
-    new User(doc).save (err, user) ->
-      expect(err).toBe(null)
-      done(err, user)
+    user = new User(doc)
+    promise = user.save()
+    return promise
 
-  loginUser: (user, done) ->
+  loginUser: Promise.promisify  (user, done) ->
     form = {
       username: user.get('email')
       password: 'password'
@@ -39,21 +40,21 @@ module.exports = mw =
       expect(res.statusCode).toBe(200)
       done(err, user)
 
-  initAdmin: (options, done) ->
+  initAdmin: (options) ->
     if _.isFunction(options)
       done = options
       options = {}
     options = _.extend({permissions: ['admin']}, options)
-    return @initUser(options, done)
+    return @initUser(options)
 
-  initArtisan: (options, done) ->
+  initArtisan: (options) ->
     if _.isFunction(options)
       done = options
       options = {}
     options = _.extend({permissions: ['artisan']}, options)
-    return @initUser(options, done)
+    return @initUser(options)
     
-  logout: (done) ->
+  logout: Promise.promisify (done) ->
     request.post mw.getURL('/auth/logout'), done
 
   wrap: (gen) ->
@@ -61,7 +62,3 @@ module.exports = mw =
     return (done) ->
       fn.apply(@, [done]).catch (err) -> done.fail(err)
   
-
-
-Promise = require 'bluebird'
-Promise.promisifyAll(module.exports)

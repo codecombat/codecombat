@@ -2,6 +2,7 @@ utils = require '../lib/utils'
 errors = require '../commons/errors'
 wrap = require 'co-express'
 Promise = require 'bluebird'
+database = require '../commons/database'
 
 module.exports =
   names: (Model, options={}) -> wrap (req, res) ->
@@ -17,7 +18,7 @@ module.exports =
     sort = if Model.schema.uses_coco_versions then {'version.major': -1, 'version.minor': -1} else {}
 
     for id in ids
-      if not utils.isID(id)
+      if not database.isID(id)
         throw new errors.UnprocessableEntity('Invalid MongoDB id given')
         
     ids = (mongoose.Types.ObjectId(id) for id in ids)
