@@ -85,7 +85,7 @@ module.exports = class ControlBarView extends CocoView
         @homeViewArgs.push leagueType
         @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
-    else if @level.get('type', true) in ['hero', 'hero-coop']
+    else if @level.get('type', true) in ['hero', 'hero-coop'] or window.serverConfig.picoCTF
       @homeLink = '/play'
       @homeViewClass = 'views/play/CampaignView'
       campaign = @level.get 'campaign'

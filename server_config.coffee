@@ -80,6 +80,15 @@ config.cookie_secret = process.env.COCO_COOKIE_SECRET or 'chips ahoy'
 
 config.isProduction = config.mongo.host isnt 'localhost'
 
+if process.env.COCO_PICOCTF
+  config.picoCTF = true
+  config.picoCTF_api_url = 'http://staging.picoctf.com/api'
+  config.picoCTF_login_URL = 'http://staging.picoctf.com'
+  config.picoCTF_auth = {username: 'picodev', password: 'pico2016rox!ftw'}
+else
+  config.picoCTF = false
+
+
 if not config.unittest and  not config.isProduction
   # change artificially slow down non-static requests for testing
   config.slow_down = false

@@ -52,26 +52,23 @@ class AnalyticsPerDayHandler extends Handler
         @sendSuccess(res, activeClasses)
 
   getActiveUsers: (req, res) ->
-    AnalyticsString.find({v: {$in: ['Daily Active Users', 'Monthly Active Users']}}).exec (err, documents) =>
+    events = ['DAU classroom paid', 'DAU classroom trial', 'DAU classroom free', 'DAU campaign paid', 'DAU campaign free',
+      'MAU classroom paid', 'MAU classroom trial', 'MAU classroom free', 'MAU campaign paid', 'MAU campaign free']
+    AnalyticsString.find({v: {$in: events}}).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
+      eventIDs = []
+      eventStringMap = {}
       for doc in documents
-        dailyID = doc._id if doc.v is 'Daily Active Users'
-        monthlyID = doc._id if doc.v is 'Monthly Active Users'
-      return @sendSuccess res, [] unless dailyID? and monthlyID?
+        eventIDs.push(doc._id)
+        eventStringMap[doc._id] = doc.v 
 
-      AnalyticsPerDay.find({e: {$in: [dailyID, monthlyID]}}).exec (err, documents) =>
+      AnalyticsPerDay.find({e: {$in: eventIDs}}).exec (err, documents) =>
         return @sendDatabaseError(res, err) if err
         dayCountsMap = {}
         for doc in documents
           dayCountsMap[doc.d] ?= {}
-          dayCountsMap[doc.d]['dailyCount'] = doc.c if doc.e is dailyID
-          dayCountsMap[doc.d]['monthlyCount'] = doc.c if doc.e is monthlyID
-        activeUsers = []
-        for key, val of dayCountsMap
-          data = day: key
-          data.dailyCount = val.dailyCount if val.dailyCount
-          data.monthlyCount = val.monthlyCount if val.monthlyCount
-          activeUsers.push data
+          dayCountsMap[doc.d][eventStringMap[doc.e]] = doc.c
+        activeUsers = ({day: day, events: eventCountMap} for day, eventCountMap of dayCountsMap)
         @sendSuccess(res, activeUsers)
 
   getCampaignCompletionsBySlug: (req, res) ->

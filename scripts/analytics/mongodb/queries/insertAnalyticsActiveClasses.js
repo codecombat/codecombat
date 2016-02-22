@@ -134,7 +134,6 @@ function getActiveClassCounts(startDay) {
   }
   // printjson(userPlayedMap);
 
-
   log("Calculate number of active members per classroom per day per event type..");
   var classDayTypeMap = {};
   for (var classroom in classroomUsersMap) {
