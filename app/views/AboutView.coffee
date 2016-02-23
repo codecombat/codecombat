@@ -7,6 +7,14 @@ module.exports = class AboutView extends RootView
 
   logoutRedirectURL: false
   
+  events:
+    'click #mission-link': 'onClickMissionLink'
+    'click #team-link': 'onClickTeamLink'
+    'click #community-link': 'onClickCommunityLink'
+    'click #story-link': 'onClickStoryLink'
+    'click #jobs-link': 'onClickJobsLink'
+    'click #contact-link': 'onClickContactLink'
+  
   afterRender: ->
     super(arguments...)
     @$('#fixed-nav').affix({
@@ -20,3 +28,28 @@ module.exports = class AboutView extends RootView
       offset: 150
     )
     @$('#screenshot-lightbox').modal()
+    
+  onClickMissionLink: ->
+    @scrollToLink('#mission')
+    console.log('#mission clicked')
+    
+  onClickTeamLink: ->
+    @scrollToLink('#team')
+    console.log('#team clicked')
+    
+  onClickCommunityLink: ->
+    @scrollToLink('#community')
+    console.log('#community clicked')
+    
+  onClickStoryLink: ->
+    @scrollToLink('#story')
+    console.log('#story clicked')
+    
+  onClickJobsLink: ->
+    @scrollToLink('#jobs')
+    console.log('#jobs clicked')
+    
+  onClickContactLink: ->
+    @scrollToLink('#contact')
+    console.log('#contact clicked')
+    
