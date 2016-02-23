@@ -45,6 +45,14 @@ UserSchema.methods.isInGodMode = ->
 UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
+  
+UserSchema.methods.hasPermission = (neededPermissions) ->
+  permissions = @get('permissions') or []
+  if _.contains(permissions, 'admin')
+    return true
+  if _.isString(neededPermissions)
+    neededPermissions = [neededPermissions]
+  return _.size(_.intersection(permissions, neededPermissions))
 
 UserSchema.methods.isArtisan = ->
   p = @get('permissions')

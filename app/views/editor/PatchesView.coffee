@@ -19,11 +19,12 @@ module.exports = class PatchesView extends CocoView
 
   initPatches: ->
     @startedLoading = false
-    @patches = new PatchesCollection([], {}, @model, @status)
+    @patches = @model.fetchPatchesWithStatus()
 
   load: ->
     @initPatches()
-    @patches = @supermodel.loadCollection(@patches, 'patches', {cache: false}).model
+    @patches = @model.fetchPatchesWithStatus(@status, {cache: false})
+    @supermodel.trackCollection(@patches)
     @listenTo @patches, 'sync', @onPatchesLoaded
 
   onPatchesLoaded: ->
@@ -40,6 +41,7 @@ module.exports = class PatchesView extends CocoView
 
   afterRender: ->
     @$el.find(".#{@status}").addClass 'active'
+    super()
 
   onStatusButtonsChanged: (e) ->
     @status = $(e.target).val()

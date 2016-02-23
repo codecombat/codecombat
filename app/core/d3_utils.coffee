@@ -12,7 +12,7 @@ module.exports.createContiguousDays = (timeframeDays, skipToday=true) ->
     currentDate.setUTCDate(currentDate.getUTCDate() + 1)
   days
 
-module.exports.createLineChart = (containerSelector, chartLines) ->
+module.exports.createLineChart = (containerSelector, chartLines, containerWidth) ->
   # Creates a line chart within 'containerSelector' based on chartLines
   return unless chartLines?.length > 0 and containerSelector
 
@@ -20,7 +20,7 @@ module.exports.createLineChart = (containerSelector, chartLines) ->
   keyHeight = 20
   xAxisHeight = 20
   yAxisWidth = 40
-  containerWidth = $(containerSelector).width()
+  containerWidth = $(containerSelector).width() unless containerWidth
   containerHeight = $(containerSelector).height()
 
   yScaleCount = 0
