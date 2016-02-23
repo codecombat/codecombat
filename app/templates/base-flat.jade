@@ -2,70 +2,73 @@
   block header
     .container-fluid.text-center
       .alert.alert-danger.lt-ie9
-        strong(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 8 or older. Sorry!
+        strong(data-i18n="home.no_ie") The CodeCombat game does not run in Internet Explorer 8 or older. Sorry!
 
       if view.isIPadBrowser() || view.isMobile()
         .alert.alert-danger.mobile
-          strong(data-i18n="home.no_mobile") CodeCombat wasn't designed for mobile devices and may not work!
+          strong(data-i18n="home.no_mobile") CodeCombat gameplay was not designed for mobile devices and may not work!
       else if view.isOldBrowser()
         .alert.alert-danger.old-browser
-          strong(data-i18n="home.old_browser") Uh oh, your browser is too old to run CodeCombat. Sorry!
+          strong(data-i18n="home.old_browser") Uh oh, your browser is too old to play CodeCombat. Sorry!
           br
           span(data-i18n="home.old_browser_suffix") You can try anyway, but it probably won't work.
 
     nav.navbar.navbar-default
-      .container-fluid
-        .navbar-header
-          button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand(href="/")
-            img#logo-img(src="/images/pages/base/logo.png")
-            span.glyphicon.glyphicon-home
-            
-        #navbar-collapse.collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li
-              a(href="/about") About
-            li
-              a(href="/courses") Courses
-            li
-              a(href="/courses/teachers") Teachers
-            li
-              a(href="https://discourse.codecombat.com/") Forum
-            if me.isAnonymous()
-              li
-                a#create-account-link.signup-button Create Account
-              li
-                a#login-link.login-button Login
-            else
-              li.dropdown
-                a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
-                  span.spr My Account
-                ul.dropdown-menu
-                  li.user-dropdown-header.text-center
-                    span.user-level= me.level()
-                    a(href="/user/#{me.getSlugOrID()}")
-                      img.img-circle(src=me.getPhotoURL())
-                    h5=me.displayName()
+      .container
+        .row
+          .col-md-3.col-sm-4
+            .navbar-header
+              button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+              a.navbar-brand(href="/")
+                img#logo-img(src="/images/pages/base/logo.png")
+                span.glyphicon.glyphicon-home
+              
+          .col-md-9.col-sm-8
+            #navbar-collapse.collapse.navbar-collapse
+              ul.nav.navbar-nav.pull-left
+                li
+                  a(href="/about") About
+                li
+                  a(href="/courses") Courses
+                li
+                  a(href="/courses/teachers") Teachers
+                li
+                  a(href="https://discourse.codecombat.com/") Forum
+                if me.isAnonymous()
                   li
-                    a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
+                    a#create-account-link.signup-button Create Account
                   li
-                    a(href="/account/settings", data-i18n="play.settings")
-                  li
-                    a(href="/account/payments", data-i18n="account.payments")
-                  li
-                    a(href="/account/subscription", data-i18n="account.subscription")
-                  li
-                    a(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
-                  li
-                    a#logout-button(data-i18n="login.log_out")
-            
-          #language-dropdown-wrapper.pull-right.hidden-xs.hidden-sm
-            select.language-dropdown.form-control
-    
+                    a#login-link.login-button Login
+                else
+                  li.dropdown
+                    a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
+                      span.spr My Account
+                    ul.dropdown-menu
+                      li.user-dropdown-header.text-center
+                        span.user-level= me.level()
+                        a(href="/user/#{me.getSlugOrID()}")
+                          img.img-circle(src=me.getPhotoURL())
+                        h5=me.displayName()
+                      li
+                        a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
+                      li
+                        a(href="/account/settings", data-i18n="play.settings")
+                      li
+                        a(href="/account/payments", data-i18n="account.payments")
+                      li
+                        a(href="/account/subscription", data-i18n="account.subscription")
+                      li
+                        a(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
+                      li
+                        a#logout-button(data-i18n="login.log_out")
+              
+                li
+                  #language-dropdown-wrapper
+                    select.language-dropdown.form-control    
     
 
   block outer_content
@@ -133,8 +136,9 @@
                   
       #final-footer.small.text-center
         | Copyright ©2016 CodeCombat. All Rights Reserved.
+        br.hidden-lg.hidden-md
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
+        br.hidden-lg.hidden-md
         span.spr Need help? Email
         a(href="mailto:team@codecombat.com") team@codecombat.com
         span.spl and we'll get in touch!
-          
