@@ -14,6 +14,12 @@ module.exports = class AboutView extends RootView
     'click #story-link': 'onClickStoryLink'
     'click #jobs-link': 'onClickJobsLink'
     'click #contact-link': 'onClickContactLink'
+    'click .screen-thumbnail': 'onClickScreenThumbnail'
+  
+  shortcuts:
+    'right': 'onRightPressed'
+    'left': 'onLeftPressed'
+    'esc': 'onEscapePressed'
   
   afterRender: ->
     super(arguments...)
@@ -28,6 +34,10 @@ module.exports = class AboutView extends RootView
       offset: 150
     )
     @$('#screenshot-lightbox').modal()
+    
+    @$('#screenshot-carousel').carousel({
+      interval: 0
+    })
     
   onClickMissionLink: ->
     @scrollToLink('#mission')
@@ -46,4 +56,26 @@ module.exports = class AboutView extends RootView
     
   onClickContactLink: ->
     @scrollToLink('#contact')
+    
+  onRightPressed: (event) ->
+    if $('#screenshot-lightbox').data('bs.modal')?.isShown
+      event.preventDefault()
+      $('#screenshot-carousel').carousel('next')
+
+  onLeftPressed: (event) ->
+    if $('#screenshot-lightbox').data('bs.modal')?.isShown
+      event.preventDefault()
+      $('#screenshot-carousel').carousel('prev')
+    
+  onEscapePressed: (event) ->
+    if $('#screenshot-lightbox').data('bs.modal')?.isShown
+      event.preventDefault()
+      $('#screenshot-lightbox').modal('hide')
+
+  onClickScreenThumbnail: (event) ->
+    unless $('#screenshot-lightbox').data('bs.modal')?.isShown
+      event.preventDefault()
+      # Modal opening happens automatically from bootstrap
+      $('#screenshot-carousel').carousel($(event.currentTarget).data("index"))
+      
     
