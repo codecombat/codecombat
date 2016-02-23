@@ -39,22 +39,28 @@ module.exports = class AboutView extends RootView
       interval: 0
     })
     
-  onClickMissionLink: ->
+  onClickMissionLink: (event) ->
+    event.preventDefault()
     @scrollToLink('#mission')
     
-  onClickTeamLink: ->
+  onClickTeamLink: (event) ->
+    event.preventDefault()
     @scrollToLink('#team')
     
-  onClickCommunityLink: ->
+  onClickCommunityLink: (event) ->
+    event.preventDefault()
     @scrollToLink('#community')
     
-  onClickStoryLink: ->
+  onClickStoryLink: (event) ->
+    event.preventDefault()
     @scrollToLink('#story')
     
-  onClickJobsLink: ->
+  onClickJobsLink: (event) ->
+    event.preventDefault()
     @scrollToLink('#jobs')
     
-  onClickContactLink: ->
+  onClickContactLink: (event) ->
+    event.preventDefault()
     @scrollToLink('#contact')
     
   onRightPressed: (event) ->
