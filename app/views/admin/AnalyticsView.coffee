@@ -3,6 +3,7 @@ Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 require 'vendor/d3'
 d3Utils = require 'core/d3_utils'
+Payment = require 'models/Payment'
 RootView = require 'views/core/RootView'
 template = require 'templates/admin/analytics'
 utils = require 'core/utils'
@@ -147,6 +148,16 @@ module.exports = class AnalyticsView extends RootView
           return 0 if a.count is b.count
           1
         @renderSelectors?('#school-counts')
+    }, 0).load()
+
+    @supermodel.addRequestResource({
+      url: '/db/payment/-/school_sales'
+      success: (@schoolSales) =>
+        @schoolSales?.sort (a, b) ->
+          return -1 if a.created > b.created
+          return 0 if a.created is b.created
+          1
+        @renderSelectors?('#school-sales')
     }, 0).load()
 
     @supermodel.addRequestResource({

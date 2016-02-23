@@ -145,6 +145,34 @@ block content
         else
           div Loading ...
 
+        #school-sales
+          h3 School Sales
+          if view.schoolSales
+            table.table.table-striped.table-condensed
+              tr
+                th Amount
+                th(style='min-width:85px;') Created
+                th PaymentID
+                th PrepaidID
+                th Description
+                th Email
+                th School
+              each val, i in view.schoolSales
+                tr
+                  td $#{Math.round(val.amount / 100, 2)}
+                  td= new Date(val.created).toISOString().substring(0, 10)
+                  td= val._id
+                  td= val.prepaidID
+                  td= val.description
+                  if val.user
+                    td= val.user.emailLower
+                    td= val.user.schoolName
+                  else
+                    td
+                    td
+          else
+            div Loading ...
+
         #school-counts
           h3 School Counts
           .small Only including schools with #{view.minSchoolCount}+ counts
