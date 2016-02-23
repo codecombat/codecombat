@@ -1,9 +1,9 @@
-extends /templates/base
+extends /templates/base-flat
 
 block content
   form.form(class=view.trialRequest.isNew() ? '' : 'hide')
     h1.text-center(data-i18n="teachers_quote.title")
-    p.text-center(data-i18n="teachers_quote.subtitle")
+    h2.text-center(data-i18n="teachers_quote.subtitle")
 
     .row
       .col-sm-offset-2.col-sm-4
