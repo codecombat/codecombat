@@ -23,6 +23,8 @@ module.exports = class AboutView extends RootView
   
   afterRender: ->
     super(arguments...)
+    @$('a[rel="external"]').attr('target', '_blank')
+
     @$('#fixed-nav').affix({
       offset:
         top: ->
