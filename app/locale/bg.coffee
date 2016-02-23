@@ -58,6 +58,7 @@ module.exports = nativeDescription: "български език", englishDescri
     hours_played: "Изиграни часове" # Hover over a level on /play
     items: "Предмети" # Tooltip on item shop button from /play
     unlock: "Отключи" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Потвърди"
     owned: "Придобити" # For items you own
     locked: "Заключено"

@@ -58,6 +58,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     hours_played: "ore di gioco" # Hover over a level on /play
     items: "Oggetti" # Tooltip on item shop button from /play
     unlock: "Sblocca" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Conferma"
     owned: "In tuo possesso" # For items you own
     locked: "Bloccato"

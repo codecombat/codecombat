@@ -58,6 +58,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     hours_played: "Horas jogadas" # Hover over a level on /play
     items: "Itens" # Tooltip on item shop button from /play
     unlock: "Desbloquear" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Confirmar"
     owned: "Possui" # For items you own
     locked: "Bloqueado"

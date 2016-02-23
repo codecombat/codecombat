@@ -58,6 +58,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     hours_played: "годин зіграно" # Hover over a level on /play
     items: "Предмети" # Tooltip on item shop button from /play
     unlock: "Відкрити" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Підтвердити"
     owned: "у власності" # For items you own
     locked: "Заблоковано"

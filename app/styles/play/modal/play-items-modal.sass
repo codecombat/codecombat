@@ -202,7 +202,7 @@
         font-weight: bolder
         color: rgb(211,200,175)
 
-    .unlock-button, .unequippable
+    .unlock-button, .unequippable, .sell-button
       right: 1px
       bottom: 0
       width: 93px
@@ -241,6 +241,9 @@
       color: rgb(22,61,73)
       line-height: 38px
       font-size: 16px
+
+    .for-sale
+      width: 50%
 
     &.selected
       background: url(/images/pages/play/modal/item-box-background-selected.png)
@@ -307,8 +310,8 @@
     font-weight: bold
     z-index: 2
 
-  //- Unlock buttons (both in list and details areas)
-  .unlock-button
+  //- Unlock and Sell buttons (both in list and details areas)
+  .unlock-button, .sell-button
     position: absolute
     border: 3px solid rgb(7,65,83)
     background: rgb(0,119,168)

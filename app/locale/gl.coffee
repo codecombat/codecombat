@@ -58,6 +58,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     hours_played: "horas xogadas" # Hover over a level on /play
     items: "Obxectos" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"

@@ -54,7 +54,13 @@
                     img.item-img(draggable="false")
                   
                   if item.owned
-                    span.big-font.owned(data-i18n="play.owned")
+                    gems = item.get('gems')
+                    
+                    if (gems > 0)
+                      button.btn.sell-button.big-font(data-i18n="play.sell", data-item-id=item.id)
+                      span.big-font.owned.for-sale(data-i18n="play.owned")
+                    else
+                      span.big-font.owned(data-i18n="play.owned")
                   else if item.silhouetted
                     span.big-font.locked(data-i18n="play.locked")
                   else

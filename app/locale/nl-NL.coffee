@@ -58,6 +58,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     hours_played: "Speeltijd" # Hover over a level on /play
     items: "Items" # Tooltip on item shop button from /play
     unlock: "Koop" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Bevestigen"
     owned: "In bezit" # For items you own
     locked: "Vergrendeld"

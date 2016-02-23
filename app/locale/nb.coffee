@@ -58,6 +58,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     hours_played: "Timer spilt" # Hover over a level on /play
     items: "Utstyr" # Tooltip on item shop button from /play
     unlock: "Lås opp" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Bekreft"
     owned: "Eid" # For items you own
     locked: "Låst"

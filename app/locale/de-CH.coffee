@@ -58,6 +58,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     hours_played: "Stunde gspilt" # Hover over a level on /play
     items: "Items" # Tooltip on item shop button from /play
     unlock: "Freischalte" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Bestätige"
     owned: "Scho gkauft" # For items you own
     locked: "Nonig kauft"

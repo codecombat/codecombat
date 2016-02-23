@@ -58,6 +58,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     hours_played: "플레이한 시간" # Hover over a level on /play
     items: "아이템" # Tooltip on item shop button from /play
     unlock: "해제" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "확인"
     owned: "소지함" # For items you own
     locked: "잠김"

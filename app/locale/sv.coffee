@@ -58,6 +58,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     hours_played: "timmar spelade" # Hover over a level on /play
     items: "Föremål" # Tooltip on item shop button from /play
     unlock: "Lås upp" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Bekräfta"
     owned: "Ägs av dig" # For items you own
     locked: "Låst"

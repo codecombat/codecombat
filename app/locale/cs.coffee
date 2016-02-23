@@ -58,6 +58,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     hours_played: "hodin nahráno" # Hover over a level on /play
     items: "Předměty" # Tooltip on item shop button from /play
     unlock: "Odemknout" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Potvrdit"
     owned: "Vlastněné" # For items you own
     locked: "Zamčené"

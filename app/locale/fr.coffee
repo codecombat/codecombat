@@ -58,6 +58,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     hours_played: "Heures jouées" # Hover over a level on /play
     items: "Objets" # Tooltip on item shop button from /play
     unlock: "Déverrouiller" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Confirmer"
     owned: "Acquis" # For items you own
     locked: "Verrouillé"

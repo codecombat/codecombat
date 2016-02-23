@@ -58,6 +58,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     hours_played: "プレイ時間" # Hover over a level on /play
     items: "アイテム" # Tooltip on item shop button from /play
     unlock: "アンロック" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "ロックを解除？"
     owned: "所有品" # For items you own
     locked: "ロック"

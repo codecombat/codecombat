@@ -58,6 +58,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     hours_played: "Stunden gespielt" # Hover over a level on /play
     items: "Gegenstände" # Tooltip on item shop button from /play
     unlock: "Freischalten" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Bestätigen"
     owned: "im Besitz" # For items you own
     locked: "Gesperrt"

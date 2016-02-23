@@ -50,6 +50,7 @@ module.exports = class PlayItemsModal extends ModalView
     'click .item': 'onItemClicked'
     'shown.bs.tab': 'onTabClicked'
     'click .unlock-button': 'onUnlockButtonClicked'
+    'click .sell-button': 'onSellButtonClicked'
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click #close-modal': 'hide'
     'click': 'onClickedSomewhere'
@@ -211,6 +212,14 @@ module.exports = class PlayItemsModal extends ModalView
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
+
+  onSellButtonClicked: (e) ->
+    e.stopPropagation()
+    button = $(e.target).closest('button')
+    item = @idToItem[button.data('item-id')]
+    
+    # Sell logic here
+    
 
   askToSignUp: ->
     authModal = new AuthModal supermodel: @supermodel

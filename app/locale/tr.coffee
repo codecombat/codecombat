@@ -58,6 +58,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     hours_played: "saat oynandı" # Hover over a level on /play
     items: "Ögeler" # Tooltip on item shop button from /play
     unlock: "Kilidi aç" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Devam et"
     owned: "Sahipsin" # For items you own
     locked: "Kilitli"

@@ -58,6 +58,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     hours_played: "часов сыграно" # Hover over a level on /play
     items: "Предметы" # Tooltip on item shop button from /play
     unlock: "Разблокировать" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Подтвердить"
     owned: "Уже есть" # For items you own
     locked: "Заблокировано"
