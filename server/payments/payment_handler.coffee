@@ -44,7 +44,7 @@ PaymentHandler = class PaymentHandler extends Handler
     payment
 
   getSchoolSalesAPI: (req, res, code) ->
-    return @sendSuccess(res, []) unless req.user?.isAdmin()
+    return @sendUnauthorizedError(res) unless req.user?.isAdmin()
     userIDs = [];
     Payment.find({}, {amount: 1, created: 1, description: 1, prepaidID: 1, productID: 1, purchaser: 1, service: 1}).exec (err, payments) =>
       return @sendDatabaseError(res, err) if err

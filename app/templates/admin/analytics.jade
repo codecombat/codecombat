@@ -124,26 +124,72 @@ block content
         h3#enrollments-graph Enrollments Issued and Redeemed 90 days
         .paid-courses-chart.line-chart-container
 
-        h3#furthest-courses-table Furthest Course
-        .small Teacher: owner of a course instance
-        .small Student: member of a course instance (assigned to course)
-        .small For course instances created in last #{view.furthestCourseDayRange} days, not Single Player, hourOfCode != true
-        .small Counts are not summed.  I.e. a student or teacher only contributes to the count of one course.
-        if view.teacherCourseDistribution
-          table.table.table-striped.table-condensed
-            tr
-              th Course
-              th Teachers
-              th Students
-              th Avg students per teacher
-            each count, courseIndex in view.teacherCourseDistribution
+        #furthest-course
+          h3 Furthest Course in last #{view.furthestCourseDayRangeRecent} days
+          .small Restricted to courses instances from last #{view.furthestCourseDayRangeRecent} days
+          .small Teacher: owner of a course instance
+          .small Student: member of a course instance (assigned to course)
+          .small For course instances != Single Player, hourOfCode != true
+          .small Counts are not summed.  I.e. a student or teacher only contributes to the count of one course
+          .small Paid student: user.coursePrepaidID set and prepaid.properties.trialRequestID NOT set
+          .small Trial student: user.coursePrepaidID set and prepaid.properties.trialRequestID set
+          .small Free student: not paid, not trial
+          .small Paid teacher: at least one paid student in course instance
+          .small Trial teacher: at least one trial student in course instance, and no paid students
+          .small Free teacher: no paid students, no trial students
+          .small Paid status takes precedent over furthest course, so teacher furthest course is furthest course of highest paid status student 
+          if view.courseDistributionsRecent
+            table.table.table-striped.table-condensed
               tr
-                td= view.courses.models[courseIndex].get('name')
-                td= count
-                td= view.studentCourseDistribution[courseIndex] || 0
-                td= Math.round((view.studentCourseDistribution[courseIndex] || 0) / count)
-        else
-          div Loading ...
+                th Course
+                th Paid Teachers
+                th Trial Teachers
+                th Free Teachers
+                th Total Teachers
+                th Paid Students
+                th Trial Students
+                th Free Students
+                th Total Students
+              each row in view.courseDistributionsRecent
+                tr
+                  td= row.courseName
+                  td= row.totals['Paid Teachers'] || 0
+                  td= row.totals['Trial Teachers'] || 0
+                  td= row.totals['Free Teachers'] || 0
+                  td= row.totals['Total Teachers'] || 0
+                  td= row.totals['Paid Students'] || 0
+                  td= row.totals['Trial Students'] || 0
+                  td= row.totals['Free Students'] || 0
+                  td= row.totals['Total Students'] || 0
+          else
+            div Loading ...
+
+          h3 Furthest Course in last #{view.furthestCourseDayRange} days
+          if view.courseDistributions
+            table.table.table-striped.table-condensed
+              tr
+                th Course
+                th Paid Teachers
+                th Trial Teachers
+                th Free Teachers
+                th Total Teachers
+                th Paid Students
+                th Trial Students
+                th Free Students
+                th Total Students
+              each row in view.courseDistributions
+                tr
+                  td= row.courseName
+                  td= row.totals['Paid Teachers'] || 0
+                  td= row.totals['Trial Teachers'] || 0
+                  td= row.totals['Free Teachers'] || 0
+                  td= row.totals['Total Teachers'] || 0
+                  td= row.totals['Paid Students'] || 0
+                  td= row.totals['Trial Students'] || 0
+                  td= row.totals['Free Students'] || 0
+                  td= row.totals['Total Students'] || 0
+          else
+            div Loading ...
 
         #school-sales
           h3 School Sales

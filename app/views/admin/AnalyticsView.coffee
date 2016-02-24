@@ -11,7 +11,8 @@ utils = require 'core/utils'
 module.exports = class AnalyticsView extends RootView
   id: 'admin-analytics-view'
   template: template
-  furthestCourseDayRange: 30
+  furthestCourseDayRangeRecent: 60
+  furthestCourseDayRange: 365
   lineColors: ['red', 'blue', 'green', 'purple', 'goldenrod', 'brown', 'darkcyan']
   minSchoolCount: 20
 
@@ -238,35 +239,106 @@ module.exports = class AnalyticsView extends RootView
     options.error = (models, response, options) =>
       return if @destroyed
       console.error 'Failed to get recent course instances', response
-    options.success = (models) =>
-      @courseInstances = models ? [] 
-      @onCourseInstancesSync()
-      @render?()
+    options.success = (data) =>
+      @onCourseInstancesSync(data)
+      @renderSelectors?('#furthest-course')
     @supermodel.addRequestResource(options, 0).load()
 
-  onCourseInstancesSync: ->
-    return unless @courseInstances
+  onCourseInstancesSync: (data) ->
+    @courseDistributionsRecent = []
+    @courseDistributions = []
+    return unless data.courseInstances and data.students and data.prepaids
 
-    # Find highest course for teachers and students
-    @teacherFurthestCourseMap = {}
-    @studentFurthestCourseMap = {}
-    for courseInstance in @courseInstances
-      courseID = courseInstance.courseID
-      teacherID = courseInstance.ownerID
-      if not @teacherFurthestCourseMap[teacherID] or @teacherFurthestCourseMap[teacherID] < @courseOrderMap[courseID]
-        @teacherFurthestCourseMap[teacherID] = @courseOrderMap[courseID]
-      for studentID in courseInstance.members
-        if not @studentFurthestCourseMap[studentID] or @studentFurthestCourseMap[studentID] < @courseOrderMap[courseID]
-          @studentFurthestCourseMap[studentID] = @courseOrderMap[courseID]
+    createCourseDistributions = (numDays) =>
+      # Find student furthest course
+      startDate = new Date()
+      startDate.setUTCDate(startDate.getUTCDate() - numDays)
+      teacherStudentsMap = {}
+      studentFurthestCourseMap = {}
+      studentPaidStatusMap = {}
+      for courseInstance in data.courseInstances
+        continue if utils.objectIdToDate(courseInstance._id) < startDate 
+        courseID = courseInstance.courseID
+        teacherID = courseInstance.ownerID
+        for studentID in courseInstance.members
+          studentPaidStatusMap[studentID] = 'free'
+          if not studentFurthestCourseMap[studentID] or studentFurthestCourseMap[studentID] < @courseOrderMap[courseID]
+            studentFurthestCourseMap[studentID] = @courseOrderMap[courseID]
+          teacherStudentsMap[teacherID] ?= []
+          teacherStudentsMap[teacherID].push(studentID)
 
-    @teacherCourseDistribution = {}
-    for teacherID, courseIndex of @teacherFurthestCourseMap
-      @teacherCourseDistribution[courseIndex] ?= 0
-      @teacherCourseDistribution[courseIndex]++
-    @studentCourseDistribution = {}
-    for studentID, courseIndex of @studentFurthestCourseMap
-      @studentCourseDistribution[courseIndex] ?= 0
-      @studentCourseDistribution[courseIndex]++
+      # Find paid students
+      prepaidUserMap = {}
+      for user in data.students
+        continue unless studentPaidStatusMap[user._id]
+        if prepaidID = user.coursePrepaidID
+          studentPaidStatusMap[user._id] = 'paid'
+          prepaidUserMap[prepaidID] ?= []
+          prepaidUserMap[prepaidID].push(user._id)
+
+      # Find trial students
+      for prepaid in data.prepaids
+        continue unless prepaidUserMap[prepaid._id]
+        if prepaid.properties?.trialRequestID
+          for userID in prepaidUserMap[prepaid._id]
+            studentPaidStatusMap[userID] = 'trial'
+
+      # Find teacher furthest course and paid status based on their students
+      # Paid teacher: at least one paid student
+      # Trial teacher: at least one trial student in course instance, and no paid students
+      # Free teacher: no paid students, no trial students
+      # Teacher furthest course is furthest course of highest paid status student 
+      teacherFurthestCourseMap = {}
+      teacherPaidStatusMap = {}
+      for teacher, students of teacherStudentsMap
+        for student in students
+          if not teacherPaidStatusMap[teacher]
+            teacherPaidStatusMap[teacher] = studentPaidStatusMap[student]
+            teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student]
+          else if teacherPaidStatusMap[teacher] is 'trial' and studentPaidStatusMap[student] is 'paid'
+            teacherPaidStatusMap[teacher] = studentPaidStatusMap[student]
+            teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student]
+          else if teacherPaidStatusMap[teacher] is 'free' and studentPaidStatusMap[student] in ['paid', 'trial']
+            teacherPaidStatusMap[teacher] = studentPaidStatusMap[student]
+            teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student]
+          else if teacherFurthestCourseMap[teacher] < studentFurthestCourseMap[student]
+            teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student]
+
+      # Build table of student/teacher paid/trial/free totals
+      updateCourseTotalsMap = (courseTotalsMap, furthestCourseMap, paidStatusMap, columnSuffix) =>
+        for user, courseIndex of furthestCourseMap
+          courseName = @courses.models[courseIndex].get('name')
+          courseTotalsMap[courseName] ?= {}
+          columnName = switch paidStatusMap[user]
+            when 'paid' then 'Paid ' + columnSuffix
+            when 'trial' then 'Trial ' + columnSuffix
+            when 'free' then 'Free ' + columnSuffix
+          courseTotalsMap[courseName][columnName] ?= 0
+          courseTotalsMap[courseName][columnName]++
+          courseTotalsMap[courseName]['Total ' + columnSuffix] ?= 0
+          courseTotalsMap[courseName]['Total ' + columnSuffix]++
+          courseTotalsMap['All Courses']['Total ' + columnSuffix] ?= 0
+          courseTotalsMap['All Courses']['Total ' + columnSuffix]++
+          courseTotalsMap['All Courses'][columnName] ?= 0
+          courseTotalsMap['All Courses'][columnName]++
+      courseTotalsMap = {'All Courses': {}}
+      updateCourseTotalsMap(courseTotalsMap, teacherFurthestCourseMap, teacherPaidStatusMap, 'Teachers')
+      updateCourseTotalsMap(courseTotalsMap, studentFurthestCourseMap, studentPaidStatusMap, 'Students')
+
+      courseDistributions = []
+      for courseName, totals of courseTotalsMap
+        courseDistributions.push({courseName: courseName, totals: totals})
+      courseDistributions.sort (a, b) ->
+        if a.courseName.indexOf('Introduction') >= 0 and b.courseName.indexOf('Introduction') < 0 then return -1
+        else if b.courseName.indexOf('Introduction') >= 0 and a.courseName.indexOf('Introduction') < 0 then return 1
+        else if a.courseName.indexOf('All Courses') >= 0 and b.courseName.indexOf('All Courses') < 0 then return 1
+        else if b.courseName.indexOf('All Courses') >= 0 and a.courseName.indexOf('All Courses') < 0 then return -1
+        a.courseName.localeCompare(b.courseName)
+
+      courseDistributions
+
+    @courseDistributionsRecent = createCourseDistributions(@furthestCourseDayRangeRecent)
+    @courseDistributions = createCourseDistributions(@furthestCourseDayRange)
 
   createLineChartPoints: (days, data) ->
     points = []
