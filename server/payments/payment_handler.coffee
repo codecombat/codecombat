@@ -1,4 +1,5 @@
 Payment = require './Payment'
+Prepaid = require '../prepaids/Prepaid'
 Product = require '../models/Product'
 User = require '../users/User'
 Handler = require '../commons/Handler'
@@ -27,6 +28,11 @@ PaymentHandler = class PaymentHandler extends Handler
       res.send(payments)
     )
 
+  getByRelationship: (req, res, args...) ->
+    relationship = args[1]
+    return @getSchoolSalesAPI(req, res) if relationship is 'school_sales'
+    super arguments...
+
   logPaymentError: (req, msg) ->
     console.warn "Payment Error: #{req.user.get('slug')} (#{req.user._id}): '#{msg}'"
 
@@ -36,6 +42,43 @@ PaymentHandler = class PaymentHandler extends Handler
     payment.set 'recipient', req.user._id
     payment.set 'created', new Date().toISOString()
     payment
+
+  getSchoolSalesAPI: (req, res, code) ->
+    return @sendUnauthorizedError(res) unless req.user?.isAdmin()
+    userIDs = [];
+    Payment.find({}, {amount: 1, created: 1, description: 1, prepaidID: 1, productID: 1, purchaser: 1, service: 1}).exec (err, payments) =>
+      return @sendDatabaseError(res, err) if err
+      schoolSales = []
+      prepaidIDs = []
+      prepaidPaymentMap = {}
+      for payment in payments
+        continue unless payment.get('amount')? and payment.get('amount') > 0
+        unless created = payment.get('created')
+          created = payment.get('_id').getTimestamp()
+        description = payment.get('description') ? ''
+        if prepaidID = payment.get('prepaidID')
+          unless prepaidPaymentMap[prepaidID.valueOf()]
+            prepaidPaymentMap[prepaidID.valueOf()] = {_id: payment.get('_id').valueOf(), amount: payment.get('amount'), created: created, description: description, userID: payment.get('purchaser').valueOf(), prepaidID: prepaidID.valueOf()}
+            prepaidIDs.push(prepaidID)
+            userIDs.push(payment.get('purchaser'))
+        else if payment.get('productID') is 'custom' or payment.get('service') is 'external' or payment.get('service') is 'invoice'
+          schoolSales.push({_id: payment.get('_id').valueOf(), amount: payment.get('amount'), created: created, description: description, userID: payment.get('purchaser').valueOf()})
+          userIDs.push(payment.get('purchaser'))
+
+      Prepaid.find({$and: [{_id: {$in: prepaidIDs}}, {type: 'course'}]}, {_id: 1}).exec (err, prepaids) =>
+        return @sendDatabaseError(res, err) if err
+        for prepaid in prepaids
+          schoolSales.push(prepaidPaymentMap[prepaid.get('_id').valueOf()])
+
+        User.find({_id: {$in: userIDs}}).exec (err, users) =>
+          return @sendDatabaseError(res, err) if err
+          userMap = {}
+          for user in users
+            userMap[user.get('_id').valueOf()] = user
+          for schoolSale in schoolSales
+            schoolSale.user = userMap[schoolSale.userID]?.toObject()
+
+          @sendSuccess(res, schoolSales)
 
   post: (req, res, pathName) ->
     if pathName is 'check-stripe-charges'

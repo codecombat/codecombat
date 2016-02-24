@@ -2,8 +2,10 @@ AnalyticsString = require '../analytics/AnalyticsString'
 log = require 'winston'
 mongoose = require 'mongoose'
 config = require '../../server_config'
+_ = require 'lodash'
 
-module.exports =
+module.exports = utils =
+  # TODO: Remove, use commons/database.isID instead
   isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
 
   getCodeCamel: (numWords=3) ->

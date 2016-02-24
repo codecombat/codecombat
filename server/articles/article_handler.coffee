@@ -1,10 +1,12 @@
+# TODO: Remove once mapping.coffee is refactored out
+
 Article = require './Article'
 Handler = require '../commons/Handler'
 
 ArticleHandler = class ArticleHandler extends Handler
   modelClass: Article
-  editableProperties: ['body', 'name', 'i18n']
-  jsonSchema: require '../../app/schemas/models/article'
+  editableProperties: Article.schema.editableProperties 
+  jsonSchema: Article.schema.jsonSchema
 
   hasAccess: (req) ->
     req.method is 'GET' or req.user?.isAdmin() or req.user?.isArtisan()
