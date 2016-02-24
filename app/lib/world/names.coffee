@@ -177,9 +177,11 @@ module.exports.thangNames = thangNames =
   'Horse': [
     # Animal
     'Abby'
+    'Cinamon'
     'Wildsilver'
     'Fleetfire'
     'Ed'
+    'Powder'
     'Silver'
     'Hurricane'
     'Beauty'
@@ -246,11 +248,15 @@ module.exports.thangNames = thangNames =
     'Heizenburg'
     'Ironjaw'
     'Muul'
+    'Mokuhr'
     'Ork\'han'
     'Roast Beefy'
+    'Toharg'
     'Trod'
     'Tuguro'
+    'Turrok'
     'York'
+    'Zabarek'
     'Zagurk'
     'Zeredd'
   ]
