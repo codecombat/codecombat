@@ -385,18 +385,19 @@ describe 'Statistics', ->
       expect(carl.get User.statsMapping.edits.article).toBeUndefined()
       article.creator = carl.get 'id'
 
-      # Create major version 1.0
+      # Create major version 0.0
       request.post {uri:url, json: article}, (err, res, body) ->
         expect(err).toBeNull()
-        expect(res.statusCode).toBe 200
+        expect(res.statusCode).toBe 201
         article = body
 
         User.findById carl.get('id'), (err, guy) ->
           expect(err).toBeNull()
           expect(guy.get User.statsMapping.edits.article).toBe 1
 
-          # Create minor version 1.1
-          request.post {uri:url, json: article}, (err, res, body) ->
+          # Create minor version 0.1
+          newVersionURL = "#{url}/#{article._id}/new-version"
+          request.post {uri:newVersionURL, json: article}, (err, res, body) ->
             expect(err).toBeNull()
 
             User.findById carl.get('id'), (err, guy) ->

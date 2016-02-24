@@ -20,6 +20,7 @@ hipchat = require './server/hipchat'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
 global.jsondiffpatch = require 'jsondiffpatch'
 global.stripe = require('stripe')(config.stripe.secretKey)
+errors = require './server/commons/errors'
 
 
 productionLogging = (tokens, req, res) ->
@@ -48,9 +49,21 @@ developmentLogging = (tokens, req, res) ->
 setupErrorMiddleware = (app) ->
   app.use (err, req, res, next) ->
     if err
+      if err.name is 'MongoError' and err.code is 11000
+        err = new errors.Conflict('MongoDB conflict error.')
+      if err.code is 422 and err.response
+        err = new errors.UnprocessableEntity(err.response)
+      if err.code is 409 and err.response
+        err = new errors.Conflict(err.response)
+      
+      # TODO: Make all errors use this
+      if err instanceof errors.NetworkError
+        return res.status(err.code).send(err.toJSON())
+      
       if err.status and 400 <= err.status < 500
         res.status(err.status).send("Error #{err.status}")
         return
+        
       res.status(err.status ? 500).send(error: "Something went wrong!")
       message = "Express error: #{req.method} #{req.path}: #{err.message}"
       log.error "#{message}, stack: #{err.stack}"

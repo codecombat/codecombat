@@ -8,7 +8,7 @@ if process.env.COCO_MONGO_HOST
 GLOBAL._ = require 'lodash'
 _.str = require 'underscore.string'
 _.mixin(_.str.exports())
-GLOBAL.mongoose = require 'mongoose'
+GLOBAL.mongoose = require 'mongoose' # TODO: Remove, otherwise it hides when the server is missing a mongoose require
 path = require 'path'
 GLOBAL.testing = true
 GLOBAL.tv4 = require 'tv4' # required for TreemaUtils to work
@@ -71,6 +71,8 @@ GLOBAL.saveModels = (models, done) ->
 GLOBAL.simplePermissions = [target: 'public', access: 'owner']
 GLOBAL.ObjectId = mongoose.Types.ObjectId
 GLOBAL.request = require 'request'
+Promise = require 'bluebird'
+Promise.promisifyAll(request, {multiArgs: true})
 
 GLOBAL.unittest = {}
 unittest.users = unittest.users or {}
