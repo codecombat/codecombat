@@ -1,388 +1,253 @@
-.container-fluid.text-center
-  .alert.alert-danger.lt-ie9
-    strong(data-i18n="home.no_ie") The CodeCombat game does not run in Internet Explorer 8 or older. Sorry!
+extends /templates/base-flat
 
-  if view.isIPadBrowser() || view.isMobile()
-    .alert.alert-danger.mobile
-      strong(data-i18n="home.no_mobile") CodeCombat gameplay was not designed for mobile devices and may not work!
-  else if view.isOldBrowser()
-    .alert.alert-danger.old-browser
-      strong(data-i18n="home.old_browser") Uh oh, your browser is too old to play CodeCombat. Sorry!
-      br
-      span(data-i18n="home.old_browser_suffix") You can try anyway, but it probably won't work.
-
-nav.navbar.navbar-default
-  .container
-    .row
-      .col-md-3.col-sm-4
-        .navbar-header
-          button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand(href="/")
-            img#logo-img(src="/images/pages/base/logo.png")
-            span.glyphicon.glyphicon-home
-          
-      .col-md-9.col-sm-8
-        #navbar-collapse.collapse.navbar-collapse
-          ul.nav.navbar-nav.pull-left
-            li
-              a(href="/about") About
-            li
-              a(href="/courses") Courses
-            li
-              a(href="/courses/teachers") Teachers
-            li
-              a(href="https://discourse.codecombat.com/") Forum
-            if me.isAnonymous()
-              li
-                a#create-account-link.signup-button Create Account
-              li
-                a#login-link.login-button Login
-            else
-              li.dropdown
-                a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
-                  span.spr My Account
-                ul.dropdown-menu
-                  li.user-dropdown-header.text-center
-                    span.user-level= me.level()
-                    a(href="/user/#{me.getSlugOrID()}")
-                      img.img-circle(src=me.getPhotoURL())
-                    h5=me.displayName()
-                  li
-                    a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
-                  li
-                    a(href="/account/settings", data-i18n="play.settings")
-                  li
-                    a(href="/account/payments", data-i18n="account.payments")
-                  li
-                    a(href="/account/subscription", data-i18n="account.subscription")
-                  li
-                    a(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
-                  li
-                    a#logout-button(data-i18n="login.log_out")
-          
-            li
-              #language-dropdown-wrapper
-                select.language-dropdown.form-control
-
-.container-fluid#jumbotron-container-fluid(class=view.jumbotron === 'student' ? 'alt-image' : '')
-  .container
-    .row
-      .col-lg-7.col-md-8
-        h1 The most engaging game for learning programming.
-        
-      .col-lg-3.col-lg-offset-2.col-md-4
-        .well.text-center.hidden-md.hidden-lg
-          .row
-            .col-xs-8 
-              h6 Classroom Edition:
-            .col-xs-4
-              h6 Learn to code:
-          .row
-            .col-xs-4
-              button#teacher-btn.btn.btn-primary.btn-lg.btn-block Teacher
-            .col-xs-4
-              a.btn.btn-forest.btn-lg.btn-block(href="/courses") Student
-            .col-xs-4
-              a.btn.btn-gold.btn-lg.btn-block(href=view.playURL) Play Now
-        
-        .well.text-center.hidden-xs.hidden-sm
-          h6#classroom-edition-header Classroom Edition:
-          div
-            button#teacher-btn.btn.btn-primary.btn-lg.btn-block I'm a Teacher
-          div
-            a.btn.btn-forest.btn-lg.btn-block(href="/courses") I'm a Student
-          
-          h6#learn-to-code-header Learn to code:
-          a.btn.btn-gold.btn-lg.btn-block(href=view.playURL) Play Now
-    .row#learn-more-row
-      .col-xs-12.text-center
-        a#learn-more-link
-          h6 Learn more
-          h2
-            span.glyphicon.glyphicon-chevron-down
-        
-      
-.container#classroom-in-box-container
-  #classroom-in-box-row.row
-    .col-sm-6
-      h2.text-navy A classroom in-a-box for teaching computer science.
-    .col-sm-6
-      p CodeCombat is a platform for students to learn computer science while playing through a real game.
-      p Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience.
-    
-  #feature-spread-row.row.text-center
-    h3 Designed with teachers in mind
-    .col-sm-4
-      img.img-circle(src="/images/pages/home/F1_typedcode.png")
-      h4
-        | Real, typed code
-        br
-        | from the first level
-      p.small Getting students to typed code as quickly as possible is critical to learning programming syntax and proper structure.
-      
-    .col-sm-4
-      img.img-circle(src="/images/pages/home/F2_teacherguides.png")
-      h4 
-        | Educator resources
-        br
-        | and course guides
-      p.small Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds.
-      
-    .col-sm-4
-      img.img-circle(src="/images/pages/home/F3_accessible.png")
-      h4
-        | Accessible to
-        br
-        | everyone
-      p.small Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code.
-  
-  .testimonials-rows
-    .testimonials-filler-left
-    .testimonials-filler-right
-    .row
-      .col-lg-offset-2.col-lg-7.col-sm-8
-        blockquote
-          h3 I think they actually forgot that they were actually learning something.
-        
-      .col-lg-2.col-sm-3.text-center
-        img.img-circle(src="/images/pages/home/timmaki.png")
-        h6 Tim Maki
-        .small Director of Technology, Tilton School
-      
-    .row
-      .col-lg-7.col-sm-8.col-sm-push-4.col-lg-push-3
-        blockquote
-          h3 Coding is something I've always wanted to do, and I never thought I would be able to learn it in school.
-          
-      .col-lg-2.col-sm-3.col-lg-offset-1.text-center.col-sm-pull-8.col-lg-pull-7
-        img.img-circle(src="/images/pages/home/dylan.png")
-        h6 Dylan
-        .small 3rd Grader
-          
-          
-  h3.text-center Why is learning through games important?
-  
-  #benefit-row-1.row
-    #benefit-graphic-1.col-sm-6.col-sm-offset-1.col-sm-push-6
-      h2 Games reward the productive struggle.
-      img(src="/images/pages/home/G1_reward.png")
-      #benefit-graphic-1-filler
-        
-    .col-sm-5.col-sm-pull-6
-      p
-        | Gaming is a medium that encourages interaction, discovery, and trial-and-error.
-        | A good game challenges the player to master skills over time,
-        | which is the same critical process students go through as they learn.
-      p
-        | Games excel at rewarding “
-        a(href="http://blog.mindresearch.org/blog/game-based-learning-infographic-strong-math-practices" target="_blank") productive struggle
-        span.spr ” - the kind of struggle that results in learning that’s engaging and
-        a(href="http://www.gamesandlearning.org/2014/06/09/teachers-on-using-games-in-class/" target="_blank") motivating
-        | , not tedious.
-
-    
-      
-  #benefit-row-2.row
-    #benefit-graphic-2.col-sm-6
-      h2 Studies suggest gaming is good for children’s brains. (it’s true!)
-      img(src="/images/pages/home/G2_brains.png")
-      #benefit-graphic-2-filler
-        
-    .col-sm-5.col-sm-offset-1
-      p
-        span.spr When game-based learning systems are
-        a(href="http://schoolsweek.co.uk/gaming-is-good-for-childrens-brains-study-suggests/" target="_blank") compared
-        span.spl.spr against conventional assessment methods, the difference is clear: games are better at helping students retain knowledge, concentrate and
-        a(href="http://dev.k-12techdecisions.com/article/game_based_learning_is_where_vygotsky_meets_dweck/P3" target="_blank") perform at a higher level of achievement
-        | .
-      p
-        | Games also provide real-time feedback that allows students to adjust their solution path and understand concepts more holistically, instead of being limited to just “correct” or “incorrect” answers.
-      
-  #benefit-row-3.row
-    #benefit-graphic-3.col-sm-6.col-sm-offset-1.col-sm-push-6
-      h2 A real game, played with real coding.
-      img(src="/images/pages/home/G3_game.png")
-      #benefit-graphic-3-filler
-        
-    .col-sm-5.col-sm-pull-6
-      p
-        | A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence. 
-      p
-        | CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code.
-
-        
-  .request-demo-row.text-center
-    h3 Curious? Request a demo and we'll show you the ropes
-    h4 Or create a class and see it for yourself!
-    div
-      a.btn.btn-primary.btn-lg(href="/teachers/freetrial") Request a Demo
-      a.btn.btn-primary-alt.btn-lg(href="/courses/teachers") Create a Class
-    div
-      if me.isAnonymous()
-        span.spr Already have an account?
-        a.login-button Login
-      else
-          span.spr You are currently logged in as #{me.broadName()}.
-          a(href="/courses/teachers") View my classes
-          span.spr.spl or
-          a#logout-button logout
-    
-  h3.text-center Computer science courses for all ages
-  h4.text-center
-    span#school-level-label Show me lesson time estimates for:
-    select#school-level-dropdown.form-control.text-navy
-      option(value='elementary') Elementary School
-      option(value='middle', selected=true) Middle School
-      option(value='high') High School
-  h5.text-center#total-hours-header
-    span.spr Total curriculum hours:
-    span#semester-duration
-  #courses-row.row
-    - var conceptsSeen = {};
-    - var lastScreenshot = "";
-    for course, courseIndex in view.courses.models
-      .col-md-3.col-sm-4
-        .media.course-details(data-course-slug=course.get('slug'))
-          if courseIndex === 0
-            .free-course
-              h6 Free for all students
-          .media-body(title=course.get('description'))
-            h6.course-name= course.get('name') + ':'
-            p.small
-              - var total = 0;
-              each concept in course.get('concepts')
-                - if (conceptsSeen[concept]) continue;
-                - conceptsSeen[concept] = true;
-                if total === 3
-                  - total += 1;
-                  span ...
-                  - continue;
-                else if total > 3
-                  - continue;
-                else if total > 0
-                  span.spr ,
-                - total += 1;
-                span(data-i18n="concepts." + concept)
-          img.media-object(src="/images/pages/home/course"+(courseIndex+1)+".png")
-          - lastScreenshot = course.get('screenshot');
-          h6.course-duration
-            span.spr Lesson time:
-            span.course-hours= course.get('duration') || 0
-            span.spl.unit(data-i18n="units.hours")
-    for upcomingCourse in ['Computer Science 6', 'Computer Science 7', 'Computer Science 8']
-      .col-md-3.col-sm-4
-        .media.disabled
-          .media-body
-            h6.course-name= upcomingCourse + ':'
-            p.small Coming soon!
-          img.media-object(src="/images/pages/home/inprogress.png")
-
-    .clearfix
-    .text-center
-      h4
-        img(src="/images/pages/home/course_languages.png")
-        div Courses are available in JavaScript, Python, and Java (coming soon!)
-      
-  .testimonials-rows
-    .testimonials-filler-left
-    .testimonials-filler-right
-    .row
-      .col-lg-offset-2.col-lg-7.col-sm-8
-        blockquote
-          h3 Boasts riddles that are complex enough to fascinate gamers and coders alike.
-
-      .col-lg-2.col-sm-3.text-center
-        img.img-circle(src="/images/pages/home/opensource.png")
-        h6 Open Source
-        .small opensource.com
-
-    .row
-      .col-lg-7.col-sm-8.col-sm-push-4.col-lg-push-3
-        blockquote
-          h3 A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable.
-          
-      .col-lg-2.col-sm-3.col-lg-offset-1.text-center.col-sm-pull-8.col-lg-pull-7
-        img.img-circle(src="/images/pages/home/pcmag.png")
-        h6 PC Mag
-        .small pcmag.com
-          
-          
-  .request-demo-row.text-center
-    h3 Everything you need to run a computer science class in your school today, no CS background required.
-    p
-      a.btn.btn-primary.btn-lg(href="/teachers/freetrial") Request a Demo
-      a.btn.btn-primary-alt.btn-lg(href="/courses/teachers") Create a Class
-      
-      
-  .text-center
-    img(src="/images/pages/home/character_lineup.png")
-    
-    
-.container-fluid
-  #footer.small
+block content
+  .container-fluid#jumbotron-container-fluid(class=view.jumbotron === 'student' ? 'alt-image' : '')
     .container
       .row
-        .col-sm-3
-          ul.list-unstyled
-            li
-              strong CodeCombat
-            li
-              a(href="/about") About
-            li
-              a(href="/Careers") Jobs
-            li
-              a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
-            li
-              a(href="/legal") Legal
+        .col-lg-7.col-md-8
+          h1 The most engaging game for learning programming.
+          
+        .col-lg-3.col-lg-offset-2.col-md-4
+          .well.text-center.hidden-md.hidden-lg
+            .row
+              .col-xs-8 
+                h6 Classroom Edition:
+              .col-xs-4
+                h6 Learn to code:
+            .row
+              .col-xs-4
+                button#teacher-btn.btn.btn-primary.btn-lg.btn-block Teacher
+              .col-xs-4
+                a.btn.btn-forest.btn-lg.btn-block(href="/courses") Student
+              .col-xs-4
+                a.btn.btn-gold.btn-lg.btn-block(href=view.playURL) Play Now
+          
+          .well.text-center.hidden-xs.hidden-sm
+            h6#classroom-edition-header Classroom Edition:
+            div
+              button#teacher-btn.btn.btn-primary.btn-lg.btn-block I'm a Teacher
+            div
+              a.btn.btn-forest.btn-lg.btn-block(href="/courses") I'm a Student
             
-        .col-sm-3
-          ul.list-unstyled
-            li
-              strong Schools
-            li
-              a(href="/courses/teachers") Teachers
-            li
-              a(href="https://sites.google.com/a/codecombat.com/teacher-guides/") Educator Wiki
-            li
-              a(href="/teachers/quote") Request a Quote
-            
-        .col-sm-3
-          ul.list-unstyled
-            li
-              strong Get Involved
-            li
-              a(href='/community', data-i18n="nav.community")
-            li
-              a(href="/contribute") Contribute
-            li
-              a(href=view.forumLink(), data-i18n="nav.forum")
-            li
-              a(href="/play/ladder") Multiplayer
-            li
-              a(href="https://github.com/codecombat/codecombat") Open source (GitHub)
-        .col-sm-3
-          ul.list-unstyled
-            li
-              strong Support
-            li
-              a(href="https://discourse.codecombat.com/t/faq-check-before-posting/1027") FAQs
-            li
-              a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact")
-            li
-              a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
-            li
-              a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
-              
-  #final-footer.small.text-center
-    | Copyright ©2016 CodeCombat. All Rights Reserved.
-    br.hidden-lg.hidden-md
-    img(src="/images/pages/base/logo.png" alt="CodeCombat")
-    br.hidden-lg.hidden-md
-    span.spr Need help? Email
-    a(href="mailto:team@codecombat.com") team@codecombat.com
-    span.spl and we'll get in touch!
+            h6#learn-to-code-header Learn to code:
+            a.btn.btn-gold.btn-lg.btn-block(href=view.playURL) Play Now
+      .row#learn-more-row
+        .col-xs-12.text-center
+          a#learn-more-link
+            h6 Learn more
+            h2
+              span.glyphicon.glyphicon-chevron-down
+          
+        
+  .container#classroom-in-box-container
+    #classroom-in-box-row.row
+      .col-sm-6
+        h2.text-navy A classroom in-a-box for teaching computer science.
+      .col-sm-6
+        p CodeCombat is a platform for students to learn computer science while playing through a real game.
+        p Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience.
       
+    #feature-spread-row.row.text-center
+      h3 Designed with teachers in mind
+      .col-sm-4
+        img.img-circle(src="/images/pages/home/F1_typedcode.png")
+        h4
+          | Real, typed code
+          br
+          | from the first level
+        p.small Getting students to typed code as quickly as possible is critical to learning programming syntax and proper structure.
+        
+      .col-sm-4
+        img.img-circle(src="/images/pages/home/F2_teacherguides.png")
+        h4 
+          | Educator resources
+          br
+          | and course guides
+        p.small Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds.
+        
+      .col-sm-4
+        img.img-circle(src="/images/pages/home/F3_accessible.png")
+        h4
+          | Accessible to
+          br
+          | everyone
+        p.small Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code.
+    
+    .testimonials-rows
+      .testimonials-filler-left
+      .testimonials-filler-right
+      .row
+        .col-lg-offset-2.col-lg-7.col-sm-8
+          blockquote
+            h3 I think they actually forgot that they were actually learning something.
+          
+        .col-lg-2.col-sm-3.text-center
+          img.img-circle(src="/images/pages/home/timmaki.png")
+          h6 Tim Maki
+          .small Director of Technology, Tilton School
+        
+      .row
+        .col-lg-7.col-sm-8.col-sm-push-4.col-lg-push-3
+          blockquote
+            h3 Coding is something I've always wanted to do, and I never thought I would be able to learn it in school.
+            
+        .col-lg-2.col-sm-3.col-lg-offset-1.text-center.col-sm-pull-8.col-lg-pull-7
+          img.img-circle(src="/images/pages/home/dylan.png")
+          h6 Dylan
+          .small 3rd Grader
+            
+            
+    h3.text-center Why is learning through games important?
+    
+    #benefit-row-1.row
+      #benefit-graphic-1.col-sm-6.col-sm-offset-1.col-sm-push-6
+        h2 Games reward the productive struggle.
+        img(src="/images/pages/home/G1_reward.png")
+        #benefit-graphic-1-filler
+          
+      .col-sm-5.col-sm-pull-6
+        p
+          | Gaming is a medium that encourages interaction, discovery, and trial-and-error.
+          | A good game challenges the player to master skills over time,
+          | which is the same critical process students go through as they learn.
+        p
+          | Games excel at rewarding “
+          a(href="http://blog.mindresearch.org/blog/game-based-learning-infographic-strong-math-practices" target="_blank") productive struggle
+          span.spr ” - the kind of struggle that results in learning that’s engaging and
+          a(href="http://www.gamesandlearning.org/2014/06/09/teachers-on-using-games-in-class/" target="_blank") motivating
+          | , not tedious.
+
+      
+        
+    #benefit-row-2.row
+      #benefit-graphic-2.col-sm-6
+        h2 Studies suggest gaming is good for children’s brains. (it’s true!)
+        img(src="/images/pages/home/G2_brains.png")
+        #benefit-graphic-2-filler
+          
+      .col-sm-5.col-sm-offset-1
+        p
+          span.spr When game-based learning systems are
+          a(href="http://schoolsweek.co.uk/gaming-is-good-for-childrens-brains-study-suggests/" target="_blank") compared
+          span.spl.spr against conventional assessment methods, the difference is clear: games are better at helping students retain knowledge, concentrate and
+          a(href="http://dev.k-12techdecisions.com/article/game_based_learning_is_where_vygotsky_meets_dweck/P3" target="_blank") perform at a higher level of achievement
+          | .
+        p
+          | Games also provide real-time feedback that allows students to adjust their solution path and understand concepts more holistically, instead of being limited to just “correct” or “incorrect” answers.
+        
+    #benefit-row-3.row
+      #benefit-graphic-3.col-sm-6.col-sm-offset-1.col-sm-push-6
+        h2 A real game, played with real coding.
+        img(src="/images/pages/home/G3_game.png")
+        #benefit-graphic-3-filler
+          
+      .col-sm-5.col-sm-pull-6
+        p
+          | A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence. 
+        p
+          | CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code.
+
+          
+    .request-demo-row.text-center
+      h3 Curious? Request a demo and we'll show you the ropes
+      h4 Or create a class and see it for yourself!
+      div
+        a.btn.btn-primary.btn-lg(href="/teachers/freetrial") Request a Demo
+        a.btn.btn-primary-alt.btn-lg(href="/courses/teachers") Create a Class
+      div
+        if me.isAnonymous()
+          span.spr Already have an account?
+          a.login-button Login
+        else
+            span.spr You are currently logged in as #{me.broadName()}.
+            a(href="/courses/teachers") View my classes
+            span.spr.spl or
+            a#logout-button logout
+      
+    h3.text-center Computer science courses for all ages
+    h4.text-center
+      span#school-level-label Show me lesson time estimates for:
+      select#school-level-dropdown.form-control.text-navy
+        option(value='elementary') Elementary School
+        option(value='middle', selected=true) Middle School
+        option(value='high') High School
+    h5.text-center#total-hours-header
+      span.spr Total curriculum hours:
+      span#semester-duration
+    #courses-row.row
+      - var conceptsSeen = {};
+      - var lastScreenshot = "";
+      for course, courseIndex in view.courses.models
+        .col-md-3.col-sm-4
+          .media.course-details(data-course-slug=course.get('slug'))
+            if courseIndex === 0
+              .free-course
+                h6 Free for all students
+            .media-body(title=course.get('description'))
+              h6.course-name= course.get('name') + ':'
+              p.small
+                - var total = 0;
+                each concept in course.get('concepts')
+                  - if (conceptsSeen[concept]) continue;
+                  - conceptsSeen[concept] = true;
+                  if total === 3
+                    - total += 1;
+                    span ...
+                    - continue;
+                  else if total > 3
+                    - continue;
+                  else if total > 0
+                    span.spr ,
+                  - total += 1;
+                  span(data-i18n="concepts." + concept)
+            img.media-object(src="/images/pages/home/course"+(courseIndex+1)+".png")
+            - lastScreenshot = course.get('screenshot');
+            h6.course-duration
+              span.spr Lesson time:
+              span.course-hours= course.get('duration') || 0
+              span.spl.unit(data-i18n="units.hours")
+      for upcomingCourse in ['Computer Science 6', 'Computer Science 7', 'Computer Science 8']
+        .col-md-3.col-sm-4
+          .media.disabled
+            .media-body
+              h6.course-name= upcomingCourse + ':'
+              p.small Coming soon!
+            img.media-object(src="/images/pages/home/inprogress.png")
+
+      .clearfix
+      .text-center
+        h4
+          img(src="/images/pages/home/course_languages.png")
+          div Courses are available in JavaScript, Python, and Java (coming soon!)
+        
+    .testimonials-rows
+      .testimonials-filler-left
+      .testimonials-filler-right
+      .row
+        .col-lg-offset-2.col-lg-7.col-sm-8
+          blockquote
+            h3 Boasts riddles that are complex enough to fascinate gamers and coders alike.
+
+        .col-lg-2.col-sm-3.text-center
+          img.img-circle(src="/images/pages/home/opensource.png")
+          h6 Open Source
+          .small opensource.com
+
+      .row
+        .col-lg-7.col-sm-8.col-sm-push-4.col-lg-push-3
+          blockquote
+            h3 A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable.
+            
+        .col-lg-2.col-sm-3.col-lg-offset-1.text-center.col-sm-pull-8.col-lg-pull-7
+          img.img-circle(src="/images/pages/home/pcmag.png")
+          h6 PC Mag
+          .small pcmag.com
+            
+            
+    .request-demo-row.text-center
+      h3 Everything you need to run a computer science class in your school today, no CS background required.
+      p
+        a.btn.btn-primary.btn-lg(href="/teachers/freetrial") Request a Demo
+        a.btn.btn-primary-alt.btn-lg(href="/courses/teachers") Create a Class
+        
+        
