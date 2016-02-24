@@ -31,7 +31,6 @@ module.exports = class SpriteBuilder
       for func in tweenData
         args = _.cloneDeep(func.a)
         @dereferenceArgs(args, locals)
-        console.log 'found', args, 'for', func.n
         tween = tween[func.n](args...)
       anim.timeline.addTween(tween)
 
