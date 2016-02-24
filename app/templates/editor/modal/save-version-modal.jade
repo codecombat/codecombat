@@ -12,7 +12,7 @@ block modal-body-content
     form.form-inline
       .form-group.commit-message
         input.form-control#commit-message(name="commitMessage", type="text")
-      if !view.isPatch
+      if !view.isPatch && !view.options.noNewMajorVersions
         .checkbox
           label
             input#major-version(name="version-is-major", type="checkbox")

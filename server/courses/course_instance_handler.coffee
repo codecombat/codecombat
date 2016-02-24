@@ -207,9 +207,27 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     query = {$and: [{name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
     query["$and"].push(_id: {$gte: objectIdFromTimestamp(req.body.startDay + "T00:00:00.000Z")}) if req.body.startDay?
     query["$and"].push(_id: {$lt: objectIdFromTimestamp(req.body.endDay + "T00:00:00.000Z")}) if req.body.endDay?
-    CourseInstance.find query, (err, courseInstances) =>
+    CourseInstance.find query, {courseID: 1, members: 1, ownerID: 1}, (err, courseInstances) =>
       return @sendDatabaseError(res, err) if err
-      @sendSuccess(res, courseInstances)
+      userIDs = []
+      for courseInstance in courseInstances
+        if members = courseInstance.get('members')
+          userIDs.push(userID) for userID in members
+
+      User.find {_id: {$in: userIDs}}, {coursePrepaidID: 1}, (err, users) =>
+        return @sendDatabaseError(res, err) if err
+        prepaidIDs = []
+        for user in users
+          if prepaidID = user.get('coursePrepaidID')
+            prepaidIDs.push(prepaidID)
+
+        Prepaid.find {_id: {$in: prepaidIDs}}, {properties: 1}, (err, prepaids) =>
+          return @sendDatabaseError(res, err) if err
+          data =
+            courseInstances: (@formatEntity(req, courseInstance) for courseInstance in courseInstances)
+            students: (@formatEntity(req, user) for user in users)
+            prepaids: (@formatEntity(req, prepaid) for prepaid in prepaids)
+          @sendSuccess(res, data)
 
   inviteStudents: (req, res, courseInstanceID) ->
     return @sendUnauthorizedError(res) if not req.user?

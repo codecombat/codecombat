@@ -20,11 +20,12 @@ block content
             th Location
             th Age / Level
             th Students
-            th How Found / Notes
+            th Role
+            th Phone
             th Status
         tbody
           - var numReviewed = 0
-          - var maxReviewedShown = 100
+          - var maxReviewedShown = 1000
           each trialRequest in trialRequests
             if trialRequest.get('status') !== 'submitted'
               - numReviewed++
@@ -42,7 +43,8 @@ block content
               td= props.location || trialRequest.locationString()
               td= props.age || trialRequest.educationLevelString()
               td= props.numStudents
-              td= props.heardAbout || props.notes
+              td= props.role
+              td= props.phoneNumber
               td.status-cell
                 if trialRequest.get('status') === 'submitted'
                   button.btn.btn-xs.btn-success.btn-approve(data-trial-request-id=trialRequest.id) Approve
@@ -51,3 +53,10 @@ block content
                   span= trialRequest.get('prepaidCode')
                 else
                   span= trialRequest.get('status')
+            if props.heardAbout || props.notes
+              tr
+                td(colspan=2)
+                td(colspan=7)
+                  strong #{trialRequest.nameString()} notes:
+                  div= props.heardAbout || props.notes
+                td

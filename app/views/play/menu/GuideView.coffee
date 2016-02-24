@@ -41,7 +41,7 @@ module.exports = class LevelGuideView extends CocoView
     @docs = $.extend(true, [], @docs)
     @docs = [@docs[0]] if @firstOnly and @docs[0]
     @addPicoCTFProblem() if window.serverConfig.picoCTF
-    doc.html = marked(utils.filterMarkdownCodeLanguages(utils.i18n(doc, 'body'))) for doc in @docs
+    doc.html = marked(utils.filterMarkdownCodeLanguages(utils.i18n(doc, 'body'), options.session.get('codeLanguage'))) for doc in @docs
     doc.slug = _.string.slugify(doc.name) for doc in @docs
     doc.name = (utils.i18n doc, 'name') for doc in @docs
 
@@ -82,7 +82,7 @@ module.exports = class LevelGuideView extends CocoView
     oldEditor.destroy() for oldEditor in @aceEditors ? []
     @aceEditors = []
     aceEditors = @aceEditors
-    codeLanguage = me.get('aceConfig')?.language or 'python'
+    codeLanguage = @options.session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
     @$el.find('pre').each ->
       aceEditor = utils.initializeACE @, codeLanguage
       aceEditors.push aceEditor

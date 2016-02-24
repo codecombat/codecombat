@@ -214,6 +214,7 @@ module.exports = class Handler
     if req.query.project
       projection = {}
       projection[field] = 1 for field in req.query.project.split(',')
+      projection.permissions = 1 # TODO: A better solution for always including properties the server needs
     @getDocumentForIdOrSlug id, projection, (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
