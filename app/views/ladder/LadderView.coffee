@@ -41,7 +41,7 @@ module.exports = class LadderView extends RootView
 
   constructor: (options, @levelID, @leagueType, @leagueID) ->
     super(options)
-    @level = @supermodel.loadModel(new Level(_id: @levelID), 'level').model
+    @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
     @teams = []
     @loadLeague()
@@ -51,8 +51,7 @@ module.exports = class LadderView extends RootView
     @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
     return unless @leagueID
     modelClass = if @leagueType is 'clan' then Clan else CourseInstance
-    resourceString = if @leagueType is 'clan' then 'clans.clan' else 'courses.course'
-    @league = @supermodel.loadModel(new modelClass(_id: @leagueID), resourceString).model
+    @league = @supermodel.loadModel(new modelClass(_id: @leagueID)).model
     if @leagueType is 'course'
       if @league.loaded
         @onCourseInstanceLoaded @league
@@ -62,7 +61,7 @@ module.exports = class LadderView extends RootView
   onCourseInstanceLoaded: (courseInstance) ->
     return if @destroyed
     course = new Course({_id: courseInstance.get('courseID')})
-    @course = @supermodel.loadModel(course, 'courses.course').model
+    @course = @supermodel.loadModel(course).model
     @listenToOnce @course, 'sync', @render
 
   onLoaded: ->

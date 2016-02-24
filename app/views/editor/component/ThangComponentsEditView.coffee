@@ -71,7 +71,7 @@ module.exports = class ThangComponentsEditView extends CocoView
       levelComponent = new LevelComponent(componentRef)
       url = "/db/level.component/#{componentRef.original}/version/#{componentRef.majorVersion}"
       levelComponent.setURL(url)
-      resource = @supermodel.loadModel levelComponent, 'component'
+      resource = @supermodel.loadModel levelComponent
       continue unless resource.isLoading
       @listenToOnce resource, 'loaded', ->
         return if @handlingChange
