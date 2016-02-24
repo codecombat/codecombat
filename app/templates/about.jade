@@ -18,37 +18,49 @@ block content
           ul.center-block
             li.active
               a(href="#mission")#mission-link 
-                small.label Mission
+                small.label(data-i18n="about.mission_link")
+                  | Mission
             li
               a(href="#team")#team-link
-                small.label Team
+                small.label(data-i18n="about.team_link")
+                  | Team
             li
               a(href="#community")#community-link
-                small.label Community
+                small.label(data-i18n="about.community_link")
+                  | Community
             li
               a(href="#story")#story-link
-                small.label Story
+                small.label(data-i18n="about.story_link")
+                  | Story
             li
               a(href="#jobs")#jobs-link
-                small.label Careers
+                small.label(data-i18n="about.jobs_link")
+                  | Careers
             li
               a(href="#contact")#contact-link
-                small.label Press
+                small.label(data-i18n="about.contact_link")
+                  | Press
       
     #about-container.container
       #mission.anchor.row
         .col-sm-6#mission-graphic.responsive-side-margins
           img(src="/images/pages/about/Globe_white.png")
-          h2 Our mission: make programming accessible to every student on Earth.
+          h2(data-i18n="about.mission_title")
+            | Our mission: make programming accessible to every student on Earth.
           #mission-graphic-filler
         .col-sm-5.col-sm-offset-1
           #mission-text.responsive-side-margins
-            p Programming is magic. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using typed code, but as it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to every student, because everyone should have the chance to learn the magic of programming.
+            p(data-i18n="about.mission_description_1")
+              | Programming is magic. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using typed code.
+            p(data-i18n="about.mission_description_2")
+              | As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to every student, because everyone should have the chance to learn the magic of programming.
 
       #team.anchor
         .text-center
-          h3 Meet the CodeCombat team
-          h4.responsive-side-margins We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team.
+          h3(data-i18n="about.team_title")
+            | Meet the CodeCombat team
+          h4.responsive-side-margins(data-i18n="about.team_values")
+            | We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team.
         ul
           // Full time
           li
@@ -169,16 +181,22 @@ block content
         #community-row-1.row.text-center
           .col-sm-12
           .text-center
-            h3 ...and our open-source community
-            h4 Over 450 contributors have helped build CodeCombat, with more joining every week!
+            h3(data-i18n="about.community_title")
+              | ...and our open-source community
+            h4(data-i18n="about.community_subtitle")
+              | Over 450 contributors have helped build CodeCombat, with more joining every week!
             img(src="/images/pages/about/github_avatars.png")#community-avatars
         
         #community-row-2.row
           .col-sm-5
             p.responsive-side-margins
-              | CodeCombat is a community project, with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our
-              a(href="/contribute") contribute page 
-              | for more info.
+              span(data-i18n="about.community_description_1")
+                | CodeCombat is a community project, with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our
+              a(href="/contribute") 
+                span(data-i18n="about.community_description_link")
+                  | contribute page
+              span(data-i18n="about.community_description_2")
+                | for more info.
           .col-sm-6.col-sm-offset-1#community-graphic.responsive-side-margins
             h2 Over 450 contributors have lent their support and time to this project.
             img(src="/images/pages/about/Github.png")
@@ -186,8 +204,10 @@ block content
             
       #story.anchor
         .text-center
-          h3 Our story so far
-          h4.responsive-side-margins Since 2013, CodeCombat has grown from a mere set of sketches to a living, thriving game.
+          h3(data-i18n="about.story_title")
+            | Our story so far
+          h4.responsive-side-margins(data-i18n="about.story_subtitle")
+            | Since 2013, CodeCombat has grown from a mere set of sketches to a living, thriving game.
         .row
           #story-graphic-1.col-lg-6
             .media
@@ -195,33 +215,39 @@ block content
                 img.media-object#story-image-1(src="/images/pages/about/Character_Silouhette.png")
               .media-body
                 .media-heading.text-h1
-                  | 5,000,000+
+                  span(data-i18n="about.story_statistic_1a")
+                    | 5,000,000+
                   br
-                  | total players
+                  span(data-i18n="about.story_statistic_1b")
+                    | total players
                 p.text-h5 have started their programming journey through CodeCombat
           
           .col-lg-5.col-lg-offset-1
             #story-graphic-2
               .media
-                p.text-h5 We’ve been translated into over 50 languages — our players hail from
+                p.text-h5(data-i18n="about.story_statistic_2a")
+                  | We’ve been translated into over 50 languages — our players hail from
                 .pull-right
                   img(src="/images/pages/about/Globe_Green.png")
                 .media-body
-                  .media-heading.text-h1 200+ countries
+                  .media-heading.text-h1(data-i18n="about.story_statistic_2a")
+                    | 200+ countries
                 
         #story-graphic-3.text-center
           p
-            div.text-h5 Together, they have written
+            div.text-h5(data-i18n="about.story_statistic_3a")
+              | Together, they have written
             #story-bracketed-text
               div#left-bracket
                 img(src="/images/pages/about/Bracket_left.png")
-              div.text-h1
+              div.text-h1(data-i18n="about.story_statistic_3b")
                 | 1 billion lines of code and counting
               div#right-bracket
                 img(src="/images/pages/about/Bracket_right.png")
           #story-languages
             .text-center
-              .text-h5 across six different programming languages
+              .text-h5(data-i18n="about.story_statistic_3c")
+                | across six different programming languages
             #language-icons.text-center
               img.hidden-xs(src="/images/pages/about/Languages.png")
               img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/Languages_group1.png")
@@ -229,29 +255,41 @@ block content
         
         #story-graphic-4.text-center
           p
-            div.text-h5 Though we've come a long way...
+            div.text-h5(data-i18n="about.story_long_way_1")
+              | Though we've come a long way...
             figure
               img(src="/images/pages/about/sketch.png")
               figcaption
-                small Nick's very first sketch depicting a programming game in action.
+                small(data-i18n="about.story_sketch_caption")
+                  | Nick's very first sketch depicting a programming game in action.
           p
-            .text-h5 we still have much to do before we complete our quest, so...
+            .text-h5(data-i18n="about.story_long_way_2")
+              | we still have much to do before we complete our quest, so...
         
       #jobs.anchor
         .text-center
-          h3 Come work with us and help write CodeCombat history!
-          h4 Don't see a good fit but interested in keeping in touch? See our "Create Your Own" listing.
+          h3(data-i18n="about.jobs_title")
+            | Come work with us and help write CodeCombat history!
+          h4(data-i18n="about.jobs_subtitle")
+            | Don't see a good fit but interested in keeping in touch? See our "Create Your Own" listing.
         #jobs-row.row
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             #benefits
-              h5 Employee Benefits
+              h5(data-i18n="about.jobs_benefits")
+                | Employee Benefits
               ul
-                li.small Competitive salary and options
-                li.small 15 day minimum vacation policy, excluding company holidays
-                li.small Work from home flexibility
-                li.small Unlimited sick/personal days
-                li.small Professional development and continuing education support
-                li.small Medical/dental/vision insurance
+                li.small(data-i18n="about.jobs_benefit_1")
+                  | Competitive salary and options
+                li.small(data-i18n="about.jobs_benefit_2")
+                  | 15 day minimum vacation policy, excluding company holidays
+                li.small(data-i18n="about.jobs_benefit_3")
+                  | Work from home flexibility
+                li.small(data-i18n="about.jobs_benefit_4")
+                  | Unlimited sick/personal days
+                li.small(data-i18n="about.jobs_benefit_5")
+                  | Professional development and continuing education support
+                li.small(data-i18n="about.jobs_benefit_6")
+                  | Medical/dental/vision insurance
           .col-sm-6.col-md-5.col-lg-4
             .job-listing
               h5 Software Engineer, iOS
@@ -281,27 +319,34 @@ block content
                 | Learn More
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
-              h5 Create Your Own
-              p.small Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!
+              h5(data-i18n="about.jobs_custom_title")
+                | Create Your Own
+              p.small(data-i18n="about.jobs_custom_description")
+                | Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!
               p.small
-                | Send us a note at 
-                a(href="mailto:team@codecombat.com") team@codecombat.com 
-                | introducing yourself and we might get in touch in the future!
+                span(data-i18n="about.jobs_custom_contact_1")
+                  | Send us a note at 
+                a(href="mailto:team@codecombat.com")
+                  | team@codecombat.com 
+                span(data-i18n="about.jobs_custom_contact_2")
+                  | introducing yourself and we might get in touch in the future!
         
       #contact.anchor
         .text-center
-          h3 Press & Contact
-          h4
-          | Need more information? Get in touch with us at 
+          h3(data-i18n="about.contact_title")
+            | Press & Contact
+          h4(data-i18n="about.contact_subtitle")
+            | Need more information? Get in touch with us at 
           a(href="mailto:team@codecombat.com") team@codecombat.com 
         
       #files
         .row
           .col-md-6.col-lg-8
             #screenshots
-              span.label Game Screenshots
+              span.label(data-i18n="about.screenshots_title")
+                | Game Screenshots
               .hidden-sm.hidden-md.hidden-lg
-                small
+                small(data-i18n="about.screenshots_hint")
                   | (click to view full size)
               #screenshot-grid
                 a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='0')
@@ -313,32 +358,44 @@ block content
                 a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
                   img(src="/images/pages/about/Screenshot_Glacier.png")
               .clearfix.hidden-xs
-                small
+                small(data-i18n="about.screenshots_hint")
                   | (click to view full size)
           .col-md-6.col-lg-4
             #downloads-container
               #downloads
-                .label Download Assets & Information
+                .label(data-i18n="about.downloads_title")
+                  | Download Assets & Information
                 ul
                   li
                     a.small(href="http://files.codecombat.com/presspack/AboutCodeCombat.pdf")
-                      | About CodeCombat (.pdf)
+                      span(data-i18n="about.about_codecombat")
+                        | About CodeCombat
+                      | (.pdf)
                   li
                     a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.ai")
-                      | Logo (.ai)
+                      span(data-i18n="about.logo")
+                        | Logo
+                      | (.ai)
                   li
                     a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.png")
-                      | Logo (.png)
+                      span(data-i18n="about.logo")
+                        | Logo
+                      | (.png)
                   li
                     a.small(href="http://files.codecombat.com/presspack/GameImages.zip")
-                      | Screenshots (.zip)
+                      span(data-i18n="about.screenshots")
+                        | Screenshots
+                      | (.zip)
                   li
                     a.small(href="http://files.codecombat.com/presspack/gameimages/CodeCombat_Splash.png")
-                      | Character Art (.png)
+                      span(data-i18n="about.character_art")
+                        | Character Art
+                      | (.png)
                 .text-center
                   .btn.btn-lg.btn-primary-alt#download-button(href="http://files.codecombat.com/presspack/CodeCombat_PressPack.zip")
                     span.glyphicon.glyphicon-download-alt
-                    | Download All
+                    span(data-i18n="about.download_all")
+                      | Download All
         
       #screenshot-lightbox.modal.fade(data-show="false")
         .modal-dialog
@@ -373,5 +430,6 @@ block content
             a(href="mailto:team@codecombat.com") team@codecombat.com
           .col-sm-4
             p
-              b We're located in downtown SF:
+              b(data-i18n="about.location_title")
+                | We're located in downtown SF:
             iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo&q=360+3rd+St+Suite+700,+San+Francisco,+CA+94107")
