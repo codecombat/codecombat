@@ -82,7 +82,7 @@ module.exports = class CampaignView extends RootView
 
     @campaign = new Campaign({_id:@terrain})
     @campaign.saveBackups = @editorMode
-    @campaign = @supermodel.loadModel(@campaign, 'campaign').model
+    @campaign = @supermodel.loadModel(@campaign).model
 
     # Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
     @earnedAchievements = new CocoCollection([], {url: '/db/earned_achievement', model:EarnedAchievement, project: ['earnedRewards']})
@@ -442,11 +442,11 @@ module.exports = class CampaignView extends RootView
   preloadLevel: (levelSlug) ->
     levelURL = "/db/level/#{levelSlug}"
     level = new Level().setURL levelURL
-    level = @supermodel.loadModel(level, 'level', null, 0).model
+    level = @supermodel.loadModel(level, null, 0).model
     sessionURL = "/db/level/#{levelSlug}/session"
     @preloadedSession = new LevelSession().setURL sessionURL
     @listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
-    @preloadedSession = @supermodel.loadModel(@preloadedSession, 'level_session', {cache: false}).model
+    @preloadedSession = @supermodel.loadModel(@preloadedSession, {cache: false}).model
     @preloadedSession.levelSlug = levelSlug
 
   onSessionPreloaded: (session) ->
@@ -604,7 +604,7 @@ module.exports = class CampaignView extends RootView
       continue if @supermodel.getModel url
       fullHero = new ThangType()
       fullHero.setURL url
-      @supermodel.loadModel fullHero, 'thang'
+      @supermodel.loadModel fullHero
 
   updateVolume: (volume) ->
     volume ?= me.get('volume') ? 1.0
@@ -675,7 +675,7 @@ module.exports = class CampaignView extends RootView
       else
         console.log 'Poll will be ready in', (22 * 60 * 60 * 1000 - interval) / (60 * 60 * 1000), 'hours.'
     @listenToOnce @userPollsRecord, 'sync', onRecordSync
-    @userPollsRecord = @supermodel.loadModel(@userPollsRecord, 'user_polls_record', null, 0).model
+    @userPollsRecord = @supermodel.loadModel(@userPollsRecord, null, 0).model
     onRecordSync.call @ if @userPollsRecord.loaded
 
   loadPoll: ->
@@ -693,7 +693,7 @@ module.exports = class CampaignView extends RootView
       delete @poll
     @listenToOnce @poll, 'sync', onPollSync
     @listenToOnce @poll, 'error', onPollError
-    @poll = @supermodel.loadModel(@poll, 'poll', null, 0).model
+    @poll = @supermodel.loadModel(@poll, null, 0).model
     onPollSync.call @ if @poll.loaded
 
   activatePoll: ->

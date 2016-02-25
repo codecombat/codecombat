@@ -1,0 +1,144 @@
+.style-flat
+  block header
+    .container-fluid.text-center
+      .alert.alert-danger.lt-ie9
+        strong(data-i18n="home.no_ie") The CodeCombat game does not run in Internet Explorer 8 or older. Sorry!
+
+      if view.isIPadBrowser() || view.isMobile()
+        .alert.alert-danger.mobile
+          strong(data-i18n="home.no_mobile") CodeCombat gameplay was not designed for mobile devices and may not work!
+      else if view.isOldBrowser()
+        .alert.alert-danger.old-browser
+          strong(data-i18n="home.old_browser") Uh oh, your browser is too old to play CodeCombat. Sorry!
+          br
+          span(data-i18n="home.old_browser_suffix") You can try anyway, but it probably won't work.
+
+    nav.navbar.navbar-default
+      .container
+        .row
+          .col-md-3.col-sm-4
+            .navbar-header
+              button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+              a.navbar-brand(href="/")
+                img#logo-img(src="/images/pages/base/logo.png")
+                span.glyphicon.glyphicon-home
+              
+          .col-md-9.col-sm-8
+            #navbar-collapse.collapse.navbar-collapse
+              ul.nav.navbar-nav.pull-left
+                li
+                  a(href="/about") About
+                li
+                  a(href="/courses") Courses
+                li
+                  a(href="/courses/teachers") Teachers
+                li
+                  a(href="https://discourse.codecombat.com/") Forum
+                if me.isAnonymous()
+                  li
+                    a#create-account-link.signup-button Create Account
+                  li
+                    a#login-link.login-button Login
+                else
+                  li.dropdown
+                    a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
+                      span.spr My Account
+                    ul.dropdown-menu
+                      li.user-dropdown-header.text-center
+                        span.user-level= me.level()
+                        a(href="/user/#{me.getSlugOrID()}")
+                          img.img-circle(src=me.getPhotoURL())
+                        h5=me.displayName()
+                      li
+                        a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
+                      li
+                        a(href="/account/settings", data-i18n="play.settings")
+                      li
+                        a(href="/account/payments", data-i18n="account.payments")
+                      li
+                        a(href="/account/subscription", data-i18n="account.subscription")
+                      li
+                        a(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
+                      li
+                        a#logout-button(data-i18n="login.log_out")
+              
+                li
+                  #language-dropdown-wrapper
+                    select.language-dropdown.form-control    
+    
+
+  block outer_content
+    #site-content-area
+      block content
+        p If this is showing, you dun goofed
+
+  block footer
+    #character-lineup.text-center
+      img(src="/images/pages/home/character_lineup.png")
+    .container-fluid
+      #footer.small
+        .container
+          .row
+            .col-sm-3
+              ul.list-unstyled
+                li
+                  strong CodeCombat
+                li
+                  a(href="/about") About
+                li
+                  a(href="/Careers") Jobs
+                li
+                  a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
+                li
+                  a(href="/legal") Legal
+                
+            .col-sm-3
+              ul.list-unstyled
+                li
+                  strong Schools
+                li
+                  a(href="/courses/teachers") Teachers
+                li
+                  a(href="https://sites.google.com/a/codecombat.com/teacher-guides/") Educator Wiki
+                li
+                  a(href="/teachers/quote") Request a Quote
+                
+            .col-sm-3
+              ul.list-unstyled
+                li
+                  strong Get Involved
+                li
+                  a(href='/community', data-i18n="nav.community")
+                li
+                  a(href="/contribute") Contribute
+                li
+                  a(href=view.forumLink(), data-i18n="nav.forum")
+                li
+                  a(href="/play/ladder") Multiplayer
+                li
+                  a(href="https://github.com/codecombat/codecombat") Open source (GitHub)
+            .col-sm-3
+              ul.list-unstyled
+                li
+                  strong Support
+                li
+                  a(href="https://discourse.codecombat.com/t/faq-check-before-posting/1027") FAQs
+                li
+                  a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact")
+                li
+                  a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
+                li
+                  a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
+                  
+      #final-footer.small.text-center
+        | Copyright ©2016 CodeCombat. All Rights Reserved.
+        br.hidden-lg.hidden-md
+        img(src="/images/pages/base/logo.png" alt="CodeCombat")
+        br.hidden-lg.hidden-md
+        span.spr Need help? Email
+        a(href="mailto:team@codecombat.com") team@codecombat.com
+        span.spl and we'll get in touch!

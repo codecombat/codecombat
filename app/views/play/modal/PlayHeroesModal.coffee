@@ -139,7 +139,7 @@ module.exports = class PlayHeroesModal extends ModalView
       return fullHero
     fullHero = new ThangType()
     fullHero.setURL url
-    fullHero = (@supermodel.loadModel fullHero, 'thang').model
+    fullHero = (@supermodel.loadModel fullHero).model
     fullHero
 
   preloadHero: (heroIndex) ->

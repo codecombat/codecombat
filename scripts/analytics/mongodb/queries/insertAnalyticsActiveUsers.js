@@ -1,3 +1,5 @@
+/* global ISODate */
+/* global Mongo */
 /* global ObjectId */
 /* global db */
 /* global printjson */
@@ -18,6 +20,11 @@ try {
   var today = startDay.toISOString().substr(0, 10);
   startDay.setUTCDate(startDay.getUTCDate() - numDays);
   startDay = startDay.toISOString().substr(0, 10);
+  var endDay = new Date();
+  endDay = endDay.toISOString().substr(0, 10);
+
+  // startDay = '2015-03-01';
+  // endDay = '2015-06-01';
 
   var activeUserEvents = ['Finished Signup', 'Started Level'];
 
@@ -26,9 +33,10 @@ try {
 
   log("Today is " + today);
   log("Start day is " + startDay);
+  log("End day is " + endDay);
 
   log("Getting active user counts..");
-  var activeUserCounts = getActiveUserCounts(startDay, activeUserEvents);
+  var activeUserCounts = getActiveUserCounts(startDay, endDay, activeUserEvents);
   // printjson(activeUserCounts);
   log("Inserting active user counts..");
   for (var day in activeUserCounts) {
@@ -47,7 +55,7 @@ finally {
   log("Script runtime: " + (new Date() - scriptStartTime));
 }
 
-function getActiveUserCounts(startDay, activeUserEvents) {
+function getActiveUserCounts(startDay, endDay, activeUserEvents) {
   // Counts active users per day
   if (!startDay) return {};
   
@@ -55,8 +63,10 @@ function getActiveUserCounts(startDay, activeUserEvents) {
 
   log("Finding active user log events..");
   var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+  var endObj = objectIdWithTimestamp(ISODate(endDay + "T00:00:00.000Z"));
   var queryParams = {$and: [
     {_id: {$gte: startObj}},
+    {_id: {$lt: endObj}},
     {'event': {$in: activeUserEvents}}
   ]};
   cursor = logDB['log'].find(queryParams);
@@ -73,8 +83,11 @@ function getActiveUserCounts(startDay, activeUserEvents) {
     if (!dayUserMap[day]) dayUserMap[day] = {};
     dayUserMap[day][user] = true;
     userIDs.push(ObjectId(user));
+    // if (userIDs.length % 100000 === 0) {
+    //   log('Users so far: ' + userIDs.length);
+    // }
   }
-  print('User count: ', userIDs.length);
+  log('User count: ' + userIDs.length);
 
   log("Finding classroom members..");
   var classroomUserObjectIds = [];
@@ -163,15 +176,7 @@ function getActiveUserCounts(startDay, activeUserEvents) {
   var dailyEventNames = {};
   for (day in dayUserMap) {
     for (var user in dayUserMap[day]) {
-      var event = userEventMap[user];
-      if (!event) {
-        if (dayUserPaidMap[day] && dayUserPaidMap[day][user]) {
-          event = 'DAU campaign paid';
-        }
-        else {
-          event = 'DAU campaign free';
-        }
-      }
+      var event = userEventMap[user] || (dayUserPaidMap[day] && dayUserPaidMap[day][user] ? 'DAU campaign paid' : 'DAU campaign free');
       dailyEventNames[event] = true;
       if (!activeUsersCounts[day]) activeUsersCounts[day] = {};
       if (!activeUsersCounts[day][event]) activeUsersCounts[day][event] = 0;

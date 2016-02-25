@@ -25,7 +25,7 @@ module.exports = class PollEditView extends RootView
   loadPoll: ->
     @poll = new Poll _id: @pollID
     @poll.saveBackups = true
-    @supermodel.loadModel @poll, 'poll'
+    @supermodel.loadModel @poll
 
   loadUserPollsRecord: ->
     url = "/db/user.polls.record/-/user/#{me.id}"
@@ -34,7 +34,7 @@ module.exports = class PollEditView extends RootView
       return if @destroyed
       @userPollsRecord.url = -> '/db/user.polls.record/' + @id
     @listenToOnce @userPollsRecord, 'sync', onRecordSync
-    @userPollsRecord = @supermodel.loadModel(@userPollsRecord, 'user_polls_record').model
+    @userPollsRecord = @supermodel.loadModel(@userPollsRecord).model
     onRecordSync.call @ if @userPollsRecord.loaded
 
   onLoaded: ->

@@ -22,7 +22,7 @@ module.exports = class AchievementEditView extends RootView
     super options
     @achievement = new Achievement(_id: @achievementID)
     @achievement.saveBackups = true
-    @supermodel.loadModel @achievement, 'achievement'
+    @supermodel.loadModel @achievement
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
   onLoaded: ->

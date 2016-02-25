@@ -13,7 +13,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   constructor: (@thangType, options) ->
     super options
-    @supermodel.loadModel @thangType, 'thang'
+    @supermodel.loadModel @thangType
     @colorConfig = {hue: 0, saturation: 0.5, lightness: 0.5}
     @spriteBuilder = new SpriteBuilder(@thangType) if @thangType.get('raw')
     f = =>

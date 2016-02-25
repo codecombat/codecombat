@@ -91,8 +91,9 @@ module.exports = class CocoView extends Backbone.View
   didReappear: ->
     # the router brings back this view from the cache
     @delegateEvents()
+    wasHidden = @hidden
     @hidden = false
-    @listenToShortcuts()
+    @listenToShortcuts() if wasHidden
     view.didReappear() for id, view of @subviews
 
   # View Rendering
