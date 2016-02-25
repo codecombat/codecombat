@@ -1,5 +1,8 @@
 #loading-error.text-center
-  if jqxhr.status === 401
+  if !jqxhr
+    h1(data-i18n="loading_error.unknown")
+    
+  else if jqxhr.status === 401
     h1
       span.spr 401:
       span(data-i18n="loading_error.login_required")

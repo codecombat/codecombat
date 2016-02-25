@@ -41,6 +41,15 @@ module.exports.connectionFailure = connectionFailure = ->
   )
   showErrorModal(html)
 
+module.exports.showNotyNetworkError = (jqxhr) ->
+  noty({
+    text: jqxhr.responseText or 'Unknown error'
+    layout: 'topCenter'
+    type: 'error'
+    killer: false,
+    dismissQueue: true
+  })
+
 showErrorModal = (html) ->
   # TODO: make a views/modal/error_modal view for this to use so the template can reuse templates/core/modal-base?
   $('#modal-wrapper').html(html)
