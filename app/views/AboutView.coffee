@@ -67,11 +67,14 @@ module.exports = class AboutView extends RootView
     @scrollToLink('#contact')
     
   onRightPressed: (event) ->
+    # Special handling, otherwise after you click the control, keyboard presses move the slide twice
+    return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
     if $('#screenshot-lightbox').data('bs.modal')?.isShown
       event.preventDefault()
       $('#screenshot-carousel').carousel('next')
 
   onLeftPressed: (event) ->
+    return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
     if $('#screenshot-lightbox').data('bs.modal')?.isShown
       event.preventDefault()
       $('#screenshot-carousel').carousel('prev')
