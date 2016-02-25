@@ -102,8 +102,9 @@ module.exports = class User extends CocoModel
     gemsEarned = @get('earned')?.gems ? 0
     gemsEarned = gemsEarned + 100000 if me.isInGodMode()
     gemsPurchased = @get('purchased')?.gems ? 0
+    gemsSold = @get('sold') ? 0
     gemsSpent = @get('spent') ? 0
-    Math.floor gemsEarned + gemsPurchased - gemsSpent
+    Math.floor gemsEarned + gemsPurchased + gemsSold - gemsSpent
 
   heroes: ->
     heroes = (me.get('purchased')?.heroes ? []).concat([ThangType.heroes.captain, ThangType.heroes.knight])

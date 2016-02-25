@@ -10,6 +10,7 @@ ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
 Level = require 'models/Level'
 Purchase = require 'models/Purchase'
+Sale = require 'models/Sale'
 
 utils = require 'core/utils'
 
@@ -219,8 +220,23 @@ module.exports = class PlayItemsModal extends ModalView
     item = @idToItem[button.data('item-id')]
     
     # Sell logic here
+    sale = Sale.makeFor(item)
+    sale.save()
     
+    #- set local changes to mimic what should happen on the server...
+    sales = me.get('sales') ? {}
+    sales.items ?= []
+    sales.items.push(item.get('original'))
+    item.owned = false
+    me.set('sales', sales)
+    me.set('sold', (me.get('sold') ? 0) + item.get('gemsSale'))
 
+    #- ...then rerender key bits
+    @renderSelectors(".item[data-item-id='#{item.id}']", "#gems-count")
+    @itemDetailsView.render()
+
+    Backbone.Mediator.publish 'store:item-sold', item: item, itemSlug: item.get('slug')
+    
   askToSignUp: ->
     authModal = new AuthModal supermodel: @supermodel
     authModal.mode = 'signup'
