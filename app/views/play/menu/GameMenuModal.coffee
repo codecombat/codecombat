@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 template = require 'templates/play/menu/game-menu-modal'
 submenuViews = [
   require 'views/play/menu/SaveLoadView'
@@ -80,4 +80,4 @@ module.exports = class GameMenuModal extends ModalView
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Game Menu', level: @options.levelID
     # TODO: Default already seems to be prevented.  Need to be explicit?
     e.preventDefault()
-    @openModalView new AuthModal {mode: 'signup'}
+    @openModalView new CreateAccountModal()

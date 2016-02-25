@@ -60,7 +60,7 @@ module.exports = class RootView extends CocoView
     logoutUser($('#login-email').val())
 
   onClickSignupButton: ->
-    AuthModal = require 'views/core/AuthModal'
+    CreateAccountModal = require 'views/core/CreateAccountModal'
     switch @id
       when 'home-view'
         window.tracker?.trackEvent 'Started Signup', category: 'Homepage', label: 'Homepage'
@@ -69,12 +69,12 @@ module.exports = class RootView extends CocoView
         window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
       else
         window.tracker?.trackEvent 'Started Signup', label: @id
-    @openModalView new AuthModal {mode: 'signup'}
+    @openModalView new CreateAccountModal()
 
   onClickLoginButton: ->
     AuthModal = require 'views/core/AuthModal'
     window.tracker?.trackEvent 'Login', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
-    @openModalView new AuthModal {mode: 'login'}
+    @openModalView new AuthModal()
 
   onClickAnchor: (e) ->
     return if @destroyed

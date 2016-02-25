@@ -1,5 +1,5 @@
 app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 Classroom = require 'models/Classroom'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
@@ -77,7 +77,7 @@ module.exports = class PurchaseCoursesView extends RootView
   numberOfStudentsIsValid: -> @numberOfStudents > 0 and @numberOfStudents < 100000
 
   onClickPurchaseButton: ->
-    return @openModalView new AuthModal() if me.isAnonymous()
+    return @openModalView new CreateAccountModal() if me.isAnonymous()
     unless @numberOfStudentsIsValid()
       alert("Please enter the maximum number of students needed for your class.")
       return

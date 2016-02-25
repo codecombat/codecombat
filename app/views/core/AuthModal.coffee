@@ -4,33 +4,36 @@ template = require 'templates/core/auth'
 forms = require 'core/forms'
 User = require 'models/User'
 application  = require 'core/application'
+errors = require 'core/errors'
 
 module.exports = class AuthModal extends ModalView
   id: 'auth-modal'
   template: template
-  mode: 'signup' # or 'login'
 
   events:
     # login buttons
-    'click #switch-to-signup-button': 'onSignupInstead'
-    'click #switch-to-login-button': 'onLoginInstead'
+    'click #switch-to-signup-btn': 'onSignupInstead'
     'click #github-login-button': 'onGitHubLoginClicked'
-    'submit': 'onSubmitForm' # handles both submit buttons
+    'submit form': 'onSubmitForm' # handles both submit buttons
     'keyup #name': 'onNameChange'
-    'click #gplus-login-button': 'onClickGPlusLogin'
-    'click #close-modal': 'hide'
+    'click #gplus-login-btn': 'onClickGPlusLogin'
     'click #facebook-login-btn': 'onClickFacebookLoginButton'
+    'click #close-modal': 'hide'
 
   subscriptions:
     'errors:server-error': 'onServerError'
-    'auth:logging-in-with-facebook': 'onLoggingInWithFacebook'
+    'auth:facebook-api-loaded': 'onFacebookAPILoaded'
 
-  constructor: (options) ->
-    options ?= {}
-    @onNameChange = _.debounce @checkNameExists, 500
-    super options
-    @mode = options.mode if options.mode
+
+  # Initialization
+    
+  initialize: (options={}) ->
     @previousFormInputs = options.initialValues or {}
+    @listenTo application.gplusHandler, 'logged-into-google', @onGPlusHandlerLoggedIntoGoogle
+    @listenTo application.gplusHandler, 'person-loaded', @onGPlusPersonLoaded
+    @listenTo application.gplusHandler, 'render-login-buttons', @onGPlusRenderLoginButtons
+    @listenTo application.facebookHandler, 'logged-into-facebook', @onFacebookHandlerLoggedIntoFacebook
+    @listenTo application.facebookHandler, 'person-loaded', @onFacebookPersonLoaded
 
   getRenderData: ->
     c = super()
@@ -43,35 +46,28 @@ module.exports = class AuthModal extends ModalView
 
   afterRender: ->
     super()
-    @$el.toggleClass('signup', @mode is 'signup').toggleClass('login', @mode is 'login')
     @playSound 'game-menu-open'
+    @$('#facebook-login-btn').attr('disabled', true) if not window.FB?
 
   afterInsert: ->
     super()
     _.delay (=> application.router.renderLoginButtons()), 500
     _.delay (=> $('input:visible:first', @$el).focus()), 500
 
-  onSignupInstead: (e) ->
-    @playSound 'menu-button-click'
-    @mode = 'signup'
-    @previousFormInputs = forms.formToObject @$el
-    @render()
-    _.delay application.router.renderLoginButtons, 500
+  onGPlusRenderLoginButtons: ->
+    @$('#gplus-login-btn').attr('disabled', false)
 
-  onLoginInstead: (e) ->
-    @playSound 'menu-button-click'
-    @mode = 'login'
-    @previousFormInputs = forms.formToObject @$el
-    @render()
-    _.delay application.router.renderLoginButtons, 500
+  onFacebookAPILoaded: ->
+    @$('#facebook-login-btn').attr('disabled', false)
+
+  onSignupInstead: (e) ->
+    CreateAccountModal = require('./CreateAccountModal')
+    modal = new CreateAccountModal({initialValues: forms.formToObject @$el})
+    currentView.openModalView(modal)
 
   onSubmitForm: (e) ->
     @playSound 'menu-button-click'
     e.preventDefault()
-    if @mode is 'login' then @loginAccount() else @createAccount()
-    false
-
-  loginAccount: ->
     forms.clearFormAlerts(@$el)
     userObject = forms.formToObject @$el
     res = tv4.validateMultiple userObject, User.schema
@@ -79,89 +75,73 @@ module.exports = class AuthModal extends ModalView
     @enableModalInProgress(@$el) # TODO: part of forms
     loginUser userObject, null, window.nextURL
 
-  emailCheck: ->
-    email = $('#email', @$el).val()
-    filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
-    unless filter.test(email)
-      forms.setErrorToProperty @$el, 'email', 'Please enter a valid email address', true
-      return false
-    return true
-
-  createAccount: ->
-    forms.clearFormAlerts(@$el)
-    return unless @emailCheck()
-    userObject = forms.formToObject @$el
-    delete userObject.subscribe
-    delete userObject.name if userObject.name is ''
-    delete userObject.schoolName if userObject.schoolName is ''
-    userObject.name = @suggestedName if @suggestedName
-    for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails', 'schoolName']
-      userObject[key] ?= val
-    subscribe = @$el.find('#subscribe').prop('checked')
-    userObject.emails ?= {}
-    userObject.emails.generalNews ?= {}
-    userObject.emails.generalNews.enabled = subscribe
-    res = tv4.validateMultiple userObject, User.schema
-    return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
-    Backbone.Mediator.publish "auth:signed-up", {}
-    window.tracker?.trackEvent 'Finished Signup', label: 'CodeCombat'
-    @enableModalInProgress(@$el)
-    createUser userObject, null, window.nextURL
-
-  onLoggingInWithFacebook: (e) ->
-    modal = $('.modal:visible', @$el)
-    @enableModalInProgress(modal) # TODO: part of forms
-
   onServerError: (e) -> # TODO: work error handling into a separate forms system
     @disableModalInProgress(@$el)
-
-  checkNameExists: =>
-    name = $('#name', @$el).val()
-    return forms.clearFormAlerts(@$el) if name is ''
-    User.getUnconflictedName name, (newName) =>
-      forms.clearFormAlerts(@$el)
-      if name is newName
-        @suggestedName = undefined
-      else
-        @suggestedName = newName
-        forms.setErrorToProperty @$el, 'name', "That name is taken! How about #{newName}?", true
-
-  onGitHubLoginClicked: ->
-    @playSound 'menu-button-click'
-    Backbone.Mediator.publish 'auth:log-in-with-github', {}
-
-  gplusAuthSteps: [
-    { i18n: 'login.authenticate_gplus', done: false }
-    { i18n: 'login.load_profile', done: false }
-    { i18n: 'login.finishing', done: false }
-  ]
+    
+    
+  # Google Plus
 
   onClickGPlusLogin: ->
-    @playSound 'menu-button-click'
-    step.done = false for step in @gplusAuthSteps
-    handler = application.gplusHandler
+    @clickedGPlusLogin = true
 
-    @listenToOnce handler, 'logged-in', ->
-      @gplusAuthSteps[0].done = true
-      @renderGPlusAuthChecklist()
-      handler.loginCodeCombat()
-      @listenToOnce handler, 'person-loaded', ->
-        @gplusAuthSteps[1].done = true
-        @renderGPlusAuthChecklist()
+  onGPlusHandlerLoggedIntoGoogle: ->
+    return unless @clickedGPlusLogin
+    application.gplusHandler.loadPerson()
+    btn = @$('#gplus-login-btn')
+    btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
+    btn.attr('disabled', true)
 
-      @listenToOnce handler, 'logging-into-codecombat', ->
-        @gplusAuthSteps[2].done = true
-        @renderGPlusAuthChecklist()
-
-  renderGPlusAuthChecklist: ->
-    template = require 'templates/core/auth-modal-gplus-checklist'
-    el = $(template({steps: @gplusAuthSteps}))
-    el.i18n()
-    @$el.find('.modal-body:visible').empty().append(el)
-    @$el.find('.modal-footer').remove()
+  onGPlusPersonLoaded: (gplusAttrs) ->
+    existingUser = new User()
+    existingUser.fetchGPlusUser(gplusAttrs.gplusID, {
+      success: =>
+        me.loginGPlusUser(gplusAttrs.gplusID, {
+          success: -> window.location.reload()
+          error: @onGPlusLoginError
+        })
+      error: @onGPlusLoginError
+    })
+    
+  onGPlusLoginError: =>
+    btn = @$('#gplus-login-btn')
+    btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_gplus'))
+    btn.attr('disabled', false)
+    errors.showNotyNetworkError(arguments...)
+    
+    
+  # Facebook
 
   onClickFacebookLoginButton: ->
-    application.facebookHandler.loginThroughFacebook()
+    @clickedFacebookLogin = true
+    if application.facebookHandler.loggedIn
+      @onFacebookHandlerLoggedIntoFacebook()
+    else
+      application.facebookHandler.loginThroughFacebook()
+
+  onFacebookHandlerLoggedIntoFacebook: ->
+    return unless @clickedFacebookLogin
+    application.facebookHandler.loadPerson()
+    btn = @$('#facebook-login-btn')
+    btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
+    btn.attr('disabled', true)
+
+  onFacebookPersonLoaded: (facebookAttrs) ->
+    existingUser = new User()
+    existingUser.fetchFacebookUser(facebookAttrs.facebookID, {
+      success: =>
+        me.loginFacebookUser(facebookAttrs.facebookID, {
+          success: -> window.location.reload()
+          error: @onFacebookLoginError
+        })
+      error: @onFacebookLoginError
+    })
+
+  onFacebookLoginError: =>
+    btn = @$('#facebook-login-btn')
+    btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_facebook'))
+    btn.attr('disabled', false)
+    errors.showNotyNetworkError(arguments...)
+
 
   onHidden: ->
     super()

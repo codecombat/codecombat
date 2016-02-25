@@ -1,6 +1,9 @@
 mw = require '../middleware'
 
 module.exports.setup = (app) ->
+
+  app.post('/auth/login-facebook', mw.auth.loginByFacebook)
+  app.post('/auth/login-gplus', mw.auth.loginByGPlus)
   app.post('/auth/spy', mw.auth.spy)
   app.post('/auth/stop-spying', mw.auth.stopSpying)
   
@@ -19,6 +22,8 @@ module.exports.setup = (app) ->
   app.get('/db/article/:handle/patches', mw.patchable.patches(Article))
   app.post('/db/article/:handle/watchers', mw.patchable.joinWatchers(Article))
   app.delete('/db/article/:handle/watchers', mw.patchable.leaveWatchers(Article))
+  
+  app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
 
   app.get '/db/products', require('./db/product').get
 

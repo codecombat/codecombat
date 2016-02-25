@@ -49,9 +49,9 @@ module.exports = class CourseDetailsView extends RootView
   afterRender: ->
     super()
     if @supermodel.finished() and @courseComplete and me.isAnonymous() and @options.justBeatLevel
-      # TODO: Make an intermediate modal that tells them they've finished HoC and has some snazzy stuff for convincing players to sign up instead of just throwing up the bare AuthModal
-      AuthModal = require 'views/core/AuthModal'
-      @openModalView new AuthModal showSignupRationale: true
+      # TODO: Make an intermediate modal that tells them they've finished HoC and has some snazzy stuff for convincing players to sign up instead of just throwing up the bare CreateAccountModal
+      CreateAccountModal = require 'views/core/CreateAccountModal'
+      @openModalView new CreateAccountModal showSignupRationale: true
 
   onCourseSync: ->
     return if @destroyed

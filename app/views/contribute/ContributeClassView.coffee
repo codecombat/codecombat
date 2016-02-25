@@ -1,4 +1,4 @@
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 RootView = require 'views/core/RootView'
 {me} = require 'core/auth'
 contributorSignupAnonymousTemplate = require 'templates/contribute/contributor_signup_anonymous'
@@ -37,7 +37,7 @@ module.exports = class ContributeClassView extends RootView
 
     me.setEmailSubscription subscription+'News', checked
     me.patch()
-    @openModalView new AuthModal() if me.get 'anonymous'
+    @openModalView new CreateAccountModal() if me.get 'anonymous'
     el.parent().find('.saved-notification').finish().show('fast').delay(3000).fadeOut(2000)
 
   contributors: []

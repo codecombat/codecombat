@@ -21,6 +21,9 @@ global.tv4 = require 'tv4' # required for TreemaUtils to work
 global.jsondiffpatch = require 'jsondiffpatch'
 global.stripe = require('stripe')(config.stripe.secretKey)
 errors = require './server/commons/errors'
+request = require 'request'
+Promise = require 'bluebird'
+Promise.promisifyAll(request, {multiArgs: true})
 
 
 productionLogging = (tokens, req, res) ->

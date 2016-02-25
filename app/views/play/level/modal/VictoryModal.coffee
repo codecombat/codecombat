@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 template = require 'templates/play/level/modal/victory'
 {me} = require 'core/auth'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
@@ -59,7 +59,7 @@ module.exports = class VictoryModal extends ModalView
   onClickSignupButton: (e) ->
     e.preventDefault()
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Victory Modal', level: @level.get('slug')
-    @openModalView new AuthModal {mode: 'signup'}
+    @openModalView new CreateAccountModal()
 
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"

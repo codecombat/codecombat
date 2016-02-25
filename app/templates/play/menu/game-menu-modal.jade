@@ -19,8 +19,8 @@
             - var i18nKey = 'game_menu.' + submenu.replace('-', '_');
             span(data-i18n='[title]' + i18nKey + '_caption;' + i18nKey + '_tab')
       if me.get('anonymous')
-        li.auth-tab(data-toggle='coco-modal', data-target="core/AuthModal")
-          a(data-toggle='coco-modal', data-target="core/AuthModal")
+        li.auth-tab(data-toggle='coco-modal', data-target="core/CreateAccountModal")
+          a(data-toggle='coco-modal', data-target="core/CreateAccountModal")
             span.glyphicon.glyphicon-pencil
             span(data-i18n='[title]game_menu.auth_caption;game_menu.auth_tab')
 
