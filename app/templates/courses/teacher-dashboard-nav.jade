@@ -1,0 +1,29 @@
+- var path = document.location.pathname
+
+#teacher-dashboard-nav
+  nav.navbar
+    .container-fluid
+      .container
+        span.navbar-brand.text-h4(data-i18n="")
+          | Teacher Dashboard
+        ul.nav.navbar-nav
+          li(class= path === "/teachers/classes" ? "active" : "")
+            a(href="/teachers/classes")
+              small.label(data-i18n="about.mission_link")
+                | My Classes
+          li(cleass= path === "/teachers/courses" ? "active" : "")
+            a(href="/teachers/courses")
+              small.label(data-i18n="about.team_link")
+                | Courses
+          li(cleass= path === "/teachers/enrollments" ? "active" : "")
+            a(href="/teachers/enrollments")
+              small.label(data-i18n="about.community_link")
+                | Enrollments
+          li(cleass= path === "TODO" ? "active" : "")
+            a(href="TODO")
+              small.label(data-i18n="about.story_link")
+                | Resources
+          li(cleass= path === "TODO" ? "active" : "")
+            a(href="TODO")
+              small.label(data-i18n="about.jobs_link")
+                | Help
