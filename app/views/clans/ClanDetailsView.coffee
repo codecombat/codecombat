@@ -60,8 +60,8 @@ module.exports = class ClanDetailsView extends RootView
     @listenTo @memberAchievements, 'sync', @onMemberAchievementsSync
     @listenTo @memberSessions, 'sync', @onMemberSessionsSync
 
-    @supermodel.loadModel @campaigns, 'campaigns', cache: false
-    @supermodel.loadModel @clan, 'clan', cache: false
+    @supermodel.loadModel @campaigns, cache: false
+    @supermodel.loadModel @clan, cache: false
     @supermodel.loadCollection(@members, 'members', {cache: false})
     @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
 
@@ -204,7 +204,7 @@ module.exports = class ClanDetailsView extends RootView
     unless @owner?
       @owner = new User _id: @clan.get('ownerID')
       @listenTo @owner, 'sync', => @render?()
-      @supermodel.loadModel @owner, 'owner', cache: false
+      @supermodel.loadModel @owner, cache: false
     if @clan.get("dashboardType") is "premium"
       @supermodel.loadCollection(@memberSessions, 'member_sessions', {cache: false})
     @render?()

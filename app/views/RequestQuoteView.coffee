@@ -105,6 +105,7 @@ module.exports = class RequestQuoteView extends RootView
         .addClass('has-error')
         .append($("<div class='help-block error-help-block'>#{userExists} <a id='email-exists-login-link'>#{logIn}</a>"))
     @$('#submit-request-btn').text('Submit').attr('disabled', false)
+    forms.scrollToFirstError()
 
   onClickEmailExistsLoginLink: ->
     modal = new AuthModal({
