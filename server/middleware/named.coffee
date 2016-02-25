@@ -3,6 +3,7 @@ errors = require '../commons/errors'
 wrap = require 'co-express'
 Promise = require 'bluebird'
 database = require '../commons/database'
+mongoose = require 'mongoose'
 
 module.exports =
   names: (Model, options={}) -> wrap (req, res) ->
