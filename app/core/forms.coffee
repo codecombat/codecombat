@@ -93,3 +93,9 @@ module.exports.clearFormAlerts = (el) ->
   $('.alert.alert-warning', el).remove()
   el.find('.help-block.error-help-block').remove()
   el.find('.help-block.warning-help-block').remove()
+  
+module.exports.updateSelects = (el) ->
+  el.find('select').each (i, select) ->
+    value = $(select).attr('value')
+    $(select).val(value)
+  
