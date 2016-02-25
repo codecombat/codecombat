@@ -15,9 +15,10 @@ $forest: #20572B
 
 .style-flat
   background: white
+  color: black
   
   // Fonts
-  h1, h2, h3, h4, h5, h6
+  h1, h2, h3, h4, h5, h6, .text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6
     // Unsetting game styles
     font-variant: normal
     color: black
@@ -200,6 +201,9 @@ $forest: #20572B
     a.btn-primary-alt
       color: $navy
       
+    
+  // base-flat.jade
+      
   #footer
     background-image: url("/images/pages/home/footer_background.png")
     height: 229px
@@ -237,3 +241,16 @@ $forest: #20572B
     img
       width: 150px
       margin: 0 10px
+
+      
+  // modal-base-flat.jade
+  
+  &.modal-content
+    padding: 10px
+    border-radius: 0
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5)
+    
+  .button.close
+    position: absolute
+    top: 10px
+    left: 10px
