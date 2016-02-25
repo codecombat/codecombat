@@ -25,7 +25,7 @@ module.exports = class LevelSetupManager extends CocoClass
   loadLevel: ->
     levelURL = "/db/level/#{@options.levelID}"
     @level = new Level().setURL levelURL
-    @level = @supermodel.loadModel(@level, 'level').model
+    @level = @supermodel.loadModel(@level).model
     if @level.loaded then @onLevelSync() else @listenToOnce @level, 'sync', @onLevelSync
 
   loadSession: ->
@@ -33,7 +33,7 @@ module.exports = class LevelSetupManager extends CocoClass
     #sessionURL += "?team=#{@team}" if @options.team  # TODO: figure out how to get the teams for multiplayer PVP hero style
     sessionURL += "?course=#{@options.courseID}" if @options.courseID
     @session = new LevelSession().setURL sessionURL
-    @session = @supermodel.loadModel(@session, 'level_session').model
+    @session = @supermodel.loadModel(@session).model
     if @session.loaded then @onSessionSync() else @listenToOnce @session, 'sync', @onSessionSync
 
   onLevelSync: ->

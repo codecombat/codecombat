@@ -60,6 +60,7 @@ function getRecurringRevenueCounts(startDay) {
     }
 
     if (doc.service === 'ios' || doc.service === 'bitcoin') continue;
+    if (!doc.amount || doc.amount <= 0) continue;
 
     if (doc.prepaidID) {
       if (prepaidDayAmountMap[doc.prepaidID.valueOf()]) {

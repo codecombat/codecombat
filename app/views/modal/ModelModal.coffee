@@ -13,7 +13,7 @@ module.exports = class ModelModal extends ModalView
     super options
     @models = options.models
     for model in @models when not model.loaded
-      @supermodel.loadModel model, 'source_document'
+      @supermodel.loadModel model
       model.fetch cache: false
 
   afterRender: ->

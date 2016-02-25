@@ -20,7 +20,7 @@ module.exports = class ArticleEditView extends RootView
     super options
     @article = new Article({_id: @articleID})
     @article.saveBackups = true
-    @supermodel.loadModel @article, 'article'
+    @supermodel.loadModel @article
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
   onLoaded: ->

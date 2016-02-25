@@ -17,7 +17,7 @@ module.exports = class UserView extends RootView
       @user = me
       @onLoaded()
     @user = new User _id: @userID
-    @supermodel.loadModel @user, 'user', cache: false
+    @supermodel.loadModel @user, cache: false
 
   getRenderData: ->
     context = super()

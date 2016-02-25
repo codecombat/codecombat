@@ -46,7 +46,7 @@ module.exports = class HourOfCodeView extends RootView
     if @lastSession
       @lastLevel = new Level()
       levelData = @lastSession.get('level')
-      @supermodel.loadModel(@lastLevel, 'level', {
+      @supermodel.loadModel(@lastLevel, {
         url: "/db/level/#{levelData.original}/version/#{levelData.majorVersion}"
         data: {
           project: 'name,slug'
