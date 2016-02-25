@@ -348,7 +348,10 @@
     tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
     tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
     tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
-
+    tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
+    tip_understand_recursion: "The only way to understand recursion is to understand recursion."
+    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
+    
   game_menu:
     inventory_tab: "Inventory"
     save_load_tab: "Save/Load"
