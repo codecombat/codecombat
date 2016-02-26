@@ -1,37 +1,37 @@
 config = require '../../../server_config'
 require '../common'
-utils = require '../../../app/core/utils' # Must come after require /common
+clientUtils = require '../../../app/core/utils' # Must come after require /common
 mongoose = require 'mongoose'
+utils = require '../utils'
+_ = require 'lodash'
+Promise = require 'bluebird'
+requestAsync = Promise.promisify(request, {multiArgs: true})
 
 classroomsURL = getURL('/db/classroom')
 
 describe 'GET /db/classroom?ownerID=:id', ->
-  it 'clears database users and classrooms', (done) ->
-    clearModels [User, Classroom], (err) ->
-      throw err if err
-      done()
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom])
+    @user1 = yield utils.initUser()
+    yield utils.loginUser(@user1)
+    @classroom1 = yield new Classroom({name: 'Classroom 1', ownerID: @user1.get('_id') }).save()
+    @user2 = yield utils.initUser()
+    yield utils.loginUser(@user2)
+    @classroom2 = yield new Classroom({name: 'Classroom 2', ownerID: @user2.get('_id') }).save()
+    done()
       
-  it 'returns an array of classrooms with the given owner', (done) ->
-    loginNewUser (user1) ->
-      new Classroom({name: 'Classroom 1', ownerID: user1.get('_id') }).save (err, classroom) ->
-        expect(err).toBeNull()
-        loginNewUser (user2) ->
-          new Classroom({name: 'Classroom 2', ownerID: user2.get('_id') }).save (err, classroom) ->
-            expect(err).toBeNull()
-            url = getURL('/db/classroom?ownerID='+user2.id)
-            request.get { uri: url, json: true }, (err, res, body) ->
-              expect(res.statusCode).toBe(200)
-              expect(body.length).toBe(1)
-              expect(body[0].name).toBe('Classroom 2')
-              done()
+  it 'returns an array of classrooms with the given owner', utils.wrap (done) ->
+    [res, body] =  yield request.getAsync getURL('/db/classroom?ownerID='+@user2.id), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(1)
+    expect(body[0].name).toBe('Classroom 2')
+    done()
               
-  it 'returns 403 when a non-admin tries to get classrooms for another user', (done) ->
-    loginNewUser (user1) ->
-      loginNewUser (user2) ->
-        url = getURL('/db/classroom?ownerID='+user1.id)
-        request.get { uri: url }, (err, res, body) ->
-          expect(res.statusCode).toBe(403)
-          done()
+  it 'returns 403 when a non-admin tries to get classrooms for another user', utils.wrap (done) ->
+    [res, body] =  yield request.getAsync getURL('/db/classroom?ownerID='+@user1.id), { json: true }
+    expect(res.statusCode).toBe(403)
+    done()
   
 
 describe 'GET /db/classroom/:id', ->

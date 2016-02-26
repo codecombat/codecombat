@@ -16,6 +16,8 @@ module.exports.setup = (app) ->
   app.get('/db/article/:handle/patches', mw.patchable.patches(Article))
   app.post('/db/article/:handle/watchers', mw.patchable.joinWatchers(Article))
   app.delete('/db/article/:handle/watchers', mw.patchable.leaveWatchers(Article))
+  
+  app.get('/db/classroom', mw.classrooms.getByOwner)
 
   app.get '/db/products', require('./db/product').get
 
