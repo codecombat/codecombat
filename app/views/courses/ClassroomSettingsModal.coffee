@@ -12,7 +12,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     'click #save-settings-btn': 'onSubmitForm'
     'submit form': 'onSubmitForm'
 
-  initialize: (options) ->
+  initialize: (options={}) ->
     @classroom = options.classroom or new Classroom()
     if @classroom.isNew()
       application.tracker?.trackEvent 'Create new class', category: 'Courses'
