@@ -34,6 +34,9 @@ else
 config.apple =
   verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://sandbox.itunes.apple.com/verifyReceipt'
 
+config.closeIO =
+  apiKey: process.env.COCO_CLOSEIO_API_KEY or ''
+
 config.stripe =
   secretKey: process.env.COCO_STRIPE_SECRET_KEY or 'sk_test_MFnZHYD0ixBbiBuvTlLjl2da'
 
