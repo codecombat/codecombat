@@ -8,20 +8,31 @@
   
   .navbar
     border-radius: 0
-    height: 55px
-    background-color: $navy
+    background: $navy
     
+    .navbar-toggle
+      margin-top: 
+      border-color: white
+      
+    .icon-bar
+      background-color: white
+      
     .navbar-brand
       color: white
-      padding: 11px 0 0
+      padding-top: 11px
+      padding-bottom: 11px
     
     li > a
-      // font-weight: bold
-      // font-family: $body-font
+      font-family: $body-font
       // font-size: 16px
-      padding: 13px 0 20px 25px
+      padding: 13px 12px 21px 12px
       // color: $burgandy
       // text-shadow: 0 0 0
+      
+    li > a:hover
+      background-color: white
+      small
+        color: $navy
     
     li.active
       .label
