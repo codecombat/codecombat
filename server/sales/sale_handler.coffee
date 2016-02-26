@@ -79,13 +79,9 @@ SaleHandler = class SaleHandler extends Handler
       sales[group].push(original+'')
       user.set('sales', sales)
 
-      log.info "item purchases:", purchased[group]
-
       #- remove the purchase from the list of purchases
       _.pull(purchased[group], original)
       user.set('purchased', purchased)
-      
-      log.info "item purchases:", purchased[group]
     
       #- Add the gems to the user at the buyback price
       sold = user.get('sold') ? 0
