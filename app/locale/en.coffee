@@ -158,6 +158,7 @@
     submit_patch: "Submit Patch"
     submit_changes: "Submit Changes"
     save_changes: "Save Changes"
+    required_field: "Required field"
 
   general:
     and: "and"
@@ -867,12 +868,10 @@
     enter_emails: "Enter student emails to invite, one per line"
     send_invites: "Send Invites"
     # title: "Title"
-    description: "Description"
     creating_class: "Creating class..."
     purchasing_course: "Purchasing course..."
     buy_course: "Buy Course"
     buy_course1: "Buy this course"
-    create_class: "Create Class"
     select_all_courses: "Select 'All Courses' for a 50% discount!"
     all_courses: "All Courses"
     number_students: "Number of students"
@@ -921,9 +920,6 @@
     keep_using: "Keep Using"
     switch_to: "Switch To"
     greetings: "Greetings!"
-    learn_p: "Learn Python"
-    learn_j: "Learn JavaScript"
-    language_cannot_change: "Language cannot be changed once students join a class."
     back_classrooms: "Back to my classrooms"
     back_courses: "Back to my courses"
     edit_details: "Edit class details"
@@ -1069,6 +1065,26 @@
     print_guide: "Print Guide (PDF)"
     view_guide_online: "View Guide Online (PDF)"
     
+    # ClassroomSettingsModal
+    description: "Description"
+    language_select: "Select a language"
+    language_cannot_change: "Language cannot be changed once students join a class."
+    learn_p: "Learn Python"
+    learn_j: "Learn JavaScript"
+    avg_student_exp_label: "Average Student Programming Experience"
+    avg_student_exp_desc: "This will help us understand how to pace courses better."
+    avg_student_exp_select: "Select the best option"
+    avg_student_exp_none: "No Experience - little to no experience"
+    avg_student_exp_beginner: "Beginner - some exposure or block-based"
+    avg_student_exp_intermediate: "Intermediate - some experience with typed code"
+    avg_student_exp_advanced: "Advanced - extensive experience with typed code"
+    avg_student_exp_varied: "Varied Levels of Experience"
+    student_age_range_label: "Student Age Range"
+    student_age_range_younger: "Younger than 6"
+    student_age_range_older: "Older than 18"
+    student_age_range_to: "to"
+    create_class: "Create Class"
+
 
   classes:
     archmage_title: "Archmage"

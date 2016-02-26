@@ -11,6 +11,9 @@ _.extend ClassroomSchema.properties,
   codeCamel: c.shortString(title: "UpperCamelCase version of code for display purposes")
   aceConfig:
     language: {type: 'string', 'enum': ['python', 'javascript']}
+  averageStudentExp: { type: 'string' }
+  ageRangeMin: { type: 'string' }
+  ageRangeMax: { type: 'string' }
 
 c.extendBasicProperties ClassroomSchema, 'Classroom'
 
