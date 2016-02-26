@@ -15,7 +15,7 @@
     or_ipad: "Or download for iPad"
 
   new_home:
-    slogan: "The most engaging game for learning programming." 
+    slogan: "The most engaging game for learning programming."
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
     teacher: "Teacher"
@@ -49,6 +49,7 @@
     not_tedious: "not tedious."
     gaming_is_good: "Studies suggest gaming is good for children’s brains. (it’s true!)"
     game_based: "When game-based learning systems are"
+    compared: "compared"
     conventional: "against conventional assessment methods, the difference is clear: games are better at helping students retain knowledge, concentrate and"
     perform_at_higher_level: "perform at a higher level of achievement"
     feedback: "Games also provide real-time feedback that allows students to adjust their solution path and understand concepts more holistically, instead of being limited to just “correct” or “incorrect” answers."
@@ -608,7 +609,7 @@
     mission_description_1: "Programming is magic. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using typed code."
     mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to every student, because everyone should have the chance to learn the magic of programming."
     team_title: "Meet the CodeCombat team"
-    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team." 
+    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
     nick_title: "Cofounder, CEO"
     nick_blurb: "Motivation Guru"
     matt_title: "Cofounder, CTO"
@@ -674,8 +675,8 @@
     character_art: "Character Art"
     download_all: "Download All"
     location_title: "We're located in downtown SF:"
-  
-    
+
+
 
   teachers:
     who_for_title: "Who is CodeCombat for?"
@@ -685,7 +686,7 @@
     more_info_1: "Our"
     more_info_2: "teachers forum"
     more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
-    
+
   teachers_quote:
     name: "Quote Form"
     title: "Request a Quote"
