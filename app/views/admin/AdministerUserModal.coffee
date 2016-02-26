@@ -6,7 +6,6 @@ Prepaid = require 'models/Prepaid'
 module.exports = class AdministerUserModal extends ModalView
   id: "administer-user-modal"
   template: template
-  plain: true
 
   events:
     'click #save-changes': 'onSaveChanges'

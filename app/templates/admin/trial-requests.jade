@@ -24,13 +24,7 @@ block content
             th Phone
             th Status
         tbody
-          - var numReviewed = 0
-          - var maxReviewedShown = 1000
           each trialRequest in trialRequests
-            if trialRequest.get('status') !== 'submitted'
-              - numReviewed++
-            if numReviewed > maxReviewedShown
-              - break
             tr
               td.created= trialRequest.get('created').substring(0, 10)
               td.reviewed
