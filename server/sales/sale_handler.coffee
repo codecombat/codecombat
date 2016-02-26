@@ -59,7 +59,10 @@ SaleHandler = class SaleHandler extends Handler
     user = req.user
     sales = user.get('sales') or {}
     sales = _.cloneDeep sales
+    purchased = user.get('purchased') or {}
+    purchased = _.cloneDeep purchased
     item = req.soldItem
+    buyback = 0.40
 
     group = switch item.get('kind')
       when 'Item' then 'items'
@@ -67,19 +70,27 @@ SaleHandler = class SaleHandler extends Handler
       else 'levels'
 
     original = item.get('original') + ''
-    
-    #log.info user.get('purchased')
-    
     sales[group] ?= []
-    unless original in sales[group]
+    purchased[group] ?= []
+    
+    # Make sure item was purchased in the first place
+    if original in purchased[group]
       #- add the sale to the list of sales
       sales[group].push(original+'')
       user.set('sales', sales)
 
-      #- Add the gems to the user
-      sold = user.get('sold') ? 0
+      log.info "item purchases:", purchased[group]
+
+      #- remove the purchase from the list of purchases
+      _.pull(purchased[group], original)
+      user.set('purchased', purchased)
       
-      sold += item.get('gemsSale')
+      log.info "item purchases:", purchased[group]
+    
+      #- Add the gems to the user at the buyback price
+      sold = user.get('sold') ? 0
+    
+      sold += Math.round(item.get('gems') * buyback)
       user.set('sold', sold)
 
       user.save()

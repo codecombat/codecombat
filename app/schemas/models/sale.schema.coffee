@@ -1,6 +1,6 @@
 c = require './../schemas'
 
-sellables = ['thang_type']
+sellables = ['level', 'thang_type']
 
 SaleSchema = c.object({title: 'Sale', required: ['seller', 'recipient', 'sold']}, {
   seller: c.objectId(links: [

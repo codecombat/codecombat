@@ -736,7 +736,7 @@ UserHandler = class UserHandler extends Handler
       (cb) -> LevelSession.remove {creator: user._id + ''}, cb
       (cb) -> EarnedAchievement.remove {user: user._id + ''}, cb
       (cb) -> UserPollsRecord.remove {user: user._id + ''}, cb
-      (cb) -> user.update {points: 0, 'stats.gamesCompleted': 0, 'stats.concepts': {}, 'earned.gems': 0, 'earned.levels': [], 'earned.items': [], 'earned.heroes': [], 'purchased.items': [], 'purchased.heroes': [], spent: 0}, cb
+      (cb) -> user.update {points: 0, 'stats.gamesCompleted': 0, 'stats.concepts': {}, 'earned.gems': 0, 'earned.levels': [], 'earned.items': [], 'earned.heroes': [], 'purchased.items': [], 'purchased.heroes': [], spent: 0, sold: 0}, cb
     ], cb
 
   countEdits = (model, done) ->

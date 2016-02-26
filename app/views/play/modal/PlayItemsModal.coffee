@@ -218,25 +218,44 @@ module.exports = class PlayItemsModal extends ModalView
     e.stopPropagation()
     button = $(e.target).closest('button')
     item = @idToItem[button.data('item-id')]
+    price = item.get('gems') ? 0
     
-    # Sell logic here
-    sale = Sale.makeFor(item)
-    sale.save()
+    # Can't sell items that are free
+    if price <= 0
+      return
     
-    #- set local changes to mimic what should happen on the server...
-    sales = me.get('sales') ? {}
-    sales.items ?= []
-    sales.items.push(item.get('original'))
-    item.owned = false
-    me.set('sales', sales)
-    me.set('sold', (me.get('sold') ? 0) + item.get('gemsSale'))
+    if button.hasClass('confirm')
+      buyback = 0.40
+    
+      # Sell logic here
+      sale = Sale.makeFor(item)
+      sale.save()
+    
+      #- set local changes to mimic what should happen on the server...
+      sales = me.get('sales') ? {}
+      sales.items ?= []
+      sales.items.push(item.get('original'))
+    
+      purchased = me.get('purchased') ? {}
+      purchased.items ?= []
+      _.pull(purchased.items, item.get('original'))
+      me.set('purchased', purchased)
+    
+      item.owned = false
+      me.set('sales', sales)
+      me.set('sold', (me.get('sold') ? 0) + Math.round(price * buyback))
 
-    #- ...then rerender key bits
-    @renderSelectors(".item[data-item-id='#{item.id}']", "#gems-count")
-    @itemDetailsView.render()
+      #- ...then rerender key bits
+      @renderSelectors(".item[data-item-id='#{item.id}']", "#gems-count")
+      @itemDetailsView.render()
 
-    Backbone.Mediator.publish 'store:item-sold', item: item, itemSlug: item.get('slug')
-    
+      Backbone.Mediator.publish 'store:item-sold', item: item, itemSlug: item.get('slug')
+    else
+      @playSound 'menu-button-unlock-start'
+      button.addClass('confirm').text($.i18n.t('play.confirm'))
+      @$el.one 'click', (e) ->
+        button.removeClass('confirm').text($.i18n.t('play.sell')) if e.target isnt button[0]
+
   askToSignUp: ->
     authModal = new AuthModal supermodel: @supermodel
     authModal.mode = 'signup'

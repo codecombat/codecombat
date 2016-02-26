@@ -19,7 +19,7 @@ UserSchema = c.object
     jobProfile: {}
     earned: {heroes: [], items: [], levels: [], gems: 0}
     purchased: {heroes: [], items: [], levels: [], gems: 0}
-    sales: {heroes: [], items: [], levels: [], gems: 0}
+    sales: {heroes: [], items: [], levels: []}
 
 c.extendNamedProperties UserSchema  # let's have the name be the first property
 
