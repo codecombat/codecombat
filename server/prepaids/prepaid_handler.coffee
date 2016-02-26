@@ -1,4 +1,4 @@
-Course = require '../courses/Course'
+Course = require '../models/Course'
 Handler = require '../commons/Handler'
 hipchat = require '../hipchat'
 Prepaid = require './Prepaid'
