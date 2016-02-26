@@ -22,7 +22,11 @@
         li
           height: 22pt
           display: inline-block
-          margin: 10px 18px 0 18px
+          margin: 10px 0 0
+          @media (min-width: $screen-xs-min)
+            margin: 10px 5px 0
+          @media (min-width: $screen-sm-min)
+            margin: 10px 18px 0
           a
             color: white
             text-transform: uppercase
