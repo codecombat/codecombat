@@ -109,14 +109,14 @@ block content
         p(data-i18n="new_home.encourage")
 
         p
-          span(data-i18n="new_home.excel")
-          span.spr “
+          span.spr(data-i18n="new_home.excel")
+          span “
           a(href="http://blog.mindresearch.org/blog/game-based-learning-infographic-strong-math-practices" target="_blank", data-i18n="new_home.struggle")
-          span.spr ” -
-          span.spr(data-i18n="new_home.kind_of_struggle")
+          span ” -
+          span.spl.spr(data-i18n="new_home.kind_of_struggle")
           a(href="http://www.gamesandlearning.org/2014/06/09/teachers-on-using-games-in-class/" target="_blank", data-i18n="new_home.motivating")
-          span.spl ,
-          span(data-i18n="new_home.not_tedious")
+          span ,
+          span.spl(data-i18n="new_home.not_tedious")
 
 
 
@@ -132,7 +132,7 @@ block content
           a(href="http://schoolsweek.co.uk/gaming-is-good-for-childrens-brains-study-suggests/" target="_blank", data-i18n="new_home.compared")
           span.spl.spr(data-i18n="new_home.conventional")
           a(href="http://dev.k-12techdecisions.com/article/game_based_learning_is_where_vygotsky_meets_dweck/P3" target="_blank", data-i18n="new_home.perform_at_higher_level")
-          span.spr .
+          span .
         p
           span(data-i18n="new_home.feedback")
 
@@ -162,7 +162,7 @@ block content
         else
             span.spr(data-i18n="new_home.logged_in_as")
             span= me.broadName()
-            span .
+            span.spr .
             a(href="/courses/teachers", data-i18n="new_home.view_my_classes")
             span.spr.spl(data-i18n="general.or")
             a#logout-button logout
@@ -252,5 +252,3 @@ block content
       p
         a.btn.btn-primary.btn-lg(href="/teachers/freetrial", data-i18n="new_home.request_demo")
         a.btn.btn-primary-alt.btn-lg(href="/courses/teachers", data-i18n="new_home.create_a_class")
-
-
