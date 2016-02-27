@@ -46,9 +46,9 @@ if item
         img(src="/images/common/gem.png", draggable="false")
         span )
     else
-      if sellPrice > 0
+      if item.sellable()
         button#selected-item-sell-button.btn.big-font.sell-button(data-item-id=item.id)
           span(data-i18n="play.sell") Sell
-          span.spl= '('+sellPrice
+          span.spl= '('+item.sellPrice()
           img(src="/images/common/gem.png", draggable="false")
           span )

@@ -218,15 +218,12 @@ module.exports = class PlayItemsModal extends ModalView
     e.stopPropagation()
     button = $(e.target).closest('button')
     item = @idToItem[button.data('item-id')]
-    price = item.get('gems') ? 0
     
-    # Can't sell items that are free
-    if price <= 0
+    # Prevent further action if the item cannot be sold
+    if !item.sellable()
       return
     
     if button.hasClass('confirm')
-      buyback = 0.40
-    
       # Sell logic here
       sale = Sale.makeFor(item)
       sale.save()
@@ -243,7 +240,7 @@ module.exports = class PlayItemsModal extends ModalView
     
       item.owned = false
       me.set('sales', sales)
-      me.set('sold', (me.get('sold') ? 0) + Math.round(price * buyback))
+      me.set('sold', (me.get('sold') ? 0) + item.sellPrice())
 
       #- ...then rerender key bits
       @renderSelectors(".item[data-item-id='#{item.id}']", "#gems-count")

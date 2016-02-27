@@ -62,7 +62,6 @@ SaleHandler = class SaleHandler extends Handler
     purchased = user.get('purchased') or {}
     purchased = _.cloneDeep purchased
     item = req.soldItem
-    buyback = 0.40
 
     group = switch item.get('kind')
       when 'Item' then 'items'
@@ -83,10 +82,13 @@ SaleHandler = class SaleHandler extends Handler
       _.pull(purchased[group], original)
       user.set('purchased', purchased)
     
-      #- Add the gems to the user at the buyback price
+      #- Add the gems to the user at the selling price
       sold = user.get('sold') ? 0
     
-      sold += Math.round(item.get('gems') * buyback)
+      buyback = 0.40
+      sellPrice = Math.round((item.get('gems') ? 0) * buyback)
+    
+      sold += sellPrice
       user.set('sold', sold)
 
       user.save()

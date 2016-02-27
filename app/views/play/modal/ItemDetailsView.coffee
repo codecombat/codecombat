@@ -65,9 +65,6 @@ module.exports = class ItemDetailsView extends CocoView
     c = super()
     c.item = @item
     if @item
-      buyback = 0.40
-      c.sellPrice = Math.round((@item.get('gems') ? 0) * buyback)
-    
       stats = @item.getFrontFacingStats()
       c.stats = _.values(stats.stats)
       _.last(c.stats).isLast = true if c.stats.length
