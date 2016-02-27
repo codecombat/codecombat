@@ -93,3 +93,12 @@ module.exports.clearFormAlerts = (el) ->
   $('.alert.alert-warning', el).remove()
   el.find('.help-block.error-help-block').remove()
   el.find('.help-block.warning-help-block').remove()
+  
+module.exports.updateSelects = (el) ->
+  el.find('select').each (i, select) ->
+    value = $(select).attr('value')
+    $(select).val(value)
+  
+module.exports.validateEmail = (email) ->
+  filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
+  return filter.test(email)
