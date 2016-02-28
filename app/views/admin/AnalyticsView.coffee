@@ -158,7 +158,7 @@ module.exports = class AnalyticsView extends RootView
           return -1 if a.created > b.created
           return 0 if a.created is b.created
           1
-        @renderSelectors?('#school-sales')
+        @renderSelectors?('.school-sales')
     }, 0).load()
 
     @supermodel.addRequestResource({
