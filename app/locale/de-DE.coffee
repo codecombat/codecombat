@@ -1418,7 +1418,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     users: "Benutzer"
 
   concepts:
-   advanced_strings: "Erweiterte Strings"
+    advanced_strings: "Erweiterte Strings"
     algorithms: "Algorithmen"
     arguments: "Argumente"
     arithmetic: "Arithmetic"
