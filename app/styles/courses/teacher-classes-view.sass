@@ -1,0 +1,38 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/style-flat"
+
+#teacher-classes-view
+  $grey-medium: #ebebeb
+  $grey-light: #f5f5f5
+  
+  h1
+    margin-top: 50px
+  
+  .small-details 
+    font: $headline-font
+    font-size: 15px
+    line-height: 26px
+    
+  .classes
+    margin-top: 20px
+    
+    .class
+      padding: 20px
+      
+  .class:nth-child(2n+1)
+    background-color: $grey-medium
+
+  .class:nth-child(2n)
+    background-color: $grey-light
+    
+  .progress-dot
+    display: inline-block
+    margin-right: 20px
+    width: 62px
+    height: 62px
+    border-radius: 50%
+    
+  .progress-dot.forest
+    margin-top: 23px
+    background: $forest
