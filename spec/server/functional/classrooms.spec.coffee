@@ -177,3 +177,57 @@ describe 'POST /db/classroom/:id/invite-members', ->
         request.post { uri: url, json: data }, (err, res, body) ->
           expect(res.statusCode).toBe(200)
           done()
+
+          
+describe 'GET /db/classroom/:handle/member-sessions', ->
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, LevelSession, Level])
+    @artisan = yield utils.initUser()
+    @teacher = yield utils.initUser()
+    @student1 = yield utils.initUser()
+    @student2 = yield utils.initUser()
+    @levelA = new Level({name: 'Level A', permissions: [{target: @artisan._id, access: 'owner'}]})
+    @levelA.set('original', @levelA._id)
+    @levelA = yield @levelA.save()
+    @levelB = new Level({name: 'Level B', permissions: [{target: @artisan._id, access: 'owner'}]})
+    @levelB.set('original', @levelB._id)
+    @levelB = yield @levelB.save()
+    @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
+    @session1A = yield new LevelSession({creator: @student1._id, state: { complete: true }, level: {original: @levelA._id}, permissions: [{target: @student1._id, access: 'owner'}]}).save()
+    @session1B = yield new LevelSession({creator: @student1._id, state: { complete: false }, level: {original: @levelB._id}, permissions: [{target: @student1._id, access: 'owner'}]}).save()
+    @session2A = yield new LevelSession({creator: @student2._id, state: { complete: true }, level: {original: @levelA._id}, permissions: [{target: @student2._id, access: 'owner'}]}).save()
+    @session2B = yield new LevelSession({creator: @student2._id, state: { complete: false }, level: {original: @levelB._id}, permissions: [{target: @student2._id, access: 'owner'}]}).save()
+    done()
+
+  it 'returns all sessions for all members in the classroom with only properties level, creator and state.complete', utils.wrap (done) ->
+    yield utils.loginUser(@teacher)
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(4)
+    done()
+    
+  it 'does not work if you are not the owner of the classroom', utils.wrap (done) ->
+    yield utils.loginUser(@student1)
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
+    expect(res.statusCode).toBe(403)
+    done()
+    
+  it 'does not work if you are not logged in', utils.wrap (done) ->
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
+    expect(res.statusCode).toBe(401)
+    done()
+    
+  it 'accepts memberSkip and memberLimit GET parameters', utils.wrap (done) ->
+    yield utils.loginUser(@teacher)
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions?memberLimit=1"), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(2)
+    expect(session.creator).toBe(@student1.id) for session in body
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions?memberSkip=1"), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(2)
+    expect(session.creator).toBe(@student2.id) for session in body
+    done()
+    
+  

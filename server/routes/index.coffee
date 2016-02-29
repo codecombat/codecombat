@@ -18,6 +18,7 @@ module.exports.setup = (app) ->
   app.delete('/db/article/:handle/watchers', mw.patchable.leaveWatchers(Article))
   
   app.get('/db/classroom', mw.classrooms.getByOwner)
+  app.get('/db/classroom/:handle/member-sessions', mw.classrooms.fetchMemberSessions)
   
   Course = require '../models/Course'
   app.get('/db/course', mw.rest.get(Course))

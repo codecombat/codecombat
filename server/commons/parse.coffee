@@ -8,19 +8,20 @@ module.exports =
     options = _.extend({
       max: 1000
       default: 100
+      param: 'limit'
     }, options)
 
     limit = options.default
 
-    if req.query.limit
-      limit = parseInt(req.query.limit)
+    if req.query[options.param]
+      limit = parseInt(req.query[options.param])
       valid = tv4.validate(limit, {
         type: 'integer'
         maximum: options.max
         minimum: 1
       })
       if not valid
-        throw new errors.UnprocessableEntity('Invalid limit parameter.')
+        throw new errors.UnprocessableEntity("Invalid #{options.param} parameter.")
 
     return limit
 
@@ -29,19 +30,20 @@ module.exports =
     options = _.extend({
       max: 1000000
       default: 0
+      param: 'skip'
     }, options)
 
     skip = options.default
 
-    if req.query.skip
-      skip = parseInt(req.query.skip)
+    if req.query[options.param]
+      skip = parseInt(req.query[options.param])
       valid = tv4.validate(skip, {
         type: 'integer'
         maximum: options.max
         minimum: 0
       })
       if not valid
-        throw new errors.UnprocessableEntity('Invalid sort parameter.')
+        throw new errors.UnprocessableEntity("Invalid #{options.param} parameter.")
 
     return skip
 
