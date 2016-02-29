@@ -63,8 +63,9 @@ var console = {
 console.error = console.warn = console.info = console.debug = console.log;
 self.console = console;
 
-self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
+self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js', '/javascripts/app/vendor/innerator.js');
 var myImportScripts = importScripts;
+innerator.installGlobals({ supportAether: true });
 
 var languagesImported = {};
 var ensureLanguageImported = function(language) {
@@ -84,7 +85,7 @@ var ensureLanguagesImportedFromUserCodeMap = function (userCodeMap) {
 
 
 var restricted = ["XMLHttpRequest", "Worker"];
-if (!self.navigator || !(self.navigator.userAgent.indexOf('MSIE') > 0) && 
+if (!self.navigator || !(self.navigator.userAgent.indexOf('MSIE') > 0) &&
     !self.navigator.userAgent.match(/Trident.*rv\:11\./) &&
     !self.navigator.userAgent.match(/Edge/)) {
   // Can't restrict 'importScripts' in IE11, skip for all IE versions
@@ -329,6 +330,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
         }
         Math.random = self.debugWorld.rand.randf;  // so user code is predictable
         Aether.replaceBuiltin("Math", Math);
+        Aether.replaceBuiltin("Array", Array);
         var replacedLoDash = _.runInContext(self);
         for(var key in replacedLoDash)
           _[key] = replacedLoDash[key];
@@ -392,6 +394,7 @@ self.runWorld = function runWorld(args) {
   }
   Math.random = self.world.rand.randf;  // so user code is predictable
   Aether.replaceBuiltin("Math", Math);
+  Aether.replaceBuiltin("Array", Array);
   var replacedLoDash = _.runInContext(self);
   for(var key in replacedLoDash)
     _[key] = replacedLoDash[key];

@@ -92,7 +92,7 @@ exports.config =
 
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
-          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine))')
+          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine|innerator))')
           regJoin('^bower_components/(?!(aether|d3|treema|three.js))')
           'bower_components/treema/treema-utils.js'
         ]
@@ -127,6 +127,7 @@ exports.config =
         'javascripts/app/vendor/jasmine-bundle.js': regJoin('^vendor/scripts/jasmine')
         'javascripts/app/vendor/jasmine-mock-ajax.js': 'vendor/scripts/jasmine-mock-ajax.js'
         'javascripts/app/vendor/three.js': 'bower_components/three.js/three.min.js'
+        'javascripts/app/vendor/innerator.js': 'vendor/scripts/innerator.js'
 
         #- test, demo libraries
         'javascripts/app/tests.js': regJoin('^test/app/')
