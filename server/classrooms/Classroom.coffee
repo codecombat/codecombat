@@ -20,6 +20,7 @@ ClassroomSchema.statics.editableProperties = [
   'averageStudentExp'
   'ageRangeMin'
   'ageRangeMax'
+  'archived'
 ]
 
 ClassroomSchema.statics.generateNewCode = (done) ->
