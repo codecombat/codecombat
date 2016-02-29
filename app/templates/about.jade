@@ -43,8 +43,8 @@ block content
           #mission-graphic-filler
         .col-sm-5.col-sm-offset-1
           #mission-text.responsive-side-margins
-            p(data-i18n="about.mission_description_1")
-            p(data-i18n="about.mission_description_2")
+            p(data-i18n="[html]about.mission_description_1")
+            p(data-i18n="[html]about.mission_description_2")
 
       #team.anchor
         .text-center
@@ -68,7 +68,7 @@ block content
               h6.label.team-name
                 a(href="http://www.mattlott.com/" rel="external") Matt Lott
               small(data-i18n="about.matt_title")
-              small(data-i18n="about.matt_blurb")
+              br
 
           li
             a(href="http://cat.zdh.com/" rel="external")
@@ -220,7 +220,7 @@ block content
           #story-languages
             .text-center
               .text-h5(data-i18n="about.story_statistic_3c")
-            #language-icons.text-center
+            #language-icons.text-center(title="Clojure, CoffeeScript, JavaScript, Python, Java, Lua")
               img.hidden-xs(src="/images/pages/about/languages.png")
               img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/languages_group1.png")
               img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/languages_group2.png")
@@ -246,20 +246,10 @@ block content
               ul
                 li.small(data-i18n="about.jobs_benefit_1")
                 li.small(data-i18n="about.jobs_benefit_2")
-                li.small(data-i18n="about.jobs_benefit_3")
                 li.small(data-i18n="about.jobs_benefit_4")
                 li.small(data-i18n="about.jobs_benefit_5")
                 li.small(data-i18n="about.jobs_benefit_6")
           .col-sm-6.col-md-5.col-lg-4
-            .job-listing
-              h5 Software Engineer, iOS
-              .text-center
-                small.label
-                  | San Francisco • Fulltime
-              p.small Want to write the first iPad app for CodeCombat? We’re looking for a product-focused engineer to translate our core gameplay and educational tools into an experience that feels like it was born on the iPad.
-              a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/eb190007-7195-49ee-a322-893b0d1cdcb4" rel="external")
-                span(data-i18n="about.learn_more")
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
               h5 Head of Sales
               .text-center
@@ -268,7 +258,7 @@ block content
               p.small School districts are scrambling to offer computer science classes to all their students as a core subject. They have had no solution, because they can't afford to hire enough programming teachers – until now.
               a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/2d0194ed-7c69-4aab-b1f9-363ca4b9f04b" rel="external")
                 span(data-i18n="about.learn_more")
-          .col-sm-6.col-md-5.col-lg-4
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
               h5 Sales Representative
               .text-center
@@ -277,7 +267,7 @@ block content
               p.small School districts are scrambling to offer computer science classes to all their students as a core subject. They have had no solution, because they can't afford to hire enough programming teachers – until now.
               a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/3f6ff123-16ce-4ecb-aba3-dcf4e8927c47" rel="external")
                 span(data-i18n="about.learn_more")
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
+          .col-sm-6.col-md-5.col-lg-4
             .job-listing
               h5(data-i18n="about.jobs_custom_title")
               p.small(data-i18n="about.jobs_custom_description")
