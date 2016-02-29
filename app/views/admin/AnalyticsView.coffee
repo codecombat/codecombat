@@ -449,26 +449,11 @@ module.exports = class AnalyticsView extends RootView
             eventDayDataMap['MAU classroom'][day] += count
 
       campaignData = []
-      classroomData = []
       for event, entry of eventDayDataMap
-        if event is 'MAU campaign'
-          for day, count of entry
-            campaignData.push day: day, value: count / 1000
-        else
-          for day, count of entry
-            classroomData.push day: day, value: count / 1000
+        continue unless event is 'MAU campaign'
+        for day, count of entry
+          campaignData.push day: day, value: count / 1000
       campaignData.reverse()
-      classroomData.reverse()
-
-      points = @createLineChartPoints(days, classroomData)
-      chartLines.push
-        points: points
-        description: 'Classroom Monthly Active Users (in thousands)'
-        lineColor: 'red'
-        strokeWidth: 1
-        min: 0
-        max: _.max(points, 'y').y
-        showYScale: true
 
       points = @createLineChartPoints(days, campaignData)
       chartLines.push
