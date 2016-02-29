@@ -291,7 +291,7 @@ module.exports.initializeACE = (el, codeLanguage) ->
   session.setNewLineMode 'unix'
   return editor
 
-module.exports.prettyLanguages = capitalLanguages = 
+module.exports.capitalLanguages = capitalLanguages = 
   'javascript': 'JavaScript'
   'coffeescript': 'CoffeeScript'
   'python': 'Python'
