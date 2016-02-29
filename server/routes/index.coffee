@@ -23,6 +23,9 @@ module.exports.setup = (app) ->
   Course = require '../models/Course'
   app.get('/db/course', mw.rest.get(Course))
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
+  
+  Classroom = require '../models/Classroom'
+  app.get('/db/classroom', mw.auth.checkLoggedIn(), mw.rest.get(Classroom)) #TODO
 
   app.get '/db/products', require('./db/product').get
 
