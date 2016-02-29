@@ -33,7 +33,7 @@ module.exports =
     dbqs = []
     select = 'state.complete level creator'
     for member in members
-      dbqs.push(LevelSession.find({creator: member}).select(select).exec())
+      dbqs.push(LevelSession.find({creator: member.toHexString(), team: {$exists: false}}).select(select).exec())
     results = yield dbqs
     sessions = _.flatten(results)
     res.status(200).send(sessions)
