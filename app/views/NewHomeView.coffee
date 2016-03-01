@@ -18,7 +18,7 @@ module.exports = class NewHomeView extends RootView
     'click #learn-more-link': 'onClickLearnMoreLink'
 
   initialize: (options) ->
-    @jumbotron = options.jumbotron or utils.getQueryVariable('jumbotron') or 'student' # or 'characters'
+    @jumbotron = options.jumbotron or utils.getQueryVariable('jumbotron') or 'student'
     @courses = new CocoCollection [], {url: "/db/course", model: Course}
     @supermodel.loadCollection(@courses, 'courses')
 

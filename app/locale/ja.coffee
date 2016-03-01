@@ -4,7 +4,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     no_ie: "大変申し訳ありませんが、ご利用のブラウザ（IE8以下）はサポートされていません。(ChromeやFirefoxをご利用ください)" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat は携帯端末向けに制作されていないため、動作しない可能性があります。" # Warning that shows up on mobile devices
     play: "ゲーム<br>スタート" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "キャンペーンバージョンをプレイ" # Shows up under big play button if you only play /courses
     old_browser: "ご利用のブラウザはCodeCombatを動作させるには古すぎるようです" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "このまま進めることもできますが、正常動作は保証されません"
     ipad_browser: "CodeCombat は、iPad のブラウザでは動作しません。しかし、iPad アプリが現在 Apple の承認待ちとなっています。"
@@ -33,7 +33,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     contact: "お問い合わせ"
     twitter_follow: "フォロー"
     teachers: "教育関係者"
-#    careers: "Careers"
+    careers: "経歴"
 
   modal:
     close: "閉じる"
@@ -1091,17 +1091,17 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     level_component_config_schema: "スキーマの設定"
     level_component_settings: "設定"
     level_system_edit_title: "システムの編集"
-#    create_system_title: "Create New System"
-#    new_component_title: "Create New Component"
-#    new_component_field_system: "System"
-#    new_article_title: "Create a New Article"
-#    new_thang_title: "Create a New Thang Type"
-#    new_level_title: "Create a New Level"
-#    new_article_title_login: "Log In to Create a New Article"
-#    new_thang_title_login: "Log In to Create a New Thang Type"
-#    new_level_title_login: "Log In to Create a New Level"
-#    new_achievement_title: "Create a New Achievement"
-#    new_achievement_title_login: "Log In to Create a New Achievement"
+    create_system_title: "新しいシステムの作成"
+    new_component_title: "新しい部品の作成"
+    new_component_field_system: "システム"
+    new_article_title: "新しい記事の作成"
+    new_thang_title: "新しいサングの型の作成"
+    new_level_title: "新しいレベルの作成"
+    new_article_title_login: "ログインして新しい記事の作成"
+    new_thang_title_login: "ログインして新しいサングの型の作成"
+    new_level_title_login: "ログインして新しいレベルの作成"
+    new_achievement_title: "新しい実績の作成"
+    new_achievement_title_login: "ログインして新しい実績の作成"
 #    new_poll_title: "Create a New Poll"
 #    new_poll_title_login: "Log In to Create a New Poll"
 #    article_search_title: "Search Articles Here"
@@ -1454,8 +1454,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   multiplayer:
     multiplayer_title: "マルチプレイ設定" # We'll be changing this around significantly soon. Until then, it's not important to translate.
-#    multiplayer_toggle: "Enable multiplayer"
-#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_toggle: "マルチプレーヤーを有効化"
+    multiplayer_toggle_description: "他のユーザーがゲームに参加することを許可"
     multiplayer_link_description: "このURLを一緒にプレイしたい人に教えてください。"
     multiplayer_hint_label: "ヒント:"
     multiplayer_hint: " リンクを選択後、 ⌘-C(MacOS) or Ctrl-C(Windows) でリンクをコピーできます。"
