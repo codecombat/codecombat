@@ -26,6 +26,9 @@ module.exports.setup = (app) ->
   
   Classroom = require '../models/Classroom'
   app.get('/db/classroom', mw.auth.checkLoggedIn(), mw.rest.get(Classroom)) #TODO
+  
+  Campaign = require '../models/Campaign'
+  app.get('/db/campaign', mw.campaigns.fetchByType) #TODO
 
   app.get '/db/products', require('./db/product').get
 
