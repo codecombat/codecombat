@@ -83,7 +83,7 @@ module.exports = class SuperModel extends Backbone.Model
       
   # Eventually should use only these functions. Use SuperModel just to track progress.
   trackModel: (model, value) ->
-    res = @addModelResource(collection, '', {}, value)
+    res = @addModelResource(model, '', {}, value)
     res.listen()
 
   trackCollection: (collection, value) ->

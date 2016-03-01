@@ -4,7 +4,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     no_ie: "A CodeCombat nem támogatja az Internet Explorer 8, vagy korábbi verzióit. Bocsi!" # Warning that only shows up in IE8 and older
     no_mobile: "A CodeCombat nem mobil eszközökre lett tervezve. Valószínűleg nem működik helyesen." # Warning that shows up on mobile devices
     play: "Játssz!" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Játssz a kampányban!" # Shows up under big play button if you only play /courses
     old_browser: "Hohó, a böngésződ már túl régi ahhoz, hogy a CodeCombat futhasson rajta. Bocsi!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Megpróbálhatod éppen, da valószínűleg nem fog működni.."
     ipad_browser: "Rossz hír. CodeCombat nem fut iPadon böngészőben. Jó hír: a hivatalos iPad applikációnk csak az Apple jóváhagyására vár."
@@ -17,7 +17,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   nav:
     play: "Játék" # The top nav bar entry where players choose which levels to play
     community: "Közösség"
-#    courses: "Courses"
+    courses: "Kurzusok"
     editor: "Szerkesztő"
     blog: "Blog"
     forum: "Fórum"
@@ -33,11 +33,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     contact: "Kapcsolat"
     twitter_follow: "Követés"
     teachers: "Tanárok"
-#    careers: "Careers"
+    careers: "Karier"
 
   modal:
     close: "Mégse"
-    okay: "OK"
+    okay: "Oké"
 
   not_found:
     page_not_found: "Az oldal nem található"
@@ -52,7 +52,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   play:
     play_as: "Játssz mint" # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "Mérkőzz!" # Course details page
     spectate: "Néző" # Ladder page
     players: "Játékosok" # Hover over a level on /play
     hours_played: "Játékidő" # Hover over a level on /play
@@ -68,14 +68,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     achievements: "Eredmények" # Tooltip on achievement list button from /play
     account: "Fiók" # Tooltip on account button from /play
     settings: "Beállítások" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Kérdőív" # Tooltip on poll button from /play
     next: "Következő" # Go from choose hero to choose inventory before playing a level
     change_hero: "Hős váltás" # Go back from choose inventory to choose hero
     buy_gems: "Vásárolj Drágköveket"
     subscription_required: "Előfizetést igényel"
     anonymous: "Anonímusz Játékos"
     level_difficulty: "Nehézség: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "Osztálytermi változat" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Kezdő Kampány"
     awaiting_levels_adventurer_prefix: "Minden héten öt új pályát teszünk elérhetővé." # {change}
     awaiting_levels_adventurer: "Jelentkezz fel mint Kalandor"
@@ -114,9 +114,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     log_in: "Belépés meglévő fiókkal"
     required: "Csak akkor mehetsz arra, ha már bejelentkeztél."
     login_switch: "Már van fiókod?"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
+    school_name: "Iskolád neve és városa"
+    optional: "nem kötelező"
+    school_name_placeholder: "Példa Suli, Abaszentfűzikeresztkút"
 
   recover:
     recover_account_title: "Meglévő fiók visszaállítása"
@@ -152,7 +152,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     unwatch: "Követés vége"
     submit_patch: "Kiegészítés bemutatása"
     submit_changes: "Változások véglegesítése"
-#    save_changes: "Save Changes"
+    save_changes: "Változások mentése"
 
   general:
     and: "és"
@@ -164,9 +164,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     accepted: "Elfogadva"
     rejected: "Elutasítva"
     withdrawn: "Visszavon"
-#    accept: "Accept"
-#    reject: "Reject"
-#    withdraw: "Withdraw"
+    accept: "Eldogad"
+    reject: "Visszautasít"
+    withdraw: "Vissazvon"
     submitter: "Beküldő"
     submitted: "Beküldött"
     commit_msg: "Üzenet feladása"
@@ -221,12 +221,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     years: "évek"
 
   play_level:
-#    completed_level: "Completed Level:"
+    completed_level: "Teljesített pálya:"
 #    course: "Course:"
     done: "Kész"
-#    next_level: "Next Level:"
-#    next_game: "Next game"
-#    show_menu: "Show game menu"
+    next_level: "Következő pálya:"
+    next_game: "Következő játék"
+    show_menu: "Játék Menü"
     home: "Kezdőlap" # Not used any more, will be removed soon.
     level: "Pálya" # Like "Level: Dungeons of Kithgard"
     skip: "Ugrás"
@@ -256,14 +256,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_saving_progress: "Folyamat mentése"
     victory_go_home: "Vissza a kezdőoldalra"
     victory_review: "Mondd el a véleményedet!"
-#    victory_review_placeholder: "How was the level?"
+    victory_review_placeholder: "Milyen volt a pálya?"
     victory_hour_of_code_done: "Készen vagy?"
     victory_hour_of_code_done_yes: "Igen, ez volt életem kódja!"
     victory_experience_gained: "Szerzett tapasztalat"
     victory_gems_gained: "Szerzett Drágakövek"
-#    victory_new_item: "New Item"
+    victory_new_item: "Új tárgy"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
+    victory_become_a_viking: "Legyél Viking"
     guide_title: "Útmutató"
     tome_cast_button_run: "Futtatás"
     tome_cast_button_running: "Futás..."
@@ -285,11 +285,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     time_current: "Most:"
     time_total: "Maximum:"
     time_goto: "Menj"
-#    non_user_code_problem_title: "Unable to Load Level"
-#    infinite_loop_title: "Infinite Loop Detected"
-#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
-#    check_dev_console: "You can also open the developer console to see what might be going wrong."
-#    check_dev_console_link: "(instructions)"
+    non_user_code_problem_title: "Nem sikerült betölteni a pályát"
+    infinite_loop_title: "Végtelen ciklust észleltünk"
+    infinite_loop_description: "A kezdeti kód, ami a világot építi fel, nem fejeződött be. Valószínűleg vagy nagyon lassú, vagy végtelen ciklust tartalmaz. Esetleg hibát tartalmaz. Megpróbálkozhatsz a kód újrafuttatásával, vagy állítsd vissza a kódot a kezdő állapotba. Ha ez sem segít, kérlek tudasd velünk!"
+    check_dev_console: "Továbbá megnyithatod a böngésző konzolját is (developer console), hogy lásd mi a hiba."
+    check_dev_console_link: "(útmatató)"
     infinite_loop_try_again: "Próbáld meg újra!"
     infinite_loop_reset_level: "Pálya újrakezdés"
     infinite_loop_comment_out: "Tegye a kódom kommentárba"
@@ -297,7 +297,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tip_scrub_shortcut: "Ctrl+[ és Ctrl+] visszatekerés és gyors-előre." # {change}
     tip_guide_exists: "Hasznos információkért kattints az oldal tetején az útmutatóra.."
     tip_open_source: "A CodeCombat 100%-osan nyitott forráskódú."
-#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "Élvezed a CodeCombat-ot? Mesélj rólunk a barátaidnak!"
     tip_beta_launch: "CodeCombat Béta teszt 2013 Októberétől elérhető."
     tip_think_solution: "A megoldásra gondolj, ne a problémára!"
     tip_theory_practice: "Elméletben nincs különbség elmélet és gyakorlat között. A gyakorlatban viszont van. - Yogi Berra"
@@ -326,7 +326,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tip_extrapolation: "Csak két fajta ember létezik. Az egyik, aki extrapolál hiányos adatokból..."
     tip_superpower: "A programozás képessége van legközelebb a szuperképességekhez."
     tip_control_destiny: "A valódi nyílt forráskódban, jogodban áll irányítani a sorsod. - Linus Torvalds"
-#    tip_no_code: "No code is faster than no code."
+    tip_no_code: "Semmilyen kód nem gyorsabb a semmi-kódnál."
     tip_code_never_lies: "A kód sosem hazudik, a kommentek néha. — Ron Jeffries"
     tip_reusable_software: "Mielőtt a szoftware újrafelhasználható lesz, előbb használhatónak kell lennie."
     tip_optimization_operator: "Minden nyelvben van egy optimalizáló operátor. A legtöbb nyelvben ez a ‘//’"
@@ -337,12 +337,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
-#    tip_open_source_contribute: "You can help CodeCombat improve!"
+    tip_open_source_contribute: "Segíthetsz a CodeCombat fejlesztésében!"
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
-#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
-#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
-#    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson"
+    tip_strong_opponents: "A legerősebb ellenfélnek is van gyengéje. - Itachi Uchiha"
+    tip_paper_and_pen: "Mielőtt nekiállsz kódolni, mindig segítségül hívhatsz a tervezéshez papírt és ceruzát."
+    tip_solve_then_write: "Először, old meg a problémát, aztán állj neki kódolni! - John Johnson"
 
   game_menu:
     inventory_tab: "Raktár"
@@ -407,10 +407,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     feature4: "<strong>{{gems}} bónusz drágakő</strong> minden hónapban!"
     feature5: "Videó oktatóanyagok"
     feature6: "Prémium email támogatás"
-#    feature7: "Private <strong>Clans</strong>"
+    feature7: "Privát <strong>Klánok</strong>"
     free: "Ingyenes"
     month: "hónap"
-#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+    must_be_logged: "Ehhez be kell jelentkezned. Kérlek regisztrálj, vagy lépj be a fenti menüben!"
     subscribe_title: "Feliratkozás"
     unsubscribe: "Leiratkozás"
     confirm_unsubscribe: "Leiratkozás megerősítése"
@@ -499,8 +499,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   skill_docs:
     writable: "írható" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "csak olvasható"
-#    action: "Action"
-#    spell: "Spell"
+    action: "Akció"
+    spell: "Varázsige"
     action_name: "név"
     action_cooldown: "Újratöltés"
     action_specific_cooldown: "Speciális újratöltés"
@@ -528,7 +528,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     editor_config_title: "Szerkesztő Beállítások"
     editor_config_keybindings_label: "Gyors-billentyűk"
 #    editor_config_keybindings_default: "Default (Ace)"
-#    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
+    editor_config_keybindings_description: "Ismert szerkesztők billyentyű kombinációit használhatod."
     editor_config_livecompletion_label: "Automatikus kód-kitöltés"
     editor_config_livecompletion_description: "Gépelés közben automatikus kód-kitöltés javaslatok megmutatása."
     editor_config_invisibles_label: "Láthatatlan karakterek"
@@ -625,7 +625,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     cla_url: "CLA"
     cla_suffix: "tartalmát."
     cla_agree: "ELFOGADOM"
-#    owner_approve: "An owner will need to approve it before your changes will become visible."
+    owner_approve: "Minden tulajdonosnak jóvá kell hagynia, mielőtt a változtatásaid láthatóvá válnak."
 
   contact:
     contact_us: "Lépj kapcsolatba velünk"
@@ -633,7 +633,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     forum_prefix: "Ha publikus dologról van szó, megpróbálhatod a "
     forum_page: "fórumban"
     forum_suffix: " is."
-#    faq_prefix: "There's also a"
+    faq_prefix: "Továbbá van egy"
     faq: "GYIK"
     subscribe_prefix: "Ha segítségre van szükséged egy pályán, "
     subscribe: "vásárolj CodeCombat előfizetést"
@@ -651,21 +651,21 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     picture_tab: "Kép"
     delete_account_tab: "Fiók törlése"
     wrong_email: "Rossz email-cím"
-#    wrong_password: "Wrong Password"
+    wrong_password: "Hibás jelszó"
     upload_picture: "Tölts föl egy képet"
     delete_this_account: "Fiók végleges törlése"
-#    reset_progress_tab: "Reset All Progress"
-#    reset_your_progress: "Clear all your progress and start over"
+    reset_progress_tab: "Eredmények törlése"
+    reset_your_progress: "Törli az össze eredményed. Tiszta lappal kezdhetsz újra."
 #    god_mode: "God Mode"
     password_tab: "Jelszó"
     emails_tab: "Levelek"
     admin: "Adminisztrátor"
-#    manage_subscription: "Click here to manage your subscription."
+    manage_subscription: "Kattints ide az előfizetések kezeléséhez."
     new_password: "Új jelszó"
     new_password_verify: "Új jelszó megismétlése"
     type_in_email: "Írd be az email-címed a törlés megerősítéséhez"
-#    type_in_email_progress: "Type in your email to confirm deleting your progress."
-#    type_in_password: "Also, type in your password."
+    type_in_email_progress: "Add meg az email címedet az eredmények törléséhez!"
+    type_in_password: "Továbbá add meg a jelszavad is!"
     email_subscriptions: "Hírlevél feliratkozások"
     email_subscriptions_none: "Nem kérek email értesítéseket."
     email_announcements: "Bejelentések"
@@ -691,7 +691,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     keyboard_shortcuts: "Billentyűparancsok"
     space: "Szünet"
     enter: "Enter"
-#    press_enter: "press enter"
+    press_enter: "Nyomj Entert"
     escape: "Kilépés"
 #    shift: "Shift"
     run_code: "Aktuális kód futtatása."
@@ -705,7 +705,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    toggle_debug: "Toggle debug display."
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
-#    beautify: "Beautify your code by standardizing its formatting."
+    beautify: "A kód kicsinosítása és szabványos formátumra hozása."
     maximize_editor: "Maximális/Minimális kód szerkesztő."
 
   community:
@@ -1047,8 +1047,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    indoor: "Indoor"
     desert: "Sivatag"
     grassy: "Füves"
-#    mountain: "Mountain"
-#    glacier: "Glacier"
+    mountain: "Hegyes"
+    glacier: "Gleccser"
     small: "Kicsi"
     large: "Nagy"
     fork_title: "Új Verzió villára vétele"
@@ -1228,7 +1228,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     choose_opponent: "Válassz ellenfelet!"
     select_your_language: "Válassz nyelvet!"
     tutorial_play: "Gyakorlójáték"
-#    tutorial_recommended: "Recommended if you've never played before"
+    tutorial_recommended: "Javasolt, ha még sohasem játszottál."
     tutorial_skip: "Gyakorlójáték átugrása"
     tutorial_not_sure: "Nem érted mi folyik?"
     tutorial_play_first: "Játssz egy gyakorlójátékot először!"
@@ -1269,12 +1269,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     status: "Státusz"
     status_completed: "Befejezett"
     status_unfinished: "Folyamatban lévő"
-#    no_singleplayer: "No Singleplayer games played yet."
-#    no_multiplayer: "No Multiplayer games played yet."
+    no_singleplayer: "Még nem játszott egyjátékos játékot."
+    no_multiplayer: "Még nem játszott többjátékos játékot."
 #    no_achievements: "No Achievements earned yet."
     favorite_prefix: "A kedvenc nyelv "
     favorite_postfix: "."
-#    not_member_of_clans: "Not a member of any clans yet."
+    not_member_of_clans: "Még egy Klánnak sem tagja."
 
   achievements:
     last_earned: "Utolsónak megszerzett"
@@ -1342,18 +1342,18 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
-#  loading_error:
+  loading_error:
 #    could_not_load: "Error loading from server"
-#    connection_failure: "Connection failed."
+    connection_failure: "Kapcsolat megszakadt."
 #    unauthorized: "You need to be signed in. Do you have cookies disabled?"
 #    forbidden: "You do not have the permissions."
-#    not_found: "Not found."
+    not_found: "Nem található."
 #    not_allowed: "Method not allowed."
 #    timeout: "Server timeout."
 #    conflict: "Resource conflict."
-#    bad_input: "Bad input."
-#    server_error: "Server error."
-#    unknown: "Unknown error."
+    bad_input: "Hibás bemenet."
+    server_error: "Szerver hiba."
+    unknown: "Ismeretlen hiba."
 #    error: "ERROR"
 
 #  resources:
@@ -1417,45 +1417,45 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    members: "Members"
 #    users: "Users"
 
-#  concepts:
+  concepts:
 #    advanced_strings: "Advanced Strings"
-#    algorithms: "Algorithms"
-#    arguments: "Arguments"
+    algorithms: "Algoritmusok"
+    arguments: "Argumentumok"
 #    arithmetic: "Arithmetic"
-#    arrays: "Arrays"
-#    basic_syntax: "Basic Syntax"
+    arrays: "Tömbök"
+    basic_syntax: "Alap Szintaxis"
 #    boolean_logic: "Boolean Logic"
 #    break_statements: "Break Statements"
 #    classes: "Classes"
 #    continue_statements: "Continue Statements"
 #    for_loops: "For Loops"
-#    functions: "Functions"
-#    graphics: "Graphics"
-#    if_statements: "If Statements"
+    functions: "Függvények"
+    graphics: "Grafika"
+    if_statements: "Feltételes elágazás"
 #    input_handling: "Input Handling"
-#    math_operations: "Math Operations"
+    math_operations: "Matematikai műveletek"
 #    object_literals: "Object Literals"
-#    parameters: "Parameters"
-#    strings: "Strings"
-#    variables: "Variables"
+    parameters: "Paraméterek"
+    strings: "Szövegek"
+    variables: "Változók"
 #    vectors: "Vectors"
 #    while_loops: "Loops"
-#    recursion: "Recursion"
+    recursion: "Rekurzió"
 
-#  delta:
-#    added: "Added"
-#    modified: "Modified"
-#    not_modified: "Not Modified"
-#    deleted: "Deleted"
+  delta:
+    added: "Hozzáadott"
+    modified: "Módosított"
+    not_modified: "Nem Módosított"
+    deleted: "Törölt"
 #    moved_index: "Moved Index"
-#    text_diff: "Text Diff"
+    text_diff: "Szöveg Különbség"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
-#    no_changes: "No Changes"
+    no_changes: "Nincs Változás"
 
   multiplayer:
     multiplayer_title: "Többjátékos beállítások" # We'll be changing this around significantly soon. Until then, it's not important to translate.
-#    multiplayer_toggle: "Enable multiplayer"
-#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_toggle: "Többjátékos mód engedélyezése"
+    multiplayer_toggle_description: "Megengeded másoknak, hogy a játékodhoz csatlakozzanak."
     multiplayer_link_description: "Add oda ezt a linket bárkinek, és csatlakozhatnak hozzád."
     multiplayer_hint_label: "Tipp:"
     multiplayer_hint: " Kattints a linkre, és Ctrl+C-vel (vagy ⌘+C-vel) másold a vágólapra!"
