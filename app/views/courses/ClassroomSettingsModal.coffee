@@ -46,6 +46,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     button.text($.i18n.t('common.saving')).attr('disabled', true)
     @classroom.save()
     @listenToOnce @classroom, 'error', (model, jqxhr) ->
+      @stopListening @classroom, 'sync', @hide
       button.text(@oldButtonText).attr('disabled', false)
       errors.showNotyNetworkError(jqxhr)
     @listenToOnce @classroom, 'sync', @hide
