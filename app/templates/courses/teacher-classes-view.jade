@@ -11,10 +11,21 @@ block content
   .classes.container
     // Loop each class
     each classroom in view.classrooms.models
-      +classRow(classroom)
+      unless classroom.get('archived')
+        +classRow(classroom)
+  
+  .container
+    h3(data-i18n="TODO")
+      | Archived Classes
+    h4(data-i18n="TODO")
+      | Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again.
+
+  .classes.container
+    each classroom in view.classrooms.models
+      if classroom.get('archived')
+        +archivedClassRow(classroom)
       
 mixin classRow(classroom)
-  - console.log(classroom)
   .class.row
     .col-xs-6
       .text-h2.semibold
@@ -31,17 +42,22 @@ mixin classRow(classroom)
         &nbsp;
         span
           = classroom.get('members').length
-      a(data-i18n="TODO")
-        | view class
-      a.edit-classroom(data-i18n="TODO" data-classroom-id=classroom.id)
-        | edit class settings
-      a(data-i18n="TODO")
-        | archive class
+      .class-links
+        a.text-h6(data-i18n="TODO" href=("/teachers/classes/" + classroom.id))
+          | view class
+        a.edit-classroom.text-h6(data-i18n="TODO" data-classroom-id=classroom.id)
+          | edit class settings
+        a.archive-classroom.text-h6(data-i18n="TODO" data-classroom-id=classroom.id)
+          | archive class
+        if classroom.get('archived')
+          span
+            | (archived)
     .col-xs-6
-      each course in view.courses.models
-        +progressDot(classroom, course)
+      each course, index in view.courses.models
+        +progressDot(classroom, course, index)
 
-mixin progressDot(classroom, course)
+mixin progressDot(classroom, course, index)
+  //- TODO: Give classes abbreviations instead of using index?
   //- TODO: inefficient. Cache this in the view?
   - courseInstance = view.courseInstances.getByCourseAndClassroom(course, classroom)
   if !courseInstance
@@ -50,11 +66,22 @@ mixin progressDot(classroom, course)
     - console.log(courseInstance.numCompleted)
     if courseInstance.numCompleted > 0
       .progress-dot.forest
-        .dot-label
-          .text-h6
-            | CS1
+        +progressDotLabel(index)
     else
       .progress-dot.gold
-        .dot-label
-          .text-h6
-            | CS1
+        +progressDotLabel(index)
+
+mixin progressDotLabel(index)
+  .dot-label
+    .text-h6
+      | CS
+      span
+        = index + 1
+        
+mixin archivedClassRow(classroom)
+  .class.row
+    span
+      = classroom.get('name')
+    .class-links
+      a.unarchive-classroom.text-h6(data-i18n="TODO" data-classroom-id=classroom.id)
+        | unarchive class

@@ -16,6 +16,8 @@ module.exports = class TeacherClassesView extends RootView
   
   events:
     'click .edit-classroom': 'onClickEditClassroom'
+    'click .archive-classroom': 'onClickArchiveClassroom'
+    'click .unarchive-classroom': 'onClickUnarchiveClassroom'
 
   constructor: (options) ->
     super(options)
@@ -144,3 +146,21 @@ module.exports = class TeacherClassesView extends RootView
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
+    
+  onClickArchiveClassroom: (e) ->
+    classroomID = $(e.target).data('classroom-id')
+    classroom = @classrooms.get(classroomID)
+    classroom.set('archived', true)
+    classroom.save {}, {
+      success: =>
+        @render()
+    }
+    
+  onClickUnarchiveClassroom: (e) ->
+    classroomID = $(e.target).data('classroom-id')
+    classroom = @classrooms.get(classroomID)
+    classroom.set('archived', false)
+    classroom.save {}, {
+      success: =>
+        @render()
+    }
