@@ -81,14 +81,19 @@ mixin progressDot(classroom, course, index)
   - courseInstance = view.courseInstances.getByCourseAndClassroom(course, classroom)
   if !courseInstance
     .progress-dot
+      +progressDotLabel(index)
+      +progressDotHoverInfoNoProgress
   else
-    - console.log(courseInstance.numCompleted)
-    if courseInstance.numCompleted > 0
+    - var total = courseInstance.get('members').length
+    - var complete = courseInstance.numCompleted
+    if complete === total
       .progress-dot.forest
         +progressDotLabel(index)
+        +progressDotHoverInfo(total, complete)
     else
       .progress-dot.gold
         +progressDotLabel(index)
+        +progressDotHoverInfo(total, complete)
 
 mixin progressDotLabel(index)
   .dot-label
@@ -96,6 +101,29 @@ mixin progressDotLabel(index)
       | CS
       span
         = index + 1
+
+mixin progressDotHoverInfo(total, complete)
+  - var percentage = complete/total * 100
+  - var className = (total > complete ? 'navy' : (total > 0 ? 'forest' : ''))
+  .hover-info
+    .hover-inside.text-center(class=className)
+      .fraction-students.small-details
+        = complete
+        | /
+        = total
+        span(data-i18n="TODO")
+          | &nbsp;Students
+      .percent-students.small-details
+        = percentage
+        | %
+        span(data-i18n="TODO")
+          | &nbsp;Complete
+
+mixin progressDotHoverInfoNoProgress(total, complete)
+  .hover-info
+    .hover-inside.text-center
+      span.small-details(data-i18n="TODO")
+        | No Progress
         
 mixin archivedClassRow(classroom)
   .class.row

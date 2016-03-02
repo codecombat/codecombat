@@ -33,6 +33,71 @@
 
   .class:nth-child(2n)
     background-color: $grey-light
+        
+  .progress-dot .hover-info
+    display: none
+    position: absolute
+    bottom: 100%
+    .hover-inside
+      margin-left: -50%
+      margin-top: -50%
+      border-radius: 9999px
+      border-style: solid
+      border-width: thin
+      border-color: $grey-dark
+      color: $grey-dark
+      background: white
+      padding: 2px 10px
+      &.forest, &.gold
+        padding: 15px 0
+
+            
+      .small-details
+        line-height: 18px
+      
+      // Weird speech bubble hack http://nicolasgallagher.com/pure-css-speech-bubbles/demo/default.css
+      &.forest
+        border-color: $forest
+        color: $forest
+        &:before
+          border-color: $forest transparent
+      
+      &.gold
+        border-color: $gold
+        color: $gold
+        &:before
+          border-color: $gold transparent
+          
+      &.navy
+        border-color: $navy
+        color: $navy
+        &:before
+          border-color: $navy transparent
+      
+      position: relative
+      &:before
+        content: ""
+        position: absolute
+        bottom: -10px /* value = - border-top-width - border-bottom-width */
+        left: calc(50% - 10px) /* controls horizontal position */
+        border-width: 10px 10px 0 /* vary these values to change the angle of the vertex */
+        border-style: solid
+        border-color: $grey-dark transparent
+          
+      &:after
+        content: ""
+        position: absolute
+        bottom: -8px /* value = - border-top-width - border-bottom-width */
+        left: calc(50% - 8px) /* value = (:before left) + (:before border-left) - (:after border-left) */
+        border-width: 8px 8px 0
+        border-style: solid
+        border-color: white transparent
+        /* reduce the damage in FF3.0 */
+        display: block
+        width: 0
+    
+  .progress-dot:hover .hover-info
+    display: block
     
   .progress-dot
     display: inline-block
