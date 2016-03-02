@@ -1158,6 +1158,13 @@
     student_age_range_older: "Older than 18"
     student_age_range_to: "to"
     create_class: "Create Class"
+    
+  teacher:
+    my_classes: "My Classes"
+    courses: "Courses"
+    enrollments: "Enrollments"
+    resources: "Resources"
+    help: "Help"
 
 
   classes:
