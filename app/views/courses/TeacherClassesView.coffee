@@ -7,6 +7,7 @@ Campaigns = require 'collections/Campaigns'
 LevelSessions = require 'collections/LevelSessions'
 CourseInstances = require 'collections/CourseInstances'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
+InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 User = require 'models/User'
 utils = require 'core/utils'
 
@@ -18,6 +19,7 @@ module.exports = class TeacherClassesView extends RootView
     'click .edit-classroom': 'onClickEditClassroom'
     'click .archive-classroom': 'onClickArchiveClassroom'
     'click .unarchive-classroom': 'onClickUnarchiveClassroom'
+    'click .add-students-button': 'onClickAddStudents'
 
   constructor: (options) ->
     super(options)
@@ -144,6 +146,13 @@ module.exports = class TeacherClassesView extends RootView
     classroomID = $(e.target).data('classroom-id')
     classroom = @classrooms.get(classroomID)
     modal = new ClassroomSettingsModal({ classroom: classroom })
+    @openModalView(modal)
+    @listenToOnce modal, 'hide', @render
+    
+  onClickAddStudents: (e) =>
+    classroomID = $(e.target).data('classroom-id')
+    classroom = @classrooms.get(classroomID)
+    modal = new InviteToClassroomModal({ classroom: classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
     

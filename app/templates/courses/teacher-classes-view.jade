@@ -53,8 +53,19 @@ mixin classRow(classroom)
           span
             | (archived)
     .col-xs-6
-      each course, index in view.courses.models
-        +progressDot(classroom, course, index)
+      if classroom.get('members').length == 0
+        +addStudentsButton(classroom)
+      else
+        each course, index in view.courses.models
+          +progressDot(classroom, course, index)
+
+mixin addStudentsButton(classroom)
+  .add-students
+    .text-center
+      div.small-details
+        | This class has no students yet.
+      a.add-students-button.btn.btn-lg.btn-primary(data-classroom-id=classroom.id)
+        | Add Students
 
 mixin progressDot(classroom, course, index)
   //- TODO: Give classes abbreviations instead of using index?
