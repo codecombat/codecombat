@@ -38,9 +38,23 @@ mixin classRow(classroom)
       a(data-i18n="TODO")
         | archive class
     .col-xs-6
-      +progressDot()
-      +progressDot()
-      +progressDot()
+      each course in view.courses.models
+        +progressDot(classroom, course)
 
-mixin progressDot()
-  .progress-dot.forest
+mixin progressDot(classroom, course)
+  //- TODO: inefficient. Cache this in the view?
+  - courseInstance = view.courseInstances.getByCourseAndClassroom(course, classroom)
+  if !courseInstance
+    .progress-dot
+  else
+    - console.log(courseInstance.numCompleted)
+    if courseInstance.numCompleted > 0
+      .progress-dot.forest
+        .dot-label
+          .text-h6
+            | CS1
+    else
+      .progress-dot.gold
+        .dot-label
+          .text-h6
+            | CS1
