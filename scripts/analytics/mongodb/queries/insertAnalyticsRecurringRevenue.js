@@ -7,39 +7,33 @@
 
 // TODO: Investigate school sales amount == zero. Manual input error?
 
-try {
-  var scriptStartTime = new Date();
-  var analyticsStringCache = {};
+var scriptStartTime = new Date();
+var analyticsStringCache = {};
 
-  var numDays = 40;
-  var daysInMonth = 30;
+var numDays = 40;
+var daysInMonth = 30;
 
-  var startDay = new Date();
-  today = startDay.toISOString().substr(0, 10);
-  startDay.setUTCDate(startDay.getUTCDate() - numDays);
-  startDay = startDay.toISOString().substr(0, 10);
+var startDay = new Date();
+today = startDay.toISOString().substr(0, 10);
+startDay.setUTCDate(startDay.getUTCDate() - numDays);
+startDay = startDay.toISOString().substr(0, 10);
 
-  log("Today is " + today);
-  log("Start day is " + startDay);
+log("Today is " + today);
+log("Start day is " + startDay);
 
-  log("Getting recurring revenue counts...");
-  var recurringRevenueCounts = getRecurringRevenueCounts(startDay);
-  // printjson(recurringRevenueCounts);
-  log("Inserting recurring revenue counts...");
-  for (var event in recurringRevenueCounts) {
-    for (var day in recurringRevenueCounts[event]) {
-      if (today === day) continue; // Never save data for today because it's incomplete
-      // print(event, day, recurringRevenueCounts[event][day]);
-      insertEventCount(event, day, recurringRevenueCounts[event][day]);
-    }
+log("Getting recurring revenue counts...");
+var recurringRevenueCounts = getRecurringRevenueCounts(startDay);
+// printjson(recurringRevenueCounts);
+log("Inserting recurring revenue counts...");
+for (var event in recurringRevenueCounts) {
+  for (var day in recurringRevenueCounts[event]) {
+    if (today === day) continue; // Never save data for today because it's incomplete
+    // print(event, day, recurringRevenueCounts[event][day]);
+    insertEventCount(event, day, recurringRevenueCounts[event][day]);
   }
+}
 
-  log("Script runtime: " + (new Date() - scriptStartTime));
-}
-catch(err) {
-  log("ERROR: " + err);
-  printjson(err);
-}
+log("Script runtime: " + (new Date() - scriptStartTime));
 
 function getRecurringRevenueCounts(startDay) {
   if (!startDay) return {};
@@ -53,13 +47,14 @@ function getRecurringRevenueCounts(startDay) {
   while (cursor.hasNext()) {
     var doc = cursor.next();
     if (doc.created) {
-      day = doc.created.substring(0, 10);
+      day = new Date(doc.created).toISOString().substring(0, 10);
     }
     else {
       day = doc._id.getTimestamp().toISOString().substring(0, 10);
     }
 
     if (doc.service === 'ios' || doc.service === 'bitcoin') continue;
+    if (!doc.amount || doc.amount <= 0) continue;
 
     if (doc.prepaidID) {
       if (prepaidDayAmountMap[doc.prepaidID.valueOf()]) {

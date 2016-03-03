@@ -19,7 +19,7 @@ module.exports = class I18NEditModelView extends RootView
   constructor: (options, @modelHandle) ->
     super(options)
     @model = new @modelClass(_id: @modelHandle)
-    @model = @supermodel.loadModel(@model, 'model').model
+    @model = @supermodel.loadModel(@model).model
     @model.saveBackups = true
     @selectedLanguage = me.get('preferredLanguage', true)
 
@@ -172,7 +172,7 @@ module.exports = class I18NEditModelView extends RootView
       # Override PUT so we can trigger postNewVersion logic
       # or you're POSTing a Patch
       type = 'POST'
-    res = modelToSave.save(null, {type: type}) 
+    res = modelToSave.save(null, {type: type})
     return button.text('Failed to Submit Changes') unless res
     button.text('Submitting...')
     res.error => button.text('Error Submitting Changes')

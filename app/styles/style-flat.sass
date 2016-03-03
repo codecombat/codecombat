@@ -1,0 +1,256 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+
+// TODO: Move flat style into probably several files and Bootstrap variables
+
+// Variables
+
+$headline-font: 'Arvo', serif
+$body-font: 'Open Sans', sans-serif
+
+$burgandy: #7D0101
+$gold: #F2BE19
+$navy: #0E4C60
+$forest: #20572B
+
+.style-flat
+  background: white
+  color: black
+  
+  // Fonts
+  h1, h2, h3, h4, h5, h6, .text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6
+    // Unsetting game styles
+    font-variant: normal
+    color: black
+    margin: 0
+  
+  h1, .text-h1
+    font-family: $headline-font
+    font-weight: normal
+    font-size: 46px
+    line-height: 62px
+    
+  h2, .text-h2
+    font-family: $body-font
+    font-weight: lighter
+    font-size: 30px
+    line-height: 42px
+    
+  h3, .text-h3
+    font-family: $headline-font
+    font-weight: normal
+    font-size: 33px
+    line-height: 45px
+    
+  h4, .text-h4
+    font-family: $body-font
+    font-weight: lighter
+    font-size: 22px
+    line-height: 32px
+    
+  h5, .text-h5
+    font-family: $headline-font
+    font-weight: bold
+    font-size: 20px
+    line-height: 31px
+    
+  h6, .text-h6
+    font-family: $body-font
+    font-weight: bold
+    font-size: 14px
+    line-height: 20px
+    
+  p
+    margin: 0 0 14px
+    
+  .small
+    font-weight: normal
+    font-size: 14px
+    line-height: 20px
+
+  font-family: $body-font
+  font-size: 18px
+  line-height: 29px
+  
+  blockquote
+    border: none
+    
+    &:before 
+      font-family: "Monaco"
+      content: "\201C"
+      position: absolute
+      left: 0px
+      top: 20px
+      font-size: 40px
+      opacity: 0.5
+  
+  // Navbar
+
+  .navbar
+    background: white
+    margin-bottom: 0
+    white-space: nowrap // prevent home icon from going under brand
+
+    a.navbar-brand
+      #logo-img
+        width: 230px
+        height: 65px
+        margin-right: 10px
+
+      color: $burgandy
+      &:hover
+        color: white
+        background: $burgandy
+        
+      .glyphicon-home
+        position: relative
+        top: 3px
+
+    .navbar-toggle
+      color: black
+      margin: 30px 25px 0
+
+    .nav > li > a
+      // TODO: Move this to bootstrap variables for navbars
+      font-weight: bold
+      font-family: $body-font
+      font-size: 16px
+      padding: 38px 15px 37px
+      color: $burgandy
+      text-shadow: 0 0 0
+
+      &:hover
+        background: $burgandy
+        color: white
+
+    #language-dropdown-wrapper
+      display: inline-block
+      padding: 30px 10px
+      width: 100%
+      
+    @media (max-width: $screen-sm-min)
+      .nav > li > a
+        padding: 10px 20px
+      #language-dropdown-wrapper
+        display: inline-block
+        padding: 10px 10px
+        .language-dropdown
+          width: 150px
+      
+    .img-circle
+      border: $gold 8px solid
+      width: 98px
+      height: 98px // Includes the border
+      
+    .user-level
+      position: absolute
+      top: 76px
+      right: 42px
+      color: $gold
+      text-shadow: 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black
+      
+  // Buttons
+ 
+  .btn
+    border: none
+    border-radius: 5px
+    font-family: $body-font
+    font-weight: normal
+    background-image: none // overrides legacy buttons
+
+  .btn-primary, .btn-navy
+    background-color: $navy
+    color: white
+  
+  .btn-primary-alt, .btn-navy-alt
+    background-color: white
+    border: 1px solid $navy
+    color: $navy
+    
+  .btn-forest
+    background-color: $forest
+    color: white
+    
+  .btn-forest-alt
+    background-color: white
+    border: 1px solid $forest
+    color: $forest
+    
+  .btn-gold
+    background-color: $gold
+    color: white
+    
+  .btn-gold-alt
+    background-color: white
+    border: 1px solid $gold
+    color: $gold
+  
+  .btn-lg
+    font-size: 18px
+    
+  // Classes
+  
+  .text-navy
+    color: $navy
+    
+  .bg-navy
+    background-color: $navy
+    color: white
+    h1, h2, h3, h4, h5, h6, a
+      color: white
+    a.btn-primary-alt
+      color: $navy
+      
+    
+  // base-flat.jade
+      
+  #footer
+    background-image: url("/images/pages/home/footer_background.png")
+    height: 229px
+    margin: -22px auto 0
+    color: white
+
+    @media (max-width: $screen-sm-min)
+      background-color: #201a15
+      background-image: none
+      height: auto
+    
+    ul
+      margin: 30px
+      li:first-child
+        border-bottom: 1px solid white
+        margin-bottom: 10px
+    a
+      color: white
+      
+  #final-footer
+    position: absolute
+    left: 0
+    right: 0
+    height: 60px
+    color: white
+    background-color: #463a2c
+    @media (max-width: $screen-sm-min)
+      position: inherit
+      padding: 20px
+      height: auto
+    
+    a
+      color: white
+    
+    img
+      width: 150px
+      margin: 0 10px
+
+      
+  // modal-base-flat.jade
+  
+  &.modal-content
+    padding: 10px
+    border-radius: 0
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5)
+    
+  .button.close
+    position: absolute
+    top: 10px
+    left: 10px

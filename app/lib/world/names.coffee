@@ -145,10 +145,10 @@ module.exports.thangNames = thangNames =
   ]
   'Raven': [
     # Animal
-    'Nevermore'
     'Baltimore'
     'Columbia'
     'Dawnstar'
+    'Nevermore'
   ]
   'Cougar': [
     # Animal
@@ -160,33 +160,35 @@ module.exports.thangNames = thangNames =
   'Frog': [
     # Animal
     'Bighead'
-    'Hypnotoad'
-    'Freddy'
-    'Frogger'
-    'Froggy'
-    'Slippy'
-    'Wart'
     'Bufo'
     'Bunda'
     'Dan\'l Webster'
+    'Freddy'
+    'Frogger'
+    'Froggy'
+    'Hypnotoad'
     'Mr. Toad'
-    'Trevor'
-    'Wei Qi'
+    'Slippy'
     'Toada'
+    'Trevor'
+    'Wart'
+    'Wei Qi'
   ]
   'Horse': [
     # Animal
     'Abby'
-    'Wildsilver'
-    'Fleetfire'
-    'Ed'
-    'Silver'
-    'Hurricane'
     'Beauty'
-    'Lovelace'
-    'Mirial'
-    'Miracle'
+    'Cinnamon'
     'Codasus'
+    'Ed'
+    'Fleetfire'
+    'Hurricane'
+    'Lovelace'
+    'Miracle'
+    'Mirial'
+    'Powder'
+    'Silver'
+    'Wildsilver'
   ]
   'Ogre M': [
     # Male
@@ -245,12 +247,16 @@ module.exports.thangNames = thangNames =
     'Haggar'
     'Heizenburg'
     'Ironjaw'
+    'Mokuhr'
     'Muul'
     'Ork\'han'
     'Roast Beefy'
+    'Toharg'
     'Trod'
     'Tuguro'
+    'Turrok'
     'York'
+    'Zabarek'
     'Zagurk'
     'Zeredd'
   ]
@@ -280,6 +286,7 @@ module.exports.thangNames = thangNames =
     'Gom'
     'Grek'
     'Gror'
+    'Grue'
     'Il\'Du\'duka'
     'Makas'
     'Mogadishu'
@@ -306,6 +313,7 @@ module.exports.thangNames = thangNames =
     'Bonejangles'
     'Bonesworth'
     'Bonette'
+    'Boneus'
     'Doornail'
     'Drybones'
     'Grim'
@@ -320,8 +328,8 @@ module.exports.thangNames = thangNames =
     'Scraps'
     'Shelly'
     'Shishka-Bob'
-    'Shishka-Larry'
     'Shishka-Joe'
+    'Shishka-Larry'
     'Skeletor'
     'Skellington'
     'Skulldugger'
@@ -333,7 +341,6 @@ module.exports.thangNames = thangNames =
     'Tatava'
     'Ulna'
     'Yorick'
-    'Boneus'
   ]
   'Ogre Headhunter': [
     # Male

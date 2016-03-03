@@ -138,7 +138,10 @@ module.exports = class LevelGuideView extends CocoView
     tag.height = @helpVideoHeight
     tag.width = @helpVideoWidth
     tag.allowFullscreen = true
-    @$el.find('#help-video-player').replaceWith(tag)
+    tag.mozAllowFullscreen = true
+    $tag = $(tag)
+    $tag.attr('webkitallowfullscreen', true) # strong arm Safari into working
+    @$el.find('#help-video-player').replaceWith($tag)
 
     @onMessageReceived = (e) =>
       data = JSON.parse(e.data)

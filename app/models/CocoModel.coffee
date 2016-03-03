@@ -426,25 +426,25 @@ class CocoModel extends Backbone.Model
     # language codes that are covered for every i18n object are fully covered
     overallCoverage = _.intersection(langCodeArrays...)
     @set('i18nCoverage', overallCoverage)
-    
+
   saveNewMinorVersion: (attrs, options={}) ->
     options.url = @url() + '/new-version'
     options.type = 'POST'
     return @save(attrs, options)
-    
+
   saveNewMajorVersion: (attrs, options={}) ->
     attrs = attrs or _.omit(@attributes, 'version')
     options.url = @url() + '/new-version'
     options.type = 'POST'
     options.patch = true # do not let version get sent along
     return @save(attrs, options)
-    
+
   fetchPatchesWithStatus: (status='pending', options={}) ->
     Patches = require '../collections/Patches'
     patches = new Patches()
     options.data ?= {}
     options.data.status = status
-    options.url = @urlRoot + '/' + @get('original') + '/patches'
+    options.url = @urlRoot + '/' + (@get('original') or @id) + '/patches'
     patches.fetch(options)
     return patches
 

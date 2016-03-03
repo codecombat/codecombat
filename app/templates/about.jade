@@ -1,188 +1,372 @@
-extends /templates/base
+extends /templates/base-flat
 
 block content
+  .style-flat(data-spy="scroll", data-target="#nav-container")
+    .container-fluid#jumbotron
+      .container
+        .row
+          //TODO: Size these correctly
+          .col-xs-10
+            h1(data-i18n="about.main_title")
+        .row
+          .col-xs-8
+            h2(data-i18n="about.main_description")
 
-  img(src="/images/pages/about/coco_comic.jpg")
+    #nav-container
+      nav#fixed-nav.nav.navbar
+        .container-fluid.text-center
+          ul.center-block
+            li.active
+              a(href="#mission")#mission-link
+                small.label(data-i18n="about.mission_link")
+            li
+              a(href="#team")#team-link
+                small.label(data-i18n="about.team_link")
+            li
+              a(href="#community")#community-link
+                small.label(data-i18n="about.community_link")
+            li
+              a(href="#story")#story-link
+                small.label(data-i18n="about.story_link")
+            li
+              a(href="#jobs")#jobs-link
+                small.label(data-i18n="about.careers_link")
+            li
+              a(href="#contact")#contact-link
+                small.label(data-i18n="about.press_link")
 
-  .row
+    #about-container.container
+      #mission.anchor.row
+        .col-sm-6#mission-graphic.responsive-side-margins
+          img(src="/images/pages/about/globe_white.png")
+          h2(data-i18n="about.mission_title")
+          #mission-graphic-filler
+        .col-sm-5.col-sm-offset-1
+          #mission-text.responsive-side-margins
+            p(data-i18n="[html]about.mission_description_1")
+            p(data-i18n="[html]about.mission_description_2")
 
-    .col-sm-6
-
-      h2(data-i18n="about.why_codecombat")
-        | Why CodeCombat?
-
-      p(data-i18n="about.why_paragraph_1")
-        | If you want to learn to program, you don't need lessons. 
-        | You need to write a lot of code and have a great time doing it.
-
-      p
-        span(data-i18n="about.why_paragraph_2_prefix")
-          | That's what programming is about. It's gotta be fun.
-          | Not fun like
-        span  
-        i(data-i18n="about.why_paragraph_2_italic")
-          | yay a badge
-        span  
-        span(data-i18n="about.why_paragraph_2_center")
-          | but fun like
-        span  
-        i(data-i18n="about.why_paragraph_2_italic_caps")
-          | NO MOM I HAVE TO FINISH THE LEVEL!
-        span  
-        span(data-i18n="about.why_paragraph_2_suffix")
-          | That's why CodeCombat is a multiplayer game,
-          | not a gamified lesson course. We won't stop 
-          | until you can't stop--but this time, that's a good thing.
-
-      p(data-i18n="about.why_paragraph_3")
-        | If you're going to get addicted to some game, 
-        | get addicted to this one and become one of the wizards of the tech age.
-
-      h2(data-i18n="about.press_title")
-        | Bloggers/Press
-
-      p
-        span.spr(data-i18n="about.press_paragraph_1_prefix")
-          | Want to write about us? Feel free to download and use all of the resources included in our
-        a(href="https://s3.amazonaws.com/CodeCombatMisc/press_packet.zip", data-i18n="about.press_paragraph_1_link") press packet
-        span(data-i18n="about.press_paragraph_1_suffix")
-          | . All logos and images may be used without contacting us directly.
-
-      h2(data-i18n="nav.contact")
-        | Contact
-      p
-        span CodeCombat Inc.
-        br
-        span 360 3rd St Suite 700 (Livefyre)
-        br
-        span San Francisco, CA 94107
-        br
-        a(href='mailto:team@codecombat.com') team@codecombat.com
-      if me.get('preferredLanguage') == 'pt-BR'
-        span CodeCombat, Brazil
-        br
-        span Rua 1814 Militão Chaves
-        br
-        span Natal, Brazil, RN 59064-500
-
-    ul.col-sm-6.team-column
-
-      ul.thumbnails
-
-        li.row
-
-          h2(data-i18n="about.team") Team
-
+      #team.anchor
+        .text-center
+          h3(data-i18n="about.team_title")
+          h4.responsive-side-margins(data-i18n="about.team_values")
+        ul
           // Full time
+          li
+            a(href="http://www.nickwinter.net" rel="external")
+              img(src="/images/pages/about/nick_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="http://www.nickwinter.net" rel="external") Nick Winter
+              small(data-i18n="about.nick_title")
+              small(data-i18n="about.nick_blurb")
 
-          a(href="http://www.nickwinter.net")
-            img(src="/images/pages/about/nick_small.png").img-thumbnail
-          .team_bio
-            h4.team_name
-              a(href="http://www.nickwinter.net") Nick Winter
-            div(data-i18n="about.nick_title")
-            div(data-i18n="about.nick_blurb")
+          li
+            a(href="http://www.mattlott.com/" rel="external")
+              img(src="/images/pages/about/matt_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="http://www.mattlott.com/" rel="external") Matt Lott
+              small(data-i18n="about.matt_title")
+              br
 
-          a(href="http://www.mattlott.com/")
-            img(src="/images/pages/about/matt_small.png").img-thumbnail
-          .team_bio
-            h4.team_name
-              a(href="http://www.mattlott.com/") Matt Lott
-            div(data-i18n="about.matt_title")
-            div(data-i18n="about.matt_blurb")
+          li
+            a(href="http://cat.zdh.com/" rel="external")
+              img(src="/images/pages/about/cat_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="http://cat.zdh.com/" rel="external") Catherine Weresow
+              small(data-i18n="about.cat_title")
+              small(data-i18n="about.cat_blurb")
 
-        li.row
+          li
+            img(src="/images/pages/about/scott_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name Scott Erickson
+              small(data-i18n="about.scott_title")
+              small(data-i18n="about.scott_blurb")
 
-          a(href="http://cat.zdh.com/")
-            img(src="/images/pages/about/cat_small.png").img-thumbnail
-          .team_bio
-            h4.team_name
-              a(href="http://cat.zdh.com/") Catherine Weresow
-            div(data-i18n="about.cat_title")
-            div(data-i18n="about.cat_blurb")
+          li
+            img(src="/images/pages/about/maka_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name Michael 'Maka' Gradin
+              small(data-i18n="about.maka_title")
+              small(data-i18n="about.maka_blurb")
 
-          img(src="/images/pages/about/scott_small.png").img-thumbnail
-          .team_bio
-            h4.team_name Scott Erickson
-            div(data-i18n="about.scott_title")
-            div(data-i18n="about.scott_blurb")
+          li
+            a(href="http://basicer.com/" rel="external")
+              img(src="/images/pages/about/rob_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="http://basicer.com/" rel="external") Rob Blanckaert
+              small(data-i18n="about.rob_title")
+              small(data-i18n="about.rob_blurb")
 
-        li.row
+          li
+            img(src="/images/pages/about/josh_c_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name Josh Callebaut
+              small(data-i18n="about.josh_c_title")
+              small(data-i18n="about.josh_c_blurb")
 
-          img(src="/images/pages/about/maka_small.png").img-thumbnail
-          .team_bio
-            h4.team_name Michael 'Maka' Gradin
-            div(data-i18n="about.maka_title")
-            div(data-i18n="about.maka_blurb")
-
-          a(href="http://basicer.com/")
-            img(src="/images/pages/about/rob_small.png").img-thumbnail
-          .team_bio
-            h4.team_name
-              a(href="http://basicer.com/") Rob Blanckaert
-            div(data-i18n="about.rob_title")
-            div(data-i18n="about.rob_blurb")
-
-        li.row
-
-          img(src="/images/pages/about/josh_c_small.png").img-thumbnail
-          .team_bio
-            h4.team_name Josh Callebaut
-            div(data-i18n="about.josh_c_title")
-            div(data-i18n="about.josh_c_blurb")
-
-          a(href="http://robinyang.com/")
-            img(src="/images/pages/about/robin_small.png").img-thumbnail
-          .team_bio
-            h4.team_name
-              a(href="http://robinyang.com/") Robin Yang
-            div(data-i18n="about.robin_title")
-            div(data-i18n="about.robin_blurb")
+          li
+            a(href="http://robinyang.com/" rel="external")
+              img(src="/images/pages/about/robin_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="http://robinyang.com/" rel="external") Robin Yang
+              small(data-i18n="about.robin_title")
+              small(data-i18n="about.robin_blurb")
 
 
-        // Part time / contract
+          // Part time / contract
+          li
+            a(href="http://floor.is/lava/" rel="external")
+              img(src="/images/pages/about/josh_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="http://floor.is/lava/" rel="external") Josh Lee
+              small(data-i18n="about.josh_title")
+              small(data-i18n="about.josh_blurb")
 
-        li.row
+          li
+            a(href="https://soundcloud.com/taking-off" rel="external")
+              img(src="/images/pages/about/jose_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="https://soundcloud.com/taking-off" rel="external") Jose Antonini
+              small(data-i18n="about.jose_title")
+              small(data-i18n="about.jose_blurb")
 
-          a(href="http://floor.is/lava/")
-            img(src="/images/pages/about/josh_small.png").img-thumbnail
-          .team_bio
-            h4.team_name
-              a(href="http://floor.is/lava/") Josh Lee
-            div(data-i18n="about.josh_title")
-            div(data-i18n="about.josh_blurb")
+          li
+            a(href="http://retrostylegames.com/" rel="external")
+              img(src="/images/pages/about/pavel_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="http://retrostylegames.com/" rel="external") Pavel Konstantinov
+              small(data-i18n="about.retrostyle_title")
+              small(data-i18n="about.retrostyle_blurb")
 
-          a(href="https://soundcloud.com/taking-off")
-            img(src="/images/pages/about/jose_small.png").img-thumbnail
-          .team_bio
-            h4.team_name
-              a(href="https://soundcloud.com/taking-off") Jose Antonini
-            div(data-i18n="about.jose_title")
-            div(data-i18n="about.jose_blurb")
+          li
+            a(href="http://retrostylegames.com/" rel="external")
+              img(src="/images/pages/about/oleg_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="http://retrostylegames.com/" rel="external") Oleg Ulyanickiy
+              small(data-i18n="about.retrostyle_title")
+              small(data-i18n="about.retrostyle_blurb")
 
-        li.row
+          li
+            img(src="/images/pages/about/carlos_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name Carlos Maia
+              small(data-i18n="about.carlos_title")
+              small(data-i18n="about.carlos_blurb")
 
-          a(href="http://retrostylegames.com/")
-            img(src="/images/pages/about/pavel_small.png").img-thumbnail
-          .team_bio
-            h4.team_name
-              a(href="http://retrostylegames.com/") Pavel Konstantinov
-            div(data-i18n="about.retrostyle_title")
-            div(data-i18n="about.retrostyle_blurb")
+      #community.anchor
+        #community-row-1.row.text-center
+          .col-sm-12
+          .text-center
+            h3(data-i18n="about.community_title")
+            h4(data-i18n="about.community_subtitle")
+            img(src="/images/pages/about/github_avatars.png")#community-avatars
 
-          a(href="http://retrostylegames.com/")
-            img(src="/images/pages/about/oleg_small.png").img-thumbnail
-          .team_bio
-            h4.team_name
-              a(href="http://retrostylegames.com/") Oleg Ulyanickiy
-            div(data-i18n="about.retrostyle_title")
-            div(data-i18n="about.retrostyle_blurb")
+        #community-row-2.row
+          .col-sm-5
+            p.responsive-side-margins
+              span.spr(data-i18n="about.community_description_1")
+              a(href="/contribute")
+                span(data-i18n="about.community_description_link")
+              span.spl(data-i18n="about.community_description_2")
+          .col-sm-6.col-sm-offset-1#community-graphic.responsive-side-margins
+            h2(data-i18n="about.number_contributors")
+            img(src="/images/pages/about/github.png")
+            #community-graphic-filler
 
-        li.row
+      #story.anchor
+        .text-center
+          h3(data-i18n="about.story_title")
+          h4.responsive-side-margins(data-i18n="about.story_subtitle")
+        .row
+          #story-graphic-1.col-lg-6
+            .media
+              .pull-left
+                img.media-object#story-image-1(src="/images/pages/about/character_silouhette.png")
+              .media-body
+                .media-heading.text-h1
+                  span(data-i18n="about.story_statistic_1a")
+                  br
+                  span(data-i18n="about.story_statistic_1b")
+                p.text-h5(data-i18n="about.story_statistic_1c")
 
-          img(src="/images/pages/about/carlos_small.png").img-thumbnail
-          .team_bio
-            h4.team_name Carlos Maia
-            div(data-i18n="about.carlos_title")
-            div(data-i18n="about.carlos_blurb")
+          .col-lg-5.col-lg-offset-1
+            #story-graphic-2
+              .media
+                p.text-h5(data-i18n="about.story_statistic_2a")
+                .pull-right
+                  img(src="/images/pages/about/globe_green.png")
+                .media-body
+                  .media-heading.text-h1(data-i18n="about.story_statistic_2b")
 
+        #story-graphic-3.text-center
+          p
+            div.text-h5(data-i18n="about.story_statistic_3a")
+            #story-bracketed-text
+              div#left-bracket
+                img(src="/images/pages/about/bracket_left.png")
+              div.text-h1(data-i18n="about.story_statistic_3b")
+              div#right-bracket
+                img(src="/images/pages/about/bracket_right.png")
+          #story-languages
+            .text-center
+              .text-h5(data-i18n="about.story_statistic_3c")
+            #language-icons.text-center(title="Clojure, CoffeeScript, JavaScript, Python, Java, Lua")
+              img.hidden-xs(src="/images/pages/about/languages.png")
+              img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/languages_group1.png")
+              img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/languages_group2.png")
+
+        #story-graphic-4.text-center
+          p
+            div.text-h5(data-i18n="about.story_long_way_1")
+            figure
+              img(src="/images/pages/about/sketch.png")
+              figcaption
+                small(data-i18n="about.story_sketch_caption")
+          p
+            .text-h5(data-i18n="about.story_long_way_2")
+
+      #jobs.anchor
+        .text-center
+          h3(data-i18n="about.jobs_title")
+          h4(data-i18n="about.jobs_subtitle")
+        #jobs-row.row
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
+            #benefits
+              h5(data-i18n="about.jobs_benefits")
+              ul
+                li.small(data-i18n="about.jobs_benefit_1")
+                li.small(data-i18n="about.jobs_benefit_2")
+                li.small(data-i18n="about.jobs_benefit_4")
+                li.small(data-i18n="about.jobs_benefit_5")
+                li.small(data-i18n="about.jobs_benefit_6")
+          .col-sm-6.col-md-5.col-lg-4
+            .job-listing
+              h5 Head of Sales
+              .text-center
+                small.label
+                  | San Francisco • Fulltime
+              p.small School districts are scrambling to offer computer science classes to all their students as a core subject. They have had no solution, because they can't afford to hire enough programming teachers – until now.
+              a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/2d0194ed-7c69-4aab-b1f9-363ca4b9f04b" rel="external")
+                span(data-i18n="about.learn_more")
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
+            .job-listing
+              h5 Sales Representative
+              .text-center
+                small.label
+                  | San Francisco • Fulltime
+              p.small School districts are scrambling to offer computer science classes to all their students as a core subject. They have had no solution, because they can't afford to hire enough programming teachers – until now.
+              a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/3f6ff123-16ce-4ecb-aba3-dcf4e8927c47" rel="external")
+                span(data-i18n="about.learn_more")
+          .col-sm-6.col-md-5.col-lg-4
+            .job-listing
+              h5(data-i18n="about.jobs_custom_title")
+              p.small(data-i18n="about.jobs_custom_description")
+              p.small
+                span.spr(data-i18n="about.jobs_custom_contact_1")
+                a(href="mailto:team@codecombat.com")
+                  | team@codecombat.com
+                span.spl(data-i18n="about.jobs_custom_contact_2")
+
+      #contact.anchor
+        .text-center
+          h3(data-i18n="about.contact_title")
+          h4(data-i18n="about.contact_subtitle")
+          a(href="mailto:team@codecombat.com") team@codecombat.com
+
+      #files
+        .row
+          .col-md-6.col-lg-8
+            #screenshots
+              span.label(data-i18n="about.screenshots_title")
+              .hidden-sm.hidden-md.hidden-lg
+                small(data-i18n="about.screenshots_hint")
+              #screenshot-grid
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='0')
+                  img(src="/images/pages/about/screenshot_desert.png")
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='1')
+                  img(src="/images/pages/about/screenshot_forest.png")
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='2')
+                  img(src="/images/pages/about/screenshot_dungeon.png")
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
+                  img(src="/images/pages/about/screenshot_glacier.png")
+              .clearfix.hidden-xs
+                small(data-i18n="about.screenshots_hint")
+          .col-md-6.col-lg-4
+            #downloads-container
+              #downloads
+                .label(data-i18n="about.downloads_title")
+                ul
+                  li
+                    a.small(href="http://files.codecombat.com/presspack/AboutCodeCombat.pdf")
+                      span(data-i18n="about.about_codecombat")
+                      | (.pdf)
+                  li
+                    a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.ai")
+                      span(data-i18n="about.logo")
+                      | (.ai)
+                  li
+                    a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.png")
+                      span(data-i18n="about.logo")
+                      | (.png)
+                  li
+                    a.small(href="http://files.codecombat.com/presspack/GameImages.zip")
+                      span(data-i18n="about.screenshots")
+                      | (.zip)
+                  li
+                    a.small(href="http://files.codecombat.com/presspack/gameimages/CodeCombat_Splash.png")
+                      span(data-i18n="about.character_art")
+                      | (.png)
+                .text-center
+                  a.btn.btn-lg.btn-primary-alt#download-button(href="http://files.codecombat.com/presspack/CodeCombat_PressPack.zip")
+                    span.glyphicon.glyphicon-download-alt
+                    span(data-i18n="about.download_all")
+
+      #screenshot-lightbox.modal.fade(data-show="false")
+        .modal-dialog
+          .modal-content
+            #screenshot-carousel.carousel
+              ol.carousel-indicators
+                li(data-target=".screenshot-display", data-slide-to="0").active
+                li(data-target=".screenshot-display", data-slide-to="1")
+                li(data-target=".screenshot-display", data-slide-to="2")
+                li(data-target=".screenshot-display", data-slide-to="3")
+
+              .carousel-inner
+                .item.active
+                  img#screenshot-desert(src="/images/pages/about/desert.png")
+                .item
+                  img#screenshot-forest(src="/images/pages/about/forest.png")
+                .item
+                  img#screenshot-dungeon(src="/images/pages/about/dungeon.png")
+                .item
+                  img#screenshot-glacier(src="/images/pages/about/glacier.png")
+              a#carousel-left.left.carousel-control(href="#screenshot-carousel", role="button")
+                span.glyphicon.glyphicons-chevron-left.glyphicon-chevron-left(aria-hidden="true")
+                span.sr-only(data-i18n="about.previous")
+              a#carousel-right.right.carousel-control(href="#screenshot-carousel", role="button")
+                span.glyphicon.glyphicons-chevron-right.glyphicon-chevron-right(aria-hidden="true")
+                span.sr-only(data-i18n="about.next")
+
+      #location
+        .row
+          .col-sm-4.col-sm-offset-2
+            p
+              b CodeCombat Inc.
+            p 360 3rd St.
+            p Suite 700 (Livefyre)
+            p San Francisco, CA 94107
+            a(href="mailto:team@codecombat.com") team@codecombat.com
+          .col-sm-4
+            p
+              b(data-i18n="about.location_title")
+            iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo&q=360+3rd+St+Suite+700,+San+Francisco,+CA+94107")

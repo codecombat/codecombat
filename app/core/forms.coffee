@@ -83,8 +83,8 @@ module.exports.setErrorToProperty = setErrorToProperty = (el, property, message,
   setErrorToField input, message, warning
   
 module.exports.scrollToFirstError = ($el=$('body')) ->
-  $first = $el.find('.has-error, .alert-danger, .error-help-block, .has-warning, .alert-warning, .warning-help-block').first()
-  $('body').animate({ scrollTop: $first.offset().top - 20 }, 300)
+  $first = $el.find('.has-error, .alert-danger, .error-help-block, .has-warning, .alert-warning, .warning-help-block').filter(':visible').first()
+  $('html, body').animate({ scrollTop: $first.offset().top - 20 }, 300)
 
 module.exports.clearFormAlerts = (el) ->
   $('.has-error', el).removeClass('has-error')
@@ -93,3 +93,12 @@ module.exports.clearFormAlerts = (el) ->
   $('.alert.alert-warning', el).remove()
   el.find('.help-block.error-help-block').remove()
   el.find('.help-block.warning-help-block').remove()
+  
+module.exports.updateSelects = (el) ->
+  el.find('select').each (i, select) ->
+    value = $(select).attr('value')
+    $(select).val(value)
+  
+module.exports.validateEmail = (email) ->
+  filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
+  return filter.test(email)

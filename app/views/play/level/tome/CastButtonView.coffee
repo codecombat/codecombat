@@ -170,7 +170,7 @@ module.exports = class CastButtonView extends CocoView
     url = "/db/level/#{@options.level.get('slug') or @options.level.id}/session"
     url += "?team=#{if me.team is 'humans' then 'ogres' else 'humans'}"
     mirrorSession = new LevelSession().setURL url
-    @mirrorSession = @supermodel.loadModel(mirrorSession, 'level_session', {cache: false}).model
+    @mirrorSession = @supermodel.loadModel(mirrorSession, {cache: false}).model
 
   updateLadderSubmissionViews: ->
     @removeSubView subview for key, subview of @subviews when subview instanceof LadderSubmissionView

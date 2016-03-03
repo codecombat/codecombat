@@ -174,7 +174,7 @@ module.exports = class ThangTypeEditView extends RootView
     super options
     @mockThang = $.extend(true, {}, @mockThang)
     @thangType = new ThangType(_id: @thangTypeID)
-    @thangType = @supermodel.loadModel(@thangType, 'thang').model
+    @thangType = @supermodel.loadModel(@thangType).model
     @thangType.saveBackups = true
     @listenToOnce @thangType, 'sync', ->
       @files = @supermodel.loadCollection(new DocumentFiles(@thangType), 'files').model
