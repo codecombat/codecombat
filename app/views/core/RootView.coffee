@@ -34,6 +34,9 @@ module.exports = class RootView extends CocoView
   subscriptions:
     'achievements:new': 'handleNewAchievements'
     'modal:open-modal-view': 'onOpenModalView'
+    
+  shortcuts:
+    'ctrl+shift+a': 'navigateToAdmin'
 
   showNewAchievement: (achievement, earnedAchievement) ->
     earnedAchievement.set('notified', true)
@@ -183,3 +186,7 @@ module.exports = class RootView extends CocoView
     return false
 
   logoutRedirectURL: '/'
+
+  navigateToAdmin: ->
+    if window.amActually or me.isAdmin()
+      application.router.navigate('/admin', {trigger: true})

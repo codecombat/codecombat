@@ -1,6 +1,9 @@
 mw = require '../middleware'
 
 module.exports.setup = (app) ->
+  app.post('/auth/spy', mw.auth.spy)
+  app.post('/auth/stop-spying', mw.auth.stopSpying)
+  
   Article = require '../models/Article'
   app.get('/db/article', mw.rest.get(Article))
   app.post('/db/article', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.post(Article))
