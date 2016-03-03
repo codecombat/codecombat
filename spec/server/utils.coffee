@@ -20,13 +20,12 @@ module.exports = mw =
     if _.isFunction(options)
       done = options
       options = {}
-    options = _.extend({permissions: []}, options)
-    doc = {
+    options = _.extend({
+      permissions: []
       email: 'user'+_.uniqueId()+'@gmail.com'
       password: 'password'
-      permissions: options.permissions
-    }
-    user = new User(doc)
+    }, options)
+    user = new User(options)
     promise = user.save()
     return promise
 

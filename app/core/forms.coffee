@@ -102,3 +102,12 @@ module.exports.updateSelects = (el) ->
 module.exports.validateEmail = (email) ->
   filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
   return filter.test(email)
+  
+module.exports.disableSubmit = (el, message='...') ->
+  $el = $(el)
+  $el.data('original-text', $el.text())
+  $el.text(message).attr('disabled', true)
+  
+module.exports.enableSubmit = (el) ->
+  $el = $(el)
+  $el.text($el.data('original-text')).attr('disabled', false)
