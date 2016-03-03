@@ -50,22 +50,14 @@ module.exports = class TeacherClassesView extends RootView
     $('.progress-dot').tooltip()
     
   calculateDots: ->
-    #for classroom in classrooms
     for classroom in @classrooms.models
       # map [user, level] => session so we don't have to do find TODO
-      # for course in courses
       for course, courseIndex in @courses.models
-        # get the course instance
         instance = @courseInstances.getByCourseAndClassroom(course, classroom)
-        # skip the rest if nobody has gotten to that course
         continue if not instance
-        # start counting number of students finished
         instance.numCompleted = 0
-        # get the campaign
         campaign = @campaigns.get(course.get('campaignID'))
-        # for user in courseinstance
         for userID in instance.get('members')
-          # for level in campaign
           allComplete = _.every campaign.getLevels().models, (level) ->
             return true if level.get('type')?.indexOf('ladder') > -1
             #TODO: Hella slow! Do the mapping first!
@@ -88,62 +80,6 @@ module.exports = class TeacherClassesView extends RootView
         @render()
     super()
     
-    
-    
-    
-    # 
-    # @listenToOnce @classrooms, 'sync', @afterSyncClassrooms
-    # #TODO: Refactor below! How should I fetch many interdependent things/do their callbacks?
-    # @levelMapping = {}
-    # @courses = new Courses()
-    # @courses.fetch()
-    # @listenToOnce @courses, 'sync', =>
-    #   @courses.forEach (course, index) =>
-    #     console.log arguments
-    #     campaign = new Campaign({ id: course.get('campaignID') })
-    #     campaign.fetch()
-    #     @listenToOnce campaign, 'sync', (campaign, levels) =>
-    #       # debugger
-    #       console.log "Campaign #{index} loaded"
-    #       console.log @levelMapping
-    #       campaignID = campaign.get('id')
-    #       levelIDs = _.map levels, (level) =>
-    #         level._id
-    #       levelIDs.forEach (levelID) =>
-    #         console.log "old mapping:", @levelMapping[levelID]
-    #         @levelMapping[levelID] = index
-    #       @afterSyncLevels(@levelMapping)
-    # 
-  afterSyncClassrooms: () =>
-    @capitalizeLanguageNames(@classrooms)
-    @render()
-    @classrooms.forEach (classroom) =>
-      classroom.levelSessions = sessions = new LevelSessions()
-      sessions.fetchForClassroomMembers(classroom.id)
-      @listenToOnce sessions, 'sync', (data) => 
-        sessions.completedSessions() #TODO
-        @render()
-        
-  afterSyncLevels: (levelMapping) => #TODO: this arg is redundant, dunno why @ isn't binding right
-    @calculateHighestComplete(levelMapping)
-    @render()
-  
-  #TODO: Refactor so other views can use this
-  #TODO: Consider efficiency
-  #TODO: Consider race conditions w/ load order
-  calculateHighestComplete: (levelMapping) =>
-    @classrooms.forEach (classroom) =>
-      highest = 0
-      classroom.levelSessions.forEach (session) =>
-        courseNo = levelMapping[session.id]
-        console.log courseNo
-        if courseNo > highest
-          highest = courseNo
-      classroom.highestCompleteNo = highest
-      #for each classroom, loop over its level sessions
-      #for each level session, update the highest complete
-    null
-    
   capitalizeLanguageNames: (classrooms) =>
     classrooms.forEach (classroom) =>
       language = classroom.get('aceConfig').language
@@ -161,10 +97,6 @@ module.exports = class TeacherClassesView extends RootView
     classroom = new Classroom({ ownerID: me.id })
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
-    # @listenToOnce modal, 'hide', =>
-      # TODO: how to get new classroom from modal?
-      # @classrooms.add(modal.classroom)
-      # TODO: will this definitely fire after modal saves new classroom?
     @listenToOnce modal.classroom, 'sync', ->
       @classrooms.add(modal.classroom)
       @addFreeCourseInstances()
