@@ -6,6 +6,7 @@
   $grey-medium: #ebebeb
   $grey-light: #f5f5f5
   $grey-dark: #c9c9c9
+  $grey-darker: #9b9b9b
   
   #site-content-area
     margin-bottom: 65px
@@ -17,6 +18,13 @@
     font: $headline-font
     font-size: 15px
     line-height: 26px
+  
+  .language
+    display: inline-block
+    width: 140px
+  
+  .student-count
+    display: inline-block
     
   .class-links
     a
@@ -30,12 +38,29 @@
     
     .class
       padding: 20px
+      display: flex
       
   .class:nth-child(2n+1)
     background-color: $grey-medium
 
   .class:nth-child(2n)
     background-color: $grey-light
+    
+  .view-class-arrow
+    color: $grey-darker
+    // height: 100%
+    font-size: 35px
+    line-height: 35px
+    align-self: center
+    .view-class-arrow-inner 
+      color: $grey-darker
+      &:hover
+        text-decoration: none
+      
+  .progress-col
+    display: flex
+    align-self: center
+    align-items: center
         
   .progress-dot .hover-info
     display: none
@@ -109,6 +134,7 @@
     height: 62px
     border-radius: 50%
     margin-top: 23px
+    margin-bottom: 23px
     background: $grey-dark
     position: relative
     .dot-label

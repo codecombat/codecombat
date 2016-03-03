@@ -54,12 +54,15 @@ mixin classRow(classroom)
         if classroom.get('archived')
           span
             | (archived)
-    .col-xs-6
+    .progress-col.col-xs-5
       if classroom.get('members').length == 0
         +addStudentsButton(classroom)
       else
         each course, index in view.courses.models
           +progressDot(classroom, course, index)
+    .view-class-arrow.col-xs-1
+      a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right(data-classroom-id=classroom.id)
+
 
 mixin addStudentsButton(classroom)
   .add-students
