@@ -1,0 +1,15 @@
+if !total
+  span.small-details(data-i18n="TODO")
+    | No Progress
+else
+  .fraction-students.small-details
+    = complete
+    | /
+    = total
+    span(data-i18n="TODO")
+      | &nbsp;Students
+  .percent-students.small-details
+    = percentage
+    | %
+    span(data-i18n="TODO")
+      | &nbsp;Complete

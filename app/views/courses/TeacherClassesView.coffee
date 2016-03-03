@@ -41,8 +41,13 @@ module.exports = class TeacherClassesView extends RootView
     @courseInstances = new CourseInstances()
     @courseInstances.fetchByOwner(me.id)
     @supermodel.trackCollection(@courseInstances)
+    @progressDotTemplate = require 'templates/courses/progress-dot'
     
-    # Level Sessions loaded after onLoaded to prevent race condition in calculateDots      
+    # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
+  
+  afterRender: ->
+    super()
+    $('.progress-dot').tooltip()
     
   calculateDots: ->
     #for classroom in classrooms
