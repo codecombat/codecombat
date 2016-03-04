@@ -18,9 +18,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     super options
     @showMoreCancellations = false
     @resetSubscriptionsData()
-    if me.isAdmin()
-      @refreshData()
-      _.delay (=> @refreshData()), 30 * 60 * 1000
+    @refreshData() if me.isAdmin()
 
   getRenderData: ->
     context = super()

@@ -78,7 +78,7 @@
     "passport": "0.1.x",
     "passport-local": "0.1.x",
     "redis": "",
-    "request": "2.12.x",
+    "request": "^2.69.0",
     "sendwithus": "2.1.x",
     "stream-buffers": "0.2.x",
     "stripe": "~2.9.0",

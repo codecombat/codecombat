@@ -67,7 +67,7 @@ block content
         h3 Active Classes 365 days
         .active-classes-chart-365.line-chart-container
 
-        h1#active-classes-table Active Classes
+        h1 Active Classes
         table.table.table-striped.table-condensed
           tr
             th Day
@@ -93,7 +93,35 @@ block content
         h3 Monthly Recurring Revenue 365 days
         .recurring-monthly-revenue-chart-365.line-chart-container
 
-        h1#recurring-revenue-table Recurring Revenue
+        .school-sales
+          h3 School Sales
+          if view.schoolSales
+            table.table.table-striped.table-condensed
+              tr
+                th Amount
+                th(style='min-width:85px;') Created
+                th PaymentID
+                th PrepaidID
+                th Description
+                th Email
+                th School
+              each val, i in view.schoolSales
+                tr
+                  td $#{val.amount / 100}
+                  td= new Date(val.created).toISOString().substring(0, 10)
+                  td= val._id
+                  td= val.prepaidID
+                  td= val.description
+                  if val.user
+                    td= val.user.emailLower
+                    td= val.user.schoolName
+                  else
+                    td
+                    td
+          else
+            div Loading ...
+
+        h1 Recurring Revenue
         table.table.table-striped.table-condensed
           tr
             th(style='min-width:85px;') Day
@@ -106,22 +134,22 @@ block content
                 td $#{(val / 100).toFixed(2)}
 
       .tab-pane#tab_classroom
-        h3#classroom-daus-graph Classroom Daily Active Users 90 days
+        h3 Classroom Daily Active Users 90 days
         .small Paid student: user.coursePrepaidID set and prepaid.properties.trialRequestID NOT set
         .small Trial student: user.coursePrepaidID set and prepaid.properties.trialRequestID set
         .small Free student: not paid, not trial
         .classroom-daily-active-users-chart-90.line-chart-container
 
-        h3#classroom-maus-graph Classroom Monthly Active Users 90 days
+        h3 Classroom Monthly Active Users 90 days
         .classroom-monthly-active-users-chart-90.line-chart-container
 
-        h3#classroom-daus-graph Classroom Daily Active Users 365 days
+        h3 Classroom Daily Active Users 365 days
         .classroom-daily-active-users-chart-365.line-chart-container
 
-        h3#classroom-maus-graph Classroom Monthly Active Users 365 days
+        h3 Classroom Monthly Active Users 365 days
         .classroom-monthly-active-users-chart-365.line-chart-container
 
-        h3#enrollments-graph Enrollments Issued and Redeemed 90 days
+        h3 Enrollments Issued and Redeemed 90 days
         .paid-courses-chart.line-chart-container
 
         #furthest-course
@@ -191,7 +219,7 @@ block content
           else
             div Loading ...
 
-        #school-sales
+        .school-sales
           h3 School Sales
           if view.schoolSales
             table.table.table-striped.table-condensed
@@ -205,7 +233,7 @@ block content
                 th School
               each val, i in view.schoolSales
                 tr
-                  td $#{Math.round(val.amount / 100, 2)}
+                  td $#{val.amount / 100}
                   td= new Date(val.created).toISOString().substring(0, 10)
                   td= val._id
                   td= val.prepaidID
@@ -236,7 +264,7 @@ block content
           else
             div Loading ...
 
-        h1#active-users-table Active Users
+        h1 Active Users
         if activeUsers.length > 0
           - var eventNames = [];
             each count, event in activeUsers[0].events
@@ -296,7 +324,7 @@ block content
         h3 Campaign Monthly Active Users 365 days
         .campaign-monthly-active-users-chart-365.line-chart-container
 
-        h1#active-users-table Active Users
+        h1 Active Users
         if activeUsers.length > 0
           - var eventNames = [];
             each count, event in activeUsers[0].events
@@ -321,13 +349,13 @@ block content
 
 
       .tab-pane#tab_campaign_vs_classroom
-        h3#campaign-vs-classroom-paid-maus-recent-graph Campaign vs Classroom Paid Monthly Active Users 90 days
+        h3 Campaign vs Classroom Paid Monthly Active Users 90 days
         .campaign-vs-classroom-monthly-active-users-recent-chart.line-chart-container
 
-        h3#campaign-vs-classroom-paid-maus-graph Campaign vs Classroom Paid Monthly Active Users 365 days
+        h3 Campaign vs Classroom Paid Monthly Active Users 365 days
         .campaign-vs-classroom-monthly-active-users-chart.line-chart-container
 
-        h1#active-users-table Active Users
+        h1 Active Users
         if activeUsers.length > 0
           - var eventNames = [];
             each count, event in activeUsers[0].events

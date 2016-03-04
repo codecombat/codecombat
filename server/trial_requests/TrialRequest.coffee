@@ -1,3 +1,4 @@
+closeIO = require '../lib/closeIO'
 log = require 'winston'
 mongoose = require 'mongoose'
 config = require '../../server_config'
@@ -26,18 +27,36 @@ TrialRequestSchema.pre 'save', (next) ->
 
 TrialRequestSchema.post 'save', (doc) ->
   if doc.get('status') is 'approved'
-    emailParams =
-      recipient:
-        address: doc.get('properties')?.email
-      email_id: sendwithus.templates.teacher_free_trial
-    sendwithus.api.send emailParams, (err, result) =>
-      log.error "sendwithus trial request approved error: #{err}, result: #{result}" if err
+    unless trialProperties = doc.get('properties')
+      log.error "Saving approved trial request #{doc.id} with no properties!"
+      return
 
-    # Subscribe to teacher news group
     User.findById doc.get('applicant'), (err, user) =>
       if err
         log.error "Trial request user find error: #{err}"
         return
+
+      # Send trial approved email
+      email = trialProperties.email ? user.get('emailLower')
+      emailParams =
+        recipient:
+          address: email
+        email_id: sendwithus.templates.teacher_free_trial
+      sendwithus.api.send emailParams, (err, result) =>
+        log.error "sendwithus trial request approved error: #{err}, result: #{result}" if err
+
+      closeIO.createSalesLead(user, email,
+        name: trialProperties.name
+        organization: trialProperties.organization
+        location: _.filter(_.at(trialProperties, 'city', 'state', 'country')).join(' ')
+        educationLevel: (trialProperties.educationLevel or []).join(', ')
+        numStudents: trialProperties.numStudents
+        role: trialProperties.role
+        phone: trialProperties.phoneNumber
+        notes: trialProperties.notes
+      )
+
+      # Subscribe to teacher news group
       emails = _.cloneDeep(user.get('emails') ? {})
       emails.teacherNews ?= {}
       emails.teacherNews.enabled = true

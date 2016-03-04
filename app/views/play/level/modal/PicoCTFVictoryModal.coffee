@@ -10,7 +10,10 @@ module.exports = class PicoCTFVictoryModal extends ModalView
     @session = options.session
     @level = options.level
 
-    # TODO: submit to picoCTF server
+    console.log 'damn we got dat flag', options.world.picoCTFFlag
+    @supermodel.addRequestResource(url: '/picoctf/submit', method: 'POST', data: {flag: options.world.picoCTFFlag}, success: (response) =>
+      console.log 'submitted the flag and got response', response
+    ).load()
 
     @playSound 'victory'
 

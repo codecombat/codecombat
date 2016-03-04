@@ -18,7 +18,7 @@ module.exports = class NewHomeView extends RootView
     'click #learn-more-link': 'onClickLearnMoreLink'
 
   initialize: (options) ->
-    @jumbotron = options.jumbotron or utils.getQueryVariable('jumbotron') or 'student' # or 'characters'
+    @jumbotron = options.jumbotron or utils.getQueryVariable('jumbotron') or 'student'
     @courses = new CocoCollection [], {url: "/db/course", model: Course}
     @supermodel.loadCollection(@courses, 'courses')
 
@@ -55,7 +55,7 @@ module.exports = class NewHomeView extends RootView
       middle: {'introduction-to-computer-science': '1-3', 'computer-science-5': '7-10', default: '5-8', total: '25-35 hours (about one semester)'}
       high: {'introduction-to-computer-science': '1', 'computer-science-5': '6-9', default: '5-6', total: '22-28 hours (about one semester)'}
     level = if e then $(e.target).val() else 'middle'
-    @$el.find('#courses-container .course-details').each ->
+    @$el.find('#courses-row .course-details').each ->
       slug = $(@).data('course-slug')
       duration = levels[level][slug] or levels[level].default
       $(@).find('.course-duration .course-hours').text duration

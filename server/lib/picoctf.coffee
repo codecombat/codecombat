@@ -8,6 +8,7 @@ authstr = new Buffer("#{config.picoCTF_auth.username}:#{config.picoCTF_auth.pass
 papi = (url, req, cb) ->
   request
       url: "#{config.picoCTF_api_url}#{url}"
+      jar: false
       headers:
         Cookie: "flask=#{req.cookies.flask}"
         Authorization: 'Basic ' + authstr

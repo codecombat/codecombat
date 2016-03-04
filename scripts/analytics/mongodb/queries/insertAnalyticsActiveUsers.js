@@ -23,8 +23,8 @@ try {
   var endDay = new Date();
   endDay = endDay.toISOString().substr(0, 10);
 
-  // startDay = '2015-03-01';
-  // endDay = '2015-06-01';
+  // startDay = '2015-06-01';
+  // endDay = '2015-08-01';
 
   var activeUserEvents = ['Finished Signup', 'Started Level'];
 
@@ -59,35 +59,56 @@ function getActiveUserCounts(startDay, endDay, activeUserEvents) {
   // Counts active users per day
   if (!startDay) return {};
   
+  // Faster to request analytics db data in batches of days
+  var dayIncrement = 3;
+  var startDate = new Date(startDay + "T00:00:00.000Z");
+  var interimEndDate  = new Date(startDay + "T00:00:00.000Z");
+  interimEndDate.setUTCDate(interimEndDate.getUTCDate() + dayIncrement);
+  var interimEndDay = interimEndDate.toISOString().substr(0, 10);
+
   var cursor, doc;
 
   log("Finding active user log events..");
-  var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
-  var endObj = objectIdWithTimestamp(ISODate(endDay + "T00:00:00.000Z"));
-  var queryParams = {$and: [
-    {_id: {$gte: startObj}},
-    {_id: {$lt: endObj}},
-    {'event': {$in: activeUserEvents}}
-  ]};
-  cursor = logDB['log'].find(queryParams);
-
   var campaignUserMap = {};
-  var dayUserMap = {};
+  var days = {};
+  var dayUserActiveMap = {};
   var userIDs = [];
-  while (cursor.hasNext()) {
-    doc = cursor.next();
-    var created = doc._id.getTimestamp().toISOString();
-    var day = created.substring(0, 10);
-    var user = doc.user.valueOf();
-    campaignUserMap[user] = true;
-    if (!dayUserMap[day]) dayUserMap[day] = {};
-    dayUserMap[day][user] = true;
-    userIDs.push(ObjectId(user));
-    // if (userIDs.length % 100000 === 0) {
-    //   log('Users so far: ' + userIDs.length);
-    // }
+  while (startDay < endDay) {
+    var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+    var endObj = objectIdWithTimestamp(ISODate(interimEndDay + "T00:00:00.000Z"));
+    var queryParams = {$and: [
+      {_id: {$gte: startObj}},
+      {_id: {$lt: endObj}},
+      {'event': {$in: activeUserEvents}}
+    ]};
+    cursor = logDB['log'].find(queryParams);
+
+    while (cursor.hasNext()) {
+      doc = cursor.next();
+      var created = doc._id.getTimestamp().toISOString();
+      var day = created.substring(0, 10);
+      var user = doc.user.valueOf();
+      days[day] = true;
+      campaignUserMap[user] = true;
+      if (!dayUserActiveMap[day]) dayUserActiveMap[day] = {};
+      dayUserActiveMap[day][user] = true;
+      userIDs.push(ObjectId(user));
+      // if (userIDs.length % 100000 === 0) {
+      //   log('Users so far: ' + userIDs.length);
+      // }
+    }
+    startDate.setUTCDate(startDate.getUTCDate() + dayIncrement);
+    startDay = startDate.toISOString().substr(0, 10);
+    interimEndDate.setUTCDate(interimEndDate.getUTCDate() + dayIncrement);
+    interimEndDay = interimEndDate.toISOString().substr(0, 10);
+    if (interimEndDay.localeCompare(endDay) > 0) {
+      interimEndDay = endDay;
+    }
   }
   log('User count: ' + userIDs.length);
+
+  days = Object.keys(days);
+  days.sort(function (a, b) {return a.localeCompare(b);});
 
   log("Finding classroom members..");
   var classroomUserObjectIds = [];
@@ -112,20 +133,20 @@ function getActiveUserCounts(startDay, endDay, activeUserEvents) {
   // Trial user: prepaid.properties.trialRequestID means access was via trial
   // Free: not paid, not trial
   log("Finding classroom users free/trial/paid status..");
-  var userEventMap = {};
+  var classroomUserEventMap = {};
   var prepaidUsersMap = {};
   var prepaidIDs = [];
   cursor = db.users.find({_id: {$in: classroomUserObjectIds}}, {coursePrepaidID: 1});
   while (cursor.hasNext()) {
     doc = cursor.next();
     if (doc.coursePrepaidID) {
-      userEventMap[doc._id.valueOf()] = 'DAU classroom paid';
+      classroomUserEventMap[doc._id.valueOf()] = 'DAU classroom paid';
       if (!prepaidUsersMap[doc.coursePrepaidID.valueOf()]) prepaidUsersMap[doc.coursePrepaidID.valueOf()] = [];
       prepaidUsersMap[doc.coursePrepaidID.valueOf()].push(doc._id.valueOf()); 
       prepaidIDs.push(doc.coursePrepaidID);
     }
     else {
-      userEventMap[doc._id.valueOf()] = 'DAU classroom free';
+      classroomUserEventMap[doc._id.valueOf()] = 'DAU classroom free';
     }
   }
   cursor = db.prepaids.find({_id: {$in: prepaidIDs}}, {properties: 1});
@@ -133,7 +154,7 @@ function getActiveUserCounts(startDay, endDay, activeUserEvents) {
     doc = cursor.next();
     if (doc.properties && doc.properties.trialRequestID) {
       for (var i = 0; i < prepaidUsersMap[doc._id.valueOf()].length; i++) {
-        userEventMap[prepaidUsersMap[doc._id.valueOf()][i]] = 'DAU classroom trial';
+        classroomUserEventMap[prepaidUsersMap[doc._id.valueOf()][i]] = 'DAU classroom trial';
       }
     }
   }
@@ -141,19 +162,20 @@ function getActiveUserCounts(startDay, endDay, activeUserEvents) {
   // Campaign free/paid
   // Monthly sub: recipient for payment.stripe.subscriptionID == 'basic'
   // Yearly sub: recipient for paymen.stripe.gems == 42000
+  // NOTE: payment.stripe.subscriptionID === basic from 2014-12-03 to 2015-03-13
   // TODO: missing a number of corner cases here (e.g. cancelled sub, purchased via admin)
   var campaignUserIDs = [];
   for (var userID in campaignUserMap) {
     if (campaignUserMap[userID]) campaignUserIDs.push(ObjectId(userID));
   }
   log("Finding campaign paid users..");
-  var dayUserPaidMap = {};
+  var dayCampaignUserPaidMap = {};
   batchSize = 100000;
   for (var j = 0; j < campaignUserIDs.length / batchSize + 1; j++) {
     cursor = db.payments.find({$and: [
       {recipient: {$in: campaignUserIDs.slice(j * batchSize, j * batchSize + batchSize)}}, 
       {$or: [
-        {'stripe.subscriptionID': 'basic'},
+        {$and: [{amount: {$gt: 0}}, {gems: 3500}, {'stripe.subscriptionID': {$exists: true}}]},
         {gems: 42000}
       ]}
     ]}, {created: 1, gems: 1, recipient: 1});
@@ -164,8 +186,8 @@ function getActiveUserCounts(startDay, endDay, activeUserEvents) {
       var numDays = doc.gems === 42000 ? 365 : 30;
       for (var i = 0; i < numDays; i++) {
         day = currentDate.toISOString().substring(0, 10);
-        if (!dayUserPaidMap[day]) dayUserPaidMap[day] = {};
-        dayUserPaidMap[day][userID] = true;
+        if (!dayCampaignUserPaidMap[day]) dayCampaignUserPaidMap[day] = {};
+        dayCampaignUserPaidMap[day][userID] = true;
         currentDate.setUTCDate(currentDate.getUTCDate() + 1);
       }
     }
@@ -174,13 +196,16 @@ function getActiveUserCounts(startDay, endDay, activeUserEvents) {
   log("Calculating DAUs..");
   var activeUsersCounts = {};
   var dailyEventNames = {};
-  for (day in dayUserMap) {
-    for (var user in dayUserMap[day]) {
-      var event = userEventMap[user] || (dayUserPaidMap[day] && dayUserPaidMap[day][user] ? 'DAU campaign paid' : 'DAU campaign free');
+  var userDayEventMap = {}
+  for (day in dayUserActiveMap) {
+    for (var user in dayUserActiveMap[day]) {
+      var event = classroomUserEventMap[user] || (dayCampaignUserPaidMap[day] && dayCampaignUserPaidMap[day][user] ? 'DAU campaign paid' : 'DAU campaign free');
       dailyEventNames[event] = true;
       if (!activeUsersCounts[day]) activeUsersCounts[day] = {};
       if (!activeUsersCounts[day][event]) activeUsersCounts[day][event] = 0;
       activeUsersCounts[day][event]++;
+      if (!userDayEventMap[user]) userDayEventMap[user] = {};
+      userDayEventMap[user][day] = event;
     }
   }
   // printjson(dailyEventNames)
@@ -209,29 +234,26 @@ function getActiveUserCounts(startDay, endDay, activeUserEvents) {
     }
   }
 
-  // Calculate monthly actives for each day, starting when we have enough data
   log("Calculating MAUs..");
-  var days = [];
-  for (var day in activeUsersCounts) {
-    days.push(day);
-  }
-  days.sort(function (a, b) {return a.localeCompare(b);});
-  // print('Num days', days.length);
-
-  // For each day, starting when we have daysInMonth days of prior data
-  for (var i = daysInMonth - 1; i < days.length; i++) {
-    // For the last daysInMonth days up to the current day
-    var targetMonthlyDay = days[i];
-    for (var j = i - daysInMonth + 1; j <= i; j++) {
-      var targetDailyDay = days[j];
-      // For each daily event
-      for (var event in dailyEventNames) {
-        // print(day, event, activeUsersCounts[day][event]);
-        var mauEvent = event.replace('DAU', 'MAU');
-        if (!activeUsersCounts[targetMonthlyDay][mauEvent]) activeUsersCounts[targetMonthlyDay][mauEvent] = 0
-        if (activeUsersCounts[targetDailyDay][event]) {
-          activeUsersCounts[targetMonthlyDay][mauEvent] += activeUsersCounts[targetDailyDay][event];
+  // Calculate monthly actives for each day, starting when we have enough data
+  // TODO: missing log data correction for MAUs
+  for (var user in campaignUserMap) {
+    // For each day, starting when we have daysInMonth days of prior data
+    for (var i = daysInMonth - 1; i < days.length; i++) {
+      var targetMonthlyDay = days[i];
+      var eventActiveMap = {}
+      // Find active events for the last daysInMonth days up to the current day
+      for (var j = i - daysInMonth + 1; j <= i; j++) {
+        var targetDailyDay = days[j];
+        if (dayUserActiveMap[targetDailyDay][user]) {
+          event = userDayEventMap[user][targetDailyDay];
+          eventActiveMap[event] = true;
         }
+      }
+      for (var event in eventActiveMap) {
+        var mauEvent = event.replace('DAU', 'MAU');
+        if (!activeUsersCounts[targetMonthlyDay][mauEvent]) activeUsersCounts[targetMonthlyDay][mauEvent] = 0;
+        activeUsersCounts[targetMonthlyDay][mauEvent]++;
       }
     }
   }

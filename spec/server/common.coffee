@@ -70,7 +70,7 @@ GLOBAL.saveModels = (models, done) ->
 
 GLOBAL.simplePermissions = [target: 'public', access: 'owner']
 GLOBAL.ObjectId = mongoose.Types.ObjectId
-GLOBAL.request = require 'request'
+GLOBAL.request = require('request').defaults({jar: true})
 Promise = require 'bluebird'
 Promise.promisifyAll(request, {multiArgs: true})
 
@@ -88,7 +88,6 @@ unittest.getUser = (name, email, password, done, force) ->
   # Creates the user if it doesn't already exist.
 
   return done(unittest.users[email]) if unittest.users[email] and not force
-  request = require 'request'
   request.post getURL('/auth/logout'), ->
     request.get getURL('/auth/whoami'), ->
       req = request.post(getURL('/db/user'), (err, response, body) ->

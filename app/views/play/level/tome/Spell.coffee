@@ -94,7 +94,7 @@ module.exports = class Spell
         else @originalSource
 
   addPicoCTFProblem: ->
-    return unless problem = @level.picoCTFProblem
+    return @originalSource unless problem = @level.picoCTFProblem
     description = """
       -- #{problem.name} --
       #{problem.description}

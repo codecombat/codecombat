@@ -6,7 +6,7 @@ module.exports = class AboutView extends RootView
   template: template
 
   logoutRedirectURL: false
-  
+
   events:
     'click #mission-link': 'onClickMissionLink'
     'click #team-link': 'onClickTeamLink'
@@ -17,12 +17,12 @@ module.exports = class AboutView extends RootView
     'click .screen-thumbnail': 'onClickScreenThumbnail'
     'click #carousel-left': 'onLeftPressed'
     'click #carousel-right': 'onRightPressed'
-  
+
   shortcuts:
     'right': 'onRightPressed'
     'left': 'onLeftPressed'
     'esc': 'onEscapePressed'
-  
+
   afterRender: ->
     super(arguments...)
     @$('#fixed-nav').affix({
@@ -36,36 +36,36 @@ module.exports = class AboutView extends RootView
       offset: 150
     )
     @$('#screenshot-lightbox').modal()
-    
+
     @$('#screenshot-carousel').carousel({
       interval: 0
       keyboard: false
     })
-    
+
   onClickMissionLink: (event) ->
     event.preventDefault()
     @scrollToLink('#mission')
-    
+
   onClickTeamLink: (event) ->
     event.preventDefault()
     @scrollToLink('#team')
-    
+
   onClickCommunityLink: (event) ->
     event.preventDefault()
     @scrollToLink('#community')
-    
+
   onClickStoryLink: (event) ->
     event.preventDefault()
     @scrollToLink('#story')
-    
+
   onClickJobsLink: (event) ->
     event.preventDefault()
     @scrollToLink('#jobs')
-    
+
   onClickContactLink: (event) ->
     event.preventDefault()
     @scrollToLink('#contact')
-    
+
   onRightPressed: (event) ->
     # Special handling, otherwise after you click the control, keyboard presses move the slide twice
     return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
@@ -78,7 +78,7 @@ module.exports = class AboutView extends RootView
     if $('#screenshot-lightbox').data('bs.modal')?.isShown
       event.preventDefault()
       $('#screenshot-carousel').carousel('prev')
-    
+
   onEscapePressed: (event) ->
     if $('#screenshot-lightbox').data('bs.modal')?.isShown
       event.preventDefault()
@@ -89,5 +89,3 @@ module.exports = class AboutView extends RootView
       event.preventDefault()
       # Modal opening happens automatically from bootstrap
       $('#screenshot-carousel').carousel($(event.currentTarget).data("index"))
-      
-    
