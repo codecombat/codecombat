@@ -13,11 +13,11 @@ block content
         | edit class settings
       h4= classroom.get('description')
       
-      h4(data-i18n="TODO")
-        | Class Overview
-      
       .classroom-info-row.row
         .classroom-details.col-md-3
+          h4(data-i18n="TODO")
+            | Class Overview
+      
           .language
             span.spr(data-i18n="TODO")
               | Language:
@@ -34,38 +34,47 @@ block content
             span.spr(data-i18n="TODO")
               | Average level play time:
             span
-              = null
+              = view.averagePlaytime
               
           .total-playtime
             span.spr(data-i18n="TODO")
               | Total play time:
             span
-              = null
+              = view.totalPlaytime
                
           .average-complete
             span.spr(data-i18n="TODO")
               | Average levels completed:
             span
-              = null
+              = view.averageLevelsCompleted
               
           .total-complete
             span.spr(data-i18n="TODO")
               | Total levels completed:
             span
-              = null
+              = view.totalLevelsCompleted
               
           .concepts.semibold
           
         .completeness-info.col-md-4
-          div(data-i18n="TODO")
+          p(data-i18n="TODO")
             | Earliest incomplete level:
-          
-          div(data-i18n="TODO")
+            if view.earliestIncompleteLevel
+              +longLevelName(view.earliestIncompleteLevel)
+          p
+            +inlineUserList(view.earliestIncompleteLevel.users)
+            
+          p(data-i18n="TODO")
             | Latest completed level:
+            if view.latestCompleteLevel
+              +longLevelName(view.latestCompleteLevel)
+          p
+            +inlineUserList(view.latestCompleteLevel.users)
             
         .adding-students.col-md.4
           h4(data-i18n="TODO")
             | Adding students:
+          +addStudentsButton
           
       ul.nav.nav-tabs(role="tablist")
         li.active
@@ -79,8 +88,28 @@ block content
       
       .tab-content
         #students-tab.tab-pane.active
-          //- each student in classroom.members
           
         #progress-tab.tab-pane
+
+mixin longLevelName(data)
+  div.level-name
+    span.spr Course
+    span= data.courseNumber
+    span.spr , Level
+    span= data.levelNumber
+    span.spr :
+    span= data.levelName
           
-          
+mixin inlineUserList(users)
+  span.inline-user-list
+    ul
+      each user in users
+        li
+          a(href="TODO")
+            = user.get('name')
+
+mixin addStudentsButton
+  .add-students.text-center
+      a.add-students-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
+        | Add Students Manually
+        
