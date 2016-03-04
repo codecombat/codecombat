@@ -210,6 +210,9 @@ module.exports = class World
     @loadSystemsFromLevel level
     @loadThangsFromLevel level, willSimulate
     @showsCountdown = @levelID in COUNTDOWN_LEVELS or _.any(@thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag)
+    @picoCTFProblem = level.picoCTFProblem if level.picoCTFProblem
+    if @picoCTFProblem?.instances and not @picoCTFProblem.flag_sha1
+      @picoCTFProblem = _.merge @picoCTFProblem, @picoCTFProblem.instances[0]
     system.start @thangs for system in @systems
 
   loadSystemsFromLevel: (level) ->
@@ -362,7 +365,7 @@ module.exports = class World
     #console.log "... world serializing frames from", startFrame, "to", endFrame, "of", @totalFrames
     [transferableObjects, nontransferableObjects] = [0, 0]
     delete flag.processed for flag in @flagHistory
-    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: @flagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed}
+    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: @flagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed, picoCTFFlag: @picoCTFFlag}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
@@ -469,7 +472,7 @@ module.exports = class World
             w.userCodeMap[thangID][methodName][aetherStateKey] = serializedAether[aetherStateKey]
     else
       w = new World o.userCodeMap, classMap
-    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed]
+    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed, w.picoCTFFlag] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed, o.picoCTFFlag]
     w[prop] = val for prop, val of o.trackedProperties
 
     perf.t1 = now()

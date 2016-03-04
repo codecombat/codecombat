@@ -77,7 +77,6 @@ beforeEach(function(done) {
     },
     function(cb) {
       // Initialize products
-      var request = require('request');
       request.get(getURL('/db/products'), function(err, res, body) {
         expect(err).toBe(null);
         expect(res.statusCode).toBe(200);

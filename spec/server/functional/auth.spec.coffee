@@ -1,5 +1,4 @@
 require '../common'
-request = require 'request'
 User = require '../../../server/users/User'
 
 urlLogin = getURL('/auth/login')
