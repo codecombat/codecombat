@@ -4,7 +4,7 @@ block content
   .container
     form.form(class=view.trialRequest.isNew() ? '' : 'hide')
       h3.text-center(data-i18n="teachers_quote.title")
-      h4.text-center(data-i18n="teachers_quote.subtitle")
+      h4.text-center(data-i18n="[html]teachers_quote.subtitle")
 
       #form-teacher-info.section
         .row
@@ -133,7 +133,7 @@ block content
             textarea.form-control(rows=8, name="notes")
             
       #buttons-row.row.text-center
-        input#submit-request-btn.btn.btn-lg.btn-primary(type="submit" data-i18n="[value]common.send")
+        input#submit-request-btn.btn.btn-lg.btn-primary(type="submit" data-i18n="[value]teachers_quote.title")
         
         
     #form-submit-success.text-center(class=view.trialRequest.isNew() ? 'hide' : '')
@@ -150,3 +150,5 @@ block content
           button#signup-btn.btn.btn-info(data-i18n="login.sign_up")
       else
         p.text-center(data-i18n="teachers_quote.thanks_logged_in")
+        div
+          a.btn.btn-primary.btn-lg(href="/courses/teachers", data-i18n="teachers_quote.setup_a_class")

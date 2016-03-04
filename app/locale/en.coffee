@@ -25,8 +25,9 @@
     im_a_student: "I'm a Student"
     learn_more: "Learn more"
     classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-    codecombat_is: "CodeCombat is a platform for students to learn computer science while playing through a real game."
-    our_courses: "Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience."
+    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game." # {change}
+    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience." # {change}
+    top_screenshots_hint: "Students write code and see their changes update in real-time"
     designed_with: "Designed with teachers in mind"
     real_code: "Real, typed code"
     from_the_first_level: "from the first level"
@@ -57,9 +58,15 @@
     great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
     agency: "CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
     curious: "Curious? Request a demo and we'll show you the ropes"
+    request_demo_title: "Get your students started today!"
+    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
+    get_started_title: "Set up your class today"
+    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
     create_class: "Or create a class and see it for yourself!"
+    teacher_screenshots_hint: "Students write code and see their changes update in real-time"
     request_demo: "Request a Demo"
     create_a_class: "Create a Class"
+    setup_a_class: "Set Up a Class"
     have_an_account: "Already have an account?"
     logged_in_as: "You are currently logged in as"
     view_my_classes: "View my classes"
@@ -702,9 +709,9 @@
     more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
 
   teachers_quote:
-    name: "Quote Form"
-    title: "Request a Quote"
-    subtitle: "Get CodeCombat in your classroom, club, school or district!"
+    name: "Demo Form" # {change}
+    title: "Request a Demo" # {change}
+    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science." # {change}
     email_exists: "User exists with this email."
     phone_number: "Phone number"
     phone_number_help: "Where can we reach you during the workday?"
@@ -728,10 +735,10 @@
     middle_school: "Middle School"
     college_plus: "College or higher"
     anything_else: "Anything else we should know?"
-    thanks_header: "Thanks for requesting a quote!"
+    thanks_header: "Thanks for requesting a demo!" # {change}
     thanks_p: "We'll be in touch soon. Questions? Email us:"
-    thanks_anon: "Login or sign up with your account below to access your two free enrollments (we’ll notify you by email when they have been approved, which usually takes less than 48 hours). As always, the first hour of content is free for an unlimited number of students."
-    thanks_logged_in: "Your two free enrollments are pending approval. We’ll notify you by email when they have been approved (usually within 48 hours). As always, the first hour of content is free for an unlimited number of students."
+    thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science." # {change}
+    thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science." # {change}
 
   versions:
     save_version_title: "Save New Version"
