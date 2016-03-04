@@ -617,8 +617,8 @@
     careers_link: "Careers"
     press_link: "Press"
     mission_title: "Our mission: make programming accessible to every student on Earth."
-    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>." # {change}
-    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming." # {change}
+    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
+    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
     team_title: "Meet the CodeCombat team"
     team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
     nick_title: "Cofounder, CEO"
@@ -1105,10 +1105,10 @@
     getting_started_3: "You'll see student's progress below as they sign up and join your class."
     additional_resources: "Additional Resources"
     additional_resources_1_pref: "Download/print our"
-    additional_resources_1_mid: "Course 1" # {change}
+    additional_resources_1_mid: "Course 1"
     additional_resources_1_mid2: "and"
     additional_resources_1_mid3: "Course 2"
-    additional_resources_1_suff: "teacher's guides with solutions for each level." # {change}
+    additional_resources_1_suff: "teacher's guides with solutions for each level."
     additional_resources_2_pref: "Complete our"
     additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
     additional_resources_3_pref: "Visit our"
@@ -1467,21 +1467,21 @@
 
   loading_error:
     could_not_load: "Error loading from server"
-    connection_failure: "Connection Failed" # {change}
+    connection_failure: "Connection Failed"
     connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
     login_required: "Login Required"
     login_required_desc: "You need to be logged in to access this page."
     unauthorized: "You need to be signed in. Do you have cookies disabled?"
-    forbidden: "Forbidden" # {change}
+    forbidden: "Forbidden"
     forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
-    not_found: "Not Found" # {change}
+    not_found: "Not Found"
     not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "Method not allowed."
-    timeout: "Server Timeout" # {change}
+    timeout: "Server Timeout"
     conflict: "Resource conflict."
     bad_input: "Bad input."
     server_error: "Server error."
-    unknown: "Unknown Error" # {change}
+    unknown: "Unknown Error"
     error: "ERROR"
     general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 
@@ -1518,7 +1518,7 @@
     strings: "Strings"
     variables: "Variables"
     vectors: "Vectors"
-    while_loops: "While Loops" # {change}
+    while_loops: "While Loops"
     recursion: "Recursion"
 
   delta:
