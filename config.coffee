@@ -93,12 +93,12 @@ exports.config =
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
           regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine))')
-          regJoin('^bower_components/(?!(aether|d3|treema|three.js))')
+          regJoin('^bower_components/(?!(aether|d3|treema|three.js|esper.js))')
           'bower_components/treema/treema-utils.js'
         ]
         'javascripts/whole-vendor.js': if TRAVIS then [
           regJoin('^vendor/scripts/(?!(Box2d|jasmine))')
-          regJoin('^bower_components/(?!aether)')
+          regJoin('^bower_components/(?!aether|esper.js)')
         ] else []
 
         #- Other vendor libraries in separate bunches
@@ -109,6 +109,7 @@ exports.config =
         'javascripts/box2d.js': regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
         'javascripts/lodash.js': regJoin('^bower_components/lodash/dist/lodash.js')
         'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
+        'javascripts/esper.js': 'bower_components/esper.js/esper.js'
         'javascripts/app/vendor/aether-clojure.js': 'bower_components/aether/build/clojure.js'
         'javascripts/app/vendor/aether-coffeescript.js': 'bower_components/aether/build/coffeescript.js'
         'javascripts/app/vendor/aether-io.js': 'bower_components/aether/build/io.js'
@@ -158,6 +159,7 @@ exports.config =
           'bower_components/tv4/tv4.js'
           # Aether before box2d for some strange Object.defineProperty thing
           'bower_components/aether/build/aether.js'
+          'bower_components/esper.js/esper.js'
           'bower_components/fastclick/lib/fastclick.js'
           'bower_components/d3/d3.min.js'
           'vendor/scripts/async.js'
