@@ -101,12 +101,11 @@ mixin longLevelName(data)
     span= data.levelName
           
 mixin inlineUserList(users)
-  span.inline-user-list
-    ul
-      each user in users
-        li
-          a(href="TODO")
-            = user.get('name')
+  ul.inline-user-list
+    each user in users
+      li
+        a(href="TODO")
+          = user.get('name')
 
 mixin addStudentsButton
   .add-students.text-center
