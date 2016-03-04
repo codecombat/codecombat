@@ -275,6 +275,16 @@ module.exports = class CampaignView extends RootView
     level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
     level.locked = false if me.isInGodMode()
     #level.locked = false if level.slug is 'robot-ragnarok'
+    level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
+    level.disabled = false if me.isInGodMode()
+    level.color = 'rgb(255, 80, 60)'
+    if level.requiresSubscription
+      level.color = 'rgb(80, 130, 200)'
+    if unlocksHero = _.find(level.rewards, 'hero')?.hero
+      level.unlocksHero = unlocksHero
+    if level.unlocksHero
+      level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
+
     if window.serverConfig.picoCTF
       if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
         level.locked = false if problem.unlocked or level.slug is 'digital-graffiti'
@@ -285,15 +295,8 @@ module.exports = class CampaignView extends RootView
 
           #{problem.category} - #{problem.score} points
         """
-    level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
-    level.disabled = false if me.isInGodMode()
-    level.color = 'rgb(255, 80, 60)'
-    if level.requiresSubscription
-      level.color = 'rgb(80, 130, 200)'
-    if unlocksHero = _.find(level.rewards, 'hero')?.hero
-      level.unlocksHero = unlocksHero
-    if level.unlocksHero
-      level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
+        level.color = 'rgb(80, 130, 200)' if problem.solved
+
     level.hidden = level.locked
     if level.concepts?.length
       level.displayConcepts = level.concepts
