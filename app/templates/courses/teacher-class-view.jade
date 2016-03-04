@@ -1,0 +1,86 @@
+extends /templates/base-flat
+
+block page_nav
+  include ./teacher-dashboard-nav.jade
+
+block content
+  - var classroom = view.classroom
+  if classroom.loaded
+    .container
+      - console.log(classroom)
+      h3= classroom.get('name')
+      a.edit-class-settings(data-i18n="TODO" data-classroom-id=classroom.id)
+        | edit class settings
+      h4= classroom.get('description')
+      
+      h4(data-i18n="TODO")
+        | Class Overview
+      
+      .classroom-info-row.row
+        .classroom-details.col-md-3
+          .language
+            span.spr(data-i18n="TODO")
+              | Language:
+            span
+              = classroom.capitalLanguage
+          
+          .student-count
+            span.spr(data-i18n="TODO")
+              | Students:
+            span
+              = classroom.get('members').length
+              
+          .average-playtime
+            span.spr(data-i18n="TODO")
+              | Average level play time:
+            span
+              = null
+              
+          .total-playtime
+            span.spr(data-i18n="TODO")
+              | Total play time:
+            span
+              = null
+               
+          .average-complete
+            span.spr(data-i18n="TODO")
+              | Average levels completed:
+            span
+              = null
+              
+          .total-complete
+            span.spr(data-i18n="TODO")
+              | Total levels completed:
+            span
+              = null
+              
+          .concepts.semibold
+          
+        .completeness-info.col-md-4
+          div(data-i18n="TODO")
+            | Earliest incomplete level:
+          
+          div(data-i18n="TODO")
+            | Latest completed level:
+            
+        .adding-students.col-md.4
+          h4(data-i18n="TODO")
+            | Adding students:
+          
+      ul.nav.nav-tabs(role="tablist")
+        li.active
+          a(href="#students-tab" data-toggle="tab")
+            span(data-i18n="TODO")
+              | Students
+        li
+          a(href="#progress-tab" data-toggle="tab")
+            span(data-i18n="TODO")
+              | Level Progress
+      
+      .tab-content
+        #students-tab.tab-pane.active
+          //- each student in classroom.members
+          
+        #progress-tab.tab-pane
+          
+          

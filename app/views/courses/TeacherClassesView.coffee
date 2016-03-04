@@ -12,6 +12,7 @@ ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 User = require 'models/User'
 utils = require 'core/utils'
+helper = require 'lib/coursesHelper'
 
 module.exports = class TeacherClassesView extends RootView
   id: 'teacher-classes-view'
@@ -29,6 +30,14 @@ module.exports = class TeacherClassesView extends RootView
     @classrooms = new Classrooms()
     @classrooms.fetchMine()
     @supermodel.trackCollection(@classrooms)
+    @listenTo @classrooms, 'sync', ->
+      console.log "Classroom sync'd"
+      for classroom in @classrooms.models
+        console.log classroom
+        classroom.sessions = new LevelSessions()
+        jqxhrs = classroom.sessions.fetchForAllClassroomMembers(classroom)
+        if jqxhrs.length > 0
+          @supermodel.trackCollection(classroom.sessions)
     
     @courses = new Courses()
     @courses.fetch()
@@ -49,42 +58,10 @@ module.exports = class TeacherClassesView extends RootView
     super()
     $('.progress-dot').tooltip()
     
-  calculateDots: ->
-    for classroom in @classrooms.models
-      # map [user, level] => session so we don't have to do find TODO
-      for course, courseIndex in @courses.models
-        instance = @courseInstances.getByCourseAndClassroom(course, classroom)
-        continue if not instance
-        instance.numCompleted = 0
-        campaign = @campaigns.get(course.get('campaignID'))
-        for userID in instance.get('members')
-          allComplete = _.every campaign.getLevels().models, (level) ->
-            return true if level.get('type')?.indexOf('ladder') > -1
-            #TODO: Hella slow! Do the mapping first!
-            session = _.find classroom.sessions.models, (session) ->
-              session.get('creator') == userID and session.get('level').original == level.get('original')
-            # sessionMap[userID][level].completed()
-            session?.completed()
-          if allComplete
-            instance.numCompleted += 1
-            
-
   onLoaded: ->
     console.log("loaded!")
-    @capitalizeLanguageNames(@classrooms)
-    for classroom in @classrooms.models
-      classroom.sessions = new LevelSessions()
-      classroom.sessions.fetchForAllClassroomMembers(classroom)
-      @listenTo classroom.sessions, 'sync', ->
-        @calculateDots()
-        @render()
+    helper.calculateDots(@classrooms, @courses, @courseInstances, @campaigns)
     super()
-    
-  capitalizeLanguageNames: (classrooms) =>
-    classrooms.forEach (classroom) =>
-      language = classroom.get('aceConfig').language
-      capitalLanguage = utils.capitalLanguages[language]
-      classroom.capitalLanguage = capitalLanguage
     
   onClickEditClassroom: (e) =>
     classroomID = $(e.target).data('classroom-id')

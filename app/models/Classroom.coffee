@@ -1,10 +1,19 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/classroom.schema'
+utils = require 'core/utils'
 
 module.exports = class Classroom extends CocoModel
   @className: 'Classroom'
   @schema: schema
   urlRoot: '/db/classroom'
+  
+  initialize: () ->
+    @listenTo this, 'change:aceConfig', @capitalizeLanguageName
+    super(arguments...)
+    
+  capitalizeLanguageName: ->
+    language = this.get('aceConfig').language
+    this.capitalLanguage = utils.capitalLanguages[language]
 
   joinWithCode: (code, opts) ->
     options = {
