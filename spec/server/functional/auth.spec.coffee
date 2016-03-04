@@ -246,7 +246,7 @@ describe 'POST /auth/spy', ->
     expect(res.statusCode).toBe(403)
     done()
 
-fdescribe 'POST /auth/stop-spying', ->
+describe 'POST /auth/stop-spying', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User])
     @admin = yield utils.initAdmin()
