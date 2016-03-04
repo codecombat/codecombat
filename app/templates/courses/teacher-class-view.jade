@@ -21,38 +21,32 @@ block content
           .language
             span.spr(data-i18n="TODO")
               | Language:
-            span
-              = classroom.capitalLanguage
+            span= classroom.capitalLanguage
           
           .student-count
             span.spr(data-i18n="TODO")
               | Students:
-            span
-              = classroom.get('members').length
+            span= classroom.get('members').length
               
           .average-playtime
             span.spr(data-i18n="TODO")
               | Average level play time:
-            span
-              = view.averagePlaytime
+            span= view.averagePlaytime
               
           .total-playtime
             span.spr(data-i18n="TODO")
               | Total play time:
-            span
-              = view.totalPlaytime
+            span= view.totalPlaytime
                
           .average-complete
             span.spr(data-i18n="TODO")
               | Average levels completed:
-            span
-              = view.averageLevelsCompleted
+            span= view.averageLevelsCompleted
               
           .total-complete
             span.spr(data-i18n="TODO")
               | Total levels completed:
-            span
-              = view.totalLevelsCompleted
+            span= view.totalLevelsCompleted
               
           .concepts.semibold
           
