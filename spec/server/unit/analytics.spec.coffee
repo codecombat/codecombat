@@ -1,7 +1,6 @@
 GLOBAL._ = require 'lodash'
 
 require '../common'
-request = require 'request'
 AnalyticsUsersActive = require '../../../server/analytics/AnalyticsUsersActive'
 LevelSession = require '../../../server/levels/sessions/LevelSession'
 User = require '../../../server/users/User'
