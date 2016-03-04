@@ -1,5 +1,4 @@
 require '../common'
-request = require 'request'
 User = require '../../../server/users/User'
 
 urlUser = '/db/user'
