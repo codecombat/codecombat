@@ -277,13 +277,14 @@ module.exports = class CampaignView extends RootView
     #level.locked = false if level.slug is 'robot-ragnarok'
     if window.serverConfig.picoCTF
       if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
-        level.locked = false if problem.unlocked
+        level.locked = false if problem.unlocked or level.slug is 'digital-graffiti'
+        #level.locked = false  # Testing to see all levels
         level.description = """
           ### #{problem.name}
           #{level.description or problem.description}
 
           #{problem.category} - #{problem.score} points
-        """  # Skipping #{problem.hints}
+        """
     level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
     level.disabled = false if me.isInGodMode()
     level.color = 'rgb(255, 80, 60)'

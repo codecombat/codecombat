@@ -38,6 +38,8 @@ module.exports = class Level extends CocoModel
     @sortThangComponents o.thangTypes, o.levelComponents, 'ThangType'
     @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents
 
+    o.picoCTFProblem = @picoCTFProblem if @picoCTFProblem
+
     o
 
   cachedLevelComponents: null
