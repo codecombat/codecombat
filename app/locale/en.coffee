@@ -411,7 +411,7 @@
     tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
     tip_understand_recursion: "The only way to understand recursion is to understand recursion."
     tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
-    
+
   game_menu:
     inventory_tab: "Inventory"
     save_load_tab: "Save/Load"
@@ -1617,21 +1617,3 @@
     one_month_discount: "discount, 30% off: choose either Rails or HTML"
     license: "license"
     oreilly: "ebook of your choice"
-
-  admin:
-    av_espionage: "Espionage"  # Really not important to translate /admin controls.
-    av_espionage_placeholder: "Email or username"
-    av_usersearch: "User Search"
-    av_usersearch_placeholder: "Email, username, name, whatever"
-    av_usersearch_search: "Search"
-    av_title: "Admin Views"
-    av_entities_sub_title: "Entities"
-    av_entities_users_url: "Users"
-    av_entities_active_instances_url: "Active Instances"
-    av_entities_user_code_problems_list_url: "User Code Problems List"
-    av_other_sub_title: "Other"
-    av_other_debug_base_url: "Base (for debugging base.jade)"
-    u_title: "User List"
-    ucp_title: "User Code Problems"
-    lg_title: "Latest Games"
-    clas: "CLAs"
