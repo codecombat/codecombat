@@ -606,7 +606,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     editor_config_behaviors_label: "Comportamente inteligente"
     editor_config_behaviors_description: "Completează automat parantezele, ghilimele etc."
 
-  about:
+#  about:
 #    main_title: "If you want to learn to program, you need to write (a lot of) code."
 #    main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
 #    mission_link: "Mission"
