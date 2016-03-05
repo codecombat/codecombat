@@ -606,7 +606,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    editor_config_behaviors_label: "Smart Behaviors"
     editor_config_behaviors_description: "自動完成括號，大括號搭引號。"
 
-  about:
+#  about:
 #    main_title: "If you want to learn to program, you need to write (a lot of) code."
 #    main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
 #    mission_link: "Mission"
