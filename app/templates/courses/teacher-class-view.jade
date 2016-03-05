@@ -51,19 +51,19 @@ block content
           .concepts.semibold
           
         .completeness-info.col-md-4
-          p(data-i18n="TODO")
-            | Earliest incomplete level:
-            if view.earliestIncompleteLevel
+          if view.earliestIncompleteLevel
+            p(data-i18n="TODO")
+              | Earliest incomplete level:
               +longLevelName(view.earliestIncompleteLevel)
-          p
-            +inlineUserList(view.earliestIncompleteLevel.users)
+            p
+              +inlineUserList(view.earliestIncompleteLevel.users)
             
-          p(data-i18n="TODO")
-            | Latest completed level:
-            if view.latestCompleteLevel
+          if view.latestCompleteLevel
+            p(data-i18n="TODO")
+              | Latest completed level:
               +longLevelName(view.latestCompleteLevel)
-          p
-            +inlineUserList(view.latestCompleteLevel.users)
+            p
+              +inlineUserList(view.latestCompleteLevel.users)
             
         .adding-students.col-md.4
           h4(data-i18n="TODO")
@@ -81,28 +81,67 @@ block content
               | Level Progress
       
       .tab-content
-        #students-tab.tab-pane.active
-          
-        #progress-tab.tab-pane
+        +studentsTab
+        +progressTab
 
 mixin longLevelName(data)
-  div.level-name
-    span.spr Course
-    span= data.courseNumber
-    span.spr , Level
-    span= data.levelNumber
-    span.spr :
-    span= data.levelName
+  if data
+    div.level-name
+      span.spr Course
+      span= data.courseNumber
+      span.spr , Level
+      span= data.levelNumber
+      span.spr :
+      span= data.levelName
           
 mixin inlineUserList(users)
-  ul.inline-user-list
-    each user in users
-      li
-        a(href="TODO")
-          = user.get('name')
+  if users
+    ul.inline-student-list
+      each student in users
+        li
+          a(href="TODO")
+            = student.get('name')
 
 mixin addStudentsButton
   .add-students.text-center
       a.add-students-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
         | Add Students Manually
         
+mixin studentsTab
+  #students-tab.tab-pane.active
+  table.students-table
+    thead
+      th
+        span Select All
+        input(type="checkbox")
+      th
+        span Sort by: 
+        button.sort-by-name
+          | Name
+        button.sort-by-progress
+          | Progress
+    tbody
+      each student in view.students.models
+        +studentRow(student)
+          
+mixin studentRow(student)
+  tr.alternating-background
+    td
+      input(type="checkbox")
+    td
+      div.student-name= student.get('name')
+      div.student-email emailaddress@school.edu
+    td
+      div.edit-student-button edit
+    td
+      div
+        i Latest completed:
+      div
+        +longLevelName(student.latestCompleteLevel)
+    td
+      div Dots go here (and Enroll Student button)
+    td
+      div > View class
+    
+mixin progressTab
+  #progress-tab.tab-pane

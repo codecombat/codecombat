@@ -62,6 +62,7 @@ module.exports =
             session.get('creator') == userID and session.get('level').original == level.get('original')
           if session?.completed() #
             userIDs.push userID
+        console.log [userIDs.length, courseIndex, levelIndex, level.get('name')]
         if userIDs.length > 0
           users = _.map userIDs, (id) ->
             students._byId[id]
