@@ -94,11 +94,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     twitter_follow: "Seguir"
     teachers: "Professores"
     careers: "Carreiras"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
-#    create_a_class: "Create a Class"
-#    other: "Other"
-#    learn_to_code: "Learn to Code!"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    create_a_class: "Criar uma Turma"
+    other: "Outros"
+    learn_to_code: "Aprende a Programar!"
 
   modal:
     close: "Fechar"
@@ -1151,7 +1151,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     ambassador_title: "Embaixador"
     ambassador_title_description: "(Suporte)"
     ambassador_summary: "Amansa os nossos utilizadores do fórum e direciona aqueles que têm questões. Os nossos Embaixadores representam o CodeCombat perante o mundo."
-#    teacher_title: "Teacher"
+    teacher_title: "Professor"
 
   editor:
     main_title: "Editores do CodeCombat"
@@ -1308,7 +1308,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     ambassador_join_note_strong: "Nota"
     ambassador_join_note_desc: "Uma das nossas maiores prioridades é construir níveis multijogador onde os jogadores com dificuldade para passar níveis possam invocar feiticeiros mais experientes para os ajudarem. Esta será uma ótima forma de os embaixadores fazerem o que sabem. Vamos manter-te atualizado!"
     ambassador_subscribe_desc: "Receber e-mails relativos a novidades do suporte e desenvolvimentos do modo multijogador."
-#    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
+    teacher_subscribe_desc: "Receber e-mails sobre atualizações e anúncios para professores."
     changes_auto_save: "As alterações são guardadas automaticamente quando clicas nas caixas."
     diligent_scribes: "Os Nossos Dedicados Escrivões:"
     powerful_archmages: "Os Nossos Poderosos Arcomagos:"
@@ -1466,23 +1466,23 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   loading_error:
     could_not_load: "Erro ao carregar do servidor"
-    connection_failure: "A conexão falhou." # {change}
-#    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
-#    login_required: "Login Required"
-#    login_required_desc: "You need to be logged in to access this page."
+    connection_failure: "A Ligação Falhou"
+    connection_failure_desc: "Não parece que estejas ligado à internet! Verifica a tua ligação de rede e depois recarrega esta página."
+    login_required: "Sessão Iniciada Obrigatória"
+    login_required_desc: "Precisas de ter sessão iniciada para acederes a esta página."
     unauthorized: "Precisas de ter sessão iniciada. Tens os cookies desativados?"
-    forbidden: "Não tens permissões." # {change}
-#    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
-    not_found: "Não encontrado." # {change}
-#    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
+    forbidden: "Proibido"
+    forbidden_desc: "Oh não, não há nada aqui que te possamos mostrar! Certifica-te de que tens sessão iniciada na conta correta ou visita uma das ligações abaixo para voltares para a programação!"
+    not_found: "Não Encontrado"
+    not_found_desc: "Hm, não há nada aqui. Visita uma das ligações seguintes para voltares para a programação!"
     not_allowed: "Método não permitido."
-    timeout: "O servidor expirou." # {change}
+    timeout: "O Servidor Expirou"
     conflict: "Conflito de recursos."
     bad_input: "Má entrada."
     server_error: "Erro do servidor."
-    unknown: "Erro desconhecido." # {change}
+    unknown: "Erro Desconhecido"
     error: "ERRO"
-#    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
+    general_desc: "Algo correu mal, e, provavelmente, a culpa é nossa. Tenta esperar um pouco e depois recarregar a página, ou visita uma das ligações seguintes para voltares para a programação!"
 
   resources:
     level: "Nível"
@@ -1517,7 +1517,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     strings: "'Strings'"
     variables: "Variáveis"
     vectors: "Vetores"
-    while_loops: "'Loops'" # {change}
+    while_loops: "'Loops While'"
     recursion: "Recursão"
 
   delta:
