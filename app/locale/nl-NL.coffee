@@ -14,7 +14,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     for_developers: "Voor ontwikkelaars" # Not currently shown on home page.
     or_ipad: "Of download voor iPad"
 
-#  new_home:
+  new_home:
     slogan: "Het meest uitdagende spel om mee te leren programmeren."
     classroom_edition: "Klas versie:"
     learn_to_code: "Leer programmeren:"
@@ -23,7 +23,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     play_now: "Speel"
     im_a_teacher: "Ik ben een leraar"
     im_a_student: "Ik ben een leerling"
-   learn_more: "Lees verder"
+    learn_more: "Lees verder"
     classroom_in_a_box: "Een kant-en-klare digitale klas voor programmeerlessen."
 #    codecombat_is: "CodeCombat is a platform for students to learn computer science while playing through a real game."
 #    our_courses: "Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience."
