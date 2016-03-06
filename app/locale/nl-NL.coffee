@@ -4,7 +4,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     no_ie: "CodeCombat werkt niet in IE8 of ouder. Sorry!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat is niet gemaakt voor mobiele apparaten en werkt misschien niet!" # Warning that shows up on mobile devices
     play: "Speel" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Speel de Campaign Versie" # Shows up under big play button if you only play /courses
     old_browser: "Uh oh, jouw browser is te oud om CodeCombat te kunnen spelen, Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Je kan toch proberen, maar het zal waarschijnlijk niet werken!"
     ipad_browser: "Slecht nieuws: CodeCombat draait niet in je browser op iPad. Goed nieuws: onze iPad-app wordt op het moment beoordeeld door Apple."
@@ -15,16 +15,16 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     or_ipad: "Of download voor iPad"
 
 #  new_home:
-#    slogan: "The most engaging game for learning programming."
-#    classroom_edition: "Classroom Edition:"
-#    learn_to_code: "Learn to code:"
-#    teacher: "Teacher"
-#    student: "Student"
-#    play_now: "Play Now"
-#    im_a_teacher: "I'm a Teacher"
-#    im_a_student: "I'm a Student"
-#    learn_more: "Learn more"
-#    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
+    slogan: "Het meest uitdagende spel om mee te leren programmeren."
+    classroom_edition: "Klas versie:"
+    learn_to_code: "Leer programmeren:"
+    teacher: "Leraar"
+    student: "Leerling"
+    play_now: "Speel"
+    im_a_teacher: "Ik ben een leraar"
+    im_a_student: "Ik ben een leerling"
+   learn_more: "Lees verder"
+    classroom_in_a_box: "Een kant-en-klare digitale klas voor programmeerlessen."
 #    codecombat_is: "CodeCombat is a platform for students to learn computer science while playing through a real game."
 #    our_courses: "Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience."
 #    designed_with: "Designed with teachers in mind"
