@@ -3,8 +3,8 @@ extends /templates/base-flat
 block content
   .container
     form.form(class=view.trialRequest.isNew() ? '' : 'hide')
-      h1.text-center(data-i18n="teachers_quote.title")
-      h2.text-center(data-i18n="teachers_quote.subtitle")
+      h3.text-center(data-i18n="teachers_quote.title")
+      h4.text-center(data-i18n="teachers_quote.subtitle")
 
       #form-teacher-info.section
         .row
@@ -137,7 +137,7 @@ block content
         
         
     #form-submit-success.text-center(class=view.trialRequest.isNew() ? 'hide' : '')
-      h1.text-center(data-i18n="teachers_quote.thanks_header")
+      h3.text-center(data-i18n="teachers_quote.thanks_header")
       p.text-center
         span.spr(data-i18n="teachers_quote.thanks_p")
         a.spl(href="mailto:team@codecombat.com") team@codecombat.com
