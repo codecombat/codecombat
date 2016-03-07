@@ -26,7 +26,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     learn_more: "Lees verder"
     classroom_in_a_box: "Een kant-en-klare digitale klas voor programmeerlessen."
     codecombat_is: "CodeCombat is een platform waarmee leerlingen leren programmeren door het spelen van een spel."
-    our_courses: "Onze lessen zijn specifiek ontwikkeld om uit te springen in een klas-opzet, zelfs voor leraren met geen ervaring met programmeren.
+    our_courses: "Onze lessen zijn specifiek ontwikkeld om uit te springen in een klas-opzet, zelfs voor leraren met geen ervaring met programmeren."
     designed_with: "Gemaakt voor leraren"
     real_code: "Echte, getypde code"
     from_the_first_level: "vanaf het eerste level"
