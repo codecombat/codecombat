@@ -14,6 +14,35 @@ $grey-darker: #9b9b9b
   background-color: $grey-light
 
 #teacher-class-view
+
+  ul.nav-tabs
+    border: none
+    .tab-spacer
+      float: left
+      width: 15px
+      height: 47px
+      border-bottom: thin solid #979797
+      
+    .tab-filler
+      // Triggers block formatting context
+      // http://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width
+      overflow: hidden
+      height: 47px
+      border-bottom: thin solid #979797
+      
+    li > a
+      margin: 0
+      border: thin solid #979797
+      border-bottom: none
+      background: white
+      border-radius: 5px 5px 0 0
+      width: 175px
+      color: black
+      font-family: $headline-font
+    li
+      border-bottom: thin solid #979797
+    li.active
+      border-bottom: none
     
   .inline-student-list
     padding-left: 0

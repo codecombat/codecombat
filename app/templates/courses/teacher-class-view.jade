@@ -73,12 +73,14 @@ block content
       ul.nav.nav-tabs(role="tablist")
         li.active
           a(href="#students-tab" data-toggle="tab")
-            span(data-i18n="TODO")
+            .text-center(data-i18n="TODO")
               | Students
+        .tab-spacer
         li
           a(href="#progress-tab" data-toggle="tab")
-            span(data-i18n="TODO")
+            .text-center(data-i18n="TODO")
               | Level Progress
+        .tab-filler
       
       .tab-content
         +studentsTab
