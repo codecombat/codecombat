@@ -7,6 +7,7 @@ mongoose = require 'mongoose'
 Classroom = require '../classrooms/Classroom'
 parse = require '../commons/parse'
 LevelSession = require '../levels/sessions/LevelSession'
+User = require '../users/User'
 
 module.exports =
   getByOwner: wrap (req, res, next) ->
@@ -38,4 +39,17 @@ module.exports =
     sessions = _.flatten(results)
     res.status(200).send(sessions)
     
+  fetchMembers: wrap (req, res, next) ->
+    throw new errors.Unauthorized() unless req.user
+    memberLimit = parse.getLimitFromReq(req, {default: 10, max: 100, param: 'memberLimit'})
+    memberSkip = parse.getSkipFromReq(req, {param: 'memberSkip'})
+    classroom = yield database.getDocFromHandle(req, Classroom)
+    throw new errors.NotFound('Classroom not found.') if not classroom
+    throw new errors.Forbidden('You do not own this classroom.') unless req.user.isAdmin() or classroom.get('ownerID').equals(req.user._id)
+    memberIDs = classroom.get('members') or []
+    memberIDs = memberIDs.slice(memberSkip, memberLimit)
     
+    dbqs = yield User.find({ _id: { $in: memberIDs }}).select(parse.getProjectFromReq(req)).exec()
+    members = yield (user.toObject({ req: req, includedPrivates: ["name", "email"] }) for user in dbqs)
+    
+    res.status(200).send(members)

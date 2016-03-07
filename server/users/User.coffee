@@ -345,7 +345,9 @@ UserSchema.set('toObject', {
     publicOnly = options.publicOnly
     delete ret[prop] for prop in User.serverProperties
     includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(doc._id) or req.session.amActually is doc.id))
-    delete ret[prop] for prop in User.privateProperties unless includePrivates
+    excludedPrivates = _.reject User.privateProperties, (prop) ->
+      prop in options.includedPrivates
+    delete ret[prop] for prop in excludedPrivates unless includePrivates
     delete ret[prop] for prop in User.candidateProperties
     return ret
 })

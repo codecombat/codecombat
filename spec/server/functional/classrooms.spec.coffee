@@ -230,4 +230,42 @@ describe 'GET /db/classroom/:handle/member-sessions', ->
     expect(session.creator).toBe(@student2.id) for session in body
     done()
     
+describe 'GET /db/classroom/:handle/members', ->
   
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom])
+    @teacher = yield utils.initUser()
+    @student1 = yield utils.initUser({ name: "Firstname Lastname" })
+    @student2 = yield utils.initUser({ name: "Student Nameynamington" })
+    @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
+    @emptyClassroom = yield new Classroom({name: 'Empty Classroom', ownerID: @teacher._id, members: [] }).save()
+    done()
+    
+  it 'does not work if you are not the owner of the classroom', utils.wrap (done) ->
+    yield utils.loginUser(@student1)
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
+    expect(res.statusCode).toBe(403)
+    done()
+    
+  it 'does not work if you are not logged in', utils.wrap (done) ->
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
+    expect(res.statusCode).toBe(401)
+    done()
+  
+  it 'works on an empty classroom', utils.wrap (done) ->
+    yield utils.loginUser(@teacher)
+    [res, body] = yield request.getAsync getURL("/db/classroom/#{@emptyClassroom.id}/members?name=true&email=true"), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body).toEqual([])
+    done()
+    
+  it 'returns all members with name and email', utils.wrap (done) ->
+    yield utils.loginUser(@teacher)
+    [res, body] = yield request.getAsync getURL("/db/classroom/#{@classroom.id}/members?name=true&email=true"), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(2)
+    for user in body
+      expect(user.name).toBeDefined()
+      expect(user.email).toBeDefined()
+      expect(user.passwordHash).toBeUndefined()
+    done()
