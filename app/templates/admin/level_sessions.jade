@@ -2,7 +2,7 @@ extends /templates/base
 
 block content
 
-  h1(data-i18n="admin.lg_title") Latest Games
+  h1 Latest Games
 
   each session in view.sessions.models
     - var url = '/play/level/'+session.get('levelID')+'?session='+session.id
