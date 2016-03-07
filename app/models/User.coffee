@@ -59,6 +59,9 @@ module.exports = class User extends CocoModel
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
+  isTeacher: ->
+    return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent']
+
   setRole: (role, force=false) ->
     return if me.isAdmin()
     oldRole = @get 'role'
