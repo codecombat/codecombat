@@ -113,7 +113,8 @@ mixin studentsTab
     thead
       th
         span Select All
-        input(type="checkbox")
+        .checkbox-flat
+          input(type="checkbox")
       th
         span Sort by: 
         button.sort-by-name
@@ -127,12 +128,15 @@ mixin studentsTab
 mixin studentRow(student)
   tr.alternating-background
     td
-      input(type="checkbox")
+      .checkbox-flat
+        input(type="checkbox")
     td
       div.student-name= student.get('name')
       div.student-email emailaddress@school.edu
     td
-      div.edit-student-button edit
+      a.edit-student-button(data-student-id=student.id)
+        span.glyphicon.glyphicon-edit
+        span(data-i18n="TODO") edit
     td
       div
         i Latest completed:

@@ -4,6 +4,8 @@
 
 $grey-light: #f5f5f5
 $grey-medium: #ebebeb
+$grey-dark: #c9c9c9
+$grey-darker: #9b9b9b
 
 .alternating-background:nth-child(2n+1)
   background-color: $grey-medium
@@ -37,3 +39,31 @@ $grey-medium: #ebebeb
   .level-name
     white-space: nowrap
     overflow: ellipsis
+    
+  th
+    font-weight: normal
+    white-space: nowrap
+    vertical-align: bottom
+
+  .edit-student-button
+    color: black
+    font-weight: bold
+    text-decoration: underline
+
+    .glyphicon
+      color: $grey-darker
+  
+  // Checkboxes
+  // TODO: Move to style-flat?
+  
+  .checkbox-flat
+    input
+      visibility: hidden
+    background: white
+    border: thin solid #979797
+    width: 20px
+    height: 20px
+    
+  // stuff that feels specific to this page
+  .checkbox-flat
+    margin: 8px auto
