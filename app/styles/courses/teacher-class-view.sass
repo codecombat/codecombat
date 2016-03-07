@@ -32,19 +32,35 @@ $grey-darker: #9b9b9b
     li:not(:last-child):after
       content: ', '
       
-  .student-name
-    white-space: nowrap
-    overflow: ellipsis
+  .student-info
+    max-width: 200px
+
+    .student-name, .student-email
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
     
   .level-name
     white-space: nowrap
     overflow: ellipsis
+    font-weight: bold
     
   th
     font-weight: normal
     white-space: nowrap
     vertical-align: bottom
-
+  
+  .sort-button
+    border: none
+    background: none
+    font-weight: bold
+    text-decoration: underline
+  
+  td
+    padding-top: 15px
+    padding-bottom: 15px
+    line-height: 20px
+    
   .edit-student-button
     color: black
     font-weight: bold
@@ -67,3 +83,16 @@ $grey-darker: #9b9b9b
   // stuff that feels specific to this page
   .checkbox-flat
     margin: 8px auto
+
+  // TODO: Move to style-flat?
+  .view-class-arrow
+    color: $grey-darker
+    // height: 100%
+    font-size: 35px
+    line-height: 35px
+    align-self: center
+    .view-class-arrow-inner 
+      color: $grey-darker
+      &:hover
+        text-decoration: none
+    

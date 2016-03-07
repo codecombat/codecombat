@@ -115,11 +115,11 @@ mixin studentsTab
         span Select All
         .checkbox-flat
           input(type="checkbox")
-      th
+      th.small
         span Sort by: 
-        button.sort-by-name
+        button.sort-button.sort-by-name
           | Name
-        button.sort-by-progress
+        button.sort-button.sort-by-progress
           | Progress
     tbody
       each student in view.students.models
@@ -130,14 +130,14 @@ mixin studentRow(student)
     td
       .checkbox-flat
         input(type="checkbox")
-    td
+    td.student-info
       div.student-name= student.get('name')
-      div.student-email emailaddress@school.edu
-    td
+      div.student-email.small-details emailaddress@school.edu
+    td.hidden
       a.edit-student-button(data-student-id=student.id)
         span.glyphicon.glyphicon-edit
         span(data-i18n="TODO") edit
-    td
+    td.small
       div
         i Latest completed:
       div
@@ -145,7 +145,7 @@ mixin studentRow(student)
     td
       div Dots go here (and Enroll Student button)
     td
-      div > View class
+      span.view-class-arrow.glyphicon.glyphicon-chevron-right
     
 mixin progressTab
   #progress-tab.tab-pane
