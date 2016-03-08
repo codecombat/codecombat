@@ -56,21 +56,26 @@ module.exports = class TeacherClassesView extends RootView
   
   afterRender: ->
     super()
-    $('.progress-dot').tooltip()
+    $('.progress-dot').each (i, el) ->
+      dot = $(el)
+      dot.tooltip({
+        html: true
+        container: dot
+        template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-arrow-cover"></div><div class="tooltip-inner"></div></div>'
+      })
     
   onLoaded: ->
-    console.log("loaded!")
     helper.calculateDots(@classrooms, @courses, @courseInstances, @campaigns)
     super()
     
-  onClickEditClassroom: (e) =>
+  onClickEditClassroom: (e) ->
     classroomID = $(e.target).data('classroom-id')
     classroom = @classrooms.get(classroomID)
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
 
-  onClickCreateClassroom: (e) =>
+  onClickCreateClassroom: (e) ->
     classroom = new Classroom({ ownerID: me.id })
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
@@ -79,7 +84,7 @@ module.exports = class TeacherClassesView extends RootView
       @addFreeCourseInstances()
       @render()
     
-  onClickAddStudents: (e) =>
+  onClickAddStudents: (e) ->
     classroomID = $(e.target).data('classroom-id')
     classroom = @classrooms.get(classroomID)
     modal = new InviteToClassroomModal({ classroom: classroom })

@@ -148,9 +148,17 @@
     
   .progress-dot.forest
     background: $forest
+    .tooltip-inner
+      border: 1px solid $forest
+    .tooltip-arrow
+      border-top-color: $forest
     
   .progress-dot.gold
     background: $gold
+    .tooltip-inner
+      border: 1px solid $gold
+    .tooltip-arrow
+      border-top-color: $gold
 
   .create-class
     margin-top: 65px
@@ -160,10 +168,25 @@
   .tooltip-arrow
     margin-left: -10px
     border-width: 5px 10px 0
+    border-top-color: $grey-dark
     
   .tooltip-inner
     padding: 10px 20px
-    border: 1px solid black
+    border: 1px solid $grey-dark
     color: black
     background: white
     border-radius: 20px
+    min-width: 150px
+    
+  .tooltip-arrow-cover
+    position: absolute
+    width: 0
+    height: 0
+    border-color: transparent
+    border-style: solid
+    bottom: 1px
+    left: 50%
+    margin-left: -10px
+    border-width: 5px 10px 0
+    border-top-color: white
+    

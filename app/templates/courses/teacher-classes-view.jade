@@ -90,7 +90,7 @@ mixin progressDot(classroom, course, index)
     - complete = courseInstance.numCompleted
     - dotClass = complete === total ? 'forest' : 'gold';
   - var progressDotContext = {total: total, complete: complete}; 
-  .progress-dot(class=dotClass, data-html='true', data-title=view.progressDotTemplate(progressDotContext) data-toggle='tooltip')
+  .progress-dot(class=dotClass, data-title=view.progressDotTemplate(progressDotContext))
     +progressDotLabel(index)
 
 mixin progressDotLabel(index)
