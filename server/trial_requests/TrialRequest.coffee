@@ -42,7 +42,7 @@ TrialRequestSchema.post 'save', (doc) ->
       emailParams =
         recipient:
           address: email
-        email_id: sendwithus.templates.teacher_request_dmeo
+        email_id: sendwithus.templates.teacher_request_demo
         email_data:
           account_exists: user?.get('anonymous') is false
           classes_exist: false

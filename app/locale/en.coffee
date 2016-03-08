@@ -60,14 +60,13 @@
     curious: "Curious? Request a demo and we'll show you the ropes"
     request_demo_title: "Get your students started today!"
     request_demo_subtitle: "Request a demo and get your students started in less than an hour."
-    get_started_title: "Setup your class today"
-    get_started_subtitle: "Setup a class, add your students, and monitor their progress as they learn computer science."
+    get_started_title: "Set up your class today"
+    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
     create_class: "Or create a class and see it for yourself!"
     teacher_screenshots_hint: "Students write code and see their changes update in real-time"
     request_demo: "Request a Demo"
     create_a_class: "Create a Class"
-    setup_a_class: "Setup a Class"
-    register_a_class: "Register a Class"
+    setup_a_class: "Set Up a Class"
     have_an_account: "Already have an account?"
     logged_in_as: "You are currently logged in as"
     view_my_classes: "View my classes"
@@ -738,8 +737,8 @@
     anything_else: "Anything else we should know?"
     thanks_header: "Thanks for requesting a demo!" # {change}
     thanks_p: "We'll be in touch soon. Questions? Email us:"
-    thanks_anon: "Log in or create an account to setup a class, add your students, and monitor their progress as they learn computer science." # {change}
-    thanks_logged_in: "Setup a class, add your students, and monitor their progress as they learn computer science." # {change}
+    thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science." # {change}
+    thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science." # {change}
 
   versions:
     save_version_title: "Save New Version"

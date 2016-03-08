@@ -107,7 +107,6 @@ module.exports = class NewHomeView extends RootView
       $('#screenshot-lightbox').modal('hide')
 
   onClickScreenThumbnail: (event) ->
-    console.log $('#screenshot-lightbox').data('bs.modal')?.isShown
     unless $('#screenshot-lightbox').data('bs.modal')?.isShown
       event.preventDefault()
       # Modal opening happens automatically from bootstrap
