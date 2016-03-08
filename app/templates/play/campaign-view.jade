@@ -138,7 +138,7 @@ else
       if me.isPremium()
         button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
 
-button.btn.btn-lg.btn-inverse.campaign-control-button#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
+button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
   .glyphicon.glyphicon-volume-off
   .glyphicon.glyphicon-volume-down
   .glyphicon.glyphicon-volume-up
@@ -152,7 +152,7 @@ if editorMode
     .glyphicon.glyphicon-refresh
 
 if campaign && campaign.loaded
-  h1#campaign-status
+  h1#campaign-status.picoctf-hide
     .campaign-status-background
       .campaign-name
         - var fullName = i18n(campaign.attributes, 'fullName')

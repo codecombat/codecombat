@@ -6,7 +6,6 @@ nockUtils = require '../nock-utils'
 
 
 describe '/db/payment', ->
-  request = require 'request'
   paymentURL = getURL('/db/payment')
   checkChargesURL = getURL('/db/payment/check-stripe-charges')
   customPaymentURL = getURL('/db/payment/custom')

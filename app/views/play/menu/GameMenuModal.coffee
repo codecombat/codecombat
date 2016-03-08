@@ -32,6 +32,7 @@ module.exports = class GameMenuModal extends ModalView
     context = super(context)
     docs = @options.level.get('documentation') ? {}
     submenus = ['guide', 'options', 'save-load', 'multiplayer']
+    submenus = _.without submenus, 'options' if window.serverConfig.picoCTF
     submenus = _.without submenus, 'guide' unless docs.specificArticles?.length or docs.generalArticles?.length or window.serverConfig.picoCTF
     submenus = _.without submenus, 'save-load' unless me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
     submenus = _.without submenus, 'multiplayer' unless me.isAdmin() or (@level?.get('type') in ['ladder', 'hero-ladder', 'course-ladder'] and @level.get('slug') not in ['ace-of-coders', 'elemental-wars'])

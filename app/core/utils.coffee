@@ -51,8 +51,9 @@ toHex = (n) ->
 
 module.exports.i18n = (say, target, language=me.get('preferredLanguage', true), fallback='en') ->
   generalResult = null
-  fallbackResult = null
-  fallforwardResult = null # If a general language isn't available, the first specific one will do
+  fallBackResult = null
+  fallForwardResult = null  # If a general language isn't available, the first specific one will do.
+  fallSidewaysResult = null  # If a specific language isn't available, its sibling specific language will do.
   matches = (/\w+/gi).exec(language)
   generalName = matches[0] if matches
 
@@ -63,12 +64,14 @@ module.exports.i18n = (say, target, language=me.get('preferredLanguage', true), 
     else continue
     return result if localeName is language
     generalResult = result if localeName is generalName
-    fallbackResult = result if localeName is fallback
-    fallforwardResult = result if localeName.indexOf(language) is 0 and not fallforwardResult?
+    fallBackResult = result if localeName is fallback
+    fallForwardResult = result if localeName.indexOf(language) is 0 and not fallForwardResult?
+    fallSidewaysResult = result if localeName.indexOf(generalName) is 0 and not fallSidewaysResult?
 
   return generalResult if generalResult?
-  return fallforwardResult if fallforwardResult?
-  return fallbackResult if fallbackResult?
+  return fallForwardResult if fallForwardResult?
+  return fallSidewaysResult if fallSidewaysResult?
+  return fallBackResult if fallBackResult?
   return say[target] if target of say
   null
 

@@ -85,10 +85,13 @@ setupExpressMiddleware = (app) ->
   app.use(useragent.express())
 
   app.use(express.favicon())
-  app.use(express.cookieParser(config.cookie_secret))
+  app.use(express.cookieParser())
   app.use(express.bodyParser())
   app.use(express.methodOverride())
-  app.use(express.cookieSession({secret:'defenestrate'}))
+  app.use(express.cookieSession({
+    key:'codecombat.sess'
+    secret:config.cookie_secret
+  }))
 
 setupPassportMiddleware = (app) ->
   app.use(authentication.initialize())
@@ -180,6 +183,7 @@ setupFallbackRouteToIndex = (app) ->
         production: config.isProduction
         
       data = data.replace('"userObjectTag"', user)
+      data = data.replace('"amActuallyTag"', JSON.stringify(req.session.amActually))
       res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
       res.header 'Pragma', 'no-cache'
       res.header 'Expires', 0

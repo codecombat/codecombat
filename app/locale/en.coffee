@@ -25,8 +25,9 @@
     im_a_student: "I'm a Student"
     learn_more: "Learn more"
     classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-    codecombat_is: "CodeCombat is a platform for students to learn computer science while playing through a real game."
-    our_courses: "Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience."
+    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game." # {change}
+    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience." # {change}
+    top_screenshots_hint: "Students write code and see their changes update in real-time"
     designed_with: "Designed with teachers in mind"
     real_code: "Real, typed code"
     from_the_first_level: "from the first level"
@@ -57,9 +58,15 @@
     great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
     agency: "CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
     curious: "Curious? Request a demo and we'll show you the ropes"
+    request_demo_title: "Get your students started today!"
+    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
+    get_started_title: "Set up your class today"
+    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
     create_class: "Or create a class and see it for yourself!"
+    teacher_screenshots_hint: "Students write code and see their changes update in real-time"
     request_demo: "Request a Demo"
     create_a_class: "Create a Class"
+    setup_a_class: "Set Up a Class"
     have_an_account: "Already have an account?"
     logged_in_as: "You are currently logged in as"
     view_my_classes: "View my classes"
@@ -411,7 +418,7 @@
     tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
     tip_understand_recursion: "The only way to understand recursion is to understand recursion."
     tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
-    
+
   game_menu:
     inventory_tab: "Inventory"
     save_load_tab: "Save/Load"
@@ -617,8 +624,8 @@
     careers_link: "Careers"
     press_link: "Press"
     mission_title: "Our mission: make programming accessible to every student on Earth."
-    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>." # {change}
-    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming." # {change}
+    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
+    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
     team_title: "Meet the CodeCombat team"
     team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
     nick_title: "Cofounder, CEO"
@@ -702,9 +709,9 @@
     more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
 
   teachers_quote:
-    name: "Quote Form"
-    title: "Request a Quote"
-    subtitle: "Get CodeCombat in your classroom, club, school or district!"
+    name: "Demo Form" # {change}
+    title: "Request a Demo" # {change}
+    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science." # {change}
     email_exists: "User exists with this email."
     phone_number: "Phone number"
     phone_number_help: "Where can we reach you during the workday?"
@@ -728,10 +735,10 @@
     middle_school: "Middle School"
     college_plus: "College or higher"
     anything_else: "Anything else we should know?"
-    thanks_header: "Thanks for requesting a quote!"
+    thanks_header: "Thanks for requesting a demo!" # {change}
     thanks_p: "We'll be in touch soon. Questions? Email us:"
-    thanks_anon: "Login or sign up with your account below to access your two free enrollments (we’ll notify you by email when they have been approved, which usually takes less than 48 hours). As always, the first hour of content is free for an unlimited number of students."
-    thanks_logged_in: "Your two free enrollments are pending approval. We’ll notify you by email when they have been approved (usually within 48 hours). As always, the first hour of content is free for an unlimited number of students."
+    thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science." # {change}
+    thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science." # {change}
 
   versions:
     save_version_title: "Save New Version"
@@ -1105,10 +1112,10 @@
     getting_started_3: "You'll see student's progress below as they sign up and join your class."
     additional_resources: "Additional Resources"
     additional_resources_1_pref: "Download/print our"
-    additional_resources_1_mid: "Course 1" # {change}
+    additional_resources_1_mid: "Course 1"
     additional_resources_1_mid2: "and"
     additional_resources_1_mid3: "Course 2"
-    additional_resources_1_suff: "teacher's guides with solutions for each level." # {change}
+    additional_resources_1_suff: "teacher's guides with solutions for each level."
     additional_resources_2_pref: "Complete our"
     additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
     additional_resources_3_pref: "Visit our"
@@ -1467,21 +1474,21 @@
 
   loading_error:
     could_not_load: "Error loading from server"
-    connection_failure: "Connection Failed" # {change}
+    connection_failure: "Connection Failed"
     connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
     login_required: "Login Required"
     login_required_desc: "You need to be logged in to access this page."
     unauthorized: "You need to be signed in. Do you have cookies disabled?"
-    forbidden: "Forbidden" # {change}
+    forbidden: "Forbidden"
     forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
-    not_found: "Not Found" # {change}
+    not_found: "Not Found"
     not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "Method not allowed."
-    timeout: "Server Timeout" # {change}
+    timeout: "Server Timeout"
     conflict: "Resource conflict."
     bad_input: "Bad input."
     server_error: "Server error."
-    unknown: "Unknown Error" # {change}
+    unknown: "Unknown Error"
     error: "ERROR"
     general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 
@@ -1518,7 +1525,7 @@
     strings: "Strings"
     variables: "Variables"
     vectors: "Vectors"
-    while_loops: "While Loops" # {change}
+    while_loops: "While Loops"
     recursion: "Recursion"
 
   delta:
@@ -1617,21 +1624,3 @@
     one_month_discount: "discount, 30% off: choose either Rails or HTML"
     license: "license"
     oreilly: "ebook of your choice"
-
-  admin:
-    av_espionage: "Espionage"  # Really not important to translate /admin controls.
-    av_espionage_placeholder: "Email or username"
-    av_usersearch: "User Search"
-    av_usersearch_placeholder: "Email, username, name, whatever"
-    av_usersearch_search: "Search"
-    av_title: "Admin Views"
-    av_entities_sub_title: "Entities"
-    av_entities_users_url: "Users"
-    av_entities_active_instances_url: "Active Instances"
-    av_entities_user_code_problems_list_url: "User Code Problems List"
-    av_other_sub_title: "Other"
-    av_other_debug_base_url: "Base (for debugging base.jade)"
-    u_title: "User List"
-    ucp_title: "User Code Problems"
-    lg_title: "Latest Games"
-    clas: "CLAs"

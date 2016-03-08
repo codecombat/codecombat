@@ -45,13 +45,14 @@ UserHandler = class UserHandler extends Handler
     props
 
   formatEntity: (req, document, publicOnly=false) =>
+    # TODO: Delete. This function is duplicated in server User model toObject transform.
     return null unless document?
     obj = document.toObject()
-    delete obj[prop] for prop in serverProperties
-    includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(document._id)))
-    delete obj[prop] for prop in @privateProperties unless includePrivates
+    delete obj[prop] for prop in User.serverProperties
+    includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(document._id) or req.session.amActually is document.id))
+    delete obj[prop] for prop in User.privateProperties unless includePrivates
     includeCandidate = not publicOnly and (includePrivates or (obj.jobProfile?.active and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj))
-    delete obj[prop] for prop in candidateProperties unless includeCandidate
+    delete obj[prop] for prop in User.candidateProperties unless includeCandidate
     return obj
 
   waterfallFunctions: [

@@ -41,11 +41,13 @@ module.exports.connectionFailure = connectionFailure = ->
   )
   showErrorModal(html)
 
-module.exports.showNotyNetworkError = (jqxhr) ->
+module.exports.showNotyNetworkError = ->
+  jqxhr = _.find(arguments, 'promise') # handles jquery or backbone network error (jqxhr is first or second parameter)
   noty({
-    text: jqxhr.responseText or 'Unknown error'
+    text: jqxhr.responseJSON?.message or jqxhr.responseJSON?.errorName or 'Unknown error'
     layout: 'topCenter'
     type: 'error'
+    timeout: 5000
     killer: false,
     dismissQueue: true
   })

@@ -3,46 +3,51 @@ extends /templates/base
 block content
 
   .form-horizontal
-    .form-group
-      label.control-label.col-sm-2(for="espionage-name-or-email" data-i18n="admin.av_espionage") Espionage
+    form#espionage-form.form-group
+      label.control-label.col-sm-2(for="espionage-name-or-email") Espionage
       .col-sm-4
-        input.form-control#espionage-name-or-email(data-i18n="[placeholder]admin.av_espionage_placeholder", placeholder="Email or username", type="text")
+        input.form-control#espionage-name-or-email(placeholder="Email, username or id", type="text")
       .col-sm-1
         button.btn.btn-primary.btn-large#enter-espionage-mode 007
       label.control-label.col-sm-5(for="espionage-name-or-email")
-        em you are currently  #{me.get('name')} at #{me.get('email')}
-    .form-group
-      label.control-label.col-sm-2(for="user-search" data-i18n="admin.av_usersearch") User Search
+        em you are currently #{me.get('name')} at #{me.get('email')}
+        if view.amActually
+          br
+          em but you are actually #{view.amActually.get('name')} at #{view.amActually.get('email')}
+          br
+          button#stop-spying-btn.btn.btn-xs Stop Spying
+    form#user-search-form.form-group
+      label.control-label.col-sm-2(for="user-search") User Search
       .col-sm-4
-        input.form-control#user-search(data-i18n="[placeholder]admin.av_usersearch_placeholder", placeholder="Email, username, name, whatever", type="text")
+        input.form-control#user-search(placeholder="Email, username, name, whatever", type="text")
       .col-sm-1
-        button.btn(data-i18n="admin.av_usersearch_search").btn-primary.btn-large#user-search-button  Search
+        button.btn.btn-primary.btn-large#user-search-button  Search
   #user-search-result
 
 
-  h3(data-i18n="admin.av_title") Admin Views
+  h3 Admin Views
 
-  h4(data-i18n="admin.av_entities_sub_title") Entities
+  h4 Entities
 
   ul
     li
-      a(href="/admin/level-sessions", data-i18n="admin.av_entities_active_instances_url") Active Instances
+      a(href="/admin/level-sessions") Active Instances
     li
       a(href="/admin/trial-requests") Trial Requests
     li
-      a(href="/admin/user-code-problems", data-i18n="admin.av_entities_user_code_problems_list_url") User Code Problems List
+      a(href="/admin/user-code-problems") User Code Problems List
     li
-      a(href="/admin/users", data-i18n="admin.av_entities_users_url") Users
+      a(href="/admin/users") Users
 
-  h4(data-i18n="admin.av_other_sub_title") Other
+  h4 Other
 
   ul
     li
-      a(href="/admin/base", data-i18n="admin.av_other_debug_base_url") Base (for debugging base.jade)
+      a(href="/admin/base") Base (for debugging base.jade)
     li
-      a(href="/admin/clas", data-i18n="admin.clas") CLAs
+      a(href="/admin/clas") CLAs
     li
-      a(href="/admin/pending-patches", data-i18n="resources.patches") Patches
+      a(href="/admin/pending-patches") Patches
     if me.isAdmin()
       li
         a(href="/admin/analytics") Analytics

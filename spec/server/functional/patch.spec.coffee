@@ -1,7 +1,6 @@
 require '../common'
 
 describe '/db/patch', ->
-  request = require 'request'
   async = require 'async'
   UserHandler = require '../../../server/users/user_handler'
 

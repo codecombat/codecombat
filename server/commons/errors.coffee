@@ -106,36 +106,36 @@ module.exports.NetworkError = NetworkError
 
 module.exports.Unauthorized = class Unauthorized extends NetworkError
   code: 401
-  name: 'Unauthorized'
+  errorName: 'Unauthorized'
 
 module.exports.Forbidden = class Forbidden extends NetworkError
   code: 403
-  name: 'Forbidden'
+  errorName: 'Forbidden'
 
 module.exports.NotFound = class NotFound extends NetworkError
   code: 404
-  name: 'Not Found'
+  errorName: 'Not Found'
 
 module.exports.MethodNotAllowed = class MethodNotAllowed extends NetworkError
   code: 405
-  name: 'Method Not Allowed'
+  errorName: 'Method Not Allowed'
 
 module.exports.RequestTimeout = class RequestTimeout extends NetworkError
   code: 407
-  name: 'Request Timeout'
+  errorName: 'Request Timeout'
 
 module.exports.Conflict = class Conflict extends NetworkError
   code: 409
-  name: 'Conflict'
+  errorName: 'Conflict'
 
 module.exports.UnprocessableEntity = class UnprocessableEntity extends NetworkError
   code: 422
-  name: 'Unprocessable Entity'
+  errorName: 'Unprocessable Entity'
 
 module.exports.InternalServerError = class InternalServerError extends NetworkError
   code: 500
-  name: 'Internal Server Error'
+  errorName: 'Internal Server Error'
 
 module.exports.GatewayTimeout = class GatewayTimeout extends NetworkError
   code: 504
-  name: 'Gateway Timeout'
+  errorName: 'Gateway Timeout'

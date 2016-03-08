@@ -335,6 +335,20 @@ UserSchema.statics.editableProperties = [
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role'
 ]
 
+UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
+UserSchema.statics.candidateProperties = [ 'jobProfile', 'jobProfileApproved', 'jobProfileNotes']
+
+UserSchema.set('toObject', {
+  transform: (doc, ret, options) ->
+    req = options.req
+    return ret unless req # TODO: Make deleting properties the default, but the consequences are far reaching
+    publicOnly = options.publicOnly
+    delete ret[prop] for prop in User.serverProperties
+    includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(doc._id) or req.session.amActually is doc.id))
+    delete ret[prop] for prop in User.privateProperties unless includePrivates
+    delete ret[prop] for prop in User.candidateProperties
+    return ret
+})
 UserSchema.plugin plugins.NamedPlugin
 
 module.exports = User = mongoose.model('User', UserSchema)

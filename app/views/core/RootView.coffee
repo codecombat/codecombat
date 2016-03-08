@@ -35,11 +35,15 @@ module.exports = class RootView extends CocoView
     'achievements:new': 'handleNewAchievements'
     'modal:open-modal-view': 'onOpenModalView'
 
+  shortcuts:
+    'ctrl+shift+a': 'navigateToAdmin'
+
   showNewAchievement: (achievement, earnedAchievement) ->
     earnedAchievement.set('notified', true)
     earnedAchievement.patch()
     return if achievement.get('collection') is 'level.sessions' and not achievement.get('query')?.team
     #return if @isIE()  # Some bugs in IE right now, TODO fix soon!  # Maybe working now with not caching achievement fetches in CocoModel?
+    return if window.serverConfig.picoCTF
     new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
 
   handleNewAchievements: (e) ->
@@ -171,7 +175,7 @@ module.exports = class RootView extends CocoView
       console.warn 'Error saving language:', errors
     res.success (model, response, options) ->
       #console.log 'Saved language:', newLang
-      
+
   isOldBrowser: ->
     if $.browser
       majorVersion = $.browser.versionNumber
@@ -183,3 +187,7 @@ module.exports = class RootView extends CocoView
     return false
 
   logoutRedirectURL: '/'
+
+  navigateToAdmin: ->
+    if window.amActually or me.isAdmin()
+      application.router.navigate('/admin', {trigger: true})

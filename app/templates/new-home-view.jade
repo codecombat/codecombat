@@ -44,8 +44,18 @@ block content
       .col-sm-6
         h2.text-navy(data-i18n="new_home.classroom_in_a_box")
       .col-sm-6
-        p(data-i18n="new_home.codecombat_is")
-        p(data-i18n="new_home.our_courses")
+        p(data-i18n="[html]new_home.codecombat_is")
+        p(data-i18n="[html]new_home.our_courses")
+
+    .top-screenshots
+      .screenshots
+        .hidden-sm.hidden-md.hidden-lg
+          small(data-i18n="new_home.top_screenshots_hint")
+        .screenshot-grid(title='Click to view full size')
+          a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='0')
+            img(src="/images/pages/home/desert.png")
+        .clearfix.hidden-xs
+          small(data-i18n="new_home.top_screenshots_hint")
 
     #feature-spread-row.row.text-center
       h3(data-i18n="new_home.designed_with")
@@ -148,24 +158,37 @@ block content
         p
           span(data-i18n="new_home.agency")
 
-
     .request-demo-row.text-center
-      h3(data-i18n="new_home.curious")
-      h4(data-i18n="new_home.create_class")
-      div
-        a.btn.btn-primary.btn-lg(href="/teachers/freetrial", data-i18n="new_home.request_demo")
-        a.btn.btn-primary-alt.btn-lg(href="/courses/teachers", data-i18n="new_home.create_a_class")
-      div
-        if me.isAnonymous()
+      if me.isTeacher()
+        h3(data-i18n="new_home.get_started_title")
+      else
+        h3(data-i18n="new_home.request_demo_title")
+
+      .teacher-screenshots
+        .screenshots
+          .hidden-sm.hidden-md.hidden-lg
+            small(data-i18n="new_home.teacher_screenshots_hint")
+          .screenshot-grid(title='Click to view full size')
+            a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='1')
+              img(src="/images/pages/about/forest.png")
+            a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='2')
+              img(src="/images/pages/about/dungeon.png")
+            a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
+              img(src="/images/pages/about/glacier.png")
+          .clearfix.hidden-xs
+            small(data-i18n="new_home.teacher_screenshots_hint")
+
+      if me.isTeacher()
+        h4(data-i18n="new_home.get_started_subtitle")
+        div
+          a.btn.btn-primary.btn-lg(href="/courses/teachers", data-i18n="new_home.setup_a_class")
+      else
+        h4(data-i18n="new_home.request_demo_subtitle")
+        div
+          a.btn.btn-primary.btn-lg(href="/teachers/demo", data-i18n="new_home.request_demo")
+        .have-an-account
           span.spr(data-i18n="new_home.have_an_account")
           a.login-button Login
-        else
-            span.spr(data-i18n="new_home.logged_in_as")
-            span= me.broadName()
-            span.spr .
-            a(href="/courses/teachers", data-i18n="new_home.view_my_classes")
-            span.spr.spl(data-i18n="general.or")
-            a#logout-button logout
 
     h3.text-center(data-i18n="new_home.computer_science")
     h4.text-center
@@ -246,9 +269,41 @@ block content
           h6 PC Mag
           .small pcmag.com
 
-
     .request-demo-row.text-center
       h3(data-i18n="new_home.run_class")
-      p
-        a.btn.btn-primary.btn-lg(href="/teachers/freetrial", data-i18n="new_home.request_demo")
-        a.btn.btn-primary-alt.btn-lg(href="/courses/teachers", data-i18n="new_home.create_a_class")
+      if me.isTeacher()
+        div
+          a.btn.btn-primary.btn-lg(href="/courses/teachers", data-i18n="new_home.setup_a_class")
+      else
+        div
+          a.btn.btn-primary.btn-lg(href="/teachers/demo", data-i18n="new_home.request_demo")
+        .have-an-account
+          span.spr(data-i18n="new_home.have_an_account")
+          a.login-button Login
+
+
+    #screenshot-lightbox.modal.fade(data-show="false")
+      .modal-dialog
+        .modal-content
+          #screenshot-carousel.carousel
+            ol.carousel-indicators
+              li(data-target=".screenshot-display", data-slide-to="0").active
+              li(data-target=".screenshot-display", data-slide-to="1")
+              li(data-target=".screenshot-display", data-slide-to="2")
+              li(data-target=".screenshot-display", data-slide-to="3")
+
+            .carousel-inner
+              .item.active
+                img#screenshot-desert(src="/images/pages/home/desert.png")
+              .item
+                img#screenshot-forest(src="/images/pages/about/forest.png")
+              .item
+                img#screenshot-dungeon(src="/images/pages/about/dungeon.png")
+              .item
+                img#screenshot-glacier(src="/images/pages/about/glacier.png")
+            a#carousel-left.left.carousel-control(href="#screenshot-carousel", role="button")
+              span.glyphicon.glyphicons-chevron-left.glyphicon-chevron-left(aria-hidden="true")
+              span.sr-only(data-i18n="about.previous")
+            a#carousel-right.right.carousel-control(href="#screenshot-carousel", role="button")
+              span.glyphicon.glyphicons-chevron-right.glyphicon-chevron-right(aria-hidden="true")
+              span.sr-only(data-i18n="about.next")

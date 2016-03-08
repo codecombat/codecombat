@@ -1,9 +1,9 @@
 extends /templates/base
 
 block content
-  
-  h1(data-i18n="admin.ucp_title") User Code Problems
-  
+
+  h1 User Code Problems
+
   if fetchingData
     h3 Fetching data...
   else
@@ -20,7 +20,7 @@ block content
             td errMessage
             //- td code
             td created
-        
+
       tbody
         each problem in userCodeProblems
           tr
