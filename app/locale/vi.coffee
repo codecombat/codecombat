@@ -123,6 +123,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     hours_played: "Thời gian chơi" # Hover over a level on /play
     items: "Trang bị" # Tooltip on item shop button from /play
     unlock: "Mua" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Xác nhận"
     owned: "Đã có" # For items you own
     locked: "Đã khóa"

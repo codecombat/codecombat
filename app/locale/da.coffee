@@ -123,6 +123,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     hours_played: "timer spillet" # Hover over a level on /play
     items: "Udstyr" # Tooltip on item shop button from /play
     unlock: "Lås op" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Bekræft"
     owned: "Ejer" # For items you own
     locked: "Låst"

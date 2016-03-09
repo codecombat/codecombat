@@ -202,7 +202,7 @@
         font-weight: bolder
         color: rgb(211,200,175)
 
-    .unlock-button, .unequippable
+    .unlock-button, .unequippable, .sell-button
       right: 1px
       bottom: 0
       width: 93px
@@ -242,6 +242,9 @@
       line-height: 38px
       font-size: 16px
 
+    .for-sale
+      width: 50%
+
     &.selected
       background: url(/images/pages/play/modal/item-box-background-selected.png)
 
@@ -255,7 +258,7 @@
     #item-details-body
       left: 860px
 
-    #selected-item-unlock-button
+    #selected-item-unlock-button, #selected-item-sell-button
       left: 856px
 
 #play-items-modal, #inventory-modal
@@ -307,11 +310,25 @@
     font-weight: bold
     z-index: 2
 
-  //- Unlock buttons (both in list and details areas)
+  //- Unlock button (both in list and details areas)
   .unlock-button
     position: absolute
     border: 3px solid rgb(7,65,83)
     background: rgb(0,119,168)
+    color: white
+    font-size: 16px
+    border-radius: 0
+
+    &:disabled
+      background: rgb(72, 106, 113)
+      opacity: 1
+      color: rgba(255,255,255, 0.4)
+  
+  //- Sell button (both in list and details areas)
+  .sell-button
+    position: absolute
+    border: 3px solid rgb(206,68,0)
+    background: rgb(199,122,22)
     color: white
     font-size: 16px
     border-radius: 0
@@ -367,7 +384,7 @@
       #item-details-body
         left: 648px
 
-      #selected-item-unlock-button, .unequippable
+      #selected-item-unlock-button, #selected-item-sell-button, .unequippable
         left: 645px
 
 body[lang='pt-PT'], body[lang^='pt-BR']

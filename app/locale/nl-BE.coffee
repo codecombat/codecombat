@@ -123,6 +123,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     hours_played: "Gespeelde uren" # Hover over a level on /play
     items: "Items" # Tooltip on item shop button from /play
     unlock: "Ontsluit" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Bevestig"
     owned: "In bezit" # For items you own
     locked: "Gesloten"

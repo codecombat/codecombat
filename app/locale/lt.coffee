@@ -123,6 +123,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     hours_played: "valandų žaista" # Hover over a level on /play
     items: "Daiktai" # Tooltip on item shop button from /play
     unlock: "Atrakinti" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Tvirtinti"
     owned: "Turima" # For items you own
     locked: "Užrakinta"

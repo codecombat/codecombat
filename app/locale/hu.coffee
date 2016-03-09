@@ -123,6 +123,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     hours_played: "Játékidő" # Hover over a level on /play
     items: "Tárgyak" # Tooltip on item shop button from /play
     unlock: "Feloldás" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Megerősítés"
     owned: "Megszerzett" # For items you own
     locked: "Zárolva"

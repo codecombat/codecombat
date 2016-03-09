@@ -123,6 +123,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     hours_played: "游戏时长" # Hover over a level on /play
     items: "道具" # Tooltip on item shop button from /play
     unlock: "解锁" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "确认"
     owned: "已拥有" # For items you own
     locked: "需解锁"

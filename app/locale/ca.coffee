@@ -123,6 +123,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     hours_played: "Hores jugades" # Hover over a level on /play
     items: "Objectes" # Tooltip on item shop button from /play
     unlock: "Desbloquejar" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Confirmar"
     owned: "Adquirit" # For items you own
     locked: "Bloquejat"

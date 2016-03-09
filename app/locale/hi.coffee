@@ -123,6 +123,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    hours_played: "hours played" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"

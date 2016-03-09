@@ -35,12 +35,20 @@
             h3 This item has no stats.
             p Only admins will see it for now.
 
-if item && !item.owned
+if item
   if item.unequippable
     button.btn.big-font.disabled.unequippable #{item.get('heroClass')} Only
   else
-    button#selected-item-unlock-button.btn.big-font.unlock-button(data-item-id=item.id)
-      span(data-i18n="play.unlock") Unlock
-      span.spl= '('+item.get('gems')
-      img(src="/images/common/gem.png", draggable="false")
-      span )
+    if !item.owned
+      button#selected-item-unlock-button.btn.big-font.unlock-button(data-item-id=item.id)
+        span(data-i18n="play.unlock") Unlock
+        span.spl= '('+item.get('gems')
+        img(src="/images/common/gem.png", draggable="false")
+        span )
+    else
+      if item.sellable()
+        button#selected-item-sell-button.btn.big-font.sell-button(data-item-id=item.id)
+          span(data-i18n="play.sell") Sell
+          span.spl= '('+item.sellPrice()
+          img(src="/images/common/gem.png", draggable="false")
+          span )

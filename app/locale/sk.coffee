@@ -123,6 +123,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     hours_played: "odohratých hodín" # Hover over a level on /play
     items: "Predmety" # Tooltip on item shop button from /play
     unlock: "Odomknúť" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Potvrdiť"
     owned: "Vlastníš" # For items you own
     locked: "Zamknuté"

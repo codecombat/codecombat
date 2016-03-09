@@ -489,7 +489,16 @@ module.exports = class ThangType extends CocoModel
     playerLevel = me.constructor.levelForTier playerTier
     #console.log 'Level required for', @get('name'), 'is', playerLevel, 'player tier', playerTier, 'because it is itemTier', itemTier, 'which is normally level', me.constructor.levelForTier(itemTier)
     playerLevel
-
+    
+  sellPrice: ->
+    price = @get('gems') ? 0
+    buyback = 0.40
+    return Math.round(price * buyback)
+  
+  sellable: ->
+    price = @get('gems') ? 0
+    return (price > 0)
+  
   getContainersForAnimation: (animation, action) ->
     rawAnimation = @get('raw').animations[animation]
     if not rawAnimation

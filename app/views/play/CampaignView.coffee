@@ -107,6 +107,7 @@ module.exports = class CampaignView extends RootView
     @hadEverChosenHero = me.get('heroConfig')?.thangType
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
+    @listenTo me, 'change:sold', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:earned', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:heroConfig', -> @updateHero()
     window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', label: @terrain

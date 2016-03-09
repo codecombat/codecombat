@@ -10,6 +10,7 @@ ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
 Level = require 'models/Level'
 Purchase = require 'models/Purchase'
+Sale = require 'models/Sale'
 
 utils = require 'core/utils'
 
@@ -50,6 +51,7 @@ module.exports = class PlayItemsModal extends ModalView
     'click .item': 'onItemClicked'
     'shown.bs.tab': 'onTabClicked'
     'click .unlock-button': 'onUnlockButtonClicked'
+    'click .sell-button': 'onSellButtonClicked'
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click #close-modal': 'hide'
     'click': 'onClickedSomewhere'
@@ -211,6 +213,45 @@ module.exports = class PlayItemsModal extends ModalView
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
+
+  onSellButtonClicked: (e) ->
+    e.stopPropagation()
+    button = $(e.target).closest('button')
+    item = @idToItem[button.data('item-id')]
+    
+    # Prevent further action if the item cannot be sold
+    if !item.sellable()
+      return
+    
+    if button.hasClass('confirm')
+      # Sell logic here
+      sale = Sale.makeFor(item)
+      sale.save()
+    
+      #- set local changes to mimic what should happen on the server...
+      sales = me.get('sales') ? {}
+      sales.items ?= []
+      sales.items.push(item.get('original'))
+    
+      purchased = me.get('purchased') ? {}
+      purchased.items ?= []
+      _.pull(purchased.items, item.get('original'))
+      me.set('purchased', purchased)
+    
+      item.owned = false
+      me.set('sales', sales)
+      me.set('sold', (me.get('sold') ? 0) + item.sellPrice())
+
+      #- ...then rerender key bits
+      @renderSelectors(".item[data-item-id='#{item.id}']", "#gems-count")
+      @itemDetailsView.render()
+
+      Backbone.Mediator.publish 'store:item-sold', item: item, itemSlug: item.get('slug')
+    else
+      @playSound 'menu-button-unlock-start'
+      button.addClass('confirm').text($.i18n.t('play.confirm'))
+      @$el.one 'click', (e) ->
+        button.removeClass('confirm').text($.i18n.t('play.sell')) if e.target isnt button[0]
 
   askToSignUp: ->
     authModal = new AuthModal supermodel: @supermodel

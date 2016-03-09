@@ -123,6 +123,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     hours_played: "ساعات اللّعب" # Hover over a level on /play
     items: "العناصر" # Tooltip on item shop button from /play
     unlock: "فتح" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "تأكيد"
     owned: "ممتَلَك" # For items you own
     locked: "مقفل"

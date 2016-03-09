@@ -104,8 +104,9 @@ UserSchema.methods.gems = ->
   gemsEarned = @get('earned')?.gems ? 0
   gemsEarned = gemsEarned + 100000 if @isInGodMode()
   gemsPurchased = @get('purchased')?.gems ? 0
+  gemsSold = @get('sold') ? 0
   gemsSpent = @get('spent') ? 0
-  gemsEarned + gemsPurchased - gemsSpent
+  gemsEarned + gemsPurchased + gemsSold - gemsSpent
 
 UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
   emails = @get 'emails'

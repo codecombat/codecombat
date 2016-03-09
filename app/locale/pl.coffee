@@ -123,6 +123,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     hours_played: "rozegranych godzin" # Hover over a level on /play
     items: "Przedmioty" # Tooltip on item shop button from /play
     unlock: "Odblokuj" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Potwierdź"
     owned: "Posiadane" # For items you own
     locked: "Zablokowane"

@@ -80,6 +80,7 @@ module.exports = class PlayLevelView extends RootView
     'real-time-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
     'ipad:memory-warning': 'onIPadMemoryWarning'
     'store:item-purchased': 'onItemPurchased'
+    'store:item-sold': 'onItemSold'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -675,6 +676,9 @@ module.exports = class PlayLevelView extends RootView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
       @setupManager.open()
+      
+  onItemSold: (e) ->
+    # Do stuff here
 
   # Start Real-time Multiplayer ######################################################
   #

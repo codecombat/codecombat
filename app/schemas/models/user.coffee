@@ -19,6 +19,7 @@ UserSchema = c.object
     jobProfile: {}
     earned: {heroes: [], items: [], levels: [], gems: 0}
     purchased: {heroes: [], items: [], levels: [], gems: 0}
+    sales: {heroes: [], items: [], levels: []}
 
 c.extendNamedProperties UserSchema  # let's have the name be the first property
 
@@ -286,6 +287,7 @@ _.extend UserSchema.properties,
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
+  sold: {type: 'number'}
   deleted: {type: 'boolean'}
   dateDeleted: c.date()
   spent: {type: 'number'}

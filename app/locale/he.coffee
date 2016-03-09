@@ -123,6 +123,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     hours_played: "שעות משחק" # Hover over a level on /play
     items: "כלים" # Tooltip on item shop button from /play
     unlock: "קנה" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "אשר"
     owned: "נרכש" # For items you own
     locked: "נעול"

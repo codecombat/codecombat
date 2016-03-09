@@ -74,6 +74,19 @@ PurchaseHandler = class PurchaseHandler extends Handler
       #- add the purchase to the list of purchases
       purchased[group].push(original+'')
       user.set('purchased', purchased)
+      
+      # TODO?: Not sure if we should remove the sale if item
+      #        was repurchased
+       
+      #- remove the sale from the list of sales
+      #sales = user.get('sales') or {}
+      #sales = _.cloneDeep sales
+      
+      #sales[group] ?= []
+      
+      #if original in sales[group]
+      #  sales[group].pull(sales[group], original)
+      #  user.set('sales', sales)
 
       #- deduct the gems from the user
       spent = user.get('spent') ? 0

@@ -123,6 +123,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     hours_played: "pelatut tunnit" # Hover over a level on /play
     items: "Esineet" # Tooltip on item shop button from /play
     unlock: "Avaa" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Varmista"
     owned: "Omistettu" # For items you own
     locked: "Lukittu"

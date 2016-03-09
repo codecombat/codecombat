@@ -123,6 +123,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     hours_played: "ώρες παιχνιδιού" # Hover over a level on /play
     items: "Αντικείμενα" # Tooltip on item shop button from /play
     unlock: "Ξεκλειδώστε" # For purchasing items and heroes
+#    sell: "Sell" # For selling items
     confirm: "Επιβεβαίωση"
     owned: "Σου ανήκει" # For items you own
     locked: "Κλειδωμένο"
