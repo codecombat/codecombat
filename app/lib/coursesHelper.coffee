@@ -50,12 +50,14 @@ module.exports =
 
   calculateLatestComplete: (classroom, courses, campaigns, courseInstances, students) ->
     # Loop through all the combinations of things in reverse order, return the level that anyone's finished
-    for course, courseIndex in courses.models.reverse() #
+    courseModels = courses.models.slice()
+    for course, courseIndex in courseModels.reverse() #
       courseIndex = courses.models.length - courseIndex - 1 #compensate for reverse
       instance = courseInstances.getByCourseAndClassroom(course, classroom)
       continue if not instance
       campaign = campaigns.get(course.get('campaignID'))
-      for level, levelIndex in campaign.getLevels().models.reverse() #
+      levelModels = campaign.getLevels().models.slice()
+      for level, levelIndex in levelModels.reverse() #
         levelIndex = campaign.getLevels().models.length - levelIndex - 1 #compensate for reverse
         continue if level.isLadder()
         userIDs = []
@@ -88,59 +90,69 @@ module.exports =
     #   class -> course -> level
     #     class -> course -> level -> student
     
-    completeness = {}
+    progressData = {}
     for classroom in classrooms.models
-      completeness[classroom.id] = {}
+      progressData[classroom.id] = {}
 
-      for course in courses.models
+      for course, courseIndex in courses.models
         instance = courseInstances.getByCourseAndClassroom(course, classroom)
         if not instance
-          completeness[classroom.id][course.id] = { completed: false, started: false }
+          progressData[classroom.id][course.id] = { completed: false, started: false }
           continue
-        completeness[classroom.id][course.id] = { completed: true, started: false } # to be updated
+        progressData[classroom.id][course.id] = { completed: true, started: false } # to be updated
+        
+        # For debugging
+        progressData[classroom.id][course.id]
+
         campaign = campaigns.get(course.get('campaignID'))
-
         for level in campaign.getLevels().models
-          completeness[classroom.id][course.id][level.get('original')] = { completed: false, started: false }
-          continue if level.isLadder()
-
-          for userID in instance.get('members')
-            completeness[classroom.id][course.id][userID] = {}
-            completeness[classroom.id][course.id][level.get('original')][userID] = {}
+          levelID = level.get('original') or level.id
+          if level.isLadder()
+            progressData[classroom.id][course.id][levelID] = { completed: false, started: false }
+            continue
+          progressData[classroom.id][course.id][levelID] = { completed: true, started: false }
+          
+          for userID in classroom.get('members')
+            progressData[classroom.id][course.id][userID] ?= { completed: true, started: false } # Only set it the first time through a user
+            progressData[classroom.id][course.id][levelID][userID] = { completed: true, started: false } # These don't matter, will always be set
             session = _.find classroom.sessions.models, (session) ->
-              session.get('creator') == userID and session.get('level').original == level.get('original')
+              session.get('creator') == userID and session.get('level').original == levelID
+
             if not session
-              completeness[classroom.id][course.id].started ||= false #no-op
-              completeness[classroom.id][course.id].completed ||= false #no-op
-              completeness[classroom.id][course.id][userID].started = false
-              completeness[classroom.id][course.id][userID].completed = false
-              completeness[classroom.id][course.id][level.get('original')].started ||= false #no-op
-              completeness[classroom.id][course.id][level.get('original')].completed ||= false #no-op
-              completeness[classroom.id][course.id][level.get('original')][userID].started = false
-              completeness[classroom.id][course.id][level.get('original')][userID].completed = false
+              progressData[classroom.id][course.id].started ||= false #no-op
+              progressData[classroom.id][course.id].completed = false
+              progressData[classroom.id][course.id][userID].started ||= false #no-op
+              progressData[classroom.id][course.id][userID].completed = false
+              progressData[classroom.id][course.id][levelID].started ||= false #no-op
+              progressData[classroom.id][course.id][levelID].completed = false
+              progressData[classroom.id][course.id][levelID][userID].started = false
+              progressData[classroom.id][course.id][levelID][userID].completed = false
             if session
-              completeness[classroom.id][course.id].started = true
-              completeness[classroom.id][course.id][userID].started = true
-              completeness[classroom.id][course.id][level.get('original')].started = true
-              completeness[classroom.id][course.id][level.get('original')][userID].started = true
+              progressData[classroom.id][course.id].started = true
+              progressData[classroom.id][course.id][userID].started = true
+              progressData[classroom.id][course.id][levelID].started = true
+              progressData[classroom.id][course.id][levelID][userID].started = true
             if session?.completed()
-              completeness[classroom.id][course.id].complete &&= true #no-op
-              completeness[classroom.id][course.id][level.get('original')].complete &&= true #no-op
-              completeness[classroom.id][course.id][userID].complete = true
-              completeness[classroom.id][course.id][level.get('original')][userID].complete = true
-    return completeness
+              progressData[classroom.id][course.id].completed &&= true #no-op
+              progressData[classroom.id][course.id][userID].completed = true
+              progressData[classroom.id][course.id][levelID].completed &&= true #no-op
+              progressData[classroom.id][course.id][levelID][userID].completed = true
+
+    return progressData
   
   getProgress: (progress, options={}) ->
     { classroom, course, level, user } = options
-    throw "You must provide a classroom" unless classroom
-    throw "You must provide a course" unless course
+    throw new Error "You must provide a classroom" unless classroom
+    throw new Error "You must provide a course" unless course
+    defaultValue = { completed: false, started: false }
     if options.level
+      levelID = level.get('original') or level.id
       if options.user
-        return progress[classroom.id][course.id][level.original][user.id]
+        return progress[classroom.id][course.id][levelID][user.id] or defaultValue
       else
-        return progress[classroom.id][course.id][level.original]
+        return progress[classroom.id][course.id][levelID] or defaultValue
     else
       if options.user
-        return progress[classroom.id][course.id][user.id]
+        return progress[classroom.id][course.id][user.id] or defaultValue
       else
-        return progress[classroom.id][course.id]
+        return progress[classroom.id][course.id] or defaultValue

@@ -61,6 +61,9 @@ module.exports = class TeacherClassView extends RootView
       studentsStub = { models: [student], _byId: {} }
       studentsStub._byId[student.id] = student
       student.latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @campaigns, @courseInstances, studentsStub)
+      
+    classroomsStub = { models: [@classroom] }
+    @progressData = helper.calculateAllProgress(classroomsStub, @courses, @campaigns, @courseInstances, @students)
     super()
 
   onClickAddStudents: (e) =>
@@ -99,3 +102,5 @@ module.exports = class TeacherClassView extends RootView
         return dir
     @students.sort()
     
+  getProgress: (options = {}) ->
+    return helper.getProgress(@progressData, _.extend({ classroom: @classroom }, options))

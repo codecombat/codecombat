@@ -39,3 +39,7 @@ module.exports = class CourseInstance extends CocoModel
 
   firstLevelURL: ->
     "/play/level/dungeons-of-kithgard?course=#{@get('courseID')}&course-instance=#{@id}"
+  
+  hasMember: (userID, opts) ->
+    userID = userID.id or userID
+    @get('members').indexOf(userID) > -1
