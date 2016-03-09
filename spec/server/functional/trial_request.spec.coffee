@@ -13,8 +13,6 @@ fixture = {
 }
 
 describe 'POST /db/trial.request', ->
-  URL = getURL('/db/trial.request')
-  ownURL = getURL('/db/trial.request/-/own')
 
   it 'sets type and properties given', utils.wrap (done) ->
     yield utils.clearModels([User, TrialRequest])
@@ -61,6 +59,29 @@ describe 'POST /db/trial.request', ->
     yield utils.loginUser(@user)
     [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: true })
     expect(res.statusCode).toBe(422)
+    done()
+    
+  it 'updates an existing TrialRequest if there is one', utils.wrap (done) ->
+    yield utils.clearModels([User, TrialRequest])
+    @user = yield utils.initUser()
+    yield utils.loginUser(@user)
+    fixture.properties.email = @user.get('email')
+    [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: fixture })
+    expect(res.statusCode).toBe(201)
+    expect(body._id).toBeDefined()
+    trialRequest = yield TrialRequest.findById(body._id)
+
+    update = {
+      type: 'course'
+      properties:
+        location: 'Bahamas'
+    }
+    [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: update })
+    expect(body.type).toBe('course')
+    expect(body.properties.location).toBe('Bahamas')
+    expect(body._id).toBe(trialRequest.id)
+    count = yield TrialRequest.count()
+    expect(count).toBe(1)
     done()
 
 describe 'GET /db/trial.request', ->

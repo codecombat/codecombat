@@ -88,4 +88,11 @@ block content
         strong Invalid number of students
 
     p.text-center
-      button#purchase-btn.btn.btn-lg.btn-success.uppercase(data-i18n="courses.purchase_now")
+      button#purchase-btn.btn.btn-lg.btn-success.uppercase(data-i18n="courses.purchase_now" disabled=me.isAnonymous())
+
+    if me.isAnonymous()
+      // DNT. Temporary redirect until teacher-dashboard is finished
+      .alert.alert-danger.text-center
+        h2 You must be signed up to purchase enrollments.
+        p
+          a.btn.btn-primary.btn-lg(href="/teachers/signup") Create a teacher account

@@ -15,6 +15,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
   hasAccess: (req) ->
     return false unless req.user
     return true if req.method is 'GET'
+#    return false if req.method is 'POST' and not req.user?.isTeacher()
     req.method in @allowedMethods or req.user?.isAdmin()
 
   hasAccessToDocument: (req, document, method=null) ->
@@ -52,6 +53,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
 
   joinClassroomAPI: (req, res, classroomID) ->
     return @sendBadInputError(res, 'Need an object with a code') unless req.body?.code
+#    return @sendForbiddenError(res, 'Cannot join a classroom as a teacher') if req.user.isTeacher()
     code = req.body.code.toLowerCase()
     Classroom.findOne {code: code}, (err, classroom) =>
       return @sendDatabaseError(res, err) if err
@@ -64,7 +66,15 @@ ClassroomHandler = class ClassroomHandler extends Handler
         return @sendDatabaseError(res, err) if err
         members.push req.user.get('_id')
         classroom.set('members', members)
-        return @sendSuccess(res, @formatEntity(req, classroom))
+        # TODO: remove teacher check here after forbidden above
+        if req.user.get('role') not in ['student', 'teacher']
+          User.findById(req.user.get('_id')).exec (err, user) =>
+            user.set('role', 'student')
+            user.save (err, user) =>
+              return @sendDatabaseError(res, err) if err
+              return @sendSuccess(res, @formatEntity(req, classroom))
+        else
+          return @sendSuccess(res, @formatEntity(req, classroom))
 
   removeMember: (req, res, classroomID) ->
     userID = req.body.userID

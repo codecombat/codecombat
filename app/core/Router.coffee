@@ -123,9 +123,15 @@ module.exports = class CocoRouter extends Backbone.Router
     'schools': go('NewHomeView')
 
     'teachers': go('NewHomeView')
-    'teachers/freetrial': go('RequestQuoteView')
-    'teachers/quote': go('RequestQuoteView')
-    'teachers/demo': go('RequestQuoteView')
+    'teachers/demo': go('teachers/RequestQuoteView')
+    'teachers/freetrial': go('teachers/RequestQuoteView')
+    'teachers/quote': go('teachers/RequestQuoteView')
+    'teachers/signup': ->
+      return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
+      @navigate('/teachers/convert', {trigger: true, replace: true})
+    'teachers/convert': ->
+      return @navigate('/teachers/signup', {trigger: true, replace: true}) if me.isAnonymous()
+      @routeDirectly('teachers/ConvertToTeacherAccountView', [])
 
     'test(/*subpath)': go('TestView')
 
@@ -228,3 +234,6 @@ module.exports = class CocoRouter extends Backbone.Router
   navigate: (fragment, options) ->
     super fragment, options
     Backbone.Mediator.publish 'router:navigated', route: fragment
+
+  reload: ->
+    document.location.reload()

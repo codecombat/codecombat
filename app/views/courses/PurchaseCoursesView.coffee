@@ -1,5 +1,4 @@
 app = require 'core/application'
-CreateAccountModal = require 'views/core/CreateAccountModal'
 Classroom = require 'models/Classroom'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
@@ -40,7 +39,6 @@ module.exports = class PurchaseCoursesView extends RootView
 
   onLoaded: ->
     @pricePerStudent = @products.findWhere({name: 'course'}).get('amount')
-    me.setRole 'teacher'
     super()
 
   getPriceString: -> '$' + (@getPrice()/100).toFixed(2)
@@ -77,7 +75,7 @@ module.exports = class PurchaseCoursesView extends RootView
   numberOfStudentsIsValid: -> @numberOfStudents > 0 and @numberOfStudents < 100000
 
   onClickPurchaseButton: ->
-    return @openModalView new CreateAccountModal() if me.isAnonymous()
+    return application.router.navigate('/teachers/signup', {trigger: true}) if me.isAnonymous()
     unless @numberOfStudentsIsValid()
       alert("Please enter the maximum number of students needed for your class.")
       return
