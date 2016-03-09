@@ -82,11 +82,10 @@ mixin progressDot(classroom, course, index)
   //- TODO: Give classes abbreviations instead of using index?
   //- TODO: inefficient. Cache this in the view?
   - courseInstance = view.courseInstances.getByCourseAndClassroom(course, classroom)
-  - var total = 0;
+  - var total = classroom.get('members').length
   - var complete = 0;
   - var dotClass = '';
   if courseInstance
-    - total = courseInstance.get('members').length
     - complete = courseInstance.numCompleted
     - dotClass = complete === total ? 'forest' : 'gold';
   - var progressDotContext = {total: total, complete: complete}; 
