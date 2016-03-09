@@ -81,7 +81,7 @@ module.exports.setup = (app) ->
 
   app.post('/auth/logout', (req, res) ->
     req.logout()
-    res.end()
+    res.send({})
   )
 
   app.post('/auth/reset', (req, res) ->
