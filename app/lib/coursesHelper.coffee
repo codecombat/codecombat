@@ -129,3 +129,18 @@ module.exports =
               completeness[classroom.id][course.id][userID].complete = true
               completeness[classroom.id][course.id][level.get('original')][userID].complete = true
     return completeness
+  
+  getProgress: (progress, options={}) ->
+    { classroom, course, level, user } = options
+    throw "You must provide a classroom" unless classroom
+    throw "You must provide a course" unless course
+    if options.level
+      if options.user
+        return progress[classroom.id][course.id][level.original][user.id]
+      else
+        return progress[classroom.id][course.id][level.original]
+    else
+      if options.user
+        return progress[classroom.id][course.id][user.id]
+      else
+        return progress[classroom.id][course.id]
