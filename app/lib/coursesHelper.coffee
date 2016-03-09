@@ -22,6 +22,7 @@ module.exports =
             instance.numCompleted += 1
 
   calculateEarliestIncomplete: (classroom, courses, campaigns, courseInstances, students) ->
+    # Loop through all the combinations of things, return the first one that somebody hasn't finished
     for course, courseIndex in courses.models
       instance = courseInstances.getByCourseAndClassroom(course, classroom)
       continue if not instance
@@ -48,6 +49,7 @@ module.exports =
           
 
   calculateLatestComplete: (classroom, courses, campaigns, courseInstances, students) ->
+    # Loop through all the combinations of things in reverse order, return the level that anyone's finished
     for course, courseIndex in courses.models.reverse() #
       courseIndex = courses.models.length - courseIndex - 1 #compensate for reverse
       instance = courseInstances.getByCourseAndClassroom(course, classroom)
@@ -73,3 +75,57 @@ module.exports =
             users: users
           }
     return {}
+    
+  calculateAllProgress: (classrooms, courses, campaigns, courseInstances, students) ->
+    # Loop through all combinations and record:
+    #   Completeness for each student/course
+    #   Completeness for each student/level
+    #   Completeness for each class/course (across all students)
+    #   Completeness for each class/level (across all students)
+    
+    # class -> course
+    #   class -> course -> student
+    #   class -> course -> level
+    #     class -> course -> level -> student
+    
+    completeness = {}
+    for classroom in classrooms.models
+      completeness[classroom.id] = {}
+
+      for course in courses.models
+        instance = courseInstances.getByCourseAndClassroom(course, classroom)
+        if not instance
+          completeness[classroom.id][course.id] = { completed: false, started: false }
+          continue
+        completeness[classroom.id][course.id] = { completed: true, started: false } # to be updated
+        campaign = campaigns.get(course.get('campaignID'))
+
+        for level in campaign.getLevels().models
+          completeness[classroom.id][course.id][level.get('original')] = { completed: false, started: false }
+          continue if level.isLadder()
+
+          for userID in instance.get('members')
+            completeness[classroom.id][course.id][userID] = {}
+            completeness[classroom.id][course.id][level.get('original')][userID] = {}
+            session = _.find classroom.sessions.models, (session) ->
+              session.get('creator') == userID and session.get('level').original == level.get('original')
+            if not session
+              completeness[classroom.id][course.id].started ||= false #no-op
+              completeness[classroom.id][course.id].completed ||= false #no-op
+              completeness[classroom.id][course.id][userID].started = false
+              completeness[classroom.id][course.id][userID].completed = false
+              completeness[classroom.id][course.id][level.get('original')].started ||= false #no-op
+              completeness[classroom.id][course.id][level.get('original')].completed ||= false #no-op
+              completeness[classroom.id][course.id][level.get('original')][userID].started = false
+              completeness[classroom.id][course.id][level.get('original')][userID].completed = false
+            if session
+              completeness[classroom.id][course.id].started = true
+              completeness[classroom.id][course.id][userID].started = true
+              completeness[classroom.id][course.id][level.get('original')].started = true
+              completeness[classroom.id][course.id][level.get('original')][userID].started = true
+            if session?.completed()
+              completeness[classroom.id][course.id].complete &&= true #no-op
+              completeness[classroom.id][course.id][level.get('original')].complete &&= true #no-op
+              completeness[classroom.id][course.id][userID].complete = true
+              completeness[classroom.id][course.id][level.get('original')][userID].complete = true
+    return completeness
