@@ -61,6 +61,11 @@ UserSchema.methods.isArtisan = ->
 UserSchema.methods.isAnonymous = ->
   @get 'anonymous'
 
+UserSchema.statics.teacherRoles = ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
+
+UserSchema.methods.isTeacher = ->
+  return @get('role') in User.teacherRoles
+
 UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
@@ -303,6 +308,10 @@ UserSchema.methods.saveActiveUser = (event, done=null) ->
     done?()
 
 UserSchema.pre('save', (next) ->
+  Classroom = require '../classrooms/Classroom'
+  if @isTeacher() and not @wasTeacher
+    Classroom.update({members: @_id}, {$pull: {members: @_id}}, {multi: true}).exec (err, res) ->
+      console.log 'removed self from all classrooms as a member', err, res
   if email = @get('email')
     @set('emailLower', email.toLowerCase())
   if name = @get('name')
@@ -322,6 +331,7 @@ UserSchema.post 'save', (doc) ->
   UserSchema.statics.updateServiceSettings(doc)
 
 UserSchema.post 'init', (doc) ->
+  doc.wasTeacher = doc.isTeacher()
   doc.startingEmails = _.cloneDeep(doc.get('emails'))
 
 UserSchema.statics.hashPassword = (password) ->

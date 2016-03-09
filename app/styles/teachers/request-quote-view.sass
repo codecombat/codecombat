@@ -1,12 +1,15 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
 #request-quote-view
   #site-content-area
-    //TODO: Maybe this should go in style-flat
-    margin: 50px 10px 100px
+    margin: 50px 0 100px
+    .row
+      margin: 20px 0
+      
+  #conversion-warning
+    margin-top: 20px
     
-  .section
-    margin-top: 80px
-    margin-bottom: 50px
-  
   .form-group
     label
       margin-bottom: 0
@@ -34,5 +37,15 @@
   #submit-request-btn
     margin-left: 10px
     
-  #login-btn
-    margin-right: 10px
+  // After submit (anonymous)
+  
+  h5
+    margin-top: 50px
+    
+  #social-network-signups
+    margin: 20px 0
+    button
+      margin-left: 10px
+      
+  .text-h1
+    margin: 40px 0 30px

@@ -16,11 +16,15 @@ module.exports =
       user = yield User.findOne({emailLower: email})
       throw new errors.Conflict('User with this email already exists.') if user
 
-    trialRequest = database.initDoc(req, TrialRequest)
-    trialRequest.set 'applicant', req.user._id
-    trialRequest.set 'created', new Date()
+    trialRequest = yield TrialRequest.findOne({applicant: req.user._id})
+    if not trialRequest
+      trialRequest = database.initDoc(req, TrialRequest)
+      trialRequest.set 'applicant', req.user._id
+      trialRequest.set 'created', new Date()
     trialRequest.set 'status', 'submitted'
-    database.assignBody(req, trialRequest)
+    attrs = _.pick req.body, 'properties', 'type'
+    trialRequest.set 'properties', _.extend {}, trialRequest.get('properties'), attrs.properties
+    trialRequest.set 'type', attrs.type
     database.validateDoc(trialRequest)
     trialRequest = yield trialRequest.save()
     res.status(201).send(trialRequest.toObject({req: req}))
