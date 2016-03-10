@@ -118,7 +118,7 @@ module.exports =
             session = _.find classroom.sessions.models, (session) ->
               session.get('creator') == userID and session.get('level').original == levelID
 
-            if not session
+            if not session # haven't gotten to this level yet, but might have completed others before
               progressData[classroom.id][course.id].started ||= false #no-op
               progressData[classroom.id][course.id].completed = false
               progressData[classroom.id][course.id][userID].started ||= false #no-op
@@ -127,16 +127,21 @@ module.exports =
               progressData[classroom.id][course.id][levelID].completed = false
               progressData[classroom.id][course.id][levelID][userID].started = false
               progressData[classroom.id][course.id][levelID][userID].completed = false
-            if session
+            if session # have gotten to the level and at least started it
               progressData[classroom.id][course.id].started = true
               progressData[classroom.id][course.id][userID].started = true
               progressData[classroom.id][course.id][levelID].started = true
               progressData[classroom.id][course.id][levelID][userID].started = true
-            if session?.completed()
+            if session?.completed() # have finished this level
               progressData[classroom.id][course.id].completed &&= true #no-op
               progressData[classroom.id][course.id][userID].completed = true
               progressData[classroom.id][course.id][levelID].completed &&= true #no-op
               progressData[classroom.id][course.id][levelID][userID].completed = true
+            else # level started but not completed
+              progressData[classroom.id][course.id].completed = false
+              progressData[classroom.id][course.id][userID].completed = false
+              progressData[classroom.id][course.id][levelID].completed = false
+              progressData[classroom.id][course.id][levelID][userID].completed = false
 
     return progressData
   
