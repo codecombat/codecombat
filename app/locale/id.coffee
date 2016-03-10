@@ -52,7 +52,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     compared: "dibandingkan"
     conventional: "terhadap metode penilaian konvensional, perbedaannya jelas: permainan merupakan pilihan yang lebih baik untuk membantu siswa mempertahankan pengetahuan, berkonsentrasi dan"
     perform_at_higher_level: "tampil di tingkat yang lebih tinggi dari pencapaian"
-    feedback: "Permainan juga memberikan umpan balik dalam waktu nyata yang memungkinkan siswa untuk menyesuaikan jalan solusi mereka dan memahami konsep-konsep yang lebih holistik, daripada hanya terbatas dengan jawaban "benar" atau "salah" saja."
+    feedback: "Permainan juga memberikan umpan balik dalam waktu nyata yang memungkinkan siswa untuk menyesuaikan jalan solusi mereka dan memahami konsep-konsep yang lebih holistik, daripada hanya terbatas dengan jawaban 'benar' atau 'salah' saja."
     real_game: "Sebuah permainan yang sebenarnya, dimainkan dengan pengkodean yang nyata."
     great_game: "Sebuah permainan yang hebat merupakan lebih dari sekedar lencana dan penghargaan - melainkan tentang perjalanan pemain, teka-teki yang dirancang dengan baik, dan kemampuan untuk mengatasi tantangan dengan kepercayaan diri."
     agency: "CodeCombat adalah permainan yang memberikan pemain Kepercayaan diri dengan mesin ketik kode kami yang kuat, yang membantu pemula dan lanjutan mahasiswa menulis kode yang valid, dan tepat."
