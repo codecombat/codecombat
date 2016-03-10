@@ -700,7 +700,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     more_info_2: "lerarenforum"
     more_info_3: "Het is een goede plek om contact te leggen met andere leerkrachten, die CodeCombat gebruiken."
 
-#  teachers_quote:
+  teachers_quote:
 #    name: "Quote Form"
 #    title: "Request a Quote"
 #    subtitle: "Get CodeCombat in your classroom, club, school or district!"
