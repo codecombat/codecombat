@@ -29,7 +29,6 @@ module.exports.handlers =
   'poll': 'polls/poll_handler'
   'prepaid': 'prepaids/prepaid_handler'
   'subscription': 'payments/subscription_handler'
-  'trial_request': 'trial_requests/trial_request_handler'
   'user_polls_record': 'polls/user_polls_record_handler'
 
 module.exports.handlerUrlOverrides =
@@ -44,7 +43,6 @@ module.exports.handlerUrlOverrides =
   'user_remark': 'user.remark'
   'mail_sent': 'mail.sent'
   'user_polls_record': 'user.polls.record'
-  'trial_request': 'trial.request'
   'user_code_problem': 'user.code.problem'
 
 module.exports.routes =
