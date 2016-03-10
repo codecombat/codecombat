@@ -31,9 +31,7 @@ module.exports = class TeacherClassesView extends RootView
     @classrooms.fetchMine()
     @supermodel.trackCollection(@classrooms)
     @listenTo @classrooms, 'sync', ->
-      console.log "Classroom sync'd"
       for classroom in @classrooms.models
-        console.log classroom
         classroom.sessions = new LevelSessions()
         jqxhrs = classroom.sessions.fetchForAllClassroomMembers(classroom)
         if jqxhrs.length > 0

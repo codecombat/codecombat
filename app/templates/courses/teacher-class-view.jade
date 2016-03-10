@@ -7,7 +7,6 @@ block content
   - var classroom = view.classroom
   if classroom.loaded
     .container
-      - console.log(classroom)
       h3= classroom.get('name')
       a.edit-class-settings(data-i18n="TODO" data-classroom-id=classroom.id)
         | edit class settings
@@ -188,7 +187,6 @@ mixin progressDot(progress, label)
   //- TODO: Refactor with TeacherClassesView jade
   //- TODO: Give classes abbreviations instead of using index?
   //- TODO: inefficient. Cache this in the view?
-  - console.log(progress)
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   .progress-dot(class=dotClass, data-html='true', data-title=view.progressDotTemplate(progressDotContext) data-toggle='tooltip')
     +progressDotLabel(label)
