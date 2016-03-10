@@ -37,7 +37,7 @@ module.exports =
         console.log [userIDs.length, courseIndex, levelIndex, level.get('name')]
         if userIDs.length > 0
           users = _.map userIDs, (id) ->
-            students._byId[id]
+            students.get(id)
           return {
             courseNumber: courseIndex + 1
             levelNumber: levelIndex + 1
@@ -67,7 +67,7 @@ module.exports =
         console.log [userIDs.length, courseIndex, levelIndex, level.get('name')]
         if userIDs.length > 0
           users = _.map userIDs, (id) ->
-            students._byId[id]
+            students.get(id)
           return {
             courseNumber: courseIndex + 1
             levelNumber: levelIndex + 1

@@ -60,11 +60,10 @@ module.exports = class TeacherClassView extends RootView
     @latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @campaigns, @courseInstances, @students)
     for student in @students.models
       # TODO: this is a weird hack
-      studentsStub = { models: [student], _byId: {} }
-      studentsStub._byId[student.id] = student
+      studentsStub = new Users([ student ])
       student.latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @campaigns, @courseInstances, studentsStub)
       
-    classroomsStub = { models: [@classroom] }
+    classroomsStub = new Classrooms([ @classroom ])
     @progressData = helper.calculateAllProgress(classroomsStub, @courses, @campaigns, @courseInstances, @students)
     super()
 
