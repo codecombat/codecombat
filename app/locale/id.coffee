@@ -49,7 +49,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     not_tedious: "tidak membosankan."
     gaming_is_good: "Studi menunjukkan permainan itu baik untuk otak anak-anak. (itu benar!)"
     game_based: "Ketika sistem pembelajaran berbasis permainan"
-   compared: "dibandingkan"
+    compared: "dibandingkan"
     conventional: "terhadap metode penilaian konvensional, perbedaannya jelas: permainan merupakan pilihan yang lebih baik untuk membantu siswa mempertahankan pengetahuan, berkonsentrasi dan"
     perform_at_higher_level: "tampil di tingkat yang lebih tinggi dari pencapaian"
     feedback: "Permainan juga memberikan umpan balik dalam waktu nyata yang memungkinkan siswa untuk menyesuaikan jalan solusi mereka dan memahami konsep-konsep yang lebih holistik, daripada hanya terbatas dengan jawaban "benar" atau "salah" saja."
