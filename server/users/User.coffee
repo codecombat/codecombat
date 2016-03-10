@@ -248,6 +248,16 @@ UserSchema.methods.isPremium = ->
   return true if @hasSubscription()
   return false
 
+UserSchema.methods.formatEntity = (req, publicOnly=false) ->
+  obj = @toObject()
+  serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
+  delete obj[prop] for prop in serverProperties
+  candidateProperties = ['jobProfile', 'jobProfileApproved', 'jobProfileNotes']
+  delete obj[prop] for prop in candidateProperties
+  includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(@_id)))
+  delete obj[prop] for prop in User.privateProperties unless includePrivates
+  return obj
+
 UserSchema.methods.isOnPremiumServer = ->
   @get('country') in ['china', 'brazil']
 

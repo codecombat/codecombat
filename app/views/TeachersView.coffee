@@ -1,6 +1,7 @@
 AuthModal = require 'views/core/AuthModal'
 RootView = require 'views/core/RootView'
 template = require 'templates/teachers'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 module.exports = class TeachersView extends RootView
   id: 'teachers-view'
@@ -22,11 +23,11 @@ module.exports = class TeachersView extends RootView
         application.router.navigate "/courses/teachers", trigger: true
 
   onClickLogin: (e) ->
-    @openModalView new AuthModal(mode: 'login') if me.get('anonymous')
+    @openModalView new AuthModal() if me.get('anonymous')
     window.tracker?.trackEvent 'Started Signup', category: 'Teachers', label: 'Teachers Login'
 
   onClickSignup: (e) ->
-    @openModalView new AuthModal() if me.get('anonymous')
+    @openModalView new CreateAccountModal() if me.get('anonymous')
     window.tracker?.trackEvent 'Started Signup', category: 'Teachers', label: 'Teachers Create'
 
   logoutRedirectURL: false

@@ -17,6 +17,14 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
     'auth:logged-in-with-facebook': 'onFacebookLoggedIn'
 
   loggedIn: false
+  
+  token: -> @authResponse?.accessToken
+
+  fakeFacebookLogin: ->
+    @onFacebookLoggedIn({
+      response:
+        authResponse: { accessToken: '1234' }
+    })
 
   onFacebookLoggedIn: (e) ->
     # user is logged in also when the page first loads, so check to see
@@ -28,46 +36,21 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
         @loggedIn = true
         break
 
-    if @waitingForLogin and @loggedIn
-      @fetchMeForLogin()
+    @trigger 'logged-into-facebook'
 
   loginThroughFacebook: ->
     if @loggedIn
-      @fetchMeForLogin()
+      return true
     else
       FB.login ((response) ->
         console.log 'Received FB login response:', response
       ), scope: 'email'
-      @waitingForLogin = true
 
-  fetchMeForLogin: ->
-    FB.api('/me', {fields: 'email,last_name,first_name,gender'}, @onReceiveMeInfo)
-
-  onReceiveMeInfo: (r) =>
-    console.log "Got Facebook user info:", r
-    unless r.email
-      console.error('could not get data, since no email provided')
-      return
-
-    oldEmail = me.get('email')
-    me.set('firstName', r.first_name) if r.first_name
-    me.set('lastName', r.last_name) if r.last_name
-    me.set('gender', r.gender) if r.gender
-    me.set('email', r.email) if r.email
-    me.set('facebookID', r.id) if r.id
-
-    Backbone.Mediator.publish 'auth:logging-in-with-facebook', {}
-    window.tracker?.identify()
-    beforeID = me.id
-    me.patch({
-      error: backboneFailure,
-      url: "/db/user/#{me.id}?facebookID=#{r.id}&facebookAccessToken=#{@authResponse.accessToken}"
-      success: (model) ->
-        window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
-        if model.id is beforeID
-          window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Facebook'
-        window.location.reload() if model.get('email') isnt oldEmail
-    })
-
-  destroy: ->
-    super()
+  loadPerson: ->
+    FB.api '/me', {fields: 'email,last_name,first_name,gender'}, (person) =>
+      attrs = {}
+      for fbProp, userProp of userPropsToSave
+        value = person[fbProp]
+        if value
+          attrs[userProp] = value
+      @trigger 'person-loaded', attrs

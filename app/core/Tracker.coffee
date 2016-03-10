@@ -70,7 +70,7 @@ module.exports = class Tracker extends CocoClass
 
     for userTrait in ['email', 'anonymous', 'dateCreated', 'name', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
       traits[userTrait] ?= me.get(userTrait)
-    if @isTeacher()
+    if me.isTeacher()
       traits.teacher = true
 
     console.log 'Would identify', me.id, traits if debugAnalytics
@@ -90,7 +90,7 @@ module.exports = class Tracker extends CocoClass
     mixpanel.identify(me.id)
     mixpanel.register(traits)
 
-    if @isTeacher() and @segmentLoaded
+    if me.isTeacher() and @segmentLoaded
       traits.createdAt = me.get 'dateCreated'  # Intercom, at least, wants this
       analytics.identify me.id, traits
 
@@ -109,7 +109,7 @@ module.exports = class Tracker extends CocoClass
     mixpanelIncludes = ['', 'courses', 'courses/purchase', 'courses/teachers', 'courses/students', 'schools', 'teachers', 'teachers/freetrial', 'teachers/quote', 'play', 'play/level/dungeons-of-kithgard']
     mixpanel.track('page viewed', 'page name' : name, url : url) if name in mixpanelIncludes
 
-    if @isTeacher() and @segmentLoaded
+    if me.isTeacher() and @segmentLoaded
       options = {}
       if includeIntegrations?.length
         options.integrations = All: false
@@ -140,7 +140,7 @@ module.exports = class Tracker extends CocoClass
     # Only log explicit events for now
     mixpanel.track(action, properties) if 'Mixpanel' in includeIntegrations
 
-    if @isTeacher() and @segmentLoaded
+    if me.isTeacher() and @segmentLoaded
       options = {}
       if includeIntegrations
         # https://segment.com/docs/libraries/analytics.js/#selecting-integrations
@@ -186,11 +186,8 @@ module.exports = class Tracker extends CocoClass
     return unless me and @isProduction and not me.isAdmin()
     ga? 'send', 'timing', category, variable, duration, label
 
-  isTeacher: ->
-    return me.get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent']
-
   updateRole: ->
-    return unless @isTeacher()
+    return unless me.isTeacher()
     return require('core/services/segment')() unless @segmentLoaded
     @identify()
     #analytics.page()  # It looks like we don't want to call this here because it somehow already gets called once in addition to this.

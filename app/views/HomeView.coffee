@@ -1,5 +1,6 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -40,6 +41,8 @@ module.exports = class HomeView extends RootView
 
   afterInsert: ->
     super(arguments...)
+    modal = new CreateAccountModal()
+    @openModalView(modal)
 
   justPlaysCourses: ->
     # This heuristic could be better, but currently we don't add to me.get('courseInstances') for single-player anonymous intro courses, so they have to beat a level without choosing a hero.

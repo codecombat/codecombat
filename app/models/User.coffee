@@ -59,6 +59,9 @@ module.exports = class User extends CocoModel
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
+  isTeacher: ->
+    return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent']
+
   setRole: (role, force=false) ->
     return if me.isAdmin()
     oldRole = @get 'role'
@@ -192,6 +195,34 @@ module.exports = class User extends CocoModel
   stopSpying: (options={}) ->
     options.url = '/auth/stop-spying'
     options.type = 'POST'
+    @fetch(options)
+
+  fetchGPlusUser: (gplusID, options={}) ->
+    options.data ?= {}
+    options.data.gplusID = gplusID
+    options.data.gplusAccessToken = application.gplusHandler.token()
+    @fetch(options)
+    
+  loginGPlusUser: (gplusID, options={}) ->
+    options.url = '/auth/login-gplus'
+    options.type = 'POST'
+    options.data ?= {}
+    options.data.gplusID = gplusID
+    options.data.gplusAccessToken = application.gplusHandler.token()
+    @fetch(options)
+
+  fetchFacebookUser: (facebookID, options={}) ->
+    options.data ?= {}
+    options.data.facebookID = facebookID
+    options.data.facebookAccessToken = application.facebookHandler.token()
+    @fetch(options)
+
+  loginFacebookUser: (facebookID, options={}) ->
+    options.url = '/auth/login-facebook'
+    options.type = 'POST'
+    options.data ?= {}
+    options.data.facebookID = facebookID
+    options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
 
 tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,

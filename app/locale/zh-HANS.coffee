@@ -1293,7 +1293,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     scribe_subscribe_desc: "通过电子邮件获得写作新文档的通知。"
     diplomat_introduction_pref: "如果说我们从"
     diplomat_launch_url: "十月的发布"
-    diplomat_introduction_suf: "中得到了什么启发：那就是全世界的人都对很喜欢CodeCombat。我们召集了一群翻译者，希望能尽快地把网站上的信息翻译成各国文字。如果您对CodeCombat的内容很感兴趣，想让世界上的每一个人都有机会一同体验，就快来成为外交官吧。"
+    diplomat_introduction_suf: "中得到了什么启发：那就是全世界的人都很喜欢CodeCombat。我们召集了一群翻译者，希望能尽快地把网站上的信息翻译成各国文字。如果您对CodeCombat的内容很感兴趣，想让世界上的每一个人都有机会一同体验，就快来成为外交官吧。"
     diplomat_attribute_1: "既会说流利的英语，也熟悉自己的语言。编程是一件很复杂的事情，而要翻译复杂的概念，您必须对两种语言都在行！"
     diplomat_i18n_page_prefix: "您可以在我们的"
     diplomat_i18n_page: "翻译页面"

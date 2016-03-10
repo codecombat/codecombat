@@ -276,16 +276,11 @@ block content
               th(style='min-width:85px;') Day
               each eventName in eventNames
                 th= eventName
-              th DAU Classroom Total
             each activeUser in activeUsers
               tr
                 td= activeUser.day
-                - var dauClassroomTotal = 0
                 each eventName in eventNames
-                  if eventName.indexOf('DAU') >= 0
-                    - dauClassroomTotal += (activeUser.events[eventName] || 0);
                   td= activeUser.events[eventName] || 0
-                td= dauClassroomTotal
 
         h1#enrollments-table Enrollments
         table.table.table-striped.table-condensed
@@ -336,17 +331,11 @@ block content
               th(style='min-width:85px;') Day
               each eventName in eventNames
                 th= eventName
-              th DAU Total
             each activeUser in activeUsers
               tr
                 td= activeUser.day
-                - var dauCampaignTotal = 0
                 each eventName in eventNames
-                  if eventName.indexOf('DAU') >= 0
-                    - dauCampaignTotal += (activeUser.events[eventName] || 0);
                   td= activeUser.events[eventName] || 0
-                td= dauCampaignTotal
-
 
       .tab-pane#tab_campaign_vs_classroom
         h3 Campaign vs Classroom Paid Monthly Active Users 90 days
@@ -376,18 +365,8 @@ block content
               th(style='min-width:85px;') Day
               each eventName in eventNames
                 th= eventName
-              th DAU Campaign Total
-              th DAU Classroom Total
             each activeUser in activeUsers
               tr
                 td= activeUser.day
-                - var dauCampaignTotal = 0
-                - var dauClassroomTotal = 0
                 each eventName in eventNames
                   td= activeUser.events[eventName] || 0
-                  if eventName.indexOf('DAU campaign') >= 0
-                    - dauCampaignTotal += (activeUser.events[eventName] || 0);
-                  else if eventName.indexOf('DAU classroom') >= 0
-                    - dauClassroomTotal += (activeUser.events[eventName] || 0);
-                td= dauCampaignTotal
-                td= dauClassroomTotal

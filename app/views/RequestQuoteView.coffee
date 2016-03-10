@@ -3,6 +3,7 @@ forms = require 'core/forms'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
 AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 storage = require 'core/storage'
 
 formSchema = {
@@ -108,10 +109,7 @@ module.exports = class RequestQuoteView extends RootView
     forms.scrollToFirstError()
 
   onClickEmailExistsLoginLink: ->
-    modal = new AuthModal({
-      mode: 'login'
-      initialValues: { email: @trialRequest.get('properties')?.email }
-    })
+    modal = new AuthModal({ initialValues: { email: @trialRequest.get('properties')?.email } })
     @openModalView(modal)
 
   onTrialRequestSubmit: ->
@@ -119,18 +117,14 @@ module.exports = class RequestQuoteView extends RootView
     window.tracker?.trackEvent 'Submit Trial Request', category: 'Teachers', label: 'Trial Request', ['Mixpanel']
 
   onClickLoginButton: ->
-    modal = new AuthModal({
-      mode: 'login'
-      initialValues: { email: @trialRequest.get('properties')?.email }
-    })
+    modal = new AuthModal({ initialValues: { email: @trialRequest.get('properties')?.email } })
     @openModalView(modal)
     window.nextURL = '/courses/teachers' unless @trialRequest.isNew()
 
   onClickSignupButton: ->
     props = @trialRequest.get('properties') or {}
     me.set('name', props.name)
-    modal = new AuthModal({
-      mode: 'signup'
+    modal = new CreateAccountModal({
       initialValues: {
         email: props.email
         schoolName: props.organization

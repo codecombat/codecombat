@@ -20,13 +20,27 @@ scope = 'https://www.googleapis.com/auth/plus.login email'
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
     @accessToken = storage.load GPLUS_TOKEN_KEY, false
+    window.onGPlusLogin = _.bind(@onGPlusLogin, @)
     super()
 
-  subscriptions:
-    'auth:logged-in-with-gplus':'onGPlusLogin'
-    'auth:gplus-api-loaded':'onGPlusLoaded'
+  token: -> @accessToken?.access_token
 
-  onGPlusLoaded: ->
+  loadAPI: ->
+    return if @loadedAPI
+    @loadedAPI = true
+    (=>
+      po = document.createElement('script')
+      po.type = 'text/javascript'
+      po.async = true
+      po.src = 'https://apis.google.com/js/client:platform.js?onload=onGPlusLoaded'
+      s = document.getElementsByTagName('script')[0]
+      s.parentNode.insertBefore po, s
+      window.onGPlusLoaded = _.bind(@onLoadAPI, @)
+      return
+    )()
+    
+  onLoadAPI: ->
+    Backbone.Mediator.publish 'auth:gplus-api-loaded', {}
     session_state = null
     if @accessToken and me.get('gplusID')
       # We need to check the current state, given our access token
@@ -39,6 +53,26 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       func = => @trigger 'checked-state'
       setTimeout func, 1
 
+  renderLoginButtons: ->
+    return false unless gapi?.plusone?
+    gapi.plusone.go?()  # Handles +1 button
+    if not gapi.signin?.render
+      console.warn 'Didn\'t have gapi.signin to render G+ login button. (DoNotTrackMe extension?)'
+      return
+      
+    for gplusButton in $('.gplus-login-button')
+      params = {
+        callback: 'onGPlusLogin',
+        clientid: clientID,
+        cookiepolicy: 'single_host_origin',
+        scope: 'https://www.googleapis.com/auth/plus.login email',
+        height: 'short',
+      }
+      if gapi.signin?.render
+        gapi.signin.render(gplusButton, params)
+        
+    @trigger 'render-login-buttons'
+
   onCheckedSessionState: (@loggedIn) =>
     @trigger 'checked-state'
 
@@ -47,9 +81,16 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       'client_id' : clientID
       'scope' : scope
     gapi.auth.authorize params, @onGPlusLogin
+    
+  fakeGPlusLogin: ->
+    @onGPlusLogin({
+      access_token: '1234'
+    })
 
-  onGPlusLogin: (e) =>
+  onGPlusLogin: (e) ->
+    return unless e.access_token
     @loggedIn = true
+    Backbone.Mediator.publish 'auth:logged-in-with-gplus', e
     try
       # Without removing this, we sometimes get a cross-domain error
       d = _.omit(e, 'g-oauth-window')
@@ -58,55 +99,29 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       console.error 'Unable to save G+ token key', e
     @accessToken = e
     @trigger 'logged-in'
+    @trigger 'logged-into-google'
 
-  loginCodeCombat: ->
+  loadPerson: (options={}) ->
+    @reloadOnLogin = options.reloadOnLogin
     # email and profile data loaded separately
     gapi.client.load('plus', 'v1', =>
       gapi.client.plus.people.get({userId: 'me'}).execute(@onPersonReceived))
 
   onPersonReceived: (r) =>
+    attrs = {}
     for gpProp, userProp of userPropsToSave
       keys = gpProp.split('.')
       value = r
       for key in keys
         value = value[key]
-      if value and not me.get(userProp)
-        me.set(userProp, value)
+      if value
+        attrs[userProp] = value
 
     newEmail = r.emails?.length and r.emails[0] isnt me.get('email')
     return unless newEmail or me.get('anonymous', true)
-    me.set('email', r.emails[0].value)
-    @trigger 'person-loaded'
-    @save()
-
-  save: =>
-    console.debug 'Email, gplusID:', me.get('email'), me.get('gplusID')
-    return unless me.get('email') and me.get('gplusID')
-
-    Backbone.Mediator.publish 'auth:logging-in-with-gplus', {}
-    gplusID = me.get('gplusID')
-    window.tracker?.identify()
-    patch = {}
-    patch[key] = me.get(key) for gplusKey, key of userPropsToSave
-    patch._id = beforeID = me.id
-    patch.email = me.get('email')
-    wasAnonymous = me.get('anonymous')
-    @trigger 'logging-into-codecombat'
-    console.debug('Logging into GPlus.')
-    me.save(patch, {
-      patch: true
-      type: 'PUT'
-      error: ->
-        console.warn('Logging into GPlus fail.', arguments)
-        backboneFailure(arguments...)
-      url: "/db/user?gplusID=#{gplusID}&gplusAccessToken=#{@accessToken.access_token}"
-      success: (model) ->
-        console.info('GPLus login success!')
-        window.tracker?.trackEvent 'Google Login', category: "Signup"
-        if model.id is beforeID
-          window.tracker?.trackEvent 'Finished Signup', label: 'GPlus'
-        window.location.reload() if wasAnonymous and not model.get('anonymous')
-    })
+    if r.emails?.length
+      attrs.email = r.emails[0].value
+    @trigger 'person-loaded', attrs
 
   loadFriends: (friendsCallback) ->
     return friendsCallback() unless @loggedIn

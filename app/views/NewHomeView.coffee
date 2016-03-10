@@ -16,6 +16,14 @@ module.exports = class NewHomeView extends RootView
     'change #school-level-dropdown': 'onChangeSchoolLevelDropdown'
     'click #teacher-btn': 'onClickTeacherButton'
     'click #learn-more-link': 'onClickLearnMoreLink'
+    'click .screen-thumbnail': 'onClickScreenThumbnail'
+    'click #carousel-left': 'onLeftPressed'
+    'click #carousel-right': 'onRightPressed'
+
+  shortcuts:
+    'right': 'onRightPressed'
+    'left': 'onLeftPressed'
+    'esc': 'onEscapePressed'
 
   initialize: (options) ->
     @jumbotron = options.jumbotron or utils.getQueryVariable('jumbotron') or 'student'
@@ -47,6 +55,11 @@ module.exports = class NewHomeView extends RootView
 
   afterRender: ->
     @onChangeSchoolLevelDropdown()
+    @$('#screenshot-lightbox').modal()
+    @$('#screenshot-carousel').carousel({
+      interval: 0
+      keyboard: false
+    })
     super()
 
   onChangeSchoolLevelDropdown: (e) ->
@@ -75,5 +88,26 @@ module.exports = class NewHomeView extends RootView
   onClickTeacherButton: ->
     @scrollToLink('.request-demo-row', 600)
 
+  onRightPressed: (event) ->
+    # Special handling, otherwise after you click the control, keyboard presses move the slide twice
+    return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
+    if $('#screenshot-lightbox').data('bs.modal')?.isShown
+      event.preventDefault()
+      $('#screenshot-carousel').carousel('next')
 
-  
+  onLeftPressed: (event) ->
+    return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
+    if $('#screenshot-lightbox').data('bs.modal')?.isShown
+      event.preventDefault()
+      $('#screenshot-carousel').carousel('prev')
+
+  onEscapePressed: (event) ->
+    if $('#screenshot-lightbox').data('bs.modal')?.isShown
+      event.preventDefault()
+      $('#screenshot-lightbox').modal('hide')
+
+  onClickScreenThumbnail: (event) ->
+    unless $('#screenshot-lightbox').data('bs.modal')?.isShown
+      event.preventDefault()
+      # Modal opening happens automatically from bootstrap
+      $('#screenshot-carousel').carousel($(event.currentTarget).data("index"))

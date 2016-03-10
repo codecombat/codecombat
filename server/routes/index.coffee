@@ -1,6 +1,9 @@
 mw = require '../middleware'
 
 module.exports.setup = (app) ->
+
+  app.post('/auth/login-facebook', mw.auth.loginByFacebook)
+  app.post('/auth/login-gplus', mw.auth.loginByGPlus)
   app.post('/auth/spy', mw.auth.spy)
   app.post('/auth/stop-spying', mw.auth.stopSpying)
   
@@ -33,6 +36,8 @@ module.exports.setup = (app) ->
   
   Campaign = require '../models/Campaign'
   app.get('/db/campaign', mw.campaigns.fetchByType) #TODO
+  
+  app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
 
   app.get '/db/products', require('./db/product').get
 
