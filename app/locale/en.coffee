@@ -747,6 +747,7 @@
     thanks_p: "We'll be in touch soon. Questions? Email us:"
     thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science." # {change}
     thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science." # {change}
+    setup_a_class: "Set Up a Class"
 
   versions:
     save_version_title: "Save New Version"
