@@ -4,6 +4,7 @@ helper = require 'lib/coursesHelper'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 
 Classroom = require 'models/Classroom'
+Classrooms = require 'collections/Classrooms'
 LevelSessions = require 'collections/LevelSessions'
 Users = require 'collections/Users'
 Courses = require 'collections/Courses'
