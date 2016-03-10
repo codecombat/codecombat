@@ -104,7 +104,8 @@ module.exports = class CreateAccountModal extends ModalView
 
   onClassroomFetchError: ->
     @$('#signup-button').text($.i18n.t('signup.sign_up')).attr('disabled', false)
-    forms.setErrorToProperty(@$el, 'classCode', 'Classroom code not found. Please check with your instructor.')
+    forms.setErrorToProperty(@$el, 'classCode', "#{@classCode} is not a valid code. Please verify the code is typed correctly.")
+    @$('#class-code-input').val('')
       
   createUser: ->
     options = {}

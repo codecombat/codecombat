@@ -58,20 +58,25 @@ describe 'CreateAccountModal', ->
         expect(request.url).toBe('/db/classroom?code=qwerty')
         
       it 'has not hidden the close-modal button', ->
-        expect(modal.$('#close-modal').css('display')).toBe('block')
+        expect(modal.$('#close-modal').css('display')).not.toBe('none')
         
-      it 'continues with signup if the Classroom exists', ->
-        request = jasmine.Ajax.requests.mostRecent()
-        request.respondWith({status: 200, responseText: JSON.stringify({})})
-        request = jasmine.Ajax.requests.mostRecent()
-        expect(request.url).toBe('/db/user')
-        expect(request.method).toBe('POST')
+      describe 'the Classroom exists', ->
+        it 'continues with signup', ->
+          request = jasmine.Ajax.requests.mostRecent()
+          request.respondWith({status: 200, responseText: JSON.stringify({})})
+          request = jasmine.Ajax.requests.mostRecent()
+          expect(request.url).toBe('/db/user')
+          expect(request.method).toBe('POST')
         
-      it 'fails and shows an error if the Classroom does not exist', ->
-        request = jasmine.Ajax.requests.mostRecent()
-        request.respondWith({status: 404, responseText: JSON.stringify({})})
-        expect(jasmine.Ajax.requests.all().length).toBe(1)
-        expect(modal.$el.has('.has-error').length).toBeTruthy()
+      describe 'the Classroom does not exist', ->
+        it 'shows an error and clears the field', ->
+          request = jasmine.Ajax.requests.mostRecent()
+          console.log 'school input?', modal.$('#class-code-input').val()
+          request.respondWith({status: 404, responseText: JSON.stringify({})})
+          expect(jasmine.Ajax.requests.all().length).toBe(1)
+          expect(modal.$el.has('.has-error').length).toBeTruthy()
+          console.log 'school input?', modal.$('#class-code-input').val()
+          expect(modal.$('#class-code-input').val()).toBe('')
         
       
   describe 'clicking the gplus button', ->
