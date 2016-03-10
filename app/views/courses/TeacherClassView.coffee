@@ -21,6 +21,8 @@ module.exports = class TeacherClassView extends RootView
 
   initialize: (options, classroomID) ->
     super(options)
+    @progressDotTemplate = require 'templates/courses/progress-dot'
+    
     @sortAttribute = 'name'
     @sortDirection = 1
     

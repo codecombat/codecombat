@@ -52,18 +52,16 @@ block content
           
         .completeness-info.col-md-4
           if view.earliestIncompleteLevel
-            p(data-i18n="TODO")
+            div(data-i18n="TODO")
               | Earliest incomplete level:
-              +longLevelName(view.earliestIncompleteLevel)
-            p
-              +inlineUserList(view.earliestIncompleteLevel.users)
+            +longLevelName(view.earliestIncompleteLevel)
+            +inlineUserList(view.earliestIncompleteLevel.users)
             
           if view.latestCompleteLevel
-            p(data-i18n="TODO")
+            div(data-i18n="TODO")
               | Latest completed level:
-              +longLevelName(view.latestCompleteLevel)
-            p
-              +inlineUserList(view.latestCompleteLevel.users)
+            +longLevelName(view.latestCompleteLevel)
+            +inlineUserList(view.latestCompleteLevel.users)
             
         .adding-students.col-md.4
           h4(data-i18n="TODO")
@@ -77,14 +75,14 @@ block content
               | Students
         .tab-spacer
         li
-          a(href="#progress-tab" data-toggle="tab")
+          a(href="#course-progress-tab" data-toggle="tab")
             .text-center(data-i18n="TODO")
               | Level Progress
         .tab-filler
       
       .tab-content
         +studentsTab
-        +progressTab
+        +courseProgressTab
 
 mixin longLevelName(data)
   if data
@@ -111,21 +109,21 @@ mixin addStudentsButton
         
 mixin studentsTab
   #students-tab.tab-pane.active
-  table.students-table
-    thead
-      th
-        span Select All
-        .checkbox-flat
-          input(type="checkbox")
-      th.small
-        span Sort by: 
-        button.sort-button.sort-by-name
-          | Name
-        button.sort-button.sort-by-progress
-          | Progress
-    tbody
-      each student in view.students.models
-        +studentRow(student)
+    table.students-table
+      thead
+        th
+          span Select All
+          .checkbox-flat
+            input(type="checkbox")
+        th.small
+          span Sort by: 
+          button.sort-button.sort-by-name
+            | Name
+          button.sort-button.sort-by-progress
+            | Progress
+      tbody
+        each student in view.students.models
+          +studentRow(student)
           
 mixin studentRow(student)
   tr.alternating-background
@@ -145,9 +143,57 @@ mixin studentRow(student)
       div
         +longLevelName(student.latestCompleteLevel)
     td
-      div Dots go here (and Enroll Student button)
+      if view.progressData
+        each course, index in view.courses.models
+          - var instance = view.courseInstances.getByCourseAndClassroom(course, classroom)
+          if instance && instance.hasMember(student)
+            - var progress = view.getProgress({ course: course, user: student })
+            +progressDot(progress, "CS" + (index+1))
     td
       span.view-class-arrow.glyphicon.glyphicon-chevron-right
     
-mixin progressTab
-  #progress-tab.tab-pane
+mixin courseProgressTab
+  #course-progress-tab.tab-pane
+    if view.progressData
+      +courseOverview
+      .student-levels-table
+        each student in view.students.models
+          +studentLevelsRow(student)
+        
+mixin courseOverview
+  - var course = view.courses.models[0] // TODO: Wire this up to a dropdown
+  - var campaign = view.campaigns.get(course.get('campaignID'))
+  - var levels = campaign.getLevels().models
+  each level, index in levels
+    - var progress = view.getProgress({ course: course, level: level })
+    +progressDot(progress, index+1)
+
+mixin studentLevelsRow(student)
+  .student-levels-row.alternating-background
+    div.student-info
+      div.student-name= student.get('name')
+      div.student-email.small-details emailaddress@school.edu
+    div.student-levels-progress
+      - var course = view.courses.models[0] // TODO: Wire this up to a dropdown
+      - var campaign = view.campaigns.get(course.get('campaignID'))
+      - var levels = campaign.getLevels().models
+      each level, index in levels
+        - var progress = view.getProgress({ course: course, level: level, user: student })
+        +progressDot(progress, index+1)
+        
+      
+    
+
+mixin progressDot(progress, label)
+  //- TODO: Refactor with TeacherClassesView jade
+  //- TODO: Give classes abbreviations instead of using index?
+  //- TODO: inefficient. Cache this in the view?
+  - console.log(progress)
+  - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
+  .progress-dot(class=dotClass, data-html='true', data-title=view.progressDotTemplate(progressDotContext) data-toggle='tooltip')
+    +progressDotLabel(label)
+
+mixin progressDotLabel(label)
+  .dot-label.text-center
+    .dot-label-inner
+      = label
