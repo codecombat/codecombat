@@ -5,8 +5,8 @@ describe 'CreateAccountModal', ->
   
   modal = null
   
-  beforeEach ->
-    modal = new CreateAccountModal()
+  initModal = (options) ->
+    modal = new CreateAccountModal(options)
     modal.render()
     modal.render = _.noop
     jasmine.demoModal(modal)
@@ -16,12 +16,25 @@ describe 'CreateAccountModal', ->
     window.FB =
       login: _.noop
       api: _.noop
-        
+  
   afterEach ->
     modal.stopListening()
+    
+  describe 'constructed with showRequiredError is true', ->
+    it 'shows a modal explaining to login first', ->
+      initModal({showRequiredError: true})
+      expect(modal.$('#required-error-alert').length).toBe(1)
+
+  describe 'constructed with showSignupRationale is true', ->
+    it 'shows a modal explaining signup rationale', ->
+      initModal({showSignupRationale: true})
+      expect(modal.$('#signup-rationale-alert').length).toBe(1)
 
   describe 'clicking the save button', ->
-    
+
+    beforeEach ->
+      initModal()
+
     it 'fails if nothing is in the form, showing errors for email and password', ->
       modal.$('form').each (i, el) -> el.reset()
       modal.$('form:first').submit()
@@ -82,8 +95,9 @@ describe 'CreateAccountModal', ->
   describe 'clicking the gplus button', ->
     
     signupButton = null
-    
+
     beforeEach ->
+      initModal()
       application.gplusHandler.trigger 'render-login-buttons'
       signupButton = modal.$('#gplus-signup-btn')
       expect(signupButton.attr('disabled')).toBeFalsy()
@@ -152,6 +166,7 @@ describe 'CreateAccountModal', ->
     signupButton = null
 
     beforeEach ->
+      initModal()
       Backbone.Mediator.publish 'auth:facebook-api-loaded', {}
       signupButton = modal.$('#facebook-signup-btn')
       expect(signupButton.attr('disabled')).toBeFalsy()

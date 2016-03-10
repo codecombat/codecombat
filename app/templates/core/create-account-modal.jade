@@ -7,8 +7,11 @@
       span.glyphicon.glyphicon-remove
 
   .auth-form-content
+    if view.options.showRequiredError
+      #required-error-alert.alert.alert-success
+        span(data-i18n="signup.required")
     if view.options.showSignupRationale
-      .alert.alert-info
+      #signup-rationale-alert.alert.alert-info
         span(data-i18n="play_level.victory_sign_up_poke")
 
     #email-password-row.row
