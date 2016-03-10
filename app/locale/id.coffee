@@ -1,168 +1,168 @@
 module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Indonesian", translation:
   home:
-#    slogan: "Learn to Code by Playing a Game"
-    no_ie: "Maaf, CodeCombat tidak bisa dijalankan pada Internet Explorer 8 dan sebelumnya" # Warning that only shows up in IE8 and older
+    slogan: "Belajar Membuat Kode Dengan Bermain Sebuah Permainan"
+    no_ie: "Maaf, CodeCombat tidak dapat dijalankan pada Internet Explorer 8 dan sebelumnya" # Warning that only shows up in IE8 and older
     no_mobile: "Maaf. CodeCombat tidak dibuat untuk perangkat mobile" # Warning that shows up on mobile devices
-    play: "Play" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
-    old_browser: "Uh oh, Maaf. Versi broser anda terlalu lama " # Warning that shows up on really old Firefox/Chrome/Safari
+    play: "Bermain" # The big play button that opens up the campaign view.
+    play_campaign_version: "Mainkan Versi Kampanye" # Shows up under big play button if you only play /courses
+    old_browser: "Uh oh, Maaf. Versi peramban anda terlalu lama " # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Anda bisa mencoba, tapi mungkin tidak akan berjalan."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
-    campaign: "Campaign"
+    ipad_browser: "Berita buruk: CodeCombat Tidak dapat dijalankan dengan iPad di peramban. Berita bagus: Aplikasi iPad kami sedang menunggu persetujuan Apple."
+    campaign: "Kampanye"
     for_beginners: "Pemula"
-    multiplayer: "Multiplayer" # Not currently shown on home page
-    for_developers: "Developers" # Not currently shown on home page.
-    or_ipad: "atau download untuk iPad"
+    multiplayer: "Multipemain" # Not currently shown on home page
+    for_developers: "Pengembang" # Not currently shown on home page.
+    or_ipad: "atau unduh untuk iPad"
 
-#  new_home:
-#    slogan: "The most engaging game for learning programming."
-#    classroom_edition: "Classroom Edition:"
-#    learn_to_code: "Learn to code:"
-#    teacher: "Teacher"
-#    student: "Student"
-#    play_now: "Play Now"
-#    im_a_teacher: "I'm a Teacher"
-#    im_a_student: "I'm a Student"
-#    learn_more: "Learn more"
-#    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-#    codecombat_is: "CodeCombat is a platform for students to learn computer science while playing through a real game."
-#    our_courses: "Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience."
-#    designed_with: "Designed with teachers in mind"
-#    real_code: "Real, typed code"
-#    from_the_first_level: "from the first level"
-#    getting_students: "Getting students to typed code as quickly as possible is critical to learning programming syntax and proper structure."
-#    educator_resources: "Educator resources"
-#    course_guides: "and course guides"
-#    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
-#    accessible_to: "Accessible to"
-#    everyone: "everyone"
-#    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
-#    forgot_learning: "I think they actually forgot that they were actually learning something."
-#    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
-#    why_games: "Why is learning through games important?"
-#    games_reward: "Games reward the productive struggle."
-#    encourage: "Gaming is a medium that encourages interaction, discovery, and trial-and-error. A good game challenges the player to master skills over time, which is the same critical process students go through as they learn."
-#    excel: "Games excel at rewarding"
-#    struggle: "productive struggle"
-#    kind_of_struggle: "the kind of struggle that results in learning that’s engaging and"
-#    motivating: "motivating"
-#    not_tedious: "not tedious."
-#    gaming_is_good: "Studies suggest gaming is good for children’s brains. (it’s true!)"
-#    game_based: "When game-based learning systems are"
-#    compared: "compared"
-#    conventional: "against conventional assessment methods, the difference is clear: games are better at helping students retain knowledge, concentrate and"
-#    perform_at_higher_level: "perform at a higher level of achievement"
-#    feedback: "Games also provide real-time feedback that allows students to adjust their solution path and understand concepts more holistically, instead of being limited to just “correct” or “incorrect” answers."
-#    real_game: "A real game, played with real coding."
-#    great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
-#    agency: "CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
-#    curious: "Curious? Request a demo and we'll show you the ropes"
-#    create_class: "Or create a class and see it for yourself!"
-#    request_demo: "Request a Demo"
-#    create_a_class: "Create a Class"
-#    have_an_account: "Already have an account?"
-#    logged_in_as: "You are currently logged in as"
-#    view_my_classes: "View my classes"
-#    computer_science: "Computer science courses for all ages"
-#    show_me_lesson_time: "Show me lesson time estimates for:"
-#    curriculum: "Total curriculum hours:"
-#    ffa: "Free for all students"
-#    lesson_time: "Lesson time:"
-#    coming_soon: "Coming soon!"
-#    courses_available_in: "Courses are available in JavaScript, Python, and Java (coming soon!)"
-#    boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
-#    winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
-#    run_class: "Everything you need to run a computer science class in your school today, no CS background required."
+  new_home:
+    slogan: "The most engaging game for learning programming."
+    classroom_edition: "Edisi Ruang Kelas:"
+    learn_to_code: "Belajar membuat kode:"
+    teacher: "Guru"
+    student: "Murid"
+    play_now: "Mainkan Sekarang"
+    im_a_teacher: "Aku seorang guru"
+    im_a_student: "Aku seorang murid"
+    learn_more: "Pelajari lebih lanjut"
+    classroom_in_a_box: "Sebuah ruangan kelas di-dalam-kotak untuk mengajar sains komputer."
+    codecombat_is: "CodeCombat adalah sebuah panggung untuk para murid untuk belajar ilmu komputer sambil bermain permainan yang sesungguhnya."
+    our_courses: "Kursus kami telah di uji melalui para pemain secara khusus untuk unggul di ruang kelas, bahkan oleh para guru yang mempunyai sedikit atau tanpa pengalaman pemrograman sebelumnya."
+    designed_with: "Dirancang untuk para guru"
+    real_code: "Kode asli yang diketik"
+    from_the_first_level: "dari tingkat pertama"
+    getting_students: "Mengajak murid untuk mengetik kode secepat mungkin sangatlah penting untuk mempelajari sintaks pemrograman dan struktur yang tepat."
+    educator_resources: "Sumber pendidik"
+    course_guides: "dan panduan rangkaian pelajaran"
+    teaching_computer_science: "Mengajari ilmu computer tidak perlu memerlukan gelar yang mahal, karena kami menyediakan peralatan untuk menunjang pendidik dari segala macam latar belakang."
+    accessible_to: "Dapat diakses oleh"
+    everyone: "semua orang"
+    democratizing: "Mendemokrasikan proses belajar membuat kode adalah inti dari filsafat kami. Semua orang berhak untuk belajar membuat kode."
+    forgot_learning: "Saya pikir mereka benar-benar lupa bahwa mereka sebenarnya mempelajari sesuatu."
+    wanted_to_do: " Belajar membuat kode adalah sesuatu yang selalu saya ingin lakukan, dan saya tidak pernah berpikir saya akan bisa mempelajarinya di sekolah."
+    why_games: "Mengapa belajar melalui bermain sangatlah penting?"
+    games_reward: "Permainan memberikan imbalan terhadap perjuangan yang produktif."
+    encourage: "Gaming adalah perantara yang mendorong interaksi, penemuan, dan coba-dan-gagal. Sebuah permainan yang baik menantang pemain untuk menguasai keterampilan dari waktu ke waktu, yang merupakan proses kritis sama yang dilalui siswa saat mereka belajar."
+    excel: "Permainan unggul dalam memberikan penghargaan"
+    struggle: "Perjuangan yang produktif"
+    kind_of_struggle: "jenis perjuangan yang menghasilkan pembelajaran yang menarik dan"
+    motivating: "memotivasi"
+    not_tedious: "tidak membosankan."
+    gaming_is_good: "Studi menunjukkan permainan itu baik untuk otak anak-anak. (itu benar!)"
+    game_based: "Ketika sistem pembelajaran berbasis permainan"
+   compared: "dibandingkan"
+    conventional: "terhadap metode penilaian konvensional, perbedaannya jelas: permainan merupakan pilihan yang lebih baik untuk membantu siswa mempertahankan pengetahuan, berkonsentrasi dan"
+    perform_at_higher_level: "tampil di tingkat yang lebih tinggi dari pencapaian"
+    feedback: "Permainan juga memberikan umpan balik dalam waktu nyata yang memungkinkan siswa untuk menyesuaikan jalan solusi mereka dan memahami konsep-konsep yang lebih holistik, daripada hanya terbatas dengan jawaban "benar" atau "salah" saja."
+    real_game: "Sebuah permainan yang sebenarnya, dimainkan dengan pengkodean yang nyata."
+    great_game: "Sebuah permainan yang hebat merupakan lebih dari sekedar lencana dan penghargaan - melainkan tentang perjalanan pemain, teka-teki yang dirancang dengan baik, dan kemampuan untuk mengatasi tantangan dengan kepercayaan diri."
+    agency: "CodeCombat adalah permainan yang memberikan pemain Kepercayaan diri dengan mesin ketik kode kami yang kuat, yang membantu pemula dan lanjutan mahasiswa menulis kode yang valid, dan tepat."
+    curious: "Penasaran? Minta sebuah demonstrasi dan kami akan menunjukkan bagaimana caranya"
+    create_class: "Atau buat sebuah kelas dan lihat dengan matamu sendiri!"
+    request_demo: "Minta sebuah demonstrasi"
+    create_a_class: "Buat sebuah kelas"
+    have_an_account: "Sudah mempunyai akun?"
+    logged_in_as: "You are currently logged in as"
+    view_my_classes: "Lihat kelas-kelas saya"
+    computer_science: "kursus ilmu komputer untuk segala usia"
+    show_me_lesson_time: "Tunjukkan saya perkiraan waktu pelajaran untuk:"
+    curriculum: "Total jam kurikulum:"
+    ffa: "Gratis untuk semua murid"
+    lesson_time: "Waktu pelajaran:"
+    coming_soon: "Segera hadir!"
+    courses_available_in: "Kursus tersedia dalam JavaScript, Python, dan Java (segera hadir!)"
+    boast: "teka-teki Membanggakan yang cukup kompleks untuk mempesona para pemain dan pengkode."
+    winning: "Kombinasi yang unggul dari permainan RPG dan pemrograman pekerjaan rumah yang berhasil membuat pendidikan ramah anak yang sah dan menyenangkan."
+    run_class: "Semua yang Anda butuhkan untuk menjalankan kelas ilmu komputer di sekolah Anda hari ini, latar belakang CS tidak diperlukan."
 
   nav:
-    play: "Levels" # The top nav bar entry where players choose which levels to play
+    play: "Tingkatan" # The top nav bar entry where players choose which levels to play
     community: "Komunitas"
-#    courses: "Courses"
-    editor: "Editor"
+    courses: "Kursus"
+    editor: "Penyusun"
     blog: "Blog"
     forum: "Forum"
     account: "Akun"
     profile: "Profil"
-    stats: "Mulai"
-    code: "Code"
+    stats: "Statistik"
+    code: "Kode"
     admin: "Admin" # Only shows up when you are an admin
     home: "Home"
-#    contribute: "Contribute"
+    contribute: "Kontribusi"
     legal: "Legal"
-#    about: "About"
+    about: "Tentang"
     contact: "Kontak"
-    twitter_follow: "Follow"
-#    teachers: "Teachers"
-#    careers: "Careers"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
-#    create_a_class: "Create a Class"
-#    other: "Other"
-#    learn_to_code: "Learn to Code!"
+    twitter_follow: "Ikuti"
+    teachers: "Guru-guru"
+    careers: "Karir"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    create_a_class: "Buat sebuah kelas"
+    other: "Lain-lain"
+    learn_to_code: "Belajar membuat kode!"
 
   modal:
     close: "Tutup"
-    okay: "Okay"
+    okay: "Baik"
 
   not_found:
     page_not_found: "Alamat tidak ditemukan"
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-#    sub_heading: "We need your language skills."
+    title: "Bantu menerjemahkan CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Kami membutuhkann kemampuan berbahasamu."
     pitch_body: "Kami mengembangkan CodeCombat dalam bahasa Inggris, tapi kami sudah memiliki pemain di seluruh dunia. Banyak dari mereka ingin bermain di Indonesia, tetapi tidak berbicara bahasa Inggris, jadi jika Anda dapat berbicara, silakan mempertimbangkan untuk mendaftar untuk menjadi Diplomat dan membantu menerjemahkan kedua situs CodeCombat dan semua tingkatan ke Indonesia."
     missing_translations: "Hingga kami bisa menerjemahkan semuanya ke dalam bahasa Indonesia, Anda akan melihat bahasa Inggris ketika Indonesia belum tersedia."
-#    learn_more: "Learn more about being a Diplomat"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    learn_more: "Pelajari lebih lanjut tentang menjadi seorang Diplomat"
+    subscribe_as_diplomat: "Berlangganan sebagai seorang Diplomat"
 
   play:
-#    play_as: "Play As" # Ladder page
-#    compete: "Compete!" # Course details page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
+    play_as: "Main sebagai" # Ladder page
+    compete: "Bertanding!" # Course details page
+    spectate: "Tonton" # Ladder page
+    players: "players" # Hover over a level on /play
+    hours_played: "hours played" # Hover over a level on /play
+    items: "Barang" # Tooltip on item shop button from /play
+    unlock: "Buka" # For purchasing items and heroes
     confirm: "Konfirmasi"
-#    owned: "Owned" # For items you own
+    owned: "Dipunyai" # For items you own
     locked: "Terkunci"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+    purchasable: "Dapat Dibeli" # For a hero you unlocked but haven't purchased
     available: "Tersedia"
-#    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
+    achievements: "Penghargaan" # Tooltip on achievement list button from /play
     account: "Akun" # Tooltip on account button from /play
     settings: "Pengaturan" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    buy_gems: "Buy Gems"
-#    subscription_required: "Subscription Required"
-#    anonymous: "Anonymous Player"
-#    level_difficulty: "Difficulty: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
-#    campaign_beginner: "Beginner Campaign"
+    poll: "Poll" # Tooltip on poll button from /play
+    next: "Lanjut" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Ganti Hero" # Go back from choose inventory to choose hero
+    buy_gems: "Beli Gems"
+    subscription_required: "Berlangganan diperlukan"
+    anonymous: "Pemain tak bernama"
+    level_difficulty: "Kesulitan: "
+    play_classroom_version: "Mainkan Versi Ruang Kelas" # Choose a level in campaign version that you also can play in one of your courses
+    campaign_beginner: "Kampanye Pemula"
     awaiting_levels_adventurer_prefix: "Kami meliris lima level per minggu" # {change}
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    adjust_volume: "Adjust volume"
-    campaign_multiplayer: "Arena Multiplayer"
-#    campaign_multiplayer_description: "... in which you code head-to-head against other players."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    awaiting_levels_adventurer: "Daftar sebagai seorang Adventurer"
+    awaiting_levels_adventurer_suffix: "Untuk menjadi yang pertama memainkan level baru ."
+    adjust_volume: "Atur Volume"
+    campaign_multiplayer: "Arena Multipemain"
+    campaign_multiplayer_description: "... dimana kamu membuat kode satu lawan satu melawan pemain lainnya."
+    campaign_old_multiplayer: "(Deprecated) Arena Multipemain yang lama"
+    campaign_old_multiplayer_description: "Peninggalan zaman yang lebih beradab. Tidak ada simulasi yang dijalankan untuk arena multipemain lebih tua yang tak-berpahlawanan ini."
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
-#    form_blurb: "Enter your parent's email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
+  share_progress_modal:
+    blurb: "Kamu membuat kemajuan yang besar! Beritahu orang tuamu berapa banyak kamu telah pelajari dengan CodeCombatt."
+    email_invalid: "Alamat email tidak valid."
+    form_blurb: "Masukkan alamat email orang tuamu dibawah dan kami akan beritahu mereka!"
+    form_label: "Alamat Email"
+    placeholder: "alamat email"
+    title: "Kerja yang sangat bagus, murid!"
 
   login:
     sign_up: "Buat Akun"
     log_in: "Masuk"
-    logging_in: "Logging In"
+    logging_in: "Sedang masuk"
     log_out: "Keluar"
 #    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
@@ -199,7 +199,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
 #    continue: "Continue" # When used as an action verb, like "Continue forward"
-    loading: "Loading..."
+    loading: "Memuat..."
 #    saving: "Saving..."
 #    sending: "Sending..."
 #    send: "Send"
