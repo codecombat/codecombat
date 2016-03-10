@@ -11,11 +11,11 @@ module.exports =
         instance.numCompleted = 0
         campaign = campaigns.get(course.get('campaignID'))
         for userID in instance.get('members')
-          allComplete = _.every campaign.getLevels().models, (level) ->
+          allComplete = _.every campaign.getNonladderLevels().models, (level) ->
             return true if level.isLadder()
             #TODO: Hella slow! Do the mapping first!
             session = _.find classroom.sessions.models, (session) ->
-              session.get('creator') == userID and session.get('level').original == level.get('original')
+              session.get('creator') is userID and session.get('level').original is level.get('original')
             # sessionMap[userID][level].completed()
             session?.completed()
           if allComplete
@@ -27,13 +27,12 @@ module.exports =
       instance = courseInstances.getByCourseAndClassroom(course, classroom)
       continue if not instance
       campaign = campaigns.get(course.get('campaignID'))
-      for level, levelIndex in campaign.getLevels().models
-        continue if level.isLadder()
+      for level, levelIndex in campaign.getNonladderLevels().models
         userIDs = []
         for userID in instance.get('members')
           session = _.find classroom.sessions.models, (session) ->
-            session.get('creator') == userID and session.get('level').original == level.get('original')
-          if !session or !session.completed()
+            session.get('creator') is userID and session.get('level').original is level.get('original')
+          if not session or not session.completed()
             userIDs.push userID
         console.log [userIDs.length, courseIndex, levelIndex, level.get('name')]
         if userIDs.length > 0
@@ -56,14 +55,13 @@ module.exports =
       instance = courseInstances.getByCourseAndClassroom(course, classroom)
       continue if not instance
       campaign = campaigns.get(course.get('campaignID'))
-      levelModels = campaign.getLevels().models.slice()
+      levelModels = campaign.getNonladderLevels().models.slice()
       for level, levelIndex in levelModels.reverse() #
-        levelIndex = campaign.getLevels().models.length - levelIndex - 1 #compensate for reverse
-        continue if level.isLadder()
+        levelIndex = levelModels.length - levelIndex - 1 #compensate for reverse
         userIDs = []
         for userID in instance.get('members')
           session = _.find classroom.sessions.models, (session) ->
-            session.get('creator') == userID and session.get('level').original == level.get('original')
+            session.get('creator') is userID and session.get('level').original is level.get('original')
           if session?.completed() #
             userIDs.push userID
         console.log [userIDs.length, courseIndex, levelIndex, level.get('name')]
@@ -105,18 +103,15 @@ module.exports =
         progressData[classroom.id][course.id]
 
         campaign = campaigns.get(course.get('campaignID'))
-        for level in campaign.getLevels().models
+        for level in campaign.getNonladderLevels().models
           levelID = level.get('original') or level.id
-          if level.isLadder()
-            progressData[classroom.id][course.id][levelID] = { completed: false, started: false }
-            continue
           progressData[classroom.id][course.id][levelID] = { completed: true, started: false }
           
           for userID in classroom.get('members')
             progressData[classroom.id][course.id][userID] ?= { completed: true, started: false } # Only set it the first time through a user
             progressData[classroom.id][course.id][levelID][userID] = { completed: true, started: false } # These don't matter, will always be set
             session = _.find classroom.sessions.models, (session) ->
-              session.get('creator') == userID and session.get('level').original == levelID
+              session.get('creator') is userID and session.get('level').original is levelID
 
             if not session # haven't gotten to this level yet, but might have completed others before
               progressData[classroom.id][course.id].started ||= false #no-op

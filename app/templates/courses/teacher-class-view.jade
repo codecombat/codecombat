@@ -162,10 +162,12 @@ mixin courseProgressTab
 mixin courseOverview
   - var course = view.courses.models[0] // TODO: Wire this up to a dropdown
   - var campaign = view.campaigns.get(course.get('campaignID'))
-  - var levels = campaign.getLevels().models
-  each level, index in levels
-    - var progress = view.getProgress({ course: course, level: level })
-    +progressDot(progress, index+1)
+  - var levels = campaign.getNonladderLevels().models
+  .course-overview-row
+    .course-overview-progress
+      each level, index in levels
+        - var progress = view.getProgress({ course: course, level: level })
+        +progressDot(progress, index+1)
 
 mixin studentLevelsRow(student)
   .student-levels-row.alternating-background
@@ -175,7 +177,7 @@ mixin studentLevelsRow(student)
     div.student-levels-progress
       - var course = view.courses.models[0] // TODO: Wire this up to a dropdown
       - var campaign = view.campaigns.get(course.get('campaignID'))
-      - var levels = campaign.getLevels().models
+      - var levels = campaign.getNonladderLevels().models
       each level, index in levels
         - var progress = view.getProgress({ course: course, level: level, user: student })
         +progressDot(progress, index+1)

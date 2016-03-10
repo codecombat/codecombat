@@ -42,3 +42,12 @@ module.exports = class Campaign extends CocoModel
     sorted = _.sortBy levelObjects, (level) ->
       level.campaignIndex
     return new Levels(sorted)
+    
+  getNonladderLevels: ->
+    levels = new Levels(_.values(@get('levels')))
+    nonladderLevels = new Levels levels.reject (level) ->
+      level.isLadder()
+    nonladderLevels.comparator = (level1) ->
+      level1.get('campaignIndex')
+    nonladderLevels.sort()
+    return nonladderLevels
