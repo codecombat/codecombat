@@ -32,7 +32,7 @@ module.exports =
         for userID in instance.get('members')
           session = _.find classroom.sessions.models, (session) ->
             session.get('creator') is userID and session.get('level').original is level.get('original')
-          if not session or not session.completed()
+          if not session?.completed()
             userIDs.push userID
         console.log [userIDs.length, courseIndex, levelIndex, level.get('name')]
         if userIDs.length > 0
@@ -104,7 +104,7 @@ module.exports =
 
         campaign = campaigns.get(course.get('campaignID'))
         for level in campaign.getNonladderLevels().models
-          levelID = level.get('original') or level.id
+          levelID = level.get('original')
           progressData[classroom.id][course.id][levelID] = { completed: true, started: false }
           
           for userID in classroom.get('members')
@@ -146,7 +146,7 @@ module.exports =
     throw new Error "You must provide a course" unless course
     defaultValue = { completed: false, started: false }
     if options.level
-      levelID = level.get('original') or level.id
+      levelID = level.get('original')
       if options.user
         return progress[classroom.id][course.id][levelID][user.id] or defaultValue
       else
