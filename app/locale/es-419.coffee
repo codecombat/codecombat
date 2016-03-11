@@ -390,7 +390,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_brute_force: "Cuando tengas duda, usa la fuerza bruta. - Ken Thompson"
     tip_extrapolation: "Solo hay dos tipos de personas: Esas que pueden extrapolar desde información incompleta..."
     tip_superpower: "Programar es lo más cercano que tenemos a superpoderes."
-    tip_control_destiny: "En el código abierto real, tú tienes el derecho de controlar tu propio destino. - Linus Torvalds"
+    tip_control_destiny: "En el Open Source real, tú tienes el derecho de controlar tu propio destino. - Linus Torvalds"
     tip_no_code: "Ningún código es más rápido que nada de código."
     tip_code_never_lies: "El código nunca miente, los comentarios a veces sí. — Ron Jeffries"
     tip_reusable_software: "Antes de que el software sea reusable, primero tiene que ser usable."
@@ -408,9 +408,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_strong_opponents: "Hasta los oponentes mas fuertes siempre tienen una debilidad. - Itachi Uchiha"
     tip_paper_and_pen: "Antes de comenzar a codificar, siempre puedes planear con una hoja de papel y un lapicero."
     tip_solve_then_write: "Primero, resuelve el problema. Entonces, escribe el código. - John Johnson"
-#    tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
-#    tip_understand_recursion: "The only way to understand recursion is to understand recursion."
-#    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
+    tip_compiler_ignores_comments: "A veces pienso que el compilador ignora mis comentarios."
+    tip_understand_recursion: "La única manera de entender la recursividad es entender la recursividad."
+    tip_life_and_polymorphism: "El Open Source es como una estructura heterogénea totalmente polimórfica: Todos los tipos son bienvenidos."
 
   game_menu:
     inventory_tab: "Inventario"
