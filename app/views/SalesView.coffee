@@ -2,6 +2,7 @@ app = require 'core/application'
 AuthModal = require 'views/core/AuthModal'
 RootView = require 'views/core/RootView'
 template = require 'templates/sales-view'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 module.exports = class SalesView extends RootView
   id: 'sales-view'
@@ -20,11 +21,11 @@ module.exports = class SalesView extends RootView
     app.router.navigate '/teachers/quote', trigger: true
 
   onClickLogin: (e) ->
-    @openModalView new AuthModal(mode: 'login') if me.get('anonymous')
+    @openModalView new AuthModal() if me.get('anonymous')
     window.tracker?.trackEvent 'Started Login', category: 'Sales', label: 'Sales Login', ['Mixpanel']
 
   onClickSignup: (e) ->
-    @openModalView new AuthModal() if me.get('anonymous')
+    @openModalView new CreateAccountModal() if me.get('anonymous')
     window.tracker?.trackEvent 'Started Signup', category: 'Sales', label: 'Sales Create', ['Mixpanel']
 
   logoutRedirectURL: false

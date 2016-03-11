@@ -11,7 +11,7 @@ block content
 
     if me.isAdmin() || !newModelsAdminOnly
       if me.get('anonymous')
-        a.btn.btn-primary.open-modal-button(data-toggle="coco-modal", data-target="core/AuthModal", role="button", data-i18n="#{currentNewSignup}") Log in to Create a New Something
+        a.btn.btn-primary.open-modal-button(data-toggle="coco-modal", data-target="core/CreateAccountModal", role="button", data-i18n="#{currentNewSignup}") Log in to Create a New Something
       else
         a.btn.btn-primary.open-modal-button#new-model-button(data-i18n="#{currentNew}") Create a New Something
     input#search(data-i18n="[placeholder]#{currentSearch}")

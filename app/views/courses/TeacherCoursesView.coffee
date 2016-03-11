@@ -1,6 +1,6 @@
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
 Course = require 'models/Course'
@@ -70,7 +70,7 @@ module.exports = class TeacherCoursesView extends RootView
     application.tracker?.trackEvent 'Classroom started add students', category: 'Courses', classroomID: classroom.id
 
   onClickCreateNewClassButton: ->
-    return @openModalView new AuthModal() if me.get('anonymous')
+    return @openModalView new CreateAccountModal() if me.get('anonymous')
     modal = new ClassroomSettingsModal({})
     @openModalView(modal)
     @listenToOnce modal, 'hide', =>

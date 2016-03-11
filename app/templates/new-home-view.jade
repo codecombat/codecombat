@@ -186,9 +186,10 @@ block content
         h4(data-i18n="new_home.request_demo_subtitle")
         div
           a.btn.btn-primary.btn-lg(href="/teachers/demo", data-i18n="new_home.request_demo")
-        .have-an-account
-          span.spr(data-i18n="new_home.have_an_account")
-          a.login-button Login
+        if me.isAnonymous()
+          .have-an-account
+            span.spr(data-i18n="new_home.have_an_account")
+            a.login-button Login
 
     h3.text-center(data-i18n="new_home.computer_science")
     h4.text-center
@@ -277,9 +278,10 @@ block content
       else
         div
           a.btn.btn-primary.btn-lg(href="/teachers/demo", data-i18n="new_home.request_demo")
-        .have-an-account
-          span.spr(data-i18n="new_home.have_an_account")
-          a.login-button Login
+        if me.isAnonymous()
+          .have-an-account
+            span.spr(data-i18n="new_home.have_an_account")
+            a.login-button Login
 
 
     #screenshot-lightbox.modal.fade(data-show="false")

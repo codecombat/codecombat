@@ -1,8 +1,8 @@
 require '../common'
-User = require '../../../server/users/User'
 utils = require '../utils'
 _ = require 'lodash'
 Promise = require 'bluebird'
+nock = require 'nock'
 
 urlLogin = getURL('/auth/login')
 urlReset = getURL('/auth/reset')
@@ -202,7 +202,77 @@ describe '/auth/name', ->
       expect(response.body.name).not.toBe 'joe'
       expect(response.body.name.length).toBe 4 # 'joe' and a random number
       done()
+
       
+describe 'POST /auth/login-facebook', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    done()
+    
+  afterEach -> 
+    nock.cleanAll()
+  
+  url = getURL('/auth/login-facebook')
+  it 'takes facebookID and facebookAccessToken and logs the user in', utils.wrap (done) ->
+    nock('https://graph.facebook.com').get('/me').query({access_token: 'abcd'}).reply(200, { id: '1234' })
+    yield new User({name: 'someone', facebookID: '1234'}).save()
+    [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
+    expect(res.statusCode).toBe(200)
+    done()
+    
+  it 'returns 422 if no token or id is provided', utils.wrap (done) ->
+    [res, body] = yield request.postAsync url
+    expect(res.statusCode).toBe(422)
+    done()
+  
+  it 'returns 422 if the token is invalid', utils.wrap (done) ->
+    nock('https://graph.facebook.com').get('/me').query({access_token: 'abcd'}).reply(400, {})
+    yield new User({name: 'someone', facebookID: '1234'}).save()
+    [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
+    expect(res.statusCode).toBe(422)
+    done()
+  
+  it 'returns 404 if the user does not already exist', utils.wrap (done) ->
+    nock('https://graph.facebook.com').get('/me').query({access_token: 'abcd'}).reply(200, { id: '1234' })
+    [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
+    expect(res.statusCode).toBe(404)
+    done()
+
+
+describe 'POST /auth/login-gplus', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    done()
+
+  afterEach ->
+    nock.cleanAll()
+
+  url = getURL('/auth/login-gplus')
+  it 'takes gplusID and gplusAccessToken and logs the user in', utils.wrap (done) ->
+    nock('https://www.googleapis.com').get('/oauth2/v2/userinfo').query({access_token: 'abcd'}).reply(200, { id: '1234' })
+    yield new User({name: 'someone', gplusID: '1234'}).save()
+    [res, body] = yield request.postAsync url, { json: { gplusID: '1234', gplusAccessToken: 'abcd' }}
+    expect(res.statusCode).toBe(200)
+    done()
+
+  it 'returns 422 if no token or id is provided', utils.wrap (done) ->
+    [res, body] = yield request.postAsync url
+    expect(res.statusCode).toBe(422)
+    done()
+
+  it 'returns 422 if the token is invalid', utils.wrap (done) ->
+    nock('https://www.googleapis.com').get('/oauth2/v2/userinfo').query({access_token: 'abcd'}).reply(400, {})
+    yield new User({name: 'someone', gplusID: '1234'}).save()
+    [res, body] = yield request.postAsync url, { json: { gplusID: '1234', gplusAccessToken: 'abcd' }}
+    expect(res.statusCode).toBe(422)
+    done()
+
+  it 'returns 404 if the user does not already exist', utils.wrap (done) ->
+    nock('https://www.googleapis.com').get('/oauth2/v2/userinfo').query({access_token: 'abcd'}).reply(200, { id: '1234' })
+    [res, body] = yield request.postAsync url, { json: { gplusID: '1234', gplusAccessToken: 'abcd' }}
+    expect(res.statusCode).toBe(404)
+    done()
+          
       
 describe 'POST /auth/spy', ->
   beforeEach utils.wrap (done) ->

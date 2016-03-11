@@ -170,12 +170,12 @@ module.exports = class CocoView extends Backbone.View
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
     AuthModal = require 'views/core/AuthModal'
-    @openModalView(new AuthModal({mode: 'login'}))
+    @openModalView(new AuthModal())
   
   onClickLoadingErrorCreateAccountButton: (e) ->
     e.stopPropagation()
-    AuthModal = require 'views/core/AuthModal'
-    @openModalView(new AuthModal({mode: 'signup'}))
+    CreateAccountModal = require 'views/core/CreateAccountModal'
+    @openModalView(new CreateAccountModal({mode: 'signup'}))
   
   onClickLoadingErrorLogoutButton: (e) ->
     e.stopPropagation()

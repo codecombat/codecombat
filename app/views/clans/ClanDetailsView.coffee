@@ -1,7 +1,7 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/clans/clan-details'
 app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 CocoCollection = require 'collections/CocoCollection'
 Campaign = require 'models/Campaign'
 Clan = require 'models/Clan'
@@ -281,7 +281,7 @@ module.exports = class ClanDetailsView extends RootView
     window.open url, '_blank'
 
   onDeleteClan: (e) ->
-    return @openModalView(new AuthModal()) if me.isAnonymous()
+    return @openModalView(new CreateAccountModal()) if me.isAnonymous()
     return unless window.confirm("Delete Clan?")
     options =
       url: "/db/clan/#{@clanID}"
@@ -312,7 +312,7 @@ module.exports = class ClanDetailsView extends RootView
     $('.expand-progress-checkbox').attr('checked', @showExpandedProgress)
 
   onJoinClan: (e) ->
-    return @openModalView(new AuthModal()) if me.isAnonymous()
+    return @openModalView(new CreateAccountModal()) if me.isAnonymous()
     return unless @clan.loaded
     if @clan.get('type') is 'private' and not me.isPremium()
       @openModalView new SubscribeModal()

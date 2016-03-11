@@ -1,5 +1,7 @@
 CocoView = require 'views/core/CocoView'
 User = require 'models/User'
+CreateAccountModal = require 'views/core/CreateAccountModal'
+AuthModal = require 'views/core/AuthModal'
 
 BlandView = class BlandView extends CocoView
   template: ->
@@ -56,14 +58,18 @@ describe 'CocoView', ->
       it 'shows a login button which opens the AuthModal', ->
         button = view.$el.find('.login-btn')
         expect(button.length).toBe(3) # including the two in the links section
-        spyOn(view, 'openModalView').and.callFake (modal) -> expect(modal.mode).toBe('login')
+        spyOn(view, 'openModalView').and.callFake (modal) -> 
+          expect(modal instanceof AuthModal).toBe(true)
+          modal.stopListening()
         button.click()
         expect(view.openModalView).toHaveBeenCalled()
         
-      it 'shows a create account button which opens the AuthModal', ->
+      it 'shows a create account button which opens the CreateAccountModal', ->
         button = view.$el.find('#create-account-btn')
         expect(button.length).toBe(1)
-        spyOn(view, 'openModalView').and.callFake (modal) -> expect(modal.mode).toBe('signup')
+        spyOn(view, 'openModalView').and.callFake (modal) ->
+          expect(modal instanceof CreateAccountModal).toBe(true)
+          modal.stopListening()
         button.click()
         expect(view.openModalView).toHaveBeenCalled()
 

@@ -1,5 +1,5 @@
 app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Classroom = require 'models/Classroom'
@@ -35,7 +35,7 @@ module.exports = class StudentCoursesView extends RootView
     super()
 
   onClickJoinClassButton: (e) ->
-    return @openModalView new AuthModal() if me.isAnonymous()
+    return @openModalView new CreateAccountModal() if me.isAnonymous()
     @classCode = @$('#classroom-code-input').val()
     @joinClass()
 

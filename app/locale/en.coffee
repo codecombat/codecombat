@@ -189,6 +189,14 @@
     school_name: "School Name and City"
     optional: "optional"
     school_name_placeholder: "Example High School, Springfield, IL"
+    or_sign_up_with: "or sign up with"
+    connected_gplus_header: "You've successfully connected with Google+!"
+    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
+    gplus_exists: "You already have an account associated with Google+!"
+    connected_facebook_header: "You've successfully connected with Facebook!"
+    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
+    facebook_exists: "You already have an account associated with Facebook!"
+    hey_students: "Students, enter the class code from your teacher."
 
   recover:
     recover_account_title: "Recover Account"
@@ -739,6 +747,7 @@
     thanks_p: "We'll be in touch soon. Questions? Email us:"
     thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science." # {change}
     thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science." # {change}
+    setup_a_class: "Set Up a Class"
 
   versions:
     save_version_title: "Save New Version"

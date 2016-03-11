@@ -74,6 +74,30 @@ module.exports = class AnalyticsView extends RootView
         @activeUsers = data.map (a) ->
           a.day = "#{a.day.substring(0, 4)}-#{a.day.substring(4, 6)}-#{a.day.substring(6, 8)}"
           a
+
+        # Add campaign/classroom DAU 30-day averages and daily totals
+        campaignDauTotals = []
+        classroomDauTotals = []
+        for entry in @activeUsers
+          day = entry.day
+          campaignDauTotal = 0
+          classroomDauTotal = 0
+          for event, count of entry.events
+            if event.indexOf('DAU campaign') >= 0
+              campaignDauTotal += count
+            else if event.indexOf('DAU classroom') >= 0
+              classroomDauTotal += count
+          entry.events['DAU campaign total'] = campaignDauTotal
+          campaignDauTotals.unshift(campaignDauTotal)
+          campaignDauTotals.pop() while campaignDauTotals.length > 30
+          if campaignDauTotals.length is 30
+            entry.events['DAU campaign 30-day average'] = Math.round(_.reduce(campaignDauTotals, (a, b) -> a + b) / 30)
+          entry.events['DAU classroom total'] = classroomDauTotal
+          classroomDauTotals.unshift(classroomDauTotal)
+          classroomDauTotals.pop() while classroomDauTotals.length > 30
+          if classroomDauTotals.length is 30
+            entry.events['DAU classroom 30-day average'] = Math.round(_.reduce(classroomDauTotals, (a, b) -> a + b) / 30)
+
         @activeUsers.sort (a, b) -> b.day.localeCompare(a.day)
 
         @updateAllKPIChartData()
@@ -433,7 +457,7 @@ module.exports = class AnalyticsView extends RootView
         max: _.max(points, 'y').y
         showYScale: true
 
-    # Build campaign and classroom MAU KPI lines
+    # Build campaign MAU KPI line
     if @activeUsers?.length > 0
       eventDayDataMap = {}
       for entry in @activeUsers
@@ -443,14 +467,9 @@ module.exports = class AnalyticsView extends RootView
             eventDayDataMap['MAU campaign'] ?= {}
             eventDayDataMap['MAU campaign'][day] ?= 0
             eventDayDataMap['MAU campaign'][day] += count
-          else if event.indexOf('MAU classroom') >= 0
-            eventDayDataMap['MAU classroom'] ?= {}
-            eventDayDataMap['MAU classroom'][day] ?= 0
-            eventDayDataMap['MAU classroom'][day] += count
 
       campaignData = []
       for event, entry of eventDayDataMap
-        continue unless event is 'MAU campaign'
         for day, count of entry
           campaignData.push day: day, value: count / 1000
       campaignData.reverse()

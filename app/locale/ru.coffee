@@ -14,16 +14,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     for_developers: "Разработчикам" # Not currently shown on home page.
     or_ipad: "Или скачайте на iPad"
 
-#  new_home:
-#    slogan: "The most engaging game for learning programming."
-#    classroom_edition: "Classroom Edition:"
-#    learn_to_code: "Learn to code:"
-#    teacher: "Teacher"
-#    student: "Student"
-#    play_now: "Play Now"
-#    im_a_teacher: "I'm a Teacher"
-#    im_a_student: "I'm a Student"
-#    learn_more: "Learn more"
+  new_home:
+    slogan: "Самая захватывающая игра для обучения программированию"
+    classroom_edition: "Классная комната:"
+    learn_to_code: "Учись программировать:"
+    teacher: "Учитель"
+    student: "Ученик"
+    play_now: "Играть сейчас"
+    im_a_teacher: "Я учитель"
+    im_a_student: "Я ученик"
+    learn_more: "Узнать больше"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
 #    codecombat_is: "CodeCombat is a platform for students to learn computer science while playing through a real game."
 #    our_courses: "Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience."

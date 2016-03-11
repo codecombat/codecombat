@@ -3,7 +3,7 @@ template = require 'templates/account/account-settings-view'
 {me} = require 'core/auth'
 forms = require 'core/forms'
 User = require 'models/User'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
 {logoutUser, me} = require('core/auth')
 
@@ -27,7 +27,7 @@ module.exports = class AccountSettingsView extends CocoView
 
   afterInsert: ->
     super()
-    @openModalView new AuthModal() if me.get('anonymous')
+    @openModalView new CreateAccountModal() if me.get('anonymous')
 
   getEmailSubsDict: ->
     subs = {}

@@ -1,0 +1,111 @@
+.modal-dialog
+  .modal-content
+    img(src="/images/pages/modal/auth/signup-background.png", draggable="false").auth-modal-background
+    h1(data-i18n="login.sign_up")
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+
+  .auth-form-content
+    if view.options.showRequiredError
+      #required-error-alert.alert.alert-success
+        span(data-i18n="signup.required")
+    if view.options.showSignupRationale
+      #signup-rationale-alert.alert.alert-info
+        span(data-i18n="play_level.victory_sign_up_poke")
+
+    #email-password-row.row
+      .col-md-6
+        form
+          .form-group
+            label.control-label(for="email")
+              span(data-i18n="general.email")
+              | :
+            .input-border
+              input#email.input-large.form-control(name="email", type="email", value=view.previousFormInputs.email, tabindex=1)
+    
+          .form-group
+            label.control-label(for="password")
+              span(data-i18n="general.password")
+              | :
+            .input-border
+              input#password.input-large.form-control(name="password", type="password", value=view.previousFormInputs.password, tabindex=2)
+
+      .col-md-6
+        .auth-network-logins.text-center
+          strong(data-i18n="signup.or_sign_up_with")
+          #facebook-signup-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login
+            img.network-logo(src="/images/pages/community/logo_facebook.png", draggable="false")
+            span.sign-in-blurb(data-i18n="login.sign_in_with_facebook")
+          #gplus-signup-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=true)
+            img.network-logo(src="/images/pages/community/logo_g+.png", draggable="false")
+            span.sign-in-blurb(data-i18n="login.sign_in_with_gplus")
+            .gplus-login-wrapper
+              .gplus-login-button
+                  
+    #gplus-logged-in-row.row.text-center.hide
+      h2(data-i18n="signup.connected_gplus_header")
+      p(data-i18n="signup.connected_gplus_p")
+      
+    #gplus-account-exists-row.row.text-center.hide
+      h2(data-i18n="signup.gplus_exists")
+      a.btn.btn-primary#gplus-login-btn(data-i18n="login.log_in")
+      
+    #facebook-logged-in-row.row.text-center.hide
+      h2(data-i18n="signup.connected_facebook_header")
+      p(data-i18n="signup.connected_facebook_p")
+      
+    #facebook-account-exists-row.row.text-center.hide
+      h2(data-i18n="signup.facebook_exists")
+      a.btn.btn-primary#facebook-login-btn(data-i18n="login.log_in")
+
+    form
+      .row
+        .col-md-6
+          .form-group
+            label.control-label(for="name")
+              span(data-i18n="general.name") Name
+              | :
+            .input-border
+              if me.get('name')
+                input#name.input-large.form-control(name="name", type="text", value=me.get('name'), tabindex=3)
+              else
+                input#name.input-large.form-control(name="name", type="text", value="", placeholder="e.g. Alex W the Skater", tabindex=3)
+                
+          .form-group
+            label.control-label(for="school-input")
+              span.spr(data-i18n="signup.school_name")
+              em.optional-note
+                | (
+                span(data-i18n="signup.optional")
+                | ):
+            .input-border
+              input#school-input.input-large.form-control(name="schoolName", data-i18n="[placeholder]signup.school_name_placeholder", value=view.previousFormInputs.schoolName || '', tabindex=4)
+                
+          .form-group
+            label.control-label(for="school-input")
+              span.spr(data-i18n="courses.class_code")
+              em.optional-note
+                | (
+                span(data-i18n="signup.optional")
+                | ):
+            .input-border
+              input#class-code-input.input-large.form-control(name="classCode", value=view.previousFormInputs.classCode || '', tabindex=5)
+              
+        .col-md-6
+          .form-group.checkbox
+            label.control-label(for="subscribe")
+              .input-border
+                input#subscribe(type="checkbox", checked='checked')
+                span.custom-checkbox
+                  .glyphicon.glyphicon-ok
+              span(data-i18n="signup.email_announcements")
+              
+      .well(data-i18n="signup.hey_students")
+                
+
+      input#signup-button.btn.btn-lg.btn-illustrated.btn-block.btn-success(value=translate("signup.sign_up"), type="submit")
+
+  .extra-pane
+    .switch-explanation(data-i18n="signup.login_switch")
+    .btn.btn-lg.btn-illustrated.btn-warning#switch-to-login-btn(data-i18n="login.log_in")

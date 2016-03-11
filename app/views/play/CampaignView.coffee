@@ -9,7 +9,7 @@ LevelSetupManager = require 'lib/LevelSetupManager'
 ThangType = require 'models/ThangType'
 MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'core/storage'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 SubscribeModal = require 'views/core/SubscribeModal'
 LeaderboardModal = require 'views/play/modal/LeaderboardModal'
 Level = require 'models/Level'
@@ -159,7 +159,7 @@ module.exports = class CampaignView extends RootView
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
     if @terrain and me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
-      @openModalView new AuthModal supermodel: @supermodel, showSignupRationale: true, mode: 'signup'
+      @openModalView new CreateAccountModal supermodel: @supermodel, showSignupRationale: true
     else if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and not storage.load('sent-parent-email') and not me.isPremium()
       @openModalView new ShareProgressModal()
 
@@ -262,7 +262,7 @@ module.exports = class CampaignView extends RootView
     return unless @getQueryVariable 'signup'
     return if me.get('email')
     @endHighlight()
-    authModal = new AuthModal supermodel: @supermodel
+    authModal = new CreateAccountModal supermodel: @supermodel
     authModal.mode = 'signup'
     @openModalView authModal
 
