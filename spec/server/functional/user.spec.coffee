@@ -1,6 +1,5 @@
 require '../common'
-User = require '../../../server/users/User'
-
+utils = require '../utils'
 urlUser = '/db/user'
 
 
@@ -154,6 +153,13 @@ describe 'PUT /db/user', ->
       form.append('_id', joe.id)
       form.append('email', 'farghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlar
 ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl')
+      
+  it 'does not allow normals to edit their permissions', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { permissions: ['admin'] }}
+    expect(_.contains(body.permissions, 'admin')).toBe(false)
+    done()
 
   it 'logs in as admin', (done) ->
     loginAdmin -> done()
