@@ -34,7 +34,6 @@ module.exports =
             session.get('creator') is userID and session.get('level').original is level.get('original')
           if not session?.completed()
             userIDs.push userID
-        console.log [userIDs.length, courseIndex, levelIndex, level.get('name')]
         if userIDs.length > 0
           users = _.map userIDs, (id) ->
             students.get(id)
@@ -45,7 +44,6 @@ module.exports =
             users: users
           }
     return {}
-          
 
   calculateLatestComplete: (classroom, courses, campaigns, courseInstances, students) ->
     # Loop through all the combinations of things in reverse order, return the level that anyone's finished
@@ -64,7 +62,6 @@ module.exports =
             session.get('creator') is userID and session.get('level').original is level.get('original')
           if session?.completed() #
             userIDs.push userID
-        console.log [userIDs.length, courseIndex, levelIndex, level.get('name')]
         if userIDs.length > 0
           users = _.map userIDs, (id) ->
             students.get(id)
