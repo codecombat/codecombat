@@ -1147,6 +1147,7 @@
     add_students1: "add students"
     view_edit: "view/edit"
     students_enrolled: "students enrolled"
+    students_assigned: "students assigned"
     length: "Length:"
 
   classes:
