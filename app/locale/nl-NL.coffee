@@ -41,7 +41,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     wanted_to_do: " Ik wilde altijd al leren programmeren, maar op school was hier nooit aandacht voor."
     why_games: "Waarom is spelenderwijs leren belangrijk?"
     games_reward: "Games vergroten de productiviteit."
-    encourage: "Gaming is een middel dat interactie, nieuwgierigheid, en trial-and-error aanmoedigdt. Een goed spel daagt de speler uit zijn vaardigheden te perfectioneren, wat hetzelfde noodzakelijke proces is waar leerlingen doorheen gaan wanneer zij iets leren."
+    encourage: "Gaming is een middel dat interactie, nieuwsgierigheid, en trial-and-error aanmoedigdt. Een goed spel daagt de speler uit zijn vaardigheden te perfectioneren, wat hetzelfde noodzakelijke proces is waar leerlingen doorheen gaan wanneer zij iets leren."
     excel: "Games zijn erg belonend"
     struggle: "productiviteit strijd"
     kind_of_struggle: "het soort worsteling die uitmondt in een leerproces dat uitdagend en "
