@@ -30,5 +30,28 @@ block content
     hr
 
   else
-    .alert.alert-danger
-      span Admin only. Turn around.
+    ol.breadcrumb
+      li
+        a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
+      li
+        a(href="/editor/achievement", data-i18n="editor.achievement_title") Achievement Editor
+      li.active
+        | #{view.achievement.attributes.name}
+
+    button.achievement-tool-button(data-i18n="", disabled=true, style="display:none;").btn.btn-primary#recalculate-all-button Recalculate All
+    button.achievement-tool-button(data-i18n="", disabled=true, style="display:none;").btn.btn-primary#recalculate-button Recalculate
+    button.achievement-tool-button(data-i18n="common.delete", disabled=true, style="display:none;").btn.btn-primary#delete-button Delete
+    button.achievement-tool-button(data-i18n="common.save", disabled=true, style="display:none;").btn.btn-primary#save-button Save
+
+    h3(data-i18n="achievement.edit_achievement_title") Edit Achievement
+      span
+        |: "#{view.achievement.attributes.name}"
+
+    #achievement-treema
+
+    #achievement-view.clearfix
+
+    h3(data-i18n="resources.patches") Patches
+    .patches-view
+
+    hr
