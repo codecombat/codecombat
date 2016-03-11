@@ -67,7 +67,8 @@
     request_demo: "Request a Demo"
     create_a_class: "Create a Class"
     setup_a_class: "Set Up a Class"
-    have_an_account: "Already have an account?"
+    have_an_account: "Have an account?" # {change}
+    log_in: "Log In"
     logged_in_as: "You are currently logged in as"
     view_my_classes: "View my classes"
     computer_science: "Computer science courses for all ages"
