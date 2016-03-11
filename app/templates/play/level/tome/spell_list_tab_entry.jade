@@ -18,12 +18,12 @@ if includeSpellList
     .glyphicon.glyphicon-repeat
     span.spl(data-i18n="play_level.reload") Reload
   
-  if levelType !== 'hero' && levelType !== 'hero-ladder' && levelType !== 'hero-coop'
+  if me.level() >= 15
    .btn.btn-small.btn-illustrated.fullscreen-code(title=maximizeShortcutVerbose)
      .glyphicon.glyphicon-fullscreen
      .glyphicon.glyphicon-resize-small
       
-  if codeLanguage === 'javascript' && levelType !== 'hero' && levelType !== 'hero-ladder' && levelType !== 'hero-coop'
+  if codeLanguage === 'javascript' && me.level() >= 15
     .btn.btn-small.btn-illustrated.beautify-code(title=beautifyShortcutVerbose)
       .glyphicon.glyphicon-magnet
 
