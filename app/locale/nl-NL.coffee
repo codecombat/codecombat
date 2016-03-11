@@ -33,7 +33,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     getting_students: "Leerlingen zo snel mogelijk echte code laten schrijven is noodzakelijk voor het leren van programmeer syntax en correcte structuur."
     educator_resources: "Hulpmiddelen voor docenten"
     course_guides: "en lesbrieven"
-    teaching_computer_science: "Je hebt geen infomatica diploma nodig om te kunnen programmeren, wij verschaffen de materialen waarmee elke docent programmeerles kan geven."
+    teaching_computer_science: "Je hebt geen informatica diploma nodig om te kunnen programmeren, wij verschaffen de materialen waarmee elke docent programmeerles kan geven."
     accessible_to: "Bereikbaar voor"
     everyone: "iedereen"
     democratizing: "Programmeerles toegankelijk maken is onze filosofie. Iedereen moet de kans krijgen om te leren programmeren."
@@ -41,7 +41,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     wanted_to_do: " Ik wilde altijd al leren programmeren, maar op school was hier nooit aandacht voor."
     why_games: "Waarom is spelenderwijs leren belangrijk?"
     games_reward: "Games vergroten de productiviteit."
-    encourage: "Gaming is een middel dat interactie, nieuwschierigheid, en trial-and-error aanmoedigt. Een goed spel daagt de speler uit zijn vaardigheden te perfectioneren, wat hetzelfde noodzakelijke proces is waar leerlingen doorheen gaan wanneer zij iets leren."
+    encourage: "Gaming is een middel dat interactie, nieuwgierigheid, en trial-and-error aanmoedigdt. Een goed spel daagt de speler uit zijn vaardigheden te perfectioneren, wat hetzelfde noodzakelijke proces is waar leerlingen doorheen gaan wanneer zij iets leren."
     excel: "Games zijn erg belonend"
     struggle: "productiviteit strijd"
     kind_of_struggle: "het soort worsteling die uitmondt in een leerproces dat uitdagend en "
@@ -56,7 +56,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     real_game: "Een echt spel, wat je speelt met echte programmeertaal."
     great_game: "Een goed spel is meer dan alleen medailles en prestaties - het gaat om een reis, nauwkeurig ontworpen puzzels, en de mogelijkheid om uitdagingen vol zelfvertrouwen aan te pakken."
     agency: "CodeCombat is een game die de mogelijkheid en het zelfvertrouwen geeft om met echte code te werken, wat zowel beginners als gevorderde helpt bij het schrijven van goede, valide code."
-    curious: "Nieuwschierig? Vraag een demo aan en we laten je zien hoe het werkt."
+    curious: "Nieuwsgierig? Vraag een demo aan en we laten je zien hoe het werkt."
     create_class: "Of maak een klas aan en ervaar het zelf!"
     request_demo: "Vraag een demo aan"
     create_a_class: "Maak een klas aan"
@@ -69,7 +69,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     ffa: "Gratis voor alle leerlingen"
     lesson_time: "Lesduur:"
     coming_soon: "Binnenkort beschikbaar!"
-    courses_available_in: "Lessen zijn beschikbaar in JavaScript, Python, en Java (binnenkort beschikbaar!)"
+    courses_available_in: "Lessen zijn beschikbaar in JavaScript, Python, en Java (Java is binnenkort beschikbaar!)"
     boast: "Uitdagende raadsels die zowel gamers als fanatieke programmeurs weten te prikkelen."
     winning: "Een gouden combinatie van spel-elementen en programmeerhuiswerk, dat samen zorgt voor kind-vriendelijk en oprecht aangenaam onderwijs."
     run_class: "Alles wat je nodig hebt om vandaag nog programmeerlessen in jouw klas te geven, geen voorkennis vereist."
@@ -110,7 +110,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   diplomat_suggestion:
     title: "Help CodeCombat vertalen!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "We hebben je taalvaardigheden nodig."
-    pitch_body: "We ontwikkelen CodeCombat in het Engels, maar we hebben al spelers van over de hele wereld. Veel van hen willen in het Nederlands spelen, maar kunnen geen Engels. Dus als je beiden spreekt, overweeg a.u.b. om je aan te melden als Diplomaat en help zowel de CodeCombat website als alle levels te vertalen naar het Nederlands."
+    pitch_body: "We ontwikkelen CodeCombat in het Engels, maar we hebben al spelers van over de hele wereld. Veel van hen willen in het Nederlands spelen, maar kunnen geen Engels. Dus als je beiden talen spreekt, overweeg a.u.b. om je aan te melden als Diplomaat en help zowel de CodeCombat website als alle levels te vertalen naar het Nederlands."
     missing_translations: "Totdat we alles hebben vertaald naar het Nederlands zul je Engels zien waar Nederlands niet beschikbaar is."
     learn_more: "Meer informatie over het zijn van een Diplomaat"
     subscribe_as_diplomat: "Abonneren als Diplomaat"
@@ -141,7 +141,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     anonymous: "Anonieme Speler"
     level_difficulty: "Moeilijkheidsgraad: "
     play_classroom_version: "Speel de klassikale versie" # Choose a level in campaign version that you also can play in one of your courses
-    campaign_beginner: "Beginnercampagne"
+    campaign_beginner: "Beginnerscampagne"
     awaiting_levels_adventurer_prefix: "We brengen 5 nieuwe levels per week uit." # {change}
     awaiting_levels_adventurer: "Schrijf je in als Avonturier"
     awaiting_levels_adventurer_suffix: "om de eerste te zijn die nieuwe levels speelt."
@@ -155,8 +155,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     blurb: "Je gaat snel vooruit! Vertel aan je ouders hoeveel je geleerd hebt met CodeCombat."
     email_invalid: "Emailaddress klopt niet."
     form_blurb: "Vul het emailadres van je ouders hieronder in en we zullen het ze laten zien!"
-    form_label: "Emailaddress"
-    placeholder: "emailaddress"
+    form_label: "Email-adres"
+    placeholder: "email-adres"
     title: "Goed werk, leerling"
 
   login:
@@ -337,7 +337,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tome_reload_method: "Oorspronkelijke code voor deze methode herladen" # Title text for individual method reload button.
     tome_select_method: "Kies een methode"
     tome_see_all_methods: "Bekijk alle methoden die je kan aanpassen" # Title text for method list selector (shown when there are multiple programmable methods).
-    tome_select_a_thang: "Selecteer Iemand voor "
+    tome_select_a_thang: "Selecteer iemand voor "
     tome_available_spells: "Beschikbare spreuken"
     tome_your_skills: "Jouw Vaardigheden"
     tome_current_method: "Huidige Methode"
@@ -482,7 +482,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     subscribe_title: "Abonneren"
     unsubscribe: "Abonnement opzeggen"
     confirm_unsubscribe: "Opzegging Bevestigen"
-    never_mind: "Laat Maar, Ik Hou Nog Steeds Van Je"
+    never_mind: "Laat Maar, Ik Houd Nog Steeds Van Je"
     thank_you_months_prefix: "Bedankt voor je steun in de laatste"
     thank_you_months_suffix: "maanden."
     thank_you: "Bedankt dat je CodeCombat steunt."
@@ -490,12 +490,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     unsubscribe_feedback_placeholder: "O, wat hebben we gedaan?"
     parent_button: "Vraag het aan je ouder"
     parent_email_description: "We zullen ze een email sturen zodat zij een CodeCombat-abonnement voor je kunnen kopen."
-    parent_email_input_invalid: "Emailaddress ongeldig."
-    parent_email_input_label: "Emailadres van ouders"
-    parent_email_input_placeholder: "Vul het emailadres van de ouders in"
+    parent_email_input_invalid: "Email-adres ongeldig."
+    parent_email_input_label: "Email-adres van ouders"
+    parent_email_input_placeholder: "Vul het email-adres van de ouders in"
     parent_email_send: "Stuur email"
-    parent_email_sent: "Email verzonden!!"
-    parent_email_title: "Wat is het emailadres van je ouders?"
+    parent_email_sent: "Email verzonden!"
+    parent_email_title: "Wat is het email-adres van je ouders?"
     parents: "Voor ouders"
     parents_title: "Uw kind leert programmeren." # {change}
     parents_blurb1: "Met CodeCombat leert uw kind door echte code te schrijven. Ze beginnen met simpele instructies en naarmate ze verder komen, komen er moeilijkere onderwerpen aan bod."
@@ -608,7 +608,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   about:
     main_title: "Als je wil leren programmeren, moet je (heel veel) code schrijven."
-    main_description: "Bij CodeCombat, is het onze baan om te zorgen dat je dat doet met een glimlach op je gezicht."
+    main_description: "Bij CodeCombat, is het ons doel om te zorgen dat je dat doet met een glimlach op je gezicht."
     mission_link: "Missie"
     team_link: "Team"
     community_link: "Gemeenschap"
@@ -694,7 +694,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   teachers:
     who_for_title: "Voor wie is CodeCombat?"
     who_for_1: "We raden CodeCombat aan voor leerlingen vanaf 9 jaar. Er is geen programmeerervaring nodig." # {change}
-    who_for_2: "We hebben CodeCombat zo gemaakt dat het leuk is voor jongens en meiden." # {change}
+    who_for_2: "We hebben CodeCombat zo gemaakt dat het leuk is voor jongens en meisjes." # {change}
     more_info_title: "Waar kan ik meer informatie vinden?"
     more_info_1: "ons"
     more_info_2: "lerarenforum"
@@ -703,8 +703,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   teachers_quote:
     name: "Offerte Formulier"
     title: "Offerte aanvragen"
-    subtitle: "Haal CodeCombat jouw klaslokaal in, club, school of wijk!"
-    email_exists: "Gebruiker bestaat al met dit email adres."
+    subtitle: "Haal CodeCombat jouw klaslokaal, club, school of wijk in!"
+    email_exists: "Er bestaat al een gebruiker met dit email adres."
     phone_number: "Telefoonnummer"
     phone_number_help: "Waar kunnen we je bereiken tijdens de werkdag?"
     role_label: "Jouw rol"
@@ -749,7 +749,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     forum_page: "ons forum"
     forum_suffix: "."
     faq_prefix: "Er is ook een"
-    faq: "veelgestelde vragen afdeling"
+    faq: "veelgestelde vragen"
     subscribe_prefix: "Als je hulp nodig hebt om een level te halen, overweeg dan alsjeblieft"
     subscribe: "abonnee te worden van CodeCombat"
     subscribe_suffix: ", dan helpen we je graag om je code te verbeteren."
@@ -866,7 +866,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     summary: "Samenvatting"
     average_level: "Gemiddeld niveau"
     average_achievements: "Gemiddelde Prestaties"
-    delete_clan: "Delete Clan"
+    delete_clan: "Verwijder Clan"
     leave_clan: "Verlaat Clan"
     join_clan: "Ga bij een Clan"
     invite_1: "Uitnodigen:"
@@ -966,7 +966,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     designed_to: "Cursussen zijn ontwikkeld ter introductie van ICT-concepten met CodeCombats leuke en leerzame omgevingen. CodeCombat-levels zijn gesturctureerd rond belangrijke concepten om vooruitstrevend leren te bemoedigen, gedurende 5 uur."
     more_in_less: "Leer meer in minder tijd"
     no_experience: "Geen programmeerervaring nodig"
-    easy_monitor: "voortgang leerlingen makkelijk te bekijken"
+    easy_monitor: "voortgang leerlingen gemakkelijk te bekijken"
     purchase_for_class: "Koop een cursus voor de hele klas. Het is makkelijk je leerlingen in te schrijven!"
     see_the: "Bekijk de"
     more_info: "voor meer informatie."
