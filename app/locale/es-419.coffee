@@ -94,11 +94,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     twitter_follow: "Seguir"
     teachers: "Maestros"
     careers: "Carreras"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
-#    create_a_class: "Create a Class"
-#    other: "Other"
-#    learn_to_code: "Learn to Code!"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    create_a_class: "Crear una Clase"
+    other: "Otro"
+    learn_to_code: "¡Aprender a programar!"
 
   modal:
     close: "Cerrar"
