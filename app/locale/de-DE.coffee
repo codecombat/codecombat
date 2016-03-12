@@ -620,7 +620,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     Wir starteten CodeCombat um Lernen dieses Gefühl der Zauberkraft in ihren Fingerspitzen zu geben während sie <strong>getippten Code</strong> benutzen." # {change}
     mission_description_2: "Wie sich herausstellt, können sie dadurch auch schneller lernen. Sehr viel schneller. 
     Es ist mehr wie eine Unterhaltung als das Lesen einer Bedienungsanleitung. Wir wollen diese Unterhaltung in jede Schule zu
-    <strong>jedem Schüler</strong> bringen, weil jeder sollte die Chance haben die Magie des Programmierens zu erlernen." # {change}
+    <strong>jedem Schüler</strong> bringen, weil jeder die Chance haben sollte die Magie des Programmierens zu erlernen." # {change}
     team_title: "Triff das CodeCombat Team"
     team_values: "Wir legen Wert auf einen offenen und respektvollen Dialog, wo die besten Ideen gewinnen. Unsere Entscheidungen basieren auf Benutzerforschung und unser Fortschritt richtet sich danach ihnen handfeste Resultate zu liefern. Jeder packt mit an von unserem Geschäftsführer bis hin zu unseren  Github-Unterstützern, weil wir Wert auf Zuwachs und Lernen in unserem Team legen."
     nick_title: "Mitbegründer, Geschäftsführer" # {changed}
