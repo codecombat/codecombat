@@ -52,7 +52,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     compared: "comparados"
     conventional: "con los métodos de evaluación convencionales, la diferencia es clara: los juegos son mejores al ayudar a los estudiantes a retener el conocimiento, a concentrarse y"
     perform_at_higher_level: "a desempeñarse con un mayor nivel de éxito"
-    feedback: 'Los juegos también proveen retroalimentación en tiempo real que permite a los estudiantes ajustar su camino a la solución y entender conceptos de forma más holística, en lugar de estar limitados solamente a respuestas "correctas" e "incorrectas"'
+    feedback: "Los juegos también proveen retroalimentación en tiempo real que permite a los estudiantes ajustar su camino a la solución y entender conceptos de forma más holística, en lugar de estar limitados solamente a respuestas 'correctas' e 'incorrectas'"
     real_game: "Un juego de verdad, jugado con código auténtico."
     great_game: "Un gran juego es más que solo medallas y logros - se trata sobre una travesía del jugador, acertijos bien diseñados, y la habilidad de abordar desafios con voluntad y confianza."
     agency: "CodeCombat es un juego que ofrece a los jugadores esa voluntad y confianza mediante nuestro motor de código robusto, que ayuda tanto a principiantes como a estudiantes avanzados por igual a escribir código correcto y válido."
