@@ -700,7 +700,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     more_info_2: "教师论坛"
     more_info_3: "是个与其他使用CodeCombat的教育工作者联系的良好平台。"
 
-#  teachers_quote:
+  teachers_quote:
     name: "申请表"
     title: "申请一个班级"
     subtitle: "在教室，兴趣小组，学校或社区使用CodeCombat"
