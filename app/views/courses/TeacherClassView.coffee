@@ -103,6 +103,3 @@ module.exports = class TeacherClassView extends RootView
       else
         return dir
     @students.sort()
-    
-  getProgress: (options = {}) ->
-    return helper.getProgress(@progressData, _.extend({ classroom: @classroom }, options))

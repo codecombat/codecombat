@@ -135,9 +135,11 @@ module.exports =
               progressData[classroom.id][course.id][levelID].completed = false
               progressData[classroom.id][course.id][levelID][userID].completed = false
 
+    _.assign(progressData, progressMixin)
     return progressData
   
-  getProgress: (progress, options={}) ->
+progressMixin =
+  get: (options={}) ->
     { classroom, course, level, user } = options
     throw new Error "You must provide a classroom" unless classroom
     throw new Error "You must provide a course" unless course
@@ -145,11 +147,11 @@ module.exports =
     if options.level
       levelID = level.get('original')
       if options.user
-        return progress[classroom.id][course.id][levelID][user.id] or defaultValue
+        return @[classroom.id][course.id][levelID][user.id] or defaultValue
       else
-        return progress[classroom.id][course.id][levelID] or defaultValue
+        return @[classroom.id][course.id][levelID] or defaultValue
     else
       if options.user
-        return progress[classroom.id][course.id][user.id] or defaultValue
+        return @[classroom.id][course.id][user.id] or defaultValue
       else
-        return progress[classroom.id][course.id] or defaultValue
+        return @[classroom.id][course.id] or defaultValue

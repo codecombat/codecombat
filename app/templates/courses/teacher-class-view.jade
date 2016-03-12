@@ -146,7 +146,7 @@ mixin studentRow(student)
         each course, index in view.courses.models
           - var instance = view.courseInstances.getByCourseAndClassroom(course, classroom)
           if instance && instance.hasMember(student)
-            - var progress = view.getProgress({ course: course, user: student })
+            - var progress = view.progressData.get({ classroom: view.classroom, course: course, user: student })
             +progressDot(progress, "CS" + (index+1))
     td
       span.view-class-arrow.glyphicon.glyphicon-chevron-right
@@ -166,7 +166,7 @@ mixin courseOverview
   .course-overview-row
     .course-overview-progress
       each level, index in levels
-        - var progress = view.getProgress({ course: course, level: level })
+        - var progress = view.progressData.get({ classroom: view.classroom, course: course, level: level })
         +progressDot(progress, index+1)
 
 mixin studentLevelsRow(student)
@@ -179,7 +179,7 @@ mixin studentLevelsRow(student)
       - var campaign = view.campaigns.get(course.get('campaignID'))
       - var levels = campaign.getNonladderLevels().models
       each level, index in levels
-        - var progress = view.getProgress({ course: course, level: level, user: student })
+        - var progress = view.progressData.get({ classroom: view.classroom, course: course, level: level, user: student })
         +progressDot(progress, index+1)
         
       
