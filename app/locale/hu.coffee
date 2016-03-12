@@ -96,7 +96,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     careers: "Karrier"
 #    facebook: "Facebook"
 #    twitter: "Twitter"
-#    create_a_class: "Hozz létre egy Osztályt" # "Create a Class"
+    create_a_class: "Hozz létre egy Osztályt"
     other: "Egyéb"
     learn_to_code: "Tanulj meg Kódolni!"
 
@@ -700,7 +700,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    more_info_2: "teachers forum"
 #    more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
 
-#  teachers_quote:
+  teachers_quote:
 #    name: "Quote Form"
 #    title: "Request a Quote"
 #    subtitle: "Get CodeCombat in your classroom, club, school or district!"
