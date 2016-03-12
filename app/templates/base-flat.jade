@@ -31,18 +31,18 @@
             #navbar-collapse.collapse.navbar-collapse
               ul.nav.navbar-nav.pull-left
                 li
-                  a(href="/about") About
+                  a(href="/about", data-i18n="nav.about")
                 li
-                  a(href="/courses") Courses
+                  a(href="/courses", data-i18n="nav.courses")
                 li
-                  a(href="/courses/teachers") Teachers
+                  a(href="/courses/teachers", data-i18n="nav.teachers")
                 li
-                  a(href="https://discourse.codecombat.com/") Forum
+                  a(href="https://discourse.codecombat.com/", data-i18n="nav.forum")
                 if me.isAnonymous()
                   li
-                    a#create-account-link.signup-button Create Account
+                    a#create-account-link.signup-button(data-i18n="login.sign_up")
                   li
-                    a#login-link.login-button Login
+                    a#login-link.login-button(data-i18n="login.log_in")
                 else
                   li.dropdown
                     a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
@@ -54,7 +54,7 @@
                           img.img-circle(src=me.getPhotoURL())
                         h5=me.displayName()
                       li
-                        a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
+                        a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
                       li
                         a(href="/account/settings", data-i18n="play.settings")
                       li
@@ -62,7 +62,7 @@
                       li
                         a(href="/account/subscription", data-i18n="account.subscription")
                       li
-                        a(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
+                        a(href="/account/prepaid", data-i18n="account.prepaid_codes")
                       li
                         a#logout-button(data-i18n="login.log_out")
               
