@@ -51,7 +51,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    game_based: "When game-based learning systems are"
 #    compared: "compared"
 #    conventional: "against conventional assessment methods, the difference is clear: games are better at helping students retain knowledge, concentrate and"
-    perform_at_higher_level: "perform at a higher level of achievement"
+#    perform_at_higher_level: "perform at a higher level of achievement"
     feedback: "游戏同时提供实时反馈，使得学生调整他们的解决方法，并且从整体理解概念，而不是局限于“正确”或者“错误”的答案。"
     real_game: "一个真正的游戏，用真正的代码来玩耍。"
     great_game: "一个伟大的游戏不仅仅是勋章和成就。它关于玩家的旅程，设计良好的关卡，以及用帮助和信心迎接挑战的能力。"
