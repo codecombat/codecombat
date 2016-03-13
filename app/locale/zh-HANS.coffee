@@ -706,7 +706,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subtitle: "在教室，兴趣小组，学校或社区使用CodeCombat"
     email_exists: "此邮箱地址已被占用"
     phone_number: "联系电话"
-    phone_number_help: "我们可以在何时联系您？"
+    phone_number_help: "我们可以在何处联络到您？（限工作日）"
     role_label: "您的职务"
     role_help: "选择您主要的职务"
     tech_coordinator: "技术指导"
@@ -729,7 +729,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     anything_else: "备注事宜"
     thanks_header: "感谢您的申请！"
     thanks_p: "我们将尽快联系您。如有有任何问题，请给我们发送电子邮件："
-    thanks_anon: "登录您的账户，获取两个免费名额（当您的申请被批准后，我们将通过邮件通知您，通常在48小时之内）。和以往一样，第一个小时的内容是免费的，不限学生数量。"
+    thanks_anon: "登录您的账户，获取两个免费名额（当您的申请被批准后，我们将通过邮件通知您，此过程通常在48小时之内）。和以往一样，第一个小时的内容是免费的，不限学生数量。"
     thanks_logged_in: "您有两个免费名额有待批准。当您的申请被批准后，我们将通过邮件通知您（通常在48小时之内）。和以往一样，第一个小时的内容是免费的，不限学生数量。"
 
 
