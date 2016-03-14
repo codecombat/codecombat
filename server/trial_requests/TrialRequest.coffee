@@ -58,17 +58,6 @@ TrialRequestSchema.post 'save', (doc) ->
         sendwithus.api.send emailParams, (err, result) =>
           log.error "sendwithus trial request approved error: #{err}, result: #{result}" if err
 
-      closeIO.createSalesLead(user, email,
-        name: trialProperties.name
-        organization: trialProperties.organization
-        location: _.filter(_.at(trialProperties, 'city', 'state', 'country')).join(' ')
-        educationLevel: (trialProperties.educationLevel or []).join(', ')
-        numStudents: trialProperties.numStudents
-        role: trialProperties.role
-        phone: trialProperties.phoneNumber
-        notes: trialProperties.notes
-      )
-
       # Subscribe to teacher news group
       emails = _.cloneDeep(user.get('emails') ? {})
       emails.teacherNews ?= {}
