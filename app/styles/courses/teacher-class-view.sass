@@ -44,6 +44,29 @@ $grey-darker: #9b9b9b
     li.active
       border-bottom: none
     
+  .students-table
+    width: 100%
+    .student-info-col
+      width: 240px
+    .checkbox-col
+      width: 75px
+    .latest-level-col
+      width: 320px
+    .view-class-col
+      width: 20px
+      
+    th
+      font-weight: normal
+      white-space: nowrap
+      vertical-align: bottom
+    td
+      height: 66px
+      
+    // Enroll student button
+    .enroll-student-button
+      margin-left: 33%
+      margin-left: calc((100% - 120px - 36px) * 0.6)
+
   .inline-student-list
     padding-left: 0
     
@@ -75,22 +98,13 @@ $grey-darker: #9b9b9b
     overflow: ellipsis
     font-weight: bold
     // line-height: 20px
-    
-  th
-    font-weight: normal
-    white-space: nowrap
-    vertical-align: bottom
   
   .sort-button
     border: none
     background: none
     font-weight: bold
     text-decoration: underline
-  
-  td
-    padding-top: 15px
-    padding-bottom: 15px
-    
+
   .edit-student-button
     color: black
     font-weight: bold
@@ -131,6 +145,8 @@ $grey-darker: #9b9b9b
 
   // TODO: Move to style-flat?
   .view-class-arrow
+    float: right
+    margin-right: 16px
     color: $grey-darker
     // height: 100%
     font-size: 35px
@@ -176,6 +192,8 @@ $grey-darker: #9b9b9b
       border: 1px solid $navy
     .tooltip-arrow
       border-top-color: $navy
+
+  // Code copying buttons
 
   .copy-button-group
     input

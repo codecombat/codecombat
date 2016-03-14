@@ -111,7 +111,7 @@ mixin studentsTab
   #students-tab.tab-pane.active
     table.students-table
       thead
-        th
+        th.checkbox-col
           span Select All
           .checkbox-flat
             input(type="checkbox")
@@ -127,17 +127,18 @@ mixin studentsTab
           
 mixin studentRow(student)
   tr.alternating-background
-    td
+    td.checkbox-col
       .checkbox-flat
         input(type="checkbox")
-    td.student-info
-      div.student-name= student.get('name')
-      div.student-email.small-details emailaddress@school.edu
+    td.student-info-col
+      .student-info
+        div.student-name= student.get('name')
+        div.student-email.small-details emailaddress@school.edu
     td.hidden
       a.edit-student-button(data-student-id=student.id)
         span.glyphicon.glyphicon-edit
         span(data-i18n="TODO") edit
-    td.small
+    td.latest-level-col.small
       div
         i Latest completed:
       div
