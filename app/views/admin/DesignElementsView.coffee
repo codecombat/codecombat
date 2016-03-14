@@ -11,36 +11,30 @@ module.exports = class DesignElementsView extends RootView
     hash = document.location.hash
     document.location.hash = ''
     setTimeout((-> document.location.hash = hash), 10)
+    
+    # modal
     @$('#modal-2').find('.background-wrapper').addClass('plain')
+
+    # tooltips
+    @$('[data-toggle="tooltip"]').tooltip({
+      title: 'Lorem ipsum'
+      trigger: 'click'
+    })
     if hash is '#tooltips'
-      setTimeout((=> @$('#tooltip').tooltip('show')), 20)
+      setTimeout((=> @$('[data-toggle="tooltip"]').tooltip('show')), 20)
+      
+    # popovers
     if hash is '#popovers'
       setTimeout((=> @$('#popover').popover('show')), 20)
+      
+    # autocomplete
     tags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
+      "ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++", "Clojure", "COBOL", "ColdFusion", "Erlang",
+      "Fortran", "Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl", "PHP", "Python", "Ruby", "Scala", "Scheme"
     ]
     @$('#tags').autocomplete({source: tags})
     if hash is '#autocomplete'
       setTimeout((=> @$('#tags').autocomplete("search", "t")), 20)
+    
+    # slider
     @$('#slider-example').slider()

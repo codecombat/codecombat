@@ -425,7 +425,16 @@
           a#tooltips.panel-title(href="#tooltips") Tooltips
 
         .panel-body
-          button#tooltip.btn.btn-default(title="tooltip text!", data-placement="right", data-trigger="click") Button w/Tooltip
+          button.btn.btn-default(data-placement="right" data-toggle='tooltip') Button w/Tooltip
+          
+        .panel-body.style-flat.text-right
+          button.tooltip-btn.btn.btn-navy(data-placement="right" data-toggle='tooltip') Flat Right Tooltip
+          br
+          button.tooltip-btn.btn.btn-navy(data-placement="top" data-toggle='tooltip') Flat Top Tooltip
+          br
+          button.tooltip-btn.btn.btn-navy(data-placement="bottom" data-toggle='tooltip') Flat Bottom Tooltip
+          br
+          button.tooltip-btn.btn.btn-navy(data-placement="left" data-toggle='tooltip') Flat Left Tooltip
             
     .col-sm-3
       .panel.panel-default
