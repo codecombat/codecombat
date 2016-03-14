@@ -21,7 +21,7 @@ module.exports.formToObject = ($el, options) ->
   obj
   
 module.exports.objectToForm = ($el, obj, options={}) ->
-  options = _.extend({ overwriteExisting: false })
+  options = _.extend({ overwriteExisting: false }, options)
   inputs = $('input, textarea, select', $el)
   for input in inputs
     input = $(input)
