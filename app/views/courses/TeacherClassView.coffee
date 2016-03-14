@@ -22,6 +22,8 @@ module.exports = class TeacherClassView extends RootView
     'click .sort-by-progress': 'sortByProgress'
     'click #copy-url-btn': 'copyURL'
     'click #copy-code-btn': 'copyCode'
+    'click .assign-to-selected-students': 'onClickBulkAssign'
+    'click .enroll-selected-students': 'onClickBulkEnroll'
 
   initialize: (options, classroomID) ->
     super(options)
@@ -128,3 +130,13 @@ module.exports = class TeacherClassView extends RootView
       else
         return dir
     @students.sort()
+    
+  onClickBulkAssign: ->
+    courseID = $('.bulk-course-select').val()
+    courseInstance = @courseInstances.getByCourseAndClassroom(courseID, @classroom)
+    # TODO: Only assign the selected ones
+    for student in @students
+      courseInstance.addMember(student.id)
+
+  onClickBulkEnroll: ->
+    # TODO: AJAX for enrolling students. Needs a backend endpoint for multiple students? Or just do one-by-one like ActivateLicensesModal?

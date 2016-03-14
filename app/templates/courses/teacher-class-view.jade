@@ -109,6 +109,7 @@ mixin addStudentsButton
         
 mixin studentsTab
   #students-tab.tab-pane.active
+    +bulkAssignControls
     table.students-table
       thead
         th.checkbox-col
@@ -220,3 +221,18 @@ mixin copyCodes
     button#copy-url-btn.form-control.btn.btn-lg.btn-secondary Copy Class URL
     div.text-center.small(data-i18n="TODO")
       | New students can visit this URL while logged in to join the class.
+
+mixin bulkAssignControls
+  .bulk-assign-controls.form-inline
+    span.small(data-i18n="TODO")
+      | Bulk-assign:
+    select.bulk-course-select.form-control
+      each course in view.courses.models
+        option(value=course.id)
+          = course.get('name')
+    button.btn.btn-primary-alt.assign-to-selected-students
+      span(data-i18n="TODO")
+        | Assign to Selected Students
+    button.btn.btn-primary-alt.enroll-selected-students
+      span(data-i18n="TODO")
+        | Enroll Selected Students
