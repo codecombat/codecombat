@@ -115,7 +115,8 @@ mixin studentsTab
         th.checkbox-col
           span Select All
           .checkbox-flat
-            input(type="checkbox")
+            input(type='checkbox' id='checkbox-all-students')
+            label.checkmark(for='checkbox-all-students')
         th.small
           span Sort by: 
           button.sort-button.sort-by-name
@@ -130,7 +131,8 @@ mixin studentRow(student)
   tr.alternating-background
     td.checkbox-col
       .checkbox-flat
-        input(type="checkbox")
+        input(type='checkbox' id='checkbox-student-' + student.id)
+        label.checkmark(for='checkbox-student-' + student.id)
     td.student-info-col
       .student-info
         div.student-name= student.get('name')

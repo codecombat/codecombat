@@ -143,12 +143,41 @@ $grey-darker: #9b9b9b
   // TODO: Move to style-flat?
   
   .checkbox-flat
-    input
-      visibility: hidden
+    position: relative
     background: white
     border: thin solid #979797
     width: 20px
     height: 20px
+    
+    input
+      visibility: hidden
+      
+    label
+      position: absolute
+      width: 18px
+      height: 18px
+      left: 1px
+      top: 1px
+
+    label:after
+      opacity: 0
+      content: ''
+      position: absolute
+      width: 14px
+      height: 7px
+      background: transparent
+      top: 3px
+      left: 1px
+      border: 2px solid black
+      border-top: none
+      border-right: none
+      transform: rotate(-45deg)
+
+    label:hover::after
+      opacity: 0.3
+    
+    input:checked + label:after
+      opacity: 1
     
   // stuff that feels specific to this page
   .checkbox-flat
