@@ -65,6 +65,7 @@ block content
         .adding-students.col-md.4
           h4(data-i18n="TODO")
             | Adding students:
+          +copyCodes
           +addStudentsButton
           
       ul.nav.nav-tabs(role="tablist")
@@ -197,3 +198,18 @@ mixin progressDotLabel(label)
   .dot-label.text-center
     .dot-label-inner
       = label
+
+mixin copyCodes
+  div.copy-button-group.form-inline
+    .form-group
+      input.text-h4.semibold#join-code-input(value=view.classCode)
+    button#copy-code-btn.form-control.btn.btn-lg.btn-secondary Copy Class Code
+    div.text-center.small(data-i18n="TODO")
+      | New students can enter this class code on their dashboard or visit codecombat.com/courses to join the class.
+      
+  div.copy-button-group.form-inline
+    .form-group
+      input.form-control.text-h4.semibold#join-url-input(value=view.joinURL)
+    button#copy-url-btn.form-control.btn.btn-lg.btn-secondary Copy Class URL
+    div.text-center.small(data-i18n="TODO")
+      | New students can visit this URL while logged in to join the class.

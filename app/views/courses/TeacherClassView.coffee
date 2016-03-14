@@ -19,6 +19,8 @@ module.exports = class TeacherClassView extends RootView
     'click .add-students-button': 'onClickAddStudents'
     'click .sort-by-name': 'sortByName'
     'click .sort-by-progress': 'sortByProgress'
+    'click #copy-url-btn': 'copyURL'
+    'click #copy-code-btn': 'copyCode'
 
   initialize: (options, classroomID) ->
     super(options)
@@ -57,6 +59,10 @@ module.exports = class TeacherClassView extends RootView
 
   onLoaded: ->
     console.log("loaded!")
+    
+    @classCode = @classroom.get('codeCamel') || @classroom.get('code')
+    @joinURL = document.location.origin + "/courses?_cc=" + @classCode
+    
     @earliestIncompleteLevel = helper.calculateEarliestIncomplete(@classroom, @courses, @campaigns, @courseInstances, @students)
     @latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @campaigns, @courseInstances, @students)
     for student in @students.models
@@ -67,6 +73,21 @@ module.exports = class TeacherClassView extends RootView
     classroomsStub = new Classrooms([ @classroom ])
     @progressData = helper.calculateAllProgress(classroomsStub, @courses, @campaigns, @courseInstances, @students)
     super()
+    
+  copyCode: ->
+    @$('#join-code-input').val(@classCode).select()
+    @tryCopy()
+  
+  copyURL: ->
+    @$('#join-url-input').val(@joinURL).select()
+    @tryCopy()
+    
+  tryCopy: ->
+    try
+      document.execCommand('copy')
+      application.tracker?.trackEvent 'Classroom copy URL', category: 'Courses', classroomID: @classroom.id, url: @joinURL
+    catch err
+      console.log('Oops, unable to copy', err)
 
   onClickAddStudents: (e) =>
     modal = new InviteToClassroomModal({ classroom: @classroom })
