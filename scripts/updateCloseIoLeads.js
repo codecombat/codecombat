@@ -40,15 +40,13 @@ findLeads((err, leads) => {
         console.error(err);
         return;
       }
-      // TEMP
+      // // TEMP
       // for (const email in leads) {
-      //   if (leads[email].coco_schoolName) {
-      //     console.log(email);
-      //     console.log(leads[email]);
-      //     // break;
-      //   }
+      //   console.log(email);
+      //   console.log(leads[email]);
+      //   break;
       // }
-      // TEMP
+      // // TEMP
       log(`Num leads created ${numLeadsCreated}`);
       log("Script runtime: " + (new Date() - scriptStartTime));
     });
@@ -187,7 +185,7 @@ function addIntercomData(leads, done) {
   }
   function getUser(email) {
     const options = {
-      url: `https://api.intercom.io/users?email=${email}`,
+      url: `https://api.intercom.io/users?email=${encodeURIComponent(email)}`,
       auth: {
         user: intercomAppId,
         pass: intercomApiKey
@@ -256,7 +254,7 @@ function updateLeads(leads, done) {
     });
   }
   function updateLead(email) {
-    const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=email_address:${email}`;
+    const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=email_address:${encodeURIComponent(email)}`;
     request.get(url, (error, response, body) => {
       if (error) return done(error);
       const data = JSON.parse(body);
