@@ -140,5 +140,8 @@
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
         br.hidden-lg.hidden-md
         span.spr Need help? Email
-        a(href="mailto:team@codecombat.com") team@codecombat.com
+        if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl'
+          a(href="mailto:klantenservice@codecombat.nl") klantenservice@codecombat.nl
+        else
+          a(href="mailto:team@codecombat.com") team@codecombat.com
         span.spl and we'll get in touch!

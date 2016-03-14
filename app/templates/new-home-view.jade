@@ -21,6 +21,10 @@ block content
                 a.btn.btn-forest.btn-lg.btn-block(href="/courses", data-i18n="new_home.student")
               .col-xs-4
                 a.btn.btn-gold.btn-lg.btn-block(href=view.playURL, data-i18n="new_home.play_now")
+            if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl'
+              .row
+                .col-xs-12
+                  a.btn.btn-purple.btn-lg.btn-block(href="https://the-codecombat-ideal-page.com") Koop prepaid codes (iDeal)
 
           .well.text-center.hidden-xs.hidden-sm
             h6#classroom-edition-header(data-i18n="new_home.classroom_edition")
@@ -31,6 +35,12 @@ block content
 
             h6#learn-to-code-header(data-i18n="new_home.learn_to_code")
             a.btn.btn-gold.btn-lg.btn-block(href=view.playURL, data-i18n="new_home.play_now")
+
+          if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl'
+            .well#ideal-tickets-well.text-center.hidden-xs.hidden-sm
+              h6 Thuis versie:
+              a.btn.btn-purple.btn-lg.btn-block(href="https://the-codecombat-ideal-page.com") Prepaid codes (iDeal)
+
       .row#learn-more-row
         .col-xs-12.text-center
           a#learn-more-link
