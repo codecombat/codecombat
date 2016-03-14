@@ -616,11 +616,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     careers_link: "Karrieren"
     press_link: "Presse"
     mission_title: "Unsere Mission: Programmieren jedem Schüler auf der Erde zugänglich zu machen."
-    mission_description_1: "<strong>Programmieren ist Magie</strong>. Es ist die Fähigkeit Dinge aus purer Vorstellungskraft zu erschaffen.
-    Wir starteten CodeCombat um Lernen dieses Gefühl der Zauberkraft in ihren Fingerspitzen zu geben während sie <strong>getippten Code</strong> benutzen." # {change}
-    mission_description_2: "Wie sich herausstellt, können sie dadurch auch schneller lernen. Sehr viel schneller. 
-    Es ist mehr wie eine Unterhaltung als das Lesen einer Bedienungsanleitung. Wir wollen diese Unterhaltung in jede Schule zu
-    <strong>jedem Schüler</strong> bringen, weil jeder die Chance haben sollte die Magie des Programmierens zu erlernen." # {change}
+    mission_description_1: "<strong>Programmieren ist Magie</strong>. Es ist die Fähigkeit Dinge aus purer Vorstellungskraft zu erschaffen. Wir starteten CodeCombat um Lernen dieses Gefühl der Zauberkraft in ihren Fingerspitzen zu geben während sie <strong>getippten Code</strong> benutzen." # {change}
+    mission_description_2: "Wie sich herausstellt, können sie dadurch auch schneller lernen. Sehr viel schneller.  Es ist mehr wie eine Unterhaltung als das Lesen einer Bedienungsanleitung. Wir wollen diese Unterhaltung in jede Schule zu <strong>jedem Schüler</strong> bringen, weil jeder die Chance haben sollte die Magie des Programmierens zu erlernen." # {change}
     team_title: "Triff das CodeCombat Team"
     team_values: "Wir legen Wert auf einen offenen und respektvollen Dialog, wo die besten Ideen gewinnen. Unsere Entscheidungen basieren auf Benutzerforschung und unser Fortschritt richtet sich danach ihnen handfeste Resultate zu liefern. Jeder packt mit an von unserem Geschäftsführer bis hin zu unseren  Github-Unterstützern, weil wir Wert auf Zuwachs und Lernen in unserem Team legen."
     nick_title: "Mitbegründer, Geschäftsführer" # {changed}
@@ -655,8 +652,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     number_contributors: "Mehr als 450 Unterstützer haben ihre Zeit und Hilfe für dieses Projekt zur Verfügung gestellt."
     story_title: "Unsere bisherige Geschichte"
     story_subtitle: "Seit 2013 ist CodeCombat aus einigen Skizzen zu einem lebenden, florierenden Spiel gewachsen."
-   story_statistic_1a: "Mehr als 5,000,000"
-  story_statistic_1b: "Spieler"
+    story_statistic_1a: "Mehr als 5,000,000"
+    story_statistic_1b: "Spieler"
     story_statistic_1c: "haben ihre Programmierreise durch CodeCombat begonnen."
     story_statistic_2a: "Wir wurden in über 50 Sprachen übersetzt — unsere Spieler kommen aus mehr als"
     story_statistic_2b: "200 Staaten"
@@ -667,8 +664,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     story_sketch_caption: "Nick's allererste Skizze zeigt ein Programmierspiel in Aktion."
     story_long_way_2: "haben wir noch viel zu tun bevor unser Auftrag abgeschlossen ist, also..."
     jobs_title: "Komm arbeite mit uns und hilf mit CodeCombat Geschichte zu schreiben!"
-#    jobs_subtitle: "Don't see a good fit but interested in keeping in touch? See our \"Create Your Own\" listing."
-#    jobs_benefits: "Employee Benefits"
+    jobs_subtitle: "Nichts gutes gefunden aber du bist trotzdem interessiert mit uns zu arbeiten? Schau dir unseren \"Kreiere deinen Eigenen\" Eintrag an."
+    jobs_benefits: "Angestellten Vorteile"
 #    jobs_benefit_1: "Competitive salary and options"
 #    jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
 #    jobs_benefit_3: "Work from home flexibility"
@@ -703,7 +700,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     more_info_2: "Lehrerforum"
     more_info_3: "ist eine gute Anlaufstelle, um mit anderen Lehrer in Kontakt zu treten, die CodeCombat benutzen."
 
-#  teachers_quote:
+  teachers_quote:
 #    name: "Quote Form"
 #    title: "Request a Quote"
 #    subtitle: "Get CodeCombat in your classroom, club, school or district!"
