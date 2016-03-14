@@ -17,6 +17,7 @@ auth = require './server/routes/auth'
 routes = require './server/routes'
 UserHandler = require './server/users/user_handler'
 hipchat = require './server/hipchat'
+Mandate = require './server/models/Mandate'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
 global.jsondiffpatch = require 'jsondiffpatch'
 global.stripe = require('stripe')(config.stripe.secretKey)
@@ -58,15 +59,15 @@ setupErrorMiddleware = (app) ->
         err = new errors.UnprocessableEntity(err.response)
       if err.code is 409 and err.response
         err = new errors.Conflict(err.response)
-      
+
       # TODO: Make all errors use this
       if err instanceof errors.NetworkError
         return res.status(err.code).send(err.toJSON())
-      
+
       if err.status and 400 <= err.status < 500
         res.status(err.status).send("Error #{err.status}")
         return
-        
+
       res.status(err.status ? 500).send(error: "Something went wrong!")
       message = "Express error: #{req.method} #{req.path}: #{err.message}"
       log.error "#{message}, stack: #{err.stack}"
@@ -180,17 +181,22 @@ setupFallbackRouteToIndex = (app) ->
       log.error "Error modifying main.html: #{err}" if err
       # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
       user = if req.user then JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/') else '{}'
-      
-      data = data.replace '"serverConfigTag"', JSON.stringify
-        picoCTF: config.picoCTF,
-        production: config.isProduction
-        
-      data = data.replace('"userObjectTag"', user)
-      data = data.replace('"amActuallyTag"', JSON.stringify(req.session.amActually))
-      res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
-      res.header 'Pragma', 'no-cache'
-      res.header 'Expires', 0
-      res.send 200, data
+
+      Mandate.findOne({}).cache(5 * 60 * 1000).exec (err, mandate) ->
+        if err
+          log.error "Error getting mandate config: #{err}"
+          configData = {}
+        else
+          configData =  _.omit mandate?.toObject() or {}, '_id'
+        configData.picoCTF = config.picoCTF
+        configData.production = config.isProduction
+        data = data.replace '"serverConfigTag"', JSON.stringify configData
+        data = data.replace('"userObjectTag"', user)
+        data = data.replace('"amActuallyTag"', JSON.stringify(req.session.amActually))
+        res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+        res.header 'Pragma', 'no-cache'
+        res.header 'Expires', 0
+        res.send 200, data
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->
   app.get '/channel.html', (req, res) ->
