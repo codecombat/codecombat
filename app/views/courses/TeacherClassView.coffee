@@ -17,6 +17,7 @@ module.exports = class TeacherClassView extends RootView
   
   events:
     'click .add-students-button': 'onClickAddStudents'
+    'click .enroll-student-button': 'onClickEnrollStudent'
     'click .sort-by-name': 'sortByName'
     'click .sort-by-progress': 'sortByProgress'
     'click #copy-url-btn': 'copyURL'
@@ -94,6 +95,9 @@ module.exports = class TeacherClassView extends RootView
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
     
+  onClickEnrollStudent: (e) ->
+    # TODO
+  
   sortByName: (e) =>
     if @sortValue == 'name'
       @sortDirection = -@sortDirection

@@ -149,8 +149,14 @@ mixin studentRow(student)
           if instance && instance.hasMember(student)
             - var progress = view.progressData.get({ classroom: view.classroom, course: course, user: student })
             +progressDot(progress, "CS" + (index+1))
+      unless student.isEnrolled()
+        +enrollStudentButton(student)
     td
       span.view-class-arrow.glyphicon.glyphicon-chevron-right
+
+mixin enrollStudentButton(student)
+  a.enroll-student-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
+    | Enroll student
     
 mixin courseProgressTab
   #course-progress-tab.tab-pane
