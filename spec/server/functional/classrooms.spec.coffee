@@ -194,10 +194,10 @@ describe 'GET /db/classroom/:handle/member-sessions', ->
     @levelB.set('original', @levelB._id)
     @levelB = yield @levelB.save()
     @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
-    @session1A = yield new LevelSession({creator: @student1._id, state: { complete: true }, level: {original: @levelA._id}, permissions: [{target: @student1._id, access: 'owner'}]}).save()
-    @session1B = yield new LevelSession({creator: @student1._id, state: { complete: false }, level: {original: @levelB._id}, permissions: [{target: @student1._id, access: 'owner'}]}).save()
-    @session2A = yield new LevelSession({creator: @student2._id, state: { complete: true }, level: {original: @levelA._id}, permissions: [{target: @student2._id, access: 'owner'}]}).save()
-    @session2B = yield new LevelSession({creator: @student2._id, state: { complete: false }, level: {original: @levelB._id}, permissions: [{target: @student2._id, access: 'owner'}]}).save()
+    @session1A = yield new LevelSession({creator: @student1.id, state: { complete: true }, level: {original: @levelA._id}, permissions: [{target: @student1._id, access: 'owner'}]}).save()
+    @session1B = yield new LevelSession({creator: @student1.id, state: { complete: false }, level: {original: @levelB._id}, permissions: [{target: @student1._id, access: 'owner'}]}).save()
+    @session2A = yield new LevelSession({creator: @student2.id, state: { complete: true }, level: {original: @levelA._id}, permissions: [{target: @student2._id, access: 'owner'}]}).save()
+    @session2B = yield new LevelSession({creator: @student2.id, state: { complete: false }, level: {original: @levelB._id}, permissions: [{target: @student2._id, access: 'owner'}]}).save()
     done()
 
   it 'returns all sessions for all members in the classroom with only properties level, creator and state.complete', utils.wrap (done) ->
