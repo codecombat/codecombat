@@ -88,6 +88,7 @@ class Lead {
     }
     this.trial_created = trialRequest.created;
     this.trial_userID = trialRequest.applicant;
+    if (this.trial_name) this.name = this.trial_name;
     this.userID = trialRequest.applicant;
   }
   addUser(user) {
