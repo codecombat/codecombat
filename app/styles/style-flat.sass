@@ -8,6 +8,13 @@
 $headline-font: 'Arvo', serif
 $body-font: 'Open Sans', sans-serif
 
+body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr']
+  // Google Fonts version of Arvo only has Latin glyphs, not Cyrillic
+  // TODO: figure out font fallbacks for other languages not covered by Arvo
+  //$headline-font: 'Open Sans', serif  // Doesn't work
+  h1, .text-h1, h3, .text-h3, h5, .text-h5
+    font-family: 'Open Sans', serif
+
 $burgandy: #7D0101
 $gold: #F2BE19
 $navy: #0E4C60
