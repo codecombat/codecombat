@@ -2,12 +2,14 @@ RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-class-view'
 helper = require 'lib/coursesHelper'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
+ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 LevelSessions = require 'collections/LevelSessions'
 Users = require 'collections/Users'
 Courses = require 'collections/Courses'
+CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
 Campaigns = require 'collections/Campaigns'
 
@@ -22,6 +24,7 @@ module.exports = class TeacherClassView extends RootView
     'click .sort-by-progress': 'sortByProgress'
     'click #copy-url-btn': 'copyURL'
     'click #copy-code-btn': 'copyCode'
+    'click .enroll-student-button': 'onClickEnroll'
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .enroll-selected-students': 'onClickBulkEnroll'
 
@@ -130,13 +133,44 @@ module.exports = class TeacherClassView extends RootView
       else
         return dir
     @students.sort()
+  
+  getSelectedStudentIDs: ->
+    $('.student-row .checkbox-flat input:checked').map (index, checkbox) ->
+      $(checkbox).data('student-id')
+    
+  ensureInstance: (courseID) ->
+    
+  onClickEnroll: (e) ->
+    userID = $(e.target).data('user-id')
+    user = @students.get(userID)
+    modal = new ActivateLicensesModal { @classroom, user, users: @students }
+    @openModalView(modal)
+    modal.once 'redeem-users', -> document.location.reload()
+    application.tracker?.trackEvent 'Classroom started enroll students', category: 'Courses'
     
   onClickBulkAssign: ->
     courseID = $('.bulk-course-select').val()
     courseInstance = @courseInstances.getByCourseAndClassroom(courseID, @classroom)
-    # TODO: Only assign the selected ones
-    for student in @students
-      courseInstance.addMember(student.id)
-
-  onClickBulkEnroll: ->
-    # TODO: AJAX for enrolling students. Needs a backend endpoint for multiple students? Or just do one-by-one like ActivateLicensesModal?
+    members = @getSelectedStudentIDs().toArray()
+    if courseInstance
+      # TODO: Only assign the selected ones
+      for studentID in members
+        courseInstance.addMember studentID, {
+          success: =>
+            @render()
+        }
+    else
+      courseInstance = new CourseInstance {
+        courseID,
+        classroomID: @classroom.id
+        members,
+        ownerID: @classroom.get('ownerID')
+        aceConfig: {}
+      }
+      @courseInstances.add(courseInstance)
+      courseInstance.save {
+        success: =>
+          debugger
+          @render()
+      }
+    null

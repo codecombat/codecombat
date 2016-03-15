@@ -128,15 +128,15 @@ mixin studentsTab
           +studentRow(student)
           
 mixin studentRow(student)
-  tr.alternating-background
+  tr.student-row.alternating-background
     td.checkbox-col
       .checkbox-flat
-        input(type='checkbox' id='checkbox-student-' + student.id)
+        input(type='checkbox' id='checkbox-student-' + student.id, data-student-id=student.id)
         label.checkmark(for='checkbox-student-' + student.id)
     td.student-info-col
       .student-info
         div.student-name= student.get('name')
-        div.student-email.small-details emailaddress@school.edu
+        div.student-email.small-details= student.get('email')
     td.hidden
       a.edit-student-button(data-student-id=student.id)
         span.glyphicon.glyphicon-edit
@@ -159,7 +159,7 @@ mixin studentRow(student)
       span.view-class-arrow.glyphicon.glyphicon-chevron-right
 
 mixin enrollStudentButton(student)
-  a.enroll-student-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
+  a.enroll-student-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id data-user-id=student.id)
     | Enroll student
     
 mixin courseProgressTab
