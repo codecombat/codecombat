@@ -148,6 +148,8 @@ module.exports = class PlayLevelView extends RootView
       application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: @loadDuration
       application.tracker?.trackTiming @loadDuration, 'Level Load Time', @levelID, @levelID
 
+  isProduction: -> application.isProduction()
+
   # CocoView overridden methods ###############################################
 
   getRenderData: ->
