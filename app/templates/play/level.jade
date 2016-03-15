@@ -1,4 +1,4 @@
-if view.isProduction() && !me.isPremium()
+if view.isProduction() && !me.isPremium() && !view.isCourseMode() 
   // TODO: loading this multiple times yields script error:
   // Uncaught TagError: adsbygoogle.push() error: All ins elements in the DOM with class=adsbygoogle already have ads in them.
   .ad-container

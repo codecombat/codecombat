@@ -150,6 +150,8 @@ module.exports = class PlayLevelView extends RootView
 
   isProduction: -> application.isProduction()
 
+  isCourseMode: -> @courseID and @courseInstanceID
+
   # CocoView overridden methods ###############################################
 
   getRenderData: ->
@@ -537,7 +539,7 @@ module.exports = class PlayLevelView extends RootView
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then HeroVictoryModal else VictoryModal
-    ModalClass = CourseVictoryModal if @courseID and @courseInstanceID
+    ModalClass = CourseVictoryModal if @isCourseMode()
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
