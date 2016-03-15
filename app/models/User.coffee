@@ -77,7 +77,7 @@ module.exports = class User extends CocoModel
 
   # y = a * ln(1/b * (x + c)) + 1
   @levelFromExp: (xp) ->
-    if xp > 0 then Math.floor(a * Math.log((1/b) * (xp + c))) + 1 else 1
+    if xp > 0 then Math.floor(a * Math.log((1 / b) * (xp + c))) + 1 else 1
 
   # x = b * e^((y-1)/a) - c
   @expForLevel: (level) ->
@@ -136,6 +136,16 @@ module.exports = class User extends CocoModel
     @announcesActionAudioGroup = 'all-audio' if me.isAdmin()
     application.tracker.identify announcesActionAudioGroup: @announcesActionAudioGroup unless me.isAdmin()
     @announcesActionAudioGroup
+
+  getCampaignAdsGroup: ->
+    return @campaignAdsGroup if @campaignAdsGroup
+    group = me.get('testGroupNumber') % 2
+    @campaignAdsGroup = switch group
+      when 0 then 'no-ads'
+      when 1 then 'leaderboard-ads'
+    @campaignAdsGroup = 'no-ads' if me.isAdmin()
+    application.tracker.identify campaignAdsGroup: @campaignAdsGroup unless me.isAdmin()
+    @campaignAdsGroup
 
   getHomepageGroup: ->
     # Only testing on en-US so localization issues are not a factor
