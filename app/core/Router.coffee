@@ -5,7 +5,6 @@ module.exports = class CocoRouter extends Backbone.Router
   initialize: ->
     # http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
     @bind 'route', @_trackPageView
-    Backbone.Mediator.subscribe 'auth:gplus-api-loaded', @onGPlusAPILoaded, @
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
     @initializeSocialMediaServices = _.once @initializeSocialMediaServices
 
@@ -170,7 +169,6 @@ module.exports = class CocoRouter extends Backbone.Router
     $('#page-container').empty().append view.el
     window.currentView = view
     @activateTab()
-    @renderLoginButtons() if view.usesSocialMedia
     view.afterInsert()
     view.didReappear()
 
@@ -187,21 +185,19 @@ module.exports = class CocoRouter extends Backbone.Router
       $('body')[0].scrollTop = 0
     ), 10
 
-  onGPlusAPILoaded: =>
-    @renderLoginButtons()
-
   initializeSocialMediaServices: ->
     return if application.testing or application.demoing
-    require('core/services/facebook')()
+    application.facebookHandler.loadAPI()
     application.gplusHandler.loadAPI()
     require('core/services/twitter')()
 
-  renderLoginButtons: =>
+  renderSocialButtons: =>
+    # TODO: Refactor remaining services to Handlers, use loadAPI success callback
     @initializeSocialMediaServices()
     $('.share-buttons, .partner-badges').addClass('fade-in').delay(10000).removeClass('fade-in', 5000)
-    setTimeout(FB.XFBML.parse, 10) if FB?.XFBML?.parse  # Handles FB login and Like
+    application.facebookHandler.renderButtons()
+    application.gplusHandler.renderButtons()
     twttr?.widgets?.load?()
-    application.gplusHandler.renderLoginButtons()
     
   activateTab: ->
     base = _.string.words(document.location.pathname[1..], '/')[0]

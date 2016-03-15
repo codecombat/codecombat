@@ -7,8 +7,6 @@ application  = require 'core/application'
 Classroom = require 'models/Classroom'
 errors = require 'core/errors'
 
-# TODO: Avoid using G+ render buttons to login, login directly instead.
-# Form object is split in two in template to avoid having rendered buttons triggered on form submit.
 
 module.exports = class CreateAccountModal extends ModalView
   id: 'create-account-modal'
@@ -24,36 +22,20 @@ module.exports = class CreateAccountModal extends ModalView
     'click #close-modal': 'hide'
     'click #switch-to-login-btn': 'onClickSwitchToLoginButton'
     
-  subscriptions:
-    'auth:facebook-api-loaded': 'onFacebookAPILoaded'
-    
     
   # Initialization
 
   initialize: (options={}) ->
     @onNameChange = _.debounce(_.bind(@checkNameExists, @), 500)
     @previousFormInputs = options.initialValues or {}
-    @listenTo application.gplusHandler, 'logged-into-google', @onGPlusHandlerLoggedIntoGoogle
-    @listenTo application.gplusHandler, 'person-loaded', @onGPlusPersonLoaded
-    @listenTo application.gplusHandler, 'render-login-buttons', @onGPlusRenderLoginButtons
-    @listenTo application.facebookHandler, 'logged-into-facebook', @onFacebookHandlerLoggedIntoFacebook
-    @listenTo application.facebookHandler, 'person-loaded', @onFacebookPersonLoaded
 
   afterRender: ->
     super()
     @playSound 'game-menu-open'
-    @$('#facebook-signup-btn').attr('disabled', true) if not window.FB?
 
   afterInsert: ->
     super()
-    _.delay (-> application.router.renderLoginButtons()), 500
     _.delay (=> $('input:visible:first', @$el).focus()), 500
-
-  onGPlusRenderLoginButtons: ->
-    @$('#gplus-signup-btn').attr('disabled', false)
-
-  onFacebookAPILoaded: ->
-    @$('#facebook-signup-btn').attr('disabled', false)
 
     
   # User creation
@@ -151,28 +133,35 @@ module.exports = class CreateAccountModal extends ModalView
   # Google Plus
 
   onClickGPlusSignupButton: ->
-    @clickedGPlusLogin = true
-
-  onGPlusHandlerLoggedIntoGoogle: ->
-    return unless @clickedGPlusLogin
-    application.gplusHandler.loadPerson()
     btn = @$('#gplus-signup-btn')
-    btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
     btn.attr('disabled', true)
-
-  onGPlusPersonLoaded: (@gplusAttrs) ->
-    existingUser = new User()
-    existingUser.fetchGPlusUser(@gplusAttrs.gplusID, {
+    application.gplusHandler.loadAPI({
       context: @
-      complete: ->
-        @$('#email-password-row').remove()
-      success: =>
-        @$('#gplus-account-exists-row').removeClass('hide')
-      error: (user, jqxhr) =>
-        if jqxhr.status is 404
-          @$('#gplus-logged-in-row').toggleClass('hide')
-        else
-          errors.showNotyNetworkError(jqxhr)
+      success: ->
+        btn.attr('disabled', false)
+        application.gplusHandler.connect({
+          context: @
+          success: ->
+            btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
+            btn.attr('disabled', true)
+            application.gplusHandler.loadPerson({
+              context: @
+              success: (@gplusAttrs) ->
+                existingUser = new User()
+                existingUser.fetchGPlusUser(@gplusAttrs.gplusID, {
+                  context: @
+                  complete: ->
+                    @$('#email-password-row').remove()
+                  success: =>
+                    @$('#gplus-account-exists-row').removeClass('hide')
+                  error: (user, jqxhr) =>
+                    if jqxhr.status is 404
+                      @$('#gplus-logged-in-row').toggleClass('hide')
+                    else
+                      errors.showNotyNetworkError(jqxhr)
+                })
+            })
+        })
     })
 
   onClickGPlusLoginButton: ->
@@ -190,31 +179,35 @@ module.exports = class CreateAccountModal extends ModalView
   # Facebook
 
   onClickFacebookSignupButton: ->
-    @clickedFacebookLogin = true
-    if application.facebookHandler.loggedIn
-      @onFacebookHandlerLoggedIntoFacebook()
-    else
-      application.facebookHandler.loginThroughFacebook()
-
-  onFacebookHandlerLoggedIntoFacebook: ->
-    return unless @clickedFacebookLogin
-    application.facebookHandler.loadPerson()
     btn = @$('#facebook-signup-btn')
-    btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
     btn.attr('disabled', true)
-    
-  onFacebookPersonLoaded: (@facebookAttrs) ->
-    existingUser = new User()
-    existingUser.fetchFacebookUser(@facebookAttrs.facebookID, {
-      success: =>
-        @$('#email-password-row').remove()
-        @$('#facebook-account-exists-row').removeClass('hide')
-      error: (model, jqxhr) =>
-        @$('#email-password-row').remove()
-        if jqxhr.status is 404
-          @$('#facebook-logged-in-row').toggleClass('hide')
-        else
-          errors.showNotyNetworkError(jqxhr)
+    application.facebookHandler.loadAPI({
+      context: @
+      success: ->
+        btn.attr('disabled', false)
+        application.facebookHandler.connect({
+          context: @
+          success: ->
+            btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
+            btn.attr('disabled', true)
+            application.facebookHandler.loadPerson({
+              context: @
+              success: (@facebookAttrs) ->
+                existingUser = new User()
+                existingUser.fetchFacebookUser(@facebookAttrs.facebookID, {
+                  context: @
+                  complete: ->
+                    @$('#email-password-row').remove()
+                  success: =>
+                    @$('#facebook-account-exists-row').removeClass('hide')
+                  error: (user, jqxhr) =>
+                    if jqxhr.status is 404
+                      @$('#facebook-logged-in-row').toggleClass('hide')
+                    else
+                      errors.showNotyNetworkError(jqxhr)
+                })
+            })
+        })
     })
 
   onClickFacebookLoginButton: ->

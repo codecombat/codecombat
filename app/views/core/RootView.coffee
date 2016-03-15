@@ -99,11 +99,6 @@ module.exports = class RootView extends CocoView
     #location.hash = hash
     @renderScrollbar()
 
-  getRenderData: ->
-    c = super()
-    c.usesSocialMedia = @usesSocialMedia
-    c
-
   afterRender: ->
     if @$el.find('#site-nav').length # hack...
       @$el.addClass('site-chrome')
