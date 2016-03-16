@@ -27,6 +27,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     classroom_in_a_box: "Ein Klassenraum in-einer-Box um Informatik zu lehren."
     codecombat_is: "CodeCombat ist eine Plattform für Schüler um Informatik zu lernen während sie ein echtes Spiel spielen."
     our_courses: "Unsere Kurse wurden genau getestet um im Klassenraum zu bestehen, auch bei Lehrkräften mit wenig bis keiner Programmiererfahrung."
+    top_screenshots_hint: "Schüler schreiben Code und ihre Veränderungen werden in Echtzeit sichtbar"
     designed_with: "Designed um Lehrkräften zu helfen"
     real_code: "Real, getipper Code"
     from_the_first_level: "vom ersten Level an"
@@ -57,10 +58,17 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     great_game: "In einem guten Spiel geht es um mehr als nur Abzeichen und Erfolge - es geht um die Reise eines Spielers, gut-designte Rätsel, und die Fähigkeit Herausforderungen mit Kraft und Selbsvertrauen anzupacken."
     agency: "CodeCombat ist ein Spiel, das Spielern die Kraft und das Selbstbewusstsein gibt durch unsere robuste Programmiereingabe-Engine, die sowohl Anfänger als auch fortgeschrittenen Schülern dabei hilft richtigen, validen Code zu schreiben."
     curious: "Neugierig? Fragen Sie nach einer Demo und wir werden Ihnen zeigen wie es geht"
+    request_demo_title: "Fangen Sie noch heute mit ihren Schülern an!"
+    request_demo_subtitle: "Fragen Sie nach einer Demo und lassen Sie ihre Schüler in weniger als einer Stunde anfangen."
+    get_started_title: "Erstellen Sie noch heute ihre Klasse"
+    get_started_subtitle: "Erstellen Sie eine Klasse, fügen Sie Schüler hinzu und verfolgen Sie ihren Fortschritt während sie Informatik lernen."
     create_class: "Oder erstellen Sie eine Klasse und sehen Sie selbst!"
+    teacher_screenshots_hint: "Schüler schreiben Code und ihre Veränderungen werden in Echtzeit sichtbar"
     request_demo: "Demo anfragen"
     create_a_class: "Erstellen Sie eine Klasse"
+    setup_a_class: "Eine Klasse erstellen"
     have_an_account: "Haben Sie bereits einen Account?"
+    log_in: "Einloggen"
     logged_in_as: "Sie sind zurzeit eingeloggt als"
     view_my_classes: "Zeige meine Klassen"
     computer_science: "Informatikkurse für alle Altersgruppen"
@@ -128,7 +136,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     locked: "Gesperrt"
     purchasable: "Zu kaufen" # For a hero you unlocked but haven't purchased
     available: "Verfügbar"
-    skills_granted: "Verfügbare Fähigkeiten" # Property documentation details
+    skills_granted: "Erhaltene" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
     achievements: "Errungenschaften" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
