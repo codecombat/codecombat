@@ -61,7 +61,7 @@ mixin classRow(classroom)
         each course, index in view.courses.models
           +progressDot(classroom, course, index)
     .view-class-arrow.col-xs-1
-      a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right(data-classroom-id=classroom.id)
+      a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right(data-classroom-id=classroom.id, href=("/teachers/classes/" + classroom.id))
 
 
 mixin addStudentsButton(classroom)
