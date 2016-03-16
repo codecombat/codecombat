@@ -28,7 +28,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     codecombat_is: "CodeCombat is een platform waarmee leerlingen leren programmeren door het spelen van een spel."
     our_courses: "Onze lessen zijn specifiek ontwikkeld voor een klasomgeving, zelfs voor leraren zonder programmeerervaring."
     designed_with: "Gemaakt voor leraren"
-    real_code: "Echte, getypde code"
+    real_code: "Echte, getypte code"
     from_the_first_level: "vanaf het eerste level"
     getting_students: "Leerlingen zo snel mogelijk echte code laten schrijven is noodzakelijk voor het leren van programmeer syntax en correcte structuur."
     educator_resources: "Lesbrieven voor docenten"
@@ -352,8 +352,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     time_goto: "Ga naar:"
     non_user_code_problem_title: "Kan level niet laden"
     infinite_loop_title: "Oneindige Loop gedetecteerd"
-#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
-#    check_dev_console: "You can also open the developer console to see what might be going wrong."
+    infinite_loop_description: "De initiele code om de wereld te bouwen is nooit gestopt. De code is waarschijnlijk heel langzaam of er is sprake van een oneindige loop. Of misschien wel een bug. Je kunt proberen je code nogmaals te laten afspelen, of de oorspronkelijke code herladen. Als het dan nog steeds niet is opgelost, neem dan contact met ons op."
+    check_dev_console: "Je kunt ook de ontwikkelaarsconsole openen om te zien wat er mogelijk is misgegaan."
     check_dev_console_link: "(instructies)"
     infinite_loop_try_again: "Probeer opnieuw"
     infinite_loop_reset_level: "Level resetten"
@@ -465,7 +465,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     prompt_body: "Wil je meer krijgen?"
     prompt_button: "Naar de winkel"
     recovered: "Edelstenen aankoop hersteld. Ververs de pagina alstublieft."
-#    price: "x{{gems}} / mo"
+    price: "x{{gems}} / maand"
 
   subscribe:
     comparison_blurb: "Verbeter je vaardigheden met een abonement op CodeCombat!"
@@ -500,7 +500,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     parents_title: "Uw kind leert programmeren." # {change}
     parents_blurb1: "Met CodeCombat leert uw kind door echte code te schrijven. Ze beginnen met simpele instructies en naarmate ze verder komen, komen er moeilijkere onderwerpen aan bod."
     parents_blurb1a: "Programmeren is een essentiële vaardigheid die uw kind als volwassene ongetwijfeld gaat gebruiken. In 2020 is de basis van programmeren nodig bij 77% van de banen en zijn softwareontwikkelaars dringend nodig in de wereld. Wist u dat informatica de hoogstbetaalde universitaire graad is?"
-#    parents_blurb2: "For ${{price}} USD/mo, your child will get new challenges every week and personal email support from professional programmers."
+    parents_blurb2: "Voor ${{price}} USD/maand, ontvangt uw kind wekelijks nieuwe uitdagingen en kan uw kind vragen stellen aan professionele programmeurs."
     parents_blurb3: "Geen risico's: 100% geld terug garantie, 1-klik uitschrijving."
     payment_methods: "Betaalmethoden"
     payment_methods_title: "Geaccepteerde betaalmethoden"
@@ -552,7 +552,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     blocks: "Blokkeert" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "Vaardigheden"
-#    attack_1: "Deals"
+    attack_1: "Veroorzaakt"
 #    attack_2: "of listed"
     attack_3: "Wapen schade."
 #    health_1: "Gains"
@@ -581,7 +581,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     current_value: "Huidige waarde"
     default_value: "Standaard waarde"
     parameters: "Parameters"
-#    returns: "Returns"
+    returns: "Geeft terug" #there's no Dutch word for return, we only have "give back". 
     granted_by: "Verleend door"
 
   save_load:
@@ -625,7 +625,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     matt_title: "Programmeur" # {change}
     matt_blurb: "Fietser"
     cat_title: "Hoofd Ambachtsman" # {change}
-#    cat_blurb: "Airbender"
+    cat_blurb: "Airbender" #No good Dutch translation, but children know the word airbender from the Avatar series.
     scott_title: "Programmeur" # {change}
     scott_blurb: "de Redelijke"
     maka_title: "Klanten Ombudsman"
