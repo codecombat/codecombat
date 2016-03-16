@@ -190,6 +190,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     school_name: "Schulname und Stadt"
     optional: "optional"
     school_name_placeholder: "Beispiel Gymnasium, Musterdorf, DE"
+    or_sign_up_with: "oder registrieren mit"   
+    connected_gplus_header: "Du wurdest erfolgreich mit Google+ verknüpft!"   
+    connected_gplus_p: "Schließe das Registrieren ab, so dass du dich mit deinem Google+ Account einloggen."   
+    gplus_exists: "Du hast bereits einen Account mit Google+ verknüpft!"   
+    connected_facebook_header: "Du wurdest erfolgreich mit Facebook verknüpft!"   
+    connected_facebook_p: "Schließe das Registrieren ab, so dass du dich mit deinem Facebook Account einloggen."
+    facebook_exists: "Du hast bereits einen Account mit Facebook verknüpft!"   
+    hey_students: "Schüler, gib den Klassencode von deinem Lehrer ein." 
 
   recover:
     recover_account_title: "Account-Wiederherstellung"
@@ -739,7 +747,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     thanks_p: "Wir melden uns bald. Fragen? Schreiben Sie uns eine Email:"
     thanks_anon: "Loggen Sie sich unten ein oder Erstellen Sie einen Account um Zugang zu ihren zwei kostenlosen Einschreibungen zu erhalten (Wir werden Sie per Email benachrichtigen nach der Überprüfung, die normalerweise weniger als 48 Stunden dauert. So wie immer ist die erste Stunde des Inhaltes kostenlos für eine unbegrenzte Anzahl von Schülern."
     thanks_logged_in: "Ihre zwei kostenlosen Einschreiben werden gerade überprüft. Wir werden Sie per Email nach der Überprüfung benachrichtigen, die normalerweise weniger als 48 Stunden dauert. So wie immer ist die erste Stunde des Inhaltes kostenlos für eine unbegrenzte Anzahl von Schülern."
-
+    setup_a_class: "Eine Klasse erstellen"
+    
   versions:
     save_version_title: "Neue Version speichern"
     new_major_version: "Neue Hauptversion"
@@ -1138,6 +1147,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     add_students1: "Schüler hinzufügen"
     view_edit: "anschauen/bearbeiten"
     students_enrolled: "Schüler eingeschrieben"
+    students_assigned: "Schüler zugewiesen"
     length: "Länge:"
 
   classes:
