@@ -2,16 +2,16 @@
   block header
     .container-fluid.text-center
       .alert.alert-danger.lt-ie9
-        strong(data-i18n="home.no_ie") The CodeCombat game does not run in Internet Explorer 8 or older. Sorry!
+        strong(data-i18n="home.no_ie")
 
       if view.isIPadBrowser() || view.isMobile()
         .alert.alert-danger.mobile
-          strong(data-i18n="home.no_mobile") CodeCombat gameplay was not designed for mobile devices and may not work!
+          strong(data-i18n="home.no_mobile")
       else if view.isOldBrowser()
         .alert.alert-danger.old-browser
-          strong(data-i18n="home.old_browser") Uh oh, your browser is too old to play CodeCombat. Sorry!
+          strong(data-i18n="home.old_browser")
           br
-          span(data-i18n="home.old_browser_suffix") You can try anyway, but it probably won't work.
+          span(data-i18n="home.old_browser_suffix")
 
     nav.navbar.navbar-default
       .container
@@ -19,14 +19,14 @@
           .col-md-3.col-sm-4
             .navbar-header
               button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
-                span.sr-only Toggle navigation
+                span.sr-only(data-i18n="home.toggle_nav")
                 span.icon-bar
                 span.icon-bar
                 span.icon-bar
               a.navbar-brand(href="/")
                 img#logo-img(src="/images/pages/base/logo.png")
                 span.glyphicon.glyphicon-home
-              
+
           .col-md-9.col-sm-8
             #navbar-collapse.collapse.navbar-collapse
               ul.nav.navbar-nav.pull-left
@@ -65,11 +65,11 @@
                         a(href="/account/prepaid", data-i18n="account.prepaid_codes")
                       li
                         a#logout-button(data-i18n="login.log_out")
-              
+
                 li
                   #language-dropdown-wrapper
-                    select.language-dropdown.form-control    
-    
+                    select.language-dropdown.form-control
+
 
   block outer_content
     #site-content-area
@@ -88,57 +88,57 @@
                 li
                   strong CodeCombat
                 li
-                  a(href="/about") About
+                  a(href="/about", data-i18n="nav.about")
                 li
-                  a(href="/Careers") Jobs
+                  a(href="/Careers", data-i18n="nav.jobs")
                 li
                   a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
                 li
-                  a(href="/legal") Legal
-                
+                  a(href="/legal", data-i18n="nav.legal")
+
             .col-sm-3
               ul.list-unstyled
                 li
-                  strong Schools
+                  strong(data-i18n="nav.schools")
                 li
-                  a(href="/courses/teachers") Teachers
+                  a(href="/courses/teachers", data-i18n="nav.teachers")
                 li
-                  a(href="https://sites.google.com/a/codecombat.com/teacher-guides/") Educator Wiki
+                  a(href="https://sites.google.com/a/codecombat.com/teacher-guides/", data-i18n="nav.educator_wiki")
                 li
-                  a(href="/teachers/quote") Request a Quote
-                
+                  a(href="/teachers/quote", data-i18n="nav.request_quote")
+
             .col-sm-3
               ul.list-unstyled
                 li
-                  strong Get Involved
+                  strong(data-i18n="nav.get_involved")
                 li
                   a(href='/community', data-i18n="nav.community")
                 li
-                  a(href="/contribute") Contribute
+                  a(href="/contribute", data-i18n="nav.contribute")
                 li
                   a(href=view.forumLink(), data-i18n="nav.forum")
                 li
-                  a(href="/play/ladder") Multiplayer
+                  a(href="/play/ladder", data-i18n="home.multiplayer")
                 li
-                  a(href="https://github.com/codecombat/codecombat") Open source (GitHub)
+                  a(href="https://github.com/codecombat/codecombat", data-i18n="nav.open_source")
             .col-sm-3
               ul.list-unstyled
                 li
-                  strong Support
+                  strong(data-i18n="nav.support")
                 li
-                  a(href="https://discourse.codecombat.com/t/faq-check-before-posting/1027") FAQs
+                  a(href="https://discourse.codecombat.com/t/faq-check-before-posting/1027", data-i18n="nav.faqs")
                 li
                   a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact")
                 li
                   a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
                 li
                   a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
-                  
+
       #final-footer.small.text-center
         | Copyright ©2016 CodeCombat. All Rights Reserved.
         br.hidden-lg.hidden-md
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
         br.hidden-lg.hidden-md
-        span.spr Need help? Email
+        span.spr(data-i18n="nav.help_pref")
         a(href="mailto:team@codecombat.com") team@codecombat.com
-        span.spl and we'll get in touch!
+        span.spl(data-i18n="nav.help_suff")

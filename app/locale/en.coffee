@@ -93,7 +93,6 @@
     profile: "Profile"
     stats: "Stats"
     code: "Code"
-    admin: "Admin"  # Only shows up when you are an admin
     home: "Home"
     contribute: "Contribute"
     legal: "Legal"
@@ -107,6 +106,17 @@
     create_a_class: "Create a Class"
     other: "Other"
     learn_to_code: "Learn to Code!"
+    toggle_nav: "Toggle navigation"
+    jobs: "Jobs"
+    schools: "Schools"
+    educator_wiki: "Educator Wiki"
+    request_quote: "Request a Quote"
+    get_involved: "Get Involved"
+    open_source: "Open source (GitHub)"
+    support: "Support"
+    faqs: "FAQs"
+    help_pref: "Need help? Email"
+    help_suff: "and we'll get in touch!"
 
   modal:
     close: "Close"
