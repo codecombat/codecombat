@@ -18,7 +18,7 @@ module.exports =
     throw new errors.Forbidden('"ownerID" must be yourself') unless req.user.isAdmin() or ownerID is req.user.id
     dbq = Classroom.find { ownerID: mongoose.Types.ObjectId(ownerID) }
     dbq.select(parse.getProjectFromReq(req))
-    classrooms = yield dbq.exec()
+    classrooms = yield dbq
     classrooms = (classroom.toObject({req: req}) for classroom in classrooms)
     res.status(200).send(classrooms)
 
@@ -49,7 +49,7 @@ module.exports =
     memberIDs = classroom.get('members') or []
     memberIDs = memberIDs.slice(memberSkip, memberLimit)
     
-    dbqs = yield User.find({ _id: { $in: memberIDs }}).select(parse.getProjectFromReq(req)).exec()
-    members = yield (user.toObject({ req: req, includedPrivates: ["name", "email"] }) for user in dbqs)
+    members = yield User.find({ _id: { $in: memberIDs }}).select(parse.getProjectFromReq(req))
+    memberObjects = (member.toObject({ req: req, includedPrivates: ["name", "email"] }) for member in members)
     
-    res.status(200).send(members)
+    res.status(200).send(memberObjects)
