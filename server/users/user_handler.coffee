@@ -506,6 +506,8 @@ UserHandler = class UserHandler extends Handler
           hipchat.sendHipChatMessage "#{req.body.githubUsername or req.user.get('name')} just signed the CLA.", ['main']
 
   avatar: (req, res, id) ->
+    if not isID(id)
+      return @sendBadInputError(res, 'Invalid avatar id')
     @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document
