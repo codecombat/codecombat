@@ -2,7 +2,7 @@ User = require 'models/User';
 
 module.exports = new User(
   {
-    "_id": "56d0e483c7798baa414146bd",
+    "_id": "teacher1",
     "testGroupNumber": 169,
     "anonymous": false,
     "__v": 0,
