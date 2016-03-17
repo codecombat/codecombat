@@ -16,15 +16,9 @@ block content
     button.achievement-tool-button(data-i18n="common.delete", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#delete-button Delete
     button.achievement-tool-button(data-i18n="common.save", disabled=(me.isAdmin() === true || me.isArtisan() === true) ? undefined : "true").btn.btn-primary#save-button Save
 
-  else
-    button.achievement-tool-button(data-i18n="", disabled=true, style="display:none;").btn.btn-primary#recalculate-all-button Recalculate All
-    button.achievement-tool-button(data-i18n="", disabled=true, style="display:none;").btn.btn-primary#recalculate-button Recalculate
-    button.achievement-tool-button(data-i18n="common.delete", disabled=true, style="display:none;").btn.btn-primary#delete-button Delete
-    button.achievement-tool-button(data-i18n="common.save", disabled=true, style="display:none;").btn.btn-primary#save-button Save
-
   h3(data-i18n="achievement.edit_achievement_title") Edit Achievement
     span
-      |: "#{view.achievement.attributes.name}"
+      |: "#{view.achievement.get('name')}"
 
   #achievement-treema
 
