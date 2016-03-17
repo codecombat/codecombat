@@ -2,6 +2,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/courses/activate-licenses-modal'
 CocoCollection = require 'collections/CocoCollection'
 Prepaids = require 'collections/Prepaids'
+Classrooms = require 'collections/Classrooms'
 User = require 'models/User'
 
 module.exports = class ActivateLicensesModal extends ModalView
@@ -15,11 +16,14 @@ module.exports = class ActivateLicensesModal extends ModalView
   initialize: (options) ->
     @classroom = options.classroom
     @users = options.users
-    @user = options.user
+    @selectedUsers = options.selectedUsers
     @prepaids = new Prepaids()
     @prepaids.comparator = '_id'
     @prepaids.fetchByCreator(me.id)
-    @supermodel.loadCollection(@prepaids, 'prepaids')
+    @supermodel.trackCollection(@prepaids)
+    @classrooms = new Classrooms()
+    @classrooms.fetchMine()
+    @supermodel.trackCollection(@classrooms)
 
   afterRender: ->
     super()

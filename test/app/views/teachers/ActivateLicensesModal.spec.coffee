@@ -8,11 +8,10 @@ describe 'ActivateLicensesModal', ->
   
   me = require 'test/app/fixtures/teacher'
   prepaids = require 'test/app/fixtures/prepaids'
+  classrooms = require 'test/app/fixtures/classrooms'
   responses = {
-    prepaids: {
-      status: 200
-      responseText: JSON.stringify(prepaids.toJSON())
-    }
+    '/db/prepaid': prepaids.toJSON()
+    '/db/classroom': classrooms.toJSON()
   }
   
   makeModal = (options) ->
@@ -21,13 +20,12 @@ describe 'ActivateLicensesModal', ->
       @modal = new ActivateLicensesModal({
         @classroom, @users, @selectedUsers
       })
-      request = jasmine.Ajax.requests.mostRecent()
-      request.respondWith(responses.prepaids)
+      jasmine.Ajax.requests.sendResponses(responses)
       jasmine.demoModal(@modal)
       _.defer done
     
   beforeEach ->
-    @classroom = (require 'test/app/fixtures/classrooms').first()
+    @classroom = classrooms.first()
     @users = require 'test/app/fixtures/students'
         
   afterEach ->
