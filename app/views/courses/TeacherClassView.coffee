@@ -47,8 +47,9 @@ module.exports = class TeacherClassView extends RootView
       @listenTo @students, 'sort', @render
       
       @classroom.sessions = new LevelSessions()
-      @classroom.sessions.fetchForAllClassroomMembers(@classroom)
-      @supermodel.trackCollection(@classroom.sessions)
+      if @classroom.get('members')?.length > 0
+        @classroom.sessions.fetchForAllClassroomMembers(@classroom)
+        @supermodel.trackCollection(@classroom.sessions)
       
     @courses = new Courses()
     @courses.fetch()
@@ -150,7 +151,7 @@ module.exports = class TeacherClassView extends RootView
     
   onClickBulkAssign: ->
     courseID = $('.bulk-course-select').val()
-    courseInstance = @courseInstances.getByCourseAndClassroom(courseID, @classroom)
+    courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
     members = @getSelectedStudentIDs().toArray()
     if courseInstance
       # TODO: Only assign the selected ones

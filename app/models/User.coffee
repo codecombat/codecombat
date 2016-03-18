@@ -182,8 +182,7 @@ module.exports = class User extends CocoModel
     return false
     
   isEnrolled: ->
-    return true if @get('coursePrepaidID')
-    return false
+    Boolean(@get('coursePrepaidID'))
 
   isOnPremiumServer: ->
     me.get('country') in ['china', 'brazil']

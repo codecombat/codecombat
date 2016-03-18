@@ -10,16 +10,3 @@ module.exports = class CourseInstances extends CocoCollection
     options.data ?= {}
     options.data.ownerID = ownerID
     @fetch(options)
-
-  getByCourseAndClassroom: (courseID, classroomID) ->
-    courseID = courseID.id or courseID
-    classroomID = classroomID.id or classroomID
-    _.find @models, (courseInstance) ->
-      courseInstance.get('courseID') == courseID and
-        courseInstance.get('classroomID') == classroomID
-
-  #TODO: Only keep this if I actually use it
-  getAllByClassroom: (classroomID) ->
-    classroomID = classroomID.id or classroomID
-    _.filter @models, (courseInstance) ->
-      courseInstance.get('classroomID') == classroomID

@@ -6,7 +6,7 @@ module.exports =
     for classroom in classrooms.models
       # map [user, level] => session so we don't have to do find TODO
       for course, courseIndex in courses.models
-        instance = courseInstances.getByCourseAndClassroom(course, classroom)
+        instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
         continue if not instance
         instance.numCompleted = 0
         campaign = campaigns.get(course.get('campaignID'))
@@ -24,7 +24,7 @@ module.exports =
   calculateEarliestIncomplete: (classroom, courses, campaigns, courseInstances, students) ->
     # Loop through all the combinations of things, return the first one that somebody hasn't finished
     for course, courseIndex in courses.models
-      instance = courseInstances.getByCourseAndClassroom(course, classroom)
+      instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
       continue if not instance
       campaign = campaigns.get(course.get('campaignID'))
       for level, levelIndex in campaign.getNonladderLevels().models
@@ -50,7 +50,7 @@ module.exports =
     courseModels = courses.models.slice()
     for course, courseIndex in courseModels.reverse() #
       courseIndex = courses.models.length - courseIndex - 1 #compensate for reverse
-      instance = courseInstances.getByCourseAndClassroom(course, classroom)
+      instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
       continue if not instance
       campaign = campaigns.get(course.get('campaignID'))
       levelModels = campaign.getNonladderLevels().models.slice()
@@ -90,7 +90,7 @@ module.exports =
       progressData[classroom.id] = {}
 
       for course, courseIndex in courses.models
-        instance = courseInstances.getByCourseAndClassroom(course, classroom)
+        instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
         if not instance
           progressData[classroom.id][course.id] = { completed: false, started: false }
           continue

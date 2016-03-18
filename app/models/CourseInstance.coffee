@@ -42,4 +42,4 @@ module.exports = class CourseInstance extends CocoModel
   
   hasMember: (userID, opts) ->
     userID = userID.id or userID
-    @get('members').indexOf(userID) > -1
+    userID in @get('members')

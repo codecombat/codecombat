@@ -8,12 +8,12 @@ module.exports = class Classroom extends CocoModel
   urlRoot: '/db/classroom'
   
   initialize: () ->
-    @listenTo this, 'change:aceConfig', @capitalizeLanguageName
+    @listenTo @, 'change:aceConfig', @capitalizeLanguageName
     super(arguments...)
     
   capitalizeLanguageName: ->
-    language = this.get('aceConfig').language
-    this.capitalLanguage = utils.capitalLanguages[language]
+    language = @get('aceConfig')?.language
+    @capitalLanguage = utils.capitalLanguages[language]
 
   joinWithCode: (code, opts) ->
     options = {
