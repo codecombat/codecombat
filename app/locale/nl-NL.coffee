@@ -304,7 +304,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     success: "Gelukt!"
     incomplete: "Incompleet"
     timed_out: "De tijd is op"
-    failing: "Mislukken"
+    failing: "Mislukt"
     control_bar_multiplayer: "Multiplayer"
     control_bar_join_game: "Meespelen"
     reload: "Herlaad"
@@ -322,7 +322,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_go_home: "Ga naar Home"
     victory_review: "Vertel ons meer!"
     victory_review_placeholder: "Hoe vond je het level?"
-    victory_hour_of_code_done: "Ben Je Klaar?"
+    victory_hour_of_code_done: "Ben je klaar?"
     victory_hour_of_code_done_yes: "Ja, ik ben klaar met mijn Hour of Code!"
     victory_experience_gained: "XP verdiend"
     victory_gems_gained: "Edelstenen verdiend"
@@ -417,7 +417,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     save_load_tab: "Opslaan/Laden"
     options_tab: "Opties"
     guide_tab: "Handleiding"
-    guide_video_tutorial: "Video Tutorial"
+    guide_video_tutorial: "Video handleiding"
     guide_tips: "Tips"
     multiplayer_tab: "Multiplayer"
     auth_tab: "Inschrijven"
@@ -449,7 +449,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     restricted_title: "Onbeschikbaar"
     should_equip: "(dubbel-klik om te kiezen)"
     equipped: "(gekozen)"
-    locked: "(versleuteld)"
+    locked: "(op slot)"
     restricted: "(onbeschikbaar in dit level)"
     equip: "Kies"
     unequip: "Verwijder"
@@ -481,8 +481,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     must_be_logged: "Je moet eerst ingelogd zijn. Maak een account aan of log in in het menu hierboven."
     subscribe_title: "Abonneren"
     unsubscribe: "Abonnement opzeggen"
-    confirm_unsubscribe: "Opzegging Bevestigen"
-    never_mind: "Laat Maar, Ik Houd Nog Steeds Van Je"
+    confirm_unsubscribe: "Opzegging bevestigen"
+    never_mind: "Laat maar, ik houd nog steeds van je"
     thank_you_months_prefix: "Bedankt voor je steun in de laatste"
     thank_you_months_suffix: "maanden."
     thank_you: "Bedankt dat je CodeCombat steunt."
@@ -507,12 +507,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     payment_methods_blurb1: "Momenteel worden alleen credit cards, Alipay en iDEAL geaccepteerd." # {change}
     payment_methods_blurb2: "Als u op een andere manier wilt betalen, neem dan alstublieft contact op"
     sale_button: "Koopje!"
-    sale_button_title: "Bespaar ${{discount}} bij aankoop van een 1-jaars abonnement" # {change}
+    sale_button_title: "Bespaar ${{discount}} bij aankoop van een 1-jarig abonnement" # {change}
     stripe_description: "Maandelijks abonnement"
     stripe_description_year_sale: "1-jarig abonnement (${{discount}} korting)" # {change}
     subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
     unlock_help_videos: "Abonneer om toegang te krijgen tot alle instructievideos."
-    personal_sub: "Persoonlijk Abonnement" # Accounts Subscription View below
+    personal_sub: "Persoonlijk abonnement" # Accounts Subscription View below
     loading_info: "Inschrijvingsinformatie laden..."
     managed_by: "beheert door"
     will_be_cancelled: "Wordt gestopt op"
@@ -581,7 +581,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     current_value: "Huidige waarde"
     default_value: "Standaard waarde"
     parameters: "Parameters"
-    returns: "Geeft terug" #there's no Dutch word for return, we only have "give back". 
+    returns: "Geeft terug" #there's no Dutch word for return, we only have "give back".
     granted_by: "Verleend door"
 
   save_load:
@@ -1108,7 +1108,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     additional_resources_1_mid2: "en"
     additional_resources_1_mid3: "Cursus 2"
     additional_resources_1_suff: "uitleg en oplossingen voor elke level." # {change}
-    additional_resources_2_pref: "Finish onze"
+    additional_resources_2_pref: "Maak onze af"
     additional_resources_2_suff: "Om twee gratis inschrijvingen te krijgen voor onze overige betaalde cursussen."
     additional_resources_3_pref: "Bezoek onze"
     additional_resources_3_mid: "Leerkrachtforums"
@@ -1478,7 +1478,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     not_allowed: "Methode niet toegestaan."
     timeout: "Server timeout." # {change}
     conflict: "Conflict van resources"
-    bad_input: "Slechte input."
+    bad_input: "Verkeerde invoer."
     server_error: "Fout van de server."
     unknown: "Onbekende fout." # {change}
     error: "ERROR"
@@ -1503,13 +1503,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     arrays: "Arrays"
     basic_syntax: "Basis Syntax"
     boolean_logic: "Booleaanse Logica"
-    break_statements: "Break Statements"
+    break_statements: "Break instructie"
     classes: "Klassen"
-    continue_statements: "Continue Statements"
+    continue_statements: "Continue instructie"
     for_loops: "For Loops"
     functions: "Functies"
     graphics: "Graphics"
-    if_statements: "If Statements"
+    if_statements: "If instructie"
 #    input_handling: "Input Handling"
     math_operations: "Wiskundige operaties"
 #    object_literals: "Object Literals"
@@ -1610,7 +1610,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     in_cash: "contant"
     custom_wizard: "Aangepaste CodeCombat Wizard"
     custom_avatar: "Aangepaste CodeCombat avatar"
-    heap: "voor zes maanden \"opsstart\" toegang"
+    heap: "voor zes maanden \"opstart\" toegang"
     credits: "credits"
     one_month_coupon: "coupon: Kies Rails of HTML"
     one_month_discount: "30% korting: Kies Rails of HTML"
