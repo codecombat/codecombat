@@ -22,7 +22,7 @@
         .product
           h4.subscription-gem-amount x{{gems}} / mo
           h3(data-i18n="account.subscription")
-          if me.isPremium()
+          if me.hasSubscription()
             button.disabled.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success
               | ✓ 
               span(data-i18n="account.subscribed")

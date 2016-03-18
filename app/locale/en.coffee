@@ -93,7 +93,6 @@
     profile: "Profile"
     stats: "Stats"
     code: "Code"
-    admin: "Admin"  # Only shows up when you are an admin
     home: "Home"
     contribute: "Contribute"
     legal: "Legal"
@@ -107,6 +106,17 @@
     create_a_class: "Create a Class"
     other: "Other"
     learn_to_code: "Learn to Code!"
+    toggle_nav: "Toggle navigation"
+    jobs: "Jobs"
+    schools: "Schools"
+    educator_wiki: "Educator Wiki"
+    request_quote: "Request a Quote"
+    get_involved: "Get Involved"
+    open_source: "Open source (GitHub)"
+    support: "Support"
+    faqs: "FAQs"
+    help_pref: "Need help? Email"
+    help_suff: "and we'll get in touch!"
 
   modal:
     close: "Close"
@@ -485,13 +495,14 @@
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "110+ basic levels across 4 worlds"
+    feature1: "125+ basic levels across 4 worlds" # {change}
     feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "80+ bonus levels"
+    feature3: "85+ bonus levels" # {change}
     feature4: "<strong>{{gems}} bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
     feature7: "Private <strong>Clans</strong>"
+    feature8: "<strong>No ads!</strong>"
     free: "Free"
     month: "month"
     must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."

@@ -148,6 +148,13 @@ module.exports = class PlayLevelView extends RootView
       application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: @loadDuration
       application.tracker?.trackTiming @loadDuration, 'Level Load Time', @levelID, @levelID
 
+  isCourseMode: -> @courseID and @courseInstanceID
+
+  showAds: ->
+    if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF && !@isCourseMode()
+      return me.getCampaignAdsGroup() is 'leaderboard-ads'
+    false
+
   # CocoView overridden methods ###############################################
 
   getRenderData: ->
@@ -326,7 +333,13 @@ module.exports = class PlayLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), observing: @observing, playerNames: @findPlayerNames(), levelType: @level.get('type', true))
+    surfaceOptions =
+      thangTypes: @supermodel.getModels(ThangType)
+      observing: @observing
+      playerNames: @findPlayerNames()
+      levelType: @level.get('type', true)
+      stayVisible: @showAds()
+    @surface = new Surface(@world, normalSurface, webGLSurface, surfaceOptions)
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -499,7 +512,8 @@ module.exports = class PlayLevelView extends RootView
         break
     Backbone.Mediator.publish 'tome:cast-spell', {}
 
-  onWindowResize: (e) => @endHighlight()
+  onWindowResize: (e) => 
+    @endHighlight()
 
   onDisableControls: (e) ->
     return if e.controls and not ('level' in e.controls)
@@ -535,7 +549,7 @@ module.exports = class PlayLevelView extends RootView
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then HeroVictoryModal else VictoryModal
-    ModalClass = CourseVictoryModal if @courseID and @courseInstanceID
+    ModalClass = CourseVictoryModal if @isCourseMode()
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
