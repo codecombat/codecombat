@@ -1032,7 +1032,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     play_now_learn_2: "while loops om lastige puzzels op te lossen"
     play_now_learn_3: "strings & variabelen om acties te aan te passen"
     play_now_learn_4: "hoe versla je een ogre (belangerijke levenslessen!)"
-    welcome_to_page: "Welkom op jhe cursus-pagina!"
+    welcome_to_page: "Welkom op je cursus-pagina!"
     completed_hoc: "Geweldig! Je hebt de Codeuur-cursus af!"
     ready_for_more_header: "Wil je meer? Speel de campagne-mode!"
     ready_for_more_1: "Gebruik edelstenen om nieuwe items te openen!"
