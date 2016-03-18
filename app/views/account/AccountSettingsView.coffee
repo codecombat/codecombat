@@ -64,10 +64,10 @@ module.exports = class AccountSettingsView extends CocoView
   onClickDeleteAccountButton: (e) ->
     @validateCredentialsForDestruction @$el.find('#delete-account-form'), =>
       renderData =
-        confirmTitle: 'Are you really sure?'
-        confirmBody: 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?'
-        confirmDecline: 'Cancel'
-        confirmConfirm: 'DELETE Your Account'
+        title: 'Are you really sure?'
+        body: 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?'
+        decline: 'Cancel'
+        confirm: 'DELETE Your Account'
       confirmModal = new ConfirmModal renderData
       confirmModal.on 'confirm', @deleteAccount
       @openModalView confirmModal
@@ -75,10 +75,10 @@ module.exports = class AccountSettingsView extends CocoView
   onClickResetProgressButton: ->
     @validateCredentialsForDestruction @$el.find('#reset-progress-form'), =>
       renderData =
-        confirmTitle: 'Are you really sure?'
-        confirmBody: 'This will completely erase your progress: code, levels, achievements, earned gems, and course work. This action CANNOT be undone. Are you entirely sure?'
-        confirmDecline: 'Cancel'
-        confirmConfirm: 'Erase ALL Progress'
+        title: 'Are you really sure?'
+        body: 'This will completely erase your progress: code, levels, achievements, earned gems, and course work. This action CANNOT be undone. Are you entirely sure?'
+        decline: 'Cancel'
+        confirm: 'Erase ALL Progress'
       confirmModal = new ConfirmModal renderData
       confirmModal.on 'confirm', @resetProgress
       @openModalView confirmModal

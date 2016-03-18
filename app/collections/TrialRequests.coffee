@@ -7,5 +7,5 @@ module.exports = class TrialRequestCollection extends CocoCollection
 
   fetchOwn: (options) ->
     options = _.extend({data: {}}, options)
-    options.url = _.result(@, 'url') + '/-/own'
+    options.data.applicant = me.id
     @fetch(options)

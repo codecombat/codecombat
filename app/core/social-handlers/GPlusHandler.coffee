@@ -20,109 +20,122 @@ scope = 'https://www.googleapis.com/auth/plus.login email'
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
     @accessToken = storage.load GPLUS_TOKEN_KEY, false
-    window.onGPlusLogin = _.bind(@onGPlusLogin, @)
     super()
 
   token: -> @accessToken?.access_token
+    
+  startedLoading: false
+  apiLoaded: false
+  connected: false
+  person: null
 
-  loadAPI: ->
-    return if @loadedAPI
-    @loadedAPI = true
-    (=>
+  fakeAPI: ->
+    window.gapi =
+      client:
+        load: (api, version, cb) -> cb()
+        plus:
+          people:
+            get: -> {
+              execute: (cb) ->
+                cb({
+                  name: {
+                    givenName: 'Mr'
+                    familyName: 'Bean'
+                  }
+                  id: 'abcd'
+                  emails: [{value: 'some@email.com'}]
+                })
+            }
+              
+      auth:
+        authorize: (opts, cb) ->
+          cb({access_token: '1234'})
+          
+    @startedLoading = true
+    @apiLoaded = true
+    
+  fakeConnect: ->
+    @accessToken = {access_token: '1234'}
+    @trigger 'connect'
+
+  loadAPI: (options={}) ->
+    options.success ?= _.noop
+    options.context ?= options
+    if @apiLoaded
+      options.success.bind(options.context)()
+    else
+      @once 'load-api', options.success, options.context
+    
+    if not @startedLoading
       po = document.createElement('script')
       po.type = 'text/javascript'
       po.async = true
       po.src = 'https://apis.google.com/js/client:platform.js?onload=onGPlusLoaded'
       s = document.getElementsByTagName('script')[0]
       s.parentNode.insertBefore po, s
-      window.onGPlusLoaded = _.bind(@onLoadAPI, @)
-      return
-    )()
+      @startedLoading = true
+      window.onGPlusLoaded = =>
+        @apiLoaded = true
+        if @accessToken and me.get('gplusID')
+          # We need to check the current state, given our access token
+          gapi.auth.setToken 'token', @accessToken
+          session_state = @accessToken.session_state
+          gapi.auth.checkSessionState {client_id: clientID, session_state: session_state}, (connected) =>
+            @connected = connected
+            @trigger 'load-api'
+        else
+          @connected = false
+          @trigger 'load-api'
     
-  onLoadAPI: ->
-    Backbone.Mediator.publish 'auth:gplus-api-loaded', {}
-    session_state = null
-    if @accessToken and me.get('gplusID')
-      # We need to check the current state, given our access token
-      gapi.auth.setToken 'token', @accessToken
-      session_state = @accessToken.session_state
-      gapi.auth.checkSessionState({client_id: clientID, session_state: session_state}, @onCheckedSessionState)
-    else
-      # If we ran checkSessionState, it might return true, that the user is logged into Google, but has not authorized us
-      @loggedIn = false
-      func = => @trigger 'checked-state'
-      setTimeout func, 1
 
-  renderLoginButtons: ->
-    return false unless gapi?.plusone?
-    gapi.plusone.go?()  # Handles +1 button
-    if not gapi.signin?.render
-      console.warn 'Didn\'t have gapi.signin to render G+ login button. (DoNotTrackMe extension?)'
-      return
-      
-    for gplusButton in $('.gplus-login-button')
-      params = {
-        callback: 'onGPlusLogin',
-        clientid: clientID,
-        cookiepolicy: 'single_host_origin',
-        scope: 'https://www.googleapis.com/auth/plus.login email',
-        height: 'short',
-      }
-      if gapi.signin?.render
-        gapi.signin.render(gplusButton, params)
-        
-    @trigger 'render-login-buttons'
-
-  onCheckedSessionState: (@loggedIn) =>
-    @trigger 'checked-state'
-
-  reauthorize: ->
-    params =
-      'client_id' : clientID
-      'scope' : scope
-    gapi.auth.authorize params, @onGPlusLogin
-    
-  fakeGPlusLogin: ->
-    @onGPlusLogin({
-      access_token: '1234'
-    })
-
-  onGPlusLogin: (e) ->
-    return unless e.access_token
-    @loggedIn = true
-    Backbone.Mediator.publish 'auth:logged-in-with-gplus', e
-    try
+  connect: (options={}) ->
+    options.success ?= _.noop
+    options.context ?= options
+    authOptions = {
+      client_id: clientID
+      scope: 'https://www.googleapis.com/auth/plus.login email'
+    }
+    gapi.auth.authorize authOptions, (e) =>
+      return unless e.access_token
+      @connected = true
+      try
       # Without removing this, we sometimes get a cross-domain error
-      d = _.omit(e, 'g-oauth-window')
-      storage.save(GPLUS_TOKEN_KEY, d, 0)
-    catch e
-      console.error 'Unable to save G+ token key', e
-    @accessToken = e
-    @trigger 'logged-in'
-    @trigger 'logged-into-google'
+        d = _.omit(e, 'g-oauth-window')
+        storage.save(GPLUS_TOKEN_KEY, d, 0)
+      catch e
+        console.error 'Unable to save G+ token key', e
+      @accessToken = e
+      @trigger 'connect'
+      options.success.bind(options.context)()
+      
 
   loadPerson: (options={}) ->
-    @reloadOnLogin = options.reloadOnLogin
+    options.success ?= _.noop
+    options.context ?= options
     # email and profile data loaded separately
-    gapi.client.load('plus', 'v1', =>
-      gapi.client.plus.people.get({userId: 'me'}).execute(@onPersonReceived))
+    gapi.client.load 'plus', 'v1', =>
+      gapi.client.plus.people.get({userId: 'me'}).execute (r) =>
+        attrs = {}
+        for gpProp, userProp of userPropsToSave
+          keys = gpProp.split('.')
+          value = r
+          for key in keys
+            value = value[key]
+          if value
+            attrs[userProp] = value
+    
+        if r.emails?.length
+          attrs.email = r.emails[0].value
+        @trigger 'load-person', attrs
+        options.success.bind(options.context)(attrs)
 
-  onPersonReceived: (r) =>
-    attrs = {}
-    for gpProp, userProp of userPropsToSave
-      keys = gpProp.split('.')
-      value = r
-      for key in keys
-        value = value[key]
-      if value
-        attrs[userProp] = value
 
-    newEmail = r.emails?.length and r.emails[0] isnt me.get('email')
-    return unless newEmail or me.get('anonymous', true)
-    if r.emails?.length
-      attrs.email = r.emails[0].value
-    @trigger 'person-loaded', attrs
-
+  renderButtons: ->
+    return false unless gapi?.plusone?
+    gapi.plusone.go?()  # Handles +1 button
+  
+  # Friends logic, not in use
+    
   loadFriends: (friendsCallback) ->
     return friendsCallback() unless @loggedIn
     expiresIn = if @accessToken then parseInt(@accessToken.expires_at) - new Date().getTime()/1000 else -1
@@ -133,3 +146,9 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       @listenToOnce(@, 'logged-in', onReauthorized)
     else
       onReauthorized()
+
+  reauthorize: ->
+    params =
+      'client_id' : clientID
+      'scope' : scope
+    gapi.auth.authorize params, @onGPlusLogin

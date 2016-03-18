@@ -21,7 +21,7 @@ module.exports.formToObject = ($el, options) ->
   obj
   
 module.exports.objectToForm = ($el, obj, options={}) ->
-  options = _.extend({ overwriteExisting: false })
+  options = _.extend({ overwriteExisting: false }, options)
   inputs = $('input, textarea, select', $el)
   for input in inputs
     input = $(input)
@@ -84,7 +84,8 @@ module.exports.setErrorToProperty = setErrorToProperty = (el, property, message,
   
 module.exports.scrollToFirstError = ($el=$('body')) ->
   $first = $el.find('.has-error, .alert-danger, .error-help-block, .has-warning, .alert-warning, .warning-help-block').filter(':visible').first()
-  $('html, body').animate({ scrollTop: $first.offset().top - 20 }, 300)
+  if $first.length
+    $('html, body').animate({ scrollTop: $first.offset().top - 20 }, 300)
 
 module.exports.clearFormAlerts = (el) ->
   $('.has-error', el).removeClass('has-error')

@@ -22,11 +22,12 @@ module.exports = class LadderTabView extends CocoView
     'click .spectate-cell': 'onClickSpectateCell'
     'click .load-more-ladder-entries': 'onLoadMoreLadderEntries'
 
-  subscriptions:
-    'auth:facebook-api-loaded': 'checkFriends'
-    'auth:gplus-api-loaded': 'checkFriends'
-    'auth:logged-in-with-facebook': 'onConnectedWithFacebook'
-    'auth:logged-in-with-gplus': 'onConnectedWithGPlus'
+    # Refactored, to-reimplement
+#  subscriptions:
+#    'auth:facebook-api-loaded': 'checkFriends'
+#    'auth:gplus-api-loaded': 'checkFriends'
+#    'auth:logged-in-with-facebook': 'onConnectedWithFacebook'
+#    'auth:logged-in-with-gplus': 'onConnectedWithGPlus'
 
   constructor: (options, @level, @sessions) ->
     super(options)

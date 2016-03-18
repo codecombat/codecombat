@@ -6,16 +6,12 @@ describe 'CreateAccountModal', ->
   modal = null
   
   initModal = (options) ->
+    application.facebookHandler.fakeAPI()
+    application.gplusHandler.fakeAPI()
     modal = new CreateAccountModal(options)
     modal.render()
     modal.render = _.noop
     jasmine.demoModal(modal)
-    window.gapi =
-      client:
-        load: _.noop
-    window.FB =
-      login: _.noop
-      api: _.noop
   
   afterEach ->
     modal.stopListening()
@@ -37,21 +33,21 @@ describe 'CreateAccountModal', ->
 
     it 'fails if nothing is in the form, showing errors for email and password', ->
       modal.$('form').each (i, el) -> el.reset()
-      modal.$('form:first').submit()
+      modal.$('form').submit()
       expect(jasmine.Ajax.requests.all().length).toBe(0)
       expect(modal.$('.has-error').length).toBe(2)
     
     it 'fails if email is missing', ->
       modal.$('form').each (i, el) -> el.reset()
       forms.objectToForm(modal.$el, { name: 'Name', password: 'xyzzy' })
-      modal.$('form:first').submit()
+      modal.$('form').submit()
       expect(jasmine.Ajax.requests.all().length).toBe(0)
       expect(modal.$('.has-error').length).toBeTruthy()
 
     it 'signs up if only email and password is provided', ->
       modal.$('form').each (i, el) -> el.reset()
       forms.objectToForm(modal.$el, { email: 'some@email.com', password: 'xyzzy' })
-      modal.$('form:first').submit()
+      modal.$('form').submit()
       requests = jasmine.Ajax.requests.all()
       expect(requests.length).toBe(1)
       expect(modal.$el.has('.has-warning').length).toBeFalsy()
@@ -62,7 +58,7 @@ describe 'CreateAccountModal', ->
       beforeEach ->
         modal.$('form').each (i, el) -> el.reset()
         forms.objectToForm(modal.$el, { email: 'some@email.com', password: 'xyzzy', classCode: 'qwerty' })
-        modal.$('form:first').submit()
+        modal.$('form').submit()
         expect(jasmine.Ajax.requests.all().length).toBe(1)
 
       it 'checks for Classroom existence if a class code was entered', ->
@@ -84,11 +80,9 @@ describe 'CreateAccountModal', ->
       describe 'the Classroom does not exist', ->
         it 'shows an error and clears the field', ->
           request = jasmine.Ajax.requests.mostRecent()
-          console.log 'school input?', modal.$('#class-code-input').val()
           request.respondWith({status: 404, responseText: JSON.stringify({})})
           expect(jasmine.Ajax.requests.all().length).toBe(1)
           expect(modal.$el.has('.has-error').length).toBeTruthy()
-          console.log 'school input?', modal.$('#class-code-input').val()
           expect(modal.$('#class-code-input').val()).toBe('')
         
       
@@ -98,12 +92,9 @@ describe 'CreateAccountModal', ->
 
     beforeEach ->
       initModal()
-      application.gplusHandler.trigger 'render-login-buttons'
       signupButton = modal.$('#gplus-signup-btn')
       expect(signupButton.attr('disabled')).toBeFalsy()
       signupButton.click()
-      application.gplusHandler.fakeGPlusLogin()
-      application.gplusHandler.trigger 'person-loaded', { firstName: 'Mr', lastName: 'Bean', gplusID: 'abcd', email: 'some@email.com' }
     
     it 'checks to see if the user already exists in our system', ->
       requests = jasmine.Ajax.requests.all()
@@ -131,7 +122,7 @@ describe 'CreateAccountModal', ->
       describe 'and the user finishes signup anyway with new info', ->
         beforeEach ->
           forms.objectToForm(modal.$el, { email: 'some@email.com', schoolName: 'Hogwarts' })
-          modal.$('form:first').submit()
+          modal.$('form').submit()
           
         it 'upserts the values to the new user', ->
           request = jasmine.Ajax.requests.mostRecent()
@@ -151,7 +142,7 @@ describe 'CreateAccountModal', ->
         
       describe 'and the user finishes signup', ->
         beforeEach ->
-          modal.$('form:first').submit()
+          modal.$('form').submit()
 
         it 'creates the user with the gplus attributes', ->
           request = jasmine.Ajax.requests.mostRecent()
@@ -167,12 +158,9 @@ describe 'CreateAccountModal', ->
 
     beforeEach ->
       initModal()
-      Backbone.Mediator.publish 'auth:facebook-api-loaded', {}
       signupButton = modal.$('#facebook-signup-btn')
       expect(signupButton.attr('disabled')).toBeFalsy()
       signupButton.click()
-      application.facebookHandler.fakeFacebookLogin()
-      application.facebookHandler.trigger 'person-loaded', { firstName: 'Mr', lastName: 'Bean', facebookID: 'abcd', email: 'some@email.com' }
 
     it 'checks to see if the user already exists in our system', ->
       requests = jasmine.Ajax.requests.all()
@@ -200,7 +188,7 @@ describe 'CreateAccountModal', ->
       describe 'and the user finishes signup anyway with new info', ->
         beforeEach ->
           forms.objectToForm(modal.$el, { email: 'some@email.com', schoolName: 'Hogwarts' })
-          modal.$('form:first').submit()
+          modal.$('form').submit()
 
         it 'upserts the values to the new user', ->
           request = jasmine.Ajax.requests.mostRecent()
@@ -220,7 +208,7 @@ describe 'CreateAccountModal', ->
 
       describe 'and the user finishes signup', ->
         beforeEach ->
-          modal.$('form:first').submit()
+          modal.$('form').submit()
 
         it 'creates the user with the facebook attributes', ->
           request = jasmine.Ajax.requests.mostRecent()
