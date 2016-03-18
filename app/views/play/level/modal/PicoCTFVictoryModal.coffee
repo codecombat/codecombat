@@ -15,6 +15,10 @@ module.exports = class PicoCTFVictoryModal extends ModalView
       console.log 'submitted', form, 'and got response', response
     ).load()
 
+    if nextLevel = @level.get('nextLevel')
+      @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
+      @nextLevel = @supermodel.loadModel(@nextLevel).model
+
     @playSound 'victory'
 
   onLoaded: ->
