@@ -495,9 +495,9 @@
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "110+ basic levels across 4 worlds"
+    feature1: "125+ basic levels across 4 worlds" # {change}
     feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "80+ bonus levels"
+    feature3: "85+ bonus levels" # {change}
     feature4: "<strong>{{gems}} bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
