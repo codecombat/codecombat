@@ -266,6 +266,8 @@ module.exports = class CampaignView extends RootView
     authModal.mode = 'signup'
     @openModalView authModal
 
+  showAds: -> application.isProduction() && !me.isPremium() && !window.serverConfig.picoCTF
+
   annotateLevel: (level) ->
     level.position ?= { x: 10, y: 10 }
     level.locked = not me.ownsLevel level.original
@@ -554,6 +556,7 @@ module.exports = class CampaignView extends RootView
     aspectRatio = mapWidth / mapHeight
     pageWidth = @$el.width()
     pageHeight = @$el.height()
+    pageHeight -= adContainerHeight if adContainerHeight = $('.ad-container').outerHeight()
     widthRatio = pageWidth / mapWidth
     heightRatio = pageHeight / mapHeight
     # Make sure we can see the whole map, fading to background in one dimension.
