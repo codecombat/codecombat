@@ -5,7 +5,6 @@ sendwithus = require '../sendwithus'
 async = require 'async'
 LevelSession = require '../levels/sessions/LevelSession'
 moment = require 'moment'
-hipchat = require '../hipchat'
 
 module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->

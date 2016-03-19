@@ -7,7 +7,7 @@ Handler = require '../commons/Handler'
 mongoose = require 'mongoose'
 log = require 'winston'
 sendwithus = require '../sendwithus'
-hipchat = require '../hipchat'
+slack = require '../slack'
 config = require '../../server_config'
 request = require 'request'
 async = require 'async'
@@ -178,7 +178,7 @@ PaymentHandler = class PaymentHandler extends Handler
               if err
                 @logPaymentError(req, 'Apple incr db error.'+err)
                 return @sendDatabaseError(res, err)
-              @sendPaymentHipChatMessage user: req.user, payment: payment
+              @sendPaymentSlackMessage user: req.user, payment: payment
               @sendCreated(res, @formatEntity(req, payment))
             )
           )
@@ -270,7 +270,7 @@ PaymentHandler = class PaymentHandler extends Handler
               if err
                 @logPaymentError(req, 'Stripe recalc db error. '+err)
                 return @sendDatabaseError(res, err)
-              @sendPaymentHipChatMessage user: req.user, payment: payment
+              @sendPaymentSlackMessage user: req.user, payment: payment
               @sendSuccess(res, @formatEntity(req, payment))
           )
       )
@@ -333,7 +333,7 @@ PaymentHandler = class PaymentHandler extends Handler
         if err
           @logPaymentError(req, 'Stripe incr db error. '+err)
           return @sendDatabaseError(res, err)
-        @sendPaymentHipChatMessage user: req.user, payment: payment
+        @sendPaymentSlackMessage user: req.user, payment: payment
         @sendCreated(res, @formatEntity(req, payment))
       )
     )
@@ -403,12 +403,12 @@ PaymentHandler = class PaymentHandler extends Handler
       user.save((err) -> done(err))
     )
 
-  sendPaymentHipChatMessage: (options) ->
+  sendPaymentSlackMessage: (options) ->
     try
       message = "#{options.user?.get('name')} bought #{options.payment?.get('amount')} via #{options.payment?.get('service')}"
       message += " for #{options.payment.get('description')}" if options.payment?.get('description')
-      hipchat.sendHipChatMessage message, ['tower']
+      slack.sendSlackMessage message, ['tower']
     catch e
-      log.error "Couldn't send HipChat message on payment because of error: #{e}"
+      log.error "Couldn't send Slack message on payment because of error: #{e}"
 
 module.exports = new PaymentHandler()

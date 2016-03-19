@@ -868,7 +868,7 @@
     social_facebook: "Like CodeCombat on Facebook"
     social_twitter: "Follow CodeCombat on Twitter"
     social_gplus: "Join CodeCombat on Google+"
-    social_hipchat: "Chat with us in the public CodeCombat Slack channel"
+    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Contribute to the project"
 
   clans:
@@ -1294,7 +1294,7 @@
     join_desc_3: ", or find us in our "
     join_desc_4: "and we'll go from there!"
     join_url_email: "Email us"
-    join_url_hipchat: "public Slack channel"
+    join_url_slack: "public Slack channel"
     archmage_subscribe_desc: "Get emails on new coding opportunities and announcements."
     artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
     artisan_introduction_suf: ", then this class might be for you."

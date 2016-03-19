@@ -126,7 +126,7 @@ CampaignHandler = class CampaignHandler extends Handler
 
   onPutSuccess: (req, doc) ->
     docLink = "http://codecombat.com#{req.headers['x-current-path']}"
-    @sendChangedHipChatMessage creator: req.user, target: doc, docLink: docLink
+    @sendChangedSlackMessage creator: req.user, target: doc, docLink: docLink
 
   getNamesByIDs: (req, res) -> @getNamesByOriginals req, res, true
 

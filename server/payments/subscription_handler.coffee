@@ -7,7 +7,7 @@ mongoose = require 'mongoose'
 async = require 'async'
 config = require '../../server_config'
 Handler = require '../commons/Handler'
-hipchat = require '../hipchat'
+slack = require '../slack'
 discountHandler = require './discount_handler'
 Prepaid = require '../prepaids/Prepaid'
 User = require '../users/User'
@@ -185,9 +185,9 @@ class SubscriptionHandler extends Handler
                     return @sendDatabaseError(res, err)
                   try
                     msg = "Year subscription purchased by #{req.user.get('email')} #{req.user.id}"
-                    hipchat.sendHipChatMessage msg, ['tower']
+                    slack.sendSlackMessage msg, ['tower']
                   catch error
-                    @logSubscriptionError(req.user, "Year sub sale HipChat tower msg error: #{JSON.stringify(error)}")
+                    @logSubscriptionError(req.user, "Year sub sale Slack tower msg error: #{JSON.stringify(error)}")
                   @sendSuccess(res, user)
 
   subscribeWithPrepaidCode: (req, res) ->

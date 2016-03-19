@@ -69,6 +69,8 @@ config.hipchat =
   tower: process.env.COCO_HIPCHAT_TOWER_API_KEY or ''
   artisans: process.env.COCO_HIPCHAT_ARTISANS_API_KEY or ''
 
+config.slackToken = process.env.COCO_SLACK_TOKEN or ''
+
 config.queue =
   accessKeyId: process.env.COCO_AWS_ACCESS_KEY_ID or ''
   secretAccessKey: process.env.COCO_AWS_SECRET_ACCESS_KEY or ''
