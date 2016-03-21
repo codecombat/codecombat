@@ -28,6 +28,8 @@ module.exports = class TeacherClassView extends RootView
     'click .enroll-student-button': 'onClickEnroll'
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .enroll-selected-students': 'onClickBulkEnroll'
+    'click .select-all': 'onClickSelectAll'
+    'click .student-checkbox': 'onClickStudentCheckbox'
 
   initialize: (options, classroomID) ->
     super(options)
@@ -183,7 +185,29 @@ module.exports = class TeacherClassView extends RootView
       @courseInstances.add(courseInstance)
       courseInstance.save {
         success: =>
-          debugger
           @render()
       }
     null
+    
+  onClickSelectAll: (e) ->
+    e.preventDefault()
+    console.log 'selecting all'
+    checkboxes = $('.student-checkbox input')
+    if _.all(checkboxes, 'checked')
+      console.log "unchecking"
+      $('.select-all input').prop('checked', false)
+      checkboxes.prop('checked', false)
+    else
+      console.log "checking"
+      $('.select-all input').prop('checked', true)
+      checkboxes.prop('checked', true)
+    null
+    
+  onClickStudentCheckbox: (e) ->
+    e.preventDefault()
+    # $(e.target).$()
+    checkbox = $(e.currentTarget).find('input')
+    checkbox.prop('checked', !checkbox.prop('checked'))
+    # checkboxes.prop('checked', false)
+    checkboxes = $('.student-checkbox input')
+    $('.select-all input').prop('checked', _.all(checkboxes, 'checked'))

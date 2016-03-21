@@ -112,7 +112,7 @@ mixin studentsTab
     +bulkAssignControls
     table.students-table
       thead
-        th.checkbox-col
+        th.checkbox-col.select-all
           span Select All
           .checkbox-flat
             input(type='checkbox' id='checkbox-all-students')
@@ -129,7 +129,7 @@ mixin studentsTab
           
 mixin studentRow(student)
   tr.student-row.alternating-background
-    td.checkbox-col
+    td.checkbox-col.student-checkbox
       .checkbox-flat
         input(type='checkbox' id='checkbox-student-' + student.id, data-student-id=student.id)
         label.checkmark(for='checkbox-student-' + student.id)
