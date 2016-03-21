@@ -144,7 +144,8 @@ module.exports = class TeacherClassView extends RootView
   onClickEnroll: (e) ->
     userID = $(e.target).data('user-id')
     user = @students.get(userID)
-    modal = new ActivateLicensesModal { @classroom, user, users: @students }
+    selectedUsers = new Users([user])
+    modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
     @openModalView(modal)
     modal.once 'redeem-users', -> document.location.reload()
     application.tracker?.trackEvent 'Classroom started enroll students', category: 'Courses'

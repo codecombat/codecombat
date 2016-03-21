@@ -11,7 +11,10 @@ block modal-header-content
 block modal-body-content
   select
     each classroom in view.classrooms.models
-      option= classroom.get('name')
+      option(selected=(classroom.id === view.classroom.id))
+        = classroom.get('name')
+    option(selected=!view.classroom)
+      | All Students
   form.form
     span(data-i18n="courses.enroll_the_following_students")
       | Enroll the following students

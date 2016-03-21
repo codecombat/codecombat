@@ -16,7 +16,7 @@ describe 'ActivateLicensesModal', ->
   
   makeModal = (options) ->
     (done) ->
-      @selectedUsers = new Users(@users.models.slice(0,3))
+      @selectedUsers = new Users(@users.models.slice(0,(options?.numSelected || 3)))
       @modal = new ActivateLicensesModal({
         @classroom, @users, @selectedUsers
       })
@@ -25,14 +25,19 @@ describe 'ActivateLicensesModal', ->
       _.defer done
     
   beforeEach ->
-    @classroom = classrooms.first()
+    @classroom = classrooms.get('classroom1')
     @users = require 'test/app/fixtures/students'
         
   afterEach ->
     @modal.stopListening()
   
   describe 'the class dropdown', ->
-    it 'should display the current classname'
+    beforeEach makeModal()
+    it 'should contain an All Students option', ->
+      expect(@modal.$('select option:last-child').html()).toBe('All Students')
+    
+    it 'should display the current classname', ->
+      expect(@modal.$('option:selected').html()).toBe('Teacher Zero\'s Classroomiest Classroom')
     
     it 'should contain all of the teacher\'s classes'
     
@@ -52,13 +57,14 @@ describe 'ActivateLicensesModal', ->
       expect(@modal.$('#total-available').html()).toBe('2')
 
   describe 'the Enroll button', ->
-    beforeEach makeModal() # TODO: Rudundant in later tests
+    beforeEach makeModal()
     it 'should show the number of selected students', ->
       expect(@modal.$('#total-selected-span').html()).toBe('3')
     
     it 'should fire off one request when clicked'
     
     describe 'when the teacher has enough enrollments', ->
+      beforeEach makeModal({ numSelected: 2 })
       it 'should be enabled', ->
         expect(@modal.$('#activate-licenses-btn').hasClass('disabled')).toBe(false)
   
