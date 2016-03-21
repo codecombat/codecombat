@@ -7,6 +7,7 @@ ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 LevelSessions = require 'collections/LevelSessions'
+User = require 'models/User'
 Users = require 'collections/Users'
 Courses = require 'collections/Courses'
 CourseInstance = require 'models/CourseInstance'
@@ -149,13 +150,23 @@ module.exports = class TeacherClassView extends RootView
     @openModalView(modal)
     modal.once 'redeem-users', -> document.location.reload()
     application.tracker?.trackEvent 'Classroom started enroll students', category: 'Courses'
+  
+  onClickBulkEnroll: ->
+    courseID = $('.bulk-course-select').val()
+    courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
+    userIDs = @getSelectedStudentIDs().toArray()
+    selectedUsers = new Users(@students.get(userID) for userID in userIDs)
+    console.log selectedUsers
+    modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
+    @openModalView(modal)
+    modal.once 'redeem-users', -> document.location.reload()
+    application.tracker?.trackEvent 'Classroom started enroll students', category: 'Courses'
     
   onClickBulkAssign: ->
     courseID = $('.bulk-course-select').val()
     courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
     members = @getSelectedStudentIDs().toArray()
     if courseInstance
-      # TODO: Only assign the selected ones
       for studentID in members
         courseInstance.addMember studentID, {
           success: =>
