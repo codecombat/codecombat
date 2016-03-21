@@ -202,7 +202,6 @@ ret = """
   self.workerID = 'Worker';
 
   console = (#{betterConsole.toString()})();
-
   try {
     // the world javascript file
     #{codeFileContents.join(';\n    ')};
@@ -224,4 +223,5 @@ ret = """
 #self.console = console;
 #GLOBAL.console = console;
 
+fs.writeFileSync('/tmp/evaled', ret)
 module.exports = new Function(ret)

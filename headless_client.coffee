@@ -43,18 +43,21 @@ disable = [
 
 # Global emulated stuff
 GLOBAL.window = GLOBAL
-GLOBAL.document = location: pathname: 'headless_client'
+GLOBAL.document = 
+  location:
+    pathname: 'headless_client'
+    search: ''
+
 GLOBAL.console.debug = console.log
+GLOBAL.serverConfig =
+  picoCTF: false
+  production: false
+
 try
   GLOBAL.Worker = require('webworker-threads').Worker
-catch
-  console.log ""
-  console.log "Headless client needs the webworker-threads package from NPM to function."
-  console.log "Try installing it with the command:"
-  console.log ""
-  console.log "    npm install webworker-threads"
-  console.log ""
-  process.exit(1)
+catch e
+  GLOBAL.Worker = require('./headless_client/fork_web_worker').Worker
+  options.workerCode = './worker_world.coffee'
 
 Worker::removeEventListener = (what) ->
   if what is 'message'
@@ -136,6 +139,7 @@ $.ajax
     Simulator = require 'lib/simulator/Simulator'
 
     sim = new Simulator options
+    sim.trigger = () -> console.log(Array.prototype.join.call(arguments, '> '))
     if simulateOneGame
       sim.fetchAndSimulateOneGame(process.argv[3],process.argv[4])
     else

@@ -1,4 +1,3 @@
-SuperModel = require 'models/SuperModel'
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/verifierView'
 ThangType = require 'models/ThangType'
@@ -18,26 +17,19 @@ GoalsView = require 'views/play/level/LevelGoalsView'
 
 class Test
   constructor: (@parent, @levelID, @supermodel) ->
-    # TODO: turn this into a Subview
-    # TODO: listen to Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem, god: @shared.god from Angel to detect when we can't load the thing
-    # TODO: listen to the progress report from Angel to show a simulation progress bar (maybe even out of the number of frames we actually know it'll take)
-    @supermodel ?= new SuperModel()
     @session = @parent.session
     @load()
 
   load: () ->
     @loadStartTime = new Date()
-    @god = new God maxAngels: 1
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true, defaultGear: true, fakeSessionConfig: {codeLanguage: 'python', callback: @configureSession}
+    console.log "Loading", @
+    @god = new God debugWorker: true
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true, defaultGear: true
     @parent.listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded.bind(@)
 
   onWorldNecessitiesLoaded: ->
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
-    unless @solution
-      Backbone.Mediator.publish 'test:update', state: 'error'
-      @state = 'error'
-      return
     team = @world.teamForPlayer(0)
 
     @god.setLevel @level.serialize @supermodel, @session
@@ -49,27 +41,25 @@ class Test
     @register()
     @parent.listenToOnce @god, 'goals-calculated', @processSingleGameResults.bind(@)
 
-  configureSession: (session, level) =>
-    # TODO: reach into and find hero and get the config from the solution
-    try
-      hero = _.find level.get("thangs"), id: "Hero Placeholder"
-      programmable = _.find(hero.components, (x) -> x.config?.programmableMethods?.plan).config.programmableMethods.plan
-      session.solution = _.find (programmable.solutions ? []), language: session.get('codeLanguage')
-      session.set 'heroConfig', session.solution.heroConfig
-      session.set 'code', {'hero-placeholder': plan: session.solution.source}
-      state = session.get 'state'
-      state.flagHistory = session.solution.flagHistory
-      state.difficulty = session.solution.difficulty or 0
-      session.solution.seed = undefined unless _.isNumber session.solution.seed  # TODO: migrate away from submissionCount/sessionID seed objects
-    catch e
-      @state = 'error'
-      console.error "Could not load the session solution for #{@level.get('name')}:", e
-
   grabLevelLoaderData: ->
     @world = @levelLoader.world
-    @level = @levelLoader.level
+    @level = @levelLoader.level 
+    @heroPlaceholder = @level.get("thangs").filter((x) -> x.id == "Hero Placeholder").pop()
+    @programmable = @heroPlaceholder.components.filter((x) -> x.config?.programmableMethods?.plan).pop()
+    @gear =  @heroPlaceholder.components.filter((x) -> x.config?.inventory).pop()
+    @solution = @programmable.config.programmableMethods.plan.solutions[0]
+    #@solution.source = "self.say(Esper.str(10))\n" + @solution.source
     @session = @levelLoader.session
-    @solution = @levelLoader.session.solution
+
+    #@session = new LevelSession
+    #@session.set 'teamSpells', humans: ["hero-placeholder/plan"]
+    #@session.set 'creator', null #Prevents session from being saved
+    @session.set 'codeLanguage', @solution.language
+    @session.set 'submittedCodeLanguage', @solution.language
+    @session.set 'code', 'hero-placeholder':
+      plan:  @solution.source
+    @session.set 'heroConfig', @gear.config
+    #@session.save()
 
   setTeam: (team) ->
     team = team?.team unless _.isString team
@@ -84,17 +74,20 @@ class Test
     @god.setGoalManager @goalManager
 
   register: ->
-    # TODO: make an alternative for constructing a TomeView, and then don't let the TomeView know about fixedSeed
-    @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level, observing: @observing, courseID: @courseID, courseInstanceID: @courseInstanceID, god: @god, fixedSeed: @solution.seed
+    #@bus = LevelBus.get(@levelID, @session.id)
+    #@bus.setSession(@session)
+    @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level, observing: @observing, courseID: @courseID, courseInstanceID: @courseInstanceID, god: @god
     @tome.afterRender()
-    Backbone.Mediator.publish 'test:update', state: 'running'
+    #@bus.setSpells @tome.spells
+    Backbone.Mediator.publish 'test:update'
+
+    
 
   processSingleGameResults: (e) ->
     @goals = e.goalStates
-    Backbone.Mediator.publish 'test:update', state: 'complete'
+    Backbone.Mediator.publish 'test:update'
 
 module.exports = class VerifierView extends RootView
-  className: 'style-flat'
   template: template
   id: 'verifier-view'
   events:
@@ -110,18 +103,20 @@ module.exports = class VerifierView extends RootView
 
   constructor: (options, @levelID) ->
     super options
-    # TODO: rework to handle N at a time instead of all at once
-    # TODO: sort tests by unexpected result first
-    testLevels = ["dungeons-of-kithgard", "gems-in-the-deep", "shadow-guard", "kounter-kithwise", "crawlways-of-kithgard", "enemy-mine", "illusory-interruption", "forgetful-gemsmith", "signs-and-portents", "favorable-odds", "true-names", "the-prisoner", "banefire", "the-raised-sword", "kithgard-librarian", "fire-dancing", "loop-da-loop", "haunted-kithmaze", "riddling-kithmaze", "descending-further", "the-second-kithmaze", "dread-door", "cupboards-of-kithgard", "hack-and-dash", "known-enemy", "master-of-names", "lowly-kithmen", "closing-the-distance", "tactical-strike", "the-skeleton", "a-mayhem-of-munchkins", "the-final-kithmaze", "the-gauntlet", "radiant-aura", "kithgard-gates", "destroying-angel", "deadly-dungeon-rescue", "kithgard-brawl", "cavern-survival", "breakout", "attack-wisely", "kithgard-mastery", "kithgard-apprentice", "robot-ragnarok", "defense-of-plainswood", "peasant-protection", "forest-fire-dancing"]
-    #testLevels = testLevels.slice 0, 15
-    levelIDs = if @levelID then [@levelID] else testLevels
-    supermodel = if @levelID then @supermodel else undefined
-    @tests = (new Test @, levelID, supermodel for levelID in levelIDs)
+    @levelID ?= 'dungeons-of-kithgard'
+    window.rob = @
 
-  update: (e) ->
-    # TODO: show unworkable tests instead of hiding them
-    @tests = _.filter @tests, (test) -> test.state isnt 'error'
+    @tests = []
+    @test = new Test(@, @levelID, @supermodel)
+    @tests.push @test
+    #@tests.push new Test(@, 'kithguard-dungeon', @supermodel)
+
+  update: () ->
+    console.log "Updating, view"
     @render()
+  
+
+
 
   onThangsLoaded: ->
 
@@ -130,3 +125,4 @@ module.exports = class VerifierView extends RootView
 
   onEscapePressed: ->
     alert 'sorry'
+

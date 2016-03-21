@@ -87,6 +87,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/poll': go('editor/poll/PollSearchView')
     'editor/poll/:articleID': go('editor/poll/PollEditView')
     'editor/thang-tasks': go('editor/ThangTasksView')
+    'editor/verifier': go('editor/VerifierView')
+    'editor/verifier/:levelID': go('editor/VerifierView')
 
     'file/*path': 'routeToServer'
 
