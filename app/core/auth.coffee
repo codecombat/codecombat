@@ -49,6 +49,7 @@ module.exports.loginUser = (userObject, failure=genericFailure, nextURL=null) ->
   jqxhr.fail(failure)
 
 module.exports.logoutUser = ->
+  # TODO: Refactor to use User.logout
   FB?.logout?()
   callback = ->
     location = _.result(currentView, 'logoutRedirectURL')

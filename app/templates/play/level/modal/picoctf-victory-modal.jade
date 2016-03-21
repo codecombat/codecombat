@@ -15,12 +15,18 @@
         .container-fluid
           .row
            - var victoryText = view.level.get('victory');
-           - victoryText = {body: 'You have gotten busted'}
            if victoryText && victoryText.body
              .well.well-sm.well-parchment
                h3= victoryText.body
 
           .row
-            .col-sm-5.col-sm-offset-2
-            .col-sm-5
-              a(href="/play/picoctf")#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase Done
+            if view.nextLevel && view.nextLevel.get('slug')
+              .col-sm-5.col-sm-offset-2
+                a(href="/play/picoctf")#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase Done
+              .col-sm-5
+                a(href="/play/level/#{view.nextLevel.get('slug')}")#continue-button.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase Continue
+            else
+              .col-sm-5.col-sm-offset-2
+              .col-sm-5
+                a(href="/play/picoctf")#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase Done
+  

@@ -36,8 +36,8 @@ ArticleSchema.plugin(plugins.SearchablePlugin, {searchable: ['body', 'name']})
 ArticleSchema.plugin(plugins.TranslationCoveragePlugin)
 ArticleSchema.plugin(plugins.PatchablePlugin)
 
-ArticleSchema.postEditableProperties = []
-ArticleSchema.editableProperties = ['body', 'name', 'i18n', 'i18nCoverage']
-ArticleSchema.jsonSchema = require '../../app/schemas/models/article'
+ArticleSchema.statics.postEditableProperties = []
+ArticleSchema.statics.editableProperties = ['body', 'name', 'i18n', 'i18nCoverage']
+ArticleSchema.statics.jsonSchema = require '../../app/schemas/models/article'
 
 module.exports = mongoose.model('article', ArticleSchema)

@@ -77,7 +77,7 @@
         p If this is showing, you dun goofed
 
   block footer
-    #character-lineup.text-center
+    #character-lineup.text-center.m-t-3
       img(src="/images/pages/home/character_lineup.png")
     .container-fluid
       #footer.small
@@ -140,5 +140,6 @@
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
         br.hidden-lg.hidden-md
         span.spr(data-i18n="nav.help_pref")
-        a(href="mailto:team@codecombat.com") team@codecombat.com
+        - var supportEmail = (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl' ? 'klantenservice@codecombat.nl' : 'team@codecombat.com';
+        a(href="mailto:" + supportEmail)= supportEmail
         span.spl(data-i18n="nav.help_suff")

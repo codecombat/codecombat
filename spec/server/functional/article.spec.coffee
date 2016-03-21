@@ -468,11 +468,11 @@ describe 'POST /db/article/:handle/new-version', ->
     yield postNewVersion({ name: 'Article name', body: 'New body', commitMessage: 'Commit message' })
     
     
-  it 'sends a notification to artisan and main HipChat channels', utils.wrap (done) ->
-    hipchat = require '../../../server/hipchat'
-    spyOn(hipchat, 'sendHipChatMessage')
+  it 'sends a notification to artisan and main Slack channels', utils.wrap (done) ->
+    slack = require '../../../server/slack'
+    spyOn(slack, 'sendSlackMessage')
     yield postNewVersion({ name: 'Article name', body: 'New body' })
-    expect(hipchat.sendHipChatMessage).toHaveBeenCalled()
+    expect(slack.sendSlackMessage).toHaveBeenCalled()
     done()
   
 describe 'version fetching endpoints', ->

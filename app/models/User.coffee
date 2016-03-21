@@ -194,6 +194,9 @@ module.exports = class User extends CocoModel
   isOnPremiumServer: ->
     me.get('country') in ['china', 'brazil']
     
+
+  # Function meant for "me"
+    
   spy: (user, options={}) ->
     user = user.id or user # User instance, user ID, email or username
     options.url = '/auth/spy'
@@ -205,6 +208,18 @@ module.exports = class User extends CocoModel
   stopSpying: (options={}) ->
     options.url = '/auth/stop-spying'
     options.type = 'POST'
+    @fetch(options)
+
+  logout: (options={}) ->
+    options.type = 'POST'
+    options.url = '/auth/logout'
+    FB?.logout?()
+    options.success ?= ->
+      location = _.result(currentView, 'logoutRedirectURL')
+      if location
+        window.location = location
+      else
+        window.location.reload()
     @fetch(options)
 
   fetchGPlusUser: (gplusID, options={}) ->

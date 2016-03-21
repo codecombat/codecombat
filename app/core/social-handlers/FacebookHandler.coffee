@@ -13,44 +13,94 @@ userPropsToSave =
 
 
 module.exports = FacebookHandler = class FacebookHandler extends CocoClass
-  subscriptions:
-    'auth:logged-in-with-facebook': 'onFacebookLoggedIn'
 
-  loggedIn: false
-  
   token: -> @authResponse?.accessToken
 
-  fakeFacebookLogin: ->
-    @onFacebookLoggedIn({
-      response:
-        authResponse: { accessToken: '1234' }
-    })
+  startedLoading: false
+  apiLoaded: false
+  connected: false
+  person: null
+  
+  fakeAPI: ->
+    window.FB =
+      login: (cb, options) ->
+        cb({status: 'connected', authResponse: { accessToken: '1234' }})
+      api: (url, options, cb) ->
+        cb({ 
+          first_name: 'Mr'
+          last_name: 'Bean'
+          id: 'abcd'
+          email: 'some@email.com'
+        })
 
-  onFacebookLoggedIn: (e) ->
-    # user is logged in also when the page first loads, so check to see
-    # if we really need to do the lookup
-    @loggedIn = false
-    @authResponse = e.response.authResponse
-    for fbProp, userProp of userPropsToSave
-      unless me.get(userProp)
-        @loggedIn = true
-        break
+    @startedLoading = true
+    @apiLoaded = true
 
-    @trigger 'logged-into-facebook'
-
-  loginThroughFacebook: ->
-    if @loggedIn
-      return true
+  loadAPI: (options={}) ->
+    options.success ?= _.noop
+    options.context ?= options
+    if @apiLoaded
+      options.success.bind(options.context)()
     else
-      FB.login ((response) ->
-        console.log 'Received FB login response:', response
-      ), scope: 'email'
+      @once 'load-api', options.success, options.context
+    
+    if not @startedLoading
+      # Load the SDK asynchronously
+      @startedLoading = true
+      ((d) ->
+        js = undefined
+        id = 'facebook-jssdk'
+        ref = d.getElementsByTagName('script')[0]
+        return  if d.getElementById(id)
+        js = d.createElement('script')
+        js.id = id
+        js.async = true
+        js.src = '//connect.facebook.net/en_US/all.js'
+    
+        #js.src = '//connect.facebook.net/en_US/all/debug.js'
+        ref.parentNode.insertBefore js, ref
+        return
+      )(document)
 
-  loadPerson: ->
+      window.fbAsyncInit = =>
+        FB.init
+          appId: (if document.location.origin is 'http://localhost:3000' then '607435142676437' else '148832601965463') # App ID
+          channelUrl: document.location.origin + '/channel.html' # Channel File
+          cookie: true # enable cookies to allow the server to access the session
+          xfbml: true # parse XFBML
+
+        FB.getLoginStatus (response) =>
+          if response.status is 'connected'
+            @connected = true
+            @authResponse = response.authResponse
+            @trigger 'connect', { response: response }
+          @apiLoaded = true
+          @trigger 'load-api'
+
+
+  connect: (options={}) ->
+    options.success ?= _.noop
+    options.context ?= options
+    FB.login ((response) =>
+      if response.status is 'connected'
+        @connected = true
+        @authResponse = response.authResponse
+        @trigger 'connect', { response: response }
+        options.success.bind(options.context)()
+    ), scope: 'email'
+
+
+  loadPerson: (options={}) ->
+    options.success ?= _.noop
+    options.context ?= options
     FB.api '/me', {fields: 'email,last_name,first_name,gender'}, (person) =>
       attrs = {}
       for fbProp, userProp of userPropsToSave
         value = person[fbProp]
         if value
           attrs[userProp] = value
-      @trigger 'person-loaded', attrs
+      @trigger 'load-person', attrs
+      options.success.bind(options.context)(attrs)
+
+  renderButtons: ->
+    setTimeout(FB.XFBML.parse, 10) if FB?.XFBML?.parse  # Handles FB login and Like

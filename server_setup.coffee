@@ -16,7 +16,7 @@ config = require './server_config'
 auth = require './server/routes/auth'
 routes = require './server/routes'
 UserHandler = require './server/users/user_handler'
-hipchat = require './server/hipchat'
+slack = require './server/slack'
 Mandate = require './server/models/Mandate'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
 global.jsondiffpatch = require 'jsondiffpatch'
@@ -71,7 +71,7 @@ setupErrorMiddleware = (app) ->
       res.status(err.status ? 500).send(error: "Something went wrong!")
       message = "Express error: #{req.method} #{req.path}: #{err.message}"
       log.error "#{message}, stack: #{err.stack}"
-      hipchat.sendHipChatMessage(message, ['tower'], {papertrail: true})
+      slack.sendSlackMessage(message, ['ops'], {papertrail: true})
     else
       next(err)
 

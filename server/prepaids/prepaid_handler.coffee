@@ -1,6 +1,6 @@
 Course = require '../courses/Course'
 Handler = require '../commons/Handler'
-hipchat = require '../hipchat'
+slack = require '../slack'
 Prepaid = require './Prepaid'
 User = require '../users/User'
 StripeUtils = require '../lib/stripe_utils'
@@ -212,7 +212,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
                 @logError(user, "createPayment error: #{JSON.stringify(err)}")
                 return done(err)
               msg = "Prepaid code purchased: #{type} seats=#{maxRedeemers} #{user.get('email')}"
-              hipchat.sendHipChatMessage msg, ['tower']
+              slack.sendSlackMessage msg, ['tower']
               done(null, prepaid)
 
   purchasePrepaidTerminalSubscription: (user, description, maxRedeemers, months, timestamp, token, product, done) ->
@@ -249,7 +249,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
               @logError(user, "createPayment error: #{JSON.stringify(err)}")
               return done(err)
             msg = "Prepaid code purchased: #{type} users=#{maxRedeemers} months=#{months} #{user.get('email')}"
-            hipchat.sendHipChatMessage msg, ['tower']
+            slack.sendSlackMessage msg, ['tower']
             done(null, prepaid)
 
   get: (req, res) ->

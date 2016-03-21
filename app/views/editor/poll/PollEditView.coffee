@@ -98,10 +98,10 @@ module.exports = class PollEditView extends RootView
 
   confirmDeletion: ->
     renderData =
-      'confirmTitle': 'Are you really sure?'
-      'confirmBody': 'This will completely delete the poll, potentially breaking a lot of stuff you don\'t want breaking. Are you entirely sure?'
-      'confirmDecline': 'Not really'
-      'confirmConfirm': 'Definitely'
+      title: 'Are you really sure?'
+      body: 'This will completely delete the poll, potentially breaking a lot of stuff you don\'t want breaking. Are you entirely sure?'
+      decline: 'Not really'
+      confirm: 'Definitely'
 
     confirmModal = new ConfirmModal renderData
     confirmModal.on 'confirm', @deletePoll
