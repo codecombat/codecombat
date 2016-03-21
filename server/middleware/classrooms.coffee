@@ -11,12 +11,15 @@ User = require '../users/User'
 
 module.exports =
   getByOwner: wrap (req, res, next) ->
-    ownerID = req.query.ownerID
+    options = req.query
+    ownerID = options.ownerID
     return next() unless ownerID
     throw new errors.UnprocessableEntity('Bad ownerID') unless utils.isID ownerID
     throw new errors.Unauthorized() unless req.user
     throw new errors.Forbidden('"ownerID" must be yourself') unless req.user.isAdmin() or ownerID is req.user.id
-    dbq = Classroom.find { ownerID: mongoose.Types.ObjectId(ownerID) }
+    if options.archived
+      options.archived = (options.archived == 'true')
+    dbq = Classroom.where _.merge options, { ownerID: mongoose.Types.ObjectId(ownerID) }
     dbq.select(parse.getProjectFromReq(req))
     classrooms = yield dbq
     classrooms = (classroom.toObject({req: req}) for classroom in classrooms)

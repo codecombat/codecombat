@@ -22,7 +22,7 @@ module.exports = class ActivateLicensesModal extends ModalView
     @prepaids.fetchByCreator(me.id)
     @supermodel.trackCollection(@prepaids)
     @classrooms = new Classrooms()
-    @classrooms.fetchMine()
+    @classrooms.fetchMine({ data: {archived: false} })
     @supermodel.trackCollection(@classrooms)
 
   afterRender: ->
