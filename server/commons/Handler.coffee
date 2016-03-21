@@ -481,7 +481,7 @@ module.exports = class Handler
 
   sendChangedSlackMessage: (options) ->
     message = "#{options.creator.get('name')} saved a change to <a href=\"#{options.docLink}\">#{options.target.get('name')}</a>: #{options.target.get('commitMessage') or '(no commit message)'}"
-    rooms = if /Diplomat submission/.test(message) then ['main'] else ['main', 'artisans']
+    rooms = if /Diplomat submission/.test(message) then ['dev-feed'] else ['dev-feed', 'artisans']
     slack.sendSlackMessage message, rooms
 
   makeNewInstance: (req) ->

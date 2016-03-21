@@ -96,7 +96,7 @@ module.exports =
 
     # Post a message on Slack
     message = "#{req.user.get('name')} saved a change to <a href=\"#{docLink}\">#{doc.get('name')}</a>: #{doc.get('commitMessage') or '(no commit message)'}"
-    rooms = if /Diplomat submission/.test(message) then ['main'] else ['main', 'artisans']
+    rooms = if /Diplomat submission/.test(message) then ['dev-feed'] else ['dev-feed', 'artisans']
     slack.sendSlackMessage message, rooms
 
     # Send emails to watchers

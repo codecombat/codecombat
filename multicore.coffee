@@ -77,7 +77,7 @@ if cluster.isMaster
     console.log message
     try
       slack = require './server/slack'
-      slack.sendSlackMessage(message, ['tower'], {papertrail: true})
+      slack.sendSlackMessage(message, ['ops'], {papertrail: true})
     catch error
       console.log "Couldn't send Slack message on server death:", error
     cluster.fork()
