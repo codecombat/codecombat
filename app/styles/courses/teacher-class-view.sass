@@ -2,16 +2,11 @@
 @import "app/styles/mixins"
 @import "app/styles/style-flat"
 
-$grey-light: #f5f5f5
-$grey-medium: #ebebeb
-$grey-dark: #c9c9c9
-$grey-darker: #9b9b9b
-
 .alternating-background:nth-child(2n+1)
-  background-color: $grey-medium
+  background-color: #ebebeb
 
 .alternating-background:nth-child(2n)
-  background-color: $grey-light
+  background-color: $gray-lighter
 
 #teacher-class-view
 
@@ -122,7 +117,7 @@ $grey-darker: #9b9b9b
     text-decoration: underline
 
     .glyphicon
-      color: $grey-darker
+      color: $gray-light
       
   // Course Progress tab
   
@@ -187,13 +182,13 @@ $grey-darker: #9b9b9b
   .view-class-arrow
     float: right
     margin-right: 16px
-    color: $grey-darker
+    color: $gray-light
     // height: 100%
     font-size: 35px
     line-height: 35px
     align-self: center
     .view-class-arrow-inner 
-      color: $grey-darker
+      color: $gray-light
       &:hover
         text-decoration: none
     
@@ -208,7 +203,7 @@ $grey-darker: #9b9b9b
     border-radius: 50%
     // margin-top: 23px
     // margin-bottom: 23px
-    background: $grey-dark
+    background: $gray-light
     position: relative
     .dot-label
       padding-top: 2px
