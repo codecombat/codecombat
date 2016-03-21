@@ -139,10 +139,11 @@ module.exports = class User extends CocoModel
 
   getCampaignAdsGroup: ->
     return @campaignAdsGroup if @campaignAdsGroup
-    group = me.get('testGroupNumber') % 2
-    @campaignAdsGroup = switch group
-      when 0 then 'no-ads'
-      when 1 then 'leaderboard-ads'
+    # group = me.get('testGroupNumber') % 2
+    # @campaignAdsGroup = switch group
+    #   when 0 then 'no-ads'
+    #   when 1 then 'leaderboard-ads'
+    @campaignAdsGroup = 'leaderboard-ads'
     @campaignAdsGroup = 'no-ads' if me.isAdmin()
     application.tracker.identify campaignAdsGroup: @campaignAdsGroup unless me.isAdmin()
     @campaignAdsGroup
