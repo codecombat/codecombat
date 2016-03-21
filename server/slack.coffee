@@ -17,6 +17,7 @@ module.exports.sendSlackMessage = sendSlackMessage = (message, rooms=['tower'], 
       channel: channel
       token: token
       text: message
+      as_user: true
     if options.papertrail
       secondsFromEpoch = Math.floor(new Date().getTime() / 1000)
       link = "https://papertrailapp.com/groups/488214/events?time=#{secondsFromEpoch}"
