@@ -77,6 +77,7 @@ module.exports.consolidateThangs = consolidateThangs = (thangs) ->
   isStructural = (t) ->
     t.stateless and t.collides and t.collisionCategory is 'obstacles' and t.shape in ['box', 'sheet'] and  # Can only do wall-like obstacle Thangs.
     t.spriteName isnt 'Ice Wall' and t.restitution is 1.0 and  # Fixed restitution value on 2016-03-15, but it causes discrepancies, so disabled for Kelvintaph levels.
+    /Wall/.test(t.spriteName) and  # Not useful to do Thangs that aren't actually walls because they're usually not on a grid
     (t.pos.x - t.width / 2 >= 0) and (t.pos.y - t.height / 2 >= 0)  # Grid doesn't handle negative numbers, so don't coalesce walls below/left of 0, 0.
   structural = _.remove thangs, isStructural
   return unless structural.length
