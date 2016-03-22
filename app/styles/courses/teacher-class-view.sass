@@ -14,6 +14,16 @@
     a
       color: #065e73
 
+  .concept
+    & span
+      white-space: nowrap
+    &.forest
+      color: $forest
+    &.gold
+      color: $gold
+    &+.concept:before
+      content: ', '
+
   ul.nav-tabs
     border: none
     .tab-spacer

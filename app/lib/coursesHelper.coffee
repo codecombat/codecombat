@@ -73,6 +73,41 @@ module.exports =
           }
     return {}
     
+  calculateConceptsCovered: (classrooms, courses, campaigns, courseInstances, students) ->
+    # Loop through all level/user combination and record
+    #   whether they've started, and completed, each concept
+    conceptData = {}
+    for classroom in classrooms.models
+      conceptData[classroom.id] = {}
+      
+      for course, courseIndex in courses.models
+        campaign = campaigns.get(course.get('campaignID'))
+        
+        for level in campaign.getNonladderLevels().models
+          levelID = level.get('original')
+          
+          for concept in level.get('concepts')
+            if concept == 'basic_syntax'
+              console.log('level: ', level.attributes.campaign, 'concept: ', concept)
+            unless conceptData[classroom.id][concept]
+              conceptData[classroom.id][concept] = { completed: true, started: false }
+
+          for concept in level.get('concepts')
+            for userID in classroom.get('members')
+              session = _.find classroom.sessions.models, (session) ->
+                session.get('creator') is userID and session.get('level').original is levelID
+              
+              if not session # haven't gotten to this level yet, but might have completed others before
+                for concept in level.get('concepts')
+                  conceptData[classroom.id][concept].completed = false
+              if session # have gotten to the level and at least started it
+                for concept in level.get('concepts')
+                  conceptData[classroom.id][concept].started = true
+              if not session?.completed() # level started but not completed
+                for concept in level.get('concepts')
+                  conceptData[classroom.id][concept].completed = false
+    conceptData
+      
   calculateAllProgress: (classrooms, courses, campaigns, courseInstances, students) ->
     # Loop through all combinations and record:
     #   Completeness for each student/course
@@ -96,9 +131,6 @@ module.exports =
           continue
         progressData[classroom.id][course.id] = { completed: true, started: false } # to be updated
         
-        # For debugging
-        progressData[classroom.id][course.id]
-
         campaign = campaigns.get(course.get('campaignID'))
         for level in campaign.getNonladderLevels().models
           levelID = level.get('original')

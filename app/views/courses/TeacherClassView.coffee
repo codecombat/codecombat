@@ -81,6 +81,7 @@ module.exports = class TeacherClassView extends RootView
       
     classroomsStub = new Classrooms([ @classroom ])
     @progressData = helper.calculateAllProgress(classroomsStub, @courses, @campaigns, @courseInstances, @students)
+    # @conceptData = helper.calculateConceptsCovered(classroomsStub, @courses, @campaigns, @courseInstances, @students)
     super()
     
   copyCode: ->

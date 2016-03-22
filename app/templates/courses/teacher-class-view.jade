@@ -49,7 +49,16 @@ block content
               | Total levels completed:
             span= stats.totalLevelsComplete
               
-          .concepts.semibold
+          //- .concepts.small-details
+          //-   if view.progressData
+          //-     div(data-i18n='TODO')
+          //-       | Concepts covered:
+          //-     - console.log('concepts', view.conceptData)
+          //-     - concepts = view.conceptData
+          //-     each state, name in view.conceptData[view.classroom.id]
+          //-       if state.started
+          //-         b.concept(class=state.completed ? 'forest' : 'gold')
+          //-           span(data-i18n='concepts.'+name)
           
         .completeness-info.col-md-4
           if view.earliestIncompleteLevel
