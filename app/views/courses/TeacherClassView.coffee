@@ -20,7 +20,6 @@ module.exports = class TeacherClassView extends RootView
   
   events:
     'click .add-students-button': 'onClickAddStudents'
-    'click .enroll-student-button': 'onClickEnrollStudent'
     'click .sort-by-name': 'sortByName'
     'click .sort-by-progress': 'sortByProgress'
     'click #copy-url-btn': 'copyURL'
@@ -104,9 +103,6 @@ module.exports = class TeacherClassView extends RootView
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
     
-  onClickEnrollStudent: (e) ->
-    # TODO
-  
   sortByName: (e) =>
     if @sortValue == 'name'
       @sortDirection = -@sortDirection
@@ -211,3 +207,24 @@ module.exports = class TeacherClassView extends RootView
     # checkboxes.prop('checked', false)
     checkboxes = $('.student-checkbox input')
     $('.select-all input').prop('checked', _.all(checkboxes, 'checked'))
+
+  classStats: ->
+    stats = {}
+
+    playtime = 0
+    total = 0
+    for session in @classroom.sessions.models
+      pt = session.get('playtime') or 0
+      playtime += pt
+      total += 1
+    stats.averagePlaytime = if playtime and total then moment.duration(playtime / total, "seconds").humanize() else 0
+    stats.totalPlaytime = if playtime then moment.duration(playtime, "seconds").humanize() else 0
+    # TODO: Humanize differently ('1 hour' instead of 'an hour')
+
+    completeSessions = @classroom.sessions.filter (s) -> s.get('state')?.complete
+    stats.averageLevelsComplete = if @students.size() then (_.size(completeSessions) / @students.size()).toFixed(1) else 'N/A'  # '
+    stats.totalLevelsComplete = _.size(completeSessions)
+
+    enrolledUsers = @students.filter (user) -> user.get('coursePrepaidID')
+    stats.enrolledUsers = _.size(enrolledUsers)
+    return stats

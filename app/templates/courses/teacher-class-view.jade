@@ -7,6 +7,7 @@ block content
   - var classroom = view.classroom
   if classroom.loaded
     .container
+      +breadcrumbs
       h3= classroom.get('name')
       a.edit-class-settings(data-i18n="TODO" data-classroom-id=classroom.id)
         | edit class settings
@@ -14,38 +15,39 @@ block content
       
       .classroom-info-row.row
         .classroom-details.col-md-3
+          - var stats = view.classStats()
           h4(data-i18n="TODO")
             | Class Overview
       
-          .language
+          .language.small-details
             span.spr(data-i18n="TODO")
               | Language:
             span= classroom.capitalLanguage
           
-          .student-count
+          .student-count.small-details
             span.spr(data-i18n="TODO")
               | Students:
             span= classroom.get('members').length
               
-          .average-playtime
+          .average-playtime.small-details
             span.spr(data-i18n="TODO")
               | Average level play time:
-            span= view.averagePlaytime
+            span= stats.averagePlaytime
               
-          .total-playtime
+          .total-playtime.small-details
             span.spr(data-i18n="TODO")
               | Total play time:
-            span= view.totalPlaytime
+            span= stats.totalPlaytime
                
-          .average-complete
+          .average-complete.small-details
             span.spr(data-i18n="TODO")
               | Average levels completed:
-            span= view.averageLevelsCompleted
+            span= stats.averageLevelsComplete
               
-          .total-complete
+          .total-complete.small-details
             span.spr(data-i18n="TODO")
               | Total levels completed:
-            span= view.totalLevelsCompleted
+            span= stats.totalLevelsComplete
               
           .concepts.semibold
           
@@ -83,7 +85,16 @@ block content
       .tab-content
         +studentsTab
         +courseProgressTab
-
+    
+mixin breadcrumbs
+  .breadcrumbs
+    a(data-i18n='TODO' href='/teachers/classes')
+      | My Classes
+    span.spl.spr >
+    //- TODO: Use .glyphicon-menu-right when we update bootstrap
+    span
+      = view.classroom.get('name')
+  
 mixin longLevelName(data)
   if data
     div.level-name
@@ -192,10 +203,7 @@ mixin studentLevelsRow(student)
       each level, index in levels
         - var progress = view.progressData.get({ classroom: view.classroom, course: course, level: level, user: student })
         +progressDot(progress, index+1)
-        
-      
-    
-
+  
 mixin progressDot(progress, label)
   //- TODO: Refactor with TeacherClassesView jade
   //- TODO: Give classes abbreviations instead of using index?

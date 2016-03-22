@@ -35,10 +35,11 @@ module.exports =
     members = classroom.get('members') or []
     members = members.slice(memberSkip, memberLimit)
     dbqs = []
-    select = 'state.complete level creator'
+    select = 'state.complete level creator playtime'
     for member in members
       dbqs.push(LevelSession.find({creator: member.toHexString(), team: {$exists: false}}).select(select).exec())
     results = yield dbqs
+    console.log(results)
     sessions = _.flatten(results)
     res.status(200).send(sessions)
     
