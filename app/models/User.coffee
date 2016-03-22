@@ -150,13 +150,17 @@ module.exports = class User extends CocoModel
 
   getHomepageGroup: ->
     # Only testing on en-US so localization issues are not a factor
-    return 'new-home-student' unless _.string.startsWith(me.get('preferredLanguage', true) or 'en-US', 'en')
+    return 'home-legacy' unless _.string.startsWith(me.get('preferredLanguage', true) or 'en-US', 'en')
     return @homepageGroup if @homepageGroup
-    group = me.get('testGroupNumber') % 4
+    group = parseInt(util.getQueryVariable('variation'))
+    group ?= me.get('testGroupNumber') % 5
     @homepageGroup = switch group
-      when 0, 1 then 'new-home-characters'
-      when 2, 3 then 'new-home-student'
-    application.tracker.identify newHomepageGroup: @homepageGroup unless me.isAdmin()
+      when 0 then 'home-legacy'
+      when 1 then 'home-teachers'
+      when 2 then 'home-legacy-left'
+      when 3 then 'home-dropdowns'
+      when 4 then 'home-play-for-free'
+    application.tracker.identify homepageGroup: @homepageGroup unless me.isAdmin()
     return @homepageGroup
 
   # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
