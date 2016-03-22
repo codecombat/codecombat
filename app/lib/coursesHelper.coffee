@@ -29,7 +29,8 @@ module.exports =
       campaign = campaigns.get(course.get('campaignID'))
       for level, levelIndex in campaign.getNonladderLevels().models
         userIDs = []
-        for userID in instance.get('members')
+        for user in students.models
+          userID = user.id
           session = _.find classroom.sessions.models, (session) ->
             session.get('creator') is userID and session.get('level').original is level.get('original')
           if not session?.completed()
@@ -43,7 +44,7 @@ module.exports =
             levelName: level.get('name')
             users: users
           }
-    return {}
+    null
 
   calculateLatestComplete: (classroom, courses, campaigns, courseInstances, students) ->
     # Loop through all the combinations of things in reverse order, return the level that anyone's finished
@@ -57,7 +58,8 @@ module.exports =
       for level, levelIndex in levelModels.reverse() #
         levelIndex = levelModels.length - levelIndex - 1 #compensate for reverse
         userIDs = []
-        for userID in instance.get('members')
+        for user in students.models
+          userID = user.id
           session = _.find classroom.sessions.models, (session) ->
             session.get('creator') is userID and session.get('level').original is level.get('original')
           if session?.completed() #
@@ -71,7 +73,7 @@ module.exports =
             levelName: level.get('name')
             users: users
           }
-    return {}
+    null
     
   calculateConceptsCovered: (classrooms, courses, campaigns, courseInstances, students) ->
     # Loop through all level/user combination and record
@@ -136,7 +138,8 @@ module.exports =
           levelID = level.get('original')
           progressData[classroom.id][course.id][levelID] = { completed: true, started: false }
           
-          for userID in classroom.get('members')
+          for user in students.models
+            userID = user.id
             progressData[classroom.id][course.id][userID] ?= { completed: true, started: false } # Only set it the first time through a user
             progressData[classroom.id][course.id][levelID][userID] = { completed: true, started: false } # These don't matter, will always be set
             session = _.find classroom.sessions.models, (session) ->

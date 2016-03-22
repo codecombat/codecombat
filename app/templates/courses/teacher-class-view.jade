@@ -113,6 +113,9 @@ mixin longLevelName(data)
       span= data.levelNumber
       span.spr :
       span= data.levelName
+  else
+    div.level-name(data-i18n='TODO')
+      | N/A
           
 mixin inlineUserList(users)
   if users
