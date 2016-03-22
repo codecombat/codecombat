@@ -8,6 +8,7 @@ module.exports = new Classrooms([
     ownerID: "teacher0",
     aceConfig:
       language: 'python'
+    members: []
   }
 
   {
@@ -29,9 +30,7 @@ module.exports = new Classrooms([
     name: "Teacher Zero's Archived Classroom"
     members: [
       "student0",
-      "student1",
-      "student2",
-      "student3",
+      "student4",
     ],
     ownerID: "teacher0",
     aceConfig:

@@ -8,10 +8,12 @@ describe 'ActivateLicensesModal', ->
   
   me = require 'test/app/fixtures/teacher'
   prepaids = require 'test/app/fixtures/prepaids'
-  classrooms = require 'test/app/fixtures/classrooms'
+  classrooms = require 'test/app/fixtures/classrooms' # TODO: Don't use archived ones
+  users = require 'test/app/fixtures/students'
   responses = {
     '/db/prepaid': prepaids.toJSON()
     '/db/classroom': classrooms.toJSON()
+    '/db/users': users.toJSON() # TODO: Respond with different ones for different classrooms
   }
   
   makeModal = (options) ->

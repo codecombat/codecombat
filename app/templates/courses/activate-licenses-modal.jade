@@ -9,12 +9,15 @@ block modal-header-content
       p= view.classroom.get('name')
 
 block modal-body-content
-  select
-    each classroom in view.classrooms.models
-      option(selected=(classroom.id === view.classroom.id))
-        = classroom.get('name')
-    option(selected=!view.classroom)
-      | All Students
+  .text-center
+    span(data-i18n='TODO')
+      | Show students from:
+    select
+      each classroom in view.classrooms.models
+        option(selected=(classroom.id === view.classroom.id), value=classroom.id)
+          = classroom.get('name')
+      //- option(selected=!view.classroom, value='all-classrooms')
+        //- | All Students
   form.form
     span(data-i18n="courses.enroll_the_following_students")
       | Enroll the following students
