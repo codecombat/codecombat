@@ -95,7 +95,7 @@ module.exports =
     docLink = "http://codecombat.com#{editPath}"
 
     # Post a message on Slack
-    message = "#{req.user.get('name')} saved a change to <a href=\"#{docLink}\">#{doc.get('name')}</a>: #{doc.get('commitMessage') or '(no commit message)'}"
+    message = "#{req.user.get('name')} saved a change to #{doc.get('name')}: #{doc.get('commitMessage') or '(no commit message)'} #{docLink}"
     rooms = if /Diplomat submission/.test(message) then ['dev-feed'] else ['dev-feed', 'artisans']
     slack.sendSlackMessage message, rooms
 
