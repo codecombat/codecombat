@@ -437,6 +437,18 @@
     tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
     tip_understand_recursion: "The only way to understand recursion is to understand recursion."
     tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
+    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
+    tip_adding_orgres: "Rounding up ogres."
+    tip_sharpening_swords: "Sharpening the swords."
+    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
+    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
+    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
+    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
+    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
+    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
+    tip_mulan: "Believe you can, then you will. - Mulan"
 
   game_menu:
     inventory_tab: "Inventory"
