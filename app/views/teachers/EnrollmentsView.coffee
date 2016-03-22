@@ -36,7 +36,8 @@ module.exports = class EnrollmentsView extends RootView
 
   events:
     'input #students-input': 'onInputStudentsInput'
-    'click #purchase-btn': 'onClickPurchaseButton'
+    'click .purchase-now': 'onClickPurchaseButton'
+    # 'click .enroll-students': 'onClickEnrollStudents'
 
   onLoaded: ->
     @pricePerStudent = @products.findWhere({name: 'course'}).get('amount')
@@ -75,6 +76,9 @@ module.exports = class EnrollmentsView extends RootView
     @renderSelectors '#price-form-group'
 
   numberOfStudentsIsValid: -> @numberOfStudents > 0 and @numberOfStudents < 100000
+  
+  # onClickEnrollStudents: ->
+  # TODO: Needs "All students" in modal dropdown
 
   onClickPurchaseButton: ->
     return @openModalView new CreateAccountModal() if me.isAnonymous()
@@ -111,9 +115,10 @@ module.exports = class EnrollmentsView extends RootView
       data: data,
       method: 'POST',
       context: @
-      success: ->
+      success: (prepaid) ->
         application.tracker?.trackEvent 'Finished course prepaid purchase', {price: @pricePerStudent, seats: @numberOfStudents}
         @state = 'purchased'
+        @prepaids.add(prepaid)
         @render?()
 
       error: (jqxhr, textStatus, errorThrown) ->

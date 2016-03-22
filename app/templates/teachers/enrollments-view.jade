@@ -33,17 +33,28 @@ mixin enrollmentStats
     span.spr
       | Unenrolled Students:
     = (view.members.length - view.prepaids.totalRedeemers())
+  //- .enroll-students.btn.btn-lg.btn-navy
+  //-   | Enroll Students
 
 mixin addCredits
   .text-center
     h5(data-i18n='TODO')
       | Add Enrollment Credits
     div
-      input#students-input.text-center.enrollment-count(value=10 type='number')
+      input#students-input.text-center.enrollment-count(value=view.numberOfStudents type='number')
     div
-      .btn.btn-lg.btn-forest
-        span(data-i18n='TODO')
-          | Purchase Now
+      if view.state === 'purchasing'
+        .purchase-now.btn.btn-lg.btn-forest.disabled
+          span(data-i18n='TODO')
+            | Purchasing...
+      else if view.state === 'purchased'
+        .purchase-now.btn.btn-lg.btn-forest
+          span(data-i18n='TODO')
+            | Purchased!
+      else
+        .purchase-now.btn.btn-lg.btn-forest
+          span(data-i18n='TODO')
+            | Purchase Now
 
 mixin howToEnroll
   .how-to-enroll.small-details
@@ -59,7 +70,8 @@ mixin howToEnroll
         | Once a student is enrolled, they will have access to all of the course content forever, even if they leave your class.
 
 mixin quoteSection
-  h4(data-i18n='TODO')
-    | Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes.
-  .btn.btn-lg.btn-navy(data-i18n='TODO')
-    | Request Quote
+  .text-center
+    h4(data-i18n='TODO')
+      | Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes.
+    a.request-quote.btn.btn-lg.btn-navy(data-i18n='TODO' href='/teachers/quote')
+      | Request Quote
