@@ -480,7 +480,7 @@ module.exports = class Handler
     sendwithus.api.send context, (err, result) ->
 
   sendChangedSlackMessage: (options) ->
-    message = "#{options.creator.get('name')} saved a change to <a href=\"#{options.docLink}\">#{options.target.get('name')}</a>: #{options.target.get('commitMessage') or '(no commit message)'}"
+    message = "#{options.creator.get('name')} saved a change to #{options.target.get('name')}: #{options.target.get('commitMessage') or '(no commit message)'} #{options.docLink}"
     rooms = if /Diplomat submission/.test(message) then ['dev-feed'] else ['dev-feed', 'artisans']
     slack.sendSlackMessage message, rooms
 
