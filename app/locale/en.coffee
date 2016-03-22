@@ -1154,6 +1154,10 @@
     print_guide: "Print Guide (PDF)"
     view_guide_online: "View Guide Online (PDF)"
     
+    # New enrollment modal
+    grants_lifetime_access: "Grants lifetime access to all Courses."
+    enrollment_credits_available: "Enrollment Credits Available:"
+    
     # ClassroomSettingsModal
     description: "Description"
     language_select: "Select a language"
