@@ -5,6 +5,7 @@ Promise = require 'bluebird'
 database = require '../commons/database'
 mongoose = require 'mongoose'
 TrialRequest = require '../models/TrialRequest'
+User = require '../models/User'
 
 module.exports =
   post: wrap (req, res) ->

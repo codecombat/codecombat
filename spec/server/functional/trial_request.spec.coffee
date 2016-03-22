@@ -15,9 +15,8 @@ fixture = {
 describe 'POST /db/trial.request', ->
   URL = getURL('/db/trial.request')
   ownURL = getURL('/db/trial.request/-/own')
-  
 
-  beforeEach utils.wrap (done) ->
+  it 'sets type and properties given', utils.wrap (done) ->
     yield utils.clearModels([User, TrialRequest])
     @user = yield utils.initUser()
     yield utils.loginUser(@user)
@@ -26,14 +25,43 @@ describe 'POST /db/trial.request', ->
     expect(res.statusCode).toBe(201)
     expect(body._id).toBeDefined()
     @trialRequest = yield TrialRequest.findById(body._id)
-    done()
-  
-  it 'sets type and properties given', ->
     expect(@trialRequest.get('type')).toBe('subscription')
     expect(@trialRequest.get('properties').location).toBe('SF, CA')
-    
-  it 'sets applicant to the user\'s id', ->
+    done()
+
+  it 'sets applicant to the user\'s id', utils.wrap (done) ->
+    yield utils.clearModels([User, TrialRequest])
+    @user = yield utils.initUser()
+    yield utils.loginUser(@user)
+    fixture.properties.email = @user.get('email')
+    [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: fixture })
+    expect(res.statusCode).toBe(201)
+    expect(body._id).toBeDefined()
+    @trialRequest = yield TrialRequest.findById(body._id)
     expect(@trialRequest.get('applicant').equals(@user._id)).toBe(true)
+    done()
+
+  it 'creates trial request for anonymous user', utils.wrap (done) ->
+    yield utils.clearModels([User, TrialRequest])
+    @user = yield utils.initUser({anonymous: true})
+    yield utils.loginUser(@user)
+    email = 'someone@test.com'
+    fixture.properties.email = email
+    [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: fixture })
+    expect(res.statusCode).toBe(201)
+    expect(body._id).toBeDefined()
+    @trialRequest = yield TrialRequest.findById(body._id)
+    expect(@trialRequest.get('properties')?.email).toEqual(email)
+    done()
+
+  it 'prevents trial request for anonymous user with conflicting email', utils.wrap (done) ->
+    yield utils.clearModels([User, TrialRequest])
+    @otherUser = yield utils.initUser()
+    @user = yield utils.initUser({anonymous: true})
+    yield utils.loginUser(@user)
+    [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: true })
+    expect(res.statusCode).toBe(422)
+    done()
 
 describe 'GET /db/trial.request', ->
 
