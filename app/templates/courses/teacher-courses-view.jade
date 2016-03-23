@@ -74,7 +74,11 @@ mixin course-info(course)
         span(data-i18n="concepts." + concept)
         if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
           span.spr ,
-    a.btn.btn-primary(href="TODO" class=(me.isAnonymous() ? 'disabled' : ''))
-      span(data-i18n="courses.print_guide")
-    a.btn.btn-primary(href="TODO" class=(me.isAnonymous() ? 'disabled' : ''))
-      span(data-i18n="courses.view_guide_online")
+    if view.guideLinks[course.id]
+      a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
+        span(data-i18n="courses.print_guide")
+      a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
+        span(data-i18n="courses.view_guide_online")
+    else
+      i.small(data-i18n='TODO')
+        | (Guides coming soon!)
