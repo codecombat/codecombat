@@ -1179,12 +1179,18 @@
     create_class: "Create Class"
     
   teacher:
+    # Navbar
     my_classes: "My Classes"
     courses: "Courses"
     enrollments: "Enrollments"
     resources: "Resources"
     help: "Help"
     
+    # Shared
+    students: "Students"
+    language: "Language"
+    edit_class_settings: "edit class settings"
+
     # My Classes page
     access_restricted: "Access Restricted"
     teacher_account_required: "A teacher account is required to access this content."
@@ -1194,17 +1200,35 @@
     current_classes: "Current Classes"
     archived_classes: "Archived Classes"
     archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
-    language: "Language"
-    students: "Students"
     view_class: "view class"
-    edit_class_settings: "edit class settings"
     archive_class: "archive class"
     unarchive_class: "unarchive class"
     no_students_yet: "This class has no students yet."
     add_students: "Add Students"
     create_new_class: "Create a New Class"
 
-
+    # View Class page
+    class_overview: "Class Overview"
+    avg_playtime: "Average level playtime"
+    total_playtime: "Total play time"
+    avg_completed: "Average levels completed"
+    total_completed: "Total levels completed"
+    concepts_covered: "Concepts covered"
+    earliest_incomplete: "Earliest incomplete level"
+    latest_complete: "Latest completed level"
+    adding_students: "Adding students"
+    course_progress: "Course Progress"
+    not_applicable: "N/A"
+    edit: "edit"
+    sort_by: "Sort by"
+    progress: "Progress"
+    select_course: "Select course to view"
+    course_overview: "Course Overview"
+    class_code_blurb: "New students can enter this class code on their dashboard or visit codecombat.com/courses to join the class."
+    class_join_url_blurb: "New students can visit this URL while logged in to join the class."
+    bulk_assign: "Bulk-assign"
+    assign_to_selected_students: "Assign to Selected Students"
+    enroll_selected_students: "Enroll Selected Students"
 
   classes:
     archmage_title: "Archmage"

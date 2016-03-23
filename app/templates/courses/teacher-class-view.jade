@@ -9,50 +9,50 @@ block content
     .container
       +breadcrumbs
       h3= classroom.get('name')
-      a.edit-class-settings(data-i18n="TODO" data-classroom-id=classroom.id)
+      a.edit-class-settings(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id)
         | edit class settings
       h4= classroom.get('description')
       
       .classroom-info-row.row
         .classroom-details.col-md-3
           - var stats = view.classStats()
-          h4(data-i18n="TODO")
-            | Class Overview
+          h4(data-i18n='teacher.class_overview')
       
           .language.small-details
-            span.spr(data-i18n="TODO")
-              | Language:
+            span(data-i18n='teacher.language')
+            span.spr :
             span= classroom.capitalLanguage
           
           .student-count.small-details
-            span.spr(data-i18n="TODO")
-              | Students:
+            span(data-i18n='teacher.students')
+            span.spr :
             span= classroom.get('members').length
               
           .average-playtime.small-details
-            span.spr(data-i18n="TODO")
-              | Average level play time:
+            span(data-i18n='teacher.avg_playtime')
+            span.spr :
             span= stats.averagePlaytime
               
           .total-playtime.small-details
-            span.spr(data-i18n="TODO")
-              | Total play time:
+            span(data-i18n='teacher.total_playtime')
+            span.spr :
             span= stats.totalPlaytime
                
           .average-complete.small-details
-            span.spr(data-i18n="TODO")
-              | Average levels completed:
+            span(data-i18n='teacher.avg_completed')
+            span.spr :
             span= stats.averageLevelsComplete
               
           .total-complete.small-details
-            span.spr(data-i18n="TODO")
-              | Total levels completed:
+            span(data-i18n='teacher.total_completed')
+            span.spr :
             span= stats.totalLevelsComplete
               
           //- .concepts.small-details
           //-   if view.progressData
-          //-     div(data-i18n='TODO')
-          //-       | Concepts covered:
+          //-     div
+          //-       span(data-i18n='teacher.concepts_covered')
+          //-       span :
           //-     - console.log('concepts', view.conceptData)
           //-     - concepts = view.conceptData
           //-     each state, name in view.conceptData[view.classroom.id]
@@ -62,32 +62,35 @@ block content
           
         .completeness-info.col-md-4
           if view.earliestIncompleteLevel
-            div(data-i18n="TODO")
-              | Earliest incomplete level:
+            div
+              span(data-i18n='teacher.earliest_incomplete')
+              span :
             +longLevelName(view.earliestIncompleteLevel)
             +inlineUserList(view.earliestIncompleteLevel.users)
             
           if view.latestCompleteLevel
-            div(data-i18n="TODO")
-              | Latest completed level:
+            div
+              span(data-i18n='teacher.latest_complete')
+              span :
             +longLevelName(view.latestCompleteLevel)
             +inlineUserList(view.latestCompleteLevel.users)
             
         .adding-students.col-md.4
-          h4(data-i18n="TODO")
-            | Adding students:
+          h4
+            span(data-i18n='teacher.adding_students')
+            span :
           +copyCodes
           +addStudentsButton
           
-      ul.nav.nav-tabs(role="tablist")
+      ul.nav.nav-tabs(role='tablist')
         li.active
-          a(href="#students-tab" data-toggle="tab")
-            .small-details.text-center(data-i18n="TODO")
+          a(href='#students-tab' data-toggle='tab')
+            .small-details.text-center(data-i18n='teacher.students')
               | Students
         .tab-spacer
         li
-          a(href="#course-progress-tab" data-toggle="tab")
-            .small-details.text-center(data-i18n="TODO")
+          a(href='#course-progress-tab' data-toggle='tab')
+            .small-details.text-center(data-i18n='teacher.course_progress')
               | Course Progress
         .tab-filler
       
@@ -97,7 +100,7 @@ block content
     
 mixin breadcrumbs
   .breadcrumbs
-    a(data-i18n='TODO' href='/teachers/classes')
+    a(data-i18n='teacher.my_classes' href='/teachers/classes')
       | My Classes
     span.spl.spr >
     //- TODO: Use .glyphicon-menu-right when we update bootstrap
@@ -114,7 +117,7 @@ mixin longLevelName(data)
       span.spr :
       span= data.levelName
   else
-    div.level-name(data-i18n='TODO')
+    div.level-name(data-i18n='teacher.not_applicable')
       | N/A
           
 mixin inlineUserList(users)
@@ -122,7 +125,7 @@ mixin inlineUserList(users)
     ul.inline-student-list
       each student in users
         li
-          a(href="TODO")
+          a(href='TODO')
             = student.get('name')
 
 mixin addStudentsButton
@@ -148,11 +151,11 @@ mixin studentsTab
 
 mixin sortButtons
   .sort-buttons.small
-    span.spr Sort by:
-    button.sort-button.sort-by-name
-      | Name
-    button.sort-button.sort-by-progress
-      | Progress
+    span(data-i18n='teacher.sort_by')
+      | Sort by
+    span.spr :
+    button.sort-button.sort-by-name(data-i18n='general.name')
+    button.sort-button.sort-by-progress(data-i18n='teacher.progress')
           
 mixin studentRow(student)
   tr.student-row.alternating-background
@@ -167,10 +170,14 @@ mixin studentRow(student)
     td.hidden
       a.edit-student-button(data-student-id=student.id)
         span.glyphicon.glyphicon-edit
-        span(data-i18n="TODO") edit
+        span(data-i18n='teacher.edit')
+          | edit
     td.latest-level-col.small
       div
-        i Latest completed:
+        i
+          span(data-i18n='teacher.latest_completed')
+          | Latest completed
+          span :
       div
         +longLevelName(student.latestCompleteLevel)
     td
@@ -179,7 +186,7 @@ mixin studentRow(student)
           - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
           if instance && instance.hasMember(student)
             - var progress = view.progressData.get({ classroom: view.classroom, course: course, user: student })
-            +progressDot(progress, "CS" + (index+1))
+            +progressDot(progress, 'CS' + (index+1))
       unless student.isEnrolled()
         +enrollStudentButton(student)
     td
@@ -193,8 +200,9 @@ mixin courseProgressTab
   #course-progress-tab.tab-pane
     if view.courses
       .text-center
-        span.spr(data-i18n='TODO')
-          | Select course to view:
+        span(data-i18n='teacher.select_course')
+          | Select course to view
+        span.spr :
         select.course-select
           each course in view.courses.models
             option(value=course.id)
@@ -214,8 +222,8 @@ mixin courseOverview
   .course-overview-row
     .course-title.student-name
       span= course.get('name')
-      | : 
-      span(data-i18n='TODO')
+      span : 
+      span(data-i18n='teacher.course_overview')
         | Course Overview
     .course-overview-progress
       each level, index in levels
@@ -253,27 +261,29 @@ mixin copyCodes
     .form-group
       input.text-h4.semibold#join-code-input(value=view.classCode)
     button#copy-code-btn.form-control.btn.btn-lg.btn-forest Copy Class Code
-    div.text-center.small(data-i18n="TODO")
+    div.text-center.small(data-i18n='teacher.class_code_blurb')
       | New students can enter this class code on their dashboard or visit codecombat.com/courses to join the class.
       
   div.copy-button-group.form-inline
     .form-group
       input.form-control.text-h4.semibold#join-url-input(value=view.joinURL)
     button#copy-url-btn.form-control.btn.btn-lg.btn-forest Copy Class URL
-    div.text-center.small(data-i18n="TODO")
+    div.text-center.small(data-i18n='teacher.class_join_url_blurb')
       | New students can visit this URL while logged in to join the class.
 
 mixin bulkAssignControls
   .bulk-assign-controls.form-inline
-    span.small(data-i18n="TODO")
-      | Bulk-assign:
+    .small
+      span(data-i18n='teacher.bulk_assign')
+        | Bulk-assign
+      span :
     select.bulk-course-select.form-control
       each course in view.courses.models
         option(value=course.id)
           = course.get('name')
     button.btn.btn-primary-alt.assign-to-selected-students
-      span(data-i18n="TODO")
+      span(data-i18n='teacher.assign_to_selected_students')
         | Assign to Selected Students
     button.btn.btn-primary-alt.enroll-selected-students
-      span(data-i18n="TODO")
+      span(data-i18n='teacher.enroll_selected_students')
         | Enroll Selected Students
