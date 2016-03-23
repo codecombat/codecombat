@@ -156,7 +156,6 @@ module.exports = class TeacherClassView extends RootView
     courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
     userIDs = @getSelectedStudentIDs().toArray()
     selectedUsers = new Users(@students.get(userID) for userID in userIDs)
-    console.log selectedUsers
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
     @openModalView(modal)
     modal.once 'redeem-users', -> document.location.reload()
@@ -189,14 +188,11 @@ module.exports = class TeacherClassView extends RootView
     
   onClickSelectAll: (e) ->
     e.preventDefault()
-    console.log 'selecting all'
     checkboxes = $('.student-checkbox input')
     if _.all(checkboxes, 'checked')
-      console.log "unchecking"
       $('.select-all input').prop('checked', false)
       checkboxes.prop('checked', false)
     else
-      console.log "checking"
       $('.select-all input').prop('checked', true)
       checkboxes.prop('checked', true)
     null
@@ -211,9 +207,7 @@ module.exports = class TeacherClassView extends RootView
     $('.select-all input').prop('checked', _.all(checkboxes, 'checked'))
   
   onChangeCourseSelect: (e) ->
-    console.log $(e.currentTarget).val()
     @selectedCourse = @courses.get($(e.currentTarget).val())
-    console.log @selectedCourse
     @renderSelectors('.render-on-course-sync')
 
   classStats: ->
