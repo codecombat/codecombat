@@ -72,7 +72,7 @@ $forest: #20572B
   .semibold, .student-name
     font-weight: 600
     
-  .small-details 
+  .small-details
     font: $headline-font
     font-size: 15px
     line-height: 26px
@@ -84,7 +84,7 @@ $forest: #20572B
   blockquote
     border: none
     
-    &:before 
+    &:before
       font-family: "Monaco"
       content: "\201C"
       position: absolute
@@ -166,6 +166,8 @@ $forest: #20572B
     font-family: $body-font
     font-weight: normal
     background-image: none // overrides legacy buttons
+    .disabled
+      opacity: 50%
 
   .btn-primary, .btn-navy
     background-color: $navy
@@ -217,7 +219,7 @@ $forest: #20572B
     border-style: solid
 
   // For each arrow position: make color gray-dark, make arrow larger, and position duplicate arrow
-  .tooltip.top .tooltip-arrow 
+  .tooltip.top .tooltip-arrow
     margin-left: -10px
     border-width: 5px 10px 0
     border-top-color: $gray-dark
