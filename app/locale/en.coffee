@@ -1184,6 +1184,27 @@
     enrollments: "Enrollments"
     resources: "Resources"
     help: "Help"
+    
+    # My Classes page
+    access_restricted: "Access Restricted"
+    teacher_account_required: "A teacher account is required to access this content."
+    create_teacher_account: "Create Teacher Account"
+    what_is_a_teacher_account: "What's a Teacher Account?"
+    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage enrollments and access resources to aid in your curriculum-building."
+    current_classes: "Current Classes"
+    archived_classes: "Archived Classes"
+    archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
+    language: "Language"
+    students: "Students"
+    view_class: "view class"
+    edit_class_settings: "edit class settings"
+    archive_class: "archive class"
+    unarchive_class: "unarchive class"
+    archived: "archived"
+    no_students_yet: "This class has no students yet."
+    add_students: "Add Students"
+    create_new_class: "Create a New Class"
+
 
 
   classes:
