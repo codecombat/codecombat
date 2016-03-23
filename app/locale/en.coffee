@@ -1229,6 +1229,9 @@
     bulk_assign: "Bulk-assign"
     assign_to_selected_students: "Assign to Selected Students"
     enroll_selected_students: "Enroll Selected Students"
+    
+    # Courses
+    guides_coming_soon: "Guides coming soon!"
 
   classes:
     archmage_title: "Archmage"

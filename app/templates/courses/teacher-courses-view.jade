@@ -6,14 +6,10 @@ block page_nav
 block content
   if me.isAnonymous()
     .access-restricted.container.text-center
-      h5(data-i18n='TODO')
-        | Access Restricted
-      p(data-i18n='TODO')
-        | A teacher account is required to access this content.
-      .login-button.btn.btn-lg.btn-primary(data-i18n='TODO')
-        | Login
-      .teacher-signup-button.btn.btn-lg.btn-primary-alt(data-i18n='TODO')
-        | Create Teacher Account
+      h5(data-i18n='teacher.access_restricted')
+      p(data-i18n='teacher.teacher_account_required')
+      .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
+      .teacher-signup-button.btn.btn-lg.btn-primary-alt(data-i18n='teacher.create_teacher_account')
 
   .container
     h1(data-i18n="courses.title")
@@ -54,7 +50,7 @@ block content
                 | :
                 select.form-control
                   // TODO: Automate this list @scott
-                  option(value="TODO")
+                  option(value='TODO')
                     | 1. Dungeons of Kithgard
             a.btn.btn-lg.btn-primary
               span(data-i18n="courses.play_level")
@@ -80,5 +76,7 @@ mixin course-info(course)
       a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
         span(data-i18n="courses.view_guide_online")
     else
-      i.small(data-i18n='TODO')
-        | (Guides coming soon!)
+      i.small
+        | (
+        span(data-i18n='teacher.guides_coming_soon')
+        | )
