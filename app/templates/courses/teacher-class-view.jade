@@ -82,13 +82,13 @@ block content
       ul.nav.nav-tabs(role="tablist")
         li.active
           a(href="#students-tab" data-toggle="tab")
-            .text-center(data-i18n="TODO")
+            .small-details.text-center(data-i18n="TODO")
               | Students
         .tab-spacer
         li
           a(href="#course-progress-tab" data-toggle="tab")
-            .text-center(data-i18n="TODO")
-              | Level Progress
+            .small-details.text-center(data-i18n="TODO")
+              | Course Progress
         .tab-filler
       
       .tab-content
@@ -140,15 +140,19 @@ mixin studentsTab
           .checkbox-flat
             input(type='checkbox' id='checkbox-all-students')
             label.checkmark(for='checkbox-all-students')
-        th.small
-          span Sort by: 
-          button.sort-button.sort-by-name
-            | Name
-          button.sort-button.sort-by-progress
-            | Progress
+        th
+          +sortButtons
       tbody
         each student in view.students.models
           +studentRow(student)
+
+mixin sortButtons
+  .sort-buttons.small
+    span.spr Sort by:
+    button.sort-button.sort-by-name
+      | Name
+    button.sort-button.sort-by-progress
+      | Progress
           
 mixin studentRow(student)
   tr.student-row.alternating-background
@@ -190,6 +194,7 @@ mixin courseProgressTab
     if view.progressData
       +courseOverview
       .student-levels-table
+        +sortButtons
         each student in view.students.models
           +studentLevelsRow(student)
         
@@ -198,6 +203,11 @@ mixin courseOverview
   - var campaign = view.campaigns.get(course.get('campaignID'))
   - var levels = campaign.getNonladderLevels().models
   .course-overview-row
+    .course-title.student-name
+      span= course.get('name')
+      | : 
+      span(data-i18n='TODO')
+        | Course Overview
     .course-overview-progress
       each level, index in levels
         - var progress = view.progressData.get({ classroom: view.classroom, course: course, level: level })

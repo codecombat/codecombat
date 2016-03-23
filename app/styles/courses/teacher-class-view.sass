@@ -29,14 +29,14 @@
     .tab-spacer
       float: left
       width: 15px
-      height: 47px
+      height: 48px
       border-bottom: thin solid #979797
       
     .tab-filler
       // Triggers block formatting context
       // http://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width
       overflow: hidden
-      height: 47px
+      height: 48px
       border-bottom: thin solid #979797
       
     li > a
@@ -136,15 +136,28 @@
   // Course Progress tab
   
   #course-progress-tab
+    .course-overview-row
+      margin-top: 50px
+      border: thin solid gray
+      border-radius: 8px
+      
     .student-levels-table
+      margin-top: 80px
+
+      .sort-buttons
+        padding-left: 75px
+        margin-bottom: 5px
+      
     .student-levels-row, .course-overview-row
       padding-left: 75px
       padding-top: 15px
       padding-bottom: 30px
+      
     .student-levels-progress, .course-overview-progress
       max-width: 880px
       margin: -5px
       margin-top: 5px
+      
     .progress-dot
       margin: 5px
   
@@ -201,7 +214,7 @@
     font-size: 35px
     line-height: 35px
     align-self: center
-    .view-class-arrow-inner 
+    .view-class-arrow-inner
       color: $gray-light
       &:hover
         text-decoration: none

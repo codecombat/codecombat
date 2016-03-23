@@ -46,7 +46,7 @@ module.exports = class TeacherClassView extends RootView
       @students.fetchForClassroom(@classroom)
       @supermodel.trackCollection(@students)
       @listenTo @students, 'sync', @sortByName
-      @listenTo @students, 'sort', @render
+      @listenTo @students, 'sort', @renderSelectors.bind(@, '.students-table', '.student-levels-table')
       
       @classroom.sessions = new LevelSessions()
       if @classroom.get('members')?.length > 0
@@ -64,7 +64,6 @@ module.exports = class TeacherClassView extends RootView
     @courseInstances = new CourseInstances()
     @courseInstances.fetchByOwner(me.id)
     @supermodel.trackCollection(@courseInstances)
-    
 
   onLoaded: ->
     console.log("loaded!")
@@ -125,8 +124,9 @@ module.exports = class TeacherClassView extends RootView
       
     dir = @sortDirection
     @students.comparator = (student1, student2) ->
-      l1 = student1.latestCompleteLevel
-      l2 = student2.latestCompleteLevel
+      defaultLevel = { courseNumber: -1 }
+      l1 = student1.latestCompleteLevel || defaultLevel
+      l2 = student2.latestCompleteLevel || defaultLevel
       if l1.courseNumber < l2.courseNumber
         return -dir
       else if l1.levelNumber < l2.levelNumber
