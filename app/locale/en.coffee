@@ -1200,7 +1200,6 @@
     edit_class_settings: "edit class settings"
     archive_class: "archive class"
     unarchive_class: "unarchive class"
-    archived: "archived"
     no_students_yet: "This class has no students yet."
     add_students: "Add Students"
     create_new_class: "Create a New Class"

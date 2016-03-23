@@ -56,10 +56,7 @@ mixin classRow(classroom)
         a.text-h6(data-i18n='teacher.view_class' href=('/teachers/classes/' + classroom.id))
         a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id)
         a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id)
-        if classroom.get('archived')
-          | (
-          span(data-i18n='teacher.archived')
-          | )
+
     .progress-col.col-xs-5
       if classroom.get('members').length == 0
         +addStudentsButton(classroom)
