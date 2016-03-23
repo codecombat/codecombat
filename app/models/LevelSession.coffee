@@ -67,7 +67,13 @@ module.exports = class LevelSession extends CocoModel
     return 0 unless last = state.lastUnsuccessfulSubmissionTime
     last = new Date(last) if _.isString last
     # Wait at least this long before allowing submit button active again.
-    (last - new Date()) + 22 * 60 * 60 * 1000
+    wait = (last - new Date()) + 22 * 60 * 60 * 1000
+    if wait > 24 * 60 * 60 * 1000
+      # System clock must've gotten busted; max out at one day's wait.
+      wait = 24 * 60 * 60 * 1000
+      state.lastUnsuccessfulSubmissionTime = new Date()
+      @set 'state', state
+    wait
 
   recordScores: (scores, level) ->
     state = @get 'state'
