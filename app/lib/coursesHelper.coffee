@@ -1,4 +1,4 @@
-module.exports = 
+module.exports =
   # Result: Each course instance gains a property, numCompleted, that is the
   #   number of students in that course instance who have completed ALL of
   #   the levels in thate course
@@ -182,11 +182,11 @@ progressMixin =
     if options.level
       levelID = level.get('original')
       if options.user
-        return @[classroom.id][course.id][levelID][user.id] or defaultValue
+        return @[classroom.id]?[course.id]?[levelID]?[user.id] or defaultValue
       else
-        return @[classroom.id][course.id][levelID] or defaultValue
+        return @[classroom.id]?[course.id]?[levelID] or defaultValue
     else
       if options.user
-        return @[classroom.id][course.id][user.id] or defaultValue
+        return @[classroom.id]?[course.id]?[user.id] or defaultValue
       else
-        return @[classroom.id][course.id] or defaultValue
+        return @[classroom.id]?[course.id] or defaultValue

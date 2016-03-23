@@ -191,15 +191,24 @@ mixin enrollStudentButton(student)
     
 mixin courseProgressTab
   #course-progress-tab.tab-pane
+    if view.courses
+      .text-center
+        span.spr(data-i18n='TODO')
+          | Select course to view:
+        select.course-select
+          each course in view.courses.models
+            option(value=course.id)
+              = course.get('name')
     if view.progressData
-      +courseOverview
-      .student-levels-table
-        +sortButtons
-        each student in view.students.models
-          +studentLevelsRow(student)
+      .render-on-course-sync
+        +courseOverview
+        .student-levels-table
+          +sortButtons
+          each student in view.students.models
+            +studentLevelsRow(student)
         
 mixin courseOverview
-  - var course = view.courses.models[0] // TODO: Wire this up to a dropdown
+  - var course = view.selectedCourse
   - var campaign = view.campaigns.get(course.get('campaignID'))
   - var levels = campaign.getNonladderLevels().models
   .course-overview-row
@@ -219,7 +228,7 @@ mixin studentLevelsRow(student)
       div.student-name= student.get('name')
       div.student-email.small-details emailaddress@school.edu
     div.student-levels-progress
-      - var course = view.courses.models[0] // TODO: Wire this up to a dropdown
+      - var course = view.selectedCourse
       - var campaign = view.campaigns.get(course.get('campaignID'))
       - var levels = campaign.getNonladderLevels().models
       each level, index in levels

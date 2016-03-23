@@ -29,6 +29,7 @@ module.exports = class TeacherClassView extends RootView
     'click .enroll-selected-students': 'onClickBulkEnroll'
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
+    'change .course-select': 'onChangeCourseSelect'
 
   initialize: (options, classroomID) ->
     super(options)
@@ -81,6 +82,8 @@ module.exports = class TeacherClassView extends RootView
     classroomsStub = new Classrooms([ @classroom ])
     @progressData = helper.calculateAllProgress(classroomsStub, @courses, @campaigns, @courseInstances, @students)
     # @conceptData = helper.calculateConceptsCovered(classroomsStub, @courses, @campaigns, @courseInstances, @students)
+    
+    @selectedCourse = @courses.first()
     super()
     
   copyCode: ->
@@ -123,16 +126,14 @@ module.exports = class TeacherClassView extends RootView
       @sortDirection = 1
       
     dir = @sortDirection
-    @students.comparator = (student1, student2) ->
-      defaultLevel = { courseNumber: -1 }
-      l1 = student1.latestCompleteLevel || defaultLevel
-      l2 = student2.latestCompleteLevel || defaultLevel
-      if l1.courseNumber < l2.courseNumber
+    
+    @students.comparator = (student) ->
+      #TODO: I would like for this to be in the Level model,
+      #      but it doesn't know about its own courseNumber
+      level = student.latestCompleteLevel
+      if not level
         return -dir
-      else if l1.levelNumber < l2.levelNumber
-        return -dir
-      else
-        return dir
+      return dir * ((1000 * level.courseNumber) + level.levelNumber)
     @students.sort()
   
   getSelectedStudentIDs: ->
@@ -208,6 +209,12 @@ module.exports = class TeacherClassView extends RootView
     # checkboxes.prop('checked', false)
     checkboxes = $('.student-checkbox input')
     $('.select-all input').prop('checked', _.all(checkboxes, 'checked'))
+  
+  onChangeCourseSelect: (e) ->
+    console.log $(e.currentTarget).val()
+    @selectedCourse = @courses.get($(e.currentTarget).val())
+    console.log @selectedCourse
+    @renderSelectors('.render-on-course-sync')
 
   classStats: ->
     stats = {}
