@@ -1234,6 +1234,9 @@
     # Courses
     guides_coming_soon: "Guides coming soon!"
 
+    # Enroll students modal
+    show_students_from: "Show students from"
+
   classes:
     archmage_title: "Archmage"
     archmage_title_description: "(Coder)"

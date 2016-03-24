@@ -10,8 +10,9 @@ block modal-header-content
 
 block modal-body-content
   .text-center
-    span(data-i18n='TODO')
-      | Show students from:
+    span(data-i18n='teacher.show_students_from')
+      | Show students from
+    span :
     select
       each classroom in view.classrooms.models
         option(selected=(classroom.id === view.classroom.id), value=classroom.id)
