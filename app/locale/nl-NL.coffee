@@ -469,8 +469,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   subscribe:
     comparison_blurb: "Verbeter je vaardigheden met een abonement op CodeCombat!"
-    feature1: "meer dan 110+ basislevels over 4 werelden"
-    feature2: "10 sterke <strong>nieuwe helden</strong> met unieke vaardigheden!"
+    feature1: "110+ basislevels over 4 werelden"
+    feature2: "10 <strong>nieuwe helden</strong> met unieke vaardigheden!"
     feature3: "70+ bonuslevels" # {change}
     feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!"
     feature5: "Video cursussen"
@@ -488,7 +488,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     thank_you: "Bedankt dat je CodeCombat steunt."
     sorry_to_see_you_go: "Jammer dat je weggaat! Laat ons alsjeblieft weten wat we beter hadden kunnen doen."
     unsubscribe_feedback_placeholder: "Oh, wat hebben we gedaan?"
-    parent_button: "Vraag het aan je ouder(s)"
+    parent_button: "Vraag ouder(s)"
     parent_email_description: "We zullen ze een e-mail sturen zodat zij een CodeCombat-abonnement voor je kunnen kopen."
     parent_email_input_invalid: "E-mailadress ongeldig."
     parent_email_input_label: "E-mailadres van ouder(s)"
@@ -506,7 +506,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     payment_methods_title: "Geaccepteerde betaalmethoden"
     payment_methods_blurb1: "Momenteel worden alleen credit cards, Alipay en iDEAL geaccepteerd." # {change}
     payment_methods_blurb2: "Als u op een andere manier wilt betalen, neem dan alstublieft contact op"
-    sale_button: "Koopje!"
+    sale_button: "Koop"
     sale_button_title: "Bespaar ${{discount}} bij aankoop van een 1-jarig abonnement" # {change}
     stripe_description: "Maandelijks abonnement"
     stripe_description_year_sale: "1-jarig abonnement (${{discount}} korting)" # {change}
