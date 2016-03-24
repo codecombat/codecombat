@@ -1,15 +1,15 @@
 if !total
-  span.small-details(data-i18n="TODO")
+  span.small-details(data-i18n='teacher.no_progress')
     | No Progress
 else
   .fraction-students.small-details
     = complete
     | /
     = total
-    span(data-i18n="TODO")
-      | &nbsp;Students
+    span.spl(data-i18n='teacher.students')
+      | Students
   .percent-students.small-details
     = Math.floor(complete / total * 100)
     | %
-    span.spl(data-i18n="TODO")
+    span.spl(data-i18n='teacher.complete')
       | Complete

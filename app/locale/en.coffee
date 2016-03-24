@@ -1190,6 +1190,7 @@
     students: "Students"
     language: "Language"
     edit_class_settings: "edit class settings"
+    complete: "Complete"
 
     # My Classes page
     access_restricted: "Access Restricted"
