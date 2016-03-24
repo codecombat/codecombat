@@ -19,7 +19,7 @@ module.exports = class TeacherClassView extends RootView
   template: template
   
   events:
-    'click .add-students-button': 'onClickAddStudents'
+    'click .add-students-btn': 'onClickAddStudents'
     'click .sort-by-name': 'sortByName'
     'click .sort-by-progress': 'sortByProgress'
     'click #copy-url-btn': 'copyURL'
@@ -99,14 +99,15 @@ module.exports = class TeacherClassView extends RootView
       document.execCommand('copy')
       application.tracker?.trackEvent 'Classroom copy URL', category: 'Courses', classroomID: @classroom.id, url: @joinURL
     catch err
-      console.log('Oops, unable to copy', err)
+      message = 'Oops, unable to copy'
+      noty text: message, layout: 'topCenter', type: 'error', killer: false
 
   onClickAddStudents: (e) =>
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
     
-  sortByName: (e) =>
+  sortByName: (e) ->
     if @sortValue == 'name'
       @sortDirection = -@sortDirection
     else
@@ -118,7 +119,7 @@ module.exports = class TeacherClassView extends RootView
       return (if student1.get('name') < student2.get('name') then -dir else dir)
     @students.sort()
     
-  sortByProgress: (e) =>
+  sortByProgress: (e) ->
     if @sortValue == 'progress'
       @sortDirection = -@sortDirection
     else

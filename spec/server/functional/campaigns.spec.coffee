@@ -19,8 +19,8 @@ describe '/db/campaign', ->
     @courseCampaign2 = yield new Campaign({name: 'Course Campaign 2', type: 'course'}).save()
     done()
     
-  describe 'GET /db/campaign?type=:type', ->
-    it 'returns an array of classrooms with the given owner', utils.wrap (done) ->
+  describe 'GET campaigns of a certain type', ->
+    it 'returns only that type', utils.wrap (done) ->
       [res, body] =  yield request.getAsync getURL('/db/campaign?type=course'), { json: true }
       expect(res.statusCode).toBe(200)
       expect(body.length).toBe(2)
@@ -28,8 +28,8 @@ describe '/db/campaign', ->
         expect(campaign.type).toBe('course')
       done()
 
-  describe 'GET /db/campaign', ->              
-    it 'returns an array of classrooms with the given owner', utils.wrap (done) ->
+  describe 'GET all campaigns', ->
+    it 'returns all of them regardless of type', utils.wrap (done) ->
       [res, body] =  yield request.getAsync getURL('/db/campaign'), { json: true }
       expect(res.statusCode).toBe(200)
       expect(body.length).toBe(4)

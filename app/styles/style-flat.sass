@@ -294,6 +294,50 @@ $forest: #20572B
     border-radius: 20px
     min-width: 150px
 
+  
+  // Checkboxes
+  // Note: You have to use this structure in your jade:
+  //   .checkbox-flat
+  //     input(type='checkbox' id='some-id')
+  //     label.checkmark(for='some-id')
+  
+  .checkbox-flat
+    position: relative
+    background: white
+    border: thin solid #979797
+    width: 20px
+    height: 20px
+    
+    input
+      visibility: hidden
+      
+    label
+      position: absolute
+      width: 18px
+      height: 18px
+      left: 1px
+      top: 1px
+
+    label:after
+      opacity: 0
+      content: ''
+      position: absolute
+      width: 14px
+      height: 7px
+      background: transparent
+      top: 3px
+      left: 1px
+      border: 2px solid black
+      border-top: none
+      border-right: none
+      transform: rotate(-45deg)
+
+    label:hover::after
+      opacity: 0.3
+    
+    input:checked + label:after
+      opacity: 1
+    
 
   // Classes
   
@@ -328,7 +372,7 @@ $forest: #20572B
   
       .#{$abbrev}-a-#{$size}
         #{$prop}: $length-y $length-x !important // a = All sides
-      .#{$abbrev}-t-#{$size} 
+      .#{$abbrev}-t-#{$size}
         #{$prop}-top:    $length-y !important
       .#{$abbrev}-r-#{$size}
         #{$prop}-right:  $length-x !important

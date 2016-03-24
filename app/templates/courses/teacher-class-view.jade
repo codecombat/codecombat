@@ -127,7 +127,7 @@ mixin inlineUserList(users)
 
 mixin addStudentsButton
   .add-students.text-center
-    a.add-students-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
+    a.add-students-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
       span(data-i18n='teacher.add_students_manually')
         
 mixin studentsTab
@@ -191,7 +191,7 @@ mixin enrollStudentButton(student)
     span(data-i18n='teacher.enroll_student')
     
 mixin courseProgressTab
-  #course-progress-tab.tab-pane
+  #course-progress-tab.tab-pane.m-t-3
     if view.courses
       .text-center
         span(data-i18n='teacher.select_course')

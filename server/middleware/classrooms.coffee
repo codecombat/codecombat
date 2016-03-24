@@ -39,7 +39,6 @@ module.exports =
     for member in members
       dbqs.push(LevelSession.find({creator: member.toHexString(), team: {$exists: false}}).select(select).exec())
     results = yield dbqs
-    console.log(results)
     sessions = _.flatten(results)
     res.status(200).send(sessions)
     

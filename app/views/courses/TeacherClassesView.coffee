@@ -22,10 +22,10 @@ module.exports = class TeacherClassesView extends RootView
     'click .edit-classroom': 'onClickEditClassroom'
     'click .archive-classroom': 'onClickArchiveClassroom'
     'click .unarchive-classroom': 'onClickUnarchiveClassroom'
-    'click .add-students-button': 'onClickAddStudents'
-    'click .create-classroom-button': 'onClickCreateClassroom'
+    'click .add-students-btn': 'onClickAddStudentsButton'
+    'click .create-classroom-btn': 'onClickCreateClassroomButton'
 
-  constructor: (options) ->
+  initialize: (options) ->
     super(options)
     @classrooms = new Classrooms()
     @classrooms.fetchMine()
@@ -59,7 +59,6 @@ module.exports = class TeacherClassesView extends RootView
       dot.tooltip({
         html: true
         container: dot
-        template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-arrow-cover"></div><div class="tooltip-inner"></div></div>'
       })
     
   onLoaded: ->
@@ -73,7 +72,7 @@ module.exports = class TeacherClassesView extends RootView
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
 
-  onClickCreateClassroom: (e) ->
+  onClickCreateClassroomButton: (e) ->
     classroom = new Classroom({ ownerID: me.id })
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
@@ -82,7 +81,7 @@ module.exports = class TeacherClassesView extends RootView
       @addFreeCourseInstances()
       @render()
     
-  onClickAddStudents: (e) ->
+  onClickAddStudentsButton: (e) ->
     classroomID = $(e.target).data('classroom-id')
     classroom = @classrooms.get(classroomID)
     modal = new InviteToClassroomModal({ classroom: classroom })

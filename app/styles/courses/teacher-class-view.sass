@@ -145,8 +145,6 @@
   // Course Progress tab
   
   #course-progress-tab
-    margin-top: 25px
-    
     .course-overview-row
       margin-top: 50px
       border: thin solid gray
@@ -171,48 +169,8 @@
       
     .progress-dot
       margin: 5px
-  
-  // Checkboxes
-  // TODO: Move to style-flat?
-  
-  .checkbox-flat
-    position: relative
-    background: white
-    border: thin solid #979797
-    width: 20px
-    height: 20px
-    
-    input
-      visibility: hidden
       
-    label
-      position: absolute
-      width: 18px
-      height: 18px
-      left: 1px
-      top: 1px
-
-    label:after
-      opacity: 0
-      content: ''
-      position: absolute
-      width: 14px
-      height: 7px
-      background: transparent
-      top: 3px
-      left: 1px
-      border: 2px solid black
-      border-top: none
-      border-right: none
-      transform: rotate(-45deg)
-
-    label:hover::after
-      opacity: 0.3
-    
-    input:checked + label:after
-      opacity: 1
-    
-  // stuff that feels specific to this page
+  // Checkboxes
   .checkbox-flat
     margin: 8px auto
 
@@ -226,13 +184,10 @@
     line-height: 35px
     align-self: center
     .view-class-arrow-inner
-      color: $gray-light
+      color: $gray-lighter
       &:hover
         text-decoration: none
-    
 
-  // TODO: Scott is refactoring this
-    
   .progress-dot
     display: inline-block
     margin-right: 6px
@@ -254,7 +209,7 @@
     background: $forest
     .tooltip-inner
       color: $forest
-      border: 1px solid $forest
+      border-color: $forest
     .tooltip-arrow
       border-top-color: $forest
     
@@ -262,7 +217,7 @@
     background: $gold
     .tooltip-inner
       color: $navy
-      border: 1px solid $navy
+      border-color: $navy
     .tooltip-arrow
       border-top-color: $navy
 

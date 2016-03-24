@@ -28,14 +28,14 @@ describe 'GET /db/course/:handle', ->
   it 'returns Course by id', utils.wrap (done) ->
     [res, body] = yield request.getAsync {uri: getURL("/db/course/#{@course.id}"), json: true}
     expect(res.statusCode).toBe(200)
-    expect(_.isObject(body)).toBe(true)
+    expect(body._id).toBe(@course.id)
     done()
 
 
   it 'returns Course by slug', utils.wrap (done) ->
     [res, body] = yield request.getAsync {uri: getURL("/db/course/some-name"), json: true}
     expect(res.statusCode).toBe(200)
-    expect(_.isObject(body)).toBe(true)
+    expect(body._id).toBe(@course.id)
     done()
 
 

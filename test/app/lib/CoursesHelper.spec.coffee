@@ -20,38 +20,41 @@ describe 'CoursesHelper', ->
       @students = require 'test/app/fixtures/students'
 
     describe 'when all students have completed a course', ->
-
       beforeEach ->
         @classroom.sessions = require 'test/app/fixtures/level-sessions-completed'
         @courseInstances = require 'test/app/fixtures/course-instances'
-
-      it 'progressData.get({classroom, course}) returns object with .completed=true and .started=true', ->
-        progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
-        progress = progressData.get {@classroom, @course}
-        expect(progress.completed).toBe true
-        expect(progress.started).toBe true
-
-      it 'progressData.get({classroom, course, user}) returns object with .completed=true and .started=true', ->
-        for student in @students.models
+      
+      describe 'progressData.get({classroom, course})', ->
+        it 'returns object with .completed=true and .started=true', ->
           progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
-          progress = progressData.get {@classroom, @course, user: student}
+          progress = progressData.get {@classroom, @course}
           expect(progress.completed).toBe true
           expect(progress.started).toBe true
 
-      it 'progressData.get({classroom, course, level}) returns object with .completed=true and .started=true', ->
-        progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
-        for level in @campaign.getLevels().models
-          progress = progressData.get {@classroom, @course, level}
-          expect(progress.completed).toBe true
-          expect(progress.started).toBe true
-
-      it 'progressData.get({classroom, course, level, user}) returns object with .completed=true and .started=true', ->
-        progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
-        for level in @campaign.getLevels().models
-          for user in @students.models
-            progress = progressData.get {@classroom, @course, level, user}
+      describe 'progressData.get({classroom, course, level, user})', ->
+        it 'returns object with .completed=true and .started=true', ->
+          for student in @students.models
+            progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+            progress = progressData.get {@classroom, @course, user: student}
             expect(progress.completed).toBe true
             expect(progress.started).toBe true
+
+      describe 'progressData.get({classroom, course, level, user})', ->
+        it 'returns object with .completed=true and .started=true', ->
+          progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+          for level in @campaign.getLevels().models
+            progress = progressData.get {@classroom, @course, level}
+            expect(progress.completed).toBe true
+            expect(progress.started).toBe true
+
+      describe 'progressData.get({classroom, course, level, user})', ->
+        it 'returns object with .completed=true and .started=true', ->
+          progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+          for level in @campaign.getLevels().models
+            for user in @students.models
+              progress = progressData.get {@classroom, @course, level, user}
+              expect(progress.completed).toBe true
+              expect(progress.started).toBe true
 
     describe 'when NOT all students have completed a course', ->
 
