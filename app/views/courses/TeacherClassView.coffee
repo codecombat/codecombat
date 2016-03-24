@@ -143,7 +143,7 @@ module.exports = class TeacherClassView extends RootView
   ensureInstance: (courseID) ->
     
   onClickEnroll: (e) ->
-    userID = $(e.target).data('user-id')
+    userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     selectedUsers = new Users([user])
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
