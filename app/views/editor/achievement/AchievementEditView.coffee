@@ -54,6 +54,7 @@ module.exports = class AchievementEditView extends RootView
   afterRender: ->
     super()
     return unless @supermodel.finished()
+    @showReadOnly() if me.get('anonymous')
     @pushChangesToPreview()
     @patchesView = @insertSubView(new PatchesView(@achievement), @$el.find('.patches-view'))
     @patchesView.load()
