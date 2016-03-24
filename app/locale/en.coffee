@@ -1180,6 +1180,7 @@
     
   teacher:
     # Navbar
+    teacher_dashboard: "Teacher Dashboard"
     my_classes: "My Classes"
     courses: "Courses"
     enrollments: "Enrollments"
