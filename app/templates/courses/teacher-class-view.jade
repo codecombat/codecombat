@@ -86,12 +86,10 @@ block content
         li.active
           a(href='#students-tab' data-toggle='tab')
             .small-details.text-center(data-i18n='teacher.students')
-              | Students
         .tab-spacer
         li
           a(href='#course-progress-tab' data-toggle='tab')
             .small-details.text-center(data-i18n='teacher.course_progress')
-              | Course Progress
         .tab-filler
       
       .tab-content
@@ -101,7 +99,6 @@ block content
 mixin breadcrumbs
   .breadcrumbs
     a(data-i18n='teacher.my_classes' href='/teachers/classes')
-      | My Classes
     span.spl.spr >
     //- TODO: Use .glyphicon-menu-right when we update bootstrap
     span
@@ -118,7 +115,6 @@ mixin longLevelName(data)
       span= data.levelName
   else
     div.level-name(data-i18n='teacher.not_applicable')
-      | N/A
           
 mixin inlineUserList(users)
   if users
@@ -131,7 +127,7 @@ mixin inlineUserList(users)
 mixin addStudentsButton
   .add-students.text-center
     a.add-students-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
-      | Add Students Manually
+      span(data-i18n='teacher.add_students_manually')
         
 mixin studentsTab
   #students-tab.tab-pane.active
@@ -152,7 +148,6 @@ mixin studentsTab
 mixin sortButtons
   .sort-buttons.small
     span(data-i18n='teacher.sort_by')
-      | Sort by
     span.spr :
     button.sort-button.sort-by-name(data-i18n='general.name')
     button.sort-button.sort-by-progress(data-i18n='teacher.progress')
@@ -171,12 +166,10 @@ mixin studentRow(student)
       a.edit-student-button(data-student-id=student.id)
         span.glyphicon.glyphicon-edit
         span(data-i18n='teacher.edit')
-          | edit
     td.latest-level-col.small
       div
         i
           span(data-i18n='teacher.latest_completed')
-          | Latest completed
           span :
       div
         +longLevelName(student.latestCompleteLevel)
@@ -194,14 +187,13 @@ mixin studentRow(student)
 
 mixin enrollStudentButton(student)
   a.enroll-student-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id data-user-id=student.id)
-    | Enroll student
+    span(data-i18n='teacher.enroll_student')
     
 mixin courseProgressTab
   #course-progress-tab.tab-pane
     if view.courses
       .text-center
         span(data-i18n='teacher.select_course')
-          | Select course to view
         span.spr :
         select.course-select
           each course in view.courses.models
@@ -224,7 +216,6 @@ mixin courseOverview
       span= course.get('name')
       span : 
       span(data-i18n='teacher.course_overview')
-        | Course Overview
     .course-overview-progress
       each level, index in levels
         - var progress = view.progressData.get({ classroom: view.classroom, course: course, level: level })
@@ -260,22 +251,21 @@ mixin copyCodes
   div.copy-button-group.form-inline
     .form-group
       input.text-h4.semibold#join-code-input(value=view.classCode)
-    button#copy-code-btn.form-control.btn.btn-lg.btn-forest Copy Class Code
+    button#copy-code-btn.form-control.btn.btn-lg.btn-forest
+      span(data-i18n='teacher.copy_class_code')
     div.text-center.small(data-i18n='teacher.class_code_blurb')
-      | New students can enter this class code on their dashboard or visit codecombat.com/courses to join the class.
       
   div.copy-button-group.form-inline
     .form-group
       input.form-control.text-h4.semibold#join-url-input(value=view.joinURL)
-    button#copy-url-btn.form-control.btn.btn-lg.btn-forest Copy Class URL
+    button#copy-url-btn.form-control.btn.btn-lg.btn-forest
+      span(data-i18n='teacher.copy_class_url')
     div.text-center.small(data-i18n='teacher.class_join_url_blurb')
-      | New students can visit this URL while logged in to join the class.
 
 mixin bulkAssignControls
   .bulk-assign-controls.form-inline
     .small
       span(data-i18n='teacher.bulk_assign')
-        | Bulk-assign
       span :
     select.bulk-course-select.form-control
       each course in view.courses.models
@@ -283,7 +273,5 @@ mixin bulkAssignControls
           = course.get('name')
     button.btn.btn-primary-alt.assign-to-selected-students
       span(data-i18n='teacher.assign_to_selected_students')
-        | Assign to Selected Students
     button.btn.btn-primary-alt.enroll-selected-students
       span(data-i18n='teacher.enroll_selected_students')
-        | Enroll Selected Students
