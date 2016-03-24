@@ -13,6 +13,13 @@
     color: #065e73
     a
       color: #065e73
+      
+  h3
+    display: inline-block
+    
+  h3 ~ .edit-class-settings
+    color: black
+    text-decoration: underline
 
   .concept
     & span
@@ -99,8 +106,10 @@
     
     li
       display: inline
-      a
+      .inline-student-name
         white-space: nowrap
+        text-decoration: underline
+
     li:not(:last-child):after
       content: ', '
       

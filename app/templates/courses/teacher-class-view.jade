@@ -9,8 +9,7 @@ block content
     .container
       +breadcrumbs
       h3= classroom.get('name')
-      a.edit-class-settings(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id)
-        | edit class settings
+      a.label.edit-class-settings(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id)
       h4= classroom.get('description')
       
       .classroom-info-row.row
@@ -75,7 +74,7 @@ block content
             +longLevelName(view.latestCompleteLevel)
             +inlineUserList(view.latestCompleteLevel.users)
             
-        .adding-students.col-md.4
+        .adding-students.col-md-5
           h4
             span(data-i18n='teacher.adding_students')
             span :
@@ -118,10 +117,12 @@ mixin longLevelName(data)
           
 mixin inlineUserList(users)
   if users
-    ul.inline-student-list
+    ul.inline-student-list.small
       each student in users
         li
-          a(href='TODO')
+          //- a(href='TODO')
+          //-   = student.get('name')
+          span.inline-student-name
             = student.get('name')
 
 mixin addStudentsButton
@@ -264,7 +265,7 @@ mixin copyCodes
 
 mixin bulkAssignControls
   .bulk-assign-controls.form-inline
-    .small
+    span.small
       span(data-i18n='teacher.bulk_assign')
       span :
     select.bulk-course-select.form-control
