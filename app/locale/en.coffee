@@ -67,7 +67,8 @@
     request_demo: "Request a Demo"
     create_a_class: "Create a Class"
     setup_a_class: "Set Up a Class"
-    have_an_account: "Already have an account?"
+    have_an_account: "Have an account?" # {change}
+    log_in: "Log In"
     logged_in_as: "You are currently logged in as"
     view_my_classes: "View my classes"
     computer_science: "Computer science courses for all ages"
@@ -92,7 +93,6 @@
     profile: "Profile"
     stats: "Stats"
     code: "Code"
-    admin: "Admin"  # Only shows up when you are an admin
     home: "Home"
     contribute: "Contribute"
     legal: "Legal"
@@ -106,6 +106,17 @@
     create_a_class: "Create a Class"
     other: "Other"
     learn_to_code: "Learn to Code!"
+    toggle_nav: "Toggle navigation"
+    jobs: "Jobs"
+    schools: "Schools"
+    educator_wiki: "Educator Wiki"
+    request_quote: "Request a Quote"
+    get_involved: "Get Involved"
+    open_source: "Open source (GitHub)"
+    support: "Support"
+    faqs: "FAQs"
+    help_pref: "Need help? Email"
+    help_suff: "and we'll get in touch!"
 
   modal:
     close: "Close"
@@ -427,6 +438,18 @@
     tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
     tip_understand_recursion: "The only way to understand recursion is to understand recursion."
     tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
+    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
+    tip_adding_orgres: "Rounding up ogres."
+    tip_sharpening_swords: "Sharpening the swords."
+    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
+    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
+    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
+    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
+    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
+    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
+    tip_mulan: "Believe you can, then you will. - Mulan"
 
   game_menu:
     inventory_tab: "Inventory"
@@ -485,13 +508,14 @@
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "110+ basic levels across 4 worlds"
+    feature1: "125+ basic levels across 4 worlds" # {change}
     feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "80+ bonus levels"
+    feature3: "85+ bonus levels" # {change}
     feature4: "<strong>{{gems}} bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
     feature7: "Private <strong>Clans</strong>"
+    feature8: "<strong>No ads!</strong>"
     free: "Free"
     month: "month"
     must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
@@ -659,8 +683,6 @@
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"
     jose_blurb: "Taking Off"
-    carlos_title: "Region Manager, Brazil"
-    carlos_blurb: "Celery Man"
     community_title: "...and our open-source community"
     community_subtitle: "Over 450 contributors have helped build CodeCombat, with more joining every week!"
     community_description_1: "CodeCombat is a community project, with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
@@ -748,6 +770,7 @@
     thanks_p: "We'll be in touch soon. Questions? Email us:"
     thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science." # {change}
     thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science." # {change}
+    setup_a_class: "Set Up a Class"
 
   versions:
     save_version_title: "Save New Version"
@@ -856,7 +879,7 @@
     social_facebook: "Like CodeCombat on Facebook"
     social_twitter: "Follow CodeCombat on Twitter"
     social_gplus: "Join CodeCombat on Google+"
-    social_hipchat: "Chat with us in the public CodeCombat Slack channel"
+    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Contribute to the project"
 
   clans:
@@ -1142,6 +1165,7 @@
     add_students1: "add students"
     view_edit: "view/edit"
     students_enrolled: "students enrolled"
+    students_assigned: "students assigned"
     length: "Length:"
     
     # New content
@@ -1396,7 +1420,7 @@
     join_desc_3: ", or find us in our "
     join_desc_4: "and we'll go from there!"
     join_url_email: "Email us"
-    join_url_hipchat: "public Slack channel"
+    join_url_slack: "public Slack channel"
     archmage_subscribe_desc: "Get emails on new coding opportunities and announcements."
     artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
     artisan_introduction_suf: ", then this class might be for you."

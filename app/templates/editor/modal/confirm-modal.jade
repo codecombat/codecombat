@@ -1,11 +1,11 @@
 extends /templates/core/modal-base
 
 block modal-header-content
-  h3 #{confirmTitle}
+  h3= view.title
 
 block modal-body-content
-  p #{confirmBody}
+  p= view.body
 
 block modal-footer-content
-  button.btn.btn-secondary#decline-button(type="button", data-dismiss="modal") #{confirmDecline}
-  button.btn.btn-primary#confirm-button(type="button", data-dismiss=closeOnConfirm === true ? "modal" : undefined) #{confirmConfirm}
+  button.btn.btn-secondary#decline-button(type="button", data-dismiss="modal")= view.decline
+  button.btn.btn-primary#confirm-button(type="button", data-dismiss=closeOnConfirm === true ? "modal" : undefined)= view.confirm

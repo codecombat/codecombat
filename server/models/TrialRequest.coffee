@@ -2,7 +2,6 @@ closeIO = require '../lib/closeIO'
 log = require 'winston'
 mongoose = require 'mongoose'
 config = require '../../server_config'
-hipchat = require '../hipchat'
 sendwithus = require '../sendwithus'
 Prepaid = require '../prepaids/Prepaid'
 jsonSchema = require '../../app/schemas/models/trial_request.schema'
@@ -57,17 +56,6 @@ TrialRequestSchema.post 'save', (doc) ->
       else
         sendwithus.api.send emailParams, (err, result) =>
           log.error "sendwithus trial request approved error: #{err}, result: #{result}" if err
-
-      closeIO.createSalesLead(user, email,
-        name: trialProperties.name
-        organization: trialProperties.organization
-        location: _.filter(_.at(trialProperties, 'city', 'state', 'country')).join(' ')
-        educationLevel: (trialProperties.educationLevel or []).join(', ')
-        numStudents: trialProperties.numStudents
-        role: trialProperties.role
-        phone: trialProperties.phoneNumber
-        notes: trialProperties.notes
-      )
 
       # Subscribe to teacher news group
       emails = _.cloneDeep(user.get('emails') ? {})

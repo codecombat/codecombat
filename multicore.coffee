@@ -76,10 +76,10 @@ if cluster.isMaster
     message = "Worker #{worker.id} died! #{deaths[Math.floor Math.random() * deaths.length]}"
     console.log message
     try
-      hipchat = require './server/hipchat'
-      hipchat.sendHipChatMessage(message, ['tower'], {papertrail: true})
+      slack = require './server/slack'
+      slack.sendSlackMessage(message, ['ops'], {papertrail: true})
     catch error
-      console.log "Couldn't send HipChat message on server death:", error
+      console.log "Couldn't send Slack message on server death:", error
     cluster.fork()
 else
   require('coffee-script')

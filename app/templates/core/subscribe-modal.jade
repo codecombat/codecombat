@@ -68,18 +68,26 @@
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
-              span(data-i18n="subscribe.feature6")
+              span(data-i18n="[html]subscribe.feature7")
             if !me.isOnPremiumServer()
               td.free-cell
             td.center-ok
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
-              span(data-i18n="[html]subscribe.feature7")
+              span(data-i18n="subscribe.feature6")
             if !me.isOnPremiumServer()
               td.free-cell
             td.center-ok
               span.glyphicon.glyphicon-ok
+          if me.getCampaignAdsGroup() === 'leaderboard-ads'
+            tr
+              td.feature-description
+                span(data-i18n="[html]subscribe.feature8")
+              if !me.isOnPremiumServer()
+                td.free-cell
+              td.center-ok
+                span.glyphicon.glyphicon-ok
       #parents-info(data-i18n="subscribe.parents")
       #payment-methods-info(data-i18n="subscribe.payment_methods")
 

@@ -6,7 +6,7 @@ schema = require '../../app/schemas/models/patch'
 mongoose = require 'mongoose'
 log = require 'winston'
 sendwithus = require '../sendwithus'
-hipchat = require '../hipchat'
+slack = require '../slack'
 
 PatchHandler = class PatchHandler extends Handler
   modelClass: Patch
@@ -88,7 +88,7 @@ PatchHandler = class PatchHandler extends Handler
     log.error 'Error sending patch created: could not find the loaded target on the patch object.' unless doc.targetLoaded
     return unless doc.targetLoaded
     docLink = "http://codecombat.com#{req.headers['x-current-path']}"
-    @sendPatchCreatedHipChatMessage creator: req.user, patch: doc, target: doc.targetLoaded, docLink: docLink
+    @sendPatchCreatedSlackMessage creator: req.user, patch: doc, target: doc.targetLoaded, docLink: docLink
     watchers = doc.targetLoaded.get('watchers') or []
     # Don't send these emails to the person who submitted the patch, or to Nick, George, or Scott.
     watchers = (w for w in watchers when not w.equals(req.user.get('_id')) and not (w + '' in ['512ef4805a67a8c507000001', '5162fab9c92b4c751e000274', '51538fdb812dd9af02000001']))
@@ -111,8 +111,8 @@ PatchHandler = class PatchHandler extends Handler
         commit_message: patch.get('commitMessage')
     sendwithus.api.send context, (err, result) ->
 
-  sendPatchCreatedHipChatMessage: (options) ->
-    message = "#{options.creator.get('name')} submitted a patch to <a href=\"#{options.docLink}\">#{options.target.get('name')}</a>: #{options.patch.get('commitMessage')}"
-    hipchat.sendHipChatMessage message, ['main']
+  sendPatchCreatedSlackMessage: (options) ->
+    message = "#{options.creator.get('name')} submitted a patch to #{options.target.get('name')}: #{options.patch.get('commitMessage')} #{options.docLink}"
+    slack.sendSlackMessage message, ['dev-feed']
 
 module.exports = new PatchHandler()

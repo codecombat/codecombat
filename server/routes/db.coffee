@@ -3,7 +3,7 @@ errors = require '../commons/errors'
 handlers = require('../commons/mapping').handlers
 handlerUrlOverrides = require('../commons/mapping').handlerUrlOverrides
 mongoose = require 'mongoose'
-hipchat = require '../hipchat'
+slack = require '../slack'
 
 module.exports.setup = (app) ->
   # This is hacky and should probably get moved somewhere else, I dunno
@@ -50,7 +50,7 @@ module.exports.setup = (app) ->
         log.error(error.stack)
         # TODO: Generally ignore this error: error: Error trying db method get route analytics.log.event from undefined: Error: Cannot find module '../undefined'
         unless "#{parts}" in ['analytics.users.active']
-          hipchat.sendHipChatMessage errorMessage, ['tower'], papertrail: true
+          slack.sendSlackMessage errorMessage, ['ops'], papertrail: true
         errors.notFound(res, "Route #{req?.path} not found.")
     
     app.all '/db/' + moduleName + '/*', routeHandler

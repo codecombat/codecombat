@@ -21,7 +21,7 @@ EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
 {findStripeSubscription} = require '../lib/utils'
 {isID} = require '../lib/utils'
-hipchat = require '../hipchat'
+slack = require '../slack'
 sendwithus = require '../sendwithus'
 Prepaid = require '../prepaids/Prepaid'
 UserPollsRecord = require '../polls/UserPollsRecord'
@@ -39,7 +39,7 @@ UserHandler = class UserHandler extends Handler
 
   getEditableProperties: (req, document) ->
     props = super req, document
-    props.push 'permissions' unless config.isProduction
+    props.push 'permissions' unless config.isProduction or global.testing
     props.push 'jobProfileApproved', 'jobProfileNotes','jobProfileApprovedDate' if req.user.isAdmin()  # Admins naturally edit these
     props.push @privateProperties... if req.user.isAdmin()  # Admins are mad with power
     props
@@ -503,9 +503,11 @@ UserHandler = class UserHandler extends Handler
         req.user.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, {result: 'success'})
-          hipchat.sendHipChatMessage "#{req.body.githubUsername or req.user.get('name')} just signed the CLA.", ['main']
+          slack.sendSlackMessage "#{req.body.githubUsername or req.user.get('name')} just signed the CLA.", ['dev-feed']
 
   avatar: (req, res, id) ->
+    if not isID(id)
+      return @sendBadInputError(res, 'Invalid avatar id')
     @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document

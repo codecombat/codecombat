@@ -11,29 +11,19 @@ module.exports = class AuthModal extends ModalView
   template: template
 
   events:
-    # login buttons
     'click #switch-to-signup-btn': 'onSignupInstead'
     'click #github-login-button': 'onGitHubLoginClicked'
-    'submit form': 'onSubmitForm' # handles both submit buttons
+    'submit form': 'onSubmitForm'
     'keyup #name': 'onNameChange'
-    'click #gplus-login-btn': 'onClickGPlusLogin'
+    'click #gplus-login-btn': 'onClickGPlusLoginButton'
     'click #facebook-login-btn': 'onClickFacebookLoginButton'
     'click #close-modal': 'hide'
-
-  subscriptions:
-    'errors:server-error': 'onServerError'
-    'auth:facebook-api-loaded': 'onFacebookAPILoaded'
 
 
   # Initialization
     
   initialize: (options={}) ->
     @previousFormInputs = options.initialValues or {}
-    @listenTo application.gplusHandler, 'logged-into-google', @onGPlusHandlerLoggedIntoGoogle
-    @listenTo application.gplusHandler, 'person-loaded', @onGPlusPersonLoaded
-    @listenTo application.gplusHandler, 'render-login-buttons', @onGPlusRenderLoginButtons
-    @listenTo application.facebookHandler, 'logged-into-facebook', @onFacebookHandlerLoggedIntoFacebook
-    @listenTo application.facebookHandler, 'person-loaded', @onFacebookPersonLoaded
 
   getRenderData: ->
     c = super()
@@ -47,18 +37,10 @@ module.exports = class AuthModal extends ModalView
   afterRender: ->
     super()
     @playSound 'game-menu-open'
-    @$('#facebook-login-btn').attr('disabled', true) if not window.FB?
 
   afterInsert: ->
     super()
-    _.delay (=> application.router.renderLoginButtons()), 500
     _.delay (=> $('input:visible:first', @$el).focus()), 500
-
-  onGPlusRenderLoginButtons: ->
-    @$('#gplus-login-btn').attr('disabled', false)
-
-  onFacebookAPILoaded: ->
-    @$('#facebook-login-btn').attr('disabled', false)
 
   onSignupInstead: (e) ->
     CreateAccountModal = require('./CreateAccountModal')
@@ -81,61 +63,71 @@ module.exports = class AuthModal extends ModalView
     
   # Google Plus
 
-  onClickGPlusLogin: ->
-    @clickedGPlusLogin = true
-
-  onGPlusHandlerLoggedIntoGoogle: ->
-    return unless @clickedGPlusLogin
-    application.gplusHandler.loadPerson()
+  onClickGPlusLoginButton: ->
     btn = @$('#gplus-login-btn')
-    btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
     btn.attr('disabled', true)
-
-  onGPlusPersonLoaded: (gplusAttrs) ->
-    existingUser = new User()
-    existingUser.fetchGPlusUser(gplusAttrs.gplusID, {
-      success: =>
-        me.loginGPlusUser(gplusAttrs.gplusID, {
-          success: -> window.location.reload()
-          error: @onGPlusLoginError
+    application.gplusHandler.loadAPI({
+      context: @
+      success: ->
+        btn.attr('disabled', false)
+        application.gplusHandler.connect({
+          context: @
+          success: ->
+            btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
+            btn.attr('disabled', true)
+            application.gplusHandler.loadPerson({
+              context: @
+              success: (gplusAttrs) ->
+                existingUser = new User()
+                existingUser.fetchGPlusUser(gplusAttrs.gplusID, {
+                  success: =>
+                    me.loginGPlusUser(gplusAttrs.gplusID, {
+                      success: -> window.location.reload()
+                      error: @onGPlusLoginError
+                    })
+                  error: @onGPlusLoginError
+                })
+            })
         })
-      error: @onGPlusLoginError
     })
-    
+
   onGPlusLoginError: =>
     btn = @$('#gplus-login-btn')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_gplus'))
     btn.attr('disabled', false)
-    errors.showNotyNetworkError(arguments...)
+    errors.showNotyNetworkError(arguments...) 
     
     
   # Facebook
 
   onClickFacebookLoginButton: ->
-    @clickedFacebookLogin = true
-    if application.facebookHandler.loggedIn
-      @onFacebookHandlerLoggedIntoFacebook()
-    else
-      application.facebookHandler.loginThroughFacebook()
-
-  onFacebookHandlerLoggedIntoFacebook: ->
-    return unless @clickedFacebookLogin
-    application.facebookHandler.loadPerson()
     btn = @$('#facebook-login-btn')
-    btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
     btn.attr('disabled', true)
-
-  onFacebookPersonLoaded: (facebookAttrs) ->
-    existingUser = new User()
-    existingUser.fetchFacebookUser(facebookAttrs.facebookID, {
-      success: =>
-        me.loginFacebookUser(facebookAttrs.facebookID, {
-          success: -> window.location.reload()
-          error: @onFacebookLoginError
+    application.facebookHandler.loadAPI({
+      context: @
+      success: ->
+        btn.attr('disabled', false)
+        application.facebookHandler.connect({
+          context: @
+          success: ->
+            btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
+            btn.attr('disabled', true)
+            application.facebookHandler.loadPerson({
+              context: @
+              success: (facebookAttrs) ->
+                existingUser = new User()
+                existingUser.fetchFacebookUser(facebookAttrs.facebookID, {
+                  success: =>
+                    me.loginFacebookUser(facebookAttrs.facebookID, {
+                      success: -> window.location.reload()
+                      error: @onFacebookLoginError
+                    })
+                  error: @onFacebookLoginError
+                })
+            })
         })
-      error: @onFacebookLoginError
     })
-
+    
   onFacebookLoginError: =>
     btn = @$('#facebook-login-btn')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_facebook'))

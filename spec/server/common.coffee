@@ -32,7 +32,7 @@ models_path = [
   '../../server/achievements/EarnedAchievement'
   '../../server/payments/Payment'
   '../../server/prepaids/Prepaid'
-  '../../server/trial_requests/TrialRequest'
+  '../../server/models/TrialRequest'
 ]
 
 for m in models_path
