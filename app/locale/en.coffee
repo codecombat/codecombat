@@ -1242,6 +1242,9 @@
 
     # Enroll students modal
     show_students_from: "Show students from"
+    enroll_the_following_students: "Enroll the following students"
+    all_students: "All Students"
+    
     
     # Enrollments page
     enrollments_blurb_1: "Students taking Computer Science"

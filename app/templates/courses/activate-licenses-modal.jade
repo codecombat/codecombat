@@ -11,17 +11,15 @@ block modal-header-content
 block modal-body-content
   .text-center
     span(data-i18n='teacher.show_students_from')
-      | Show students from
-    span :
+    span.spr :
     select
       each classroom in view.classrooms.models
         option(selected=(classroom.id === view.classroom.id), value=classroom.id)
           = classroom.get('name')
-      //- option(selected=!view.classroom, value='all-classrooms')
-        //- | All Students
+      //- option(selected=!view.classroom, value='all-classrooms' data-i18n='teacher.all_students')
   form.form
-    span(data-i18n="courses.enroll_the_following_students")
-      | Enroll the following students
+    span(data-i18n="teacher.enroll_the_following_students")
+    span :
     .well.form-group
       for user in view.users.models
         .checkbox
