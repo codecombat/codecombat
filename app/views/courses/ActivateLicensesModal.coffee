@@ -2,7 +2,9 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/courses/activate-licenses-modal'
 CocoCollection = require 'collections/CocoCollection'
 Prepaids = require 'collections/Prepaids'
+Classrooms = require 'collections/Classrooms'
 User = require 'models/User'
+Users = require 'collections/Users'
 
 module.exports = class ActivateLicensesModal extends ModalView
   id: 'activate-licenses-modal'
@@ -10,17 +12,29 @@ module.exports = class ActivateLicensesModal extends ModalView
 
   events:
     'change input': 'updateSelectionSpans'
+    'change select': 'replaceStudentList'
     'submit form': 'onSubmitForm'
 
   initialize: (options) ->
     @classroom = options.classroom
     @users = options.users
-    @user = options.user
+    @selectedUsers = options.selectedUsers
     @prepaids = new Prepaids()
     @prepaids.comparator = '_id'
     @prepaids.fetchByCreator(me.id)
-    @supermodel.loadCollection(@prepaids, 'prepaids')
-
+    @supermodel.trackCollection(@prepaids)
+    @classrooms = new Classrooms()
+    @classrooms.fetchMine({
+      data: {archived: false}
+      success: =>
+        console.log @classrooms
+        @classrooms.each (classroom) =>
+          classroom.users = new Users()
+          classroom.users.fetchForClassroom(classroom)
+          @supermodel.trackCollection(classroom.users)
+      })
+    @supermodel.trackCollection(@classrooms)
+  
   afterRender: ->
     super()
     @updateSelectionSpans()
@@ -38,6 +52,22 @@ module.exports = class ActivateLicensesModal extends ModalView
     @$('#not-depleted-span').toggleClass('hide', depleted)
     @$('#depleted-span').toggleClass('hide', !depleted)
     @$('#activate-licenses-btn').toggleClass('disabled', depleted).toggleClass('btn-success', not depleted).toggleClass('btn-default', depleted)
+    
+  replaceStudentList: (e) ->
+    selectedClassroomID = $(e.currentTarget).val()
+    @classroom = @classrooms.get(selectedClassroomID)
+    if selectedClassroomID == 'all-classrooms'
+      @classroom = new Classroom({ id: 'all-students' }) # TODO: This is a horrible hack so the select shows the right option!
+      users = _.uniq _.flatten @classrooms.map (classroom) -> classroom.users.models
+      @users.reset(users)
+    else
+      console.log @classrooms.get(selectedClassroomID).users.models
+      @users.reset(@classrooms.get(selectedClassroomID).users.models)
+      console.log @users
+    @trigger('users:change')
+    console.log @users
+    @render()
+    null
 
   showProgress: ->
     @$('#submit-form-area').addClass('hide')

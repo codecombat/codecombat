@@ -1,83 +1,31 @@
+@import "app/styles/bootstrap/variables"
+
 #teacher-courses-view
-  margin-bottom: 50px
+  //TODO: Refactor colors into .style-flat?
+  
+  h1
+    margin-top: 50px
 
-  #activate-licenses-btn
-    margin-left: 10px
+  #site-content-area
+    margin-bottom: 250px
+  
+  .access-restricted
+    margin-top: 75px
+  
+  .courses
+    margin-top: 20px
+    
+    .course
+      padding: 30px
+      
+      .concepts
+        font-weight: 600
+      
+      .play-level-form
+        font-weight: normal
 
-  .active-courses
-    font-size: 12px
-    font-weight: bold
-    margin: 18px 0px 4px 0px
-    text-transform: uppercase
+  .course:nth-child(2n+1)
+    background-color: #ebebeb
 
-  .class-count
-    font-size: 30px
-
-  .class-name
-    font-size: 20px
-    font-weight: bold
-
-  .course-concept
-    display: inline-block
-    white-space: nowrap
-    font-size: 12px
-    line-height: 12px
-    border: 1px solid lightgray
-    margin-right: 4px
-    margin-top: 4px
-    padding: 6px
-    background-color: #AAEA6E
-
-  .active-course-container
-    tr
-      margin-top: 30px
-    td
-      vertical-align: baseline
-
-  .course-enrolled
-    font-size: 12px
-    font-weight: bold
-    margin-left: 40px
-
-  .course-name
-    font-size: 18px
-    font-weight: bold
-    line-height: 30px
-
-  .divider
-    border-bottom: 1px solid black
-    margin-bottom: 20px
-
-  img.media-object
-    width: 100%
-    margin-bottom: 5px
-
-  .edit-classroom-small
-    cursor: pointer
-    &:hover
-      color: grey
-
-  .no-students
-    font-size: 22px
-    font-style: italic
-    margin: 10px
-    text-align: center
-
-  .section-header
-    border-bottom: 1px solid black
-    font-size: 20px
-    font-weight: bold
-    margin-bottom: 20px
-    text-transform: uppercase
-
-
-  .text-center
-    text-align: center
-
-  .uppercase
-    text-transform: uppercase
-
-  .welcome
-    font-size: 24px
-    font-weight: bold
-    margin-bottom: 20px
+  .course:nth-child(2n)
+    background-color: $gray-lighter
