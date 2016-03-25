@@ -25,8 +25,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     im_a_student: "Ik ben een leerling"
     learn_more: "Lees verder"
     classroom_in_a_box: "Een kant-en-klare digitale klas voor programmeerlessen."
-    codecombat_is: "CodeCombat is een platform waarmee leerlingen leren programmeren door het spelen van een spel."
-    our_courses: "Onze lessen zijn specifiek ontwikkeld voor een klasomgeving, zelfs voor leraren zonder programmeerervaring."
+    codecombat_is: "CodeCombat is een platform waarmee leerlingen leren programmeren door het spelen van een spel." # {change}
+    our_courses: "Onze lessen zijn specifiek ontwikkeld voor een klasomgeving, zelfs voor leraren zonder programmeerervaring." # {change}
+#    top_screenshots_hint: "Students write code and see their changes update in real-time"
     designed_with: "Gemaakt voor leraren"
     real_code: "Echte, getypte code"
     from_the_first_level: "vanaf het eerste level"
@@ -57,10 +58,17 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     great_game: "Een goed spel is meer dan alleen medailles en prestaties - het gaat om een reis, nauwkeurig ontworpen puzzels, en de mogelijkheid om uitdagingen vol zelfvertrouwen aan te pakken."
     agency: "CodeCombat is een game die de mogelijkheid en het zelfvertrouwen geeft om met echte code te werken, wat zowel beginners als gevorderde helpt bij het schrijven van goede, valide code."
     curious: "Nieuwsgierig? Vraag een demo aan en we laten je zien hoe het werkt."
+#    request_demo_title: "Get your students started today!"
+#    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
+#    get_started_title: "Set up your class today"
+#    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
     create_class: "Of maak een klas aan en ervaar het zelf!"
+#    teacher_screenshots_hint: "Students write code and see their changes update in real-time"
     request_demo: "Vraag een demo aan"
     create_a_class: "Maak een klas aan"
-    have_an_account: "Heb je al een account?"
+#    setup_a_class: "Set Up a Class"
+    have_an_account: "Heb je al een account?" # {change}
+#    log_in: "Log In"
     logged_in_as: "Je bent ingelogd als"
     view_my_classes: "Bekijk mijn klassen"
     computer_science: "Informatica lessen voor alle leeftijden"
@@ -85,7 +93,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     profile: "Profiel"
     stats: "Statistieken"
     code: "Code"
-    admin: "Administrator" # Only shows up when you are an admin
     home: "Home"
     contribute: "Bijdragen"
     legal: "Legaal"
@@ -99,6 +106,17 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     create_a_class: "Maak een Klas"
     other: "Andere"
     learn_to_code: "Leer te programmeren!"
+#    toggle_nav: "Toggle navigation"
+#    jobs: "Jobs"
+#    schools: "Schools"
+#    educator_wiki: "Educator Wiki"
+#    request_quote: "Request a Quote"
+#    get_involved: "Get Involved"
+#    open_source: "Open source (GitHub)"
+#    support: "Support"
+#    faqs: "FAQs"
+#    help_pref: "Need help? Email"
+#    help_suff: "and we'll get in touch!"
 
   modal:
     close: "Sluiten"
@@ -182,6 +200,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     school_name: "School naam en stad"
     optional: "optioneel"
     school_name_placeholder: "Voorbeeld middelbare school, Amsterdam"
+#    or_sign_up_with: "or sign up with"
+#    connected_gplus_header: "You've successfully connected with Google+!"
+#    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
+#    gplus_exists: "You already have an account associated with Google+!"
+#    connected_facebook_header: "You've successfully connected with Facebook!"
+#    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
+#    facebook_exists: "You already have an account associated with Facebook!"
+#    hey_students: "Students, enter the class code from your teacher."
 
   recover:
     recover_account_title: "Herstel Account"
@@ -411,6 +437,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_compiler_ignores_comments: "Soms denk ik dat de compiler me antwoorden negeert."
     tip_understand_recursion: "De enige manier om recursie te begrijpen is om recursie te begrijpen."
     tip_life_and_polymorphism: "Open Source is als een totale polymorphisme heterogeneous struktuur: Alle types zijn welkom."
+#    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
+#    tip_adding_orgres: "Rounding up ogres."
+#    tip_sharpening_swords: "Sharpening the swords."
+#    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
+#    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+#    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
+#    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
+#    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
+#    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
+#    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+#    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
+#    tip_mulan: "Believe you can, then you will. - Mulan"
 
   game_menu:
     inventory_tab: "Inventaris"
@@ -469,13 +507,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   subscribe:
     comparison_blurb: "Verbeter je vaardigheden met een abonement op CodeCombat!"
-    feature1: "meer dan 110+ basislevels over 4 werelden"
+    feature1: "meer dan 110+ basislevels over 4 werelden" # {change}
     feature2: "10 sterke <strong>nieuwe helden</strong> met unieke vaardigheden!"
     feature3: "70+ bonuslevels" # {change}
     feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!"
     feature5: "Video cursussen"
     feature6: "Hoogwaardige e-mail ondersteuning"
     feature7: "Besloten <strong>Clans</strong>"
+#    feature8: "<strong>No ads!</strong>"
     free: "Gratis"
     month: "maand"
     must_be_logged: "Je moet eerst ingelogd zijn. Maak een account aan of log in in het menu hierboven."
@@ -581,7 +620,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     current_value: "Huidige waarde"
     default_value: "Standaard waarde"
     parameters: "Parameters"
-    returns: "Geeft terug" #there's no Dutch word for return, we only have "give back".
+    returns: "Geeft terug"
     granted_by: "Verleend door"
 
   save_load:
@@ -625,7 +664,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     matt_title: "Programmeur" # {change}
     matt_blurb: "Fietser"
     cat_title: "Hoofd Ambachtsman" # {change}
-    cat_blurb: "Airbender" #No good Dutch translation, but children know the word airbender from the Avatar series.
+    cat_blurb: "Airbender"
     scott_title: "Programmeur" # {change}
     scott_blurb: "de Redelijke"
     maka_title: "Klanten Ombudsman"
@@ -642,8 +681,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     retrostyle_blurb: "RetroStijl Games"
     jose_title: "Muziek"
 #    jose_blurb: "Taking Off"
-    carlos_title: "Regio Manager, Brazilië"
-    carlos_blurb: "Selderij Man"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!"
     community_description_1: "CodeCombat is een gemeenschap project, met honderden spelers die vrijwillig levels maken, bijdrage aan onze code om dingen toe te voegen, bugs te maken, speeltesten, en zelfs helpen het spel te vertalen in 50 talen zover. Werknemers, bijdragers en de site krijgen meer door het delen van ideeën en pooling inspanning, zoals de open source gemeenschap in het algemeen doet. De site is gemaakt met meerdere open source projecten, en we zijn open source zodat we wat terug kunnen geven aan de gemeenschap en leveren programmeer geïnteresseerde spelers een vertouwd project om te verkennen en mee te experimenteren. Iedereen kan zich bij de CodeCombat gemeenschap voegen! Bekijk onze"
@@ -701,9 +738,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     more_info_3: "Het is een goede plek om contact te leggen met andere leerkrachten, die CodeCombat gebruiken."
 
   teachers_quote:
-    name: "Offerte Formulier"
-    title: "Offerte aanvragen"
-    subtitle: "Haal CodeCombat jouw klaslokaal, club, school of wijk in!"
+    name: "Offerte Formulier" # {change}
+    title: "Offerte aanvragen" # {change}
+    subtitle: "Haal CodeCombat jouw klaslokaal, club, school of wijk in!" # {change}
     email_exists: "Er bestaat al een gebruiker met dit email adres."
     phone_number: "Telefoonnummer"
     phone_number_help: "Waar kunnen we je bereiken tijdens de werkdag?"
@@ -724,13 +761,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     elementary_school: "Lager Onderwijs"
     high_school: "Voortgezet Onderwijs"
     please_explain: "(licht a.u.b. toe)"
-#    middle_school: "Middle School" # N/A in the Netherlands
+#    middle_school: "Middle School"
     college_plus: "Hoger Onderwijs"
     anything_else: "Is er verder nog iets dat we moeten weten?"
-    thanks_header: "Bedankt voor het aanvragen van een citaat!"
+    thanks_header: "Bedankt voor het aanvragen van een citaat!" # {change}
     thanks_p: "Wij zullen spoedig contact met u opnemen. Vragen? Mail ons:"
-    thanks_anon: "Log hieronder in of geef je op met je account voor twee gratis inschrijvingen (wij zullen je per e-mail op de hoogte stellen zo gauw de aanmeldingen zijn goedgekeurd, wat meestal binnen 48 uur gebeurt). Zoals altijd is het eerste uur van het programma gratis voor alle leerlingen."
-    thanks_logged_in: "Jouw twee gratis inschrijvingen zijn in afwachting van goedkeuring. Wij zullen je per e-mail op de hoogte stellen zo gouw deze zijn goedgekeurd (meestal binnen 48 uur). Zoals altijd is het eerste uur van het programma gratis voor alle leerlingen."
+    thanks_anon: "Log hieronder in of geef je op met je account voor twee gratis inschrijvingen (wij zullen je per e-mail op de hoogte stellen zo gauw de aanmeldingen zijn goedgekeurd, wat meestal binnen 48 uur gebeurt). Zoals altijd is het eerste uur van het programma gratis voor alle leerlingen." # {change}
+    thanks_logged_in: "Jouw twee gratis inschrijvingen zijn in afwachting van goedkeuring. Wij zullen je per e-mail op de hoogte stellen zo gouw deze zijn goedgekeurd (meestal binnen 48 uur). Zoals altijd is het eerste uur van het programma gratis voor alle leerlingen." # {change}
+#    setup_a_class: "Set Up a Class"
 
   versions:
     save_version_title: "Nieuwe versie opslaan"
@@ -839,7 +877,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     social_facebook: "Like CodeCombat op Facebook"
     social_twitter: "Volg CodeCombat op Twitter"
     social_gplus: "Volg CodeCombat op Google+"
-    social_hipchat: "Chat met ons in het openbare CodeCombat Slack channel"
+#    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Help mee met het project"
 
   clans:
@@ -1130,6 +1168,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     add_students1: "leerlingen toevoegen"
     view_edit: "bekijk/bewerk"
     students_enrolled: "ingeschreven leerlingen"
+#    students_assigned: "students assigned"
     length: "Lengte:"
 
   classes:
@@ -1178,7 +1217,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     more: "Meer"
     wiki: "Wiki"
     live_chat: "Live Chat"
-    thang_main: "Hoofd" # As in main menu
+    thang_main: "Hoofd"
     thang_spritesheets: "Spritesheets"
     thang_colors: "Kleuren"
     level_some_options: "Enkele opties?"
@@ -1264,7 +1303,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     join_desc_3: ", of vind ons in "
     join_desc_4: "en we bekijken het verder vandaar!"
     join_url_email: "E-mail ons"
-    join_url_hipchat: "ons publiek (Engelstalig) Slack kanaal"
+#    join_url_slack: "public Slack channel"
     archmage_subscribe_desc: "Ontvang e-mails met nieuwe programmeer mogelijkheden en aankondigingen."
     artisan_introduction_pref: "We moeten meer levels bouwen! Mensen schreeuwen om meer inhoud, en er zijn ook maar zoveel levels dat wij kunnen maken. Momenteel is jouw werkplaats level een; onze level editor wordt zelfs door ons amper gebruikt, dus wees voorzichtig. Indien je een visie hebt van een campagne, gaande van for-loops tot"
     artisan_introduction_suf: ", dan is deze klasse waarschijnlijk iets voor jou."
@@ -1577,7 +1616,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     art_sound: "Geluid"
     art_artwork: "Illustraties"
     art_sprites: "Sprites"
-    art_other: "Eender wat en al het creatief werk dat niet als code aanzien wordt en verkrijgbaar is bij het aanmaken van levels." #Not sure what this Dutch sentence should say, but it's definitely not correctly translated.
+    art_other: "Eender wat en al het creatief werk dat niet als code aanzien wordt en verkrijgbaar is bij het aanmaken van levels."
     art_access: "Momenteel is er geen universeel en gebruiksvriendelijk systeem voor het ophalen van deze assets. In het algemeen, worden deze opgehaald via de links zoals gebruikt door de website. Contacteer ons voor assistentie, of help ons met de website uit te breiden en de assets bereikbaarder te maken."
     art_paragraph_1: "Voor toekenning, gelieve de naam en link naar codecombat.com te plaatsen waar dit passend is voor de vorm waarin het voorkomt. Bijvoorbeeld:"
     use_list_1: "Wanneer gebruikt in een film of een ander spel, voeg codecombat.com toe in de credits."
@@ -1616,21 +1655,3 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     one_month_discount: "30% korting: Kies Rails of HTML"
     license: "licentie"
     oreilly: "ebook van je keuze"
-
-  admin:
-    av_espionage: "spionage" # Really not important to translate /admin controls.
-    av_espionage_placeholder: "E-mail of gebruikersnaam"
-    av_usersearch: "Zoek gebruiker"
-    av_usersearch_placeholder: "E-mail, gebruikersnaam, naam, whatever"
-    av_usersearch_search: "Zoeken"
-    av_title: "Administrator panels"
-    av_entities_sub_title: "Entiteiten"
-    av_entities_users_url: "Gebruikers"
-    av_entities_active_instances_url: "Actieve instanties"
-#    av_entities_user_code_problems_list_url: "User Code Problems List"
-    av_other_sub_title: "Andere"
-    av_other_debug_base_url: "Base (om base.jade te debuggen)"
-    u_title: "Gebruikerslijst"
-#    ucp_title: "User Code Problems"
-    lg_title: "Laatste Spelletjes"
-    clas: "klas"

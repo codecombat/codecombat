@@ -25,8 +25,8 @@
     im_a_student: "I'm a Student"
     learn_more: "Learn more"
     classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game." # {change}
-    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience." # {change}
+    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
+    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
     top_screenshots_hint: "Students write code and see their changes update in real-time"
     designed_with: "Designed with teachers in mind"
     real_code: "Real, typed code"
@@ -67,7 +67,7 @@
     request_demo: "Request a Demo"
     create_a_class: "Create a Class"
     setup_a_class: "Set Up a Class"
-    have_an_account: "Have an account?" # {change}
+    have_an_account: "Have an account?"
     log_in: "Log In"
     logged_in_as: "You are currently logged in as"
     view_my_classes: "View my classes"
@@ -507,9 +507,9 @@
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "125+ basic levels across 4 worlds" # {change}
+    feature1: "125+ basic levels across 4 worlds"
     feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "85+ bonus levels" # {change}
+    feature3: "85+ bonus levels"
     feature4: "<strong>{{gems}} bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
@@ -739,9 +739,9 @@
     more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
 
   teachers_quote:
-    name: "Demo Form" # {change}
-    title: "Request a Demo" # {change}
-    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science." # {change}
+    name: "Demo Form"
+    title: "Request a Demo"
+    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
     email_exists: "User exists with this email."
     phone_number: "Phone number"
     phone_number_help: "Where can we reach you during the workday?"
@@ -765,10 +765,10 @@
     middle_school: "Middle School"
     college_plus: "College or higher"
     anything_else: "Anything else we should know?"
-    thanks_header: "Thanks for requesting a demo!" # {change}
+    thanks_header: "Thanks for requesting a demo!"
     thanks_p: "We'll be in touch soon. Questions? Email us:"
-    thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science." # {change}
-    thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science." # {change}
+    thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science."
+    thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science."
     setup_a_class: "Set Up a Class"
 
   versions:

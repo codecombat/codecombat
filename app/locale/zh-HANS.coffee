@@ -25,8 +25,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     im_a_student: "我是学生"
     learn_more: "了解更多"
     classroom_in_a_box: "教授计算机科学的一站式课堂。"
-    codecombat_is: "CodeCombat是一个使学生通过玩游戏来学习计算机科学的平台。"
-    our_courses: "我们的课程经历特殊测验，足够满足教学需求。无编程经验的教师也可掌控。"
+    codecombat_is: "CodeCombat是一个使学生通过玩游戏来学习计算机科学的平台。" # {change}
+    our_courses: "我们的课程经历特殊测验，足够满足教学需求。无编程经验的教师也可掌控。" # {change}
     top_screenshots_hint: "学生编写代码后可即时查看改动。"
     designed_with: "从教育者角度设计"
     real_code: "真实可行的代码"
@@ -67,7 +67,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     request_demo: "申请试用版"
     create_a_class: "创建班级"
     setup_a_class: "配置班级"
-    have_an_account: "已有帐号？"
+    have_an_account: "已有帐号？" # {change}
     log_in: "登陆"
     logged_in_as: "您现在的登录身份："
     view_my_classes: "查看我的班级"
@@ -80,7 +80,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     courses_available_in: "课程可用如下语言：JavaScript，Python，还有Java（即将推出！）"
     boast: "以难解的谜题为豪，它们复杂到可以吸引游戏玩家和程序员。"
     winning: "RPG游戏和编程作业的完美结合，使得教育充满乐趣。"
-    ruu_class: "管理计算机科学课程的所有东西都在这里，无需相关背景。"
+#    run_class: "Everything you need to run a computer science class in your school today, no CS background required."
 
   nav:
     play: "关卡选择" # The top nav bar entry where players choose which levels to play
@@ -93,7 +93,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     profile: "资料"
     stats: "成就"
     code: "代码"
-    admin: "管理" # Only shows up when you are an admin
     home: "首页"
     contribute: "贡献"
     legal: "版权声明"
@@ -107,6 +106,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create_a_class: "创建一个班级"
     other: "其他"
     learn_to_code: "学会编程！"
+#    toggle_nav: "Toggle navigation"
+#    jobs: "Jobs"
+#    schools: "Schools"
+#    educator_wiki: "Educator Wiki"
+#    request_quote: "Request a Quote"
+#    get_involved: "Get Involved"
+#    open_source: "Open source (GitHub)"
+#    support: "Support"
+#    faqs: "FAQs"
+#    help_pref: "Need help? Email"
+#    help_suff: "and we'll get in touch!"
 
   modal:
     close: "关闭"
@@ -427,6 +437,18 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_compiler_ignores_comments: "有时我总觉得编译器忽视了我的注释。"
     tip_understand_recursion: "了解递归的唯一途径是了解递归。"
     tip_life_and_polymorphism: "开源就像是一个彻头彻尾的多边形结构：海纳百川。"
+#    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
+#    tip_adding_orgres: "Rounding up ogres."
+#    tip_sharpening_swords: "Sharpening the swords."
+#    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
+#    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+#    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
+#    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
+#    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
+#    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
+#    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+#    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
+#    tip_mulan: "Believe you can, then you will. - Mulan"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -485,13 +507,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   subscribe:
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！"
-    feature1: "110+ 基本关卡（4个世界）"
+    feature1: "110+ 基本关卡（4个世界）" # {change}
     feature2: "10 个强大 <strong>英雄</strong>以及各式非凡技能!"
-    feature3: "80+ 奖励关卡"
+    feature3: "80+ 奖励关卡" # {change}
     feature4: "每月享有{{gems}}额外宝石"
     feature5: "视频教学"
     feature6: "专业邮件支援"
     feature7: "私人 <strong>部落</strong>"
+#    feature8: "<strong>No ads!</strong>"
     free: "免费"
     month: "月"
     must_be_logged: "您需要先登入。请先注册或者在上方的目录中点击登入。"
@@ -658,8 +681,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     retrostyle_blurb: "复古风格的游戏"
     jose_title: "音乐"
     jose_blurb: "放轻松"
-    carlos_title: "地区经理, 巴西"
-    carlos_blurb: "食草男"
     community_title: "...以及我们的开源社区"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！"
     community_description_1: "CodeCombat 是一个开放项目，上百名玩家创建了各种关卡，给我们的源代码添砖加瓦，添加新功能、修复Bug、测试、甚至是将其翻译为50种语言。职员、贡献者以及网站本身都在分享创意并奋斗中成长，这就是开源社区的力量。此网站在众多开源项目之上建立，我们为表感恩，也将网站开源奉献给社区，给好奇源码的玩家提供探索和实验的项目。每个人都能加入CodeCombat社区！看一下我们的"
@@ -717,9 +738,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     more_info_3: "是个与其他使用CodeCombat的教育工作者联系的良好平台。"
 
   teachers_quote:
-    name: "试用申请表"
-    title: "申请一个试用版"
-    subtitle: "将 CodeCombat 带到您的班级、俱乐部、学校甚至地区！"
+    name: "试用申请表" # {change}
+    title: "申请一个试用版" # {change}
+    subtitle: "将 CodeCombat 带到您的班级、俱乐部、学校甚至地区！" # {change}
     email_exists: "使用该账号的电子邮箱"
     phone_number: "电话号码"
     phone_number_help: "工作日时我们在哪可以找到您？"
@@ -743,10 +764,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     middle_school: "初中"
     college_plus: "大学以上"
     anything_else: "您还有什么建议？"
-    thanks_header: "感谢您填写这份表格。"
+    thanks_header: "感谢您填写这份表格。" # {change}
     thanks_p: "我们不久会和你联系。仍有疑问？给我们发电子邮件："
-    thanks_anon: "登陆或注册在下方的账号会给您两个免费的名额(验证通过后会给您发送通知邮件，这通常会在48小时内完成)。和往常一样，第一个小时的内容对任意数量的学生都是免费的。"
-    thanks_logged_in: "您的两个免费名额正在审核。通过后我们会用邮件通知您(通常在48小时内)。和往常一样，第一个小时的内容对任意数量的学生都是免费的。"
+    thanks_anon: "登陆或注册在下方的账号会给您两个免费的名额(验证通过后会给您发送通知邮件，这通常会在48小时内完成)。和往常一样，第一个小时的内容对任意数量的学生都是免费的。" # {change}
+    thanks_logged_in: "您的两个免费名额正在审核。通过后我们会用邮件通知您(通常在48小时内)。和往常一样，第一个小时的内容对任意数量的学生都是免费的。" # {change}
     setup_a_class: "建立一个班级"
 
   versions:
@@ -856,7 +877,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     social_facebook: "关注CodeCombat的Facebook主页"
     social_twitter: "关注CodeCombat的Twitter"
     social_gplus: "关注CodeCombat的Google+主页"
-    social_hipchat: "在公共的CodeCombat Slack聊天室与我们进行交流"
+#    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "为项目做贡献"
 
   clans:
@@ -1282,7 +1303,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     join_desc_3: " 或者去我们的"
     join_desc_4: "，然后我们有话好说！"
     join_url_email: "给我们发邮件"
-    join_url_hipchat: " Slack聊天室"
+#    join_url_slack: "public Slack channel"
     archmage_subscribe_desc: "通过电子邮件获得新的编码机会和公告。"
     artisan_introduction_pref: "我们必须设计更多的关卡! 大家为了更多的游戏内容在高声呐喊，但是我们靠自己只能创建这些。现在您的电脑就是第一关！我们的关卡编辑器刚刚完成了基本功能，所以创造关卡的时候请小心使用。只要您有制作关卡的灵感，不管是简单的for循环还是"
     artisan_introduction_suf: "这种东西，这个职业都很适合您。"
@@ -1634,21 +1655,3 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     one_month_discount: "折扣 30% : 选择 Rails 或者 HTML"
     license: "许可证"
     oreilly: "您选择的电子书"
-
-  admin:
-    av_espionage: "Espionage" # Really not important to translate /admin controls.
-    av_espionage_placeholder: "邮箱或用户名"
-    av_usersearch: "用户搜索"
-    av_usersearch_placeholder: "邮箱、用户名、姓名、任何东西"
-    av_usersearch_search: "搜索"
-    av_title: "管理员视图"
-    av_entities_sub_title: "实体"
-    av_entities_users_url: "用户"
-    av_entities_active_instances_url: "活动实例"
-    av_entities_user_code_problems_list_url: "用户代码问题列表"
-    av_other_sub_title: "其他"
-    av_other_debug_base_url: "Base（用于调试 base.jade）"
-    u_title: "用户列表"
-    ucp_title: "用户代码的问题"
-    lg_title: "最新的游戏"
-    clas: "贡献者许可协议"
