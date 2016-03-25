@@ -82,7 +82,6 @@ module.exports = class TeacherClassesView extends RootView
       @render()
     
   onClickAddStudentsButton: (e) ->
-    classroomID = $(e.target).data('classroom-id')
     classroom = @classrooms.get(classroomID)
     modal = new InviteToClassroomModal({ classroom: classroom })
     @openModalView(modal)
