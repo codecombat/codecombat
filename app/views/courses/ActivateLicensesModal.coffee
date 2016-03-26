@@ -27,7 +27,6 @@ module.exports = class ActivateLicensesModal extends ModalView
     @classrooms.fetchMine({
       data: {archived: false}
       success: =>
-        console.log @classrooms
         @classrooms.each (classroom) =>
           classroom.users = new Users()
           classroom.users.fetchForClassroom(classroom)
@@ -61,11 +60,8 @@ module.exports = class ActivateLicensesModal extends ModalView
       users = _.uniq _.flatten @classrooms.map (classroom) -> classroom.users.models
       @users.reset(users)
     else
-      console.log @classrooms.get(selectedClassroomID).users.models
       @users.reset(@classrooms.get(selectedClassroomID).users.models)
-      console.log @users
     @trigger('users:change')
-    console.log @users
     @render()
     null
 

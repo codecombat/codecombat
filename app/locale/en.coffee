@@ -964,7 +964,6 @@
     average_levels: "Average levels completed:"
     total_levels: "Total levels completed:"
     furthest_level: "Furthest level completed:"
-    # concepts_covered: "Concepts Covered"
     students: "Students"
     students1: "students"
     concepts: "Concepts"
@@ -979,7 +978,6 @@
     capacity_used: "Course slots used:"
     enter_emails: "Enter student emails to invite, one per line"
     send_invites: "Send Invites"
-    # title: "Title"
     creating_class: "Creating class..."
     purchasing_course: "Purchasing course..."
     buy_course: "Buy Course"
@@ -1168,8 +1166,7 @@
     students_assigned: "students assigned"
     length: "Length:"
     
-    # New content
-    title: "Courses"
+    title: "Courses" # Flat style redesign
     subtitle: "Review course guidelines, solutions, and levels"
     select_language: "Select language"
     select_level: "Select level"
@@ -1178,12 +1175,10 @@
     print_guide: "Print Guide (PDF)"
     view_guide_online: "View Guide Online (PDF)"
     
-    # New enrollment modal
-    grants_lifetime_access: "Grants lifetime access to all Courses."
+    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
     enrollment_credits_available: "Enrollment Credits Available:"
     
-    # ClassroomSettingsModal
-    description: "Description"
+    description: "Description" # ClassroomSettingsModal
     language_select: "Select a language"
     language_cannot_change: "Language cannot be changed once students join a class."
     learn_p: "Learn Python"
@@ -1203,22 +1198,19 @@
     create_class: "Create Class"
     
   teacher:
-    # Navbar
-    teacher_dashboard: "Teacher Dashboard"
+    teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
     courses: "Courses"
     enrollments: "Enrollments"
     resources: "Resources"
     help: "Help"
     
-    # Shared
-    students: "Students"
+    students: "Students" # Shared
     language: "Language"
     edit_class_settings: "edit class settings"
     complete: "Complete"
 
-    # My Classes page
-    access_restricted: "Access Restricted"
+    access_restricted: "Access Restricted" # My Classes page
     teacher_account_required: "A teacher account is required to access this content."
     create_teacher_account: "Create Teacher Account"
     what_is_a_teacher_account: "What's a Teacher Account?"
@@ -1233,8 +1225,7 @@
     add_students: "Add Students"
     create_new_class: "Create a New Class"
 
-    # View Class page
-    class_overview: "Class Overview"
+    class_overview: "Class Overview" # View Class page
     avg_playtime: "Average level playtime"
     total_playtime: "Total play time"
     avg_completed: "Average levels completed"
@@ -1261,17 +1252,14 @@
     assign_to_selected_students: "Assign to Selected Students"
     enroll_selected_students: "Enroll Selected Students"
     
-    # Courses
-    guides_coming_soon: "Guides coming soon!"
+    guides_coming_soon: "Guides coming soon!" # Courses
 
-    # Enroll students modal
-    show_students_from: "Show students from"
+    show_students_from: "Show students from" # Enroll students modal
     enroll_the_following_students: "Enroll the following students"
     all_students: "All Students"
     
     
-    # Enrollments page
-    enrollments_blurb_1: "Students taking Computer Science"
+    enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
     enrollments_blurb_2: "require enrollments to access the courses."
     credits_available: "Credits Available"
     total_unique_students: "Total Unique Students"

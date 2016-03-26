@@ -69,7 +69,7 @@ module.exports = class TeacherClassView extends RootView
   onLoaded: ->
     console.log("loaded!")
     
-    @classCode = @classroom.get('codeCamel') || @classroom.get('code')
+    @classCode = @classroom.get('codeCamel') or @classroom.get('code')
     @joinURL = document.location.origin + "/courses?_cc=" + @classCode
     
     @earliestIncompleteLevel = helper.calculateEarliestIncomplete(@classroom, @courses, @campaigns, @courseInstances, @students)
@@ -108,7 +108,7 @@ module.exports = class TeacherClassView extends RootView
     @listenToOnce modal, 'hide', @render
     
   sortByName: (e) ->
-    if @sortValue == 'name'
+    if @sortValue is 'name'
       @sortDirection = -@sortDirection
     else
       @sortValue = 'name'
@@ -120,7 +120,7 @@ module.exports = class TeacherClassView extends RootView
     @students.sort()
     
   sortByProgress: (e) ->
-    if @sortValue == 'progress'
+    if @sortValue is 'progress'
       @sortDirection = -@sortDirection
     else
       @sortValue = 'progress'
@@ -170,7 +170,7 @@ module.exports = class TeacherClassView extends RootView
       for studentID in members
         courseInstance.addMember studentID, {
           success: =>
-            @render()
+            @render() unless @destroyed
         }
     else
       courseInstance = new CourseInstance {
@@ -202,7 +202,7 @@ module.exports = class TeacherClassView extends RootView
     e.preventDefault()
     # $(e.target).$()
     checkbox = $(e.currentTarget).find('input')
-    checkbox.prop('checked', !checkbox.prop('checked'))
+    checkbox.prop('checked', not checkbox.prop('checked'))
     # checkboxes.prop('checked', false)
     checkboxes = $('.student-checkbox input')
     $('.select-all input').prop('checked', _.all(checkboxes, 'checked'))

@@ -75,7 +75,7 @@ module.exports = class EnrollmentsView extends RootView
   updatePrice: ->
     @renderSelectors '#price-form-group'
 
-  numberOfStudentsIsValid: -> @numberOfStudents > 0 and @numberOfStudents < 100000
+  numberOfStudentsIsValid: -> 0 < @numberOfStudents < 100000
   
   # onClickEnrollStudents: ->
   # TODO: Needs "All students" in modal dropdown

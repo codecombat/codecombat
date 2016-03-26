@@ -211,7 +211,7 @@ mixin courseProgressTab
 mixin courseOverview
   - var course = view.selectedCourse
   - var campaign = view.campaigns.get(course.get('campaignID'))
-  - var levels = campaign.getNonladderLevels().models
+  - var levels = campaign.getNonLadderLevels().models
   .course-overview-row
     .course-title.student-name
       span= course.get('name')
@@ -230,7 +230,7 @@ mixin studentLevelsRow(student)
     div.student-levels-progress
       - var course = view.selectedCourse
       - var campaign = view.campaigns.get(course.get('campaignID'))
-      - var levels = campaign.getNonladderLevels().models
+      - var levels = campaign.getNonLadderLevels().models
       each level, index in levels
         - var progress = view.progressData.get({ classroom: view.classroom, course: course, level: level, user: student })
         +progressDot(progress, index+1)

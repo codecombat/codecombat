@@ -43,7 +43,7 @@ module.exports = class Campaign extends CocoModel
     levels.sort()
     return levels
     
-  getNonladderLevels: ->
+  getNonLadderLevels: ->
     levels = new Levels(_.values(@get('levels')))
     levels.reset(levels.reject (level) -> level.isLadder())
     levels.comparator = 'campaignIndex'
