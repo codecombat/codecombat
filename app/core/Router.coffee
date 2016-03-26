@@ -12,10 +12,6 @@ module.exports = class CocoRouter extends Backbone.Router
     '': ->
       if window.serverConfig.picoCTF
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
-      # Testing new home page
-      # group = me.getHomepageGroup()
-      # return @routeDirectly('NewHomeView', [], { jumbotron: 'student' }) if group is 'new-home-student'
-      # return @routeDirectly('NewHomeView', [], { jumbotron: 'characters' }) if group is 'new-home-characters'
       return @routeDirectly('NewHomeView', [])
 
     'about': go('AboutView')

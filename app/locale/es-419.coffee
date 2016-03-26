@@ -25,8 +25,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     im_a_student: "Soy un Estudiante"
     learn_more: "Aprender más"
     classroom_in_a_box: "Un aula prediseñada para enseñar informática."
-    codecombat_is: "CodeCombat es una plataforma para que los estudiantes aprendan informática mientras están jugando un juego de verdad."
-    our_courses: "Nuestros cursos fueron probados especificamente para destacarse en el aula, incluso con maestros con poca o ninguna experiencia previa en programación."
+    codecombat_is: "CodeCombat es una plataforma para que los estudiantes aprendan informática mientras están jugando un juego de verdad." # {change}
+    our_courses: "Nuestros cursos fueron probados especificamente para destacarse en el aula, incluso con maestros con poca o ninguna experiencia previa en programación." # {change}
+#    top_screenshots_hint: "Students write code and see their changes update in real-time"
     designed_with: "Diseñado teniendo en cuenta a los maestros"
     real_code: "Escritura real de código"
     from_the_first_level: "desde el primer nivel"
@@ -57,10 +58,17 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     great_game: "Un gran juego es más que solo medallas y logros - se trata sobre una travesía del jugador, acertijos bien diseñados, y la habilidad de abordar desafios con voluntad y confianza."
     agency: "CodeCombat es un juego que ofrece a los jugadores esa voluntad y confianza mediante nuestro motor de código robusto, que ayuda tanto a principiantes como a estudiantes avanzados por igual a escribir código correcto y válido."
     curious: "¿Curioso? Solicita un demo y te mostraremos cómo funciona "
+#    request_demo_title: "Get your students started today!"
+#    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
+#    get_started_title: "Set up your class today"
+#    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
     create_class: "¡O crea una clase y miralo vos mismo!"
+#    teacher_screenshots_hint: "Students write code and see their changes update in real-time"
     request_demo: "Solicitar un Demo"
     create_a_class: "Crear una Clase"
-    have_an_account: "¿Ya tenes una cuenta?"
+#    setup_a_class: "Set Up a Class"
+    have_an_account: "¿Ya tenes una cuenta?" # {change}
+#    log_in: "Log In"
     logged_in_as: "Estás actualmente conectado como"
     view_my_classes: "Ver mis clases"
     computer_science: "Cursos de informática para todas las edades"
@@ -85,7 +93,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     profile: "Perfil"
     stats: "Estadísticas"
     code: "Código"
-    admin: "Administrador" # Only shows up when you are an admin
     home: "Inicio"
     contribute: "Contribuir"
     legal: "Legal"
@@ -99,6 +106,17 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     create_a_class: "Crear una Clase"
     other: "Otro"
     learn_to_code: "¡Aprender a programar!"
+#    toggle_nav: "Toggle navigation"
+#    jobs: "Jobs"
+#    schools: "Schools"
+#    educator_wiki: "Educator Wiki"
+#    request_quote: "Request a Quote"
+#    get_involved: "Get Involved"
+#    open_source: "Open source (GitHub)"
+#    support: "Support"
+#    faqs: "FAQs"
+#    help_pref: "Need help? Email"
+#    help_suff: "and we'll get in touch!"
 
   modal:
     close: "Cerrar"
@@ -182,6 +200,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     school_name: "Nombre de Escuela y Ciudad"
     optional: "opcional"
     school_name_placeholder: "Ejemplo: High School, Springfield, IL"
+#    or_sign_up_with: "or sign up with"
+#    connected_gplus_header: "You've successfully connected with Google+!"
+#    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
+#    gplus_exists: "You already have an account associated with Google+!"
+#    connected_facebook_header: "You've successfully connected with Facebook!"
+#    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
+#    facebook_exists: "You already have an account associated with Facebook!"
+#    hey_students: "Students, enter the class code from your teacher."
 
   recover:
     recover_account_title: "recuperar cuenta"
@@ -411,6 +437,18 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_compiler_ignores_comments: "A veces pienso que el compilador ignora mis comentarios."
     tip_understand_recursion: "La única manera de entender la recursividad es entender la recursividad."
     tip_life_and_polymorphism: "El Open Source es como una estructura heterogénea totalmente polimórfica: Todos los tipos son bienvenidos."
+#    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
+#    tip_adding_orgres: "Rounding up ogres."
+#    tip_sharpening_swords: "Sharpening the swords."
+#    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
+#    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+#    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
+#    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
+#    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
+#    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
+#    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+#    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
+#    tip_mulan: "Believe you can, then you will. - Mulan"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -469,13 +507,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   subscribe:
     comparison_blurb: "Agudiza tus habilidades con la suscripción a CodeCombat!"
-    feature1: "Más de 110 niveles basicos a lo largo de 4 mundos"
+    feature1: "Más de 110 niveles basicos a lo largo de 4 mundos" # {change}
     feature2: "10 poderosos <strong>nuevos heroés</strong> con habilidades unicas!"
-    feature3: "+80 niveles extras"
+    feature3: "+80 niveles extras" # {change}
     feature4: "<strong>{{gems}} gemas de bono</strong> cada mes!"
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
     feature7: "<strong>Clan</strong> Privado"
+#    feature8: "<strong>No ads!</strong>"
     free: "Gratis"
     month: "mes"
     must_be_logged: "Debes iniciar sesión primero. Por favor crea una cuenta o inicia sesión desde el menú superior."
@@ -642,8 +681,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     retrostyle_blurb: "Juegos con estilo Retro"
     jose_title: "Música"
     jose_blurb: "Despegar"
-    carlos_title: "Manager de Región, Brasil"
-    carlos_blurb: "Hombre apio"
     community_title: "...y nuestra comunidad open-source"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!"
     community_description_1: "CodeCombat es un proyecto comunitario, con cientos de jugadores haciendo trabajo voluntario al crear niveles, contribuir a nuestro código para añadir características, arreglar bugs, testear, e incluso traducir el juego a 50 idiomas hasta ahora. Empleados, contribuidores y la página ganan al compartir las ideas Echa un vistazo a nuestra"
@@ -701,9 +738,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     more_info_3: "es un buen lugar para connectarse con los educadores que estan usando CodeCombat."
 
   teachers_quote:
-    name: "Formulario de Presupuesto"
-    title: "Solicitar un Presupuesto"
-    subtitle: "¡Obtén CodeCombat en tu clase, club, escuela o distrito!"
+    name: "Formulario de Presupuesto" # {change}
+    title: "Solicitar un Presupuesto" # {change}
+    subtitle: "¡Obtén CodeCombat en tu clase, club, escuela o distrito!" # {change}
     email_exists: "Existe un usuario con este email."
     phone_number: "Teléfono"
     phone_number_help: "¿Dónde podemos contactarte durante el horario de trabajo ?"
@@ -727,10 +764,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     middle_school: "Escuela Intermedia"
     college_plus: "Universidad o superior"
     anything_else: "¿Algo más que deberíamos saber?"
-    thanks_header: "¡Gracias por solicitar un presupuesto!"
+    thanks_header: "¡Gracias por solicitar un presupuesto!" # {change}
     thanks_p: "Estaremos en contacto pronto. ¿Preguntas? Escríbenos:"
-    thanks_anon: "Inicia sesión o regístrate con tu cuenta más abajo para acceder a tus dos suscripciones gratuitas (te notificaremos por email cuando hayan sido aprobadas, que por lo general tarda menos de 48 horas). Como siempre, la primera hora de contenido es gratuita para un número ilimitado de estudiantes."
-    thanks_logged_in: "Tus dos suscripciones gratuitas están pendientes de aprobación. Te notificaremos por email cuando hayan sido aprobadas (por lo general dentro de las 48 horas). Como siempre, la primera hora de contenido es gratuita para un número ilimitado de estudiantes."
+    thanks_anon: "Inicia sesión o regístrate con tu cuenta más abajo para acceder a tus dos suscripciones gratuitas (te notificaremos por email cuando hayan sido aprobadas, que por lo general tarda menos de 48 horas). Como siempre, la primera hora de contenido es gratuita para un número ilimitado de estudiantes." # {change}
+    thanks_logged_in: "Tus dos suscripciones gratuitas están pendientes de aprobación. Te notificaremos por email cuando hayan sido aprobadas (por lo general dentro de las 48 horas). Como siempre, la primera hora de contenido es gratuita para un número ilimitado de estudiantes." # {change}
+#    setup_a_class: "Set Up a Class"
 
   versions:
     save_version_title: "Guardar nueva versión"
@@ -839,7 +877,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     social_facebook: "Me Gusta CodeCombat en Facebook"
     social_twitter: "Sigue a CodeCombat en Twitter"
     social_gplus: "Únete a CodeCombat con Google+"
-    social_hipchat: "Chatea con nosotros en el chat público de CodeCombat en la sala Slack"
+#    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Contribuir al proyecto"
 
   clans:
@@ -1104,7 +1142,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     getting_started_3: "Verás los progresos de los estudiantes más abajo cuando se registren e ingresen a tu clase."
     additional_resources: "Recursos Adicionales"
     additional_resources_1_pref: "Descargar/imprimir nuestra"
-    additional_resources_1_mid: "Guía para maestros: Curso 1" # {change}
+    additional_resources_1_mid: "Guía para maestros: Curso 1"
 #    additional_resources_1_mid2: "and"
 #    additional_resources_1_mid3: "Course 2"
     additional_resources_1_suff: "explicaciones y soluciones para cada nivel." # {change}
@@ -1130,6 +1168,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     add_students1: "añadir alumnos"
     view_edit: "ver/editar"
     students_enrolled: "estudiantes matriculados"
+#    students_assigned: "students assigned"
     length: "Duración:"
 
   classes:
@@ -1264,7 +1303,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     join_desc_3: ", o encuéntranos en "
     join_desc_4: "y ahí empezaremos!"
     join_url_email: "Escríbenos"
-    join_url_hipchat: "chat público Slack"
+#    join_url_slack: "public Slack channel"
     archmage_subscribe_desc: "Obten correos de nuevas oportunidades y anuncios."
     artisan_introduction_pref: "¡Debemos construir niveles adicionales! La gente ruega por más contenido, y podemos hacer tanto por nosotros mismos. De momento tu estación de trabajo es nivel 1 ; Nuestro editor de niveles es apenas útil incluso para sus creadores, así que sea cauteloso. Si tuviera visiones de campañas apareciendo para ciclos for"
     artisan_introduction_suf: ", entonces esta lase es ideal para ti."
@@ -1466,14 +1505,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   loading_error:
     could_not_load: "Error cargando del servidor"
-    connection_failure: "Fallo de conexión." # {change}
+    connection_failure: "Fallo de conexión."
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
 #    login_required: "Login Required"
 #    login_required_desc: "You need to be logged in to access this page."
     unauthorized: "Necesitas acceder. ¿Tienes desabilitadas las cookies?"
-    forbidden: "No tienes los permisos." # {change}
+    forbidden: "No tienes los permisos."
 #    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
-    not_found: "No encontrado." # {change}
+    not_found: "No encontrado."
 #    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "Método no permitido."
     timeout: "Expiró el tiempo del servidor." # {change}
@@ -1616,21 +1655,3 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     one_month_discount: "descuento del 30%: elige entre Rails o HTML"
     license: "licencia"
     oreilly: "ebook de su elección"
-
-  admin:
-    av_espionage: "Espionaje" # Really not important to translate /admin controls.
-    av_espionage_placeholder: "Mail o usuario"
-    av_usersearch: "Buscar Usuario"
-    av_usersearch_placeholder: "Mail, usuario, nombre, lo que sea"
-    av_usersearch_search: "Buscar"
-    av_title: "Vistas de Admin"
-    av_entities_sub_title: "Entidades"
-    av_entities_users_url: "Usuarios"
-    av_entities_active_instances_url: "Instancias Activas"
-    av_entities_user_code_problems_list_url: "Lista de Usuarios con problemas de código"
-    av_other_sub_title: "Otro"
-    av_other_debug_base_url: "Base (para depurar base.jade)"
-    u_title: "Lista de Usuarios"
-    ucp_title: "Usuario con problemas de código"
-    lg_title: "Últimos Juegos"
-    clas: "CLAs"

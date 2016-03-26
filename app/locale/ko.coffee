@@ -25,8 +25,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    im_a_student: "I'm a Student"
 #    learn_more: "Learn more"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-#    codecombat_is: "CodeCombat is a platform for students to learn computer science while playing through a real game."
-#    our_courses: "Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience."
+#    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
+#    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
+#    top_screenshots_hint: "Students write code and see their changes update in real-time"
 #    designed_with: "Designed with teachers in mind"
 #    real_code: "Real, typed code"
 #    from_the_first_level: "from the first level"
@@ -57,10 +58,17 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
 #    agency: "CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
 #    curious: "Curious? Request a demo and we'll show you the ropes"
+#    request_demo_title: "Get your students started today!"
+#    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
+#    get_started_title: "Set up your class today"
+#    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
 #    create_class: "Or create a class and see it for yourself!"
+#    teacher_screenshots_hint: "Students write code and see their changes update in real-time"
 #    request_demo: "Request a Demo"
 #    create_a_class: "Create a Class"
-#    have_an_account: "Already have an account?"
+#    setup_a_class: "Set Up a Class"
+#    have_an_account: "Have an account?"
+#    log_in: "Log In"
 #    logged_in_as: "You are currently logged in as"
 #    view_my_classes: "View my classes"
 #    computer_science: "Computer science courses for all ages"
@@ -85,7 +93,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     profile: "프로필"
     stats: "스탯"
     code: "코드"
-    admin: "관리자" # Only shows up when you are an admin
     home: "홈"
     contribute: "참여하기"
     legal: "법"
@@ -99,6 +106,17 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    create_a_class: "Create a Class"
 #    other: "Other"
 #    learn_to_code: "Learn to Code!"
+#    toggle_nav: "Toggle navigation"
+#    jobs: "Jobs"
+#    schools: "Schools"
+#    educator_wiki: "Educator Wiki"
+#    request_quote: "Request a Quote"
+#    get_involved: "Get Involved"
+#    open_source: "Open source (GitHub)"
+#    support: "Support"
+#    faqs: "FAQs"
+#    help_pref: "Need help? Email"
+#    help_suff: "and we'll get in touch!"
 
   modal:
     close: "닫기"
@@ -182,6 +200,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     school_name: "학교 이름과 도시"
     optional: "옵션"
     school_name_placeholder: "예시 고등학교, 스프링필드, IL"
+#    or_sign_up_with: "or sign up with"
+#    connected_gplus_header: "You've successfully connected with Google+!"
+#    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
+#    gplus_exists: "You already have an account associated with Google+!"
+#    connected_facebook_header: "You've successfully connected with Facebook!"
+#    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
+#    facebook_exists: "You already have an account associated with Facebook!"
+#    hey_students: "Students, enter the class code from your teacher."
 
   recover:
     recover_account_title: "계정 복구"
@@ -411,6 +437,18 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
 #    tip_understand_recursion: "The only way to understand recursion is to understand recursion."
 #    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
+#    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
+#    tip_adding_orgres: "Rounding up ogres."
+#    tip_sharpening_swords: "Sharpening the swords."
+#    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
+#    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+#    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
+#    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
+#    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
+#    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
+#    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+#    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
+#    tip_mulan: "Believe you can, then you will. - Mulan"
 
   game_menu:
     inventory_tab: "인벤토리"
@@ -469,13 +507,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   subscribe:
     comparison_blurb: "코드컴뱃을 구독하셔서 당신의 스킬을 날카롭게하십시오!"
-    feature1: "110+개의 기초 레벨들은 4개의 세계에 있습니다"
+    feature1: "110+개의 기초 레벨들은 4개의 세계에 있습니다" # {change}
     feature2: "힘쌘 10 <strong>새로운 영웅들</strong>은 희기한 스킬과 함께!"
-    feature3: "80+ 보너스 레벨들"
+    feature3: "80+ 보너스 레벨들" # {change}
     feature4: "매 달마다<strong>{{gems}} 보너스 잼</strong>!"
     feature5: "영상 튜토리얼"
     feature6: "프리미엄 이메일 지원"
     feature7: "비공개 <strong>클랜</strong>"
+#    feature8: "<strong>No ads!</strong>"
     free: "프리"
     month: "달"
     must_be_logged: "로그인부터 먼저 하셔야합니다.메뉴에서 계정을 만들거나 로그인해주세요."
@@ -616,8 +655,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    careers_link: "Careers"
 #    press_link: "Press"
 #    mission_title: "Our mission: make programming accessible to every student on Earth."
-#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>." # {change}
-#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming." # {change}
+#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
+#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
 #    team_title: "Meet the CodeCombat team"
 #    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
     nick_title: "프로그래머" # {change}
@@ -642,8 +681,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     retrostyle_blurb: "레트로스타일 게임"
     jose_title: "뮤직"
     jose_blurb: "날다"
-    carlos_title: "지역 관리자, 브라질"
-    carlos_blurb: "셀러리 맨"
 #    community_title: "...and our open-source community"
 #    community_subtitle: "Over 450 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_1: "CodeCombat is a community project, with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
@@ -701,9 +738,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     more_info_3: "코드컴벳을 사용하는 동료 선생과 연결할 수있는 좋은 장소입니다."
 
 #  teachers_quote:
-#    name: "Quote Form"
-#    title: "Request a Quote"
-#    subtitle: "Get CodeCombat in your classroom, club, school or district!"
+#    name: "Demo Form"
+#    title: "Request a Demo"
+#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "Where can we reach you during the workday?"
@@ -727,10 +764,11 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    middle_school: "Middle School"
 #    college_plus: "College or higher"
 #    anything_else: "Anything else we should know?"
-#    thanks_header: "Thanks for requesting a quote!"
+#    thanks_header: "Thanks for requesting a demo!"
 #    thanks_p: "We'll be in touch soon. Questions? Email us:"
-#    thanks_anon: "Login or sign up with your account below to access your two free enrollments (we’ll notify you by email when they have been approved, which usually takes less than 48 hours). As always, the first hour of content is free for an unlimited number of students."
-#    thanks_logged_in: "Your two free enrollments are pending approval. We’ll notify you by email when they have been approved (usually within 48 hours). As always, the first hour of content is free for an unlimited number of students."
+#    thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science."
+#    thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science."
+#    setup_a_class: "Set Up a Class"
 
   versions:
     save_version_title: "새로운 버전을 저장합니다"
@@ -839,7 +877,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     social_facebook: "Facebook에서 코드컴뱃 좋아요하기"
     social_twitter: "Twitter에서 코드컴뱃 팔로우하기"
     social_gplus: "Google+로 코드컴뱃 참여하기"
-    social_hipchat: "공용 코드컴뱃 슬랙 체널에서 우리와 대화하기"
+#    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "프로젝트에 기여하기"
 
   clans:
@@ -1130,6 +1168,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    add_students1: "add students"
 #    view_edit: "view/edit"
 #    students_enrolled: "students enrolled"
+#    students_assigned: "students assigned"
 #    length: "Length:"
 
   classes:
@@ -1264,7 +1303,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    join_desc_3: ", or find us in our "
 #    join_desc_4: "and we'll go from there!"
 #    join_url_email: "Email us"
-#    join_url_hipchat: "public Slack channel"
+#    join_url_slack: "public Slack channel"
 #    archmage_subscribe_desc: "Get emails on new coding opportunities and announcements."
 #    artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
 #    artisan_introduction_suf: ", then this class might be for you."
@@ -1466,14 +1505,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   loading_error:
     could_not_load: "서버로부터 로딩하는 데 문제가 발생했습니다."
-    connection_failure: "연결 실패" # {change}
+    connection_failure: "연결 실패"
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
 #    login_required: "Login Required"
 #    login_required_desc: "You need to be logged in to access this page."
     unauthorized: "로그인한 상태가 아닙니다. 혹시 쿠키를 사용하지 못하게 설정해놓으셨나요?"
-    forbidden: "권한이 필요합니다." # {change}
+    forbidden: "권한이 필요합니다."
 #    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
-    not_found: "찾을 수 없습니다." # {change}
+    not_found: "찾을 수 없습니다."
 #    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "잘못된 접근입니다."
     timeout: "서버 타임아웃" # {change}
@@ -1616,21 +1655,3 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
     license: "라이센스"
 #    oreilly: "ebook of your choice"
-
-  admin:
-#    av_espionage: "Espionage" # Really not important to translate /admin controls.
-#    av_espionage_placeholder: "Email or username"
-#    av_usersearch: "User Search"
-#    av_usersearch_placeholder: "Email, username, name, whatever"
-#    av_usersearch_search: "Search"
-    av_title: "관리자 뷰"
-    av_entities_sub_title: "속성들"
-    av_entities_users_url: "유저들"
-    av_entities_active_instances_url: "액티브 인스턴스들"
-#    av_entities_user_code_problems_list_url: "User Code Problems List"
-    av_other_sub_title: "다른 사람들"
-    av_other_debug_base_url: "베이스 (base.jade 디버깅)"
-    u_title: "유저 목록"
-#    ucp_title: "User Code Problems"
-    lg_title: "가장 최근 게임"
-    clas: "컨트리뷰터 라이센스 약관"

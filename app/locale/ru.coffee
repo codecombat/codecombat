@@ -25,8 +25,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     im_a_student: "Я ученик"
     learn_more: "Узнать больше"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-#    codecombat_is: "CodeCombat is a platform for students to learn computer science while playing through a real game."
-#    our_courses: "Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience."
+#    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
+#    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
+#    top_screenshots_hint: "Students write code and see their changes update in real-time"
 #    designed_with: "Designed with teachers in mind"
 #    real_code: "Real, typed code"
 #    from_the_first_level: "from the first level"
@@ -57,10 +58,17 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
 #    agency: "CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
 #    curious: "Curious? Request a demo and we'll show you the ropes"
+#    request_demo_title: "Get your students started today!"
+#    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
+#    get_started_title: "Set up your class today"
+#    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
 #    create_class: "Or create a class and see it for yourself!"
+#    teacher_screenshots_hint: "Students write code and see their changes update in real-time"
 #    request_demo: "Request a Demo"
 #    create_a_class: "Create a Class"
-#    have_an_account: "Already have an account?"
+#    setup_a_class: "Set Up a Class"
+#    have_an_account: "Have an account?"
+#    log_in: "Log In"
 #    logged_in_as: "You are currently logged in as"
 #    view_my_classes: "View my classes"
 #    computer_science: "Computer science courses for all ages"
@@ -85,7 +93,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     profile: "Профиль"
     stats: "Характеристики"
     code: "Код"
-    admin: "Админ" # Only shows up when you are an admin
     home: "Домой"
     contribute: "Сотрудничество"
     legal: "Юридическая информация"
@@ -99,6 +106,17 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    create_a_class: "Create a Class"
 #    other: "Other"
 #    learn_to_code: "Learn to Code!"
+#    toggle_nav: "Toggle navigation"
+#    jobs: "Jobs"
+#    schools: "Schools"
+#    educator_wiki: "Educator Wiki"
+#    request_quote: "Request a Quote"
+#    get_involved: "Get Involved"
+#    open_source: "Open source (GitHub)"
+#    support: "Support"
+#    faqs: "FAQs"
+#    help_pref: "Need help? Email"
+#    help_suff: "and we'll get in touch!"
 
   modal:
     close: "Закрыть"
@@ -182,6 +200,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     school_name: "Название школы and город"
     optional: "не обязательно"
     school_name_placeholder: "Школа № 2, город Электросталь, Московская область"
+#    or_sign_up_with: "or sign up with"
+#    connected_gplus_header: "You've successfully connected with Google+!"
+#    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
+#    gplus_exists: "You already have an account associated with Google+!"
+#    connected_facebook_header: "You've successfully connected with Facebook!"
+#    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
+#    facebook_exists: "You already have an account associated with Facebook!"
+#    hey_students: "Students, enter the class code from your teacher."
 
   recover:
     recover_account_title: "Восстановить аккаунт"
@@ -411,6 +437,18 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
 #    tip_understand_recursion: "The only way to understand recursion is to understand recursion."
 #    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
+#    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
+#    tip_adding_orgres: "Rounding up ogres."
+#    tip_sharpening_swords: "Sharpening the swords."
+#    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
+#    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+#    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
+#    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
+#    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
+#    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
+#    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+#    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
+#    tip_mulan: "Believe you can, then you will. - Mulan"
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -476,6 +514,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     feature5: "Обучающие видеоролики"
     feature6: "Эксклюзивная поддержка по электронной почте"
     feature7: "Частные <strong>Кланы</strong>"
+#    feature8: "<strong>No ads!</strong>"
     free: "Бесплатно"
     month: "месяц"
     must_be_logged: "Вы должны быть залогинены. Вы можете создать аккаунт или зайти в уже существующий с помощью меню выше."
@@ -616,8 +655,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    careers_link: "Careers"
 #    press_link: "Press"
 #    mission_title: "Our mission: make programming accessible to every student on Earth."
-#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>." # {change}
-#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming." # {change}
+#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
+#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
 #    team_title: "Meet the CodeCombat team"
 #    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
     nick_title: "Сооснователь" # {change}
@@ -642,8 +681,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     retrostyle_blurb: "Игры в стиле ретро"
     jose_title: "Музыка"
     jose_blurb: "На взлет"
-#    carlos_title: "Region Manager, Brazil"
-#    carlos_blurb: "Celery Man"
 #    community_title: "...and our open-source community"
 #    community_subtitle: "Over 450 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_1: "CodeCombat is a community project, with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
@@ -701,9 +738,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     more_info_3: "хорошее место для связи с другими педагогами, уже использующими CodeCombat."
 
 #  teachers_quote:
-#    name: "Quote Form"
-#    title: "Request a Quote"
-#    subtitle: "Get CodeCombat in your classroom, club, school or district!"
+#    name: "Demo Form"
+#    title: "Request a Demo"
+#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "Where can we reach you during the workday?"
@@ -727,10 +764,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    middle_school: "Middle School"
 #    college_plus: "College or higher"
 #    anything_else: "Anything else we should know?"
-#    thanks_header: "Thanks for requesting a quote!"
+#    thanks_header: "Thanks for requesting a demo!"
 #    thanks_p: "We'll be in touch soon. Questions? Email us:"
-#    thanks_anon: "Login or sign up with your account below to access your two free enrollments (we’ll notify you by email when they have been approved, which usually takes less than 48 hours). As always, the first hour of content is free for an unlimited number of students."
-#    thanks_logged_in: "Your two free enrollments are pending approval. We’ll notify you by email when they have been approved (usually within 48 hours). As always, the first hour of content is free for an unlimited number of students."
+#    thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science."
+#    thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science."
+#    setup_a_class: "Set Up a Class"
 
   versions:
     save_version_title: "Сохранить новую версию"
@@ -839,7 +877,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     social_facebook: "Оцените CodeCombat на Facebook"
     social_twitter: "Следуйте за CodeCombat на Twitter"
     social_gplus: "Присоединяйтесь к CodeCombat на Google+"
-    social_hipchat: "Общайтесь с нами в публичной чат-комнате CodeCombat на Slack"
+#    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Сотрудничайте с проектом"
 
   clans:
@@ -1130,6 +1168,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     add_students1: "добавить учеников"
     view_edit: "смотреть/редактировать"
     students_enrolled: "учеников зачислено"
+#    students_assigned: "students assigned"
     length: "Длительность:"
 
   classes:
@@ -1264,7 +1303,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     join_desc_3: " или найдите нас в "
     join_desc_4: "и мы решим, откуда можно начать!"
     join_url_email: "Напишите нам"
-    join_url_hipchat: "публичной комнате Slack"
+#    join_url_slack: "public Slack channel"
     archmage_subscribe_desc: "Получать email-ы о новых возможностях для программирования и объявления."
     artisan_introduction_pref: "Мы должны строить дополнительные уровни! Люди будут требовать больше контента и создавать его можем только мы сами. Сейчас ваша рабочая станция первого уровня; наш редактор уровней едва пригоден для использования создателями, так что будьте осторожны. Если у вас есть видение кампаний, связывающих циклы for в"
     artisan_introduction_suf: ", тогда этот класс для вас."
@@ -1466,14 +1505,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   loading_error:
     could_not_load: "Ошибка загрузки с сервера"
-    connection_failure: "Соединение прервано." # {change}
+    connection_failure: "Соединение прервано."
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
 #    login_required: "Login Required"
 #    login_required_desc: "You need to be logged in to access this page."
     unauthorized: "Вам необходимо авторизоваться. У вас отключены cookie?"
-    forbidden: "У вас нет прав доступа." # {change}
+    forbidden: "У вас нет прав доступа."
 #    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
-    not_found: "Не найдено." # {change}
+    not_found: "Не найдено."
 #    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "Метод не поддерживается."
     timeout: "Тайм-аут сервера." # {change}
@@ -1616,21 +1655,3 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     one_month_discount: "скидка 30%: выберите Rails или HTML"
     license: "лицензия"
     oreilly: "электронная книга на ваш выбор"
-
-  admin:
-    av_espionage: "Разведка" # Really not important to translate /admin controls.
-    av_espionage_placeholder: "Почта или юзернейм"
-    av_usersearch: "Поиск пользователей"
-    av_usersearch_placeholder: "Почта, юзернейм, имя, что угодно."
-    av_usersearch_search: "Поиск"
-    av_title: "Панель администрирования"
-    av_entities_sub_title: "Сущности"
-    av_entities_users_url: "Пользователи"
-    av_entities_active_instances_url: "Активные экземпляры"
-    av_entities_user_code_problems_list_url: "Список проблем с пользовательским кодом"
-    av_other_sub_title: "Другое"
-    av_other_debug_base_url: "База (для отладки base.jade)"
-    u_title: "Список пользователей"
-    ucp_title: "Проблемы с пользовательским кодом"
-    lg_title: "Последние игры"
-    clas: "ЛСС"
