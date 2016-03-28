@@ -82,13 +82,14 @@ module.exports = class TeacherClassesView extends RootView
       @render()
     
   onClickAddStudentsButton: (e) ->
+    classroomID = $(e.currentTarget).data('classroom-id')
     classroom = @classrooms.get(classroomID)
     modal = new InviteToClassroomModal({ classroom: classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
     
   onClickArchiveClassroom: (e) ->
-    classroomID = $(e.target).data('classroom-id')
+    classroomID = $(e.currentTarget).data('classroom-id')
     classroom = @classrooms.get(classroomID)
     classroom.set('archived', true)
     classroom.save {}, {
@@ -97,7 +98,7 @@ module.exports = class TeacherClassesView extends RootView
     }
     
   onClickUnarchiveClassroom: (e) ->
-    classroomID = $(e.target).data('classroom-id')
+    classroomID = $(e.currentTarget).data('classroom-id')
     classroom = @classrooms.get(classroomID)
     classroom.set('archived', false)
     classroom.save {}, {
