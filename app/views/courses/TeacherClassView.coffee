@@ -1,6 +1,7 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-class-view'
 helper = require 'lib/coursesHelper'
+ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 
@@ -19,6 +20,7 @@ module.exports = class TeacherClassView extends RootView
   template: template
   
   events:
+    'click .edit-classroom': 'onClickEditClassroom'
     'click .add-students-btn': 'onClickAddStudents'
     'click .sort-by-name': 'sortByName'
     'click .sort-by-progress': 'sortByProgress'
@@ -101,6 +103,12 @@ module.exports = class TeacherClassView extends RootView
     catch err
       message = 'Oops, unable to copy'
       noty text: message, layout: 'topCenter', type: 'error', killer: false
+    
+  onClickEditClassroom: (e) ->
+    classroom = @classroom
+    modal = new ClassroomSettingsModal({ classroom: classroom })
+    @openModalView(modal)
+    @listenToOnce modal, 'hide', @render
 
   onClickAddStudents: (e) =>
     modal = new InviteToClassroomModal({ classroom: @classroom })

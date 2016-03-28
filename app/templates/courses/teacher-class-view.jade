@@ -9,7 +9,8 @@ block content
     .container
       +breadcrumbs
       h3= classroom.get('name')
-      a.label.edit-class-settings(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id)
+      a.label.edit-classroom(data-classroom-id=classroom.id)
+        span(data-i18n='teacher.edit_class_settings')
       h4= classroom.get('description')
       
       .classroom-info-row.row
