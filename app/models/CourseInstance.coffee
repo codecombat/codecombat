@@ -26,6 +26,19 @@ module.exports = class CourseInstance extends CocoModel
       unless me.get('courseInstances')
         me.set('courseInstances', [])
       me.get('courseInstances').push(@id)
+  
+  addMembers: (userIDs, opts) ->
+    options = {
+      method: 'POST'
+      url: _.result(@, 'url') + '/members'
+      data: { userIDs }
+    }
+    _.extend options, opts
+    @fetch(options)
+    if me.id in userIDs
+      unless me.get('courseInstances')
+        me.set('courseInstances', [])
+      me.get('courseInstances').push(@id)
 
   removeMember: (userID, opts) ->
     options = {

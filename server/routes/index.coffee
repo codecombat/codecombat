@@ -33,6 +33,8 @@ module.exports.setup = (app) ->
   
   app.get('/db/campaign', mw.campaigns.fetchByType) #TODO
   
+  app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
+  
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
 
   app.get '/db/products', require('./db/product').get

@@ -107,6 +107,10 @@ module.exports.NetworkError = NetworkError
 module.exports.Unauthorized = class Unauthorized extends NetworkError
   code: 401
   errorName: 'Unauthorized'
+  
+module.exports.PaymentRequired = class PaymentRequired extends NetworkError
+  code: 402
+  errorName: 'PaymentRequired'
 
 module.exports.Forbidden = class Forbidden extends NetworkError
   code: 403
