@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     view_edit: "vis/redigér"
     students_enrolled: "elever tilmeldt"
     students_assigned: "elever tildelt"
-     length: "Varighed:"
+    length: "Varighed:"
 
   classes:
     archmage_title: "Ærkemager"
