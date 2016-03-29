@@ -25,8 +25,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    im_a_student: "I'm a Student"
 #    learn_more: "Learn more"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-#    codecombat_is: "CodeCombat is a platform for students to learn computer science while playing through a real game."
-#    our_courses: "Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience."
+#    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
+#    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
+#    top_screenshots_hint: "Students write code and see their changes update in real-time"
 #    designed_with: "Designed with teachers in mind"
 #    real_code: "Real, typed code"
 #    from_the_first_level: "from the first level"
@@ -57,10 +58,17 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
 #    agency: "CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
 #    curious: "Curious? Request a demo and we'll show you the ropes"
+#    request_demo_title: "Get your students started today!"
+#    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
+#    get_started_title: "Set up your class today"
+#    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
 #    create_class: "Or create a class and see it for yourself!"
+#    teacher_screenshots_hint: "Students write code and see their changes update in real-time"
 #    request_demo: "Request a Demo"
 #    create_a_class: "Create a Class"
-#    have_an_account: "Already have an account?"
+#    setup_a_class: "Set Up a Class"
+#    have_an_account: "Have an account?"
+#    log_in: "Log In"
 #    logged_in_as: "You are currently logged in as"
 #    view_my_classes: "View my classes"
 #    computer_science: "Computer science courses for all ages"
@@ -85,7 +93,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     profile: "Profil"
     stats: "Statistică"
     code: "Cod"
-    admin: "Admin" # Only shows up when you are an admin
     home: "Acasă"
     contribute: "Contribuie"
     legal: "Confidențialitate și termeni"
@@ -99,6 +106,17 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    create_a_class: "Create a Class"
 #    other: "Other"
 #    learn_to_code: "Learn to Code!"
+#    toggle_nav: "Toggle navigation"
+#    jobs: "Jobs"
+#    schools: "Schools"
+#    educator_wiki: "Educator Wiki"
+#    request_quote: "Request a Quote"
+#    get_involved: "Get Involved"
+#    open_source: "Open source (GitHub)"
+#    support: "Support"
+#    faqs: "FAQs"
+#    help_pref: "Need help? Email"
+#    help_suff: "and we'll get in touch!"
 
   modal:
     close: "Inchide"
@@ -182,6 +200,14 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    school_name: "School Name and City"
 #    optional: "optional"
 #    school_name_placeholder: "Example High School, Springfield, IL"
+#    or_sign_up_with: "or sign up with"
+#    connected_gplus_header: "You've successfully connected with Google+!"
+#    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
+#    gplus_exists: "You already have an account associated with Google+!"
+#    connected_facebook_header: "You've successfully connected with Facebook!"
+#    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
+#    facebook_exists: "You already have an account associated with Facebook!"
+#    hey_students: "Students, enter the class code from your teacher."
 
   recover:
     recover_account_title: "Recuperează Cont"
@@ -411,6 +437,18 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
 #    tip_understand_recursion: "The only way to understand recursion is to understand recursion."
 #    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
+#    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
+#    tip_adding_orgres: "Rounding up ogres."
+#    tip_sharpening_swords: "Sharpening the swords."
+#    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
+#    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+#    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
+#    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
+#    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
+#    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
+#    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+#    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
+#    tip_mulan: "Believe you can, then you will. - Mulan"
 
   game_menu:
     inventory_tab: "Inventar"
@@ -476,6 +514,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     feature5: "Tutoriale Video"
     feature6: "Suport e-mail premium"
     feature7: "<strong>Clanuri</strong> private"
+#    feature8: "<strong>No ads!</strong>"
     free: "Gratuit"
     month: "lună"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
@@ -616,8 +655,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    careers_link: "Careers"
 #    press_link: "Press"
 #    mission_title: "Our mission: make programming accessible to every student on Earth."
-#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>." # {change}
-#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming." # {change}
+#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
+#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
 #    team_title: "Meet the CodeCombat team"
 #    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
 #    nick_title: "Cofounder, CEO"
@@ -642,8 +681,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    retrostyle_blurb: "RetroStyle Games"
 #    jose_title: "Music"
 #    jose_blurb: "Taking Off"
-#    carlos_title: "Region Manager, Brazil"
-#    carlos_blurb: "Celery Man"
 #    community_title: "...and our open-source community"
 #    community_subtitle: "Over 450 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_1: "CodeCombat is a community project, with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
@@ -701,9 +738,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     more_info_3: "este un loc bun pentru a vă conecta cu colegii educatori ce folosesc CodeCombat."
 
 #  teachers_quote:
-#    name: "Quote Form"
-#    title: "Request a Quote"
-#    subtitle: "Get CodeCombat in your classroom, club, school or district!"
+#    name: "Demo Form"
+#    title: "Request a Demo"
+#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "Where can we reach you during the workday?"
@@ -727,10 +764,11 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    middle_school: "Middle School"
 #    college_plus: "College or higher"
 #    anything_else: "Anything else we should know?"
-#    thanks_header: "Thanks for requesting a quote!"
+#    thanks_header: "Thanks for requesting a demo!"
 #    thanks_p: "We'll be in touch soon. Questions? Email us:"
-#    thanks_anon: "Login or sign up with your account below to access your two free enrollments (we’ll notify you by email when they have been approved, which usually takes less than 48 hours). As always, the first hour of content is free for an unlimited number of students."
-#    thanks_logged_in: "Your two free enrollments are pending approval. We’ll notify you by email when they have been approved (usually within 48 hours). As always, the first hour of content is free for an unlimited number of students."
+#    thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science."
+#    thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science."
+#    setup_a_class: "Set Up a Class"
 
   versions:
     save_version_title: "Salvează noua versiune"
@@ -839,7 +877,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     social_facebook: "Lasă un Like pentru CodeCombat pe facebook"
     social_twitter: "Urmărește CodeCombat pe Twitter"
     social_gplus: "Alăturăte pe Google+"
-    social_hipchat: "Vorbește cu noi pe chatul public Slack camera CodeCombat"
+#    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Contribuie la proiect"
 
   clans:
@@ -1130,6 +1168,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    add_students1: "add students"
 #    view_edit: "view/edit"
 #    students_enrolled: "students enrolled"
+#    students_assigned: "students assigned"
 #    length: "Length:"
 
   classes:
@@ -1264,7 +1303,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     join_desc_3: ", sau găsește-ne în "
     join_desc_4: "și pornim de acolo!"
     join_url_email: "Trimite-ne Email"
-    join_url_hipchat: "public Slack channel"
+#    join_url_slack: "public Slack channel"
     archmage_subscribe_desc: "Primește email-uri despre noi oportunități de progrmare și anunțuri."
     artisan_introduction_pref: "Trebuie să construim nivele adiționale! Oamenii sunt nerăbdători pentru mai mult conținut, și noi putem face doar atât singuri. Momentan editorul de nivele abia este utilizabil până și de creatorii lui, așa că aveți grijă. Dacă ai viziuni cu campanii care cuprind loop-uri for pentru"
     artisan_introduction_suf: ", atunci aceasta ar fi clasa pentru tine."
@@ -1466,14 +1505,14 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
   loading_error:
     could_not_load: "Eroare la încărcarea pe server"
-    connection_failure: "Conexiune eșuată." # {change}
+    connection_failure: "Conexiune eșuată."
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
 #    login_required: "Login Required"
 #    login_required_desc: "You need to be logged in to access this page."
     unauthorized: "Este nevoie să te loghezi. Ai cookies dezactivate?"
-    forbidden: "Nu ai permisiune." # {change}
+    forbidden: "Nu ai permisiune."
 #    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
-    not_found: "Nu a fost găsit." # {change}
+    not_found: "Nu a fost găsit."
 #    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "Metodă nepermisă."
     timeout: "Timeout Server." # {change}
@@ -1616,21 +1655,3 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     one_month_discount: "discount, 30% off: choose either Rails or HTML"
     license: "licență"
     oreilly: "ebook la alegere"
-
-  admin:
-    av_espionage: "Spionaj" # Really not important to translate /admin controls.
-    av_espionage_placeholder: "Email sau username"
-    av_usersearch: "Căutare user"
-    av_usersearch_placeholder: "Email, username, nume, orice"
-    av_usersearch_search: "Caută"
-    av_title: "Afișaj Admin"
-    av_entities_sub_title: "Entități"
-    av_entities_users_url: "Utilizatori"
-    av_entities_active_instances_url: "Instanțe active"
-    av_entities_user_code_problems_list_url: "Listă probleme de cod de utilizator"
-    av_other_sub_title: "Altele"
-    av_other_debug_base_url: "Base (pentru debugging base.jade)"
-    u_title: "Listă utilizatori"
-    ucp_title: "Probleme de cod de utilizator"
-    lg_title: "Ultimele jocuri"
-    clas: "CLAs"

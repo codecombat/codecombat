@@ -25,8 +25,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    im_a_student: "I'm a Student"
 #    learn_more: "Learn more"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-#    codecombat_is: "CodeCombat is a platform for students to learn computer science while playing through a real game."
-#    our_courses: "Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience."
+#    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
+#    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
+#    top_screenshots_hint: "Students write code and see their changes update in real-time"
 #    designed_with: "Designed with teachers in mind"
 #    real_code: "Real, typed code"
 #    from_the_first_level: "from the first level"
@@ -57,10 +58,17 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
 #    agency: "CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
 #    curious: "Curious? Request a demo and we'll show you the ropes"
+#    request_demo_title: "Get your students started today!"
+#    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
+#    get_started_title: "Set up your class today"
+#    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
 #    create_class: "Or create a class and see it for yourself!"
+#    teacher_screenshots_hint: "Students write code and see their changes update in real-time"
 #    request_demo: "Request a Demo"
 #    create_a_class: "Create a Class"
-#    have_an_account: "Already have an account?"
+#    setup_a_class: "Set Up a Class"
+#    have_an_account: "Have an account?"
+#    log_in: "Log In"
 #    logged_in_as: "You are currently logged in as"
 #    view_my_classes: "View my classes"
 #    computer_science: "Computer science courses for all ages"
@@ -85,7 +93,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     profile: "Profil"
     stats: "Stats"
     code: "Code"
-    admin: "Admin" # Only shows up when you are an admin
     home: "Accueil"
     contribute: "Contribuer"
     legal: "Mentions légales"
@@ -99,6 +106,17 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    create_a_class: "Create a Class"
 #    other: "Other"
 #    learn_to_code: "Learn to Code!"
+#    toggle_nav: "Toggle navigation"
+#    jobs: "Jobs"
+#    schools: "Schools"
+#    educator_wiki: "Educator Wiki"
+#    request_quote: "Request a Quote"
+#    get_involved: "Get Involved"
+#    open_source: "Open source (GitHub)"
+#    support: "Support"
+#    faqs: "FAQs"
+#    help_pref: "Need help? Email"
+#    help_suff: "and we'll get in touch!"
 
   modal:
     close: "Fermer"
@@ -182,6 +200,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     school_name: "Nom et ville de votre école"
     optional: "facultatif"
     school_name_placeholder: "Exemple : Lycée Champollion, Figeac"
+#    or_sign_up_with: "or sign up with"
+#    connected_gplus_header: "You've successfully connected with Google+!"
+#    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
+#    gplus_exists: "You already have an account associated with Google+!"
+#    connected_facebook_header: "You've successfully connected with Facebook!"
+#    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
+#    facebook_exists: "You already have an account associated with Facebook!"
+#    hey_students: "Students, enter the class code from your teacher."
 
   recover:
     recover_account_title: "Récupérer son compte"
@@ -411,6 +437,18 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
 #    tip_understand_recursion: "The only way to understand recursion is to understand recursion."
 #    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
+#    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
+#    tip_adding_orgres: "Rounding up ogres."
+#    tip_sharpening_swords: "Sharpening the swords."
+#    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
+#    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+#    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
+#    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
+#    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
+#    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
+#    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+#    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
+#    tip_mulan: "Believe you can, then you will. - Mulan"
 
   game_menu:
     inventory_tab: "Inventaire"
@@ -476,6 +514,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     feature5: "Tutoriels vidéo"
     feature6: "Assitance par e-mail dédiée"
     feature7: "<strong>Clans</strong> privés"
+#    feature8: "<strong>No ads!</strong>"
     free: "Gratuit"
     month: "mois"
     must_be_logged: "Vous devez être identifié. Veuillez créer un compte ou vous identifier depuis le menu ci-dessus."
@@ -616,8 +655,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    careers_link: "Careers"
 #    press_link: "Press"
 #    mission_title: "Our mission: make programming accessible to every student on Earth."
-#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>." # {change}
-#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming." # {change}
+#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
+#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
 #    team_title: "Meet the CodeCombat team"
 #    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
     nick_title: "Programmeur" # {change}
@@ -642,8 +681,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     retrostyle_blurb: "Jeux RetroStyle"
     jose_title: "Musique"
     jose_blurb: "Décollage"
-    carlos_title: "Manager de la région Brésil"
-    carlos_blurb: "Homme-céleri"
 #    community_title: "...and our open-source community"
 #    community_subtitle: "Over 450 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_1: "CodeCombat is a community project, with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
@@ -701,9 +738,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     more_info_3: "C'est un bon endroit pour faire des relations entre vos camarades éducateurs utilisant CodeCombat"
 
 #  teachers_quote:
-#    name: "Quote Form"
-#    title: "Request a Quote"
-#    subtitle: "Get CodeCombat in your classroom, club, school or district!"
+#    name: "Demo Form"
+#    title: "Request a Demo"
+#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "Where can we reach you during the workday?"
@@ -727,10 +764,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    middle_school: "Middle School"
 #    college_plus: "College or higher"
 #    anything_else: "Anything else we should know?"
-#    thanks_header: "Thanks for requesting a quote!"
+#    thanks_header: "Thanks for requesting a demo!"
 #    thanks_p: "We'll be in touch soon. Questions? Email us:"
-#    thanks_anon: "Login or sign up with your account below to access your two free enrollments (we’ll notify you by email when they have been approved, which usually takes less than 48 hours). As always, the first hour of content is free for an unlimited number of students."
-#    thanks_logged_in: "Your two free enrollments are pending approval. We’ll notify you by email when they have been approved (usually within 48 hours). As always, the first hour of content is free for an unlimited number of students."
+#    thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science."
+#    thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science."
+#    setup_a_class: "Set Up a Class"
 
   versions:
     save_version_title: "Enregistrer une nouvelle version"
@@ -839,7 +877,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     social_facebook: "Aimer CodeCombat sur Facebook"
     social_twitter: "Suivre CodeCombat sur Twitter"
     social_gplus: "Rejoindre CodeCombat sur Google+"
-    social_hipchat: "Chattez avec nous dans la salle Slack publique CodeCombat"
+#    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Contribuer au projet"
 
   clans:
@@ -1104,7 +1142,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     getting_started_3: "Vous verrez la progression des élèves ci-dessous au fur et à mesure qu'ils rejoignent la classe."
     additional_resources: "Ressources Supplémentaires"
     additional_resources_1_pref: "Téléchargez/imprimez notre"
-    additional_resources_1_mid: "Guide Professeur du Premier Cours" # {change}
+    additional_resources_1_mid: "Guide Professeur du Premier Cours"
 #    additional_resources_1_mid2: "and"
 #    additional_resources_1_mid3: "Course 2"
     additional_resources_1_suff: "explications et solutions pour chaque niveaux." # {change}
@@ -1130,6 +1168,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     add_students1: "ajouter des élèves"
     view_edit: "voir/modifier"
     students_enrolled: "élèves inscrits"
+#    students_assigned: "students assigned"
     length: "Durée:"
 
   classes:
@@ -1264,7 +1303,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     join_desc_3: ", ou trouvez-nous dans nos "
     join_desc_4: "et nous partirons de là !"
     join_url_email: "Contactez-nous"
-    join_url_hipchat: "conversation publique Slack"
+#    join_url_slack: "public Slack channel"
     archmage_subscribe_desc: "Recevoir un e-mail sur les nouvelles possibilités de développement et des annonces."
     artisan_introduction_pref: "Nous devons créer des niveaux additionnels ! Les gens veulent plus de contenu, et nous ne pouvons pas tous les créer nous-même. Maintenant votre station de travail est au niveau un ; notre éditeur de niveaux est à peine utilisable même par ses créateurs, donc méfiez-vous. Si vous avez des idées sur la boucle for de"
     artisan_introduction_suf: ", cette classe est faite pour vous."
@@ -1466,14 +1505,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   loading_error:
     could_not_load: "Erreur de chargement du serveur"
-    connection_failure: "La connexion a échoué." # {change}
+    connection_failure: "La connexion a échoué."
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
 #    login_required: "Login Required"
 #    login_required_desc: "You need to be logged in to access this page."
     unauthorized: "Vous devez être identifié pour faire cela. Avez-vous désactivé les cookies ?"
-    forbidden: "Vous n'avez pas la permission." # {change}
+    forbidden: "Vous n'avez pas la permission."
 #    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
-    not_found: "Introuvable." # {change}
+    not_found: "Introuvable."
 #    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "Méthode non autorisée."
     timeout: "Délai de connexion au serveur écoulé." # {change}
@@ -1616,21 +1655,3 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     one_month_discount: "30% de réduction: choisir entre Rails ou HTML"
     license: "Licence"
     oreilly: "ebook de votre choix"
-
-  admin:
-    av_espionage: "Espionnage" # Really not important to translate /admin controls.
-    av_espionage_placeholder: "E-mail ou nom d'utilisateur"
-    av_usersearch: "Recherche d'utilisateurs"
-    av_usersearch_placeholder: "E-mail, nom d'utilisateur, nom, peu importe"
-    av_usersearch_search: "Recherche"
-    av_title: "Vues d'administrateurs"
-    av_entities_sub_title: "Entités"
-    av_entities_users_url: "Utilisateurs"
-    av_entities_active_instances_url: "Instances actives"
-    av_entities_user_code_problems_list_url: "Liste des problèmes du code d'utilisateur"
-    av_other_sub_title: "Autre"
-    av_other_debug_base_url: "Base (pour debugger base.jade)"
-    u_title: "Liste des utilisateurs"
-    ucp_title: "Problèmes du code d'utilisateur"
-    lg_title: "Dernières parties"
-    clas: "CLAs"

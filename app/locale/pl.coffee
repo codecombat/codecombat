@@ -1,17 +1,17 @@
 module.exports = nativeDescription: "polski", englishDescription: "Polish", translation:
   home:
     slogan: "Naucz się programowania grając"
-    no_ie: "CodeCombat nie działa na Internet Explorer 8 i starszych. Przepraszamy!"
-    no_mobile: "CodeCombat nie został zaprojektowany dla urządzeń przenośnych, więc mogą występować pewne problemy w jego działaniu!"
-    play: "Graj"
-    play_campaign_version: "Zagraj w Kampanię"
-    old_browser: "Wygląda na to, że twoja przeglądarka jest zbyt stara, by obsłużyć CodeCombat. Przepraszamy..."
+    no_ie: "CodeCombat nie działa na Internet Explorer 8 i starszych. Przepraszamy!" # Warning that only shows up in IE8 and older
+    no_mobile: "CodeCombat nie został zaprojektowany dla urządzeń przenośnych, więc mogą występować pewne problemy w jego działaniu!" # Warning that shows up on mobile devices
+    play: "Graj" # The big play button that opens up the campaign view.
+    play_campaign_version: "Zagraj w Kampanię" # Shows up under big play button if you only play /courses
+    old_browser: "Wygląda na to, że twoja przeglądarka jest zbyt stara, by obsłużyć CodeCombat. Przepraszamy..." # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Mimo tego możesz spróbować, ale prawdopodobnie gra nie będzie działać."
     ipad_browser: "Zła wiadomość: CodeCombat nie działa na przeglądarce w iPadzie. Dobra wiadomość: nasza aplikacja na iPada czeka na akceptację od Apple."
     campaign: "Kampania"
     for_beginners: "Dla początkujących"
-    multiplayer: "Multiplayer"
-    for_developers: "Dla developerów"
+    multiplayer: "Multiplayer" # Not currently shown on home page
+    for_developers: "Dla developerów" # Not currently shown on home page.
     or_ipad: "Albo ściągnij na swojego iPada"
 
   new_home:
@@ -25,8 +25,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     im_a_student: "Jestem Uczniem"
     learn_more: "Dowiedz się więcej"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-#    codecombat_is: "CodeCombat is a platform for students to learn computer science while playing through a real game."
-#    our_courses: "Our courses have been specifically playtested to excel in a classroom setting, even by teachers with little to no prior programming experience."
+#    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
+#    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
+#    top_screenshots_hint: "Students write code and see their changes update in real-time"
 #    designed_with: "Designed with teachers in mind"
     real_code: "Piszesz prawdziwy kod"
     from_the_first_level: "od pierwszego poziomu"
@@ -57,10 +58,17 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
 #    agency: "CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
 #    curious: "Curious? Request a demo and we'll show you the ropes"
+#    request_demo_title: "Get your students started today!"
+#    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
+#    get_started_title: "Set up your class today"
+#    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
 #    create_class: "Or create a class and see it for yourself!"
+#    teacher_screenshots_hint: "Students write code and see their changes update in real-time"
     request_demo: "Zapytaj o wersję demo"
     create_a_class: "Stwórz klasę"
-    have_an_account: "Posiadasz już konto?"
+#    setup_a_class: "Set Up a Class"
+    have_an_account: "Posiadasz już konto?" # {change}
+#    log_in: "Log In"
     logged_in_as: "Jesteś zalogowany jako"
     view_my_classes: "Pokaż moje klasy"
     computer_science: "Lekcje informatyki dla osób w każdym wieku."
@@ -75,7 +83,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    run_class: "Everything you need to run a computer science class in your school today, no CS background required."
 
   nav:
-    play: "Poziomy"
+    play: "Poziomy" # The top nav bar entry where players choose which levels to play
     community: "Społeczność"
     courses: "Kursy"
     editor: "Edytor"
@@ -85,7 +93,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     profile: "Profil"
     stats: "Statystyki"
     code: "Kod"
-    admin: "Admin"
     home: "Główna"
     contribute: "Współpraca"
     legal: "Nota prawna"
@@ -99,6 +106,17 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     create_a_class: "Stwórz klasę"
     other: "Inne"
     learn_to_code: "Naucz się programowania!"
+#    toggle_nav: "Toggle navigation"
+#    jobs: "Jobs"
+#    schools: "Schools"
+#    educator_wiki: "Educator Wiki"
+#    request_quote: "Request a Quote"
+#    get_involved: "Get Involved"
+#    open_source: "Open source (GitHub)"
+#    support: "Support"
+#    faqs: "FAQs"
+#    help_pref: "Need help? Email"
+#    help_suff: "and we'll get in touch!"
 
   modal:
     close: "Zamknij"
@@ -108,7 +126,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     page_not_found: "Strona nie istnieje"
 
   diplomat_suggestion:
-    title: "Pomóż w tłumaczeniu CodeCombat!"
+    title: "Pomóż w tłumaczeniu CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Potrzebujemy twoich zdolności językowych."
     pitch_body: "Tworzymy CodeCombat w języku angielskim, jednak nasi gracze pochodzą z całego świata. Wielu z nich chciałoby zagrać w swoim języku, ponieważ nie znają angielskiego, więc jeśli znasz oba języki zostań Dyplomatą i pomóż w tłumaczeniu strony CodeCombat, jak i samej gry."
     missing_translations: "Dopóki nie przetłumaczymy wszystkiego na polski, będziesz widział niektóre napisy w języku angielskim."
@@ -116,31 +134,31 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     subscribe_as_diplomat: "Dołącz do Dyplomatów"
 
   play:
-    play_as: "Graj jako "
-    compete: "Ukończono!"
-    spectate: "Oglądaj"
-    players: "graczy"
-    hours_played: "rozegranych godzin"
-    items: "Przedmioty"
-    unlock: "Odblokuj"
+    play_as: "Graj jako " # Ladder page
+    compete: "Ukończono!" # Course details page
+    spectate: "Oglądaj" # Ladder page
+    players: "graczy" # Hover over a level on /play
+    hours_played: "rozegranych godzin" # Hover over a level on /play
+    items: "Przedmioty" # Tooltip on item shop button from /play
+    unlock: "Odblokuj" # For purchasing items and heroes
     confirm: "Potwierdź"
-    owned: "Posiadane"
+    owned: "Posiadane" # For items you own
     locked: "Zablokowane"
-    purchasable: "Można kupić"
+    purchasable: "Można kupić" # For a hero you unlocked but haven't purchased
     available: "Dostępny"
-    skills_granted: "Zdobyte umiejętności"
-    heroes: "Bohaterowie"
-    achievements: "Osiągnięcia"
-    account: "Konto"
-    settings: "Opcje"
-    poll: "Ankieta"
-    next: "Dalej"
-    change_hero: "Wybierz bohatera"
+    skills_granted: "Zdobyte umiejętności" # Property documentation details
+    heroes: "Bohaterowie" # Tooltip on hero shop button from /play
+    achievements: "Osiągnięcia" # Tooltip on achievement list button from /play
+    account: "Konto" # Tooltip on account button from /play
+    settings: "Opcje" # Tooltip on settings button from /play
+    poll: "Ankieta" # Tooltip on poll button from /play
+    next: "Dalej" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Wybierz bohatera" # Go back from choose inventory to choose hero
     buy_gems: "Kup klejnoty"
     subscription_required: "Wymagana subskrypcja"
     anonymous: "Anonimowy gracz"
     level_difficulty: "Poziom trudności: "
-    play_classroom_version: "Zagraj w wersję szkolną"
+    play_classroom_version: "Zagraj w wersję szkolną" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Kampania dla początkujących"
     awaiting_levels_adventurer_prefix: "Co tydzień publikujemy nowe poziomy!"
     awaiting_levels_adventurer: "Zapisz się jako Podróżnik,"
@@ -182,6 +200,14 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     school_name: "Nazwa szkoły i miasto"
     optional: "opcjonalnie"
     school_name_placeholder: "Na przykład: Szkoła Podstawowa, Warszawa"
+#    or_sign_up_with: "or sign up with"
+#    connected_gplus_header: "You've successfully connected with Google+!"
+#    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
+#    gplus_exists: "You already have an account associated with Google+!"
+#    connected_facebook_header: "You've successfully connected with Facebook!"
+#    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
+#    facebook_exists: "You already have an account associated with Facebook!"
+#    hey_students: "Students, enter the class code from your teacher."
 
   recover:
     recover_account_title: "Odzyskaj konto"
@@ -197,8 +223,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     books: "Książki"
 
   common:
-    back: "Wstecz"
-    continue: "Dalej"
+    back: "Wstecz" # When used as an action verb, like "Navigate backward"
+    continue: "Dalej" # When used as an action verb, like "Continue forward"
     loading: "Ładowanie..."
     saving: "Zapisywanie..."
     sending: "Wysyłanie…"
@@ -208,7 +234,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     publish: "Opublikuj"
     create: "Stwórz"
     fork: "Fork"
-    play: "Zagraj"
+    play: "Zagraj" # When used as an action verb, like "Play next level"
     retry: "Ponów"
     actions: "Akcje"
     info: "Informacje"
@@ -264,7 +290,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     medium: "Średni"
     hard: "Trudny"
     player: "Gracz"
-    player_level: "Poziom"
+    player_level: "Poziom" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Wojownik"
     ranger: "Łucznik"
     wizard: "Czarodziej"
@@ -292,8 +318,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     next_level: "Następny poziom:"
     next_game: "Następna gra"
     show_menu: "Pokaż menu gry"
-    home: "Strona główna"
-    level: "Poziom"
+    home: "Strona główna" # Not used any more, will be removed soon.
+    level: "Poziom" # Like "Level: Dungeons of Kithgard"
     skip: "Pomiń"
     game_menu: "Menu gry"
     guide: "Przewodnik"
@@ -334,9 +360,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     tome_cast_button_running: "Uruchomiono"
     tome_cast_button_ran: "Uruchomiono"
     tome_submit_button: "Prześlij"
-    tome_reload_method: "Wczytaj oryginalny kod dla tej metody"
+    tome_reload_method: "Wczytaj oryginalny kod dla tej metody" # Title text for individual method reload button.
     tome_select_method: "Wybierz metode"
-    tome_see_all_methods: "Zobacz wszystkie metody możliwe do edycji"
+    tome_see_all_methods: "Zobacz wszystkie metody możliwe do edycji" # Title text for method list selector (shown when there are multiple programmable methods).
     tome_select_a_thang: "Wybierz kogoś do "
     tome_available_spells: "Dostępne czary"
     tome_your_skills: "Twoje umiejętności"
@@ -411,6 +437,18 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     tip_compiler_ignores_comments: "Czasami mi się wydaje, że kompilator ignoruje moje komentarze."
     tip_understand_recursion: "Żeby zrozumieć rekurencję, trzeba najpierw zrozumieć rekurencję."
 #    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
+#    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
+#    tip_adding_orgres: "Rounding up ogres."
+#    tip_sharpening_swords: "Sharpening the swords."
+#    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
+#    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+#    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
+#    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
+#    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
+#    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
+#    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+#    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
+#    tip_mulan: "Believe you can, then you will. - Mulan"
 
   game_menu:
     inventory_tab: "Ekwipunek"
@@ -469,13 +507,14 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
   subscribe:
     comparison_blurb: "Popraw swoje umiejętności z subskrypcją CodeCombat!"
-    feature1: "110+ poziomów w 4 różnych światach"
+    feature1: "110+ poziomów w 4 różnych światach" # {change}
     feature2: "10 potężnych, <strong>nowych bohaterów</strong> z unikalnymi umiejętnościami!"
-    feature3: "80+ bonusowych poziomów"
+    feature3: "80+ bonusowych poziomów" # {change}
     feature4: "<strong>{{gems}} klejnotów</strong> co miesiąc!"
     feature5: "Poradniki wideo"
     feature6: "Priorytetowe wsparcie przez e-mail"
     feature7: "Prywatne <strong>klany</strong>"
+#    feature8: "<strong>No ads!</strong>"
     free: "Darmowo"
     month: "miesięcznie"
     must_be_logged: "Najpierw musisz się zalogować. Użyj menu na górze do zalogowania się, lub stworzenia nowego konta."
@@ -512,7 +551,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     stripe_description_year_sale: "Roczna subskrypcja (zniżka ${{discount}})"
     subscription_required_to_play: "Do zagraniaw ten poziom wymagana jest subskrypcja."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
-
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
 #    loading_info: "Loading subscription information..."
 #    managed_by: "Managed by"
@@ -545,13 +583,13 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     weapons_warrior: "Miecze - Krótki zasięg, Brak magii"
     weapons_ranger: "Kusze, Pistolety - Daleki zasięg, Brak magii"
     weapons_wizard: "Różdżki, Laski - Daleki zasięg, Magia"
-    attack: "Obrażenia"
+    attack: "Obrażenia" # Can also translate as "Attack"
     health: "Życie"
     speed: "Szybkość"
     regeneration: "Regenaracja"
-    range: "Zasięg"
-    blocks: "Blok"
-    backstab: "Cios"
+    range: "Zasięg" # As in "attack or visual range"
+    blocks: "Blok" # As in "this shield blocks this much damage"
+    backstab: "Cios" # As in "this dagger does this much backstab damage"
     skills: "Umiejętności"
     attack_1: "Zadaje"
     attack_2: "z możliwych"
@@ -561,12 +599,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     health_3: "wytrzymałości pancerza."
     speed_1: "Idzie do"
     speed_2: "metrów na sekundę."
-    available_for_purchase: "Można wynająć"
-    level_to_unlock: "Musisz odblokować poziom:"
+    available_for_purchase: "Można wynająć" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Musisz odblokować poziom:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Tylko nieliczni bohaterowie mogą brać udział w tym poziomie."
 
   skill_docs:
-    writable: "zapisywalny"
+    writable: "zapisywalny" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "tylko do odczytu"
     action: "Akcja"
     spell: "Zaklęcie"
@@ -578,7 +616,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     action_radius: "Promień"
     action_duration: "Czas trwania"
     example: "Przykład"
-    ex: "np."
+    ex: "np." # Abbreviation of "example"
     current_value: "Aktualna wartość"
     default_value: "Domyślna wartość"
     parameters: "Parametry"
@@ -590,7 +628,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     granularity_change_history: "Historia"
 
   options:
-    general_options: "Opcje ogólne"
+    general_options: "Opcje ogólne" # Check out the Options tab in the Game Menu while playing a level
     volume_label: "Głośność"
     music_label: "Muzyka"
     music_description: "Wł/Wył muzykę w tle."
@@ -643,8 +681,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Muzyka"
     jose_blurb: "Odnosi Sukces"
-    carlos_title: "Menedżer regionu, Brazylia"
-    carlos_blurb: "Celery Man"
     community_title: "...oraz nasza społeczność 'open-source'"
     community_subtitle: "Ponad 450 kontrybutorów pomogło stworzyć CodeCombat i liczba ta cały czas rośnie!"
 #    community_description_1: "CodeCombat is a community project, with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
@@ -702,9 +738,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     more_info_3: "jest idealnym miejscem, aby porozmawiać z innymi nauczycielami korzystającymi z CodeCombat."
 
   teachers_quote:
-#    name: "Quote Form"
-#    title: "Request a Quote"
-#    subtitle: "Get CodeCombat in your classroom, club, school or district!"
+#    name: "Demo Form"
+#    title: "Request a Demo"
+#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
 #    email_exists: "User exists with this email."
     phone_number: "Numer telefonu"
 #    phone_number_help: "Where can we reach you during the workday?"
@@ -728,10 +764,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     middle_school: "Gimnazjum"
     college_plus: "Studia"
     anything_else: "Coś jeszcze powinniśmy wiedzieć?"
-#    thanks_header: "Thanks for requesting a quote!"
+#    thanks_header: "Thanks for requesting a demo!"
 #    thanks_p: "We'll be in touch soon. Questions? Email us:"
-#    thanks_anon: "Login or sign up with your account below to access your two free enrollments (we’ll notify you by email when they have been approved, which usually takes less than 48 hours). As always, the first hour of content is free for an unlimited number of students."
-#    thanks_logged_in: "Your two free enrollments are pending approval. We’ll notify you by email when they have been approved (usually within 48 hours). As always, the first hour of content is free for an unlimited number of students."
+#    thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science."
+#    thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science."
+#    setup_a_class: "Set Up a Class"
 
   versions:
     save_version_title: "Zapisz nową wersję"
@@ -840,7 +877,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     social_facebook: "Polub CodeCombat na Facebooku"
     social_twitter: "Obserwuj CodeCombat na Twitterze"
     social_gplus: "Dołącz do CodeCombat na Google+"
-    social_hipchat: "Pogadaj z nami na pblicznym czacie Slack"
+#    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Zostań współtwórcą CodeCombat"
 
   clans:
@@ -1131,6 +1168,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     add_students1: "dodaj ucznia"
     view_edit: "pokaż/edytuj"
     students_enrolled: "uczniowie biorący udział"
+#    students_assigned: "students assigned"
     length: "Długość:"
 
   classes:
@@ -1265,7 +1303,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     join_desc_3: " lub zajrzyj do naszego "
     join_desc_4: ", a dowiesz się wszystkiego!"
     join_url_email: "Napisz do nas"
-    join_url_hipchat: "publicznego pokoju Slack"
+#    join_url_slack: "public Slack channel"
     archmage_subscribe_desc: "Otrzymuj e-maile dotyczące nowych okazji programistycznych oraz ogłoszeń."
     artisan_introduction_pref: "Musimy stworzyć dodatkowe poziomy! Ludzie będą oczekiwać nowych zasobów, a my mamy ograniczone możliwości co do naszych mocy przerobowych. Obecnie, twoja stacja robocza jest na poziomie pierwszym; nasz edytor poziomów jest ledwo używalny nawet przez jego twórców - bądź tego świadom. Jeśli masz wizję nowych kampanii, od pętli typu for do"
     artisan_introduction_suf: ", ta klasa może być dla ciebie."
@@ -1377,10 +1415,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     rules: "Zasady"
     winners: "Zwycięzcy"
     league: "Liga"
-    red_ai: "Czerwony CPU"
+    red_ai: "Czerwony CPU" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "Niebieski CPU"
-    wins: "Wygrał!"
-    humans: "Czerwoni"
+    wins: "Wygrał!" # At end of multiplayer match playback
+    humans: "Czerwoni" # Ladder page display team name
     ogres: "Niebiescy"
 
   user:
@@ -1532,7 +1570,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     no_changes: "Brak zmian"
 
   multiplayer:
-    multiplayer_title: "Ustawienia multiplayer"
+    multiplayer_title: "Ustawienia multiplayer" # We'll be changing this around significantly soon. Until then, it's not important to translate.
     multiplayer_toggle: "Aktywuj multiplayer"
     multiplayer_toggle_description: "Pozwól innym dołączyć do twojej gry."
     multiplayer_link_description: "Przekaż ten link, jeśli chcesz, by ktoś do ciebie dołączył."
@@ -1599,7 +1637,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     third_party_description: "CodeCombat używa (między innymi) poniższych programów osób trzecich:"
 
   ladder_prizes:
-    title: "Nagrody w turnieju"
+    title: "Nagrody w turnieju" # This section was for an old tournament and doesn't need new translations now.
     blurb_1: "Nagrody zostaną rozdena zgodnie z"
     blurb_2: "rogulaminem turnieju"
     blurb_3: "dla najlepszych ludzkich i ogrzych graczy."
@@ -1617,21 +1655,3 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     one_month_discount: "zniżka 30%: wybierz między Rails, a HTML"
     license: "licencja"
     oreilly: "dowolny ebook"
-
-  admin:
-#    av_espionage: "Espionage"
-#    av_espionage_placeholder: "Email or username"
-#    av_usersearch: "User Search"
-#    av_usersearch_placeholder: "Email, username, name, whatever"
-#    av_usersearch_search: "Search"
-    av_title: "Panel administracyjny"
-    av_entities_sub_title: "Podmioty"
-    av_entities_users_url: "Użytkownicy"
-    av_entities_active_instances_url: "Aktywne podmioty"
-#    av_entities_user_code_problems_list_url: "User Code Problems List"
-    av_other_sub_title: "Inne"
-    av_other_debug_base_url: "Baza (do debuggingu base.jade)"
-    u_title: "Lista użytkowników"
-#    ucp_title: "User Code Problems"
-    lg_title: "Ostatnie gry"
-#    clas: "CLAs"
