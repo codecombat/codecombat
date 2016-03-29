@@ -122,7 +122,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'schools': go('NewHomeView')
 
-    'teachers': go('courses/TeacherClassesView')
+    'teachers': ->
+      @navigate('/teachers/classes', { trigger: true, replace: true })
     'teachers/freetrial': go('RequestQuoteView')
     'teachers/quote': go('RequestQuoteView')
     # Teacher dashboard redesign
@@ -181,7 +182,7 @@ module.exports = class CocoRouter extends Backbone.Router
     window.currentView.destroy()
     $('.popover').popover 'hide'
     $('#flying-focus').css({top: 0, left: 0}) # otherwise it might make the page unnecessarily tall
-    _.delay (-> 
+    _.delay (->
       $('html')[0].scrollTop = 0
       $('body')[0].scrollTop = 0
     ), 10
