@@ -14,7 +14,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     for_developers: "Pre vývojárov" # Not currently shown on home page.
     or_ipad: "Alebo stiahni pre iPad"
 
-#  new_home:
+  new_home:
     slogan: "Najpútavejšia hra,  pri ktorej sa naučíš programovať."
     classroom_edition: "Verzia pre triedy:"
     learn_to_code: "Nauč sa programovať:"
