@@ -105,7 +105,9 @@ mixin progressDotLabel(index)
 
 mixin archivedClassRow(classroom)
   .class.row
-    span
-      = classroom.get('name')
-    .class-links
-      a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)
+    .col-xs-10
+      span
+        = classroom.get('name')
+    .col-xs-2
+      .class-links.pull-right
+        a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)
