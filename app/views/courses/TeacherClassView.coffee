@@ -187,14 +187,16 @@ module.exports = class TeacherClassView extends RootView
       courseInstance = new CourseInstance {
         courseID,
         classroomID: @classroom.id
-        members,
         ownerID: @classroom.get('ownerID')
         aceConfig: {}
       }
       @courseInstances.add(courseInstance)
-      courseInstance.save {
+      courseInstance.save {}, {
         success: =>
-          @render()
+          courseInstance.addMembers members, {
+            success: =>
+              @render() unless @destroyed
+          }
       }
     null
     
