@@ -49,16 +49,11 @@ module.exports =
     
     userObjectIDs = (mongoose.Types.ObjectId(userID) for userID in userIDs)
     
-    console.log userObjectIDs
-    console.log courseInstance
-    
     courseInstance = yield CourseInstance.findByIdAndUpdate(
       courseInstance._id,
-      { $addToSet: { members: userObjectIDs } },
+      { $addToSet: { members: { $each: userObjectIDs } } }
       { new: true }
     )
-    
-    console.log courseInstance
     
     userUpdateResult = yield User.update(
       { _id: { $in: userObjectIDs } },
