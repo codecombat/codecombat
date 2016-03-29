@@ -14,16 +14,16 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     for_developers: "Para Programadores" # Not currently shown on home page.
     or_ipad: "Ou descarrega para iPad"
 
-#  new_home:
-#    slogan: "The most engaging game for learning programming."
-#    classroom_edition: "Classroom Edition:"
-#    learn_to_code: "Learn to code:"
-#    teacher: "Teacher"
-#    student: "Student"
-#    play_now: "Play Now"
-#    im_a_teacher: "I'm a Teacher"
-#    im_a_student: "I'm a Student"
-#    learn_more: "Learn more"
+  new_home:
+    slogan: "O jogo mais cativante para aprender programação."
+    classroom_edition: "Edição de Turma:"
+    learn_to_code: "Aprender a programar:"
+    teacher: "Professor"
+    student: "Estudante"
+    play_now: "Jogar Agora"
+    im_a_teacher: "Sou um Professor"
+    im_a_student: "Sou um Estudante"
+    learn_more: "Aprender mais"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
 #    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
 #    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
@@ -507,14 +507,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   subscribe:
     comparison_blurb: "Aperfeiçoa as tuas habilidades com uma subscrição do CodeCombat!"
-    feature1: "110+ níveis básicos dispersos por 4 mundos" # {change}
+    feature1: "125+ níveis básicos dispersos por 4 mundos"
     feature2: "10 <strong>heróis novos</strong> e poderosos com habilidades únicas!"
-    feature3: "80+ níveis de bónus" # {change}
+    feature3: "85+ níveis de bónus"
     feature4: "<strong>{{gems}} gemas de bónus</strong> por mês!"
     feature5: "Tutoriais em vídeo"
     feature6: "Apoio por e-mail prioritário"
     feature7: "<strong>Clãs</strong> Privados"
-#    feature8: "<strong>No ads!</strong>"
+    feature8: "<strong>Sem anúncios!</strong>"
     free: "Grátis"
     month: "mês"
     must_be_logged: "Primeiro tens de ter sessão iniciada. Por favor, cria uma conta ou inicia sessão a partir do menu acima."
@@ -877,7 +877,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     social_facebook: "Gosta do CodeCombat no Facebook"
     social_twitter: "Segue o CodeCombat no Twitter"
     social_gplus: "Junta-te ao CodeCombat no Google+"
-#    social_slack: "Chat with us in the public CodeCombat Slack channel"
+    social_slack: "Fala connosco no canal público do CodeCombat no Slack"
     contribute_to_the_project: "Contribui para o projeto"
 
   clans:
@@ -931,10 +931,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     track_concepts2b: "aprendidos por cada membro"
     track_concepts3a: "Acompanhe os níveis completados por cada estudante"
     track_concepts3b: "Acompanhe os níveis completados por cada membro"
-    track_concepts4a: "Veja, dos seus alunos, as"
+    track_concepts4a: "Veja, dos seus estudantes, as"
     track_concepts4b: "Veja, dos seus membros, as"
     track_concepts5: "soluções"
-    track_concepts6a: "Ordene os alunos por nome ou progresso"
+    track_concepts6a: "Ordene os estudantes por nome ou progresso"
     track_concepts6b: "Ordene os membros por nome ou progresso"
     track_concepts7: "É necessário um convite"
     track_concepts8: "para se juntar"
@@ -1303,7 +1303,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     join_desc_3: " ou encontra-nos na nossa "
     join_desc_4: "e começamos a partir daí!"
     join_url_email: "Contacta-nos"
-#    join_url_slack: "public Slack channel"
+    join_url_slack: "canal público no Slack"
     archmage_subscribe_desc: "Receber e-mails relativos a novas oportunidades de programação e anúncios."
     artisan_introduction_pref: "Temos de construir mais níveis! As pessoas estão a pedir mais conteúdo, e nós mesmos só podemos construir estes tantos. Neste momento, a tua estação de trabalho é o nível um; o nosso editor de nível é pouco utilizável, até mesmo pelos seus criadores, por isso fica atento. Se tens visões de campanhas que abranjam 'for-loops' para o"
     artisan_introduction_suf: ", então esta classe pode ser para ti."
