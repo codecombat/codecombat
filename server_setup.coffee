@@ -16,6 +16,7 @@ config = require './server_config'
 auth = require './server/commons/auth'
 routes = require './server/routes'
 UserHandler = require './server/handlers/user_handler'
+html = require './server/routes/html'
 slack = require './server/slack'
 Mandate = require './server/models/Mandate'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
@@ -187,26 +188,7 @@ setupJavascript404s = (app) ->
 
 setupFallbackRouteToIndex = (app) ->
   app.all '*', (req, res) ->
-    fs.readFile path.join(__dirname, 'public', 'main.html'), 'utf8', (err, data) ->
-      log.error "Error modifying main.html: #{err}" if err
-      # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
-      user = if req.user then JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/') else '{}'
-
-      Mandate.findOne({}).cache(5 * 60 * 1000).exec (err, mandate) ->
-        if err
-          log.error "Error getting mandate config: #{err}"
-          configData = {}
-        else
-          configData =  _.omit mandate?.toObject() or {}, '_id'
-        configData.picoCTF = config.picoCTF
-        configData.production = config.isProduction
-        data = data.replace '"serverConfigTag"', JSON.stringify configData
-        data = data.replace('"userObjectTag"', user)
-        data = data.replace('"amActuallyTag"', JSON.stringify(req.session.amActually))
-        res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
-        res.header 'Pragma', 'no-cache'
-        res.header 'Expires', 0
-        res.send 200, data
+    html.renderMain(req, res)
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->
   app.get '/channel.html', (req, res) ->
@@ -236,9 +218,10 @@ exports.setupMailchimp = ->
 
 exports.setExpressConfigurationOptions = (app) ->
   app.set('port', config.port)
-  app.set('views', __dirname + '/app/views')
+  app.set('views', __dirname + '/app/templates')
   app.set('view engine', 'jade')
   app.set('view options', { layout: false })
+  app.locals.basedir = __dirname + '/app'
   app.set('env', if config.isProduction then 'production' else 'development')
   app.set('json spaces', 0) if config.isProduction
 

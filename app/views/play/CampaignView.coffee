@@ -664,6 +664,8 @@ module.exports = class CampaignView extends RootView
     console.error "CampaignView hero update couldn't find hero slug for original:", hero
 
   onClickPortalCampaign: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
     campaign = $(e.target).closest('.campaign')
     return if campaign.is('.locked') or campaign.is('.silhouette')
     campaignSlug = campaign.data('campaign-slug')

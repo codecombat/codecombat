@@ -1,0 +1,95 @@
+doctype html
+//[if lt IE 7]> <html class="lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]
+//[if IE 7]> <html class="lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]
+//[if IE 8]> <html class="lt-ie10 lt-ie9" lang="en"> <![endif]
+//[if IE 9]> <html class="lt-ie10" lang="en"> <![endif]
+//[if !IE] <!
+html(lang='en')
+  // <![endif]
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=1024')
+    title CodeCombat - Learn how to code by playing a game
+    meta(name='description', content='Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up. Open source HTML5 game!')
+    meta(property='og:title', content='CodeCombat: Learn to Code by Playing a Game')
+    meta(property='og:url', content='http://codecombat.com')
+    meta(property='og:type', content='game')
+    meta(property='og:image', content='http://codecombat.com/images/pages/home/play_img.png')
+    meta(property='og:site_name', content='CodeCombat')
+    meta(name='twitter:card', content='summary')
+    meta(name='twitter:title', content='CodeCombat: Learn to Code by Playing a Game')
+    meta(name='twitter:url', content='http://codecombat.com')
+    meta(name='twitter:site', content='CodeCombat')
+    meta(name='twitter:image:src', content='http://codecombat.com/images/pages/base/logo_square_250.png')
+    meta(name='twitter:description', content='Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up. Open source HTML5 game!')
+    link(href='https://plus.google.com/115285980638641924488', rel='publisher')
+    link(rel='shortcut icon', href='/images/favicon.ico')
+    link(rel='stylesheet', href='/stylesheets/app.css')
+    link(href='//fonts.googleapis.com/css?family=Merriweather', rel='stylesheet', type='text/css')
+    // Google Analytics
+    script.
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-39724129-1', 'auto');
+    // Errorception
+    script.
+      (function(_,e,rr,s){_errs=[s];var c=_.onerror;_.onerror=function(){var a=arguments;_errs.push(a);
+      c&&c.apply(this,a)};var b=function(){var c=e.createElement(rr),b=e.getElementsByTagName(rr)[0];
+      c.src="//beacon.errorception.com/"+s+".js";c.async=!0;b.parentNode.insertBefore(c,b)};
+      _.addEventListener?_.addEventListener("load",b,!1):_.attachEvent("onload",b)})
+      (window,document,"script","51a79585ee207206390002a2");
+    // Mixpanel
+    script(type='text/javascript').
+      (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+      mixpanel.init("e71a4e60db7e1dc5e685be96776280f9");
+    script(src='https://checkout.stripe.com/checkout.js')
+    // IE9 doesn't support defer attribute: https://github.com/h5bp/lazyweb-requests/issues/42
+    //[if IE 9]>
+      script(src='/lib/ace/ace.js')
+      script(src='/javascripts/box2d.js')
+      script(src='/javascripts/vendor.js')
+      script(src='/javascripts/aether.js')
+      script(src='/javascripts/app.js')
+      <![endif]
+
+    // IE9 cors support breaks analytics logging: http://caniuse.com/#feat=cors
+    //[if IE 9]>
+      script(type='text/javascript', src='http://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.2/jquery.xdomainrequest.min.js')
+      <![endif]
+    script(src='/lib/ace/ace.js', defer='')
+    script(src='/javascripts/vendor.js', defer='')
+    script(src='/javascripts/aether.js', defer='')
+    script(src='/javascripts/app.js', defer='')
+    script.
+      // IMPORTANT: If you edit here, make sure app/assets/javascripts/run-tests.js puts in placeholders for
+      // running client tests on Travis.
+      // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
+      window.serverConfig = !{JSON.stringify(serverConfig)};
+      window.userObject = !{userObjectTag};
+      window.amActually = !{amActually ? JSON.stringify(amActually) : 'undefined'};
+      window.me = {
+      get: function(attribute) { return window.userObject[attribute]; }
+      }
+      onLoad = function() {
+      try {
+      // IE8 warning
+      var htmlElement = document.querySelector("html");
+      if (htmlElement) {
+      var classAttribute = htmlElement.getAttribute('class');
+      if (classAttribute && classAttribute.indexOf('lt-ie9') >= 0) {
+      alert("CodeCombat does not run in Internet Explorer 8 or older. Sorry!");
+      }
+      }
+      // IE8 can't handle this
+      FastClick.attach(document.body);
+      require('core/initialize');
+      } catch (error) { }
+      }
+  body.clearfix(onload='onLoad();')
+    #fb-root
+    #page-container !{pageContent}
+    #modal-wrapper.modal-content.hide
+    #module-load-progress.progress
+      .progress-bar
