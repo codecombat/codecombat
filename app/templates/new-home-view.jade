@@ -87,15 +87,15 @@ mixin box
 
       else if view.justPlaysCourses()
         div
-          button.teacher-btn.btn.btn-forest.btn-lg.btn-block(data-i18n="new_home.goto_classes")
+          a.btn.btn-forest.btn-lg.btn-block(href='/play/', data-i18n="courses.continue_playing")
         div
-          a.btn.btn-primary.btn-lg.btn-block(href="https://sites.google.com/a/codecombat.com/teacher-guides/course-guides", data-i18n="new_home.educator_wiki")
-
+          a.btn.btn-primary.btn-lg.btn-block.play-btn(href=view.playURL, data-i18n="new_home.view_progress")
       else
         div
           a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-i18n="courses.continue_playing")
         div
           a.btn.btn-primary.btn-lg.btn-block(href="/user/#{me.getSlugOrID()}", data-i18n="new_home.view_profile")
+
 
       p.small
         span(data-i18n="courses.not_you")
