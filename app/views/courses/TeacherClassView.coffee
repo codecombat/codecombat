@@ -172,15 +172,20 @@ module.exports = class TeacherClassView extends RootView
     
   onClickBulkAssign: ->
     courseID = $('.bulk-course-select').val()
+    console.log @courseInstances.where({ courseID, classroomID: @classroom.id })
     courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
     members = @getSelectedStudentIDs().toArray()
+    console.log "Adding members", members
     if courseInstance
-      for studentID in members
-        courseInstance.addMember studentID, {
-          success: =>
-            @render() unless @destroyed
-        }
+      console.log "Found instance:", courseInstance.attributes
+      courseInstance.addMembers members, {
+        success: =>
+          @render() unless @destroyed
+      }
     else
+      console.log "Making a new instance:"
+      console.log "courseID", courseID
+      console.log "@classroom", @classroom.id
       courseInstance = new CourseInstance {
         courseID,
         classroomID: @classroom.id

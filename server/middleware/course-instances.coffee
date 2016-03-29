@@ -6,6 +6,7 @@ mongoose = require 'mongoose'
 TrialRequest = require '../models/TrialRequest'
 CourseInstance = require '../models/CourseInstance'
 Classroom = require '../models/Classroom'
+Course = require '../models/Course'
 User = require '../models/User'
 
 module.exports =
@@ -48,11 +49,16 @@ module.exports =
     
     userObjectIDs = (mongoose.Types.ObjectId(userID) for userID in userIDs)
     
+    console.log userObjectIDs
+    console.log courseInstance
+    
     courseInstance = yield CourseInstance.findByIdAndUpdate(
       courseInstance._id,
       { $addToSet: { members: userObjectIDs } },
       { new: true }
     )
+    
+    console.log courseInstance
     
     userUpdateResult = yield User.update(
       { _id: { $in: userObjectIDs } },
