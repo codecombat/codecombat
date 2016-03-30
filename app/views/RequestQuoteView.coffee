@@ -114,6 +114,7 @@ module.exports = class RequestQuoteView extends RootView
 
   onTrialRequestSubmit: ->
     @$('form, #form-submit-success').toggleClass('hide')
+    $('#flying-focus').css({top: 0, left: 0}) # Hack copied from Router.coffee#187. Ideally we'd swap out the view and have view-swapping logic handle this
     window.tracker?.trackEvent 'Submit Trial Request', category: 'Teachers', label: 'Trial Request', ['Mixpanel']
 
   onClickLoginButton: ->

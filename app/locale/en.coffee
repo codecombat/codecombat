@@ -94,6 +94,7 @@
     goto_classes: "Go to my Classes"
     educator_wiki: "Educator wiki"
     view_profile: "View My Profile"
+    view_progress: "View Progress"
     login_switch: "Have an account?"
     check_out_wiki: "Check out our new educator Wiki"
     want_coco: "Want CodeCombat at your school?"
