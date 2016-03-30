@@ -4,39 +4,26 @@ block page_nav
   include ./teacher-dashboard-nav.jade
 
 block content
-  if me.isAnonymous()
-    .access-restricted.container.text-center
-      h5(data-i18n='teacher.access_restricted')
-      p(data-i18n='teacher.teacher_account_required')
-      .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
-      .teacher-signup-button.btn.btn-lg.btn-primary-alt(data-i18n='teacher.create_teacher_account')
-    
-    .teacher-account-blurb.text-center.col-xs-6.col-xs-offset-3
-      h5(data-i18n='teacher.what_is_a_teacher_account')
-      p(data-i18n='teacher.teacher_account_explanation')
+  .container
+    h3(data-i18n='teacher.current_classes')
+  
+  .classes.container
+    // Loop each class
+    each classroom in view.classrooms.models
+      unless classroom.get('archived')
+        +classRow(classroom)
+  
+  +createClassButton
+  
+  .container
+    h3(data-i18n='teacher.archived_classes')
+    h4(data-i18n='teacher.archived_classes_blurb')
+
+  .classes.container
+    each classroom in view.classrooms.models
+      if classroom.get('archived')
+        +archivedClassRow(classroom)
       
-
-  else
-    .container
-      h3(data-i18n='teacher.current_classes')
-    
-    .classes.container
-      // Loop each class
-      each classroom in view.classrooms.models
-        unless classroom.get('archived')
-          +classRow(classroom)
-    
-    +createClassButton
-    
-    .container
-      h3(data-i18n='teacher.archived_classes')
-      h4(data-i18n='teacher.archived_classes_blurb')
-
-    .classes.container
-      each classroom in view.classrooms.models
-        if classroom.get('archived')
-          +archivedClassRow(classroom)
-        
 mixin classRow(classroom)
   .class.row
     .col-xs-6

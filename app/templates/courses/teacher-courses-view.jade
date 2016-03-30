@@ -4,13 +4,6 @@ block page_nav
   include ./teacher-dashboard-nav.jade
 
 block content
-  if me.isAnonymous()
-    .access-restricted.container.text-center
-      h5(data-i18n='teacher.access_restricted')
-      p(data-i18n='teacher.teacher_account_required')
-      .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
-      .teacher-signup-button.btn.btn-lg.btn-primary-alt(data-i18n='teacher.create_teacher_account')
-
   .container
     h1(data-i18n="courses.title")
     h2(data-i18n="courses.subtitle")
@@ -54,9 +47,7 @@ block content
                     | 1. Dungeons of Kithgard
             a.btn.btn-lg.btn-primary
               span(data-i18n="courses.play_level")
-          .clearfix
-      
-            
+          .clearfix       
             
 mixin course-info(course)
   .course-info

@@ -15,7 +15,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
   hasAccess: (req) ->
     return false unless req.user
     return true if req.method is 'GET'
-#    return false if req.method is 'POST' and not req.user?.isTeacher()
+    return false if req.method is 'POST' and not req.user?.isTeacher()
     req.method in @allowedMethods or req.user?.isAdmin()
 
   hasAccessToDocument: (req, document, method=null) ->
@@ -53,7 +53,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
 
   joinClassroomAPI: (req, res, classroomID) ->
     return @sendBadInputError(res, 'Need an object with a code') unless req.body?.code
-#    return @sendForbiddenError(res, 'Cannot join a classroom as a teacher') if req.user.isTeacher()
+    return @sendForbiddenError(res, 'Cannot join a classroom as a teacher') if req.user.isTeacher()
     code = req.body.code.toLowerCase()
     Classroom.findOne {code: code}, (err, classroom) =>
       return @sendDatabaseError(res, err) if err

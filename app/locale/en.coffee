@@ -91,7 +91,7 @@
     student_count: "Number of students:"
     start_playing_for_free: "Start Playing for Free!"
     students_and_players: "Students & Players"
-    goto_classes: "Go to my Classes"
+    goto_classes: "Go to My Classes" # {change}
     educator_wiki: "Educator wiki"
     view_profile: "View My Profile"
     view_progress: "View Progress"
@@ -1229,7 +1229,9 @@
     student_age_range_older: "Older than 18"
     student_age_range_to: "to"
     create_class: "Create Class"
-    
+
+    teacher_account_restricted: "Your account is a teacher account, and so cannot access student content."
+
   teacher:
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"

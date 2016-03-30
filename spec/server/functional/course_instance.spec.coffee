@@ -9,6 +9,9 @@ describe 'POST /db/course_instance', ->
 
   beforeEach (done) -> clearModels([CourseInstance, Course, User, Classroom], done)
   beforeEach (done) -> loginJoe (@joe) => done()
+  beforeEach (done) ->
+    @joe.set('role', 'teacher')
+    @joe.save(done)
   beforeEach init.course()
   beforeEach init.classroom()
 
@@ -87,6 +90,9 @@ describe 'POST /db/course_instance/:id/members', ->
 
   beforeEach (done) -> clearModels([CourseInstance, Course, User, Classroom, Prepaid], done)
   beforeEach (done) -> loginJoe (@joe) => done()
+  beforeEach (done) ->
+    @joe.set('role', 'teacher')
+    @joe.save(done)
   beforeEach init.course({free: true})
   beforeEach init.classroom()
   beforeEach init.courseInstance()
@@ -206,6 +212,9 @@ describe 'DELETE /db/course_instance/:id/members', ->
 
   beforeEach (done) -> clearModels([CourseInstance, Course, User, Classroom, Prepaid], done)
   beforeEach (done) -> loginJoe (@joe) => done()
+  beforeEach (done) ->
+    @joe.set('role', 'teacher')
+    @joe.save(done)
   beforeEach init.course({free: true})
   beforeEach init.classroom()
   beforeEach init.courseInstance()

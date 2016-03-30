@@ -93,6 +93,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'User for given ID not found') if not user
         return @sendSuccess(res, @formatEntity(req, prepaid)) if user.get('coursePrepaidID')
+        return @sendForbiddenError(res, 'Teachers may not be enrolled') if user.isTeacher()
         userID = user.get('_id')
 
         query =

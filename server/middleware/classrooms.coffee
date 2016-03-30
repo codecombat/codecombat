@@ -52,7 +52,10 @@ module.exports =
     memberSkip = parse.getSkipFromReq(req, {param: 'memberSkip'})
     classroom = yield database.getDocFromHandle(req, Classroom)
     throw new errors.NotFound('Classroom not found.') if not classroom
-    throw new errors.Forbidden('You do not own this classroom.') unless req.user.isAdmin() or classroom.get('ownerID').equals(req.user._id)
+    isOwner = classroom.get('ownerID').equals(req.user._id)
+    isMember = req.user.id in (m.toString() for m in classroom.get('members'))
+    unless req.user.isAdmin() or isOwner or isMember
+      throw new errors.Forbidden('You do not own this classroom.')
     memberIDs = classroom.get('members') or []
     memberIDs = memberIDs.slice(memberSkip, memberLimit)
     
