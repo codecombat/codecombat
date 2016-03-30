@@ -1,5 +1,8 @@
 module.exports =
   auth: require './auth'
+  classrooms: require './classrooms'
+  campaigns: require './campaigns'
+  courseInstances: require './course-instances'
   files: require './files'
   named: require './named'
   patchable: require './patchable'

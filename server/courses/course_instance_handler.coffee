@@ -2,7 +2,7 @@ async = require 'async'
 Handler = require '../commons/Handler'
 Campaign = require '../campaigns/Campaign'
 Classroom = require '../classrooms/Classroom'
-Course = require './Course'
+Course = require '../models/Course'
 CourseInstance = require './CourseInstance'
 LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
@@ -35,7 +35,6 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     relationship = args[1]
     return @createHOCAPI(req, res) if relationship is 'create-for-hoc'
     return @getLevelSessionsAPI(req, res, args[0]) if args[1] is 'level_sessions'
-    return @addMember(req, res, args[0]) if req.method is 'POST' and args[1] is 'members'
     return @removeMember(req, res, args[0]) if req.method is 'DELETE' and args[1] is 'members'
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
     return @inviteStudents(req, res, args[0]) if relationship is 'invite_students'
@@ -64,38 +63,6 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
       courseInstance.save (err, courseInstance) =>
         return @sendDatabaseError(res, err) if err
         @sendCreated(res, courseInstance)
-
-  addMember: (req, res, courseInstanceID) ->
-    return @sendUnauthorizedError(res) if not req.user?
-    userID = req.body.userID
-    return @sendBadInputError(res, 'Input must be a MongoDB ID') unless utils.isID(userID)
-    CourseInstance.findById courseInstanceID, (err, courseInstance) =>
-      return @sendDatabaseError(res, err) if err
-      return @sendNotFoundError(res, 'Course instance not found') unless courseInstance
-      Classroom.findById courseInstance.get('classroomID'), (err, classroom) =>
-        return @sendDatabaseError(res, err) if err
-        return @sendNotFoundError(res, 'Classroom referenced by course instance not found') unless classroom
-        return @sendForbiddenError(res) unless _.any(classroom.get('members'), (memberID) -> memberID.toString() is userID)
-        ownsCourseInstance = courseInstance.get('ownerID').equals(req.user.get('_id'))
-        addingSelf = userID is req.user.id
-        return @sendForbiddenError(res) unless ownsCourseInstance or addingSelf
-        alreadyInCourseInstance = _.any courseInstance.get('members') or [], (memberID) -> memberID.toString() is userID
-        return @sendSuccess(res, @formatEntity(req, courseInstance)) if alreadyInCourseInstance
-        Prepaid.find({ 'redeemers.userID': mongoose.Types.ObjectId(userID) }).count (err, userIsPrepaid) =>
-          return @sendDatabaseError(res, err) if err
-          Course.findById courseInstance.get('courseID'), (err, course) =>
-            return @sendDatabaseError(res, err) if err
-            return @sendNotFoundError(res, 'Course referenced by course instance not found') unless course
-            if not (course.get('free') or userIsPrepaid)
-              return @sendPaymentRequiredError(res, 'Cannot add this user to a course instance until they are added to a prepaid')
-            members = courseInstance.get('members')
-            members.push(userID)
-            courseInstance.set('members', members)
-            courseInstance.save (err, courseInstance) =>
-              return @sendDatabaseError(res, err) if err
-              User.update {_id: mongoose.Types.ObjectId(userID)}, {$addToSet: {courseInstances: courseInstance.get('_id')}}, (err) =>
-                return @sendDatabaseError(res, err) if err
-                @sendSuccess(res, @formatEntity(req, courseInstance))
 
   removeMember: (req, res, courseInstanceID) ->
     return @sendUnauthorizedError(res) if not req.user?
@@ -133,7 +100,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
       Course.findById req.body.courseID, (err, course) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'Course not found') unless course
-        q = { 
+        q = {
           courseID: mongoose.Types.ObjectId(req.body.courseID)
           classroomID: mongoose.Types.ObjectId(req.body.classroomID)
         }

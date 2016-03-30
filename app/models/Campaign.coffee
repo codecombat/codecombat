@@ -1,6 +1,7 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/campaign.schema'
 Level = require 'models/Level'
+Levels = require 'collections/Levels'
 CocoCollection = require 'collections/CocoCollection'
 
 module.exports = class Campaign extends CocoModel
@@ -35,3 +36,16 @@ module.exports = class Campaign extends CocoModel
     sum = (nums) -> _.reduce(nums, (s, num) -> s + num) or 0
     stats.playtime = sum((session.get('playtime') or 0 for session in sessions))
     return stats
+  
+  getLevels: ->
+    levels = new Levels(_.values(@get('levels')))
+    levels.comparator = 'campaignIndex'
+    levels.sort()
+    return levels
+    
+  getNonLadderLevels: ->
+    levels = new Levels(_.values(@get('levels')))
+    levels.reset(levels.reject (level) -> level.isLadder())
+    levels.comparator = 'campaignIndex'
+    levels.sort()
+    return levels

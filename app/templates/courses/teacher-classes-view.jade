@@ -1,0 +1,113 @@
+extends /templates/base-flat
+
+block page_nav
+  include ./teacher-dashboard-nav.jade
+
+block content
+  if me.isAnonymous()
+    .access-restricted.container.text-center
+      h5(data-i18n='teacher.access_restricted')
+      p(data-i18n='teacher.teacher_account_required')
+      .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
+      .teacher-signup-button.btn.btn-lg.btn-primary-alt(data-i18n='teacher.create_teacher_account')
+    
+    .teacher-account-blurb.text-center.col-xs-6.col-xs-offset-3
+      h5(data-i18n='teacher.what_is_a_teacher_account')
+      p(data-i18n='teacher.teacher_account_explanation')
+      
+
+  else
+    .container
+      h3(data-i18n='teacher.current_classes')
+    
+    .classes.container
+      // Loop each class
+      each classroom in view.classrooms.models
+        unless classroom.get('archived')
+          +classRow(classroom)
+    
+    +createClassButton
+    
+    .container
+      h3(data-i18n='teacher.archived_classes')
+      h4(data-i18n='teacher.archived_classes_blurb')
+
+    .classes.container
+      each classroom in view.classrooms.models
+        if classroom.get('archived')
+          +archivedClassRow(classroom)
+        
+mixin classRow(classroom)
+  .class.row
+    .col-xs-6
+      .text-h4.semibold
+        = classroom.get('name')
+      .language.small
+        span(data-i18n='teacher.language')
+        | :&nbsp;
+        span.language-name
+          = classroom.capitalLanguage
+      .student-count.small
+        span(data-i18n='teacher.students')
+        | :&nbsp;
+        span
+          = classroom.get('members').length
+      .class-links
+        a.text-h6(data-i18n='teacher.view_class' href=('/teachers/classes/' + classroom.id))
+        a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id)
+        a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id)
+
+    .progress-col.col-xs-5
+      if classroom.get('members').length == 0
+        +addStudentsButton(classroom)
+      else
+        each course, index in view.courses.models
+          +progressDot(classroom, course, index)
+    .view-class-arrow.col-xs-1
+      a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right(data-classroom-id=classroom.id, href=('/teachers/classes/' + classroom.id))
+
+
+mixin addStudentsButton(classroom)
+  .add-students
+    .text-center
+      div.small-details(data-i18n='teacher.no_students_yet')
+        | This class has no students yet.
+      a.add-students-btn.btn.btn-lg.btn-primary(data-classroom-id=classroom.id )
+        span(data-i18n='teacher.add_students')
+          | Add Students
+        
+mixin createClassButton
+  .create-class
+    .text-center
+      a.create-classroom-btn.btn.btn-lg.btn-primary(data-i18n='teacher.create_new_class')
+        | Create a New Class
+
+mixin progressDot(classroom, course, index)
+  //- TODO: Give classes abbreviations instead of using index?
+  //- TODO: inefficient. Cache this in the view?
+  - courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
+  - var total = classroom.get('members').length
+  - var complete = 0;
+  - var dotClass = '';
+  if courseInstance
+    - complete = courseInstance.numCompleted
+    - dotClass = complete === total ? 'forest' : 'gold';
+  - var progressDotContext = {total: total, complete: complete}; 
+  .progress-dot(class=dotClass, data-title=view.progressDotTemplate(progressDotContext))
+    +progressDotLabel(index)
+
+mixin progressDotLabel(index)
+  .dot-label
+    .text-h6
+      | CS
+      span
+        = index + 1
+
+mixin archivedClassRow(classroom)
+  .class.row
+    .col-xs-10
+      span
+        = classroom.get('name')
+    .col-xs-2
+      .class-links.pull-right
+        a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)

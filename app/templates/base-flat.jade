@@ -13,7 +13,7 @@
           br
           span(data-i18n="home.old_browser_suffix")
 
-    nav.navbar.navbar-default
+    nav#main-nav.navbar.navbar-default
       .container
         .row
           .col-md-3.col-sm-4
@@ -35,7 +35,7 @@
                 li
                   a(href="/courses", data-i18n="nav.courses")
                 li
-                  a(href="/courses/teachers", data-i18n="nav.teachers")
+                  a(href="/teachers/classes", data-i18n="nav.teachers")
                 li
                   a(href="https://discourse.codecombat.com/", data-i18n="nav.forum")
                 if me.isAnonymous()
@@ -72,8 +72,9 @@
 
                 li
                   #language-dropdown-wrapper
-                    select.language-dropdown.form-control
-
+                    select.language-dropdown.form-control    
+    
+  block page_nav
 
   block outer_content
     #site-content-area

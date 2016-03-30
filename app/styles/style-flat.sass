@@ -68,12 +68,21 @@ $forest: #20572B
     line-height: 20px
     
   p
+    color: black
     margin: 0 0 14px
     
   .small
     font-weight: normal
     font-size: 14px
     line-height: 20px
+    
+  .semibold, .student-name
+    font-weight: 600
+    
+  .small-details
+    font: $headline-font
+    font-size: 15px
+    line-height: 26px
 
   font-family: $body-font
   font-size: 18px
@@ -93,7 +102,7 @@ $forest: #20572B
   
   // Navbar
 
-  .navbar
+  #main-nav.navbar
     background: white
     margin-bottom: 0
     white-space: nowrap // prevent home icon from going under brand
@@ -171,6 +180,11 @@ $forest: #20572B
     font-family: $body-font
     font-weight: normal
     background-image: none // overrides legacy buttons
+    .disabled
+      opacity: 50%
+  
+  .btn ~ .btn
+    margin-left: 12px
 
   .btn-primary, .btn-navy
     background-color: $navy
@@ -215,6 +229,123 @@ $forest: #20572B
   .btn-lg
     font-size: 18px
     
+  // Dropdowns
+  select
+    height: 33px
+    background-color: white
+    border: 1px solid $navy
+    color: $navy
+    // TODO: Font size 18? Inconsistent with buttons on teacher-class-view bulk assign
+    
+  // Tooltips
+
+  .tooltip .tooltip-arrow::after
+    // Create a duplicate tooltip arrow which will cover the main arrow and make it seem like a line rather than filled
+    content: ' '
+    position: absolute
+    width: 0
+    height: 0
+    border-color: transparent
+    border-style: solid
+
+  // For each arrow position: make color gray-dark, make arrow larger, and position duplicate arrow
+  .tooltip.top .tooltip-arrow
+    margin-left: -10px
+    border-width: 5px 10px 0
+    border-top-color: $gray-dark
+    &::after
+      top: -6px
+      left: 50%
+      margin-left: -10px
+      border-width: 5px 10px 0
+      border-top-color: white
+
+  .tooltip.right .tooltip-arrow
+    border-right-color: $gray-dark
+    border-width: 5px 6px 5px 0
+
+    &::after
+      top: 50%
+      left: 1px
+      margin-top: -5px
+      border-width: 5px 6px 5px 0
+      border-right-color: white
+    
+  .tooltip.left .tooltip-arrow
+    border-right-color: $gray-dark
+    border-width: 5px 0 5px 6px
+
+    &::after
+      top: 50%
+      right: 1px
+      margin-top: -5px
+      border-width: 5px 0 5px 6px
+      border-left-color: white
+  
+  .tooltip.bottom .tooltip-arrow
+    border-bottom-color: $gray-dark
+    margin-left: -10px
+    border-width: 0 10px 5px
+    &::after
+      top: 1px
+      left: 50%
+      margin-left: -10px
+      border-width: 0 10px 5px
+      border-bottom-color: white
+
+  .tooltip-inner
+    padding: 10px 20px
+    border: 1px solid $gray-dark
+    color: black
+    background: white
+    border-radius: 20px
+    min-width: 150px
+
+  
+  // Checkboxes
+  // Note: You have to use this structure in your jade:
+  //   .checkbox-flat
+  //     input(type='checkbox' id='some-id')
+  //     label.checkmark(for='some-id')
+  
+  .checkbox-flat
+    position: relative
+    background: white
+    border: thin solid #979797
+    width: 20px
+    height: 20px
+    
+    input
+      visibility: hidden
+      
+    label
+      position: absolute
+      width: 18px
+      height: 18px
+      left: 1px
+      top: 1px
+
+    label:after
+      opacity: 0
+      content: ''
+      position: absolute
+      width: 14px
+      height: 7px
+      background: transparent
+      top: 3px
+      left: 1px
+      border: 2px solid black
+      border-top: none
+      border-right: none
+      transform: rotate(-45deg)
+
+    label:hover::after
+      opacity: 0.3
+    
+    input:checked + label:after
+      opacity: 1
+    
+
   .btn-gplus
     color: white
     background-color: #DD4B39

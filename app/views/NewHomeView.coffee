@@ -119,8 +119,12 @@ module.exports = class NewHomeView extends RootView
     @scrollToLink('#classroom-in-box-container')
 
   onClickTeacherButton: ->
-    window.tracker?.trackEvent 'Homepage Click Teacher Button', category: 'Homepage'
-    @scrollToLink('.request-demo-row', 600)
+    if me.isTeacher()
+      window.tracker?.trackEvent 'Homepage Click Teacher Button (logged in)', category: 'Homepage'
+      application.router.navigate('/teachers', { trigger: true })
+    else
+      window.tracker?.trackEvent 'Homepage Click Teacher Button', category: 'Homepage'
+      @scrollToLink('.request-demo-row', 600)
 
   onRightPressed: (event) ->
     # Special handling, otherwise after you click the control, keyboard presses move the slide twice
