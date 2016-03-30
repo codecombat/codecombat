@@ -1,3 +1,4 @@
+_ = require 'lodash'
 utils = require '../lib/utils'
 errors = require '../commons/errors'
 wrap = require 'co-express'
@@ -17,9 +18,12 @@ module.exports =
     throw new errors.UnprocessableEntity('Bad ownerID') unless utils.isID ownerID
     throw new errors.Unauthorized() unless req.user
     throw new errors.Forbidden('"ownerID" must be yourself') unless req.user.isAdmin() or ownerID is req.user.id
-    if options.archived
-      options.archived = (options.archived == 'true')
-    dbq = Classroom.where _.merge options, { ownerID: mongoose.Types.ObjectId(ownerID) }
+    sanitizedOptions = {}
+    unless _.isUndefined(options.archived)
+      # Handles when .archived is true, vs false-or-null
+      sanitizedOptions.archived = { $ne: not (options.archived is 'true') }
+      console.log sanitizedOptions
+    dbq = Classroom.find _.merge sanitizedOptions, { ownerID: mongoose.Types.ObjectId(ownerID) }
     dbq.select(parse.getProjectFromReq(req))
     classrooms = yield dbq
     classrooms = (classroom.toObject({req: req}) for classroom in classrooms)
