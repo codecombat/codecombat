@@ -29,12 +29,15 @@ module.exports = mw =
     promise = user.save()
     return promise
 
-  loginUser: Promise.promisify  (user, done) ->
+  loginUser: Promise.promisify  (user, options={}, done) ->
+    if _.isFunction(options)
+      done = options
+      options = {}
     form = {
       username: user.get('email')
       password: 'password'
     }
-    request.post mw.getURL('/auth/login'), { form: form }, (err, res) ->
+    (options.request or request).post mw.getURL('/auth/login'), { form: form }, (err, res) ->
       expect(err).toBe(null)
       expect(res.statusCode).toBe(200)
       done(err, user)

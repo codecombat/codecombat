@@ -4,6 +4,8 @@ moment = require 'moment'
 {findStripeSubscription} = require '../../../server/lib/utils'
 async = require 'async'
 nockUtils = require '../nock-utils'
+utils = require '../utils'
+Promise = require 'bluebird'
 
 describe '/db/prepaid', ->
   prepaidURL = getURL('/db/prepaid')
@@ -726,49 +728,50 @@ describe '/db/prepaid', ->
           expect(res.statusCode).not.toEqual(200)
           done()
 
-    xit 'Test a bunch of people trying to redeem at once', (done) ->
-      nockUtils.setupNock 'db-sub-redeem-test-3.json', (err, nockDone) ->
-        doRedeem = (userX, code, testnum, retry, fnDone) =>
-          loginUser userX, () =>
-            endDate = new moment().add(3, 'months').toISOString().substring(0, 10)
-            subscribeWithPrepaid code, (err, res, result) ->
-              if err
-                return fnDone(err)
-  
-              expect(err).toBeNull()
-              expect(result).toBeDefined()
-              if result.stripe
-                expect(result.stripe).toBeDefined()
-                expect(result.stripe.free).toEqual(endDate)
-                expect(result?.purchased?.gems).toEqual(10500)
-                return fnDone(null, {status: "ok", msg: "Redeemed " + retry})
-              else
-                return fnDone(null, {status: 'error', msg: "Redeem attempt Error #{result} (#{userX.id})" + retry })
+    it 'enforces the maximum number of redeemers in a race condition', utils.wrap (done) ->
+      nockDone = yield nockUtils.setupNockAsync 'db-sub-redeem-test-3.json'
+      stripe.tokens.createAsync = Promise.promisify(stripe.tokens.create, {context: stripe.tokens})
+      token = yield stripe.tokens.createAsync({
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      })
 
-        redeemPrepaidFn = (code, testnum) =>
-          (fnDone) =>
-            loginNewUser (user1) =>
-              doRedeem(user1, code, testnum, 0, fnDone)
+      user = yield utils.initUser()
+      yield utils.loginUser(user)
+      
+      codeRedeemers = 50
+      codeMonths = 3
+      redeemers = 51
+      
+      purchasePrepaidAsync = Promise.promisify(purchasePrepaid, {multiArgs: true})
+      [res, prepaid] = yield purchasePrepaidAsync('terminal_subscription', months: codeMonths, codeRedeemers, token.id)
+      
+      expect(prepaid).toBeDefined()
+      expect(prepaid.code).toBeDefined()
 
-        stripe.tokens.create {
-          card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-        }, (err, token) ->
-          loginNewUser (user) =>
-            codeRedeemers = 50
-            codeMonths = 3
-            redeemers = 51
-            purchasePrepaid 'terminal_subscription', months: codeMonths, codeRedeemers, token.id, (err, res, prepaid) ->
-              expect(err).toBeNull()
-              expect(prepaid).toBeDefined()
-              expect(prepaid.code).toBeDefined()
-              tasks = (redeemPrepaidFn(prepaid.code, i) for i in [0...redeemers])
-              async.parallel tasks, (err, results) =>
-                redeemed = 0
-                error = 0
-                for result in results
-                  redeemed += 1 if result.status is 'ok'
-                  error += 1 if result.status is 'error'
-                expect(redeemed).toEqual(codeRedeemers)
-                expect(error).toEqual(redeemers - codeRedeemers)
-                nockDone()
-                done()
+      # Make 'threads', which are objects that encapsulate each user and their cookies
+      threads = []
+      for index in [0...redeemers]
+        thread = {}
+        thread.request = request.defaults({jar: request.jar()})
+        thread.request.postAsync = Promise.promisify(thread.request.post, { context: thread.request })
+        thread.user = yield utils.initUser()
+        yield utils.loginUser(thread.user, {request: thread.request})
+        threads.push(thread)
+    
+      # Spawn all requests at once!
+      requests = []
+      options = { 
+        url: getURL('/db/subscription/-/subscribe_prepaid')
+        json: { ppc: prepaid.code }
+      }
+      for thread in threads
+        requests.push(thread.request.postAsync(options))
+        
+      # Wait until all requests finish, make sure all but one succeeded 
+      responses = yield requests
+      redeemed = _.size(_.where(responses, {statusCode: 200}))
+      errors = _.size(_.where(responses, {statusCode: 403}))
+      expect(redeemed).toEqual(codeRedeemers)
+      expect(errors).toEqual(redeemers - codeRedeemers)
+      nockDone()
+      done()
