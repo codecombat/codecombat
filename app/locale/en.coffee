@@ -129,7 +129,6 @@
     jobs: "Jobs"
     schools: "Schools"
     educator_wiki: "Educator Wiki"
-    request_quote: "Request a Quote"
     get_involved: "Get Involved"
     open_source: "Open source (GitHub)"
     support: "Support"
@@ -1229,7 +1228,8 @@
     student_age_range_older: "Older than 18"
     student_age_range_to: "to"
     create_class: "Create Class"
-
+    class_name: "Class Name"
+    
     teacher_account_restricted: "Your account is a teacher account, and so cannot access student content."
 
   teacher:
@@ -1273,6 +1273,7 @@
     course_progress: "Course Progress"
     not_applicable: "N/A"
     edit: "edit"
+    remove: "remove"
     latest_completed: "Latest Completed"
     sort_by: "Sort by"
     progress: "Progress"
@@ -1285,6 +1286,7 @@
     add_students_manually: "Add Students Manually"
     bulk_assign: "Bulk-assign"
     assign_to_selected_students: "Assign to Selected Students"
+    assigned: "Assigned"
     enroll_selected_students: "Enroll Selected Students"
     
     guides_coming_soon: "Guides coming soon!" # Courses
@@ -1309,7 +1311,6 @@
     how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
     how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content forever, even if they leave your class."
     bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
-    request_quote: "Request Quote"
 
   classes:
     archmage_title: "Archmage"

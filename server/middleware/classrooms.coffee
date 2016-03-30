@@ -22,7 +22,6 @@ module.exports =
     unless _.isUndefined(options.archived)
       # Handles when .archived is true, vs false-or-null
       sanitizedOptions.archived = { $ne: not (options.archived is 'true') }
-      console.log sanitizedOptions
     dbq = Classroom.find _.merge sanitizedOptions, { ownerID: mongoose.Types.ObjectId(ownerID) }
     dbq.select(parse.getProjectFromReq(req))
     classrooms = yield dbq
@@ -37,11 +36,11 @@ module.exports =
     throw new errors.NotFound('Classroom not found.') if not classroom
     throw new errors.Forbidden('You do not own this classroom.') unless req.user.isAdmin() or classroom.get('ownerID').equals(req.user._id)
     members = classroom.get('members') or []
-    members = members.slice(memberSkip, memberLimit)
+    members = members.slice(memberSkip, memberSkip + memberLimit)
     dbqs = []
     select = 'state.complete level creator playtime'
     for member in members
-      dbqs.push(LevelSession.find({creator: member.toHexString(), team: {$exists: false}}).select(select).exec())
+      dbqs.push(LevelSession.find({creator: member.toHexString()}).select(select).exec())
     results = yield dbqs
     sessions = _.flatten(results)
     res.status(200).send(sessions)
@@ -57,7 +56,7 @@ module.exports =
     unless req.user.isAdmin() or isOwner or isMember
       throw new errors.Forbidden('You do not own this classroom.')
     memberIDs = classroom.get('members') or []
-    memberIDs = memberIDs.slice(memberSkip, memberLimit)
+    memberIDs = memberIDs.slice(memberSkip, memberSkip + memberLimit)
     
     members = yield User.find({ _id: { $in: memberIDs }}).select(parse.getProjectFromReq(req))
     memberObjects = (member.toObject({ req: req, includedPrivates: ["name", "email"] }) for member in members)

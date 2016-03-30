@@ -41,11 +41,6 @@ block modal-body-content
     #errors-alert.alert.alert-danger.hide
 
     .text-center
-      if view.willPlay
-        input#sign-up-btn.btn.btn-default(type="submit", data-i18n="[value]courses.start_playing", value="Start Playing")
-        p
-          a#skip-link(data-i18n="courses.skip_this")
-      else
-        input#sign-up-btn.btn.btn-default(data-i18n="[value]signup.sign_up", type="submit")
+      input#sign-up-btn.btn.btn-default(data-i18n="[value]signup.sign_up", type="submit")
 
 block modal-footer-content

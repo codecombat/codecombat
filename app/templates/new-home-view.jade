@@ -78,12 +78,12 @@ mixin box
         div
           button.teacher-btn.btn.btn-forest.btn-lg.btn-block(data-i18n="new_home.goto_classes")
         div
-          if false
+          if view.isTeacherWithDemo
             h6(data-i18n="new_home.check_out_wiki")
             a.btn.btn-primary.btn-lg.btn-block(href="https://sites.google.com/a/codecombat.com/teacher-guides/course-guides", data-i18n="new_home.educator_wiki")
           else
             h6(data-i18n="new_home.want_coco")
-            a.btn.btn-primary.btn-lg.btn-block(href="/teachers/convert", data-i18n="new_home.get_started")
+            a.btn.btn-primary.btn-lg.btn-block(href=view.demoRequestURL, data-i18n="new_home.get_started")
 
       else if view.justPlaysCourses()
         div
@@ -258,7 +258,7 @@ block content
           span(data-i18n="new_home.agency")
 
     .request-demo-row.text-center
-      if me.isTeacher()
+      if view.isTeacherWithDemo
         h3(data-i18n="new_home.get_started_title")
       else
         h3(data-i18n="new_home.request_demo_title")
@@ -277,14 +277,14 @@ block content
           .clearfix.hidden-xs
             small(data-i18n="new_home.teacher_screenshots_hint")
 
-      if me.isTeacher()
+      if view.isTeacherWithDemo
         h4(data-i18n="new_home.get_started_subtitle")
         div
-          a.btn.btn-primary.btn-lg(href="/courses/teachers", data-i18n="new_home.setup_a_class")
+          a.btn.btn-primary.btn-lg(href="/teachers/classes", data-i18n="new_home.setup_a_class")
       else
         h4(data-i18n="new_home.request_demo_subtitle")
         div
-          a.btn.btn-primary.btn-lg(href="/teachers/demo", data-i18n="new_home.request_demo")
+          a.btn.btn-primary.btn-lg(href=view.demoRequestURL, data-i18n="new_home.request_demo")
         if me.isAnonymous()
           .have-an-account
             span.spr(data-i18n="new_home.have_an_account")
@@ -371,12 +371,12 @@ block content
 
     .request-demo-row.text-center
       h3(data-i18n="new_home.run_class")
-      if me.isTeacher()
+      if view.isTeacherWithDemo
         div
-          a.btn.btn-primary.btn-lg(href="/courses/teachers", data-i18n="new_home.setup_a_class")
+          a.btn.btn-primary.btn-lg(href="/teachers/classes", data-i18n="new_home.setup_a_class")
       else
         div
-          a.btn.btn-primary.btn-lg(href="/teachers/demo", data-i18n="new_home.request_demo")
+          a.btn.btn-primary.btn-lg(href=view.demoRequestURL, data-i18n="new_home.request_demo")
         if me.isAnonymous()
           .have-an-account
             span.spr(data-i18n="new_home.have_an_account")

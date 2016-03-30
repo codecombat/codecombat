@@ -9,17 +9,20 @@ module.exports =
         instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
         continue if not instance
         instance.numCompleted = 0
+        instance.numStarted = 0
         campaign = campaigns.get(course.get('campaignID'))
         for userID in instance.get('members')
-          allComplete = _.every campaign.getNonLadderLevels().models, (level) ->
+          levelCompletes = _.map campaign.getNonLadderLevels().models, (level) ->
             return true if level.isLadder()
             #TODO: Hella slow! Do the mapping first!
             session = _.find classroom.sessions.models, (session) ->
               session.get('creator') is userID and session.get('level').original is level.get('original')
             # sessionMap[userID][level].completed()
             session?.completed()
-          if allComplete
+          if _.every levelCompletes
             instance.numCompleted += 1
+          if _.any levelCompletes
+            instance.numStarted += 1
 
   calculateEarliestIncomplete: (classroom, courses, campaigns, courseInstances, students) ->
     # Loop through all the combinations of things, return the first one that somebody hasn't finished
@@ -134,7 +137,7 @@ module.exports =
         campaign = campaigns.get(course.get('campaignID'))
         for level in campaign.getNonLadderLevels().models
           levelID = level.get('original')
-          progressData[classroom.id][course.id][levelID] = { completed: true, started: false }
+          progressData[classroom.id][course.id][levelID] = { completed: students.size() > 0, started: false }
           
           for user in students.models
             userID = user.id

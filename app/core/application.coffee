@@ -18,8 +18,8 @@ ctrlDefaultPrevented = [219, 221, 80, 83]
 preventBackspace = (event) ->
   if event.keyCode is 8 and not elementAcceptsKeystrokes(event.srcElement or event.target)
     event.preventDefault()
-  else if (key.ctrl or key.command) and not key.alt and event.keyCode in ctrlDefaultPrevented
-    console.debug "Prevented keystroke", key
+  else if (event.ctrlKey or event.metaKey) and not event.altKey and event.keyCode in ctrlDefaultPrevented
+    console.debug "Prevented keystroke", key, event
     event.preventDefault()
 
 elementAcceptsKeystrokes = (el) ->

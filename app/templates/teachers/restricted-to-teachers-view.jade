@@ -9,7 +9,7 @@ block content
     p(data-i18n='teacher.teacher_account_required')
     if me.isAnonymous()
       .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
-      .teacher-signup-button.btn.btn-lg.btn-primary-alt(data-i18n='teacher.create_teacher_account')
+      a.btn.btn-lg.btn-primary-alt(href="/teachers/signup" data-i18n='teacher.create_teacher_account')
     else
       a.btn.btn-lg.btn-primary(href="/teachers/convert" data-i18n="teachers_quote.convert_account_title")
       button#logout-button.btn.btn-lg.btn-primary-alt(data-i18n="login.log_out")

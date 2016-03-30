@@ -56,6 +56,10 @@ module.exports = mw =
     options = _.extend({permissions: ['artisan']}, options)
     return @initUser(options)
     
+  becomeAnonymous: Promise.promisify (done) ->
+    request.post mw.getURL('/auth/logout'), ->
+      request.get mw.getURL('/auth/whoami'), done
+    
   logout: Promise.promisify (done) ->
     request.post mw.getURL('/auth/logout'), done
 

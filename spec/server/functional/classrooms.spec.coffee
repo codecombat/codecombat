@@ -10,7 +10,7 @@ requestAsync = Promise.promisify(request, {multiArgs: true})
 classroomsURL = getURL('/db/classroom')
 
 describe 'GET /db/classroom?ownerID=:id', ->
-
+  
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, Classroom])
     @user1 = yield utils.initUser()
@@ -20,19 +20,19 @@ describe 'GET /db/classroom?ownerID=:id', ->
     yield utils.loginUser(@user2)
     @classroom2 = yield new Classroom({name: 'Classroom 2', ownerID: @user2.get('_id') }).save()
     done()
-
+      
   it 'returns an array of classrooms with the given owner', utils.wrap (done) ->
     [res, body] =  yield request.getAsync getURL('/db/classroom?ownerID='+@user2.id), { json: true }
     expect(res.statusCode).toBe(200)
     expect(body.length).toBe(1)
     expect(body[0].name).toBe('Classroom 2')
     done()
-
+              
   it 'returns 403 when a non-admin tries to get classrooms for another user', utils.wrap (done) ->
     [res, body] =  yield request.getAsync getURL('/db/classroom?ownerID='+@user1.id), { json: true }
     expect(res.statusCode).toBe(403)
     done()
-
+  
 
 describe 'GET /db/classroom/:id', ->
   it 'clears database users and classrooms', (done) ->
@@ -54,7 +54,7 @@ describe 'GET /db/classroom/:id', ->
             done()
 
 describe 'POST /db/classroom', ->
-
+  
   it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom], (err) ->
       throw err if err
@@ -71,7 +71,7 @@ describe 'POST /db/classroom', ->
           expect(body.members.length).toBe(0)
           expect(body.ownerID).toBe(user1.id)
           done()
-
+        
   it 'does not work for anonymous users', (done) ->
     logoutUser ->
       data = { name: 'Classroom 2' }
@@ -85,8 +85,8 @@ describe 'POST /db/classroom', ->
       request.post {uri: classroomsURL, json: data }, (err, res, body) ->
         expect(res.statusCode).toBe(403)
         done()
-
-
+        
+        
 describe 'PUT /db/classroom', ->
 
   it 'clears database users and classrooms', (done) ->
@@ -107,7 +107,7 @@ describe 'PUT /db/classroom', ->
             expect(body.name).toBe('Classroom 3')
             expect(body.description).toBe('New Description')
             done()
-
+          
   it 'is not allowed if you are just a member', (done) ->
     loginNewUser (user1) ->
       user1.set('role', 'teacher')
@@ -125,7 +125,7 @@ describe 'PUT /db/classroom', ->
               request.put { uri: url, json: data }, (err, res, body) ->
                 expect(res.statusCode).toBe(403)
                 done()
-
+            
 describe 'POST /db/classroom/~/members', ->
 
   it 'clears database users and classrooms', (done) ->
@@ -173,7 +173,7 @@ describe 'POST /db/classroom/~/members', ->
                 Classroom.findById classroomID, (err, classroom) ->
                   expect(classroom.get('members').length).toBe(0)
                   done()
-
+                  
   it 'does not work if the user is anonymous', utils.wrap (done) ->
     yield utils.clearModels([User, Classroom])
     teacher = yield utils.initUser({role: 'teacher'})
@@ -234,9 +234,9 @@ describe 'POST /db/classroom/:id/invite-members', ->
             expect(res.statusCode).toBe(200)
             done()
 
-
+          
 describe 'GET /db/classroom/:handle/member-sessions', ->
-
+  
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, Classroom, LevelSession, Level])
     @artisan = yield utils.initUser()
@@ -262,18 +262,18 @@ describe 'GET /db/classroom/:handle/member-sessions', ->
     expect(res.statusCode).toBe(200)
     expect(body.length).toBe(4)
     done()
-
+    
   it 'does not work if you are not the owner of the classroom', utils.wrap (done) ->
     yield utils.loginUser(@student1)
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
     expect(res.statusCode).toBe(403)
     done()
-
+    
   it 'does not work if you are not logged in', utils.wrap (done) ->
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
     expect(res.statusCode).toBe(401)
     done()
-
+    
   it 'accepts memberSkip and memberLimit GET parameters', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions?memberLimit=1"), { json: true }
@@ -285,9 +285,9 @@ describe 'GET /db/classroom/:handle/member-sessions', ->
     expect(body.length).toBe(2)
     expect(session.creator).toBe(@student2.id) for session in body
     done()
-
+    
 describe 'GET /db/classroom/:handle/members', ->
-
+  
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, Classroom])
     @teacher = yield utils.initUser()
@@ -296,25 +296,25 @@ describe 'GET /db/classroom/:handle/members', ->
     @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
     @emptyClassroom = yield new Classroom({name: 'Empty Classroom', ownerID: @teacher._id, members: [] }).save()
     done()
-
+    
   it 'does not work if you are not the owner of the classroom', utils.wrap (done) ->
     yield utils.loginUser(@student1)
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
     expect(res.statusCode).toBe(403)
     done()
-
+    
   it 'does not work if you are not logged in', utils.wrap (done) ->
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
     expect(res.statusCode).toBe(401)
     done()
-
+  
   it 'works on an empty classroom', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     [res, body] = yield request.getAsync getURL("/db/classroom/#{@emptyClassroom.id}/members?name=true&email=true"), { json: true }
     expect(res.statusCode).toBe(200)
     expect(body).toEqual([])
     done()
-
+    
   it 'returns all members with name and email', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     [res, body] = yield request.getAsync getURL("/db/classroom/#{@classroom.id}/members?name=true&email=true"), { json: true }

@@ -234,7 +234,7 @@ describe 'CreateTeacherAccountView', ->
             responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))
           })
         
-        it 'redirects to "/courses/teachers"', ->
+        it 'redirects to "/teachers/courses"', ->
           expect(application.router.navigate).toHaveBeenCalled()
           expect(application.router.reload).toHaveBeenCalled()
       

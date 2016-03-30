@@ -41,6 +41,7 @@ describe 'ConvertToTeacherAccountView (/teachers/convert)', ->
   }
 
   beforeEach ->
+    spyOn(application.router, 'navigate')
     me.clear()
     me.set({
       _id: '1234'
@@ -54,11 +55,13 @@ describe 'ConvertToTeacherAccountView (/teachers/convert)', ->
     jasmine.demoEl(view.$el)
 
     spyOn(storage, 'load').and.returnValue({ lastName: 'Saved Changes' })
+    
+  afterEach (done) ->
+    _.defer(done) # let everything finish loading, keep navigate spied on
 
   
   describe 'when the user already has a TrialRequest and is a teacher', ->
     beforeEach (done) ->
-      spyOn(application.router, 'navigate')
       spyOn(me, 'isTeacher').and.returnValue(true)
       request = jasmine.Ajax.requests.mostRecent()
       request.respondWith({
@@ -73,15 +76,17 @@ describe 'ConvertToTeacherAccountView (/teachers/convert)', ->
       })
       _.defer done # Let SuperModel finish
 
-    it 'redirects to /courses/teachers', ->
+    # TODO: re-enable when student and teacher areas are enforced
+    xit 'redirects to /teachers/courses', ->
       expect(application.router.navigate).toHaveBeenCalled()
       args = application.router.navigate.calls.argsFor(0)
-      expect(args[0]).toBe('/courses/teachers')
+      expect(args[0]).toBe('/teachers/courses')
 
 
   describe 'when the user has role "student"', ->
     beforeEach ->
       me.set('role', 'student')
+      jasmine.Ajax.requests.mostRecent().respondWith({ status: 200, responseText: JSON.stringify('[]') })
       view.render()
 
     it 'shows a warning that they will convert to a teacher account', ->
@@ -109,6 +114,8 @@ describe 'ConvertToTeacherAccountView (/teachers/convert)', ->
         expect(request.method).toBe('POST')
 
   describe '"Log out" link', ->
+    beforeEach ->
+      jasmine.Ajax.requests.mostRecent().respondWith({ status: 200, responseText: JSON.stringify('[]') })
 
     it 'logs out the user and redirects them to /teachers/signup', ->
       spyOn(me, 'logout')
@@ -117,6 +124,7 @@ describe 'ConvertToTeacherAccountView (/teachers/convert)', ->
 
   describe 'submitting the form', ->
     beforeEach ->
+      jasmine.Ajax.requests.mostRecent().respondWith({ status: 200, responseText: JSON.stringify('[]') })
       form = view.$('form')
       forms.objectToForm(form, successForm, {overwriteExisting: true})
       form.submit()
@@ -128,8 +136,7 @@ describe 'ConvertToTeacherAccountView (/teachers/convert)', ->
       attrs = JSON.parse(request.params)
       expect(attrs.properties?.firstName).toBe('Mr')
 
-    it 'redirects to /courses/teachers', ->
-      spyOn(application.router, 'navigate')
+    it 'redirects to /teachers/classes', ->
       request = jasmine.Ajax.requests.mostRecent()
       request.respondWith({
         status: 201
@@ -137,10 +144,9 @@ describe 'ConvertToTeacherAccountView (/teachers/convert)', ->
       })
       expect(application.router.navigate).toHaveBeenCalled()
       args = application.router.navigate.calls.argsFor(0)
-      expect(args[0]).toBe('/courses/teachers')
+      expect(args[0]).toBe('/teachers/classes')
 
      it 'sets a teacher role', ->
-      spyOn(application.router, 'navigate')
       request = jasmine.Ajax.requests.mostRecent()
       request.respondWith({
         status: 201

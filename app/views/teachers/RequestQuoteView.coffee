@@ -8,7 +8,7 @@ errors = require 'core/errors'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
 
 FORM_KEY = 'request-quote-form'
-SIGNUP_REDIRECT = '/courses/teachers'
+SIGNUP_REDIRECT = '/teachers'
 
 module.exports = class RequestQuoteView extends RootView
   id: 'request-quote-view'
@@ -131,6 +131,8 @@ module.exports = class RequestQuoteView extends RootView
 
   onTrialRequestSubmit: ->
     me.setRole @trialRequest.get('properties').role.toLowerCase(), true
+    defaultName = [@trialRequest.get('firstName'), @trialRequest.get('lastName')].join(' ')
+    @$('input[name="name"]').val(defaultName)
     storage.remove(FORM_KEY)
     @$('#request-form, #form-submit-success').toggleClass('hide')
     @scrollToTop(0)

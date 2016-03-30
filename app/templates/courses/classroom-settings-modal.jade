@@ -9,7 +9,7 @@ block modal-header-content
 block modal-body-content
   form
     .form-group
-      label(data-i18n="general.name")
+      label(data-i18n="courses.class_name")
       input#name-input.form-control(name="name" type='text' value=view.classroom.get('name'))
       
     .form-group
@@ -26,13 +26,13 @@ block modal-body-content
       select#programming-language-select.form-control(name="language" value=aceConfig.language disabled=languageDisabled)
         - var aceConfig = view.classroom.get('aceConfig') || {};
         option(value="" data-i18n="courses.language_select")
-        option(value="python", data-i18n="courses.learn_p")
-        option(value="javascript", data-i18n="courses.learn_j")
+        option(value="python") Python
+        option(value="javascript") JavaScript
         
     .form-group
       label
         span(data-i18n="courses.avg_student_exp_label")
-        span.spl.text-muted(data-i18n="signup.optional")
+        i.spl.text-muted(data-i18n="signup.optional")
       .help-block.small.text-navy(data-i18n="courses.avg_student_exp_desc")
       select.form-control(name="averageStudentExp", value=view.classroom.get('averageStudentExp'))
         option(value="" data-i18n="courses.avg_student_exp_select")

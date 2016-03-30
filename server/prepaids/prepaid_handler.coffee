@@ -108,6 +108,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
             return @sendForbiddenError(res)
 
           user.set('coursePrepaidID', prepaid.get('_id'))
+          user.set('role', 'student') if not user.get('role')
           user.save (err, user) =>
             return @sendDatabaseError(res, err) if err
             # return prepaid with new redeemer added locally

@@ -1,6 +1,8 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/new-home-view'
 CocoCollection = require 'collections/CocoCollection'
+TrialRequest = require 'models/TrialRequest'
+TrialRequests = require 'collections/TrialRequests'
 Course = require 'models/Course'
 utils = require 'core/utils'
 storage = require 'core/storage'
@@ -39,6 +41,11 @@ module.exports = class NewHomeView extends RootView
     if @getQueryVariable 'hour_of_code'
       application.router.navigate "/hoc", trigger: true
 
+    if me.isTeacher()
+      @trialRequests = new TrialRequests()
+      @trialRequests.fetchOwn()
+      @supermodel.loadCollection(@trialRequests)
+
     isHourOfCodeWeek = false  # Temporary: default to /hoc flow during the main event week
     if isHourOfCodeWeek and (@isNewPlayer() or (@justPlaysCourses() and me.isAnonymous()))
       # Go/return straight to playing single-player HoC course on Play click
@@ -52,6 +59,12 @@ module.exports = class NewHomeView extends RootView
       @alternatePlayText = 'home.play_campaign_version'
     else
       @playURL = '/play'
+
+  onLoaded: ->
+    @trialRequest = @trialRequests.first() if @trialRequests?.size()
+    @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
+    @demoRequestURL = if me.isTeacher() then '/teachers/convert'  else '/teachers/demo'
+    super()
 
   onClickPlayButton: (e) ->
     @playSound 'menu-button-click'

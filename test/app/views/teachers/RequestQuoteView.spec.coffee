@@ -137,6 +137,9 @@ describe 'RequestQuoteView', ->
         beforeEach ->
           application.facebookHandler.fakeAPI()
           application.gplusHandler.fakeAPI()
+          
+        it 'fills the username field with the given first and last names', ->
+          expect(view.$('input[name="name"]').val()).toBe('A B')
         
         it 'includes a facebook button which will sign them in immediately', ->
           view.$('#facebook-signup-btn').click()

@@ -1,6 +1,7 @@
 app = require 'core/application'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 Classroom = require 'models/Classroom'
+Classrooms = require 'collections/Classrooms'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Prepaids = require 'collections/Prepaids'
@@ -14,10 +15,13 @@ Products = require 'collections/Products'
 module.exports = class EnrollmentsView extends RootView
   id: 'enrollments-view'
   template: template
-  numberOfStudents: 30
+  numberOfStudents: 15
   pricePerStudent: 0
 
   initialize: (options) ->
+    @ownedClassrooms = new Classrooms()
+    @ownedClassrooms.fetchMine({data: {project: '_id'}})
+    @supermodel.trackCollection(@ownedClassrooms)
     @listenTo stripeHandler, 'received-token', @onStripeReceivedToken
     @fromClassroom = utils.getQueryVariable('from-classroom')
     @members = new CocoCollection([], { model: User })

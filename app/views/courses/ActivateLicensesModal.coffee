@@ -29,8 +29,8 @@ module.exports = class ActivateLicensesModal extends ModalView
       success: =>
         @classrooms.each (classroom) =>
           classroom.users = new Users()
-          classroom.users.fetchForClassroom(classroom)
-          @supermodel.trackCollection(classroom.users)
+          jqxhrs = classroom.users.fetchForClassroom(classroom)
+          @supermodel.trackRequests(jqxhrs)
       })
     @supermodel.trackCollection(@classrooms)
   

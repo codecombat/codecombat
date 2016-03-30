@@ -4,6 +4,16 @@ block page_nav
   include ./teacher-dashboard-nav.jade
 
 block content
+  if !me.isTeacher() && view.ownedClassrooms.size()
+    .alert.alert-danger.text-center
+      .container
+        // DNT: Temporary
+        h3 ATTENTION: Please upgrade your account to a Teacher Account.
+        p
+          | We are transitioning to a new improved classroom management system for instructors.
+          | Please convert your account to ensure you retain access to your classrooms. 
+        a.btn.btn-primary.btn-lg(href="/teachers/convert") Upgrade to teacher account
+    
   .container
     h1(data-i18n="courses.title")
     h2(data-i18n="courses.subtitle")
@@ -61,13 +71,15 @@ mixin course-info(course)
         span(data-i18n="concepts." + concept)
         if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
           span.spr ,
-    if view.guideLinks[course.id]
-      //- a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
-      //-   span(data-i18n="courses.print_guide")
-      a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
-        span(data-i18n="courses.view_guide_online")
-    else
-      i.small
-        | (
-        span(data-i18n='teacher.guides_coming_soon')
-        | )
+        
+    if me.isTeacher() && view.ownedClassrooms.size()
+      if view.guideLinks[course.id]
+        //- a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
+        //-   span(data-i18n="courses.print_guide")
+        a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
+          span(data-i18n="courses.view_guide_online")
+      else
+        i.small
+          | (
+          span(data-i18n='teacher.guides_coming_soon')
+          | )

@@ -34,7 +34,9 @@ module.exports =
     unless _.all(userIDs, (userID) -> _.contains classroomMembers, userID)
       throw new errors.Forbidden('Users must be members of classroom')
       
-    unless classroom.get('ownerID').equals(req.user._id)
+    ownsClassroom = classroom.get('ownerID').equals(req.user._id)
+    addingSelf = userIDs.length is 1 and userIDs[0] is req.user.id
+    unless ownsClassroom or addingSelf
       throw new errors.Forbidden('You must own the classroom to add members')
       
     # Only the enrolled users

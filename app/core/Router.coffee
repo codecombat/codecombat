@@ -1,10 +1,10 @@
 go = (path, options) -> -> @routeDirectly path, arguments, options
 redirect = (path) -> -> @navigate(path, { trigger: true, replace: true })
-
+  
 module.exports = class CocoRouter extends Backbone.Router
 
   initialize: ->
-# http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
+    # http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
     @bind 'route', @_trackPageView
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
     @initializeSocialMediaServices = _.once @initializeSocialMediaServices
@@ -156,7 +156,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('teachers/RestrictedToTeachersView')
     if options.studentsOnly and me.isTeacher()
       return @routeDirectly('courses/RestrictedToStudentsView')
-
+    
     path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views)?\/?play/.test(path)
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
@@ -204,13 +204,13 @@ module.exports = class CocoRouter extends Backbone.Router
     require('core/services/twitter')()
 
   renderSocialButtons: =>
-# TODO: Refactor remaining services to Handlers, use loadAPI success callback
+    # TODO: Refactor remaining services to Handlers, use loadAPI success callback
     @initializeSocialMediaServices()
     $('.share-buttons, .partner-badges').addClass('fade-in').delay(10000).removeClass('fade-in', 5000)
     application.facebookHandler.renderButtons()
     application.gplusHandler.renderButtons()
     twttr?.widgets?.load?()
-
+    
   activateTab: ->
     base = _.string.words(document.location.pathname[1..], '/')[0]
     $("ul.nav li.#{base}").addClass('active')

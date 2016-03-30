@@ -1,18 +1,5 @@
 .style-flat
   block header
-    .container-fluid.text-center
-      .alert.alert-danger.lt-ie9
-        strong(data-i18n="home.no_ie")
-
-      if view.isIPadBrowser() || view.isMobile()
-        .alert.alert-danger.mobile
-          strong(data-i18n="home.no_mobile")
-      else if view.isOldBrowser()
-        .alert.alert-danger.old-browser
-          strong(data-i18n="home.old_browser")
-          br
-          span(data-i18n="home.old_browser_suffix")
-
     nav#main-nav.navbar.navbar-default
       .container
         .row
@@ -46,13 +33,13 @@
                 else
                   li.dropdown
                     a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
-                      img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL())
+                      img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
                       span.spr My Account
                     ul.dropdown-menu
                       li.user-dropdown-header.text-center
                         span.user-level= me.level()
                         a(href="/user/#{me.getSlugOrID()}")
-                          img.img-circle(src=me.getPhotoURL())
+                          img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
                         h5=me.displayName()
                       li
                         a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
@@ -106,11 +93,11 @@
                 li
                   strong(data-i18n="nav.schools")
                 li
-                  a(href="/courses/teachers", data-i18n="nav.teachers")
+                  a(href="/teachers/classes", data-i18n="nav.teachers")
                 li
                   a(href="https://sites.google.com/a/codecombat.com/teacher-guides/", data-i18n="nav.educator_wiki")
                 li
-                  a(href="/teachers/quote", data-i18n="nav.request_quote")
+                  a(href="/teachers/demo", data-i18n="teachers_quote.title")
 
             .col-sm-3
               ul.list-unstyled

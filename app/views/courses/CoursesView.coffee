@@ -9,6 +9,7 @@ CourseInstance = require 'models/CourseInstance'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Classroom = require 'models/Classroom'
+Classrooms = require 'collections/Classrooms'
 LevelSession = require 'models/LevelSession'
 Campaign = require 'models/Campaign'
 utils = require 'core/utils'
@@ -33,6 +34,9 @@ module.exports = class CoursesView extends RootView
     @supermodel.loadCollection(@courseInstances)
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
     @supermodel.loadCollection(@classrooms, { data: {memberID: me.id} })
+    @ownedClassrooms = new Classrooms()
+    @ownedClassrooms.fetchMine({data: {project: '_id'}})
+    @supermodel.trackCollection(@ownedClassrooms)
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses)
     @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign })
@@ -58,7 +62,7 @@ module.exports = class CoursesView extends RootView
 
   onLoaded: ->
     super()
-    if utils.getQueryVariable('_cc', false)
+    if utils.getQueryVariable('_cc', false) and not me.isAnonymous()
       @joinClass()
 
   onClickStartNewGameButton: ->

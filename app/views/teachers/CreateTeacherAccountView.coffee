@@ -8,7 +8,7 @@ errors = require 'core/errors'
 User = require 'models/User'
 
 FORM_KEY = 'request-quote-form'
-SIGNUP_REDIRECT = '/courses/teachers'
+SIGNUP_REDIRECT = '/teachers/classes'
 
 module.exports = class CreateTeacherAccountView extends RootView
   id: 'create-teacher-account-view'
@@ -134,6 +134,7 @@ module.exports = class CreateTeacherAccountView extends RootView
   onTrialRequestSubmit: ->
     storage.remove(FORM_KEY)
     attrs = _.pick(forms.formToObject(@$('form')), 'name', 'email', 'role')
+    attrs.role = attrs.role.toLowerCase()
     options = {}
     newUser = new User(attrs)
     if @gplusAttrs

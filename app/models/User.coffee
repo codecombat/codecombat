@@ -17,6 +17,7 @@ module.exports = class User extends CocoModel
   isAnonymous: -> @get('anonymous', true)
   displayName: -> @get('name', true)
   broadName: ->
+    return '(deleted)' if @get('deleted')
     name = @get('name')
     return name if name
     name = _.filter([@get('firstName'), @get('lastName')]).join(' ')

@@ -4,6 +4,7 @@ CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
 Course = require 'models/Course'
 Classroom = require 'models/Classroom'
+Classrooms = require 'collections/Classrooms'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 User = require 'models/User'
 CourseInstance = require 'models/CourseInstance'
@@ -33,6 +34,9 @@ module.exports = class TeacherCoursesView extends RootView
 
   constructor: (options) ->
     super(options)
+    @ownedClassrooms = new Classrooms()
+    @ownedClassrooms.fetchMine({data: {project: '_id'}})
+    @supermodel.trackCollection(@ownedClassrooms)
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })

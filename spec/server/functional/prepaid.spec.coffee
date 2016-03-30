@@ -71,6 +71,7 @@ describe '/db/prepaid', ->
                 expect(prepaid.get('redeemers').length).toBe(1)
                 User.findById  otherUser.id, (err, user) ->
                   expect(user.get('coursePrepaidID').equals(prepaid.get('_id'))).toBe(true)
+                  expect(user.get('role')).toBe('student')
                   done()
 
     it 'does not allow more redeemers than maxRedeemers', (done) ->

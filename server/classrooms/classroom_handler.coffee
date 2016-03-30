@@ -52,6 +52,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
         @sendSuccess(res, cleandocs)
 
   joinClassroomAPI: (req, res, classroomID) ->
+    return @sendUnauthorizedError(res, 'Cannot join a classroom while anonymous') if req.user.isAnonymous()
     return @sendBadInputError(res, 'Need an object with a code') unless req.body?.code
     return @sendForbiddenError(res, 'Cannot join a classroom as a teacher') if req.user.isTeacher()
     code = req.body.code.toLowerCase()
