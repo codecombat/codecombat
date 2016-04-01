@@ -9,6 +9,7 @@ module.exports.thangNames = thangNames =
     'Inski'
     'Iyert'
     'Lacos'
+    'Merna'
     'Palt'
     'Paulark'
     'Pripp'
@@ -107,6 +108,7 @@ module.exports.thangNames = thangNames =
   ]
   'Ogre Warlock': [
     # Male
+    'Sorgoth'
     'Vax'
     'Vyrryx'
     'Vyjj'
@@ -490,6 +492,7 @@ module.exports.thangNames = thangNames =
     # Male
     'Azgot'
     'Brom'
+    'Blemmin'
     'Carlton'
     'Charles'
     'Durfkor'
