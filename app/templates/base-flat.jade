@@ -46,13 +46,13 @@
                 else
                   li.dropdown
                     a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
-                      img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL())
+                      img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-burgandy' : ''))
                       span.spr My Account
                     ul.dropdown-menu
                       li.user-dropdown-header.text-center
                         span.user-level= me.level()
                         a(href="/user/#{me.getSlugOrID()}")
-                          img.img-circle(src=me.getPhotoURL())
+                          img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-burgandy' : ''))
                         h5=me.displayName()
                       li
                         a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
