@@ -3,7 +3,7 @@ extends /templates/base
 block content
   h3.text-right
     if me.isAnonymous()
-      a(href="/teachers")
+      a(href="/teachers/signup")
         span(data-i18n="courses.teachers_click")
         span !
     else

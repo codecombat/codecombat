@@ -42,14 +42,16 @@ describe 'GET /db/classroom/:id', ->
 
   it 'returns the classroom for the given id', (done) ->
     loginNewUser (user1) ->
-      data = { name: 'Classroom 1' }
-      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-        expect(res.statusCode).toBe(200)
-        classroomID = body._id
-        request.get {uri: classroomsURL + '/'  + body._id }, (err, res, body) ->
+      user1.set('role', 'teacher')
+      user1.save (err) ->
+        data = { name: 'Classroom 1' }
+        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
           expect(res.statusCode).toBe(200)
-          expect(body._id).toBe(classroomID = body._id)
-          done()
+          classroomID = body._id
+          request.get {uri: classroomsURL + '/'  + body._id }, (err, res, body) ->
+            expect(res.statusCode).toBe(200)
+            expect(body._id).toBe(classroomID = body._id)
+            done()
 
 describe 'POST /db/classroom', ->
   
@@ -60,19 +62,29 @@ describe 'POST /db/classroom', ->
 
   it 'creates a new classroom for the given user', (done) ->
     loginNewUser (user1) ->
-      data = { name: 'Classroom 1' }
-      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-        expect(res.statusCode).toBe(200)
-        expect(body.name).toBe('Classroom 1')
-        expect(body.members.length).toBe(0)
-        expect(body.ownerID).toBe(user1.id)
-        done()
+      user1.set('role', 'teacher')
+      user1.save (err) ->
+        data = { name: 'Classroom 1' }
+        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
+          expect(res.statusCode).toBe(200)
+          expect(body.name).toBe('Classroom 1')
+          expect(body.members.length).toBe(0)
+          expect(body.ownerID).toBe(user1.id)
+          done()
         
   it 'does not work for anonymous users', (done) ->
     logoutUser ->
       data = { name: 'Classroom 2' }
       request.post {uri: classroomsURL, json: data }, (err, res, body) ->
         expect(res.statusCode).toBe(401)
+        done()
+
+  # TODO: Re-enable when we enforce this again
+  xit 'does not work for non-teacher users', (done) ->
+    loginNewUser (user1) ->
+      data = { name: 'Classroom 1' }
+      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
+        expect(res.statusCode).toBe(403)
         done()
         
         
@@ -85,31 +97,35 @@ describe 'PUT /db/classroom', ->
 
   it 'edits name and description', (done) ->
     loginNewUser (user1) ->
-      data = { name: 'Classroom 2' }
-      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-        expect(res.statusCode).toBe(200)
-        data = { name: 'Classroom 3', description: 'New Description' }
-        url = classroomsURL + '/' + body._id
-        request.put { uri: url, json: data }, (err, res, body) ->
-          expect(body.name).toBe('Classroom 3')
-          expect(body.description).toBe('New Description')
-          done()
+      user1.set('role', 'teacher')
+      user1.save (err) ->
+        data = { name: 'Classroom 2' }
+        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
+          expect(res.statusCode).toBe(200)
+          data = { name: 'Classroom 3', description: 'New Description' }
+          url = classroomsURL + '/' + body._id
+          request.put { uri: url, json: data }, (err, res, body) ->
+            expect(body.name).toBe('Classroom 3')
+            expect(body.description).toBe('New Description')
+            done()
           
   it 'is not allowed if you are just a member', (done) ->
     loginNewUser (user1) ->
-      data = { name: 'Classroom 4' }
-      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-        expect(res.statusCode).toBe(200)
-        classroomCode = body.code
-        loginNewUser (user2) ->
-          url = getURL("/db/classroom/~/members")
-          data = { code: classroomCode }
-          request.post { uri: url, json: data }, (err, res, body) ->
-            expect(res.statusCode).toBe(200)
-            url = classroomsURL + '/' + body._id
-            request.put { uri: url, json: data }, (err, res, body) ->
-              expect(res.statusCode).toBe(403)
-              done()
+      user1.set('role', 'teacher')
+      user1.save (err) ->
+        data = { name: 'Classroom 4' }
+        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
+          expect(res.statusCode).toBe(200)
+          classroomCode = body.code
+          loginNewUser (user2) ->
+            url = getURL("/db/classroom/~/members")
+            data = { code: classroomCode }
+            request.post { uri: url, json: data }, (err, res, body) ->
+              expect(res.statusCode).toBe(200)
+              url = classroomsURL + '/' + body._id
+              request.put { uri: url, json: data }, (err, res, body) ->
+                expect(res.statusCode).toBe(403)
+                done()
             
 describe 'POST /db/classroom/~/members', ->
 
@@ -120,19 +136,45 @@ describe 'POST /db/classroom/~/members', ->
 
   it 'adds the signed in user to the list of members in the classroom', (done) ->
     loginNewUser (user1) ->
-      data = { name: 'Classroom 5' }
-      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-        classroomCode = body.code
-        classroomID = body._id
-        expect(res.statusCode).toBe(200)
-        loginNewUser (user2) ->
-          url = getURL("/db/classroom/~/members")
-          data = { code: classroomCode }
-          request.post { uri: url, json: data }, (err, res, body) ->
-            expect(res.statusCode).toBe(200)
-            Classroom.findById classroomID, (err, classroom) ->
-              expect(classroom.get('members').length).toBe(1)
-              done()
+      user1.set('role', 'teacher')
+      user1.save (err) ->
+        data = { name: 'Classroom 5' }
+        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
+          classroomCode = body.code
+          classroomID = body._id
+          expect(res.statusCode).toBe(200)
+          loginNewUser (user2) ->
+            url = getURL("/db/classroom/~/members")
+            data = { code: classroomCode }
+            request.post { uri: url, json: data }, (err, res, body) ->
+              expect(res.statusCode).toBe(200)
+              Classroom.findById classroomID, (err, classroom) ->
+                expect(classroom.get('members').length).toBe(1)
+                expect(classroom.get('members')?[0]?.equals(user2.get('_id'))).toBe(true)
+                User.findById user2.get('_id'), (err, user2) ->
+                  expect(user2.get('role')).toBe('student')
+                  done()
+
+  # TODO: Re-enable when we enforce this again
+  xit 'does not work if the user is a teacher', (done) ->
+    loginNewUser (user1) ->
+      user1.set('role', 'teacher')
+      user1.save (err) ->
+        data = { name: 'Classroom 5' }
+        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
+          classroomCode = body.code
+          classroomID = body._id
+          expect(res.statusCode).toBe(200)
+          loginNewUser (user2) ->
+            user2.set('role', 'teacher')
+            user2.save (err, user2) ->
+              url = getURL("/db/classroom/~/members")
+              data = { code: classroomCode }
+              request.post { uri: url, json: data }, (err, res, body) ->
+                expect(res.statusCode).toBe(403)
+                Classroom.findById classroomID, (err, classroom) ->
+                  expect(classroom.get('members').length).toBe(0)
+                  done()
 
 
 describe 'DELETE /db/classroom/:id/members', ->
@@ -144,36 +186,40 @@ describe 'DELETE /db/classroom/:id/members', ->
 
   it 'removes the given user from the list of members in the classroom', (done) ->
     loginNewUser (user1) ->
-      data = { name: 'Classroom 6' }
-      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-        classroomCode = body.code
-        classroomID = body._id
-        expect(res.statusCode).toBe(200)
-        loginNewUser (user2) ->
-          url = getURL("/db/classroom/~/members")
-          data = { code: classroomCode }
-          request.post { uri: url, json: data }, (err, res, body) ->
-            expect(res.statusCode).toBe(200)
-            Classroom.findById classroomID, (err, classroom) ->
-              expect(classroom.get('members').length).toBe(1)
-              url = getURL("/db/classroom/#{classroom.id}/members")
-              data = { userID: user2.id }
-              request.del { uri: url, json: data }, (err, res, body) ->
-                expect(res.statusCode).toBe(200)
-                Classroom.findById classroomID, (err, classroom) ->
-                  expect(classroom.get('members').length).toBe(0)
-                  done()
+      user1.set('role', 'teacher')
+      user1.save (err) ->
+        data = { name: 'Classroom 6' }
+        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
+          classroomCode = body.code
+          classroomID = body._id
+          expect(res.statusCode).toBe(200)
+          loginNewUser (user2) ->
+            url = getURL("/db/classroom/~/members")
+            data = { code: classroomCode }
+            request.post { uri: url, json: data }, (err, res, body) ->
+              expect(res.statusCode).toBe(200)
+              Classroom.findById classroomID, (err, classroom) ->
+                expect(classroom.get('members').length).toBe(1)
+                url = getURL("/db/classroom/#{classroom.id}/members")
+                data = { userID: user2.id }
+                request.del { uri: url, json: data }, (err, res, body) ->
+                  expect(res.statusCode).toBe(200)
+                  Classroom.findById classroomID, (err, classroom) ->
+                    expect(classroom.get('members').length).toBe(0)
+                    done()
 
 
 describe 'POST /db/classroom/:id/invite-members', ->
 
   it 'takes a list of emails and sends invites', (done) ->
     loginNewUser (user1) ->
-      data = { name: 'Classroom 6' }
-      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-        expect(res.statusCode).toBe(200)
-        url = classroomsURL + '/' + body._id + '/invite-members'
-        data = { emails: ['test@test.com'] }
-        request.post { uri: url, json: data }, (err, res, body) ->
+      user1.set('role', 'teacher')
+      user1.save (err) ->
+        data = { name: 'Classroom 6' }
+        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
           expect(res.statusCode).toBe(200)
-          done()
+          url = classroomsURL + '/' + body._id + '/invite-members'
+          data = { emails: ['test@test.com'] }
+          request.post { uri: url, json: data }, (err, res, body) ->
+            expect(res.statusCode).toBe(200)
+            done()
