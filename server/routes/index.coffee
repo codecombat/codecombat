@@ -23,6 +23,18 @@ module.exports.setup = (app) ->
   app.post('/db/article/:handle/watchers', mw.patchable.joinWatchers(Article))
   app.delete('/db/article/:handle/watchers', mw.patchable.leaveWatchers(Article))
   
+  app.get('/db/classroom', mw.classrooms.getByOwner)
+  app.get('/db/classroom/:handle/member-sessions', mw.classrooms.fetchMemberSessions)
+  app.get('/db/classroom/:handle/members', mw.classrooms.fetchMembers) # TODO: Use mw.auth?
+  
+  Course = require '../models/Course'
+  app.get('/db/course', mw.rest.get(Course))
+  app.get('/db/course/:handle', mw.rest.getByHandle(Course))
+  
+  app.get('/db/campaign', mw.campaigns.fetchByType) #TODO
+  
+  app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
+  
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
 
   app.get '/db/products', require('./db/product').get

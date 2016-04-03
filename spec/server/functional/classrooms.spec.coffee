@@ -1,37 +1,37 @@
 config = require '../../../server_config'
 require '../common'
-utils = require '../../../app/core/utils' # Must come after require /common
+clientUtils = require '../../../app/core/utils' # Must come after require /common
 mongoose = require 'mongoose'
+utils = require '../utils'
+_ = require 'lodash'
+Promise = require 'bluebird'
+requestAsync = Promise.promisify(request, {multiArgs: true})
 
 classroomsURL = getURL('/db/classroom')
 
 describe 'GET /db/classroom?ownerID=:id', ->
-  it 'clears database users and classrooms', (done) ->
-    clearModels [User, Classroom], (err) ->
-      throw err if err
-      done()
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom])
+    @user1 = yield utils.initUser()
+    yield utils.loginUser(@user1)
+    @classroom1 = yield new Classroom({name: 'Classroom 1', ownerID: @user1.get('_id') }).save()
+    @user2 = yield utils.initUser()
+    yield utils.loginUser(@user2)
+    @classroom2 = yield new Classroom({name: 'Classroom 2', ownerID: @user2.get('_id') }).save()
+    done()
       
-  it 'returns an array of classrooms with the given owner', (done) ->
-    loginNewUser (user1) ->
-      new Classroom({name: 'Classroom 1', ownerID: user1.get('_id') }).save (err, classroom) ->
-        expect(err).toBeNull()
-        loginNewUser (user2) ->
-          new Classroom({name: 'Classroom 2', ownerID: user2.get('_id') }).save (err, classroom) ->
-            expect(err).toBeNull()
-            url = getURL('/db/classroom?ownerID='+user2.id)
-            request.get { uri: url, json: true }, (err, res, body) ->
-              expect(res.statusCode).toBe(200)
-              expect(body.length).toBe(1)
-              expect(body[0].name).toBe('Classroom 2')
-              done()
+  it 'returns an array of classrooms with the given owner', utils.wrap (done) ->
+    [res, body] =  yield request.getAsync getURL('/db/classroom?ownerID='+@user2.id), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(1)
+    expect(body[0].name).toBe('Classroom 2')
+    done()
               
-  it 'returns 403 when a non-admin tries to get classrooms for another user', (done) ->
-    loginNewUser (user1) ->
-      loginNewUser (user2) ->
-        url = getURL('/db/classroom?ownerID='+user1.id)
-        request.get { uri: url }, (err, res, body) ->
-          expect(res.statusCode).toBe(403)
-          done()
+  it 'returns 403 when a non-admin tries to get classrooms for another user', utils.wrap (done) ->
+    [res, body] =  yield request.getAsync getURL('/db/classroom?ownerID='+@user1.id), { json: true }
+    expect(res.statusCode).toBe(403)
+    done()
   
 
 describe 'GET /db/classroom/:id', ->
@@ -177,3 +177,95 @@ describe 'POST /db/classroom/:id/invite-members', ->
         request.post { uri: url, json: data }, (err, res, body) ->
           expect(res.statusCode).toBe(200)
           done()
+
+          
+describe 'GET /db/classroom/:handle/member-sessions', ->
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, LevelSession, Level])
+    @artisan = yield utils.initUser()
+    @teacher = yield utils.initUser()
+    @student1 = yield utils.initUser()
+    @student2 = yield utils.initUser()
+    @levelA = new Level({name: 'Level A', permissions: [{target: @artisan._id, access: 'owner'}]})
+    @levelA.set('original', @levelA._id)
+    @levelA = yield @levelA.save()
+    @levelB = new Level({name: 'Level B', permissions: [{target: @artisan._id, access: 'owner'}]})
+    @levelB.set('original', @levelB._id)
+    @levelB = yield @levelB.save()
+    @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
+    @session1A = yield new LevelSession({creator: @student1.id, state: { complete: true }, level: {original: @levelA._id}, permissions: [{target: @student1._id, access: 'owner'}]}).save()
+    @session1B = yield new LevelSession({creator: @student1.id, state: { complete: false }, level: {original: @levelB._id}, permissions: [{target: @student1._id, access: 'owner'}]}).save()
+    @session2A = yield new LevelSession({creator: @student2.id, state: { complete: true }, level: {original: @levelA._id}, permissions: [{target: @student2._id, access: 'owner'}]}).save()
+    @session2B = yield new LevelSession({creator: @student2.id, state: { complete: false }, level: {original: @levelB._id}, permissions: [{target: @student2._id, access: 'owner'}]}).save()
+    done()
+
+  it 'returns all sessions for all members in the classroom with only properties level, creator and state.complete', utils.wrap (done) ->
+    yield utils.loginUser(@teacher)
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(4)
+    done()
+    
+  it 'does not work if you are not the owner of the classroom', utils.wrap (done) ->
+    yield utils.loginUser(@student1)
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
+    expect(res.statusCode).toBe(403)
+    done()
+    
+  it 'does not work if you are not logged in', utils.wrap (done) ->
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
+    expect(res.statusCode).toBe(401)
+    done()
+    
+  it 'accepts memberSkip and memberLimit GET parameters', utils.wrap (done) ->
+    yield utils.loginUser(@teacher)
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions?memberLimit=1"), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(2)
+    expect(session.creator).toBe(@student1.id) for session in body
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions?memberSkip=1"), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(2)
+    expect(session.creator).toBe(@student2.id) for session in body
+    done()
+    
+describe 'GET /db/classroom/:handle/members', ->
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom])
+    @teacher = yield utils.initUser()
+    @student1 = yield utils.initUser({ name: "Firstname Lastname" })
+    @student2 = yield utils.initUser({ name: "Student Nameynamington" })
+    @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
+    @emptyClassroom = yield new Classroom({name: 'Empty Classroom', ownerID: @teacher._id, members: [] }).save()
+    done()
+    
+  it 'does not work if you are not the owner of the classroom', utils.wrap (done) ->
+    yield utils.loginUser(@student1)
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
+    expect(res.statusCode).toBe(403)
+    done()
+    
+  it 'does not work if you are not logged in', utils.wrap (done) ->
+    [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
+    expect(res.statusCode).toBe(401)
+    done()
+  
+  it 'works on an empty classroom', utils.wrap (done) ->
+    yield utils.loginUser(@teacher)
+    [res, body] = yield request.getAsync getURL("/db/classroom/#{@emptyClassroom.id}/members?name=true&email=true"), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body).toEqual([])
+    done()
+    
+  it 'returns all members with name and email', utils.wrap (done) ->
+    yield utils.loginUser(@teacher)
+    [res, body] = yield request.getAsync getURL("/db/classroom/#{@classroom.id}/members?name=true&email=true"), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(2)
+    for user in body
+      expect(user.name).toBeDefined()
+      expect(user.email).toBeDefined()
+      expect(user.passwordHash).toBeUndefined()
+    done()

@@ -1,0 +1,72 @@
+extends /templates/base-flat
+
+block page_nav
+  include ./teacher-dashboard-nav.jade
+
+block content
+  .container
+    h3(data-i18n='teacher.enrollments')
+    h4
+      span(data-i18n='teacher.enrollments_blurb_1')
+      span  2&ndash;8 
+      span(data-i18n='teacher.enrollments_blurb_2')
+      
+    .row
+      .col-xs-4
+        +enrollmentStats
+      .col-xs-4
+        +addCredits
+      .col-xs-3.col-xs-offset-1
+        +howToEnroll
+    +quoteSection
+      
+mixin enrollmentStats
+  h5
+    span(data-i18n='teacher.credits_available')
+    span.spr :
+    = view.prepaids.totalAvailable()
+  .small-details
+    span(data-i18n='teacher.total_unique_students')
+    span.spr :
+    = view.members.length
+  .small-details
+    span(data-i18n='teacher.total_enrolled_students')
+    span.spr :
+    = view.prepaids.totalRedeemers()
+  .small-details
+    span(data-i18n='teacher.unenrolled_students')
+    span.spr :
+    = (view.members.length - view.prepaids.totalRedeemers())
+  //- .enroll-students.btn.btn-lg.btn-navy
+  //-   | Enroll Students
+
+mixin addCredits
+  .text-center
+    h5(data-i18n='teacher.add_enrollment_credits')
+    div
+      input#students-input.text-center.enrollment-count(value=view.numberOfStudents type='number')
+    div
+      if view.state === 'purchasing'
+        .purchase-now.btn.btn-lg.btn-forest.disabled
+          span(data-i18n='teacher.purchasing')
+      else if view.state === 'purchased'
+        .purchase-now.btn.btn-lg.btn-forest
+          span(data-i18n='teacher.purchased')
+      else
+        .purchase-now.btn.btn-lg.btn-forest
+          span(data-i18n='teacher.purchase_now')
+
+mixin howToEnroll
+  .how-to-enroll.small-details
+    .text-center
+      b(data-i18n='teacher.how_to_enroll')
+    ol
+      li(data-i18n='teacher.how_to_enroll_blurb_1')
+      li(data-i18n='teacher.how_to_enroll_blurb_2')
+      li(data-i18n='teacher.how_to_enroll_blurb_3')
+
+mixin quoteSection
+  .text-center
+    h4(data-i18n='teacher.bulk_pricing_blurb')
+    a.request-quote.btn.btn-lg.btn-navy(href='/teachers/quote')
+      span(data-i18n='teacher.request_quote')
