@@ -89,10 +89,16 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     alp = a.layerPriority or 0
     blp = b.layerPriority or 0
     return alp - blp if alp isnt blp
-    aPos = a?.lank?.thang?.pos
-    bPos = b?.lank?.thang?.pos
+    aThang = a?.lank?.thang
+    bThang = b?.lank?.thang
+    aPos = aThang?.pos
+    bPos = bThang?.pos
     return 0 unless aPos and bPos
+    # Prevent dead units from covering up those alive
+    if aThang.health? and bThang.health? and aThang.isGrounded?() and bThang.isGrounded?()
+      return (aThang.health - bThang.health) if (aThang.health < 0) isnt (bThang.health < 0)
     return (bPos.y - aPos.y) or (aPos.z - bPos.z) or (bPos.x - aPos.x)
+
   #- Zoom updating
 
   onZoomUpdated: (e) ->
