@@ -220,8 +220,9 @@ exports.setExpressConfigurationOptions = (app) ->
   app.set('port', config.port)
   app.set('views', __dirname + '/app/templates')
   app.set('view engine', 'jade')
-  app.set('view options', { layout: false })
+  app.set('view options', { layout: false,  pretty: true })
   app.locals.basedir = __dirname + '/app'
+  app.locals.pretty = true
   app.set('env', if config.isProduction then 'production' else 'development')
   app.set('json spaces', 0) if config.isProduction
 
