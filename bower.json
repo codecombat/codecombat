@@ -32,7 +32,7 @@
     "firepad": "~0.1.2",
     "marked": "~0.3.0",
     "moment": "~2.5.0",
-    "aether": "~0.4.0",
+    "aether": "~0.4.5",
     "underscore.string": "~2.3.3",
     "firebase": "~1.0.2",
     "d3": "~3.4.4",
@@ -48,7 +48,8 @@
     "backfire": "~0.3.0",
     "fastclick": "~1.0.3",
     "three.js": "~0.71.0",
-    "lscache": "~1.0.5"
+    "lscache": "~1.0.5",
+    "esper.js": "http://files.codecombat.com/esper.tar.gz"
   },
   "overrides": {
     "backbone": {
@@ -114,6 +115,7 @@
   },
   "devDependencies": {
     "modernizr-mixin": "~3.0.0",
-    "openSansCondensed": "https://google-fonts.azurewebsites.net/googleFonts/openSansCondensed?family=Open+Sans+Condensed:700&subset=latin,latin-ext,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic"
+    "openSansCondensed": "https://google-fonts.azurewebsites.net/googleFonts/openSansCondensed?family=Open+Sans+Condensed:700&subset=latin,latin-ext,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic",
+    "openSans": "https://google-fonts.azurewebsites.net/googleFonts/openSans?family=Open+Sans:600,700&subset=latin,latin-ext,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic"
   }
 }

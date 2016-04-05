@@ -1,4 +1,4 @@
-Course = require '../courses/Course'
+Course = require '../models/Course'
 Handler = require '../commons/Handler'
 slack = require '../slack'
 Prepaid = require './Prepaid'
@@ -93,6 +93,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'User for given ID not found') if not user
         return @sendSuccess(res, @formatEntity(req, prepaid)) if user.get('coursePrepaidID')
+        return @sendForbiddenError(res, 'Teachers may not be enrolled') if user.isTeacher()
         userID = user.get('_id')
 
         query =
@@ -107,6 +108,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
             return @sendForbiddenError(res)
 
           user.set('coursePrepaidID', prepaid.get('_id'))
+          user.set('role', 'student') if not user.get('role')
           user.save (err, user) =>
             return @sendDatabaseError(res, err) if err
             # return prepaid with new redeemer added locally

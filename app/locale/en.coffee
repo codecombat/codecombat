@@ -91,7 +91,7 @@
     student_count: "Number of students:"
     start_playing_for_free: "Start Playing for Free!"
     students_and_players: "Students & Players"
-    goto_classes: "Go to my Classes"
+    goto_classes: "Go to My Classes" # {change}
     educator_wiki: "Educator wiki"
     view_profile: "View My Profile"
     view_progress: "View Progress"
@@ -129,7 +129,6 @@
     jobs: "Jobs"
     schools: "Schools"
     educator_wiki: "Educator Wiki"
-    request_quote: "Request a Quote"
     get_involved: "Get Involved"
     open_source: "Open source (GitHub)"
     support: "Support"
@@ -263,6 +262,7 @@
     submit_patch: "Submit Patch"
     submit_changes: "Submit Changes"
     save_changes: "Save Changes"
+    required_field: "Required field"
 
   general:
     and: "and"
@@ -295,6 +295,7 @@
     subject: "Subject"
     email: "Email"
     password: "Password"
+    confirm_password: "Confirm Password"
     message: "Message"
     code: "Code"
     ladder: "Ladder"
@@ -313,6 +314,9 @@
     warrior: "Warrior"
     ranger: "Ranger"
     wizard: "Wizard"
+    first_name: "First Name"
+    last_name: "Last Name"
+    username: "Username"
 
   units:
     second: "second"
@@ -725,10 +729,14 @@
     jobs_benefits: "Employee Benefits"
     jobs_benefit_1: "Competitive salary and options"
     jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
-    jobs_benefit_3: "Work from home flexibility"
-    jobs_benefit_4: "Unlimited sick/personal days"
-    jobs_benefit_5: "Professional development and continuing education support"
-    jobs_benefit_6: "Medical/dental/vision insurance"
+    jobs_benefit_3: "Flex time and flexible work-from-home" # {change}
+    jobs_benefit_4: "Unlimited vacation/sick/personal days" # {change}
+    jobs_benefit_5: "Professional development and continuing education support – free books and games!" # {change}
+    jobs_benefit_6: "Medical (gold), dental, vision" # {change}
+    jobs_benefit_7: "Sit-stand desks for all"
+    jobs_benefit_9: "10-year option exercise window"
+    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary, next 12 remote working"
+    jobs_benefit_11: "Paternity leave: 10 weeks paid, next 12 remote working"
     learn_more: "Learn More"
     jobs_custom_title: "Create Your Own"
     jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
@@ -766,6 +774,7 @@
     phone_number_help: "Where can we reach you during the workday?"
     role_label: "Your role"
     role_help: "Select your primary role."
+    role_default: "Select Role"
     tech_coordinator: "Technology coordinator"
     advisor: "Advisor"
     principal: "Principal"
@@ -776,6 +785,7 @@
     state: "State"
     country: "Country"
     num_students_help: "How many do you anticipate enrolling in CodeCombat?"
+    num_students_default: "Select Range"
     education_level_label: "Education Level of Students"
     education_level_help: "Choose as many as apply."
     elementary_school: "Elementary School"
@@ -784,10 +794,18 @@
     middle_school: "Middle School"
     college_plus: "College or higher"
     anything_else: "Anything else we should know?"
-    thanks_header: "Thanks for requesting a demo!"
-    thanks_p: "We'll be in touch soon. Questions? Email us:"
-    thanks_anon: "Log in or create an account to set up a class, add your students, and monitor their progress as they learn computer science."
-    thanks_logged_in: "Set up a class, add your students, and monitor their progress as they learn computer science."
+    thanks_header: "Request Received!" # {change}
+    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
+    thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:" # {change}
+    finish_signup: "Finish creating your teacher account:"
+    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
+    signup_with: "Sign up with:"
+    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account." # {change}
+    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+    create_account: "Create a Teacher Account"
+    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
+    convert_account_title: "Update to Teacher Account" # {change}
+    not: "Not"
     setup_a_class: "Set Up a Class"
 
   versions:
@@ -982,7 +1000,6 @@
     average_levels: "Average levels completed:"
     total_levels: "Total levels completed:"
     furthest_level: "Furthest level completed:"
-    concepts_covered: "Concepts Covered"
     students: "Students"
     students1: "students"
     concepts: "Concepts"
@@ -997,13 +1014,10 @@
     capacity_used: "Course slots used:"
     enter_emails: "Enter student emails to invite, one per line"
     send_invites: "Send Invites"
-    title: "Title"
-    description: "Description"
     creating_class: "Creating class..."
     purchasing_course: "Purchasing course..."
     buy_course: "Buy Course"
     buy_course1: "Buy this course"
-    create_class: "Create Class"
     select_all_courses: "Select 'All Courses' for a 50% discount!"
     all_courses: "All Courses"
     number_students: "Number of students"
@@ -1052,9 +1066,6 @@
     keep_using: "Keep Using"
     switch_to: "Switch To"
     greetings: "Greetings!"
-    learn_p: "Learn Python"
-    learn_j: "Learn JavaScript"
-    language_cannot_change: "Language cannot be changed once students join a class."
     back_classrooms: "Back to my classrooms"
     back_courses: "Back to my courses"
     edit_details: "Edit class details"
@@ -1190,6 +1201,119 @@
     students_enrolled: "students enrolled"
     students_assigned: "students assigned"
     length: "Length:"
+
+    title: "Courses" # Flat style redesign
+    subtitle: "Review course guidelines, solutions, and levels"
+    select_language: "Select language"
+    select_level: "Select level"
+    play_level: "Play Level"
+    concepts_covered: "Concepts covered"
+    print_guide: "Print Guide (PDF)"
+    view_guide_online: "View Guide Online (PDF)"
+
+    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+    enrollment_credits_available: "Enrollment Credits Available:"
+
+    description: "Description" # ClassroomSettingsModal
+    language_select: "Select a language"
+    language_cannot_change: "Language cannot be changed once students join a class."
+    learn_p: "Learn Python"
+    learn_j: "Learn JavaScript"
+    avg_student_exp_label: "Average Student Programming Experience"
+    avg_student_exp_desc: "This will help us understand how to pace courses better."
+    avg_student_exp_select: "Select the best option"
+    avg_student_exp_none: "No Experience - little to no experience"
+    avg_student_exp_beginner: "Beginner - some exposure or block-based"
+    avg_student_exp_intermediate: "Intermediate - some experience with typed code"
+    avg_student_exp_advanced: "Advanced - extensive experience with typed code"
+    avg_student_exp_varied: "Varied Levels of Experience"
+    student_age_range_label: "Student Age Range"
+    student_age_range_younger: "Younger than 6"
+    student_age_range_older: "Older than 18"
+    student_age_range_to: "to"
+    create_class: "Create Class"
+    class_name: "Class Name"
+
+    teacher_account_restricted: "Your account is a teacher account, and so cannot access student content."
+
+  teacher:
+    teacher_dashboard: "Teacher Dashboard" # Navbar
+    my_classes: "My Classes"
+    courses: "Courses"
+    enrollments: "Enrollments"
+    resources: "Resources"
+    help: "Help"
+
+    students: "Students" # Shared
+    language: "Language"
+    edit_class_settings: "edit class settings"
+    complete: "Complete"
+
+    access_restricted: "Access Restricted" # My Classes page
+    teacher_account_required: "A teacher account is required to access this content."
+    create_teacher_account: "Create Teacher Account"
+    what_is_a_teacher_account: "What's a Teacher Account?"
+    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage enrollments and access resources to aid in your curriculum-building."
+    current_classes: "Current Classes"
+    archived_classes: "Archived Classes"
+    archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
+    view_class: "view class"
+    archive_class: "archive class"
+    unarchive_class: "unarchive class"
+    no_students_yet: "This class has no students yet."
+    add_students: "Add Students"
+    create_new_class: "Create a New Class"
+
+    class_overview: "Class Overview" # View Class page
+    avg_playtime: "Average level playtime"
+    total_playtime: "Total play time"
+    avg_completed: "Average levels completed"
+    total_completed: "Total levels completed"
+    concepts_covered: "Concepts covered"
+    earliest_incomplete: "Earliest incomplete level"
+    latest_complete: "Latest completed level"
+    enroll_student: "Enroll student"
+    adding_students: "Adding students"
+    course_progress: "Course Progress"
+    not_applicable: "N/A"
+    edit: "edit"
+    remove: "remove"
+    latest_completed: "Latest Completed"
+    sort_by: "Sort by"
+    progress: "Progress"
+    select_course: "Select course to view"
+    course_overview: "Course Overview"
+    copy_class_code: "Copy Class Code"
+    class_code_blurb: "New students can enter this class code on their dashboard or visit codecombat.com/courses to join the class."
+    copy_class_url: "Copy Class URL"
+    class_join_url_blurb: "New students can visit this URL while logged in to join the class."
+    add_students_manually: "Add Students Manually"
+    bulk_assign: "Bulk-assign"
+    assign_to_selected_students: "Assign to Selected Students"
+    assigned: "Assigned"
+    enroll_selected_students: "Enroll Selected Students"
+
+    guides_coming_soon: "Guides coming soon!" # Courses
+
+    show_students_from: "Show students from" # Enroll students modal
+    enroll_the_following_students: "Enroll the following students"
+    all_students: "All Students"
+
+    enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
+    enrollments_blurb_2: "require enrollments to access the courses."
+    credits_available: "Credits Available"
+    total_unique_students: "Total Unique Students"
+    total_enrolled_students: "Total Enrolled Students"
+    unenrolled_students: "Unenrolled Students"
+    add_enrollment_credits: "Add Enrollment Credits"
+    purchasing: "Purchasing..."
+    purchased: "Purchased!"
+    purchase_now: "Purchase Now"
+    how_to_enroll: "How to Enroll Students"
+    how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
+    how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
+    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content." # {change}
+    bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
 
   classes:
     archmage_title: "Archmage"

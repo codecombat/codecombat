@@ -1,6 +1,8 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/new-home-view'
 CocoCollection = require 'collections/CocoCollection'
+TrialRequest = require 'models/TrialRequest'
+TrialRequests = require 'collections/TrialRequests'
 Course = require 'models/Course'
 utils = require 'core/utils'
 storage = require 'core/storage'
@@ -39,6 +41,11 @@ module.exports = class NewHomeView extends RootView
     if @getQueryVariable 'hour_of_code'
       application.router.navigate "/hoc", trigger: true
 
+    if me.isTeacher()
+      @trialRequests = new TrialRequests()
+      @trialRequests.fetchOwn()
+      @supermodel.loadCollection(@trialRequests)
+
     isHourOfCodeWeek = false  # Temporary: default to /hoc flow during the main event week
     if isHourOfCodeWeek and (@isNewPlayer() or (@justPlaysCourses() and me.isAnonymous()))
       # Go/return straight to playing single-player HoC course on Play click
@@ -52,6 +59,12 @@ module.exports = class NewHomeView extends RootView
       @alternatePlayText = 'home.play_campaign_version'
     else
       @playURL = '/play'
+
+  onLoaded: ->
+    @trialRequest = @trialRequests.first() if @trialRequests?.size()
+    @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
+    @demoRequestURL = if me.isTeacher() then '/teachers/update-account'  else '/teachers/demo'
+    super()
 
   onClickPlayButton: (e) ->
     @playSound 'menu-button-click'
@@ -119,8 +132,12 @@ module.exports = class NewHomeView extends RootView
     @scrollToLink('#classroom-in-box-container')
 
   onClickTeacherButton: ->
-    window.tracker?.trackEvent 'Homepage Click Teacher Button', category: 'Homepage'
-    @scrollToLink('.request-demo-row', 600)
+    if me.isTeacher()
+      window.tracker?.trackEvent 'Homepage Click Teacher Button (logged in)', category: 'Homepage'
+      application.router.navigate('/teachers', { trigger: true })
+    else
+      window.tracker?.trackEvent 'Homepage Click Teacher Button', category: 'Homepage'
+      @scrollToLink('.request-demo-row', 600)
 
   onRightPressed: (event) ->
     # Special handling, otherwise after you click the control, keyboard presses move the slide twice

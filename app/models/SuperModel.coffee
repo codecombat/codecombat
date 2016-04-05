@@ -89,6 +89,15 @@ module.exports = class SuperModel extends Backbone.Model
   trackCollection: (collection, value) ->
     res = @addModelResource(collection, '', {}, value)
     res.listen()
+    
+  trackRequest: (jqxhr, value=1) ->
+    res = new Resource('', value)
+    res.jqxhr = jqxhr
+    jqxhr.done -> res.markLoaded()
+    jqxhr.fail -> res.markFailed()
+    @storeResource(res, value)
+    
+  trackRequests: (jqxhrs, value=1) -> @trackRequest(jqxhr) for jqxhr in jqxhrs
 
   # replace or overwrite
   shouldSaveBackups: (model) -> false

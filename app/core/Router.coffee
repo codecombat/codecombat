@@ -1,5 +1,6 @@
-go = (path) -> -> @routeDirectly path, arguments
-
+go = (path, options) -> -> @routeDirectly path, arguments, options
+redirect = (path) -> -> @navigate(path, { trigger: true, replace: true })
+  
 module.exports = class CocoRouter extends Backbone.Router
 
   initialize: ->
@@ -57,13 +58,13 @@ module.exports = class CocoRouter extends Backbone.Router
     'contribute/diplomat': go('contribute/DiplomatView')
     'contribute/scribe': go('contribute/ScribeView')
 
-    'courses': go('courses/CoursesView')
-    'Courses': go('courses/CoursesView')
-    'courses/students': go('courses/StudentCoursesView')
-    'courses/teachers': go('courses/TeacherCoursesView')
-    'courses/purchase': go('courses/PurchaseCoursesView')
-    'courses/enroll(/:courseID)': go('courses/CourseEnrollView')
-    'courses/:classroomID': go('courses/ClassroomView')
+    'courses': go('courses/CoursesView') # , { studentsOnly: true }) # TODO: Enforce after session-less play for teachers
+    'Courses': go('courses/CoursesView') # , { studentsOnly: true })
+    'courses/students': redirect('/courses')
+    'courses/teachers': redirect('/teachers/classes')
+    'courses/purchase': redirect('/teachers/enrollments')
+    'courses/enroll(/:courseID)': redirect('/teachers/enrollments')
+    'courses/:classroomID': go('courses/ClassroomView') #, { studentsOnly: true })
     'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView')
 
     'db/*path': 'routeToServer'
@@ -122,10 +123,20 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'schools': go('NewHomeView')
 
-    'teachers': go('NewHomeView')
-    'teachers/freetrial': go('RequestQuoteView')
-    'teachers/quote': go('RequestQuoteView')
-    'teachers/demo': go('RequestQuoteView')
+    'teachers': redirect('/teachers/classes')
+    'teachers/classes': go('courses/TeacherClassesView') #, { teachersOnly: true })
+    'teachers/classes/:classroomID': go('courses/TeacherClassView') #, { teachersOnly: true })
+    'teachers/courses': go('courses/TeacherCoursesView')
+    'teachers/demo': go('teachers/RequestQuoteView')
+    'teachers/enrollments': go('courses/EnrollmentsView') #, { teachersOnly: true })
+    'teachers/freetrial': go('teachers/RequestQuoteView')
+    'teachers/quote': go('teachers/RequestQuoteView')
+    'teachers/signup': ->
+      return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
+      @navigate('/teachers/update-account', {trigger: true, replace: true})
+    'teachers/update-account': ->
+      return @navigate('/teachers/signup', {trigger: true, replace: true}) if me.isAnonymous()
+      @routeDirectly('teachers/ConvertToTeacherAccountView', [])
 
     'test(/*subpath)': go('TestView')
 
@@ -140,7 +151,12 @@ module.exports = class CocoRouter extends Backbone.Router
   removeTrailingSlash: (e) ->
     @navigate e, {trigger: true}
 
-  routeDirectly: (path, args, options={}) ->
+  routeDirectly: (path, args=[], options={}) ->
+    if options.teachersOnly and not me.isTeacher()
+      return @routeDirectly('teachers/RestrictedToTeachersView')
+    if options.studentsOnly and me.isTeacher()
+      return @routeDirectly('courses/RestrictedToStudentsView')
+    
     path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views)?\/?play/.test(path)
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
@@ -176,7 +192,7 @@ module.exports = class CocoRouter extends Backbone.Router
     window.currentView.destroy()
     $('.popover').popover 'hide'
     $('#flying-focus').css({top: 0, left: 0}) # otherwise it might make the page unnecessarily tall
-    _.delay (-> 
+    _.delay (->
       $('html')[0].scrollTop = 0
       $('body')[0].scrollTop = 0
     ), 10
@@ -228,3 +244,6 @@ module.exports = class CocoRouter extends Backbone.Router
   navigate: (fragment, options) ->
     super fragment, options
     Backbone.Mediator.publish 'router:navigated', route: fragment
+
+  reload: ->
+    document.location.reload()

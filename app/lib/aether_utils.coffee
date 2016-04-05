@@ -1,3 +1,5 @@
+utils = require 'core/utils'
+
 Aether.addGlobal 'Vector', require './world/vector'
 Aether.addGlobal '_', _
 
@@ -27,6 +29,7 @@ module.exports.createAetherOptions = (options) ->
     #functionParameters: # TODOOOOO
     executionLimit: 3 * 1000 * 1000
     language: options.codeLanguage
+    useInterpreter: !!utils.getQueryVariable('esper') 
   parameters = functionParameters[options.functionName]
   unless parameters
     console.warn "Unknown method #{options.functionName}: please add function parameters to lib/aether_utils.coffee."

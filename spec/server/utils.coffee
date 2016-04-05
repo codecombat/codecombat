@@ -29,12 +29,15 @@ module.exports = mw =
     promise = user.save()
     return promise
 
-  loginUser: Promise.promisify  (user, done) ->
+  loginUser: Promise.promisify  (user, options={}, done) ->
+    if _.isFunction(options)
+      done = options
+      options = {}
     form = {
       username: user.get('email')
       password: 'password'
     }
-    request.post mw.getURL('/auth/login'), { form: form }, (err, res) ->
+    (options.request or request).post mw.getURL('/auth/login'), { form: form }, (err, res) ->
       expect(err).toBe(null)
       expect(res.statusCode).toBe(200)
       done(err, user)
@@ -52,6 +55,10 @@ module.exports = mw =
       options = {}
     options = _.extend({permissions: ['artisan']}, options)
     return @initUser(options)
+    
+  becomeAnonymous: Promise.promisify (done) ->
+    request.post mw.getURL('/auth/logout'), ->
+      request.get mw.getURL('/auth/whoami'), done
     
   logout: Promise.promisify (done) ->
     request.post mw.getURL('/auth/logout'), done

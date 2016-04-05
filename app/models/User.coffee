@@ -17,6 +17,7 @@ module.exports = class User extends CocoModel
   isAnonymous: -> @get('anonymous', true)
   displayName: -> @get('name', true)
   broadName: ->
+    return '(deleted)' if @get('deleted')
     name = @get('name')
     return name if name
     name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
@@ -59,8 +60,10 @@ module.exports = class User extends CocoModel
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
+  isStudent: -> @get('role') is 'student'
+    
   isTeacher: ->
-    return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent']
+    return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 
   setRole: (role, force=false) ->
     return if me.isAdmin()
@@ -195,6 +198,9 @@ module.exports = class User extends CocoModel
     return true if me.isAdmin()
     return true if me.hasSubscription()
     return false
+    
+  isEnrolled: ->
+    Boolean(@get('coursePrepaidID'))
 
   isOnPremiumServer: ->
     me.get('country') in ['china', 'brazil']

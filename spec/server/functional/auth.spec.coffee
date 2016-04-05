@@ -1,4 +1,5 @@
 require '../common'
+User = require '../../../server/users/User'
 utils = require '../utils'
 _ = require 'lodash'
 Promise = require 'bluebird'

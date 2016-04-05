@@ -3,6 +3,7 @@ CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 Classroom = require 'models/Classroom'
+Classrooms = require 'collections/Classrooms'
 LevelSession = require 'models/LevelSession'
 Prepaids = require 'collections/Prepaids'
 RootView = require 'views/core/RootView'
@@ -46,11 +47,14 @@ module.exports = class ClassroomView extends RootView
     @prepaids.comparator = '_id'
     @prepaids.fetchByCreator(me.id)
     @supermodel.loadCollection(@prepaids)
-    @users = new CocoCollection([], { url: "/db/classroom/#{classroomID}/members", model: User })
+    @users = new CocoCollection([], { url: "/db/classroom/#{classroomID}/members?memberLimit=100", model: User })
     @users.comparator = (user) => user.broadName().toLowerCase()
     @supermodel.loadCollection(@users)
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesSync
     @sessions = new CocoCollection([], { model: LevelSession })
+    @ownedClassrooms = new Classrooms()
+    @ownedClassrooms.fetchMine({data: {project: '_id'}})
+    @supermodel.trackCollection(@ownedClassrooms)
 
   onCourseInstancesSync: ->
     @sessions = new CocoCollection([], { model: LevelSession })
@@ -79,7 +83,6 @@ module.exports = class ClassroomView extends RootView
   onLoaded: ->
     @teacherMode = me.isAdmin() or @classroom.get('ownerID') is me.id
     userSessions = @sessions.groupBy('creator')
-    @users.remove(@users.where({ deleted: true }))
     for user in @users.models
       user.sessions = new CocoCollection(userSessions[user.id], { model: LevelSession })
       user.sessions.comparator = 'changed'

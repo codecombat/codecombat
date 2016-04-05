@@ -3,11 +3,15 @@ config = require '../../../server_config'
 require '../common'
 stripe = require('stripe')(config.stripe.secretKey)
 init = require '../init'
+utils = require '../utils'
 
 describe 'POST /db/course_instance', ->
 
   beforeEach (done) -> clearModels([CourseInstance, Course, User, Classroom], done)
   beforeEach (done) -> loginJoe (@joe) => done()
+  beforeEach (done) ->
+    @joe.set('role', 'teacher')
+    @joe.save(done)
   beforeEach init.course()
   beforeEach init.classroom()
 
@@ -82,14 +86,32 @@ describe 'POST /db/course_instance', ->
 
 
 describe 'POST /db/course_instance/:id/members', ->
+  #TODO: Refactor to new yield system! @scott
 
   beforeEach (done) -> clearModels([CourseInstance, Course, User, Classroom, Prepaid], done)
   beforeEach (done) -> loginJoe (@joe) => done()
+  beforeEach (done) ->
+    @joe.set('role', 'teacher')
+    @joe.save(done)
   beforeEach init.course({free: true})
   beforeEach init.classroom()
   beforeEach init.courseInstance()
   beforeEach init.user()
   beforeEach init.prepaid()
+
+  it 'adds an array of members to the given CourseInstance', (done) ->
+    async.eachSeries([
+
+      addTestUserToClassroom,
+      (test, cb) ->
+        url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
+        request.post {uri: url, json: {userIDs: [test.user.id]}}, (err, res, body) ->
+          expect(res.statusCode).toBe(200)
+          expect(body.members.length).toBe(1)
+          expect(body.members[0]).toBe(test.user.id)
+          cb()
+
+    ], makeTestIterator(@), done)
 
   it 'adds a member to the given CourseInstance', (done) ->
     async.eachSeries([
@@ -182,14 +204,17 @@ describe 'POST /db/course_instance/:id/members', ->
     test.classroom.save cb
 
   addTestUserToPrepaid = (test, cb) ->
-    test.prepaid.set('redeemers', [{userID: test.user.get('_id')}])
-    test.prepaid.save cb
+    test.user.set('coursePrepaidID', test.prepaid._id)
+    test.user.save cb
 
 
 describe 'DELETE /db/course_instance/:id/members', ->
 
   beforeEach (done) -> clearModels([CourseInstance, Course, User, Classroom, Prepaid], done)
   beforeEach (done) -> loginJoe (@joe) => done()
+  beforeEach (done) ->
+    @joe.set('role', 'teacher')
+    @joe.save(done)
   beforeEach init.course({free: true})
   beforeEach init.classroom()
   beforeEach init.courseInstance()

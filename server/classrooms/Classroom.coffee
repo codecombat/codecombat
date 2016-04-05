@@ -17,6 +17,10 @@ ClassroomSchema.statics.editableProperties = [
   'description'
   'name'
   'aceConfig'
+  'averageStudentExp'
+  'ageRangeMin'
+  'ageRangeMax'
+  'archived'
 ]
 
 ClassroomSchema.statics.generateNewCode = (done) ->
@@ -45,5 +49,15 @@ ClassroomSchema.methods.isMember = (userID) ->
   return _.any @get('members') or [], (memberID) -> userID.equals(memberID)
 
 ClassroomSchema.statics.jsonSchema = jsonSchema
+
+ClassroomSchema.set('toObject', {
+  transform: (doc, ret, options) ->
+    return ret unless options.req
+    user = options.req.user
+    unless user?.isAdmin() or user?.get('_id').equals(doc.get('ownerID'))
+      delete ret.code
+      delete ret.codeCamel
+    return ret
+})
 
 module.exports = Classroom = mongoose.model 'classroom', ClassroomSchema, 'classrooms'

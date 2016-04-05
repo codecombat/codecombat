@@ -3,6 +3,7 @@ CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 Classroom = require 'models/Classroom'
+Classrooms = require 'collections/Classrooms'
 LevelSession = require 'models/LevelSession'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/course-details'
@@ -23,6 +24,9 @@ module.exports = class CourseDetailsView extends RootView
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
+    @ownedClassrooms = new Classrooms()
+    @ownedClassrooms.fetchMine({data: {project: '_id'}})
+    @supermodel.trackCollection(@ownedClassrooms)
     @courseID ?= options.courseID
     @courseInstanceID ?= options.courseInstanceID
     @classroom = new Classroom()

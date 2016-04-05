@@ -20,7 +20,7 @@ module.exports =
     
   checkLoggedIn: ->
     return (req, res, next) ->
-      if not req.user
+      if (not req.user) or (req.user.isAnonymous())
         return next new errors.Unauthorized('You must be logged in.')
       next()
     

@@ -85,7 +85,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   nav:
     play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
-#    courses: "Courses"
+    courses: "Cursos"
     editor: "Editor"
     blog: "Blog"
     forum: "Foro"
@@ -101,10 +101,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     twitter_follow: "Síguenos en Twitter"
     teachers: "Profesores"
     careers: "Carreras"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
+    facebook: "Facebook"
+    twitter: "Twitter"
 #    create_a_class: "Create a Class"
-#    other: "Other"
+    other: "Otros"
 #    learn_to_code: "Learn to Code!"
 #    toggle_nav: "Toggle navigation"
 #    jobs: "Jobs"

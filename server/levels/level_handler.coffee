@@ -9,7 +9,7 @@ async = require 'async'
 utils = require '../lib/utils'
 log = require 'winston'
 Campaign = require '../campaigns/Campaign'
-Course = require  '../courses/Course'
+Course = require  '../models/Course'
 CourseInstance = require '../courses/CourseInstance'
 Classroom = require '../classrooms/Classroom'
 

@@ -255,6 +255,32 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
         request.put {uri:getURL(urlUser + '/' + sam.id), json: sam.toObject()}, (err, response) ->
           expect(err).toBeNull()
           done()
+          
+  describe 'when role is changed to teacher or other school administrator', ->
+    it 'removes the user from all classrooms they are in', utils.wrap (done) ->
+      user = yield utils.initUser()
+      classroom = new Classroom({members: [user._id]})
+      yield classroom.save()
+      expect(classroom.get('members').length).toBe(1)
+      yield utils.loginUser(user)
+      [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { role: 'teacher' }}
+      yield new Promise (resolve) -> setTimeout(resolve, 10) 
+      classroom = yield Classroom.findById(classroom.id)
+      expect(classroom.get('members').length).toBe(0)
+      done()
+      
+  it 'ignores attempts to change away from a teacher role', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    url = getURL('/db/user/'+user.id)
+    [res, body] = yield request.putAsync { uri: url, json: { role: 'teacher' }}
+    expect(body.role).toBe('teacher')
+    [res, body] = yield request.putAsync { uri: url, json: { role: 'advisor' }}
+    expect(body.role).toBe('advisor')
+    [res, body] = yield request.putAsync { uri: url, json: { role: 'student' }}
+    expect(body.role).toBe('advisor')
+    done()
+      
 
 describe 'GET /db/user', ->
 

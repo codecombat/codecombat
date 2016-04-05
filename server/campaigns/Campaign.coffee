@@ -2,6 +2,7 @@ mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
 log = require 'winston'
 config = require '../../server_config'
+jsonSchema = require '../../app/schemas/models/campaign.schema'
 
 CampaignSchema = new mongoose.Schema(body: String, {strict: false,read:config.mongo.readpref})
 
@@ -34,5 +35,7 @@ CampaignSchema.statics.updateAdjacentCampaigns = (savedCampaign) ->
         return log.error "Couldn't save updated adjacent campaign because of #{err}" if err
 
 CampaignSchema.post 'save', -> @constructor.updateAdjacentCampaigns @
+
+CampaignSchema.statics.jsonSchema = jsonSchema
 
 module.exports = mongoose.model('campaign', CampaignSchema)

@@ -20,7 +20,7 @@ module.exports = class TeachersView extends RootView
         application.router.navigate "/schools", trigger: true
     unless me.isAnonymous()
       _.defer ->
-        application.router.navigate "/courses/teachers", trigger: true
+        application.router.navigate "/teachers/courses", trigger: true
 
   onClickLogin: (e) ->
     @openModalView new AuthModal() if me.get('anonymous')
