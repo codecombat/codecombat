@@ -28,7 +28,7 @@ translate = (key) ->
     html: html
 
 
-makeConext = (req) ->
+makeContext = (req) ->
   view =
     isIPadBrowser:  -> false
     isMobile:  -> false
@@ -58,7 +58,10 @@ makeConext = (req) ->
 injectView = (res, view, opts, next) ->
   res.render (view + '.jade'), opts, (err, data) ->
     if err
-      res.locals.pageContent =  ('<pre>' + err + '</pre>')
+      if config.isProduction
+        res.locals.pageContent = ''
+      else
+        res.locals.pageContent = ('<pre>' + err + '</pre>')
       return next()
 
     c = cheerio.load(data)
@@ -99,7 +102,7 @@ exports.setup = (app) ->
 
   handleSimply = (route, view, extra) ->
     handle route, view, (req, res, next) ->
-      opts = makeConext req
+      opts = makeContext req
       if extra
         _.extend opts.view, extra(req, res) 
       
@@ -145,7 +148,7 @@ exports.setup = (app) ->
       next opts
 
   handle '/play/:campaign', 'play/campaign-view', (req, res, next) ->
-    opts = makeConext req
+    opts = makeContext req
     Campaign.findOne({type: 'hero', slug: req.params.campaign}).exec (err, doc) ->
       levels = {}
       v = doc.toObject()
@@ -169,7 +172,7 @@ exports.setup = (app) ->
       next opts
 
   handle '/play/level/:level', 'play/level', (req, res, next) ->
-    opts = makeConext req
+    opts = makeContext req
     Level.findOne({slug: req.params.level}).exec (err, doc) ->
       opts.showBackground = false
       opts.dontActuallyShow = true
