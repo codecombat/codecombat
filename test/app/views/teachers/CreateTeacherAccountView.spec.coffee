@@ -16,13 +16,13 @@ describe '/teachers/signup', ->
     
   describe 'when logged in', ->
     
-    it 'redirects to /teachers/convert', ->
+    it 'redirects to /teachers/update-account', ->
       spyOn(me, 'isAnonymous').and.returnValue(false)
       spyOn(application.router, 'navigate')
       Backbone.history.loadUrl('/teachers/signup')
       expect(application.router.navigate.calls.count()).toBe(1)
       args = application.router.navigate.calls.argsFor(0)
-      expect(args[0]).toBe('/teachers/convert')
+      expect(args[0]).toBe('/teachers/update-account')
 
 
 describe 'CreateTeacherAccountView', ->

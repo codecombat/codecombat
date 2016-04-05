@@ -2,12 +2,12 @@ ConvertToTeacherAccountView = require 'views/teachers/ConvertToTeacherAccountVie
 storage = require 'core/storage'
 forms = require 'core/forms'
 
-describe '/teachers/convert', ->
+describe '/teachers/update-account', ->
   describe 'when logged out', ->
     it 'redirects to /teachers/signup', ->
       spyOn(me, 'isAnonymous').and.returnValue(true)
       spyOn(application.router, 'navigate')
-      Backbone.history.loadUrl('/teachers/convert')
+      Backbone.history.loadUrl('/teachers/update-account')
       expect(application.router.navigate.calls.count()).toBe(1)
       args = application.router.navigate.calls.argsFor(0)
       expect(args[0]).toBe('/teachers/signup')
@@ -17,13 +17,13 @@ describe '/teachers/convert', ->
       spyOn(me, 'isAnonymous').and.returnValue(false)
       spyOn(me, 'isTeacher').and.returnValue(false)
       spyOn(application.router, 'routeDirectly')
-      Backbone.history.loadUrl('/teachers/convert')
+      Backbone.history.loadUrl('/teachers/update-account')
       expect(application.router.routeDirectly.calls.count()).toBe(1)
       args = application.router.routeDirectly.calls.argsFor(0)
       expect(args[0]).toBe('teachers/ConvertToTeacherAccountView')
 
 
-describe 'ConvertToTeacherAccountView (/teachers/convert)', ->
+describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
 
   view = null
 

@@ -63,7 +63,7 @@ module.exports = class NewHomeView extends RootView
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
-    @demoRequestURL = if me.isTeacher() then '/teachers/convert'  else '/teachers/demo'
+    @demoRequestURL = if me.isTeacher() then '/teachers/update-account'  else '/teachers/demo'
     super()
 
   onClickPlayButton: (e) ->

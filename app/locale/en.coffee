@@ -799,11 +799,11 @@
     finish_signup: "Finish creating your teacher account:"
     finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
     signup_with: "Sign up with:"
-    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be converted into a Teacher Account."
-    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you convert to a Teacher Account."
+    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account." # {change}
+    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
     create_account: "Create a Teacher Account"
     create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
-    convert_account_title: "Convert to Teacher Account"
+    convert_account_title: "Update to Teacher Account" # {change}
     not: "Not"
     setup_a_class: "Set Up a Class"
 
