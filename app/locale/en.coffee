@@ -1201,7 +1201,7 @@
     students_enrolled: "students enrolled"
     students_assigned: "students assigned"
     length: "Length:"
-    
+
     title: "Courses" # Flat style redesign
     subtitle: "Review course guidelines, solutions, and levels"
     select_language: "Select language"
@@ -1210,10 +1210,10 @@
     concepts_covered: "Concepts covered"
     print_guide: "Print Guide (PDF)"
     view_guide_online: "View Guide Online (PDF)"
-    
+
     grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
     enrollment_credits_available: "Enrollment Credits Available:"
-    
+
     description: "Description" # ClassroomSettingsModal
     language_select: "Select a language"
     language_cannot_change: "Language cannot be changed once students join a class."
@@ -1233,7 +1233,7 @@
     student_age_range_to: "to"
     create_class: "Create Class"
     class_name: "Class Name"
-    
+
     teacher_account_restricted: "Your account is a teacher account, and so cannot access student content."
 
   teacher:
@@ -1243,7 +1243,7 @@
     enrollments: "Enrollments"
     resources: "Resources"
     help: "Help"
-    
+
     students: "Students" # Shared
     language: "Language"
     edit_class_settings: "edit class settings"
@@ -1292,14 +1292,13 @@
     assign_to_selected_students: "Assign to Selected Students"
     assigned: "Assigned"
     enroll_selected_students: "Enroll Selected Students"
-    
+
     guides_coming_soon: "Guides coming soon!" # Courses
 
     show_students_from: "Show students from" # Enroll students modal
     enroll_the_following_students: "Enroll the following students"
     all_students: "All Students"
-    
-    
+
     enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
     enrollments_blurb_2: "require enrollments to access the courses."
     credits_available: "Credits Available"
@@ -1313,7 +1312,7 @@
     how_to_enroll: "How to Enroll Students"
     how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
     how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
-    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content forever, even if they leave your class."
+    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content." # {change}
     bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
 
   classes:
