@@ -42,7 +42,7 @@ module.exports.setup = (app) ->
   
   TrialRequest = require '../models/TrialRequest'
   app.get('/db/trial.request', mw.trialRequests.fetchByApplicant, mw.auth.checkHasPermission(['admin']), mw.rest.get(TrialRequest))
-  app.post('/db/trial.request', mw.auth.checkLoggedIn(), mw.trialRequests.post)
+  app.post('/db/trial.request', mw.trialRequests.post)
   app.get('/db/trial.request/:handle', mw.auth.checkHasPermission(['admin']), mw.rest.getByHandle(TrialRequest))
   app.put('/db/trial.request/:handle', mw.auth.checkHasPermission(['admin']), mw.trialRequests.put)
 
