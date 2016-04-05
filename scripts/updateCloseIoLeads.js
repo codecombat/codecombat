@@ -24,7 +24,7 @@ const customFieldsToRemove = [
 ];
 
 // Skip these problematic leads
-const leadsToSkip = ['6 sınıflar', 'fdsafd', 'ashtasht'];
+const leadsToSkip = ['6 sınıflar', 'fdsafd', 'ashtasht', 'matt+20160404teacher3 school', 'sdfdsf'];
 
 const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
@@ -421,15 +421,22 @@ function createUpdateLeadFn(lead) {
     const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=name:${encodeURIComponent(lead.name)}`;
     request.get(url, (error, response, body) => {
       if (error) return done(error);
-      const data = JSON.parse(body);
-      if (data.total_results === 0) {
-        return saveNewLead(lead, done);
-      }
-      if (data.total_results > 1) {
-        // console.error(`${data.total_results} leads found for ${lead.name}`);
+      try {
+        const data = JSON.parse(body);
+        if (data.total_results === 0) {
+          return saveNewLead(lead, done);
+        }
+        if (data.total_results > 1) {
+          // console.error(`${data.total_results} leads found for ${lead.name}`);
+          return done();
+        }
+        return updateExistingLead(lead, data.data[0], done);
+      } catch (error) {
+        // console.log(url);
+        // console.log(error);
+        // console.log(body);
         return done();
       }
-      return updateExistingLead(lead, data.data[0], done);
     });
   };
 }
