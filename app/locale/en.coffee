@@ -729,10 +729,13 @@
     jobs_benefits: "Employee Benefits"
     jobs_benefit_1: "Competitive salary and options"
     jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
-    jobs_benefit_3: "Work from home flexibility"
-    jobs_benefit_4: "Unlimited sick/personal days"
-    jobs_benefit_5: "Professional development and continuing education support"
-    jobs_benefit_6: "Medical/dental/vision insurance"
+    jobs_benefit_3: "Flex time and flexible work-from-home" # {change}
+    jobs_benefit_4: "Unlimited vacation/sick/personal days" # {change}
+    jobs_benefit_5: "Professional development and continuing education support – free books and games!" # {change}
+    jobs_benefit_6: "Medical (gold), dental, vision" # {change}
+    jobs_benefit_7: "Sit-stand desks for all"
+    jobs_benefit_8: "Generous parental leave"
+    jobs_benefit_9: "10-year option exercise window"
     learn_more: "Learn More"
     jobs_custom_title: "Create Your Own"
     jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
