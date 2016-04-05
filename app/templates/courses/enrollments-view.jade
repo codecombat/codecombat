@@ -12,7 +12,7 @@ block content
         .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
         a.btn.btn-lg.btn-primary-alt(href="/teachers/signup" data-i18n='teacher.create_teacher_account')
       else
-        a.btn.btn-lg.btn-primary(href="/teachers/convert" data-i18n="teachers_quote.convert_account_title")
+        a.btn.btn-lg.btn-primary(href="/teachers/update-account" data-i18n="teachers_quote.convert_account_title")
         button#logout-button.btn.btn-lg.btn-primary-alt(data-i18n="login.log_out")
 
     .teacher-account-blurb.text-center.col-xs-6.col-xs-offset-3.m-y-3
@@ -28,7 +28,7 @@ block content
           p
             | We are transitioning to a new improved classroom management system for instructors.
             | Please convert your account to ensure you retain access to your classrooms. 
-          a.btn.btn-primary.btn-lg(href="/teachers/convert") Upgrade to teacher account
+          a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
       
     .container.m-t-5
       h3(data-i18n='teacher.enrollments')

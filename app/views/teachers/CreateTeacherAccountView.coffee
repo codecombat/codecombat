@@ -179,7 +179,7 @@ module.exports = class CreateTeacherAccountView extends RootView
                   success: =>
                     me.loginGPlusUser(@gplusAttrs.gplusID, {
                       success: ->
-                        application.router.navigate('/teachers/convert')
+                        application.router.navigate('/teachers/update-account')
                       error: errors.showNotyNetworkError
                     })
                 })
@@ -221,7 +221,7 @@ module.exports = class CreateTeacherAccountView extends RootView
                   success: =>
                     me.loginFacebookUser(@facebookAttrs.facebookID, {
                       success: ->
-                        application.router.navigate('/teachers/convert')
+                        application.router.navigate('/teachers/update-account')
                       error: errors.showNotyNetworkError
                     })
                 })

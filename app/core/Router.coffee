@@ -133,8 +133,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/quote': go('teachers/RequestQuoteView')
     'teachers/signup': ->
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
-      @navigate('/teachers/convert', {trigger: true, replace: true})
-    'teachers/convert': ->
+      @navigate('/teachers/update-account', {trigger: true, replace: true})
+    'teachers/update-account': ->
       return @navigate('/teachers/signup', {trigger: true, replace: true}) if me.isAnonymous()
       @routeDirectly('teachers/ConvertToTeacherAccountView', [])
 
