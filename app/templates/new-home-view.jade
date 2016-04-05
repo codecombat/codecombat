@@ -87,7 +87,7 @@ mixin box
 
       else if view.justPlaysCourses()
         div
-          a.btn.btn-forest.btn-lg.btn-block(href='/play/', data-i18n="courses.continue_playing")
+          a.btn.btn-forest.btn-lg.btn-block(href=view.playURL, data-i18n="courses.continue_playing")
         div
           a.btn.btn-primary.btn-lg.btn-block.play-btn(href=view.playURL, data-i18n="new_home.view_progress")
       else
