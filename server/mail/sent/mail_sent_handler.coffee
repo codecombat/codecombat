@@ -1,4 +1,4 @@
-MailSent = require './MailSent'
+MailSent = require './../../models/MailSent'
 Handler = require '../../commons/Handler'
 
 class MailSentHandler extends Handler

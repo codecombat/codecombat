@@ -1,7 +1,7 @@
 schema = require '../../app/schemas/models/user'
 crypto = require 'crypto'
 request = require 'request'
-User = require './User'
+User = require './../models/User'
 Handler = require '../commons/Handler'
 mongoose = require 'mongoose'
 config = require '../../server_config'
@@ -9,23 +9,23 @@ errors = require '../commons/errors'
 async = require 'async'
 log = require 'winston'
 moment = require 'moment'
-AnalyticsLogEvent = require '../analytics/AnalyticsLogEvent'
-Clan = require '../clans/Clan'
-CourseInstance = require '../courses/CourseInstance'
-LevelSession = require '../levels/sessions/LevelSession'
+AnalyticsLogEvent = require '../models/AnalyticsLogEvent'
+Clan = require '../models/Clan'
+CourseInstance = require '../models/CourseInstance'
+LevelSession = require '../models/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
-Payment = require '../payments/Payment'
+Payment = require '../models/Payment'
 SubscriptionHandler = require '../payments/subscription_handler'
 DiscountHandler = require '../payments/discount_handler'
-EarnedAchievement = require '../achievements/EarnedAchievement'
+EarnedAchievement = require '../models/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
 {findStripeSubscription} = require '../lib/utils'
 {isID} = require '../lib/utils'
 slack = require '../slack'
 sendwithus = require '../sendwithus'
-Prepaid = require '../prepaids/Prepaid'
-UserPollsRecord = require '../polls/UserPollsRecord'
-EarnedAchievement = require '../achievements/EarnedAchievement'
+Prepaid = require '../models/Prepaid'
+UserPollsRecord = require '../models/UserPollsRecord'
+EarnedAchievement = require '../models/EarnedAchievement'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
@@ -792,7 +792,7 @@ UserHandler = class UserHandler extends Handler
       expanded = deltas.flattenDelta obj.get 'delta'
       _.some expanded, (delta) -> 'i18n' in delta.dataPath
 
-  Patch = require '../patches/Patch'
+  Patch = require '../models/Patch'
   # filter is passed a mongoose document and should return a boolean,
   # determining whether the patch should be counted
   countPatchesByUsersInMemory = (query, filter, statName, done) ->
@@ -836,7 +836,7 @@ UserHandler = class UserHandler extends Handler
         updateUser user, count, doneWithUser
 
   countPatchesByUsers = (query, statName, done) ->
-    Patch = require '../patches/Patch'
+    Patch = require '../models/Patch'
 
     userStream = User.find({anonymous: false}).sort('_id').stream()
     streamFinished = false
@@ -870,7 +870,7 @@ UserHandler = class UserHandler extends Handler
 
   statRecalculators:
     gamesCompleted: (done) ->
-      LevelSession = require '../levels/sessions/LevelSession'
+      LevelSession = require '../models/LevelSession'
 
       userStream = User.find({anonymous: false}).sort('_id').stream()
       streamFinished = false
@@ -899,23 +899,23 @@ UserHandler = class UserHandler extends Handler
           User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 
     articleEdits: (done) ->
-      Article = require '../articles/Article'
+      Article = require '../models/Article'
       countEdits Article, done
 
     levelEdits: (done) ->
-      Level = require '../levels/Level'
+      Level = require '../models/Level'
       countEdits Level, done
 
     levelComponentEdits: (done) ->
-      LevelComponent = require '../levels/components/LevelComponent'
+      LevelComponent = require '../models/LevelComponent'
       countEdits LevelComponent,  done
 
     levelSystemEdits: (done) ->
-      LevelSystem = require '../levels/systems/LevelSystem'
+      LevelSystem = require '../models/LevelSystem'
       countEdits LevelSystem, done
 
     thangTypeEdits: (done) ->
-      ThangType = require '../levels/thangs/ThangType'
+      ThangType = require '../models/ThangType'
       countEdits ThangType, done
 
     patchesContributed: (done) ->

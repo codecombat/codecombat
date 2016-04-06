@@ -1,4 +1,4 @@
-UserCodeProblem = require './UserCodeProblem'
+UserCodeProblem = require './../models/UserCodeProblem'
 Handler = require '../commons/Handler'
 utils = require '../lib/utils'
 

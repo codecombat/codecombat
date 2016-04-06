@@ -1,5 +1,5 @@
 log = require 'winston'
-Payment = require '../payments/Payment'
+Payment = require '../models/Payment'
 PaymentHandler = require '../payments/payment_handler'
 
 module.exports =

@@ -1,4 +1,4 @@
-Achievement = require './Achievement'
+Achievement = require './../models/Achievement'
 Handler = require '../commons/Handler'
 
 class AchievementHandler extends Handler

@@ -2,7 +2,10 @@ require '../common'
 utils = require '../utils'
 _ = require 'lodash'
 Promise = require 'bluebird'
+request = require '../request'
 requestAsync = Promise.promisify(request, {multiArgs: true})
+Course = require '../../../server/models/Course'
+User = require '../../../server/models/User'
 
 describe 'GET /db/course', ->
   beforeEach utils.wrap (done) ->

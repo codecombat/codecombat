@@ -1,6 +1,6 @@
 # TODO: Remove once mapping.coffee is refactored out
 
-Article = require './Article'
+Article = require './../models/Article'
 Handler = require '../commons/Handler'
 
 ArticleHandler = class ArticleHandler extends Handler

@@ -38,6 +38,12 @@ diminishing =
 
 url = getURL('/db/achievement')
 
+Achievement = require '../../../server/models/Achievement'
+EarnedAchievement = require '../../../server/models/EarnedAchievement'
+LevelSession = require '../../../server/models/LevelSession'
+User = require '../../../server/models/User'
+request = require '../request'
+
 describe 'Achievement', ->
   allowHeader = 'GET, POST, PUT, PATCH, DELETE'
 

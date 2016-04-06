@@ -1,4 +1,4 @@
-ThangType = require './ThangType'
+ThangType = require './../../models/ThangType'
 Handler = require '../../commons/Handler'
 
 ThangTypeHandler = class ThangTypeHandler extends Handler

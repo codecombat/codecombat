@@ -1,5 +1,5 @@
-Patch = require './Patch'
-User = require '../users/User'
+Patch = require './../models/Patch'
+User = require '../models/User'
 Handler = require '../commons/Handler'
 schema = require '../../app/schemas/models/patch'
 {handlers} = require '../commons/mapping'

@@ -2,8 +2,8 @@ mongoose = require 'mongoose'
 log = require 'winston'
 config = require '../../server_config'
 plugins = require '../plugins/plugins'
-User = require '../users/User'
-jsonSchema = require '../../app/schemas/models/clan.schema'
+User = require './User'
+jsonSchema = require '../../app/schemas/models/clan.schema.coffee'
 
 ClanSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
 

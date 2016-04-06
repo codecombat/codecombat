@@ -1,9 +1,9 @@
 mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
-jsonSchema = require '../../app/schemas/models/user-polls-record.schema'
+jsonSchema = require '../../app/schemas/models/user-polls-record.schema.coffee'
 log = require 'winston'
 Poll = require './Poll'
-User = require '../users/User'
+User = require './User'
 
 UserPollsRecordSchema = new mongoose.Schema {}, {strict: false, minimize: false}
 

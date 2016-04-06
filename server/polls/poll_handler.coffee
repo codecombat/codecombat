@@ -1,5 +1,5 @@
-Poll = require './Poll'
-UserPollsRecord = require './UserPollsRecord'
+Poll = require './../models/Poll'
+UserPollsRecord = require './../models/UserPollsRecord'
 Handler = require '../commons/Handler'
 async = require 'async'
 mongoose = require 'mongoose'

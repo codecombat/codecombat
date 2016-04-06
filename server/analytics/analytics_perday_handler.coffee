@@ -1,7 +1,7 @@
-AnalyticsPerDay = require './AnalyticsPerDay'
-AnalyticsString = require './AnalyticsString'
-Campaign = require '../campaigns/Campaign'
-Level = require '../levels/Level'
+AnalyticsPerDay = require './../models/AnalyticsPerDay'
+AnalyticsString = require './../models/AnalyticsString'
+Campaign = require '../models/Campaign'
+Level = require '../models/Level'
 Handler = require '../commons/Handler'
 log = require 'winston'
 

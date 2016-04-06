@@ -1,4 +1,8 @@
 require '../common'
+User = require '../../../server/models/User'
+Article = require '../../../server/models/Article'
+Patch = require '../../../server/models/Patch'
+request = require '../request'
 
 describe '/db/patch', ->
   async = require 'async'

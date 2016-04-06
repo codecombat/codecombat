@@ -1,4 +1,4 @@
-LevelComponent = require './LevelComponent'
+LevelComponent = require './../../models/LevelComponent'
 Handler = require '../../commons/Handler'
 mongoose = require 'mongoose'
 

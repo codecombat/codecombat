@@ -1,6 +1,6 @@
 config = require '../../server_config'
 request = require 'request'
-User = require '../users/User'
+User = require '../models/User'
 http = require 'http'
 
 authstr = new Buffer("#{config.picoCTF_auth.username}:#{config.picoCTF_auth.password}").toString 'base64'

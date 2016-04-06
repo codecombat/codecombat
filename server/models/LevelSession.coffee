@@ -1,9 +1,9 @@
 mongoose = require 'mongoose'
-plugins = require '../../plugins/plugins'
-AchievablePlugin = require '../../plugins/achievements'
-jsonschema = require '../../../app/schemas/models/level_session'
+plugins = require '../plugins/plugins'
+AchievablePlugin = require '../plugins/achievements'
+jsonschema = require '../../app/schemas/models/level_session'
 log = require 'winston'
-config = require '../../../server_config'
+config = require '../../server_config'
 
 LevelSessionSchema = new mongoose.Schema({
   created:
@@ -43,8 +43,8 @@ LevelSessionSchema.post 'init', (doc) ->
       playtime: doc.get 'playtime'
 
 LevelSessionSchema.pre 'save', (next) ->
-  User = require '../../users/User'  # Avoid mutual inclusion cycles
-  Level = require '../Level'
+  User = require './User'  # Avoid mutual inclusion cycles
+  Level = require './Level'
   @set('changed', new Date())
 
   id = @get('id')

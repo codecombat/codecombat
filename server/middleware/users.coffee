@@ -3,7 +3,7 @@ wrap = require 'co-express'
 Promise = require 'bluebird'
 parse = require '../commons/parse'
 request = require 'request'
-User = require '../users/User'
+User = require '../models/User'
 
 
 module.exports =

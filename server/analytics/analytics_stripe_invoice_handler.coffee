@@ -1,5 +1,5 @@
 Handler = require '../commons/Handler'
-AnalyticsStripeInvoice = require './AnalyticsStripeInvoice'
+AnalyticsStripeInvoice = require './../models/AnalyticsStripeInvoice'
 
 class AnalyticsStripeInvoiceHandler extends Handler
   modelClass: AnalyticsStripeInvoice

@@ -12,8 +12,8 @@ do (setupLodash = this) ->
 
 database.connect()
 
-User = require '../server/users/User'
-Payment = require '../server/payments/Payment'
+User = require '../server/models/User'
+Payment = require '../server/models/Payment'
 PaymentHandler = require '../server/payments/payment_handler'
 
 t0 = new Date().getTime()

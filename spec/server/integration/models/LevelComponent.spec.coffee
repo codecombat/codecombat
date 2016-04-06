@@ -1,4 +1,5 @@
 require '../../common'
+LevelComponent = require '../../../../server/models/LevelComponent'
 
 describe 'LevelComponent', ->
 

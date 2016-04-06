@@ -1,13 +1,13 @@
 async = require 'async'
 mongoose = require 'mongoose'
 Handler = require '../commons/Handler'
-AnalyticsLogEvent = require '../analytics/AnalyticsLogEvent'
-Clan = require './Clan'
-EarnedAchievement = require '../achievements/EarnedAchievement'
+AnalyticsLogEvent = require '../models/AnalyticsLogEvent'
+Clan = require './../models/Clan'
+EarnedAchievement = require '../models/EarnedAchievement'
 EarnedAchievementHandler = require '../achievements/earned_achievement_handler'
-LevelSession = require '../levels/sessions/LevelSession'
+LevelSession = require '../models/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
-User = require '../users/User'
+User = require '../models/User'
 UserHandler = require '../users/user_handler'
 
 memberLimit = 200

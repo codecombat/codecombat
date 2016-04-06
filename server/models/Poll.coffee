@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
-jsonSchema = require '../../app/schemas/models/poll.schema'
+jsonSchema = require '../../app/schemas/models/poll.schema.coffee'
 log = require 'winston'
 config = require '../../server_config'
 PollSchema = new mongoose.Schema {

@@ -1,7 +1,9 @@
 require '../common'
 utils = require '../utils'
 urlUser = '/db/user'
-
+User = require '../../../server/models/User'
+Classroom = require '../../../server/models/Classroom'
+request = require '../request'
 
 describe 'Server user object', ->
 
@@ -362,13 +364,13 @@ describe 'DELETE /db/user', ->
           done()
 
 describe 'Statistics', ->
-  LevelSession = require '../../../server/levels/sessions/LevelSession'
-  Article = require '../../../server/articles/Article'
-  Level = require '../../../server/levels/Level'
-  LevelSystem = require '../../../server/levels/systems/LevelSystem'
-  LevelComponent = require '../../../server/levels/components/LevelComponent'
-  ThangType = require '../../../server/levels/thangs/ThangType'
-  User = require '../../../server/users/User'
+  LevelSession = require '../../../server/models/LevelSession'
+  Article = require '../../../server/models/Article'
+  Level = require '../../../server/models/Level'
+  LevelSystem = require '../../../server/models/LevelSystem'
+  LevelComponent = require '../../../server/models/LevelComponent'
+  ThangType = require '../../../server/models/ThangType'
+  User = require '../../../server/models/User'
   UserHandler = require '../../../server/users/user_handler'
 
   it 'keeps track of games completed', (done) ->

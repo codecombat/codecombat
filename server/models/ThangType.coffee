@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
-plugins = require '../../plugins/plugins'
-config = require '../../../server_config'
+plugins = require '../plugins/plugins'
+config = require '../../server_config'
 
 ThangTypeSchema = new mongoose.Schema({
   body: String,

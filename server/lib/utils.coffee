@@ -1,4 +1,4 @@
-AnalyticsString = require '../analytics/AnalyticsString'
+AnalyticsString = require '../models/AnalyticsString'
 log = require 'winston'
 mongoose = require 'mongoose'
 config = require '../../server_config'

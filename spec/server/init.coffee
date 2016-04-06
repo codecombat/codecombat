@@ -1,3 +1,8 @@
+User = require '../../server/models/User'
+Classroom = require '../../server/models/Classroom'
+CourseInstance = require '../../server/models/CourseInstance'
+Course = require '../../server/models/Course'
+Prepaid = require '../../server/models/Prepaid'
 
 module.exports.course = (properties) ->
   properties ?= {}

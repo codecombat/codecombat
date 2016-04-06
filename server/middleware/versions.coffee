@@ -1,6 +1,6 @@
 utils = require '../lib/utils'
 errors = require '../commons/errors'
-User = require '../users/User'
+User = require '../models/User'
 sendwithus = require '../sendwithus'
 slack = require '../slack'
 _ = require 'lodash'

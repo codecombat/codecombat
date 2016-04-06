@@ -1,4 +1,4 @@
-LevelSession = require './LevelSession'
+LevelSession = require './../../models/LevelSession'
 Handler = require '../../commons/Handler'
 log = require 'winston'
 

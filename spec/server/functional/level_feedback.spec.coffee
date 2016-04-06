@@ -1,4 +1,5 @@
 require '../common'
+request = require '../request'
 
 describe 'LevelFeedback', ->
 

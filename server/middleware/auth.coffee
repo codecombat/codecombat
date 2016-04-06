@@ -5,7 +5,7 @@ wrap = require 'co-express'
 Promise = require 'bluebird'
 parse = require '../commons/parse'
 request = require 'request'
-User = require '../users/User'
+User = require '../models/User'
 utils = require '../lib/utils'
 mongoose = require 'mongoose'
 

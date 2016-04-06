@@ -18,7 +18,7 @@ do (setupLodash = this) ->
 database.connect()
 
 UserHandler = require '../server/users/user_handler'
-User = require '../server/users/User'
+User = require '../server/models/User'
 
 startDate = new Date 2015, 11, 1
 

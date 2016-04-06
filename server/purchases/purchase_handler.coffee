@@ -1,5 +1,5 @@
-Purchase = require './Purchase'
-User = require '../users/User'
+Purchase = require './../models/Purchase'
+User = require '../models/User'
 Handler = require '../commons/Handler'
 {handlers} = require '../commons/mapping'
 mongoose = require 'mongoose'

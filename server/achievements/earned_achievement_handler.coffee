@@ -1,14 +1,14 @@
 log = require 'winston'
 mongoose = require 'mongoose'
 async = require 'async'
-Achievement = require './Achievement'
-EarnedAchievement = require './EarnedAchievement'
-User = require '../users/User'
+Achievement = require './../models/Achievement'
+EarnedAchievement = require './../models/EarnedAchievement'
+User = require '../models/User'
 Handler = require '../commons/Handler'
 LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/core/utils'
-LevelSession = require '../levels/sessions/LevelSession'
-UserPollsRecord = require '../polls/UserPollsRecord'
+LevelSession = require '../models/LevelSession'
+UserPollsRecord = require '../models/UserPollsRecord'
 
 class EarnedAchievementHandler extends Handler
   modelClass: EarnedAchievement

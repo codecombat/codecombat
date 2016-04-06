@@ -1,6 +1,6 @@
 GLOBAL._ = require 'lodash'
 
-User = require '../../../server/users/User'
+User = require '../../../server/models/User'
 
 describe 'user', ->
 

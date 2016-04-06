@@ -1,4 +1,4 @@
-AnalyticsUsersActive = require './AnalyticsUsersActive'
+AnalyticsUsersActive = require './../models/AnalyticsUsersActive'
 Handler = require '../commons/Handler'
 
 class AnalyticsUsersActiveHandler extends Handler

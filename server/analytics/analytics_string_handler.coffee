@@ -1,4 +1,4 @@
-AnalyticsString = require './AnalyticsString'
+AnalyticsString = require './../models/AnalyticsString'
 Handler = require '../commons/Handler'
 
 class AnalyticsStringHandler extends Handler

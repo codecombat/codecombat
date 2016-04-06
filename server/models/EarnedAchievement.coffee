@@ -17,7 +17,7 @@ EarnedAchievementSchema.index({user: 1, achievement: 1}, {unique: true, name: 'e
 EarnedAchievementSchema.index({user: 1, changed: -1}, {name: 'latest '})
 
 EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, originalDocObj=null, previouslyEarnedAchievement=null, done) ->
-  User = require '../users/User'
+  User = require './User'
   userObjectID = doc.get(achievement.get('userField'))
   userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use strings, not ObjectId's
 

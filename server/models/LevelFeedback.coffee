@@ -1,9 +1,9 @@
 # TODO: not updated since rename from level_instance, or since we redid how all models are done; probably busted
 
 mongoose = require 'mongoose'
-plugins = require '../../plugins/plugins'
-jsonschema = require '../../../app/schemas/models/level_feedback'
-config = require '../../../server_config'
+plugins = require '../plugins/plugins'
+jsonschema = require '../../app/schemas/models/level_feedback'
+config = require '../../server_config'
 
 LevelFeedbackSchema = new mongoose.Schema({
   created:

@@ -5,10 +5,10 @@ wrap = require 'co-express'
 Promise = require 'bluebird'
 database = require '../commons/database'
 mongoose = require 'mongoose'
-Classroom = require '../classrooms/Classroom'
+Classroom = require '../models/Classroom'
 parse = require '../commons/parse'
-LevelSession = require '../levels/sessions/LevelSession'
-User = require '../users/User'
+LevelSession = require '../models/LevelSession'
+User = require '../models/User'
 
 module.exports =
   getByOwner: wrap (req, res, next) ->

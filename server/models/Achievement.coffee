@@ -55,7 +55,7 @@ AchievementSchema.statics.achievementCollections = {}
 # TODO might want to tweak this to only load new achievements
 AchievementSchema.statics.loadAchievements = (done) ->
   AchievementSchema.statics.resetAchievements()
-  Achievement = require('../achievements/Achievement')
+  Achievement = require('./Achievement')
   query = Achievement.find({collection: {$ne: 'level.sessions'}})
   query.exec (err, docs) ->
     _.each docs, (achievement) ->

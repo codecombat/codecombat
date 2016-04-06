@@ -1,9 +1,9 @@
 log = require 'winston'
 mongoose = require 'mongoose'
 utils = require '../lib/utils'
-AnalyticsLogEvent = require './AnalyticsLogEvent'
-Campaign = require '../campaigns/Campaign'
-Level = require '../levels/Level'
+AnalyticsLogEvent = require './../models/AnalyticsLogEvent'
+Campaign = require '../models/Campaign'
+Level = require '../models/Level'
 Handler = require '../commons/Handler'
 
 class AnalyticsLogEventHandler extends Handler

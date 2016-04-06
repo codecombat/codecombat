@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
-plugins = require '../../plugins/plugins'
-jsonschema = require '../../../app/schemas/models/mail_sent'
+plugins = require '../plugins/plugins'
+jsonschema = require '../../app/schemas/models/mail_sent'
 
 MailSent = new mongoose.Schema({
   sent:

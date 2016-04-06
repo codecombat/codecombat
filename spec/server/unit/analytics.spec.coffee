@@ -1,9 +1,10 @@
 GLOBAL._ = require 'lodash'
 
 require '../common'
-AnalyticsUsersActive = require '../../../server/analytics/AnalyticsUsersActive'
-LevelSession = require '../../../server/levels/sessions/LevelSession'
-User = require '../../../server/users/User'
+AnalyticsUsersActive = require '../../../server/models/AnalyticsUsersActive'
+LevelSession = require '../../../server/models/LevelSession'
+User = require '../../../server/models/User'
+mongoose = require 'mongoose'
 
 # TODO: these tests have some rerun/cleanup issues
 # TODO: add tests for purchase, payment, subscribe, unsubscribe, and earned achievements

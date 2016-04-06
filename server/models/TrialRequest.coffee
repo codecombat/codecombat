@@ -3,10 +3,10 @@ log = require 'winston'
 mongoose = require 'mongoose'
 config = require '../../server_config'
 sendwithus = require '../sendwithus'
-Prepaid = require '../prepaids/Prepaid'
+Prepaid = require './Prepaid'
 jsonSchema = require '../../app/schemas/models/trial_request.schema'
-Classroom = require '../classrooms/Classroom'
-User = require '../users/User'
+Classroom = require './Classroom'
+User = require './User'
 
 TrialRequestSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
 
