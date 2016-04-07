@@ -1,6 +1,6 @@
 log = require 'winston'
 Payment = require '../models/Payment'
-PaymentHandler = require '../payments/payment_handler'
+PaymentHandler = require '../handlers/payment_handler'
 
 module.exports =
   logError: (user, msg) ->

@@ -14,7 +14,7 @@ do (setupLodash = this) ->
 
 database.connect()
 
-UserHandler = require '../server/users/user_handler'
+UserHandler = require '../server/handlers/user_handler'
 User = require '../server/models/User'
 
 userIDs = [

@@ -5,7 +5,7 @@ Classroom = require './../models/Classroom'
 User = require '../models/User'
 sendwithus = require '../sendwithus'
 utils = require '../lib/utils'
-UserHandler = require '../users/user_handler'
+UserHandler = require './user_handler'
 
 ClassroomHandler = class ClassroomHandler extends Handler
   modelClass: Classroom

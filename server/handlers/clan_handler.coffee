@@ -4,11 +4,11 @@ Handler = require '../commons/Handler'
 AnalyticsLogEvent = require '../models/AnalyticsLogEvent'
 Clan = require './../models/Clan'
 EarnedAchievement = require '../models/EarnedAchievement'
-EarnedAchievementHandler = require '../achievements/earned_achievement_handler'
+EarnedAchievementHandler = require './earned_achievement_handler'
 LevelSession = require '../models/LevelSession'
-LevelSessionHandler = require '../levels/sessions/level_session_handler'
+LevelSessionHandler = require './level_session_handler'
 User = require '../models/User'
-UserHandler = require '../users/user_handler'
+UserHandler = require './user_handler'
 
 memberLimit = 200
 

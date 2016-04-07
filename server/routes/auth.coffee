@@ -1,7 +1,7 @@
 authentication = require 'passport'
 LocalStrategy = require('passport-local').Strategy
 User = require '../models/User'
-UserHandler = require '../users/user_handler'
+UserHandler = require '../handlers/user_handler'
 LevelSession = require '../models/LevelSession'
 config = require '../../server_config'
 errors = require '../commons/errors'

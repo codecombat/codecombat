@@ -223,7 +223,7 @@ describe 'Achieving Achievements', ->
 
 
 describe 'Recalculate Achievements', ->
-  EarnedAchievementHandler = require '../../../server/achievements/earned_achievement_handler'
+  EarnedAchievementHandler = require '../../../server/handlers/earned_achievement_handler'
 
   it 'remove earned achievements', (done) ->
     f = ->

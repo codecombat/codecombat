@@ -1,5 +1,5 @@
-LevelSystem = require './../../models/LevelSystem'
-Handler = require '../../commons/Handler'
+LevelSystem = require './../models/LevelSystem'
+Handler = require '../commons/Handler'
 
 LevelSystemHandler = class LevelSystemHandler extends Handler
   modelClass: LevelSystem
@@ -13,7 +13,7 @@ LevelSystemHandler = class LevelSystemHandler extends Handler
     'configSchema'
   ]
   postEditableProperties: ['name']
-  jsonSchema: require '../../../app/schemas/models/level_system'
+  jsonSchema: require '../../app/schemas/models/level_system'
 
   getEditableProperties: (req, document) ->
     props = super(req, document)

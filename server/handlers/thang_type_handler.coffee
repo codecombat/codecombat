@@ -1,9 +1,9 @@
-ThangType = require './../../models/ThangType'
-Handler = require '../../commons/Handler'
+ThangType = require './../models/ThangType'
+Handler = require '../commons/Handler'
 
 ThangTypeHandler = class ThangTypeHandler extends Handler
   modelClass: ThangType
-  jsonSchema: require '../../../app/schemas/models/thang_type'
+  jsonSchema: require '../../app/schemas/models/thang_type'
   editableProperties: [
     'name'
     'raw'

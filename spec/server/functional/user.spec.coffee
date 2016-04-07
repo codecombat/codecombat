@@ -371,7 +371,7 @@ describe 'Statistics', ->
   LevelComponent = require '../../../server/models/LevelComponent'
   ThangType = require '../../../server/models/ThangType'
   User = require '../../../server/models/User'
-  UserHandler = require '../../../server/users/user_handler'
+  UserHandler = require '../../../server/handlers/user_handler'
 
   it 'keeps track of games completed', (done) ->
     session = new LevelSession

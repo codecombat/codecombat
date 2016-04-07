@@ -12,7 +12,7 @@ do (setupLodash = this) ->
 
 database.connect()
 
-EarnedAchievementHandler = require '../server/achievements/earned_achievement_handler'
+EarnedAchievementHandler = require '../server/handlers/earned_achievement_handler'
 log.info 'Starting earned achievement recalculation...'
 EarnedAchievementHandler.constructor.recalculate (err) ->
   log.error err if err?

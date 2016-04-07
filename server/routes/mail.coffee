@@ -1,6 +1,6 @@
 mail = require '../commons/mail'
 MailSent = require '../models/MailSent'
-UserRemark = require '../users/remarks/UserRemark'
+UserRemark = require '../models/UserRemark'
 User = require '../models/User'
 async = require 'async'
 errors = require '../commons/errors'

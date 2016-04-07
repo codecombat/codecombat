@@ -14,7 +14,7 @@ database.connect()
 
 User = require '../server/models/User'
 Payment = require '../server/models/Payment'
-PaymentHandler = require '../server/payments/payment_handler'
+PaymentHandler = require '../server/handlers/payment_handler'
 
 t0 = new Date().getTime()
 total = 100000

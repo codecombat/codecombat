@@ -1,10 +1,10 @@
-LevelComponent = require './../../models/LevelComponent'
-Handler = require '../../commons/Handler'
+LevelComponent = require './../models/LevelComponent'
+Handler = require '../commons/Handler'
 mongoose = require 'mongoose'
 
 LevelComponentHandler = class LevelComponentHandler extends Handler
   modelClass: LevelComponent
-  jsonSchema: require '../../../app/schemas/models/level_component'
+  jsonSchema: require '../../app/schemas/models/level_component'
   editableProperties: [
     'system'
     'description'
