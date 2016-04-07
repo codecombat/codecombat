@@ -4,7 +4,9 @@ ClassroomSchema = c.object {title: 'Classroom', required: ['name']}
 c.extendNamedProperties ClassroomSchema  # name first
 
 _.extend ClassroomSchema.properties,
+  name: { type: 'string', minLength: 1 }
   members: c.array {title: 'Members'}, c.objectId()
+  deletedMembers: c.array {title: 'Deleted Members'}, c.objectId()
   ownerID: c.objectId()
   description: {type: 'string'}
   code: c.shortString(title: "Unique code to redeem")

@@ -48,7 +48,7 @@ module.exports = class TeacherClassView extends RootView
     
     @listenTo @classroom, 'sync', ->
       @students = new Users()
-      jqxhrs = @students.fetchForClassroom(@classroom)
+      jqxhrs = @students.fetchForClassroom(@classroom, removeDeleted: true)
       if jqxhrs.length > 0
         @supermodel.trackCollection(@students)
       @listenTo @students, 'sync', @sortByName
@@ -71,6 +71,7 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackCollection(@courseInstances)
 
   onLoaded: ->
+    @removeDeletedStudents()
     
     @classCode = @classroom.get('codeCamel') or @classroom.get('code')
     @joinURL = document.location.origin + "/courses?_cc=" + @classCode
@@ -130,6 +131,12 @@ module.exports = class TeacherClassView extends RootView
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
+  
+  removeDeletedStudents: () ->
+    _.remove(@classroom.get('members'), (memberID) =>
+      not @students.get(memberID) or @students.get(memberID)?.get('deleted')
+    )
+    true
     
   sortByName: (e) ->
     if @sortValue is 'name'
@@ -140,7 +147,7 @@ module.exports = class TeacherClassView extends RootView
       
     dir = @sortDirection
     @students.comparator = (student1, student2) ->
-      return (if student1.get('name') < student2.get('name') then -dir else dir)
+      return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
     @students.sort()
     
   sortByProgress: (e) ->
@@ -162,7 +169,7 @@ module.exports = class TeacherClassView extends RootView
     @students.sort()
   
   getSelectedStudentIDs: ->
-    $('.student-row .checkbox-flat input:checked').map (index, checkbox) ->
+    @$('.student-row .checkbox-flat input:checked').map (index, checkbox) ->
       $(checkbox).data('student-id')
     
   ensureInstance: (courseID) ->
@@ -177,7 +184,7 @@ module.exports = class TeacherClassView extends RootView
     application.tracker?.trackEvent 'Classroom started enroll students', category: 'Courses'
   
   onClickBulkEnroll: ->
-    courseID = $('.bulk-course-select').val()
+    courseID = @$('.bulk-course-select').val()
     courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
     userIDs = @getSelectedStudentIDs().toArray()
     selectedUsers = new Users(@students.get(userID) for userID in userIDs)
@@ -187,12 +194,21 @@ module.exports = class TeacherClassView extends RootView
     application.tracker?.trackEvent 'Classroom started enroll students', category: 'Courses'
     
   onClickBulkAssign: ->
-    courseID = $('.bulk-course-select').val()
+    courseID = @$('.bulk-course-select').val()
     courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
-    members = @getSelectedStudentIDs().filter((index, userID) =>
+    selectedIDs = @getSelectedStudentIDs()
+    members = selectedIDs.filter((index, userID) =>
       user = @students.get(userID)
       user.isEnrolled()
     ).toArray()
+    
+    @assigningToUnenrolled = _.any selectedIDs, (userID) =>
+      not @students.get(userID).isEnrolled()
+    
+    @$('.cant-assign-to-unenrolled').toggleClass('visible', @assigningToUnenrolled)
+    
+    @assigningToNobody = selectedIDs.length is 0
+    @$('.no-students-selected').toggleClass('visible', @assigningToNobody)
 
     if courseInstance
       courseInstance.addMembers members, {
@@ -220,12 +236,12 @@ module.exports = class TeacherClassView extends RootView
     
   onClickSelectAll: (e) ->
     e.preventDefault()
-    checkboxes = $('.student-checkbox input')
+    checkboxes = @$('.student-checkbox input')
     if _.all(checkboxes, 'checked')
-      $('.select-all input').prop('checked', false)
+      @$('.select-all input').prop('checked', false)
       checkboxes.prop('checked', false)
     else
-      $('.select-all input').prop('checked', true)
+      @$('.select-all input').prop('checked', true)
       checkboxes.prop('checked', true)
     null
     
@@ -235,8 +251,8 @@ module.exports = class TeacherClassView extends RootView
     checkbox = $(e.currentTarget).find('input')
     checkbox.prop('checked', not checkbox.prop('checked'))
     # checkboxes.prop('checked', false)
-    checkboxes = $('.student-checkbox input')
-    $('.select-all input').prop('checked', _.all(checkboxes, 'checked'))
+    checkboxes = @$('.student-checkbox input')
+    @$('.select-all input').prop('checked', _.all(checkboxes, 'checked'))
   
   onChangeCourseSelect: (e) ->
     @selectedCourse = @courses.get($(e.currentTarget).val())

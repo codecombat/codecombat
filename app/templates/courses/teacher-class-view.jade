@@ -134,9 +134,9 @@ mixin inlineUserList(users)
       each student in users
         li
           //- a(href='TODO')
-          //-   = student.get('name')
+          //-   = student.broadName()
           span.inline-student-name
-            = student.get('name')
+            = student.broadName()
 
 mixin addStudentsButton
   .add-students.text-center
@@ -176,7 +176,7 @@ mixin studentRow(student)
       .student-info
         if student.get('deleted')
           em (deleted)
-        div.student-name= student.get('name')
+        div.student-name= student.broadName()
         div.student-email.small-details= student.get('email')
     td.hidden
       a.edit-student-button(data-student-id=student.id)
@@ -244,7 +244,7 @@ mixin courseOverview
 mixin studentLevelsRow(student)
   .student-levels-row.alternating-background
     div.student-info
-      div.student-name= student.get('name')
+      div.student-name= student.broadName()
       div.student-email.small-details= student.get('email')
     div.student-levels-progress
       - var course = view.selectedCourse
@@ -284,6 +284,10 @@ mixin copyCodes
 
 mixin bulkAssignControls
   .bulk-assign-controls.form-inline
+    .no-students-selected.small-details(class=view.assigningToNobody ? 'visible' : '')
+      span(data-i18n='teacher.no_students_selected')
+    .cant-assign-to-unenrolled.small-details(class=view.assigningToUnenrolled ? 'visible' : '')
+      span(data-i18n='teacher.cant_assign_to_unenrolled')
     span.small
       span(data-i18n='teacher.bulk_assign')
       span :

@@ -1061,7 +1061,6 @@
     already_enrolled: "already enrolled"
     licenses_remaining: "licenses remaining:"
     insufficient_enrollments: "insufficient paid enrollments"
-    enroll_students: "Enroll Students"
     get_enrollments: "Get More Enrollments"
     change_language: "Change Course Language"
     keep_using: "Keep Using"
@@ -1286,10 +1285,14 @@
     assign_to_selected_students: "Assign to Selected Students"
     assigned: "Assigned"
     enroll_selected_students: "Enroll Selected Students"
+    cant_assign_to_unenrolled: "Course cannot be assigned to students who are not enrolled."
+    no_students_selected: "No students were selected."
     guides_coming_soon: "Guides coming soon!" # Courses
     show_students_from: "Show students from" # Enroll students modal
     enroll_the_following_students: "Enroll the following students"
     all_students: "All Students"
+    enroll_students: "Enroll Students"
+    not_enough_enrollments: "Not enough Enrollments available."
     enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
     enrollments_blurb_2: "require enrollments to access the courses."
     credits_available: "Credits Available"
@@ -1305,7 +1308,8 @@
     how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
     how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
     bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
-
+    total_unenrolled: "Total unenrolled"
+    
   classes:
     archmage_title: "Archmage"
     archmage_title_description: "(Coder)"
