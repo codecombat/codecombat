@@ -40,7 +40,8 @@
     "nodemon": "nodemon",
     "jasmine-node": "jasmine-node",
     "multicore": "coffee multicore.coffee",
-    "jasmine": "jasmine"
+    "jasmine": "jasmine",
+    "proxy": "COCO_PROXY='true' nodemon"
   },
   "main": "index.js",
   "keywords": [
@@ -99,6 +100,7 @@
     "compressible": "~1.0.1",
     "css-brunch": "^1.7.0",
     "fs-extra": "^0.26.2",
+    "http-proxy": "^1.13.2",
     "jade-brunch": "1.7.5",
     "jasmine": "^2.4.1",
     "javascript-brunch": "> 1.0 < 1.8",

@@ -48,7 +48,9 @@ developmentLogging = (tokens, req, res) ->
   else if status >= 300 then color = 36
   elapsed = (new Date()) - req._startTime
   elapsedColor = if elapsed < 500 then 90 else 31
-  "\x1b[90m#{req.method} #{req.originalUrl} \x1b[#{color}m#{res.statusCode} \x1b[#{elapsedColor}m#{elapsed}ms\x1b[0m"
+  s = "\x1b[90m#{req.method} #{req.originalUrl} \x1b[#{color}m#{res.statusCode} \x1b[#{elapsedColor}m#{elapsed}ms\x1b[0m"
+  s += ' (proxied)' if req.proxied
+  return s
 
 setupErrorMiddleware = (app) ->
   app.use (err, req, res, next) ->
@@ -86,6 +88,8 @@ setupExpressMiddleware = (app) ->
     express.logger.format('dev', developmentLogging)
     app.use(express.logger('dev'))
   app.use(express.static(path.join(__dirname, 'public'), maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
+  
+  setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
   app.use(useragent.express())
 
   app.use(express.favicon())
@@ -216,6 +220,7 @@ exports.setupLogging = ->
   logging.setup()
 
 exports.connectToDatabase = ->
+  return if config.proxy
   database.connect()
 
 exports.setupMailchimp = ->
@@ -230,3 +235,18 @@ exports.setExpressConfigurationOptions = (app) ->
   app.set('view options', { layout: false })
   app.set('env', if config.isProduction then 'production' else 'development')
   app.set('json spaces', 0) if config.isProduction
+
+setupProxyMiddleware = (app) ->
+  return if config.isProduction
+  return unless config.proxy
+  httpProxy = require 'http-proxy'
+  proxy = httpProxy.createProxyServer({
+    target: 'https://direct.codecombat.com'
+    secure: false
+  })
+  log.info 'Using dev proxy server'
+  app.use (req, res, next) ->
+    req.proxied = true
+    proxy.web req, res, (e) ->
+      console.warn("Failed to proxy: ", e)
+      next()
