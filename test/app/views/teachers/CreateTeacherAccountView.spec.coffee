@@ -206,6 +206,7 @@ describe 'CreateTeacherAccountView', ->
       expect(attrs.password1).toBeUndefined()
       expect(attrs.password2).toBeUndefined()
       expect(attrs.name).toBeUndefined()
+      expect(attrs.properties?.siteOrigin).toBe('create teacher')
   
     describe 'after saving the new trial request', ->
       beforeEach ->

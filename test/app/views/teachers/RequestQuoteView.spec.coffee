@@ -122,6 +122,8 @@ describe 'RequestQuoteView', ->
       it 'creates a new trial request', ->
         expect(@submitRequest).toBeTruthy()
         expect(@submitRequest.method).toBe('POST')
+        attrs = JSON.parse(@submitRequest.params)
+        expect(attrs.properties?.siteOrigin).toBe('demo request')
 
       it 'sets the user\'s role to the one they chose', ->
         request = _.last(jasmine.Ajax.requests.filter((r) -> _.string.startsWith(r.url, '/db/user')))

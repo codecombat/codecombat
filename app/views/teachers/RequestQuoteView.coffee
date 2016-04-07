@@ -90,6 +90,7 @@ module.exports = class RequestQuoteView extends RootView
     if error
       forms.scrollToFirstError()
       return
+    attrs['siteOrigin'] = 'demo request'
     @trialRequest = new TrialRequest({
       type: 'course'
       properties: attrs
