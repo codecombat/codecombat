@@ -116,7 +116,7 @@ class SolutionsNode extends TreemaArrayNode
       solutions.push({
         source: source
         language: language
-        passes: true
+        succeeds: true
       })
 
     @set('/', solutions)
