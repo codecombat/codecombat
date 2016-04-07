@@ -11,7 +11,6 @@ config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
 
 sendwithus = require '../sendwithus'
-delighted = require '../delighted'
 
 UserSchema = new mongoose.Schema({
   dateCreated:
@@ -237,7 +236,6 @@ UserSchema.methods.register = (done) ->
         address: @get 'email'
     sendwithus.api.send data, (err, result) ->
       log.error "sendwithus post-save error: #{err}, result: #{result}" if err
-    delighted.addDelightedUser @
   @saveActiveUser 'register'
 
 UserSchema.methods.hasSubscription = ->
