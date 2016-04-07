@@ -1,4 +1,5 @@
 common = require '../common'
+request = require '../request'
 
 describe 'recalculate statistics', ->
   url = getURL '/admin/user/recalculate/'

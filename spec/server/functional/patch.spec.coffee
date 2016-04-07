@@ -1,8 +1,12 @@
 require '../common'
+User = require '../../../server/models/User'
+Article = require '../../../server/models/Article'
+Patch = require '../../../server/models/Patch'
+request = require '../request'
 
 describe '/db/patch', ->
   async = require 'async'
-  UserHandler = require '../../../server/users/user_handler'
+  UserHandler = require '../../../server/handlers/user_handler'
 
   it 'clears the db first', (done) ->
     clearModels [User, Article, Patch], (err) ->

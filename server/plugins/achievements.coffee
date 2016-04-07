@@ -1,5 +1,5 @@
 mongoose = require 'mongoose'
-EarnedAchievement = require '../achievements/EarnedAchievement'
+EarnedAchievement = require '../models/EarnedAchievement'
 LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/core/utils'
 log = require 'winston'
@@ -9,8 +9,8 @@ log = require 'winston'
 # TODO if this is still a common scenario I could implement a database hit after all, but only
 # on the condition that it's necessary and still not too frequent in occurrence
 AchievablePlugin = (schema, options) ->
-  User = require '../users/User'  # Avoid mutual inclusion cycles
-  Achievement = require '../achievements/Achievement'
+  User = require '../models/User'  # Avoid mutual inclusion cycles
+  Achievement = require '../models/Achievement'
 
   # Keep track the document before it's saved
   schema.post 'init', (doc) ->

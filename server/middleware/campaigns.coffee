@@ -4,9 +4,9 @@ wrap = require 'co-express'
 Promise = require 'bluebird'
 database = require '../commons/database'
 mongoose = require 'mongoose'
-Campaign = require '../campaigns/Campaign'
+Campaign = require '../models/Campaign'
 parse = require '../commons/parse'
-LevelSession = require '../levels/sessions/LevelSession'
+LevelSession = require '../models/LevelSession'
 
 module.exports =
   fetchByType: wrap (req, res, next) ->

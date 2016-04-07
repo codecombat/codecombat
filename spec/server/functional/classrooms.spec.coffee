@@ -1,11 +1,15 @@
 config = require '../../../server_config'
 require '../common'
 clientUtils = require '../../../app/core/utils' # Must come after require /common
-mongoose = require 'mongoose'
 utils = require '../utils'
 _ = require 'lodash'
 Promise = require 'bluebird'
+request = require '../request'
 requestAsync = Promise.promisify(request, {multiArgs: true})
+User = require '../../../server/models/User'
+Classroom = require '../../../server/models/Classroom'
+LevelSession = require '../../../server/models/LevelSession'
+Level = require '../../../server/models/Level'
 
 classroomsURL = getURL('/db/classroom')
 

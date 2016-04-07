@@ -1,8 +1,8 @@
 log = require 'winston'
 async = require 'async'
 bayes = new (require 'bayesian-battle')()
-LevelSession = require '../../levels/sessions/LevelSession'
-User = require '../../users/User'
+LevelSession = require '../../models/LevelSession'
+User = require '../../models/User'
 perfmon = require '../../commons/perfmon'
 
 SIMULATOR_VERSION = 3

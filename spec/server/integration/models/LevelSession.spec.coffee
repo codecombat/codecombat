@@ -1,4 +1,5 @@
 require '../../common'
+LevelSession = require '../../../../server/models/LevelSession'
 
 describe 'LevelSession', ->
 

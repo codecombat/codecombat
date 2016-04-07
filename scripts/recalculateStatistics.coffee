@@ -12,7 +12,7 @@ do (setupLodash = this) ->
 database.connect()
 
 ### USER STATS ###
-UserHandler = require '../server/users/user_handler'
+UserHandler = require '../server/handlers/user_handler'
 
 report = (func, name, done) ->
   log.info 'Started ' + name + '...'

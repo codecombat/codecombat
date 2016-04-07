@@ -12,7 +12,7 @@ var mongoose = require('mongoose');
 
 database.connect();
 
-var Achievement = require('../server/achievements/Achievement');
+var Achievement = require('../server/models/Achievement');
 
 var tierNames = {
   "Wood": 1,

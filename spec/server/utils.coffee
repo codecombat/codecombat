@@ -2,6 +2,8 @@ async = require 'async'
 utils = require '../../server/lib/utils'
 co = require 'co'
 Promise = require 'bluebird'
+User = require '../../server/models/User'
+
 
 module.exports = mw =
   getURL: (path) -> 'http://localhost:3001' + path

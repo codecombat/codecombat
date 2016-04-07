@@ -2,8 +2,8 @@ log = require 'winston'
 async = require 'async'
 errors = require '../../commons/errors'
 scoringUtils = require './scoringUtils'
-LevelSession = require '../../levels/sessions/LevelSession'
-Level = require '../../levels/Level'
+LevelSession = require '../../models/LevelSession'
+Level = require '../../models/Level'
 
 module.exports = createNewTask = (req, res) ->
   requestSessionID = req.body.session

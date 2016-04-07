@@ -38,6 +38,12 @@ diminishing =
 
 url = getURL('/db/achievement')
 
+Achievement = require '../../../server/models/Achievement'
+EarnedAchievement = require '../../../server/models/EarnedAchievement'
+LevelSession = require '../../../server/models/LevelSession'
+User = require '../../../server/models/User'
+request = require '../request'
+
 describe 'Achievement', ->
   allowHeader = 'GET, POST, PUT, PATCH, DELETE'
 
@@ -217,7 +223,7 @@ describe 'Achieving Achievements', ->
 
 
 describe 'Recalculate Achievements', ->
-  EarnedAchievementHandler = require '../../../server/achievements/earned_achievement_handler'
+  EarnedAchievementHandler = require '../../../server/handlers/earned_achievement_handler'
 
   it 'remove earned achievements', (done) ->
     f = ->

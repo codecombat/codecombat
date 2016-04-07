@@ -1,9 +1,10 @@
 require '../common'
-User = require '../../../server/users/User'
+User = require '../../../server/models/User'
 utils = require '../utils'
 _ = require 'lodash'
 Promise = require 'bluebird'
 nock = require 'nock'
+request = require '../request'
 
 urlLogin = getURL('/auth/login')
 urlReset = getURL('/auth/reset')

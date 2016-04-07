@@ -1,5 +1,8 @@
 config = require '../../../server_config'
 require '../common'
+User = require '../../../server/models/User'
+Payment = require '../../../server/models/Payment'
+request = require '../request'
 
 # sample data that comes in through the webhook when you subscribe
 

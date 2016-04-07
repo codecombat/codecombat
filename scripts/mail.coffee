@@ -7,9 +7,9 @@ async = require 'async'
 
 serverSetup = require '../server_setup'
 sendwithus = require '../server/sendwithus'
-User = require '../server/users/User'
-Level = require '../server/levels/Level'
-LevelSession = require '../server/levels/sessions/LevelSession'
+User = require '../server/models/User'
+Level = require '../server/models/Level'
+LevelSession = require '../server/models/LevelSession'
 tournamentResults = require '../app/views/play/ladder/tournament_results'
 
 alreadyEmailed = []

@@ -3,6 +3,9 @@ testReceipt = 'MIIVEQYJKoZIhvcNAQcCoIIVAjCCFP4CAQExCzAJBgUrDgMCGgUAMIIEwgYJKoZIh
 config = require '../../../server_config'
 require '../common'
 nockUtils = require '../nock-utils'
+User = require '../../../server/models/User'
+Payment = require '../../../server/models/Payment'
+request = require '../request'
 
 
 describe '/db/payment', ->

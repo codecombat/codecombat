@@ -1,4 +1,5 @@
 require '../../common'
+Article = require '../../../../server/models/Article'
 
 describe 'NamePlugin', ->
 

@@ -2,6 +2,10 @@ require '../common'
 utils = require '../utils'
 _ = require 'lodash'
 Promise = require 'bluebird'
+User = require '../../../server/models/User'
+TrialRequest = require '../../../server/models/TrialRequest'
+Prepaid = require '../../../server/models/Prepaid'
+request = require '../request'
 
 fixture = {
   type: 'subscription'

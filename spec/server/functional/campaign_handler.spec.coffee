@@ -29,6 +29,11 @@ achievementURL = getURL('/db/achievement')
 campaignURL = getURL('/db/campaign')
 campaignSchema = require '../../../app/schemas/models/campaign.schema'
 campaignLevelProperties = _.keys(campaignSchema.properties.levels.additionalProperties.properties)
+Achievement = require '../../../server/models/Achievement'
+Campaign = require '../../../server/models/Campaign'
+Level = require '../../../server/models/Level'
+User = require '../../../server/models/User'
+request = require '../request'
 
 describe '/db/campaign', ->
   it 'prepares the db first', (done) ->

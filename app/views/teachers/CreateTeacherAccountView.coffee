@@ -105,6 +105,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     if error
       forms.scrollToFirstError()
       return
+    trialRequestAttrs['siteOrigin'] = 'create teacher'
     @trialRequest = new TrialRequest({
       type: 'course'
       properties: trialRequestAttrs

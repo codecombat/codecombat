@@ -49,7 +49,7 @@ module.exports.setup = (app) ->
   app.get '/healthcheck', (req, res) ->
     try
       async = require 'async'
-      User = require '../users/User'
+      User = require '../models/User'
       async.waterfall [
         (callback) ->
           User.find({}).limit(1).exec(callback)

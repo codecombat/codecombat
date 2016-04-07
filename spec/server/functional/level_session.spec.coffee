@@ -1,4 +1,7 @@
 require '../common'
+LevelSession = require '../../../server/models/LevelSession'
+mongoose = require 'mongoose'
+request = require '../request'
 
 describe '/db/level.session', ->
 
@@ -22,7 +25,6 @@ describe '/db/level.session', ->
   # Right now it's even possible to create ownerless sessions through POST
   xit 'allows users to create level sessions through PATCH', (done) ->
     loginJoe (joe) ->
-      console.log url + mongoose.Types.ObjectId()
       request {method: 'patch', uri: url + mongoose.Types.ObjectId(), json: session}, (err, res, body) ->
         expect(err).toBeNull()
         expect(res.statusCode).toBe 200

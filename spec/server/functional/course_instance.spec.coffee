@@ -4,6 +4,12 @@ require '../common'
 stripe = require('stripe')(config.stripe.secretKey)
 init = require '../init'
 utils = require '../utils'
+CourseInstance = require '../../../server/models/CourseInstance'
+Course = require '../../../server/models/Course'
+User = require '../../../server/models/User'
+Classroom = require '../../../server/models/Classroom'
+Prepaid = require '../../../server/models/Prepaid'
+request = require '../request'
 
 describe 'POST /db/course_instance', ->
 

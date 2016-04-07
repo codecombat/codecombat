@@ -85,6 +85,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     if error
       forms.scrollToFirstError()
       return
+    attrs['siteOrigin'] = 'convert teacher'
     @trialRequest = new TrialRequest({
       type: 'course'
       properties: attrs

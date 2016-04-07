@@ -1,8 +1,8 @@
 async = require 'async'
 config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
-User = require '../users/User'
-Payment = require '../payments/Payment'
+User = require '../models/User'
+Payment = require '../models/Payment'
 errors = require '../commons/errors'
 mongoose = require 'mongoose'
 utils = require '../../app/core/utils'

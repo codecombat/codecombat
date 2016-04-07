@@ -2,8 +2,8 @@ log = require 'winston'
 async = require 'async'
 errors = require '../../commons/errors'
 scoringUtils = require './scoringUtils'
-LevelSession = require '../../levels/sessions/LevelSession'
-TaskLog = require './ScoringTask'
+LevelSession = require '../../models/LevelSession'
+TaskLog = require './../../models/ScoringTask'
 
 module.exports = processTaskResult = (req, res) ->
   return if scoringUtils.simulatorIsTooOld req, res
