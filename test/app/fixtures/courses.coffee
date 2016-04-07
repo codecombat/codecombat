@@ -1,4 +1,4 @@
-Courses = require 'collections/Courses';
+Courses = require 'collections/Courses'
 
 module.exports = new Courses(
   [
