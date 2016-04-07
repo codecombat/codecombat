@@ -136,6 +136,7 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
       attrs = JSON.parse(request.params)
       expect(attrs.properties?.firstName).toBe('Mr')
       expect(attrs.properties?.siteOrigin).toBe('convert teacher')
+      expect(attrs.properties?.email).toBe('some@email.com')
 
     it 'redirects to /teachers/classes', ->
       request = jasmine.Ajax.requests.mostRecent()
