@@ -1,6 +1,7 @@
 config = {}
 
 config.unittest = global.testing
+config.proxy = process.env.COCO_PROXY
 
 config.tokyo = process.env.TOKYO or false
 config.saoPaulo = process.env.SAOPAULO or false

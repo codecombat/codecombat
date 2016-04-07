@@ -140,7 +140,7 @@ class MongoQueueClient
 
   _createMongoConnection:  ->
     @mongooseConnection = mongoose.createConnection @databaseAddress
-    @mongooseConnection.on 'error', -> log.error 'There was an error connecting to the queue in MongoDB'
+    @mongooseConnection.on 'error', -> log.error 'There was an error connecting to the queue in MongoDB' unless config.proxy
     @mongooseConnection.once 'open', -> log.info 'Successfully connected to MongoDB queue!'
 
   _generateMessageModel: ->
