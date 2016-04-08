@@ -8,7 +8,6 @@ block content
         div.well(style='width: 300px; float: right')
           if test.goals
             each v,k in test.goals || []
-              - console.log(v, k);
               case v.status
                 when 'success': div(style='color: green') ✓ #{k}
                 when 'incomplete': div(style='color: orange') ✘ #{k}

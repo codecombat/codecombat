@@ -297,6 +297,11 @@ module.exports = class Angel extends CocoClass
     # If performance was really a priority in IE9, we would rework things to be able to skip this step.
     goalStates = testGM?.getGoalStates()
     work.testWorld.goalManager.worldGenerationEnded() if work.testWorld.ended
+
+    if work.headless
+      @beholdGoalStates goalStates, testGM.checkOverallStatus()
+      return
+
     serialized = testWorld.serialize()
     window.BOX2D_ENABLED = false
     World.deserialize serialized.serializedWorld, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), serialized.startFrame, serialized.endFrame, work.level
