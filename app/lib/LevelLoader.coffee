@@ -95,7 +95,7 @@ module.exports = class LevelLoader extends CocoClass
         {target: 'public', access: 'write'}
       ]
       codeLanguage: @fakeSessionConfig.codeLanguage or me.get('aceConfig')?.language or 'python'
-      _id: 'rob'
+      _id: 'A Fake Session ID'
     @session = new LevelSession initVals
     @session.loaded = true
     @fakeSessionConfig.callback? @session, @level
@@ -104,9 +104,8 @@ module.exports = class LevelLoader extends CocoClass
     # TODO: just finish the part where we make the submit button do what is right when we are fake
     # TODO: anything else to make teacher session-less play make sense when we are fake
     # TODO: make sure we are not actually calling extra save/patch/put things throwing warnings because we know we are fake and so we shouldn't try to do that
-    @session.save = -> console.error 'hahaha we not gonna save yo'
-    @session.patch = -> console.error 'hahaha we not gonna patch yo'
-    @session.put = -> console.error 'hahaha we not gonna put yo'
+    for method in ['save', 'patch', 'put']
+      @session[method] = -> console.error "We shouldn't be doing a session.#{method}, since it's a fake session."
     @session.fake = true
     @loadDependenciesForSession @session
 
