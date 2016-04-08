@@ -192,8 +192,8 @@ module.exports = class SuperModel extends Backbone.Model
     return res
 
   checkName: (name) ->
-    if _.isString(name)
-      console.warn("SuperModel name property deprecated. Remove '#{name}' from code.")
+    #if _.isString(name)
+    #  console.warn("SuperModel name property deprecated. Remove '#{name}' from code.")
 
   storeResource: (resource, value) ->
     @rid++

@@ -12,6 +12,7 @@ module.exports =
     preload: {type: 'boolean'}
     realTime: {type: 'boolean'}
     submissionCount: {type: 'integer'}
+    fixedSeed: {type: ['integer', 'undefined']}
     flagHistory: {type: 'array'}
     difficulty: {type: 'integer'}
     god: {type: 'object'}
