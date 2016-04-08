@@ -277,6 +277,7 @@ module.exports = class Angel extends CocoClass
     work.testWorld = testWorld = new World work.userCodeMap
     work.testWorld.levelSessionIDs = work.levelSessionIDs
     work.testWorld.submissionCount = work.submissionCount
+    work.testWorld.fixedSeed = work.fixedSeed
     work.testWorld.flagHistory = work.flagHistory ? []
     work.testWorld.difficulty = work.difficulty
     testWorld.loadFromLevel work.level

@@ -312,6 +312,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
             self.debugWorld = new World(args.userCodeMap);
             self.debugWorld.levelSessionIDs = args.levelSessionIDs;
             self.debugWorld.submissionCount = args.submissionCount;
+            self.debugWorld.fixedSeed = args.fixedSeed;
             self.debugWorld.flagHistory = args.flagHistory;
             self.debugWorld.difficulty = args.difficulty;
             if (args.level)
@@ -373,6 +374,7 @@ self.runWorld = function runWorld(args) {
     self.world = new World(args.userCodeMap);
     self.world.levelSessionIDs = args.levelSessionIDs;
     self.world.submissionCount = args.submissionCount;
+    self.world.fixedSeed = args.fixedSeed;
     self.world.flagHistory = args.flagHistory || [];
     self.world.difficulty = args.difficulty || 0;
     if(args.level)
