@@ -315,7 +315,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     completed_level: "Voltooid Level:"
     course: "Les:"
     done: "Klaar"
-    next_level: "Volgende Level:"
+    next_level: "Volgende Level"
     next_game: "Volgend spel"
     show_menu: "Geef spelmenu weer"
     home: "Home" # Not used any more, will be removed soon.

@@ -315,7 +315,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     completed_level: "Suoritit tason:"
     course: "Kurssi:"
     done: "Valmis"
-    next_level: "Seuraava taso:"
+    next_level: "Seuraava taso"
     next_game: "Seuraava peli"
     show_menu: "Näytä pelivalikko"
 #    home: "Home" # Not used any more, will be removed soon.

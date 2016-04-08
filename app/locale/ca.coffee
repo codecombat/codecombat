@@ -315,7 +315,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     completed_level: "Nivell completat:"
     course: "Curs:"
     done: "Fet"
-    next_level: "Següent nivell:"
+    next_level: "Següent nivell"
     next_game: "Següent joc"
     show_menu: "Mostrar menú del joc"
     home: "Inici" # Not used any more, will be removed soon.

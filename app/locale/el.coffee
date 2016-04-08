@@ -315,7 +315,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     completed_level: "Ολοκληρωμένο Επίπεδο:"
     course: "Μάθημα:"
     done: "Έτοιμο"
-    next_level: "Επομένο Επίπεδο:"
+    next_level: "Επομένο Επίπεδο"
     next_game: "Επόμενο παιχνίδι"
     show_menu: "Εμφάνιση μενού παιχνιδιού"
     home: "Αρχική" # Not used any more, will be removed soon.

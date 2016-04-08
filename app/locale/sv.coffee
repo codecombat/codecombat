@@ -315,7 +315,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     completed_level: "Avklarad nivå:"
     course: "Lektion:"
     done: "Klar"
-    next_level: "Nästa nivå:"
+    next_level: "Nästa nivå"
     next_game: "Nästa spel"
     show_menu: "Visa spelmeny"
     home: "Hem" # Not used any more, will be removed soon.

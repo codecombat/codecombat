@@ -315,7 +315,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     completed_level: "Teljesített pálya:"
     course: "Kurzus:"
     done: "Kész"
-    next_level: "Következő pálya:"
+    next_level: "Következő pálya"
     next_game: "Következő játék"
     show_menu: "Játék Menü"
     home: "Kezdőlap" # Not used any more, will be removed soon.
