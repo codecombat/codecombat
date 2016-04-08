@@ -20,20 +20,20 @@ block content
   
   .courses.container
     - var courses = view.courses.models;
-    - var i = 0;
-    while i < courses.length
-      - var course = courses[i];
-      - i++;
+    - var courseIndex = 0;
+    while courseIndex < courses.length
+      - var course = courses[courseIndex];
+      - courseIndex++;
       .course.row
         .col-sm-9
           +course-info(course)
-        .col-sm-3.hidden
-          .play-level-form
+        .col-sm-3
+          .play-level-form(data-course-id=course.id)
             .form-group
               label.control-label
                 span(data-i18n="courses.select_language")
                 | :
-                select.form-control
+                select.language-select.form-control
                   // TODO: Automate this list @scott
                   option(value="python")
                     | Python
@@ -51,11 +51,17 @@ block content
               label.control-label
                 span(data-i18n="courses.select_level")
                 | :
-                select.form-control
-                  // TODO: Automate this list @scott
-                  option(value='TODO')
-                    | 1. Dungeons of Kithgard
-            a.btn.btn-lg.btn-primary
+                select.level-select.form-control
+                  if view.campaigns.loaded
+                    each level, levelIndex in view.campaigns.get(course.get('campaignID')).getLevels().models
+                      option(value=level.get('slug'))
+                        span
+                          = levelIndex + 1
+                        span
+                          | . 
+                        span
+                          = level.get('name')
+            a.play-level-button.btn.btn-lg.btn-primary
               span(data-i18n="courses.play_level")
           .clearfix       
             

@@ -315,7 +315,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     completed_level: "Завершённый уровень:"
     course: "Курс:"
     done: "Готово"
-    next_level: "Следующий уровень:"
+    next_level: "Следующий уровень"
     next_game: "Следующая игра"
     show_menu: "Показать меню игры"
     home: "На главную" # Not used any more, will be removed soon.
