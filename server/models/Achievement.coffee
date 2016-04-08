@@ -67,7 +67,7 @@ AchievementSchema.statics.loadAchievements = (done) ->
         AchievementSchema.statics.achievementCollections[collection].push achievement
       unless achievement.get('query')
         log.error "Uh oh, there is an achievement with an empty query: #{achievement}"
-    done?(AchievementSchema.statics.achievementCollections)
+    done?(AchievementSchema.statics.achievementCollections) # TODO: Return with err as first parameter  
 
 AchievementSchema.statics.getLoadedAchievements = ->
   AchievementSchema.statics.achievementCollections

@@ -26,6 +26,7 @@ module.exports = mw =
       permissions: []
       email: 'user'+_.uniqueId()+'@gmail.com'
       password: 'password'
+      anonymous: false
     }, options)
     user = new User(options)
     promise = user.save()
