@@ -1,6 +1,6 @@
 go = (path, options) -> -> @routeDirectly path, arguments, options
 redirect = (path) -> -> @navigate(path, { trigger: true, replace: true })
-  
+
 module.exports = class CocoRouter extends Backbone.Router
 
   initialize: ->
@@ -87,6 +87,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/poll': go('editor/poll/PollSearchView')
     'editor/poll/:articleID': go('editor/poll/PollEditView')
     'editor/thang-tasks': go('editor/ThangTasksView')
+    'editor/verifier': go('editor/verifier/VerifierView')
+    'editor/verifier/:levelID': go('editor/verifier/VerifierView')
 
     'file/*path': 'routeToServer'
 
@@ -156,7 +158,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('teachers/RestrictedToTeachersView')
     if options.studentsOnly and me.isTeacher()
       return @routeDirectly('courses/RestrictedToStudentsView')
-    
+
     path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views)?\/?play/.test(path)
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
@@ -210,7 +212,7 @@ module.exports = class CocoRouter extends Backbone.Router
     application.facebookHandler.renderButtons()
     application.gplusHandler.renderButtons()
     twttr?.widgets?.load?()
-    
+
   activateTab: ->
     base = _.string.words(document.location.pathname[1..], '/')[0]
     $("ul.nav li.#{base}").addClass('active')

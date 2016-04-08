@@ -1,0 +1,33 @@
+extends /templates/base-flat
+
+block content
+  .container
+    each test in view.tests
+      if test.level
+        h2= test.level.get('name')
+          small= ' in ' + test.language + ''
+        div.well(style='width: 300px; float: right')
+          if test.goals
+            each v,k in test.goals || []
+              case v.status
+                when 'success': div(style='color: green') ✓ #{k}
+                when 'incomplete': div(style='color: orange') ✘ #{k}
+                when 'failure': div(style='color: red') ✘ #{k}
+                default: div(style='color: blue') #{k}
+          else
+            h3 Running....
+        if test.solution
+          pre(style='margin-right: 350px') #{test.solution.source}
+        else
+          h4 Solution not found...
+      else
+        h1 Loading Level...
+  
+      div#tome-view
+      div#goals-veiw
+  
+      br
+
+      // TODO: show errors
+      // TODO: frame length
+      // TODO: show last frame hash

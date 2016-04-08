@@ -64,6 +64,7 @@ module.exports = class God extends CocoClass
   onTomeCast: (e) ->
     return unless e.god is @
     @lastSubmissionCount = e.submissionCount
+    @lastFixedSeed = e.fixedSeed
     @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
     @lastDifficulty = e.difficulty
     @createWorld e.spells, e.preload, e.realTime
@@ -94,6 +95,7 @@ module.exports = class God extends CocoClass
       level: @level
       levelSessionIDs: @levelSessionIDs
       submissionCount: @lastSubmissionCount
+      fixedSeed: @lastFixedSeed
       flagHistory: @lastFlagHistory
       difficulty: @lastDifficulty
       goals: @angelsShare.goalManager?.getGoals()
@@ -126,6 +128,7 @@ module.exports = class God extends CocoClass
         level: @level
         levelSessionIDs: @levelSessionIDs
         submissionCount: @lastSubmissionCount
+        fixedSeed: @fixedSeed
         flagHistory: @lastFlagHistory
         difficulty: @lastDifficulty
         goals: @goalManager?.getGoals()
