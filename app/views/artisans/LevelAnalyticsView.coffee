@@ -36,29 +36,66 @@ module.exports = class LevelAnalyticsView extends RootView
       continue unless excludedCampaigns.indexOf(campaign.get 'slug') is -1
       levels = campaign.get('levels')
       for key, level of levels
-        @levelSlugs.push level.slug
+        if @levelSlugs.indexOf(level.slug) is -1
+          @levelSlugs.push level.slug
     if @levels.models.length isnt 0
       @readyUp()
+    console.log @levelSlugs.length
+
   onLevelsLoaded: ->
-    console.log @levels
+    #console.log @levels
     if @campaigns.models.length isnt 0
       @readyUp()
+
   readyUp: ->
+    @parsedLevels = []
     for levelSlug in @levelSlugs
       level = @levels.findWhere({slug:levelSlug})
       unless level?
+        #console.log("Level missing from @levels: " + levelSlug)
         continue
-      console.warn('Warning: ' + levelSlug) unless level?
-      console.log levelSlug
 
       thangs = level.get('thangs')
-      for thang in thangs
-        for component in thang.components
-          if component.config?.programmableMethods?
-            console.log "HI!"
-            break
-      console.log thang
-      break
+      component = null
+      thang = _.findWhere(thangs, (elem) -> 
+        return _.findWhere(elem.components, (elem2) -> 
+          if elem2.config?.programmableMethods?.plan?
+            component = elem2
+            return true
+        )
+      )
+
+      unless thang? and component?
+        console.log("Cannot find programmableMethods component in: " + levelSlug)
+        continue
+      unless component?.config?.programmableMethods?.plan?
+        console.log("Cannot find plannable method inside component: " + levelSlug)
+        continue
+      solutions = component.config.programmableMethods.plan.solutions
+
+      problems = []
+      for lang in ["python", "javascript", "lua"]
+        unless _.findWhere(solutions, (elem) -> return elem.language is lang)
+          problems.push {
+            "type":"Missing Solution Language",
+            "value":lang
+          }
+      for solutionIndex of solutions
+        solution = solutions[solutionIndex]
+        for req in ["seed", "succeeds", "heroConfig"]
+          unless solution[req]?
+            problems.push {
+              "type":"Solution is not simulatable",
+              "value":solution.language
+            }
+          break
+
+      @parsedLevels.push {
+        level: level
+        problems: problems
+      }
+    console.log @parsedLevels.length
+    @renderSelectors '#levelTable'
     ###
     @levels = []
     for campaign in @campaigns.models
