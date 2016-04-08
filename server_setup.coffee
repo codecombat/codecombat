@@ -249,4 +249,4 @@ setupProxyMiddleware = (app) ->
     req.proxied = true
     proxy.web req, res, (e) ->
       console.warn("Failed to proxy: ", e)
-      next()
+      res.status(502).send({message: 'Proxy failed'})
