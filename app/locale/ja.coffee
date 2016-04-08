@@ -315,7 +315,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     completed_level: "コンプリートレベル:"
     course: "コース:"
     done: "完了"
-    next_level: "次のレベル:"
+    next_level: "次のレベル"
     next_game: "次のゲーム"
     show_menu: "ゲームメニューを見る"
     home: "ホーム" # Not used any more, will be removed soon.

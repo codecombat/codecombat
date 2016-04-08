@@ -315,7 +315,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     completed_level: "完成关卡:"
     course: "课程:"
     done: "完成"
-    next_level: "下一个关卡:"
+    next_level: "下一个关卡"
     next_game: "下一场游戏"
     show_menu: "显示游戏菜单"
     home: "主页" # Not used any more, will be removed soon.
