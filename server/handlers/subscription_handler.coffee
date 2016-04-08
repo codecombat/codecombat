@@ -184,7 +184,7 @@ class SubscriptionHandler extends Handler
                     @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
                     return @sendDatabaseError(res, err)
                   try
-                    msg = "Year subscription purchased by #{req.user.get('email')} #{req.user.id}"
+                    msg = "#{req.user.get('email')} paid #{payment.get('amount')} for year campaign subscription"
                     slack.sendSlackMessage msg, ['tower']
                   catch error
                     @logSubscriptionError(req.user, "Year sub sale Slack tower msg error: #{JSON.stringify(error)}")

@@ -164,12 +164,12 @@ PaymentHandler = class PaymentHandler extends Handler
             rawReceipt: receipt
             localPrice: localPrice
           }
-  
+
           validation = @validateDocumentInput(payment.toObject())
           if validation.valid is false
             @logPaymentError(req, 'Invalid apple payment object.')
             return @sendBadInputError(res, validation.errors)
-  
+
           payment.save((err) =>
             if err
               @logPaymentError(req, 'Apple payment save error.'+err)
@@ -250,7 +250,7 @@ PaymentHandler = class PaymentHandler extends Handler
           @logPaymentError(req, 'Stripe async load db error. '+err)
           return @sendDatabaseError(res, err)
         [payment, charge, product] = results
-        
+
         if not product
           return @sendNotFoundError(res, 'could not find product with id '+productID)
 
@@ -405,8 +405,7 @@ PaymentHandler = class PaymentHandler extends Handler
 
   sendPaymentSlackMessage: (options) ->
     try
-      message = "#{options.user?.get('name')} bought #{options.payment?.get('amount')} via #{options.payment?.get('service')}"
-      message += " for #{options.payment.get('description')}" if options.payment?.get('description')
+      message = "#{options.user?.get('emailLower')} paid #{options.payment?.get('amount')} for #{options.payment.get('description') or '???, no payment description!'}"
       slack.sendSlackMessage message, ['tower']
     catch e
       log.error "Couldn't send Slack message on payment because of error: #{e}"
