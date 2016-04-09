@@ -414,15 +414,17 @@ self.onWorldLoaded = function onWorldLoaded() {
     self.goalManager.worldGenerationEnded();
   var goalStates = self.goalManager.getGoalStates();
   var overallStatus = self.goalManager.checkOverallStatus();
-  if(self.world.ended)
-    self.postMessage({type: 'end-load-frames', goalStates: goalStates, overallStatus: overallStatus});
+  var totalFrames = self.world.totalFrames;
+  if(self.world.ended) {
+    var lastFrameHash = self.world.frames[totalFrames - 2].hash
+    self.postMessage({type: 'end-load-frames', goalStates: goalStates, overallStatus: overallStatus, totalFrames: totalFrames, lastFrameHash: lastFrameHash});
+  }
   var t1 = new Date();
   var diff = t1 - self.t0;
   if(self.world.headless)
     return console.log('Headless simulation completed in ' + diff + 'ms.');
 
   var worldEnded = self.world.ended;
-  var totalFrames = self.world.totalFrames;
   var transferableSupported = self.transferableSupported();
   try {
     var serialized = self.world.serialize();

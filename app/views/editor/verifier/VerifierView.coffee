@@ -19,15 +19,17 @@ module.exports = class VerifierView extends RootView
     levelIDs = if @levelID then [@levelID] else testLevels
     #supermodel = if @levelID then @supermodel else undefined
     @tests = []
-    async.eachSeries levelIDs, (levelID, next) =>
-      @tests.push new VerifierTest levelID, @update, @supermodel
-      @next = next
+    async.eachSeries levelIDs, (levelID, lnext) =>
+      async.eachSeries ['python','javascript'], (lang, next) =>
+        @tests.unshift new VerifierTest levelID, (e) =>
+          @update(e)
+          next() if e.state in ['complete', 'error']
+        , @supermodel, lang
+      , -> lnext()
 
   update: (event) =>
     # TODO: show unworkable tests instead of hiding them
     # TODO: destroy them Tests after or something
     console.log 'got event', event, 'on some test'
-    if event.state in ['complete', 'error']
-      @next()
     @tests = _.filter @tests, (test) -> test.state isnt 'error'
     @render()

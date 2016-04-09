@@ -5,6 +5,7 @@ block content
     each test in view.tests
       if test.level
         h2= test.level.get('name')
+          small= ' in ' + test.language + ''
         div.well(style='width: 300px; float: right')
           if test.goals
             each v,k in test.goals || []
@@ -15,8 +16,10 @@ block content
                 default: div(style='color: blue') #{k}
           else
             h3 Running....
-        div #{test.solution.language}:
-        pre(style='margin-right: 350px') #{test.solution.source}
+        if test.solution
+          pre(style='margin-right: 350px') #{test.solution.source}
+        else
+          h4 Solution not found...
       else
         h1 Loading Level...
   

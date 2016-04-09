@@ -1,17 +1,4 @@
-###
-This file will simulate games on node.js by emulating the browser environment.
-In order to use, followed these steps:
-1. Setup dev environment as usual
-module.exports = username: 'email@example.com', password: 'your_password'
-3. Run `./node_modules/coffee-script/bin/coffee ./headless_client.coffee`
-Alternatively, if you wish only to simulate a single game run `coffee ./headless_client.coffee one-game`
-Or, if you want to always simulate only one game, change the line below this to "true". This takes way more bandwidth.
-###
-simulateOneGame = false
-if process.argv[2] is 'one-game'
-  #calculate result of one game here
-  simulateOneGame = true
-  console.log "Simulating #{process.argv[3]} vs #{process.argv[4]}"
+useEsper = false
 bowerComponentsPath = './bower_components/'
 headlessClientPath = './headless_client/'
 
@@ -25,7 +12,6 @@ options =
   exitOnLeak: false # Exit if leak is found. Only useful if leaktest is set to true, obviously.
   heapdump: false # Dumps the whole heap after every pass. The heap dumps can then be viewed in Chrome browser.
   headlessClient: true
-  simulateOnlyOneGame: simulateOneGame
 
 options.heapdump = require('heapdump') if options.heapdump
 server = if options.testing then 'http://127.0.0.1:3000' else 'http://direct.codecombat.com'
@@ -123,11 +109,39 @@ GLOBAL.Box2D = Box2D
 # Set up new loader. Again.
 hook()
 
+
+SuperModel = require 'models/SuperModel'
 VerifierTest = require('views/editor/verifier/VerifierTest')
+
+supermodel = new SuperModel()
+
 oldGetQueryVariable = require('core/utils').getQueryVariable
 require('core/utils').getQueryVariable = (args...) ->
-  return true if args[0] is 'esper'
+  return useEsper if args[0] is 'esper'
   oldGetQueryVariable args...
 
-test = new VerifierTest (process.argv[2] or 'dungeons-of-kithgard'), (state) ->
-  console.log state, test.goals
+list = process.argv.slice(2);
+async = require 'async'
+
+
+
+async.eachSeries list, (item, next) ->
+  async.eachSeries ['python','javascript'], (lang, lnext) ->
+    test = new VerifierTest item, (e) ->
+      return if e.state is 'running'
+      obj =
+        error: test.error
+        state: e.state
+        level: item,
+        language: lang
+        observed:
+          goals: _.mapValues(test.goals, 'status')
+          frameCount: test.frames
+          lastHash: test.lastFrameHash
+        solution:
+          test.solution
+      process.send?(obj)
+      console.log(obj)
+      lnext() if e.state in ['error','complete']
+    , supermodel, lang
+  , () -> next()
