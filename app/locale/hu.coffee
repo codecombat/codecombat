@@ -6,8 +6,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     play: "Játssz!" # The big play button that opens up the campaign view.
     play_campaign_version: "Játssz a kampányban!" # Shows up under big play button if you only play /courses
     old_browser: "Hohó, a böngésződ már túl régi ahhoz, hogy a CodeCombat futhasson rajta. Bocsi!" # Warning that shows up on really old Firefox/Chrome/Safari
-    old_browser_suffix: "Megpróbálhatod éppen, da valószínűleg nem fog működni.."
-    ipad_browser: "Rossz hír. CodeCombat nem fut iPadon böngészőben. Jó hír: a hivatalos iPad applikációnk csak az Apple jóváhagyására vár."
+    old_browser_suffix: "Megpróbálhatod éppen, de valószínűleg nem fog működni.."
+    ipad_browser: "Rossz hír. A CodeCombat nem fut iPadon böngészőben. Jó hír: a hivatalos iPad applikációnk csak az Apple jóváhagyására vár."
     campaign: "Kampány"
     for_beginners: "Kezdőknek"
     multiplayer: "Többjátékos" # Not currently shown on home page
@@ -25,30 +25,30 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     im_a_student: "Diák vagyok"
     learn_more: "Tudj meg többet"
     classroom_in_a_box: "Egy mindent-egyben megoldás programozás tanításra."
-    codecombat_is: "CodeCombat a diákoknak egy olyan platform, melyben programozni tanulnak, miközben egy igazi játékot játszanak." # {change}
+    codecombat_is: "A CodeCombat a diákoknak egy olyan platform, melyben programozni tanulnak, miközben egy igazi játékot játszanak." # {change}
     our_courses: "Kurzusaink osztálytermi keretek közötti oktatásra kiválóan alkalmasak, akár informatikában kevésbé jártas tanárok számára is." # {change}
 #    top_screenshots_hint: "Students write code and see their changes update in real-time"
     designed_with: "Tanárok igényeihez tervezve"
     real_code: "Valódi, beírandó kódolás"
     from_the_first_level: "az első pályától kezdve"
-    getting_students: "A szintaxis és a helyes struktúrák elsajátításához kritikus, hogy a kód írást rögtön az elején kezdjenek a tanulók."
+    getting_students: "A szintaxis és a helyes struktúrák elsajátításához kritikus fontosságú, hogy a kódírást rögtön az elején elkezdjék a tanulók."
     educator_resources: "Oktatási segédanyagok"
     course_guides: "és kurzus útmutatók"
-    teaching_computer_science: "Programozás oktatása nem igényel drága képesítést, mivel számos eszközzel segítjük az eltérő felkészültségű tanárokat."
+    teaching_computer_science: "A programozás oktatása nem igényel drága képesítést, mivel számos eszközzel segítjük az eltérő felkészültségű tanárokat."
     accessible_to: "Hozzáférhető"
     everyone: "mindenki számára"
-    democratizing: "A programozni tanulás demokratizálása filozófiánk lényege. Mindenki számára hozzáférhetővé kell tenni kódolni tanulást."
+    democratizing: "A programozni tanulás demokratizálása filozófiánk lényege. Mindenki számára hozzáférhetővé kell tenni ezt az ismeretanyagot."
     forgot_learning: "Azt hiszem teljesen megfeledkeztek róla, hogy valójában tanulnak valamit."
     wanted_to_do: "Mindig is szerettem volna kódolni, de sosem gondoltam volna, hogy a suliban megtanulhatom."
     why_games: "Miért fontos játékokon keresztül tanulni?"
     games_reward: "A játékok jutalmazzák a kreatív erőfeszítést."
-    encourage: "A játék olyan közeg, ami elősegíti az interakciót, a kezdeményezést, és a kísérletezést. Egy jó játék kihívása, hogy idővel egyre jobbak legyünk bizonyos képességekben. Ez ugyanaz a kritikus folyamat, melyen a tanulás során megyünk keresztül."
+    encourage: "A játék olyan közeg, ami elősegíti az interakciót, a kezdeményezést, és a kísérletezést. Egy jó játék ösztönzi a játékost,hogy idővel egyre jobb legyen bizonyos képességekben. Ez ugyanaz a fontos folyamat, melyen a tanulás során megyünk keresztül."
     excel: "A játékok kiválóan jutalmazzák az"
     struggle: "alkotó erőfeszítést"
     kind_of_struggle: "azt a fajta erőfeszítést, ami olyan tanuláshoz vezet, ami"
     motivating: "magával ragadó"
     not_tedious: "nem egyhangú."
-    gaming_is_good: "Kutatások azt sejtetik, hogy a játék jótékony a fejlődő agynak. (Bizony!)"
+    gaming_is_good: "Kutatások alapján valószínű, hogy a játék jó hatással van a fejlődő agyra. (Bizony!)"
     game_based: "A játék-alapú tanító rendszereket"
     compared: "összevetve"
     conventional: "a hagyományos kiértékelő módszerekkel világos különbséget kapunk: a játékok jobban segítenek a tudás rögzítésében, koncentrálásban és"
