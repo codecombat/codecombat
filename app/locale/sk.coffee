@@ -4,7 +4,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     no_ie: "CodeCombat nefunguje v prehliadači Internet Explorer 8 a jeho starších verziách. Ospravedlňujeme sa." # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat nebol navrhnutý pre mobilné zariadenia a nemusí na nich fungovať správne!" # Warning that shows up on mobile devices
     play: "Hraj" # The big play button that opens up the campaign view.
-    play_campaign_version: "Hraj náborovú verziuPlay Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Hraj náborovú verziu" # Shows up under big play button if you only play /courses
     old_browser: "Ajaj, prehliadač je príliš starý. CodeCombat na ňom nepôjde. Je nám to ľúto!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Skúsiť sa to dá, ale asi to nepôjde."
     ipad_browser: "Zlé správy: CodeCombat nebeží na iPade v prehliadači. Dobré správy: naša iPad aplikácia čaká na schválenie od Apple."
