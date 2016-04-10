@@ -4,7 +4,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     no_ie: "CodeCombat nefunguje v prehliadači Internet Explorer 8 a jeho starších verziách. Ospravedlňujeme sa." # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat nebol navrhnutý pre mobilné zariadenia a nemusí na nich fungovať správne!" # Warning that shows up on mobile devices
     play: "Hraj" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Hraj náborovú verziu" # Shows up under big play button if you only play /courses
     old_browser: "Ajaj, prehliadač je príliš starý. CodeCombat na ňom nepôjde. Je nám to ľúto!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Skúsiť sa to dá, ale asi to nepôjde."
     ipad_browser: "Zlé správy: CodeCombat nebeží na iPade v prehliadači. Dobré správy: naša iPad aplikácia čaká na schválenie od Apple."
@@ -69,7 +69,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     setup_a_class: "Nastavenia triedy"
     have_an_account: "Máš účet?"
     log_in: "Prihlásenie"
-    logged_in_as: "Si prihlásená ako"
+    logged_in_as: "Si prihlásený ako"
     view_my_classes: "Prehľa mojích tried"
     computer_science: "Kurz programovania pre každý vek"
     show_me_lesson_time: "Ukáž mi predpokladaný čas kurzu pre:"
@@ -85,7 +85,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   nav:
     play: "Hraj" # The top nav bar entry where players choose which levels to play
     community: "Komunita"
-#    courses: "Courses"
+    courses: "Kurzy"
     editor: "Editor"
     blog: "Blog"
     forum: "Fórum"
@@ -99,24 +99,24 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     about: "O projekte"
     contact: "Kontakt"
     twitter_follow: "Sleduj na twitteri"
-    teachers: "Učitelia"
-#    careers: "Careers"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
-#    create_a_class: "Create a Class"
-#    other: "Other"
-#    learn_to_code: "Learn to Code!"
-#    toggle_nav: "Toggle navigation"
-#    jobs: "Jobs"
-#    schools: "Schools"
-#    educator_wiki: "Educator Wiki"
-#    request_quote: "Request a Quote"
-#    get_involved: "Get Involved"
-#    open_source: "Open source (GitHub)"
-#    support: "Support"
-#    faqs: "FAQs"
-#    help_pref: "Need help? Email"
-#    help_suff: "and we'll get in touch!"
+    teachers: "Moje triedy"
+    careers: "Práca"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    create_a_class: "Vytvor triedu"
+    other: "Iné"
+    learn_to_code: "Nauč sa programovať!"
+    toggle_nav: "Zmena"
+    jobs: "Práca"
+    schools: "Pre školy"
+    educator_wiki: "Prípravy"
+    request_quote: "Pridaj školu"
+    get_involved: "Zapoj sa"
+    open_source: "Open source (GitHub)"
+    support: "Podpora"
+    faqs: "FAQs"
+    help_pref: "Potrebuješ pomoc? Email"
+    help_suff: "a ozveme sa."
 
   modal:
     close: "Zatvor"
@@ -128,14 +128,14 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   diplomat_suggestion:
     title: "Pomôžte preložiť CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Potrebujeme tvoje jazykové zručnosti."
-#    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
-#    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
+    pitch_body: "CodeCombat je vyvíjaný v angličitne, ale hrajú ho hráči z celého sveta. Máme aj hráčov, ktorí potrebujú preklad do  {slovenčiny}. Ak vieš teda po anglicky aj po slovensky, prihlás sa ako diplomat a pomôž s prekladom stránky a úrovní do  {slovenčiny}."
+    missing_translations: "Pokiaľ bude všetko preložené do {slovenčiny},budú nepreložené časti do {slovenčiny} dostupné v angličtine."
     learn_more: "Zisti viac, ako byť Diplomat"
     subscribe_as_diplomat: "Prihlásiť sa ako Diplomat"
 
   play:
     play_as: "Hraj ako" # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "Súťaž!" # Course details page
     spectate: "Sledovať" # Ladder page
     players: "hráči" # Hover over a level on /play
     hours_played: "odohratých hodín" # Hover over a level on /play
@@ -158,7 +158,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     subscription_required: "Vyžaduje sa predplatné"
     anonymous: "Anonymný hráč"
     level_difficulty: "Obtiažnosť."
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "Hraj verziu pre triedy" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Kampaň pre začiatočníkov"
     awaiting_levels_adventurer_prefix: "Každy týždeň 5 nových levelov." # {change}
     awaiting_levels_adventurer: "Prihlás sa ako Dobrodruh"
@@ -166,8 +166,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     adjust_volume: "Zmeniť hlasitosť"
     campaign_multiplayer: "Aréna pre viacerých hráčov"
     campaign_multiplayer_description: "... v ktorej si zmeriaš svoje programátorské sily proti ostatným hráčom."
-#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_old_multiplayer: "(zastaralé) Stará aréna hry pre viacej hráčov"
+    campaign_old_multiplayer_description: "Pozostatky starej kóvacej civilizácie. Nie je možná simulácia pre staré arény bez hrdinov. "
 
   share_progress_modal:
     blurb: "Postupuješ míľovými krokmi ! Povedz kamarátom, čo si sa už naučil pomocou CodeCombatu."
@@ -197,17 +197,17 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     log_in: "prihlás sa pomocou hesla"
     required: "Najskôr sa musíš prihlásiť."
     login_switch: "Máš už účet ?"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
-#    or_sign_up_with: "or sign up with"
-#    connected_gplus_header: "You've successfully connected with Google+!"
-#    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
-#    gplus_exists: "You already have an account associated with Google+!"
-#    connected_facebook_header: "You've successfully connected with Facebook!"
-#    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
-#    facebook_exists: "You already have an account associated with Facebook!"
-#    hey_students: "Students, enter the class code from your teacher."
+    school_name: "Meno školy a jej sídlo"
+    optional: "voliteľné"
+    school_name_placeholder: "ZŠ Sv. Gorazda, Žilina"
+    or_sign_up_with: "alebo sa zaregistruj pomocou"
+    connected_gplus_header: "Úspešne pripojený cez Google+!"
+    connected_gplus_p: "Ukonči registráciu cez účet Google+!"
+    gplus_exists: "Už si sa registroval cez Google+!"
+    connected_facebook_header: "Úspešne pripojený cez Facebook!"
+    connected_facebook_p: "Ukonči registráciu cez svoj účet na Facebooku."
+    facebook_exists: "Už máš účet zaregistrovaný cez Facebook!"
+    hey_students: "Študenti, vložte kód, ktorý vám dal váš učiteľ."
 
   recover:
     recover_account_title: "Obnov účet"
@@ -243,7 +243,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     unwatch: "Zruš sledovanie"
     submit_patch: "Odoslať Opravu"
     submit_changes: "Odoslať zmeny"
-#    save_changes: "Save Changes"
+    save_changes: "Ulož zmeny"
 
   general:
     and: "a"
@@ -255,9 +255,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     accepted: "Prijaté"
     rejected: "Zamietnuté"
     withdrawn: "Uzatvorené"
-#    accept: "Accept"
-#    reject: "Reject"
-#    withdraw: "Withdraw"
+    accept: "Prijať"
+    reject: "Odmietnuť"
+    withdraw: "Zrušiť"
     submitter: "Odosielateľ"
     submitted: "Odoslané"
     commit_msg: "Popis ukladania"
@@ -312,10 +312,10 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     years: "rokov"
 
   play_level:
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    completed_level: "Ukončená úroveň:"
+    course: "Kurz:"
     done: "Hotovo"
-#    next_level: "Next Level:"
+    next_level: "Ďalšia úroveň:"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "Domov" # Not used any more, will be removed soon.
