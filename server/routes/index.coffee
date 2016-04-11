@@ -7,6 +7,17 @@ module.exports.setup = (app) ->
   app.post('/auth/spy', mw.auth.spy)
   app.post('/auth/stop-spying', mw.auth.stopSpying)
   
+  Achievement = require '../models/Achievement'
+  app.get('/db/achievement', mw.achievements.fetchByRelated, mw.rest.get(Achievement))
+  app.post('/db/achievement', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.post(Achievement))
+  app.get('/db/achievement/:handle', mw.rest.getByHandle(Achievement))
+  app.put('/db/achievement/:handle', mw.auth.checkLoggedIn(), mw.achievements.put)
+  app.delete('/db/achievement/:handle', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.delete(Achievement))
+  app.get('/db/achievement/names', mw.named.names(Achievement))
+  app.get('/db/achievement/:handle/patches', mw.patchable.patches(Achievement))
+  app.post('/db/achievement/:handle/watchers', mw.patchable.joinWatchers(Achievement))
+  app.delete('/db/achievement/:handle/watchers', mw.patchable.leaveWatchers(Achievement))
+  
   Article = require '../models/Article'
   app.get('/db/article', mw.rest.get(Article))
   app.post('/db/article', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.post(Article))

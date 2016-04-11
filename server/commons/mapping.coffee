@@ -24,7 +24,6 @@ module.exports.handlers =
   'user_code_problem': 'handlers/user_code_problem_handler'
   'user_remark': 'handlers/user_remark_handler'
   'mail_sent': 'handlers/mail_sent_handler'
-  'achievement': 'handlers/achievement_handler'
   'earned_achievement': 'handlers/earned_achievement_handler'
   'poll': 'handlers/poll_handler'
   'prepaid': 'handlers/prepaid_handler'

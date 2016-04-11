@@ -18,9 +18,10 @@ unlockable =
   description: 'Started playing Dungeon Arena.'
   worth: 3
   collection: 'level.sessions'
-  query: "{\"level.original\":\"dungeon-arena\"}"
+  query: {'level.original':'dungeon-arena'}
   userField: 'creator'
   recalculable: true
+  related: 'a'
 
 unlockable2 = _.clone unlockable
 unlockable2.name = 'This one is obsolete'
@@ -30,37 +31,39 @@ repeatable =
   description: 'Simulated Games.'
   worth: 1
   collection: 'users'
-  query: "{\"simulatedBy\":{\"$gt\":0}}"
+  query: {'simulatedBy':{'$gt':0}}
   userField: '_id'
   proportionalTo: 'simulatedBy'
   recalculable: true
   rewards:
     gems: 1
+  related: 'b'
 
 diminishing =
   name: 'Simulated2'
   worth: 1.5
   collection: 'users'
-  query: "{\"simulatedBy\":{\"$gt\":0}}"
+  query: {'simulatedBy':{'$gt':0}}
   userField: '_id'
   proportionalTo: 'simulatedBy'
   function:
     kind: 'logarithmic'
     parameters: {a: 1, b: .5, c: .5, d: 1}
   recalculable: true
+  related: 'b'
   
 addAllAchievements = utils.wrap (done) ->
   yield utils.clearModels [Achievement, EarnedAchievement, LevelSession, User]
   @admin = yield utils.initAdmin()
   yield utils.loginUser(@admin)
   [res, body] = yield request.postAsync {uri: url, json: unlockable}
-  expect(res.statusCode).toBe(200)
+  expect(res.statusCode).toBe(201)
   @unlockable = yield Achievement.findById(body._id)
   [res, body] = yield request.postAsync {uri: url, json: repeatable}
-  expect(res.statusCode).toBe(200)
+  expect(res.statusCode).toBe(201)
   @repeatable = yield Achievement.findById(body._id)
   [res, body] = yield request.postAsync {uri: url, json: diminishing}
-  expect(res.statusCode).toBe(200)
+  expect(res.statusCode).toBe(201)
   @diminishing = yield Achievement.findById(body._id)
   done()
 
@@ -81,7 +84,7 @@ describe 'POST /db/achievement', ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
     [res, body] = yield request.postAsync {uri: url, json: unlockable}
-    expect(res.statusCode).toBe(200)
+    expect(res.statusCode).toBe(201)
     done()
     
 describe 'PUT /db/achievement', ->
@@ -94,6 +97,12 @@ describe 'PUT /db/achievement', ->
     expect(res.statusCode).toBe(403)
     done()
     
+  it 'works for admins', utils.wrap (done) ->
+    [res, body] = yield request.putAsync {uri: url + '/'+@unlockable.id, json: {name: 'whatev'}}
+    expect(res.statusCode).toBe(200)
+    expect(res.body.name).toBe('whatev')
+    done()
+    
 describe 'GET /db/achievement', ->
   beforeEach addAllAchievements
   
@@ -103,6 +112,16 @@ describe 'GET /db/achievement', ->
     [res, body] = request.getAsync {uri: url}
     expect(res.statusCode).toBe(200)
     expect(body.length).toBe 3
+    done()
+
+describe 'GET /db/achievement?related=:id', ->
+  beforeEach addAllAchievements
+  
+  it 'returns all achievements related to a given doc', utils.wrap (done) ->
+    [res, body] = yield request.getAsync {uri: url+'?related=b', json: true}
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(2)
+    expect(_.difference([@repeatable.id, @diminishing.id], (doc._id for doc in res.body)).length).toBe(0)
     done()
     
 describe 'GET /db/achievement/:handle', ->
@@ -128,6 +147,17 @@ describe 'DELETE /db/achievement/:handle', ->
     expect(achievement).toBeFalsy()
     [res, body] = yield request.delAsync {uri: url + '/' + @unlockable.id}
     expect(res.statusCode).toBe(404)
+    done()
+    
+  it 'returns 403 unless you are an admin or artisan', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res, body] = yield request.delAsync {uri: url + '/' + @unlockable.id}
+    expect(res.statusCode).toBe(403)
+    artisan = yield utils.initArtisan()
+    yield utils.loginUser(artisan)
+    [res, body] = yield request.delAsync {uri: url + '/' + @unlockable.id}
+    expect(res.statusCode).toBe(204)
     done()
 
 
@@ -264,7 +294,6 @@ describe 'POST /admin/earned_achievement/recalculate', ->
     [res, body] = yield request.postAsync { uri:getURL '/admin/earned_achievement/recalculate' }
     expect(res.statusCode).toBe 202
     yield new Promise((resolve) -> setTimeout(resolve, 500))
-    console.log 'stop waiting'
 
     earnedAchievements = yield EarnedAchievement.find({})
     expect(earnedAchievements.length).toBe 3

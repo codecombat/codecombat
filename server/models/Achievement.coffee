@@ -74,6 +74,26 @@ AchievementSchema.statics.getLoadedAchievements = ->
 
 AchievementSchema.statics.resetAchievements = ->
   delete AchievementSchema.statics.achievementCollections[collection] for collection of AchievementSchema.statics.achievementCollections
+  
+AchievementSchema.statics.editableProperties = [
+  'name'
+  'query'
+  'worth'
+  'collection'
+  'description'
+  'userField'
+  'proportionalTo'
+  'icon'
+  'function'
+  'related'
+  'difficulty'
+  'category'
+  'rewards'
+  'i18n'
+  'i18nCoverage'
+]
+
+AchievementSchema.statics.jsonSchema = require '../../app/schemas/models/achievement'
 
 # Queries are stored as JSON strings, objectify them upon loading
 AchievementSchema.post 'init', (doc) -> doc.objectifyQuery()
