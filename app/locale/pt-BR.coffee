@@ -14,7 +14,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     for_developers: "Para Desenvolvedores" # Not currently shown on home page.
     or_ipad: "Ou baixe para iPad"
 
-#  new_home:
+  new_home:
     slogan: "O game mais envolvente para aprender programação."
 #    classroom_edition: "Classroom Edition:"
     learn_to_code: "Aprenda a programar:"
@@ -48,7 +48,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    kind_of_struggle: "the kind of struggle that results in learning that’s engaging and"
     motivating: "motivador"
 #    not_tedious: "not tedious."
-#    gaming_is_good: "Estudos indicam que jogos são bons para o cérebro das crianças. (é verdade!)"
+    gaming_is_good: "Estudos indicam que jogos são bons para o cérebro das crianças. (é verdade!)"
 #    game_based: "When game-based learning systems are"
     compared: "comparado"
 #    conventional: "against conventional assessment methods, the difference is clear: games are better at helping students retain knowledge, concentrate and"
@@ -715,7 +715,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     jobs_custom_contact_1: "Envie-nos uma nota em"
 #    jobs_custom_contact_2: "introducing yourself and we might get in touch in the future!"
 #    contact_title: "Press & Contact"
-    contact_subtitle: "Need more information? Get in touch with us atPrecisa de mais informações? Entre em contato conosco em"
+    contact_subtitle: "Precisa de mais informações? Entre em contato conosco em"
     screenshots_title: "Game Screenshots"
     screenshots_hint: "(clique para ver em tamanho grande)"
 #    downloads_title: "Download Assets & Information"
@@ -737,7 +737,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     more_info_2: "fórum de professores"
     more_info_3: "é um bom lugar para se conectar com ótimos educadores que utilizam o CodeCombat."
 
-#  teachers_quote:
+  teachers_quote:
 #    name: "Demo Form"
 #    title: "Request a Demo"
 #    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
@@ -1481,7 +1481,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     retrying: "Erro de servidor, tentando novamente."
     success: "A transação foi completada com sucesso. Obrigado!"
 
-#  account_prepaid:
+  account_prepaid:
     purchase_code: "Adquira um código de inscrição"
 #    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
