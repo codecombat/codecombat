@@ -2,22 +2,56 @@ GLOBAL._ = require 'lodash'
 
 User = require '../../../server/models/User'
 
-describe 'user', ->
+describe 'User', ->
 
-  it 'is Admin if it has admin permission', (done) ->
-    adminUser = new User()
-    adminUser.set('permissions', ['whatever', 'admin', 'user'])
-    expect(adminUser.isAdmin()).toBeTruthy()
+  it 'uses the schema defaults to fill in email preferences', (done) ->
+    user = new User()
+    expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('anyNotes')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('recruitNotes')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('archmageNews')).toBeFalsy()
+    done()
+  
+  it 'uses old subs if they\'re around', (done) ->
+    user = new User()
+    user.set 'emailSubscriptions', ['tester']
+    expect(user.isEmailSubscriptionEnabled('adventurerNews')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('generalNews')).toBeFalsy()
     done()
 
-  it 'isn\'t Admin if it has no permission', (done) ->
-    myUser = new User()
-    myUser.set('permissions', [])
-    expect(myUser.isAdmin()).toBeFalsy()
+  it 'maintains the old subs list if it\'s around', (done) ->
+    user = new User()
+    user.set 'emailSubscriptions', ['tester']
+    user.setEmailSubscription('artisanNews', true)
+    expect(JSON.stringify(user.get('emailSubscriptions'))).toBe(JSON.stringify(['tester', 'level_creator']))
     done()
 
-  it 'isn\'t Admin if it has only user permission', (done) ->
-    classicUser = new User()
-    classicUser.set('permissions', ['user'])
-    expect(classicUser.isAdmin()).toBeFalsy()
-    done()
+  describe '.updateServiceSettings()', ->
+    makeMC = (callback) ->
+
+    it 'uses emails to determine what to send to MailChimp', (done) ->
+      spyOn(mc.lists, 'subscribe').and.callFake (params) ->
+        expect(JSON.stringify(params.merge_vars.groupings[0].groups)).toBe(JSON.stringify(['Announcements']))
+        done()
+
+      user = new User({emailSubscriptions: ['announcement'], email: 'tester@gmail.com'})
+      User.updateServiceSettings(user)
+
+  describe '.isAdmin()', ->
+    it 'returns true if user has "admin" permission', (done) ->
+      adminUser = new User()
+      adminUser.set('permissions', ['whatever', 'admin', 'user'])
+      expect(adminUser.isAdmin()).toBeTruthy()
+      done()
+
+    it 'returns false if user has no permissions', (done) ->
+      myUser = new User()
+      myUser.set('permissions', [])
+      expect(myUser.isAdmin()).toBeFalsy()
+      done()
+  
+    it 'returns false if user has other permissions', (done) ->
+      classicUser = new User()
+      classicUser.set('permissions', ['user'])
+      expect(classicUser.isAdmin()).toBeFalsy()
+      done()
