@@ -211,6 +211,5 @@ _drop = (done) ->
       done()
       
 GLOBAL.resetUserIDCounter = (number=0) ->
-  auth = require '../../server/routes/auth'
-  auth.idCounter = number
+  User.idCounter = number
 

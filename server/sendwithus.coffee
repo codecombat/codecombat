@@ -1,14 +1,20 @@
 config = require '../server_config'
 sendwithusAPI = require 'sendwithus'
 swuAPIKey = config.mail.sendwithusAPIKey
+log = require 'winston'
 
 module.exports.setupRoutes = (app) ->
   return
 
 debug = not config.isProduction
-module.exports.api = new sendwithusAPI swuAPIKey, debug
-if config.unittest
-  module.exports.api.send = ->
+module.exports.api =
+  send: (context, cb) ->
+    log.debug('Tried to send email with context: ', JSON.stringify(context, null, '\t'))
+    setTimeout(cb, 10)
+    
+if swuAPIKey
+  module.exports.api = new sendwithusAPI swuAPIKey, debug
+  
 module.exports.templates =
   parent_subscribe_email: 'tem_2APERafogvwKhmcnouigud'
   share_progress_email: 'tem_VHE3ihhGmVa3727qds9zY8'

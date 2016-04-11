@@ -2,10 +2,17 @@ mw = require '../middleware'
 
 module.exports.setup = (app) ->
 
-  app.post('/auth/login-facebook', mw.auth.loginByFacebook)
-  app.post('/auth/login-gplus', mw.auth.loginByGPlus)
+  passport = require('passport')
+  app.post('/auth/login', passport.authenticate('local'), mw.auth.afterLogin)
+  app.post('/auth/login-facebook', mw.auth.loginByFacebook, mw.auth.afterLogin)
+  app.post('/auth/login-gplus', mw.auth.loginByGPlus, mw.auth.afterLogin)
+  app.post('/auth/logout', mw.auth.logout)
+  app.get('/auth/name/?(:name)?', mw.auth.name)
+  app.post('/auth/reset', mw.auth.reset)
   app.post('/auth/spy', mw.auth.spy)
   app.post('/auth/stop-spying', mw.auth.stopSpying)
+  app.get('/auth/unsubscribe', mw.auth.unsubscribe)
+  app.get('/auth/whoami', mw.auth.whoAmI)
   
   Achievement = require '../models/Achievement'
   app.get('/db/achievement', mw.achievements.fetchByRelated, mw.rest.get(Achievement))

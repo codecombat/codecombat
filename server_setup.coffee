@@ -13,7 +13,7 @@ baseRoute = require './server/routes/base'
 user = require './server/handlers/user_handler'
 logging = require './server/commons/logging'
 config = require './server_config'
-auth = require './server/routes/auth'
+auth = require './server/commons/auth'
 routes = require './server/routes'
 UserHandler = require './server/handlers/user_handler'
 slack = require './server/slack'
@@ -108,6 +108,7 @@ setupPassportMiddleware = (app) ->
     require('./server/lib/picoctf').init app
   else
     app.use(authentication.session())
+  auth.setup()
 
 setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", languageCode="zh", serverID="tokyo") ->
   shouldRedirectToCountryServer = (req) ->

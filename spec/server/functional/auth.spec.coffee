@@ -6,6 +6,7 @@ Promise = require 'bluebird'
 nock = require 'nock'
 request = require '../request'
 sendwithus = require '../../../server/sendwithus'
+LevelSession = require '../../../server/models/LevelSession'
 
 urlLogin = getURL('/auth/login')
 urlReset = getURL('/auth/reset')
@@ -24,7 +25,7 @@ describe 'POST /auth/login', ->
     done()
 
   it 'allows logging in by iosIdentifierForVendor', utils.wrap (done) ->
-    user = yield utils.initUser({
+    yield utils.initUser({
       'iosIdentifierForVendor': '012345678901234567890123456789012345'
       'password': '12345'
     })
@@ -44,7 +45,7 @@ describe 'POST /auth/login', ->
     done()
     
   it 'returns 200 when the user does exist', utils.wrap (done) ->
-    user = yield utils.initUser({
+    yield utils.initUser({
       'email': 'some@email.com'
       'password': '12345'
     })
@@ -56,7 +57,7 @@ describe 'POST /auth/login', ->
     done()
 
   it 'rejects wrong passwords', utils.wrap (done) ->
-    user = yield utils.initUser({
+    yield utils.initUser({
       'email': 'some@email.com'
       'password': '12345'
     })
@@ -68,7 +69,7 @@ describe 'POST /auth/login', ->
     done()
 
   it 'is completely case insensitive', utils.wrap (done) ->
-    user = yield utils.initUser({
+    yield utils.initUser({
       'email': 'Some@Email.com'
       'password': 'AbCdE'
     })
@@ -104,7 +105,9 @@ describe 'POST /auth/reset', ->
     done()
 
   it 'resets the user password', utils.wrap (done) ->
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendwithus.api, 'send').and.callFake (options, cb) ->
+      expect(options.recipient.address).toBe('some@email.com')
+      cb()
     [res, body] = yield request.postAsync(
       {uri: urlReset, json: {email: 'some@email.com'}}
     )
@@ -120,9 +123,11 @@ describe 'POST /auth/reset', ->
     expect(res.statusCode).toBe(200)
     
     done()
-    # TODO: Finish refactoring the rest of these old tests
     
   it 'resetting password is not idempotent', utils.wrap (done) ->
+    spyOn(sendwithus.api, 'send').and.callFake (options, cb) ->
+      expect(options.recipient.address).toBe('some@email.com')
+      cb()
     [res, body] = yield request.postAsync(
       {uri: urlReset, json: {email: 'some@email.com'}}
     )
@@ -145,17 +150,65 @@ describe 'GET /auth/unsubscribe', ->
 
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User])
+    @user = yield utils.initUser()
+    done()
+    
+  it 'returns 422 if email is not included', utils.wrap (done) ->
+    url = getURL('/auth/unsubscribe')
+    [res, body] = yield request.getAsync(url)
+    expect(res.statusCode).toBe(422)
     done()
 
-  it 'removes just recruitment emails if you include ?recruitNotes=1', utils.wrap (done) ->
-    user = yield utils.initUser()
-    url = getURL('/auth/unsubscribe?recruitNotes=1&email='+user.get('email'))
+  it 'returns 404 if email is not found', utils.wrap (done) ->
+    url = getURL('/auth/unsubscribe?email=ladeeda')
     [res, body] = yield request.getAsync(url)
-    expect(res.statusCode).toBe(200)
-    user = yield User.findOne(user._id)
-    expect(user.get('emails').recruitNotes.enabled).toBe(false)
-    expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
+    expect(res.statusCode).toBe(404)
     done()
+    
+  describe '?recruitNotes=1', ->
+
+    it 'unsubscribes the user from recruitment emails', utils.wrap (done) ->
+      url = getURL('/auth/unsubscribe?recruitNotes=1&email='+@user.get('email'))
+      [res, body] = yield request.getAsync(url)
+      expect(res.statusCode).toBe(200)
+      user = yield User.findOne(@user._id)
+      expect(user.get('emails').recruitNotes.enabled).toBe(false)
+      expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
+      done()
+    
+  describe '?employerNotes=1', ->
+
+    it 'unsubscribes the user from employer emails', utils.wrap (done) ->
+      url = getURL('/auth/unsubscribe?employerNotes=1&email='+@user.get('email'))
+      [res, body] = yield request.getAsync(url)
+      expect(res.statusCode).toBe(200)
+      user = yield User.findOne(@user._id)
+      expect(user.get('emails').employerNotes.enabled).toBe(false)
+      expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
+      done()
+
+  describe '?session=:id', ->
+
+    it 'sets the given LevelSession\'s unsubscribed property to true', utils.wrap (done) ->
+      session = new LevelSession({permissions:[target: @user._id, access: 'owner']})
+      yield session.save()
+      url = getURL("/auth/unsubscribe?session=#{session.id}&email=#{@user.get('email')}")
+      [res, body] = yield request.getAsync(url)
+      expect(res.statusCode).toBe(200)
+      session = yield LevelSession.findById(session.id)
+      expect(session.get('unsubscribed')).toBe(true)
+      done()
+
+  describe 'no GET query params', ->
+    
+    it 'unsubscribes the user from all emails', utils.wrap (done) ->
+      url = getURL("/auth/unsubscribe?email=#{@user.get('email')}")
+      [res, body] = yield request.getAsync(url)
+      expect(res.statusCode).toBe(200)
+      user = yield User.findOne(@user._id)
+      expect(user.get('emails').generalNews.enabled).toBe(false)
+      expect(user.get('emails').anyNotes.enabled).toBe(false)
+      done()
 
 describe 'GET /auth/name', ->
   url = '/auth/name'

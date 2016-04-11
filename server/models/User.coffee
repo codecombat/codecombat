@@ -6,6 +6,7 @@ mail = require '../commons/mail'
 log = require 'winston'
 plugins = require '../plugins/plugins'
 AnalyticsUsersActive = require './AnalyticsUsersActive'
+languages = require '../routes/languages'
 
 config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
@@ -253,16 +254,6 @@ UserSchema.methods.isPremium = ->
   return true if @hasSubscription()
   return false
 
-UserSchema.methods.formatEntity = (req, publicOnly=false) ->
-  obj = @toObject()
-  serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
-  delete obj[prop] for prop in serverProperties
-  candidateProperties = ['jobProfile', 'jobProfileApproved', 'jobProfileNotes']
-  delete obj[prop] for prop in candidateProperties
-  includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(@_id)))
-  delete obj[prop] for prop in User.privateProperties unless includePrivates
-  return obj
-
 UserSchema.methods.isOnPremiumServer = ->
   @get('country') in ['china', 'brazil']
 
@@ -374,9 +365,27 @@ UserSchema.set('toObject', {
     delete ret[prop] for prop in User.candidateProperties
     return ret
 })
+
+UserSchema.statics.makeNew = (req) ->
+  user = new User({anonymous: true})
+  if global.testing
+    # allows tests some control over user id creation
+    newID = _.pad((User.idCounter++).toString(16), 24, '0')
+    user.set('_id', newID)
+  user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
+  lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+  user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
+  user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
+  user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
+  user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
+  user.set 'country', req.country if req.country
+  user
+
+
 UserSchema.plugin plugins.NamedPlugin
 
 module.exports = User = mongoose.model('User', UserSchema)
+User.idCounter = 0
 
 AchievablePlugin = require '../plugins/achievements'
 UserSchema.plugin(AchievablePlugin)
