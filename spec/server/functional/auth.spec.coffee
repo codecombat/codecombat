@@ -5,207 +5,185 @@ _ = require 'lodash'
 Promise = require 'bluebird'
 nock = require 'nock'
 request = require '../request'
+sendwithus = require '../../../server/sendwithus'
 
 urlLogin = getURL('/auth/login')
 urlReset = getURL('/auth/reset')
 
-describe '/auth/whoami', ->
-  it 'returns 200', (done) ->
-    request.get(getURL('/auth/whoami'), (err, response) ->
-      expect(response).toBeDefined()
-      expect(response.statusCode).toBe(200)
-      done()
-    )
+describe 'GET /auth/whoami', ->
+  it 'returns 200', utils.wrap (done) ->
+    [res, body] = yield request.getAsync(getURL('/auth/whoami'))
+    expect(res.statusCode).toBe(200)
+    done()
 
-describe '/auth/login', ->
-
-  it 'clears Users', (done) ->
-    clearModels [User], (err) ->
-      throw err if err
-      request.get getURL('/auth/whoami'), ->
-        throw err if err
-        done()
-
-  it 'allows logging in by iosIdentifierForVendor', (done) ->
-    req = request.post(getURL('/db/user'),
-    (error, response) ->
-      expect(response).toBeDefined()
-      expect(response.statusCode).toBe(200)
-      req = request.post(urlLogin, (error, response) ->
-        expect(response.statusCode).toBe(200)
-        done()
-      )
-      form = req.form()
-      form.append('username', '012345678901234567890123456789012345')
-      form.append('password', '12345')
-    )
-    form = req.form()
-    form.append('iosIdentifierForVendor', '012345678901234567890123456789012345')
-    form.append('password', '12345')
+describe 'POST /auth/login', ->
   
-  it 'clears Users', (done) ->
-    clearModels [User], (err) ->
-      throw err if err
-      request.get getURL('/auth/whoami'), ->
-        throw err if err
-        done()
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    yield utils.becomeAnonymous()
+    done()
 
-  it 'finds no user', (done) ->
-    req = request.post(urlLogin, (error, response) ->
-      expect(response).toBeDefined()
-      expect(response.statusCode).toBe(401)
-      done()
+  it 'allows logging in by iosIdentifierForVendor', utils.wrap (done) ->
+    user = yield utils.initUser({
+      'iosIdentifierForVendor': '012345678901234567890123456789012345'
+      'password': '12345'
+    })
+    [res, body] = yield request.postAsync({uri: urlLogin, json: {
+      username: '012345678901234567890123456789012345'
+      password: '12345'
+    }})
+    expect(res.statusCode).toBe(200)
+    done()    
+
+  it 'returns 401 when the user does not exist', utils.wrap (done) ->
+    [res, body] = yield request.postAsync({uri: urlLogin, json: {
+      username: 'some@email.com'
+      password: '12345'
+    }})
+    expect(res.statusCode).toBe(401)
+    done()
+    
+  it 'returns 200 when the user does exist', utils.wrap (done) ->
+    user = yield utils.initUser({
+      'email': 'some@email.com'
+      'password': '12345'
+    })
+    [res, body] = yield request.postAsync({uri: urlLogin, json: {
+      username: 'some@email.com'
+      password: '12345'
+    }})
+    expect(res.statusCode).toBe(200)
+    done()
+
+  it 'rejects wrong passwords', utils.wrap (done) ->
+    user = yield utils.initUser({
+      'email': 'some@email.com'
+      'password': '12345'
+    })
+    [res, body] = yield request.postAsync({uri: urlLogin, json: {
+      username: 'some@email.com'
+      password: '12346'
+    }})
+    expect(res.statusCode).toBe(401)
+    done()
+
+  it 'is completely case insensitive', utils.wrap (done) ->
+    user = yield utils.initUser({
+      'email': 'Some@Email.com'
+      'password': 'AbCdE'
+    })
+    [res, body] = yield request.postAsync({uri: urlLogin, json: {
+      username: 'sOmE@eMaIl.com'
+      password: 'aBcDe'
+    }})
+    expect(res.statusCode).toBe(200)
+    done()
+
+describe 'POST /auth/reset', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    @user = yield utils.initUser({
+      'email': 'some@email.com'
+      'password': '12345'
+    })
+    done()
+  
+  it 'returns 422 if no email is included', utils.wrap (done) ->
+    [res, body] = yield request.postAsync(
+      {uri: urlReset, json: {username: 'some@email.com'}}
     )
-    form = req.form()
-    form.append('username', 'scott@gmail.com')
-    form.append('password', 'nada')
+    expect(res.statusCode).toBe(422)
+    done()
 
-  it 'creates a user', (done) ->
-    req = request.post(getURL('/db/user'),
-      (error, response) ->
-        expect(response).toBeDefined()
-        expect(response.statusCode).toBe(200)
-        done()
+  it 'returns 404 if account not found', utils.wrap (done) ->
+    [res, body] = yield request.postAsync(
+      {uri: urlReset, json: {email: 'some@other-email.com'}}
     )
-    form = req.form()
-    form.append('email', 'scott@gmail.com')
-    form.append('password', 'nada')
+    expect(res.statusCode).toBe(404)
+    done()
 
-  it 'finds that created user', (done) ->
-    req = request.post(urlLogin, (error, response) ->
-      expect(response).toBeDefined()
-      expect(response.statusCode).toBe(200)
-      done()
+  it 'resets the user password', utils.wrap (done) ->
+    spyOn(sendwithus.api, 'send')
+    [res, body] = yield request.postAsync(
+      {uri: urlReset, json: {email: 'some@email.com'}}
     )
-    form = req.form()
-    form.append('username', 'scott@gmail.com')
-    form.append('password', 'nada')
-
-  it 'rejects wrong passwords', (done) ->
-    req = request.post(urlLogin, (error, response) ->
-      expect(response.statusCode).toBe(401)
-      expect(response.body.indexOf('wrong')).toBeGreaterThan(-1)
-      done()
+    expect(res.statusCode).toBe(200)
+    expect(sendwithus.api.send).toHaveBeenCalled()
+    user = yield User.findById(@user.id)
+    passwordReset = user.get('passwordReset')
+    expect(passwordReset).toBeTruthy()
+    [res, body] = yield request.postAsync({uri: urlLogin, json: {
+      username: 'some@email.com'
+      password: passwordReset
+    }})
+    expect(res.statusCode).toBe(200)
+    
+    done()
+    # TODO: Finish refactoring the rest of these old tests
+    
+  it 'resetting password is not idempotent', utils.wrap (done) ->
+    [res, body] = yield request.postAsync(
+      {uri: urlReset, json: {email: 'some@email.com'}}
     )
-    form = req.form()
-    form.append('username', 'scott@gmail.com')
-    form.append('password', 'blahblah')
+    expect(res.statusCode).toBe(200)
+    user = yield User.findById(@user.id)
+    passwordReset = user.get('passwordReset')
+    expect(passwordReset).toBeTruthy()
+    postArgs = {uri: urlLogin, json: {
+      username: 'some@email.com'
+      password: passwordReset
+    }}
+    
+    [res, body] = yield request.postAsync(postArgs)
+    expect(res.statusCode).toBe(200)
+    [res, body] = yield request.postAsync(postArgs)
+    expect(res.statusCode).toBe(401)
+    done()
 
-  it 'is completely case insensitive', (done) ->
-    req = request.post(urlLogin, (error, response) ->
-      expect(response.statusCode).toBe(200)
-      done()
-    )
-    form = req.form()
-    form.append('username', 'scoTT@gmaIL.com')
-    form.append('password', 'NaDa')
+describe 'GET /auth/unsubscribe', ->
 
-describe '/auth/reset', ->
-  passwordReset = ''
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    done()
 
-  it 'emails require', (done) ->
-    req = request.post(urlReset, (error, response) ->
-      expect(response).toBeDefined()
-      expect(response.statusCode).toBe(422)
-      done()
-    )
-    form = req.form()
-    form.append('username', 'scott@gmail.com')
+  it 'removes just recruitment emails if you include ?recruitNotes=1', utils.wrap (done) ->
+    user = yield utils.initUser()
+    url = getURL('/auth/unsubscribe?recruitNotes=1&email='+user.get('email'))
+    [res, body] = yield request.getAsync(url)
+    expect(res.statusCode).toBe(200)
+    user = yield User.findOne(user._id)
+    expect(user.get('emails').recruitNotes.enabled).toBe(false)
+    expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
+    done()
 
-  it 'can\'t reset an unknown user', (done) ->
-    req = request.post(urlReset, (error, response) ->
-      expect(response).toBeDefined()
-      expect(response.statusCode).toBe(404)
-      done()
-    )
-    form = req.form()
-    form.append('email', 'unknow')
-
-  it 'resets user password', (done) ->
-    req = request.post(urlReset, (error, response) ->
-      expect(response).toBeDefined()
-      expect(response.statusCode).toBe(200)
-      expect(response.body).toBeDefined()
-      passwordReset = response.body
-      done()
-    )
-    form = req.form()
-    form.append('email', 'scott@gmail.com')
-
-  it 'can login after resetting', (done) ->
-    req = request.post(urlLogin, (error, response) ->
-      expect(response).toBeDefined()
-      expect(response.statusCode).toBe(200)
-      done()
-    )
-    form = req.form()
-    form.append('username', 'scott@gmail.com')
-    form.append('password', passwordReset)
-
-  it 'resetting password is not permanent', (done) ->
-    req = request.post(urlLogin, (error, response) ->
-      expect(response).toBeDefined()
-      expect(response.statusCode).toBe(401)
-      done()
-    )
-    form = req.form()
-    form.append('username', 'scott@gmail.com')
-    form.append('password', passwordReset)
-
-
-  it 'can still login with old password', (done) ->
-    req = request.post(urlLogin, (error, response) ->
-      expect(response).toBeDefined()
-      expect(response.statusCode).toBe(200)
-      done()
-    )
-    form = req.form()
-    form.append('username', 'scott@gmail.com')
-    form.append('password', 'nada')
-
-describe '/auth/unsubscribe', ->
-  it 'clears Users first', (done) ->
-    clearModels [User], (err) ->
-      throw err if err
-      request.get getURL('/auth/whoami'), ->
-        throw err if err
-        done()
-
-  it 'removes just recruitment emails if you include ?recruitNotes=1', (done) ->
-    loginJoe (joe) ->
-      url = getURL('/auth/unsubscribe?recruitNotes=1&email='+joe.get('email'))
-      request.get url, (error, response) ->
-        expect(response.statusCode).toBe(200)
-        user = User.findOne(joe.get('_id')).exec (err, user) ->
-          expect(user.get('emails').recruitNotes.enabled).toBe(false)
-          expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
-          done()
-
-describe '/auth/name', ->
+describe 'GET /auth/name', ->
   url = '/auth/name'
 
-  it 'must provide a name to check with', (done) ->
-    request.get {url: getURL(url + '/'), json: {}}, (err, response) ->
-      expect(err).toBeNull()
-      expect(response.statusCode).toBe 422
-      done()
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    done()
 
-  it 'can GET a non-conflicting name', (done) ->
-    request.get {url: getURL(url + '/Gandalf'), json: {}}, (err, response) ->
-      expect(err).toBeNull()
-      expect(response.statusCode).toBe 200
-      expect(response.body.name).toBe 'Gandalf'
-      done()
+  it 'returns 422 if no name is provided', utils.wrap (done) ->
+    [res, body] = yield request.getAsync {url: getURL(url + '/'), json: true}
+    expect(res.statusCode).toBe 422
+    done()
 
-  it 'can GET a new name in case of conflict', (done) ->
-    request.get {url: getURL(url + '/joe'), json: {}}, (err, response) ->
-      expect(err).toBeNull()
-      expect(response.statusCode).toBe 409
-      expect(response.body.name).not.toBe 'joe'
-      expect(response.body.name.length).toBe 4 # 'joe' and a random number
-      done()
+  it 'returns the name given if there is no conflict', utils.wrap (done) ->
+    [res, body] = yield request.getAsync {url: getURL(url + '/Gandalf'), json: {}}
+    expect(res.statusCode).toBe 200
+    expect(res.body.name).toBe 'Gandalf'
+    done()
 
-      
+  it 'returns a new name in case of conflict', utils.wrap (done) ->
+    yield utils.initUser({name: 'joe'})
+    [res, body] = yield request.getAsync {url: getURL(url + '/joe'), json: {}}
+    expect(res.statusCode).toBe 409
+    expect(res.body.name).not.toBe 'joe'
+    expect(/joe[0-9]/.test(res.body.name)).toBe(true)
+    done()
+
+    
 describe 'POST /auth/login-facebook', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User])

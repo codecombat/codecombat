@@ -98,25 +98,18 @@ module.exports.setup = (app) ->
       emailContent += "<p>Your old password cannot be retrieved.</p>"
       user.save (err) =>
         return errors.serverError(res) if err
-        unless config.unittest
-          context =
-            email_id: sendwithus.templates.generic_email
-            recipient:
-              address: req.body.email
-            email_data:
-              subject: 'CodeCombat Recovery Password'
-              title: ''
-              content: emailContent
-          sendwithus.api.send context, (err, result) ->
-            if err
-              console.error "Error sending password reset email: #{err.message or err}"
-              return errors.serverError(res) if err
-            else
-              return res.end()
-        else
-          console.log 'password is', user.get('passwordReset')
-          res.send user.get('passwordReset')
-          return res.end()
+        context =
+          email_id: sendwithus.templates.generic_email
+          recipient:
+            address: req.body.email
+          email_data:
+            subject: 'CodeCombat Recovery Password'
+            title: ''
+            content: emailContent
+        sendwithus.api.send context, (err, result) ->
+          if err
+            console.error "Error sending password reset email: #{err.message or err}"
+        res.end()
     )
   )
 
