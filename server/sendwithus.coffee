@@ -31,3 +31,4 @@ module.exports.templates =
   teacher_free_trial: 'tem_R7d9Hpoba9SceQNiYSXBak'
   teacher_free_trial_hoc: 'tem_4ZSY9wsA9Qwn4wBFmZgPdc'
   teacher_request_demo: 'tem_cwG3HZjEyb6QE493hZuUra'
+  password_reset: 'tem_wbQUMRtLY9xhec8BSCykLA'
