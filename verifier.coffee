@@ -1,7 +1,7 @@
-useEsper = false
+useEsper = true
 bowerComponentsPath = './bower_components/'
 headlessClientPath = './headless_client/'
-
+require 'aether'
 # SETTINGS
 options =
   workerCode: require headlessClientPath + 'worker_world'
