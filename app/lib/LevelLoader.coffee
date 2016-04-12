@@ -58,12 +58,16 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   onLevelLoaded: ->
-    if @courseID and @level.get('type', true) not in ['course', 'course-ladder']
+    if (@courseID and @level.get('type', true) not in ['course', 'course-ladder']) or window.serverConfig.picoCTF
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
       @level.get = ->
         return 'course' if arguments[0] is 'type'
         originalGet.apply @, arguments
+    if window.serverConfig.picoCTF
+      @supermodel.addRequestResource(url: '/picoctf/problems', success: (picoCTFProblems) =>
+        @level?.picoCTFProblem = _.find picoCTFProblems, pid: @level.get('picoCTFProblem')
+      ).load()
     @loadSession() unless @sessionless
     @populateLevel()
 
@@ -338,6 +342,9 @@ module.exports = class LevelLoader extends CocoClass
 
   denormalizeSession: ->
     return if @headless or @sessionDenormalized or @spectateMode or @sessionless
+    # This is a way (the way?) PUT /db/level.sessions/undefined was happening
+    # See commit c242317d9
+    return if not @session.id
     patch =
       'levelName': @level.get('name')
       'levelID': @level.get('slug') or @level.id

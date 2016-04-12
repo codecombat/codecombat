@@ -27,7 +27,7 @@ module.exports = class PatchModal extends ModalView
       @originalSource = @targetModel.clone(false)
     else
       @originalSource = new @targetModel.constructor({_id:targetID})
-      @supermodel.loadModel @originalSource, 'source_document'
+      @supermodel.loadModel @originalSource
 
   applyDelta: ->
     @headModel = null

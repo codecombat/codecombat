@@ -1,31 +1,67 @@
-extends /templates/core/modal-base
+extends /templates/core/modal-base-flat
 
 block modal-header-content
-  if view.classroom
-    h3.modal-title(data-i18n="courses.edit_settings1")
-  else
+  if view.classroom.isNew()
     h3.modal-title(data-i18n="courses.create_new_class")
+  else
+    h3.modal-title(data-i18n="courses.edit_settings1")
 
 block modal-body-content
-  .form
+  form
     .form-group
-      label(data-i18n="courses.title")
-      - var name = view.classroom && view.classroom.get('name') ? view.classroom.get('name') : '';
-      input.form-control.settings-name-input(type='text', value="#{name}")
+      label(data-i18n="courses.class_name")
+      input#name-input.form-control(name="name" type='text' value=view.classroom.get('name'))
+      
     .form-group
-      label(data-i18n="courses.description")
-      - var description = view.classroom && view.classroom.get('description') ? view.classroom.get('description') : '';
-      textarea.form-control.settings-description-input(rows=2)= description
+      label
+        span(data-i18n="courses.description")
+        i.spl.text-muted(data-i18n="signup.optional")
+      textarea.form-control(name="description" rows=2)= view.classroom.get('description')
+      
     .form-group
       label(data-i18n="choose_hero.programming_language")
-      select.form-control#programming-language-select
-        - var aceConfig = view.classroom ? view.classroom.get('aceConfig') || {} : {};
-        option(value="python", selected=aceConfig.language==='python', data-i18n="courses.learn_p")
-        option(value="javascript", selected=aceConfig.language==='javascript', data-i18n="courses.learn_j")
-      .language-locked(data-i18n="courses.language_cannot_change")
+      - var aceConfig = view.classroom.get('aceConfig') || {};
+      - var languageDisabled = !!_.size(view.classroom.get('members'));
+      .help-block.small.text-navy(data-i18n="courses.language_cannot_change")
+      select#programming-language-select.form-control(name="language" value=aceConfig.language disabled=languageDisabled)
+        - var aceConfig = view.classroom.get('aceConfig') || {};
+        option(value="" data-i18n="courses.language_select")
+        option(value="python") Python
+        option(value="javascript") JavaScript
+        
+    .form-group
+      label
+        span(data-i18n="courses.avg_student_exp_label")
+        i.spl.text-muted(data-i18n="signup.optional")
+      .help-block.small.text-navy(data-i18n="courses.avg_student_exp_desc")
+      select.form-control(name="averageStudentExp", value=view.classroom.get('averageStudentExp'))
+        option(value="" data-i18n="courses.avg_student_exp_select")
+        option(value="none" data-i18n="courses.avg_student_exp_none")
+        option(value="beginner" data-i18n="courses.avg_student_exp_beginner")
+        option(value="intermediate" data-i18n="courses.avg_student_exp_intermediate")
+        option(value="advanced" data-i18n="courses.avg_student_exp_advanced")
+        option(value="varied" data-i18n="courses.avg_student_exp_varied")
+        
+    .form-group
+      label
+        span(data-i18n="courses.student_age_range_label")
+        i.spl.text-muted(data-i18n="signup.optional")
+      div
+        +ageRange("ageRangeMin")
+        span.spl.spr(data-i18n="courses.student_age_range_to")
+        +ageRange("ageRangeMax")
+        
+      mixin ageRange(name)
+        select.age-range-select.form-control(name=name value=view.classroom.get(name))
+          option(value="") -
+          option(value="<6" data-i18n="courses.student_age_range_younger")
+          for i in _.range(6,18)
+            option(value=i)= i
+          option(value="18" data-i18n="courses.student_age_range_older")
 
 block modal-footer-content
-  if view.classroom
-    button#save-settings-btn.btn(data-i18n="common.save_changes")
-  else
-    button#save-settings-btn.btn(data-i18n="courses.create_class")
+  .text-center
+    if view.classroom.isNew()
+      button#save-settings-btn.btn.btn-primary.btn-lg(data-i18n="courses.create_class")
+    else
+      button#save-settings-btn.btn.btn-primary.btn-lg(data-i18n="common.save_changes")

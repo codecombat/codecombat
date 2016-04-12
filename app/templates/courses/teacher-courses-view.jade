@@ -1,170 +1,85 @@
-extends /templates/base
+extends /templates/base-flat
+
+block page_nav
+  include ./teacher-dashboard-nav.jade
 
 block content
-
-  .text-center
-    if me.isAnonymous() || !me.get('name')
-      .welcome
-        span(data-i18n="courses.welcome")
-        span !
-    else
-      .welcome
-        span(data-i18n="courses.welcome")
-        span , #{me.get('name')}!
-
-  .container-fluid
-    .row
-      .col-md-2
-      .col-md-8
-        .well
-          .text-center
-            strong.uppercase(data-i18n="courses.getting_started")
-          br
-          .text-center
-            a.btn.btn-info(href='http://codecombat.com/docs/CodeCombatCoursesGettingStartedGuide.pdf', data-i18n="courses.download_getting_started")
-          br
-          ol
-            li(data-i18n="courses.getting_started_1")
-            li(data-i18n="courses.getting_started_2")
-            li(data-i18n="courses.getting_started_3")
-          br
-          .text-center
-            strong(data-i18n="courses.additional_resources")
-          ul
-            li
-              span.spr(data-i18n="courses.additional_resources_1_pref")
-              a(href='http://codecombat.com/docs/CodeCombatTeacherGuideCourse1.pdf', data-i18n="courses.additional_resources_1_mid")
-              span.spl.spr(data-i18n="courses.additional_resources_1_mid2")
-              a(href='http://codecombat.com/docs/CodeCombatTeacherGuideCourse2.pdf', data-i18n="courses.additional_resources_1_mid3")
-              span.spl.spr(data-i18n="courses.additional_resources_1_suff")
-            li
-              span.spr(data-i18n="courses.educator_wiki_pref")
-              a(href='https://sites.google.com/a/codecombat.com/teacher-guides/', data-i18n="courses.educator_wiki_mid")
-              span.spl(data-i18n="courses.educator_wiki_suff")
-            li
-              span.spr(data-i18n="courses.additional_resources_2_pref")
-              a(href='/teachers/freetrial', data-i18n="teachers_survey.title")
-              span.spl(data-i18n="courses.additional_resources_2_suff")
-            li
-              span.spr(data-i18n="courses.additional_resources_3_pref")
-              a(href='http://discourse.codecombat.com/c/teachers', data-i18n="courses.additional_resources_3_mid")
-              span.spl(data-i18n="courses.additional_resources_3_suff")
-            li
-              span.spr(data-i18n="courses.additional_resources_4_pref")
-              a(href='/schools', data-i18n="courses.additional_resources_4_mid")
-              span.spl(data-i18n="courses.additional_resources_4_suff")
-
-  .section-header(data-i18n="courses.your_classes")
-
-  if view.classrooms.models.length > 0
-    .container-fluid
-      each classroom in view.classrooms.models
-        +classroom(classroom)
-  else
-    .no-students(data-i18n="courses.no_classes")
-
-  .text-center
-    button.btn.btn-lg.btn-success.uppercase.create-new-class(data-i18n="courses.create_new_class1")
-
-  br
-  .section-header(data-i18n="courses.available_courses")
-
-  if !me.isAnonymous()
-    p.text-center
-      strong.spr(data-i18n="courses.unused_enrollments")
-      strong.spr= view.prepaids.totalAvailable()
-      a.btn.btn-success.btn(href="/courses/purchase", data-i18n="courses.purchase_enrollments")
-      button#activate-licenses-btn.btn.btn-info(data-i18n="courses.enroll_paid")
-
-  p(data-i18n="courses.students_access")
-
-  .container-fluid
+  if !me.isTeacher() && view.ownedClassrooms.size()
+    .alert.alert-danger.text-center
+      .container
+        // DNT: Temporary
+        h3 ATTENTION: Please upgrade your account to a Teacher Account.
+        p
+          | We are transitioning to a new improved classroom management system for instructors.
+          | Please convert your account to ensure you retain access to your classrooms. 
+        a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
+    
+  .container
+    h1(data-i18n="courses.title")
+    h2(data-i18n="courses.subtitle")
+  
+  .courses.container
     - var courses = view.courses.models;
     - var i = 0;
     while i < courses.length
       - var course = courses[i];
       - i++;
-      .row
-        .col-md-6
+      .course.row
+        .col-sm-9
           +course-info(course)
-        if i < courses.length
-          - course = courses[i];
-          - i++;
-          .col-md-6
-            +course-info(course)
-
-block footer
-
-mixin classroom(classroom)
-  .row
-    - var classMemberCount = classroom.get('members') ? classroom.get('members').length : 0;
-    if classMemberCount > 0
-      .col-md-8
-        p
-          span.spr.class-name= classroom.get('name')
-          if classroom.get('aceConfig') && classroom.get('aceConfig').language === 'javascript'
-            span.spr.class-name (JavaScript)
-          else
-            span.spr.class-name (Python)
-          a.edit-classroom-small(data-i18n="courses.edit_settings", data-classroom-id="#{classroom.id}")
-          if classMemberCount === 1
-            p There is #{classMemberCount} student in this class.
-          else
-            p There are #{classMemberCount} students in this class.
-          .active-courses(data-i18n="courses.active_courses")
-          - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
-          table.active-course-container
-            each courseInstance in courseInstances
-              tr
-                +course(courseInstance, classMemberCount)
-    else
-      .col-md-12
-        p
-          span.spr.class-name= classroom.get('name')
-          if classroom.get('aceConfig') && classroom.get('aceConfig').language === 'javascript'
-            span.spr.class-name (JavaScript)
-          else
-            span.spr.class-name (Python)
-          a.edit-classroom-small(data-i18n="courses.edit_settings", data-classroom-id="#{classroom.id}")
-        .no-students(data-i18n="courses.no_students")
-        .text-center
-          button.btn.btn-info.uppercase.btn-add-students(data-classroom-id="#{classroom.id}", data-i18n="courses.add_students1")
-        br
-    if classMemberCount > 0
-      .col-md-4.text-center
-        .class-count= classMemberCount
-        .active-courses(style='margin:6px;', data-i18n="courses.students1")
-        a.btn.btn-info.uppercase(href='/courses/#{classroom.id}', data-i18n="courses.view_edit")
-  .row
-    .col-md-12
-      .divider
-
-mixin course(courseInstance, classMemberCount)
-  - var courseMemberCount = courseInstance.get('members') ? courseInstance.get('members').length : 0;
-  if courseMemberCount > 0
-    - var course = view.courses.get(courseInstance.get('courseID'));
-    td
-      span.course-name= course.get('name')
-    td
-      span.course-enrolled
-        span #{courseMemberCount} / #{classMemberCount}
-        span.spl(data-i18n="courses.students_enrolled")
-
+        .col-sm-3.hidden
+          .play-level-form
+            .form-group
+              label.control-label
+                span(data-i18n="courses.select_language")
+                | :
+                select.form-control
+                  // TODO: Automate this list @scott
+                  option(value="python")
+                    | Python
+                  option(value="javascript")
+                    | JavaScript
+                  //- option(value="coffeescript")
+                  //-   | CoffeeScript (Experimental)
+                  //- option(value="clojure")
+                  //-   | Clojure (Experimental)
+                  //- option(value="lua")
+                  //-   | Lua
+                  //- option(value="java")
+                  //-   | Java
+            .form-group
+              label.control-label
+                span(data-i18n="courses.select_level")
+                | :
+                select.form-control
+                  // TODO: Automate this list @scott
+                  option(value='TODO')
+                    | 1. Dungeons of Kithgard
+            a.btn.btn-lg.btn-primary
+              span(data-i18n="courses.play_level")
+          .clearfix       
+            
 mixin course-info(course)
-  .media
-    img.media-object(src=course.get('screenshot'))
-    .media-body
-      span.spr.course-name= course.get('name')
-      p= course.get('description')
-      p
-        strong
-          span(data-i18n="courses.concepts")
-          span.spr :
-        each concept in course.get('concepts')
-          span(data-i18n="concepts." + concept)
-          if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
-            span.spr ,
-      p
-        strong.spr(data-i18n="courses.length")
-        span= course.get('duration') || 0
-        span.spl(data-i18n="units.hours")
+  .course-info
+    .text-h4.semibold
+      = course.get('name')
+    p= course.get('description')
+    p.concepts.semibold
+      span(data-i18n="courses.concepts_covered")
+      | : 
+      each concept in course.get('concepts')
+        span(data-i18n="concepts." + concept)
+        if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
+          span.spr ,
+        
+    if me.isTeacher() || view.ownedClassrooms.size()
+      if view.guideLinks[course.id]
+        //- a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
+        //-   span(data-i18n="courses.print_guide")
+        a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
+          span(data-i18n="courses.view_guide_online")
+      else
+        i.small
+          | (
+          span(data-i18n='teacher.guides_coming_soon')
+          | )

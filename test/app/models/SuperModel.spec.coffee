@@ -3,6 +3,25 @@ User = require 'models/User'
 ComponentsCollection = require 'collections/ComponentsCollection'
 
 describe 'SuperModel', ->
+  
+  describe '.trackRequest(jqxhr, value)', ->
+    it 'takes a jqxhr and tracks its progress', (done) ->
+      s = new SuperModel()
+      jqxhrA = $.get('/db/a')
+      reqA = jasmine.Ajax.requests.mostRecent()
+      jqxhrB = $.get('/db/b')
+      reqB = jasmine.Ajax.requests.mostRecent()
+      s.trackRequest(jqxhrA, 1)
+      s.trackRequest(jqxhrB, 3)
+      expect(s.progress).toBe(0)
+      reqA.respondWith({status: 200, responseText: '[]'})
+      _.defer ->
+        expect(s.progress).toBe(0.25)
+        reqB.respondWith({status: 200, responseText: '[]'})
+        _.defer ->
+          expect(s.progress).toBe(1)
+          done()
+  
   describe 'progress (property)', ->
     it 'is finished by default', ->
       s = new SuperModel()
@@ -27,14 +46,14 @@ describe 'SuperModel', ->
     it 'starts loading the model if it isn\'t already loading', ->
       s = new SuperModel()
       m = new User({_id: '12345'})
-      s.loadModel(m, 'user')
+      s.loadModel(m)
       request = jasmine.Ajax.requests.mostRecent()
       expect(request).toBeDefined()
 
     it 'also loads collections', ->
       s = new SuperModel()
       c = new ComponentsCollection()
-      s.loadModel(c, 'collection')
+      s.loadModel(c)
       request = jasmine.Ajax.requests.mostRecent()
       expect(request).toBeDefined()
 
@@ -44,7 +63,7 @@ describe 'SuperModel', ->
       m = new User({_id: '12345'})
       triggered = false
       s.once 'loaded-all', -> triggered = true
-      s.loadModel(m, 'user')
+      s.loadModel(m)
       request = jasmine.Ajax.requests.mostRecent()
       request.respondWith({status: 200, responseText: '{}'})
       _.defer ->

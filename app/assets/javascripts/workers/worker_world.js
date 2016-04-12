@@ -63,7 +63,7 @@ var console = {
 console.error = console.warn = console.info = console.debug = console.log;
 self.console = console;
 
-self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
+self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js', '/javascripts/esper.js');
 var myImportScripts = importScripts;
 
 var languagesImported = {};

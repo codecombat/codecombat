@@ -1,7 +1,7 @@
-request = require 'request'
 require '../common'
 config = require '../../../server_config'
 nockUtils = require('../nock-utils')
+request = require '../request'
 
 xdescribe 'nock-utils', ->
   afterEach nockUtils.teardownNock

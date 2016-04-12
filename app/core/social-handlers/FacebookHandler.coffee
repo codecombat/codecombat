@@ -13,59 +13,94 @@ userPropsToSave =
 
 
 module.exports = FacebookHandler = class FacebookHandler extends CocoClass
-  subscriptions:
-    'auth:logged-in-with-facebook': 'onFacebookLoggedIn'
 
-  loggedIn: false
+  token: -> @authResponse?.accessToken
 
-  onFacebookLoggedIn: (e) ->
-    # user is logged in also when the page first loads, so check to see
-    # if we really need to do the lookup
-    @loggedIn = false
-    @authResponse = e.response.authResponse
-    for fbProp, userProp of userPropsToSave
-      unless me.get(userProp)
-        @loggedIn = true
-        break
+  startedLoading: false
+  apiLoaded: false
+  connected: false
+  person: null
+  
+  fakeAPI: ->
+    window.FB =
+      login: (cb, options) ->
+        cb({status: 'connected', authResponse: { accessToken: '1234' }})
+      api: (url, options, cb) ->
+        cb({ 
+          first_name: 'Mr'
+          last_name: 'Bean'
+          id: 'abcd'
+          email: 'some@email.com'
+        })
 
-    if @waitingForLogin and @loggedIn
-      @fetchMeForLogin()
+    @startedLoading = true
+    @apiLoaded = true
 
-  loginThroughFacebook: ->
-    if @loggedIn
-      @fetchMeForLogin()
+  loadAPI: (options={}) ->
+    options.success ?= _.noop
+    options.context ?= options
+    if @apiLoaded
+      options.success.bind(options.context)()
     else
-      FB.login()
-      @waitingForLogin = true
+      @once 'load-api', options.success, options.context
+    
+    if not @startedLoading
+      # Load the SDK asynchronously
+      @startedLoading = true
+      ((d) ->
+        js = undefined
+        id = 'facebook-jssdk'
+        ref = d.getElementsByTagName('script')[0]
+        return  if d.getElementById(id)
+        js = d.createElement('script')
+        js.id = id
+        js.async = true
+        js.src = '//connect.facebook.net/en_US/all.js'
+    
+        #js.src = '//connect.facebook.net/en_US/all/debug.js'
+        ref.parentNode.insertBefore js, ref
+        return
+      )(document)
 
-  fetchMeForLogin: ->
-    FB.api('/me', {fields: 'email,last_name,first_name,gender'}, @onReceiveMeInfo)
+      window.fbAsyncInit = =>
+        FB.init
+          appId: (if document.location.origin is 'http://localhost:3000' then '607435142676437' else '148832601965463') # App ID
+          channelUrl: document.location.origin + '/channel.html' # Channel File
+          cookie: true # enable cookies to allow the server to access the session
+          xfbml: true # parse XFBML
 
-  onReceiveMeInfo: (r) =>
-    console.log "Got Facebook user info:", r
-    unless r.email
-      console.error('could not get data, since no email provided')
-      return
+        FB.getLoginStatus (response) =>
+          if response.status is 'connected'
+            @connected = true
+            @authResponse = response.authResponse
+            @trigger 'connect', { response: response }
+          @apiLoaded = true
+          @trigger 'load-api'
 
-    oldEmail = me.get('email')
-    me.set('firstName', r.first_name) if r.first_name
-    me.set('lastName', r.last_name) if r.last_name
-    me.set('gender', r.gender) if r.gender
-    me.set('email', r.email) if r.email
-    me.set('facebookID', r.id) if r.id
 
-    Backbone.Mediator.publish 'auth:logging-in-with-facebook', {}
-    window.tracker?.identify()
-    beforeID = me.id
-    me.patch({
-      error: backboneFailure,
-      url: "/db/user/#{me.id}?facebookID=#{r.id}&facebookAccessToken=#{@authResponse.accessToken}"
-      success: (model) ->
-        window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
-        if model.id is beforeID
-          window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Facebook'
-        window.location.reload() if model.get('email') isnt oldEmail
-    })
+  connect: (options={}) ->
+    options.success ?= _.noop
+    options.context ?= options
+    FB.login ((response) =>
+      if response.status is 'connected'
+        @connected = true
+        @authResponse = response.authResponse
+        @trigger 'connect', { response: response }
+        options.success.bind(options.context)()
+    ), scope: 'email'
 
-  destroy: ->
-    super()
+
+  loadPerson: (options={}) ->
+    options.success ?= _.noop
+    options.context ?= options
+    FB.api '/me', {fields: 'email,last_name,first_name,gender'}, (person) =>
+      attrs = {}
+      for fbProp, userProp of userPropsToSave
+        value = person[fbProp]
+        if value
+          attrs[userProp] = value
+      @trigger 'load-person', attrs
+      options.success.bind(options.context)(attrs)
+
+  renderButtons: ->
+    setTimeout(FB.XFBML.parse, 10) if FB?.XFBML?.parse  # Handles FB login and Like

@@ -40,16 +40,18 @@
 
   <!-- Errorception -->
   <script>
-      (function(_,e,rr,s){_errs=[s];var c=_.onerror;_.onerror=function(){var a=arguments;_errs.push(a);
-      c&&c.apply(this,a)};var b=function(){var c=e.createElement(rr),b=e.getElementsByTagName(rr)[0];
-      c.src="//beacon.errorception.com/"+s+".js";c.async=!0;b.parentNode.insertBefore(c,b)};
-      _.addEventListener?_.addEventListener("load",b,!1):_.attachEvent("onload",b)})
-      (window,document,"script","51a79585ee207206390002a2");
+    (function(_,e,rr,s){_errs=[s];var c=_.onerror;_.onerror=function(){var a=arguments;_errs.push(a);
+    c&&c.apply(this,a)};var b=function(){var c=e.createElement(rr),b=e.getElementsByTagName(rr)[0];
+    c.src="//beacon.errorception.com/"+s+".js";c.async=!0;b.parentNode.insertBefore(c,b)};
+    _.addEventListener?_.addEventListener("load",b,!1):_.attachEvent("onload",b)})
+    (window,document,"script","51a79585ee207206390002a2");
   </script>
 
-<!-- start Mixpanel --><script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
-for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
-mixpanel.init("e71a4e60db7e1dc5e685be96776280f9");</script><!-- end Mixpanel -->
+  <!-- Mixpanel -->
+  <script type="text/javascript">
+    (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+    mixpanel.init("e71a4e60db7e1dc5e685be96776280f9");
+  </script>
 
   <script src="https://checkout.stripe.com/checkout.js"></script>
 
@@ -59,6 +61,7 @@ mixpanel.init("e71a4e60db7e1dc5e685be96776280f9");</script><!-- end Mixpanel -->
   <script src="/javascripts/box2d.js"></script>
   <script src="/javascripts/vendor.js"></script>
   <script src="/javascripts/aether.js"></script>
+  <script src="/javascripts/esper.js"></script>
   <script src="/javascripts/app.js"></script>
   <![endif]-->
   <!-- IE9 cors support breaks analytics logging: http://caniuse.com/#feat=cors -->
@@ -69,12 +72,18 @@ mixpanel.init("e71a4e60db7e1dc5e685be96776280f9");</script><!-- end Mixpanel -->
   <script src="/lib/ace/ace.js" defer></script>
   <script src="/javascripts/vendor.js" defer></script>
   <script src="/javascripts/aether.js" defer></script>
+  <script src="/javascripts/esper.js" defer></script>
   <script src="/javascripts/app.js" defer></script>
   <![endif]>
   <script>
 
+    // IMPORTANT: If you edit here, make sure app/assets/javascripts/run-tests.js puts in placeholders for 
+    // running client tests on Travis.
+    
     // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
+    window.serverConfig = "serverConfigTag";
     window.userObject = "userObjectTag";
+    window.amActually = "amActuallyTag";
     window.me = {
       get: function(attribute) { return window.userObject[attribute]; }
     }
@@ -98,13 +107,13 @@ mixpanel.init("e71a4e60db7e1dc5e685be96776280f9");</script><!-- end Mixpanel -->
   </script>
 
 </head>
-<body class="nano clearfix" onload="onLoad();">
+<body class="clearfix" onload="onLoad();">
   <div id="fb-root"></div>
 
-  <div id="page-container" class="nano-content">
+  <div id="page-container">
   </div>
 
-  <div id="modal-wrapper" class="modal-content"></div>
+  <div id="modal-wrapper" class="modal-content hide"></div>
 
   <div class="progress" id="module-load-progress">
     <div class="progress-bar"></div>

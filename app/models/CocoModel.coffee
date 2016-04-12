@@ -427,5 +427,25 @@ class CocoModel extends Backbone.Model
     overallCoverage = _.intersection(langCodeArrays...)
     @set('i18nCoverage', overallCoverage)
 
+  saveNewMinorVersion: (attrs, options={}) ->
+    options.url = @url() + '/new-version'
+    options.type = 'POST'
+    return @save(attrs, options)
+
+  saveNewMajorVersion: (attrs, options={}) ->
+    attrs = attrs or _.omit(@attributes, 'version')
+    options.url = @url() + '/new-version'
+    options.type = 'POST'
+    options.patch = true # do not let version get sent along
+    return @save(attrs, options)
+
+  fetchPatchesWithStatus: (status='pending', options={}) ->
+    Patches = require '../collections/Patches'
+    patches = new Patches()
+    options.data ?= {}
+    options.data.status = status
+    options.url = @urlRoot + '/' + (@get('original') or @id) + '/patches'
+    patches.fetch(options)
+    return patches
 
 module.exports = CocoModel

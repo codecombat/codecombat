@@ -82,7 +82,7 @@ module.exports = class LankBoss extends CocoClass
     console.error 'Lank collision! Already have:', id if @lanks[id]
     @lanks[id] = lank
     @lankArray.push lank
-    layer ?= @layerAdapters['Obstacle'] if lank.thang?.spriteName.search(/(dungeon|indoor|ice).wall/i) isnt -1
+    layer ?= @layerAdapters['Obstacle'] if lank.thang?.spriteName.search(/(dungeon|indoor|ice|classroom|vr).wall/i) isnt -1
     layer ?= @layerForChild lank.sprite, lank
     layer.addLank lank
     layer.updateLayerOrder()
@@ -204,7 +204,7 @@ module.exports = class LankBoss extends CocoClass
   cacheObstacles: (updatedObstacles=null) ->
     return if @cachedObstacles and not updatedObstacles
     lankArray = @lankArray
-    wallLanks = (lank for lank in lankArray when lank.thangType?.get('name').search(/(dungeon|indoor|ice).wall/i) isnt -1)
+    wallLanks = (lank for lank in lankArray when lank.thangType?.get('name').search(/(dungeon|indoor|ice|classroom|vr).wall/i) isnt -1)
     return if _.any (s.stillLoading for s in wallLanks)
     walls = (lank.thang for lank in wallLanks)
     @world.calculateBounds()

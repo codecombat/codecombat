@@ -1,5 +1,4 @@
 app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
 Classroom = require 'models/Classroom'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
@@ -37,7 +36,7 @@ module.exports = class PurchaseCoursesView extends RootView
   events:
     'input #students-input': 'onInputStudentsInput'
     'click #purchase-btn': 'onClickPurchaseButton'
-    
+
   onLoaded: ->
     @pricePerStudent = @products.findWhere({name: 'course'}).get('amount')
     super()
@@ -72,11 +71,11 @@ module.exports = class PurchaseCoursesView extends RootView
 
   updatePrice: ->
     @renderSelectors '#price-form-group'
-    
-  numberOfStudentsIsValid: -> @numberOfStudents > 0 and @numberOfStudents < 100000 
+
+  numberOfStudentsIsValid: -> @numberOfStudents > 0 and @numberOfStudents < 100000
 
   onClickPurchaseButton: ->
-    return @openModalView new AuthModal() if me.isAnonymous()
+    return application.router.navigate('/teachers/signup', {trigger: true}) if me.isAnonymous()
     unless @numberOfStudentsIsValid()
       alert("Please enter the maximum number of students needed for your class.")
       return

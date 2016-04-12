@@ -40,7 +40,8 @@
     "nodemon": "nodemon",
     "jasmine-node": "jasmine-node",
     "multicore": "coffee multicore.coffee",
-    "jasmine": "jasmine"
+    "jasmine": "jasmine",
+    "proxy": "COCO_PROXY='true' nodemon"
   },
   "main": "index.js",
   "keywords": [
@@ -52,10 +53,12 @@
   "dependencies": {
     "JQDeferred": "~2.1.0",
     "ace-builds": "https://github.com/ajaxorg/ace-builds/archive/3fb55e8e374ab02ce47c1ae55ffb60a1835f3055.tar.gz",
-    "aether": "~0.4.0",
+    "aether": "~0.4.5",
     "async": "0.2.x",
     "aws-sdk": "~2.0.0",
     "bayesian-battle": "0.0.7",
+    "bluebird": "^3.2.1",
+    "co-express": "^1.2.1",
     "coffee-script": "1.9.x",
     "connect": "2.7.x",
     "express": "~3.0.6",
@@ -76,7 +79,7 @@
     "passport": "0.1.x",
     "passport-local": "0.1.x",
     "redis": "",
-    "request": "2.12.x",
+    "request": "^2.69.0",
     "sendwithus": "2.1.x",
     "stream-buffers": "0.2.x",
     "stripe": "~2.9.0",
@@ -97,6 +100,7 @@
     "compressible": "~1.0.1",
     "css-brunch": "^1.7.0",
     "fs-extra": "^0.26.2",
+    "http-proxy": "^1.13.2",
     "jade-brunch": "1.7.5",
     "jasmine": "^2.4.1",
     "javascript-brunch": "> 1.0 < 1.8",

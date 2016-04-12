@@ -38,3 +38,15 @@ block outer_content
       strong(data-i18n="home.old_browser") Uh oh, your browser is too old to run CodeCombat. Sorry!
       br
       span(data-i18n="home.old_browser_suffix") You can try anyway, but it probably won't work.
+
+  if view.withTeacherNote
+    .style-flat
+      .bg-navy
+        a#close-teacher-note-link.glyphicon.glyphicon-remove.pull-right
+        h3 Teachers!
+        h4 Want the most engaging way to teach programming at your school?
+        .text-center
+          a.btn.btn-primary-alt.btn-lg(href="/teachers/quote") Request a Quote
+          h6
+            a.small(href="/schools") Learn More
+    

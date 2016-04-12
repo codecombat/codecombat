@@ -1,0 +1,246 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#create-account-modal
+
+  //- Clear modal defaults
+
+  .modal-dialog
+    padding: 0
+    width: 666px
+    height: 694px
+
+
+  //- Background
+
+  .auth-modal-background
+    position: absolute
+    top: -90px
+    left: -40px
+
+
+  //- Header
+
+  h1
+    position: absolute
+    left: 183px
+    top: 0px
+    margin: 0
+    width: 255px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 32px
+    text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+    &.long-title
+      top: -14px
+
+
+  //- Close modal button
+
+  #close-modal
+    position: absolute
+    left: 442px
+    top: -15px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+
+  //- Modal body content
+
+  #gplus-account-exists-row, #facebook-account-exists-row
+    margin-bottom: 20px
+    
+  #facebook-signup-btn
+    margin-bottom: 5px
+
+  .auth-form-content
+    position: absolute
+    top: 100px
+    left: 40px
+    width: 588px
+
+    .help-block
+      margin: 0
+
+    .alert
+      margin-top: -25px
+      margin-bottom: 0
+      padding: 10px 15px
+
+    .form-group
+      color: rgb(51,51,51)
+      padding: 0
+      margin: 0
+
+      .input-border
+        border: 2px solid rgb(233, 221, 194)
+        border-radius: 4px
+        margin-bottom: 7px
+
+        input
+          background-color: rgb(239, 232, 216)
+          border: 2px solid rgb(26, 21, 18)
+          border-radius: 4px
+
+    label
+      font-size: 20px
+      text-transform: uppercase
+      font-family: $headings-font-family
+      margin-bottom: 0
+
+      .optional-note
+        font-size: 14px
+        
+    .well
+      font-size: 18px
+      position: absolute
+      right: 0
+      bottom: 0
+      width: 278px
+      margin-bottom: 0
+
+    //- Check boxes
+
+    .form-group.checkbox
+      margin: 10px 0
+
+      label
+        position: relative
+        line-height: 34px
+
+        span:not(.custom-checkbox)
+          margin-left: 40px
+
+      input
+        display: none
+
+        & + .custom-checkbox
+          .glyphicon
+            display: none
+
+        &:checked + .custom-checkbox .glyphicon
+          display: inline
+          color: rgb(248,169,67)
+          text-align: center
+          text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black
+          font-size: 20px
+          position: relative
+          top: -2px
+
+      .input-border
+        border-radius: 4px
+        height: 34px
+        width: 34px
+        position: absolute
+
+      .custom-checkbox
+        border-radius: 4px
+        position: absolute
+        height: 30px
+        width: 30px
+        border: 2px solid rgb(26,21,18)
+        background: rgb(228,217,196)
+        text-align: center
+
+    //- Primary auth button
+
+    #signup-button
+      position: absolute
+      top: 405px
+      height: 70px
+      font-size: 32px
+      line-height: 42px
+
+
+  //- Footer area
+
+  .auth-network-logins
+  
+    .btn.btn-lg.network-login
+      width: 251px
+      height: 60px
+      text-align: center
+      position: relative
+  
+      .network-logo
+        height: 30px
+        position: absolute
+        left: -10px
+        top: 2px
+  
+      .sign-in-blurb
+        line-height: 34px
+        margin-left: 12px
+  
+      .fb-login-button
+        $scaleX: 251 / 64
+        $scaleY: 60 / 23
+        transform: scale($scaleX, $scaleY)
+        position: absolute
+        top: 4px
+        left: 74px
+        @include opacity(0.01)
+  
+      .gplus-login-wrapper
+        position: absolute
+        left: 65px
+        top: -6px
+        $scaleX: 251 / 84
+        $scaleY: 60 / 24
+        transform: scale($scaleX, $scaleY)
+        @include opacity(0.01)
+  
+    #github-login-button
+      position: relative
+      top: -1px
+      border-radius: 5px
+      img
+        width: 16px
+        margin: 0 5px 0 -5px
+  
+    #gplus-login-button
+      position: relative
+      top: 8px
+  
+  
+  //- Extra bottom pane area
+  .extra-pane
+    background-image: url(/images/pages/modal/auth/extra-pane.png)
+    width: 633px
+    height: 139px
+    padding: 23px 23px 23px 168px
+    position: absolute
+    top: 580px
+  
+    .switch-explanation
+      margin: 25px 10px 0 0
+      width: 200px
+      color: rgb(254,188,68)
+      font-size: 20px
+      font-family: $headings-font-family
+      font-weight: bold
+      text-transform: uppercase
+      text-shadow: black 1px 1px 0, black -1px -1px 0, black 1px -1px 0, black -1px 1px 0, black 1px 0px 0, black 0px -1px 0, black -1px 0px 0, black 0px 1px 0
+      float: left
+  
+    .btn
+      float: right
+      margin-top: 20px
+      width: 230px
+      height: 70px
+      line-height: 40px
+
+      
+.ie10 #create-account-modal .auth-network-logins .btn.btn-lg.network-login .network-logo, .lt-ie10 #create-account-modal .auth-network-logins .btn.btn-lg.network-login .network-logo
+  left: 15px
+  top: 15px  

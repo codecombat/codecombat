@@ -1,10 +1,10 @@
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
 CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
 Course = require 'models/Course'
 Classroom = require 'models/Classroom'
+Classrooms = require 'collections/Classrooms'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 User = require 'models/User'
 CourseInstance = require 'models/CourseInstance'
@@ -22,9 +22,21 @@ module.exports = class TeacherCoursesView extends RootView
     'click .btn-add-students': 'onClickAddStudents'
     'click .create-new-class': 'onClickCreateNewClassButton'
     'click .edit-classroom-small': 'onClickEditClassroomSmall'
+    
+  guideLinks:
+    {
+      "560f1a9f22961295f9427742": 'http://codecombat.com/docs/CodeCombatTeacherGuideCourse1.pdf'
+      "5632661322961295f9428638": 'https://docs.google.com/a/codecombat.com/viewer?a=v&pid=sites&srcid=Y29kZWNvbWJhdC5jb218dGVhY2hlci1ndWlkZXN8Z3g6NGEzMDFhZTZmMTg4YmRmZQ'
+      "56462f935afde0c6fd30fc8c": 'https://docs.google.com/a/codecombat.com/viewer?a=v&pid=sites&srcid=Y29kZWNvbWJhdC5jb218dGVhY2hlci1ndWlkZXN8Z3g6NzY0Nzc1NWRjMTk4MGRiMQ'
+      "56462f935afde0c6fd30fc8d": null
+      "569ed916efa72b0ced971447": null
+    }
 
   constructor: (options) ->
     super(options)
+    @ownedClassrooms = new Classrooms()
+    @ownedClassrooms.fetchMine({data: {project: '_id'}})
+    @supermodel.trackCollection(@ownedClassrooms)
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
@@ -70,7 +82,7 @@ module.exports = class TeacherCoursesView extends RootView
     application.tracker?.trackEvent 'Classroom started add students', category: 'Courses', classroomID: classroom.id
 
   onClickCreateNewClassButton: ->
-    return @openModalView new AuthModal() if me.get('anonymous')
+    return application.router.navigate('/teachers/signup', {trigger: true}) if me.get('anonymous')
     modal = new ClassroomSettingsModal({})
     @openModalView(modal)
     @listenToOnce modal, 'hide', =>

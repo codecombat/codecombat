@@ -3,10 +3,10 @@ mongoose = require 'mongoose'
 Grid = require 'gridfs-stream'
 errors = require './errors'
 log = require 'winston'
-Patch = require '../patches/Patch'
-User = require '../users/User'
+Patch = require '../models/Patch'
+User = require '../models/User'
 sendwithus = require '../sendwithus'
-hipchat = require '../hipchat'
+slack = require '../slack'
 deltasLib = require '../../app/core/deltas'
 
 PROJECT = {original: 1, name: 1, version: 1, description: 1, slug: 1, kind: 1, created: 1, permissions: 1}
@@ -214,6 +214,7 @@ module.exports = class Handler
     if req.query.project
       projection = {}
       projection[field] = 1 for field in req.query.project.split(',')
+      projection.permissions = 1 # TODO: A better solution for always including properties the server needs
     @getDocumentForIdOrSlug id, projection, (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
@@ -456,7 +457,7 @@ module.exports = class Handler
 
   notifyWatchersOfChange: (editor, changedDocument, editPath) ->
     docLink = "http://codecombat.com#{editPath}"
-    @sendChangedHipChatMessage creator: editor, target: changedDocument, docLink: docLink
+    @sendChangedSlackMessage creator: editor, target: changedDocument, docLink: docLink
     watchers = changedDocument.get('watchers') or []
     # Don't send these emails to the person who submitted the patch, or to Nick, George, or Scott.
     watchers = (w for w in watchers when not w.equals(editor.get('_id')) and not (w + '' in ['512ef4805a67a8c507000001', '5162fab9c92b4c751e000274', '51538fdb812dd9af02000001']))
@@ -478,10 +479,10 @@ module.exports = class Handler
         commit_message: changedDocument.get('commitMessage')
     sendwithus.api.send context, (err, result) ->
 
-  sendChangedHipChatMessage: (options) ->
-    message = "#{options.creator.get('name')} saved a change to <a href=\"#{options.docLink}\">#{options.target.get('name')}</a>: #{options.target.get('commitMessage') or '(no commit message)'}"
-    rooms = if /Diplomat submission/.test(message) then ['main'] else ['main', 'artisans']
-    hipchat.sendHipChatMessage message, rooms
+  sendChangedSlackMessage: (options) ->
+    message = "#{options.creator.get('name')} saved a change to #{options.target.get('name')}: #{options.target.get('commitMessage') or '(no commit message)'} #{options.docLink}"
+    rooms = if /Diplomat submission/.test(message) then ['dev-feed'] else ['dev-feed', 'artisans']
+    slack.sendSlackMessage message, rooms
 
   makeNewInstance: (req) ->
     model = new @modelClass({})

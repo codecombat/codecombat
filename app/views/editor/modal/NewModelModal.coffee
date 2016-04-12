@@ -22,6 +22,8 @@ module.exports = class NewModelModal extends ModalView
     model = new @modelClass
     name = @$el.find('#name').val()
     model.set('name', name)
+    if @modelClass.name is 'Level'
+      model.set('tasks', @modelClass.schema.default.tasks)
     if model.schema().properties.permissions
       model.set 'permissions', [{access: 'owner', target: me.id}]
     model.set(key, prop) for key, prop of @properties if @properties?

@@ -9,13 +9,29 @@
 // TODO: output emails not found
 
 var emails = ['pam@fred.com', 'Bob@fred.com'];
-var purchaserID = '54ed0ac0ca7f1c421c025b3d';
-var endDate = '2015-06-01';
+var purchaserID = '';  // leave blank to use ID of user of first email address
+var endDate = '';  // '2016-06-28' or blank for auto-3-months
 var gems = 10500;
-var amount = 1750;
-var service = 'external';
+var amount = 2997;
+var service = 'paypal';  // 'external', etc.
 
 emails = emails.map(function(e) { return e.toLowerCase();});
+
+if (!purchaserID) {
+    var purchaser = db.users.findOne({emailLower: emails[0]});
+    purchaserID = purchaser._id + '';
+}
+
+if (!endDate) {
+    var date = new Date();
+    var newMonth = date.getMonth() + 3;
+    if (newMonth >= 12) {
+        newMonth -= 12;
+        date.setFullYear(date.getFullYear() + 1);
+    }
+    date.setMonth(newMonth);
+    endDate = date.toISOString().substring(0, 10);
+}
 
 log("Input Data");
 log("service\t" + service);

@@ -2,7 +2,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/core/subscribe-modal'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 Products = require 'collections/Products'
 
 module.exports = class SubscribeModal extends ModalView
@@ -134,7 +134,7 @@ module.exports = class SubscribeModal extends ModalView
   onClickPurchaseButton: (e) ->
     return unless @basicProduct
     @playSound 'menu-button-click'
-    return @openModalView new AuthModal() if me.get('anonymous')
+    return @openModalView new CreateAccountModal() if me.get('anonymous')
     application.tracker?.trackEvent 'Started subscription purchase'
     options = {
       description: $.i18n.t('subscribe.stripe_description')
@@ -148,7 +148,7 @@ module.exports = class SubscribeModal extends ModalView
 
   onClickSaleButton: (e) ->
     @playSound 'menu-button-click'
-    return @openModalView new AuthModal() if me.get('anonymous')
+    return @openModalView new CreateAccountModal() if me.get('anonymous')
     application.tracker?.trackEvent 'Started 1 year subscription purchase'
     discount = @basicProduct.get('amount') * 12 - @yearProduct.get('amount')
     discountString = (discount/100).toFixed(2)

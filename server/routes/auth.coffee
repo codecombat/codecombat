@@ -1,8 +1,8 @@
 authentication = require 'passport'
 LocalStrategy = require('passport-local').Strategy
-User = require '../users/User'
-UserHandler = require '../users/user_handler'
-LevelSession = require '../levels/sessions/LevelSession'
+User = require '../models/User'
+UserHandler = require '../handlers/user_handler'
+LevelSession = require '../models/LevelSession'
 config = require '../../server_config'
 errors = require '../commons/errors'
 languages = require '../routes/languages'
@@ -14,6 +14,11 @@ module.exports.setup = (app) ->
   authentication.serializeUser((user, done) -> done(null, user._id))
   authentication.deserializeUser((id, done) ->
     User.findById(id, (err, user) -> done(err, user)))
+
+  if config.picoCTF
+    pico = require('../lib/picoctf');
+    authentication.use new pico.PicoStrategy()
+    return
 
   authentication.use(new LocalStrategy(
     (username, password, done) ->
@@ -38,21 +43,6 @@ module.exports.setup = (app) ->
         return done(null, user)
       )
   ))
-
-  app.post '/auth/spy', (req, res, next) ->
-    if req?.user?.isAdmin()
-      target = req.body.nameOrEmailLower
-      return errors.badInput res, 'Specify a username or email to espionage.' unless target
-      query = $or: [{nameLower: target}, {emailLower: target}]
-      User.findOne query, (err, user) ->
-        if err? then return errors.serverError res, 'There was an error finding the specified user'
-        unless user then return errors.badInput res, 'The specified user couldn\'t be found'
-        req.logIn user, (err) ->
-          if err? then return errors.serverError res, 'There was an error logging in with the specified user'
-          res.send(UserHandler.formatEntity(req, user))
-          return res.end()
-    else
-      return errors.unauthorized res, 'You must be an admin to enter espionage mode'
 
   app.post('/auth/login', (req, res, next) ->
     authentication.authenticate('local', (err, user, info) ->
@@ -91,7 +81,7 @@ module.exports.setup = (app) ->
 
   app.post('/auth/logout', (req, res) ->
     req.logout()
-    res.end()
+    res.send({})
   )
 
   app.post('/auth/reset', (req, res) ->
@@ -108,25 +98,18 @@ module.exports.setup = (app) ->
       emailContent += "<p>Your old password cannot be retrieved.</p>"
       user.save (err) =>
         return errors.serverError(res) if err
-        unless config.unittest
-          context =
-            email_id: sendwithus.templates.generic_email
-            recipient:
-              address: req.body.email
-            email_data:
-              subject: 'CodeCombat Recovery Password'
-              title: ''
-              content: emailContent
-          sendwithus.api.send context, (err, result) ->
-            if err
-              console.error "Error sending password reset email: #{err.message or err}"
-              return errors.serverError(res) if err
-            else
-              return res.end()
-        else
-          console.log 'password is', user.get('passwordReset')
-          res.send user.get('passwordReset')
-          return res.end()
+        context =
+          email_id: sendwithus.templates.generic_email
+          recipient:
+            address: req.body.email
+          email_data:
+            subject: 'CodeCombat Recovery Password'
+            title: ''
+            content: emailContent
+        sendwithus.api.send context, (err, result) ->
+          if err
+            console.error "Error sending password reset email: #{err.message or err}"
+        res.end()
     )
   )
 

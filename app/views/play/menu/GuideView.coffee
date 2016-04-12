@@ -15,6 +15,7 @@ module.exports = class LevelGuideView extends CocoView
     'click .start-subscription-button': 'clickSubscribe'
 
   constructor: (options) ->
+    super options
     @levelSlug = options.level.get('slug')
     @sessionID = options.session.get('_id')
     @requiresSubscription = not me.isPremium()
@@ -39,10 +40,10 @@ module.exports = class LevelGuideView extends CocoView
     @docs = specific.concat(general)
     @docs = $.extend(true, [], @docs)
     @docs = [@docs[0]] if @firstOnly and @docs[0]
-    doc.html = marked(utils.filterMarkdownCodeLanguages(utils.i18n(doc, 'body'))) for doc in @docs
+    @addPicoCTFProblem() if window.serverConfig.picoCTF
+    doc.html = marked(utils.filterMarkdownCodeLanguages(utils.i18n(doc, 'body'), options.session.get('codeLanguage'))) for doc in @docs
     doc.slug = _.string.slugify(doc.name) for doc in @docs
     doc.name = (utils.i18n doc, 'name') for doc in @docs
-    super options
 
   destroy: ->
     if @vimeoListenerAttached
@@ -81,7 +82,7 @@ module.exports = class LevelGuideView extends CocoView
     oldEditor.destroy() for oldEditor in @aceEditors ? []
     @aceEditors = []
     aceEditors = @aceEditors
-    codeLanguage = me.get('aceConfig')?.language or 'python'
+    codeLanguage = @options.session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
     @$el.find('pre').each ->
       aceEditor = utils.initializeACE @, codeLanguage
       aceEditors.push aceEditor
@@ -89,7 +90,8 @@ module.exports = class LevelGuideView extends CocoView
   clickSubscribe: (e) ->
     level = @levelSlug # Save ref to level slug
     @openModalView new SubscribeModal()
-    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'help video clicked', level: level
+    # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'help video clicked', level: level, levelID: level
 
   clickTab: (e) =>
     @$el.find('li.active').removeClass('active')
@@ -136,7 +138,10 @@ module.exports = class LevelGuideView extends CocoView
     tag.height = @helpVideoHeight
     tag.width = @helpVideoWidth
     tag.allowFullscreen = true
-    @$el.find('#help-video-player').replaceWith(tag)
+    tag.mozAllowFullscreen = true
+    $tag = $(tag)
+    $tag.attr('webkitallowfullscreen', true) # strong arm Safari into working
+    @$el.find('#help-video-player').replaceWith($tag)
 
     @onMessageReceived = (e) =>
       data = JSON.parse(e.data)
@@ -157,3 +162,17 @@ module.exports = class LevelGuideView extends CocoView
     else
       window.attachEvent('onmessage', @onMessageReceived, false)
     @vimeoListenerAttached = true
+
+  addPicoCTFProblem: ->
+    return unless problem = @options.level.picoCTFProblem
+    @docs = [name: 'Intro', body: '', slug: 'intro'] unless @docs.length
+    for doc in @docs when doc.name in ['Overview', 'Intro']
+      doc.body += """
+        ### #{problem.name}
+
+        #{problem.description}
+
+        #{problem.category} - #{problem.score} points
+
+        Hint: #{problem.hints}
+      """.replace /<p>(.*?)<\/p>/gi, '$1'

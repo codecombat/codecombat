@@ -3,6 +3,7 @@ CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 Classroom = require 'models/Classroom'
+Classrooms = require 'collections/Classrooms'
 LevelSession = require 'models/LevelSession'
 Prepaids = require 'collections/Prepaids'
 RootView = require 'views/core/RootView'
@@ -32,31 +33,34 @@ module.exports = class ClassroomView extends RootView
   initialize: (options, classroomID) ->
     return if me.isAnonymous()
     @classroom = new Classroom({_id: classroomID})
-    @supermodel.loadModel @classroom, 'classroom'
+    @supermodel.loadModel @classroom
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @courses.comparator = '_id'
-    @supermodel.loadCollection(@courses, 'courses')
+    @supermodel.loadCollection(@courses)
     @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign })
     @courses.comparator = '_id'
-    @supermodel.loadCollection(@campaigns, 'campaigns', { data: { type: 'course' }})
+    @supermodel.loadCollection(@campaigns, { data: { type: 'course' }})
     @courseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance})
     @courseInstances.comparator = 'courseID'
-    @supermodel.loadCollection(@courseInstances, 'course_instances', { data: { classroomID: classroomID } })
+    @supermodel.loadCollection(@courseInstances, { data: { classroomID: classroomID } })
     @prepaids = new Prepaids()
     @prepaids.comparator = '_id'
     @prepaids.fetchByCreator(me.id)
-    @supermodel.loadCollection(@prepaids, 'prepaids')
-    @users = new CocoCollection([], { url: "/db/classroom/#{classroomID}/members", model: User })
+    @supermodel.loadCollection(@prepaids)
+    @users = new CocoCollection([], { url: "/db/classroom/#{classroomID}/members?memberLimit=100", model: User })
     @users.comparator = (user) => user.broadName().toLowerCase()
-    @supermodel.loadCollection(@users, 'users')
+    @supermodel.loadCollection(@users)
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesSync
     @sessions = new CocoCollection([], { model: LevelSession })
+    @ownedClassrooms = new Classrooms()
+    @ownedClassrooms.fetchMine({data: {project: '_id'}})
+    @supermodel.trackCollection(@ownedClassrooms)
 
   onCourseInstancesSync: ->
     @sessions = new CocoCollection([], { model: LevelSession })
     for courseInstance in @courseInstances.models
       sessions = new CocoCollection([], { url: "/db/course_instance/#{courseInstance.id}/level_sessions", model: LevelSession })
-      @supermodel.loadCollection(sessions, 'sessions', { data: { project: ['level', 'playtime', 'creator', 'changed', 'state.complete'].join(' ') } })
+      @supermodel.loadCollection(sessions, { data: { project: ['level', 'playtime', 'creator', 'changed', 'state.complete'].join(' ') } })
       courseInstance.sessions = sessions
       sessions.courseInstance = courseInstance
       courseInstance.sessionsByUser = {}
@@ -199,7 +203,9 @@ module.exports = class ClassroomView extends RootView
 
     if courseInstance.isNew()
       # adding the first student to this course, so generate the course instance for it
-      courseInstance.save(null, {validate: false})
+      if not courseInstance.saving
+        courseInstance.save(null, {validate: false})
+        courseInstance.saving = true
       courseInstance.once 'sync', onCourseInstanceCreated
     else
       onCourseInstanceCreated()

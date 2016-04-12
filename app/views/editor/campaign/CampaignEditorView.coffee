@@ -32,7 +32,7 @@ module.exports = class CampaignEditorView extends RootView
   constructor: (options, @campaignHandle) ->
     super(options)
     @campaign = new Campaign({_id:@campaignHandle})
-    @supermodel.loadModel(@campaign, 'campaign')
+    @supermodel.loadModel(@campaign)
     @listenToOnce @campaign, 'sync', (model, response, jqXHR) ->
       @campaign.set '_id', response._id
       @campaign.url = -> '/db/campaign/' + @id
@@ -72,7 +72,7 @@ module.exports = class CampaignEditorView extends RootView
       thangType = new ThangType()
       thangType.setProjection(thangTypeProject)
       thangType.setURL("/db/thang.type/#{original}/version")
-      @supermodel.loadModel(thangType, 'thang')
+      @supermodel.loadModel(thangType)
 
   onFundamentalLoaded: ->
     # Load any levels which haven't been denormalized into our campaign.
@@ -82,7 +82,7 @@ module.exports = class CampaignEditorView extends RootView
       model = new Level({})
       model.setProjection Campaign.denormalizedLevelProperties
       model.setURL("/db/level/#{level.original}/version")
-      @levels.add @supermodel.loadModel(model, 'level').model
+      @levels.add @supermodel.loadModel(model).model
       achievements = new RelatedAchievementsCollection level.original
       achievements.setProjection achievementProject
       @supermodel.loadCollection achievements, 'achievements'
@@ -109,20 +109,20 @@ module.exports = class CampaignEditorView extends RootView
               rewardObject.hero = reward
               thangType = new ThangType({}, {project: thangTypeProject})
               thangType.setURL("/db/thang.type/#{reward}/version")
-              @supermodel.loadModel(thangType, 'thang')
+              @supermodel.loadModel(thangType)
 
             if rewardType is 'levels'
               rewardObject.level = reward
               if not @levels.findWhere({original: reward})
                 level = new Level({}, {project: Campaign.denormalizedLevelProperties})
                 level.setURL("/db/level/#{reward}/version")
-                @supermodel.loadModel(level, 'level')
+                @supermodel.loadModel(level)
 
             if rewardType is 'items'
               rewardObject.item = reward
               thangType = new ThangType({}, {project: thangTypeProject})
               thangType.setURL("/db/thang.type/#{reward}/version")
-              @supermodel.loadModel(thangType, 'thang')
+              @supermodel.loadModel(thangType)
 
             rewards.push rewardObject
       campaignLevel.rewards = rewards

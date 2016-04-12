@@ -25,7 +25,7 @@ module.exports = class PollEditView extends RootView
   loadPoll: ->
     @poll = new Poll _id: @pollID
     @poll.saveBackups = true
-    @supermodel.loadModel @poll, 'poll'
+    @supermodel.loadModel @poll
 
   loadUserPollsRecord: ->
     url = "/db/user.polls.record/-/user/#{me.id}"
@@ -34,7 +34,7 @@ module.exports = class PollEditView extends RootView
       return if @destroyed
       @userPollsRecord.url = -> '/db/user.polls.record/' + @id
     @listenToOnce @userPollsRecord, 'sync', onRecordSync
-    @userPollsRecord = @supermodel.loadModel(@userPollsRecord, 'user_polls_record').model
+    @userPollsRecord = @supermodel.loadModel(@userPollsRecord).model
     onRecordSync.call @ if @userPollsRecord.loaded
 
   onLoaded: ->
@@ -98,10 +98,10 @@ module.exports = class PollEditView extends RootView
 
   confirmDeletion: ->
     renderData =
-      'confirmTitle': 'Are you really sure?'
-      'confirmBody': 'This will completely delete the poll, potentially breaking a lot of stuff you don\'t want breaking. Are you entirely sure?'
-      'confirmDecline': 'Not really'
-      'confirmConfirm': 'Definitely'
+      title: 'Are you really sure?'
+      body: 'This will completely delete the poll, potentially breaking a lot of stuff you don\'t want breaking. Are you entirely sure?'
+      decline: 'Not really'
+      confirm: 'Definitely'
 
     confirmModal = new ConfirmModal renderData
     confirmModal.on 'confirm', @deletePoll

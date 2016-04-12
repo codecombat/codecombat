@@ -28,11 +28,17 @@ module.exports = class SpriteBuilder
     anim.initialize(mode ? createjs.MovieClip.INDEPENDENT, startPosition ? 0, loops ? true, labels)
     for tweenData in animData.tweens
       tween = createjs.Tween
+      stopped = false
       for func in tweenData
         args = _.cloneDeep(func.a)
         @dereferenceArgs(args, locals)
-        tween = tween[func.n](args...)
-      anim.timeline.addTween(tween)
+        if tween[func.n]
+          tween = tween[func.n](args...)
+        else
+          # If we, say, skipped a shadow get(), then the wait() may not be present
+          stopped = true
+          break
+      anim.timeline.addTween(tween) unless stopped
 
     anim.nominalBounds = new createjs.Rectangle(animData.bounds...)
     if animData.frameBounds

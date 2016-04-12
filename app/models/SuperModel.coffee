@@ -28,6 +28,10 @@ module.exports = class SuperModel extends Backbone.Model
     unfinished
 
   loadModel: (model, name, fetchOptions, value=1) ->
+    # Deprecating name. Handle if name is not included
+    value = fetchOptions if _.isNumber(fetchOptions)
+    fetchOptions = name if _.isObject(name)
+      
     # hero-ladder levels need remote opponent_session for latest session data (e.g. code)
     # Can't apply to everything since other features rely on cached models being more recent (E.g. level_session)
     # E.g.#2 heroConfig isn't necessarily saved to db in world map inventory modal, so we need to load the cached session on level start
@@ -48,6 +52,10 @@ module.exports = class SuperModel extends Backbone.Model
       return res
 
   loadCollection: (collection, name, fetchOptions, value=1) ->
+    # Deprecating name. Handle if name is not included
+    value = fetchOptions if _.isNumber(fetchOptions)
+    fetchOptions = name if _.isObject(name)
+    
     url = collection.getURL()
     if cachedCollection = @collections[url]
       console.debug 'Collection cache hit', url, 'already loaded', cachedCollection.loaded
@@ -72,6 +80,24 @@ module.exports = class SuperModel extends Backbone.Model
       res = @addModelResource(collection, name, fetchOptions, value)
       res.load() if not (res.isLoading or res.isLoaded)
       return res
+      
+  # Eventually should use only these functions. Use SuperModel just to track progress.
+  trackModel: (model, value) ->
+    res = @addModelResource(model, '', {}, value)
+    res.listen()
+
+  trackCollection: (collection, value) ->
+    res = @addModelResource(collection, '', {}, value)
+    res.listen()
+    
+  trackRequest: (jqxhr, value=1) ->
+    res = new Resource('', value)
+    res.jqxhr = jqxhr
+    jqxhr.done -> res.markLoaded()
+    jqxhr.fail -> res.markFailed()
+    @storeResource(res, value)
+    
+  trackRequests: (jqxhrs, value=1) -> @trackRequest(jqxhr) for jqxhr in jqxhrs
 
   # replace or overwrite
   shouldSaveBackups: (model) -> false
@@ -132,9 +158,13 @@ module.exports = class SuperModel extends Backbone.Model
   # Tracking resources being loaded for this supermodel
 
   finished: ->
-    return @progress is 1.0 or not @denom
+    return (@progress is 1.0) or (not @denom) or @failed 
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
+    # Deprecating name. Handle if name is not included
+    value = fetchOptions if _.isNumber(fetchOptions)
+    fetchOptions = name if _.isObject(name)
+    
     modelOrCollection.saveBackups = modelOrCollection.saveBackups or @shouldSaveBackups(modelOrCollection)
     @checkName(name)
     res = new ModelResource(modelOrCollection, name, fetchOptions, value)
@@ -145,20 +175,25 @@ module.exports = class SuperModel extends Backbone.Model
     @removeResource _.find(@resources, (resource) -> resource?.model is modelOrCollection)
 
   addRequestResource: (name, jqxhrOptions, value=1) ->
+    # Deprecating name. Handle if name is not included
+    value = jqxhrOptions if _.isNumber(jqxhrOptions)
+    jqxhrOptions = name if _.isObject(name)
+    
     @checkName(name)
     res = new RequestResource(name, jqxhrOptions, value)
     @storeResource(res, value)
     return res
 
   addSomethingResource: (name, value=1) ->
+    value = name if _.isNumber(name)
     @checkName(name)
     res = new SomethingResource(name, value)
     @storeResource(res, value)
     return res
 
   checkName: (name) ->
-    if not name
-      throw new Error('Resource name should not be empty.')
+    if _.isString(name)
+      console.warn("SuperModel name property deprecated. Remove '#{name}' from code.")
 
   storeResource: (resource, value) ->
     @rid++
@@ -186,6 +221,7 @@ module.exports = class SuperModel extends Backbone.Model
 
   onResourceFailed: (r) ->
     return unless @resources[r.rid]
+    @failed = true
     @trigger('failed', resource: r)
     r.clean()
 
@@ -257,6 +293,9 @@ class ModelResource extends Resource
 
   fetchModel: ->
     @jqxhr = @model.fetch(@fetchOptions) unless @model.loading
+    @listen()
+
+  listen: ->
     @listenToOnce @model, 'sync', -> @markLoaded()
     @listenToOnce @model, 'error', -> @markFailed()
 

@@ -1,156 +1,182 @@
-a(href="/")
-  img#small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-
-if campaign
-  .map
-    .gradient.horizontal-gradient.top-gradient
-    .gradient.vertical-gradient.right-gradient
-    .gradient.horizontal-gradient.bottom-gradient
-    .gradient.vertical-gradient.left-gradient
-    .map-background(alt="", draggable="false")
-
-    each level in levels
-      if !level.hidden
-        div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""), data-level-slug=level.slug, data-level-original=level.original, title=i18n(level, 'name') + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
-          if level.unlocksHero && (!level.purchasedHero || editorMode)
-            img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
-          a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
-          if level.slug == 'lost-viking'
-            img.star(src="/file/db/thang.type/5441c3144e9aeb727cc97111/portrait.png")
-          else if level.requiresSubscription
-            img.star(src="/images/pages/play/star.png")
-          if levelStatusMap[level.slug] === 'complete'
-            img.banner(src="/images/pages/play/level-banner-complete.png")
-          if levelStatusMap[level.slug] === 'started'
-            img.banner(src="/images/pages/play/level-banner-started.png")
-          if levelDifficultyMap[level.slug]
-            .level-difficulty-banner-text= levelDifficultyMap[level.slug]
-        div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + (levelStatusMap[level.slug] || ""))
-        .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
-          - var playCount = levelPlayCountMap[level.slug]
-          .progress.progress-striped.active.hide
-            .progress-bar(style="width: 100%")
-          div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : ""))
-            .level-status
-            h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
-            - var description = i18n(level, 'description') || level.description || ""
-            .level-description!= marked(description)
-            if level.disabled
-              p
-                span.spr(data-i18n="play.awaiting_levels_adventurer_prefix") We release five levels per week.
-                a.spr(href="/contribute/adventurer")
-                  strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
-                span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
-            if level.displayConcepts && level.displayConcepts.length
-              p
-                for concept in level.displayConcepts
-                  kbd(data-i18n="concepts." + concept)
-
-            if !level.disabled && !level.locked
-              if playCount && playCount.sessions
-                .play-counts.hidden
-                  span.spl.spr= playCount.sessions
-                  span(data-i18n="play.players") players
-                  span.spr , #{Math.round(playCount.playtime / 3600)}
-                  span(data-i18n="play.hours_played") hours played
-              if levelStatusMap[level.slug] === 'complete'
-                button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
-                  span(data-i18n="leaderboard.scores")
-              button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
-              if me.get('courseInstances') && me.get('courseInstances').length
-                .course-version.hidden(data-level-original=level.original)
-                  em(data-i18n="general.or")
-                  | ...
-                  br
-                  button.btn.btn-primary.btn.btn-lg.btn-illustrated
-                    span(data-i18n="play.play_classroom_version") Play Classroom Version
-      else if level.unlocksHero && !level.purchasedHero
-        img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png", style="left: #{level.position.x}%; bottom: #{level.position.y}%;")
-
-    for adjacentCampaign in adjacentCampaigns
-      a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
-        span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id)
-
-else
-  .portal
-    .portals
-      for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
-        - var campaign = campaigns[campaignSlug];
-        - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
-        div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
-          .campaign-label
-            h2.campaign-name
-              if campaign
-                span= i18n(campaign.attributes, 'fullName')
-              else
-                span ???
-            if campaign && campaign.levelsTotal
-              h3.levels-completed
-                span= campaign.levelsCompleted
-                | /
-                span= campaign.levelsTotal
-            if campaign && campaign.locked && !godmode
-              h3.campaign-locked(data-i18n="play.locked") Locked
-            else if campaign
-              btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
-            if campaign && campaign.get('description')
-              p.campaign-description
-                span= i18n(campaign.attributes, 'description')
-
-.game-controls.header-font
-  button.btn.poll.hidden(data-i18n="[title]play.poll")
-  a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
-  button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
-  button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
-  button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
-  if me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp
-    button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
-  if !me.get('anonymous', true)
-    button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")
-  //if me.isAdmin()
-  //  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
-  if me.get('anonymous', true)
-    button.btn.settings(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="[title]play.settings")
-
-.user-status.header-font
-  .user-status-line
-    span.gem.gem-30
-    span#gems-count.spr= me.gems()
-    span.level-indicator(data-i18n="general.player_level")
-    span.player-level.spr= me.level()
-    span.player-hero-icon
-    if me.get('anonymous')
-      span.player-name.spr(data-i18n="play.anonymous") Anonymous Player
-      button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
-      button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+if view.showAds()
+  // TODO: loading this multiple times yields script error:
+  // Uncaught TagError: adsbygoogle.push() error: All ins elements in the DOM with class=adsbygoogle already have ads in them.
+  .ad-container
+    if campaign
+      script(async, src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+      ins.adsbygoogle(style="display:inline-block;width:728px;height:90px", data-ad-client="ca-pub-6640930638193614", data-ad-slot="4924994487")
+      script.
+        (adsbygoogle = window.adsbygoogle || []).push({});
     else
-      a(data-toggle="coco-modal", data-target="play/modal/PlayAccountModal").player-name.spr= me.get('name')
-      button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
-      if me.isPremium()
-        button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
+      script(async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+      ins.adsbygoogle(style="display:inline-block;width:728px;height:90px", data-ad-client="ca-pub-6640930638193614", data-ad-slot="4469166082")
+      script.
+        (adsbygoogle = window.adsbygoogle || []).push({});
 
-button.btn.btn-lg.btn-inverse.campaign-control-button#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
-  .glyphicon.glyphicon-volume-off
-  .glyphicon.glyphicon-volume-down
-  .glyphicon.glyphicon-volume-up
+// TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
+.gameplay-container
+  a(href="/").picoctf-hide
+    img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
 
-if campaign && !editorMode
-  button.btn.btn-lg.btn-inverse.campaign-control-button#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
-    .glyphicon.glyphicon-globe
+  .picoctf-show
+    a(href="http://staging.picoctf.com").picoctf-logo
+      img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
+    a(href="http://codecombat.com").picoctf-powered-by
+      em.spr powered by
+      img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
-if editorMode
-  button.btn.btn-lg.btn-inverse.campaign-control-button#clear-storage-button(data-i18n="[title]editor.clear_storage", title="Clear your local changes")
-    .glyphicon.glyphicon-refresh
+  if campaign
+    .map
+      .gradient.horizontal-gradient.top-gradient
+      .gradient.vertical-gradient.right-gradient
+      .gradient.horizontal-gradient.bottom-gradient
+      .gradient.vertical-gradient.left-gradient
+      .map-background(alt="", draggable="false")
 
-if campaign && campaign.loaded
-  h1#campaign-status
-    .campaign-status-background
-      .campaign-name
-        - var fullName = i18n(campaign.attributes, 'fullName')
-        if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'en' || fullName != campaign.get('fullName')
-          // We have a translation.
-          span= fullName
-      .levels-completed
-        span= levelsCompleted
-        | /
-        span= levelsTotal
+      each level in levels
+        if !level.hidden
+          div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""), data-level-slug=level.slug, data-level-original=level.original, title=i18n(level, 'name') + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
+            if level.unlocksHero && (!level.purchasedHero || editorMode)
+              img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
+            a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
+            if level.slug == 'lost-viking'
+              img.star(src="/file/db/thang.type/5441c3144e9aeb727cc97111/portrait.png")
+            else if level.requiresSubscription
+              img.star(src="/images/pages/play/star.png")
+            if levelStatusMap[level.slug] === 'complete'
+              img.banner(src="/images/pages/play/level-banner-complete.png")
+            if levelStatusMap[level.slug] === 'started'
+              img.banner(src="/images/pages/play/level-banner-started.png")
+            if levelDifficultyMap[level.slug]
+              .level-difficulty-banner-text= levelDifficultyMap[level.slug]
+          div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + (levelStatusMap[level.slug] || ""))
+          .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
+            - var playCount = levelPlayCountMap[level.slug]
+            .progress.progress-striped.active.hide
+              .progress-bar(style="width: 100%")
+            - var showsLeaderboard = levelStatusMap[level.slug] === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder'].indexOf(level.type) !== -1);
+
+            div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
+              .level-status
+              h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
+              - var description = i18n(level, 'description') || level.description || ""
+              .level-description!= marked(description, {sanitize: !picoCTF})
+              if level.disabled
+                p
+                  span.spr(data-i18n="play.awaiting_levels_adventurer_prefix") We release five levels per week.
+                  a.spr(href="/contribute/adventurer")
+                    strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
+                  span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
+              if level.displayConcepts && level.displayConcepts.length
+                p
+                  for concept in level.displayConcepts
+                    kbd(data-i18n="concepts." + concept)
+
+              if !level.disabled && !level.locked
+                if playCount && playCount.sessions
+                  .play-counts.hidden
+                    span.spl.spr= playCount.sessions
+                    span(data-i18n="play.players") players
+                    span.spr , #{Math.round(playCount.playtime / 3600)}
+                    span(data-i18n="play.hours_played") hours played
+                if showsLeaderboard
+                  button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
+                    span(data-i18n="leaderboard.scores")
+                button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
+                if me.get('courseInstances') && me.get('courseInstances').length
+                  .course-version.hidden(data-level-original=level.original)
+                    em(data-i18n="general.or")
+                    | ...
+                    br
+                    button.btn.btn-primary.btn.btn-lg.btn-illustrated
+                      span(data-i18n="play.play_classroom_version") Play Classroom Version
+        else if level.unlocksHero && !level.purchasedHero
+          img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png", style="left: #{level.position.x}%; bottom: #{level.position.y}%;")
+
+      for adjacentCampaign in adjacentCampaigns
+        a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
+          span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id)
+
+  else
+    .portal
+      .portals
+        for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
+          - var campaign = campaigns[campaignSlug];
+          - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
+          div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
+            .campaign-label
+              h2.campaign-name
+                if campaign
+                  span= i18n(campaign.attributes, 'fullName')
+                else
+                  span ???
+              if campaign && campaign.levelsTotal
+                h3.levels-completed
+                  span= campaign.levelsCompleted
+                  | /
+                  span= campaign.levelsTotal
+              if campaign && campaign.locked && !godmode
+                h3.campaign-locked(data-i18n="play.locked") Locked
+              else if campaign
+                btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+              if campaign && campaign.get('description')
+                p.campaign-description
+                  span= i18n(campaign.attributes, 'description')
+
+  .game-controls.header-font.picoctf-hide
+    button.btn.poll.hidden(data-i18n="[title]play.poll")
+    a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
+    button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
+    button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
+    button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
+    if me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp
+      button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
+    if !me.get('anonymous', true)
+      button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")
+    //if me.isAdmin()
+    //  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
+    if me.get('anonymous', true)
+      button.btn.settings(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="[title]play.settings")
+
+  .user-status.header-font.picoctf-hide
+    .user-status-line
+      span.gem.gem-30
+      span#gems-count.spr= me.gems()
+      span.level-indicator(data-i18n="general.player_level")
+      span.player-level.spr= me.level()
+      span.player-hero-icon
+      if me.get('anonymous')
+        span.player-name.spr(data-i18n="play.anonymous") Anonymous Player
+        button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
+        button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+      else
+        a(data-toggle="coco-modal", data-target="play/modal/PlayAccountModal").player-name.spr= me.get('name')
+        button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
+        if me.isPremium()
+          button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
+
+  button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
+    .glyphicon.glyphicon-volume-off
+    .glyphicon.glyphicon-volume-down
+    .glyphicon.glyphicon-volume-up
+
+  if campaign && !editorMode
+    button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
+      .glyphicon.glyphicon-globe
+
+  if editorMode
+    button.btn.btn-lg.btn-inverse.campaign-control-button#clear-storage-button(data-i18n="[title]editor.clear_storage", title="Clear your local changes")
+      .glyphicon.glyphicon-refresh
+
+  if campaign && campaign.loaded
+    h1#campaign-status.picoctf-hide
+      .campaign-status-background
+        .campaign-name
+          - var fullName = i18n(campaign.attributes, 'fullName')
+          if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'en' || fullName != campaign.get('fullName')
+            // We have a translation.
+            span= fullName
+        .levels-completed
+          span= levelsCompleted
+          | /
+          span= levelsTotal

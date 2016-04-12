@@ -11,7 +11,6 @@ module.exports = class StudentSignUpModal extends ModalView
   template: template
 
   events:
-    'click #sign-up-btn': 'onClickSignUpButton'
     'submit form': 'onSubmitForm'
     'click #skip-link': 'onClickSkipLink'
 
@@ -31,10 +30,7 @@ module.exports = class StudentSignUpModal extends ModalView
   onSubmitForm: (e) ->
     e.preventDefault()
     @signupClassroomPrecheck()
-
-  onClickSignUpButton: ->
-    @signupClassroomPrecheck()
-
+  
   emailCheck: ->
     email = @$('#email').val()
     filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
@@ -97,5 +93,9 @@ module.exports = class StudentSignUpModal extends ModalView
     classCode = @$('#class-code-input').val()
     if classCode
       url = "/courses?_cc="+classCode
-      application.router.navigate(url)
-    window.location.reload()
+      document.location.href = url
+      # This was a terrible hack to make navigating trigger when just adding query params
+      # application.router.navigate('/thisisahack')
+      # application.router.navigate(url, { trigger: true })
+    else
+      window.location.reload()

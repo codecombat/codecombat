@@ -1,19 +1,19 @@
-gplusClientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
-# TODO: Move to GPlusHandler
-
-go = (path) -> -> @routeDirectly path, arguments
-
+go = (path, options) -> -> @routeDirectly path, arguments, options
+redirect = (path) -> -> @navigate(path, { trigger: true, replace: true })
+  
 module.exports = class CocoRouter extends Backbone.Router
 
   initialize: ->
     # http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
     @bind 'route', @_trackPageView
-    Backbone.Mediator.subscribe 'auth:gplus-api-loaded', @onGPlusAPILoaded, @
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
     @initializeSocialMediaServices = _.once @initializeSocialMediaServices
 
   routes:
-    '': go('HomeView')
+    '': ->
+      if window.serverConfig.picoCTF
+        return @routeDirectly 'play/CampaignView', ['picoctf'], {}
+      return @routeDirectly('NewHomeView', [])
 
     'about': go('AboutView')
 
@@ -58,13 +58,13 @@ module.exports = class CocoRouter extends Backbone.Router
     'contribute/diplomat': go('contribute/DiplomatView')
     'contribute/scribe': go('contribute/ScribeView')
 
-    'courses': go('courses/CoursesView')
-    'Courses': go('courses/CoursesView')
-    'courses/students': go('courses/StudentCoursesView')
-    'courses/teachers': go('courses/TeacherCoursesView')
-    'courses/purchase': go('courses/PurchaseCoursesView')
-    'courses/enroll(/:courseID)': go('courses/CourseEnrollView')
-    'courses/:classroomID': go('courses/ClassroomView')
+    'courses': go('courses/CoursesView') # , { studentsOnly: true }) # TODO: Enforce after session-less play for teachers
+    'Courses': go('courses/CoursesView') # , { studentsOnly: true })
+    'courses/students': redirect('/courses')
+    'courses/teachers': redirect('/teachers/classes')
+    'courses/purchase': redirect('/teachers/enrollments')
+    'courses/enroll(/:courseID)': redirect('/teachers/enrollments')
+    'courses/:classroomID': go('courses/ClassroomView') #, { studentsOnly: true })
     'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView')
 
     'db/*path': 'routeToServer'
@@ -93,6 +93,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'github/*path': 'routeToServer'
 
     'hoc': go('courses/HourOfCodeView')
+    'home': go('NewHomeView')
 
     'i18n': go('i18n/I18NHomeView')
     'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
@@ -118,10 +119,24 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'preview': go('HomeView')
 
-    'schools': go('SalesView')
+    'privacy': go('PrivacyView')
 
-    'teachers': go('TeachersView')
-    'teachers/freetrial': go('TeachersFreeTrialView')
+    'schools': go('NewHomeView')
+
+    'teachers': redirect('/teachers/classes')
+    'teachers/classes': go('courses/TeacherClassesView') #, { teachersOnly: true })
+    'teachers/classes/:classroomID': go('courses/TeacherClassView') #, { teachersOnly: true })
+    'teachers/courses': go('courses/TeacherCoursesView')
+    'teachers/demo': go('teachers/RequestQuoteView')
+    'teachers/enrollments': go('courses/EnrollmentsView') #, { teachersOnly: true })
+    'teachers/freetrial': go('teachers/RequestQuoteView')
+    'teachers/quote': go('teachers/RequestQuoteView')
+    'teachers/signup': ->
+      return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
+      @navigate('/teachers/update-account', {trigger: true, replace: true})
+    'teachers/update-account': ->
+      return @navigate('/teachers/signup', {trigger: true, replace: true}) if me.isAnonymous()
+      @routeDirectly('teachers/ConvertToTeacherAccountView', [])
 
     'test(/*subpath)': go('TestView')
 
@@ -136,15 +151,21 @@ module.exports = class CocoRouter extends Backbone.Router
   removeTrailingSlash: (e) ->
     @navigate e, {trigger: true}
 
-  routeDirectly: (path, args) ->
+  routeDirectly: (path, args=[], options={}) ->
+    if options.teachersOnly and not me.isTeacher()
+      return @routeDirectly('teachers/RestrictedToTeachersView')
+    if options.studentsOnly and me.isTeacher()
+      return @routeDirectly('courses/RestrictedToStudentsView')
+    
+    path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views)?\/?play/.test(path)
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
     if not ViewClass and application.moduleLoader.load(path)
       @listenToOnce application.moduleLoader, 'load-complete', ->
-        @routeDirectly(path, args)
+        @routeDirectly(path, args, options)
       return
     return @openView @notFoundView() if not ViewClass
-    view = new ViewClass({}, args...)  # options, then any path fragment args
+    view = new ViewClass(options, args...)  # options, then any path fragment args
     view.render()
     @openView(view)
 
@@ -160,7 +181,6 @@ module.exports = class CocoRouter extends Backbone.Router
     $('#page-container').empty().append view.el
     window.currentView = view
     @activateTab()
-    @renderLoginButtons() if view.usesSocialMedia
     view.afterInsert()
     view.didReappear()
 
@@ -171,37 +191,26 @@ module.exports = class CocoRouter extends Backbone.Router
     return unless window.currentView?
     window.currentView.destroy()
     $('.popover').popover 'hide'
-
-  onGPlusAPILoaded: =>
-    @renderLoginButtons()
+    $('#flying-focus').css({top: 0, left: 0}) # otherwise it might make the page unnecessarily tall
+    _.delay (->
+      $('html')[0].scrollTop = 0
+      $('body')[0].scrollTop = 0
+    ), 10
 
   initializeSocialMediaServices: ->
     return if application.testing or application.demoing
-    require('core/services/facebook')()
-    require('core/services/google')()
+    application.facebookHandler.loadAPI()
+    application.gplusHandler.loadAPI()
     require('core/services/twitter')()
 
-  renderLoginButtons: =>
+  renderSocialButtons: =>
+    # TODO: Refactor remaining services to Handlers, use loadAPI success callback
     @initializeSocialMediaServices()
     $('.share-buttons, .partner-badges').addClass('fade-in').delay(10000).removeClass('fade-in', 5000)
-    setTimeout(FB.XFBML.parse, 10) if FB?.XFBML?.parse  # Handles FB login and Like
+    application.facebookHandler.renderButtons()
+    application.gplusHandler.renderButtons()
     twttr?.widgets?.load?()
-
-    return unless gapi?.plusone?
-    gapi.plusone.go?()  # Handles +1 button
-    for gplusButton in $('.gplus-login-button')
-      params = {
-        callback: 'signinCallback',
-        clientid: gplusClientID,
-        cookiepolicy: 'single_host_origin',
-        scope: 'https://www.googleapis.com/auth/plus.login email',
-        height: 'short',
-      }
-      if gapi.signin?.render
-        gapi.signin.render(gplusButton, params)
-      else
-        console.warn 'Didn\'t have gapi.signin to render G+ login button. (DoNotTrackMe extension?)'
-
+    
   activateTab: ->
     base = _.string.words(document.location.pathname[1..], '/')[0]
     $("ul.nav li.#{base}").addClass('active')
@@ -235,3 +244,6 @@ module.exports = class CocoRouter extends Backbone.Router
   navigate: (fragment, options) ->
     super fragment, options
     Backbone.Mediator.publish 'router:navigated', route: fragment
+
+  reload: ->
+    document.location.reload()

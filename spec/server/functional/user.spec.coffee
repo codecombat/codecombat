@@ -1,45 +1,9 @@
 require '../common'
-request = require 'request'
-User = require '../../../server/users/User'
-
+utils = require '../utils'
 urlUser = '/db/user'
-
-
-describe 'Server user object', ->
-
-  it 'uses the schema defaults to fill in email preferences', (done) ->
-    user = new User()
-    expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
-    expect(user.isEmailSubscriptionEnabled('anyNotes')).toBeTruthy()
-    expect(user.isEmailSubscriptionEnabled('recruitNotes')).toBeTruthy()
-    expect(user.isEmailSubscriptionEnabled('archmageNews')).toBeFalsy()
-    done()
-
-  it 'uses old subs if they\'re around', (done) ->
-    user = new User()
-    user.set 'emailSubscriptions', ['tester']
-    expect(user.isEmailSubscriptionEnabled('adventurerNews')).toBeTruthy()
-    expect(user.isEmailSubscriptionEnabled('generalNews')).toBeFalsy()
-    done()
-
-  it 'maintains the old subs list if it\'s around', (done) ->
-    user = new User()
-    user.set 'emailSubscriptions', ['tester']
-    user.setEmailSubscription('artisanNews', true)
-    expect(JSON.stringify(user.get('emailSubscriptions'))).toBe(JSON.stringify(['tester', 'level_creator']))
-    done()
-
-describe 'User.updateServiceSettings', ->
-  makeMC = (callback) ->
-    spyOn(mc.lists, 'subscribe').and.callFake callback
-
-  it 'uses emails to determine what to send to MailChimp', (done) ->
-    makeMC (params) ->
-      expect(JSON.stringify(params.merge_vars.groupings[0].groups)).toBe(JSON.stringify(['Announcements']))
-      done()
-
-    user = new User({emailSubscriptions: ['announcement'], email: 'tester@gmail.com'})
-    User.updateServiceSettings(user)
+User = require '../../../server/models/User'
+Classroom = require '../../../server/models/Classroom'
+request = require '../request'
 
 describe 'POST /db/user', ->
 
@@ -155,6 +119,13 @@ describe 'PUT /db/user', ->
       form.append('_id', joe.id)
       form.append('email', 'farghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlar
 ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl')
+      
+  it 'does not allow normals to edit their permissions', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { permissions: ['admin'] }}
+    expect(_.contains(body.permissions, 'admin')).toBe(false)
+    done()
 
   it 'logs in as admin', (done) ->
     loginAdmin -> done()
@@ -250,6 +221,32 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
         request.put {uri:getURL(urlUser + '/' + sam.id), json: sam.toObject()}, (err, response) ->
           expect(err).toBeNull()
           done()
+          
+  describe 'when role is changed to teacher or other school administrator', ->
+    it 'removes the user from all classrooms they are in', utils.wrap (done) ->
+      user = yield utils.initUser()
+      classroom = new Classroom({members: [user._id]})
+      yield classroom.save()
+      expect(classroom.get('members').length).toBe(1)
+      yield utils.loginUser(user)
+      [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { role: 'teacher' }}
+      yield new Promise (resolve) -> setTimeout(resolve, 10) 
+      classroom = yield Classroom.findById(classroom.id)
+      expect(classroom.get('members').length).toBe(0)
+      done()
+      
+  it 'ignores attempts to change away from a teacher role', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    url = getURL('/db/user/'+user.id)
+    [res, body] = yield request.putAsync { uri: url, json: { role: 'teacher' }}
+    expect(body.role).toBe('teacher')
+    [res, body] = yield request.putAsync { uri: url, json: { role: 'advisor' }}
+    expect(body.role).toBe('advisor')
+    [res, body] = yield request.putAsync { uri: url, json: { role: 'student' }}
+    expect(body.role).toBe('advisor')
+    done()
+      
 
 describe 'GET /db/user', ->
 
@@ -331,14 +328,14 @@ describe 'DELETE /db/user', ->
           done()
 
 describe 'Statistics', ->
-  LevelSession = require '../../../server/levels/sessions/LevelSession'
-  Article = require '../../../server/articles/Article'
-  Level = require '../../../server/levels/Level'
-  LevelSystem = require '../../../server/levels/systems/LevelSystem'
-  LevelComponent = require '../../../server/levels/components/LevelComponent'
-  ThangType = require '../../../server/levels/thangs/ThangType'
-  User = require '../../../server/users/User'
-  UserHandler = require '../../../server/users/user_handler'
+  LevelSession = require '../../../server/models/LevelSession'
+  Article = require '../../../server/models/Article'
+  Level = require '../../../server/models/Level'
+  LevelSystem = require '../../../server/models/LevelSystem'
+  LevelComponent = require '../../../server/models/LevelComponent'
+  ThangType = require '../../../server/models/ThangType'
+  User = require '../../../server/models/User'
+  UserHandler = require '../../../server/handlers/user_handler'
 
   it 'keeps track of games completed', (done) ->
     session = new LevelSession
@@ -385,18 +382,19 @@ describe 'Statistics', ->
       expect(carl.get User.statsMapping.edits.article).toBeUndefined()
       article.creator = carl.get 'id'
 
-      # Create major version 1.0
+      # Create major version 0.0
       request.post {uri:url, json: article}, (err, res, body) ->
         expect(err).toBeNull()
-        expect(res.statusCode).toBe 200
+        expect(res.statusCode).toBe 201
         article = body
 
         User.findById carl.get('id'), (err, guy) ->
           expect(err).toBeNull()
           expect(guy.get User.statsMapping.edits.article).toBe 1
 
-          # Create minor version 1.1
-          request.post {uri:url, json: article}, (err, res, body) ->
+          # Create minor version 0.1
+          newVersionURL = "#{url}/#{article._id}/new-version"
+          request.post {uri:newVersionURL, json: article}, (err, res, body) ->
             expect(err).toBeNull()
 
             User.findById carl.get('id'), (err, guy) ->

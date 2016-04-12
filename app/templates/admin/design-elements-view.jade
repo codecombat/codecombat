@@ -204,6 +204,22 @@
           p.text-info Info text
           p.text-warning Warning text
           p.text-danger Danger text
+          
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#images.panel-title(href="#images") Images
+          
+        .panel-body
+          div Rounded
+          img.img-rounded(style="width: 140px" src="/images/pages/contribute/tile_adventurer.png")
+          div Circle
+          img.img-circle(style="width: 140px" src="/images/pages/contribute/tile_adventurer.png")
+          div Thumbnail
+          img.img-thumbnail(style="width: 140px" src="/images/pages/contribute/tile_adventurer.png")
+          div Prize
+          img.img-prize(style="width: 140px" src="/images/pages/contribute/adventurer.png")
+          
       
   h1 Bootstrap Components
   
@@ -290,6 +306,8 @@
           span.label.label-warning warning
           span.spr
           span.label.label-danger danger
+          span.spr
+          span.label.label-banner banner
           
     .col-sm-3
       .panel.panel-default
@@ -379,6 +397,7 @@
           .well Well!
           .well.well-lg Large well!
           .well.well-sm Small well!
+          .well.well-parchment Parchment well
             
   h1 Bootstrap JavaScript
 
@@ -406,7 +425,16 @@
           a#tooltips.panel-title(href="#tooltips") Tooltips
 
         .panel-body
-          button#tooltip.btn.btn-default(title="tooltip text!", data-placement="right", data-trigger="click") Button w/Tooltip
+          button.btn.btn-default(data-placement="right" data-toggle='tooltip') Button w/Tooltip
+          
+        .panel-body.style-flat.text-right
+          button.tooltip-btn.btn.btn-navy(data-placement="right" data-toggle='tooltip') Flat Right Tooltip
+          br
+          button.tooltip-btn.btn.btn-navy(data-placement="top" data-toggle='tooltip') Flat Top Tooltip
+          br
+          button.tooltip-btn.btn.btn-navy(data-placement="bottom" data-toggle='tooltip') Flat Bottom Tooltip
+          br
+          button.tooltip-btn.btn.btn-navy(data-placement="left" data-toggle='tooltip') Flat Left Tooltip
             
     .col-sm-3
       .panel.panel-default

@@ -17,13 +17,14 @@ module.exports = class User extends CocoModel
   isAnonymous: -> @get('anonymous', true)
   displayName: -> @get('name', true)
   broadName: ->
+    return '(deleted)' if @get('deleted')
     name = @get('name')
     return name if name
-    name = _.filter([@get('firstName'), @get('lastName')]).join('')
+    name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
     return name if name
     email = @get('email')
     return email if email
-    return ''
+    return 'Anoner'
 
   getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
     photoURL = if useJobProfilePhoto then @get('jobProfile')?.photoURL else null
@@ -59,13 +60,27 @@ module.exports = class User extends CocoModel
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
+  isStudent: -> @get('role') is 'student'
+    
+  isTeacher: ->
+    return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
+
+  setRole: (role, force=false) ->
+    return if me.isAdmin()
+    oldRole = @get 'role'
+    return if oldRole is role or (oldRole and not force)
+    @set 'role', role
+    @patch()
+    application.tracker?.updateRole()
+    return @get 'role'
+
   a = 5
   b = 100
   c = b
 
   # y = a * ln(1/b * (x + c)) + 1
   @levelFromExp: (xp) ->
-    if xp > 0 then Math.floor(a * Math.log((1/b) * (xp + c))) + 1 else 1
+    if xp > 0 then Math.floor(a * Math.log((1 / b) * (xp + c))) + 1 else 1
 
   # x = b * e^((y-1)/a) - c
   @expForLevel: (level) ->
@@ -125,6 +140,32 @@ module.exports = class User extends CocoModel
     application.tracker.identify announcesActionAudioGroup: @announcesActionAudioGroup unless me.isAdmin()
     @announcesActionAudioGroup
 
+  getCampaignAdsGroup: ->
+    return @campaignAdsGroup if @campaignAdsGroup
+    # group = me.get('testGroupNumber') % 2
+    # @campaignAdsGroup = switch group
+    #   when 0 then 'no-ads'
+    #   when 1 then 'leaderboard-ads'
+    @campaignAdsGroup = 'leaderboard-ads'
+    @campaignAdsGroup = 'no-ads' if me.isAdmin()
+    application.tracker.identify campaignAdsGroup: @campaignAdsGroup unless me.isAdmin()
+    @campaignAdsGroup
+
+  getHomepageGroup: ->
+    # Only testing on en-US so localization issues are not a factor
+    return 'home-legacy' unless _.string.startsWith(me.get('preferredLanguage', true) or 'en-US', 'en')
+    return @homepageGroup if @homepageGroup
+    group = parseInt(util.getQueryVariable('variation'))
+    group ?= me.get('testGroupNumber') % 5
+    @homepageGroup = switch group
+      when 0 then 'home-legacy'
+      when 1 then 'home-teachers'
+      when 2 then 'home-legacy-left'
+      when 3 then 'home-dropdowns'
+      when 4 then 'home-play-for-free'
+    application.tracker.identify homepageGroup: @homepageGroup unless me.isAdmin()
+    return @homepageGroup
+
   # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
   # ... and stopped working well until another update on March 10, so maybe March 11+...
   # ... and another round, and then basically it just isn't completing well, so we pause the test until we can fix it.
@@ -157,9 +198,68 @@ module.exports = class User extends CocoModel
     return true if me.isAdmin()
     return true if me.hasSubscription()
     return false
+    
+  isEnrolled: ->
+    Boolean(@get('coursePrepaidID'))
 
   isOnPremiumServer: ->
     me.get('country') in ['china', 'brazil']
+    
+
+  # Function meant for "me"
+    
+  spy: (user, options={}) ->
+    user = user.id or user # User instance, user ID, email or username
+    options.url = '/auth/spy'
+    options.type = 'POST'
+    options.data ?= {}
+    options.data.user = user
+    @fetch(options)
+    
+  stopSpying: (options={}) ->
+    options.url = '/auth/stop-spying'
+    options.type = 'POST'
+    @fetch(options)
+
+  logout: (options={}) ->
+    options.type = 'POST'
+    options.url = '/auth/logout'
+    FB?.logout?()
+    options.success ?= ->
+      location = _.result(currentView, 'logoutRedirectURL')
+      if location
+        window.location = location
+      else
+        window.location.reload()
+    @fetch(options)
+
+  fetchGPlusUser: (gplusID, options={}) ->
+    options.data ?= {}
+    options.data.gplusID = gplusID
+    options.data.gplusAccessToken = application.gplusHandler.token()
+    @fetch(options)
+    
+  loginGPlusUser: (gplusID, options={}) ->
+    options.url = '/auth/login-gplus'
+    options.type = 'POST'
+    options.data ?= {}
+    options.data.gplusID = gplusID
+    options.data.gplusAccessToken = application.gplusHandler.token()
+    @fetch(options)
+
+  fetchFacebookUser: (facebookID, options={}) ->
+    options.data ?= {}
+    options.data.facebookID = facebookID
+    options.data.facebookAccessToken = application.facebookHandler.token()
+    @fetch(options)
+
+  loginFacebookUser: (facebookID, options={}) ->
+    options.url = '/auth/login-facebook'
+    options.type = 'POST'
+    options.data ?= {}
+    options.data.facebookID = facebookID
+    options.data.facebookAccessToken = application.facebookHandler.token()
+    @fetch(options)
 
 tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15

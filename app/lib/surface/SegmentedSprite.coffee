@@ -153,7 +153,12 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
 #          console.debug 'Did not dereference args:', args
           stopped = true
           break
-        tween = tween[func.n](args...)
+        if tween[func.n]
+          tween = tween[func.n](args...)
+        else
+          # If we, say, skipped a shadow get(), then the wait() may not be present
+          stopped = true
+          break
       continue if stopped
       anim.timeline.addTween(tween)
 

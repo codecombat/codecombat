@@ -1,9 +1,6 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
 
-body
-  position: absolute !important
-
 // https://github.com/twbs/bootstrap/issues/9237 -- need a version that's not !important
 .secret
   display: none
@@ -23,7 +20,7 @@ iframe
 .selectable
   cursor: pointer
 
-.modal-dialog
+.modal-dialog.game
   padding: 5px
   margin-top: 30px
   margin-bottom: 0px
@@ -397,3 +394,27 @@ body > iframe[src^="https://apis.google.com"]
 // TODO: update Bootstrap, remove this
 .text-uppercase
   text-transform: uppercase
+
+  
+// Made for new victory modal as temp features. TODO: Replace with static art or make general, sprite versions
+.well-parchment
+  border: 2px solid #14110e
+  background: #c2b695
+  color: #282116
+
+.img-prize
+  border: 4px solid #fef9a3
+  padding: 2px
+  background: #693415
+  
+.label-banner
+  border: 2px solid #350f0d
+  background: #e6251c
+  color: white
+  padding: 0.0em 0.6em 0.1em
+
+body.picoctf .picoctf-hide
+  display: none
+
+body:not(.picoctf) .picoctf-show
+  display: none

@@ -30,6 +30,9 @@ module.exports.normalizeFunc = (func_thing, object) ->
     func_thing = func
   return func_thing
 
+module.exports.objectIdToDate = (objectID) ->
+  new Date(parseInt(objectID.toString().slice(0,8), 16)*1000)
+
 module.exports.hexToHSL = (hex) ->
   rgbToHsl(hexToR(hex), hexToG(hex), hexToB(hex))
 
@@ -48,8 +51,9 @@ toHex = (n) ->
 
 module.exports.i18n = (say, target, language=me.get('preferredLanguage', true), fallback='en') ->
   generalResult = null
-  fallbackResult = null
-  fallforwardResult = null # If a general language isn't available, the first specific one will do
+  fallBackResult = null
+  fallForwardResult = null  # If a general language isn't available, the first specific one will do.
+  fallSidewaysResult = null  # If a specific language isn't available, its sibling specific language will do.
   matches = (/\w+/gi).exec(language)
   generalName = matches[0] if matches
 
@@ -60,12 +64,14 @@ module.exports.i18n = (say, target, language=me.get('preferredLanguage', true), 
     else continue
     return result if localeName is language
     generalResult = result if localeName is generalName
-    fallbackResult = result if localeName is fallback
-    fallforwardResult = result if localeName.indexOf(language) is 0 and not fallforwardResult?
+    fallBackResult = result if localeName is fallback
+    fallForwardResult = result if localeName.indexOf(language) is 0 and not fallForwardResult?
+    fallSidewaysResult = result if localeName.indexOf(generalName) is 0 and not fallSidewaysResult?
 
   return generalResult if generalResult?
-  return fallforwardResult if fallforwardResult?
-  return fallbackResult if fallbackResult?
+  return fallForwardResult if fallForwardResult?
+  return fallSidewaysResult if fallSidewaysResult?
+  return fallBackResult if fallBackResult?
   return say[target] if target of say
   null
 
@@ -249,9 +255,9 @@ module.exports.getPrepaidCodeAmount = getPrepaidCodeAmount = (price=0, users=0, 
   total = price * users * months
   total
 
-module.exports.filterMarkdownCodeLanguages = (text) ->
+module.exports.filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
-  currentLanguage = me.get('aceConfig')?.language or 'python'
+  currentLanguage = language or me.get('aceConfig')?.language or 'python'
   excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'java', 'io'], currentLanguage
   exclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
   text.replace exclusionRegex, ''
@@ -287,3 +293,14 @@ module.exports.initializeACE = (el, codeLanguage) ->
   session.setUseWrapMode true
   session.setNewLineMode 'unix'
   return editor
+
+module.exports.capitalLanguages = capitalLanguages = 
+  'javascript': 'JavaScript'
+  'coffeescript': 'CoffeeScript'
+  'python': 'Python'
+  'java': 'Java'
+  'clojure': 'Clojure'
+  'lua': 'Lua'
+  'io': 'Io'
+
+  

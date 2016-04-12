@@ -3,6 +3,7 @@ CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 Classroom = require 'models/Classroom'
+Classrooms = require 'collections/Classrooms'
 LevelSession = require 'models/LevelSession'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/course-details'
@@ -23,6 +24,9 @@ module.exports = class CourseDetailsView extends RootView
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
+    @ownedClassrooms = new Classrooms()
+    @ownedClassrooms.fetchMine({data: {project: '_id'}})
+    @supermodel.trackCollection(@ownedClassrooms)
     @courseID ?= options.courseID
     @courseInstanceID ?= options.courseInstanceID
     @classroom = new Classroom()
@@ -31,7 +35,7 @@ module.exports = class CourseDetailsView extends RootView
     if @course.loaded
       @onCourseSync()
     else
-      @supermodel.loadModel @course, 'course'
+      @supermodel.loadModel @course
 
   getRenderData: ->
     context = super()
@@ -49,9 +53,9 @@ module.exports = class CourseDetailsView extends RootView
   afterRender: ->
     super()
     if @supermodel.finished() and @courseComplete and me.isAnonymous() and @options.justBeatLevel
-      # TODO: Make an intermediate modal that tells them they've finished HoC and has some snazzy stuff for convincing players to sign up instead of just throwing up the bare AuthModal
-      AuthModal = require 'views/core/AuthModal'
-      @openModalView new AuthModal showSignupRationale: true
+      # TODO: Make an intermediate modal that tells them they've finished HoC and has some snazzy stuff for convincing players to sign up instead of just throwing up the bare CreateAccountModal
+      CreateAccountModal = require 'views/core/CreateAccountModal'
+      @openModalView new CreateAccountModal showSignupRationale: true
 
   onCourseSync: ->
     return if @destroyed
@@ -67,7 +71,7 @@ module.exports = class CourseDetailsView extends RootView
     if @campaign.loaded
       @onCampaignSync()
     else
-      @supermodel.loadModel @campaign, 'campaign'
+      @supermodel.loadModel @campaign
     @render()
 
   onCampaignSync: ->
@@ -106,7 +110,7 @@ module.exports = class CourseDetailsView extends RootView
     if @courseInstance.loaded
       @onCourseInstanceSync()
     else
-      @courseInstance = @supermodel.loadModel(@courseInstance, 'course_instance').model
+      @courseInstance = @supermodel.loadModel(@courseInstance).model
 
   onCourseInstancesSync: ->
     return if @destroyed
@@ -128,14 +132,14 @@ module.exports = class CourseDetailsView extends RootView
     # console.log 'onCourseInstanceSync'
     if @courseInstance.get('classroomID')
       @classroom = new Classroom({_id: @courseInstance.get('classroomID')})
-      @supermodel.loadModel @classroom, 'classroom'
+      @supermodel.loadModel @classroom
     @singlePlayerMode = @courseInstance.get('name') is 'Single Player'
     @teacherMode = @courseInstance.get('ownerID') is me.id and not @singlePlayerMode
     @levelSessions = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/level_sessions", model: LevelSession, comparator: '_id' })
     @listenToOnce @levelSessions, 'sync', @onLevelSessionsSync
     @supermodel.loadCollection @levelSessions, 'level_sessions', cache: false
     @owner = new User({_id: @courseInstance.get('ownerID')})
-    @supermodel.loadModel @owner, 'user'
+    @supermodel.loadModel @owner
     @render()
 
   onLevelSessionsSync: ->
@@ -192,7 +196,7 @@ module.exports = class CourseDetailsView extends RootView
     if @nextCourseInstance
       nextCourseID = @nextCourseInstance.get('courseID')
       @nextCourse = @supermodel.getModel(Course, nextCourseID) or new Course _id: nextCourseID
-      @nextCourse = @supermodel.loadModel(@nextCourse, 'course').model
+      @nextCourse = @supermodel.loadModel(@nextCourse).model
     else if @allCourses?.loaded
       @nextCourse = _.find @allCourses.models, (course) => course.id > @course.id
     else

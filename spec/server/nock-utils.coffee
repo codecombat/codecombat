@@ -1,6 +1,7 @@
 nock = require('nock')
 nockBack = nock.back
 nockBack.fixtures = 'spec/fixtures/'
+Promise = require 'bluebird'
 
 module.exports.setupNock = (fixtureFilename, options, done) ->
   if _.isFunction(options)
@@ -76,3 +77,4 @@ module.exports.teardownNock = ->
 before = (scope) ->
   scope.body = (body) -> true
   
+Promise.promisifyAll(module.exports)

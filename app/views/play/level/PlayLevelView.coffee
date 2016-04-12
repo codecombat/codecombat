@@ -36,6 +36,8 @@ GoldView = require './LevelGoldView'
 DuelStatsView = require './DuelStatsView'
 VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
+CourseVictoryModal = require './modal/CourseVictoryModal'
+PicoCTFVictoryModal = require './modal/PicoCTFVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ContactModal = require 'views/core/ContactModal'
@@ -146,6 +148,13 @@ module.exports = class PlayLevelView extends RootView
       application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: @loadDuration
       application.tracker?.trackTiming @loadDuration, 'Level Load Time', @levelID, @levelID
 
+  isCourseMode: -> @courseID and @courseInstanceID
+
+  showAds: ->
+    if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF && !@isCourseMode()
+      return me.getCampaignAdsGroup() is 'leaderboard-ads'
+    false
+
   # CocoView overridden methods ###############################################
 
   getRenderData: ->
@@ -191,9 +200,9 @@ module.exports = class PlayLevelView extends RootView
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
     @otherSession = @levelLoader.opponentSession
-    @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
+    @worldLoadFakeResources = []  # first element (0) is 1%, last (99) is 100%
     for percent in [1 .. 100]
-      @worldLoadFakeResources.push @supermodel.addSomethingResource "world_simulation_#{percent}%", 1
+      @worldLoadFakeResources.push @supermodel.addSomethingResource 1
 
   onWorldLoadProgressChanged: (e) ->
     return unless e.god is @god
@@ -283,7 +292,7 @@ module.exports = class PlayLevelView extends RootView
       if e.session.get('creator') is '532dbc73a622924444b68ed9'  # Wizard Dude gets his own avatar
         sorcerer = '53e126a4e06b897606d38bef'
       e.session.set 'heroConfig', {"thangType":sorcerer,"inventory":{"misc-0":"53e2396a53457600003e3f0f","programming-book":"546e266e9df4a17d0d449be5","minion":"54eb5dbc49fa2d5c905ddf56","feet":"53e214f153457600003e3eab","right-hand":"54eab7f52b7506e891ca7202","left-hand":"5463758f3839c6e02811d30f","wrists":"54693797a2b1f53ce79443e9","gloves":"5469425ca2b1f53ce7944421","torso":"546d4a549df4a17d0d449a97","neck":"54693274a2b1f53ce79443c9","eyes":"546941fda2b1f53ce794441d","head":"546d4ca19df4a17d0d449abf"}}
-    else if e.level.get('slug') is 'ace-of-coders'
+    else if e.level.get('slug') in ['ace-of-coders', 'elemental-wars']
       goliath = '55e1a6e876cb0948c96af9f8'
       e.session.set 'heroConfig', {"thangType":goliath,"inventory":{"eyes":"53eb99f41a100989a40ce46e","neck":"54693274a2b1f53ce79443c9","wrists":"54693797a2b1f53ce79443e9","feet":"546d4d8e9df4a17d0d449acd","minion":"54eb5bf649fa2d5c905ddf4a","programming-book":"557871261ff17fef5abee3ee"}}
     else if e.level.get('slug') is 'assembly-speed'
@@ -324,7 +333,13 @@ module.exports = class PlayLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), observing: @observing, playerNames: @findPlayerNames(), levelType: @level.get('type', true))
+    surfaceOptions =
+      thangTypes: @supermodel.getModels(ThangType)
+      observing: @observing
+      playerNames: @findPlayerNames()
+      levelType: @level.get('type', true)
+      stayVisible: @showAds()
+    @surface = new Surface(@world, normalSurface, webGLSurface, surfaceOptions)
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -497,7 +512,8 @@ module.exports = class PlayLevelView extends RootView
         break
     Backbone.Mediator.publish 'tome:cast-spell', {}
 
-  onWindowResize: (e) => @endHighlight()
+  onWindowResize: (e) => 
+    @endHighlight()
 
   onDisableControls: (e) ->
     return if e.controls and not ('level' in e.controls)
@@ -531,8 +547,10 @@ module.exports = class PlayLevelView extends RootView
   showVictory: ->
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @endHighlight()
-    options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID}
+    options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then HeroVictoryModal else VictoryModal
+    ModalClass = CourseVictoryModal if @isCourseMode()
+    ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     if me.get('anonymous')

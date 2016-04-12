@@ -2,231 +2,243 @@ async = require 'async'
 config = require '../../../server_config'
 require '../common'
 stripe = require('stripe')(config.stripe.secretKey)
-init = require '../init'
+utils = require '../utils'
+CourseInstance = require '../../../server/models/CourseInstance'
+Course = require '../../../server/models/Course'
+User = require '../../../server/models/User'
+Classroom = require '../../../server/models/Classroom'
+Prepaid = require '../../../server/models/Prepaid'
+request = require '../request'
+
+courseFixture = {
+  name: 'Unnamed course'
+  campaignID: ObjectId("55b29efd1cd6abe8ce07db0d")
+  concepts: ['basic_syntax', 'arguments', 'while_loops', 'strings', 'variables']
+  description: "Learn basic syntax, while loops, and the CodeCombat environment."
+  screenshot: "/images/pages/courses/101_info.png"
+}
+
+classroomFixture = {
+  name: 'Unnamed classroom'
+  members: []
+}
 
 describe 'POST /db/course_instance', ->
+  url = getURL('/db/course_instance')
 
-  beforeEach (done) -> clearModels([CourseInstance, Course, User, Classroom], done)
-  beforeEach (done) -> loginJoe (@joe) => done()
-  beforeEach init.course()
-  beforeEach init.classroom()
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([CourseInstance, Course, User, Classroom])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    @course = yield new Course(courseFixture).save()
+    classroomData = _.extend({ownerID: @teacher._id}, classroomFixture)
+    @classroom = yield new Classroom(classroomData).save()
+    done()
 
-  it 'creates a CourseInstance', (done) ->
-    test = @
-    url = getURL('/db/course_instance')
+  it 'creates a CourseInstance', utils.wrap (done) ->
     data = {
       name: 'Some Name'
-      courseID: test.course.id
-      classroomID: test.classroom.id
+      courseID: @course.id
+      classroomID: @classroom.id
     }
-    request.post {uri: url, json: data}, (err, res, body) ->
-      expect(res.statusCode).toBe(200)
-      expect(body.classroomID).toBeDefined()
-      done()
+    [res, body] = yield request.postAsync {uri: url, json: data}
+    expect(res.statusCode).toBe(200)
+    expect(body.classroomID).toBeDefined()
+    done()
+      
+  it 'returns the same CourseInstance if you POST twice', utils.wrap (done) ->
+    data = {
+      name: 'Some Name'
+      courseID: @course.id
+      classroomID: @classroom.id
+    }
+    [res, body] = yield request.postAsync {uri: url, json: data}
+    expect(res.statusCode).toBe(200)
+    expect(body.classroomID).toBeDefined()
+    firstID = body._id
+    [res, body] = yield request.postAsync {uri: url, json: data}
+    expect(res.statusCode).toBe(200)
+    expect(body.classroomID).toBeDefined()
+    secondID = body._id
+    expect(firstID).toBe(secondID)
+    done()
 
-  it 'returns 404 if the Course does not exist', (done) ->
-    test = @
-    url = getURL('/db/course_instance')
+  it 'returns 404 if the Course does not exist', utils.wrap (done) ->
     data = {
       name: 'Some Name'
       courseID: '123456789012345678901234'
-      classroomID: test.classroom.id
+      classroomID: @classroom.id
     }
-    request.post {uri: url, json: data}, (err, res, body) ->
-      expect(res.statusCode).toBe(404)
-      done()
+    [res, body] = yield request.postAsync {uri: url, json: data}
+    expect(res.statusCode).toBe(404)
+    done()
 
-  it 'returns 404 if the Classroom does not exist', (done) ->
-    test = @
-    url = getURL('/db/course_instance')
+  it 'returns 404 if the Classroom does not exist', utils.wrap (done) ->
     data = {
       name: 'Some Name'
-      courseID: test.course.id
+      courseID: @course.id
       classroomID: '123456789012345678901234'
     }
-    request.post {uri: url, json: data}, (err, res, body) ->
-      expect(res.statusCode).toBe(404)
-      done()
+    [res, body] = yield request.postAsync {uri: url, json: data}
+    expect(res.statusCode).toBe(404)
+    done()
 
-  it 'return 403 if the logged in user does not own the Classroom', (done) ->
-    test = @
-    loginSam ->
-      url = getURL('/db/course_instance')
-      data = {
-        name: 'Some Name'
-        courseID: test.course.id
-        classroomID: test.classroom.id
-      }
-      request.post {uri: url, json: data}, (err, res, body) ->
-        expect(res.statusCode).toBe(403)
-        done()
+  it 'return 403 if the logged in user does not own the Classroom', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    data = {
+      name: 'Some Name'
+      courseID: @course.id
+      classroomID: @classroom.id
+    }
+    [res, body] = yield request.postAsync {uri: url, json: data}
+    expect(res.statusCode).toBe(403)
+    done()
 
 
 describe 'POST /db/course_instance/:id/members', ->
 
-  beforeEach (done) -> clearModels([CourseInstance, Course, User, Classroom, Prepaid], done)
-  beforeEach (done) -> loginJoe (@joe) => done()
-  beforeEach init.course({free: true})
-  beforeEach init.classroom()
-  beforeEach init.courseInstance()
-  beforeEach init.user()
-  beforeEach init.prepaid()
+  beforeEach utils.wrap (done) ->
+    utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    courseData = _.extend({free: true}, courseFixture)
+    @course = yield new Course(courseData).save()
+    classroomData = _.extend({ownerID: @teacher._id}, classroomFixture)
+    @classroom = yield new Classroom(classroomData).save()
+    url = getURL('/db/course_instance')
+    data = {
+      name: 'Some Name'
+      courseID: @course.id
+      classroomID: @classroom.id
+    }
+    [res, body] = yield request.postAsync {uri: url, json: data}
+    @courseInstance = yield CourseInstance.findById res.body._id
+    @student = yield utils.initUser()
+    @prepaid = yield new Prepaid({
+      type: 'course'
+      maxRedeemers: 10
+      redeemers: []
+    }).save()
+    done()
 
-  it 'adds a member to the given CourseInstance', (done) ->
-    async.eachSeries([
+  it 'adds an array of members to the given CourseInstance', utils.wrap (done) ->
+    @classroom.set('members', [@student._id])
+    yield @classroom.save()
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.postAsync {uri: url, json: {userIDs: [@student.id]}}
+    expect(res.statusCode).toBe(200)
+    expect(body.members.length).toBe(1)
+    expect(body.members[0]).toBe(@student.id)
+    done()
 
-      addTestUserToClassroom,
-      (test, cb) ->
-        url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
-        request.post {uri: url, json: {userID: test.user.id}}, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
-          expect(body.members.length).toBe(1)
-          expect(body.members[0]).toBe(test.user.id)
-          cb()
+  it 'adds a member to the given CourseInstance', utils.wrap (done) ->
+    @classroom.set('members', [@student._id])
+    yield @classroom.save()
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+    expect(res.statusCode).toBe(200)
+    expect(res.body.members.length).toBe(1)
+    expect(res.body.members[0]).toBe(@student.id)
+    done()
 
-    ], makeTestIterator(@), done)
+  it 'adds the CourseInstance id to the user', utils.wrap (done) ->
+    @classroom.set('members', [@student._id])
+    yield @classroom.save()
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+    user = yield User.findById(@student.id)
+    expect(_.size(user.get('courseInstances'))).toBe(1)
+    done()
 
-  it 'adds the CourseInstance id to the user', (done) ->
-    async.eachSeries([
+  it 'return 403 if the member is not in the classroom', utils.wrap (done) ->
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+    expect(res.statusCode).toBe(403)
+    done()
 
-      addTestUserToClassroom,
-      (test, cb) ->
-        url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
-        request.post {uri: url, json: {userID: test.user.id}}, (err, res, body) ->
-          User.findById(test.user.id).exec (err, user) ->
-            expect(_.size(user.get('courseInstances'))).toBe(1)
-            cb()
-    ], makeTestIterator(@), done)
-
-  it 'return 403 if the member is not in the classroom', (done) ->
-    async.eachSeries([
-
-      (test, cb) ->
-        url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
-        request.post {uri: url, json: {userID: test.user.id}}, (err, res) ->
-          expect(res.statusCode).toBe(403)
-          cb()
-
-    ], makeTestIterator(@), done)
-
-
-  it 'returns 403 if the user does not own the course instance and is not adding self', (done) ->
-    async.eachSeries([
-
-      addTestUserToClassroom,
-      (test, cb) ->
-        loginSam ->
-          url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
-          request.post {uri: url, json: {userID: test.user.id}}, (err, res, body) ->
-            expect(res.statusCode).toBe(403)
-            cb()
-
-    ], makeTestIterator(@), done)
+  it 'returns 403 if the user does not own the course instance and is not adding self', utils.wrap (done) ->
+    @classroom.set('members', [@student._id])
+    yield @classroom.save()
+    otherUser = yield utils.initUser()
+    yield utils.loginUser(otherUser)
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+    expect(res.statusCode).toBe(403)
+    done()
 
   it 'returns 200 if the user is a member of the classroom and is adding self', ->
 
-  it 'return 402 if the course is not free and the user is not in a prepaid', (done) ->
-    async.eachSeries([
-
-      addTestUserToClassroom,
-      makeTestCourseNotFree,
-      (test, cb) ->
-        url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
-        request.post {uri: url, json: {userID: test.user.id}}, (err, res) ->
-          expect(res.statusCode).toBe(402)
-          cb()
+  it 'return 402 if the course is not free and the user is not in a prepaid', utils.wrap (done) ->
+    @classroom.set('members', [@student._id])
+    yield @classroom.save()
+    @course.set('free', false)
+    yield @course.save()
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+    expect(res.statusCode).toBe(402)
+    done()
           
-    ], makeTestIterator(@), done)
-          
+  it 'works if the course is not free and the user is in a prepaid', utils.wrap (done) ->
+    @classroom.set('members', [@student._id])
+    yield @classroom.save()
+    @course.set('free', false)
+    yield @course.save()
+    @student.set('coursePrepaidID', @prepaid._id)
+    yield @student.save()
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+    expect(res.statusCode).toBe(200)
+    done()
     
-  it 'works if the course is not free and the user is in a prepaid', (done) ->
-    async.eachSeries([
-    
-      addTestUserToClassroom,
-      makeTestCourseNotFree,
-      addTestUserToPrepaid,
-      (test, cb) ->
-        url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
-        request.post {uri: url, json: {userID: test.user.id}}, (err, res) ->
-          expect(res.statusCode).toBe(200)
-          cb()
-          
-    ], makeTestIterator(@), done)
-    
-    
-  makeTestCourseNotFree = (test, cb) ->
-    test.course.set('free', false)
-    test.course.save cb
-        
-  addTestUserToClassroom = (test, cb) ->
-    test.classroom.set('members', [test.user.get('_id')])
-    test.classroom.save cb
-
-  addTestUserToPrepaid = (test, cb) ->
-    test.prepaid.set('redeemers', [{userID: test.user.get('_id')}])
-    test.prepaid.save cb
-
-
 describe 'DELETE /db/course_instance/:id/members', ->
 
-  beforeEach (done) -> clearModels([CourseInstance, Course, User, Classroom, Prepaid], done)
-  beforeEach (done) -> loginJoe (@joe) => done()
-  beforeEach init.course({free: true})
-  beforeEach init.classroom()
-  beforeEach init.courseInstance()
-  beforeEach init.user()
-  beforeEach init.prepaid()
-
-  it 'removes a member to the given CourseInstance', (done) ->
-    async.eachSeries([
-
-      addTestUserToClassroom,
-      addTestUserToCourseInstance,
-      (test, cb) ->
-        url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
-        request.del {uri: url, json: {userID: test.user.id}}, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
-          expect(body.members.length).toBe(0)
-          cb()
-
-    ], makeTestIterator(@), done)
+  beforeEach utils.wrap (done) ->
+    utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid])
     
-  it 'removes the CourseInstance from the User.courseInstances', (done) ->
-    async.eachSeries([
+    # create, login user
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
 
-      addTestUserToClassroom,
-      addTestUserToCourseInstance,
-      (test, cb) ->
-        User.findById(test.user.id).exec (err, user) ->
-          expect(_.size(user.get('courseInstances'))).toBe(1)
-          cb()
-      removeTestUserFromCourseInstance,
-      (test, cb) ->
-        User.findById(test.user.id).exec (err, user) ->
-          expect(_.size(user.get('courseInstances'))).toBe(0)
-          cb()
-
-    ], makeTestIterator(@), done)
-
-  addTestUserToClassroom = (test, cb) ->
-    test.classroom.set('members', [test.user.get('_id')])
-    test.classroom.save cb
-
-  addTestUserToCourseInstance = (test, cb) ->
-    url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
-    request.post {uri: url, json: {userID: test.user.id}}, (err, res, body) ->
-      expect(res.statusCode).toBe(200)
-      expect(body.members.length).toBe(1)
-      expect(body.members[0]).toBe(test.user.id)
-      cb()
-      
-  removeTestUserFromCourseInstance = (test, cb) ->
-    url = getURL("/db/course_instance/#{test.courseInstance.id}/members")
-    request.del {uri: url, json: {userID: test.user.id}}, (err, res, body) ->
-      expect(res.statusCode).toBe(200)
-      expect(body.members.length).toBe(0)
-      cb()
-  
-
-makeTestIterator = (testObject) -> (func, callback) -> func(testObject, callback)
-  
+    # create student, course, classroom and course instance
+    @student = yield utils.initUser()
+    courseData = _.extend({free: true}, courseFixture)
+    @course = yield new Course(courseData).save()
+    classroomData = _.extend({}, classroomFixture, {ownerID: @teacher._id, members: [@student._id]})
+    @classroom = yield new Classroom(classroomData).save()
+    url = getURL('/db/course_instance')
+    data = {
+      name: 'Some Name'
+      courseID: @course.id
+      classroomID: @classroom.id
+    }
+    [res, body] = yield request.postAsync {uri: url, json: data}
+    @courseInstance = yield CourseInstance.findById res.body._id
+    
+    # add user to course instance
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+    @prepaid = yield new Prepaid({
+      type: 'course'
+      maxRedeemers: 10
+      redeemers: []
+    }).save()
+    done()
+    
+  it 'removes a member to the given CourseInstance', utils.wrap (done) ->
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.delAsync {uri: url, json: {userID: @student.id}}
+    expect(res.statusCode).toBe(200)
+    expect(res.body.members.length).toBe(0)
+    done()
+    
+  it 'removes the CourseInstance from the User.courseInstances', utils.wrap (done) ->
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    user = yield User.findById(@student.id)
+    expect(_.size(user.get('courseInstances'))).toBe(1)
+    [res, body] = yield request.delAsync {uri: url, json: {userID: @student.id}}
+    expect(res.statusCode).toBe(200)
+    expect(res.body.members.length).toBe(0)
+    user = yield User.findById(@student.id)
+    expect(_.size(user.get('courseInstances'))).toBe(0)
+    done()

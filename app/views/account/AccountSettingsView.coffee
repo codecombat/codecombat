@@ -3,7 +3,7 @@ template = require 'templates/account/account-settings-view'
 {me} = require 'core/auth'
 forms = require 'core/forms'
 User = require 'models/User'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
 {logoutUser, me} = require('core/auth')
 
@@ -27,7 +27,7 @@ module.exports = class AccountSettingsView extends CocoView
 
   afterInsert: ->
     super()
-    @openModalView new AuthModal() if me.get('anonymous')
+    @openModalView new CreateAccountModal() if me.get('anonymous')
 
   getEmailSubsDict: ->
     subs = {}
@@ -64,10 +64,10 @@ module.exports = class AccountSettingsView extends CocoView
   onClickDeleteAccountButton: (e) ->
     @validateCredentialsForDestruction @$el.find('#delete-account-form'), =>
       renderData =
-        confirmTitle: 'Are you really sure?'
-        confirmBody: 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?'
-        confirmDecline: 'Not really'
-        confirmConfirm: 'Definitely'
+        title: 'Are you really sure?'
+        body: 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?'
+        decline: 'Cancel'
+        confirm: 'DELETE Your Account'
       confirmModal = new ConfirmModal renderData
       confirmModal.on 'confirm', @deleteAccount
       @openModalView confirmModal
@@ -75,10 +75,10 @@ module.exports = class AccountSettingsView extends CocoView
   onClickResetProgressButton: ->
     @validateCredentialsForDestruction @$el.find('#reset-progress-form'), =>
       renderData =
-        confirmTitle: 'Are you really sure?'
-        confirmBody: 'This will completely erase your progress: code, levels, achievements, earned gems, etc. This action CANNOT be undone. Are you entirely sure?'
-        confirmDecline: 'Not really'
-        confirmConfirm: 'Definitely'
+        title: 'Are you really sure?'
+        body: 'This will completely erase your progress: code, levels, achievements, earned gems, and course work. This action CANNOT be undone. Are you entirely sure?'
+        decline: 'Cancel'
+        confirm: 'Erase ALL Progress'
       confirmModal = new ConfirmModal renderData
       confirmModal.on 'confirm', @resetProgress
       @openModalView confirmModal
@@ -265,12 +265,11 @@ module.exports = class AccountSettingsView extends CocoView
 
     permissions = []
 
-    adminCheckbox = @$el.find('#admin')
-    if adminCheckbox.length
-      permissions.push 'admin' if adminCheckbox.prop('checked')
-
-    godmodeCheckbox = @$el.find('#godmode')
-    if godmodeCheckbox.length
-      permissions.push 'godmode' if godmodeCheckbox.prop('checked')
-
-    me.set('permissions', permissions)
+    unless application.isProduction()
+      adminCheckbox = @$el.find('#admin')
+      if adminCheckbox.length
+        permissions.push 'admin' if adminCheckbox.prop('checked')
+      godmodeCheckbox = @$el.find('#godmode')
+      if godmodeCheckbox.length
+        permissions.push 'godmode' if godmodeCheckbox.prop('checked')
+      me.set('permissions', permissions)

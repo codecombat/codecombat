@@ -49,8 +49,8 @@ module.exports = class LadderSubmissionView extends CocoView
     @$el.find('.last-submitted').toggle(showLastSubmitted)
 
   showApologeticSignupModal: ->
-    AuthModal = require 'views/core/AuthModal'
-    @openModalView(new AuthModal({showRequiredError: true}))
+    CreateAccountModal = require 'views/core/CreateAccountModal'
+    @openModalView(new CreateAccountModal({showRequiredError: true}))
 
   rankSession: (e) ->
     return unless @session.readyToRank()

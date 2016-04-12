@@ -21,6 +21,7 @@ module.exports = class Spell
     @worker = options.worker
     @levelID = options.levelID
     @levelType = options.level.get('type', true)
+    @level = options.level
 
     p = options.programmableMethod
     @commentI18N = p.i18n
@@ -63,6 +64,7 @@ module.exports = class Spell
   setLanguage: (@language) ->
     #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
     @originalSource = @languages[@language] ? @languages.javascript
+    @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 
     # Translate comments chosen spoken language.
     return unless @commentContext
@@ -90,6 +92,14 @@ module.exports = class Spell
         when 'coffeescript' then @originalSource
         when 'io' then @originalSource.replace /loop\n/, 'while true,\n'
         else @originalSource
+
+  addPicoCTFProblem: ->
+    return @originalSource unless problem = @level.picoCTFProblem
+    description = """
+      -- #{problem.name} --
+      #{problem.description}
+    """.replace /<p>(.*?)<\/p>/gi, '$1'
+    ("// #{line}" for line in description.split('\n')).join('\n') + '\n' + @originalSource
 
   addThang: (thang) ->
     if @thangs[thang.id]

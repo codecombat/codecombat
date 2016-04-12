@@ -1,7 +1,9 @@
 require '../common'
+User = require '../../../server/models/User'
+Article = require '../../../server/models/Article'
+request = require '../request'
 
 describe '/db/<id>/version', ->
-  request = require 'request'
   it 'clears the db first', (done) ->
     clearModels [User, Article], (err) ->
       throw err if err
@@ -14,17 +16,18 @@ describe '/db/<id>/version', ->
   it 'sets up', (done) ->
     loginAdmin ->
       request.post {uri: url, json: article}, (err, res, body) ->
-        expect(res.statusCode).toBe(200)
+        expect(res.statusCode).toBe(201)
         articles[0] = body
         new_article = _.clone(articles[0])
         new_article.body = '...'
-        request.post {uri: url, json: new_article}, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
+        newVersionURL = "#{url}/#{new_article._id}/new-version"
+        request.post {uri: newVersionURL, json: new_article}, (err, res, body) ->
+          expect(res.statusCode).toBe(201)
           articles[1] = body
           new_article = _.clone(articles[1])
           delete new_article.version
-          request.post {uri: url, json: new_article}, (err, res, body) ->
-            expect(res.statusCode).toBe(200)
+          request.post {uri: newVersionURL, json: new_article}, (err, res, body) ->
+            expect(res.statusCode).toBe(201)
             articles[2] = body
             done()
 

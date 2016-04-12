@@ -5,40 +5,13 @@ console.log 'IT BEGINS'
 if process.env.COCO_MONGO_HOST
   throw Error('Tests may not run with production environment')
 
-GLOBAL._ = require 'lodash'
-_.str = require 'underscore.string'
-_.mixin(_.str.exports())
-GLOBAL.mongoose = require 'mongoose'
+require '../../server' # make lodash globally available
+mongoose = require 'mongoose'
 path = require 'path'
 GLOBAL.testing = true
 GLOBAL.tv4 = require 'tv4' # required for TreemaUtils to work
 
-models_path = [
-  '../../server/analytics/AnalyticsUsersActive'
-  '../../server/articles/Article'
-  '../../server/campaigns/Campaign'
-  '../../server/clans/Clan'
-  '../../server/classrooms/Classroom'
-  '../../server/courses/Course'
-  '../../server/courses/CourseInstance'
-  '../../server/levels/Level'
-  '../../server/levels/components/LevelComponent'
-  '../../server/levels/systems/LevelSystem'
-  '../../server/levels/sessions/LevelSession'
-  '../../server/levels/thangs/LevelThangType'
-  '../../server/users/User'
-  '../../server/patches/Patch'
-  '../../server/achievements/Achievement'
-  '../../server/achievements/EarnedAchievement'
-  '../../server/payments/Payment'
-  '../../server/prepaids/Prepaid'
-  '../../server/trial_requests/TrialRequest'
-]
-
-for m in models_path
-  model = path.basename(m)
-  #console.log('model=' + model)
-  GLOBAL[model] = require m
+User = require '../../server/models/User'
 
 async = require 'async'
 
@@ -70,7 +43,6 @@ GLOBAL.saveModels = (models, done) ->
 
 GLOBAL.simplePermissions = [target: 'public', access: 'owner']
 GLOBAL.ObjectId = mongoose.Types.ObjectId
-GLOBAL.request = require 'request'
 
 GLOBAL.unittest = {}
 unittest.users = unittest.users or {}
@@ -86,7 +58,6 @@ unittest.getUser = (name, email, password, done, force) ->
   # Creates the user if it doesn't already exist.
 
   return done(unittest.users[email]) if unittest.users[email] and not force
-  request = require 'request'
   request.post getURL('/auth/logout'), ->
     request.get getURL('/auth/whoami'), ->
       req = request.post(getURL('/db/user'), (err, response, body) ->

@@ -1,5 +1,5 @@
 app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 RootView = require 'views/core/RootView'
@@ -46,7 +46,7 @@ module.exports = class CourseEnrollView extends RootView
     @renderNewPrice()
 
   onClickBuy: (e) ->
-    return @openModalView new AuthModal() if me.isAnonymous()
+    return @openModalView new CreateAccountModal() if me.isAnonymous()
 
     if @price is 0
       @seats = 9999

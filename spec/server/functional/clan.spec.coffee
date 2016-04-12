@@ -1,7 +1,9 @@
 config = require '../../../server_config'
 require '../common'
 utils = require '../../../app/core/utils' # Must come after require /common
-mongoose = require 'mongoose'
+Clan = require '../../../server/models/Clan'
+User = require '../../../server/models/User'
+request = require '../request'
 
 describe 'Clans', ->
   clanURL = getURL('/db/clan')

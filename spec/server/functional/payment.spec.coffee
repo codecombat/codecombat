@@ -3,10 +3,12 @@ testReceipt = 'MIIVEQYJKoZIhvcNAQcCoIIVAjCCFP4CAQExCzAJBgUrDgMCGgUAMIIEwgYJKoZIh
 config = require '../../../server_config'
 require '../common'
 nockUtils = require '../nock-utils'
+User = require '../../../server/models/User'
+Payment = require '../../../server/models/Payment'
+request = require '../request'
 
 
 describe '/db/payment', ->
-  request = require 'request'
   paymentURL = getURL('/db/payment')
   checkChargesURL = getURL('/db/payment/check-stripe-charges')
   customPaymentURL = getURL('/db/payment/custom')

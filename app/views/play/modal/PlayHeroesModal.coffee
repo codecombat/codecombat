@@ -7,7 +7,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 AudioPlayer = require 'lib/AudioPlayer'
 utils = require 'core/utils'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 Purchase = require 'models/Purchase'
 LayerAdapter = require 'lib/surface/LayerAdapter'
 Lank = require 'lib/surface/Lank'
@@ -139,7 +139,7 @@ module.exports = class PlayHeroesModal extends ModalView
       return fullHero
     fullHero = new ThangType()
     fullHero.setURL url
-    fullHero = (@supermodel.loadModel fullHero, 'thang').model
+    fullHero = (@supermodel.loadModel fullHero).model
     fullHero
 
   preloadHero: (heroIndex) ->
@@ -265,9 +265,8 @@ module.exports = class PlayHeroesModal extends ModalView
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
 
   askToSignUp: ->
-    authModal = new AuthModal supermodel: @supermodel
-    authModal.mode = 'signup'
-    return @openModalView authModal
+    createAccountModal = new CreateAccountModal supermodel: @supermodel
+    return @openModalView createAccountModal
 
   askToBuyGems: (unlockButton) ->
     @$el.find('.unlock-button').popover 'destroy'

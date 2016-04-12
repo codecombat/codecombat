@@ -1,3 +1,4 @@
+request = require '../request'
 require '../common'
 
 describe 'languages', ->

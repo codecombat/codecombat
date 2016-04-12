@@ -1,28 +1,100 @@
-.alert.alert-danger.loading-error-alert
-  span(data-i18n="loading_error.could_not_load") Error loading from server
-  span  (
-  span(data-i18n="resources.#{name}")
-  span ) 
-  if !responseText
-    strong(data-i18n="loading_error.connection_failure") Connection failed.
-  else if status === 401
-    strong(data-i18n="loading_error.unauthorized") You need to be signed in. Do you have cookies disabled?
-  else if status === 403
-    strong(data-i18n="loading_error.forbidden") You do not have the permissions.
-  else if status === 404
-    strong(data-i18n="loading_error.not_found") Not found.
-  else if status === 405
-    strong(data-i18n="loading_error.not_allowed") Method not allowed.
-  else if status === 408
-    strong(data-i18n="loading_error.timeout") Server timeout.
-  else if status === 409
-    strong(data-i18n="loading_error.conflict") Resource conflict.
-  else if status === 422
-    strong(data-i18n="loading_error.bad_input") Bad input.
-  else if status >= 500
-    strong(data-i18n="loading_error.server_error") Server error.
+#loading-error.text-center
+  if !jqxhr
+    h1(data-i18n="loading_error.unknown")
+    
+  else if jqxhr.status === 401
+    h1
+      span.spr 401:
+      span(data-i18n="loading_error.login_required")
+    p(data-i18n="loading_error.login_required_desc")
+    button.login-btn.btn.btn-primary(data-i18n="login.log_in")
+    button#create-account-btn.btn.btn-primary(data-i18n="login.sign_up")
+    
+    // 402 currently not in use. TODO: Set it up
+  else if jqxhr.status === 402
+    h2 402: Payment Required
+    
+  else if jqxhr.status === 403
+    h1
+      span.spr 403:
+      span(data-i18n="loading_error.forbidden") Forbidden
+    p(data-i18n="loading_error.forbidden_desc")
+    
+    // this should make no diff... but sometimes the server returns 403 when it should return 401
+    if !me.isAnonymous()
+      button#logout-btn.btn.btn-primary(data-i18n="login.log_out")
+    
+  else if jqxhr.status === 404
+    h1
+      span.spr 404:
+      span(data-i18n="loading_error.not_found")
+    - var num = Math.floor(Math.random() * 3) + 1;
+    img#not-found-img(src="/images/pages/not_found/404_#{num}.png")
+    p(data-i18n="loading_error.not_found_desc")
+    
+  else if !jqxhr.status
+    h1(data-i18n="loading_error.connection_failure")
+    p(data-i18n="loading_error.connection_failure_desc")
+    
   else
-    strong(data-i18n="loading_error.unknown") Unknown error.
+    if jqxhr.status === 408
+      h1
+        span.spr 408:
+        span(data-i18n="loading_error.timeout")
+    else if jqxhr.status >= 500 && jqxhr.status <= 599
+      h1
+        span.spr #{jqxhr.status}:
+        span(data-i18n="loading_error.server_error")
+    else
+      h1(data-i18n="loading_error.unknown")
+      
+    p(data-i18n="loading_error.general_desc")
 
-  button.btn.btn-xs.retry-loading-resource(data-i18n="common.retry", data-resource-index=resourceIndex) Retry
-  button.btn.btn-xs.skip-loading-resource(data-i18n="play_level.skip", data-resource-index=resourceIndex) Skip
+  #links-row.row
+    .col-sm-3
+      ul.list-unstyled
+        li
+          strong(data-i18n="common.help")
+        li
+          a(href="/", data-i18n="nav.home")
+        li
+          a(href=view.forumLink(), data-i18n="nav.forum")
+        li
+          a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact")
+        li
+          a(href='/community', data-i18n="nav.community")
+      
+    .col-sm-3
+      ul.list-unstyled
+        li
+          strong(data-i18n="courses.students")
+        li
+          a(href="/courses/students", data-i18n="nav.learn_to_code")
+        if me.isAnonymous()
+          li
+            a.login-btn(data-i18n="login.log_in")
+        li
+          a(href="/courses", data-i18n="courses.join_class")
+     
+    .col-sm-3
+      ul.list-unstyled
+        li
+          strong(data-i18n="nav.teachers")
+        li
+          a(href="/schools", data-i18n="about.why_codecombat")
+        if me.isAnonymous()
+          li
+            a.login-btn(data-i18n="login.log_in")
+        li
+          a(href="/teachers/classes", data-i18n="nav.create_a_class")
+      
+    .col-sm-3
+      ul.list-unstyled
+        li
+          strong(data-i18n="nav.other")
+        li
+          a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
+        li
+          a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
+        li
+          a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")

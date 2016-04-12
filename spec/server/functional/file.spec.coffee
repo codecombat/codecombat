@@ -2,6 +2,8 @@ require '../common'
 
 # Doesn't work on Travis. Need to figure out why, probably by having the
 # url not depend on some external resource.
+mongoose = require 'mongoose'
+request = require '../request'
 
 xdescribe '/file', ->
   url = getURL('/file')

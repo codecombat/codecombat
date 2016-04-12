@@ -530,11 +530,20 @@ module.exports = Surface = class Surface extends CocoClass
       newWidth = 0.55 * pageWidth
       newHeight = newWidth / aspectRatio
     return unless newWidth > 0 and newHeight > 0
-    return if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
-    return if newWidth < 200 or newHeight < 200
+
     #scaleFactor = if application.isIPadApp then 2 else 1  # Retina
     scaleFactor = 1
-    @normalCanvas.add(@webGLCanvas).attr width: newWidth * scaleFactor, height: newHeight * scaleFactor
+    if @options.stayVisible
+      availableHeight = window.innerHeight
+      availableHeight -= $('.ad-container').outerHeight() 
+      availableHeight -= $('#game-area').outerHeight() - $('#canvas-wrapper').outerHeight()
+      scaleFactor = availableHeight / newHeight if availableHeight < newHeight
+    newWidth *= scaleFactor
+    newHeight *= scaleFactor
+
+    return if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
+    return if newWidth < 200 or newHeight < 200
+    @normalCanvas.add(@webGLCanvas).attr width: newWidth, height: newHeight
 
     # Cannot do this to the webGLStage because it does not use scaleX/Y.
     # Instead the LayerAdapter scales webGL-enabled layers.

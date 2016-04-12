@@ -66,6 +66,7 @@ $level-resize-transition-time: 0.5s
 
   .level-content
     position: relative
+    background-color: black
 
   #canvas-wrapper
     top: 50px
@@ -83,14 +84,14 @@ $level-resize-transition-time: 0.5s
   canvas#webgl-surface
     background-color: #333
     z-index: 1
-    
+
   canvas#normal-surface
     z-index: 1
     position: absolute
     top: 0
     left: 0
     pointer-events: none
-    
+
   canvas#webgl-surface, canvas#normal-surface
     display: block
     z-index: 2
@@ -259,6 +260,10 @@ $level-resize-transition-time: 0.5s
     right: 15px
     font-size: 30px
 
+  .ad-container
+    width: 100%
+    height: 90px
+    text-align: center
 
 html.fullscreen-editor
   #level-view

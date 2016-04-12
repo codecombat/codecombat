@@ -1,11 +1,10 @@
 config = require '../../server_config'
 log = require 'winston'
-User = require '../users/User'
+User = require '../models/User'
 sendwithus = require '../sendwithus'
 async = require 'async'
-LevelSession = require '../levels/sessions/LevelSession'
+LevelSession = require '../models/LevelSession'
 moment = require 'moment'
-hipchat = require '../hipchat'
 
 module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->

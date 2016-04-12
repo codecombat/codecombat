@@ -1,5 +1,4 @@
 app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
@@ -46,7 +45,7 @@ module.exports = class HourOfCodeView extends RootView
     if @lastSession
       @lastLevel = new Level()
       levelData = @lastSession.get('level')
-      @supermodel.loadModel(@lastLevel, 'level', {
+      @supermodel.loadModel(@lastLevel, {
         url: "/db/level/#{levelData.original}/version/#{levelData.majorVersion}"
         data: {
           project: 'name,slug'

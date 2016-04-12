@@ -1,4 +1,7 @@
 require '../common'
+Level = require '../../../server/models/Level'
+LevelSystem = require '../../../server/models/LevelSystem'
+request = require '../request'
 
 describe 'LevelSystem', ->
 

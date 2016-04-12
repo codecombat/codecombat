@@ -8,19 +8,12 @@ module.exports = class ConfirmModal extends ModalView
   closeOnConfirm: true
 
   events:
-    'click #decline-button': 'onDecline'
-    'click #confirm-button': 'onConfirm'
+    'click #decline-button': 'onClickDecline'
+    'click #confirm-button': 'onClickConfirm'
 
-  constructor: (@renderData={}, options={}) ->
-    super(options)
+  initialize: (options) ->
+    _.assign @, _.pick(options, 'title', 'body', 'decline', 'confirm', 'closeOnConfirm', 'closeButton')
 
-  getRenderData: ->
-    context = super()
-    context.closeOnConfirm = @closeOnConfirm
-    _.extend context, @renderData
+  onClickDecline: -> @trigger 'decline'
 
-  setRenderData: (@renderData) ->
-
-  onDecline: -> @trigger 'decline'
-
-  onConfirm: -> @trigger 'confirm'
+  onClickConfirm: -> @trigger 'confirm'
