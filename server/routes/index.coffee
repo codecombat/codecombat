@@ -40,7 +40,11 @@ module.exports.setup = (app) ->
   app.get('/db/article/:handle/patches', mw.patchable.patches(Article))
   app.post('/db/article/:handle/watchers', mw.patchable.joinWatchers(Article))
   app.delete('/db/article/:handle/watchers', mw.patchable.leaveWatchers(Article))
+
+  app.get('/db/campaign', mw.campaigns.fetchByType)
+  app.put('/db/campaign/:handle', mw.campaigns.put)
   
+  app.post('/db/classroom', mw.classrooms.post)
   app.get('/db/classroom', mw.classrooms.getByOwner)
   app.get('/db/classroom/:handle/member-sessions', mw.classrooms.fetchMemberSessions)
   app.get('/db/classroom/:handle/members', mw.classrooms.fetchMembers) # TODO: Use mw.auth?
@@ -49,8 +53,6 @@ module.exports.setup = (app) ->
   Course = require '../models/Course'
   app.get('/db/course', mw.rest.get(Course))
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
-  
-  app.get('/db/campaign', mw.campaigns.fetchByType) #TODO
   
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
   
