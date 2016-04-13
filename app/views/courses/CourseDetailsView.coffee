@@ -1,10 +1,11 @@
-Campaign = require 'models/Campaign'
-CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
+Courses = require 'collections/Courses'
+LevelSessions = require 'collections/LevelSessions'
 CourseInstance = require 'models/CourseInstance'
+CourseInstances = require 'collections/CourseInstances'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
-LevelSession = require 'models/LevelSession'
+Levels = require 'collections/Levels'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/course-details'
 User = require 'models/User'
@@ -14,7 +15,6 @@ module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
   template: template
   teacherMode: false
-  singlePlayerMode: false
   memberSort: 'nameAsc'
 
   events:
@@ -25,125 +25,64 @@ module.exports = class CourseDetailsView extends RootView
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
     @ownedClassrooms = new Classrooms()
-    @ownedClassrooms.fetchMine({data: {project: '_id'}})
-    @supermodel.trackCollection(@ownedClassrooms)
-    @courseID ?= options.courseID
-    @courseInstanceID ?= options.courseInstanceID
+    @courses = new Courses()
+    @course = new Course()
+    @levelSessions = new LevelSessions()
+    @courseInstance = new CourseInstance({_id: @courseInstanceID})
+    @owner = new User()
     @classroom = new Classroom()
-    @course = @supermodel.getModel(Course, @courseID) or new Course _id: @courseID
-    @listenTo @course, 'sync', @onCourseSync
-    if @course.loaded
-      @onCourseSync()
-    else
-      @supermodel.loadModel @course
+    @levels = new Levels()
+    @courseInstances = new CourseInstances()
 
-  getRenderData: ->
-    context = super()
-    context.campaign = @campaign
-    context.course = @course if @course?.loaded
-    context.courseInstance = @courseInstance if @courseInstance?.loaded
-    context.courseInstances = @courseInstances?.models ? []
-    context.levelConceptMap = @levelConceptMap ? {}
-    context.noCourseInstance = @noCourseInstance
-    context.noCourseInstanceSelected = @noCourseInstanceSelected
-    context.userLevelStateMap = @userLevelStateMap ? {}
-    context.promptForSchool = @courseComplete and not me.isAnonymous() and not me.get('schoolName') and not storage.load('no-school')
-    context
+    @supermodel.trackRequest @ownedClassrooms.fetchMine({data: {project: '_id'}})
+    @supermodel.trackRequest(@courses.fetch().then(=>
+      @course = @courses.get(@courseID)
+    ))
+    sessionsLoaded = @supermodel.trackRequest(@levelSessions.fetchForCourseInstance(@courseInstanceID, {cache: false}))
 
-  afterRender: ->
-    super()
-    if @supermodel.finished() and @courseComplete and me.isAnonymous() and @options.justBeatLevel
-      # TODO: Make an intermediate modal that tells them they've finished HoC and has some snazzy stuff for convincing players to sign up instead of just throwing up the bare CreateAccountModal
-      CreateAccountModal = require 'views/core/CreateAccountModal'
-      @openModalView new CreateAccountModal showSignupRationale: true
+    @supermodel.trackRequest(@courseInstance.fetch().then(=>
+      return if @destroyed
+      @teacherMode = @courseInstance.get('ownerID') is me.id
 
-  onCourseSync: ->
+      @owner = new User({_id: @courseInstance.get('ownerID')})
+      @supermodel.trackRequest(@owner.fetch())
+
+      classroomID = @courseInstance.get('classroomID')
+      @classroom = new Classroom({ _id: classroomID })
+      @supermodel.trackRequest(@classroom.fetch())
+
+      levelsLoaded = @supermodel.trackRequest(@levels.fetchForClassroomAndCourse(classroomID, @courseID, {
+        data: { project: 'concepts,type,slug,name,original,description' }
+      }))
+
+      @supermodel.trackRequest($.when(levelsLoaded, sessionsLoaded).then(=>
+        @buildSessionStats()
+        return if @destroyed
+        if @memberStats[me.id]?.totalLevelsCompleted >= @levels.size() - 1  # Don't need to complete arena
+          # need to figure out the next course instance
+          @courseComplete = true
+          @courseInstances.comparator = 'courseID'
+          @supermodel.trackRequest(@courseInstances.fetchForClassroom(classroomID).then(=>
+            @nextCourseInstance = _.find @courseInstances.models, (ci) => ci.get('courseID') > @courseID
+            if @nextCourseInstance
+              nextCourseID = @nextCourseInstance.get('courseID')
+              @nextCourse = @courses.get(nextCourseID)
+        ))
+        @promptForSchool = @courseComplete and not me.isAnonymous() and not me.get('schoolName') and not storage.load('no-school')
+      ))
+    ))
+
+  buildSessionStats: ->
     return if @destroyed
-    # console.log 'onCourseSync'
-    if me.isAnonymous() and (not me.get('hourOfCode') and not @course.get('hourOfCode'))
-      @noCourseInstance = true
-      @render()
-      return
-    return if @campaign?
-    campaignID = @course.get('campaignID')
-    @campaign = @supermodel.getModel(Campaign, campaignID) or new Campaign _id: campaignID
-    @listenTo @campaign, 'sync', @onCampaignSync
-    if @campaign.loaded
-      @onCampaignSync()
-    else
-      @supermodel.loadModel @campaign
-    @render()
 
-  onCampaignSync: ->
-    return if @destroyed
-    # console.log 'onCampaignSync'
-    if @courseInstanceID
-      @loadCourseInstance(@courseInstanceID)
-    else unless me.isAnonymous()
-      @loadCourseInstances()
     @levelConceptMap = {}
-    for levelID, level of @campaign.get('levels')
-      @levelConceptMap[levelID] ?= {}
-      for concept in level.concepts
-        @levelConceptMap[levelID][concept] = true
-      if level.type is 'course-ladder'
+    for level in @levels.models
+      @levelConceptMap[level.get('original')] ?= {}
+      for concept in level.get('concepts')
+        @levelConceptMap[level.get('original')][concept] = true
+      if level.get('type') is 'course-ladder'
         @arenaLevel = level
-    @render()
 
-  loadCourseInstances: ->
-    @courseInstances = new CocoCollection [], {url: "/db/user/#{me.id}/course_instances", model: CourseInstance, comparator: 'courseID'}
-    @listenToOnce @courseInstances, 'sync', @onCourseInstancesSync
-    @supermodel.loadCollection @courseInstances, 'course_instances'
-
-  loadAllCourses: ->
-    @allCourses = new CocoCollection [], {url: "/db/course", model: Course, comparator: '_id'}
-    @listenToOnce @allCourses, 'sync', @onAllCoursesSync
-    @supermodel.loadCollection @allCourses, 'courses'
-
-  loadCourseInstance: (courseInstanceID) ->
-    return if @destroyed
-    # console.log 'loadCourseInstance'
-    return if @courseInstance?
-    @courseInstanceID = courseInstanceID
-    @courseInstance = @supermodel.getModel(CourseInstance, @courseInstanceID) or new CourseInstance _id: @courseInstanceID
-    @listenTo @courseInstance, 'sync', @onCourseInstanceSync
-    if @courseInstance.loaded
-      @onCourseInstanceSync()
-    else
-      @courseInstance = @supermodel.loadModel(@courseInstance).model
-
-  onCourseInstancesSync: ->
-    return if @destroyed
-    # console.log 'onCourseInstancesSync'
-    @findNextCourseInstance()
-    if not @courseInstance
-      # We are loading these to find the one we want to display.
-      if @courseInstances.models.length is 1
-        @loadCourseInstance(@courseInstances.models[0].id)
-      else
-        if @courseInstances.models.length is 0
-          @noCourseInstance = true
-        else
-          @noCourseInstanceSelected = true
-        @render()
-
-  onCourseInstanceSync: ->
-    return if @destroyed
-    # console.log 'onCourseInstanceSync'
-    if @courseInstance.get('classroomID')
-      @classroom = new Classroom({_id: @courseInstance.get('classroomID')})
-      @supermodel.loadModel @classroom
-    @singlePlayerMode = @courseInstance.get('name') is 'Single Player'
-    @teacherMode = @courseInstance.get('ownerID') is me.id and not @singlePlayerMode
-    @levelSessions = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/level_sessions", model: LevelSession, comparator: '_id' })
-    @listenToOnce @levelSessions, 'sync', @onLevelSessionsSync
-    @supermodel.loadCollection @levelSessions, 'level_sessions', cache: false
-    @owner = new User({_id: @courseInstance.get('ownerID')})
-    @supermodel.loadModel @owner
-    @render()
-
-  onLevelSessionsSync: ->
-    return if @destroyed
     # console.log 'onLevelSessionsSync'
     @memberStats = {}
     @userConceptStateMap = {}
@@ -179,40 +118,17 @@ module.exports = class CourseDetailsView extends RootView
       for concept, state of conceptStateMap
         @conceptsCompleted[concept] ?= 0
         @conceptsCompleted[concept]++
-
-    if @memberStats[me.id]?.totalLevelsCompleted >= _.size(@campaign.get('levels')) - 1  # Don't need to complete arena
-      @courseComplete = true
-      @loadCourseInstances() unless @courseInstances  # Find the next course instance to do.
-
-    @render()
-
-  onAllCoursesSync: ->
-    @findNextCourseInstance()
-
-  findNextCourseInstance: ->
-    @nextCourseInstance = _.find @courseInstances.models, (ci) =>
-      # Sorted by courseID
-      ci.get('classroomID') is @courseInstance.get('classroomID') and ci.id isnt @courseInstance.id and ci.get('courseID') > @course.id
-    if @nextCourseInstance
-      nextCourseID = @nextCourseInstance.get('courseID')
-      @nextCourse = @supermodel.getModel(Course, nextCourseID) or new Course _id: nextCourseID
-      @nextCourse = @supermodel.loadModel(@nextCourse).model
-    else if @allCourses?.loaded
-      @nextCourse = _.find @allCourses.models, (course) => course.id > @course.id
-    else
-      @loadAllCourses()
-
+        
   onClickPlayLevel: (e) ->
     levelSlug = $(e.target).closest('.btn-play-level').data('level-slug')
     levelID = $(e.target).closest('.btn-play-level').data('level-id')
-    level = @campaign.get('levels')[levelID]
-    if level.type is 'course-ladder'
+    level = @levels.findWhere({original: levelID})
+    if level.get('type') is 'course-ladder'
       viewClass = 'views/ladder/LadderView'
       viewArgs = [{supermodel: @supermodel}, levelSlug]
       route = '/play/ladder/' + levelSlug
-      unless @singlePlayerMode  # No league for solo courses
-        route += '/course/' + @courseInstance.id
-        viewArgs = viewArgs.concat ['course', @courseInstance.id]
+      route += '/course/' + @courseInstance.id
+      viewArgs = viewArgs.concat ['course', @courseInstance.id]
     else
       route = @getLevelURL levelSlug
       viewClass = 'views/play/level/PlayLevelView'
@@ -222,30 +138,15 @@ module.exports = class CourseDetailsView extends RootView
   getLevelURL: (levelSlug) ->
     "/play/level/#{levelSlug}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
 
-  onClickSelectInstance: (e) ->
-    courseInstanceID = $('.select-instance').val()
-    @noCourseInstanceSelected = false
-    @loadCourseInstance(courseInstanceID)
-
   getOwnerName: ->
     return if @owner.isNew()
     if @owner.get('firstName') and @owner.get('lastName')
       return "#{@owner.get('firstName')} #{@owner.get('lastName')}"
     @owner.get('name') or @owner.get('email')
 
-  onSubmitSchoolForm: (e) ->
-    e.preventDefault()
-    schoolName = @$el.find('#course-complete-school-input').val().trim()
-    if schoolName and schoolName isnt me.get('schoolName')
-      me.set 'schoolName', schoolName
-      me.patch()
-    else
-      storage.save 'no-school', true
-    @$el.find('#school-form').slideUp('slow')
-
   getLastLevelCompleted: ->
     lastLevelCompleted = null
-    for levelID in _.keys(@campaign.get('levels'))
+    for levelID in @levels.pluck('original')
       if @userLevelStateMap?[me.id]?[levelID] is 'complete'
         lastLevelCompleted = levelID
     return lastLevelCompleted

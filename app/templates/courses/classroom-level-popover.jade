@@ -1,5 +1,5 @@
 - var completed = session && session.get('state') && session.get('state').complete;
-h3 #{i}. #{level.name.replace('Course: ', '')}
+h3 #{i}. #{level.get('name').replace('Course: ', '')}
 if session
   p
     span.spr(data-i18n="courses.play_time")

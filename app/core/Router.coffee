@@ -1,5 +1,6 @@
 go = (path, options) -> -> @routeDirectly path, arguments, options
 redirect = (path) -> -> @navigate(path, { trigger: true, replace: true })
+utils = require './utils'
 
 module.exports = class CocoRouter extends Backbone.Router
 
@@ -13,6 +14,8 @@ module.exports = class CocoRouter extends Backbone.Router
     '': ->
       if window.serverConfig.picoCTF
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
+      if utils.getQueryVariable 'hour_of_code'
+        return @navigate "/play", {trigger: true, replace: true}
       return @routeDirectly('NewHomeView', [])
 
     'about': go('AboutView')

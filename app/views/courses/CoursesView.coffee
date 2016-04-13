@@ -39,8 +39,6 @@ module.exports = class CoursesView extends RootView
     @supermodel.trackCollection(@ownedClassrooms)
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses)
-    @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign })
-    @supermodel.loadCollection(@campaigns, { data: { type: 'course' }})
 
   onCourseInstancesLoaded: ->
     map = {}
@@ -56,25 +54,14 @@ module.exports = class CoursesView extends RootView
       courseInstance.sessions.comparator = 'changed'
       @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete level.original playtime changed' }})
 
-    @hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
-    if @hocCourseInstance
-      @courseInstances.remove(@hocCourseInstance)
+    hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
+    if hocCourseInstance
+      @courseInstances.remove(hocCourseInstance)
 
   onLoaded: ->
     super()
     if utils.getQueryVariable('_cc', false) and not me.isAnonymous()
       @joinClass()
-
-  onClickStartNewGameButton: ->
-    if me.isAnonymous()
-      @openSignUpModal()
-    else
-      modal = new ChooseLanguageModal()
-      @openModalView(modal)
-      @listenToOnce modal, 'set-language', =>
-        @startHourOfCodePlay()
-        application.tracker?.trackEvent 'Automatic start hour of code play', category: 'Courses', label: 'set language'
-      application.tracker?.trackEvent 'Start New Game', category: 'Courses'
 
   onClickLogInButton: ->
     modal = new StudentLogInModal()
@@ -85,20 +72,7 @@ module.exports = class CoursesView extends RootView
   openSignUpModal: ->
     modal = new StudentSignUpModal({ willPlay: true })
     @openModalView(modal)
-    modal.once 'click-skip-link', (=>
-      @startHourOfCodePlay()
-      application.tracker?.trackEvent 'Automatic start hour of code play', category: 'Courses', label: 'skip link'
-      ), @
     application.tracker?.trackEvent 'Started Student Signup', category: 'Courses'
-
-  startHourOfCodePlay: ->
-    @$('#main-content').hide()
-    @$('#begin-hoc-area').removeClass('hide')
-    hocCourseInstance = new CourseInstance()
-    hocCourseInstance.upsertForHOC()
-    @listenToOnce hocCourseInstance, 'sync', ->
-      url = hocCourseInstance.firstLevelURL()
-      app.router.navigate(url, { trigger: true })
 
   onSubmitJoinClassForm: (e) ->
     e.preventDefault()

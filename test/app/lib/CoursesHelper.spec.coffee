@@ -27,7 +27,7 @@ describe 'CoursesHelper', ->
       
       describe 'progressData.get({classroom, course})', ->
         it 'returns object with .completed=true and .started=true', ->
-          progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+          progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @students)
           progress = progressData.get {@classroom, @course}
           expect(progress.completed).toBe true
           expect(progress.started).toBe true
@@ -35,14 +35,14 @@ describe 'CoursesHelper', ->
       describe 'progressData.get({classroom, course, level, user})', ->
         it 'returns object with .completed=true and .started=true', ->
           for student in @students.models
-            progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+            progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @students)
             progress = progressData.get {@classroom, @course, user: student}
             expect(progress.completed).toBe true
             expect(progress.started).toBe true
 
       describe 'progressData.get({classroom, course, level, user})', ->
         it 'returns object with .completed=true and .started=true', ->
-          progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+          progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @students)
           for level in @campaign.getLevels().models
             progress = progressData.get {@classroom, @course, level}
             expect(progress.completed).toBe true
@@ -50,7 +50,7 @@ describe 'CoursesHelper', ->
 
       describe 'progressData.get({classroom, course, level, user})', ->
         it 'returns object with .completed=true and .started=true', ->
-          progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+          progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @students)
           for level in @campaign.getLevels().models
             for user in @students.models
               progress = progressData.get {@classroom, @course, level, user}
@@ -64,20 +64,20 @@ describe 'CoursesHelper', ->
         @courseInstances = require 'test/app/fixtures/course-instances'
 
       it 'progressData.get({classroom, course}) returns object with .completed=false', ->
-        progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+        progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @students)
         progress = progressData.get {@classroom, @course}
         expect(progress.completed).toBe false
 
       describe 'when NOT all students have completed a level', ->
         it 'progressData.get({classroom, course, level}) returns object with .completed=false and .started=true', ->
-          progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+          progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @students)
           for level in @campaign.getLevels().models
             progress = progressData.get {@classroom, @course, level}
             expect(progress.completed).toBe false
 
       describe 'when the student has completed the course', ->
         it 'progressData.get({classroom, course, user}) returns object with .completed=true and .started=true', ->
-          progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+          progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @students)
           student = @students.get('student0')
           progress = progressData.get {@classroom, @course, user: student}
           expect(progress.completed).toBe true
@@ -85,7 +85,7 @@ describe 'CoursesHelper', ->
 
       describe 'when the student has NOT completed the course', ->
         it 'progressData.get({classroom, course, user}) returns object with .completed=false and .started=true', ->
-          progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+          progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @students)
           student = @students.get('student1')
           progress = progressData.get {@classroom, @course, user: student}
           expect(progress.completed).toBe false
@@ -93,7 +93,7 @@ describe 'CoursesHelper', ->
 
       describe 'when the student has completed the level', ->
         it 'progressData.get({classroom, course, level, user}) returns object with .completed=true and .started=true', ->
-          progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+          progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @students)
           student = @students.get('student0')
           for level in @campaign.getLevels().models
             progress = progressData.get {@classroom, @course, level, user: student}
@@ -102,7 +102,7 @@ describe 'CoursesHelper', ->
 
       describe 'when the student has NOT completed the level but has started', ->
         it 'progressData.get({classroom, course, level, user}) returns object with .completed=true and .started=true', ->
-          progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+          progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @students)
           user = @students.get('student2')
           level = @campaign.getLevels().get('level0_0')
           progress = progressData.get {@classroom, @course, level, user}
@@ -111,7 +111,7 @@ describe 'CoursesHelper', ->
 
       describe 'when the student has NOT started the level', ->
         it 'progressData.get({classroom, course, level, user}) returns object with .completed=false and .started=false', ->
-          progressData = helper.calculateAllProgress(@classrooms, @courses, @campaigns, @courseInstances, @students)
+          progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @students)
           user = @students.get('student3')
           level = @campaign.getLevels().get('level0_0')
           progress = progressData.get {@classroom, @course, level, user}

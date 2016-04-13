@@ -8,6 +8,8 @@ CourseInstance = require '../models/CourseInstance'
 Classroom = require '../models/Classroom'
 Course = require '../models/Course'
 User = require '../models/User'
+Level = require '../models/Level'
+parse = require '../commons/parse'
 
 module.exports =
   addMembers: wrap (req, res) ->
@@ -63,3 +65,61 @@ module.exports =
     )
     
     res.status(200).send(courseInstance.toObject({ req }))
+
+
+  fetchNextLevel: wrap (req, res) ->
+    levelOriginal = req.params.levelOriginal
+    if not database.isID(levelOriginal)
+      throw new errors.UnprocessableEntity('Invalid level original ObjectId')
+    
+    courseInstance = yield database.getDocFromHandle(req, CourseInstance)
+    if not courseInstance
+      throw new errors.NotFound('Course Instance not found.')
+    courseID = courseInstance.get('courseID')
+
+    classroom = yield Classroom.findById courseInstance.get('classroomID')
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+      
+    nextLevelOriginal = null
+    foundLevelOriginal = false
+    for course in classroom.get('courses') or []
+      if not courseID.equals(course._id)
+        continue
+      for level, index in course.levels
+        if level.original.toString() is levelOriginal
+          foundLevelOriginal = true
+          nextLevelOriginal = course.levels[index+1]?.original
+          break
+          
+    if not foundLevelOriginal
+      throw new errors.NotFound('Level original ObjectId not found in Classroom courses')
+    
+    if not nextLevelOriginal
+      throw new errors.NotFound('No more levels in that course')
+      
+    dbq = Level.findOne({original: mongoose.Types.ObjectId(nextLevelOriginal)})
+    dbq.sort({ 'version.major': -1, 'version.minor': -1 })
+    dbq.select(parse.getProjectFromReq(req))
+    level = yield dbq
+    level = level.toObject({req: req})
+    res.status(200).send(level)
+    
+    
+  fetchClassroom: wrap (req, res) ->
+    courseInstance = yield database.getDocFromHandle(req, CourseInstance)
+    if not courseInstance
+      throw new errors.NotFound('Course Instance not found.')
+
+    classroom = yield Classroom.findById(courseInstance.get('classroomID')).select(parse.getProjectFromReq(req))
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+
+    isOwner = classroom.get('ownerID')?.equals req.user?._id
+    isMember = _.any(classroom.get('members') or [], (memberID) -> memberID.equals(req.user.get('_id')))
+    if not (isOwner or isMember)
+      throw new errors.Forbidden('You do not have access to this classroom')
+
+    classroom = classroom.toObject({req: req})
+
+    res.status(200).send(classroom)

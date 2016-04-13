@@ -1254,6 +1254,7 @@
     concepts_covered: "Concepts covered"
     print_guide: "Print Guide (PDF)"
     view_guide_online: "View Guide Online (PDF)"
+    last_updated: "Last updated:"
     grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
     enrollment_credits_available: "Enrollment Credits Available:"
     description: "Description" # ClassroomSettingsModal

@@ -13,5 +13,36 @@ module.exports = new Classroom(
     ownerID: "teacher0",
     aceConfig:
       language: 'python'
+    courses: [
+      {
+        _id: "course0",
+        levels: [
+          {
+            original: 'level0_0'
+            name: 'level0_0'
+            type: 'hero'
+          },
+          {
+            original: 'level0_1'
+            name: 'level0_1'
+            type: 'hero'
+          },
+          {
+            original: 'level0_2'
+            name: 'level0_2'
+            type: 'hero'
+          },
+          {
+            original: 'level0_3'
+            name: 'level0_3'
+            type: 'hero'
+          },
+        ]
+      },
+      {
+        _id: "course1",
+        levels: []
+      },
+    ]
   }
 )

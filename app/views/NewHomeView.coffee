@@ -38,9 +38,6 @@ module.exports = class NewHomeView extends RootView
     @variation ?= me.getHomepageGroup()
 
     window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage'
-    if @getQueryVariable 'hour_of_code'
-      application.router.navigate "/hoc", trigger: true
-
     if me.isTeacher()
       @trialRequests = new TrialRequests()
       @trialRequests.fetchOwn()

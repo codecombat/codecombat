@@ -1,8 +1,10 @@
+Levels = require 'collections/Levels'
+
 module.exports =
   # Result: Each course instance gains a property, numCompleted, that is the
   #   number of students in that course instance who have completed ALL of
   #   the levels in thate course
-  calculateDots: (classrooms, courses, courseInstances, campaigns) ->
+  calculateDots: (classrooms, courses, courseInstances) ->
     for classroom in classrooms.models
       # map [user, level] => session so we don't have to do find TODO
       for course, courseIndex in courses.models
@@ -10,9 +12,9 @@ module.exports =
         continue if not instance
         instance.numCompleted = 0
         instance.numStarted = 0
-        campaign = campaigns.get(course.get('campaignID'))
+        levels = classroom.getLevels({courseID: course.id, withoutLadderLevels: true})
         for userID in instance.get('members')
-          levelCompletes = _.map campaign.getNonLadderLevels().models, (level) ->
+          levelCompletes = _.map levels.models, (level) ->
             return true if level.isLadder()
             #TODO: Hella slow! Do the mapping first!
             session = _.find classroom.sessions.models, (session) ->
@@ -24,13 +26,13 @@ module.exports =
           if _.any levelCompletes
             instance.numStarted += 1
 
-  calculateEarliestIncomplete: (classroom, courses, campaigns, courseInstances, students) ->
+  calculateEarliestIncomplete: (classroom, courses, courseInstances, students) ->
     # Loop through all the combinations of things, return the first one that somebody hasn't finished
     for course, courseIndex in courses.models
       instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
       continue if not instance
-      campaign = campaigns.get(course.get('campaignID'))
-      for level, levelIndex in campaign.getNonLadderLevels().models
+      levels = classroom.getLevels({courseID: course.id, withoutLadderLevels: true})
+      for level, levelIndex in levels.models
         userIDs = []
         for user in students.models
           userID = user.id
@@ -49,15 +51,15 @@ module.exports =
           }
     null
 
-  calculateLatestComplete: (classroom, courses, campaigns, courseInstances, students) ->
+  calculateLatestComplete: (classroom, courses, courseInstances, students) ->
     # Loop through all the combinations of things in reverse order, return the level that anyone's finished
     courseModels = courses.models.slice()
     for course, courseIndex in courseModels.reverse() #
       courseIndex = courses.models.length - courseIndex - 1 #compensate for reverse
       instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
       continue if not instance
-      campaign = campaigns.get(course.get('campaignID'))
-      levelModels = campaign.getNonLadderLevels().models.slice()
+      levels = classroom.getLevels({courseID: course.id, withoutLadderLevels: true})
+      levelModels = levels.models.slice()
       for level, levelIndex in levelModels.reverse() #
         levelIndex = levelModels.length - levelIndex - 1 #compensate for reverse
         userIDs = []
@@ -86,9 +88,9 @@ module.exports =
       conceptData[classroom.id] = {}
       
       for course, courseIndex in courses.models
-        campaign = campaigns.get(course.get('campaignID'))
+        levels = classroom.getLevels({courseID: course.id, withoutLadderLevels: true})
         
-        for level in campaign.getNonLadderLevels().models
+        for level in levels.models
           levelID = level.get('original')
           
           for concept in level.get('concepts')
@@ -111,7 +113,7 @@ module.exports =
                   conceptData[classroom.id][concept].completed = false
     conceptData
       
-  calculateAllProgress: (classrooms, courses, campaigns, courseInstances, students) ->
+  calculateAllProgress: (classrooms, courses, courseInstances, students) ->
     # Loop through all combinations and record:
     #   Completeness for each student/course
     #   Completeness for each student/level
@@ -133,9 +135,9 @@ module.exports =
           progressData[classroom.id][course.id] = { completed: false, started: false }
           continue
         progressData[classroom.id][course.id] = { completed: true, started: false } # to be updated
-        
-        campaign = campaigns.get(course.get('campaignID'))
-        for level in campaign.getNonLadderLevels().models
+
+        levels = classroom.getLevels({courseID: course.id, withoutLadderLevels: true})
+        for level in levels.models
           levelID = level.get('original')
           progressData[classroom.id][course.id][levelID] = { completed: students.size() > 0, started: false }
           

@@ -10,8 +10,6 @@ describe 'TeacherClassView', ->
   #   it 'responds with 401 error'
   #   it 'shows Log In and Create Account buttons'
   
-  @view = null
-    
   # describe "when you don't own the class", ->
   #   it 'responds with 403 error'
   #   it 'shows Log Out button'
@@ -22,14 +20,12 @@ describe 'TeacherClassView', ->
       @classroom = require 'test/app/fixtures/classrooms/active-classroom'
       @students = require 'test/app/fixtures/students'
       @courses = require 'test/app/fixtures/courses'
-      @campaigns = require 'test/app/fixtures/campaigns'
       @courseInstances = require 'test/app/fixtures/course-instances'
       @levelSessions = require 'test/app/fixtures/level-sessions-partially-completed'
       
       @view = new TeacherClassView()
       @view.classroom.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@classroom) })
       @view.courses.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@courses) })
-      @view.campaigns.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@campaigns) })
       @view.courseInstances.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@courseInstances) })
       @view.students.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@students) })
       @view.classroom.sessions.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@levelSessions) })

@@ -66,6 +66,7 @@ block content
           .clearfix       
             
 mixin course-info(course)
+  - var campaign = view.campaigns.get(course.get('campaignID'));
   .course-info
     .text-h4.semibold
       = course.get('name')
@@ -93,3 +94,7 @@ mixin course-info(course)
           | (
           span(data-i18n='teacher.guides_coming_soon')
           | )
+    if campaign && campaign.get('levelsUpdated')
+      p.small.m-t-2
+        span.spr(data-i18n="courses.last_updated")
+        span= moment(campaign.get('levelsUpdated')).format('LL')

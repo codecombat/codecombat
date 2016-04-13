@@ -13,8 +13,8 @@ module.exports = class ProgressView extends CocoView
   initialize: (options) ->
     @level = options.level
     @course = options.course
+    @classroom = options.classroom
     @nextLevel = options.nextLevel
-    @campaign = options.campaign
     @levelSessions = options.levelSessions
 
   onClickDoneButton: ->

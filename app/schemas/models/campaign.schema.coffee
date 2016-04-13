@@ -45,6 +45,7 @@ _.extend CampaignSchema.properties, {
       showIfUnlocked: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
     }
   }}
+  levelsUpdated: c.date()
 
   levels: { type: 'object', format: 'levels', additionalProperties: {
     title: 'Level'

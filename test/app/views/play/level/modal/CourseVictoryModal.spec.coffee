@@ -24,6 +24,8 @@ describe 'CourseVictoryModal', ->
       courseInstanceID: '56414c3868785b5f152424f1'
       courseID: '560f1a9f22961295f9427742'
     }
+
+  nextLevelRequest = null
     
   handleRequests = ->
     requests = jasmine.Ajax.requests.all()
@@ -33,12 +35,14 @@ describe 'CourseVictoryModal', ->
     earnedAchievementRequests = _.where(requests, {url: '/db/earned_achievement'})
     for [request, response] in _.zip(earnedAchievementRequests, fixtures.earnedAchievements)
       request.respondWith({status: 200, responseText: JSON.stringify(response)})
-
-    sessionsRequest = _.find(requests, (r) -> _.string.startsWith(r.url, '/db/course_instance'))
+      
+    sessionsRequest = _.findWhere(requests, {url: '/db/course_instance/56414c3868785b5f152424f1/my-course-level-sessions'})
     sessionsRequest.respondWith({status: 200, responseText: JSON.stringify(fixtures.courseInstanceSessions)})
 
-    campaignRequest = _.findWhere(requests, {url: '/db/campaign/55b29efd1cd6abe8ce07db0d'})
-    campaignRequest.respondWith({status: 200, responseText: JSON.stringify(fixtures.campaign)})
+    classroomRequest = _.findWhere(requests, {url: '/db/course_instance/56414c3868785b5f152424f1/classroom'})
+    classroomRequest.respondWith({status: 200, responseText: JSON.stringify(fixtures.campaign)}) # TODO: Fix this...
+
+    nextLevelRequest = _.findWhere(requests, {url: '/db/course_instance/56414c3868785b5f152424f1/levels/54173c90844506ae0195a0b4/next'})
     
   describe 'given a course level with a next level and no item or hero rewards', ->
     modal = null
@@ -47,6 +51,7 @@ describe 'CourseVictoryModal', ->
       options = makeViewOptions()
       modal = new CourseVictoryModal(options)
       handleRequests()
+      nextLevelRequest.respondWith({status: 200, responseText: JSON.stringify(fixtures.nextLevel)})
       _.defer done
 
     it 'only shows the ProgressView', ->
@@ -80,6 +85,7 @@ describe 'CourseVictoryModal', ->
       delete options.nextLevel
       modal = new CourseVictoryModal(options)
       handleRequests()
+      nextLevelRequest.respondWith({status: 404, responseText: '{}'})
       _.defer done
       
     describe 'its ProgressView', ->
@@ -112,6 +118,7 @@ describe 'CourseVictoryModal', ->
       
       modal = new CourseVictoryModal(options)
       handleRequests()
+      nextLevelRequest.respondWith({status: 200, responseText: JSON.stringify(fixtures.nextLevel)})
       _.defer done
       
     it 'includes a NewItemView when the level rewards a new item', ->
