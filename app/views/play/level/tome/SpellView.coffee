@@ -1193,7 +1193,7 @@ module.exports = class SpellView extends CocoView
   onSpellBeautify: (e) ->
     return unless @spellThang and (@ace.isFocused() or e.spell is @spell)
     ugly = @getSource()
-    pretty = @spellThang.aether.beautify ugly
+    pretty = @spellThang.aether.beautify(ugly.replace /\bloop\b/g, 'while (__COCO_LOOP_CONSTRUCT__)').replace /while \(__COCO_LOOP_CONSTRUCT__\)/g, 'loop'
     @ace.setValue pretty
 
   onMaximizeToggled: (e) ->
