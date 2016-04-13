@@ -517,6 +517,17 @@ module.exports = class SpellView extends CocoView
               when 'python' then 'while True'
               when 'coffeescript' then 'loop'
               else 'while true'
+          # For now, update autocomplete to use hero instead of self/this, if hero is already used in the source.
+          # Later, we should make this happen all the time - or better yet update the snippets.
+          source = @getSource()
+          if /hero/.test(source)
+            thisToken =
+              'python': /self/,
+              'javascript': /this/,
+              'lua': /self/
+            if thisToken[e.language] and thisToken[e.language].test(content)
+              content = content.replace thisToken[e.language], 'hero'
+
           entry =
             content: content
             meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
