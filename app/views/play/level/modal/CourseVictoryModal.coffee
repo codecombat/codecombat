@@ -11,6 +11,7 @@ EarnedAchievement = require 'models/EarnedAchievement'
 LocalMongo = require 'lib/LocalMongo'
 ProgressView = require './ProgressView'
 NewItemView = require './NewItemView'
+utils = require 'core/utils'
 
 module.exports = class CourseVictoryModal extends ModalView
   id: 'course-victory-modal'
@@ -164,7 +165,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
   onNextLevel: ->
     if me.isTeacher()
-      link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&codeLanguage=#{me.get('aceConfig').language}"
+      link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
     else
       link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
     application.router.navigate(link, {trigger: true})
