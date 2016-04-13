@@ -315,7 +315,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     completed_level: "Завршен ниво:"
     course: "Курс:"
     done: "Урађено"
-    next_level: "Следећи ниво:"
+    next_level: "Следећи ниво"
     next_game: "Следећа игра"
     show_menu: "Види мени игре"
     home: "Почетна" # Not used any more, will be removed soon.

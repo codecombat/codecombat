@@ -36,8 +36,8 @@ PrepaidHandler = class PrepaidHandler extends Handler
   getCoursePrepaidsAPI: (req, res, code) ->
     return @sendSuccess(res, []) unless req.user?.isAdmin()
     query = {$and: [
-      {type: 'course'}, 
-      {maxRedeemers: {$ne: "9999"}}, 
+      {type: 'course'},
+      {maxRedeemers: {$ne: "9999"}},
       {'properties.courseIDs': {$exists: false}},
       {_id: {$gt: cutoffID}}
       ]}
@@ -151,7 +151,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
       Product.findOne({name: 'prepaid_subscription'}).exec (err, product) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'prepaid_subscription product not found') if not product
-          
+
         @purchasePrepaidTerminalSubscription req.user, description, maxRedeemers, months, timestamp, token, product, (err, prepaid) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, prepaid.toObject())
@@ -213,7 +213,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
               if err
                 @logError(user, "createPayment error: #{JSON.stringify(err)}")
                 return done(err)
-              msg = "Prepaid code purchased: #{type} seats=#{maxRedeemers} #{user.get('email')}"
+              msg = "#{user.get('email')} paid #{payment.get('amount')} for #{type} prepaid redeemers=#{maxRedeemers}"
               slack.sendSlackMessage msg, ['tower']
               done(null, prepaid)
 
@@ -250,7 +250,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
             if err
               @logError(user, "createPayment error: #{JSON.stringify(err)}")
               return done(err)
-            msg = "Prepaid code purchased: #{type} users=#{maxRedeemers} months=#{months} #{user.get('email')}"
+            msg = "#{user.get('email')} paid #{payment.get('amount')} for #{type} prepaid redeemers=#{maxRedeemers} months=#{months}"
             slack.sendSlackMessage msg, ['tower']
             done(null, prepaid)
 

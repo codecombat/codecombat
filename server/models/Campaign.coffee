@@ -37,5 +37,19 @@ CampaignSchema.statics.updateAdjacentCampaigns = (savedCampaign) ->
 CampaignSchema.post 'save', -> @constructor.updateAdjacentCampaigns @
 
 CampaignSchema.statics.jsonSchema = jsonSchema
+CampaignSchema.statics.editableProperties = [
+  'name'
+  'fullName'
+  'description'
+  'type'
+  'i18n'
+  'i18nCoverage'
+  'ambientSound'
+  'backgroundImage'
+  'backgroundColor'
+  'backgroundColorTransparent'
+  'adjacentCampaigns'
+  'levels'
+]
 
 module.exports = mongoose.model('campaign', CampaignSchema)

@@ -1,8 +1,8 @@
 // Upsert new lead data into Close.io
 
 'use strict';
-if (process.argv.length !== 5) {
-  log("Usage: node <script> <Close.io API key> <Intercom 'App ID:API key'> <mongo connection Url>");
+if (process.argv.length !== 7) {
+  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Intercom 'App ID:API key'> <mongo connection Url>");
   process.exit();
 }
 
@@ -24,14 +24,19 @@ const customFieldsToRemove = [
 ];
 
 // Skip these problematic leads
-const leadsToSkip = ['6 sınıflar', 'fdsafd', 'ashtasht', 'matt+20160404teacher3 school', 'sdfdsf'];
+const leadsToSkip = ['6 sınıflar', 'fdsafd', 'ashtasht', 'matt+20160404teacher3 school', 'sdfdsf', 'ddddd', 'dsfadsaf', "Nolan's School of Wonders"];
+
+const demoRequestEmailTemplates = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
+const createTeacherEmailTemplates = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];
+const emailDelayMinutes = 27;
 
 const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
-const intercomAppIdApiKey = process.argv[3];
+const closeIoMailApiKeys = [process.argv[3], process.argv[4]]; // Automatic mails sent as API owners
+const intercomAppIdApiKey = process.argv[5];
 const intercomAppId = intercomAppIdApiKey.split(':')[0];
 const intercomApiKey = intercomAppIdApiKey.split(':')[1];
-const mongoConnUrl = process.argv[4];
+const mongoConnUrl = process.argv[6];
 const MongoClient = require('mongodb').MongoClient;
 const async = require('async');
 const request = require('request');
@@ -88,7 +93,12 @@ class Lead {
   }
   addTrialRequest(email, trial) {
     if (!this.contacts[email.toLowerCase()]) this.contacts[email.toLowerCase()] = {};
-    this.contacts[email.toLowerCase()].name = trial.properties.name;
+    if (trial.properties.firstName && trial.properties.lastName) {
+      this.contacts[email.toLowerCase()].name = `${trial.properties.firstName} ${trial.properties.lastName}`;
+    }
+    else if (trial.properties.name) {
+      this.contacts[email.toLowerCase()].name = trial.properties.name;
+    }
     this.contacts[email.toLowerCase()].trial = trial;
   }
   addUser(email, user) {
@@ -98,11 +108,11 @@ class Lead {
     const postData = {
       display_name: this.name,
       name: this.name,
-      status: 'Not Attempted',
+      status: 'Auto Attempted',
       contacts: this.getContactsPostData(),
       custom: {
         lastUpdated: new Date(),
-        'Lead Origin': 'Demo Request'
+        'Lead Origin': this.getLeadOrigin()
       }
     };
     for (const email in this.contacts) {
@@ -121,8 +131,8 @@ class Lead {
     // console.log('DEBUG: getLeadPutData', currentLead.name);
     const putData = {};
     const currentCustom = currentLead.custom || {};
-    if (currentCustom['Lead Origin'] !== 'Demo Request') {
-      putData['custom.Lead Origin'] = 'Demo Request';
+    if (!currentCustom['Lead Origin']) {
+      putData['custom.Lead Origin'] = this.getLeadOrigin();
     }
 
     for (const email in this.contacts) {
@@ -144,6 +154,18 @@ class Lead {
       putData[`custom.lastUpdated`] = new Date();
     }
     return putData;
+  }
+  getLeadOrigin() {
+    for (const email in this.contacts) {
+      const props = this.contacts[email].trial.properties;
+      switch (props.siteOrigin) {
+        case 'create teacher':
+          return 'Create Teacher';
+        case 'convert teacher':
+          return 'Convert Teacher';
+      }
+    }
+    return 'Demo Request';
   }
   getContactsPostData(existingLead) {
     const postData = [];
@@ -362,7 +384,7 @@ function updateExistingLead(lead, existingLead, done) {
     const tasks = []
     for (const newContact of newContacts) {
       newContact.lead_id = existingLead.id;
-      tasks.push(createAddContactFn(newContact));
+      tasks.push(createAddContactFn(newContact, lead, existingLead));
     }
     async.parallel(tasks, (err, results) => {
       if (err) return done(err);
@@ -409,11 +431,26 @@ function saveNewLead(lead, done) {
       tasks.push(createAddNoteFn(existingLead.id, newNote));
     }
     async.parallel(tasks, (err, results) => {
-      return done(err);
+      if (err) return done(err);
+
+      // Send emails to new contacts
+      const tasks = [];
+      for (const contact of existingLead.contacts) {
+        for (const email of contact.emails) {
+          if (['create teacher', 'convert teacher'].indexOf(lead.contacts[email.email].trial.properties.siteOrigin) >= 0) {
+            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(createTeacherEmailTemplates)));
+          }
+          else {
+            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(demoRequestEmailTemplates)));
+          }
+        }
+      }
+      async.parallel(tasks, (err, results) => {
+        return done(err);
+      });
     });
   });
 }
-
 
 function createUpdateLeadFn(lead) {
   return (done) => {
@@ -441,21 +478,30 @@ function createUpdateLeadFn(lead) {
   };
 }
 
-function createAddContactFn(postData) {
+function createAddContactFn(postData, internalLead, externalLead) {
   return (done) => {
     // console.log('DEBUG: addContact', postData.lead_id);
     const options = {
-      uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/activity/Contact/`,
+      uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/contact/`,
       body: JSON.stringify(postData)
     };
     request.post(options, (error, response, body) => {
       if (error) return done(error);
-      const result = JSON.parse(body);
-      if (result.errors || result['field-errors']) {
-        console.error(`New Contact POST error for ${leadId}`);
+      const newContact = JSON.parse(body);
+      if (newContact.errors || newContact['field-errors']) {
+        console.error(`New Contact POST error for ${postData.lead_id}`);
         console.error(body);
+        return done();
       }
-      return done();
+
+      // Send emails to new contact
+      const email = postData.emails[0].email;
+      if (['create teacher', 'convert teacher'].indexOf(internalLead.contacts[email].trial.properties.siteOrigin) >= 0) {
+        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(createTeacherEmailTemplates), done);
+      }
+      else {
+        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(demoRequestEmailTemplates), done);
+      }
     });
   };
 }
@@ -483,6 +529,53 @@ function createAddNoteFn(leadId, newNote) {
     });
   };
 }
+
+function getRandomEmailTemplate(templates) {
+  if (templates.length < 0) return '';
+  return templates[Math.floor(Math.random() * templates.length)];
+}
+
+function getRandomEmailApiKey() {
+  if (closeIoMailApiKeys.length < 0) return;
+  return closeIoMailApiKeys[Math.floor(Math.random() * closeIoMailApiKeys.length)];
+}
+
+function createSendEmailFn(email, leadId, contactId, template) {
+  return (done) => {
+    return sendMail(email, leadId, contactId, template, done);
+  };
+}
+
+function sendMail(toEmail, leadId, contactId, template, done) {
+  // console.log('DEBUG: sendMail', toEmail, leadId, contactId, template);
+  const dateScheduled = new Date();
+  dateScheduled.setUTCMinutes(dateScheduled.getUTCMinutes() + emailDelayMinutes);
+  const postData = {
+    to: [toEmail],
+    contact_id: contactId,
+    lead_id: leadId,
+    template_id: template,
+    status: 'scheduled',
+    date_scheduled: dateScheduled
+  };
+  const options = {
+    uri: `https://${getRandomEmailApiKey()}:X@app.close.io/api/v1/activity/email/`,
+    body: JSON.stringify(postData)
+  };
+  request.post(options, (error, response, body) => {
+    if (error) return done(error);
+    const result = JSON.parse(body);
+    if (result.errors || result['field-errors']) {
+      const errorMessage = `Send email POST error for ${toEmail} ${leadId} ${contactId}`;
+      console.error(errorMessage);
+      console.error(body);
+      // console.error(postData);
+      return done(errorMessage);
+    }
+    return done();
+  });
+}
+
 
 function updateLeads(leads, done) {
   const tasks = []

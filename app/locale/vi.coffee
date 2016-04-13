@@ -315,7 +315,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     completed_level: "Hoàn thành Level:"
     course: "Khoá học:"
     done: "Hoàn thành"
-    next_level: "Level tiếp theo:"
+    next_level: "Level tiếp theo"
     next_game: "Game kế tiếp"
     show_menu: "Hiện game menu"
 #    home: "Home" # Not used any more, will be removed soon.

@@ -315,7 +315,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    completed_level: "Completed Level:"
 #    course: "Course:"
     done: "Ferdig"
-#    next_level: "Next Level:"
+#    next_level: "Next Level"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "Hjem" # Not used any more, will be removed soon.

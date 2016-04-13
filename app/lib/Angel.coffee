@@ -82,7 +82,7 @@ module.exports = class Angel extends CocoClass
         clearTimeout @condemnTimeout
       when 'end-load-frames'
         clearTimeout @condemnTimeout
-        @beholdGoalStates event.data.goalStates, event.data.overallStatus  # Work ends here if we're headless.
+        @beholdGoalStates event.data.goalStates, event.data.overallStatus, false, event.data.totalFrames, event.data.lastFrameHash  # Work ends here if we're headless.
       when 'end-preload-frames'
         clearTimeout @condemnTimeout
         @beholdGoalStates event.data.goalStates, event.data.overallStatus, true
@@ -125,10 +125,13 @@ module.exports = class Angel extends CocoClass
       else
         @log 'Received unsupported message:', event.data
 
-  beholdGoalStates: (goalStates, overallStatus, preload=false) ->
+  beholdGoalStates: (goalStates, overallStatus, preload=false, totalFrames=undefined, lastFrameHash=undefined) ->
     return if @aborting
-    Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates, preload: preload, overallStatus: overallStatus, god: @shared.god
-    @shared.god.trigger 'goals-calculated', goalStates: goalStates, preload: preload, overallStatus: overallStatus
+    event = goalStates: goalStates, preload: preload, overallStatus: overallStatus, god: @shared.god
+    event.totalFrames = totalFrames if totalFrames?
+    event.lastFrameHash = lastFrameHash if lastFrameHash?
+    Backbone.Mediator.publish 'god:goals-calculated', event
+    @shared.god.trigger 'goals-calculated', event
     @finishWork() if @shared.headless
 
   beholdWorld: (serialized, goalStates, startFrame, endFrame, streamingWorld) ->
@@ -274,15 +277,16 @@ module.exports = class Angel extends CocoClass
   simulateSync: (work) =>
     console?.profile? "World Generation #{(Math.random() * 1000).toFixed(0)}" if imitateIE9?
     work.t0 = now()
-    work.testWorld = testWorld = new World work.userCodeMap
-    work.testWorld.levelSessionIDs = work.levelSessionIDs
-    work.testWorld.submissionCount = work.submissionCount
-    work.testWorld.flagHistory = work.flagHistory ? []
-    work.testWorld.difficulty = work.difficulty
-    testWorld.loadFromLevel work.level
-    work.testWorld.preloading = work.preload
-    work.testWorld.headless = work.headless
-    work.testWorld.realTime = work.realTime
+    work.world = testWorld = new World work.userCodeMap
+    work.world.levelSessionIDs = work.levelSessionIDs
+    work.world.submissionCount = work.submissionCount
+    work.world.fixedSeed = work.fixedSeed
+    work.world.flagHistory = work.flagHistory ? []
+    work.world.difficulty = work.difficulty
+    work.world.loadFromLevel work.level
+    work.world.preloading = work.preload
+    work.world.headless = work.headless
+    work.world.realTime = work.realTime
     if @shared.goalManager
       testGM = new GoalManager(testWorld)
       testGM.setGoals work.goals
@@ -295,8 +299,13 @@ module.exports = class Angel extends CocoClass
 
     # If performance was really a priority in IE9, we would rework things to be able to skip this step.
     goalStates = testGM?.getGoalStates()
-    work.testWorld.goalManager.worldGenerationEnded() if work.testWorld.ended
-    serialized = testWorld.serialize()
+    work.world.goalManager.worldGenerationEnded() if work.world.ended
+
+    if work.headless
+      @beholdGoalStates goalStates, testGM.checkOverallStatus(), false, work.world.totalFrames, work.world.frames[work.world.totalFrames - 2]?.hash
+      return
+
+    serialized = world.serialize()
     window.BOX2D_ENABLED = false
     World.deserialize serialized.serializedWorld, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), serialized.startFrame, serialized.endFrame, work.level
     window.BOX2D_ENABLED = true
@@ -304,14 +313,14 @@ module.exports = class Angel extends CocoClass
 
   doSimulateWorld: (work) ->
     work.t1 = now()
-    Math.random = work.testWorld.rand.randf  # so user code is predictable
+    Math.random = work.world.rand.randf  # so user code is predictable
     Aether.replaceBuiltin('Math', Math)
     replacedLoDash = _.runInContext(window)
     _[key] = replacedLoDash[key] for key, val of replacedLoDash
     i = 0
-    while i < work.testWorld.totalFrames
-      frame = work.testWorld.getFrame i++
+    while i < work.world.totalFrames
+      frame = work.world.getFrame i++
     Backbone.Mediator.publish 'god:world-load-progress-changed', progress: 1, god: @shared.god
-    work.testWorld.ended = true
-    system.finish work.testWorld.thangs for system in work.testWorld.systems
+    work.world.ended = true
+    system.finish work.world.thangs for system in work.world.systems
     work.t2 = now()

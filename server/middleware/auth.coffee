@@ -8,6 +8,9 @@ request = require 'request'
 User = require '../models/User'
 utils = require '../lib/utils'
 mongoose = require 'mongoose'
+authentication = require 'passport'
+sendwithus = require '../sendwithus'
+LevelSession = require '../models/LevelSession'
 
 module.exports =
   checkDocumentPermissions: (req, res, next) ->
@@ -34,8 +37,26 @@ module.exports =
       if not _.size(_.intersection(req.user.get('permissions'), permissions))
         return next new errors.Forbidden('You do not have permissions necessary.')
       next()
+      
+  whoAmI: wrap (req, res) ->
+    if not req.user
+      user = User.makeNew(req)
+      yield user.save()
+      req.logInAsync = Promise.promisify(req.logIn)
+      yield req.logInAsync(user)
+      
+    if req.query.callback
+      res.jsonp(req.user.toObject({req, publicOnly: true})) 
+    else
+      res.send(req.user.toObject({req, publicOnly: false}))
+    res.end()
 
-  loginByGPlus: wrap (req, res) ->
+  afterLogin: wrap (req, res, next) ->
+    activity = req.user.trackActivity 'login', 1
+    yield req.user.update {activity: activity}
+    res.status(200).send(req.user.toObject({req: req}))
+
+  loginByGPlus: wrap (req, res, next) ->
     gpID = req.body.gplusID
     gpAT = req.body.gplusAccessToken
     throw new errors.UnprocessableEntity('gplusID and gplusAccessToken required.') unless gpID and gpAT
@@ -48,9 +69,9 @@ module.exports =
     throw new errors.NotFound('No user with that G+ ID') unless user
     req.logInAsync = Promise.promisify(req.logIn)
     yield req.logInAsync(user)
-    res.status(200).send(user.formatEntity(req))
+    next()
 
-  loginByFacebook: wrap (req, res) ->
+  loginByFacebook: wrap (req, res, next) ->
     fbID = req.body.facebookID
     fbAT = req.body.facebookAccessToken
     throw new errors.UnprocessableEntity('facebookID and facebookAccessToken required.') unless fbID and fbAT
@@ -63,7 +84,7 @@ module.exports =
     throw new errors.NotFound('No user with that Facebook ID') unless user
     req.logInAsync = Promise.promisify(req.logIn)
     yield req.logInAsync(user)
-    res.status(200).send(user.formatEntity(req))
+    next()
     
   spy: wrap (req, res) ->
     throw new errors.Unauthorized('You must be logged in to enter espionage mode') unless req.user
@@ -94,3 +115,84 @@ module.exports =
     req.loginAsync = Promise.promisify(req.login)
     yield req.loginAsync user
     res.status(200).send(user.toObject({req: req}))
+
+  logout: (req, res) ->
+    req.logout()
+    res.send({})
+
+  reset: wrap (req, res) ->
+    unless req.body.email
+      throw new errors.UnprocessableEntity('Need an email specified.', {property: 'email'})
+
+    user = yield User.findOne({emailLower: req.body.email.toLowerCase()})
+    if not user
+      throw new errors.NotFound('not found', {property: 'email'})
+
+    user.set('passwordReset', utils.getCodeCamel())
+    yield user.save()
+    context =
+      email_id: sendwithus.templates.password_reset
+      recipient:
+        address: req.body.email
+      email_data:
+        tempPassword: user.get('passwordReset')
+    sendwithus.api.sendAsync = Promise.promisify(sendwithus.api.send)
+    yield sendwithus.api.sendAsync(context)
+    res.end()
+    
+  unsubscribe: wrap (req, res) ->
+    email = req.query.email
+    unless email
+      throw new errors.UnprocessableEntity 'No email provided to unsubscribe.'
+    email = decodeURIComponent(email)
+
+    if req.query.session
+      # Unsubscribe from just one session's notifications instead.
+      session = yield LevelSession.findOne({_id: req.query.session})
+      if not session
+        throw new errors.NotFound "Level session not found"
+      session.set 'unsubscribed', true
+      yield session.save()
+      res.send "Unsubscribed #{email} from CodeCombat emails for #{session.get('levelName')} #{session.get('team')} ladder updates. Sorry to see you go! <p><a href='/play/ladder/#{session.levelID}#my-matches'>Ladder preferences</a></p>"
+      res.end()
+      return
+
+    user = yield User.findOne({emailLower: email.toLowerCase()})
+    if not user
+      throw new errors.NotFound "No user found with email '#{email}'"
+
+    emails = _.clone(user.get('emails')) or {}
+    msg = ''
+
+    if req.query.recruitNotes
+      emails.recruitNotes ?= {}
+      emails.recruitNotes.enabled = false
+      msg = "Unsubscribed #{email} from recruiting emails."
+    else if req.query.employerNotes
+      emails.employerNotes ?= {}
+      emails.employerNotes.enabled = false
+      msg = "Unsubscribed #{email} from employer emails."
+    else
+      msg = "Unsubscribed #{email} from all CodeCombat emails. Sorry to see you go!"
+      emailSettings.enabled = false for emailSettings in _.values(emails)
+      emails.generalNews ?= {}
+      emails.generalNews.enabled = false
+      emails.anyNotes ?= {}
+      emails.anyNotes.enabled = false
+
+    yield user.update {$set: {emails: emails}}
+    res.send msg + '<p><a href="/account/settings">Account settings</a></p>'
+    res.end()
+
+  name: wrap (req, res) ->
+    if not req.params.name
+      throw new errors.UnprocessableEntity 'No name provided.'
+    originalName = req.params.name
+      
+    User.unconflictNameAsync = Promise.promisify(User.unconflictName)
+    name = yield User.unconflictNameAsync originalName
+    response = name: name
+    if originalName is name
+      res.send 200, response
+    else
+      throw new errors.Conflict('Name is taken', response)

@@ -50,7 +50,7 @@ describe 'GET /db/classroom/:id', ->
       user1.save (err) ->
         data = { name: 'Classroom 1' }
         request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
+          expect(res.statusCode).toBe(201)
           classroomID = body._id
           request.get {uri: classroomsURL + '/'  + body._id }, (err, res, body) ->
             expect(res.statusCode).toBe(200)
@@ -59,36 +59,34 @@ describe 'GET /db/classroom/:id', ->
 
 describe 'POST /db/classroom', ->
   
-  it 'clears database users and classrooms', (done) ->
-    clearModels [User, Classroom], (err) ->
-      throw err if err
-      done()
-
-  it 'creates a new classroom for the given user', (done) ->
-    loginNewUser (user1) ->
-      user1.set('role', 'teacher')
-      user1.save (err) ->
-        data = { name: 'Classroom 1' }
-        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
-          expect(body.name).toBe('Classroom 1')
-          expect(body.members.length).toBe(0)
-          expect(body.ownerID).toBe(user1.id)
-          done()
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels [User, Classroom]
+    done()
+  
+  it 'creates a new classroom for the given user with teacher role', utils.wrap (done) ->
+    teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(teacher)
+    data = { name: 'Classroom 1' }
+    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+    expect(res.statusCode).toBe(201)
+    expect(res.body.name).toBe('Classroom 1')
+    expect(res.body.members.length).toBe(0)
+    expect(res.body.ownerID).toBe(teacher.id)
+    done()
         
-  it 'does not work for anonymous users', (done) ->
-    logoutUser ->
-      data = { name: 'Classroom 2' }
-      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-        expect(res.statusCode).toBe(401)
-        done()
+  it 'returns 401 for anonymous users', utils.wrap (done) ->
+    data = { name: 'Classroom 2' }
+    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+    expect(res.statusCode).toBe(401)
+    done()
 
-  it 'does not work for non-teacher users', (done) ->
-    loginNewUser (user1) ->
-      data = { name: 'Classroom 1' }
-      request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-        expect(res.statusCode).toBe(403)
-        done()
+  it 'does not work for non-teacher users', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    data = { name: 'Classroom 1' }
+    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+    expect(res.statusCode).toBe(403)
+    done()
         
         
 describe 'PUT /db/classroom', ->
@@ -104,7 +102,7 @@ describe 'PUT /db/classroom', ->
       user1.save (err) ->
         data = { name: 'Classroom 2' }
         request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
+          expect(res.statusCode).toBe(201)
           data = { name: 'Classroom 3', description: 'New Description' }
           url = classroomsURL + '/' + body._id
           request.put { uri: url, json: data }, (err, res, body) ->
@@ -118,7 +116,7 @@ describe 'PUT /db/classroom', ->
       user1.save (err) ->
         data = { name: 'Classroom 4' }
         request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
+          expect(res.statusCode).toBe(201)
           classroomCode = body.code
           loginNewUser (user2) ->
             url = getURL("/db/classroom/~/members")
@@ -145,7 +143,7 @@ describe 'POST /db/classroom/~/members', ->
         request.post {uri: classroomsURL, json: data }, (err, res, body) ->
           classroomCode = body.code
           classroomID = body._id
-          expect(res.statusCode).toBe(200)
+          expect(res.statusCode).toBe(201)
           loginNewUser (user2) ->
             url = getURL("/db/classroom/~/members")
             data = { code: classroomCode }
@@ -166,7 +164,7 @@ describe 'POST /db/classroom/~/members', ->
         request.post {uri: classroomsURL, json: data }, (err, res, body) ->
           classroomCode = body.code
           classroomID = body._id
-          expect(res.statusCode).toBe(200)
+          expect(res.statusCode).toBe(201)
           loginNewUser (user2) ->
             user2.set('role', 'teacher')
             user2.save (err, user2) ->
@@ -183,7 +181,7 @@ describe 'POST /db/classroom/~/members', ->
     teacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(teacher)
     [res, body] = yield request.postAsync {uri: classroomsURL, json: { name: 'Classroom' } }
-    expect(res.statusCode).toBe(200)
+    expect(res.statusCode).toBe(201)
     classroomCode = body.code
     yield utils.becomeAnonymous()
     [res, body] = yield request.postAsync { uri: getURL("/db/classroom/~/members"), json: { code: classroomCode } }
@@ -206,7 +204,7 @@ describe 'DELETE /db/classroom/:id/members', ->
         request.post {uri: classroomsURL, json: data }, (err, res, body) ->
           classroomCode = body.code
           classroomID = body._id
-          expect(res.statusCode).toBe(200)
+          expect(res.statusCode).toBe(201)
           loginNewUser (user2) ->
             url = getURL("/db/classroom/~/members")
             data = { code: classroomCode }
@@ -231,7 +229,7 @@ describe 'POST /db/classroom/:id/invite-members', ->
       user1.save (err) ->
         data = { name: 'Classroom 6' }
         request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
+          expect(res.statusCode).toBe(201)
           url = classroomsURL + '/' + body._id + '/invite-members'
           data = { emails: ['test@test.com'] }
           request.post { uri: url, json: data }, (err, res, body) ->

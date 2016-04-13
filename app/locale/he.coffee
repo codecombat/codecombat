@@ -315,7 +315,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     completed_level: "שלב שהושלם:"
     course: "מסלול:"
     done: "סיים"
-    next_level: "השלב הבא:"
+    next_level: "השלב הבא"
     next_game: "המשחק הבא"
     show_menu: "הצג תפריט משחק"
     home: "בית" # Not used any more, will be removed soon.

@@ -315,7 +315,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    completed_level: "Completed Level:"
 #    course: "Course:"
     done: "เสร็จสิ้น"
-#    next_level: "Next Level:"
+#    next_level: "Next Level"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "หน้าแรก" # Not used any more, will be removed soon.

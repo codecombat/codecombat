@@ -315,7 +315,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    completed_level: "Completed Level:"
 #    course: "Course:"
     done: "Hotovo"
-#    next_level: "Next Level:"
+#    next_level: "Next Level"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "Domů" # Not used any more, will be removed soon.

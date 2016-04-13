@@ -10,12 +10,11 @@ UserHandler = require './user_handler'
 ClassroomHandler = class ClassroomHandler extends Handler
   modelClass: Classroom
   jsonSchema: require '../../app/schemas/models/classroom.schema'
-  allowedMethods: ['GET', 'POST', 'PUT', 'DELETE']
+  allowedMethods: ['GET', 'PUT', 'DELETE']
 
   hasAccess: (req) ->
     return false unless req.user
     return true if req.method is 'GET'
-    return false if req.method is 'POST' and not req.user?.isTeacher()
     req.method in @allowedMethods or req.user?.isAdmin()
 
   hasAccessToDocument: (req, document, method=null) ->
@@ -26,12 +25,6 @@ ClassroomHandler = class ClassroomHandler extends Handler
     isMember = _.any(document.get('members') or [], (memberID) -> memberID.equals(req.user.get('_id')))
     return true if isGet and isMember
     false
-
-  makeNewInstance: (req) ->
-    instance = super(req)
-    instance.set 'ownerID', req.user._id
-    instance.set 'members', []
-    instance
 
   getByRelationship: (req, res, args...) ->
     method = req.method.toLowerCase()

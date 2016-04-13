@@ -315,7 +315,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     completed_level: "Ukończony poziom:"
     course: "Kurs:"
     done: "Zrobione"
-    next_level: "Następny poziom:"
+    next_level: "Następny poziom"
     next_game: "Następna gra"
     show_menu: "Pokaż menu gry"
     home: "Strona główna" # Not used any more, will be removed soon.

@@ -22,6 +22,7 @@ achievement = {
 campaign = {
   name: 'Campaign'
   levels: {}
+  i18n: {}
 }
 
 levelURL = getURL('/db/level')
@@ -34,6 +35,46 @@ Campaign = require '../../../server/models/Campaign'
 Level = require '../../../server/models/Level'
 User = require '../../../server/models/User'
 request = require '../request'
+utils = require '../utils'
+slack = require '../../../server/slack'
+
+describe 'PUT /db/campaign', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels [Achievement, Campaign, Level, User]
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    [res, body] = yield request.postAsync { uri: campaignURL, json: campaign }
+    @campaign = yield Campaign.findById(body._id)
+    done()
+  
+  it 'saves changes to campaigns', utils.wrap (done) ->
+    [res, body] = yield request.putAsync { uri: campaignURL+'/'+@campaign.id, json: { name: 'A new name' } }
+    expect(body.name).toBe('A new name')
+    c = yield Campaign.findById(body._id)
+    expect(c.get('name')).toBe('A new name')
+    done()
+    
+  it 'does not allow normal users to make changes', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res, body] = yield request.putAsync { uri: campaignURL+'/'+@campaign.id, json: { name: 'A new name' } }
+    expect(res.statusCode).toBe(403)
+    done()
+    
+  it 'allows normal users to put translation changes', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    json = _.clone @campaign.toObject()
+    json.i18n = { de: { name: 'A new name' } }
+    [res, body] = yield request.putAsync { uri: campaignURL+'/'+@campaign.id, json: json }
+    expect(res.statusCode).toBe(200)
+    done()
+    
+  it 'sends a slack message', utils.wrap (done) ->
+    spyOn(slack, 'sendSlackMessage')
+    [res, body] = yield request.putAsync { uri: campaignURL+'/'+@campaign.id, json: { name: 'A new name' } }
+    expect(slack.sendSlackMessage).toHaveBeenCalled()
+    done()
 
 describe '/db/campaign', ->
   it 'prepares the db first', (done) ->

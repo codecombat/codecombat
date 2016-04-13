@@ -315,7 +315,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     completed_level: "Livello completato:"
     course: "Corso:"
     done: "Fatto"
-    next_level: "Prossimo livello:"
+    next_level: "Prossimo livello"
     next_game: "Prossimo gioco"
     show_menu: "Visualizza menu gioco"
     home: "Pagina iniziale" # Not used any more, will be removed soon.
@@ -434,7 +434,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tip_strong_opponents: "Anche il più tenace degli avversari ha sempre una debolezza. - Itachi Uchiha"
     tip_paper_and_pen: "Prima di iniziare a programmare, puoi sempre progettare con un foglio di carta e una penna."
     tip_solve_then_write: "Prima, risolvi il problema. Poi, scrivi il codice. - John Johnson"
-#    tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
+    tip_compiler_ignores_comments: "A volte penso che il compilatore ignori i miei commenti"
 #    tip_understand_recursion: "The only way to understand recursion is to understand recursion."
 #    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
 #    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
