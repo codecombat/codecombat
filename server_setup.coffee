@@ -110,10 +110,15 @@ setupPassportMiddleware = (app) ->
     app.use(authentication.session())
   auth.setup()
 
-setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", languageCode="zh", serverID="tokyo") ->
+setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", languageCode="zh", host="cn.codecombat.com") ->
   shouldRedirectToCountryServer = (req) ->
     speaksLanguage = _.any req.acceptedLanguages, (language) -> language.indexOf languageCode isnt -1
-    unless config[serverID]
+
+    #Work around express 3.0
+    reqHost = req.hostname
+    reqHost ?= req.host
+
+    unless reqHost.toLowerCase() is host
       ip = req.headers['x-forwarded-for'] or req.connection.remoteAddress
       ip = ip?.split(/,? /)[0]  # If there are two IP addresses, say because of CloudFlare, we just take the first.
       geo = geoip.lookup(ip)
@@ -127,7 +132,7 @@ setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", langua
 
   app.use (req, res, next) ->
     if shouldRedirectToCountryServer req
-      res.writeHead 302, "Location": config[country + 'Domain'] + req.url
+      res.writeHead 302, "Location": 'http://' + host + req.url
       res.end()
     else
       next()
@@ -164,8 +169,8 @@ setupPerfMonMiddleware = (app) ->
 
 exports.setupMiddleware = (app) ->
   setupPerfMonMiddleware app
-  setupCountryRedirectMiddleware app, "china", "CN", "zh", "tokyo"
-  setupCountryRedirectMiddleware app, "brazil", "BR", "pt-BR", "saoPaulo"
+  setupCountryRedirectMiddleware app, "china", "CN", "zh", config.chinaDomain
+  setupCountryRedirectMiddleware app, "brazil", "BR", "pt-BR", config.brazilDomain
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupPassportMiddleware app
