@@ -67,13 +67,33 @@ AchievementSchema.statics.loadAchievements = (done) ->
         AchievementSchema.statics.achievementCollections[collection].push achievement
       unless achievement.get('query')
         log.error "Uh oh, there is an achievement with an empty query: #{achievement}"
-    done?(AchievementSchema.statics.achievementCollections)
+    done?(AchievementSchema.statics.achievementCollections) # TODO: Return with err as first parameter  
 
 AchievementSchema.statics.getLoadedAchievements = ->
   AchievementSchema.statics.achievementCollections
 
 AchievementSchema.statics.resetAchievements = ->
   delete AchievementSchema.statics.achievementCollections[collection] for collection of AchievementSchema.statics.achievementCollections
+  
+AchievementSchema.statics.editableProperties = [
+  'name'
+  'query'
+  'worth'
+  'collection'
+  'description'
+  'userField'
+  'proportionalTo'
+  'icon'
+  'function'
+  'related'
+  'difficulty'
+  'category'
+  'rewards'
+  'i18n'
+  'i18nCoverage'
+]
+
+AchievementSchema.statics.jsonSchema = require '../../app/schemas/models/achievement'
 
 # Queries are stored as JSON strings, objectify them upon loading
 AchievementSchema.post 'init', (doc) -> doc.objectifyQuery()

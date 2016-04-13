@@ -72,7 +72,7 @@ mixin course-info(course)
         if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
           span.spr ,
         
-    if me.isTeacher() && view.ownedClassrooms.size()
+    if me.isTeacher() || view.ownedClassrooms.size()
       if view.guideLinks[course.id]
         //- a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
         //-   span(data-i18n="courses.print_guide")

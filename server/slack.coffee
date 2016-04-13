@@ -7,7 +7,9 @@ roomChannelMap =
   artisans: '#artisan'
 
 module.exports.sendSlackMessage = sendSlackMessage = (message, rooms=['tower'], options={}) ->
-  return unless config.isProduction
+  unless config.isProduction
+    log.info "Slack msg: #{message}"
+    return
   unless token = config.slackToken
     log.info "No Slack token."
     return

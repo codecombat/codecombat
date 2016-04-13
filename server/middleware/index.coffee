@@ -1,4 +1,5 @@
 module.exports =
+  achievements: require './achievements'
   auth: require './auth'
   classrooms: require './classrooms'
   campaigns: require './campaigns'
