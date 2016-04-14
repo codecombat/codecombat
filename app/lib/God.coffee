@@ -64,6 +64,7 @@ module.exports = class God extends CocoClass
   onTomeCast: (e) ->
     return unless e.god is @
     @lastSubmissionCount = e.submissionCount
+    @lastFixedSeed = e.fixedSeed
     @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
     @lastDifficulty = e.difficulty
     @createWorld e.spells, e.preload, e.realTime
@@ -89,11 +90,12 @@ module.exports = class God extends CocoClass
     return if hadPreloader
 
     @angelsShare.workQueue = []
-    @angelsShare.workQueue.push
+    work = 
       userCodeMap: userCodeMap
       level: @level
       levelSessionIDs: @levelSessionIDs
       submissionCount: @lastSubmissionCount
+      fixedSeed: @lastFixedSeed
       flagHistory: @lastFlagHistory
       difficulty: @lastDifficulty
       goals: @angelsShare.goalManager?.getGoals()
@@ -101,8 +103,10 @@ module.exports = class God extends CocoClass
       preload: preload
       synchronous: not Worker?  # Profiling world simulation is easier on main thread, or we are IE9.
       realTime: realTime
+    @angelsShare.workQueue.push work
     angel.workIfIdle() for angel in @angelsShare.angels
-
+    work
+    
   getUserCodeMap: (spells) ->
     userCodeMap = {}
     for spellKey, spell of spells
@@ -126,6 +130,7 @@ module.exports = class God extends CocoClass
         level: @level
         levelSessionIDs: @levelSessionIDs
         submissionCount: @lastSubmissionCount
+        fixedSeed: @fixedSeed
         flagHistory: @lastFlagHistory
         difficulty: @lastDifficulty
         goals: @goalManager?.getGoals()

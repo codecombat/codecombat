@@ -7,7 +7,7 @@
 .levels-link-area
   a.levels-link(href=homeLink || "/")
     .glyphicon.glyphicon-play
-    span(data-i18n=ladderGame ? "general.ladder" : "nav.play").home-text Levels
+    span(data-i18n=me.isTeacher() ? "nav.courses" : (ladderGame ? "general.ladder" : "nav.play")).home-text Levels
 
 if isMultiplayerLevel && !observing
   .multiplayer-area-container

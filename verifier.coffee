@@ -1,21 +1,7 @@
-###
-This file will simulate games on node.js by emulating the browser environment.
-In order to use, followed these steps:
-1. Setup dev environment as usual
-2. Create a `login.coffee` file in coco which contains:
-module.exports = username: 'email@example.com', password: 'your_password'
-3. Run `./node_modules/coffee-script/bin/coffee ./headless_client.coffee`
-Alternatively, if you wish only to simulate a single game run `coffee ./headless_client.coffee one-game`
-Or, if you want to always simulate only one game, change the line below this to "true". This takes way more bandwidth.
-###
-simulateOneGame = false
-if process.argv[2] is 'one-game'
-  #calculate result of one game here
-  simulateOneGame = true
-  console.log "Simulating #{process.argv[3]} vs #{process.argv[4]}"
+useEsper = true
 bowerComponentsPath = './bower_components/'
 headlessClientPath = './headless_client/'
-
+require 'aether'
 # SETTINGS
 options =
   workerCode: require headlessClientPath + 'worker_world'
@@ -26,7 +12,6 @@ options =
   exitOnLeak: false # Exit if leak is found. Only useful if leaktest is set to true, obviously.
   heapdump: false # Dumps the whole heap after every pass. The heap dumps can then be viewed in Chrome browser.
   headlessClient: true
-  simulateOnlyOneGame: simulateOneGame
 
 options.heapdump = require('heapdump') if options.heapdump
 server = if options.testing then 'http://127.0.0.1:3000' else 'http://direct.codecombat.com'
@@ -46,22 +31,22 @@ GLOBAL.window = GLOBAL
 GLOBAL.document =
   location:
     pathname: 'headless_client'
-    search: 'esper=1'
+    search: ''
+
 GLOBAL.console.debug = console.log
 GLOBAL.serverConfig =
   picoCTF: false
   production: false
-try
-  GLOBAL.Worker = require('webworker-threads').Worker
-  Worker::removeEventListener = (what) ->
-    if what is 'message'
-      @onmessage = -> #This webworker api has only one event listener at a time.
-catch
-  # Fall back to IE compatibility mode where it runs synchronously with no web worker.
-  # (Which we will be doing now always because webworker-threads doesn't run in newer node versions.)
-  eval require('fs').readFileSync('./vendor/scripts/Box2dWeb-2.1.a.3.js', 'utf8')
-  GLOBAL.Box2D = Box2D
 
+#try
+#  GLOBAL.Worker = require('webworker-threads').Worker
+#catch e
+#  GLOBAL.Worker = require('./headless_client/fork_web_worker').Worker
+#  options.workerCode = './worker_world.coffee'
+#
+#Worker::removeEventListener = (what) ->
+#  if what is 'message'
+#    @onmessage = -> #This webworker api has only one event listener at a time.
 GLOBAL.tv4 = require('tv4').tv4
 GLOBAL.TreemaUtils = require bowerComponentsPath + 'treema/treema-utils'
 GLOBAL.marked = setOptions: ->
@@ -71,6 +56,7 @@ GLOBAL.localStorage =
     setItem: (key, s) => store[key] = s
     removeItem: (key) => delete store[key]
 GLOBAL.lscache = require bowerComponentsPath + 'lscache/lscache'
+GLOBAL.esper = require bowerComponentsPath + 'esper.js/esper'
 
 # Hook node.js require. See https://github.com/mfncooper/mockery/blob/master/mockery.js
 # The signature of this function *must* match that of Node's Module._load,
@@ -118,28 +104,44 @@ Backbone.$ = $
 require bowerComponentsPath + 'validated-backbone-mediator/backbone-mediator'
 Backbone.Mediator.setValidationEnabled false
 GLOBAL.Aether = require 'aether'
+eval require('fs').readFileSync('./vendor/scripts/Box2dWeb-2.1.a.3.js', 'utf8')
+GLOBAL.Box2D = Box2D
 # Set up new loader. Again.
 hook()
 
-login = require './login.coffee' #should contain an object containing they keys 'username' and 'password'
 
-#Login user and start the code.
-$.ajax
-  url: '/auth/login'
-  type: 'POST'
-  data: login
-  parse: true
-  error: (error) -> 'Bad Error. Can\'t connect to server or something. ' + error
-  success: (response, textStatus, jqXHR) ->
-    console.log 'User: ', response if options.debug
-    unless jqXHR.status is 200
-      console.log 'User not authenticated. Status code: ', jqXHR.status
-      return
-    GLOBAL.window.userObject = response # JSON.parse response
-    Simulator = require 'lib/simulator/Simulator'
+SuperModel = require 'models/SuperModel'
+VerifierTest = require('views/editor/verifier/VerifierTest')
 
-    sim = new Simulator options
-    if simulateOneGame
-      sim.fetchAndSimulateOneGame(process.argv[3],process.argv[4])
-    else
-      sim.fetchAndSimulateTask()
+supermodel = new SuperModel()
+
+oldGetQueryVariable = require('core/utils').getQueryVariable
+require('core/utils').getQueryVariable = (args...) ->
+  return useEsper if args[0] is 'esper'
+  oldGetQueryVariable args...
+
+list = process.argv.slice(2);
+async = require 'async'
+
+
+
+async.eachSeries list, (item, next) ->
+  async.eachSeries ['python','javascript'], (lang, lnext) ->
+    test = new VerifierTest item, (e) ->
+      return if e.state is 'running'
+      obj =
+        error: test.error
+        state: e.state
+        level: item,
+        language: lang
+        observed:
+          goals: _.mapValues(test.goals, 'status')
+          frameCount: test.frames
+          lastHash: test.lastFrameHash
+        solution:
+          test.solution
+      process.send?(obj)
+      console.log(obj)
+      lnext() if e.state in ['error','complete']
+    , supermodel, lang
+  , () -> next()

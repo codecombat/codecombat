@@ -88,6 +88,10 @@ errorResponseSchema = {
       type: 'string'
       description: 'Property which is related to the error (conflict, validation).'
     }
+    name: {
+      type: 'string'
+      description: 'Provided for /auth/name.' # TODO: refactor out
+    }
   }
 }
 errorProps = _.keys(errorResponseSchema.properties)

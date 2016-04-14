@@ -33,6 +33,7 @@ module.exports = class LevelLoader extends CocoClass
     @team = options.team
     @headless = options.headless
     @sessionless = options.sessionless
+    @fakeSessionConfig = options.fakeSessionConfig
     @spectateMode = options.spectateMode ? false
     @observing = options.observing
     @courseID = options.courseID
@@ -68,10 +69,45 @@ module.exports = class LevelLoader extends CocoClass
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (picoCTFProblems) =>
         @level?.picoCTFProblem = _.find picoCTFProblems, pid: @level.get('picoCTFProblem')
       ).load()
-    @loadSession() unless @sessionless
+    if @sessionless
+      null
+    else if @fakeSessionConfig?
+      @loadFakeSession()
+    else
+      @loadSession()
     @populateLevel()
 
   # Session Loading
+
+  loadFakeSession: ->
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+      @sessionDependenciesRegistered = {}
+    initVals =
+      level:
+        original: @level.get('original')
+        majorVersion: @level.get('version').major
+      creator: me.id
+      state:
+        complete: false
+        scripts: {}
+      permissions: [
+        {target: me.id, access: 'owner'}
+        {target: 'public', access: 'write'}
+      ]
+      codeLanguage: @fakeSessionConfig.codeLanguage or me.get('aceConfig')?.language or 'python'
+      _id: 'A Fake Session ID'
+    @session = new LevelSession initVals
+    @session.loaded = true
+    @fakeSessionConfig.callback? @session, @level
+
+    # TODO: set the team if we need to, for multiplayer
+    # TODO: just finish the part where we make the submit button do what is right when we are fake
+    # TODO: anything else to make teacher session-less play make sense when we are fake
+    # TODO: make sure we are not actually calling extra save/patch/put things throwing warnings because we know we are fake and so we shouldn't try to do that
+    for method in ['save', 'patch', 'put']
+      @session[method] = -> console.error "We shouldn't be doing a session.#{method}, since it's a fake session."
+    @session.fake = true
+    @loadDependenciesForSession @session
 
   loadSession: ->
     if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
@@ -171,7 +207,7 @@ module.exports = class LevelLoader extends CocoClass
     browser['platform'] = $.browser.platform if $.browser.platform
     browser['version'] = $.browser.version if $.browser.version
     session.set 'browser', browser
-    session.patch()
+    session.patch() unless session.fake
 
   consolidateFlagHistory: ->
     state = @session.get('state') ? {}
@@ -341,7 +377,7 @@ module.exports = class LevelLoader extends CocoClass
     resource.markLoaded() if resource.spriteSheetKeys.length is 0
 
   denormalizeSession: ->
-    return if @headless or @sessionDenormalized or @spectateMode or @sessionless
+    return if @headless or @sessionDenormalized or @spectateMode or @sessionless or me.isTeacher()
     # This is a way (the way?) PUT /db/level.sessions/undefined was happening
     # See commit c242317d9
     return if not @session.id

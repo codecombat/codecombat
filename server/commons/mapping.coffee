@@ -47,7 +47,6 @@ module.exports.handlerUrlOverrides =
 module.exports.routes =
   [
     'routes/admin'
-    'routes/auth'
     'routes/contact'
     'routes/db'
     'routes/file'

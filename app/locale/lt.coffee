@@ -315,7 +315,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     completed_level: "Įveiktas Lygis:"
     course: "Kursas:"
     done: "Gerai"
-    next_level: "Kitas Lygis:"
+    next_level: "Kitas Lygis"
     next_game: "Kitas žaidimas"
     show_menu: "Parodyti žaidimo meniu"
 #    home: "Home" # Not used any more, will be removed soon.

@@ -315,7 +315,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     completed_level: "완료된 레벨:"
     course: "코스:"
     done: "완료"
-    next_level: "다음 레벨:"
+    next_level: "다음 레벨"
     next_game: "다음 게임"
     show_menu: "게임 매뉴 보이기"
     home: "홈" # Not used any more, will be removed soon.

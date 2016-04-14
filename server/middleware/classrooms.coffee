@@ -62,3 +62,14 @@ module.exports =
     memberObjects = (member.toObject({ req: req, includedPrivates: ["name", "email"] }) for member in members)
     
     res.status(200).send(memberObjects)
+
+  post: wrap (req, res) ->
+    throw new errors.Unauthorized() unless req.user and not req.user.isAnonymous()
+    throw new errors.Forbidden() unless req.user?.isTeacher()
+    classroom = database.initDoc(req, Classroom)
+    classroom.set 'ownerID', req.user._id
+    classroom.set 'members', []
+    database.assignBody(req, classroom)
+    database.validateDoc(classroom)
+    classroom = yield classroom.save()
+    res.status(201).send(classroom.toObject({req: req}))

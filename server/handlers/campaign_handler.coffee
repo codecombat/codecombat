@@ -7,24 +7,10 @@ mongoose = require 'mongoose'
 
 CampaignHandler = class CampaignHandler extends Handler
   modelClass: Campaign
-  editableProperties: [
-    'name'
-    'fullName'
-    'description'
-    'type'
-    'i18n'
-    'i18nCoverage'
-    'ambientSound'
-    'backgroundImage'
-    'backgroundColor'
-    'backgroundColorTransparent'
-    'adjacentCampaigns'
-    'levels'
-  ]
   jsonSchema: require '../../app/schemas/models/campaign.schema'
 
   hasAccess: (req) ->
-    req.method in ['GET', 'PUT'] or req.user?.isAdmin()
+    req.method in ['GET'] or req.user?.isAdmin()
 
   hasAccessToDocument: (req, document, method=null) ->
     return true if req.user?.isAdmin()
@@ -123,10 +109,6 @@ CampaignHandler = class CampaignHandler extends Handler
       achievements = _.flatten(achievementses)
       return @sendDatabaseError(res, err) if err
       return @sendSuccess(res, (achievement.toObject() for achievement in achievements))
-
-  onPutSuccess: (req, doc) ->
-    docLink = "http://codecombat.com#{req.headers['x-current-path']}"
-    @sendChangedSlackMessage creator: req.user, target: doc, docLink: docLink
 
   getNamesByIDs: (req, res) -> @getNamesByOriginals req, res, true
 

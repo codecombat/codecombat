@@ -315,7 +315,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    completed_level: "Completed Level:"
 #    course: "Course:"
     done: "妝下落"
-#    next_level: "Next Level:"
+#    next_level: "Next Level"
 #    next_game: "Next game"
 #    show_menu: "Show game menu"
     home: "主頁" # Not used any more, will be removed soon.
