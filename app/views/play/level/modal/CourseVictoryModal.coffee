@@ -101,7 +101,7 @@ module.exports = class CourseVictoryModal extends ModalView
         triggeredBy: @session.id
         achievement: achievement.id
       })
-      if me.isTeacher()
+      if me.isSessionless()
         @newEarnedAchievements.push ea
       else
         ea.save()
@@ -115,7 +115,7 @@ module.exports = class CourseVictoryModal extends ModalView
               @supermodel.loadModel(me, {cache: false})
             @newEarnedAchievementsResource.markLoaded()
 
-    unless me.isTeacher()
+    unless me.isSessionless()
       # have to use a something resource because addModelResource doesn't handle models being upserted/fetched via POST like we're doing here
       @newEarnedAchievementsResource = @supermodel.addSomethingResource('earned achievements') if @newEarnedAchievements.length
 
@@ -164,14 +164,14 @@ module.exports = class CourseVictoryModal extends ModalView
     @showView(@views[index+1])
 
   onNextLevel: ->
-    if me.isTeacher()
+    if me.isSessionless()
       link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
     else
       link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
     application.router.navigate(link, {trigger: true})
 
   onDone: ->
-    if me.isTeacher()
+    if me.isSessionless()
       link = "/teachers/courses"
     else
       link = "/courses/#{@courseID}/#{@courseInstanceID}"

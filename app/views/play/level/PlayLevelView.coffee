@@ -137,7 +137,7 @@ module.exports = class PlayLevelView extends RootView
     @loadStartTime = new Date()
     @god = new God()
     levelLoaderOptions = supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing, courseID: @courseID
-    if me.isTeacher()
+    if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
@@ -552,7 +552,7 @@ module.exports = class PlayLevelView extends RootView
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then HeroVictoryModal else VictoryModal
-    ModalClass = CourseVictoryModal if @isCourseMode() or me.isTeacher()
+    ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)

@@ -64,6 +64,11 @@ module.exports = class User extends CocoModel
     
   isTeacher: ->
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
+    
+  isSessionless: ->
+    # TODO: Fix old users who got mis-tagged as teachers
+    # TODO: Should this just be isTeacher, eventually?
+    false
 
   setRole: (role, force=false) ->
     return if me.isAdmin()

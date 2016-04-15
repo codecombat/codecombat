@@ -75,7 +75,7 @@ module.exports = class ControlBarView extends CocoView
     c.spectateGame = @spectateGame
     c.observing = @observing
     @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
-    if me.isTeacher()
+    if me.isSessionless()
       @homeLink = "/teachers/courses"
       @homeViewClass = "views/courses/TeacherCoursesView"
     else if @level.get('type', true) in ['ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder']
