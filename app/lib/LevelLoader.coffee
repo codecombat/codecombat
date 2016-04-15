@@ -377,7 +377,7 @@ module.exports = class LevelLoader extends CocoClass
     resource.markLoaded() if resource.spriteSheetKeys.length is 0
 
   denormalizeSession: ->
-    return if @headless or @sessionDenormalized or @spectateMode or @sessionless or me.isTeacher()
+    return if @headless or @sessionDenormalized or @spectateMode or @sessionless or me.isSessionless()
     # This is a way (the way?) PUT /db/level.sessions/undefined was happening
     # See commit c242317d9
     return if not @session.id

@@ -63,8 +63,7 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
   describe 'when the user already has a TrialRequest and is a teacher', ->
     beforeEach (done) ->
       spyOn(me, 'isTeacher').and.returnValue(true)
-      request = jasmine.Ajax.requests.mostRecent()
-      request.respondWith({
+      _.last(view.trialRequests.fakeRequests).respondWith({
         status: 200
         responseText: JSON.stringify([{
           _id: '1'
@@ -86,7 +85,7 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
   describe 'when the user has role "student"', ->
     beforeEach ->
       me.set('role', 'student')
-      jasmine.Ajax.requests.mostRecent().respondWith({ status: 200, responseText: JSON.stringify('[]') })
+      _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') })
       view.render()
 
     it 'shows a warning that they will convert to a teacher account', ->
@@ -104,18 +103,16 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
         form.submit()
 
       it 'requires confirmation', ->
-        request = jasmine.Ajax.requests.mostRecent()
-        expect(request.url).not.toBe('/db/trial.request')
-        expect(request.method).not.toBe('POST')
+        expect(view.trialRequest.fakeRequests.length).toBe(0)
         confirmModal = view.openModalView.calls.argsFor(0)[0]
         confirmModal.trigger 'confirm'
-        request = jasmine.Ajax.requests.mostRecent()
+        request = _.last(view.trialRequest.fakeRequests)
         expect(request.url).toBe('/db/trial.request')
         expect(request.method).toBe('POST')
 
   describe '"Log out" link', ->
     beforeEach ->
-      jasmine.Ajax.requests.mostRecent().respondWith({ status: 200, responseText: JSON.stringify('[]') })
+      _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') })
 
     it 'logs out the user and redirects them to /teachers/signup', ->
       spyOn(me, 'logout')
@@ -124,13 +121,13 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
 
   describe 'submitting the form', ->
     beforeEach ->
-      jasmine.Ajax.requests.mostRecent().respondWith({ status: 200, responseText: JSON.stringify('[]') })
+      _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') })
       form = view.$('form')
       forms.objectToForm(form, successForm, {overwriteExisting: true})
       form.submit()
 
     it 'creates a new TrialRequest with the information', ->
-      request = _.last(jasmine.Ajax.requests.filter((r) -> _.string.startsWith(r.url, '/db/trial.request')))
+      request = _.last(view.trialRequest.fakeRequests)
       expect(request).toBeTruthy()
       expect(request.method).toBe('POST')
       attrs = JSON.parse(request.params)
@@ -139,7 +136,7 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
       expect(attrs.properties?.email).toBe('some@email.com')
 
     it 'redirects to /teachers/classes', ->
-      request = jasmine.Ajax.requests.mostRecent()
+      request = _.last(view.trialRequest.fakeRequests)
       request.respondWith({
         status: 201
         responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))
@@ -149,7 +146,7 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
       expect(args[0]).toBe('/teachers/classes')
 
      it 'sets a teacher role', ->
-      request = jasmine.Ajax.requests.mostRecent()
+      request = _.last(view.trialRequest.fakeRequests)
       request.respondWith({
         status: 201
         responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))

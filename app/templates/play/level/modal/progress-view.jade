@@ -13,7 +13,7 @@
           h3.text-uppercase(data-i18n='play_level.completed_level')
           h2.text-uppercase.text-center= i18n(view.level.attributes, 'name')
         .well.well-sm.well-parchment
-          if me.isTeacher()
+          if me.isSessionless()
             h3.course-title
               span.text-uppercase.spr(data-i18n='play_level.course')
               span.text-uppercase.text-center= i18n(view.course.attributes, 'name')

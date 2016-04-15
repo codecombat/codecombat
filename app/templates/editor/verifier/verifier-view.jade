@@ -2,24 +2,42 @@ extends /templates/base-flat
 
 block content
   .container
-    each test in view.tests
+    each test, id in view.tests
       if test.level
-        h2= test.level.get('name')
-          small= ' in ' + test.language + ''
-        div.well(style='width: 300px; float: right')
-          if test.goals
-            each v,k in test.goals || []
-              case v.status
-                when 'success': div(style='color: green') ✓ #{k}
-                when 'incomplete': div(style='color: orange') ✘ #{k}
-                when 'failure': div(style='color: red') ✘ #{k}
-                default: div(style='color: blue') #{k}
-          else
-            h3 Running....
-        if test.solution
-          pre(style='margin-right: 350px') #{test.solution.source}
+
+        if !test.goals
+          h2(style='color: orange')= test.level.get('name')
+            small= ' in ' + test.language + ''
+        else if test.isSucessful()
+          h2(style='color: green')= test.level.get('name')
+            small= ' in ' + test.language + ''
         else
-          h4 Solution not found...
+          h2(style='color: red')= test.level.get('name')
+            small= ' in ' + test.language + ''  
+
+        div.row(class=(test.isSucessful() && id > 1 ? 'collapse' : 'collapse in'))
+          div.col-xs-8
+            if test.solution
+              pre #{test.solution.source}
+            else
+              h4 Solution not found...
+          div.col-xs-4.well
+            if test.goals
+              if test.frames == test.solution.frameCount
+                div(style='color: green') ✓ Frames: #{test.frames}
+              else
+                div(style='color: red') ✘ Frames: #{test.frames} vs #{test.solution.frameCount}
+
+              each v,k in test.goals || []
+                if !test.solution.goals
+                  div(style='color: orange') ? #{k} (#{v.status})
+                else if v.status == test.solution.goals[k]
+                  div(style='color: green') ✓ #{k} (#{v.status})
+                else
+                  div(style='color: red') ✘ #{k} (#{v.status} vs #{test.solution.goals[k]})
+            else
+              h3 Running....
+          
       else
         h1 Loading Level...
   
