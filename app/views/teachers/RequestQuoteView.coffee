@@ -57,6 +57,27 @@ module.exports = class RequestQuoteView extends RootView
       @$('#other-education-level-input').val(obj.otherInput)
       forms.objectToForm(@$('#request-form'), obj, { overwriteExisting: true })
 
+    client = algoliasearch("JJM5H2CHJR", "50382fc2f7fa69c67e8233ace7cd7c4c")
+    index = client.initIndex('schools')
+    autocomplete("#organization-control", {hint: false}, [
+      source: (query, callback) ->
+        index.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
+          callback answer.hits
+        , ->
+          callback []
+      displayKey: 'name',
+      templates:
+        suggestion: (suggestion) ->
+          hr = suggestion._highlightResult
+          "<div class='school'> #{hr.name.value} </div>" + 
+            "<div class='district'>#{hr.district.value}, " +
+              "<span>#{hr.city?.value}, #{hr.state.value}</span></div>"
+
+    ]).on 'autocomplete:selected', (event, suggestion, dataset) ->
+      #TODO: Figure out why this event is never called.
+      console.log('S', suggestion)
+      
+
   onChangeRequestForm: ->
     # save changes to local storage
     obj = forms.formToObject(@$('form'))

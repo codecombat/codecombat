@@ -49,7 +49,9 @@
     "fastclick": "~1.0.3",
     "three.js": "~0.71.0",
     "lscache": "~1.0.5",
-    "esper.js": "http://files.codecombat.com/esper.tar.gz"
+    "esper.js": "http://files.codecombat.com/esper.tar.gz",
+    "algoliasearch": "^3.13.1",
+    "algolia-autocomplete.js": "^1.17.0"
   },
   "overrides": {
     "backbone": {
