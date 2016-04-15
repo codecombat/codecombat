@@ -4,6 +4,7 @@ CocoModel = require './CocoModel'
 util = require 'core/utils'
 ThangType = require './ThangType'
 Level = require './Level'
+utils = require 'core/utils'
 
 module.exports = class User extends CocoModel
   @className: 'User'
@@ -68,7 +69,7 @@ module.exports = class User extends CocoModel
   isSessionless: ->
     # TODO: Fix old users who got mis-tagged as teachers
     # TODO: Should this just be isTeacher, eventually?
-    false
+    me.isTeacher() and utils.getQueryVariable('course', false)
 
   setRole: (role, force=false) ->
     return if me.isAdmin()
