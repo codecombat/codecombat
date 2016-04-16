@@ -54,6 +54,9 @@
     "algolia-autocomplete.js": "^1.17.0"
   },
   "overrides": {
+    "algolia-autocomplete.js": {
+      "main": "dist/autocomplete.jquery.js"
+    },
     "backbone": {
       "main": "backbone.js"
     },

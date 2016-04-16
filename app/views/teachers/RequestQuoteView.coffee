@@ -36,10 +36,10 @@ module.exports = class RequestQuoteView extends RootView
     if @trialRequest and @trialRequest.get('status') isnt 'submitted' and @trialRequest.get('status') isnt 'approved'
       window.tracker?.trackEvent 'View Trial Request', category: 'Teachers', label: 'View Trial Request', ['Mixpanel']
     super()
-    
+
   afterRender: ->
     super()
-    
+
     # apply existing trial request on form
     properties = @trialRequest.get('properties')
     if properties
@@ -49,7 +49,7 @@ module.exports = class RequestQuoteView extends RootView
       otherLevel = _.first(_.difference(submittedLevels, commonLevels)) or ''
       @$('#other-education-level-checkbox').attr('checked', !!otherLevel)
       @$('#other-education-level-input').val(otherLevel)
-      
+
     # apply changes from local storage
     obj = storage.load(FORM_KEY)
     if obj
@@ -59,7 +59,7 @@ module.exports = class RequestQuoteView extends RootView
 
     client = algoliasearch("JJM5H2CHJR", "50382fc2f7fa69c67e8233ace7cd7c4c")
     index = client.initIndex('schools')
-    autocomplete("#organization-control", {hint: false}, [
+    $("#organization-control").autocomplete({hint: false}, [
       source: (query, callback) ->
         index.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
           callback answer.hits
@@ -69,14 +69,18 @@ module.exports = class RequestQuoteView extends RootView
       templates:
         suggestion: (suggestion) ->
           hr = suggestion._highlightResult
-          "<div class='school'> #{hr.name.value} </div>" + 
+          "<div class='school'> #{hr.name.value} </div>" +
             "<div class='district'>#{hr.district.value}, " +
               "<span>#{hr.city?.value}, #{hr.state.value}</span></div>"
 
-    ]).on 'autocomplete:selected', (event, suggestion, dataset) ->
-      #TODO: Figure out why this event is never called.
+    ]).on 'autocomplete:selected', (event, suggestion, dataset) =>
+      @$('input[name="city"]').val suggestion.city
+      @$('input[name="state"]').val suggestion.state
+      @$('input[name="district"]').val suggestion.district
+      @$('input[name="district"]').val 'USA'
+      # Stuff we want to save: district ID, geo, school phone, number of students in school, number of students in district, number of schools in district, school mailing address, institution type
       console.log('S', suggestion)
-      
+
 
   onChangeRequestForm: ->
     # save changes to local storage
@@ -89,12 +93,12 @@ module.exports = class RequestQuoteView extends RootView
     e.preventDefault()
     form = @$('#request-form')
     attrs = forms.formToObject(form)
-    
+
     # custom other input logic (also used in form local storage save/restore)
     if @$('#other-education-level-checkbox').is(':checked')
       val = @$('#other-education-level-input').val()
       attrs.educationLevel.push(val) if val
-      
+
     forms.clearFormAlerts(form)
     requestFormSchema = if me.isAnonymous() then requestFormSchemaAnonymous else requestFormSchemaLoggedIn
     result = tv4.validateMultiple(attrs, requestFormSchemaAnonymous)
@@ -127,7 +131,7 @@ module.exports = class RequestQuoteView extends RootView
       modal.once 'confirm', @saveTrialRequest, @
     else
       @saveTrialRequest()
-    
+
   saveTrialRequest: ->
     @trialRequest.notyErrors = false
     @$('#submit-request-btn').text('Sending').attr('disabled', true)
@@ -144,7 +148,7 @@ module.exports = class RequestQuoteView extends RootView
         .addClass('has-error')
         .append($("<div class='help-block error-help-block'>#{userExists} <a id='email-exists-login-link'>#{logIn}</a>"))
       forms.scrollToFirstError()
-    else 
+    else
       errors.showNotyNetworkError(arguments...)
 
   onClickEmailExistsLoginLink: ->
@@ -188,7 +192,7 @@ module.exports = class RequestQuoteView extends RootView
             })
         })
     })
-    
+
   onClickFacebookSignupButton: ->
     btn = @$('#facebook-signup-btn')
     btn.attr('disabled', true)
@@ -233,7 +237,7 @@ module.exports = class RequestQuoteView extends RootView
       forms.setErrorToProperty(form, 'password1', 'Passwords do not match')
       error = true
     return if error
-    
+
     me.set({
       password: attrs.password1
       name: attrs.name
