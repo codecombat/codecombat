@@ -91,7 +91,7 @@
     student_count: "Number of students:"
     start_playing_for_free: "Start Playing for Free!"
     students_and_players: "Students & Players"
-    goto_classes: "Go to My Classes" # {change}
+    goto_classes: "Go to My Classes"
     educator_wiki: "Educator wiki"
     view_profile: "View My Profile"
     view_progress: "View Progress"
@@ -576,7 +576,6 @@
     stripe_description_year_sale: "1 Year Subscription (${{discount}} discount)"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
-
     personal_sub: "Personal Subscription"  # Accounts Subscription View below
     loading_info: "Loading subscription information..."
     managed_by: "Managed by"
@@ -731,10 +730,10 @@
     jobs_benefits: "Employee Benefits"
     jobs_benefit_1: "Competitive salary and options"
     jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
-    jobs_benefit_3: "Flex time and flexible work-from-home" # {change}
-    jobs_benefit_4: "Unlimited vacation/sick/personal days" # {change}
-    jobs_benefit_5: "Professional development and continuing education support – free books and games!" # {change}
-    jobs_benefit_6: "Medical (gold), dental, vision" # {change}
+    jobs_benefit_3: "Flex time and flexible work-from-home"
+    jobs_benefit_4: "Unlimited vacation/sick/personal days"
+    jobs_benefit_5: "Professional development and continuing education support – free books and games!"
+    jobs_benefit_6: "Medical (gold), dental, vision"
     jobs_benefit_7: "Sit-stand desks for all"
     jobs_benefit_9: "10-year option exercise window"
     jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary, next 12 remote working"
@@ -796,17 +795,17 @@
     middle_school: "Middle School"
     college_plus: "College or higher"
     anything_else: "Anything else we should know?"
-    thanks_header: "Request Received!" # {change}
+    thanks_header: "Request Received!"
     thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
-    thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:" # {change}
+    thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
     finish_signup: "Finish creating your teacher account:"
     finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
     signup_with: "Sign up with:"
-    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account." # {change}
-    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
+    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
     create_account: "Create a Teacher Account"
     create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
-    convert_account_title: "Update to Teacher Account" # {change}
+    convert_account_title: "Update to Teacher Account"
     not: "Not"
     setup_a_class: "Set Up a Class"
 
@@ -1203,7 +1202,6 @@
     students_enrolled: "students enrolled"
     students_assigned: "students assigned"
     length: "Length:"
-
     title: "Courses" # Flat style redesign
     subtitle: "Review course guidelines, solutions, and levels"
     select_language: "Select language"
@@ -1212,10 +1210,8 @@
     concepts_covered: "Concepts covered"
     print_guide: "Print Guide (PDF)"
     view_guide_online: "View Guide Online (PDF)"
-
     grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
     enrollment_credits_available: "Enrollment Credits Available:"
-
     description: "Description" # ClassroomSettingsModal
     language_select: "Select a language"
     language_cannot_change: "Language cannot be changed once students join a class."
@@ -1235,7 +1231,6 @@
     student_age_range_to: "to"
     create_class: "Create Class"
     class_name: "Class Name"
-
     teacher_account_restricted: "Your account is a teacher account, and so cannot access student content."
 
   teacher:
@@ -1245,12 +1240,10 @@
     enrollments: "Enrollments"
     resources: "Resources"
     help: "Help"
-
     students: "Students" # Shared
     language: "Language"
     edit_class_settings: "edit class settings"
     complete: "Complete"
-
     access_restricted: "Access Restricted" # My Classes page
     teacher_account_required: "A teacher account is required to access this content."
     create_teacher_account: "Create Teacher Account"
@@ -1265,7 +1258,6 @@
     no_students_yet: "This class has no students yet."
     add_students: "Add Students"
     create_new_class: "Create a New Class"
-
     class_overview: "Class Overview" # View Class page
     avg_playtime: "Average level playtime"
     total_playtime: "Total play time"
@@ -1294,13 +1286,10 @@
     assign_to_selected_students: "Assign to Selected Students"
     assigned: "Assigned"
     enroll_selected_students: "Enroll Selected Students"
-
     guides_coming_soon: "Guides coming soon!" # Courses
-
     show_students_from: "Show students from" # Enroll students modal
     enroll_the_following_students: "Enroll the following students"
     all_students: "All Students"
-
     enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
     enrollments_blurb_2: "require enrollments to access the courses."
     credits_available: "Credits Available"
@@ -1314,7 +1303,7 @@
     how_to_enroll: "How to Enroll Students"
     how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
     how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
-    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content." # {change}
+    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
     bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
 
   classes:
