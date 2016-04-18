@@ -78,6 +78,7 @@ module.exports = TestView = class TestView extends RootView
     describe 'CodeCombat Client', =>
       jasmine.Ajax.install()
       beforeEach ->
+        me.clear()
         jasmine.Ajax.requests.reset()
         Backbone.Mediator.init()
         Backbone.Mediator.setValidationEnabled false
