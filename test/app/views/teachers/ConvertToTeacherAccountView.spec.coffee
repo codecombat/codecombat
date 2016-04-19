@@ -59,7 +59,18 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
   afterEach (done) ->
     _.defer(done) # let everything finish loading, keep navigate spied on
 
-  
+  describe 'when the form is unchanged', ->
+    it 'does not prevent navigating away', ->
+      expect(_.result(view, 'onLeaveMessage')).toBeFalsy()
+
+  describe 'when the form has changed but is not submitted', ->
+    beforeEach ->
+      view.$el.find('form').trigger('change')
+
+    it 'prevents navigating away', ->
+      expect(_.result(view, 'onLeaveMessage')).toBeTruthy()
+
+
   describe 'when the user already has a TrialRequest and is a teacher', ->
     beforeEach (done) ->
       spyOn(me, 'isTeacher').and.returnValue(true)
@@ -121,10 +132,14 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
 
   describe 'submitting the form', ->
     beforeEach ->
+      view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
       _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') })
       form = view.$('form')
       forms.objectToForm(form, successForm, {overwriteExisting: true})
       form.submit()
+
+    it 'does not prevent navigating away', ->
+      expect(_.result(view, 'onLeaveMessage')).toBeFalsy()
 
     it 'creates a new TrialRequest with the information', ->
       request = _.last(view.trialRequest.fakeRequests)

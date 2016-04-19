@@ -3,7 +3,6 @@ forms = require 'core/forms'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
 AuthModal = require 'views/core/AuthModal'
-storage = require 'core/storage'
 errors = require 'core/errors'
 User = require 'models/User'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
@@ -35,6 +34,10 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     @trialRequests.fetchOwn()
     @supermodel.trackCollection(@trialRequests)
 
+  onLeaveMessage: ->
+    if @formChanged
+      return 'Your account has not been updated! If you continue, your changes will be lost.'
+
   invalidateNCES: ->
     for key in NCES_KEYS
       @$('input[name="nces_' + key + '"]').val ''
@@ -57,13 +60,6 @@ module.exports = class ConvertToTeacherAccountView extends RootView
       otherLevel = _.first(_.difference(submittedLevels, commonLevels)) or ''
       @$('#other-education-level-checkbox').attr('checked', !!otherLevel)
       @$('#other-education-level-input').val(otherLevel)
-
-    # apply changes from local storage
-    obj = storage.load(FORM_KEY)
-    if obj
-      @$('#other-education-level-checkbox').attr('checked', obj.otherChecked)
-      @$('#other-education-level-input').val(obj.otherInput)
-      forms.objectToForm(@$('form'), obj, { overwriteExisting: true })
 
     $("#organization-control").autocomplete({hint: false}, [
       source: (query, callback) ->
@@ -88,14 +84,10 @@ module.exports = class ConvertToTeacherAccountView extends RootView
       for key in NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
 
-      @onChangeRequestForm()
+      @onChangeForm()
 
-  onChangeRequestForm: ->
-    # save changes to local storage
-    obj = forms.formToObject(@$('form'))
-    obj.otherChecked = @$('#other-education-level-checkbox').is(':checked')
-    obj.otherInput = @$('#other-education-level-input').val()
-    storage.save(FORM_KEY, obj, 10)
+  onChangeForm: ->
+    @formChanged = true
 
   onSubmitForm: (e) ->
     e.preventDefault()
@@ -149,13 +141,15 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     errors.showNotyNetworkError(arguments...)
 
   onTrialRequestSubmit: ->
+    @formChanged = false
     me.setRole @trialRequest.get('properties').role.toLowerCase(), true
-    storage.remove(FORM_KEY)
     application.router.navigate('/teachers/classes', {trigger: true})
 
 formSchema = {
   type: 'object'
-  required: ['firstName', 'lastName', 'organization', 'role', 'numStudents']
+  required: [
+    'firstName', 'lastName', 'organization', 'role', 'numStudents', 'city', 'state', 'country'
+  ]
   properties:
     firstName: { type: 'string' }
     lastName: { type: 'string' }
@@ -166,6 +160,7 @@ formSchema = {
     state: { type: 'string' }
     country: { type: 'string' }
     numStudents: { type: 'string' }
+    numStudentsTotal: { type: 'string' }
     educationLevel: {
       type: 'array'
       items: { type: 'string' }

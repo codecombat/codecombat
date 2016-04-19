@@ -3,12 +3,10 @@ forms = require 'core/forms'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
 AuthModal = require 'views/core/AuthModal'
-storage = require 'core/storage'
 errors = require 'core/errors'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
 algolia = require 'core/services/algolia'
 
-FORM_KEY = 'request-quote-form'
 SIGNUP_REDIRECT = '/teachers'
 NCES_KEYS = ['id', 'name', 'district', 'district_id', 'district_schools', 'district_students', 'students', 'phone']
 
@@ -35,6 +33,11 @@ module.exports = class RequestQuoteView extends RootView
     @trialRequests = new TrialRequests()
     @trialRequests.fetchOwn()
     @supermodel.trackCollection(@trialRequests)
+    @formChanged = false
+
+  onLeaveMessage: ->
+    if @formChanged
+      return 'Your request has not been submitted! If you continue, your changes will be lost.'
 
   onLoaded: ->
     if @trialRequests.size()
@@ -59,13 +62,6 @@ module.exports = class RequestQuoteView extends RootView
       otherLevel = _.first(_.difference(submittedLevels, commonLevels)) or ''
       @$('#other-education-level-checkbox').attr('checked', !!otherLevel)
       @$('#other-education-level-input').val(otherLevel)
-
-    # apply changes from local storage
-    obj = storage.load(FORM_KEY)
-    if obj
-      @$('#other-education-level-checkbox').attr('checked', obj.otherChecked)
-      @$('#other-education-level-input').val(obj.otherInput)
-      forms.objectToForm(@$('#request-form'), obj, { overwriteExisting: true })
 
     $("#organization-control").autocomplete({hint: false}, [
       source: (query, callback) ->
@@ -93,18 +89,14 @@ module.exports = class RequestQuoteView extends RootView
       @onChangeRequestForm()
 
   onChangeRequestForm: ->
-    # save changes to local storage
-    obj = forms.formToObject(@$('form'))
-    obj.otherChecked = @$('#other-education-level-checkbox').is(':checked')
-    obj.otherInput = @$('#other-education-level-input').val()
-    storage.save(FORM_KEY, obj, 10)
+    @formChanged = true
 
   onSubmitRequestForm: (e) ->
     e.preventDefault()
     form = @$('#request-form')
     attrs = forms.formToObject(form)
 
-    # custom other input logic (also used in form local storage save/restore)
+    # custom other input logic
     if @$('#other-education-level-checkbox').is(':checked')
       val = @$('#other-education-level-input').val()
       attrs.educationLevel.push(val) if val
@@ -138,7 +130,10 @@ module.exports = class RequestQuoteView extends RootView
         decline: $.i18n.t('common.cancel')
       })
       @openModalView(modal)
-      modal.once 'confirm', @saveTrialRequest, @
+      modal.once('confirm', (->
+        modal.hide()
+        @saveTrialRequest()
+      ), @)
     else
       @saveTrialRequest()
 
@@ -166,10 +161,10 @@ module.exports = class RequestQuoteView extends RootView
     @openModalView(modal)
 
   onTrialRequestSubmit: ->
+    @formChanged = false
     me.setRole @trialRequest.get('properties').role.toLowerCase(), true
     defaultName = [@trialRequest.get('firstName'), @trialRequest.get('lastName')].join(' ')
     @$('input[name="name"]').val(defaultName)
-    storage.remove(FORM_KEY)
     @$('#request-form, #form-submit-success').toggleClass('hide')
     @scrollToTop(0)
     $('#flying-focus').css({top: 0, left: 0}) # Hack copied from Router.coffee#187. Ideally we'd swap out the view and have view-swapping logic handle this
@@ -264,19 +259,23 @@ module.exports = class RequestQuoteView extends RootView
 
 requestFormSchemaAnonymous = {
   type: 'object'
-  required: ['firstName', 'lastName', 'email', 'organization', 'role', 'numStudents']
+  required: [
+    'firstName', 'lastName', 'email', 'organization', 'role', 'purchaserRole', 'numStudents', 
+    'numStudentsTotal', 'phoneNumber', 'city', 'state', 'country']
   properties:
     firstName: { type: 'string' }
     lastName: { type: 'string' }
-    name: { type: 'string', minLength: 1 }
+    name: { type: 'string' }
     email: { type: 'string', format: 'email' }
     phoneNumber: { type: 'string' }
     role: { type: 'string' }
+    purchaserRole: { type: 'string' }
     organization: { type: 'string' }
     city: { type: 'string' }
     state: { type: 'string' }
     country: { type: 'string' }
     numStudents: { type: 'string' }
+    numStudentsTotal: { type: 'string' }
     educationLevel: {
       type: 'array'
       items: { type: 'string' }

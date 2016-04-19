@@ -3,7 +3,6 @@ forms = require 'core/forms'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
 AuthModal = require 'views/core/AuthModal'
-storage = require 'core/storage'
 errors = require 'core/errors'
 User = require 'models/User'
 algolia = require 'core/services/algolia'
@@ -33,6 +32,10 @@ module.exports = class CreateTeacherAccountView extends RootView
     @trialRequests.fetchOwn()
     @supermodel.trackCollection(@trialRequests)
 
+  onLeaveMessage: ->
+    if @formChanged
+      return 'Your account has not been created! If you continue, your changes will be lost.'
+
   onLoaded: ->
     if @trialRequests.size()
       @trialRequest = @trialRequests.first()
@@ -57,13 +60,6 @@ module.exports = class CreateTeacherAccountView extends RootView
       @$('#other-education-level-checkbox').attr('checked', !!otherLevel)
       @$('#other-education-level-input').val(otherLevel)
       
-    # apply changes from local storage
-    obj = storage.load(FORM_KEY)
-    if obj
-      @$('#other-education-level-checkbox').attr('checked', obj.otherChecked)
-      @$('#other-education-level-input').val(obj.otherInput)
-      forms.objectToForm(@$('form'), obj, { overwriteExisting: true })
-
     $("#organization-control").autocomplete({hint: false}, [
       source: (query, callback) ->
         algolia.schoolsIndex.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
@@ -87,20 +83,14 @@ module.exports = class CreateTeacherAccountView extends RootView
       for key in NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
 
-      @onChangeRequestForm()
+      @onChangeForm()
 
   onClickLoginLink: ->
     modal = new AuthModal({ initialValues: { email: @trialRequest.get('properties')?.email } })
     @openModalView(modal)
 
-  onChangeRequestForm: ->
-    # Local storage is being used to store the contents of the form whenever it changes, 
-    # and filling in the stored values if the page is reloaded or navigated away from and returned to.
-    # save changes to local storage
-    obj = forms.formToObject(@$('form'))
-    obj.otherChecked = @$('#other-education-level-checkbox').is(':checked')
-    obj.otherInput = @$('#other-education-level-input').val()
-    storage.save(FORM_KEY, obj, 10)
+  onChangeForm: ->
+    @formChanged = true
 
   onSubmitForm: (e) ->
     e.preventDefault()
@@ -168,7 +158,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     @openModalView(modal)
 
   onTrialRequestSubmit: ->
-    storage.remove(FORM_KEY)
+    @formChanged = false
     attrs = _.pick(forms.formToObject(@$('form')), 'name', 'email', 'role')
     attrs.role = attrs.role.toLowerCase()
     options = {}
@@ -215,7 +205,7 @@ module.exports = class CreateTeacherAccountView extends RootView
                   success: =>
                     me.loginGPlusUser(@gplusAttrs.gplusID, {
                       success: ->
-                        application.router.navigate('/teachers/update-account')
+                        application.router.navigate('/teachers/update-account', {trigger: true})
                       error: errors.showNotyNetworkError
                     })
                 })
@@ -224,6 +214,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     })
 
   onGPlusConnected: ->
+    @formChanged = true
     forms.objectToForm(@$('form'), @gplusAttrs)
     for field in ['email', 'firstName', 'lastName']
       input = @$("input[name='#{field}']")
@@ -257,7 +248,7 @@ module.exports = class CreateTeacherAccountView extends RootView
                   success: =>
                     me.loginFacebookUser(@facebookAttrs.facebookID, {
                       success: ->
-                        application.router.navigate('/teachers/update-account')
+                        application.router.navigate('/teachers/update-account', {trigger: true})
                       error: errors.showNotyNetworkError
                     })
                 })
@@ -266,6 +257,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     })
 
   onFacebookConnected: ->
+    @formChanged = true
     forms.objectToForm(@$('form'), @facebookAttrs)
     for field in ['email', 'firstName', 'lastName']
       input = @$("input[name='#{field}']")
@@ -278,7 +270,10 @@ module.exports = class CreateTeacherAccountView extends RootView
 
 formSchema = {
   type: 'object'
-  required: ['firstName', 'lastName', 'email', 'organization', 'role', 'numStudents']
+  required: [
+    'firstName', 'lastName', 'email', 'organization', 'role', 'numStudents', 'city'
+    'state', 'country'
+  ]
   properties:
     password1: { type: 'string' }
     password2: { type: 'string' }
@@ -293,6 +288,7 @@ formSchema = {
     state: { type: 'string' }
     country: { type: 'string' }
     numStudents: { type: 'string' }
+    numStudentsTotal: { type: 'string' }
     educationLevel: {
       type: 'array'
       items: { type: 'string' }

@@ -14,7 +14,7 @@ module.exports =
   fetchByGPlusID: wrap (req, res, next) ->
     gpID = req.query.gplusID
     gpAT = req.query.gplusAccessToken
-    next() unless gpID and gpAT
+    return next() unless gpID and gpAT
 
     dbq = User.find()
     dbq.select(parse.getProjectFromReq(req))
@@ -29,7 +29,7 @@ module.exports =
   fetchByFacebookID: wrap (req, res, next) ->
     fbID = req.query.facebookID
     fbAT = req.query.facebookAccessToken
-    next() unless fbID and fbAT
+    return next() unless fbID and fbAT
 
     dbq = User.find()
     dbq.select(parse.getProjectFromReq(req))
