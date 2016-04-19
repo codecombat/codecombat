@@ -6,9 +6,11 @@ AuthModal = require 'views/core/AuthModal'
 storage = require 'core/storage'
 errors = require 'core/errors'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
+algolia = require 'core/services/algolia'
 
 FORM_KEY = 'request-quote-form'
 SIGNUP_REDIRECT = '/teachers'
+NCES_KEYS = ['id', 'name', 'district', 'district_id', 'district_schools', 'district_students', 'students', 'phone']
 
 module.exports = class RequestQuoteView extends RootView
   id: 'request-quote-view'
@@ -18,6 +20,10 @@ module.exports = class RequestQuoteView extends RootView
   events:
     'change #request-form': 'onChangeRequestForm'
     'submit #request-form': 'onSubmitRequestForm'
+    'change input[name="city"]': 'invalidateNCES'
+    'change input[name="state"]': 'invalidateNCES'
+    'change input[name="district"]': 'invalidateNCES'
+    'change input[name="country"]': 'invalidateNCES'
     'click #email-exists-login-link': 'onClickEmailExistsLoginLink'
     'submit #signup-form': 'onSubmitSignupForm'
     'click #logout-link': -> me.logout()
@@ -36,10 +42,14 @@ module.exports = class RequestQuoteView extends RootView
     if @trialRequest and @trialRequest.get('status') isnt 'submitted' and @trialRequest.get('status') isnt 'approved'
       window.tracker?.trackEvent 'View Trial Request', category: 'Teachers', label: 'View Trial Request', ['Mixpanel']
     super()
-    
+
+  invalidateNCES: ->
+    for key in NCES_KEYS
+      @$('input[name="nces_' + key + '"]').val ''
+
   afterRender: ->
     super()
-    
+
     # apply existing trial request on form
     properties = @trialRequest.get('properties')
     if properties
@@ -49,13 +59,38 @@ module.exports = class RequestQuoteView extends RootView
       otherLevel = _.first(_.difference(submittedLevels, commonLevels)) or ''
       @$('#other-education-level-checkbox').attr('checked', !!otherLevel)
       @$('#other-education-level-input').val(otherLevel)
-      
+
     # apply changes from local storage
     obj = storage.load(FORM_KEY)
     if obj
       @$('#other-education-level-checkbox').attr('checked', obj.otherChecked)
       @$('#other-education-level-input').val(obj.otherInput)
       forms.objectToForm(@$('#request-form'), obj, { overwriteExisting: true })
+
+    $("#organization-control").autocomplete({hint: false}, [
+      source: (query, callback) ->
+        algolia.schoolsIndex.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
+          callback answer.hits
+        , ->
+          callback []
+      displayKey: 'name',
+      templates:
+        suggestion: (suggestion) ->
+          hr = suggestion._highlightResult
+          "<div class='school'> #{hr.name.value} </div>" +
+            "<div class='district'>#{hr.district.value}, " +
+              "<span>#{hr.city?.value}, #{hr.state.value}</span></div>"
+
+    ]).on 'autocomplete:selected', (event, suggestion, dataset) =>
+      @$('input[name="city"]').val suggestion.city
+      @$('input[name="state"]').val suggestion.state
+      @$('input[name="district"]').val suggestion.district
+      @$('input[name="country"]').val 'USA'
+
+      for key in NCES_KEYS
+        @$('input[name="nces_' + key + '"]').val suggestion[key]
+
+      @onChangeRequestForm()
 
   onChangeRequestForm: ->
     # save changes to local storage
@@ -68,12 +103,12 @@ module.exports = class RequestQuoteView extends RootView
     e.preventDefault()
     form = @$('#request-form')
     attrs = forms.formToObject(form)
-    
+
     # custom other input logic (also used in form local storage save/restore)
     if @$('#other-education-level-checkbox').is(':checked')
       val = @$('#other-education-level-input').val()
       attrs.educationLevel.push(val) if val
-      
+
     forms.clearFormAlerts(form)
     requestFormSchema = if me.isAnonymous() then requestFormSchemaAnonymous else requestFormSchemaLoggedIn
     result = tv4.validateMultiple(attrs, requestFormSchemaAnonymous)
@@ -106,7 +141,7 @@ module.exports = class RequestQuoteView extends RootView
       modal.once 'confirm', @saveTrialRequest, @
     else
       @saveTrialRequest()
-    
+
   saveTrialRequest: ->
     @trialRequest.notyErrors = false
     @$('#submit-request-btn').text('Sending').attr('disabled', true)
@@ -123,7 +158,7 @@ module.exports = class RequestQuoteView extends RootView
         .addClass('has-error')
         .append($("<div class='help-block error-help-block'>#{userExists} <a id='email-exists-login-link'>#{logIn}</a>"))
       forms.scrollToFirstError()
-    else 
+    else
       errors.showNotyNetworkError(arguments...)
 
   onClickEmailExistsLoginLink: ->
@@ -167,7 +202,7 @@ module.exports = class RequestQuoteView extends RootView
             })
         })
     })
-    
+
   onClickFacebookSignupButton: ->
     btn = @$('#facebook-signup-btn')
     btn.attr('disabled', true)
@@ -212,7 +247,7 @@ module.exports = class RequestQuoteView extends RootView
       forms.setErrorToProperty(form, 'password1', 'Passwords do not match')
       error = true
     return if error
-    
+
     me.set({
       password: attrs.password1
       name: attrs.name
@@ -246,8 +281,11 @@ requestFormSchemaAnonymous = {
       type: 'array'
       items: { type: 'string' }
     }
-    notes: { type: 'string' }
+    notes: { type: 'string' },
 }
+
+for key in NCES_KEYS
+  requestFormSchemaAnonymous['nces_' + key] = type: 'string'
 
 # same form, but add username input
 requestFormSchemaLoggedIn = _.cloneDeep(requestFormSchemaAnonymous)
