@@ -20,6 +20,10 @@ module.exports = class RequestQuoteView extends RootView
   events:
     'change #request-form': 'onChangeRequestForm'
     'submit #request-form': 'onSubmitRequestForm'
+    'change input[name="city"]': 'invalidateNCES'
+    'change input[name="state"]': 'invalidateNCES'
+    'change input[name="district"]': 'invalidateNCES'
+    'change input[name="country"]': 'invalidateNCES'
     'click #email-exists-login-link': 'onClickEmailExistsLoginLink'
     'submit #signup-form': 'onSubmitSignupForm'
     'click #logout-link': -> me.logout()
@@ -38,6 +42,10 @@ module.exports = class RequestQuoteView extends RootView
     if @trialRequest and @trialRequest.get('status') isnt 'submitted' and @trialRequest.get('status') isnt 'approved'
       window.tracker?.trackEvent 'View Trial Request', category: 'Teachers', label: 'View Trial Request', ['Mixpanel']
     super()
+
+  invalidateNCES: ->
+    for key in NCES_KEYS
+      @$('input[name="nces_' + key + '"]').val ''
 
   afterRender: ->
     super()
@@ -82,7 +90,7 @@ module.exports = class RequestQuoteView extends RootView
       for key in NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
 
-
+      @onChangeRequestForm()
 
   onChangeRequestForm: ->
     # save changes to local storage
