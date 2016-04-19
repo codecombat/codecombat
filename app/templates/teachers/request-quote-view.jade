@@ -219,6 +219,10 @@ block content
       p
         span.spr(data-i18n="teachers_quote.thanks_p")
         a.spl(href="mailto:team@codecombat.com") team@codecombat.com
+      
+      unless me.isAnonymous()
+        a.btn.btn-lg.btn-navy(href="/teachers/classes")
+          span(data-i18n='teachers_quote.back_to_classes')
 
       if me.isAnonymous()
         h5(data-i18n="teachers_quote.finish_signup")

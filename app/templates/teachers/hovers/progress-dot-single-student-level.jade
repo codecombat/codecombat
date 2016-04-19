@@ -1,0 +1,27 @@
+if completed
+  .small-details.nowrap
+    span= levelNumber
+    span.spr . 
+    span= levelName
+  .small-details.nowrap
+    span.spr(data-i18n='teacher.completed')
+      | Completed
+    span= new Date(dateFirstCompleted).toLocaleString()
+  //- .small-details
+  //-   i(data-i18n='teacher.click_to_view_solution')
+  //-     | click to view solution
+else if started
+  .small-details.nowrap
+    span= levelNumber
+    span.spr . 
+    span= levelName
+  .small-details.nowrap
+    span.spr(data-i18n='teacher.last_played')
+      | Last played
+    span= new Date(lastPlayed).toLocaleString()
+  //- .small-details
+  //-   i(data-i18n='teacher.click_to_view_progress')
+  //-     | click to view progress
+else
+  span.small-details.nowrap(data-i18n='teacher.no_progress')
+    | No progress
