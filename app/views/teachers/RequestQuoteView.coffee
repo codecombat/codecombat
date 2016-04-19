@@ -6,9 +6,11 @@ AuthModal = require 'views/core/AuthModal'
 storage = require 'core/storage'
 errors = require 'core/errors'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
+algolia = require 'core/services/algolia'
 
 FORM_KEY = 'request-quote-form'
 SIGNUP_REDIRECT = '/teachers'
+NCES_KEYS = ['id', 'name', 'district', 'district_id', 'district_schools', 'district_students', 'students', 'phone']
 
 module.exports = class RequestQuoteView extends RootView
   id: 'request-quote-view'
@@ -57,11 +59,9 @@ module.exports = class RequestQuoteView extends RootView
       @$('#other-education-level-input').val(obj.otherInput)
       forms.objectToForm(@$('#request-form'), obj, { overwriteExisting: true })
 
-    client = algoliasearch("JJM5H2CHJR", "50382fc2f7fa69c67e8233ace7cd7c4c")
-    index = client.initIndex('schools')
     $("#organization-control").autocomplete({hint: false}, [
       source: (query, callback) ->
-        index.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
+        algolia.schoolsIndex.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
           callback answer.hits
         , ->
           callback []
@@ -77,9 +77,11 @@ module.exports = class RequestQuoteView extends RootView
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
       @$('input[name="district"]').val suggestion.district
-      @$('input[name="district"]').val 'USA'
-      # Stuff we want to save: district ID, geo, school phone, number of students in school, number of students in district, number of schools in district, school mailing address, institution type
-      console.log('S', suggestion)
+      @$('input[name="country"]').val 'USA'
+
+      for key in NCES_KEYS
+        @$('input[name="nces_' + key + '"]').val suggestion[key]
+
 
 
   onChangeRequestForm: ->
@@ -271,8 +273,11 @@ requestFormSchemaAnonymous = {
       type: 'array'
       items: { type: 'string' }
     }
-    notes: { type: 'string' }
+    notes: { type: 'string' },
 }
+
+for key in NCES_KEYS
+  requestFormSchemaAnonymous['nces_' + key] = type: 'string'
 
 # same form, but add username input
 requestFormSchemaLoggedIn = _.cloneDeep(requestFormSchemaAnonymous)
