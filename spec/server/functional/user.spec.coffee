@@ -310,22 +310,35 @@ describe 'GET /db/user', ->
   xit 'can fetch another user with restricted fields'
 
 describe 'DELETE /db/user', ->
-  it 'can delete a user', (done) ->
-    loginNewUser (user1) ->
-      beforeDeleted = new Date()
-      request.del {uri: "#{getURL(urlUser)}/#{user1.id}"}, (err, res) ->
-        expect(err).toBeNull()
-        return done() if err
-        User.findById user1.id, (err, user1) ->
-          expect(err).toBeNull()
-          return done() if err
-          expect(user1.get('deleted')).toBe(true)
-          expect(user1.get('dateDeleted')).toBeGreaterThan(beforeDeleted)
-          expect(user1.get('dateDeleted')).toBeLessThan(new Date())
-          for key, value of user1.toObject()
-            continue if key in ['_id', 'deleted', 'dateDeleted']
-            expect(_.isEmpty(value)).toEqual(true)
-          done()
+  it 'can delete a user', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    beforeDeleted = new Date()
+    [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
+    user = yield User.findById user.id
+    expect(user.get('deleted')).toBe(true)
+    expect(user.get('dateDeleted')).toBeGreaterThan(beforeDeleted)
+    expect(user.get('dateDeleted')).toBeLessThan(new Date())
+    for key, value of user.toObject()
+      continue if key in ['_id', 'deleted', 'dateDeleted']
+      expect(_.isEmpty(value)).toEqual(true)
+    done()
+    
+  it 'moves user to classroom.deletedMembers', utils.wrap (done) ->
+    user = yield utils.initUser()
+    user2 = yield utils.initUser()
+    yield utils.loginUser(user)
+    classroom = new Classroom({
+      members: [user._id, user2._id]
+    })
+    yield classroom.save()
+    [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
+    classroom = yield Classroom.findById(classroom.id)
+    expect(classroom.get('members').length).toBe(1)
+    expect(classroom.get('deletedMembers').length).toBe(1)
+    expect(classroom.get('members')[0].toString()).toEqual(user2.id)
+    expect(classroom.get('deletedMembers')[0].toString()).toEqual(user.id)
+    done()
 
 describe 'Statistics', ->
   LevelSession = require '../../../server/models/LevelSession'

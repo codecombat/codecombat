@@ -29,7 +29,7 @@ module.exports = class ActivateLicensesModal extends ModalView
       success: =>
         @classrooms.each (classroom) =>
           classroom.users = new Users()
-          jqxhrs = classroom.users.fetchForClassroom(classroom)
+          jqxhrs = classroom.users.fetchForClassroom(classroom, { removeDeleted: true })
           @supermodel.trackRequests(jqxhrs)
       })
     @supermodel.trackCollection(@classrooms)
@@ -46,10 +46,8 @@ module.exports = class ActivateLicensesModal extends ModalView
       numToActivate = @$('input[name="user"]:checked:not(:disabled)').length
     @$('#total-selected-span').text(numToActivate)
     remaining = @prepaids.totalMaxRedeemers() - @prepaids.totalRedeemers() - numToActivate
-    @$('#licenses-remaining-span').text(remaining)
     depleted = remaining < 0
-    @$('#not-depleted-span').toggleClass('hide', depleted)
-    @$('#depleted-span').toggleClass('hide', !depleted)
+    @$('.not-enough-enrollments').toggleClass('visible', depleted)
     @$('#activate-licenses-btn').toggleClass('disabled', depleted).toggleClass('btn-success', not depleted).toggleClass('btn-default', depleted)
     
   replaceStudentList: (e) ->
@@ -97,8 +95,8 @@ module.exports = class ActivateLicensesModal extends ModalView
       return
 
     user = @usersToRedeem.first()
-    prepaid = @prepaids.find((prepaid) -> prepaid.get('properties')?.endDate? and prepaid.openSpots())
-    prepaid = @prepaids.find((prepaid) -> prepaid.openSpots()) unless prepaid
+    prepaid = @prepaids.find((prepaid) -> prepaid.get('properties')?.endDate? and prepaid.openSpots() > 0)
+    prepaid = @prepaids.find((prepaid) -> prepaid.openSpots() > 0) unless prepaid
     $.ajax({
       method: 'POST'
       url: _.result(prepaid, 'url') + '/redeemers'

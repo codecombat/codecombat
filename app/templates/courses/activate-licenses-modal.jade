@@ -3,20 +3,21 @@ extends /templates/core/modal-base-flat
 block modal-header-content
   .clearfix
   .text-center
-    h1(data-i18n="courses.enroll_students")
+    h1(data-i18n="teacher.enroll_students")
     h2(data-i18n="courses.grants_lifetime_access")
     if view.classroom
       p= view.classroom.get('name')
 
 block modal-body-content
-  .text-center
-    span(data-i18n='teacher.show_students_from')
-    span.spr :
-    select
-      each classroom in view.classrooms.models
-        option(selected=(classroom.id === view.classroom.id), value=classroom.id)
-          = classroom.get('name')
-      //- option(selected=!view.classroom, value='all-classrooms' data-i18n='teacher.all_students')
+  if view.classrooms.length > 1
+    .text-center
+      span(data-i18n='teacher.show_students_from')
+      span.spr :
+      select
+        each classroom in view.classrooms.models
+          option(selected=(classroom.id === view.classroom.id), value=classroom.id)
+            = classroom.get('name')
+        //- option(selected=!view.classroom, value='all-classrooms' data-i18n='teacher.all_students')
   form.form
     span(data-i18n="teacher.enroll_the_following_students")
     span :
@@ -40,6 +41,8 @@ block modal-body-content
         span.spr(data-i18n="courses.enrollment_credits_available")
         span#total-available= view.prepaids.totalAvailable()
 
+      p.small-details.not-enough-enrollments
+        span(data-i18n='teacher.not_enough_enrollments')
       p
         button#activate-licenses-btn.btn.btn-lg.btn-primary(type="submit")
           span.spr(data-i18n="courses.enroll")

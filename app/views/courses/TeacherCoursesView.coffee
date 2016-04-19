@@ -27,9 +27,15 @@ module.exports = class TeacherCoursesView extends RootView
     
   guideLinks:
     {
-      "560f1a9f22961295f9427742": 'http://codecombat.com/docs/CodeCombatTeacherGuideCourse1.pdf'
-      "5632661322961295f9428638": 'https://docs.google.com/a/codecombat.com/viewer?a=v&pid=sites&srcid=Y29kZWNvbWJhdC5jb218dGVhY2hlci1ndWlkZXN8Z3g6NGEzMDFhZTZmMTg4YmRmZQ'
-      "56462f935afde0c6fd30fc8c": 'https://docs.google.com/a/codecombat.com/viewer?a=v&pid=sites&srcid=Y29kZWNvbWJhdC5jb218dGVhY2hlci1ndWlkZXN8Z3g6NzY0Nzc1NWRjMTk4MGRiMQ'
+      "560f1a9f22961295f9427742":
+        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_intro_python.pdf'
+        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_intro_javascript.pdf'
+      "5632661322961295f9428638":
+        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-2_python.pdf'
+        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-2_javascript.pdf'
+      "56462f935afde0c6fd30fc8c":
+        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-3_python.pdf'
+        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-3_javascript.pdf'
       "56462f935afde0c6fd30fc8d": null
       "569ed916efa72b0ced971447": null
     }

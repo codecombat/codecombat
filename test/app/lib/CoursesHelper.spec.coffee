@@ -6,14 +6,14 @@ CourseInstances = require 'collections/CourseInstances'
 Classrooms = require 'collections/Classrooms'
 
 # These got broken by changes to fixtures :(
-xdescribe 'CoursesHelper', ->
+describe 'CoursesHelper', ->
 
   describe 'calculateAllProgress', ->
 
     beforeEach ->
       # classrooms, courses, campaigns, courseInstances, students
-      @classrooms = require 'test/app/fixtures/classrooms'
-      @classroom = @classrooms.models[0]
+      @classroom = require 'test/app/fixtures/classrooms/active-classroom'
+      @classrooms = new Classrooms([ @classroom ])
       @courses = require 'test/app/fixtures/courses'
       @course = @courses.models[0]
       @campaigns = require 'test/app/fixtures/campaigns'

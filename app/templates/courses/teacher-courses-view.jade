@@ -82,8 +82,12 @@ mixin course-info(course)
       if view.guideLinks[course.id]
         //- a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
         //-   span(data-i18n="courses.print_guide")
-        a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
+        a.btn.btn-primary(href=view.guideLinks[course.id].python class=(me.isAnonymous() ? 'disabled' : ''))
           span(data-i18n="courses.view_guide_online")
+          |  &mdash; Python
+        a.btn.btn-primary(href=view.guideLinks[course.id].javascript class=(me.isAnonymous() ? 'disabled' : ''))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; JavaScript
       else
         i.small
           | (
