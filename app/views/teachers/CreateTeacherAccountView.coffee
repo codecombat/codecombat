@@ -6,9 +6,11 @@ AuthModal = require 'views/core/AuthModal'
 storage = require 'core/storage'
 errors = require 'core/errors'
 User = require 'models/User'
+algolia = require 'core/services/algolia'
 
 FORM_KEY = 'request-quote-form'
 SIGNUP_REDIRECT = '/teachers/classes'
+NCES_KEYS = ['id', 'name', 'district', 'district_id', 'district_schools', 'district_students', 'students', 'phone']
 
 module.exports = class CreateTeacherAccountView extends RootView
   id: 'create-teacher-account-view'
@@ -20,6 +22,10 @@ module.exports = class CreateTeacherAccountView extends RootView
     'submit form': 'onSubmitForm'
     'click #gplus-signup-btn': 'onClickGPlusSignupButton'
     'click #facebook-signup-btn': 'onClickFacebookSignupButton'
+    'change input[name="city"]': 'invalidateNCES'
+    'change input[name="state"]': 'invalidateNCES'
+    'change input[name="district"]': 'invalidateNCES'
+    'change input[name="country"]': 'invalidateNCES'
 
   initialize: ->
     @trialRequest = new TrialRequest()
@@ -33,6 +39,10 @@ module.exports = class CreateTeacherAccountView extends RootView
     if @trialRequest and @trialRequest.get('status') isnt 'submitted' and @trialRequest.get('status') isnt 'approved'
       window.tracker?.trackEvent 'View Trial Request', category: 'Teachers', label: 'View Trial Request', ['Mixpanel']
     super()
+
+  invalidateNCES: ->
+    for key in NCES_KEYS
+      @$('input[name="nces_' + key + '"]').val ''
     
   afterRender: ->
     super()
@@ -53,6 +63,29 @@ module.exports = class CreateTeacherAccountView extends RootView
       @$('#other-education-level-checkbox').attr('checked', obj.otherChecked)
       @$('#other-education-level-input').val(obj.otherInput)
       forms.objectToForm(@$('form'), obj, { overwriteExisting: true })
+
+    $("#organization-control").autocomplete({hint: false}, [
+      source: (query, callback) ->
+        algolia.schoolsIndex.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
+          callback answer.hits
+        , ->
+          callback []
+      displayKey: 'name',
+      templates:
+        suggestion: (suggestion) ->
+          hr = suggestion._highlightResult
+          "<div class='school'> #{hr.name.value} </div>" +
+            "<div class='district'>#{hr.district.value}, " +
+              "<span>#{hr.city?.value}, #{hr.state.value}</span></div>"
+
+    ]).on 'autocomplete:selected', (event, suggestion, dataset) =>
+      @$('input[name="city"]').val suggestion.city
+      @$('input[name="state"]').val suggestion.state
+      @$('input[name="district"]').val suggestion.district
+      @$('input[name="country"]').val 'USA'
+
+      for key in NCES_KEYS
+        @$('input[name="nces_' + key + '"]').val suggestion[key]
 
   onClickLoginLink: ->
     modal = new AuthModal({ initialValues: { email: @trialRequest.get('properties')?.email } })
@@ -264,3 +297,6 @@ formSchema = {
     }
     notes: { type: 'string' }
 }
+
+for key in NCES_KEYS
+  formSchema['nces_' + key] = type: 'string'
