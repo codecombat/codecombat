@@ -76,7 +76,7 @@ block content
           .col-md-offset-2.col-md-4.col-sm-6
             .form-group
               label.control-label(data-i18n="teachers_quote.organization_label")
-              input.form-control(name="organization")
+              input.form-control#organization-control(name="organization")
 
           .col-md-4.col-sm-6
             .form-group
@@ -147,6 +147,14 @@ block content
             span(data-i18n="teachers_quote.anything_else")
             span.spl.text-muted(data-i18n="signup.optional")
           textarea.form-control(rows=8, name="notes")
+          input(type="hidden" name="nces_id")
+          input(type="hidden" name="nces_name")
+          input(type="hidden" name="nces_district")
+          input(type="hidden" name="nces_district_id")
+          input(type="hidden" name="nces_district_schools")
+          input(type="hidden" name="nces_district_students")
+          input(type="hidden" name="nces_students")
+          input(type="hidden" name="nces_phone")
       #buttons-row.row.m-y-2.text-center
         input#create-account-btn.btn.btn-lg.btn-primary(type="submit" data-i18n="[value]teachers_quote.convert_account_title")
 

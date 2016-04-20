@@ -87,6 +87,8 @@ module.exports = class CreateTeacherAccountView extends RootView
       for key in NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
 
+      @onChangeRequestForm()
+
   onClickLoginLink: ->
     modal = new AuthModal({ initialValues: { email: @trialRequest.get('properties')?.email } })
     @openModalView(modal)
