@@ -30,6 +30,7 @@ module.exports = class SpellPaletteView extends CocoView
     @session = options.session
     @supermodel = options.supermodel
     @thang = options.thang
+    @useHero = options.useHero
     docs = @options.level.get('documentation') ? {}
     @showsHelp = docs.specificArticles?.length or docs.generalArticles?.length
     @createPalette()
@@ -297,7 +298,7 @@ module.exports = class SpellPaletteView extends CocoView
 
   addEntry: (doc, shortenize, isSnippet=false, item=null, showImage=false) ->
     writable = (if _.isString(doc) then doc else doc.name) in (@thang.apiUserProperties ? [])
-    new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, isSnippet: isSnippet, language: @options.language, writable: writable, level: @options.level, item: item, showImage: showImage
+    new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, isSnippet: isSnippet, language: @options.language, writable: writable, level: @options.level, item: item, showImage: showImage, useHero: @useHero
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true

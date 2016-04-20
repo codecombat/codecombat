@@ -51,10 +51,10 @@ module.exports = class DocFormatter
     else
       @doc.owner ?= 'this'
       ownerName = @doc.ownerName = if @doc.owner isnt 'this' then @doc.owner else switch @options.language
-        when 'python', 'lua' then 'self'
+        when 'python', 'lua' then (if @options.useHero then 'hero' else 'self')
         when 'java' then 'hero'
         when 'coffeescript' then '@'
-        else 'this'
+        else (if @options.useHero then 'hero' else 'this')
       if @doc.type is 'function'
         [docName, args] = @getDocNameAndArguments()
         sep = {clojure: ' '}[@options.language] ? ', '
@@ -82,9 +82,9 @@ module.exports = class DocFormatter
       if @options.language is 'javascript'
         @doc.shorterName = @doc.shortName.replace ';', ''
         if @doc.owner is 'this' or @options.tabbify
-          @doc.shorterName = @doc.shorterName.replace /^this\./, ''
+          @doc.shorterName = @doc.shorterName.replace /^(this|hero)\./, ''
       else if (@options.language in ['python', 'lua']) and (@doc.owner is 'this' or @options.tabbify)
-        @doc.shorterName = @doc.shortName.replace /^self[:.]/, ''
+        @doc.shorterName = @doc.shortName.replace /^(self|hero)[:.]/, ''
       @doc.title = if @options.shortenize then @doc.shorterName else @doc.shortName
 
     # Grab the language-specific documentation for some sub-properties, if we have it.
@@ -124,6 +124,21 @@ module.exports = class DocFormatter
           catch e
             console.error "Couldn't create docs template of", val, "\nwith context", context, "\nError:", e
         obj[prop] = @replaceSpriteName obj[prop]  # Do this before using the template, otherwise marked might get us first.
+
+    # Temporary hack to replace self|this with hero until we can update the docs
+    if @options.useHero
+      thisToken =
+        'python': /self/g,
+        'javascript': /this/g,
+        'lua': /self/g
+
+      if thisToken[@options.language]
+        if @doc.example
+          @doc.example = @doc.example.replace thisToken[@options.language], 'hero'
+        if @doc.snippets?[@options.language]?.code
+          @doc.snippets[@options.language].code.replace thisToken[@options.language], 'hero'
+        if @doc.args
+          arg.example = arg.example.replace thisToken[@options.language], 'hero' for arg in @doc.args when arg.example
 
     if @doc.shortName is 'loop' and @options.level.get('type', true) in ['course', 'course-ladder']
       @replaceSimpleLoops()
