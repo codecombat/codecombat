@@ -125,16 +125,16 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     create_a_class: "クラスを作る"
     other: "その他"
     learn_to_code: "コードを学ぶ!"
-#    toggle_nav: "Toggle navigation"
-#    jobs: "Jobs"
-#    schools: "Schools"
-#    educator_wiki: "Educator Wiki"
-#    get_involved: "Get Involved"
-#    open_source: "Open source (GitHub)"
-#    support: "Support"
-#    faqs: "FAQs"
-#    help_pref: "Need help? Email"
-#    help_suff: "and we'll get in touch!"
+    toggle_nav: "ナビゲーションを下す"
+    jobs: "職業"
+    schools: "学校"
+    educator_wiki: "学習者用Wiki"
+    get_involved: "参加しましょう"
+    open_source: "オープンソース(GitHub)"
+    support: "サポート"
+    faqs: "FAQ"
+    help_pref: "ヘルプが必要ですか? Email"
+    help_suff: "をくれれば協力します！"
 
   modal:
     close: "閉じる"
@@ -176,7 +176,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     subscription_required: "サブスクリプション必須"
     anonymous: "名無しのプレイヤー"
     level_difficulty: "難易度: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "教室版を遊ぶ" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "初心者のキャンペーン"
     awaiting_levels_adventurer_prefix: "私たちは毎週新しいレベルをリリースします"
     awaiting_levels_adventurer: "冒険者として登録すると、"
@@ -262,7 +262,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     submit_patch: "パッチを送信"
     submit_changes: "変更を送信"
     save_changes: "変更を保存"
-#    required_field: "Required field"
+    required_field: "記入漏れ"
 
   general:
     and: "と"
@@ -314,9 +314,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     warrior: "戦士"
     ranger: "レンジャー"
     wizard: "ウィザード"
-#    first_name: "First Name"
-#    last_name: "Last Name"
-#    username: "Username"
+    first_name: "First Name(名)"
+    last_name: "Last Name(姓)"
+    username: "ユーザー名"
 
   units:
     second: "秒"
@@ -335,7 +335,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     years: "年"
 
   play_level:
-#    level_complete: "Level Complete"
+    level_complete: "レベルコンプリート"
     completed_level: "コンプリートレベル:"
     course: "コース:"
     done: "完了"
@@ -379,7 +379,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_new_item: "ニューアイテム"
     victory_viking_code_school: "あなたはハードレベルのホーリー・スモークを打ち破りました! もしあなたが既にソフトウェア開発者でないなら, ぜひやってみましょう. あなたはちょうどViking Code Scoolで受け入れられるための出世街道にいます,そこでは次のレベルへのスキルを取得でき、14週間でプロのWeb開発者になれます。"
     victory_become_a_viking: "バイキングになる"
-#    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
+    victory_no_progress_for_teachers: "教師用の進捗は保存されません。しかし自分の教室に学生アカウントを加えることができます."
     guide_title: "ガイド"
     tome_cast_button_run: "実行"
     tome_cast_button_running: "実行中"
