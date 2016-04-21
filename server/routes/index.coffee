@@ -56,6 +56,7 @@ module.exports.setup = (app) ->
   
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
   
+  app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
 
   app.get '/db/products', require('./db/product').get

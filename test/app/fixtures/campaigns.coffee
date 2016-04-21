@@ -1,5 +1,5 @@
-Campaign = require 'models/Campaign';
-Campaigns = require 'collections/Campaigns';
+Campaign = require 'models/Campaign'
+Campaigns = require 'collections/Campaigns'
 
 module.exports = new Campaigns([
   new Campaign({

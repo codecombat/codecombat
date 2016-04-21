@@ -65,6 +65,7 @@
       border-bottom: none
   
   .bulk-assign-controls
+    position: relative
     float: right
     margin-bottom: -9999px
     margin-top: 20px
@@ -74,7 +75,15 @@
       margin-left: 10px
     .enroll-selected-students
       margin-left: 56px
-    
+    .cant-assign-to-unenrolled, .no-students-selected
+      position: absolute
+      top: -24px
+      color: red
+      font-size: 13px
+      visibility: hidden
+      &.visible
+        visibility: visible
+      
   .students-table
     width: 100%
     .student-info-col
@@ -111,7 +120,7 @@
       display: inline
       .inline-student-name
         white-space: nowrap
-        text-decoration: underline
+        // text-decoration: underline
 
     li:not(:last-child):after
       content: ', '

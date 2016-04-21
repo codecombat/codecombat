@@ -1,4 +1,4 @@
-Prepaids = require 'collections/Prepaids';
+Prepaids = require 'collections/Prepaids'
 
 module.exports = new Prepaids([
   {

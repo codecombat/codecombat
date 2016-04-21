@@ -51,27 +51,37 @@ mixin enrollmentStats
     span(data-i18n='teacher.credits_available')
     span.spr :
     = view.prepaids.totalAvailable()
-  //- .small-details
-  //-   span(data-i18n='teacher.total_unique_students')
-  //-   span.spr :
-  //-   = view.members.length
-  //- .small-details
-  //-   span(data-i18n='teacher.total_enrolled_students')
-  //-   span.spr :
-  //-   = view.prepaids.totalRedeemers()
-  //- .small-details
-  //-   span(data-i18n='teacher.unenrolled_students')
-  //-   span.spr :
-  //-   = (view.members.length - view.prepaids.totalRedeemers())
+  .small-details
+    span(data-i18n='teacher.total_unique_students')
+    span.spr :
+    = view.totalEnrolled + view.totalNotEnrolled
+  .small-details
+    span(data-i18n='teacher.total_enrolled_students')
+    span.spr :
+    = view.totalEnrolled
+    
+  h5.small-details.m-t-3
+    span(data-i18n='teacher.unenrolled_students')
+  each classroom in view.classrooms.models
+    if classroom.get('members').length > 0 && view.classroomNotEnrolledMap && view.classroomNotEnrolledMap[classroom.id] > 0
+      .small-details
+        span= classroom.get('name')
+        span.spr : 
+        span= view.classroomNotEnrolledMap[classroom.id]
+
+  .small-details
+    span(data-i18n='teacher.total_unenrolled')
+    span.spr :
+    = view.totalNotEnrolled
+  
   //- .enroll-students.btn.btn-lg.btn-navy
-  //-   | Enroll Students
+  //-   span(data-i18n='teacher.enroll_students')
 
 mixin addCredits
   .text-center
     h5(data-i18n='teacher.add_enrollment_credits')
     div.m-t-1
-      //- input#students-input.text-center.enrollment-count(value=view.numberOfStudents type='number')
-      input#students-input.text-center.enrollment-count(value=15 type='number')
+      input#students-input.text-center.enrollment-count(value=view.numberOfStudents type='number')
     div.m-t-1
       if view.state === 'purchasing'
         .purchase-now.btn.btn-lg.btn-forest.disabled

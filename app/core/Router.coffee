@@ -158,6 +158,12 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('teachers/RestrictedToTeachersView')
     if options.studentsOnly and me.isTeacher()
       return @routeDirectly('courses/RestrictedToStudentsView')
+    leavingMessage = _.result(window.currentView, 'onLeaveMessage')
+    if leavingMessage
+      if not confirm(leavingMessage)
+        return @navigate(this.path, {replace: true})
+      else
+        window.currentView.onLeaveMessage = _.noop # to stop repeat confirm calls
 
     path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views)?\/?play/.test(path)
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
@@ -185,6 +191,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @activateTab()
     view.afterInsert()
     view.didReappear()
+    @path = document.location.pathname + document.location.search
 
   closeCurrentView: ->
     if window.currentView?.reloadOnClose

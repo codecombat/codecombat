@@ -59,6 +59,7 @@ module.exports =
     memberIDs = memberIDs.slice(memberSkip, memberSkip + memberLimit)
     
     members = yield User.find({ _id: { $in: memberIDs }}).select(parse.getProjectFromReq(req))
+    # members = yield User.find({ _id: { $in: memberIDs }, deleted: { $ne: true }}).select(parse.getProjectFromReq(req))
     memberObjects = (member.toObject({ req: req, includedPrivates: ["name", "email"] }) for member in members)
     
     res.status(200).send(memberObjects)

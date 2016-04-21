@@ -134,7 +134,7 @@ module.exports = class CoursesView extends RootView
       @errorMessage = "#{jqxhr.responseText}"
     @renderSelectors '#join-class-form'
 
-  onJoinClassroomSuccess: (newClassroom, jqxhr, options) ->
+  onJoinClassroomSuccess: (newClassroom, data, options) ->
     application.tracker?.trackEvent 'Joined classroom', {
       category: 'Courses'
       classCode: @classCode
@@ -158,13 +158,17 @@ module.exports = class CoursesView extends RootView
           courseInstance.sessions = new Backbone.Collection()
           @courseInstances.add(courseInstance)
       $.when(jqxhrs...).done =>
-        @state = null
-        @render()
-        location.hash = ''
-        f = -> location.hash = '#just-added-text'
-        # quick and dirty scroll to just-added classroom
-        setTimeout(f, 10)
-
+        # This is a hack to work around previous hacks
+        # TODO: Do joinWithCode properly (before page load)
+        # TODO: Do data flow properly (so going to the class URL works and we don't need to just refresh)
+        location.search = ""
+        # @state = null
+        # @render()
+        # location.hash = ''
+        # f = -> location.hash = '#just-added-text'
+        # # quick and dirty scroll to just-added classroom
+        # setTimeout(f, 10)
+    
   onClickChangeLanguageLink: ->
     application.tracker?.trackEvent 'Student clicked change language', category: 'Courses'
     modal = new ChangeCourseLanguageModal()
