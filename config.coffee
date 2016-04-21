@@ -165,7 +165,9 @@ exports.config =
           'vendor/scripts/async.js'
           'vendor/scripts/jquery-ui-1.11.1.js.custom.js'
         ]
-
+        after: [
+          'bower_components/algolia-autocomplete-no-conflict/no-conflict.js'
+        ]
     stylesheets:
       defaultExtension: 'sass'
       joinTo:

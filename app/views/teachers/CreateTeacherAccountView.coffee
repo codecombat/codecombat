@@ -60,7 +60,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       @$('#other-education-level-checkbox').attr('checked', !!otherLevel)
       @$('#other-education-level-input').val(otherLevel)
       
-    $("#organization-control").autocomplete({hint: false}, [
+    $("#organization-control").algolia_autocomplete({hint: false}, [
       source: (query, callback) ->
         algolia.schoolsIndex.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
           callback answer.hits
