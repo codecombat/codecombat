@@ -1,0 +1,15 @@
+extends /templates/base
+
+block content
+  div Total number of problems: #{view.problemCount}
+  table.table.table-striped#levelTable
+    for level in (view.parsedLevels || [])
+      if (level.problems || []).length != 0
+        tr
+          td(style="width:10%")= level.level.get('slug')
+          td
+            table.table-striped
+              for problem in (level.problems || [])
+                tr(style="width:100%")
+                  td.problemType= problem.type
+                  td.problemValue= problem.value

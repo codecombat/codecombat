@@ -45,7 +45,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'artisans': go('artisans/ArtisansView')
 
-    'artisans/level-analytics': go('artisans/LevelAnalyticsView')
+    'artisans/solution-problems': go('artisans/SolutionProblemsView')
     'artisans/level-tasks': go('artisans/LevelTasksView')
     'artisans/thang-tasks': go('artisans/ThangTasksView')
 

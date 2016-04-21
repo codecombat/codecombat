@@ -1,27 +1,32 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/artisans/levelAnalyticsView'
+template = require 'templates/artisans/solutionProblemsView'
 Level = require 'models/Level'
 Campaign = require 'models/Campaign'
 Level = require 'models/Level'
 CocoCollection = require 'collections/CocoCollection'
 
-module.exports = class LevelAnalyticsView extends RootView
+module.exports = class SolutionProblemsView extends RootView
   template: template
-  id: 'level-analytics-view'
+  id: 'solution-problems-view'
   excludedCampaigns = [
     "picoctf"
     "auditions"
 
-    "dungeon"
-    "forest"
-    "desert"
-    "mountain"
-    "glacier"
+  #  "dungeon"
+  #  "forest"
+  #  "desert"
+  #  "mountain"
+  #  "glacier"
 
     "dungeon-branching-test"
     "forest-branching-test"
     "desert-branching-test"
 
+    "intro"
+    "course-2"
+    "course-3"
+    "course-4"
+    "course-5"
     "course-6"
   ]
   excludedSimulationLevels = [
@@ -33,13 +38,13 @@ module.exports = class LevelAnalyticsView extends RootView
   constructor: (options) ->
     super options
     @campaigns = new CocoCollection([], 
-      url: '/db/campaign?project=name,slug,tasks'
+      url: '/db/campaign?project=slug'
       model: Campaign
     )
     @campaigns.fetch()
     @listenTo(@campaigns, 'sync', @onCampaignsLoaded)
     @supermodel.loadCollection(@campaigns, 'campaigns')
-
+    ###
     @levels = new CocoCollection([],
       url: '/db/level?project=slug,thangs&limit=100&skip=' + @levelOffset
       model: Level
@@ -47,50 +52,37 @@ module.exports = class LevelAnalyticsView extends RootView
     @levels.fetch()
     @listenTo(@levels, 'sync', @onLevelsLoaded)
     @supermodel.loadCollection(@levels, 'levels')
+    ###
 
   onCampaignsLoaded: ->
     @levelSlugs = []
+    @test = {}
+    @loadedLevels = {}
+    count = 0
     for campaign in @campaigns.models
       continue unless excludedCampaigns.indexOf(campaign.get 'slug') is -1
-      console.log(campaign.get 'slug')
-      levels = campaign.get('levels')
-      for key, level of levels
-        if @levelSlugs.indexOf(level.slug) is -1
-          @levelSlugs.push level.slug
-    console.log "???"
-    @isReady += 1
-    if @isReady is 2
-      @readyUp()
-
-    console.log @levelSlugs.length
-
-  onLevelsLoaded: ->
-    @loadedLevels ?= []
-    @loadedLevels = @loadedLevels.concat(@levels.models)
-    if(@levels.length is 100)
-      console.log("Not done yet...")
-      @levelOffset += 100
-      @levels = new CocoCollection([],
-        url: '/db/level?project=slug,thangs&limit=100&skip=' + @levelOffset
+      count++
+      @test[campaign.get('slug')] = new CocoCollection([],
+        url: '/db/campaign/' + campaign.get('slug') + '/levels?project=thangs,slug'
         model: Level
       )
-      @levels.fetch()
-      @listenTo(@levels, 'sync', @onLevelsLoaded)
-      @supermodel.loadCollection(@levels, 'levels')
-    else
-      @isReady += 1
-      if @isReady is 2
-        @readyUp()
+      @test[campaign.get('slug')].fetch()
+      @listenTo(@test[campaign.get('slug')], 'sync', (e) ->
+        #@loadedLevels = _uniq(_.union(@loadedLevels, e.models))
+        for level in e.models
+          @loadedLevels[level.get('slug')] = level
+        count--
+        if count is 0
+          @readyUp()
+      )
+      @supermodel.loadCollection(@test[campaign.get('slug')], 'levels')
 
   readyUp: ->
-    console.log("All done!")
-    console.log(@loadedLevels.length)
+    console.log("Count of levels: " + _.size(@loadedLevels))
     @parsedLevels = []
-    console.log @loadedLevels
-    for levelSlug in @levelSlugs
-      level = @loadedLevels.find((elem) ->
-        return elem.get('slug') is levelSlug
-      )
+
+    @problemCount = 0
+    for levelSlug, level of @loadedLevels
       unless level?
         continue
       thangs = level.get('thangs')
@@ -130,31 +122,36 @@ module.exports = class LevelAnalyticsView extends RootView
                 "type":"Solution is not simulatable",
                 "value":solution.language
               }
+              @problemCount++
               break
         if solution.source.indexOf("<%=") is -1
           problems.push {
             "type":"Solution is not i18n'd",
             "value":solution.language
           }
+          @problemCount++
         if solution.source.indexOf("pass") isnt -1
           problems.push {
             "type":"Solution contains pass",
             "value":solution.language
           }
+          @problemCount++
         if solution.language is 'javascript'
           if solution.source is plan.source
             problems.push {
               "type":"Solution is identical to source",
               "value":solution.language
             }
+            @problemCount++
         else
-          console.log solution.source
-          console.log plan.languages[solution.language]
+          #console.log solution.source
+          #console.log plan.languages[solution.language]
           if solution.source is plan.languages[solution.language]
             problems.push {
               "type":"Solution is identical to source",
               "value":solution.language
             }
+            @problemCount++
       @parsedLevels.push {
         level: level
         problems: problems
