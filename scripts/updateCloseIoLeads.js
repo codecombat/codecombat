@@ -343,8 +343,14 @@ function createAddIntercomDataFn(lead, email) {
     };
     request.get(options, (error, response, body) => {
       if (error) return done(error);
-      const user = JSON.parse(body);
-      lead.addIntercomUser(email, user);
+      try {
+        const user = JSON.parse(body);
+        lead.addIntercomUser(email, user);
+      }
+      catch (err) {
+        console.log(err);
+        console.log(body);
+      }
       return done();
     });
   };
@@ -455,7 +461,8 @@ function saveNewLead(lead, done) {
 function createUpdateLeadFn(lead) {
   return (done) => {
     // console.log('DEBUG: updateLead', lead.name);
-    const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=name:${encodeURIComponent(lead.name)}`;
+    const query = `name:"${lead.name}"`;
+    const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
     request.get(url, (error, response, body) => {
       if (error) return done(error);
       try {
@@ -575,7 +582,6 @@ function sendMail(toEmail, leadId, contactId, template, done) {
     return done();
   });
 }
-
 
 function updateLeads(leads, done) {
   const tasks = []
