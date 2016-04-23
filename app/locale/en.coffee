@@ -118,6 +118,7 @@
     about: "About"
     contact: "Contact"
     twitter_follow: "Follow"
+    students: "Students"
     teachers: "Teachers"
     careers: "Careers"
     facebook: "Facebook"
