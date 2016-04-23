@@ -11,6 +11,7 @@ if (process.argv.length !== 7) {
 // TODO: Update notes with new data (e.g. coco user or intercom url)
 // TODO: Find/fix case-sensitive bugs
 // TODO: Use generators and promises
+// TODO: Reduce response data via _fields param
 
 // Save as custom fields instead of user-specific lead notes
 const commonTrialProperties = ['organization', 'city', 'state', 'country'];
@@ -139,7 +140,7 @@ class Lead {
       const props = this.contacts[email].trial.properties;
       if (props) {
         for (const prop in props) {
-          if (commonTrialProperties.indexOf(prop) >= 0 && currentCustom[`demo_${prop}`] !== props[prop]) {
+          if (commonTrialProperties.indexOf(prop) >= 0 && currentCustom[`demo_${prop}`] !== props[prop] && currentCustom[`demo_${prop}`].indexOf(props[prop]) < 0) {
             putData[`custom.demo_${prop}`] = props[prop];
           }
         }
@@ -458,7 +459,33 @@ function saveNewLead(lead, done) {
   });
 }
 
-function createUpdateLeadFn(lead) {
+function createFindExistingLeadFn(email, name, existingLeads) {
+  return (done) => {
+    // console.log('DEBUG: findEmailLead', email);
+    const query = `recipient:"${email}"`;
+    const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
+    request.get(url, (error, response, body) => {
+      if (error) return done(error);
+      try {
+        const data = JSON.parse(body);
+        if (data.total_results > 0) {
+          if (!existingLeads[name]) existingLeads[name] = [];
+          for (const lead of data.data) {
+            existingLeads[name].push(lead);
+          }
+        }
+        return done();
+      } catch (error) {
+        // console.log(url);
+        // console.log(error);
+        // console.log(body);
+        return done();
+      }
+    });
+  };
+}
+
+function createUpdateLeadFn(lead, existingLeads) {
   return (done) => {
     // console.log('DEBUG: updateLead', lead.name);
     const query = `name:"${lead.name}"`;
@@ -468,10 +495,18 @@ function createUpdateLeadFn(lead) {
       try {
         const data = JSON.parse(body);
         if (data.total_results === 0) {
+          if (existingLeads[lead.name.toLowerCase()]) {
+            if (existingLeads[lead.name.toLowerCase()].length === 1) {
+              console.log(`DEBUG: Using lead from email lookup: ${lead.name}`);
+              return updateExistingLead(lead, existingLeads[lead.name.toLowerCase()][0], done);
+            }
+            console.error(`ERROR: ${existingLeads[lead.name.toLowerCase()].length} email leads found for ${lead.name}`);
+            return done();
+          }
           return saveNewLead(lead, done);
         }
         if (data.total_results > 1) {
-          // console.error(`${data.total_results} leads found for ${lead.name}`);
+          console.error(`ERROR: ${data.total_results} leads found for ${lead.name}`);
           return done();
         }
         return updateExistingLead(lead, data.data[0], done);
@@ -542,6 +577,16 @@ function getRandomEmailTemplate(templates) {
   return templates[Math.floor(Math.random() * templates.length)];
 }
 
+function isSameEmailTemplateType(template1, template2) {
+  if (createTeacherEmailTemplates.indexOf(template1) >= 0 && createTeacherEmailTemplates.indexOf(template2) >= 0) {
+    return true;
+  }
+  if (demoRequestEmailTemplates.indexOf(template1) >= 0 && demoRequestEmailTemplates.indexOf(template2) >= 0) {
+    return true;
+  }
+  return false;
+}
+
 function getRandomEmailApiKey() {
   if (closeIoMailApiKeys.length < 0) return;
   return closeIoMailApiKeys[Math.floor(Math.random() * closeIoMailApiKeys.length)];
@@ -555,42 +600,79 @@ function createSendEmailFn(email, leadId, contactId, template) {
 
 function sendMail(toEmail, leadId, contactId, template, done) {
   // console.log('DEBUG: sendMail', toEmail, leadId, contactId, template);
-  const dateScheduled = new Date();
-  dateScheduled.setUTCMinutes(dateScheduled.getUTCMinutes() + emailDelayMinutes);
-  const postData = {
-    to: [toEmail],
-    contact_id: contactId,
-    lead_id: leadId,
-    template_id: template,
-    status: 'scheduled',
-    date_scheduled: dateScheduled
-  };
-  const options = {
-    uri: `https://${getRandomEmailApiKey()}:X@app.close.io/api/v1/activity/email/`,
-    body: JSON.stringify(postData)
-  };
-  request.post(options, (error, response, body) => {
+
+  // Check for previously sent email
+  const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/activity/email/?lead_id=${leadId}`;
+  request.get(url, (error, response, body) => {
     if (error) return done(error);
-    const result = JSON.parse(body);
-    if (result.errors || result['field-errors']) {
-      const errorMessage = `Send email POST error for ${toEmail} ${leadId} ${contactId}`;
-      console.error(errorMessage);
-      console.error(body);
-      // console.error(postData);
-      return done(errorMessage);
+    try {
+      const data = JSON.parse(body);
+      for (const emailData of data.data) {
+        if (!isSameEmailTemplateType(emailData.template_id, template)) continue;
+        for (const email of emailData.to) {
+          if (email.toLowerCase() === toEmail.toLowerCase()) {
+            console.error("ERROR: sending duplicate email:", toEmail, leadId, contactId, template, emailData.contact_id);
+            return done();
+          }
+        }
+      }
     }
-    return done();
+    catch (err) {
+      console.log(err);
+      console.log(body);
+      return done();
+    }
+
+    // Send mail
+    const dateScheduled = new Date();
+    dateScheduled.setUTCMinutes(dateScheduled.getUTCMinutes() + emailDelayMinutes);
+    const postData = {
+      to: [toEmail],
+      contact_id: contactId,
+      lead_id: leadId,
+      template_id: template,
+      status: 'scheduled',
+      date_scheduled: dateScheduled
+    };
+    const options = {
+      uri: `https://${getRandomEmailApiKey()}:X@app.close.io/api/v1/activity/email/`,
+      body: JSON.stringify(postData)
+    };
+    request.post(options, (error, response, body) => {
+      if (error) return done(error);
+      const result = JSON.parse(body);
+      if (result.errors || result['field-errors']) {
+        const errorMessage = `Send email POST error for ${toEmail} ${leadId} ${contactId}`;
+        console.error(errorMessage);
+        console.error(body);
+        // console.error(postData);
+        return done(errorMessage);
+      }
+      return done();
+    });
   });
 }
 
 function updateLeads(leads, done) {
-  const tasks = []
+  // Lookup existing leads via email to protect against direct lead name querying later
+  // Querying via lead name is unreliable
+  const existingLeads = {};
+  const tasks = [];
   for (const name in leads) {
     if (leadsToSkip.indexOf(name) >= 0) continue;
-    tasks.push(createUpdateLeadFn(leads[name]));
+    for (const email in leads[name].contacts) {
+      tasks.push(createFindExistingLeadFn(email.toLowerCase(), name.toLowerCase(), existingLeads));
+    }
   }
   async.parallel(tasks, (err, results) => {
-    return done(err);
+    const tasks = [];
+    for (const name in leads) {
+      if (leadsToSkip.indexOf(name) >= 0) continue;
+      tasks.push(createUpdateLeadFn(leads[name], existingLeads));
+    }
+    async.parallel(tasks, (err, results) => {
+      return done(err);
+    });
   });
 }
 
