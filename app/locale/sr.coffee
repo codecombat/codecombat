@@ -317,7 +317,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     first_name: "Име"
     last_name: "Презиме"
     username: "Korisničko ime"
- 
+
   units:
     second: "секунда"
     seconds: "секунде"
@@ -1584,7 +1584,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    left_xp_infix: " until level "
 #    left_xp_postfix: ""
 
-#  account:
+  account:
     payments: "Уплате"
     prepaid_codes: "Припејд кодови"
     purchased: "Купљено"
@@ -1606,7 +1606,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     status_unsubscribed_active: "Нисте претплаћени и неће Вам бити наплаћено, али Ваш налог је и даље активан за сада."
     status_unsubscribed: "Приступите новим нивоима, херојима, стварима и додатним драгуљима са CodeCombat претплатом!"
 
-#  account_invoices:
+  account_invoices:
     amount: "Вредност у америчким доларима"
     declined: "Ваша картица је одбијена"
     invalid_amount: "Молимо Вас да унесете вредност у америчким доларима."
@@ -1658,7 +1658,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 
-#  resources:
+  resources:
     level: "Ниво"
 #    patch: "Patch"
 #    patches: "Patches"
@@ -1771,7 +1771,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    third_party_title: "Third Party Services"
 #    third_party_description: "CodeCombat uses the following third party services (among others):"
 
-#  ladder_prizes:
+  ladder_prizes:
 #    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
     blurb_1: "Ове награде ће бити додељене према"
     blurb_2: "правилима турнира"
