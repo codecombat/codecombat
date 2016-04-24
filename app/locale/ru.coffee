@@ -91,15 +91,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    student_count: "Number of students:"
 #    start_playing_for_free: "Start Playing for Free!"
 #    students_and_players: "Students & Players"
-#    goto_classes: "Go to My Classes" # {change}
-#    educator_wiki: "Educator wiki"
-#    view_profile: "View My Profile"
-#    view_progress: "View Progress"
-#    login_switch: "Have an account?"
-#    check_out_wiki: "Check out our new educator Wiki"
-#    want_coco: "Want CodeCombat at your school?"
-#    form_select_role: "Select primary role"
-#    form_select_range: "Select class size"
+    goto_classes: "Перейти в Мои классы" # {изменить}
+    educator_wiki: "wiki педагога"
+    view_profile: "Посмотреть Мой профиль"
+    view_progress: "Посмотреть прогресс"
+    login_switch: "Уже есть аккаунт?"
+    check_out_wiki: "Посетите наш новый Wiki педагога"
+    want_coco: "Хотите CodeCombat в вашей школе?"
+    form_select_role: "Выберите главную роль"
+    form_select_range: "Выберите размер класса"
 
   nav:
     play: "Уровни" # The top nav bar entry where players choose which levels to play
@@ -262,7 +262,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     submit_patch: "Отослать патч"
     submit_changes: "Отослать изменения"
     save_changes: "Сохранить изменения"
-#    required_field: "Required field"
+    required_field: "Обязательное поле"
 
   general:
     and: "и"
@@ -295,7 +295,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     subject: "Тема"
     email: "Email"
     password: "Пароль"
-#    confirm_password: "Confirm Password"
+    confirm_password: "Подтвердить пароль"
     message: "Сообщение"
     code: "Код"
     ladder: "Ладдер"
@@ -314,9 +314,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     warrior: "Воин"
     ranger: "Рейнджер"
     wizard: "Волшебник"
-#    first_name: "First Name"
-#    last_name: "Last Name"
-#    username: "Username"
+    first_name: "Имя"
+    last_name: "Фамилия"
+    username: "Имя юзера"
 
   units:
     second: "секунда"
@@ -335,7 +335,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     years: "лет"
 
   play_level:
-#    level_complete: "Level Complete"
+    level_complete: "Уровень завершен"
     completed_level: "Завершённый уровень:"
     course: "Курс:"
     done: "Готово"
@@ -539,7 +539,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     feature5: "Обучающие видеоролики"
     feature6: "Эксклюзивная поддержка по электронной почте"
     feature7: "Частные <strong>Кланы</strong>"
-#    feature8: "<strong>No ads!</strong>"
+    feature8: "<strong>Без рекламы!</strong>"
     free: "Бесплатно"
     month: "месяц"
     must_be_logged: "Вы должны быть залогинены. Вы можете создать аккаунт или зайти в уже существующий с помощью меню выше."
@@ -678,11 +678,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     community_link: "Сообщество"
     story_link: "История"
     careers_link: "Карьера"
-#    press_link: "Press"
-#    mission_title: "Our mission: make programming accessible to every student on Earth."
+    press_link: "Нажать"
+    mission_title: "Наша задача: сделать доступным программирование для каждого учащегося на земле."
 #    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
 #    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
-#    team_title: "Meet the CodeCombat team"
+    team_title: "Присоединяйтесь к команде CodeCombat"
 #    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
     nick_title: "Сооснователь" # {change}
     nick_blurb: "Гуру мотивации"
@@ -916,7 +916,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     social_facebook: "Оцените CodeCombat на Facebook"
     social_twitter: "Следуйте за CodeCombat на Twitter"
     social_gplus: "Присоединяйтесь к CodeCombat на Google+"
-#    social_slack: "Chat with us in the public CodeCombat Slack channel"
+    social_slack: "Общайтесь с нами в общем чате - CodeCombat Slack channel"
     contribute_to_the_project: "Сотрудничайте с проектом"
 
   clans:
