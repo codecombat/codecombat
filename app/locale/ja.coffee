@@ -532,9 +532,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   subscribe:
     comparison_blurb: "CodeCombatへ課金してスキルを磨きましょう！"
-    feature1: "110以上の基本レベルが４つの世界に" # {change}
-    feature2: "10人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!" # {change}
-    feature3: "70以上のボーナスレベル" # {change}
+    feature1: "$t(data.levelsCount)以上の基本レベルが$t(data.worldsCount)つの世界に"
+    feature2: "$t(data.heroesCount)人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!"
+    feature3: "$t(data.bonusLevelsCount)以上のボーナスレベル"
     feature4: "<strong>{{gems}}のジェム</strong>が毎月ボーナス!"
     feature5: "ビデオチュートリアル"
     feature6: "プレミアムメールサポート"

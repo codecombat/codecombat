@@ -532,9 +532,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
   subscribe:
     comparison_blurb: "Aumenta le tue competenze con un abbonamento a CodeCombat!"
-    feature1: "80+ livelli base in 4 mondi" # {change}
-    feature2: "7 potenti <strong>nuovi eroi</strong> con capacità uniche!" # {change}
-    feature3: "50+ livelli bonus" # {change}
+    feature1: "$t(data.levelsCount)+ livelli base in $t(data.worldsCount) mondi"
+    feature2: "$t(data.heroesCount) potenti <strong>nuovi eroi</strong> con capacità uniche!"
+    feature3: "$t(data.bonusLevelsCount)+ livelli bonus"
     feature4: "<strong>{{gems}} gemme bonus</strong> ogni mese!"
     feature5: "Video tutorial"
     feature6: "Supporto via email premium"

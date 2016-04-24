@@ -532,9 +532,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   subscribe:
     comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!"
-    feature1: "60+ alap pálya, 4 világon át" # {change}
-    feature2: "7 erőteljes <strong>új hős</strong> egyedi képességekkel!" # {change}
-    feature3: "30+ bónusz pálya" # {change}
+    feature1: "$t(data.levelsCount)+ alap pálya, $t(data.worldsCount) világon át"
+    feature2: "$t(data.heroesCount) erőteljes <strong>új hős</strong> egyedi képességekkel!"
+    feature3: "$t(data.bonusLevelsCount)+ bónusz pálya"
     feature4: "<strong>{{gems}} bónusz drágakő</strong> minden hónapban!"
     feature5: "Videó oktatóanyagok"
     feature6: "Prémium e-mail támogatás"

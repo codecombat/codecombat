@@ -532,9 +532,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   subscribe:
     comparison_blurb: "¡Mejora tus habilidades con una suscripción a CodeCombat!"
-    feature1: "Más de 110 niveles básicos pasando por 4 mundos" # {change}
-    feature2: "¡10 <strong>héroes nuevos</strong> con poderes únicos!"
-    feature3: "Más de 70 niveles extra" # {change}
+    feature1: "Más de $t(data.levelsCount) niveles básicos pasando por $t(data.worldsCount) mundos"
+    feature2: "¡$t(data.heroesCount) <strong>héroes nuevos</strong> con poderes únicos!"
+    feature3: "Más de $t(data.bonusLevelsCount) niveles extra"
     feature4: "¡<strong>{{gems}} gemas extra</strong> cada mes!"
     feature5: "Vídeo tutoriales"
     feature6: "Soporte electrónico Premium"
