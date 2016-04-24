@@ -531,7 +531,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     price: "x{{gems}} / maand"
 
   subscribe:
-    comparison_blurb: "Verbeter je vaardigheden met een abonement op CodeCombat!"
+    comparison_blurb: "Verbeter je vaardigheden met een abonnement op CodeCombat!"
     feature1: "meer dan 125+ basislevels over 4 werelden" # {change}
     feature2: "10 sterke <strong>nieuwe helden</strong> met unieke vaardigheden!"
     feature3: "85+ bonuslevels" # {change}
@@ -543,7 +543,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     free: "Gratis"
     month: "maand"
     must_be_logged: "Je moet eerst ingelogd zijn. Maak een account aan of log in in het menu hierboven."
-    subscribe_title: "Abonneren"
+    subscribe_title: "premium account"
     unsubscribe: "Abonnement opzeggen"
     confirm_unsubscribe: "Opzegging bevestigen"
     never_mind: "Laat maar, ik houd nog steeds van je"
