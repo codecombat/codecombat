@@ -532,9 +532,9 @@ module.exports = nativeDescription: "български език", englishDescri
 
   subscribe:
     comparison_blurb: "Изостри уменията си в CodeCombat с абонамент!"
-    feature1: "110+ основни нива в 4 свята" # {change}
-    feature2: "10 силни <strong>нови герои</strong> с уникални умения!"
-    feature3: "70+ бонус нива" # {change}
+    feature1: "$t(data.levelsCount)+ основни нива в $t(data.worldsCount) свята"
+    feature2: "$t(data.heroesCount) силни <strong>нови герои</strong> с уникални умения!"
+    feature3: "$t(data.bonusLevelsCount)+ бонус нива"
     feature4: "<strong>{{gems}} скъпоценни камъни бонус</strong> всеки месец!"
     feature5: "Видео уроци"
     feature6: "Премиум email поддръжка"

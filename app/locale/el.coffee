@@ -532,9 +532,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   subscribe:
     comparison_blurb: "Ακόνησε τις ικανότητές σου με μια συνδρομή στο CodeCombat!"
-    feature1: "110+ βασικά επίπεδα που εκτείνονται σε 4 κόσμους" # {change}
-    feature2: "10 παντοδύναμοι <strong>νέοι ήρωες</strong> με μοναδικές ικανότητες!"
-    feature3: "80+ επίπεδα δώρο" # {change}
+    feature1: "$t(data.levelsCount)+ βασικά επίπεδα που εκτείνονται σε $t(data.worldsCount) κόσμους"
+    feature2: "$t(data.heroesCount) παντοδύναμοι <strong>νέοι ήρωες</strong> με μοναδικές ικανότητες!"
+    feature3: "$t(data.bonusLevelsCount)+ επίπεδα δώρο"
     feature4: "<strong>{{gems}} πετράδια δώρο</strong> κάθε μήνα!"
     feature5: "Βίντεο Βοηθήματα"
     feature6: "Προνομιακή υποστήριξη μέσω ηλεκτρονικού ταχυδρομείου"

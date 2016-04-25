@@ -532,9 +532,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
   subscribe:
     comparison_blurb: "Spiss dine kunnskaper med et CodeCombat abonnement!"
-    feature1: "60+ grunnleggende brett fordelt på 4 verdener" # {change}
-    feature2: "7 kraftfulle <strong>nye helter</strong> med unike ferdigheter!" # {change}
-    feature3: "30+ bonusbrett" # {change}
+    feature1: "$t(data.levelsCount)+ grunnleggende brett fordelt på $t(data.worldsCount) verdener"
+    feature2: "$t(data.heroesCount) kraftfulle <strong>nye helter</strong> med unike ferdigheter!"
+    feature3: "$t(data.bonusLevelsCount)+ bonusbrett"
     feature4: "<strong>{{gems}} bonusjuveler</strong> hver måned!"
     feature5: "Videoveiledninger"
     feature6: "Premium e-poststøtte"

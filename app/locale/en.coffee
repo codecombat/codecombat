@@ -1,4 +1,12 @@
 ﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
+  # Don't translate this block nor copy it to other locale files.
+  # This is just raw data that is automatically shared across all locales.
+  data:
+    levelsCount: "125"
+    bonusLevelsCount: "85"
+    heroesCount: "10"
+    worldsCount: "4"
+
   home:
     slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"  # Warning that only shows up in IE8 and older
@@ -533,9 +541,9 @@
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "125+ basic levels across 4 worlds"
-    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "85+ bonus levels"
+    feature1: "$t(data.levelsCount)+ basic levels across $t(data.worldsCount) worlds"
+    feature2: "$t(data.heroesCount) powerful <strong>new heroes</strong> with unique skills!"
+    feature3: "$t(data.bonusLevelsCount)+ bonus levels"
     feature4: "<strong>{{gems}} bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
@@ -1320,7 +1328,7 @@
     how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
     bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
     total_unenrolled: "Total unenrolled"
-    
+
   classes:
     archmage_title: "Archmage"
     archmage_title_description: "(Coder)"
