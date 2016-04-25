@@ -532,9 +532,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 
   subscribe:
     comparison_blurb: "Teroita kykyjäsi CodeCombat kuukausitilauksella!"
-    feature1: "110+ perustasoa 4:ssä maailmassa" # {change}
-    feature2: "10 mahtavaa <strong>uutta sankaria</strong> erilaisine kykyineen!"
-    feature3: "70+ lisätasoa" # {change}
+    feature1: "$t(data.levelsCount)+ perustasoa $t(data.worldsCount):ssä maailmassa"
+    feature2: "$t(data.heroesCount) mahtavaa <strong>uutta sankaria</strong> erilaisine kykyineen!"
+    feature3: "$t(data.bonusLevelsCount)+ lisätasoa"
     feature4: "<strong>{{gems}} jalokiveä</strong> joka kuukausi!"
     feature5: "Video-oppaat"
     feature6: "Premium sähköpostituki"

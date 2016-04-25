@@ -532,9 +532,9 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 
 #  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-#    feature1: "125+ basic levels across 4 worlds"
-#    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
-#    feature3: "85+ bonus levels"
+#    feature1: "$t(data.levelsCount)+ basic levels across $t(data.worldsCount) worlds"
+#    feature2: "$t(data.heroesCount) powerful <strong>new heroes</strong> with unique skills!"
+#    feature3: "$t(data.bonusLevelsCount)+ bonus levels"
 #    feature4: "<strong>{{gems}} bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"

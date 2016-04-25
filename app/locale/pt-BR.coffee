@@ -532,9 +532,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   subscribe:
     comparison_blurb: "Afine suas habilidades com uma assinatura CodeCombat!"
-    feature1: "Mais de 60 níveis básicos entre 4 mundos" # {change}
-    feature2: "7 poderosos <strong>novos heróis</strong> com habilidades únicas!" # {change}
-    feature3: "Mais de 30 níveis bônus" # {change}
+    feature1: "Mais de $t(data.levelsCount) níveis básicos entre $t(data.worldsCount) mundos"
+    feature2: "$t(data.heroesCount) poderosos <strong>novos heróis</strong> com habilidades únicas!"
+    feature3: "Mais de $t(data.bonusLevelsCount) níveis bônus"
     feature4: "<strong>{{gems}} gemas bônus</strong> todo mês!"
     feature5: "Vídeo tutorials"
     feature6: "Suporte via e-mail Premium"

@@ -532,9 +532,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
   subscribe:
     comparison_blurb: "Îmbunătățeșteți abilitățile cu abonamentul CodeCombat"
-    feature1: "80+ de nivele de bază în 4 lumi diferite!" # {change}
-    feature2: "7 <strong>Eroi Noi</strong> puternici, cu skilluri unice!" # {change}
-    feature3: "60+ nivele bonus" # {change}
+    feature1: "$t(data.levelsCount)+ de nivele de bază în $t(data.worldsCount) lumi diferite!"
+    feature2: "$t(data.heroesCount) <strong>Eroi Noi</strong> puternici, cu skilluri unice!"
+    feature3: "$t(data.bonusLevelsCount)+ nivele bonus"
     feature4: "<strong>{{gems}} de Pietre Prețioase bonus</strong> în fiecare lună!"
     feature5: "Tutoriale Video"
     feature6: "Suport e-mail premium"
