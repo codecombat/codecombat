@@ -103,7 +103,7 @@ module.exports = class LevelGuideView extends CocoView
 
   onHidden: ->
     if @vimeoListenerAttached
-      player = $('#help-video-player')[0]
+      player = @$('#help-video-player')[0]
       player.contentWindow.postMessage JSON.stringify(method: 'pause'), '*'
     createjs?.Sound?.setVolume?(@volume ? ( me.get('volume') ? 1.0))
     Backbone.Mediator.publish 'level:docs-hidden', {}
