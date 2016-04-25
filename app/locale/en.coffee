@@ -639,6 +639,13 @@
     restricted_to_certain_heroes: "Only certain heroes can play this level."
 
   skill_docs:
+    function: "function" # skill types
+    method: "method"
+    snippet: "snippet"
+    number: "number"
+    array: "array"
+    object: "object"
+    string:  "string"
     writable: "writable"  # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "read-only"
     action: "Action"
