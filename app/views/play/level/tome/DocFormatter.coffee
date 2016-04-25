@@ -86,6 +86,10 @@ module.exports = class DocFormatter
       else if (@options.language in ['python', 'lua']) and (@doc.owner is 'this' or @options.tabbify)
         @doc.shorterName = @doc.shortName.replace /^(self|hero)[:.]/, ''
       @doc.title = if @options.shortenize then @doc.shorterName else @doc.shortName
+      translatedName = utils.i18n(@doc, 'name')
+      if translatedName isnt @doc.name
+        @doc.translatedShortName = @doc.shortName.replace(@doc.name, translatedName)
+        
 
     # Grab the language-specific documentation for some sub-properties, if we have it.
     toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}]

@@ -10,6 +10,10 @@ h4
       span(data-i18n="skill_docs.read_only") read-only
     | )
 
+if doc.translatedShortName
+  h5
+    span.translated-name= doc.translatedShortName
+
 .description
   p!= marked(doc.description || 'Still undocumented, sorry.')
   if cooldowns && (cooldowns.cooldown || cooldowns.specificCooldown)
