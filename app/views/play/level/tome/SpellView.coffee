@@ -6,6 +6,7 @@ Range = ace.require('ace/range').Range
 UndoManager = ace.require('ace/undomanager').UndoManager
 Problem = require './Problem'
 SpellDebugView = require './SpellDebugView'
+SpellTranslationView = require './SpellTranslationView'
 SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
@@ -56,6 +57,7 @@ module.exports = class SpellView extends CocoView
 
   constructor: (options) ->
     super options
+    @supermodel = options.supermodel
     @worker = options.worker
     @session = options.session
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
@@ -638,6 +640,10 @@ module.exports = class SpellView extends CocoView
     return if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
+    
+  createTranslationView: ->
+    @translationView = new SpellTranslationView { @ace, @thang, @spell, @supermodel }
+    @$el.append @translationView.render().$el.hide()
 
   createToolbarView: ->
     @toolbarView = new SpellToolbarView ace: @ace
@@ -661,6 +667,8 @@ module.exports = class SpellView extends CocoView
     @spellThang = @spell.thangs[@thang.id]
     @createDebugView() unless @debugView
     @debugView?.thang = @thang
+    @createTranslationView() unless @translationView
+    @translationView?.thang = @thang
     @toolbarView?.toggleFlow false
     @updateAether false, false
     # @addZatannaSnippets()
@@ -1336,6 +1344,7 @@ module.exports = class SpellView extends CocoView
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
     @destroyAceEditor(@ace)
     @debugView?.destroy()
+    @translationView?.destroy()
     @toolbarView?.destroy()
     @zatanna.addSnippets [], @editorLang if @editorLang?
     $(window).off 'resize', @onWindowResize
