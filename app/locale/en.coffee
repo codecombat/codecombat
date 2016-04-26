@@ -235,6 +235,7 @@
     connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
     facebook_exists: "You already have an account associated with Facebook!"
     hey_students: "Students, enter the class code from your teacher."
+    birthday: "Birthday"
 
   recover:
     recover_account_title: "Recover Account"
@@ -1661,6 +1662,11 @@
     you_can2: "purchase a prepaid code"
     you_can3: "that can be applied to your own account or given to others."
 
+  coppa_deny:
+    text1: "Can’t wait to learn programming?"
+    text2: "Ask your parents to create an account for you!"
+    close: "Close Window"
+
   loading_error:
     could_not_load: "Error loading from server"
     connection_failure: "Connection Failed"
@@ -1813,3 +1819,17 @@
     one_month_discount: "discount, 30% off: choose either Rails or HTML"
     license: "license"
     oreilly: "ebook of your choice"
+
+  calendar:
+    january: "January"
+    february: "February"
+    march: "March"
+    april: "April"
+    may: "May"
+    june: "June"
+    july: "July"
+    august: "August"
+    september: "September"
+    october: "October"
+    november: "November"
+    december: "December"

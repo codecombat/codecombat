@@ -6,6 +6,7 @@ User = require 'models/User'
 application  = require 'core/application'
 Classroom = require 'models/Classroom'
 errors = require 'core/errors'
+COPPADenyModal = require 'views/core/COPPADenyModal'
 
 
 module.exports = class CreateAccountModal extends ModalView
@@ -56,6 +57,21 @@ module.exports = class CreateAccountModal extends ModalView
     attrs.emails.generalNews.enabled = @$el.find('#subscribe').prop('checked')
     @classCode = attrs.classCode
     delete attrs.classCode
+
+    
+    birthday = new Date Date.UTC attrs.birthdayYear, attrs.birthdayMonth - 1, attrs.birthdayDay
+    if isNaN(birthday.getTime())
+      forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
+      error = true
+    else
+      age = (new Date().getTime() - birthday.getTime()) / 365.4 / 24 / 60 / 60 / 1000
+      if age >= 13
+        attrs.birthday = birthday.toISOString()
+
+    delete attrs.birthdayYear
+    delete attrs.birthdayMonth
+    delete attrs.birthdayDay
+
     _.assign attrs, @gplusAttrs if @gplusAttrs
     _.assign attrs, @facebookAttrs if @facebookAttrs
     res = tv4.validateMultiple attrs, User.schema
@@ -76,7 +92,10 @@ module.exports = class CreateAccountModal extends ModalView
     if @classCode
       @signupClassroomPrecheck()
     else
-      @createUser()
+      if age < 13
+        @openModalView new COPPADenyModal
+      else
+        @createUser()
 
   signupClassroomPrecheck: ->
     classroom = new Classroom()
