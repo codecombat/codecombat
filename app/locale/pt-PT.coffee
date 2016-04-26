@@ -186,6 +186,24 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     campaign_multiplayer_description: "... nas quais programas contra outros jogadores."
     campaign_old_multiplayer: "(Obsoletas) Arenas Multijogador Antigas"
     campaign_old_multiplayer_description: "Relíquias de uma era mais civilizada. Não há simulações em curso para estas arenas multijogador, mais antigas e sem heróis."
+    
+  code:
+    if: "si" # Keywords
+    else: "más"
+    elif: "más si"
+    while: "mientras"
+    loop: "lazo"
+    for: "por"
+    break: "descanso"
+    continue: "continuar"
+    then: "entonces"
+    do: "hacer"
+    end: "fin"
+    function: "función"
+    def: "definir"
+    self: "yo"
+    hero: "héroe"
+    this: "esta"
 
   share_progress_modal:
     blurb: "Estás a fazer grandes progressos! Conta ao teu educador o quanto aprendeste com o CodeCombat."
@@ -629,6 +647,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     restricted_to_certain_heroes: "Apenas certos heróis podem jogar este nível."
 
   skill_docs:
+    function: "función" # skill types
+    method: "método"
+    snippet: "retazo"
     writable: "editável" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "apenas leitura"
     action: "Ação -"
