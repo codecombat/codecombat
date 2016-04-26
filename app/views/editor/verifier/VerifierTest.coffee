@@ -94,7 +94,7 @@ module.exports = class VerifierTest extends CocoClass
     return true
 
   onUserCodeProblem: (e) ->
-    console.warning "Found user code problem:", e
+    console.warn "Found user code problem:", e
 
   onNonUserCodeProblem: (e) ->
     console.error "Found non-user-code problem:", e
