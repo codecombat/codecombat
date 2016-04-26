@@ -1821,6 +1821,9 @@
     oreilly: "ebook of your choice"
 
   calendar:
+    year: "Year"
+    day: "Day"
+    month: "Month"
     january: "January"
     february: "February"
     march: "March"

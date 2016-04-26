@@ -58,15 +58,16 @@ module.exports = class CreateAccountModal extends ModalView
     @classCode = attrs.classCode
     delete attrs.classCode
 
-    
+    error = false
     birthday = new Date Date.UTC attrs.birthdayYear, attrs.birthdayMonth - 1, attrs.birthdayDay
-    if isNaN(birthday.getTime())
+    if @classCode
+      #PASS
+    else if isNaN(birthday.getTime())
       forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
       error = true
     else
       age = (new Date().getTime() - birthday.getTime()) / 365.4 / 24 / 60 / 60 / 1000
-      if age >= 13
-        attrs.birthday = birthday.toISOString()
+      attrs.birthday = birthday.toISOString()
 
     delete attrs.birthdayYear
     delete attrs.birthdayMonth
@@ -75,7 +76,7 @@ module.exports = class CreateAccountModal extends ModalView
     _.assign attrs, @gplusAttrs if @gplusAttrs
     _.assign attrs, @facebookAttrs if @facebookAttrs
     res = tv4.validateMultiple attrs, User.schema
-    error = false
+
     if not res.valid
       forms.applyErrorsToForm(@$el, res.errors)
       error = true
