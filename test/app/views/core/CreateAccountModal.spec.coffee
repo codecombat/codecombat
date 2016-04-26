@@ -54,7 +54,7 @@ describe 'CreateAccountModal', ->
 
     it 'fails if user is too young', ->
       modal.$('form').each (i, el) -> el.reset()
-      forms.objectToForm(modal.$el, { email: 'some@email.com', password: 'xyzzy', birthdayDay: 24, birthdayMonth: 7, birthdayYear: 2015 })
+      forms.objectToForm(modal.$el, { email: 'some@email.com', password: 'xyzzy', birthdayDay: 24, birthdayMonth: 7, birthdayYear: (new Date().getFullYear() - 10) })
       modalOpened = false
       spyOn(modal, 'openModalView').and.callFake (modal) -> 
         modalOpened = true
