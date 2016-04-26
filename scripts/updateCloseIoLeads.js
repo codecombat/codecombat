@@ -27,8 +27,20 @@ const customFieldsToRemove = [
 // Skip these problematic leads
 const leadsToSkip = ['6 sınıflar', 'fdsafd', 'ashtasht', 'matt+20160404teacher3 school', 'sdfdsf', 'ddddd', 'dsfadsaf', "Nolan's School of Wonders"];
 
-const demoRequestEmailTemplates = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
-const createTeacherEmailTemplates = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];
+const demoRequestCloseIoEmailTemplates = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
+const createTeacherCloseIoEmailTemplates = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];
+
+// Prioritized Close.io lead status match list
+const closeIoInitialLeadStatuses = [
+  {status: 'Inbound UK Auto Attempt 1', regex: /^uk$|\.uk$/},
+  {status: 'Inbound Canada Auto Attempt 1', regex: /^ca$|\.ca$/},
+  {status: 'Inbound AU Auto Attempt 1', regex: /^au$|\.au$/},
+  {status: 'Inbound NZ Auto Attempt 1', regex: /^nz$|\.nz$/},
+  {status: 'New US Schools Auto Attempt 1', regex: /^us$|\.us$|\.gov$|k12|sd/},
+  {status: 'Inbound International Auto Attempt 1', regex: /^[A-Za-z]{2}$|\.[A-Za-z]{2}$/},
+  {status: 'Auto Attempt 1', regex: /^[A-Za-z]*$/}
+];
+
 const emailDelayMinutes = 27;
 
 const scriptStartTime = new Date();
@@ -40,13 +52,16 @@ const intercomApiKey = intercomAppIdApiKey.split(':')[1];
 const mongoConnUrl = process.argv[6];
 const MongoClient = require('mongodb').MongoClient;
 const async = require('async');
+const parseDomain = require('parse-domain');
 const request = require('request');
 
 const earliestDate = new Date();
 earliestDate.setUTCDate(earliestDate.getUTCDate() - 10);
 
+// ** Main program
+
 // log('DEBUG: Finding leads..');
-findLeads((err, leads) => {
+findCocoLeads((err, leads) => {
   if (err) {
     console.error(err);
     return;
@@ -69,10 +84,160 @@ findLeads((err, leads) => {
   });
 });
 
+// ** Utilities
 
-/* Helpers */
+function getInitialLeadStatusViaCountry(country) {
+  if (/usa|america|united states/ig.test(country)) {
+    return 'New US Schools Auto Attempt 1';
+  }
+}
 
-class Lead {
+function getInitialLeadStatusViaEmails(emails) {
+  let currentStatus = null;
+  let currentRank = closeIoInitialLeadStatuses.length;
+  for (const email of emails) {
+    let tld = parseDomain(email).tld;
+    tld = tld ? tld.toLowerCase() : '';
+    for (let rank = 0; rank < currentRank; rank++) {
+      if (closeIoInitialLeadStatuses[rank].regex.test(tld)) {
+        currentStatus = closeIoInitialLeadStatuses[rank].status;
+        currentRank = rank;
+      }
+    }
+  }
+  return currentStatus ? currentStatus : closeIoInitialLeadStatuses[closeIoInitialLeadStatuses.length - 1].status;
+}
+
+function getRandomEmailApiKey() {
+  if (closeIoMailApiKeys.length < 0) return;
+  return closeIoMailApiKeys[Math.floor(Math.random() * closeIoMailApiKeys.length)];
+}
+
+function getRandomEmailTemplate(templates) {
+  if (templates.length < 0) return '';
+  return templates[Math.floor(Math.random() * templates.length)];
+}
+
+function isSameEmailTemplateType(template1, template2) {
+  if (createTeacherCloseIoEmailTemplates.indexOf(template1) >= 0 && createTeacherCloseIoEmailTemplates.indexOf(template2) >= 0) {
+    return true;
+  }
+  if (demoRequestCloseIoEmailTemplates.indexOf(template1) >= 0 && demoRequestCloseIoEmailTemplates.indexOf(template2) >= 0) {
+    return true;
+  }
+  return false;
+}
+
+function log(str) {
+  console.log(new Date().toISOString() + " " + str);
+}
+
+// ** Coco data collection methods and class
+
+function findCocoLeads(done) {
+  MongoClient.connect(mongoConnUrl, (err, db) => {
+    if (err) return done(err);
+
+    // Recent trial requests
+    const query = {$and: [{created: {$gte: earliestDate}}, {type: 'course'}]};
+    db.collection('trial.requests').find(query).toArray((err, trialRequests) => {
+      if (err) {
+        db.close();
+        return done(err);
+      }
+      const leads = {};
+      const emailLeadMap = {};
+      const emails = [];
+      for (const trialRequest of trialRequests) {
+        if (!trialRequest.properties || !trialRequest.properties.email) continue;
+        const email = trialRequest.properties.email.toLowerCase();
+        emails.push(email);
+        const name = trialRequest.properties.organization || trialRequest.properties.name || email;
+        if (!leads[name]) leads[name] = new CocoLead(name);
+        leads[name].addTrialRequest(email, trialRequest);
+        emailLeadMap[email] = leads[name];
+      }
+
+      // Users for trial requests
+      const query = {$and: [
+        {emailLower: {$in: emails}},
+        {anonymous: false}
+      ]};
+      db.collection('users').find(query).toArray((err, users) => {
+        if (err) {
+          db.close();
+          return done(err);
+        }
+        const userIDs = [];
+        const userLeadMap = {};
+        const userEmailMap = {};
+        for (const user of users) {
+          const email = user.emailLower;
+          emailLeadMap[email].addUser(email, user);
+          userIDs.push(user._id);
+          userLeadMap[user._id.valueOf()] = emailLeadMap[email];
+          userEmailMap[user._id.valueOf()] = email;
+        }
+
+        // Classrooms for users
+        const query = {ownerID: {$in: userIDs}};
+        db.collection('classrooms').find(query).toArray((err, classrooms) => {
+          if (err) {
+            db.close();
+            return done(err);
+          }
+
+          for (const classroom of classrooms) {
+            userLeadMap[classroom.ownerID.valueOf()].addClassroom(userEmailMap[classroom.ownerID.valueOf()], classroom);
+          }
+          db.close();
+          return done(null, leads);
+        });
+      });
+    });
+  });
+}
+
+function createAddIntercomDataFn(cocoLead, email) {
+  return (done) => {
+    const options = {
+      url: `https://api.intercom.io/users?email=${encodeURIComponent(email)}`,
+      auth: {
+        user: intercomAppId,
+        pass: intercomApiKey
+      },
+      headers: {
+        'Accept': 'application/json'
+      }
+    };
+    request.get(options, (error, response, body) => {
+      if (error) return done(error);
+      try {
+        const user = JSON.parse(body);
+        cocoLead.addIntercomUser(email, user);
+      }
+      catch (err) {
+        console.log(err);
+        console.log(body);
+      }
+      return done();
+    });
+  };
+}
+
+function addIntercomData(leads, done) {
+  const tasks = []
+  for (const name in leads) {
+    for (const email in leads[name].contacts) {
+      tasks.push(createAddIntercomDataFn(leads[name], email));
+    }
+  }
+  async.parallel(tasks, (err, results) => {
+    return done(err);
+  });
+}
+
+class CocoLead {
   constructor(name) {
     this.contacts = {};
     this.custom = {};
@@ -105,11 +270,21 @@ class Lead {
   addUser(email, user) {
     this.contacts[email.toLowerCase()].user = user;
   }
+  getInitialLeadStatus() {
+    for (const email in this.contacts) {
+      const props = this.contacts[email].trial.properties;
+      if (props && props['country']) {
+        const status = getInitialLeadStatusViaCountry(props['country']);
+        if (status) return status;
+      }
+    }
+    return getInitialLeadStatusViaEmails(Object.keys(this.contacts));
+  }
   getLeadPostData() {
     const postData = {
       display_name: this.name,
       name: this.name,
-      status: 'Auto Attempted',
+      status: this.getInitialLeadStatus(),
       contacts: this.getContactsPostData(),
       custom: {
         lastUpdated: new Date(),
@@ -266,108 +441,7 @@ class Lead {
   }
 }
 
-function findLeads(done) {
-  MongoClient.connect(mongoConnUrl, (err, db) => {
-    if (err) return done(err);
-
-    // Recent trial requests
-    const query = {$and: [{created: {$gte: earliestDate}}, {type: 'course'}]};
-    db.collection('trial.requests').find(query).toArray((err, trialRequests) => {
-      if (err) {
-        db.close();
-        return done(err);
-      }
-      const leads = {};
-      const emailLeadMap = {};
-      const emails = [];
-      for (const trialRequest of trialRequests) {
-        if (!trialRequest.properties || !trialRequest.properties.email) continue;
-        const email = trialRequest.properties.email.toLowerCase();
-        emails.push(email);
-        const name = trialRequest.properties.organization || trialRequest.properties.name || email;
-        if (!leads[name]) leads[name] = new Lead(name);
-        leads[name].addTrialRequest(email, trialRequest);
-        emailLeadMap[email] = leads[name];
-      }
-
-      // Users for trial requests
-      const query = {$and: [
-        {emailLower: {$in: emails}},
-        {anonymous: false}
-      ]};
-      db.collection('users').find(query).toArray((err, users) => {
-        if (err) {
-          db.close();
-          return done(err);
-        }
-        const userIDs = [];
-        const userLeadMap = {};
-        const userEmailMap = {};
-        for (const user of users) {
-          const email = user.emailLower;
-          emailLeadMap[email].addUser(email, user);
-          userIDs.push(user._id);
-          userLeadMap[user._id.valueOf()] = emailLeadMap[email];
-          userEmailMap[user._id.valueOf()] = email;
-        }
-
-        // Classrooms for users
-        const query = {ownerID: {$in: userIDs}};
-        db.collection('classrooms').find(query).toArray((err, classrooms) => {
-          if (err) {
-            db.close();
-            return done(err);
-          }
-
-          for (const classroom of classrooms) {
-            userLeadMap[classroom.ownerID.valueOf()].addClassroom(userEmailMap[classroom.ownerID.valueOf()], classroom);
-          }
-          db.close();
-          return done(null, leads);
-        });
-      });
-    });
-  });
-}
-
-function createAddIntercomDataFn(lead, email) {
-  return (done) => {
-    const options = {
-      url: `https://api.intercom.io/users?email=${encodeURIComponent(email)}`,
-      auth: {
-        user: intercomAppId,
-        pass: intercomApiKey
-      },
-      headers: {
-        'Accept': 'application/json'
-      }
-    };
-    request.get(options, (error, response, body) => {
-      if (error) return done(error);
-      try {
-        const user = JSON.parse(body);
-        lead.addIntercomUser(email, user);
-      }
-      catch (err) {
-        console.log(err);
-        console.log(body);
-      }
-      return done();
-    });
-  };
-}
-
-function addIntercomData(leads, done) {
-  const tasks = []
-  for (const name in leads) {
-    for (const email in leads[name].contacts) {
-      tasks.push(createAddIntercomDataFn(leads[name], email));
-    }
-  }
-  async.parallel(tasks, (err, results) => {
-    return done(err);
-  });
-}
+// ** Upsert Close.io methods
 
 function updateExistingLead(lead, existingLead, done) {
   // console.log('DEBUG: updateExistingLead', existingLead.id);
@@ -445,10 +519,10 @@ function saveNewLead(lead, done) {
       for (const contact of existingLead.contacts) {
         for (const email of contact.emails) {
           if (['create teacher', 'convert teacher'].indexOf(lead.contacts[email.email].trial.properties.siteOrigin) >= 0) {
-            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(createTeacherEmailTemplates)));
+            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(createTeacherCloseIoEmailTemplates)));
           }
           else {
-            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(demoRequestEmailTemplates)));
+            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(demoRequestCloseIoEmailTemplates)));
           }
         }
       }
@@ -539,10 +613,10 @@ function createAddContactFn(postData, internalLead, externalLead) {
       // Send emails to new contact
       const email = postData.emails[0].email;
       if (['create teacher', 'convert teacher'].indexOf(internalLead.contacts[email].trial.properties.siteOrigin) >= 0) {
-        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(createTeacherEmailTemplates), done);
+        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(createTeacherCloseIoEmailTemplates), done);
       }
       else {
-        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(demoRequestEmailTemplates), done);
+        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(demoRequestCloseIoEmailTemplates), done);
       }
     });
   };
@@ -570,26 +644,6 @@ function createAddNoteFn(leadId, newNote) {
       return done();
     });
   };
-}
-
-function getRandomEmailTemplate(templates) {
-  if (templates.length < 0) return '';
-  return templates[Math.floor(Math.random() * templates.length)];
-}
-
-function isSameEmailTemplateType(template1, template2) {
-  if (createTeacherEmailTemplates.indexOf(template1) >= 0 && createTeacherEmailTemplates.indexOf(template2) >= 0) {
-    return true;
-  }
-  if (demoRequestEmailTemplates.indexOf(template1) >= 0 && demoRequestEmailTemplates.indexOf(template2) >= 0) {
-    return true;
-  }
-  return false;
-}
-
-function getRandomEmailApiKey() {
-  if (closeIoMailApiKeys.length < 0) return;
-  return closeIoMailApiKeys[Math.floor(Math.random() * closeIoMailApiKeys.length)];
 }
 
 function createSendEmailFn(email, leadId, contactId, template) {
@@ -674,8 +728,4 @@ function updateLeads(leads, done) {
       return done(err);
     });
   });
-}
-
-function log(str) {
-  console.log(new Date().toISOString() + " " + str);
 }
