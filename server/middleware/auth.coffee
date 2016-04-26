@@ -37,7 +37,13 @@ module.exports =
       if not _.size(_.intersection(req.user.get('permissions'), permissions))
         return next new errors.Forbidden('You do not have permissions necessary.')
       next()
-      
+
+  checkHasUser: ->
+    return (req, res, next) ->
+      if not req.user
+        return next new errors.Unauthorized('No user associated with this request.')
+      next()
+
   whoAmI: wrap (req, res) ->
     if not req.user
       user = User.makeNew(req)
