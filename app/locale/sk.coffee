@@ -532,9 +532,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
   subscribe:
     comparison_blurb: "Uč sa dôkladnejšie vďaka predplatnému !"
-    feature1: "60+ základných úrovní v štyroch svetoch" # {change}
-    feature2: "7 mocných <strong>new hrdinov</strong> s jedinečnými schopnosťami!" # {change}
-    feature3: "30+ bonusových úrovní" # {change}
+    feature1: "$t(data.levelsCount)+ základných úrovní v $t(data.worldsCount) svetoch"
+    feature2: "$t(data.heroesCount) mocných <strong>new hrdinov</strong> s jedinečnými schopnosťami!"
+    feature3: "$t(data.bonusLevelsCount)+ bonusových úrovní"
     feature4: "<strong>{{gems}} bonusových diamantov</strong> každý mesiac !"
     feature5: "Video tutoriály"
     feature6: "Prémiová emailová podpora"

@@ -532,9 +532,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   subscribe:
     comparison_blurb: "코드컴뱃을 구독하셔서 당신의 스킬을 날카롭게하십시오!"
-    feature1: "110+개의 기초 레벨들은 4개의 세계에 있습니다" # {change}
-    feature2: "힘쌘 10 <strong>새로운 영웅들</strong>은 희기한 스킬과 함께!"
-    feature3: "80+ 보너스 레벨들" # {change}
+    feature1: "$t(data.levelsCount)+개의 기초 레벨들은 $t(data.worldsCount)개의 세계에 있습니다"
+    feature2: "힘쌘 $t(data.heroesCount) <strong>새로운 영웅들</strong>은 희기한 스킬과 함께!"
+    feature3: "$t(data.bonusLevelsCount)+ 보너스 레벨들"
     feature4: "매 달마다<strong>{{gems}} 보너스 잼</strong>!"
     feature5: "영상 튜토리얼"
     feature6: "프리미엄 이메일 지원"

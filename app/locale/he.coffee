@@ -532,9 +532,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   subscribe:
     comparison_blurb: ".CodeCombatחדד את כישוריך עם מנוי ל"
-    feature1: "60+ שלבים בסיסיים ב 4 עולמות שונים." # {change}
-    feature2: "!עם כישורים מיוחדים <strong>גיבורים עוצמתיים חדשים</strong> 7" # {change}
-    feature3: "30+ שלבי בונוס" # {change}
+    feature1: "$t(data.levelsCount)+ שלבים בסיסיים ב $t(data.worldsCount) עולמות שונים."
+    feature2: "!עם כישורים מיוחדים <strong>גיבורים עוצמתיים חדשים</strong> $t(data.heroesCount)"
+    feature3: "$t(data.bonusLevelsCount)+ שלבי בונוס"
     feature4: "!בחינם כל חודש <strong>{{gems}} אבני חן</strong>"
     feature5: "הדרכות וידאו"
     feature6: "תמיכת מייל בעדיפות ראשונה"

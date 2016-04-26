@@ -1,4 +1,12 @@
 ﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
+  # Don't translate this block nor copy it to other locale files.
+  # This is just raw data that is automatically shared across all locales.
+  data:
+    levelsCount: "125"
+    bonusLevelsCount: "85"
+    heroesCount: "10"
+    worldsCount: "4"
+
   home:
     slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"  # Warning that only shows up in IE8 and older
@@ -118,6 +126,7 @@
     about: "About"
     contact: "Contact"
     twitter_follow: "Follow"
+    students: "Students"
     teachers: "Teachers"
     careers: "Careers"
     facebook: "Facebook"
@@ -532,9 +541,9 @@
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "125+ basic levels across 4 worlds"
-    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "85+ bonus levels"
+    feature1: "$t(data.levelsCount)+ basic levels across $t(data.worldsCount) worlds"
+    feature2: "$t(data.heroesCount) powerful <strong>new heroes</strong> with unique skills!"
+    feature3: "$t(data.bonusLevelsCount)+ bonus levels"
     feature4: "<strong>{{gems}} bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
@@ -687,7 +696,6 @@
     nick_title: "Cofounder, CEO"
     nick_blurb: "Motivation Guru"
     matt_title: "Cofounder, CTO"
-    matt_blurb: "Bicyclist"
     cat_title: "Game Designer"
     cat_blurb: "Airbender"
     scott_title: "Cofounder, Software Engineer"
@@ -702,6 +710,9 @@
     robin_blurb: "Scaffolding"
     josh_title: "Game Designer"
     josh_blurb: "Floor Is Lava"
+    phoenix_title: "Software Engineer"
+    nolan_title: "Territory Manager"
+    elliot_title: "Partnership Manager"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"
@@ -731,13 +742,13 @@
     jobs_benefit_1: "Competitive salary and options"
     jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
     jobs_benefit_3: "Flex time and flexible work-from-home"
-    jobs_benefit_4: "Unlimited vacation/sick/personal days"
+    jobs_benefit_4: "Unlimited vacation" # {change}
     jobs_benefit_5: "Professional development and continuing education support – free books and games!"
     jobs_benefit_6: "Medical (gold), dental, vision"
     jobs_benefit_7: "Sit-stand desks for all"
     jobs_benefit_9: "10-year option exercise window"
-    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary, next 12 remote working"
-    jobs_benefit_11: "Paternity leave: 10 weeks paid, next 12 remote working"
+    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary" # {change}
+    jobs_benefit_11: "Paternity leave: 10 weeks paid" # {change}
     learn_more: "Learn More"
     jobs_custom_title: "Create Your Own"
     jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
@@ -1317,7 +1328,7 @@
     how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
     bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
     total_unenrolled: "Total unenrolled"
-    
+
   classes:
     archmage_title: "Archmage"
     archmage_title_description: "(Coder)"

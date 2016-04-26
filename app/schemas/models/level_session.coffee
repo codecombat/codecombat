@@ -150,6 +150,9 @@ _.extend LevelSessionSchema.properties,
         type: 'string'
         format: 'code'
 
+  codeLogs:
+    type: 'array'
+
   codeLanguage:
     type: 'string'
 

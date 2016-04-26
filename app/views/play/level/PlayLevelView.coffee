@@ -593,6 +593,7 @@ module.exports = class PlayLevelView extends RootView
     session.save {screenshot: screenshot}, {patch: true, type: 'PUT'}
 
   onContactClicked: (e) ->
+    Backbone.Mediator.publish 'level:contact-button-pressed', {}
     @openModalView contactModal = new ContactModal levelID: @level.get('slug') or @level.id, courseID: @courseID, courseInstanceID: @courseInstanceID
     screenshot = @surface.screenshot(1, 'image/png', 1.0, 1)
     body =
