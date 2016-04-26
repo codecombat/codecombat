@@ -71,8 +71,8 @@ module.exports = class VerifierTest extends CocoClass
     @god.setGoalManager @goalManager
 
   register: ->
-    @listenToOnce @god, 'infinite-loop', @fail  # TODO: have one of these
-
+    @listenToOnce @god, 'infinite-loop', @fail
+    @listenToOnce @god, 'user-code-problem', @onUserCodeProblem
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
     @god.createWorld @generateSpellsObject()
     @updateCallback? state: 'running'
@@ -93,10 +93,19 @@ module.exports = class VerifierTest extends CocoClass
         return false if @solution.goals[k] != @goals[k].status
     return true
 
+  onUserCodeProblem: (e) ->
+    console.warning "Found user code problem:", e
+
+  onNonUserCodeProblem: (e) ->
+    console.error "Found non-user-code problem:", e
+    @error = "Failed due to non-user-code problem: #{JSON.stringify(e)}"
+    @state = 'error'
+    @updateCallback? state: @state
+
   fail: (e) ->
     @error = 'Failed due to infinate loop.'
     @state = 'error'
-    @updateCallback? state: @state 
+    @updateCallback? state: @state
 
   generateSpellsObject: ->
     aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @session.get('codeLanguage')
