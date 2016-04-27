@@ -83,7 +83,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    run_class: "Everything you need to run a computer science class in your school today, no CS background required."
     teachers: "Учителя!"
     teachers_and_educators: "Учителя & Педагоги"
-    class_in_box: "Узнайте, как наш "класс в коробке" вписывается в ваш учебный план."
+    class_in_box: "Узнайте, как наш класс в коробке вписывается в ваш учебный план."
     get_started: "Начать"
     students: "Студенты:"
     join_class: "Присоединиться к классу"
