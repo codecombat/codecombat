@@ -1,9 +1,26 @@
+mixin accountLinks
+  li
+    a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
+  li
+    a(href="/account/settings", data-i18n="play.settings")
+  unless me.isStudent()
+    li
+      a(href="/account/payments", data-i18n="account.payments")
+  unless me.isTeacher() || me.isStudent()
+    li
+      a(href="/account/subscription", data-i18n="account.subscription")
+  unless me.isStudent()
+    li
+      a(href="/account/prepaid", data-i18n="account.prepaid_codes")
+  li
+    a#logout-button(data-i18n="login.log_out")
+
 .style-flat
   block header
     nav#main-nav.navbar.navbar-default
-      .container
+      .container-fluid
         .row
-          .col-md-3.col-sm-4
+          .col-lg-12
             .navbar-header
               button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
                 span.sr-only(data-i18n="home.toggle_nav")
@@ -14,9 +31,8 @@
                 img#logo-img(src="/images/pages/base/logo.png")
                 span.glyphicon.glyphicon-home
 
-          .col-md-9.col-sm-8
             #navbar-collapse.collapse.navbar-collapse
-              ul.nav.navbar-nav.pull-left
+              ul.nav.navbar-nav
                 li
                   a(href="/about", data-i18n="nav.about")
                 li
@@ -25,13 +41,22 @@
                   a(href="/teachers/classes", data-i18n="nav.teachers")
                 li
                   a(href="https://discourse.codecombat.com/", data-i18n="nav.forum")
-                if me.isAnonymous()
+              if me.isAnonymous()
+                ul.nav.navbar-nav
                   li
                     a#create-account-link.signup-button(data-i18n="login.sign_up")
                   li
                     a#login-link.login-button(data-i18n="login.log_in")
-                else
-                  li.dropdown
+              else
+                ul.nav.navbar-nav.hidden-lg
+                  li.disabled
+                    a
+                      img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
+                      span= me.displayName()
+                  +accountLinks
+                    
+                ul.nav.navbar-nav
+                  li.dropdown.hidden-xs.hidden-sm.hidden-md
                     a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
                       img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
                       span.spr My Account
@@ -41,26 +66,12 @@
                         a(href="/user/#{me.getSlugOrID()}")
                           img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
                         h5=me.displayName()
-                      li
-                        a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
-                      li
-                        a(href="/account/settings", data-i18n="play.settings")
-                      unless me.isStudent()
-                        li
-                          a(href="/account/payments", data-i18n="account.payments")
-                      unless me.isTeacher() || me.isStudent()
-                        li
-                          a(href="/account/subscription", data-i18n="account.subscription")
-                      unless me.isStudent()
-                        li
-                          a(href="/account/prepaid", data-i18n="account.prepaid_codes")
-                      li
-                        a#logout-button(data-i18n="login.log_out")
-
-                li
-                  #language-dropdown-wrapper
-                    select.language-dropdown.form-control    
+                      +accountLinks
     
+                  li
+                    #language-dropdown-wrapper
+                      select.language-dropdown.form-control    
+
   block page_nav
 
   block outer_content
