@@ -315,9 +315,10 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
     expect(res.body.original).toBe(@levelB.original.toString())
     done()
     
-  it 'returns 404 if the given level is the last level in its course', utils.wrap (done) ->
+  it 'returns empty object if the given level is the last level in its course', utils.wrap (done) ->
     [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelB.id}/next"), json: true }
-    expect(res.statusCode).toBe(404)
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toEqual({})
     done()
 
   it 'returns 404 if the given level is not in the course instance\'s course', utils.wrap (done) ->

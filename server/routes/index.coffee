@@ -59,6 +59,7 @@ module.exports.setup = (app) ->
   Course = require '../models/Course'
   app.get('/db/course', mw.rest.get(Course))
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
+  app.get('/db/course/:handle/levels/:levelOriginal/next', mw.courses.fetchNextLevel)
   
   app.get('/db/course_instance/:handle/levels/:levelOriginal/next', mw.courseInstances.fetchNextLevel)
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)

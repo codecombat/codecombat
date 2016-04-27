@@ -82,6 +82,7 @@ module.exports = class Classroom extends CocoModel
     return stats
 
   fetchForCourseInstance: (courseInstanceID, options={}) ->
+    return unless courseInstanceID
     CourseInstance = require 'models/CourseInstance'
     courseInstance = if _.isString(courseInstanceID) then new CourseInstance({_id:courseInstanceID}) else courseInstanceID
     options = _.extend(options, {

@@ -29,9 +29,9 @@ module.exports = class CourseVictoryModal extends ModalView
     @newItems = new ThangTypes()
     @newHeroes = new ThangTypes()
     
-    @classroom = new Classroom()
-    @supermodel.trackRequest(@classroom.fetchForCourseInstance(@courseInstanceID))
-
+    if @courseInstanceID
+      @classroom = new Classroom()
+      @supermodel.trackRequest(@classroom.fetchForCourseInstance(@courseInstanceID))
     @achievements = options.achievements
     if not @achievements
       @achievements = new Achievements()
@@ -43,7 +43,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     @playSound 'victory'
     @nextLevel = new Level()
-    @nextLevelRequest = @supermodel.trackRequest @nextLevel.fetchNextForCourse(@level.get('original'), @courseInstanceID)
+    @nextLevelRequest = @supermodel.trackRequest @nextLevel.fetchNextForCourse({ levelOriginalID: @level.get('original'), @courseInstanceID, @courseID })
 
     @course = options.course
     if @courseID and not @course

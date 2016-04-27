@@ -69,7 +69,7 @@ module.exports = class User extends CocoModel
   isSessionless: ->
     # TODO: Fix old users who got mis-tagged as teachers
     # TODO: Should this just be isTeacher, eventually?
-    me.isTeacher() and utils.getQueryVariable('course', false)
+    Boolean(me.isTeacher() and utils.getQueryVariable('course', false))
 
   setRole: (role, force=false) ->
     return if me.isAdmin()

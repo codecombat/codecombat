@@ -5,6 +5,7 @@ module.exports =
   campaigns: require './campaigns'
   codelogs: require './codelogs'
   courseInstances: require './course-instances'
+  courses: require './courses'
   files: require './files'
   named: require './named'
   patchable: require './patchable'
