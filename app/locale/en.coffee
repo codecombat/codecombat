@@ -758,7 +758,7 @@
     story_statistic_2b: "200+ countries"
     story_statistic_3a: "Together, they have written"
     story_statistic_3b: "1 billion lines of code and counting"
-    story_statistic_3c: "across six different programming languages"
+    story_statistic_3c: "across many different programming languages" # {change}
     story_long_way_1: "Though we've come a long way..."
     story_sketch_caption: "Nick's very first sketch depicting a programming game in action."
     story_long_way_2: "we still have much to do before we complete our quest, so..."
