@@ -47,7 +47,6 @@ module.exports = class EnrollmentsView extends RootView
   onLoaded: ->
     @calculateEnrollmentStats()
     @pricePerStudent = @products.findWhere({name: 'course'}).get('amount')
-    me.setRole 'teacher'
     super()
 
   getPriceString: -> '$' + (@getPrice()/100).toFixed(2)
