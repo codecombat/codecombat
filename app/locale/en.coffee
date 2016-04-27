@@ -195,7 +195,7 @@
     campaign_multiplayer_description: "... in which you code head-to-head against other players."
     campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
     campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
-    
+
   code:
     if: "if" # Keywords
     else: "else"
@@ -1353,7 +1353,7 @@
     how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
     how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
     how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
-    bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
+    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps." # {change}
     total_unenrolled: "Total unenrolled"
 
   classes:
