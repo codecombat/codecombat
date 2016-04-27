@@ -43,6 +43,12 @@ ClassroomSchema.pre('save', (next) ->
     next()
 )
 
+ClassroomSchema.post('init', (next) ->
+  # TODO: Remove this once classrooms are populated. This is only for when we are testing locked course content.
+  if not @get('courses')
+    @set('courses', coursesData)
+)
+
 ClassroomSchema.methods.isOwner = (userID) ->
   return userID.equals(@get('ownerID'))
 
@@ -53,9 +59,6 @@ ClassroomSchema.statics.jsonSchema = jsonSchema
 
 ClassroomSchema.set('toObject', {
   transform: (doc, ret, options) ->
-    # TODO: Remove this once classrooms are populated. This is only for when we are testing locked course content.
-    if not ret.courses
-      ret.courses = coursesData
     return ret unless options.req
     user = options.req.user
     unless user and (user.isAdmin() or user._id.equals(doc.get('ownerID')))
