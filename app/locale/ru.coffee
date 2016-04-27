@@ -532,9 +532,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   subscribe:
     comparison_blurb: "Отточите свое мастерство благодаря подписке на CodeCombat!"
-    feature1: "80+ основных уровней на просторах 4-х миров" # {change}
-    feature2: "7 могущественных <strong>новых героев</strong> с уникальными способностями!" # {change}
-    feature3: "60+ дополнительных уровней" # {change}
+    feature1: "$t(data.levelsCount)+ основных уровней на просторах $t(data.worldsCount)-х миров" # {change}
+    feature2: "$t(data.heroesCount) могущественных <strong>новых героев</strong> с уникальными способностями!" # {change}
+    feature3: "$t(data.bonusLevelsCount)+ дополнительных уровней" # {change}
     feature4: "<strong>{{gems}} бонусных самоцветов</strong> каждый месяц!"
     feature5: "Обучающие видеоролики"
     feature6: "Эксклюзивная поддержка по электронной почте"
