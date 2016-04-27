@@ -1,8 +1,8 @@
 app = require 'core/application'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/courses-view'
-StudentLogInModal = require 'views/courses/StudentLogInModal'
-StudentSignUpModal = require 'views/courses/StudentSignUpModal'
+AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
 CourseInstance = require 'models/CourseInstance'
@@ -22,7 +22,7 @@ module.exports = class CoursesView extends RootView
 
   events:
     'click #log-in-btn': 'onClickLogInButton'
-    'click #start-new-game-btn': 'onClickStartNewGameButton'
+    'click #start-new-game-btn': 'openSignUpModal'
     'click #join-class-btn': 'onClickJoinClassButton'
     'submit #join-class-form': 'onSubmitJoinClassForm'
     'click #change-language-link': 'onClickChangeLanguageLink'
@@ -64,13 +64,12 @@ module.exports = class CoursesView extends RootView
       @joinClass()
 
   onClickLogInButton: ->
-    modal = new StudentLogInModal()
+    modal = new AuthModal()
     @openModalView(modal)
-    modal.on 'want-to-create-account', @openSignUpModal, @
     application.tracker?.trackEvent 'Started Student Login', category: 'Courses'
 
   openSignUpModal: ->
-    modal = new StudentSignUpModal({ willPlay: true })
+    modal = new CreateAccountModal()
     @openModalView(modal)
     application.tracker?.trackEvent 'Started Student Signup', category: 'Courses'
 
