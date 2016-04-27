@@ -59,6 +59,7 @@
     "bayesian-battle": "0.0.7",
     "bluebird": "^3.2.1",
     "chalk": "^1.1.3",
+    "co": "^4.6.0",
     "co-express": "^1.2.1",
     "coffee-script": "1.9.x",
     "connect": "2.7.x",
