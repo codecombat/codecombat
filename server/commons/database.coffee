@@ -155,6 +155,8 @@ module.exports =
     tv4 = require('tv4').tv4
     result = tv4.validateMultiple(obj, doc.schema.statics.jsonSchema)
     if not result.valid
+      prunedErrors = (_.omit(error, 'stack') for error in result.errors)
+      winston.debug('Validation errors: ', JSON.stringify(prunedErrors, null, '\t'))
       throw new errors.UnprocessableEntity('JSON-schema validation failed', { validationErrors: result.errors })
 
 

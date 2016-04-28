@@ -37,6 +37,7 @@ User = require '../../../server/models/User'
 request = require '../request'
 utils = require '../utils'
 slack = require '../../../server/slack'
+Promise = require 'bluebird'
 
 describe 'PUT /db/campaign', ->
   beforeEach utils.wrap (done) ->
@@ -44,6 +45,7 @@ describe 'PUT /db/campaign', ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
     [res, body] = yield request.postAsync { uri: campaignURL, json: campaign }
+    @levelsUpdated = body.levelsUpdated
     @campaign = yield Campaign.findById(body._id)
     done()
   
@@ -74,6 +76,16 @@ describe 'PUT /db/campaign', ->
     spyOn(slack, 'sendSlackMessage')
     [res, body] = yield request.putAsync { uri: campaignURL+'/'+@campaign.id, json: { name: 'A new name' } }
     expect(slack.sendSlackMessage).toHaveBeenCalled()
+    done()
+    
+  it 'sets campaign.levelsUpdated to now iff levels are changed', utils.wrap (done) ->
+    data = {name: 'whatever'}
+    [res, body] = yield request.putAsync { uri: campaignURL+'/'+@campaign.id, json: data }
+    expect(body.levelsUpdated).toBe(@levelsUpdated)
+    yield new Promise((resolve) -> setTimeout(resolve, 10))
+    data = {levels: {'a': {original: 'a'}}}
+    [res, body] = yield request.putAsync { uri: campaignURL+'/'+@campaign.id, json: data }
+    expect(body.levelsUpdated).not.toBe(@levelsUpdated)
     done()
 
 describe '/db/campaign', ->

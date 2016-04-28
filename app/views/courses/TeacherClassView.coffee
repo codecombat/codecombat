@@ -14,7 +14,6 @@ Users = require 'collections/Users'
 Courses = require 'collections/Courses'
 CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
-Campaigns = require 'collections/Campaigns'
 
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
@@ -62,10 +61,6 @@ module.exports = class TeacherClassView extends RootView
     @courses.fetch()
     @supermodel.trackCollection(@courses)
     
-    @campaigns = new Campaigns()
-    @campaigns.fetchByType('course')
-    @supermodel.trackCollection(@campaigns)
-    
     @courseInstances = new CourseInstances()
     @courseInstances.fetchByOwner(me.id)
     @supermodel.trackCollection(@courseInstances)
@@ -76,15 +71,15 @@ module.exports = class TeacherClassView extends RootView
     @classCode = @classroom.get('codeCamel') or @classroom.get('code')
     @joinURL = document.location.origin + "/courses?_cc=" + @classCode
     
-    @earliestIncompleteLevel = helper.calculateEarliestIncomplete(@classroom, @courses, @campaigns, @courseInstances, @students)
-    @latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @campaigns, @courseInstances, @students)
+    @earliestIncompleteLevel = helper.calculateEarliestIncomplete(@classroom, @courses, @courseInstances, @students)
+    @latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, @students)
     for student in @students.models
       # TODO: this is a weird hack
       studentsStub = new Users([ student ])
-      student.latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @campaigns, @courseInstances, studentsStub)
+      student.latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, studentsStub)
       
     classroomsStub = new Classrooms([ @classroom ])
-    @progressData = helper.calculateAllProgress(classroomsStub, @courses, @campaigns, @courseInstances, @students)
+    @progressData = helper.calculateAllProgress(classroomsStub, @courses, @courseInstances, @students)
     # @conceptData = helper.calculateConceptsCovered(classroomsStub, @courses, @campaigns, @courseInstances, @students)
     
     @selectedCourse = @courses.first()

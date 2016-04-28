@@ -6,6 +6,9 @@ Promise = require 'bluebird'
 database = require '../commons/database'
 mongoose = require 'mongoose'
 Classroom = require '../models/Classroom'
+Course = require '../models/Course'
+Campaign = require '../models/Campaign'
+Level = require '../models/Level'
 parse = require '../commons/parse'
 LevelSession = require '../models/LevelSession'
 User = require '../models/User'
@@ -27,6 +30,50 @@ module.exports =
     classrooms = yield dbq
     classrooms = (classroom.toObject({req: req}) for classroom in classrooms)
     res.status(200).send(classrooms)
+
+  fetchAllLevels: wrap (req, res, next) ->
+    classroom = yield database.getDocFromHandle(req, Classroom)
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+    
+    levelOriginals = []
+    for course in classroom.get('courses') or []
+      for level in course.levels
+        levelOriginals.push(level.original)
+    
+    levels = yield Level.find({ original: { $in: levelOriginals }, slug: { $exists: true }}).select(parse.getProjectFromReq(req))
+    levels = (level.toObject({ req: req }) for level in levels)
+
+    # maintain course order
+    levelMap = {}
+    for level in levels
+      levelMap[level.original] = level
+    levels = (levelMap[levelOriginal.toString()] for levelOriginal in levelOriginals)
+
+    res.status(200).send(levels)
+
+  fetchLevelsForCourse: wrap (req, res) ->
+    classroom = yield database.getDocFromHandle(req, Classroom)
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+    
+    levelOriginals = []
+    for course in classroom.get('courses') or []
+      if course._id.toString() isnt req.params.courseID
+        continue
+      for level in course.levels
+        levelOriginals.push(level.original)
+
+    levels = yield Level.find({ original: { $in: levelOriginals }, slug: { $exists: true }}).select(parse.getProjectFromReq(req))
+    levels = (level.toObject({ req: req }) for level in levels)
+    
+    # maintain course order
+    levelMap = {}
+    for level in levels
+      levelMap[level.original] = level
+    levels = (levelMap[levelOriginal.toString()] for levelOriginal in levelOriginals)
+    
+    res.status(200).send(levels)
 
   fetchMemberSessions: wrap (req, res, next) ->
     throw new errors.Unauthorized() unless req.user
@@ -71,6 +118,26 @@ module.exports =
     classroom.set 'ownerID', req.user._id
     classroom.set 'members', []
     database.assignBody(req, classroom)
+    
+    # copy over data from how courses are right now
+    courses = yield Course.find()
+    campaigns = yield Campaign.find({_id: {$in: (course.get('campaignID') for course in courses)}})
+    campaignMap = {}
+    campaignMap[campaign.id] = campaign for campaign in campaigns
+    coursesData = []
+    for course in courses
+      courseData = { _id: course._id, levels: [] }
+      campaign = campaignMap[course.get('campaignID').toString()]
+      levels = _.values(campaign.get('levels'))
+      levels = _.sortBy(levels, 'campaignIndex')
+      for level in levels
+        levelData = { original: mongoose.Types.ObjectId(level.original) }
+        _.extend(levelData, _.pick(level, 'type', 'slug', 'name'))
+        courseData.levels.push(levelData)
+      coursesData.push(courseData)
+    classroom.set('courses', coursesData)
+    
+    # finish
     database.validateDoc(classroom)
     classroom = yield classroom.save()
     res.status(201).send(classroom.toObject({req: req}))

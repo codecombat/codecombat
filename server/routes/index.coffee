@@ -46,6 +46,8 @@ module.exports.setup = (app) ->
   
   app.post('/db/classroom', mw.classrooms.post)
   app.get('/db/classroom', mw.classrooms.getByOwner)
+  app.get('/db/classroom/:handle/levels', mw.classrooms.fetchAllLevels)
+  app.get('/db/classroom/:handle/courses/:courseID/levels', mw.classrooms.fetchLevelsForCourse)
   app.get('/db/classroom/:handle/member-sessions', mw.classrooms.fetchMemberSessions)
   app.get('/db/classroom/:handle/members', mw.classrooms.fetchMembers) # TODO: Use mw.auth?
   app.get('/db/classroom/:handle', mw.auth.checkLoggedIn()) # TODO: Finish migrating route, adding now so 401 is returned
@@ -58,7 +60,9 @@ module.exports.setup = (app) ->
   app.get('/db/course', mw.rest.get(Course))
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
   
+  app.get('/db/course_instance/:handle/levels/:levelOriginal/next', mw.courseInstances.fetchNextLevel)
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
+  app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)

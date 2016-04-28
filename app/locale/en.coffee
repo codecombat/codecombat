@@ -1,12 +1,4 @@
 ﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
-  # Don't translate this block nor copy it to other locale files.
-  # This is just raw data that is automatically shared across all locales.
-  data:
-    levelsCount: "125"
-    bonusLevelsCount: "85"
-    heroesCount: "10"
-    worldsCount: "4"
-
   home:
     slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"  # Warning that only shows up in IE8 and older
@@ -195,6 +187,24 @@
     campaign_multiplayer_description: "... in which you code head-to-head against other players."
     campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
     campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+
+  code:
+    if: "if" # Keywords
+    else: "else"
+    elif: "elif"
+    while: "while"
+    loop: "loop"
+    for: "for"
+    break: "break"
+    continue: "continue"
+    then: "then"
+    do: "do"
+    end: "end"
+    function: "function"
+    def: "def"
+    self: "self"
+    hero: "hero"
+    this: "this"
 
   share_progress_modal:
     blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
@@ -542,9 +552,9 @@
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "$t(data.levelsCount)+ basic levels across $t(data.worldsCount) worlds"
-    feature2: "$t(data.heroesCount) powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "$t(data.bonusLevelsCount)+ bonus levels"
+    feature1: "__levelsCount__+ basic levels across __worldsCount__ worlds"
+    feature2: "__heroesCount__ powerful <strong>new heroes</strong> with unique skills!"
+    feature3: "__bonusLevelsCount__+ bonus levels"
     feature4: "<strong>{{gems}} bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
@@ -639,6 +649,13 @@
     restricted_to_certain_heroes: "Only certain heroes can play this level."
 
   skill_docs:
+    function: "function" # skill types
+    method: "method"
+    snippet: "snippet"
+    number: "number"
+    array: "array"
+    object: "object"
+    string:  "string"
     writable: "writable"  # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "read-only"
     action: "Action"
@@ -733,7 +750,7 @@
     story_statistic_2b: "200+ countries"
     story_statistic_3a: "Together, they have written"
     story_statistic_3b: "1 billion lines of code and counting"
-    story_statistic_3c: "across six different programming languages"
+    story_statistic_3c: "across many different programming languages"
     story_long_way_1: "Though we've come a long way..."
     story_sketch_caption: "Nick's very first sketch depicting a programming game in action."
     story_long_way_2: "we still have much to do before we complete our quest, so..."
@@ -743,13 +760,13 @@
     jobs_benefit_1: "Competitive salary and options"
     jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
     jobs_benefit_3: "Flex time and flexible work-from-home"
-    jobs_benefit_4: "Unlimited vacation" # {change}
+    jobs_benefit_4: "Unlimited vacation"
     jobs_benefit_5: "Professional development and continuing education support – free books and games!"
     jobs_benefit_6: "Medical (gold), dental, vision"
     jobs_benefit_7: "Sit-stand desks for all"
     jobs_benefit_9: "10-year option exercise window"
-    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary" # {change}
-    jobs_benefit_11: "Paternity leave: 10 weeks paid" # {change}
+    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
+    jobs_benefit_11: "Paternity leave: 10 weeks paid"
     learn_more: "Learn More"
     jobs_custom_title: "Create Your Own"
     jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
@@ -1229,6 +1246,7 @@
     concepts_covered: "Concepts covered"
     print_guide: "Print Guide (PDF)"
     view_guide_online: "View Guide Online (PDF)"
+    last_updated: "Last updated:"
     grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
     enrollment_credits_available: "Enrollment Credits Available:"
     description: "Description" # ClassroomSettingsModal
@@ -1263,7 +1281,7 @@
     language: "Language"
     edit_class_settings: "edit class settings"
     complete: "Complete"
-    access_restricted: "Access Restricted" # My Classes page
+    access_restricted: "Account Update Required"
     teacher_account_required: "A teacher account is required to access this content."
     create_teacher_account: "Create Teacher Account"
     what_is_a_teacher_account: "What's a Teacher Account?"
@@ -1327,7 +1345,7 @@
     how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
     how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
     how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
-    bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
+    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
     total_unenrolled: "Total unenrolled"
 
   classes:

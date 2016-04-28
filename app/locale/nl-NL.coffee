@@ -91,7 +91,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    student_count: "Number of students:"
 #    start_playing_for_free: "Start Playing for Free!"
 #    students_and_players: "Students & Players"
-#    goto_classes: "Go to My Classes" # {change}
+#    goto_classes: "Go to My Classes"
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
@@ -118,6 +118,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     about: "Over Ons"
     contact: "Contact"
     twitter_follow: "Volgen"
+#    students: "Students"
     teachers: "Docenten"
     careers: "Banen"
     facebook: "Facebook"
@@ -187,6 +188,24 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
+#  code:
+#    if: "if" # Keywords
+#    else: "else"
+#    elif: "elif"
+#    while: "while"
+#    loop: "loop"
+#    for: "for"
+#    break: "break"
+#    continue: "continue"
+#    then: "then"
+#    do: "do"
+#    end: "end"
+#    function: "function"
+#    def: "def"
+#    self: "self"
+#    hero: "hero"
+#    this: "this"
+
   share_progress_modal:
     blurb: "Je gaat snel vooruit! Vertel aan je ouders hoeveel je geleerd hebt met CodeCombat."
     email_invalid: "Emailaddress klopt niet."
@@ -226,6 +245,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
 #    facebook_exists: "You already have an account associated with Facebook!"
 #    hey_students: "Students, enter the class code from your teacher."
+#    birthday: "Birthday"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -533,7 +553,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   subscribe:
     comparison_blurb: "Verbeter je vaardigheden met een abonnement op CodeCombat!"
     feature1: "meer dan $t(data.levelsCount) basislevels over $t(data.worldsCount) werelden" # {change}
-    feature2: "$t(data.heroesCount) sterke <strong>nieuwe helden</strong> met unieke vaardigheden!"
+    feature2: "$t(data.heroesCount) sterke <strong>nieuwe helden</strong> met unieke vaardigheden!" # {change}
     feature3: "$t(data.bonusLevelsCount) bonuslevels" # {change}
     feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!"
     feature5: "Video cursussen"
@@ -629,6 +649,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     restricted_to_certain_heroes: "Alleen bepaalde helden kunnen dit level spelen."
 
   skill_docs:
+#    function: "function" # skill types
+#    method: "method"
+#    snippet: "snippet"
+#    number: "number"
+#    array: "array"
+#    object: "object"
+#    string: "string"
     writable: "beschrijfbaar" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "read-only"
     action: "Actie"
@@ -687,7 +714,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     nick_title: "Programmeur" # {change}
     nick_blurb: "Motivatie Goeroe"
     matt_title: "Programmeur" # {change}
-    matt_blurb: "Fietser"
     cat_title: "Hoofd Ambachtsman" # {change}
     cat_blurb: "Airbender"
     scott_title: "Programmeur" # {change}
@@ -702,6 +728,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    robin_blurb: "Scaffolding"
     josh_title: "Game Designer"
     josh_blurb: "Vloer Is Lava"
+#    phoenix_title: "Software Engineer"
+#    nolan_title: "Territory Manager"
+#    elliot_title: "Partnership Manager"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
     jose_title: "Muziek"
@@ -721,7 +750,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     story_statistic_2b: "200+ landen"
     story_statistic_3a: "Samen schreven zij meer dan"
     story_statistic_3b: "1 miljard regels code en de teller loopt door"
-    story_statistic_3c: "over zes verschillende programmeertalen"
+    story_statistic_3c: "over zes verschillende programmeertalen" # {change}
     story_long_way_1: "Hoewel we ver zijn gekomen..."
     story_sketch_caption: "Nick's eerste schets die een programmeer spel in actie weergeeft."
     story_long_way_2: "hebben we nog veel te doen voordat we onze zoektocht af hebben, dus..."
@@ -736,8 +765,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     jobs_benefit_6: "Medisch/tandarts/oog verzekering" # {change}
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary, next 12 remote working"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid, next 12 remote working"
+#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
     learn_more: "Lees verder"
 #    jobs_custom_title: "Create Your Own"
 #    jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
@@ -769,18 +798,24 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   teachers_quote:
     name: "Offerte Formulier" # {change}
     title: "Offerte aanvragen" # {change}
-    subtitle: "Haal CodeCombat jouw klaslokaal, club, school of wijk in!" # {change}
+    subtitle: "Haal CodeCombat jouw klaslokaal, club, school of wijk in!"
     email_exists: "Er bestaat al een gebruiker met dit email adres."
     phone_number: "Telefoonnummer"
     phone_number_help: "Waar kunnen we je bereiken tijdens de werkdag?"
-    role_label: "Jouw rol"
-    role_help: "Kies je primaire rol."
+#    primary_role_label: "Your Primary Role"
 #    role_default: "Select Role"
+#    primary_role_default: "Select Primary Role"
+#    purchaser_role_default: "Select Purchaser Role"
     tech_coordinator: "Technologie coördinator"
     advisor: "Adviseur"
     principal: "Schoolhoofd"
     superintendent: "Leidinggevende"
     parent: "Ouder/verzorger"
+#    purchaser_role_label: "Your Purchaser Role"
+#    influence_advocate: "Influence/Advocate"
+#    evaluate_recommend: "Evaluate/Recommend"
+#    approve_funds: "Approve Funds"
+#    no_purchaser_role: "No role in purchase decisions"
     organization_label: "Schoolnaam"
     city: "Stad"
     state: "Provincie"
@@ -801,11 +836,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
-#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account." # {change}
-#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+#    connect_with: "Connect with:"
+#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
+#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
 #    create_account: "Create a Teacher Account"
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
-#    convert_account_title: "Update to Teacher Account" # {change}
+#    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
 #    setup_a_class: "Set Up a Class"
 
@@ -1021,7 +1057,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     buy_course1: "Koop deze cursus"
     select_all_courses: "Selecteer 'Alle cursussen' voor 50% korting!"
     all_courses: "Alle cursussen"
-    number_students: "Aantal leerlingen"
+#    number_programming_students: "Number of Programming Students"
+#    number_total_students: "Total Students in School/District"
     enter_number_students: "Voer het aantal leerlingen in dat je voor de klas nodig hebt."
     name_class: "Geef je klas een naam"
     displayed_course_page: "Dit wordt getoond op de cursuspagina aan u en uw leerlingen. Het kan later worden veranderd."
@@ -1061,7 +1098,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     already_enrolled: "al ingeschreven"
     licenses_remaining: "licenties over:"
     insufficient_enrollments: "onvoldoende betaalde inschrijvingen"
-    enroll_students: "schrijf leerlingen in"
     get_enrollments: "krijg meer inschrijvingen"
     change_language: "Verander cursustaal"
     keep_using: "Blijf Gebruiken"
@@ -1210,6 +1246,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     concepts_covered: "Behandelde concepten"
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
+#    last_updated: "Last updated:"
 #    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "beschrijving" # ClassroomSettingsModal
@@ -1244,7 +1281,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    language: "Language"
 #    edit_class_settings: "edit class settings"
 #    complete: "Complete"
-#    access_restricted: "Access Restricted" # My Classes page
+#    access_restricted: "Account Update Required"
 #    teacher_account_required: "A teacher account is required to access this content."
 #    create_teacher_account: "Create Teacher Account"
 #    what_is_a_teacher_account: "What's a Teacher Account?"
@@ -1286,10 +1323,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    assign_to_selected_students: "Assign to Selected Students"
 #    assigned: "Assigned"
 #    enroll_selected_students: "Enroll Selected Students"
+#    cant_assign_to_unenrolled: "Course cannot be assigned to students who are not enrolled."
+#    no_students_selected: "No students were selected."
 #    guides_coming_soon: "Guides coming soon!" # Courses
 #    show_students_from: "Show students from" # Enroll students modal
 #    enroll_the_following_students: "Enroll the following students"
 #    all_students: "All Students"
+#    enroll_students: "Enroll Students"
+#    not_enough_enrollments: "Not enough Enrollments available."
 #    enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
 #    enrollments_blurb_2: "require enrollments to access the courses."
 #    credits_available: "Credits Available"
@@ -1303,8 +1344,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    how_to_enroll: "How to Enroll Students"
 #    how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
 #    how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
-#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content." # {change}
-#    bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
+#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
+#    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
+#    total_unenrolled: "Total unenrolled"
 
   classes:
     archmage_title: "Tovenaar"
@@ -1638,6 +1680,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     you_can2: "een prepaidcode kopen"
     you_can3: "die je voor jke eigen account kunt gebruiken of aan anderen kunt geven."
 
+#  coppa_deny:
+#    text1: "Can’t wait to learn programming?"
+#    text2: "Ask your parents to create an account for you!"
+#    close: "Close Window"
+
   loading_error:
     could_not_load: "Fout bij het laden van de server"
     connection_failure: "Verbinding mislukt." # {change}
@@ -1790,3 +1837,20 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     one_month_discount: "30% korting: Kies Rails of HTML"
     license: "licentie"
     oreilly: "ebook van je keuze"
+
+#  calendar:
+#    year: "Year"
+#    day: "Day"
+#    month: "Month"
+#    january: "January"
+#    february: "February"
+#    march: "March"
+#    april: "April"
+#    may: "May"
+#    june: "June"
+#    july: "July"
+#    august: "August"
+#    september: "September"
+#    october: "October"
+#    november: "November"
+#    december: "December"

@@ -5,6 +5,7 @@ plugins = require '../plugins/plugins'
 User = require './User'
 jsonSchema = require '../../app/schemas/models/classroom.schema.coffee'
 utils = require '../lib/utils'
+co = require 'co'
 
 ClassroomSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
 
@@ -42,6 +43,12 @@ ClassroomSchema.pre('save', (next) ->
     next()
 )
 
+ClassroomSchema.post('init', (next) ->
+  # TODO: Remove this once classrooms are populated. This is only for when we are testing locked course content.
+  if not @get('courses')
+    @set('courses', coursesData)
+)
+
 ClassroomSchema.methods.isOwner = (userID) ->
   return userID.equals(@get('ownerID'))
 
@@ -61,3 +68,26 @@ ClassroomSchema.set('toObject', {
 })
 
 module.exports = Classroom = mongoose.model 'classroom', ClassroomSchema, 'classrooms'
+
+coursesData = []
+
+co ->
+  console.log 'Populating courses data...'
+  Course = require './Course'
+  Campaign = require './Campaign'
+  courses = yield Course.find()
+  campaigns = yield Campaign.find({_id: {$in: (course.get('campaignID') for course in courses)}})
+  campaignMap = {}
+  campaignMap[campaign.id] = campaign for campaign in campaigns
+  coursesData = []
+  for course in courses
+    courseData = { _id: course._id, levels: [] }
+    campaign = campaignMap[course.get('campaignID').toString()]
+    levels = _.values(campaign.get('levels'))
+    levels = _.sortBy(levels, 'campaignIndex')
+    for level in levels
+      levelData = { original: mongoose.Types.ObjectId(level.original) }
+      _.extend(levelData, _.pick(level, 'type', 'slug', 'name'))
+      courseData.levels.push(levelData)
+    coursesData.push(courseData)
+  console.log 'Populated courses data.'

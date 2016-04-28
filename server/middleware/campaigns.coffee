@@ -25,12 +25,16 @@ module.exports =
     campaign = yield database.getDocFromHandle(req, Campaign)
     if not campaign
       throw new errors.NotFound('Campaign not found.')
+    levelsBefore = _.keys(campaign.get('levels'))
     hasPermission = req.user.isAdmin()
     unless hasPermission or database.isJustFillingTranslations(req, campaign)
       throw new errors.Forbidden('Must be an admin or submitting translations to edit a campaign')
 
     database.assignBody(req, campaign)
     database.validateDoc(campaign)
+    levelsAfter = _.keys(campaign.get('levels'))
+    if not _.isEqual(levelsBefore, levelsAfter)
+      campaign.set('levelsUpdated', new Date())
     campaign = yield campaign.save()
     res.status(200).send(campaign.toObject())
     docLink = "http://codecombat.com#{req.headers['x-current-path']}"

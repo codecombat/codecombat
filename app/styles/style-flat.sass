@@ -125,6 +125,13 @@ $forest: #20572B
     .navbar-toggle
       color: black
       margin: 30px 25px 0
+      
+    @media (min-width: $screen-lg-min)
+      #navbar-collapse
+        float: right
+        
+    #navbar-collapse
+      max-height: none
 
     .nav > li > a
       // TODO: Move this to bootstrap variables for navbars
@@ -136,19 +143,27 @@ $forest: #20572B
       height: 95px
       color: $burgandy
       text-shadow: 0 0 0
-
+      
       &:hover
         background: $burgandy
         color: white
+        
+    .nav > li.disabled > a
+      color: black
+      &:hover
+        background: white
+        color: black
+        cursor: default
 
     #language-dropdown-wrapper
       display: inline-block
       padding: 30px 10px
       width: 100%
       
-    @media (max-width: $screen-sm-min)
+    @media (max-width: $screen-lg-min)
       .nav > li > a
         padding: 10px 20px
+        height: 45px
       #language-dropdown-wrapper
         display: inline-block
         padding: 10px 10px

@@ -216,7 +216,8 @@ mixin courseProgressTab
         span(data-i18n='teacher.select_course')
         span.spr :
         select.course-select
-          each course in view.courses.models
+          each trimCourse in view.classroom.get('courses')
+            - var course = view.courses.get(trimCourse._id);
             option(value=course.id)
               = course.get('name')
     if view.progressData
@@ -229,8 +230,7 @@ mixin courseProgressTab
         
 mixin courseOverview
   - var course = view.selectedCourse
-  - var campaign = view.campaigns.get(course.get('campaignID'))
-  - var levels = campaign.getNonLadderLevels().models
+  - var levels = view.classroom.getLevels({courseID: course.id, withoutLadderLevels: true}).models
   .course-overview-row
     .course-title.student-name
       span= course.get('name')
@@ -248,8 +248,7 @@ mixin studentLevelsRow(student)
       div.student-email.small-details= student.get('email')
     div.student-levels-progress
       - var course = view.selectedCourse
-      - var campaign = view.campaigns.get(course.get('campaignID'))
-      - var levels = campaign.getNonLadderLevels().models
+      - var levels = view.classroom.getLevels({courseID: course.id, withoutLadderLevels: true}).models
       each level, index in levels
         - var progress = view.progressData.get({ classroom: view.classroom, course: course, level: level, user: student })
         +progressDot(progress, index+1)
@@ -292,7 +291,8 @@ mixin bulkAssignControls
       span(data-i18n='teacher.bulk_assign')
       span :
     select.bulk-course-select.form-control
-      each course in view.courses.models
+      each trimCourse in view.classroom.get('courses')
+        - var course = view.courses.get(trimCourse._id)
         option(value=course.id)
           = course.get('name')
     button.btn.btn-primary-alt.assign-to-selected-students

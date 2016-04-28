@@ -48,7 +48,7 @@ module.exports = class Spell
       @source = @originalSource = p.aiSource
     @thangs = {}
     if @canRead()  # We can avoid creating these views if we'll never use them.
-      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god}
+      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel}
       @view.render()  # Get it ready and code loaded in advance
       @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, codeLanguage: @language, level: options.level
       @tabView.render()

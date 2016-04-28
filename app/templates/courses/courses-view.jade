@@ -45,42 +45,10 @@ block content
 
     else
 
-      - var showHOCComplete = false;
-      if view.hocCourseInstance
-        - var course = view.courses.get(view.hocCourseInstance.get('courseID'));
-        - var campaign = view.campaigns.get(course.get('campaignID'));
-        - var stats = campaign.statsForSessions(view.hocCourseInstance.sessions);
-        - showHOCComplete = stats.levels.done && !view.classrooms.size();
-
       .text-center
-        if !showHOCComplete
-          h1(data-i18n="courses.welcome_to_page") Welcome to your Courses page!
-        else
-          h1(data-i18n="courses.completed_hoc")
-          h2(data-i18n="courses.ready_for_more_header")
-          ul.text-left
-            li(data-i18n="courses.ready_for_more_1")
-            li(data-i18n="courses.ready_for_more_2")
-            li(data-i18n="courses.ready_for_more_3")
-          a.btn.btn-lg.btn-success(href="/play") Play Now
+        h1(data-i18n="courses.welcome_to_page") Welcome to your Courses page!
 
-      if view.hocCourseInstance && !view.classrooms.size()
-        h3(data-i18n="courses.saved_games")
-        hr
-
-        .course-instance-entry
-          h3
-            span(data-i18n="courses.hoc")
-            span.spr :
-            span.spr(data-i18n="courses.course")
-            span 1
-            span.spr= (me.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'
-            small
-              a#change-language-link(data-i18n="courses.change_language")
-          +course-instance-body(view.hocCourseInstance)
-          .clearfix
-
-      else if view.classrooms.size()
+      if view.classrooms.size()
         h3.text-uppercase(data-i18n="courses.my_classes")
         hr
 
@@ -106,12 +74,8 @@ block content
                   span.spr= course.get('name')
                   small
                     a(href="/courses/"+courseInstance.get('courseID')+'/'+courseInstance.id, data-i18n="courses.view_levels")
-                +course-instance-body(courseInstance)
+                +course-instance-body(courseInstance, classroom)
                 .clearfix
-
-      else
-        .text-center
-          button#start-new-game-btn.btn.btn-success.btn-lg(data-i18n="courses.start_new_game")
 
       h3.text-uppercase(data-i18n="courses.join_class")
       hr
@@ -131,16 +95,9 @@ block content
           .alert.alert-danger= view.errorMessage
 
 
-  #begin-hoc-area.hide
-    h3.text-center(data-i18n="common.loading")
-    .progress.progress-striped.active
-      .progress-bar(style="width: 100%")
-
-
-mixin course-instance-body(courseInstance)
+mixin course-instance-body(courseInstance, classroom)
   - var course = view.courses.get(courseInstance.get('courseID'));
-  - var campaign = view.campaigns.get(course.get('campaignID'));
-  - var stats = campaign.statsForSessions(courseInstance.sessions);
+  - var stats = classroom.statsForSessions(courseInstance.sessions, course.id);
   if stats.levels.done
     .text-success
       span.glyphicon.glyphicon-ok
@@ -150,19 +107,19 @@ mixin course-instance-body(courseInstance)
     if stats.levels.done
       - var arenaLevel = stats.levels.arena;
       if arenaLevel
-        - var arenaURL = "/play/ladder/"+arenaLevel.slug+"/course/"+courseInstance.id;
+        - var arenaURL = "/play/ladder/"+arenaLevel.get('slug')+"/course/"+courseInstance.id;
         a.btn.btn-warning.btn-lg(href=arenaURL)
           span(data-i18n="courses.play_arena")
       else
         a.btn.btn-default.btn-lg(disabled=true, data-i18n="courses.course_complete")
     else if courseInstance.sessions.size()
       - var lastLevel = stats.levels.lastPlayed;
-      - var levelURL = "/play/level/"+lastLevel.slug+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
+      - var levelURL = "/play/level/"+lastLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
       a.btn.btn-success.btn-lg(href=levelURL)
         span(data-i18n="common.continue")
     else
       - var firstLevel = stats.levels.first;
-      - var levelURL = "/play/level/"+firstLevel.slug+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
+      - var levelURL = "/play/level/"+firstLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
       a.btn.btn-info.btn-lg(href=levelURL)
         span(data-i18n="courses.start")
 

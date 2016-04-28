@@ -89,7 +89,6 @@ block content
         if !(inCourse || view.teacherMode)
           - continue;
         - var course = view.courses.get(courseInstance.get('courseID'));
-        - var campaign = view.campaigns.get(course.get('campaignID'));
         - var sessions = courseInstance.sessionsByUser[user.id] || [];
         if !(course.get('free') || paidFor)
           - continue;
@@ -98,8 +97,8 @@ block content
             .col-sm-3.text-right= course.get('name')
             .col-sm-9
               if inCourse
-                - var levels = campaign.get('levels');
-                - var numLevels = Object.keys(levels).length;
+                - var levels = view.classroom.getLevels({courseID: course.id});
+                - var numLevels = levels.size();
                 - var sessionMap = _.zipObject(_.map(sessions, function(s) { return s.get('level').original; }), sessions);
                 - var levelCellWidth = 100.00;
                 if numLevels > 0
@@ -107,9 +106,10 @@ block content
                 - var css = "width:"+levelCellWidth+"%;"
                 - var i = 0;
                 .progress
-                  each level, levelID in campaign.get('levels')
+                  each trimModel in levels.models
+                    - var level = view.levels.get(trimModel.get('original')); // get the level loaded through the db
                     - i++
-                    - var session = sessionMap[levelID];
+                    - var session = sessionMap[level.get('original')];
                     a(href=view.getLevelURL(level, course, courseInstance, session))
                       - var content = view.levelPopoverContent(level, session, i);
                       if session && session.get('state') && session.get('state').complete
