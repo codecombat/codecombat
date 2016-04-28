@@ -1300,6 +1300,7 @@
     total_playtime: "Total play time"
     avg_completed: "Average levels completed"
     total_completed: "Total levels completed"
+    created: "Created"
     concepts_covered: "Concepts covered"
     earliest_incomplete: "Earliest incomplete level"
     latest_complete: "Latest completed level"

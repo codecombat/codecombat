@@ -57,6 +57,11 @@ block content
             span(data-i18n='teacher.total_completed')
             span.spr :
             span= stats.totalLevelsComplete
+            
+          .total-complete.small-details
+            span(data-i18n='teacher.created')
+            span.spr :
+            span= moment(classroom.created()).format('ll')
               
           //- .concepts.small-details
           //-   if view.progressData
@@ -291,7 +296,7 @@ mixin bulkAssignControls
       span(data-i18n='teacher.bulk_assign')
       span :
     select.bulk-course-select.form-control
-      each trimCourse in view.classroom.get('courses')
+      each trimCourse in _.rest(view.classroom.get('courses'))
         - var course = view.courses.get(trimCourse._id)
         option(value=course.id)
           = course.get('name')
