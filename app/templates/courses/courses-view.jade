@@ -104,9 +104,9 @@ mixin course-instance-body(courseInstance, classroom)
           span(data-i18n="courses.play_arena")
       else
         a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
-    else if courseInstance.sessions.size()
-      - var lastLevel = stats.levels.lastPlayed;
-      - var levelURL = "/play/level/"+lastLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
+    else if stats.levels.next != stats.levels.first
+      - var next = stats.levels.next;
+      - var levelURL = "/play/level/"+next.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
       a.btn.btn-forest.btn-lg.m-b-1(href=levelURL)
         span(data-i18n="common.continue")
     else

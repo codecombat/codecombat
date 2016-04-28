@@ -60,20 +60,22 @@ module.exports = class Classroom extends CocoModel
     return null unless sessions
     stats = {}
     sessions = sessions.models or sessions
-    sessions = _.sortBy sessions, (s) -> s.get('changed')
     arena = @getLadderLevel(courseID)
     levels = @getLevels({courseID: courseID, withoutLadderLevels: true})
     levelOriginals = levels.pluck('original')
-    sessionOriginals = (session.get('level').original for session in sessions when session.get('state').complete)
-    levelsLeft = _.size(_.difference(levelOriginals, sessionOriginals))
-    lastSession = _.last(sessions)
+    completeSessionOriginals = (session.get('level').original for session in sessions when session.get('state').complete)
+    incompleteSessionOriginals = (session.get('level').original for session in sessions when not session.get('state').complete)
+    levelsLeft = _.size(_.difference(levelOriginals, completeSessionOriginals))
+    next = _.find levels.models, (level) -> level.get('original') not in completeSessionOriginals
+    lastPlayed = _.find levels.models, (level) -> level.get('original') in incompleteSessionOriginals
     stats.levels = {
       size: levels.size()
       left: levelsLeft
       done: levelsLeft is 0
       numDone: levels.size() - levelsLeft
       pctDone: (100 * (levels.size() - levelsLeft) / levels.size()).toFixed(1) + '%'
-      lastPlayed: if lastSession then levels.findWhere({ original: lastSession.get('level').original }) else null
+      lastPlayed: lastPlayed
+      next: next
       first: levels.first()
       arena: arena
     }
