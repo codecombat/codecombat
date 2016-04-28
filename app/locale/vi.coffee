@@ -1,29 +1,29 @@
 module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietnamese", translation:
   home:
-    slogan: "Học code bằng chơi Games"
-    no_ie: "Codecombat không chạy trong Internet Explorer 8 hoặc cũ hơn. Xin lỗi!" # Warning that only shows up in IE8 and older
+    slogan: "Học Code bằng chơi Game"
+    no_ie: "Codecombat không chạy được bằng Internet Explorer 8 hoặc cũ hơn. Xin lỗi!" # Warning that only shows up in IE8 and older
     no_mobile: "Codecombat không được thiết kế cho các thiết bị di động và có thể không hoạt động được!" # Warning that shows up on mobile devices
     play: "Chơi" # The big play button that opens up the campaign view.
     play_campaign_version: "Chơi phiên bản Campaign" # Shows up under big play button if you only play /courses
     old_browser: "Trình duyệt của bạn quá cũ để chạy CodeCombat. Thật sự xin lỗi!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Bạn có thể thử nếu bạn muốn, nhưng tôi nghĩ nó sẽ không hoạt động."
-    ipad_browser: "Tin xấu: CodeCombat không chạy trên trình duyệt web của iPad. Tin tốt: Ứng dụng dành cho iPad của chúng tôi đang chờ sự chấp thuận của Apple."
+    ipad_browser: "Tin buồn: CodeCombat không chạy trên trình duyệt web của iPad. Tin tốt: Ứng dụng dành cho iPad của chúng tôi đang chờ sự chấp thuận của Apple."
     campaign: "Chiến dịch"
-    for_beginners: "Dành cho người bắt đầu chơi"
+    for_beginners: "Dành cho Người Bắt Đầu"
     multiplayer: "Nhiều người chơi" # Not currently shown on home page
-    for_developers: "Dành cho nhà phát triển" # Not currently shown on home page.
+    for_developers: "Dành cho Nhà Phát Triển" # Not currently shown on home page.
     or_ipad: "Hoặc tải phiên bản dành cho iPad"
 
-#  new_home:
-#    slogan: "The most engaging game for learning programming."
-#    classroom_edition: "Classroom Edition:"
-#    learn_to_code: "Learn to code:"
-#    teacher: "Teacher"
-#    student: "Student"
-#    play_now: "Play Now"
-#    im_a_teacher: "I'm a Teacher"
-#    im_a_student: "I'm a Student"
-#    learn_more: "Learn more"
+  new_home:
+    slogan: "Tựa game hấp dẫn nhất để học lập trình."
+    classroom_edition: "Phiên bản Lớp Học:"
+    learn_to_code: "Học code:"
+    teacher: "Giáo Viên"
+    student: "Học Sinh"
+    play_now: "Chơi Ngay"
+    im_a_teacher: "Tôi là Giáo Viên"
+    im_a_student: "Tôi là Học Viên"
+    learn_more: "Tìm hiểu thêm"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
 #    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
 #    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
@@ -109,47 +109,48 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     blog: "Blog"
     forum: "Diễn đàn"
     account: "Tài khoản"
-    profile: "Thông tin cá nhân"
-    stats: "Các chỉ số"
+    profile: "Cá nhân"
+    stats: "Chỉ số"
     code: "Code"
-    home: "Nhà"
+    home: "Trang chủ"
     contribute: "Đóng góp"
-    legal: "Hợp pháp"
+    legal: "Điều khoản"
     about: "Giới thiệu"
     contact: "Liên hệ"
     twitter_follow: "Theo dõi"
+    students: "Dành cho học viên"
     teachers: "Dành cho giáo viên"
-    careers: "Sự nghiệp"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
-#    create_a_class: "Create a Class"
-#    other: "Other"
-#    learn_to_code: "Learn to Code!"
+    careers: "Cơ hội việc làm"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    create_a_class: "Tạo một Lớp Học"
+    other: "Khác"
+    learn_to_code: "Học Code!"
 #    toggle_nav: "Toggle navigation"
-#    jobs: "Jobs"
-#    schools: "Schools"
-#    educator_wiki: "Educator Wiki"
-#    get_involved: "Get Involved"
-#    open_source: "Open source (GitHub)"
-#    support: "Support"
-#    faqs: "FAQs"
-#    help_pref: "Need help? Email"
-#    help_suff: "and we'll get in touch!"
+    jobs: "Việc làm"
+    schools: "Dành cho Trường Học"
+    educator_wiki: "Wiki cho Giáo Viên"
+    get_involved: "Tham Gia"
+		open_source: "Mã nguồn mở (GitHub)"
+		support: "Hỗ trợ"
+		faqs: "FAQs"
+		help_pref: "Cần giúp đỡ? Hãy email"
+		help_suff: "và chúng tôi sẽ trợ giúp!"
 
   modal:
     close: "Đóng"
-    okay: "Được rồi"
+    okay: "OK"
 
   not_found:
     page_not_found: "không tìm thấy trang"
 
   diplomat_suggestion:
-    title: "Hãy giúp dịch thuật cho  CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    title: "Hãy giúp dịch thuật cho CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
-    pitch_body: "Chúng tôi ban đầu thiết kế Codecombat dựa trên ngôn ngữ Tiếng Anh, tuy nhiên có rất nhiều bạn trẻ trên toàn thế giới đã tham gia vào trò chơi này. Rất nhiều các bạn rất muốn chơi và có giao diện Tiếng Việt, vì vậy nếu như bạn có thể đọc và viết cả 2 ngôn ngữ xin hãy đăng kí làm thông dịch viên cho chúng tôi."
-    missing_translations: "Bạn sẽ tiếp tục thấy tiếng Anh cho đến khi chúng tôi kiếm được người dịch tất cả những từ này qua Tiếng Việt."
-    learn_more: "Để biết thêm chi tiết làm thông dịch viên"
-    subscribe_as_diplomat: "Tham gia phiên dịch"
+    pitch_body: "Chúng tôi xây dựng Codecombat bằng Tiếng Anh, tuy nhiên có rất nhiều bạn trẻ trên toàn thế giới đều muốn tham gia. Các bạn trẻ Việt Nam cũng muốn chơi với nội dung Tiếng Việt, nếu như bạn có thể đọc và viết thành thạo cả 2 ngôn ngữ xin hãy đăng kí làm dịch thuật cho chúng tôi."
+    missing_translations: "Bạn sẽ tiếp tục thấy Tiếng Anh cho đến khi chúng tôi dịch tất cả nội dung qua Tiếng Việt."
+    learn_more: "Tìm hiểu thêm để tham gia làm Phiên Dịch Viên"
+    subscribe_as_diplomat: "Trở thành Phiên Dịch Viên"
 
   play:
     play_as: "Chơi là" # Ladder page
@@ -161,29 +162,29 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     unlock: "Mua" # For purchasing items and heroes
     confirm: "Xác nhận"
     owned: "Đã có" # For items you own
-    locked: "Đã khóa"
+    locked: "Khóa"
     purchasable: "Có thể mua" # For a hero you unlocked but haven't purchased
-    available: "Có thể dùng"
-#    skills_granted: "Skills Granted" # Property documentation details
-    heroes: "Những nhân vật" # Tooltip on hero shop button from /play
-    achievements: "Những thành tích" # Tooltip on achievement list button from /play
+    available: "Khả dụng"
+skills_granted: "Skills Granted" # Property documentation details
+    heroes: "Các Nhân Vật" # Tooltip on hero shop button from /play
+    achievements: "Thành tích" # Tooltip on achievement list button from /play
     account: "Tài khoản" # Tooltip on account button from /play
-    settings: "Những tùy chỉnh" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    settings: "Tùy chỉnh" # Tooltip on settings button from /play
+		poll: "Bỏ phiếu" # Tooltip on poll button from /play
     next: "Tiếp" # Go from choose hero to choose inventory before playing a level
-    change_hero: "Thay đổi nhân vật" # Go back from choose inventory to choose hero
+    change_hero: "Đổi Nhân Vật" # Go back from choose inventory to choose hero
     buy_gems: "Mua ngọc"
     subscription_required: "Cần đăng kí"
-    anonymous: "Người chơi vô danh"
+    anonymous: "Người chơi ẩn danh"
     level_difficulty: "Độ khó: "
     play_classroom_version: "Chơi Phiên Bản Lớp Học" # Choose a level in campaign version that you also can play in one of your courses
-    campaign_beginner: "Chiến dịch chế độ đơn giản"
-    awaiting_levels_adventurer_prefix: "Chúng tôi cho ra 5 bàn mới mỗi tuần." # {change}
-    awaiting_levels_adventurer: "Đăng kí với tư cách là nhà thám hiểm"
+    campaign_beginner: "Chiến Dịch chế độ đơn giản"
+    awaiting_levels_adventurer_prefix: "Chúng tôi ra mắt 5 màn mới mỗi tuần." # {change}
+    awaiting_levels_adventurer: "Đăng kí làm Nhà Thám Hiểm"
     awaiting_levels_adventurer_suffix: "để trở thành những người đầu tiên chơi những bàn mới."
     adjust_volume: "Tùy chỉnh âm lượng"
-    campaign_multiplayer: "Khu vực đa người chơi"
-    campaign_multiplayer_description: "... nơi mà bạn thử thách với một người chơi khác."
+    campaign_multiplayer: "Đấu trường thi đấu"
+    campaign_multiplayer_description: "... nơi mà bạn đối đầu với người chơi khác."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
