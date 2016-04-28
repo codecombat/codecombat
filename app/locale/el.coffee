@@ -91,7 +91,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    student_count: "Number of students:"
 #    start_playing_for_free: "Start Playing for Free!"
 #    students_and_players: "Students & Players"
-#    goto_classes: "Go to My Classes" # {change}
+#    goto_classes: "Go to My Classes"
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
@@ -118,6 +118,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     about: "Περί"
     contact: "Επικοινωνία"
     twitter_follow: "Ακολούθησε"
+#    students: "Students"
     teachers: "Εκπαιδευτικοί"
     careers: "Καριέρες"
 #    facebook: "Facebook"
@@ -187,6 +188,24 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
+#  code:
+#    if: "if" # Keywords
+#    else: "else"
+#    elif: "elif"
+#    while: "while"
+#    loop: "loop"
+#    for: "for"
+#    break: "break"
+#    continue: "continue"
+#    then: "then"
+#    do: "do"
+#    end: "end"
+#    function: "function"
+#    def: "def"
+#    self: "self"
+#    hero: "hero"
+#    this: "this"
+
   share_progress_modal:
     blurb: "Κάνεις σημαντική πρόοδο! Πες τους γονείς σου πόσα έχεις μάθει με το CodeCombat."
     email_invalid: "Άκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου."
@@ -226,6 +245,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
 #    facebook_exists: "You already have an account associated with Facebook!"
 #    hey_students: "Students, enter the class code from your teacher."
+#    birthday: "Birthday"
 
   recover:
     recover_account_title: "Ανάκτηση λογαριασμού"
@@ -532,9 +552,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   subscribe:
     comparison_blurb: "Ακόνησε τις ικανότητές σου με μια συνδρομή στο CodeCombat!"
-    feature1: "$t(data.levelsCount)+ βασικά επίπεδα που εκτείνονται σε $t(data.worldsCount) κόσμους"
-    feature2: "$t(data.heroesCount) παντοδύναμοι <strong>νέοι ήρωες</strong> με μοναδικές ικανότητες!"
-    feature3: "$t(data.bonusLevelsCount)+ επίπεδα δώρο"
+    feature1: "$t(data.levelsCount)+ βασικά επίπεδα που εκτείνονται σε $t(data.worldsCount) κόσμους" # {change}
+    feature2: "$t(data.heroesCount) παντοδύναμοι <strong>νέοι ήρωες</strong> με μοναδικές ικανότητες!" # {change}
+    feature3: "$t(data.bonusLevelsCount)+ επίπεδα δώρο" # {change}
     feature4: "<strong>{{gems}} πετράδια δώρο</strong> κάθε μήνα!"
     feature5: "Βίντεο Βοηθήματα"
     feature6: "Προνομιακή υποστήριξη μέσω ηλεκτρονικού ταχυδρομείου"
@@ -629,6 +649,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     restricted_to_certain_heroes: "Μόνο συγκεκριμένοι ήρωες μπορούν να παίξουν αυτό το επίπεδο."
 
   skill_docs:
+#    function: "function" # skill types
+#    method: "method"
+#    snippet: "snippet"
+#    number: "number"
+#    array: "array"
+#    object: "object"
+#    string: "string"
     writable: "εγγράψιμο" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "μόνο για ανάγνωση"
     action: "Ενέργεια"
@@ -687,7 +714,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     nick_title: "Συνιδρυτής" # {change}
     nick_blurb: "Γκουρού της Παρακίνησης"
     matt_title: "Συνιδρυτής" # {change}
-    matt_blurb: "Ποδηλάτης"
     cat_title: "Κύριος Σχεδιαστής Επιπέδων" # {change}
 #    cat_blurb: "Airbender"
     scott_title: "Συνιδρυτής" # {change}
@@ -702,6 +728,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    robin_blurb: "Scaffolding"
     josh_title: "Σχεδιαστής Παιχνιδιού"
     josh_blurb: "Το Πάτωμα Είναι Λάβα"
+#    phoenix_title: "Software Engineer"
+#    nolan_title: "Territory Manager"
+#    elliot_title: "Partnership Manager"
     retrostyle_title: "Εικονογράφηση"
     retrostyle_blurb: "Ρετρό Παιχνίδια"
     jose_title: "Μουσική"
@@ -721,7 +750,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    story_statistic_2b: "200+ countries"
 #    story_statistic_3a: "Together, they have written"
 #    story_statistic_3b: "1 billion lines of code and counting"
-#    story_statistic_3c: "across six different programming languages"
+#    story_statistic_3c: "across many different programming languages"
 #    story_long_way_1: "Though we've come a long way..."
 #    story_sketch_caption: "Nick's very first sketch depicting a programming game in action."
 #    story_long_way_2: "we still have much to do before we complete our quest, so..."
@@ -731,13 +760,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    jobs_benefit_1: "Competitive salary and options"
 #    jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
 #    jobs_benefit_3: "Flex time and flexible work-from-home"
-#    jobs_benefit_4: "Unlimited vacation/sick/personal days"
+#    jobs_benefit_4: "Unlimited vacation"
 #    jobs_benefit_5: "Professional development and continuing education support – free books and games!"
 #    jobs_benefit_6: "Medical (gold), dental, vision"
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary, next 12 remote working"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid, next 12 remote working"
+#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
 #    learn_more: "Learn More"
 #    jobs_custom_title: "Create Your Own"
 #    jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
@@ -773,14 +802,20 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "Where can we reach you during the workday?"
-#    role_label: "Your role"
-#    role_help: "Select your primary role."
+#    primary_role_label: "Your Primary Role"
 #    role_default: "Select Role"
+#    primary_role_default: "Select Primary Role"
+#    purchaser_role_default: "Select Purchaser Role"
 #    tech_coordinator: "Technology coordinator"
 #    advisor: "Advisor"
 #    principal: "Principal"
 #    superintendent: "Superintendent"
 #    parent: "Parent"
+#    purchaser_role_label: "Your Purchaser Role"
+#    influence_advocate: "Influence/Advocate"
+#    evaluate_recommend: "Evaluate/Recommend"
+#    approve_funds: "Approve Funds"
+#    no_purchaser_role: "No role in purchase decisions"
 #    organization_label: "Name of School/District"
 #    city: "City"
 #    state: "State"
@@ -801,11 +836,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
-#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account." # {change}
-#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+#    connect_with: "Connect with:"
+#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
+#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
 #    create_account: "Create a Teacher Account"
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
-#    convert_account_title: "Update to Teacher Account" # {change}
+#    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
 #    setup_a_class: "Set Up a Class"
 
@@ -1021,7 +1057,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     buy_course1: "Αγόρασε αυτό το μάθημα"
     select_all_courses: "Διάλεξε  'Όλα τα μαθήματα' για έκπτωση 50%!"
     all_courses: "Όλα τα μαθήματα"
-    number_students: "Αριθμός Μαθητών"
+#    number_programming_students: "Number of Programming Students"
+#    number_total_students: "Total Students in School/District"
     enter_number_students: "Δώσε τον αριθμό μαθητών που χρειάζεσαι γι αυτήν την τάξη."
     name_class: "Όνομα Τάξης"
     displayed_course_page: "Θα εμφανίζεται στη σελίδα του μαθήματοςγι αεσένα και του μαθητές σου. Μπορεί να αλλαχθεί αργότερα."
@@ -1061,7 +1098,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     already_enrolled: "Ήδη εγγεγραμένος"
     licenses_remaining: "Συνδρομές που απομένουν:"
     insufficient_enrollments: "Δεν αρκούν οι πληρωμένες συνδρομές"
-    enroll_students: " Γράψε Μαθητές"
     get_enrollments: "Ζήτα και αλλές εγγραφές"
     change_language: "Αλλαγή Γλώσσας Μαθήματος"
     keep_using: "Συνέχισε να χρησιμοποιείς"
@@ -1210,6 +1246,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     concepts_covered: "Θέματα που καλύφθηκαν"
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
+#    last_updated: "Last updated:"
 #    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Περιγραφή" # ClassroomSettingsModal
@@ -1244,7 +1281,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    language: "Language"
 #    edit_class_settings: "edit class settings"
 #    complete: "Complete"
-#    access_restricted: "Access Restricted" # My Classes page
+#    access_restricted: "Account Update Required"
 #    teacher_account_required: "A teacher account is required to access this content."
 #    create_teacher_account: "Create Teacher Account"
 #    what_is_a_teacher_account: "What's a Teacher Account?"
@@ -1286,10 +1323,14 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    assign_to_selected_students: "Assign to Selected Students"
 #    assigned: "Assigned"
 #    enroll_selected_students: "Enroll Selected Students"
+#    cant_assign_to_unenrolled: "Course cannot be assigned to students who are not enrolled."
+#    no_students_selected: "No students were selected."
 #    guides_coming_soon: "Guides coming soon!" # Courses
 #    show_students_from: "Show students from" # Enroll students modal
 #    enroll_the_following_students: "Enroll the following students"
 #    all_students: "All Students"
+#    enroll_students: "Enroll Students"
+#    not_enough_enrollments: "Not enough Enrollments available."
 #    enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
 #    enrollments_blurb_2: "require enrollments to access the courses."
 #    credits_available: "Credits Available"
@@ -1303,8 +1344,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    how_to_enroll: "How to Enroll Students"
 #    how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
 #    how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
-#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content." # {change}
-#    bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
+#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
+#    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
+#    total_unenrolled: "Total unenrolled"
 
   classes:
     archmage_title: "Αρχιμάγος"
@@ -1638,6 +1680,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     you_can2: "να αγοράσετε ένα προπληρωμένο κωδικό"
     you_can3: "που θα χρησιμοποιήσετε στο δικό σας λογαριασμό ή θα το δώσετε σε άλλους."
 
+#  coppa_deny:
+#    text1: "Can’t wait to learn programming?"
+#    text2: "Ask your parents to create an account for you!"
+#    close: "Close Window"
+
   loading_error:
     could_not_load: "Σφάλμα φόρτωσης από τον εξυπηρετητή"
     connection_failure: "Η σύνδεση απότυχε."
@@ -1790,3 +1837,20 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     one_month_discount: "έκπτωση, μείον 30% : διάλεξε Rails ή HTML"
     license: "άδεια"
     oreilly: "ηλεκτρονικό βιβλίο της επιλογής σου"
+
+#  calendar:
+#    year: "Year"
+#    day: "Day"
+#    month: "Month"
+#    january: "January"
+#    february: "February"
+#    march: "March"
+#    april: "April"
+#    may: "May"
+#    june: "June"
+#    july: "July"
+#    august: "August"
+#    september: "September"
+#    october: "October"
+#    november: "November"
+#    december: "December"

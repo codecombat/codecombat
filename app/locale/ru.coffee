@@ -91,7 +91,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     student_count: "Количество студентов:"
     start_playing_for_free: "Начать играть бесплатно!"
     students_and_players: "Студенты & Игроки"
-    goto_classes: "Перейти в Мои классы" # {изменить}
+    goto_classes: "Перейти в Мои классы"
     educator_wiki: "wiki педагога"
     view_profile: "Посмотреть Мой профиль"
     view_progress: "Посмотреть прогресс"
@@ -118,6 +118,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     about: "О нас"
     contact: "Связаться"
     twitter_follow: "Подписаться"
+#    students: "Students"
     teachers: "Учителям"
     careers: "Карьера"
     facebook: "Facebook"
@@ -187,6 +188,24 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_old_multiplayer: "(Устаревшее) Старые многопользовательские арены"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
+#  code:
+#    if: "if" # Keywords
+#    else: "else"
+#    elif: "elif"
+#    while: "while"
+#    loop: "loop"
+#    for: "for"
+#    break: "break"
+#    continue: "continue"
+#    then: "then"
+#    do: "do"
+#    end: "end"
+#    function: "function"
+#    def: "def"
+#    self: "self"
+#    hero: "hero"
+#    this: "this"
+
   share_progress_modal:
     blurb: "Вы отлично продвигаетесь! Расскажите своим родителям, как много вы уже выучили с CodeCombat."
     email_invalid: "Email-адрес некорректен."
@@ -226,6 +245,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     connected_facebook_p: "Теперь можно войти используя аккаунт Facebook."
     facebook_exists: "У вас уже имеется аккаунт связанный сh Facebook!"
     hey_students: "Студенты, введите код от класса вашего учителя."
+#    birthday: "Birthday"
 
   recover:
     recover_account_title: "Восстановить аккаунт"
@@ -629,6 +649,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     restricted_to_certain_heroes: "Только определенные герои могут играть на этом уровне."
 
   skill_docs:
+#    function: "function" # skill types
+#    method: "method"
+#    snippet: "snippet"
+#    number: "number"
+#    array: "array"
+#    object: "object"
+#    string: "string"
     writable: "доступно для записи" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "только чтение"
     action: "Действие"
@@ -687,7 +714,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     nick_title: "Сооснователь" # {change}
     nick_blurb: "Гуру мотивации"
     matt_title: "Сооснователь" # {change}
-    matt_blurb: "Велосипедист"
     cat_title: "Главный ремесленник" # {change}
     cat_blurb: "Повелитель стихий"
     scott_title: "Сооснователь" # {change}
@@ -702,6 +728,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    robin_blurb: "Scaffolding"
     josh_title: "Дизайнер игры"
     josh_blurb: "Пол - это лава"
+#    phoenix_title: "Software Engineer"
+#    nolan_title: "Territory Manager"
+#    elliot_title: "Partnership Manager"
     retrostyle_title: "Иллюстрирование"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музыка"
@@ -721,7 +750,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    story_statistic_2b: "200+ countries"
 #    story_statistic_3a: "Together, they have written"
 #    story_statistic_3b: "1 billion lines of code and counting"
-#    story_statistic_3c: "across six different programming languages"
+#    story_statistic_3c: "across many different programming languages"
 #    story_long_way_1: "Though we've come a long way..."
 #    story_sketch_caption: "Nick's very first sketch depicting a programming game in action."
 #    story_long_way_2: "we still have much to do before we complete our quest, so..."
@@ -731,13 +760,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    jobs_benefit_1: "Competitive salary and options"
 #    jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
 #    jobs_benefit_3: "Flex time and flexible work-from-home"
-#    jobs_benefit_4: "Unlimited vacation/sick/personal days"
+#    jobs_benefit_4: "Unlimited vacation"
 #    jobs_benefit_5: "Professional development and continuing education support – free books and games!"
 #    jobs_benefit_6: "Medical (gold), dental, vision"
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary, next 12 remote working"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid, next 12 remote working"
+#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
 #    learn_more: "Learn More"
 #    jobs_custom_title: "Create Your Own"
 #    jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
@@ -773,14 +802,20 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "Where can we reach you during the workday?"
-#    role_label: "Your role"
-#    role_help: "Select your primary role."
+#    primary_role_label: "Your Primary Role"
 #    role_default: "Select Role"
+#    primary_role_default: "Select Primary Role"
+#    purchaser_role_default: "Select Purchaser Role"
 #    tech_coordinator: "Technology coordinator"
 #    advisor: "Advisor"
 #    principal: "Principal"
 #    superintendent: "Superintendent"
 #    parent: "Parent"
+#    purchaser_role_label: "Your Purchaser Role"
+#    influence_advocate: "Influence/Advocate"
+#    evaluate_recommend: "Evaluate/Recommend"
+#    approve_funds: "Approve Funds"
+#    no_purchaser_role: "No role in purchase decisions"
 #    organization_label: "Name of School/District"
 #    city: "City"
 #    state: "State"
@@ -801,11 +836,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
-#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account." # {change}
-#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+#    connect_with: "Connect with:"
+#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
+#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
 #    create_account: "Create a Teacher Account"
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
-#    convert_account_title: "Update to Teacher Account" # {change}
+#    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
 #    setup_a_class: "Set Up a Class"
 
@@ -1021,7 +1057,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     buy_course1: "Купить этот курс"
     select_all_courses: "Выбрать 'Все курсы' для 50% скидки!"
     all_courses: "Все курсы"
-    number_students: "Кол-во студентов"
+#    number_programming_students: "Number of Programming Students"
+#    number_total_students: "Total Students in School/District"
     enter_number_students: "Введите кол-во студентов, нужное для вашего класса."
     name_class: "Назовите ваш класс"
     displayed_course_page: "Это будет видно на странице курсе для вас и ваших студентов. Потом вы сможете это изменить."
@@ -1061,7 +1098,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     already_enrolled: "уже зачислен"
 #    licenses_remaining: "licenses remaining:"
 #    insufficient_enrollments: "insufficient paid enrollments"
-#    enroll_students: "Enroll Students"
 #    get_enrollments: "Get More Enrollments"
     change_language: "Изменить язык программирования курса"
     keep_using: "Продолжить использовать"
@@ -1210,6 +1246,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     concepts_covered: "Концептов покрыто"
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
+#    last_updated: "Last updated:"
 #    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Описание" # ClassroomSettingsModal
@@ -1244,7 +1281,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    language: "Language"
 #    edit_class_settings: "edit class settings"
 #    complete: "Complete"
-#    access_restricted: "Access Restricted" # My Classes page
+#    access_restricted: "Account Update Required"
 #    teacher_account_required: "A teacher account is required to access this content."
 #    create_teacher_account: "Create Teacher Account"
 #    what_is_a_teacher_account: "What's a Teacher Account?"
@@ -1286,10 +1323,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    assign_to_selected_students: "Assign to Selected Students"
 #    assigned: "Assigned"
 #    enroll_selected_students: "Enroll Selected Students"
+#    cant_assign_to_unenrolled: "Course cannot be assigned to students who are not enrolled."
+#    no_students_selected: "No students were selected."
 #    guides_coming_soon: "Guides coming soon!" # Courses
 #    show_students_from: "Show students from" # Enroll students modal
 #    enroll_the_following_students: "Enroll the following students"
 #    all_students: "All Students"
+#    enroll_students: "Enroll Students"
+#    not_enough_enrollments: "Not enough Enrollments available."
 #    enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
 #    enrollments_blurb_2: "require enrollments to access the courses."
 #    credits_available: "Credits Available"
@@ -1303,8 +1344,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    how_to_enroll: "How to Enroll Students"
 #    how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
 #    how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
-#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content." # {change}
-#    bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
+#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
+#    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
+#    total_unenrolled: "Total unenrolled"
 
   classes:
     archmage_title: "Архимаг"
@@ -1638,6 +1680,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
+#  coppa_deny:
+#    text1: "Can’t wait to learn programming?"
+#    text2: "Ask your parents to create an account for you!"
+#    close: "Close Window"
+
   loading_error:
     could_not_load: "Ошибка загрузки с сервера"
     connection_failure: "Соединение прервано."
@@ -1790,3 +1837,20 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     one_month_discount: "скидка 30%: выберите Rails или HTML"
     license: "лицензия"
     oreilly: "электронная книга на ваш выбор"
+
+#  calendar:
+#    year: "Year"
+#    day: "Day"
+#    month: "Month"
+#    january: "January"
+#    february: "February"
+#    march: "March"
+#    april: "April"
+#    may: "May"
+#    june: "June"
+#    july: "July"
+#    august: "August"
+#    september: "September"
+#    october: "October"
+#    november: "November"
+#    december: "December"

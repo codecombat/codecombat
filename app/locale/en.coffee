@@ -750,7 +750,7 @@
     story_statistic_2b: "200+ countries"
     story_statistic_3a: "Together, they have written"
     story_statistic_3b: "1 billion lines of code and counting"
-    story_statistic_3c: "across many different programming languages" # {change}
+    story_statistic_3c: "across many different programming languages"
     story_long_way_1: "Though we've come a long way..."
     story_sketch_caption: "Nick's very first sketch depicting a programming game in action."
     story_long_way_2: "we still have much to do before we complete our quest, so..."
@@ -760,13 +760,13 @@
     jobs_benefit_1: "Competitive salary and options"
     jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
     jobs_benefit_3: "Flex time and flexible work-from-home"
-    jobs_benefit_4: "Unlimited vacation" # {change}
+    jobs_benefit_4: "Unlimited vacation"
     jobs_benefit_5: "Professional development and continuing education support – free books and games!"
     jobs_benefit_6: "Medical (gold), dental, vision"
     jobs_benefit_7: "Sit-stand desks for all"
     jobs_benefit_9: "10-year option exercise window"
-    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary" # {change}
-    jobs_benefit_11: "Paternity leave: 10 weeks paid" # {change}
+    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
+    jobs_benefit_11: "Paternity leave: 10 weeks paid"
     learn_more: "Learn More"
     jobs_custom_title: "Create Your Own"
     jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
@@ -1281,7 +1281,7 @@
     language: "Language"
     edit_class_settings: "edit class settings"
     complete: "Complete"
-    access_restricted: "Account Update Required" # {change}
+    access_restricted: "Account Update Required"
     teacher_account_required: "A teacher account is required to access this content."
     create_teacher_account: "Create Teacher Account"
     what_is_a_teacher_account: "What's a Teacher Account?"
@@ -1345,7 +1345,7 @@
     how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
     how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
     how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
-    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps." # {change}
+    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
     total_unenrolled: "Total unenrolled"
 
   classes:
