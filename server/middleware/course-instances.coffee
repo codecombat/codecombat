@@ -96,7 +96,7 @@ module.exports =
       throw new errors.NotFound('Level original ObjectId not found in Classroom courses')
     
     if not nextLevelOriginal
-      throw new errors.NotFound('No more levels in that course')
+      res.status(200).send({})
       
     dbq = Level.findOne({original: mongoose.Types.ObjectId(nextLevelOriginal)})
     dbq.sort({ 'version.major': -1, 'version.minor': -1 })
