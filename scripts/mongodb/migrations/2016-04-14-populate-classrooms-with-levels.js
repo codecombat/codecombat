@@ -26,9 +26,14 @@ for (var courseIndex in courses) {
   
 print('constructed', JSON.stringify(coursesData, null, '\t'));
 
-db.classrooms.update(
-  {}, // Set all
-  //{courses: {$exists: false}}, // Set all w/out values
-  {$set: {courses: coursesData}},
-  {multi: true}
-);
+db.classrooms.find({}, {courses:1}).forEach(function(classroom) {
+  print('classroom', classroom._id);
+  if(classroom.courses) {
+    print('\tskipping');
+    return;
+  }
+  db.classrooms.update(
+    {_id: classroom._id},
+    {$set: {courses: coursesData}}
+  );  
+});
