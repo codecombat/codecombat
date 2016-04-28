@@ -1,12 +1,4 @@
 ﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
-  # Don't translate this block nor copy it to other locale files.
-  # This is just raw data that is automatically shared across all locales.
-  data:
-    levelsCount: "125"
-    bonusLevelsCount: "85"
-    heroesCount: "10"
-    worldsCount: "4"
-
   home:
     slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"  # Warning that only shows up in IE8 and older
@@ -560,9 +552,9 @@
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "$t(data.levelsCount)+ basic levels across $t(data.worldsCount) worlds"
-    feature2: "$t(data.heroesCount) powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "$t(data.bonusLevelsCount)+ bonus levels"
+    feature1: "__levelsCount__+ basic levels across __worldsCount__ worlds"
+    feature2: "__heroesCount__ powerful <strong>new heroes</strong> with unique skills!"
+    feature3: "__bonusLevelsCount__+ bonus levels"
     feature4: "<strong>{{gems}} bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"

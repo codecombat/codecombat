@@ -11,6 +11,11 @@ module.exports = class SubscribeModal extends ModalView
   plain: true
   closesOnClickOutside: false
   planID: 'basic'
+  i18nData:
+    levelsCount: '145'
+    worldsCount: '5'
+    heroesCount: '14'
+    bonusLevelsCount: '95'
 
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'

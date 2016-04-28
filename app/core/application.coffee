@@ -65,6 +65,7 @@ Application = initialize: ->
     lng: me.get('preferredLanguage', true)
     fallbackLng: 'en'
     resStore: locale
+    useDataAttrOptions: true
     #debug: true
     #sendMissing: true
     #sendMissingTo: 'current'
