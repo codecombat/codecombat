@@ -296,7 +296,7 @@ mixin bulkAssignControls
       span(data-i18n='teacher.bulk_assign')
       span :
     select.bulk-course-select.form-control
-      each trimCourse in view.classroom.get('courses')
+      each trimCourse in _.rest(view.classroom.get('courses'))
         - var course = view.courses.get(trimCourse._id)
         option(value=course.id)
           = course.get('name')
