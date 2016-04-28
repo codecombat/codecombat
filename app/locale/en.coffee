@@ -1289,7 +1289,7 @@
     language: "Language"
     edit_class_settings: "edit class settings"
     complete: "Complete"
-    access_restricted: "Access Restricted" # My Classes page
+    access_restricted: "Account Update Required" # {change}
     teacher_account_required: "A teacher account is required to access this content."
     create_teacher_account: "Create Teacher Account"
     what_is_a_teacher_account: "What's a Teacher Account?"
