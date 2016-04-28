@@ -703,7 +703,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    josh_title: "Game Designer"
 #    josh_blurb: "Floor Is Lava"
 #    retrostyle_title: "Illustration"
-#    retrostyle_blurb: "RetroStyle Games"
+    retrostyle_blurb: "RetroStyle Games"
 #    jose_title: "Music"
 #    jose_blurb: "Taking Off"
 #    community_title: "...and our open-source community"

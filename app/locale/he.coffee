@@ -703,7 +703,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     josh_title: "מעצב משחק"
     josh_blurb: "ארצפה היא לבה"
 #    retrostyle_title: "Illustration"
-#    retrostyle_blurb: "RetroStyle Games"
+    retrostyle_blurb: "RetroStyle Games"
     jose_title: "מוזיקה"
 #    jose_blurb: "Taking Off"
 #    community_title: "...and our open-source community"

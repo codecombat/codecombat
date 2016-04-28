@@ -703,7 +703,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     josh_title: "Diseñador de Videojuegos"
 #    josh_blurb: "Floor Is Lava"
     retrostyle_title: "Illustración"
-#    retrostyle_blurb: "RetroStyle Games"
+    retrostyle_blurb: "RetroStyle Games"
     jose_title: "Música"
 #    jose_blurb: "Taking Off"
 #    community_title: "...and our open-source community"

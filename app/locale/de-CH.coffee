@@ -703,7 +703,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     josh_title: "Game Designer"
     josh_blurb: "De Bode isch Lava"
 #    retrostyle_title: "Illustration"
-#    retrostyle_blurb: "RetroStyle Games"
+    retrostyle_blurb: "RetroStyle Games"
     jose_title: "Musig"
 #    jose_blurb: "Taking Off"
 #    community_title: "...and our open-source community"

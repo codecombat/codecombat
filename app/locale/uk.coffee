@@ -703,7 +703,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     josh_title: "Дизайнер гри"
     josh_blurb: "Підлога - це лава"
     retrostyle_title: "Ілюстрація"
-    retrostyle_blurb: "Ігри в стилі ретро"
+    retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музика"
     jose_blurb: "Hа зліт"
 #    community_title: "...and our open-source community"
