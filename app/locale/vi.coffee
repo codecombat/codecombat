@@ -24,23 +24,23 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     im_a_teacher: "Tôi là Giáo Viên"
     im_a_student: "Tôi là Học Viên"
     learn_more: "Tìm hiểu thêm"
-	classroom_in_a_box: "Một lớp học đặc biệt cho bộ môn khoa học máy tính."
-	codecombat_is: "CodeCombat là nền tảng <strong>cho học sinh</strong> tiếp cận với bộ môn khoa học máy tính bằng cách chơi game."
-	our_courses: "Các khóa học của chúng tôi đã được thử nghiệm để <strong>triển khai trong lớp học</strong>, thậm chí được yêu thích bởi các giáo viên có ít hoặc không có kinh nghiệm lập trình."
-	top_screenshots_hint: "Học viên viết code và có thể cập nhật kết quả ngay lập tức"
-	designed_with: "Được thiết kế để dạy học"
-	real_code: "Thực tế, tự viết code"
-	from_the_first_level: "ngay từ trình độ đầu tiên"
-	getting_students: "Cho phép học viên viết code ngay từ đầu là vô cùng quan trọng trong việc làm quen cú pháp và học cấu trúc lập trình."
-	educator_resources: "Xây dựng bài giảng"
-	course_guides: "và các khóa học"
-	teaching_computer_science: "Việc dạy bộ môn khoa học máy tính không nhất thiết yêu cầu một tấm bằng đắt tiền, bởi vì chúng tôi cung cấp sẵn công cụ dành cho người giảng dạy dù cho bạn là ai."
-	accessible_to: "Tiếp cận dễ dàng"
-	everyone: "cho mọi người"
-	democratizing: "Xã hội hóa quá trình học lập trình là tôn chỉ của chúng tôi. Mọi người đều có thể học code."
-	forgot_learning: "Tôi nghĩ học viên không để ý rằng họ thực sự đang học."
-	wanted_to_do: "Lập trình là điều mà em luôn muốn làm, và em không thể nghĩ rằng em có thể học nó ngay ở trường."
-	why_games: "Tại sao học thông qua chơi game lại quan trọng?"
+    classroom_in_a_box: "Một lớp học đặc biệt cho bộ môn khoa học máy tính."
+    codecombat_is: "CodeCombat là nền tảng <strong>cho học sinh</strong> tiếp cận với bộ môn khoa học máy tính bằng cách chơi game."
+    our_courses: "Các khóa học của chúng tôi đã được thử nghiệm để <strong>triển khai trong lớp học</strong>, thậm chí được yêu thích bởi các giáo viên có ít hoặc không có kinh nghiệm lập trình."
+    top_screenshots_hint: "Học viên viết code và có thể cập nhật kết quả ngay lập tức"
+    designed_with: "Được thiết kế để dạy học"
+    real_code: "Thực tế, tự viết code"
+    from_the_first_level: "ngay từ trình độ đầu tiên"
+    getting_students: "Cho phép học viên viết code ngay từ đầu là vô cùng quan trọng trong việc làm quen cú pháp và học cấu trúc lập trình."
+    educator_resources: "Xây dựng bài giảng"
+    course_guides: "và các khóa học"
+    teaching_computer_science: "Việc dạy bộ môn khoa học máy tính không nhất thiết yêu cầu một tấm bằng đắt tiền, bởi vì chúng tôi cung cấp sẵn công cụ dành cho người giảng dạy dù cho bạn là ai."
+    accessible_to: "Tiếp cận dễ dàng"
+    everyone: "cho mọi người"
+    democratizing: "Xã hội hóa quá trình học lập trình là tôn chỉ của chúng tôi. Mọi người đều có thể học code."
+    forgot_learning: "Tôi nghĩ học viên không để ý rằng họ thực sự đang học."
+    wanted_to_do: "Lập trình là điều mà em luôn muốn làm, và em không thể nghĩ rằng em có thể học nó ngay ở trường."
+    why_games: "Tại sao học thông qua chơi game lại quan trọng?"
 #    games_reward: "Games reward the productive struggle."
 #    encourage: "Gaming is a medium that encourages interaction, discovery, and trial-and-error. A good game challenges the player to master skills over time, which is the same critical process students go through as they learn."
 #    excel: "Games excel at rewarding"
@@ -98,7 +98,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    login_switch: "Have an account?"
 #    check_out_wiki: "Check out our new educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
-#    form_select_role: "Select primary role"
+    form_select_role: "Chọn vai trò chính"
     form_select_range: "Chọn quy mô lớp"
 
   nav:
@@ -131,11 +131,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     schools: "Dành cho Trường Học"
     educator_wiki: "Wiki cho Giáo Viên"
     get_involved: "Tham Gia"
-	open_source: "Mã nguồn mở (GitHub)"
-	support: "Hỗ trợ"
-	faqs: "FAQs"
-	help_pref: "Cần giúp đỡ? Hãy email"
-	help_suff: "và chúng tôi sẽ trợ giúp!"
+    open_source: "Mã nguồn mở (GitHub)"
+    support: "Hỗ trợ"
+    faqs: "FAQs"
+    help_pref: "Cần giúp đỡ? Hãy email"
+    help_suff: "và chúng tôi sẽ trợ giúp!"
 
   modal:
     close: "Đóng"
@@ -165,12 +165,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     locked: "Khóa"
     purchasable: "Có thể mua" # For a hero you unlocked but haven't purchased
     available: "Khả dụng"
-	skills_granted: "Đã nhận được Kĩ Năng" # Property documentation details
+    skills_granted: "Đã nhận được Kĩ Năng" # Property documentation details
     heroes: "Các Nhân Vật" # Tooltip on hero shop button from /play
     achievements: "Thành tích" # Tooltip on achievement list button from /play
     account: "Tài khoản" # Tooltip on account button from /play
     settings: "Tùy chỉnh" # Tooltip on settings button from /play
-	poll: "Bỏ phiếu" # Tooltip on poll button from /play
+    poll: "Bỏ phiếu" # Tooltip on poll button from /play
     next: "Tiếp" # Go from choose hero to choose inventory before playing a level
     change_hero: "Đổi Nhân Vật" # Go back from choose inventory to choose hero
     buy_gems: "Mua ngọc"
@@ -217,16 +217,16 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     required: "Bạn cần phải đăng nhập trước khi muốn tiếp tục."
     login_switch: "Bạn đã có tài khoản rồi?"
     school_name: "Tên Trường và Thành phố"
-	optional: "không bắt buộc"
+    optional: "không bắt buộc"
     school_name_placeholder: "Ví dụ tên Trường, Thành phố, (Tiểu bang nếu đang ở Mỹ)"
-	or_sign_up_with: "hoặc đăng ký bằng"
-	connected_gplus_header: "Bạn đã kết nối tài khoản thành công với Google+!"
-	connected_gplus_p: "Đã đăng kí thành công, bạn có thể đăng nhập bằng tài khoản Google+."
-	gplus_exists: "Bạn đã có tài khoản kết nối với Google+!"
-	connected_facebook_header: "Bạn đã kết nối tài khoản thành công với Facebook!"
-	connected_facebook_p: "Đã đăng kí thành công, bạn có thể đăng nhập bằng tài khoản Facebook."
-	facebook_exists: "Bạn đã có tài khoản kết nối với Facebook!"
-	hey_students: "Học viên, hãy nhập mã lớp học nhận được từ giáo viên."
+    or_sign_up_with: "hoặc đăng ký bằng"
+    connected_gplus_header: "Bạn đã kết nối tài khoản thành công với Google+!"
+    connected_gplus_p: "Đã đăng kí thành công, bạn có thể đăng nhập bằng tài khoản Google+."
+    gplus_exists: "Bạn đã có tài khoản kết nối với Google+!"
+    connected_facebook_header: "Bạn đã kết nối tài khoản thành công với Facebook!"
+    connected_facebook_p: "Đã đăng kí thành công, bạn có thể đăng nhập bằng tài khoản Facebook."
+    facebook_exists: "Bạn đã có tài khoản kết nối với Facebook!"
+    hey_students: "Học viên, hãy nhập mã lớp học nhận được từ giáo viên."
 
   recover:
     recover_account_title: "Khôi phục tài khoản"
@@ -263,7 +263,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     submit_patch: "Submit bản patch"
     submit_changes: "Submit thay đổi"
     save_changes: "Lưu thay dổi"
-	required_field: "Thông tin bắt buộc"
+    required_field: "Thông tin bắt buộc"
 
   general:
     and: "và"
@@ -296,7 +296,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     subject: "Tiêu đề"
     email: "Email"
     password: "Mật khẩu"
-	confirm_password: "Xác nhận mật khâur"
+    confirm_password: "Xác nhận mật khâur"
     message: "Tin nhắn"
     code: "Code"
     ladder: "Thang điểm"
@@ -315,9 +315,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     warrior: "Chiến binh"
     ranger: "Cung thủ"
     wizard: "Phù thủy"
-	first_name: "Họ"
-	last_name: "Tên"
-	username: "Username"
+    first_name: "Họ"
+    last_name: "Tên"
+    username: "Username"
 
   units:
     second: "giây"
@@ -336,7 +336,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     years: "năm"
 
   play_level:
-	level_complete: "Hoàn thành màn chơi"
+    level_complete: "Hoàn thành màn chơi"
     completed_level: "Hoàn thành màn chơi:"
     course: "Khoá học:"
     done: "Xong"
@@ -378,9 +378,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     victory_experience_gained: "Đã tăng XP"
     victory_gems_gained: "Nhận được Ngọc"
     victory_new_item: "Vật phẩm mới"
-	victory_viking_code_school: "Thật tuyệt vời, bạn vừa vượt qua một màn chơi khó khủng khiếp! Không lâu nữa bạn sẽ trở thành một lập trình viên thôi. Bạn vừa được nhận thẳng vào trường Viking Code School, nơi bạn có thể nâng tầm kĩ năng của mình và trở thành lập trình viên web chuyên nghiệp trong 14 tuần."
+    victory_viking_code_school: "Thật tuyệt vời, bạn vừa vượt qua một màn chơi khó khủng khiếp! Không lâu nữa bạn sẽ trở thành một lập trình viên thôi. Bạn vừa được nhận thẳng vào trường Viking Code School, nơi bạn có thể nâng tầm kĩ năng của mình và trở thành lập trình viên web chuyên nghiệp trong 14 tuần."
     victory_become_a_viking: "Trở thành Viking"
-	victory_no_progress_for_teachers: "Giáo viên không thể lưu tiến trình. Nhưng bạn có thể tự thâm tài khoản sinh viên vào lớp học của bạn."
+    victory_no_progress_for_teachers: "Giáo viên không thể lưu tiến trình. Nhưng bạn có thể tự thâm tài khoản sinh viên vào lớp học của bạn."
     guide_title: "Hướng dẫn"
     tome_cast_button_run: "Chạy"
     tome_cast_button_running: "Đang chạy"
