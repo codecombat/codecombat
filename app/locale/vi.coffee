@@ -99,7 +99,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    check_out_wiki: "Check out our new educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
-#    form_select_range: "Select class size"
+    form_select_range: "Chọn quy mô lớp"
 
   nav:
     play: "Chơi!!" # The top nav bar entry where players choose which levels to play
