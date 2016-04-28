@@ -4,7 +4,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     no_ie: "Codecombat không chạy được bằng Internet Explorer 8 hoặc cũ hơn. Xin lỗi!" # Warning that only shows up in IE8 and older
     no_mobile: "Codecombat không được thiết kế cho các thiết bị di động và có thể không hoạt động được!" # Warning that shows up on mobile devices
     play: "Chơi" # The big play button that opens up the campaign view.
-    play_campaign_version: "Chơi phiên bản Campaign" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Chơi phiên bản Chiến Dịch" # Shows up under big play button if you only play /courses
     old_browser: "Trình duyệt của bạn quá cũ để chạy CodeCombat. Thật sự xin lỗi!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Bạn có thể thử nếu bạn muốn, nhưng tôi nghĩ nó sẽ không hoạt động."
     ipad_browser: "Tin buồn: CodeCombat không chạy trên trình duyệt web của iPad. Tin tốt: Ứng dụng dành cho iPad của chúng tôi đang chờ sự chấp thuận của Apple."
@@ -19,28 +19,28 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     classroom_edition: "Phiên bản Lớp Học:"
     learn_to_code: "Học code:"
     teacher: "Giáo Viên"
-    student: "Học Sinh"
+    student: "Học Viên"
     play_now: "Chơi Ngay"
     im_a_teacher: "Tôi là Giáo Viên"
     im_a_student: "Tôi là Học Viên"
     learn_more: "Tìm hiểu thêm"
-#    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-#    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
-#    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
-#    top_screenshots_hint: "Students write code and see their changes update in real-time"
-#    designed_with: "Designed with teachers in mind"
-#    real_code: "Real, typed code"
-#    from_the_first_level: "from the first level"
-#    getting_students: "Getting students to typed code as quickly as possible is critical to learning programming syntax and proper structure."
-#    educator_resources: "Educator resources"
-#    course_guides: "and course guides"
-#    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
-#    accessible_to: "Accessible to"
-#    everyone: "everyone"
-#    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
-#    forgot_learning: "I think they actually forgot that they were actually learning something."
-#    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
-#    why_games: "Why is learning through games important?"
+	classroom_in_a_box: "Một lớp học đặc biệt cho bộ môn khoa học máy tính."
+	codecombat_is: "CodeCombat là nền tảng <strong>cho học sinh</strong> tiếp cận với bộ môn khoa học máy tính bằng cách chơi game."
+	our_courses: "Các khóa học của chúng tôi đã được thử nghiệm để <strong>triển khai trong lớp học</strong>, thậm chí được yêu thích bởi các giáo viên có ít hoặc không có kinh nghiệm lập trình."
+	top_screenshots_hint: "Học viên viết code và có thể cập nhật kết quả ngay lập tức"
+	designed_with: "Được thiết kế để dạy học"
+	real_code: "Thực tế, tự viết code"
+	from_the_first_level: "ngay từ trình độ đầu tiên"
+	getting_students: "Cho phép học viên viết code ngay từ đầu là vô cùng quan trọng trong việc làm quen cú pháp và học cấu trúc lập trình."
+	educator_resources: "Xây dựng bài giảng"
+	course_guides: "và các khóa học"
+	teaching_computer_science: "Việc dạy bộ môn khoa học máy tính không nhất thiết yêu cầu một tấm bằng đắt tiền, bởi vì chúng tôi cung cấp sẵn công cụ dành cho người giảng dạy dù cho bạn là ai."
+	accessible_to: "Tiếp cận dễ dàng"
+	everyone: "cho mọi người"
+	democratizing: "Xã hội hóa quá trình học lập trình là tôn chỉ của chúng tôi. Mọi người đều có thể học code."
+	forgot_learning: "Tôi nghĩ học viên không để ý rằng họ thực sự đang học."
+	wanted_to_do: "Lập trình là điều mà em luôn muốn làm, và em không thể nghĩ rằng em có thể học nó ngay ở trường."
+	why_games: "Tại sao học thông qua chơi game lại quan trọng?"
 #    games_reward: "Games reward the productive struggle."
 #    encourage: "Gaming is a medium that encourages interaction, discovery, and trial-and-error. A good game challenges the player to master skills over time, which is the same critical process students go through as they learn."
 #    excel: "Games excel at rewarding"
@@ -131,11 +131,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     schools: "Dành cho Trường Học"
     educator_wiki: "Wiki cho Giáo Viên"
     get_involved: "Tham Gia"
-		open_source: "Mã nguồn mở (GitHub)"
-		support: "Hỗ trợ"
-		faqs: "FAQs"
-		help_pref: "Cần giúp đỡ? Hãy email"
-		help_suff: "và chúng tôi sẽ trợ giúp!"
+	open_source: "Mã nguồn mở (GitHub)"
+	support: "Hỗ trợ"
+	faqs: "FAQs"
+	help_pref: "Cần giúp đỡ? Hãy email"
+	help_suff: "và chúng tôi sẽ trợ giúp!"
 
   modal:
     close: "Đóng"
@@ -145,7 +145,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     page_not_found: "không tìm thấy trang"
 
   diplomat_suggestion:
-    title: "Hãy giúp dịch thuật cho CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    title: "Hãy giúp chúng tôi phiên dịch CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
     pitch_body: "Chúng tôi xây dựng Codecombat bằng Tiếng Anh, tuy nhiên có rất nhiều bạn trẻ trên toàn thế giới đều muốn tham gia. Các bạn trẻ Việt Nam cũng muốn chơi với nội dung Tiếng Việt, nếu như bạn có thể đọc và viết thành thạo cả 2 ngôn ngữ xin hãy đăng kí làm dịch thuật cho chúng tôi."
     missing_translations: "Bạn sẽ tiếp tục thấy Tiếng Anh cho đến khi chúng tôi dịch tất cả nội dung qua Tiếng Việt."
@@ -165,12 +165,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     locked: "Khóa"
     purchasable: "Có thể mua" # For a hero you unlocked but haven't purchased
     available: "Khả dụng"
-skills_granted: "Skills Granted" # Property documentation details
+	skills_granted: "Đã nhận được Kĩ Năng" # Property documentation details
     heroes: "Các Nhân Vật" # Tooltip on hero shop button from /play
     achievements: "Thành tích" # Tooltip on achievement list button from /play
     account: "Tài khoản" # Tooltip on account button from /play
     settings: "Tùy chỉnh" # Tooltip on settings button from /play
-		poll: "Bỏ phiếu" # Tooltip on poll button from /play
+	poll: "Bỏ phiếu" # Tooltip on poll button from /play
     next: "Tiếp" # Go from choose hero to choose inventory before playing a level
     change_hero: "Đổi Nhân Vật" # Go back from choose inventory to choose hero
     buy_gems: "Mua ngọc"
@@ -189,20 +189,20 @@ skills_granted: "Skills Granted" # Property documentation details
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
-    blurb: "Bạn đang tiến bộ rõ rệt đấy! Hãy kể cho ai đó xem bạn đã học được nhiều chừng nào với CodeCombat."
+    blurb: "Bạn đang tiến bộ rõ rệt đấy! Hãy chia sẻ cho ai đó xem bạn đã học được nhiều chừng nào với CodeCombat."
     email_invalid: "Địa chỉ email không hợp lệ."
-    form_blurb: "Nhập địa chỉ email của người bạn muốn tìm và chúng tôi sẽ cho bạn thấy!"
-    form_label: "Địa chỉ email"
+    form_blurb: "Nhập địa chỉ email của người bạn muốn chia sẻ."
+    form_label: "Địa chỉ Email"
     placeholder: "địa chỉ email"
-    title: "Làm tốt lắm, thực tập viên!"
+    title: "Làm tốt lắm, Thực Tập Viên!"
 
   login:
-    sign_up: "Tạo tài khoản"
-    log_in: "Đăng nhập"
+    sign_up: "Tạo Tài Khoản"
+    log_in: "Đăng Nhập"
     logging_in: "Đang đăng nhập"
-    log_out: "Đăng xuất"
+    log_out: "Đăng Xuất"
     forgot_password: "Quên mật khẩu?"
-    authenticate_gplus: "Cho phép G+"
+    authenticate_gplus: "Chứng thực G+"
     load_profile: "Đọc tài khoản G+"
     finishing: "Sắp hoàn tất"
     sign_in_with_facebook: "Đăng nhập với Facebook"
@@ -211,22 +211,22 @@ skills_granted: "Skills Granted" # Property documentation details
 
   signup:
     email_announcements: "Nhận thông báo bằng email"
-    creating: "Tạo tài khoản..."
-    sign_up: "Đăng ký"
+    creating: "Đang tạo tài khoản..."
+    sign_up: "Đăng Ký"
     log_in: "đăng nhập với mật khẩu"
-    required: "Bạn cần phải đăng nhập trước khi đi bạn có thể đi hướng đó."
-    login_switch: "Bạn đã có tài khoản rồi ?"
-    school_name: "Tên Trường và Thành Phố"
-#    optional: "optional"
-    school_name_placeholder: "Ví dụ Tên trường, Thành phố, (Tiểu Bang nếu đang ở Mỹ)"
-#    or_sign_up_with: "or sign up with"
-#    connected_gplus_header: "You've successfully connected with Google+!"
-#    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
-#    gplus_exists: "You already have an account associated with Google+!"
-#    connected_facebook_header: "You've successfully connected with Facebook!"
-#    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
-#    facebook_exists: "You already have an account associated with Facebook!"
-#    hey_students: "Students, enter the class code from your teacher."
+    required: "Bạn cần phải đăng nhập trước khi muốn tiếp tục."
+    login_switch: "Bạn đã có tài khoản rồi?"
+    school_name: "Tên Trường và Thành phố"
+	optional: "không bắt buộc"
+    school_name_placeholder: "Ví dụ tên Trường, Thành phố, (Tiểu bang nếu đang ở Mỹ)"
+	or_sign_up_with: "hoặc đăng ký bằng"
+	connected_gplus_header: "Bạn đã kết nối tài khoản thành công với Google+!"
+	connected_gplus_p: "Đã đăng kí thành công, bạn có thể đăng nhập bằng tài khoản Google+."
+	gplus_exists: "Bạn đã có tài khoản kết nối với Google+!"
+	connected_facebook_header: "Bạn đã kết nối tài khoản thành công với Facebook!"
+	connected_facebook_p: "Đã đăng kí thành công, bạn có thể đăng nhập bằng tài khoản Facebook."
+	facebook_exists: "Bạn đã có tài khoản kết nối với Facebook!"
+	hey_students: "Học viên, hãy nhập mã lớp học nhận được từ giáo viên."
 
   recover:
     recover_account_title: "Khôi phục tài khoản"
@@ -238,32 +238,32 @@ skills_granted: "Skills Granted" # Property documentation details
     secondary: "Phụ"
     armor: "Áo giáp"
     accessories: "Phụ kiện"
-    misc: "Linh tinh"
-    books: "Cuốn sách"
+    misc: "Khác"
+    books: "Sách"
 
   common:
-    back: "Quay trở lại" # When used as an action verb, like "Navigate backward"
+    back: "Trở lại" # When used as an action verb, like "Navigate backward"
     continue: "Tiếp tục" # When used as an action verb, like "Continue forward"
-    loading: "Tải..."
-    saving: "Lưu..."
-    sending: "Gởi..."
-    send: "Gởi đi"
+    loading: "Đang tải..."
+    saving: "Đang lưu..."
+    sending: "Đang gửi..."
+    send: "Gửi"
     cancel: "Hủy"
     save: "Lưu"
     publish: "Chia sẻ"
-    create: "Làm mới"
+    create: "Tạo mới"
     fork: "Nĩa"
-    play: "Các cấp độ" # When used as an action verb, like "Play next level"
-    retry: "Chơi lại"
-    actions: "Các Hành Động"
+    play: "Chơi" # When used as an action verb, like "Play next level"
+    retry: "Thử lại"
+    actions: "Các hành Động"
     info: "Thông tin"
     help: "Giúp đỡ"
-    watch: "Quan Sát"
-    unwatch: "Ngừng Quan Sát"
-    submit_patch: "Gửi Bản Cập Nhật"
-    submit_changes: "Gửi Những Thay Đổi"
-    save_changes: "Lưu Những Thay Đổi"
-#    required_field: "Required field"
+    watch: "Theo dõi"
+    unwatch: "Ngừng theo dõi"
+    submit_patch: "Submit bản patch"
+    submit_changes: "Submit thay đổi"
+    save_changes: "Lưu thay dổi"
+	required_field: "Thông tin bắt buộc"
 
   general:
     and: "và"
