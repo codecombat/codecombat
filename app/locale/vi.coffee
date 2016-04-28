@@ -10,11 +10,16 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     ipad_browser: "Tin buồn: CodeCombat không chạy trên trình duyệt web của iPad. Tin tốt: Ứng dụng dành cho iPad của chúng tôi đang chờ sự chấp thuận của Apple."
     campaign: "Chiến dịch"
     for_beginners: "Dành cho Người Bắt Đầu"
+<<<<<<< c191f63c156672e3eda070c32eaa6a3cfc6dd62a
     multiplayer: "Thi đấu" # Not currently shown on home page
+=======
+    multiplayer: "Nhiều người chơi" # Not currently shown on home page
+>>>>>>> Translate into Vietnamese
     for_developers: "Dành cho Nhà Phát Triển" # Not currently shown on home page.
     or_ipad: "Hoặc tải phiên bản dành cho iPad"
 
   new_home:
+<<<<<<< c191f63c156672e3eda070c32eaa6a3cfc6dd62a
     slogan: "Trò chơi hấp dẫn nhất để học lập trình."
     classroom_edition: "Phiên bản Lớp học:"
     learn_to_code: "Học lập trình:"
@@ -93,6 +98,93 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     want_coco: "Muốn đưa CodeCombat vào giảng dạy tại trường học của bạn?"
     form_select_role: "Chọn vai trò chính"
     form_select_range: "Chọn quy mô lớp"
+=======
+    slogan: "Tựa game hấp dẫn nhất để học lập trình."
+    classroom_edition: "Phiên bản Lớp Học:"
+    learn_to_code: "Học code:"
+    teacher: "Giáo Viên"
+    student: "Học Sinh"
+    play_now: "Chơi Ngay"
+    im_a_teacher: "Tôi là Giáo Viên"
+    im_a_student: "Tôi là Học Viên"
+    learn_more: "Tìm hiểu thêm"
+#    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
+#    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
+#    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
+#    top_screenshots_hint: "Students write code and see their changes update in real-time"
+#    designed_with: "Designed with teachers in mind"
+#    real_code: "Real, typed code"
+#    from_the_first_level: "from the first level"
+#    getting_students: "Getting students to typed code as quickly as possible is critical to learning programming syntax and proper structure."
+#    educator_resources: "Educator resources"
+#    course_guides: "and course guides"
+#    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
+#    accessible_to: "Accessible to"
+#    everyone: "everyone"
+#    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
+#    forgot_learning: "I think they actually forgot that they were actually learning something."
+#    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
+#    why_games: "Why is learning through games important?"
+#    games_reward: "Games reward the productive struggle."
+#    encourage: "Gaming is a medium that encourages interaction, discovery, and trial-and-error. A good game challenges the player to master skills over time, which is the same critical process students go through as they learn."
+#    excel: "Games excel at rewarding"
+#    struggle: "productive struggle"
+#    kind_of_struggle: "the kind of struggle that results in learning that’s engaging and"
+#    motivating: "motivating"
+#    not_tedious: "not tedious."
+#    gaming_is_good: "Studies suggest gaming is good for children’s brains. (it’s true!)"
+#    game_based: "When game-based learning systems are"
+#    compared: "compared"
+#    conventional: "against conventional assessment methods, the difference is clear: games are better at helping students retain knowledge, concentrate and"
+#    perform_at_higher_level: "perform at a higher level of achievement"
+#    feedback: "Games also provide real-time feedback that allows students to adjust their solution path and understand concepts more holistically, instead of being limited to just “correct” or “incorrect” answers."
+#    real_game: "A real game, played with real coding."
+#    great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
+#    agency: "CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
+#    curious: "Curious? Request a demo and we'll show you the ropes"
+#    request_demo_title: "Get your students started today!"
+#    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
+#    get_started_title: "Set up your class today"
+#    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
+#    create_class: "Or create a class and see it for yourself!"
+#    teacher_screenshots_hint: "Students write code and see their changes update in real-time"
+#    request_demo: "Request a Demo"
+#    create_a_class: "Create a Class"
+#    setup_a_class: "Set Up a Class"
+#    have_an_account: "Have an account?"
+#    log_in: "Log In"
+#    logged_in_as: "You are currently logged in as"
+#    view_my_classes: "View my classes"
+#    computer_science: "Computer science courses for all ages"
+#    show_me_lesson_time: "Show me lesson time estimates for:"
+#    curriculum: "Total curriculum hours:"
+#    ffa: "Free for all students"
+#    lesson_time: "Lesson time:"
+#    coming_soon: "Coming soon!"
+#    courses_available_in: "Courses are available in JavaScript, Python, and Java (coming soon!)"
+#    boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
+#    winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
+#    run_class: "Everything you need to run a computer science class in your school today, no CS background required."
+#    teachers: "Teachers!"
+#    teachers_and_educators: "Teachers & Educators"
+#    class_in_box: "Learn how our classroom-in-a-box platform fits into your curriculum."
+#    get_started: "Get Started"
+#    students: "Students:"
+#    join_class: "Join Class"
+#    role: "Your role:"
+#    student_count: "Number of students:"
+#    start_playing_for_free: "Start Playing for Free!"
+#    students_and_players: "Students & Players"
+#    goto_classes: "Go to My Classes" # {change}
+#    educator_wiki: "Educator wiki"
+#    view_profile: "View My Profile"
+#    view_progress: "View Progress"
+#    login_switch: "Have an account?"
+#    check_out_wiki: "Check out our new educator Wiki"
+#    want_coco: "Want CodeCombat at your school?"
+#    form_select_role: "Select primary role"
+#    form_select_range: "Select class size"
+>>>>>>> Translate into Vietnamese
 
   nav:
     play: "Chơi!!" # The top nav bar entry where players choose which levels to play
@@ -102,18 +194,30 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     blog: "Blog"
     forum: "Diễn đàn"
     account: "Tài khoản"
+<<<<<<< c191f63c156672e3eda070c32eaa6a3cfc6dd62a
     my_account: "Quản lý tài khoản"
     profile: "Cá Nhân"
+=======
+    profile: "Cá nhân"
+>>>>>>> Translate into Vietnamese
     stats: "Chỉ số"
     code: "Code"
     home: "Trang chủ"
     contribute: "Đóng góp"
     legal: "Điều khoản"
+<<<<<<< c191f63c156672e3eda070c32eaa6a3cfc6dd62a
     about: "Chúng tôi"
     contact: "Liên hệ"
     twitter_follow: "Theo dõi"
     students: "Học viên"
     teachers: "Giáo viên"
+=======
+    about: "Giới thiệu"
+    contact: "Liên hệ"
+    twitter_follow: "Theo dõi"
+    students: "Dành cho học viên"
+    teachers: "Dành cho giáo viên"
+>>>>>>> Translate into Vietnamese
     careers: "Cơ hội việc làm"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -122,6 +226,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     learn_to_code: "Học Code!"
 #    toggle_nav: "Toggle navigation"
     jobs: "Việc làm"
+<<<<<<< c191f63c156672e3eda070c32eaa6a3cfc6dd62a
     schools: "Trường Học"
     educator_wiki: "Wiki cho Giáo Viên"
     get_involved: "Tham Gia"
@@ -130,6 +235,16 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     faqs: "FAQs"
     help_pref: "Cần giúp đỡ? Hãy gửi email tới"
     help_suff: "và chúng tôi sẽ trợ giúp!"
+=======
+    schools: "Dành cho Trường Học"
+    educator_wiki: "Wiki cho Giáo Viên"
+    get_involved: "Tham Gia"
+		open_source: "Mã nguồn mở (GitHub)"
+		support: "Hỗ trợ"
+		faqs: "FAQs"
+		help_pref: "Cần giúp đỡ? Hãy email"
+		help_suff: "và chúng tôi sẽ trợ giúp!"
+>>>>>>> Translate into Vietnamese
 
   modal:
     close: "Đóng"
@@ -139,11 +254,19 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     page_not_found: "Không tìm thấy trang"
 
   diplomat_suggestion:
+<<<<<<< c191f63c156672e3eda070c32eaa6a3cfc6dd62a
     title: "Hãy giúp chúng tôi phiên dịch CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
     pitch_body: "Chúng tôi xây dựng Codecombat bằng Tiếng Anh, tuy nhiên có rất nhiều bạn trẻ trên toàn thế giới đều muốn tham gia. Các bạn trẻ Việt Nam cũng muốn chơi với nội dung Tiếng Việt, nếu như bạn có thể đọc và viết thành thạo cả 2 ngôn ngữ xin hãy đăng kí làm dịch thuật cho chúng tôi."
     missing_translations: "Bạn sẽ tiếp tục thấy Tiếng Anh cho đến khi chúng tôi dịch tất cả nội dung qua Tiếng Việt."
     learn_more: "Tìm hiểu thêm để tham gia trở thành Phiên Dịch Viên"
+=======
+    title: "Hãy giúp dịch thuật cho CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
+    pitch_body: "Chúng tôi xây dựng Codecombat bằng Tiếng Anh, tuy nhiên có rất nhiều bạn trẻ trên toàn thế giới đều muốn tham gia. Các bạn trẻ Việt Nam cũng muốn chơi với nội dung Tiếng Việt, nếu như bạn có thể đọc và viết thành thạo cả 2 ngôn ngữ xin hãy đăng kí làm dịch thuật cho chúng tôi."
+    missing_translations: "Bạn sẽ tiếp tục thấy Tiếng Anh cho đến khi chúng tôi dịch tất cả nội dung qua Tiếng Việt."
+    learn_more: "Tìm hiểu thêm để tham gia làm Phiên Dịch Viên"
+>>>>>>> Translate into Vietnamese
     subscribe_as_diplomat: "Trở thành Phiên Dịch Viên"
 
   play:
@@ -156,6 +279,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     unlock: "Mua" # For purchasing items and heroes
     confirm: "Xác nhận"
     owned: "Đã có" # For items you own
+<<<<<<< c191f63c156672e3eda070c32eaa6a3cfc6dd62a
     locked: "Bị khóa"
     purchasable: "Có thể mua" # For a hero you unlocked but haven't purchased
     available: "Khả dụng"
@@ -168,6 +292,20 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     next: "Tiếp" # Go from choose hero to choose inventory before playing a level
     change_hero: "Đổi Tướng" # Go back from choose inventory to choose hero
     buy_gems: "Mua Ngọc"
+=======
+    locked: "Khóa"
+    purchasable: "Có thể mua" # For a hero you unlocked but haven't purchased
+    available: "Khả dụng"
+skills_granted: "Skills Granted" # Property documentation details
+    heroes: "Các Nhân Vật" # Tooltip on hero shop button from /play
+    achievements: "Thành tích" # Tooltip on achievement list button from /play
+    account: "Tài khoản" # Tooltip on account button from /play
+    settings: "Tùy chỉnh" # Tooltip on settings button from /play
+		poll: "Bỏ phiếu" # Tooltip on poll button from /play
+    next: "Tiếp" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Đổi Nhân Vật" # Go back from choose inventory to choose hero
+    buy_gems: "Mua ngọc"
+>>>>>>> Translate into Vietnamese
     subscription_required: "Cần đăng kí"
     anonymous: "Người chơi ẩn danh"
     level_difficulty: "Độ khó: "
