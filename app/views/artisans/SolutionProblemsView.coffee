@@ -12,29 +12,46 @@ module.exports = class SolutionProblemsView extends RootView
     "picoctf"
     "auditions"
 
-  #  "dungeon"
-  #  "forest"
-  #  "desert"
-  #  "mountain"
-  #  "glacier"
+    #"dungeon"
+    #"forest"
+    #"desert"
+    #"mountain"
+    #"glacier"
 
     "dungeon-branching-test"
     "forest-branching-test"
     "desert-branching-test"
 
-    "intro"
-    "course-2"
-    "course-3"
-    "course-4"
-    "course-5"
-    "course-6"
+    #"intro"
+    #"course-2"
+    #"course-3"
+    #"course-4"
+    #"course-5"
+    #"course-6"
   ]
   excludedSimulationLevels = [
+    # Course Arenas
     "wakka-maul"
     "cross-bones"
   ]
+  excludedSolutionLevels = [
+    # Multiplayer Levels
+    "cavern-survival"
+
+    "dueling-grounds"
+    "multiplayer-treasure-grove"
+
+    "harrowland"
+
+    "zero-sum"
+
+    "ace-of-coders"
+    "capture-their-flag"
+  ]
   levelOffset: 0
   isReady: 0
+  requiresSubs: 0
+  rob: []
   constructor: (options) ->
     super options
     @campaigns = new CocoCollection([], 
@@ -63,13 +80,15 @@ module.exports = class SolutionProblemsView extends RootView
       continue unless excludedCampaigns.indexOf(campaign.get 'slug') is -1
       count++
       @test[campaign.get('slug')] = new CocoCollection([],
-        url: '/db/campaign/' + campaign.get('slug') + '/levels?project=thangs,slug'
+        url: '/db/campaign/' + campaign.get('slug') + '/levels?project=thangs,slug,requiresSubscription'
         model: Level
       )
       @test[campaign.get('slug')].fetch()
       @listenTo(@test[campaign.get('slug')], 'sync', (e) ->
         #@loadedLevels = _uniq(_.union(@loadedLevels, e.models))
         for level in e.models
+          if not @loadedLevels[level.get('slug')]? and level.get('requiresSubscription')
+            @requiresSubs++
           @loadedLevels[level.get('slug')] = level
         count--
         if count is 0
@@ -79,6 +98,7 @@ module.exports = class SolutionProblemsView extends RootView
 
   readyUp: ->
     console.log("Count of levels: " + _.size(@loadedLevels))
+    console.log("Count requires sub: " + @requiresSubs)
     @parsedLevels = []
 
     @problemCount = 0
@@ -94,6 +114,14 @@ module.exports = class SolutionProblemsView extends RootView
             return true
         )
       )
+      thangs = _.filter(thangs, (elem) ->
+        return _.findWhere(elem.components, (elem2) ->
+          if elem2.config?.programmableMethods?
+            return true
+        )
+      )
+      if thangs.length > 1
+        console.log levelSlug + ":" + thangs.length + " " + thangs.map((elem) -> return elem.id)
       unless thang? and component
         console.log("Cannot find programmableMethods component in: " + levelSlug)
         continue
@@ -105,34 +133,40 @@ module.exports = class SolutionProblemsView extends RootView
 
 
       problems = []
+      if excludedSolutionLevels.indexOf(levelSlug) is -1
+        for lang in ["python", "javascript", "lua", "java"]
+          if _.findWhere(solutions, (elem) -> return elem.language is lang)
+            @rob.push language: lang, level: levelSlug
+          else if lang not in ["lua", "java"]
+            problems.push {
+              "type":"Missing Solution Language",
+              "value":lang
+            }
+            @problemCount++
+          else
+            # monitor lua/java when we care about it here
 
-      for lang in ["python", "javascript"]
-        unless _.findWhere(solutions, (elem) -> return elem.language is lang)
-          problems.push {
-            "type":"Missing Solution Language",
-            "value":lang
-          }
-            
       for solutionIndex of solutions
         solution = solutions[solutionIndex]
         if excludedSimulationLevels.indexOf(levelSlug) is -1
-          for req in ["seed", "succeeds", "heroConfig", 'lastHash', 'frameCount', 'goals']
+          for req in ["seed", "succeeds", "heroConfig", 'frameCount', 'goals'] # Implement a fix for lastHash
             unless solution[req]?
+              console.log levelSlug, req
               problems.push {
                 "type":"Solution is not simulatable",
                 "value":solution.language
               }
               @problemCount++
               break
-        if solution.source.indexOf("<%=") is -1
-          problems.push {
-            "type":"Solution is not i18n'd",
-            "value":solution.language
-          }
-          @problemCount++
         if solution.source.indexOf("pass") isnt -1
           problems.push {
             "type":"Solution contains pass",
+            "value":solution.language
+          }
+          @problemCount++
+        if solution.source.indexOf("<%=") is -1
+          problems.push {
+            "type":"Solution is not i18n'd",
             "value":solution.language
           }
           @problemCount++
