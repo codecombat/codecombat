@@ -1240,6 +1240,7 @@
     length: "Length:"
     title: "Courses" # Flat style redesign
     subtitle: "Review course guidelines, solutions, and levels"
+    changelog: "View latest changes to course levels."
     select_language: "Select language"
     select_level: "Select level"
     play_level: "Play Level"
