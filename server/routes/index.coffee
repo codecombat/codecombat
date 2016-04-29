@@ -21,6 +21,7 @@ module.exports.setup = (app) ->
   app.put('/db/achievement/:handle', mw.auth.checkLoggedIn(), mw.achievements.put)
   app.delete('/db/achievement/:handle', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.delete(Achievement))
   app.get('/db/achievement/names', mw.named.names(Achievement))
+  app.post('/db/achievement/names', mw.named.names(Achievement))
   app.get('/db/achievement/:handle/patches', mw.patchable.patches(Achievement))
   app.post('/db/achievement/:handle/watchers', mw.patchable.joinWatchers(Achievement))
   app.delete('/db/achievement/:handle/watchers', mw.patchable.leaveWatchers(Achievement))
