@@ -18,6 +18,11 @@ block content
   if classroom.loaded
     .container
       +breadcrumbs
+      if classroom.get('archived')
+        .row.center-block.text-center.m-t-3.m-b-3
+          .unarchive-btn.btn.btn-lg.btn-navy
+            span(data-i18n='teacher.unarchive_this_class')
+      
       h3.m-t-2= classroom.get('name')
       a.label.edit-classroom(data-classroom-id=classroom.id)
         span(data-i18n='teacher.edit_class_settings')

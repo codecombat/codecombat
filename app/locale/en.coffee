@@ -1293,6 +1293,7 @@
     view_class: "view class"
     archive_class: "archive class"
     unarchive_class: "unarchive class"
+    unarchive_this_class: "Unarchive this class"
     no_students_yet: "This class has no students yet."
     add_students: "Add Students"
     create_new_class: "Create a New Class"
