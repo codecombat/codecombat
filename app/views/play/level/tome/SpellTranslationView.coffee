@@ -37,7 +37,7 @@ module.exports = class SpellTranslationView extends CocoView
     @$el.show().css(@pos)
     
   isIdentifier: (t) ->
-    t and (t.type in ['identifier', 'keyword'] or t.value is 'this')
+    t and (_.any([/identifier/, /keyword/], (regex) -> regex.test(t.type)) or t.value is 'this')
     
   onMouseMove: (e) =>
     return if @destroyed
