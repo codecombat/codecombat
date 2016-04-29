@@ -86,7 +86,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     class_in_box: "Lees hoe ons digitale lesplatform in uw curriculum past."
     get_started: "Start nu"
     students: "Leerlingen:"
-#   join_class: "Join Class"
+#    join_class: "Join Class"
     role: "Uw rol:"
     student_count: "Aantal leerlingen:"
     start_playing_for_free: "Begin met gratis spelen!"
@@ -188,7 +188,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
-#  code:
+  code:
 #    if: "if" # Keywords
 #    else: "else"
 #    elif: "elif"
@@ -1680,7 +1680,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     you_can2: "een prepaidcode kopen"
     you_can3: "die je voor jke eigen account kunt gebruiken of aan anderen kunt geven."
 
-#  coppa_deny:
+  coppa_deny:
     text1: "Kan je niet wachten om te leren programmeren?"
     text2: "Vraag je ouders een account voor je te maken!"
     close: "Sluit Venster"
@@ -1838,7 +1838,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     license: "licentie"
     oreilly: "ebook van je keuze"
 
-#  calendar:
+  calendar:
     year: "Jaar"
     day: "Dag"
     month: "Maand"
