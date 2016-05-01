@@ -36,7 +36,7 @@
     "postinstall": "bower install && brunch build --env fast",
     "brunch": "brunch",
     "bower": "bower",
-    "dev": "brunch watch --server",
+    "dev": "brunch watch --server --env fast",
     "nodemon": "nodemon",
     "jasmine-node": "jasmine-node",
     "multicore": "coffee multicore.coffee",
@@ -93,7 +93,7 @@
   "devDependencies": {
     "after-brunch": "0.0.5",
     "assetsmanager-brunch": "^1.8.1",
-    "auto-reload-brunch": "> 1.0 < 1.8",
+    "auto-reload-brunch": "^1.8.1",
     "bower": "~1.6.4",
     "brunch": "^1.8.5",
     "coffee-script-brunch": "^1.8.3",
