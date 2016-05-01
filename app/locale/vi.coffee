@@ -1648,15 +1648,15 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     status_unsubscribed_active: "Hiện tại bạn không đăng kí subcribe và sẽ không bị tính phí, nhưng tài khoản của bạn vẫn trong trạng thái active."
     status_unsubscribed: "Tham gia những màn chơi mới, lựa chọn tướng mới, mặc những trang bị mới và nhận được ưu đãi gem hàng tháng bằng việc đăng kí subcribe với CodeCombat!"
 
-#  account_invoices:
-#    amount: "Amount in US dollars"
-#    declined: "Your card was declined"
-#    invalid_amount: "Please enter a US dollar amount."
-#    not_logged_in: "Log in or create an account to access invoices."
-#    pay: "Pay Invoice"
-#    purchasing: "Purchasing..."
-#    retrying: "Server error, retrying."
-#    success: "Successfully paid. Thanks!"
+  account_invoices:
+    amount: "Số tiền tính theo đô-la Mỹ"
+    declined: "Thẻ của bạn đã bị từ chối"
+    invalid_amount: "Vui lòng nhập số tiền tính theo đô-la Mỹ."
+    not_logged_in: "Đăng nhập hoặc tạo tài khoản để quản lý hóa đơn."
+    pay: "Thanh Toán Hóa Đơn"
+    purchasing: "Đang thanh toán..."
+    retrying: "Lỗi server, đang thử lại."
+    success: "Đã thanh toán thành công. Cảm ơn!"
 
 #  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
