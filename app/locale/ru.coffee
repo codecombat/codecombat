@@ -245,7 +245,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     connected_facebook_p: "Теперь можно войти используя аккаунт Facebook."
     facebook_exists: "У вас уже имеется аккаунт связанный сh Facebook!"
     hey_students: "Студенты, введите код от класса вашего учителя."
-#    birthday: "Birthday"
+    birthday: "Дата рождения"
 
   recover:
     recover_account_title: "Восстановить аккаунт"
@@ -705,7 +705,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     community_link: "Сообщество"
     story_link: "История"
     careers_link: "Карьера"
-    press_link: "Нажать"
+    press_link: "Контакты"
     mission_title: "Наша задача: сделать доступным программирование для каждого учащегося на земле."
 #    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
 #    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
@@ -1524,7 +1524,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     ambassador_join_note_strong: "Примечание"
     ambassador_join_note_desc: "Одним из наших главных приоритетов является создание мультиплеера, где игроки столкнутся с труднорешаемыми уровнями и могут призвать более высокоуровневых волшебников для помощи. Это будет отличным способом для послов делать свое дело. Мы будем держать вас в курсе!"
     ambassador_subscribe_desc: "Получать email-ы о разработке мультиплеера и обновлениях в системе поддержки."
-#    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
+    teacher_subscribe_desc: "Получать email-ы об обновлениях и объявлениях для учителей."
     changes_auto_save: "Изменения сохраняются автоматически при переключении флажков."
     diligent_scribes: "Наши старательные Писари:"
     powerful_archmages: "Наши могущественные Архимаги:"
@@ -1815,8 +1815,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     nutshell_title: "В двух словах"
     nutshell_description: "Любые ресурсы, которые мы предоставляем в Редакторе уровней можно свободно использовать как вам нравится для создания уровней. Но мы оставляем за собой право ограничивать распространение уровней самих по себе (которые создаются на codecombat.com), чтобы за них могла взиматься плата в будущем, если до этого дойдёт."
     canonical: "Английская версия этого документа является определяющей и канонической. Если есть какие-либо расхождения между переводами, документ на английском имеет приоритет."
-#    third_party_title: "Third Party Services"
-#    third_party_description: "CodeCombat uses the following third party services (among others):"
+    third_party_title: "Сторонние сервисы"
+    third_party_description: "CodeCombat использует следующие сторонние сервисы (в числе прочих):"
 
   ladder_prizes:
     title: "Турнирные призы" # This section was for an old tournament and doesn't need new translations now.
