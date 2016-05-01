@@ -188,6 +188,24 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
+#  code:
+#    if: "if" # Keywords
+#    else: "else"
+#    elif: "elif"
+#    while: "while"
+#    loop: "loop"
+#    for: "for"
+#    break: "break"
+#    continue: "continue"
+#    then: "then"
+#    do: "do"
+#    end: "end"
+#    function: "function"
+#    def: "def"
+#    self: "self"
+#    hero: "hero"
+#    this: "this"
+
   share_progress_modal:
     blurb: "Bạn đang tiến bộ rõ rệt đấy! Hãy chia sẻ cho ai đó xem bạn đã học được nhiều chừng nào với CodeCombat."
     email_invalid: "Địa chỉ email không hợp lệ."
@@ -227,6 +245,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     connected_facebook_p: "Đã đăng kí thành công, bạn có thể đăng nhập bằng tài khoản Facebook."
     facebook_exists: "Bạn đã có tài khoản kết nối với Facebook!"
     hey_students: "Học viên, hãy nhập mã lớp học nhận được từ giáo viên."
+#    birthday: "Birthday"
 
   recover:
     recover_account_title: "Khôi phục tài khoản"
@@ -630,6 +649,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
   skill_docs:
+#    function: "function" # skill types
+#    method: "method"
+#    snippet: "snippet"
+#    number: "number"
+#    array: "array"
+#    object: "object"
+#    string: "string"
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
 #    read_only: "read-only"
 #    action: "Action"
@@ -688,7 +714,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     nick_title: "Đồng Sáng Lập, CEO" # {change}
     nick_blurb: "Người truyền cảm hứng"
     matt_title: "Đồng Sáng Lập, CTO" # {change}
-    matt_blurb: "Một người thích đi xe đạp"
     cat_title: "Game Designer"
 #    cat_blurb: "Airbender"
     scott_title: "Đồng Sáng Lập, Kĩ Sư Phần Mềm" # {change}
@@ -703,11 +728,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    robin_blurb: "Scaffolding"
     josh_title: "Game Designer"
 #    josh_blurb: "Floor Is Lava"
-    retrostyle_title: "Họa Sĩ Minh Họa"
+#    phoenix_title: "Software Engineer"
+#    nolan_title: "Territory Manager"
+#    elliot_title: "Partnership Manager"
+#    retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
-    jose_title: "Âm Nhạc"
-    jose_blurb: "Taking Off"
-    community_title: "...và cộng đồng mã nguồn mở của chúng tối"
+#    jose_title: "Music"
+#    jose_blurb: "Taking Off"
+#    community_title: "...and our open-source community"
 #    community_subtitle: "Over 450 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_1: "CodeCombat is a community project, with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
 #    community_description_link: "contribute page"
@@ -722,7 +750,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    story_statistic_2b: "200+ countries"
 #    story_statistic_3a: "Together, they have written"
 #    story_statistic_3b: "1 billion lines of code and counting"
-#    story_statistic_3c: "across six different programming languages"
+#    story_statistic_3c: "across many different programming languages"
 #    story_long_way_1: "Though we've come a long way..."
 #    story_sketch_caption: "Nick's very first sketch depicting a programming game in action."
 #    story_long_way_2: "we still have much to do before we complete our quest, so..."
@@ -732,13 +760,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    jobs_benefit_1: "Competitive salary and options"
 #    jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
 #    jobs_benefit_3: "Flex time and flexible work-from-home"
-#    jobs_benefit_4: "Unlimited vacation/sick/personal days"
+#    jobs_benefit_4: "Unlimited vacation"
 #    jobs_benefit_5: "Professional development and continuing education support – free books and games!"
 #    jobs_benefit_6: "Medical (gold), dental, vision"
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary, next 12 remote working"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid, next 12 remote working"
+#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
 #    learn_more: "Learn More"
 #    jobs_custom_title: "Create Your Own"
 #    jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
@@ -774,14 +802,20 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "Where can we reach you during the workday?"
-#    role_label: "Your role"
-#    role_help: "Select your primary role."
+#    primary_role_label: "Your Primary Role"
 #    role_default: "Select Role"
+#    primary_role_default: "Select Primary Role"
+#    purchaser_role_default: "Select Purchaser Role"
 #    tech_coordinator: "Technology coordinator"
 #    advisor: "Advisor"
 #    principal: "Principal"
 #    superintendent: "Superintendent"
 #    parent: "Parent"
+#    purchaser_role_label: "Your Purchaser Role"
+#    influence_advocate: "Influence/Advocate"
+#    evaluate_recommend: "Evaluate/Recommend"
+#    approve_funds: "Approve Funds"
+#    no_purchaser_role: "No role in purchase decisions"
 #    organization_label: "Name of School/District"
 #    city: "City"
 #    state: "State"
@@ -802,11 +836,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
-#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account." # {change}
-#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+#    connect_with: "Connect with:"
+#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
+#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
 #    create_account: "Create a Teacher Account"
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
-#    convert_account_title: "Update to Teacher Account" # {change}
+#    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
 #    setup_a_class: "Set Up a Class"
 
@@ -1022,7 +1057,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     buy_course1: "Mua khóa học này"
 #    select_all_courses: "Select 'All Courses' for a 50% discount!"
     all_courses: "Tất cả những khóa học"
-    number_students: "Số lượng học sinh"
+#    number_programming_students: "Number of Programming Students"
+#    number_total_students: "Total Students in School/District"
     enter_number_students: "Hãy nhập vào số lượng học sinh bạn cần cho lớp học này."
 #    name_class: "Name your class"
 #    displayed_course_page: "This will be displayed on the course page for you and your students. It can be changed later."
@@ -1062,7 +1098,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    already_enrolled: "already enrolled"
 #    licenses_remaining: "licenses remaining:"
 #    insufficient_enrollments: "insufficient paid enrollments"
-#    enroll_students: "Enroll Students"
 #    get_enrollments: "Get More Enrollments"
 #    change_language: "Change Course Language"
 #    keep_using: "Keep Using"
@@ -1211,6 +1246,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    concepts_covered: "Concepts covered"
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
+#    last_updated: "Last updated:"
 #    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Miêu tả" # ClassroomSettingsModal
@@ -1245,7 +1281,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    language: "Language"
 #    edit_class_settings: "edit class settings"
 #    complete: "Complete"
-#    access_restricted: "Access Restricted" # My Classes page
+#    access_restricted: "Account Update Required"
 #    teacher_account_required: "A teacher account is required to access this content."
 #    create_teacher_account: "Create Teacher Account"
 #    what_is_a_teacher_account: "What's a Teacher Account?"
@@ -1287,10 +1323,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    assign_to_selected_students: "Assign to Selected Students"
 #    assigned: "Assigned"
 #    enroll_selected_students: "Enroll Selected Students"
+#    cant_assign_to_unenrolled: "Course cannot be assigned to students who are not enrolled."
+#    no_students_selected: "No students were selected."
 #    guides_coming_soon: "Guides coming soon!" # Courses
 #    show_students_from: "Show students from" # Enroll students modal
 #    enroll_the_following_students: "Enroll the following students"
 #    all_students: "All Students"
+#    enroll_students: "Enroll Students"
+#    not_enough_enrollments: "Not enough Enrollments available."
 #    enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
 #    enrollments_blurb_2: "require enrollments to access the courses."
 #    credits_available: "Credits Available"
@@ -1304,8 +1344,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    how_to_enroll: "How to Enroll Students"
 #    how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
 #    how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
-#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content." # {change}
-#    bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
+#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
+#    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
+#    total_unenrolled: "Total unenrolled"
 
   classes:
 #    archmage_title: "Archmage"
@@ -1638,6 +1679,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  coppa_deny:
+#    text1: "Can’t wait to learn programming?"
+#    text2: "Ask your parents to create an account for you!"
+#    close: "Close Window"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

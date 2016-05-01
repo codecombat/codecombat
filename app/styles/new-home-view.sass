@@ -17,7 +17,6 @@
       background-size: 1200px auto
       
     .container
-      min-height: 720px
       background-repeat: no-repeat
       
       .btn
@@ -25,7 +24,6 @@
         
       h1
         color: white
-        margin-top: 130px
         @media (max-width: $screen-md-min)
           margin-top: 60px
           font-size: 33px
@@ -35,7 +33,7 @@
         border: none
         border-radius: 8px
         background: rgba(255, 255, 255, 0.5)
-        margin-top: 170px
+        margin-top: 10px
         #classroom-edition-header
           margin-top: 10px
         #educator-header
@@ -58,6 +56,8 @@
 
       #learn-more-row
         margin-top: 80px
+        @media (max-height: 700px)
+          margin-top: 10px
         h2, h6
           color: white
         h6
@@ -76,12 +76,13 @@
           margin-top: 0px
 
       .container h1
-        margin-top: 420px
+        margin-top: 260px
         margin-bottom: 20px
         @media (max-width: $screen-md-min)
-          margin-top: 380px
+          margin-top: 60px
+          margin-bottom: 60px
         @media (max-width: $screen-sm-min)
-          margin-top: 360px
+          margin-top: 60px
   
   #classroom-in-box-row
     margin: 40px 0

@@ -91,7 +91,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    student_count: "Number of students:"
 #    start_playing_for_free: "Start Playing for Free!"
 #    students_and_players: "Students & Players"
-#    goto_classes: "Go to My Classes" # {change}
+#    goto_classes: "Go to My Classes"
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
@@ -118,6 +118,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     about: "소개"
     contact: "문의"
     twitter_follow: "팔로우"
+#    students: "Students"
     teachers: "선생님"
     careers: "채용"
 #    facebook: "Facebook"
@@ -187,6 +188,24 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     campaign_old_multiplayer: "(추천하지 않습니다) 숙련된 멀티플레이어 경쟁"
     campaign_old_multiplayer_description: "더 문명화 된 시대의 유물. 어떤 시뮬레이션은 이러한 이전, 영웅없는 멀티 경기장에 대해 실행되지 않습니다."
 
+#  code:
+#    if: "if" # Keywords
+#    else: "else"
+#    elif: "elif"
+#    while: "while"
+#    loop: "loop"
+#    for: "for"
+#    break: "break"
+#    continue: "continue"
+#    then: "then"
+#    do: "do"
+#    end: "end"
+#    function: "function"
+#    def: "def"
+#    self: "self"
+#    hero: "hero"
+#    this: "this"
+
   share_progress_modal:
     blurb: "당신은 큰 진전을 보이고있습니다! 당신이 코드컴뱃으로 얼마나 많이 배웠는지 부모님게 말하십시오."
     email_invalid: "이메일 주소가 올바르지 않습니다."
@@ -226,6 +245,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
 #    facebook_exists: "You already have an account associated with Facebook!"
 #    hey_students: "Students, enter the class code from your teacher."
+#    birthday: "Birthday"
 
   recover:
     recover_account_title: "계정 복구"
@@ -532,9 +552,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   subscribe:
     comparison_blurb: "코드컴뱃을 구독하셔서 당신의 스킬을 날카롭게하십시오!"
-    feature1: "$t(data.levelsCount)+개의 기초 레벨들은 $t(data.worldsCount)개의 세계에 있습니다"
-    feature2: "힘쌘 $t(data.heroesCount) <strong>새로운 영웅들</strong>은 희기한 스킬과 함께!"
-    feature3: "$t(data.bonusLevelsCount)+ 보너스 레벨들"
+    feature1: "$t(data.levelsCount)+개의 기초 레벨들은 $t(data.worldsCount)개의 세계에 있습니다" # {change}
+    feature2: "힘쌘 $t(data.heroesCount) <strong>새로운 영웅들</strong>은 희기한 스킬과 함께!" # {change}
+    feature3: "$t(data.bonusLevelsCount)+ 보너스 레벨들" # {change}
     feature4: "매 달마다<strong>{{gems}} 보너스 잼</strong>!"
     feature5: "영상 튜토리얼"
     feature6: "프리미엄 이메일 지원"
@@ -629,6 +649,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     restricted_to_certain_heroes: "특정 영웅만이 이 레벨을 플레이할 수 있습니다."
 
   skill_docs:
+#    function: "function" # skill types
+#    method: "method"
+#    snippet: "snippet"
+#    number: "number"
+#    array: "array"
+#    object: "object"
+#    string: "string"
     writable: "쓰기" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "리드-온리"
     action: "행동"
@@ -687,7 +714,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     nick_title: "프로그래머" # {change}
     nick_blurb: "동기 부여 전문가"
     matt_title: "프로그래머" # {change}
-    matt_blurb: "자전거 타는 사람"
     cat_title: "게임 디자이너"
     cat_blurb: "에어 벤더"
     scott_title: "프로그래머" # {change}
@@ -702,6 +728,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     robin_blurb: "발판"
     josh_title: "게임 디자이너"
     josh_blurb: "바닥은 용암"
+#    phoenix_title: "Software Engineer"
+#    nolan_title: "Territory Manager"
+#    elliot_title: "Partnership Manager"
     retrostyle_title: "일러스트레이션"
     retrostyle_blurb: "레트로스타일 게임"
     jose_title: "뮤직"
@@ -721,7 +750,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    story_statistic_2b: "200+ countries"
 #    story_statistic_3a: "Together, they have written"
 #    story_statistic_3b: "1 billion lines of code and counting"
-#    story_statistic_3c: "across six different programming languages"
+#    story_statistic_3c: "across many different programming languages"
 #    story_long_way_1: "Though we've come a long way..."
 #    story_sketch_caption: "Nick's very first sketch depicting a programming game in action."
 #    story_long_way_2: "we still have much to do before we complete our quest, so..."
@@ -731,13 +760,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    jobs_benefit_1: "Competitive salary and options"
 #    jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
 #    jobs_benefit_3: "Flex time and flexible work-from-home"
-#    jobs_benefit_4: "Unlimited vacation/sick/personal days"
+#    jobs_benefit_4: "Unlimited vacation"
 #    jobs_benefit_5: "Professional development and continuing education support – free books and games!"
 #    jobs_benefit_6: "Medical (gold), dental, vision"
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary, next 12 remote working"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid, next 12 remote working"
+#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
 #    learn_more: "Learn More"
 #    jobs_custom_title: "Create Your Own"
 #    jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
@@ -773,14 +802,20 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "Where can we reach you during the workday?"
-#    role_label: "Your role"
-#    role_help: "Select your primary role."
+#    primary_role_label: "Your Primary Role"
 #    role_default: "Select Role"
+#    primary_role_default: "Select Primary Role"
+#    purchaser_role_default: "Select Purchaser Role"
 #    tech_coordinator: "Technology coordinator"
 #    advisor: "Advisor"
 #    principal: "Principal"
 #    superintendent: "Superintendent"
 #    parent: "Parent"
+#    purchaser_role_label: "Your Purchaser Role"
+#    influence_advocate: "Influence/Advocate"
+#    evaluate_recommend: "Evaluate/Recommend"
+#    approve_funds: "Approve Funds"
+#    no_purchaser_role: "No role in purchase decisions"
 #    organization_label: "Name of School/District"
 #    city: "City"
 #    state: "State"
@@ -801,11 +836,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
-#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account." # {change}
-#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+#    connect_with: "Connect with:"
+#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
+#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
 #    create_account: "Create a Teacher Account"
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
-#    convert_account_title: "Update to Teacher Account" # {change}
+#    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
 #    setup_a_class: "Set Up a Class"
 
@@ -1021,7 +1057,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    buy_course1: "Buy this course"
 #    select_all_courses: "Select 'All Courses' for a 50% discount!"
 #    all_courses: "All Courses"
-#    number_students: "Number of students"
+#    number_programming_students: "Number of Programming Students"
+#    number_total_students: "Total Students in School/District"
 #    enter_number_students: "Enter the number of students you need for this class."
 #    name_class: "Name your class"
 #    displayed_course_page: "This will be displayed on the course page for you and your students. It can be changed later."
@@ -1061,7 +1098,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    already_enrolled: "already enrolled"
 #    licenses_remaining: "licenses remaining:"
 #    insufficient_enrollments: "insufficient paid enrollments"
-#    enroll_students: "Enroll Students"
 #    get_enrollments: "Get More Enrollments"
 #    change_language: "Change Course Language"
 #    keep_using: "Keep Using"
@@ -1210,6 +1246,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    concepts_covered: "Concepts covered"
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
+#    last_updated: "Last updated:"
 #    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
 #    enrollment_credits_available: "Enrollment Credits Available:"
 #    description: "Description" # ClassroomSettingsModal
@@ -1244,7 +1281,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    language: "Language"
 #    edit_class_settings: "edit class settings"
 #    complete: "Complete"
-#    access_restricted: "Access Restricted" # My Classes page
+#    access_restricted: "Account Update Required"
 #    teacher_account_required: "A teacher account is required to access this content."
 #    create_teacher_account: "Create Teacher Account"
 #    what_is_a_teacher_account: "What's a Teacher Account?"
@@ -1286,10 +1323,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    assign_to_selected_students: "Assign to Selected Students"
 #    assigned: "Assigned"
 #    enroll_selected_students: "Enroll Selected Students"
+#    cant_assign_to_unenrolled: "Course cannot be assigned to students who are not enrolled."
+#    no_students_selected: "No students were selected."
 #    guides_coming_soon: "Guides coming soon!" # Courses
 #    show_students_from: "Show students from" # Enroll students modal
 #    enroll_the_following_students: "Enroll the following students"
 #    all_students: "All Students"
+#    enroll_students: "Enroll Students"
+#    not_enough_enrollments: "Not enough Enrollments available."
 #    enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
 #    enrollments_blurb_2: "require enrollments to access the courses."
 #    credits_available: "Credits Available"
@@ -1303,8 +1344,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    how_to_enroll: "How to Enroll Students"
 #    how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
 #    how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
-#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content." # {change}
-#    bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
+#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
+#    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
+#    total_unenrolled: "Total unenrolled"
 
   classes:
     archmage_title: "대마법사"
@@ -1638,6 +1680,11 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
+#  coppa_deny:
+#    text1: "Can’t wait to learn programming?"
+#    text2: "Ask your parents to create an account for you!"
+#    close: "Close Window"
+
   loading_error:
     could_not_load: "서버로부터 로딩하는 데 문제가 발생했습니다."
     connection_failure: "연결 실패"
@@ -1790,3 +1837,20 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
     license: "라이센스"
 #    oreilly: "ebook of your choice"
+
+#  calendar:
+#    year: "Year"
+#    day: "Day"
+#    month: "Month"
+#    january: "January"
+#    february: "February"
+#    march: "March"
+#    april: "April"
+#    may: "May"
+#    june: "June"
+#    july: "July"
+#    august: "August"
+#    september: "September"
+#    october: "October"
+#    november: "November"
+#    december: "December"

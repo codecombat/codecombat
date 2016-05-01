@@ -32,7 +32,7 @@
         tbody
           tr
             td.feature-description
-              span(data-i18n="subscribe.feature1")
+              span(data-i18n="subscribe.feature1", data-i18n-options='{"levelsCount": ' + view.i18nData.levelsCount + ', "worldsCount": ' + view.i18nData.worldsCount + '}')
             if !me.isOnPremiumServer()
               td.center-ok.free-cell
                 span.glyphicon.glyphicon-ok
@@ -40,14 +40,14 @@
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
-              span(data-i18n="[html]subscribe.feature2")
+              span(data-i18n="[html]subscribe.feature2", data-i18n-options='{"heroesCount": ' + view.i18nData.heroesCount + '}')
             if !me.isOnPremiumServer()
               td.free-cell
             td.center-ok
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
-              span(data-i18n="subscribe.feature3")
+              span(data-i18n="subscribe.feature3", data-i18n-options='{"bonusLevelsCount": ' + view.i18nData.bonusLevelsCount + '}'))
             if !me.isOnPremiumServer()
               td.free-cell
             td.center-ok

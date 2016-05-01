@@ -21,6 +21,7 @@ module.exports.setup = (app) ->
   app.put('/db/achievement/:handle', mw.auth.checkLoggedIn(), mw.achievements.put)
   app.delete('/db/achievement/:handle', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.delete(Achievement))
   app.get('/db/achievement/names', mw.named.names(Achievement))
+  app.post('/db/achievement/names', mw.named.names(Achievement))
   app.get('/db/achievement/:handle/patches', mw.patchable.patches(Achievement))
   app.post('/db/achievement/:handle/watchers', mw.patchable.joinWatchers(Achievement))
   app.delete('/db/achievement/:handle/watchers', mw.patchable.leaveWatchers(Achievement))
@@ -59,6 +60,7 @@ module.exports.setup = (app) ->
   Course = require '../models/Course'
   app.get('/db/course', mw.rest.get(Course))
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
+  app.get('/db/course/:handle/levels/:levelOriginal/next', mw.courses.fetchNextLevel)
   
   app.get('/db/course_instance/:handle/levels/:levelOriginal/next', mw.courseInstances.fetchNextLevel)
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)

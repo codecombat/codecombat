@@ -118,6 +118,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     about: "Om"
     contact: "Kontakt"
     twitter_follow: "Følg"
+#    students: "Students"
     teachers: "Lærere"
     careers: "Karrierer"
     facebook: "Facebook"
@@ -187,6 +188,24 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     campaign_old_multiplayer: "(Forældet) Gammel version af Multiplayer Arenaer"
     campaign_old_multiplayer_description: "Levn fra en mere civiliseret tid. Ingen simuleringer er kørt for disse ældre, helte-fattige multiplayer arenaer."
 
+#  code:
+#    if: "if" # Keywords
+#    else: "else"
+#    elif: "elif"
+#    while: "while"
+#    loop: "loop"
+#    for: "for"
+#    break: "break"
+#    continue: "continue"
+#    then: "then"
+#    do: "do"
+#    end: "end"
+#    function: "function"
+#    def: "def"
+#    self: "self"
+#    hero: "hero"
+#    this: "this"
+
   share_progress_modal:
     blurb: "Du gør godt fremskridt! Fortæl din forælder hvor meget du har lært med CodeCombat."
     email_invalid: "Ugyldig emailaddresse."
@@ -226,6 +245,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     connected_facebook_p: "Afslut registreringen, så du kan logge ind med din Facebook account."
     facebook_exists: "Du har allerede en konto registreret med Facebook!"
     hey_students: "Elever, indtast klassekoden udleveret af din lærer."
+#    birthday: "Birthday"
 
   recover:
     recover_account_title: "genskab konto"
@@ -532,9 +552,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 
   subscribe:
     comparison_blurb: "Skærp dine færdigheder med et CodeCombat abonnement!"
-    feature1: "$t(data.levelsCount)+ grundlæggende baner på tværs af $t(data.worldsCount) verdener"
-    feature2: "$t(data.heroesCount) magtfulde <strong> nye helte </strong> med unikke færdigheder!"
-    feature3: "$t(data.bonusLevelsCount)+ bonus baner"
+    feature1: "$t(data.levelsCount)+ grundlæggende baner på tværs af $t(data.worldsCount) verdener" # {change}
+    feature2: "$t(data.heroesCount) magtfulde <strong> nye helte </strong> med unikke færdigheder!" # {change}
+    feature3: "$t(data.bonusLevelsCount)+ bonus baner" # {change}
     feature4: "<strong>{{gems}} bonus ædelstene</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium e-mail support"
@@ -629,6 +649,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     restricted_to_certain_heroes: "Kun visse helt kan spille dette level."
 
   skill_docs:
+#    function: "function" # skill types
+#    method: "method"
+#    snippet: "snippet"
+#    number: "number"
+#    array: "array"
+#    object: "object"
+#    string: "string"
     writable: "skrivbar" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "read-only"
     action: "Handling"
@@ -687,7 +714,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     nick_title: "Medstifter, CEO"
     nick_blurb: "Motivationsguru"
     matt_title: "Medstifter, CTO"
-    matt_blurb: "Cyklist"
     cat_title: "Game Designer"
     cat_blurb: "Luftbetvinger"
     scott_title: "Medstifter, Software Engineer"
@@ -702,6 +728,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     robin_blurb: "Støttearbejde"
     josh_title: "Game Designer"
     josh_blurb: "Gulvet Er Lava"
+#    phoenix_title: "Software Engineer"
+#    nolan_title: "Territory Manager"
+#    elliot_title: "Partnership Manager"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "Retro Spil"
     jose_title: "Musik"
@@ -721,7 +750,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     story_statistic_2b: "200+ lande"
     story_statistic_3a: "Tilsammen, har de skrevet"
     story_statistic_3b: "1 milliard linjer kode og flere på vej"
-    story_statistic_3c: "i seks forskellige programmeringssprog"
+    story_statistic_3c: "i seks forskellige programmeringssprog" # {change}
     story_long_way_1: "Selv om vi er kommet langt..."
     story_sketch_caption: "Nick's allerførste skitse der forestiller et programmeringsspil i fuld gang."
     story_long_way_2: "vi har stadig meget at gøre, før vi har fuldført vores opgave, så..."
@@ -736,8 +765,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     jobs_benefit_6: "Syge-, Tand- og Synsforsikring" # {change}
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary, next 12 remote working"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid, next 12 remote working"
+#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
     learn_more: "Lær Mere"
     jobs_custom_title: "Lav Dit Eget"
     jobs_custom_description: "Brænder du for CodeCombat men kan ikke se et ledigt job, der matcher dine kvalifikationer? Skriv til os og vis, hvordan du tror, ​​du kan bidrage til vores team. Vi vil meget gerne høre fra dig!"
@@ -773,14 +802,20 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     email_exists: "En bruger med denne email eksisterer allerede."
     phone_number: "Telefonnummer"
     phone_number_help: "Hvor kan vi få fat i dig i løbet af arbejdsdagen?"
-    role_label: "Din funktion"
-    role_help: "Vælg din primærfunktion."
+#    primary_role_label: "Your Primary Role"
 #    role_default: "Select Role"
+#    primary_role_default: "Select Primary Role"
+#    purchaser_role_default: "Select Purchaser Role"
     tech_coordinator: "Teknologikoordinator"
     advisor: "Rådgiver"
     principal: "Skoleleder"
     superintendent: "Leder"
     parent: "Forælder"
+#    purchaser_role_label: "Your Purchaser Role"
+#    influence_advocate: "Influence/Advocate"
+#    evaluate_recommend: "Evaluate/Recommend"
+#    approve_funds: "Approve Funds"
+#    no_purchaser_role: "No role in purchase decisions"
     organization_label: "Navn på Skole/Område"
     city: "By"
     state: "Stat"
@@ -801,11 +836,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
-#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account." # {change}
-#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+#    connect_with: "Connect with:"
+#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
+#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
 #    create_account: "Create a Teacher Account"
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
-#    convert_account_title: "Update to Teacher Account" # {change}
+#    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
     setup_a_class: "Opret en klasse"
 
@@ -1021,7 +1057,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     buy_course1: "Køb dette kursus"
     select_all_courses: "Vælg 'Alle Kurser' og få 50% rabat!"
     all_courses: "Alle Kurser"
-    number_students: "Antal elever"
+#    number_programming_students: "Number of Programming Students"
+#    number_total_students: "Total Students in School/District"
     enter_number_students: "Indtast antallet af elever der skal være plads til i denne klasse."
     name_class: "Navngiv din klasse"
     displayed_course_page: "Dette vil blive vist på kursussiden for dig og dine elever. Det kan ændres senere."
@@ -1061,7 +1098,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     already_enrolled: "allerede tilmeldt"
     licenses_remaining: "resterende licenser:"
     insufficient_enrollments: "utilstrækkelige betalte tilmeldinger"
-    enroll_students: "Tilmeld Elever"
     get_enrollments: "Få flere Tilmeldinger"
     change_language: "Rediger kursussprog"
     keep_using: "Forsæt Brug Af"
@@ -1210,6 +1246,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     concepts_covered: "Begreber Gennemgået"
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
+#    last_updated: "Last updated:"
 #    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Beskrivelse" # ClassroomSettingsModal
@@ -1244,7 +1281,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    language: "Language"
 #    edit_class_settings: "edit class settings"
 #    complete: "Complete"
-#    access_restricted: "Access Restricted" # My Classes page
+#    access_restricted: "Account Update Required"
 #    teacher_account_required: "A teacher account is required to access this content."
 #    create_teacher_account: "Create Teacher Account"
 #    what_is_a_teacher_account: "What's a Teacher Account?"
@@ -1286,10 +1323,14 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    assign_to_selected_students: "Assign to Selected Students"
 #    assigned: "Assigned"
 #    enroll_selected_students: "Enroll Selected Students"
+#    cant_assign_to_unenrolled: "Course cannot be assigned to students who are not enrolled."
+#    no_students_selected: "No students were selected."
 #    guides_coming_soon: "Guides coming soon!" # Courses
 #    show_students_from: "Show students from" # Enroll students modal
 #    enroll_the_following_students: "Enroll the following students"
 #    all_students: "All Students"
+#    enroll_students: "Enroll Students"
+#    not_enough_enrollments: "Not enough Enrollments available."
 #    enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
 #    enrollments_blurb_2: "require enrollments to access the courses."
 #    credits_available: "Credits Available"
@@ -1303,8 +1344,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    how_to_enroll: "How to Enroll Students"
 #    how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
 #    how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
-#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content." # {change}
-#    bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
+#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
+#    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
+#    total_unenrolled: "Total unenrolled"
 
   classes:
     archmage_title: "Ærkemager"
@@ -1638,6 +1680,11 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     you_can2: "købe en forudbetalt kode"
     you_can3: "der kan anvendes på din egen konto eller gives til andre."
 
+#  coppa_deny:
+#    text1: "Can’t wait to learn programming?"
+#    text2: "Ask your parents to create an account for you!"
+#    close: "Close Window"
+
   loading_error:
     could_not_load: "Fejl ved indlæsning fra server"
     connection_failure: "Forbindelsen mislykkedes"
@@ -1790,3 +1837,20 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     one_month_discount: "rabat på 30%: vælg imellem Rails eller HTML"
     license: "licens"
     oreilly: "ebook efter eget valg"
+
+#  calendar:
+#    year: "Year"
+#    day: "Day"
+#    month: "Month"
+#    january: "January"
+#    february: "February"
+#    march: "March"
+#    april: "April"
+#    may: "May"
+#    june: "June"
+#    july: "July"
+#    august: "August"
+#    september: "September"
+#    october: "October"
+#    november: "November"
+#    december: "December"

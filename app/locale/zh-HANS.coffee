@@ -91,7 +91,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    student_count: "Number of students:"
 #    start_playing_for_free: "Start Playing for Free!"
 #    students_and_players: "Students & Players"
-#    goto_classes: "Go to My Classes" # {change}
+#    goto_classes: "Go to My Classes"
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
@@ -118,6 +118,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     about: "关于"
     contact: "联系我们"
     twitter_follow: "关注"
+#    students: "Students"
     teachers: "教师"
     careers: "招聘"
     facebook: "Facebook"
@@ -187,6 +188,24 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_old_multiplayer: "（过时的）旧的多人竞技场"
     campaign_old_multiplayer_description: "多个文明时代的遗迹。但已经不再模拟运行这些陈旧、英雄芜绝的多人竞技场。"
 
+#  code:
+#    if: "if" # Keywords
+#    else: "else"
+#    elif: "elif"
+#    while: "while"
+#    loop: "loop"
+#    for: "for"
+#    break: "break"
+#    continue: "continue"
+#    then: "then"
+#    do: "do"
+#    end: "end"
+#    function: "function"
+#    def: "def"
+#    self: "self"
+#    hero: "hero"
+#    this: "this"
+
   share_progress_modal:
     blurb: "您的进度真快！快告诉您的家长, 您从CodeCombat学到了什么！"
     email_invalid: "邮件地址不可用。"
@@ -226,6 +245,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     connected_facebook_p: "完成注册后即可使用您的 Facebook 账号登陆。"
     facebook_exists: "此 Facebook 账号已与其他账号绑定！"
     hey_students: "同学，请输入教师提供的班级码。"
+#    birthday: "Birthday"
 
   recover:
     recover_account_title: "找回账户"
@@ -532,9 +552,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   subscribe:
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！"
-    feature1: "$t(data.levelsCount)+ 基本关卡（$t(data.worldsCount)个世界）"
-    feature2: "$t(data.heroesCount) 个强大 <strong>英雄</strong>以及各式非凡技能!"
-    feature3: "$t(data.bonusLevelsCount)+ 奖励关卡"
+    feature1: "$t(data.levelsCount)+ 基本关卡（$t(data.worldsCount)个世界）" # {change}
+    feature2: "$t(data.heroesCount) 个强大 <strong>英雄</strong>以及各式非凡技能!" # {change}
+    feature3: "$t(data.bonusLevelsCount)+ 奖励关卡" # {change}
     feature4: "每月享有{{gems}}额外宝石"
     feature5: "视频教学"
     feature6: "专业邮件支援"
@@ -629,6 +649,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     restricted_to_certain_heroes: "只有特定的英雄可以进入本关。"
 
   skill_docs:
+#    function: "function" # skill types
+#    method: "method"
+#    snippet: "snippet"
+#    number: "number"
+#    array: "array"
+#    object: "object"
+#    string: "string"
     writable: "可写" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "只读"
     action: "命令"
@@ -687,7 +714,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     nick_title: "共同创始人，CEO"
     nick_blurb: "充满动力的大牛"
     matt_title: "共同创始人，CTO"
-    matt_blurb: "自行车爱好者"
     cat_title: "关卡设计师"
     cat_blurb: "气宗"
     scott_title: "共同创始人，软件工程师"
@@ -702,6 +728,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     robin_blurb: "基架"
     josh_title: "游戏设计师"
     josh_blurb: "地面是熔岩"
+#    phoenix_title: "Software Engineer"
+#    nolan_title: "Territory Manager"
+#    elliot_title: "Partnership Manager"
     retrostyle_title: "插画师"
     retrostyle_blurb: "复古风格的游戏"
     jose_title: "音乐"
@@ -721,7 +750,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     story_statistic_2b: "200+ 个国家"
     story_statistic_3a: "的玩家，他们总共写下了"
     story_statistic_3b: "10亿行代码和说明"
-    story_statistic_3c: "，涵盖了6种编程语言。"
+    story_statistic_3c: "，涵盖了6种编程语言。" # {change}
     story_long_way_1: "尽管我们已经走了很远……"
     story_sketch_caption: "Nick在非常早期时描绘即将制作的编程游戏的草图。"
     story_long_way_2: "我们仍需不断努力才能完成我们的使命，所以……"
@@ -736,8 +765,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     jobs_benefit_6: "医疗/牙科/视觉保险" # {change}
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary, next 12 remote working"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid, next 12 remote working"
+#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
     learn_more: "了解更多"
     jobs_custom_title: "创造你自己的工作"
     jobs_custom_description: "对 CodeCombat 充满激情却没找到适合自己的职业？给我们写信说明你该如何做出贡献。我们期待你的建议！"
@@ -769,18 +798,24 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   teachers_quote:
     name: "试用申请表" # {change}
     title: "申请一个试用版" # {change}
-    subtitle: "将 CodeCombat 带到您的班级、俱乐部、学校甚至地区！" # {change}
+    subtitle: "将 CodeCombat 带到您的班级、俱乐部、学校甚至地区！"
     email_exists: "使用该账号的电子邮箱"
     phone_number: "电话号码"
     phone_number_help: "工作日时我们在哪可以找到您？"
-    role_label: "您的身份"
-    role_help: "选择您的主要身份。"
+#    primary_role_label: "Your Primary Role"
 #    role_default: "Select Role"
+#    primary_role_default: "Select Primary Role"
+#    purchaser_role_default: "Select Purchaser Role"
     tech_coordinator: "技术负责人"
     advisor: "顾问"
     principal: "校长"
     superintendent: "主管"
     parent: "家长"
+#    purchaser_role_label: "Your Purchaser Role"
+#    influence_advocate: "Influence/Advocate"
+#    evaluate_recommend: "Evaluate/Recommend"
+#    approve_funds: "Approve Funds"
+#    no_purchaser_role: "No role in purchase decisions"
     organization_label: "学校/地区的名字"
     city: "城市"
     state: "州"
@@ -801,11 +836,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
-#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account." # {change}
-#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+#    connect_with: "Connect with:"
+#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
+#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
 #    create_account: "Create a Teacher Account"
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
-#    convert_account_title: "Update to Teacher Account" # {change}
+#    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
     setup_a_class: "建立一个班级"
 
@@ -1021,7 +1057,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     buy_course1: "购买这个课程"
     select_all_courses: "可半价一次购买所有课程！"
     all_courses: "所有课程"
-    number_students: "学生人数"
+#    number_programming_students: "Number of Programming Students"
+#    number_total_students: "Total Students in School/District"
     enter_number_students: "输入该班级的学生上限人数"
     name_class: "命名您的班级"
     displayed_course_page: "这将会在课程页面显示，可被修改。"
@@ -1061,7 +1098,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     already_enrolled: "已注册"
     licenses_remaining: "证书剩余："
     insufficient_enrollments: "付费名额不足"
-    enroll_students: "招收学生"
     get_enrollments: "获取更多招收名额"
     change_language: "修改课程预言"
     keep_using: "继续使用"
@@ -1210,6 +1246,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     concepts_covered: "课目覆盖"
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
+#    last_updated: "Last updated:"
 #    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "描述" # ClassroomSettingsModal
@@ -1240,13 +1277,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     enrollments: "注册名额"
     resources: "资源"
     help: "帮助"
-
     students: "学生" # Shared
     language: "编程语言"
     edit_class_settings: "修改教室设置"
     complete: "已达成"
-
-    access_restricted: "访问受限" # My Classes page
+    access_restricted: "访问受限" # {change}
     teacher_account_required: "只有教师账号才能访问。"
     create_teacher_account: "创建教师账号"
     what_is_a_teacher_account: "什么是教师账号？"
@@ -1260,7 +1295,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_students_yet: "该课堂尚未有学生加入。"
     add_students: "添加学生"
     create_new_class: "创建新课堂"
-
     class_overview: "课堂概览" # View Class page
     avg_playtime: "单关平均通关时间"
     total_playtime: "总时长"
@@ -1289,13 +1323,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     assign_to_selected_students: "添加课堂到选中的学生"
     assigned: "已添加"
     enroll_selected_students: "注册选中的学生"
-
+#    cant_assign_to_unenrolled: "Course cannot be assigned to students who are not enrolled."
+#    no_students_selected: "No students were selected."
     guides_coming_soon: "参考指导很快会推出！" # Courses
-
     show_students_from: "展示这些学生" # Enroll students modal
     enroll_the_following_students: "注册下列学生"
     all_students: "所有学生"
-
+#    enroll_students: "Enroll Students"
+#    not_enough_enrollments: "Not enough Enrollments available."
     enrollments_blurb_1: "计算机科学学习的学生段位" # Enrollments page
     enrollments_blurb_2: "需要注册名额来加入课程。"
     credits_available: "可用额度"
@@ -1310,8 +1345,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     how_to_enroll_blurb_1: "如果学生尚未注册，在他们加入你的课堂之后，课程进度后面有一个『注册』按钮。"
     how_to_enroll_blurb_2: "如果要批量注册多名学生，在教室页面中勾选学生，然后点击『注册选中的学生』按钮。"
     how_to_enroll_blurb_3: "当学生被注册之后，他们就能访问所有的课程关卡了。" # {change}
-    bulk_pricing_blurb: "如果需要购买超过15学生名额，请联系我们获取批量采购折扣！"
-
+    bulk_pricing_blurb: "如果需要购买超过15学生名额，请联系我们获取批量采购折扣！" # {change}
+#    total_unenrolled: "Total unenrolled"
 
   classes:
     archmage_title: "大法师"
@@ -1645,6 +1680,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can2: "购买一个预购码"
     you_can3: "使用在您的账户或者给其他人。"
 
+#  coppa_deny:
+#    text1: "Can’t wait to learn programming?"
+#    text2: "Ask your parents to create an account for you!"
+#    close: "Close Window"
+
   loading_error:
     could_not_load: "载入失败"
     connection_failure: "连接失败"
@@ -1797,3 +1837,20 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     one_month_discount: "折扣 30% : 选择 Rails 或者 HTML"
     license: "许可证"
     oreilly: "您选择的电子书"
+
+#  calendar:
+#    year: "Year"
+#    day: "Day"
+#    month: "Month"
+#    january: "January"
+#    february: "February"
+#    march: "March"
+#    april: "April"
+#    may: "May"
+#    june: "June"
+#    july: "July"
+#    august: "August"
+#    september: "September"
+#    october: "October"
+#    november: "November"
+#    december: "December"

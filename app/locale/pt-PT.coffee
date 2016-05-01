@@ -23,7 +23,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     play_now: "Jogar Agora"
     im_a_teacher: "Sou um Professor"
     im_a_student: "Sou um Estudante"
-    learn_more: "Aprender mais"
+    learn_more: "Saber mais"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
 #    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
 #    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
@@ -91,7 +91,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    student_count: "Number of students:"
 #    start_playing_for_free: "Start Playing for Free!"
 #    students_and_players: "Students & Players"
-#    goto_classes: "Go to My Classes" # {change}
+#    goto_classes: "Go to My Classes"
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
@@ -118,6 +118,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     about: "Sobre"
     contact: "Contactar"
     twitter_follow: "Seguir"
+    students: "Estudantes"
     teachers: "Professores"
     careers: "Carreiras"
     facebook: "Facebook"
@@ -186,24 +187,24 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     campaign_multiplayer_description: "... nas quais programas contra outros jogadores."
     campaign_old_multiplayer: "(Obsoletas) Arenas Multijogador Antigas"
     campaign_old_multiplayer_description: "Relíquias de uma era mais civilizada. Não há simulações em curso para estas arenas multijogador, mais antigas e sem heróis."
-    
+
   code:
-    if: "si" # Keywords
-    else: "más"
-    elif: "más si"
-    while: "mientras"
-    loop: "lazo"
-    for: "por"
-    break: "descanso"
+    if: "se" # Keywords
+    else: "senão"
+    elif: "senão se"
+    while: "enquanto"
+    loop: "circular"
+    for: "para"
+    break: "parar"
     continue: "continuar"
-    then: "entonces"
-    do: "hacer"
-    end: "fin"
-    function: "función"
-    def: "definir"
-    self: "yo"
-    hero: "héroe"
-    this: "esta"
+    then: "então"
+    do: "fazer"
+    end: "fim"
+    function: "função"
+    def: "def"
+    self: "próprio"
+    hero: "herói"
+    this: "isto"
 
   share_progress_modal:
     blurb: "Estás a fazer grandes progressos! Conta ao teu educador o quanto aprendeste com o CodeCombat."
@@ -236,14 +237,15 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     school_name: "Nome e Cidade da Escola"
     optional: "opcional"
     school_name_placeholder: "Exemplo: Escola Secundária, Springfield, Illinois"
-#    or_sign_up_with: "or sign up with"
+    or_sign_up_with: "ou regista-te com"
 #    connected_gplus_header: "You've successfully connected with Google+!"
 #    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
 #    gplus_exists: "You already have an account associated with Google+!"
 #    connected_facebook_header: "You've successfully connected with Facebook!"
 #    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
 #    facebook_exists: "You already have an account associated with Facebook!"
-#    hey_students: "Students, enter the class code from your teacher."
+    hey_students: "Estudantes, introduzam o código de turma do vosso professor."
+    birthday: "Aniversário"
 
   recover:
     recover_account_title: "Recuperar Conta"
@@ -550,9 +552,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   subscribe:
     comparison_blurb: "Aperfeiçoa as tuas habilidades com uma subscrição do CodeCombat!"
-    feature1: "$t(data.levelsCount)+ níveis básicos dispersos por $t(data.worldsCount) mundos"
-    feature2: "$t(data.heroesCount) <strong>heróis novos</strong> e poderosos com habilidades únicas!"
-    feature3: "$t(data.bonusLevelsCount)+ níveis de bónus"
+    feature1: "$t(data.levelsCount)+ níveis básicos dispersos por $t(data.worldsCount) mundos" # {change}
+    feature2: "$t(data.heroesCount) <strong>heróis novos</strong> e poderosos com habilidades únicas!" # {change}
+    feature3: "$t(data.bonusLevelsCount)+ níveis de bónus" # {change}
     feature4: "<strong>{{gems}} gemas de bónus</strong> por mês!"
     feature5: "Tutoriais em vídeo"
     feature6: "Apoio por e-mail prioritário"
@@ -647,9 +649,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     restricted_to_certain_heroes: "Apenas certos heróis podem jogar este nível."
 
   skill_docs:
-    function: "función" # skill types
+    function: "função" # skill types
     method: "método"
-    snippet: "retazo"
+    snippet: "fragmento"
+    number: "número"
+    array: "'array'"
+    object: "objeto"
+    string: "'string'"
     writable: "editável" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "apenas leitura"
     action: "Ação -"
@@ -708,7 +714,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     nick_title: "Co-fundador, CEO"
     nick_blurb: "Guru da Motivação"
     matt_title: "Co-fundador, CTO"
-    matt_blurb: "Ciclista"
     cat_title: "'Designer' de Jogos"
     cat_blurb: "Mágica"
     scott_title: "Co-fundador, Engenheiro de 'Software'"
@@ -723,6 +728,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     robin_blurb: "'Scaffolding'"
     josh_title: "'Designer' de Jogos"
     josh_blurb: "'Floor Is Lava'"
+    phoenix_title: "Engenheira de 'Software'"
+    nolan_title: "Gestor de Território"
+    elliot_title: "Gestor de Parcerias"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "'RetroStyle Games'"
     jose_title: "Música"
@@ -742,7 +750,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    story_statistic_2b: "200+ countries"
 #    story_statistic_3a: "Together, they have written"
 #    story_statistic_3b: "1 billion lines of code and counting"
-#    story_statistic_3c: "across six different programming languages"
+#    story_statistic_3c: "across many different programming languages"
 #    story_long_way_1: "Though we've come a long way..."
 #    story_sketch_caption: "Nick's very first sketch depicting a programming game in action."
 #    story_long_way_2: "we still have much to do before we complete our quest, so..."
@@ -752,13 +760,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    jobs_benefit_1: "Competitive salary and options"
 #    jobs_benefit_2: "15 day minimum vacation policy, excluding company holidays"
 #    jobs_benefit_3: "Flex time and flexible work-from-home"
-#    jobs_benefit_4: "Unlimited vacation/sick/personal days"
+#    jobs_benefit_4: "Unlimited vacation"
 #    jobs_benefit_5: "Professional development and continuing education support – free books and games!"
 #    jobs_benefit_6: "Medical (gold), dental, vision"
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary, next 12 remote working"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid, next 12 remote working"
+#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
 #    learn_more: "Learn More"
 #    jobs_custom_title: "Create Your Own"
 #    jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
@@ -794,14 +802,20 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "Where can we reach you during the workday?"
-#    role_label: "Your role"
-#    role_help: "Select your primary role."
+#    primary_role_label: "Your Primary Role"
 #    role_default: "Select Role"
+#    primary_role_default: "Select Primary Role"
+#    purchaser_role_default: "Select Purchaser Role"
 #    tech_coordinator: "Technology coordinator"
 #    advisor: "Advisor"
 #    principal: "Principal"
 #    superintendent: "Superintendent"
 #    parent: "Parent"
+#    purchaser_role_label: "Your Purchaser Role"
+#    influence_advocate: "Influence/Advocate"
+#    evaluate_recommend: "Evaluate/Recommend"
+#    approve_funds: "Approve Funds"
+#    no_purchaser_role: "No role in purchase decisions"
 #    organization_label: "Name of School/District"
 #    city: "City"
 #    state: "State"
@@ -822,11 +836,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
-#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account." # {change}
-#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+#    connect_with: "Connect with:"
+#    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
+#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
 #    create_account: "Create a Teacher Account"
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
-#    convert_account_title: "Update to Teacher Account" # {change}
+#    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
 #    setup_a_class: "Set Up a Class"
 
@@ -1042,7 +1057,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     buy_course1: "Comprar este curso"
     select_all_courses: "Seleciona 'Todos os Cursos' para teres 50% de desconto!"
     all_courses: "Todos os Cursos"
-    number_students: "Número de estudantes"
+#    number_programming_students: "Number of Programming Students"
+#    number_total_students: "Total Students in School/District"
     enter_number_students: "Introduz o número de estudantes que precisas para esta turma."
     name_class: "Dá um nome à tua turma"
     displayed_course_page: "Isto vai ser mostrado na página do curso para ti e para os teus estudantes. Pode ser mudado mais tarde."
@@ -1082,7 +1098,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    already_enrolled: "already enrolled"
 #    licenses_remaining: "licenses remaining:"
 #    insufficient_enrollments: "insufficient paid enrollments"
-#    enroll_students: "Enroll Students"
 #    get_enrollments: "Get More Enrollments"
 #    change_language: "Change Course Language"
 #    keep_using: "Keep Using"
@@ -1182,7 +1197,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    use_school_email: "use your school email if you have one"
 #    unique_name: "a unique name no one has chosen"
 #    pick_something: "pick something you can remember"
-#    class_code: "Class Code"
+    class_code: "Código de Turma"
 #    optional_ask: "optional - ask your teacher to give you one!"
 #    optional_school: "optional - what school do you go to?"
 #    start_playing: "Start Playing"
@@ -1231,6 +1246,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     concepts_covered: "Conceitos Abordados"
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
+#    last_updated: "Last updated:"
 #    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Descrição" # ClassroomSettingsModal
@@ -1265,7 +1281,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    language: "Language"
 #    edit_class_settings: "edit class settings"
 #    complete: "Complete"
-#    access_restricted: "Access Restricted" # My Classes page
+#    access_restricted: "Account Update Required"
 #    teacher_account_required: "A teacher account is required to access this content."
 #    create_teacher_account: "Create Teacher Account"
 #    what_is_a_teacher_account: "What's a Teacher Account?"
@@ -1307,10 +1323,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    assign_to_selected_students: "Assign to Selected Students"
 #    assigned: "Assigned"
 #    enroll_selected_students: "Enroll Selected Students"
+#    cant_assign_to_unenrolled: "Course cannot be assigned to students who are not enrolled."
+#    no_students_selected: "No students were selected."
 #    guides_coming_soon: "Guides coming soon!" # Courses
 #    show_students_from: "Show students from" # Enroll students modal
 #    enroll_the_following_students: "Enroll the following students"
 #    all_students: "All Students"
+#    enroll_students: "Enroll Students"
+#    not_enough_enrollments: "Not enough Enrollments available."
 #    enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
 #    enrollments_blurb_2: "require enrollments to access the courses."
 #    credits_available: "Credits Available"
@@ -1324,8 +1344,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    how_to_enroll: "How to Enroll Students"
 #    how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
 #    how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
-#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content." # {change}
-#    bulk_pricing_blurb: "Purchasing for more than 15 students? Get in touch with us for bulk pricing quotes."
+#    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
+#    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
+#    total_unenrolled: "Total unenrolled"
 
   classes:
     archmage_title: "Arcomago"
@@ -1659,6 +1680,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     you_can2: "adquirir um código pré-pago"
     you_can3: "que pode ser aplicado à tua conta ou dado a outros."
 
+  coppa_deny:
+    text1: "Não podes esperar para aprender programação?"
+    text2: "Pede aos teus educadores para criarem uma conta para ti!"
+    close: "Fechar Janela"
+
   loading_error:
     could_not_load: "Erro ao carregar do servidor"
     connection_failure: "A Ligação Falhou"
@@ -1811,3 +1837,20 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     one_month_discount: "desconto de 30%: escolhe Rails ou HTML"
     license: "licença"
     oreilly: "ebook à tua escolha"
+
+  calendar:
+    year: "Ano"
+    day: "Dia"
+    month: "Mês"
+    january: "janeiro"
+    february: "fevereiro"
+    march: "março"
+    april: "abril"
+    may: "maio"
+    june: "junho"
+    july: "julho"
+    august: "agosto"
+    september: "setembro"
+    october: "outubro"
+    november: "novembro"
+    december: "dezembro"
