@@ -787,7 +787,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    location_title: "We're located in downtown SF:"
 
   teachers:
-    who_for_title: "CodeCombat dành cho ai ?"
+    who_for_title: "CodeCombat dành cho ai?"
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed. We've designed CodeCombat to appeal to both boys and girls."
 #    who_for_2: "Our Courses system allows teachers to set up classrooms, track progress and assign additional content to students through a dedicated interface."
 #    more_info_title: "Where can I find more information?"
@@ -846,12 +846,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    setup_a_class: "Set Up a Class"
 
   versions:
-    save_version_title: "Lưu Phiên bản Mới"
-    new_major_version: "Phiên bản chính mới"
-    submitting_patch: "Đang gửi một bản vá..."
-    cla_prefix: "Để lưu thay đổi, bạn phải chấp thuận với chúng tôi trước"
+    save_version_title: "Lưu phiên bản mới"
+    new_major_version: "Phiên bản chính thức mới"
+    submitting_patch: "Đang submit bản vá..."
+    cla_prefix: "Để lưu thay đổi, bạn phải chấp thuận văn bản"
     cla_url: "CLA"
-    cla_suffix: "."
+    cla_suffix: "với chúng tôi"
     cla_agree: "TÔI ĐỒNG Ý"
 #    owner_approve: "An owner will need to approve it before your changes will become visible."
 
@@ -1685,25 +1685,25 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     text2: "Hãy hỏi phụ huynh để tạo tài khoản cho bạn!"
     close: "Đóng Cửa Sổ"
 
-#  loading_error:
-#    could_not_load: "Error loading from server"
-#    connection_failure: "Connection Failed"
-#    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
-#    login_required: "Login Required"
-#    login_required_desc: "You need to be logged in to access this page."
-#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+  loading_error:
+    could_not_load: "Không kết nối được với server"
+    connection_failure: "Lỗi kết nối"
+    connection_failure_desc: "Có vẻ bạn không kết nối mạng internet! Hãy kiểm tra kết nối mạng và thử tải lại trang."
+    login_required: "Yêu cầu đăng nhập"
+    login_required_desc: "Bạn cần đăng nhập để truy cập trang này."
+    unauthorized: "Bạn cần đăng nhập. Bạn có vô hiệu hóa cookie không?"
 #    forbidden: "Forbidden"
-#    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
-#    not_found: "Not Found"
-#    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
+    forbidden_desc: "Ôi không, không có gì ở đây cả! Hãy đảm bảo rằng bạn đăng nhập đúng tài khoản, hoặc truy cập trong số những đường link phía dưới để quay lại tiếp tục lập trình!"
+    not_found: "Không tìm thấy"
+    not_found_desc: "Hm, chả có gì ở đây cả. Truy cập một trong số những đường link phía dưới để quay lại tiếp tục lập trình!"
 #    not_allowed: "Method not allowed."
 #    timeout: "Server Timeout"
-#    conflict: "Resource conflict."
-#    bad_input: "Bad input."
-#    server_error: "Server error."
+    conflict: "Xung đột tài nguyên."
+    bad_input: "Lỗi đầu vào."
+    server_error: "Lỗi server."
 #    unknown: "Unknown Error"
-#    error: "ERROR"
-#    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
+    error: "LỖI"
+    general_desc: "Có lỗi xảy ra, và có thể là lỗi do chúng tôi. Hãy cố đợi một lát và tải lại trang, hoặc truy cập một trong số những đường link phía dưới để quay lại tiếp tục lập trình!"
 
   resources:
     level: "Cấp độ"
