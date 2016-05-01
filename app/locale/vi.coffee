@@ -166,13 +166,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     purchasable: "Có thể mua" # For a hero you unlocked but haven't purchased
     available: "Khả dụng"
     skills_granted: "Đã nhận được Kĩ Năng" # Property documentation details
-    heroes: "Các Nhân Vật" # Tooltip on hero shop button from /play
+    heroes: "Các Tướng" # Tooltip on hero shop button from /play
     achievements: "Thành tích" # Tooltip on achievement list button from /play
     account: "Tài khoản" # Tooltip on account button from /play
     settings: "Tùy chỉnh" # Tooltip on settings button from /play
     poll: "Bỏ phiếu" # Tooltip on poll button from /play
     next: "Tiếp" # Go from choose hero to choose inventory before playing a level
-    change_hero: "Đổi Nhân Vật" # Go back from choose inventory to choose hero
+    change_hero: "Đổi Tướng" # Go back from choose inventory to choose hero
     buy_gems: "Mua ngọc"
     subscription_required: "Cần đăng kí"
     anonymous: "Người chơi ẩn danh"
@@ -188,23 +188,23 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
-#  code:
-#    if: "if" # Keywords
-#    else: "else"
-#    elif: "elif"
-#    while: "while"
-#    loop: "loop"
-#    for: "for"
-#    break: "break"
-#    continue: "continue"
-#    then: "then"
-#    do: "do"
-#    end: "end"
-#    function: "function"
-#    def: "def"
-#    self: "self"
-#    hero: "hero"
-#    this: "this"
+  code:
+    if: "if" # Keywords
+    else: "else"
+    elif: "elif"
+    while: "while"
+    loop: "loop"
+    for: "for"
+    break: "break"
+    continue: "continue"
+    then: "then"
+    do: "do"
+    end: "end"
+    function: "function"
+    def: "def"
+    self: "self"
+    hero: "hero"
+    this: "this"
 
   share_progress_modal:
     blurb: "Bạn đang tiến bộ rõ rệt đấy! Hãy chia sẻ cho ai đó xem bạn đã học được nhiều chừng nào với CodeCombat."
@@ -245,7 +245,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     connected_facebook_p: "Đã đăng kí thành công, bạn có thể đăng nhập bằng tài khoản Facebook."
     facebook_exists: "Bạn đã có tài khoản kết nối với Facebook!"
     hey_students: "Học viên, hãy nhập mã lớp học nhận được từ giáo viên."
-#    birthday: "Birthday"
+    birthday: "Ngày sinh"
 
   recover:
     recover_account_title: "Khôi phục tài khoản"
@@ -505,7 +505,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     multiplayer_tab: "Nhiều người chơi"
     auth_tab: "Đăng kí"
     inventory_caption: "Trang bị cho nhân vật của bạn"
-    choose_hero_caption: "Chọn nhân vật, ngôn ngữ"
+    choose_hero_caption: "Chọn tướng, ngôn ngữ"
     save_load_caption: "... và xem lịch sử"
     options_caption: "Cài đặt tùy chỉnh"
     guide_caption: "Tài liệu và hướng dẫn"
@@ -530,7 +530,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     required_purchase_title: "Yêu cầu"
     available_item: "Khả dụng"
     restricted_title: "Bị giới hạn"
-    should_equip: "(nhấn đúp chuột để trang bị)"
+    should_equip: "(click đúp để trang bị)"
     equipped: "(đã trang bị)"
     locked: "(khóa)"
     restricted: "(bị giới hạn ở màn này)"
@@ -553,7 +553,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   subscribe:
     comparison_blurb: "Tăng cường kĩ năng bằng việc đăng kí theo dõi CodeCombat!"
     feature1: "$t(data.levelsCount)+ màn chơi cơ bản trên $t(data.worldsCount) bản đồ thế giới"
-    feature2: "$t(data.heroesCount) <strong>nhât vật mới</strong> mạnh mẽ với những kĩ năng đặc biệt!"
+    feature2: "$t(data.heroesCount) <strong>tướng mới</strong> mạnh mẽ với những kĩ năng đặc biệt!"
     feature3: "$t(data.bonusLevelsCount)+ màn chơi thêm"
     feature4: "<strong>Được thưởng thêm {{gems}} ngọc</strong> mỗi tháng!"
     feature5: "Video hướng dẫn qua màn"
@@ -579,7 +579,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     parent_email_input_placeholder: "Hãy nhập địa chi email của phụ huynh bạn"
     parent_email_send: "Gửi Email"
     parent_email_sent: "Đã gửi email!"
-    parent_email_title: "Địa chỉ email của phụ huynh bạn là gì ?"
+    parent_email_title: "Địa chỉ email của phụ huynh bạn là gì?"
     parents: "Dành cho Phụ huynh"
     parents_title: "Xin chào: Con của bạn muốn học lập trình. Bạn đồng ý chứ?" # {change}
     parents_blurb1: "Con của bạn đã hoàn thiện __nLevels__ cấp độ lập trình đầu tiên với CodeCombat. Hãy giúp con bạn theo đuổi giấc mơ lập trình bằng cách đăng kí thêm khóa học."
@@ -611,42 +611,42 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     using_prepaid: "Sử dụng mã mua hàng để mua gói dịch vụ tháng"
 
   choose_hero:
-    choose_hero: "Hãy chọn một nhân vật"
+    choose_hero: "Chọn Tướng"
     programming_language: "Ngôn ngữ lập trình"
-    programming_language_description: "Bạn muốn sử dụng ngôn ngữ lập trình nào ?"
-    default: "Mặc Định"
+    programming_language_description: "Bạn muốn sử dụng ngôn ngữ lập trình nào?"
+    default: "Mặc định"
     experimental: "Thử"
-    python_blurb: "Đơn giản nhưng mạnh mẽ, tốt cho những người mới bắt đầu và cả những chuyên gia."
+    python_blurb: "Đơn giản nhưng mạnh mẽ, tốt cho cả những người mới bắt đầu và chuyên gia."
     javascript_blurb: "Ngôn ngữ của thế giới web. (Không giống với Java đâu nhé.)"
-    coffeescript_blurb: "Thực ra là JavaScript nhưng với cú pháp tốt hơn."
+    coffeescript_blurb: "Là JavaScript viết bằng cú pháp tốt hơn."
     clojure_blurb: "Lisp thời đại mới."
-    lua_blurb: "Ngôn ngữ hay dùng trong làm game."
+    lua_blurb: "Ngôn ngữ được ưa chuông để làm game."
     io_blurb: "Đơn giản nhưng ít người biết đến."
     status: "Tình trạng"
     hero_type: "Loại"
     weapons: "Vũ khí"
     weapons_warrior: "Kiếm - Tầm ngắn, Không có phép thuật"
     weapons_ranger: "Nỏ, Súng - Tầm xa, Không có phép thuật"
-    weapons_wizard: "Đũa thần, Gậy quyền lực - Tầm xa, Có phép thuật"
+    weapons_wizard: "Đũa thần, Trượng - Tầm xa, Có phép thuật"
     attack: "Tấn công" # Can also translate as "Attack"
-    health: "Máu"
+    health: "Sinh lực"
     speed: "Tốc độ"
-    regeneration: "Hồi máu/Hồi chiêu"
-    range: "Tầm nhìn/Tầm đánh" # As in "attack or visual range"
+    regeneration: "Hồi sinh lực"
+    range: "Tầm đánh/Tầm nhìn" # As in "attack or visual range"
     blocks: "Đỡ" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
-    skills: "Những kĩ năng"
-#    attack_1: "Deals"
+    skills: "Kĩ năng"
+    attack_1: "Gây ra"
 #    attack_2: "of listed"
-#    attack_3: "weapon damage."
-#    health_1: "Gains"
+    attack_3: "sát thương vũ khí."
+    health_1: "Tăng"
 #    health_2: "of listed"
-#    health_3: "armor health."
+    health_3: "giáp."
     speed_1: "Di chuyển với vận tốc"
     speed_2: "mét trên giây."
-#    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
-#    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
-#    restricted_to_certain_heroes: "Only certain heroes can play this level."
+    available_for_purchase: "Có thể mua" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Yêu cầu cấp độ:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+    restricted_to_certain_heroes: "Chỉ một số tướng chơi được màn chơi này."
 
   skill_docs:
 #    function: "function" # skill types
@@ -1680,10 +1680,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
-#  coppa_deny:
-#    text1: "Can’t wait to learn programming?"
-#    text2: "Ask your parents to create an account for you!"
-#    close: "Close Window"
+  coppa_deny:
+    text1: "Bạn muốn học lập trình ngay hôm nay?"
+    text2: "Hãy hỏi phụ huynh để tạo tài khoản cho bạn!"
+    close: "Đóng Cửa Sổ"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -1705,61 +1705,61 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 
-#  resources:
-#    level: "Level"
-#    patch: "Patch"
-#    patches: "Patches"
-#    system: "System"
-#    systems: "Systems"
-#    component: "Component"
-#    components: "Components"
-#    hero: "Hero"
-#    campaigns: "Campaigns"
+  resources:
+    level: "Cấp độ"
+    patch: "Bản vá"
+    patches: "Các bản vá"
+    system: "Hệ thống"
+    systems: "Các hệ thống"
+    component: "Component"
+    components: "Các component"
+    hero: "Tướng"
+    campaigns: "Chiến dịch"
 
-#  concepts:
-#    advanced_strings: "Advanced Strings"
-#    algorithms: "Algorithms"
-#    arguments: "Arguments"
-#    arithmetic: "Arithmetic"
-#    arrays: "Arrays"
-#    basic_syntax: "Basic Syntax"
+  concepts:
+    advanced_strings: "Chuỗi nâng cao"
+    algorithms: "Thuật toán"
+    arguments: "Đối số"
+    arithmetic: "Toán tử"
+    arrays: "Mảng"
+    basic_syntax: "Cú pháp cơ bản"
 #    boolean_logic: "Boolean Logic"
-#    break_statements: "Break Statements"
-#    classes: "Classes"
-#    continue_statements: "Continue Statements"
-#    for_loops: "For Loops"
-#    functions: "Functions"
-#    graphics: "Graphics"
-#    if_statements: "If Statements"
-#    input_handling: "Input Handling"
-#    math_operations: "Math Operations"
+    break_statements: "Câu lệnh Break"
+    classes: "Lớp"
+    continue_statements: "Câu lệnh Continue"
+    for_loops: "Vòng lặp For"
+    functions: "Hàm"
+    graphics: "Đồ họa"
+    if_statements: "Câu lệnh If"
+    input_handling: "Xử lý đầu vào"
+    math_operations: "Phép toán"
 #    object_literals: "Object Literals"
-#    parameters: "Parameters"
-#    strings: "Strings"
-#    variables: "Variables"
-#    vectors: "Vectors"
-#    while_loops: "While Loops"
-#    recursion: "Recursion"
+    parameters: "Tham số"
+    strings: "Chuỗi"
+    variables: "Biến"
+    vectors: "Các Vector"
+    while_loops: "Vòng lặp While"
+    recursion: "Đệ quy"
 
-#  delta:
-#    added: "Added"
-#    modified: "Modified"
-#    not_modified: "Not Modified"
-#    deleted: "Deleted"
+  delta:
+    added: "Đã Thêm"
+    modified: "Đã Chỉnh Sửa"
+    not_modified: "Không Chỉnh Sửa"
+    deleted: "Đã Xóa"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
-#    no_changes: "No Changes"
+    no_changes: "Không Thay Đổi"
 
-#  multiplayer:
-#    multiplayer_title: "Multiplayer Settings" # We'll be changing this around significantly soon. Until then, it's not important to translate.
-#    multiplayer_toggle: "Enable multiplayer"
-#    multiplayer_toggle_description: "Allow others to join your game."
-#    multiplayer_link_description: "Give this link to anyone to have them join you."
-#    multiplayer_hint_label: "Hint:"
-#    multiplayer_hint: " Click the link to select all, then press ⌘-C or Ctrl-C to copy the link."
-#    multiplayer_coming_soon: "More multiplayer features to come!"
-#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
+  multiplayer:
+    multiplayer_title: "Tùy chỉnh Nhiều người chơi" # We'll be changing this around significantly soon. Until then, it's not important to translate.
+    multiplayer_toggle: "Bật chế độ nhiều người chơi"
+    multiplayer_toggle_description: "Cho phép người khác tham gia game của bạn."
+    multiplayer_link_description: "Chia sẻ link này để mời họ tham gia."
+    multiplayer_hint_label: "Gợi ý:"
+    multiplayer_hint: " Click vào link để chọn tất cả, sau đó nhấn ⌘-C hoặc Ctrl-C để copy đường link."
+    multiplayer_coming_soon: "Nhiều tính năng mới cho chế độ nhiều người chơi sắp được ra mắt!"
+    multiplayer_sign_in_leaderboard: "Đăng nhập hoặc tạo tài khoản mới để đưa lời giải của bạn lên bảng xếp hạng."
 
   legal:
     page_title: "Điều khoản"
@@ -1811,7 +1811,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     rights_description: "Mô tả"
     rights_writings: "Nội dung viết"
     rights_media: "Nội dung đa phương tiện (âm thanh, âm nhạc) và bất cứ nội dung sáng tác nào được sáng tạo đặc biệt dùng riêng cho Màn chơi đó và không được sử dụng rộng rãi trong việc tạo các Màn chơi khác."
-#    rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
+    rights_clarification: "Để làm rõ hơn, bất cứ mọi thứ được bao gồm trong Level Editor với mục đích tạo màn chơi đều được coi là ấn phẩm có bản quyền, trong khi đó nội dung được tạo bằng Level Editor hoặc tải lên để phục vụ việc xây dựng các màn chơi thì không phải."
     nutshell_title: "Tóm Tắt"
     nutshell_description: "Mọi tài nguyên chúng tôi cung cấp trong Level Editor là miễn phí để xây dựng các Màn chơi. Nhưng chúng tôi có quyền hạn chế phân phối các Màn chơi (những Màn chơi được tạo trên trang codecombat.com) để chúng có thể thu phí từ chúng trong tương lại, nếu điều đó thực sự xảy ra."
     canonical: "Phiên bản tiếng Anh của tài liệu này là phiên bản chính xác, tiêu chuẩn. Nếu có sự khác biệt giữa các bản dịch, tài liệu tiếng Anh sẽ được sử dụng."
@@ -1831,11 +1831,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     in_cash: "tiền mặt"
 #    custom_wizard: "Custom CodeCombat Wizard"
 #    custom_avatar: "Custom CodeCombat avatar"
-#    heap: "for six months of \"Startup\" access"
+    heap: "trong 6 tháng cho quyền truy cập \"Startup\""
 #    credits: "credits"
-#    one_month_coupon: "coupon: choose either Rails or HTML"
-#    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-#    license: "license"
+    one_month_coupon: "phiếu coupon: lụa chọn Rails hoặc HTML"
+    one_month_discount: "giảm giá, giảm 30%: lựa chọn Rails hoặc HTML"
+    license: "giấy phép"
 #    oreilly: "ebook of your choice"
 
   calendar:
