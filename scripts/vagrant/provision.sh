@@ -3,7 +3,7 @@
 
 # some defaults
 DISTRO="trusty"
-NODE_VERSION="0.10" # 0.10 | 0.12 | 4.x | 5.x
+NODE_VERSION="5.x" # 0.10 | 0.12 | 4.x | 5.x
 
 # inform apt that there's no user to answer interactive questions
 export DEBIAN_FRONTEND=noninteractive
@@ -24,18 +24,19 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
 echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
 
 echo "updating apt sources..."
-sudo apt-get -qq update
+sudo apt-get update
 
 echo "installing prerequisites..."
-sudo apt-get -qqy install --no-install-recommends git g++ make curl wget
+sudo apt-get -y install --no-install-recommends build-essential git g++ make curl wget python2.7 mongodb-org dos2unix
 
 # install node.js
 echo "installing node.js..."
-sudo apt-get -qqy install nodejs
+sudo apt-get -y install nodejs
 echo "upgrading npm..."
 sudo npm install -g npm@latest # upgrade npm
 sudo npm install -g geoip-lite
 sudo npm install -g bower
+sudo npm install -g brunch
 
 # bind /vagrant/node_modules so that it does not leak through to the host file system
 # which triggers symlink and path size issues on Windows hosts
@@ -52,8 +53,13 @@ bower install
 
 # install mongo
 echo "installing mongodb..."
-sudo apt-get -qqy install --no-install-recommends mongodb-org
+sudo apt-get -y install --no-install-recommends mongodb-org
 
 # populate mongo
 echo "populating mongodb..."
 exec /vagrant/scripts/vagrant/fillMongo.sh
+
+find /vagrant/app/views -type f -exec dos2unix {} \;
+
+# start mongodb
+sudo service mongod start
