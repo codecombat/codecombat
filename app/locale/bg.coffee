@@ -104,7 +104,7 @@ module.exports = nativeDescription: "български език", englishDescri
   nav:
     play: "Нива" # The top nav bar entry where players choose which levels to play
     community: "Общност"
-#    courses: "Courses"
+    courses: "Курсове"
     editor: "Редактор"
     blog: "Блог"
     forum: "Форум"
