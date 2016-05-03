@@ -26,7 +26,7 @@ module.exports = class VerifierView extends RootView
       'patrol-buster', 'endangered-burl', 'thumb-biter', 'gems-or-death', 'village-guard', 'thornbush-farm',
       'back-to-back', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'range-finder', 'munchkin-swarm',
       'stillness-in-motion', 'the-agrippa-defense', 'backwoods-bombardier', 'coinucopia', 'copper-meadows',
-      'drop-the-flag', 'mind-the-trap', 'signal-corpse', 'rich-forager', 'cross-bones'
+      'drop-the-flag', 'mind-the-trap', 'signal-corpse', 'rich-forager'
     ]
 
     #testLevels = testLevels.slice 0, 15

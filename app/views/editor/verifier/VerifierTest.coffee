@@ -94,6 +94,7 @@ module.exports = class VerifierTest extends CocoClass
     @lastFrameHash = e.lastFrameHash
     @state = 'complete'
     @updateCallback? state: @state
+    @scheduleCleanup()
 
   isSucessful: () ->
     return false unless @solution?
@@ -112,11 +113,13 @@ module.exports = class VerifierTest extends CocoClass
     @error = "Failed due to non-user-code problem: #{JSON.stringify(e)}"
     @state = 'error'
     @updateCallback? state: @state
+    @scheduleCleanup()
 
   fail: (e) ->
     @error = 'Failed due to infinate loop.'
     @state = 'error'
     @updateCallback? state: @state
+    @scheduleCleanup()
 
   generateSpellsObject: ->
     aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @session.get('codeLanguage')
@@ -129,3 +132,15 @@ module.exports = class VerifierTest extends CocoClass
       console.log "Couldn't transpile!\n#{source}\n", e
       spellThang.aether.transpile ''
     spells
+
+  scheduleCleanup: ->
+    setTimeout @cleanup, 100
+
+  cleanup: =>
+    if @god
+      console.log "Destorying God"
+      @stopListening @god
+      @god.destroy()
+      console.log "Destoryed"
+      
+    @world = null
