@@ -1,6 +1,12 @@
 TeacherClassView = require 'views/courses/TeacherClassView'
 storage = require 'core/storage'
 forms = require 'core/forms'
+factories = require 'test/app/factories'
+Users = require 'collections/Users'
+Courses = require 'collections/Courses'
+Levels = require 'collections/Levels'
+LevelSessions = require 'collections/LevelSessions'
+CourseInstances = require 'collections/CourseInstances'
 
 describe '/teachers/classes/:handle', ->
   
@@ -16,19 +22,38 @@ describe 'TeacherClassView', ->
     
   describe 'when logged in', ->
     beforeEach (done) ->
-      me = require 'test/app/fixtures/teacher'
-      @classroom = require 'test/app/fixtures/classrooms/active-classroom'
-      @students = require 'test/app/fixtures/students'
-      @courses = require 'test/app/fixtures/courses'
-      @courseInstances = require 'test/app/fixtures/course-instances'
-      @levelSessions = require 'test/app/fixtures/level-sessions-partially-completed'
+      me = factories.makeUser({})
+      
+      @courses = new Courses([factories.makeCourse({name: 'First Course'}), factories.makeCourse({name: 'Second Course'})])
+      @students = new Users(_.times(2, -> factories.makeUser()))
+      @levels = new Levels(_.times(2, -> factories.makeLevel()))
+      @classroom = factories.makeClassroom({}, { @courses, members: @students, levels: [@levels, new Levels()] })
+      @courseInstances = new CourseInstances([
+        factories.makeCourseInstance({}, { course: @courses.first(), @classroom, members: @students })
+        factories.makeCourseInstance({}, { course: @courses.last(), @classroom, members: @students })
+      ])
+
+      sessions = []
+      @finishedStudent = @students.first()
+      @unfinishedStudent = @students.last()
+      for level in @levels.models
+        sessions.push(factories.makeLevelSession(
+            {state: {complete: true}},
+            {level, creator: @finishedStudent})
+        )
+      sessions.push(factories.makeLevelSession(
+          {state: {complete: false}},
+          {level: @levels.first(), creator: @unfinishedStudent})
+      )
+      @levelSessions = new LevelSessions(sessions)
       
       @view = new TeacherClassView({}, @courseInstances.first().id)
-      @view.classroom.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@classroom) })
-      @view.courses.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@courses) })
-      @view.courseInstances.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@courseInstances) })
-      @view.students.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@students) })
-      @view.classroom.sessions.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@levelSessions) })
+      @view.classroom.fakeRequests[0].respondWith({ status: 200, responseText: @classroom.stringify() })
+      @view.courses.fakeRequests[0].respondWith({ status: 200, responseText: @courses.stringify() })
+      @view.courseInstances.fakeRequests[0].respondWith({ status: 200, responseText: @courseInstances.stringify() })
+      @view.students.fakeRequests[0].respondWith({ status: 200, responseText: @students.stringify() })
+      @view.classroom.sessions.fakeRequests[0].respondWith({ status: 200, responseText: @levelSessions.stringify() })
+      @view.levels.fakeRequests[0].respondWith({ status: 200, responseText: @levels.stringify() })
       
       jasmine.demoEl(@view.$el)
       _.defer done

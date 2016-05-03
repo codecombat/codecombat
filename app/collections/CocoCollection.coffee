@@ -31,4 +31,6 @@ module.exports = class CocoCollection extends Backbone.Collection
     @loading = true
     @jqxhr
 
-  setProjection: (@project) -> 
+  setProjection: (@project) ->
+
+  stringify: -> return JSON.stringify(@toJSON())
