@@ -38,7 +38,8 @@ block content
             if test.solution
               pre #{test.solution.source}
             else
-              h4 Solution not found...
+              h4 Error Loading Test
+              pre #{test.error}
           div.col-xs-4.well
             if test.goals
               if test.frames == test.solution.frameCount

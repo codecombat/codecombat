@@ -59,7 +59,7 @@ module.exports = class VerifierTest extends CocoClass
       session.solution.seed = undefined unless _.isNumber session.solution.seed  # TODO: migrate away from submissionCount/sessionID seed objects
     catch e
       @state = 'error'
-      @error = "Could not load the session solution for #{level.get('name')}: " + e.toString()
+      @error = "Could not load the session solution for #{level.get('name')}: " + e.toString() + "\n" + e.stack
 
   grabLevelLoaderData: ->
     @world = @levelLoader.world
