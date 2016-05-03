@@ -75,7 +75,7 @@
             span(data-i18n="signup.birthday")
             | :
           .input-border
-            select#birthday-month-input.input-large.form-control(name="birthdayMonth", value=view.previousFormInputs.birthdayMonth || '', tabindex=4, style="width: 110px; float: left")
+            select#birthday-month-input.input-large.form-control(name="birthdayMonth", value=view.previousFormInputs.birthdayMonth || '', tabindex=4, style="width: 106px; float: left")
               option(value='',data-i18n="calendar.month")
               for name, val in ['january','february','march','april','may','june','july','august','september','october','november','december']
                 option(data-i18n="calendar.#{name}" value=val+1)
