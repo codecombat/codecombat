@@ -4,6 +4,7 @@ SuperModel = require 'models/SuperModel'
 God = require 'lib/God'
 GoalManager = require 'lib/world/GoalManager'
 LevelLoader = require 'lib/LevelLoader'
+utils = require 'core/utils'
 
 module.exports = class VerifierTest extends CocoClass
   constructor: (@levelID, @updateCallback, @supermodel, @language) ->
@@ -12,6 +13,11 @@ module.exports = class VerifierTest extends CocoClass
     # TODO: listen to Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem, god: @shared.god from Angel to detect when we can't load the thing
     # TODO: listen to the progress report from Angel to show a simulation progress bar (maybe even out of the number of frames we actually know it'll take)
     @supermodel ?= new SuperModel()
+
+    if utils.getQueryVariable('dev') 
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
+
     @language ?= 'python'
     @load()
 
@@ -39,8 +45,12 @@ module.exports = class VerifierTest extends CocoClass
     # TODO: reach into and find hero and get the config from the solution
     try
       hero = _.find level.get("thangs"), id: "Hero Placeholder"
-      programmable = _.find(hero.components, (x) -> x.config?.programmableMethods?.plan).config.programmableMethods.plan
-      session.solution = _.find (programmable.solutions ? []), language: session.get('codeLanguage')
+      config = _.find(hero.components, (x) -> x.config?.programmableMethods?.plan).config
+      programmable = config.programmableMethods.plan
+      solution = _.find (programmable.solutions ? []), language: session.get('codeLanguage')
+      solution.source = _.template(solution.source)(config?.programmableMethods?.plan.context)
+      session.solution = solution
+
       session.set 'heroConfig', session.solution.heroConfig
       session.set 'code', {'hero-placeholder': plan: session.solution.source}
       state = session.get 'state'
@@ -86,6 +96,7 @@ module.exports = class VerifierTest extends CocoClass
     @updateCallback? state: @state
 
   isSucessful: () ->
+    return false unless @solution?
     return false unless @frames == @solution.frameCount
     if @goals and @solution.goals
       for k of @goals

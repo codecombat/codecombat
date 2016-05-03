@@ -2,9 +2,21 @@ extends /templates/base-flat
 
 block content
   .container
+    div.row(style="margin-top: 20px")
+      div.col-sm-3
+        p.alert.alert-success(style="padding: 5px")
+          | Passed: #{view.passed}
+      div.col-sm-3
+        p.alert.alert-danger(style="padding: 5px")
+          | Failed: #{view.failed}
+
+    if view.levelIDs 
+      .progress
+        .progress-bar.progress-bar-success(role="progressbar" style="width: #{100*view.passed/view.testCount}%")
+        .progress-bar.progress-bar-danger(role="progressbar" style="width: #{100*view.failed/view.testCount}%")
+
     each test, id in view.tests
       if test.level
-
         if !test.goals
           h2(style='color: orange')= test.level.get('name')
             small= ' in ' + test.language + ''
@@ -40,11 +52,6 @@ block content
           
       else
         h1 Loading Level...
-  
-      div#tome-view
-      div#goals-veiw
-  
-      br
 
       // TODO: show errors
       // TODO: frame length
