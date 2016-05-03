@@ -81,12 +81,11 @@
 
     onLoad = function() {
       try {
-        // IE8 warning
+        // IE10 warning
         var htmlElement = document.querySelector("html");
         if (htmlElement) {
-          var classAttribute = htmlElement.getAttribute('class');
-          if (classAttribute && classAttribute.indexOf('lt-ie9') >= 0) {
-            alert("CodeCombat does not run in Internet Explorer 8 or older. Sorry!");
+          if ($.browser.msie && $.browser.versionNumber < 11) {
+            alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
           }
         }
 

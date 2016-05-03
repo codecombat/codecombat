@@ -90,7 +90,6 @@ setupExpressMiddleware = (app) ->
   app.use(express.static(path.join(__dirname, 'public'), maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
   
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
-  app.use(useragent.express())
 
   app.use(express.favicon())
   app.use(express.cookieParser())
@@ -152,9 +151,10 @@ setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
     return true if b is 'Chrome' and v < 17
     return true if b is 'Safari' and v < 6
     return true if b is 'Firefox' and v < 21
-    return true if b is 'IE' and v < 10
+    return true if b is 'IE' and v < 11
     false
 
+  app.use('/play/', useragent.express())
   app.use '/play/', (req, res, next) ->
     return next() if req.query['try-old-browser-anyway'] or not isOldBrowser req
     res.sendfile(path.join(__dirname, 'public', 'index_old_browser.html'))
