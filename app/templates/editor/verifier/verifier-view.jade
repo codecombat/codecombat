@@ -17,6 +17,12 @@ block content
 
     each test, id in view.tests
       if test.level
+        .pull-right
+              - var last = test.level.get('slug') + view.linksQueryString 
+              a.btn.btn-primary(href="/editor/verifier/" + last) Focus
+              a.btn.btn-success(href="/play/level/" + last) Play
+              a.btn.btn-warning(href="/editor/level/" + last ) Edit
+
         if !test.goals
           h2(style='color: orange')= test.level.get('name')
             small= ' in ' + test.language + ''

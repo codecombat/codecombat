@@ -13,8 +13,24 @@ module.exports = class VerifierView extends RootView
     # TODO: sort tests by unexpected result first
     @passed = 0
     @failed = 0
-    testLevels = ["dungeons-of-kithgard", "gems-in-the-deep", "shadow-guard", "kounter-kithwise", "crawlways-of-kithgard", "enemy-mine", "illusory-interruption", "forgetful-gemsmith", "signs-and-portents", "favorable-odds", "true-names", "the-prisoner", "banefire", "the-raised-sword", "kithgard-librarian", "fire-dancing", "loop-da-loop", "haunted-kithmaze", "riddling-kithmaze", "descending-further", "the-second-kithmaze", "dread-door", "cupboards-of-kithgard", "hack-and-dash", "known-enemy", "master-of-names", "lowly-kithmen", "closing-the-distance", "tactical-strike", "the-skeleton", "a-mayhem-of-munchkins", "the-final-kithmaze", "the-gauntlet", "radiant-aura", "kithgard-gates", "destroying-angel", "deadly-dungeon-rescue", "kithgard-brawl", "cavern-survival", "breakout", "attack-wisely", "kithgard-mastery", "kithgard-apprentice", "robot-ragnarok", "defense-of-plainswood", "peasant-protection", "forest-fire-dancing"]
+    testLevels = [
+      'dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'kounter-kithwise', 'crawlways-of-kithgard',
+      'enemy-mine', 'illusory-interruption', 'forgetful-gemsmith', 'signs-and-portents', 'favorable-odds',
+      'true-names', 'the-prisoner', 'banefire', 'the-raised-sword', 'kithgard-librarian', 'fire-dancing',
+      'loop-da-loop', 'haunted-kithmaze', 'riddling-kithmaze', 'descending-further', 'the-second-kithmaze',
+      'dread-door', 'cupboards-of-kithgard', 'hack-and-dash', 'known-enemy', 'master-of-names', 'lowly-kithmen',
+      'closing-the-distance', 'tactical-strike', 'the-skeleton', 'a-mayhem-of-munchkins', 'the-final-kithmaze',
+      'the-gauntlet', 'radiant-aura', 'kithgard-gates', 'destroying-angel', 'deadly-dungeon-rescue', 'kithgard-brawl',
+      'cavern-survival', 'breakout', 'attack-wisely', 'kithgard-mastery', 'kithgard-apprentice', 'robot-ragnarok',
+      'defense-of-plainswood', 'peasant-protection', 'forest-fire-dancing', 'wakka-maul', 'course-winding-trail',
+      'patrol-buster', 'endangered-burl', 'thumb-biter', 'gems-or-death', 'village-guard', 'thornbush-farm',
+      'back-to-back', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'range-finder', 'munchkin-swarm',
+      'stillness-in-motion', 'the-agrippa-defense', 'backwoods-bombardier', 'coinucopia', 'copper-meadows',
+      'drop-the-flag', 'mind-the-trap', 'signal-corpse', 'rich-forager', 'cross-bones'
+    ]
+
     #testLevels = testLevels.slice 0, 15
+    @linksQueryString = window.location.search
     @levelIDs = if @levelID then [@levelID] else testLevels
     @testCount = @levelIDs.length * 2 #One per langauge
     #supermodel = if @levelID then @supermodel else undefined
