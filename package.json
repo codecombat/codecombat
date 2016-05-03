@@ -93,7 +93,6 @@
     "after-brunch": "0.0.5",
     "assetsmanager-brunch": "^1.8.1",
     "auto-reload-brunch": "> 1.0 < 1.8",
-    "bless-brunch": "https://github.com/ThomasConner/bless-brunch/tarball/master",
     "bower": "~1.6.4",
     "brunch": "^1.8.5",
     "coffee-script-brunch": "^1.8.3",

@@ -35,6 +35,7 @@ sudo apt-get -y install nodejs
 echo "upgrading npm..."
 sudo npm install -g npm@latest # upgrade npm
 sudo npm install -g geoip-lite
+sudo npm install -g nodemon
 sudo npm install -g bower
 sudo npm install -g brunch
 
@@ -42,13 +43,17 @@ sudo npm install -g brunch
 # which triggers symlink and path size issues on Windows hosts
 mkdir -p /vagrant/node_modules
 sudo mkdir -p /node_modules
-sudo chown vagrant:vagrant /node_modules
+sudo chown -R vagrant:vagrant /node_modules
 sudo mount --bind /node_modules /vagrant/node_modules
-cd /vagrant
+
+# prepare
+find /vagrant -type f -exec dos2unix {} \;
+sudo chown -R vagrant:vagrant /home/vagrant
 
 # install npm modules
 echo "installing modules..."
-npm install
+cd /vagrant
+npm install --no-bin-links
 bower install
 
 # install mongo
@@ -58,8 +63,6 @@ sudo apt-get -y install --no-install-recommends mongodb-org
 # populate mongo
 echo "populating mongodb..."
 exec /vagrant/scripts/vagrant/fillMongo.sh
-
-find /vagrant/app/views -type f -exec dos2unix {} \;
 
 # start mongodb
 sudo service mongod start
