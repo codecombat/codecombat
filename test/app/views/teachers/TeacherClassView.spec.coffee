@@ -23,7 +23,7 @@ describe 'TeacherClassView', ->
       @courseInstances = require 'test/app/fixtures/course-instances'
       @levelSessions = require 'test/app/fixtures/level-sessions-partially-completed'
       
-      @view = new TeacherClassView()
+      @view = new TeacherClassView({}, @courseInstances.first().id)
       @view.classroom.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@classroom) })
       @view.courses.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@courses) })
       @view.courseInstances.fakeRequests.forEach (r, index) => r.respondWith({ status: 200, responseText: JSON.stringify(@courseInstances) })
