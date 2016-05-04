@@ -68,6 +68,9 @@ module.exports = class BuyGemsModal extends ModalView
   onClickProductButton: (e) ->
     @playSound 'menu-button-click'
     productID = $(e.target).closest('button').val()
+    # Don't throw error when product is not found
+    if productID.length == 0
+      return
     product = @products.findWhere { name: productID }
 
     if application.isIPadApp
