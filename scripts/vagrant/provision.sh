@@ -3,7 +3,6 @@
 
 # some defaults
 NODE_VERSION="5.x" # 0.10 | 0.12 | 4.x | 5.x | 6.x
-NODE_EXACT_VERSION="5.11.0"
 
 # inform apt that there's no user to answer interactive questions
 export DEBIAN_FRONTEND=noninteractive
@@ -27,16 +26,10 @@ sudo apt-get update
 echo "installing prerequisites..."
 sudo apt-get -y install --no-install-recommends build-essential git g++ make curl wget python2.7 dos2unix
 
-# install nvm
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
-source ~/.nvm/nvm.sh
-
 # install node.js
 echo "installing node.js..."
-nvm install ${NODE_EXACT_VERSION}
-n=$(which node);n=${n%/bin/node}; chmod -R 755 $n/bin/*; sudo cp -r $n/{bin,lib,share} /usr/local
+sudo apt-get -y install nodejs
 
-# sudo apt-get -y install nodejs
 echo "upgrading npm..."
 sudo npm install -g npm@latest # upgrade npm
 sudo npm install -g geoip-lite
