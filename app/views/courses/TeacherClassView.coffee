@@ -62,7 +62,7 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackCollection(@courses)
     
     @courseInstances = new CourseInstances()
-    @courseInstances.fetchByOwner(me.id)
+    @courseInstances.fetchForClassroom(classroomID)
     @supermodel.trackCollection(@courseInstances)
 
   onLoaded: ->

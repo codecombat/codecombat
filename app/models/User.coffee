@@ -44,7 +44,7 @@ module.exports = class User extends CocoModel
     super arguments...
 
   @getUnconflictedName: (name, done) ->
-    $.ajax "/auth/name/#{name}",
+    $.ajax "/auth/name/#{encodeURIComponent(name)}",
       cache: false
       success: (data) -> done data.name
       statusCode: 409: (data) ->
