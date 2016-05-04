@@ -63,7 +63,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     get_started_title: "Xây dựng lớp học của bạn ngay hôm nay"
     get_started_subtitle: "Xây dựng lớp học, thêm học viên, và theo dõi tiến trình học tập của họ."
     create_class: "Hoặc xây dựng một lớp học và tự trải nghiệm!"
-    teacher_screenshots_hint: "Học viên viết code và thấy sự thay đổi ngay lập tức"
+    teacher_screenshots_hint: "Học viên viết code và quan sát sự thay đổi ngay lập tức"
     request_demo: "Yêu cầu Demo"
     create_a_class: "Tạo một Lớp học"
     setup_a_class: "Xây dựng một Lớp học"
