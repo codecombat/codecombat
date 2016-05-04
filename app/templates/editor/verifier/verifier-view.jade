@@ -7,13 +7,21 @@ block content
         p.alert.alert-success(style="padding: 5px")
           | Passed: #{view.passed}
       div.col-sm-3
+        p.alert.alert-warning(style="padding: 5px")
+          | Test Problem: #{view.problem}
+      div.col-sm-3
         p.alert.alert-danger(style="padding: 5px")
           | Failed: #{view.failed}
+      div.col-sm-3
+        p.alert.alert-info(style="padding: 5px")
+          | To Run: #{view.testCount - view.passed - view.problem - view.failed}
 
     if view.levelIDs 
       .progress
         .progress-bar.progress-bar-success(role="progressbar" style="width: #{100*view.passed/view.testCount}%")
+        .progress-bar.progress-bar-warning(role="progressbar" style="width: #{100*view.problem/view.testCount}%")
         .progress-bar.progress-bar-danger(role="progressbar" style="width: #{100*view.failed/view.testCount}%")
+
 
     each test, id in view.tests
       if test.level
@@ -55,7 +63,10 @@ block content
                 else
                   div(style='color: red') ✘ #{k} (#{v.status} vs #{test.solution.goals[k]})
             else
-              h3 Running....
+              h3 Pending....
+
+            if test.error
+                pre(style="color: red") #{test.error}
           
       else
         h1 Loading Level...

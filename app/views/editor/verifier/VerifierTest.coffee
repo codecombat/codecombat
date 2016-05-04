@@ -32,9 +32,9 @@ module.exports = class VerifierTest extends CocoClass
     @grabLevelLoaderData()
 
     unless @solution
-      @updateCallback? state: 'error'
       @error = 'No solution present...'
       @state = 'error'
+      @updateCallback? state: 'error'
       return
     me.team = @team = 'humans'
     @setupGod()
