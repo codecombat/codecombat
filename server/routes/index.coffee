@@ -42,8 +42,17 @@ module.exports.setup = (app) ->
   app.post('/db/article/:handle/watchers', mw.patchable.joinWatchers(Article))
   app.delete('/db/article/:handle/watchers', mw.patchable.leaveWatchers(Article))
 
-  app.get('/db/campaign', mw.campaigns.fetchByType)
+  Campaign = require '../models/Campaign'
+  app.post('/db/campaign', mw.auth.checkHasPermission(['admin']), mw.rest.post(Campaign))
+  app.get('/db/campaign', mw.campaigns.fetchByType, mw.rest.get(Campaign))
+  app.get('/db/campaign/names', mw.named.names(Campaign))
+  app.post('/db/campaign/names', mw.named.names(Campaign))
+  app.get('/db/campaign/:handle', mw.rest.getByHandle(Campaign))
   app.put('/db/campaign/:handle', mw.campaigns.put)
+  app.get('/db/campaign/:handle/achievements', mw.campaigns.fetchRelatedAchievements)
+  app.get('/db/campaign/:handle/levels', mw.campaigns.fetchRelatedLevels)
+  app.get('/db/campaign/:handle/patches', mw.patchable.patches(Campaign))
+  app.get('/db/campaign/-/overworld', mw.campaigns.fetchOverworld)
   
   app.post('/db/classroom', mw.classrooms.post)
   app.get('/db/classroom', mw.classrooms.getByOwner)

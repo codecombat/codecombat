@@ -7,6 +7,8 @@ mongoose = require 'mongoose'
 Campaign = require '../models/Campaign'
 parse = require '../commons/parse'
 LevelSession = require '../models/LevelSession'
+Achievement = require '../models/Achievement'
+Level = require '../models/Level'
 slack = require '../slack'
 
 module.exports =
@@ -39,3 +41,42 @@ module.exports =
     res.status(200).send(campaign.toObject())
     docLink = "http://codecombat.com#{req.headers['x-current-path']}"
     slack.sendChangedSlackMessage creator: req.user, target: campaign, docLink: docLink
+
+  fetchRelatedAchievements: wrap (req, res) ->
+    campaign = yield database.getDocFromHandle(req, Campaign)
+    if not campaign
+      throw new errors.NotFound('Campaign not found.')
+    levels = campaign.get('levels') or []
+    project = parse.getProjectFromReq(req)
+    fetches = []
+    for level in _.values(levels)
+      fetches.push Achievement.find({ related: level.original }).select(project)
+    achievementses = yield fetches
+    achievements = _.flatten(achievementses)
+    res.status(200).send((achievement.toObject({req: req}) for achievement in achievements))
+
+  fetchRelatedLevels: wrap (req, res) ->
+    campaign = yield database.getDocFromHandle(req, Campaign)
+    if not campaign
+      throw new errors.NotFound('Campaign not found.')
+    levels = campaign.get('levels') or []
+    project = parse.getProjectFromReq(req)
+    sort = { 'version.major': -1, 'version.minor': -1 }
+    fetches = []
+    for level in _.values(levels)
+      query = { original: mongoose.Types.ObjectId(level.original) }
+      fetches.push Level.findOne(query).sort(sort).select(project)
+    levels = yield fetches
+    res.status(200).send((level.toObject({req: req}) for level in levels))
+
+  fetchOverworld: wrap (req, res) ->
+    project = parse.getProjectFromReq(req)
+    campaigns = yield Campaign.find({type: 'hero'}).select(project)
+    formatCampaign = (campaign) ->
+      campaign.toObject({req: req})
+      campaign.adjacentCampaigns = _.mapValues(campaign.adjacentCampaigns, (a) ->
+        _.pick(a, ['showIfUnlocked', 'color', 'name', 'description' ]))
+      for original, level of campaign.levels
+        campaign.levels[original] = _.pick level, ['locked', 'disabled', 'original', 'rewards', 'slug']
+      return campaign
+    res.status(200).send((formatCampaign(campaign) for campaign in campaigns))
