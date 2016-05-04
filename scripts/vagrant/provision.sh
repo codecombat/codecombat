@@ -2,7 +2,8 @@
 # Original content copyright (c) 2014 dpen2000 licensed under the MIT license
 
 # some defaults
-NODE_VERSION="5.11.0" # 0.10 | 0.12 | 4.x | 5.x | 6.x
+NODE_VERSION="5.x" # 0.10 | 0.12 | 4.x | 5.x | 6.x
+NODE_EXACT_VERSION="5.11.0"
 
 # inform apt that there's no user to answer interactive questions
 export DEBIAN_FRONTEND=noninteractive
@@ -16,7 +17,7 @@ sudo mv /tmp/limits.conf /etc/security/limits.conf
 sudo chown root:root /etc/security/limits.conf
 
 # install prerequisites
-# curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | sudo -E bash -
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
 echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
 
@@ -32,7 +33,7 @@ source ~/.nvm/nvm.sh
 
 # install node.js
 echo "installing node.js..."
-nvm install ${NODE_VERSION}
+nvm install ${NODE_EXACT_VERSION}
 n=$(which node);n=${n%/bin/node}; chmod -R 755 $n/bin/*; sudo cp -r $n/{bin,lib,share} /usr/local
 
 # sudo apt-get -y install nodejs
@@ -63,9 +64,10 @@ bower install
 echo "installing mongodb..."
 sudo apt-get -y install --no-install-recommends mongodb-org
 
-# populate mongo
-echo "populating mongodb..."
-exec /vagrant/scripts/vagrant/fillMongo.sh
 
 # start mongodb
 sudo service mongod start
+
+# populate mongo
+echo "populating mongodb..."
+exec /vagrant/scripts/vagrant/fillMongo.sh
