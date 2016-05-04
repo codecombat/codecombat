@@ -29,11 +29,14 @@ sudo apt-get -y install --no-install-recommends build-essential git g++ make cur
 # install node.js
 echo "installing node.js..."
 sudo apt-get -y install nodejs
+npm config set python `which python2.7`
 
 echo "upgrading npm..."
 sudo npm install -g npm@latest # upgrade npm
-sudo npm install -g geoip-lite
 sudo npm install -g bower
+sudo npm install -g brunch
+sudo npm install -g geoip-lite
+sudo npm install -g nodemon
 
 # bind /vagrant/node_modules so that it does not leak through to the host file system
 # which triggers symlink and path size issues on Windows hosts
