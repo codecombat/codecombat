@@ -1,13 +1,13 @@
 {
-	"verbose": "true",
-	"ignore": [],
-	"events": {
-	},
-	"watch": [
-		"server_config.js",
-		"server_setup.coffee",
-		"app/schemas",
-		"./server"
-	],
-	"ext":"js coffee"
+    "verbose": "true",
+    "ignore": [],
+    "events": {
+    },
+    "watch": [
+        "server_config.js",
+        "server_setup.coffee",
+        "app/schemas",
+        "./server"
+    ],
+    "ext":"js coffee"
 }
