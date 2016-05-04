@@ -20,6 +20,7 @@ module.exports = class TeacherClassView extends RootView
   template: template
   
   events:
+    'click .unarchive-btn': 'onClickUnarchive'
     'click .edit-classroom': 'onClickEditClassroom'
     'click .add-students-btn': 'onClickAddStudents'
     'click .sort-by-name': 'sortByName'
@@ -45,7 +46,7 @@ module.exports = class TeacherClassView extends RootView
     @classroom.fetch()
     @supermodel.trackModel(@classroom)
     
-    @listenTo @classroom, 'sync', ->
+    @listenToOnce @classroom, 'sync', ->
       @students = new Users()
       jqxhrs = @students.fetchForClassroom(@classroom, removeDeleted: true)
       if jqxhrs.length > 0
@@ -100,7 +101,10 @@ module.exports = class TeacherClassView extends RootView
     catch err
       message = 'Oops, unable to copy'
       noty text: message, layout: 'topCenter', type: 'error', killer: false
-    
+  
+  onClickUnarchive: ->
+    @classroom.save { archived: false }, { success: @render.bind(@) }
+  
   onClickEditClassroom: (e) ->
     classroom = @classroom
     modal = new ClassroomSettingsModal({ classroom: classroom })
