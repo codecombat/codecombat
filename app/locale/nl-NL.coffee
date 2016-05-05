@@ -189,22 +189,22 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     campaign_old_multiplayer_description: "Antieke overblijvselen van een beschaafder tijdperk. Deze oudere held-loze multiplayer arenas worden niet gesimuleert."
 
   code:
-#    if: "als" # Keywords
-#    else: "anders"
-#    elif: "anders als"
-#    while: "wanneer"
-#    loop: "lus"
-#    for: "voor"
-#    break: "breek"
-#    continue: "doorgaan"
-#    then: "daarna"
-#    do: "doe"
-#    end: "einde"
-#    function: "functie"
-#    def: "def"
-#    self: "zelf"
+    if: "als" # Keywords
+    else: "anders"
+    elif: "anders als"
+    while: "wanneer"
+    loop: "lus"
+    for: "voor"
+    break: "breek"
+    continue: "doorgaan"
+    then: "daarna"
+    do: "doe"
+    end: "einde"
+    function: "functie"
+    def: "def"
+    self: "zelf"
     hero: "held"
-#    this: "dit"
+    this: "dit"
 
   share_progress_modal:
     blurb: "Je gaat snel vooruit! Vertel aan je ouders hoeveel je geleerd hebt met CodeCombat."
@@ -834,11 +834,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     thanks_sub_header: "Bedankt voor je interesse in CodeCombat voor jouw school."
     thanks_p: "Wij zullen spoedig contact met u opnemen. Vragen? Mail ons:" # {change}
     finish_signup: "Voltooi aanmaken van jouw docenten-account:"
-    finish_signup_p:"Maak een account om een klas op te zetten, voeg leerlingen toe en bekijk hun voortgang terwijl ze leren programmeren"
+    finish_signup_p: "Maak een account om een klas op te zetten, voeg leerlingen toe en bekijk hun voortgang terwijl ze leren programmeren"
     signup_with: "Schrijf je in met:"
     connect_with: "Koppel met:"
     conversion_warning: "WAARSCHUWING: Je huidige account is een <em>Leerling Account</em>. Wanneer je dit formulier indient zal dit account gewijzigt worden naar een Docenten Account."
-    learn_more_modal:"Docenten Accounts op CodeCombat hebben de mogelijkheid om de voortgang van studenten te bekijken, inschrijvingen regelen en klaslokalen beheren. Docenten Accounts kunnen niet in een klaslokaal ingeschreven staan - als je ingeschreven staat in een klas met dit account zul je niet langer toegang hebben tot die klas wanneer je jouw account veranderd in een Docenten Account."
+    learn_more_modal: "Docenten Accounts op CodeCombat hebben de mogelijkheid om de voortgang van studenten te bekijken, inschrijvingen regelen en klaslokalen beheren. Docenten Accounts kunnen niet in een klaslokaal ingeschreven staan - als je ingeschreven staat in een klas met dit account zul je niet langer toegang hebben tot die klas wanneer je jouw account veranderd in een Docenten Account."
     create_account: "Maak een docenten-account"
     create_account_subtitle: "Krijg toegang tot exclusieve hulpmiddelen voor docenten door CodeCombat in de klas te gebruiken. <strong>Maak een klas aan</strong>, voeg leerlingen toe, en <strong>bekijk hun vooruitgang</strong>!"
     convert_account_title: "Verander in een docenten-account"
@@ -1239,7 +1239,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     students_assigned: "toegewezen leerlingen"
     length: "Lengte:"
     title: "Titel" # Flat style redesign
-    subtitle:"Bekijk cursus richtlijnen, oplossingen, en levels"
+    subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels"
     select_language: "Selecteer taal"
     select_level: "Selecteer level"
     play_level: "Speel Level"
@@ -1268,9 +1268,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     student_age_range_to: "tot"
     create_class: "Maak klas aan"
     class_name: "Klasnaam"
-    teacher_account_restricted:"Jouw account is een Docenten Account, daarom heeft dit account geen toegang tot inhoud bedoelt voor leerlingen."
+    teacher_account_restricted: "Jouw account is een Docenten Account, daarom heeft dit account geen toegang tot inhoud bedoelt voor leerlingen."
 
- # teacher:
+  teacher:
     teacher_dashboard: "Docent Dashboard" # Navbar
     my_classes: "Mijn Klassen"
     courses: "Cursussen"
@@ -1282,10 +1282,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     edit_class_settings: "pass klas instellingen aan"
     complete: "Compleet"
     access_restricted: "Account Update Benodigd"
-    teacher_account_required:"Voor deze inhoud is een docenten account vereist."
+    teacher_account_required: "Voor deze inhoud is een docenten account vereist."
     create_teacher_account: "Maak Docenten Account aan"
     what_is_a_teacher_account: "Wat is een Docenten Account?"
-    teacher_account_explanation:"Een CodeCombat Docenten account geeft je de mogelijkheid om klassen aan te maken, voortgang van leerlingen te bekijken terwijl ze de cursussen volgen, inschrijvingen beheren en hulpmiddelen te gebruiken voor het opzetten van een leerplan"
+    teacher_account_explanation: "Een CodeCombat Docenten account geeft je de mogelijkheid om klassen aan te maken, voortgang van leerlingen te bekijken terwijl ze de cursussen volgen, inschrijvingen beheren en hulpmiddelen te gebruiken voor het opzetten van een leerplan"
     current_classes: "Huidige Klassen"
     archived_classes: "Gearchiveerde Klassen"
     archived_classes_blurb: "Klassen kunnen worden gearchiveerd voor toekomstige refferentie. Dearchiveer een klas om deze weer in de lijst Huidige Klassen te zien"
