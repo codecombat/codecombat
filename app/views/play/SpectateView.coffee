@@ -135,8 +135,8 @@ module.exports = class SpectateLevelView extends RootView
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
 
-    opponentCode = @otherSession?.get('transpiledCode') or {}
-    myCode = @session.get('transpiledCode') or {}
+    opponentCode = @otherSession?.get('code') or {}
+    myCode = @session.get('code') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'
       c = opponentCode[thang]?[spell]

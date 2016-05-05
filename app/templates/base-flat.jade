@@ -54,12 +54,12 @@ mixin accountLinks
                       img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
                       span= me.displayName()
                   +accountLinks
-                    
+
                 ul.nav.navbar-nav
                   li.dropdown.hidden-xs.hidden-sm.hidden-md
                     a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
                       img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
-                      span.spr My Account
+                      span(data-i18n="nav.my_account")
                     ul.dropdown-menu
                       li.user-dropdown-header.text-center
                         span.user-level= me.level()
@@ -67,11 +67,11 @@ mixin accountLinks
                           img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
                         h5=me.displayName()
                       +accountLinks
-    
+
               ul.nav.navbar-nav
                 li
                   #language-dropdown-wrapper
-                    select.language-dropdown.form-control    
+                    select.language-dropdown.form-control
 
   block page_nav
 

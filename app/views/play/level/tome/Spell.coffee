@@ -182,6 +182,7 @@ module.exports = class Spell
       skipProtectAPI: skipProtectAPI
       includeFlow: includeFlow
       problemContext: problemContext
+      useInterpreter: if @spectateView then true else undefined
     aether = new Aether aetherOptions
     if @worker
       workerMessage =
@@ -215,8 +216,7 @@ module.exports = class Spell
 
   shouldUseTranspiledCode: ->
     # Determine whether this code has already been transpiled, or whether it's raw source needing transpilation.
-    return false if utils.getQueryVariable 'esper'  # Don't use transpiled code with interpreter
-    return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
+    return false if @spectateView or utils.getQueryVariable 'esper'  # Don't use transpiled code with interpreter
     return true if @isEnemySpell()  # Use transpiled for enemy spells.
     # Players without permissions can't view the raw code.
     return false if @observing and @levelType in ['hero', 'course']
