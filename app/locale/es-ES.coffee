@@ -118,7 +118,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     about: "Sobre nosotros"
     contact: "Contacta"
     twitter_follow: "Síguenos en Twitter"
-#    students: "Students"
+    students: "Alumnos"
     teachers: "Profesores"
     careers: "Carreras"
     facebook: "Facebook"
@@ -243,8 +243,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    gplus_exists: "You already have an account associated with Google+!"
 #    connected_facebook_header: "You've successfully connected with Facebook!"
 #    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
-#    facebook_exists: "You already have an account associated with Facebook!"
-#    hey_students: "Students, enter the class code from your teacher."
+    facebook_exists: "¡Ya posees una cuenta asociada con Facebook!"
+    hey_students: "Alumnos, ingresen el código de la clase de su maestro."
 #    birthday: "Birthday"
 
   recover:
@@ -257,7 +257,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     secondary: "Secundario"
     armor: "Armadura"
     accessories: "Accesorios"
-    misc: "Miscelanea"
+    misc: "Miscelaneos"
     books: "Libros"
 
   common:
@@ -481,19 +481,19 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_solve_then_write: "Priero, resuelve el problema. Después, escribe el código. - John Johnson"
     tip_compiler_ignores_comments: "A veces pienso que el compilador ignora mis comentarios."
     tip_understand_recursion: "La única manera de entender la recursividad, es entendiendo la recursividad."
-#    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
+    tip_life_and_polymorphism: "El código abierto es como una estructura totalmente polimórfica y heterógenea: Bienvenidos todos los tipos."
     tip_mistakes_proof_of_trying: "Los errores en tú código tan solo son una prueba de que lo estás intentando."
     tip_adding_orgres: "Redondeando los ogros."
     tip_sharpening_swords: "Afilando las espadas."
     tip_ratatouille: "No debes dejar que nadie defina tus límites debido a tu origen. Tu único límite es tu alma. - Gusteau, Ratatouille"
-#    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+    tip_nemo: "Si la vida te derrota ¿Qué hay que hacer? Nadaremos, nadaremos, nadaremos. - Dory, Encontrando a Nemo"
 #    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
 #    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
 #    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
 #    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
-#    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+    tip_good_idea: "La mejor manera para tener una buena idea es tener muchas ideas. - Linus Pauling"
 #    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
-#    tip_mulan: "Believe you can, then you will. - Mulan"
+    tip_mulan: "Si crees que puedes, entonces podrás. - Mulan"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -509,8 +509,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     save_load_caption: "... y ver la historia"
     options_caption: "Ajustes de configuración"
     guide_caption: "Documentos y pistas"
-    multiplayer_caption: "Juega con amigos!"
-    auth_caption: "Salvar tu progreso."
+    multiplayer_caption: "¡Juega con amigos!"
+    auth_caption: "Guarda tu progreso."
 
   leaderboard:
     view_other_solutions: "Ver clasificaciones"
@@ -706,10 +706,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    story_link: "Story"
 #    careers_link: "Careers"
 #    press_link: "Press"
-#    mission_title: "Our mission: make programming accessible to every student on Earth."
-#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
-#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
-#    team_title: "Meet the CodeCombat team"
+    mission_title: "Nuestra misión: lograr que la programación esté disponible para todos los alumnos de la Tierra."
+    mission_description_1: "<strong>Programar es hacer magia</strong>. Es la habilidad de crear cosas desde la imaginación. Iniciamos CodeCombat para que los alumnos experimenten en sus dedos la magia al <strong>escribir código.</strong>."
+    mission_description_2: "Ademas resulta, que esto permite aprender más rápido. MUCHO mas rápido. Es como mantener una conversación en lugar de leer un manual. Queremos llevar esa conversación a todas las escuelas y a <strong>todos los alumnos</strong>, porque todos deben tener la oportunidadde aprender la magia de la programación."
+    team_title: "Conoce al equipo de CodeCombat"
 #    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
     nick_title: "Co-Fundador" # {change}
     nick_blurb: "Guru Motivacional"
