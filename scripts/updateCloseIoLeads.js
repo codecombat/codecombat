@@ -12,6 +12,7 @@ if (process.argv.length !== 7) {
 // TODO: Find/fix case-sensitive bugs
 // TODO: Use generators and promises
 // TODO: Reduce response data via _fields param
+// TODO: Assumes 1:1 contact:email relationship (Close.io supports multiple emails for a single contact)
 
 // Save as custom fields instead of user-specific lead notes
 const commonTrialProperties = ['organization', 'city', 'state', 'country'];
@@ -27,8 +28,8 @@ const customFieldsToRemove = [
 // Skip these problematic leads
 const leadsToSkip = ['6 sınıflar', 'fdsafd', 'ashtasht', 'matt+20160404teacher3 school', 'sdfdsf', 'ddddd', 'dsfadsaf', "Nolan's School of Wonders"];
 
-const demoRequestCloseIoEmailTemplates = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
-const createTeacherCloseIoEmailTemplates = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];
+const createTeacherEmailTemplatesAuto1 = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];
+const demoRequestEmailTemplatesAuto1 = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
 
 // Prioritized Close.io lead status match list
 const closeIoInitialLeadStatuses = [
@@ -60,29 +61,32 @@ earliestDate.setUTCDate(earliestDate.getUTCDate() - 10);
 
 // ** Main program
 
-// log('DEBUG: Finding leads..');
-findCocoLeads((err, leads) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  log(`Num leads ${Object.keys(leads).length}`);
-  // log('DEBUG: Adding Intercom data..');
-  addIntercomData(leads, (err) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    // log('DEBUG: Updating leads..');
-    updateLeads(leads, (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      log("Script runtime: " + (new Date() - scriptStartTime));
+async.series([
+  upsertLeads
+],
+(err, results) => {
+  if (err) console.error(err);
+  log("Script runtime: " + (new Date() - scriptStartTime));
+}
+);
+
+function upsertLeads(done) {
+  // log('DEBUG: Finding leads..');
+  findCocoLeads((err, leads) => {
+    if (err) return done(err);
+    log(`Num leads ${Object.keys(leads).length}`);
+
+    // log('DEBUG: Adding Intercom data..');
+    addIntercomData(leads, (err) => {
+      if (err) return done(err);
+
+      // log('DEBUG: Updating leads..');
+      updateLeads(leads, (err) => {
+        return done(err);
+      });
     });
   });
-});
+}
 
 // ** Utilities
 
@@ -119,10 +123,10 @@ function getRandomEmailTemplate(templates) {
 }
 
 function isSameEmailTemplateType(template1, template2) {
-  if (createTeacherCloseIoEmailTemplates.indexOf(template1) >= 0 && createTeacherCloseIoEmailTemplates.indexOf(template2) >= 0) {
+  if (createTeacherEmailTemplatesAuto1.indexOf(template1) >= 0 && createTeacherEmailTemplatesAuto1.indexOf(template2) >= 0) {
     return true;
   }
-  if (demoRequestCloseIoEmailTemplates.indexOf(template1) >= 0 && demoRequestCloseIoEmailTemplates.indexOf(template2) >= 0) {
+  if (demoRequestEmailTemplatesAuto1.indexOf(template1) >= 0 && demoRequestEmailTemplatesAuto1.indexOf(template2) >= 0) {
     return true;
   }
   return false;
@@ -519,10 +523,10 @@ function saveNewLead(lead, done) {
       for (const contact of existingLead.contacts) {
         for (const email of contact.emails) {
           if (['create teacher', 'convert teacher'].indexOf(lead.contacts[email.email].trial.properties.siteOrigin) >= 0) {
-            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(createTeacherCloseIoEmailTemplates)));
+            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(createTeacherEmailTemplatesAuto1)));
           }
           else {
-            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(demoRequestCloseIoEmailTemplates)));
+            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(demoRequestEmailTemplatesAuto1)));
           }
         }
       }
@@ -551,9 +555,9 @@ function createFindExistingLeadFn(email, name, existingLeads) {
         return done();
       } catch (error) {
         // console.log(url);
-        // console.log(error);
+        console.log(error);
         // console.log(body);
-        return done();
+        return done(error);
       }
     });
   };
@@ -613,10 +617,10 @@ function createAddContactFn(postData, internalLead, externalLead) {
       // Send emails to new contact
       const email = postData.emails[0].email;
       if (['create teacher', 'convert teacher'].indexOf(internalLead.contacts[email].trial.properties.siteOrigin) >= 0) {
-        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(createTeacherCloseIoEmailTemplates), done);
+        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(createTeacherEmailTemplatesAuto1), getRandomEmailApiKey(), emailDelayMinutes, done);
       }
       else {
-        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(demoRequestCloseIoEmailTemplates), done);
+        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(demoRequestEmailTemplatesAuto1), getRandomEmailApiKey(), emailDelayMinutes, done);
       }
     });
   };
@@ -648,12 +652,12 @@ function createAddNoteFn(leadId, newNote) {
 
 function createSendEmailFn(email, leadId, contactId, template) {
   return (done) => {
-    return sendMail(email, leadId, contactId, template, done);
+    return sendMail(email, leadId, contactId, template, getRandomEmailApiKey(), emailDelayMinutes, done);
   };
 }
 
-function sendMail(toEmail, leadId, contactId, template, done) {
-  // console.log('DEBUG: sendMail', toEmail, leadId, contactId, template);
+function sendMail(toEmail, leadId, contactId, template, emailApiKey, delayMinutes, done) {
+  // console.log('DEBUG: sendMail', toEmail, leadId, contactId, template, emailApiKey, delayMinutes);
 
   // Check for previously sent email
   const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/activity/email/?lead_id=${leadId}`;
@@ -679,7 +683,7 @@ function sendMail(toEmail, leadId, contactId, template, done) {
 
     // Send mail
     const dateScheduled = new Date();
-    dateScheduled.setUTCMinutes(dateScheduled.getUTCMinutes() + emailDelayMinutes);
+    dateScheduled.setUTCMinutes(dateScheduled.getUTCMinutes() + delayMinutes);
     const postData = {
       to: [toEmail],
       contact_id: contactId,
@@ -689,7 +693,7 @@ function sendMail(toEmail, leadId, contactId, template, done) {
       date_scheduled: dateScheduled
     };
     const options = {
-      uri: `https://${getRandomEmailApiKey()}:X@app.close.io/api/v1/activity/email/`,
+      uri: `https://${emailApiKey}:X@app.close.io/api/v1/activity/email/`,
       body: JSON.stringify(postData)
     };
     request.post(options, (error, response, body) => {
@@ -718,13 +722,14 @@ function updateLeads(leads, done) {
       tasks.push(createFindExistingLeadFn(email.toLowerCase(), name.toLowerCase(), existingLeads));
     }
   }
-  async.parallel(tasks, (err, results) => {
+  async.series(tasks, (err, results) => {
+    if (err) return done(err);
     const tasks = [];
     for (const name in leads) {
       if (leadsToSkip.indexOf(name) >= 0) continue;
       tasks.push(createUpdateLeadFn(leads[name], existingLeads));
     }
-    async.parallel(tasks, (err, results) => {
+    async.series(tasks, (err, results) => {
       return done(err);
     });
   });

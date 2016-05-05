@@ -205,8 +205,6 @@ exports.config =
     sass:
       mode: 'native'
       allowCache: true
-    bless:
-      cacheBuster: false
     assetsmanager:
       copyTo:
         'lib/ace': ['node_modules/ace-builds/src-min-noconflict/*']

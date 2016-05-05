@@ -3,7 +3,6 @@ Course = require 'models/Course'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 Achievements = require 'collections/Achievements'
-fixtures = require './CourseVictoryModal.fixtures'
 
 describe 'ShareProgressModal', ->
   beforeEach ->

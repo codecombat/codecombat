@@ -118,7 +118,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     about: "О нас"
     contact: "Связаться"
     twitter_follow: "Подписаться"
-#    students: "Students"
+    students: "Студентам"
     teachers: "Учителям"
     careers: "Карьера"
     facebook: "Facebook"
@@ -188,23 +188,23 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_old_multiplayer: "(Устаревшее) Старые многопользовательские арены"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
-#  code:
-#    if: "if" # Keywords
-#    else: "else"
-#    elif: "elif"
-#    while: "while"
-#    loop: "loop"
-#    for: "for"
-#    break: "break"
-#    continue: "continue"
-#    then: "then"
-#    do: "do"
-#    end: "end"
-#    function: "function"
-#    def: "def"
-#    self: "self"
-#    hero: "hero"
-#    this: "this"
+  code:
+    if: "if" # Keywords
+    else: "else"
+    elif: "elif"
+    while: "while"
+    loop: "loop"
+    for: "for"
+    break: "break"
+    continue: "continue"
+    then: "then"
+    do: "do"
+    end: "end"
+    function: "function"
+    def: "def"
+    self: "self"
+    hero: "hero"
+    this: "this"
 
   share_progress_modal:
     blurb: "Вы отлично продвигаетесь! Расскажите своим родителям, как много вы уже выучили с CodeCombat."
@@ -649,13 +649,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     restricted_to_certain_heroes: "Только определенные герои могут играть на этом уровне."
 
   skill_docs:
-#    function: "function" # skill types
-#    method: "method"
-#    snippet: "snippet"
-#    number: "number"
-#    array: "array"
-#    object: "object"
-#    string: "string"
+    function: "функция" # skill types
+    method: "метод"
+    snippet: "отрезок"
+    number: "номер"
+    array: "массив"
+    object: "объект"
+    string: "строка"
     writable: "доступно для записи" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "только чтение"
     action: "Действие"

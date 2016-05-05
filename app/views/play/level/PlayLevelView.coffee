@@ -224,7 +224,10 @@ module.exports = class PlayLevelView extends RootView
       opponentSpells = opponentSpells.concat spells
     if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells')
       @session.set('teamSpells', @otherSession.get('teamSpells'))
-    opponentCode = @otherSession?.get('transpiledCode') or {}
+    if @getQueryVariable 'esper'
+      opponentCode = @otherSession?.get('code') or {}
+    else
+      opponentCode = @otherSession?.get('transpiledCode') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'

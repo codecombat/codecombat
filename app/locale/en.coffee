@@ -1240,6 +1240,7 @@
     length: "Length:"
     title: "Courses" # Flat style redesign
     subtitle: "Review course guidelines, solutions, and levels"
+    changelog: "View latest changes to course levels."
     select_language: "Select language"
     select_level: "Select level"
     play_level: "Play Level"
@@ -1348,6 +1349,7 @@
     how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
     bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
     total_unenrolled: "Total unenrolled"
+    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "Archmage"
