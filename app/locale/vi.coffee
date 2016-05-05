@@ -9,9 +9,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     old_browser_suffix: "Bạn có thể thử nếu bạn muốn, nhưng tôi nghĩ nó sẽ không hoạt động."
     ipad_browser: "Tin buồn: CodeCombat không chạy trên trình duyệt web của iPad. Tin tốt: Ứng dụng dành cho iPad của chúng tôi đang chờ sự chấp thuận của Apple."
     campaign: "Chiến dịch"
-    for_beginners: "Dành cho Người bắt đầu"
-    multiplayer: "Nhiều người chơi" # Not currently shown on home page
-    for_developers: "Dành cho Nhà phát triển" # Not currently shown on home page.
+    for_beginners: "Dành cho Người Bắt Đầu"
+    multiplayer: "Thi đấu" # Not currently shown on home page
+    for_developers: "Dành cho Nhà Phát Triển" # Not currently shown on home page.
     or_ipad: "Hoặc tải phiên bản dành cho iPad"
 
   new_home:
@@ -63,7 +63,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     get_started_title: "Xây dựng lớp học của bạn ngay hôm nay"
     get_started_subtitle: "Xây dựng lớp học, thêm học viên, và theo dõi tiến trình học tập của họ."
     create_class: "Hoặc xây dựng một lớp học và tự trải nghiệm!"
-    teacher_screenshots_hint: "Học viên viết code và thấy sự thay đổi ngay lập tức"
+    teacher_screenshots_hint: "Học viên viết code và quan sát sự thay đổi ngay lập tức"
     request_demo: "Yêu cầu Demo"
     create_a_class: "Tạo một Lớp học"
     setup_a_class: "Xây dựng một Lớp học"
@@ -857,19 +857,19 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   contact:
     contact_us: "Liên hệ CodeCombat"
-    welcome: "Rất vui được nhận tin từ bạn! Hãy dùng đơn này để gởi mail cho chúng tôi. "
-#    forum_prefix: "For anything public, please try "
-    forum_page: "Diễn đàn của chúng tôi"
-#    forum_suffix: " instead."
-#    faq_prefix: "There's also a"
-    faq: "Những câu hỏi thường gặp"
-#    subscribe_prefix: "If you need help figuring out a level, please"
-#    subscribe: "buy a CodeCombat subscription"
-#    subscribe_suffix: "and we'll be happy to help you with your code."
-#    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
-#    screenshot_included: "Screenshot included."
-#    where_reply: "Where should we reply?"
-    send: "Gởi phản hồi"
+    welcome: "Rất vui vì được gặp bạn! Hãy điềm vào form dưới đây để gửi mail cho chúng tôi. "
+    forum_prefix: "Để tìm hiểu thêm thông tin, hãy thử ghé qua "
+    forum_page: "diễn đàn của chúng tôi"
+    forum_suffix: "."
+    faq_prefix: "Bạn cũng có thể đọc"
+    faq: "FAQ (những câu hỏi thường gặp)."
+    subscribe_prefix: "Nếu bạn muốn tìm lời giải cho một màn chơi, hãy"
+    subscribe: "mua một gói subscription của CodeCombat"
+    subscribe_suffix: "và chúng tôi sẽ rất vui lòng giúp đỡ bạn."
+    subscriber_support: "Vì bạn đã mua dịch vụ của CodeCombat, email của bạn sẽ được ưu tiên hỗ trợ."
+    screenshot_included: "Bao gồm ảnh chụp màn hình."
+    where_reply: "Chúng tôi nên trả lời cho ai?"
+    send: "Gửi phản hồi"
 
   account_settings:
     title: "Cài đặt Tài khoản"

@@ -8,6 +8,7 @@ RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
+Levels = require 'collections/Levels'
 LevelSessions = require 'collections/LevelSessions'
 User = require 'models/User'
 Users = require 'collections/Users'
@@ -18,7 +19,7 @@ CourseInstances = require 'collections/CourseInstances'
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
   template: template
-  
+
   events:
     'click .edit-classroom': 'onClickEditClassroom'
     'click .add-students-btn': 'onClickAddStudents'
@@ -30,6 +31,7 @@ module.exports = class TeacherClassView extends RootView
     'click .enroll-student-button': 'onClickEnroll'
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .enroll-selected-students': 'onClickBulkEnroll'
+    'click .export-student-progress-btn': 'onClickExportStudentProgress'
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
     'change .course-select': 'onChangeCourseSelect'
@@ -37,14 +39,14 @@ module.exports = class TeacherClassView extends RootView
   initialize: (options, classroomID) ->
     super(options)
     @progressDotTemplate = require 'templates/courses/progress-dot'
-    
+
     @sortAttribute = 'name'
     @sortDirection = 1
-    
+
     @classroom = new Classroom({ _id: classroomID })
     @classroom.fetch()
     @supermodel.trackModel(@classroom)
-    
+
     @listenTo @classroom, 'sync', ->
       @students = new Users()
       jqxhrs = @students.fetchForClassroom(@classroom, removeDeleted: true)
@@ -52,47 +54,51 @@ module.exports = class TeacherClassView extends RootView
         @supermodel.trackCollection(@students)
       @listenTo @students, 'sync', @sortByName
       @listenTo @students, 'sort', @renderSelectors.bind(@, '.students-table', '.student-levels-table')
-      
+
       @classroom.sessions = new LevelSessions()
       requests = @classroom.sessions.fetchForAllClassroomMembers(@classroom)
       @supermodel.trackRequests(requests)
-      
+
     @courses = new Courses()
     @courses.fetch()
     @supermodel.trackCollection(@courses)
-    
+
     @courseInstances = new CourseInstances()
     @courseInstances.fetchForClassroom(classroomID)
     @supermodel.trackCollection(@courseInstances)
 
+    @levels = new Levels()
+    @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts'}})
+    @supermodel.trackCollection(@levels)
+
   onLoaded: ->
     @removeDeletedStudents()
-    
+
     @classCode = @classroom.get('codeCamel') or @classroom.get('code')
     @joinURL = document.location.origin + "/courses?_cc=" + @classCode
-    
+
     @earliestIncompleteLevel = helper.calculateEarliestIncomplete(@classroom, @courses, @courseInstances, @students)
     @latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, @students)
     for student in @students.models
       # TODO: this is a weird hack
       studentsStub = new Users([ student ])
       student.latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, studentsStub)
-      
+
     classroomsStub = new Classrooms([ @classroom ])
     @progressData = helper.calculateAllProgress(classroomsStub, @courses, @courseInstances, @students)
     # @conceptData = helper.calculateConceptsCovered(classroomsStub, @courses, @campaigns, @courseInstances, @students)
-    
+
     @selectedCourse = @courses.first()
     super()
-    
+
   copyCode: ->
     @$('#join-code-input').val(@classCode).select()
     @tryCopy()
-  
+
   copyURL: ->
     @$('#join-url-input').val(@joinURL).select()
     @tryCopy()
-    
+
   tryCopy: ->
     try
       document.execCommand('copy')
@@ -100,13 +106,13 @@ module.exports = class TeacherClassView extends RootView
     catch err
       message = 'Oops, unable to copy'
       noty text: message, layout: 'topCenter', type: 'error', killer: false
-    
+
   onClickEditClassroom: (e) ->
     classroom = @classroom
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
-  
+
   onClickRemoveStudentLink: (e) ->
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new RemoveStudentModal({
@@ -126,34 +132,34 @@ module.exports = class TeacherClassView extends RootView
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
-  
+
   removeDeletedStudents: () ->
     _.remove(@classroom.get('members'), (memberID) =>
       not @students.get(memberID) or @students.get(memberID)?.get('deleted')
     )
     true
-    
+
   sortByName: (e) ->
     if @sortValue is 'name'
       @sortDirection = -@sortDirection
     else
       @sortValue = 'name'
       @sortDirection = 1
-      
+
     dir = @sortDirection
     @students.comparator = (student1, student2) ->
       return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
     @students.sort()
-    
+
   sortByProgress: (e) ->
     if @sortValue is 'progress'
       @sortDirection = -@sortDirection
     else
       @sortValue = 'progress'
       @sortDirection = 1
-      
+
     dir = @sortDirection
-    
+
     @students.comparator = (student) ->
       #TODO: I would like for this to be in the Level model,
       #      but it doesn't know about its own courseNumber
@@ -162,13 +168,13 @@ module.exports = class TeacherClassView extends RootView
         return -dir
       return dir * ((1000 * level.courseNumber) + level.levelNumber)
     @students.sort()
-  
+
   getSelectedStudentIDs: ->
     @$('.student-row .checkbox-flat input:checked').map (index, checkbox) ->
       $(checkbox).data('student-id')
-    
+
   ensureInstance: (courseID) ->
-    
+
   onClickEnroll: (e) ->
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
@@ -177,7 +183,7 @@ module.exports = class TeacherClassView extends RootView
     @openModalView(modal)
     modal.once 'redeem-users', -> document.location.reload()
     application.tracker?.trackEvent 'Classroom started enroll students', category: 'Courses'
-  
+
   onClickBulkEnroll: ->
     courseID = @$('.bulk-course-select').val()
     courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
@@ -187,7 +193,30 @@ module.exports = class TeacherClassView extends RootView
     @openModalView(modal)
     modal.once 'redeem-users', -> document.location.reload()
     application.tracker?.trackEvent 'Classroom started enroll students', category: 'Courses'
-    
+
+  onClickExportStudentProgress: ->
+    # TODO: Does not yield .csv download on Safari, and instead opens a new tab with the .csv contents
+    csvContent = "data:text/csv;charset=utf-8,Username, Email, Playtime, Concepts\n"
+    for student in @students.models
+      concepts = []
+      for course, index in @courses.models
+        instance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
+        if instance && instance.hasMember(student)
+          # TODO: @levels collection is for the classroom, and not per-course
+          for level, index in @levels.models
+            progress = @progressData.get({ classroom: @classroom, course: course, level: level, user: student })
+            concepts.push(level.get('concepts') ? []) if progress?.completed
+      concepts = _.union(_.flatten(concepts))
+      conceptsString = _.map(concepts, (c) -> $.i18n.t("concepts." + c)).join(', ')
+      playtime = 0
+      for session in @classroom.sessions.models when session.get('creator') is student.id
+        playtime += session.get('playtime') or 0
+      playtimeString = moment.duration(playtime, 'seconds').humanize()
+      csvContent += "#{student.get('name')},#{student.get('email')},#{playtimeString},\"#{conceptsString}\"\n"
+    csvContent = csvContent.substring(0, csvContent.length - 1)
+    encodedUri = encodeURI(csvContent)
+    window.open(encodedUri)
+
   onClickBulkAssign: ->
     courseID = @$('.bulk-course-select').val()
     courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
@@ -196,12 +225,12 @@ module.exports = class TeacherClassView extends RootView
       user = @students.get(userID)
       user.isEnrolled()
     ).toArray()
-    
+
     @assigningToUnenrolled = _.any selectedIDs, (userID) =>
       not @students.get(userID).isEnrolled()
-    
+
     @$('.cant-assign-to-unenrolled').toggleClass('visible', @assigningToUnenrolled)
-    
+
     @assigningToNobody = selectedIDs.length is 0
     @$('.no-students-selected').toggleClass('visible', @assigningToNobody)
 
@@ -224,11 +253,11 @@ module.exports = class TeacherClassView extends RootView
           }
       }
     null
-    
+
   onBulkAssignSuccess: =>
     @render() unless @destroyed
     noty text: $.i18n.t('teacher.assigned'), layout: 'center', type: 'information', killer: true, timeout: 5000
-    
+
   onClickSelectAll: (e) ->
     e.preventDefault()
     checkboxes = @$('.student-checkbox input')
@@ -239,7 +268,7 @@ module.exports = class TeacherClassView extends RootView
       @$('.select-all input').prop('checked', true)
       checkboxes.prop('checked', true)
     null
-    
+
   onClickStudentCheckbox: (e) ->
     e.preventDefault()
     # $(e.target).$()
@@ -248,7 +277,7 @@ module.exports = class TeacherClassView extends RootView
     # checkboxes.prop('checked', false)
     checkboxes = @$('.student-checkbox input')
     @$('.select-all input').prop('checked', _.all(checkboxes, 'checked'))
-  
+
   onChangeCourseSelect: (e) ->
     @selectedCourse = @courses.get($(e.currentTarget).val())
     @renderSelectors('.render-on-course-sync')

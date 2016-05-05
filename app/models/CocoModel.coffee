@@ -450,5 +450,7 @@ class CocoModel extends Backbone.Model
     options.url = @urlRoot + '/' + (@get('original') or @id) + '/patches'
     patches.fetch(options)
     return patches
+    
+  stringify: -> return JSON.stringify(@toJSON())
 
 module.exports = CocoModel

@@ -35,7 +35,7 @@ block header
               unless me.isStudent()
                 li
                   a(href="/account/payments", data-i18n="account.payments")
-              unless me.isTeacher() || me.isStudent()
+              if me.hasSubscription() || !(me.isTeacher() || me.isStudent())
                 li
                   a(href="/account/subscription", data-i18n="account.subscription")
               unless me.isStudent()

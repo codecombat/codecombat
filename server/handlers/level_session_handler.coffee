@@ -1,6 +1,7 @@
 LevelSession = require './../models/LevelSession'
 Handler = require '../commons/Handler'
 log = require 'winston'
+LZString = require 'lz-string'
 
 TIMEOUT = 1000 * 30 # no activity for 30 seconds means it's not active
 
@@ -14,14 +15,19 @@ class LevelSessionHandler extends Handler
     super(arguments...)
 
   formatEntity: (req, document) ->
-    documentObject = super(req, document)
-    if req.user?.isAdmin() or
+    document = super(req, document)
+    submittedCode = document.submittedCode
+    unless req.user?.isAdmin() or
        req.user?.id is document.creator or
        ('employer' in (req.user?.get('permissions') ? [])) or
        not document.submittedCode  # TODO: only allow leaderboard access to non-top-5 solutions
-      return documentObject
-    else
-      return _.omit documentObject, @privateProperties
+      document = _.omit document, @privateProperties
+    if req.query.interpret
+      plan = submittedCode[if document.team is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan
+      plan = LZString.compressToUTF16 plan
+      document.interpret = plan
+      document.code = submittedCode
+    return document
 
   getActiveSessions: (req, res) ->
     return @sendForbiddenError(res) unless req.user?.isAdmin()
