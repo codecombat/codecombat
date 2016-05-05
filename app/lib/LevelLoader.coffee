@@ -115,7 +115,7 @@ module.exports = class LevelLoader extends CocoClass
 
     if @sessionID
       url = "/db/level.session/#{@sessionID}"
-      url += "?interpret=true" if @spectateMode or utils.getQueryVariable 'esper'
+      url += "?interpret=true" if @spectateMode
     else
       url = "/db/level/#{@levelID}/session"
       url += "?team=#{@team}" if @team

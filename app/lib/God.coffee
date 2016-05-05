@@ -113,7 +113,6 @@ module.exports = class God extends CocoClass
       for thangID, spellThang of spell.thangs
         continue if spellThang.thang?.programmableMethods[spell.name].cloneOf
         (userCodeMap[thangID] ?= {})[spell.name] = spellThang.aether.serialize()
-    console.log 'got UCM', userCodeMap
     userCodeMap
 
 
