@@ -89,7 +89,7 @@ logTaskComputation = (callback) ->
     callback err
 
 determineIfSessionShouldContinueAndUpdateLog = (cb) ->
-  sessionID = @clientResponseObject.originalSessionID
+  sessionID = @clientResponseObject.originalSessionIDx
   sessionRank = parseInt @clientResponseObject.originalSessionRank
   update = '$inc': {}
   if sessionRank is 0

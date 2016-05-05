@@ -21,7 +21,7 @@ module.exports = getTwoGames = (req, res) ->
       leagueID: req.body.leagueID
     getRandomSessions req.user, options, sendSessionsResponse(res)
 
-sessionSelectionString = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate leagues'
+sessionSelectionString = 'team totalScore submittedCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate leagues'
 
 sendSessionsResponse = (res) ->
   (err, sessions) ->

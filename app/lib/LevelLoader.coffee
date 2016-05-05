@@ -115,6 +115,7 @@ module.exports = class LevelLoader extends CocoClass
 
     if @sessionID
       url = "/db/level.session/#{@sessionID}"
+      url += "?interpret=true" if @spectateMode or utils.getQueryVariable 'esper'
     else
       url = "/db/level/#{@levelID}/session"
       url += "?team=#{@team}" if @team
@@ -126,7 +127,7 @@ module.exports = class LevelLoader extends CocoClass
     @session = @sessionResource.model
     if @opponentSessionID
       opponentURL = "/db/level.session/#{@opponentSessionID}"
-      opponentURL += "?interpret=true" if utils.getQueryVariable 'esper'
+      opponentURL += "?interpret=true" if @spectateMode or utils.getQueryVariable 'esper'
       opponentSession = new LevelSession().setURL opponentURL
       opponentSession.project = session.project if @headless
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
