@@ -54,12 +54,10 @@ sudo chown -R vagrant:vagrant /home/vagrant
 echo "installing modules..."
 cd /vagrant
 npm install
-bower install
 
 # install mongo
 echo "installing mongodb..."
 sudo apt-get -y install --no-install-recommends mongodb-org
-
 
 # start mongodb
 sudo service mongod start
