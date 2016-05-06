@@ -621,6 +621,7 @@
     clojure_blurb: "A modern Lisp."
     lua_blurb: "Game scripting language."
     io_blurb: "Simple but obscure."
+    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Status"
     hero_type: "Type"
     weapons: "Weapons"

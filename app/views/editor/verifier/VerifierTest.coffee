@@ -14,7 +14,7 @@ module.exports = class VerifierTest extends CocoClass
     # TODO: listen to the progress report from Angel to show a simulation progress bar (maybe even out of the number of frames we actually know it'll take)
     @supermodel ?= new SuperModel()
 
-    if utils.getQueryVariable('dev') 
+    if utils.getQueryVariable('dev')
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
 
@@ -33,8 +33,8 @@ module.exports = class VerifierTest extends CocoClass
 
     unless @solution
       @error = 'No solution present...'
-      @state = 'error'
-      @updateCallback? state: 'error'
+      @state = 'no-solution'
+      @updateCallback? state: 'no-solution'
       return
     me.team = @team = 'humans'
     @setupGod()
@@ -96,7 +96,7 @@ module.exports = class VerifierTest extends CocoClass
     @updateCallback? state: @state
     @scheduleCleanup()
 
-  isSucessful: () ->
+  isSuccessful: () ->
     return false unless @solution?
     return false unless @frames == @solution.frameCount
     if @goals and @solution.goals
@@ -116,7 +116,7 @@ module.exports = class VerifierTest extends CocoClass
     @scheduleCleanup()
 
   fail: (e) ->
-    @error = 'Failed due to infinate loop.'
+    @error = 'Failed due to infinite loop.'
     @state = 'error'
     @updateCallback? state: @state
     @scheduleCleanup()
@@ -138,9 +138,7 @@ module.exports = class VerifierTest extends CocoClass
 
   cleanup: =>
     if @god
-      console.log "Destorying God"
       @stopListening @god
       @god.destroy()
-      console.log "Destoryed"
-      
+
     @world = null
