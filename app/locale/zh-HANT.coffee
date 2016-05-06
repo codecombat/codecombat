@@ -68,7 +68,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    create_a_class: "Create a Class"
 #    setup_a_class: "Set Up a Class"
 #    have_an_account: "Have an account?"
-#    log_in: "Log In"
 #    logged_in_as: "You are currently logged in as"
 #    view_my_classes: "View my classes"
 #    computer_science: "Computer science courses for all ages"
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    login_switch: "Have an account?"
 #    check_out_wiki: "Check out our new educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     blog: "官方部落格"
     forum: "論壇"
     account: "帳號"
+#    my_account: "My Account"
     profile: "帳號資料"
     stats: "記錄"
     code: "程式碼"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     campaign_old_multiplayer_description: "多個文明時代的遺跡。已沒有模擬運行這些陳舊、英雄蕪絕的多人競技場。"
 
 #  code:
-#    if: "if" # Keywords
+#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "elif"
 #    while: "while"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     clojure_blurb: "Lisp 進化版。"
     lua_blurb: "許多遊戲引擎支援的程式語言。"
     io_blurb: "簡單但不出名。"
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "狀態"
     hero_type: "種類"
     weapons: "武器"
@@ -702,9 +702,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
 #    mission_link: "Mission"
 #    team_link: "Team"
-#    community_link: "Community"
 #    story_link: "Story"
-#    careers_link: "Careers"
 #    press_link: "Press"
 #    mission_title: "Our mission: make programming accessible to every student on Earth."
 #    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    length: "Length:"
     title: "標題" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "描述" # ClassroomSettingsModal
 #    language_select: "Select a language"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    total_playtime: "Total play time"
 #    avg_completed: "Average levels completed"
 #    total_completed: "Total levels completed"
+#    created: "Created"
 #    concepts_covered: "Concepts covered"
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
 #    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "大法師"

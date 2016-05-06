@@ -68,7 +68,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     create_a_class: "Tạo một Lớp học"
     setup_a_class: "Xây dựng một Lớp học"
     have_an_account: "Đã có tài khoản?"
-    log_in: "Đăng Nhập"
     logged_in_as: "Bạn đang đăng nhập với tên"
     view_my_classes: "Xem các lớp học của tôi"
     computer_science: "Khóa học công nghệ thông tin cho mọi lứa tuổi"
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     educator_wiki: "Wiki cho Giáo viên"
     view_profile: "Xem hồ sơ của tôi"
     view_progress: "Xem tiến trình"
-    login_switch: "Đã có tài khoản?"
     check_out_wiki: "Hãy đọc Wiki dành cho Giáo viên"
     want_coco: "Muốn đưa CodeCombat vào giảng dạy tại trường học của bạn?"
     form_select_role: "Chọn vai trò chính"
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     blog: "Blog"
     forum: "Diễn đàn"
     account: "Tài khoản"
+#    my_account: "My Account"
     profile: "Cá nhân"
     stats: "Chỉ số"
     code: "Code"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   code:
-    if: "if" # Keywords
+    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "else"
     elif: "elif"
     while: "while"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     clojure_blurb: "Lisp thời đại mới."
     lua_blurb: "Ngôn ngữ được ưa chuông để làm game."
     io_blurb: "Đơn giản nhưng ít người biết đến."
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Tình trạng"
     hero_type: "Loại"
     weapons: "Vũ khí"
@@ -702,9 +702,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     main_description: "Ở CodeCombat, việc của chúng tôi là truyền cảm hứng cho bạn."
     mission_link: "Sứ mệnh"
     team_link: "Đội ngũ"
-    community_link: "Cộng đồng"
     story_link: "Chúng tôi"
-    careers_link: "Việc làm"
     press_link: "Liên hệ"
     mission_title: "Sứ mệnh của chúng tôi: đưa lập trình đến với mọi người trên Trái Đát này."
     mission_description_1: "<strong>Lập trình thật kì diệu</strong>. Bạn có thể sáng tạo ra một thứ gì đó từ trí tưởng tượng. Chúng tôi bắt đầu CodeCombat để cho học viên những trải nghiệm nhiệm màu khi <strong>viết code</strong>."
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    length: "Length:"
     title: "Tiêu đề" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Miêu tả" # ClassroomSettingsModal
 #    language_select: "Select a language"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    total_playtime: "Total play time"
 #    avg_completed: "Average levels completed"
 #    total_completed: "Total levels completed"
+#    created: "Created"
 #    concepts_covered: "Concepts covered"
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
 #    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "Pháp Sư"

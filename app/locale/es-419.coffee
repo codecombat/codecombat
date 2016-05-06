@@ -68,7 +68,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     create_a_class: "Crear una Clase"
 #    setup_a_class: "Set Up a Class"
     have_an_account: "¿Ya tenes una cuenta?" # {change}
-    log_in: "Accesar"
     logged_in_as: "Estás actualmente conectado como"
     view_my_classes: "Ver mis clases"
     computer_science: "Cursos de informática para todas las edades"
@@ -95,9 +94,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    educator_wiki: "Educator wiki"
     view_profile: "Ver mi perfíl"
     view_progress: "Ver mi progreso"
-    login_switch: "¿Tienes una cuenta?"
     check_out_wiki: "Check out our new educator Wiki"
-#    want_coco: "¿Quiéres Code combat en tu escuela?"
+#    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
     form_select_range: "Seleccione el tamaño de la clase"
 
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     blog: "Blog"
     forum: "Foro"
     account: "Cuenta"
+#    my_account: "My Account"
     profile: "Perfil"
     stats: "Estadísticas"
     code: "Código"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     campaign_old_multiplayer_description: "Reliquias de una era más civilizada. Ninguna simulación es ejecutada para estas arenas multijugador antiguas y sin héroes."
 
 #  code:
-#    if: "if" # Keywords
+#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "elif"
 #    while: "while"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     clojure_blurb: "Un Lisp moderno."
     lua_blurb: "Lenguaje para Juegos."
     io_blurb: "Simple pero oscuro."
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Estado"
     hero_type: "Tipo"
     weapons: "Armas"
@@ -702,9 +702,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     main_description: "En CodeCombat, nuestro trabajo es asegurarnos que estás haciendo eso con una sonrisa en tu cara."
     mission_link: "Misión"
     team_link: "Equipo"
-    community_link: "Comunidad"
     story_link: "Historia"
-    careers_link: "Carreras"
     press_link: "Prensa"
     mission_title: "Nuestra misión: hacer accesible la programación para cada estudiante en la Tierra."
     mission_description_1: "<strong>La programación es mágica</strong>. Es la habilidad de crear cosas desde la pura imaginación. Empezamos CodeCombat para dar a los estudiantes la sensación de poder de la magia en la punta de sus dedos mediante el <strong>tipeo de código</strong>."
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     length: "Duración:"
     title: "Título" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Descripción" # ClassroomSettingsModal
 #    language_select: "Select a language"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    total_playtime: "Total play time"
 #    avg_completed: "Average levels completed"
 #    total_completed: "Total levels completed"
+#    created: "Created"
 #    concepts_covered: "Concepts covered"
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
 #    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "Archimago"

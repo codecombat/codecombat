@@ -188,7 +188,7 @@
     campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   code:
-    if: "if" # Keywords
+    if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "else"
     elif: "elif"
     while: "while"
@@ -1246,7 +1246,7 @@
     print_guide: "Print Guide (PDF)"
     view_guide_online: "View Guide Online (PDF)"
     last_updated: "Last updated:"
-    grants_lifetime_access: "Grants access to all Courses." # {change}
+    grants_lifetime_access: "Grants access to all Courses."
     enrollment_credits_available: "Enrollment Credits Available:"
     description: "Description" # ClassroomSettingsModal
     language_select: "Select a language"

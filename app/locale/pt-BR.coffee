@@ -68,7 +68,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    create_a_class: "Create a Class"
 #    setup_a_class: "Set Up a Class"
     have_an_account: "Tem uma conta?"
-    log_in: "Entrar"
     logged_in_as: "Você está logado como"
 #    view_my_classes: "View my classes"
 #    computer_science: "Computer science courses for all ages"
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    login_switch: "Have an account?"
 #    check_out_wiki: "Check out our new educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     blog: "Blog"
     forum: "Fórum"
     account: "Conta"
+#    my_account: "My Account"
     profile: "Perfil"
     stats: "Estatísticas"
     code: "Código"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     campaign_old_multiplayer_description: "Reliquias de uma era mais civilizada.Nenhuma simulação roda nessa antiguidade ,arenas multijogador sem heróis."
 
 #  code:
-#    if: "if" # Keywords
+#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "elif"
 #    while: "while"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     clojure_blurb: "Um Lisp moderno."
     lua_blurb: "Linguagem de script para jogos."
     io_blurb: "Simples mas obscura."
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Status"
     hero_type: "Tipo"
     weapons: "Armas"
@@ -702,9 +702,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     main_description: "No CodeCombat, nosso trabalho é assegurar que você está fazendo isso com um sorriso no rosto."
     mission_link: "Missão"
     team_link: "Time"
-    community_link: "Comunidade"
     story_link: "História"
-    careers_link: "Carreiras"
     press_link: "Pressione"
     mission_title: "Nossa missão: fazer programação acessível para todos os estudantes."
     mission_description_1: "<strong>Programação é mágica</strong>. É a habilidade de criar coisas apartir da pura imaginação. Criamos o CodeCombat para dar aos alunos a sensação de poder de um mago na ponta de seus dedos enquanto <strong>digita códigos</strong>."
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     length: "Comprimento:"
     title: "Título" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Descrição" # ClassroomSettingsModal
 #    language_select: "Select a language"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    total_playtime: "Total play time"
 #    avg_completed: "Average levels completed"
 #    total_completed: "Total levels completed"
+#    created: "Created"
 #    concepts_covered: "Concepts covered"
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
 #    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "Arquimago"

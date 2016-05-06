@@ -68,7 +68,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     create_a_class: "Erstellen Sie eine Klasse"
     setup_a_class: "Eine Klasse erstellen"
     have_an_account: "Haben Sie bereits einen Account?" # {change}
-    log_in: "Einloggen"
     logged_in_as: "Sie sind zurzeit eingeloggt als"
     view_my_classes: "Zeige meine Klassen"
     computer_science: "Informatikkurse für alle Altersgruppen"
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    login_switch: "Have an account?"
 #    check_out_wiki: "Check out our new educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     blog: "Blog"
     forum: "Forum"
     account: "Account"
+#    my_account: "My Account"
     profile: "Profil"
     stats: "Statistiken"
     code: "Code"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     campaign_old_multiplayer_description: "Relikte einer eher zivilisierten Zeit. Keine Simulationen laufen hier ab für diese älteren Multiplayerarenas ohne Helden."
 
 #  code:
-#    if: "if" # Keywords
+#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "elif"
 #    while: "while"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     clojure_blurb: "Ein modernes Lisp."
     lua_blurb: "Skriptsprache für Spiele."
     io_blurb: "Simpel aber obskur."
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Status"
     hero_type: "Typ"
     weapons: "Waffen"
@@ -702,9 +702,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     main_description: "Bei CodeCombat ist es unser Job das du das mit einem Lächeln im Gesicht tust."
     mission_link: "Mission"
     team_link: "Team"
-    community_link: "Community"
     story_link: "Geschichte"
-    careers_link: "Karrieren"
     press_link: "Presse"
     mission_title: "Unsere Mission: Programmieren jedem Schüler auf der Erde zugänglich zu machen."
     mission_description_1: "<strong>Programmieren ist Magie</strong>. Es ist die Fähigkeit Dinge aus purer Vorstellungskraft zu erschaffen. Wir starteten CodeCombat um Lernen dieses Gefühl der Zauberkraft in ihren Fingerspitzen zu geben während sie <strong>getippten Code</strong> benutzen." # {change}
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     length: "Länge:"
     title: "Titel" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Beschreibung" # ClassroomSettingsModal
 #    language_select: "Select a language"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    total_playtime: "Total play time"
 #    avg_completed: "Average levels completed"
 #    total_completed: "Total levels completed"
+#    created: "Created"
 #    concepts_covered: "Concepts covered"
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
 #    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "Erzmagier"

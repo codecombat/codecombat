@@ -68,7 +68,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     create_a_class: "Stwórz klasę"
 #    setup_a_class: "Set Up a Class"
     have_an_account: "Posiadasz już konto?" # {change}
-#    log_in: "Log In"
     logged_in_as: "Jesteś zalogowany jako"
     view_my_classes: "Pokaż moje klasy"
     computer_science: "Lekcje informatyki dla osób w każdym wieku."
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    login_switch: "Have an account?"
 #    check_out_wiki: "Check out our new educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     blog: "Blog"
     forum: "Forum"
     account: "Konto"
+#    my_account: "My Account"
     profile: "Profil"
     stats: "Statystyki"
     code: "Kod"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     campaign_old_multiplayer_description: "Relikt bardziej cywilizowanej epoki. Nie są już prowadzone żadne symulacje dla tych starych aren."
 
 #  code:
-#    if: "if" # Keywords
+#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "elif"
 #    while: "while"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     clojure_blurb: "Nowoczesny Lisp."
     lua_blurb: "Język skryptowy gier."
     io_blurb: "Prosty lecz nieznany."
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Status"
     hero_type: "Typ"
     weapons: "Bronie"
@@ -702,9 +702,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     main_description: "Naszym zadaniem jest dopilnowanie, żebyś robił to z uśmiechem na twarzy."
     mission_link: "Misja"
     team_link: "Zespół"
-    community_link: "Społeczność"
     story_link: "Historia"
-    careers_link: "Kariera"
     press_link: "Prasa"
     mission_title: "Nasza misja: każdy na Ziemi powinien mieć dostęp do nauki programowania."
     mission_description_1: "<strong>Programowanie jest jak magia</strong>. To możliwość tworzenia rzeczy na podstawie włąsnych fantazji. Stworzyliśmy CodeCombat, by nasi użytkownicy poczuli czarodziejskie moce podczas pisania <strong>prawdziwego, produkcyjnego kodu</strong>."
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     length: "Długość:"
     title: "Tytuł" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Opis" # ClassroomSettingsModal
 #    language_select: "Select a language"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    total_playtime: "Total play time"
 #    avg_completed: "Average levels completed"
 #    total_completed: "Total levels completed"
+#    created: "Created"
 #    concepts_covered: "Concepts covered"
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
 #    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "Arcymag"
