@@ -200,7 +200,7 @@
     do: "do"
     end: "end"
     function: "function"
-    def: "def"
+    def: "def" # (short for "define")
     self: "self"
     hero: "hero"
     this: "this"

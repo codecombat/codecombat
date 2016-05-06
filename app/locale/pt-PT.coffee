@@ -188,22 +188,22 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     campaign_old_multiplayer_description: "Relíquias de uma era mais civilizada. Não há simulações em curso para estas arenas multijogador, mais antigas e sem heróis."
 
   code:
-    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
-    else: "else"
-    elif: "elif"
-    while: "while"
-    loop: "loop"
-    for: "for"
-    break: "break"
-    continue: "continue"
-    then: "then"
-    do: "do"
-    end: "end"
-    function: "function"
+    if: "se" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
+    else: "senão"
+    elif: "senão se"
+    while: "enquanto"
+    loop: "circular"
+    for: "para"
+    break: "parar"
+    continue: "continuar"
+    then: "então"
+    do: "fazer"
+    end: "fim"
+    function: "função"
     def: "def"
-    self: "self"
-    hero: "hero"
-    this: "this"
+    self: "próprio"
+    hero: "herói"
+    this: "isto"
 
   share_progress_modal:
     blurb: "Estás a fazer grandes progressos! Conta ao teu educador o quanto aprendeste com o CodeCombat."
