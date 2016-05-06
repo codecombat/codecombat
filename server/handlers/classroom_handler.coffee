@@ -94,26 +94,6 @@ ClassroomHandler = class ClassroomHandler extends Handler
       return doc.toObject()
     return _.omit(doc.toObject(), 'code', 'codeCamel')
 
-  inviteStudents: (req, res, classroomID) ->
-    if not req.body.emails
-      return @sendBadInputError(res, 'Emails not included')
-
-    Classroom.findById classroomID, (err, classroom) =>
-      return @sendDatabaseError(res, err) if err
-      return @sendNotFoundError(res) unless classroom
-      return @sendForbiddenError(res) unless classroom.get('ownerID').equals(req.user.get('_id'))
-
-      for email in req.body.emails
-        context =
-          email_id: sendwithus.templates.course_invite_email
-          recipient:
-            address: email
-          email_data:
-            class_name: classroom.get('name')
-            join_link: "https://codecombat.com/courses?_cc=" + (classroom.get('codeCamel') or classroom.get('code'))
-        sendwithus.api.send context, _.noop
-      return @sendSuccess(res, {})
-
   get: (req, res) ->
     if ownerID = req.query.ownerID
       return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or ownerID is req.user.id)

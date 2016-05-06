@@ -6,6 +6,8 @@ User = require '../../server/models/User'
 Level = require '../../server/models/Level'
 Achievement = require '../../server/models/Achievement'
 Campaign = require '../../server/models/Campaign'
+Classroom = require '../../server/models/Classroom'
+TrialRequest = require '../../server/models/TrialRequest'
 campaignSchema = require '../../app/schemas/models/campaign.schema'
 campaignLevelProperties = _.keys(campaignSchema.properties.levels.additionalProperties.properties)
 campaignAdjacentCampaignProperties = _.keys(campaignSchema.properties.adjacentCampaigns.additionalProperties.properties)
@@ -125,3 +127,29 @@ module.exports = mw =
     request.post { uri: getURL('/db/campaign'), json: data }, (err, res) ->
       return done(err) if err
       Campaign.findById(res.body._id).exec done
+      
+  makeClassroom: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      name: _.uniqueId('Classroom ')
+    }, data)
+
+    request.post { uri: getURL('/db/classroom'), json: data }, (err, res) ->
+      return done(err) if err
+      Classroom.findById(res.body._id).exec done
+
+  makeTrialRequest: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      type: 'course'
+      properties: {}
+    }, data)
+
+    request.post { uri: getURL('/db/trial.request'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(201)
+      TrialRequest.findById(res.body._id).exec done
