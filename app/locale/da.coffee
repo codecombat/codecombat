@@ -68,7 +68,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     create_a_class: "Opret klasse"
     setup_a_class: "Opsæt klasse"
     have_an_account: "Har du allerede en konto?"
-    log_in: "Log ind"
     logged_in_as: "Du er i øjeblikket logget ind som"
     view_my_classes: "Se mine klasser"
     computer_science: "Datalogikurser for alle aldre"
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     educator_wiki: "Underviser wiki"
     view_profile: "Vis Min Profil"
 #    view_progress: "View Progress"
-    login_switch: "Har du en konto?"
     check_out_wiki: "Tjek vores nye pædagog Wiki"
     want_coco: "Ønsker du CodeCombat på din skole?"
     form_select_role: "Vælg primær rolle"
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     blog: "Blog"
     forum: "Forum"
     account: "Konto"
+#    my_account: "My Account"
     profile: "Profil"
     stats: "Statistik"
     code: "Kode"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     campaign_old_multiplayer_description: "Levn fra en mere civiliseret tid. Ingen simuleringer er kørt for disse ældre, helte-fattige multiplayer arenaer."
 
 #  code:
-#    if: "if" # Keywords
+#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "elif"
 #    while: "while"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     clojure_blurb: "En moderne version af Lisp."
     lua_blurb: "Spil scripting sprog."
     io_blurb: "Simpelt men obskurt."
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Status"
     hero_type: "Type"
     weapons: "Våben"
@@ -702,9 +702,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     main_description: "Hos CodeCombat er vores opgave at sikre, at du gør det med et smil på læben."
     mission_link: "Mission"
     team_link: "Hold"
-    community_link: "Fællesskab"
     story_link: "Baggrund"
-    careers_link: "Karriere"
     press_link: "Pressen"
     mission_title: "Vores mission: At gøre programmering tilgængelig for alle elever på Jorden."
     mission_description_1: "<strong>Programmering er magi</strong>. Det er evnen til at skabe ting fra ren fantasi. Vi startede CodeCombat for at give eleverne en fornemmelse af troldmandsmagt lige ved hånden ved hjælp af <strong>indtastet kode</strong>."
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     length: "Varighed:"
     title: "Titel" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Beskrivelse" # ClassroomSettingsModal
 #    language_select: "Select a language"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    total_playtime: "Total play time"
 #    avg_completed: "Average levels completed"
 #    total_completed: "Total levels completed"
+#    created: "Created"
 #    concepts_covered: "Concepts covered"
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
 #    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "Ærkemager"

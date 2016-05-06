@@ -68,7 +68,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create_a_class: "创建班级"
     setup_a_class: "配置班级"
     have_an_account: "已有帐号？" # {change}
-    log_in: "登陆"
     logged_in_as: "您现在的登录身份："
     view_my_classes: "查看我的班级"
     computer_science: "适合全年龄段的计算机科学课程"
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    login_switch: "Have an account?"
 #    check_out_wiki: "Check out our new educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     blog: "博客"
     forum: "论坛"
     account: "账号"
+#    my_account: "My Account"
     profile: "资料"
     stats: "成就"
     code: "代码"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_old_multiplayer_description: "多个文明时代的遗迹。但已经不再模拟运行这些陈旧、英雄芜绝的多人竞技场。"
 
 #  code:
-#    if: "if" # Keywords
+#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "elif"
 #    while: "while"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     clojure_blurb: "一种现代的列表处理语言。"
     lua_blurb: "一种游戏脚本语言。"
     io_blurb: "简单而晦涩。"
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "状态"
     hero_type: "种类"
     weapons: "武器"
@@ -702,9 +702,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     main_description: "在CodeCombat里，我们的职责就是为了让你面带微笑完成这项任务。"
     mission_link: "任务"
     team_link: "团队"
-    community_link: "社区"
     story_link: "历程"
-    careers_link: "招聘"
     press_link: "联系方式"
     mission_title: "我们的任务：让世上每个学生都有机会接触编程。"
     mission_description_1: "<strong>编程是一种魔法</strong>。这是一种从想象中创造万物的能力。我们开始了 CodeCombat 这个项目，是为了让学习者通过<strong>编写代码</strong>感受到他们感受到指尖上的魔力。"
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     length: "长度："
     title: "标题" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "描述" # ClassroomSettingsModal
 #    language_select: "Select a language"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     total_playtime: "总时长"
     avg_completed: "平均完成关卡数"
     total_completed: "完成总关卡数"
+#    created: "Created"
     concepts_covered: "覆盖语法概念"
     earliest_incomplete: "最近未完成关卡"
     latest_complete: "最近通关关卡"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     how_to_enroll_blurb_3: "当学生被注册之后，他们就能访问所有的课程关卡了。" # {change}
     bulk_pricing_blurb: "如果需要购买超过15学生名额，请联系我们获取批量采购折扣！" # {change}
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "大法师"

@@ -5,7 +5,7 @@ GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
 {createAetherOptions} = require 'lib/aether_utils'
 
-SIMULATOR_VERSION = 3
+SIMULATOR_VERSION = 4
 
 simulatorInfo = {}
 if $.browser
@@ -435,23 +435,20 @@ module.exports = class Simulator extends CocoClass
     generatedSpellKey = [slugifiedThangID,methodName].join '/'
     source = @currentUserCodeMap[generatedSpellKey] ? ''
     aether = @spells[spellKey].thangs[thang.id].aether
-    unless _.contains(@task.spellKeysToTranspile, generatedSpellKey)
-      aether.pure = source
-    else
-      try
-        aether.transpile source
-      catch e
-        console.log "Couldn't transpile #{spellKey}:\n#{source}\n", e
-        aether.transpile ''
+    #unless _.contains(@task.spellKeysToTranspile, generatedSpellKey)
+    try
+      aether.transpile source
+    catch e
+      console.log "Couldn't transpile #{spellKey}:\n#{source}\n", e
+      aether.transpile ''
 
   createAether: (methodName, method, useProtectAPI, codeLanguage) ->
-    aetherOptions = createAetherOptions functionName: methodName, codeLanguage: codeLanguage, skipProtectAPI: not useProtectAPI
+    aetherOptions = createAetherOptions functionName: methodName, codeLanguage: codeLanguage, skipProtectAPI: not useProtectAPI, useInterpreter: true
     return new Aether aetherOptions
 
 class SimulationTask
   constructor: (@rawData) ->
     @spellKeyToTeamMap = {}
-    @spellKeysToTranspile = []
 
   getLevelName: ->
     levelName = @rawData.sessions?[0]?.levelID
@@ -486,45 +483,23 @@ class SimulationTask
   setWorld: (@world) ->
 
   generateSpellKeyToSourceMap: ->
+    # TODO: we always now only have hero-placeholder/plan vs. hero-placeholder-1/plan on humans vs. ogres, always just have to retranspile for Esper, and never need to transpile for NPCs or other methods, so we can get rid of almost all of this stuff.
     playerTeams = _.pluck @rawData.sessions, 'team'
     spellKeyToSourceMap = {}
     for session in @rawData.sessions
       teamSpells = session.teamSpells[session.team]
       allTeams = _.keys session.teamSpells
-      nonPlayerTeams = _.difference allTeams, playerTeams
       for team in allTeams
         for spell in session.teamSpells[team]
           @spellKeyToTeamMap[spell] = team
-      for nonPlayerTeam in nonPlayerTeams
-        for spell in session.teamSpells[nonPlayerTeam]
-          spellKeyToSourceMap[spell] ?= @getWorldProgrammableSource(spell, @world)
-          @spellKeysToTranspile.push spell
       teamCode = {}
 
-      for thangName, thangSpells of session.transpiledCode
+      for thangName, thangSpells of session.submittedCode
         for spellName, spell of thangSpells
           fullSpellName = [thangName, spellName].join '/'
           if _.contains(teamSpells, fullSpellName)
-            teamCode[fullSpellName]=spell
+            teamCode[fullSpellName] = LZString.decompressFromUTF16 spell
 
       _.merge spellKeyToSourceMap, teamCode
 
     spellKeyToSourceMap
-
-  getWorldProgrammableSource: (desiredSpellKey ,world) ->
-    programmableThangs = _.filter world.thangs, 'isProgrammable'
-    @spells ?= {}
-    @thangSpells ?= {}
-    for thang in programmableThangs
-      continue if @thangSpells[thang.id]?
-      @thangSpells[thang.id] = []
-      for methodName, method of thang.programmableMethods
-        pathComponents = [thang.id, methodName]
-        if method.cloneOf
-          pathComponents[0] = method.cloneOf  # referencing another Thang's method
-        pathComponents[0] = _.string.slugify pathComponents[0]
-        spellKey = pathComponents.join '/'
-        @thangSpells[thang.id].push spellKey
-        if not method.cloneOf and spellKey is desiredSpellKey
-          #console.log "Setting #{desiredSpellKey} from world!"
-          return method.source

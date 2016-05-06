@@ -68,7 +68,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    create_a_class: "Create a Class"
 #    setup_a_class: "Set Up a Class"
 #    have_an_account: "Have an account?"
-#    log_in: "Log In"
 #    logged_in_as: "You are currently logged in as"
 #    view_my_classes: "View my classes"
 #    computer_science: "Computer science courses for all ages"
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    login_switch: "Have an account?"
 #    check_out_wiki: "Check out our new educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
@@ -104,11 +102,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   nav:
     play: "Грати" # The top nav bar entry where players choose which levels to play
     community: "Спільнота"
-#    courses: "Courses"
+    courses: "Курси"
     editor: "Редактор"
     blog: "Блоґ"
     forum: "Форум"
     account: "Акаунт"
+#    my_account: "My Account"
     profile: "Профіль"
     stats: "Статистика"
     code: "Код"
@@ -118,24 +117,24 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     about: "Про нас"
     contact: "Контакти"
     twitter_follow: "Фоловити"
-#    students: "Students"
+    students: "Учням"
     teachers: "Учителям"
     careers: "Робота"
 #    facebook: "Facebook"
 #    twitter: "Twitter"
 #    create_a_class: "Create a Class"
-#    other: "Other"
+    other: "Інше"
 #    learn_to_code: "Learn to Code!"
 #    toggle_nav: "Toggle navigation"
 #    jobs: "Jobs"
-#    schools: "Schools"
+    schools: "Школи"
 #    educator_wiki: "Educator Wiki"
 #    get_involved: "Get Involved"
 #    open_source: "Open source (GitHub)"
-#    support: "Support"
+    support: "Підтримка"
 #    faqs: "FAQs"
-#    help_pref: "Need help? Email"
-#    help_suff: "and we'll get in touch!"
+    help_pref: "Потрібна допомога? Надішліть Email"
+    help_suff: "і ми будемо на зв'язку!"
 
   modal:
     close: "Закрити"
@@ -154,7 +153,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   play:
     play_as: "Грати за" # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "Змагайтесь!" # Course details page
     spectate: "Спостерігати" # Ladder page
     players: "гравці" # Hover over a level on /play
     hours_played: "годин зіграно" # Hover over a level on /play
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
 #  code:
-#    if: "if" # Keywords
+#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "elif"
 #    while: "while"
@@ -282,7 +281,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     submit_patch: "Надіслати патч"
     submit_changes: "Надіслати зміни"
     save_changes: "Зберегти зміни"
-#    required_field: "Required field"
+    required_field: "Обов'язкове поле"
 
   general:
     and: "та"
@@ -315,7 +314,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     subject: "Предмет"
     email: "Email"
     password: "Пароль"
-#    confirm_password: "Confirm Password"
+    confirm_password: "Підтвердіть Пароль"
     message: "Повідомлення"
     code: "Код"
     ladder: "Драбина"
@@ -334,9 +333,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     warrior: "Воїн"
     ranger: "Рейнджер"
     wizard: "Чаклун"
-#    first_name: "First Name"
-#    last_name: "Last Name"
-#    username: "Username"
+    first_name: "Ім'я"
+    last_name: "Прізвище"
+    username: "Ім'я користувача"
 
   units:
     second: "секунда"
@@ -355,11 +354,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     years: "років"
 
   play_level:
-#    level_complete: "Level Complete"
-#    completed_level: "Completed Level:"
-#    course: "Course:"
+    level_complete: "Рівень завершено"
+    completed_level: "Завершено Рівень:"
+    course: "Курс:"
     done: "Готово"
-#    next_level: "Next Level"
+    next_level: "Наступний Рівень"
     next_game: "Наступна гра"
     show_menu: "Показати меню гри"
     home: "На головну" # Not used any more, will be removed soon.
@@ -479,10 +478,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tip_strong_opponents: "Навіть наймогутніший суперник має свою слабкість. - Ітачі Учіха"
     tip_paper_and_pen: "Перш ніж почати програмувати, ви завжди можете спробувати з аркушем паперу і ручкою."
     tip_solve_then_write: "Спершу вирішуй проблему, а потім - пиши код. - Джон Джонсон"
-#    tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments."
-#    tip_understand_recursion: "The only way to understand recursion is to understand recursion."
+    tip_compiler_ignores_comments: "Інколи я думаю, що компілятор ігнорує мої коментарі."
+    tip_understand_recursion: "Єдиний шлях зрозуміти рекурсію - зрозуміти рекурсію."
 #    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
-#    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
+    tip_mistakes_proof_of_trying: "Помилки у вашому коді є лише доказом того, що ви намагаєтеся."
 #    tip_adding_orgres: "Rounding up ogres."
 #    tip_sharpening_swords: "Sharpening the swords."
 #    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
@@ -559,7 +558,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     feature5: "Навчальні відеоролики"
     feature6: "Екслюзивна підтримка по електронній пошті"
     feature7: "Приватні <strong>клани</strong>"
-#    feature8: "<strong>No ads!</strong>"
+    feature8: "<strong>Жодної реклами!</strong>"
     free: "Безкоштовно"
     month: "місяць"
     must_be_logged: "Ви повинні бути залогінені. Ви можете створити акаунт або увійти в уже існуючий за допомогою меню вище."
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     clojure_blurb: "Сучасний Lisp."
     lua_blurb: "Мова ігрових сценаріїв."
     io_blurb: "Проста, але дивна."
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Статус"
     hero_type: "Тип"
     weapons: "Зброя"
@@ -698,13 +698,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     editor_config_behaviors_description: "Автоматичне закриття дужок та лапок."
 
   about:
-#    main_title: "If you want to learn to program, you need to write (a lot of) code."
-#    main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
+    main_title: "Якщо ви хочете навчитися програмувати, вам потрібно писати код (багато коду)."
+    main_description: "Тут, на CodeCombat, наше завдання - переконатися, що ви це робитимете з усмішкою на обличчі."
 #    mission_link: "Mission"
-#    team_link: "Team"
-#    community_link: "Community"
+    team_link: "Команда"
 #    story_link: "Story"
-#    careers_link: "Careers"
 #    press_link: "Press"
 #    mission_title: "Our mission: make programming accessible to every student on Earth."
 #    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
@@ -882,17 +880,17 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     wrong_password: "Невірний пароль"
     upload_picture: "Відвантажити зображення"
     delete_this_account: "Вилучити цей акаунт назовсім"
-#    reset_progress_tab: "Reset All Progress"
-#    reset_your_progress: "Clear all your progress and start over"
+    reset_progress_tab: "Скинути увесь поступ"
+    reset_your_progress: "Скинути увесь поступ і почати заново"
     god_mode: "Режим Бога"
     password_tab: "Пароль"
     emails_tab: "Email-адреси"
     admin: "Aдмін"
-#    manage_subscription: "Click here to manage your subscription."
+    manage_subscription: "Натисніть тут для керування підпискою."
     new_password: "Новий пароль"
     new_password_verify: "Підтвердження паролю"
     type_in_email: "Введіть свій email, аби підтвердити вилучення екаунту."
-#    type_in_email_progress: "Type in your email to confirm deleting your progress."
+    type_in_email_progress: "Уведіть вашу email-адресу щоб підтвердити видалення поступу."
     type_in_password: "Також, введіть свій пароль."
     email_subscriptions: "Email-підписки"
     email_subscriptions_none: "Жодних підписок."
@@ -1018,7 +1016,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   courses:
     course: "Курс"
     courses: "курси"
-#    create_new_class: "Create New Class"
+    create_new_class: "Створити Новий Клас"
     not_enrolled: "Ви не записані на цей курс."
     visit_pref: "Будь ласка, зайдіть на"
     visit_suf: "сторінку для запису."
@@ -1057,8 +1055,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     buy_course1: "Купити цей курс"
     select_all_courses: "Виберіть 'Всі курси' для 50% знижки!"
     all_courses: "Всі курси"
-#    number_programming_students: "Number of Programming Students"
-#    number_total_students: "Total Students in School/District"
+    number_programming_students: "Кількість Учнів, які Програмують"
+    number_total_students: "Всього Учнів у Школі/Районі"
     enter_number_students: "Введіть кількість студентів, потрібних для вашого класу."
     name_class: "Назвіть ваш клас"
     displayed_course_page: "Це буде видно на сторінці курса для вас і ваших студентів. Потім ви зможете це змінити."
@@ -1240,17 +1238,18 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    length: "Length:"
     title: "Тема" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
     concepts_covered: "Концептів покрито"
-#    print_guide: "Print Guide (PDF)"
-#    view_guide_online: "View Guide Online (PDF)"
+    print_guide: "Надрукувати Настанову (PDF)"
+    view_guide_online: "Переглянути Настанову в Режимі Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
     description: "Опис" # ClassroomSettingsModal
-#    language_select: "Select a language"
+    language_select: "Оберіть Мову"
 #    language_cannot_change: "Language cannot be changed once students join a class."
 #    learn_p: "Learn Python"
 #    learn_j: "Learn JavaScript"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    total_playtime: "Total play time"
 #    avg_completed: "Average levels completed"
 #    total_completed: "Total levels completed"
+#    created: "Created"
 #    concepts_covered: "Concepts covered"
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
 #    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "Архімаг"

@@ -6,6 +6,7 @@ User = require '../../../server/models/User'
 TrialRequest = require '../../../server/models/TrialRequest'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
+delighted = require '../../../server/delighted'
 
 fixture = {
   type: 'subscription'
@@ -14,12 +15,18 @@ fixture = {
     age: '14-17'
     numStudents: 14
     heardAbout: 'magical interwebs'
+    firstName: 'First'
+    lastName: 'Last'
 }
 
 describe 'POST /db/trial.request', ->
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, TrialRequest])
+    spyOn(delighted, 'postPeople')
+    done()
 
   it 'sets type and properties given', utils.wrap (done) ->
-    yield utils.clearModels([User, TrialRequest])
     @user = yield utils.initUser()
     yield utils.loginUser(@user)
     fixture.properties.email = @user.get('email')
@@ -32,7 +39,6 @@ describe 'POST /db/trial.request', ->
     done()
 
   it 'sets applicant to the user\'s id', utils.wrap (done) ->
-    yield utils.clearModels([User, TrialRequest])
     @user = yield utils.initUser()
     yield utils.loginUser(@user)
     fixture.properties.email = @user.get('email')
@@ -44,7 +50,6 @@ describe 'POST /db/trial.request', ->
     done()
 
   it 'creates trial request for anonymous user', utils.wrap (done) ->
-    yield utils.clearModels([User, TrialRequest])
     @user = yield utils.initUser({anonymous: true})
     yield utils.loginUser(@user)
     email = 'someone@test.com'
@@ -57,7 +62,6 @@ describe 'POST /db/trial.request', ->
     done()
 
   it 'prevents trial request for anonymous user with conflicting email', utils.wrap (done) ->
-    yield utils.clearModels([User, TrialRequest])
     @otherUser = yield utils.initUser()
     @user = yield utils.initUser({anonymous: true})
     yield utils.loginUser(@user)
@@ -66,7 +70,6 @@ describe 'POST /db/trial.request', ->
     done()
 
   it 'updates an existing TrialRequest if there is one', utils.wrap (done) ->
-    yield utils.clearModels([User, TrialRequest])
     @user = yield utils.initUser()
     yield utils.loginUser(@user)
     fixture.properties.email = @user.get('email')
@@ -86,6 +89,17 @@ describe 'POST /db/trial.request', ->
     expect(body._id).toBe(trialRequest.id)
     count = yield TrialRequest.count()
     expect(count).toBe(1)
+    done()
+    
+  it 'creates a delighted profile', utils.wrap (done) ->
+    @user = yield utils.initUser({gender: 'male', lastLevel: 'abcd', preferredLanguage: 'de', testGroupNumber: 1})
+    yield utils.loginUser(@user)
+    fixture.properties.email = @user.get('email')
+    [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: fixture })
+    expect(delighted.postPeople).toHaveBeenCalled()
+    args = delighted.postPeople.calls.argsFor(0)
+    expect(args[0].email).toBe(@user.get('email'))
+    expect(args[0].name).toBe('First Last')
     done()
 
 describe 'GET /db/trial.request', ->

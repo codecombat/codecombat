@@ -68,7 +68,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    create_a_class: "Create a Class"
 #    setup_a_class: "Set Up a Class"
 #    have_an_account: "Have an account?"
-#    log_in: "Log In"
 #    logged_in_as: "You are currently logged in as"
 #    view_my_classes: "View my classes"
 #    computer_science: "Computer science courses for all ages"
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    login_switch: "Have an account?"
 #    check_out_wiki: "Check out our new educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     blog: "ブログ"
     forum: "掲示板"
     account: "アカウント"
+#    my_account: "My Account"
     profile: "プロフィール"
     stats: "ステータス"
     code: "コード"
@@ -118,7 +117,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     about: "CoCoについて"
     contact: "お問い合わせ"
     twitter_follow: "フォロー"
-#    students: "Students"
+    students: "生徒"
     teachers: "教育関係者"
     careers: "経歴"
     facebook: "Facebook"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     campaign_old_multiplayer_description: "より文化的だった時代の遺跡。 シュミレーションは古いため実行されなく, ヒーローもいないマルチプレイ・アリーナです。"
 
 #  code:
-#    if: "if" # Keywords
+#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "elif"
 #    while: "while"
@@ -386,7 +385,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_title_suffix: "クリア"
     victory_sign_up: "進行状況をセーブするにはアカウント登録をしてください"
     victory_sign_up_poke: "あなたのコードをセーブしてみませんか? 無料アカウント登録!"
-    victory_rate_the_level: "このレベルの評価: " # {change}
+    victory_rate_the_level: "このレベルは楽しめましたか?"
     victory_return_to_ladder: "ラダーに戻る"
     victory_saving_progress: "セーブ中"
     victory_go_home: "ホームに戻る"
@@ -552,9 +551,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   subscribe:
     comparison_blurb: "CodeCombatへ課金してスキルを磨きましょう！"
-    feature1: "$t(data.levelsCount)以上の基本レベルが$t(data.worldsCount)つの世界に" # {change}
-    feature2: "$t(data.heroesCount)人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!" # {change}
-    feature3: "$t(data.bonusLevelsCount)以上のボーナスレベル" # {change}
+    feature1: "__levelsCount__以上の基本レベルが__worldsCount__つの世界に"
+    feature2: "__heroesCount__人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!"
+    feature3: "__bonusLevelsCount__以上のボーナスレベル"
     feature4: "<strong>{{gems}}のジェム</strong>が毎月ボーナス!"
     feature5: "ビデオチュートリアル"
     feature6: "プレミアムメールサポート"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     clojure_blurb: "現代の Lisp。"
     lua_blurb: "ゲーム専用のスクリプト言語。"
     io_blurb: "シンプルだがあいまい。"
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "ステータス"
     hero_type: "タイプ"
     weapons: "武器"
@@ -649,13 +649,13 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     restricted_to_certain_heroes: "特定のヒーローのみ、このレベルをプレイする事が出来ます。"
 
   skill_docs:
-#    function: "function" # skill types
-#    method: "method"
-#    snippet: "snippet"
-#    number: "number"
-#    array: "array"
-#    object: "object"
-#    string: "string"
+    function: "function(関数)" # skill types
+    method: "method(メソッド)"
+    snippet: "スニペット"
+    number: "数値"
+    array: "配列"
+    object: "オブジェクト"
+    string: "文字列"
     writable: "書き込み可能な" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "読み込み限定"
     action: "アクション"
@@ -702,25 +702,23 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     main_description: "CodeCombatでの私たちの仕事はあなたが笑顔でプレイするのを確かめることです。"
     mission_link: "ミッション"
     team_link: "チーム"
-    community_link: "コミュニティ"
     story_link: "ストーリー"
-    careers_link: "経歴"
     press_link: "記事"
 #    mission_title: "Our mission: make programming accessible to every student on Earth."
 #    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
 #    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
 #    team_title: "Meet the CodeCombat team"
 #    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
-    nick_title: "コーファウンダー" # {change}
+    nick_title: "創設者, CEO"
     nick_blurb: "モチベーションの達人"
-    matt_title: "プログラマー" # {change}
-    cat_title: "チーフアルティザン" # {change}
+    matt_title: "創設者, CTO"
+    cat_title: "ゲームデザイナー"
     cat_blurb: "エアベンダー"
-    scott_title: "コーファウンダー" # {change}
+    scott_title: "創設者, ソフトウェアエンジニア"
     scott_blurb: "リーズナブルな奴"
     maka_title: "顧客主義"
     maka_blurb: "ストーリーテラー"
-    rob_title: "コンパイラーエンジニアー" # {change}
+    rob_title: "ソフトウェアエンジニア"
     rob_blurb: "コードの道具と材料"
     josh_c_title: "ゲームデザイナー"
     josh_c_blurb: "ゲームのデザイン"
@@ -728,9 +726,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     robin_blurb: "土台作り"
     josh_title: "ゲームデザイナー"
     josh_blurb: "床は溶岩"
-#    phoenix_title: "Software Engineer"
-#    nolan_title: "Territory Manager"
-#    elliot_title: "Partnership Manager"
+    phoenix_title: "ソフトウェアエンジニア"
+    nolan_title: "地区担当マネージャー"
+    elliot_title: "パートナーシップマネージャー"
     retrostyle_title: "イラスト"
     retrostyle_blurb: "レトロスタイルのゲーム"
     jose_title: "ミュージック"
@@ -788,8 +786,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   teachers:
     who_for_title: "CodeCombat が必要なひと"
-    who_for_1: "私たちは CodeCombat を9歳以上の生徒にオススメしています。プログラミングの経験は必要ありません。" # {change}
-    who_for_2: "私たちは男女問わず遊べるように CodeCombat をデザインしました。" # {change}
+    who_for_1: "私たちは CodeCombat を9歳以上の生徒にオススメしています。プログラミングの経験は必要ありません。男の子も女の子も遊べるように CodeCombat をデザインしました。"
+    who_for_2: "私たちのコースシステムでは先生方は教室, 進捗の追跡, 生徒への追加コンテンツの割り当てを専用のインターフェースを通して割り当てることができます。"
     more_info_title: "もっと情報がほしい人"
     more_info_1: "私たちの"
     more_info_2: "ティーチャーフォーラム"
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    length: "Length:"
 #    title: "Courses" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
 #    description: "Description" # ClassroomSettingsModal
 #    language_select: "Select a language"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    total_playtime: "Total play time"
 #    avg_completed: "Average levels completed"
 #    total_completed: "Total levels completed"
+#    created: "Created"
 #    concepts_covered: "Concepts covered"
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
 #    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "アークメイジ"
@@ -1570,7 +1571,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tutorial_skip: "チュートリアルをスキップする"
     tutorial_not_sure: "なにが起きているのかわかりませんか？"
     tutorial_play_first: "はじめからチュートリアルを遊ぶ"
-    simple_ai: "単純なAI" # {change}
+    simple_ai: "単純なCPU"
     warmup: "ウォームアップ"
     friends_playing: "友達と遊ぶ"
     log_in_for_friends: "ログインして友達と遊ぼう"

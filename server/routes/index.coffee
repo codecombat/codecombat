@@ -42,8 +42,17 @@ module.exports.setup = (app) ->
   app.post('/db/article/:handle/watchers', mw.patchable.joinWatchers(Article))
   app.delete('/db/article/:handle/watchers', mw.patchable.leaveWatchers(Article))
 
-  app.get('/db/campaign', mw.campaigns.fetchByType)
+  Campaign = require '../models/Campaign'
+  app.post('/db/campaign', mw.auth.checkHasPermission(['admin']), mw.rest.post(Campaign))
+  app.get('/db/campaign', mw.campaigns.fetchByType, mw.rest.get(Campaign))
+  app.get('/db/campaign/names', mw.named.names(Campaign))
+  app.post('/db/campaign/names', mw.named.names(Campaign))
+  app.get('/db/campaign/:handle', mw.rest.getByHandle(Campaign))
   app.put('/db/campaign/:handle', mw.campaigns.put)
+  app.get('/db/campaign/:handle/achievements', mw.campaigns.fetchRelatedAchievements)
+  app.get('/db/campaign/:handle/levels', mw.campaigns.fetchRelatedLevels)
+  app.get('/db/campaign/:handle/patches', mw.patchable.patches(Campaign))
+  app.get('/db/campaign/-/overworld', mw.campaigns.fetchOverworld)
   
   app.post('/db/classroom', mw.classrooms.post)
   app.get('/db/classroom', mw.classrooms.getByOwner)
@@ -77,36 +86,4 @@ module.exports.setup = (app) ->
   app.get('/db/trial.request/:handle', mw.auth.checkHasPermission(['admin']), mw.rest.getByHandle(TrialRequest))
   app.put('/db/trial.request/:handle', mw.auth.checkHasPermission(['admin']), mw.trialRequests.put)
 
-  app.get '/healthcheck', (req, res) ->
-    try
-      async = require 'async'
-      User = require '../models/User'
-      async.waterfall [
-        (callback) ->
-          User.find({}).limit(1).exec(callback)
-        , (last, callback) ->
-          return("No users found") unless callback.length > 0
-          User.findOne(slug: 'healthcheck').exec(callback)
-        , (hcuser, callback) ->
-          # Create health check user if it doesnt exist
-          return callback(null, hcuser) if hcuser
-          user = new User
-            anonymous: false
-            name: 'healthcheck'
-            nameLower: 'healthcheck'
-            slug: 'healthcheck'
-            email: 'rob+healthcheck@codecombat.com'
-            emailLower: 'rob+healthcheck@codecombat.com'
-          user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
-          user.save (err) ->
-            return callback(err) if err
-            callback(null, user)
-
-        , (hcuser, callback) ->
-          activity = hcuser.trackActivity 'healthcheck', 1
-          hcuser.update {activity: activity}, callback
-      ], (err) ->
-        return res.status(500).send(err.toString()) if err
-        res.send("OK")
-    catch error
-      res.status(500).send(error.toString())
+  app.get('/healthcheck', mw.healthcheck)

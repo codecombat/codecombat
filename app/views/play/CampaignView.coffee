@@ -20,7 +20,6 @@ ShareProgressModal = require 'views/play/modal/ShareProgressModal'
 UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
-storage = require 'core/storage'
 CourseInstance = require 'models/CourseInstance'
 
 trackedHourOfCode = false

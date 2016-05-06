@@ -68,7 +68,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    create_a_class: "Create a Class"
 #    setup_a_class: "Set Up a Class"
 #    have_an_account: "Have an account?"
-#    log_in: "Log In"
 #    logged_in_as: "You are currently logged in as"
 #    view_my_classes: "View my classes"
 #    computer_science: "Computer science courses for all ages"
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    educator_wiki: "Educator wiki"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    login_switch: "Have an account?"
 #    check_out_wiki: "Check out our new educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     blog: "Blog"
     forum: "Foro"
     account: "Cuenta"
+#    my_account: "My Account"
     profile: "Perfil"
     stats: "Estadisticas"
     code: "Codigo"
@@ -118,7 +117,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     about: "Sobre nosotros"
     contact: "Contacta"
     twitter_follow: "Síguenos en Twitter"
-#    students: "Students"
+    students: "Alumnos"
     teachers: "Profesores"
     careers: "Carreras"
     facebook: "Facebook"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     campaign_old_multiplayer_description: "Reliquias de una era más civilizada. Ninguna simulación es ejecutada para estas arenas multijugador antiguas y sin héroes."
 
 #  code:
-#    if: "if" # Keywords
+#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "elif"
 #    while: "while"
@@ -243,8 +242,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    gplus_exists: "You already have an account associated with Google+!"
 #    connected_facebook_header: "You've successfully connected with Facebook!"
 #    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
-#    facebook_exists: "You already have an account associated with Facebook!"
-#    hey_students: "Students, enter the class code from your teacher."
+    facebook_exists: "¡Ya posees una cuenta asociada con Facebook!"
+    hey_students: "Alumnos, ingresen el código de la clase de su maestro."
 #    birthday: "Birthday"
 
   recover:
@@ -257,7 +256,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     secondary: "Secundario"
     armor: "Armadura"
     accessories: "Accesorios"
-    misc: "Miscelanea"
+    misc: "Miscelaneos"
     books: "Libros"
 
   common:
@@ -481,19 +480,19 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_solve_then_write: "Priero, resuelve el problema. Después, escribe el código. - John Johnson"
     tip_compiler_ignores_comments: "A veces pienso que el compilador ignora mis comentarios."
     tip_understand_recursion: "La única manera de entender la recursividad, es entendiendo la recursividad."
-#    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
+    tip_life_and_polymorphism: "El código abierto es como una estructura totalmente polimórfica y heterógenea: Bienvenidos todos los tipos."
     tip_mistakes_proof_of_trying: "Los errores en tú código tan solo son una prueba de que lo estás intentando."
     tip_adding_orgres: "Redondeando los ogros."
     tip_sharpening_swords: "Afilando las espadas."
     tip_ratatouille: "No debes dejar que nadie defina tus límites debido a tu origen. Tu único límite es tu alma. - Gusteau, Ratatouille"
-#    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
+    tip_nemo: "Si la vida te derrota ¿Qué hay que hacer? Nadaremos, nadaremos, nadaremos. - Dory, Encontrando a Nemo"
 #    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
 #    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
 #    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
 #    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
-#    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
+    tip_good_idea: "La mejor manera para tener una buena idea es tener muchas ideas. - Linus Pauling"
 #    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
-#    tip_mulan: "Believe you can, then you will. - Mulan"
+    tip_mulan: "Si crees que puedes, entonces podrás. - Mulan"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -509,8 +508,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     save_load_caption: "... y ver la historia"
     options_caption: "Ajustes de configuración"
     guide_caption: "Documentos y pistas"
-    multiplayer_caption: "Juega con amigos!"
-    auth_caption: "Salvar tu progreso."
+    multiplayer_caption: "¡Juega con amigos!"
+    auth_caption: "Guarda tu progreso."
 
   leaderboard:
     view_other_solutions: "Ver clasificaciones"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     clojure_blurb: "Un Lisp moderno."
     lua_blurb: "Lenguaje Script para Juegos."
     io_blurb: "Simple pero oscuro."
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Estado"
     hero_type: "Tipo"
     weapons: "Armas"
@@ -702,14 +702,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
 #    mission_link: "Mission"
 #    team_link: "Team"
-#    community_link: "Community"
 #    story_link: "Story"
-#    careers_link: "Careers"
 #    press_link: "Press"
-#    mission_title: "Our mission: make programming accessible to every student on Earth."
-#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
-#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
-#    team_title: "Meet the CodeCombat team"
+    mission_title: "Nuestra misión: lograr que la programación esté disponible para todos los alumnos de la Tierra."
+    mission_description_1: "<strong>Programar es hacer magia</strong>. Es la habilidad de crear cosas desde la imaginación. Iniciamos CodeCombat para que los alumnos experimenten en sus dedos la magia al <strong>escribir código.</strong>."
+    mission_description_2: "Ademas resulta, que esto permite aprender más rápido. MUCHO mas rápido. Es como mantener una conversación en lugar de leer un manual. Queremos llevar esa conversación a todas las escuelas y a <strong>todos los alumnos</strong>, porque todos deben tener la oportunidadde aprender la magia de la programación."
+    team_title: "Conoce al equipo de CodeCombat"
 #    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
     nick_title: "Co-Fundador" # {change}
     nick_blurb: "Guru Motivacional"
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    length: "Length:"
 #    title: "Courses" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
 #    description: "Description" # ClassroomSettingsModal
 #    language_select: "Select a language"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    total_playtime: "Total play time"
 #    avg_completed: "Average levels completed"
 #    total_completed: "Total levels completed"
+#    created: "Created"
 #    concepts_covered: "Concepts covered"
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
 #    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "Archimago"

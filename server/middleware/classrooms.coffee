@@ -85,7 +85,7 @@ module.exports =
     members = classroom.get('members') or []
     members = members.slice(memberSkip, memberSkip + memberLimit)
     dbqs = []
-    select = 'state.complete level creator playtime'
+    select = 'state.complete level creator playtime changed dateFirstCompleted'
     for member in members
       dbqs.push(LevelSession.find({creator: member.toHexString()}).select(select).exec())
     results = yield dbqs
