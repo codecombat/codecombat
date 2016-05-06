@@ -68,7 +68,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     create_a_class: "Maak een klas aan"
     setup_a_class: "Maak een klas aan"
     have_an_account: "Heb je al een account?" # {change}
-    log_in: "Log In"
     logged_in_as: "Je bent ingelogd als"
     view_my_classes: "Bekijk mijn klassen"
     computer_science: "Informatica lessen voor alle leeftijden"
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     educator_wiki: "Leraren wiki"
     view_profile: "Mijn Profiel"
     view_progress: "Bekijk voortgang"
-    login_switch: "Heb je een account?"
     check_out_wiki: "Bekijk onze nieuwe leraren Wiki"
     want_coco: "Wil je CodeCombat op jouw school?"
     form_select_role: "Selecteer je rol"
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     blog: "Blog"
     forum: "Forum"
     account: "Lidmaatschap"
+#    my_account: "My Account"
     profile: "Profiel"
     stats: "Statistieken"
     code: "Code"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     campaign_old_multiplayer_description: "Antieke overblijvselen van een beschaafder tijdperk. Deze oudere held-loze multiplayer arenas worden niet gesimuleert."
 
   code:
-    if: "als" # Keywords
+    if: "als" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "anders"
     elif: "anders als"
     while: "wanneer"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     clojure_blurb: "Lisp, maar modern."
     lua_blurb: "Game scripting taal."
     io_blurb: "Simpel maar obscuur."
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Status"
     hero_type: "Soort"
     weapons: "Wapens"
@@ -702,9 +702,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     main_description: "Bij CodeCombat, is het ons doel om te zorgen dat je dat doet met een glimlach op je gezicht."
     mission_link: "Missie"
     team_link: "Team"
-    community_link: "Gemeenschap"
     story_link: "Verhaal"
-    careers_link: "Carrières"
     press_link: "Pers"
     mission_title: "Onze missie: maak programmeren toegankelijk voor elke student op aarde."
     mission_description_1: "<strong>Programmeren is magie</strong>. Het is het vermogen om dingen te maken vanuit pure fantasie. We zijn CodeCombat begonnen om leerlingen het gevoel the geven van een toverachtige kracht aan hun vingertoppen door het gebruik van <strong>getypte code</strong>." # {change}
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     length: "Lengte:"
     title: "Titel" # Flat style redesign
     subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels"
+#    changelog: "View latest changes to course levels."
     select_language: "Selecteer taal"
     select_level: "Selecteer level"
     play_level: "Speel Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     print_guide: "Print Handleiding (PDF)"
     view_guide_online: "Bekijk Handleiding Online (PDF)"
     last_updated: "Laatst ge-update:"
-    grants_lifetime_access: "Verschaft levenslange toegang tot alle cursusmodules." # New enrollment modal
+    grants_lifetime_access: "Verschaft levenslange toegang tot alle cursusmodules." # {change}
     enrollment_credits_available: "Beschikbaar inschrijf-krediet:"
     description: "beschrijving" # ClassroomSettingsModal
     language_select: "Selecteer een taal"
@@ -1259,7 +1258,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     avg_student_exp_select: "Selecteer de beste optie"
     avg_student_exp_none: "Geen ervaring - geen of weinig ervaring"
     avg_student_exp_beginner: "Beginner - een beetje blootstelling aan code of ervaring met 'block-based' programmeren"
-    avg_student_exp_intermediate:"Redelijk Ervaren - enige ervaring met getypte code"
+    avg_student_exp_intermediate: "Redelijk Ervaren - enige ervaring met getypte code"
     avg_student_exp_advanced: "Ervaren - behoorlijke ervaring met getypte code"
     avg_student_exp_varied: "Verschilt enorm per leerling"
     student_age_range_label: "Leeftijdscategorie leerlingen"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     total_playtime: "Totale speeltijd"
     avg_completed: "Gemiddeld aantaal levels voltooid"
     total_completed: "Totaal levels voltooid"
+#    created: "Created"
     concepts_covered: "Concepten behandeld"
     earliest_incomplete: "Vroegste onvoltooide level"
     latest_complete: "Laatste voltooide level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     how_to_enroll_blurb_3: "Zodra een leerling is ingeschreven zal deze toegang hebben tot alle inhoud van de cursus."
     bulk_pricing_blurb: "Aanschaffen voor meer dan 25 leerlingen? Neem contact met ons op."
     total_unenrolled: "Totaal aantal niet ingeschreven"
+#    export_student_progress: "Export Student Progress (CSV)"
 
   classes:
     archmage_title: "Tovenaar"
