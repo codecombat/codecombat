@@ -20,7 +20,7 @@ describe 'Level', ->
   urlLevel = '/db/level'
 
   it 'clears things first', (done) ->
-    clearModels [Level], (err) ->
+    clearModels [Level, User], (err) ->
       expect(err).toBeNull()
       done()
 

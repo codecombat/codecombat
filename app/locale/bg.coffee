@@ -68,7 +68,6 @@ module.exports = nativeDescription: "български език", englishDescri
     create_a_class: "Създай клас"
     setup_a_class: "Задай клас"
     have_an_account: "Вече имаш акаунт?"
-    log_in: "Влез"
     logged_in_as: "Влязъл си като"
     view_my_classes: "Моите класове"
     computer_science: "Курсове по компютърни науки за всички възрасти"
@@ -95,7 +94,6 @@ module.exports = nativeDescription: "български език", englishDescri
     educator_wiki: "Wiki за учители"
     view_profile: "Моя профил"
     view_progress: "Прегледай прогреса"
-    login_switch: "Вече имаш акаунт?"
     check_out_wiki: "Разгледай новото ни Wiki за учители"
     want_coco: "Искаш ли CodeCombat в училището си?"
     form_select_role: "Избери основна роля"
@@ -109,6 +107,7 @@ module.exports = nativeDescription: "български език", englishDescri
     blog: "Блог"
     forum: "Форум"
     account: "Акаунт"
+#    my_account: "My Account"
     profile: "Профил"
     stats: "Статистики"
     code: "Код"
@@ -189,7 +188,7 @@ module.exports = nativeDescription: "български език", englishDescri
     campaign_old_multiplayer_description: "Остатъци от едни по-циливизовани вренмена. Тези стари арени са без симулации и без герои."
 
 #  code:
-#    if: "if" # Keywords
+#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "elif"
 #    while: "while"
@@ -622,6 +621,7 @@ module.exports = nativeDescription: "български език", englishDescri
     clojure_blurb: "Модерен Lisp."
     lua_blurb: "Скриптен език за игри."
     io_blurb: "Прост, но неизвестен."
+#    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Статус"
     hero_type: "Тип"
     weapons: "Оръжия"
@@ -702,9 +702,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
 #    mission_link: "Mission"
 #    team_link: "Team"
-#    community_link: "Community"
 #    story_link: "Story"
-#    careers_link: "Careers"
 #    press_link: "Press"
 #    mission_title: "Our mission: make programming accessible to every student on Earth."
 #    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
@@ -1240,6 +1238,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    length: "Length:"
 #    title: "Courses" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
+#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
@@ -1247,7 +1246,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    print_guide: "Print Guide (PDF)"
 #    view_guide_online: "View Guide Online (PDF)"
 #    last_updated: "Last updated:"
-#    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+#    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Enrollment Credits Available:"
 #    description: "Description" # ClassroomSettingsModal
 #    language_select: "Select a language"
@@ -1300,6 +1299,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    total_playtime: "Total play time"
 #    avg_completed: "Average levels completed"
 #    total_completed: "Total levels completed"
+#    created: "Created"
 #    concepts_covered: "Concepts covered"
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
@@ -1347,6 +1347,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    how_to_enroll_blurb_3: "Once a student is enrolled, they will have access to all of the course content."
 #    bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
 #    total_unenrolled: "Total unenrolled"
+#    export_student_progress: "Export Student Progress (CSV)"
 
 #  classes:
 #    archmage_title: "Archmage"

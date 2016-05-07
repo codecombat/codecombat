@@ -10,7 +10,6 @@ module.exports = class VerifierView extends RootView
 
   constructor: (options, @levelID) ->
     super options
-    # TODO: rework to handle N at a time instead of all at once
     # TODO: sort tests by unexpected result first
     @passed = 0
     @failed = 0
@@ -31,24 +30,20 @@ module.exports = class VerifierView extends RootView
       'stillness-in-motion', 'the-agrippa-defense', 'backwoods-bombardier', 'coinucopia', 'copper-meadows',
       'drop-the-flag', 'mind-the-trap', 'signal-corpse', 'rich-forager',
 
-      "the-mighty-sand-yak", "oasis", "sarven-road", "sarven-gaps", "thunderhooves", "minesweeper",
-      "medical-attention", "sarven-sentry", "keeping-time", "hoarding-gold", "decoy-drill", "continuous-alchemy",
-      "dust", "desert-combat", "sarven-savior", "lurkers", "preferential-treatment", "sarven-shepherd",
-      "shine-getter"
+      'the-mighty-sand-yak', 'oasis', 'sarven-road', 'sarven-gaps', 'thunderhooves', 'minesweeper',
+      'medical-attention', 'sarven-sentry', 'keeping-time', 'hoarding-gold', 'decoy-drill', 'continuous-alchemy',
+      'dust', 'desert-combat', 'sarven-savior', 'lurkers', 'preferential-treatment', 'sarven-shepherd',
+      'shine-getter',
 
-      #"the-dunes", "the-mighty-sand-yak", "oasis", "basin-stampede", "sarven-road", "sarven-gaps",
-      #"crossroads", "thunderhooves", "operation-killdeer", "medical-attention", "the-great-yak-stampede",
-      #"minesweeper", "sarven-sentry", "keeping-time", "hoarding-gold", "bookkeeper", "decoy-drill",
-      #"continuous-alchemy", "yakstraction", "sarven-brawl", "desert-combat", "dust", "dont-rush-be-quiet",
-      #"sarven-rescue", "sacred-statue", "mirage-maker", "sarven-savior", "odd-sandstorm", "lurkers",
-      #"preferential-treatment", "bash-em-all", "sarven-shepherd", "shine-getter", "sand-snakes",
-      #"the-trials", "mad-maxer", "mad-maxer-strikes-back", "mad-maxer-sells-out", "mad-maxer-gets-greedy",
-      #"mad-maxer-redemption", "sarven-treasure", "harrowland", "sarven-siege", "goalkeeper",
-      #"clash-of-clones", "stranded-in-the-dunes", "sarven-sum", "golden-mirage", "diamond-dozen",
-      #"brittle-morale", "zig-zag-and-zoom", "cubic-minefield"
-
-
-
+      'a-fine-mint', 'borrowed-sword', 'cloudrip-commander', 'crag-tag',
+      'hunters-and-prey', 'hunting-party',
+      'leave-it-to-cleaver', 'library-tactician', 'mad-maxer', 'mad-maxer-strikes-back',
+      'mirage-maker', 'mixed-unit-tactics', 'mountain-mercenaries',
+      'noble-sacrifice', 'odd-sandstorm', 'ogre-gorge-gouger', 'reaping-fire',
+      'return-to-thornbush-farm', 'ring-bearer', 'sand-snakes',
+      'slalom', 'steelclaw-gap', 'the-geometry-of-flowers',
+      'the-two-flowers', 'timber-guard', 'toil-and-trouble', 'village-rover',
+      'vital-powers', 'zoo-keeper',
     ]
 
     defaultCores = 2
@@ -57,25 +52,22 @@ module.exports = class VerifierView extends RootView
     #testLevels = testLevels.slice 0, 15
     @linksQueryString = window.location.search
     @levelIDs = if @levelID then [@levelID] else testLevels
-    
+
     #supermodel = if @levelID then @supermodel else undefined
     @tests = []
     @taskList = []
-
     @tasksList = _.flatten _.map @levelIDs, (v) ->
-      console.log(v)
+      # TODO: offer good interface for choosing which languages, better performance for skipping missing solutions
+      #_.map ['python', 'javascript', 'coffeescript', 'lua'], (l) ->
       _.map ['python', 'javascript'], (l) ->
+      #_.map ['javascript'], (l) ->
         level: v, language: l
 
     @testCount = @tasksList.length
-
     chunks = _.groupBy @tasksList, (v,i) -> i%cores
     supermodels = [@supermodel]
 
-
-
-
-    _.forEach chunks, (chunk, i) => 
+    _.forEach chunks, (chunk, i) =>
       _.delay =>
         parentSuperModel = supermodels[supermodels.length-1]
         chunkSupermodel = new SuperModel()
@@ -86,13 +78,15 @@ module.exports = class VerifierView extends RootView
         async.eachSeries chunk, (task, next) =>
           test = new VerifierTest task.level, (e) =>
             @update(e)
-            if e.state in ['complete', 'error']
+            if e.state in ['complete', 'error', 'no-solution']
               if e.state is 'complete'
-                if test.isSucessful()
+                if test.isSuccessful()
                   ++@passed
                 else
                   ++@failed
-              else 
+              else if e.state is 'no-solution'
+                --@testCount
+              else
                 ++@problem
 
               next()
@@ -103,6 +97,4 @@ module.exports = class VerifierView extends RootView
       , if i > 0 then 5000 + i * 1000 else 0
 
   update: (event) =>
-    # TODO: show unworkable tests instead of hiding them
-    # TODO: destroy them Tests after or something
     @render()

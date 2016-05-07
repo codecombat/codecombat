@@ -7,6 +7,7 @@ module.exports =
   courseInstances: require './course-instances'
   courses: require './courses'
   files: require './files'
+  healthcheck: require './healthcheck'
   named: require './named'
   patchable: require './patchable'
   rest: require './rest'

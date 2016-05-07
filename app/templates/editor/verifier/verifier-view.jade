@@ -24,24 +24,27 @@ block content
 
 
     each test, id in view.tests
+      - if (test.state == 'no-solution')
+      -   continue;
       if test.level
         .pull-right
-              - var last = test.level.get('slug') + view.linksQueryString 
-              a.btn.btn-primary(href="/editor/verifier/" + last) Focus
-              a.btn.btn-success(href="/play/level/" + last) Play
-              a.btn.btn-warning(href="/editor/level/" + last ) Edit
+          - var last = test.level.get('slug') + view.linksQueryString 
+          a.btn.btn-primary(href="/editor/verifier/" + last) Focus
+          a.btn.btn-success(href="/play/level/" + last) Play
+          a.btn.btn-warning(href="/editor/level/" + last) Edit
+          a.btn.btn-default(data-target='#verifier-test-' + id, data-toggle="collapse") Toggle
 
         if !test.goals
           h2(style='color: orange')= test.level.get('name')
             small= ' in ' + test.language + ''
-        else if test.isSucessful()
+        else if test.isSuccessful()
           h2(style='color: green')= test.level.get('name')
             small= ' in ' + test.language + ''
         else
           h2(style='color: red')= test.level.get('name')
             small= ' in ' + test.language + ''  
 
-        div.row(class=(test.isSucessful() && id > 1 ? 'collapse' : 'collapse in'))
+        div.row(class=(test.isSuccessful() && id > 1 ? 'collapse' : 'collapse in'), id='verifier-test-' + id)
           div.col-xs-8
             if test.solution
               pre #{test.solution.source}
