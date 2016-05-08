@@ -18,6 +18,11 @@ block content
   if classroom.loaded
     .container
       +breadcrumbs
+      if classroom.get('archived')
+        .row.center-block.text-center.m-t-3.m-b-3
+          .unarchive-btn.btn.btn-lg.btn-navy
+            span(data-i18n='teacher.unarchive_this_class')
+      
       h3.m-t-2= classroom.get('name')
       a.label.edit-classroom(data-classroom-id=classroom.id)
         span(data-i18n='teacher.edit_class_settings')
@@ -25,7 +30,7 @@ block content
 
       .classroom-info-row.row.m-t-5
         .classroom-details.col-md-3
-          - var stats = view.classStats()
+          - var stats = state.get('classStats')
           h4.m-b-2(data-i18n='teacher.class_overview')
 
           .language.small-details
@@ -68,55 +73,57 @@ block content
               span(data-i18n='teacher.export_student_progress')
 
           //- .concepts.small-details
-          //-   if view.progressData
+          //-   if state.get('progressData')
           //-     div
           //-       span(data-i18n='teacher.concepts_covered')
           //-       span :
           //-     - console.log('concepts', view.conceptData)
           //-     - concepts = view.conceptData
           //-     each state, name in view.conceptData[view.classroom.id]
-          //-       if state.started
-          //-         b.concept(class=state.completed ? 'forest' : 'gold')
+          //-       if state.get('started')
+          //-         b.concept(class=state.get('completed') ? 'forest' : 'gold')
           //-           span(data-i18n='concepts.'+name)
 
         .completeness-info.col-md-4
           h4.m-b-2
             &nbsp;
-          if view.earliestIncompleteLevel
+          if state.get('earliestIncompleteLevel')
             div.small-details
               span(data-i18n='teacher.earliest_incomplete')
               span :
-            +longLevelName(view.earliestIncompleteLevel)
-            +inlineUserList(view.earliestIncompleteLevel.users)
-
-          if view.latestCompleteLevel
+            +longLevelName(state.get('earliestIncompleteLevel'))
+            +inlineUserList(state.get('earliestIncompleteLevel').users)
+            
+          if state.get('latestCompleteLevel')
             div.small-details.m-t-3
               span(data-i18n='teacher.latest_complete')
               span :
-            +longLevelName(view.latestCompleteLevel)
-            +inlineUserList(view.latestCompleteLevel.users)
-
+            +longLevelName(state.get('latestCompleteLevel'))
+            +inlineUserList(state.get('latestCompleteLevel').users)
+            
         .adding-students.col-md-5
           h4.m-b-2
             span(data-i18n='teacher.adding_students')
             span :
           +copyCodes
           +addStudentsButton
-
-      ul.nav.nav-tabs.m-t-5(role='tablist')
-        li.active
-          a(href='#students-tab' data-toggle='tab')
+          
+      ul#student-info-tabs.nav.nav-tabs.m-t-5(role='tablist')
+        li(class=(state.get('activeTab')==="#students-tab" ? 'active' : ''))
+          a.students-tab-btn(href='#students-tab')
             .small-details.text-center(data-i18n='teacher.students')
         .tab-spacer
-        li
-          a(href='#course-progress-tab' data-toggle='tab')
+        li(class=(state.get('activeTab')==="#course-progress-tab" ? 'active' : ''))
+          a.course-progress-tab-btn(href='#course-progress-tab')
             .small-details.text-center(data-i18n='teacher.course_progress')
         .tab-filler
 
       .tab-content
-        +studentsTab
-        +courseProgressTab
-
+        if state.get('activeTab')=='#students-tab'
+          +studentsTab
+        else
+          +courseProgressTab
+    
 mixin breadcrumbs
   .breadcrumbs
     a(data-i18n='teacher.my_classes' href='/teachers/classes')
@@ -153,7 +160,7 @@ mixin addStudentsButton
       span(data-i18n='teacher.add_students_manually')
 
 mixin studentsTab
-  #students-tab.tab-pane.active
+  #students-tab
     +bulkAssignControls
     table.students-table
       thead
@@ -165,7 +172,7 @@ mixin studentsTab
         th
           +sortButtons
       tbody
-        each student in view.students.models
+        each student in state.get('students').models
           +studentRow(student)
 
 mixin sortButtons
@@ -199,12 +206,15 @@ mixin studentRow(student)
       div
         +longLevelName(student.latestCompleteLevel)
     td
-      if view.progressData
-        each course, index in view.courses.models
+      if state.get('progressData')
+        each trimCourse, index in view.classroom.get('courses')
+          - var course = view.courses.get(trimCourse._id);
           - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
           if instance && instance.hasMember(student)
-            - var progress = view.progressData.get({ classroom: view.classroom, course: course, user: student })
-            +progressDot(progress, 'CS' + (index+1))
+            - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, user: student })
+            - var levelsTotal = trimCourse.levels.length
+            //- - var level = ???
+            +studentCourseProgressDot(progress, levelsTotal, level, 'CS' + (index+1))
       unless student.isEnrolled()
         +enrollStudentButton(student)
     //- td
@@ -219,7 +229,7 @@ mixin enrollStudentButton(student)
     span(data-i18n='teacher.enroll_student')
 
 mixin courseProgressTab
-  #course-progress-tab.tab-pane.m-t-3
+  #course-progress-tab.m-t-3
     if view.courses
       .text-center
         span(data-i18n='teacher.select_course')
@@ -227,18 +237,50 @@ mixin courseProgressTab
         select.course-select
           each trimCourse in view.classroom.get('courses')
             - var course = view.courses.get(trimCourse._id);
-            option(value=course.id)
+            option(value=course.id selected=(course===state.get('selectedCourse')))
               = course.get('name')
-    if view.progressData
+    if state.get('progressData')
       .render-on-course-sync
         +courseOverview
         .student-levels-table
           +sortButtons
-          each student in view.students.models
-            +studentLevelsRow(student)
+          each student in state.get('students').models
+            if _.contains(state.get('selectedCourse').members, student.id)
+              +studentLevelsRow(student)
+    //- TODO: If any students aren't assigned the course
+    .unassigned-students.render-on-course-sync
+      if state.get('selectedCourse') && state.get('selectedCourse').members.length < state.get('students').length
+        h2
+          span(data-i18n='TODO')
+            | Students who have not been assigned
+          | 
+          span= state.get('selectedCourse').get('name')
+        for student in state.get('students').models
+          unless _.contains(state.get('selectedCourse').members, student.id)
+            .row.unassigned-student-row.alternating-background
+              .student-name.col-sm-3
+                = student.broadName()
+              .student-email.small-details.col-sm-3
+                = student.get('email')
+              .col-sm-4
+                .latest-completed.truncate.small
+                  i.m-r-1
+                    span(data-i18n='TODO')
+                      | Latest completed
+                    | : 
+                  +longLevelName(student.latestCompleteLevel)
+              .col-sm-2
+                if student.isEnrolled()
+                  .assign-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-course-id=state.get('selectedCourse').id)
+                    span(data-i18n='TODO')
+                      | Assign Course
+                else
+                  .enroll-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id)
+                    span(data-i18n='TODO')
+                      | Enroll Student
 
 mixin courseOverview
-  - var course = view.selectedCourse
+  - var course = state.get('selectedCourse')
   - var levels = view.classroom.getLevels({courseID: course.id, withoutLadderLevels: true}).models
   .course-overview-row
     .course-title.student-name
@@ -247,8 +289,8 @@ mixin courseOverview
       span(data-i18n='teacher.course_overview')
     .course-overview-progress
       each level, index in levels
-        - var progress = view.progressData.get({ classroom: view.classroom, course: course, level: level })
-        +progressDot(progress, index+1)
+        - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level })
+        +allStudentsLevelProgressDot(progress, level, index+1)
 
 mixin studentLevelsRow(student)
   .student-levels-row.alternating-background
@@ -256,19 +298,34 @@ mixin studentLevelsRow(student)
       div.student-name= student.broadName()
       div.student-email.small-details= student.get('email')
     div.student-levels-progress
-      - var course = view.selectedCourse
+      - var course = state.get('selectedCourse')
       - var levels = view.classroom.getLevels({courseID: course.id, withoutLadderLevels: true}).models
       each level, index in levels
-        - var progress = view.progressData.get({ classroom: view.classroom, course: course, level: level, user: student })
-        +progressDot(progress, index+1)
-
-mixin progressDot(progress, label)
+        - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
+        +studentLevelProgressDot(progress, level, index+1)
+  
+mixin studentCourseProgressDot(progress, levelsTotal, level, label)
   //- TODO: Refactor with TeacherClassesView jade
   //- TODO: Give classes abbreviations instead of using index?
-  //- TODO: inefficient. Cache this in the view?
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
-  .progress-dot(class=dotClass, data-html='true', data-title=view.progressDotTemplate(progressDotContext) data-toggle='tooltip')
+  - _.assign(progress, { levelsTotal: levelsTotal })
+  .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
     +progressDotLabel(label)
+
+mixin allStudentsLevelProgressDot(progress, level, levelNumber)
+  - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
+  - levelName = level.get('name')
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length })
+  .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context))
+    +progressDotLabel(levelNumber)
+    
+mixin studentLevelProgressDot(progress, level, levelNumber)
+  //- TODO: Refactor with TeacherClassesView jade
+  - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
+  - levelName = level.get('name')
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber })
+  .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
+    +progressDotLabel(levelNumber)
 
 mixin progressDotLabel(label)
   .dot-label.text-center
@@ -278,23 +335,23 @@ mixin progressDotLabel(label)
 mixin copyCodes
   div.copy-button-group.form-inline.m-b-3
     .form-group
-      input.text-h4.semibold#join-code-input(value=view.classCode)
+      input.text-h4.semibold#join-code-input(value=state.get('classCode'))
     button#copy-code-btn.form-control.btn.btn-lg.btn-forest
       span(data-i18n='teacher.copy_class_code')
     div.text-center.small(data-i18n='teacher.class_code_blurb')
 
   div.copy-button-group.form-inline.m-b-3
     .form-group
-      input.form-control.text-h4.semibold#join-url-input(value=view.joinURL)
+      input.form-control.text-h4.semibold#join-url-input(value=state.get('joinURL'))
     button#copy-url-btn.form-control.btn.btn-lg.btn-forest
       span(data-i18n='teacher.copy_class_url')
     div.text-center.small(data-i18n='teacher.class_join_url_blurb')
 
 mixin bulkAssignControls
   .bulk-assign-controls.form-inline
-    .no-students-selected.small-details(class=view.assigningToNobody ? 'visible' : '')
+    .no-students-selected.small-details(class=state.get('errors').assigningToNobody ? 'visible' : '')
       span(data-i18n='teacher.no_students_selected')
-    .cant-assign-to-unenrolled.small-details(class=view.assigningToUnenrolled ? 'visible' : '')
+    .cant-assign-to-unenrolled.small-details(class=state.get('errors').assigningToUnenrolled ? 'visible' : '')
       span(data-i18n='teacher.cant_assign_to_unenrolled')
     span.small
       span(data-i18n='teacher.bulk_assign')
@@ -302,7 +359,7 @@ mixin bulkAssignControls
     select.bulk-course-select.form-control
       each trimCourse in _.rest(view.classroom.get('courses'))
         - var course = view.courses.get(trimCourse._id)
-        option(value=course.id)
+        option(value=course.id selected=(course===state.get('selectedCourse')))
           = course.get('name')
     button.btn.btn-primary-alt.assign-to-selected-students
       span(data-i18n='teacher.assign_to_selected_students')

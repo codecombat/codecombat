@@ -45,7 +45,8 @@ LevelSessionSchema.post 'init', (doc) ->
 LevelSessionSchema.pre 'save', (next) ->
   User = require './User'  # Avoid mutual inclusion cycles
   Level = require './Level'
-  @set('changed', new Date())
+  now = new Date()
+  @set('changed', now)
 
   id = @get('id')
   initd = @previousStateInfo?
@@ -55,6 +56,7 @@ LevelSessionSchema.pre 'save', (next) ->
 
   # Newly completed level
   if not (initd and @previousStateInfo['state.complete']) and @get('state.complete')
+    @set('dateFirstCompleted', now)
     Level.findOne({slug: levelID}).select('concepts -_id').lean().exec (err, level) ->
       log.error err if err?
       update = $inc: {'stats.gamesCompleted': 1}

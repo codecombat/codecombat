@@ -5,49 +5,67 @@ block modal-header-content
   .text-center
     h1(data-i18n="teacher.enroll_students")
     h2(data-i18n="courses.grants_lifetime_access")
-    if view.classroom
-      p= view.classroom.get('name')
 
 block modal-body-content
+  - var numToEnroll = state.get('visibleSelectedUsers').length
+  - var unusedEnrollments = view.prepaids.totalMaxRedeemers() - view.prepaids.totalRedeemers()
+  - var tooManySelected = numToEnroll > unusedEnrollments
+  - var noneSelected = numToEnroll == 0
+  
   if view.classrooms.length > 1
-    .text-center
-      span(data-i18n='teacher.show_students_from')
-      span.spr :
-      select
-        each classroom in view.classrooms.models
-          option(selected=(classroom.id === view.classroom.id), value=classroom.id)
-            = classroom.get('name')
-        //- option(selected=!view.classroom, value='all-classrooms' data-i18n='teacher.all_students')
-  form.form
+    .row
+      .col-sm-10.col-sm-offset-1
+        .text-center.m-b-3
+          .small.color-navy
+            span(data-i18n='teacher.show_students_from')
+            span.spr :
+          select.classroom-select
+            each classroom in view.classrooms.models
+              option(selected=(classroom.id === view.classroom.id), value=classroom.id)
+                = classroom.get('name')
+            option(selected=(view.classroom.id === 'all-students'), value='all-students' data-i18n='teacher.all_students')
+  
+  form.form.m-t-3
     span(data-i18n="teacher.enroll_the_following_students")
     span :
     .well.form-group
-      for user in view.users.models
+      - var enrolledUsers = view.users.filter(function(user){ return Boolean(user.get('coursePrepaidID')) })
+      - var unenrolledUsers = view.users.filter(function(user){ return !Boolean(user.get('coursePrepaidID')) })
+      for user in unenrolledUsers
+        - var selected = Boolean(paid || state.get('selectedUsers').get(user.id))
         .checkbox
           label
-            - var paid = user.get('coursePrepaidID')
-            - var selected = (view.selectedUsers.get(user.id) ? true : false)
-            input(type="checkbox", disabled=paid, checked=selected, data-user-id=user.id, name='user')
+            input.user-checkbox(type="checkbox", disabled=false, checked=selected, data-user-id=user.id, name='user')
             span.spr= user.broadName()
-            if paid
-              span (
-              span(data-i18n="courses.already_enrolled")
-              span )
+      if enrolledUsers.length > 0
+        .small-details.m-t-3
+          span(data-i18n='TODO')
+            | The following students are already enrolled:
+      for user in enrolledUsers
+        - var selected = Boolean(paid || state.get('selectedUsers').get(user.id))
+        .checkbox
+          label
+            input.user-checkbox(type="checkbox", disabled=true, checked=true, data-user-id=user.id, name='user')
+            span.spr= user.broadName()
     
-    #error-alert.alert.alert-danger.hide
+    if state.get('error')
+      .alert.alert-danger
+        = state.get('error')
     
     #submit-form-area.text-center
+      p.small-details.not-enough-enrollments(class=(tooManySelected ? 'visible' : ''))
+        span(data-i18n='teacher.not_enough_enrollments')
+      
       p.small-details
         span.spr(data-i18n="courses.enrollment_credits_available")
         span#total-available= view.prepaids.totalAvailable()
 
-      p.small-details.not-enough-enrollments
-        span(data-i18n='teacher.not_enough_enrollments')
       p
-        button#activate-licenses-btn.btn.btn-lg.btn-primary(type="submit")
+        button#activate-licenses-btn.btn.btn-lg.btn-primary(type="submit" class=(tooManySelected || noneSelected ? 'disabled' : ''))
           span.spr(data-i18n="courses.enroll")
           | (
           span#total-selected-span
+            = numToEnroll
           | )
           span.spl(data-i18n="courses.students1")
 

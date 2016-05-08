@@ -6,6 +6,7 @@ database = require '../commons/database'
 mongoose = require 'mongoose'
 TrialRequest = require '../models/TrialRequest'
 User = require '../models/User'
+delighted = require '../delighted'
 
 module.exports =
   post: wrap (req, res) ->
@@ -27,6 +28,7 @@ module.exports =
     trialRequest.set 'type', attrs.type
     database.validateDoc(trialRequest)
     trialRequest = yield trialRequest.save()
+    delighted.addDelightedUser req.user, trialRequest
     res.status(201).send(trialRequest.toObject({req: req}))
 
   put: wrap (req, res) ->

@@ -188,7 +188,7 @@
     campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   code:
-    if: "if" # Keywords
+    if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "else"
     elif: "elif"
     while: "while"
@@ -200,7 +200,7 @@
     do: "do"
     end: "end"
     function: "function"
-    def: "def"
+    def: "def" # (short for "define")
     self: "self"
     hero: "hero"
     this: "this"
@@ -831,6 +831,7 @@
     thanks_header: "Request Received!"
     thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
     thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
+    back_to_classes: "Back to Classes"
     finish_signup: "Finish creating your teacher account:"
     finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
     signup_with: "Sign up with:"
@@ -1246,7 +1247,7 @@
     print_guide: "Print Guide (PDF)"
     view_guide_online: "View Guide Online (PDF)"
     last_updated: "Last updated:"
-    grants_lifetime_access: "Grants lifetime access to all Courses." # New enrollment modal
+    grants_lifetime_access: "Grants access to all Courses."
     enrollment_credits_available: "Enrollment Credits Available:"
     description: "Description" # ClassroomSettingsModal
     language_select: "Select a language"
@@ -1291,6 +1292,7 @@
     view_class: "view class"
     archive_class: "archive class"
     unarchive_class: "unarchive class"
+    unarchive_this_class: "Unarchive this class"
     no_students_yet: "This class has no students yet."
     add_students: "Add Students"
     create_new_class: "Create a New Class"
@@ -1312,6 +1314,10 @@
     latest_completed: "Latest Completed"
     sort_by: "Sort by"
     progress: "Progress"
+    completed: "Completed"
+    started: "Started"
+    click_to_view_progress: "click to view progress"
+    no_progress: "No progress"
     select_course: "Select course to view"
     course_overview: "Course Overview"
     copy_class_code: "Copy Class Code"

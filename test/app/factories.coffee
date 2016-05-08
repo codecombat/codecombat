@@ -140,6 +140,13 @@ module.exports = {
       name: _.string.humanize(_id)
     }, attrs)
     return new ThangType(attrs)
+    
+  makePayment: (attrs, sources={}) ->
+    _id = _.uniqueId('payment_')
+    attrs = _.extend({}, {
+      _id
+    }, attrs)
+    return new ThangType(attrs)
 
 } 
   
