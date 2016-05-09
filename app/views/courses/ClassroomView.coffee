@@ -118,8 +118,7 @@ module.exports = class ClassroomView extends RootView
     userID = $(e.target).closest('.btn').data('user-id')
     if @prepaids.totalMaxRedeemers() - @prepaids.totalRedeemers() > 0
       # Have an unused enrollment, enroll student immediately instead of opening the enroll modal
-      prepaid = @prepaids.find((prepaid) -> prepaid.get('properties')?.endDate? and prepaid.openSpots() > 0)
-      prepaid = @prepaids.find((prepaid) -> prepaid.openSpots() > 0) unless prepaid
+      prepaid = @prepaids.find((prepaid) -> prepaid.status() is 'available')
       $.ajax({
         method: 'POST'
         url: _.result(prepaid, 'url') + '/redeemers'
@@ -182,7 +181,7 @@ module.exports = class ClassroomView extends RootView
     stats.averageLevelsComplete = if @users.size() then (_.size(completeSessions) / @users.size()).toFixed(1) else 'N/A'  # '
     stats.totalLevelsComplete = _.size(completeSessions)
 
-    enrolledUsers = @users.filter (user) -> user.get('coursePrepaidID')
+    enrolledUsers = @users.filter (user) -> user.isEnrolled()
     stats.enrolledUsers = _.size(enrolledUsers)
     return stats
 

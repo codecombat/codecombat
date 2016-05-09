@@ -24,40 +24,30 @@ module.exports = class TeacherClassView extends RootView
   template: template
 
   events:
-    'click .students-tab-btn': (e) ->
-      e.preventDefault()
-      @trigger 'open-students-tab'
-    'click .course-progress-tab-btn': (e) ->
-      e.preventDefault()
-      @trigger 'open-course-progress-tab'
+    'click .nav-tabs a': 'onClickNavTabLink'
     'click .unarchive-btn': 'onClickUnarchive'
     'click .edit-classroom': 'onClickEditClassroom'
     'click .add-students-btn': 'onClickAddStudents'
-    'click .sort-by-name': 'sortByName'
-    'click .sort-by-progress': 'sortByProgress'
-    'click #copy-url-btn': 'copyURL'
-    'click #copy-code-btn': 'copyCode'
     'click .edit-student-link': 'onClickEditStudentLink'
+    'click .sort-button': 'onClickSortButton'
+    'click #copy-url-btn': 'onClickCopyURLButton'
+    'click #copy-code-btn': 'onClickCopyCodeButton'
     'click .remove-student-link': 'onClickRemoveStudentLink'
-    'click .assign-student-button': 'onClickAssign'
-    'click .enroll-student-button': 'onClickEnroll'
+    'click .assign-student-button': 'onClickAssignStudentButton'
+    'click .enroll-student-button': 'onClickEnrollStudentButton'
+    'click .revoke-student-button': 'onClickRevokeStudentButton'
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .enroll-selected-students': 'onClickBulkEnroll'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
-    'change .course-select, .bulk-course-select': (e) ->
-      @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
+    'keyup #student-search': 'onKeyPressStudentSearch'
       
   getInitialState: ->
-    if Backbone.history.getHash() in ['students-tab', 'course-progress-tab']
-      activeTab = '#' + Backbone.history.getHash()
-    else
-      activeTab = '#students-tab'
     {
       sortAttribute: 'name'
       sortDirection: 1
-      activeTab
+      activeTab: '#' + (Backbone.history.getHash() or 'students-tab')
       students: new Users()
       classCode: ""
       joinURL: ""
@@ -80,38 +70,59 @@ module.exports = class TeacherClassView extends RootView
     @allStudentsLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-all-students-single-level'
     
     @state = new State(@getInitialState())
-    window.location.hash = @state.get('activeTab') # TODO: Don't push to URL history (maybe don't use url fragment for default tab)
+    @updateHash @state.get('activeTab') # TODO: Don't push to URL history (maybe don't use url fragment for default tab)
     
     @classroom = new Classroom({ _id: classroomID })
-    @classroom.fetch()
-    @supermodel.trackModel(@classroom)
+    @supermodel.trackRequest @classroom.fetch()
+    @onKeyPressStudentSearch = _.debounce(@onKeyPressStudentSearch, 200)
     
     @students = new Users()
     @listenTo @classroom, 'sync', ->
       jqxhrs = @students.fetchForClassroom(@classroom, removeDeleted: true)
-      if jqxhrs.length > 0
-        @supermodel.trackCollection(@students)
+      @supermodel.trackRequests jqxhrs
       
       @classroom.sessions = new LevelSessions()
       requests = @classroom.sessions.fetchForAllClassroomMembers(@classroom)
       @supermodel.trackRequests(requests)
 
-    @courses = new Courses()
-    @courses.fetch()
-    @supermodel.trackCollection(@courses)
+    @students.comparator = (student1, student2) =>
+      dir = @state.get('sortDirection')
+      value = @state.get('sortValue')
+      if value is 'name'
+        return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
+        
+      if value is 'progress'
+        # TODO: I would like for this to be in the Level model,
+        #   but it doesn't know about its own courseNumber.
+        level1 = student1.latestCompleteLevel
+        level2 = student2.latestCompleteLevel
+        return -dir if not level1
+        return dir if not level2
+        return dir * (level1.courseNumber - level2.courseNumber or level1.levelNumber - level2.levelNumber)
+        
+      if value is 'status'
+        statusMap = { expired: 0, 'not-enrolled': 1, enrolled: 2 }
+        diff = statusMap[student1.prepaidStatus()] - statusMap[student2.prepaidStatus()]
+        return dir * diff if diff
+        return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
 
+    @courses = new Courses()
+    @supermodel.trackRequest @courses.fetch()
+    
     @courseInstances = new CourseInstances()
-    @courseInstances.fetchForClassroom(classroomID)
-    @supermodel.trackCollection(@courseInstances)
+    @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
     
     @levels = new Levels()
-    @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts'}})
-    @supermodel.trackCollection(@levels)
+    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts'}})
     
     @attachMediatorEvents()
       
   attachMediatorEvents: () ->
-    @listenTo @state, 'sync change', @render
+    @listenTo @state, 'sync change', ->
+      if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
+        @renderSelectors('#enrollment-status-table')
+      else
+        @render()
     # Model/Collection events
     @listenTo @classroom, 'sync change update', ->
       @removeDeletedStudents()
@@ -128,8 +139,6 @@ module.exports = class TeacherClassView extends RootView
       @render() # TODO: use state
     @listenTo @courseInstances, 'add-members', ->
       noty text: $.i18n.t('teacher.assigned'), layout: 'center', type: 'information', killer: true, timeout: 5000
-    @listenToOnce @students, 'sync', # TODO: This seems like it's in the wrong place?
-      @sortByName
     @listenTo @students, 'sync change update add remove reset', ->
       # Set state/props of things that depend on students?
       # Set specific parts of state based on the models, rather than just dumping the collection there?
@@ -141,18 +150,6 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @students, 'sort', ->
       @state.set students: @students
       @render()
-    
-    # DOM events
-    @listenTo @, 'open-students-tab', ->
-      if window.location.hash isnt '#students-tab'
-        window.location.hash = '#students-tab'
-      @state.set activeTab: '#students-tab'
-    @listenTo @, 'open-course-progress-tab', ->
-      if window.location.hash isnt '#course-progress-tab'
-        window.location.hash = '#course-progress-tab'
-      @state.set activeTab: '#course-progress-tab'
-    @listenTo @, 'course-select:change', ({ selectedCourse }) ->
-      @state.set selectedCourse: selectedCourse
 
   setCourseMembers: =>
     for course in @courses.models
@@ -196,12 +193,22 @@ module.exports = class TeacherClassView extends RootView
       progressData
       classStats: @calculateClassStats()
     }
-  
-  copyCode: ->
+
+  onClickNavTabLink: (e) ->
+    e.preventDefault()
+    hash = $(e.target).closest('a').attr('href')
+    @updateHash(hash)
+    @state.set activeTab: hash
+    
+  updateHash: (hash) ->
+    return if application.testing
+    window.location.hash = hash
+
+  onClickCopyCodeButton: ->
     @$('#join-code-input').val(@state.get('classCode')).select()
     @tryCopy()
 
-  copyURL: ->
+  onClickCopyURLButton: ->
     @$('#join-url-input').val(@state.get('joinURL')).select()
     @tryCopy()
 
@@ -253,35 +260,20 @@ module.exports = class TeacherClassView extends RootView
     )
     true
 
-  sortByName: (e) ->
-    if @state.get('sortValue') is 'name'
+  onClickSortButton: (e) ->
+    value = $(e.target).val()
+    if value is @state.get('sortValue')
       @state.set('sortDirection', -@state.get('sortDirection'))
     else
-      @state.set('sortValue', 'name')
-      @state.set('sortDirection', 1)
-      
-    dir = @state.get('sortDirection')
-    @students.comparator = (student1, student2) ->
-      return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
+      @state.set({
+        sortValue: value
+        sortDirection: 1
+      })
     @students.sort()
 
-  sortByProgress: (e) ->
-    if @state.get('sortValue') is 'progress'
-      @state.set('sortDirection', -@state.get('sortDirection'))
-    else
-      @state.set('sortValue', 'progress')
-      @state.set('sortDirection', 1)
-      
-    dir = @state.get('sortDirection')
-    
-    @students.comparator = (student) ->
-      #TODO: I would like for this to be in the Level model,
-      #      but it doesn't know about its own courseNumber
-      level = student.latestCompleteLevel
-      if not level
-        return -dir
-      return dir * ((1000 * level.courseNumber) + level.levelNumber)
-    @students.sort()
+  onKeyPressStudentSearch: (e) ->
+    console.log 'emit event'
+    @state.set('searchTerm', $(e.target).val())
 
   getSelectedStudentIDs: ->
     @$('.student-row .checkbox-flat input:checked').map (index, checkbox) ->
@@ -289,7 +281,7 @@ module.exports = class TeacherClassView extends RootView
 
   ensureInstance: (courseID) ->
 
-  onClickEnroll: (e) ->
+  onClickEnrollStudentButton: (e) ->
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     selectedUsers = new Users([user])
@@ -337,7 +329,7 @@ module.exports = class TeacherClassView extends RootView
     window.open(encodedUri)
 
     
-  onClickAssign: (e) ->
+  onClickAssignStudentButton: (e) ->
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     members = [userID]
@@ -380,6 +372,23 @@ module.exports = class TeacherClassView extends RootView
           courseInstance.addMembers members
       }
     null
+
+  onClickRevokeStudentButton: (e) ->
+    button = $(e.currentTarget)
+    userID = button.data('user-id')
+    user = @students.get(userID)
+    s = $.i18n.t('teacher.revoke_confirm').replace('{{student_name}}', user.broadName())
+    return unless confirm(s)
+    prepaid = user.makeCoursePrepaid()
+    button.text($.i18n.t('teacher.revoking'))
+    prepaid.revoke(user, {
+      success: =>
+        user.unset('coursePrepaid')
+      error: (prepaid, jqxhr) =>
+        msg = jqxhr.responseJSON.message
+        noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+      complete: => @render()
+    })
     
   onClickSelectAll: (e) ->
     e.preventDefault()
@@ -419,7 +428,16 @@ module.exports = class TeacherClassView extends RootView
     stats.averageLevelsComplete = if @students.size() then (_.size(completeSessions) / @students.size()).toFixed(1) else 'N/A'  # '
     stats.totalLevelsComplete = _.size(completeSessions)
 
-    enrolledUsers = @students.filter (user) -> user.get('coursePrepaidID')
+    enrolledUsers = @students.filter (user) -> user.isEnrolled()
     stats.enrolledUsers = _.size(enrolledUsers)
     
     return stats
+
+  studentStatusString: (student) ->
+    status = student.prepaidStatus()
+    expires = student.get('coursePrepaid')?.endDate
+    string = switch status
+      when 'not-enrolled' then $.i18n.t('teacher.status_not_enrolled')
+      when 'enrolled' then (if expires then $.i18n.t('teacher.status_enrolled') else '-')
+      when 'expired' then $.i18n.t('teacher.status_expired')
+    return string.replace('{{date}}', moment(expires).utc().format('l'))

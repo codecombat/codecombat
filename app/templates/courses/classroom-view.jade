@@ -83,7 +83,7 @@ block content
               span.spr :
               span= playtime
 
-      - var paidFor = user.get('coursePrepaidID');
+      - var paidFor = user.isEnrolled();
       for courseInstance in view.courseInstances.models
         - var inCourse = _.contains(courseInstance.get('members'), user.id);
         if !(inCourse || view.teacherMode)

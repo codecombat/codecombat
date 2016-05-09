@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "English", englishDescription: "English", translation:
+﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
   home:
     slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"  # Warning that only shows up in IE8 and older
@@ -1120,7 +1120,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     already_enrolled: "already enrolled"
     licenses_remaining: "licenses remaining:"
     insufficient_enrollments: "insufficient paid enrollments"
-    get_enrollments: "Get More Enrollments"
+    get_enrollments: "Get Enrollments" # {change}
     change_language: "Change Course Language"
     keep_using: "Keep Using"
     switch_to: "Switch To"
@@ -1364,6 +1364,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     earliest_incomplete: "Earliest incomplete level"
     latest_complete: "Latest completed level"
     enroll_student: "Enroll student"
+    revoke_enrollment: "Revoke Enrollment"
     adding_students: "Adding students"
     course_progress: "Course Progress"
     not_applicable: "N/A"
@@ -1399,8 +1400,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
     enrollments_blurb_2: "require enrollments to access the courses."
     credits_available: "Credits Available"
-    total_unique_students: "Total Unique Students"
-    total_enrolled_students: "Total Enrolled Students"
+    total_unique_students: "Total Students (unique)" # {change}
+    total_enrolled_students: "Total Enrolled" # {change}
     unenrolled_students: "Unenrolled Students"
     add_enrollment_credits: "Add Enrollment Credits"
     purchasing: "Purchasing..."
@@ -1419,6 +1420,23 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     send_recovery_email: "Send recovery email"
     change_password: "Change Password"
     changed: "Changed"
+    available_credits: "Available Credits"
+    pending_credits: "Pending Credits"
+    credits: "credits"
+    start_date: "start date:"
+    end_date: "end date:"
+    num_enrollments_needed: "Number of enrollments needed:"
+    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
+    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
+    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
+    enroll_request_sent_blurb3: "Please reach out to <a href='mailto:schools@codecombat.com'>schools@codecombat.com</a> if you have additional questions at this time."
+    request_sent: "Request Sent!"
+    enrollment_status: "Enrollment Status"
+    status_expired: "Expired on {{date}}"
+    status_not_enrolled: "Not Enrolled"
+    status_enrolled: "Expires on {{date}}"
+    revoke_confirm: "Are you sure you want to revoke enrollment from {{student_name}}?"
+    revoking: "Revoking..."
 
   classes:
     archmage_title: "Archmage"
@@ -1576,7 +1594,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     scribe_introduction_url_mozilla: "Mozilla Developer Network"
     scribe_introduction_suf: " has built. If your idea of fun is articulating the concepts of programming in Markdown form, then this class might be for you."
     scribe_attribute_1: "Skill in words is pretty much all you need. Not only grammar and spelling, but able to convey complicated ideas to others."
-    contact_us_url: "Contact us"
+    contact_us_url: "Contact Us" # {change}
     scribe_join_description: "tell us a little about yourself, your experience with programming and what sort of things you'd like to write about. We'll go from there!"
     scribe_subscribe_desc: "Get emails about article writing announcements."
     diplomat_introduction_pref: "So, if there's one thing we learned from the "

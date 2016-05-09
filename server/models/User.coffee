@@ -35,6 +35,7 @@ UserSchema.index({'siteref': 1}, {name: 'siteref index', sparse: true})
 UserSchema.index({'schoolName': 1}, {name: 'schoolName index', sparse: true})
 UserSchema.index({'country': 1}, {name: 'country index', sparse: true})
 UserSchema.index({'role': 1}, {name: 'role index', sparse: true})
+UserSchema.index({'coursePrepaid._id': 1}, {name: 'course prepaid id index', sparse: true})
 
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
@@ -106,6 +107,15 @@ UserSchema.methods.trackActivity = (activityName, increment) ->
   activity[activityName].last = now
   @set 'activity', activity
   activity
+  
+UserSchema.statics.search = (term, done) ->
+  utils = require '../lib/utils'
+  if utils.isID(term)
+    query = {_id: mongoose.Types.ObjectId(term)}
+  else
+    term = term.toLowerCase()
+    query = $or: [{nameLower: term}, {emailLower: term}]
+  return User.findOne(query).exec(done)
 
 emailNameMap =
   generalNews: 'announcement'
@@ -291,6 +301,12 @@ UserSchema.methods.level = ->
   a = 5
   b = c = 100
   if xp > 0 then Math.floor(a * Math.log((1 / b) * (xp + c))) + 1 else 1
+    
+UserSchema.methods.isEnrolled = ->
+  coursePrepaid = @get('coursePrepaid')
+  return false unless coursePrepaid
+  return true unless coursePrepaid.endDate
+  return coursePrepaid.endDate > new Date().toISOString()
 
 UserSchema.statics.saveActiveUser = (id, event, done=null) ->
   # TODO: Disabling this until we know why our app servers CPU grows out of control.
@@ -350,9 +366,18 @@ UserSchema.post 'save', (doc) ->
   doc.newsSubsChanged = not _.isEqual(_.pick(doc.get('emails'), mail.NEWS_GROUPS), _.pick(doc.startingEmails, mail.NEWS_GROUPS))
   UserSchema.statics.updateServiceSettings(doc)
 
+  
 UserSchema.post 'init', (doc) ->
   doc.wasTeacher = doc.isTeacher()
   doc.startingEmails = _.cloneDeep(doc.get('emails'))
+  if @get('coursePrepaidID') and not @get('coursePrepaid')
+    Prepaid = require './Prepaid'
+    @set('coursePrepaid', {
+      _id: @get('coursePrepaidID')
+      startDate: Prepaid.DEFAULT_START_DATE
+      endDate: Prepaid.DEFAULT_END_DATE
+    })
+    @set('coursePrepaidID', undefined)
 
 UserSchema.statics.hashPassword = (password) ->
   password = password.toLowerCase()
@@ -370,7 +395,7 @@ UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
   'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'chinaVersion', 'country',
-  'schoolName', 'ageRange', 'role'
+  'schoolName', 'ageRange', 'role', 'enrollmentRequestSent'
 ]
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [
@@ -378,7 +403,8 @@ UserSchema.statics.editableProperties = [
   'firstName', 'lastName', 'gender', 'ageRange', 'facebookID', 'gplusID', 'emails',
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
-  'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday'
+  'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
+  'enrollmentRequestSent'
 ]
 
 UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']

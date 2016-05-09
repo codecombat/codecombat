@@ -328,6 +328,16 @@ _.extend UserSchema.properties,
   coursePrepaidID: c.objectId({
     description: 'Prepaid which has paid for this user\'s course access'
   })
+  coursePrepaid: {
+    type: 'object'
+    properties: {
+      _id: c.objectId()
+      startDate: c.stringDate()
+      endDate: c.stringDate()
+    }
+  }
+  enrollmentRequestSent: { type: 'boolean' }
+  
   schoolName: {type: 'string'}
   role: {type: 'string', enum: ["God", "advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}
   birthday: c.stringDate({title: "Birthday"})

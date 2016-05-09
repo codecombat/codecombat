@@ -208,9 +208,6 @@ module.exports = class User extends CocoModel
     return true if me.hasSubscription()
     return false
     
-  isEnrolled: ->
-    Boolean(@get('coursePrepaidID'))
-
   isOnPremiumServer: ->
     me.get('country') in ['china', 'brazil']
 
@@ -224,6 +221,14 @@ module.exports = class User extends CocoModel
       error: =>
         @trigger 'email-verify-error'
     })
+
+  isEnrolled: -> @prepaidStatus() is 'enrolled'
+      
+  prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
+    coursePrepaid = @get('coursePrepaid')
+    return 'not-enrolled' unless coursePrepaid
+    return 'enrolled' unless coursePrepaid.endDate
+    return if coursePrepaid.endDate > new Date().toISOString() then 'enrolled' else 'expired'
 
   # Function meant for "me"
     
@@ -279,6 +284,12 @@ module.exports = class User extends CocoModel
     options.data.facebookID = facebookID
     options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
+    
+  makeCoursePrepaid: ->
+    coursePrepaid = @get('coursePrepaid')
+    return null unless coursePrepaid
+    Prepaid = require 'models/Prepaid'
+    return new Prepaid(coursePrepaid)
 
   becomeStudent: (options={}) ->
     options.url = '/db/user/-/become-student'
