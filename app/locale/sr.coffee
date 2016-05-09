@@ -272,7 +272,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     publish: "Објави"
     create: "Направи"
 #    fork: "Fork"
-    play: "Нивои" # When used as an action verb, like "Play next level"
+    play: "Играј" # When used as an action verb, like "Play next level"
     retry: "Покушај поново"
     actions: "Радње"
     info: "Инфо"
