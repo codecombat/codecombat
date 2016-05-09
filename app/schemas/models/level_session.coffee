@@ -55,9 +55,9 @@ _.extend LevelSessionSchema.properties,
     title: 'Changed'
     readOnly: true
   
-  dateFirstCompleted: c.stringDate
-    title: 'Completed'
-    readOnly: true
+  dateFirstCompleted: {} # c.stringDate
+#    title: 'Completed'
+#    readOnly: true
 
   team: c.shortString()
   level: LevelSessionLevelSchema
