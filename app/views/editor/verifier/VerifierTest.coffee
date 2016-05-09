@@ -4,6 +4,7 @@ SuperModel = require 'models/SuperModel'
 God = require 'lib/God'
 GoalManager = require 'lib/world/GoalManager'
 LevelLoader = require 'lib/LevelLoader'
+utils = require 'core/utils'
 
 module.exports = class VerifierTest extends CocoClass
   constructor: (@levelID, @updateCallback, @supermodel, @language) ->
@@ -12,6 +13,11 @@ module.exports = class VerifierTest extends CocoClass
     # TODO: listen to Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem, god: @shared.god from Angel to detect when we can't load the thing
     # TODO: listen to the progress report from Angel to show a simulation progress bar (maybe even out of the number of frames we actually know it'll take)
     @supermodel ?= new SuperModel()
+
+    if utils.getQueryVariable('dev')
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
+
     @language ?= 'python'
     @load()
 
@@ -26,9 +32,9 @@ module.exports = class VerifierTest extends CocoClass
     @grabLevelLoaderData()
 
     unless @solution
-      @updateCallback? state: 'error'
       @error = 'No solution present...'
-      @state = 'error'
+      @state = 'no-solution'
+      @updateCallback? state: 'no-solution'
       return
     me.team = @team = 'humans'
     @setupGod()
@@ -39,8 +45,12 @@ module.exports = class VerifierTest extends CocoClass
     # TODO: reach into and find hero and get the config from the solution
     try
       hero = _.find level.get("thangs"), id: "Hero Placeholder"
-      programmable = _.find(hero.components, (x) -> x.config?.programmableMethods?.plan).config.programmableMethods.plan
-      session.solution = _.find (programmable.solutions ? []), language: session.get('codeLanguage')
+      config = _.find(hero.components, (x) -> x.config?.programmableMethods?.plan).config
+      programmable = config.programmableMethods.plan
+      solution = _.find (programmable.solutions ? []), language: session.get('codeLanguage')
+      solution.source = _.template(solution.source)(config?.programmableMethods?.plan.context)
+      session.solution = solution
+
       session.set 'heroConfig', session.solution.heroConfig
       session.set 'code', {'hero-placeholder': plan: session.solution.source}
       state = session.get 'state'
@@ -49,7 +59,7 @@ module.exports = class VerifierTest extends CocoClass
       session.solution.seed = undefined unless _.isNumber session.solution.seed  # TODO: migrate away from submissionCount/sessionID seed objects
     catch e
       @state = 'error'
-      @error = "Could not load the session solution for #{level.get('name')}: " + e.toString()
+      @error = "Could not load the session solution for #{level.get('name')}: " + e.toString() + "\n" + e.stack
 
   grabLevelLoaderData: ->
     @world = @levelLoader.world
@@ -71,8 +81,8 @@ module.exports = class VerifierTest extends CocoClass
     @god.setGoalManager @goalManager
 
   register: ->
-    @listenToOnce @god, 'infinite-loop', @fail  # TODO: have one of these
-
+    @listenToOnce @god, 'infinite-loop', @fail
+    @listenToOnce @god, 'user-code-problem', @onUserCodeProblem
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
     @god.createWorld @generateSpellsObject()
     @updateCallback? state: 'running'
@@ -84,8 +94,10 @@ module.exports = class VerifierTest extends CocoClass
     @lastFrameHash = e.lastFrameHash
     @state = 'complete'
     @updateCallback? state: @state
+    @scheduleCleanup()
 
-  isSucessful: () ->
+  isSuccessful: () ->
+    return false unless @solution?
     return false unless @frames == @solution.frameCount
     if @goals and @solution.goals
       for k of @goals
@@ -93,10 +105,21 @@ module.exports = class VerifierTest extends CocoClass
         return false if @solution.goals[k] != @goals[k].status
     return true
 
-  fail: (e) ->
-    @error = 'Failed due to infinate loop.'
+  onUserCodeProblem: (e) ->
+    console.warn "Found user code problem:", e
+
+  onNonUserCodeProblem: (e) ->
+    console.error "Found non-user-code problem:", e
+    @error = "Failed due to non-user-code problem: #{JSON.stringify(e)}"
     @state = 'error'
-    @updateCallback? state: @state 
+    @updateCallback? state: @state
+    @scheduleCleanup()
+
+  fail: (e) ->
+    @error = 'Failed due to infinite loop.'
+    @state = 'error'
+    @updateCallback? state: @state
+    @scheduleCleanup()
 
   generateSpellsObject: ->
     aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @session.get('codeLanguage')
@@ -109,3 +132,13 @@ module.exports = class VerifierTest extends CocoClass
       console.log "Couldn't transpile!\n#{source}\n", e
       spellThang.aether.transpile ''
     spells
+
+  scheduleCleanup: ->
+    setTimeout @cleanup, 100
+
+  cleanup: =>
+    if @god
+      @stopListening @god
+      @god.destroy()
+
+    @world = null

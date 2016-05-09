@@ -251,3 +251,10 @@ module.exports = class Level extends CocoModel
 
   isLadder: ->
     return @get('type')?.indexOf('ladder') > -1
+
+  fetchNextForCourse: ({ levelOriginalID, courseInstanceID, courseID }, options={}) ->
+    if courseInstanceID
+      options.url = "/db/course_instance/#{courseInstanceID}/levels/#{levelOriginalID}/next"
+    else
+      options.url = "/db/course/#{courseID}/levels/#{levelOriginalID}/next"
+    @fetch(options)

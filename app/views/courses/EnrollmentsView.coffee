@@ -9,6 +9,7 @@ RootView = require 'views/core/RootView'
 stripeHandler = require 'core/services/stripe'
 template = require 'templates/courses/enrollments-view'
 User = require 'models/User'
+Users = require 'collections/Users'
 utils = require 'core/utils'
 Products = require 'collections/Products'
 
@@ -24,8 +25,8 @@ module.exports = class EnrollmentsView extends RootView
     @supermodel.trackCollection(@ownedClassrooms)
     @listenTo stripeHandler, 'received-token', @onStripeReceivedToken
     @fromClassroom = utils.getQueryVariable('from-classroom')
-    @members = new CocoCollection([], { model: User })
-    @listenTo @members, 'sync', @membersSync
+    @members = new Users()
+    # @listenTo @members, 'sync add remove', @calculateEnrollmentStats
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
     @classrooms.comparator = '_id'
     @listenToOnce @classrooms, 'sync', @onceClassroomsSync
@@ -44,8 +45,8 @@ module.exports = class EnrollmentsView extends RootView
     # 'click .enroll-students': 'onClickEnrollStudents'
 
   onLoaded: ->
+    @calculateEnrollmentStats()
     @pricePerStudent = @products.findWhere({name: 'course'}).get('amount')
-    me.setRole 'teacher'
     super()
 
   getPriceString: -> '$' + (@getPrice()/100).toFixed(2)
@@ -53,28 +54,54 @@ module.exports = class EnrollmentsView extends RootView
 
   onceClassroomsSync: ->
     for classroom in @classrooms.models
-      @members.fetch({
-        remove: false
-        url: "/db/classroom/#{classroom.id}/members"
-      })
+      @supermodel.trackRequests @members.fetchForClassroom(classroom, {remove: false, removeDeleted: true})
 
-  membersSync: ->
+  calculateEnrollmentStats: ->
+    @removeDeletedStudents()
     @memberEnrolledMap = {}
     for user in @members.models
       @memberEnrolledMap[user.id] = user.get('coursePrepaidID')?
-    @classroomNotEnrolledMap = {}
-    @totalNotEnrolled = 0
+      
+    @totalEnrolled = _.reduce @members.models, ((sum, user) ->
+      sum + (if user.get('coursePrepaidID') then 1 else 0)
+    ), 0
+    
+    @numberOfStudents = @totalNotEnrolled = _.reduce @members.models, ((sum, user) ->
+      sum + (if not user.get('coursePrepaidID') then 1 else 0)
+    ), 0
+    
+    @classroomEnrolledMap = _.reduce @classrooms.models, ((map, classroom) =>
+      enrolled = _.reduce classroom.get('members'), ((sum, userID) =>
+        sum + (if @members.get(userID).get('coursePrepaidID') then 1 else 0)
+      ), 0
+      map[classroom.id] = enrolled
+      map
+    ), {}
+    
+    @classroomNotEnrolledMap = _.reduce @classrooms.models, ((map, classroom) =>
+      enrolled = _.reduce classroom.get('members'), ((sum, userID) =>
+        sum + (if not @members.get(userID).get('coursePrepaidID') then 1 else 0)
+      ), 0
+      map[classroom.id] = enrolled
+      map
+    ), {}
+    
+    true
+    
+  removeDeletedStudents: (e) ->
     for classroom in @classrooms.models
-      @classroomNotEnrolledMap[classroom.id] = 0
-      for memberID in classroom.get('members')
-        @classroomNotEnrolledMap[classroom.id]++ unless @memberEnrolledMap[memberID]
-      @totalNotEnrolled += @classroomNotEnrolledMap[classroom.id]
-    @numberOfStudents = @totalNotEnrolled
-    @render?()
+      _.remove(classroom.get('members'), (memberID) =>
+        not @members.get(memberID) or @members.get(memberID)?.get('deleted')
+      )
+    true
 
   onInputStudentsInput: ->
-    @numberOfStudents = Math.max(parseInt(@$('#students-input').val()) or 0, 0)
-    @updatePrice()
+    input = @$('#students-input').val()
+    if input isnt "" and (parseFloat(input) isnt parseInt(input) or _.isNaN parseInt(input))
+      @$('#students-input').val(@numberOfStudents)
+    else
+      @numberOfStudents = Math.max(parseInt(@$('#students-input').val()) or 0, 0)
+      @updatePrice()
 
   updatePrice: ->
     @renderSelectors '#price-form-group'

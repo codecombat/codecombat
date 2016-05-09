@@ -6,10 +6,12 @@ Range = ace.require('ace/range').Range
 UndoManager = ace.require('ace/undomanager').UndoManager
 Problem = require './Problem'
 SpellDebugView = require './SpellDebugView'
+SpellTranslationView = require './SpellTranslationView'
 SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
 utils = require 'core/utils'
+CodeLog = require 'models/CodeLog'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -47,12 +49,15 @@ module.exports = class SpellView extends CocoView
     'tome:maximize-toggled': 'onMaximizeToggled'
     'script:state-changed': 'onScriptStateChange'
     'playback:ended-changed': 'onPlaybackEndedChanged'
+    'level:contact-button-pressed': 'onContactButtonPressed'
+    'level:show-victory': 'onShowVictory'
 
   events:
     'mouseout': 'onMouseOut'
 
   constructor: (options) ->
     super options
+    @supermodel = options.supermodel
     @worker = options.worker
     @session = options.session
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
@@ -63,7 +68,6 @@ module.exports = class SpellView extends CocoView
     @highlightCurrentLine = _.throttle @highlightCurrentLine, 100
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
-
   afterRender: ->
     super()
     @createACE()
@@ -105,6 +109,14 @@ module.exports = class SpellView extends CocoView
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     $(@ace.container).find('.ace_gutter').on 'click', @onGutterClick
     @initAutocomplete aceConfig.liveCompletion ? true
+
+    return if @session.get('creator') isnt me.id or @session.fake
+    # Create a Spade to 'dig' into Ace.
+    @spade = new Spade()
+    @spade.track(@ace)
+    # If a user is taking longer than 10 minutes, let's log it.
+    saveSpadeDelay = 10 * 60 * 1000
+    @saveSpadeTimeout = setTimeout @saveSpade, saveSpadeDelay
 
   createACEShortcuts: ->
     @aceCommands = aceCommands = []
@@ -628,6 +640,10 @@ module.exports = class SpellView extends CocoView
     return if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
+    
+  createTranslationView: ->
+    @translationView = new SpellTranslationView { @ace, @supermodel }
+    @$el.append @translationView.render().$el.hide()
 
   createToolbarView: ->
     @toolbarView = new SpellToolbarView ace: @ace
@@ -635,6 +651,9 @@ module.exports = class SpellView extends CocoView
 
   onMouseOut: (e) ->
     @debugView?.onMouseOut e
+
+  onContactButtonPressed: (e) ->
+    @saveSpade()
 
   getSource: ->
     @ace.getValue()  # could also do @firepad.getText()
@@ -648,6 +667,7 @@ module.exports = class SpellView extends CocoView
     @spellThang = @spell.thangs[@thang.id]
     @createDebugView() unless @debugView
     @debugView?.thang = @thang
+    @createTranslationView() unless @translationView
     @toolbarView?.toggleFlow false
     @updateAether false, false
     # @addZatannaSnippets()
@@ -704,6 +724,33 @@ module.exports = class SpellView extends CocoView
   hideProblemAlert: ->
     return if @destroyed
     Backbone.Mediator.publish 'tome:hide-problem-alert', {}
+
+  saveSpade: =>
+    return if @destroyed
+    spadeEvents = @spade.compile()
+    # Uncomment the below line for a debug panel to display inside the level
+    #@spade.debugPlay(spadeEvents)
+    condensedEvents = @spade.condense(spadeEvents)
+    
+    return unless condensedEvents.length
+    compressedEvents = LZString.compressToUTF16(JSON.stringify(condensedEvents))
+
+    codeLog = new CodeLog({
+      sessionID: @options.session.id
+      level:
+        original: @options.level.get 'original'
+        majorVersion: (@options.level.get 'version').major
+      levelSlug: @options.level.get 'slug'
+      userID: @options.session.get 'creator'
+      log: compressedEvents
+    })
+
+    codeLog.save()
+  
+  onShowVictory: (e) ->
+    if @saveSpadeTimeout?
+      window.clearTimeout @saveSpadeTimeout
+      @saveSpadeTimeout = null
 
   onManualCast: (e) ->
     cast = @$el.parent().length
@@ -1296,9 +1343,12 @@ module.exports = class SpellView extends CocoView
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
     @destroyAceEditor(@ace)
     @debugView?.destroy()
+    @translationView?.destroy()
     @toolbarView?.destroy()
     @zatanna.addSnippets [], @editorLang if @editorLang?
     $(window).off 'resize', @onWindowResize
+    window.clearTimeout @saveSpadeTimeout
+    @saveSpadeTimeout = null
     super()
 
 commentStarts =

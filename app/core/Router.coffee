@@ -1,5 +1,6 @@
 go = (path, options) -> -> @routeDirectly path, arguments, options
 redirect = (path) -> -> @navigate(path, { trigger: true, replace: true })
+utils = require './utils'
 
 module.exports = class CocoRouter extends Backbone.Router
 
@@ -13,6 +14,8 @@ module.exports = class CocoRouter extends Backbone.Router
     '': ->
       if window.serverConfig.picoCTF
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
+      if utils.getQueryVariable 'hour_of_code'
+        return @navigate "/play", {trigger: true, replace: true}
       return @routeDirectly('NewHomeView', [])
 
     'about': go('AboutView')
@@ -37,6 +40,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/trial-requests': go('admin/TrialRequestsView')
     'admin/user-code-problems': go('admin/UserCodeProblemsView')
     'admin/pending-patches': go('admin/PendingPatchesView')
+    'admin/codelogs': go('admin/CodeLogsView')
 
     'beta': go('HomeView')
 
@@ -158,6 +162,12 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('teachers/RestrictedToTeachersView')
     if options.studentsOnly and me.isTeacher()
       return @routeDirectly('courses/RestrictedToStudentsView')
+    leavingMessage = _.result(window.currentView, 'onLeaveMessage')
+    if leavingMessage
+      if not confirm(leavingMessage)
+        return @navigate(this.path, {replace: true})
+      else
+        window.currentView.onLeaveMessage = _.noop # to stop repeat confirm calls
 
     path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views)?\/?play/.test(path)
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
@@ -185,6 +195,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @activateTab()
     view.afterInsert()
     view.didReappear()
+    @path = document.location.pathname + document.location.search
 
   closeCurrentView: ->
     if window.currentView?.reloadOnClose

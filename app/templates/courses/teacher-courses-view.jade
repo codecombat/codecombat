@@ -17,6 +17,8 @@ block content
   .container
     h1(data-i18n="courses.title")
     h2(data-i18n="courses.subtitle")
+    p
+      a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
   
   .courses.container
     - var courses = view.courses.models;
@@ -27,45 +29,47 @@ block content
       .course.row
         .col-sm-9
           +course-info(course)
-        .col-sm-3
-          .play-level-form(data-course-id=course.id)
-            .form-group
-              label.control-label
-                span(data-i18n="courses.select_language")
-                | :
-                select.language-select.form-control
-                  // TODO: Automate this list @scott
-                  option(value="python")
-                    | Python
-                  option(value="javascript")
-                    | JavaScript
-                  //- option(value="coffeescript")
-                  //-   | CoffeeScript (Experimental)
-                  //- option(value="clojure")
-                  //-   | Clojure (Experimental)
-                  //- option(value="lua")
-                  //-   | Lua
-                  //- option(value="java")
-                  //-   | Java
-            .form-group
-              label.control-label
-                span(data-i18n="courses.select_level")
-                | :
-                select.level-select.form-control
-                  if view.campaigns.loaded
-                    each level, levelIndex in view.campaigns.get(course.get('campaignID')).getLevels().models
-                      option(value=level.get('slug'))
-                        span
-                          = levelIndex + 1
-                        span
-                          | . 
-                        span
-                          = level.get('name')
-            a.play-level-button.btn.btn-lg.btn-primary
-              span(data-i18n="courses.play_level")
-          .clearfix       
+        if me.isTeacher()
+          .col-sm-3
+            .play-level-form(data-course-id=course.id)
+              .form-group
+                label.control-label
+                  span(data-i18n="courses.select_language")
+                  | :
+                  select.language-select.form-control
+                    // TODO: Automate this list @scott
+                    option(value="python")
+                      | Python
+                    option(value="javascript")
+                      | JavaScript
+                    //- option(value="coffeescript")
+                    //-   | CoffeeScript (Experimental)
+                    //- option(value="clojure")
+                    //-   | Clojure (Experimental)
+                    //- option(value="lua")
+                    //-   | Lua
+                    //- option(value="java")
+                    //-   | Java
+              .form-group
+                label.control-label
+                  span(data-i18n="courses.select_level")
+                  | :
+                  select.level-select.form-control
+                    if view.campaigns.loaded
+                      each level, levelIndex in view.campaigns.get(course.get('campaignID')).getLevels().models
+                        option(value=level.get('slug'))
+                          span
+                            = levelIndex + 1
+                          span.spr
+                            | . 
+                          span
+                            = level.get('name')
+              a.play-level-button.btn.btn-lg.btn-primary
+                span(data-i18n="courses.play_level")
+            .clearfix
             
 mixin course-info(course)
+  - var campaign = view.campaigns.get(course.get('campaignID'));
   .course-info
     .text-h4.semibold
       = course.get('name')
@@ -80,12 +84,20 @@ mixin course-info(course)
         
     if me.isTeacher() || view.ownedClassrooms.size()
       if view.guideLinks[course.id]
-        //- a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
+        //- a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isTeacher() ? '': 'disabled'))
         //-   span(data-i18n="courses.print_guide")
-        a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isAnonymous() ? 'disabled' : ''))
+        a.btn.btn-primary(href=view.guideLinks[course.id].python class=(me.isTeacher() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
+          |  &mdash; Python
+        a.btn.btn-primary(href=view.guideLinks[course.id].javascript class=(me.isTeacher() ? '': 'disabled'))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; JavaScript
       else
         i.small
           | (
           span(data-i18n='teacher.guides_coming_soon')
           | )
+    if campaign && campaign.get('levelsUpdated')
+      p.small.m-t-2
+        span.spr(data-i18n="courses.last_updated")
+        span= moment(campaign.get('levelsUpdated')).format('LL')

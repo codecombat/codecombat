@@ -1,8 +1,8 @@
 app = require 'core/application'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/courses-view'
-StudentLogInModal = require 'views/courses/StudentLogInModal'
-StudentSignUpModal = require 'views/courses/StudentSignUpModal'
+AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
 CourseInstance = require 'models/CourseInstance'
@@ -22,7 +22,7 @@ module.exports = class CoursesView extends RootView
 
   events:
     'click #log-in-btn': 'onClickLogInButton'
-    'click #start-new-game-btn': 'onClickStartNewGameButton'
+    'click #start-new-game-btn': 'openSignUpModal'
     'click #join-class-btn': 'onClickJoinClassButton'
     'submit #join-class-form': 'onSubmitJoinClassForm'
     'click #change-language-link': 'onClickChangeLanguageLink'
@@ -39,8 +39,6 @@ module.exports = class CoursesView extends RootView
     @supermodel.trackCollection(@ownedClassrooms)
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses)
-    @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign })
-    @supermodel.loadCollection(@campaigns, { data: { type: 'course' }})
 
   onCourseInstancesLoaded: ->
     map = {}
@@ -56,49 +54,24 @@ module.exports = class CoursesView extends RootView
       courseInstance.sessions.comparator = 'changed'
       @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete level.original playtime changed' }})
 
-    @hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
-    if @hocCourseInstance
-      @courseInstances.remove(@hocCourseInstance)
+    hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
+    if hocCourseInstance
+      @courseInstances.remove(hocCourseInstance)
 
   onLoaded: ->
     super()
     if utils.getQueryVariable('_cc', false) and not me.isAnonymous()
       @joinClass()
 
-  onClickStartNewGameButton: ->
-    if me.isAnonymous()
-      @openSignUpModal()
-    else
-      modal = new ChooseLanguageModal()
-      @openModalView(modal)
-      @listenToOnce modal, 'set-language', =>
-        @startHourOfCodePlay()
-        application.tracker?.trackEvent 'Automatic start hour of code play', category: 'Courses', label: 'set language'
-      application.tracker?.trackEvent 'Start New Game', category: 'Courses'
-
   onClickLogInButton: ->
-    modal = new StudentLogInModal()
+    modal = new AuthModal()
     @openModalView(modal)
-    modal.on 'want-to-create-account', @openSignUpModal, @
     application.tracker?.trackEvent 'Started Student Login', category: 'Courses'
 
   openSignUpModal: ->
-    modal = new StudentSignUpModal({ willPlay: true })
+    modal = new CreateAccountModal()
     @openModalView(modal)
-    modal.once 'click-skip-link', (=>
-      @startHourOfCodePlay()
-      application.tracker?.trackEvent 'Automatic start hour of code play', category: 'Courses', label: 'skip link'
-      ), @
     application.tracker?.trackEvent 'Started Student Signup', category: 'Courses'
-
-  startHourOfCodePlay: ->
-    @$('#main-content').hide()
-    @$('#begin-hoc-area').removeClass('hide')
-    hocCourseInstance = new CourseInstance()
-    hocCourseInstance.upsertForHOC()
-    @listenToOnce hocCourseInstance, 'sync', ->
-      url = hocCourseInstance.firstLevelURL()
-      app.router.navigate(url, { trigger: true })
 
   onSubmitJoinClassForm: (e) ->
     e.preventDefault()
@@ -134,7 +107,7 @@ module.exports = class CoursesView extends RootView
       @errorMessage = "#{jqxhr.responseText}"
     @renderSelectors '#join-class-form'
 
-  onJoinClassroomSuccess: (newClassroom, jqxhr, options) ->
+  onJoinClassroomSuccess: (newClassroom, data, options) ->
     application.tracker?.trackEvent 'Joined classroom', {
       category: 'Courses'
       classCode: @classCode
@@ -158,13 +131,17 @@ module.exports = class CoursesView extends RootView
           courseInstance.sessions = new Backbone.Collection()
           @courseInstances.add(courseInstance)
       $.when(jqxhrs...).done =>
-        @state = null
-        @render()
-        location.hash = ''
-        f = -> location.hash = '#just-added-text'
-        # quick and dirty scroll to just-added classroom
-        setTimeout(f, 10)
-
+        # This is a hack to work around previous hacks
+        # TODO: Do joinWithCode properly (before page load)
+        # TODO: Do data flow properly (so going to the class URL works and we don't need to just refresh)
+        location.search = ""
+        # @state = null
+        # @render()
+        # location.hash = ''
+        # f = -> location.hash = '#just-added-text'
+        # # quick and dirty scroll to just-added classroom
+        # setTimeout(f, 10)
+    
   onClickChangeLanguageLink: ->
     application.tracker?.trackEvent 'Student clicked change language', category: 'Courses'
     modal = new ChangeCourseLanguageModal()

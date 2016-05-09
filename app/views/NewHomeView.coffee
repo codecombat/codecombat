@@ -38,9 +38,6 @@ module.exports = class NewHomeView extends RootView
     @variation ?= me.getHomepageGroup()
 
     window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage'
-    if @getQueryVariable 'hour_of_code'
-      application.router.navigate "/hoc", trigger: true
-
     if me.isTeacher()
       @trialRequests = new TrialRequests()
       @trialRequests.fetchOwn()
@@ -100,6 +97,9 @@ module.exports = class NewHomeView extends RootView
       interval: 0
       keyboard: false
     })
+    $(window).on 'resize', @fitToPage
+    @fitToPage()
+    setTimeout(@fitToPage, 0)
     super()
 
   logoutAccount: ->
@@ -162,3 +162,13 @@ module.exports = class NewHomeView extends RootView
       event.preventDefault()
       # Modal opening happens automatically from bootstrap
       $('#screenshot-carousel').carousel($(event.currentTarget).data("index"))
+
+  fitToPage: =>
+    windowHeight = $(window).height()
+    linkBox = @$("#learn-more-link").parent()
+    linkOffset = linkBox.offset()
+    adjustment = windowHeight - (linkOffset.top + linkBox.height())
+    target = @$('.top-spacer').first()
+    newOffset = parseInt(target.css('height') || 0) + adjustment
+    newOffset = Math.min(Math.max(0, newOffset), 170)
+    target.css(height: "#{newOffset}px")

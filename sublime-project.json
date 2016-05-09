@@ -1,0 +1,12 @@
+{
+  "folders":[
+    {
+      "path":".",
+      "folder_exclude_patterns":[
+        "bower_components",
+        "public",
+        "node_modules"
+      ]
+    }
+  ]
+}

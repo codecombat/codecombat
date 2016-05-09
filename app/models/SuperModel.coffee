@@ -96,8 +96,9 @@ module.exports = class SuperModel extends Backbone.Model
     jqxhr.done -> res.markLoaded()
     jqxhr.fail -> res.markFailed()
     @storeResource(res, value)
+    return jqxhr
     
-  trackRequests: (jqxhrs, value=1) -> @trackRequest(jqxhr) for jqxhr in jqxhrs
+  trackRequests: (jqxhrs, value=1) -> @trackRequest(jqxhr, value) for jqxhr in jqxhrs
 
   # replace or overwrite
   shouldSaveBackups: (model) -> false

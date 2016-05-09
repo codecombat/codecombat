@@ -24,13 +24,13 @@ block content
                 small.label(data-i18n="about.team_link")
             li
               a(href="#community")#community-link
-                small.label(data-i18n="about.community_link")
+                small.label(data-i18n="nav.community")
             li
               a(href="#story")#story-link
                 small.label(data-i18n="about.story_link")
             li
               a(href="#jobs")#jobs-link
-                small.label(data-i18n="about.careers_link")
+                small.label(data-i18n="nav.careers")
             li
               a(href="#contact")#contact-link
                 small.label(data-i18n="about.press_link")
@@ -118,6 +118,26 @@ block content
               small(data-i18n="about.robin_title")
               small(data-i18n="about.robin_blurb")
 
+          li
+            img(src="/images/pages/about/phoenix_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name Phoenix Eliot
+              small(data-i18n="about.phoenix_title")
+              br
+
+          li
+            img(src="/images/pages/about/nolan_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name Nolan Kelly
+              small(data-i18n="about.nolan_title")
+              br
+
+          li
+            img(src="/images/pages/about/elliot_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name Elliot Okiwelu
+              small(data-i18n="about.elliot_title")
+              br
 
           // Part time / contract
           li
@@ -213,7 +233,7 @@ block content
           #story-languages
             .text-center
               .text-h5(data-i18n="about.story_statistic_3c")
-            #language-icons.text-center(title="Clojure, CoffeeScript, JavaScript, Python, Java, Lua")
+            #language-icons.text-center(title="CoffeeScript, JavaScript, Python, Java, Lua")
               img.hidden-xs(src="/images/pages/about/languages.png")
               img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/languages_group1.png")
               img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/languages_group2.png")
@@ -246,7 +266,15 @@ block content
                 li.small(data-i18n="about.jobs_benefit_5")
                 li.small(data-i18n="about.jobs_benefit_7")
           .col-sm-6.col-md-5.col-lg-4
-          
+            .job-listing
+              h5 Marketing Development Representative
+              .text-center
+                small.label
+                  | San Francisco • Fulltime
+              p.small We have a high volume of inbound school demo requests per day (growing rapidly), and you'll be responsible for their qualification: prioritizing, emailing and securing calls with leads, qualifying (and disqualifying) opportunities, and passing them to your account executive teammates to advance and close the deal.
+              a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/47deb5db-3c8e-4805-8aa6-bf92cac94db0" rel="external")
+                span(data-i18n="about.learn_more")
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
               h5 Marketing Manager
               .text-center
@@ -255,7 +283,7 @@ block content
               p.small We're looking for an amazing marketer to help us fill our funnel and keep the pipeline growing. As our Marketing Manager, you'll be responsible for driving traffic to our website through content creation and converting those visitors into leads and customers using both automated and personalized content.
               a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/1033ec13-d4a0-498d-99e0-628afdb56fb5" rel="external")
                 span(data-i18n="about.learn_more")
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
+          .col-sm-6.col-md-5.col-lg-4
             .job-listing
               h5(data-i18n="about.jobs_custom_title")
               p.small(data-i18n="about.jobs_custom_description")
@@ -350,11 +378,11 @@ block content
           .col-sm-4.col-sm-offset-2
             p
               b CodeCombat Inc.
-            p 360 3rd St.
-            p Suite 700 (Livefyre)
-            p San Francisco, CA 94107
+            p 301 Howard Street
+            p Suite No. 830
+            p San Francisco, California 94015
             a(href="mailto:team@codecombat.com") team@codecombat.com
           .col-sm-4
             p
               b(data-i18n="about.location_title")
-            iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo&q=360+3rd+St+Suite+700,+San+Francisco,+CA+94107")
+            iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo&q=301+Howard+St+Suite+830,+San+Francisco,+CA+94105")

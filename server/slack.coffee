@@ -8,7 +8,7 @@ roomChannelMap =
   
 module.exports.sendChangedSlackMessage = (options) ->
   message = "#{options.creator.get('name')} saved a change to #{options.target.get('name')}: #{options.target.get('commitMessage') or '(no commit message)'} #{options.docLink}"
-  rooms = if /Diplomat submission/.test(message) then ['dev-feed'] else ['dev-feed', 'artisans']
+  rooms = if /Diplomat submission/.test(message) then ['dev-feed'] else ['artisans']
   @sendSlackMessage message, rooms
 
 module.exports.sendSlackMessage = (message, rooms=['tower'], options={}) ->

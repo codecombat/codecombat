@@ -7,6 +7,8 @@ CourseInstance = require '../../../server/models/CourseInstance'
 Course = require '../../../server/models/Course'
 User = require '../../../server/models/User'
 Classroom = require '../../../server/models/Classroom'
+Campaign = require '../../../server/models/Campaign'
+Level = require '../../../server/models/Level'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
 
@@ -241,4 +243,125 @@ describe 'DELETE /db/course_instance/:id/members', ->
     expect(res.body.members.length).toBe(0)
     user = yield User.findById(@student.id)
     expect(_.size(user.get('courseInstances'))).toBe(0)
+    done()
+    
+describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels [User, Classroom, Course, Level, Campaign]
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+
+    levelJSON = { name: 'A', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
+    expect(res.statusCode).toBe(200)
+    @levelA = yield Level.findById(res.body._id)
+    paredLevelA = _.pick(res.body, 'name', 'original', 'type')
+
+    levelJSON = { name: 'B', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
+    expect(res.statusCode).toBe(200)
+    @levelB = yield Level.findById(res.body._id)
+    paredLevelB = _.pick(res.body, 'name', 'original', 'type')
+
+    levelJSON = { name: 'C', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
+    expect(res.statusCode).toBe(200)
+    @levelC = yield Level.findById(res.body._id)
+    paredLevelC = _.pick(res.body, 'name', 'original', 'type')
+
+    campaignJSONA = { name: 'Campaign A', levels: {} }
+    campaignJSONA.levels[paredLevelA.original] = paredLevelA
+    campaignJSONA.levels[paredLevelB.original] = paredLevelB
+    [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSONA})
+    @campaignA = yield Campaign.findById(res.body._id)
+
+    campaignJSONB = { name: 'Campaign B', levels: {} }
+    campaignJSONB.levels[paredLevelC.original] = paredLevelC
+    [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSONB})
+    @campaignB = yield Campaign.findById(res.body._id)
+
+    @courseA = Course({name: 'Course A', campaignID: @campaignA._id})
+    yield @courseA.save()
+
+    @courseB = Course({name: 'Course B', campaignID: @campaignB._id})
+    yield @courseB.save()
+
+    teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(teacher)
+    data = { name: 'Classroom 1' }
+    classroomsURL = getURL('/db/classroom')
+    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+    expect(res.statusCode).toBe(201)
+    @classroom = yield Classroom.findById(res.body._id)
+    
+    url = getURL('/db/course_instance')
+
+    dataA = { name: 'Some Name', courseID: @courseA.id, classroomID: @classroom.id }
+    [res, body] = yield request.postAsync {uri: url, json: dataA}
+    expect(res.statusCode).toBe(200)
+    @courseInstanceA = yield CourseInstance.findById(res.body._id)
+
+    dataB = { name: 'Some Other Name', courseID: @courseB.id, classroomID: @classroom.id }
+    [res, body] = yield request.postAsync {uri: url, json: dataB}
+    expect(res.statusCode).toBe(200)
+    @courseInstanceB = yield CourseInstance.findById(res.body._id)
+    
+    done()
+
+  it 'returns the next level for the course in the linked classroom', utils.wrap (done) ->
+    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelA.id}/next"), json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.original).toBe(@levelB.original.toString())
+    done()
+    
+  it 'returns empty object if the given level is the last level in its course', utils.wrap (done) ->
+    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelB.id}/next"), json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toEqual({})
+    done()
+
+  it 'returns 404 if the given level is not in the course instance\'s course', utils.wrap (done) ->
+    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceB.id}/levels/#{@levelA.id}/next"), json: true }
+    expect(res.statusCode).toBe(404)
+    done()
+    
+    
+describe 'GET /db/course_instance/:handle/classroom', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels [User, CourseInstance, Classroom]
+    @owner = yield utils.initUser()
+    yield @owner.save()
+    @member = yield utils.initUser()
+    yield @member.save()
+    @classroom = new Classroom({
+      ownerID: @owner._id
+      members: [@member._id]
+    })
+    yield @classroom.save()
+    @courseInstance = new CourseInstance({classroomID: @classroom._id})
+    yield @courseInstance.save()
+    @url = getURL("/db/course_instance/#{@courseInstance.id}/classroom")
+    done()
+
+  it 'returns the course instance\'s referenced classroom', utils.wrap (done) ->
+    yield utils.loginUser @owner
+    [res, body] = yield request.getAsync(@url, {json: true})
+    expect(res.statusCode).toBe(200)
+    expect(body.code).toBeDefined()
+    done()
+
+  it 'works if you are the owner or member', utils.wrap (done) ->
+    yield utils.loginUser @member
+    [res, body] = yield request.getAsync(@url, {json: true})
+    expect(res.statusCode).toBe(200)
+    expect(body.code).toBeUndefined()
+    done()
+
+  it 'does not work if you are not the owner or a member', utils.wrap (done) ->
+    @user = yield utils.initUser()
+    yield utils.loginUser @user
+    [res, body] = yield request.getAsync(@url, {json: true})
+    expect(res.statusCode).toBe(403)
     done()

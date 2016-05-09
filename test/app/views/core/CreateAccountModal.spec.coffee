@@ -1,4 +1,5 @@
 CreateAccountModal = require 'views/core/CreateAccountModal'
+COPPADenyModal = require 'views/core/COPPADenyModal'
 forms = require 'core/forms'
 
 describe 'CreateAccountModal', ->
@@ -31,22 +32,41 @@ describe 'CreateAccountModal', ->
     beforeEach ->
       initModal()
 
-    it 'fails if nothing is in the form, showing errors for email and password', ->
+    it 'fails if nothing is in the form, showing errors for email, birthday, and password', ->
       modal.$('form').each (i, el) -> el.reset()
       modal.$('form').submit()
       expect(jasmine.Ajax.requests.all().length).toBe(0)
-      expect(modal.$('.has-error').length).toBe(2)
+      expect(modal.$('.has-error').length).toBe(3)
     
     it 'fails if email is missing', ->
       modal.$('form').each (i, el) -> el.reset()
-      forms.objectToForm(modal.$el, { name: 'Name', password: 'xyzzy' })
+      forms.objectToForm(modal.$el, { name: 'Name', password: 'xyzzy', birthdayDay: 24, birthdayMonth: 7, birthdayYear: 1988 })
       modal.$('form').submit()
       expect(jasmine.Ajax.requests.all().length).toBe(0)
       expect(modal.$('.has-error').length).toBeTruthy()
 
-    it 'signs up if only email and password is provided', ->
+    it 'fails if birthay is missing', ->
       modal.$('form').each (i, el) -> el.reset()
       forms.objectToForm(modal.$el, { email: 'some@email.com', password: 'xyzzy' })
+      modal.$('form').submit()
+      expect(jasmine.Ajax.requests.all().length).toBe(0)
+      expect(modal.$('.has-error').length).toBe(1)
+
+    it 'fails if user is too young', ->
+      modal.$('form').each (i, el) -> el.reset()
+      forms.objectToForm(modal.$el, { email: 'some@email.com', password: 'xyzzy', birthdayDay: 24, birthdayMonth: 7, birthdayYear: (new Date().getFullYear() - 10) })
+      modalOpened = false
+      spyOn(modal, 'openModalView').and.callFake (modal) -> 
+        modalOpened = true
+        expect(modal instanceof COPPADenyModal).toBe(true)
+
+      modal.$('form').submit()
+      expect(jasmine.Ajax.requests.all().length).toBe(0)
+      expect(modalOpened).toBeTruthy()
+
+    it 'signs up if only email, birthday, and password is provided', ->
+      modal.$('form').each (i, el) -> el.reset()
+      forms.objectToForm(modal.$el, { email: 'some@email.com', password: 'xyzzy', birthdayDay: 24, birthdayMonth: 7, birthdayYear: 1988 })
       modal.$('form').submit()
       requests = jasmine.Ajax.requests.all()
       expect(requests.length).toBe(1)
@@ -92,6 +112,7 @@ describe 'CreateAccountModal', ->
 
     beforeEach ->
       initModal()
+      forms.objectToForm(modal.$el, { birthdayDay: 24, birthdayMonth: 7, birthdayYear: 1988 })
       signupButton = modal.$('#gplus-signup-btn')
       expect(signupButton.attr('disabled')).toBeFalsy()
       signupButton.click()
@@ -121,14 +142,13 @@ describe 'CreateAccountModal', ->
         
       describe 'and the user finishes signup anyway with new info', ->
         beforeEach ->
-          forms.objectToForm(modal.$el, { email: 'some@email.com', schoolName: 'Hogwarts' })
+          forms.objectToForm(modal.$el, { email: 'some@email.com', birthdayDay: 24, birthdayMonth: 7, birthdayYear: 1988 })
           modal.$('form').submit()
           
         it 'upserts the values to the new user', ->
           request = jasmine.Ajax.requests.mostRecent()
           expect(request.method).toBe('PUT')
           expect(request.url).toBe('/db/user?gplusID=abcd&gplusAccessToken=1234')
-          expect(JSON.parse(request.params).schoolName).toBe('Hogwarts')
           
 
     describe 'and finding the given person is not yet a user', ->
@@ -158,6 +178,7 @@ describe 'CreateAccountModal', ->
 
     beforeEach ->
       initModal()
+      forms.objectToForm(modal.$el, { birthdayDay: 24, birthdayMonth: 7, birthdayYear: 1988 })
       signupButton = modal.$('#facebook-signup-btn')
       expect(signupButton.attr('disabled')).toBeFalsy()
       signupButton.click()
@@ -187,14 +208,13 @@ describe 'CreateAccountModal', ->
 
       describe 'and the user finishes signup anyway with new info', ->
         beforeEach ->
-          forms.objectToForm(modal.$el, { email: 'some@email.com', schoolName: 'Hogwarts' })
+          forms.objectToForm(modal.$el, { email: 'some@email.com', birthdayDay: 24, birthdayMonth: 7, birthdayYear: 1988 })
           modal.$('form').submit()
 
         it 'upserts the values to the new user', ->
           request = jasmine.Ajax.requests.mostRecent()
           expect(request.method).toBe('PUT')
           expect(request.url).toBe('/db/user?facebookID=abcd&facebookAccessToken=1234')
-          expect(JSON.parse(request.params).schoolName).toBe('Hogwarts')
 
 
     describe 'and finding the given person is not yet a user', ->

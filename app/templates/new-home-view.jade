@@ -60,7 +60,7 @@ mixin box
         div
           button.join-class.btn.btn-default.btn-lg.btn-block(data-i18n="new_home.join_class", href="/courses")
 
-        
+
         h6#classroom-edition-header(style="padding-top: 20px",data-i18n="new_home.teachers_and_educators")
         p.small(data-i18n="new_home.class_in_box")
         button.teacher-btn.btn.btn-primary.btn-lg.btn-block(data-i18n="new_home.get_started")
@@ -68,7 +68,7 @@ mixin box
 
       if ['home-teachers','home-dropdowns','home-play-for-free'].indexOf(view.variation) != -1
         p.small
-          span(data-i18n="new_home.login_switch")
+          span(data-i18n="new_home.have_an_account")
           span &nbsp;
           a.login-button(data-i18n="login.log_in", href="#")
     else
@@ -106,11 +106,12 @@ mixin box
     .well#ideal-tickets-well.text-center.hidden-xs.hidden-sm
       h6 Thuis versie:
       a.btn.btn-purple.btn-lg.btn-block(href="http://codecombat.nl/kopen") Prepaid codes (iDeal)
-        
+
 
 block content
   .container-fluid#jumbotron-container-fluid.alt-image
     .container
+      .row.hidden-xs.top-spacer(style="height: 160px")
       .row.hidden-sm.hidden-xs
         case view.variation
           when 'home-legacy-left'
@@ -125,7 +126,7 @@ block content
               +box
       .row.hidden-lg.hidden-md
         .col-lg-7.col-md-8
-          h1(data-i18n="new_home.slogan",style="margin-top: 200px")
+          h1(data-i18n="new_home.slogan")
         .col
           div(style="margin: auto; max-width: 300px")
             +box
@@ -135,7 +136,7 @@ block content
           a#learn-more-link
             h6(data-i18n="new_home.learn_more")
             h2
-              span.glyphicon.glyphicon-chevron-down      
+              span.glyphicon.glyphicon-chevron-down
 
 
   .container#classroom-in-box-container
@@ -288,7 +289,7 @@ block content
         if me.isAnonymous()
           .have-an-account
             span.spr(data-i18n="new_home.have_an_account")
-            a.login-button(data-i18n="new_home.log_in")
+            a.login-button(data-i18n="login.log_in")
 
     h3.text-center(data-i18n="new_home.computer_science")
     h4.text-center
@@ -380,7 +381,7 @@ block content
         if me.isAnonymous()
           .have-an-account
             span.spr(data-i18n="new_home.have_an_account")
-            a.login-button(data-i18n="new_home.log_in")
+            a.login-button(data-i18n="login.log_in")
 
 
     #screenshot-lightbox.modal.fade(data-show="false")

@@ -18,6 +18,9 @@ module.exports = class AuthModal extends ModalView
     'click #gplus-login-btn': 'onClickGPlusLoginButton'
     'click #facebook-login-btn': 'onClickFacebookLoginButton'
     'click #close-modal': 'hide'
+    
+  subscriptions:
+    'errors:server-error': 'onServerError'
 
 
   # Initialization

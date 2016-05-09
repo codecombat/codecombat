@@ -34,6 +34,11 @@ CampaignSchema.statics.updateAdjacentCampaigns = (savedCampaign) ->
       Campaign.findByIdAndUpdate campaign._id, {$set: {adjacentCampaigns: acs}}, (err, doc) ->
         return log.error "Couldn't save updated adjacent campaign because of #{err}" if err
 
+CampaignSchema.pre 'save', (done) ->
+  if not @get('levelsUpdated')
+    @set('levelsUpdated', @_id.getTimestamp())
+  done()
+  
 CampaignSchema.post 'save', -> @constructor.updateAdjacentCampaigns @
 
 CampaignSchema.statics.jsonSchema = jsonSchema

@@ -6,6 +6,9 @@ module.exports = class Users extends CocoCollection
   url: '/db/user'
     
   fetchForClassroom: (classroom, options={}) ->
+    if options.removeDeleted
+      delete options.removeDeleted
+      @listenTo @, 'sync', @removeDeletedUsers
     classroomID = classroom.id or classroom
     limit = 10
     skip = 0
@@ -21,3 +24,8 @@ module.exports = class Users extends CocoCollection
       jqxhrs.push(@fetch(options))
       skip += limit
     return jqxhrs
+
+  removeDeletedUsers: ->
+    @remove @filter (user) ->
+      user.get('deleted')
+    true

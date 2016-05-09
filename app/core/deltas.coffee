@@ -178,4 +178,5 @@ prunePath = (delta, path) ->
 
 module.exports.DOC_SKIP_PATHS = [
   '_id','version', 'commitMessage', 'parent', 'created',
-  'slug', 'index', '__v', 'patches', 'creator', 'js', 'watchers'] 
+  'slug', 'index', '__v', 'patches', 'creator', 'js', 'watchers', 'levelsUpdated'
+]

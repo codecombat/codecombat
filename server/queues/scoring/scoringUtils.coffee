@@ -4,6 +4,7 @@ bayes = new (require 'bayesian-battle')()
 LevelSession = require '../../models/LevelSession'
 User = require '../../models/User'
 perfmon = require '../../commons/perfmon'
+LZString = require 'lz-string'
 
 SIMULATOR_VERSION = 3
 
@@ -26,11 +27,15 @@ module.exports.sendResponseObject = (res, object) ->
   res.send(object)
   res.end()
 
-
 module.exports.formatSessionInformation = (session) ->
+  heroID = if session.team is 'ogres' then 'hero-placeholder-1' else 'hero-placeholder'
+  submittedCode = {}
+  submittedCode[heroID] = plan: LZString.compressToUTF16(session.submittedCode[heroID]?.plan ? '')
+
+  _id: session._id
   sessionID: session._id
   team: session.team ? 'No team'
-  transpiledCode: session.transpiledCode
+  submittedCode: submittedCode
   submittedCodeLanguage: session.submittedCodeLanguage
   teamSpells: session.teamSpells ? {}
   levelID: session.levelID

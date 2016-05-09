@@ -1,10 +1,10 @@
 LadderTabView = require 'views/ladder/LadderTabView'
 Level = require 'models/Level'
-fixtures = require 'test/app/fixtures/levels'
+factories = require 'test/app/factories'
 
 describe 'LeaderboardData', ->
   it 'triggers "sync" when its request is finished', ->
-    level = new Level(fixtures.LadderLevel)
+    level = factories.makeLevel()
     leaderboard = new LadderTabView.LeaderboardData(level, 'humans', null, 4)
     leaderboard.fetch()
 

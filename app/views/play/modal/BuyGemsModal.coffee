@@ -6,7 +6,11 @@ SubscribeModal = require 'views/core/SubscribeModal'
 Products = require 'collections/Products'
 
 module.exports = class BuyGemsModal extends ModalView
-  id: 'buy-gems-modal'
+  id: 
+    if (me.get('preferredLanguage',true) || 'en-US').split('-')[0] == 'nl'
+      'buy-gems-modal-nl'
+    else
+      'buy-gems-modal'
   template: template
   plain: true
 
@@ -68,6 +72,9 @@ module.exports = class BuyGemsModal extends ModalView
   onClickProductButton: (e) ->
     @playSound 'menu-button-click'
     productID = $(e.target).closest('button').val()
+    # Don't throw error when product is not found
+    if productID.length == 0
+      return
     product = @products.findWhere { name: productID }
 
     if application.isIPadApp

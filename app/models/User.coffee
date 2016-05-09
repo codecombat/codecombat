@@ -4,6 +4,7 @@ CocoModel = require './CocoModel'
 util = require 'core/utils'
 ThangType = require './ThangType'
 Level = require './Level'
+utils = require 'core/utils'
 
 module.exports = class User extends CocoModel
   @className: 'User'
@@ -43,7 +44,7 @@ module.exports = class User extends CocoModel
     super arguments...
 
   @getUnconflictedName: (name, done) ->
-    $.ajax "/auth/name/#{name}",
+    $.ajax "/auth/name/#{encodeURIComponent(name)}",
       cache: false
       success: (data) -> done data.name
       statusCode: 409: (data) ->
@@ -64,6 +65,11 @@ module.exports = class User extends CocoModel
     
   isTeacher: ->
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
+    
+  isSessionless: ->
+    # TODO: Fix old users who got mis-tagged as teachers
+    # TODO: Should this just be isTeacher, eventually?
+    Boolean(me.isTeacher() and utils.getQueryVariable('course', false))
 
   setRole: (role, force=false) ->
     return if me.isAdmin()

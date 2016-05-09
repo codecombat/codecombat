@@ -90,7 +90,7 @@ module.exports = class God extends CocoClass
     return if hadPreloader
 
     @angelsShare.workQueue = []
-    work = 
+    work =
       userCodeMap: userCodeMap
       level: @level
       levelSessionIDs: @levelSessionIDs
@@ -106,7 +106,7 @@ module.exports = class God extends CocoClass
     @angelsShare.workQueue.push work
     angel.workIfIdle() for angel in @angelsShare.angels
     work
-    
+
   getUserCodeMap: (spells) ->
     userCodeMap = {}
     for spellKey, spell of spells

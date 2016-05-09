@@ -21,7 +21,7 @@ module.exports = class CourseInstance extends CocoModel
       data: { userID: userID }
     }
     _.extend options, opts
-    @fetch(options)
+    @fetch options
     if userID is me.id
       unless me.get('courseInstances')
         me.set('courseInstances', [])
@@ -32,6 +32,8 @@ module.exports = class CourseInstance extends CocoModel
       method: 'POST'
       url: _.result(@, 'url') + '/members'
       data: { userIDs }
+      success: =>
+        @trigger 'add-members', { userIDs }
     }
     _.extend options, opts
     @fetch(options)

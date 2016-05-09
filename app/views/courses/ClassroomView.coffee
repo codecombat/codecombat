@@ -6,6 +6,7 @@ Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 LevelSession = require 'models/LevelSession'
 Prepaids = require 'collections/Prepaids'
+Levels = require 'collections/Levels'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/classroom-view'
 User = require 'models/User'
@@ -37,9 +38,7 @@ module.exports = class ClassroomView extends RootView
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @courses.comparator = '_id'
     @supermodel.loadCollection(@courses)
-    @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign })
     @courses.comparator = '_id'
-    @supermodel.loadCollection(@campaigns, { data: { type: 'course' }})
     @courseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance})
     @courseInstances.comparator = 'courseID'
     @supermodel.loadCollection(@courseInstances, { data: { classroomID: classroomID } })
@@ -55,6 +54,11 @@ module.exports = class ClassroomView extends RootView
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
+    @levels = new Levels()
+    @levels.fetchForClassroom(classroomID, {data: {project: 'name,slug,original'}})
+    @levels.on 'add', (model) -> @_byId[model.get('original')] = model # so you can 'get' them
+      
+    @supermodel.trackCollection(@levels)
 
   onCourseInstancesSync: ->
     @sessions = new CocoCollection([], { model: LevelSession })
@@ -90,9 +94,7 @@ module.exports = class ClassroomView extends RootView
     for courseInstance in @courseInstances.models
       courseID = courseInstance.get('courseID')
       course = @courses.get(courseID)
-      campaignID = course.get('campaignID')
-      campaign = @campaigns.get(campaignID)
-      courseInstance.sessions.campaign = campaign
+      courseInstance.sessions.course = course
     super()
 
   afterRender: ->
@@ -116,8 +118,8 @@ module.exports = class ClassroomView extends RootView
     userID = $(e.target).closest('.btn').data('user-id')
     if @prepaids.totalMaxRedeemers() - @prepaids.totalRedeemers() > 0
       # Have an unused enrollment, enroll student immediately instead of opening the enroll modal
-      prepaid = @prepaids.find((prepaid) -> prepaid.get('properties')?.endDate? and prepaid.openSpots())
-      prepaid = @prepaids.find((prepaid) -> prepaid.openSpots()) unless prepaid
+      prepaid = @prepaids.find((prepaid) -> prepaid.get('properties')?.endDate? and prepaid.openSpots() > 0)
+      prepaid = @prepaids.find((prepaid) -> prepaid.openSpots() > 0) unless prepaid
       $.ajax({
         method: 'POST'
         url: _.result(prepaid, 'url') + '/redeemers'
@@ -153,10 +155,10 @@ module.exports = class ClassroomView extends RootView
     return '' unless user.sessions?
     session = user.sessions.last()
     return '' unless session
-    campaign = session.collection.campaign
+    course = session.collection.course
     levelOriginal = session.get('level').original
-    campaignLevel = campaign.get('levels')[levelOriginal]
-    return "#{campaign.get('fullName')}, #{campaignLevel.name}"
+    level = @levels.findWhere({original: levelOriginal})
+    return "#{course.get('name')}, #{level.get('name')}"
 
   userPlaytimeString: (user) ->
     return '' unless user.sessions?
@@ -240,4 +242,4 @@ module.exports = class ClassroomView extends RootView
 
   getLevelURL: (level, course, courseInstance, session) ->
     return null unless @teacherMode and _.all(arguments)
-    "/play/level/#{level.slug}?course=#{course.id}&course-instance=#{courseInstance.id}&session=#{session.id}&observing=true"
+    "/play/level/#{level.get('slug')}?course=#{course.id}&course-instance=#{courseInstance.id}&session=#{session.id}&observing=true"

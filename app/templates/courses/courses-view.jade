@@ -1,146 +1,95 @@
-extends /templates/base
+extends /templates/base-flat
 
 block content
-  
-  if me.isTeacher() || view.ownedClassrooms.size()
-    .alert.alert-danger.text-center
-      // DNT: Temporary
-      h3 ATTENTION TEACHERS:
-      p We are transitioning to a new classroom management system; this page will soon be student-only.
-      a(href="/teachers/classes") Go to teachers area.
-  
-  h3.text-right
-    if me.isAnonymous()
-      a(href="/teachers/signup")
-        span(data-i18n="courses.teachers_click")
-        span !
-    else
-      a(href="/teachers/classes")
-        span(data-i18n="courses.teachers_click")
-        span !
-
-  #main-content
-    if me.isAnonymous()
-
-      h1.text-center(data-i18n="courses.welcome_to_courses")
-
-      .text-center
-        p
-          h3(data-i18n="courses.ready_to_play")
-        p
-          button#start-new-game-btn.btn.btn-default(data-i18n="courses.start_new_game")
-        p
-          span.spr -
-          span.text-uppercase(data-i18n="general.or")
-          span.spl -
-        p
-          button#log-in-btn.btn.btn-default(data-i18n="login.log_in")
-
-      h3#play-now-to-learn-header.text-center.text-uppercase(data-i18n="courses.play_now_learn_header")
-      ul
-        li(data-i18n="courses.play_now_learn_1")
-        li(data-i18n="courses.play_now_learn_2")
-        li(data-i18n="courses.play_now_learn_3")
-        li(data-i18n="courses.play_now_learn_4")
-
-    else
-
-      - var showHOCComplete = false;
-      if view.hocCourseInstance
-        - var course = view.courses.get(view.hocCourseInstance.get('courseID'));
-        - var campaign = view.campaigns.get(course.get('campaignID'));
-        - var stats = campaign.statsForSessions(view.hocCourseInstance.sessions);
-        - showHOCComplete = stats.levels.done && !view.classrooms.size();
-
-      .text-center
-        if !showHOCComplete
-          h1(data-i18n="courses.welcome_to_page") Welcome to your Courses page!
-        else
-          h1(data-i18n="courses.completed_hoc")
-          h2(data-i18n="courses.ready_for_more_header")
-          ul.text-left
-            li(data-i18n="courses.ready_for_more_1")
-            li(data-i18n="courses.ready_for_more_2")
-            li(data-i18n="courses.ready_for_more_3")
-          a.btn.btn-lg.btn-success(href="/play") Play Now
-
-      if view.hocCourseInstance && !view.classrooms.size()
-        h3(data-i18n="courses.saved_games")
-        hr
-
-        .course-instance-entry
-          h3
-            span(data-i18n="courses.hoc")
-            span.spr :
-            span.spr(data-i18n="courses.course")
-            span 1
-            span.spr= (me.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'
-            small
-              a#change-language-link(data-i18n="courses.change_language")
-          +course-instance-body(view.hocCourseInstance)
-          .clearfix
-
-      else if view.classrooms.size()
-        h3.text-uppercase(data-i18n="courses.my_classes")
-        hr
-
-        for classroom in view.classrooms.models
-          - var justAdded = classroom.id === view.classroomJustAdded;
-          - var classroomClass = justAdded ? 'just-added' : '';
-          if justAdded
-            #just-added-text.text-center(data-i18n="courses.class_added")
-
-          //- sigh
-          div(class=classroomClass)
-            h3
-              span.spr= classroom.get('name')
-              span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
-              a(href="/courses/"+classroom.id, data-i18n="courses.view_class")
-
-            - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
-            for courseInstance in courseInstances
-
-              .course-instance-entry
-                - var course = view.courses.get(courseInstance.get('courseID'));
-                h3
-                  span.spr= course.get('name')
-                  small
-                    a(href="/courses/"+courseInstance.get('courseID')+'/'+courseInstance.id, data-i18n="courses.view_levels")
-                +course-instance-body(courseInstance)
-                .clearfix
-
-      else
-        .text-center
-          button#start-new-game-btn.btn.btn-success.btn-lg(data-i18n="courses.start_new_game")
-
-      h3.text-uppercase(data-i18n="courses.join_class")
-      hr
-
-      form#join-class-form.form-inline
-        .help-block
-          em(data-i18n="courses.ask_teacher_for_code")
-        .form-group
-          input#class-code-input.form-control(data-i18n="[placeholder]courses.enter_c_code", placeholder="<Enter Class Code>", value=view.classCode)
-        input#join-class-button.btn.btn-default(type="submit", data-i18n="[value]courses.join", value="Join")
-
-        if view.state === 'enrolling'
-          .progress.progress-striped.active
-            .progress-bar(style="width: 100%", data-i18n="courses.joining") Joining class
-
-        if view.errorMessage
-          .alert.alert-danger= view.errorMessage
+  .container
+    .row.m-y-3
+      .col-xs-12
+        if me.isTeacher() || view.ownedClassrooms.size()
+          .alert.alert-danger.text-center
+            // DNT: Temporary
+            h3 ATTENTION TEACHERS:
+            p We are transitioning to a new classroom management system; this page will soon be student-only.
+            a(href="/teachers/classes") Go to teachers area.
+        
+        #main-content
+          if me.isAnonymous()
+      
+            h1.text-center(data-i18n="courses.welcome_to_courses")
+      
+            .text-center
+              p
+                h2(data-i18n="courses.ready_to_play")
+              p
+                button#start-new-game-btn.btn.btn-navy(data-i18n="courses.start_new_game")
+              p
+                span.spr -
+                span.text-uppercase(data-i18n="general.or")
+                span.spl -
+              p
+                button#log-in-btn.btn.btn-forest(data-i18n="login.log_in")
+      
+            h2#play-now-to-learn-header.text-center.text-uppercase(data-i18n="courses.play_now_learn_header")
+            ul#benefits-ul
+              li(data-i18n="courses.play_now_learn_1")
+              li(data-i18n="courses.play_now_learn_2")
+              li(data-i18n="courses.play_now_learn_3")
+              li(data-i18n="courses.play_now_learn_4")
+    
+          else
+      
+            .text-center
+              h1(data-i18n="courses.welcome_to_page") Welcome to your Courses page!
+      
+            if view.classrooms.size()
+              h3.text-uppercase(data-i18n="courses.my_classes")
+              hr
+      
+              for classroom in view.classrooms.models
+                - var justAdded = classroom.id === view.classroomJustAdded;
+                - var classroomClass = justAdded ? 'just-added' : '';
+                if justAdded
+                  #just-added-text.text-center(data-i18n="courses.class_added")
+      
+                //- sigh
+                div(class=classroomClass)
+                  h5
+                    span.spr= classroom.get('name')
+                    span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
+                    a(href="/courses/"+classroom.id, data-i18n="courses.view_class")
+      
+                  - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
+                  for courseInstance in courseInstances
+      
+                    .course-instance-entry
+                      - var course = view.courses.get(courseInstance.get('courseID'));
+                      h6
+                        span.spr= course.get('name')
+                        small
+                          a(href="/courses/"+courseInstance.get('courseID')+'/'+courseInstance.id, data-i18n="courses.view_levels")
+                      +course-instance-body(courseInstance, classroom)
+                      .clearfix
+      
+            h3.text-uppercase(data-i18n="courses.join_class")
+            hr
+      
+            form#join-class-form.form-inline
+              .help-block
+                em(data-i18n="courses.ask_teacher_for_code")
+              .form-group
+                input#class-code-input.form-control(data-i18n="[placeholder]courses.enter_c_code", placeholder="<Enter Class Code>", value=view.classCode)
+              input#join-class-button.btn.btn-navy(type="submit", data-i18n="[value]courses.join", value="Join")
+      
+              if view.state === 'enrolling'
+                .progress.progress-striped.active
+                  .progress-bar(style="width: 100%", data-i18n="courses.joining") Joining class
+      
+              if view.errorMessage
+                .alert.alert-danger= view.errorMessage
 
 
-  #begin-hoc-area.hide
-    h3.text-center(data-i18n="common.loading")
-    .progress.progress-striped.active
-      .progress-bar(style="width: 100%")
-
-
-mixin course-instance-body(courseInstance)
+mixin course-instance-body(courseInstance, classroom)
   - var course = view.courses.get(courseInstance.get('courseID'));
-  - var campaign = view.campaigns.get(course.get('campaignID'));
-  - var stats = campaign.statsForSessions(courseInstance.sessions);
+  - var stats = classroom.statsForSessions(courseInstance.sessions, course.id);
   if stats.levels.done
     .text-success
       span.glyphicon.glyphicon-ok
@@ -150,20 +99,20 @@ mixin course-instance-body(courseInstance)
     if stats.levels.done
       - var arenaLevel = stats.levels.arena;
       if arenaLevel
-        - var arenaURL = "/play/ladder/"+arenaLevel.slug+"/course/"+courseInstance.id;
-        a.btn.btn-warning.btn-lg(href=arenaURL)
+        - var arenaURL = "/play/ladder/"+arenaLevel.get('slug')+"/course/"+courseInstance.id;
+        a.btn.btn-burgandy.btn-lg.m-b-1(href=arenaURL)
           span(data-i18n="courses.play_arena")
       else
-        a.btn.btn-default.btn-lg(disabled=true, data-i18n="courses.course_complete")
-    else if courseInstance.sessions.size()
-      - var lastLevel = stats.levels.lastPlayed;
-      - var levelURL = "/play/level/"+lastLevel.slug+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
-      a.btn.btn-success.btn-lg(href=levelURL)
+        a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
+    else if stats.levels.next != stats.levels.first
+      - var next = stats.levels.next;
+      - var levelURL = "/play/level/"+next.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
+      a.btn.btn-forest.btn-lg.m-b-1(href=levelURL)
         span(data-i18n="common.continue")
     else
       - var firstLevel = stats.levels.first;
-      - var levelURL = "/play/level/"+firstLevel.slug+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
-      a.btn.btn-info.btn-lg(href=levelURL)
+      - var levelURL = "/play/level/"+firstLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
+      a.btn.btn-navy.btn-lg.m-b-1(href=levelURL)
         span(data-i18n="courses.start")
 
   div
@@ -175,7 +124,8 @@ mixin course-instance-body(courseInstance)
     div
       span(data-i18n="courses.last_level")
       span.spr :
-      span= stats.levels.lastPlayed.name
+      span= stats.levels.lastPlayed.get('name')
 
+  .clearfix
   .progress
     .progress-bar(style="width:"+stats.levels.pctDone)= stats.levels.pctDone

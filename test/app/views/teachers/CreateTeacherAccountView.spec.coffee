@@ -1,5 +1,4 @@
 CreateTeacherAccountView = require 'views/teachers/CreateTeacherAccountView'
-storage = require 'core/storage'
 forms = require 'core/forms'
 
 describe '/teachers/signup', ->
@@ -55,8 +54,6 @@ describe 'CreateTeacherAccountView', ->
     view.render()
     jasmine.demoEl(view.$el)
 
-    spyOn(storage, 'load').and.returnValue({ lastName: 'Saved Changes' })
-
     request = jasmine.Ajax.requests.mostRecent()
     request.respondWith({
       status: 200
@@ -69,6 +66,17 @@ describe 'CreateTeacherAccountView', ->
       }])
     })
     _.defer done # Let SuperModel finish
+  
+  describe 'when the form is unchanged', ->
+    it 'does not prevent navigating away', ->
+      expect(_.result(view, 'onLeaveMessage')).toBeFalsy()
+    
+  describe 'when the form has changed but is not submitted', ->
+    beforeEach ->
+      view.$el.find('form').trigger('change')
+    
+    it 'prevents navigating away', ->
+      expect(_.result(view, 'onLeaveMessage')).toBeTruthy()
   
   describe '"Log in" link', ->
     
@@ -100,7 +108,7 @@ describe 'CreateTeacherAccountView', ->
         request = jasmine.Ajax.requests.mostRecent()
         expect(request.url).toBe('/auth/login-facebook')
       
-    describe 'when the user\s info is loaded', ->
+    describe 'when the user connects with Facebook and there isn\'t already an associated account', ->
       beforeEach ->
         request = jasmine.Ajax.requests.mostRecent()
         request.respondWith({ status: 404, responseText: '{}' })
@@ -156,7 +164,7 @@ describe 'CreateTeacherAccountView', ->
         request = jasmine.Ajax.requests.mostRecent()
         expect(request.url).toBe('/auth/login-gplus')
 
-    describe 'when the user\s info is loaded', ->
+    describe 'when the user connects with F+ and there isn\'t already an associated account', ->
       beforeEach ->
         request = jasmine.Ajax.requests.mostRecent()
         request.respondWith({ status: 404, responseText: '{}' })
@@ -194,9 +202,13 @@ describe 'CreateTeacherAccountView', ->
   describe 'submitting the form successfully', ->
     
     beforeEach ->
+      view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
       form = view.$('form')
       forms.objectToForm(form, successForm)
       form.submit()
+
+    it 'does not prevent navigating away', ->
+      expect(_.result(view, 'onLeaveMessage')).toBeFalsy()
     
     it 'submits a trial request, which does not include "account" settings', ->
       request = jasmine.Ajax.requests.mostRecent()

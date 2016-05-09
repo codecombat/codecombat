@@ -3,12 +3,12 @@ forms = require 'core/forms'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
 AuthModal = require 'views/core/AuthModal'
-storage = require 'core/storage'
 errors = require 'core/errors'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
+algolia = require 'core/services/algolia'
 
-FORM_KEY = 'request-quote-form'
 SIGNUP_REDIRECT = '/teachers'
+NCES_KEYS = ['id', 'name', 'district', 'district_id', 'district_schools', 'district_students', 'students', 'phone']
 
 module.exports = class RequestQuoteView extends RootView
   id: 'request-quote-view'
@@ -18,6 +18,10 @@ module.exports = class RequestQuoteView extends RootView
   events:
     'change #request-form': 'onChangeRequestForm'
     'submit #request-form': 'onSubmitRequestForm'
+    'change input[name="city"]': 'invalidateNCES'
+    'change input[name="state"]': 'invalidateNCES'
+    'change input[name="district"]': 'invalidateNCES'
+    'change input[name="country"]': 'invalidateNCES'
     'click #email-exists-login-link': 'onClickEmailExistsLoginLink'
     'submit #signup-form': 'onSubmitSignupForm'
     'click #logout-link': -> me.logout()
@@ -29,6 +33,11 @@ module.exports = class RequestQuoteView extends RootView
     @trialRequests = new TrialRequests()
     @trialRequests.fetchOwn()
     @supermodel.trackCollection(@trialRequests)
+    @formChanged = false
+
+  onLeaveMessage: ->
+    if @formChanged
+      return 'Your request has not been submitted! If you continue, your changes will be lost.'
 
   onLoaded: ->
     if @trialRequests.size()
@@ -36,10 +45,14 @@ module.exports = class RequestQuoteView extends RootView
     if @trialRequest and @trialRequest.get('status') isnt 'submitted' and @trialRequest.get('status') isnt 'approved'
       window.tracker?.trackEvent 'View Trial Request', category: 'Teachers', label: 'View Trial Request', ['Mixpanel']
     super()
-    
+
+  invalidateNCES: ->
+    for key in NCES_KEYS
+      @$('input[name="nces_' + key + '"]').val ''
+
   afterRender: ->
     super()
-    
+
     # apply existing trial request on form
     properties = @trialRequest.get('properties')
     if properties
@@ -49,31 +62,45 @@ module.exports = class RequestQuoteView extends RootView
       otherLevel = _.first(_.difference(submittedLevels, commonLevels)) or ''
       @$('#other-education-level-checkbox').attr('checked', !!otherLevel)
       @$('#other-education-level-input').val(otherLevel)
-      
-    # apply changes from local storage
-    obj = storage.load(FORM_KEY)
-    if obj
-      @$('#other-education-level-checkbox').attr('checked', obj.otherChecked)
-      @$('#other-education-level-input').val(obj.otherInput)
-      forms.objectToForm(@$('#request-form'), obj, { overwriteExisting: true })
+
+    $("#organization-control").algolia_autocomplete({hint: false}, [
+      source: (query, callback) ->
+        algolia.schoolsIndex.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
+          callback answer.hits
+        , ->
+          callback []
+      displayKey: 'name',
+      templates:
+        suggestion: (suggestion) ->
+          hr = suggestion._highlightResult
+          "<div class='school'> #{hr.name.value} </div>" +
+            "<div class='district'>#{hr.district.value}, " +
+              "<span>#{hr.city?.value}, #{hr.state.value}</span></div>"
+
+    ]).on 'autocomplete:selected', (event, suggestion, dataset) =>
+      @$('input[name="city"]').val suggestion.city
+      @$('input[name="state"]').val suggestion.state
+      @$('input[name="district"]').val suggestion.district
+      @$('input[name="country"]').val 'USA'
+
+      for key in NCES_KEYS
+        @$('input[name="nces_' + key + '"]').val suggestion[key]
+
+      @onChangeRequestForm()
 
   onChangeRequestForm: ->
-    # save changes to local storage
-    obj = forms.formToObject(@$('form'))
-    obj.otherChecked = @$('#other-education-level-checkbox').is(':checked')
-    obj.otherInput = @$('#other-education-level-input').val()
-    storage.save(FORM_KEY, obj, 10)
+    @formChanged = true
 
   onSubmitRequestForm: (e) ->
     e.preventDefault()
     form = @$('#request-form')
     attrs = forms.formToObject(form)
-    
-    # custom other input logic (also used in form local storage save/restore)
+
+    # custom other input logic
     if @$('#other-education-level-checkbox').is(':checked')
       val = @$('#other-education-level-input').val()
       attrs.educationLevel.push(val) if val
-      
+
     forms.clearFormAlerts(form)
     requestFormSchema = if me.isAnonymous() then requestFormSchemaAnonymous else requestFormSchemaLoggedIn
     result = tv4.validateMultiple(attrs, requestFormSchemaAnonymous)
@@ -103,10 +130,13 @@ module.exports = class RequestQuoteView extends RootView
         decline: $.i18n.t('common.cancel')
       })
       @openModalView(modal)
-      modal.once 'confirm', @saveTrialRequest, @
+      modal.once('confirm', (->
+        modal.hide()
+        @saveTrialRequest()
+      ), @)
     else
       @saveTrialRequest()
-    
+
   saveTrialRequest: ->
     @trialRequest.notyErrors = false
     @$('#submit-request-btn').text('Sending').attr('disabled', true)
@@ -123,7 +153,7 @@ module.exports = class RequestQuoteView extends RootView
         .addClass('has-error')
         .append($("<div class='help-block error-help-block'>#{userExists} <a id='email-exists-login-link'>#{logIn}</a>"))
       forms.scrollToFirstError()
-    else 
+    else
       errors.showNotyNetworkError(arguments...)
 
   onClickEmailExistsLoginLink: ->
@@ -131,10 +161,10 @@ module.exports = class RequestQuoteView extends RootView
     @openModalView(modal)
 
   onTrialRequestSubmit: ->
+    @formChanged = false
     me.setRole @trialRequest.get('properties').role.toLowerCase(), true
     defaultName = [@trialRequest.get('firstName'), @trialRequest.get('lastName')].join(' ')
     @$('input[name="name"]').val(defaultName)
-    storage.remove(FORM_KEY)
     @$('#request-form, #form-submit-success').toggleClass('hide')
     @scrollToTop(0)
     $('#flying-focus').css({top: 0, left: 0}) # Hack copied from Router.coffee#187. Ideally we'd swap out the view and have view-swapping logic handle this
@@ -167,7 +197,7 @@ module.exports = class RequestQuoteView extends RootView
             })
         })
     })
-    
+
   onClickFacebookSignupButton: ->
     btn = @$('#facebook-signup-btn')
     btn.attr('disabled', true)
@@ -212,7 +242,7 @@ module.exports = class RequestQuoteView extends RootView
       forms.setErrorToProperty(form, 'password1', 'Passwords do not match')
       error = true
     return if error
-    
+
     me.set({
       password: attrs.password1
       name: attrs.name
@@ -229,25 +259,32 @@ module.exports = class RequestQuoteView extends RootView
 
 requestFormSchemaAnonymous = {
   type: 'object'
-  required: ['firstName', 'lastName', 'email', 'organization', 'role', 'numStudents']
+  required: [
+    'firstName', 'lastName', 'email', 'organization', 'role', 'purchaserRole', 'numStudents', 
+    'numStudentsTotal', 'phoneNumber', 'city', 'state', 'country']
   properties:
     firstName: { type: 'string' }
     lastName: { type: 'string' }
-    name: { type: 'string', minLength: 1 }
+    name: { type: 'string' }
     email: { type: 'string', format: 'email' }
     phoneNumber: { type: 'string' }
     role: { type: 'string' }
+    purchaserRole: { type: 'string' }
     organization: { type: 'string' }
     city: { type: 'string' }
     state: { type: 'string' }
     country: { type: 'string' }
     numStudents: { type: 'string' }
+    numStudentsTotal: { type: 'string' }
     educationLevel: {
       type: 'array'
       items: { type: 'string' }
     }
-    notes: { type: 'string' }
+    notes: { type: 'string' },
 }
+
+for key in NCES_KEYS
+  requestFormSchemaAnonymous['nces_' + key] = type: 'string'
 
 # same form, but add username input
 requestFormSchemaLoggedIn = _.cloneDeep(requestFormSchemaAnonymous)

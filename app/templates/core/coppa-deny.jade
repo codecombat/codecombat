@@ -1,0 +1,11 @@
+extends /templates/core/modal-base-flat
+
+block modal-header-content
+
+block modal-body-content
+  p
+    h2(data-i18n="coppa_deny.text1")
+    div(data-i18n="coppa_deny.text2")
+
+block modal-footer-content
+  a.btn.btn-primary(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="coppa_deny.close").btn

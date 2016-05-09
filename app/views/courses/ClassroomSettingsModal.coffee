@@ -28,7 +28,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     e.preventDefault()
     form = @$('form')
     forms.clearFormAlerts(form)
-    attrs = forms.formToObject(form)
+    attrs = forms.formToObject(form, ignoreEmptyString: false)
     if attrs.language
       attrs.aceConfig = { language: attrs.language }
       delete attrs.language
@@ -38,6 +38,9 @@ module.exports = class ClassroomSettingsModal extends ModalView
     @classroom.set(attrs)
     schemaErrors = @classroom.getValidationErrors()
     if schemaErrors
+      for error in schemaErrors
+        if error.schemaPath is "/properties/name/minLength"
+          error.message = 'Please enter a class name.'
       forms.applyErrorsToForm(form, schemaErrors)
       return
 

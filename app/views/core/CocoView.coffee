@@ -137,6 +137,7 @@ module.exports = class CocoView extends Backbone.View
     context._ = _
     context.document = document
     context.i18n = utils.i18n
+    context.state = @state
     context
 
   afterRender: ->
@@ -390,7 +391,7 @@ module.exports = class CocoView extends Backbone.View
     setTimeout (=> $pointer.css transition: 'all 0.4s ease-in', transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)"), 800
 
   endHighlight: ->
-    @getPointer(false).css({'opacity': 0.0, 'transition': 'none', top: '-50px', right: '-50px'}) 
+    @getPointer(false).css({'opacity': 0.0, 'transition': 'none', top: '-50px', right: '-50px'})
     clearInterval @pointerInterval
     clearTimeout @pointerDelayTimeout
     clearTimeout @pointerDurationTimeout

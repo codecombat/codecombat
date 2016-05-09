@@ -1,6 +1,9 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
-@import "app/styles/style-flat"
+@import "app/styles/style-flat-variables"
+
+.nowrap
+  white-space: nowrap
 
 .alternating-background:nth-child(2n+1)
   background-color: #ebebeb
@@ -65,6 +68,7 @@
       border-bottom: none
   
   .bulk-assign-controls
+    position: relative
     float: right
     margin-bottom: -9999px
     margin-top: 20px
@@ -74,7 +78,15 @@
       margin-left: 10px
     .enroll-selected-students
       margin-left: 56px
-    
+    .cant-assign-to-unenrolled, .no-students-selected
+      position: absolute
+      top: -24px
+      color: red
+      font-size: 13px
+      visibility: hidden
+      &.visible
+        visibility: visible
+      
   .students-table
     width: 100%
     .student-info-col
@@ -111,7 +123,7 @@
       display: inline
       .inline-student-name
         white-space: nowrap
-        text-decoration: underline
+        // text-decoration: underline
 
     li:not(:last-child):after
       content: ', '
@@ -178,6 +190,26 @@
       
     .progress-dot
       margin: 5px
+    
+    .unassigned-students
+      margin-top: 75px
+      line-height: 45px
+      .student-name, .student-email, .latest-completed
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+        
+      .small-details, .small
+        line-height: 45px
+      .latest-completed
+        white-space: nowrap
+        .level-name
+          display: inline
+
+      .btn
+        margin-top: 6.5px
+        margin-bottom: 6.5px
+    
       
   // Checkboxes
   .checkbox-flat
@@ -244,4 +276,6 @@
       height: 50px
       width: 210px
       float: right
-      
+
+  .export-student-progress-btn
+    margin-top: 10px

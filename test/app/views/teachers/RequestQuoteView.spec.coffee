@@ -1,5 +1,4 @@
 RequestQuoteView = require 'views/teachers/RequestQuoteView'
-storage = require 'core/storage'
 forms = require 'core/forms'
 
 describe 'RequestQuoteView', ->
@@ -17,11 +16,13 @@ describe 'RequestQuoteView', ->
     state: 'AA'
     country: 'asdf'
     numStudents: '1-10'
+    numStudentsTotal: '10,000+'
+    purchaserRole: 'Approve Funds'
     educationLevel: ['Middle']
   }
   
   isSubmitRequest = (r) -> _.string.startsWith(r.url, '/db/trial.request') and r.method is 'POST'
-    
+
   describe 'when user is anonymous and has an existing trial request', ->
     beforeEach (done) ->
       me.clear()
@@ -60,8 +61,6 @@ describe 'RequestQuoteView', ->
       view.render()
       jasmine.demoEl(view.$el)
   
-      spyOn(storage, 'load').and.returnValue({ lastName: 'Saved Changes' })
-  
       request = jasmine.Ajax.requests.mostRecent()
       request.respondWith({
         status: 200
@@ -78,18 +77,6 @@ describe 'RequestQuoteView', ->
     it 'shows form with data from the most recent request', ->
       expect(view.$('input[name="firstName"]').val()).toBe('First')
     
-    it 'prioritizes showing local, unsaved changes', ->
-      expect(view.$('input[name="lastName"]').val()).toBe('Saved Changes')
-      
-    describe 'when the form changes', ->
-      
-      it 'stores local, unsaved changes', ->
-        spyOn(storage, 'save')
-        view.$('input[name="firstName"]').val('Just Changed').change()
-        expect(storage.save).toHaveBeenCalled()
-        args = storage.save.calls.argsFor(0)
-        expect(args[1].firstName).toBe('Just Changed')
-      
   describe 'when a user is anonymous and does NOT have an existing trial request', ->
     beforeEach (done) ->
       me.clear()
@@ -100,8 +87,6 @@ describe 'RequestQuoteView', ->
       view.render()
       jasmine.demoEl(view.$el)
 
-      spyOn(storage, 'load').and.returnValue({ lastName: 'Saved Changes' })
-
       request = jasmine.Ajax.requests.mostRecent()
       request.respondWith({
         status: 200
@@ -109,8 +94,20 @@ describe 'RequestQuoteView', ->
       })
       _.defer done # Let SuperModel finish
 
+    describe 'when the form is unchanged', ->
+      it 'does not prevent navigating away', ->
+        expect(_.result(view, 'onLeaveMessage')).toBeFalsy()
+  
+    describe 'when the form has changed but is not submitted', ->
+      beforeEach ->
+        view.$el.find('#request-form').trigger('change')
+  
+      it 'prevents navigating away', ->
+        expect(_.result(view, 'onLeaveMessage')).toBeTruthy()
+
     describe 'on successful form submit', ->
       beforeEach ->
+        view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
         forms.objectToForm(view.$el, successFormValues)
         view.$('#request-form').submit()
         @submitRequest = _.last(jasmine.Ajax.requests.filter(isSubmitRequest))
@@ -118,6 +115,9 @@ describe 'RequestQuoteView', ->
           status: 201
           responseText: JSON.stringify(_.extend({_id: 'a'}, successFormValues))
         })
+
+      it 'does not prevent navigating away', ->
+        expect(_.result(view, 'onLeaveMessage')).toBeFalsy()
 
       it 'creates a new trial request', ->
         expect(@submitRequest).toBeTruthy()

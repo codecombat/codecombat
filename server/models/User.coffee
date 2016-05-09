@@ -12,7 +12,6 @@ config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
 
 sendwithus = require '../sendwithus'
-delighted = require '../delighted'
 
 UserSchema = new mongoose.Schema({
   dateCreated:
@@ -238,7 +237,6 @@ UserSchema.methods.register = (done) ->
         address: @get 'email'
     sendwithus.api.send data, (err, result) ->
       log.error "sendwithus post-save error: #{err}, result: #{result}" if err
-    delighted.addDelightedUser @
   @saveActiveUser 'register'
 
 UserSchema.methods.hasSubscription = ->
@@ -343,7 +341,7 @@ UserSchema.statics.editableProperties = [
   'firstName', 'lastName', 'gender', 'ageRange', 'facebookID', 'gplusID', 'emails',
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
-  'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role'
+  'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday'
 ]
 
 UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']

@@ -21,6 +21,9 @@ class CocoModel extends Backbone.Model
     @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
     @usesVersions = @schema()?.properties?.version?
+    if window.application?.testing
+      @fakeRequests = []
+      @on 'request', -> @fakeRequests.push jasmine.Ajax.requests.mostRecent()
 
   created: -> new Date(parseInt(@id.substring(0, 8), 16) * 1000)
 
@@ -447,5 +450,7 @@ class CocoModel extends Backbone.Model
     options.url = @urlRoot + '/' + (@get('original') or @id) + '/patches'
     patches.fetch(options)
     return patches
+    
+  stringify: -> return JSON.stringify(@toJSON())
 
 module.exports = CocoModel

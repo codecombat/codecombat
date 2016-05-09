@@ -5,6 +5,7 @@ plugins = require '../plugins/plugins'
 User = require './User'
 jsonSchema = require '../../app/schemas/models/classroom.schema.coffee'
 utils = require '../lib/utils'
+co = require 'co'
 
 ClassroomSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
 
@@ -41,6 +42,7 @@ ClassroomSchema.pre('save', (next) ->
     @set 'codeCamel', codeCamel
     next()
 )
+
 
 ClassroomSchema.methods.isOwner = (userID) ->
   return userID.equals(@get('ownerID'))

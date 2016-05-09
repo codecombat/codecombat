@@ -9,12 +9,12 @@ xdescribe 'ActivateLicensesModal', ->
   
   me = require 'test/app/fixtures/teacher'
   prepaids = require 'test/app/fixtures/prepaids'
-  classrooms = require 'test/app/fixtures/classrooms' # TODO: Don't use archived ones
+  classrooms = require 'test/app/fixtures/classrooms/unarchived-classrooms'
   users = require 'test/app/fixtures/students'
   responses = {
     '/db/prepaid': prepaids.toJSON()
     '/db/classroom': classrooms.toJSON()
-    '/db/users': users.toJSON() # TODO: Respond with different ones for different classrooms
+    # '/members': users.toJSON() # TODO: Respond with different ones for different classrooms
   }
   
   makeModal = (options) ->
@@ -24,11 +24,17 @@ xdescribe 'ActivateLicensesModal', ->
         @classroom, @users, @selectedUsers
       })
       jasmine.Ajax.requests.sendResponses(responses)
+      _.filter(jasmine.Ajax.requests.all().slice(), (request) ->
+        /\/db\/classroom\/.*\/members/.test(request.url) and request.readyState < 4
+      ).forEach (request) ->
+        request.respondWith(users.toJSON)
+      # debugger
+        
       jasmine.demoModal(@modal)
       _.defer done
     
   beforeEach ->
-    @classroom = classrooms.get('classroom1')
+    @classroom = classrooms.get('active-classroom')
     @users = require 'test/app/fixtures/students'
         
   afterEach ->
@@ -84,26 +90,26 @@ xdescribe 'ActivateLicensesModal', ->
       
     
   
-  # 
+  #
   # describe 'enroll button', ->
   #   beforeEach (done) ->
     #   makeModal.bind(this)(done)
-  # 
+  #
   #   it 'should display the correct total number of credits', ->
   #     expect(@modal.$('#total-available').html()).toBe('2')
-  #     
+  #
   #   it 'should be disabled when teacher doesn\'t have enough enrollments', ->
   #     expect(@modal.$('#total-available').html()).toBe('2')
-  #     
-  #     
-  # 
+  #
+  #
+  #
   # describe 'when enrolling only a single student', ->
   #   describe 'the list of students', ->
   #     it 'should only have the one student selected'
-  #     
+  #
   # describe 'when bulk-enrolling students', ->
   #   describe 'the list of students', ->
   #     it 'should have the right students selected'
-  # 
+  #
   # describe 'selecting more students', ->
   #   it 'should increase the student counter'

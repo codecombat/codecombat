@@ -7,13 +7,13 @@
 .modal-body
   .container-fluid
     .row
-      - var colClass = view.nextLevel ? 'col-sm-7' : 'col-sm-12'
+      - var colClass = !view.nextLevel.isNew() ? 'col-sm-7' : 'col-sm-12'
       div(class=colClass)
         .well.well-sm.well-parchment
           h3.text-uppercase(data-i18n='play_level.completed_level')
           h2.text-uppercase.text-center= i18n(view.level.attributes, 'name')
         .well.well-sm.well-parchment
-          if me.isTeacher()
+          if me.isSessionless()
             h3.course-title
               span.text-uppercase.spr(data-i18n='play_level.course')
               span.text-uppercase.text-center= i18n(view.course.attributes, 'name')
@@ -25,12 +25,12 @@
               .col-sm-8
                 h3.text-uppercase.text-center= i18n(view.course.attributes, 'name')
               .col-sm-4
-                - var stats = view.campaign.statsForSessions(view.levelSessions)
+                - var stats = view.classroom.statsForSessions(view.levelSessions, view.course.id)
                 h1
                   span #{stats.levels.numDone}/#{stats.levels.size}
             
         
-      if view.nextLevel
+      if !view.nextLevel.isNew()
         .col-sm-5
           .well.well-sm.well-parchment
             h3.text-uppercase
@@ -45,7 +45,7 @@
       // TODO: Add this and rest of campaign functionality
       //  button#continue-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase View Leaderboards
       .col-sm-5
-        if view.nextLevel
+        if !view.nextLevel.isNew()
           button#next-level-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.next_level')
         else
           button#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.done')

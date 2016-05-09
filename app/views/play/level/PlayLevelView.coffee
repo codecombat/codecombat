@@ -137,7 +137,7 @@ module.exports = class PlayLevelView extends RootView
     @loadStartTime = new Date()
     @god = new God()
     levelLoaderOptions = supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing, courseID: @courseID
-    if me.isTeacher()
+    if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
@@ -224,7 +224,10 @@ module.exports = class PlayLevelView extends RootView
       opponentSpells = opponentSpells.concat spells
     if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells')
       @session.set('teamSpells', @otherSession.get('teamSpells'))
-    opponentCode = @otherSession?.get('transpiledCode') or {}
+    if @getQueryVariable 'esper'
+      opponentCode = @otherSession?.get('code') or {}
+    else
+      opponentCode = @otherSession?.get('transpiledCode') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'
@@ -552,7 +555,7 @@ module.exports = class PlayLevelView extends RootView
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then HeroVictoryModal else VictoryModal
-    ModalClass = CourseVictoryModal if @isCourseMode() or me.isTeacher()
+    ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
@@ -593,6 +596,7 @@ module.exports = class PlayLevelView extends RootView
     session.save {screenshot: screenshot}, {patch: true, type: 'PUT'}
 
   onContactClicked: (e) ->
+    Backbone.Mediator.publish 'level:contact-button-pressed', {}
     @openModalView contactModal = new ContactModal levelID: @level.get('slug') or @level.id, courseID: @courseID, courseInstanceID: @courseInstanceID
     screenshot = @surface.screenshot(1, 'image/png', 1.0, 1)
     body =

@@ -115,6 +115,7 @@ module.exports = class LevelLoader extends CocoClass
 
     if @sessionID
       url = "/db/level.session/#{@sessionID}"
+      url += "?interpret=true" if @spectateMode
     else
       url = "/db/level/#{@levelID}/session"
       url += "?team=#{@team}" if @team
@@ -125,7 +126,9 @@ module.exports = class LevelLoader extends CocoClass
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
     if @opponentSessionID
-      opponentSession = new LevelSession().setURL "/db/level.session/#{@opponentSessionID}"
+      opponentURL = "/db/level.session/#{@opponentSessionID}"
+      opponentURL += "?interpret=true" if @spectateMode or utils.getQueryVariable 'esper'
+      opponentSession = new LevelSession().setURL opponentURL
       opponentSession.project = session.project if @headless
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
       @opponentSession = @opponentSessionResource.model
@@ -149,6 +152,12 @@ module.exports = class LevelLoader extends CocoClass
     else if codeLanguage = utils.getQueryVariable 'codeLanguage'
       session.set 'codeLanguage', codeLanguage
     @loadCodeLanguagesForSession session
+    if compressed = session.get 'interpret'
+      uncompressed = LZString.decompressFromUTF16 compressed
+      code = session.get 'code'
+      code[if session.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan = uncompressed
+      session.set 'code', code
+      session.unset 'interpret'
     if session is @session
       @addSessionBrowserInfo session
       # hero-ladder games require the correct session team in level:loaded
@@ -377,7 +386,7 @@ module.exports = class LevelLoader extends CocoClass
     resource.markLoaded() if resource.spriteSheetKeys.length is 0
 
   denormalizeSession: ->
-    return if @headless or @sessionDenormalized or @spectateMode or @sessionless or me.isTeacher()
+    return if @headless or @sessionDenormalized or @spectateMode or @sessionless or me.isSessionless()
     # This is a way (the way?) PUT /db/level.sessions/undefined was happening
     # See commit c242317d9
     return if not @session.id

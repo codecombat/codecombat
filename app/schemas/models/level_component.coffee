@@ -23,7 +23,7 @@ PropertyDocumentationSchema = c.object {
   required: ['name', 'type', 'description']
 },
   name: {type: 'string', title: 'Name', description: 'Name of the property.'}
-  i18n: { type: 'object', format: 'i18n', props: ['description', 'context'], description: 'Help translate this property'}
+  i18n: { type: 'object', format: 'i18n', props: ['name', 'description', 'context'], description: 'Help translate this property'}
   context: {
     type: 'object'
     title: 'Example template context'
