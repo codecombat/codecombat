@@ -18,7 +18,14 @@ PatchSchema.pre 'save', (next) ->
     return next(err)
 
   collection = target.collection
-  handler = require('../' + handlers[collection])
+  try
+    handler = require('../' + handlers[collection])
+  catch err
+    console.error 'Couldn\'t find handler for collection:', target.collection, 'from target', target
+    err = new Error('Server error.')
+    err.response = {message: '', property: 'target.id'}
+    err.code = 500
+    return next(err)
   handler.getDocumentForIdOrSlug targetID, (err, document) =>
     if err
       err = new Error('Server error.')
