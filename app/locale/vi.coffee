@@ -108,7 +108,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     forum: "Diễn đàn"
     account: "Tài khoản"
     my_account: "Quản lý tài khoản"
-    profile: "Cá nhân"
+    profile: "Cá Nhân"
     stats: "Chỉ số"
     code: "Code"
     home: "Trang chủ"
@@ -133,7 +133,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     open_source: "Mã nguồn mở (GitHub)"
     support: "Hỗ trợ"
     faqs: "FAQs"
-    help_pref: "Cần giúp đỡ? Hãy email"
+    help_pref: "Cần giúp đỡ? Hãy gửi email tới"
     help_suff: "và chúng tôi sẽ trợ giúp!"
 
   modal:
@@ -168,7 +168,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     heroes: "Các Tướng" # Tooltip on hero shop button from /play
     achievements: "Thành tích" # Tooltip on achievement list button from /play
     account: "Tài khoản" # Tooltip on account button from /play
-    settings: "Tùy chỉnh" # Tooltip on settings button from /play
+    settings: "Tùy Chỉnh" # Tooltip on settings button from /play
     poll: "Bỏ phiếu" # Tooltip on poll button from /play
     next: "Tiếp" # Go from choose hero to choose inventory before playing a level
     change_hero: "Đổi Tướng" # Go back from choose inventory to choose hero
@@ -214,10 +214,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     title: "Làm tốt lắm, Thực Tập Viên!"
 
   login:
-    sign_up: "Tạo Tài Khoản"
-    log_in: "Đăng Nhập"
+    sign_up: "Tạo tài khoản"
+    log_in: "Đăng nhập"
     logging_in: "Đang đăng nhập"
-    log_out: "Đăng Xuất"
+    log_out: "Đăng xuất"
     forgot_password: "Quên mật khẩu?"
     authenticate_gplus: "Chứng thực G+"
     load_profile: "Đọc tài khoản G+"
@@ -796,7 +796,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   teachers_quote:
     name: "Đơn Demo"
     title: "Yêu cầu Demo"
-#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
+    subtitle: "Soạn giáo án chỉ trong vòng một tiếng đồng hồ. Bạn sẽ có thể <strong>tạo lớp học, thêm học viên, và theo dõi quá trình học tập của họ</strong> trong khi tham gia lớp học công nghệ thông tin."
     email_exists: "Email đã được sử dụng."
     phone_number: "Số Điện Thoại"
     phone_number_help: "Chúng tôi có thể liên hệ với bạn ở đâu vào những ngày trong tuần?"
@@ -809,11 +809,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     principal: "Hiệu trưởng"
 #    superintendent: "Superintendent"
     parent: "Phụ huynh"
-#    purchaser_role_label: "Your Purchaser Role"
+    purchaser_role_label: "Vai Trò Thanh Toán Của Bạn"
 #    influence_advocate: "Influence/Advocate"
-#    evaluate_recommend: "Evaluate/Recommend"
-#    approve_funds: "Approve Funds"
-#    no_purchaser_role: "No role in purchase decisions"
+    evaluate_recommend: "Đánh giá/Kiến nghị"
+    approve_funds: "Duyệt quỹ"
+    no_purchaser_role: "Không có vai trò thanh toán"
     organization_label: "Tên Trường/Quận"
     city: "Thành Phố"
     state: "Tiểu Bang"
@@ -826,11 +826,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     high_school: "Trung học phổ thông"
     please_explain: "(ghi rõ chi tiết)"
     middle_school: "Trung học cơ sở"
-    college_plus: "Cao Đẳng/Đại Học hoặc cao hơn"
+    college_plus: "Cao đẳng/Đại học hoặc cao hơn"
     anything_else: "Còn điều gì chúng tôi nên biết thêm nữa không?"
     thanks_header: "Đã nhận yêu cầu!"
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
-#    thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
+    thanks_p: "Chúng tôi sẽ sớm trả lời lại! Nếu bạn cần liên hệ, hãy liên lạc với chúng tôi tại:"
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
     signup_with: "Đăng ký bằng:"
@@ -1277,22 +1277,22 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    resources: "Resources"
 #    help: "Help"
 #    students: "Students" # Shared
-#    language: "Language"
+    language: "Ngôn ngữ"
 #    edit_class_settings: "edit class settings"
-#    complete: "Complete"
-#    access_restricted: "Account Update Required"
-#    teacher_account_required: "A teacher account is required to access this content."
-#    create_teacher_account: "Create Teacher Account"
-#    what_is_a_teacher_account: "What's a Teacher Account?"
+    complete: "Hoàn thành"
+    access_restricted: "Cần nâng cấp tài khoản"
+    teacher_account_required: "Bạn cần tài khoản Giáo Viên để truy cập vào nội dung này."
+    create_teacher_account: "Tạo tài khoản Giáo Viên"
+    what_is_a_teacher_account: "Tài khoản Giáo Viên là gì?"
 #    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage enrollments and access resources to aid in your curriculum-building."
-#    current_classes: "Current Classes"
+    current_classes: "Các lớp hiện tại"
 #    archived_classes: "Archived Classes"
 #    archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
-#    view_class: "view class"
+    view_class: "xem lớp"
 #    archive_class: "archive class"
 #    unarchive_class: "unarchive class"
 #    no_students_yet: "This class has no students yet."
-#    add_students: "Add Students"
+    add_students: "Thêm Học Viên"
 #    create_new_class: "Create a New Class"
 #    class_overview: "Class Overview" # View Class page
 #    avg_playtime: "Average level playtime"
