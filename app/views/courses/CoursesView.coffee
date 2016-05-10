@@ -69,7 +69,7 @@ module.exports = class CoursesView extends RootView
     application.tracker?.trackEvent 'Started Student Login', category: 'Courses'
 
   openSignUpModal: ->
-    modal = new CreateAccountModal()
+    modal = new CreateAccountModal({ initialValues: { classCode: utils.getQueryVariable('_cc', "") } })
     @openModalView(modal)
     application.tracker?.trackEvent 'Started Student Signup', category: 'Courses'
 
