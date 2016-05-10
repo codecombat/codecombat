@@ -9,7 +9,7 @@
 // Classroom owner, teacher role (GOOD)
 // Classroom member, no role
 // Classroom member, teacher role
-// Classroom member, studnet role (GOOD)
+// Classroom member, student role (GOOD)
 
 'use strict';
 const scriptStartTime = new Date();
