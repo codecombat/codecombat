@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/artisans/thangTasksView'
+template = require 'templates/artisans/thang-tasks-view'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 

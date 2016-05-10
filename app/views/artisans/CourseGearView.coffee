@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/artisans/courseGearView'
+template = require 'templates/artisans/course-gear-view'
 Level = require 'models/Level'
 Campaign = require 'models/Campaign'
 Level = require 'models/Level'
@@ -13,4 +13,4 @@ module.exports = class CourseGearView extends RootView
       url: '/db/campaign?project=slug'
       model: Campaign
     )
-    @supermodel.trackRequest(@campaigns.fetch())
+    @supermodel.trackRequest(@campaigns.fetch(), @do )

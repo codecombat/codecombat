@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/artisans/levelTasksView'
+template = require 'templates/artisans/level-tasks-view'
 #ThangType = require 'models/ThangType'
 Level = require 'models/Level'
 Campaign = require 'models/Campaign'

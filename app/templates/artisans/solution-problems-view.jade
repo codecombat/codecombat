@@ -8,7 +8,7 @@ block content
         tr
           td(style="width:10%")= level.level.get('slug')
           td
-            table.table-striped
+            table.table-condensed.table-striped.table-hover
               for problem in (level.problems || [])
                 tr(style="width:100%")
                   td.problemType= problem.type

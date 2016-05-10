@@ -27,7 +27,7 @@ mixin levelRow(level)
     td.taskOwner
       a(href= 'level/' + level.slug)= level.name
     td.tasks
-      table.table-striped.table-hover.tasksTable
+      table.table-condensed.table-striped.table-hover.tasksTable
         for task in (level.tasks2 || [])
           if !task.complete
             tr

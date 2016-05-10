@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/artisans/solutionProblemsView'
+template = require 'templates/artisans/solution-problems-view'
 Level = require 'models/Level'
 Campaign = require 'models/Campaign'
 Level = require 'models/Level'
@@ -12,22 +12,22 @@ module.exports = class SolutionProblemsView extends RootView
     "picoctf"
     "auditions"
 
-    #"dungeon"
-    #"forest"
-    #"desert"
+    "dungeon"
+    "forest"
+    "desert"
     #"mountain"
-    #"glacier"
+    "glacier"
 
     "dungeon-branching-test"
     "forest-branching-test"
     "desert-branching-test"
 
-    #"intro"
-    #"course-2"
-    #"course-3"
-    #"course-4"
-    #"course-5"
-    #"course-6"
+    "intro"
+    "course-2"
+    "course-3"
+    "course-4"
+    "course-5"
+    "course-6"
   ]
   excludedSimulationLevels = [
     # Course Arenas
@@ -52,6 +52,7 @@ module.exports = class SolutionProblemsView extends RootView
   isReady: 0
   requiresSubs: 0
   rob: []
+  test2: []
   constructor: (options) ->
     super options
     @campaigns = new CocoCollection([], 
@@ -77,15 +78,16 @@ module.exports = class SolutionProblemsView extends RootView
     @loadedLevels = {}
     count = 0
     for campaign in @campaigns.models
-      continue unless excludedCampaigns.indexOf(campaign.get 'slug') is -1
+      campaignSlug = campaign.get('slug')
+      continue unless excludedCampaigns.indexOf(campaignSlug) is -1
       count++
-      @test[campaign.get('slug')] = new CocoCollection([],
-        url: '/db/campaign/' + campaign.get('slug') + '/levels?project=thangs,slug,requiresSubscription'
+      @test[campaignSlug] = new CocoCollection([],
+        url: '/db/campaign/' + campaignSlug + '/levels?project=thangs,slug,requiresSubscription,campaign'
         model: Level
       )
-      @test[campaign.get('slug')].fetch()
-      @listenTo(@test[campaign.get('slug')], 'sync', (e) ->
-        #@loadedLevels = _uniq(_.union(@loadedLevels, e.models))
+      @test[campaignSlug].fetch()
+      @listenTo(@test[campaignSlug], 'sync', (e) ->
+        e.models.reverse()
         for level in e.models
           if not @loadedLevels[level.get('slug')]? and level.get('requiresSubscription')
             @requiresSubs++
@@ -94,7 +96,7 @@ module.exports = class SolutionProblemsView extends RootView
         if count is 0
           @readyUp()
       )
-      @supermodel.loadCollection(@test[campaign.get('slug')], 'levels')
+      @supermodel.loadCollection(@test[campaignSlug], 'levels')
 
   readyUp: ->
     console.log("Count of levels: " + _.size(@loadedLevels))
@@ -134,14 +136,17 @@ module.exports = class SolutionProblemsView extends RootView
 
       problems = []
       if excludedSolutionLevels.indexOf(levelSlug) is -1
-        for lang in ["python", "javascript", "lua", "java"]
+        for lang in ["python", "javascript", "lua", "java", "coffeescript"]
           if _.findWhere(solutions, (elem) -> return elem.language is lang)
-            @rob.push language: lang, level: levelSlug
-          else if lang not in ["lua", "java"]
+            #@rob.push language: lang, level: levelSlug
+            
+          else if lang not in ["lua", "java", "coffeescript"]
             problems.push {
               "type":"Missing Solution Language",
               "value":lang
             }
+            @test2.push(levelSlug)
+            #break
             @problemCount++
           else
             # monitor lua/java when we care about it here
@@ -149,6 +154,7 @@ module.exports = class SolutionProblemsView extends RootView
       for solutionIndex of solutions
         solution = solutions[solutionIndex]
         if excludedSimulationLevels.indexOf(levelSlug) is -1
+          isSimul = true
           for req in ["seed", "succeeds", "heroConfig", 'frameCount', 'goals'] # Implement a fix for lastHash
             unless solution[req]?
               console.log levelSlug, req
@@ -157,14 +163,20 @@ module.exports = class SolutionProblemsView extends RootView
                 "value":solution.language
               }
               @problemCount++
+              isSimul = false
               break
-        if solution.source.indexOf("pass") isnt -1
+          if isSimul
+            console.log level.get('campaign')
+            if @rob.indexOf(levelSlug) is -1
+              @rob.push(levelSlug)
+
+        if solution.source.search(/pass\n/i) isnt -1
           problems.push {
             "type":"Solution contains pass",
             "value":solution.language
           }
           @problemCount++
-        if solution.source.indexOf("<%=") is -1
+        if solution.source.indexOf('<%=') is -1
           problems.push {
             "type":"Solution is not i18n'd",
             "value":solution.language
@@ -186,6 +198,7 @@ module.exports = class SolutionProblemsView extends RootView
               "value":solution.language
             }
             @problemCount++
+
       @parsedLevels.push {
         level: level
         problems: problems
