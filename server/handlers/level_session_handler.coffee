@@ -23,7 +23,7 @@ class LevelSessionHandler extends Handler
        not document.submittedCode  # TODO: only allow leaderboard access to non-top-5 solutions
       document = _.omit document, @privateProperties
     if req.query.interpret
-      plan = submittedCode[if document.team is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan
+      plan = submittedCode[if document.team is 'humans' then 'hero-placeholder' else 'hero-placeholder-1']?.plan ? ''
       plan = LZString.compressToUTF16 plan
       document.interpret = plan
       document.code = submittedCode
