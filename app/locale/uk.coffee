@@ -14,8 +14,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     for_developers: "Для розробників" # Not currently shown on home page.
     or_ipad: "Або завантажте на iPad"
 
-#  new_home:
-#    slogan: "The most engaging game for learning programming."
+  new_home:
+    slogan: "Найбільш приваблива гра для вивчення програмування." # The most engaging game for learning programming
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
 #    teacher: "Teacher"
