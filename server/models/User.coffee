@@ -341,6 +341,13 @@ UserSchema.statics.hashPassword = (password) ->
   shasum.update(salt + password)
   shasum.digest('hex')
 
+UserSchema.methods.verificationCode = (timestamp) ->
+  { _id, email } = this.toObject()
+  shasum = crypto.createHash('sha256')
+  console.log timestamp + salt + _id + email
+  hash = shasum.update(timestamp + salt + _id + email).digest('hex')
+  return "#{timestamp}:#{hash}"
+
 UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',

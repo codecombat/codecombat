@@ -50,6 +50,7 @@ visa = c.shortString
 
 _.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
+  emailVerified: { type: 'boolean' }
   iosIdentifierForVendor: c.shortString({format: 'hidden'})
   firstName: c.shortString({title: 'First Name'})
   lastName: c.shortString({title: 'Last Name'})
