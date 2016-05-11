@@ -14,7 +14,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     for_developers: "Voor ontwikkelaars" # Not currently shown on home page.
     or_ipad: "Of download voor iPad"
 
-new_home:
+  new_home:
     slogan: "Het meest uitdagende spel om mee te leren programmeren."
     classroom_edition: "Klas versie:"
     learn_to_code: "Leer programmeren:"
@@ -187,7 +187,7 @@ new_home:
     campaign_old_multiplayer: "(Verouderde) Oude Multiplayer Arenas"
     campaign_old_multiplayer_description: "Antieke overblijvselen van een beschaafder tijdperk. Deze oudere held-loze multiplayer arenas worden niet gesimuleert."
 
-code:
+  code:
     if: "als" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "anders"
     elif: "anders als"
