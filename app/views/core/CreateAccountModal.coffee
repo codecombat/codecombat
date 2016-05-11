@@ -146,10 +146,11 @@ module.exports = class CreateAccountModal extends ModalView
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
     if @classCode
       url = "/courses?_cc="+@classCode
-      application.router.navigate(url)
-    window.location.reload()
-    
-  
+      location.href = url
+    else
+      window.location.reload()
+
+
   # Google Plus
 
   onClickGPlusSignupButton: ->
