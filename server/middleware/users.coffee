@@ -60,13 +60,11 @@ module.exports =
 
   verifyEmailAddress: wrap (req, res, next) ->
     user = yield User.findOne({ _id: mongoose.Types.ObjectId(req.params.userID) })
-    console.log req.params.verificationCode, user.verificationCode()
-    if user and req.params.verificationCode is user.verificationCode()
-      console.log "Yay!"
+    [timestamp, hash] = req.params.verificationCode.split(':')
+    if user and req.params.verificationCode is user.verificationCode(timestamp)
       yield User.update({ _id: user.id }, { emailVerified: true })
       res.status(200).send({ role: user.toObject().role })
     else
-      console.log "Boo :("
       next()
 
   resetEmailVerifiedFlag: wrap (req, res, next) ->
