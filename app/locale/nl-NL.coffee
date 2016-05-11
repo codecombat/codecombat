@@ -551,9 +551,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   subscribe:
     comparison_blurb: "Verbeter je vaardigheden met een abonnement op CodeCombat!"
-    feature1: "meer dan _data.levelsCount_ basislevels over _data.worldsCount_ werelden" # {change}
-    feature2: "_data.heroesCount_ sterke <strong>nieuwe helden</strong> met unieke vaardigheden!" # {change}
-    feature3: "_data.bonusLevelsCount_ bonuslevels" # {change}
+    feature1: "meer dan __levelsCount__ basislevels over __worldsCount__ werelden" # {change}
+    feature2: "__heroesCount__ sterke <strong>nieuwe helden</strong> met unieke vaardigheden!" # {change}
+    feature3: "__bonusLevelsCount__ bonuslevels" # {change}
     feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!"
     feature5: "Video-instructies"
     feature6: "Hoogwaardige e-mail ondersteuning"
@@ -590,9 +590,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     payment_methods_blurb1: "Momenteel worden alleen credit cards, Alipay en iDEAL geaccepteerd. iDEAL gaat via de homepage" # {change}
     payment_methods_blurb2: "Als u op een andere manier wilt betalen, neem dan alstublieft contact op"
     sale_button: "Koop"
-    sale_button_title: "Bespaar ${{discount}} bij aankoop van een 1-jarig abonnement" # {change}
+    sale_button_title: "Bespaar €{{discount}} bij aankoop van een 1-jarig abonnement" # {change}
     stripe_description: "Maandelijks abonnement"
-    stripe_description_year_sale: "1-jarig abonnement (${{discount}} korting)" # {change}
+    stripe_description_year_sale: "1-jarig abonnement (€{{discount}} korting)" # {change}
     subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
     unlock_help_videos: "Abonneer om toegang te krijgen tot alle instructievideos."
     personal_sub: "Persoonlijk abonnement" # Accounts Subscription View below
@@ -621,7 +621,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     clojure_blurb: "Lisp, maar modern."
     lua_blurb: "Game scripting taal."
     io_blurb: "Simpel maar obscuur."
-    java_blurb: "(Alleen abonnees) Android en enterprise."
+    java_blurb: "(Alleen voor abonnees) Android en enterprise."
     status: "Status"
     hero_type: "Soort"
     weapons: "Wapens"
