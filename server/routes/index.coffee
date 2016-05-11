@@ -82,6 +82,7 @@ module.exports.setup = (app) ->
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
+  app.post('/db/user/:userID/requestVerifyEmail', mw.users.sendVerificationEmail)
   app.post('/db/user/:userID/verify/:verificationCode', mw.users.verifyEmailAddress) # TODO: Finalize URL scheme
 
   app.get '/db/products', require('./db/product').get

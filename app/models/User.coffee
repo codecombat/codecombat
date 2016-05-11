@@ -210,7 +210,17 @@ module.exports = class User extends CocoModel
 
   isOnPremiumServer: ->
     me.get('country') in ['china', 'brazil']
-    
+
+  sendVerificationCode: (code) ->
+    $.ajax({
+      method: 'POST'
+      url: "/db/user/#{@id}/verify/#{code}"
+      success: (attributes) =>
+        this.set attributes
+        @trigger 'email-verify-success'
+      error: =>
+        @trigger 'email-verify-error'
+    })
 
   # Function meant for "me"
     

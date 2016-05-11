@@ -6,6 +6,7 @@ Promise = require 'bluebird'
 parse = require '../commons/parse'
 request = require 'request'
 mongoose = require 'mongoose'
+sendwithus = require '../sendwithus'
 User = require '../models/User'
 Classroom = require '../models/Classroom'
 
@@ -75,5 +76,19 @@ module.exports =
       oldEmail = user.toObject().email
       if newEmail isnt oldEmail
         yield User.update({ _id }, { $set: { emailVerified: false } })
-        console.log (yield User.findOne({ _id }).select('_id name email emailVerified'))?.toObject()
     next()
+
+  sendVerificationEmail: wrap (req, res, next) ->
+    user = yield User.findOne({ _id: mongoose.Types.ObjectId(req.params.userID) })
+    timestamp = (new Date).getTime()
+    if not user
+      res.status(404).send()
+    context =
+      email_id: sendwithus.templates.verify_email
+      recipient:
+        address: user.get('email')
+        name: user.get('name')
+      email_data:
+        name: user.get('name')
+        verify_link: "http://codecombat.com/user/#{user._id}/verify/#{user.verificationCode(timestamp)}"
+    sendwithus.api.send context, (err, result) ->

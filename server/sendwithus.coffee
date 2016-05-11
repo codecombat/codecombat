@@ -19,6 +19,7 @@ module.exports.templates =
   parent_subscribe_email: 'tem_2APERafogvwKhmcnouigud'
   share_progress_email: 'tem_VHE3ihhGmVa3727qds9zY8'
   welcome_email: 'utnGaBHuSU4Hmsi7qrAypU'
+  verify_email: 'tem_z7Xvj3mtWYk6ec6aW7RwFk'
   ladder_update_email: 'JzaZxf39A4cKMxpPZUfWy4'
   patch_created: 'tem_xhxuNosLALsizTNojBjNcL'
   change_made_notify_watcher: 'tem_7KVkfmv9SZETb25dtHbUtG'
