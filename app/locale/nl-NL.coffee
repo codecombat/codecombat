@@ -551,9 +551,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   subscribe:
     comparison_blurb: "Verbeter je vaardigheden met een abonnement op CodeCombat!"
-    feature1: "meer dan $t(data.levelsCount) basislevels over $t(data.worldsCount) werelden" # {change}
-    feature2: "$t(data.heroesCount) sterke <strong>nieuwe helden</strong> met unieke vaardigheden!" # {change}
-    feature3: "$t(data.bonusLevelsCount) bonuslevels" # {change}
+    feature1: "meer dan _data.levelsCount_ basislevels over _data.worldsCount_ werelden" # {change}
+    feature2: "_data.heroesCount_ sterke <strong>nieuwe helden</strong> met unieke vaardigheden!" # {change}
+    feature3: "_data.bonusLevelsCount_ bonuslevels" # {change}
     feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!"
     feature5: "Video-instructies"
     feature6: "Hoogwaardige e-mail ondersteuning"
@@ -583,7 +583,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     parents_title: "Uw kind leert programmeren." # {change}
     parents_blurb1: "Met CodeCombat leert uw kind door echte code te schrijven. Ze beginnen met simpele instructies en naarmate ze verder komen, komen er moeilijkere onderwerpen aan bod."
     parents_blurb1a: "Programmeren is een essentiële vaardigheid die uw kind als volwassene ongetwijfeld gaat gebruiken. In 2020 is de basis van programmeren nodig bij 77% van de banen en zijn softwareontwikkelaars dringend nodig in de wereld. Wist u dat informatica de hoogstbetaalde universitaire graad is?"
-    parents_blurb2: "Voor ${{price}} €/maand, ontvangt uw kind wekelijks nieuwe uitdagingen en kan uw kind vragen stellen aan professionele programmeurs."
+    parents_blurb2: "Voor €{{price}} /maand, ontvangt uw kind wekelijks nieuwe uitdagingen en kan uw kind vragen stellen aan professionele programmeurs."
     parents_blurb3: "Geen risico's: 100% geldterug-garantie, 1-klik uitschrijving."
     payment_methods: "Betaalmethoden"
     payment_methods_title: "Geaccepteerde betaalmethoden"
@@ -1747,9 +1747,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     modified: "Veranderd"
     not_modified: "Niet veranderd"
     deleted: "Verwijderd"
-#    moved_index: "Moved Index"
+    moved_index: "Index Verplaatst"
 #    text_diff: "Text Diff"
-#    merge_conflict_with: "MERGE CONFLICT WITH"
+    merge_conflict_with: "SAMENVOEGINGSCONFLICT MET"
     no_changes: "Geen veranderingen"
 
   multiplayer:
