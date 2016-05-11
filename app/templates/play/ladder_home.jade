@@ -23,8 +23,11 @@ block content
               if playCount
                 span.spl.spr - #{playCount.sessions}
                 span(data-i18n="play.players") players
-                if view.levelStatusMap[level.id]
-                  | &nbsp;-&nbsp;
-                  span(class="level-status-#{view.levelStatusMap[level.id]}", data-i18n="play.level_status_#{view.levelStatusMap[level.id]}") #{view.levelStatusMap[level.id]}
+                if (view.levelStatusMap[level.id]=='complete')
+                  span.spl.spr -
+                  span(class="level-status-#{view.levelStatusMap[level.id]}", data-i18n="clans.complete_2") Complete
+                else if (view.levelStatusMap[level.id]=='started')
+                  span.spl.spr -
+                  span(class="level-status-#{view.levelStatusMap[level.id]}", data-i18n="clans.started_2") Started
             .play-text-container
               .overlay-text.play-text(data-i18n="common.play") Play
