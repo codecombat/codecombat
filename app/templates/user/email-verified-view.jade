@@ -1,0 +1,34 @@
+extends /templates/base-flat
+
+block content
+  .container.text-center
+    if state.get('verifyStatus') === "pending"
+      span(data-i18n="account.verifying_email")
+        | Verifying your email address...
+    else if state.get('verifyStatus') === "success"
+      .alert.alert-success.center-block
+        .glyphicon.glyphicon-ok-circle.m-r-1
+        span(data-i18n="account.successfully_verified")
+          | You've successfully verified your email address!
+      if view.user.isStudent()
+        a.btn.btn-lg.btn-navy(href="/courses")
+          span(data-i18n="account.back_to_student_page")
+            | Go back to student things
+      else if view.user.isTeacher()
+        a.btn.btn-lg.btn-navy(href="/teacher/classes")
+          span(data-i18n="account.back_to_teacher_page")
+            | Go to My Classes
+      else
+        a.btn.btn-lg.btn-navy(href="/play")
+          span(data-i18n="account.back_to_game")
+            | Go play some more levels!
+    else if state.get('verifyStatus') === "error"
+      .alert.alert-danger.center-block
+        .glyphicon.glyphicon-remove-circle.m-r-1
+        span(data-i18n="account.verify_error")
+          | Something went wrong when verifying your email :(
+    else
+      div
+        | This really shouldn't happen
+      div
+        = state.get('verifyStatus')

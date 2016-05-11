@@ -19,6 +19,7 @@ module.exports = class AccountSettingsView extends CocoView
     'click #profile-photo-panel-body': 'onClickProfilePhotoPanelBody'
     'click #delete-account-btn': 'onClickDeleteAccountButton'
     'click #reset-progress-btn': 'onClickResetProgressButton'
+    'click .resend-verification-email': 'onClickResendVerificationEmail'
 
   constructor: (options) ->
     super options
@@ -82,6 +83,12 @@ module.exports = class AccountSettingsView extends CocoView
       confirmModal = new ConfirmModal renderData
       confirmModal.on 'confirm', @resetProgress
       @openModalView confirmModal
+
+  onClickResendVerificationEmail: (e) ->
+    $.post me.getRequestVerificationEmailURL(), ->
+      link = $(e.currentTarget)
+      link.find('.resend-text').addClass('hide')
+      link.find('.sent-text').removeClass('hide')
 
   validateCredentialsForDestruction: ($form, onSuccess) ->
     forms.clearFormAlerts($form)

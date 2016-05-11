@@ -60,6 +60,12 @@ module.exports.logoutUser = ->
   res = $.post('/auth/logout', {}, callback)
   res.fail(genericFailure)
 
+module.exports.sendRecoveryEmail = (email, options={}) ->
+  options = _.merge(options,
+    {method: 'POST', url: '/auth/reset', data: { email }}
+  )
+  $.ajax(options)
+
 onSetVolume = (e) ->
   return if e.volume is me.get('volume')
   me.set('volume', e.volume)

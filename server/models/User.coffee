@@ -8,6 +8,7 @@ plugins = require '../plugins/plugins'
 AnalyticsUsersActive = require './AnalyticsUsersActive'
 Classroom = require '../models/Classroom'
 languages = require '../routes/languages'
+_ = require 'lodash'
 
 config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
@@ -39,6 +40,16 @@ UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
 )
 
+UserSchema.methods.broadName = ->
+  return '(deleted)' if @get('deleted')
+  name = @get('name')
+  return name if name
+  name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
+  return name if name
+  [emailName, emailDomain] = @get('email').split('@')
+  return emailName if emailName
+  return 'Anoner'
+
 UserSchema.methods.isInGodMode = ->
   p = @get('permissions')
   return p and 'godmode' in p
@@ -66,6 +77,9 @@ UserSchema.statics.teacherRoles = ['teacher', 'technology coordinator', 'advisor
 
 UserSchema.methods.isTeacher = ->
   return @get('role') in User.teacherRoles
+
+UserSchema.methods.isStudent = ->
+  return @get('role') is 'student'
 
 UserSchema.methods.getUserInfo = ->
   id: @get('_id')
@@ -242,13 +256,18 @@ UserSchema.methods.register = (done) ->
       @set 'name', uniqueName
       done()
   else done()
-  if @isEmailSubscriptionEnabled 'generalNews'
-    data =
-      email_id: sendwithus.templates.welcome_email
-      recipient:
-        address: @get 'email'
-    sendwithus.api.send data, (err, result) ->
-      log.error "sendwithus post-save error: #{err}, result: #{result}" if err
+  { welcome_email_student, welcome_email_user } = sendwithus.templates
+  timestamp = (new Date).getTime()
+  data =
+    email_id: if @isStudent() then welcome_email_student else welcome_email_user
+    recipient:
+      address: @get('email')
+      name: @broadName()
+    email_data:
+      name: @broadName()
+      verify_link: "http://codecombat.com/user/#{@_id}/verify/#{@verificationCode(timestamp)}"
+  sendwithus.api.send data, (err, result) ->
+    log.error "sendwithus post-save error: #{err}, result: #{result}" if err
   @saveActiveUser 'register'
 
 UserSchema.methods.hasSubscription = ->
@@ -340,6 +359,12 @@ UserSchema.statics.hashPassword = (password) ->
   shasum = crypto.createHash('sha512')
   shasum.update(salt + password)
   shasum.digest('hex')
+
+UserSchema.methods.verificationCode = (timestamp) ->
+  { _id, email } = this.toObject()
+  shasum = crypto.createHash('sha256')
+  hash = shasum.update(timestamp + salt + _id + email).digest('hex')
+  return "#{timestamp}:#{hash}"
 
 UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',

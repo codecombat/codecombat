@@ -55,3 +55,13 @@ describe 'User', ->
       classicUser.set('permissions', ['user'])
       expect(classicUser.isAdmin()).toBeFalsy()
       done()
+  
+  describe '.verificationCode(timestamp)', ->
+    it 'returns a timestamp and a hash', (done) ->
+      user = new User()
+      now = new Date()
+      code = user.verificationCode(now.getTime())
+      expect(code).toMatch(/[0-9]{13}:[0-9a-f]{64}/)
+      [timestamp, hash] = code.split(':')
+      expect(new Date(parseInt(timestamp))).toEqual(now)
+      done()

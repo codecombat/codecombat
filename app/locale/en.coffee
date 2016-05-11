@@ -132,6 +132,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     help_suff: "and we'll get in touch!"
 
   modal:
+    cancel: "Cancel"
     close: "Close"
     okay: "Okay"
 
@@ -1173,6 +1174,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_class: "view class"
     view_levels: "view levels"
     join_class: "Join A Class"
+    join_class_2: "Join class"
     ask_teacher_for_code: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
     enter_c_code: "<Enter Class Code>"
     join: "Join"
@@ -1319,6 +1321,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     update_account_update_student: "Update to Student"
     update_account_not_sure: "Not sure which one to choose? Email"
     update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?\n\nYou will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
+    instructor: "Instructor: "
+    by_joining_1: "By joining "
+    by_joining_2: "will be able to help reset your password if you forget or lose it. You can also verify your email address so that you can reset the password yourself!"
+    sent_verification: "We've sent a verification email to:"
+    you_can_edit: "You can edit your email address in "
+    account_settings: "Account Settings"
 
   teacher:
     teacher_dashboard: "Teacher Dashboard" # Navbar
@@ -1360,6 +1368,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     course_progress: "Course Progress"
     not_applicable: "N/A"
     edit: "edit"
+    edit_2: "Edit"
     remove: "remove"
     latest_completed: "Latest Completed"
     sort_by: "Sort by"
@@ -1404,6 +1413,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
     total_unenrolled: "Total unenrolled"
     export_student_progress: "Export Student Progress (CSV)"
+    send_email_to: "Send Recover Password Email to:"
+    verified_email_address: "verified email address"
+    email_sent: "Email sent"
+    send_recovery_email: "Send recovery email"
+    change_password: "Change Password"
+    changed: "Changed"
 
   classes:
     archmage_title: "Archmage"
@@ -1704,6 +1719,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     card: "Card"
     status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
     status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+    not_yet_verified: "Not yet verified."
+    resend_email: "Resend email"
+    email_sent: "Email sent! Check your inbox."
+    verifying_email: "Verifying your email address..."
+    successfully_verified: "You've successfully verified your email address!"
+    back_to_student_page: "Go back to student things"
+    back_to_teacher_page: "Go to My Classes"
+    back_to_game: "Go play some more levels!"
+    verify_error: "Something went wrong when verifying your email :("
 
   account_invoices:
     amount: "Amount in US dollars"

@@ -23,8 +23,8 @@ module.exports = class User extends CocoModel
     return name if name
     name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
     return name if name
-    email = @get('email')
-    return email if email
+    [emailName, emailDomain] = @get('email')?.split('@') or []
+    return emailName if emailName
     return 'Anoner'
 
   getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
@@ -35,6 +35,9 @@ module.exports = class User extends CocoModel
       return "#{photoURL}#{prefix}s=#{size}" if photoURL.search('http') isnt -1  # legacy
       return "/file/#{photoURL}#{prefix}s=#{size}"
     return "/db/user/#{@id}/avatar?s=#{size}&employerPageAvatar=#{useEmployerPageAvatar}"
+    
+  getRequestVerificationEmailURL: ->
+    @url() + "/request-verify-email"
 
   getSlugOrID: -> @get('slug') or @get('_id')
 
@@ -210,7 +213,17 @@ module.exports = class User extends CocoModel
 
   isOnPremiumServer: ->
     me.get('country') in ['china', 'brazil']
-    
+
+  sendVerificationCode: (code) ->
+    $.ajax({
+      method: 'POST'
+      url: "/db/user/#{@id}/verify/#{code}"
+      success: (attributes) =>
+        this.set attributes
+        @trigger 'email-verify-success'
+      error: =>
+        @trigger 'email-verify-error'
+    })
 
   # Function meant for "me"
     

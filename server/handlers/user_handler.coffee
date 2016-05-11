@@ -43,8 +43,8 @@ UserHandler = class UserHandler extends Handler
     props.push 'jobProfileApproved', 'jobProfileNotes','jobProfileApprovedDate' if req.user.isAdmin()  # Admins naturally edit these
     props.push @privateProperties... if req.user.isAdmin()  # Admins are mad with power
     if not req.user.isAdmin()
-      if document.isTeacher() and req.body.role not in User.teacherRoles 
-        props = _.without props, 'role' 
+      if document.isTeacher() and req.body.role not in User.teacherRoles
+        props = _.without props, 'role'
     props
 
   formatEntity: (req, document, publicOnly=false) =>

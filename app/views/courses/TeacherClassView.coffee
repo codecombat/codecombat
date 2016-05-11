@@ -5,6 +5,7 @@ helper = require 'lib/coursesHelper'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
+EditStudentModal = require 'views/teachers/EditStudentModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 
 Classroom = require 'models/Classroom'
@@ -36,6 +37,7 @@ module.exports = class TeacherClassView extends RootView
     'click .sort-by-progress': 'sortByProgress'
     'click #copy-url-btn': 'copyURL'
     'click #copy-code-btn': 'copyCode'
+    'click .edit-student-link': 'onClickEditStudentLink'
     'click .remove-student-link': 'onClickRemoveStudentLink'
     'click .assign-student-button': 'onClickAssign'
     'click .enroll-student-button': 'onClickEnroll'
@@ -219,6 +221,11 @@ module.exports = class TeacherClassView extends RootView
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
+
+  onClickEditStudentLink: (e) ->
+    user = @students.get($(e.currentTarget).data('student-id'))
+    modal = new EditStudentModal({ user })
+    @openModalView(modal)
 
   onClickRemoveStudentLink: (e) ->
     user = @students.get($(e.currentTarget).data('student-id'))
