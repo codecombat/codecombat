@@ -26,7 +26,8 @@ module.exports = class DemoRequestsView extends RootView
       @dayCounts.push(day: day, count: count)
     @dayCounts.sort((a, b) -> b.day.localeCompare(a.day))
     sevenCounts = []
-    for dayCount in @dayCounts
+    for i in [@dayCounts.length - 1..0]
+      dayCount = @dayCounts[i]
       sevenCounts.push(dayCount.count)
       while sevenCounts.length > 7
         sevenCounts.shift()
