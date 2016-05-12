@@ -25,9 +25,9 @@ block content
                 span(data-i18n="play.players") players
                 if (view.levelStatusMap[level.id]=='complete')
                   span.spl.spr -
-                  span(class="level-status-#{view.levelStatusMap[level.id]}", data-i18n="clans.complete_2") Complete
+                  span(class="level-status-#{view.levelStatusMap[level.id]}", data-i18n="clans.complete_2")
                 else if (view.levelStatusMap[level.id]=='started')
                   span.spl.spr -
-                  span(class="level-status-#{view.levelStatusMap[level.id]}", data-i18n="clans.started_2") Started
+                  span(class="level-status-#{view.levelStatusMap[level.id]}", data-i18n="clans.started_2")
             .play-text-container
               .overlay-text.play-text(data-i18n="common.play") Play
