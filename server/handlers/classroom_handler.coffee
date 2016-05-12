@@ -104,13 +104,15 @@ ClassroomHandler = class ClassroomHandler extends Handler
       return @sendForbiddenError(res) unless classroom.get('ownerID').equals(req.user.get('_id'))
 
       for email in req.body.emails
+        joinCode = (classroom.get('codeCamel') or classroom.get('code'))
         context =
           email_id: sendwithus.templates.course_invite_email
           recipient:
             address: email
           email_data:
             class_name: classroom.get('name')
-            join_link: "https://codecombat.com/courses?_cc=" + (classroom.get('codeCamel') or classroom.get('code'))
+            join_link: "https://codecombat.com/courses?_cc=" + joinCode
+            join_code: joinCode
         sendwithus.api.send context, _.noop
       return @sendSuccess(res, {})
 
