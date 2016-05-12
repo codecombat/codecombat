@@ -25,13 +25,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     im_a_student: "Я Учень" # I'm a Student
     learn_more: "Дізнатися більше" # Learn more
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-    codecombat_is: "CodeCombat - це платформа <strong>для учнів</strong>, щоб опанувати комп'ютерні науки під час захоплюючої гри." # CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game.
+    codecombat_is: "CodeCombat - це платформа <strong>для учнів</strong>, створена, щоб опановувати комп'ютерні науки під час захоплюючої гри." # CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game.
     our_courses: "Наша програма була протестована, щоб бути <strong>ефективною в класі</strong>, навіть для вчителів з мінімальним досвідом програмування."  # Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience.
     top_screenshots_hint: "Учні пишуть код і бачать усі зміни наживо" # Students write code and see their changes update in real-time
-#    designed_with: "Designed with teachers in mind"
-#    real_code: "Real, typed code"
-#    from_the_first_level: "from the first level"
-#    getting_students: "Getting students to typed code as quickly as possible is critical to learning programming syntax and proper structure."
+    designed_with: "Зважаючи на потреби вчителя" # Designed with teachers in mind
+    real_code: "Кодування" # Real, typed code
+    from_the_first_level: "з першого рівня" # from the first level
+    getting_students: "Написання коду самостійно сприяє вивченню синтаксису та структури програми." # Getting students to typed code as quickly as possible is critical to learning programming syntax and proper structure.
 #    educator_resources: "Educator resources"
 #    course_guides: "and course guides"
 #    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
