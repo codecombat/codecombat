@@ -60,10 +60,8 @@
   a[disabled] .level
     opacity: 0.7
 
-  a.complete .level-difficulty:after
-    content: " - Complete!"
+  a .level-difficulty .level-status-complete
     color: $yellow
 
-  a.started .level-difficulty:after
-    content: " - Started"
+  a .level-difficulty .level-status-started
     color: desaturate($yellow, 50%)

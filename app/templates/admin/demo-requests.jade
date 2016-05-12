@@ -37,6 +37,7 @@ block content
             th.number NCES School Students
             th.number School Students
             th.number Teacher Students
+            th Site Origin
         tbody
           each trialRequest in view.trialRequests.models
             if trialRequest.get('type') !== 'course'
@@ -50,3 +51,4 @@ block content
               td= trialRequest.get('properties').nces_students || ''
               td= trialRequest.get('properties').numStudentsTotal || ''
               td= trialRequest.get('properties').numStudents || ''
+              td= trialRequest.get('properties').siteOrigin
