@@ -73,11 +73,11 @@ if cluster.isMaster
   for i in [0...numCPUs]
     cluster.fork()
   cluster.on 'exit', (worker, code, signal) ->
-    message = "Worker #{worker.id} died! #{deaths[Math.floor Math.random() * deaths.length]}"
+    message = "Worker #{worker.id} died!"
     console.log message
     try
       slack = require './server/slack'
-      slack.sendSlackMessage(message, ['ops'], {papertrail: true})
+      slack.sendSlackMessage(message, ['eng'], {papertrail: true})
     catch error
       console.log "Couldn't send Slack message on server death:", error
     cluster.fork()

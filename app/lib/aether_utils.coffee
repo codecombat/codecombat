@@ -8,12 +8,12 @@ module.exports.createAetherOptions = (options) ->
   throw new Error 'Specify a code language to create an Aether instance' unless options.codeLanguage
 
   useInterpreter = options.useInterpreter
-  defaultToEsper = switch options.codeLanguage
-    when 'python' then me.level() < 15  # Esper currently works well until using range()
-    when 'javascript' then me.level() < 22  # Esper currently works well until using hero.myFn = function() pattern
-    when 'lua' then me.level() < 10  # Functions don't work in Esper yet, can't play forest function levels
-    when 'coffeescript' then false  # CoffeeScript has a toNative error if it ever finishes plan(), and also @fn = -> pattern doesn't work
-    when 'clojure' then false  # No Clojure support
+  defaultToEsper = true #switch options.codeLanguage
+#    when 'python' then me.level() < 15  # Esper currently works well until using range()
+#    when 'javascript' then me.level() < 22  # Esper currently works well until using hero.myFn = function() pattern
+#    when 'lua' then me.level() < 10  # Functions don't work in Esper yet, can't play forest function levels
+#    when 'coffeescript' then false  # CoffeeScript has a toNative error if it ever finishes plan(), and also @fn = -> pattern doesn't work
+#    when 'clojure' then false  # No Clojure support
   useInterpreter ?= !!utils.getQueryVariable 'esper', defaultToEsper
   aetherOptions =
     functionName: options.functionName

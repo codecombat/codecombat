@@ -27,19 +27,24 @@ createMailContext = (req, done) ->
 
   level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (user.get('points') + 100))) + 1 else 0
   premium = user?.isPremium()
+  teacher = user?.isTeacher()
   content = """
     #{message}
 
     --
-    <a href='http://codecombat.com/user/#{user.get('slug') or user.get('_id')}'>#{user.get('name') or 'Anonymous'}</a> - Level #{level}#{if premium then ' - Subscriber' else ''}#{if country then ' - ' + country else ''}
+    <a href='http://codecombat.com/user/#{user.get('slug') or user.get('_id')}'>#{user.get('name') or 'Anonymous'}</a> - Level #{level}#{if teacher then ' - Teacher' else ''}#{if premium then ' - Subscriber' else ''}#{if country then ' - ' + country else ''}
   """
   if req.body.browser
     content += "\n#{req.body.browser} - #{req.body.screenSize}"
 
+  address = switch
+    when teacher then config.mail.supportSchools
+    when premium then config.mail.supportPremium
+    else config.mail.supportPrimary
   context =
     email_id: sendwithus.templates.plain_text_email
     recipient:
-      address: if premium then config.mail.supportPremium else config.mail.supportPrimary
+      address: address
     sender:
       address: config.mail.username
       reply_to: sender or user.get('email')
