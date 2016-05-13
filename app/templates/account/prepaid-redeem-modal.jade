@@ -1,19 +1,19 @@
 extends /templates/core/modal-base
 
 block modal-header-content
-  h3 Prepaid Code Details (#{ppc.get('code')})
+  h3 Prepaid Code Details (#{view.ppc.get('code')})
 
 block modal-body-content
-  if redeemedOn
-    p You redeemed this code: #{redeemedOn}
+  if view.redeemedOn
+    p You redeemed this code: #{view.redeemedOn}
   else
-    if ppc.openSpots()
-      p: strong Adds #{ppc.get('properties').months} month(s) to your current subscription.
+    if view.ppc.openSpots()
+      p: strong Adds #{view.ppc.get('properties').months} month(s) to your current subscription.
       p You can redeem this code.
     else
       p You cannot redeem this code. 
 
 block modal-footer-content
   button#close.btn.btn-primary(type="button", data-dismiss="modal") Cancel
-  if !redeemedOn && ppc.openSpots() > 0
+  if !view.redeemedOn && view.ppc.openSpots() > 0
     button#redeem.btn.btn-primary(type="button", data-dismiss="modal") Redeem Code To My Account

@@ -17,11 +17,5 @@ module.exports = class PrepaidRedeemModal extends ModalView
     hasRedeemed = @ppc.userHasRedeemed(me.get('_id'))
     @redeemedOn = new moment(hasRedeemed).calendar() if hasRedeemed
 
-  getRenderData: ->
-    c = super()
-    c.ppc = @ppc
-    c.redeemedOn = @redeemedOn if @redeemedOn
-    c
-
   onRedeemClicked: ->
     @trigger 'confirm-redeem'
