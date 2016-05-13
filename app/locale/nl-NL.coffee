@@ -72,7 +72,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     ffa: "Gratis voor alle leerlingen"
     lesson_time: "Lesduur:"
     coming_soon: "Binnenkort beschikbaar!"
-    courses_available_in: "Lessen zijn beschikbaar in JavaScript, Python, en Java (Java is binnenkort beschikbaar!)"
+    courses_available_in: "Lessen zijn beschikbaar in JavaScript, Python en Java"
     boast: "Uitdagende raadsels die zowel gamers als fanatieke programmeurs weten te prikkelen."
     winning: "Een gouden combinatie van spel-elementen en programmeerhuiswerk, dat samen zorgt voor kind-vriendelijk en oprecht aangenaam onderwijs."
     run_class: "Alles wat je nodig hebt om vandaag nog programmeerlessen in jouw klas te geven, geen voorkennis vereist."
