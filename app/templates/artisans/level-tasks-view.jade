@@ -3,8 +3,9 @@ extends /templates/base
 block content
   #level-tasks-view
     div
-      a(href='./')
+      a(href='/artisans')
         | < Artisans Home
+    br
     input#nameSearch(placeholder='Filter: Level Name')
     br
     input#descSearch(placeholder='Filter: Task Description')
@@ -20,15 +21,13 @@ block content
     else
       div ole?
 
-
-
 mixin levelRow(level)
   tr
     td.taskOwner
       a(href= 'level/' + level.slug)= level.name
     td.tasks
-      table.table-condensed.table-striped.table-hover.tasksTable
-        for task in (level.tasks2 || [])
+      table.table-striped.table-hover.tasksTable
+        for task in (level.tasks || [])
           if !task.complete
             tr
               td= task.name

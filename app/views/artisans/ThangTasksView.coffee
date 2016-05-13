@@ -1,7 +1,9 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/artisans/thang-tasks-view'
+
 ThangType = require 'models/ThangType'
-CocoCollection = require 'collections/CocoCollection'
+
+ThangTypes = require 'collections/ThangTypes'
 
 module.exports = class ThangTasksView extends RootView
   template: template
@@ -9,18 +11,13 @@ module.exports = class ThangTasksView extends RootView
   events:
     'input input': 'searchUpdate'
     'change input': 'searchUpdate'
-
-  constructor: (options) ->
-    super options
-    @thangs = new CocoCollection([],
-      url: '/db/thang.type?project=name,tasks,slug'
-      model: ThangType
-      comparator: @sortThangs
-    )
-    @lastLoad = (new Date()).getTime()
+  initialize: () ->
+    @thangs = new ThangTypes()
     @listenTo(@thangs, 'sync', @onThangsLoaded)
-    @supermodel.loadCollection(@thangs, 'thangs')
-
+    @supermodel.trackRequest(@thangs.fetch(
+      data:
+        project: 'name,tasks,slug'
+    ))
   searchUpdate: ->
     if not @lastLoad? or (new Date()).getTime() - @lastLoad > 60 * 1000 * 1 # Update only after a minute from last update.
       @thangs.fetch()

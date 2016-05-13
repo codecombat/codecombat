@@ -1,57 +1,67 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/artisans/level-tasks-view'
-#ThangType = require 'models/ThangType'
-Level = require 'models/Level'
+
+Campaigns = require 'collections/Campaigns'
+
 Campaign = require 'models/Campaign'
-CocoCollection = require 'collections/CocoCollection'
 
 module.exports = class LevelTasksView extends RootView
   template: template
   id: 'level-tasks-view'
   events:
-    'input input': 'searchUpdate'
-    'change input': 'searchUpdate'
+    'input .searchInput': 'searchUpdate'
+    'change .searchInput': 'searchUpdate'
   excludedCampaigns = [
-    "picoctf"
-    "auditions"
+    'picoctf', 'auditions'
   ]
-  constructor: (options) ->
-    super options
-    @campaigns = new CocoCollection([], 
-      url: '/db/campaign?project=name,slug,tasks'
-      model: Campaign
-    )
-    @campaigns.fetch()
+  levels: {}
+  initialize: () ->
+    @searchUpdate = _.debounce(@searchUpdate, 250)
+    
+    @campaigns = new Campaigns()
     @listenTo(@campaigns, 'sync', @onCampaignsLoaded)
-    @supermodel.loadCollection(@campaigns, 'campaigns')
+    @supermodel.trackRequest(@campaigns.fetch(
+      data:
+        project: 'name,slug,levels,tasks'
+    ))
 
-  onCampaignsLoaded: ->
+  onCampaignsLoaded: (campCollection) ->
     @levels = {}
-    sum = 0
-    for campaign in @campaigns.models
-      continue unless excludedCampaigns.indexOf(campaign.get 'slug') is -1
-      levels = campaign.get('levels')
-      sum += Object.keys(levels).length
+    for campaign in campCollection.models
+      campaignSlug = campaign.get 'slug'
+      continue if campaignSlug in excludedCampaigns
+      levels = campaign.get 'levels'
       for key, level of levels
         continue unless ///#{$('#nameSearch')[0].value}///i.test level.name
         levelSlug = level.slug
         @levels[levelSlug] = level
-    @processedLevels = @levels
-    for key, level of @processedLevels
-      level.tasks2 = _.filter level.tasks, (_elem) ->
-        return ///#{$('#descSearch')[0].value}///i.test _elem.name
+    @processedLevels = {}
+    for key, level of @levels
+      filteredTasks = level.tasks.filter (elem) ->
+        return ///#{$('#descSearch')[0].value}///i.test elem.name
+      @processedLevels[key] = {
+        tasks: filteredTasks
+        name: level.name
+      }
     @renderSelectors '#levelTable'
 
   searchUpdate: ->
+    @onCampaignsLoaded(@campaigns)
+    ###
     if not @lastLoad? or (new Date()).getTime() - @lastLoad > 60 * 1000 * 1 # Update only after a minute from last update.
-      @campaigns.fetch()
+      #@campaigns.fetch()
       @listenTo(@campaigns, 'sync', @onCampaignsLoaded)
-      @supermodel.loadCollection(@campaigns, 'campaigns')
+      @superModel.trackRequest()
+      #@supermodel.loadCollection(@campaigns, 'campaigns')
       @lastLoad = (new Date()).getTime()
     else
       @onCampaignsLoaded()
-    
+    ###
+
+  destroy: ->
+    @searchUpdate.cancel()
+    super()
 
   # Jade helper
   hasIncompleteTasks: (level) ->
-    return level.tasks2 and level.tasks2.filter((_elem) -> return not _elem.complete).length > 0
+    return level.tasks and level.tasks.filter((_elem) -> return not _elem.complete).length > 0
