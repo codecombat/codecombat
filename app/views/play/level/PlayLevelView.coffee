@@ -362,6 +362,15 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelStarted: ->
     return unless @surface?
+
+    #TODO: Remove this at some point
+    if @session.get('codeLanguage') in ['clojure', 'io']
+      problem =
+        aetherProblem:
+          message: "Sorry, support for #{@session.get('codeLanguage')} has been removed."
+
+      Backbone.Mediator.publish 'tome:show-problem-alert', problem: problem
+
     @loadingView.showReady()
     @trackLevelLoadEnd()
     if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal

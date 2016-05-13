@@ -1,4 +1,4 @@
-﻿Problem = require 'views/play/level/tome/Problem'
+Problem = require 'views/play/level/tome/Problem'
 
 describe 'Problem', ->
   # boilerplate problem params

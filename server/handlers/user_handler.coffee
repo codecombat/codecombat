@@ -401,7 +401,7 @@ UserHandler = class UserHandler extends Handler
         name: sponsor.get('name')
 
       # Get recipient subscription info
-      findStripeSubscription sponsor.get('stripe').customerID, userID: req.user.id, (subscription) =>
+      findStripeSubscription sponsor.get('stripe')?.customerID, userID: req.user.id, (subscription) =>
         info.subscription = subscription
         @sendDatabaseError(res, 'No sponsored subscription found') unless info.subscription?
         @sendSuccess(res, info)

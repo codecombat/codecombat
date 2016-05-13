@@ -14,7 +14,7 @@ if (process.argv.length !== 7) {
 // TODO: Reduce response data via _fields param
 // TODO: Assumes 1:1 contact:email relationship (Close.io supports multiple emails for a single contact)
 
-// Save as custom fields instead of user-specific lead notes
+// Save as custom fields instead of user-specific lead notes (also saving nces_ props)
 const commonTrialProperties = ['organization', 'city', 'state', 'country'];
 
 // Old properties which are deprecated or moved
@@ -90,13 +90,14 @@ function upsertLeads(done) {
 
 // ** Utilities
 
-function getInitialLeadStatusViaCountry(country) {
+function getInitialLeadStatusViaCountry(country, trialRequests) {
   if (/usa|america|united states/ig.test(country)) {
-    return 'New US Schools Auto Attempt 1';
+    const status = 'New US Schools Auto Attempt 1'
+    return isLowValueLead(status, trialRequests) ? `${status} Low` : status;
   }
 }
 
-function getInitialLeadStatusViaEmails(emails) {
+function getInitialLeadStatusViaEmails(emails, trialRequests) {
   let currentStatus = null;
   let currentRank = closeIoInitialLeadStatuses.length;
   for (const email of emails) {
@@ -109,7 +110,25 @@ function getInitialLeadStatusViaEmails(emails) {
       }
     }
   }
-  return currentStatus ? currentStatus : closeIoInitialLeadStatuses[closeIoInitialLeadStatuses.length - 1].status;
+  currentStatus = currentStatus ? currentStatus : closeIoInitialLeadStatuses[closeIoInitialLeadStatuses.length - 1].status;
+  return isLowValueLead(currentStatus, trialRequests) ? `${currentStatus} Low` : currentStatus;
+}
+
+function isLowValueLead(status, trialRequests) {
+  if (['Auto Attempt 1', 'New US Schools Auto Attempt 1'].indexOf(status) >= 0) {
+    for (const trialRequest of trialRequests) {
+      if (parseInt(trialRequest.properties.nces_district_students) < 5000) {
+        return true;
+      }
+    }
+    for (const trialRequest of trialRequests) {
+      // Must match these values: https://github.com/codecombat/codecombat/blob/master/app/templates/teachers/request-quote-view.jade#L159
+      if (['1-500', '500-1,000'].indexOf(trialRequest.properties.numStudentsTotal) >= 0) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 function getRandomEmailApiKey() {
@@ -246,6 +265,7 @@ class CocoLead {
     this.contacts = {};
     this.custom = {};
     this.name = name;
+    this.trialRequests = [];
   }
   addClassroom(email, classroom) {
     if (!this.contacts[email.toLowerCase()]) this.contacts[email.toLowerCase()] = {};
@@ -270,6 +290,7 @@ class CocoLead {
       this.contacts[email.toLowerCase()].name = trial.properties.name;
     }
     this.contacts[email.toLowerCase()].trial = trial;
+    this.trialRequests.push(trial);
   }
   addUser(email, user) {
     this.contacts[email.toLowerCase()].user = user;
@@ -278,11 +299,11 @@ class CocoLead {
     for (const email in this.contacts) {
       const props = this.contacts[email].trial.properties;
       if (props && props['country']) {
-        const status = getInitialLeadStatusViaCountry(props['country']);
+        const status = getInitialLeadStatusViaCountry(props['country'], this.trialRequests);
         if (status) return status;
       }
     }
-    return getInitialLeadStatusViaEmails(Object.keys(this.contacts));
+    return getInitialLeadStatusViaEmails(Object.keys(this.contacts), this.trialRequests);
   }
   getLeadPostData() {
     const postData = {
@@ -299,7 +320,7 @@ class CocoLead {
       const props = this.contacts[email].trial.properties;
       if (props) {
         for (const prop in props) {
-          if (commonTrialProperties.indexOf(prop) >= 0) {
+          if (commonTrialProperties.indexOf(prop) >= 0 || /nces_/ig.test(prop)) {
             postData.custom[`demo_${prop}`] = props[prop];
           }
         }
@@ -318,8 +339,17 @@ class CocoLead {
     for (const email in this.contacts) {
       const props = this.contacts[email].trial.properties;
       if (props) {
+        let haveNcesData = false;
         for (const prop in props) {
-          if (commonTrialProperties.indexOf(prop) >= 0 && currentCustom[`demo_${prop}`] !== props[prop] && currentCustom[`demo_${prop}`].indexOf(props[prop]) < 0) {
+          if (/nces_/ig.test(prop)) {
+            haveNcesData = true;
+            putData[`custom.demo_${prop}`] = props[prop];
+          }
+        }
+        for (const prop in props) {
+          // Always overwrite common props if we have NCES data, because other fields more likely to be accurate
+          if (commonTrialProperties.indexOf(prop) >= 0
+            && (haveNcesData || currentCustom[`demo_${prop}`] !== props[prop] && currentCustom[`demo_${prop}`].indexOf(props[prop]) < 0)) {
             putData[`custom.demo_${prop}`] = props[prop];
           }
         }
@@ -493,8 +523,8 @@ function updateExistingLead(lead, existingLead, done) {
 }
 
 function saveNewLead(lead, done) {
-  // console.log('DEBUG: saveNewLead', lead.name);
   const postData = lead.getLeadPostData();
+  // console.log(`DEBUG: saveNewLead ${lead.name} ${postData.status}`);
   const options = {
     uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/`,
     body: JSON.stringify(postData)

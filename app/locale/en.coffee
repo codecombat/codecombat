@@ -1,4 +1,4 @@
-﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
+module.exports = nativeDescription: "English", englishDescription: "English", translation:
   home:
     slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"  # Warning that only shows up in IE8 and older
@@ -190,20 +190,52 @@
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "else"
-    elif: "elif"
+    elif: "else if"
     while: "while"
     loop: "loop"
     for: "for"
     break: "break"
     continue: "continue"
+    pass: "pass"
+    return: "return"
     then: "then"
     do: "do"
     end: "end"
     function: "function"
-    def: "def" # (short for "define")
+    def: "define"
+    var: "variable"
     self: "self"
     hero: "hero"
     this: "this"
+    or: "or"
+    "||": "or"
+    and: "and"
+    "&&": "and"
+    not: "not"
+    "!": "not"
+    "=": "assign" # For this section, conjugate it like it's the verb part of a sentence when possible
+    "==": "equals"
+    "===": "strictly equals"
+    "!=": "does not equal"
+    "!==": "does not strictly equal"
+    ">": "is greater than"
+    ">=": "is greater than or equal"
+    "<": "is less than"
+    "<=": "is less than or equal"
+    "*": "multiplied by"
+    "/": "divided by"
+    "+": "plus"
+    "-": "minus"
+    "+=": "add and assign"
+    "-=": "subtract and assign"
+    True: "True"
+    true: "true"
+    False: "False"
+    false: "false"
+    undefined: "undefined"
+    null: "null"
+    nil: "nil"
+    None: "None"
 
   share_progress_modal:
     blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."

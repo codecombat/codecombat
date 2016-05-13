@@ -27,7 +27,7 @@ module.exports.templates =
   generic_email: 'tem_JhRnQ4pvTS4KdQjYoZdbei'
   plain_text_email: 'tem_85UvKDCCNPXsFckERTig6Y'
   next_steps_email: 'tem_RDHhTG5inXQi8pthyqWr5D'
-  course_invite_email: 'tem_u6D2EFWYC5Ptk38bSykjsU'
+  course_invite_email: 'tem_f5K7BXX5vQ9a7kwYTACbJa'
   teacher_free_trial: 'tem_R7d9Hpoba9SceQNiYSXBak'
   teacher_free_trial_hoc: 'tem_4ZSY9wsA9Qwn4wBFmZgPdc'
   teacher_request_demo: 'tem_cwG3HZjEyb6QE493hZuUra'
