@@ -60,6 +60,7 @@ module.exports.setup = (app) ->
   app.get('/db/classroom/:handle/courses/:courseID/levels', mw.classrooms.fetchLevelsForCourse)
   app.get('/db/classroom/:handle/member-sessions', mw.classrooms.fetchMemberSessions)
   app.get('/db/classroom/:handle/members', mw.classrooms.fetchMembers) # TODO: Use mw.auth?
+  app.post('/db/classroom/:anything/members', mw.auth.checkLoggedIn(), mw.classrooms.join)
   app.get('/db/classroom/:handle', mw.auth.checkLoggedIn()) # TODO: Finish migrating route, adding now so 401 is returned
 
   CodeLog = require ('../models/CodeLog')
