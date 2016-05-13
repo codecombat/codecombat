@@ -1,0 +1,48 @@
+extends /templates/core/modal-base-flat
+
+block modal-header-content
+  h1
+    span.spr(data-i18n="TODO")
+      | Edit 
+    span=view.user.broadName()
+    
+block modal-body-content
+  .text-center
+    if view.user.get('emailVerified')
+      div.m-b-1
+        span(data-i18n="TODO")
+          | Send Recover Password Email to:
+      div
+        = view.user.get('email')
+      div.small
+        span(data-i18n="TODO")
+          | verified email address
+      if state.get('emailSent')
+        .send-recovery-email-btn.btn.btn-lg.btn-primary.uppercase.disabled
+          span(data-i18n="TODO")
+            | Email sent
+      else
+        .send-recovery-email-btn.btn.btn-lg.btn-primary.uppercase
+          span(data-i18n="TODO")
+            | Send recovery email
+    else
+      div.m-b-1
+        span(data-i18n="TODO")
+          | Change Password:
+      div
+        input.new-password-input(placeholder="type a new password here")
+          = state.get('newPassword')
+      if state.get('passwordChanged')
+        .change-password-btn.btn.btn-lg.btn-primary.uppercase.disabled
+          span(data-i18n="TODO")
+            | Changed
+      else
+        .change-password-btn.btn.btn-lg.btn-primary.uppercase
+          span(data-i18n="TODO")
+            | Change Password
+      
+
+block modal-footer-content
+  button.btn.btn-primary(type="button", data-dismiss="modal", aria-hidden="true")
+    span(data-i18n="modal.cancel")
+      | Cancel
