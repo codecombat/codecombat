@@ -551,9 +551,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   subscribe:
     comparison_blurb: "Tăng cường kĩ năng bằng việc đăng kí theo dõi CodeCombat!"
-    feature1: "$t(data.levelsCount)+ màn chơi cơ bản trên $t(data.worldsCount) bản đồ thế giới"
-    feature2: "$t(data.heroesCount) <strong>tướng mới</strong> mạnh mẽ với những kĩ năng đặc biệt!"
-    feature3: "$t(data.bonusLevelsCount)+ màn chơi thêm"
+    feature1: "__levelsCount__+ màn chơi cơ bản trên __worldsCount__ bản đồ thế giới"
+    feature2: "__heroesCount__ <strong>tướng mới</strong> mạnh mẽ với những kĩ năng đặc biệt!"
+    feature3: "__bonusLevelsCount__+ màn chơi thêm"
     feature4: "<strong>Được thưởng thêm {{gems}} ngọc</strong> mỗi tháng!"
     feature5: "Video hướng dẫn qua màn"
     feature6: "Hỗ trợ đặc biệt qua email"

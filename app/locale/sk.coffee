@@ -551,9 +551,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
   subscribe:
     comparison_blurb: "Uč sa dôkladnejšie vďaka predplatnému !"
-    feature1: "$t(data.levelsCount)+ základných úrovní v $t(data.worldsCount) svetoch" # {change}
-    feature2: "$t(data.heroesCount) mocných <strong>new hrdinov</strong> s jedinečnými schopnosťami!" # {change}
-    feature3: "$t(data.bonusLevelsCount)+ bonusových úrovní" # {change}
+    feature1: "__levelsCount__+ základných úrovní v __worldsCount__ svetoch" # {change}
+    feature2: "__heroesCount__ mocných <strong>new hrdinov</strong> s jedinečnými schopnosťami!" # {change}
+    feature3: "__bonusLevelsCount__+ bonusových úrovní" # {change}
     feature4: "<strong>{{gems}} bonusových diamantov</strong> každý mesiac !"
     feature5: "Video tutoriály"
     feature6: "Prémiová emailová podpora"

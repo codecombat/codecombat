@@ -551,9 +551,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   subscribe:
     comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!"
-    feature1: "$t(data.levelsCount)+ alap pálya, $t(data.worldsCount) világon át" # {change}
-    feature2: "$t(data.heroesCount) erőteljes <strong>új hős</strong> egyedi képességekkel!" # {change}
-    feature3: "$t(data.bonusLevelsCount)+ bónusz pálya" # {change}
+    feature1: "__levelsCount__+ alap pálya, __worldsCount__ világon át" # {change}
+    feature2: "__heroesCount__ erőteljes <strong>új hős</strong> egyedi képességekkel!" # {change}
+    feature3: "__bonusLevelsCount__+ bónusz pálya" # {change}
     feature4: "<strong>{{gems}} bónusz drágakő</strong> minden hónapban!"
     feature5: "Videó oktatóanyagok"
     feature6: "Prémium e-mail támogatás"

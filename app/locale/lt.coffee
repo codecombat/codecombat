@@ -551,9 +551,9 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 
   subscribe:
     comparison_blurb: "Pagerink savo įgudžius su CodeCombat prenumerata!"
-    feature1: "$t(data.levelsCount)+ įprastų lygių per $t(data.worldsCount) pasaulius" # {change}
-    feature2: "$t(data.heroesCount) galingų <strong>naujų herojų</strong> su unikaliais įgudžiais!" # {change}
-    feature3: "$t(data.bonusLevelsCount)+ papildomų lygių" # {change}
+    feature1: "__levelsCount__+ įprastų lygių per __worldsCount__ pasaulius" # {change}
+    feature2: "__heroesCount__ galingų <strong>naujų herojų</strong> su unikaliais įgudžiais!" # {change}
+    feature3: "__bonusLevelsCount__+ papildomų lygių" # {change}
     feature4: "<strong>{{gems}} papildomi krystalai</strong> kiekvieną mėnesį!"
     feature5: "Video pamokos"
     feature6: "Papildomas el.pašto palaikymas"

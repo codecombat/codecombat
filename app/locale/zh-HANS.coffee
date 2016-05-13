@@ -551,9 +551,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   subscribe:
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！"
-    feature1: "$t(data.levelsCount)+ 基本关卡（$t(data.worldsCount)个世界）" # {change}
-    feature2: "$t(data.heroesCount) 个强大 <strong>英雄</strong>以及各式非凡技能!" # {change}
-    feature3: "$t(data.bonusLevelsCount)+ 奖励关卡" # {change}
+    feature1: "__levelsCount__+ 基本关卡（__worldsCount__个世界）" # {change}
+    feature2: "__heroesCount__ 个强大 <strong>英雄</strong>以及各式非凡技能!" # {change}
+    feature3: "__bonusLevelsCount__+ 奖励关卡" # {change}
     feature4: "每月享有{{gems}}额外宝石"
     feature5: "视频教学"
     feature6: "专业邮件支援"

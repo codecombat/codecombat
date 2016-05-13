@@ -551,9 +551,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "$t(data.levelsCount)+ základních úrovní napříč $t(data.worldsCount) světy" # {change}
-    feature2: "$t(data.heroesCount) silných <strong>nových hrdinů</strong> s jedinečnými dovednostmi!" # {change}
-    feature3: "$t(data.bonusLevelsCount)+ bonusových úrovní" # {change}
+    feature1: "__levelsCount__+ základních úrovní napříč __worldsCount__ světy" # {change}
+    feature2: "__heroesCount__ silných <strong>nových hrdinů</strong> s jedinečnými dovednostmi!" # {change}
+    feature3: "__bonusLevelsCount__+ bonusových úrovní" # {change}
     feature4: "<strong>{{gems}} bonusových drahokamů</strong> každý měsíc!"
     feature5: "Video tutoriály"
     feature6: "Premiová e-mailová podpora"

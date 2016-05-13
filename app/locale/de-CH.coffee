@@ -551,9 +551,9 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 
   subscribe:
     comparison_blurb: "Verschärf dins Chönne midme CodeCombat Abonement."
-    feature1: "$t(data.levelsCount)+ basis levels in $t(data.worldsCount) Weltete!" # {change}
+    feature1: "__levelsCount__+ basis levels in __worldsCount__ Weltete!" # {change}
 #    feature2: "__heroesCount__ powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "$t(data.bonusLevelsCount)+ bonus levels" # {change}
+    feature3: "__bonusLevelsCount__+ bonus levels" # {change}
 #    feature4: "<strong>{{gems}} bonus gems</strong> every month!"
     feature5: "Video Aleitige"
     feature6: "Premium Email Hilf"

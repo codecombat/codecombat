@@ -551,9 +551,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 
   subscribe:
     comparison_blurb: "Skærp dine færdigheder med et CodeCombat abonnement!"
-    feature1: "$t(data.levelsCount)+ grundlæggende baner på tværs af $t(data.worldsCount) verdener" # {change}
-    feature2: "$t(data.heroesCount) magtfulde <strong> nye helte </strong> med unikke færdigheder!" # {change}
-    feature3: "$t(data.bonusLevelsCount)+ bonus baner" # {change}
+    feature1: "__levelsCount__+ grundlæggende baner på tværs af __worldsCount__ verdener" # {change}
+    feature2: "__heroesCount__ magtfulde <strong> nye helte </strong> med unikke færdigheder!" # {change}
+    feature3: "__bonusLevelsCount__+ bonus baner" # {change}
     feature4: "<strong>{{gems}} bonus ædelstene</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium e-mail support"

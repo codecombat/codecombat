@@ -551,9 +551,9 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 
   subscribe:
     comparison_blurb: "Verbeter je vaardigheden met een abonement op CodeCombat!"
-    feature1: "Meer dan $t(data.levelsCount) basislevels over $t(data.worldsCount) werelden" # {change}
-    feature2: "$t(data.heroesCount) sterke <strong>nieuwe helden</strong> met unieke vaardigheden!" # {change}
-    feature3: "Meer dan $t(data.bonusLevelsCount) bonuslevels" # {change}
+    feature1: "Meer dan __levelsCount__ basislevels over __worldsCount__ werelden" # {change}
+    feature2: "__heroesCount__ sterke <strong>nieuwe helden</strong> met unieke vaardigheden!" # {change}
+    feature3: "Meer dan __bonusLevelsCount__ bonuslevels" # {change}
     feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!"
     feature5: "Video cursussen"
     feature6: "Hoogwaardige e-mail ondersteuning"
