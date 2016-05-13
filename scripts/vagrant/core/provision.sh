@@ -59,9 +59,6 @@ npm install
 echo "installing mongodb..."
 sudo apt-get -y install --no-install-recommends mongodb-org
 
-# start mongodb
-sudo service mongod start
-
 # populate mongo
 echo "populating mongodb..."
-exec /vagrant/scripts/vagrant/fillMongo.sh
+exec /vagrant/scripts/vagrant/core/fillMongo.sh
