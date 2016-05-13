@@ -39,8 +39,17 @@ block content
     li
       a(href="/admin/users") Users
 
-  h4 Other
+  if me.isAdmin()
+    h4 Analytics
+    ul
+      li
+        a(href="/admin/analytics") Dashboard
+      li
+        a(href="/admin/analytics/subscriptions") Subscriptions
+      li
+        a(href="/admin/demo-requests") Teacher Demo Requests 
 
+  h4 Other
   ul
     li
       a(href="/admin/base") Base (for debugging base.jade)
@@ -48,15 +57,7 @@ block content
       a(href="/admin/clas") CLAs
     li
       a(href="/admin/pending-patches") Patches
-    if me.isAdmin()
-      li
-        a(href="/admin/analytics") Analytics
-        ul
-          li
-            a(href="/admin/analytics/subscriptions") Subscriptions
-    li
-      a(href="/admin/design-elements") Design Elements
-
+      
   if me.isAdmin()
     hr
     h3 Prepaids
