@@ -1539,7 +1539,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    scribe_subscribe_desc: "Get emails about article writing announcements."
     diplomat_introduction_pref: "Nếu như bạn hỏi chúng tôi đã nhận được gì kể từ khi "
     diplomat_launch_url: "bắt đầu vào tháng Mười"
-    diplomat_introduction_suf: "thì đó chính là niềm quan tâm rất lớn với CodeCombat đến từ nhiều quốc gia trên thế giới! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. Nếu bạn muốn cập nhật những nội dung mới nhất đồng thời muốn truyền tải chúng tới quốc gia của bạn, thì lớp nhân vật này có thể sẽ phù hợp với bạn."
+    diplomat_introduction_suf: "thì đó chính là niềm quan tâm rất lớn với CodeCombat đến từ nhiều quốc gia trên thế giới! Chúng tôi đang xây dựng một đội ngũ phiên dịch viên đầy nhiệt huyết để đưa CodeCombat đến với mọi nơi trên thế giới. Nếu bạn muốn cập nhật những nội dung mới nhất đồng thời muốn truyền tải chúng tới quốc gia của bạn, thì lớp nhân vật này có thể sẽ phù hợp với bạn."
     diplomat_attribute_1: "Thành thạo tiếng Anh và ngôn ngữ mà bạn muốn phiên dịch. Để truyền tải đầy đủ ý nghĩa nội dung, bạn cần thông dụng cả hai thứ tiếng!"
     diplomat_i18n_page_prefix: "Bạn có thể bắt đầu dịch thuật các màn chơi bằng cách truy cập vào"
     diplomat_i18n_page: "trang dịch thuật"
