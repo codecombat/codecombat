@@ -32,12 +32,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     real_code: "Кодування"
     from_the_first_level: "з першого рівня"
     getting_students: "Написання коду самостійно сприяє вивченню синтаксису та структури програми."
-#    educator_resources: "Educator resources"
-#    course_guides: "and course guides"
-#    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
-#    accessible_to: "Accessible to"
-#    everyone: "everyone"
-#    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
+    educator_resources: "Путівник по курсах" # Educator resources
+    course_guides: "і додаткові матеріали" # and course guides
+    teaching_computer_science: "Щоб викладати комп'ютерні науки не обов'язково мати науковий ступінь, адже ми підтримуємо вчителів з будь-яким досвідом." # Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds.
+    accessible_to: "Доступно" # Accessible to
+    everyone: "кожному" # everyone
+    democratizing: "Навчання, доступне кожному, — наша головна мета. Кожен повинен мати можливість навчитись програмувати." # Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code.
 #    forgot_learning: "I think they actually forgot that they were actually learning something."
 #    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
 #    why_games: "Why is learning through games important?"
