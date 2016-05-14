@@ -1,4 +1,11 @@
 require '../common'
+Campaign = require '../../../server/models/Campaign'
+Classroom = require '../../../server/models/Classroom'
+Course = require '../../../server/models/Course'
+CourseInstance = require '../../../server/models/CourseInstance'
+Level = require '../../../server/models/Level'
+User = require '../../../server/models/User'
+request = require '../request'
 
 describe 'Level', ->
 
@@ -13,7 +20,7 @@ describe 'Level', ->
   urlLevel = '/db/level'
 
   it 'clears things first', (done) ->
-    clearModels [Level], (err) ->
+    clearModels [Level, User], (err) ->
       expect(err).toBeNull()
       done()
 

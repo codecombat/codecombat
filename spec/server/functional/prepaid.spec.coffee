@@ -6,6 +6,12 @@ async = require 'async'
 nockUtils = require '../nock-utils'
 utils = require '../utils'
 Promise = require 'bluebird'
+Payment = require '../../../server/models/Payment'
+Prepaid = require '../../../server/models/Prepaid'
+User = require '../../../server/models/User'
+Course = require '../../../server/models/Course'
+CourseInstance = require '../../../server/models/CourseInstance'
+request = require '../request'
 
 describe '/db/prepaid', ->
   prepaidURL = getURL('/db/prepaid')

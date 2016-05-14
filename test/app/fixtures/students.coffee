@@ -1,4 +1,4 @@
-Users = require 'collections/Users';
+Users = require 'collections/Users'
 
 module.exports = new Users(
   [
@@ -20,21 +20,6 @@ module.exports = new Users(
     {
       _id: "student3"
       name: "Student Three"
-    }
-    
-    {
-      _id: "student4"
-      name: "Student Four"
-    }
-    
-    {
-      _id: "student5"
-      name: "Student Five"
-    }
-    
-    {
-      _id: "student6"
-      name: "Student Six"
     }
   ]
 )

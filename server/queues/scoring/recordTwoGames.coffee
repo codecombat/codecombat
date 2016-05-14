@@ -2,7 +2,7 @@ log = require 'winston'
 async = require 'async'
 errors = require '../../commons/errors'
 scoringUtils = require './scoringUtils'
-LevelSession = require '../../levels/sessions/LevelSession'
+LevelSession = require '../../models/LevelSession'
 
 module.exports = recordTwoGames = (req, res) ->
   sessions = req.body.sessions

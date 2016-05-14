@@ -6,8 +6,8 @@ GLOBAL.Aether = Aether = require 'aether'
 async = require 'async'
 
 serverSetup = require '../server_setup'
-Level = require '../server/levels/Level'
-LevelSession = require '../server/levels/sessions/LevelSession'
+Level = require '../server/models/Level'
+LevelSession = require '../server/models/LevelSession'
 {createAetherOptions} = require '../app/lib/aether_utils'
 
 i = 0

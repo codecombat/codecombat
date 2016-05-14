@@ -1,9 +1,13 @@
 module.exports =
+  achievements: require './achievements'
   auth: require './auth'
   classrooms: require './classrooms'
   campaigns: require './campaigns'
+  codelogs: require './codelogs'
   courseInstances: require './course-instances'
+  courses: require './courses'
   files: require './files'
+  healthcheck: require './healthcheck'
   named: require './named'
   patchable: require './patchable'
   rest: require './rest'

@@ -1,6 +1,6 @@
 utils = require '../lib/utils'
 errors = require '../commons/errors'
-User = require '../users/User'
+User = require '../models/User'
 sendwithus = require '../sendwithus'
 slack = require '../slack'
 _ = require 'lodash'
@@ -96,7 +96,7 @@ module.exports =
 
     # Post a message on Slack
     message = "#{req.user.get('name')} saved a change to #{doc.get('name')}: #{doc.get('commitMessage') or '(no commit message)'} #{docLink}"
-    rooms = if /Diplomat submission/.test(message) then ['dev-feed'] else ['dev-feed', 'artisans']
+    rooms = if /Diplomat submission/.test(message) then ['dev-feed'] else ['dev-feed']
     slack.sendSlackMessage message, rooms
 
     # Send emails to watchers

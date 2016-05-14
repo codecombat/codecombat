@@ -37,6 +37,7 @@ if (database.generateMongoConnectionString() !== dbString) {
 }
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000 * 120; // for long Stripe tests
+require('../server/common'); // Make sure global testing functions are set up
 
 var initialized = false;
 beforeEach(function(done) {
@@ -53,7 +54,7 @@ beforeEach(function(done) {
     },
     function(cb) {
       // 5. Check actual database
-      var User = require('../../server/users/User');
+      var User = require('../../server/models/User');
       User.find({}).count(function(err, count) {
         // For this to serve as a line of defense against testing with the
         // production DB, tests must be run with 
@@ -77,6 +78,7 @@ beforeEach(function(done) {
     },
     function(cb) {
       // Initialize products
+      request = require('../server/request');
       request.get(getURL('/db/products'), function(err, res, body) {
         expect(err).toBe(null);
         expect(res.statusCode).toBe(200);

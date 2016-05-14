@@ -159,4 +159,11 @@ window.serializeForIOS = serializeForIOS = (obj, depth=3) ->
   seen = null if root
   clone
 
+window.onbeforeunload = (e) ->
+  leavingMessage = _.result(window.currentView, 'onLeaveMessage')
+  if leavingMessage
+    return leavingMessage
+  else
+    return
+  
 $ -> init()

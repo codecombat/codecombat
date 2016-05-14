@@ -1,7 +1,10 @@
 h4
   span.prop-name= doc.shortName
   |  - 
-  code.prop-type= doc.type == 'function' && doc.owner == 'this' ? 'method' : doc.type
+  - var skillType = (doc.type == 'function' && doc.owner == 'this' ? 'method' : doc.type)
+  code.prop-type(data-i18n='skill_docs.' + skillType)
+    // In case there's no translation in en.coffee because we missed one
+    = skillType
   if doc.type != 'function'
     |  (
     if writable
@@ -9,6 +12,10 @@ h4
     else
       span(data-i18n="skill_docs.read_only") read-only
     | )
+
+if doc.translatedShortName
+  h5
+    span.translated-name= doc.translatedShortName
 
 .description
   p!= marked(doc.description || 'Still undocumented, sorry.')

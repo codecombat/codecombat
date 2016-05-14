@@ -40,3 +40,10 @@ module.exports =
     database.validateDoc(doc)
     doc = yield doc.save()
     res.status(200).send(doc.toObject())
+
+  delete: (Model, options={}) -> wrap (req, res) ->
+    doc = yield database.getDocFromHandle(req, Model)
+    if not doc
+      throw new errors.NotFound('Document not found.')
+    yield doc.remove()
+    res.status(204).end()

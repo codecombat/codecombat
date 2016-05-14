@@ -3,7 +3,7 @@ errors = require '../commons/errors'
 mongoose = require 'mongoose'
 config = require('../../server_config')
 request = require 'request'
-User = require '../users/User'
+User = require '../models/User'
 
 module.exports.setup = (app) ->
   app.get '/github/auth_callback', (req, res) ->

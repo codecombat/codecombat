@@ -1,6 +1,7 @@
 require '../common'
 mail = require '../../../server/routes/mail'
-User = require '../../../server/users/User'
+User = require '../../../server/models/User'
+request = require '../request'
 
 testPost =
   data:

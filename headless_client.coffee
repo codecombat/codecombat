@@ -29,7 +29,7 @@ options =
   simulateOnlyOneGame: simulateOneGame
 
 options.heapdump = require('heapdump') if options.heapdump
-server = if options.testing then 'http://127.0.0.1:3000' else 'https://codecombat.com'
+server = if options.testing then 'http://127.0.0.1:3000' else 'http://direct.codecombat.com'
 # Use direct instead of live site because jQlone's requests proxy doesn't do caching properly and CloudFlare gets too aggressive.
 
 # Disabled modules
@@ -43,22 +43,25 @@ disable = [
 
 # Global emulated stuff
 GLOBAL.window = GLOBAL
-GLOBAL.document = location: pathname: 'headless_client'
+GLOBAL.document =
+  location:
+    pathname: 'headless_client'
+    search: 'esper=1'
 GLOBAL.console.debug = console.log
+GLOBAL.serverConfig =
+  picoCTF: false
+  production: false
 try
   GLOBAL.Worker = require('webworker-threads').Worker
+  Worker::removeEventListener = (what) ->
+    if what is 'message'
+      @onmessage = -> #This webworker api has only one event listener at a time.
 catch
-  console.log ""
-  console.log "Headless client needs the webworker-threads package from NPM to function."
-  console.log "Try installing it with the command:"
-  console.log ""
-  console.log "    npm install webworker-threads"
-  console.log ""
-  process.exit(1)
+  # Fall back to IE compatibility mode where it runs synchronously with no web worker.
+  # (Which we will be doing now always because webworker-threads doesn't run in newer node versions.)
+  eval require('fs').readFileSync('./vendor/scripts/Box2dWeb-2.1.a.3.js', 'utf8')
+  GLOBAL.Box2D = Box2D
 
-Worker::removeEventListener = (what) ->
-  if what is 'message'
-    @onmessage = -> #This webworker api has only one event listener at a time.
 GLOBAL.tv4 = require('tv4').tv4
 GLOBAL.TreemaUtils = require bowerComponentsPath + 'treema/treema-utils'
 GLOBAL.marked = setOptions: ->

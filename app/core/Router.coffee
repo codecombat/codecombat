@@ -1,6 +1,7 @@
 go = (path, options) -> -> @routeDirectly path, arguments, options
 redirect = (path) -> -> @navigate(path, { trigger: true, replace: true })
-  
+utils = require './utils'
+
 module.exports = class CocoRouter extends Backbone.Router
 
   initialize: ->
@@ -13,6 +14,8 @@ module.exports = class CocoRouter extends Backbone.Router
     '': ->
       if window.serverConfig.picoCTF
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
+      if utils.getQueryVariable 'hour_of_code'
+        return @navigate "/play", {trigger: true, replace: true}
       return @routeDirectly('NewHomeView', [])
 
     'about': go('AboutView')
@@ -34,9 +37,11 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/level-sessions': go('admin/LevelSessionsView')
     'admin/users': go('admin/UsersView')
     'admin/base': go('admin/BaseView')
+    'admin/demo-requests': go('admin/DemoRequestsView')
     'admin/trial-requests': go('admin/TrialRequestsView')
     'admin/user-code-problems': go('admin/UserCodeProblemsView')
     'admin/pending-patches': go('admin/PendingPatchesView')
+    'admin/codelogs': go('admin/CodeLogsView')
 
     'beta': go('HomeView')
 
@@ -87,6 +92,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/poll': go('editor/poll/PollSearchView')
     'editor/poll/:articleID': go('editor/poll/PollEditView')
     'editor/thang-tasks': go('editor/ThangTasksView')
+    'editor/verifier': go('editor/verifier/VerifierView')
+    'editor/verifier/:levelID': go('editor/verifier/VerifierView')
 
     'file/*path': 'routeToServer'
 
@@ -123,7 +130,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'schools': go('NewHomeView')
 
-    'teachers': -> redirect('/teachers/classes')
+    'teachers': redirect('/teachers/classes')
     'teachers/classes': go('courses/TeacherClassesView') #, { teachersOnly: true })
     'teachers/classes/:classroomID': go('courses/TeacherClassView') #, { teachersOnly: true })
     'teachers/courses': go('courses/TeacherCoursesView')
@@ -156,7 +163,13 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('teachers/RestrictedToTeachersView')
     if options.studentsOnly and me.isTeacher()
       return @routeDirectly('courses/RestrictedToStudentsView')
-    
+    leavingMessage = _.result(window.currentView, 'onLeaveMessage')
+    if leavingMessage
+      if not confirm(leavingMessage)
+        return @navigate(this.path, {replace: true})
+      else
+        window.currentView.onLeaveMessage = _.noop # to stop repeat confirm calls
+
     path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views)?\/?play/.test(path)
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
@@ -183,6 +196,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @activateTab()
     view.afterInsert()
     view.didReappear()
+    @path = document.location.pathname + document.location.search
 
   closeCurrentView: ->
     if window.currentView?.reloadOnClose
@@ -210,7 +224,7 @@ module.exports = class CocoRouter extends Backbone.Router
     application.facebookHandler.renderButtons()
     application.gplusHandler.renderButtons()
     twttr?.widgets?.load?()
-    
+
   activateTab: ->
     base = _.string.words(document.location.pathname[1..], '/')[0]
     $("ul.nav li.#{base}").addClass('active')

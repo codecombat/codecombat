@@ -1,4 +1,6 @@
 require '../common'
+Patch = require '../../../server/models/Patch'
+
 
 describe 'schema methods', ->
   patch = new Patch

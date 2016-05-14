@@ -41,14 +41,10 @@ module.exports = class TeacherClassesView extends RootView
     @courses.fetch()
     @supermodel.trackCollection(@courses)
     
-    @campaigns = new Campaigns()
-    @campaigns.fetchByType('course')
-    @supermodel.trackCollection(@campaigns)
-    
     @courseInstances = new CourseInstances()
     @courseInstances.fetchByOwner(me.id)
     @supermodel.trackCollection(@courseInstances)
-    @progressDotTemplate = require 'templates/courses/progress-dot'
+    @progressDotTemplate = require 'templates/teachers/hovers/progress-dot-whole-course'
     
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
   
@@ -62,7 +58,7 @@ module.exports = class TeacherClassesView extends RootView
       })
     
   onLoaded: ->
-    helper.calculateDots(@classrooms, @courses, @courseInstances, @campaigns)
+    helper.calculateDots(@classrooms, @courses, @courseInstances)
     super()
     
   onClickEditClassroom: (e) ->

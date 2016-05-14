@@ -2,7 +2,10 @@ require '../common'
 utils = require '../utils'
 _ = require 'lodash'
 Promise = require 'bluebird'
+request = require '../request'
 requestAsync = Promise.promisify(request, {multiArgs: true})
+Article = require '../../../server/models/Article'
+User = require '../../../server/models/User'
 
 describe 'GET /db/article', ->
   articleData1 = { name: 'Article 1', body: 'Article 1 body cow', i18nCoverage: [] }

@@ -1,12 +1,8 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
 
 // TODO: Move flat style into probably several files and Bootstrap variables
-
-// Variables
-
-$headline-font: 'Arvo', serif
-$body-font: 'Open Sans', sans-serif
 
 body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr']
   // Google Fonts version of Arvo only has Latin glyphs, not Cyrillic
@@ -14,11 +10,6 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
   //$headline-font: 'Open Sans', serif  // Doesn't work
   h1, .text-h1, h3, .text-h3, h5, .text-h5
     font-family: 'Open Sans', serif
-
-$burgandy: #7D0101
-$gold: #F2BE19
-$navy: #0E4C60
-$forest: #20572B
 
 .style-flat
   background: white
@@ -125,6 +116,13 @@ $forest: #20572B
     .navbar-toggle
       color: black
       margin: 30px 25px 0
+      
+    @media (min-width: $screen-lg-min)
+      #navbar-collapse
+        float: right
+        
+    #navbar-collapse
+      max-height: none
 
     .nav > li > a
       // TODO: Move this to bootstrap variables for navbars
@@ -136,19 +134,27 @@ $forest: #20572B
       height: 95px
       color: $burgandy
       text-shadow: 0 0 0
-
+      
       &:hover
         background: $burgandy
         color: white
+        
+    .nav > li.disabled > a
+      color: black
+      &:hover
+        background: white
+        color: black
+        cursor: default
 
     #language-dropdown-wrapper
       display: inline-block
       padding: 30px 10px
       width: 100%
       
-    @media (max-width: $screen-sm-min)
+    @media (max-width: $screen-lg-min)
       .nav > li > a
         padding: 10px 20px
+        height: 45px
       #language-dropdown-wrapper
         display: inline-block
         padding: 10px 10px
@@ -179,6 +185,15 @@ $forest: #20572B
       color: $gold
       text-shadow: 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black
       
+  // Wells
+  
+  .well
+    padding: 8px
+    background-color: transparent
+    border: thin solid lightgray
+    border-radius: 0
+    
+  
   // Buttons
  
   .btn
@@ -257,6 +272,8 @@ $forest: #20572B
     // TODO: Font size 18? Inconsistent with buttons on teacher-class-view bulk assign
     
   // Tooltips
+  .tooltip.in
+    opacity: 1
 
   .tooltip .tooltip-arrow::after
     // Create a duplicate tooltip arrow which will cover the main arrow and make it seem like a line rather than filled
@@ -319,6 +336,7 @@ $forest: #20572B
     background: white
     border-radius: 20px
     min-width: 150px
+    max-width: 600px
 
   
   // Checkboxes

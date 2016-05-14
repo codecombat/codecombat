@@ -3,6 +3,7 @@ app = require 'core/application'
 CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
 Course = require 'models/Course'
+Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
@@ -22,12 +23,19 @@ module.exports = class TeacherCoursesView extends RootView
     'click .btn-add-students': 'onClickAddStudents'
     'click .create-new-class': 'onClickCreateNewClassButton'
     'click .edit-classroom-small': 'onClickEditClassroomSmall'
+    'click .play-level-button': 'onClickPlayLevel'
     
   guideLinks:
     {
-      "560f1a9f22961295f9427742": 'http://codecombat.com/docs/CodeCombatTeacherGuideCourse1.pdf'
-      "5632661322961295f9428638": 'https://docs.google.com/a/codecombat.com/viewer?a=v&pid=sites&srcid=Y29kZWNvbWJhdC5jb218dGVhY2hlci1ndWlkZXN8Z3g6NGEzMDFhZTZmMTg4YmRmZQ'
-      "56462f935afde0c6fd30fc8c": 'https://docs.google.com/a/codecombat.com/viewer?a=v&pid=sites&srcid=Y29kZWNvbWJhdC5jb218dGVhY2hlci1ndWlkZXN8Z3g6NzY0Nzc1NWRjMTk4MGRiMQ'
+      "560f1a9f22961295f9427742":
+        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_intro_python.pdf'
+        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_intro_javascript.pdf'
+      "5632661322961295f9428638":
+        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-2_python.pdf'
+        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-2_javascript.pdf'
+      "56462f935afde0c6fd30fc8c":
+        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-3_python.pdf'
+        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-3_javascript.pdf'
       "56462f935afde0c6fd30fc8d": null
       "569ed916efa72b0ced971447": null
     }
@@ -43,6 +51,9 @@ module.exports = class TeacherCoursesView extends RootView
     @classrooms.comparator = '_id'
     @listenToOnce @classrooms, 'sync', @onceClassroomsSync
     @supermodel.loadCollection(@classrooms, 'classrooms', {data: {ownerID: me.id}})
+    @campaigns = new Campaigns()
+    @campaigns.fetch()
+    @supermodel.trackCollection(@campaigns)
     @courseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance })
     @courseInstances.comparator = 'courseID'
     @courseInstances.sliceWithMembers = -> return @filter (courseInstance) -> _.size(courseInstance.get('members')) and courseInstance.get('classroomID')
@@ -99,6 +110,14 @@ module.exports = class TeacherCoursesView extends RootView
     modal = new ClassroomSettingsModal({classroom: classroom})
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
+    
+  onClickPlayLevel: (e) ->
+    form = $(e.currentTarget).closest('.play-level-form')
+    levelSlug = form.find('.level-select').val()
+    courseID = form.data('course-id')
+    language = form.find('.language-select').val()
+    url = "/play/level/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}"
+    application.router.navigate(url, { trigger: true })
 
   onLoaded: ->
     super()

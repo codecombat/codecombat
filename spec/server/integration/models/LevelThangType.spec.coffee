@@ -1,4 +1,5 @@
 require '../../common'
+LevelThangType = require '../../../../server/models/LevelThangType'
 
 describe 'LevelThangType', ->
 

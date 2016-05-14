@@ -15,6 +15,7 @@ module.exports = class I18NEditComponentView extends I18NEditModelView
       #- Component property descriptions
       if i18n = propDoc.i18n
         path = ['propertyDocumentation', propDocIndex]
+        @wrapRow "#{propDoc.name} name value", ['name'], propDoc.name, i18n[lang]?.name, path
         if _.isObject propDoc.description
           for progLang, description of propDoc.description
             @wrapRow "#{propDoc.name} description (#{progLang})", ['description', progLang], description, i18n[lang]?[progLang]?.description, path, 'markdown'

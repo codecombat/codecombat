@@ -19,7 +19,7 @@ module.exports =
   
     # Hack around Mongoose not exporting Aggregate so that we can patch its exec, too
     # https://github.com/LearnBoost/mongoose/issues/1910
-    Level = require '../levels/Level'
+    Level = require '../models/Level'
     Aggregate = Level.aggregate().constructor
     maxAge = (Math.random() * 10 + 10) * 60 * 1000  # Randomize so that each server doesn't refresh cache from db at same times
     mongooseCache.install(mongoose, {max: 1000, maxAge: maxAge, debug: false}, Aggregate)
@@ -155,6 +155,8 @@ module.exports =
     tv4 = require('tv4').tv4
     result = tv4.validateMultiple(obj, doc.schema.statics.jsonSchema)
     if not result.valid
+      prunedErrors = (_.omit(error, 'stack') for error in result.errors)
+      winston.debug('Validation errors: ', JSON.stringify(prunedErrors, null, '\t'))
       throw new errors.UnprocessableEntity('JSON-schema validation failed', { validationErrors: result.errors })
 
 

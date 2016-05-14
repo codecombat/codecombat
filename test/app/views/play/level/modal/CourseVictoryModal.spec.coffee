@@ -1,42 +1,46 @@
-
 Course = require 'models/Course'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 Achievements = require 'collections/Achievements'
 CourseVictoryModal = require 'views/play/level/modal/CourseVictoryModal'
-fixtures = require './CourseVictoryModal.fixtures'
 NewItemView = require 'views/play/level/modal/NewItemView'
 ProgressView = require 'views/play/level/modal/ProgressView'
+factories = require 'test/app/factories'
 
 describe 'CourseVictoryModal', ->
+  beforeEach ->
+    me.clear()
 
   it 'will eventually be the only victory modal'
   
   makeViewOptions = ->
+    level = factories.makeLevel()
+    course = factories.makeCourse()
+    courseInstance = factories.makeCourseInstance()
     {
-      course: new Course(fixtures.course)
-      level: new Level(fixtures.level)
-      session: new LevelSession(fixtures.session)
-      achievements: new Achievements(fixtures.achievements)
-      nextLevel: new Level(fixtures.nextLevel)
-      courseInstanceID: '56414c3868785b5f152424f1'
-      courseID: '560f1a9f22961295f9427742'
+      course: factories.makeCourse()
+      level: level
+      session: factories.makeLevelSession({ state: { complete: true } }, { level })
+      achievements: new Achievements([factories.makeLevelCompleteAchievement({}, {level: level})])
+      nextLevel: factories.makeLevel()
+      courseInstanceID: courseInstance.id
+      courseID: course.id
     }
+
+  nextLevelRequest = null
     
-  handleRequests = ->
+  handleRequests = (modal) ->
     requests = jasmine.Ajax.requests.all()
     thangRequest = _.find(requests, (r) -> _.string.startsWith(r.url, '/db/thang.type'))
-    thangRequest?.respondWith({status: 200, responseText: JSON.stringify(fixtures.thangType)})
-
-    earnedAchievementRequests = _.where(requests, {url: '/db/earned_achievement'})
-    for [request, response] in _.zip(earnedAchievementRequests, fixtures.earnedAchievements)
-      request.respondWith({status: 200, responseText: JSON.stringify(response)})
-
-    sessionsRequest = _.find(requests, (r) -> _.string.startsWith(r.url, '/db/course_instance'))
-    sessionsRequest.respondWith({status: 200, responseText: JSON.stringify(fixtures.courseInstanceSessions)})
-
-    campaignRequest = _.findWhere(requests, {url: '/db/campaign/55b29efd1cd6abe8ce07db0d'})
-    campaignRequest.respondWith({status: 200, responseText: JSON.stringify(fixtures.campaign)})
+    thangRequest?.respondWith({status: 200, responseText: factories.makeThangType().stringify()})
+    modal.newEarnedAchievements[0].fakeRequests[0].respondWith({
+      status: 200, responseText: factories.makeEarnedAchievement().stringify()
+    })
+    modal.levelSessions.fakeRequests[0].respondWith({ status: 200, responseText: '[]' })
+    modal.classroom.fakeRequests[0].respondWith({
+      status: 200, responseText: factories.makeClassroom().stringify() 
+    })
+    nextLevelRequest = modal.nextLevel.fakeRequests[0]
     
   describe 'given a course level with a next level and no item or hero rewards', ->
     modal = null
@@ -44,7 +48,8 @@ describe 'CourseVictoryModal', ->
     beforeEach (done) ->
       options = makeViewOptions()
       modal = new CourseVictoryModal(options)
-      handleRequests()
+      handleRequests(modal)
+      nextLevelRequest.respondWith({status: 200, responseText: factories.makeLevel().stringify()})
       _.defer done
 
     it 'only shows the ProgressView', ->
@@ -77,7 +82,8 @@ describe 'CourseVictoryModal', ->
       level.unset('nextLevel')
       delete options.nextLevel
       modal = new CourseVictoryModal(options)
-      handleRequests()
+      handleRequests(modal)
+      nextLevelRequest.respondWith({status: 404, responseText: '{}'})
       _.defer done
       
     describe 'its ProgressView', ->
@@ -109,7 +115,8 @@ describe 'CourseVictoryModal', ->
       achievement.set('rewards', rewards)
       
       modal = new CourseVictoryModal(options)
-      handleRequests()
+      handleRequests(modal)
+      nextLevelRequest.respondWith({status: 200, responseText: factories.makeLevel().stringify()})
       _.defer done
       
     it 'includes a NewItemView when the level rewards a new item', ->

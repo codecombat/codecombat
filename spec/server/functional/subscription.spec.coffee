@@ -5,6 +5,10 @@ utils = require '../../../app/core/utils' # Must come after require /common
 mongoose = require 'mongoose'
 TRAVIS = process.env.COCO_TRAVIS_TEST
 nockUtils = require '../nock-utils'
+User = require '../../../server/models/User'
+Payment = require '../../../server/models/Payment'
+Prepaid = require '../../../server/models/Prepaid'
+request = require '../request'
 
 subPrice = 100
 subGems = 3500

@@ -23,7 +23,7 @@ module.exports = class SuperModel extends Backbone.Model
     console.info "#{_.values(@resources).length} resources."
     unfinished = []
     for resource in _.values(@resources) when resource
-      console.info "\t", resource.name, 'loaded', resource.isLoaded
+      console.info "\t", resource.name, 'loaded', resource.isLoaded, resource.model
       unfinished.push resource unless resource.isLoaded
     unfinished
 
@@ -96,8 +96,9 @@ module.exports = class SuperModel extends Backbone.Model
     jqxhr.done -> res.markLoaded()
     jqxhr.fail -> res.markFailed()
     @storeResource(res, value)
+    return jqxhr
     
-  trackRequests: (jqxhrs, value=1) -> @trackRequest(jqxhr) for jqxhr in jqxhrs
+  trackRequests: (jqxhrs, value=1) -> @trackRequest(jqxhr, value) for jqxhr in jqxhrs
 
   # replace or overwrite
   shouldSaveBackups: (model) -> false
@@ -158,7 +159,7 @@ module.exports = class SuperModel extends Backbone.Model
   # Tracking resources being loaded for this supermodel
 
   finished: ->
-    return (@progress is 1.0) or (not @denom) or @failed 
+    return (@progress is 1.0) or (not @denom) or @failed
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
     # Deprecating name. Handle if name is not included
@@ -192,8 +193,8 @@ module.exports = class SuperModel extends Backbone.Model
     return res
 
   checkName: (name) ->
-    if _.isString(name)
-      console.warn("SuperModel name property deprecated. Remove '#{name}' from code.")
+    #if _.isString(name)
+    #  console.warn("SuperModel name property deprecated. Remove '#{name}' from code.")
 
   storeResource: (resource, value) ->
     @rid++

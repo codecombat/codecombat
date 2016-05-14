@@ -1,4 +1,5 @@
 require '../../common'
+Level = require '../../../../server/models/Level'
 
 describe 'Level', ->
 
