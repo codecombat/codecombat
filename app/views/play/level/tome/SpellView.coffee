@@ -532,7 +532,7 @@ module.exports = class SpellView extends CocoView
           # For now, update autocomplete to use hero instead of self/this, if hero is already used in the source.
           # Later, we should make this happen all the time - or better yet update the snippets.
           source = @getSource()
-          if /hero/.test(source)
+          if /hero/.test(source) or not /(self[\.\:]|this\.|\@)/.test(source)
             thisToken =
               'python': /self/,
               'javascript': /this/,

@@ -80,7 +80,7 @@ mixin box
         div
           if view.isTeacherWithDemo
             h6(data-i18n="new_home.check_out_wiki")
-            a.btn.btn-primary.btn-lg.btn-block(href="https://sites.google.com/a/codecombat.com/teacher-guides/course-guides", data-i18n="new_home.educator_wiki")
+            a.btn.btn-primary.btn-lg.btn-block(href="https://sites.google.com/a/codecombat.com/teacher-guides/course-guides", data-i18n="nav.educator_wiki")
           else
             h6(data-i18n="new_home.want_coco")
             a.btn.btn-primary.btn-lg.btn-block(href=view.demoRequestURL, data-i18n="new_home.get_started")
@@ -267,7 +267,7 @@ block content
       .teacher-screenshots
         .screenshots
           .hidden-sm.hidden-md.hidden-lg
-            small(data-i18n="new_home.teacher_screenshots_hint")
+            small(data-i18n="new_home.top_screenshots_hint")
           .screenshot-grid(title='Click to view full size')
             a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='1')
               img(src="/images/pages/about/forest.png")
@@ -276,7 +276,7 @@ block content
             a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
               img(src="/images/pages/about/glacier.png")
           .clearfix.hidden-xs
-            small(data-i18n="new_home.teacher_screenshots_hint")
+            small(data-i18n="new_home.top_screenshots_hint")
 
       if view.isTeacherWithDemo
         h4(data-i18n="new_home.get_started_subtitle")

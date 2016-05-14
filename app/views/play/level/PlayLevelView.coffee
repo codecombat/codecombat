@@ -154,6 +154,7 @@ module.exports = class PlayLevelView extends RootView
   isCourseMode: -> @courseID and @courseInstanceID
 
   showAds: ->
+    return false # No ads for now.
     if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF && !@isCourseMode()
       return me.getCampaignAdsGroup() is 'leaderboard-ads'
     false
