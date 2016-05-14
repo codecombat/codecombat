@@ -1556,12 +1556,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    ambassador_subscribe_desc: "Get emails on support updates and multiplayer developments."
 #    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
 #    changes_auto_save: "Changes are saved automatically when you toggle checkboxes."
-    diligent_scribes: "Những Thơ kí đầy ắp Tâm huyết của chúng tôi: "
-    powerful_archmages: "Những Đại pháp sư có thừa Sức mạnh của chúng tôi: "
-    creative_artisans: "Những Thợ thủ công tràn trề sức Sáng tạo của chúng tôi:"
-    brave_adventurers: "Những nhà thám hiểm Dũng cảm của chúng tôi:"
+    diligent_scribes: "Những Thư Kí tâm huyết của chúng tôi: "
+    powerful_archmages: "Những Pháp Sư quyền năng của chúng tôi: "
+    creative_artisans: "Những Thợ Thủ Công đầy sáng tạo của chúng tôi:"
+    brave_adventurers: "Những Nhà Thám Hiểm dũng cảm của chúng tôi:"
     translating_diplomats: "Những Nhà Ngoại Giao của chúng tôi: "
-    helpful_ambassadors: "Những Sứ giả đầy Hữu ích của chúng tôi:"
+    helpful_ambassadors: "Những Sứ Giả đầy hữu ích của chúng tôi:"
 
   ladder:
 #    please_login: "Please log in first before playing a ladder game."
