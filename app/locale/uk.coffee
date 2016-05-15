@@ -38,10 +38,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    accessible_to: "Accessible to"
 #    everyone: "everyone"
 #    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
-#    forgot_learning: "I think they actually forgot that they were actually learning something."
-#    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
-#    why_games: "Why is learning through games important?"
-#    games_reward: "Games reward the productive struggle."
+    forgot_learning: "Таке враження, що, граючи, вони забули, що це навчання." # I think they actually forgot that they were actually learning something.
+    wanted_to_do: " Програмування — те, чим я завжди хотів займатись, ніколи не думав, що буду вчити це в школі." #  Coding is something I've always wanted to do, and I never thought I would be able to learn it in school.
+    why_games: "Чому навчання через гру важливе?" # Why is learning through games important?
+    games_reward: "Гра — винагорода за зусилля." # Games reward the productive struggle.
 #    encourage: "Gaming is a medium that encourages interaction, discovery, and trial-and-error. A good game challenges the player to master skills over time, which is the same critical process students go through as they learn."
 #    excel: "Games excel at rewarding"
 #    struggle: "productive struggle"
