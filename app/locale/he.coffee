@@ -14,19 +14,19 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     for_developers: "למפתחים" # Not currently shown on home page.
     or_ipad: "iPadאו הורד ל"
 
-#  new_home:
-#    slogan: "The most engaging game for learning programming."
-#    classroom_edition: "Classroom Edition:"
-#    learn_to_code: "Learn to code:"
-#    teacher: "Teacher"
-#    student: "Student"
-#    play_now: "Play Now"
-#    im_a_teacher: "I'm a Teacher"
-#    im_a_student: "I'm a Student"
-#    learn_more: "Learn more"
-#    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
-#    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
-#    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
+  new_home:
+    slogan: "המשחק המלהיב ביותר ללימוד תכנות."
+    classroom_edition: "גרס"
+    learn_to_code: "למד לתכנת:"
+    teacher: "מורה"
+    student: "תלמיד"
+    play_now: "שחק"
+    im_a_teacher: "אני מורה"
+    im_a_student: "אני תלמיד"
+    learn_more: "למד עוד"
+    classroom_in_a_box: "כיתה בפיתה ללימוד מדעי המחשב." #used 'a classroom in a pita (the term for a type of israeli bread) in order to deliver the apropriate equivelent localized message
+    codecombat_is: "CodeCombat  היא פלטפורמה <strong>עבור תלמידים</strong> ללימוד תכנות באמצעות משחק."
+#   our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
 #    top_screenshots_hint: "Students write code and see their changes update in real-time"
 #    designed_with: "Designed with teachers in mind"
 #    real_code: "Real, typed code"
