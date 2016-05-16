@@ -220,9 +220,13 @@ mixin studentRow(student)
     //- td
     //-   span.view-class-arrow.glyphicon.glyphicon-chevron-right
     td
-      a.remove-student-link.small.center-block.text-center.pull-right.m-r-2(data-student-id=student.id)
-        div.glyphicon.glyphicon-remove
-        div(data-i18n='teacher.remove')
+      .pull-right
+        a.edit-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
+          div.glyphicon.glyphicon-remove
+          div(data-i18n='teacher.edit')
+        a.remove-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
+          div.glyphicon.glyphicon-remove
+          div(data-i18n='teacher.remove')
 
 mixin enrollStudentButton(student)
   a.enroll-student-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id data-user-id=student.id)
