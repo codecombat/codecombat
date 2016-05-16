@@ -89,15 +89,24 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     alp = a.layerPriority or 0
     blp = b.layerPriority or 0
     return alp - blp if alp isnt blp
-    aThang = a?.lank?.thang
-    bThang = b?.lank?.thang
-    aPos = aThang?.pos
-    bPos = bThang?.pos
-    return 0 unless aPos and bPos
-    # Prevent dead units from covering up those alive
-    if aThang.health? and bThang.health? and aThang.isGrounded?() and bThang.isGrounded?()
-      return (aThang.health - bThang.health) if (aThang.health < 0) isnt (bThang.health < 0)
-    return (aPos.z - bPos.z) or (bPos.y - aPos.y) or (bPos.x - aPos.x)
+    # TODO: remove this z stuff
+    az = a.z or 1000
+    bz = b.z or 1000
+    if aLank = a.lank
+      if aThang = aLank.thang
+        aPos = aThang.pos
+        if aThang.health < 0 and aThang.pos.z <= aThang.depth / 2
+          # Nice for not being knee deep in the dead, just not nice for ogres flying behind trees when exploded
+          --az
+    if bLank = b.lank
+      if bThang = bLank.thang
+        bPos = bThang.pos
+        if bThang.health < 0 and bThang.pos.z <= bThang.depth / 2
+          --bz
+    if az is bz
+      return 0 unless aPos and bPos
+      return (bPos.y - aPos.y) or (aPos.z - bPos.z) or (bPos.x - aPos.x)
+    return az - bz
 
   #- Zoom updating
 
