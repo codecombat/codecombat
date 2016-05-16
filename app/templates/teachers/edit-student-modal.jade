@@ -30,14 +30,13 @@ block modal-body-content
         span(data-i18n="TODO")
           | Change Password:
       div
-        input.new-password-input(placeholder="type a new password here")
-          = state.get('newPassword')
+        input.new-password-input(placeholder="type a new password here" value=state.get('newPassword'))
       if state.get('passwordChanged')
-        .change-password-btn.btn.btn-lg.btn-primary.uppercase.disabled
+        button.change-password-btn.btn.btn-lg.btn-primary.uppercase.disabled
           span(data-i18n="TODO")
             | Changed
       else
-        .change-password-btn.btn.btn-lg.btn-primary.uppercase
+        button.change-password-btn.btn.btn-lg.btn-primary.uppercase
           span(data-i18n="TODO")
             | Change Password
       
