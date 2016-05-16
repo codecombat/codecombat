@@ -9,7 +9,7 @@ module.exports = class EditStudentModal extends ModalView
   events:
     'click .send-recovery-email-btn:not(.disabled)': 'onClickSendRecoveryEmail'
     'click .change-password-btn:not(.disabled)': 'onClickChangePassword'
-    'change .new-password-input': 'onChangeNewPassword'
+    'change .new-password-input': 'onChangeNewPasswordInput'
 
   initialize: ({ @user }) ->
     @utils = require 'core/utils'
@@ -31,5 +31,5 @@ module.exports = class EditStudentModal extends ModalView
     @listenToOnce @user, 'save:success', ->
       @state.set { passwordChanged: true }
 
-  onChangeNewPassword: (e) ->
+  onChangeNewPasswordInput: (e) ->
     @state.set { newPassword: $(e.currentTarget).text() }
