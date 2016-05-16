@@ -71,9 +71,11 @@ block content
             if test.error
                 pre(style="color: red") #{test.error}
           
+            if test.userCodeProblems.length
+              h4(style="color: red") User Code Problems
+              pre(style="color: red") #{JSON.stringify(test.userCodeProblems, null, 2)}
+
       else
         h1 Loading Level...
 
-      // TODO: show errors
-      // TODO: frame length
       // TODO: show last frame hash

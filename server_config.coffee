@@ -55,6 +55,7 @@ config.mail =
   username: process.env.COCO_MAIL_SERVICE_USERNAME or ''
   supportPrimary: process.env.COCO_MAIL_SUPPORT_PRIMARY or ''
   supportPremium: process.env.COCO_MAIL_SUPPORT_PREMIUM or ''
+  supportSchools: process.env.COCO_MAIL_SUPPORT_SCHOOLS or ''
   mailchimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
   mailchimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''

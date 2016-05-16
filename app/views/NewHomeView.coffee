@@ -102,6 +102,10 @@ module.exports = class NewHomeView extends RootView
     setTimeout(@fitToPage, 0)
     super()
 
+  destroy: ->
+    $(window).off 'resize', @fitToPage
+    super()
+
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out", {})
     logoutUser()

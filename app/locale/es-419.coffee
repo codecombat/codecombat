@@ -57,15 +57,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     real_game: "Un juego de verdad, jugado con código auténtico."
     great_game: "Un gran juego es más que solo medallas y logros - se trata sobre una travesía del jugador, acertijos bien diseñados, y la habilidad de abordar desafios con voluntad y confianza."
     agency: "CodeCombat es un juego que ofrece a los jugadores esa voluntad y confianza mediante nuestro motor de código robusto, que ayuda tanto a principiantes como a estudiantes avanzados por igual a escribir código correcto y válido."
-    curious: "¿Curioso? Solicita un demo y te mostraremos cómo funciona "
 #    request_demo_title: "Get your students started today!"
 #    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
 #    get_started_title: "Set up your class today"
 #    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
-    create_class: "¡O crea una clase y miralo vos mismo!"
-#    teacher_screenshots_hint: "Students write code and see their changes update in real-time"
     request_demo: "Solicitar un Demo"
-    create_a_class: "Crear una Clase"
 #    setup_a_class: "Set Up a Class"
     have_an_account: "¿Ya tenes una cuenta?" # {change}
     logged_in_as: "Estás actualmente conectado como"
@@ -91,7 +87,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     start_playing_for_free: "Empieza a jugar gratis!"
     students_and_players: "Estudiantes y Jugadores"
     goto_classes: "Ir a mis clases" # {change}
-#    educator_wiki: "Educator wiki"
     view_profile: "Ver mi perfíl"
     view_progress: "Ver mi progreso"
     check_out_wiki: "Check out our new educator Wiki"
@@ -190,20 +185,52 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
-#    elif: "elif"
+#    elif: "else if"
 #    while: "while"
 #    loop: "loop"
 #    for: "for"
 #    break: "break"
 #    continue: "continue"
+#    pass: "pass"
+#    return: "return"
 #    then: "then"
 #    do: "do"
 #    end: "end"
 #    function: "function"
-#    def: "def"
+#    def: "define"
+#    var: "variable"
 #    self: "self"
 #    hero: "hero"
 #    this: "this"
+#    or: "or"
+#    "||": "or"
+#    and: "and"
+#    "&&": "and"
+#    not: "not"
+#    "!": "not"
+#    "=": "assign"
+#    "==": "equals"
+#    "===": "strictly equals"
+#    "!=": "does not equal"
+#    "!==": "does not strictly equal"
+#    ">": "is greater than"
+#    ">=": "is greater than or equal"
+#    "<": "is less than"
+#    "<=": "is less than or equal"
+#    "*": "multiplied by"
+#    "/": "divided by"
+#    "+": "plus"
+#    "-": "minus"
+#    "+=": "add and assign"
+#    "-=": "subtract and assign"
+#    True: "True"
+#    true: "true"
+#    False: "False"
+#    false: "false"
+#    undefined: "undefined"
+#    null: "null"
+#    nil: "nil"
+#    None: "None"
 
   share_progress_modal:
     blurb: "¡Estás haciendo un gran progreso! Cuéntale a tus padres cuánto has aprendido con CodeCombat."
@@ -551,9 +578,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   subscribe:
     comparison_blurb: "Agudiza tus habilidades con la suscripción a CodeCombat!"
-    feature1: "Más de $t(data.levelsCount) niveles basicos a lo largo de $t(data.worldsCount) mundos" # {change}
-    feature2: "$t(data.heroesCount) poderosos <strong>nuevos heroés</strong> con habilidades unicas!" # {change}
-    feature3: "Más de $t(data.bonusLevelsCount) niveles extras" # {change}
+    feature1: "Más de __levelsCount__ niveles basicos a lo largo de __worldsCount__ mundos" # {change}
+    feature2: "__heroesCount__ poderosos <strong>nuevos heroés</strong> con habilidades unicas!" # {change}
+    feature3: "Más de __bonusLevelsCount__ niveles extras" # {change}
     feature4: "<strong>{{gems}} gemas de bono</strong> cada mes!"
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
@@ -755,9 +782,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     jobs_title: "¡Ven a trabajar con nosotros y ayuda a escribir la historia de CodeCombat!"
     jobs_subtitle: "¿No encontras una buena opción pero estás interesado en mantener el  contacto? Mirá nuestra entrada \"Crear Tu Propio\"."
     jobs_benefits: "Beneficios del empleado"
-    jobs_benefit_1: "Salario competitivo y opciones"
-    jobs_benefit_2: "Política vacacional de 15 días, como mínimo, excepto los feriados de la compañia "
-    jobs_benefit_3: "Flexibilidad para trabajar desde casa" # {change}
     jobs_benefit_4: "Días personales/enfermo ilimitados" # {change}
     jobs_benefit_5: "Desarrollo profesional y soporte de formación continua" # {change}
     jobs_benefit_6: "Seguro médico/dental/vista" # {change}
@@ -831,6 +855,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     thanks_header: "¡Gracias por solicitar un presupuesto!" # {change}
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
     thanks_p: "Estaremos en contacto pronto. ¿Preguntas? Escríbenos:" # {change}
+#    back_to_classes: "Back to Classes"
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
@@ -1291,6 +1316,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    view_class: "view class"
 #    archive_class: "archive class"
 #    unarchive_class: "unarchive class"
+#    unarchive_this_class: "Unarchive this class"
 #    no_students_yet: "This class has no students yet."
 #    add_students: "Add Students"
 #    create_new_class: "Create a New Class"
@@ -1312,6 +1338,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    latest_completed: "Latest Completed"
 #    sort_by: "Sort by"
 #    progress: "Progress"
+#    completed: "Completed"
+#    started: "Started"
+#    click_to_view_progress: "click to view progress"
+#    no_progress: "No progress"
 #    select_course: "Select course to view"
 #    course_overview: "Course Overview"
 #    copy_class_code: "Copy Class Code"
