@@ -97,7 +97,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     # Prevent dead units from covering up those alive
     if aThang.health? and bThang.health? and aThang.isGrounded?() and bThang.isGrounded?()
       return (aThang.health - bThang.health) if (aThang.health < 0) isnt (bThang.health < 0)
-    return (bPos.y - aPos.y) or (aPos.z - bPos.z) or (bPos.x - aPos.x)
+    return (aPos.z - bPos.z) or (bPos.y - aPos.y) or (bPos.x - aPos.x)
 
   #- Zoom updating
 
