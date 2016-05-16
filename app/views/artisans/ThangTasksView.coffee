@@ -9,25 +9,26 @@ module.exports = class ThangTasksView extends RootView
   template: template
   id: 'thang-tasks-view'
   events:
-    'input input': 'searchUpdate'
-    'change input': 'searchUpdate'
+    'input input': 'processThangs'
+    'change input': 'processThangs'
+
+  thangs: {}
+  processedThangs: {}
+
   initialize: () ->
+    @processThangs = _.debounce(@processThangs, 250)
+
     @thangs = new ThangTypes()
     @listenTo(@thangs, 'sync', @onThangsLoaded)
     @supermodel.trackRequest(@thangs.fetch(
       data:
         project: 'name,tasks,slug'
     ))
-  searchUpdate: ->
-    if not @lastLoad? or (new Date()).getTime() - @lastLoad > 60 * 1000 * 1 # Update only after a minute from last update.
-      @thangs.fetch()
-      @listenTo(@thangs, 'sync', @onThangsLoaded)
-      @supermodel.loadCollection(@thangs, 'thangs')
-      @lastLoad = (new Date()).getTime()
-    else
-      @onThangsLoaded()
       
-  onThangsLoaded: ->
+  onThangsLoaded: (thangCollection) ->
+    @processThangs()
+
+  processThangs: ->
     @processedThangs = @thangs.filter (_elem) ->
       # Case-insensitive search of input vs name.
       return ///#{$('#nameSearch')[0].value}///i.test _elem.get('name')

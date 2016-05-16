@@ -16,7 +16,8 @@ module.exports = class SolutionProblemsView extends RootView
     'picoctf', 'auditions'
 
     # Campaign-version campaigns
-    #'dungeon', 'forest', 'desert', 'mountain', 'glacier'
+    'dungeon', 'forest', 'desert',# 'mountain', 
+    'glacier'
 
     # Test campaigns
     'dungeon-branching-test', 'forest-branching-test', 'desert-branching-test'
@@ -48,11 +49,12 @@ module.exports = class SolutionProblemsView extends RootView
   ]
   # TODO: Phase the following out:
   excludedLanguages = [
-    #'java', 'lua', 'coffeescript'
+    'java', 'lua', 'coffeescript'
   ]
-
-  rob: []
-  test2: []
+  excludedLevelSnippets = [
+    'treasure', 'brawl', 'siege'
+  ]
+  
   unloadedCampaigns: 0
   campaignLevels: {}
   loadedLevels: {}
@@ -92,6 +94,11 @@ module.exports = class SolutionProblemsView extends RootView
         console.error 'Level Slug doesn\'t have associated Level', levelSlug
         continue
       continue if levelSlug in excludedSolutionLevels
+      isBad = false
+      for word in excludedLevelSnippets
+        if levelSlug.indexOf(word) isnt -1
+          isBad = true
+      continue if isBad
       thangs = level.get 'thangs'
       component = null
       thangs = _.filter(thangs, (elem) ->

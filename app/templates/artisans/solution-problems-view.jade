@@ -1,10 +1,12 @@
+# DNT
 extends /templates/base
 
 block content
   #solution-problems-view
     div
       a(href='/artisans')
-        | < Artisans Home
+        span.glyphicon.glyphicon-chevron-left
+        span Artisans Home
     br
     div Total number of problems: #{view.problemCount}
     hr

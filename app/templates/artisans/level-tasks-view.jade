@@ -1,25 +1,28 @@
+# DNT
 extends /templates/base
 
 block content
   #level-tasks-view
     div
       a(href='/artisans')
-        | < Artisans Home
+        span.glyphicon.glyphicon-chevron-left
+        span Artisans Home
     br
-    input#nameSearch(placeholder='Filter: Level Name')
+    input.searchInput#nameSearch(placeholder='Filter: Level Name')
     br
-    input#descSearch(placeholder='Filter: Task Description')
+    input.searchInput#descSearch(placeholder='Filter: Task Description')
     hr
-    if view.processedLevels
-      table.table.table-striped#levelTable
-        tr
-          th Level Name
-          th Task List
-        for level in view.processedLevels
-          if view.hasIncompleteTasks(level)
-            +levelRow(level)
-    else
-      div ole?
+    div#levelTable
+      if view.processedLevels
+        table.table.table-striped
+          tr
+            th Level Name
+            th Task List
+          for level in view.processedLevels
+            if view.hasIncompleteTasks(level)
+              +levelRow(level)
+      else
+        div No view.processedLevels
 
 mixin levelRow(level)
   tr

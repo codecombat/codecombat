@@ -1,25 +1,27 @@
+# DNT
 extends /templates/base
 
 block content
   #thang-tasks-view
     div
       a(href='/artisans')
-        | < Artisans Home
+        span.glyphicon.glyphicon-chevron-left
+        span Artisans Home
+    input.inputSearch#nameSearch(placeholder='Filter: Thang Name')
     br
-    input#nameSearch(placeholder='Filter: Thang Name')
-    br
-    input#descSearch(placeholder='Filter: Task Description')
+    input.inputSearch#descSearch(placeholder='Filter: Task Description')
     hr
-    if view.processedThangs
-      table.table.table-striped#thangTable
-        tr
-          th Thang Name
-          th Task List
-        for thang in view.processedThangs
-          if view.hasIncompleteTasks(thang)
-            +thangRow(thang)
-    else
-      span No view.processedThangs
+    div#thangTable
+      if view.processedThangs
+        table.table.table-striped#thangTable
+          tr
+            th Thang Name
+            th Task List
+          for thang in view.processedThangs
+            if view.hasIncompleteTasks(thang)
+              +thangRow(thang)
+      else
+        span No view.processedThangs
 
 mixin thangRow(thang)
   tr

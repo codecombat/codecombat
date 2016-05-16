@@ -9,14 +9,18 @@ module.exports = class LevelTasksView extends RootView
   template: template
   id: 'level-tasks-view'
   events:
-    'input .searchInput': 'searchUpdate'
-    'change .searchInput': 'searchUpdate'
+    'input .searchInput': 'processLevels'
+    'change .searchInput': 'processLevels'
+
   excludedCampaigns = [
     'picoctf', 'auditions'
   ]
+
   levels: {}
+  processedLevels: {}
+
   initialize: () ->
-    @searchUpdate = _.debounce(@searchUpdate, 250)
+    @processLevels = _.debounce(@processLevels, 250)
     
     @campaigns = new Campaigns()
     @listenTo(@campaigns, 'sync', @onCampaignsLoaded)
@@ -32,35 +36,22 @@ module.exports = class LevelTasksView extends RootView
       continue if campaignSlug in excludedCampaigns
       levels = campaign.get 'levels'
       for key, level of levels
-        continue unless ///#{$('#nameSearch')[0].value}///i.test level.name
         levelSlug = level.slug
         @levels[levelSlug] = level
+    @processLevels()
+
+  processLevels: () ->
     @processedLevels = {}
     for key, level of @levels
-      filteredTasks = level.tasks.filter (elem) ->
+      continue unless ///#{$('#nameSearch')[0].value}///i.test level.name
+      filteredTasks = level.tasks.filter (elem) ->  
+        # Similar case-insensitive search of input vs description (name).
         return ///#{$('#descSearch')[0].value}///i.test elem.name
       @processedLevels[key] = {
         tasks: filteredTasks
         name: level.name
       }
     @renderSelectors '#levelTable'
-
-  searchUpdate: ->
-    @onCampaignsLoaded(@campaigns)
-    ###
-    if not @lastLoad? or (new Date()).getTime() - @lastLoad > 60 * 1000 * 1 # Update only after a minute from last update.
-      #@campaigns.fetch()
-      @listenTo(@campaigns, 'sync', @onCampaignsLoaded)
-      @superModel.trackRequest()
-      #@supermodel.loadCollection(@campaigns, 'campaigns')
-      @lastLoad = (new Date()).getTime()
-    else
-      @onCampaignsLoaded()
-    ###
-
-  destroy: ->
-    @searchUpdate.cancel()
-    super()
 
   # Jade helper
   hasIncompleteTasks: (level) ->
