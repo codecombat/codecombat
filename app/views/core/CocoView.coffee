@@ -91,8 +91,9 @@ module.exports = class CocoView extends Backbone.View
   didReappear: ->
     # the router brings back this view from the cache
     @delegateEvents()
+    wasHidden = @hidden
     @hidden = false
-    @listenToShortcuts()
+    @listenToShortcuts() if wasHidden
     view.didReappear() for id, view of @subviews
 
   # View Rendering
@@ -136,6 +137,7 @@ module.exports = class CocoView extends Backbone.View
     context._ = _
     context.document = document
     context.i18n = utils.i18n
+    context.state = @state
     context
 
   afterRender: ->
@@ -169,12 +171,12 @@ module.exports = class CocoView extends Backbone.View
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
     AuthModal = require 'views/core/AuthModal'
-    @openModalView(new AuthModal({mode: 'login'}))
+    @openModalView(new AuthModal())
   
   onClickLoadingErrorCreateAccountButton: (e) ->
     e.stopPropagation()
-    AuthModal = require 'views/core/AuthModal'
-    @openModalView(new AuthModal({mode: 'signup'}))
+    CreateAccountModal = require 'views/core/CreateAccountModal'
+    @openModalView(new CreateAccountModal({mode: 'signup'}))
   
   onClickLoadingErrorLogoutButton: (e) ->
     e.stopPropagation()
@@ -389,7 +391,7 @@ module.exports = class CocoView extends Backbone.View
     setTimeout (=> $pointer.css transition: 'all 0.4s ease-in', transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)"), 800
 
   endHighlight: ->
-    @getPointer(false).css({'opacity': 0.0, 'transition': 'none', top: '-50px', right: '-50px'}) 
+    @getPointer(false).css({'opacity': 0.0, 'transition': 'none', top: '-50px', right: '-50px'})
     clearInterval @pointerInterval
     clearTimeout @pointerDelayTimeout
     clearTimeout @pointerDurationTimeout
@@ -441,8 +443,11 @@ module.exports = class CocoView extends Backbone.View
     slider
     
   scrollToLink: (link, speed=300) ->
-    scrollTo = $(link).offset().top + $('#page-container')[0].scrollTop
-    $('#page-container').animate({ scrollTop: scrollTo }, speed)
+    scrollTo = $(link).offset().top
+    $('html, body').animate({ scrollTop: scrollTo }, speed)
+    
+  scrollToTop: (speed=300) ->
+    $('html, body').animate({ scrollTop: 0 }, speed)
 
   toggleFullscreen: (e) ->
     # https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode?redirectlocale=en-US&redirectslug=Web/Guide/DOM/Using_full_screen_mode

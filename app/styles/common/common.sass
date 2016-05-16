@@ -1,9 +1,6 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
 
-#page-container
-  overflow: hidden
-
 // https://github.com/twbs/bootstrap/issues/9237 -- need a version that's not !important
 .secret
   display: none
@@ -23,7 +20,7 @@ iframe
 .selectable
   cursor: pointer
 
-.modal-dialog
+.modal-dialog.game
   padding: 5px
   margin-top: 30px
   margin-bottom: 0px
@@ -415,3 +412,9 @@ body > iframe[src^="https://apis.google.com"]
   background: #e6251c
   color: white
   padding: 0.0em 0.6em 0.1em
+
+body.picoctf .picoctf-hide
+  display: none
+
+body:not(.picoctf) .picoctf-show
+  display: none

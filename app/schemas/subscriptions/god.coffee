@@ -25,6 +25,7 @@ worldUpdatedEventSchema = c.object {required: ['world', 'firstWorld', 'goalState
   team: {type: 'string'}
   firstChangedFrame: {type: 'integer', minimum: 0}
   finished: {type: 'boolean'}
+  god: {type: 'object'}
 
 module.exports =
   'god:user-code-problem': c.object {required: ['problem', 'god']},
@@ -49,6 +50,8 @@ module.exports =
     goalStates: goalStatesSchema
     preload: {type: 'boolean'}
     overallStatus: {type: ['string', 'null'], enum: ['success', 'failure', 'incomplete', null]}
+    totalFrames: {type: ['integer', 'undefined']}
+    lastFrameHash: {type: ['number', 'undefined']}
 
   'god:world-load-progress-changed': c.object {required: ['progress', 'god']},
     god: {type: 'object'}

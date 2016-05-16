@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 template = require 'templates/play/level/modal/hero-victory-modal'
 Achievement = require 'models/Achievement'
 EarnedAchievement = require 'models/EarnedAchievement'
@@ -66,10 +66,10 @@ module.exports = class HeroVictoryModal extends ModalView
     if @level.get('type', true) is 'course'
       if nextLevel = @level.get('nextLevel')
         @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
-        @nextLevel = @supermodel.loadModel(@nextLevel, 'level').model
+        @nextLevel = @supermodel.loadModel(@nextLevel).model
       if @courseID
         @course = new Course().setURL "/db/course/#{@courseID}"
-        @course = @supermodel.loadModel(@course, 'course').model
+        @course = @supermodel.loadModel(@course).model
     if @level.get('type', true) in ['course', 'course-ladder']
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
       @loadExistingFeedback()
@@ -123,7 +123,7 @@ module.exports = class HeroVictoryModal extends ModalView
       thangType.url = "/db/thang.type/#{thangTypeOriginal}/version"
       #thangType.project = ['original', 'rasterIcon', 'name', 'soundTriggers', 'i18n']  # This is what we need, but the PlayHeroesModal needs more, and so we load more to fill up the supermodel.
       thangType.project = ['original', 'rasterIcon', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'unlockLevelName', 'i18n']
-      @thangTypes[thangTypeOriginal] = @supermodel.loadModel(thangType, 'thang').model
+      @thangTypes[thangTypeOriginal] = @supermodel.loadModel(thangType).model
 
     @newEarnedAchievements = []
     hadOneCompleted = false
@@ -481,7 +481,7 @@ module.exports = class HeroVictoryModal extends ModalView
   onClickSignupButton: (e) ->
     e.preventDefault()
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Hero Victory Modal', level: @level.get('slug')
-    @openModalView new AuthModal {mode: 'signup'}
+    @openModalView new CreateAccountModal()
 
   showOffer: (@navigationEventUponCompletion) ->
     @$el.find('.modal-footer > *').hide()

@@ -21,7 +21,7 @@ module.exports = class LeaderboardModal extends ModalView
     @levelSlug = @options.levelSlug
     level = new Level({_id: @levelSlug})
     level.project = ['name', 'i18n', 'scoreType', 'original']
-    @level = @supermodel.loadModel(level, 'level').model
+    @level = @supermodel.loadModel(level).model
 
   getRenderData: (c) ->
     c = super c

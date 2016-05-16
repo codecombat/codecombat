@@ -1,7 +1,23 @@
 #activate-licenses-modal
-  h2
-    margin-top: -20px
+  select
+    min-width: 80%
+    
+  .checkbox
+    margin: 0
+  
+    input[type='checkbox']
+      margin-top: 8px
+  
+  .modal-content
+    padding: 60px
+    width: 690px
     
   .well
-    max-height: 200px
+    max-height: 284px
     overflow: scroll
+
+  .not-enough-enrollments
+    color: red
+    visibility: hidden
+    &.visible
+      visibility: visible

@@ -1,5 +1,5 @@
 app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 RootView = require 'views/core/RootView'
 template = require 'templates/clans/clans'
 CocoCollection = require 'collections/CocoCollection'
@@ -93,7 +93,7 @@ module.exports = class ClansView extends RootView
     )
 
   onClickCreateClan: (e) ->
-    return @openModalView new AuthModal() if me.isAnonymous()
+    return @openModalView new CreateAccountModal() if me.isAnonymous()
     clanType = if $('.private-clan-checkbox').prop('checked') then 'private' else 'public'
     if clanType is 'private' and not me.isPremium()
       @openModalView new SubscribeModal()
@@ -114,7 +114,7 @@ module.exports = class ClansView extends RootView
       console.log 'Invalid name'
 
   onJoinClan: (e) ->
-    return @openModalView(new AuthModal()) if me.isAnonymous()
+    return @openModalView(new CreateAccountModal()) if me.isAnonymous()
     if clanID = $(e.target).data('id')
       options =
         url: "/db/clan/#{clanID}/join"
@@ -144,7 +144,7 @@ module.exports = class ClansView extends RootView
       console.error "No clan ID attached to leave button."
 
   onClickPrivateCheckbox: (e) ->
-    return @openModalView new AuthModal() if me.isAnonymous()
+    return @openModalView new CreateAccountModal() if me.isAnonymous()
     if $('.private-clan-checkbox').prop('checked') and not me.isPremium()
       $('.private-clan-checkbox').attr('checked', false)
       @openModalView new SubscribeModal()

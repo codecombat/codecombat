@@ -81,6 +81,7 @@ module.exports = TestView = class TestView extends RootView
         jasmine.Ajax.requests.reset()
         Backbone.Mediator.init()
         Backbone.Mediator.setValidationEnabled false
+        spyOn(application.tracker, 'trackEvent')
         # TODO Stubbify more things
         #   * document.location
         #   * firebase

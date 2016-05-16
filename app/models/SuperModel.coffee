@@ -23,7 +23,7 @@ module.exports = class SuperModel extends Backbone.Model
     console.info "#{_.values(@resources).length} resources."
     unfinished = []
     for resource in _.values(@resources) when resource
-      console.info "\t", resource.name, 'loaded', resource.isLoaded
+      console.info "\t", resource.name, 'loaded', resource.isLoaded, resource.model
       unfinished.push resource unless resource.isLoaded
     unfinished
 
@@ -80,6 +80,25 @@ module.exports = class SuperModel extends Backbone.Model
       res = @addModelResource(collection, name, fetchOptions, value)
       res.load() if not (res.isLoading or res.isLoaded)
       return res
+      
+  # Eventually should use only these functions. Use SuperModel just to track progress.
+  trackModel: (model, value) ->
+    res = @addModelResource(model, '', {}, value)
+    res.listen()
+
+  trackCollection: (collection, value) ->
+    res = @addModelResource(collection, '', {}, value)
+    res.listen()
+    
+  trackRequest: (jqxhr, value=1) ->
+    res = new Resource('', value)
+    res.jqxhr = jqxhr
+    jqxhr.done -> res.markLoaded()
+    jqxhr.fail -> res.markFailed()
+    @storeResource(res, value)
+    return jqxhr
+    
+  trackRequests: (jqxhrs, value=1) -> @trackRequest(jqxhr, value) for jqxhr in jqxhrs
 
   # replace or overwrite
   shouldSaveBackups: (model) -> false
@@ -140,7 +159,7 @@ module.exports = class SuperModel extends Backbone.Model
   # Tracking resources being loaded for this supermodel
 
   finished: ->
-    return (@progress is 1.0) or (not @denom) or @failed 
+    return (@progress is 1.0) or (not @denom) or @failed
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
     # Deprecating name. Handle if name is not included
@@ -174,8 +193,8 @@ module.exports = class SuperModel extends Backbone.Model
     return res
 
   checkName: (name) ->
-    if _.isString(name)
-      console.warn("SuperModel name property deprecated. Remove '#{name}' from code.")
+    #if _.isString(name)
+    #  console.warn("SuperModel name property deprecated. Remove '#{name}' from code.")
 
   storeResource: (resource, value) ->
     @rid++
@@ -275,6 +294,9 @@ class ModelResource extends Resource
 
   fetchModel: ->
     @jqxhr = @model.fetch(@fetchOptions) unless @model.loading
+    @listen()
+
+  listen: ->
     @listenToOnce @model, 'sync', -> @markLoaded()
     @listenToOnce @model, 'error', -> @markFailed()
 

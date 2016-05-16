@@ -38,6 +38,8 @@ module.exports = class Level extends CocoModel
     @sortThangComponents o.thangTypes, o.levelComponents, 'ThangType'
     @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents
 
+    o.picoCTFProblem = @picoCTFProblem if @picoCTFProblem
+
     o
 
   cachedLevelComponents: null
@@ -246,3 +248,13 @@ module.exports = class Level extends CocoModel
         width = c.width if c.width? and c.width > width
         height = c.height if c.height? and c.height > height
     return {width: width, height: height}
+
+  isLadder: ->
+    return @get('type')?.indexOf('ladder') > -1
+
+  fetchNextForCourse: ({ levelOriginalID, courseInstanceID, courseID }, options={}) ->
+    if courseInstanceID
+      options.url = "/db/course_instance/#{courseInstanceID}/levels/#{levelOriginalID}/next"
+    else
+      options.url = "/db/course/#{courseID}/levels/#{levelOriginalID}/next"
+    @fetch(options)

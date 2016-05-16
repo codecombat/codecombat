@@ -13,9 +13,9 @@ do (setupLodash = this) ->
 database.connect()
 
 LocalMongo = require '../app/lib/LocalMongo'
-User = require '../server/users/User'
-EarnedAchievement = require '../server/achievements/EarnedAchievement'
-Achievement = require '../server/achievements/Achievement'
+User = require '../server/models/User'
+EarnedAchievement = require '../server/models/EarnedAchievement'
+Achievement = require '../server/models/Achievement'
 Achievement.loadAchievements (achievementCategories) ->
   # Really, it's just the 'users' category, since we don't keep all the LevelSession achievements in memory, rather letting the clients make those.
   userAchievements = achievementCategories.users

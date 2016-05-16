@@ -2,8 +2,8 @@ log = require 'winston'
 async = require 'async'
 errors = require '../../commons/errors'
 scoringUtils = require './scoringUtils'
-LevelSession = require '../../levels/sessions/LevelSession'
-TaskLog = require './ScoringTask'
+LevelSession = require '../../models/LevelSession'
+TaskLog = require './../../models/ScoringTask'
 
 module.exports = dispatchTaskToConsumer = (req, res) ->
   yetiGuru = {}
@@ -57,10 +57,10 @@ constructTaskObject = (taskMessageBody, message, callback) ->
     callback null, taskObject, message
 
 getSessionInformation = (sessionIDString, callback) ->
-  selectString = 'submitDate team submittedCode teamSpells levelID creator creatorName transpiledCode submittedCodeLanguage totalScore'
+  selectString = 'submitDate team submittedCode teamSpells levelID creator creatorName submittedCodeLanguage totalScore'
   LevelSession.findOne(_id: sessionIDString).select(selectString).lean().exec (err, session) ->
     if err? then return callback err, {'error': 'There was an error retrieving the session.'}
-    callback null, session
+    callback null, scoringUtils.formatSessionInformation session
 
 constructTaskLogObject = (calculatorUserID, taskObject, message, callback) ->
   taskLogObject = new TaskLog

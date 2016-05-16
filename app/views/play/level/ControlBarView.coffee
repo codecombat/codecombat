@@ -75,7 +75,10 @@ module.exports = class ControlBarView extends CocoView
     c.spectateGame = @spectateGame
     c.observing = @observing
     @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
-    if @level.get('type', true) in ['ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder']
+    if me.isSessionless()
+      @homeLink = "/teachers/courses"
+      @homeViewClass = "views/courses/TeacherCoursesView"
+    else if @level.get('type', true) in ['ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder']
       levelID = @level.get('slug')?.replace(/\-tutorial$/, '') or @level.id
       @homeLink = '/play/ladder/' + levelID
       @homeViewClass = 'views/ladder/LadderView'
@@ -85,7 +88,7 @@ module.exports = class ControlBarView extends CocoView
         @homeViewArgs.push leagueType
         @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
-    else if @level.get('type', true) in ['hero', 'hero-coop']
+    else if @level.get('type', true) in ['hero', 'hero-coop'] or window.serverConfig.picoCTF
       @homeLink = '/play'
       @homeViewClass = 'views/play/CampaignView'
       campaign = @level.get 'campaign'

@@ -32,7 +32,7 @@
         tbody
           tr
             td.feature-description
-              span(data-i18n="subscribe.feature1")
+              span(data-i18n="subscribe.feature1", data-i18n-options='{"levelsCount": ' + view.i18nData.levelsCount + ', "worldsCount": ' + view.i18nData.worldsCount + '}')
             if !me.isOnPremiumServer()
               td.center-ok.free-cell
                 span.glyphicon.glyphicon-ok
@@ -40,14 +40,14 @@
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
-              span(data-i18n="[html]subscribe.feature2")
+              span(data-i18n="[html]subscribe.feature2", data-i18n-options='{"heroesCount": ' + view.i18nData.heroesCount + '}')
             if !me.isOnPremiumServer()
               td.free-cell
             td.center-ok
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
-              span(data-i18n="subscribe.feature3")
+              span(data-i18n="subscribe.feature3", data-i18n-options='{"bonusLevelsCount": ' + view.i18nData.bonusLevelsCount + '}'))
             if !me.isOnPremiumServer()
               td.free-cell
             td.center-ok
@@ -68,26 +68,35 @@
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
-              span(data-i18n="subscribe.feature6")
+              span(data-i18n="[html]subscribe.feature7")
             if !me.isOnPremiumServer()
               td.free-cell
             td.center-ok
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
-              span(data-i18n="[html]subscribe.feature7")
+              span(data-i18n="subscribe.feature6")
             if !me.isOnPremiumServer()
               td.free-cell
             td.center-ok
               span.glyphicon.glyphicon-ok
+          if me.getCampaignAdsGroup() === 'leaderboard-ads'
+            tr
+              td.feature-description
+                span(data-i18n="[html]subscribe.feature8")
+              if !me.isOnPremiumServer()
+                td.free-cell
+              td.center-ok
+                span.glyphicon.glyphicon-ok
       #parents-info(data-i18n="subscribe.parents")
       #payment-methods-info(data-i18n="subscribe.payment_methods")
 
-      if !me.isOnPremiumServer()
-        button.btn.btn-lg.btn-illustrated.parent-button(data-i18n="subscribe.parent_button")
-      if view.yearProduct
-        button.btn.btn-lg.btn-illustrated.sale-button(data-i18n="[title]subscribe.sale_button_title", data-i18n="subscribe.sale_button")
-      button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="subscribe.subscribe_title")
+      .subscribe-actions
+        if !me.isOnPremiumServer()
+          button.btn.btn-lg.btn-illustrated.parent-button(data-i18n="subscribe.parent_button")
+        if view.yearProduct
+          button.btn.btn-lg.btn-illustrated.sale-button(data-i18n="[title]subscribe.sale_button_title", data-i18n="subscribe.sale_button")
+        button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="subscribe.subscribe_title")
 
       if view.state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible

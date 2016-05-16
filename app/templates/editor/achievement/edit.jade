@@ -2,8 +2,7 @@ extends /templates/base
 
 block content
   - var authorized = me.isAdmin() || me.isArtisan();
-  if authorized
-    ol.breadcrumb
+  ol.breadcrumb
       li
         a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
       li
@@ -11,24 +10,21 @@ block content
       li.active
         | #{view.achievement.attributes.name}
 
+  if authorized
     button.achievement-tool-button(data-i18n="", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#recalculate-all-button Recalculate All
     button.achievement-tool-button(data-i18n="", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#recalculate-button Recalculate
     button.achievement-tool-button(data-i18n="common.delete", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#delete-button Delete
     button.achievement-tool-button(data-i18n="common.save", disabled=(me.isAdmin() === true || me.isArtisan() === true) ? undefined : "true").btn.btn-primary#save-button Save
 
-    h3(data-i18n="achievement.edit_achievement_title") Edit Achievement
-      span
-        |: "#{view.achievement.attributes.name}"
+  h3(data-i18n="achievement.edit_achievement_title") Edit Achievement
+    span
+      |: "#{view.achievement.get('name')}"
 
-    #achievement-treema
+  #achievement-treema
 
-    #achievement-view.clearfix
+  #achievement-view.clearfix
 
-    h3(data-i18n="resources.patches") Patches
-    .patches-view
+  h3(data-i18n="resources.patches") Patches
+  .patches-view
 
-    hr
-
-  else
-    .alert.alert-danger
-      span Admin only. Turn around.
+  hr

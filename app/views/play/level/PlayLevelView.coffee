@@ -37,6 +37,7 @@ DuelStatsView = require './DuelStatsView'
 VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
 CourseVictoryModal = require './modal/CourseVictoryModal'
+PicoCTFVictoryModal = require './modal/PicoCTFVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ContactModal = require 'views/core/ContactModal'
@@ -134,8 +135,11 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    @god = new God debugWorker: true
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing, courseID: @courseID
+    @god = new God()
+    levelLoaderOptions = supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing, courseID: @courseID
+    if me.isSessionless()
+      levelLoaderOptions.fakeSessionConfig = {}
+    @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
 
   trackLevelLoadEnd: ->
@@ -146,6 +150,13 @@ module.exports = class PlayLevelView extends RootView
     unless @observing
       application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: @loadDuration
       application.tracker?.trackTiming @loadDuration, 'Level Load Time', @levelID, @levelID
+
+  isCourseMode: -> @courseID and @courseInstanceID
+
+  showAds: ->
+    if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF && !@isCourseMode()
+      return me.getCampaignAdsGroup() is 'leaderboard-ads'
+    false
 
   # CocoView overridden methods ###############################################
 
@@ -192,9 +203,9 @@ module.exports = class PlayLevelView extends RootView
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
     @otherSession = @levelLoader.opponentSession
-    @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
+    @worldLoadFakeResources = []  # first element (0) is 1%, last (99) is 100%
     for percent in [1 .. 100]
-      @worldLoadFakeResources.push @supermodel.addSomethingResource "world_simulation_#{percent}%", 1
+      @worldLoadFakeResources.push @supermodel.addSomethingResource 1
 
   onWorldLoadProgressChanged: (e) ->
     return unless e.god is @god
@@ -213,7 +224,10 @@ module.exports = class PlayLevelView extends RootView
       opponentSpells = opponentSpells.concat spells
     if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells')
       @session.set('teamSpells', @otherSession.get('teamSpells'))
-    opponentCode = @otherSession?.get('transpiledCode') or {}
+    if @getQueryVariable 'esper'
+      opponentCode = @otherSession?.get('code') or {}
+    else
+      opponentCode = @otherSession?.get('transpiledCode') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'
@@ -325,7 +339,13 @@ module.exports = class PlayLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), observing: @observing, playerNames: @findPlayerNames(), levelType: @level.get('type', true))
+    surfaceOptions =
+      thangTypes: @supermodel.getModels(ThangType)
+      observing: @observing
+      playerNames: @findPlayerNames()
+      levelType: @level.get('type', true)
+      stayVisible: @showAds()
+    @surface = new Surface(@world, normalSurface, webGLSurface, surfaceOptions)
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -342,6 +362,15 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelStarted: ->
     return unless @surface?
+
+    #TODO: Remove this at some point
+    if @session.get('codeLanguage') in ['clojure', 'io']
+      problem =
+        aetherProblem:
+          message: "Sorry, support for #{@session.get('codeLanguage')} has been removed."
+
+      Backbone.Mediator.publish 'tome:show-problem-alert', problem: problem
+
     @loadingView.showReady()
     @trackLevelLoadEnd()
     if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal
@@ -498,7 +527,8 @@ module.exports = class PlayLevelView extends RootView
         break
     Backbone.Mediator.publish 'tome:cast-spell', {}
 
-  onWindowResize: (e) => @endHighlight()
+  onWindowResize: (e) =>
+    @endHighlight()
 
   onDisableControls: (e) ->
     return if e.controls and not ('level' in e.controls)
@@ -532,9 +562,10 @@ module.exports = class PlayLevelView extends RootView
   showVictory: ->
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @endHighlight()
-    options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID}
+    options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then HeroVictoryModal else VictoryModal
-    ModalClass = CourseVictoryModal if @courseID and @courseInstanceID
+    ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
+    ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     if me.get('anonymous')
@@ -574,6 +605,7 @@ module.exports = class PlayLevelView extends RootView
     session.save {screenshot: screenshot}, {patch: true, type: 'PUT'}
 
   onContactClicked: (e) ->
+    Backbone.Mediator.publish 'level:contact-button-pressed', {}
     @openModalView contactModal = new ContactModal levelID: @level.get('slug') or @level.id, courseID: @courseID, courseInstanceID: @courseInstanceID
     screenshot = @surface.screenshot(1, 'image/png', 1.0, 1)
     body =

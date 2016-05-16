@@ -18,9 +18,9 @@ module.exports = class ArticleEditView extends RootView
 
   constructor: (options, @articleID) ->
     super options
-    @article = new Article(_id: @articleID)
+    @article = new Article({_id: @articleID})
     @article.saveBackups = true
-    @supermodel.loadModel @article, 'article'
+    @supermodel.loadModel @article
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
   onLoaded: ->
@@ -73,7 +73,7 @@ module.exports = class ArticleEditView extends RootView
     return false
 
   openSaveModal: ->
-    modal = new SaveVersionModal({model: @article})
+    modal = new SaveVersionModal({model: @article, noNewMajorVersions: true})
     @openModalView(modal)
     @listenToOnce modal, 'save-new-version', @saveNewArticle
     @listenToOnce modal, 'hidden', -> @stopListening(modal)
@@ -83,9 +83,8 @@ module.exports = class ArticleEditView extends RootView
     for key, value of @treema.data
       @article.set(key, value)
 
-    newArticle = if e.major then @article.cloneNewMajorVersion() else @article.cloneNewMinorVersion()
-    newArticle.set('commitMessage', e.commitMessage)
-    res = newArticle.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
+    @article.set('commitMessage', e.commitMessage)
+    res = @article.saveNewMinorVersion()
     return unless res
     modal = @$el.find('#save-version-modal')
     @enableModalInProgress(modal)
@@ -96,7 +95,7 @@ module.exports = class ArticleEditView extends RootView
     res.success =>
       @article.clearBackup()
       modal.modal('hide')
-      url = "/editor/article/#{newArticle.get('slug') or newArticle.id}"
+      url = "/editor/article/#{@article.get('slug') or @article.id}"
       document.location.href = url
 
   showVersionHistory: (e) ->

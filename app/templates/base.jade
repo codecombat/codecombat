@@ -8,8 +8,8 @@ block header
           img#small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
         a(href="/")
           span.glyphicon.glyphicon-home
-        a(href='/teachers', data-i18n="nav.teachers") Teachers
-        a(href='/courses', data-i18n="nav.courses")
+        a(href='/teachers', data-i18n="nav.teachers")
+        a(href='/courses', data-i18n="nav.students")
         a(href=view.forumLink(), data-i18n="nav.forum")
         a(href='/community', data-i18n="nav.community")
 
@@ -29,15 +29,18 @@ block header
                   div.img-circle(style="background-image: url(#{me.getPhotoURL()})")
                 h3=me.displayName()
               li
-                a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
+                a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
               li
                 a(href="/account/settings", data-i18n="play.settings")
-              li
-                a(href="/account/payments", data-i18n="account.payments")
-              li
-                a(href="/account/subscription", data-i18n="account.subscription")
-              li
-                a(href="/account/prepaid", data-i18n="account.prepaid_codes") Prepaid Codes
+              unless me.isStudent()
+                li
+                  a(href="/account/payments", data-i18n="account.payments")
+              if me.hasSubscription() || !(me.isTeacher() || me.isStudent())
+                li
+                  a(href="/account/subscription", data-i18n="account.subscription")
+              unless me.isStudent()
+                li
+                  a(href="/account/prepaid", data-i18n="account.prepaid_codes")
               li
                 a#logout-button(data-i18n="login.log_out")
 
@@ -60,15 +63,15 @@ block footer
 
     #footer-links
       a(href="/about", data-i18n="nav.about")
-      a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Contact
+      a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact")
       a(href='http://blog.codecombat.com/', data-i18n="nav.blog")
-      a(href='https://jobs.lever.co/codecombat', tabindex=-1, data-i18n="nav.careers") Careers
-      a(href='/legal', tabindex=-1, data-i18n="nav.legal") Legal
-      a(href='/privacy', tabindex=-1, data-i18n="legal.privacy_title") Privacy
-      a(href='/contribute', tabindex=-1, data-i18n="nav.contribute") Contribute
+      a(href='https://jobs.lever.co/codecombat', tabindex=-1, data-i18n="nav.careers")
+      a(href='/legal', tabindex=-1, data-i18n="nav.legal")
+      a(href='/privacy', tabindex=-1, data-i18n="legal.privacy_title")
+      a(href='/contribute', tabindex=-1, data-i18n="nav.contribute")
       a(href='/play/ladder', tabindex=-1, data-i18n="home.multiplayer")
       if me.isAdmin()
-        a(href='/admin', data-i18n="nav.admin") Admin
+        a(href='/admin') Admin
 
       if usesSocialMedia
         .share-buttons
@@ -76,7 +79,7 @@ block footer
             .g-plusone(data-href="http://codecombat.com", data-size="medium")
           .fb-like(data-href="https://www.facebook.com/codecombat", data-send="false", data-layout="button_count", data-width="350", data-show-faces="true", data-ref="coco_footer_#{fbRef}")
           if !isIE
-            a.twitter-follow-button(href="https://twitter.com/CodeCombat", data-show-count="true", data-show-screen-name="false", data-dnt="true", data-align="right", data-i18n="nav.twitter_follow") Follow
+            a.twitter-follow-button(href="https://twitter.com/CodeCombat", data-show-count="true", data-show-screen-name="false", data-dnt="true", data-align="right", data-i18n="nav.twitter_follow")
             iframe.github-star-button(src="https://ghbtns.com/github-btn.html?user=codecombat&repo=codecombat&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110", height="20")
 
     #footer-credits

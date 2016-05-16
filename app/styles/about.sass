@@ -1,36 +1,334 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
+
 #about-view
 
-  @import "bootstrap/variables"
+  overflow: hidden
 
-  .team-column
-    padding-left: 0
+  #nav-container
+    min-height: 55px
+    nav
+      background: $gold
+      &.affix
+        z-index: 1
+        position: fixed
+        top: 0
+        width: 100%
+      ul
+        margin-top: 5px
+        padding-left: 0
+        list-style: none
+        li
+          height: 22pt
+          display: inline-block
+          margin: 10px 0 0
+          @media (min-width: $screen-xs-min)
+            margin: 10px 5px 0
+          @media (min-width: $screen-sm-min)
+            margin: 10px 18px 0
+          a
+            color: white
+            text-transform: uppercase
+            text-decoration: none
+        li.active
+          .label
+            padding-left: 0
+            padding-right: 0
+            padding-bottom: 0
+            margin-left: 0.6em
+            margin-right: 0.6em
+            border-bottom: 4px solid white
+            border-radius: 0
+    
+  #jumbotron
+    background-color: $navy
+    background-image: url("/images/pages/about/codebackground_zoom_compressed.png")
+    background-size: cover
+    background-repeat: no-repeat
+    
+    h1
+      color: white
+      margin-top: 100px
+      
+    h2
+      color: white
+      margin-bottom: 100px
+      
+  .responsive-side-margins, h3, h4, p
+    max-width: 460px
+    margin-left: auto
+    margin-right: auto
+    @media (min-width: $screen-sm-min)
+      max-width: inherit
+      
+  h3
+    margin-top: 60px
+    @media (min-width: $screen-sm-min)
+      margin-top: 150px
+  
+  #about-container
+    @media (min-width: $screen-sm-min)
+      margin-top: 85px
+    background-color: white
+  
+  #mission-text
+    margin-top: 30px
+    @media (min-width: $screen-sm-min)
+      margin-top: 45px
+  
+  #mission-graphic, #community-graphic
+    padding: 30px 40px
+    position: relative
+    min-height: 320px
+    @media (min-width: $screen-sm-min)
+      min-height: 250px
 
-    ul.thumbnails
-      margin-left: 40px
+    h2
+      color: white
+      width: 50%
+    
+  #mission-graphic
+    margin-top: 30px
+    @media (min-width: $screen-sm-min)
+      margin-top: 45px
+    background: $navy
+    
+    h2
+      float: right
+    
+    img
+      position: absolute
+      bottom: 0
+      left: 0
+      
+    #mission-graphic-filler
+      background: $navy
+      height: 100%
+      width: 2000px
+      position: absolute
+      right: 100%
+      top: 0
+      
+  #team
+    ul
+      text-align: center
+      margin-top: 40px
       padding: 0
-
       li
-        list-style-type: none
+        width: 200px
+        height: 230px
+        list-style: none
+        display: inline-block
+        text-align: center
+        color: black
+        small
+          display: block
+          white-space: nowrap
+        .img-thumbnail
+          border-radius: 50%
+          padding: 0
+          background-color: $burgandy
+          border: 5px solid $gold
+          
+  // #community
+  //   margin-top: 100px
+    
+  #community-row-1
+    #community-avatars
+      width: 90%
+      margin: 20px 5%
 
+  #community-row-2
+    margin-top: 35px
+    @media (min-width: $screen-sm-min)
+      margin-top: 70px
+    
+    #community-graphic
+      background: $burgandy
 
-    img.img-thumbnail
-      background-color: transparent
-      &:hover
-        background-color: rgba(200, 244, 255, 0.2)
-      float: left
-      width: 80px
-      height: 80px
-      margin: 0px 10px 22px 0px
+      img
+        position: absolute
+        right: 0
+        bottom: 0
 
-  .team_name
-    font-size: 20px
-    margin-top: 0
+      #community-graphic-filler
+        background: $burgandy
+        height: 100%
+        width: 2000px
+        position: absolute
+        left: 100%
+        top: 0
 
-  .team_bio
-    width: 150px
-    float: left
+  #story
+    // margin-top: 150px
+    font-family: $headline-font
+    font-variant: normal
+    #story-graphic-1
+      max-width: 580px
+      margin-top: 50px
+      @media (min-width: $screen-sm-min)
+        margin-top: 80px
+      margin-left: auto
+      margin-right: auto
+      .media-heading
+        color: $burgandy
+    #story-graphic-2
+      //TODO: Fix left-margin of this
+      margin-top: 50px
+      @media (min-width: $screen-sm-min)
+        margin-top: 80px
+      margin-left: auto
+      margin-right: auto
+      max-width: 390px
+      .media-heading
+        color: $forest
+    #story-graphic-3
+      margin-top: 50px
+      @media (min-width: $screen-sm-min)
+        margin-top: 80px
+      p
+        margin-top: 30px
+      img
+        margin-top: 20px
+      #story-bracketed-text
+        width: 100%
+        max-width: 640px
+        margin: 0 auto
+        .text-h1
+          display: inline-block
+          margin: auto 0
+          color: $navy
+          width: 80%
+          vertical-align: bottom
+        img
+          margin: auto 0
+        #left-bracket
+          width: 10%
+          display: inline-block
+        #right-bracket
+          width: 10%
+          display: inline-block
+      #story-languages
+        margin-top: 50px
+        #language-icons
+          display: inline-block
+          padding-left: auto
+          padding-right: auto
+      
+    #story-graphic-4
+      margin-left: auto
+      margin-right: auto
+      margin-top: 50px
+      @media (min-width: $screen-sm-min)
+        margin-top: 150px
+      p
+        margin-top: 20px
+      figure
+        img
+          display: block
+          margin: 0 auto
+  #jobs
+    // margin-top: 50px
+    // @media (min-width: $screen-sm-min)
+    //   margin-top: 100px
+    #jobs-row
+      #benefits, .job-listing
+        margin-top: 65px
+        border: thin solid $navy
+        border-radius: 8px
+        padding: 40px
+        width: 370px
+        height: 420px
+        margin-left: auto
+        margin-right: auto
+        h5
+          text-align: center
+          color: inherit
+        li
+          padding-bottom: 7px
+      #benefits
+        color: white
+        background: $navy
+        ul
+          margin-top: 20px
+      a.benefits-link
+        color: white
+        text-decoration: underline
+      .job-listing
+        color: $navy
+        background: white
+        // centering hack
+        position: relative
+        .label
+          text-transform: uppercase
+          color: grey
+        a.job-link
+          width: 170px
+          bottom: 45px
+          // centering hack
+          position: absolute
+          left: 50%
+          margin-left: -85px
+        p
+          margin-top: 15px
+          
+  #files
+    padding: 30px 0
+    margin-top: 50px
+    border: thin solid gray
+    border-radius: 8px
+    .label
+      color: black
+      display: block
+    #screenshots
+      text-align: center
+      #screenshot-grid
+        img
+          display: inline-block
+          margin: 6.5px
+          
+    #downloads-container
+      position: relative
+      height: 250px
+      #downloads
+        //TODO: How do I center this in small view?
+        margin: 20px auto 0
+        width: 260px
+        ul
+          width: 260px
+          margin-top: 10px
+          margin-bottom: 20px
+          margin-left: -25px
+        a
+          color: black
+        #download-button
+          margin: 0 auto
+          color: $navy
+          .glyphicon-download-alt
+            margin-right: 15px
+            vertical-align: middle
+            font-size: 1.5em
+            
+  #screenshot-lightbox
+    .modal-dialog
+      width: auto
+      max-width: 1024px
 
-    div
-      font-size: 12px
-      line-height: 14px
-      padding-bottom: 5px
+  #location
+    margin-top: 75px
+    margin-bottom: 100px
+    text-align: center
+    p b
+      margin-top: 40px
+    a
+      color: inherit
+      text-decoration: underline
+    iframe
+      border: 2px solid lightgray
+
+.anchor::before
+  content: ""
+  display: block
+  height: 55px
+  margin: -55px 0 0 0

@@ -1,0 +1,21 @@
+if started
+  .small-details.nowrap
+    span= levelNumber
+    span.spr . 
+    span= levelName
+  .small-details.nowrap
+    .fraction-students.small-details
+      = numStarted
+      | /
+      = numStudents
+      if completed
+        span.spl(data-i18n='teacher.completed')
+          | Completed
+      else  
+        span.spl(data-i18n='teacher.started')
+          | Started
+  //- .small-details
+  //-   i(data-i18n='teacher.click_to_view_progress')
+else
+  span.small-details.nowrap(data-i18n='teacher.no_progress')
+    | No progress

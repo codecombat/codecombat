@@ -1,0 +1,105 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
+
+#teacher-classes-view
+  
+  #site-content-area
+    margin-bottom: 65px
+  
+  .access-restricted
+    margin-top: 100px
+    
+  .teacher-account-blurb
+    margin-top: 100px
+    margin-bottom: 700px
+    
+  h1
+    margin-top: 50px
+  
+  .language
+    display: inline-block
+    width: 140px
+  
+  .student-count
+    display: inline-block
+    
+  .class-links
+    a
+      font-weight: bold
+      color: black
+      margin-right: 1rem
+      text-decoration: underline
+    
+  .classes
+    margin-top: 20px
+    
+    .class
+      padding: 20px
+      display: flex
+      
+  .class:nth-child(2n+1)
+    background-color: #ebebeb
+
+  .class:nth-child(2n)
+    background-color: $gray-lighter
+    
+  .view-class-arrow
+    color: $gray-darker
+    // height: 100%
+    font-size: 35px
+    line-height: 35px
+    align-self: center
+    .view-class-arrow-inner
+      color: $gray-light
+      &:hover
+        text-decoration: none
+      
+  .progress-col
+    display: flex
+    align-self: center
+    align-items: center
+    
+  .progress-dot
+    display: inline-block
+    margin-right: 20px
+    width: 62px
+    height: 62px
+    border-radius: 50%
+    margin-top: 23px
+    margin-bottom: 23px
+    background: $gray-light
+    position: relative
+    .dot-label
+      color: $gray-dark
+      position: absolute
+      left: 50%
+      top: 50%
+      .text-h6
+        margin-left: -50%
+        margin-top: -50%
+        color: white
+    
+  .progress-dot.forest
+    background: $forest
+    .tooltip-inner
+      color: $forest
+      border: 1px solid $forest
+    .tooltip-arrow
+      border-top-color: $forest
+    
+  .progress-dot.gold
+    background: $gold
+    .tooltip-inner
+      color: $navy
+      border: 1px solid $navy
+    .tooltip-arrow
+      border-top-color: $navy
+  
+  .add-students
+    margin-left: auto
+    margin-right: auto
+
+  .create-class
+    margin-top: 65px
+    margin-bottom: 65px

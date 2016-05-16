@@ -1,6 +1,6 @@
 log = require 'winston'
-Payment = require '../payments/Payment'
-PaymentHandler = require '../payments/payment_handler'
+Payment = require '../models/Payment'
+PaymentHandler = require '../handlers/payment_handler'
 
 module.exports =
   logError: (user, msg) ->
@@ -21,7 +21,7 @@ module.exports =
         return done(err)
       done(err, charge)
 
-  createPayment: (user, stripeCharge, done) ->
+  createPayment: (user, stripeCharge, extraProps, done) ->
     payment = new Payment
       purchaser: user._id
       recipient: user._id
@@ -34,6 +34,7 @@ module.exports =
       customerID: stripeCharge.customer
       timestamp: parseInt(stripeCharge.metadata.timestamp)
       chargeID: stripeCharge.id
+    payment.set(prop, val) for prop, val of extraProps
     validation = PaymentHandler.validateDocumentInput(payment.toObject())
     if validation.valid is false
       @logError(user, 'Invalid stripe payment object.')

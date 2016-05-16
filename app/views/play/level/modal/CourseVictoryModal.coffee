@@ -2,7 +2,6 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/play/level/modal/course-victory-modal'
 Achievements = require 'collections/Achievements'
 Level = require 'models/Level'
-Campaign = require 'models/Campaign'
 Course = require 'models/Course'
 ThangType = require 'models/ThangType'
 ThangTypes = require 'collections/ThangTypes'
@@ -11,13 +10,15 @@ EarnedAchievement = require 'models/EarnedAchievement'
 LocalMongo = require 'lib/LocalMongo'
 ProgressView = require './ProgressView'
 NewItemView = require './NewItemView'
+Classroom = require 'models/Classroom'
+utils = require 'core/utils'
 
 module.exports = class CourseVictoryModal extends ModalView
   id: 'course-victory-modal'
   template: template
   closesOnClickOutside: false
 
-  
+
   initialize: (options) ->
     @courseID = options.courseID
     @courseInstanceID = options.courseInstanceID
@@ -28,6 +29,9 @@ module.exports = class CourseVictoryModal extends ModalView
     @newItems = new ThangTypes()
     @newHeroes = new ThangTypes()
     
+    if @courseInstanceID
+      @classroom = new Classroom()
+      @supermodel.trackRequest(@classroom.fetchForCourseInstance(@courseInstanceID))
     @achievements = options.achievements
     if not @achievements
       @achievements = new Achievements()
@@ -36,38 +40,29 @@ module.exports = class CourseVictoryModal extends ModalView
       @listenToOnce @achievements, 'sync', @onAchievementsLoaded
     else
       @onAchievementsLoaded()
-    
+
     @playSound 'victory'
-    @nextLevel = options.nextLevel
-    if (nextLevel = @level.get('nextLevel')) and not @nextLevel
-      @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
-      @nextLevel = @supermodel.loadModel(@nextLevel, 'level').model
-      
-    @campaign = new Campaign()
+    @nextLevel = new Level()
+    @nextLevelRequest = @supermodel.trackRequest @nextLevel.fetchNextForCourse({ levelOriginalID: @level.get('original'), @courseInstanceID, @courseID })
+
     @course = options.course
     if @courseID and not @course
       @course = new Course().setURL "/db/course/#{@courseID}"
-      @course = @supermodel.loadModel(@course, 'course').model
-      if @course.loading
-        @listenToOnce @course, 'sync', @onCourseLoaded
-      else
-        @onCourseLoaded()
-    else if @course
-      @onCourseLoaded()
+      @course = @supermodel.loadModel(@course).model
 
     if @courseInstanceID
       @levelSessions = new LevelSessions()
       @levelSessions.fetchForCourseInstance(@courseInstanceID)
-      @levelSessions = @supermodel.loadCollection(@levelSessions, 'sessions', { 
+      @levelSessions = @supermodel.loadCollection(@levelSessions, 'sessions', {
         data: { project: 'state.complete level.original playtime changed' }
       }).model
 
+  onResourceLoadFailed: (e) ->
+    if e.resource.jqxhr is @nextLevelRequest
+      return
+    super(arguments...)
 
-  onCourseLoaded: ->
-    @campaign.set('_id', @course.get('campaignID'))
-    @campaign = @supermodel.loadModel(@campaign, 'campaign').model
 
-      
   onAchievementsLoaded: ->
     @achievements.models = _.filter @achievements.models, (m) -> not m.get('query')?.ladderAchievementDifficulty  # Don't show higher AI difficulty achievements
     itemOriginals = []
@@ -89,9 +84,9 @@ module.exports = class CourseVictoryModal extends ModalView
         thang= new ThangType()
         thang.url = "/db/thang.type/#{original}/version"
         thang.project = project
-        @supermodel.loadModel(thang, 'thang')
+        @supermodel.loadModel(thang)
         newThangTypeCollection.add(thang)
-      
+
     @newEarnedAchievements = []
     for achievement in @achievements.models
       continue unless achievement.completed
@@ -100,49 +95,52 @@ module.exports = class CourseVictoryModal extends ModalView
         triggeredBy: @session.id
         achievement: achievement.id
       })
-      ea.save()
-      # Can't just add models to supermodel because each ea has the same url
-      ea.sr = @supermodel.addSomethingResource(ea.cid)
-      @newEarnedAchievements.push ea
-      @listenToOnce ea, 'sync', (model) ->
-        model.sr.markLoaded()
-        if _.all((ea.id for ea in @newEarnedAchievements))
-          unless me.loading
-            @supermodel.loadModel(me, 'user', {cache: false})
-          @newEarnedAchievementsResource.markLoaded()
+      if me.isSessionless()
+        @newEarnedAchievements.push ea
+      else
+        ea.save()
+        # Can't just add models to supermodel because each ea has the same url
+        ea.sr = @supermodel.addSomethingResource(ea.cid)
+        @newEarnedAchievements.push ea
+        @listenToOnce ea, 'sync', (model) ->
+          model.sr.markLoaded()
+          if _.all((ea.id for ea in @newEarnedAchievements))
+            unless me.loading
+              @supermodel.loadModel(me, {cache: false})
+            @newEarnedAchievementsResource.markLoaded()
 
-    
-    # have to use a something resource because addModelResource doesn't handle models being upserted/fetched via POST like we're doing here
-    @newEarnedAchievementsResource = @supermodel.addSomethingResource('earned achievements') if @newEarnedAchievements.length
+    unless me.isSessionless()
+      # have to use a something resource because addModelResource doesn't handle models being upserted/fetched via POST like we're doing here
+      @newEarnedAchievementsResource = @supermodel.addSomethingResource('earned achievements') if @newEarnedAchievements.length
 
-  
+
   onLoaded: ->
     super()
     @views = []
-    
+
     # TODO: Add main victory view
     # TODO: Add level up view
     # TODO: Add new hero view?
-    
+
     for newItem in @newItems.models
       @views.push(new NewItemView({item: newItem}))
-    
+
     progressView = new ProgressView({
       level: @level
       nextLevel: @nextLevel
       course: @course
-      campaign: @campaign
+      classroom: @classroom
       levelSessions: @levelSessions
     })
-    
+
     progressView.once 'done', @onDone, @
     progressView.once 'next-level', @onNextLevel, @
     for view in @views
       view.on 'continue', @onViewContinue, @
     @views.push(progressView)
-    
+
     @showView(_.first(@views))
-  
+
   afterRender: ->
     super()
     @showView(@currentView)
@@ -160,11 +158,15 @@ module.exports = class CourseVictoryModal extends ModalView
     @showView(@views[index+1])
 
   onNextLevel: ->
-    link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
+    if me.isSessionless()
+      link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
+    else
+      link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
     application.router.navigate(link, {trigger: true})
 
   onDone: ->
-    link = "/courses/#{@courseID}/#{@courseInstanceID}"
+    if me.isSessionless()
+      link = "/teachers/courses"
+    else
+      link = "/courses/#{@courseID}/#{@courseInstanceID}"
     application.router.navigate(link, {trigger: true})
-    
-    

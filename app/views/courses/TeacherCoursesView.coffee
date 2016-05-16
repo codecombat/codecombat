@@ -1,10 +1,11 @@
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
 CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
 Course = require 'models/Course'
+Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
+Classrooms = require 'collections/Classrooms'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 User = require 'models/User'
 CourseInstance = require 'models/CourseInstance'
@@ -22,15 +23,37 @@ module.exports = class TeacherCoursesView extends RootView
     'click .btn-add-students': 'onClickAddStudents'
     'click .create-new-class': 'onClickCreateNewClassButton'
     'click .edit-classroom-small': 'onClickEditClassroomSmall'
+    'click .play-level-button': 'onClickPlayLevel'
+    
+  guideLinks:
+    {
+      "560f1a9f22961295f9427742":
+        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_intro_python.pdf'
+        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_intro_javascript.pdf'
+      "5632661322961295f9428638":
+        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-2_python.pdf'
+        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-2_javascript.pdf'
+      "56462f935afde0c6fd30fc8c":
+        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-3_python.pdf'
+        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-3_javascript.pdf'
+      "56462f935afde0c6fd30fc8d": null
+      "569ed916efa72b0ced971447": null
+    }
 
   constructor: (options) ->
     super(options)
+    @ownedClassrooms = new Classrooms()
+    @ownedClassrooms.fetchMine({data: {project: '_id'}})
+    @supermodel.trackCollection(@ownedClassrooms)
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
     @classrooms.comparator = '_id'
     @listenToOnce @classrooms, 'sync', @onceClassroomsSync
     @supermodel.loadCollection(@classrooms, 'classrooms', {data: {ownerID: me.id}})
+    @campaigns = new Campaigns()
+    @campaigns.fetch()
+    @supermodel.trackCollection(@campaigns)
     @courseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance })
     @courseInstances.comparator = 'courseID'
     @courseInstances.sliceWithMembers = -> return @filter (courseInstance) -> _.size(courseInstance.get('members')) and courseInstance.get('classroomID')
@@ -70,7 +93,7 @@ module.exports = class TeacherCoursesView extends RootView
     application.tracker?.trackEvent 'Classroom started add students', category: 'Courses', classroomID: classroom.id
 
   onClickCreateNewClassButton: ->
-    return @openModalView new AuthModal() if me.get('anonymous')
+    return application.router.navigate('/teachers/signup', {trigger: true}) if me.get('anonymous')
     modal = new ClassroomSettingsModal({})
     @openModalView(modal)
     @listenToOnce modal, 'hide', =>
@@ -87,6 +110,14 @@ module.exports = class TeacherCoursesView extends RootView
     modal = new ClassroomSettingsModal({classroom: classroom})
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
+    
+  onClickPlayLevel: (e) ->
+    form = $(e.currentTarget).closest('.play-level-form')
+    levelSlug = form.find('.level-select').val()
+    courseID = form.data('course-id')
+    language = form.find('.language-select').val()
+    url = "/play/level/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}"
+    application.router.navigate(url, { trigger: true })
 
   onLoaded: ->
     super()

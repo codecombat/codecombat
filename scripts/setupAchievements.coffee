@@ -199,8 +199,8 @@ repeatableAchievements =
         b: 1
         c: 0
 
-Achievement = require '../server/achievements/Achievement'
-EarnedAchievement = require '../server/achievements/EarnedAchievement'
+Achievement = require '../server/models/Achievement'
+EarnedAchievement = require '../server/models/EarnedAchievement'
 
 Achievement.find {}, (err, achievements) ->
   achievementIDs = (achievement.get('_id') + '' for achievement in achievements)

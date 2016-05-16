@@ -48,5 +48,5 @@ module.exports = class ContactModal extends ModalView
   updateScreenshot: ->
     return unless @screenshotURL
     screenshotEl = @$el.find('#contact-screenshot').removeClass('secret')
-    screenshotEl.find('a').prop('href', @screenshotURL)
-    screenshotEl.find('img').prop('src', @screenshotURL)
+    screenshotEl.find('a').prop('href', @screenshotURL.replace("http://codecombat.com/", "/"))
+    screenshotEl.find('img').prop('src', @screenshotURL.replace("http://codecombat.com/", "/"))

@@ -32,6 +32,9 @@ module.exports = class SpriteParser
     @width = parseInt(properties?[1] ? '0', 10)
     @height = parseInt(properties?[2] ? '0', 10)
 
+    # Remove webfontAvailable line, not relevant
+    source = source.replace /lib\.webfontAvailable = (.|\n)+?};/, ''
+
     options = {loc: false, range: true}
     ast = esprima.parse source, options
     blocks = @findBlocks ast, source

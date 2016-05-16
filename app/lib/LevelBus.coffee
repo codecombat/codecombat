@@ -28,12 +28,11 @@ module.exports = class LevelBus extends Bus
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
-    highLoad = false
+    saveDelay = window.serverConfig?.sessionSaveDelay
     [wait, maxWait] = switch
-      when not application.isProduction() then [1, 5]  # Save quickly in development.
-      when not highLoad then [4, 10]                   # Save slowly when in production.
-      when not me.isAnonymous() then [10, 30]          # Save even more slowly during HoC scaling.
-      else [20, 60]                                    # Save super slowly if anonymous during HoC scaling.
+      when not application.isProduction or not saveDelay then [1, 5]  # Save quickly in development.
+      when me.isAnonymous() then [saveDelay.anonymous.min, saveDelay.anonymous.max]
+      else [saveDelay.registered.min, saveDelay.registered.max]
     @saveSession = _.debounce @reallySaveSession, wait * 1000, {maxWait: maxWait * 1000}
     @playerIsIdle = false
 
@@ -248,6 +247,7 @@ module.exports = class LevelBus extends Bus
     return if _.isEmpty @changedSessionProperties
     # don't let peeking admins mess with the session accidentally
     return unless @session.get('multiplayer') or @session.get('creator') is me.id
+    return if @session.fake
     Backbone.Mediator.publish 'level:session-will-save', session: @session
     patch = {}
     patch[prop] = @session.get(prop) for prop of @changedSessionProperties

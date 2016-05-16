@@ -54,6 +54,10 @@ _.extend LevelSessionSchema.properties,
   changed: c.date
     title: 'Changed'
     readOnly: true
+  
+  dateFirstCompleted: {} # c.stringDate
+#    title: 'Completed'
+#    readOnly: true
 
   team: c.shortString()
   level: LevelSessionLevelSchema
@@ -149,6 +153,9 @@ _.extend LevelSessionSchema.properties,
       additionalProperties:
         type: 'string'
         format: 'code'
+
+  codeLogs:
+    type: 'array'
 
   codeLanguage:
     type: 'string'

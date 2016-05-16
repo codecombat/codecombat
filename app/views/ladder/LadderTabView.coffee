@@ -22,11 +22,12 @@ module.exports = class LadderTabView extends CocoView
     'click .spectate-cell': 'onClickSpectateCell'
     'click .load-more-ladder-entries': 'onLoadMoreLadderEntries'
 
-  subscriptions:
-    'auth:facebook-api-loaded': 'checkFriends'
-    'auth:gplus-api-loaded': 'checkFriends'
-    'auth:logged-in-with-facebook': 'onConnectedWithFacebook'
-    'auth:logged-in-with-gplus': 'onConnectedWithGPlus'
+    # Refactored, to-reimplement
+#  subscriptions:
+#    'auth:facebook-api-loaded': 'checkFriends'
+#    'auth:gplus-api-loaded': 'checkFriends'
+#    'auth:logged-in-with-facebook': 'onConnectedWithFacebook'
+#    'auth:logged-in-with-gplus': 'onConnectedWithGPlus'
 
   constructor: (options, @level, @sessions) ->
     super(options)
@@ -247,12 +248,12 @@ module.exports = class LadderTabView extends CocoView
         .data([playerScore])
         .enter().append('g')
         .attr('class', 'specialbar')
-        .attr('transform', "translate(#{x(playerScore)}, #{y(9001)})")
+        .attr('transform', "translate(#{x(playerScore)}, 0)")
 
       scorebar.append('rect')
         .attr('x', 1)
         .attr('width', 3)
-        .attr('height', height - y(9001))
+        .attr('height', height)
     rankClass = 'rank-text'
     if teamName.toLowerCase() is 'ogres' then rankClass = 'rank-text ogres-rank-text'
     if teamName.toLowerCase() is 'humans' then rankClass = 'rank-text humans-rank-text'

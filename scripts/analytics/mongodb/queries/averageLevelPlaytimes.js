@@ -1,29 +1,42 @@
+/* global ISODate */
+/* global db */
 // Average level playtimes in seconds by campaign, broken up by course and campaign levels
-
+// If level sessions has heroConfig set, assuming it's a campaign player rather than a course player
+ 
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
+
+// TODO: this is super slow! Can we utilize indexes on level.sessions collection better?
 
 // NOTE: faster to use find() instead of aggregate()
 // NOTE: faster to ask for one level at a time.
 
-var courseCampaigns = ['intro', 'course-2', 'course-3', 'course-4'];
 var individualCampaigns = ['dungeon', 'forest', 'desert', 'mountain'];
 
 var scriptStartTime = new Date();
-var startDay = '2015-12-06';
-var endDay = '2015-12-13';
+var startDay = '2016-01-01';
+var endDay = '2016-02-11';
 
 print("Dates: " + startDay + " to " + endDay);
 
 // Print out playtimes for each campaign
-var campaigns = getCampaigns(courseCampaigns);
+var campaigns = getCampaigns();
 
+print("Campaign data followed by course data:")
 for (var i = 0; i < campaigns.length; i++) {
   var campaign = campaigns[i];
+  // if (campaign.slug !== 'intro') {
+  //   print('Skipping', campaign.slug);
+  //   continue;
+  // }
   print(campaign.slug);
   print("Sessions\tAverage\tSessions\tAverage\tLevel");
   for (var j = 0; j < campaign.levelSlugs.length; j++) {
     var levelSlug = campaign.levelSlugs[j];
+    // if (['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'true-names', 'fire-dancing', 'loop-da-loop', 'haunted-kithmaze', 'the-second-kithmaze', 'dread-door', 'cupboards-of-kithgard'].indexOf(levelSlug) >= 0) {
+    //   print('Skipping', levelSlug);
+    //   continue;
+    // }
     var levelPlaytimes = getPlaytimes([levelSlug]);
     if (levelPlaytimes[levelSlug]) {
       print(levelPlaytimes[levelSlug].campaign.count,
@@ -55,15 +68,20 @@ function objectIdWithTimestamp(timestamp) {
   return constructedObjectId
 }
 
-function getCampaigns(campaignSlugs) {
+function getCampaigns() {
+  var campaignIDs = [];
+  var cursor = db.courses.find();
+  while (cursor.hasNext()) {
+    campaignIDs.push(cursor.next().campaignID);
+  }
+  // printjson(campaignIDs);
+
   var campaigns = [];
-  var cursor = db.campaigns.find({slug: {$in: campaignSlugs}}, {slug: 1, levels: 1});
-  var allFree = 0;
-  var allpaid = 0;
+  cursor = db.campaigns.find({_id: {$in: campaignIDs}}, {slug: 1, levels: 1});
   while (cursor.hasNext()) {
     var doc = cursor.next();
     if (doc.slug === 'auditions') continue;
-    var campaign = {slug: doc.slug, levelSlugs: []};
+    var campaign = {_id: doc._id.valueOf(), slug: doc.slug, levelSlugs: []};
     for (var levelID in doc.levels) {
       campaign.levelSlugs.push(doc.levels[levelID].slug);
     }
@@ -71,7 +89,7 @@ function getCampaigns(campaignSlugs) {
   }
 
   campaigns.sort(function (a, b) {
-    if (campaignSlugs.indexOf(a.slug) < campaignSlugs.indexOf(b.slug)){
+    if (campaignIDs.indexOf(a._id) < campaignIDs.indexOf(b._id)){
       return -1;
     }
     return 1;

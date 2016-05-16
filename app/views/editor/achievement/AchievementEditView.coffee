@@ -22,7 +22,7 @@ module.exports = class AchievementEditView extends RootView
     super options
     @achievement = new Achievement(_id: @achievementID)
     @achievement.saveBackups = true
-    @supermodel.loadModel @achievement, 'achievement'
+    @supermodel.loadModel @achievement
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
   onLoaded: ->
@@ -54,6 +54,7 @@ module.exports = class AchievementEditView extends RootView
   afterRender: ->
     super()
     return unless @supermodel.finished()
+    @showReadOnly() if me.get('anonymous')
     @pushChangesToPreview()
     @patchesView = @insertSubView(new PatchesView(@achievement), @$el.find('.patches-view'))
     @patchesView.load()
@@ -85,10 +86,10 @@ module.exports = class AchievementEditView extends RootView
 
   confirmRecalculation: (e, all=false) ->
     renderData =
-      'confirmTitle': 'Are you really sure?'
-      'confirmBody': "This will trigger recalculation of #{if all then 'all achievements' else 'the achievement'} for all users. Are you really sure you want to go down this path?"
-      'confirmDecline': 'Not really'
-      'confirmConfirm': 'Definitely'
+      title: 'Are you really sure?'
+      body: "This will trigger recalculation of #{if all then 'all achievements' else 'the achievement'} for all users. Are you really sure you want to go down this path?"
+      decline: 'Not really'
+      confirm: 'Definitely'
 
     confirmModal = new ConfirmModal renderData
     confirmModal.on 'confirm', @recalculateAchievement
@@ -100,10 +101,10 @@ module.exports = class AchievementEditView extends RootView
 
   confirmDeletion: ->
     renderData =
-      'confirmTitle': 'Are you really sure?'
-      'confirmBody': 'This will completely delete the achievement, potentially breaking a lot of stuff you don\'t want breaking. Are you entirely sure?'
-      'confirmDecline': 'Not really'
-      'confirmConfirm': 'Definitely'
+      title: 'Are you really sure?'
+      body: 'This will completely delete the achievement, potentially breaking a lot of stuff you don\'t want breaking. Are you entirely sure?'
+      decline: 'Not really'
+      confirm: 'Definitely'
 
     confirmModal = new ConfirmModal renderData
     confirmModal.on 'confirm', @deleteAchievement

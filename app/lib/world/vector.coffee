@@ -122,7 +122,7 @@ class Vector
 
   dot: (other, useZ) ->
     sum = @x * other.x + @y * other.y
-    sum += @z + other.z if useZ
+    sum += @z * other.z if useZ
     sum
 
   # Not the strict projection, the other isn't converted to a unit vector first.

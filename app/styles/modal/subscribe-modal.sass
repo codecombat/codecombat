@@ -111,7 +111,7 @@
         text-align: center
       tr
         td
-          padding: 3px
+          padding: 2px
           border-width: 0px
           border-top-width: 1px
           border-color: rgba(85, 85, 85, 0.1)
@@ -147,14 +147,23 @@
     font-family: $headings-font-family
     font-size: 18px
 
+  //- Action buttons
+
+  .subscribe-actions
+    position: absolute
+    top: 430px
+    left: 18px
+    right: 18px
+    display: flex
+
+    > button
+      height: 70px
+      margin: 0 5px
+
   //- Purchase button
 
   .purchase-button
-    position: absolute
-    right: 24px
-    width: 300px
-    height: 70px
-    top: 430px
+    flex-grow: 1
     font-size: 32px
     line-height: 42px
     border-style: solid
@@ -178,11 +187,6 @@
   //- TODO: Add hover and active effects
 
   .parent-button
-    position: absolute
-    left: 24px
-    width: 250px
-    height: 70px
-    top: 430px
     font-size: 28px
     line-height: 38px
     border-style: solid
@@ -193,11 +197,6 @@
   //- Sale button
 
   .sale-button
-    position: absolute
-    left: 290px
-    width: 115px
-    height: 70px
-    top: 430px
     font-size: 32px
     line-height: 42px
     border-style: solid
@@ -237,17 +236,17 @@ html.no-borderimage #subscribe-modal
     &:active
       padding: 9px 8px 8px 12px
       border: 0
-  
+
   .purchase-button
     background-image: url(/images/level/code_toolbar_submit_button_active.png)
     &:hover
       background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
-  
+
   .parent-button
     background-image: url(/images/common/button-background-warning-active.png)
     &:hover, &:active
       background-image: url(/images/common/button-background-warning-pressed.png)
-  
+
   .sale-button
     background-image: url(/images/common/button-background-primary-active.png)
     &:hover, &:active

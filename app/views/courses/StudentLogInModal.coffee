@@ -26,10 +26,9 @@ module.exports = class StudentLogInModal extends ModalView
     data = forms.formToObject @$el
     @enableModalInProgress(@$el)
     auth.loginUser data, (jqxhr) =>
-      error = jqxhr.responseJSON[0]
-      message = _.filter([error.property, error.message]).join(' ')
-      if message is 'Missing credentials'
-        message = 'Enter both username and password'
+      message = jqxhr.responseText
+      if jqxhr.status is 401
+        message = 'Wrong username or password. Try again!'
         # TODO: Make the server return better error message
       message = _.string.capitalize(message)
       @disableModalInProgress(@$el)

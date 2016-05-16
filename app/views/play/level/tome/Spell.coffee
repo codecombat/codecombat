@@ -2,6 +2,7 @@ SpellView = require './SpellView'
 SpellListTabEntryView = require './SpellListTabEntryView'
 {me} = require 'core/auth'
 {createAetherOptions} = require 'lib/aether_utils'
+utils = require 'core/utils'
 
 module.exports = class Spell
   loaded: false
@@ -21,6 +22,7 @@ module.exports = class Spell
     @worker = options.worker
     @levelID = options.levelID
     @levelType = options.level.get('type', true)
+    @level = options.level
 
     p = options.programmableMethod
     @commentI18N = p.i18n
@@ -47,7 +49,7 @@ module.exports = class Spell
       @source = @originalSource = p.aiSource
     @thangs = {}
     if @canRead()  # We can avoid creating these views if we'll never use them.
-      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god}
+      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel}
       @view.render()  # Get it ready and code loaded in advance
       @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, codeLanguage: @language, level: options.level
       @tabView.render()
@@ -63,6 +65,7 @@ module.exports = class Spell
   setLanguage: (@language) ->
     #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
     @originalSource = @languages[@language] ? @languages.javascript
+    @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 
     # Translate comments chosen spoken language.
     return unless @commentContext
@@ -90,6 +93,14 @@ module.exports = class Spell
         when 'coffeescript' then @originalSource
         when 'io' then @originalSource.replace /loop\n/, 'while true,\n'
         else @originalSource
+
+  addPicoCTFProblem: ->
+    return @originalSource unless problem = @level.picoCTFProblem
+    description = """
+      -- #{problem.name} --
+      #{problem.description}
+    """.replace /<p>(.*?)<\/p>/gi, '$1'
+    ("// #{line}" for line in description.split('\n')).join('\n') + '\n' + @originalSource
 
   addThang: (thang) ->
     if @thangs[thang.id]
@@ -171,6 +182,7 @@ module.exports = class Spell
       skipProtectAPI: skipProtectAPI
       includeFlow: includeFlow
       problemContext: problemContext
+      useInterpreter: if @spectateView then true else undefined
     aether = new Aether aetherOptions
     if @worker
       workerMessage =
@@ -204,7 +216,7 @@ module.exports = class Spell
 
   shouldUseTranspiledCode: ->
     # Determine whether this code has already been transpiled, or whether it's raw source needing transpilation.
-    return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
+    return false if @spectateView or utils.getQueryVariable 'esper'  # Don't use transpiled code with interpreter
     return true if @isEnemySpell()  # Use transpiled for enemy spells.
     # Players without permissions can't view the raw code.
     return false if @observing and @levelType in ['hero', 'course']

@@ -1,7 +1,7 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/clans/clan-details'
 app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 CocoCollection = require 'collections/CocoCollection'
 Campaign = require 'models/Campaign'
 Clan = require 'models/Clan'
@@ -60,8 +60,8 @@ module.exports = class ClanDetailsView extends RootView
     @listenTo @memberAchievements, 'sync', @onMemberAchievementsSync
     @listenTo @memberSessions, 'sync', @onMemberSessionsSync
 
-    @supermodel.loadModel @campaigns, 'campaigns', cache: false
-    @supermodel.loadModel @clan, 'clan', cache: false
+    @supermodel.loadModel @campaigns, cache: false
+    @supermodel.loadModel @clan, cache: false
     @supermodel.loadCollection(@members, 'members', {cache: false})
     @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
 
@@ -204,7 +204,7 @@ module.exports = class ClanDetailsView extends RootView
     unless @owner?
       @owner = new User _id: @clan.get('ownerID')
       @listenTo @owner, 'sync', => @render?()
-      @supermodel.loadModel @owner, 'owner', cache: false
+      @supermodel.loadModel @owner, cache: false
     if @clan.get("dashboardType") is "premium"
       @supermodel.loadCollection(@memberSessions, 'member_sessions', {cache: false})
     @render?()
@@ -281,7 +281,7 @@ module.exports = class ClanDetailsView extends RootView
     window.open url, '_blank'
 
   onDeleteClan: (e) ->
-    return @openModalView(new AuthModal()) if me.isAnonymous()
+    return @openModalView(new CreateAccountModal()) if me.isAnonymous()
     return unless window.confirm("Delete Clan?")
     options =
       url: "/db/clan/#{@clanID}"
@@ -312,7 +312,7 @@ module.exports = class ClanDetailsView extends RootView
     $('.expand-progress-checkbox').attr('checked', @showExpandedProgress)
 
   onJoinClan: (e) ->
-    return @openModalView(new AuthModal()) if me.isAnonymous()
+    return @openModalView(new CreateAccountModal()) if me.isAnonymous()
     return unless @clan.loaded
     if @clan.get('type') is 'private' and not me.isPremium()
       @openModalView new SubscribeModal()

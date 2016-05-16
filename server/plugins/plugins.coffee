@@ -179,7 +179,7 @@ module.exports.VersionedPlugin = (schema) ->
         latest = latest[0]
 
         # don't fix missing versions by default. In all likelihood, it's about to change anyway
-        if options.autofix
+        if options.autofix # not used
           latest.version.isLatestMajor = true
           latest.version.isLatestMinor = true
           latestObject = latest.toObject()
@@ -204,7 +204,7 @@ module.exports.VersionedPlugin = (schema) ->
         return done(null, null) if latest.length is 0
         latest = latest[0]
 
-        if options.autofix
+        if options.autofix # not used
           latestObject = latest.toObject()
           latestObject.version.isLatestMajor = true
           latestObject.version.isLatestMinor = true
@@ -267,7 +267,7 @@ module.exports.VersionedPlugin = (schema) ->
 
   # Assume every save is a new version, hence an edit
   schema.pre 'save', (next) ->
-    User = require '../users/User'  # Avoid mutual inclusion cycles
+    User = require '../models/User'  # Avoid mutual inclusion cycles
     userID = @get('creator')?.toHexString()
     return next() unless userID?
 
