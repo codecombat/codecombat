@@ -76,8 +76,8 @@ module.exports.setup = (app) ->
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   
-  app.put('/db/user/:handle', mw.users.resetEmailVerifiedFlag)
-  app.patch('/db/user/:handle', mw.users.resetEmailVerifiedFlag)
+  app.put('/db/user/:handle', mw.users.resetEmailVerifiedFlag, mw.users.teacherPasswordReset)
+  app.patch('/db/user/:handle', mw.users.resetEmailVerifiedFlag, mw.users.teacherPasswordReset)
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)

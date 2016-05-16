@@ -92,3 +92,20 @@ module.exports =
         name: user.get('name')
         verify_link: "http://codecombat.com/user/#{user._id}/verify/#{user.verificationCode(timestamp)}"
     sendwithus.api.send context, (err, result) ->
+  
+  teacherPasswordReset: wrap (req, res, next) ->
+    ownedClassrooms = yield Classroom.find({ ownerID: mongoose.Types.ObjectId(req.user.id) })
+    ownedStudentIDs = _.flatten ownedClassrooms.map (c) ->
+      c.toObject().members.map (id) ->
+        id.toString()
+    newPassword = req.body.password
+    studentID = req.params.handle
+    console.log ownedStudentIDs, studentID, studentID in ownedStudentIDs
+    console.log req.body
+    if newPassword && studentID in ownedStudentIDs
+      # student = yield User.findOne({ _id: mongoose.Types.ObjectId(studentID) })
+      console.log yield User.update({ _id: mongoose.Types.ObjectId(studentID) }, { $set: { passwordHash: User.hashPassword(newPassword) } })
+      res.status(200).send({})
+    else
+      next()
+      
