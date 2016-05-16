@@ -119,7 +119,7 @@ describe 'PUT /db/user', ->
       form.append('_id', joe.id)
       form.append('email', 'farghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlar
 ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl')
-      
+
   it 'does not allow normals to edit their permissions', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -221,7 +221,7 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
         request.put {uri:getURL(urlUser + '/' + sam.id), json: sam.toObject()}, (err, response) ->
           expect(err).toBeNull()
           done()
-          
+
   describe 'when role is changed to teacher or other school administrator', ->
     it 'removes the user from all classrooms they are in', utils.wrap (done) ->
       user = yield utils.initUser()
@@ -230,11 +230,11 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
       expect(classroom.get('members').length).toBe(1)
       yield utils.loginUser(user)
       [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { role: 'teacher' }}
-      yield new Promise (resolve) -> setTimeout(resolve, 10) 
+      yield new Promise (resolve) -> setTimeout(resolve, 10)
       classroom = yield Classroom.findById(classroom.id)
       expect(classroom.get('members').length).toBe(0)
       done()
-      
+
   it 'ignores attempts to change away from a teacher role', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -246,7 +246,210 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
     [res, body] = yield request.putAsync { uri: url, json: { role: 'student' }}
     expect(body.role).toBe('advisor')
     done()
-      
+
+describe 'PUT /db/user/-/become-student', ->
+  beforeEach utils.wrap (done) ->
+    @url = getURL('/db/user/-/become-student')
+    @user = yield utils.initUser()
+    yield utils.loginUser(@user)
+    done()
+
+  describe 'when a user is in a classroom', ->
+    beforeEach utils.wrap (done) ->
+      classroom = new Classroom({
+        members: [@user._id]
+      })
+      yield classroom.save()
+      done()
+    it 'keeps the user in their classroom and sets their role to student', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('student')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('student')
+      classrooms = yield Classroom.find members: @user._id
+      expect(classrooms.length).toEqual(1)
+      done()
+
+    describe 'when a teacher', ->
+      beforeEach utils.wrap (done) ->
+        @user.set('role', 'student')
+        yield @user.save()
+        done()
+      it 'keeps the user in their classroom and sets their role to student', utils.wrap (done) ->
+        [res, body] = yield request.putAsync { uri: @url}
+        expect(res.statusCode).toEqual(200)
+        expect(JSON.parse(body).role).toEqual('student')
+        user = yield User.findById @user._id
+        expect(user.get('role')).toEqual('student')
+        classrooms = yield Classroom.find members: @user._id
+        expect(classrooms.length).toEqual(1)
+        done()
+
+    describe 'when a student', ->
+      beforeEach utils.wrap (done) ->
+        @user.set('role', 'student')
+        yield @user.save()
+        done()
+      it 'keeps the user in their classroom and sets their role to student', utils.wrap (done) ->
+        [res, body] = yield request.putAsync { uri: @url}
+        expect(res.statusCode).toEqual(200)
+        expect(JSON.parse(body).role).toEqual('student')
+        user = yield User.findById @user._id
+        expect(user.get('role')).toEqual('student')
+        classrooms = yield Classroom.find members: @user._id
+        expect(classrooms.length).toEqual(1)
+        done()
+
+  describe 'when a user owns a classroom', ->
+    beforeEach utils.wrap (done) ->
+      classroom = new Classroom({
+        ownerID: @user._id
+      })
+      yield classroom.save()
+      done()
+    it 'removes the classroom and sets their role to student', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('student')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('student')
+      classrooms = yield Classroom.find ownerID: @user._id
+      expect(classrooms.length).toEqual(0)
+      done()
+
+    describe 'when a student', ->
+      beforeEach utils.wrap (done) ->
+        @user.set('role', 'student')
+        yield @user.save()
+        done()
+      it 'removes the classroom and sets their role to student', utils.wrap (done) ->
+        [res, body] = yield request.putAsync { uri: @url}
+        expect(res.statusCode).toEqual(200)
+        expect(JSON.parse(body).role).toEqual('student')
+        user = yield User.findById @user._id
+        expect(user.get('role')).toEqual('student')
+        classrooms = yield Classroom.find ownerID: @user._id
+        expect(classrooms.length).toEqual(0)
+        done()
+
+    describe 'when a teacher', ->
+      beforeEach utils.wrap (done) ->
+        @user.set('role', 'teacher')
+        yield @user.save()
+        done()
+      it 'removes the classroom and sets their role to student', utils.wrap (done) ->
+        [res, body] = yield request.putAsync { uri: @url}
+        expect(res.statusCode).toEqual(200)
+        expect(JSON.parse(body).role).toEqual('student')
+        user = yield User.findById @user._id
+        expect(user.get('role')).toEqual('student')
+        classrooms = yield Classroom.find ownerID: @user._id
+        expect(classrooms.length).toEqual(0)
+        done()
+
+  describe 'when a user in a classroom and owns a classroom', ->
+    beforeEach utils.wrap (done) ->
+      classroom = new Classroom({
+        members: [@user._id]
+      })
+      yield classroom.save()
+      classroom = new Classroom({
+        ownerID: @user._id
+      })
+      yield classroom.save()
+      done()
+    it 'removes owned classrooms, keeps in classrooms, and sets their role to student', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('student')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('student')
+      classrooms = yield Classroom.find ownerID: @user._id
+      expect(classrooms.length).toEqual(0)
+      classrooms = yield Classroom.find members: @user._id
+      expect(classrooms.length).toEqual(1)
+      done()
+
+  describe 'when a student in a classroom and owns a classroom', ->
+    beforeEach utils.wrap (done) ->
+      @user.set('role', 'student')
+      yield @user.save()
+      classroom = new Classroom({
+        members: [@user._id]
+      })
+      yield classroom.save()
+      classroom = new Classroom({
+        ownerID: @user._id
+      })
+      yield classroom.save()
+      done()
+    it 'removes owned classrooms, keeps in classrooms, and sets their role to student', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('student')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('student')
+      classrooms = yield Classroom.find ownerID: @user._id
+      expect(classrooms.length).toEqual(0)
+      classrooms = yield Classroom.find members: @user._id
+      expect(classrooms.length).toEqual(1)
+      done()
+
+  describe 'when a teacher in a classroom and owns a classroom', ->
+    beforeEach utils.wrap (done) ->
+      @user.set('role', 'teacher')
+      yield @user.save()
+      classroom = new Classroom({
+        members: [@user._id]
+      })
+      yield classroom.save()
+      classroom = new Classroom({
+        ownerID: @user._id
+      })
+      yield classroom.save()
+      done()
+    it 'removes owned classrooms, keeps in classrooms, and sets their role to student', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('student')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('student')
+      classrooms = yield Classroom.find ownerID: @user._id
+      expect(classrooms.length).toEqual(0)
+      classrooms = yield Classroom.find members: @user._id
+      expect(classrooms.length).toEqual(1)
+      done()
+
+describe 'PUT /db/user/-/remain-teacher', ->
+
+  describe 'when a teacher in classroom and owns a classroom', ->
+    beforeEach utils.wrap (done) ->
+      @url = getURL('/db/user/-/remain-teacher')
+      @user = yield utils.initUser()
+      yield utils.loginUser(@user)
+      @user.set('role', 'teacher')
+      yield @user.save()
+      classroom = new Classroom({
+        members: [@user._id]
+      })
+      yield classroom.save()
+      classroom = new Classroom({
+        ownerID: @user._id
+      })
+      yield classroom.save()
+      done()
+    it 'removes from classrooms', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('teacher')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('teacher')
+      classrooms = yield Classroom.find ownerID: @user._id
+      expect(classrooms.length).toEqual(1)
+      classrooms = yield Classroom.find members: @user._id
+      expect(classrooms.length).toEqual(0)
+      done()
 
 describe 'GET /db/user', ->
 
@@ -323,7 +526,7 @@ describe 'DELETE /db/user', ->
       continue if key in ['_id', 'deleted', 'dateDeleted']
       expect(_.isEmpty(value)).toEqual(true)
     done()
-    
+
   it 'moves user to classroom.deletedMembers', utils.wrap (done) ->
     user = yield utils.initUser()
     user2 = yield utils.initUser()
@@ -369,7 +572,7 @@ describe 'Statistics', ->
             expect(guy.get 'id').toBe joe.get 'id'
             expect(guy.get 'stats.gamesCompleted').toBe 1
             done()
-            
+
         setTimeout f, 100
 
   it 'recalculates games completed', (done) ->
