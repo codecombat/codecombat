@@ -75,7 +75,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     courses_available_in: "课程可用如下语言：JavaScript，Python，还有Java（即将推出！）"
     boast: "以难解的谜题为豪，它们复杂到可以吸引游戏玩家和程序员。"
     winning: "RPG游戏和编程作业的完美结合，使得教育充满乐趣。"
-    ruu_class: "管理计算机科学课程的所有东西都在这里，无需相关背景。"
+    run_class: "管理计算机科学课程的所有东西都在这里，无需相关背景。"
     teachers: "教师！"
     teachers_and_educators: "教师和教育工作者"
     class_in_box: "了解我们的一站式课堂如何让你的课程如虎添翼。"
