@@ -230,7 +230,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    undefined: "undefined"
 #    null: "null"
 #    nil: "nil"
-   None: "Geen"
+    None: "Geen"
 
   share_progress_modal:
     blurb: "Je gaat snel vooruit! Vertel aan je ouders hoeveel je geleerd hebt van CodeCombat."
@@ -786,7 +786,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     jobs_benefit_5: "Professionele ontwikkeling en voortgezette onderwijs steun" # {change}
     jobs_benefit_6: "Medisch/tandarts/oog verzekering" # {change}
     jobs_benefit_7: "Zit-staan bureau's voor iedereen"
-#   jobs_benefit_9: "10-year option exercise window"
+#    jobs_benefit_9: "10-year option exercise window"
     jobs_benefit_10: "Moederschapsverlof: 10 weken betaald, volgende 6 met 55% salaris"
     jobs_benefit_11: "Vaderschapsverlof: 10 weken betaald"
     learn_more: "Lees verder"
