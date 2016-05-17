@@ -15,77 +15,34 @@ $content-height: 160px
 // just on user achievement list page
 $user-achievements-scale: 0.8
 
-.achievement-body
-  position: relative
-
-  .achievement-icon
-    position: absolute
-
-    .achievement-image
-      width: 100%
-      height: 100%
-      img
-        border-radius: 25%
-        position: absolute
-        margin: auto
-        top: 0
-        left: 0
-        right: 0
-        bottom: 0
-        width: $overall-scale * $icon-image-size
-
-  &.locked
-    .achievement-content
-      background-image: url("/images/achievements/achievement_background_locked.png")
-  &:not(.locked)
-    .achievement-content
-      background-image: url("/images/achievements/achievement_background_light.png")
-
-  .achievement-content
-    background-size: 100% 100%
-    text-align: center
-    overflow: hidden
-
-    > .achievement-title
-      font-family: $font-family-base
-      font-weight: bold
-      white-space: nowrap
-      max-height: 2em
-      overflow: hidden
-      text-overflow: ellipsis
-      font-size: 18px
-
-    > .achievement-description
-      white-space: normal
-      font-size: 12px
-      line-height: 1.3em
-      max-height: 2.6em
-      margin-top: auto
-      margin-bottom: 0px !important
-      padding-left: 5px
-      overflow: hidden
-      text-overflow: ellipsis
-
 .achievement-popup
   padding: $overall-scale * 20px 0px
   position: relative
 
   .achievement-body
+    position: relative
+
     .achievement-icon
+      position: absolute
       z-index: 1000
       width: $overall-scale * $icon-size
       height: $overall-scale * $icon-size
       left: $overall-scale * (-$icon-margin-scale * $icon-size)
       top: $overall-scale * -20px
+      background-size: 100% 100% !important
 
       .achievement-image
+        width: 100%
+        height: 100%
         img
+          border-radius: 25%
           position: absolute
           margin: auto
           top: 0
           left: 0
           right: 0
           bottom: 0
+          width: $overall-scale * $icon-image-size
 
     .achievement-content
       background-image: url("/images/achievements/achievement_background.png")
@@ -93,12 +50,20 @@ $user-achievements-scale: 0.8
       width: $overall-scale * $content-width
       height: $overall-scale * $content-height
       padding: $overall-scale * 24px $overall-scale * 30px $overall-scale * 20px $overall-scale * 60px
+      background-size: 100% 100%
+      text-align: center
+      overflow: hidden
 
       .achievement-title
         font-family: $headings-font-family
         font-variant: small-caps
         font-size: $overall-scale * 28px
+        font-weight: bold
         padding-left: $overall-scale * -50px
+        white-space: nowrap
+        max-height: 2em
+        overflow: hidden
+        text-overflow: ellipsis
 
       .achievement-description
         font-size: $overall-scale * 16px
@@ -106,6 +71,10 @@ $user-achievements-scale: 0.8
         max-height: 2.6em
         margin-top: auto
         margin-bottom: 0px !important
+        white-space: normal
+        padding-left: 5px
+        overflow: hidden
+        text-overflow: ellipsis
 
       .progress-wrapper
         margin-left: $overall-scale * 20px
@@ -142,8 +111,12 @@ $user-achievements-scale: 0.8
           background-size: 100% 100%
           z-index: 1
 
-.achievement-icon
-  background-size: 100% 100% !important
+    &.locked
+      .achievement-content
+        background-image: url("/images/achievements/achievement_background_locked.png")
+    &:not(.locked)
+      .achievement-content
+        background-image: url("/images/achievements/achievement_background.png")
 
 .achievement-wood
   &.locked
