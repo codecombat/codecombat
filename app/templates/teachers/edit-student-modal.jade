@@ -43,5 +43,9 @@ block modal-body-content
 
 block modal-footer-content
   button.btn.btn-primary(type="button", data-dismiss="modal", aria-hidden="true")
-    span(data-i18n="modal.cancel")
-      | Cancel
+    if state.get('passwordChanged') || state.get('emailSent')
+      span(data-i18n="modal.okay")
+        | Okay
+    else
+      span(data-i18n="modal.cancel")
+        | Cancel
