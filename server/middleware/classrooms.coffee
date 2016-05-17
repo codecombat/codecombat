@@ -15,6 +15,17 @@ User = require '../models/User'
 CourseInstance = require '../models/CourseInstance'
 
 module.exports =
+  getByCode: wrap (req, res, next) ->
+    code = req.query.code
+    return next() unless code
+    classroom = yield Classroom.findOne({ code: code.toLowerCase() }).select('name ownerID')
+    if not classroom
+      res.status(404).send({})
+    classroom = classroom.toObject()
+    # Tack on the teacher's name for display to the user
+    owner = (yield User.findOne({ _id: mongoose.Types.ObjectId(classroom.ownerID) }).select('name')).toObject()
+    res.status(200).send({ data: classroom, owner } )
+
   getByOwner: wrap (req, res, next) ->
     options = req.query
     ownerID = options.ownerID

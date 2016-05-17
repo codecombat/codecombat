@@ -92,6 +92,7 @@ module.exports =
         name: user.get('name')
         verify_link: "http://codecombat.com/user/#{user._id}/verify/#{user.verificationCode(timestamp)}"
     sendwithus.api.send context, (err, result) ->
+    res.status(200).send({})
   
   teacherPasswordReset: wrap (req, res, next) ->
     ownedClassrooms = yield Classroom.find({ ownerID: mongoose.Types.ObjectId(req.user.id) })
