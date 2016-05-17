@@ -131,6 +131,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'privacy': go('PrivacyView')
 
     'schools': go('NewHomeView')
+    'seen': go('NewHomeView')
+    'SEEN': go('NewHomeView')
 
     'teachers': redirect('/teachers/classes')
     'teachers/classes': go('courses/TeacherClassesView') #, { teachersOnly: true })
