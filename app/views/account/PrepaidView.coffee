@@ -52,15 +52,6 @@ module.exports = class PrepaidView extends RootView
     @updateTotal()
     super()
 
-  getRenderData: ->
-    c = super()
-    c.purchase = @purchase
-    c.codes = @codes
-    c.ppc = @ppc
-    c.ppcInfo = @ppcInfo ? []
-    c.ppcQuery = @ppcQuery ? false
-    c
-
   afterRender: ->
     super()
     @$el.find("span[title]").tooltip()
