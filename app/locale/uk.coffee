@@ -42,7 +42,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
 #    why_games: "Why is learning through games important?"
 #    games_reward: "Games reward the productive struggle."
-#    encourage: "Gaming is a medium that encourages interaction, discovery, and trial-and-error. A good game challenges the player to master skills over time, which is the same critical process students go through as they learn."
+    encourage: "Гра заохочує спілкуватись, відкривати щось нове і вчитись на помилках. Хороша гра змушує гравця весь час покращувати власні навички, що подібно до процесу роботи учнів під час навчання." # Gaming is a medium that encourages interaction, discovery, and trial-and-error. A good game challenges the player to master skills over time, which is the same critical process students go through as they learn.
 #    excel: "Games excel at rewarding"
 #    struggle: "productive struggle"
 #    kind_of_struggle: "the kind of struggle that results in learning that’s engaging and"
