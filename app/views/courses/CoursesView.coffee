@@ -115,6 +115,7 @@ module.exports = class CoursesView extends RootView
     @renderSelectors '#join-class-form'
 
   onJoinClassroomSuccess: (newClassroom, data, options) ->
+    @state = null
     application.tracker?.trackEvent 'Joined classroom', {
       category: 'Courses'
       classCode: @classCode
