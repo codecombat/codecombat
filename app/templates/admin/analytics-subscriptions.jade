@@ -6,28 +6,28 @@ block content
     div You must be logged in as an admin to view this page.
   else
 
-    if total === 0
-      h4= refreshDataState
+    if view.total === 0
+      h4= view.refreshDataState
     else
       .container-fluid
         .row
           .col-md-5.big-stat.total-count
             div.description Total
-            div.count= total
+            div.count= view.total
           .col-md-5.big-stat.remaining-count
             div.description Remaining
-            div.count= total - outstandingCancels.length
+            div.count= view.total - view.outstandingCancels.length
           .col-md-5.big-stat.cancelled-count
             div.description Cancels Outstanding
-            div.count= outstandingCancels.length
+            div.count= view.outstandingCancels.length
           .col-md-5.big-stat.growth-rate
             div.description 30 Day Total Growth
-            div.count #{monthlyGrowth.toFixed(1)}%
+            div.count #{view.monthlyGrowth.toFixed(1)}%
           .col-md-5.big-stat.churn-count
             div.description 30 Day Churn (cancelled / total)
-            div.count #{monthlyChurn.toFixed(1)}%
+            div.count #{view.monthlyChurn.toFixed(1)}%
 
-      each graph in analytics.graphs
+      each graph in view.analytics.graphs
         .line-graph-container
           each line in graph.lines
             each point in line.points
@@ -37,8 +37,8 @@ block content
                   div #{value}
 
     h2 Recent Subscribers
-    if !subscribers || subscribers.length < 1
-      h4= refreshDataState
+    if !view.subscribers || view.subscribers.length < 1
+      h4= view.refreshDataState
     else
       table.table.table-striped.table-condensed
         thead.subscribers-thead
@@ -46,7 +46,7 @@ block content
             th Sub ID
             th User Start
             th Sub Start
-            if subscriberCancelled
+            if view.subscriberCancelled
               th Cancelled
             else
               th
@@ -58,7 +58,7 @@ block content
             th Spoken
             th Clans
         tbody.subscribers-tbody
-          each subscriber in subscribers
+          each subscriber in view.subscribers
             tr
               td
                 a(href="https://dashboard.stripe.com/customers/#{subscriber.customerID}", target="_blank")= subscriber.subscriptionID
@@ -86,8 +86,8 @@ block content
                 td
 
     h2 Recent Cancellations
-    if !cancellations || cancellations.length < 1
-      h4= refreshDataState
+    if !view.cancellations || view.cancellations.length < 1
+      h4= view.refreshDataState
     else
       table.table.table-striped.table-condensed
         thead.subscribers-thead
@@ -103,7 +103,7 @@ block content
             th Spoken
             th Clans
         tbody.subscribers-tbody
-          each cancellation in cancellations
+          each cancellation in view.cancellations
             tr
               td
                 a(href="https://dashboard.stripe.com/customers/#{cancellation.customerID}", target="_blank")= cancellation.subscriptionID
@@ -132,12 +132,12 @@ block content
                 td
                 td
                 td
-      if !showMoreCancellations
+      if !view.showMoreCancellations
         button.btn.btn-sm.btn-show-more-cancellations Show More Cancellations
 
     h2 Subscriptions
-    if !subs || subs.length < 1
-      h4= refreshDataState
+    if !view.subs || view.subs.length < 1
+      h4= view.refreshDataState
     else
       table.table.table-condensed
         thead
@@ -150,7 +150,7 @@ block content
             th Ended
             th Net (ended)
         tbody
-          each sub in subs
+          each sub in view.subs
             tr
               td= sub.day
               td= sub.total

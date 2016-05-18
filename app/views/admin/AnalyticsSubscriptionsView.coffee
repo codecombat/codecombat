@@ -20,22 +20,6 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     @resetSubscriptionsData()
     @refreshData() if me.isAdmin()
 
-  getRenderData: ->
-    context = super()
-    context.analytics = @analytics ? graphs: []
-    context.cancellations = if @showMoreCancellations then @cancellations else (@cancellations ? []).slice(0, 40)
-    context.showMoreCancellations = @showMoreCancellations
-    context.subs = _.cloneDeep(@subs ? []).reverse()
-    context.subscribers = @subscribers ? []
-    context.subscriberCancelled = _.find context.subscribers, (subscriber) -> subscriber.cancel
-    context.subscriberSponsored = _.find context.subscribers, (subscriber) -> subscriber.user?.stripe?.sponsorID
-    context.total = @total ? 0
-    context.monthlyChurn = @monthlyChurn ? 0.0
-    context.monthlyGrowth = @monthlyGrowth ? 0.0
-    context.outstandingCancels = @outstandingCancels ? []
-    context.refreshDataState = @refreshDataState
-    context
-
   afterRender: ->
     super()
     @updateAnalyticsGraphs()
