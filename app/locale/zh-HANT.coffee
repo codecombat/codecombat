@@ -387,7 +387,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     done: "完成"
     next_level: "下一個關卡："
     next_game: "下一個遊戲"
-    show_menu: "顯示遊戲菜單"
+    show_menu: "顯示遊戲選單"
     home: "首頁" # Not used any more, will be removed soon.
     level: "關卡" # Like "Level: Dungeons of Kithgard"
     skip: "跳過"
@@ -744,7 +744,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     scott_title: "共同創辦人" # {change}
     scott_blurb: "理性至上"
 #    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
+    maka_blurb: "說書人"
     rob_title: "編譯工程師" # {change}
     rob_blurb: "編寫一些的程式碼"
     josh_c_title: "遊戲設計師"
