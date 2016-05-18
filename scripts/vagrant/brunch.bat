@@ -1,3 +1,3 @@
 @ECHO OFF
-vagrant ssh -c "cd /vagrant && npm run brunch watch"  
+vagrant ssh -c "cd /vagrant && brunch %*"
 
