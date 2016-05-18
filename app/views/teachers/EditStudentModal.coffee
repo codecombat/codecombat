@@ -12,6 +12,7 @@ module.exports = class EditStudentModal extends ModalView
     'input .new-password-input': 'onChangeNewPasswordInput'
 
   initialize: ({ @user }) ->
+    @supermodel.trackRequest @user.fetch()
     @utils = require 'core/utils'
     @state = new State({
       emailSent: false
