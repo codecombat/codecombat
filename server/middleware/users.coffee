@@ -25,7 +25,7 @@ module.exports =
     user = yield User.findOne({gplusID: gpID})
     throw new errors.NotFound('No user with that G+ ID') unless user
     res.status(200).send(user.toObject({req: req}))
-    
+
   fetchByFacebookID: wrap (req, res, next) ->
     fbID = req.query.facebookID
     fbAT = req.query.facebookAccessToken
@@ -42,13 +42,18 @@ module.exports =
     res.status(200).send(user.toObject({req: req}))
 
   removeFromClassrooms: wrap (req, res, next) ->
-    userID = mongoose.Types.ObjectId(req.user.id)
-    yield Classroom.update(
-      { members: userID }
-      {
-        $addToSet: { deletedMembers: userID }
-        $pull: { members: userID }
-      }
-      { multi: true }
-    )
+    yield req.user.removeFromClassrooms()
     next()
+
+  remainTeacher: wrap (req, res, next) ->
+    yield req.user.removeFromClassrooms()
+    user = yield User.findById req.user.id
+    res.status(200).send(user.toObject({req: req}))
+
+  becomeStudent: wrap (req, res, next) ->
+    userID = mongoose.Types.ObjectId(req.user.id)
+    yield Classroom.remove({ ownerID: userID }, false)
+    userID = mongoose.Types.ObjectId(req.user.id)
+    yield User.update({ _id: userID }, { $set: { "role": "student" } })
+    user = yield User.findById req.user.id
+    res.status(200).send(user.toObject({req: req}))

@@ -9,6 +9,7 @@ requestAsync = Promise.promisify(request, {multiArgs: true})
 User = require '../../../server/models/User'
 Classroom = require '../../../server/models/Classroom'
 Course = require '../../../server/models/Course'
+CourseInstance = require '../../../server/models/CourseInstance'
 Campaign = require '../../../server/models/Campaign'
 LevelSession = require '../../../server/models/LevelSession'
 Level = require '../../../server/models/Level'
@@ -260,63 +261,50 @@ describe 'PUT /db/classroom', ->
                 expect(res.statusCode).toBe(403)
                 done()
             
-describe 'POST /db/classroom/~/members', ->
-
-  it 'clears database users and classrooms', (done) ->
-    clearModels [User, Classroom], (err) ->
-      throw err if err
-      done()
-
-  it 'adds the signed in user to the list of members in the classroom', (done) ->
-    loginNewUser (user1) ->
-      user1.set('role', 'teacher')
-      user1.save (err) ->
-        data = { name: 'Classroom 5' }
-        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          classroomCode = body.code
-          classroomID = body._id
-          expect(res.statusCode).toBe(201)
-          loginNewUser (user2) ->
-            url = getURL("/db/classroom/~/members")
-            data = { code: classroomCode }
-            request.post { uri: url, json: data }, (err, res, body) ->
-              expect(res.statusCode).toBe(200)
-              Classroom.findById classroomID, (err, classroom) ->
-                expect(classroom.get('members').length).toBe(1)
-                expect(classroom.get('members')?[0]?.equals(user2.get('_id'))).toBe(true)
-                User.findById user2.get('_id'), (err, user2) ->
-                  expect(user2.get('role')).toBe('student')
-                  done()
-
-  it 'does not work if the user is a teacher', (done) ->
-    loginNewUser (user1) ->
-      user1.set('role', 'teacher')
-      user1.save (err) ->
-        data = { name: 'Classroom 5' }
-        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          classroomCode = body.code
-          classroomID = body._id
-          expect(res.statusCode).toBe(201)
-          loginNewUser (user2) ->
-            user2.set('role', 'teacher')
-            user2.save (err, user2) ->
-              url = getURL("/db/classroom/~/members")
-              data = { code: classroomCode }
-              request.post { uri: url, json: data }, (err, res, body) ->
-                expect(res.statusCode).toBe(403)
-                Classroom.findById classroomID, (err, classroom) ->
-                  expect(classroom.get('members').length).toBe(0)
-                  done()
-                  
-  it 'does not work if the user is anonymous', utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
-    teacher = yield utils.initUser({role: 'teacher'})
-    yield utils.loginUser(teacher)
-    [res, body] = yield request.postAsync {uri: classroomsURL, json: { name: 'Classroom' } }
+describe 'POST /db/classroom/-/members', ->
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
+    @campaign = new Campaign({levels: {}})
+    yield @campaign.save()
+    @course = new Course({free: true, campaignID: @campaign._id})
+    yield @course.save()
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    [res, body] = yield request.postAsync({uri: classroomsURL, json: { name: 'Classroom 5' } })
     expect(res.statusCode).toBe(201)
-    classroomCode = body.code
+    @classroom = yield Classroom.findById(body._id)
+    [res, body] = yield request.postAsync({uri: getURL('/db/course_instance'), json: { courseID: @course.id, classroomID: @classroom.id }})
+    expect(res.statusCode).toBe(200)
+    @courseInstance = yield CourseInstance.findById(res.body._id)
+    @student = yield utils.initUser()
+    done()
+    
+  it 'adds the signed in user to the classroom and any free courses and sets role to student', utils.wrap (done) ->
+    yield utils.loginUser(@student)
+    url = getURL("/db/classroom/anything-here/members")
+    [res, body] = yield request.postAsync { uri: url, json: { code: @classroom.get('code') } }
+    expect(res.statusCode).toBe(200)
+    classroom = yield Classroom.findById(@classroom.id)
+    expect(classroom.get('members').length).toBe(1)
+    expect(classroom.get('members')?[0]?.equals(@student._id)).toBe(true)
+    student = yield User.findById(@student.id)
+    if student.get('role') isnt 'student'
+      fail('student role should be "student"')
+    unless student.get('courseInstances')?[0].equals(@courseInstance._id)
+      fail('student should be added to the free course instance.')
+    done()
+    
+  it 'returns 403 if the user is a teacher', utils.wrap (done) ->
+    yield utils.loginUser(@teacher)
+    url = getURL("/db/classroom/~/members")
+    [res, body] = yield request.postAsync { uri: url, json: { code: @classroom.get('code') } }
+    expect(res.statusCode).toBe(403)
+    done()
+                  
+  it 'returns 401 if the user is anonymous', utils.wrap (done) ->
     yield utils.becomeAnonymous()
-    [res, body] = yield request.postAsync { uri: getURL("/db/classroom/~/members"), json: { code: classroomCode } }
+    [res, body] = yield request.postAsync { uri: getURL("/db/classroom/-/members"), json: { code: @classroom.get('code') } }
     expect(res.statusCode).toBe(401)
     done()
 

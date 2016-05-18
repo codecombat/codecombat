@@ -27,8 +27,7 @@ module.exports = class PrepaidView extends RootView
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'
 
-  constructor: (options) ->
-    super(options)
+  initialize: ->
     @purchase =
       total: 0
       users: 3
@@ -51,15 +50,6 @@ module.exports = class PrepaidView extends RootView
     @prepaidProduct = @products.findWhere { name: 'prepaid_subscription' }
     @updateTotal()
     super()
-
-  getRenderData: ->
-    c = super()
-    c.purchase = @purchase
-    c.codes = @codes
-    c.ppc = @ppc
-    c.ppcInfo = @ppcInfo ? []
-    c.ppcQuery = @ppcQuery ? false
-    c
 
   afterRender: ->
     super()

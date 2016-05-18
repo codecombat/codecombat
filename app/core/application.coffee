@@ -46,7 +46,7 @@ console.debug ?= console.log  # Needed for IE10 and earlier
 
 Application = initialize: ->
   Router = require('core/Router')
-  @isProduction = -> document.location.href.search('https?://localhost:3000') is -1
+  @isProduction = -> document.location.href.search('https?://localhost') is -1
   @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('CodeCombat-iPad') isnt -1
   $('body').addClass 'ipad' if @isIPadApp
   $('body').addClass 'picoctf' if window.serverConfig.picoCTF

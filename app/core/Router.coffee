@@ -69,6 +69,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'courses/teachers': redirect('/teachers/classes')
     'courses/purchase': redirect('/teachers/enrollments')
     'courses/enroll(/:courseID)': redirect('/teachers/enrollments')
+    'courses/update-account': go('courses/CoursesUpdateAccountView')
     'courses/:classroomID': go('courses/ClassroomView') #, { studentsOnly: true })
     'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView')
 
@@ -131,6 +132,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'privacy': go('PrivacyView')
 
     'schools': go('NewHomeView')
+    'seen': go('NewHomeView')
+    'SEEN': go('NewHomeView')
 
     'teachers': redirect('/teachers/classes')
     'teachers/classes': go('courses/TeacherClassesView') #, { teachersOnly: true })
