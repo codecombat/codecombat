@@ -23,8 +23,8 @@ module.exports = class User extends CocoModel
     return name if name
     name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
     return name if name
-    email = @get('email')
-    return email if email
+    [emailName, emailDomain] = @get('email').split('@')
+    return emailName if emailName
     return 'Anoner'
 
   getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
