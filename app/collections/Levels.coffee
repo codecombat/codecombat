@@ -6,13 +6,13 @@ module.exports = class LevelCollection extends CocoCollection
   model: Level
 
   fetchForClassroom: (classroomID, options={}) ->
-    options.url = '/db/classroom/#{classroomID}/levels'
+    options.url = "/db/classroom/#{classroomID}/levels"
     @fetch(options)
 
   fetchForClassroomAndCourse: (classroomID, courseID, options={}) ->
-    options.url = '/db/classroom/#{classroomID}/courses/#{courseID}/levels'
+    options.url = "/db/classroom/#{classroomID}/courses/#{courseID}/levels"
     @fetch(options)
 
   fetchForCampaign: (campaignSlug, options={}) ->
-    options.url = '/db/campaign/' + campaignSlug + '/levels'
+    options.url = "/db/campaign/#{campaignSlug}/levels"
     @fetch(options)
