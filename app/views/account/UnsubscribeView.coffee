@@ -6,6 +6,9 @@ module.exports = class UnsubscribeView extends RootView
   id: 'unsubscribe-view'
   template: template
 
+  initialize: ->
+    email = @getQueryVariable 'email'
+
   events:
     'click #unsubscribe-button': 'onUnsubscribeButtonClicked'
 
