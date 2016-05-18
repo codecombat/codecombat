@@ -20,8 +20,7 @@ module.exports = class ClansView extends RootView
     'click .leave-clan-btn': 'onLeaveClan'
     'click .private-clan-checkbox': 'onClickPrivateCheckbox'
 
-  constructor: (options) ->
-    super options
+  initialize: ->
     @initData()
 
   destroy: ->
