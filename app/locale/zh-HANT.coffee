@@ -58,10 +58,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     great_game: "一個很棒的遊戲不只有徽章和成就--它更是玩家的旅程、設計優良的關卡，以及藉由幫助和信心完成挑戰的能力。"    #    "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
     agency: "CodeCombat是一個能給予玩家協助以及信心的遊戲，藉由我們強大的程式碼鍵入引擎，可以幫助新手或是進階的學生寫出正確的、有效的程式碼。"    #"CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
     request_demo_title: "讓您的學生從今天開始遊玩吧!"#"Get your students started today!"
-    request_demo_subtitle: "要求一個demo示範版本，並且讓您的學生在一個小時之內就能上手。"#"Request a demo and get your students started in less than an hour."
+    request_demo_subtitle: "申請一個demo示範版本，並且讓您的學生在一個小時之內就能上手。"#"Request a demo and get your students started in less than an hour."
     get_started_title: "現在就設立您的班級。"#"Set up your class today"
     get_started_subtitle: "設立一個班級、加入您的學生，並在他們學習電腦科學的過程中掌握他們的進度。"#"Set up a class, add your students, and monitor their progress as they learn computer science."
-    request_demo: "要求一個demo示範版本"#"Request a Demo"
+    request_demo: "申請一個demo示範版本"#"Request a Demo"
     setup_a_class: "設立一個班級"#"Set Up a Class"
     have_an_account: "您是否擁有一個帳號?"#"Have an account?"
     logged_in_as: "您現在登入的身分為"#"You are currently logged in as"
@@ -139,7 +139,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     page_not_found: "找不到網頁"
 
   diplomat_suggestion:
-    title: "幫我們翻譯CodeCombat" # This shows up when a player switches to a non-English language using the language selector.
+    title: "幫助我們翻譯CodeCombat" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "我們需要您的語言技能"
     pitch_body: "我們開發了CodeCombat的英文版，但是現在我們的玩家遍佈全球。很多人想玩中文版的，卻不會說英文，所以如果您中英文都會，請考慮一下參加我們的翻譯工作，幫忙把 CodeCombat 網站還有所有的關卡翻譯成中文（繁體）。"
     missing_translations: "直至所有正體中文的翻譯完畢，當無法提供正體中文時還會以英文顯示。"
@@ -168,7 +168,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "更換英雄" # Go back from choose inventory to choose hero
     buy_gems: "購買寶石"
-    subscription_required: "需要訂購"
+    subscription_required: "訂閱限定"
     anonymous: "匿名玩家"
     level_difficulty: "難度"
     play_classroom_version: "遊玩教室版本" # Choose a level in campaign version that you also can play in one of your courses
@@ -179,7 +179,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     adjust_volume: "調整音量"
     campaign_multiplayer: "多人競技場"
     campaign_multiplayer_description: "…在這裡您可以和其他玩家進行對戰。"
-    campaign_old_multiplayer: "（過時的）舊多人競技場"
+    campaign_old_multiplayer: "（過時的）舊的多人競技場"
     campaign_old_multiplayer_description: "多個文明時代的遺跡。已沒有模擬運行這些陳舊、英雄蕪絕的多人競技場。"
 
   code:
@@ -425,11 +425,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     victory_new_item: "新的物品"
     victory_viking_code_school: "太厲害了，您剛完成了非常困難的關卡！如果您想成為一個軟體開發人員，您就應該去試一下Viking Code School。在這裡您可以把您的知識增長到另一個台階。只需要14個星期您就能成為一個專業的網頁開發人員。"
     victory_become_a_viking: "成為一個維京人。"
-    victory_no_progress_for_teachers: "老師不能保存進度，但是您可以將自己的帳號加入班級作為學生來保存進度。"    #"Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
+    victory_no_progress_for_teachers: "老師們不能保存進度，但是您可以將自己的帳號加入班級作為學生來保存進度。"    #"Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
     guide_title: "指南"
-    tome_cast_button_run: "運作"
-    tome_cast_button_running: "運作中"
-    tome_cast_button_ran: "已運作"
+    tome_cast_button_run: "運行"
+    tome_cast_button_running: "運行中"
+    tome_cast_button_ran: "已運行"
     tome_submit_button: "送出"
     tome_reload_method: "重新載入該方法的原程式碼" # Title text for individual method reload button.
     tome_select_method: "選擇一個方法"
@@ -522,7 +522,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tip_mulan: "相信你可以做到，然後你就會做到。 - Mulan"#"Believe you can, then you will. - Mulan"
 
   game_menu:
-    inventory_tab: "倉庫"
+    inventory_tab: "道具欄"
     save_load_tab: "保存/載入"
     options_tab: "選項"
     guide_tab: "導引"
@@ -546,16 +546,16 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     week: "這週"
     all: "長期以來"
     time: "時間"
-    damage_taken: "遭受的攻擊"
-    damage_dealt: "造成的攻擊"
+    damage_taken: "遭受的傷害"
+    damage_dealt: "造成的傷害"
     difficulty: "困難度"
     gold_collected: "收集的黃金"
 
   inventory:
     equipped_item: "已裝備"
-    required_purchase_title: "需要"
-    available_item: "可使用"
-    restricted_title: "被限制"
+    required_purchase_title: "必要的"
+    available_item: "可使用的"
+    restricted_title: "被限制的"
     should_equip: "連點物品兩下可裝備"
     equipped: "(已裝備)"
     locked: "(需解鎖)"
@@ -578,12 +578,12 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   subscribe:
     comparison_blurb: "訂閱 CodeCombat 來磨練您的技巧！"
-    feature1: "__levelsCount__ 個以上的基本關卡分散在__worldsCount__張地圖中" # {change}
+    feature1: "__levelsCount__ 個以上的基本關卡分佈在__worldsCount__張地圖中" # {change}
     feature2: "__heroesCount__ 個強力的<strong>新英雄</strong>並且每位都有不同技能！" # {change}
     feature3: "__bonusLevelsCount__ 個以上的額外關卡" # {change}
     feature4: "每個月<strong>{{gems}}顆額外寶石</strong>！"
     feature5: "影片教學"
-    feature6: "頂級信箱支援"
+    feature6: "高級郵件幫助"
     feature7: "私密<strong>部落</strong>"
     feature8: "<strong>沒有廣告!</strong>"
     free: "免費"
@@ -1398,7 +1398,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     ambassador_title: "使節"
     ambassador_title_description: "(Support)"
     ambassador_summary: "安撫我們論壇的用戶並且提供發問者適當的方向。我們的使節代表CodeCombat面對全世界。"
-#    teacher_title: "Teacher"
+    teacher_title: "教師"#"Teacher"
 
   editor:
     main_title: "CodeCombat編輯器"
@@ -1407,7 +1407,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     level_title: "關卡編輯器"
     achievement_title: "目標編輯器"
     poll_title: "投票編輯器"
-    back: "後退"
+    back: "返回"
     revert: "還原"
     revert_models: "還原模式"
     pick_a_terrain: "選擇地形"
@@ -1511,7 +1511,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     join_desc_3: "，或者找到我們在"
     join_desc_4: "讓我們從這開始！"
     join_url_email: "發信給我們"
-#    join_url_slack: "public Slack channel"
+    join_url_slack: "公共休閒頻道"#"public Slack channel"
     archmage_subscribe_desc: "取得郵件關於新的編程機會和公告。"
     artisan_introduction_pref: "我們必須建造更多的關卡！大家為了更多的內容在高聲吶喊，但只靠我們只能建造這麼多。現在您的工作場所就是一關；我們的關卡編輯器是勉強可用的，所以請小心。只要您有新的靈感，不論從簡單的 for-loops 到"
     artisan_introduction_suf: "，那個這職業會適合您。"
@@ -1555,7 +1555,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     ambassador_join_note_strong: "注意"
     ambassador_join_note_desc: "其中一件我們優先要做的事情是建立多人連線，玩家將面臨難以獨自解決的關卡而且可以招喚更高等級的法師來幫助。這將對於使節是一個很棒的方式來完成自己的責任。我們會及時地向大家公佈！"
     ambassador_subscribe_desc: "取得更新和多人連線開發的郵件。"
-#    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
+    teacher_subscribe_desc: "取得給教師的更新以及消息。"#"Get emails on updates and announcements for teachers."
     changes_auto_save: "當您勾選後，改變將自動儲存。"
     diligent_scribes: "我們勤奮的文書："
     powerful_archmages: "我們強勁的大法師："
@@ -1565,11 +1565,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     helpful_ambassadors: "我們善於幫助的使節："
 
   ladder:
-    please_login: "在參與對弈前請先登入。"
+    please_login: "在參與對戰前請先登入。"
     my_matches: "我的對手"
     simulate: "模擬"
     simulation_explanation: "通過模擬遊戲，您可以使您的遊戲更快得到評分！"
-    simulation_explanation_leagues: "你會主要給在你的部落或者課程的同伴幫忙模擬遊戲。"
+    simulation_explanation_leagues: "你主要會為你的部落或者課程的同伴幫忙模擬遊戲。"
     simulate_games: "模擬遊戲！"
     games_simulated_by: "您模擬過的次數："
     games_simulated_for: "替您模擬的次數："
@@ -1593,11 +1593,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     help_simulate: "模擬遊戲需要幫助？"
     code_being_simulated: "您的新程式碼正在被其他人模擬評分中。分數將隨每次新的配對而更新。"
     no_ranked_matches_pre: "對這個隊伍尚未有評分過的配對！"
-    no_ranked_matches_post: " 在別人的戰場上扮演競爭者並且回到這使您的程式碼接受評分。"
+    no_ranked_matches_post: " 在別人的戰場上扮演對手並且回到這使您的程式碼接受評分。"
     choose_opponent: "選擇對手"
     select_your_language: "選擇您的語言！"
     tutorial_play: "教學"
-    tutorial_recommended: "如果您尚未玩過，推薦先嘗試教學"
+    tutorial_recommended: "如果您尚未玩過，建議先嘗試教學"
     tutorial_skip: "略過教學"
     tutorial_not_sure: "不確定發生啥事？"
     tutorial_play_first: "先嘗試教學"
@@ -1650,11 +1650,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     amount_achieved: "數量"
     achievement: "成就"
     current_xp_prefix: "當前總共"
-    current_xp_postfix: "經驗"
+    current_xp_postfix: "經驗值"
     new_xp_prefix: "獲得"
-    new_xp_postfix: "經驗"
+    new_xp_postfix: "經驗值"
     left_xp_prefix: "還需要"
-    left_xp_infix: "經驗"
+    left_xp_infix: "經驗值"
     left_xp_postfix: "到下一個等級"
 
   account:
@@ -1694,13 +1694,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
 #    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
-#    users: "Users"
-#    months: "Months"
+    users: "使用者"#"Users"
+    months: "月數"#"Months"
     purchase_total: "總共"
     purchase_button: "提交購買"
     your_codes: "你的訂閱碼：" # {change}
     redeem_codes: "兌換訂閱碼"
-#    prepaid_code: "Prepaid Code"
+    prepaid_code: "預付代碼"#"Prepaid Code"
 #    lookup_code: "Lookup prepaid code"
 #    apply_account: "Apply to your account"
 #    copy_link: "You can copy the code's link and send it to someone."
@@ -1847,7 +1847,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     nutshell_description: "我們在關卡編輯器裡公開的任何資源，您都可以在製作關卡時隨意使用，但我們保留在 codecombat.com 之上創建的關卡本身傳播的權利，因為我們往後可能決定以它們收費。"
     canonical: "我們宣告這篇說明的英文版本是權威版本。如果各個翻譯版本之間有任何衝突，以英文版為準。"
     third_party_title: "第三方服務"
-#    third_party_description: "CodeCombat uses the following third party services (among others):"
+    third_party_description: "CodeCombat使用下列的第三方服務"#"CodeCombat uses the following third party services (among others):"
 
   ladder_prizes:
     title: "錦標賽獎項" # This section was for an old tournament and doesn't need new translations now.
