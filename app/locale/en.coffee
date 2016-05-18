@@ -1320,7 +1320,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     update_account_remain_student: "Remain a Student"
     update_account_update_student: "Update to Student"
     update_account_not_sure: "Not sure which one to choose? Email"
-    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?  You will lose the ability to manage any classes you have previously created, or to create new classes."
+    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?\n\nYou will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
 
   teacher:
     teacher_dashboard: "Teacher Dashboard" # Navbar
