@@ -16,8 +16,7 @@ module.exports = class SolutionProblemsView extends RootView
     'picoctf', 'auditions'
 
     # Campaign-version campaigns
-    'dungeon', 'forest', 'desert',# 'mountain', 
-    'glacier'
+    #'dungeon', 'forest', 'desert', 'mountain', 'glacier'
 
     # Test campaigns
     'dungeon-branching-test', 'forest-branching-test', 'desert-branching-test'
