@@ -1,16 +1,16 @@
 h2 Demo Page
 
 ol.breadcrumb
-  for path in parentFolders
+  for path in view.parentFolders
     li
       a(href=path.url)= path.name
-  li.active= currentFolder
+  li.active= view.currentFolder
 
 .well.pull-left#demo-wrapper
   #demo-area
     
 .nav.nav-pills.nav-stacked.pull-right.well#demo-nav
-  for child in children
+  for child in view.children
     li(class=child.type)
       a(href=child.url).small
         if child.type == 'folder'

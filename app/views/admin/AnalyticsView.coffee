@@ -20,17 +20,6 @@ module.exports = class AnalyticsView extends RootView
     super options
     @loadData()
 
-  getRenderData: ->
-    context = super()
-    context.activeClasses = @activeClasses ? []
-    context.activeClassGroups = @activeClassGroups ? {}
-    context.activeUsers = @activeUsers ? []
-    context.revenue = @revenue ? []
-    context.revenueGroups = @revenueGroups ? {}
-    context.dayEnrollmentsMap = @dayEnrollmentsMap ? {}
-    context.enrollmentDays = @enrollmentDays ? []
-    context
-
   afterRender: ->
     super()
     @createLineCharts()
