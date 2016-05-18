@@ -27,14 +27,6 @@ module.exports = class ClansView extends RootView
   destroy: ->
     @stopListening?()
 
-  getRenderData: ->
-    context = super()
-    context.idNameMap = @idNameMap
-    context.publicClans = _.filter(@publicClans.models, (clan) -> clan.get('type') is 'public')
-    context.myClans = @myClans.models
-    context.myClanIDs = me.get('clans') ? []
-    context
-
   afterRender: ->
     super()
     @setupPrivateInfoPopover()
