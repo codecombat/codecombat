@@ -147,7 +147,11 @@ setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
     return true if ua.isiPad or ua.isiPod or ua.isiPhone or ua.isOpera
     return false unless ua and ua.Browser in ['Chrome', 'Safari', 'Firefox', 'IE'] and ua.Version
     b = ua.Browser
-    v = parseInt ua.Version.split('.')[0], 10
+    try
+      v = parseInt ua.Version.split('.')[0], 10
+    catch TypeError
+      log.error('ua.Version does not have a split function.', JSON.stringify(ua, null, '  '))
+      return false
     return true if b is 'Chrome' and v < 17
     return true if b is 'Safari' and v < 6
     return true if b is 'Firefox' and v < 21

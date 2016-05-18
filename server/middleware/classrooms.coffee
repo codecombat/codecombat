@@ -12,6 +12,7 @@ Level = require '../models/Level'
 parse = require '../commons/parse'
 LevelSession = require '../models/LevelSession'
 User = require '../models/User'
+CourseInstance = require '../models/CourseInstance'
 
 module.exports =
   getByOwner: wrap (req, res, next) ->
@@ -50,7 +51,7 @@ module.exports =
       levelMap[level.original] = level
     levels = (levelMap[levelOriginal.toString()] for levelOriginal in levelOriginals)
 
-    res.status(200).send(levels)
+    res.status(200).send(_.filter(levels)) # for dev server where not all levels will be found
 
   fetchLevelsForCourse: wrap (req, res) ->
     classroom = yield database.getDocFromHandle(req, Classroom)
@@ -141,3 +142,35 @@ module.exports =
     database.validateDoc(classroom)
     classroom = yield classroom.save()
     res.status(201).send(classroom.toObject({req: req}))
+
+  join: wrap (req, res) ->
+    unless req.body?.code
+      throw new errors.UnprocessableEntity('Need a code')
+    if req.user.isTeacher()
+      throw new errors.Forbidden('Cannot join a classroom as a teacher')
+    code = req.body.code.toLowerCase()
+    classroom = yield Classroom.findOne({code: code})
+    if not classroom
+      throw new errors.NotFound(res) 
+    members = _.clone(classroom.get('members'))
+    if _.any(members, (memberID) -> memberID.equals(req.user._id))
+      return res.send(classroom.toObject({req: req}))
+    update = { $push: { members : req.user._id }}
+    yield classroom.update(update)
+    members.push req.user._id
+    classroom.set('members', members)
+    
+    # make user role student
+    if not req.user.get('role')
+      req.user.set('role', 'student')
+      yield req.user.save()
+
+    # join any course instances for free courses in the classroom
+    courseIDs = (course._id for course in classroom.get('courses'))
+    courses = yield Course.find({_id: {$in: courseIDs}, free: true})
+    freeCourseIDs = (course._id for course in courses)
+    freeCourseInstances = yield CourseInstance.find({ classroomID: classroom._id, courseID: {$in: freeCourseIDs} }).select('_id')
+    freeCourseInstanceIDs = (courseInstance._id for courseInstance in freeCourseInstances)
+    yield CourseInstance.update({_id: {$in: freeCourseInstanceIDs}}, { $addToSet: { members: req.user._id }})
+    yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: freeCourseInstanceIDs } } })
+    res.send(classroom.toObject({req: req}))

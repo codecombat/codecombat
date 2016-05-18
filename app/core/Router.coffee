@@ -99,7 +99,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'github/*path': 'routeToServer'
 
-    'hoc': go('courses/HourOfCodeView')
+    'hoc': ->
+      # Matching /?hour_of_code=true behavior
+      @navigate "/play", {trigger: true, replace: true}
     'home': go('NewHomeView')
 
     'i18n': go('i18n/I18NHomeView')
@@ -129,6 +131,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'privacy': go('PrivacyView')
 
     'schools': go('NewHomeView')
+    'seen': go('NewHomeView')
+    'SEEN': go('NewHomeView')
 
     'teachers': redirect('/teachers/classes')
     'teachers/classes': go('courses/TeacherClassesView') #, { teachersOnly: true })
