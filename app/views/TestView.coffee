@@ -41,16 +41,6 @@ module.exports = TestView = class TestView extends RootView
     storage.remove('demos-on')
     document.location.reload()
 
-  # RENDER DATA
-
-  getRenderData: ->
-    c = super(arguments...)
-    c.parentFolders = requireUtils.getParentFolders(@subPath, TEST_URL_PREFIX)
-    c.children = requireUtils.parseImmediateChildren(@specFiles, @subPath, TEST_REQUIRE_PREFIX, TEST_URL_PREFIX)
-    parts = @subPath.split('/')
-    c.currentFolder = parts[parts.length-1] or parts[parts.length-2] or 'All'
-    c
-
   # RUNNING TESTS
 
   initSpecFiles: ->
