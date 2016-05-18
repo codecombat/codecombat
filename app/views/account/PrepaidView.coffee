@@ -27,8 +27,7 @@ module.exports = class PrepaidView extends RootView
   subscriptions:
     'stripe:received-token': 'onStripeReceivedToken'
 
-  constructor: (options) ->
-    super(options)
+  initialize: ->
     @purchase =
       total: 0
       users: 3
