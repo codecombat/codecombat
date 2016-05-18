@@ -57,7 +57,7 @@ SpecificArticleSchema.properties.i18n = {type: 'object', format: 'i18n', props: 
 SpecificArticleSchema.displayProperty = 'name'
 
 side = {title: 'Side', description: 'A side.', type: 'string', 'enum': ['left', 'right', 'top', 'bottom']}
-thang = {title: 'Thang', description: 'The name of a Thang.', type: 'string', maxLength: 30, format: 'thang'}
+thang = {title: 'Thang', description: 'The name of a Thang.', type: 'string', maxLength: 60, format: 'thang'}
 
 eventPrereqValueTypes = ['boolean', 'integer', 'number', 'null', 'string'] # not 'object' or 'array'
 EventPrereqSchema = c.object {title: 'Event Prerequisite', format: 'event-prereq', description: 'Script requires that the value of some property on the event triggering it to meet some prerequisite.', required: ['eventProps']},
