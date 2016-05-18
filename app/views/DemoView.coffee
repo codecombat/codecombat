@@ -41,14 +41,6 @@ module.exports = DemoView = class DemoView extends RootView
 
   # RENDER DATA
 
-  getRenderData: ->
-    c = super(arguments...)
-    c.parentFolders = requireUtils.getParentFolders(@subPath, DEMO_URL_PREFIX)
-    c.children = @children or []
-    parts = @subPath.split('/')
-    c.currentFolder = parts[parts.length-1] or parts[parts.length-2] or 'All'
-    c
-    
   afterInsert: ->
     super()
     @runDemo()
