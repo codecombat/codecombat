@@ -101,11 +101,11 @@ module.exports =
         id.toString()
     newPassword = req.body.password
     studentID = req.params.handle
-    console.log ownedStudentIDs, studentID, studentID in ownedStudentIDs
-    console.log req.body
-    if newPassword && studentID in ownedStudentIDs
-      # student = yield User.findOne({ _id: mongoose.Types.ObjectId(studentID) })
-      console.log yield User.update({ _id: mongoose.Types.ObjectId(studentID) }, { $set: { passwordHash: User.hashPassword(newPassword) } })
+    student = yield User.findOne({ _id: mongoose.Types.ObjectId(studentID) })
+    if student.get('emailVerified')
+      return next new errors.Forbidden("Can't reset password for a student that has verified their email address.")
+    if newPassword and studentID in ownedStudentIDs
+      yield User.update({ _id: mongoose.Types.ObjectId(studentID) }, { $set: { passwordHash: User.hashPassword(newPassword) } })
       res.status(200).send({})
     else
       next()

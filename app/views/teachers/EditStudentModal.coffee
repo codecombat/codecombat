@@ -33,7 +33,7 @@ module.exports = class EditStudentModal extends ModalView
     @listenToOnce @user, 'save:success', ->
       @state.set { passwordChanged: true }
     @listenTo @user, 'invalid', ->
-      # TODO: Show an error.
+      # TODO: Show an error. (password too short)
 
   onChangeNewPasswordInput: (e) ->
     @state.set { newPassword: $(e.currentTarget).val() }, { silent: true }
