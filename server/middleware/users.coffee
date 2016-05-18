@@ -87,9 +87,9 @@ module.exports =
       email_id: sendwithus.templates.verify_email
       recipient:
         address: user.get('email')
-        name: user.get('name')
+        name: user.broadName()
       email_data:
-        name: user.get('name')
+        name: user.broadName()
         verify_link: "http://codecombat.com/user/#{user._id}/verify/#{user.verificationCode(timestamp)}"
     sendwithus.api.send context, (err, result) ->
     res.status(200).send({})
