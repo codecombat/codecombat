@@ -7,13 +7,13 @@ block content
       a(href='/artisans')
         span.glyphicon.glyphicon-chevron-left
         span Artisans Home
-    input.inputSearch#nameSearch(placeholder='Filter: Thang Name')
+    input.inputSearch#name-search(placeholder='Filter: Thang Name')
     br
-    input.inputSearch#descSearch(placeholder='Filter: Task Description')
+    input.inputSearch#desc-search(placeholder='Filter: Task Description')
     hr
-    div#thangTable
+    div#thang-table
       if view.processedThangs
-        table.table.table-striped#thangTable
+        table.table.table-striped
           tr
             th Thang Name
             th Task List

@@ -131,7 +131,7 @@ module.exports = class SolutionProblemsView extends RootView
         level: level
         problems: problems
 
-    @renderSelectors '#levelTable'
+    @renderSelectors '#level-table'
 
   findMissingSolutions: (solutions) ->
     problems = []

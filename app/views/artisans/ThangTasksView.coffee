@@ -31,12 +31,12 @@ module.exports = class ThangTasksView extends RootView
   processThangs: ->
     @processedThangs = @thangs.filter (_elem) ->
       # Case-insensitive search of input vs name.
-      return ///#{$('#nameSearch')[0].value}///i.test _elem.get('name')
+      return ///#{$('#name-search')[0].value}///i.test _elem.get('name')
     for thang in @processedThangs
       thang.tasks = _.filter thang.attributes.tasks, (_elem) ->
         # Similar case-insensitive search of input vs description (name).
-        return ///#{$('#descSearch')[0].value}///i.test _elem.name
-    @renderSelectors '#thangTable'
+        return ///#{$('#desc-search')[0].value}///i.test _elem.name
+    @renderSelectors '#thang-table'
 
   sortThangs: (a, b) ->
     a.get('name').localeCompare(b.get('name'))

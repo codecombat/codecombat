@@ -43,15 +43,15 @@ module.exports = class LevelTasksView extends RootView
   processLevels: () ->
     @processedLevels = {}
     for key, level of @levels
-      continue unless ///#{$('#nameSearch')[0].value}///i.test level.name
+      continue unless ///#{$('#name-search')[0].value}///i.test level.name
       filteredTasks = level.tasks.filter (elem) ->  
         # Similar case-insensitive search of input vs description (name).
-        return ///#{$('#descSearch')[0].value}///i.test elem.name
+        return ///#{$('#desc-search')[0].value}///i.test elem.name
       @processedLevels[key] = {
         tasks: filteredTasks
         name: level.name
       }
-    @renderSelectors '#levelTable'
+    @renderSelectors '#level-table'
 
   # Jade helper
   hasIncompleteTasks: (level) ->
