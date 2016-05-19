@@ -152,22 +152,22 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     spectate: "Quan sát" # Ladder page
     players: "người chơi" # Hover over a level on /play
     hours_played: "Thời gian chơi" # Hover over a level on /play
-    items: "Trang bị" # Tooltip on item shop button from /play
+    items: "Trang Bị" # Tooltip on item shop button from /play
     unlock: "Mua" # For purchasing items and heroes
     confirm: "Xác nhận"
     owned: "Đã có" # For items you own
     locked: "Bị khóa"
     purchasable: "Có thể mua" # For a hero you unlocked but haven't purchased
     available: "Khả dụng"
-    skills_granted: "Đã nhận được Kĩ Năng" # Property documentation details
-    heroes: "Các Tướng" # Tooltip on hero shop button from /play
-    achievements: "Thành tích" # Tooltip on achievement list button from /play
+    skills_granted: "Kỹ năng nhận được" # Property documentation details
+    heroes: "Tướng" # Tooltip on hero shop button from /play
+    achievements: "Thành Tích" # Tooltip on achievement list button from /play
     account: "Tài khoản" # Tooltip on account button from /play
     settings: "Tùy Chỉnh" # Tooltip on settings button from /play
     poll: "Bỏ phiếu" # Tooltip on poll button from /play
     next: "Tiếp" # Go from choose hero to choose inventory before playing a level
     change_hero: "Đổi Tướng" # Go back from choose inventory to choose hero
-    buy_gems: "Mua ngọc"
+    buy_gems: "Mua Ngọc"
     subscription_required: "Cần đăng kí"
     anonymous: "Người chơi ẩn danh"
     level_difficulty: "Độ khó: "
@@ -251,7 +251,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     finishing: "Sắp hoàn tất"
     sign_in_with_facebook: "Đăng nhập với Facebook"
     sign_in_with_gplus: "Đăng nhập với G+"
-    signup_switch: "Bạn có muốn tạo tài khoản mới?"
+    signup_switch: "Bạn muốn tạo tài khoản mới?"
 
   signup:
     email_announcements: "Nhận thông báo bằng email"
@@ -345,7 +345,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     message: "Tin nhắn"
     code: "Code"
     ladder: "Thang điểm"
-    when: "Khi nào"
+    when: "Thời gian"
     opponent: "Đối thủ"
     rank: "Hạng"
     score: "Điểm"
@@ -358,7 +358,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     player: "Người chơi"
     player_level: "Cấp độ" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Chiến binh"
-    ranger: "Cung thủ"
+    ranger: "Xạ thủ"
     wizard: "Phù thủy"
     first_name: "Tên"
     last_name: "Họ"
@@ -420,8 +420,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     victory_review_placeholder: "Màn chơi vừa rồi như thế nào?"
     victory_hour_of_code_done: "Bạn xong chưa?"
     victory_hour_of_code_done_yes: "Đúng vậy, tôi đã hoàn tất thời gian lập trình!"
-    victory_experience_gained: "Đã tăng XP"
-    victory_gems_gained: "Nhận được Ngọc"
+    victory_experience_gained: "XP nhận được"
+    victory_gems_gained: "Ngọc nhận được"
     victory_new_item: "Vật phẩm mới"
     victory_viking_code_school: "Thật tuyệt vời, bạn vừa vượt qua một màn chơi khó khủng khiếp! Không lâu nữa bạn sẽ trở thành một lập trình viên thôi. Bạn vừa được nhận thẳng vào trường Viking Code School, nơi bạn có thể nâng tầm kĩ năng của mình và trở thành lập trình viên web chuyên nghiệp trong 14 tuần."
     victory_become_a_viking: "Trở thành Viking"
@@ -442,7 +442,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     skip_tutorial: "Bỏ qua (esc)"
     keyboard_shortcuts: "Các phím tắt"
     loading_ready: "Sẵn sàng!"
-    loading_start: "Bắt đầu màn này"
+    loading_start: "Bắt đầu màn chơi"
     problem_alert_title: "Hãy sửa lại Code của bạn"
     time_current: "Bây giờ:"
     time_total: "Tối đa:"
@@ -542,12 +542,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     view_other_solutions: "Xem xếp hạng" # {change}
     scores: "Điểm"
     top_players: "Người chơi dẫn đầu xếp theo"
-    day: "Hôm nay"
-    week: "Tuần này"
-    all: "Tất cả"
+    day: "Hôm Nay"
+    week: "Tuần Này"
+    all: "Tất Cả"
     time: "Thời gian"
     damage_taken: "Sát thương nhận vào"
-    damage_dealt: "Sát thương gây ra"
+    damage_dealt: "Mức Sát Thương"
     difficulty: "Độ khó"
     gold_collected: "Vàng đã thu thập"
 
@@ -560,7 +560,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     equipped: "(đã trang bị)"
     locked: "(khóa)"
     restricted: "(bị giới hạn ở màn này)"
-    equip: "Mặc trang bị"
+    equip: "Mặc"
     unequip: "Cởi ra"
 
   buy_gems:
@@ -577,7 +577,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     price: "x{{gems}} / tháng"
 
   subscribe:
-    comparison_blurb: "Tăng cường kĩ năng bằng việc đăng kí theo dõi CodeCombat!"
+    comparison_blurb: "Tăng cường kĩ năng bằng cách mua gói dịch vụ nâng cao của CodeCombat!"
     feature1: "__levelsCount__+ màn chơi cơ bản trên __worldsCount__ bản đồ thế giới"
     feature2: "__heroesCount__ <strong>tướng mới</strong> mạnh mẽ với những kĩ năng đặc biệt!"
     feature3: "__bonusLevelsCount__+ màn chơi thêm"
@@ -589,7 +589,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     free: "Miễn phí"
     month: "tháng"
     must_be_logged: "Trước tiên bạn phải đăng nhập. Hãy tạo một tài khoản mới hoặc đăng nhập ở menu phía trên."
-    subscribe_title: "Đăng kí theo dõi"
+    subscribe_title: "Mua gói nâng cao"
     unsubscribe: "Ngừng theo dõi"
     confirm_unsubscribe: "Xác nhận ngừng theo dõi"
     never_mind: "Đừng bận tâm, tôi vẫn yêu bạn"
@@ -598,8 +598,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     thank_you: "Cảm ơn bạn đã ủng hộ CodeCombat."
     sorry_to_see_you_go: "Thật đáng tiếc khi phải chia tay bạn! Hãy góp ý để chúng tôi có thể cái thiện tốt hơn."
     unsubscribe_feedback_placeholder: "Ồ, chúng tôi đã làm gì sai ư?"
-    parent_button: "Hãy hỏi phụ huynh bạn"
-    parent_email_description: "Chúng tôi sẽ email cho họ để họ có thể mua cho bạn một gói dịch vụ của CodeCombat."
+    parent_button: "Hỏi phụ huynh bạn"
+    parent_email_description: "Chúng tôi sẽ email cho họ để họ có thể mua cho bạn một gói dịch vụ nâng cao của CodeCombat."
     parent_email_input_invalid: "Địa chỉ email không hợp lệ."
     parent_email_input_label: "Địa chỉ email của phụ huynh"
     parent_email_input_placeholder: "Hãy nhập địa chi email của phụ huynh bạn"
@@ -608,13 +608,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     parent_email_title: "Địa chỉ email của phụ huynh bạn là gì?"
     parents: "Dành cho Phụ huynh"
     parents_title: "Xin chào: Con của bạn muốn học lập trình. Bạn đồng ý chứ?" # {change}
-    parents_blurb1: "Con của bạn đã hoàn thiện __nLevels__ cấp độ lập trình đầu tiên với CodeCombat. Hãy giúp con bạn theo đuổi giấc mơ lập trình bằng cách đăng kí thêm khóa học."
-    parents_blurb1a: "Lập trình là một kỹ năng cần thiết mà con bạn chắc chắn sẽ cần khi trưởng thành. Tới 2020, kỹ năng phần mếm cơ bản sẽ được dùng trong 77% các ngành nghề, và khắp nơi trên thế giới hiện nay đều đang có nhu cầu cao tìm kiếm những kĩ sư phần mềm. Bạn có biết Công Nghệ Thông Tin đang là bằng cấp đại học đem lại mức lương cao nhất?"
+    parents_blurb1: "Con của bạn đã hoàn thiện __nLevels__ cấp độ lập trình cơ bản với CodeCombat. Hãy giúp con bạn theo đuổi giấc mơ lập trình bằng cách đăng kí thêm khóa học."
+    parents_blurb1a: "Lập trình là một kỹ năng cần thiết mà con bạn chắc chắn sẽ cần khi trưởng thành. Tính đến 2020, kỹ năng phần mếm cơ bản sẽ được dùng trong 77% các ngành nghề, và khắp mọi nơi trên thế giới hiện nay đều đang có nhu cầu cao tìm kiếm kĩ sư phần mềm. Bạn có biết Công Nghệ Thông Tin đang là bằng cấp đại học đem lại mức lương cao nhất?"
     parents_blurb2: "Chỉ với ${{price}} USD/tháng, con bạn sẽ nhận được những thử thách mới mỗi tháng và sẽ nhận được sự hỗ trợ đặc biệt từ các lập trình viên chuyên nghiệp." # {change}
-    parents_blurb3: "Không hề có rủi ro: Nếu bạn không hài lòng bạn có thể nhận lại 100% số tiền mình bỏ ra chỉ với 1 cú nhấp chuốt."
+    parents_blurb3: "Không hề có rủi ro: Nếu bạn không hài lòng bạn có thể nhận lại 100% số tiền mình bỏ ra chỉ với 1 cú click chuốt."
     payment_methods: "Phương thức thanh toán"
     payment_methods_title: "Những phương thức thanh toán được chấp nhận."
-    payment_methods_blurb1: "Hiện tại chúng tôi chấp nhận thẻ tín dụng và Alipay. Bạn cũng có thể sử dụng PayPal để chuyển {{three_month_price}} USD tới nick@codecombat.com và ghi rõ email tài khoản để mua dịch vụ trong 3 tháng, hoặc ${{year_price}} để mua dịch vụ trong 1 năm."
+    payment_methods_blurb1: "Hiện tại chúng tôi chấp nhận thẻ tín dụng và Alipay. Bạn cũng có thể sử dụng PayPal để chuyển ${{three_month_price}} tới nick@codecombat.com và ghi rõ email tài khoản để mua dịch vụ trong 3 tháng, hoặc ${{year_price}} để mua dịch vụ trong 1 năm."
     payment_methods_blurb2: "Nếu bạn cần một phương thức thanh toán khác, hãy liên hệ"
     sale_button: "Ưu đãi!"
     sale_button_title: "Tiết kiệm $21 khi mua gói dịch vụ 1 năm"
@@ -644,7 +644,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     experimental: "Thử"
     python_blurb: "Đơn giản nhưng mạnh mẽ, tốt cho cả những người mới bắt đầu và chuyên gia."
     javascript_blurb: "Ngôn ngữ của thế giới web. (Không giống với Java đâu nhé.)"
-    coffeescript_blurb: "Là JavaScript viết bằng cú pháp tốt hơn."
+    coffeescript_blurb: "JavaScript với cú pháp tốt hơn."
     clojure_blurb: "Lisp thời đại mới."
     lua_blurb: "Ngôn ngữ được ưa chuông để làm game."
     io_blurb: "Đơn giản nhưng ít người biết đến."
@@ -659,7 +659,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     health: "Sinh lực"
     speed: "Tốc độ"
     regeneration: "Hồi sinh lực"
-    range: "Tầm đánh/Tầm nhìn" # As in "attack or visual range"
+    range: "Tầm xa" # As in "attack or visual range"
     blocks: "Đỡ" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "Kĩ năng"
@@ -707,14 +707,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     granularity_change_history: "Lịch sử"
 
   options:
-    general_options: "Tùy chỉnh chung" # Check out the Options tab in the Game Menu while playing a level
-    volume_label: "Âm lượng"
-    music_label: "Âm nhạc"
+    general_options: "Tùy Chỉnh Chung" # Check out the Options tab in the Game Menu while playing a level
+    volume_label: "Âm Lượng"
+    music_label: "Âm Nhạc"
     music_description: "Bật/tắt nhạc nền."
-    editor_config_title: "Cấu hình Editor"
-#    editor_config_keybindings_label: "Key Bindings"
+    editor_config_title: "Cấu Hình Editor"
+    editor_config_keybindings_label: "Các phím tắt"
     editor_config_keybindings_default: "Mặc định (Ace)"
-    editor_config_keybindings_description: "Thêm shortcuts chung cho các công cụ editor."
+    editor_config_keybindings_description: "Hệ thống phím tắt chung cho các công cụ editor."
     editor_config_livecompletion_label: "Gợi ý tự động"
     editor_config_livecompletion_description: "Hiển thị gợi ý tự động trong khi gõ phím."
     editor_config_invisibles_label: "Hiện kí tự ẩn"
@@ -899,14 +899,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     not_logged_in: "Đăng nhập hoặc tạo tài khoản để thay đổi cài đặt."
     autosave: "Tự động lưu thay đổi"
     me_tab: "Tôi"
-    picture_tab: "Ảnh đại diện"
-    delete_account_tab: "Xóa tài khoản"
+    picture_tab: "Ảnh Đại Diện"
+    delete_account_tab: "Xóa Tài Khoản"
     wrong_email: "Email không đúng"
     wrong_password: "Mật khẩu không đúng"
     upload_picture: "Tải ảnh lên"
     delete_this_account: "Xóa tài khoản này vĩnh viễn"
-#    reset_progress_tab: "Reset All Progress"
-#    reset_your_progress: "Clear all your progress and start over"
+    reset_progress_tab: "Xóa Mọi Tiến Trình"
+    reset_your_progress: "Xóa mọi tiến trình của bạn và bắt đầu lại từ đầu"
 #    god_mode: "God Mode"
     password_tab: "Mật khẩu"
     emails_tab: "Email"
@@ -914,9 +914,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     manage_subscription: "Nhấn vào đây để chỉnh sửa gói đăng ký."
     new_password: "Mật khẩu mới"
     new_password_verify: "Xác nhận"
-#    type_in_email: "Type in your email to confirm account deletion."
-#    type_in_email_progress: "Type in your email to confirm deleting your progress."
-#    type_in_password: "Also, type in your password."
+    type_in_email: "Nhập email của bạn để xác nhận xóa tài khoản."
+    type_in_email_progress: "Nhập email của bạn để xác nhận xóa tiến trình."
+    type_in_password: "Nhập lại mật khẩu của bạn."
     email_subscriptions: "Thuê bao Email"
 #    email_subscriptions_none: "No Email Subscriptions."
     email_announcements: "Thông báo"
@@ -928,8 +928,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    email_news: "News"
     email_recruit_notes: "Cơ hội việc làm"
     email_recruit_notes_description: "Nếu bạn chơi trò này rất giỏi, chúng tôi có thể sẽ liên lạc với bạn về cơ hội nghề nghiệp."
-#    contributor_emails: "Contributor Class Emails"
-    contribute_prefix: "Chúng tôi đang tìm thêm người vào nhóm của chúng tôi! Hãy kiểm "
+    contributor_emails: "Email tham gia đóng góp"
+    contribute_prefix: "Chúng tôi đang tìm thêm người để cùng tham gia với chúng tôi! Hãy vào "
     contribute_page: "trang đóng góp"
     contribute_suffix: " để tìm hiểu thêm."
 #    email_toggle: "Toggle All"
@@ -1660,7 +1660,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     payments: "Thanh Toán"
     prepaid_codes: "Mã Trả Trước"
     purchased: "Đã Thanh Toán"
-    subscription: "Subscription"
+    subscription: "Dịch vụ nâng cao"
     invoices: "Hóa Đơn"
     service_apple: "Apple"
     service_web: "Web"
