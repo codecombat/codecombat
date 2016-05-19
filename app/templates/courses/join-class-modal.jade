@@ -8,35 +8,29 @@ block modal-header-content
         span.spr 
         span= view.classroom.get('name')
       b.small-details
-        span.spr(data-i18n="TODO")
-          | Instructor: 
+        span.spr(data-i18n="courses.instructor")
         span= view.classroom.owner.get('name')
 
 block modal-body-content
   if view.classroom.loaded
     p
-      span.spr(data-i18n="TODO")
-        | By joining 
+      span.spr(data-i18n="courses.by_joining_1")
       span= view.classroom.get('name')
       span.spr , 
       span= view.classroom.owner.get('name')
       span.spr  
-      span(data-i18n="TODO")
-        | will be able to help reset your password if you forget or lose it. You can also verify your email address so that you can reset the password yourself!
+      span(data-i18n="courses.by_joining_2")
 
     unless me.get('emailVerified')
       div.text-center.m-t-4
         div
           b.small-details
-            span(data-i18n="TODO")
-              | We've sent a verification email to:
+            span(data-i18n="courses.sent_verification")
         .small= me.get('email')
         .small
-          span.spr(data-i18n="TODO")
-            | You can edit your email address in 
+          span.spr(data-i18n="courses.you_can_edit")
           a(href="/account/settings")
-            span(data-i18n="TODO")
-              | Account Settings
+            span(data-i18n="courses.account_settings")
 
 block modal-footer-content
   .text-center
