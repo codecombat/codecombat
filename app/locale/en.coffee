@@ -132,6 +132,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     help_suff: "and we'll get in touch!"
 
   modal:
+    cancel: "Cancel"
     close: "Close"
     okay: "Okay"
 

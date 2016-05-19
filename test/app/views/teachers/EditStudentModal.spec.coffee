@@ -45,12 +45,10 @@ describe 'EditStudentModal', ->
       _.defer done
 
     it "has a new password field", ->
-      modal.render()
       if modal.$('.new-password-input').length < 1
         fail "Expected there to be a new password input field"
 
     it "has a change password button", ->
-      modal.render()
       if modal.$('.change-password-btn').length < 1
         fail "Expected there to be a Change Password button"
 
@@ -60,11 +58,10 @@ describe 'EditStudentModal', ->
         request = jasmine.Ajax.requests.mostRecent()
         expect(request).toBeDefined()
 
-      xit 'updates the button', ->
-        # TODO: Figure out why it's not sending another request when it's to the same path
-        modal.$('.new-password-input').text(newPassword).change()
+      it 'updates the button', ->
+        modal.$('.new-password-input').val(newPassword).change().trigger('input')
         modal.$('.change-password-btn').click()
         request = jasmine.Ajax.requests.mostRecent()
         fail "Expected a request to be sent" unless request
         request?.respondWith({ status: 200, responseText: JSON.stringify(user) })
-        expect(modal.$('.change-password-btn').text()).toEqual('Changed')
+        expect(modal.$('.change-password-btn [data-i18n]').data('i18n')).toEqual('teacher.changed')
