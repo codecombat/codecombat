@@ -23,7 +23,7 @@ module.exports = class User extends CocoModel
     return name if name
     name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
     return name if name
-    [emailName, emailDomain] = @get('email').split('@')
+    [emailName, emailDomain] = @get('email')?.split('@') or []
     return emailName if emailName
     return 'Anoner'
 
