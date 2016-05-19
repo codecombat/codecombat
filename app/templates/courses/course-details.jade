@@ -65,7 +65,7 @@ block content
                 span= view.course.get('name')
                 span .
         .col-md-6
-          if view.nextCourseInstance
+          if view.nextCourseInstance && _.contains(view.nextCourseInstance.get('members'), me.id)
             a.btn.btn-lg.btn-success(href="/courses/#{view.nextCourse.id}/#{view.nextCourseInstance.id}")
               h1= view.nextCourse.get('name')
               p= view.nextCourse.get('description')

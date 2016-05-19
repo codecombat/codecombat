@@ -43,6 +43,12 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/pending-patches': go('admin/PendingPatchesView')
     'admin/codelogs': go('admin/CodeLogsView')
 
+    'artisans': go('artisans/ArtisansView')
+
+    'artisans/level-tasks': go('artisans/LevelTasksView')
+    'artisans/solution-problems': go('artisans/SolutionProblemsView')
+    'artisans/thang-tasks': go('artisans/ThangTasksView')
+
     'beta': go('HomeView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
@@ -69,6 +75,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'courses/teachers': redirect('/teachers/classes')
     'courses/purchase': redirect('/teachers/enrollments')
     'courses/enroll(/:courseID)': redirect('/teachers/enrollments')
+    'courses/update-account': go('courses/CoursesUpdateAccountView')
     'courses/:classroomID': go('courses/ClassroomView') #, { studentsOnly: true })
     'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView')
 

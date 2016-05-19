@@ -147,7 +147,16 @@ module.exports =
     res.end()
     
   unsubscribe: wrap (req, res) ->
-    email = req.query.email
+    # need to grab email directly from url, in case it has "+" in it
+    queryString = req.url.split('?')[1] or ''
+    queryParts = queryString.split('&')
+    email = null
+    for part in queryParts
+      [name, value] = part.split('=')
+      if name is 'email'
+        email = value
+        break
+    
     unless email
       throw new errors.UnprocessableEntity 'No email provided to unsubscribe.'
     email = decodeURIComponent(email)
