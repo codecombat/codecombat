@@ -162,7 +162,7 @@ module.exports =
     code = req.body.code.toLowerCase()
     classroom = yield Classroom.findOne({code: code})
     if not classroom
-      throw new errors.NotFound(res) 
+      throw new errors.NotFound(res)
     members = _.clone(classroom.get('members'))
     if _.any(members, (memberID) -> memberID.equals(req.user._id))
       return res.send(classroom.toObject({req: req}))

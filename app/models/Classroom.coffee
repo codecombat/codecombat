@@ -17,7 +17,7 @@ module.exports = class Classroom extends CocoModel
       # It's just the classroom object
       return obj
     else
-      # It's a compound response with other stuff to
+      # It's a compound response with other stuff too
       @owner = new User(obj.owner)
       return obj.data
     

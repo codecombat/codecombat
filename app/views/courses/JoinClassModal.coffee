@@ -15,7 +15,7 @@ module.exports = class JoinClassModal extends ModalView
     @teacher = new User()
     jqxhr = @supermodel.trackRequest @classroom.fetchByCode(@classCode)
     unless me.get('emailVerified')
-      @supermodel.trackRequest $.post("/db/user/#{me.id}/requestVerifyEmail")
+      @supermodel.trackRequest $.post("/db/user/#{me.id}/request-verify-email")
     @listenTo @classroom, 'sync', ->
       @render
     @listenTo @classroom, 'join:success', ->
