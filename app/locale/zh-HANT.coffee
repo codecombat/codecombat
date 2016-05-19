@@ -1590,7 +1590,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     rank_failed: "評分失敗"
     rank_being_ranked: "已評分"
     rank_last_submitted: "已上傳 "
-    help_simulate: "模擬遊戲需要幫助？"
+    help_simulate: "幫我們模擬遊戲？"
     code_being_simulated: "您的新程式碼正在被其他人模擬評分中。分數將隨每次新的配對而更新。"
     no_ranked_matches_pre: "對這個隊伍尚未有評分過的配對！"
     no_ranked_matches_post: " 在別人的戰場上扮演對手並且回到這使您的程式碼接受評分。"
