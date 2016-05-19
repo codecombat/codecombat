@@ -20,7 +20,7 @@ module.exports.templates =
   share_progress_email: 'tem_VHE3ihhGmVa3727qds9zY8'
   welcome_email_user: 'tem_z7Xvj3mtWYk6ec6aW7RwFk'
   welcome_email_student: 'tem_4WYPZNLzs5wawMF9qUJXUH'
-  verify_email: 'tem_z7Xvj3mtWYk6ec6aW7RwFk'
+  verify_email: 'tem_zJee6uRsRmzqzktzneCkCn'
   ladder_update_email: 'JzaZxf39A4cKMxpPZUfWy4'
   patch_created: 'tem_xhxuNosLALsizTNojBjNcL'
   change_made_notify_watcher: 'tem_7KVkfmv9SZETb25dtHbUtG'
