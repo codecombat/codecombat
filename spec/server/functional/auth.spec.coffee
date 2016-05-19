@@ -165,6 +165,14 @@ describe 'GET /auth/unsubscribe', ->
     expect(res.statusCode).toBe(404)
     done()
     
+  it 'returns 200 even if the email has a + in it', utils.wrap (done) ->
+    @user.set('email', 'some+email@address.com')
+    yield @user.save()
+    url = getURL('/auth/unsubscribe?recruitNotes=1&email='+@user.get('email'))
+    [res, body] = yield request.getAsync(url, {json: true})
+    expect(res.statusCode).toBe(200)
+    done()
+    
   describe '?recruitNotes=1', ->
 
     it 'unsubscribes the user from recruitment emails', utils.wrap (done) ->

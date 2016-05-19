@@ -62,6 +62,8 @@ module.exports = class CourseDetailsView extends RootView
           # need to figure out the next course instance
           @courseComplete = true
           @courseInstances.comparator = 'courseID'
+          # TODO: make this logic use locked course content to figure out the next course, then fetch the 
+          # course instance for that
           @supermodel.trackRequest(@courseInstances.fetchForClassroom(classroomID).then(=>
             @nextCourseInstance = _.find @courseInstances.models, (ci) => ci.get('courseID') > @courseID
             if @nextCourseInstance
