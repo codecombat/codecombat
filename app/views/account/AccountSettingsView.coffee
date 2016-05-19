@@ -85,7 +85,7 @@ module.exports = class AccountSettingsView extends CocoView
       @openModalView confirmModal
 
   onClickResendVerificationEmail: (e) ->
-    $.post "/db/user/#{me.id}/request-verify-email", ->
+    $.post me.getRequestVerificationEmailURL(), ->
       link = $(e.currentTarget)
       link.find('.resend-text').addClass('hide')
       link.find('.sent-text').removeClass('hide')

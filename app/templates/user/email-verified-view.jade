@@ -7,8 +7,7 @@ block content
         | Verifying your email address...
     else if state.get('verifyStatus') === "success"
       .alert.alert-success.center-block
-        .fa.fa-check-circle-o
-        // TODO: Install font-awesome
+        .glyphicon.glyphicon-ok-circle.m-r-1
         span(data-i18n="account.successfully_verified")
           | You've successfully verified your email address!
       if view.user.isStudent()
@@ -25,8 +24,7 @@ block content
             | Go play some more levels!
     else if state.get('verifyStatus') === "error"
       .alert.alert-danger.center-block
-        // TODO: Install font-awesome
-        .fa.fa-times-circle-o
+        .glyphicon.glyphicon-remove-circle.m-r-1
         span(data-i18n="account.verify_error")
           | Something went wrong when verifying your email :(
     else

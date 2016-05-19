@@ -57,11 +57,11 @@ describe 'User', ->
       done()
   
   describe '.verificationCode(timestamp)', ->
-    fit 'returns a timestamp and a hash', (done) ->
+    it 'returns a timestamp and a hash', (done) ->
       user = new User()
       now = new Date()
       code = user.verificationCode(now.getTime())
       expect(code).toMatch(/[0-9]{13}:[0-9a-f]{64}/)
       [timestamp, hash] = code.split(':')
-      expect(new Date(timestamp)).toEqual(now)
+      expect(new Date(parseInt(timestamp))).toEqual(now)
       done()

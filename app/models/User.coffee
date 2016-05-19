@@ -35,6 +35,9 @@ module.exports = class User extends CocoModel
       return "#{photoURL}#{prefix}s=#{size}" if photoURL.search('http') isnt -1  # legacy
       return "/file/#{photoURL}#{prefix}s=#{size}"
     return "/db/user/#{@id}/avatar?s=#{size}&employerPageAvatar=#{useEmployerPageAvatar}"
+    
+  getRequestVerificationEmailURL: ->
+    @url() + "/request-verify-email"
 
   getSlugOrID: -> @get('slug') or @get('_id')
 
