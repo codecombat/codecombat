@@ -18,6 +18,13 @@ module.exports = class AnalyticsView extends RootView
 
   initialize: ->
     @loadData()
+    @activeClasses = @activeClasses ? []
+    @activeClassGroups = @activeClassGroups ? {}
+    @activeUsers = @activeUsers ? []
+    @revenue = @revenue ? []
+    @revenueGroups = @revenueGroups ? {}
+    @dayEnrollmentsMap = @dayEnrollmentsMap ? {}
+    @enrollmentDays = @enrollmentDays ? []
 
   afterRender: ->
     super()
