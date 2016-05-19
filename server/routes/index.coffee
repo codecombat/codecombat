@@ -13,7 +13,7 @@ module.exports.setup = (app) ->
   app.post('/auth/stop-spying', mw.auth.stopSpying)
   app.get('/auth/unsubscribe', mw.auth.unsubscribe)
   app.get('/auth/whoami', mw.auth.whoAmI)
-  
+
   Achievement = require '../models/Achievement'
   app.get('/db/achievement', mw.achievements.fetchByRelated, mw.rest.get(Achievement))
   app.post('/db/achievement', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.post(Achievement))
@@ -25,7 +25,7 @@ module.exports.setup = (app) ->
   app.get('/db/achievement/:handle/patches', mw.patchable.patches(Achievement))
   app.post('/db/achievement/:handle/watchers', mw.patchable.joinWatchers(Achievement))
   app.delete('/db/achievement/:handle/watchers', mw.patchable.leaveWatchers(Achievement))
-  
+
   Article = require '../models/Article'
   app.get('/db/article', mw.rest.get(Article))
   app.post('/db/article', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.post(Article))
@@ -53,7 +53,7 @@ module.exports.setup = (app) ->
   app.get('/db/campaign/:handle/levels', mw.campaigns.fetchRelatedLevels)
   app.get('/db/campaign/:handle/patches', mw.patchable.patches(Campaign))
   app.get('/db/campaign/-/overworld', mw.campaigns.fetchOverworld)
-  
+
   app.post('/db/classroom', mw.classrooms.post)
   app.get('/db/classroom', mw.classrooms.getByOwner)
   app.get('/db/classroom/:handle/levels', mw.classrooms.fetchAllLevels)
@@ -71,16 +71,18 @@ module.exports.setup = (app) ->
   app.get('/db/course', mw.rest.get(Course))
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
   app.get('/db/course/:handle/levels/:levelOriginal/next', mw.courses.fetchNextLevel)
-  
+
   app.get('/db/course_instance/:handle/levels/:levelOriginal/next', mw.courseInstances.fetchNextLevel)
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
-  
+
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
+  app.put('/db/user/-/become-student', mw.users.becomeStudent)
+  app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
 
   app.get '/db/products', require('./db/product').get
-  
+
   TrialRequest = require '../models/TrialRequest'
   app.get('/db/trial.request', mw.trialRequests.fetchByApplicant, mw.auth.checkHasPermission(['admin']), mw.rest.get(TrialRequest))
   app.post('/db/trial.request', mw.trialRequests.post)
