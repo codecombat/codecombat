@@ -15,16 +15,16 @@ module.exports = class AnalyticsView extends RootView
   furthestCourseDayRange: 365
   lineColors: ['red', 'blue', 'green', 'purple', 'goldenrod', 'brown', 'darkcyan']
   minSchoolCount: 20
+  activeClasses: []
+  activeClassGroups: {}
+  activeUsers: []
+  revenue: []
+  revenueGroups: {}
+  dayEnrollmentsMap: {}
+  enrollmentDays: []
 
   initialize: ->
     @loadData()
-    @activeClasses = @activeClasses ? []
-    @activeClassGroups = @activeClassGroups ? {}
-    @activeUsers = @activeUsers ? []
-    @revenue = @revenue ? []
-    @revenueGroups = @revenueGroups ? {}
-    @dayEnrollmentsMap = @dayEnrollmentsMap ? {}
-    @enrollmentDays = @enrollmentDays ? []
 
   afterRender: ->
     super()
