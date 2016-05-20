@@ -62,11 +62,12 @@ module.exports =
   verifyEmailAddress: wrap (req, res, next) ->
     user = yield User.findOne({ _id: mongoose.Types.ObjectId(req.params.userID) })
     [timestamp, hash] = req.params.verificationCode.split(':')
-    if user and req.params.verificationCode is user.verificationCode(timestamp)
-      yield User.update({ _id: user.id }, { emailVerified: true })
-      res.status(200).send({ role: user.toObject().role })
-    else
-      next()
+    unless user
+      throw new errors.UnprocessableEntity('User not found')
+    unless req.params.verificationCode is user.verificationCode(timestamp)
+      throw new errors.UnprocessableEntity('Verification code does not match')
+    yield User.update({ _id: user.id }, { emailVerified: true })
+    res.status(200).send({ role: user.toObject().role })
 
   resetEmailVerifiedFlag: wrap (req, res, next) ->
     newEmail = req.body.email
