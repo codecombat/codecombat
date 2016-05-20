@@ -32,8 +32,8 @@ block content
             th(data-i18n="clans.chieftain") Chieftain
             th  
         tbody
-          if view.publicClans.length
-            each clan in view.publicClans
+          if view.publicClansArray.length
+            each clan in view.publicClansArray
               tr
                 td
                   if clan.get('ownerID') === me.id
@@ -62,8 +62,8 @@ block content
             th(data-i18n="clans.type") Type
             th
         tbody
-          if view.myClans.length
-            each clan in view.myClans
+          if view.myClansArray.length
+            each clan in view.myClansArray
               tr
                 td
                   if clan.get('ownerID') === me.id

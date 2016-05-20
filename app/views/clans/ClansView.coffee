@@ -30,6 +30,11 @@ module.exports = class ClansView extends RootView
     super()
     @setupPrivateInfoPopover()
 
+  onLoaded: ->
+    super()
+    @publicClansArray = _.filter(@publicClans.models, (clan) -> clan.get('type') is 'public')
+    @myClansArray = @myClans.models
+
   initData: ->
     @idNameMap = {}
 
@@ -43,14 +48,12 @@ module.exports = class ClansView extends RootView
       @refreshNames @publicClans.models
       @render?()
     @supermodel.loadCollection(@publicClans, 'public_clans', {cache: false})
-    @publicClans = _.filter(@publicClans.models, (clan) -> clan.get('type') is 'public')
 
     @myClans = new CocoCollection([], { url: "/db/user/#{me.id}/clans", model: Clan, comparator: sortClanList })
     @listenTo @myClans, 'sync', =>
       @refreshNames @myClans.models
       @render?()
     @supermodel.loadCollection(@myClans, 'my_clans', {cache: false})
-    @myClans = @myClans.models
 
     @listenTo me, 'sync', => @render?()
     @myClanIDs = me.get('clans') ? []
