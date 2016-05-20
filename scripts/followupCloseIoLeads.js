@@ -1,8 +1,8 @@
 // Follow up on Close.io leads
 
 'use strict';
-if (process.argv.length !== 6) {
-  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <mongo connection Url>");
+if (process.argv.length !== 7) {
+  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <mongo connection Url>");
   process.exit();
 }
 
@@ -20,8 +20,8 @@ const demoRequestEmailTemplatesAuto2 = ['tmpl_HJ5zebh1SqC1QydDto05VPUMu4F7i5M35L
 
 const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
-const closeIoMailApiKeys = [process.argv[3], process.argv[4]]; // Automatic mails sent as API owners
-const mongoConnUrl = process.argv[5];
+const closeIoMailApiKeys = [process.argv[3], process.argv[4], process.argv[5]]; // Automatic mails sent as API owners
+const mongoConnUrl = process.argv[6];
 const MongoClient = require('mongodb').MongoClient;
 const async = require('async');
 const request = require('request');
@@ -43,11 +43,6 @@ async.series([
 );
 
 // ** Utilities
-
-function getRandomEmailApiKey() {
-  if (closeIoMailApiKeys.length < 0) return;
-  return closeIoMailApiKeys[Math.floor(Math.random() * closeIoMailApiKeys.length)];
-}
 
 function getRandomEmailTemplate(templates) {
   if (templates.length < 0) return '';
