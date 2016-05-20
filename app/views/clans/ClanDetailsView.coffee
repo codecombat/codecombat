@@ -20,6 +20,9 @@ utils = require 'core/utils'
 module.exports = class ClanDetailsView extends RootView
   id: 'clan-details-view'
   template: template
+  campaignLevelProgressions: []
+  conceptsProgression: []
+  memberLevelMap: {}
 
   events:
     'change .expand-progress-checkbox': 'onExpandedProgressCheckbox'
@@ -35,8 +38,7 @@ module.exports = class ClanDetailsView extends RootView
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
 
-  constructor: (options, @clanID) ->
-    super options
+  initialize: ->
     @initData()
 
   destroy: ->
@@ -65,24 +67,12 @@ module.exports = class ClanDetailsView extends RootView
     @supermodel.loadCollection(@members, 'members', {cache: false})
     @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
 
+    @isOwner = @clan.get('ownerID') is me.id
+    @isMember = @clanID in (me.get('clans') ? [])
+    @joinClanLink = "/clans/#{@clanID}"
+
   getRenderData: ->
     context = super()
-    context.campaignLevelProgressions = @campaignLevelProgressions ? []
-    context.clan = @clan
-    context.conceptsProgression = @conceptsProgression ? []
-    if application.isProduction()
-      context.joinClanLink = "https://codecombat.com/clans/#{@clanID}"
-    else
-      context.joinClanLink = "http://localhost:3000/clans/#{@clanID}"
-    context.owner = @owner
-    context.memberAchievementsMap = @memberAchievementsMap
-    context.memberLanguageMap = @memberLanguageMap
-    context.memberLevelStateMap = @memberLevelMap ? {}
-    context.memberMaxLevelCount = @memberMaxLevelCount
-    context.memberSort = @memberSort
-    context.isOwner = @clan.get('ownerID') is me.id
-    context.isMember = @clanID in (me.get('clans') ? [])
-    context.stats = @stats
 
     # Find last campaign level for each user
     # TODO: why do we do this for every render?
@@ -116,10 +106,7 @@ module.exports = class ClanDetailsView extends RootView
 
     @sortMembers(highestUserLevelCountMap, userConceptsMap)# if @clan.get('dashboardType') is 'premium'
     context.members = @members?.models ? []
-    context.lastUserCampaignLevelMap = lastUserCampaignLevelMap
     context.showExpandedProgress = maxLastUserCampaignLevel <= 30 or @showExpandedProgress
-    context.userConceptsMap = userConceptsMap
-    context.arenas = @arenas
     context.i18n = utils.i18n
     context
 
