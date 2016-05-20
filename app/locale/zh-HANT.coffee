@@ -279,8 +279,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     recovery_sent: "密碼重置的信件已寄出"
 
   items:
-    primary: "主要武器"
-    secondary: "次要武器"
+    primary: "主手裝備"
+    secondary: "副手裝備"
     armor: "裝甲"
     accessories: "飾品"
     misc: "輔助"
@@ -472,7 +472,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tip_reticulating: "網格狀鋸齒(指卡頓現象)"
     tip_harry: "巫師，"
     tip_great_responsibility: "隨著擁有強大的編程技巧，除錯的責任將越大。"
-    tip_munchkin: "如果您不吃掉您的蔬菜，那小矮人將在您沉睡時找到您。"
+    tip_munchkin: "如果您不吃掉您的蔬菜，那些矮人將在您睡覺時找到您。"
     tip_binary: "只有2種人在這世上：那些懂2進位的，和那些不懂的。"
     tip_commitment_yoda: "一個程式員必須擁有強烈的責任感和一顆認真的心。 ~ Yoda《星際大戰》"
     tip_no_try: "做，或者不做。這邊不存在嘗試的選項。 - Yoda《星際大戰》"
@@ -510,7 +510,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tip_life_and_polymorphism: "開放源碼就像是一個完全多樣異質的結構：海納百川。"#"Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
     tip_mistakes_proof_of_trying: "程式碼中的錯誤證明了你曾經嘗試過。"#"Mistakes in your code are just proof that you are trying."
     tip_adding_orgres: "包圍敵人!"#"Rounding up ogres."
-    tip_sharpening_swords: "磨煉造就寶劍。"#"Sharpening the swords."
+    tip_sharpening_swords: "磨利劍鋒。"#"Sharpening the swords."
     tip_ratatouille: "你不需要讓任何人以你的出身決定你的極限，你唯一的限制就是你的心靈。廚神Gusteau《料理鼠王》 "#"You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
     tip_nemo: "想知道當生活使你消沉時，你必須做甚麼嗎？一直游，一直游就對了。多莉《海底總動員》"#"When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
     tip_internet_weather: "搬來網路世界吧，這裡十分不錯。我們住的地方天氣總是很好。 - John Green"#"Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
