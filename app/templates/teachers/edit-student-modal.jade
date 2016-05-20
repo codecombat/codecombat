@@ -8,12 +8,10 @@ block modal-header-content
 block modal-body-content
   .text-center
     if view.user.get('emailVerified')
-      div.m-b-1
+      p
         span(data-i18n="teacher.send_email_to")
-      div
+      p.m-b-3
         = view.user.get('email')
-      div.small
-        span(data-i18n="teacher.verified_email_address")
       if state.get('emailSent')
         .send-recovery-email-btn.btn.btn-lg.btn-primary.uppercase.disabled
           span(data-i18n="teacher.email_sent")
@@ -22,10 +20,11 @@ block modal-body-content
           span(data-i18n="teacher.send_recovery_email")
     else
       div.m-b-1
-        span(data-i18n="teacher.change_password")
-        span :
-      div
+        span(data-i18n="teacher.enter_new_password_below")
+      div.m-b-2.form-group(class=(state.get('errorMessage') ? 'has-error' : ''))
         input.new-password-input(placeholder="type a new password here" value=state.get('newPassword'))
+        div.help-block.error-help-block.m-t-1.small
+          span=state.get('errorMessage')
       if state.get('passwordChanged')
         button.change-password-btn.btn.btn-lg.btn-primary.uppercase.disabled
           span(data-i18n="teacher.changed")

@@ -10,18 +10,21 @@ block content
         .glyphicon.glyphicon-ok-circle.m-r-1
         span(data-i18n="account.successfully_verified")
           | You've successfully verified your email address!
-      if view.user.isStudent()
-        a.btn.btn-lg.btn-navy(href="/courses")
-          span(data-i18n="account.back_to_student_page")
-            | Go back to student things
+      if view.userID !== me.id
+        a.login-button.btn.btn-navy.btn-lg(data-i18n="login.log_in")
       else if view.user.isTeacher()
-        a.btn.btn-lg.btn-navy(href="/teacher/classes")
-          span(data-i18n="account.back_to_teacher_page")
-            | Go to My Classes
+        a.btn.btn-lg.btn-forest(href="/teachers/classes")
+          span(data-i18n="new_home.goto_classes")
+      else if me.justPlaysCourses()
+        div.m-b-1
+          a.btn.btn-forest.btn-lg(href="/courses", data-i18n="courses.continue_playing")
+        div
+          a.btn.btn-primary.btn-lg.play-btn(href="/courses", data-i18n="new_home.view_progress")
       else
-        a.btn.btn-lg.btn-navy(href="/play")
-          span(data-i18n="account.back_to_game")
-            | Go play some more levels!
+        div.m-b-1
+          a.btn.btn-forest.btn-lg.play-btn(href="/play", data-i18n="courses.continue_playing")
+        div
+          a.btn.btn-primary.btn-lg(href="/user/#{me.getSlugOrID()}", data-i18n="new_home.view_profile")
     else if state.get('verifyStatus') === "error"
       .alert.alert-danger.center-block
         .glyphicon.glyphicon-remove-circle.m-r-1

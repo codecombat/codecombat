@@ -14,6 +14,12 @@ block modal-header-content
 block modal-body-content
   if view.classroom.loaded
     p
+      span.spr(data-i18n="courses.youve_been_invited_1")
+      span= view.classroom.get('name')
+      span.spr(data-i18n="courses.youve_been_invited_2")
+      span= view.classroom.capitalLanguage
+      span.spl(data-i18n="courses.youve_been_invited_3")
+    p
       span.spr(data-i18n="courses.by_joining_1")
       span= view.classroom.get('name')
       span.spr , 

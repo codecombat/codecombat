@@ -231,7 +231,7 @@ module.exports = class TeacherClassView extends RootView
 
   onClickEditStudentLink: (e) ->
     user = @students.get($(e.currentTarget).data('student-id'))
-    modal = new EditStudentModal({ user })
+    modal = new EditStudentModal({ user, @classroom })
     @openModalView(modal)
 
   onClickRemoveStudentLink: (e) ->

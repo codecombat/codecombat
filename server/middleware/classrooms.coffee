@@ -1,6 +1,7 @@
 _ = require 'lodash'
 utils = require '../lib/utils'
 errors = require '../commons/errors'
+schemas = require '../../app/schemas/schemas'
 wrap = require 'co-express'
 Promise = require 'bluebird'
 database = require '../commons/database'
@@ -18,7 +19,7 @@ module.exports =
   fetchByCode: wrap (req, res, next) ->
     code = req.query.code
     return next() unless code
-    classroom = yield Classroom.findOne({ code: code.toLowerCase() }).select('name ownerID')
+    classroom = yield Classroom.findOne({ code: code.toLowerCase() }).select('name ownerID aceConfig')
     if not classroom
       res.status(404).send({})
     classroom = classroom.toObject()
@@ -185,3 +186,22 @@ module.exports =
     yield CourseInstance.update({_id: {$in: freeCourseInstanceIDs}}, { $addToSet: { members: req.user._id }})
     yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: freeCourseInstanceIDs } } })
     res.send(classroom.toObject({req: req}))
+
+  setStudentPassword: wrap (req, res, next) ->
+    newPassword = req.body.password
+    { classroomID, memberID } = req.params
+    teacherID = req.user.id
+    return next() if teacherID is memberID or not newPassword
+    ownedClassrooms = yield Classroom.find({ ownerID: mongoose.Types.ObjectId(teacherID) })
+    ownedStudentIDs = _.flatten ownedClassrooms.map (c) ->
+      c.get('members').map (id) ->
+        id.toString()
+    return next() unless memberID in ownedStudentIDs
+    student = yield User.findById(memberID)
+    if student.get('emailVerified')
+      return next new errors.Forbidden("Can't reset password for a student that has verified their email address.")
+    { valid, error } = tv4.validateResult(newPassword, schemas.passwordString)
+    unless valid
+      throw new errors.UnprocessableEntity(error.message)
+    yield student.update({ $set: { passwordHash: User.hashPassword(newPassword) } })
+    res.status(200).send({})

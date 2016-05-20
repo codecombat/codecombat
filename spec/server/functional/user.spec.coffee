@@ -235,6 +235,18 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
       classroom = yield Classroom.findById(classroom.id)
       expect(classroom.get('members').length).toBe(0)
       done()
+    
+    it 'changes the role regardless of emailVerified', utils.wrap (done) ->
+      user = yield utils.initUser()
+      user.set('emailVerified', true)
+      yield user.save()
+      yield utils.loginUser(user)
+      attrs = user.toObject()
+      attrs.role = 'teacher'
+      [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: attrs }
+      user = yield User.findById(user.id)
+      expect(user.get('role')).toBe('teacher')
+      done()
 
   it 'ignores attempts to change away from a teacher role', utils.wrap (done) ->
     user = yield utils.initUser()

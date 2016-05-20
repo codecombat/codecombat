@@ -92,7 +92,7 @@ module.exports = class CoursesView extends RootView
       @renderSelectors '#join-class-form'
       return
     @renderSelectors '#join-class-form'
-    if me.get('emailVerified')
+    if me.get('emailVerified') or me.isStudent()
       newClassroom = new Classroom()
       jqxhr = newClassroom.joinWithCode(@classCode)
       @listenTo newClassroom, 'join:success', -> @onJoinClassroomSuccess(newClassroom)

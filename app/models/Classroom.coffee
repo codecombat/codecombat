@@ -52,6 +52,16 @@ module.exports = class Classroom extends CocoModel
     }
     _.extend options, opts
     @fetch(options)
+
+  setStudentPassword: (student, password, options) ->
+    classroomID = @.id
+    $.ajax {
+      url: "/db/classroom/#{classroomID}/members/#{student.id}/reset-password"
+      method: 'POST'
+      data: { password }
+      success: => @trigger 'save-password:success'
+      error: (response) => @trigger 'save-password:error', response.responseJSON
+    }
     
   getLevels: (options={}) ->
     # options: courseID, withoutLadderLevels
