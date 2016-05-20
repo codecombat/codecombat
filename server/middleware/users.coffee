@@ -83,7 +83,7 @@ module.exports =
     user = yield User.findById(req.params.userID)
     timestamp = (new Date).getTime()
     if not user
-      res.status(404).send()
+      throw new errors.NotFound('User not found')
     context =
       email_id: sendwithus.templates.verify_email
       recipient:
@@ -106,7 +106,7 @@ module.exports =
     if student.get('emailVerified')
       return next new errors.Forbidden("Can't reset password for a student that has verified their email address.")
     if newPassword and studentID in ownedStudentIDs
-      yield User.update({ _id: mongoose.Types.ObjectId(studentID) }, { $set: { passwordHash: User.hashPassword(newPassword) } })
+      yield student.update({ $set: { passwordHash: User.hashPassword(newPassword) } })
       res.status(200).send({})
     else
       next()
