@@ -13,6 +13,8 @@ SubscribeModal = require 'views/core/SubscribeModal'
 module.exports = class ClansView extends RootView
   id: 'clans-view'
   template: template
+  publicClansArray: []
+  myClansArray: []
 
   events:
     'click .create-clan-btn': 'onClickCreateClan'
