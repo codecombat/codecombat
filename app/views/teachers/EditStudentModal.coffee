@@ -1,6 +1,7 @@
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
 template = require 'templates/teachers/edit-student-modal'
+auth = require 'core/auth'
 
 module.exports = class EditStudentModal extends ModalView
   id: 'edit-student-modal'
@@ -23,7 +24,7 @@ module.exports = class EditStudentModal extends ModalView
 
   onClickSendRecoveryEmail: ->
     email = @user.get('email')
-    res = $.post '/auth/reset', {email: email}, =>
+    auth.sendRecoveryEmail(email).then =>
       @state.set { emailSent: true }
 
   onClickChangePassword: ->

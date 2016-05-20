@@ -60,6 +60,9 @@ module.exports.logoutUser = ->
   res = $.post('/auth/logout', {}, callback)
   res.fail(genericFailure)
 
+module.exports.sendRecoveryEmail = (email) ->
+  $.post '/auth/reset', {email: email}
+
 onSetVolume = (e) ->
   return if e.volume is me.get('volume')
   me.set('volume', e.volume)
