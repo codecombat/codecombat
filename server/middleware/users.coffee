@@ -67,14 +67,14 @@ module.exports =
     unless req.params.verificationCode is user.verificationCode(timestamp)
       throw new errors.UnprocessableEntity('Verification code does not match')
     yield User.update({ _id: user.id }, { emailVerified: true })
-    res.status(200).send({ role: user.toObject().role })
+    res.status(200).send({ role: user.get('role') })
 
   resetEmailVerifiedFlag: wrap (req, res, next) ->
     newEmail = req.body.email
     _id = mongoose.Types.ObjectId(req.body._id)
     if newEmail
       user = yield User.findOne({ _id })
-      oldEmail = user.toObject().email
+      oldEmail = user.get('email')
       if newEmail isnt oldEmail
         yield User.update({ _id }, { $set: { emailVerified: false } })
     next()
@@ -98,7 +98,7 @@ module.exports =
   teacherPasswordReset: wrap (req, res, next) ->
     ownedClassrooms = yield Classroom.find({ ownerID: mongoose.Types.ObjectId(req.user.id) })
     ownedStudentIDs = _.flatten ownedClassrooms.map (c) ->
-      c.toObject().members.map (id) ->
+      c.get('members').map (id) ->
         id.toString()
     newPassword = req.body.password
     studentID = req.params.handle
