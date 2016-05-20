@@ -58,7 +58,7 @@ describe 'EditStudentModal', ->
         request = jasmine.Ajax.requests.mostRecent()
         expect(request).toBeDefined()
 
-      it 'updates the button', ->
+      xit 'updates the button', ->
         request1 = jasmine.Ajax.requests.mostRecent()
         fail "Expected a request to be sent" unless request1
         modal.$('.new-password-input').val(newPassword).change().trigger('input')
