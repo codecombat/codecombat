@@ -55,7 +55,7 @@ module.exports.setup = (app) ->
   app.get('/db/campaign/-/overworld', mw.campaigns.fetchOverworld)
 
   app.post('/db/classroom', mw.classrooms.post)
-  app.get('/db/classroom', mw.classrooms.getByCode, mw.classrooms.getByOwner)
+  app.get('/db/classroom', mw.classrooms.fetchByCode, mw.classrooms.getByOwner)
   app.get('/db/classroom/:handle/levels', mw.classrooms.fetchAllLevels)
   app.get('/db/classroom/:handle/courses/:courseID/levels', mw.classrooms.fetchLevelsForCourse)
   app.get('/db/classroom/:handle/member-sessions', mw.classrooms.fetchMemberSessions)

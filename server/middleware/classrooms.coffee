@@ -15,7 +15,7 @@ User = require '../models/User'
 CourseInstance = require '../models/CourseInstance'
 
 module.exports =
-  getByCode: wrap (req, res, next) ->
+  fetchByCode: wrap (req, res, next) ->
     code = req.query.code
     return next() unless code
     classroom = yield Classroom.findOne({ code: code.toLowerCase() }).select('name ownerID')
