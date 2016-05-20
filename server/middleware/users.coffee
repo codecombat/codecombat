@@ -96,17 +96,16 @@ module.exports =
     res.status(200).send({})
 
   teacherPasswordReset: wrap (req, res, next) ->
+    newPassword = req.body.password
+    return next() if req.user.id is req.params.handle or not newPassword
     ownedClassrooms = yield Classroom.find({ ownerID: mongoose.Types.ObjectId(req.user.id) })
     ownedStudentIDs = _.flatten ownedClassrooms.map (c) ->
       c.get('members').map (id) ->
         id.toString()
-    newPassword = req.body.password
     studentID = req.params.handle
+    return next() unless studentID in ownedStudentIDs
     student = yield User.findById(studentID)
     if student.get('emailVerified')
       return next new errors.Forbidden("Can't reset password for a student that has verified their email address.")
-    if newPassword and studentID in ownedStudentIDs
-      yield student.update({ $set: { passwordHash: User.hashPassword(newPassword) } })
-      res.status(200).send({})
-    else
-      next()
+    yield student.update({ $set: { passwordHash: User.hashPassword(newPassword) } })
+    res.status(200).send({})
