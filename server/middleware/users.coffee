@@ -80,7 +80,7 @@ module.exports =
     next()
 
   sendVerificationEmail: wrap (req, res, next) ->
-    user = yield User.findOne({ _id: mongoose.Types.ObjectId(req.params.userID) })
+    user = yield User.findById(req.params.userID)
     timestamp = (new Date).getTime()
     if not user
       res.status(404).send()
@@ -102,7 +102,7 @@ module.exports =
         id.toString()
     newPassword = req.body.password
     studentID = req.params.handle
-    student = yield User.findOne({ _id: mongoose.Types.ObjectId(studentID) })
+    student = yield User.findById(studentID)
     if student.get('emailVerified')
       return next new errors.Forbidden("Can't reset password for a student that has verified their email address.")
     if newPassword and studentID in ownedStudentIDs
