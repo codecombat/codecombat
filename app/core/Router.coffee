@@ -18,6 +18,8 @@ module.exports = class CocoRouter extends Backbone.Router
         return @navigate "/play", {trigger: true, replace: true}
       return @routeDirectly('NewHomeView', [])
 
+    'l': go('l/my')
+
     'about': go('AboutView')
 
     'account': go('account/MainAccountView')
