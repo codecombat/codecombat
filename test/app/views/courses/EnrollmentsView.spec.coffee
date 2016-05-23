@@ -11,6 +11,7 @@ describe 'EnrollmentsView', ->
   beforeEach (done) ->
     me.set('anonymous', false)
     me.set('role', 'teacher')
+    me.set('enrollmentRequestSent', false)
     @view = new EnrollmentsView()
     
     # Make three classrooms, sharing users from a pool of 10, 5 of which are enrolled
@@ -92,7 +93,8 @@ describe 'EnrollmentsView', ->
         
   describe 'when there are no prepaids to show', ->
     beforeEach (done) ->
-      @view.prepaids.reset()
+      @view.prepaids.reset([])
+      @view.updatePrepaidGroups()
       _.defer(done)
       
     it 'fills the void with the rest of the page content', ->

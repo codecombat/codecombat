@@ -45,9 +45,6 @@ describe 'TeachersContactModal', ->
       it 'shows a success message', ->
         expect(@modal.$('.alert-success').length).toBe(1)
         
-      describe 'submit button', ->
-        it 'is disabled until one of the inputs changes', ->
-          expect(@modal.$('#submit-btn').is(':disabled')).toBe(true)
-          @modal.$('input[name="email"]').trigger('change')
-          expect(@modal.$('#submit-btn').is(':disabled')).toBe(false)
+      it 'disables the submit button', ->
+        expect(@modal.$('#submit-btn').is(':disabled')).toBe(true)
       

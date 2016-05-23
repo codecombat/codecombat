@@ -272,7 +272,6 @@ module.exports = class TeacherClassView extends RootView
     @students.sort()
 
   onKeyPressStudentSearch: (e) ->
-    console.log 'emit event'
     @state.set('searchTerm', $(e.target).val())
 
   getSelectedStudentIDs: ->

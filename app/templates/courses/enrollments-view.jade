@@ -48,14 +48,14 @@ block content
       .row.m-t-3
         if anyPrepaids
           #prepaids-col.col-md-9
-            if available
+            if _.size(available) > 0
               h5.m-b-1(data-i18n="teacher.available_credits")
               .row
                 for prepaid in available
                   .col-sm-4.col-xs-6
                     +prepaidCard(prepaid)
               
-            if pending
+            if _.size(pending) > 0
               h5.m-b-1.m-t-3(data-i18n="teacher.pending_credits")
               .row
                 for prepaid in pending

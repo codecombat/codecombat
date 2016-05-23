@@ -50,12 +50,13 @@ module.exports =
       courseID = null
       classroomMap = {}
       classroomMap[classroom.id] = classroom for classroom in classrooms
+      levelOriginal = level.get('original')
       for courseInstance in courseInstances
         classroom = classroomMap[courseInstance.get('classroomID').toString()]
         courseID = courseInstance.get('courseID')
         classroomCourse = _.find(classroom.get('courses'), (c) -> c._id.equals(courseID))
         for courseLevel in classroomCourse.levels
-          if courseLevel.original.equals(level._id)
+          if courseLevel.original.equals(levelOriginal)
             classroomWithLevel = classroom
             break
         break if classroomWithLevel
@@ -67,7 +68,7 @@ module.exports =
       unless course.get('free') or req.user.isEnrolled()
         throw new errors.PaymentRequired('You must be enrolled to access this content')
         
-      lang = classroomWithLevel.get('aceConfig').language
+      lang = classroomWithLevel.get('aceConfig')?.language
       attrs.codeLanguage = lang if lang
       
     else

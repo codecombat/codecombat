@@ -378,14 +378,17 @@ mixin bulkAssignControls
       span(data-i18n='teacher.enroll_selected_students')
 
 mixin enrollmentStatusTab
-  form.form-inline.text-center.m-t-3
-    #search-form-group.form-group
-      label(for="student-search") Search for student:
-      input#student-search.form-control.m-l-1(type="search")
-      span.glyphicon.glyphicon-search.form-control-feedback
+  // TODO: Have search input in all tabs
+    
+  //form.form-inline.text-center.m-t-3
+  //  #search-form-group.form-group
+  //    label(for="student-search") Search for student:
+  //    input#student-search.form-control.m-l-1(type="search")
+  //    span.glyphicon.glyphicon-search.form-control-feedback
 
-  table.table#enrollment-status-table.table-condensed
+  table.table#enrollment-status-table.table-condensed.m-t-3
     thead
+      // Checkbox code works, but don't need it yet.
       //th.checkbox-col.select-all
         .checkbox-flat
           input(type='checkbox' id='checkbox-all-students')

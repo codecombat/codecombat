@@ -12,7 +12,8 @@ describe 'EditStudentModal', ->
   describe 'for a verified user', ->
     beforeEach (done) ->
       user = factories.makeUser({ email, emailVerified: true })
-      modal = new EditStudentModal({ user })
+      classroom = factories.makeClassroom()
+      modal = new EditStudentModal({ user, classroom })
       request = jasmine.Ajax.requests.mostRecent()
       request.respondWith({ status: 200, responseText: JSON.stringify(user) })
       jasmine.demoModal(modal)
@@ -37,7 +38,8 @@ describe 'EditStudentModal', ->
   describe 'for an unverified user', ->
     beforeEach (done) ->
       user = factories.makeUser({ email , emailVerified: false })
-      modal = new EditStudentModal({ user })
+      classroom = factories.makeClassroom()
+      modal = new EditStudentModal({ user, classroom })
       request = jasmine.Ajax.requests.mostRecent()
       request.respondWith({ status: 200, responseText: JSON.stringify(user) })
       jasmine.demoModal(modal)

@@ -37,4 +37,9 @@ module.exports = class EditStudentModal extends ModalView
     @classroom.setStudentPassword(@user, @state.get('newPassword'))
 
   onChangeNewPasswordInput: (e) ->
-    @state.set { newPassword: $(e.currentTarget).val() }, { silent: true }
+    @state.set { 
+      newPassword: $(e.currentTarget).val()
+      emailSent: false
+      passwordChanged: false
+    }, { silent: true }
+    @renderSelectors('.change-password-btn')

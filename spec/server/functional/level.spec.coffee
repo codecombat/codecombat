@@ -8,6 +8,7 @@ User = require '../../../server/models/User'
 request = require '../request'
 utils = require '../utils'
 moment = require 'moment'
+mongoose = require 'mongoose'
 
 describe 'Level', ->
 
@@ -42,13 +43,18 @@ describe 'Level', ->
 
 describe 'GET /db/level/:handle/session', ->
 
-  describe 'when level is a course level', ->
+  describe 'when level IS a course level', ->
 
     beforeEach utils.wrap (done) ->
       yield utils.clearModels([Campaign, Course, CourseInstance, Level, User])
       admin = yield utils.initAdmin()
       yield utils.loginUser(admin)
       @level = yield utils.makeLevel({type: 'course'})
+      
+      # To ensure test compares original, not id, make them different. TODO: Make factories do this normally?
+      @level.set('original', new mongoose.Types.ObjectId())  
+      @level.save()
+      
       @campaign = yield utils.makeCampaign({}, {levels: [@level]})
       @course = yield utils.makeCourse({free: true}, {campaign: @campaign})
       @student = yield utils.initUser({role: 'student'})
@@ -65,6 +71,14 @@ describe 'GET /db/level/:handle/session', ->
       [res, body] = yield request.getAsync { uri: @url, json: true }
       expect(res.statusCode).toBe(200)
       expect(body.codeLanguage).toBe('javascript')
+      done()
+      
+    it 'works if the classroom has no aceConfig', utils.wrap (done) ->
+      @classroom.set('aceConfig', undefined)
+      yield @classroom.save()
+      [res, body] = yield request.getAsync { uri: @url, json: true }
+      expect(res.statusCode).toBe(200)
+      expect(body.codeLanguage).toBe('python')
       done()
 
     it 'returns 402 if the user is not in a course with that level', utils.wrap (done) ->
@@ -136,3 +150,31 @@ describe 'GET /db/level/:handle/session', ->
       [res, body] = yield request.getAsync { uri: @url, json: true }
       expect(body._id).toBe(sessionID)
       done()
+      
+    describe 'when the level is not free', ->
+      beforeEach utils.wrap (done) ->
+        yield @level.update({$set: {requiresSubscription: true}})
+        done()
+        
+      it 'returns 402 for normal users', utils.wrap (done) ->
+        [res, body] = yield request.getAsync { uri: @url, json: true }
+        expect(res.statusCode).toBe(402)
+        done()
+        
+      it 'returns 200 for admins', utils.wrap (done) ->
+        yield @player.update({$set: {permissions: ['admin']}})
+        [res, body] = yield request.getAsync { uri: @url, json: true }
+        expect(res.statusCode).toBe(200)
+        done()
+
+      it 'returns 200 for adventurer levels', utils.wrap (done) ->
+        yield @level.update({$set: {adventurer: true}})
+        [res, body] = yield request.getAsync { uri: @url, json: true }
+        expect(res.statusCode).toBe(200)
+        done()
+
+      it 'returns 200 for subscribed users', utils.wrap (done) ->
+        yield @player.update({$set: {stripe: {free: true}}})
+        [res, body] = yield request.getAsync { uri: @url, json: true }
+        expect(res.statusCode).toBe(200)
+        done()

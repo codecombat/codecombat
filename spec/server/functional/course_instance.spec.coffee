@@ -361,7 +361,7 @@ describe 'GET /db/course_instance/:handle/classroom', ->
     expect(res.statusCode).toBe(403)
     done()
 
-describe 'GET /db/course_instance/-/recent', ->
+describe 'POST /db/course_instance/-/recent', ->
   
   url = getURL('/db/course_instance/-/recent')
   
@@ -383,7 +383,7 @@ describe 'GET /db/course_instance/-/recent', ->
     done()
 
   it 'returns all non-HoC course instances and their related users and prepaids', utils.wrap (done) ->
-    [res, body] = yield request.getAsync(url, { json: true })
+    [res, body] = yield request.postAsync(url, { json: true })
     expect(res.statusCode).toBe(200)
     expect(res.body.courseInstances[0]._id).toBe(@courseInstance.id)
     expect(res.body.students[0]._id).toBe(@student.id)
@@ -393,23 +393,23 @@ describe 'GET /db/course_instance/-/recent', ->
   it 'returns course instances within a specified range', utils.wrap (done) ->
     startDay = moment().subtract(1, 'day').format('YYYY-MM-DD')
     endDay = moment().add(1, 'day').format('YYYY-MM-DD')
-    [res, body] = yield request.getAsync(url, { json: { startDay, endDay } })
+    [res, body] = yield request.postAsync(url, { json: { startDay, endDay } })
     expect(res.body.courseInstances.length).toBe(1)
 
     startDay = moment().add(1, 'day').format('YYYY-MM-DD')
     endDay = moment().add(2, 'day').format('YYYY-MM-DD')
-    [res, body] = yield request.getAsync(url, { json: { startDay, endDay } })
+    [res, body] = yield request.postAsync(url, { json: { startDay, endDay } })
     expect(res.body.courseInstances.length).toBe(0)
 
     startDay = moment().subtract(2, 'day').format('YYYY-MM-DD')
     endDay = moment().subtract(1, 'day').format('YYYY-MM-DD')
-    [res, body] = yield request.getAsync(url, { json: { startDay, endDay } })
+    [res, body] = yield request.postAsync(url, { json: { startDay, endDay } })
     expect(res.body.courseInstances.length).toBe(0)
     
     done()
     
   it 'returns 403 if not an admin', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
-    [res, body] = yield request.getAsync(url, { json: true })
+    [res, body] = yield request.postAsync(url, { json: true })
     expect(res.statusCode).toBe(403)
     done()

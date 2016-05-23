@@ -98,7 +98,7 @@ module.exports =
       throw new errors.NotFound('Level original ObjectId not found in Classroom courses')
     
     if not nextLevelOriginal
-      res.status(200).send({})
+      return res.status(200).send({})
       
     dbq = Level.findOne({original: mongoose.Types.ObjectId(nextLevelOriginal)})
     dbq.sort({ 'version.major': -1, 'version.minor': -1 })
@@ -137,7 +137,7 @@ module.exports =
     for courseInstance in courseInstances
       if members = courseInstance.get('members')
         userIDs.push(userID) for userID in members
-    users = yield User.find({_id: {$in: userIDs}}, {coursePrepaid: 1})
+    users = yield User.find({_id: {$in: userIDs}}, {coursePrepaid: 1, coursePrepaidID: 1})
     
     prepaidIDs = []
     for user in users

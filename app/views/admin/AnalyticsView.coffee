@@ -290,7 +290,7 @@ module.exports = class AnalyticsView extends RootView
       prepaidUserMap = {}
       for user in data.students
         continue unless studentPaidStatusMap[user._id]
-        if prepaidID = user.coursePrepaidID or user.course.coursePrepaid?._id # TODO: make sure this works for coursePrepaid
+        if prepaidID = user.coursePrepaidID or user.coursePrepaid?._id
           studentPaidStatusMap[user._id] = 'paid'
           prepaidUserMap[prepaidID] ?= []
           prepaidUserMap[prepaidID].push(user._id)

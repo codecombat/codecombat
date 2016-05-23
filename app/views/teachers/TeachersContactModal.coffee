@@ -10,7 +10,6 @@ module.exports = class TeachersContactModal extends ModalView
   
   events:
     'submit form': 'onSubmitForm'
-    'change form': 'onChangeForm'
   
   initialize: (options={}) ->
     @state = new State({
@@ -40,10 +39,6 @@ module.exports = class TeachersContactModal extends ModalView
     @state.set('formValues', { email, message })
     super()
 
-  onChangeForm: ->
-    # Want to re-render without losing form focus. TODO: figure out how in state system.
-    @$('#submit-btn').attr('disabled', false)
-
   onSubmitForm: (e) ->
     e.preventDefault()
     return if @state.get('sendingState') is 'sending'
@@ -64,7 +59,12 @@ module.exports = class TeachersContactModal extends ModalView
     contact.send({
       data
       context: @
-      success: -> @state.set({ sendingState: 'sent' })
+      success: ->
+        @state.set({ sendingState: 'sent' })
+        me.set('enrollmentRequestSent', true)
+        setTimeout(=> 
+          @hide?()
+        , 3000)
       error: -> @state.set({ sendingState: 'error' })
     })
 

@@ -44,8 +44,9 @@ module.exports = class EnrollmentsView extends RootView
     @prepaids.comparator = '_id'
     @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
     @debouncedRender = _.debounce @render, 0
-    @listenTo @prepaids, 'all', -> @state.set('prepaidGroups', @prepaids.groupBy((p) -> p.status()))
+    @listenTo @prepaids, 'sync', @updatePrepaidGroups
     @listenTo(@state, 'all', @debouncedRender)
+    @listenTo(me, 'change:enrollmentRequestSent', @debouncedRender)
 
   onceClassroomsSync: ->
     for classroom in @classrooms.models
@@ -55,6 +56,9 @@ module.exports = class EnrollmentsView extends RootView
     @calculateEnrollmentStats()
     @state.set('totalCourses', @courses.size())
     super()
+    
+  updatePrepaidGroups: ->
+    @state.set('prepaidGroups', @prepaids.groupBy((p) -> p.status()))
 
   calculateEnrollmentStats: ->
     @removeDeletedStudents()
@@ -95,10 +99,13 @@ module.exports = class EnrollmentsView extends RootView
     if input isnt "" and (parseFloat(input) isnt parseInt(input) or _.isNaN parseInt(input))
       @$('#students-input').val(@state.get('numberOfStudents'))
     else
-      @state.set('numberOfStudents', Math.max(parseInt(@$('#students-input').val()) or 0, 0))
+      @state.set({'numberOfStudents': Math.max(parseInt(@$('#students-input').val()) or 0, 0)}, {silent: true}) # do not re-render
 
   numberOfStudentsIsValid: -> 0 < @get('numberOfStudents') < 100000
 
   onClickEnrollStudentsButton: ->
     modal = new ActivateLicensesModal({ selectedUsers: @notEnrolledUsers, users: @members })
     @openModalView(modal)
+    modal.once 'hidden', =>
+      @prepaids.add(modal.prepaids.models, { merge: true })
+      @debouncedRender() # Because one changed model does not a collection update make

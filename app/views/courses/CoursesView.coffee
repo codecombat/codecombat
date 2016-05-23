@@ -102,6 +102,9 @@ module.exports = class CoursesView extends RootView
       @openModalView modal
       @listenTo modal, 'join:success', @onJoinClassroomSuccess
       @listenTo modal, 'join:error', @onJoinClassroomError
+      @listenTo modal, 'hidden', ->
+        @state = null
+        @renderSelectors '#join-class-form'
 
   onJoinClassroomError: (classroom, jqxhr, options) ->
     @state = null

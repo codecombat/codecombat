@@ -16,6 +16,7 @@ module.exports = class ActivateLicensesModal extends ModalView
     'change input[type="checkbox"][name="user"]': 'updateSelectedStudents'
     'change select.classroom-select': 'replaceStudentList'
     'submit form': 'onSubmitForm'
+    'click #get-more-licenses-btn': 'onClickGetMoreLicensesButton'
 
   getInitialState: (options) ->
     selectedUsers = options.selectedUsers or options.users
@@ -113,3 +114,6 @@ module.exports = class ActivateLicensesModal extends ModalView
 
   finishRedeemUsers: ->
     @trigger 'redeem-users', @state.get('selectedUsers')
+
+  onClickGetMoreLicensesButton: ->
+    @hide?() # In case this is opened in /teachers/enrollments itself, otherwise the button does nothing
