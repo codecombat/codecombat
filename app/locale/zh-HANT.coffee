@@ -725,17 +725,17 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     editor_config_behaviors_description: "自動填入小括號、大括號以及引號。"
 
   about:
-#    main_title: "If you want to learn to program, you need to write (a lot of) code."
-#    main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
-#    mission_link: "Mission"
-#    team_link: "Team"
-#    story_link: "Story"
-#    press_link: "Press"
-#    mission_title: "Our mission: make programming accessible to every student on Earth."
-#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
-#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
-#    team_title: "Meet the CodeCombat team"
-#    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
+    main_title: "如果您想要學編程，你需要寫(一大堆)程式碼。"#"If you want to learn to program, you need to write (a lot of) code."
+    main_description: "在CodeCombat中，我們的職責是確保您笑著玩遊戲。"    #"At CodeCombat, our job is to make sure you're doing that with a smile on your face."
+    mission_link: "任務"#"Mission"
+    team_link: "隊伍"#"Team"
+    story_link: "故事"#"Story"
+    press_link: "按"#"Press"
+    mission_title: "我們的任務為：讓世上每個學生都有機會能學會編程。"    #"Our mission: make programming accessible to every student on Earth."
+    mission_description_1: "<strong>編程是一種魔法</strong>。它是一種從純粹的想像中創造東西的能力。我們營運CodeCombat來讓學習者可以透過<strong>鍵入程式碼</strong>在指尖感覺到巫師般的力量。"    #"<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
+    mission_description_2: "它的出現也讓使用者學得更快，就像是與它對話而不是閱讀手冊一般。我們想將這種對話帶給每一個學校以及<strong>每一位學生</strong>，因為每個人都應該要有機會體會編程的魔力。 "    #"As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
+    team_title: "與CodeCombat團隊接觸。"#"Meet the CodeCombat team"
+    team_values: "   We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
     nick_title: "程式員" # {change}
     nick_blurb: "亢奮的Guru"
     matt_title: "共同創辦人" # {change}
