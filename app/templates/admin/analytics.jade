@@ -9,25 +9,25 @@ block content
       .row
         .col-md-5.big-stat.active-classes
           div.description Monthly Active Classes
-          if activeClasses.length > 0
-            div.count= activeClasses[0].groups[activeClasses[0].groups.length - 1]
+          if view.activeClasses.length > 0
+            div.count= view.activeClasses[0].groups[view.activeClasses[0].groups.length - 1]
         .col-md-5.big-stat.recurring-revenue
           div.description Monthly Recurring Revenue
-          if revenue.length > 0
-            div.count $#{Math.round((revenue[0].groups[revenue[0].groups.length - 1]) / 100)}
+          if view.revenue.length > 0
+            div.count $#{Math.round((view.revenue[0].groups[view.revenue[0].groups.length - 1]) / 100)}
         .col-md-5.big-stat.classroom-active-users
           div.description Classroom Monthly Active Users
-          if activeUsers.length > 0
+          if view.activeUsers.length > 0
             - var classroomBigMAU = 0; 
-            each count, event in activeUsers[0].events
+            each count, event in view.activeUsers[0].events
               if event.indexOf('MAU classroom') >= 0
                 - classroomBigMAU += count;
             div.count= classroomBigMAU
         .col-md-5.big-stat.campaign-active-users
           div.description Campaign Monthly Active Users
-          if activeUsers.length > 0
+          if view.activeUsers.length > 0
             - var campaignBigMAU = 0; 
-            each count, event in activeUsers[0].events
+            each count, event in view.activeUsers[0].events
               if event.indexOf('MAU campaign') >= 0
                 - campaignBigMAU += count;
             div.count= campaignBigMAU
@@ -71,9 +71,9 @@ block content
         table.table.table-striped.table-condensed
           tr
             th Day
-            for group in activeClassGroups
+            for group in view.activeClassGroups
               th= group.replace('Active classes', '')
-          each activeClass in activeClasses
+          each activeClass in view.activeClasses
             tr
               td= activeClass.day
               each val in activeClass.groups
@@ -125,9 +125,9 @@ block content
         table.table.table-striped.table-condensed
           tr
             th(style='min-width:85px;') Day
-            for group in revenueGroups
+            for group in view.revenueGroups
               th= group.replace('DRR ', 'Daily ').replace('MRR ', 'Monthly ')
-          each entry in revenue
+          each entry in view.revenue
             tr
               td= entry.day
               each val in entry.groups
@@ -265,9 +265,9 @@ block content
             div Loading ...
 
         h1 Active Users
-        if activeUsers.length > 0
+        if view.activeUsers.length > 0
           - var eventNames = [];
-            each count, event in activeUsers[0].events
+            each count, event in view.activeUsers[0].events
               if event.indexOf('classroom') >= 0
                 - eventNames.push(event)
           - eventNames.sort(function (a, b) {return a.localeCompare(b);});
@@ -276,7 +276,7 @@ block content
               th(style='min-width:85px;') Day
               each eventName in eventNames
                 th= eventName
-            each activeUser in activeUsers
+            each activeUser in view.activeUsers
               tr
                 td= activeUser.day
                 each eventName in eventNames
@@ -290,14 +290,14 @@ block content
             th Paid Enrollments Redeemed
             th Trial Enrollments Issued
             th Trial Enrollments Redeemed
-          each day in enrollmentDays
+          each day in view.enrollmentDays
             tr
               td= day
-              if dayEnrollmentsMap[day] 
-                td= dayEnrollmentsMap[day].paidIssued || 0
-                td= dayEnrollmentsMap[day].paidRedeemed || 0
-                td= dayEnrollmentsMap[day].trialIssued || 0
-                td= dayEnrollmentsMap[day].trialRedeemed || 0
+              if view.dayEnrollmentsMap[day] 
+                td= view.dayEnrollmentsMap[day].paidIssued || 0
+                td= view.dayEnrollmentsMap[day].paidRedeemed || 0
+                td= view.dayEnrollmentsMap[day].trialIssued || 0
+                td= view.dayEnrollmentsMap[day].trialRedeemed || 0
               else
                 td 0
                 td 0
@@ -320,9 +320,9 @@ block content
         .campaign-monthly-active-users-chart-365.line-chart-container
 
         h1 Active Users
-        if activeUsers.length > 0
+        if view.activeUsers.length > 0
           - var eventNames = [];
-            each count, event in activeUsers[0].events
+            each count, event in view.activeUsers[0].events
               if event.indexOf('campaign') >= 0
                 - eventNames.push(event)
           - eventNames.sort(function (a, b) {return a.localeCompare(b);});
@@ -331,7 +331,7 @@ block content
               th(style='min-width:85px;') Day
               each eventName in eventNames
                 th= eventName
-            each activeUser in activeUsers
+            each activeUser in view.activeUsers
               tr
                 td= activeUser.day
                 each eventName in eventNames
@@ -345,9 +345,9 @@ block content
         .campaign-vs-classroom-monthly-active-users-chart.line-chart-container
 
         h1 Active Users
-        if activeUsers.length > 0
+        if view.activeUsers.length > 0
           - var eventNames = [];
-            each count, event in activeUsers[0].events
+            each count, event in view.activeUsers[0].events
               - eventNames.push(event)
           - eventNames.sort(function (a, b) {
             - if (a.indexOf('campaign') == b.indexOf('campaign') || a.indexOf('classroom') == b.indexOf('classroom')) {
@@ -365,7 +365,7 @@ block content
               th(style='min-width:85px;') Day
               each eventName in eventNames
                 th= eventName
-            each activeUser in activeUsers
+            each activeUser in view.activeUsers
               tr
                 td= activeUser.day
                 each eventName in eventNames

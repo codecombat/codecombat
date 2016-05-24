@@ -33,12 +33,8 @@ module.exports = class Spell
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
     if @canWrite()
       @setLanguage options.language
-    else if @isEnemySpell()
-      @setLanguage @otherSession?.get('submittedCodeLanguage') ? @spectateOpponentCodeLanguage
     else
       @setLanguage 'javascript'
-    @useTranspiledCode = @shouldUseTranspiledCode()
-    #console.log 'Spell', @spellKey, 'is using transpiled code (should only happen if it\'s an enemy/spectate writable method).' if @useTranspiledCode
 
     @source = @originalSource
     @parameters = p.parameters
@@ -88,10 +84,8 @@ module.exports = class Spell
       @originalSource = switch @language
         when 'python' then @originalSource.replace /loop:/, 'while True:'
         when 'javascript' then @originalSource.replace /loop {/, 'while (true) {'
-        when 'clojure' then @originalSource.replace /dotimes \[n 1000\]/, '(while true'
         when 'lua' then @originalSource.replace /loop\n/, 'while true then\n'
         when 'coffeescript' then @originalSource
-        when 'io' then @originalSource.replace /loop\n/, 'while true,\n'
         else @originalSource
 
   addPicoCTFProblem: ->
@@ -126,15 +120,10 @@ module.exports = class Spell
     else
       source = @getSource()
     [pure, problems] = [null, null]
-    if @useTranspiledCode
-      transpiledCode = @session.get('code')
     for thangID, spellThang of @thangs
       unless pure
-        if @useTranspiledCode and transpiledSpell = transpiledCode[@spellKey.split('/')[0]]?[@name]
-          spellThang.aether.pure = transpiledSpell
-        else
-          pure = spellThang.aether.transpile source
-          problems = spellThang.aether.problems
+        pure = spellThang.aether.transpile source
+        problems = spellThang.aether.problems
         #console.log 'aether transpiled', source.length, 'to', spellThang.aether.pure.length, 'for', thangID, @spellKey
       else
         spellThang.aether.raw = source
@@ -182,7 +171,7 @@ module.exports = class Spell
       skipProtectAPI: skipProtectAPI
       includeFlow: includeFlow
       problemContext: problemContext
-      useInterpreter: if @spectateView then true else undefined
+      useInterpreter: true
     aether = new Aether aetherOptions
     if @worker
       workerMessage =
@@ -206,22 +195,6 @@ module.exports = class Spell
 
   toString: ->
     "<Spell: #{@spellKey}>"
-
-  isEnemySpell: ->
-    return false unless @permissions.readwrite.length
-    return false unless @otherSession or @spectateView
-    teamSpells = @session.get('teamSpells')
-    team = @session.get('team') ? 'humans'
-    teamSpells and not _.contains(teamSpells[team], @spellKey)
-
-  shouldUseTranspiledCode: ->
-    # Determine whether this code has already been transpiled, or whether it's raw source needing transpilation.
-    return false if @spectateView or utils.getQueryVariable 'esper'  # Don't use transpiled code with interpreter
-    return true if @isEnemySpell()  # Use transpiled for enemy spells.
-    # Players without permissions can't view the raw code.
-    return false if @observing and @levelType in ['hero', 'course']
-    return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions', true))
-    false
 
   createProblemContext: (thang) ->
     # Create problemContext Aether can use to craft better error messages

@@ -16,20 +16,15 @@ module.exports = class AnalyticsView extends RootView
   lineColors: ['red', 'blue', 'green', 'purple', 'goldenrod', 'brown', 'darkcyan']
   minSchoolCount: 20
 
-  constructor: (options) ->
-    super options
+  initialize: ->
+    @activeClasses = []
+    @activeClassGroups = {}
+    @activeUsers = []
+    @revenue = []
+    @revenueGroups = {}
+    @dayEnrollmentsMap = {}
+    @enrollmentDays = []
     @loadData()
-
-  getRenderData: ->
-    context = super()
-    context.activeClasses = @activeClasses ? []
-    context.activeClassGroups = @activeClassGroups ? {}
-    context.activeUsers = @activeUsers ? []
-    context.revenue = @revenue ? []
-    context.revenueGroups = @revenueGroups ? {}
-    context.dayEnrollmentsMap = @dayEnrollmentsMap ? {}
-    context.enrollmentDays = @enrollmentDays ? []
-    context
 
   afterRender: ->
     super()
