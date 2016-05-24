@@ -20,7 +20,7 @@ defaultTasks = [
   'Choose music file in Introduction script.'
   'Choose autoplay in Introduction script.'
 
-  'Add Clojure/Lua/CoffeeScript.'
+  'Add Lua/CoffeeScript/Java.'
 
   'Write the description.'
   'Write the guide.'

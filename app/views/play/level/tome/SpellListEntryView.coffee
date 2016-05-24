@@ -46,10 +46,6 @@ module.exports = class SpellListEntryView extends CocoView
     paramString = parameters.join ', '
     name = @spell.name
     switch @spell.language
-      when 'io'
-        "#{name} := method(#{paramString})"
-      when 'clojure'
-        "(defn #{name} [#{paramString}] ...)"
       when 'python'
         "def #{name}(#{paramString}):"
       when 'lua'

@@ -110,9 +110,7 @@ exports.config =
         'javascripts/lodash.js': regJoin('^bower_components/lodash/dist/lodash.js')
         'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
         'javascripts/esper.js': 'bower_components/esper.js/esper.js'
-        'javascripts/app/vendor/aether-clojure.js': 'bower_components/aether/build/clojure.js'
         'javascripts/app/vendor/aether-coffeescript.js': 'bower_components/aether/build/coffeescript.js'
-        'javascripts/app/vendor/aether-io.js': 'bower_components/aether/build/io.js'
         'javascripts/app/vendor/aether-javascript.js': 'bower_components/aether/build/javascript.js'
         'javascripts/app/vendor/aether-lua.js': 'bower_components/aether/build/lua.js'
         'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
