@@ -17,13 +17,13 @@ module.exports = class AnalyticsView extends RootView
   minSchoolCount: 20
 
   initialize: ->
-    @activeClasses: []
-    @activeClassGroups: {}
-    @activeUsers: []
-    @revenue: []
-    @revenueGroups: {}
-    @dayEnrollmentsMap: {}
-    @enrollmentDays: []
+    @activeClasses = []
+    @activeClassGroups = {}
+    @activeUsers = []
+    @revenue = []
+    @revenueGroups = {}
+    @dayEnrollmentsMap = {}
+    @enrollmentDays = []
     @loadData()
 
   afterRender: ->
