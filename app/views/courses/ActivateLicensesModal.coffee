@@ -18,7 +18,8 @@ module.exports = class ActivateLicensesModal extends ModalView
     'submit form': 'onSubmitForm'
 
   getInitialState: (options) ->
-    selectedUserModels = _.filter(options.selectedUsers.models, (user) -> not user.isEnrolled())
+    selectedUsers = options.selectedUsers or options.users
+    selectedUserModels = _.filter(selectedUsers.models, (user) -> not user.isEnrolled())
     {
       selectedUsers: new Users(selectedUserModels)
       visibleSelectedUsers: new Users(selectedUserModels)
@@ -31,11 +32,10 @@ module.exports = class ActivateLicensesModal extends ModalView
     @users = options.users.clone()
     @users.comparator = (user) -> user.broadName().toLowerCase()
     @prepaids = new Prepaids()
-    @prepaids.comparator = '_id'
-    @prepaids.fetchByCreator(me.id)
-    @supermodel.trackCollection(@prepaids)
+    @prepaids.comparator = 'endDate' # use prepaids in order of expiration
+    @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
     @classrooms = new Classrooms()
-    @classrooms.fetchMine({
+    @supermodel.trackRequest @classrooms.fetchMine({
       data: {archived: false}
       success: =>
         @classrooms.each (classroom) =>
@@ -43,7 +43,6 @@ module.exports = class ActivateLicensesModal extends ModalView
           jqxhrs = classroom.users.fetchForClassroom(classroom, { removeDeleted: true })
           @supermodel.trackRequests(jqxhrs)
       })
-    @supermodel.trackCollection(@classrooms)
     
     @listenTo @state, 'change', @render
     @listenTo @state.get('selectedUsers'), 'change add remove reset', ->
@@ -56,6 +55,10 @@ module.exports = class ActivateLicensesModal extends ModalView
       @state.set {
         unusedEnrollments: @prepaids.totalMaxRedeemers() - @prepaids.totalRedeemers()
       }
+      
+  onLoaded: ->
+    @prepaids.reset(@prepaids.filter((prepaid) -> prepaid.status() is 'available'))
+    super()
   
   afterRender: ->
     super()
@@ -73,8 +76,7 @@ module.exports = class ActivateLicensesModal extends ModalView
   replaceStudentList: (e) ->
     selectedClassroomID = $(e.currentTarget).val()
     @classroom = @classrooms.get(selectedClassroomID)
-    if selectedClassroomID is 'all-students'
-      @classroom = new Classroom({ _id: 'all-students', name: 'All Students' }) # TODO: This is a horrible hack so the select shows the right option!
+    if not @classroom
       users = _.uniq _.flatten @classrooms.map (classroom) -> classroom.users.models
       @users.reset(users)
       @users.sort()
@@ -96,26 +98,17 @@ module.exports = class ActivateLicensesModal extends ModalView
       return
 
     user = usersToRedeem.first()
-    prepaid = @prepaids.find((prepaid) -> prepaid.get('properties')?.endDate? and prepaid.openSpots() > 0)
-    prepaid = @prepaids.find((prepaid) -> prepaid.openSpots() > 0) unless prepaid
-    $.ajax({
-      method: 'POST'
-      url: _.result(prepaid, 'url') + '/redeemers'
-      data: { userID: user.id }
-      context: @
-      success: (prepaid) ->
-        user.set('coursePrepaidID', prepaid._id)
+    prepaid = @prepaids.find((prepaid) -> prepaid.status() is 'available')
+    prepaid.redeem(user, {
+      success: (prepaid) =>
+        user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate'))
         usersToRedeem.remove(user)
         # pct = 100 * (usersToRedeem.originalSize - usersToRedeem.size() / usersToRedeem.originalSize)
         # @$('#progress-area .progress-bar').css('width', "#{pct.toFixed(1)}%")
         application.tracker?.trackEvent 'Enroll modal finished enroll student', category: 'Courses', userID: user.id
         @redeemUsers(usersToRedeem)
-      error: (jqxhr, textStatus, errorThrown) ->
-        if jqxhr.status is 402
-          message = arguments[2]
-        else
-          message = "#{jqxhr.status}: #{jqxhr.responseText}"
-        @state.set { error: message } # TODO: Test this! ("should" never happen. Only on server responding with an error.)
+      error: (prepaid, jqxhr) =>
+        @state.set { error: jqxhr.responseJSON.message }
     })
 
   finishRedeemUsers: ->

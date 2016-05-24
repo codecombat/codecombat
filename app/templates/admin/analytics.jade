@@ -57,8 +57,8 @@ block content
       .tab-pane#tab_active_classes
         h3 Active Classes 90 days
         .small Active class: 12+ students in a classroom, with 6+ who played in last 30 days. Played == 'Started Level' analytics event.
-        .small Paid student: user.coursePrepaidID set and prepaid.properties.trialRequestID NOT set
-        .small Trial student: user.coursePrepaidID set and prepaid.properties.trialRequestID set
+        .small Paid student: user.coursePrepaid set and prepaid.properties.trialRequestID NOT set
+        .small Trial student: user.coursePrepaid set and prepaid.properties.trialRequestID set
         .small Paid class: at least one paid student in the classroom
         .small Trial class: not paid, at least one trial student in classroom
         .small Free class: not paid, not trial
@@ -135,8 +135,8 @@ block content
 
       .tab-pane#tab_classroom
         h3 Classroom Daily Active Users 90 days
-        .small Paid student: user.coursePrepaidID set and prepaid.properties.trialRequestID NOT set
-        .small Trial student: user.coursePrepaidID set and prepaid.properties.trialRequestID set
+        .small Paid student: user.coursePrepaid set and prepaid.properties.trialRequestID NOT set
+        .small Trial student: user.coursePrepaid set and prepaid.properties.trialRequestID set
         .small Free student: not paid, not trial
         .classroom-daily-active-users-chart-90.line-chart-container
 
@@ -159,8 +159,8 @@ block content
           .small Student: member of a course instance (assigned to course)
           .small For course instances != Single Player, hourOfCode != true
           .small Counts are not summed.  I.e. a student or teacher only contributes to the count of one course
-          .small Paid student: user.coursePrepaidID set and prepaid.properties.trialRequestID NOT set
-          .small Trial student: user.coursePrepaidID set and prepaid.properties.trialRequestID set
+          .small Paid student: user.coursePrepaid set and prepaid.properties.trialRequestID NOT set
+          .small Trial student: user.coursePrepaid set and prepaid.properties.trialRequestID set
           .small Free student: not paid, not trial
           .small Paid teacher: at least one paid student in course instance
           .small Trial teacher: at least one trial student in course instance, and no paid students

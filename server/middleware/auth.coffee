@@ -98,12 +98,7 @@ module.exports =
     
     user = req.body.user
     throw new errors.UnprocessableEntity('Specify an id, username or email to espionage.') unless user
-    if utils.isID(user)
-      query = {_id: mongoose.Types.ObjectId(user)}
-    else
-      user = user.toLowerCase()
-      query = $or: [{nameLower: user}, {emailLower: user}]
-    user = yield User.findOne(query)
+    user = yield User.search(user)
     amActually = req.user
     throw new errors.NotFound() unless user
     req.loginAsync = Promise.promisify(req.login)
