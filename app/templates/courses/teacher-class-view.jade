@@ -419,6 +419,3 @@ mixin enrollmentStatusTab
           td.enroll-col
             if status !== 'enrolled'
               button.enroll-student-button.btn.btn-navy(data-i18n="teacher.enroll_student", data-user-id=student.id)
-          td.revoke-col
-            if status === 'enrolled'
-              button.revoke-student-button.btn.btn-burgandy-alt(data-i18n="teacher.revoke_enrollment", data-user-id=student.id)

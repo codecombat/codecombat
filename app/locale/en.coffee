@@ -1367,7 +1367,6 @@
     earliest_incomplete: "Earliest incomplete level"
     latest_complete: "Latest completed level"
     enroll_student: "Enroll student"
-    revoke_enrollment: "Revoke Enrollment"
     adding_students: "Adding students"
     course_progress: "Course Progress"
     not_applicable: "N/A"
@@ -1438,8 +1437,6 @@
     status_expired: "Expired on {{date}}"
     status_not_enrolled: "Not Enrolled"
     status_enrolled: "Expires on {{date}}"
-    revoke_confirm: "Are you sure you want to revoke enrollment from {{student_name}}?"
-    revoking: "Revoking..."
 
   classes:
     archmage_title: "Archmage"
