@@ -91,7 +91,6 @@ module.exports.setup = (app) ->
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
-  app.delete('/db/prepaid/:handle/redeemers', mw.prepaids.revoke)
 
   app.get '/db/products', require('./db/product').get
 
