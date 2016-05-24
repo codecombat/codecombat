@@ -13,8 +13,7 @@ SubscribeModal = require 'views/core/SubscribeModal'
 module.exports = class ClansView extends RootView
   id: 'clans-view'
   template: template
-  publicClansArray: []
-  myClansArray: []
+  
 
   events:
     'click .create-clan-btn': 'onClickCreateClan'
@@ -23,7 +22,10 @@ module.exports = class ClansView extends RootView
     'click .private-clan-checkbox': 'onClickPrivateCheckbox'
 
   initialize: ->
-    @initData()
+    @publicClansArray = []
+    @myClansArray = []    
+    @idNameMap = {}
+    @loadData()
 
   destroy: ->
     @stopListening?()
@@ -37,9 +39,7 @@ module.exports = class ClansView extends RootView
     @publicClansArray = _.filter(@publicClans.models, (clan) -> clan.get('type') is 'public')
     @myClansArray = @myClans.models
 
-  initData: ->
-    @idNameMap = {}
-
+  loadData: ->
     sortClanList = (a, b) ->
       if a.get('memberCount') isnt b.get('memberCount')
         if a.get('memberCount') < b.get('memberCount') then 1 else -1
