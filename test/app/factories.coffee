@@ -9,6 +9,7 @@ Achievement = require 'models/Achievement'
 EarnedAchievement = require 'models/EarnedAchievement'
 ThangType = require 'models/ThangType'
 Users = require 'collections/Users'
+Prepaid = require 'models/Prepaid'
 
 module.exports = {
 
@@ -36,7 +37,7 @@ module.exports = {
     }, attrs)
     return new Level(attrs)
   
-  makeUser: (attrs) ->
+  makeUser: (attrs, sources={}) ->
     _id = _.uniqueId('user_')
     attrs = _.extend({
       _id: _id
@@ -45,6 +46,10 @@ module.exports = {
       anonymous: false
       name: _.string.humanize(_id)
     }, attrs)
+    
+    if sources.prepaid and not attrs.coursePrepaid
+      attrs.coursePrepaid = sources.prepaid.pick('_id', 'startDate', 'endDate')
+    
     return new User(attrs)
   
   makeClassroom: (attrs, sources={}) ->
@@ -148,6 +153,38 @@ module.exports = {
     }, attrs)
     return new ThangType(attrs)
 
+  makePrepaid: (attrs, sources={}) ->
+    _id = _.uniqueId('prepaid_')
+    attrs = _.extend({}, {
+      _id
+      type: 'course'
+      maxRedeemers: 10
+      endDate: moment().add(1, 'month').toISOString()
+      startDate: moment().subtract(1, 'month').toISOString()
+    }, attrs)
+    
+    if not attrs.redeemers
+      redeemers = sources.redeemers or new Users()
+      attrs.redeemers = ({
+        userID: redeemer.id
+        date: moment().subtract(1, 'month').toISOString()
+      } for redeemer in redeemers.models)
+    
+    return new Prepaid(attrs)
+    
+  makeTrialRequest: (attrs, sources={}) ->
+    _id = _.uniqueId('trial_request_')
+    attrs = _.extend({}, {
+      _id
+      properties: {
+        firstName: 'Mr'
+        lastName: 'Professorson'
+        name: 'Mr Professorson'
+        email: 'an@email.com'
+        phoneNumber: '555-555-5555'
+        organization: 'Greendale'
+      }
+    }, attrs)
 } 
   
 

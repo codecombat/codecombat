@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "English", englishDescription: "English", translation:
+﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
   home:
     slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"  # Warning that only shows up in IE8 and older
@@ -132,6 +132,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     help_suff: "and we'll get in touch!"
 
   modal:
+    cancel: "Cancel"
     close: "Close"
     okay: "Okay"
 
@@ -1119,7 +1120,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     already_enrolled: "already enrolled"
     licenses_remaining: "licenses remaining:"
     insufficient_enrollments: "insufficient paid enrollments"
-    get_enrollments: "Get More Enrollments"
+    get_enrollments: "Get Enrollments" # {change}
     change_language: "Change Course Language"
     keep_using: "Keep Using"
     switch_to: "Switch To"
@@ -1173,6 +1174,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_class: "view class"
     view_levels: "view levels"
     join_class: "Join A Class"
+    join_class_2: "Join class"
     ask_teacher_for_code: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
     enter_c_code: "<Enter Class Code>"
     join: "Join"
@@ -1319,6 +1321,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     update_account_update_student: "Update to Student"
     update_account_not_sure: "Not sure which one to choose? Email"
     update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?\n\nYou will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
+    instructor: "Instructor: "
+    youve_been_invited_1: "You've been invited to join "
+    youve_been_invited_2: ", where you'll learn "
+    youve_been_invited_3: " with your classmates in CodeCombat."
+    by_joining_1: "By joining "
+    by_joining_2: "will be able to help reset your password if you forget or lose it. You can also verify your email address so that you can reset the password yourself!"
+    sent_verification: "We've sent a verification email to:"
+    you_can_edit: "You can edit your email address in "
+    account_settings: "Account Settings"
 
   teacher:
     teacher_dashboard: "Teacher Dashboard" # Navbar
@@ -1356,10 +1367,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     earliest_incomplete: "Earliest incomplete level"
     latest_complete: "Latest completed level"
     enroll_student: "Enroll student"
+    revoke_enrollment: "Revoke Enrollment"
     adding_students: "Adding students"
     course_progress: "Course Progress"
     not_applicable: "N/A"
     edit: "edit"
+    edit_2: "Edit"
     remove: "remove"
     latest_completed: "Latest Completed"
     sort_by: "Sort by"
@@ -1390,8 +1403,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
     enrollments_blurb_2: "require enrollments to access the courses."
     credits_available: "Credits Available"
-    total_unique_students: "Total Unique Students"
-    total_enrolled_students: "Total Enrolled Students"
+    total_unique_students: "Total Students (unique)" # {change}
+    total_enrolled_students: "Total Enrolled" # {change}
     unenrolled_students: "Unenrolled Students"
     add_enrollment_credits: "Add Enrollment Credits"
     purchasing: "Purchasing..."
@@ -1404,6 +1417,29 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bulk_pricing_blurb: "Purchasing for more than 25 students? Contact us to discuss next steps."
     total_unenrolled: "Total unenrolled"
     export_student_progress: "Export Student Progress (CSV)"
+    send_email_to: "Send Recover Password Email to:"
+    email_sent: "Email sent"
+    send_recovery_email: "Send recovery email"
+    enter_new_password_below: "Enter new password below:"
+    change_password: "Change Password"
+    changed: "Changed"
+    available_credits: "Available Credits"
+    pending_credits: "Pending Credits"
+    credits: "credits"
+    start_date: "start date:"
+    end_date: "end date:"
+    num_enrollments_needed: "Number of enrollments needed:"
+    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
+    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
+    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
+    enroll_request_sent_blurb3: "Please reach out to <a href='mailto:schools@codecombat.com'>schools@codecombat.com</a> if you have additional questions at this time."
+    request_sent: "Request Sent!"
+    enrollment_status: "Enrollment Status"
+    status_expired: "Expired on {{date}}"
+    status_not_enrolled: "Not Enrolled"
+    status_enrolled: "Expires on {{date}}"
+    revoke_confirm: "Are you sure you want to revoke enrollment from {{student_name}}?"
+    revoking: "Revoking..."
 
   classes:
     archmage_title: "Archmage"
@@ -1561,7 +1597,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     scribe_introduction_url_mozilla: "Mozilla Developer Network"
     scribe_introduction_suf: " has built. If your idea of fun is articulating the concepts of programming in Markdown form, then this class might be for you."
     scribe_attribute_1: "Skill in words is pretty much all you need. Not only grammar and spelling, but able to convey complicated ideas to others."
-    contact_us_url: "Contact us"
+    contact_us_url: "Contact Us" # {change}
     scribe_join_description: "tell us a little about yourself, your experience with programming and what sort of things you'd like to write about. We'll go from there!"
     scribe_subscribe_desc: "Get emails about article writing announcements."
     diplomat_introduction_pref: "So, if there's one thing we learned from the "
@@ -1704,6 +1740,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     card: "Card"
     status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
     status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+    not_yet_verified: "Not yet verified."
+    resend_email: "Resend email"
+    email_sent: "Email sent! Check your inbox."
+    verifying_email: "Verifying your email address..."
+    successfully_verified: "You've successfully verified your email address!"
+    back_to_student_page: "Go back to student things"
+    back_to_teacher_page: "Go to My Classes"
+    back_to_game: "Go play some more levels!"
+    verify_error: "Something went wrong when verifying your email :("
 
   account_invoices:
     amount: "Amount in US dollars"

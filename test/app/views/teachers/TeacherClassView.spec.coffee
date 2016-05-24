@@ -25,7 +25,16 @@ describe 'TeacherClassView', ->
       me = factories.makeUser({})
       
       @courses = new Courses([factories.makeCourse({name: 'First Course'}), factories.makeCourse({name: 'Second Course'})])
-      @students = new Users(_.times(2, -> factories.makeUser()))
+      available = factories.makePrepaid()
+      expired = factories.makePrepaid({endDate: moment().subtract(1, 'day').toISOString()})
+      @students = new Users([
+        factories.makeUser({name: 'Abner'})
+        factories.makeUser({name: 'Abigail'})
+        factories.makeUser({name: 'Abby'}, {prepaid: available})
+        factories.makeUser({name: 'Ben'}, {prepaid: available})
+        factories.makeUser({name: 'Ned'}, {prepaid: expired})
+        factories.makeUser({name: 'Ebner'}, {prepaid: expired})
+      ])
       @levels = new Levels(_.times(2, -> factories.makeLevel()))
       @classroom = factories.makeClassroom({}, { @courses, members: @students, levels: [@levels, new Levels()] })
       @courseInstances = new CourseInstances([
@@ -42,7 +51,7 @@ describe 'TeacherClassView', ->
             {level, creator: @finishedStudent})
         )
       sessions.push(factories.makeLevelSession(
-          {state: {complete: false}},
+          {state: {complete: true}},
           {level: @levels.first(), creator: @unfinishedStudent})
       )
       @levelSessions = new LevelSessions(sessions)
@@ -66,6 +75,9 @@ describe 'TeacherClassView', ->
     # it "shows the classroom's join code"
     
     describe 'the Students tab', ->
+      beforeEach ->
+        @view.state.set('activeTab', '#students-tab')
+
       # it 'shows all of the students'
       # it 'sorts correctly by Name'
       # it 'sorts correctly by Progress'
@@ -89,7 +101,37 @@ describe 'TeacherClassView', ->
     #     it 'still shows the correct Course Overview progress'
     #
     
+    describe 'the Enrollment Status tab', ->
+      beforeEach ->
+        @view.state.set('activeTab', '#enrollment-status-tab')
       
-    
-    
-    
+      describe 'Enroll button', ->
+        it 'calls enrollStudents with that user when clicked', ->
+          spyOn(@view, 'enrollStudents')
+          @view.$('.enroll-student-button:first').click()
+          expect(@view.enrollStudents).toHaveBeenCalled()
+          users = @view.enrollStudents.calls.argsFor(0)[0]
+          expect(users.size()).toBe(1)
+          expect(users.first().id).toBe(@view.students.first().id)
+          
+      describe 'Revoke button', ->
+        it 'opens a confirm modal once clicked', ->
+          spyOn(window, 'confirm').and.returnValue(true)
+          @view.$('.revoke-student-button:first').click()
+          expect(window.confirm).toHaveBeenCalled()
+
+        describe 'once the prepaid is successfully revoked', ->
+          beforeEach ->
+            spyOn(window, 'confirm').and.returnValue(true)
+            button = @view.$('.revoke-student-button:first')
+            @revokedUser = @view.students.get(button.data('user-id'))
+            @view.$('.revoke-student-button:first').click()
+            request = jasmine.Ajax.requests.mostRecent()
+            request.respondWith({
+              status: 200
+              responseText: '{}'
+            })
+            
+          it 'updates the user and rerenders the page', ->
+            if @view.$(".enroll-student-button[data-user-id='#{@revokedUser.id}']").length isnt 1
+              fail('Could not find enroll student button for user whose enrollment was revoked')

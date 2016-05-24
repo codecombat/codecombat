@@ -107,7 +107,7 @@ mixin progressDot(classroom, course, index)
   - var started = 0;
   if courseInstance
     - complete = courseInstance.numCompleted
-    - started = courseInstance.numStarted
+    - started = courseInstance.started
     - dotClass = complete === total ? 'forest' : started ? 'gold' : '';
   - var progressDotContext = {total: total, complete: complete}; 
   .progress-dot(class=dotClass, data-title=view.progressDotTemplate(progressDotContext))

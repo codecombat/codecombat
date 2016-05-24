@@ -29,3 +29,9 @@ module.exports = class Users extends CocoCollection
     @remove @filter (user) ->
       user.get('deleted')
     true
+
+  search: (term) ->
+    return @slice() unless term
+    term = term.toLowerCase()
+    return @filter (user) ->
+      user.broadName().toLowerCase().indexOf(term) > -1 or (user.get('email') ? '').indexOf(term) > -1 

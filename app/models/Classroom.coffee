@@ -1,6 +1,7 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/classroom.schema'
 utils = require 'core/utils'
+User = require 'models/User'
 
 module.exports = class Classroom extends CocoModel
   @className: 'Classroom'
@@ -10,6 +11,15 @@ module.exports = class Classroom extends CocoModel
   initialize: () ->
     @listenTo @, 'change:aceConfig', @capitalizeLanguageName
     super(arguments...)
+  
+  parse: (obj) ->
+    if obj._id
+      # It's just the classroom object
+      return obj
+    else
+      # It's a compound response with other stuff too
+      @owner = new User(obj.owner)
+      return obj.data
     
   capitalizeLanguageName: ->
     language = @get('aceConfig')?.language
@@ -17,9 +27,19 @@ module.exports = class Classroom extends CocoModel
 
   joinWithCode: (code, opts) ->
     options = {
-      url: _.result(@, 'url') + '/~/members'
+      url: @urlRoot + '/~/members'
       type: 'POST'
       data: { code: code }
+      success: => @trigger 'join:success'
+      error: => @trigger 'join:error'
+    }
+    _.extend options, opts
+    @fetch(options)
+  
+  fetchByCode: (code, opts) ->
+    options = {
+      url: _.result(@, 'url')
+      data: { code: code, "with-owner": true }
     }
     _.extend options, opts
     @fetch(options)
@@ -32,6 +52,16 @@ module.exports = class Classroom extends CocoModel
     }
     _.extend options, opts
     @fetch(options)
+
+  setStudentPassword: (student, password, options) ->
+    classroomID = @.id
+    $.ajax {
+      url: "/db/classroom/#{classroomID}/members/#{student.id}/reset-password"
+      method: 'POST'
+      data: { password }
+      success: => @trigger 'save-password:success'
+      error: (response) => @trigger 'save-password:error', response.responseJSON
+    }
     
   getLevels: (options={}) ->
     # options: courseID, withoutLadderLevels
