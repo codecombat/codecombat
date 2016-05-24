@@ -31,8 +31,11 @@ module.exports = class Spell
     @languages.javascript ?= p.source
     @name = p.name
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
+    @team = @permissions.readwrite[0] ? 'common'
     if @canWrite()
       @setLanguage options.language
+    else if @otherSession and @team is @otherSession.get 'team'
+      @setLanguage @otherSession.get('submittedCodeLanguage') or @otherSession.get('codeLanguage')
     else
       @setLanguage 'javascript'
 
@@ -49,7 +52,6 @@ module.exports = class Spell
       @view.render()  # Get it ready and code loaded in advance
       @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, codeLanguage: @language, level: options.level
       @tabView.render()
-    @team = @permissions.readwrite[0] ? 'common'
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 
   destroy: ->
