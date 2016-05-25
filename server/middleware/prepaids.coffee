@@ -36,7 +36,7 @@ module.exports =
 
   redeem: wrap (req, res) ->
     if not req.user?.isTeacher()
-      throw new errors.Forbidden('Must be a teacher to use enrollments')
+      throw new errors.Forbidden('Must be a teacher to use licenses')
     
     prepaid = yield database.getDocFromHandle(req, Prepaid)
     if not prepaid
@@ -45,7 +45,7 @@ module.exports =
     if prepaid._id.getTimestamp().getTime() < cutoffDate.getTime()
       throw new errors.Forbidden('Cannot redeem from prepaids older than November 11, 2015')
     unless prepaid.get('creator').equals(req.user._id)
-      throw new errors.Forbidden('You may not redeem enrollments from this prepaid')
+      throw new errors.Forbidden('You may not redeem licenses from this prepaid')
     if prepaid.get('redeemers')? and _.size(prepaid.get('redeemers')) >= prepaid.get('maxRedeemers')
       throw new errors.Forbidden('This prepaid is exhausted')
     unless prepaid.get('type') is 'course'

@@ -82,7 +82,7 @@ describe 'ActivateLicensesModal', ->
     
     it 'should fire off one request when clicked'
     
-    describe 'when the teacher has enough enrollments', ->
+    describe 'when the teacher has enough licenses', ->
       beforeEach ->
         selected = @modal.state.get('selectedUsers')
         selected.remove(selected.first())
@@ -103,12 +103,12 @@ describe 'ActivateLicensesModal', ->
           if request.url.indexOf(@prepaidThatExpiresLater.id) is -1
             fail('The second prepaid should be the prepaid that expires later')
   
-    describe 'when the teacher doesn\'t have enough enrollments', ->
+    describe 'when the teacher doesn\'t have enough licenses', ->
       it 'should be disabled', ->
         expect(@modal.$('#activate-licenses-btn').hasClass('disabled')).toBe(true)
         
   describe 'the Purchase More button', ->
-    it 'should redirect to the enrollment purchasing page'
+    it 'should redirect to the license purchasing page'
     
   
       
@@ -122,7 +122,7 @@ describe 'ActivateLicensesModal', ->
   #   it 'should display the correct total number of credits', ->
   #     expect(@modal.$('#total-available').html()).toBe('2')
   #
-  #   it 'should be disabled when teacher doesn\'t have enough enrollments', ->
+  #   it 'should be disabled when teacher doesn\'t have enough licenses', ->
   #     expect(@modal.$('#total-available').html()).toBe('2')
   #
   #

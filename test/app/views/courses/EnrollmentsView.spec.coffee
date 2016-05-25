@@ -65,10 +65,10 @@ describe 'EnrollmentsView', ->
     if @view.$('#actions-col').length isnt 1
       fail('There should be an #action-col, other tests depend on it.')
 
-  describe '"Get Enrollments" area', ->
+  describe '"Get Licenses" area', ->
     
     describe '"Contact Us" button', ->
-      it 'opens a TeachersContactModal, passing in the number of enrollments', ->
+      it 'opens a TeachersContactModal, passing in the number of licenses', ->
         spyOn(@view, 'openModalView')
         @view.state.set('numberOfStudents', 20)
         @view.$('#contact-us-btn').click()
@@ -86,7 +86,7 @@ describe 'EnrollmentsView', ->
         if not @view.$('#request-sent-btn').length
           fail('Request button not found.')
         if not @view.$('#enrollment-request-sent-blurb').length
-          fail('Enrollment request sent blurb not found.')
+          fail('License request sent blurb not found.')
         # TODO: Figure out why this fails in Travis. Seems like it's not loading en locale
 #        if not @view.$('a[href="mailto:schools@codecombat.com"]').length
 #          fail('Mailto: link not found.')

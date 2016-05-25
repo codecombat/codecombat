@@ -115,7 +115,7 @@ describe 'GET /db/level/:handle/session', ->
         expect(res.statusCode).toBe(200)
         done()
 
-      it 'returns 402 if the user\'s enrollment is expired', utils.wrap (done) ->
+      it 'returns 402 if the user\'s license is expired', utils.wrap (done) ->
         @student.set({
           coursePrepaid: {
             _id: {}

@@ -33,7 +33,7 @@ module.exports = class TeachersContactModal extends ModalView
         Your Name: #{props.name || ''}
         Enrollments Needed: #{@enrollmentsNeeded}
         
-        Message: Hi CodeCombat! I want to learn more about the Classroom experience and get enrollments so that my students can access Computer Science 2 and on. 
+        Message: Hi CodeCombat! I want to learn more about the Classroom experience and get licenses so that my students can access Computer Science 2 and on. 
       """
     email = props.email or me.get('email') or ''
     @state.set('formValues', { email, message })
