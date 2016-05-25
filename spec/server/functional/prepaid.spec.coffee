@@ -109,7 +109,7 @@ describe 'POST /db/prepaid/:handle/redeemers', ->
     yield utils.loginUser(@otherTeacher)
     [res, body] = yield request.postAsync({uri: @url, json: { userID: @student.id } })
     expect(res.statusCode).toBe(403)
-    expect(res.body.message).toBe('You may not redeem enrollments from this prepaid')
+    expect(res.body.message).toBe('You may not redeem licenses from this prepaid')
     done()
 
   it 'returns 403 if the prepaid is expired', utils.wrap (done) ->
@@ -143,7 +143,7 @@ describe 'POST /db/prepaid/:handle/redeemers', ->
     expect(student.get('coursePrepaid')._id.equals(@prepaid._id)).toBe(true)
     done()
     
-  it 'updates the user if their enrollment is expired', utils.wrap (done) ->
+  it 'updates the user if their license is expired', utils.wrap (done) ->
     yield utils.loginUser(@admin)
     prepaid = yield utils.makePrepaid({
       creator: @teacher.id

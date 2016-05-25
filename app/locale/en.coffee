@@ -860,7 +860,7 @@
     signup_with: "Sign up with:"
     connect_with: "Connect with:"
     conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
-    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign enrollments and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
+    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign licenses and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
     create_account: "Create a Teacher Account"
     create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
     convert_account_title: "Update to Teacher Account"
@@ -1114,13 +1114,13 @@
     get_free: "Get FREE course"
     enroll_paid: "Enroll Students in Paid Courses"
     you_have1: "You have"
-    you_have2: "unused paid enrollments"
-    use_one: "Use 1 paid enrollment for"
-    use_multiple: "Use paid enrollments for the following students:"
+    you_have2: "unused student licenses" # {change}
+    use_one: "Use 1 student license for" # {change}
+    use_multiple: "Use licenses for the following students:" # {change}
     already_enrolled: "already enrolled"
     licenses_remaining: "licenses remaining:"
-    insufficient_enrollments: "insufficient paid enrollments"
-    get_enrollments: "Get Enrollments" # {change}
+    insufficient_enrollments: "insufficient student licenses" # {change}
+    get_enrollments: "Get More Licenses" # {change}
     change_language: "Change Course Language"
     keep_using: "Keep Using"
     switch_to: "Switch To"
@@ -1129,7 +1129,7 @@
     back_courses: "Back to my courses"
     edit_details: "Edit class details"
     enrolled_courses: "enrolled in paid courses:"
-    purchase_enrollments: "Purchase Enrollments"
+    purchase_enrollments: "Purchase Student Licenses" # {change}
     remove_student: "remove student"
     assign: "Assign"
     to_assign: "to assign paid courses."
@@ -1201,10 +1201,10 @@
     return_to_course_man: "Return to course management."
     students_not_enrolled: "students not enrolled"
     total_all_classes: "Total Across All Classes"
-    how_many_enrollments: "How many additional paid enrollments do you need?"
+    how_many_enrollments: "How many additional student licenses do you need?" # {change}
     each_student_access: "Each student in a class will get access to Courses 2-4 once they are enrolled in paid courses. You may assign each course to each student individually."
     purchase_now: "Purchase Now"
-    enrollments: "enrollments"
+    enrollments: "licenses" # {change}
     remove_student1: "Remove Student"
     are_you_sure: "Are you sure you want to remove this student from this class?"
     remove_description1: "Student will lose access to this classroom and assigned classes. Progress and gameplay is NOT lost, and the student can be added back to the classroom at any time."
@@ -1232,20 +1232,6 @@
     getting_started_1: "Create a new class by clicking the green 'Create New Class' button below."
     getting_started_2: "Once you've created a class, click the blue 'Add Students' button."
     getting_started_3: "You'll see student's progress below as they sign up and join your class."
-    additional_resources: "Additional Resources"
-    additional_resources_1_pref: "Download/print our"
-    additional_resources_1_mid: "Course 1"
-    additional_resources_1_mid2: "and"
-    additional_resources_1_mid3: "Course 2"
-    additional_resources_1_suff: "teacher's guides with solutions for each level."
-    additional_resources_2_pref: "Complete our"
-    additional_resources_2_suff: "to get two free enrollments for the rest of our paid courses."
-    additional_resources_3_pref: "Visit our"
-    additional_resources_3_mid: "Teacher Forums"
-    additional_resources_3_suff: "to connect to fellow educators who are using CodeCombat."
-    additional_resources_4_pref: "Check out our"
-    additional_resources_4_mid: "Schools Page"
-    additional_resources_4_suff: "to learn more about CodeCombat's classroom offerings."
     educator_wiki_pref: "Or check out our new"
     educator_wiki_mid: "educator wiki"
     educator_wiki_suff: "to browse the guide online."
@@ -1253,8 +1239,8 @@
     no_classes: "No classes yet!"
     create_new_class1: "create new class"
     available_courses: "Available Courses"
-    unused_enrollments: "Unused enrollments available:"
-    students_access: "All students get access to Introduction to Computer Science for free. One enrollment per student is required to assign them to paid CodeCombat courses. A single student does not need multiple enrollments to access all paid courses."
+    unused_enrollments: "Unused licenses available:" # {change}
+    students_access: "All students get access to Introduction to Computer Science for free. One license per student is required to assign them to paid CodeCombat courses. A single student does not need multiple licenses to access all paid courses." # {change}
     active_courses: "active courses"
     no_students: "No students yet!"
     add_students1: "add students"
@@ -1273,7 +1259,7 @@
     view_guide_online: "View Guide Online (PDF)"
     last_updated: "Last updated:"
     grants_lifetime_access: "Grants access to all Courses."
-    enrollment_credits_available: "Enrollment Credits Available:"
+    enrollment_credits_available: "Licenses Available:" # {change}
     description: "Description" # ClassroomSettingsModal
     language_select: "Select a language"
     language_cannot_change: "Language cannot be changed once students join a class."
@@ -1334,8 +1320,8 @@
   teacher:
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
-    courses: "Courses"
-    enrollments: "Enrollments"
+    courses: "Course Guides" # {change}
+    enrollments: "Student Licenses" # {change}
     resources: "Resources"
     help: "Help"
     students: "Students" # Shared
@@ -1346,7 +1332,7 @@
     teacher_account_required: "A teacher account is required to access this content."
     create_teacher_account: "Create Teacher Account"
     what_is_a_teacher_account: "What's a Teacher Account?"
-    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage enrollments and access resources to aid in your curriculum-building."
+    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building." # {change}
     current_classes: "Current Classes"
     archived_classes: "Archived Classes"
     archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
@@ -1398,14 +1384,14 @@
     enroll_the_following_students: "Enroll the following students"
     all_students: "All Students"
     enroll_students: "Enroll Students"
-    not_enough_enrollments: "Not enough Enrollments available."
-    enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
-    enrollments_blurb_2: "require enrollments to access the courses."
-    credits_available: "Credits Available"
-    total_unique_students: "Total Students (unique)" # {change}
-    total_enrolled_students: "Total Enrolled" # {change}
+    not_enough_enrollments: "Not enough licenses available." # {change}
+    enrollments_blurb_1: "Students taking Computer Science" # {change}
+    enrollments_blurb_2: "require a license to access the courses." # {change}
+    credits_available: "Licenses Available" # {change}
+    total_unique_students: "Total Students" # {change}
+    total_enrolled_students: "Enrolled Students" # {change}
     unenrolled_students: "Unenrolled Students"
-    add_enrollment_credits: "Add Enrollment Credits"
+    add_enrollment_credits: "Add Licenses" # {change}
     purchasing: "Purchasing..."
     purchased: "Purchased!"
     purchase_now: "Purchase Now"
@@ -1422,12 +1408,12 @@
     enter_new_password_below: "Enter new password below:"
     change_password: "Change Password"
     changed: "Changed"
-    available_credits: "Available Credits"
-    pending_credits: "Pending Credits"
-    credits: "credits"
+    available_credits: "Available Licenses" # {change}
+    pending_credits: "Pending Licenses" # {change}
+    credits: "licenses" # {change}
     start_date: "start date:"
     end_date: "end date:"
-    num_enrollments_needed: "Number of enrollments needed:"
+    num_enrollments_needed: "Number of licenses needed:" # {change}
     get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
     enroll_request_sent_blurb1: "Thanks! Your request has been sent."
     enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"

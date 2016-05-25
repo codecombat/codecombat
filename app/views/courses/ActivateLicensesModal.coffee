@@ -116,4 +116,4 @@ module.exports = class ActivateLicensesModal extends ModalView
     @trigger 'redeem-users', @state.get('selectedUsers')
 
   onClickGetMoreLicensesButton: ->
-    @hide?() # In case this is opened in /teachers/enrollments itself, otherwise the button does nothing
+    @hide?() # In case this is opened in /teachers/licenses itself, otherwise the button does nothing

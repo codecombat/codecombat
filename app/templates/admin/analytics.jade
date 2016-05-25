@@ -149,7 +149,7 @@ block content
         h3 Classroom Monthly Active Users 365 days
         .classroom-monthly-active-users-chart-365.line-chart-container
 
-        h3 Enrollments Issued and Redeemed 90 days
+        h3 Licenses Issued and Redeemed 90 days
         .paid-courses-chart.line-chart-container
 
         #furthest-course
@@ -282,14 +282,14 @@ block content
                 each eventName in eventNames
                   td= activeUser.events[eventName] || 0
 
-        h1#enrollments-table Enrollments
+        h1#enrollments-table Licenses
         table.table.table-striped.table-condensed
           tr
             th Day
-            th Paid Enrollments Issued
-            th Paid Enrollments Redeemed
-            th Trial Enrollments Issued
-            th Trial Enrollments Redeemed
+            th Paid Licenses Issued
+            th Paid Licenses Redeemed
+            th Trial Licenses Issued
+            th Trial Licenses Redeemed
           each day in view.enrollmentDays
             tr
               td= day
