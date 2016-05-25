@@ -21,7 +21,7 @@ module.exports =
     return next() unless code
     classroom = yield Classroom.findOne({ code: code.toLowerCase() }).select('name ownerID aceConfig')
     if not classroom
-      res.status(404).send({})
+      throw new errors.NotFound('Classroom not found.')
     classroom = classroom.toObject()
     # Tack on the teacher's name for display to the user
     owner = (yield User.findOne({ _id: mongoose.Types.ObjectId(classroom.ownerID) }).select('name')).toObject()
