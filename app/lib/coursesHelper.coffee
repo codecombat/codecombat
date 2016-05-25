@@ -14,7 +14,7 @@ module.exports =
         instance.started = false
         levels = classroom.getLevels({courseID: course.id, withoutLadderLevels: true})
         for userID in instance.get('members')
-          instance.started = _.any levels.models, (level) ->
+          instance.started ||= _.any levels.models, (level) ->
             return false if level.isLadder()
             session = _.find classroom.sessions.models, (session) ->
               session.get('creator') is userID and session.get('level').original is level.get('original')

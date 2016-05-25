@@ -145,8 +145,11 @@ function getInitialLeadStatusViaCountry(country, trialRequests) {
   }
   const countryCode = countryList.getCode(country);
   if (countryCode) {
+    if (countryCode === 'NL' || countryCode === 'BE') {
+      return defaultEuLeadStatus;
+    }
     if (isEuCountryCode(countryCode)) {
-      return highValueLead ? 'Inbound EU Auto Attempt 1 High' : 'Inbound EU Auto Attempt 1';
+      return highValueLead ? 'Inbound EU Auto Attempt 1 High' : defaultEuLeadStatus;
     }
     return defaultInternationalLeadStatus;
   }
@@ -170,8 +173,11 @@ function getInitialLeadStatusViaEmails(emails, trialRequests) {
   if (!currentStatus || [defaultLeadStatus, defaultInternationalLeadStatus].indexOf(currentStatus) >= 0) {
     // Look for a better EU match
     const countryCode = getCountryCode(null, emails);
+    if (countryCode === 'NL' || countryCode === 'BE') {
+      return defaultEuLeadStatus;
+    }
     if (isEuCountryCode(countryCode)) {
-      return isHighValueLead(trialRequests) ? 'Inbound EU Auto Attempt 1 High' : 'Inbound EU Auto Attempt 1';
+      return isHighValueLead(trialRequests) ? 'Inbound EU Auto Attempt 1 High' : defaultEuLeadStatus;
     }
   }
   currentStatus = currentStatus ? currentStatus : defaultLeadStatus;
@@ -229,7 +235,7 @@ function isUSSchoolStatus(status) {
 }
 
 function getEmailApiKey(leadStatus) {
-  if (leadStatus === 'Inbound EU Auto Attempt 1') return closeIoEuMailApiKey;
+  if (leadStatus === defaultEuLeadStatus) return closeIoEuMailApiKey;
   if (closeIoMailApiKeys.length < 0) return;
   return closeIoMailApiKeys[Math.floor(Math.random() * closeIoMailApiKeys.length)];
 }
