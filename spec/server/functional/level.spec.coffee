@@ -80,6 +80,12 @@ describe 'GET /db/level/:handle/session', ->
       expect(res.statusCode).toBe(200)
       expect(body.codeLanguage).toBe('python')
       done()
+      
+    it 'does not break if the user has a courseInstance without an associated classroom', utils.wrap (done) ->
+      yield @courseInstance.update({$unset: {classroomID: ''}})
+      [res, body] = yield request.getAsync { uri: @url, json: true }
+      expect(res.statusCode).toBe(402)
+      done()
 
     it 'returns 402 if the user is not in a course with that level', utils.wrap (done) ->
       otherStudent = yield utils.initUser({role: 'student'})
