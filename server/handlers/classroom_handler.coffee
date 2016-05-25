@@ -69,6 +69,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
     return _.omit(doc.toObject(), 'code', 'codeCamel')
 
   inviteStudents: (req, res, classroomID) ->
+    return @sendUnauthorizedError(res) if not req.user?
     if not req.body.emails
       return @sendBadInputError(res, 'Emails not included')
 
@@ -86,6 +87,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
           recipient:
             address: email
           email_data:
+            teacher_name: req.user.broadName()
             class_name: classroom.get('name')
             join_link: "https://codecombat.com/courses?_cc=" + joinCode
             join_code: joinCode
