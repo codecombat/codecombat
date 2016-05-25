@@ -52,7 +52,9 @@ module.exports =
       classroomMap[classroom.id] = classroom for classroom in classrooms
       levelOriginal = level.get('original')
       for courseInstance in courseInstances
-        classroom = classroomMap[courseInstance.get('classroomID').toString()]
+        classroomID = courseInstance.get('classroomID')
+        continue unless classroomID
+        classroom = classroomMap[classroomID.toString()]
         courseID = courseInstance.get('courseID')
         classroomCourse = _.find(classroom.get('courses'), (c) -> c._id.equals(courseID))
         for courseLevel in classroomCourse.levels
