@@ -132,7 +132,7 @@ module.exports =
   post: wrap (req, res) ->
     throw new errors.Unauthorized() unless req.user and not req.user.isAnonymous()
     unless req.user?.isTeacher()
-      console.log "classrooms.post: Can't create classroom if you (#{req.user?.id}) aren't a teacher."
+      log.debug "classrooms.post: Can't create classroom if you (#{req.user?.id}) aren't a teacher."
       throw new errors.Forbidden()
     classroom = database.initDoc(req, Classroom)
     classroom.set 'ownerID', req.user._id
