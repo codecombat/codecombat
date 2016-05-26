@@ -87,7 +87,7 @@ emailUserInitialRecruiting = (user, callback) ->
   return callback null, false if DEBUGGING and (totalEmailsSent > 1 or Math.random() > 0.05)
   ++totalEmailsSent
   name = if user.firstName and user.lastName then "#{user.firstName}" else user.name
-  name = 'Wizard' if not name or name is 'Anoner'
+  name = 'Wizard' if not name or name in ['Anoner', 'Anonymous']
   team = user.session.levelInfo.team
   team = team.substr(0, team.length - 1)
   context =
