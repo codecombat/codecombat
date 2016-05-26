@@ -19,7 +19,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "default" do |default|
     default.vm.provision "shell", path: "scripts/vagrant/core/provision.sh", privileged: false
-    
   end
   
   config.vm.define "brunchv2", autostart: false do |brunchv2|
