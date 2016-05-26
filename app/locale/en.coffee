@@ -1767,7 +1767,7 @@
 
   coppa_deny:
     text1: "Can’t wait to learn programming?"
-    text2: "Ask your parents to create an account for you!"
+    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions." # {change}
     close: "Close Window"
 
   loading_error:
