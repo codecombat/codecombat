@@ -353,7 +353,7 @@ module.exports = class PlayLevelView extends RootView
     return {} unless @level.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
     playerNames = {}
     for session in [@session, @otherSession] when session?.get('team')
-      playerNames[session.get('team')] = session.get('creatorName') or 'Anoner'
+      playerNames[session.get('team')] = session.get('creatorName') or 'Anonymous'
     playerNames
 
   # Once Surface is Loaded ####################################################
