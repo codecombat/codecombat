@@ -277,7 +277,6 @@ module.exports = class TeacherClassView extends RootView
     @state.set('searchTerm', $(e.target).val())
 
   onChangeCourseSelect: (e) ->
-    console.log '??'
     @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
 
   getSelectedStudentIDs: ->
