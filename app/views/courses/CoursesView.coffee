@@ -13,6 +13,7 @@ Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 LevelSession = require 'models/LevelSession'
 Campaign = require 'models/Campaign'
+ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 
 # TODO: Test everything
@@ -42,6 +43,30 @@ module.exports = class CoursesView extends RootView
     @supermodel.trackCollection(@ownedClassrooms)
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses)
+
+    # TODO: Trim this section for only what's necessary
+    @hero = new ThangType
+    console.log me.get('heroConfig').thangType
+    @hero.url = "/db/thang.type/#{me.get('heroConfig').thangType}/version"
+    # @hero.setProjection ['name','slug','soundTriggers','featureImages','gems','heroClass','description','components','extendedName','unlockLevelName','i18n']
+    @listenToOnce @hero, 'sync', @onHeroLoaded
+    @supermodel.loadModel(@hero, 'hero')
+
+  onHeroLoaded: ->
+    @formatHero @hero
+
+  formatHero: (hero) ->
+    # hero.name = utils.i18n hero.attributes, 'extendedName'
+    hero.name ?= utils.i18n hero.attributes, 'name'
+    hero.description = utils.i18n hero.attributes, 'description'
+    hero.unlockLevelName = utils.i18n hero.attributes, 'unlockLevelName'
+    original = hero.get('original')
+    hero.locked = not me.ownsHero(original)
+    hero.purchasable = hero.locked and (original in (me.get('earned')?.heroes ? []))
+    if @options.level and allowedHeroes = @options.level.get 'allowedHeroes'
+      hero.restricted = not (hero.get('original') in allowedHeroes)
+    hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
+    hero.stats = hero.getHeroStats()
 
   onCourseInstancesLoaded: ->
     map = {}
