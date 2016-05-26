@@ -1,8 +1,8 @@
 // Upsert new lead data into Close.io
 
 'use strict';
-if (process.argv.length !== 8) {
-  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <Intercom 'App ID:API key'> <mongo connection Url>");
+if (process.argv.length !== 9) {
+  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <Close.io EU mail API key> <Intercom 'App ID:API key'> <mongo connection Url>");
   process.exit();
 }
 
@@ -13,6 +13,7 @@ if (process.argv.length !== 8) {
 // TODO: Use generators and promises
 // TODO: Reduce response data via _fields param
 // TODO: Assumes 1:1 contact:email relationship (Close.io supports multiple emails for a single contact)
+// TODO: Cleanup country/status lookup code
 
 // Save as custom fields instead of user-specific lead notes (also saving nces_ props)
 const commonTrialProperties = ['organization', 'city', 'state', 'country'];
@@ -32,6 +33,8 @@ const createTeacherEmailTemplatesAuto1 = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbF
 const demoRequestEmailTemplatesAuto1 = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
 const createTeacherInternationalEmailTemplateAuto1 = 'tmpl_8vsXwcr6dWefMnAEfPEcdHaxqSfUKUY8UKq6WfReGqG';
 const demoRequestInternationalEmailTemplateAuto1 = 'tmpl_nnH1p3II7G7NJYiPOIHphuj4XUaDptrZk1mGQb2d9Xa';
+const createTeacherNlEmailTemplatesAuto1 = ['tmpl_yf9tAPasz8KV7L414GhWWIclU8ewclh3Z8lCx2mCoIU', 'tmpl_OgPCV2p59uq0daVuUPF6r1rcQkxJbViyZ1ZMtW45jY8'];
+const demoRequestNlEmailTemplatesAuto1 = ['tmpl_XGKyZm6gcbqZ5jirt7A54Vu8p68cLxAsKZtb9QBABUE', 'tmpl_xcfgQjUHPa6LLsbPWuPvEUElFXHmIpLa4IZEybJ0b0u'];
 
 // Prioritized Close.io lead status match list
 const closeIoInitialLeadStatuses = [
@@ -45,8 +48,9 @@ const closeIoInitialLeadStatuses = [
 ];
 const defaultLeadStatus = 'Auto Attempt 1';
 const defaultInternationalLeadStatus = 'Inbound International Auto Attempt 1';
+const defaultEuLeadStatus = 'Inbound EU Auto Attempt 1';
 
-const usSchoolStatuses = ['Auto Attempt 1', 'New US Schools Auto Attempt 1'];
+const usSchoolStatuses = ['Auto Attempt 1', 'New US Schools Auto Attempt 1', 'New US Schools Auto Attempt 1 Low'];
 
 const emailDelayMinutes = 27;
 
@@ -54,12 +58,14 @@ const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
 // Automatic mails sent as API owners, first key assumed to be primary and gets 50% of the leads
 const closeIoMailApiKeys = [process.argv[3], process.argv[3], process.argv[4], process.argv[5]];
-const intercomAppIdApiKey = process.argv[6];
+const closeIoEuMailApiKey = process.argv[6];
+const intercomAppIdApiKey = process.argv[7];
 const intercomAppId = intercomAppIdApiKey.split(':')[0];
 const intercomApiKey = intercomAppIdApiKey.split(':')[1];
-const mongoConnUrl = process.argv[7];
+const mongoConnUrl = process.argv[8];
 const MongoClient = require('mongodb').MongoClient;
 const async = require('async');
+const countryData = require('country-data');
 const countryList = require('country-list')();
 const parseDomain = require('parse-domain');
 const request = require('request');
@@ -98,12 +104,31 @@ function upsertLeads(done) {
 
 // ** Utilities
 
+function getCountryCode(country, emails) {
+  // console.log(`DEBUG: getCountryCode ${country} ${emails.length}`);
+  if (country) {
+    let countryCode = countryList.getCode(country);
+    if (countryCode) return countryCode;
+  }
+  for (const email of emails) {
+    const tld = parseDomain(email).tld;
+    if (tld) {
+      const matches = /^[A-Za-z]*\.?([A-Za-z]{2})$/ig.exec(tld);
+      if (matches && matches.length === 2) {
+        return matches[1].toUpperCase();
+      }
+    }
+  }
+}
+
 function getInitialLeadStatusViaCountry(country, trialRequests) {
+  // console.log(`DEBUG: getInitialLeadStatusViaCountry ${country} ${trialRequests.length}`);
   if (/^u\.s\.?(\.a)?\.?$|^us$|usa|america|united states/ig.test(country)) {
     const status = 'New US Schools Auto Attempt 1'
-    return isLowValueLead(status, trialRequests) ? `${status} Low` : status;
+    return isLowValueUsLead(status, trialRequests) ? `${status} Low` : status;
   }
-  if (/^england$|^uk$|^united kingdom$/ig.test(country)) {
+  const highValueLead = isHighValueLead(trialRequests);
+  if (/^england$|^uk$|^united kingdom$/ig.test(country) && highValueLead) {
     return 'Inbound UK Auto Attempt 1';
   }
   if (/^ca$|^canada$/ig.test(country)) {
@@ -118,13 +143,21 @@ function getInitialLeadStatusViaCountry(country, trialRequests) {
   if (/bolivia|iran|korea|macedonia|taiwan|tanzania|^venezuela$/ig.test(country)) {
     return defaultInternationalLeadStatus;
   }
-  if (countryList.getCode(country)) {
+  const countryCode = countryList.getCode(country);
+  if (countryCode) {
+    if (countryCode === 'NL' || countryCode === 'BE') {
+      return defaultEuLeadStatus;
+    }
+    if (isEuCountryCode(countryCode)) {
+      return highValueLead ? 'Inbound EU Auto Attempt 1 High' : defaultEuLeadStatus;
+    }
     return defaultInternationalLeadStatus;
   }
   return null;
 }
 
 function getInitialLeadStatusViaEmails(emails, trialRequests) {
+  // console.log(`DEBUG: getInitialLeadStatusViaEmails ${emails.length} ${trialRequests.length}`);
   let currentStatus = null;
   let currentRank = closeIoInitialLeadStatuses.length;
   for (const email of emails) {
@@ -137,15 +170,44 @@ function getInitialLeadStatusViaEmails(emails, trialRequests) {
       }
     }
   }
+  if (!currentStatus || [defaultLeadStatus, defaultInternationalLeadStatus].indexOf(currentStatus) >= 0) {
+    // Look for a better EU match
+    const countryCode = getCountryCode(null, emails);
+    if (countryCode === 'NL' || countryCode === 'BE') {
+      return defaultEuLeadStatus;
+    }
+    if (isEuCountryCode(countryCode)) {
+      return isHighValueLead(trialRequests) ? 'Inbound EU Auto Attempt 1 High' : defaultEuLeadStatus;
+    }
+  }
   currentStatus = currentStatus ? currentStatus : defaultLeadStatus;
-  return isLowValueLead(currentStatus, trialRequests) ? `${currentStatus} Low` : currentStatus;
+  return isLowValueUsLead(currentStatus, trialRequests) ? `${currentStatus} Low` : currentStatus;
 }
 
-function isLowValueLead(status, trialRequests) {
+function isEuCountryCode(countryCode) {
+  if (countryData.regions.northernEurope.countries.indexOf(countryCode) >= 0) {
+    return true;
+  }
+  if (countryData.regions.southernEurope.countries.indexOf(countryCode) >= 0) {
+    return true;
+  }
+  if (countryData.regions.easternEurope.countries.indexOf(countryCode) >= 0) {
+    return true;
+  }
+  if (countryData.regions.westernEurope.countries.indexOf(countryCode) >= 0) {
+    return true;
+  }
+  return false;
+}
+
+function isLowValueUsLead(status, trialRequests) {
   if (isUSSchoolStatus(status)) {
     for (const trialRequest of trialRequests) {
       if (parseInt(trialRequest.properties.nces_district_students) < 5000) {
         return true;
+      }
+      else if (parseInt(trialRequest.properties.nces_district_students) >= 5000) {
+        return false;
       }
     }
     for (const trialRequest of trialRequests) {
@@ -158,11 +220,22 @@ function isLowValueLead(status, trialRequests) {
   return false;
 }
 
+function isHighValueLead(trialRequests) {
+  for (const trialRequest of trialRequests) {
+    // Must match these values: https://github.com/codecombat/codecombat/blob/master/app/templates/teachers/request-quote-view.jade#L159
+    if (['5,000-10,000', '10,000+'].indexOf(trialRequest.properties.numStudentsTotal) >= 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function isUSSchoolStatus(status) {
   return usSchoolStatuses.indexOf(status) >= 0;
 }
 
-function getRandomEmailApiKey() {
+function getEmailApiKey(leadStatus) {
+  if (leadStatus === defaultEuLeadStatus) return closeIoEuMailApiKey;
   if (closeIoMailApiKeys.length < 0) return;
   return closeIoMailApiKeys[Math.floor(Math.random() * closeIoMailApiKeys.length)];
 }
@@ -172,13 +245,19 @@ function getRandomEmailTemplate(templates) {
   return templates[Math.floor(Math.random() * templates.length)];
 }
 
-function getEmailTemplate(siteOrigin, leadStatus) {
-  // console.log(`DEBUG: getEmailTemplate ${siteOrigin} ${leadStatus}`);
+function getEmailTemplate(siteOrigin, leadStatus, countryCode) {
+  // console.log(`DEBUG: getEmailTemplate ${siteOrigin} ${leadStatus} ${countryCode}`);
   if (isUSSchoolStatus(leadStatus)) {
     if (['create teacher', 'convert teacher'].indexOf(siteOrigin) >= 0) {
       return getRandomEmailTemplate(createTeacherEmailTemplatesAuto1);
     }
     return getRandomEmailTemplate(demoRequestEmailTemplatesAuto1);
+  }
+  if (leadStatus === defaultEuLeadStatus && (countryCode === 'NL' || countryCode === 'BE')) {
+    if (['create teacher', 'convert teacher'].indexOf(siteOrigin) >= 0) {
+      return getRandomEmailTemplate(createTeacherNlEmailTemplatesAuto1);
+    }
+    return getRandomEmailTemplate(demoRequestNlEmailTemplatesAuto1);
   }
   if (['create teacher', 'convert teacher'].indexOf(siteOrigin) >= 0) {
     return createTeacherInternationalEmailTemplateAuto1;
@@ -599,8 +678,9 @@ function saveNewLead(lead, done) {
       const tasks = [];
       for (const contact of existingLead.contacts) {
         for (const email of contact.emails) {
-          const emailTemplate = getEmailTemplate(lead.contacts[email.email].trial.properties.siteOrigin, postData.status);
-          tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, emailTemplate));
+          const countryCode = getCountryCode(lead.contacts[email.email].trial.properties.country, [email.email]);
+          const emailTemplate = getEmailTemplate(lead.contacts[email.email].trial.properties.siteOrigin, postData.status, countryCode);
+          tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, emailTemplate, postData.status));
         }
       }
       async.parallel(tasks, (err, results) => {
@@ -689,8 +769,9 @@ function createAddContactFn(postData, internalLead, externalLead) {
 
       // Send emails to new contact
       const email = postData.emails[0].email;
+      const countryCode = getCountryCode(internalLead.contacts[email].trial.properties.country, [email]);
       const emailTemplate = getEmailTemplate(internalLead.contacts[email].trial.properties.siteOrigin, externalLead.status_label);
-      sendMail(email, externalLead.id, newContact.id, emailTemplate, getRandomEmailApiKey(), emailDelayMinutes, done);
+      sendMail(email, externalLead.id, newContact.id, emailTemplate, getEmailApiKey(externalLead.status_label), emailDelayMinutes, done);
     });
   };
 }
@@ -719,9 +800,9 @@ function createAddNoteFn(leadId, newNote) {
   };
 }
 
-function createSendEmailFn(email, leadId, contactId, template) {
+function createSendEmailFn(email, leadId, contactId, template, leadStatus) {
   return (done) => {
-    return sendMail(email, leadId, contactId, template, getRandomEmailApiKey(), emailDelayMinutes, done);
+    return sendMail(email, leadId, contactId, template, getEmailApiKey(leadStatus), emailDelayMinutes, done);
   };
 }
 

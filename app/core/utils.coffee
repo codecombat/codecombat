@@ -267,9 +267,7 @@ module.exports.aceEditModes = aceEditModes =
   'coffeescript': 'ace/mode/coffee'
   'python': 'ace/mode/python'
   'java': 'ace/mode/java'
-  'clojure': 'ace/mode/clojure'
   'lua': 'ace/mode/lua'
-  'io': 'ace/mode/text'
   'java': 'ace/mode/java'
 
 module.exports.initializeACE = (el, codeLanguage) ->
@@ -294,13 +292,9 @@ module.exports.initializeACE = (el, codeLanguage) ->
   session.setNewLineMode 'unix'
   return editor
 
-module.exports.capitalLanguages = capitalLanguages = 
+module.exports.capitalLanguages = capitalLanguages =
   'javascript': 'JavaScript'
   'coffeescript': 'CoffeeScript'
   'python': 'Python'
   'java': 'Java'
-  'clojure': 'Clojure'
   'lua': 'Lua'
-  'io': 'Io'
-
-  

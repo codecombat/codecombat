@@ -73,8 +73,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'Courses': go('courses/CoursesView') # , { studentsOnly: true })
     'courses/students': redirect('/courses')
     'courses/teachers': redirect('/teachers/classes')
-    'courses/purchase': redirect('/teachers/enrollments')
-    'courses/enroll(/:courseID)': redirect('/teachers/enrollments')
+    'courses/purchase': redirect('/teachers/licenses')
+    'courses/enroll(/:courseID)': redirect('/teachers/licenses')
     'courses/update-account': go('courses/CoursesUpdateAccountView')
     'courses/:classroomID': go('courses/ClassroomView') #, { studentsOnly: true })
     'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView')
@@ -146,7 +146,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/classes/:classroomID': go('courses/TeacherClassView') #, { teachersOnly: true })
     'teachers/courses': go('courses/TeacherCoursesView')
     'teachers/demo': go('teachers/RequestQuoteView')
-    'teachers/enrollments': go('courses/EnrollmentsView') #, { teachersOnly: true })
+    'teachers/enrollments': redirect('/teachers/licenses')
+    'teachers/licenses': go('courses/EnrollmentsView') #, { teachersOnly: true })
     'teachers/freetrial': go('teachers/RequestQuoteView')
     'teachers/quote': go('teachers/RequestQuoteView')
     'teachers/signup': ->
@@ -159,6 +160,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
+    'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')

@@ -126,8 +126,7 @@ module.exports = class LevelLoader extends CocoClass
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
     if @opponentSessionID
-      opponentURL = "/db/level.session/#{@opponentSessionID}"
-      opponentURL += "?interpret=true" if @spectateMode or utils.getQueryVariable 'esper'
+      opponentURL = "/db/level.session/#{@opponentSessionID}?interpret=true"
       opponentSession = new LevelSession().setURL opponentURL
       opponentSession.project = session.project if @headless
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
@@ -158,6 +157,8 @@ module.exports = class LevelLoader extends CocoClass
       code[if session.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan = uncompressed
       session.set 'code', code
       session.unset 'interpret'
+    if session.get('codeLanguage') in ['io', 'clojure']
+      session.set 'codeLanguage', 'python'
     if session is @session
       @addSessionBrowserInfo session
       # hero-ladder games require the correct session team in level:loaded

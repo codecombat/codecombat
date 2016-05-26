@@ -16,7 +16,7 @@ class LevelSessionHandler extends Handler
 
   formatEntity: (req, document) ->
     document = super(req, document)
-    submittedCode = document.submittedCode
+    submittedCode = document.submittedCode ? {}
     unless req.user?.isAdmin() or
        req.user?.id is document.creator or
        ('employer' in (req.user?.get('permissions') ? [])) or

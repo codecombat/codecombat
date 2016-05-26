@@ -1,4 +1,3 @@
-closeIO = require '../lib/closeIO'
 log = require 'winston'
 mongoose = require 'mongoose'
 config = require '../../server_config'

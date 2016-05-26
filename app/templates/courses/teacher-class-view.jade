@@ -108,21 +108,28 @@ block content
           +copyCodes
           +addStudentsButton
           
-      ul#student-info-tabs.nav.nav-tabs.m-t-5(role='tablist')
-        li(class=(state.get('activeTab')==="#students-tab" ? 'active' : ''))
+      ul.nav.nav-tabs.m-t-5(role='tablist')
+        - var activeTab = state.get('activeTab');
+        li(class=(activeTab === "#students-tab" ? 'active' : ''))
           a.students-tab-btn(href='#students-tab')
             .small-details.text-center(data-i18n='teacher.students')
         .tab-spacer
-        li(class=(state.get('activeTab')==="#course-progress-tab" ? 'active' : ''))
+        li(class=(activeTab === "#course-progress-tab" ? 'active' : ''))
           a.course-progress-tab-btn(href='#course-progress-tab')
             .small-details.text-center(data-i18n='teacher.course_progress')
+        .tab-spacer
+        li(class=(activeTab === "#enrollment-status-tab" ? 'active' : ''))
+          a.course-progress-tab-btn(href='#enrollment-status-tab')
+            .small-details.text-center(data-i18n='teacher.enrollment_status')
         .tab-filler
 
       .tab-content
-        if state.get('activeTab')=='#students-tab'
+        if activeTab === '#students-tab'
           +studentsTab
-        else
+        else if activeTab === '#course-progress-tab'
           +courseProgressTab
+        else
+          +enrollmentStatusTab
     
 mixin breadcrumbs
   .breadcrumbs
@@ -179,8 +186,8 @@ mixin sortButtons
   .sort-buttons.small
     span(data-i18n='teacher.sort_by')
     span.spr :
-    button.sort-button.sort-by-name(data-i18n='general.name')
-    button.sort-button.sort-by-progress(data-i18n='teacher.progress')
+    button.sort-button.sort-by-name(data-i18n='general.name', value='name')
+    button.sort-button.sort-by-progress(data-i18n='teacher.progress', value='progress')
 
 mixin studentRow(student)
   tr.student-row.alternating-background
@@ -220,9 +227,13 @@ mixin studentRow(student)
     //- td
     //-   span.view-class-arrow.glyphicon.glyphicon-chevron-right
     td
-      a.remove-student-link.small.center-block.text-center.pull-right.m-r-2(data-student-id=student.id)
-        div.glyphicon.glyphicon-remove
-        div(data-i18n='teacher.remove')
+      .pull-right
+        a.edit-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
+          div.glyphicon.glyphicon-edit
+          div(data-i18n='teacher.edit')
+        a.remove-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
+          div.glyphicon.glyphicon-remove
+          div(data-i18n='teacher.remove')
 
 mixin enrollStudentButton(student)
   a.enroll-student-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id data-user-id=student.id)
@@ -365,3 +376,46 @@ mixin bulkAssignControls
       span(data-i18n='teacher.assign_to_selected_students')
     button.btn.btn-primary-alt.enroll-selected-students
       span(data-i18n='teacher.enroll_selected_students')
+
+mixin enrollmentStatusTab
+  // TODO: Have search input in all tabs
+    
+  //form.form-inline.text-center.m-t-3
+  //  #search-form-group.form-group
+  //    label(for="student-search") Search for student:
+  //    input#student-search.form-control.m-l-1(type="search")
+  //    span.glyphicon.glyphicon-search.form-control-feedback
+
+  table.table#enrollment-status-table.table-condensed.m-t-3
+    thead
+      // Checkbox code works, but don't need it yet.
+      //th.checkbox-col.select-all
+        .checkbox-flat
+          input(type='checkbox' id='checkbox-all-students')
+          label.checkmark(for='checkbox-all-students')
+      th
+        .sort-buttons.small
+          span(data-i18n='teacher.sort_by')
+          span.spr :
+          button.sort-button.sort-by-name(data-i18n='general.name', value='name')
+          button.sort-button.sort-by-status(data-i18n='user.status', value='status')
+    tbody
+      - var searchTerm = view.state.get('searchTerm');
+      each student in state.get('students').search(searchTerm)
+        - var status = student.prepaidStatus()
+        tr.student-row.alternating-background
+          //td.checkbox-col.student-checkbox
+            .checkbox-flat
+              input(type='checkbox' id='checkbox-student-' + student.id, data-student-id=student.id)
+              label.checkmark(for='checkbox-student-' + student.id)
+          td.student-info-col
+            .student-info
+              div.student-name= student.broadName()
+              div.student-email.small-details= student.get('email')
+          td.status-col
+            span(data-i18n='user.status')
+            span.spr :
+            strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString(student)
+          td.enroll-col
+            if status !== 'enrolled'
+              button.enroll-student-button.btn.btn-navy(data-i18n="teacher.enroll_student", data-user-id=student.id)
