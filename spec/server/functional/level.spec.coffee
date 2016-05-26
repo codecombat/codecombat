@@ -39,6 +39,21 @@ describe 'Level', ->
       body = JSON.parse(body)
       expect(body.type).toBeDefined()
       done()
+      
+      
+describe 'POST /db/level/:handle', ->
+  it 'creates a new version', utils.wrap (done) ->
+    yield utils.clearModels([Campaign, Course, CourseInstance, Level, User])
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @level = yield utils.makeLevel()
+    levelJSON = @level.toObject()
+    levelJSON.name = 'New name'
+    
+    url = getURL("/db/level/#{@level.id}")
+    [res, body] = yield request.postAsync({url: url, json: levelJSON})
+    expect(res.statusCode).toBe(200)
+    done()
 
 
 describe 'GET /db/level/:handle/session', ->

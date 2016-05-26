@@ -41,6 +41,7 @@ module.exports = class TeacherClassView extends RootView
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
     'keyup #student-search': 'onKeyPressStudentSearch'
+    'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
       
   getInitialState: ->
     {
@@ -149,6 +150,8 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @students, 'sort', ->
       @state.set students: @students
       @render()
+    @listenTo @, 'course-select:change', ({ selectedCourse }) ->
+      @state.set selectedCourse: selectedCourse
 
   setCourseMembers: =>
     for course in @courses.models
@@ -272,6 +275,10 @@ module.exports = class TeacherClassView extends RootView
 
   onKeyPressStudentSearch: (e) ->
     @state.set('searchTerm', $(e.target).val())
+
+  onChangeCourseSelect: (e) ->
+    console.log '??'
+    @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
 
   getSelectedStudentIDs: ->
     @$('.student-row .checkbox-flat input:checked').map (index, checkbox) ->
