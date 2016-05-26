@@ -4,6 +4,7 @@ template = require 'templates/courses/courses-view'
 AuthModal = require 'views/core/AuthModal'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
+HeroSelectModal = require 'views/courses/HeroSelectModal'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
 JoinClassModal = require 'views/courses/JoinClassModal'
 CourseInstance = require 'models/CourseInstance'
@@ -25,6 +26,7 @@ module.exports = class CoursesView extends RootView
   events:
     'click #log-in-btn': 'onClickLogInButton'
     'click #start-new-game-btn': 'openSignUpModal'
+    'click .change-hero-btn': 'onClickChangeHeroButton'
     'click #join-class-btn': 'onClickJoinClassButton'
     'submit #join-class-form': 'onSubmitJoinClassForm'
     'click #change-language-link': 'onClickChangeLanguageLink'
@@ -46,27 +48,13 @@ module.exports = class CoursesView extends RootView
 
     # TODO: Trim this section for only what's necessary
     @hero = new ThangType
-    console.log me.get('heroConfig').thangType
-    @hero.url = "/db/thang.type/#{me.get('heroConfig').thangType}/version"
+    defaultHeroOriginal = ThangType.heroes.captain
+    heroOriginal = me.get('heroConfig')?.thangType or defaultHeroOriginal
+    @hero.url = "/db/thang.type/#{heroOriginal}/version"
     # @hero.setProjection ['name','slug','soundTriggers','featureImages','gems','heroClass','description','components','extendedName','unlockLevelName','i18n']
-    @listenToOnce @hero, 'sync', @onHeroLoaded
     @supermodel.loadModel(@hero, 'hero')
-
-  onHeroLoaded: ->
-    @formatHero @hero
-
-  formatHero: (hero) ->
-    # hero.name = utils.i18n hero.attributes, 'extendedName'
-    hero.name ?= utils.i18n hero.attributes, 'name'
-    hero.description = utils.i18n hero.attributes, 'description'
-    hero.unlockLevelName = utils.i18n hero.attributes, 'unlockLevelName'
-    original = hero.get('original')
-    hero.locked = not me.ownsHero(original)
-    hero.purchasable = hero.locked and (original in (me.get('earned')?.heroes ? []))
-    if @options.level and allowedHeroes = @options.level.get 'allowedHeroes'
-      hero.restricted = not (hero.get('original') in allowedHeroes)
-    hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
-    hero.stats = hero.getHeroStats()
+    @listenTo @hero, 'all', ->
+      @render()
 
   onCourseInstancesLoaded: ->
     map = {}
@@ -100,6 +88,16 @@ module.exports = class CoursesView extends RootView
     modal = new CreateAccountModal({ initialValues: { classCode: utils.getQueryVariable('_cc', "") } })
     @openModalView(modal)
     application.tracker?.trackEvent 'Started Student Signup', category: 'Courses'
+
+  onClickChangeHeroButton: ->
+    modal = new HeroSelectModal({ currentHeroID: @hero.id })
+    @openModalView(modal)
+    @listenTo modal, 'hero-select:success', (newHero) =>
+      # @hero.url = "/db/thang.type/#{me.get('heroConfig').thangType}/version"
+      # @hero.fetch()
+      @hero.set(newHero.attributes)
+    @listenTo modal, 'hide', ->
+      @stopListening modal
 
   onSubmitJoinClassForm: (e) ->
     e.preventDefault()
@@ -161,7 +159,7 @@ module.exports = class CoursesView extends RootView
     classroomCourseInstances.fetch({ data: {classroomID: newClassroom.id} })
     @listenToOnce classroomCourseInstances, 'sync', ->
       # TODO: Smoother system for joining a classroom and course instances, without requiring page reload,
-      # and showing which class was just joined. 
+      # and showing which class was just joined.
       document.location.search = '' # Using document.location.reload() causes an infinite loop of reloading
     
   onClickChangeLanguageLink: ->
