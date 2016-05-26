@@ -10,7 +10,6 @@ module.exports = class VerifierTest extends CocoClass
   constructor: (@levelID, @updateCallback, @supermodel, @language) ->
     super()
     # TODO: turn this into a Subview
-    # TODO: listen to Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem, god: @shared.god from Angel to detect when we can't load the thing
     # TODO: listen to the progress report from Angel to show a simulation progress bar (maybe even out of the number of frames we actually know it'll take)
     @supermodel ?= new SuperModel()
 
@@ -19,6 +18,7 @@ module.exports = class VerifierTest extends CocoClass
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
 
     @language ?= 'python'
+    @userCodeProblems = []
     @load()
 
   load: ->
@@ -107,6 +107,8 @@ module.exports = class VerifierTest extends CocoClass
 
   onUserCodeProblem: (e) ->
     console.warn "Found user code problem:", e
+    @userCodeProblems.push e.problem
+    @updateCallback? state: @state
 
   onNonUserCodeProblem: (e) ->
     console.error "Found non-user-code problem:", e

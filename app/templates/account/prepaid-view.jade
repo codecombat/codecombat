@@ -21,7 +21,7 @@ block content
             .panel-title
               a(data-toggle="collapse" href="#purchasepanel")
                 span(data-i18n="account_prepaid.purchase_code")
-          .panel-collapse.collapse(class=ppcQuery ? "": "in")#purchasepanel
+          .panel-collapse.collapse(class=view.ppcQuery ? "": "in")#purchasepanel
             .panel-body
               p(data-i18n="account_prepaid.purchase_code1")
               p(data-i18n="account_prepaid.purchase_code2")
@@ -30,16 +30,16 @@ block content
                 .form-group
                   label.control-label.col-md-2(for="users", data-i18n="account_prepaid.users")
                   .col-md-2
-                    input#users-input.form-control(name="users", type="number", value="#{purchase.users}", min=1)
+                    input#users-input.form-control(name="users", type="number", value="#{view.purchase.users}", min=1)
                 .form-group
                   label.control-label.col-md-2(for="months", data-i18n="account_prepaid.months")
                   .col-md-2
-                    input#months-input.form-control(name="months", type="number", value="#{purchase.months}", min=1)
+                    input#months-input.form-control(name="months", type="number", value="#{view.purchase.months}", min=1)
                 .form-group
                   label.control-label.col-md-2(data-i18n="account_prepaid.purchase_total")
                   .col-md-10
                     p.form-control-static $
-                      span#total #{(purchase.total/100).toFixed(2)}
+                      span#total #{(view.purchase.total/100).toFixed(2)}
                 button#purchase-btn.btn.btn-success.pull-right(data-i18n="account_prepaid.purchase_button")
     .row
       .col-md-12
@@ -53,10 +53,10 @@ block content
               p
                 span(data-i18n="account_prepaid.prepaid_code")
                 span.spr :
-                input.input-ppc(name="ppc", type="text", value="#{ppc}", required)
-              if ppcInfo && ppcInfo.length > 0
+                input.input-ppc(name="ppc", type="text", value="#{view.ppc}", required)
+              if view.ppcInfo && view.ppcInfo.length > 0
                 p
-                  each info in ppcInfo
+                  each info in view.ppcInfo
                     div
                       != info
               p
@@ -73,7 +73,7 @@ block content
                 span(data-i18n="account_prepaid.your_codes")
           .panel-collapse.collapse.in#codeslist
             .panel-body
-              if codes && codes.length
+              if view.codes && view.codes.length
                 table.table.table-striped
                   tr
                     th 
@@ -83,7 +83,7 @@ block content
                     th Remaining Users
                     th Total Users
                     th(data-i18n="user.status")
-                  for code in codes.models
+                  for code in view.codes.models
                     if code.get('type') === 'terminal_subscription'
                       - var owner = (code.get('creator') == me.id ? true : false)
                       - var properties = code.get('properties')

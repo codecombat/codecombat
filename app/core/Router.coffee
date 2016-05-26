@@ -37,10 +37,17 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/level-sessions': go('admin/LevelSessionsView')
     'admin/users': go('admin/UsersView')
     'admin/base': go('admin/BaseView')
+    'admin/demo-requests': go('admin/DemoRequestsView')
     'admin/trial-requests': go('admin/TrialRequestsView')
     'admin/user-code-problems': go('admin/UserCodeProblemsView')
     'admin/pending-patches': go('admin/PendingPatchesView')
     'admin/codelogs': go('admin/CodeLogsView')
+
+    'artisans': go('artisans/ArtisansView')
+
+    'artisans/level-tasks': go('artisans/LevelTasksView')
+    'artisans/solution-problems': go('artisans/SolutionProblemsView')
+    'artisans/thang-tasks': go('artisans/ThangTasksView')
 
     'beta': go('HomeView')
 
@@ -66,8 +73,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'Courses': go('courses/CoursesView') # , { studentsOnly: true })
     'courses/students': redirect('/courses')
     'courses/teachers': redirect('/teachers/classes')
-    'courses/purchase': redirect('/teachers/enrollments')
-    'courses/enroll(/:courseID)': redirect('/teachers/enrollments')
+    'courses/purchase': redirect('/teachers/licenses')
+    'courses/enroll(/:courseID)': redirect('/teachers/licenses')
+    'courses/update-account': go('courses/CoursesUpdateAccountView')
     'courses/:classroomID': go('courses/ClassroomView') #, { studentsOnly: true })
     'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView')
 
@@ -98,7 +106,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'github/*path': 'routeToServer'
 
-    'hoc': go('courses/HourOfCodeView')
+    'hoc': ->
+      # Matching /?hour_of_code=true behavior
+      @navigate "/play", {trigger: true, replace: true}
     'home': go('NewHomeView')
 
     'i18n': go('i18n/I18NHomeView')
@@ -128,13 +138,16 @@ module.exports = class CocoRouter extends Backbone.Router
     'privacy': go('PrivacyView')
 
     'schools': go('NewHomeView')
+    'seen': go('NewHomeView')
+    'SEEN': go('NewHomeView')
 
     'teachers': redirect('/teachers/classes')
     'teachers/classes': go('courses/TeacherClassesView') #, { teachersOnly: true })
     'teachers/classes/:classroomID': go('courses/TeacherClassView') #, { teachersOnly: true })
     'teachers/courses': go('courses/TeacherCoursesView')
     'teachers/demo': go('teachers/RequestQuoteView')
-    'teachers/enrollments': go('courses/EnrollmentsView') #, { teachersOnly: true })
+    'teachers/enrollments': redirect('/teachers/licenses')
+    'teachers/licenses': go('courses/EnrollmentsView') #, { teachersOnly: true })
     'teachers/freetrial': go('teachers/RequestQuoteView')
     'teachers/quote': go('teachers/RequestQuoteView')
     'teachers/signup': ->
@@ -147,6 +160,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
+    'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')

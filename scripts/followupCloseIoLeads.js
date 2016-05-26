@@ -1,8 +1,8 @@
 // Follow up on Close.io leads
 
 'use strict';
-if (process.argv.length !== 6) {
-  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <mongo connection Url>");
+if (process.argv.length !== 7) {
+  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <mongo connection Url>");
   process.exit();
 }
 
@@ -11,6 +11,7 @@ if (process.argv.length !== 6) {
 // TODO: 2nd follow up email activity does not handle paged activity results
 // TODO: sendMail copied from updateCloseIoLeads.js
 // TODO: template values copied from updateCloseIoLeads.js
+// TODO: status change is not related to specific lead contacts
 
 const createTeacherEmailTemplatesAuto1 = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];
 const demoRequestEmailTemplatesAuto1 = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
@@ -19,8 +20,8 @@ const demoRequestEmailTemplatesAuto2 = ['tmpl_HJ5zebh1SqC1QydDto05VPUMu4F7i5M35L
 
 const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
-const closeIoMailApiKeys = [process.argv[3], process.argv[4]]; // Automatic mails sent as API owners
-const mongoConnUrl = process.argv[5];
+const closeIoMailApiKeys = [process.argv[3], process.argv[4], process.argv[5]]; // Automatic mails sent as API owners
+const mongoConnUrl = process.argv[6];
 const MongoClient = require('mongodb').MongoClient;
 const async = require('async');
 const request = require('request');
@@ -31,7 +32,9 @@ earliestDate.setUTCDate(earliestDate.getUTCDate() - 10);
 // ** Main program
 
 async.series([
-  sendSecondFollowupMails
+  sendSecondFollowupMails,
+  addCallTasks
+// TODO: Cancel call tasks
 ],
 (err, results) => {
   if (err) console.error(err);
@@ -40,11 +43,6 @@ async.series([
 );
 
 // ** Utilities
-
-function getRandomEmailApiKey() {
-  if (closeIoMailApiKeys.length < 0) return;
-  return closeIoMailApiKeys[Math.floor(Math.random() * closeIoMailApiKeys.length)];
-}
 
 function getRandomEmailTemplate(templates) {
   if (templates.length < 0) return '';
@@ -67,6 +65,14 @@ function isDemoRequestTemplateAuto1(template) {
 
 function isCreateTeacherTemplateAuto1(template) {
   return createTeacherEmailTemplatesAuto1.indexOf(template) >= 0;
+}
+
+function isDemoRequestTemplateAuto2(template) {
+  return demoRequestEmailTemplatesAuto2.indexOf(template) >= 0;
+}
+
+function isCreateTeacherTemplateAuto2(template) {
+  return createTeacherEmailTemplatesAuto2.indexOf(template) >= 0;
 }
 
 function log(str) {
@@ -325,7 +331,9 @@ function sendSecondFollowupMails(done) {
         if (error) return done(error);
         try {
           const results = JSON.parse(body);
-          console.log(`sendSecondFollowupMails total num leads ${results.total_results} has_more=${results.has_more}`);
+          if (skip === 0) {
+            console.log(`sendSecondFollowupMails total num leads ${results.total_results} has_more=${results.has_more}`);
+          }
           has_more = results.has_more;
           const tasks = [];
           for (const lead of results.data) {
@@ -340,6 +348,230 @@ function sendSecondFollowupMails(done) {
                 console.log(`ERROR: lead ${lead.id} contact has non-1 emails`);
               }
             }
+          }
+          async.series(tasks, (err, results) => {
+            if (err) return done(err);
+            if (has_more) {
+              return nextPage(skip + limit);
+            }
+            return done(err);
+          });
+        }
+        catch (err) {
+          return done(err);
+        }
+      });
+    };
+    nextPage(0);
+  });
+}
+
+function createAddCallTaskFn(userApiKeyMap, latestDate, lead, email) {
+  // Check for activity since second auto mail and status update
+  // Add call task
+  // TODO: Very similar function to createSendFollowupMailFn
+  const auto1Statuses = ["Auto Attempt 1", "New US Schools Auto Attempt 1"];
+  const auto2Statuses = ["Auto Attempt 2", "New US Schools Auto Attempt 2"];
+  return (done) => {
+    // console.log("DEBUG: addCallTask", lead.id);
+
+    // Skip leads with tasks
+    const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/task/?lead_id=${lead.id}`;
+    request.get(url, (error, response, body) => {
+      if (error) {
+        console.log(error);
+        return done();
+      }
+      try {
+        const results = JSON.parse(body);
+        if (results.total_results > 0) {
+          // console.log(`DEBUG: ${lead.id} has ${results.total_results} tasks`);
+          return done();
+        }
+      }
+      catch (err) {
+        return done(err);
+      }
+
+      // Find all lead activities
+      const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/activity/?lead_id=${lead.id}`;
+      request.get(url, (error, response, body) => {
+        if (error) {
+          console.log(error);
+          return done();
+        }
+        try {
+          const results = JSON.parse(body);
+          if (results.has_more) {
+            console.log(`ERROR: ${lead.id} has more activities than returned!`);
+            return done();
+          }
+
+          // Find second auto mail and status change
+          let sentSecondCreateTeacherEmail = false;
+          let sentSecondDemoRequestEmail = false;
+          let secondMailActivity;
+          let statusUpdateActivity;
+          let contactReplyMail;
+          for (const activity of results.data) {
+            if (activity._type === 'Email' && activity.to[0] === email) {
+              if (isCreateTeacherTemplateAuto2(activity.template_id)) {
+                if (sentSecondCreateTeacherEmail || sentSecondDemoRequestEmail) {
+                  console.log(`ERROR: ${lead.id} ${email} sent multiple auto2 emails!? ${sentSecondCreateTeacherEmail} ${sentSecondDemoRequestEmail}`);
+                  return done();
+                }
+                sentSecondCreateTeacherEmail = true;
+                secondMailActivity = activity;
+              }
+              else if (isDemoRequestTemplateAuto2(activity.template_id)) {
+                if (sentSecondCreateTeacherEmail || sentSecondDemoRequestEmail) {
+                  console.log(`ERROR: ${lead.id} ${email} sent multiple auto2 emails!? ${sentSecondCreateTeacherEmail} ${sentSecondDemoRequestEmail}`);
+                  return done();
+                }
+                sentSecondDemoRequestEmail = true;
+                secondMailActivity = activity;
+              }
+            }
+            else if (activity._type === 'LeadStatusChange' && auto1Statuses.indexOf(activity.old_status_label) >= 0
+              && auto2Statuses.indexOf(activity.new_status_label) >= 0) {
+                statusUpdateActivity = activity;
+            }
+          }
+
+          if (!secondMailActivity) {
+            // console.log(`DEBUG: No auto2 mail sent for ${lead.id} ${email}`);
+            return done();
+          }
+          if (!statusUpdateActivity) {
+            console.log(`ERROR: No status update for ${lead.id} ${email}`);
+            return done();
+          }
+          if (new Date(secondMailActivity.date_created) > latestDate) {
+            // console.log(`DEBUG: Second auto mail too recent ${secondMailActivity.date_created} ${lead.id}`);
+            return done();
+          }
+
+          if (sentSecondCreateTeacherEmail && sentSecondDemoRequestEmail) {
+            console.log(`ERROR: ${lead.id} ${email} sent multiple auto2 emails!? ${sentSecondCreateTeacherEmail} ${sentSecondDemoRequestEmail}`);
+            return done();
+          }
+          // console.log(secondMailActivity);
+
+          // Find activity since second auto mail and status update
+          // Skip email to a different contact's email
+          // Skip note about different contact
+          let recentActivity;
+          for (const activity of results.data) {
+            if (activity.id === secondMailActivity.id) continue;
+            if (activity.id === statusUpdateActivity.id) continue;
+            if (new Date(secondMailActivity.date_created) > new Date(activity.date_created)) continue;
+            if (new Date(statusUpdateActivity.date_created) > new Date(activity.date_created)) continue;
+            if (activity._type === 'Note' && activity.note
+              && activity.note.indexOf('demo_email') >= 0 && activity.note.indexOf(email) < 0) {
+              // console.log(`DEBUG: Skipping ${lead.id} ${email} auto import note for different contact`);
+              // console.log(activity.note);
+              continue;
+            }
+            recentActivity = activity;
+            break;
+          }
+
+          // Create call task
+          if (!recentActivity) {
+            console.log(`DEBUG: adding call task for ${lead.id} ${email}`);
+            const postData = {
+              _type: "lead",
+              lead_id: lead.id,
+              assigned_to: secondMailActivity.user_id,
+              text: `Call ${email}`,
+              is_complete: false
+            };
+            const options = {
+              uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/task/`,
+              body: JSON.stringify(postData)
+            };
+            request.post(options, (error, response, body) => {
+              if (error) return done(error);
+              const result = JSON.parse(body);
+              if (result.errors || result['field-errors']) {
+                const errorMessage = `Create call task POST error for ${email} ${lead.id}`;
+                console.error(errorMessage);
+                // console.error(body);
+                // console.error(postData);
+                return done(errorMessage);
+              }
+              return done();
+            });
+          }
+          else {
+            // console.log(`DEBUG: Found recent activity after auto2 mail for ${lead.id} ${email}`);
+            // console.log(recentActivity);
+            return done();
+          }
+        }
+        catch (err) {
+          console.log(err);
+          console.log(body);
+          return done();
+        }
+      });
+    });
+  };
+}
+
+function addCallTasks(done) {
+  // Find all leads with auto 2 status, created since earliestDate
+  // TODO: Very similar function to sendSecondFollowupMails
+  // console.log("DEBUG: addCallTasks");
+  const userApiKeyMap = {};
+  let createGetUserFn = (apiKey) => {
+    return (done) => {
+      const url = `https://${apiKey}:X@app.close.io/api/v1/me/`;
+      request.get(url, (error, response, body) => {
+        if (error) return done();
+        const results = JSON.parse(body);
+        userApiKeyMap[results.id] = apiKey;
+        return done();
+      });
+    };
+  }
+  const tasks = [];
+  for (const apiKey of closeIoMailApiKeys) {
+    tasks.push(createGetUserFn(apiKey));
+  }
+  async.parallel(tasks, (err, results) => {
+    if (err) console.log(err);
+    const latestDate = new Date();
+    latestDate.setUTCDate(latestDate.getUTCDate() - 3);
+    const query = `date_created > ${earliestDate.toISOString().substring(0, 19)} (lead_status:"Auto Attempt 2" or lead_status:"New US Schools Auto Attempt 2")"`;
+    const limit = 100;
+    const nextPage = (skip) => {
+      let has_more = false;
+      const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?_skip=${skip}&_limit=${limit}&query=${encodeURIComponent(query)}/`;
+      request.get(url, (error, response, body) => {
+        if (error) return done(error);
+        try {
+          const results = JSON.parse(body);
+          if (skip === 0) {
+            console.log(`addCallTasks total num leads ${results.total_results} has_more=${results.has_more}`);
+          }
+          has_more = results.has_more;
+          const tasks = [];
+          for (const lead of results.data) {
+            // console.log(`${lead.id}\t${lead.status_label}\t${lead.name}`);
+            // if (lead.id !== 'lead_foo') continue;
+            const existingContacts = lead.contacts || [];
+            for (const contact of existingContacts) {
+              if (contact.emails && contact.emails.length > 0) {
+                if (contact.phones && contact.phones.length > 0) {
+                  tasks.push(createAddCallTaskFn(userApiKeyMap, latestDate, lead, contact.emails[0].email.toLowerCase()));
+                }
+              }
+              else {
+                console.log(`ERROR: lead ${lead.id} contact has non-1 emails`);
+              }
+            }
+            // if (tasks.length > 10) break;
           }
           async.series(tasks, (err, results) => {
             if (err) return done(err);

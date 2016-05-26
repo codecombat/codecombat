@@ -43,8 +43,8 @@ UserHandler = class UserHandler extends Handler
     props.push 'jobProfileApproved', 'jobProfileNotes','jobProfileApprovedDate' if req.user.isAdmin()  # Admins naturally edit these
     props.push @privateProperties... if req.user.isAdmin()  # Admins are mad with power
     if not req.user.isAdmin()
-      if document.isTeacher() and req.body.role not in User.teacherRoles 
-        props = _.without props, 'role' 
+      if document.isTeacher() and req.body.role not in User.teacherRoles
+        props = _.without props, 'role'
     props
 
   formatEntity: (req, document, publicOnly=false) =>
@@ -401,7 +401,7 @@ UserHandler = class UserHandler extends Handler
         name: sponsor.get('name')
 
       # Get recipient subscription info
-      findStripeSubscription sponsor.get('stripe').customerID, userID: req.user.id, (subscription) =>
+      findStripeSubscription sponsor.get('stripe')?.customerID, userID: req.user.id, (subscription) =>
         info.subscription = subscription
         @sendDatabaseError(res, 'No sponsored subscription found') unless info.subscription?
         @sendSuccess(res, info)

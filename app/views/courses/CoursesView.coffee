@@ -5,6 +5,7 @@ AuthModal = require 'views/core/AuthModal'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
+JoinClassModal = require 'views/courses/JoinClassModal'
 CourseInstance = require 'models/CourseInstance'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
@@ -69,7 +70,7 @@ module.exports = class CoursesView extends RootView
     application.tracker?.trackEvent 'Started Student Login', category: 'Courses'
 
   openSignUpModal: ->
-    modal = new CreateAccountModal()
+    modal = new CreateAccountModal({ initialValues: { classCode: utils.getQueryVariable('_cc', "") } })
     @openModalView(modal)
     application.tracker?.trackEvent 'Started Student Signup', category: 'Courses'
 
@@ -91,10 +92,19 @@ module.exports = class CoursesView extends RootView
       @renderSelectors '#join-class-form'
       return
     @renderSelectors '#join-class-form'
-    newClassroom = new Classroom()
-    newClassroom.joinWithCode(@classCode)
-    newClassroom.on 'sync', @onJoinClassroomSuccess, @
-    newClassroom.on 'error', @onJoinClassroomError, @
+    if me.get('emailVerified') or me.isStudent()
+      newClassroom = new Classroom()
+      jqxhr = newClassroom.joinWithCode(@classCode)
+      @listenTo newClassroom, 'join:success', -> @onJoinClassroomSuccess(newClassroom)
+      @listenTo newClassroom, 'join:error', -> @onJoinClassroomError(newClassroom, jqxhr)
+    else
+      modal = new JoinClassModal({ @classCode })
+      @openModalView modal
+      @listenTo modal, 'join:success', @onJoinClassroomSuccess
+      @listenTo modal, 'join:error', @onJoinClassroomError
+      @listenTo modal, 'hidden', ->
+        @state = null
+        @renderSelectors '#join-class-form'
 
   onJoinClassroomError: (classroom, jqxhr, options) ->
     @state = null
@@ -108,6 +118,7 @@ module.exports = class CoursesView extends RootView
     @renderSelectors '#join-class-form'
 
   onJoinClassroomSuccess: (newClassroom, data, options) ->
+    @state = null
     application.tracker?.trackEvent 'Joined classroom', {
       category: 'Courses'
       classCode: @classCode
@@ -122,25 +133,9 @@ module.exports = class CoursesView extends RootView
     classroomCourseInstances = new CocoCollection([], { url: "/db/course_instance", model: CourseInstance })
     classroomCourseInstances.fetch({ data: {classroomID: newClassroom.id} })
     @listenToOnce classroomCourseInstances, 'sync', ->
-      # join any course instances in the classroom which are free to join
-      jqxhrs = []
-      for courseInstance in classroomCourseInstances.models
-        course = @courses.get(courseInstance.get('courseID'))
-        if course.get('free')
-          jqxhrs.push = courseInstance.addMember(me.id)
-          courseInstance.sessions = new Backbone.Collection()
-          @courseInstances.add(courseInstance)
-      $.when(jqxhrs...).done =>
-        # This is a hack to work around previous hacks
-        # TODO: Do joinWithCode properly (before page load)
-        # TODO: Do data flow properly (so going to the class URL works and we don't need to just refresh)
-        location.search = ""
-        # @state = null
-        # @render()
-        # location.hash = ''
-        # f = -> location.hash = '#just-added-text'
-        # # quick and dirty scroll to just-added classroom
-        # setTimeout(f, 10)
+      # TODO: Smoother system for joining a classroom and course instances, without requiring page reload,
+      # and showing which class was just joined. 
+      document.location.search = '' # Using document.location.reload() causes an infinite loop of reloading
     
   onClickChangeLanguageLink: ->
     application.tracker?.trackEvent 'Student clicked change language', category: 'Courses'

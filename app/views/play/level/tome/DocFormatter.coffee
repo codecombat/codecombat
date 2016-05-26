@@ -57,23 +57,18 @@ module.exports = class DocFormatter
         else (if @options.useHero then 'hero' else 'this')
       if @doc.type is 'function'
         [docName, args] = @getDocNameAndArguments()
-        sep = {clojure: ' '}[@options.language] ? ', '
-        argNames = args.join sep
+        argNames = args.join ', '
         argString = if argNames then '__ARGS__' else ''
         @doc.shortName = switch @options.language
           when 'coffeescript' then "#{ownerName}#{if ownerName is '@' then '' else '.'}#{docName}#{if argString then ' ' + argString else '()'}"
           when 'python' then "#{ownerName}.#{docName}(#{argString})"
           when 'lua' then "#{ownerName}:#{docName}(#{argString})"
-          when 'clojure' then "(.#{docName} #{ownerName}#{if argNames then ' ' + argString else ''})"
-          when 'io' then "#{if ownerName is 'this' then '' else ownerName + ' '}#{docName}#{if argNames then '(' + argNames + ')' else ''}"
           else "#{ownerName}.#{docName}(#{argString});"
       else
         @doc.shortName = switch @options.language
           when 'coffeescript' then "#{ownerName}#{if ownerName is '@' then '' else '.'}#{@doc.name}"
           when 'python' then "#{ownerName}.#{@doc.name}"
           when 'lua' then "#{ownerName}.#{@doc.name}"
-          when 'clojure' then "(.#{@doc.name} #{ownerName})"
-          when 'io' then "#{if ownerName is 'this' then '' else ownerName + ' '}#{@doc.name}"
           else "#{ownerName}.#{@doc.name};"
       @doc.shorterName = @doc.shortName
       if @doc.type is 'function' and argString
@@ -89,7 +84,7 @@ module.exports = class DocFormatter
       translatedName = utils.i18n(@doc, 'name')
       if translatedName isnt @doc.name
         @doc.translatedShortName = @doc.shortName.replace(@doc.name, translatedName)
-        
+
 
     # Grab the language-specific documentation for some sub-properties, if we have it.
     toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}]
@@ -153,16 +148,12 @@ module.exports = class DocFormatter
       when 'coffeescript' then "loop"
       when 'python' then "while True:"
       when 'lua' then "while true do"
-      when 'clojure' then "(while true)"
-      when 'io' then "while(true)"
       else "while (true)"
     for field in ['example', 'description']
       [simpleLoop, whileLoop] = switch @options.language
         when 'coffeescript' then [/loop/g, "loop"]
         when 'python' then [/loop:/g, "while True:"]
         when 'lua' then [/loop/g, "while true do"]
-        when 'clojure' then [/\(dotimes( \[n \d+\])?/g, "(while true"]
-        when 'io' then [/loop\(/g, "while(true,"]
         else [/loop/g, "while (true)"]
       @doc[field] = @doc[field].replace simpleLoop, whileLoop
 

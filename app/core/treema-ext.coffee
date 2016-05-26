@@ -238,10 +238,8 @@ codeLanguages =
   javascript: 'ace/mode/javascript'
   coffeescript: 'ace/mode/coffee'
   python: 'ace/mode/python'
-  clojure: 'ace/mode/clojure'
   lua: 'ace/mode/lua'
   java: 'ace/mode/java'
-  io: 'ace/mode/text'
 
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->

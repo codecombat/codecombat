@@ -6,11 +6,13 @@ PrepaidSchema = c.object({title: 'Prepaid', required: ['creator', 'type']}, {
     c.object {required: ['date', 'userID']},
       date: c.date {title: 'Redeemed date'}
       userID: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
-  maxRedeemers: { type: 'integer'}
+  maxRedeemers: { type: 'integer' }
   code: c.shortString(title: "Unique code to redeem")
   type: { type: 'string' }
-  properties: {type: 'object'}
+  properties: {type: 'object' }
   exhausted: { type: 'boolean' }
+  startDate: c.stringDate()
+  endDate: c.stringDate()
 })
 
 c.extendBasicProperties(PrepaidSchema, 'prepaid')

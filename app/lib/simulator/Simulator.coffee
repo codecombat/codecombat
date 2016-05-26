@@ -443,7 +443,7 @@ module.exports = class Simulator extends CocoClass
       aether.transpile ''
 
   createAether: (methodName, method, useProtectAPI, codeLanguage) ->
-    aetherOptions = createAetherOptions functionName: methodName, codeLanguage: codeLanguage, skipProtectAPI: not useProtectAPI, useInterpreter: true
+    aetherOptions = createAetherOptions functionName: methodName, codeLanguage: codeLanguage, skipProtectAPI: not useProtectAPI
     return new Aether aetherOptions
 
 class SimulationTask

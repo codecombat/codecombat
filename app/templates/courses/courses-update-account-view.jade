@@ -1,0 +1,81 @@
+extends /templates/base-flat
+
+block content
+  .container#main-content
+    .row.m-y-3
+      .col-xs-12
+        if me.isAnonymous()
+          .text-center
+            h3(data-i18n="courses.update_account_login_title")
+            p(data-i18n="courses.update_account_blurb")
+            p
+              button.login-btn.btn.btn-navy(data-i18n="login.log_in")
+
+        if !me.isAnonymous()
+          .text-center
+            h3(data-i18n="courses.update_account_title")
+            p(data-i18n="courses.update_account_blurb")
+          .row
+            .col-md-6
+              .text-right
+                if view.accountType
+                  div
+                    strong(data-i18n="courses.update_account_current_type")
+                div
+                  strong(data-i18n="courses.update_account_account_email")
+            .col-md-6
+              if view.accountType
+                div #{view.accountType}
+              div
+                span.spr #{me.get('email')}
+                span.not_you
+                  span.spr(data-i18n="courses.not_you")
+                  a.logout-btn(data-i18n="login.log_out", href="#")
+          br
+          .row
+            .col-md-6
+              .well(style='background-color:white;')
+                .text-center
+                  h4
+                    strong(data-i18n="courses.update_account_am_teacher")
+                  p(data-i18n="courses.update_account_keep_access")
+                div(style='margin: 0px 20px 0px 20px; font-size: 10pt')
+                  div(data-i18n="courses.update_account_teachers_can")
+                  ul
+                    li(data-i18n="courses.update_account_teachers_can1")
+                    li(data-i18n="courses.update_account_teachers_can2")
+                    li(data-i18n="courses.update_account_teachers_can3")
+                    li(data-i18n="courses.update_account_teachers_can4")
+                  .warning(data-i18n="courses.update_account_teachers_warning")
+                br
+                .text-center
+                  if me.isTeacher()
+                    button.remain-teacher-btn.btn.btn-navy(data-i18n="courses.update_account_remain_teacher")
+                  else
+                    button.update-teacher-btn.btn.btn-forest(data-i18n="courses.update_account_update_teacher")
+                br
+            .col-md-6
+              .well(style='background-color:white;')
+                .text-center
+                  h4
+                    strong(data-i18n="courses.update_account_am_student")
+                  p(data-i18n="courses.update_account_remove_access")
+                div(style='margin: 0px 20px 0px 20px; font-size: 10pt')
+                  div(data-i18n="courses.update_account_students_can")
+                  ul
+                    li(data-i18n="courses.update_account_students_can1")
+                    li(data-i18n="courses.update_account_students_can2")
+                    li(data-i18n="courses.update_account_students_can3")
+                    li(data-i18n="courses.update_account_students_can4")
+                  .warning(data-i18n="courses.update_account_students_warning")
+                br
+                .text-center
+                  if me.isStudent()
+                    button.remain-student-btn.btn.btn-navy(data-i18n="courses.update_account_remain_student")
+                  else
+                    button.update-student-btn.btn.btn-forest(data-i18n="courses.update_account_update_student")
+                br
+          br
+          .small.text-center
+            span.spr(data-i18n="courses.update_account_not_sure")
+            a(href='mailto:team@codecombat.com') team@codecombat.com

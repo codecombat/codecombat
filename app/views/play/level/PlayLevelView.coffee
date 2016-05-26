@@ -154,6 +154,7 @@ module.exports = class PlayLevelView extends RootView
   isCourseMode: -> @courseID and @courseInstanceID
 
   showAds: ->
+    return false # No ads for now.
     if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF && !@isCourseMode()
       return me.getCampaignAdsGroup() is 'leaderboard-ads'
     false
@@ -224,10 +225,7 @@ module.exports = class PlayLevelView extends RootView
       opponentSpells = opponentSpells.concat spells
     if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells')
       @session.set('teamSpells', @otherSession.get('teamSpells'))
-    if @getQueryVariable 'esper'
-      opponentCode = @otherSession?.get('code') or {}
-    else
-      opponentCode = @otherSession?.get('transpiledCode') or {}
+    opponentCode = @otherSession?.get('code') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'
@@ -419,16 +417,14 @@ module.exports = class PlayLevelView extends RootView
 
   perhapsStartSimulating: ->
     return unless @shouldSimulate()
+    return console.error "Should not auto-simulate until we fix how these languages are loaded"
     # TODO: how can we not require these as part of /play bundle?
-    #require "vendor/aether-#{codeLanguage}" for codeLanguage in ['javascript', 'python', 'coffeescript', 'lua', 'clojure', 'io']
-    require 'vendor/aether-javascript'
-    require 'vendor/aether-python'
-    require 'vendor/aether-coffeescript'
-    require 'vendor/aether-lua'
-    require 'vendor/aether-java'
-    require 'vendor/aether-clojure'
-    require 'vendor/aether-io'
-    require 'vendor/aether-java'
+    ##require "vendor/aether-#{codeLanguage}" for codeLanguage in ['javascript', 'python', 'coffeescript', 'lua', 'java']
+    #require 'vendor/aether-javascript'
+    #require 'vendor/aether-python'
+    #require 'vendor/aether-coffeescript'
+    #require 'vendor/aether-lua'
+    #require 'vendor/aether-java'
     @simulateNextGame()
 
   simulateNextGame: ->

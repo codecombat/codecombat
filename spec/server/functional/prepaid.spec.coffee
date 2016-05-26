@@ -13,9 +13,191 @@ Course = require '../../../server/models/Course'
 CourseInstance = require '../../../server/models/CourseInstance'
 request = require '../request'
 
+describe 'POST /db/prepaid', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Prepaid])
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    done()
+  
+  it 'creates a new prepaid for type "course"', utils.wrap (done) ->
+    user = yield utils.initUser()
+    [res, body] = yield request.postAsync({url: getURL('/db/prepaid'), json: {
+      type: 'course'
+      creator: user.id
+    }})
+    expect(res.statusCode).toBe(201)
+    prepaid = yield Prepaid.findById(res.body._id)
+    expect(prepaid).toBeDefined()
+    expect(prepaid.get('creator').equals(user._id)).toBe(true)
+    expect(prepaid.get('code')).toBeDefined()
+    done()
+    
+  it 'does not work for non-admins', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res, body] = yield request.postAsync({url: getURL('/db/prepaid'), json: {
+      type: 'course'
+      creator: user.id
+    }})
+    expect(res.statusCode).toBe(403)
+    done()
+    
+  it 'accepts start and end dates', utils.wrap (done) ->
+    user = yield utils.initUser()
+    [res, body] = yield request.postAsync({url: getURL('/db/prepaid'), json: {
+      type: 'course'
+      creator: user.id
+      startDate: new Date().toISOString(2001,1,1)
+      endDate: new Date().toISOString(2010,1,1)
+    }})
+    expect(res.statusCode).toBe(201)
+    prepaid = yield Prepaid.findById(res.body._id)
+    expect(prepaid).toBeDefined()
+    expect(prepaid.get('startDate')).toBeDefined()
+    expect(prepaid.get('endDate')).toBeDefined()
+    done()
+    
+    
+describe 'GET /db/prepaid/:handle', ->
+  it 'populates startDate and endDate with default values', utils.wrap (done) ->
+    prepaid = new Prepaid({type: 'course' })
+    yield prepaid.save()
+    [res, body] = yield request.getAsync({url: getURL("/db/prepaid/#{prepaid.id}"), json: true})
+    expect(body.endDate).toBe(Prepaid.DEFAULT_END_DATE)
+    expect(body.startDate).toBe(Prepaid.DEFAULT_START_DATE)
+    done()
+  
+
+describe 'POST /db/prepaid/:handle/redeemers', ->
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([Course, CourseInstance, Payment, Prepaid, User])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
+    @prepaid = yield utils.makePrepaid({ creator: @teacher.id })
+    yield utils.loginUser(@teacher)
+    @student = yield utils.initUser()
+    @url = getURL("/db/prepaid/#{@prepaid.id}/redeemers")
+    done()
+
+  it 'adds a given user to the redeemers property', utils.wrap (done) ->
+    [res, body] = yield request.postAsync {uri: @url, json: { userID: @student.id } }
+    expect(body.redeemers.length).toBe(1)
+    expect(res.statusCode).toBe(201)
+    prepaid = yield Prepaid.findById(body._id)
+    expect(prepaid.get('redeemers').length).toBe(1)
+    @student = yield User.findById(@student.id)
+    expect(@student.get('coursePrepaid')._id.equals(@prepaid._id)).toBe(true)
+    expect(@student.get('role')).toBe('student')
+    done()
+
+  it 'returns 403 if maxRedeemers is reached', utils.wrap (done) ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    prepaid = yield utils.makePrepaid({ creator: @teacher.id, maxRedeemers: 0 })
+    url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
+    yield utils.loginUser(@teacher)
+    [res, body] = yield request.postAsync({uri: url, json: { userID: @student.id } })
+    expect(res.statusCode).toBe(403)
+    expect(res.body.message).toBe('This prepaid is exhausted')
+    done()
+
+  it 'returns 403 unless the user is the "creator"', utils.wrap (done) ->
+    @otherTeacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@otherTeacher)
+    [res, body] = yield request.postAsync({uri: @url, json: { userID: @student.id } })
+    expect(res.statusCode).toBe(403)
+    expect(res.body.message).toBe('You may not redeem licenses from this prepaid')
+    done()
+
+  it 'returns 403 if the prepaid is expired', utils.wrap (done) ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    prepaid = yield utils.makePrepaid({ creator: @teacher.id, endDate: moment().subtract(1, 'month').toISOString() })
+    url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
+    yield utils.loginUser(@teacher)
+    [res, body] = yield request.postAsync({uri: url, json: { userID: @student.id } })
+    expect(res.statusCode).toBe(403)
+    expect(res.body.message).toBe('This prepaid is expired')
+    done()
+
+  it 'is idempotent across prepaids collection', utils.wrap (done) ->
+    student = yield utils.initUser({ coursePrepaid: { _id: new Prepaid()._id } })
+    [res, body] = yield request.postAsync({uri: @url, json: { userID: student.id } })
+    expect(res.statusCode).toBe(200)
+    expect(body.redeemers.length).toBe(0)
+    done()
+
+  it 'is idempotent to itself', utils.wrap (done) ->
+    [res, body] = yield request.postAsync({uri: @url, json: { userID: @student.id } })
+    expect(body.redeemers?.length).toBe(1)
+    expect(res.statusCode).toBe(201)
+    [res, body] = yield request.postAsync({uri: @url, json: { userID: @student.id } })
+    expect(body.redeemers?.length).toBe(1)
+    expect(res.statusCode).toBe(200)
+    prepaid = yield Prepaid.findById(body._id)
+    expect(prepaid.get('redeemers').length).toBe(1)
+    student = yield User.findById(@student.id)
+    expect(student.get('coursePrepaid')._id.equals(@prepaid._id)).toBe(true)
+    done()
+    
+  it 'updates the user if their license is expired', utils.wrap (done) ->
+    yield utils.loginUser(@admin)
+    prepaid = yield utils.makePrepaid({
+      creator: @teacher.id
+      startDate: moment().subtract(2, 'month').toISOString()
+      endDate: moment().subtract(1, 'month').toISOString()
+    })
+    @student.set('coursePrepaid', _.pick(prepaid.toObject(), '_id', 'startDate', 'endDate'))
+    yield @student.save()
+    yield utils.loginUser(@teacher)
+    [res, body] = yield request.postAsync {uri: @url, json: { userID: @student.id } }
+    expect(body.redeemers.length).toBe(1)
+    expect(res.statusCode).toBe(201)
+    student = yield User.findById(@student.id)
+    expect(student.get('coursePrepaid')._id.equals(@prepaid._id)).toBe(true)
+    done()
+
+
+describe 'GET /db/prepaid?creator=:id', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([Course, CourseInstance, Payment, Prepaid, User])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @prepaid = yield utils.makePrepaid({ creator: @teacher.id })
+    @otherPrepaid = yield utils.makePrepaid({ creator: admin.id })
+    @expiredPrepaid = yield utils.makePrepaid({ creator: @teacher.id, endDate: moment().subtract(1, 'month').toISOString() })
+    @unmigratedPrepaid = yield utils.makePrepaid({ creator: @teacher.id })
+    yield @unmigratedPrepaid.update({$unset: { endDate: '', startDate: '' }})
+    yield utils.loginUser(@teacher)
+    done()
+    
+  it 'return all prepaids for the creator', utils.wrap (done) ->
+    url = getURL("/db/prepaid?creator=#{@teacher.id}")
+    [res, body] = yield request.getAsync({uri: url, json: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toEqual(3)
+    if _.any((prepaid._id is @otherPrepaid.id for prepaid in res.body))
+      fail('Found the admin prepaid in response')
+    for prepaid in res.body
+      unless prepaid.startDate and prepaid.endDate
+        fail('All prepaids should have start and end dates')
+    expect(res.body[0]._id).toBe(@prepaid.id)
+    done()
+    
+  it 'returns 403 if the user tries to view another user\'s prepaids', utils.wrap (done) ->
+    anotherUser = yield utils.initUser()
+    url = getURL("/db/prepaid?creator=#{anotherUser.id}")
+    [res, body] = yield request.getAsync({uri: url, json: true})
+    expect(res.statusCode).toBe(403)
+    done()
+
+    
 describe '/db/prepaid', ->
   prepaidURL = getURL('/db/prepaid')
-  prepaidCreateURL = getURL('/db/prepaid/-/create')
 
   headers = {'X-Change-Plan': 'true'}
 
@@ -47,257 +229,6 @@ describe '/db/prepaid', ->
       expect(payment).not.toBeNull()
       expect(payment?.get('purchaser')).toEqual(user._id)
       done()
-
-  it 'Clear database', (done) ->
-    clearModels [Course, CourseInstance, Payment, Prepaid, User], (err) ->
-      throw err if err
-      done()
-
-  describe 'POST /db/prepaid/<id>/redeemers', ->
-
-    it 'adds a given user to the redeemers property', (done) ->
-      loginNewUser (user1) ->
-        prepaid = new Prepaid({
-          maxRedeemers: 1,
-          redeemers: [],
-          creator: user1.get('_id')
-          code: 0
-          type: 'course'
-        })
-        prepaid.save (err, prepaid) ->
-          otherUser = new User()
-          otherUser.save (err, otherUser) ->
-            url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
-            redeemer = { userID: otherUser.id }
-            request.post {uri: url, json: redeemer }, (err, res, body) ->
-              expect(body.redeemers.length).toBe(1)
-              expect(res.statusCode).toBe(200)
-              prepaid = Prepaid.findById body._id, (err, prepaid) ->
-                expect(err).toBeNull()
-                expect(prepaid.get('redeemers').length).toBe(1)
-                User.findById  otherUser.id, (err, user) ->
-                  expect(user.get('coursePrepaidID').equals(prepaid.get('_id'))).toBe(true)
-                  expect(user.get('role')).toBe('student')
-                  done()
-
-    it 'does not allow more redeemers than maxRedeemers', (done) ->
-      loginNewUser (user1) ->
-        prepaid = new Prepaid({
-          maxRedeemers: 0,
-          redeemers: [],
-          creator: user1.get('_id')
-          code: 1
-          type: 'course'
-        })
-        prepaid.save (err, prepaid) ->
-          otherUser = new User()
-          otherUser.save (err, otherUser) ->
-            url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
-            redeemer = { userID: otherUser.id }
-            request.post {uri: url, json: redeemer }, (err, res, body) ->
-              expect(res.statusCode).toBe(403)
-              done()
-
-    it 'only allows the owner of the prepaid to add redeemers', (done) ->
-      loginNewUser (user1) ->
-        prepaid = new Prepaid({
-          maxRedeemers: 1000,
-          redeemers: [],
-          creator: user1.get('_id')
-          code: 2
-          type: 'course'
-        })
-        prepaid.save (err, prepaid) ->
-          loginNewUser (user2) ->
-            otherUser = new User()
-            otherUser.save (err, otherUser) ->
-              url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
-              redeemer = { userID: otherUser.id }
-              request.post {uri: url, json: redeemer }, (err, res, body) ->
-                expect(res.statusCode).toBe(403)
-                done()
-
-    it 'is idempotent across prepaids collection', (done) ->
-      loginNewUser (user1) ->
-        otherUser = new User({
-          'coursePrepaidID': new ObjectId()
-        })
-        otherUser.save (err, otherUser) ->
-          prepaid1 = new Prepaid({
-            redeemers: [{userID: otherUser.get('_id')}],
-            code: 3
-            type: 'course'
-          })
-          prepaid1.save (err, prepaid1) ->
-            otherUser.set 'coursePrepaidID', prepaid1.id
-            otherUser.save (err, otherUser) ->
-              prepaid2 = new Prepaid({
-                maxRedeemers: 10,
-                redeemers: [],
-                creator: user1.get('_id')
-                code: 4
-                type: 'course'
-              })
-              prepaid2.save (err, prepaid2) ->
-                url = getURL("/db/prepaid/#{prepaid2.id}/redeemers")
-                redeemer = { userID: otherUser.id }
-                request.post {uri: url, json: redeemer }, (err, res, body) ->
-                  expect(res.statusCode).toBe(200)
-                  expect(body.redeemers.length).toBe(0)
-                  done()
-
-    it 'is idempotent to itself for a user other than the creator', (done) ->
-      loginNewUser (user1) ->
-        prepaid = new Prepaid({
-          maxRedeemers: 2,
-          redeemers: [],
-          creator: user1.get('_id')
-          code: 0
-          type: 'course'
-        })
-        prepaid.save (err, prepaid) ->
-          otherUser = new User()
-          otherUser.save (err, otherUser) ->
-            url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
-            redeemer = { userID: otherUser.id }
-            request.post {uri: url, json: redeemer }, (err, res, body) ->
-              expect(body.redeemers?.length).toBe(1)
-              expect(res.statusCode).toBe(200)
-              request.post {uri: url, json: redeemer }, (err, res, body) ->
-                expect(body.redeemers?.length).toBe(1)
-                expect(res.statusCode).toBe(200)
-                prepaid = Prepaid.findById body._id, (err, prepaid) ->
-                  expect(err).toBeNull()
-                  expect(prepaid.get('redeemers').length).toBe(1)
-                  User.findById  otherUser.id, (err, user) ->
-                    expect(user.get('coursePrepaidID').equals(prepaid.get('_id'))).toBe(true)
-                    done()
-
-    it 'is idempotent to itself for the creator', (done) ->
-      loginNewUser (user1) ->
-        prepaid = new Prepaid({
-          maxRedeemers: 2,
-          redeemers: [],
-          creator: user1.get('_id')
-          code: 0
-          type: 'course'
-        })
-        prepaid.save (err, prepaid) ->
-          otherUser = new User()
-          otherUser.save (err, otherUser) ->
-            url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
-            redeemer = { userID: user1.id }
-            request.post {uri: url, json: redeemer }, (err, res, body) ->
-              expect(body.redeemers?.length).toBe(1)
-              expect(res.statusCode).toBe(200)
-              request.post {uri: url, json: redeemer }, (err, res, body) ->
-                expect(body.redeemers?.length).toBe(1)
-                expect(res.statusCode).toBe(200)
-                prepaid = Prepaid.findById body._id, (err, prepaid) ->
-                  expect(err).toBeNull()
-                  expect(prepaid.get('redeemers').length).toBe(1)
-                  User.findById  user1.id, (err, user) ->
-                    expect(user.get('coursePrepaidID').equals(prepaid.get('_id'))).toBe(true)
-                    redeemer = { userID: otherUser.id }
-                    request.post {uri: url, json: redeemer }, (err, res, body) ->
-                      expect(body.redeemers?.length).toBe(2)
-                      expect(res.statusCode).toBe(200)
-                      done()
-
-    it 'return terminal prepaids', (done) ->
-      endDate = new Date()
-      endDate.setUTCMonth(endDate.getUTCMonth() + 2)
-      loginNewUser (user1) ->
-        prepaid = new Prepaid({
-          maxRedeemers: 500,
-          redeemers: [],
-          creator: user1.get('_id')
-          type: 'course'
-          properties:
-            endDate: endDate
-        })
-        prepaid.save (err, prepaid) ->
-          expect(err).toBeNull()
-          url = getURL("/db/prepaid?creator=#{user1.id}")
-          request.get {uri: url}, (err, res, body) ->
-            expect(res.statusCode).toBe(200)
-            documents = JSON.parse(body)
-            expect(documents.length).toEqual(1)
-            return done() unless documents.length is 1
-            expect(documents[0]?.properties?.endDate).toEqual(endDate.toISOString())
-            done()
-
-    it 'do not return expired terminal prepaids', (done) ->
-      endDate = new Date()
-      endDate.setUTCMonth(endDate.getUTCMonth() - 1)
-      loginNewUser (user1) ->
-        prepaid = new Prepaid({
-          maxRedeemers: 500,
-          redeemers: [],
-          creator: user1.get('_id')
-          type: 'course'
-          properties:
-            endDate: endDate
-        })
-        prepaid.save (err, prepaid) ->
-          expect(err).toBeNull()
-          url = getURL("/db/prepaid?creator=#{user1.id}")
-          request.get {uri: url}, (err, res, body) ->
-            expect(res.statusCode).toBe(200)
-            documents = JSON.parse(body)
-            expect(documents.length).toEqual(0)
-            done()
-
-    it 'redeem terminal prepaids', (done) ->
-      endDate = new Date()
-      endDate.setUTCMonth(endDate.getUTCMonth() + 2)
-      loginNewUser (user1) ->
-        prepaid = new Prepaid({
-          maxRedeemers: 500,
-          redeemers: [],
-          creator: user1.get('_id')
-          type: 'course'
-          properties:
-            endDate: endDate
-        })
-        prepaid.save (err, prepaid) ->
-          expect(err).toBeNull()
-          otherUser = new User()
-          otherUser.save (err, otherUser) ->
-            url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
-            redeemer = { userID: otherUser.id }
-            request.post {uri: url, json: redeemer }, (err, res, body) ->
-              expect(body.redeemers?.length).toBe(1)
-              expect(res.statusCode).toBe(200)
-              return done() unless res.statusCode is 200
-              prepaid = Prepaid.findById body._id, (err, prepaid) ->
-                expect(err).toBeNull()
-                expect(prepaid.get('redeemers').length).toBe(1)
-                User.findById  otherUser.id, (err, user) ->
-                  expect(user.get('coursePrepaidID').equals(prepaid.get('_id'))).toBe(true)
-                  done()
-
-    it 'do not redeem expired terminal prepaids', (done) ->
-      endDate = new Date()
-      endDate.setUTCMonth(endDate.getUTCMonth() - 1)
-      loginNewUser (user1) ->
-        prepaid = new Prepaid({
-          maxRedeemers: 500,
-          redeemers: [],
-          creator: user1.get('_id')
-          type: 'course'
-          properties:
-            endDate: endDate
-        })
-        prepaid.save (err, prepaid) ->
-          expect(err).toBeNull()
-          otherUser = new User()
-          otherUser.save (err, otherUser) ->
-            url = getURL("/db/prepaid/#{prepaid.id}/redeemers")
-            redeemer = { userID: otherUser.id }
-            request.post {uri: url, json: redeemer }, (err, res, body) ->
-              expect(res.statusCode).toBe(403)
-              done()
 
   it 'Clear database', (done) ->
     clearModels [Course, CourseInstance, Payment, Prepaid, User], (err) ->
@@ -767,14 +698,14 @@ describe '/db/prepaid', ->
     
       # Spawn all requests at once!
       requests = []
-      options = { 
+      options = {
         url: getURL('/db/subscription/-/subscribe_prepaid')
         json: { ppc: prepaid.code }
       }
       for thread in threads
         requests.push(thread.request.postAsync(options))
         
-      # Wait until all requests finish, make sure all but one succeeded 
+      # Wait until all requests finish, make sure all but one succeeded
       responses = yield requests
       redeemed = _.size(_.where(responses, {statusCode: 200}))
       errors = _.size(_.where(responses, {statusCode: 403}))

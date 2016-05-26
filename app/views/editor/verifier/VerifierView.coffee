@@ -1,3 +1,5 @@
+utils = require 'core/utils'
+
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/verifier/verifier-view'
 VerifierTest = require './VerifierTest'
@@ -52,14 +54,14 @@ module.exports = class VerifierView extends RootView
     #testLevels = testLevels.slice 0, 15
     @linksQueryString = window.location.search
     @levelIDs = if @levelID then [@levelID] else testLevels
-
+    languages = utils.getQueryVariable 'languages', 'python,javascript'
     #supermodel = if @levelID then @supermodel else undefined
     @tests = []
     @taskList = []
     @tasksList = _.flatten _.map @levelIDs, (v) ->
       # TODO: offer good interface for choosing which languages, better performance for skipping missing solutions
       #_.map ['python', 'javascript', 'coffeescript', 'lua'], (l) ->
-      _.map ['python', 'javascript'], (l) ->
+      _.map languages.split(','), (l) ->
       #_.map ['javascript'], (l) ->
         level: v, language: l
 

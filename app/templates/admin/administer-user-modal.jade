@@ -1,54 +1,80 @@
 extends /templates/core/modal-base-flat
 
+// DNT
+
 block modal-header-content
   h3 Administer User
-  h4 #{user.get('name') || 'Unnamed'} / #{user.get('email')}
-  span= user.id
-
+  h4 #{view.user.get('name') || 'Unnamed'} / #{view.user.get('email')}
+  span= view.user.id
 
 block modal-body-content
-  
+
+  h3.m-t-3 Grant Student Licenses
+  #prepaid-form.form
+    if view.state === 'creating-prepaid'
+      .progress.progress-striped.active
+        .progress-bar(style="width: 100%")
+
+    else if view.state === 'made-prepaid'
+      .alert.alert-success Licenses created!
+
+    else
+      .form-group
+        label Number of Licenses
+        input#seats-input.form-control(type="number", name="maxRedeemers")
+      .form-group
+        label Start Date
+        input.form-control(type="date" name="startDate" value=moment().format('YYYY-MM-DD'))
+      .form-group
+        label End Date
+        input.form-control(type="date" name="endDate" value=moment().add(1, 'year').format('YYYY-MM-DD')))
+      .form-group
+        button#add-seats-btn.btn.btn-primary Add Licenses
+
+  if view.prepaids.size()
+    h3.m-t-3 Existing Prepaids
+    table.table.table-condensed
+      tr
+        th ID
+        th Type
+        th Start
+        th End
+        th Used
+      for prepaid in view.prepaids.models
+        tr
+          td= prepaid.id
+          td= prepaid.get('type')
+          td
+            if prepaid.get('startDate')
+              = moment(prepaid.get('startDate')).utc().format('lll')
+          td
+            if prepaid.get('endDate')
+              = moment(prepaid.get('endDate')).utc().format('lll')
+          td #{(prepaid.get('redeemers') || []).length} / #{prepaid.get('maxRedeemers') || 0}
+
   h3 Stripe Benefit
   .form
     .form-group
       .radio
         label
-          input(type="radio" name="stripe-benefit" value="" checked=none)
+          input(type="radio" name="stripe-benefit" value="" checked=view.none)
           | None
       .radio
         label
-          input(type="radio" name="stripe-benefit" value="free" checked=free)
+          input(type="radio" name="stripe-benefit" value="free" checked=view.free)
           | Free
       .radio
         label
-          input(type="radio" name="stripe-benefit" value="free-until" checked=FreeUntil)
+          input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
           | Free Until
-          input.form-control.spl(type="date" name="stripe-free-until" value=freeUntilDate)#free-until-date
+          input.form-control.spl(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
       .radio
         label
-          input(type="radio" name="stripe-benefit" value="coupon" checked=coupon)
+          input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
           | Coupon
         select.form-control#coupon-select
-          for couponOption in coupons
-            option(value=couponOption.id selected=coupon===couponOption.id)= couponOption.format
+          for coupon in view.coupons.models
+            option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
     button#save-changes.btn.btn-primary Save Changes
-    
-  h3 Grant Prepaid for Courses
-  #prepaid-form.form
-    if view.state === 'creating-prepaid'
-      .progress.progress-striped.active
-        .progress-bar(style="width: 100%")
-      
-    else if view.state === 'made-prepaid'
-      .alert.alert-success Prepaid created!
-      
-    else
-      .form-group
-        label Seats
-        input#seats-input.form-control(type="number")
-      .form-group
-        button#add-seats-btn.btn.btn-primary Add Seats
-            
-block modal-footer-content
-  
 
+block modal-footer

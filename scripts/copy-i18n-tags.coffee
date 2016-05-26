@@ -54,6 +54,9 @@ for file in dir when not (file in ['locale.coffee', 'en.coffee'])
           comment = " \#" + comment if comment is ""
           comment = comment + " {change}"
 
+      unless /^[a-z0-9_]+$/i.test enTag
+        enTag = '"' + enTag + '"'  # Since || doesn't work as a key, needs to be "||"
+
       lines.push "#{if tagMissing then '#' else ''}    #{enTag}: \"#{tag}\"#{comment}"
   newContents = lines.join('\n') + '\n'
   fs.writeFileSync 'app/locale/' + file, newContents

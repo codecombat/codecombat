@@ -50,13 +50,14 @@ visa = c.shortString
 
 _.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
+  emailVerified: { type: 'boolean' }
   iosIdentifierForVendor: c.shortString({format: 'hidden'})
   firstName: c.shortString({title: 'First Name'})
   lastName: c.shortString({title: 'Last Name'})
   gender: {type: 'string'} # , 'enum': ['male', 'female', 'secret', 'trans', 'other']
   # NOTE: ageRange enum changed on 4/27/16 from ['0-13', '14-17', '18-24', '25-34', '35-44', '45-100']
   ageRange: {type: 'string'}  # 'enum': ['13-15', '16-17', '18-24', '25-34', '35-44', '45-100']
-  password: {type: 'string', maxLength: 256, minLength: 2, title: 'Password'}
+  password: c.passwordString
   passwordReset: {type: 'string'}
   photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image to serve as your profile picture.'}
 
@@ -327,6 +328,16 @@ _.extend UserSchema.properties,
   coursePrepaidID: c.objectId({
     description: 'Prepaid which has paid for this user\'s course access'
   })
+  coursePrepaid: {
+    type: 'object'
+    properties: {
+      _id: c.objectId()
+      startDate: c.stringDate()
+      endDate: c.stringDate()
+    }
+  }
+  enrollmentRequestSent: { type: 'boolean' }
+  
   schoolName: {type: 'string'}
   role: {type: 'string', enum: ["God", "advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}
   birthday: c.stringDate({title: "Birthday"})

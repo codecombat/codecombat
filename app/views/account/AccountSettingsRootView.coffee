@@ -1,6 +1,7 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/account/account-settings-root-view'
 AccountSettingsView = require './AccountSettingsView'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 module.exports = class AccountSettingsRootView extends RootView
   id: "account-settings-root-view"
@@ -20,6 +21,9 @@ module.exports = class AccountSettingsRootView extends RootView
     @listenTo @accountSettingsView, 'save-user-began', @onUserSaveBegan
     @listenTo @accountSettingsView, 'save-user-success', @onUserSaveSuccess
     @listenTo @accountSettingsView, 'save-user-error', @onUserSaveError
+
+  afterInsert: ->
+    @openModalView new CreateAccountModal() if me.get('anonymous')
 
   onInputChanged: ->
     @$el.find('#save-button')
@@ -45,4 +49,3 @@ module.exports = class AccountSettingsRootView extends RootView
       .text($.i18n.t('account_settings.error_saving', defaultValue: 'Error Saving'))
       .removeClass('btn-success')
       .addClass('btn-danger', 500)
-

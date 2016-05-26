@@ -1,6 +1,7 @@
 _ = require 'lodash'
 utils = require '../lib/utils'
 errors = require '../commons/errors'
+schemas = require '../../app/schemas/schemas'
 wrap = require 'co-express'
 Promise = require 'bluebird'
 database = require '../commons/database'
@@ -12,8 +13,20 @@ Level = require '../models/Level'
 parse = require '../commons/parse'
 LevelSession = require '../models/LevelSession'
 User = require '../models/User'
+CourseInstance = require '../models/CourseInstance'
 
 module.exports =
+  fetchByCode: wrap (req, res, next) ->
+    code = req.query.code
+    return next() unless code
+    classroom = yield Classroom.findOne({ code: code.toLowerCase() }).select('name ownerID aceConfig')
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+    classroom = classroom.toObject()
+    # Tack on the teacher's name for display to the user
+    owner = (yield User.findOne({ _id: mongoose.Types.ObjectId(classroom.ownerID) }).select('name')).toObject()
+    res.status(200).send({ data: classroom, owner } )
+
   getByOwner: wrap (req, res, next) ->
     options = req.query
     ownerID = options.ownerID
@@ -50,7 +63,7 @@ module.exports =
       levelMap[level.original] = level
     levels = (levelMap[levelOriginal.toString()] for levelOriginal in levelOriginals)
 
-    res.status(200).send(levels)
+    res.status(200).send(_.filter(levels)) # for dev server where not all levels will be found
 
   fetchLevelsForCourse: wrap (req, res) ->
     classroom = yield database.getDocFromHandle(req, Classroom)
@@ -141,3 +154,54 @@ module.exports =
     database.validateDoc(classroom)
     classroom = yield classroom.save()
     res.status(201).send(classroom.toObject({req: req}))
+
+  join: wrap (req, res) ->
+    unless req.body?.code
+      throw new errors.UnprocessableEntity('Need a code')
+    if req.user.isTeacher()
+      throw new errors.Forbidden('Cannot join a classroom as a teacher')
+    code = req.body.code.toLowerCase()
+    classroom = yield Classroom.findOne({code: code})
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+    members = _.clone(classroom.get('members'))
+    if _.any(members, (memberID) -> memberID.equals(req.user._id))
+      return res.send(classroom.toObject({req: req}))
+    update = { $push: { members : req.user._id }}
+    yield classroom.update(update)
+    members.push req.user._id
+    classroom.set('members', members)
+    
+    # make user role student
+    if not req.user.get('role')
+      req.user.set('role', 'student')
+      yield req.user.save()
+
+    # join any course instances for free courses in the classroom
+    courseIDs = (course._id for course in classroom.get('courses'))
+    courses = yield Course.find({_id: {$in: courseIDs}, free: true})
+    freeCourseIDs = (course._id for course in courses)
+    freeCourseInstances = yield CourseInstance.find({ classroomID: classroom._id, courseID: {$in: freeCourseIDs} }).select('_id')
+    freeCourseInstanceIDs = (courseInstance._id for courseInstance in freeCourseInstances)
+    yield CourseInstance.update({_id: {$in: freeCourseInstanceIDs}}, { $addToSet: { members: req.user._id }})
+    yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: freeCourseInstanceIDs } } })
+    res.send(classroom.toObject({req: req}))
+
+  setStudentPassword: wrap (req, res, next) ->
+    newPassword = req.body.password
+    { classroomID, memberID } = req.params
+    teacherID = req.user.id
+    return next() if teacherID is memberID or not newPassword
+    ownedClassrooms = yield Classroom.find({ ownerID: mongoose.Types.ObjectId(teacherID) })
+    ownedStudentIDs = _.flatten ownedClassrooms.map (c) ->
+      c.get('members').map (id) ->
+        id.toString()
+    return next() unless memberID in ownedStudentIDs
+    student = yield User.findById(memberID)
+    if student.get('emailVerified')
+      return next new errors.Forbidden("Can't reset password for a student that has verified their email address.")
+    { valid, error } = tv4.validateResult(newPassword, schemas.passwordString)
+    unless valid
+      throw new errors.UnprocessableEntity(error.message)
+    yield student.update({ $set: { passwordHash: User.hashPassword(newPassword) } })
+    res.status(200).send({})

@@ -6,7 +6,9 @@ mail = require '../commons/mail'
 log = require 'winston'
 plugins = require '../plugins/plugins'
 AnalyticsUsersActive = require './AnalyticsUsersActive'
+Classroom = require '../models/Classroom'
 languages = require '../routes/languages'
+_ = require 'lodash'
 
 config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
@@ -33,10 +35,21 @@ UserSchema.index({'siteref': 1}, {name: 'siteref index', sparse: true})
 UserSchema.index({'schoolName': 1}, {name: 'schoolName index', sparse: true})
 UserSchema.index({'country': 1}, {name: 'country index', sparse: true})
 UserSchema.index({'role': 1}, {name: 'role index', sparse: true})
+UserSchema.index({'coursePrepaid._id': 1}, {name: 'course prepaid id index', sparse: true})
 
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
 )
+
+UserSchema.methods.broadName = ->
+  return '(deleted)' if @get('deleted')
+  name = @get('name')
+  return name if name
+  name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
+  return name if name
+  [emailName, emailDomain] = @get('email').split('@')
+  return emailName if emailName
+  return 'Anoner'
 
 UserSchema.methods.isInGodMode = ->
   p = @get('permissions')
@@ -66,9 +79,23 @@ UserSchema.statics.teacherRoles = ['teacher', 'technology coordinator', 'advisor
 UserSchema.methods.isTeacher = ->
   return @get('role') in User.teacherRoles
 
+UserSchema.methods.isStudent = ->
+  return @get('role') is 'student'
+
 UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
+  
+UserSchema.methods.removeFromClassrooms = ->
+  userID = @get('_id')
+  yield Classroom.update(
+    { members: userID }
+    {
+      $addToSet: { deletedMembers: userID }
+      $pull: { members: userID }
+    }
+    { multi: true }
+  )
 
 UserSchema.methods.trackActivity = (activityName, increment) ->
   now = new Date()
@@ -80,6 +107,15 @@ UserSchema.methods.trackActivity = (activityName, increment) ->
   activity[activityName].last = now
   @set 'activity', activity
   activity
+  
+UserSchema.statics.search = (term, done) ->
+  utils = require '../lib/utils'
+  if utils.isID(term)
+    query = {_id: mongoose.Types.ObjectId(term)}
+  else
+    term = term.toLowerCase()
+    query = $or: [{nameLower: term}, {emailLower: term}]
+  return User.findOne(query).exec(done)
 
 emailNameMap =
   generalNews: 'announcement'
@@ -230,13 +266,18 @@ UserSchema.methods.register = (done) ->
       @set 'name', uniqueName
       done()
   else done()
-  if @isEmailSubscriptionEnabled 'generalNews'
-    data =
-      email_id: sendwithus.templates.welcome_email
-      recipient:
-        address: @get 'email'
-    sendwithus.api.send data, (err, result) ->
-      log.error "sendwithus post-save error: #{err}, result: #{result}" if err
+  { welcome_email_student, welcome_email_user } = sendwithus.templates
+  timestamp = (new Date).getTime()
+  data =
+    email_id: if @isStudent() then welcome_email_student else welcome_email_user
+    recipient:
+      address: @get('email')
+      name: @broadName()
+    email_data:
+      name: @broadName()
+      verify_link: "http://codecombat.com/user/#{@_id}/verify/#{@verificationCode(timestamp)}"
+  sendwithus.api.send data, (err, result) ->
+    log.error "sendwithus post-save error: #{err}, result: #{result}" if err
   @saveActiveUser 'register'
 
 UserSchema.methods.hasSubscription = ->
@@ -260,6 +301,12 @@ UserSchema.methods.level = ->
   a = 5
   b = c = 100
   if xp > 0 then Math.floor(a * Math.log((1 / b) * (xp + c))) + 1 else 1
+    
+UserSchema.methods.isEnrolled = ->
+  coursePrepaid = @get('coursePrepaid')
+  return false unless coursePrepaid
+  return true unless coursePrepaid.endDate
+  return coursePrepaid.endDate > new Date().toISOString()
 
 UserSchema.statics.saveActiveUser = (id, event, done=null) ->
   # TODO: Disabling this until we know why our app servers CPU grows out of control.
@@ -319,9 +366,18 @@ UserSchema.post 'save', (doc) ->
   doc.newsSubsChanged = not _.isEqual(_.pick(doc.get('emails'), mail.NEWS_GROUPS), _.pick(doc.startingEmails, mail.NEWS_GROUPS))
   UserSchema.statics.updateServiceSettings(doc)
 
+  
 UserSchema.post 'init', (doc) ->
   doc.wasTeacher = doc.isTeacher()
   doc.startingEmails = _.cloneDeep(doc.get('emails'))
+  if @get('coursePrepaidID') and not @get('coursePrepaid')
+    Prepaid = require './Prepaid'
+    @set('coursePrepaid', {
+      _id: @get('coursePrepaidID')
+      startDate: Prepaid.DEFAULT_START_DATE
+      endDate: Prepaid.DEFAULT_END_DATE
+    })
+    @set('coursePrepaidID', undefined)
 
 UserSchema.statics.hashPassword = (password) ->
   password = password.toLowerCase()
@@ -329,11 +385,17 @@ UserSchema.statics.hashPassword = (password) ->
   shasum.update(salt + password)
   shasum.digest('hex')
 
+UserSchema.methods.verificationCode = (timestamp) ->
+  { _id, email } = this.toObject()
+  shasum = crypto.createHash('sha256')
+  hash = shasum.update(timestamp + salt + _id + email).digest('hex')
+  return "#{timestamp}:#{hash}"
+
 UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
   'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'chinaVersion', 'country',
-  'schoolName', 'ageRange', 'role'
+  'schoolName', 'ageRange', 'role', 'enrollmentRequestSent'
 ]
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [
@@ -341,7 +403,8 @@ UserSchema.statics.editableProperties = [
   'firstName', 'lastName', 'gender', 'ageRange', 'facebookID', 'gplusID', 'emails',
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
-  'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday'
+  'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
+  'enrollmentRequestSent'
 ]
 
 UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']

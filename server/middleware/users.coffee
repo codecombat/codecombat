@@ -6,6 +6,7 @@ Promise = require 'bluebird'
 parse = require '../commons/parse'
 request = require 'request'
 mongoose = require 'mongoose'
+sendwithus = require '../sendwithus'
 User = require '../models/User'
 Classroom = require '../models/Classroom'
 
@@ -25,7 +26,7 @@ module.exports =
     user = yield User.findOne({gplusID: gpID})
     throw new errors.NotFound('No user with that G+ ID') unless user
     res.status(200).send(user.toObject({req: req}))
-    
+
   fetchByFacebookID: wrap (req, res, next) ->
     fbID = req.query.facebookID
     fbAT = req.query.facebookAccessToken
@@ -42,13 +43,54 @@ module.exports =
     res.status(200).send(user.toObject({req: req}))
 
   removeFromClassrooms: wrap (req, res, next) ->
-    userID = mongoose.Types.ObjectId(req.user.id)
-    yield Classroom.update(
-      { members: userID }
-      {
-        $addToSet: { deletedMembers: userID }
-        $pull: { members: userID }
-      }
-      { multi: true }
-    )
+    yield req.user.removeFromClassrooms()
     next()
+
+  remainTeacher: wrap (req, res, next) ->
+    yield req.user.removeFromClassrooms()
+    user = yield User.findById req.user.id
+    res.status(200).send(user.toObject({req: req}))
+
+  becomeStudent: wrap (req, res, next) ->
+    userID = mongoose.Types.ObjectId(req.user.id)
+    yield Classroom.remove({ ownerID: userID }, false)
+    userID = mongoose.Types.ObjectId(req.user.id)
+    yield User.update({ _id: userID }, { $set: { "role": "student" } })
+    user = yield User.findById req.user.id
+    res.status(200).send(user.toObject({req: req}))
+
+  verifyEmailAddress: wrap (req, res, next) ->
+    user = yield User.findOne({ _id: mongoose.Types.ObjectId(req.params.userID) })
+    [timestamp, hash] = req.params.verificationCode.split(':')
+    unless user
+      throw new errors.UnprocessableEntity('User not found')
+    unless req.params.verificationCode is user.verificationCode(timestamp)
+      throw new errors.UnprocessableEntity('Verification code does not match')
+    yield User.update({ _id: user.id }, { emailVerified: true })
+    res.status(200).send({ role: user.get('role') })
+
+  resetEmailVerifiedFlag: wrap (req, res, next) ->
+    newEmail = req.body.email
+    _id = mongoose.Types.ObjectId(req.body._id)
+    if newEmail
+      user = yield User.findOne({ _id })
+      oldEmail = user.get('email')
+      if newEmail isnt oldEmail
+        yield User.update({ _id }, { $set: { emailVerified: false } })
+    next()
+
+  sendVerificationEmail: wrap (req, res, next) ->
+    user = yield User.findById(req.params.userID)
+    timestamp = (new Date).getTime()
+    if not user
+      throw new errors.NotFound('User not found')
+    context =
+      email_id: sendwithus.templates.verify_email
+      recipient:
+        address: user.get('email')
+        name: user.broadName()
+      email_data:
+        name: user.broadName()
+        verify_link: "http://codecombat.com/user/#{user._id}/verify/#{user.verificationCode(timestamp)}"
+    sendwithus.api.send context, (err, result) ->
+    res.status(200).send({})

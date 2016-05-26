@@ -5,11 +5,12 @@ sendwithus = require '../sendwithus'
 async = require 'async'
 LevelSession = require '../models/LevelSession'
 moment = require 'moment'
+closeIO = require '../lib/closeIO'
 
 module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->
     return res.end() unless req.user
-    #log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
+    # log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
     createMailContext req, (context) ->
       sendwithus.api.send context, (err, result) ->
         if err
@@ -27,27 +28,41 @@ createMailContext = (req, done) ->
 
   level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (user.get('points') + 100))) + 1 else 0
   premium = user?.isPremium()
+  teacher = user?.isTeacher()
   content = """
     #{message}
 
     --
-    <a href='http://codecombat.com/user/#{user.get('slug') or user.get('_id')}'>#{user.get('name') or 'Anonymous'}</a> - Level #{level}#{if premium then ' - Subscriber' else ''}#{if country then ' - ' + country else ''}
+    http://codecombat.com/user/#{user.get('slug') or user.get('_id')}
+    #{user.get('name') or 'Anonymous'} - Level #{level}#{if teacher then ' - Teacher' else ''}#{if premium then ' - Subscriber' else ''}#{if country then ' - ' + country else ''}
   """
   if req.body.browser
     content += "\n#{req.body.browser} - #{req.body.screenSize}"
 
+  toAddress = switch
+    when premium then config.mail.supportPremium
+    else config.mail.supportPrimary
+  fromAddress = sender or user.get('email')
+
   context =
     email_id: sendwithus.templates.plain_text_email
     recipient:
-      address: if premium then config.mail.supportPremium else config.mail.supportPrimary
+      address: toAddress
     sender:
       address: config.mail.username
-      reply_to: sender or user.get('email')
+      reply_to: fromAddress
       name: user.get('name')
     email_data:
-      subject: "[CodeCombat] #{subject ? ('Feedback - ' + (sender or user.get('email')))}"
+      subject: "[CodeCombat] #{subject ? ('Feedback - ' + fromAddress)}"
       content: content
-  if recipientID and (user.isAdmin() or ('employer' in (user.get('permissions') ? [])))
+  if recipientID is 'schools@codecombat.com' or teacher
+    req.user.update({$set: { enrollmentRequestSent: true }}).exec(_.noop) if recipientID is 'schools@codecombat.com'
+    closeIO.getSalesContactEmail fromAddress, (err, salesContactEmail) ->
+      console.error "Error getting sales contact for #{sender}: #{err}" if err
+      context.recipient.address = salesContactEmail ? config.mail.supportSchools
+      context.sender.address = fromAddress
+      done context
+  else if recipientID and (user.isAdmin() or ('employer' in (user.get('permissions') ? [])))
     User.findById(recipientID, 'email').exec (err, document) ->
       if err
         log.error "Error looking up recipient to email from #{recipientID}: #{err}" if err

@@ -61,7 +61,7 @@ module.exports = class CreateAccountModal extends ModalView
     error = false
     birthday = new Date Date.UTC attrs.birthdayYear, attrs.birthdayMonth - 1, attrs.birthdayDay
     if @classCode
-      #PASS
+      attrs.role = 'student'
     else if isNaN(birthday.getTime())
       forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
       error = true
@@ -146,10 +146,11 @@ module.exports = class CreateAccountModal extends ModalView
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
     if @classCode
       url = "/courses?_cc="+@classCode
-      application.router.navigate(url)
-    window.location.reload()
-    
-  
+      location.href = url
+    else
+      window.location.reload()
+
+
   # Google Plus
 
   onClickGPlusSignupButton: ->

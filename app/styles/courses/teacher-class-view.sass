@@ -157,8 +157,14 @@
     .glyphicon
       color: $gray-light
       
+  .edit-student-link
+    color: black
+    
   .remove-student-link
     color: $burgandy
+
+  .edit-student-link, .remove-student-link
+    display: inline-block
     font-weight: bold
     text-decoration: underline
     line-height: 16px
@@ -279,3 +285,28 @@
 
   .export-student-progress-btn
     margin-top: 10px
+
+  // Enrollment Status Tab
+
+  #search-form-group
+    position: relative
+    input
+      width: auto
+    .glyphicon
+      color: $gray
+      position: absolute
+      top: 8px
+      right: 5px
+      
+  #enrollment-status-table
+    // These column widths are just to keep the cells from resizing on search
+    .checkbox-col
+      width: 75px
+    .student-info-col
+      width: 240px
+    .status-col
+      width: 300px
+    .enroll-col
+      width: 140px
+    td
+      vertical-align: middle
