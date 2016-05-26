@@ -17,7 +17,15 @@ else
               label.control-label(for="name", data-i18n="general.name") Name
               input#name-input.form-control(name="name", type="text", value="#{name}")
             .form-group
-              label.control-label(for="email", data-i18n="general.email") Email
+              label.control-label(for="email")
+                span(data-i18n="general.email") Email
+              unless me.get('emailVerified')
+                span.spl (
+                span.spr(data-i18n="account.not_yet_verified")
+                a.resend-verification-email
+                  span.resend-text(data-i18n="account.resend_email")
+                  span.sent-text.hide(data-i18n="account.email_sent")
+                span )
               input#email.form-control(name="email", type="text", value="#{email}")
             if !isProduction
               .form-group.checkbox

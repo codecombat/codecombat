@@ -31,79 +31,105 @@ block content
           a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
       
     .container.m-t-5
+      .pull-right
+        span.glyphicon.glyphicon-question-sign
+        =' '
+        a#how-to-enroll-link(data-i18n="teacher.how_to_enroll")
       h3(data-i18n='teacher.enrollments')
-      h4
+      h4#enrollments-blurb
         span(data-i18n='teacher.enrollments_blurb_1')
-        span  2&ndash;8 
+        span  2&ndash;#{view.state.get('totalCourses')} 
         span(data-i18n='teacher.enrollments_blurb_2')
         
+      - var available = view.state.get('prepaidGroups').available
+      - var pending = view.state.get('prepaidGroups').pending
+      - var anyPrepaids = available || pending
+      
       .row.m-t-3
-        .col-xs-4
-          +enrollmentStats
-        .col-xs-4
-          +addCredits
-        .col-xs-3.col-xs-offset-1
-          +howToEnroll
-      +quoteSection
+        if anyPrepaids
+          #prepaids-col.col-md-9
+            if _.size(available) > 0
+              h5.m-b-1(data-i18n="teacher.available_credits")
+              .row
+                for prepaid in available
+                  .col-sm-4.col-xs-6
+                    +prepaidCard(prepaid)
+              
+            if _.size(pending) > 0
+              h5.m-b-1.m-t-3(data-i18n="teacher.pending_credits")
+              .row
+                for prepaid in pending
+                  .col-sm-4.col-xs-6
+                    +prepaidCard(prepaid, 'pending-prepaid-card')
+            
+          #actions-col.col-md-3
+            +addCredits
+            +enrollmentStats
+        
+        else
+          // no prepaids
+          .col-sm-6.col-lg-4.col-lg-offset-2
+            +addCredits
+          .col-sm-6.col-lg-4
+            +enrollmentStats
+      
+mixin prepaidCard(prepaid, className)
+  .prepaid-card.bg-navy.text-center.m-b-2.p-a-2(class=className)
+    h1.m-t-2.m-b-0= prepaid.openSpots()
+    div(data-i18n="teacher.credits")
+    hr
+    em.small-details
+      .pull-left(data-i18n="teacher.start_date")
+      .pull-right= moment(prepaid.get('startDate')).utc().format('l')
+      .clearfix
+
+      .pull-left(data-i18n="teacher.end_date")
+      .pull-right= moment(prepaid.get('endDate')).utc().format('l')
+      .clearfix
+        
+        
+mixin addCredits
+  .text-center.m-b-3.m-t-3
+    h5(data-i18n="courses.get_enrollments")
+    if me.get('enrollmentRequestSent')
+      #enrollment-request-sent-blurb.small
+        p(data-i18n="teacher.enroll_request_sent_blurb1") 
+        p(data-i18n="teacher.enroll_request_sent_blurb2")
+        p(data-i18n="[html]teacher.enroll_request_sent_blurb3")
+      button#request-sent-btn.btn-lg.btn.btn-forest(disabled=true, data-i18n="teacher.request_sent")
+    else
+      p(data-i18n="teacher.num_enrollments_needed")
+      div.m-t-2
+        input#students-input.enrollment-count.text-center(value=view.state.get('numberOfStudents') type='number')
+      strong(data-i18n="teacher.credits")
+      p.m-y-2(data-i18n="teacher.get_enrollments_blurb")
+      button#contact-us-btn.btn-lg.btn.btn-forest(data-i18n="contribute.contact_us_url")
+
       
 mixin enrollmentStats
-  h5
-    span(data-i18n='teacher.credits_available')
-    span.spr :
-    = view.prepaids.totalAvailable()
-  .small-details
-    span(data-i18n='teacher.total_unique_students')
-    span.spr :
-    = view.totalEnrolled + view.totalNotEnrolled
-  .small-details
-    span(data-i18n='teacher.total_enrolled_students')
-    span.spr :
-    = view.totalEnrolled
-    
-  h5.small-details.m-t-3
-    span(data-i18n='teacher.unenrolled_students')
-  each classroom in view.classrooms.models
-    if classroom.get('members').length > 0 && view.classroomNotEnrolledMap && view.classroomNotEnrolledMap[classroom.id] > 0
-      .small-details
-        span= classroom.get('name')
-        span.spr : 
-        span= view.classroomNotEnrolledMap[classroom.id]
+  h5.text-center.m-t-3.m-b-2(data-i18n='teacher.enrollment_status')
+  table#enrollment-stats-table.table-condensed.table.small-details
+    tr
+      td
+        span(data-i18n='teacher.total_unique_students')
+        span.spr :
+      td= view.state.get('totalEnrolled') + view.state.get('totalNotEnrolled')
+    tr
+      td 
+        span(data-i18n='teacher.total_enrolled_students')
+        span.spr :
+      td= view.state.get('totalEnrolled')
+    tr
+      th(data-i18n='teacher.unenrolled_students')
+      th= view.state.get('totalNotEnrolled')
+    each classroom in view.classrooms.models
+      if classroom.get('members').length > 0 && view.state.get('classroomNotEnrolledMap')[classroom.id] > 0
+        tr
+          td.classroom-name-td
+            span= classroom.get('name')
+            span.spr :
+          td= view.state.get('classroomNotEnrolledMap')[classroom.id]
 
-  .small-details
-    span(data-i18n='teacher.total_unenrolled')
-    span.spr :
-    = view.totalNotEnrolled
-  
-  //- .enroll-students.btn.btn-lg.btn-navy
-  //-   span(data-i18n='teacher.enroll_students')
-
-mixin addCredits
   .text-center
-    h5(data-i18n='teacher.add_enrollment_credits')
-    div.m-t-1
-      input#students-input.text-center.enrollment-count(value=view.numberOfStudents type='number')
-    div.m-t-1
-      if view.state === 'purchasing'
-        .purchase-now.btn.btn-lg.btn-forest.disabled
-          span(data-i18n='teacher.purchasing')
-      else if view.state === 'purchased'
-        .purchase-now.btn.btn-lg.btn-forest
-          span(data-i18n='teacher.purchased')
-      else
-        .purchase-now.btn.btn-lg.btn-forest
-          span(data-i18n='teacher.purchase_now')
-
-mixin howToEnroll
-  .how-to-enroll.small-details
-    .text-center
-      b(data-i18n='teacher.how_to_enroll')
-    ol
-      li.m-t-1(data-i18n='teacher.how_to_enroll_blurb_1')
-      li.m-t-2(data-i18n='teacher.how_to_enroll_blurb_2')
-      li.m-t-2(data-i18n='teacher.how_to_enroll_blurb_3')
-
-mixin quoteSection
-  .text-center.m-t-5
-    h4(data-i18n='teacher.bulk_pricing_blurb')
-    a.request-quote.btn.btn-lg.btn-navy.m-t-2(href='/teachers/demo')
-      span(data-i18n='teachers_quote.title')
+    button#enroll-students-btn.btn.btn-lg.btn-navy
+      span(data-i18n='teacher.enroll_students')

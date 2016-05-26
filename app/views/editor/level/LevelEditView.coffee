@@ -36,8 +36,7 @@ require 'vendor/aether-javascript'
 require 'vendor/aether-python'
 require 'vendor/aether-coffeescript'
 require 'vendor/aether-lua'
-require 'vendor/aether-clojure'
-require 'vendor/aether-io'
+require 'vendor/aether-java'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
@@ -113,7 +112,7 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new ComponentsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new SystemsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new LevelFeedbackView level: @level
-    
+
 
     Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')

@@ -55,11 +55,12 @@ module.exports.setup = (app) ->
   app.get('/db/campaign/-/overworld', mw.campaigns.fetchOverworld)
 
   app.post('/db/classroom', mw.classrooms.post)
-  app.get('/db/classroom', mw.classrooms.getByOwner)
+  app.get('/db/classroom', mw.classrooms.fetchByCode, mw.classrooms.getByOwner)
   app.get('/db/classroom/:handle/levels', mw.classrooms.fetchAllLevels)
   app.get('/db/classroom/:handle/courses/:courseID/levels', mw.classrooms.fetchLevelsForCourse)
   app.get('/db/classroom/:handle/member-sessions', mw.classrooms.fetchMemberSessions)
   app.get('/db/classroom/:handle/members', mw.classrooms.fetchMembers) # TODO: Use mw.auth?
+  app.post('/db/classroom/:classroomID/members/:memberID/reset-password', mw.classrooms.setStudentPassword)
   app.post('/db/classroom/:anything/members', mw.auth.checkLoggedIn(), mw.classrooms.join)
   app.get('/db/classroom/:handle', mw.auth.checkLoggedIn()) # TODO: Finish migrating route, adding now so 401 is returned
 
@@ -72,14 +73,24 @@ module.exports.setup = (app) ->
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
   app.get('/db/course/:handle/levels/:levelOriginal/next', mw.courses.fetchNextLevel)
 
+  app.post('/db/course_instance/-/recent', mw.auth.checkHasPermission(['admin']), mw.courseInstances.fetchRecent)
   app.get('/db/course_instance/:handle/levels/:levelOriginal/next', mw.courseInstances.fetchNextLevel)
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
 
+  app.put('/db/user/:handle', mw.users.resetEmailVerifiedFlag)
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
+  app.post('/db/user/:userID/request-verify-email', mw.users.sendVerificationEmail)
+  app.post('/db/user/:userID/verify/:verificationCode', mw.users.verifyEmailAddress) # TODO: Finalize URL scheme
+  
+  app.get('/db/level/:handle/session', mw.auth.checkHasUser(), mw.levels.upsertSession)
+  
+  app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
+  app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
+  app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
 
   app.get '/db/products', require('./db/product').get
 

@@ -230,7 +230,7 @@ module.exports = class SpellView extends CocoView
         disableSpaces = @options.level.get('disableSpaces') or false
         aceConfig = me.get('aceConfig') ? {}
         disableSpaces = false if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Not in vim/emacs mode
-        disableSpaces = false if @spell.language in ['clojure', 'lua', 'java', 'coffeescript', 'io']  # Don't disable for more advanced/experimental languages
+        disableSpaces = false if @spell.language in ['lua', 'java', 'coffeescript']  # Don't disable for more advanced/experimental languages
         if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.level())
           return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
@@ -301,7 +301,10 @@ module.exports = class SpellView extends CocoView
           for row in [0..@aceSession.getLength()]
             foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
             continue unless foldWidgets? and foldWidgets[row] is "start"
-            docRange = @aceSession.getFoldWidgetRange(row)
+            try
+              docRange = @aceSession.getFoldWidgetRange(row)
+            catch error
+              console.warn "Couldn't find fold widget docRange for row #{row}:", error
             if not docRange?
               guess = startOfRow(row)
               docRange = new Range(row,guess,row,guess+4)
@@ -520,10 +523,8 @@ module.exports = class SpellView extends CocoView
             content = switch e.language
               when 'python' then content.replace /loop:/, 'while True:'
               when 'javascript' then content.replace /loop/, 'while (true)'
-              when 'clojure' then content.replace /dotimes \[n 1000\]/, '(while true'
               when 'lua' then content.replace /loop/, 'while true then'
               when 'coffeescript' then content
-              when 'io' then content.replace /loop/, 'while true,'
               else content
             name = switch e.language
               when 'python' then 'while True'
@@ -557,9 +558,8 @@ module.exports = class SpellView extends CocoView
           if doc.userShouldCaptureReturn
             varName = doc.userShouldCaptureReturn.variableName ? 'result'
             entry.captureReturn = switch e.language
-              when 'io' then varName + ' := '
               when 'javascript' then 'var ' + varName + ' = '
-              when 'clojure' then '(let [' + varName + ' '
+              #when 'lua' then 'local ' + varName + ' = '  # TODO: should we do this?
               else varName + ' = '
 
     # TODO: Generalize this snippet replacement
@@ -583,15 +583,8 @@ module.exports = class SpellView extends CocoView
   translateFindNearest: ->
     # If they have advanced glasses but are playing a level which assumes earlier glasses, we'll adjust the sample code to use the more advanced APIs instead.
     oldSource = @getSource()
-    if @spell.language is 'clojure'
-      newSource = oldSource.replace /\(.findNearestEnemy this\)/g, "(.findNearest this (.findEnemies this))"
-      newSource = newSource.replace /\(.findNearestItem this\)/g, "(.findNearest this (.findItems this))"
-    else if @spell.language is 'io'
-      newSource = oldSource.replace /findNearestEnemy/g, "findNearest(findEnemies)"
-      newSource = newSource.replace /findNearestItem/g, "findNearest(findItems)"
-    else
-      newSource = oldSource.replace /(self:|self.|this.|@)findNearestEnemy\(\)/g, "$1findNearest($1findEnemies())"
-      newSource = newSource.replace /(self:|self.|this.|@)findNearestItem\(\)/g, "$1findNearest($1findItems())"
+    newSource = oldSource.replace /(self:|self.|this.|@)findNearestEnemy\(\)/g, "$1findNearest($1findEnemies())"
+    newSource = newSource.replace /(self:|self.|this.|@)findNearestItem\(\)/g, "$1findNearest($1findItems())"
     return if oldSource is newSource
     @spell.originalSource = newSource
     @updateACEText newSource
@@ -640,7 +633,7 @@ module.exports = class SpellView extends CocoView
     return if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
-    
+
   createTranslationView: ->
     @translationView = new SpellTranslationView { @ace, @supermodel }
     @$el.append @translationView.render().$el.hide()
@@ -731,7 +724,7 @@ module.exports = class SpellView extends CocoView
     # Uncomment the below line for a debug panel to display inside the level
     #@spade.debugPlay(spadeEvents)
     condensedEvents = @spade.condense(spadeEvents)
-    
+
     return unless condensedEvents.length
     compressedEvents = LZString.compressToUTF16(JSON.stringify(condensedEvents))
 
@@ -746,7 +739,7 @@ module.exports = class SpellView extends CocoView
     })
 
     codeLog.save()
-  
+
   onShowVictory: (e) ->
     if @saveSpadeTimeout?
       window.clearTimeout @saveSpadeTimeout
@@ -1067,12 +1060,8 @@ module.exports = class SpellView extends CocoView
     return unless @ace.isFocused() and e.x? and e.y?
     if @spell.language is 'python'
       @ace.insert "{\"x\": #{e.x}, \"y\": #{e.y}}"
-    else if @spell.language is 'clojure'
-      @ace.insert "{:x #{e.x} :y #{e.y}}"
     else if @spell.language is 'lua'
       @ace.insert "{x=#{e.x}, y=#{e.y}}"
-    else if @spell.language is 'io'
-      return
     else
       @ace.insert "{x: #{e.x}, y: #{e.y}}"
 
@@ -1355,6 +1344,5 @@ commentStarts =
   javascript: '//'
   python: '#'
   coffeescript: '#'
-  clojure: ';'
   lua: '--'
-  io: '//'
+  java: '//'

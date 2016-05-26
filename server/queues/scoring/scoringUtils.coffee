@@ -30,7 +30,7 @@ module.exports.sendResponseObject = (res, object) ->
 module.exports.formatSessionInformation = (session) ->
   heroID = if session.team is 'ogres' then 'hero-placeholder-1' else 'hero-placeholder'
   submittedCode = {}
-  submittedCode[heroID] = plan: LZString.compressToUTF16(session.submittedCode[heroID]?.plan ? '')
+  submittedCode[heroID] = plan: LZString.compressToUTF16(session.submittedCode?[heroID]?.plan ? '')
 
   _id: session._id
   sessionID: session._id

@@ -16,20 +16,15 @@ module.exports = class AnalyticsView extends RootView
   lineColors: ['red', 'blue', 'green', 'purple', 'goldenrod', 'brown', 'darkcyan']
   minSchoolCount: 20
 
-  constructor: (options) ->
-    super options
+  initialize: ->
+    @activeClasses = []
+    @activeClassGroups = {}
+    @activeUsers = []
+    @revenue = []
+    @revenueGroups = {}
+    @dayEnrollmentsMap = {}
+    @enrollmentDays = []
     @loadData()
-
-  getRenderData: ->
-    context = super()
-    context.activeClasses = @activeClasses ? []
-    context.activeClassGroups = @activeClassGroups ? {}
-    context.activeUsers = @activeUsers ? []
-    context.revenue = @revenue ? []
-    context.revenueGroups = @revenueGroups ? {}
-    context.dayEnrollmentsMap = @dayEnrollmentsMap ? {}
-    context.enrollmentDays = @enrollmentDays ? []
-    context
 
   afterRender: ->
     super()
@@ -295,7 +290,7 @@ module.exports = class AnalyticsView extends RootView
       prepaidUserMap = {}
       for user in data.students
         continue unless studentPaidStatusMap[user._id]
-        if prepaidID = user.coursePrepaidID
+        if prepaidID = user.coursePrepaidID or user.coursePrepaid?._id
           studentPaidStatusMap[user._id] = 'paid'
           prepaidUserMap[prepaidID] ?= []
           prepaidUserMap[prepaidID].push(user._id)

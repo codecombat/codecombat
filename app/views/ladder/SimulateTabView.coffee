@@ -21,8 +21,6 @@ module.exports = class SimulateTabView extends CocoView
     require 'vendor/aether-coffeescript'
     require 'vendor/aether-lua'
     require 'vendor/aether-java'
-    require 'vendor/aether-clojure'
-    require 'vendor/aether-io'
 
   onLoaded: ->
     super()

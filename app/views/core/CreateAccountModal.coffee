@@ -61,7 +61,7 @@ module.exports = class CreateAccountModal extends ModalView
     error = false
     birthday = new Date Date.UTC attrs.birthdayYear, attrs.birthdayMonth - 1, attrs.birthdayDay
     if @classCode
-      #PASS
+      attrs.role = 'student'
     else if isNaN(birthday.getTime())
       forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
       error = true

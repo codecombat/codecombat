@@ -23,8 +23,8 @@ module.exports = class User extends CocoModel
     return name if name
     name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
     return name if name
-    email = @get('email')
-    return email if email
+    [emailName, emailDomain] = @get('email')?.split('@') or []
+    return emailName if emailName
     return 'Anoner'
 
   getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
@@ -35,6 +35,9 @@ module.exports = class User extends CocoModel
       return "#{photoURL}#{prefix}s=#{size}" if photoURL.search('http') isnt -1  # legacy
       return "/file/#{photoURL}#{prefix}s=#{size}"
     return "/db/user/#{@id}/avatar?s=#{size}&employerPageAvatar=#{useEmployerPageAvatar}"
+    
+  getRequestVerificationEmailURL: ->
+    @url() + "/request-verify-email"
 
   getSlugOrID: -> @get('slug') or @get('_id')
 
@@ -65,6 +68,11 @@ module.exports = class User extends CocoModel
     
   isTeacher: ->
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
+
+  justPlaysCourses: ->
+    # This heuristic could be better, but currently we don't add to me.get('courseInstances') for single-player anonymous intro courses, so they have to beat a level without choosing a hero.
+    return true if me.get('role') is 'student'
+    return me.get('stats')?.gamesCompleted and not me.get('heroConfig')
     
   isSessionless: ->
     # TODO: Fix old users who got mis-tagged as teachers
@@ -205,12 +213,27 @@ module.exports = class User extends CocoModel
     return true if me.hasSubscription()
     return false
     
-  isEnrolled: ->
-    Boolean(@get('coursePrepaidID'))
-
   isOnPremiumServer: ->
     me.get('country') in ['china', 'brazil']
-    
+
+  sendVerificationCode: (code) ->
+    $.ajax({
+      method: 'POST'
+      url: "/db/user/#{@id}/verify/#{code}"
+      success: (attributes) =>
+        this.set attributes
+        @trigger 'email-verify-success'
+      error: =>
+        @trigger 'email-verify-error'
+    })
+
+  isEnrolled: -> @prepaidStatus() is 'enrolled'
+      
+  prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
+    coursePrepaid = @get('coursePrepaid')
+    return 'not-enrolled' unless coursePrepaid
+    return 'enrolled' unless coursePrepaid.endDate
+    return if coursePrepaid.endDate > new Date().toISOString() then 'enrolled' else 'expired'
 
   # Function meant for "me"
     
@@ -266,6 +289,12 @@ module.exports = class User extends CocoModel
     options.data.facebookID = facebookID
     options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
+    
+  makeCoursePrepaid: ->
+    coursePrepaid = @get('coursePrepaid')
+    return null unless coursePrepaid
+    Prepaid = require 'models/Prepaid'
+    return new Prepaid(coursePrepaid)
 
   becomeStudent: (options={}) ->
     options.url = '/db/user/-/become-student'

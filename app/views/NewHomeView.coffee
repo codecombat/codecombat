@@ -44,12 +44,12 @@ module.exports = class NewHomeView extends RootView
       @supermodel.loadCollection(@trialRequests)
 
     isHourOfCodeWeek = false  # Temporary: default to /hoc flow during the main event week
-    if isHourOfCodeWeek and (@isNewPlayer() or (@justPlaysCourses() and me.isAnonymous()))
+    if isHourOfCodeWeek and (@isNewPlayer() or (me.justPlaysCourses() and me.isAnonymous()))
       # Go/return straight to playing single-player HoC course on Play click
       @playURL = '/hoc?go=true'
       @alternatePlayURL = '/play'
       @alternatePlayText = 'home.play_campaign_version'
-    else if @justPlaysCourses()
+    else if me.justPlaysCourses()
       # Save players who might be in a classroom from getting into the campaign
       @playURL = '/courses'
       @alternatePlayURL = '/play'
@@ -122,11 +122,6 @@ module.exports = class NewHomeView extends RootView
       $(@).find('.course-duration .course-hours').text duration
       $(@).find('.course-duration .unit').text($.i18n.t(if duration is '1' then 'units.hour' else 'units.hours'))
     @$el.find('#semester-duration').text levels[level].total
-
-  justPlaysCourses: ->
-    # This heuristic could be better, but currently we don't add to me.get('courseInstances') for single-player anonymous intro courses, so they have to beat a level without choosing a hero.
-    return true if me.get('role') is 'student'
-    return me.get('stats')?.gamesCompleted and not me.get('heroConfig')
 
   isNewPlayer: ->
     not me.get('stats')?.gamesCompleted and not me.get('heroConfig')

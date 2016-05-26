@@ -11,9 +11,14 @@ module.exports =
         instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
         continue if not instance
         instance.numCompleted = 0
-        instance.numStarted = 0
+        instance.started = false
         levels = classroom.getLevels({courseID: course.id, withoutLadderLevels: true})
         for userID in instance.get('members')
+          instance.started ||= _.any levels.models, (level) ->
+            return false if level.isLadder()
+            session = _.find classroom.sessions.models, (session) ->
+              session.get('creator') is userID and session.get('level').original is level.get('original')
+            session?
           levelCompletes = _.map levels.models, (level) ->
             return true if level.isLadder()
             #TODO: Hella slow! Do the mapping first!
@@ -23,8 +28,6 @@ module.exports =
             session?.completed()
           if _.every levelCompletes
             instance.numCompleted += 1
-          if _.any levelCompletes
-            instance.numStarted += 1
 
   calculateEarliestIncomplete: (classroom, courses, courseInstances, students) ->
     # Loop through all the combinations of things, return the first one that somebody hasn't finished
