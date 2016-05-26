@@ -28,11 +28,11 @@ var deteacher = function deteacher(email) {
   else {
     print('Unset role', db.users.update({_id: user._id}, {$unset: {role: ''}}));
   }
-}
+};
 
 db.system.js.save(
   {
     _id: 'deteacher',
     value: deteacher
   }
-)
+);
