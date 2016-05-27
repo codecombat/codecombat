@@ -1,0 +1,30 @@
+
+button.close-hint-btn.btn.btn-illustrated.btn-danger
+  span.glyphicon.glyphicon-remove
+
+- var hintLocked = view.state.get('hintIndex') >= view.state.get('hintsAvailable');
+
+h1.text-center
+  span= view.state.get('hintsTitle')
+  if hintLocked
+    =" - "
+    span(data-i18n="play_level.hints_locked")
+
+.hint-body
+  if hintLocked
+    div(data-i18n="play_level.hints_locked_blurb")
+    
+  else
+    != view.getProcessedHint()
+  
+.btn-area
+  if view.state.get('hintIndex') > 0
+    button.previous-btn.btn.btn-illustrated.btn-lg.pull-left Previous
+    
+  - var lastHint = view.state.get('hintIndex') >= view.state.get('hintsTotal') - 1;
+  if !hintLocked && !lastHint
+    button.next-btn.btn.btn-illustrated.btn-lg.pull-right Next
+    
+  h2.text-center #{view.state.get('hintIndex')+1} / #{view.state.get('hintsTotal')}
+
+.clearfix

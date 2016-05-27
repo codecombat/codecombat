@@ -1,0 +1,40 @@
+@import "app/styles/mixins"
+
+.hints-view
+  position: relative
+  
+  max-width: 600px
+  padding: 10px 40px
+  border-style: solid
+  border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+  border-width: 16px 12px
+  @include box-shadow(0 0 0 #000)
+
+  .close-hint-btn
+    position: absolute
+    left: 5px
+    top: 5px
+    
+    .glyphicon-remove
+      position: relative
+      top: 4px
+  
+  h1
+    margin-bottom: 30px
+
+  .btn-area
+    margin-top: 80px
+    
+  .previous-btn
+    position: absolute
+    left: 10px
+    bottom: 10px
+
+  .next-btn
+    position: absolute
+    right: 10px
+    bottom: 10px
+
+  .hint-body
+    height: 300px
+    overflow: scroll
