@@ -263,7 +263,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     school_name: "Nom et ville de votre école"
     optional: "facultatif"
     school_name_placeholder: "Exemple : Lycée Champollion, Figeac"
-#    or_sign_up_with: "or sign up with"
+    or_sign_up_with: "ou abonnez-vous avec"
 #    connected_gplus_header: "You've successfully connected with Google+!"
 #    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
 #    gplus_exists: "You already have an account associated with Google+!"
