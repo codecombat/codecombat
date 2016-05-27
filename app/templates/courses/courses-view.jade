@@ -47,7 +47,7 @@ block content
                 .semibold.current-hero-text
                   span.spr(data-i18n="TODO")
                     | Current Hero: 
-                  span.current-hero-name= view.hero.get('name')
+                  span.current-hero-name= view.hero.getHeroShortName()
                 button.change-hero-btn.btn.btn-lg.btn-forest
                   span(data-i18n="TODO")
                     | Change Hero

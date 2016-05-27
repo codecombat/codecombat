@@ -9,17 +9,17 @@ block modal-body-content
   .hero-list
     if view.heroes.loaded
       each hero in view.heroes.models
-        +heroOption(hero)
+        if hero.get('heroClass') === 'Warrior'
+          +heroOption(hero)
   
 mixin heroOption(hero)
-  - console.log(hero)
   - var heroID = hero.id
   - var avatarBorder = (state.get('selectedHeroID') === heroID ? 'selected' : (state.get('currentHeroID') === heroID ? 'current' : ''))
   .hero-option(data-hero-id=heroID)
     .hero-avatar(class=avatarBorder)
       img(src=hero.getPortraitURL())
     .text-h5.hero-name
-      span= hero.get('name')
+      span= hero.getHeroShortName()
 
 block modal-footer-content
   .select-hero-btn.btn.btn-lg.btn-forest

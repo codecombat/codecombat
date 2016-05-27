@@ -22,7 +22,7 @@ module.exports = class HeroSelectModal extends ModalView
 
     @heroes = new CocoCollection([], {model: ThangType})
     @heroes.url = '/db/thang.type?view=heroes'
-    @heroes.setProjection ['original','name']
+    @heroes.setProjection ['original', 'name', 'heroClass']
     @heroes.comparator = 'gems' # TODO: Random? Alphabetical? Something else?
     @supermodel.loadCollection(@heroes, 'heroes')
 
