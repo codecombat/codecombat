@@ -20,6 +20,9 @@ module.exports = class MainUserView extends UserView
   events:
     'click .more-button': 'onClickMoreButton'
 
+  constructor: (userID, options) ->
+    super options
+
   initialize: (userID, options) ->
     @earnedAchievements = []
     @clanModels = []

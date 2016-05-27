@@ -7,6 +7,9 @@ module.exports = class UserView extends RootView
   className: 'user-view'
   viewName: null # Used for the breadcrumbs
 
+  constructor: (@userID, options) ->
+    super options
+
   initialize: (@userID, options) ->
     @listenTo @, 'userNotFound', @ifUserNotFound
     @fetchUser @userID
