@@ -68,4 +68,5 @@ module.exports =
             return done(null, activity.sender) if /@codecombat\.com/ig.test(activity.sender)
           return done(null, config.mail.supportSchools)
     catch error
+      log.error("closeIO.getSalesContactEmail Error for #{email}: #{JSON.stringify(error)}")
       return done(error, config.mail.supportSchools)
