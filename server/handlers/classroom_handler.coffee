@@ -84,7 +84,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, (@formatEntity(req, classroom) for classroom in classrooms))
     else if code = req.query.code
-      code = code.toLowerCase()
+      code = code.toLowerCase().replace(/ /g, '')
       Classroom.findOne {code: code}, (err, classroom) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res) unless classroom

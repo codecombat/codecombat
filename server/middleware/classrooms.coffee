@@ -22,7 +22,7 @@ module.exports =
   fetchByCode: wrap (req, res, next) ->
     code = req.query.code
     return next() unless code
-    classroom = yield Classroom.findOne({ code: code.toLowerCase() }).select('name ownerID aceConfig')
+    classroom = yield Classroom.findOne({ code: code.toLowerCase().replace(/ /g, '') }).select('name ownerID aceConfig')
     if not classroom
       log.debug("classrooms.fetchByCode: Couldn't find Classroom with code: #{code}")
       throw new errors.NotFound('Classroom not found.')
@@ -170,7 +170,7 @@ module.exports =
     if req.user.isTeacher()
       log.debug("classrooms.join: Cannot join a classroom as a teacher: #{req.user.id}")
       throw new errors.Forbidden('Cannot join a classroom as a teacher')
-    code = req.body.code.toLowerCase()
+    code = req.body.code.toLowerCase().replace(/ /g, '')
     classroom = yield Classroom.findOne({code: code})
     if not classroom
       log.debug("classrooms.join: Classroom not found with code #{code}")
