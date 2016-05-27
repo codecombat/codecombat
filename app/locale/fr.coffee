@@ -308,7 +308,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     submit_patch: "Soumettre un correctif"
     submit_changes: "Soumettre des Changements"
     save_changes: "Sauvegarder les modifications"
-#    required_field: "Required field"
+    required_field: "Champ requis"
 
   general:
     and: "et"
