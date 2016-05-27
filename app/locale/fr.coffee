@@ -341,7 +341,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     subject: "Sujet"
     email: "E-mail"
     password: "Mot de passe"
-#    confirm_password: "Confirm Password"
+    confirm_password: "Confirmez votre mot de passe"
     message: "Message"
     code: "Code"
     ladder: "Companion"
@@ -360,9 +360,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     warrior: "Guerrier"
     ranger: "Ranger"
     wizard: "Magicien"
-#    first_name: "First Name"
-#    last_name: "Last Name"
-#    username: "Username"
+    first_name: "Prénom"
+    last_name: "Nom de famille"
+    username: "Nom d'utilisateur"
 
   units:
     second: "seconde"
