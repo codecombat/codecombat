@@ -105,7 +105,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
         return @sendSuccess(res, (@formatEntity(req, classroom) for classroom in classrooms))
     else if memberID = req.query.memberID
       unless req.user and (req.user.isAdmin() or memberID is req.user.id)
-        log.debug "classroom_handler.get: memberID (#{memberID}) must be yourself (#{req.user.id})"
+        log.debug "classroom_handler.get: memberID (#{memberID}) must be yourself (#{req.user?.id})"
         return @sendForbiddenError(res)
       return @sendBadInputError(res, 'Bad memberID') unless utils.isID memberID
       Classroom.find {members: mongoose.Types.ObjectId(memberID)}, (err, classrooms) =>
