@@ -88,7 +88,7 @@ module.exports = TestView = class TestView extends RootView
     application.testing = true
     specFiles ?= @getAllSpecFiles()
     if demosOn
-      jasmine.demoEl = ($el) ->
+      jasmine.demoEl = _.once ($el) ->
         $('#demo-area').append($el)
       jasmine.demoModal = _.once (modal) ->
         currentView.openModalView(modal)
