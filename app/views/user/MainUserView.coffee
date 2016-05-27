@@ -59,7 +59,7 @@ module.exports = class MainUserView extends UserView
       url: '/db/user/-/names'
       method: 'POST'
       data: {ids: _.map(clans, (clan) -> clan.get('ownerID'))}
-      success: (models, response, options) =>\
+      success: (models, response, options) =>
         @idNameMap[userID] = models[userID].name for userID of models
         @render?()
     @supermodel.addRequestResource('user_names', options, 0).load()
