@@ -20,48 +20,24 @@ module.exports = class MainUserView extends UserView
   events:
     'click .more-button': 'onClickMoreButton'
 
-  constructor: (userID, options) ->
-    super options
+  initialize: (userID, options) ->
+    @earnedAchievements = []
+    @clanModels = []
+    @idNameMap = []
+    @singlePlayerSessions = []
+    @multiPlayerSessions = []
 
   destroy: ->
     @stopListening?()
-
-  getRenderData: ->
-    context = super()
-    if @levelSessions and @levelSessions.loaded
-      singlePlayerSessions = []
-      multiPlayerSessions = []
-      languageCounts = {}
-      for levelSession in @levelSessions.models
-        if levelSession.isMultiplayer()
-          multiPlayerSessions.push levelSession
-        else
-          singlePlayerSessions.push levelSession
-        language = levelSession.get('codeLanguage') or levelSession.get('submittedCodeLanguage')
-        if language
-          languageCounts[language] = (languageCounts[language] or 0) + 1
-      mostUsedCount = 0
-      favoriteLanguage = null
-      for language, count of languageCounts
-        if count > mostUsedCount
-          mostUsedCount = count
-          favoriteLanguage = language
-      context.singlePlayerSessions = singlePlayerSessions
-      context.multiPlayerSessions = multiPlayerSessions
-      context.favoriteLanguage = favoriteLanguage
-      context.playerLevel = @user.level()
-    if @earnedAchievements and @earnedAchievements.loaded
-      context.earnedAchievements = @earnedAchievements
-    if @clans and @clans.loaded
-      context.clans = @clans.models
-      context.idNameMap = @idNameMap
-    context
 
   onLoaded: ->
     if @user.loaded and not (@earnedAchievements or @levelSessions)
       @supermodel.resetProgress()
       @levelSessions = new LevelSessionsCollection @user.getSlugOrID()
       @earnedAchievements = new EarnedAchievementCollection @user.getSlugOrID()
+      @listenTo @levelSessions, 'sync', =>
+        @onSyncLevelSessions @levelSessions?.models
+        @render?()
       @supermodel.loadCollection @levelSessions, 'levelSessions', {cache: false}
       @supermodel.loadCollection @earnedAchievements, 'earnedAchievements', {cache: false}
     sortClanList = (a, b) ->
@@ -69,24 +45,41 @@ module.exports = class MainUserView extends UserView
         if a.get('members').length < b.get('members').length then 1 else -1
       else
         b.id.localeCompare(a.id)
-    @idNameMap = {}
     @clans = new CocoCollection([], { url: "/db/user/#{@userID}/clans", model: Clan, comparator: sortClanList })
     @listenTo @clans, 'sync', =>
-      @refreshNameMap @clans?.models
+      @onSyncClans @clans?.models
       @render?()
     @supermodel.loadCollection(@clans, 'clans', {cache: false})
     super()
 
-  refreshNameMap: (clans) ->
+  onSyncClans: (clans) ->
     return unless clans?
+    @clanModels = clans
     options =
       url: '/db/user/-/names'
       method: 'POST'
       data: {ids: _.map(clans, (clan) -> clan.get('ownerID'))}
-      success: (models, response, options) =>
+      success: (models, response, options) =>\
         @idNameMap[userID] = models[userID].name for userID of models
         @render?()
     @supermodel.addRequestResource('user_names', options, 0).load()
+
+  onSyncLevelSessions: (levelSessions) ->
+    languageCounts = []
+    mostUsedCount = 0
+    for levelSession in levelSessions
+      if levelSession.isMultiplayer()
+        @multiPlayerSessions.push levelSession
+      else
+        @singlePlayerSessions.push levelSession
+      language = levelSession.get('codeLanguage') or levelSession.get('submittedCodeLanguage')
+      if language
+        languageCounts[language] = (languageCounts[language] or 0) + 1
+    for language, count of languageCounts
+      if count > mostUsedCount
+        mostUsedCount = count
+        @favoriteLanguage = language
+    @playerLevel = @user.level()
 
   onClickMoreButton: (e) ->
     panel = $(e.target).closest('.panel')
