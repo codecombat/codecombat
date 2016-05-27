@@ -1689,7 +1689,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     retrying: "Erreur interne, réessayez"
     success: "Paiement accepté, merci !"
 
-#  account_prepaid:
+  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
 #    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
