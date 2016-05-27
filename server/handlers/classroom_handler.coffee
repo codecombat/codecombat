@@ -69,6 +69,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
     return _.omit(doc.toObject(), 'code', 'codeCamel')
 
   inviteStudents: (req, res, classroomID) ->
+    return @sendUnauthorizedError(res) if not req.user?
     if not req.body.emails
       return @sendBadInputError(res, 'Emails not included')
 
@@ -86,6 +87,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
           recipient:
             address: email
           email_data:
+            teacher_name: req.user.broadName()
             class_name: classroom.get('name')
             join_link: "https://codecombat.com/courses?_cc=" + joinCode
             join_code: joinCode
@@ -103,7 +105,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
         return @sendSuccess(res, (@formatEntity(req, classroom) for classroom in classrooms))
     else if memberID = req.query.memberID
       unless req.user and (req.user.isAdmin() or memberID is req.user.id)
-        log.debug "classroom_handler.get: memberID (#{memberID}) must be yourself (#{req.user.id})"
+        log.debug "classroom_handler.get: memberID (#{memberID}) must be yourself (#{req.user?.id})"
         return @sendForbiddenError(res)
       return @sendBadInputError(res, 'Bad memberID') unless utils.isID memberID
       Classroom.find {members: mongoose.Types.ObjectId(memberID)}, (err, classrooms) =>

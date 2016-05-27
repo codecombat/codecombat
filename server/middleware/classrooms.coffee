@@ -132,7 +132,7 @@ module.exports =
   post: wrap (req, res) ->
     throw new errors.Unauthorized() unless req.user and not req.user.isAnonymous()
     unless req.user?.isTeacher()
-      console.log "classrooms.post: Can't create classroom if you (#{req.user?.id}) aren't a teacher."
+      log.debug "classrooms.post: Can't create classroom if you (#{req.user?.id}) aren't a teacher."
       throw new errors.Forbidden()
     classroom = database.initDoc(req, Classroom)
     classroom.set 'ownerID', req.user._id
@@ -205,7 +205,8 @@ module.exports =
     ownedStudentIDs = _.flatten ownedClassrooms.map (c) ->
       c.get('members').map (id) ->
         id.toString()
-    return next() unless memberID in ownedStudentIDs
+    unless memberID in ownedStudentIDs
+      throw new errors.Forbidden("Can't reset the password of a student that's not in one of your classrooms.")
     student = yield User.findById(memberID)
     if student.get('emailVerified')
       log.debug "classrooms.setStudentPassword: Can't reset password for a student (#{memberID}) that has verified their email address."
