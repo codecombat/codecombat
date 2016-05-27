@@ -13,17 +13,17 @@ module.exports = class UserView extends RootView
 
   fetchUser:  ->
     if @isMe()
-      @user = me
+      @userData = me
       @onLoaded()
-    @user = new User _id: @userID
-    @supermodel.loadModel @user, cache: false
+    @userData = new User _id: @userID
+    @supermodel.loadModel @userData, cache: false
 
   isMe: -> @userID in [me.id, me.get('slug')]
 
   onLoaded: ->
     super()
-    @userData = @user unless @user?.isAnonymous()
-    @userID = @user.id
+    @user = @userData unless @userData?.isAnonymous()
+    @userID = @userData.id
 
   ifUserNotFound: ->
     console.warn 'user not found'

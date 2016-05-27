@@ -9,14 +9,14 @@ block append content
       a(href="/account", data-i18n="nav.account")
     li.active(data-i18n="nav.profile")
 
-  if user
+  if view.user
     .vertical-buffer
     .row
       .left-column
         .profile-wrapper
-          img.picture(src="#{user.getPhotoURL(150)}" alt="")
+          img.picture(src="#{view.user.getPhotoURL(150)}" alt="")
           div.profile-info
-            h3.name= user.get('name')
+            h3.name= view.user.get('name')
             if favoriteLanguage
               div.extra-info
                 span(data-i18n="user.favorite_prefix") Favorite language is
@@ -26,7 +26,7 @@ block append content
               div.extra-info
                 span.spr(data-i18n="general.player_level") Level
                 strong= playerLevel
-        - var emails = user.getEnabledEmails()
+        - var emails = view.user.getEnabledEmails()
         // TODO: fix this, use some other method for finding contributor classes other than email settings, since they're private... Maybe achievements?
         if emails
           ul.contributor-categories

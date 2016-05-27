@@ -3,11 +3,11 @@ extends /templates/base
 // User pages might have some user page specific header, if not remove this
 block content
   .clearfix
-    if view.userData && view.viewName
+    if view.user && view.viewName
       ol.breadcrumb
         li
-          a(href="/user/#{view.userData.getSlugOrID()}") #{view.userData.displayName()}
+          a(href="/user/#{view.user.getSlugOrID()}") #{view.user.displayName()}
         li.active
           | #{view.viewName}
-    if !view.userData || view.userData.loading
+    if !view.user || view.user.loading
       | LOADING
