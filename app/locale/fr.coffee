@@ -513,7 +513,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_sharpening_swords: "Aiguiser les épées."
     tip_ratatouille: "Tu ne dois laisser personne définir où se trouvent tes limites. La seule vraie limite est c'est ton âme. - Gusteau, Ratatouille"
     tip_nemo: "Quand la vie vous rabaisse, vous savez ce que vous devenez faire ? Juste continuer de nager, juste continuer de nager. - Dory, Finding Nemo"
-#    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
+    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
 #    tip_nerds: "Nerds are allowed to love stuff, like jump-up-and-down-in-the-chair-can't-control-yourself love it. - John Green"
 #    tip_self_taught: "I taught myself 90% of what I've learned. And that's normal! - Hank Green"
 #    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood"
