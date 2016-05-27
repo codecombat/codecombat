@@ -23,6 +23,8 @@ module.exports = class AboutView extends RootView
     'left': 'onLeftPressed'
     'esc': 'onEscapePressed'
 
+  getTitle: -> return $.i18n.t('nav.about')
+
   afterRender: ->
     super(arguments...)
     @$('#fixed-nav').affix({

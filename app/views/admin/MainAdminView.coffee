@@ -19,7 +19,9 @@ module.exports = class MainAdminView extends RootView
     'click #user-search-result': 'onClickUserSearchResult'
     'click #create-free-sub-btn': 'onClickFreeSubLink'
     'click #terminal-create': 'onClickTerminalSubLink'
-    
+
+  getTitle: -> return $.i18n.t('account_settings.admin')
+
   initialize: ->
     if window.amActually
       @amActually = new User({_id: window.amActually})

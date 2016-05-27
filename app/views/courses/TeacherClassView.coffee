@@ -63,6 +63,8 @@ module.exports = class TeacherClassView extends RootView
         enrolledUsers: ""
     }
 
+  getTitle: -> return @classroom?.get('name')
+
   initialize: (options, classroomID) ->
     super(options)
     @singleStudentCourseProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-course'
@@ -116,7 +118,7 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts'}})
     
     @attachMediatorEvents()
-      
+
   attachMediatorEvents: () ->
     @listenTo @state, 'sync change', ->
       if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
