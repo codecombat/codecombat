@@ -381,7 +381,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     years: "années"
 
   play_level:
-#    level_complete: "Level Complete"
+    level_complete: "Niveau complété"
     completed_level: "Niveau terminé:"
     course: "Cours:"
     done: "Fait"
@@ -425,7 +425,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_new_item: "Nouvel item"
     victory_viking_code_school: "Par la barbe d'Odin, c'est un niveau difficile que tu viens de compléter! Si tu n'est pas un développeur de logiciel, tu devrais l'être ! Ceci vient de te propulser dans l'école de Code Vikings où tu pourras amener tes habilités au prochain niveau et devenir un développer web profesionnel en deux semaines."
     victory_become_a_viking: "Devenez un viking"
-#    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
+    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
     guide_title: "Guide"
     tome_cast_button_run: "Exécuter"
     tome_cast_button_running: "En cours d'exécution"
