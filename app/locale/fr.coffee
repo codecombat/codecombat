@@ -102,7 +102,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     blog: "Blog"
     forum: "Forum"
     account: "Compte"
-#    my_account: "My Account"
+    my_account: "Mon compte"
     profile: "Profil"
     stats: "Stats"
     code: "Code"
