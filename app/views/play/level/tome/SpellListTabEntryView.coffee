@@ -23,9 +23,11 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     'click .reload-code': 'onCodeReload'
     'click .beautify-code': 'onBeautifyClick'
     'click .fullscreen-code': 'onToggleMaximize'
+    'click .hints-button': 'onClickHintsButton'
 
   constructor: (options) ->
-    super options
+    @hintsState = options.hintsState
+    super(options)
 
   getRenderData: (context={}) ->
     context = super context
@@ -90,6 +92,11 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   onClick: (e) ->  # Don't call super
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
+
+  onClickHintsButton: ->
+    return unless @hintsState?
+    @hintsState.set('hidden', not @hintsState.get('hidden'))
+    window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, ['Mixpanel']
 
   onDropdownClick: (e) ->
     return unless @controlsEnabled

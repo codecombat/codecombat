@@ -179,6 +179,18 @@ module.exports = class User extends CocoModel
     application.tracker.identify fourthLevelGroup: @fourthLevelGroup unless me.isAdmin()
     @fourthLevelGroup
 
+  getHintsGroup: ->
+    # A/B testing two styles of hints
+    return @hintsGroup if @hintsGroup
+    group = me.get('testGroupNumber') % 3
+    @hintsGroup = switch group
+      when 0 then 'no-hints'
+      when 1 then 'hints'
+      when 2 then 'hintsB'
+    @hintsGroup = 'hints' if me.isAdmin()
+    application.tracker.identify hintsGroup: @hintsGroup unless me.isAdmin()
+    @hintsGroup
+
   getVideoTutorialStylesIndex: (numVideos=0)->
     # A/B Testing video tutorial styles
     # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)
