@@ -24,7 +24,6 @@ module.exports = class MainUserView extends UserView
     super options
 
   initialize: (userID, options) ->
-    @earnedAchievements = []
     @clanModels = []
     @idNameMap = []
     @singlePlayerSessions = []
@@ -34,25 +33,32 @@ module.exports = class MainUserView extends UserView
     @stopListening?()
 
   onLoaded: ->
-    if @user.loaded and not (@earnedAchievements or @levelSessions)
-      @supermodel.resetProgress()
-      @levelSessions = new LevelSessionsCollection @user.getSlugOrID()
-      @earnedAchievements = new EarnedAchievementCollection @user.getSlugOrID()
-      @listenTo @levelSessions, 'sync', =>
-        @onSyncLevelSessions @levelSessions?.models
-        @render?()
-      @supermodel.loadCollection @levelSessions, 'levelSessions', {cache: false}
-      @supermodel.loadCollection @earnedAchievements, 'earnedAchievements', {cache: false}
+    if @user.loaded
+      if !@levelSessions
+        @levelSessions = new LevelSessionsCollection @user.getSlugOrID()      
+        @listenTo @levelSessions, 'sync', =>
+          @onSyncLevelSessions @levelSessions?.models
+          @render()
+        @supermodel.loadCollection @levelSessions, 'levelSessions', {cache: false}
+
+      if !@earnedAchievements
+        @earnedAchievements = new EarnedAchievementCollection @user.getSlugOrID()
+        @listenTo @earnedAchievements, 'sync', =>
+          @render()
+        @supermodel.loadCollection @earnedAchievements, 'earnedAchievements', {cache: false}
+
     sortClanList = (a, b) ->
       if a.get('members').length isnt b.get('members').length
         if a.get('members').length < b.get('members').length then 1 else -1
       else
         b.id.localeCompare(a.id)
+
     @clans = new CocoCollection([], { url: "/db/user/#{@userID}/clans", model: Clan, comparator: sortClanList })
     @listenTo @clans, 'sync', =>
       @onSyncClans @clans?.models
       @render?()
     @supermodel.loadCollection(@clans, 'clans', {cache: false})
+
     super()
 
   onSyncClans: (clans) ->
@@ -68,6 +74,7 @@ module.exports = class MainUserView extends UserView
     @supermodel.addRequestResource('user_names', options, 0).load()
 
   onSyncLevelSessions: (levelSessions) ->
+    return unless levelSessions?
     languageCounts = []
     mostUsedCount = 0
     for levelSession in levelSessions
@@ -82,7 +89,6 @@ module.exports = class MainUserView extends UserView
       if count > mostUsedCount
         mostUsedCount = count
         @favoriteLanguage = language
-    @playerLevel = @user.level()
 
   onClickMoreButton: (e) ->
     panel = $(e.target).closest('.panel')

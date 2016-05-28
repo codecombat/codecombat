@@ -10,6 +10,8 @@ block append content
     li.active(data-i18n="nav.profile")
 
   if view.user
+    - var playerLevel = view.user.level()
+    - var emails = view.user.getEnabledEmails()
     .vertical-buffer
     .row
       .left-column
@@ -21,12 +23,11 @@ block append content
               div.extra-info
                 span(data-i18n="user.favorite_prefix") Favorite language is
                 strong.favorite-language= view.favoriteLanguage
-                span(data-i18n="user.favorite_postfix") .
-            if view.playerLevel
+                span(data-i18n="user.favorite_postfix") .            
+            if playerLevel
               div.extra-info
                 span.spr(data-i18n="general.player_level") Level
-                strong= view.playerLevel
-        - var emails = view.user.getEnabledEmails()
+                strong= playerLevel        
         // TODO: fix this, use some other method for finding contributor classes other than email settings, since they're private... Maybe achievements?
         if emails
           ul.contributor-categories

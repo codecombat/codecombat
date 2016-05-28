@@ -9,24 +9,22 @@ module.exports = class UserView extends RootView
 
   constructor: (@userID, options) ->
     super options
-
-  initialize: (@userID, options) ->
     @listenTo @, 'userNotFound', @ifUserNotFound
     @fetchUser @userID
 
   fetchUser:  ->
     if @isMe()
-      @userData = me
+      @user = me
       @onLoaded()
-    @userData = new User _id: @userID
-    @supermodel.loadModel @userData, cache: false
+    @user = new User _id: @userID
+    @supermodel.loadModel @user, cache: false
 
   isMe: -> @userID in [me.id, me.get('slug')]
 
   onLoaded: ->
+    @userData = @user unless @user?.isAnonymous()
+    @userID = @user.id
     super()
-    @user = @userData unless @userData?.isAnonymous()
-    @userID = @userData.id
 
   ifUserNotFound: ->
     console.warn 'user not found'
