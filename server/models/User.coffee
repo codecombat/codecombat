@@ -49,7 +49,7 @@ UserSchema.methods.broadName = ->
   return name if name
   [emailName, emailDomain] = @get('email').split('@')
   return emailName if emailName
-  return 'Anoner'
+  return 'Anonymous'
 
 UserSchema.methods.isInGodMode = ->
   p = @get('permissions')

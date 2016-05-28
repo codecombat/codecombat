@@ -25,6 +25,8 @@ module.exports = class TeacherClassesView extends RootView
     'click .add-students-btn': 'onClickAddStudentsButton'
     'click .create-classroom-btn': 'onClickCreateClassroomButton'
 
+  getTitle: -> return $.i18n.t('teacher.my_classes')
+
   initialize: (options) ->
     super(options)
     @classrooms = new Classrooms()

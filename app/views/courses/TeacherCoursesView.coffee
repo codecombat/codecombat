@@ -39,6 +39,8 @@ module.exports = class TeacherCoursesView extends RootView
       "569ed916efa72b0ced971447": null
     }
 
+  getTitle: -> return $.i18n.t('teacher.courses')
+
   constructor: (options) ->
     super(options)
     @ownedClassrooms = new Classrooms()

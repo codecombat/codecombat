@@ -6,7 +6,7 @@ UserSchema = c.object
   default:
     visa: 'Authorized to work in the US'
     music: true
-    name: 'Anoner'
+    name: 'Anonymous'
     autocastDelay: 5000
     emails: {}
     permissions: []
