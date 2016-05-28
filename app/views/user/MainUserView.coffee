@@ -23,12 +23,6 @@ module.exports = class MainUserView extends UserView
   constructor: (userID, options) ->
     super options
 
-  initialize: (userID, options) ->
-    @clanModels = []
-    @idNameMap = []
-    @singlePlayerSessions = []
-    @multiPlayerSessions = []
-
   destroy: ->
     @stopListening?()
 
@@ -63,6 +57,7 @@ module.exports = class MainUserView extends UserView
 
   onSyncClans: (clans) ->
     return unless clans?
+    @idNameMap = []
     @clanModels = clans
     options =
       url: '/db/user/-/names'
@@ -75,6 +70,8 @@ module.exports = class MainUserView extends UserView
 
   onSyncLevelSessions: (levelSessions) ->
     return unless levelSessions?
+    @multiPlayerSessions = []
+    @singlePlayerSessions = []
     languageCounts = []
     mostUsedCount = 0
     for levelSession in levelSessions
