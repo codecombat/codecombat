@@ -3,6 +3,7 @@ module.exports.thangNames = thangNames =
     # Female
     'Alali'
     'Anabel'
+    'Delma'
     'Dosha'
     'Gurzunn'
     'Hoot'
@@ -22,6 +23,7 @@ module.exports.thangNames = thangNames =
     # Male
     'Blob'
     'Brack'
+    'Cragg'
     'Dobo'
     'Draff'
     'Eugen'
@@ -72,6 +74,7 @@ module.exports.thangNames = thangNames =
     'Pinakin'
     'Rakash'
     'Rasha'
+    'Savatha'
     'Vujii'
     'Wuda'
     'Yetu'
@@ -108,6 +111,7 @@ module.exports.thangNames = thangNames =
   ]
   'Ogre Warlock': [
     # Male
+    'Gronak'
     'Sorgoth'
     'Vax'
     'Vyrryx'
@@ -148,6 +152,7 @@ module.exports.thangNames = thangNames =
   'Raven Pet': [
     # Animal
     'Nevermore'
+    'Poe'
   ]
   'Cougar Pet': [
     # Animal
@@ -606,6 +611,7 @@ module.exports.thangNames = thangNames =
     'Hugo'
     'Ieyasu'
     'Jack'
+    'Jackson'
     'James'
     'Jason'
     'Jax'
