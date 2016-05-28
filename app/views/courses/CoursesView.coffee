@@ -28,6 +28,8 @@ module.exports = class CoursesView extends RootView
     'submit #join-class-form': 'onSubmitJoinClassForm'
     'click #change-language-link': 'onClickChangeLanguageLink'
 
+  getTitle: -> return $.i18n.t('teacher.students')
+
   initialize: ->
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @courseInstances.comparator = (ci) -> return ci.get('classroomID') + ci.get('courseID')

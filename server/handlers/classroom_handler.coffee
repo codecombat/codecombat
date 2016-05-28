@@ -5,6 +5,7 @@ Classroom = require './../models/Classroom'
 User = require '../models/User'
 sendwithus = require '../sendwithus'
 utils = require '../lib/utils'
+log = require 'winston'
 UserHandler = require './user_handler'
 
 ClassroomHandler = class ClassroomHandler extends Handler
@@ -68,13 +69,16 @@ ClassroomHandler = class ClassroomHandler extends Handler
     return _.omit(doc.toObject(), 'code', 'codeCamel')
 
   inviteStudents: (req, res, classroomID) ->
+    return @sendUnauthorizedError(res) if not req.user?
     if not req.body.emails
       return @sendBadInputError(res, 'Emails not included')
 
     Classroom.findById classroomID, (err, classroom) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless classroom
-      return @sendForbiddenError(res) unless classroom.get('ownerID').equals(req.user.get('_id'))
+      unless classroom.get('ownerID').equals(req.user.get('_id'))
+        log.debug "classroom_handler.inviteStudents: Can't invite to classroom (#{classroom.id}) you (#{req.user.get('_id')}) don't own"
+        return @sendForbiddenError(res)
 
       for email in req.body.emails
         joinCode = (classroom.get('codeCamel') or classroom.get('code'))
@@ -83,6 +87,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
           recipient:
             address: email
           email_data:
+            teacher_name: req.user.broadName()
             class_name: classroom.get('name')
             join_link: "https://codecombat.com/courses?_cc=" + joinCode
             join_code: joinCode
@@ -91,13 +96,17 @@ ClassroomHandler = class ClassroomHandler extends Handler
 
   get: (req, res) ->
     if ownerID = req.query.ownerID
-      return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or ownerID is req.user.id)
+      unless req.user and (req.user.isAdmin() or ownerID is req.user.id)
+        log.debug "classroom_handler.get: ownerID (#{ownerID}) must be yourself (#{req.user?.id})"
+        return @sendForbiddenError(res)
       return @sendBadInputError(res, 'Bad ownerID') unless utils.isID ownerID
       Classroom.find {ownerID: mongoose.Types.ObjectId(ownerID)}, (err, classrooms) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, (@formatEntity(req, classroom) for classroom in classrooms))
     else if memberID = req.query.memberID
-      return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or memberID is req.user.id)
+      unless req.user and (req.user.isAdmin() or memberID is req.user.id)
+        log.debug "classroom_handler.get: memberID (#{memberID}) must be yourself (#{req.user?.id})"
+        return @sendForbiddenError(res)
       return @sendBadInputError(res, 'Bad memberID') unless utils.isID memberID
       Classroom.find {members: mongoose.Types.ObjectId(memberID)}, (err, classrooms) =>
         return @sendDatabaseError(res, err) if err

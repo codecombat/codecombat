@@ -55,6 +55,7 @@ createMailContext = (req, done) ->
     email_data:
       subject: "[CodeCombat] #{subject ? ('Feedback - ' + fromAddress)}"
       content: content
+      contentHTML: content.replace /\n/g, '\n<br>'
   if recipientID is 'schools@codecombat.com' or teacher
     req.user.update({$set: { enrollmentRequestSent: true }}).exec(_.noop) if recipientID is 'schools@codecombat.com'
     closeIO.getSalesContactEmail fromAddress, (err, salesContactEmail) ->
@@ -78,7 +79,7 @@ createMailContext = (req, done) ->
     ], (err, results) ->
       console.error "Error getting contact message context for #{sender}: #{err}" if err
       if req.body.screenshotURL
-        context.email_data.content += "\n<img src='#{req.body.screenshotURL}' />"
+        context.email_data.contentHTML += "\n<br><img src='#{req.body.screenshotURL}' />"
       done context
 
 fetchRecentSessions = (user, context, sentFromLevel, callback) ->
@@ -98,5 +99,5 @@ fetchRecentSessions = (user, context, sentFromLevel, callback) ->
       if sentFromLevel?.levelID is s.levelID and sentFromLevel?.courseID
         url += "&course=#{sentFromLevel.courseID}&course-instance=#{sentFromLevel.courseInstanceID}"
         urlName += ' (course)'
-      context.email_data.content += "\n<a href='#{url}'>#{urlName}</a>#{sessionStatus}"
+      context.email_data.contentHTML += "\n<br><a href='#{url}'>#{urlName}</a>#{sessionStatus}"
     callback null

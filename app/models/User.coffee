@@ -25,7 +25,7 @@ module.exports = class User extends CocoModel
     return name if name
     [emailName, emailDomain] = @get('email')?.split('@') or []
     return emailName if emailName
-    return 'Anoner'
+    return 'Anonymous'
 
   getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
     photoURL = if useJobProfilePhoto then @get('jobProfile')?.photoURL else null

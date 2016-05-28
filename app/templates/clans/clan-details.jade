@@ -123,7 +123,7 @@ block content
                     if memberLanguageMap && memberLanguageMap[member.id]
                       span.code-language-cell(style="background-image: url(/images/common/code_languages/#{memberLanguageMap[member.id]}_small.png)", title=memberLanguageMap[member.id])
                 div
-                  a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
+                  a(href="/user/#{member.id}")= member.get('name') || 'Anonymous'
                 div Level #{member.level()}
                 if isOwner && member.id !== clan.get('ownerID')
                   button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}", data-i18n="clans.rem_hero") Remove Hero
@@ -220,7 +220,7 @@ block content
                 if memberLanguageMap && memberLanguageMap[member.id]
                   span.code-language-cell(style="background-image: url(/images/common/code_languages/#{memberLanguageMap[member.id]}_small.png)", title=memberLanguageMap[member.id])
               td.name-cell
-                a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
+                a(href="/user/#{member.id}")= member.get('name') || 'Anonymous'
               td.level-cell= member.level()
               td.achievements-cell
                 if memberAchievementsMap && memberAchievementsMap[member.id]

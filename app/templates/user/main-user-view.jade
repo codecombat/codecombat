@@ -81,7 +81,7 @@ block append content
                     if idNameMap && idNameMap[clan.get('ownerID')]
                       a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]
                     else
-                      a(href="/user/#{clan.get('ownerID')}") Anoner
+                      a(href="/user/#{clan.get('ownerID')}") Anonymous
                   td= clan.get('members').length
           else
             .panel-body

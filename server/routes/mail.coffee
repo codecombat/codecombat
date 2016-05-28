@@ -578,7 +578,7 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
       #log.info "Not sending email to #{user.get('email')} #{user.get('name')} because the session had levelName #{session.levelName} or team #{session.team} in it."
       return
     name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
-    name = 'Wizard' if not name or name is 'Anoner'
+    name = 'Wizard' if not name or name is 'Anonymous'
 
     # Fetch the most recent defeat and victory, if there are any.
     # (We could look at strongest/weakest, but we'd have to fetch everyone, or denormalize more.)
@@ -622,13 +622,13 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
       if err
         log.error "Couldn't find defeateded opponent: #{err}"
         defeatedOpponent = null
-      victoryContext = {opponent_name: defeatedOpponent?.name ? 'Anoner', url: urlForMatch(victory)} if victory
+      victoryContext = {opponent_name: defeatedOpponent?.name ? 'Anonymous', url: urlForMatch(victory)} if victory
 
       onFetchedVictoriousOpponent = (err, victoriousOpponent) ->
         if err
           log.error "Couldn't find victorious opponent: #{err}"
           victoriousOpponent = null
-        defeatContext = {opponent_name: victoriousOpponent?.name ? 'Anoner', url: urlForMatch(defeat)} if defeat
+        defeatContext = {opponent_name: victoriousOpponent?.name ? 'Anonymous', url: urlForMatch(defeat)} if defeat
 
         Level.find({original: session.level.original, created: {$gt: session.submitDate}}).select('created commitMessage version').sort('-created').lean().exec (err, levelVersions) ->
           sendEmail defeatContext, victoryContext, (if levelVersions.length then levelVersions else null)
@@ -706,7 +706,7 @@ sendNextStepsEmail = (user, now, daysAgo) ->
     do (err, nextLevel) ->
       return log.error "Couldn't find next level for #{user.get('email')}: #{err}" if err
       name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
-      name = 'hero' if not name or name is 'Anoner'
+      name = 'Hero' if not name or name in ['Anoner', 'Anonymous']
       #secretLevel = switch user.get('testGroupNumber') % 8
       #  when 0, 1, 2, 3 then name: 'Forgetful Gemsmith', slug: 'forgetful-gemsmith'
       #  when 4, 5, 6, 7 then name: 'Signs and Portents', slug: 'signs-and-portents'
