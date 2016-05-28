@@ -25,7 +25,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     im_a_student: "Tôi là Học viên"
     learn_more: "Tìm hiểu thêm"
     classroom_in_a_box: "Một lớp học đặc biệt dành cho bộ môn công nghệ thông tin."
-    codecombat_is: "CodeCombat là nền tảng <strong>giúpF cho học sinh</strong> tiếp cận với bộ môn công nghệ thông tin bằng cách chơi game."
+    codecombat_is: "CodeCombat là nền tảng <strong>giúp cho học sinh</strong> tiếp cận với bộ môn công nghệ thông tin bằng cách chơi game."
     our_courses: "Các khóa học của chúng tôi đã được thử nghiệm để <strong>triển khai trong các lớp học</strong>, thậm chí được sử dụng bởi các giáo viên có ít hoặc không có kinh nghiệm lập trình."
     top_screenshots_hint: "Học viên viết code và cập nhật kết quả ngay lập tức"
     designed_with: "Được thiết kế để dạy học"
