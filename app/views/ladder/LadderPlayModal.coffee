@@ -61,7 +61,7 @@ module.exports = class LadderPlayModal extends ModalView
 
     success = (@nameMap) =>
       for challenger in _.values(@challengers)
-        challenger.opponentName = @nameMap[challenger.opponentID]?.name or 'Anoner'
+        challenger.opponentName = @nameMap[challenger.opponentID]?.name or 'Anonymous'
         challenger.opponentWizard = @nameMap[challenger.opponentID]?.wizard or {}
       @checkWizardLoaded()
 

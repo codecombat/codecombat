@@ -19,6 +19,8 @@ module.exports = class EnrollmentsView extends RootView
     'click #how-to-enroll-link': 'onClickHowToEnrollLink'
     'click #contact-us-btn': 'onClickContactUsButton'
 
+  getTitle: -> return $.i18n.t('teacher.enrollments')
+
   initialize: ->
     @state = new State({
       totalEnrolled: 0

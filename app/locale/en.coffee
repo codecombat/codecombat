@@ -1279,7 +1279,8 @@
     student_age_range_to: "to"
     create_class: "Create Class"
     class_name: "Class Name"
-    teacher_account_restricted: "Your account is a teacher account, and so cannot access student content."
+    teacher_account_restricted: "Your account is a teacher account and cannot access student content." # {change}
+    account_restricted: "A student account is required to access this page."
     update_account_login_title: "Log in to update your account"
     update_account_title: "Your account needs attention!"
     update_account_blurb: "Before you can access your classes, choose how you want to use this account."
@@ -1767,7 +1768,7 @@
 
   coppa_deny:
     text1: "Can’t wait to learn programming?"
-    text2: "Ask your parents to create an account for you!"
+    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions." # {change}
     close: "Close Window"
 
   loading_error:
