@@ -1711,7 +1711,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
-#  coppa_deny:
+  coppa_deny:
     text1: "¿No puedes esperar para empezar a programar?"
     text2: "¡Pide a tus padres que hagan una cuenta para ti!"
     close: "Cerrar ventana"
@@ -1869,7 +1869,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     license: "licencia"
     oreilly: "ebook de tu eleccion"
 
-#  calendar:
+  calendar:
     year: "Año"
     day: "Día"
     month: "Mes"

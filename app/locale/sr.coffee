@@ -675,7 +675,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     level_to_unlock: "Ниво који треба откључати:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Само одређени хероји могу да играју овај ниво."
 
-#  skill_docs:
+  skill_docs:
     function: "функција" # skill types
     method: "метод"
     snippet: "исечак"
@@ -938,7 +938,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     password_mismatch: "Шифре се не слажу."
     password_repeat: "Понови своју шифру."
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
     keyboard_shortcuts: "Пречице за тастатуру"
     space: "Space"
     enter: "Enter"
@@ -959,7 +959,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
 
-#  community:
+  community:
     main_title: "CodeCombat Заједница"
 #    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
 #    level_editor_prefix: "Use the CodeCombat"
