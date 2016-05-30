@@ -38,7 +38,7 @@
               span :
             h2.text-uppercase= i18n(view.nextLevel.attributes, 'name')
             
-            p= i18n(view.nextLevel.attributes, 'description')
+            div!= view.nextLevelDescription
         
     .row
       .col-sm-5.col-sm-offset-2
