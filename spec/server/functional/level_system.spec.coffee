@@ -15,7 +15,6 @@ describe 'LevelSystem', ->
     codeLanguage: 'coffeescript'
     permissions: simplePermissions
     dependencies: []
-    propertyDocumentation: []
 
   systems = {}
 
