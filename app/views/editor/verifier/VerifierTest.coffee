@@ -42,15 +42,8 @@ module.exports = class VerifierTest extends CocoClass
     @register()
 
   configureSession: (session, level) =>
-    # TODO: reach into and find hero and get the config from the solution
     try
-      hero = _.find level.get("thangs"), id: "Hero Placeholder"
-      config = _.find(hero.components, (x) -> x.config?.programmableMethods?.plan).config
-      programmable = config.programmableMethods.plan
-      solution = _.find (programmable.solutions ? []), language: session.get('codeLanguage')
-      solution.source = _.template(solution.source)(config?.programmableMethods?.plan.context)
-      session.solution = solution
-
+      session.solution = _.find level.getSolutions(), language: session.get('codeLanguage')
       session.set 'heroConfig', session.solution.heroConfig
       session.set 'code', {'hero-placeholder': plan: session.solution.source}
       state = session.get 'state'

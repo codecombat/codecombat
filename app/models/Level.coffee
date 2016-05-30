@@ -258,3 +258,14 @@ module.exports = class Level extends CocoModel
     else
       options.url = "/db/course/#{courseID}/levels/#{levelOriginalID}/next"
     @fetch(options)
+
+  getSolutions: ->
+    return [] unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
+    return [] unless config = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config
+    solutions = _.cloneDeep config.programmableMethods.plan.solutions ? []
+    for solution in solutions
+      try
+        solution.source = _.template(solution.source)(config?.programmableMethods?.plan.context)
+      catch e
+        console.error "Problem with template and solution comments for", @get('slug'), e
+    solutions
