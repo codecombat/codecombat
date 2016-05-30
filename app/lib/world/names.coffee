@@ -149,32 +149,14 @@ module.exports.thangNames = thangNames =
     'Ofgar'
     'Randall'
   ]
-  'Raven Pet': [
-    # Animal
-    'Nevermore'
-    'Poe'
-  ]
-  'Cougar Pet': [
-    # Animal
-    'Kitty'
-  ]
-  'Frog Pet': [
-    # Animal
-    'Bighead'
-    'Bufo'
-    'Bunda'
-    'Dan\'l Webster'
-    'Freddy'
-    'Frogger'
-    'Froggy'
-    'Hypnotoad'
-    'Mr. Toad'
-    'Slippy'
-    'Toada'
-    'Trevor'
-    'Wart'
-    'Wei Qi'
-  ]
+  # Pets only have one name
+  'Raven Pet': ['Nevermore']
+  'Cougar Pet': ['Kitty']
+  'Frog Pet': ['Hypnotoad']
+  'Griffin Pet': ['']
+  'Pugicorn Pet': ['']
+  'Polar Bear Pet': ['']
+  'Wolf Pet': ['']
   'Horse': [
     # Animal
     'Abby'
