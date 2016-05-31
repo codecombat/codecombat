@@ -1711,7 +1711,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     you_can2: "comprar un código prepagado"
     you_can3: "que puede ser aplicado a tu propia cuenta o regalado a otros."
 
-  coppa_deny:
+#   coppa_deny:
 #    text1: "Can’t wait to learn programming?"
 #    text2: "Ask your parents to create an account for you!"
 #    close: "Cerrar ventana"
