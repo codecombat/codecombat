@@ -59,7 +59,7 @@ module.exports = class AuthModal extends ModalView
     e.preventDefault()
     forms.clearFormAlerts(@$el)
     userObject = forms.formToObject @$el
-    res = tv4.validateMultiple userObject, User.schema
+    res = tv4.validateMultiple userObject, formSchema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     @enableModalInProgress(@$el) # TODO: part of forms
     loginUser userObject, null, window.nextURL
@@ -133,3 +133,9 @@ module.exports = class AuthModal extends ModalView
   onHidden: ->
     super()
     @playSound 'game-menu-close'
+
+formSchema = {
+  type: 'object'
+  properties: _.pick(User.schema.properties, 'email', 'password')
+  required: ['email', 'password']
+}
