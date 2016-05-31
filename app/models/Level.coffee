@@ -198,8 +198,8 @@ module.exports = class Level extends CocoModel
               console.error parentType, thang.id or thang.name, 'does not have dependent Component', dependent, 'from', lc.name
             visit c2 if c2
           if lc.name is 'Collides' and alliedComponent
-              if allied = originalsToThangComponents[alliedComponent.original]
-                visit allied
+            if allied = originalsToThangComponents[alliedComponent.original]
+              visit allied
           if lc.name is 'Moves' and actsComponent
             if acts = originalsToThangComponents[actsComponent.original]
               visit acts
