@@ -36,7 +36,7 @@
             h3.text-uppercase
               span(data-i18n='play_level.next_level')
               span :
-            h2.text-uppercase= i18n(view.nextLevel.attributes, 'name')
+            h2.text-uppercase= i18n(view.nextLevel.attributes, 'name').replace('Course: ', '')
             
             div!= view.nextLevelDescription
         
