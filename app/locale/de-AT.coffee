@@ -4,7 +4,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     no_ie: "CodeCombat läuft nicht im IE8 oder älteren Browsern. Tut uns Leid!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat ist nicht für Mobilgeräte optimiert und funktioniert möglicherweise nicht." # Warning that shows up on mobile devices
     play: "Spielen" # The big play button that opens up the campaign view.
-#    play_campaign_version: "Play Campaign Version" # Shows up under big play button if you only play /courses
+    play_campaign_version: "Spiele Kampagnen Version" # Shows up under big play button if you only play /courses
     old_browser: "Oh! Dein Browser ist zu alt für CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kannst es trotzdem versuchen, aber es wird wahrscheinlich nicht funktionieren."
     ipad_browser: "Schlechte Nachricht: CodeCombat funktioniert im iPad-Browser nicht. Gute Nachricht: Unsere iPad App wartet auf das OK von Apple."
@@ -102,7 +102,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     blog: "Blog"
     forum: "Forum"
     account: "Account"
-#    my_account: "My Account"
+    my_account: "Mein Account"
     profile: "Profil"
     stats: "Statistiken"
     code: "Code"
@@ -112,24 +112,24 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     about: "Über"
     contact: "Kontakt"
     twitter_follow: "Twitter"
-#    students: "Students"
+    students: "Studenten"
     teachers: "Lehrer"
 #    careers: "Careers"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
-#    create_a_class: "Create a Class"
-#    other: "Other"
-#    learn_to_code: "Learn to Code!"
-#    toggle_nav: "Toggle navigation"
-#    jobs: "Jobs"
-#    schools: "Schools"
-#    educator_wiki: "Educator Wiki"
-#    get_involved: "Get Involved"
-#    open_source: "Open source (GitHub)"
-#    support: "Support"
-#    faqs: "FAQs"
-#    help_pref: "Need help? Email"
-#    help_suff: "and we'll get in touch!"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    create_a_class: "Erstelle eine Klasse"
+    other: "Andere"
+    learn_to_code: "Lerne zu programmieren!"
+    toggle_nav: "Navigation umschalten"
+    jobs: "Jobs"
+    schools: "Schule"
+    educator_wiki: "Educator Wiki"
+    get_involved: "Werde eingebunden"
+    open_source: "Open source (GitHub)"
+    support: "Support"
+    faqs: "FAQs"
+    help_pref: "Brauchst du Hilfe? Email"
+    help_suff: "und wir treten in Kontakt!"
 
   modal:
     close: "Schließen"
@@ -148,18 +148,18 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 
   play:
     play_as: "Spiele als " # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "Abgeschlossen!" # Course details page
     spectate: "Zuschauen" # Ladder page
     players: "Spieler" # Hover over a level on /play
     hours_played: "Stunden gespielt" # Hover over a level on /play
     items: "Gegenstände" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
+    unlock: "Kaufen" # For purchasing items and heroes
     confirm: "Bestätigen"
-#    owned: "Owned" # For items you own
+    owned: "bereits im Besitz" # For items you own
     locked: "Gesperrt"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+    purchasable: "Erhältlich" # For a hero you unlocked but haven't purchased
     available: "Verfügbar"
-#    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "Freischaltbare Fähigkeiten" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
     achievements: "Erfolge" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
@@ -168,15 +168,15 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     next: "Weiter" # Go from choose hero to choose inventory before playing a level
     change_hero: "Held wechseln" # Go back from choose inventory to choose hero
     buy_gems: "Juwelen kaufen"
-#    subscription_required: "Subscription Required"
+    subscription_required: "Abonnement benötigt"
     anonymous: "Anonymer Spieler"
     level_difficulty: "Schwierigkeit: "
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "Spiele Kurs Version" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Anfängerkampagne"
-#    awaiting_levels_adventurer_prefix: "We release new levels every week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+    awaiting_levels_adventurer_prefix: "Wir veröffentlichen wöchentlichen neu Levels."
+    awaiting_levels_adventurer: "Melde dich als Abenteuerer an"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    adjust_volume: "Adjust volume"
+    adjust_volume: "Lautstärke anpassen"
     campaign_multiplayer: "Multiplayerarena"
     campaign_multiplayer_description: "... in der Du Kopf-an-Kopf gegen andere Spieler programmierst."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
@@ -260,18 +260,18 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     log_in: "mit Passwort einloggen"
     required: "Du musst dich vorher einloggen um dort hin zu gehen."
     login_switch: "Du hast bereits einen Account?"
-#    school_name: "School Name and City"
-#    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
-#    or_sign_up_with: "or sign up with"
-#    connected_gplus_header: "You've successfully connected with Google+!"
-#    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
-#    gplus_exists: "You already have an account associated with Google+!"
-#    connected_facebook_header: "You've successfully connected with Facebook!"
-#    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
-#    facebook_exists: "You already have an account associated with Facebook!"
-#    hey_students: "Students, enter the class code from your teacher."
-#    birthday: "Birthday"
+    school_name: "Schulname und Stadt"
+    optional: "Optional"
+    school_name_placeholder: "Beispiel Schule, Springfield, IL"
+    or_sign_up_with: "oder melde dich an mit"
+    connected_gplus_header: "Du hast dich erfolgreich über Google+ verbunden!"
+    connected_gplus_p: "Vervollständige die Anmeldung um dich mit deinem Google+ Account anzumelden."
+    gplus_exists: "Du hast bereits einen verknüpften Google+ Account!"
+    connected_facebook_header: "Du hast dich erfolgreich über Facebook verbunden!"
+    connected_facebook_p: "Vervollständige die Anmeldung um dich mit deinem Facebook Account anzumelden."
+    facebook_exists: "Du hast bereits einen verknüpften Facebook Account!"
+    hey_students: "Schüler, gebt den Klassencode eures Lehrers ein."
+    birthday: "Geburstag"
 
   recover:
     recover_account_title: "Account Wiederherstellung"
@@ -1870,18 +1870,18 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     oreilly: "Ebook deiner Wahl"
 
 #  calendar:
-#    year: "Year"
-#    day: "Day"
-#    month: "Month"
-#    january: "January"
-#    february: "February"
-#    march: "March"
-#    april: "April"
-#    may: "May"
-#    june: "June"
-#    july: "July"
-#    august: "August"
-#    september: "September"
-#    october: "October"
-#    november: "November"
-#    december: "December"
+    year: "Jahr"
+    day: "Tag"
+    month: "Monat"
+    january: "Januar"
+    february: "Februar"
+    march: "März"
+    april: "April"
+    may: "Mai"
+    june: "Juni"
+    july: "Juli"
+    august: "August"
+    september: "September"
+    october: "Oktober"
+    november: "November"
+    december: "Dezember"
