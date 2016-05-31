@@ -1339,6 +1339,7 @@
     unarchive_class: "unarchive class"
     unarchive_this_class: "Unarchive this class"
     no_students_yet: "This class has no students yet."
+    try_refreshing: "(You may need to refresh the page)"
     add_students: "Add Students"
     create_new_class: "Create a New Class"
     class_overview: "Class Overview" # View Class page
