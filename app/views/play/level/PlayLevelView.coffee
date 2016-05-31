@@ -141,6 +141,7 @@ module.exports = class PlayLevelView extends RootView
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
+    @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview
@@ -194,6 +195,10 @@ module.exports = class PlayLevelView extends RootView
     @register()
     @controlBar.setBus(@bus)
     @initScriptManager()
+
+  onWorldNecessityLoadFailed: (resource) ->
+    console.log resource
+    console.log "onWorldNecessityLoadFailed"
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session

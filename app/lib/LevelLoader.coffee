@@ -40,6 +40,7 @@ module.exports = class LevelLoader extends CocoClass
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
+    @listenTo @supermodel, 'failed', @onWorldNecessityLoadFailed
     @loadLevel()
     @loadAudio()
     @playJingle()
@@ -328,6 +329,10 @@ module.exports = class LevelLoader extends CocoClass
     @worldNecessities.splice(index, 1)
     @worldNecessities = (r for r in @worldNecessities when r?)
     @onWorldNecessitiesLoaded() if @checkAllWorldNecessitiesRegisteredAndLoaded()
+
+  onWorldNecessityLoadFailed: (resource) ->
+    @trigger('world-necessity-load-failed', resource: resource)
+    return if @headless
 
   checkAllWorldNecessitiesRegisteredAndLoaded: ->
     return false unless _.filter(@worldNecessities).length is 0
