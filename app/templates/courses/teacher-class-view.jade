@@ -179,8 +179,8 @@ mixin studentsTab
     +bulkAssignControls
     table.students-table
       thead
-        th.checkbox-col.select-all
-          span Select All
+        th.checkbox-col.select-all.small.text-center
+          span(data-i18n="teacher.select_all")
           .checkbox-flat
             input(type='checkbox' id='checkbox-all-students')
             label.checkmark(for='checkbox-all-students')

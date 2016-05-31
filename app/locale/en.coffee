@@ -1422,6 +1422,7 @@
     status_expired: "Expired on {{date}}"
     status_not_enrolled: "Not Enrolled"
     status_enrolled: "Expires on {{date}}"
+    select_all: "Select All"
 
   classes:
     archmage_title: "Archmage"
