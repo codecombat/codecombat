@@ -61,7 +61,6 @@ createMailContext = (req, done) ->
     closeIO.getSalesContactEmail fromAddress, (err, salesContactEmail) ->
       console.error "Error getting sales contact for #{sender}: #{err}" if err
       context.recipient.address = salesContactEmail ? config.mail.supportSchools
-      context.sender.address = fromAddress
       done context
   else if recipientID and (user.isAdmin() or ('employer' in (user.get('permissions') ? [])))
     User.findById(recipientID, 'email').exec (err, document) ->

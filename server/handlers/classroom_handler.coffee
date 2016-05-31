@@ -97,7 +97,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
   get: (req, res) ->
     if ownerID = req.query.ownerID
       unless req.user and (req.user.isAdmin() or ownerID is req.user.id)
-        log.debug "classroom_handler.get: ownerID (#{ownerID}) must be yourself (#{req.user.id})"
+        log.debug "classroom_handler.get: ownerID (#{ownerID}) must be yourself (#{req.user?.id})"
         return @sendForbiddenError(res)
       return @sendBadInputError(res, 'Bad ownerID') unless utils.isID ownerID
       Classroom.find {ownerID: mongoose.Types.ObjectId(ownerID)}, (err, classrooms) =>
