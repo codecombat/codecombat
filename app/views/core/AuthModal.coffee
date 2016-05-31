@@ -28,6 +28,10 @@ module.exports = class AuthModal extends ModalView
   initialize: (options={}) ->
     @previousFormInputs = options.initialValues or {}
 
+    # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
+    application.gplusHandler.loadAPI({ success: => _.defer => @$('#gplus-login-btn').attr('disabled', false) })
+    application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })
+
   getRenderData: ->
     c = super()
     c.showRequiredError = @options.showRequiredError
@@ -68,28 +72,22 @@ module.exports = class AuthModal extends ModalView
 
   onClickGPlusLoginButton: ->
     btn = @$('#gplus-login-btn')
-    btn.attr('disabled', true)
-    application.gplusHandler.loadAPI({
+    application.gplusHandler.connect({
       context: @
       success: ->
-        btn.attr('disabled', false)
-        application.gplusHandler.connect({
+        btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
+        btn.attr('disabled', true)
+        application.gplusHandler.loadPerson({
           context: @
-          success: ->
-            btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
-            btn.attr('disabled', true)
-            application.gplusHandler.loadPerson({
-              context: @
-              success: (gplusAttrs) ->
-                existingUser = new User()
-                existingUser.fetchGPlusUser(gplusAttrs.gplusID, {
-                  success: =>
-                    me.loginGPlusUser(gplusAttrs.gplusID, {
-                      success: -> window.location.reload()
-                      error: @onGPlusLoginError
-                    })
+          success: (gplusAttrs) ->
+            existingUser = new User()
+            existingUser.fetchGPlusUser(gplusAttrs.gplusID, {
+              success: =>
+                me.loginGPlusUser(gplusAttrs.gplusID, {
+                  success: -> window.location.reload()
                   error: @onGPlusLoginError
                 })
+              error: @onGPlusLoginError
             })
         })
     })
@@ -105,28 +103,22 @@ module.exports = class AuthModal extends ModalView
 
   onClickFacebookLoginButton: ->
     btn = @$('#facebook-login-btn')
-    btn.attr('disabled', true)
-    application.facebookHandler.loadAPI({
+    application.facebookHandler.connect({
       context: @
       success: ->
-        btn.attr('disabled', false)
-        application.facebookHandler.connect({
+        btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
+        btn.attr('disabled', true)
+        application.facebookHandler.loadPerson({
           context: @
-          success: ->
-            btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
-            btn.attr('disabled', true)
-            application.facebookHandler.loadPerson({
-              context: @
-              success: (facebookAttrs) ->
-                existingUser = new User()
-                existingUser.fetchFacebookUser(facebookAttrs.facebookID, {
-                  success: =>
-                    me.loginFacebookUser(facebookAttrs.facebookID, {
-                      success: -> window.location.reload()
-                      error: @onFacebookLoginError
-                    })
+          success: (facebookAttrs) ->
+            existingUser = new User()
+            existingUser.fetchFacebookUser(facebookAttrs.facebookID, {
+              success: =>
+                me.loginFacebookUser(facebookAttrs.facebookID, {
+                  success: -> window.location.reload()
                   error: @onFacebookLoginError
                 })
+              error: @onFacebookLoginError
             })
         })
     })
