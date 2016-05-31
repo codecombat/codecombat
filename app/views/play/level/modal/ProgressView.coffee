@@ -19,7 +19,8 @@ module.exports = class ProgressView extends CocoView
     @levelSessions = options.levelSessions
     # Translate and Markdownify level description, but take out any images (we don't have room for arena banners, etc.).
     # Images in Markdown are like ![description](url)
-    @nextLevelDescription = marked(utils.i18n(@nextLevel.attributes, 'description').replace(/!\[.*?\]\(.*?\)\n*/g, ''))
+    @nextLevel.get('description', true)  # Make sure the defaults are available
+    @nextLevelDescription = marked(utils.i18n(@nextLevel.attributesWithDefaults, 'description').replace(/!\[.*?\]\(.*?\)\n*/g, ''))
 
   onClickDoneButton: ->
     @trigger 'done'
