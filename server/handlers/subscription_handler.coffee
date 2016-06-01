@@ -433,9 +433,9 @@ class SubscriptionHandler extends Handler
       productName = "#{user.get('country')}_basic_subscription"
 
     Product.findOne({name: productName}).exec (err, product) =>
-      return @sendDatabaseError(res, err) if err
-      return @sendNotFoundError(res, 'basic_subscription product not found') if not product
-
+      return done({res: 'Database error.', code: 500}) if err
+      return done({res: 'basic_subscription product not found.', code: 404}) if not product
+      
       if increment
         purchased = _.clone(user.get('purchased'))
         purchased ?= {}

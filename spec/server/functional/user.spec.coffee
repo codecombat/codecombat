@@ -39,7 +39,7 @@ describe 'POST /db/user', ->
 
   it 'serves the user through /db/user/id', (done) ->
     unittest.getNormalJoe (user) ->
-      request.post getURL('/auth/logout'), ->
+      utils.becomeAnonymous().then ->
         url = getURL(urlUser+'/'+user._id)
         request.get url, (err, res, body) ->
           expect(res.statusCode).toBe(200)
