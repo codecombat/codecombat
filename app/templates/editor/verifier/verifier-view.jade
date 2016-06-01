@@ -2,80 +2,101 @@ extends /templates/base-flat
 
 block content
   .container
-    div.row(style="margin-top: 20px")
+    div.row.verifier-row
       div.col-sm-3
-        p.alert.alert-success(style="padding: 5px")
+        p.alert.alert-success
           | Passed: #{view.passed}
       div.col-sm-3
-        p.alert.alert-warning(style="padding: 5px")
+        p.alert.alert-warning
           | Test Problem: #{view.problem}
       div.col-sm-3
-        p.alert.alert-danger(style="padding: 5px")
+        p.alert.alert-danger
           | Failed: #{view.failed}
       div.col-sm-3
-        p.alert.alert-info(style="padding: 5px")
+        p.alert.alert-info
           | To Run: #{view.testCount - view.passed - view.problem - view.failed}
 
-    if view.levelIDs 
+    if view.levelsByCampaign
+      .form.form-inline
+        .row
+          each campaignInfo, campaign in view.levelsByCampaign
+            .form-group.campaign-mix
+              - var campaignID = "campaign-" + campaign + "-checkbox";
+              input(id=campaignID, type="checkbox", checked=campaignInfo.checked, disabled=!!view.tests)
+              label(for=campaignID)= campaign + ': ' + campaignInfo.levels.length
+        .row
+          each codeLanguage in view.codeLanguages
+            .form-group.code-language-mix
+              - var codeLanguageID = "code-language-" + codeLanguage.id + "-checkbox";
+              input(id=codeLanguageID, type="checkbox", checked=codeLanguage.checked, disabled=!!view.tests)
+              label(for=codeLanguageID)= codeLanguage.id
+          .pull-right
+            button.btn.btn-primary#go-button(disabled=!!view.tests) Start Tests
+
+    if view.levelsToLoad && !view.tests
       .progress
-        .progress-bar.progress-bar-success(role="progressbar" style="width: #{100*view.passed/view.testCount}%")
-        .progress-bar.progress-bar-warning(role="progressbar" style="width: #{100*view.problem/view.testCount}%")
-        .progress-bar.progress-bar-danger(role="progressbar" style="width: #{100*view.failed/view.testCount}%")
+        .progress-bar.progress-bar-success(role="progressbar" style="width: #{100*(1 - view.levelsToLoad/view.initialLevelsToLoad)}%")
 
+    if view.tests
+      if view.levelIDs
+        .progress
+          .progress-bar.progress-bar-success(role="progressbar" style="width: #{100*view.passed/view.testCount}%")
+          .progress-bar.progress-bar-warning(role="progressbar" style="width: #{100*view.problem/view.testCount}%")
+          .progress-bar.progress-bar-danger(role="progressbar" style="width: #{100*view.failed/view.testCount}%")
 
-    each test, id in view.tests
-      - if (test.state == 'no-solution')
-      -   continue;
-      if test.level
-        .pull-right
-          - var last = test.level.get('slug') + view.linksQueryString 
-          a.btn.btn-primary(href="/editor/verifier/" + last) Focus
-          a.btn.btn-success(href="/play/level/" + last) Play
-          a.btn.btn-warning(href="/editor/level/" + last) Edit
-          a.btn.btn-default(data-target='#verifier-test-' + id, data-toggle="collapse") Toggle
+      each test, id in view.tests
+        - if (test.state == 'no-solution')
+        -   continue;
+        if test.level
+          .pull-right
+            - var last = test.level.get('slug') + view.linksQueryString
+            a.btn.btn-primary(href="/editor/verifier/" + last) Focus
+            a.btn.btn-success(href="/play/level/" + last) Play
+            a.btn.btn-warning(href="/editor/level/" + last) Edit
+            a.btn.btn-default(data-target='#verifier-test-' + id, data-toggle="collapse") Toggle
 
-        if !test.goals
-          h2(style='color: orange')= test.level.get('name')
-            small= ' in ' + test.language + ''
-        else if test.isSuccessful()
-          h2(style='color: green')= test.level.get('name')
-            small= ' in ' + test.language + ''
-        else
-          h2(style='color: red')= test.level.get('name')
-            small= ' in ' + test.language + ''  
+          if !test.goals
+            h2.test-running= test.level.get('name')
+              small= ' in ' + test.language + ''
+          else if test.isSuccessful()
+            h2.test-success= test.level.get('name')
+              small= ' in ' + test.language + ''
+          else
+            h2.test-failed= test.level.get('name')
+              small= ' in ' + test.language + ''
 
-        div.row(class=(test.isSuccessful() && id > 1 ? 'collapse' : 'collapse in'), id='verifier-test-' + id)
-          div.col-xs-8
-            if test.solution
-              pre #{test.solution.source}
-            else
-              h4 Error Loading Test
-              pre #{test.error}
-          div.col-xs-4.well
-            if test.goals
-              if test.frames == test.solution.frameCount
-                div(style='color: green') ✓ Frames: #{test.frames}
+          div.row(class=(test.isSuccessful() && id > 1 ? 'collapse' : 'collapse in'), id='verifier-test-' + id)
+            div.col-xs-8
+              if test.solution
+                pre #{test.solution.source}
               else
-                div(style='color: red') ✘ Frames: #{test.frames} vs #{test.solution.frameCount}
-
-              each v,k in test.goals || []
-                if !test.solution.goals
-                  div(style='color: orange') ? #{k} (#{v.status})
-                else if v.status == test.solution.goals[k]
-                  div(style='color: green') ✓ #{k} (#{v.status})
+                h4 Error Loading Test
+                pre #{test.error}
+            div.col-xs-4.well
+              if test.goals
+                if test.frames == test.solution.frameCount
+                  div.test-success ✓ Frames: #{test.frames}
                 else
-                  div(style='color: red') ✘ #{k} (#{v.status} vs #{test.solution.goals[k]})
-            else
-              h3 Pending....
+                  div.test-failed ✘ Frames: #{test.frames} vs #{test.solution.frameCount}
 
-            if test.error
-                pre(style="color: red") #{test.error}
-          
-            if test.userCodeProblems.length
-              h4(style="color: red") User Code Problems
-              pre(style="color: red") #{JSON.stringify(test.userCodeProblems, null, 2)}
+                each v,k in test.goals || []
+                  if !test.solution.goals
+                    div.test-running ? #{k} (#{v.status})
+                  else if v.status == test.solution.goals[k]
+                    div.test-success ✓ #{k} (#{v.status})
+                  else
+                    div.test-failed ✘ #{k} (#{v.status} vs #{test.solution.goals[k]})
+              else
+                h3 Pending....
 
-      else
-        h1 Loading Level...
+              if test.error
+                  pre.test-faile #{test.error}
 
-      // TODO: show last frame hash
+              if test.userCodeProblems.length
+                h4.test-failed User Code Problems
+                pre.test-failed #{JSON.stringify(test.userCodeProblems, null, 2)}
+
+        else
+          h1 Loading Level...
+
+        // TODO: show last frame hash

@@ -77,7 +77,8 @@ mixin classRow(classroom)
       else
         each trimCourse, index in classroom.get('courses') || []
           - var course = view.courses.get(trimCourse._id);
-          +progressDot(classroom, course, index)
+          if view.courseInstances.findWhere({ classroomID: classroom.id, courseID: course.id })
+            +progressDot(classroom, course, index)
     .view-class-arrow.col-xs-1
       a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right(data-classroom-id=classroom.id, href=('/teachers/classes/' + classroom.id))
 

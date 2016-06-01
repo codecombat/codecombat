@@ -69,7 +69,7 @@ module.exports = class LevelGuideView extends CocoView
       if @helpVideos.length
         startingTab = 0
       else
-        startingTab = _.findIndex @docs, slug: 'intro'
+        startingTab = _.findIndex @docs, slug: 'overview'
         startingTab = 0 if startingTab is -1
       # incredible hackiness. Getting bootstrap tabs to work shouldn't be this complex
       @$el.find(".nav-tabs li:nth(#{startingTab})").addClass('active')

@@ -292,7 +292,7 @@ module.exports = class HeroVictoryModal extends ModalView
       duration = 1000
     ratio = @getEaseRatio (new Date() - @sequentialAnimationStart), duration
     if panel.unit is 'xp'
-      newXP = Math.floor(panel.previousNumber + ratio * (panel.number - panel.previousNumber))
+      newXP = Math.floor(ratio * (panel.number - panel.previousNumber))
       totalXP = @totalXPAnimated + newXP
       if totalXP isnt @lastTotalXP
         panel.textEl.text('+' + newXP)
@@ -304,7 +304,7 @@ module.exports = class HeroVictoryModal extends ModalView
         @XPEl.addClass 'five-digits' if totalXP >= 10000 and @lastTotalXP < 10000
         @lastTotalXP = totalXP
     else if panel.unit is 'gem'
-      newGems = Math.floor(panel.previousNumber + ratio * (panel.number - panel.previousNumber))
+      newGems = Math.floor(ratio * (panel.number - panel.previousNumber))
       totalGems = @totalGemsAnimated + newGems
       if totalGems isnt @lastTotalGems
         panel.textEl.text('+' + newGems)
@@ -326,9 +326,9 @@ module.exports = class HeroVictoryModal extends ModalView
       panel.rootEl.removeClass('animating').find('.reward-image-container img').removeClass('pulse')
       @sequentialAnimationStart = new Date()
       if panel.unit is 'xp'
-        @totalXPAnimated += panel.number
+        @totalXPAnimated += panel.number - panel.previousNumber
       else if panel.unit is 'gem'
-        @totalGemsAnimated += panel.number
+        @totalGemsAnimated += panel.number - panel.previousNumber
       @sequentialAnimatedPanels.shift()
       return
     panel.rootEl.addClass('animating').find('.reward-image-container').removeClass('pending-reward-image').find('img').addClass('pulse')

@@ -127,7 +127,6 @@ module.exports = class TeacherClassView extends RootView
         @render()
     # Model/Collection events
     @listenTo @classroom, 'sync change update', ->
-      @removeDeletedStudents()
       classCode = @classroom.get('codeCamel') or @classroom.get('code')
       @state.set {
         classCode: classCode
@@ -144,7 +143,6 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @students, 'sync change update add remove reset', ->
       # Set state/props of things that depend on students?
       # Set specific parts of state based on the models, rather than just dumping the collection there?
-      @removeDeletedStudents()
       @calculateProgressAndLevels()
       classStats = @calculateClassStats()
       @state.set classStats: classStats if classStats

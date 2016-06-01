@@ -1,5 +1,5 @@
 .modal-header
-  #close-modal.well.well-sm.well-parchment(data-dismiss="modal")
+  #close-modal.btn.well.well-sm.well-parchment(data-dismiss="modal")
     span.glyphicon.glyphicon-remove
   .well.well-sm.well-parchment
     h1(data-i18n='play_level.level_complete')
@@ -36,9 +36,9 @@
             h3.text-uppercase
               span(data-i18n='play_level.next_level')
               span :
-            h2.text-uppercase= i18n(view.nextLevel.attributes, 'name')
+            h2.text-uppercase= i18n(view.nextLevel.attributes, 'name').replace('Course: ', '')
             
-            p= i18n(view.nextLevel.attributes, 'description')
+            div!= view.nextLevelDescription
         
     .row
       .col-sm-5.col-sm-offset-2

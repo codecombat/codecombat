@@ -108,28 +108,36 @@ block content
           +copyCodes
           +addStudentsButton
           
-      ul.nav.nav-tabs.m-t-5(role='tablist')
-        - var activeTab = state.get('activeTab');
-        li(class=(activeTab === "#students-tab" ? 'active' : ''))
-          a.students-tab-btn(href='#students-tab')
-            .small-details.text-center(data-i18n='teacher.students')
-        .tab-spacer
-        li(class=(activeTab === "#course-progress-tab" ? 'active' : ''))
-          a.course-progress-tab-btn(href='#course-progress-tab')
-            .small-details.text-center(data-i18n='teacher.course_progress')
-        .tab-spacer
-        li(class=(activeTab === "#enrollment-status-tab" ? 'active' : ''))
-          a.course-progress-tab-btn(href='#enrollment-status-tab')
-            .small-details.text-center(data-i18n='teacher.enrollment_status')
-        .tab-filler
+      if view.students.length > 0
+        ul.nav.nav-tabs.m-t-5(role='tablist')
+          - var activeTab = state.get('activeTab');
+          li(class=(activeTab === "#students-tab" ? 'active' : ''))
+            a.students-tab-btn(href='#students-tab')
+              .small-details.text-center(data-i18n='teacher.students')
+          .tab-spacer
+          li(class=(activeTab === "#course-progress-tab" ? 'active' : ''))
+            a.course-progress-tab-btn(href='#course-progress-tab')
+              .small-details.text-center(data-i18n='teacher.course_progress')
+          .tab-spacer
+          li(class=(activeTab === "#enrollment-status-tab" ? 'active' : ''))
+            a.course-progress-tab-btn(href='#enrollment-status-tab')
+              .small-details.text-center(data-i18n='teacher.enrollment_status')
+          .tab-filler
 
-      .tab-content
-        if activeTab === '#students-tab'
-          +studentsTab
-        else if activeTab === '#course-progress-tab'
-          +courseProgressTab
-        else
-          +enrollmentStatusTab
+        .tab-content
+          if activeTab === '#students-tab'
+            +studentsTab
+          else if activeTab === '#course-progress-tab'
+            +courseProgressTab
+          else
+            +enrollmentStatusTab
+
+      else
+        .text-center.m-t-5.m-b-5
+          .text-h2
+            span(data-i18n="teacher.no_students_yet")
+          .text-h4
+            span(data-i18n="teacher.try_refreshing")
     
 mixin breadcrumbs
   .breadcrumbs
@@ -171,8 +179,8 @@ mixin studentsTab
     +bulkAssignControls
     table.students-table
       thead
-        th.checkbox-col.select-all
-          span Select All
+        th.checkbox-col.select-all.small.text-center
+          span(data-i18n="teacher.select_all")
           .checkbox-flat
             input(type='checkbox' id='checkbox-all-students')
             label.checkmark(for='checkbox-all-students')
