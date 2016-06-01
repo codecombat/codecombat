@@ -83,7 +83,7 @@ module.exports = class Label extends CocoClass
       o.fontColor = '#c66'
     else if @style is 'name' and @sprite?.thang?.team is 'ogres'
       o.fontColor = '#66c'
-    o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(0,0,0,0.5)'}[st]
+    o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(0,0,0,0.7)'}[st]
     o.backgroundStrokeColor = {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)'}[st]
     o.backgroundStrokeStyle = {D: 2, S: 1, N: 1}[st]
     o.backgroundBorderRadius = {D: 10, S: 3, N: 3}[st]
