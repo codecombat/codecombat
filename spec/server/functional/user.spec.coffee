@@ -568,7 +568,7 @@ describe 'DELETE /db/user', ->
     expect(classroom.get('deletedMembers')[0].toString()).toEqual(user.id)
     done()
     
-  fit 'returns 401 if no cookie session', utils.wrap (done) ->
+  it 'returns 401 if no cookie session', utils.wrap (done) ->
     yield utils.logout()
     [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/1234"}
     expect(res.statusCode).toBe(401)
