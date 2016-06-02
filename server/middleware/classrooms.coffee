@@ -15,6 +15,8 @@ parse = require '../commons/parse'
 LevelSession = require '../models/LevelSession'
 User = require '../models/User'
 CourseInstance = require '../models/CourseInstance'
+TrialRequest = require '../models/TrialRequest'
+sendwithus = require '../sendwithus'
 
 module.exports =
   fetchByCode: wrap (req, res, next) ->
@@ -215,4 +217,34 @@ module.exports =
     unless valid
       throw new errors.UnprocessableEntity(error.message)
     yield student.update({ $set: { passwordHash: User.hashPassword(newPassword) } })
+    res.status(200).send({})
+
+  inviteMembers: wrap (req, res) ->
+    if not req.body.emails
+      throw new errors.UnprocessableEntity('Emails not included')
+
+    classroom = yield database.getDocFromHandle(req, Classroom)
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+      
+    unless classroom.get('ownerID').equals(req.user?._id)
+      throw new errors.Forbidden('Must be owner of classroom to send invites.')
+      
+    user = req.user
+    teacherName = user.get('name')
+    teacherName ?= _.filter([user.get('firstName'), user.get('lastName')]).join(' ')
+    trialRequest = yield TrialRequest.findOne({applicant: user._id})
+    schoolName = trialRequest?.get('properties')?.organization
+
+    for email in req.body.emails
+      context =
+        email_id: sendwithus.templates.course_invite_email
+        recipient:
+          address: email
+        email_data:
+          class_name: classroom.get('name')
+          teacher_name: teacherName
+          school_name: schoolName
+          join_link: "https://codecombat.com/courses?_cc=" + (classroom.get('codeCamel') or classroom.get('code'))
+      sendwithus.api.send context, _.noop
     res.status(200).send({})

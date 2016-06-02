@@ -121,3 +121,10 @@ module.exports = class Classroom extends CocoModel
       url: _.result(courseInstance, 'url') + '/classroom'
     })
     @fetch(options)
+
+  inviteMembers: (emails, options={}) ->
+    options.data ?= {}
+    options.data.email = emails
+    options.url = @url() + '/invite-members'
+    options.type = 'POST'
+    @fetch(options)

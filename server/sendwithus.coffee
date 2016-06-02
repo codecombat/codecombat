@@ -9,7 +9,7 @@ module.exports.setupRoutes = (app) ->
 debug = not config.isProduction
 module.exports.api =
   send: (context, cb) ->
-    log.debug('Tried to send email with context: ', JSON.stringify(context, null, '\t'))
+    log.debug('Tried to send email with context: ', JSON.stringify(context, null, '  '))
     setTimeout(cb, 10)
     
 if swuAPIKey
