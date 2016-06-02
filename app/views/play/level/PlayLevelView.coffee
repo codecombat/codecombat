@@ -641,7 +641,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @$el.hasClass 'real-time'
     @$el.removeClass 'real-time'
     @onWindowResize()
-    if @world.frames.length is @world.totalFrames
+    if @world.frames.length is @world.totalFrames and not @surface.countdownScreen?.showing
       _.delay @onSubmissionComplete, 750  # Wait for transition to end.
     else
       @waitingForSubmissionComplete = true
@@ -649,6 +649,7 @@ module.exports = class PlayLevelView extends RootView
 
   onSubmissionComplete: =>
     return if @destroyed
+    Backbone.Mediator.publish 'level:set-time', ratio: 1
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     # TODO: Show a victory dialog specific to hero-ladder level
     if @goalManager.checkOverallStatus() is 'success' and not @options.realTimeMultiplayerSessionID?

@@ -17,7 +17,7 @@ describe 'GET /db/article', ->
     yield utils.loginUser(@admin)
     yield request.postAsync(getURL('/db/article'), { json: articleData1 })
     yield request.postAsync(getURL('/db/article'), { json: articleData2 })
-    yield utils.logout()
+    yield utils.becomeAnonymous()
     done()
       
       
@@ -194,7 +194,7 @@ describe 'POST /db/article', ->
     
   it 'does not allow anonymous users to create Articles', utils.wrap (done) ->
     yield utils.clearModels([Article])
-    yield utils.logout()
+    yield utils.becomeAnonymous()
     [res, body] = yield request.postAsync({uri: getURL('/db/article'), json: articleData })
     expect(res.statusCode).toBe(401)
     done()
@@ -451,7 +451,7 @@ describe 'POST /db/article/:handle/new-version', ->
 
 
   it 'does not work for anonymous users', utils.wrap (done) ->
-    yield utils.logout()
+    yield utils.becomeAnonymous()
     yield postNewVersion({ name: 'Article name', body: 'New body' }, 401)
     articles = yield Article.find()
     expect(articles.length).toBe(1)
@@ -580,7 +580,7 @@ describe 'GET and POST /db/article/:handle/names', ->
     yield utils.loginUser(admin)
     [res, article1] = yield request.postAsync(getURL('/db/article'), { json: articleData1 })
     [res, article2] = yield request.postAsync(getURL('/db/article'), { json: articleData2 })
-    yield utils.logout()
+    yield utils.becomeAnonymous()
     [res, body] = yield request.getAsync { uri: getURL('/db/article/names?ids='+[article1._id, article2._id].join(',')), json: true }
     expect(body.length).toBe(2)
     expect(body[0].name).toBe('Article 1')

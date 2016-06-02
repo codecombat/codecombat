@@ -2,7 +2,7 @@ extends /templates/base
 
 block content
 
-  if !me.isAnonymous() && (me.isTeacher() || view.ownedClassrooms.size())
+  if !me.isAnonymous() && me.isTeacher()
     .alert.alert-danger.text-center
       // DNT: Temporary
       h3 ATTENTION TEACHERS:

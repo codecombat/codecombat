@@ -172,9 +172,9 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
-    if options.teachersOnly and not me.isTeacher()
+    if options.teachersOnly and not (me.isTeacher() or me.isAdmin())
       return @routeDirectly('teachers/RestrictedToTeachersView')
-    if options.studentsOnly and not me.isStudent()
+    if options.studentsOnly and not (me.isStudent() or me.isAdmin())
       return @routeDirectly('courses/RestrictedToStudentsView')
     leavingMessage = _.result(window.currentView, 'onLeaveMessage')
     if leavingMessage
