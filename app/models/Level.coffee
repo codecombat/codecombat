@@ -59,11 +59,13 @@ module.exports = class Level extends CocoModel
   denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
     if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
+      thangTypesWithComponents = (tt for tt in supermodel.getModels(ThangType) when tt.get('components')?)
+      thangTypesByOriginal = _.indexBy thangTypesWithComponents, (tt) -> tt.get('original')  # Optimization
       for levelThang in o.thangs
-        @denormalizeThang(levelThang, supermodel, session, otherSession)
+        @denormalizeThang(levelThang, supermodel, session, otherSession, thangTypesByOriginal)
     o
 
-  denormalizeThang: (levelThang, supermodel, session, otherSession) ->
+  denormalizeThang: (levelThang, supermodel, session, otherSession, thangTypesByOriginal) ->
     levelThang.components ?= []
     isHero = /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     if isHero and otherSession
@@ -79,7 +81,7 @@ module.exports = class Level extends CocoModel
     if isHero
       placeholders = {}
       placeholdersUsed = {}
-      placeholderThangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
+      placeholderThangType = thangTypesByOriginal[levelThang.thangType]
       unless placeholderThangType
         console.error "Couldn't find placeholder ThangType for the hero!"
         isHero = false
@@ -92,7 +94,7 @@ module.exports = class Level extends CocoModel
         heroThangType = session?.get('heroConfig')?.thangType
         levelThang.thangType = heroThangType if heroThangType
 
-    thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType, (m) -> m.get('components')?)
+    thangType = thangTypesByOriginal[levelThang.thangType]
 
     configs = {}
     for thangComponent in levelThang.components
@@ -168,11 +170,16 @@ module.exports = class Level extends CocoModel
     # Decision? Just special case the sort logic in here until we have more examples than these two and decide how best to handle most of the cases then, since we don't really know the whole of the problem yet.
     # TODO: anything that depends on Programmable will break right now.
 
+    originalsToComponents = _.indexBy levelComponents, 'original'  # Optimization for speed
+    alliedComponent = _.find levelComponents, name: 'Allied'
+    actsComponent = _.find levelComponents, name: 'Acts'
+
     for thang in thangs ? []
+      originalsToThangComponents = _.indexBy thang.components, 'original'
       sorted = []
       visit = (c, namesToIgnore) ->
         return if c in sorted
-        lc = _.find levelComponents, {original: c.original}
+        lc = originalsToComponents[c.original]
         console.error thang.id or thang.name, 'couldn\'t find lc for', c, 'of', levelComponents unless lc
         return unless lc
         return if namesToIgnore and lc.name in namesToIgnore
@@ -184,20 +191,18 @@ module.exports = class Level extends CocoModel
           visit c2, [lc.name] for c2 in thang.components
         else
           for d in lc.dependencies or []
-            c2 = _.find thang.components, {original: d.original}
+            c2 = originalsToThangComponents[d.original]
             unless c2
-              dependent = _.find levelComponents, {original: d.original}
+              dependent = originalsToComponents[d.original]
               dependent = dependent?.name or d.original
               console.error parentType, thang.id or thang.name, 'does not have dependent Component', dependent, 'from', lc.name
             visit c2 if c2
-          if lc.name is 'Collides'
-            if allied = _.find levelComponents, {name: 'Allied'}
-              allied = _.find(thang.components, {original: allied.original})
-              visit allied if allied
-          if lc.name is 'Moves'
-            if acts = _.find levelComponents, {name: 'Acts'}
-              acts = _.find(thang.components, {original: acts.original})
-              visit acts if acts
+          if lc.name is 'Collides' and alliedComponent
+            if allied = originalsToThangComponents[alliedComponent.original]
+              visit allied
+          if lc.name is 'Moves' and actsComponent
+            if acts = originalsToThangComponents[actsComponent.original]
+              visit acts
         #console.log thang.id, 'sorted comps adding', lc.name
         sorted.push c
       for comp in thang.components
@@ -258,3 +263,14 @@ module.exports = class Level extends CocoModel
     else
       options.url = "/db/course/#{courseID}/levels/#{levelOriginalID}/next"
     @fetch(options)
+
+  getSolutions: ->
+    return [] unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
+    return [] unless config = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config
+    solutions = _.cloneDeep config.programmableMethods.plan.solutions ? []
+    for solution in solutions
+      try
+        solution.source = _.template(solution.source)(config?.programmableMethods?.plan.context)
+      catch e
+        console.error "Problem with template and solution comments for", @get('slug'), e
+    solutions

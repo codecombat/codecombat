@@ -51,7 +51,7 @@
     "lscache": "~1.0.5",
     "esper.js": "http://files.codecombat.com/esper.tar.gz",
     "algoliasearch": "^3.13.1",
-    "algolia-autocomplete.js": "^1.17.0",
+    "algolia-autocomplete.js": "^0.17.0",
     "algolia-autocomplete-no-conflict": "1.0.0"
   },
   "overrides": {

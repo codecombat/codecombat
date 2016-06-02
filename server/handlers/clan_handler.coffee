@@ -95,7 +95,6 @@ ClanHandler = class ClanHandler extends Handler
           AnalyticsLogEvent.logEvent req.user, 'Clan left', clanID: clanID, type: clan.get('type')
 
   getMemberAchievements: (req, res, clanID) ->
-    # TODO: add tests
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
@@ -111,18 +110,16 @@ ClanHandler = class ClanHandler extends Handler
           @sendSuccess(res, cleandocs)
 
   getMembers: (req, res, clanID) ->
-    # TODO: add tests
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
       memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
-      User.find {_id: {$in: memberIDs}}, 'name nameLower points heroConfig.thangType', {}, (err, users) =>
+      User.find {_id: {$in: memberIDs}}, 'name nameLower points heroConfig.thangType', {limit: memberLimit}, (err, users) =>
         return @sendDatabaseError(res, err) if err
         cleandocs = (UserHandler.formatEntity(req, doc) for doc in users)
         @sendSuccess(res, cleandocs)
 
   getMemberSessions: (req, res, clanID) ->
-    # TODO: add tests
     # TODO: restrict information returned based on clan type
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err

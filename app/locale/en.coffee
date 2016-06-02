@@ -711,9 +711,6 @@
     music_label: "Music"
     music_description: "Turn background music on/off."
     editor_config_title: "Editor Configuration"
-    editor_config_keybindings_label: "Key Bindings"
-    editor_config_keybindings_default: "Default (Ace)"
-    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
     editor_config_livecompletion_label: "Live Autocompletion"
     editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
     editor_config_invisibles_label: "Show Invisibles"
@@ -1342,6 +1339,7 @@
     unarchive_class: "unarchive class"
     unarchive_this_class: "Unarchive this class"
     no_students_yet: "This class has no students yet."
+    try_refreshing: "(You may need to refresh the page)"
     add_students: "Add Students"
     create_new_class: "Create a New Class"
     class_overview: "Class Overview" # View Class page
@@ -1424,6 +1422,7 @@
     status_expired: "Expired on {{date}}"
     status_not_enrolled: "Not Enrolled"
     status_enrolled: "Expires on {{date}}"
+    select_all: "Select All"
 
   classes:
     archmage_title: "Archmage"

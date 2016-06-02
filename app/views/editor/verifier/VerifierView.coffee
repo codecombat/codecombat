@@ -4,11 +4,16 @@ RootView = require 'views/core/RootView'
 template = require 'templates/editor/verifier/verifier-view'
 VerifierTest = require './VerifierTest'
 SuperModel = require 'models/SuperModel'
+Campaigns = require 'collections/Campaigns'
+Level = require 'models/Level'
 
 module.exports = class VerifierView extends RootView
   className: 'style-flat'
   template: template
   id: 'verifier-view'
+
+  events:
+    'click #go-button': 'onClickGoButton'
 
   constructor: (options, @levelID) ->
     super options
@@ -16,54 +21,85 @@ module.exports = class VerifierView extends RootView
     @passed = 0
     @failed = 0
     @problem = 0
+    @testCount = 0
 
-    testLevels = [
-      'dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'kounter-kithwise', 'crawlways-of-kithgard',
-      'enemy-mine', 'illusory-interruption', 'forgetful-gemsmith', 'signs-and-portents', 'favorable-odds',
-      'true-names', 'the-prisoner', 'banefire', 'the-raised-sword', 'kithgard-librarian', 'fire-dancing',
-      'loop-da-loop', 'haunted-kithmaze', 'riddling-kithmaze', 'descending-further', 'the-second-kithmaze',
-      'dread-door', 'cupboards-of-kithgard', 'hack-and-dash', 'known-enemy', 'master-of-names', 'lowly-kithmen',
-      'closing-the-distance', 'tactical-strike', 'the-skeleton', 'a-mayhem-of-munchkins', 'the-final-kithmaze',
-      'the-gauntlet', 'radiant-aura', 'kithgard-gates', 'destroying-angel', 'deadly-dungeon-rescue',
-      'breakout', 'attack-wisely', 'kithgard-mastery', 'kithgard-apprentice', 'robot-ragnarok',
-      'defense-of-plainswood', 'peasant-protection', 'forest-fire-dancing', 'course-winding-trail',
-      'patrol-buster', 'endangered-burl', 'thumb-biter', 'gems-or-death', 'village-guard', 'thornbush-farm',
-      'back-to-back', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'range-finder', 'munchkin-swarm',
-      'stillness-in-motion', 'the-agrippa-defense', 'backwoods-bombardier', 'coinucopia', 'copper-meadows',
-      'drop-the-flag', 'mind-the-trap', 'signal-corpse', 'rich-forager',
+    if @levelID
+      @levelIDs = [@levelID]
+      @testLanguages = ['python', 'javascript', 'java', 'lua', 'coffeescript']
+      @startTestingLevels()
+    else
+      @campaigns = new Campaigns()
+      @supermodel.trackRequest @campaigns.fetch(data: {project: 'slug,type,levels'})
+      @campaigns.comparator = (m) ->
+        ['intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6', 'course-8',
+         'dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano'].indexOf(m.get('slug'))
 
-      'the-mighty-sand-yak', 'oasis', 'sarven-road', 'sarven-gaps', 'thunderhooves', 'minesweeper',
-      'medical-attention', 'sarven-sentry', 'keeping-time', 'hoarding-gold', 'decoy-drill', 'continuous-alchemy',
-      'dust', 'desert-combat', 'sarven-savior', 'lurkers', 'preferential-treatment', 'sarven-shepherd',
-      'shine-getter',
+  onLoaded: ->
+    super()
+    return if @levelID
+    @filterCampaigns()
+    @filterCodeLanguages()
+    @render()
 
-      'a-fine-mint', 'borrowed-sword', 'cloudrip-commander', 'crag-tag',
-      'hunters-and-prey', 'hunting-party',
-      'leave-it-to-cleaver', 'library-tactician', 'mad-maxer', 'mad-maxer-strikes-back',
-      'mirage-maker', 'mixed-unit-tactics', 'mountain-mercenaries',
-      'noble-sacrifice', 'odd-sandstorm', 'ogre-gorge-gouger', 'reaping-fire',
-      'return-to-thornbush-farm', 'ring-bearer', 'sand-snakes',
-      'slalom', 'steelclaw-gap', 'the-geometry-of-flowers',
-      'the-two-flowers', 'timber-guard', 'toil-and-trouble', 'village-rover',
-      'vital-powers', 'zoo-keeper',
-    ]
+  filterCampaigns: ->
+    @levelsByCampaign = {}
+    for campaign in @campaigns.models when campaign.get('type') in ['course', 'hero'] and campaign.get('slug') isnt 'picoctf'
+      @levelsByCampaign[campaign.get('slug')] ?= {levels: [], checked: true}
+      campaignInfo = @levelsByCampaign[campaign.get('slug')]
+      for levelID, level of campaign.get('levels') when level.type not in ['hero-ladder', 'course-ladder', 'game-dev']
+        campaignInfo.levels.push level.slug
 
+  filterCodeLanguages: ->
+    defaultLanguages = utils.getQueryVariable('languages', 'python,javascript').split(/, ?/)
+    @codeLanguages ?= ({id: c, checked: c in defaultLanguages} for c in ['python', 'javascript', 'java', 'lua', 'coffeescript'])
+
+  onClickGoButton: (e) ->
+    @filterCampaigns()
+    @levelIDs = []
+    for campaign, campaignInfo of @levelsByCampaign
+      if @$("#campaign-#{campaign}-checkbox").is(':checked')
+        for level in campaignInfo.levels
+          @levelIDs.push level unless level in @levelIDs
+      else
+        campaignInfo.checked = false
+    @testLanguages = []
+    for codeLanguage in @codeLanguages
+      if @$("#code-language-#{codeLanguage.id}-checkbox").is(':checked')
+        codeLanguage.checked = true
+        @testLanguages.push codeLanguage.id
+      else
+        codeLanguage.checked = false
+    @startTestingLevels()
+
+  startTestingLevels: ->
+    @levelsToLoad = @initialLevelsToLoad = @levelIDs.length
+    for levelID in @levelIDs
+      level = @supermodel.getModel(Level, levelID) or new Level _id: levelID
+      if level.loaded
+        @onLevelLoaded()
+      else
+        @listenToOnce @supermodel.loadModel(level).model, 'sync', @onLevelLoaded
+
+  onLevelLoaded: (level) ->
+    if --@levelsToLoad is 0
+      @onTestLevelsLoaded()
+    else
+      @render()
+
+  onTestLevelsLoaded: ->
     defaultCores = 2
     cores = Math.max(window.navigator.hardwareConcurrency, defaultCores)
 
-    #testLevels = testLevels.slice 0, 15
     @linksQueryString = window.location.search
-    @levelIDs = if @levelID then [@levelID] else testLevels
-    languages = utils.getQueryVariable 'languages', 'python,javascript'
     #supermodel = if @levelID then @supermodel else undefined
     @tests = []
-    @taskList = []
-    @tasksList = _.flatten _.map @levelIDs, (v) ->
-      # TODO: offer good interface for choosing which languages, better performance for skipping missing solutions
-      #_.map ['python', 'javascript', 'coffeescript', 'lua'], (l) ->
-      _.map languages.split(','), (l) ->
-      #_.map ['javascript'], (l) ->
-        level: v, language: l
+    @tasksList = []
+    for levelID in @levelIDs
+      level = @supermodel.getModel(Level, levelID)
+      solutions = level?.getSolutions()
+      for codeLanguage in @testLanguages
+        if not solutions or _.find(solutions, language: codeLanguage)
+          @tasksList.push level: levelID, language: codeLanguage
 
     @testCount = @tasksList.length
     chunks = _.groupBy @tasksList, (v,i) -> i%cores
