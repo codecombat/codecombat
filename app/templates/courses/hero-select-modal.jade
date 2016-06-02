@@ -14,9 +14,9 @@ block modal-body-content
   
 mixin heroOption(hero)
   - var heroID = hero.id
-  - var avatarBorder = (state.get('selectedHeroID') === heroID ? 'selected' : (state.get('currentHeroID') === heroID ? 'current' : ''))
-  .hero-option(data-hero-id=heroID)
-    .hero-avatar(class=avatarBorder)
+  - var selectedState = (state.get('selectedHeroID') === heroID ? 'selected' : (state.get('currentHeroID') === heroID ? 'current' : ''))
+  .hero-option(data-hero-id=heroID class=selectedState)
+    .hero-avatar
       img(src=hero.getPortraitURL())
     .text-h5.hero-name
       span= hero.getHeroShortName()
