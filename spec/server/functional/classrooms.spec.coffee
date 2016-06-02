@@ -346,7 +346,6 @@ describe 'POST /db/classroom/:id/invite-members', ->
   it 'takes a list of emails and sends invites', utils.wrap (done) ->
     user = yield utils.initUser({role: 'teacher', name: 'Mr Professerson'})
     yield utils.loginUser(user)
-    yield utils.makeTrialRequest({ properties: { organization: 'Greendale' } })
     classroom = yield utils.makeClassroom()
     url = classroomsURL + "/#{classroom.id}/invite-members"
     data = { emails: ['test@test.com'] }
@@ -355,7 +354,6 @@ describe 'POST /db/classroom/:id/invite-members', ->
       expect(context.email_id).toBe(sendwithus.templates.course_invite_email)
       expect(context.recipient.address).toBe('test@test.com')
       expect(context.email_data.teacher_name).toBe('Mr Professerson')
-      expect(context.email_data.school_name).toBe('Greendale')
       done()
     [res, body] = yield request.postAsync { uri: url, json: data }
     expect(res.statusCode).toBe(200)

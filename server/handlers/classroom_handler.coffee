@@ -28,8 +28,6 @@ ClassroomHandler = class ClassroomHandler extends Handler
     false
 
   getByRelationship: (req, res, args...) ->
-    method = req.method.toLowerCase()
-    return @inviteStudents(req, res, args[0]) if args[1] is 'invite-members'
     return @removeMember(req, res, args[0]) if req.method is 'DELETE' and args[1] is 'members'
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
     super(arguments...)
@@ -67,32 +65,6 @@ ClassroomHandler = class ClassroomHandler extends Handler
     if req.user?.isAdmin() or req.user?.get('_id').equals(doc.get('ownerID'))
       return doc.toObject()
     return _.omit(doc.toObject(), 'code', 'codeCamel')
-
-  inviteStudents: (req, res, classroomID) ->
-    return @sendUnauthorizedError(res) if not req.user?
-    if not req.body.emails
-      return @sendBadInputError(res, 'Emails not included')
-
-    Classroom.findById classroomID, (err, classroom) =>
-      return @sendDatabaseError(res, err) if err
-      return @sendNotFoundError(res) unless classroom
-      unless classroom.get('ownerID').equals(req.user.get('_id'))
-        log.debug "classroom_handler.inviteStudents: Can't invite to classroom (#{classroom.id}) you (#{req.user.get('_id')}) don't own"
-        return @sendForbiddenError(res)
-
-      for email in req.body.emails
-        joinCode = (classroom.get('codeCamel') or classroom.get('code'))
-        context =
-          email_id: sendwithus.templates.course_invite_email
-          recipient:
-            address: email
-          email_data:
-            teacher_name: req.user.broadName()
-            class_name: classroom.get('name')
-            join_link: "https://codecombat.com/courses?_cc=" + joinCode
-            join_code: joinCode
-        sendwithus.api.send context, _.noop
-      return @sendSuccess(res, {})
 
   get: (req, res) ->
     if ownerID = req.query.ownerID
