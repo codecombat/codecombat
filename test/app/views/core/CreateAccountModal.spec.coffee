@@ -45,7 +45,7 @@ describe 'CreateAccountModal', ->
       expect(jasmine.Ajax.requests.all().length).toBe(0)
       expect(modal.$('.has-error').length).toBeTruthy()
 
-    it 'fails if birthay is missing', ->
+    it 'fails if birthday is missing', ->
       modal.$('form').each (i, el) -> el.reset()
       forms.objectToForm(modal.$el, { email: 'some@email.com', password: 'xyzzy' })
       modal.$('form').submit()
