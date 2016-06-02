@@ -439,6 +439,7 @@
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
     tome_current_method: "Current Method"
+    hints: "Hints"
     hints_title: "Hint \#{{number}}"
     hints_locked: "Locked!"
     hints_locked_blurb: "Keep trying to crack this level! We'll offer another hint when you've played a little more."

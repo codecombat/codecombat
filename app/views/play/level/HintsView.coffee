@@ -2,8 +2,6 @@ CocoView = require 'views/core/CocoView'
 State = require 'models/State'
 utils = require 'core/utils'
 
-HINT_FREQUENCY = 2 * 60
-
 module.exports = class HintsView extends CocoView
   
   template: require('templates/play/level/hints-view')
@@ -14,18 +12,22 @@ module.exports = class HintsView extends CocoView
     'click .previous-btn': 'onClickPreviousButton'
     'click .close-hint-btn': 'toggleVisibility'
   
-  initialize: ({@level, @session}) ->
+  initialize: (options) ->
+    {@level, @session, @hintsState} = options
     @hints = @level.get('documentation')?.hints or []
     @state = new State({
-      hintsTotal: _.size(@hints)
       hintIndex: 0
-      hintsAvailable: 0
     })
     @updateHint()
     
-    @listenTo(@session, 'change:playtime', @updateHintsAvailable)
-    @listenTo(@state, 'change', _.debounce(@render))
+    debouncedRender = _.debounce(@render)
+    @listenTo(@state, 'change', debouncedRender)
+    @listenTo(@hintsState, 'change', debouncedRender)
     @listenTo(@state, 'change:hintIndex', @updateHint)
+    
+  afterRender: ->
+    @$el.toggleClass('hide', @hintsState.get('hidden'))
+    super()
 
   getProcessedHint: ->
     language = @session.get('codeLanguage')
@@ -38,18 +40,13 @@ module.exports = class HintsView extends CocoView
     
     return markedUp
   
-  updateHintsAvailable: ->
-    total = _.size(@hints)
-    maximum = Math.floor(@session.get('playtime') / HINT_FREQUENCY)
-    @state.set({ hintsAvailable: Math.min(total, maximum) })
-    
   updateHint: ->
     index = @state.get('hintIndex')
     hintsTitle = $.i18n.t('play_level.hints_title').replace('{{number}}', index + 1)
     @state.set({ hintsTitle, hint: @hints[index] })
 
   onClickNextButton: ->
-    max = @state.get('hintsTotal') - 1
+    max = @hintsState.get('total') - 1
     @state.set('hintIndex', Math.min(@state.get('hintIndex') + 1, max))
     @playSound 'menu-button-click'
 
@@ -57,4 +54,4 @@ module.exports = class HintsView extends CocoView
     @state.set('hintIndex', Math.max(@state.get('hintIndex') - 1, 0))
     @playSound 'menu-button-click'
 
-  toggleVisibility: -> @$el.toggleClass('hide')
+  toggleVisibility: -> @hintsState.set('hidden', not @hintsState.get('hidden'))

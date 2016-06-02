@@ -15,7 +15,7 @@ console.log('Hello World')
 
 longHint = _.times(100, -> 'Beuller...').join('\n\n')
 
-describe 'HintsView', ->
+xdescribe 'HintsView', ->
   beforeEach ->
     level = factories.makeLevel({
       documentation: {

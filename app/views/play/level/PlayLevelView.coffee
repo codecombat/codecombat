@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/play/level'
+template = require 'templates/play/play-level-view'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
@@ -41,6 +41,8 @@ PicoCTFVictoryModal = require './modal/PicoCTFVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ContactModal = require 'views/core/ContactModal'
+HintsView = require './HintsView'
+HintsState = require './HintsState'
 
 PROFILE_ME = false
 
@@ -255,7 +257,60 @@ module.exports = class PlayLevelView extends RootView
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level, observing: @observing, courseID: @courseID, courseInstanceID: @courseInstanceID, god: @god
+    
+    # TEMP
+    @level.get('documentation').hints = [
+      {
+        body: """
+          The sample code shows you how to move to the right.
+      
+          You can see it work by clicking RUN!
+          
+          The commands to move in other directions can be found beneath your code window next to the picture of your boots.
+        """
+      }
+      {
+        body: """
+          To grab the gem, your hero will need to move RIGHT, then DOWN, then RIGHT.
+          
+          The first move (to the RIGHT) was given to you in the example code, and shows you how to do it:
+          
+          ```python
+          hero.moveRight()
+          ```
+        """
+      }
+      {
+        body: """
+          Code commands are executed in the order they're listed.
+          
+          This code commands your hero to move right, then move down:
+          
+          ```python
+          hero.moveRight()
+          hero.moveDown()
+          ```
+          
+          Don't worry about those lines that start with
+          ```python
+          #
+          ```
+          those are COMMENTS, and the computer ignores them (they're there to help you!)
+        """
+      }
+      {
+        body: """
+          ```python
+          hero.moveRight()
+          hero.moveDown()
+          hero.moveRight()
+          ```
+        """
+      }
+    ]
+
+    @hintsState = new HintsState({ hidden: true }, { @session, @level })
+    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world.thangs, @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
     @insertSubView new LevelPlaybackView session: @session, level: @level
     @insertSubView new GoalsView {}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
@@ -266,6 +321,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.get('type') in ['hero-ladder', 'course-ladder']
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
+    @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
 
   initVolume: ->

@@ -1,5 +1,4 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/spell_palette'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
@@ -12,7 +11,7 @@ N_ROWS = 4
 
 module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
-  template: template
+  template: require 'templates/play/level/tome/spell-palette-view'
   controlsEnabled: true
 
   subscriptions:
@@ -23,18 +22,15 @@ module.exports = class SpellPaletteView extends CocoView
 
   events:
     'click #spell-palette-help-button': 'onClickHelp'
+    'click #spell-palette-hints-button': 'onClickHintsButton'
 
-  constructor: (options) ->
-    super options
-    @level = options.level
-    @session = options.session
-    @supermodel = options.supermodel
-    @thang = options.thang
-    @useHero = options.useHero
+  initialize: (options) ->
+    {@level, @session, @supermodel, @thang, @useHero, @hintsState} = options
     docs = @options.level.get('documentation') ? {}
     @showsHelp = docs.specificArticles?.length or docs.generalArticles?.length
     @createPalette()
     $(window).on 'resize', @onResize
+    @listenTo(@hintsState, 'change:available', -> @renderSelectors('#spell-palette-hints-button'))
 
   getRenderData: ->
     c = super()
@@ -327,6 +323,9 @@ module.exports = class SpellPaletteView extends CocoView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @level.get('slug'), parent: @, session: @session, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID})
       @setupManager.open()
+
+  onClickHintsButton: ->
+    @hintsState.set('hidden', not @hintsState.get('hidden'))
 
   destroy: ->
     entry.destroy() for entry in @entries
