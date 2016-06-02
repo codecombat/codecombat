@@ -259,8 +259,11 @@ module.exports.filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
   excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'java', 'io'], currentLanguage
-  exclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
-  text.replace exclusionRegex, ''
+  # Exclude language-specific code blocks like ```python (... code ...)``` for each non-target language.
+  codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
+  # Exclude language-specific images like ![python - image description](image url) for each non-target language.
+  imageExclusionRegex = new RegExp "!\\[(#{excludedLanguages.join('|')}) - .+?\\]\\(.+?\\)\n?", 'gm'
+  return text.replace(codeBlockExclusionRegex, '').replace(imageExclusionRegex, '')
 
 module.exports.aceEditModes = aceEditModes =
   'javascript': 'ace/mode/javascript'

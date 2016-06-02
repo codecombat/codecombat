@@ -121,7 +121,7 @@ _.extend UserSchema.properties,
 
   aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
     language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'java', 'io']}
-    keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}
+    keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}  # Deprecated 2016-05-30; now we just always give them 'default'.
     invisibles: {type: 'boolean' }
     indentGuides: {type: 'boolean' }
     behaviors: {type: 'boolean' }
@@ -337,7 +337,7 @@ _.extend UserSchema.properties,
     }
   }
   enrollmentRequestSent: { type: 'boolean' }
-  
+
   schoolName: {type: 'string'}
   role: {type: 'string', enum: ["God", "advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}
   birthday: c.stringDate({title: "Birthday"})

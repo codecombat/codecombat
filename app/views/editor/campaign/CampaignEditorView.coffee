@@ -60,6 +60,14 @@ module.exports = class CampaignEditorView extends RootView
     @listenToOnce @levels, 'sync', @onFundamentalLoaded
     @listenToOnce @achievements, 'sync', @onFundamentalLoaded
 
+  onLeaveMessage: ->
+    @propagateCampaignIndexes()
+    for model in @toSave.models
+      diff = model.getDelta()
+      if _.size(diff)
+        console.log 'model, diff', model, diff
+        return 'You have changes!'
+
   loadThangTypeNames: ->
     # Load the names of the ThangTypes that this level's Treema nodes might want to display.
     originals = []
@@ -143,6 +151,19 @@ module.exports = class CampaignEditorView extends RootView
       @updateRewardsForLevel model, level.rewards
 
     super()
+    
+  propagateCampaignIndexes: ->
+    campaignLevels = $.extend({}, @campaign.get('levels'))
+    
+    index = 0
+    for levelOriginal, campaignLevel of campaignLevels
+      level = @levels.findWhere({original: levelOriginal})
+      if level.get('campaignIndex') isnt index
+        level.set('campaignIndex', index)
+      campaignLevel.campaignIndex = index
+      index += 1
+
+    @campaign.set('levels', campaignLevels)
 
   onClickPatches: (e) ->
     @patchesView = @insertSubView(new PatchesView(@campaign), @$el.find('.patches-view'))
@@ -160,6 +181,7 @@ module.exports = class CampaignEditorView extends RootView
           break
 
   onClickSaveButton: ->
+    @propagateCampaignIndexes()
     @toSave.set @toSave.filter (m) -> m.hasLocalChanges()
     @openModalView new SaveCampaignModal({}, @toSave)
 

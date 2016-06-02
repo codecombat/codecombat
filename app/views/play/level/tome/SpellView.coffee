@@ -692,6 +692,8 @@ module.exports = class SpellView extends CocoView
       @aceDoc.insertNewLine row: lineCount, column: 0  #lastLine.length
       @ace.navigateLeft(1) if wasAtEnd
       ++lineCount
+      # Force the popup back
+      @ace?.completer?.showPopup(@ace)
     screenLineCount = @aceSession.getScreenLength()
     if screenLineCount isnt @lastScreenLineCount
       @lastScreenLineCount = screenLineCount
