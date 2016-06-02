@@ -40,6 +40,12 @@ describe 'CourseVictoryModal', ->
     modal.classroom.fakeRequests[0].respondWith({
       status: 200, responseText: factories.makeClassroom().stringify() 
     })
+    if me.fakeRequests
+      lastRequest = _.last(me.fakeRequests)
+      if not lastRequest.response
+        lastRequest.respondWith({
+          status: 200, responseText: factories.makeUser().stringify()
+        })
     nextLevelRequest = modal.nextLevel.fakeRequests[0]
     
   describe 'given a course level with a next level and no item or hero rewards', ->
