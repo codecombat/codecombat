@@ -197,8 +197,8 @@ module.exports = class PlayLevelView extends RootView
     @initScriptManager()
 
   onWorldNecessityLoadFailed: (resource) ->
-    console.log resource
-    console.log "onWorldNecessityLoadFailed"
+    @$el.find('.level-loading-goals, .tip, .load-progress').hide()
+    @$el.find('.could-not-load').show()
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
