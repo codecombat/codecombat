@@ -158,7 +158,7 @@ module.exports = class CampaignEditorView extends RootView
     index = 0
     for levelOriginal, campaignLevel of campaignLevels
       level = @levels.findWhere({original: levelOriginal})
-      if level.get('campaignIndex') isnt index
+      if level and level.get('campaignIndex') isnt index
         level.set('campaignIndex', index)
       campaignLevel.campaignIndex = index
       index += 1
