@@ -78,6 +78,7 @@ module.exports =
       return done("Error getting sales contact for #{fromAddress}: #{err}") if err
       matches = salesContactEmail.match(/^[a-zA-Z_]+ <(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})>$|(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})/i)
       salesContactEmail = matches?[1] ? matches?[2] ? config.mail.supportSchools
+      salesContactEmail = config.mail.supportSchools if salesContactEmail?.indexOf('brian@codecombat.com') >= 0
       postData =
         to: [salesContactEmail]
         sender: config.mail.username
