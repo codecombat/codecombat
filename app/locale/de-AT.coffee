@@ -182,7 +182,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     campaign_old_multiplayer: "(Veraltet) Alte Multiplayer Arenen"
     campaign_old_multiplayer_description: "Relikte eines zivilisierteren Zeitalters. Es werden keine Simulationen für diese älteren, heldenlosen Mehrspieler Arenen durchgeführt."
 
-#  code:
+  code:
     if: "wenn" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "sonst"
     elif: "sonst wenn"
