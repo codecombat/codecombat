@@ -325,7 +325,6 @@ module.exports = class LevelLoader extends CocoClass
 
   onWorldNecessityLoadFailed: (resource) ->
     @trigger('world-necessity-load-failed', resource: resource)
-    return if @headless
 
   checkAllWorldNecessitiesRegisteredAndLoaded: ->
     return false unless _.filter(@worldNecessities).length is 0
