@@ -1869,7 +1869,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     license: "Lizenz"
     oreilly: "Ebook deiner Wahl"
 
-#  calendar:
+  calendar:
     year: "Jahr"
     day: "Tag"
     month: "Monat"
