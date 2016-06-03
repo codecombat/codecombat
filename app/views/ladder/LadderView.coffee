@@ -39,12 +39,10 @@ module.exports = class LadderView extends RootView
     'click a:not([data-toggle])': 'onClickedLink'
     'click .spectate-button': 'onClickSpectateButton'
 
-  constructor: (options, @levelID, @leagueType, @leagueID) ->
-    super(options)
-
-  initialize: ->
+  initialize: (options, @levelID, @leagueType, @leagueID) ->
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
-    @levelDescription = marked(@level.get('description')) if @level.get('description')
+    @level.once 'sync', =>
+      @levelDescription = marked(@level.get('description')) if @level.get('description')
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
     @winners = require('./tournament_results')[@levelID]
 
