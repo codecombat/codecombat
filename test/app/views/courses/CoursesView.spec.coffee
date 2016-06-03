@@ -11,7 +11,7 @@ describe 'CoursesView', ->
   modal = null
   view = null
 
-  describe '', ->
+  describe 'Change Hero button', ->
     beforeEach (done) ->
       view = new CoursesView()
       classrooms = new Classrooms([factories.makeClassroom()])
