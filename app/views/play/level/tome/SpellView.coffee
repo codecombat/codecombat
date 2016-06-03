@@ -314,13 +314,20 @@ module.exports = class SpellView extends CocoView
             if /^\s+$/.test lines[docRange.end.row+1]
               docRange.end.row += 1
 
+            xstart = startOfRow(row)
+            if language is 'python'
+              requiredIndent = new RegExp '^' + new Array(xstart / 4 + 2).join '(    |\t)' + '(\\S|\\s*$)'
+              console.log requiredIndent
+              for crow in [docRange.start.row+1..docRange.end.row]
+                console.log("CROW", xstart, crow, lines[crow])
+                unless requiredIndent.test lines[crow]
+                  docRange.end.row = crow - 1
+                  break
+
             rstart = @aceSession.documentToScreenPosition docRange.start.row, docRange.start.column
             rend = @aceSession.documentToScreenPosition docRange.end.row, docRange.end.column
             range = new Range rstart.row, rstart.column, rend.row, rend.column
-
-            xstart = startOfRow(row)
             level = Math.floor(xstart / 4)
-            indent = startOfRow(row + 1)
             color = colors[level % colors.length]
             bw = 3
             to = markerLayer.$getTop(range.start.row, config)

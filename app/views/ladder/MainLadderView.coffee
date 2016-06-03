@@ -15,14 +15,15 @@ module.exports = class MainLadderView extends RootView
   id: 'main-ladder-view'
   template: template
 
-  constructor: (options) ->
-    super options
-    @levelStatusMap = {}
-    @levelPlayCountMap = {}
-    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
-    @listenToOnce @sessions, 'sync', @onSessionsLoaded
-    @getLevelPlayCounts()
+  initialize: ->
+    @levelStatusMap = []
+    @levelPlayCountMap = []
     @campaigns = campaigns
+
+    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
+    @listenToOnce @sessions, 'sync', @onSessionsLoaded    
+
+    @getLevelPlayCounts()
 
   onSessionsLoaded: (e) ->
     for session in @sessions.models

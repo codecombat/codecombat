@@ -57,7 +57,7 @@ module.exports =
         return done(error) if error
         leads = JSON.parse(body)
         return done("Unexpected leads format: " + body) unless leads.data?
-        return done(null, config.mail.supportSchools) unless leads.data?.length > 0
+        return done("No existing Close.IO lead found for #{email}") unless leads.data?.length > 0
         lead = leads.data[0]
         uri = "https://#{apiKey}:X@app.close.io/api/v1/activity/?lead_id=#{lead.id}"
         request.get uri, (error, response, body) =>
@@ -65,8 +65,34 @@ module.exports =
           activities = JSON.parse(body)
           return done("Unexpected activities format: " + body) unless activities.data?
           for activity in activities.data when activity._type is 'Email'
-            return done(null, activity.sender) if /@codecombat\.com/ig.test(activity.sender)
-          return done(null, config.mail.supportSchools)
+            if /@codecombat\.com/ig.test(activity.sender) and not activity.sender?.indexOf(config.mail.username) >= 0
+              return done(null, activity.sender, lead.id)
+          return done(null, config.mail.supportSchools, lead.id)
     catch error
       log.error("closeIO.getSalesContactEmail Error for #{email}: #{JSON.stringify(error)}")
-      return done(error, config.mail.supportSchools)
+      return done(error)
+
+  sendMail: (fromAddress, subject, content, done) ->
+    # log.info("DEBUG: closeIO.sendMail #{fromAddress} #{subject} #{content}")
+    @getSalesContactEmail fromAddress, (err, salesContactEmail, leadID) ->
+      return done("Error getting sales contact for #{fromAddress}: #{err}") if err
+      matches = salesContactEmail.match(/^[a-zA-Z_]+ <(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})>$|(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})/i)
+      salesContactEmail = matches?[1] ? matches?[2] ? config.mail.supportSchools
+      salesContactEmail = config.mail.supportSchools if salesContactEmail?.indexOf('brian@codecombat.com') >= 0
+      postData =
+        to: [salesContactEmail]
+        sender: config.mail.username
+        subject: subject
+        body_text: content
+        lead_id: leadID
+        status: 'outbox'
+      options =
+        uri: "https://#{apiKey}:X@app.close.io/api/v1/activity/email/"
+        body: JSON.stringify(postData)
+      request.post options, (error, response, body) =>
+        return done(error) if error
+        result = JSON.parse(body);
+        if result.errors or result['field-errors']
+          errorMessage = "Close.io Send email POST error for #{fromAddress} #{JSON.stringify(result.errors)} #{JSON.stringify(result['field-errors'])}";
+          return done(errorMessage)
+        return done()
