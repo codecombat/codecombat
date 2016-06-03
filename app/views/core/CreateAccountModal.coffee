@@ -7,6 +7,7 @@ application  = require 'core/application'
 Classroom = require 'models/Classroom'
 errors = require 'core/errors'
 COPPADenyModal = require 'views/core/COPPADenyModal'
+utils = require 'core/utils'
 
 
 module.exports = class CreateAccountModal extends ModalView
@@ -28,6 +29,8 @@ module.exports = class CreateAccountModal extends ModalView
 
   initialize: (options={}) ->
     @onNameChange = _.debounce(_.bind(@checkNameExists, @), 500)
+    options.initialValues ?= {}
+    options.initialValues?.classCode ?= utils.getQueryVariable('_cc', "")
     @previousFormInputs = options.initialValues or {}
     
     # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
