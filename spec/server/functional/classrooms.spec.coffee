@@ -343,18 +343,20 @@ describe 'DELETE /db/classroom/:id/members', ->
 
 describe 'POST /db/classroom/:id/invite-members', ->
 
-  it 'takes a list of emails and sends invites', (done) ->
-    loginNewUser (user1) ->
-      user1.set('role', 'teacher')
-      user1.save (err) ->
-        data = { name: 'Classroom 6' }
-        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          expect(res.statusCode).toBe(201)
-          url = classroomsURL + '/' + body._id + '/invite-members'
-          data = { emails: ['test@test.com'] }
-          request.post { uri: url, json: data }, (err, res, body) ->
-            expect(res.statusCode).toBe(200)
-            done()
+  it 'takes a list of emails and sends invites', utils.wrap (done) ->
+    user = yield utils.initUser({role: 'teacher', name: 'Mr Professerson'})
+    yield utils.loginUser(user)
+    classroom = yield utils.makeClassroom()
+    url = classroomsURL + "/#{classroom.id}/invite-members"
+    data = { emails: ['test@test.com'] }
+    sendwithus = require '../../../server/sendwithus'
+    spyOn(sendwithus.api, 'send').and.callFake (context, cb) ->
+      expect(context.email_id).toBe(sendwithus.templates.course_invite_email)
+      expect(context.recipient.address).toBe('test@test.com')
+      expect(context.email_data.teacher_name).toBe('Mr Professerson')
+      done()
+    [res, body] = yield request.postAsync { uri: url, json: data }
+    expect(res.statusCode).toBe(200)
 
           
 describe 'GET /db/classroom/:handle/member-sessions', ->

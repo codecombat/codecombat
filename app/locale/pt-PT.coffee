@@ -187,7 +187,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     else: "senão"
     elif: "senão se"
     while: "enquanto"
-    loop: "circular"
+    loop: "repetir"
     for: "para"
     break: "parar"
     continue: "continuar"
