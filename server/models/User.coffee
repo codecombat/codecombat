@@ -273,6 +273,7 @@ UserSchema.methods.register = (done) ->
   timestamp = (new Date).getTime()
   data =
     email_id: if @isStudent() then welcome_email_student.id else welcome_email_user.id
+    version_name: if @isStudent() then welcome_email_student.version else welcome_email_user.version
     recipient:
       address: @get('email')
       name: @broadName()
