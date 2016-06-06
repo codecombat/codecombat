@@ -107,8 +107,7 @@ module.exports =
       User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) ->
         for watcher in watchers
           context =
-            email_id: sendwithus.templates.change_made_notify_watcher.id
-            version_name: sendwithus.templates.change_made_notify_watcher.version
+            email_id: sendwithus.templates.change_made_notify_watcher
             recipient:
               address: watcher.get('email')
               name: watcher.get('name')
@@ -128,7 +127,7 @@ module.exports =
     original = req.params.handle
     version = req.params.version
     if not database.isID(original)
-      throw new errors.UnprocessableEntity('Invalid MongoDB id: '+original)
+      throw new errors.UnprocessableEntity('Invalid MongoDB id: '+original) 
 
     query = { 'original': mongoose.Types.ObjectId(original) }
     if version?

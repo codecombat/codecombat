@@ -100,8 +100,7 @@ PatchHandler = class PatchHandler extends Handler
   sendPatchCreatedEmail: (patchCreator, watcher, patch, target, docLink) ->
 #    return if watcher._id is patchCreator._id
     context =
-      email_id: sendwithus.templates.patch_created.id
-      version_name: sendwithus.templates.patch_created.version
+      email_id: sendwithus.templates.patch_created
       recipient:
         address: watcher.get('email')
         name: watcher.get('name')

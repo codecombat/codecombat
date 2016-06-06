@@ -457,11 +457,9 @@ UserHandler = class UserHandler extends Handler
 
     # Type-specific email data
     if type is 'subscribe modal parent'
-      emailParams['email_id'] = sendwithus.templates.parent_subscribe_email.id
-      emailParams['version_name'] = sendwithus.templates.parent_subscribe_email.version
+      emailParams['email_id'] = sendwithus.templates.parent_subscribe_email
     else if type is 'share progress modal parent'
-      emailParams['email_id'] = sendwithus.templates.share_progress_email.id
-      emailParams['version_name'] = sendwithus.templates.share_progress_email.version
+      emailParams['email_id'] = sendwithus.templates.share_progress_email
 
     sendMail emailParams
 

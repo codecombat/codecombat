@@ -91,8 +91,7 @@ emailUserInitialRecruiting = (user, callback) ->
   team = user.session.levelInfo.team
   team = team.substr(0, team.length - 1)
   context =
-    email_id: sendwithus.templates.recruiting_email.id
-    version_name: sendwithus.templates.recruiting_email.version
+    email_id: sendwithus.templates.recruiting_email
     recipient:
       address: if DEBUGGING then 'nick@codecombat.com' else user.email
       name: name
@@ -135,8 +134,7 @@ emailUserTournamentResults = (winner, callback) ->
   name = winner.name
   team = winner.team.substr(0, winner.team.length - 1)
   context =
-    email_id: sendwithus.templates.greed_tournament_rank.id
-    version_name: sendwithus.templates.greed_tournament_rank.version
+    email_id: sendwithus.templates.greed_tournament_rank
     recipient:
       address: if DEBUGGING then 'nick@codecombat.com' else winner.email
       name: name

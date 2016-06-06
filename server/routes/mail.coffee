@@ -592,8 +592,7 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
     sendEmail = (defeatContext, victoryContext, levelVersionsContext) ->
       # TODO: do something with the preferredLanguage?
       context =
-        email_id: sendwithus.templates.ladder_update_email.id
-        version_name: sendwithus.templates.ladder_update_email.version
+        email_id: sendwithus.templates.ladder_update_email
         recipient:
           address: if DEBUGGING then 'nick@codecombat.com' else user.get('email')
           name: name
@@ -722,8 +721,7 @@ sendNextStepsEmail = (user, now, daysAgo) ->
       # Used to use these categories to customize the email; not doing it right now. TODO: customize it again in Sendwithus.
       # TODO: do something with the preferredLanguage?
       context =
-        email_id: sendwithus.templates.next_steps_email.id
-        version_name: sendwithus.templates.next_steps_email.version
+        email_id: sendwithus.templates.next_steps_email
         recipient:
           address: if DEBUGGING then 'nick@codecombat.com' else user.get('email')
           name: name

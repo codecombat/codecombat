@@ -52,7 +52,7 @@ module.exports =
       yield req.logInAsync(user)
       
     if req.query.callback
-      res.jsonp(req.user.toObject({req, publicOnly: true}))
+      res.jsonp(req.user.toObject({req, publicOnly: true})) 
     else
       res.send(req.user.toObject({req, publicOnly: false}))
     res.end()
@@ -132,8 +132,7 @@ module.exports =
     user.set('passwordReset', utils.getCodeCamel())
     yield user.save()
     context =
-      email_id: sendwithus.templates.password_reset.id
-      version_name: sendwithus.templates.password_reset.version
+      email_id: sendwithus.templates.password_reset
       recipient:
         address: req.body.email
       email_data:
