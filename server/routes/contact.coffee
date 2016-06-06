@@ -17,7 +17,7 @@ module.exports.setup = (app) ->
         req.user.update({$set: { enrollmentRequestSent: true }}).exec(_.noop) if req.body.recipientID is 'schools@codecombat.com'
         closeIO.sendMail fromAddress, subject, content, (err) ->
           log.error "Error sending contact form email via Close.io: #{err.message or err}" if err
-      else
+      else 
         createSendWithUsContext req, fromAddress, subject, content, (context) ->
           sendwithus.api.send context, (err, result) ->
             log.error "Error sending contact form email via sendwithus: #{err.message or err}" if err
@@ -61,8 +61,7 @@ createSendWithUsContext = (req, fromAddress, subject, content, done) ->
     else config.mail.supportPrimary
 
   context =
-    email_id: sendwithus.templates.plain_text_email.id
-    version_name: sendwithus.templates.plain_text_email.version
+    email_id: sendwithus.templates.plain_text_email
     recipient:
       address: toAddress
     sender:

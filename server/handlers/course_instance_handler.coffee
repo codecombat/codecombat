@@ -187,8 +187,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
           return @sendForbiddenError(res) unless prepaid.get('maxRedeemers') > prepaid.get('redeemers').length
           for email in req.body.emails
             context =
-              email_id: sendwithus.templates.course_invite_email.id
-              version: sendwithus.templates.course_invite_email.version
+              email_id: sendwithus.templates.course_invite_email
               recipient:
                 address: email
               subject: course.get('name')

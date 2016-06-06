@@ -85,8 +85,7 @@ module.exports =
     if not user
       throw new errors.NotFound('User not found')
     context =
-      email_id: sendwithus.templates.verify_email.id
-      version_name: sendwithus.templates.verify_email.version
+      email_id: sendwithus.templates.verify_email
       recipient:
         address: user.get('email')
         name: user.broadName()
