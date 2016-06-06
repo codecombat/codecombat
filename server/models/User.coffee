@@ -272,7 +272,7 @@ UserSchema.methods.register = (done) ->
   { welcome_email_student, welcome_email_user } = sendwithus.templates
   timestamp = (new Date).getTime()
   data =
-    email_id: if @isStudent() then welcome_email_student else welcome_email_user
+    email_id: if @isStudent() then welcome_email_student.id else welcome_email_user.id
     recipient:
       address: @get('email')
       name: @broadName()
