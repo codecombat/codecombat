@@ -75,24 +75,29 @@ describe 'TeacherClassView', ->
     # it "shows the classroom's join code"
     
     describe 'the Students tab', ->
-      beforeEach ->
+      beforeEach (done) ->
         @view.state.set('activeTab', '#students-tab')
+        _.defer(done)
 
       # it 'shows all of the students'
       # it 'sorts correctly by Name'
       # it 'sorts correctly by Progress'
       
       describe 'bulk-assign controls', ->
-        it 'shows alert when assigning course 2 to unenrolled students', ->
+        it 'shows alert when assigning course 2 to unenrolled students', (done) ->
           expect(@view.$('.cant-assign-to-unenrolled').hasClass('visible')).toBe(false)
           @view.$('.student-row .checkbox-flat').click()
           @view.$('.assign-to-selected-students').click()
-          expect(@view.$('.cant-assign-to-unenrolled').hasClass('visible')).toBe(true)
+          _.defer =>
+            expect(@view.$('.cant-assign-to-unenrolled').hasClass('visible')).toBe(true)
+            done()
           
-        it 'shows alert when assigning but no students are selected', ->
+        it 'shows alert when assigning but no students are selected', (done) ->
           expect(@view.$('.no-students-selected').hasClass('visible')).toBe(false)
           @view.$('.assign-to-selected-students').click()
-          expect(@view.$('.no-students-selected').hasClass('visible')).toBe(true)
+          _.defer =>
+            expect(@view.$('.no-students-selected').hasClass('visible')).toBe(true)
+            done()
     
     # describe 'the Course Progress tab', ->
     #   it 'shows the correct Course Overview progress'
