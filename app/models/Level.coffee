@@ -145,6 +145,11 @@ module.exports = class Level extends CocoModel
       for original, placeholderComponent of placeholders when not placeholdersUsed[original]
         levelThang.components.push placeholderComponent
 
+    # Load the user's chosen hero AFTER getting stats from default char
+    if /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['course', 'course-ladder']
+      heroThangType = me.get('heroConfig')?.thangType
+      levelThang.thangType = heroThangType if heroThangType
+
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]
     visit = (system) ->

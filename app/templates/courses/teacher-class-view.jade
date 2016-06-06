@@ -321,7 +321,7 @@ mixin studentLevelsRow(student)
       - var levels = view.classroom.getLevels({courseID: course.id, withoutLadderLevels: true}).models
       each level, index in levels
         - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
-        +studentLevelProgressDot(progress, level, index+1)
+        +studentLevelProgressDot(progress, level, index+1, session)
   
 mixin studentCourseProgressDot(progress, levelsTotal, level, label)
   //- TODO: Refactor with TeacherClassesView jade
@@ -342,7 +342,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = level.get('name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber })
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment })
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
     +progressDotLabel(levelNumber)
 

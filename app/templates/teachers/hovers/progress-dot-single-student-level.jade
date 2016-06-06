@@ -1,3 +1,10 @@
+mixin timePlayed()
+  if session.get('playtime') > 0
+    .small-details.nowrap
+      span.spr(data-i18n='teacher.time_played')
+        | Played for 
+      span= moment.duration({ seconds: session.get('playtime') }).humanize()
+
 if completed
   .small-details.nowrap
     span= levelNumber
@@ -7,6 +14,7 @@ if completed
     span.spr(data-i18n='teacher.completed')
       | Completed
     span= new Date(dateFirstCompleted).toLocaleString()
+    +timePlayed
   //- .small-details
   //-   i(data-i18n='teacher.click_to_view_solution')
   //-     | click to view solution
@@ -19,6 +27,7 @@ else if started
     span.spr(data-i18n='teacher.last_played')
       | Last played
     span= new Date(lastPlayed).toLocaleString()
+    +timePlayed
   //- .small-details
   //-   i(data-i18n='teacher.click_to_view_progress')
   //-     | click to view progress
