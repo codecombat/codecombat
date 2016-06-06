@@ -468,7 +468,8 @@ module.exports = class Handler
 
   notifyWatcherOfChange: (editor, watcher, changedDocument, editPath) ->
     context =
-      email_id: sendwithus.templates.change_made_notify_watcher
+      email_id: sendwithus.templates.change_made_notify_watcher.id
+      version_name: sendwithus.templates.change_made_notify_watcher.version
       recipient:
         address: watcher.get('email')
         name: watcher.get('name')

@@ -71,6 +71,8 @@ module.exports = class TeacherClassView extends RootView
     @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
     @allStudentsLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-all-students-single-level'
     
+    @debouncedRender = _.debounce @render
+    
     @state = new State(@getInitialState())
     @updateHash @state.get('activeTab') # TODO: Don't push to URL history (maybe don't use url fragment for default tab)
     
@@ -120,11 +122,6 @@ module.exports = class TeacherClassView extends RootView
     @attachMediatorEvents()
 
   attachMediatorEvents: () ->
-    @listenTo @state, 'sync change', ->
-      if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
-        @renderSelectors('#enrollment-status-table')
-      else
-        @render()
     # Model/Collection events
     @listenTo @classroom, 'sync change update', ->
       classCode = @classroom.get('codeCamel') or @classroom.get('code')
@@ -137,7 +134,6 @@ module.exports = class TeacherClassView extends RootView
       @state.set selectedCourse: @courses.first() unless @state.get('selectedCourse')
     @listenTo @courseInstances, 'sync change update', ->
       @setCourseMembers()
-      @render() # TODO: use state
     @listenTo @courseInstances, 'add-members', ->
       noty text: $.i18n.t('teacher.assigned'), layout: 'center', type: 'information', killer: true, timeout: 5000
     @listenTo @students, 'sync change update add remove reset', ->
@@ -149,7 +145,6 @@ module.exports = class TeacherClassView extends RootView
       @state.set students: @students
     @listenTo @students, 'sort', ->
       @state.set students: @students
-      @render()
     @listenTo @, 'course-select:change', ({ selectedCourse }) ->
       @state.set selectedCourse: selectedCourse
 
@@ -162,6 +157,15 @@ module.exports = class TeacherClassView extends RootView
   onLoaded: ->
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
+    
+    # render callback setup
+    @listenTo @courseInstances, 'sync change update', @debouncedRender
+    @listenTo @state, 'sync change', ->
+      if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
+        @renderSelectors('#enrollment-status-table')
+      else
+        @debouncedRender()
+    @listenTo @students, 'sort', @debouncedRender
     super()
   
   afterRender: ->
