@@ -124,7 +124,7 @@ module.exports = class Classroom extends CocoModel
 
   inviteMembers: (emails, options={}) ->
     options.data ?= {}
-    options.data.email = emails
+    options.data.emails = emails
     options.url = @url() + '/invite-members'
     options.type = 'POST'
     @fetch(options)
