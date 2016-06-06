@@ -235,7 +235,8 @@ module.exports =
     for email in req.body.emails
       joinCode = (classroom.get('codeCamel') or classroom.get('code'))
       context =
-        email_id: sendwithus.templates.course_invite_email
+        email_id: sendwithus.templates.course_invite_email.id
+        version_name: sendwithus.templates.course_invite_email.version
         recipient:
           address: email
         email_data:
