@@ -127,7 +127,7 @@ describe 'POST /db/article', ->
     @admin = yield utils.initAdmin({})
     yield utils.loginUser(@admin)
     [@res, @body] = yield request.postAsync {
-      uri: getURL('/db/article'), json: articleData 
+      uri: getURL('/db/article'), json: articleData
     }
     done()
     
@@ -163,8 +163,8 @@ describe 'POST /db/article', ->
   
     
   it 'returns 422 when properties do not pass validation', utils.wrap (done) ->
-    [res, body] = yield request.postAsync { 
-      uri: getURL('/db/article'), json: { i18nCoverage: 9001 } 
+    [res, body] = yield request.postAsync {
+      uri: getURL('/db/article'), json: { i18nCoverage: 9001 }
     }
     expect(res.statusCode).toBe(422)
     expect(body.validationErrors).toBeDefined()
@@ -461,7 +461,7 @@ describe 'POST /db/article/:handle/new-version', ->
   it 'notifies watchers of changes', utils.wrap (done) ->
     sendwithus = require '../../../server/sendwithus'
     spyOn(sendwithus.api, 'send').and.callFake (context, cb) ->
-      expect(context.email_id).toBe(sendwithus.templates.change_made_notify_watcher)
+      expect(context.email_id).toBe(sendwithus.templates.change_made_notify_watcher.id)
       expect(context.recipient.address).toBe('test@gmail.com')
       done()
     user = yield User({email: 'test@gmail.com', name: 'a user'}).save()

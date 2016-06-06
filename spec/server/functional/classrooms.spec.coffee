@@ -375,7 +375,7 @@ describe 'POST /db/classroom/:id/invite-members', ->
     data = { emails: ['test@test.com'] }
     sendwithus = require '../../../server/sendwithus'
     spyOn(sendwithus.api, 'send').and.callFake (context, cb) ->
-      expect(context.email_id).toBe(sendwithus.templates.course_invite_email)
+      expect(context.email_id).toBe(sendwithus.templates.course_invite_email.id)
       expect(context.recipient.address).toBe('test@test.com')
       expect(context.email_data.teacher_name).toBe('Mr Professerson')
       done()
