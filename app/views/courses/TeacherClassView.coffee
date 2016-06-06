@@ -71,9 +71,7 @@ module.exports = class TeacherClassView extends RootView
     @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
     @allStudentsLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-all-students-single-level'
     
-    @debouncedRender = _.debounce ->
-      console.log 'we debounced', @
-      @render()
+    @debouncedRender = _.debounce @render
     
     @state = new State(@getInitialState())
     @updateHash @state.get('activeTab') # TODO: Don't push to URL history (maybe don't use url fragment for default tab)
@@ -124,14 +122,6 @@ module.exports = class TeacherClassView extends RootView
     @attachMediatorEvents()
 
   attachMediatorEvents: () ->
-    @listenTo @state, 'sync change', ->
-      console.log '...'
-      if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
-        console.log 'render selectors...'
-#        @renderSelectors('#enrollment-status-table')
-      else
-        console.log 'render...'
-#        @render()
     # Model/Collection events
     @listenTo @classroom, 'sync change update', ->
       classCode = @classroom.get('codeCamel') or @classroom.get('code')
@@ -170,9 +160,7 @@ module.exports = class TeacherClassView extends RootView
     
     # render callback setup
     @listenTo @courseInstances, 'sync change update', @debouncedRender
-    console.log 'attaching'
     @listenTo @state, 'sync change', ->
-      console.log 'we good'
       if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
         @renderSelectors('#enrollment-status-table')
       else

@@ -368,7 +368,6 @@ mixin copyCodes
 
 mixin bulkAssignControls
   .bulk-assign-controls.form-inline
-    - console.log('state errors', state.get('errors'))
     .no-students-selected.small-details(class=state.get('errors').assigningToNobody ? 'visible' : '')
       span(data-i18n='teacher.no_students_selected')
     .cant-assign-to-unenrolled.small-details(class=state.get('errors').assigningToUnenrolled ? 'visible' : '')
@@ -379,7 +378,6 @@ mixin bulkAssignControls
     select.bulk-course-select.form-control
       each trimCourse in _.rest(view.classroom.get('courses'))
         - var course = view.courses.get(trimCourse._id)
-        - console.log('???', course)
         option(value=course.id selected=(course===state.get('selectedCourse')))
           = course.get('name')
     button.btn.btn-primary-alt.assign-to-selected-students
