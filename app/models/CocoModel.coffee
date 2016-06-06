@@ -368,6 +368,7 @@ class CocoModel extends Backbone.Model
     return if _.isString @url then @url else @url()
 
   @pollAchievements: ->
+    return if application.testing
 
     CocoCollection = require 'collections/CocoCollection'
     EarnedAchievement = require 'models/EarnedAchievement'

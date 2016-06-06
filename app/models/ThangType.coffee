@@ -239,6 +239,25 @@ module.exports = class ThangType extends CocoModel
     portraitOnly = !!options.portraitOnly
     "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs} - #{portraitOnly}"
 
+  getHeroShortName: ->
+    map = {
+      "Assassin": "Ritic"
+      "Captain": "Anya"
+      "Forest Archer": "Naria"
+      "Goliath": "Okar"
+      "Guardian": "Illia"
+      "Knight": "Tharin"
+      "Librarian": "Hushbaum"
+      "Necromancer": "Nalfar"
+      "Ninja": "Amara"
+      "Potion Master": "Omarn"
+      "Raider": "Arryn"
+      "Samurai": "Hattori"
+      "Sorcerer": "Pender"
+      "Trapper": "Senick"
+    }
+    map[@get('name')]
+
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
     return null unless src

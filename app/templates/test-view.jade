@@ -11,6 +11,20 @@ ol.breadcrumb
 .container-fluid
   .row
     .col-md-8
+      #failure-reports
+        for report in view.failureReports
+          .alert.alert-danger.alert-report
+            ul.suite-list
+              for description in report.suiteDescriptions
+                li= description
+              li
+                strong ... #{report.testDescription}
+            hr
+            ol.error-list
+              for message in report.failMessages
+                li
+                  strong= message
+      
       #test-wrapper.well
         #testing-area
 

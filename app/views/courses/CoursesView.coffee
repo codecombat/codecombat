@@ -4,6 +4,7 @@ template = require 'templates/courses/courses-view'
 AuthModal = require 'views/core/AuthModal'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
+HeroSelectModal = require 'views/courses/HeroSelectModal'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
 JoinClassModal = require 'views/courses/JoinClassModal'
 CourseInstance = require 'models/CourseInstance'
@@ -13,6 +14,7 @@ Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 LevelSession = require 'models/LevelSession'
 Campaign = require 'models/Campaign'
+ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 
 # TODO: Test everything
@@ -24,6 +26,7 @@ module.exports = class CoursesView extends RootView
   events:
     'click #log-in-btn': 'onClickLogInButton'
     'click #start-new-game-btn': 'openSignUpModal'
+    'click .change-hero-btn': 'onClickChangeHeroButton'
     'click #join-class-btn': 'onClickJoinClassButton'
     'submit #join-class-form': 'onSubmitJoinClassForm'
     'click #change-language-link': 'onClickChangeLanguageLink'
@@ -42,6 +45,16 @@ module.exports = class CoursesView extends RootView
     @supermodel.trackCollection(@ownedClassrooms)
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses)
+
+    # TODO: Trim this section for only what's necessary
+    @hero = new ThangType
+    defaultHeroOriginal = ThangType.heroes.captain
+    heroOriginal = me.get('heroConfig')?.thangType or defaultHeroOriginal
+    @hero.url = "/db/thang.type/#{heroOriginal}/version"
+    # @hero.setProjection ['name','slug','soundTriggers','featureImages','gems','heroClass','description','components','extendedName','unlockLevelName','i18n']
+    @supermodel.loadModel(@hero, 'hero')
+    @listenTo @hero, 'all', ->
+      @render()
 
   onCourseInstancesLoaded: ->
     map = {}
@@ -75,6 +88,16 @@ module.exports = class CoursesView extends RootView
     modal = new CreateAccountModal({ initialValues: { classCode: utils.getQueryVariable('_cc', "") } })
     @openModalView(modal)
     application.tracker?.trackEvent 'Started Student Signup', category: 'Courses'
+
+  onClickChangeHeroButton: ->
+    modal = new HeroSelectModal({ currentHeroID: @hero.id })
+    @openModalView(modal)
+    @listenTo modal, 'hero-select:success', (newHero) =>
+      # @hero.url = "/db/thang.type/#{me.get('heroConfig').thangType}/version"
+      # @hero.fetch()
+      @hero.set(newHero.attributes)
+    @listenTo modal, 'hide', ->
+      @stopListening modal
 
   onSubmitJoinClassForm: (e) ->
     e.preventDefault()
@@ -136,7 +159,7 @@ module.exports = class CoursesView extends RootView
     classroomCourseInstances.fetch({ data: {classroomID: newClassroom.id} })
     @listenToOnce classroomCourseInstances, 'sync', ->
       # TODO: Smoother system for joining a classroom and course instances, without requiring page reload,
-      # and showing which class was just joined. 
+      # and showing which class was just joined.
       document.location.search = '' # Using document.location.reload() causes an infinite loop of reloading
     
   onClickChangeLanguageLink: ->

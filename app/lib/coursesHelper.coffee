@@ -156,6 +156,8 @@ module.exports =
             courseProgress[levelID][userID] = { completed: true, started: false } # These don't matter, will always be set
             session = _.find classroom.sessions.models, (session) ->
               session.get('creator') is userID and session.get('level').original is levelID
+
+            courseProgress[levelID][userID].session = session
             
             if not session # haven't gotten to this level yet, but might have completed others before
               courseProgress.started ||= false #no-op

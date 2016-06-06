@@ -1,0 +1,27 @@
+extends /templates/core/modal-base-flat
+
+block modal-header-content
+  .text-center
+    h3(data-i18n="courses.select_your_hero")
+    h4(data-i18n="courses.select_your_hero_description")
+
+block modal-body-content
+  .hero-list
+    if view.heroes.loaded
+      each hero in view.heroes.models
+        if hero.get('heroClass') === 'Warrior'
+          +heroOption(hero)
+  
+mixin heroOption(hero)
+  - var heroID = hero.id
+  - var selectedState = (state.get('selectedHeroID') === heroID ? 'selected' : (state.get('currentHeroID') === heroID ? 'current' : ''))
+  .hero-option(data-hero-id=heroID class=selectedState)
+    .hero-avatar
+      img(src=hero.getPortraitURL())
+    .text-h5.hero-name
+      span= hero.getHeroShortName()
+
+block modal-footer-content
+  .select-hero-btn.btn.btn-lg.btn-forest
+    span(data-i18n="courses.select_this_hero")
+  
