@@ -30,3 +30,14 @@ before_script:
 script:
   - "./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters progress"
   - "npm run jasmine"
+
+notifications:
+  slack:
+    rooms:
+      - secure: dv1zozcLo/gGb1i1OeKKLQgjLagW3jqhkEIiZrVbubfRMrrHouZwtlg1HDVc2GOzP1yCaUOYOLBqT3lTE9CKt4pE8k3p0gJ77j1rHxTyeYny2ETq4w5sXak8ju8M3EDnj+Au2NWWrGiD0YkIUnF5vxzKUc1pkS+vDSWR2ORkOrU=
+    template:
+      - Tests failed <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} <!here>
+    on_success: never
+    on_failure: always
+    on_start: never
+    on_pull_requests: false
