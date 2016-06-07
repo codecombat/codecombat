@@ -111,3 +111,5 @@ module.exports.setup = (app) ->
   app.get('/db/trial.request/-/users', mw.auth.checkHasPermission(['admin']), mw.trialRequests.getUsers)
 
   app.get('/healthcheck', mw.healthcheck)
+  
+  app.post('/send-parent-signup-instructions', mw.coppaDeny.sendParentSignupInstructions)

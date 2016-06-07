@@ -22,6 +22,7 @@ module.exports = class AuthModal extends ModalView
     
   initialize: (options={}) ->
     @previousFormInputs = options.initialValues or {}
+    @previousFormInputs.emailOrUsername ?= @previousFormInputs.email or @previousFormInputs.username
 
     # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
     application.gplusHandler.loadAPI({ success: => _.defer => @$('#gplus-login-btn').attr('disabled', false) })
@@ -96,7 +97,7 @@ module.exports = class AuthModal extends ModalView
     btn = @$('#gplus-login-btn')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_gplus'))
     btn.attr('disabled', false)
-    errors.showNotyNetworkError(arguments...) 
+    errors.showNotyNetworkError(arguments...)
     
     
   # Facebook

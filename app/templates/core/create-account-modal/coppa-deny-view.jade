@@ -1,0 +1,31 @@
+form.modal-body.coppa-deny
+  .modal-body-content
+    .parent-email-input-group.form-group
+      label.control-label.text-h4(for="parent-email-input")
+        span(data-i18n="TODO")
+          | Enter your parent's email address:
+      input#parent-email-input(type="email" name="parentEmail" value=state.get('parentEmail'))
+    
+    .render
+      if state.get('error')
+        p.small.error
+          span(data-i18n="TODO")
+            | Something went wrong when trying to send the email. Check the email address and try again.
+
+    p.small.parent-email-blurb.render
+      span
+        != translate('signup.parent_email_blurb').replace('{{email_link}}', '<a href="mailto:team@codecombat.com">team@codecombat.com</a>')
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons.render
+    button.send-parent-email-button.btn.btn-lg.btn-navy(type='submit', disabled=state.get('parentEmailSent') || state.get('parentEmailSending'))
+      if state.get('parentEmailSent')
+        span(data-i18n="TODO")
+          | Sent
+      else
+        span(data-i18n="TODO")
+          | Send
+
+    button.back-to-segment-check.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="TODO")
+        | Back

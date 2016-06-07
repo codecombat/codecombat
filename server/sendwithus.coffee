@@ -11,12 +11,13 @@ module.exports.api =
   send: (context, cb) ->
     log.debug('Tried to send email with context: ', JSON.stringify(context, null, '  '))
     setTimeout(cb, 10)
-    
+
 if swuAPIKey
   module.exports.api = new sendwithusAPI swuAPIKey, debug
-  
+
 module.exports.templates =
   parent_subscribe_email: 'tem_2APERafogvwKhmcnouigud'
+  coppa_deny_parent_signup: 'tem_d5fCpXS8V7jgff2sYKCinX'
   share_progress_email: 'tem_VHE3ihhGmVa3727qds9zY8'
   welcome_email_user: 'tem_z7Xvj3mtWYk6ec6aW7RwFk'
   welcome_email_student: 'tem_4WYPZNLzs5wawMF9qUJXUH'
