@@ -60,7 +60,9 @@ require("locale/et")
 module.exports = class DiplomatView extends ContributeClassView
   id: 'diplomat-view'
   template: template
-  contributorClassName: 'diplomat'
+
+  initialize: ->
+    @contributorClassName = 'diplomat'
 
   calculateSpokenLanguageStats: ->
     @locale ?= require 'locale/locale'
