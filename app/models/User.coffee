@@ -165,21 +165,6 @@ module.exports = class User extends CocoModel
     application.tracker.identify campaignAdsGroup: @campaignAdsGroup unless me.isAdmin()
     @campaignAdsGroup
 
-  getHomepageGroup: ->
-    # Only testing on en-US so localization issues are not a factor
-    return 'home-legacy' unless _.string.startsWith(me.get('preferredLanguage', true) or 'en-US', 'en')
-    return @homepageGroup if @homepageGroup
-    group = parseInt(util.getQueryVariable('variation'))
-    group ?= me.get('testGroupNumber') % 5
-    @homepageGroup = switch group
-      when 0 then 'home-legacy'
-      when 1 then 'home-teachers'
-      when 2 then 'home-legacy-left'
-      when 3 then 'home-dropdowns'
-      when 4 then 'home-play-for-free'
-    application.tracker.identify homepageGroup: @homepageGroup unless me.isAdmin()
-    return @homepageGroup
-
   # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
   # ... and stopped working well until another update on March 10, so maybe March 11+...
   # ... and another round, and then basically it just isn't completing well, so we pause the test until we can fix it.
