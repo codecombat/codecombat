@@ -1,0 +1,67 @@
+form#basic-info-form.modal-body.basic-info
+  .modal-body-content
+    .auth-network-logins.text-center
+      h4
+        span(data-i18n="signup.connect_with")
+      a#facebook-signup-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=!view.sharedState.get('facebookEnabled'), data-sso-used="facebook")
+        img.network-logo(src="/images/pages/modal/auth/facebook_sso_button.png", draggable="false", width="175", height="40")
+        span.sign-in-blurb(data-i18n="login.sign_in_with_facebook")
+      a#gplus-signup-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=!view.sharedState.get('gplusEnabled'), data-sso-used="gplus")
+        img.network-logo(src="/images/pages/modal/auth/google_plus_sso_button.png", draggable="false", width="175", height="40")
+        span.sign-in-blurb(data-i18n="login.sign_in_with_gplus")
+        .gplus-login-wrapper
+          .gplus-login-button
+    
+    .hr-text
+      hr
+      span(data-i18n="TODO")
+        | or
+                  
+    div
+      if ['student', 'teacher'].indexOf(view.sharedState.get('path')) !== -1
+        .row.full-name
+          .form-group
+            label.control-label(for="first-name-input")
+              span(data-i18n="TODO")
+                | First name:
+            input#first-name-input(name="firstName")
+          .last-initial.form-group
+            label.control-label(for="last-name-input")
+              span(data-i18n="TODO")
+                | Last initial:
+            input#last-name-input(name="lastName" maxlength="1")
+      .row
+        .form-group
+          label.control-label(for="email-input")
+            span(data-i18n="TODO")
+              | Email address:
+          input#email-input(name="email" type="email")
+      .row
+        //- This form group needs a parent so its errors can be cleared individually
+        .form-group
+          label.control-label(for="username-input")
+            span(data-i18n="TODO")
+              | Username:
+          input#username-input(name="name")
+      .row
+        .form-group
+          label.control-label(for="password-input")
+            span(data-i18n="TODO")
+              | Password:
+          input#password-input(name="password" type="password")
+      .row
+        .form-group.checkbox.subscribe
+          label.control-label(for="subscribe-input")
+            input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
+            span.small(data-i18n="TODO")
+              | Receive announcements about CodeCombat
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    button.next-button.btn.btn-lg.btn-navy(type='submit')
+      span(data-i18n="TODO")
+        | Create Account
+
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="TODO")
+        | Back

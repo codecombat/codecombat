@@ -264,12 +264,7 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
 
 UserSchema.methods.register = (done) ->
   @set('anonymous', false)
-  if (name = @get 'name')? and name isnt ''
-    unconflictName name, (err, uniqueName) =>
-      return done err if err
-      @set 'name', uniqueName
-      done()
-  else done()
+  done()
   { welcome_email_student, welcome_email_user } = sendwithus.templates
   timestamp = (new Date).getTime()
   data =

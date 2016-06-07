@@ -103,7 +103,7 @@ UserHandler = class UserHandler extends Handler
             return callback(res: 'Facebook user login error.', code: 500) if err
             return callback(null, req, otherUser)
           )
-        r = {message: 'is already used by another account', property: 'email'}
+        r = {message: 'is already used by another account', property: 'email', code: 409}
         return callback({res: r, code: 409}) if otherUser
         user.set('email', req.body.email)
         callback(null, req, user)
@@ -118,7 +118,7 @@ UserHandler = class UserHandler extends Handler
       User.findOne({nameLower: nameLower, anonymous: false}).exec (err, otherUser) ->
         log.error "Database error setting user name: #{err}" if err
         return callback(res: 'Database error.', code: 500) if err
-        r = {message: 'is already used by another account', property: 'name'}
+        r = {message: 'is already used by another account', property: 'name', code: 409}
         log.info 'Another user exists' if otherUser
         return callback({res: r, code: 409}) if otherUser
         user.set('name', req.body.name)
