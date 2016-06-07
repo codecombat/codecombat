@@ -35,7 +35,6 @@ module.exports = class NewHomeView extends RootView
   initialize: (options) ->
     @courses = new CocoCollection [], {url: "/db/course", model: Course}
     @supermodel.loadCollection(@courses, 'courses')
-    @variation ?= me.getHomepageGroup()
 
     window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage'
     if me.isTeacher()

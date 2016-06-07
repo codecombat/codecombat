@@ -53,7 +53,7 @@
     "algoliasearch": "^3.13.1",
     "algolia-autocomplete.js": "^0.17.0",
     "algolia-autocomplete-no-conflict": "1.0.0",
-    "bluebird": "^3.4.0"
+    "promise-polyfill": "^5.2.1"
   },
   "overrides": {
     "algolia-autocomplete.js": {
