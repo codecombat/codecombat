@@ -1,6 +1,10 @@
 extends /templates/core/modal-base-flat
 
-block modal-header-content
+block modal-header
+  .modal-header(class=state.get('path'))
+    +modal-header-content
+
+mixin modal-header-content
   h3
     case state.get('path')
       when 'student'
@@ -23,8 +27,18 @@ block modal-body
         +chooseAccountType
       when 'segment-check'
         +segmentCheck
+      when 'basic-info'
+        +basicInfo
+      when 'extras'
+        +extras
+      when 'confirmation'
+        +confirmation
 
-block modal-footer-content
+block modal-footer
+  .modal-footer(class=state.get('path'))
+    +modal-footer-content
+
+mixin modal-footer-content
   .modal-footer-content
     .small-details
       span.spr(data-i18n="TODO")
@@ -106,14 +120,33 @@ mixin segmentCheck
     when 'student'
       span(data-i18n="TODO")
         | Enter your class code:
+      input.class-code-input
+      p
+        span(data-i18n="TODO")
+          | Ask your teacher for your class code.
+      p
+        span.spr(data-i18n="TODO")
+          | Don't have a class code? Create an 
+        a(href="TODO")
+          span(data-i18n="TODO")
+            | Individual Account
+        span.spl(data-i18n="TODO")
+          |  instead.
+        
     when 'teacher'
       // TODO
     when 'individual'
       span(data-i18n="TODO")
         | Enter your birthdate:
+      
     default
       span
         | Something went wrong :(
+          
+mixin basicInfo
+  
+mixin extras
+mixin confirmation
   
 
 //- .modal-dialog
