@@ -165,7 +165,7 @@ module.exports = class Spell
     writable = @permissions.readwrite.length > 0
     skipProtectAPI = @skipProtectAPI or not writable
     problemContext = @createProblemContext thang
-    includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']) and not skipProtectAPI
+    includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']) and not skipProtectAPI
     aetherOptions = createAetherOptions
       functionName: @name
       codeLanguage: @language

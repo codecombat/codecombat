@@ -84,7 +84,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
   onClick: (e) =>
-    if true or @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
+    if true or @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
       # Jiggle instead of pin for hero levels
       # Actually, do it all the time, because we recently busted the pin CSS. TODO: restore pinning
       jigglyPopover = $('.spell-palette-popover.popover')
