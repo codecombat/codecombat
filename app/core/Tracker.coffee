@@ -95,9 +95,13 @@ module.exports = class Tracker extends CocoClass
       analytics.identify me.id, traits
 
   trackPageView: (includeIntegrations=[]) ->
+    includeMixpanel = (name) ->
+      mixpanelIncludes = ['', 'schools', 'play', 'play/level/dungeons-of-kithgard']
+      name in mixpanelIncludes or /courses|students|teachers/ig.test(name)
+
     name = Backbone.history.getFragment()
     url = "/#{name}"
-    console.log "Would track analytics pageview: #{url}" if debugAnalytics
+    console.log "Would track analytics pageview: #{url} Mixpanel=#{includeMixpanel(name)}" if debugAnalytics
     @trackEventInternal 'Pageview', url: name unless me?.isAdmin() and @isProduction
     return unless @isProduction and not me.isAdmin()
 
@@ -106,8 +110,7 @@ module.exports = class Tracker extends CocoClass
     ga? 'send', 'pageview', url
 
     # Mixpanel
-    mixpanelIncludes = ['', 'courses', 'courses/purchase', 'courses/teachers', 'courses/students', 'schools', 'teachers', 'teachers/freetrial', 'teachers/quote', 'play', 'play/level/dungeons-of-kithgard']
-    mixpanel.track('page viewed', 'page name' : name, url : url) if name in mixpanelIncludes
+    mixpanel.track('page viewed', 'page name' : name, url : url) if includeMixpanel(name)
 
     if me.isTeacher() and @segmentLoaded
       options = {}

@@ -86,10 +86,10 @@ mixin course-info(course)
       if view.guideLinks[course.id]
         //- a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isTeacher() ? '': 'disabled'))
         //-   span(data-i18n="courses.print_guide")
-        a.btn.btn-primary(href=view.guideLinks[course.id].python class=(me.isTeacher() ? '': 'disabled'))
+        a.guide-btn.btn.btn-primary(href=view.guideLinks[course.id].python data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; Python
-        a.btn.btn-primary(href=view.guideLinks[course.id].javascript class=(me.isTeacher() ? '': 'disabled'))
+        a.guide-btn.btn.btn-primary(href=view.guideLinks[course.id].javascript data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; JavaScript
       else

@@ -74,6 +74,10 @@ module.exports = class CourseDetailsView extends RootView
       ))
     ))
 
+  initialize: (options) ->
+    window.tracker?.trackEvent 'Students Class Course Loaded', category: 'Students', ['Mixpanel']
+    super(options)
+
   buildSessionStats: ->
     return if @destroyed
 
@@ -125,6 +129,7 @@ module.exports = class CourseDetailsView extends RootView
     levelSlug = $(e.target).closest('.btn-play-level').data('level-slug')
     levelID = $(e.target).closest('.btn-play-level').data('level-id')
     level = @levels.findWhere({original: levelID})
+    window.tracker?.trackEvent 'Students Class Course Play Level', category: 'Students', courseID: @courseID, courseInstanceID: @courseInstanceID, levelSlug: levelSlug, ['Mixpanel']
     if level.get('type') is 'course-ladder'
       viewClass = 'views/ladder/LadderView'
       viewArgs = [{supermodel: @supermodel}, levelSlug]
