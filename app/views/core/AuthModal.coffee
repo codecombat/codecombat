@@ -1,6 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/core/auth'
-{loginUser, createUser, me} = require 'core/auth'
+template = require 'templates/core/auth-modal'
 forms = require 'core/forms'
 User = require 'models/User'
 application  = require 'core/application'
@@ -12,15 +11,11 @@ module.exports = class AuthModal extends ModalView
 
   events:
     'click #switch-to-signup-btn': 'onSignupInstead'
-    'click #github-login-button': 'onGitHubLoginClicked'
     'submit form': 'onSubmitForm'
     'keyup #name': 'onNameChange'
     'click #gplus-login-btn': 'onClickGPlusLoginButton'
     'click #facebook-login-btn': 'onClickFacebookLoginButton'
     'click #close-modal': 'hide'
-    
-  subscriptions:
-    'errors:server-error': 'onServerError'
 
 
   # Initialization
@@ -31,15 +26,6 @@ module.exports = class AuthModal extends ModalView
     # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
     application.gplusHandler.loadAPI({ success: => _.defer => @$('#gplus-login-btn').attr('disabled', false) })
     application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })
-
-  getRenderData: ->
-    c = super()
-    c.showRequiredError = @options.showRequiredError
-    c.showSignupRationale = @options.showSignupRationale
-    c.mode = @mode
-    c.formValues = @previousFormInputs or {}
-    c.me = me
-    c
 
   afterRender: ->
     super()
@@ -58,16 +44,30 @@ module.exports = class AuthModal extends ModalView
     @playSound 'menu-button-click'
     e.preventDefault()
     forms.clearFormAlerts(@$el)
+    @$('#unknown-error-alert').addClass('hide')
     userObject = forms.formToObject @$el
     res = tv4.validateMultiple userObject, formSchema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
-    @enableModalInProgress(@$el) # TODO: part of forms
-    loginUser userObject, null, window.nextURL
-
-  onServerError: (e) -> # TODO: work error handling into a separate forms system
-    @disableModalInProgress(@$el)
-    
-    
+    new Promise(me.loginPasswordUser(userObject.emailOrUsername, userObject.password).then)
+    .then(->
+      if window.nextURL then window.location.href = window.nextURL else window.location.reload()
+    )
+    .catch((jqxhr) =>
+      showingError = false
+      if jqxhr.status is 401
+        errorID = jqxhr.responseJSON.errorID
+        if errorID is 'not-found'
+          forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.not_found'))
+          showingError = true
+        if errorID is 'wrong-password'
+          forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.wrong_password'))
+          showingError = true
+      
+      if not showingError
+        @$('#unknown-error-alert').removeClass('hide')
+    )
+      
+  
   # Google Plus
 
   onClickGPlusLoginButton: ->
@@ -136,6 +136,14 @@ module.exports = class AuthModal extends ModalView
 
 formSchema = {
   type: 'object'
-  properties: _.pick(User.schema.properties, 'email', 'password')
-  required: ['email', 'password']
+  properties: {
+    emailOrUsername: {
+      $or: [
+        User.schema.properties.name
+        User.schema.properties.email
+      ]
+    }
+    password: User.schema.properties.password
+  }
+  required: ['emailOrUsername', 'password']
 }

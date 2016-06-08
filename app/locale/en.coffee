@@ -243,6 +243,7 @@
 
   login:
     sign_up: "Create Account"
+    email_or_username: "Email or username"
     log_in: "Log In"
     logging_in: "Logging In"
     log_out: "Log Out"

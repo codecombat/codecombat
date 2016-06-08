@@ -3,7 +3,7 @@
     img(src="/images/pages/modal/auth/login-background.png", draggable="false").auth-modal-background
     h1(data-i18n="login.log_in")
 
-    div#close-modal
+    #close-modal
       span.glyphicon.glyphicon-remove
 
   .auth-form-content
@@ -11,24 +11,40 @@
     if showRequiredError
       .alert.alert-success
         span(data-i18n="signup.required")
+      
+    #unknown-error-alert.alert.alert-danger.hide(data-i18n="loading_error.unknown")
 
     form.form
       .form-group
-        label.control-label(for="email")
-          span(data-i18n="general.email")
+        label.control-label(for="username-or-email-input")
+          span(data-i18n="login.email_or_username")
           | :
         .input-border
-          input#email.input-large.form-control(name="email", type="email", value=formValues.email)
+          input#username-or-email-input.input-large.form-control(
+            name="emailOrUsername"
+            value=view.previousFormInputs.email
+          )
       .form-group
-        div#recover-account-wrapper
-          a(data-toggle="coco-modal", data-target="core/RecoverModal", data-i18n="login.forgot_password")#link-to-recover
+        #recover-account-wrapper
+          a#link-to-recover(
+            data-toggle="coco-modal"
+            data-target="core/RecoverModal"
+            data-i18n="login.forgot_password"
+          )
         label.control-label(for="password")
           span(data-i18n="general.password")
           | :
         .input-border
-          input#password.input-large.form-control(name="password", type="password", value=formValues.password)
+          input#password-input.input-large.form-control(
+            name="password"
+            type="password"
+            value=view.previousFormInputs.password
+          )
 
-      input.btn.btn-lg.btn-illustrated.btn-block.btn-success#login-button(value=translate("login.log_in"), type="submit")
+      input#login-btn.btn.btn-lg.btn-illustrated.btn-block.btn-success(
+        value=translate("login.log_in")
+        type="submit"
+      )
 
     .wait.secret
       h3(data-i18n="login.logging_in")
