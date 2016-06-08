@@ -204,6 +204,10 @@ module.exports = class LevelLoadingView extends CocoView
     @$el.find('.level-loading-goals, .tip, .load-progress').hide()
     @$el.find('.course-membership-required').show()
 
+  onLoadError: (resource) ->
+    @$el.find('.level-loading-goals, .tip, .load-progress').hide()
+    @$el.find('.could-not-load').show()
+
   onClickStartSubscription: (e) ->
     @openModalView new SubscribeModal()
     levelSlug = @level?.get('slug') or @options.level?.get('slug')

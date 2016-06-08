@@ -29,11 +29,13 @@ module.exports = class LadderTabView extends CocoView
 #    'auth:logged-in-with-facebook': 'onConnectedWithFacebook'
 #    'auth:logged-in-with-gplus': 'onConnectedWithGPlus'
 
-  constructor: (options, @level, @sessions) ->
-    super(options)
+  initialize: (options, @level, @sessions) ->
     @teams = teamDataFromLevel @level
-    @leaderboards = {}
+    @leaderboards = []
     @refreshLadder()
+
+    @capitalize = _.string.capitalize
+
     # Trying not loading the FP/G+ stuff for now to see if anyone complains they were using it so we can have just two columns.
     #@socialNetworkRes = @supermodel.addSomethingResource('social_network_apis', 0)
     #@checkFriends()
@@ -51,7 +53,8 @@ module.exports = class LadderTabView extends CocoView
     FB.getLoginStatus (response) =>
       return if @destroyed
       @facebookStatus = response.status
-      @loadFacebookFriends() if @facebookStatus is 'connected'
+      @onFacebook = view.facebookStatus is 'connected'
+      @loadFacebookFriends() if @onFacebook
       @fbStatusRes.markLoaded()
 
     if application.gplusHandler.loggedIn is undefined
@@ -102,6 +105,7 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = "http://graph.facebook.com/#{friend.facebookID}/picture"
     @facebookFriendSessions = result
+    @friends = @consolidateFriends()
     @render() # because the ladder tab renders before waiting for fb to finish
 
   # GOOGLE PLUS
@@ -115,6 +119,7 @@ module.exports = class LadderTabView extends CocoView
 
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
+      @onGPlus = true
       #@addSomethingToLoad('gplus_friends')
       @gpFriendRes = @supermodel.addSomethingResource('gplus_friends', 0)
       @gpFriendRes.load()
@@ -145,6 +150,7 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = friendsMap[friend.gplusID].image.url
     @gplusFriendSessions = result
+    @friends = @consolidateFriends()
     @render() # because the ladder tab renders before waiting for gplus to finish
 
   # LADDER LOADING
@@ -161,6 +167,7 @@ module.exports = class LadderTabView extends CocoView
         oldLeaderboard.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit, @options.league)
+      team.leaderboard = @leaderboards[team.id]
       @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', {cache: false}, 3)
       @leaderboardRes.load()
 
@@ -178,22 +185,6 @@ module.exports = class LadderTabView extends CocoView
         $.get url, (data) -> histogramData = data
       ).then =>
         @generateHistogram(histogramWrapper, histogramData, team.name.toLowerCase()) unless @destroyed
-
-  getRenderData: ->
-    ctx = super()
-    ctx.level = @level
-    ctx.link = "/play/level/#{@level.get('name')}"
-    ctx.teams = @teams
-    team.leaderboard = @leaderboards[team.id] for team in @teams
-    ctx.levelID = @levelID
-    ctx.friends = @consolidateFriends()
-    ctx.onFacebook = @facebookStatus is 'connected'
-    ctx.onGPlus = application.gplusHandler.loggedIn
-    ctx.capitalize = _.string.capitalize
-    ctx.league = @options.league
-    ctx._ = _
-    ctx.moment = moment
-    ctx
 
   generateHistogram: (histogramElement, histogramData, teamName) ->
     #renders twice, hack fix
