@@ -14,40 +14,6 @@ init = ->
 
   Backbone.listenTo me, 'sync', -> Backbone.Mediator.publish('auth:me-synced', me: me)
 
-module.exports.createUser = (userObject, failure=backboneFailure, nextURL=null) ->
-  user = new User(userObject)
-  user.notyErrors = false
-  user.save({}, {
-    error: (model, jqxhr, options) ->
-      error = parseServerError(jqxhr.responseText)
-      property = error.property if error.property
-      if jqxhr.status is 409 and property is 'name'
-        anonUserObject = _.omit(userObject, 'name')
-        module.exports.createUser anonUserObject, failure, nextURL
-      else
-        genericFailure(jqxhr)
-    success: -> if nextURL then window.location.href = nextURL else window.location.reload()
-  })
-
-module.exports.createUserWithoutReload = (userObject, failure=backboneFailure) ->
-  user = new User(userObject)
-  user.save({}, {
-    error: failure
-    success: ->
-      Backbone.Mediator.publish('created-user-without-reload')
-  })
-
-module.exports.loginUser = (userObject, failure=genericFailure, nextURL=null) ->
-  console.log 'logging in as', userObject.email
-  jqxhr = $.post('/auth/login',
-    {
-      username: userObject.email,
-      password: userObject.password
-    },
-    (model) -> if nextURL then window.location.href = nextURL else window.location.reload()
-  )
-  jqxhr.fail(failure)
-
 module.exports.logoutUser = ->
   # TODO: Refactor to use User.logout
   FB?.logout?()
