@@ -19,7 +19,9 @@ module.exports = class MainAdminView extends RootView
     'click #user-search-result': 'onClickUserSearchResult'
     'click #create-free-sub-btn': 'onClickFreeSubLink'
     'click #terminal-create': 'onClickTerminalSubLink'
-    
+
+  getTitle: -> return $.i18n.t('account_settings.admin')
+
   initialize: ->
     if window.amActually
       @amActually = new User({_id: window.amActually})
@@ -65,7 +67,7 @@ module.exports = class MainAdminView extends RootView
     forms.enableSubmit(@$('#user-search-button'))
     result = ''
     if users.length
-      result = ("<tr data-user-id='#{user._id}'><td><code>#{user._id}</code></td><td>#{_.escape(user.name or 'Anoner')}</td><td>#{_.escape(user.email)}</td></tr>" for user in users)
+      result = ("<tr data-user-id='#{user._id}'><td><code>#{user._id}</code></td><td>#{_.escape(user.name or 'Anonymous')}</td><td>#{_.escape(user.email)}</td></tr>" for user in users)
       result = "<table class=\"table\">#{result.join('\n')}</table>"
     @$el.find('#user-search-result').html(result)
 

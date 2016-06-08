@@ -192,6 +192,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
                 address: email
               subject: course.get('name')
               email_data:
+                teacher_name: req.user.broadName()
                 class_name: course.get('name')
                 join_link: "https://codecombat.com/courses/students?_ppc=" + prepaid.get('code')
             sendwithus.api.send context, _.noop

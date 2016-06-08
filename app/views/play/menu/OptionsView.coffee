@@ -20,8 +20,7 @@ module.exports = class OptionsView extends CocoView
 
   events:
     'change #option-music': 'updateMusic'
-    'change #option-key-bindings': 'updateInvisibles'
-    'change #option-key-bindings': 'updateKeyBindings'
+    'change #option-invisibles': 'updateInvisibles'
     'change #option-indent-guides': 'updateIndentGuides'
     'change #option-behaviors': 'updateBehaviors'
     'change #option-live-completion': 'updateLiveCompletion'
@@ -67,7 +66,7 @@ module.exports = class OptionsView extends CocoView
     if @playerName and @playerName isnt me.get('name')
       me.set 'name', @playerName
     @aceConfig.invisibles = @$el.find('#option-invisibles').prop('checked')
-    @aceConfig.keyBindings = @$el.find('#option-key-bindings').val()
+    @aceConfig.keyBindings = 'default'  # We used to give them the option, but we took it away.
     @aceConfig.indentGuides = @$el.find('#option-indent-guides').prop('checked')
     @aceConfig.behaviors = @$el.find('#option-behaviors').prop('checked')
     @aceConfig.liveCompletion = @$el.find('#option-live-completion').prop('checked')

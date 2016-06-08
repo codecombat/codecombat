@@ -207,7 +207,7 @@ module.exports = class SpectateLevelView extends RootView
   findPlayerNames: ->
     playerNames = {}
     for session in [@session, @otherSession] when session?.get('team')
-      playerNames[session.get('team')] = session.get('creatorName') or 'Anoner'
+      playerNames[session.get('team')] = session.get('creatorName') or 'Anonymous'
     playerNames
 
   initGoalManager: ->

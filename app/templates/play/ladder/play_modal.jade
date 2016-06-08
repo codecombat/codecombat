@@ -9,81 +9,81 @@ block modal-body-content
     h4.language-selection(data-i18n="ladder.select_your_language") Select your language!
     .form-group.select-group
       select#tome-language(name="language")
-        for option in languages
-          option(value=option.id selected=(language === option.id))= option.name
+        for option in view.languages
+          option(value=option.id selected=(view.language === option.id))= option.name
 
   div#noob-view.secret
-    a(href="/play/level/#{levelID}-tutorial" + (league ? "?league=" + league.id : "")).btn.btn-success.btn-block.btn-lg
+    a(href="/play/level/#{view.levelID}-tutorial" + (view.options.league ? "?league=" + view.options.league.id : "")).btn.btn-success.btn-block.btn-lg
       p
         strong(data-i18n="ladder.tutorial_play") Play Tutorial
       span(data-i18n="ladder.tutorial_recommended") Recommended if you've never played before
     span.btn.btn-primary.btn-block.btn-lg#skip-tutorial-button(data-i18n="ladder.tutorial_skip") Skip Tutorial
 
   div#normal-view
-    if tutorialLevelExists
+    if view.tutorialLevelExists
       p.tutorial-suggestion
         strong(data-i18n="ladder.tutorial_not_sure") Not sure what's going on?
         |  
-        a(href="/play/level/#{levelID}-tutorial" + (league ? "?league=" + league.id : ""), data-i18n="ladder.tutorial_play_first") Play the tutorial first.
-    a(href="/play/level/#{levelID}?team=#{teamID}" + (league ? "&league=" + league.id : ""))
+        a(href="/play/level/#{view.levelID}-tutorial" + (view.options.league ? "?league=" + view.options.league.id : ""), data-i18n="ladder.tutorial_play_first") Play the tutorial first.
+    a(href="/play/level/#{view.levelID}?team=#{view.team}" + (view.options.league ? "&league=" + view.options.league.id : ""))
       div.play-option
-        img(src=myPortrait).my-icon.only-one
-        img(src="/images/pages/play/ladder/"+teamID+"_ladder_tutorial.png", style="border: 1px solid #{teamColor}; background: #{teamBackgroundColor}").my-team-icon.img-circle.only-one
-        img(src=genericPortrait).opponent-icon
-        img(src="/images/pages/play/ladder/"+otherTeamID+"_ladder_tutorial.png", style="border: 1px solid #{opponentTeamColor}; background: #{opponentTeamBackgroundColor}").opponent-team-icon.img-circle
+        img(src=view.myPortrait).my-icon.only-one
+        img(src="/images/pages/play/ladder/#{view.team}_ladder_tutorial.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
+        img(src=view.genericPortrait).opponent-icon
+        img(src="/images/pages/play/ladder/#{view.otherTeam}_ladder_tutorial.png", style="border: 1px solid #{view.opponentTeamColor}; background: #{view.opponentTeamBackgroundColor}").opponent-team-icon.img-circle
         div.my-name.name-label.only-one
-          span= myName
+          span= view.myName
         div.opponent-name.name-label
           span(data-i18n="ladder.simple_ai")
           //span.code-language(style="background-image: url(/images/common/code_languages/javascript_small.png)")
         div.difficulty
           span(data-i18n="ladder.warmup") Warmup
     
-    if challengers.easy
-      a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.easy.sessionID}" + (league ? "&league=" + league.id : ""))
+    if view.challengers && view.challengers.easy
+      a(href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.easy.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : ""))
         div.play-option.easy-option
-          img(src=myPortrait).my-icon.only-one
-          img(src="/images/pages/play/ladder/"+teamID+"_ladder_easy.png", style="border: 1px solid #{teamColor}; background: #{teamBackgroundColor}").my-team-icon.img-circle.only-one
-          img(src=challengers.easy.opponentImageSource||genericPortrait).opponent-icon
-          img(src="/images/pages/play/ladder/"+otherTeamID+"_ladder_easy.png", style="border: 1px solid #{opponentTeamColor}; background: #{opponentTeamBackgroundColor}").opponent-team-icon.img-circle
+          img(src=view.myPortrait).my-icon.only-one
+          img(src="/images/pages/play/ladder/#{view.team}_ladder_easy.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
+          img(src=view.challengers.easy.opponentImageSource||view.genericPortrait).opponent-icon
+          img(src="/images/pages/play/ladder/#{view.otherTeam}_ladder_easy.png", style="border: 1px solid #{view.opponentTeamColor}; background: #{view.opponentTeamBackgroundColor}").opponent-team-icon.img-circle
           div.my-name.name-label.only-one
-            span= myName
+            span= view.myName
           div.opponent-name.name-label
-            span= challengers.easy.opponentName
-            if challengers.easy.codeLanguage
-              span.code-language(style="background-image: url(/images/common/code_languages/" + challengers.easy.codeLanguage + "_small.png)")
+            span= view.challengers.easy.opponentName
+            if view.challengers.easy.codeLanguage
+              span.code-language(style="background-image: url(/images/common/code_languages/#{view.challengers.easy.codeLanguage}_small.png)")
           div.difficulty
             span(data-i18n="general.easy") Easy
   
-    if challengers.medium
-      a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.medium.sessionID}" + (league ? "&league=" + league.id : ""))
+    if view.challengers && view.challengers.medium
+      a(href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.medium.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : ""))
         div.play-option.medium-option
-          img(src=myPortrait).my-icon.only-one
-          img(src="/images/pages/play/ladder/"+teamID+"_ladder_medium.png", style="border: 1px solid #{teamColor}; background: #{teamBackgroundColor}").my-team-icon.img-circle.only-one
-          img(src=challengers.medium.opponentImageSource||genericPortrait).opponent-icon
-          img(src="/images/pages/play/ladder/"+otherTeamID+"_ladder_medium.png", style="border: 1px solid #{opponentTeamColor}; background: #{opponentTeamBackgroundColor}").opponent-team-icon.img-circle
+          img(src=view.myPortrait).my-icon.only-one
+          img(src="/images/pages/play/ladder/#{view.team}_ladder_medium.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
+          img(src=view.challengers.medium.opponentImageSource||view.genericPortrait).opponent-icon
+          img(src="/images/pages/play/ladder/#{view.otherTeam}_ladder_medium.png", style="border: 1px solid #{view.opponentTeamColor}; background: #{view.opponentTeamBackgroundColor}").opponent-team-icon.img-circle
           div.my-name.name-label.only-one
-            span= myName
+            span= view.myName
           div.opponent-name.name-label
-            span= challengers.medium.opponentName
-            if challengers.medium.codeLanguage
-              span.code-language(style="background-image: url(/images/common/code_languages/" + challengers.medium.codeLanguage + "_small.png)")
+            span= view.challengers.medium.opponentName
+            if view.challengers.medium.codeLanguage
+              span.code-language(style="background-image: url(/images/common/code_languages/#{view.challengers.medium.codeLanguage}_small.png)")
           div.difficulty
             span(data-i18n="general.medium") Medium
   
-    if challengers.hard
-      a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.hard.sessionID}" + (league ? "&league=" + league.id : ""))
+    if view.challengers && view.challengers.hard
+      a(href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.hard.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : ""))
         div.play-option.hard-option
-          img(src=myPortrait).my-icon.only-one
-          img(src="/images/pages/play/ladder/"+teamID+"_ladder_hard.png", style="border: 1px solid #{teamColor}; background: #{teamBackgroundColor}").my-team-icon.img-circle.only-one
-          img(src=challengers.hard.opponentImageSource||genericPortrait).opponent-icon
-          img(src="/images/pages/play/ladder/"+otherTeamID+"_ladder_hard.png", style="border: 1px solid #{opponentTeamColor}; background: #{opponentTeamBackgroundColor}").opponent-team-icon.img-circle
+          img(src=view.myPortrait).my-icon.only-one
+          img(src="/images/pages/play/ladder/#{view.team}_ladder_hard.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
+          img(src=view.challengers.hard.opponentImageSource||view.genericPortrait).opponent-icon
+          img(src="/images/pages/play/ladder/#{view.otherTeam}_ladder_hard.png", style="border: 1px solid #{view.opponentTeamColor}; background: #{view.opponentTeamBackgroundColor}").opponent-team-icon.img-circle
           div.my-name.name-label.only-one
-            span= myName
+            span= view.myName
           div.opponent-name.name-label
-            span= challengers.hard.opponentName
-            if challengers.hard.codeLanguage
-              span.code-language(style="background-image: url(/images/common/code_languages/" + challengers.hard.codeLanguage + "_small.png)")
+            span= view.challengers.hard.opponentName
+            if view.challengers.hard.codeLanguage
+              span.code-language(style="background-image: url(/images/common/code_languages/#{view.challengers.hard.codeLanguage}_small.png)")
           div.difficulty
             span(data-i18n="general.hard") Hard
 

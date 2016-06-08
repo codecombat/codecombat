@@ -141,6 +141,7 @@ module.exports = class PlayLevelView extends RootView
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
+    @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview
@@ -194,6 +195,9 @@ module.exports = class PlayLevelView extends RootView
     @register()
     @controlBar.setBus(@bus)
     @initScriptManager()
+
+  onWorldNecessityLoadFailed: (resource) ->
+    @loadingView.onLoadError(resource)
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -353,7 +357,7 @@ module.exports = class PlayLevelView extends RootView
     return {} unless @level.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
     playerNames = {}
     for session in [@session, @otherSession] when session?.get('team')
-      playerNames[session.get('team')] = session.get('creatorName') or 'Anoner'
+      playerNames[session.get('team')] = session.get('creatorName') or 'Anonymous'
     playerNames
 
   # Once Surface is Loaded ####################################################
@@ -641,7 +645,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @$el.hasClass 'real-time'
     @$el.removeClass 'real-time'
     @onWindowResize()
-    if @world.frames.length is @world.totalFrames
+    if @world.frames.length is @world.totalFrames and not @surface.countdownScreen?.showing
       _.delay @onSubmissionComplete, 750  # Wait for transition to end.
     else
       @waitingForSubmissionComplete = true
@@ -649,6 +653,7 @@ module.exports = class PlayLevelView extends RootView
 
   onSubmissionComplete: =>
     return if @destroyed
+    Backbone.Mediator.publish 'level:set-time', ratio: 1
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     # TODO: Show a victory dialog specific to hero-ladder level
     if @goalManager.checkOverallStatus() is 'success' and not @options.realTimeMultiplayerSessionID?

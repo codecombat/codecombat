@@ -57,11 +57,11 @@ module.exports = class CountdownScreen extends CocoClass
     else
       @endCountdown()
 
-  hide: ->
+  hide: (duration=500) ->
     return unless @showing
     @showing = false
     createjs.Tween.removeTweens @dimLayer
-    createjs.Tween.get(@dimLayer).to({alpha: 0}, 500).call => @layer.removeChild @dimLayer unless @destroyed
+    createjs.Tween.get(@dimLayer).to({alpha: 0}, duration).call => @layer.removeChild @dimLayer unless @destroyed
 
   decrementCountdown: =>
     return if @destroyed
@@ -85,4 +85,4 @@ module.exports = class CountdownScreen extends CocoClass
   onRealTimePlaybackEnded: (e) ->
     clearInterval @countdownInterval if @countdownInterval
     @countdownInterval = null
-    @hide()
+    @hide Math.max(500, 1000 * (@secondsRemaining or 0))

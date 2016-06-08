@@ -41,6 +41,7 @@ module.exports = class TeacherClassView extends RootView
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
     'keyup #student-search': 'onKeyPressStudentSearch'
+    'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
       
   getInitialState: ->
     {
@@ -62,11 +63,15 @@ module.exports = class TeacherClassView extends RootView
         enrolledUsers: ""
     }
 
+  getTitle: -> return @classroom?.get('name')
+
   initialize: (options, classroomID) ->
     super(options)
     @singleStudentCourseProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-course'
     @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
     @allStudentsLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-all-students-single-level'
+    
+    @debouncedRender = _.debounce @render
     
     @state = new State(@getInitialState())
     @updateHash @state.get('activeTab') # TODO: Don't push to URL history (maybe don't use url fragment for default tab)
@@ -115,16 +120,10 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts'}})
     
     @attachMediatorEvents()
-      
+
   attachMediatorEvents: () ->
-    @listenTo @state, 'sync change', ->
-      if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
-        @renderSelectors('#enrollment-status-table')
-      else
-        @render()
     # Model/Collection events
     @listenTo @classroom, 'sync change update', ->
-      @removeDeletedStudents()
       classCode = @classroom.get('codeCamel') or @classroom.get('code')
       @state.set {
         classCode: classCode
@@ -135,20 +134,19 @@ module.exports = class TeacherClassView extends RootView
       @state.set selectedCourse: @courses.first() unless @state.get('selectedCourse')
     @listenTo @courseInstances, 'sync change update', ->
       @setCourseMembers()
-      @render() # TODO: use state
     @listenTo @courseInstances, 'add-members', ->
       noty text: $.i18n.t('teacher.assigned'), layout: 'center', type: 'information', killer: true, timeout: 5000
     @listenTo @students, 'sync change update add remove reset', ->
       # Set state/props of things that depend on students?
       # Set specific parts of state based on the models, rather than just dumping the collection there?
-      @removeDeletedStudents()
       @calculateProgressAndLevels()
       classStats = @calculateClassStats()
       @state.set classStats: classStats if classStats
       @state.set students: @students
     @listenTo @students, 'sort', ->
       @state.set students: @students
-      @render()
+    @listenTo @, 'course-select:change', ({ selectedCourse }) ->
+      @state.set selectedCourse: selectedCourse
 
   setCourseMembers: =>
     for course in @courses.models
@@ -159,6 +157,15 @@ module.exports = class TeacherClassView extends RootView
   onLoaded: ->
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
+    
+    # render callback setup
+    @listenTo @courseInstances, 'sync change update', @debouncedRender
+    @listenTo @state, 'sync change', ->
+      if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
+        @renderSelectors('#enrollment-status-table')
+      else
+        @debouncedRender()
+    @listenTo @students, 'sort', @debouncedRender
     super()
   
   afterRender: ->
@@ -272,6 +279,9 @@ module.exports = class TeacherClassView extends RootView
 
   onKeyPressStudentSearch: (e) ->
     @state.set('searchTerm', $(e.target).val())
+
+  onChangeCourseSelect: (e) ->
+    @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
 
   getSelectedStudentIDs: ->
     @$('.student-row .checkbox-flat input:checked').map (index, checkbox) ->

@@ -276,9 +276,16 @@ c.extendNamedProperties LevelSchema  # let's have the name be the first property
 _.extend LevelSchema.properties,
   description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown'}
   loadingTip: { type: 'string', title: 'Loading Tip', description: 'What to show for this level while it\'s loading.' }
-  documentation: c.object {title: 'Documentation', description: 'Documentation articles relating to this level.', required: ['specificArticles', 'generalArticles'], 'default': {specificArticles: [], generalArticles: []}},
+  documentation: c.object {title: 'Documentation', description: 'Documentation articles relating to this level.', 'default': {specificArticles: [], generalArticles: []}},
     specificArticles: c.array {title: 'Specific Articles', description: 'Specific documentation articles that live only in this level.', uniqueItems: true }, SpecificArticleSchema
     generalArticles: c.array {title: 'General Articles', description: 'General documentation articles that can be linked from multiple levels.', uniqueItems: true}, GeneralArticleSchema
+    hints: c.array {title: 'Hints', description: 'Hints that will be gradually revealed to the player.', uniqueItems: true }, {
+      type: 'object'
+      properties: {
+        body: {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
+        i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this hint'}
+      }
+    }
   background: c.objectId({format: 'hidden'})
   nextLevel: {
     type: 'object',

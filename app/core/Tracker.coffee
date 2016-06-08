@@ -169,7 +169,7 @@ module.exports = class Tracker extends CocoClass
       eventObject["user"] = me.id
       dataToSend = JSON.stringify eventObject
       # console.log dataToSend if debugAnalytics
-      $.post("#{window.location.protocol or 'http:'}//analytics.codecombat.com/analytics", dataToSend).fail ->
+      $.post("#{window.location.protocol or 'http:'}//analytics-cf.codecombat.com/analytics", dataToSend).fail ->
         console.error "Analytics post failed!"
     else
       request = @supermodel.addRequestResource {

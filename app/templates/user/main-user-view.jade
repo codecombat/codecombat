@@ -9,24 +9,25 @@ block append content
       a(href="/account", data-i18n="nav.account")
     li.active(data-i18n="nav.profile")
 
-  if user
+  if view.user
+    - var playerLevel = view.user.level()
+    - var emails = view.user.getEnabledEmails()
     .vertical-buffer
     .row
       .left-column
         .profile-wrapper
-          img.picture(src="#{user.getPhotoURL(150)}" alt="")
+          img.picture(src="#{view.user.getPhotoURL(150)}" alt="")
           div.profile-info
-            h3.name= user.get('name')
-            if favoriteLanguage
+            h3.name= view.user.get('name')
+            if view.favoriteLanguage
               div.extra-info
                 span(data-i18n="user.favorite_prefix") Favorite language is
-                strong.favorite-language= favoriteLanguage
-                span(data-i18n="user.favorite_postfix") .
+                strong.favorite-language= view.favoriteLanguage
+                span(data-i18n="user.favorite_postfix") .            
             if playerLevel
               div.extra-info
                 span.spr(data-i18n="general.player_level") Level
-                strong= playerLevel
-        - var emails = user.getEnabledEmails()
+                strong= playerLevel        
         // TODO: fix this, use some other method for finding contributor classes other than email settings, since they're private... Maybe achievements?
         if emails
           ul.contributor-categories
@@ -64,24 +65,24 @@ block append content
         .panel.panel-default
           .panel-heading
             h3.panel-title(data-i18n="clans.clans") Clans
-          if (!clans)
+          if (!view.clanModels)
             .panel-body
               p(data-i18n="common.loading")
-          else if (clans.length)
+          else if (view.clanModels.length)
             table.table
               tr
                 th.col-xs-4(data-i18n="clans.name") Name
                 th.col-xs-4(data-i18n="clans.chieftain") Chieftain
                 th.col-xs-4(data-i18n="play.heroes") Heroes
-              each clan in clans
+              each clan in view.clanModels
                 tr
                   td
                     a(href="/clans/#{clan.id}")= clan.get('name')
                   td
-                    if idNameMap && idNameMap[clan.get('ownerID')]
-                      a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]
+                    if view.idNameMap && view.idNameMap[clan.get('ownerID')]
+                      a(href="/user/#{clan.get('ownerID')}")= view.idNameMap[clan.get('ownerID')]
                     else
-                      a(href="/user/#{clan.get('ownerID')}") Anoner
+                      a(href="/user/#{clan.get('ownerID')}") Anonymous
                   td= clan.get('members').length
           else
             .panel-body
@@ -90,17 +91,17 @@ block append content
         .panel.panel-default
           .panel-heading
             h3.panel-title(data-i18n="user.singleplayer_title") Singleplayer Levels
-          if (!singlePlayerSessions)
+          if (!view.singlePlayerSessions)
             .panel-body
               p(data-i18n="common.loading") Loading...
-          else if (singlePlayerSessions.length)
+          else if (view.singlePlayerSessions.length)
             table.table
               tr
                 th.col-xs-4(data-i18n="resources.level") Level
                 th.col-xs-4(data-i18n="user.last_played") Last Played
                 th.col-xs-4(data-i18n="user.status") Status
               - var count = 0
-              each session, index in singlePlayerSessions
+              each session, index in view.singlePlayerSessions
                 if session.get('levelName')
                   tr(class=count > 4 ? 'hide' : '')
                     - count++;
@@ -120,16 +121,16 @@ block append content
         .panel.panel-default
           .panel-heading
             h3.panel-title(data-i18n="user.multiplayer_title") Multiplayer Levels
-          if (!multiPlayerSessions)
+          if (!view.multiPlayerSessions)
             .panel-body
               p(data-i18n="common.loading") Loading...
-          else if (multiPlayerSessions.length)
+          else if (view.multiPlayerSessions.length)
             table.table
               tr
                 th.col-xs-4(data-i18n="resources.level") Level
                 th.col-xs-4(data-i18n="user.last_played") Last Played
                 th.col-xs-4(data-i18n="general.score") Score
-              each session, index in multiPlayerSessions
+              each session, index in view.multiPlayerSessions
                 tr(class=index > 4 ? 'hide' : '')
                   td
                     - var posturl = ''
@@ -140,7 +141,7 @@ block append content
                     td= parseInt(session.get('totalScore') * 100)
                   else
                     td(data-i18n="user.status_unfinished") Unfinished
-            if multiPlayerSessions.length > 4
+            if view.multiPlayerSessions.length > 4
               .panel-footer
                 button.btn.btn-info.btn-sm.more-button(data-i18n="editor.more")
           else
@@ -149,10 +150,10 @@ block append content
         .panel.panel-default
           .panel-heading
             h3.panel-title(data-i18n="user.achievements_title") Achievements
-          if ! earnedAchievements
+          if ! view.earnedAchievements
             .panel-body
               p(data-i18n="common.loading") Loading...
-          else if ! earnedAchievements.length
+          else if ! view.earnedAchievements.length
             .panel-body
               p(data-i18n="user.no_achievements") No achievements earned so far.
           else
@@ -161,7 +162,7 @@ block append content
                 th.col-xs-4(data-i18n="achievements.achievement") Achievement
                 th.col-xs-4(data-i18n="achievements.last_earned") Last Earned
                 th.col-xs-4(data-i18n="achievements.amount_achieved") Amount
-              each achievement, index in earnedAchievements.models
+              each achievement, index in view.earnedAchievements.models
                 tr(class=index > 4 ? 'hide' : '')
                   td= achievement.get('achievementName')
                   td= moment(achievement.get('changed')).format("MMMM Do YYYY")
@@ -169,6 +170,6 @@ block append content
                     td= achievement.get('achievedAmount')
                   else
                     td
-            if earnedAchievements.length > 4
+            if view.earnedAchievements.length > 4
               .panel-footer
                 button.btn.btn-info.btn-sm.more-button(data-i18n="editor.more")

@@ -60,6 +60,18 @@ describe 'GET /db/classroom/:id', ->
             expect(body._id).toBe(classroomID = body._id)
             done()
 
+describe 'GET /db/classroom by classCode', ->
+  it 'Returns the class if you include spaces', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    teacher = yield utils.initUser()
+    classroom = new Classroom({ name: "some class", ownerID: teacher.id, camelCode: "FooBarBaz", code: "foobarbaz" })
+    yield classroom.save()
+    [res, body] = yield request.getAsync(getURL('/db/classroom?code=foo bar baz'), { json: true })
+    expect(res.statusCode).toBe(200)
+    expect(res.body.data?.name).toBe(classroom.get('name'))
+    done()
+
 describe 'POST /db/classroom', ->
   
   beforeEach utils.wrap (done) ->
@@ -295,6 +307,18 @@ describe 'POST /db/classroom/-/members', ->
       fail('student should be added to the free course instance.')
     done()
     
+  it 'joins the class even with spaces in the classcode', utils.wrap (done) ->
+    yield utils.loginUser(@student)
+    url = getURL("/db/classroom/anything-here/members")
+    code = @classroom.get('code')
+    codeWithSpaces = code.split("").join(" ")
+    [res, body] = yield request.postAsync { uri: url, json: { code: codeWithSpaces } }
+    expect(res.statusCode).toBe(200)
+    classroom = yield Classroom.findById(@classroom.id)
+    if classroom.get('members').length isnt 1
+      fail 'expected classCode with spaces to work too'
+    done()
+
   it 'returns 403 if the user is a teacher', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     url = getURL("/db/classroom/~/members")
@@ -343,18 +367,20 @@ describe 'DELETE /db/classroom/:id/members', ->
 
 describe 'POST /db/classroom/:id/invite-members', ->
 
-  it 'takes a list of emails and sends invites', (done) ->
-    loginNewUser (user1) ->
-      user1.set('role', 'teacher')
-      user1.save (err) ->
-        data = { name: 'Classroom 6' }
-        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          expect(res.statusCode).toBe(201)
-          url = classroomsURL + '/' + body._id + '/invite-members'
-          data = { emails: ['test@test.com'] }
-          request.post { uri: url, json: data }, (err, res, body) ->
-            expect(res.statusCode).toBe(200)
-            done()
+  it 'takes a list of emails and sends invites', utils.wrap (done) ->
+    user = yield utils.initUser({role: 'teacher', name: 'Mr Professerson'})
+    yield utils.loginUser(user)
+    classroom = yield utils.makeClassroom()
+    url = classroomsURL + "/#{classroom.id}/invite-members"
+    data = { emails: ['test@test.com'] }
+    sendwithus = require '../../../server/sendwithus'
+    spyOn(sendwithus.api, 'send').and.callFake (context, cb) ->
+      expect(context.email_id).toBe(sendwithus.templates.course_invite_email)
+      expect(context.recipient.address).toBe('test@test.com')
+      expect(context.email_data.teacher_name).toBe('Mr Professerson')
+      done()
+    [res, body] = yield request.postAsync { uri: url, json: data }
+    expect(res.statusCode).toBe(200)
 
           
 describe 'GET /db/classroom/:handle/member-sessions', ->
@@ -446,4 +472,74 @@ describe 'GET /db/classroom/:handle/members', ->
       expect(user.name).toBeDefined()
       expect(user.email).toBeDefined()
       expect(user.passwordHash).toBeUndefined()
+    done()
+
+describe 'POST /db/classroom/:classroomID/members/:memberID/reset-password', ->
+  it 'changes the password', utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom])
+    teacher = yield utils.initUser()
+    yield utils.loginUser(teacher)
+    student = yield utils.initUser({ name: "Firstname Lastname" })
+    newPassword = "this is a new password"
+    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student._id] }).save()
+    expect(student.get('passwordHash')).not.toEqual(User.hashPassword(newPassword))
+    [res, body] = yield request.postAsync({
+      uri: getURL("/db/classroom/#{classroom.id}/members/#{student.id}/reset-password")
+      json: { password: newPassword }
+    })
+    expect(res.statusCode).toBe(200)
+    changedStudent = yield User.findById(student.id)
+    expect(changedStudent.get('passwordHash')).toEqual(User.hashPassword(newPassword))
+    done()
+
+  it "doesn't change the password if you're not their teacher", utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom])
+    teacher = yield utils.initUser()
+    yield utils.loginUser(teacher)
+    student = yield utils.initUser({ name: "Firstname Lastname" })
+    student2 = yield utils.initUser({ name: "Firstname Lastname 2" })
+    newPassword = "this is a new password"
+    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student2._id] }).save()
+    expect(student.get('passwordHash')).not.toEqual(User.hashPassword(newPassword))
+    [res, body] = yield request.postAsync({
+      uri: getURL("/db/classroom/#{classroom.id}/members/#{student.id}/reset-password")
+      json: { password: newPassword }
+    })
+    expect(res.statusCode).toBe(403)
+    changedStudent = yield User.findById(student.id)
+    expect(changedStudent.get('passwordHash')).toEqual(student.get('passwordHash'))
+    done()
+
+  it "doesn't change the password if their email is verified", utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom])
+    teacher = yield utils.initUser()
+    yield utils.loginUser(teacher)
+    student = yield utils.initUser({ name: "Firstname Lastname", emailVerified: true })
+    newPassword = "this is a new password"
+    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student._id] }).save()
+    expect(student.get('passwordHash')).not.toEqual(User.hashPassword(newPassword))
+    [res, body] = yield request.postAsync({
+      uri: getURL("/db/classroom/#{classroom.id}/members/#{student.id}/reset-password")
+      json: { password: newPassword }
+    })
+    expect(res.statusCode).toBe(403)
+    changedStudent = yield User.findById(student.id)
+    expect(changedStudent.get('passwordHash')).toEqual(student.get('passwordHash'))
+    done()
+
+  it "doesn't let you set a 1-character password", utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom])
+    teacher = yield utils.initUser()
+    yield utils.loginUser(teacher)
+    student = yield utils.initUser({ name: "Firstname Lastname" })
+    newPassword = "e"
+    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student._id] }).save()
+    expect(student.get('passwordHash')).not.toEqual(User.hashPassword(newPassword))
+    [res, body] = yield request.postAsync({
+      uri: getURL("/db/classroom/#{classroom.id}/members/#{student.id}/reset-password")
+      json: { password: newPassword }
+    })
+    expect(res.statusCode).toBe(422)
+    changedStudent = yield User.findById(student.id)
+    expect(changedStudent.get('passwordHash')).toEqual(student.get('passwordHash'))
     done()

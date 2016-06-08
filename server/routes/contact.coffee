@@ -11,21 +11,27 @@ module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->
     return res.end() unless req.user
     # log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
-    createMailContext req, (context) ->
-      sendwithus.api.send context, (err, result) ->
-        if err
-          log.error "Error sending contact form email: #{err.message or err}"
+    fromAddress = req.body.sender or req.body.email or req.user.get('email')
+    createMailContent req, fromAddress, (subject, content) ->
+      if req.body.recipientID is 'schools@codecombat.com' or req.user.isTeacher()
+        req.user.update({$set: { enrollmentRequestSent: true }}).exec(_.noop) if req.body.recipientID is 'schools@codecombat.com'
+        closeIO.sendMail fromAddress, subject, content, (err) ->
+          log.error "Error sending contact form email via Close.io: #{err.message or err}" if err
+      else 
+        createSendWithUsContext req, fromAddress, subject, content, (context) ->
+          sendwithus.api.send context, (err, result) ->
+            log.error "Error sending contact form email via sendwithus: #{err.message or err}" if err
     return res.end()
 
-createMailContext = (req, done) ->
-  sender = req.body.sender or req.body.email
+createMailContent = (req, fromAddress, done) ->
+  country = req.body.country
+  enrollmentsNeeded = req.body.enrollmentsNeeded
   message = req.body.message
   user = req.user
-  recipientID = req.body.recipientID
-  subject = req.body.subject
-  country = req.body.country
-  sentFromLevel = levelID: req.body.levelID, courseID: req.body.courseID, courseInstanceID: req.body.courseInstanceID
-
+  subject = switch
+    when enrollmentsNeeded then "#{enrollmentsNeeded} Licenses needed for #{fromAddress}"
+    when req.body.subject then req.body.subject
+    else "Contact Us Form: #{fromAddress}"
   level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (user.get('points') + 100))) + 1 else 0
   premium = user?.isPremium()
   teacher = user?.isTeacher()
@@ -34,15 +40,25 @@ createMailContext = (req, done) ->
 
     --
     http://codecombat.com/user/#{user.get('slug') or user.get('_id')}
-    #{user.get('name') or 'Anonymous'} - Level #{level}#{if teacher then ' - Teacher' else ''}#{if premium then ' - Subscriber' else ''}#{if country then ' - ' + country else ''}
+    #{fromAddress} - #{user.get('name') or 'Anonymous'} - Level #{level}#{if teacher then ' - Teacher' else ''}#{if premium then ' - Subscriber' else ''}#{if country then ' - ' + country else ''}
   """
   if req.body.browser
     content += "\n#{req.body.browser} - #{req.body.screenSize}"
+  done(subject, content)
+
+createSendWithUsContext = (req, fromAddress, subject, content, done) ->
+  user = req.user
+  recipientID = req.body.recipientID
+  sentFromLevel = levelID: req.body.levelID, courseID: req.body.courseID, courseInstanceID: req.body.courseInstanceID
+  premium = user?.isPremium()
+  teacher = user?.isTeacher()
+
+  if recipientID is 'schools@codecombat.com' or teacher
+    return done("Tried to send a teacher contact us email via sendwithus #{fromAddress} #{subject}")
 
   toAddress = switch
     when premium then config.mail.supportPremium
     else config.mail.supportPrimary
-  fromAddress = sender or user.get('email')
 
   context =
     email_id: sendwithus.templates.plain_text_email
@@ -53,31 +69,24 @@ createMailContext = (req, done) ->
       reply_to: fromAddress
       name: user.get('name')
     email_data:
-      subject: "[CodeCombat] #{subject ? ('Feedback - ' + fromAddress)}"
+      subject: subject
       content: content
       contentHTML: content.replace /\n/g, '\n<br>'
-  if recipientID is 'schools@codecombat.com' or teacher
-    req.user.update({$set: { enrollmentRequestSent: true }}).exec(_.noop) if recipientID is 'schools@codecombat.com'
-    closeIO.getSalesContactEmail fromAddress, (err, salesContactEmail) ->
-      console.error "Error getting sales contact for #{sender}: #{err}" if err
-      context.recipient.address = salesContactEmail ? config.mail.supportSchools
-      context.sender.address = fromAddress
-      done context
-  else if recipientID and (user.isAdmin() or ('employer' in (user.get('permissions') ? [])))
+  if recipientID and (user.isAdmin() or ('employer' in (user.get('permissions') ? [])))
     User.findById(recipientID, 'email').exec (err, document) ->
       if err
         log.error "Error looking up recipient to email from #{recipientID}: #{err}" if err
       else
-        context.recipient.bcc = [context.recipient.address, sender]
+        context.recipient.bcc = [context.recipient.address, fromAddress]
         context.recipient.address = document.get('email')
-        context.email_data.content = message
+        context.email_data.content = content
       done context
   else
     async.waterfall [
       fetchRecentSessions.bind undefined, user, context, sentFromLevel
       # Can add other data-grabbing stuff here if we want.
     ], (err, results) ->
-      console.error "Error getting contact message context for #{sender}: #{err}" if err
+      console.error "Error getting contact message context for #{fromAddress}: #{err}" if err
       if req.body.screenshotURL
         context.email_data.contentHTML += "\n<br><img src='#{req.body.screenshotURL}' />"
       done context

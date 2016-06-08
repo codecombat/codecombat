@@ -90,6 +90,8 @@ module.exports = class ThangsTabView extends CocoView
   getRenderData: (context={}) ->
     context = super(context)
     return context unless @supermodel.finished()
+    for thangType in @thangTypes.models
+      thangType.notInLevel = true
     thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
     thangTypes = _.uniq thangTypes, false, 'original'
     thangTypes = _.reject thangTypes, (tt) -> tt.kind in ['Mark', undefined]

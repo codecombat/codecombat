@@ -5,14 +5,14 @@ class Vector
   for name in ['add', 'subtract', 'multiply', 'divide', 'limit', 'normalize', 'rotate']
     do (name) ->
       Vector[name] = (a, b, useZ) ->
-        a.copy()["#{name}Self"](b, useZ)
+        a.copy()[name](b, useZ)
   for name in ['magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared']
     do (name) ->
       Vector[name] = (a, b, useZ) ->
         a[name](b, useZ)
 
   isVector: true
-  apiProperties: ['x', 'y', 'z', 'magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared', 'rotate', 'add', 'subtract', 'multiply', 'divide', 'limit', 'normalize', 'rotate']
+  apiProperties: ['x', 'y', 'z', 'magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared', 'add', 'subtract', 'multiply', 'divide', 'limit', 'normalize', 'rotate']
 
   constructor: (x=0, y=0, z=0) ->
     return new Vector x, y, z unless @ instanceof Vector
@@ -24,68 +24,67 @@ class Vector
 
   # Mutating methods:
 
-  normalizeSelf: (useZ) ->
+  normalize: (useZ) ->
     m = @magnitude useZ
-    @divideSelf m, useZ if m > 0
+    @divide m, useZ if m > 0
     @
 
-  normalize: (useZ) ->
-    # Hack to detect when we are in player code so we can avoid mutation
-    (if @__aetherAPIValue? then @copy() else @).normalizeSelf(useZ)
+  esper_normalize: (useZ) ->
+    @copy().normalize(useZ)
 
-  limitSelf: (max) ->
+  limit: (max) ->
     if @magnitude() > max
-      @normalizeSelf()
-      @multiplySelf(max)
+      @normalize()
+      @multiply(max)
     else
       @
 
-  limit: (useZ) ->
-    (if @__aetherAPIValue? then @copy() else @).limitSelf(useZ)
+  esper_limit: (max) ->
+    @copy().limit(max)
 
-  subtractSelf: (other, useZ) ->
+  subtract: (other, useZ) ->
     @x -= other.x
     @y -= other.y
     @z -= other.z if useZ
     @
 
-  subtract: (other, useZ) ->
-    (if @__aetherAPIValue? then @copy() else @).subtractSelf(other, useZ)
+  esper_subtract: (other, useZ) ->
+    @copy().subtract(other, useZ)
 
-  addSelf: (other, useZ) ->
+  add: (other, useZ) ->
     @x += other.x
     @y += other.y
     @z += other.z if useZ
     @
 
-  add: (other, useZ) ->
-    (if @__aetherAPIValue? then @copy() else @).addSelf(other, useZ)
+  esper_add: (other, useZ) ->
+    @copy().add(other, useZ)
 
-  divideSelf: (n, useZ) ->
+  divide: (n, useZ) ->
     [@x, @y] = [@x / n, @y / n]
     @z = @z / n if useZ
     @
 
-  divide: (n, useZ) ->
-    (if @__aetherAPIValue? then @copy() else @).divideSelf(n, useZ)
+  esper_divide: (n, useZ) ->
+    @copy().divide(n, useZ)
 
-  multiplySelf: (n, useZ) ->
+  multiply: (n, useZ) ->
     [@x, @y] = [@x * n, @y * n]
     @z = @z * n if useZ
     @
 
-  multiply: (n, useZ) ->
-    (if @__aetherAPIValue? then @copy() else @).multiplySelf(n, useZ)
+  esper_multiply: (n, useZ) ->
+    @copy().multiply(n, useZ)
 
   # Rotate it around the origin
   # If we ever want to make this also use z: https://en.wikipedia.org/wiki/Axes_conventions
-  rotateSelf: (theta) ->
+  rotate: (theta) ->
     return @ unless theta
     [@x, @y] = [Math.cos(theta) * @x - Math.sin(theta) * @y, Math.sin(theta) * @x + Math.cos(theta) * @y]
     @
 
-  rotate: (theta) ->
-    (if @__aetherAPIValue? then @copy() else @).rotateSelf(theta)
+  esper_rotate: (theta) ->
+    @copy().rotate(theta)
 
   # Non-mutating methods:
 
@@ -127,7 +126,7 @@ class Vector
 
   # Not the strict projection, the other isn't converted to a unit vector first.
   projectOnto: (other, useZ) ->
-    other.copy().multiplySelf(@dot(other, useZ), useZ)
+    other.copy().multiply(@dot(other, useZ), useZ)
 
   isZero: (useZ) ->
     result = @x is 0 and @y is 0

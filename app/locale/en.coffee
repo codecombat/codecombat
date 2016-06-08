@@ -711,9 +711,6 @@
     music_label: "Music"
     music_description: "Turn background music on/off."
     editor_config_title: "Editor Configuration"
-    editor_config_keybindings_label: "Key Bindings"
-    editor_config_keybindings_default: "Default (Ace)"
-    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
     editor_config_livecompletion_label: "Live Autocompletion"
     editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
     editor_config_invisibles_label: "Show Invisibles"
@@ -1279,7 +1276,8 @@
     student_age_range_to: "to"
     create_class: "Create Class"
     class_name: "Class Name"
-    teacher_account_restricted: "Your account is a teacher account, and so cannot access student content."
+    teacher_account_restricted: "Your account is a teacher account and cannot access student content." # {change}
+    account_restricted: "A student account is required to access this page."
     update_account_login_title: "Log in to update your account"
     update_account_title: "Your account needs attention!"
     update_account_blurb: "Before you can access your classes, choose how you want to use this account."
@@ -1316,6 +1314,9 @@
     sent_verification: "We've sent a verification email to:"
     you_can_edit: "You can edit your email address in "
     account_settings: "Account Settings"
+    select_your_hero: "Select Your Hero"
+    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
+    select_this_hero: "Select this Hero"
 
   teacher:
     teacher_dashboard: "Teacher Dashboard" # Navbar
@@ -1341,6 +1342,7 @@
     unarchive_class: "unarchive class"
     unarchive_this_class: "Unarchive this class"
     no_students_yet: "This class has no students yet."
+    try_refreshing: "(You may need to refresh the page)"
     add_students: "Add Students"
     create_new_class: "Create a New Class"
     class_overview: "Class Overview" # View Class page
@@ -1423,6 +1425,7 @@
     status_expired: "Expired on {{date}}"
     status_not_enrolled: "Not Enrolled"
     status_enrolled: "Expires on {{date}}"
+    select_all: "Select All"
 
   classes:
     archmage_title: "Archmage"

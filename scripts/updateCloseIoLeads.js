@@ -107,6 +107,7 @@ function upsertLeads(done) {
 function getCountryCode(country, emails) {
   // console.log(`DEBUG: getCountryCode ${country} ${emails.length}`);
   if (country) {
+    if (country.indexOf('Nederland') >= 0) return 'NL';
     let countryCode = countryList.getCode(country);
     if (countryCode) return countryCode;
   }
@@ -728,7 +729,7 @@ function createUpdateLeadFn(lead, existingLeads) {
         if (data.total_results === 0) {
           if (existingLeads[lead.name.toLowerCase()]) {
             if (existingLeads[lead.name.toLowerCase()].length === 1) {
-              console.log(`DEBUG: Using lead from email lookup: ${lead.name}`);
+              // console.log(`DEBUG: Using lead from email lookup: ${lead.name}`);
               return updateExistingLead(lead, existingLeads[lead.name.toLowerCase()][0], done);
             }
             console.error(`ERROR: ${existingLeads[lead.name.toLowerCase()].length} email leads found for ${lead.name}`);

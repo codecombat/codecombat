@@ -49,7 +49,7 @@ UserSchema.methods.broadName = ->
   return name if name
   [emailName, emailDomain] = @get('email').split('@')
   return emailName if emailName
-  return 'Anoner'
+  return 'Anonymous'
 
 UserSchema.methods.isInGodMode = ->
   p = @get('permissions')
@@ -162,6 +162,9 @@ UserSchema.statics.updateServiceSettings = (doc, callback) ->
   return callback?() unless isProduction or GLOBAL.testing
   return callback?() if doc.updatedMailChimp
   return callback?() unless doc.get('email')
+  return callback?() unless doc.get('dateCreated')
+  accountAgeMinutes = (new Date().getTime() - doc.get('dateCreated').getTime?() ? 0) / 1000 / 60
+  return callback?() unless accountAgeMinutes > 30 or GLOBAL.testing
   existingProps = doc.get('mailChimp')
   emailChanged = (not existingProps) or existingProps?.email isnt doc.get('email')
 

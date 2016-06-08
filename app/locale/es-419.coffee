@@ -82,7 +82,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    get_started: "Get Started"
     students: "Estudiantes:"
     join_class: "Unirse a una clase"
-#    role: "Your role:"
+    role: "Su rol:"
     student_count: "Número de estudiantes:"
     start_playing_for_free: "Empieza a jugar gratis!"
     students_and_players: "Estudiantes y Jugadores"
@@ -102,7 +102,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     blog: "Blog"
     forum: "Foro"
     account: "Cuenta"
-#    my_account: "My Account"
+    my_account: "Mi Cuenta"
     profile: "Perfil"
     stats: "Estadísticas"
     code: "Código"
@@ -112,7 +112,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     about: "Acerca"
     contact: "Contacto"
     twitter_follow: "Seguir"
-#    students: "Students"
+    students: "Estudiantes"
     teachers: "Maestros"
     careers: "Carreras"
     facebook: "Facebook"
@@ -125,8 +125,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     schools: "Escuelas"
 #    educator_wiki: "Educator Wiki"
     get_involved: "Participa"
-#    open_source: "Open source (GitHub)"
-#    support: "Support"
+    open_source: "Código Libre (GitHub)"
+    support: "Soporte"
 #    faqs: "FAQs"
     help_pref: "¿Necesitas ayuda? Envianos un correó electronico!"
     help_suff: "y te contactaremos pronto"
@@ -271,7 +271,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
 #    facebook_exists: "You already have an account associated with Facebook!"
 #    hey_students: "Students, enter the class code from your teacher."
-#    birthday: "Birthday"
+    birthday: "Compleaños"
 
   recover:
     recover_account_title: "recuperar cuenta"
@@ -341,7 +341,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     subject: "Asunto"
     email: "Email"
     password: "Contraseña"
-#    confirm_password: "Confirm Password"
+    confirm_password: "Confirme Contraseña"
     message: "Mensaje"
     code: "Código"
     ladder: "Escalera"
@@ -425,7 +425,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_new_item: "Objeto Nuevo"
     victory_viking_code_school: "¡Changos macacos!, el nivel que acabas de pasar era dificil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirteen un desarrollador web profesional en 14 semanas."
     victory_become_a_viking: "Conviértete en un Vikingo"
-#    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
+#    victory_no_progress_for_teachers: "El progreso no es guardado para maestros. But, you can add a student account to your classroom for yourself."
     guide_title: "Guía"
     tome_cast_button_run: "Ejecutar"
     tome_cast_button_running: "Ejecutando"
@@ -585,7 +585,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
     feature7: "<strong>Clan</strong> Privado"
-#    feature8: "<strong>No ads!</strong>"
+    feature8: "<strong>¡Sin publicidad!</strong>"
     free: "Gratis"
     month: "mes"
     must_be_logged: "Debes iniciar sesión primero. Por favor crea una cuenta o inicia sesión desde el menú superior."
@@ -753,7 +753,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     robin_blurb: "Scaffolding"
     josh_title: "Diseñador de Juegos"
     josh_blurb: "El piso es Lava"
-#    phoenix_title: "Software Engineer"
+    phoenix_title: "Ingeniero de Software"
 #    nolan_title: "Territory Manager"
 #    elliot_title: "Partnership Manager"
     retrostyle_title: "Ilustración"
@@ -825,7 +825,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     phone_number: "Teléfono"
     phone_number_help: "¿Dónde podemos contactarte durante el horario de trabajo ?"
 #    primary_role_label: "Your Primary Role"
-#    role_default: "Select Role"
+    role_default: "Seleccione Rol"
 #    primary_role_default: "Select Primary Role"
 #    purchaser_role_default: "Select Purchaser Role"
     tech_coordinator: "Coordinador de tecnología"
@@ -865,7 +865,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    create_account: "Create a Teacher Account"
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
 #    convert_account_title: "Update to Teacher Account"
-#    not: "Not"
+    not: "No"
 #    setup_a_class: "Set Up a Class"
 
   versions:
@@ -1294,7 +1294,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    class_name: "Class Name"
 #    teacher_account_restricted: "Your account is a teacher account, and so cannot access student content."
 
-#  teacher:
+  teacher:
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
 #    courses: "Courses"
@@ -1368,8 +1368,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    total_enrolled_students: "Total Enrolled Students"
 #    unenrolled_students: "Unenrolled Students"
 #    add_enrollment_credits: "Add Enrollment Credits"
-#    purchasing: "Purchasing..."
-#    purchased: "Purchased!"
+    purchasing: "Adquiriendo..."
+    purchased: "Adquirido!"
 #    purchase_now: "Purchase Now"
 #    how_to_enroll: "How to Enroll Students"
 #    how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
@@ -1398,7 +1398,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     ambassador_title: "Embajador"
     ambassador_title_description: "(Soporte)"
     ambassador_summary: "Ayuda a responder las preguntas de los usuarios del foro. Nuestros Embajadores representan CodeCombat en todo el mundo."
-#    teacher_title: "Teacher"
+    teacher_title: "Maestro"
 
   editor:
     main_title: "Editor de CodeCombat"
@@ -1711,10 +1711,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     you_can2: "comprar un código prepagado"
     you_can3: "que puede ser aplicado a tu propia cuenta o regalado a otros."
 
-#  coppa_deny:
+#   coppa_deny:
 #    text1: "Can’t wait to learn programming?"
 #    text2: "Ask your parents to create an account for you!"
-#    close: "Close Window"
+#    close: "Cerrar ventana"
 
   loading_error:
     could_not_load: "Error cargando del servidor"
@@ -1869,10 +1869,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     license: "licencia"
     oreilly: "ebook de su elección"
 
-#  calendar:
-#    year: "Year"
-#    day: "Day"
-#    month: "Month"
+  calendar:
+    year: "Año"
+    day: "Día"
+    month: "Mes"
 #    january: "January"
 #    february: "February"
 #    march: "March"

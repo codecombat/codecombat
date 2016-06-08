@@ -80,7 +80,6 @@ module.exports = class CampaignView extends RootView
         return
 
     @campaign = new Campaign({_id:@terrain})
-    @campaign.saveBackups = @editorMode
     @campaign = @supermodel.loadModel(@campaign).model
 
     # Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...

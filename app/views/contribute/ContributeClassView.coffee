@@ -6,16 +6,9 @@ contributorSignupTemplate = require 'templates/contribute/contributor_signup'
 contributorListTemplate = require 'templates/contribute/contributor_list'
 
 module.exports = class ContributeClassView extends RootView
-  navPrefix: '/contribute'
 
   events:
     'change input[type="checkbox"]': 'onCheckboxChanged'
-
-  getRenderData: ->
-    c = super()
-    c.navPrefix = @navPrefix
-    c.contributors = @contributors
-    c
 
   afterRender: ->
     super()
@@ -39,5 +32,3 @@ module.exports = class ContributeClassView extends RootView
     me.patch()
     @openModalView new CreateAccountModal() if me.get 'anonymous'
     el.parent().find('.saved-notification').finish().show('fast').delay(3000).fadeOut(2000)
-
-  contributors: []

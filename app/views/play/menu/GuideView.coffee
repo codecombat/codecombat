@@ -19,12 +19,13 @@ module.exports = class LevelGuideView extends CocoView
     @levelSlug = options.level.get('slug')
     @sessionID = options.session.get('_id')
     @requiresSubscription = not me.isPremium()
-    @helpVideos = options.level.get('helpVideos') ? []
+    @isCourseLevel = options.level.get('type', true) in ['course', 'course-ladder']
+    @helpVideos = if @isCourseLevel then [] else options.level.get('helpVideos') ? []
     @trackedHelpVideoStart = @trackedHelpVideoFinish = false
     # A/B Testing video tutorial styles
     @helpVideosIndex = me.getVideoTutorialStylesIndex(@helpVideos.length)
-    @helpVideo = @helpVideos[@helpVideosIndex] if @helpVideos.length > 0
-    @videoLocked = not (@helpVideo?.free or options.level.get('type', true) in ['course', 'course-ladder']) and @requiresSubscription
+    @helpVideo = @helpVideos[@helpVideosIndex] if @helpVideos.length > 0 and not @isCourseLevel
+    @videoLocked = not (@helpVideo?.free or @isCourseLevel) and @requiresSubscription
 
     @firstOnly = options.firstOnly
     @docs = options?.docs ? options.level.get('documentation') ? {}
@@ -57,7 +58,7 @@ module.exports = class LevelGuideView extends CocoView
   getRenderData: ->
     c = super()
     c.docs = @docs
-    c.showVideo = @helpVideos.length > 0
+    c.showVideo = @helpVideos.length > 0 unless @isCourseLevel
     c.videoLocked = @videoLocked
     c
 
@@ -68,7 +69,7 @@ module.exports = class LevelGuideView extends CocoView
       if @helpVideos.length
         startingTab = 0
       else
-        startingTab = _.findIndex @docs, slug: 'intro'
+        startingTab = _.findIndex @docs, slug: 'overview'
         startingTab = 0 if startingTab is -1
       # incredible hackiness. Getting bootstrap tabs to work shouldn't be this complex
       @$el.find(".nav-tabs li:nth(#{startingTab})").addClass('active')

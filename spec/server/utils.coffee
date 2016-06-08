@@ -11,6 +11,8 @@ Prepaid = require '../../server/models/Prepaid'
 Classroom = require '../../server/models/Classroom'
 CourseInstance = require '../../server/models/CourseInstance'
 moment = require 'moment'
+Classroom = require '../../server/models/Classroom'
+TrialRequest = require '../../server/models/TrialRequest'
 campaignSchema = require '../../app/schemas/models/campaign.schema'
 campaignLevelProperties = _.keys(campaignSchema.properties.levels.additionalProperties.properties)
 campaignAdjacentCampaignProperties = _.keys(campaignSchema.properties.adjacentCampaigns.additionalProperties.properties)
@@ -186,3 +188,17 @@ module.exports = mw =
       expect(res.statusCode).toBe(200)
       courseInstance = yield CourseInstance.findById(res.body._id)
     return courseInstance
+
+  makeTrialRequest: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      type: 'course'
+      properties: {}
+    }, data)
+
+    request.post { uri: getURL('/db/trial.request'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(201)
+      TrialRequest.findById(res.body._id).exec done
