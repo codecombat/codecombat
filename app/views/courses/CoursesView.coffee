@@ -29,11 +29,14 @@ module.exports = class CoursesView extends RootView
     'click .change-hero-btn': 'onClickChangeHeroButton'
     'click #join-class-btn': 'onClickJoinClassButton'
     'submit #join-class-form': 'onSubmitJoinClassForm'
-    'click #change-language-link': 'onClickChangeLanguageLink'
+    'click .play-btn': 'onClickPlay'
+    'click .view-class-btn': 'onClickViewClass'
+    'click .view-levels-btn': 'onClickViewLevels'
 
   getTitle: -> return $.i18n.t('teacher.students')
 
   initialize: ->
+    @classCodeQueryVar = utils.getQueryVariable('_cc', false)
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @courseInstances.comparator = (ci) -> return ci.get('classroomID') + ci.get('courseID')
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
@@ -55,6 +58,7 @@ module.exports = class CoursesView extends RootView
     @supermodel.loadModel(@hero, 'hero')
     @listenTo @hero, 'all', ->
       @render()
+    window.tracker?.trackEvent 'Students Loaded', category: 'Students', ['Mixpanel']
 
   onCourseInstancesLoaded: ->
     map = {}
@@ -76,20 +80,22 @@ module.exports = class CoursesView extends RootView
 
   onLoaded: ->
     super()
-    if utils.getQueryVariable('_cc', false) and not me.isAnonymous()
+    if @classCodeQueryVar and not me.isAnonymous()
+      window.tracker?.trackEvent 'Students Join Class Link', category: 'Students', classCode: @classCodeQueryVar, ['Mixpanel']
       @joinClass()
 
   onClickLogInButton: ->
     modal = new AuthModal()
     @openModalView(modal)
-    application.tracker?.trackEvent 'Started Student Login', category: 'Courses'
+    window.tracker?.trackEvent 'Students Login Started', category: 'Students', ['Mixpanel']
 
   openSignUpModal: ->
+    window.tracker?.trackEvent 'Students Signup Started', category: 'Students', ['Mixpanel']
     modal = new CreateAccountModal({ initialValues: { classCode: utils.getQueryVariable('_cc', "") } })
     @openModalView(modal)
-    application.tracker?.trackEvent 'Started Student Signup', category: 'Courses'
 
   onClickChangeHeroButton: ->
+    window.tracker?.trackEvent 'Students Change Hero Started', category: 'Students', ['Mixpanel']
     modal = new HeroSelectModal({ currentHeroID: @hero.id })
     @openModalView(modal)
     @listenTo modal, 'hero-select:success', (newHero) =>
@@ -101,16 +107,20 @@ module.exports = class CoursesView extends RootView
 
   onSubmitJoinClassForm: (e) ->
     e.preventDefault()
+    classCode = @$('#class-code-input').val() or @classCodeQueryVar
+    window.tracker?.trackEvent 'Students Join Class With Code', category: 'Students', classCode: classCode, ['Mixpanel']
     @joinClass()
 
   onClickJoinClassButton: (e) ->
+    classCode = @$('#class-code-input').val() or @classCodeQueryVar
+    window.tracker?.trackEvent 'Students Join Class With Code', category: 'Students', classCode: classCode, ['Mixpanel']
     @joinClass()
 
   joinClass: ->
     return if @state
     @state = 'enrolling'
     @errorMessage = null
-    @classCode = @$('#class-code-input').val() or utils.getQueryVariable('_cc', false)
+    @classCode = @$('#class-code-input').val() or @classCodeQueryVar
     if not @classCode
       @state = null
       @errorMessage = 'Please enter a code.'
@@ -133,7 +143,6 @@ module.exports = class CoursesView extends RootView
 
   onJoinClassroomError: (classroom, jqxhr, options) ->
     @state = null
-    application.tracker?.trackEvent 'Failed to join classroom with code', category: 'Courses', status: jqxhr.status
     if jqxhr.status is 422
       @errorMessage = 'Please enter a code.'
     else if jqxhr.status is 404
@@ -161,9 +170,19 @@ module.exports = class CoursesView extends RootView
       # TODO: Smoother system for joining a classroom and course instances, without requiring page reload,
       # and showing which class was just joined.
       document.location.search = '' # Using document.location.reload() causes an infinite loop of reloading
-    
-  onClickChangeLanguageLink: ->
-    application.tracker?.trackEvent 'Student clicked change language', category: 'Courses'
-    modal = new ChangeCourseLanguageModal()
-    @openModalView(modal)
-    modal.once 'hidden', @render, @
+
+  onClickPlay: (e) ->
+    levelSlug = $(e.currentTarget).data('level-slug')
+    window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Students', levelSlug: levelSlug, ['Mixpanel']
+    application.router.navigate($(e.currentTarget).data('href'), { trigger: true })
+
+  onClickViewClass: (e) ->
+    classroomID = $(e.target).data('classroom-id')
+    window.tracker?.trackEvent 'Students View Class', category: 'Students', classroomID: classroomID, ['Mixpanel']
+    application.router.navigate("/courses/#{classroomID}", { trigger: true })
+
+  onClickViewLevels: (e) ->
+    courseID = $(e.target).data('course-id')
+    courseInstanceID = $(e.target).data('courseinstance-id')
+    window.tracker?.trackEvent 'Students View Levels', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
+    application.router.navigate("/courses/#{courseID}/#{courseInstanceID}", { trigger: true })

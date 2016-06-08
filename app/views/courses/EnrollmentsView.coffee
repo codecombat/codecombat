@@ -21,7 +21,7 @@ module.exports = class EnrollmentsView extends RootView
 
   getTitle: -> return $.i18n.t('teacher.enrollments')
 
-  initialize: ->
+  initialize: (options) ->
     @state = new State({
       totalEnrolled: 0
       totalNotEnrolled: 0
@@ -34,6 +34,8 @@ module.exports = class EnrollmentsView extends RootView
         'pending': []
       }
     })
+    window.tracker?.trackEvent 'Classes Licenses Loaded', category: 'Teachers', ['Mixpanel']
+    super(options)
 
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetch({data: { project: 'free' }})
@@ -58,31 +60,31 @@ module.exports = class EnrollmentsView extends RootView
     @calculateEnrollmentStats()
     @state.set('totalCourses', @courses.size())
     super()
-    
+
   updatePrepaidGroups: ->
     @state.set('prepaidGroups', @prepaids.groupBy((p) -> p.status()))
 
   calculateEnrollmentStats: ->
     @removeDeletedStudents()
-    
+
     # sort users into enrolled, not enrolled
     groups = @members.groupBy (m) -> m.isEnrolled()
     enrolledUsers = new Users(groups.true)
     @notEnrolledUsers = new Users(groups.false)
 
-    map = {} 
-    
+    map = {}
+
     for classroom in @classrooms.models
       map[classroom.id] = _.countBy(classroom.get('members'), (userID) -> enrolledUsers.get(userID)?).false
-    
+
     @state.set({
       totalEnrolled: enrolledUsers.size()
       totalNotEnrolled: @notEnrolledUsers.size()
       classroomNotEnrolledMap: map
     })
-    
+
     true
-    
+
   removeDeletedStudents: (e) ->
     for classroom in @classrooms.models
       _.remove(classroom.get('members'), (memberID) =>
@@ -94,8 +96,9 @@ module.exports = class EnrollmentsView extends RootView
     @openModalView(new HowToEnrollModal())
 
   onClickContactUsButton: ->
+    window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers', enrollmentsNeeded: @state.get('numberOfStudents'), ['Mixpanel']
     @openModalView(new TeachersContactModal({ enrollmentsNeeded: @state.get('numberOfStudents') }))
-    
+
   onInputStudentsInput: ->
     input = @$('#students-input').val()
     if input isnt "" and (parseFloat(input) isnt parseInt(input) or _.isNaN parseInt(input))
@@ -106,6 +109,7 @@ module.exports = class EnrollmentsView extends RootView
   numberOfStudentsIsValid: -> 0 < @get('numberOfStudents') < 100000
 
   onClickEnrollStudentsButton: ->
+    window.tracker?.trackEvent 'Classes Licenses Enroll Students', category: 'Teachers', ['Mixpanel']
     modal = new ActivateLicensesModal({ selectedUsers: @notEnrolledUsers, users: @members })
     @openModalView(modal)
     modal.once 'hidden', =>

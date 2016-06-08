@@ -34,6 +34,7 @@ module.exports = class RequestQuoteView extends RootView
     @trialRequests.fetchOwn()
     @supermodel.trackCollection(@trialRequests)
     @formChanged = false
+    window.tracker?.trackEvent 'Teachers Request Demo Loaded', category: 'Teachers', ['Mixpanel']
 
   onLeaveMessage: ->
     if @formChanged
@@ -42,8 +43,6 @@ module.exports = class RequestQuoteView extends RootView
   onLoaded: ->
     if @trialRequests.size()
       @trialRequest = @trialRequests.first()
-    if @trialRequest and @trialRequest.get('status') isnt 'submitted' and @trialRequest.get('status') isnt 'approved'
-      window.tracker?.trackEvent 'View Trial Request', category: 'Teachers', label: 'View Trial Request', ['Mixpanel']
     super()
 
   invalidateNCES: ->
@@ -89,6 +88,8 @@ module.exports = class RequestQuoteView extends RootView
       @onChangeRequestForm()
 
   onChangeRequestForm: ->
+    unless @formChanged
+      window.tracker?.trackEvent 'Teachers Request Demo Form Started', category: 'Teachers', ['Mixpanel']
     @formChanged = true
 
   onSubmitRequestForm: (e) ->
@@ -161,6 +162,7 @@ module.exports = class RequestQuoteView extends RootView
     @openModalView(modal)
 
   onTrialRequestSubmit: ->
+    window.tracker?.trackEvent 'Teachers Request Demo Form Submitted', category: 'Teachers', ['Mixpanel']
     @formChanged = false
     me.setRole @trialRequest.get('properties').role.toLowerCase(), true
     defaultName = [@trialRequest.get('firstName'), @trialRequest.get('lastName')].join(' ')
@@ -168,7 +170,6 @@ module.exports = class RequestQuoteView extends RootView
     @$('#request-form, #form-submit-success').toggleClass('hide')
     @scrollToTop(0)
     $('#flying-focus').css({top: 0, left: 0}) # Hack copied from Router.coffee#187. Ideally we'd swap out the view and have view-swapping logic handle this
-    window.tracker?.trackEvent 'Submit Trial Request', category: 'Teachers', label: 'Trial Request', ['Mixpanel']
 
   onClickGPlusSignupButton: ->
     btn = @$('#gplus-signup-btn')
@@ -190,6 +191,7 @@ module.exports = class RequestQuoteView extends RootView
                   url: "/db/user?gplusID=#{gplusAttrs.gplusID}&gplusAccessToken=#{application.gplusHandler.token()}"
                   type: 'PUT'
                   success: ->
+                    window.tracker?.trackEvent 'Teachers Request Demo Create Account Google', category: 'Teachers', ['Mixpanel']
                     application.router.navigate(SIGNUP_REDIRECT)
                     window.location.reload()
                   error: errors.showNotyNetworkError
@@ -218,6 +220,7 @@ module.exports = class RequestQuoteView extends RootView
                   url: "/db/user?facebookID=#{facebookAttrs.facebookID}&facebookAccessToken=#{application.facebookHandler.token()}"
                   type: 'PUT'
                   success: ->
+                    window.tracker?.trackEvent 'Teachers Request Demo Create Account Facebook', category: 'Teachers', ['Mixpanel']
                     application.router.navigate(SIGNUP_REDIRECT)
                     window.location.reload()
                   error: errors.showNotyNetworkError
@@ -250,12 +253,11 @@ module.exports = class RequestQuoteView extends RootView
     })
     me.save(null, {
       success: ->
+        window.tracker?.trackEvent 'Teachers Request Demo Create Account', category: 'Teachers', ['Mixpanel']
         application.router.navigate(SIGNUP_REDIRECT)
         window.location.reload()
       error: errors.showNotyNetworkError
     })
-
-
 
 requestFormSchemaAnonymous = {
   type: 'object'

@@ -14,10 +14,6 @@ module.exports = class ClassroomSettingsModal extends ModalView
 
   initialize: (options={}) ->
     @classroom = options.classroom or new Classroom()
-    if @classroom.isNew()
-      application.tracker?.trackEvent 'Create new class', category: 'Courses'
-    else
-      application.tracker?.trackEvent 'Classroom started edit settings', category: 'Courses', classroomID: @classroom.id
 
   afterRender: ->
     super()
@@ -53,3 +49,5 @@ module.exports = class ClassroomSettingsModal extends ModalView
       button.text(@oldButtonText).attr('disabled', false)
       errors.showNotyNetworkError(jqxhr)
     @listenToOnce @classroom, 'sync', @hide
+    window.tracker?.trackEvent "Teachers Edit Class Saved", category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+
