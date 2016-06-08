@@ -5,4 +5,6 @@ template = require 'templates/contribute/adventurer'
 module.exports = class AdventurerView extends ContributeClassView
   id: 'adventurer-view'
   template: template
-  contributorClassName: 'adventurer'
+
+  initialize: ->
+    @contributorClassName = 'adventurer'

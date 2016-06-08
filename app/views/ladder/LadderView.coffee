@@ -43,6 +43,7 @@ module.exports = class LadderView extends RootView
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     @level.once 'sync', =>
       @levelDescription = marked(@level.get('description')) if @level.get('description')
+      @teams = teamDataFromLevel @level
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
     @winners = require('./tournament_results')[@levelID]
 
@@ -69,10 +70,6 @@ module.exports = class LadderView extends RootView
     course = new Course({_id: courseInstance.get('courseID')})
     @course = @supermodel.loadModel(course).model
     @listenToOnce @course, 'sync', @render
-
-  onLoaded: ->
-    @teams = teamDataFromLevel @level
-    super()
 
   afterRender: ->
     super()
