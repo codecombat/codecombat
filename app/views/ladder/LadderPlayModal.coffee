@@ -24,12 +24,27 @@ module.exports = class LadderPlayModal extends ModalView
     behaviors: false
     liveCompletion: true
 
-  constructor: (options, @level, @session, @team) ->
-    super(options)
-    @nameMap = {}
+  initialize: (options, @level, @session, @team) ->
     @otherTeam = if @team is 'ogres' then 'humans' else 'ogres'
     @startLoadingChallengersMaybe()
     @wizardType = ThangType.loadUniversalWizard()
+    @levelID = @level.get('slug') or @level.id
+    @language = @session?.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
+    @languages = [
+      {id: 'python', name: 'Python'}
+      {id: 'javascript', name: 'JavaScript'}
+      {id: 'coffeescript', name: 'CoffeeScript (Experimental)'}
+      {id: 'lua', name: 'Lua'}
+      {id: 'java', name: 'Java'}
+    ]
+    @myName = me.get('name') || 'Newcomer'
+
+    teams = []
+    teams[t.id] = t for t in teamDataFromLevel @level
+    @teamColor = teams[@team].primaryColor
+    @teamBackgroundColor = teams[@team].bgColor
+    @opponentTeamColor = teams[@otherTeam].primaryColor
+    @opponentTeamBackgroundColor = teams[@otherTeam].bgColor
 
   updateLanguage: ->
     aceConfig = _.cloneDeep me.get('aceConfig') ? {}
@@ -59,6 +74,12 @@ module.exports = class LadderPlayModal extends ModalView
     @challengers = @getChallengers()
     ids = (challenger.opponentID for challenger in _.values @challengers)
 
+    for challenger in _.values @challengers
+      continue unless challenger and @wizardType.loaded
+      if (not challenger.opponentImageSource) and challenger.opponentWizard?.colorConfig
+        challenger.opponentImageSource = @wizardType.getPortraitSource(
+          {colorConfig: challenger.opponentWizard.colorConfig})
+
     success = (@nameMap) =>
       for challenger in _.values(@challengers)
         challenger.opponentName = @nameMap[challenger.opponentID]?.name or 'Anonymous'
@@ -86,46 +107,9 @@ module.exports = class LadderPlayModal extends ModalView
       @tutorialLevelExists = exists
       @render()
       @maybeShowTutorialButtons()
-
-  getRenderData: ->
-    ctx = super()
-    ctx.level = @level
-    ctx.levelID = @level.get('slug') or @level.id
-    ctx.teamName = _.string.titleize @team
-    ctx.teamID = @team
-    ctx.otherTeamID = @otherTeam
-    ctx.tutorialLevelExists = @tutorialLevelExists
-    ctx.language = @session?.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
-    ctx.languages = [
-      {id: 'python', name: 'Python'}
-      {id: 'javascript', name: 'JavaScript'}
-      {id: 'coffeescript', name: 'CoffeeScript (Experimental)'}
-      {id: 'lua', name: 'Lua'}
-      {id: 'java', name: 'Java'}
-    ]
-    ctx.league = @options.league
-    teamsList = teamDataFromLevel @level
-    teams = {}
-    teams[team.id] = team for team in teamsList
-    ctx.teamColor = teams[@team].primaryColor
-    ctx.teamBackgroundColor = teams[@team].bgColor
-    ctx.opponentTeamColor = teams[@otherTeam].primaryColor
-    ctx.opponentTeamBackgroundColor = teams[@otherTeam].bgColor
-
-    ctx.challengers = @challengers or {}
-    for challenger in _.values ctx.challengers
-      continue unless challenger and @wizardType.loaded
-      if (not challenger.opponentImageSource) and challenger.opponentWizard?.colorConfig
-        challenger.opponentImageSource = @wizardType.getPortraitSource(
-          {colorConfig: challenger.opponentWizard.colorConfig})
-
-    if @wizardType.loaded
-      ctx.genericPortrait = @wizardType.getPortraitSource()
-      myColorConfig = me.get('wizard')?.colorConfig
-      ctx.myPortrait = if myColorConfig then @wizardType.getPortraitSource({colorConfig: myColorConfig}) else ctx.genericPortrait
-
-    ctx.myName = me.get('name') || 'Newcomer'
-    ctx
+    @genericPortrait = @wizardType.getPortraitSource()
+    myColorConfig = me.get('wizard')?.colorConfig
+    @myPortrait = if myColorConfig then @wizardType.getPortraitSource({colorConfig: myColorConfig}) else @genericPortrait
 
   maybeShowTutorialButtons: ->
     return if @session or LadderPlayModal.shownTutorialButton or not @tutorialLevelExists
