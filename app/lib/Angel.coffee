@@ -12,8 +12,8 @@ reportedLoadErrorAlready = false
 module.exports = class Angel extends CocoClass
   @nicks: ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger']
 
-  infiniteLoopIntervalDuration: 900010000  # check this often; must be longer than other two combined
-  infiniteLoopTimeoutDuration: 90007500  # wait this long for a response when checking
+  infiniteLoopIntervalDuration: 10000  # check this often; must be longer than other two combined
+  infiniteLoopTimeoutDuration: 7500  # wait this long for a response when checking
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
 
   subscriptions:
