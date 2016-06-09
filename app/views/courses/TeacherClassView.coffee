@@ -303,12 +303,10 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
 
   onClickBulkEnroll: ->
-    courseID = @$('.bulk-course-select').val()
-    courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
     userIDs = @getSelectedStudentIDs().toArray()
     selectedUsers = new Users(@students.get(userID) for userID in userIDs)
     @enrollStudents(selectedUsers)
-    window.tracker?.trackEvent 'Teachers Class Students Enroll Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, courseInstanceID: courseInstance.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Enroll Selected', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
 
   enrollStudents: (selectedUsers) ->
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }

@@ -66,11 +66,7 @@ module.exports = class NewHomeView extends RootView
     @scrollToLink('#classroom-in-box-container')
 
   onClickPlayButton: (e) ->
-    @playSound 'menu-button-click'
-    e.preventDefault()
-    e.stopImmediatePropagation()
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', ['Mixpanel']
-    application.router.navigate @playURL, trigger: true
 
   onClickRequestDemo: (e) ->
     @playSound 'menu-button-click'
@@ -86,9 +82,8 @@ module.exports = class NewHomeView extends RootView
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', ['Mixpanel']
     application.router.navigate("/teachers/classes", { trigger: true })
 
-  onClickStudentButton: ->
-    window.tracker?.trackEvent 'Homepage Click Student Button', category: 'Homepage', ['Mixpanel']
-    application.router.navigate('/courses', { trigger: true })
+  onClickStudentButton: (e) ->
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', ['Mixpanel']
 
   onClickTeacherButton: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', ['Mixpanel']

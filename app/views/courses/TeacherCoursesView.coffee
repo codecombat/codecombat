@@ -55,7 +55,6 @@ module.exports = class TeacherCoursesView extends RootView
     courseName = $(e.currentTarget).data('course-name')
     eventAction = $(e.currentTarget).data('event-action')
     window.tracker?.trackEvent eventAction, category: 'Teachers', courseID: courseID, courseName: courseName, ['Mixpanel']
-    window.location.href = $(e.currentTarget).data('href')
 
   onClickPlayLevel: (e) ->
     form = $(e.currentTarget).closest('.play-level-form')

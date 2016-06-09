@@ -5,11 +5,11 @@ mixin box
     if me.isAnonymous() == true
       h6#classroom-edition-header(data-i18n="new_home.classroom_edition")
       div
-        button.teacher-btn.btn.btn-primary.btn-lg.btn-block(data-event-action="Homepage Click Teacher Button CTA", data-i18n="new_home.im_a_teacher")
+        a.teacher-btn.btn.btn-primary.btn-lg.btn-block(data-event-action="Homepage Click Teacher Button CTA", data-i18n="new_home.im_a_teacher")
       div
-        button.student-btn.btn.btn-forest.btn-lg.btn-block(data-i18n="new_home.im_a_student")
+        a.student-btn.btn.btn-forest.btn-lg.btn-block(href="/courses", data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student")
       h6#learn-to-code-header(data-i18n="new_home.learn_to_code")
-      button.btn.btn-gold.btn-lg.btn-block.play-btn(data-event-action="Homepage Play Now CTA", data-i18n="new_home.play_now")
+      a.btn.btn-gold.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Play Now CTA", data-i18n="new_home.play_now")
 
     else
       h6#classroom-edition-header(data-i18n="new_home.logged_in_as")
@@ -27,14 +27,14 @@ mixin box
 
       else if me.justPlaysCourses()
         div
-          button.btn.btn-forest.btn-lg.btn-block.play-btn(data-event-action="Homepage Classroom Continue Playing CTA", data-i18n="courses.continue_playing")
+          a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Classroom Continue Playing CTA", data-i18n="courses.continue_playing")
         div
-          button.btn.btn-primary.btn-lg.btn-block.play-btn(data-event-action="Homepage View Progress CTA", data-i18n="new_home.view_progress")
+          a.btn.btn-primary.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage View Progress CTA", data-i18n="new_home.view_progress")
       else
         div
-          button.btn.btn-forest.btn-lg.btn-block.play-btn(data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
+          a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
         div
-          button.btn.btn-primary.btn-lg.btn-block.profile-btn(data-event-action="Homepage View Profile CTA", data-i18n="new_home.view_profile")
+          a.btn.btn-primary.btn-lg.btn-block.profile-btn(href=view.playURL, data-event-action="Homepage View Profile CTA", data-i18n="new_home.view_profile")
 
 
       p.small
