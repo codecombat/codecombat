@@ -8,6 +8,7 @@ ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 EditStudentModal = require 'views/teachers/EditStudentModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 
+Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 Levels = require 'collections/Levels'
@@ -110,12 +111,15 @@ module.exports = class TeacherClassView extends RootView
         return dir * diff if diff
         return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
 
+    @campaigns = new Campaigns()
+    @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,slug,type' } })
+
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetch()
     
     @courseInstances = new CourseInstances()
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
-    
+
     @levels = new Levels()
     @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts'}})
     
@@ -321,23 +325,59 @@ module.exports = class TeacherClassView extends RootView
   onClickExportStudentProgress: ->
     # TODO: Does not yield .csv download on Safari, and instead opens a new tab with the .csv contents
     window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
-    csvContent = "data:text/csv;charset=utf-8,Username, Email, Playtime, Concepts\n"
+    courseLabels = ""
+    courseOrder = []
+    for course, index in @classroom.get('courses')
+      courseLabels += "CS#{index + 1} Playtime,"
+      courseOrder.push(course._id)
+    csvContent = "data:text/csv;charset=utf-8,Username,Email,Total Playtime,#{courseLabels}Concepts\n"
+    campaignCourseMap = {}
+    courseMap = {}
+    for course in @courses.models
+      campaignCourseMap[course.get('campaignID')] = course
+      courseMap[course.id] = course
+    levelCourseMap = {}
+    for campaign in @campaigns.models
+      continue unless campaignCourseMap[campaign.id]
+      for levelID, level of campaign.get('levels')
+        levelCourseMap[levelID] = campaignCourseMap[campaign.id]
     for student in @students.models
       concepts = []
-      for course, index in @courses.models
+      for course in @courses.models
         instance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
         if instance and instance.hasMember(student)
           # TODO: @levels collection is for the classroom, and not per-course
-          for level, index in @levels.models
+          for level in @levels.models
             progress = @state.get('progressData').get({ classroom: @classroom, course: course, level: level, user: student })
             concepts.push(level.get('concepts') ? []) if progress?.completed
       concepts = _.union(_.flatten(concepts))
       conceptsString = _.map(concepts, (c) -> $.i18n.t("concepts." + c)).join(', ')
+      coursePlaytimeMap = {}
       playtime = 0
       for session in @classroom.sessions.models when session.get('creator') is student.id
         playtime += session.get('playtime') or 0
-      playtimeString = moment.duration(playtime, 'seconds').humanize()
-      csvContent += "#{student.get('name')},#{student.get('email')},#{playtimeString},\"#{conceptsString}\"\n"
+        if courseID = levelCourseMap[session.get('level')?.original]?.id
+          coursePlaytimeMap[courseID] ?= 0
+          coursePlaytimeMap[courseID] += session.get('playtime') or 0
+      playtimeString = if playtime is 0 then "0" else moment.duration(playtime, 'seconds').humanize()
+      for course in @courses.models
+        coursePlaytimeMap[course.id] ?= 0
+      coursePlaytimes = []
+      for courseID, playtime of coursePlaytimeMap
+        coursePlaytimes.push
+          courseID: courseID
+          playtime: playtime
+      coursePlaytimes.sort (a, b) ->
+        return -1 if courseOrder.indexOf(a.courseID) < courseOrder.indexOf(b.courseID)
+        return 0 if courseOrder.indexOf(a.courseID) is courseOrder.indexOf(b.courseID)
+        return 1
+      coursePlaytimesString = ""
+      for coursePlaytime, index in coursePlaytimes
+        if coursePlaytime.playtime is 0
+          coursePlaytimesString += "0,"
+        else
+          coursePlaytimesString += "#{moment.duration(coursePlaytime.playtime, 'seconds').humanize()},"
+      csvContent += "#{student.get('name')},#{student.get('email')},#{playtimeString},#{coursePlaytimesString}\"#{conceptsString}\"\n"
     csvContent = csvContent.substring(0, csvContent.length - 1)
     encodedUri = encodeURI(csvContent)
     window.open(encodedUri)
