@@ -154,16 +154,15 @@ module.exports = class CampaignEditorView extends RootView
     
   propagateCampaignIndexes: ->
     campaignLevels = $.extend({}, @campaign.get('levels'))
-    
     index = 0
     for levelOriginal, campaignLevel of campaignLevels
-      level = @levels.findWhere({original: levelOriginal})
-      if level and level.get('campaignIndex') isnt index
-        level.set('campaignIndex', index)
+      if @campaign.get('type') is 'course'
+        level = @levels.findWhere({original: levelOriginal})
+        if level and level.get('campaignIndex') isnt index
+          level.set('campaignIndex', index)
       campaignLevel.campaignIndex = index
       index += 1
-
-    @campaign.set('levels', campaignLevels)
+      @campaign.set('levels', campaignLevels)
 
   onClickPatches: (e) ->
     @patchesView = @insertSubView(new PatchesView(@campaign), @$el.find('.patches-view'))

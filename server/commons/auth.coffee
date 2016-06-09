@@ -17,16 +17,17 @@ module.exports.setup = ->
   authentication.use(new LocalStrategy(
     (username, password, done) ->
 
-      # kind of a hacky way to make it possible for iPads to 'log in' with their unique device id
-      if username.length is 36 and '@' not in username # must be an identifier for vendor
-        q = { iosIdentifierForVendor: username }
-      else
-        q = { emailLower: username.toLowerCase() }
+      # TODO: Add special iPad login endpoint. There was some logic here for the old, hacky method,
+      # but was removed for username login 
+      q = { $or: [
+        { emailLower: username.toLowerCase() }
+        { slug: _.str.slugify(username) }
+      ]}
       
       User.findOne(q).exec((err, user) ->
         return done(err) if err
         if not user
-          return done(new errors.Unauthorized('not found', { property: 'email' }))
+          return done(new errors.Unauthorized('not found', { errorID: 'not-found' }))
         passwordReset = (user.get('passwordReset') or '').toLowerCase()
         if passwordReset and password.toLowerCase() is passwordReset
           User.update {_id: user.get('_id')}, {$unset: {passwordReset: ''}}, {}, ->
@@ -34,7 +35,7 @@ module.exports.setup = ->
 
         hash = User.hashPassword(password)
         unless user.get('passwordHash') is hash
-          return done(new errors.Unauthorized('is wrong', { property: 'password' }))
+          return done(new errors.Unauthorized('is wrong', { errorID: 'wrong-password' }))
         return done(null, user)
       )
   ))

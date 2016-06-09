@@ -275,6 +275,13 @@ module.exports = class User extends CocoModel
     options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
     
+  loginPasswordUser: (usernameOrEmail, password, options={}) ->
+    options.url = '/auth/login'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, { username: usernameOrEmail, password })
+    @fetch(options)
+    
   makeCoursePrepaid: ->
     coursePrepaid = @get('coursePrepaid')
     return null unless coursePrepaid

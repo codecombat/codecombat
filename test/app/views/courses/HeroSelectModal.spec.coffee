@@ -1,5 +1,4 @@
 HeroSelectModal = require 'views/courses/HeroSelectModal'
-auth = require 'core/auth'
 factories = require 'test/app/factories'
 
 describe 'HeroSelectModal', ->
@@ -14,7 +13,6 @@ describe 'HeroSelectModal', ->
 
   beforeEach (done) ->
     window.me = user = factories.makeUser({ heroConfig: { thangType: hero1.get('original') } })
-    auth.loginUser(user.attributes)
     modal = new HeroSelectModal({ currentHeroID: hero1.id })
     modal.heroes.fakeRequests[0].respondWith({ status: 200, responseText: heroesResponse })
     jasmine.demoModal(modal)
