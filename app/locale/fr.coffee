@@ -42,7 +42,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     wanted_to_do: " Programmer est quelquechose que j'ai toujours voulu faire, et je n'ai jamais pensé que je pourrais l'apprendre à l'école."
     why_games: "Pourquoi est-ce qu'apprendre en jouant est important?"
     games_reward: "Les jeux récompensent l'effort productif."
-    encourage: "Le jeu est une plateforme qui encourage l'interaction, la découverte et l'essaie et erreur. Un bon jeu défit le joeur d'apprendre à maîtriser de nouvelles habiletés au fil du temps, ce qui correspond au même processus critique que l'on retrouve au niveau de l'éducation.
+    encourage: "Le jeu est une plateforme qui encourage l'interaction, la découverte et l'essaie et erreur. Un bon jeu défit le joeur d'apprendre à maîtriser de nouvelles habiletés au fil du temps, ce qui correspond au même processus critique que l'on retrouve au niveau de l'éducation."
     excel: "Les jeux sont excellents afin de récompenser"
     struggle: "l'effort productif"
     kind_of_struggle: "le type d'effort qui permet d'apprendre, qui nous engage et"
@@ -79,6 +79,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     teachers: "Enseignants!"
     teachers_and_educators: "Enseignants et éducateurs"
     class_in_box: "Apprenez comment notre plateforme classe-tout-inclus s'adapte à votre curriculum."
+#    get_started: "Get Started"
     students: "Étudiants:"
     join_class: "Joindre une classe"
     role: "Votre rôle:"
