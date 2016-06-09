@@ -244,7 +244,7 @@ mixin studentRow(student)
           div(data-i18n='teacher.remove')
 
 mixin enrollStudentButton(student)
-  a.enroll-student-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id data-user-id=student.id)
+  a.enroll-student-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id data-user-id=student.id data-event-action="Teachers Class Students Enroll Student")
     span(data-i18n='teacher.enroll_student')
 
 mixin courseProgressTab
@@ -294,7 +294,7 @@ mixin courseProgressTab
                     span(data-i18n='TODO')
                       | Assign Course
                 else
-                  .enroll-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id)
+                  .enroll-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-event-action="Teachers Class Course Enroll Student")
                     span(data-i18n='TODO')
                       | Enroll Student
 
@@ -426,4 +426,4 @@ mixin enrollmentStatusTab
             strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString(student)
           td.enroll-col
             if status !== 'enrolled'
-              button.enroll-student-button.btn.btn-navy(data-i18n="teacher.enroll_student", data-user-id=student.id)
+              button.enroll-student-button.btn.btn-navy(data-i18n="teacher.enroll_student", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")

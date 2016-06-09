@@ -31,6 +31,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     @trialRequests = new TrialRequests()
     @trialRequests.fetchOwn()
     @supermodel.trackCollection(@trialRequests)
+    window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers', ['Mixpanel']
 
   onLeaveMessage: ->
     if @formChanged
@@ -39,8 +40,6 @@ module.exports = class CreateTeacherAccountView extends RootView
   onLoaded: ->
     if @trialRequests.size()
       @trialRequest = @trialRequests.first()
-    if @trialRequest and @trialRequest.get('status') isnt 'submitted' and @trialRequest.get('status') isnt 'approved'
-      window.tracker?.trackEvent 'View Trial Request', category: 'Teachers', label: 'View Trial Request', ['Mixpanel']
     super()
 
   invalidateNCES: ->
@@ -90,6 +89,8 @@ module.exports = class CreateTeacherAccountView extends RootView
     @openModalView(modal)
 
   onChangeForm: ->
+    unless @formChanged
+      window.tracker?.trackEvent 'Teachers Create Account Form Started', category: 'Teachers', ['Mixpanel']
     @formChanged = true
 
   onSubmitForm: (e) ->
@@ -158,6 +159,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     @openModalView(modal)
 
   onTrialRequestSubmit: ->
+    window.tracker?.trackEvent 'Teachers Create Account Submitted', category: 'Teachers', ['Mixpanel']
     @formChanged = false
     attrs = _.pick(forms.formToObject(@$('form')), 'name', 'email', 'role')
     attrs.role = attrs.role.toLowerCase()

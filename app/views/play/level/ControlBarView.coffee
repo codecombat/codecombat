@@ -34,7 +34,8 @@ module.exports = class ControlBarView extends CocoView
     @worldName = options.worldName
     @session = options.session
     @level = options.level
-    @levelID = @level.get('slug') or @level.id
+    @levelSlug = @level.get('slug')
+    @levelID = @levelSlug or @level.id
     @spectateGame = options.spectateGame ? false
     @observing = options.session.get('creator') isnt me.id
     super options
@@ -121,6 +122,9 @@ module.exports = class ControlBarView extends CocoView
       @setupManager.open()
 
   onClickHome: (e) ->
+    if @level.get('type', true) in ['course']
+      category = if me.isTeacher() then 'Teachers' else 'Students'
+      window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug, ['Mixpanel']
     e.preventDefault()
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs
