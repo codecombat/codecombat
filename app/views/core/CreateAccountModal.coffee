@@ -1,6 +1,5 @@
 ModalView = require 'views/core/ModalView'
 template = require 'templates/core/create-account-modal'
-{loginUser, createUser, me} = require 'core/auth'
 forms = require 'core/forms'
 User = require 'models/User'
 application  = require 'core/application'

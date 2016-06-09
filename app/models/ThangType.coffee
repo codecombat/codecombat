@@ -255,6 +255,8 @@ module.exports = class ThangType extends CocoModel
       "Samurai": "Hattori"
       "Sorcerer": "Pender"
       "Trapper": "Senick"
+      "Champion": "Ida"
+      "Duelist": "Nando"
     }
     map[@get('name')]
 
