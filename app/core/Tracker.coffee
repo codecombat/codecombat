@@ -165,22 +165,13 @@ module.exports = class Tracker extends CocoClass
 
     properties[key] = value for key, value of @explicitTraits if @explicitTraits?
     console.log 'Tracking internal analytics event:', event, properties if debugAnalytics
-    if @isProduction
-      eventObject = {}
-      eventObject["event"] = event
-      eventObject["properties"] = properties unless _.isEmpty properties
-      eventObject["user"] = me.id
-      dataToSend = JSON.stringify eventObject
-      # console.log dataToSend if debugAnalytics
-      $.post("#{window.location.protocol or 'http:'}//analytics-cf.codecombat.com/analytics", dataToSend).fail ->
-        console.error "Analytics post failed!"
-    else
-      request = @supermodel.addRequestResource {
-        url: '/db/analytics.log.event/-/log_event'
-        data: {event: event, properties: properties}
-        method: 'POST'
-      }, 0
-      request.load()
+
+    request = @supermodel.addRequestResource {
+      url: '/db/analytics.log.event/-/log_event'
+      data: {event: event, properties: properties}
+      method: 'POST'
+    }, 0
+    request.load()
 
   trackTiming: (duration, category, variable, label) ->
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/user-timings

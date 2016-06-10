@@ -146,7 +146,7 @@ module.exports = class Level extends CocoModel
         levelThang.components.push placeholderComponent
 
     # Load the user's chosen hero AFTER getting stats from default char
-    if /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['course', 'course-ladder']
+    if /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['course']
       heroThangType = me.get('heroConfig')?.thangType
       levelThang.thangType = heroThangType if heroThangType
 

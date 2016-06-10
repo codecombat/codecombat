@@ -265,6 +265,7 @@ module.exports = class CampaignView extends RootView
     @openModalView authModal
 
   showAds: ->
+    return false # No ads for now.
     if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF
       return me.getCampaignAdsGroup() is 'leaderboard-ads'
     false
