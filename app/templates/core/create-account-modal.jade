@@ -21,18 +21,17 @@ mixin modal-header-content
           | Create Account
 
 block modal-body
-  .modal-body
-    case state.get('screen')
-      when 'choose-account-type'
-        +chooseAccountType
-      when 'segment-check'
-        +segmentCheck
-      when 'basic-info'
-        +basicInfo
-      when 'extras'
-        +extras
-      when 'confirmation'
-        +confirmation
+  case state.get('screen')
+    when 'choose-account-type'
+      +chooseAccountType
+    when 'segment-check'
+      +segmentCheck
+    when 'basic-info'
+      +basicInfo
+    when 'extras'
+      +extras
+    when 'confirmation'
+      +confirmation
 
 block modal-footer
   .modal-footer(class=state.get('path'))
@@ -116,34 +115,62 @@ mixin chooseAccountType
           | I'm an Individual
 
 mixin segmentCheck
-  case state.get('path')
-    when 'student'
-      span(data-i18n="TODO")
-        | Enter your class code:
-      input.class-code-input
-      p
-        span(data-i18n="TODO")
-          | Ask your teacher for your class code.
-      p
-        span.spr(data-i18n="TODO")
-          | Don't have a class code? Create an 
-        a(href="TODO")
+  form.modal-body.segment-check
+    .modal-body-content
+      case state.get('path')
+        when 'student'
           span(data-i18n="TODO")
-            | Individual Account
-        span.spl(data-i18n="TODO")
-          |  instead.
-        
-    when 'teacher'
-      // TODO
-    when 'individual'
-      span(data-i18n="TODO")
-        | Enter your birthdate:
-      
-    default
-      span
-        | Something went wrong :(
+            | Enter your class code:
+          .class-code-input-group
+            input.class-code-input(value=state.get('classCode'))
+            unless _.isEmpty(state.get('classCode'))
+              if state.get('classCodeValid')
+                span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
+              else
+                span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
           
+          if _.isEmpty(state.get('classCode'))
+            p
+              span(data-i18n="TODO")
+                | Ask your teacher for your class code.
+              br
+              span.spr(data-i18n="TODO")
+                | Don't have a class code? Create an 
+              a(href="TODO")
+                span(data-i18n="TODO")
+                  | Individual Account
+              span.spl(data-i18n="TODO")
+                |  instead.
+          else if state.get('classCodeValid')
+            p
+              span(data-i18n="TODO")
+                | You're about to join:
+              .classroom-name= view.classroom.get('name')
+              .teacher-name= view.classroom.owner.get('name')
+            
+        when 'teacher'
+          // TODO
+        when 'individual'
+          span(data-i18n="TODO")
+            | Enter your birthdate:
+          
+        default
+          span
+            | Something went wrong :(
+
+    // In reverse order for tabbing purposes
+    .history-nav-buttons
+      button.next-button.btn.btn-lg.btn-navy(type='submit' disabled=!state.get('segmentCheckValid'))
+        span(data-i18n="TODO")
+          | Next
+
+      button.back-button.btn.btn-lg.btn-navy-alt(type='button')
+        span(data-i18n="TODO")
+          | Back
+    
+
 mixin basicInfo
+  
   
 mixin extras
 mixin confirmation

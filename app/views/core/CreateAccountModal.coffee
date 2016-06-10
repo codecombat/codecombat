@@ -18,6 +18,13 @@ module.exports = class CreateAccountModal extends ModalView
     'click .teacher-path-button': -> @state.set { path: 'teacher', screen: 'segment-check' }
     'click .student-path-button': -> @state.set { path: 'student', screen: 'segment-check' }
     'click .individual-path-button': -> @state.set { path: 'individual', screen: 'segment-check' }
+    'submit form.segment-check': (e) ->
+      e.preventDefault()
+      @state.set { screen: 'basic-info' } if @state.get('segmentCheckValid')
+    'input .class-code-input': (e) ->
+      classCode = $(e.currentTarget).val()
+      @checkClassCode(classCode)
+      @state.set { classCode }, { silent: true }
   #   'submit form': 'onSubmitForm'
   #   'keyup #name': 'onNameChange'
   #   'click #gplus-signup-btn': 'onClickGPlusSignupButton'
@@ -27,7 +34,6 @@ module.exports = class CreateAccountModal extends ModalView
   #   'click #close-modal': 'hide'
   #   'click #switch-to-login-btn': 'onClickSwitchToLoginButton'
 
-
   # Initialization
 
   initialize: (options={}) ->
@@ -35,8 +41,11 @@ module.exports = class CreateAccountModal extends ModalView
       path: null
       screen: 'choose-account-type' # segment-check, basic-info, (extras), confirmation
     }
+    
+    @classroom = new Classroom()
 
     @listenTo @state, 'all', @render #TODO: debounce
+    @listenTo @classroom, 'all', @render #TODO: debounce
 
   #   @onNameChange = _.debounce(_.bind(@checkNameExists, @), 500)
   #   options.initialValues ?= {}
@@ -47,9 +56,21 @@ module.exports = class CreateAccountModal extends ModalView
   #   application.gplusHandler.loadAPI({ success: => _.defer => @$('#gplus-signup-btn').attr('disabled', false) })
   #   application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-signup-btn').attr('disabled', false) })
   #
+
+  checkClassCode: _.debounce((classCode) ->
+    @classroom.fetchByCode(classCode)
+    @classroom.once 'sync', => @state.set { classCodeValid: true, segmentCheckValid: true }
+    @classroom.once 'error', => @state.set { classCodeValid: false, segmentCheckValid: false }
+  , 1000)
+
   # afterRender: ->
   #   super()
   #   @playSound 'game-menu-open'
+
+  afterRender: =>
+    super()
+    @$('input:visible:first').focus()
+
   #
   # afterInsert: ->
   #   super()

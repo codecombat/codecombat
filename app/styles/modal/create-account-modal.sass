@@ -12,6 +12,8 @@
     text-align: center
     padding: 0
     border: none
+    
+  // General modal stuff
   
   .modal-header, .modal-footer
     &.teacher
@@ -47,11 +49,18 @@
       color: white
 
   .modal-body
+    display: flex
+    flex-direction: column
     flex-grow: 1
+
+  .modal-body-content
+    flex-grow: 2
     display: flex
     flex-direction: column
     align-items: center
     justify-content: center
+    
+  // Choose account type screen
   
   .path-cards
     margin-top: 15px
@@ -118,8 +127,22 @@
     
   .text-h6
     color: white
-    
-    // button
-    //   font-size: 16px
-    //   font-weight: bold
-      
+  
+  // Create Student Account - segment check screen
+  
+  .class-code-input-group
+    .class-code-input
+      text-align: center
+
+    .class-code-valid-icon
+      width: 0
+
+  // Back/forward buttons
+  
+  .history-nav-buttons
+    width: 100%
+    display: flex
+    flex-direction: row-reverse
+    flex-grow: 1
+    align-items: flex-end
+    justify-content: space-between
