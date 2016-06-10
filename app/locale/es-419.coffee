@@ -182,7 +182,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     campaign_old_multiplayer: "(Obsoleto) Antiguas Arenas Multijugador"
     campaign_old_multiplayer_description: "Reliquias de una era más civilizada. Ninguna simulación es ejecutada para estas arenas multijugador antiguas y sin héroes."
 
-#  code:
+  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "else if"
