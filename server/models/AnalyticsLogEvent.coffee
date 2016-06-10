@@ -30,4 +30,4 @@ AnalyticsLogEventSchema.statics.logEvent = (user, event, properties={}) ->
 
 analyticsMongoose = mongoose.createConnection "mongodb://#{config.mongo.analytics_host}:#{config.mongo.analytics_port}/#{config.mongo.analytics_db}"
 
-module.exports = AnalyticsLogEvent = analyticsMongoose.model(config.mongo.analytics_collection, AnalyticsLogEventSchema)
+module.exports = AnalyticsLogEvent = analyticsMongoose.model('analytics.log.event', AnalyticsLogEventSchema, config.mongo.analytics_collection)
