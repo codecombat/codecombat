@@ -46,6 +46,7 @@ module.exports = class Spell
         @source = sessionSource
     if p.aiSource and not @otherSession and not @canWrite()
       @source = @originalSource = p.aiSource
+      @isAISource = true
     @thangs = {}
     if @canRead()  # We can avoid creating these views if we'll never use them.
       @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel}
@@ -162,7 +163,7 @@ module.exports = class Spell
       cb(aether.hasChangedSignificantly((newSource ? @originalSource), (currentSource ? @source), true, true))
 
   createAether: (thang) ->
-    writable = @permissions.readwrite.length > 0
+    writable = @permissions.readwrite.length > 0 and not @isAISource
     skipProtectAPI = @skipProtectAPI or not writable
     problemContext = @createProblemContext thang
     includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']) and not skipProtectAPI
