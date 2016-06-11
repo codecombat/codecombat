@@ -261,58 +261,6 @@ module.exports = class PlayLevelView extends RootView
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
-    
-    # TEMP
-    @level.get('documentation').hints = [
-      {
-        body: """
-          The sample code shows you how to move to the right.
-      
-          You can see it work by clicking RUN!
-          
-          The commands to move in other directions can be found beneath your code window next to the picture of your boots.
-        """
-      }
-      {
-        body: """
-          To grab the gem, your hero will need to move RIGHT, then DOWN, then RIGHT.
-          
-          The first move (to the RIGHT) was given to you in the example code, and shows you how to do it:
-          
-          ```python
-          hero.moveRight()
-          ```
-        """
-      }
-      {
-        body: """
-          Code commands are executed in the order they're listed.
-          
-          This code commands your hero to move right, then move down:
-          
-          ```python
-          hero.moveRight()
-          hero.moveDown()
-          ```
-          
-          Don't worry about those lines that start with
-          ```python
-          #
-          ```
-          those are COMMENTS, and the computer ignores them (they're there to help you!)
-        """
-      }
-      {
-        body: """
-          ```python
-          hero.moveRight()
-          hero.moveDown()
-          hero.moveRight()
-          ```
-        """
-      }
-    ]
-
     @hintsState = new HintsState({ hidden: true }, { @session, @level })
     @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world.thangs, @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
     @insertSubView new LevelPlaybackView session: @session, level: @level

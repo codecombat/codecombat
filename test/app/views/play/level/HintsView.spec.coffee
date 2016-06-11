@@ -31,25 +31,17 @@ xdescribe 'HintsView', ->
     @view.render()
     jasmine.demoEl(@view.$el)
     
-  describe 'when the visible hint is locked', ->
-    
-    it 'shows locked hint text', ->
-      expect(@view.$el.find('[data-i18n="play_level.hints_locked"]').length).toBe(1)
-
-    it 'does not show the next hint button', ->
-      expect(@view.$el.find('.next-btn').length).toBe(0)
-      
   describe 'when the first hint is shown', ->
     
     it 'does not show the previous button', ->
       expect(@view.$el.find('.previous-btn').length).toBe(0)
-      
+
   describe 'when the user has played for a while', ->
-    
+
     beforeEach ->
       @session.set('playtime', 120)
       @view.render()
-      
+
     it 'shows the first hint', ->
       expect(_.string.contains(@view.$el.text(), 'xyzzy')).toBe(true)
 
@@ -68,4 +60,3 @@ xdescribe 'HintsView', ->
       fail('Python code snippet found, should be filtered out')
     if not _.string.contains(@view.$el.text(), 'console')
       fail('JavaScript code snippet not found')
-

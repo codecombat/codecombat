@@ -442,8 +442,6 @@
     tome_current_method: "Current Method"
     hints: "Hints"
     hints_title: "Hint \#{{number}}"
-    hints_locked: "Locked!"
-    hints_locked_blurb: "Keep trying to crack this level! We'll offer another hint when you've played a little more."
     code_saved: "Code Saved"
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"

@@ -2,29 +2,20 @@
 button.close-hint-btn.btn.btn-illustrated.btn-danger
   span.glyphicon.glyphicon-remove
 
-- var hintLocked = view.state.get('hintIndex') >= view.hintsState.get('available');
-
 h1.text-center
   span= view.state.get('hintsTitle')
-  if hintLocked
-    =" - "
-    span(data-i18n="play_level.hints_locked")
 
 .hint-body
-  if hintLocked
-    div(data-i18n="play_level.hints_locked_blurb")
-    
-  else
-    != view.getProcessedHint()
-  
+  != view.getProcessedHint()
+
 .btn-area
   if view.state.get('hintIndex') > 0
     button.previous-btn.btn.btn-illustrated.btn-lg.pull-left(data-i18n="about.previous")
-    
+
   - var lastHint = view.state.get('hintIndex') >= view.hintsState.get('total') - 1;
-  if !hintLocked && !lastHint
+  if !lastHint
     button.next-btn.btn.btn-illustrated.btn-lg.pull-right(data-i18n="about.next")
-    
+
   h2.text-center #{view.state.get('hintIndex')+1} / #{view.hintsState.get('total')}
 
 .clearfix
