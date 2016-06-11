@@ -14,7 +14,6 @@ module.exports = class HintsView extends CocoView
   
   initialize: (options) ->
     {@level, @session, @hintsState} = options
-    @hints = @level.get('documentation')?.hints or []
     @state = new State({
       hintIndex: 0
     })
@@ -32,7 +31,8 @@ module.exports = class HintsView extends CocoView
   getProcessedHint: ->
     language = @session.get('codeLanguage')
     hint = @state.get('hint')
-    
+    return unless hint
+
     # process
     translated = utils.i18n(hint, 'body')
     filtered = utils.filterMarkdownCodeLanguages(translated, language)
@@ -43,7 +43,7 @@ module.exports = class HintsView extends CocoView
   updateHint: ->
     index = @state.get('hintIndex')
     hintsTitle = $.i18n.t('play_level.hints_title').replace('{{number}}', index + 1)
-    @state.set({ hintsTitle, hint: @hints[index] })
+    @state.set({ hintsTitle, hint: @hintsState.getHint(index) })
 
   onClickNextButton: ->
     max = @hintsState.get('total') - 1

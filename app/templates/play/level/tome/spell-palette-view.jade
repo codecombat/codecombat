@@ -39,9 +39,8 @@ div
       if view.hintsState.get('total') > 0
         button.btn.btn-sm.btn-info.banner#spell-palette-hints-button
           span(data-i18n="play_level.hints")
-          span=" "
-          span #{view.hintsState.get('available')}/#{view.hintsState.get('total')}
-          
+          span : #{view.hintsState.get('total')}
+
       .properties.properties-this
     else
       .properties.properties-this.no-help
