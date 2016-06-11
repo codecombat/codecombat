@@ -58,7 +58,7 @@ module.exports = class Level extends CocoModel
 
   denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
-    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
+    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
       thangTypesWithComponents = (tt for tt in supermodel.getModels(ThangType) when tt.get('components')?)
       thangTypesByOriginal = _.indexBy thangTypesWithComponents, (tt) -> tt.get('original')  # Optimization
       for levelThang in o.thangs
@@ -144,6 +144,11 @@ module.exports = class Level extends CocoModel
         equips.config.inventory = $.extend true, {}, inventory if inventory
       for original, placeholderComponent of placeholders when not placeholdersUsed[original]
         levelThang.components.push placeholderComponent
+
+    # Load the user's chosen hero AFTER getting stats from default char
+    if /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['course']
+      heroThangType = me.get('heroConfig')?.thangType
+      levelThang.thangType = heroThangType if heroThangType
 
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]

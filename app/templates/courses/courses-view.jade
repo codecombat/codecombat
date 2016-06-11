@@ -39,6 +39,18 @@ block content
       
             .text-center
               h1(data-i18n="courses.welcome_to_page") Welcome to your Courses page!
+
+            .current-hero-container.text-center.row
+              .hero-avatar
+                img(src=view.hero.getPortraitURL())
+              .current-hero-right-col
+                .semibold.current-hero-text
+                  span.spr(data-i18n="TODO")
+                    | Current Hero: 
+                  span.current-hero-name= view.hero.getHeroShortName()
+                button.change-hero-btn.btn.btn-lg.btn-forest
+                  span(data-i18n="TODO")
+                    | Change Hero
       
             if view.classrooms.size()
               h3.text-uppercase(data-i18n="courses.my_classes")
@@ -55,7 +67,7 @@ block content
                   h5
                     span.spr= classroom.get('name')
                     span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
-                    a(href="/courses/"+classroom.id, data-i18n="courses.view_class")
+                    a.view-class-btn(data-classroom-id=classroom.id, data-i18n="courses.view_class")
       
                   - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
                   for courseInstance in courseInstances
@@ -65,7 +77,7 @@ block content
                       h6
                         span.spr= course.get('name')
                         small
-                          a(href="/courses/"+courseInstance.get('courseID')+'/'+courseInstance.id, data-i18n="courses.view_levels")
+                          a.view-levels-btn(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_levels")
                       +course-instance-body(courseInstance, classroom)
                       .clearfix
       
@@ -100,19 +112,19 @@ mixin course-instance-body(courseInstance, classroom)
       - var arenaLevel = stats.levels.arena;
       if arenaLevel
         - var arenaURL = "/play/ladder/"+arenaLevel.get('slug')+"/course/"+courseInstance.id;
-        a.btn.btn-burgandy.btn-lg.m-b-1(href=arenaURL)
+        a.play-btn.btn.btn-burgandy.btn-lg.m-b-1(data-href=arenaURL, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena")
           span(data-i18n="courses.play_arena")
       else
         a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
     else if stats.levels.next != stats.levels.first
       - var next = stats.levels.next;
       - var levelURL = "/play/level/"+next.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
-      a.btn.btn-forest.btn-lg.m-b-1(href=levelURL)
+      a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=levelURL, data-level-slug=next.get('slug'), data-event-action="Students Continue Course")
         span(data-i18n="common.continue")
     else
       - var firstLevel = stats.levels.first;
       - var levelURL = "/play/level/"+firstLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
-      a.btn.btn-navy.btn-lg.m-b-1(href=levelURL)
+      a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=levelURL, data-level-slug=firstLevel.get('slug'), data-event-action="Students Start Course")
         span(data-i18n="courses.start")
 
   div

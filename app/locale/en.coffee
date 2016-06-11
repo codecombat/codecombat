@@ -243,6 +243,7 @@
 
   login:
     sign_up: "Create Account"
+    email_or_username: "Email or username"
     log_in: "Log In"
     logging_in: "Logging In"
     log_out: "Log Out"
@@ -1318,6 +1319,9 @@
     sent_verification: "We've sent a verification email to:"
     you_can_edit: "You can edit your email address in "
     account_settings: "Account Settings"
+    select_your_hero: "Select Your Hero"
+    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
+    select_this_hero: "Select this Hero"
 
   teacher:
     teacher_dashboard: "Teacher Dashboard" # Navbar

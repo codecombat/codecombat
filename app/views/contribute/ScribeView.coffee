@@ -5,7 +5,9 @@ template = require 'templates/contribute/scribe'
 module.exports = class ScribeView extends ContributeClassView
   id: 'scribe-view'
   template: template
-  contributorClassName: 'scribe'
+
+  initialize: ->
+    @contributorClassName = 'scribe'
 
   contributors: [
     {name: 'Ryan Faidley'}

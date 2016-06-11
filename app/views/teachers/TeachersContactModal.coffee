@@ -55,7 +55,7 @@ module.exports = class TeachersContactModal extends ModalView
     return unless _.isEmpty(formErrors)
     
     @state.set('sendingState', 'sending')
-    data = _.extend({ country: me.get('country'), recipientID: 'schools@codecombat.com' }, formValues)
+    data = _.extend({ country: me.get('country'), recipientID: 'schools@codecombat.com', enrollmentsNeeded: @enrollmentsNeeded }, formValues)
     contact.send({
       data
       context: @

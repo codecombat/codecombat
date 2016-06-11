@@ -60,6 +60,18 @@ describe 'GET /db/classroom/:id', ->
             expect(body._id).toBe(classroomID = body._id)
             done()
 
+describe 'GET /db/classroom by classCode', ->
+  it 'Returns the class if you include spaces', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    teacher = yield utils.initUser()
+    classroom = new Classroom({ name: "some class", ownerID: teacher.id, camelCode: "FooBarBaz", code: "foobarbaz" })
+    yield classroom.save()
+    [res, body] = yield request.getAsync(getURL('/db/classroom?code=foo bar baz'), { json: true })
+    expect(res.statusCode).toBe(200)
+    expect(res.body.data?.name).toBe(classroom.get('name'))
+    done()
+
 describe 'POST /db/classroom', ->
   
   beforeEach utils.wrap (done) ->
@@ -295,6 +307,18 @@ describe 'POST /db/classroom/-/members', ->
       fail('student should be added to the free course instance.')
     done()
     
+  it 'joins the class even with spaces in the classcode', utils.wrap (done) ->
+    yield utils.loginUser(@student)
+    url = getURL("/db/classroom/anything-here/members")
+    code = @classroom.get('code')
+    codeWithSpaces = code.split("").join(" ")
+    [res, body] = yield request.postAsync { uri: url, json: { code: codeWithSpaces } }
+    expect(res.statusCode).toBe(200)
+    classroom = yield Classroom.findById(@classroom.id)
+    if classroom.get('members').length isnt 1
+      fail 'expected classCode with spaces to work too'
+    done()
+
   it 'returns 403 if the user is a teacher', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     url = getURL("/db/classroom/~/members")

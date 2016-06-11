@@ -22,7 +22,7 @@ module.exports =
   fetchByCode: wrap (req, res, next) ->
     code = req.query.code
     return next() unless code
-    classroom = yield Classroom.findOne({ code: code.toLowerCase() }).select('name ownerID aceConfig')
+    classroom = yield Classroom.findOne({ code: code.toLowerCase().replace(/ /g, '') }).select('name ownerID aceConfig')
     if not classroom
       log.debug("classrooms.fetchByCode: Couldn't find Classroom with code: #{code}")
       throw new errors.NotFound('Classroom not found.')
@@ -170,7 +170,7 @@ module.exports =
     if req.user.isTeacher()
       log.debug("classrooms.join: Cannot join a classroom as a teacher: #{req.user.id}")
       throw new errors.Forbidden('Cannot join a classroom as a teacher')
-    code = req.body.code.toLowerCase()
+    code = req.body.code.toLowerCase().replace(/ /g, '')
     classroom = yield Classroom.findOne({code: code})
     if not classroom
       log.debug("classrooms.join: Classroom not found with code #{code}")
@@ -221,14 +221,15 @@ module.exports =
 
   inviteMembers: wrap (req, res) ->
     if not req.body.emails
+      log.debug "classrooms.inviteMembers: No emails included in request: #{JSON.stringify(req.body)}"
       throw new errors.UnprocessableEntity('Emails not included')
 
     classroom = yield database.getDocFromHandle(req, Classroom)
     if not classroom
       throw new errors.NotFound('Classroom not found.')
-      
+
     unless classroom.get('ownerID').equals(req.user?._id)
-      log.debug "classroom_handler.inviteStudents: Can't invite to classroom (#{classroom.id}) you (#{req.user.get('_id')}) don't own"
+      log.debug "classroom_handler.inviteMembers: Can't invite to classroom (#{classroom.id}) you (#{req.user.get('_id')}) don't own"
       throw new errors.Forbidden('Must be owner of classroom to send invites.')
 
     for email in req.body.emails
