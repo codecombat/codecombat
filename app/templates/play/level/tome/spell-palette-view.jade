@@ -32,16 +32,5 @@ div
   
   else
     // Hero; group by items, no tabs.
-    if view.showsHelp || view.hintsView
-      if view.showsHelp
-        button.btn.btn-sm.btn-info.banner#spell-palette-help-button(data-i18n="common.help")
-        =" "
-      if view.hintsState.get('total') > 0
-        button.btn.btn-sm.btn-info.banner#spell-palette-hints-button
-          span(data-i18n="play_level.hints")
-          span : #{view.hintsState.get('total')}
-
-      .properties.properties-this
-    else
-      .properties.properties-this.no-help
-  
+    br
+    .properties.properties-this

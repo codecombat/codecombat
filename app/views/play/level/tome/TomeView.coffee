@@ -122,6 +122,7 @@ module.exports = class TomeView extends CocoView
         unless method.cloneOf
           skipProtectAPI = @getQueryVariable 'skip_protect_api', (@options.levelID in ['gridmancer', 'minimax-tic-tac-toe'])
           spell = @spells[spellKey] = new Spell
+            hintsState: @options.hintsState
             programmableMethod: method
             spellKey: spellKey
             pathComponents: pathPrefixComponents.concat(pathComponents)
