@@ -11,7 +11,11 @@ module.exports = class HintsView extends CocoView
     'click .next-btn': 'onClickNextButton'
     'click .previous-btn': 'onClickPreviousButton'
     'click .close-hint-btn': 'toggleVisibility'
-  
+
+  subscriptions:
+    'level:show-victory': 'hideView'
+    'tome:manual-cast': 'hideView'
+
   initialize: (options) ->
     {@level, @session, @hintsState} = options
     @state = new State({
@@ -55,3 +59,5 @@ module.exports = class HintsView extends CocoView
     @playSound 'menu-button-click'
 
   toggleVisibility: -> @hintsState.set('hidden', not @hintsState.get('hidden'))
+
+  hideView: -> @hintsState?.set('hidden', true)
