@@ -164,7 +164,7 @@ module.exports = class Spell
 
   createAether: (thang) ->
     writable = @permissions.readwrite.length > 0 and not @isAISource
-    skipProtectAPI = @skipProtectAPI or not writable
+    skipProtectAPI = @skipProtectAPI or not writable or @levelType in ['game-dev']
     problemContext = @createProblemContext thang
     includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']) and not skipProtectAPI
     aetherOptions = createAetherOptions
