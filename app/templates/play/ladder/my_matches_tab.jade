@@ -1,5 +1,5 @@
 .row
-  for team in teams
+  for team in view.teams
     div.matches-column.col-md-6
       table.table.table-bordered.table-condensed.my-matches-table
 
@@ -43,6 +43,8 @@
             td.name-cell= match.opponentName || "Anonymous"
             td.time-cell= match.when
             td.battle-cell
+              - var levelID = view.level.get('slug') || view.level.id
+              - var league = view.options.league
               a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}" + (league ? "&league=" + league.id : ""))
                 if (match.state === 'win')
                   span(data-i18n="ladder.watch_victory") Watch your victory
