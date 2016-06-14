@@ -111,7 +111,7 @@ module.exports = class LevelLoader extends CocoClass
     @loadDependenciesForSession @session
 
   loadSession: ->
-    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course']
       @sessionDependenciesRegistered = {}
 
     if @sessionID
@@ -178,6 +178,7 @@ module.exports = class LevelLoader extends CocoClass
       if heroResource = @maybeLoadURL(url, ThangType, 'thang')
         console.log "Pushing resource: ", heroResource
         @worldNecessities.push heroResource
+        @sessionDependenciesRegistered[session.id] = true
       return
     return unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     heroConfig = session.get('heroConfig')
