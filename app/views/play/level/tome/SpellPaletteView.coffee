@@ -22,15 +22,13 @@ module.exports = class SpellPaletteView extends CocoView
 
   events:
     'click #spell-palette-help-button': 'onClickHelp'
-    'click #spell-palette-hints-button': 'onClickHintsButton'
 
   initialize: (options) ->
-    {@level, @session, @supermodel, @thang, @useHero, @hintsState} = options
+    {@level, @session, @supermodel, @thang, @useHero} = options
     docs = @options.level.get('documentation') ? {}
     @showsHelp = docs.specificArticles?.length or docs.generalArticles?.length
     @createPalette()
     $(window).on 'resize', @onResize
-    @listenTo(@hintsState, 'change:available', -> @renderSelectors('#spell-palette-hints-button'))
 
   getRenderData: ->
     c = super()
@@ -323,9 +321,6 @@ module.exports = class SpellPaletteView extends CocoView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @level.get('slug'), parent: @, session: @session, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID})
       @setupManager.open()
-
-  onClickHintsButton: ->
-    @hintsState.set('hidden', not @hintsState.get('hidden'))
 
   destroy: ->
     entry.destroy() for entry in @entries
