@@ -1,5 +1,5 @@
 module.exports = class HintsState extends Backbone.Model
-  
+
   initialize: (attributes, options) ->
     { @level, @session } = options
     @listenTo(@level, 'change:documentation', @update)
@@ -10,13 +10,18 @@ module.exports = class HintsState extends Backbone.Model
 
   update: ->
     hints = @level.get('documentation')?.hints or []
+    haveIntro = false
+    haveOverview = false
     for article in @level.get('documentation')?.specificArticles ? []
-      hints.unshift(article) if article.name is 'Intro'
-      hints.push(article) if article.name is 'Overview'
+      if not haveIntro and article.name is 'Intro'
+        hints.unshift(article)
+        haveIntro = true
+      if not haveOverview and article.name is 'Overview'
+        hints.push(article)
+        haveOverview = true
+      break if haveIntro and haveOverview
     total = _.size(hints)
-    @set({ 
+    @set({
       hints: hints
       total
     })
-
-    
