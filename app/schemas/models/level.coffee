@@ -279,7 +279,14 @@ _.extend LevelSchema.properties,
   documentation: c.object {title: 'Documentation', description: 'Documentation articles relating to this level.', 'default': {specificArticles: [], generalArticles: []}},
     specificArticles: c.array {title: 'Specific Articles', description: 'Specific documentation articles that live only in this level.', uniqueItems: true }, SpecificArticleSchema
     generalArticles: c.array {title: 'General Articles', description: 'General documentation articles that can be linked from multiple levels.', uniqueItems: true}, GeneralArticleSchema
-    hints: c.array {title: 'Hints', description: 'Hints that will be gradually revealed to the player.', uniqueItems: true }, {
+    hints: c.array {title: 'Hints', description: 'Tips and tricks to help unstick a player for the level.', uniqueItems: true }, {
+      type: 'object'
+      properties: {
+        body: {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
+        i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this hint'}
+      }
+    }
+    hintsB: c.array {title: 'HintsB', description: '2nd style of hints for a/b testing significant variations', uniqueItems: true }, {
       type: 'object'
       properties: {
         body: {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
