@@ -111,9 +111,6 @@ module.exports = class TeacherClassView extends RootView
         return dir * diff if diff
         return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
 
-    @campaigns = new Campaigns()
-    @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,slug,type' } })
-
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetch()
     
@@ -331,23 +328,18 @@ module.exports = class TeacherClassView extends RootView
       courseLabels += "CS#{index + 1} Playtime,"
       courseOrder.push(course._id)
     csvContent = "data:text/csv;charset=utf-8,Username,Email,Total Playtime,#{courseLabels}Concepts\n"
-    campaignCourseMap = {}
-    courseMap = {}
-    for course in @courses.models
-      campaignCourseMap[course.get('campaignID')] = course
-      courseMap[course.id] = course
     levelCourseMap = {}
-    for campaign in @campaigns.models
-      continue unless campaignCourseMap[campaign.id]
-      for levelID, level of campaign.get('levels')
-        levelCourseMap[levelID] = campaignCourseMap[campaign.id]
+    for trimCourse in @classroom.get('courses')
+      for trimLevel in trimCourse.levels
+        levelCourseMap[trimLevel.original] = @courses.get(trimCourse._id)
     for student in @students.models
       concepts = []
-      for course in @courses.models
+      for trimCourse in @classroom.get('courses')
+        course = @courses.get(trimCourse._id)
         instance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
         if instance and instance.hasMember(student)
-          # TODO: @levels collection is for the classroom, and not per-course
-          for level in @levels.models
+          for trimLevel in trimCourse.levels
+            level = @levels.findWhere({ original: trimLevel.original })
             progress = @state.get('progressData').get({ classroom: @classroom, course: course, level: level, user: student })
             concepts.push(level.get('concepts') ? []) if progress?.completed
       concepts = _.union(_.flatten(concepts))
