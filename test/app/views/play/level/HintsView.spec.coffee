@@ -39,7 +39,6 @@ xdescribe 'HintsView', ->
   describe 'when the user has played for a while', ->
 
     beforeEach ->
-      @session.set('playtime', 120)
       @view.render()
 
     it 'shows the first hint', ->

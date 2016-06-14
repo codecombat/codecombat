@@ -94,7 +94,9 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   onEnableControls: (e) -> @toggleControls e, true
 
   onClickHintsButton: ->
-    @hintsState?.set('hidden', not @hintsState?.get('hidden'))
+    return unless @hintsState?
+    @hintsState.set('hidden', not @hintsState.get('hidden'))
+    window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, ['Mixpanel']
 
   onDropdownClick: (e) ->
     return unless @controlsEnabled
