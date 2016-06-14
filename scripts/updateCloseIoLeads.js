@@ -57,7 +57,20 @@ const emailDelayMinutes = 27;
 const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
 // Automatic mails sent as API owners, first key assumed to be primary and gets 50% of the leads
-const closeIoMailApiKeys = [process.argv[3], process.argv[3], process.argv[4], process.argv[5]];
+const closeIoMailApiKeys = [
+  {
+    apiKey: process.argv[3],
+    weight: .7
+  },
+  {
+    apiKey: process.argv[4],
+    weight: .25
+  },
+  {
+    apiKey: process.argv[5],
+    weight: .05
+  },
+];
 const closeIoEuMailApiKey = process.argv[6];
 const intercomAppIdApiKey = process.argv[7];
 const intercomAppId = intercomAppIdApiKey.split(':')[0];
@@ -238,7 +251,14 @@ function isUSSchoolStatus(status) {
 function getEmailApiKey(leadStatus) {
   if (leadStatus === defaultEuLeadStatus) return closeIoEuMailApiKey;
   if (closeIoMailApiKeys.length < 0) return;
-  return closeIoMailApiKeys[Math.floor(Math.random() * closeIoMailApiKeys.length)];
+  const weightedList = [];
+  for (let closeIoMailApiKey of closeIoMailApiKeys) {
+    const multiples = closeIoMailApiKey.weight * 100;
+    for (let i = 0; i < multiples; i++) {
+      weightedList.push(closeIoMailApiKey.apiKey);
+    }
+  }
+  return weightedList[Math.floor(Math.random() * weightedList.length)];
 }
 
 function getRandomEmailTemplate(templates) {
