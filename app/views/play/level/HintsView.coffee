@@ -80,7 +80,6 @@ module.exports = class HintsView extends CocoView
       @timerIntervalID = setInterval(@incrementHintViewTime, 1000)
 
   incrementHintViewTime: =>
-    console.log 'incrementHintViewTime', @state.get('hintIndex'), @state.get('hintsViewTime'), @state.get('hintsUsed')
     hintIndex = @state.get('hintIndex')
     hintsViewTime = @state.get('hintsViewTime')
     hintsViewTime[hintIndex] ?= 0

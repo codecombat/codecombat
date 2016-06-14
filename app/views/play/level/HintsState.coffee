@@ -9,7 +9,10 @@ module.exports = class HintsState extends Backbone.Model
     @get('hints')?[index]
 
   update: ->
-    hints = @level.get('documentation')?.hints or []
+    hints = switch me.getHintsGroup()
+      when 'hints' then @level.get('documentation')?.hints or []
+      when 'hintsB' then @level.get('documentation')?.hintsB or []
+      else []
     haveIntro = false
     haveOverview = false
     for article in @level.get('documentation')?.specificArticles ? []
