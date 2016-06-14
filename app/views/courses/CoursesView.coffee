@@ -42,7 +42,7 @@ module.exports = class CoursesView extends RootView
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
     @supermodel.loadCollection(@courseInstances)
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
-    @supermodel.loadCollection(@classrooms, { data: {memberID: me.id} })
+    @supermodel.loadCollection(@classrooms, { data: {memberID: me.id}, cache: false })
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
