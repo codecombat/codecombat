@@ -40,7 +40,7 @@ module.exports = class CoursesView extends RootView
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @courseInstances.comparator = (ci) -> return ci.get('classroomID') + ci.get('courseID')
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
-    @supermodel.loadCollection(@courseInstances)
+    @supermodel.loadCollection(@courseInstances, { cache: false })
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
     @supermodel.loadCollection(@classrooms, { data: {memberID: me.id}, cache: false })
     @ownedClassrooms = new Classrooms()
@@ -59,6 +59,11 @@ module.exports = class CoursesView extends RootView
     @listenTo @hero, 'all', ->
       @render()
     window.tracker?.trackEvent 'Students Loaded', category: 'Students', ['Mixpanel']
+    
+  afterInsert: ->
+    super()
+    unless me.isStudent() or (@classCodeQueryVar and not me.isTeacher())
+      @onClassLoadError()
 
   onCourseInstancesLoaded: ->
     map = {}
@@ -135,11 +140,20 @@ module.exports = class CoursesView extends RootView
     else
       modal = new JoinClassModal({ @classCode })
       @openModalView modal
+      @listenTo modal, 'error', @onClassLoadError
       @listenTo modal, 'join:success', @onJoinClassroomSuccess
       @listenTo modal, 'join:error', @onJoinClassroomError
+      @listenToOnce modal, 'hidden', ->
+        unless me.isStudent()
+          @onClassLoadError()
       @listenTo modal, 'hidden', ->
         @state = null
         @renderSelectors '#join-class-form'
+
+  # Super hacky way to patch users being able to join class while hiding /courses from others
+  onClassLoadError: ->
+    _.defer ->
+      application.router.routeDirectly('courses/RestrictedToStudentsView')
 
   onJoinClassroomError: (classroom, jqxhr, options) ->
     @state = null
