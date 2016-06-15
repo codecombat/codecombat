@@ -82,8 +82,8 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     # a module and its dependencies have loaded!
     if @queue.progress is 1
       @recentPaths.sort()
-      console.debug @recentPaths.join('\n')
-      console.debug 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
+#      console.debug @recentPaths.join('\n')
+#      console.debug 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
       @trigger 'load-complete'
       
     @trigger 'loaded', e.item

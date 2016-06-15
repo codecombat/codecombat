@@ -85,26 +85,17 @@
       .glyphicon-fullscreen
         display: none
 
+  .hints-button
+    float: right
+    border-style: solid
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-width: 7px 10px 10px 10px
+    color: white
+    &:hover, &:active
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+
   .thang-avatar-wrapper
     border-width: 0
-
-  .method-name-area
-    margin-left: 10px
-    margin-top: 10px
-    text-transform: uppercase
-    display: inline-block
-    font-family: $headings-font-family
-    font-weight: bold
-
-    .method-label
-      font-size: 12px
-      color: rgb(243, 211, 59)
-      margin-bottom: -5px
-
-    .method-signature
-      color: white
-      font-size: 18px
-      padding: 0
 
 .spell-list-entry-view:not(.spell-tab)
   cursor: pointer

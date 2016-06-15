@@ -440,6 +440,8 @@
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
     tome_current_method: "Current Method"
+    hints: "Hints"
+    hints_title: "Hint {{number}}"
     code_saved: "Code Saved"
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"

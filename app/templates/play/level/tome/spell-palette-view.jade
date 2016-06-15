@@ -1,0 +1,36 @@
+
+div
+  span.code-palette-background
+  if view.entryGroupSlugs
+    // Non-hero; group by entry groups, or maybe nothing.
+    ul(class="nav nav-pills" + (tabbed ? ' multiple-tabs' : ''))
+      each slug, group in view.entryGroupSlugs
+        li(class=group == "this" || slug == "available-spells" ? "active" : "")
+          a(data-toggle="pill", data-target='#palette-tab-' + slug)
+            h4= view.entryGroupNames[group]
+    .tab-content
+      each slug, group in view.entryGroupSlugs
+        div(id="palette-tab-" + slug, class="tab-pane nano" + (group == "this" || slug == view.defaultGroupSlug ? " active" : ""))
+          div(class="properties properties-" + slug + " nano-content")
+  
+  else if view.tabs
+    // Hero; group by items, but also include tabs
+    ul(class="nav nav-pills multiple-tabs")
+      li.active
+        a(data-toggle="pill", data-target="#palette-tab-this")
+          h4= view.thisName
+      each entries, tab in view.tabs
+        li
+          a(data-toggle="pill", data-target='#palette-tab-' + _.string.slugify(tab))
+            h4= tab
+    .tab-content
+      div#palette-tab-this.tab-pane.active
+        .properties.properties-this
+      each entries, tab in tabs
+        div(id="palette-tab-" + _.string.slugify(tab), class="tab-pane")
+          div(class="properties properties-" + _.string.slugify(tab))
+  
+  else
+    // Hero; group by items, no tabs.
+    br
+    .properties.properties-this

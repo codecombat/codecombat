@@ -1,0 +1,41 @@
+@import "app/styles/mixins"
+
+.hints-view
+  position: relative
+
+  width: 500px // TODO: should be in sync with surface min-width
+  padding: 10px 20px
+  border-style: solid
+  border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+  border-width: 16px 12px
+  @include box-shadow(0 0 0 #000)
+
+  .close-hint-btn
+    position: absolute
+    right: 5px
+    top: 5px
+
+    .glyphicon-remove
+      position: relative
+      top: 4px
+
+  h1
+    margin-bottom: 30px
+
+  .btn-area
+    margin-top: 20px
+
+  .hint-title
+    font-size: 18px
+    text-transform: uppercase
+
+  .hint-body
+    height: 390px
+    overflow-y: auto
+    img
+      width: 100%
+
+  .hint-pagination
+    font-size: 18px
+    margin-top: 0px
+    text-transform: uppercase

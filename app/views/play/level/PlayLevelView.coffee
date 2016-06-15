@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/play/level'
+template = require 'templates/play/play-level-view'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
@@ -41,6 +41,8 @@ PicoCTFVictoryModal = require './modal/PicoCTFVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ContactModal = require 'views/core/ContactModal'
+HintsView = require './HintsView'
+HintsState = require './HintsState'
 
 PROFILE_ME = false
 
@@ -259,7 +261,8 @@ module.exports = class PlayLevelView extends RootView
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level, observing: @observing, courseID: @courseID, courseInstanceID: @courseInstanceID, god: @god
+    @hintsState = new HintsState({ hidden: true }, { @session, @level })
+    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world.thangs, @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
     @insertSubView new LevelPlaybackView session: @session, level: @level
     @insertSubView new GoalsView {}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
@@ -270,6 +273,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.get('type') in ['hero-ladder', 'course-ladder']
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
+    @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
 
   initVolume: ->
