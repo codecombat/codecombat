@@ -78,6 +78,18 @@ beforeEach(function(done) {
     },
     function(cb) {
       // Initialize products
+      var utils = require('../server/utils');
+      request = require('../server/request');
+      utils.initUser()
+        .then(function (user) {
+          return utils.loginUser(user, {request: request})
+        })
+        .then(function () {
+          cb()
+        });
+    },    
+    function(cb) {
+      // Initialize products
       request = require('../server/request');
       request.get(getURL('/db/products'), function(err, res, body) {
         expect(err).toBe(null);

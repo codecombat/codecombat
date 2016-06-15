@@ -56,6 +56,7 @@ module.exports = class CourseVictoryModal extends ModalView
       @levelSessions = @supermodel.loadCollection(@levelSessions, 'sessions', {
         data: { project: 'state.complete level.original playtime changed' }
       }).model
+    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', category: 'Students', levelSlug: @level.get('slug'), ['Mixpanel']
 
   onResourceLoadFailed: (e) ->
     if e.resource.jqxhr is @nextLevelRequest
@@ -158,6 +159,7 @@ module.exports = class CourseVictoryModal extends ModalView
     @showView(@views[index+1])
 
   onNextLevel: ->
+    window.tracker?.trackEvent 'Play Level Victory Modal Next Level', category: 'Students', levelSlug: @level.get('slug'), nextLevelSlug: @nextLevel.get('slug'), ['Mixpanel']
     if me.isSessionless()
       link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
     else
@@ -165,6 +167,7 @@ module.exports = class CourseVictoryModal extends ModalView
     application.router.navigate(link, {trigger: true})
 
   onDone: ->
+    window.tracker?.trackEvent 'Play Level Victory Modal Done', category: 'Students', levelSlug: @level.get('slug'), ['Mixpanel']
     if me.isSessionless()
       link = "/teachers/courses"
     else

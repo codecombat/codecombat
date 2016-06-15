@@ -260,7 +260,10 @@ module.exports.ThangTypeNode = ThangTypeNode = class ThangTypeNode extends Treem
     thangType?.name or '...'
 
   getThangTypes: ->
-    return if ThangTypeNode.thangTypesCollection
+    if ThangTypeNode.thangTypesCollection
+      if not @constructor.thangTypes
+        @processThangTypes(ThangTypeNode.thangTypesCollection)
+      return
     ThangTypeNode.thangTypesCollection = new CocoCollection([], {
       url: '/db/thang.type'
       project:['name', 'components', 'original']

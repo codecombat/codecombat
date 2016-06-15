@@ -31,34 +31,9 @@ module.exports = class SpellListEntryView extends CocoView
   getRenderData: (context={}) ->
     context = super context
     context.spell = @spell
-    context.methodSignature = @createMethodSignature()
     context.thangNames = (thangID for thangID, spellThang of @spell.thangs when spellThang.thang.exists).join(', ')  # + ', Marcus, Robert, Phoebe, Will Smith, Zap Brannigan, You, Gandaaaaalf'
     context.showTopDivider = @showTopDivider
     context
-
-  createMethodSignature: ->
-    return @spell.name if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
-    parameters = (@spell.parameters or []).slice()
-    if @spell.language in ['python', 'lua']
-      parameters.unshift 'self'
-    else if @spell.language is 'io'
-      parameters.unshift '...'
-    paramString = parameters.join ', '
-    name = @spell.name
-    switch @spell.language
-      when 'python'
-        "def #{name}(#{paramString}):"
-      when 'lua'
-        "function #{name}(#{paramString}) ... end"
-      when 'coffeescript'
-        if parameters.length
-          "@#{name} = (#{paramString}) ->"
-        else
-          "@#{name} = ->"
-      when 'javascript'
-        "function #{name}(#{paramString}) { ... }"
-      else
-        "#{name}(#{paramString})"
 
   getPrimarySpellThang: ->
     if @lastSelectedThang

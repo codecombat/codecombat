@@ -46,11 +46,17 @@ module.exports = class Spell
         @source = sessionSource
     if p.aiSource and not @otherSession and not @canWrite()
       @source = @originalSource = p.aiSource
+      @isAISource = true
     @thangs = {}
     if @canRead()  # We can avoid creating these views if we'll never use them.
       @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel}
       @view.render()  # Get it ready and code loaded in advance
-      @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, codeLanguage: @language, level: options.level
+      @tabView = new SpellListTabEntryView
+        hintsState: options.hintsState
+        spell: @
+        supermodel: @supermodel
+        codeLanguage: @language
+        level: options.level
       @tabView.render()
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 
@@ -162,10 +168,10 @@ module.exports = class Spell
       cb(aether.hasChangedSignificantly((newSource ? @originalSource), (currentSource ? @source), true, true))
 
   createAether: (thang) ->
-    writable = @permissions.readwrite.length > 0
-    skipProtectAPI = @skipProtectAPI or not writable
+    writable = @permissions.readwrite.length > 0 and not @isAISource
+    skipProtectAPI = @skipProtectAPI or not writable or @levelType in ['game-dev']
     problemContext = @createProblemContext thang
-    includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']) and not skipProtectAPI
+    includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']) and not skipProtectAPI
     aetherOptions = createAetherOptions
       functionName: @name
       codeLanguage: @language

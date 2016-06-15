@@ -95,9 +95,13 @@ module.exports = class Tracker extends CocoClass
       analytics.identify me.id, traits
 
   trackPageView: (includeIntegrations=[]) ->
+    includeMixpanel = (name) ->
+      mixpanelIncludes = ['', 'schools', 'play', 'play/level/dungeons-of-kithgard']
+      name in mixpanelIncludes or /courses|students|teachers/ig.test(name)
+
     name = Backbone.history.getFragment()
     url = "/#{name}"
-    console.log "Would track analytics pageview: #{url}" if debugAnalytics
+    console.log "Would track analytics pageview: #{url} Mixpanel=#{includeMixpanel(name)}" if debugAnalytics
     @trackEventInternal 'Pageview', url: name unless me?.isAdmin() and @isProduction
     return unless @isProduction and not me.isAdmin()
 
@@ -106,8 +110,7 @@ module.exports = class Tracker extends CocoClass
     ga? 'send', 'pageview', url
 
     # Mixpanel
-    mixpanelIncludes = ['', 'courses', 'courses/purchase', 'courses/teachers', 'courses/students', 'schools', 'teachers', 'teachers/freetrial', 'teachers/quote', 'play', 'play/level/dungeons-of-kithgard']
-    mixpanel.track('page viewed', 'page name' : name, url : url) if name in mixpanelIncludes
+    mixpanel.track('page viewed', 'page name' : name, url : url) if includeMixpanel(name)
 
     if me.isTeacher() and @segmentLoaded
       options = {}
@@ -162,22 +165,13 @@ module.exports = class Tracker extends CocoClass
 
     properties[key] = value for key, value of @explicitTraits if @explicitTraits?
     console.log 'Tracking internal analytics event:', event, properties if debugAnalytics
-    if @isProduction
-      eventObject = {}
-      eventObject["event"] = event
-      eventObject["properties"] = properties unless _.isEmpty properties
-      eventObject["user"] = me.id
-      dataToSend = JSON.stringify eventObject
-      # console.log dataToSend if debugAnalytics
-      $.post("#{window.location.protocol or 'http:'}//analytics.codecombat.com/analytics", dataToSend).fail ->
-        console.error "Analytics post failed!"
-    else
-      request = @supermodel.addRequestResource {
-        url: '/db/analytics.log.event/-/log_event'
-        data: {event: event, properties: properties}
-        method: 'POST'
-      }, 0
-      request.load()
+
+    request = @supermodel.addRequestResource {
+      url: '/db/analytics.log.event/-/log_event'
+      data: {event: event, properties: properties}
+      method: 'POST'
+    }, 0
+    request.load()
 
   trackTiming: (duration, category, variable, label) ->
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/user-timings

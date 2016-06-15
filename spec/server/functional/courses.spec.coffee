@@ -23,6 +23,7 @@ describe 'GET /db/course', ->
     yield utils.clearModels([Course, User])
     yield new Course({ name: 'Course 1' }).save()
     yield new Course({ name: 'Course 2' }).save()
+    yield utils.becomeAnonymous()
     done()
 
 
@@ -36,6 +37,7 @@ describe 'GET /db/course/:handle', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([Course, User])
     @course = yield new Course({ name: 'Some Name' }).save()
+    yield utils.becomeAnonymous()
     done()
 
 

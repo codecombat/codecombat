@@ -25,7 +25,7 @@ module.exports = class User extends CocoModel
     return name if name
     [emailName, emailDomain] = @get('email')?.split('@') or []
     return emailName if emailName
-    return 'Anoner'
+    return 'Anonymous'
 
   getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
     photoURL = if useJobProfilePhoto then @get('jobProfile')?.photoURL else null
@@ -165,21 +165,6 @@ module.exports = class User extends CocoModel
     application.tracker.identify campaignAdsGroup: @campaignAdsGroup unless me.isAdmin()
     @campaignAdsGroup
 
-  getHomepageGroup: ->
-    # Only testing on en-US so localization issues are not a factor
-    return 'home-legacy' unless _.string.startsWith(me.get('preferredLanguage', true) or 'en-US', 'en')
-    return @homepageGroup if @homepageGroup
-    group = parseInt(util.getQueryVariable('variation'))
-    group ?= me.get('testGroupNumber') % 5
-    @homepageGroup = switch group
-      when 0 then 'home-legacy'
-      when 1 then 'home-teachers'
-      when 2 then 'home-legacy-left'
-      when 3 then 'home-dropdowns'
-      when 4 then 'home-play-for-free'
-    application.tracker.identify homepageGroup: @homepageGroup unless me.isAdmin()
-    return @homepageGroup
-
   # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
   # ... and stopped working well until another update on March 10, so maybe March 11+...
   # ... and another round, and then basically it just isn't completing well, so we pause the test until we can fix it.
@@ -193,6 +178,18 @@ module.exports = class User extends CocoModel
     @fourthLevelGroup = 'signs-and-portents' if me.isAdmin()
     application.tracker.identify fourthLevelGroup: @fourthLevelGroup unless me.isAdmin()
     @fourthLevelGroup
+
+  getHintsGroup: ->
+    # A/B testing two styles of hints
+    return @hintsGroup if @hintsGroup
+    group = me.get('testGroupNumber') % 3
+    @hintsGroup = switch group
+      when 0 then 'no-hints'
+      when 1 then 'hints'
+      when 2 then 'hintsB'
+    @hintsGroup = 'hints' if me.isAdmin()
+    application.tracker.identify hintsGroup: @hintsGroup unless me.isAdmin()
+    @hintsGroup
 
   getVideoTutorialStylesIndex: (numVideos=0)->
     # A/B Testing video tutorial styles
@@ -288,6 +285,13 @@ module.exports = class User extends CocoModel
     options.data ?= {}
     options.data.facebookID = facebookID
     options.data.facebookAccessToken = application.facebookHandler.token()
+    @fetch(options)
+    
+  loginPasswordUser: (usernameOrEmail, password, options={}) ->
+    options.url = '/auth/login'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, { username: usernameOrEmail, password })
     @fetch(options)
     
   makeCoursePrepaid: ->

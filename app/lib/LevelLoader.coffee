@@ -40,6 +40,7 @@ module.exports = class LevelLoader extends CocoClass
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
+    @listenTo @supermodel, 'failed', @onWorldNecessityLoadFailed
     @loadLevel()
     @loadAudio()
     @playJingle()
@@ -110,7 +111,7 @@ module.exports = class LevelLoader extends CocoClass
     @loadDependenciesForSession @session
 
   loadSession: ->
-    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course']
       @sessionDependenciesRegistered = {}
 
     if @sessionID
@@ -122,7 +123,7 @@ module.exports = class LevelLoader extends CocoClass
       url += "?course=#{@courseID}" if @courseID
 
     session = new LevelSession().setURL url
-    session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state'] if @headless
+    session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state', 'submittedCode'] if @headless
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
     if @opponentSessionID
@@ -146,6 +147,7 @@ module.exports = class LevelLoader extends CocoClass
         @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
 
   loadDependenciesForSession: (session) ->
+    console.log "Loading dependencies for session: ", session
     if me.id isnt session.get 'creator'
       session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
     else if codeLanguage = utils.getQueryVariable 'codeLanguage'
@@ -168,6 +170,16 @@ module.exports = class LevelLoader extends CocoClass
       @consolidateFlagHistory() if @opponentSession?.loaded
     else if session is @opponentSession
       @consolidateFlagHistory() if @session.loaded
+    if @level.get('type', true) in ['course'] # course-ladder is hard to handle because there's 2 sessions
+      heroConfig = me.get('heroConfig')
+      console.log "Course mode, loading custom hero: ", heroConfig
+      return if not heroConfig
+      url = "/db/thang.type/#{heroConfig.thangType}/version"
+      if heroResource = @maybeLoadURL(url, ThangType, 'thang')
+        console.log "Pushing resource: ", heroResource
+        @worldNecessities.push heroResource
+      @sessionDependenciesRegistered[session.id] = true
+      return
     return unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session and not @headless
@@ -322,6 +334,9 @@ module.exports = class LevelLoader extends CocoClass
     @worldNecessities = (r for r in @worldNecessities when r?)
     @onWorldNecessitiesLoaded() if @checkAllWorldNecessitiesRegisteredAndLoaded()
 
+  onWorldNecessityLoadFailed: (resource) ->
+    @trigger('world-necessity-load-failed', resource: resource)
+
   checkAllWorldNecessitiesRegisteredAndLoaded: ->
     return false unless _.filter(@worldNecessities).length is 0
     return false unless @thangNamesLoaded
@@ -330,6 +345,7 @@ module.exports = class LevelLoader extends CocoClass
     true
 
   onWorldNecessitiesLoaded: ->
+    console.log "World necessities loaded."
     @initWorld()
     @supermodel.clearMaxProgress()
     @trigger 'world-necessities-loaded'

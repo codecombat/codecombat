@@ -8,6 +8,7 @@ ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 EditStudentModal = require 'views/teachers/EditStudentModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 
+Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 Levels = require 'collections/Levels'
@@ -41,6 +42,7 @@ module.exports = class TeacherClassView extends RootView
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
     'keyup #student-search': 'onKeyPressStudentSearch'
+    'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
       
   getInitialState: ->
     {
@@ -62,11 +64,15 @@ module.exports = class TeacherClassView extends RootView
         enrolledUsers: ""
     }
 
+  getTitle: -> return @classroom?.get('name')
+
   initialize: (options, classroomID) ->
     super(options)
     @singleStudentCourseProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-course'
     @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
     @allStudentsLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-all-students-single-level'
+    
+    @debouncedRender = _.debounce @render
     
     @state = new State(@getInitialState())
     @updateHash @state.get('activeTab') # TODO: Don't push to URL history (maybe don't use url fragment for default tab)
@@ -110,21 +116,16 @@ module.exports = class TeacherClassView extends RootView
     
     @courseInstances = new CourseInstances()
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
-    
+
     @levels = new Levels()
     @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts'}})
     
     @attachMediatorEvents()
-      
+    window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+
   attachMediatorEvents: () ->
-    @listenTo @state, 'sync change', ->
-      if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
-        @renderSelectors('#enrollment-status-table')
-      else
-        @render()
     # Model/Collection events
     @listenTo @classroom, 'sync change update', ->
-      @removeDeletedStudents()
       classCode = @classroom.get('codeCamel') or @classroom.get('code')
       @state.set {
         classCode: classCode
@@ -135,20 +136,19 @@ module.exports = class TeacherClassView extends RootView
       @state.set selectedCourse: @courses.first() unless @state.get('selectedCourse')
     @listenTo @courseInstances, 'sync change update', ->
       @setCourseMembers()
-      @render() # TODO: use state
     @listenTo @courseInstances, 'add-members', ->
       noty text: $.i18n.t('teacher.assigned'), layout: 'center', type: 'information', killer: true, timeout: 5000
     @listenTo @students, 'sync change update add remove reset', ->
       # Set state/props of things that depend on students?
       # Set specific parts of state based on the models, rather than just dumping the collection there?
-      @removeDeletedStudents()
       @calculateProgressAndLevels()
       classStats = @calculateClassStats()
       @state.set classStats: classStats if classStats
       @state.set students: @students
     @listenTo @students, 'sort', ->
       @state.set students: @students
-      @render()
+    @listenTo @, 'course-select:change', ({ selectedCourse }) ->
+      @state.set selectedCourse: selectedCourse
 
   setCourseMembers: =>
     for course in @courses.models
@@ -159,6 +159,15 @@ module.exports = class TeacherClassView extends RootView
   onLoaded: ->
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
+    
+    # render callback setup
+    @listenTo @courseInstances, 'sync change update', @debouncedRender
+    @listenTo @state, 'sync change', ->
+      if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
+        @renderSelectors('#enrollment-status-table')
+      else
+        @debouncedRender()
+    @listenTo @students, 'sort', @debouncedRender
     super()
   
   afterRender: ->
@@ -204,31 +213,35 @@ module.exports = class TeacherClassView extends RootView
     window.location.hash = hash
 
   onClickCopyCodeButton: ->
+    window.tracker?.trackEvent 'Teachers Class Copy Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode'), ['Mixpanel']
     @$('#join-code-input').val(@state.get('classCode')).select()
     @tryCopy()
 
   onClickCopyURLButton: ->
+    window.tracker?.trackEvent 'Teachers Class Copy Class URL', category: 'Teachers', classroomID: @classroom.id, url: @state.get('joinURL'), ['Mixpanel']
     @$('#join-url-input').val(@state.get('joinURL')).select()
     @tryCopy()
 
   tryCopy: ->
     try
       document.execCommand('copy')
-      application.tracker?.trackEvent 'Classroom copy URL', category: 'Courses', classroomID: @classroom.id, url: @state.joinURL
     catch err
       message = 'Oops, unable to copy'
       noty text: message, layout: 'topCenter', type: 'error', killer: false
   
   onClickUnarchive: ->
+    window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @classroom.save { archived: false }
   
   onClickEditClassroom: (e) ->
+    window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     classroom = @classroom
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
 
   onClickEditStudentLink: (e) ->
+    window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new EditStudentModal({ user, @classroom })
     @openModalView(modal)
@@ -245,9 +258,10 @@ module.exports = class TeacherClassView extends RootView
 
   onStudentRemoved: (e) ->
     @students.remove(e.user)
-    application.tracker?.trackEvent 'Classroom removed student', category: 'Courses', classroomID: @classroom.id, userID: e.user.id
+    window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id, ['Mixpanel']
 
   onClickAddStudents: (e) =>
+    window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
@@ -273,6 +287,9 @@ module.exports = class TeacherClassView extends RootView
   onKeyPressStudentSearch: (e) ->
     @state.set('searchTerm', $(e.target).val())
 
+  onChangeCourseSelect: (e) ->
+    @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
+
   getSelectedStudentIDs: ->
     @$('.student-row .checkbox-flat input:checked').map (index, checkbox) ->
       $(checkbox).data('student-id')
@@ -284,14 +301,14 @@ module.exports = class TeacherClassView extends RootView
     user = @students.get(userID)
     selectedUsers = new Users([user])
     @enrollStudents(selectedUsers)
-  
+    window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
+
   onClickBulkEnroll: ->
-    courseID = @$('.bulk-course-select').val()
-    courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
     userIDs = @getSelectedStudentIDs().toArray()
     selectedUsers = new Users(@students.get(userID) for userID in userIDs)
     @enrollStudents(selectedUsers)
-    
+    window.tracker?.trackEvent 'Teachers Class Students Enroll Selected', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+
   enrollStudents: (selectedUsers) ->
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
     @openModalView(modal)
@@ -301,40 +318,70 @@ module.exports = class TeacherClassView extends RootView
         if user
           user.set(newUser.attributes)
       null
-    application.tracker?.trackEvent 'Classroom started enroll students', category: 'Courses'
 
   onClickExportStudentProgress: ->
     # TODO: Does not yield .csv download on Safari, and instead opens a new tab with the .csv contents
-    csvContent = "data:text/csv;charset=utf-8,Username, Email, Playtime, Concepts\n"
+    window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    courseLabels = ""
+    courseOrder = []
+    for course, index in @classroom.get('courses')
+      courseLabels += "CS#{index + 1} Playtime,"
+      courseOrder.push(course._id)
+    csvContent = "data:text/csv;charset=utf-8,Username,Email,Total Playtime,#{courseLabels}Concepts\n"
+    levelCourseMap = {}
+    for trimCourse in @classroom.get('courses')
+      for trimLevel in trimCourse.levels
+        levelCourseMap[trimLevel.original] = @courses.get(trimCourse._id)
     for student in @students.models
       concepts = []
-      for course, index in @courses.models
+      for trimCourse in @classroom.get('courses')
+        course = @courses.get(trimCourse._id)
         instance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
         if instance and instance.hasMember(student)
-          # TODO: @levels collection is for the classroom, and not per-course
-          for level, index in @levels.models
+          for trimLevel in trimCourse.levels
+            level = @levels.findWhere({ original: trimLevel.original })
             progress = @state.get('progressData').get({ classroom: @classroom, course: course, level: level, user: student })
             concepts.push(level.get('concepts') ? []) if progress?.completed
       concepts = _.union(_.flatten(concepts))
       conceptsString = _.map(concepts, (c) -> $.i18n.t("concepts." + c)).join(', ')
+      coursePlaytimeMap = {}
       playtime = 0
       for session in @classroom.sessions.models when session.get('creator') is student.id
         playtime += session.get('playtime') or 0
-      playtimeString = moment.duration(playtime, 'seconds').humanize()
-      csvContent += "#{student.get('name')},#{student.get('email')},#{playtimeString},\"#{conceptsString}\"\n"
+        if courseID = levelCourseMap[session.get('level')?.original]?.id
+          coursePlaytimeMap[courseID] ?= 0
+          coursePlaytimeMap[courseID] += session.get('playtime') or 0
+      playtimeString = if playtime is 0 then "0" else moment.duration(playtime, 'seconds').humanize()
+      for course in @courses.models
+        coursePlaytimeMap[course.id] ?= 0
+      coursePlaytimes = []
+      for courseID, playtime of coursePlaytimeMap
+        coursePlaytimes.push
+          courseID: courseID
+          playtime: playtime
+      coursePlaytimes.sort (a, b) ->
+        return -1 if courseOrder.indexOf(a.courseID) < courseOrder.indexOf(b.courseID)
+        return 0 if courseOrder.indexOf(a.courseID) is courseOrder.indexOf(b.courseID)
+        return 1
+      coursePlaytimesString = ""
+      for coursePlaytime, index in coursePlaytimes
+        if coursePlaytime.playtime is 0
+          coursePlaytimesString += "0,"
+        else
+          coursePlaytimesString += "#{moment.duration(coursePlaytime.playtime, 'seconds').humanize()},"
+      csvContent += "#{student.get('name')},#{student.get('email')},#{playtimeString},#{coursePlaytimesString}\"#{conceptsString}\"\n"
     csvContent = csvContent.substring(0, csvContent.length - 1)
     encodedUri = encodeURI(csvContent)
     window.open(encodedUri)
 
-    
   onClickAssignStudentButton: (e) ->
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     members = [userID]
     courseID = $(e.currentTarget).data('course-id')
-    
     @assignCourse courseID, members
-    
+    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID, ['Mixpanel']
+
   onClickBulkAssign: ->
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
@@ -342,16 +389,13 @@ module.exports = class TeacherClassView extends RootView
       user = @students.get(userID)
       user.isEnrolled()
     ).toArray()
-    
     assigningToUnenrolled = _.any selectedIDs, (userID) =>
       not @students.get(userID).isEnrolled()
-      
     assigningToNobody = selectedIDs.length is 0
-    
     @state.set errors: { assigningToNobody, assigningToUnenrolled }
-    
     @assignCourse courseID, members
-    
+    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
+
   # TODO: Move this to the model. Use promises/callbacks?
   assignCourse: (courseID, members) ->
     courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })

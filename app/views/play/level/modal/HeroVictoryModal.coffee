@@ -49,7 +49,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @session = options.session
     @level = options.level
     @thangTypes = {}
-    if @level.get('type', true) in ['hero', 'hero-ladder', 'course', 'course-ladder']
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev']
       achievements = new CocoCollection([], {
         url: "/db/achievement?related=#{@session.get('level').original}"
         model: Achievement
@@ -73,6 +73,7 @@ module.exports = class HeroVictoryModal extends ModalView
     if @level.get('type', true) in ['course', 'course-ladder']
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
       @loadExistingFeedback()
+    # TODO: support game-dev
 
   destroy: ->
     clearInterval @sequentialAnimationInterval
@@ -153,7 +154,8 @@ module.exports = class HeroVictoryModal extends ModalView
   getRenderData: ->
     c = super()
     c.levelName = utils.i18n @level.attributes, 'name'
-    if @level.get('type', true) isnt 'hero'
+    # TODO: support 'game-dev'
+    if @level.get('type', true) not in ['hero', 'game-dev']
       c.victoryText = utils.i18n @level.get('victory') ? {}, 'body'
     earnedAchievementMap = _.indexBy(@newEarnedAchievements or [], (ea) -> ea.get('achievement'))
     for achievement in (@achievements?.models or [])
@@ -221,7 +223,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   afterRender: ->
     super()
-    @$el.toggleClass 'with-achievements', @level.get('type', true) in ['hero', 'hero-ladder']
+    @$el.toggleClass 'with-achievements', @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev']  # TODO: support game-dev
     return unless @supermodel.finished()
     @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
     @updateSavingProgressStatus()
@@ -231,7 +233,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
   initializeAnimations: ->
-    return @endSequentialAnimations() unless @level.get('type', true) in ['hero', 'hero-ladder']
+    return @endSequentialAnimations() unless @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev']  # TODO: support game-dev
     @updateXPBars 0
     #playVictorySound = => @playSound 'victory-title-appear'  # TODO: actually add this
     @$el.find('#victory-header').delay(250).queue(->
@@ -262,7 +264,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   beginSequentialAnimations: ->
     return if @destroyed
-    return unless @level.get('type', true) in ['hero', 'hero-ladder']
+    return unless @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev']  # TODO: support game-dev
     @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
       previousNumber: $(panel).data('previous-number')
@@ -292,7 +294,7 @@ module.exports = class HeroVictoryModal extends ModalView
       duration = 1000
     ratio = @getEaseRatio (new Date() - @sequentialAnimationStart), duration
     if panel.unit is 'xp'
-      newXP = Math.floor(panel.previousNumber + ratio * (panel.number - panel.previousNumber))
+      newXP = Math.floor(ratio * (panel.number - panel.previousNumber))
       totalXP = @totalXPAnimated + newXP
       if totalXP isnt @lastTotalXP
         panel.textEl.text('+' + newXP)
@@ -304,7 +306,7 @@ module.exports = class HeroVictoryModal extends ModalView
         @XPEl.addClass 'five-digits' if totalXP >= 10000 and @lastTotalXP < 10000
         @lastTotalXP = totalXP
     else if panel.unit is 'gem'
-      newGems = Math.floor(panel.previousNumber + ratio * (panel.number - panel.previousNumber))
+      newGems = Math.floor(ratio * (panel.number - panel.previousNumber))
       totalGems = @totalGemsAnimated + newGems
       if totalGems isnt @lastTotalGems
         panel.textEl.text('+' + newGems)
@@ -326,9 +328,9 @@ module.exports = class HeroVictoryModal extends ModalView
       panel.rootEl.removeClass('animating').find('.reward-image-container img').removeClass('pulse')
       @sequentialAnimationStart = new Date()
       if panel.unit is 'xp'
-        @totalXPAnimated += panel.number
+        @totalXPAnimated += panel.number - panel.previousNumber
       else if panel.unit is 'gem'
-        @totalGemsAnimated += panel.number
+        @totalGemsAnimated += panel.number - panel.previousNumber
       @sequentialAnimatedPanels.shift()
       return
     panel.rootEl.addClass('animating').find('.reward-image-container').removeClass('pending-reward-image').find('img').addClass('pulse')

@@ -34,7 +34,8 @@ module.exports = class ControlBarView extends CocoView
     @worldName = options.worldName
     @session = options.session
     @level = options.level
-    @levelID = @level.get('slug') or @level.id
+    @levelSlug = @level.get('slug')
+    @levelID = @levelSlug or @level.id
     @spectateGame = options.spectateGame ? false
     @observing = options.session.get('creator') isnt me.id
     super options
@@ -61,7 +62,7 @@ module.exports = class ControlBarView extends CocoView
   getRenderData: (c={}) ->
     super c
     c.worldName = @worldName
-    c.campaignIndex = @level.get('campaignIndex') + 1 if @level.get('type') is 'course' and @level.get('campaignIndex')?
+    c.campaignIndex = @level.get('campaignIndex') + 1 if @level.get('type') is 'course' and @level.get('campaignIndex')?  # TODO: support 'game-dev' levels in courses
     c.multiplayerEnabled = @session.get('multiplayer')
     c.ladderGame = @level.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
     if c.isMultiplayerLevel = @isMultiplayerLevel
@@ -104,6 +105,7 @@ module.exports = class ControlBarView extends CocoView
         if @courseInstanceID
           @homeLink += "/#{@courseInstanceID}"
           @homeViewArgs.push @courseInstanceID
+    #else if @level.get('type', true) is 'game-dev'  # TODO
     else
       @homeLink = '/'
       @homeViewClass = 'views/HomeView'
@@ -120,6 +122,9 @@ module.exports = class ControlBarView extends CocoView
       @setupManager.open()
 
   onClickHome: (e) ->
+    if @level.get('type', true) in ['course']
+      category = if me.isTeacher() then 'Teachers' else 'Students'
+      window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug, ['Mixpanel']
     e.preventDefault()
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs

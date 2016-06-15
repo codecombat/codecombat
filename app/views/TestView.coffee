@@ -13,7 +13,7 @@ module.exports = TestView = class TestView extends RootView
   id: 'test-view'
   template: template
   reloadOnClose: true
-  loadedFileIDs: []
+  className: 'style-flat'
   
   events:
     'click #show-demos-btn': 'onClickShowDemosButton'
@@ -24,11 +24,13 @@ module.exports = TestView = class TestView extends RootView
   initialize: (options, @subPath='') ->
     @subPath = @subPath[1..] if @subPath[0] is '/'
     @demosOn = storage.load('demos-on')
+    @failureReports = []
+    @loadedFileIDs = []
 
   afterInsert: ->
     @initSpecFiles()
     @render()
-    TestView.runTests(@specFiles, @demosOn)
+    TestView.runTests(@specFiles, @demosOn, @)
     window.runJasmine()
     
   # EVENTS
@@ -59,11 +61,34 @@ module.exports = TestView = class TestView extends RootView
       prefix = TEST_REQUIRE_PREFIX + @subPath
       @specFiles = (f for f in @specFiles when _.string.startsWith f, prefix)
 
-  @runTests: (specFiles, demosOn=false) ->
+  @runTests: (specFiles, demosOn=false, view) ->
+    
+    jasmine.getEnv().addReporter({
+      suiteStack: []
+      
+      specDone: (result) ->
+        if result.status is 'failed'
+          console.log 'result', result
+          report = {
+            suiteDescriptions: _.clone(@suiteStack)
+            failMessages: (fe.message for fe in result.failedExpectations)
+            testDescription: result.description
+          }
+          view.failureReports.push(report)
+          view.renderSelectors('#failure-reports')
+        
+      suiteStarted: (result) ->
+        @suiteStack.push(result.description)
+
+      suiteDone: (result) ->
+        @suiteStack.pop()
+        
+    })
+    
     application.testing = true
     specFiles ?= @getAllSpecFiles()
     if demosOn
-      jasmine.demoEl = ($el) ->
+      jasmine.demoEl = _.once ($el) ->
         $('#demo-area').append($el)
       jasmine.demoModal = _.once (modal) ->
         currentView.openModalView(modal)
@@ -71,23 +96,22 @@ module.exports = TestView = class TestView extends RootView
       jasmine.demoEl = _.noop
       jasmine.demoModal = _.noop
 
-    describe 'CodeCombat Client', =>
-      jasmine.Ajax.install()
-      beforeEach ->
-        jasmine.Ajax.requests.reset()
-        Backbone.Mediator.init()
-        Backbone.Mediator.setValidationEnabled false
-        spyOn(application.tracker, 'trackEvent')
-        # TODO Stubbify more things
-        #   * document.location
-        #   * firebase
-        #   * all the services that load in main.html
+    jasmine.Ajax.install()
+    beforeEach ->
+      jasmine.Ajax.requests.reset()
+      Backbone.Mediator.init()
+      Backbone.Mediator.setValidationEnabled false
+      spyOn(application.tracker, 'trackEvent')
+      # TODO Stubbify more things
+      #   * document.location
+      #   * firebase
+      #   * all the services that load in main.html
 
-      afterEach ->
-        # TODO Clean up more things
-        #   * Events
+    afterEach ->
+      # TODO Clean up more things
+      #   * Events
 
-      require f for f in specFiles # runs the tests
+    require f for f in specFiles # runs the tests
 
   @getAllSpecFiles = ->
     allFiles = window.require.list()

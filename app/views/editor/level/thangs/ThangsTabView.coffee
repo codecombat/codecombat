@@ -90,6 +90,8 @@ module.exports = class ThangsTabView extends CocoView
   getRenderData: (context={}) ->
     context = super(context)
     return context unless @supermodel.finished()
+    for thangType in @thangTypes.models
+      thangType.notInLevel = true
     thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
     thangTypes = _.uniq thangTypes, false, 'original'
     thangTypes = _.reject thangTypes, (tt) -> tt.kind in ['Mark', undefined]
@@ -583,14 +585,14 @@ module.exports = class ThangsTabView extends CocoView
     if batchInsert
       if thangType.get('name') is 'Hero Placeholder'
         thangID = 'Hero Placeholder'
-        return if not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']) or @getThangByID(thangID)
+        return if not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']) or @getThangByID(thangID)
       else
         thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
     else
       thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @getThangByID(thangID)
     if @cloneSourceThang
       components = _.cloneDeep @getThangByID(@cloneSourceThang.id).components
-    else if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
+    else if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
       components = []  # Load them all from default ThangType Components
     else
       components = _.cloneDeep thangType.get('components') ? []

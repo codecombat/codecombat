@@ -3,98 +3,38 @@ extends /templates/base-flat
 mixin box
   .well.text-center
     if me.isAnonymous() == true
-      if ['home-legacy','home-legacy-left'].indexOf(view.variation) != -1
-        h6#classroom-edition-header(data-i18n="new_home.classroom_edition")
-        div
-          button.teacher-btn.btn.btn-primary.btn-lg.btn-block(data-i18n="new_home.im_a_teacher")
-        div
-          a.btn.btn-forest.btn-lg.btn-block(href="/courses", data-i18n="new_home.im_a_student")
-        h6#learn-to-code-header(data-i18n="new_home.learn_to_code")
-        a.btn.btn-gold.btn-lg.btn-block.play-btn(href=view.playURL, data-i18n="new_home.play_now")
-      else if ['home-teachers','home-dropdowns'].indexOf(view.variation) != -1
-        h5#educator-header(data-i18n="new_home.teachers")
-        p.small(data-i18n="new_home.class_in_box")
+      h6#classroom-edition-header(data-i18n="new_home.classroom_edition")
+      div
+        a.teacher-btn.btn.btn-primary.btn-lg.btn-block(data-event-action="Homepage Click Teacher Button CTA", data-i18n="new_home.im_a_teacher")
+      div
+        a.student-btn.btn.btn-forest.btn-lg.btn-block(href="/courses", data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student")
+      h6#learn-to-code-header(data-i18n="new_home.learn_to_code")
+      a.btn.btn-gold.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Play Now CTA", data-i18n="new_home.play_now")
 
-        if view.variation == 'home-dropdowns'
-          div.form-group
-            h6.control-label(data-i18n="new_home.role")
-            select.form-control#request-form-role
-              option(value="", data-i18n="new_home.form_select_role")
-              option(data-i18n="courses.teacher", value="Teacher")
-              option(data-i18n="teachers_quote.tech_coordinator", value="Technology coordinator")
-              option(data-i18n="teachers_quote.advisor", value="Advisor")
-              option(data-i18n="teachers_quote.principal", value="Principal")
-              option(data-i18n="teachers_quote.superintendent", value="Superintendent")
-              option(data-i18n="teachers_quote.parent", value="Parent")
-          div.form-group
-            h6.control-label(data-i18n="new_home.student_count")
-            select.form-control#request-form-range
-              option(value="", data-i18n="new_home.form_select_range")
-              option 1-10
-              option 11-50
-              option 51-100
-              option 101-200
-              option 201-500
-              option 501-1000
-              option 1000+
-          div
-            button.btn.btn-forest.btn-lg.btn-block.request-demo(href="#",data-i18n="new_home.get_started")
-        else
-          div
-            button.teacher-btn.btn.btn-forest.btn-lg.btn-block(data-i18n="new_home.get_started")
-
-        if view.variation == 'home-teachers'
-          h5#students-header(data-i18n="new_home.students")
-          div
-            button.join-class.btn.btn-primary.btn-lg.btn-block(data-i18n="new_home.join_class", href="/courses")
-          div
-            a.btn.btn-default.btn-lg.btn-block.play-btn(href=view.playURL, data-i18n="new_home.play_now")
-        else
-          h6#students-header(data-i18n="new_home.students_and_players")
-          div
-            a.btn.btn-primary.btn-lg.play-btn.btn-block(href=view.playURL, data-i18n="new_home.play_now")
-      else
-        h5#educator-header(data-i18n="new_home.start_playing_for_free")
-        div
-          a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-i18n="new_home.play_now")
-        div
-          button.join-class.btn.btn-default.btn-lg.btn-block(data-i18n="new_home.join_class", href="/courses")
-
-
-        h6#classroom-edition-header(style="padding-top: 20px",data-i18n="new_home.teachers_and_educators")
-        p.small(data-i18n="new_home.class_in_box")
-        button.teacher-btn.btn.btn-primary.btn-lg.btn-block(data-i18n="new_home.get_started")
-
-
-      if ['home-teachers','home-dropdowns','home-play-for-free'].indexOf(view.variation) != -1
-        p.small
-          span(data-i18n="new_home.have_an_account")
-          span &nbsp;
-          a.login-button(data-i18n="login.log_in", href="#")
     else
       h6#classroom-edition-header(data-i18n="new_home.logged_in_as")
       p.small #{me.get("email")}
       if me.isTeacher()
         div
-          button.teacher-btn.btn.btn-forest.btn-lg.btn-block(data-i18n="new_home.goto_classes")
+          button.teacher-btn.btn.btn-forest.btn-lg.btn-block(data-event-action="Homepage Click My Classes CTA", data-i18n="new_home.goto_classes")
         div
           if view.isTeacherWithDemo
             h6(data-i18n="new_home.check_out_wiki")
-            a.btn.btn-primary.btn-lg.btn-block(href="https://sites.google.com/a/codecombat.com/teacher-guides/course-guides", data-i18n="nav.educator_wiki")
+            button.wiki-btn.btn.btn-primary.btn-lg.btn-block(data-event-action="Homepage Click Educator Wiki CTA", data-i18n="nav.educator_wiki")
           else
             h6(data-i18n="new_home.want_coco")
-            a.btn.btn-primary.btn-lg.btn-block(href=view.demoRequestURL, data-i18n="new_home.get_started")
+            button.btn.btn-primary.btn-lg.request-demo(data-event-action="Homepage Request Demo CTA", data-i18n="new_home.request_demo")
 
       else if me.justPlaysCourses()
         div
-          a.btn.btn-forest.btn-lg.btn-block(href=view.playURL, data-i18n="courses.continue_playing")
+          a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Classroom Continue Playing CTA", data-i18n="courses.continue_playing")
         div
-          a.btn.btn-primary.btn-lg.btn-block.play-btn(href=view.playURL, data-i18n="new_home.view_progress")
+          a.btn.btn-primary.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage View Progress CTA", data-i18n="new_home.view_progress")
       else
         div
-          a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-i18n="courses.continue_playing")
+          a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
         div
-          a.btn.btn-primary.btn-lg.btn-block(href="/user/#{me.getSlugOrID()}", data-i18n="new_home.view_profile")
+          a.btn.btn-primary.btn-lg.btn-block.profile-btn(href=view.playURL, data-event-action="Homepage View Profile CTA", data-i18n="new_home.view_profile")
 
 
       p.small
@@ -113,24 +53,16 @@ block content
     .container
       .row.hidden-xs.top-spacer(style="height: 160px")
       .row.hidden-sm.hidden-xs
-        case view.variation
-          when 'home-legacy-left'
-            .col-lg-3.col-md-4
-              +box
-            .col-lg-7.col-lg-offset-2.col-md-8
-              h1(data-i18n="new_home.slogan")
-          default
-            .col-lg-7.col-md-8
-              h1(data-i18n="new_home.slogan")
-            .col-lg-3.col-lg-offset-2.col-md-4
-              +box
+        .col-lg-7.col-md-8
+          h1(data-i18n="new_home.slogan")
+        .col-lg-3.col-lg-offset-2.col-md-4
+          +box
       .row.hidden-lg.hidden-md
         .col-lg-7.col-md-8
           h1(data-i18n="new_home.slogan")
         .col
           div(style="margin: auto; max-width: 300px")
             +box
-
       .row#learn-more-row
         .col-xs-12.text-center
           a#learn-more-link
@@ -281,11 +213,11 @@ block content
       if view.isTeacherWithDemo
         h4(data-i18n="new_home.get_started_subtitle")
         div
-          a.btn.btn-primary.btn-lg(href="/teachers/classes", data-i18n="new_home.setup_a_class")
+          button.btn.btn-primary.btn-lg.setup-class-btn(data-event-action="Homepage Setup Class", data-i18n="new_home.setup_a_class")
       else
         h4(data-i18n="new_home.request_demo_subtitle")
         div
-          a.btn.btn-primary.btn-lg(href=view.demoRequestURL, data-i18n="new_home.request_demo")
+          button.btn.btn-primary.btn-lg.request-demo(data-event-action="Homepage Request Demo", data-i18n="new_home.request_demo")
         if me.isAnonymous()
           .have-an-account
             span.spr(data-i18n="new_home.have_an_account")
@@ -374,10 +306,10 @@ block content
       h3(data-i18n="new_home.run_class")
       if view.isTeacherWithDemo
         div
-          a.btn.btn-primary.btn-lg(href="/teachers/classes", data-i18n="new_home.setup_a_class")
+          button.btn.btn-primary.btn-lg.setup-class-btn(data-event-action="Homepage Setup Class Page Bottom", data-i18n="new_home.setup_a_class")
       else
         div
-          a.btn.btn-primary.btn-lg(href=view.demoRequestURL, data-i18n="new_home.request_demo")
+          button.btn.btn-primary.btn-lg.request-demo(data-event-action="Homepage Request Demo Page Bottom", data-i18n="new_home.request_demo")
         if me.isAnonymous()
           .have-an-account
             span.spr(data-i18n="new_home.have_an_account")

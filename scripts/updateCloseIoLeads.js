@@ -57,7 +57,20 @@ const emailDelayMinutes = 27;
 const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
 // Automatic mails sent as API owners, first key assumed to be primary and gets 50% of the leads
-const closeIoMailApiKeys = [process.argv[3], process.argv[3], process.argv[4], process.argv[5]];
+const closeIoMailApiKeys = [
+  {
+    apiKey: process.argv[3],
+    weight: .7
+  },
+  {
+    apiKey: process.argv[4],
+    weight: .25
+  },
+  {
+    apiKey: process.argv[5],
+    weight: .05
+  },
+];
 const closeIoEuMailApiKey = process.argv[6];
 const intercomAppIdApiKey = process.argv[7];
 const intercomAppId = intercomAppIdApiKey.split(':')[0];
@@ -107,6 +120,7 @@ function upsertLeads(done) {
 function getCountryCode(country, emails) {
   // console.log(`DEBUG: getCountryCode ${country} ${emails.length}`);
   if (country) {
+    if (country.indexOf('Nederland') >= 0) return 'NL';
     let countryCode = countryList.getCode(country);
     if (countryCode) return countryCode;
   }
@@ -237,7 +251,14 @@ function isUSSchoolStatus(status) {
 function getEmailApiKey(leadStatus) {
   if (leadStatus === defaultEuLeadStatus) return closeIoEuMailApiKey;
   if (closeIoMailApiKeys.length < 0) return;
-  return closeIoMailApiKeys[Math.floor(Math.random() * closeIoMailApiKeys.length)];
+  const weightedList = [];
+  for (let closeIoMailApiKey of closeIoMailApiKeys) {
+    const multiples = closeIoMailApiKey.weight * 100;
+    for (let i = 0; i < multiples; i++) {
+      weightedList.push(closeIoMailApiKey.apiKey);
+    }
+  }
+  return weightedList[Math.floor(Math.random() * weightedList.length)];
 }
 
 function getRandomEmailTemplate(templates) {
@@ -728,7 +749,7 @@ function createUpdateLeadFn(lead, existingLeads) {
         if (data.total_results === 0) {
           if (existingLeads[lead.name.toLowerCase()]) {
             if (existingLeads[lead.name.toLowerCase()].length === 1) {
-              console.log(`DEBUG: Using lead from email lookup: ${lead.name}`);
+              // console.log(`DEBUG: Using lead from email lookup: ${lead.name}`);
               return updateExistingLead(lead, existingLeads[lead.name.toLowerCase()][0], done);
             }
             console.error(`ERROR: ${existingLeads[lead.name.toLowerCase()].length} email leads found for ${lead.name}`);

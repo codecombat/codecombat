@@ -314,13 +314,18 @@ module.exports = class SpellView extends CocoView
             if /^\s+$/.test lines[docRange.end.row+1]
               docRange.end.row += 1
 
+            xstart = startOfRow(row)
+            if language is 'python'
+              requiredIndent = new RegExp '^' + new Array(xstart / 4 + 1).join('(    |\t)') + '(    |\t)+(\\S|\\s*$)'
+              for crow in [docRange.start.row+1..docRange.end.row]
+                unless requiredIndent.test lines[crow]
+                  docRange.end.row = crow - 1
+                  break
+
             rstart = @aceSession.documentToScreenPosition docRange.start.row, docRange.start.column
             rend = @aceSession.documentToScreenPosition docRange.end.row, docRange.end.column
             range = new Range rstart.row, rstart.column, rend.row, rend.column
-
-            xstart = startOfRow(row)
             level = Math.floor(xstart / 4)
-            indent = startOfRow(row + 1)
             color = colors[level % colors.length]
             bw = 3
             to = markerLayer.$getTop(range.start.row, config)
@@ -630,7 +635,7 @@ module.exports = class SpellView extends CocoView
     @createToolbarView()
 
   createDebugView: ->
-    return if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']  # We'll turn this on later, maybe, but not yet.
+    return if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 
@@ -692,6 +697,8 @@ module.exports = class SpellView extends CocoView
       @aceDoc.insertNewLine row: lineCount, column: 0  #lastLine.length
       @ace.navigateLeft(1) if wasAtEnd
       ++lineCount
+      # Force the popup back
+      @ace?.completer?.showPopup(@ace)
     screenLineCount = @aceSession.getScreenLength()
     if screenLineCount isnt @lastScreenLineCount
       @lastScreenLineCount = screenLineCount

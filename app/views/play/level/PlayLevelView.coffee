@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/play/level'
+template = require 'templates/play/play-level-view'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
@@ -41,6 +41,8 @@ PicoCTFVictoryModal = require './modal/PicoCTFVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ContactModal = require 'views/core/ContactModal'
+HintsView = require './HintsView'
+HintsState = require './HintsState'
 
 PROFILE_ME = false
 
@@ -141,6 +143,7 @@ module.exports = class PlayLevelView extends RootView
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
+    @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview
@@ -195,11 +198,14 @@ module.exports = class PlayLevelView extends RootView
     @controlBar.setBus(@bus)
     @initScriptManager()
 
+  onWorldNecessityLoadFailed: (resource) ->
+    @loadingView.onLoadError(resource)
+
   grabLevelLoaderData: ->
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
-    @$el.addClass 'hero' if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
+    @$el.addClass 'hero' if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
@@ -255,7 +261,8 @@ module.exports = class PlayLevelView extends RootView
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level, observing: @observing, courseID: @courseID, courseInstanceID: @courseInstanceID, god: @god
+    @hintsState = new HintsState({ hidden: true }, { @session, @level })
+    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world.thangs, @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
     @insertSubView new LevelPlaybackView session: @session, level: @level
     @insertSubView new GoalsView {}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
@@ -266,6 +273,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.get('type') in ['hero-ladder', 'course-ladder']
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
+    @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
 
   initVolume: ->
@@ -353,7 +361,7 @@ module.exports = class PlayLevelView extends RootView
     return {} unless @level.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
     playerNames = {}
     for session in [@session, @otherSession] when session?.get('team')
-      playerNames[session.get('team')] = session.get('creatorName') or 'Anoner'
+      playerNames[session.get('team')] = session.get('creatorName') or 'Anonymous'
     playerNames
 
   # Once Surface is Loaded ####################################################
@@ -459,7 +467,7 @@ module.exports = class PlayLevelView extends RootView
     return false if $.browser?.msie or $.browser?.msedge
     return false if $.browser.linux
     return false if me.level() < 8
-    if levelType is 'course'
+    if levelType in ['course', 'game-dev']
       return false
     else if levelType is 'hero' and gamesSimulated
       return false if stillBuggy
@@ -532,7 +540,7 @@ module.exports = class PlayLevelView extends RootView
   onDonePressed: -> @showVictory()
 
   onShowVictory: (e) ->
-    $('#level-done-button').show() unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
+    $('#level-done-button').show() unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
     @showVictory() if e.showModal
     return if @victorySeen
     @victorySeen = true
@@ -550,7 +558,7 @@ module.exports = class PlayLevelView extends RootView
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
-    ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then HeroVictoryModal else VictoryModal
+    ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev'] then HeroVictoryModal else VictoryModal
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
@@ -641,7 +649,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @$el.hasClass 'real-time'
     @$el.removeClass 'real-time'
     @onWindowResize()
-    if @world.frames.length is @world.totalFrames
+    if @world.frames.length is @world.totalFrames and not @surface.countdownScreen?.showing
       _.delay @onSubmissionComplete, 750  # Wait for transition to end.
     else
       @waitingForSubmissionComplete = true
@@ -649,6 +657,7 @@ module.exports = class PlayLevelView extends RootView
 
   onSubmissionComplete: =>
     return if @destroyed
+    Backbone.Mediator.publish 'level:set-time', ratio: 1
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     # TODO: Show a victory dialog specific to hero-ladder level
     if @goalManager.checkOverallStatus() is 'success' and not @options.realTimeMultiplayerSessionID?

@@ -6,31 +6,31 @@ describe 'CreateAccountModal', ->
   
   modal = null
   
-  initModal = (options) ->
+  initModal = (options) -> (done) ->
     application.facebookHandler.fakeAPI()
     application.gplusHandler.fakeAPI()
     modal = new CreateAccountModal(options)
     modal.render()
     modal.render = _.noop
     jasmine.demoModal(modal)
+    _.defer done
   
   afterEach ->
     modal.stopListening()
     
   describe 'constructed with showRequiredError is true', ->
+    beforeEach initModal({showRequiredError: true})
     it 'shows a modal explaining to login first', ->
-      initModal({showRequiredError: true})
       expect(modal.$('#required-error-alert').length).toBe(1)
 
   describe 'constructed with showSignupRationale is true', ->
+    beforeEach initModal({showSignupRationale: true})
     it 'shows a modal explaining signup rationale', ->
-      initModal({showSignupRationale: true})
       expect(modal.$('#signup-rationale-alert').length).toBe(1)
 
   describe 'clicking the save button', ->
 
-    beforeEach ->
-      initModal()
+    beforeEach initModal()
 
     it 'fails if nothing is in the form, showing errors for email, birthday, and password', ->
       modal.$('form').each (i, el) -> el.reset()
@@ -45,7 +45,7 @@ describe 'CreateAccountModal', ->
       expect(jasmine.Ajax.requests.all().length).toBe(0)
       expect(modal.$('.has-error').length).toBeTruthy()
 
-    it 'fails if birthay is missing', ->
+    it 'fails if birthday is missing', ->
       modal.$('form').each (i, el) -> el.reset()
       forms.objectToForm(modal.$el, { email: 'some@email.com', password: 'xyzzy' })
       modal.$('form').submit()
@@ -110,8 +110,9 @@ describe 'CreateAccountModal', ->
     
     signupButton = null
 
+    beforeEach initModal()
+ 
     beforeEach ->
-      initModal()
       forms.objectToForm(modal.$el, { birthdayDay: 24, birthdayMonth: 7, birthdayYear: 1988 })
       signupButton = modal.$('#gplus-signup-btn')
       expect(signupButton.attr('disabled')).toBeFalsy()
@@ -176,8 +177,9 @@ describe 'CreateAccountModal', ->
 
     signupButton = null
 
+    beforeEach initModal()
+    
     beforeEach ->
-      initModal()
       forms.objectToForm(modal.$el, { birthdayDay: 24, birthdayMonth: 7, birthdayYear: 1988 })
       signupButton = modal.$('#facebook-signup-btn')
       expect(signupButton.attr('disabled')).toBeFalsy()

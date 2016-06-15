@@ -138,7 +138,7 @@ module.exports = class ClanDetailsView extends RootView
     return unless @members? and @memberSort?
     switch @memberSort
       when "nameDesc"
-        @members.comparator = (a, b) -> return (b.get('name') or 'Anoner').localeCompare(a.get('name') or 'Anoner')
+        @members.comparator = (a, b) -> return (b.get('name') or 'Anonymous').localeCompare(a.get('name') or 'Anonymous')
       when "progressAsc"
         @members.comparator = (a, b) ->
           aComplete = (concept for concept, state of userConceptsMap[a.id] when state is 'complete')
@@ -151,7 +151,7 @@ module.exports = class ClanDetailsView extends RootView
           else if aStarted > bStarted then return 1
           if highestUserLevelCountMap[a.id] < highestUserLevelCountMap[b.id] then return -1
           else if highestUserLevelCountMap[a.id] > highestUserLevelCountMap[b.id] then return 1
-          (a.get('name') or 'Anoner').localeCompare(b.get('name') or 'Anoner')
+          (a.get('name') or 'Anonymous').localeCompare(b.get('name') or 'Anonymous')
       when "progressDesc"
         @members.comparator = (a, b) ->
           aComplete = (concept for concept, state of userConceptsMap[a.id] when state is 'complete')
@@ -164,9 +164,9 @@ module.exports = class ClanDetailsView extends RootView
           else if aStarted < bStarted then return 1
           if highestUserLevelCountMap[a.id] > highestUserLevelCountMap[b.id] then return -1
           else if highestUserLevelCountMap[a.id] < highestUserLevelCountMap[b.id] then return 1
-          (b.get('name') or 'Anoner').localeCompare(a.get('name') or 'Anoner')
+          (b.get('name') or 'Anonymous').localeCompare(a.get('name') or 'Anonymous')
       else
-        @members.comparator = (a, b) -> return (a.get('name') or 'Anoner').localeCompare(b.get('name') or 'Anoner')
+        @members.comparator = (a, b) -> return (a.get('name') or 'Anonymous').localeCompare(b.get('name') or 'Anonymous')
     @members.sort()
 
   updateHeroIcons: ->

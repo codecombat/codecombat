@@ -364,8 +364,8 @@ module.exports = class World
     endFrame = @frames.length
     #console.log "... world serializing frames from", startFrame, "to", endFrame, "of", @totalFrames
     [transferableObjects, nontransferableObjects] = [0, 0]
-    delete flag.processed for flag in @flagHistory
-    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: @flagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed, picoCTFFlag: @picoCTFFlag}
+    serializedFlagHistory = (_.omit(_.clone(flag), 'processed') for flag in @flagHistory)
+    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: serializedFlagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed, picoCTFFlag: @picoCTFFlag}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap

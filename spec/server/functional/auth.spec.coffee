@@ -24,18 +24,6 @@ describe 'POST /auth/login', ->
     yield utils.becomeAnonymous()
     done()
 
-  it 'allows logging in by iosIdentifierForVendor', utils.wrap (done) ->
-    yield utils.initUser({
-      'iosIdentifierForVendor': '012345678901234567890123456789012345'
-      'password': '12345'
-    })
-    [res, body] = yield request.postAsync({uri: urlLogin, json: {
-      username: '012345678901234567890123456789012345'
-      password: '12345'
-    }})
-    expect(res.statusCode).toBe(200)
-    done()    
-
   it 'returns 401 when the user does not exist', utils.wrap (done) ->
     [res, body] = yield request.postAsync({uri: urlLogin, json: {
       username: 'some@email.com'
@@ -51,6 +39,19 @@ describe 'POST /auth/login', ->
     })
     [res, body] = yield request.postAsync({uri: urlLogin, json: {
       username: 'some@email.com'
+      password: '12345'
+    }})
+    expect(res.statusCode).toBe(200)
+    done()
+    
+  it 'allows login by username', utils.wrap (done) ->
+    yield utils.initUser({
+      name: 'Some name that will be lowercased...'
+      'email': 'some@email.com'
+      'password': '12345'
+    })
+    [res, body] = yield request.postAsync({uri: urlLogin, json: {
+      username: 'Some name that will be lowercased...'
       password: '12345'
     }})
     expect(res.statusCode).toBe(200)
