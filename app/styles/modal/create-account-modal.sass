@@ -146,3 +146,41 @@
     flex-grow: 1
     align-items: flex-end
     justify-content: space-between
+
+  // Forms
+  
+  .basic-info
+    display: flex
+    align-self: center
+    flex-direction: column
+    // width: 440px
+    
+  .full-name
+    display: flex
+    flex-direction: row
+  
+  .form-group
+    display: flex
+    flex-direction: column
+    align-content: flex-start
+    text-align: left
+    width: 255px
+    
+    label
+      display: inline
+    
+    input
+      height: 40px
+    
+    &.row
+      display: block
+    
+    &.last-initial
+      margin-left: 30px
+      width: auto
+      
+      input
+        width: 70px
+
+    &.subscribe
+      width: 100%

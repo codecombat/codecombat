@@ -170,7 +170,56 @@ mixin segmentCheck
     
 
 mixin basicInfo
-  
+  form.modal-body#basic-info-form
+    .modal-body-content
+      div
+        .row.full-name
+          .form-group
+            label
+              span(data-i18n="TODO")
+                | First name:
+            input(name="firstName" value="h")
+          .last-initial.form-group
+            label
+              span(data-i18n="TODO")
+                | Last initial:
+            input(name="lastName" maxlength="1")
+        .row
+          .form-group
+            label
+              span(data-i18n="TODO")
+                | Email address:
+            input(name="email" type="email")
+        .row
+          .form-group
+            label
+              span(data-i18n="TODO")
+                | Username:
+            input(name="name")
+        .row
+          .form-group
+            label
+              span(data-i18n="TODO")
+                | Password:
+            input(name="password" type="password")
+        .row
+          .form-group.checkbox.subscribe
+            label.control-label
+              input(type="checkbox" checked="checked" name="subscribe")
+              span.small(data-i18n="TODO")
+                | Receive announcements about CodeCombat
+
+    // In reverse order for tabbing purposes
+    .history-nav-buttons
+      // disabled=!state.get('basicInfoValid')
+      button.next-button.btn.btn-lg.btn-navy(type='submit')
+        span(data-i18n="TODO")
+          | Create Account
+
+      button.back-button.btn.btn-lg.btn-navy-alt(type='button')
+        span(data-i18n="TODO")
+          | Back
+
   
 mixin extras
 mixin confirmation
