@@ -38,7 +38,7 @@ if view.showAds()
           - var levelStatus = view.levelStatusMap[level.slug]
           - var levelPlayCount = levelPlayCountMap[level.slug]
           - var levelDifficulty = levelDifficultyMap[level.slug]
-          div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatus || ""), data-level-slug=level.slug, data-level-original=level.original, title=view.i18n(level, 'name') + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
+          div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatus || ""), data-level-slug=level.slug, data-level-original=level.original, title=i18n(level, 'name') + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
             if level.unlocksHero && (!level.purchasedHero || view.editorMode)
               img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
             a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
@@ -60,8 +60,8 @@ if view.showAds()
 
             div(class="level-info " + (levelStatus || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
               .level-status
-              h3= view.i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
-              - var description = view.i18n(level, 'description') || level.description || ""
+              h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
+              - var description = i18n(level, 'description') || level.description || ""
               .level-description!= marked(description, {sanitize: !view.picoCTF})
               if level.disabled
                 p
@@ -110,7 +110,7 @@ if view.showAds()
               .campaign-label
                 h2.campaign-name
                   if c
-                    span= view.i18n(c.attributes, 'fullName')
+                    span= i18n(c.attributes, 'fullName')
                   else
                     span ???
                 if c && c.levelsTotal
@@ -124,7 +124,7 @@ if view.showAds()
                   btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
                 if c && c.get('description')
                   p.campaign-description
-                    span= view.i18n(c.attributes, 'description')
+                    span= i18n(c.attributes, 'description')
 
   .game-controls.header-font.picoctf-hide
     button.btn.poll.hidden(data-i18n="[title]play.poll")
@@ -175,7 +175,7 @@ if view.showAds()
     h1#campaign-status.picoctf-hide
       .campaign-status-background
         .campaign-name
-          - var fullName = view.i18n(view.campaign.attributes, 'fullName')
+          - var fullName = i18n(view.campaign.attributes, 'fullName')
           if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'en' || fullName != view.campaign.get('fullName')
             // We have a translation.
             span= fullName
