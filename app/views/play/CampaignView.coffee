@@ -60,27 +60,26 @@ module.exports = class CampaignView extends RootView
     'mousemove .portals': 'onMouseMovePortals'
     'click .poll': 'showPoll'
 
-  constructor: (options, @terrain) ->
-    super options
-    @terrain = 'picoctf' if window.serverConfig.picoCTF
+  initialize: (options, @terrain) ->
+    @picoCTF = window.serverConfig.picoCTF
+    @i18n = utils.i18n
+    @isIPadApp = application.isIPadApp
+    @terrain = 'picoctf' if @picoCTF
     @editorMode = options?.editorMode
     if @editorMode
       @terrain ?= 'dungeon'
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @levelDifficultyMap = {}
-    if window.serverConfig.picoCTF
+    if @picoCTF
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (@picoCTFProblems) =>).load()
     else
       @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
       @listenToOnce @sessions, 'sync', @onSessionsLoaded
       unless @terrain
         @campaigns = @supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
-        @listenToOnce @campaigns, 'sync', @onCampaignsLoaded
+        @listenToOnce @campaigns, 'sync', @onSyncCampaigns
         return
-
-    @campaign = new Campaign({_id:@terrain})
-    @campaign = @supermodel.loadModel(@campaign).model
 
     # Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
     @earnedAchievements = new CocoCollection([], {url: '/db/earned_achievement', model:EarnedAchievement, project: ['earnedRewards']})
@@ -94,10 +93,12 @@ module.exports = class CampaignView extends RootView
             if reward not in earned[group]
               console.warn 'Filling in a gap for reward', group, reward
               earned[group].push(reward)
-
     @supermodel.loadCollection(@earnedAchievements, 'achievements', {cache: false})
 
-    @listenToOnce @campaign, 'sync', @getLevelPlayCounts
+    @campaign = new Campaign({_id:@terrain})
+    @listenToOnce @campaign, 'sync', @onSyncCampaign
+    @campaign = @supermodel.loadModel(@campaign).model
+
     $(window).on 'resize', @onWindowResize
     @probablyCachedMusic = storage.load("loaded-menu-music")
     musicDelay = if @probablyCachedMusic then 1000 else 10000
@@ -132,9 +133,36 @@ module.exports = class CampaignView extends RootView
     unless @campaign
       @$el.find('.game-controls, .user-status').removeClass 'hidden'
 
-  getLevelPlayCounts: ->
+  onSyncCampaign: ->
     return unless me.isAdmin()
     return  # TODO: get rid of all this? It's redundant with new campaign editor analytics, unless we want to show player counts on leaderboards buttons.
+
+    @levels = _.values($.extend true, {}, @campaign?.get('levels') ? {})
+    # put lower levels in last, so in the world map they layer over one another properly.
+    @levels = (_.sortBy @.levels, (l) -> l.position.y).reverse()
+    if me.level() < 12 and @terrain is 'dungeon' and not @editorMode
+      reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
+      @levels = _.reject @levels, slug: reject
+    @annotateLevel level for level in context.levels
+    count = @countLevels @levels
+    @levelsCompleted = count.completed
+    @levelsTotal = count.total
+
+    @determineNextLevel @levels if @sessions?.loaded
+    @campaign.renderedLevels = @levels
+
+    @adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign?.get('adjacentCampaigns') or {})), (ac) =>
+      return false if ac.showIfUnlocked and (ac.showIfUnlocked not in me.levels()) and not @editorMode
+      ac.name = utils.i18n ac, 'name'
+      styles = []
+      styles.push "color: #{ac.color}" if ac.color
+      styles.push "transform: rotate(#{ac.rotation}deg)" if ac.rotation
+      ac.position ?= { x: 10, y: 10 }
+      styles.push "left: #{ac.position.x}%"
+      styles.push "top: #{ac.position.y}%"
+      ac.style = styles.join('; ')
+      return true
+
     success = (levelPlayCounts) =>
       return if @destroyed
       for level in levelPlayCounts
@@ -149,6 +177,8 @@ module.exports = class CampaignView extends RootView
       success: success
     }, 0
     levelPlayCountsRequest.load()
+
+    @render()
 
   onLoaded: ->
     return if @fullyRendered
@@ -167,65 +197,6 @@ module.exports = class CampaignView extends RootView
   onSubscribed: ->
     @requiresSubscription = false
     @render()
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.campaign = @campaign
-    context.levels = _.values($.extend true, {}, @campaign?.get('levels') ? {})
-    if me.level() < 12 and @terrain is 'dungeon' and not @editorMode
-      reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
-      context.levels = _.reject context.levels, slug: reject
-    @annotateLevel level for level in context.levels
-    count = @countLevels context.levels
-    context.levelsCompleted = count.completed
-    context.levelsTotal = count.total
-
-    @determineNextLevel context.levels if @sessions?.loaded
-    # put lower levels in last, so in the world map they layer over one another properly.
-    context.levels = (_.sortBy context.levels, (l) -> l.position.y).reverse()
-    @campaign.renderedLevels = context.levels if @campaign
-
-    context.levelStatusMap = @levelStatusMap
-    context.levelDifficultyMap = @levelDifficultyMap
-    context.levelPlayCountMap = @levelPlayCountMap
-    context.isIPadApp = application.isIPadApp
-    context.picoCTF = window.serverConfig.picoCTF
-    context.requiresSubscription = @requiresSubscription
-    context.editorMode = @editorMode
-    context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign?.get('adjacentCampaigns') or {})), (ac) =>
-      return false if ac.showIfUnlocked and (ac.showIfUnlocked not in me.levels()) and not @editorMode
-      ac.name = utils.i18n ac, 'name'
-      styles = []
-      styles.push "color: #{ac.color}" if ac.color
-      styles.push "transform: rotate(#{ac.rotation}deg)" if ac.rotation
-      ac.position ?= { x: 10, y: 10 }
-      styles.push "left: #{ac.position.x}%"
-      styles.push "top: #{ac.position.y}%"
-      ac.style = styles.join('; ')
-      return true
-    context.marked = marked
-    context.i18n = utils.i18n
-
-    if @campaigns
-      context.campaigns = {}
-      for campaign in @campaigns.models when campaign.get('slug') isnt 'auditions'
-        context.campaigns[campaign.get('slug')] = campaign
-        if @sessions.loaded
-          levels = _.values($.extend true, {}, campaign.get('levels') ? {})
-          count = @countLevels levels
-          campaign.levelsTotal = count.total
-          campaign.levelsCompleted = count.completed
-          if campaign.get('slug') is 'dungeon'
-            campaign.locked = false
-          else unless campaign.levelsTotal
-            campaign.locked = true
-          else
-            campaign.locked = true
-      for campaign in @campaigns.models
-        for acID, ac of campaign.get('adjacentCampaigns') ? {}
-          _.find(@campaigns.models, id: acID)?.locked = false if ac.showIfUnlocked in me.levels()
-
-    context
 
   afterRender: ->
     super()
@@ -266,7 +237,7 @@ module.exports = class CampaignView extends RootView
 
   showAds: ->
     return false # No ads for now.
-    if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF
+    if application.isProduction() && !me.isPremium() && !me.isTeacher() && !@picoCTF
       return me.getCampaignAdsGroup() is 'leaderboard-ads'
     false
 
@@ -289,7 +260,7 @@ module.exports = class CampaignView extends RootView
     if level.unlocksHero
       level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
 
-    if window.serverConfig.picoCTF
+    if @picoCTF
       if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
         level.locked = false if problem.unlocked or level.slug is 'digital-graffiti'
         #level.locked = false  # Testing to see all levels
@@ -442,9 +413,26 @@ module.exports = class CampaignView extends RootView
         @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
       @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
     @render()
-    @loadUserPollsRecord() unless me.get('anonymous') or window.serverConfig.picoCTF
+    @loadUserPollsRecord() unless me.get('anonymous') or @picoCTF
 
-  onCampaignsLoaded: (e) ->
+  onSyncCampaigns: (e) ->
+    @campaignModels = []
+    for campaign in @campaigns.models when campaign.get('slug') isnt 'auditions'
+      @campaignModels[campaign.get('slug')] = campaign
+      if @sessions.loaded
+        levels = _.values($.extend true, {}, campaign.get('levels') ? {})
+        count = @countLevels levels
+        campaign.levelsTotal = count.total
+        campaign.levelsCompleted = count.completed
+        if campaign.get('slug') is 'dungeon'
+          campaign.locked = false
+        else unless campaign.levelsTotal
+          campaign.locked = true
+        else
+          campaign.locked = true
+    for campaign in @campaigns.models
+      for acID, ac of campaign.get('adjacentCampaigns') ? {}
+        _.find(@campaigns.models, id: acID)?.locked = false if ac.showIfUnlocked in me.levels()
     @render()
 
   preloadLevel: (levelSlug) ->
@@ -607,7 +595,7 @@ module.exports = class CampaignView extends RootView
       @$el.find(".course-version[data-level-original='#{levelOriginal}']").removeClass('hidden').data('course-id': courseInstance.get('courseID'), 'course-instance-id': courseInstance.id)
 
   preloadTopHeroes: ->
-    return if window.serverConfig.picoCTF
+    return if @picoCTF
     for heroID in ['captain', 'knight']
       url = "/db/thang.type/#{ThangType.heroes[heroID]}/version"
       continue if @supermodel.getModel url
