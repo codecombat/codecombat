@@ -17,6 +17,7 @@ block content
         button#logout-button.btn.btn-lg.btn-primary-alt(data-i18n="login.log_out")
 
   if me.isTeacher()
-    .teacher-account-blurb.text-center.col-xs-6.col-xs-offset-3.m-y-3
-      h5(data-i18n='teacher.what_is_a_teacher_account')
-      p(data-i18n='teacher.teacher_account_explanation')
+    .container
+      .teacher-account-blurb.text-center.col-xs-6.col-xs-offset-3.m-y-3
+        h5(data-i18n='teacher.what_is_a_teacher_account')
+        p(data-i18n='teacher.teacher_account_explanation')

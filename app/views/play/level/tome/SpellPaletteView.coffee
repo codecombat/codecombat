@@ -1,5 +1,4 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/spell_palette'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
@@ -12,7 +11,7 @@ N_ROWS = 4
 
 module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
-  template: template
+  template: require 'templates/play/level/tome/spell-palette-view'
   controlsEnabled: true
 
   subscriptions:
@@ -24,13 +23,8 @@ module.exports = class SpellPaletteView extends CocoView
   events:
     'click #spell-palette-help-button': 'onClickHelp'
 
-  constructor: (options) ->
-    super options
-    @level = options.level
-    @session = options.session
-    @supermodel = options.supermodel
-    @thang = options.thang
-    @useHero = options.useHero
+  initialize: (options) ->
+    {@level, @session, @supermodel, @thang, @useHero} = options
     docs = @options.level.get('documentation') ? {}
     @showsHelp = docs.specificArticles?.length or docs.generalArticles?.length
     @createPalette()
