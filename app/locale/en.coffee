@@ -71,7 +71,7 @@
     curriculum: "Total curriculum hours:"
     ffa: "Free for all students"
     lesson_time: "Lesson time:"
-    coming_soon: "Coming soon!"
+    coming_soon: "Coming this fall!"
     courses_available_in: "Courses are available in JavaScript, Python, and Java (coming soon!)"
     boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
     winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
