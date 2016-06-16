@@ -14,7 +14,10 @@ module.exports.setup = (app) ->
   app.get('/auth/unsubscribe', mw.auth.unsubscribe)
   app.get('/auth/whoami', mw.auth.whoAmI)
 
-  app.all('/db/*', mw.auth.checkHasUser())
+  app.delete('/db/*', mw.auth.checkHasUser())
+  app.patch('/db/*', mw.auth.checkHasUser())
+  app.post('/db/*', mw.auth.checkHasUser())
+  app.put('/db/*', mw.auth.checkHasUser())
   
   Achievement = require '../models/Achievement'
   app.get('/db/achievement', mw.achievements.fetchByRelated, mw.rest.get(Achievement))
