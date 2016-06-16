@@ -10,8 +10,8 @@ module.exports = class HintsState extends Backbone.Model
 
   update: ->
     hints = switch me.getHintsGroup()
-      when 'hints' then @level.get('documentation')?.hints or []
-      when 'hintsB' then @level.get('documentation')?.hintsB or []
+      when 'hints' then _.cloneDeep(@level.get('documentation')?.hints or [])
+      when 'hintsB' then _.cloneDeep(@level.get('documentation')?.hintsB or [])
       else []
     haveIntro = false
     haveOverview = false
@@ -25,6 +25,6 @@ module.exports = class HintsState extends Backbone.Model
       break if haveIntro and haveOverview
     total = _.size(hints)
     @set({
-      hints: hints
+      hints
       total
     })
