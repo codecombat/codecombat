@@ -10,14 +10,53 @@ module.exports = class MyMatchesTabView extends CocoView
   id: 'my-matches-tab-view'
   template: require 'templates/play/ladder/my_matches_tab'
 
-  constructor: (options, @level, @sessions) ->
-    super(options)
+  initialize: (options, @level, @sessions) ->
     @nameMap = {}
     @previouslyRankingTeams = {}
     @refreshMatches 20
 
   refreshMatches: (@refreshDelay) ->
     @teams = teamDataFromLevel @level
+
+    convertMatch = (match, submitDate) =>
+      opponent = match.opponents[0]
+      state = 'win'
+      state = 'loss' if match.metrics.rank > opponent.metrics.rank
+      state = 'tie' if match.metrics.rank is opponent.metrics.rank
+      fresh = match.date > (new Date(new Date() - @refreshDelay * 1000)).toISOString()
+      if fresh
+        @playSound 'chat_received'
+      {
+        state: state
+        opponentName: @nameMap[opponent.userID]
+        opponentID: opponent.userID
+        when: moment(match.date).fromNow()
+        sessionID: opponent.sessionID
+        stale: match.date < submitDate
+        fresh: fresh
+        codeLanguage: match.codeLanguage
+        simulator: if match.simulator then JSON.stringify(match.simulator) + ' | seed ' + match.randomSeed else ''
+      }
+
+    for team in @teams
+      team.session = (s for s in @sessions.models when s.get('team') is team.id)[0]
+      stats = @statsFromSession team.session
+      team.readyToRank = team.session?.readyToRank()
+      team.isRanking = team.session?.get('isRanking')
+      team.matches = (convertMatch(match, team.session.get('submitDate')) for match in (stats?.matches or []))
+      team.matches.reverse()
+      team.score = (stats?.totalScore ? 10).toFixed(2)
+      team.wins = _.filter(team.matches, {state: 'win', stale: false}).length
+      team.ties = _.filter(team.matches, {state: 'tie', stale: false}).length
+      team.losses = _.filter(team.matches, {state: 'loss', stale: false}).length
+      scoreHistory = stats?.scoreHistory
+      if scoreHistory?.length > 1
+        team.scoreHistory = scoreHistory
+
+      if not team.isRanking and @previouslyRankingTeams[team.id]
+        @playSound 'cast-end'
+      @previouslyRankingTeams[team.id] = team.isRanking
+
     @loadNames()
 
   loadNames: ->
@@ -61,54 +100,6 @@ module.exports = class MyMatchesTabView extends CocoView
       success: success
     }, 0
     userNamesRequest.load()
-
-  getRenderData: ->
-    ctx = super()
-    ctx.level = @level
-    ctx.levelID = @level.get('slug') or @level.id
-    ctx.teams = @teams
-    ctx.league = @options.league
-
-    convertMatch = (match, submitDate) =>
-      opponent = match.opponents[0]
-      state = 'win'
-      state = 'loss' if match.metrics.rank > opponent.metrics.rank
-      state = 'tie' if match.metrics.rank is opponent.metrics.rank
-      fresh = match.date > (new Date(new Date() - @refreshDelay * 1000)).toISOString()
-      if fresh
-        @playSound 'chat_received'
-      {
-        state: state
-        opponentName: @nameMap[opponent.userID]
-        opponentID: opponent.userID
-        when: moment(match.date).fromNow()
-        sessionID: opponent.sessionID
-        stale: match.date < submitDate
-        fresh: fresh
-        codeLanguage: match.codeLanguage
-        simulator: if match.simulator then JSON.stringify(match.simulator) + ' | seed ' + match.randomSeed else ''
-      }
-
-    for team in @teams
-      team.session = (s for s in @sessions.models when s.get('team') is team.id)[0]
-      stats = @statsFromSession team.session
-      team.readyToRank = team.session?.readyToRank()
-      team.isRanking = team.session?.get('isRanking')
-      team.matches = (convertMatch(match, team.session.get('submitDate')) for match in (stats?.matches or []))
-      team.matches.reverse()
-      team.score = (stats?.totalScore ? 10).toFixed(2)
-      team.wins = _.filter(team.matches, {state: 'win', stale: false}).length
-      team.ties = _.filter(team.matches, {state: 'tie', stale: false}).length
-      team.losses = _.filter(team.matches, {state: 'loss', stale: false}).length
-      scoreHistory = stats?.scoreHistory
-      if scoreHistory?.length > 1
-        team.scoreHistory = scoreHistory
-
-      if not team.isRanking and @previouslyRankingTeams[team.id]
-        @playSound 'cast-end'
-      @previouslyRankingTeams[team.id] = team.isRanking
-
-    ctx
 
   afterRender: ->
     super()

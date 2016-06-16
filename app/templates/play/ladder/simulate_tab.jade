@@ -1,6 +1,6 @@
 p(id="simulation-status-text")
-  if simulationStatus
-    | #{simulationStatus}
+  if view.simulationStatus
+    | #{view.simulationStatus}
   else
     span(data-i18n="ladder.simulation_explanation") By simulating games you can get your game ranked faster!
     span.spl(data-i18n="ladder.simulation_explanation_leagues") You will mainly help simulate games for allied players in your clans and courses.
@@ -17,38 +17,40 @@ p.simulation-count
 
 //p.simulation-count
 //  span.spr(data-i18n="ladder.games_in_queue") Games currently in the queue:
-//  span#games-in-queue= numberOfGamesInQueue || 0
+//  span#games-in-queue= view.simulatorsLeaderboardData.numberOfGamesInQueue || 0
 
-table.table.table-bordered.table-condensed.table-hover
-  thead
-    tr
-      th
-      th(data-i18n="general.player").name-col-cell Player
-      th(data-i18n="ladder.games_simulated") Games simulated
-      //th(data-i18n="ladder.games_played") Games played
-      //th(data-i18n="ladder.ratio") Ratio
-  tbody
-    - var topSimulators = simulatorsLeaderboardData.topSimulators.models;
-    - var showJustTop = simulatorsLeaderboardData.inTopSimulators() || me.get('anonymous');
-    - if(!showJustTop) topSimulators = topSimulators.slice(0, 10);
-    for user, rank in topSimulators
-      - var myRow = user.id == me.id
-      tr(class=myRow ? "success" : "")
-        td.simulator-leaderboard-cell= rank + 1
-        td.name-col-cell= user.get('name') || "Anonymous"
-        td.simulator-leaderboard-cell= user.get('simulatedBy')
-        //td.simulator-leaderboard-cell= user.get('simulatedFor')
-        //td.simulator-leaderboard-cell= Math.round((user.get('simulatedBy') / user.get('simulatedFor')) * 10) / 10
-
-    if !showJustTop && simulatorsLeaderboardData.nearbySimulators().length
-      tr(class="active")
-        td(colspan=5).ellipsis-row ...
-      for user in simulatorsLeaderboardData.nearbySimulators()
+if view.simulatorsLeaderboardData
+  - var topSimulators = view.simulatorsLeaderboardData.topSimulators.models;
+  - var showJustTop = view.simulatorsLeaderboardData.inTopSimulators() || me.get('anonymous');
+  - if(!showJustTop) topSimulators = topSimulators.slice(0, 10);
+  table.table.table-bordered.table-condensed.table-hover
+    thead
+      tr
+        th
+        th(data-i18n="general.player").name-col-cell Player
+        th(data-i18n="ladder.games_simulated") Games simulated
+        //th(data-i18n="ladder.games_played") Games played
+        //th(data-i18n="ladder.ratio") Ratio
+    tbody
+      for user, rank in topSimulators
         - var myRow = user.id == me.id
-        - var ratio = user.get('simulatedBy') / user.get('simulatedFor');
         tr(class=myRow ? "success" : "")
-          td.simulator-leaderboard-cell= user.rank
+          td.simulator-leaderboard-cell= rank + 1
           td.name-col-cell= user.get('name') || "Anonymous"
           td.simulator-leaderboard-cell= user.get('simulatedBy')
           //td.simulator-leaderboard-cell= user.get('simulatedFor')
-          //td.simulator-leaderboard-cell= _.isNaN(ratio) || ratio == Infinity ? '' : ratio.toFixed(1)
+          //td.simulator-leaderboard-cell= Math.round((user.get('simulatedBy') / user.get('simulatedFor')) * 10) / 10
+
+      - var nearbySimulators = view.simulatorsLeaderboardData.nearbySimulators()
+      if !showJustTop && nearbySimulators
+        tr(class="active")
+          td(colspan=5).ellipsis-row ...
+        for user in nearbySimulators
+          - var myRow = user.id == me.id
+          - var ratio = user.get('simulatedBy') / user.get('simulatedFor');
+          tr(class=myRow ? "success" : "")
+            td.simulator-leaderboard-cell= user.rank
+            td.name-col-cell= user.get('name') || "Anonymous"
+            td.simulator-leaderboard-cell= user.get('simulatedBy')
+            //td.simulator-leaderboard-cell= user.get('simulatedFor')
+            //td.simulator-leaderboard-cell= _.isNaN(ratio) || ratio == Infinity ? '' : ratio.toFixed(1)
