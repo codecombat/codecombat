@@ -1,0 +1,71 @@
+form.modal-body.segment-check
+  .modal-body-content
+    case view.sharedState.get('path')
+      when 'student'
+        span(data-i18n="TODO")
+          | Enter your class code:
+        .class-code-input-group
+          input.class-code-input(value=view.sharedState.get('classCode'))
+          unless _.isEmpty(view.sharedState.get('classCode'))
+            if state.get('classCodeValid')
+              span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
+            else
+              span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
+        
+        if _.isEmpty(view.sharedState.get('classCode'))
+          p
+            span(data-i18n="TODO")
+              | Ask your teacher for your class code.
+            br
+            span.spr(data-i18n="TODO")
+              | Don't have a class code? Create an 
+            a(href="TODO")
+              span(data-i18n="TODO")
+                | Individual Account
+            span.spl(data-i18n="TODO")
+              |  instead.
+        else if state.get('classCodeValid')
+          p
+            span(data-i18n="TODO")
+              | You're about to join:
+            .classroom-name= view.classroom.get('name')
+            .teacher-name= view.classroom.owner.get('name')
+          
+      when 'teacher'
+        // TODO
+      when 'individual'
+        .birthday-form-group.form-group
+          span(data-i18n="TODO")
+            | Enter your birthdate:
+          .input-border
+            - console.log(view.sharedState.attributes)
+            select#birthday-month-input.input-large.form-control(name="birthdayMonth", style="width: 106px; float: left")
+              option(value='',data-i18n="calendar.month")
+              for name, index in ['january','february','march','april','may','june','july','august','september','october','november','december']
+                - var month = index + 1
+                option(data-i18n="calendar.#{name}" value=month, selected=(month == view.sharedState.get('birthdayMonth')))
+            select#birthday-day-input.input-large.form-control(name="birthdayDay", style="width: 75px; float: left")
+              option(value='',data-i18n="calendar.day")
+              for day in _.range(1,32)
+                option(selected=(day === view.sharedState.get('birthdayDay'))) #{day}
+            select#birthday-year-input.input-large.form-control(name="birthdayYear", style="width: 90px;")
+              option(value='',data-i18n="calendar.year")
+              - var thisYear = new Date().getFullYear()
+              for year in _.range(thisYear, thisYear - 100, -1)
+                option(selected=(year == view.sharedState.get('birthdayYear'))) #{year}
+
+      default
+        span
+          | Something went wrong :(
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    //- disabled=!view.sharedState.get('segmentCheckValid')
+    button.next-button.btn.btn-lg.btn-navy(type='submit')
+      span(data-i18n="TODO")
+        | Next
+
+    button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="TODO")
+        | Back
+  

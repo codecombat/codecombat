@@ -49,150 +49,17 @@ mixin modal-footer-content
           | Sign in
 
 mixin chooseAccountType
-  #choose-account-type
+  #choose-account-type.modal-body
 
 mixin segmentCheck
-  form.modal-body.segment-check
-    .modal-body-content
-      case state.get('path')
-        when 'student'
-          span(data-i18n="TODO")
-            | Enter your class code:
-          .class-code-input-group
-            input.class-code-input(value=state.get('classCode'))
-            unless _.isEmpty(state.get('classCode'))
-              if state.get('classCodeValid')
-                span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
-              else
-                span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
-          
-          if _.isEmpty(state.get('classCode'))
-            p
-              span(data-i18n="TODO")
-                | Ask your teacher for your class code.
-              br
-              span.spr(data-i18n="TODO")
-                | Don't have a class code? Create an 
-              a(href="TODO")
-                span(data-i18n="TODO")
-                  | Individual Account
-              span.spl(data-i18n="TODO")
-                |  instead.
-          else if state.get('classCodeValid')
-            p
-              span(data-i18n="TODO")
-                | You're about to join:
-              .classroom-name= view.classroom.get('name')
-              .teacher-name= view.classroom.owner.get('name')
-            
-        when 'teacher'
-          // TODO
-        when 'individual'
-          .birthday-form-group.form-group
-            span(data-i18n="TODO")
-              | Enter your birthdate:
-            .input-border
-              select#birthday-month-input.input-large.form-control(name="birthdayMonth", style="width: 106px; float: left" value=state.get('birthdayMonth'))
-                option(value='',data-i18n="calendar.month")
-                for name, val in ['january','february','march','april','may','june','july','august','september','october','november','december']
-                  option(data-i18n="calendar.#{name}" value=val+1)
-              select#birthday-day-input.input-large.form-control(name="birthdayDay", style="width: 75px; float: left" value=state.get('birthdayDay'))
-                option(value='',data-i18n="calendar.day")
-                for dummy, val in new Array(31)
-                  option #{val+1}
-              select#birthday-year-input.input-large.form-control(name="birthdayYear", style="width: 90px;" value=state.get('birthdayYear'))
-                option(value='',data-i18n="calendar.year")
-                - var startYear = new Date().getFullYear() - 1
-                for dummy, val in new Array(100)
-                  option #{startYear-val}
-
-        default
-          span
-            | Something went wrong :(
-
-    // In reverse order for tabbing purposes
-    .history-nav-buttons
-      //- disabled=!state.get('segmentCheckValid')
-      button.next-button.btn.btn-lg.btn-navy(type='submit')
-        span(data-i18n="TODO")
-          | Next
-
-      button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
-        span(data-i18n="TODO")
-          | Back
-    
+  #segment-check-view.modal-body
+  // TODO: Fix up classes (shouldn't have modal-body here and template)
 
 mixin basicInfo
-  form#basic-info-form.modal-body.basic-info
-    .modal-body-content
-      div
-        if ['student', 'teacher'].indexOf(state.get('path')) !== -1
-          .row.full-name
-            .form-group
-              label.control-label(for="first-name-input")
-                span(data-i18n="TODO")
-                  | First name:
-              input#first-name-input(name="firstName" value="h")
-            .last-initial.form-group
-              label.control-label(for="last-name-input")
-                span(data-i18n="TODO")
-                  | Last initial:
-              input#last-name-input(name="lastName" maxlength="1" value="h")
-        .row
-          .form-group
-            label.control-label(for="email-input")
-              span(data-i18n="TODO")
-                | Email address:
-            input#email-input(name="email" type="email" value="h@h.com")
-        .row
-          .form-group
-            label.control-label(for="username-input")
-              span(data-i18n="TODO")
-                | Username:
-            input#username-input(name="name" value="h")
-        .row
-          .form-group
-            label.control-label(for="password-input")
-              span(data-i18n="TODO")
-                | Password:
-            input#password-input(name="password" type="password" value="hh")
-        .row
-          .form-group.checkbox.subscribe
-            label.control-label(for="subscribe-input")
-              input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
-              span.small(data-i18n="TODO")
-                | Receive announcements about CodeCombat
-
-    // In reverse order for tabbing purposes
-    .history-nav-buttons
-      // disabled=!state.get('basicInfoValid')
-      button.next-button.btn.btn-lg.btn-navy(type='submit')
-        span(data-i18n="TODO")
-          | Create Account
-
-      button.back-to-segment-check.btn.btn-lg.btn-navy-alt(type='button')
-        span(data-i18n="TODO")
-          | Back
+  #basic-info-view.modal-body
 
 mixin coppaDeny
-  form.modal-body.coppa-deny
-    .modal-body-content
-      .form-group
-        label.control-label(for="parent-email-input")
-          span(data-i18n="TODO")
-            | Enter your parent's email address:
-        input#parent-email-input(type="email" name="parentEmail")
-  
-    // In reverse order for tabbing purposes
-    .history-nav-buttons
-      // disabled=!state.get('basicInfoValid')
-      button.next-button.btn.btn-lg.btn-navy(type='submit')
-        span(data-i18n="TODO")
-          | Create Account
-
-      button.back-button.btn.btn-lg.btn-navy-alt(type='button')
-        span(data-i18n="TODO")
-          | Back
+  #coppa-deny-view.modal-body
   
 mixin extras
 mixin confirmation

@@ -1,0 +1,50 @@
+form#basic-info-form.modal-body.basic-info
+  .modal-body-content
+    div
+      if ['student', 'teacher'].indexOf(view.sharedState.get('path')) !== -1
+        .row.full-name
+          .form-group
+            label.control-label(for="first-name-input")
+              span(data-i18n="TODO")
+                | First name:
+            input#first-name-input(name="firstName" value="h")
+          .last-initial.form-group
+            label.control-label(for="last-name-input")
+              span(data-i18n="TODO")
+                | Last initial:
+            input#last-name-input(name="lastName" maxlength="1" value="h")
+      .row
+        .form-group
+          label.control-label(for="email-input")
+            span(data-i18n="TODO")
+              | Email address:
+          input#email-input(name="email" type="email" value="h@h.com")
+      .row
+        .form-group
+          label.control-label(for="username-input")
+            span(data-i18n="TODO")
+              | Username:
+          input#username-input(name="name" value="h")
+      .row
+        .form-group
+          label.control-label(for="password-input")
+            span(data-i18n="TODO")
+              | Password:
+          input#password-input(name="password" type="password" value="hh")
+      .row
+        .form-group.checkbox.subscribe
+          label.control-label(for="subscribe-input")
+            input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
+            span.small(data-i18n="TODO")
+              | Receive announcements about CodeCombat
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    // disabled=!view.sharedState.get('basicInfoValid')
+    button.next-button.btn.btn-lg.btn-navy(type='submit')
+      span(data-i18n="TODO")
+        | Create Account
+
+    button.back-to-segment-check.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="TODO")
+        | Back

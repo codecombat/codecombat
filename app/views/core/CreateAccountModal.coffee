@@ -1,11 +1,14 @@
 ModalView = require 'views/core/ModalView'
 ChooseAccountTypeView = require 'views/core/create-account/ChooseAccountTypeView'
+SegmentCheckView = require 'views/core/create-account/SegmentCheckView'
+CoppaDenyView = require 'views/core/create-account/CoppaDenyView'
+BasicInfoView = require 'views/core/create-account/BasicInfoView'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal'
 forms = require 'core/forms'
 User = require 'models/User'
 application  = require 'core/application'
-Classroom = require 'models/Classroom'
+# Classroom = require 'models/Classroom'
 errors = require 'core/errors'
 # COPPADenyModal = require 'views/core/COPPADenyModal'
 utils = require 'core/utils'
@@ -19,29 +22,29 @@ module.exports = class CreateAccountModal extends ModalView
     # 'click .teacher-path-button': -> @state.set { path: 'teacher', screen: 'segment-check' }
     # 'click .student-path-button': -> @state.set { path: 'student', screen: 'segment-check' }
     # 'click .individual-path-button': -> @state.set { path: 'individual', screen: 'segment-check' }
-    'click .back-to-account-type': -> @state.set { path: null, screen: 'choose-account-type' }
+    # 'click .back-to-account-type': -> @state.set { path: null, screen: 'choose-account-type' }
     'click .back-to-segment-check': -> @state.set { screen: 'segment-check' }
-    'input .class-code-input': (e) ->
-      classCode = $(e.currentTarget).val()
-      @checkClassCode(classCode)
-      @state.set { classCode }, { silent: true }
-    'input .birthday-form-group': ->
-      { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
-      birthday = new Date Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay)
-      @state.set { birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true }
-    'submit form.segment-check': (e) ->
-      e.preventDefault()
-      if @state.get('path') is 'student'
-        @state.set { screen: 'basic-info' } if @state.get('segmentCheckValid')
-      else if @state.get('path') is 'individual'
-        if isNaN(@state.get('birthday').getTime())
-          forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
-        else
-          age = (new Date().getTime() - @state.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
-        if age > 13
-          @state.set { screen: 'basic-info' }
-        else
-          @state.set { screen: 'coppa-deny' }
+    # 'input .class-code-input': (e) ->
+    #   classCode = $(e.currentTarget).val()
+    #   @checkClassCode(classCode)
+    #   @state.set { classCode }, { silent: true }
+    # 'input .birthday-form-group': ->
+    #   { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
+    #   birthday = new Date Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay)
+    #   @state.set { birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true }
+    # 'submit form.segment-check': (e) ->
+    #   e.preventDefault()
+    #   if @state.get('path') is 'student'
+    #     @state.set { screen: 'basic-info' } if @state.get('segmentCheckValid')
+    #   else if @state.get('path') is 'individual'
+    #     if isNaN(@state.get('birthday').getTime())
+    #       forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
+    #     else
+    #       age = (new Date().getTime() - @state.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
+    #     if age > 13
+    #       @state.set { screen: 'basic-info' }
+    #     else
+    #       @state.set { screen: 'coppa-deny' }
         
     'submit form#basic-info-form': (e) ->
       e.preventDefault()
@@ -68,27 +71,33 @@ module.exports = class CreateAccountModal extends ModalView
   initialize: (options={}) ->
     @state = new State {
       path: null
-      screen: 'choose-account-type' # segment-check, basic-info, (extras), confirmation, coppya-deny
+      screen: 'choose-account-type' # segment-check, basic-info, (extras), confirmation, coppa-deny
       # path: 'student' # TODO: Remove!
       # screen: 'basic-info' # TODO: Remove!
       segmentCheckValid: false
       basicInfoValid: false
     }
     
-    @classroom = new Classroom()
+    # @classroom = new Classroom()
 
     @listenTo @state, 'all', @render #TODO: debounce
-    @listenTo @classroom, 'all', @render #TODO: debounce
+    # @listenTo @classroom, 'all', @render #TODO: debounce
 
     @onNameChange = _.debounce(_.bind(@checkNameExists, @), 500)
     
     @customSubviews = {
       choose_account_type: new ChooseAccountTypeView()
+      segment_check: new SegmentCheckView({ sharedState: @state })
+      coppa_deny_view: new CoppaDenyView({ sharedState: @state })
+      basic_info_view: new BasicInfoView({ sharedState: @state })
     }
     
     @listenTo @customSubviews.choose_account_type, 'choose-path', (path) ->
-      console.log arguments
       @state.set { path, screen: 'segment-check' }
+    @listenTo @customSubviews.segment_check, 'nav-back', ->
+      @state.set { path: null, screen: 'choose-account-type' }
+    @listenTo @customSubviews.segment_check, 'nav-forward', (screen) ->
+      @state.set { screen: screen or 'basic-info' }
     
   #   options.initialValues ?= {}
   #   options.initialValues?.classCode ?= utils.getQueryVariable('_cc', "")
@@ -103,15 +112,8 @@ module.exports = class CreateAccountModal extends ModalView
     # @$el.html(@template(@getRenderData()))
     for key, subview of @customSubviews
       subview.setElement(@$('#' + subview.id))
-      debugger
       subview.render()
 
-  checkClassCode: _.debounce((classCode) ->
-    @classroom.fetchByCode(classCode)
-    @classroom.once 'sync', => @state.set { classCodeValid: true, segmentCheckValid: true }
-    @classroom.once 'error', => @state.set { classCodeValid: false, segmentCheckValid: false }
-  , 1000)
-  
   checkBasicInfo: (data) ->
     # TODO: Move this to somewhere appropriate
     tv4.addFormat({

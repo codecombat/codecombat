@@ -1,0 +1,18 @@
+form.modal-body.coppa-deny
+  .modal-body-content
+    .form-group
+      label.control-label(for="parent-email-input")
+        span(data-i18n="TODO")
+          | Enter your parent's email address:
+      input#parent-email-input(type="email" name="parentEmail")
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    // disabled=!state.get('basicInfoValid')
+    button.next-button.btn.btn-lg.btn-navy(type='submit')
+      span(data-i18n="TODO")
+        | Create Account
+
+    button.back-to-segment-check.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="TODO")
+        | Back
