@@ -122,9 +122,9 @@ module.exports = class NewHomeView extends RootView
 
   onChangeSchoolLevelDropdown: (e) ->
     levels =
-      elementary: {'introduction-to-computer-science': '2-4', 'computer-science-5': '15-20', default: '10-15', total: '50-70 hours (about one year)'}
-      middle: {'introduction-to-computer-science': '1-3', 'computer-science-5': '7-10', default: '5-8', total: '25-35 hours (about one semester)'}
-      high: {'introduction-to-computer-science': '1', 'computer-science-5': '6-9', default: '5-6', total: '22-28 hours (about one semester)'}
+      elementary: {'introduction-to-computer-science': '2-4', 'computer-science-6': '24-30', 'computer-science-7': '30-40', 'computer-science-8': '30-40', default: '16-25', total: '150-215 hours (about two and a half years)'}
+      middle: {'introduction-to-computer-science': '1-3', 'computer-science-6': '12-14', 'computer-science-7': '14-16', 'computer-science-8': '14-16', default: '8-12', total: '75-100 hours (about one and a half years)'}
+      high: {'introduction-to-computer-science': '1', 'computer-science-6': '10-12', 'computer-science-7': '12-16', 'computer-science-8': '12-16', default: '8-10', total: '65-85 hours (about one year)'}
     level = if e then $(e.target).val() else 'middle'
     @$el.find('#courses-row .course-details').each ->
       slug = $(@).data('course-slug')

@@ -544,7 +544,7 @@ describe '/db/prepaid', ->
       logoutUser () ->
         fetchPrepaid joeCode, (err, res) ->
           expect(err).toBeNull()
-          expect(res.statusCode).toEqual(401)
+          expect(res.statusCode).toEqual(403)
           done()
 
     it 'User can fetch a prepaid code', (done) ->
