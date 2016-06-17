@@ -33,71 +33,73 @@ if view.showAds()
       .gradient.vertical-gradient.left-gradient
       .map-background(alt="", draggable="false")
 
-      each level in view.levels
-        if !level.hidden
-          - var levelStatus = view.levelStatusMap[level.slug]
-          - var levelPlayCount = levelPlayCountMap[level.slug]
-          - var levelDifficulty = levelDifficultyMap[level.slug]
-          div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatus || ""), data-level-slug=level.slug, data-level-original=level.original, title=i18n(level, 'name') + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
-            if level.unlocksHero && (!level.purchasedHero || view.editorMode)
-              img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
-            a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
-            if level.slug == 'lost-viking'
-              img.star(src="/file/db/thang.type/5441c3144e9aeb727cc97111/portrait.png")
-            else if level.requiresSubscription
-              img.star(src="/images/pages/play/star.png")
-            if levelStatus === 'complete'
-              img.banner(src="/images/pages/play/level-banner-complete.png")
-            if levelStatus === 'started'
-              img.banner(src="/images/pages/play/level-banner-started.png")
-            if levelDifficulty
-              .level-difficulty-banner-text= levelDifficulty
-          div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + (levelStatus || ""))
-          .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
-            .progress.progress-striped.active.hide
-              .progress-bar(style="width: 100%")
-            - var showsLeaderboard = levelStatus === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder'].indexOf(level.type) !== -1);
+      if view.levels
+        each level in view.levels
+          if !level.hidden
+            - var levelStatus = view.levelStatusMap[level.slug]
+            - var levelPlayCount = view.levelPlayCountMap[level.slug]
+            - var levelDifficulty = view.levelDifficultyMap[level.slug]
+            div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatus || ""), data-level-slug=level.slug, data-level-original=level.original, title=i18n(level, 'name') + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
+              if level.unlocksHero && (!level.purchasedHero || view.editorMode)
+                img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
+              a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
+              if level.slug == 'lost-viking'
+                img.star(src="/file/db/thang.type/5441c3144e9aeb727cc97111/portrait.png")
+              else if level.requiresSubscription
+                img.star(src="/images/pages/play/star.png")
+              if levelStatus === 'complete'
+                img.banner(src="/images/pages/play/level-banner-complete.png")
+              if levelStatus === 'started'
+                img.banner(src="/images/pages/play/level-banner-started.png")
+              if levelDifficulty
+                .level-difficulty-banner-text= levelDifficulty
+            div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + (levelStatus || ""))
+            .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
+              .progress.progress-striped.active.hide
+                .progress-bar(style="width: 100%")
+              - var showsLeaderboard = levelStatus === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder'].indexOf(level.type) !== -1);
 
-            div(class="level-info " + (levelStatus || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
-              .level-status
-              h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
-              - var description = i18n(level, 'description') || level.description || ""
-              .level-description!= marked(description, {sanitize: !view.picoCTF})
-              if level.disabled
-                p
-                  span.spr(data-i18n="play.awaiting_levels_adventurer_prefix") We release five levels per week.
-                  a.spr(href="/contribute/adventurer")
-                    strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
-                  span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
-              if level.displayConcepts && level.displayConcepts.length
-                p
-                  for concept in level.displayConcepts
-                    kbd(data-i18n="concepts." + concept)
+              div(class="level-info " + (levelStatus || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
+                .level-status
+                h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
+                - var description = i18n(level, 'description') || level.description || ""
+                .level-description!= view.marked(description, {sanitize: !view.picoCTF})
+                if level.disabled
+                  p
+                    span.spr(data-i18n="play.awaiting_levels_adventurer_prefix") We release five levels per week.
+                    a.spr(href="/contribute/adventurer")
+                      strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
+                    span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
+                if level.displayConcepts && level.displayConcepts.length
+                  p
+                    for concept in level.displayConcepts
+                      kbd(data-i18n="concepts." + concept)
 
-              if !level.disabled && !level.locked
-                if levelPlayCount && levelPlayCount.sessions
-                  .play-counts.hidden
-                    span.spl.spr= levelPlayCount.sessions
-                    span(data-i18n="play.players") players
-                    span.spr , #{Math.round(levelPlayCount.playtime / 3600)}
-                    span(data-i18n="play.hours_played") hours played
-                if showsLeaderboard
-                  button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
-                    span(data-i18n="leaderboard.scores")
-                button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
-                if me.get('courseInstances') && me.get('courseInstances').length
-                  .course-version.hidden(data-level-original=level.original)
-                    em(data-i18n="general.or")
-                    | ...
-                    br
-                    button.btn.btn-primary.btn.btn-lg.btn-illustrated
-                      span(data-i18n="play.play_classroom_version") Play Classroom Version
-        else if level.unlocksHero && !level.purchasedHero
-          img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png", style="left: #{level.position.x}%; bottom: #{level.position.y}%;")
+                if !level.disabled && !level.locked
+                  if levelPlayCount && levelPlayCount.sessions
+                    .play-counts.hidden
+                      span.spl.spr= levelPlayCount.sessions
+                      span(data-i18n="play.players") players
+                      span.spr , #{Math.round(levelPlayCount.playtime / 3600)}
+                      span(data-i18n="play.hours_played") hours played
+                  if showsLeaderboard
+                    button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
+                      span(data-i18n="leaderboard.scores")
+                  button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
+                  if me.get('courseInstances') && me.get('courseInstances').length
+                    .course-version.hidden(data-level-original=level.original)
+                      em(data-i18n="general.or")
+                      | ...
+                      br
+                      button.btn.btn-primary.btn.btn-lg.btn-illustrated
+                        span(data-i18n="play.play_classroom_version") Play Classroom Version
+          else if level.unlocksHero && !level.purchasedHero
+            img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png", style="left: #{level.position.x}%; bottom: #{level.position.y}%;")
 
-      for adjacentCampaign in view.adjacentCampaigns
-        a(href=(view.editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
-          span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id)
+      if view.adjacentCampaigns
+        for adjacentCampaign in view.adjacentCampaigns
+          a(href=(view.editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
+            span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id)
 
   else
     .portal
