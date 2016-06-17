@@ -1,4 +1,5 @@
 ModalView = require 'views/core/ModalView'
+ChooseAccountTypeView = require 'views/core/create-account/ChooseAccountTypeView'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal'
 forms = require 'core/forms'
@@ -15,9 +16,9 @@ module.exports = class CreateAccountModal extends ModalView
   template: template
 
   events:
-    'click .teacher-path-button': -> @state.set { path: 'teacher', screen: 'segment-check' }
-    'click .student-path-button': -> @state.set { path: 'student', screen: 'segment-check' }
-    'click .individual-path-button': -> @state.set { path: 'individual', screen: 'segment-check' }
+    # 'click .teacher-path-button': -> @state.set { path: 'teacher', screen: 'segment-check' }
+    # 'click .student-path-button': -> @state.set { path: 'student', screen: 'segment-check' }
+    # 'click .individual-path-button': -> @state.set { path: 'individual', screen: 'segment-check' }
     'click .back-to-account-type': -> @state.set { path: null, screen: 'choose-account-type' }
     'click .back-to-segment-check': -> @state.set { screen: 'segment-check' }
     'input .class-code-input': (e) ->
@@ -80,6 +81,15 @@ module.exports = class CreateAccountModal extends ModalView
     @listenTo @classroom, 'all', @render #TODO: debounce
 
     @onNameChange = _.debounce(_.bind(@checkNameExists, @), 500)
+    
+    @customSubviews = {
+      choose_account_type: new ChooseAccountTypeView()
+    }
+    
+    @listenTo @customSubviews.choose_account_type, 'choose-path', (path) ->
+      console.log arguments
+      @state.set { path, screen: 'segment-check' }
+    
   #   options.initialValues ?= {}
   #   options.initialValues?.classCode ?= utils.getQueryVariable('_cc', "")
   #   @previousFormInputs = options.initialValues or {}
@@ -88,6 +98,13 @@ module.exports = class CreateAccountModal extends ModalView
   #   application.gplusHandler.loadAPI({ success: => _.defer => @$('#gplus-signup-btn').attr('disabled', false) })
   #   application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-signup-btn').attr('disabled', false) })
   #
+  
+  afterRender: ->
+    # @$el.html(@template(@getRenderData()))
+    for key, subview of @customSubviews
+      subview.setElement(@$('#' + subview.id))
+      debugger
+      subview.render()
 
   checkClassCode: _.debounce((classCode) ->
     @classroom.fetchByCode(classCode)
