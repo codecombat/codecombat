@@ -18,20 +18,21 @@ module.exports = class SegmentCheckView extends ModalView
       { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
       birthday = new Date Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay)
       @sharedState.set { birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true }
-      console.log @sharedState
+      unless isNaN(birthday.getTime())
+        forms.clearFormAlerts(@$el)
     'submit form.segment-check': (e) ->
       e.preventDefault()
       if @sharedState.get('path') is 'student'
-        @trigger 'nav-forward' if @sharedState.get('segmentCheckValid')
+        @trigger 'nav-forward' if @state.get('segmentCheckValid')
       else if @sharedState.get('path') is 'individual'
         if isNaN(@sharedState.get('birthday').getTime())
           forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
         else
           age = (new Date().getTime() - @sharedState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
-        if age > 13
-          @trigger 'nav-forward'
-        else
-          @trigger 'nav-forward', 'coppa-deny'
+          if age > 13
+            @trigger 'nav-forward'
+          else
+            @trigger 'nav-forward', 'coppa-deny'
 
   initialize: ({ @sharedState } = {}) ->
     @state = new State()
@@ -43,4 +44,3 @@ module.exports = class SegmentCheckView extends ModalView
     @classroom.once 'sync', => @state.set { classCodeValid: true, segmentCheckValid: true }
     @classroom.once 'error', => @state.set { classCodeValid: false, segmentCheckValid: false }
   , 1000)
-  
