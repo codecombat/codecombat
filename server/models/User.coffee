@@ -350,7 +350,6 @@ UserSchema.pre('save', (next) ->
   Classroom = require './Classroom'
   if @isTeacher() and not @wasTeacher
     Classroom.update({members: @_id}, {$pull: {members: @_id}}, {multi: true}).exec (err, res) ->
-      console.log 'removed self from all classrooms as a member', err, res
   if email = @get('email')
     @set('emailLower', email.toLowerCase())
   if name = @get('name')

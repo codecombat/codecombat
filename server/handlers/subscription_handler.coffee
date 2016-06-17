@@ -21,7 +21,7 @@ recipientCouponID = 'free'
 
 class SubscriptionHandler extends Handler
   logSubscriptionError: (user, msg) ->
-    console.warn "Subscription Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
+    log.warn "Subscription Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 
   getByRelationship: (req, res, args...) ->
     return @getStripeEvents(req, res) if args[1] is 'stripe_events'

@@ -119,7 +119,7 @@ UserHandler = class UserHandler extends Handler
         log.error "Database error setting user name: #{err}" if err
         return callback(res: 'Database error.', code: 500) if err
         r = {message: 'is already used by another account', property: 'name'}
-        console.log 'Another user exists' if otherUser
+        log.info 'Another user exists' if otherUser
         return callback({res: r, code: 409}) if otherUser
         user.set('name', req.body.name)
         callback(null, req, user)
@@ -775,7 +775,7 @@ UserHandler = class UserHandler extends Handler
         else
           update = $unset: {}
           update.$unset[statKey] = ''
-        console.log "... updating #{userStringID} patches #{statKey} to #{count}, #{usersTotal} players found so far." if count
+        log.info "... updating #{userStringID} patches #{statKey} to #{count}, #{usersTotal} players found so far." if count
         User.findByIdAndUpdate user.get('_id'), update, (err) ->
           log.error err if err?
           doneWithUser()
@@ -801,7 +801,7 @@ UserHandler = class UserHandler extends Handler
       update = {}
       update[method] = {}
       update[method][statName] = count or ''
-      console.log "... updating #{user.get('_id')} patches #{JSON.stringify(query)} #{statName} to #{count}, #{usersTotal} players found so far." if count
+      log.info "... updating #{user.get('_id')} patches #{JSON.stringify(query)} #{statName} to #{count}, #{usersTotal} players found so far." if count
       User.findByIdAndUpdate user.get('_id'), update, doneUpdatingUser
 
     userStream = User.find({anonymous: false}).sort('_id').stream()
@@ -865,7 +865,7 @@ UserHandler = class UserHandler extends Handler
         update = {}
         update[method] = {}
         update[method][statName] = count or ''
-        console.log "... updating #{userStringID} patches #{query} to #{count}, #{usersTotal} players found so far." if count
+        log.info "... updating #{userStringID} patches #{query} to #{count}, #{usersTotal} players found so far." if count
         User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 
   statRecalculators:
@@ -883,7 +883,7 @@ UserHandler = class UserHandler extends Handler
         --numberRunning
         userStream.resume()
         if streamFinished and usersFinished is usersTotal
-          console.log "----------- Finished recalculating statistics for gamesCompleted for #{usersFinished} players. -----------"
+          log.info "----------- Finished recalculating statistics for gamesCompleted for #{usersFinished} players. -----------"
           done?()
       userStream.on 'error', (err) -> log.error err
       userStream.on 'close', -> streamFinished = true
@@ -895,7 +895,7 @@ UserHandler = class UserHandler extends Handler
 
         LevelSession.count {creator: userID, 'state.complete': true}, (err, count) ->
           update = if count then {$set: 'stats.gamesCompleted': count} else {$unset: 'stats.gamesCompleted': ''}
-          console.log "... updating #{userID} gamesCompleted to #{count}, #{usersTotal} players found so far." if Math.random() < 0.001
+          log.info "... updating #{userID} gamesCompleted to #{count}, #{usersTotal} players found so far." if Math.random() < 0.001
           User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 
     articleEdits: (done) ->
