@@ -151,9 +151,12 @@
   
   .basic-info
     display: flex
-    align-self: center
     flex-direction: column
     // width: 440px
+    
+    .form-group
+      width: 255px
+      text-align: left
     
   .full-name
     display: flex
@@ -163,11 +166,9 @@
     display: flex
     flex-direction: column
     align-content: flex-start
-    text-align: left
-    width: 255px
     
-    label
-      display: inline
+    &.text-center
+      text-align: center
     
     input
       height: 40px

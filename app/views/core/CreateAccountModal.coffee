@@ -18,14 +18,30 @@ module.exports = class CreateAccountModal extends ModalView
     'click .teacher-path-button': -> @state.set { path: 'teacher', screen: 'segment-check' }
     'click .student-path-button': -> @state.set { path: 'student', screen: 'segment-check' }
     'click .individual-path-button': -> @state.set { path: 'individual', screen: 'segment-check' }
+    'click .back-to-account-type': -> @state.set { path: null, screen: 'choose-account-type' }
+    'click .back-to-segment-check': -> @state.set { screen: 'segment-check' }
     'input .class-code-input': (e) ->
       classCode = $(e.currentTarget).val()
       @checkClassCode(classCode)
       @state.set { classCode }, { silent: true }
+    'input .birthday-form-group': ->
+      { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
+      birthday = new Date Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay)
+      @state.set { birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true }
     'submit form.segment-check': (e) ->
       e.preventDefault()
-      debugger
-      @state.set { screen: 'basic-info' } if @state.get('segmentCheckValid')
+      if @state.get('path') is 'student'
+        @state.set { screen: 'basic-info' } if @state.get('segmentCheckValid')
+      else if @state.get('path') is 'individual'
+        if isNaN(@state.get('birthday').getTime())
+          forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
+        else
+          age = (new Date().getTime() - @state.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
+        if age > 13
+          @state.set { screen: 'basic-info' }
+        else
+          @state.set { screen: 'coppa-deny' }
+        
     'submit form#basic-info-form': (e) ->
       e.preventDefault()
       console.log "Submitting..."
@@ -50,10 +66,10 @@ module.exports = class CreateAccountModal extends ModalView
 
   initialize: (options={}) ->
     @state = new State {
-      # path: null
-      # screen: 'choose-account-type' # segment-check, basic-info, (extras), confirmation
-      path: 'student'
-      screen: 'basic-info'
+      path: null
+      screen: 'choose-account-type' # segment-check, basic-info, (extras), confirmation, coppya-deny
+      # path: 'student' # TODO: Remove!
+      # screen: 'basic-info' # TODO: Remove!
       segmentCheckValid: false
       basicInfoValid: false
     }
@@ -105,7 +121,7 @@ module.exports = class CreateAccountModal extends ModalView
     res = tv4.validateMultiple data, formSchema
     console.log res.errors
     forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
-    return res.valid
+    return res.valid and @checkNameExists()
 
   # afterRender: =>
   #   super()
@@ -152,6 +168,7 @@ module.exports = class CreateAccountModal extends ModalView
     # delete attrs.birthdayYear
     # delete attrs.birthdayMonth
     # delete attrs.birthdayDay
+    attrs.birthday = @state.get('birthday').toISOString()
   
     _.assign attrs, @gplusAttrs if @gplusAttrs
     _.assign attrs, @facebookAttrs if @facebookAttrs
@@ -170,11 +187,8 @@ module.exports = class CreateAccountModal extends ModalView
   
     @$('#signup-button').text($.i18n.t('signup.creating')).attr('disabled', true)
     @newUser = new User(attrs)
-    if @state.get('classCode')
-      @signupClassroomPrecheck()
-    else
-      @createUser()
-  #
+    @createUser()
+
   # signupClassroomPrecheck: ->
   #   classroom = new Classroom()
   #   classroom.fetch({ data: { code: @classCode } })
@@ -201,32 +215,32 @@ module.exports = class CreateAccountModal extends ModalView
     @newUser.once 'sync', @onUserCreated, @
     @newUser.once 'error', @onUserSaveError, @
   
-  # onUserSaveError: (user, jqxhr) ->
-  #   @$('#signup-button').text($.i18n.t('signup.sign_up')).attr('disabled', false)
-  #   if _.isObject(jqxhr.responseJSON) and jqxhr.responseJSON.property
-  #     error = jqxhr.responseJSON
-  #     if jqxhr.status is 409 and error.property is 'name'
-  #       @newUser.unset 'name'
-  #       return @createUser()
-  #     return forms.applyErrorsToForm(@$el, [jqxhr.responseJSON])
-  #   errors.showNotyNetworkError(jqxhr)
-  #
-  # onUserCreated: ->
-  #   Backbone.Mediator.publish "auth:signed-up", {}
-  #   if @gplusAttrs
-  #     window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
-  #     window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
-  #   else if @facebookAttrs
-  #     window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
-  #     window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Facebook'
-  #   else
-  #     window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
-  #   if @classCode
-  #     url = "/courses?_cc="+@classCode
-  #     location.href = url
-  #   else
-  #     window.location.reload()
-  #
+  onUserSaveError: (user, jqxhr) ->
+    @$('#signup-button').text($.i18n.t('signup.sign_up')).attr('disabled', false)
+    if _.isObject(jqxhr.responseJSON) and jqxhr.responseJSON.property
+      error = jqxhr.responseJSON
+      if jqxhr.status is 409 and error.property is 'name'
+        @newUser.unset 'name'
+        return @createUser()
+      return forms.applyErrorsToForm(@$el, [jqxhr.responseJSON])
+    errors.showNotyNetworkError(jqxhr)
+  
+  onUserCreated: ->
+    Backbone.Mediator.publish "auth:signed-up", {}
+    if @gplusAttrs
+      window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
+      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
+    else if @facebookAttrs
+      window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
+      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Facebook'
+    else
+      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
+    if @state.get('classCode')
+      url = "/courses?_cc="+@state.get('classCode')
+      location.href = url
+    else
+      window.location.reload()
+  
   #
   # # Google Plus
   #
@@ -312,20 +326,23 @@ module.exports = class CreateAccountModal extends ModalView
   # onHidden: ->
   #   super()
   #   @playSound 'game-menu-close'
-  
-  checkNameExists: (name) ->
-    console.log 'Checking name: ', name
+
+  checkNameExists: ->
     name = $('input[name="name"]', @$el).val()
+    console.log 'Checking name: ', name
     return forms.clearFormAlerts(@$el) if name is ''
-    User.getUnconflictedName name, (newName) =>
+    jqxhr = User.getUnconflictedName name, (newName) =>
       forms.clearFormAlerts(@$el)
       if name is newName
         @suggestedName = undefined
+        return true
       else
         console.log "Suggesting name: #{newName}"
         @suggestedName = newName
         forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try #{newName}?"
-  
+        return false
+    jqxhr.then (val) -> return val
+
   # onClickSwitchToLoginButton: ->
   #   AuthModal = require('./AuthModal')
   #   modal = new AuthModal({initialValues: forms.formToObject @$el})
