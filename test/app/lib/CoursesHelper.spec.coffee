@@ -36,7 +36,6 @@ describe 'CoursesHelper', ->
       describe 'progressData.get({classroom, course})', ->
         it 'returns object with .completed=true and .started=true', ->
           progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @members)
-          console.log 'progress data?', progressData
           progress = progressData.get {@classroom, @course}
           expect(progress.completed).toBe true
           expect(progress.started).toBe true

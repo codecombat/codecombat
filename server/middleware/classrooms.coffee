@@ -22,7 +22,7 @@ module.exports =
   fetchByCode: wrap (req, res, next) ->
     code = req.query.code
     return next() unless code
-    classroom = yield Classroom.findOne({ code: code.toLowerCase().replace(/ /g, '') }).select('name ownerID aceConfig')
+    classroom = yield Classroom.findOne({ code: code.toLowerCase().replace(RegExp(' ', 'g') , '') }).select('name ownerID aceConfig')
     if not classroom
       log.debug("classrooms.fetchByCode: Couldn't find Classroom with code: #{code}")
       throw new errors.NotFound('Classroom not found.')
@@ -104,7 +104,7 @@ module.exports =
     members = classroom.get('members') or []
     members = members.slice(memberSkip, memberSkip + memberLimit)
     dbqs = []
-    select = 'state.complete level creator playtime changed dateFirstCompleted'
+    select = 'state.complete level creator playtime changed dateFirstCompleted submitted'
     for member in members
       dbqs.push(LevelSession.find({creator: member.toHexString()}).select(select).exec())
     results = yield dbqs
@@ -170,7 +170,7 @@ module.exports =
     if req.user.isTeacher()
       log.debug("classrooms.join: Cannot join a classroom as a teacher: #{req.user.id}")
       throw new errors.Forbidden('Cannot join a classroom as a teacher')
-    code = req.body.code.toLowerCase().replace(/ /g, '')
+    code = req.body.code.toLowerCase().replace(RegExp(' ', 'g'), '')
     classroom = yield Classroom.findOne({code: code})
     if not classroom
       log.debug("classrooms.join: Classroom not found with code #{code}")
