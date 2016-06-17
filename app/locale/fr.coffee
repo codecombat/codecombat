@@ -14,7 +14,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     for_developers: "Pour développeurs" # Not currently shown on home page.
     or_ipad: "Ou télécharger pour iPad"
 
- new_home:
+  new_home:
     slogan: "Le jeu le plus engageant pour apprendre la programmation."
     classroom_edition: "Édition Classe:"
     learn_to_code: "Apprend à programmer:"

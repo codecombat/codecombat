@@ -11,8 +11,7 @@ module.exports = class SimulateTabView extends CocoView
   events:
     'click #simulate-button': 'onSimulateButtonClick'
 
-  constructor: (options) ->
-    super(options)
+  initialize: ->
     @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me)
     @simulatorsLeaderboardDataRes = @supermodel.addModelResource(@simulatorsLeaderboardData, 'top_simulators', {cache: false})
     @simulatorsLeaderboardDataRes.load()
@@ -27,14 +26,6 @@ module.exports = class SimulateTabView extends CocoView
     @render()
     if (document.location.hash is '#simulate' or @options.level.get('type') is 'course-ladder') and not @simulator
       @startSimulating()
-
-  getRenderData: ->
-    ctx = super()
-    ctx.simulationStatus = @simulationStatus
-    ctx.simulatorsLeaderboardData = @simulatorsLeaderboardData
-    ctx.numberOfGamesInQueue = @simulatorsLeaderboardData.numberOfGamesInQueue
-    ctx._ = _
-    ctx
 
   afterRender: ->
     super()
