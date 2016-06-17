@@ -158,7 +158,7 @@ class EarnedAchievementHandler extends Handler
     onFinished = ->
       t1 = new Date().getTime()
       runningTime = ((t1-t0)/1000/60/60).toFixed(2)
-      console.log "we finished in #{runningTime} hours"
+      log.info "we finished in #{runningTime} hours"
       callback arguments...
 
     filter = {}
@@ -278,7 +278,7 @@ class EarnedAchievementHandler extends Handler
                 #log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
                 pointDelta = newTotalPoints - previousPoints
                 pctDone = (100 * usersFinished / total).toFixed(2)
-                console.log "Updated points to #{newTotalPoints} (#{if pointDelta < 0 then '' else '+'}#{pointDelta}) for #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
+                log.info "Updated points to #{newTotalPoints} (#{if pointDelta < 0 then '' else '+'}#{pointDelta}) for #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
                 if recalculatingAll
                   update = {$set: {points: newTotalPoints, 'earned.gems': 0, 'earned.heroes': [], 'earned.items': [], 'earned.levels': []}}
                 else

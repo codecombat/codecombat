@@ -7,20 +7,22 @@ contact = require 'core/contact'
 module.exports = class TeachersContactModal extends ModalView
   id: 'teachers-contact-modal'
   template: require 'templates/teachers/teachers-contact-modal'
-  
+  defaultLicenses: 15
+
   events:
     'submit form': 'onSubmitForm'
-  
+
   initialize: (options={}) ->
     @state = new State({
       formValues: {
+        name: ''
         email: ''
+        licensesNeeded: @defaultLicenses
         message: ''
       }
       formErrors: {}
       sendingState: 'standby' # 'sending', 'sent', 'error'
     })
-    @enrollmentsNeeded = options.enrollmentsNeeded or '-'
     @trialRequests = new TrialRequests()
     @supermodel.trackRequest @trialRequests.fetchOwn()
     @state.on 'change', @render, @
@@ -28,41 +30,46 @@ module.exports = class TeachersContactModal extends ModalView
   onLoaded: ->
     trialRequest = @trialRequests.first()
     props = trialRequest?.get('properties') or {}
-    message = """
-        Name of School/District: #{props.organization or ''}
-        Your Name: #{props.name || ''}
-        Enrollments Needed: #{@enrollmentsNeeded}
-        
-        Message: Hi CodeCombat! I want to learn more about the Classroom experience and get licenses so that my students can access Computer Science 2 and on. 
-      """
+    name = if props.firstName and props.lastName then "#{props.firstName} #{props.lastName}" else me.get('name') ? ''
     email = props.email or me.get('email') or ''
-    @state.set('formValues', { email, message })
+    message = """
+        Hi CodeCombat! I want to learn more about the Classroom experience and get licenses so that my students can access Computer Science 2 and on.
+
+        Name of School/District: #{props.organization or ''}
+        Role: #{props.role or ''}
+        Phone Number: #{props.phoneNumber or ''}
+      """
+    @state.set('formValues', { name, email, licensesNeeded: @defaultLicenses, message })
     super()
 
   onSubmitForm: (e) ->
     e.preventDefault()
     return if @state.get('sendingState') is 'sending'
-    
+
     formValues = forms.formToObject @$el
     @state.set('formValues', formValues)
-    
+
     formErrors = {}
-    if not forms.validateEmail(formValues.email)
+    unless formValues.name
+      formErrors.name = 'Name required.'
+    unless forms.validateEmail(formValues.email)
       formErrors.email = 'Invalid email.'
-    if not formValues.message
+    unless parseInt(formValues.licensesNeeded) > 0
+      formErrors.licensesNeeded = 'Licenses needed is required.'
+    unless formValues.message
       formErrors.message = 'Message required.'
     @state.set({ formErrors, formValues, sendingState: 'standby' })
     return unless _.isEmpty(formErrors)
-    
+
     @state.set('sendingState', 'sending')
-    data = _.extend({ country: me.get('country'), recipientID: 'schools@codecombat.com', enrollmentsNeeded: @enrollmentsNeeded }, formValues)
+    data = _.extend({ country: me.get('country'), recipientID: 'schools@codecombat.com' }, formValues)
     contact.send({
       data
       context: @
       success: ->
         @state.set({ sendingState: 'sent' })
         me.set('enrollmentRequestSent', true)
-        setTimeout(=> 
+        setTimeout(=>
           @hide?()
         , 3000)
       error: -> @state.set({ sendingState: 'error' })

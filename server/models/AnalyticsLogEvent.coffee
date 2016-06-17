@@ -28,6 +28,9 @@ AnalyticsLogEventSchema.statics.logEvent = (user, event, properties={}) ->
 
   doc.save()
 
-analyticsMongoose = mongoose.createConnection "mongodb://#{config.mongo.analytics_host}:#{config.mongo.analytics_port}/#{config.mongo.analytics_db}"
-
-module.exports = AnalyticsLogEvent = analyticsMongoose.model('analytics.log.event', AnalyticsLogEventSchema, config.mongo.analytics_collection)
+unless config.proxy
+  analyticsMongoose = mongoose.createConnection()
+  analyticsMongoose.open "mongodb://#{config.mongo.analytics_host}:#{config.mongo.analytics_port}/#{config.mongo.analytics_db}", (error) ->
+    console.log "Couldnt connect to analytics", error
+  
+  module.exports = AnalyticsLogEvent = analyticsMongoose.model('analytics.log.event', AnalyticsLogEventSchema, config.mongo.analytics_collection)

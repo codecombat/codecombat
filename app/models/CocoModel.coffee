@@ -124,10 +124,11 @@ class CocoModel extends Backbone.Model
   validate: ->
     errors = @getValidationErrors()
     if errors?.length
-      console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
-      for error in errors
-        console.debug "\t", error.dataPath, ':', error.message
-      console.trace?()
+      unless application.testing
+        console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
+        for error in errors
+          console.debug "\t", error.dataPath, ':', error.message
+        console.trace?()
       return errors
 
   save: (attrs, options) ->
@@ -188,7 +189,6 @@ class CocoModel extends Backbone.Model
         keys.push key
 
     return unless keys.length
-    console.debug 'Patching', @get('name') or @, keys
     @save(attrs, options)
 
   fetch: (options) ->
