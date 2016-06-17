@@ -62,10 +62,10 @@ module.exports = class CampaignView extends RootView
 
   initialize: (options, @terrain) ->
     @picoCTF = window.serverConfig.picoCTF
-    @i18n = utils.i18n
     @isIPadApp = application.isIPadApp
     @terrain = 'picoctf' if @picoCTF
     @editorMode = options?.editorMode
+    @marked = marked
     if @editorMode
       @terrain ?= 'dungeon'
     @levelStatusMap = {}
@@ -78,7 +78,7 @@ module.exports = class CampaignView extends RootView
       @listenToOnce @sessions, 'sync', @onSessionsLoaded
       unless @terrain
         @campaigns = @supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
-        @listenToOnce @campaigns, 'sync', @onSyncCampaigns
+        @listenToOnce @campaigns, 'sync', @onCampaignsLoaded
         return
 
     # Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
@@ -96,7 +96,7 @@ module.exports = class CampaignView extends RootView
     @supermodel.loadCollection(@earnedAchievements, 'achievements', {cache: false})
 
     @campaign = new Campaign({_id:@terrain})
-    @listenToOnce @campaign, 'sync', @onSyncCampaign
+    @listenToOnce @campaign, 'sync', @onCampaignLoaded
     @campaign = @supermodel.loadModel(@campaign).model
 
     $(window).on 'resize', @onWindowResize
@@ -133,25 +133,21 @@ module.exports = class CampaignView extends RootView
     unless @campaign
       @$el.find('.game-controls, .user-status').removeClass 'hidden'
 
-  onSyncCampaign: ->
-    return unless me.isAdmin()
-    return  # TODO: get rid of all this? It's redundant with new campaign editor analytics, unless we want to show player counts on leaderboards buttons.
-
+  onCampaignLoaded: ->
     @levels = _.values($.extend true, {}, @campaign?.get('levels') ? {})
     # put lower levels in last, so in the world map they layer over one another properly.
-    @levels = (_.sortBy @.levels, (l) -> l.position.y).reverse()
+    @levels = (_.sortBy @levels, (l) -> l.position.y).reverse()
     if me.level() < 12 and @terrain is 'dungeon' and not @editorMode
       reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
       @levels = _.reject @levels, slug: reject
-    @annotateLevel level for level in context.levels
+    @annotateLevel level for level in @levels
     count = @countLevels @levels
     @levelsCompleted = count.completed
     @levelsTotal = count.total
-
     @determineNextLevel @levels if @sessions?.loaded
-    @campaign.renderedLevels = @levels
+    @campaign.renderedLevels = @levels if @campaign
 
-    @adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign?.get('adjacentCampaigns') or {})), (ac) =>
+    @adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign?.get('adjacentCampaigns') or [])), (ac) =>
       return false if ac.showIfUnlocked and (ac.showIfUnlocked not in me.levels()) and not @editorMode
       ac.name = utils.i18n ac, 'name'
       styles = []
@@ -162,6 +158,9 @@ module.exports = class CampaignView extends RootView
       styles.push "top: #{ac.position.y}%"
       ac.style = styles.join('; ')
       return true
+
+    return unless me.isAdmin()
+    return  # TODO: get rid of all this? It's redundant with new campaign editor analytics, unless we want to show player counts on leaderboards buttons.
 
     success = (levelPlayCounts) =>
       return if @destroyed
@@ -177,8 +176,6 @@ module.exports = class CampaignView extends RootView
       success: success
     }, 0
     levelPlayCountsRequest.load()
-
-    @render()
 
   onLoaded: ->
     return if @fullyRendered
@@ -415,24 +412,25 @@ module.exports = class CampaignView extends RootView
     @render()
     @loadUserPollsRecord() unless me.get('anonymous') or @picoCTF
 
-  onSyncCampaigns: (e) ->
-    @campaignModels = []
-    for campaign in @campaigns.models when campaign.get('slug') isnt 'auditions'
-      @campaignModels[campaign.get('slug')] = campaign
-      if @sessions.loaded
-        levels = _.values($.extend true, {}, campaign.get('levels') ? {})
-        count = @countLevels levels
-        campaign.levelsTotal = count.total
-        campaign.levelsCompleted = count.completed
-        if campaign.get('slug') is 'dungeon'
-          campaign.locked = false
-        else unless campaign.levelsTotal
-          campaign.locked = true
-        else
-          campaign.locked = true
-    for campaign in @campaigns.models
-      for acID, ac of campaign.get('adjacentCampaigns') ? {}
-        _.find(@campaigns.models, id: acID)?.locked = false if ac.showIfUnlocked in me.levels()
+  onCampaignsLoaded: (e) ->
+    if @campaigns
+      @campaignModels = []
+      for campaign in @campaigns.models when campaign.get('slug') isnt 'auditions'
+        @campaignModels[campaign.get('slug')] = campaign
+        if @sessions.loaded
+          levels = _.values($.extend true, {}, campaign.get('levels') ? {})
+          count = @countLevels levels
+          campaign.levelsTotal = count.total
+          campaign.levelsCompleted = count.completed
+          if campaign.get('slug') is 'dungeon'
+            campaign.locked = false
+          else unless campaign.levelsTotal
+            campaign.locked = true
+          else
+            campaign.locked = true
+      for campaign in @campaigns.models
+        for acID, ac of campaign.get('adjacentCampaigns') ? {}
+          _.find(@campaigns.models, id: acID)?.locked = false if ac.showIfUnlocked in me.levels()
     @render()
 
   preloadLevel: (levelSlug) ->
