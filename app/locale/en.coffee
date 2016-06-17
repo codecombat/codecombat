@@ -815,6 +815,7 @@
     more_info_1: "Our"
     more_info_2: "teachers forum"
     more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
+    licenses_needed: "Licenses needed"
 
   teachers_quote:
     name: "Demo Form"
