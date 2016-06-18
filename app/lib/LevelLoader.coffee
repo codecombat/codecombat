@@ -12,6 +12,8 @@ app = require 'core/application'
 World = require 'lib/world/world'
 utils = require 'core/utils'
 
+LOG = false
+
 # This is an initial stab at unifying loading and setup into a single place which can
 # monitor everything and keep a LoadingScreen visible overall progress.
 #
@@ -147,7 +149,7 @@ module.exports = class LevelLoader extends CocoClass
         @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
 
   loadDependenciesForSession: (session) ->
-    console.log "Loading dependencies for session: ", session
+    console.log "Loading dependencies for session: ", session if LOG
     if me.id isnt session.get 'creator'
       session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
     else if codeLanguage = utils.getQueryVariable 'codeLanguage'
@@ -172,11 +174,11 @@ module.exports = class LevelLoader extends CocoClass
       @consolidateFlagHistory() if @session.loaded
     if @level.get('type', true) in ['course'] # course-ladder is hard to handle because there's 2 sessions
       heroConfig = me.get('heroConfig')
-      console.log "Course mode, loading custom hero: ", heroConfig
+      console.log "Course mode, loading custom hero: ", heroConfig if LOG
       return if not heroConfig
       url = "/db/thang.type/#{heroConfig.thangType}/version"
       if heroResource = @maybeLoadURL(url, ThangType, 'thang')
-        console.log "Pushing resource: ", heroResource
+        console.log "Pushing resource: ", heroResource if LOG
         @worldNecessities.push heroResource
       @sessionDependenciesRegistered[session.id] = true
       return
@@ -345,7 +347,7 @@ module.exports = class LevelLoader extends CocoClass
     true
 
   onWorldNecessitiesLoaded: ->
-    console.log "World necessities loaded."
+    console.log "World necessities loaded." if LOG
     @initWorld()
     @supermodel.clearMaxProgress()
     @trigger 'world-necessities-loaded'
@@ -374,7 +376,7 @@ module.exports = class LevelLoader extends CocoClass
 
   onSupermodelLoaded: ->
     return if @destroyed
-    console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms'
+    console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms' if LOG
     @loadLevelSounds()
     @denormalizeSession()
 
@@ -482,7 +484,7 @@ module.exports = class LevelLoader extends CocoClass
       @world.difficulty = Math.max 0, @world.difficulty - 1  # Show the difficulty they won, not the next one.
     serializedLevel = @level.serialize(@supermodel, @session, @opponentSession)
     @world.loadFromLevel serializedLevel, false
-    console.log 'World has been initialized from level loader.'
+    console.log 'World has been initialized from level loader.' if LOG
 
   # Initial Sound Loading
 

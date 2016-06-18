@@ -4,17 +4,27 @@ factories = require 'test/app/factories'
 
 describe 'TeachersContactModal', ->
   beforeEach (done) ->
-    @modal = new TeachersContactModal({ enrollmentsNeeded: 10 })
+    @modal = new TeachersContactModal()
     @modal.render()
     trialRequests = new TrialRequests([factories.makeTrialRequest()])
     @modal.trialRequests.fakeRequests[0].respondWith({ status: 200, responseText: trialRequests.stringify() })
     @modal.supermodel.once('loaded-all', done)
     jasmine.demoModal(@modal)
     
+  it 'shows an error when the name is empty and the form is submitted', ->
+    @modal.$('input[name="name"]').val('')
+    @modal.$('form').submit()
+    expect(@modal.$('input[name="name"]').closest('.form-group').hasClass('has-error')).toBe(true)
+
   it 'shows an error when the email is invalid and the form is submitted', ->
     @modal.$('input[name="email"]').val('not an email')
     @modal.$('form').submit()
     expect(@modal.$('input[name="email"]').closest('.form-group').hasClass('has-error')).toBe(true)
+
+  it 'shows an error when licensesNeeded is not > 0 and the form is submitted', ->
+    @modal.$('input[name="licensesNeeded"]').val('')
+    @modal.$('form').submit()
+    expect(@modal.$('input[name="licensesNeeded"]').closest('.form-group').hasClass('has-error')).toBe(true)
 
   it 'shows an error when the message is empty and the form is submitted', ->
     @modal.$('textarea[name="message"]').val('')

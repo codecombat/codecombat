@@ -300,7 +300,7 @@ mixin courseProgressTab
 
 mixin courseOverview
   - var course = state.get('selectedCourse')
-  - var levels = view.classroom.getLevels({courseID: course.id, withoutLadderLevels: true}).models
+  - var levels = view.classroom.getLevels({courseID: course.id}).models
   .course-overview-row
     .course-title.student-name
       span= course.get('name')
@@ -318,7 +318,7 @@ mixin studentLevelsRow(student)
       div.student-email.small-details= student.get('email')
     div.student-levels-progress
       - var course = state.get('selectedCourse')
-      - var levels = view.classroom.getLevels({courseID: course.id, withoutLadderLevels: true}).models
+      - var levels = view.classroom.getLevels({courseID: course.id}).models
       each level, index in levels
         - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
         +studentLevelProgressDot(progress, level, index+1, session)

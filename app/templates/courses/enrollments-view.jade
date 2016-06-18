@@ -101,9 +101,6 @@ mixin addCredits
       button#request-sent-btn.btn-lg.btn.btn-forest(disabled=true, data-i18n="teacher.request_sent")
     else
       p(data-i18n="teacher.num_enrollments_needed")
-      div.m-t-2
-        input#students-input.enrollment-count.text-center(value=view.state.get('numberOfStudents') type='number')
-      strong(data-i18n="teacher.credits")
       p.m-y-2(data-i18n="teacher.get_enrollments_blurb")
       button#contact-us-btn.btn-lg.btn.btn-forest(data-i18n="contribute.contact_us_url")
 

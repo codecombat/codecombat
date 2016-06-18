@@ -14,7 +14,6 @@ module.exports = class EnrollmentsView extends RootView
   template: template
 
   events:
-    'input #students-input': 'onInputStudentsInput'
     'click #enroll-students-btn': 'onClickEnrollStudentsButton'
     'click #how-to-enroll-link': 'onClickHowToEnrollLink'
     'click #contact-us-btn': 'onClickContactUsButton'
@@ -96,17 +95,8 @@ module.exports = class EnrollmentsView extends RootView
     @openModalView(new HowToEnrollModal())
 
   onClickContactUsButton: ->
-    window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers', enrollmentsNeeded: @state.get('numberOfStudents'), ['Mixpanel']
-    @openModalView(new TeachersContactModal({ enrollmentsNeeded: @state.get('numberOfStudents') }))
-
-  onInputStudentsInput: ->
-    input = @$('#students-input').val()
-    if input isnt "" and (parseFloat(input) isnt parseInt(input) or _.isNaN parseInt(input))
-      @$('#students-input').val(@state.get('numberOfStudents'))
-    else
-      @state.set({'numberOfStudents': Math.max(parseInt(@$('#students-input').val()) or 0, 0)}, {silent: true}) # do not re-render
-
-  numberOfStudentsIsValid: -> 0 < @get('numberOfStudents') < 100000
+    window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers', ['Mixpanel']
+    @openModalView(new TeachersContactModal())
 
   onClickEnrollStudentsButton: ->
     window.tracker?.trackEvent 'Classes Licenses Enroll Students', category: 'Teachers', ['Mixpanel']

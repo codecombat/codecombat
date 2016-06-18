@@ -66,16 +66,6 @@ describe 'EnrollmentsView', ->
       fail('There should be an #action-col, other tests depend on it.')
 
   describe '"Get Licenses" area', ->
-    
-    describe '"Contact Us" button', ->
-      it 'opens a TeachersContactModal, passing in the number of licenses', ->
-        spyOn(@view, 'openModalView')
-        @view.state.set('numberOfStudents', 20)
-        @view.$('#contact-us-btn').click()
-        expect(view.openModalView).toHaveBeenCalled()
-        args = view.openModalView.calls.argsFor(0)
-        expect(args[0] instanceof TeachersContactModal).toBe(true)
-        expect(args[0].enrollmentsNeeded).toBe(20)
 
     describe 'when the teacher has made contact', ->
       beforeEach ->
