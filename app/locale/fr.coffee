@@ -1294,7 +1294,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    class_name: "Class Name"
 #    teacher_account_restricted: "Your account is a teacher account, and so cannot access student content."
 
-#  teacher:
+  teacher:
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
 #    courses: "Courses"
