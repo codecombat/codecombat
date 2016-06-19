@@ -29,7 +29,7 @@ getZPRepliedContacts((err, emailContactMap) => {
   }
   async.parallel(tasks, (err, results) => {
     if (err) console.log(err);
-    console.log("Script runtime: " + (new Date() - scriptStartTime));
+    log("Script runtime: " + (new Date() - scriptStartTime));
   });
 });
 
@@ -183,8 +183,12 @@ function getZPRepliedContacts(done) {
         } 
         if (!emailContactMap[contact.email]) emailContactMap[contact.email] = contact;
       }
-      console.log(`${total} total ZP contacts, ${Object.keys(emailContactMap).length} with replies`);
+      log(`${total} total ZP contacts, ${Object.keys(emailContactMap).length} with replies`);
       return done(null, emailContactMap);
     });
   });
+}
+
+function log(str) {
+  console.log(new Date().toISOString() + " " + str);
 }
