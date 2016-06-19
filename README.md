@@ -1,26 +1,48 @@
-#CodeCombat
+# CodeCombat
 
-<div style="text-align:center"><a href="http://codecombat.com/"><img src ="https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/readme_00.png" /></a></div>
+<div style="text-align:center">
+  <a href="http://codecombat.com/">
+    <img src ="https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/readme_00.png" />
+  </a>
+</div>
 [![Build Status](https://travis-ci.org/codecombat/codecombat.png?branch=master)](https://travis-ci.org/codecombat/codecombat)
 
-CodeCombat is a multiplayer programming game for learning how to code. **See the [Archmage (coder) developer wiki](https://github.com/codecombat/codecombat/wiki/Archmage-Home) for a dev setup guide, extensive documentation, and much more. Every new person that wants to start contributing the project coding should start there.**
+CodeCombat is a multiplayer programming game for learning how to code.
+**See the [Archmage (coder) developer wiki](../../wiki/Archmage-Home) for a dev
+setup guide, extensive documentation, and much more. Every new person that wants
+to start contributing the project coding should start there.**
 
-It's both a startup and a community project, completely open source under the [MIT and Creative Commons licenses](http://codecombat.com/legal). It's the largest open source [CoffeeScript](http://coffeescript.org/) project by lines of code, and since it's a game (with [really cool tech](https://github.com/codecombat/codecombat/wiki/Third-party-software-and-services)), it's really fun to hack on. Join us in teaching the world to code! Your contribution will go on to show millions of players how cool programming can be.
+It's both a startup and a community project, completely open source under the
+[MIT and Creative Commons licenses](http://codecombat.com/legal). It's the
+largest open source [CoffeeScript](http://coffeescript.org/) project by lines of
+code, and since it's a game (with [really cool tech](../../wiki/Third-party-software-and-services)),
+it's really fun to hack on. Join us in teaching the world to code! Your
+contribution will go on to show millions of players how cool programming can be.
 
-### [Getting Started](https://github.com/codecombat/codecombat/wiki/Dev-Setup:-General-Information)
+### [Getting Started](../../wiki/Dev-Setup:-General-Information)
 
-We've made it easy to fork the project, run a simple script that'll install all the dependencies, and get a local copy of CodeCombat running right away on [Mac](https://github.com/codecombat/codecombat/wiki/Dev-Setup:-Mac), [Linux](https://github.com/codecombat/codecombat/wiki/Dev-Setup:-Linux), [Windows](https://github.com/codecombat/codecombat/wiki/Dev-Setup:-Windows), or
-[Vagrant](https://github.com/codecombat/codecombat/wiki/Dev-Setup:-Vagrant). See [the docs for details](https://github.com/codecombat/codecombat/wiki/Dev-Setup:-General-Information).
+We've made it easy to fork the project, run a simple script that'll install all
+the dependencies, and get a local copy of CodeCombat running right away on
+[Mac](../../wiki/Dev-Setup:-Mac), [Linux](../../wiki/Dev-Setup:-Linux),
+[Windows](../../wiki/Dev-Setup:-Windows), or [Vagrant](../../wiki/Dev-Setup:-Vagrant).
+See [the docs for details](../../wiki/Dev-Setup:-General-Information).
 
-### [Getting In Touch](https://github.com/codecombat/codecombat/wiki/Developer-organization)
+### [Getting In Touch](../../wiki/Developer-organization)
 
-Whether you're novice or pro, the CodeCombat team is ready to help you implement your ideas. Reach out on our [forum](http://discourse.codecombat.com), our [issue tracker](https://github.com/codecombat/codecombat/issues), or [our developer chat room on Slack](https://coco-slack-invite.herokuapp.com/), or see the docs for [more on how to contribute](https://github.com/codecombat/codecombat/wiki/Developer-organization).
+Whether you're novice or pro, the CodeCombat team is ready to help you implement
+your ideas. Reach out on our [forum](http://discourse.codecombat.com), our
+[issue tracker](../../issues), or
+[our developer chat room on Slack](https://coco-slack-invite.herokuapp.com/), or
+see the docs for [more on how to contribute](../../wiki/Developer-organization).
 
 [![Slack Status](https://coco-slack-invite.herokuapp.com/badge.svg)](https://coco-slack-invite.herokuapp.com/)
 
-### [License](https://github.com/codecombat/codecombat/blob/master/LICENSE)
+### [License](LICENSE)
 
-[MIT](https://github.com/codecombat/codecombat/blob/master/LICENSE) for the code, and [CC-BY](http://codecombat.com/legal) for the art and music. Please also [sign the CodeCombat contributor license agreement](http://codecombat.com/cla) so we can accept your pull requests. It is easy.
+[MIT](LICENSE) for the code, and [CC-BY](http://codecombat.com/legal) for the
+art and music. Please also
+[sign the CodeCombat contributor license agreement](http://codecombat.com/cla)
+so we can accept your pull requests. It is easy.
 
 ### [Join Us!](http://blog.codecombat.com/why-you-should-open-source-your-startup)
 
