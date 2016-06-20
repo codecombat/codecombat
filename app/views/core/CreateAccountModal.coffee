@@ -70,6 +70,8 @@ module.exports = class CreateAccountModal extends ModalView
       screen: 'segment-check' # TODO: Remove!
       segmentCheckValid: false
       basicInfoValid: false
+      facebookEnabled: application.facebookHandler.apiLoaded
+      gplusEnabled: application.gplusHandler.apiLoaded
     }
     
     # @classroom = new Classroom()
@@ -108,8 +110,9 @@ module.exports = class CreateAccountModal extends ModalView
   #   @previousFormInputs = options.initialValues or {}
 
     # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
-    application.gplusHandler.loadAPI({ success: => _.defer => @$('#gplus-signup-btn').attr('disabled', false) unless @destroyed })
-    application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-signup-btn').attr('disabled', false) unless @destroyed })
+    
+    application.facebookHandler.loadAPI({ success: => @state.set { facebookEnabled: true } unless @destroyed })
+    application.gplusHandler.loadAPI({ success: => @state.set { gplusEnabled: true } unless @destroyed })
   
   afterRender: ->
     # @$el.html(@template(@getRenderData()))

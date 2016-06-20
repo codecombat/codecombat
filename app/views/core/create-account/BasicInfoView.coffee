@@ -23,11 +23,13 @@ module.exports = class BasicInfoView extends ModalView
     'click .use-suggested-name-link': (e) ->
       @$('input[name="name"]').val(@suggestedName)
       forms.clearFormAlerts(@$el.find('input[name="name"]').closest('.row'))
-    'click #facebook-signup-btn': 'onClickFacebookSignupButton'
-    'click #gplus-signup-btn': 'onClickGPlusSignupButton'
+    'click #facebook-signup-btn': 'onClickSsoSignupButton'
+    'click #gplus-signup-btn': 'onClickSsoSignupButton'
 
   initialize: ({ @sharedState } = {}) ->
     @onNameChange = _.debounce(_.bind(@checkNameExists, @), 500)
+    @listenTo @sharedState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
+    @listenTo @sharedState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
 
   checkNameExists: ->
     name = $('input[name="name"]', @$el).val()
@@ -169,70 +171,38 @@ module.exports = class BasicInfoView extends ModalView
     else
       window.location.reload()
 
-  onClickFacebookSignupButton: (e) ->
+  onClickSsoSignupButton: (e) ->
     e.preventDefault()
-    btn = @$('#facebook-signup-btn')
-    application.facebookHandler.connect({
+    ssoUsed = $(e.currentTarget).data('sso-used')
+    if ssoUsed is 'facebook'
+      handler = application.facebookHandler
+      fetchSsoUser = 'fetchFacebookUser'
+      idName = 'facebookID'
+    else
+      handler = application.gplusHandler
+      fetchSsoUser = 'fetchGPlusUser'
+      idName = 'gplusID'
+    handler.connect({
       context: @
       success: ->
-        btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
-        btn.attr('disabled', true)
-        application.facebookHandler.loadPerson({
+        handler.loadPerson({
           context: @
-          success: (facebookAttrs) ->
-            @sharedState.set { facebookAttrs }
+          success: (ssoAttrs) ->
+            @sharedState.set { ssoAttrs }
             existingUser = new User()
-            existingUser.fetchFacebookUser(@sharedState.get('facebookAttrs').facebookID, {
+            existingUser[fetchSsoUser](@sharedState.get('ssoAttrs')[idName], {
               context: @
-              # complete: ->
-              #   @$('#email-password-row').remove()
               success: =>
+                console.log ssoUsed, ssoAttrs.email
                 @sharedState.set {
-                  ssoUsed: 'facebook'
-                  email: @sharedState.get('facebookAttrs').email
+                  ssoUsed
+                  email: ssoAttrs.email
                 }
                 @trigger 'sso-connect:already-in-use'
-                # @$('#facebook-account-exists-row').removeClass('hide')
+                console.log 'sso-connect:already-in-use'
               error: (user, jqxhr) =>
-                @trigger 'sso-connect:success'
-                # if jqxhr.status is 404
-                #   @$('#facebook-logged-in-row').toggleClass('hide')
-                # else
-                #   errors.showNotyNetworkError(jqxhr)
-            })
-        })
-    })
-
-  onClickGPlusSignupButton: (e) ->
-    e.preventDefault()
-    btn = @$('#gplus-signup-btn')
-    application.gplusHandler.connect({
-      context: @
-      success: ->
-        btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
-        btn.attr('disabled', true)
-        application.gplusHandler.loadPerson({
-          context: @
-          success: (gplusAttrs) ->
-            @sharedState.set { gplusAttrs }
-            existingUser = new User()
-            existingUser.fetchGPlusUser(@sharedState.get('gplusAttrs').gplusID, {
-              context: @
-              # complete: ->
-              #   @$('#email-password-row').remove()
-              success: =>
-                @sharedState.set {
-                  ssoUsed: 'gplus'
-                  email: @sharedState.get('gplusAttrs').email
-                }
-                @trigger 'sso-connect:already-in-use'
-                # @$('#gplus-account-exists-row').removeClass('hide')
-              error: (user, jqxhr) =>
-                @trigger 'sso-connect:success'
-                # if jqxhr.status is 404
-                #   @$('#gplus-logged-in-row').toggleClass('hide')
-                # else
-                #   errors.showNotyNetworkError(jqxhr)
+                @trigger 'sso-connect:new-user'
+                console.log 'sso-connect:new-user'
             })
         })
     })
