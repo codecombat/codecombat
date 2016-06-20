@@ -3,10 +3,12 @@ template = require 'templates/play/modal/play-items-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
 ItemDetailsView = require './ItemDetailsView'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 CocoCollection = require 'collections/CocoCollection'
 ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
+Level = require 'models/Level'
 Purchase = require 'models/Purchase'
 
 utils = require 'core/utils'
@@ -52,6 +54,7 @@ module.exports = class PlayItemsModal extends ModalView
     'click #close-modal': 'hide'
     'click': 'onClickedSomewhere'
     'update .tab-pane .nano': 'onScrollItemPane'
+    'click #hero-type-select label': 'onClickHeroTypeSelect'
 
   constructor: (options) ->
     @onScrollItemPane = _.throttle(_.bind(@onScrollItemPane, @), 200)
@@ -77,6 +80,7 @@ module.exports = class PlayItemsModal extends ModalView
     itemFetcher.skip = 0
     itemFetcher.fetch({data: {skip: 0, limit: PAGE_SIZE}})
     @listenTo itemFetcher, 'sync', @onItemsFetched
+    @stopListening @supermodel, 'loaded-all'
     @supermodel.loadCollection(itemFetcher, 'items')
     @idToItem = {}
 
@@ -99,6 +103,10 @@ module.exports = class PlayItemsModal extends ModalView
       model.comingSoon = not model.getFrontFacingStats().props.length and not _.size(model.getFrontFacingStats().stats) and not model.owned  # Temp: while there are placeholder items
       @idToItem[model.id] = model
 
+    if itemFetcher.skip isnt 0
+      # Make sure we render the newly fetched items, except the first time (when it happens automatically).
+      @render()
+
     if needMore
       itemFetcher.skip += PAGE_SIZE
       itemFetcher.fetch({data: {skip: itemFetcher.skip, limit: PAGE_SIZE}})
@@ -114,15 +122,19 @@ module.exports = class PlayItemsModal extends ModalView
   afterRender: ->
     super()
     return unless @supermodel.finished()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
+    @playSound 'game-menu-open'
     @$el.find('.nano:visible').nanoScroller({alwaysVisible: true})
     @itemDetailsView = new ItemDetailsView()
     @insertSubView(@itemDetailsView)
     @$el.find("a[href='#item-category-armor']").click()  # Start on armor tab, if it's there.
+    earnedLevels = me.get('earned')?.levels or []
+    if Level.levels['defense-of-plainswood'] not in earnedLevels
+      @$el.find('#misc-tab').hide()
+      @$el.find('#hero-type-select #warrior').click()  # Start on warrior tab, if low level.
 
   onHidden: ->
     super()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
+    @playSound 'game-menu-close'
 
 
   #- Click events
@@ -162,6 +174,12 @@ module.exports = class PlayItemsModal extends ModalView
         item = @idToItem[itemEl.data('item-id')]
         itemEl.find('.item-silhouette, .item-img').attr('src', item.getPortraitURL())
 
+  onClickHeroTypeSelect: (e) ->
+    value = $(e.target).closest('label').attr('id')
+    tabContent = @$el.find('.tab-content')
+    tabContent.removeClass('filter-wizard filter-ranger filter-warrior')
+    tabContent.addClass("filter-#{value}") if value isnt 'all'
+
   onUnlockButtonClicked: (e) ->
     e.stopPropagation()
     button = $(e.target).closest('button')
@@ -194,9 +212,11 @@ module.exports = class PlayItemsModal extends ModalView
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
 
+  askToSignUp: ->
+    createAccountModal = new CreateAccountModal supermodel: @supermodel
+    return @openModalView createAccountModal
+
   askToBuyGems: (unlockButton) ->
-    if me.getGemPromptGroup() is 'no-prompt'
-      return @openModalView new BuyGemsModal()
     @$el.find('.unlock-button').popover 'destroy'
     popoverTemplate = buyGemsPromptTemplate {}
     unlockButton.popover(
@@ -212,6 +232,7 @@ module.exports = class PlayItemsModal extends ModalView
 
   onBuyGemsPromptButtonClicked: (e) ->
     @playSound 'menu-button-click'
+    return @askToSignUp() if me.get('anonymous')
     @openModalView new BuyGemsModal()
 
   onClickedSomewhere: (e) ->

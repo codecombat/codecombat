@@ -1,0 +1,134 @@
+extends /templates/base-flat
+
+block page_nav
+  include ./teacher-dashboard-nav.jade
+
+block content
+  if me.isAnonymous() || (!me.isTeacher() && !view.classrooms.size())
+    .container
+      .access-restricted.container.text-center.m-y-3
+        h5(data-i18n='teacher.access_restricted')
+        p(data-i18n='teacher.teacher_account_required')
+        if me.isAnonymous()
+          .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
+          a.btn.btn-lg.btn-primary-alt(href="/teachers/signup" data-i18n='teacher.create_teacher_account')
+        else
+          a.btn.btn-lg.btn-primary(href="/teachers/update-account" data-i18n="teachers_quote.convert_account_title")
+          button#logout-button.btn.btn-lg.btn-primary-alt(data-i18n="login.log_out")
+
+      .container
+        .teacher-account-blurb.text-center.col-xs-6.col-xs-offset-3.m-y-3
+          h5(data-i18n='teacher.what_is_a_teacher_account')
+          p(data-i18n='teacher.teacher_account_explanation')
+
+  else
+    if !me.isTeacher()
+      .alert.alert-danger.text-center
+        .container
+          // DNT: Temporary
+          h3 ATTENTION: Please upgrade your account to a Teacher Account.
+          p
+            | We are transitioning to a new improved classroom management system for instructors.
+            | Please convert your account to ensure you retain access to your classrooms. 
+          a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
+      
+    .container.m-t-5
+      .pull-right
+        span.glyphicon.glyphicon-question-sign
+        =' '
+        a#how-to-enroll-link(data-i18n="teacher.how_to_enroll")
+      h3(data-i18n='teacher.enrollments')
+      h4#enrollments-blurb
+        span(data-i18n='teacher.enrollments_blurb_1')
+        span  2&ndash;#{view.state.get('totalCourses')} 
+        span(data-i18n='teacher.enrollments_blurb_2')
+        
+      - var available = view.state.get('prepaidGroups').available
+      - var pending = view.state.get('prepaidGroups').pending
+      - var anyPrepaids = available || pending
+      
+      .row.m-t-3
+        if anyPrepaids
+          #prepaids-col.col-md-9
+            if _.size(available) > 0
+              h5.m-b-1(data-i18n="teacher.available_credits")
+              .row
+                for prepaid in available
+                  .col-sm-4.col-xs-6
+                    +prepaidCard(prepaid)
+              
+            if _.size(pending) > 0
+              h5.m-b-1.m-t-3(data-i18n="teacher.pending_credits")
+              .row
+                for prepaid in pending
+                  .col-sm-4.col-xs-6
+                    +prepaidCard(prepaid, 'pending-prepaid-card')
+            
+          #actions-col.col-md-3
+            +addCredits
+            +enrollmentStats
+        
+        else
+          // no prepaids
+          .col-sm-6.col-lg-4.col-lg-offset-2
+            +addCredits
+          .col-sm-6.col-lg-4
+            +enrollmentStats
+      
+mixin prepaidCard(prepaid, className)
+  .prepaid-card.bg-navy.text-center.m-b-2.p-a-2(class=className)
+    h1.m-t-2.m-b-0= prepaid.openSpots()
+    div(data-i18n="teacher.credits")
+    hr
+    em.small-details
+      .pull-left(data-i18n="teacher.start_date")
+      .pull-right= moment(prepaid.get('startDate')).utc().format('l')
+      .clearfix
+
+      .pull-left(data-i18n="teacher.end_date")
+      .pull-right= moment(prepaid.get('endDate')).utc().format('l')
+      .clearfix
+        
+        
+mixin addCredits
+  .text-center.m-b-3.m-t-3
+    h5(data-i18n="courses.get_enrollments")
+    if me.get('enrollmentRequestSent')
+      #enrollment-request-sent-blurb.small
+        p(data-i18n="teacher.enroll_request_sent_blurb1") 
+        p(data-i18n="teacher.enroll_request_sent_blurb2")
+        p(data-i18n="[html]teacher.enroll_request_sent_blurb3")
+      button#request-sent-btn.btn-lg.btn.btn-forest(disabled=true, data-i18n="teacher.request_sent")
+    else
+      p(data-i18n="teacher.num_enrollments_needed")
+      p.m-y-2(data-i18n="teacher.get_enrollments_blurb")
+      button#contact-us-btn.btn-lg.btn.btn-forest(data-i18n="contribute.contact_us_url")
+
+      
+mixin enrollmentStats
+  h5.text-center.m-t-3.m-b-2(data-i18n='teacher.enrollment_status')
+  table#enrollment-stats-table.table-condensed.table.small-details
+    tr
+      td
+        span(data-i18n='teacher.total_unique_students')
+        span.spr :
+      td= view.state.get('totalEnrolled') + view.state.get('totalNotEnrolled')
+    tr
+      td 
+        span(data-i18n='teacher.total_enrolled_students')
+        span.spr :
+      td= view.state.get('totalEnrolled')
+    tr
+      th(data-i18n='teacher.unenrolled_students')
+      th= view.state.get('totalNotEnrolled')
+    each classroom in view.classrooms.models
+      if classroom.get('members').length > 0 && view.state.get('classroomNotEnrolledMap')[classroom.id] > 0
+        tr
+          td.classroom-name-td
+            span= classroom.get('name')
+            span.spr :
+          td= view.state.get('classroomNotEnrolledMap')[classroom.id]
+
+  .text-center
+    button#enroll-students-btn.btn.btn-lg.btn-navy
+      span(data-i18n='teacher.enroll_students')

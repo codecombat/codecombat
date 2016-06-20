@@ -33,6 +33,8 @@ module.exports = class ContactModal extends ModalView
     res = tv4.validateMultiple contactMessage, contactSchema
     return forms.applyErrorsToForm @$el, res.errors unless res.valid
     @populateBrowserData contactMessage
+    contactMessage = _.merge contactMessage, @options
+    contactMessage.country = me.get('country')
     window.tracker?.trackEvent 'Sent Feedback', message: contactMessage
     sendContactMessage contactMessage, @$el
     $.post "/db/user/#{me.id}/track/contact_codecombat"
@@ -46,5 +48,5 @@ module.exports = class ContactModal extends ModalView
   updateScreenshot: ->
     return unless @screenshotURL
     screenshotEl = @$el.find('#contact-screenshot').removeClass('secret')
-    screenshotEl.find('a').prop('href', @screenshotURL)
-    screenshotEl.find('img').prop('src', @screenshotURL)
+    screenshotEl.find('a').prop('href', @screenshotURL.replace("http://codecombat.com/", "/"))
+    screenshotEl.find('img').prop('src', @screenshotURL.replace("http://codecombat.com/", "/"))

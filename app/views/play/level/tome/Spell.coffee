@@ -2,6 +2,7 @@ SpellView = require './SpellView'
 SpellListTabEntryView = require './SpellListTabEntryView'
 {me} = require 'core/auth'
 {createAetherOptions} = require 'lib/aether_utils'
+utils = require 'core/utils'
 
 module.exports = class Spell
   loaded: false
@@ -15,11 +16,13 @@ module.exports = class Spell
     @otherSession = options.otherSession
     @spectateView = options.spectateView
     @spectateOpponentCodeLanguage = options.spectateOpponentCodeLanguage
+    @observing = options.observing
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
     @levelID = options.levelID
     @levelType = options.level.get('type', true)
+    @level = options.level
 
     p = options.programmableMethod
     @commentI18N = p.i18n
@@ -28,14 +31,13 @@ module.exports = class Spell
     @languages.javascript ?= p.source
     @name = p.name
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
+    @team = @permissions.readwrite[0] ? 'common'
     if @canWrite()
       @setLanguage options.language
-    else if @isEnemySpell()
-      @setLanguage @otherSession?.get('submittedCodeLanguage') ? @spectateOpponentCodeLanguage
+    else if @otherSession and @team is @otherSession.get 'team'
+      @setLanguage @otherSession.get('submittedCodeLanguage') or @otherSession.get('codeLanguage')
     else
       @setLanguage 'javascript'
-    @useTranspiledCode = @shouldUseTranspiledCode()
-    console.log 'Spell', @spellKey, 'is using transpiled code (should only happen if it\'s an enemy/spectate writable method).' if @useTranspiledCode
 
     @source = @originalSource
     @parameters = p.parameters
@@ -44,13 +46,18 @@ module.exports = class Spell
         @source = sessionSource
     if p.aiSource and not @otherSession and not @canWrite()
       @source = @originalSource = p.aiSource
+      @isAISource = true
     @thangs = {}
     if @canRead()  # We can avoid creating these views if we'll never use them.
-      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker}
+      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel}
       @view.render()  # Get it ready and code loaded in advance
-      @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, codeLanguage: @language, level: options.level
+      @tabView = new SpellListTabEntryView
+        hintsState: options.hintsState
+        spell: @
+        supermodel: @supermodel
+        codeLanguage: @language
+        level: options.level
       @tabView.render()
-    @team = @permissions.readwrite[0] ? 'common'
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 
   destroy: ->
@@ -61,7 +68,9 @@ module.exports = class Spell
 
   setLanguage: (@language) ->
     #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
-    @originalSource = @languages[language] ? @languages.javascript
+    @originalSource = @languages[@language] ? @languages.javascript
+    @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
+
     # Translate comments chosen spoken language.
     return unless @commentContext
     context = $.extend true, {}, @commentContext
@@ -77,6 +86,23 @@ module.exports = class Spell
       @originalSource = _.template @originalSource, context
     catch e
       console.error "Couldn't create example code template of", @originalSource, "\nwith context", context, "\nError:", e
+
+    if /loop/.test(@originalSource) and @levelType in ['course', 'course-ladder']
+      # Temporary hackery to make it look like we meant while True: in our sample code until we can update everything
+      @originalSource = switch @language
+        when 'python' then @originalSource.replace /loop:/, 'while True:'
+        when 'javascript' then @originalSource.replace /loop {/, 'while (true) {'
+        when 'lua' then @originalSource.replace /loop\n/, 'while true then\n'
+        when 'coffeescript' then @originalSource
+        else @originalSource
+
+  addPicoCTFProblem: ->
+    return @originalSource unless problem = @level.picoCTFProblem
+    description = """
+      -- #{problem.name} --
+      #{problem.description}
+    """.replace /<p>(.*?)<\/p>/gi, '$1'
+    ("// #{line}" for line in description.split('\n')).join('\n') + '\n' + @originalSource
 
   addThang: (thang) ->
     if @thangs[thang.id]
@@ -102,15 +128,10 @@ module.exports = class Spell
     else
       source = @getSource()
     [pure, problems] = [null, null]
-    if @useTranspiledCode
-      transpiledCode = @session.get('code')
     for thangID, spellThang of @thangs
       unless pure
-        if @useTranspiledCode and transpiledSpell = transpiledCode[@spellKey.split('/')[0]]?[@name]
-          spellThang.aether.pure = transpiledSpell
-        else
-          pure = spellThang.aether.transpile source
-          problems = spellThang.aether.problems
+        pure = spellThang.aether.transpile source
+        problems = spellThang.aether.problems
         #console.log 'aether transpiled', source.length, 'to', spellThang.aether.pure.length, 'for', thangID, @spellKey
       else
         spellThang.aether.raw = source
@@ -147,11 +168,18 @@ module.exports = class Spell
       cb(aether.hasChangedSignificantly((newSource ? @originalSource), (currentSource ? @source), true, true))
 
   createAether: (thang) ->
-    aceConfig = me.get('aceConfig') ? {}
-    writable = @permissions.readwrite.length > 0
-    skipProtectAPI = @skipProtectAPI or not writable
+    writable = @permissions.readwrite.length > 0 and not @isAISource
+    skipProtectAPI = @skipProtectAPI or not writable or @levelType in ['game-dev']
     problemContext = @createProblemContext thang
-    aetherOptions = createAetherOptions functionName: @name, codeLanguage: @language, functionParameters: @parameters, skipProtectAPI: skipProtectAPI, includeFlow: @levelType in ['hero', 'hero-ladder', 'hero-coop'], problemContext: problemContext
+    includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'hero-practice']) and not skipProtectAPI
+    aetherOptions = createAetherOptions
+      functionName: @name
+      codeLanguage: @language
+      functionParameters: @parameters
+      skipProtectAPI: skipProtectAPI
+      includeFlow: includeFlow
+      problemContext: problemContext
+      useInterpreter: true
     aether = new Aether aetherOptions
     if @worker
       workerMessage =
@@ -176,21 +204,6 @@ module.exports = class Spell
   toString: ->
     "<Spell: #{@spellKey}>"
 
-  isEnemySpell: ->
-    return false unless @permissions.readwrite.length
-    return false unless @otherSession or @spectateView
-    teamSpells = @session.get('teamSpells')
-    team = @session.get('team') ? 'humans'
-    teamSpells and not _.contains(teamSpells[team], @spellKey)
-
-  shouldUseTranspiledCode: ->
-    # Determine whether this code has already been transpiled, or whether it's raw source needing transpilation.
-    return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
-    return true if @isEnemySpell()  # Use transpiled for enemy spells.
-    # Players without permissions can't view the raw code.
-    return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions', true))
-    false
-
   createProblemContext: (thang) ->
     # Create problemContext Aether can use to craft better error messages
     # stringReferences: values that should be referred to as a string instead of a variable (e.g. "Brak", not Brak)
@@ -203,7 +216,7 @@ module.exports = class Spell
 
     @problemContext = { stringReferences: [], thisMethods: [], thisProperties: [] }
     # TODO: These should be read from the database
-    @problemContext.commonThisMethods = ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attack', 'findNearestEnemy', 'buildXY', 'moveXY', 'say', 'move', 'distance', 'findEnemies', 'getFriends', 'addFlag', 'getFlag', 'removeFlag', 'getFlags', 'attackRange', 'cast', 'buildTypes', 'jump', 'jumpTo', 'attackXY']
+    @problemContext.commonThisMethods = ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attack', 'findNearestEnemy', 'buildXY', 'moveXY', 'say', 'move', 'distance', 'findEnemies', 'findFriends', 'addFlag', 'findFlag', 'removeFlag', 'findFlags', 'attackRange', 'cast', 'buildTypes', 'jump', 'jumpTo', 'attackXY']
     return @problemContext unless thang?
 
     # Populate stringReferences

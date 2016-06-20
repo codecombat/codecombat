@@ -1,0 +1,132 @@
+extends /templates/base-flat
+
+block page_nav
+  include ./teacher-dashboard-nav.jade
+
+block content
+  if !me.isTeacher() && !view.classrooms.size()
+    .access-restricted.container.text-center.m-y-3
+      h5(data-i18n='teacher.access_restricted')
+      p(data-i18n='teacher.teacher_account_required')
+      if me.isAnonymous()
+        .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
+        button.btn.btn-lg.btn-primary-alt.create-teacher-btn(data-event-action="Teachers Classes Create Teacher Account", data-i18n='teacher.create_teacher_account')
+      else
+        button.btn.btn-lg.btn-primary.update-teacher-btn(data-event-action="Teachers Classes Convert Teacher Account", data-i18n="teachers_quote.convert_account_title")
+        button#logout-button.btn.btn-lg.btn-primary-alt(data-i18n="login.log_out")
+
+    .container
+      .teacher-account-blurb.text-center.col-xs-6.col-xs-offset-3.m-y-3
+        h5(data-i18n='teacher.what_is_a_teacher_account')
+        p(data-i18n='teacher.teacher_account_explanation')
+
+  else
+    if !me.isTeacher()
+      .alert.alert-danger.text-center
+        .container
+          // DNT: Temporary
+          h3 ATTENTION: Please upgrade your account to a Teacher Account.
+          p
+            | We are transitioning to a new improved classroom management system for instructors.
+            | Please convert your account to ensure you retain access to your classrooms.
+          button.btn.btn-primary.btn-lg.update-teacher-btn(data-event-action="Teachers Classes Convert Teacher Account Temp") Upgrade to teacher account
+
+    .container
+      h3(data-i18n='teacher.current_classes')
+
+    .classes.container
+      // Loop each class
+      each classroom in view.classrooms.models
+        unless classroom.get('archived')
+          +classRow(classroom)
+
+    +createClassButton
+
+  - var archivedClassrooms = view.classrooms.where({archived: true});
+  if _.size(archivedClassrooms)
+    .container
+      h3(data-i18n='teacher.archived_classes')
+      p(data-i18n='teacher.archived_classes_blurb')
+
+    .classes.container
+      each classroom in archivedClassrooms
+        +archivedClassRow(classroom)
+
+mixin classRow(classroom)
+  .class.row
+    .col-xs-6
+      .text-h4.semibold
+        = classroom.get('name')
+      .language.small
+        span(data-i18n='teacher.language')
+        | :&nbsp;
+        span.language-name
+          = classroom.capitalLanguage
+      .student-count.small
+        span(data-i18n='teacher.students')
+        | :&nbsp;
+        span
+          = classroom.get('members').length
+      .class-links
+        a.view-class-btn.text-h6(data-i18n='teacher.view_class' data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Link")
+        a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
+        a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
+
+    .progress-col.col-xs-5
+      if classroom.get('members').length == 0
+        +addStudentsButton(classroom)
+      else
+        each trimCourse, index in classroom.get('courses') || []
+          - var course = view.courses.get(trimCourse._id);
+          if view.courseInstances.findWhere({ classroomID: classroom.id, courseID: course.id })
+            +progressDot(classroom, course, index)
+    .view-class-arrow.col-xs-1
+      a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right.view-class-btn(data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Chevron")
+
+
+mixin addStudentsButton(classroom)
+  .add-students
+    .text-center
+      div.small-details(data-i18n='teacher.no_students_yet')
+        | This class has no students yet.
+      a.add-students-btn.btn.btn-lg.btn-primary(data-classroom-id=classroom.id )
+        span(data-i18n='teacher.add_students')
+          | Add Students
+
+mixin createClassButton
+  .create-class
+    .text-center
+      a.create-classroom-btn.btn.btn-lg.btn-primary(data-i18n='teacher.create_new_class')
+        | Create a New Class
+
+mixin progressDot(classroom, course, index)
+  //- TODO: Give classes abbreviations instead of using index?
+  //- TODO: inefficient. Cache this in the view?
+  - courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
+  - var total = classroom.get('members').length
+  - var complete = 0;
+  - var dotClass = '';
+  - var started = 0;
+  if courseInstance
+    - complete = courseInstance.numCompleted
+    - started = courseInstance.started
+    - dotClass = complete === total ? 'forest' : started ? 'gold' : '';
+  - var progressDotContext = {total: total, complete: complete};
+  .progress-dot(class=dotClass, data-title=view.progressDotTemplate(progressDotContext))
+    +progressDotLabel(index)
+
+mixin progressDotLabel(index)
+  .dot-label
+    .text-h6
+      | CS
+      span
+        = index + 1
+
+mixin archivedClassRow(classroom)
+  .class.row
+    .col-xs-10
+      span
+        = classroom.get('name')
+    .col-xs-2
+      .class-links.pull-right
+        a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)

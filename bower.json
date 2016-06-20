@@ -28,11 +28,11 @@
     "lodash": "~2.4.1",
     "backbone": "1.1.0",
     "jquery-mousewheel": "~3.1.9",
-    "i18next": "git://github.com/nwinter/i18next.git",
+    "i18next": "https://github.com/nwinter/i18next.git",
     "firepad": "~0.1.2",
     "marked": "~0.3.0",
     "moment": "~2.5.0",
-    "aether": "~0.3.0",
+    "aether": "~0.5.6",
     "underscore.string": "~2.3.3",
     "firebase": "~1.0.2",
     "d3": "~3.4.4",
@@ -46,9 +46,22 @@
     "zatanna": "https://github.com/differentmatt/zatanna.git#master",
     "modernizr": "~2.8.3",
     "backfire": "~0.3.0",
-    "fastclick": "~1.0.3"
+    "fastclick": "~1.0.3",
+    "three.js": "~0.71.0",
+    "lscache": "~1.0.5",
+    "esper.js": "http://files.codecombat.com/esper.tar.gz",
+    "algoliasearch": "^3.13.1",
+    "algolia-autocomplete.js": "^0.17.0",
+    "algolia-autocomplete-no-conflict": "1.0.0",
+    "promise-polyfill": "^5.2.1"
   },
   "overrides": {
+    "algolia-autocomplete.js": {
+      "main": "dist/autocomplete.jquery.js"
+    },
+    "algolia-autocomplete-no-conflict": {
+      "main": "no-conflict.js"
+    },
     "backbone": {
       "main": "backbone.js"
     },
@@ -105,11 +118,14 @@
         "build/io.js",
         "build/javascript.js",
         "build/lua.js",
-        "build/python.js"
+        "build/python.js",
+        "build/java.js"
       ]
     }
   },
   "devDependencies": {
-    "modernizr-mixin": "~3.0.0"
+    "modernizr-mixin": "~3.0.0",
+    "openSansCondensed": "https://google-fonts.azurewebsites.net/googleFonts/openSansCondensed?family=Open+Sans+Condensed:700&subset=latin,latin-ext,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic",
+    "openSans": "https://google-fonts.azurewebsites.net/googleFonts/openSans?family=Open+Sans:600,700&subset=latin,latin-ext,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic"
   }
 }

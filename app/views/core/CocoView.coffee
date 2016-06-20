@@ -3,6 +3,7 @@ utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
 loadingScreenTemplate = require 'templates/core/loading'
 loadingErrorTemplate = require 'templates/core/loading-error'
+auth = require 'core/auth'
 
 lastToggleModalCall = 0
 visibleModal = null
@@ -16,8 +17,9 @@ module.exports = class CocoView extends Backbone.View
   template: -> ''
 
   events:
-    'click .retry-loading-resource': 'onRetryResource'
-    'click .skip-loading-resource': 'onSkipResource'
+    'click #loading-error .login-btn': 'onClickLoadingErrorLoginButton'
+    'click #loading-error #create-account-btn': 'onClickLoadingErrorCreateAccountButton'
+    'click #loading-error #logout-btn': 'onClickLoadingErrorLogoutButton'
 
   subscriptions: {}
   shortcuts: {}
@@ -51,7 +53,7 @@ module.exports = class CocoView extends Backbone.View
     @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
     @warnConnectionError = _.throttle(@warnConnectionError, 3000)
 
-    super options
+    super arguments...
 
   destroy: ->
     @stopListening()
@@ -60,6 +62,7 @@ module.exports = class CocoView extends Backbone.View
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
+    @$el.find('.has-tooltip, [data-original-title]').tooltip 'destroy'
     @endHighlight()
     @getPointer(false).remove()
     @[key] = undefined for key, value of @
@@ -88,16 +91,18 @@ module.exports = class CocoView extends Backbone.View
   didReappear: ->
     # the router brings back this view from the cache
     @delegateEvents()
+    wasHidden = @hidden
     @hidden = false
-    @listenToShortcuts()
+    @listenToShortcuts() if wasHidden
     view.didReappear() for id, view of @subviews
 
   # View Rendering
 
   renderSelectors: (selectors...) ->
     newTemplate = $(@template(@getRenderData()))
-    for selector in selectors
-      @$el.find(selector).replaceWith(newTemplate.find(selector))
+    for selector, i in selectors
+      for elPair in _.zip(@$el.find(selector), newTemplate.find(selector))
+        $(elPair[0]).replaceWith($(elPair[1]))
     @delegateEvents()
     @$el.i18n()
 
@@ -120,7 +125,7 @@ module.exports = class CocoView extends Backbone.View
 
   getRenderData: (context) ->
     context ?= {}
-    context.isProduction = document.location.href.search(/codecombat.com/) isnt -1
+    context.isProduction = application.isProduction()
     context.me = me
     context.pathname = document.location.pathname  # like '/play/level'
     context.fbRef = context.pathname.replace(/[^a-zA-Z0-9+/=\-.:_]/g, '').slice(0, 40) or 'home'
@@ -128,6 +133,11 @@ module.exports = class CocoView extends Backbone.View
     context.isIE = @isIE()
     context.moment = moment
     context.translate = $.i18n.t
+    context.view = @
+    context._ = _
+    context.document = document
+    context.i18n = utils.i18n
+    context.state = @state
     context
 
   afterRender: ->
@@ -150,44 +160,27 @@ module.exports = class CocoView extends Backbone.View
   # Error handling for loading
   onResourceLoadFailed: (e) ->
     r = e.resource
+    @stopListening @supermodel
     return if r.jqxhr?.status is 402 # payment-required failures are handled separately
-    if r.jqxhr?.status is 0
-      r.retries ?= 0
-      r.retries += 1
-      if r.retries > 20
-        msg = 'Your computer or our servers appear to be offline. Please try refreshing.'
-        noty text: msg, layout: 'center', type: 'error', killer: true
-        return
-      else
-        @warnConnectionError()
-        return _.delay (=> r.load()), 3000
-
-    @$el.find('.loading-container .errors').append(loadingErrorTemplate({
-      status: r.jqxhr?.status
-      name: r.name
-      resourceIndex: r.rid,
-      responseText: r.jqxhr?.responseText
-    })).i18n()
-    @$el.find('.progress').hide()
+    @showError(r.jqxhr)
 
   warnConnectionError: ->
     msg = $.i18n.t 'loading_error.connection_failure', defaultValue: 'Connection failed.'
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
 
-  onRetryResource: (e) ->
-    res = @supermodel.getResource($(e.target).data('resource-index'))
-    # different views may respond to this call, and not all have the resource to reload
-    return unless res and res.isFailed
-    res.load()
-    @$el.find('.progress').show()
-    $(e.target).closest('.loading-error-alert').remove()
-
-  onSkipResource: (e) ->
-    res = @supermodel.getResource($(e.target).data('resource-index'))
-    return unless res and res.isFailed
-    res.markLoaded()
-    @$el.find('.progress').show()
-    $(e.target).closest('.loading-error-alert').remove()
+  onClickLoadingErrorLoginButton: (e) ->
+    e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
+    AuthModal = require 'views/core/AuthModal'
+    @openModalView(new AuthModal())
+  
+  onClickLoadingErrorCreateAccountButton: (e) ->
+    e.stopPropagation()
+    CreateAccountModal = require 'views/core/CreateAccountModal'
+    @openModalView(new CreateAccountModal({mode: 'signup'}))
+  
+  onClickLoadingErrorLogoutButton: (e) ->
+    e.stopPropagation()
+    auth.logoutUser()
 
   # Modals
 
@@ -213,7 +206,7 @@ module.exports = class CocoView extends Backbone.View
       return visibleModal.hide() if visibleModal.$el.is(':visible') # close, then this will get called again
       return @modalClosed(visibleModal) # was closed, but modalClosed was not called somehow
     modalView.render()
-    $('#modal-wrapper').empty().append modalView.el
+    $('#modal-wrapper').removeClass('hide').empty().append modalView.el
     modalView.afterInsert()
     visibleModal = modalView
     modalOptions = {show: true, backdrop: if modalView.closesOnClickOutside then true else 'static'}
@@ -228,6 +221,7 @@ module.exports = class CocoView extends Backbone.View
     visibleModal = null
     window.currentModal = null
     #$('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
+    $('#modal-wrapper').addClass('hide')
     if waitingModal
       wm = waitingModal
       waitingModal = null
@@ -240,7 +234,7 @@ module.exports = class CocoView extends Backbone.View
 
   showLoading: ($el=@$el) ->
     $el.find('>').addClass('hidden')
-    $el.append loadingScreenTemplate()
+    $el.append(loadingScreenTemplate()).i18n()
     @_lastLoading = $el
 
   hideLoading: ->
@@ -248,9 +242,26 @@ module.exports = class CocoView extends Backbone.View
     @_lastLoading.find('.loading-screen').remove()
     @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null
+    
+  showError: (jqxhr) ->
+    return unless @_lastLoading?
+    context = {
+      jqxhr: jqxhr
+      view: @
+      me: me
+    }
+    @_lastLoading.find('.loading-screen').replaceWith((loadingErrorTemplate(context)))
+    @_lastLoading.i18n()
+
+  forumLink: ->
+    link = 'http://discourse.codecombat.com/'
+    lang = (me.get('preferredLanguage') or 'en-US').split('-')[0]
+    if lang in ['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt']
+      link += "c/other-languages/#{lang}"
+    link
 
   showReadOnly: ->
-    return if me.isAdmin()
+    return if me.isAdmin() or me.isArtisan()
     warning = $.i18n.t 'editor.read_only_warning2', defaultValue: 'Note: you can\'t save any edits here, because you\'re not logged in.'
     noty text: warning, layout: 'center', type: 'information', killer: true, timeout: 5000
 
@@ -380,7 +391,7 @@ module.exports = class CocoView extends Backbone.View
     setTimeout (=> $pointer.css transition: 'all 0.4s ease-in', transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)"), 800
 
   endHighlight: ->
-    @getPointer(false).css('opacity', 0.0)
+    @getPointer(false).css({'opacity': 0.0, 'transition': 'none', top: '-50px', right: '-50px'})
     clearInterval @pointerInterval
     clearTimeout @pointerDelayTimeout
     clearTimeout @pointerDurationTimeout
@@ -396,12 +407,7 @@ module.exports = class CocoView extends Backbone.View
   # Utilities
 
   getQueryVariable: (param, defaultValue) -> CocoView.getQueryVariable(param, defaultValue)
-  @getQueryVariable: (param, defaultValue) ->
-    query = document.location.search.substring 1
-    pairs = (pair.split('=') for pair in query.split '&')
-    for pair in pairs when pair[0] is param
-      return {'true': true, 'false': false}[pair[1]] ? decodeURIComponent(pair[1])
-    defaultValue
+  @getQueryVariable: (param, defaultValue) -> utils.getQueryVariable(param, defaultValue)  # Moved to utils; TODO finish migrating
 
   getRootView: ->
     view = @
@@ -435,6 +441,13 @@ module.exports = class CocoView extends Backbone.View
     slider.on('slide', changeCallback)
     slider.on('slidechange', changeCallback)
     slider
+    
+  scrollToLink: (link, speed=300) ->
+    scrollTo = $(link).offset().top
+    $('html, body').animate({ scrollTop: scrollTo }, speed)
+    
+  scrollToTop: (speed=300) ->
+    $('html, body').animate({ scrollTop: 0 }, speed)
 
   toggleFullscreen: (e) ->
     # https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode?redirectlocale=en-US&redirectslug=Web/Guide/DOM/Using_full_screen_mode

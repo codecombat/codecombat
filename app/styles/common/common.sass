@@ -1,9 +1,6 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
 
-body
-  position: absolute !important
-
 // https://github.com/twbs/bootstrap/issues/9237 -- need a version that's not !important
 .secret
   display: none
@@ -14,13 +11,16 @@ h1, h2, h3, h4, h5, h6
 a
   cursor: pointer
 
+iframe
+  border: none
+
 .error
   left: 8px
 
 .selectable
   cursor: pointer
 
-.modal-dialog
+.modal-dialog.game
   padding: 5px
   margin-top: 30px
   margin-bottom: 0px
@@ -299,7 +299,7 @@ kbd
     &.btn-primary
       border-image-source: url(/images/common/button-background-primary-disabled-border.png)
     &.btn-success
-      border-image-source: url(/images/common/button-background-success-disabled-border.png)
+      border-image-source: url(/images/common/button-background-success-inactive-border.png)
     &.btn-warning
       border-image-source: url(/images/common/button-background-warning-disabled-border.png)
     &.btn-danger
@@ -357,7 +357,7 @@ html.no-borderimage
       &.btn-primary
         background-image: url(/images/common/button-background-primary-disabled.png)
       &.btn-success
-        background-image: url(/images/common/button-background-success-disabled.png)
+        background-image: url(/images/common/button-background-success-inactive.png)
       &.btn-warning
         background-image: url(/images/common/button-background-warning-disabled.png)
       &.btn-danger
@@ -383,3 +383,38 @@ body > iframe[src^="https://apis.google.com"]
   @include scale(1.25)
   width: auto
   margin: 8px 15px 8px 15px
+
+.particle-man
+  position: absolute
+  z-index: 100
+  top: 0
+  left: 0
+  pointer-events: none
+  
+// TODO: update Bootstrap, remove this
+.text-uppercase
+  text-transform: uppercase
+
+  
+// Made for new victory modal as temp features. TODO: Replace with static art or make general, sprite versions
+.well-parchment
+  border: 2px solid #14110e
+  background: #c2b695
+  color: #282116
+
+.img-prize
+  border: 4px solid #fef9a3
+  padding: 2px
+  background: #693415
+  
+.label-banner
+  border: 2px solid #350f0d
+  background: #e6251c
+  color: white
+  padding: 0.0em 0.6em 0.1em
+
+body.picoctf .picoctf-hide
+  display: none
+
+body:not(.picoctf) .picoctf-show
+  display: none

@@ -1,0 +1,19 @@
+extends /templates/base
+
+block content
+
+  h1 Patches
+
+  table.table.table-striped.table-bordered.table-condensed#patches
+    tbody
+      each patch in patches
+        tr
+          td #{patch.target.collection}
+
+          td
+            if patch.url
+              a(href=patch.url)= patch.name
+            else
+              span= patch.target.original
+          td #{patch.creatorName}
+          td #{patch.commitMessage}

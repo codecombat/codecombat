@@ -1,0 +1,23 @@
+extends /templates/base-flat
+
+block content
+  .access-restricted.container.text-center.m-y-3
+    h5(data-i18n='teacher.access_restricted')
+    if me.isTeacher()
+      p(data-i18n='courses.teacher_account_restricted')
+      a.btn.btn-lg.btn-primary(href="/teachers/classes" data-i18n="new_home.goto_classes")
+      button#logout-button.btn.btn-lg.btn-primary-alt(data-i18n="login.log_out")
+    else
+      p(data-i18n='courses.account_restricted')
+      if me.isAnonymous()
+        .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
+        .signup-button.btn.btn-lg.btn-primary-alt(data-i18n="login.sign_up")
+      else
+        a.btn.btn-lg.btn-primary(href="/courses/update-account" data-i18n="courses.update_account_update_student")
+        button#logout-button.btn.btn-lg.btn-primary-alt(data-i18n="login.log_out")
+
+  if me.isTeacher()
+    .container
+      .teacher-account-blurb.text-center.col-xs-6.col-xs-offset-3.m-y-3
+        h5(data-i18n='teacher.what_is_a_teacher_account')
+        p(data-i18n='teacher.teacher_account_explanation')

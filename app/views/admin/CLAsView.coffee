@@ -11,6 +11,7 @@ class CLASubmission extends CocoModel
 class CLACollection extends CocoCollection
   url: '/db/cla.submissions'
   model: CLASubmission
+  comparator: (claSubmission) -> return (claSubmission.get('githubUsername') or 'zzzzz').toLowerCase()
 
 module.exports = class CLAsView extends RootView
   id: 'admin-clas-view'
@@ -18,12 +19,4 @@ module.exports = class CLAsView extends RootView
 
   constructor: (options) ->
     super options
-    @clas = @supermodel.loadCollection(new CLACollection(), 'clas').model
-
-  getRenderData: ->
-    c = super()
-    c.clas = []
-    if @supermodel.finished()
-      c.clas = _.uniq (_.sortBy (cla.attributes for cla in @clas.models), (m) ->
-        m.githubUsername?.toLowerCase()), 'githubUsername'
-    c
+    @clas = @supermodel.loadCollection(new CLACollection(), 'clas', {cache: false}).model

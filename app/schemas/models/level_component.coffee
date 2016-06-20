@@ -10,7 +10,7 @@ class AttacksSelf extends Component
 systems = [
   'action', 'ai', 'alliance', 'collision', 'combat', 'display', 'event', 'existence', 'hearing',
   'inventory', 'movement', 'programming', 'targeting', 'ui', 'vision', 'misc', 'physics', 'effect',
-  'magic'
+  'magic', 'game'
 ]
 
 PropertyDocumentationSchema = c.object {
@@ -23,7 +23,7 @@ PropertyDocumentationSchema = c.object {
   required: ['name', 'type', 'description']
 },
   name: {type: 'string', title: 'Name', description: 'Name of the property.'}
-  i18n: { type: 'object', format: 'i18n', props: ['description', 'context'], description: 'Help translate this property'}
+  i18n: { type: 'object', format: 'i18n', props: ['name', 'description', 'context'], description: 'Help translate this property'}
   context: {
     type: 'object'
     title: 'Example template context'
@@ -91,6 +91,21 @@ PropertyDocumentationSchema = c.object {
         {title: 'Description', type: 'string', description: 'Description of the return value.', maxLength: 1000}
       ]
     i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this return value'}
+  autoCompletePriority:
+    type: 'number'
+    title: 'Autocomplete Priority'
+    description: 'How important this property is to autocomplete.'
+    minimum: 0
+    default: 1.0
+  userShouldCaptureReturn:
+    type: 'object'
+    title: 'User Should Capture Return'
+    properties:
+      variableName:
+        type: 'string'
+        title: 'Variable Name'
+        description: 'Variable name this property is autocompleted into.'
+        default: 'result'
 
 DependencySchema = c.object {
   title: 'Component Dependency'

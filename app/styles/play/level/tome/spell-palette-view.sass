@@ -1,0 +1,119 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#spell-palette-view
+  position: absolute
+  left: 10px
+  right: 10px
+  padding: 0 4px 10px 3%
+  background-color: transparent
+  background-size: 100% 100%
+  z-index: 2
+  @include transition(top 0.25s ease-in-out, height 0.25s ease-in-out)
+  box-shadow: 10px 4px 4px black
+  overflow-y: hidden
+
+  .code-palette-background
+    width: 100%
+    height: 592px
+    position: absolute
+    left: 0px
+    z-index: -1
+    background: transparent url(/images/level/code_palette_wood_background.png)
+    background-size: 100% 592px
+    overflow: visible
+
+  &.controls-disabled
+    .code-palette-background
+      @include filter(brightness(75%))
+
+    > :not(.code-palette-background)
+      @include opacity(0.50)
+
+  h4
+    color: white
+    font-size: 16px
+    line-height: 16px
+    margin: 25px 0 5px 2px
+    font-weight: normal
+    text-transform: uppercase
+
+  .nav > li > a
+    padding: 2px 20px 0px 20px
+    margin-bottom: 3px
+
+  ul.nav.nav-pills
+    margin-top: 3%
+
+    h4
+      margin-top: 2px
+    li.active a
+      background-color: transparent
+    &.multiple-tabs li.active a
+      background-color: darken(rgb(230, 212, 146), 30%)
+    &.multiple-tabs li:not(.active) a
+      cursor: pointer
+
+  &:not(.hero)
+    .tab-content
+      height: 80px
+      .nano-pane
+        width: 7px
+        right: 5px
+
+  //.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus
+  //  background-color: lighten(rgb(230, 212, 146), 10%)
+
+  .property-entry-column
+    display: inline-block
+    margin-right: 3px
+    vertical-align: top
+    
+  #spell-palette-help-button
+    margin: 3% 0px 4px
+
+  &.hero .properties
+    @include flexbox()
+    @include flex-wrap()
+    @include flex-column()
+    @include flex-align-content-start()
+
+    .property-entry-item-group
+      display: inline-block
+      min-height: 38px
+      width: 212px
+      @include flexbox()
+      @include flex-wrap()
+      @include flex-center()
+      position: relative
+      background-color: rgb(20, 13, 8)
+      margin: 1px
+  
+      img.item-image
+        width: 38px
+        height: 38px
+        position: absolute
+
+      &:not(:hover) img.item-image
+        -webkit-filter: contrast(50%) sepia(100%) saturate(500%) hue-rotate(7deg)
+        filter: contrast(50%) sepia(100%) saturate(1000%) hue-rotate(7deg)
+  
+      .spell-palette-entry-view
+        margin-left: 38px
+        width: 174px
+        width: -webkit-calc(100% - 38px)
+        width: calc(100% - 38px)
+
+  &.shortenize.hero .properties
+    .property-entry-item-group
+      width: 175px
+
+      .spell-palette-entry-view
+        width: 137px
+        width: -webkit-calc(100% - 38px)
+        width: calc(100% - 38px)
+
+@media only screen and (max-width: 1100px)
+  #spell-palette-view
+    // Make sure we have enough room for at least two columns
+    padding-left: 12px

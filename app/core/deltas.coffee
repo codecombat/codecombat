@@ -118,7 +118,7 @@ module.exports.getConflicts = (headDeltas, pendingDeltas) ->
       offset += 1
 
       # these stop being substrings of each other? Then conflict DNE
-      if not (nextPath.startsWith path) then break
+      if not (_.string.startsWith nextPath, path) then break
 
       # check if these two are from the same group, but we still need to check for more beyond
       unless headPathMap[path] or headPathMap[nextPath] then continue
@@ -178,4 +178,5 @@ prunePath = (delta, path) ->
 
 module.exports.DOC_SKIP_PATHS = [
   '_id','version', 'commitMessage', 'parent', 'created',
-  'slug', 'index', '__v', 'patches', 'creator', 'js', 'watchers'] 
+  'slug', 'index', '__v', 'patches', 'creator', 'js', 'watchers', 'levelsUpdated'
+]

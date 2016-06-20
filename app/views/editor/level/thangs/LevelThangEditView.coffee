@@ -31,11 +31,6 @@ module.exports = class LevelThangEditView extends CocoView
     @oldPath = options.oldPath
     @reportChanges = _.debounce @reportChanges, 1000
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.thang = @thangData
-    context
-
   onLoaded: -> @render()
   afterRender: ->
     super()
@@ -46,7 +41,7 @@ module.exports = class LevelThangEditView extends CocoView
       level: @level
       world: @world
 
-    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] then options.thangType = thangType
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'hero-practice'] then options.thangType = thangType
 
     @thangComponentEditView = new ThangComponentsEditView options
     @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged
@@ -57,7 +52,6 @@ module.exports = class LevelThangEditView extends CocoView
     thangTypeName = thangType?.get('name') or 'None'
     input.val(thangTypeName)
     @$el.find('#thang-type-link span').text(thangTypeName)
-    window.input = input
     @hideLoading()
 
   navigateToAllThangs: ->

@@ -10,8 +10,6 @@ module.exports = class LevelBus extends Bus
     return Bus.getFromCache(docName) or new LevelBus docName
 
   subscriptions:
-    'self-wizard:target-changed': 'onSelfWizardTargetChanged'
-    'self-wizard:created': 'onSelfWizardCreated'
     'tome:editing-began': 'onEditingBegan'
     'tome:editing-ended': 'onEditingEnded'
     'script:state-changed': 'onScriptStateChanged'
@@ -22,6 +20,7 @@ module.exports = class LevelBus extends Bus
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
     'tome:cast-spells': 'onCastSpells'
+    'tome:winnability-updated': 'onWinnabilityUpdated'
     'application:idle-changed': 'onIdleChanged'
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'god:new-world-created': 'onNewWorldCreated'
@@ -29,10 +28,12 @@ module.exports = class LevelBus extends Bus
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
-    if document.location.href.search('codecombat.com') isnt -1
-      @saveSession = _.debounce(@reallySaveSession, 10000, {maxWait: 30000})  # Save us during HoC
-    else
-      @saveSession = _.debounce(@reallySaveSession, 1000, {maxWait: 5000})  # Not this fast during HoC
+    saveDelay = window.serverConfig?.sessionSaveDelay
+    [wait, maxWait] = switch
+      when not application.isProduction or not saveDelay then [1, 5]  # Save quickly in development.
+      when me.isAnonymous() then [saveDelay.anonymous.min, saveDelay.anonymous.max]
+      else [saveDelay.registered.min, saveDelay.registered.max]
+    @saveSession = _.debounce @reallySaveSession, wait * 1000, {maxWait: maxWait * 1000}
     @playerIsIdle = false
 
   init: ->
@@ -55,27 +56,13 @@ module.exports = class LevelBus extends Bus
     return true unless @session?.get('multiplayer')
     super()
 
-  onSelfWizardCreated: (e) ->
-    @selfWizardLank = e.sprite
-
-  onSelfWizardTargetChanged: (e) ->
-    @wizardRef?.child('targetPos').set(@selfWizardLank?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(@selfWizardLank?.targetSprite?.thang.id or null)
-
   onMeSynced: =>
     super()
-    @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
 
   join: ->
     super()
-    @wizardRef = @myConnection.child('wizard')
-    @wizardRef?.child('targetPos').set(@selfWizardLank?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(@selfWizardLank?.targetSprite?.thang.id or null)
-    @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
 
   disconnect: ->
-    @wizardRef?.off()
-    @wizardRef = null
     @fireScriptsRef?.off()
     @fireScriptsRef = null
     super()
@@ -88,8 +75,8 @@ module.exports = class LevelBus extends Bus
 
   # UPDATING FIREBASE AND SESSION
 
-  onEditingBegan: -> @wizardRef?.child('editing').set(true)
-  onEditingEnded: -> @wizardRef?.child('editing').set(false)
+  onEditingBegan: -> #@wizardRef?.child('editing').set(true)  # no more wizards
+  onEditingEnded: -> #@wizardRef?.child('editing').set(false)  # no more wizards
 
   # HACK: Backbone does not work with nested documents, but we want to
   #   patch only those props that have changed. Look into plugins to
@@ -135,6 +122,12 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.state = true
     @saveSession()
 
+  onWinnabilityUpdated: (e) ->
+    return unless @onPoint() and e.winnable
+    return unless e.level.get('slug') in ['ace-of-coders', 'elemental-wars']  # Mirror matches don't otherwise show victory, so we win here.
+    return if @session.get('state')?.complete
+    @onVictory()
+
   onNewWorldCreated: (e) ->
     return unless @onPoint()
     # Record the flag history.
@@ -150,7 +143,7 @@ module.exports = class LevelBus extends Bus
     return unless @onPoint()
     @fireScriptsRef?.update(e)
     state = @session.get('state')
-    scripts = state.scripts
+    scripts = state.scripts ? {}
     scripts.currentScript = e.currentScript
     scripts.currentScriptOffset = e.currentScriptOffset
     @changedSessionProperties.state = true
@@ -254,6 +247,7 @@ module.exports = class LevelBus extends Bus
     return if _.isEmpty @changedSessionProperties
     # don't let peeking admins mess with the session accidentally
     return unless @session.get('multiplayer') or @session.get('creator') is me.id
+    return if @session.fake
     Backbone.Mediator.publish 'level:session-will-save', session: @session
     patch = {}
     patch[prop] = @session.get(prop) for prop of @changedSessionProperties

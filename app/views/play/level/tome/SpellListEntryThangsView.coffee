@@ -13,12 +13,6 @@ module.exports = class SpellListEntryThangsView extends CocoView
     @spell = options.spell
     @avatars = []
 
-  getRenderData: (context={}) ->
-    context = super context
-    context.thangs = @thangs
-    context.spell = @spell
-    context
-
   afterRender: ->
     super()
     avatar.destroy() for avatar in @avatars if @avatars

@@ -15,7 +15,7 @@ module.exports = class Label extends CocoClass
     @sprite = options.sprite
     @camera = options.camera
     @layer = options.layer
-    @style = options.style ? Label.STYLE_SAY
+    @style = options.style ? (@sprite?.thang?.labelStyle || Label.STYLE_SAY)
     console.error @toString(), 'needs a sprite.' unless @sprite
     console.error @toString(), 'needs a camera.' unless @camera
     console.error @toString(), 'needs a layer.' unless @layer
@@ -47,7 +47,7 @@ module.exports = class Label extends CocoClass
     @layer.updateLayerOrder()
 
   update: ->
-    return unless @text
+    return unless @text and @sprite.sprite
     offset = @sprite.getOffset? (if @style in ['dialogue', 'say'] then 'mouth' else 'aboveHead')
     offset ?= x: 0, y: 0  # temp (if not Lank)
     rotation = @sprite.getRotation()
@@ -74,12 +74,16 @@ module.exports = class Label extends CocoClass
     o.marginY = {D: 6, S: 4, N: 3}[st]
     o.fontWeight = {D: 'bold', S: 'bold', N: 'bold'}[st]
     o.shadow = {D: false, S: true, N: true}[st]
-    o.shadowColor = {D: '#FFF', S: '#000', N: '#FFF'}[st]
+    o.shadowColor = {D: '#FFF', S: '#000', N: '#000'}[st]
     o.fontSize = {D: 25, S: 12, N: 24}[st]
     fontFamily = {D: 'Arial', S: 'Arial', N: 'Arial'}[st]
     o.fontDescriptor = "#{o.fontWeight} #{o.fontSize}px #{fontFamily}"
-    o.fontColor = {D: '#000', S: '#FFF', N: '#00a'}[st]
-    o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(255,255,255,0.5)'}[st]
+    o.fontColor = {D: '#000', S: '#FFF', N: '#6c6'}[st]
+    if @style is 'name' and @sprite?.thang?.team is 'humans'
+      o.fontColor = '#c66'
+    else if @style is 'name' and @sprite?.thang?.team is 'ogres'
+      o.fontColor = '#66c'
+    o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(0,0,0,0.7)'}[st]
     o.backgroundStrokeColor = {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)'}[st]
     o.backgroundStrokeStyle = {D: 2, S: 1, N: 1}[st]
     o.backgroundBorderRadius = {D: 10, S: 3, N: 3}[st]

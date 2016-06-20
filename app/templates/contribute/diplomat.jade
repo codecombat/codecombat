@@ -17,7 +17,7 @@ block content
       p
         span(data-i18n="contribute.diplomat_introduction_pref")
           | So, if there's one thing we learned from the 
-        a(href="blog.codecombat.com/post/64658141307/codecombat-in-y-combinator", data-i18n="contribute.diplomat_launch_url")
+        a(href="http://blog.codecombat.com/post/64658141307/codecombat-in-y-combinator", data-i18n="contribute.diplomat_launch_url")
           | launch in October
         span , 
         span(data-i18n="contribute.diplomat_introduction_suf")
@@ -58,7 +58,7 @@ block content
       //#contributor-list
       // TODO: collect CodeCombat userids for these guys so we can include a tiled list
       ul.diplomats
-        each stats, languageCode in languageStats
+        each stats, languageCode in view.calculateSpokenLanguageStats()
           if !(stats.completion < 0.02 && !stats.diplomats.length)
             li
               a(href=stats.githubURL)
@@ -70,6 +70,6 @@ block content
                 span.spl - #{stats.diplomats.join(', ')}
               .progress
                 .progress-bar(style='width: ' + (100 * stats.completion) + '%')
-                  span(style=stats.completion < 0.06 ? 'color: black; text-shadow: 0px 1px 0px white' : '')= (100 * stats.completion).toFixed(1) + '%'
+                  span(style=stats.completion < 0.06 ? 'color: black; text-shadow: 0px 1px 0px white' : '')= Math.min(100, (100 * stats.completion).toFixed(1)) + '%'
 
     div.clearfix

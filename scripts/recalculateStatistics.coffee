@@ -12,7 +12,7 @@ do (setupLodash = this) ->
 database.connect()
 
 ### USER STATS ###
-UserHandler = require '../server/users/user_handler'
+UserHandler = require '../server/handlers/user_handler'
 
 report = (func, name, done) ->
   log.info 'Started ' + name + '...'
@@ -28,18 +28,18 @@ whenAllFinished = ->
 async.parallel [
   # Misc
   (c) -> report UserHandler.recalculateStats, 'gamesCompleted', c
-  
+
   # Edits
   (c) -> report UserHandler.recalculateStats, 'articleEdits', c
   (c) -> report UserHandler.recalculateStats, 'levelEdits', c
   (c) -> report UserHandler.recalculateStats, 'levelComponentEdits', c
   (c) -> report UserHandler.recalculateStats, 'levelSystemEdits', c
   (c) -> report UserHandler.recalculateStats, 'thangTypeEdits', c
-  
+
   # Patches
   (c) -> report UserHandler.recalculateStats, 'patchesContributed', c
   (c) -> report UserHandler.recalculateStats, 'patchesSubmitted', c
-  
+
   # Patches in memory
   (c) -> report UserHandler.recalculateStats, 'totalTranslationPatches', c
   (c) -> report UserHandler.recalculateStats, 'totalMiscPatches', c

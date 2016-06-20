@@ -1,6 +1,7 @@
 CocoModel = require './CocoModel'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 LevelComponent = require './LevelComponent'
+CocoCollection = require 'collections/CocoCollection'
 
 utils = require 'core/utils'
 
@@ -12,21 +13,30 @@ module.exports = class ThangType extends CocoModel
   @heroes:
     captain: '529ec584c423d4e83b000014'
     knight: '529ffbf1cf1818f2be000001'
-    'samurai': '53e12be0d042f23505c3023b'
-    'ninja': '52fc0ed77e01835453bd8f6c'
+    samurai: '53e12be0d042f23505c3023b'
+    raider: '55527eb0b8abf4ba1fe9a107'
+    goliath: '55e1a6e876cb0948c96af9f8'
+    guardian: '566a058620de41290036a745'
+    ninja: '52fc0ed77e01835453bd8f6c'
     'forest-archer': '5466d4f2417c8b48a9811e87'
     trapper: '5466d449417c8b48a9811e83'
+    pixie: ''
+    assassin: '566a2202e132c81f00f38c81'
     librarian: '52fbf74b7e01835453bd8d8e'
     'potion-master': '52e9adf7427172ae56002172'
     sorcerer: '52fd1524c7e6cf99160e7bc9'
+    necromancer: '55652fb3b9effa46a1f775fd'
+    'dark-wizard': ''
   @heroClasses:
-    Warrior: ['captain', 'knight', 'samurai']
-    Ranger: ['ninja', 'forest-archer', 'trapper']
-    Wizard: ['librarian', 'potion-master', 'sorcerer']
+    Warrior: ['captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian']
+    Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
+    Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'dark-wizard']
   @items:
     'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
   building: {}
+  editableByArtisans: true
+  @defaultActions: ['idle', 'die', 'move', 'attack']
 
   initialize: ->
     super()
@@ -69,6 +79,14 @@ module.exports = class ThangType extends CocoModel
   getActions: ->
     return {} unless @isFullyLoaded()
     return @actions or @buildActions()
+
+  getDefaultActions: ->
+    actions = []
+    for action in _.values(@getActions())
+      continue unless _.any ThangType.defaultActions, (prefix) ->
+        _.string.startsWith(action.name, prefix)
+      actions.push(action)
+    return actions
 
   buildActions: ->
     return null unless @isFullyLoaded()
@@ -221,6 +239,27 @@ module.exports = class ThangType extends CocoModel
     portraitOnly = !!options.portraitOnly
     "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs} - #{portraitOnly}"
 
+  getHeroShortName: ->
+    map = {
+      "Assassin": "Ritic"
+      "Captain": "Anya"
+      "Forest Archer": "Naria"
+      "Goliath": "Okar"
+      "Guardian": "Illia"
+      "Knight": "Tharin"
+      "Librarian": "Hushbaum"
+      "Necromancer": "Nalfar"
+      "Ninja": "Amara"
+      "Potion Master": "Omarn"
+      "Raider": "Arryn"
+      "Samurai": "Hattori"
+      "Sorcerer": "Pender"
+      "Trapper": "Senick"
+      "Champion": "Ida"
+      "Duelist": "Alejandro"
+    }
+    map[@get('name')]
+
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
     return null unless src
@@ -233,7 +272,11 @@ module.exports = class ThangType extends CocoModel
 
   getPortraitStage: (spriteOptionsOrKey, size=100) ->
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
-    stage = new createjs.Stage(canvas[0])
+    try
+      stage = new createjs.Stage(canvas[0])
+    catch err
+      console.error "Error trying to create #{@get('name')} avatar stage:", err, "with window as", window
+      return null
     return stage unless @isFullyLoaded()
     key = spriteOptionsOrKey
     key = if _.isString(key) then key else @spriteSheetKey(@fillOptions(key))
@@ -282,8 +325,8 @@ module.exports = class ThangType extends CocoModel
       sprite = vectorParser.buildContainerFromStore(portrait.container)
 
     pt = portrait.positions?.registration
-    sprite.regX = pt?.x or 0
-    sprite.regY = pt?.y or 0
+    sprite.regX = pt?.x / scale or 0
+    sprite.regY = pt?.y / scale or 0
     sprite.scaleX = sprite.scaleY = scale * size / 100
     stage.addChild(sprite)
     stage.update()
@@ -291,7 +334,7 @@ module.exports = class ThangType extends CocoModel
 
   uploadGenericPortrait: (callback, src) ->
     src ?= @getPortraitSource()
-    return callback?() unless src and src.startsWith 'data:'
+    return callback?() unless src and _.string.startsWith src, 'data:'
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
     body =
       filename: 'portrait.png'
@@ -355,15 +398,24 @@ module.exports = class ThangType extends CocoModel
       else
         classSpecificScore = stat * 5
       classAverage = @classStatAverages[prop][@get('heroClass')]
-      stats[prop] = Math.round(2 * ((classAverage - 2.5) + classSpecificScore / 2)) / 2 / 10
+      stats[prop] =
+        relative: Math.round(2 * ((classAverage - 2.5) + classSpecificScore / 2)) / 2 / 10
+        absolute: stat
+      pieces = ($.i18n.t "choose_hero.#{prop}_#{num}" for num in [1 .. 3])
+      percent = Math.round(stat * 100) + '%'
+      className = $.i18n.t "general.#{_.string.slugify @get('heroClass')}"
+      stats[prop].description = [pieces[0], percent, pieces[1], className, pieces[2]].join ' '
 
     minSpeed = 4
     maxSpeed = 16
     speedRange = maxSpeed - minSpeed
     speedPoints = rawNumbers.speed - minSpeed
-    stats.speed = Math.round(20 * speedPoints / speedRange) / 2 / 10
+    stats.speed =
+      relative: Math.round(20 * speedPoints / speedRange) / 2 / 10
+      absolute: rawNumbers.speed
+      description: "#{$.i18n.t 'choose_hero.speed_1'} #{rawNumbers.speed} #{$.i18n.t 'choose_hero.speed_2'}"
 
-    stats.skills = (_.string.titleize(_.string.humanize(skill)) for skill in programmableConfig.programmableProperties when skill isnt 'say')
+    stats.skills = (_.string.titleize(_.string.humanize(skill)) for skill in programmableConfig.programmableProperties when skill isnt 'say' and not /(Range|Pos|Radius|Damage)$/.test(skill))
 
     stats
 
@@ -417,8 +469,10 @@ module.exports = class ThangType extends CocoModel
 
     if i18nKey
       name = $.i18n.t 'choose_hero.' + i18nKey
+      matchedShortName = true
     else
       name = _.string.humanize name
+      matchedShortName = false
 
     format = ''
     format = 'm' if /(range|radius|distance|vision)$/i.test name
@@ -437,10 +491,10 @@ module.exports = class ThangType extends CocoModel
     display.push "x#{modifiers.factor}" if modifiers.factor? and modifiers.factor isnt 1
     display = display.join ', '
     display = display.replace /9001m?/, 'Infinity'
-    name: name, display: display
+    name: name, display: display, matchedShortName: matchedShortName
 
   isSilhouettedItem: ->
-    return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get('gems') or @get('tier')
+    return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get('gems')? or @get('tier')?
     console.info "Add (or make sure you have fetched) a tier for #{@get('name')} to more accurately determine whether it is silhouetted." unless @get('tier')?
     tier = @get 'tier'
     if tier?
@@ -456,3 +510,86 @@ module.exports = class ThangType extends CocoModel
     playerLevel = me.constructor.levelForTier playerTier
     #console.log 'Level required for', @get('name'), 'is', playerLevel, 'player tier', playerTier, 'because it is itemTier', itemTier, 'which is normally level', me.constructor.levelForTier(itemTier)
     playerLevel
+
+  getContainersForAnimation: (animation, action) ->
+    rawAnimation = @get('raw').animations[animation]
+    if not rawAnimation
+      console.error 'thang type', @get('name'), 'is missing animation', animation, 'from action', action
+    containers = rawAnimation.containers
+    for animation in @get('raw').animations[animation].animations
+      containers = containers.concat(@getContainersForAnimation(animation.gn, action))
+    return containers
+
+  getContainersForActions: (actionNames) ->
+    containersToRender = {}
+    actions = @getActions()
+    for actionName in actionNames
+      action = _.find(actions, {name: actionName})
+      if action.container
+        containersToRender[action.container] = true
+      else if action.animation
+        animationContainers = @getContainersForAnimation(action.animation, action)
+        containersToRender[container.gn] = true for container in animationContainers
+    return _.keys(containersToRender)
+
+  nextForAction: (action) ->
+    next = true
+    next = action.goesTo if action.goesTo
+    next = false if action.loops is false
+    return next
+
+  initPrerenderedSpriteSheets: ->
+    return if @prerenderedSpriteSheets or not data = @get('prerenderedSpriteSheetData')
+    # creates a collection of prerendered sprite sheets
+    @prerenderedSpriteSheets = new PrerenderedSpriteSheets(data)
+
+  getPrerenderedSpriteSheet: (colorConfig, defaultSpriteType) ->
+    return unless @prerenderedSpriteSheets
+    spriteType = @get('spriteType') or defaultSpriteType
+    @prerenderedSpriteSheets.find (pss) ->
+      return false if pss.get('spriteType') isnt spriteType
+      otherColorConfig = pss.get('colorConfig')
+      return true if _.isEmpty(colorConfig) and _.isEmpty(otherColorConfig)
+      getHue = (config) -> _.result(_.result(config, 'team'), 'hue')
+      return getHue(colorConfig) is getHue(otherColorConfig)
+
+  getPrerenderedSpriteSheetToLoad: ->
+    return unless @prerenderedSpriteSheets
+    @prerenderedSpriteSheets.find (pss) -> pss.needToLoad and not pss.loadedImage
+
+
+class PrerenderedSpriteSheet extends CocoModel
+  @className: 'PrerenderedSpriteSheet'
+
+  loadImage: ->
+    return false if @loadingImage or @loadedImage
+    return false unless imageURL = @get('image')
+    @image = $("<img src='/file/#{imageURL}' />")
+    @loadingImage = true
+    @image.one('load', =>
+      @loadingImage = false
+      @loadedImage = true
+      @buildSpriteSheet()
+      @trigger('image-loaded', @))
+    @image.one('error', =>
+      @loadingImage = false
+      @trigger('image-load-error', @)
+    )
+    return true
+
+  buildSpriteSheet: ->
+    @spriteSheet = new createjs.SpriteSheet({
+      images: [@image[0]],
+      frames: @get('frames')
+      animations: @get('animations')
+    })
+
+  markToLoad: -> @needToLoad = true
+
+  needToLoad: false
+  loadedImage: false
+  loadingImage: false
+
+
+class PrerenderedSpriteSheets extends CocoCollection
+  model: PrerenderedSpriteSheet

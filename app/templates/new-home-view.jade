@@ -1,0 +1,343 @@
+extends /templates/base-flat
+
+mixin box
+  .well.text-center
+    if me.isAnonymous() == true
+      h6#classroom-edition-header(data-i18n="new_home.classroom_edition")
+      div
+        a.teacher-btn.btn.btn-primary.btn-lg.btn-block(data-event-action="Homepage Click Teacher Button CTA", data-i18n="new_home.im_a_teacher")
+      div
+        a.student-btn.btn.btn-forest.btn-lg.btn-block(href="/courses", data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student")
+      h6#learn-to-code-header(data-i18n="new_home.learn_to_code")
+      a.btn.btn-gold.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Play Now CTA", data-i18n="new_home.play_now")
+
+    else
+      h6#classroom-edition-header(data-i18n="new_home.logged_in_as")
+      p.small #{me.get("email")}
+      if me.isTeacher()
+        div
+          button.teacher-btn.btn.btn-forest.btn-lg.btn-block(data-event-action="Homepage Click My Classes CTA", data-i18n="new_home.goto_classes")
+        div
+          if view.isTeacherWithDemo
+            h6(data-i18n="new_home.check_out_wiki")
+            button.wiki-btn.btn.btn-primary.btn-lg.btn-block(data-event-action="Homepage Click Educator Wiki CTA", data-i18n="nav.educator_wiki")
+          else
+            h6(data-i18n="new_home.want_coco")
+            button.btn.btn-primary.btn-lg.request-demo(data-event-action="Homepage Request Demo CTA", data-i18n="new_home.request_demo")
+
+      else if me.justPlaysCourses()
+        div
+          a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Classroom Continue Playing CTA", data-i18n="courses.continue_playing")
+        div
+          a.btn.btn-primary.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage View Progress CTA", data-i18n="new_home.view_progress")
+      else
+        div
+          a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
+        div
+          a.btn.btn-primary.btn-lg.btn-block.profile-btn(href=view.playURL, data-event-action="Homepage View Profile CTA", data-i18n="new_home.view_profile")
+
+
+      p.small
+        span(data-i18n="courses.not_you")
+        span &nbsp;
+        a.logout-btn(data-i18n="login.log_out", href="#")
+
+  if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl'
+    .well#ideal-tickets-well.text-center.hidden-xs.hidden-sm
+      h6 Thuis versie:
+      a.btn.btn-purple.btn-lg.btn-block(href="http://codecombat.nl/kopen") Prepaid codes (iDeal)
+
+
+block content
+  .container-fluid#jumbotron-container-fluid.alt-image
+    .container
+      .row.hidden-xs.top-spacer(style="height: 160px")
+      .row.hidden-sm.hidden-xs
+        .col-lg-7.col-md-8
+          h1(data-i18n="new_home.slogan")
+        .col-lg-3.col-lg-offset-2.col-md-4
+          +box
+      .row.hidden-lg.hidden-md
+        .col-lg-7.col-md-8
+          h1(data-i18n="new_home.slogan")
+        .col
+          div(style="margin: auto; max-width: 300px")
+            +box
+      .row#learn-more-row
+        .col-xs-12.text-center
+          a#learn-more-link
+            h6(data-i18n="new_home.learn_more")
+            h2
+              span.glyphicon.glyphicon-chevron-down
+
+
+  .container#classroom-in-box-container
+    #classroom-in-box-row.row
+      .col-sm-6
+        h2.text-navy(data-i18n="new_home.classroom_in_a_box")
+      .col-sm-6
+        p(data-i18n="[html]new_home.codecombat_is")
+        p(data-i18n="[html]new_home.our_courses")
+
+    .top-screenshots
+      .screenshots
+        .hidden-sm.hidden-md.hidden-lg
+          small(data-i18n="new_home.top_screenshots_hint")
+        .screenshot-grid(title='Click to view full size')
+          a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='0')
+            img(src="/images/pages/home/desert.png")
+        .clearfix.hidden-xs
+          small(data-i18n="new_home.top_screenshots_hint")
+
+    #feature-spread-row.row.text-center
+      h3(data-i18n="new_home.designed_with")
+      .col-sm-4
+        img.img-circle(src="/images/pages/home/F1_typedcode.png")
+        h4
+          span(data-i18n="new_home.real_code")
+          br
+          span(data-i18n="new_home.from_the_first_level")
+        p.small(data-i18n="new_home.getting_students")
+
+      .col-sm-4
+        img.img-circle(src="/images/pages/home/F2_teacherguides.png")
+        h4
+          span(data-i18n="new_home.educator_resources")
+          br
+          span(data-i18n="new_home.course_guides")
+        p.small(data-i18n="new_home.teaching_computer_science")
+
+      .col-sm-4
+        img.img-circle(src="/images/pages/home/F3_accessible.png")
+        h4
+          span(data-i18n="new_home.accessible_to")
+          br
+          span(data-i18n="new_home.everyone")
+        p.small(data-i18n="new_home.democratizing")
+
+    .testimonials-rows
+      .testimonials-filler-left
+      .testimonials-filler-right
+      .row
+        .col-lg-offset-2.col-lg-7.col-sm-8
+          blockquote
+            h3(data-i18n="new_home.forgot_learning")
+
+        .col-lg-2.col-sm-3.text-center
+          img.img-circle(src="/images/pages/home/timmaki.png")
+          h6 Tim Maki
+          .small Director of Technology, Tilton School
+
+      .row
+        .col-lg-7.col-sm-8.col-sm-push-4.col-lg-push-3
+          blockquote
+            h3(data-i18n="new_home.wanted_to_do")
+
+        .col-lg-2.col-sm-3.col-lg-offset-1.text-center.col-sm-pull-8.col-lg-pull-7
+          img.img-circle(src="/images/pages/home/dylan.png")
+          h6 Dylan
+          .small 3rd Grader
+
+
+    h3.text-center(data-i18n="new_home.why_games")
+
+    #benefit-row-1.row
+      #benefit-graphic-1.col-sm-6.col-sm-offset-1.col-sm-push-6
+        h2(data-i18n="new_home.games_reward")
+        img(src="/images/pages/home/G1_reward.png")
+        #benefit-graphic-1-filler
+
+      .col-sm-5.col-sm-pull-6
+        p(data-i18n="new_home.encourage")
+
+        p
+          span.spr(data-i18n="new_home.excel")
+          span “
+          a(href="http://blog.mindresearch.org/blog/game-based-learning-infographic-strong-math-practices" target="_blank", data-i18n="new_home.struggle")
+          span ” -
+          span.spl.spr(data-i18n="new_home.kind_of_struggle")
+          a(href="http://www.gamesandlearning.org/2014/06/09/teachers-on-using-games-in-class/" target="_blank", data-i18n="new_home.motivating")
+          span ,
+          span.spl(data-i18n="new_home.not_tedious")
+
+
+
+    #benefit-row-2.row
+      #benefit-graphic-2.col-sm-6
+        h2(data-i18n="new_home.gaming_is_good")
+        img(src="/images/pages/home/G2_brains.png")
+        #benefit-graphic-2-filler
+
+      .col-sm-5.col-sm-offset-1
+        p
+          span.spr(data-i18n="new_home.game_based")
+          a(href="http://schoolsweek.co.uk/gaming-is-good-for-childrens-brains-study-suggests/" target="_blank", data-i18n="new_home.compared")
+          span.spl.spr(data-i18n="new_home.conventional")
+          a(href="http://dev.k-12techdecisions.com/article/game_based_learning_is_where_vygotsky_meets_dweck/P3" target="_blank", data-i18n="new_home.perform_at_higher_level")
+          span .
+        p
+          span(data-i18n="new_home.feedback")
+
+    #benefit-row-3.row
+      #benefit-graphic-3.col-sm-6.col-sm-offset-1.col-sm-push-6
+        h2(data-i18n="new_home.real_game")
+        img(src="/images/pages/home/G3_game.png")
+        #benefit-graphic-3-filler
+
+      .col-sm-5.col-sm-pull-6
+        p
+          span(data-i18n="new_home.great_game")
+        p
+          span(data-i18n="new_home.agency")
+
+    .request-demo-row.text-center
+      if view.isTeacherWithDemo
+        h3(data-i18n="new_home.get_started_title")
+      else
+        h3(data-i18n="new_home.request_demo_title")
+
+      .teacher-screenshots
+        .screenshots
+          .hidden-sm.hidden-md.hidden-lg
+            small(data-i18n="new_home.top_screenshots_hint")
+          .screenshot-grid(title='Click to view full size')
+            a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='1')
+              img(src="/images/pages/about/forest.png")
+            a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='2')
+              img(src="/images/pages/about/dungeon.png")
+            a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
+              img(src="/images/pages/about/glacier.png")
+          .clearfix.hidden-xs
+            small(data-i18n="new_home.top_screenshots_hint")
+
+      if view.isTeacherWithDemo
+        h4(data-i18n="new_home.get_started_subtitle")
+        div
+          button.btn.btn-primary.btn-lg.setup-class-btn(data-event-action="Homepage Setup Class", data-i18n="new_home.setup_a_class")
+      else
+        h4(data-i18n="new_home.request_demo_subtitle")
+        div
+          button.btn.btn-primary.btn-lg.request-demo(data-event-action="Homepage Request Demo", data-i18n="new_home.request_demo")
+        if me.isAnonymous()
+          .have-an-account
+            span.spr(data-i18n="new_home.have_an_account")
+            a.login-button(data-i18n="login.log_in")
+
+    h3.text-center(data-i18n="new_home.computer_science")
+    h4.text-center
+      span#school-level-label(data-i18n="new_home.show_me_lesson_time")
+      select#school-level-dropdown.form-control.text-navy
+        option(value='elementary', data-i18n="teachers_quote.elementary_school")
+        option(value='middle', selected=true, data-i18n="teachers_quote.middle_school")
+        option(value='high', data-i18n="teachers_quote.high_school")
+    h5.text-center#total-hours-header
+      span.spr(data-i18n="new_home.curriculum")
+      span#semester-duration
+    #courses-row.row
+      - var conceptsSeen = {};
+      - var lastScreenshot = "";
+      for course, courseIndex in view.courses.models
+        .col-md-3.col-sm-4
+          .media.course-details(data-course-slug=course.get('slug'))
+            if courseIndex === 0
+              .free-course
+                h6(data-i18n="new_home.ffa")
+            .media-body(title=course.get('description'))
+              h6.course-name= course.get('name') + ':'
+              p.small
+                - var total = 0;
+                each concept in course.get('concepts')
+                  - if (conceptsSeen[concept]) continue;
+                  - conceptsSeen[concept] = true;
+                  if total === 3
+                    - total += 1;
+                    span ...
+                    - continue;
+                  else if total > 3
+                    - continue;
+                  else if total > 0
+                    span.spr ,
+                  - total += 1;
+                  span(data-i18n="concepts." + concept)
+            img.media-object(src="/images/pages/home/course"+(courseIndex+1)+".png")
+            - lastScreenshot = course.get('screenshot');
+            h6.course-duration
+              span.spr(data-i18n="new_home.lesson_time")
+              span.course-hours= course.get('duration') || 0
+              span.spl.unit(data-i18n="units.hours")
+      for upcomingCourse in ['Computer Science 6', 'Computer Science 7', 'Computer Science 8']
+        .col-md-3.col-sm-4
+          .media.disabled
+            .media-body
+              h6.course-name= upcomingCourse + ':'
+              p.small(data-i18n="new_home.coming_soon")
+            img.media-object(src="/images/pages/home/inprogress.png")
+
+      .clearfix
+      .text-center
+        h4
+          img(src="/images/pages/home/course_languages.png")
+          div(data-i18n="new_home.courses_available_in")
+
+    .testimonials-rows
+      .testimonials-filler-left
+      .testimonials-filler-right
+      .row
+        .col-lg-offset-2.col-lg-7.col-sm-8
+          blockquote
+            h3(data-i18n="new_home.boast")
+
+        .col-lg-2.col-sm-3.text-center
+          img.img-circle(src="/images/pages/home/opensource.png")
+          h6 Open Source
+          .small opensource.com
+
+      .row
+        .col-lg-7.col-sm-8.col-sm-push-4.col-lg-push-3
+          blockquote
+            h3(data-i18n="new_home.winning")
+
+        .col-lg-2.col-sm-3.col-lg-offset-1.text-center.col-sm-pull-8.col-lg-pull-7
+          img.img-circle(src="/images/pages/home/pcmag.png")
+          h6 PC Mag
+          .small pcmag.com
+
+    .request-demo-row.text-center
+      h3(data-i18n="new_home.run_class")
+      if view.isTeacherWithDemo
+        div
+          button.btn.btn-primary.btn-lg.setup-class-btn(data-event-action="Homepage Setup Class Page Bottom", data-i18n="new_home.setup_a_class")
+      else
+        div
+          button.btn.btn-primary.btn-lg.request-demo(data-event-action="Homepage Request Demo Page Bottom", data-i18n="new_home.request_demo")
+        if me.isAnonymous()
+          .have-an-account
+            span.spr(data-i18n="new_home.have_an_account")
+            a.login-button(data-i18n="login.log_in")
+
+
+    #screenshot-lightbox.modal.fade(data-show="false")
+      .modal-dialog
+        .modal-content
+          #screenshot-carousel.carousel
+            ol.carousel-indicators
+              li(data-target=".screenshot-display", data-slide-to="0").active
+              li(data-target=".screenshot-display", data-slide-to="1")
+              li(data-target=".screenshot-display", data-slide-to="2")
+              li(data-target=".screenshot-display", data-slide-to="3")
+
+            .carousel-inner
+              .item.active
+                img#screenshot-desert(src="/images/pages/home/desert.png")
+              .item
+                img#screenshot-forest(src="/images/pages/about/forest.png")
+              .item
+                img#screenshot-dungeon(src="/images/pages/about/dungeon.png")
+              .item
+                img#screenshot-glacier(src="/images/pages/about/glacier.png")
+            a#carousel-left.left.carousel-control(href="#screenshot-carousel", role="button")
+              span.glyphicon.glyphicons-chevron-left.glyphicon-chevron-left(aria-hidden="true")
+              span.sr-only(data-i18n="about.previous")
+            a#carousel-right.right.carousel-control(href="#screenshot-carousel", role="button")
+              span.glyphicon.glyphicons-chevron-right.glyphicon-chevron-right(aria-hidden="true")
+              span.sr-only(data-i18n="about.next")

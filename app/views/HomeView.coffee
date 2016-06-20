@@ -1,44 +1,39 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
   template: template
 
   events:
-    'click #play-button': 'onClickBeginnerCampaign'
+    'click #play-button': 'onClickPlayButton'
+    'click #close-teacher-note-link': 'onClickCloseTeacherNoteLink'
 
-  constructor: ->
+  constructor: (options={}) ->
     super()
-    window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage', ['Google Analytics']
-    if not me.get('hourOfCode') and @getQueryVariable 'hour_of_code'
-      @setUpHourOfCode()
-    elapsed = (new Date() - new Date(me.get('dateCreated')))
-    if me.get('hourOfCode') and elapsed < 86400 * 1000 and me.get('preferredLanguage', true) is 'en-US'
-      # Show the Hour of Code footer explanation in English until it's been more than a day
-      @explainsHourOfCode = true
+    @withTeacherNote = options.withTeacherNote
+    window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage'
+    if @getQueryVariable 'hour_of_code'
+      application.router.navigate "/hoc", trigger: true
 
-  getRenderData: ->
-    c = super()
-    if $.browser
-      majorVersion = $.browser.versionNumber
-      c.isOldBrowser = true if $.browser.mozilla && majorVersion < 25
-      c.isOldBrowser = true if $.browser.chrome && majorVersion < 25
-      c.isOldBrowser = true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
+    isHourOfCodeWeek = false  # Temporary: default to /hoc flow during the main event week
+    if isHourOfCodeWeek and (@isNewPlayer() or (@justPlaysCourses() and me.isAnonymous()))
+      # Go/return straight to playing single-player HoC course on Play click
+      @playURL = '/hoc?go=true'
+      @alternatePlayURL = '/play'
+      @alternatePlayText = 'home.play_campaign_version'
+    else if @justPlaysCourses()
+      # Save players who might be in a classroom from getting into the campaign
+      @playURL = '/courses'
+      @alternatePlayURL = '/play'
+      @alternatePlayText = 'home.play_campaign_version'
     else
-      console.warn 'no more jquery browser version...'
-    c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
-    c.languageName = me.get('preferredLanguage')
-    c.explainsHourOfCode = @explainsHourOfCode
-    c.isMobile = @isMobile()
-    c.isIPadBrowser = @isIPadBrowser()
-    c.playText = $.i18n.t('home.try_it', false)
-    if c.playText is 'home.try_it'
-      c.playText = $.i18n.t 'home.play'  # Temporary fallback for not having many try_it translations yet.
-    c
+      @playURL = '/play'
 
-  onClickBeginnerCampaign: (e) ->
+  onClickPlayButton: (e) ->
     @playSound 'menu-button-click'
+    return if @playURL isnt '/play'
     e.preventDefault()
     e.stopImmediatePropagation()
     window.tracker?.trackEvent 'Click Play', category: 'Homepage'
@@ -46,13 +41,15 @@ module.exports = class HomeView extends RootView
 
   afterInsert: ->
     super(arguments...)
-    @$el.addClass 'hour-of-code' if @explainsHourOfCode
+    modal = new CreateAccountModal()
+    @openModalView(modal)
 
-  setUpHourOfCode: ->
-    elapsed = (new Date() - new Date(me.get('dateCreated')))
-    if elapsed < 5 * 60 * 1000
-      me.set 'hourOfCode', true
-      me.patch()
-    # We may also insert the tracking pixel for everyone on the WorldMapView so as to count directly-linked visitors.
-    $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
-    application.tracker?.trackEvent 'Hour of Code Begin', {}
+  justPlaysCourses: ->
+    # This heuristic could be better, but currently we don't add to me.get('courseInstances') for single-player anonymous intro courses, so they have to beat a level without choosing a hero.
+    return me.get('stats')?.gamesCompleted and not me.get('heroConfig')
+
+  isNewPlayer: ->
+    not me.get('stats')?.gamesCompleted and not me.get('heroConfig')
+
+  onClickCloseTeacherNoteLink: ->
+    @$('.style-flat').addClass('hide')

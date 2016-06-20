@@ -13,29 +13,35 @@ HIGHEST_SCORE = 1000000
 
 module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
-  template: require 'templates/play/ladder/ladder_tab'
+  template: require 'templates/play/ladder/ladder-tab-view'
 
   events:
     'click .connect-facebook': 'onConnectFacebook'
     'click .connect-google-plus': 'onConnectGPlus'
     'click .name-col-cell': 'onClickPlayerName'
+    'click .spectate-cell': 'onClickSpectateCell'
     'click .load-more-ladder-entries': 'onLoadMoreLadderEntries'
 
-  subscriptions:
-    'auth:facebook-api-loaded': 'checkFriends'
-    'auth:gplus-api-loaded': 'checkFriends'
-    'auth:logged-in-with-facebook': 'onConnectedWithFacebook'
-    'auth:logged-in-with-gplus': 'onConnectedWithGPlus'
+    # Refactored, to-reimplement
+#  subscriptions:
+#    'auth:facebook-api-loaded': 'checkFriends'
+#    'auth:gplus-api-loaded': 'checkFriends'
+#    'auth:logged-in-with-facebook': 'onConnectedWithFacebook'
+#    'auth:logged-in-with-gplus': 'onConnectedWithGPlus'
 
-  constructor: (options, @level, @sessions) ->
-    super(options)
+  initialize: (options, @level, @sessions) ->
     @teams = teamDataFromLevel @level
-    @leaderboards = {}
+    @leaderboards = []
     @refreshLadder()
-    @socialNetworkRes = @supermodel.addSomethingResource('social_network_apis', 0)
-    @checkFriends()
+
+    @capitalize = _.string.capitalize
+
+    # Trying not loading the FP/G+ stuff for now to see if anyone complains they were using it so we can have just two columns.
+    #@socialNetworkRes = @supermodel.addSomethingResource('social_network_apis', 0)
+    #@checkFriends()
 
   checkFriends: ->
+    return  # Skipping for now
     return if @checked or (not window.FB) or (not window.gapi)
     @checked = true
 
@@ -47,7 +53,8 @@ module.exports = class LadderTabView extends CocoView
     FB.getLoginStatus (response) =>
       return if @destroyed
       @facebookStatus = response.status
-      @loadFacebookFriends() if @facebookStatus is 'connected'
+      @onFacebook = view.facebookStatus is 'connected'
+      @loadFacebookFriends() if @onFacebook
       @fbStatusRes.markLoaded()
 
     if application.gplusHandler.loggedIn is undefined
@@ -98,6 +105,7 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = "http://graph.facebook.com/#{friend.facebookID}/picture"
     @facebookFriendSessions = result
+    @friends = @consolidateFriends()
     @render() # because the ladder tab renders before waiting for fb to finish
 
   # GOOGLE PLUS
@@ -111,6 +119,7 @@ module.exports = class LadderTabView extends CocoView
 
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
+      @onGPlus = true
       #@addSomethingToLoad('gplus_friends')
       @gpFriendRes = @supermodel.addSomethingResource('gplus_friends', 0)
       @gpFriendRes.load()
@@ -141,20 +150,25 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = friendsMap[friend.gplusID].image.url
     @gplusFriendSessions = result
+    @friends = @consolidateFriends()
     @render() # because the ladder tab renders before waiting for gplus to finish
 
   # LADDER LOADING
 
   refreshLadder: ->
+    # Only do this so often if not in a league; servers cache a lot of this data for a few minutes anyway.
+    return if not @options.league and (new Date() - 2 * 60 * 1000 < @lastRefreshTime)
+    @lastRefreshTime = new Date()
     @supermodel.resetProgress()
-    @ladderLimit ?= parseInt @getQueryVariable('top_players', 20)
+    @ladderLimit ?= parseInt @getQueryVariable('top_players', if @options.league then 100 else 20)
     for team in @teams
       if oldLeaderboard = @leaderboards[team.id]
         @supermodel.removeModelResource oldLeaderboard
         oldLeaderboard.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
-      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit)
-      @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', {}, 3)
+      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit, @options.league)
+      team.leaderboard = @leaderboards[team.id]
+      @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', {cache: false}, 3)
       @leaderboardRes.load()
 
   render: ->
@@ -165,22 +179,12 @@ module.exports = class LadderTabView extends CocoView
       team = _.find @teams, name: histogramWrapper.data('team-name')
       histogramData = null
       $.when(
-        $.get("/db/level/#{@level.get('slug')}/histogram_data?team=#{team.name.toLowerCase()}", (data) -> histogramData = data)
+        level = "#{@level.get('original')}.#{@level.get('version').major}"
+        url = "/db/level/#{level}/histogram_data?team=#{team.name.toLowerCase()}"
+        url += '&leagues.leagueID=' + @options.league.id if @options.league
+        $.get url, (data) -> histogramData = data
       ).then =>
         @generateHistogram(histogramWrapper, histogramData, team.name.toLowerCase()) unless @destroyed
-
-  getRenderData: ->
-    ctx = super()
-    ctx.level = @level
-    ctx.link = "/play/level/#{@level.get('name')}"
-    ctx.teams = @teams
-    team.leaderboard = @leaderboards[team.id] for team in @teams
-    ctx.levelID = @levelID
-    ctx.friends = @consolidateFriends()
-    ctx.onFacebook = @facebookStatus is 'connected'
-    ctx.onGPlus = application.gplusHandler.loggedIn
-    ctx.capitalize = _.string.capitalize
-    ctx
 
   generateHistogram: (histogramElement, histogramData, teamName) ->
     #renders twice, hack fix
@@ -191,9 +195,9 @@ module.exports = class LadderTabView extends CocoView
       top: 20
       right: 20
       bottom: 30
-      left: 0
+      left: 15
 
-    width = 300 - margin.left - margin.right
+    width = 470 - margin.left - margin.right
     height = 125 - margin.top - margin.bottom
 
     formatCount = d3.format(',.0')
@@ -226,28 +230,34 @@ module.exports = class LadderTabView extends CocoView
       .attr('x', 1)
       .attr('width', width/20)
       .attr('height', (d) -> height - y(d.y))
-    if @leaderboards[teamName].session?
-      playerScore = @leaderboards[teamName].session.get('totalScore') * 100
+    if session = @leaderboards[teamName].session
+      if @options.league
+        playerScore = (_.find(session.get('leagues'), {leagueID: @options.league.id})?.stats.totalScore or 10) * 100
+      else
+        playerScore = session.get('totalScore') * 100
       scorebar = svg.selectAll('.specialbar')
         .data([playerScore])
         .enter().append('g')
         .attr('class', 'specialbar')
-        .attr('transform', "translate(#{x(playerScore)}, #{y(9001)})")
+        .attr('transform', "translate(#{x(playerScore)}, 0)")
 
       scorebar.append('rect')
         .attr('x', 1)
         .attr('width', 3)
-        .attr('height', height - y(9001))
+        .attr('height', height)
     rankClass = 'rank-text'
     if teamName.toLowerCase() is 'ogres' then rankClass = 'rank-text ogres-rank-text'
     if teamName.toLowerCase() is 'humans' then rankClass = 'rank-text humans-rank-text'
 
     message = "#{histogramData.length} players"
     if @leaderboards[teamName].session?
-      if @leaderboards[teamName].myRank <= histogramData.length
-        message="##{@leaderboards[teamName].myRank} of #{histogramData.length}"
+      if @options.league
+        # TODO: fix server handler to properly fetch myRank with a leagueID
+        message = "#{histogramData.length} players in league"
+      else if @leaderboards[teamName].myRank <= histogramData.length
+        message = "##{@leaderboards[teamName].myRank} of #{histogramData.length}"
       else
-        message='Rank your session!'
+        message = 'Rank your session!'
     svg.append('g')
       .append('text')
       .attr('class', rankClass)
@@ -265,7 +275,10 @@ module.exports = class LadderTabView extends CocoView
   consolidateFriends: ->
     allFriendSessions = (@facebookFriendSessions or []).concat(@gplusFriendSessions or [])
     sessions = _.uniq allFriendSessions, false, (session) -> session._id
-    sessions = _.sortBy sessions, 'totalScore'
+    if @options.league
+      sessions = _.sortBy sessions, (session) -> _.find(session.leagues, leagueID: @options.league.id)?.stats.totalScore ? (session.totalScore / 2)
+    else
+      sessions = _.sortBy sessions, 'totalScore'
     sessions.reverse()
     sessions
 
@@ -277,9 +290,23 @@ module.exports = class LadderTabView extends CocoView
     session = new LevelSession _id: row.data 'session-id'
     @openModalView new ModelModal models: [session, player]
 
+  onClickSpectateCell: (e) ->
+    cell = $(e.target).closest '.spectate-cell'
+    row = cell.parent()
+    table = row.closest('table')
+    wasSelected = cell.hasClass 'selected'
+    table.find('.spectate-cell.selected').removeClass 'selected'
+    cell = $(e.target).closest('.spectate-cell').toggleClass 'selected', not wasSelected
+    sessionID = row.data 'session-id'
+    teamID = table.data 'team'
+    @spectateTargets ?= {}
+    @spectateTargets[teamID] = if wasSelected then null else sessionID
+    console.log @spectateTargets, cell, row, table
+
   onLoadMoreLadderEntries: (e) ->
     @ladderLimit ?= 100
     @ladderLimit += 100
+    @lastRefreshTime = null
     @refreshLadder()
 
 module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends CocoClass
@@ -287,24 +314,36 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@level, @team, @session, @limit) ->
+  constructor: (@level, @team, @session, @limit, @league) ->
     super()
+
+  collectionParameters: (parameters) ->
+    parameters.team = @team
+    parameters['leagues.leagueID'] = @league.id if @league
+    parameters
 
   fetch: ->
     console.warn 'Already have top players on', @ if @topPlayers
-    @topPlayers = new LeaderboardCollection(@level, {order: -1, scoreOffset: HIGHEST_SCORE, team: @team, limit: @limit})
+
+    @topPlayers = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit))
     promises = []
-    promises.push @topPlayers.fetch()
+    promises.push @topPlayers.fetch cache: false
 
     if @session
-      score = @session.get('totalScore') or 10
-      @playersAbove = new LeaderboardCollection(@level, {order: 1, scoreOffset: score, limit: 4, team: @team})
-      promises.push @playersAbove.fetch()
-      @playersBelow = new LeaderboardCollection(@level, {order: -1, scoreOffset: score, limit: 4, team: @team})
-      promises.push @playersBelow.fetch()
-      level = "#{@level.get('original')}.#{@level.get('version').major}"
-      success = (@myRank) =>
-      promises.push $.ajax "/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", {success}
+      if @league
+        score = _.find(@session.get('leagues'), {leagueID: @league.id})?.stats.totalScore
+      else
+        score = @session.get('totalScore')
+      if score
+        @playersAbove = new LeaderboardCollection(@level, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
+        promises.push @playersAbove.fetch cache: false
+        @playersBelow = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
+        promises.push @playersBelow.fetch cache: false
+        level = "#{@level.get('original')}.#{@level.get('version').major}"
+        success = (@myRank) =>
+        loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{score}&team=#{@team}"
+        loadURL += '&leagues.leagueID=' + @league.id if @league
+        promises.push $.ajax(loadURL, cache: false, success: success)
     @promise = $.when(promises...)
     @promise.then @onLoad
     @promise.fail @onFail
@@ -326,7 +365,11 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     return me.id in (session.attributes.creator for session in @topPlayers.models)
 
   nearbySessions: ->
-    return [] unless @session?.get('totalScore')
+    if @league
+      score = _.find(@session?.get('leagues'), {leagueID: @league.id})?.stats.totalScore
+    else
+      score = @session?.get('totalScore')
+    return [] unless score
     l = []
     above = @playersAbove.models
     l = l.concat(above)

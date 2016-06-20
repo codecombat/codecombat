@@ -6,4 +6,4 @@ module.exports = class ArticleVersionsModal extends VersionsModal
   page: 'article'
 
   constructor: (options, @ID) ->
-    super options, ID, require 'models/Article'
+    super options, @ID, require 'models/Article'

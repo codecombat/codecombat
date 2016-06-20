@@ -1,5 +1,4 @@
 mongoose = require('mongoose')
-textSearch = require('mongoose-text-search')
 log = require 'winston'
 utils = require '../lib/utils'
 
@@ -180,7 +179,7 @@ module.exports.VersionedPlugin = (schema) ->
         latest = latest[0]
 
         # don't fix missing versions by default. In all likelihood, it's about to change anyway
-        if options.autofix
+        if options.autofix # not used
           latest.version.isLatestMajor = true
           latest.version.isLatestMinor = true
           latestObject = latest.toObject()
@@ -205,7 +204,7 @@ module.exports.VersionedPlugin = (schema) ->
         return done(null, null) if latest.length is 0
         latest = latest[0]
 
-        if options.autofix
+        if options.autofix # not used
           latestObject = latest.toObject()
           latestObject.version.isLatestMajor = true
           latestObject.version.isLatestMinor = true
@@ -268,7 +267,7 @@ module.exports.VersionedPlugin = (schema) ->
 
   # Assume every save is a new version, hence an edit
   schema.pre 'save', (next) ->
-    User = require '../users/User'  # Avoid mutual inclusion cycles
+    User = require '../models/User'  # Avoid mutual inclusion cycles
     userID = @get('creator')?.toHexString()
     return next() unless userID?
 
@@ -293,7 +292,6 @@ module.exports.SearchablePlugin = (schema, options) ->
   index[prop] = 'text' for prop in searchable
 
   # should now have something like {'index': 1, name: 'text', body: 'text'}
-  schema.plugin(textSearch)
   schema.index(index, {sparse: true, name: 'search index', language_override: 'searchLanguage'})
 
   schema.pre 'save', (next) ->
@@ -309,17 +307,17 @@ module.exports.SearchablePlugin = (schema, options) ->
     next()
 
 module.exports.TranslationCoveragePlugin = (schema, options) ->
-  
+
   schema.uses_coco_translation_coverage = true
   schema.set('autoIndex', true)
-  
+
   index = {}
-  
+
   if schema.uses_coco_versions
     if not schema.uses_coco_names
       throw Error('If using translation coverage and versioning, should also use names for indexing.')
     index.slug = 1
-    
+
   index.i18nCoverage = 1
-  
-  schema.index(index, {sparse: true, name: 'translation coverage index', background: true}) 
+
+  schema.index(index, {sparse: true, name: 'translation coverage index', background: true})

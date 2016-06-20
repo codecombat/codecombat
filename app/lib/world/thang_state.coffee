@@ -108,7 +108,7 @@ module.exports = class ThangState
         storage = @trackedPropertyValues[propIndex]
         value = @getStoredProp propIndex, type, storage
       if prop is 'pos'
-        if @thang.teleport and @thang.pos.distanceSquared(value) > 900
+        if (@thang.teleport and @thang.pos.distanceSquared(value) > 900) or (@thang.pos.x is 0 and @thang.pos.y is 0)
           # Don't interpolate; it was probably a teleport. https://github.com/codecombat/codecombat/issues/738
           @thang.pos = value
         else

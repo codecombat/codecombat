@@ -30,7 +30,7 @@ module.exports = class SystemsTabView extends CocoView
     for system in @buildDefaultSystems()
       url = "/db/level.system/#{system.original}/version/#{system.majorVersion}"
       ls = new LevelSystem().setURL(url)
-      @supermodel.loadModel(ls, 'system')
+      @supermodel.loadModel(ls)
 
   afterRender: ->
     @buildSystemsTreema()
@@ -128,7 +128,7 @@ module.exports = class SystemsTabView extends CocoView
     @levelSystemEditView = null
 
   onTerrainChanged: (e) ->
-    defaultPathfinding = e.terrain in ['Dungeon', 'Indoor']
+    defaultPathfinding = e.terrain in ['Dungeon', 'Indoor', 'Mountain', 'Glacier', 'Volcano']
     changed = false
     if AI = @systemsTreema.get 'original=528110f30268d018e3000001'
       unless AI.config?.findsPaths is defaultPathfinding

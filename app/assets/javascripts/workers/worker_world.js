@@ -43,7 +43,7 @@ var console = {
       var args = [].slice.call(arguments);
       for(var i = 0; i < args.length; ++i) {
         if(args[i] && args[i].constructor) {
-          if(args[i].constructor.className === "Thang" || args[i].isComponent)
+          if(args[i].constructor.className === "Thang" || args[i].isComponent || args[i].isVector || args[i].isRectangle || args[i].isEllipse)
             args[i] = args[i].toString();
         }
       }
@@ -63,7 +63,7 @@ var console = {
 console.error = console.warn = console.info = console.debug = console.log;
 self.console = console;
 
-self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
+self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js', '/javascripts/esper.js');
 var myImportScripts = importScripts;
 
 var languagesImported = {};
@@ -84,11 +84,6 @@ var ensureLanguagesImportedFromUserCodeMap = function (userCodeMap) {
 
 
 var restricted = ["XMLHttpRequest", "Worker"];
-if (!self.navigator || !(self.navigator.userAgent.indexOf('MSIE') > 0) && 
-    !self.navigator.userAgent.match(/Trident.*rv\:11\./)) {
-  // Can't restrict 'importScripts' in IE11, skip for all IE versions
-  restricted.push("importScripts");
-}
 for(var i = 0; i < restricted.length; ++i) {
   // We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
   Object.defineProperty(self, restricted[i], {
@@ -279,12 +274,13 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
 self.enableFlowOnThangSpell = function (thangID, spellID, userCodeMap) {
     try {
         var options = userCodeMap[thangID][spellID].originalOptions;
-        if (options.includeFlow === true && options.noSerializationInFlow === true)
+        if (options.includeFlow === true && options.noSerializationInFlow === true && options.noVariablesInFlow === false)
             return;
         else
         {
             options.includeFlow = true;
             options.noSerializationInFlow = true;
+            options.noVariablesInFlow = false;
             var temporaryAether = Aether.deserialize(userCodeMap[thangID][spellID]);
             temporaryAether.transpile(temporaryAether.raw);
             userCodeMap[thangID][spellID] = temporaryAether.serialize();
@@ -310,7 +306,9 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
             self.debugWorld = new World(args.userCodeMap);
             self.debugWorld.levelSessionIDs = args.levelSessionIDs;
             self.debugWorld.submissionCount = args.submissionCount;
+            self.debugWorld.fixedSeed = args.fixedSeed;
             self.debugWorld.flagHistory = args.flagHistory;
+            self.debugWorld.difficulty = args.difficulty;
             if (args.level)
                 self.debugWorld.loadFromLevel(args.level, true);
             self.debugWorld.debugging = true;
@@ -370,7 +368,9 @@ self.runWorld = function runWorld(args) {
     self.world = new World(args.userCodeMap);
     self.world.levelSessionIDs = args.levelSessionIDs;
     self.world.submissionCount = args.submissionCount;
+    self.world.fixedSeed = args.fixedSeed;
     self.world.flagHistory = args.flagHistory || [];
+    self.world.difficulty = args.difficulty || 0;
     if(args.level)
       self.world.loadFromLevel(args.level, true);
     self.world.preloading = args.preload;
@@ -408,15 +408,17 @@ self.onWorldLoaded = function onWorldLoaded() {
     self.goalManager.worldGenerationEnded();
   var goalStates = self.goalManager.getGoalStates();
   var overallStatus = self.goalManager.checkOverallStatus();
-  if(self.world.ended)
-    self.postMessage({type: 'end-load-frames', goalStates: goalStates, overallStatus: overallStatus});
+  var totalFrames = self.world.totalFrames;
+  if(self.world.ended) {
+    var lastFrameHash = self.world.frames[totalFrames - 2].hash
+    self.postMessage({type: 'end-load-frames', goalStates: goalStates, overallStatus: overallStatus, totalFrames: totalFrames, lastFrameHash: lastFrameHash});
+  }
   var t1 = new Date();
   var diff = t1 - self.t0;
   if(self.world.headless)
     return console.log('Headless simulation completed in ' + diff + 'ms.');
 
   var worldEnded = self.world.ended;
-  var totalFrames = self.world.totalFrames;
   var transferableSupported = self.transferableSupported();
   try {
     var serialized = self.world.serialize();
@@ -476,6 +478,7 @@ self.onWorldError = function onWorldError(error) {
   else {
     console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
     self.postMessage({type: 'non-user-code-problem', problem: {message: error.toString()}});
+    return false;
   }
   /*  We don't actually have the recoverable property any more; hmm
   if(!error.recoverable) {

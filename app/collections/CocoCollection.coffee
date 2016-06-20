@@ -15,6 +15,9 @@ module.exports = class CocoCollection extends Backbone.Collection
     @once 'sync', =>
       @loaded = true
       model.loaded = true for model in @models
+    if window.application?.testing
+      @fakeRequests = []
+      @on 'request', -> @fakeRequests.push jasmine.Ajax.requests.mostRecent()
 
   getURL: ->
     return if _.isString @url then @url else @url()
@@ -28,4 +31,6 @@ module.exports = class CocoCollection extends Backbone.Collection
     @loading = true
     @jqxhr
 
-  setProjection: (@project) -> 
+  setProjection: (@project) ->
+
+  stringify: -> return JSON.stringify(@toJSON())

@@ -13,7 +13,7 @@ module.exports = class LevelSessionCodeView extends CocoView
     @session = options.session
     @level = LevelSession.getReferencedModel(@session.get('level'), LevelSession.schema.properties.level)
     @level.setProjection ['employerDescription', 'name', 'icon', 'banner', 'slug']
-    @supermodel.loadModel @level, 'level'
+    @supermodel.loadModel @level
 
   getRenderData: ->
     c = super()

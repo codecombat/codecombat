@@ -11,7 +11,7 @@ module.exports = class PatchesView extends CocoView
 
   events:
     'change .status-buttons': 'onStatusButtonsChanged'
-    'click .patch-icon': 'openPatchModal'
+    'click .patch-row': 'openPatchModal'
 
   constructor: (@model, options) ->
     super(options)
@@ -19,11 +19,12 @@ module.exports = class PatchesView extends CocoView
 
   initPatches: ->
     @startedLoading = false
-    @patches = new PatchesCollection([], {}, @model, @status)
+    @patches = @model.fetchPatchesWithStatus()
 
   load: ->
     @initPatches()
-    @patches = @supermodel.loadCollection(@patches, 'patches').model
+    @patches = @model.fetchPatchesWithStatus(@status, {cache: false})
+    @supermodel.trackCollection(@patches)
     @listenTo @patches, 'sync', @onPatchesLoaded
 
   onPatchesLoaded: ->
@@ -40,6 +41,7 @@ module.exports = class PatchesView extends CocoView
 
   afterRender: ->
     @$el.find(".#{@status}").addClass 'active'
+    super()
 
   onStatusButtonsChanged: (e) ->
     @status = $(e.target).val()
@@ -51,8 +53,8 @@ module.exports = class PatchesView extends CocoView
     @render()
 
   openPatchModal: (e) ->
-    console.log 'open patch modal'
-    patch = _.find @patches.models, {id: $(e.target).data('patch-id')}
+    row = $(e.target).closest '.patch-row'
+    patch = _.find @patches.models, {id: row.data('patch-id')}
     modal = new PatchModal(patch, @model)
     @openModalView(modal)
     @listenTo modal, 'accepted-patch', -> @trigger 'accepted-patch'

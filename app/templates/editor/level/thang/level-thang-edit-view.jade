@@ -2,14 +2,14 @@ div.well
   a(data-i18n="editor.level_components_title")#all-thangs-link Back To All Thangs
   span#thang-props
     a#thang-name-link
-      span= thang.id
-      input.secret(value=thang.id)
+      span= view.thangData.id
+      input.secret(value=view.thangData.id)
     |  ( 
     span(data-i18n="editor.level_components_type") Type
     | : 
     a#thang-type-link
-      span= thang.thangType
-      input.secret(value=thang.thangType)
+      span= view.thangData.thangType
+      input.secret(value=view.thangData.thangType)
     |  ) 
 
 #thang-components-edit-view

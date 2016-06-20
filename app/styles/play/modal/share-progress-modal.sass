@@ -1,0 +1,82 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#share-progress-modal
+
+  .modal-dialog
+    margin: 60px auto 0 auto
+    padding: 0
+    height: 460px
+    width: 700px
+    background: none
+
+  .modal-content
+    height: 100%
+    width: 100%
+
+  .background-img
+    position: absolute
+    top: -61px
+    left: 0px
+    height: 100%
+    width: 100%
+
+  .wizard-img
+    position: absolute
+    top: 70px
+    left: 32px
+    height: 301px
+
+  .blurb-container
+    height: 290px
+    position: absolute
+    right: 50px
+    top: 70px
+    margin: 0
+    width: 300px
+
+    h1
+      font-size: 28px
+      font-weight: bold
+      color: black
+
+    .send-container
+      margin-top: 10px
+      .email-form
+        .email-input
+          width: 200px
+
+      button
+        color: white
+        width: 80px
+        font-size: 28px
+        line-height: 28px
+        text-transform: none
+        font-variant: small-caps
+        font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+      button.back-btn
+        border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+      button.send-btn
+        border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
+
+    .continue-container
+      position: absolute
+      bottom: 0
+    .continue-link
+      color: black
+      font-weight: normal
+      font-size: 11px
+      text-decoration: underline
+
+    .email-invalid
+      color: red
+      display: none
+
+  //- Errors
+
+  .alert
+    position: absolute
+    left: 10%
+    width: 80%
+    top: 20px
+    border: 5px solid gray

@@ -20,7 +20,7 @@ MOVE_SPEED = 13
 overlappableThangTypeNames = ['Torch', 'Chains', 'Bird', 'Cloud 1', 'Cloud 2', 'Cloud 3', 'Waterfall', 'Obstacle', 'Electrowall', 'Spike Walls']
 
 class ThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang.type?project=original,name,version,slug,kind,components'
+  url: '/db/thang.type?project=original,name,version,slug,kind,components,prerenderedSpriteSheetData'
   model: ThangType
 
 module.exports = class ThangsTabView extends CocoView
@@ -90,6 +90,8 @@ module.exports = class ThangsTabView extends CocoView
   getRenderData: (context={}) ->
     context = super(context)
     return context unless @supermodel.finished()
+    for thangType in @thangTypes.models
+      thangType.notInLevel = true
     thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
     thangTypes = _.uniq thangTypes, false, 'original'
     thangTypes = _.reject thangTypes, (tt) -> tt.kind in ['Mark', undefined]
@@ -202,7 +204,6 @@ module.exports = class ThangsTabView extends CocoView
     webGLCanvas = $('canvas#webgl-surface', @$el)
     normalCanvas = $('canvas#normal-surface', @$el)
     @surface = new Surface @world, normalCanvas, webGLCanvas, {
-      wizards: false
       paths: false
       coords: true
       grid: true
@@ -210,9 +211,11 @@ module.exports = class ThangsTabView extends CocoView
       thangTypes: @supermodel.getModels(ThangType)
       showInvisible: true
       frameRate: 15
+      levelType: @level.get 'type', true
     }
     @surface.playing = false
     @surface.setWorld @world
+    @surface.lankBoss.suppressSelectionSounds = true
     @centerCamera()
 
   centerCamera: ->
@@ -482,7 +485,20 @@ module.exports = class ThangsTabView extends CocoView
     return unless @selectedExtantThang
     thang = @getThangByID(@selectedExtantThang.id)
     @thangsTreema.delete(@pathForThang(thang))
+    @deleteEmptyTreema(thang)
     Thang.resetThangIDs()  # TODO: find some way to do this when we delete from treema, too
+
+  deleteEmptyTreema: (thang)->
+    thangType = @supermodel.getModelByOriginal ThangType, thang.thangType
+    children = @thangsTreema.childrenTreemas
+    thangKind = children[thangType.get('kind', true)].data
+    thangName = thangKind[thangType.get('name', true)]
+    if Object.keys(thangName).length == 0
+      folderPath = [thangType.get('kind', true), thangType.get('name', true)].join('/')
+      @thangsTreema.delete(folderPath)
+      if Object.keys(thangKind).length == 0
+        folderPath = [thangType.get('kind', true)].join('/')
+        @thangsTreema.delete(folderPath)
 
   groupThangs: (thangs) ->
     # array of thangs -> foldered thangs
@@ -569,14 +585,14 @@ module.exports = class ThangsTabView extends CocoView
     if batchInsert
       if thangType.get('name') is 'Hero Placeholder'
         thangID = 'Hero Placeholder'
-        return if not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']) or @getThangByID(thangID)
+        return if not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'hero-practice']) or @getThangByID(thangID)
       else
         thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
     else
       thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @getThangByID(thangID)
     if @cloneSourceThang
       components = _.cloneDeep @getThangByID(@cloneSourceThang.id).components
-    else if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    else if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'hero-practice']
       components = []  # Load them all from default ThangType Components
     else
       components = _.cloneDeep thangType.get('components') ? []
@@ -625,9 +641,9 @@ module.exports = class ThangsTabView extends CocoView
   onSpriteContextMenu: (e) ->
     {clientX, clientY} = e.originalEvent.nativeEvent
     if @addThangType
-      $('#duplicate a').html 'Stop Duplicate'
+      $('#duplicate a').html $.i18n.t 'editor.stop_duplicate'
     else
-      $('#duplicate a').html 'Duplicate'
+      $('#duplicate a').html $.i18n.t 'editor.duplicate'
     $('#contextmenu').css { position: 'fixed', left: clientX, top: clientY }
     $('#contextmenu').show()
 
@@ -652,7 +668,7 @@ module.exports = class ThangsTabView extends CocoView
     thangData = @getThangByID thang.id
     thangData = $.extend true, {}, thangData
     unless component = _.find thangData.components, {original: componentOriginal}
-      component = original: componentOriginal, config: {}
+      component = original: componentOriginal, config: {}, majorVersion: 0
       thangData.components.push component
     modificationFunction component
     @thangsTreema.set @pathForThang(thangData), thangData
@@ -662,7 +678,7 @@ module.exports = class ThangsTabView extends CocoView
     lank = @surface.lankBoss.lanks[thang.id]
     lank.update true
     lank.marks.debug?.destroy()
-    lank.marks.debug = null
+    delete lank.marks.debug
     lank.setDebug true
 
   rotateSelectedThangTo: (radians) ->

@@ -1,0 +1,318 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
+
+.nowrap
+  white-space: nowrap
+
+.alternating-background:nth-child(2n+1)
+  background-color: #ebebeb
+
+.alternating-background:nth-child(2n)
+  background-color: $gray-lighter
+
+#teacher-class-view
+  .breadcrumbs
+    color: #065e73
+    a
+      color: #065e73
+      
+  h3
+    display: inline-block
+    
+  h3 ~ .edit-classroom
+    color: black
+    text-decoration: underline
+    
+  .classroom-details
+    .small-details
+      margin-bottom: 4px
+
+  .concept
+    & span
+      white-space: nowrap
+    &.forest
+      color: $forest
+    &.gold
+      color: $gold
+    &+.concept:before
+      content: ', '
+
+  ul.nav-tabs
+    border: none
+    .tab-spacer
+      float: left
+      width: 15px
+      height: 48px
+      border-bottom: thin solid #979797
+      
+    .tab-filler
+      // Triggers block formatting context
+      // http://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width
+      overflow: hidden
+      height: 48px
+      border-bottom: thin solid #979797
+      
+    li > a
+      margin: 0
+      border: thin solid #979797
+      border-bottom: none
+      background: white
+      border-radius: 5px 5px 0 0
+      width: 175px
+      color: black
+      font-family: $headline-font
+    li
+      border-bottom: thin solid #979797
+    li.active
+      border-bottom: none
+  
+  .bulk-assign-controls
+    position: relative
+    float: right
+    margin-bottom: -9999px
+    margin-top: 20px
+    select
+      margin-left: 7px
+    .assign-to-selected-students
+      margin-left: 10px
+    .enroll-selected-students
+      margin-left: 56px
+    .cant-assign-to-unenrolled, .no-students-selected
+      position: absolute
+      top: -24px
+      color: red
+      font-size: 13px
+      visibility: hidden
+      &.visible
+        visibility: visible
+      
+  .students-table
+    width: 100%
+    .student-info-col
+      width: 240px
+    .checkbox-col
+      width: 75px
+    .latest-level-col
+      width: 320px
+    .view-class-col
+      width: 20px
+      
+    th
+      font-weight: normal
+      white-space: nowrap
+      vertical-align: bottom
+    td
+      height: 66px
+
+    .select-all
+      padding-top: 5px
+
+      .checkbox-flat
+        margin-top: 3px
+      
+    .enroll-student-button
+      margin-left: 33%
+      margin-left: calc((100% - 120px - 36px) * 0.6)
+
+  .inline-student-list
+    padding-left: 0
+    
+    // TODO: Fix highlighted text value
+    &:before
+      content: '('
+    &:after
+      content: ')'
+    list-style: none
+    
+    li
+      display: inline
+      .inline-student-name
+        white-space: nowrap
+        // text-decoration: underline
+
+    li:not(:last-child):after
+      content: ', '
+      
+  .student-info
+    max-width: 200px
+    line-height: 20px
+
+    .student-name, .student-email
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+    
+  .level-name
+    white-space: nowrap
+    overflow: ellipsis
+    font-weight: bold
+    // line-height: 20px
+  
+  .sort-button
+    border: none
+    background: none
+    font-weight: bold
+    text-decoration: underline
+
+  .edit-student-button
+    color: black
+    font-weight: bold
+    text-decoration: underline
+
+    .glyphicon
+      color: $gray-light
+      
+  .edit-student-link
+    color: black
+    
+  .remove-student-link
+    color: $burgandy
+
+  .edit-student-link, .remove-student-link
+    display: inline-block
+    font-weight: bold
+    text-decoration: underline
+    line-height: 16px
+      
+  // Course Progress tab
+  
+  #course-progress-tab
+    .course-overview-row
+      margin-top: 50px
+      border: thin solid gray
+      border-radius: 8px
+      
+    .student-levels-table
+      margin-top: 80px
+
+      .sort-buttons
+        padding-left: 75px
+        margin-bottom: 5px
+      
+    .student-levels-row, .course-overview-row
+      padding-left: 75px
+      padding-top: 15px
+      padding-bottom: 30px
+      
+    .student-levels-progress, .course-overview-progress
+      max-width: 880px
+      margin: -5px
+      margin-top: 5px
+      
+    .progress-dot
+      margin: 5px
+    
+    .unassigned-students
+      margin-top: 75px
+      line-height: 45px
+      .student-name, .student-email, .latest-completed
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+        
+      .small-details, .small
+        line-height: 45px
+      .latest-completed
+        white-space: nowrap
+        .level-name
+          display: inline
+
+      .btn
+        margin-top: 6.5px
+        margin-bottom: 6.5px
+    
+      
+  // Checkboxes
+  .checkbox-flat
+    margin: 8px auto
+
+  // TODO: Move to style-flat?
+  .view-class-arrow
+    float: right
+    margin-right: 16px
+    color: $gray-light
+    // height: 100%
+    font-size: 35px
+    line-height: 35px
+    align-self: center
+    .view-class-arrow-inner
+      color: $gray-lighter
+      &:hover
+        text-decoration: none
+
+  .progress-dot
+    display: inline-block
+    margin-right: 6px
+    width: 34px
+    height: 34px
+    border-radius: 50%
+    // margin-top: 23px
+    // margin-bottom: 23px
+    background: $gray-light
+    position: relative
+    .dot-label
+      padding-top: 2px
+      .dot-label-inner
+        font-size: 11px
+        font-weight: bold
+        color: white
+    
+  .progress-dot.forest
+    background: $forest
+    .tooltip-inner
+      color: $forest
+      border-color: $forest
+    .tooltip-arrow
+      border-top-color: $forest
+    
+  .progress-dot.gold
+    background: $gold
+    .tooltip-inner
+      color: $navy
+      border-color: $navy
+    .tooltip-arrow
+      border-top-color: $navy
+
+  // Code copying buttons
+
+  .copy-button-group
+    input
+      height: 50px
+      width: 220px
+      background: #fafafa
+      border: thin solid #979797
+      text-align: center
+      
+    button
+      height: 50px
+      width: 210px
+      float: right
+
+  .export-student-progress-btn
+    margin-top: 10px
+
+  // Enrollment Status Tab
+
+  #search-form-group
+    position: relative
+    input
+      width: auto
+    .glyphicon
+      color: $gray
+      position: absolute
+      top: 8px
+      right: 5px
+      
+  #enrollment-status-table
+    // These column widths are just to keep the cells from resizing on search
+    .checkbox-col
+      width: 75px
+    .student-info-col
+      width: 240px
+    .status-col
+      width: 300px
+    .enroll-col
+      width: 140px
+    td
+      vertical-align: middle

@@ -1,0 +1,72 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#course-victory-modal, #picoctf-victory-modal
+
+  //- Top-level modal container
+  .modal-dialog
+    margin-top: 0
+    padding-top: 0
+    width: 750px
+
+    .modal-content
+      position: relative
+      margin-top: -251px
+
+  //- Header
+
+  .background-wrapper
+    width: 750px
+    background: transparent
+    border: 0px solid transparent
+    border-style: solid
+    border-image: url("/images/pages/play/level/modal/victory_modal_border_background.png") 250 0 100 0 fill round
+    border-width: 250px 0 100px 0
+    border-radius: 12px
+
+  .modal-header
+    border: none
+    position: absolute
+    left: 0px
+    width: 100%
+    height: 134px
+    margin: 0
+    padding: 0
+    top: 74px
+
+    text-align: center
+    .well-parchment
+      display: inline-block
+      h1
+        color: inherit
+        margin: 0
+      
+    #close-modal
+      position: absolute
+      right: 174px
+      color: white
+      top: -15px
+      background: #ba1d00
+      padding: 6px 6px 3px
+
+  .modal-body
+    padding: 30px 20px 0
+    position: relative
+    top: 80px
+    margin-top: 80px
+    
+    .well-parchment
+      margin-top: 20px
+    
+  
+    
+  
+html.no-borderimage
+  #course-victory-modal, #picoctf-victory-modal
+    .modal-dialog
+      margin-top: 251px
+    .background-wrapper
+      border: 0
+      background: url("/images/pages/play/level/modal/victory_modal_background.png")
+      height: 713px
+

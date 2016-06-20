@@ -132,6 +132,16 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
   setWorldLoading: (@worldLoading) ->
     @run() unless @worldLoading
 
+  initializeCamera: ->
+    # Fire off the first bounds-setting script now, before we're actually running any other ones.
+    for script in @scripts
+      for note in script.noteChain or []
+        if note.surface?.focus?
+          surfaceModule = _.find note.modules or [], (module) -> module.surfaceCameraNote
+          cameraNote = surfaceModule.surfaceCameraNote true
+          @publishNote cameraNote
+          return
+
   destroy: ->
     @onEndAll()
     clearInterval @tickInterval
@@ -220,8 +230,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @notifyScriptStateChanged()
     @scriptInProgress = true
     @currentTimeouts = []
-    scriptLabel = "#{@levelID}: #{nextNoteGroup.scriptID} - #{nextNoteGroup.name}"
-    application.tracker?.trackEvent 'Script Started', {label: scriptLabel}, ['Google Analytics']
+    scriptLabel = "#{nextNoteGroup.scriptID} - #{nextNoteGroup.name}"
+    application.tracker?.trackEvent 'Script Started', {levelID: @levelID, label: scriptLabel, ls: @session?.get('_id')}, ['Google Analytics']
     console.debug "SCRIPT: Starting note group '#{nextNoteGroup.name}'" if @debugScripts
     for module in nextNoteGroup.modules
       @processNote(note, nextNoteGroup) for note in module.startNotes()
@@ -259,7 +269,6 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @publishNote(note)
 
   publishNote: (note) ->
-    Backbone.Mediator.publish 'playback:real-time-playback-ended', {} unless @session.get('heroConfig')  # Only old levels need this, to stop interfering with old victory coolcams.
     Backbone.Mediator.publish note.channel, note.event ? {}
 
   # ENDING NOTES
@@ -283,8 +292,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return if @ending # kill infinite loops right here
     @ending = true
     return unless @currentNoteGroup?
-    scriptLabel = "#{@levelID}: #{@currentNoteGroup.scriptID} - #{@currentNoteGroup.name}"
-    application.tracker?.trackEvent 'Script Ended', {label: scriptLabel}, ['Google Analytics']
+    scriptLabel = "#{@currentNoteGroup.scriptID} - #{@currentNoteGroup.name}"
+    application.tracker?.trackEvent 'Script Ended', {levelID: @levelID, label: scriptLabel, ls: @session?.get('_id')}, ['Google Analytics']
     console.debug "SCRIPT: Ending note group '#{@currentNoteGroup.name}'" if @debugScripts
     clearTimeout(timeout) for timeout in @currentTimeouts
     for module in @currentNoteGroup.modules

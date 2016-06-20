@@ -24,12 +24,27 @@ module.exports = class LadderPlayModal extends ModalView
     behaviors: false
     liveCompletion: true
 
-  constructor: (options, @level, @session, @team) ->
-    super(options)
-    @nameMap = {}
-    @otherTeam = if team is 'ogres' then 'humans' else 'ogres'
+  initialize: (options, @level, @session, @team) ->
+    @otherTeam = if @team is 'ogres' then 'humans' else 'ogres'
     @startLoadingChallengersMaybe()
     @wizardType = ThangType.loadUniversalWizard()
+    @levelID = @level.get('slug') or @level.id
+    @language = @session?.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
+    @languages = [
+      {id: 'python', name: 'Python'}
+      {id: 'javascript', name: 'JavaScript'}
+      {id: 'coffeescript', name: 'CoffeeScript (Experimental)'}
+      {id: 'lua', name: 'Lua'}
+      {id: 'java', name: 'Java'}
+    ]
+    @myName = me.get('name') || 'Newcomer'
+
+    teams = []
+    teams[t.id] = t for t in teamDataFromLevel @level
+    @teamColor = teams[@team].primaryColor
+    @teamBackgroundColor = teams[@team].bgColor
+    @opponentTeamColor = teams[@otherTeam].primaryColor
+    @opponentTeamBackgroundColor = teams[@otherTeam].bgColor
 
   updateLanguage: ->
     aceConfig = _.cloneDeep me.get('aceConfig') ? {}
@@ -37,14 +52,20 @@ module.exports = class LadderPlayModal extends ModalView
     aceConfig.language = @$el.find('#tome-language').val()
     me.set 'aceConfig', aceConfig
     me.patch()
+    if @session
+      @session.set 'codeLanguage', aceConfig.language
+      @session.patch()
 
   # PART 1: Load challengers from the db unless some are in the matches
   startLoadingChallengersMaybe: ->
-    matches = @session?.get('matches')
+    if @options.league
+      matches = _.find(@session?.get('leagues'), leagueID: @options.league.id)?.stats.matches
+    else
+      matches = @session?.get('matches')
     if matches?.length then @loadNames() else @loadChallengers()
 
   loadChallengers: ->
-    @challengersCollection = new ChallengersData(@level, @team, @otherTeam, @session)
+    @challengersCollection = new ChallengersData(@level, @team, @otherTeam, @session, @options.league)
     @listenTo(@challengersCollection, 'sync', @loadNames)
 
   # PART 2: Loading the names of the other users
@@ -53,9 +74,15 @@ module.exports = class LadderPlayModal extends ModalView
     @challengers = @getChallengers()
     ids = (challenger.opponentID for challenger in _.values @challengers)
 
+    for challenger in _.values @challengers
+      continue unless challenger and @wizardType.loaded
+      if (not challenger.opponentImageSource) and challenger.opponentWizard?.colorConfig
+        challenger.opponentImageSource = @wizardType.getPortraitSource(
+          {colorConfig: challenger.opponentWizard.colorConfig})
+
     success = (@nameMap) =>
       for challenger in _.values(@challengers)
-        challenger.opponentName = @nameMap[challenger.opponentID]?.name or 'Anoner'
+        challenger.opponentName = @nameMap[challenger.opponentID]?.name or 'Anonymous'
         challenger.opponentWizard = @nameMap[challenger.opponentID]?.wizard or {}
       @checkWizardLoaded()
 
@@ -75,49 +102,14 @@ module.exports = class LadderPlayModal extends ModalView
   # PART 4: Render
 
   finishRendering: ->
+    return if @destroyed
     @checkTutorialLevelExists (exists) =>
       @tutorialLevelExists = exists
       @render()
       @maybeShowTutorialButtons()
-
-  getRenderData: ->
-    ctx = super()
-    ctx.level = @level
-    ctx.levelID = @level.get('slug') or @level.id
-    ctx.teamName = _.string.titleize @team
-    ctx.teamID = @team
-    ctx.otherTeamID = @otherTeam
-    ctx.tutorialLevelExists = @tutorialLevelExists
-    ctx.languages = [
-      {id: 'python', name: 'Python'}
-      {id: 'javascript', name: 'JavaScript'}
-      {id: 'coffeescript', name: 'CoffeeScript'}
-      {id: 'clojure', name: 'Clojure (Experimental)'}
-      {id: 'lua', name: 'Lua (Experimental)'}
-      {id: 'io', name: 'Io (Experimental)'}
-    ]
-    teamsList = teamDataFromLevel @level
-    teams = {}
-    teams[team.id] = team for team in teamsList
-    ctx.teamColor = teams[@team].primaryColor
-    ctx.teamBackgroundColor = teams[@team].bgColor
-    ctx.opponentTeamColor = teams[@otherTeam].primaryColor
-    ctx.opponentTeamBackgroundColor = teams[@otherTeam].bgColor
-
-    ctx.challengers = @challengers or {}
-    for challenger in _.values ctx.challengers
-      continue unless challenger and @wizardType.loaded
-      if (not challenger.opponentImageSource) and challenger.opponentWizard?.colorConfig
-        challenger.opponentImageSource = @wizardType.getPortraitSource(
-          {colorConfig: challenger.opponentWizard.colorConfig})
-
-    if @wizardType.loaded
-      ctx.genericPortrait = @wizardType.getPortraitSource()
-      myColorConfig = me.get('wizard')?.colorConfig
-      ctx.myPortrait = if myColorConfig then @wizardType.getPortraitSource({colorConfig: myColorConfig}) else ctx.genericPortrait
-
-    ctx.myName = me.get('name') || 'Newcomer'
-    ctx
+    @genericPortrait = @wizardType.getPortraitSource()
+    myColorConfig = me.get('wizard')?.colorConfig
+    @myPortrait = if myColorConfig then @wizardType.getPortraitSource({colorConfig: myColorConfig}) else @genericPortrait
 
   maybeShowTutorialButtons: ->
     return if @session or LadderPlayModal.shownTutorialButton or not @tutorialLevelExists
@@ -152,7 +144,10 @@ module.exports = class LadderPlayModal extends ModalView
       mediumInfo = @challengeInfoFromSession(@challengersCollection.mediumPlayer.models[0])
       hardInfo = @challengeInfoFromSession(@challengersCollection.hardPlayer.models[0])
     else
-      matches = @session.get('matches')
+      if @options.league
+        matches = _.find(@session?.get('leagues'), leagueID: @options.league.id)?.stats.matches
+      else
+        matches = @session?.get('matches')
       won = (m for m in matches when m.metrics.rank < m.opponents[0].metrics.rank)
       lost = (m for m in matches when m.metrics.rank > m.opponents[0].metrics.rank)
       tied = (m for m in matches when m.metrics.rank is m.opponents[0].metrics.rank)
@@ -191,18 +186,26 @@ module.exports = class LadderPlayModal extends ModalView
     }
 
 class ChallengersData
-  constructor: (@level, @team, @otherTeam, @session) ->
+  constructor: (@level, @team, @otherTeam, @session, @league) ->
     _.extend @, Backbone.Events
-    score = @session?.get('totalScore') or 25
-    @easyPlayer = new LeaderboardCollection(@level, {order: 1, scoreOffset: score - 5, limit: 1, team: @otherTeam})
-    @easyPlayer.fetch()
-    @listenToOnce(@easyPlayer, 'sync', @challengerLoaded)
-    @mediumPlayer = new LeaderboardCollection(@level, {order: 1, scoreOffset: score, limit: 1, team: @otherTeam})
-    @mediumPlayer.fetch()
-    @listenToOnce(@mediumPlayer, 'sync', @challengerLoaded)
-    @hardPlayer = new LeaderboardCollection(@level, {order: -1, scoreOffset: score + 5, limit: 1, team: @otherTeam})
-    @hardPlayer.fetch()
-    @listenToOnce(@hardPlayer, 'sync', @challengerLoaded)
+    if @league
+      score = _.find(@session?.get('leagues'), leagueID: @league.id)?.stats?.totalScore or 10
+    else
+      score = @session?.get('totalScore') or 10
+    for player in [
+      {type: 'easyPlayer', order: 1, scoreOffset: score - 5}
+      {type: 'mediumPlayer', order: 1, scoreOffset: score}
+      {type: 'hardPlayer', order: -1, scoreOffset: score + 5}
+    ]
+      playerResource = @[player.type] = new LeaderboardCollection(@level, @collectionParameters(order: player.order, scoreOffset: player.scoreOffset))
+      playerResource.fetch cache: false
+      @listenToOnce playerResource, 'sync', @challengerLoaded
+
+  collectionParameters: (parameters) ->
+    parameters.team = @otherTeam
+    parameters.limit = 1
+    parameters['leagues.leagueID'] = @league.id if @league
+    parameters
 
   challengerLoaded: ->
     if @allLoaded()

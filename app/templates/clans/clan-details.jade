@@ -1,0 +1,233 @@
+extends /templates/base
+
+block content
+
+  .modal#editNameModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title(data-i18n="clans.edit_clan_name") Edit Clan Name
+      .modal-body
+        input.edit-name-input(type='text', value="#{clan.get('name')}")
+      .modal-footer
+        button.btn(data-dismiss='modal', data-i18n="modal.close") Close
+        button.btn.edit-name-save-btn(data-i18n="common.save_changes") Save changes
+
+  .modal#editDescriptionModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title(data-i18n="clans.edit_clan_description") Edit Clan Description
+      .modal-body
+        textarea.edit-description-input(rows=2)= clan.get('description')
+      .modal-footer
+        button.btn(data-dismiss='modal', data-i18n="modal.close") Close
+        button.btn.edit-description-save-btn(data-i18n="common.save_changes") Save changes
+
+  .row
+    .col-lg-6
+      if clan
+        h1 #{clan.get('name')}
+          if clan.get('type') === 'private'
+            small(data-i18n="clans.private") (private)
+          if clan.get('ownerID') === me.id
+            span.spl
+              button.btn.btn-xs.edit-name-btn(data-toggle='modal', data-target='#editNameModal', data-i18n="clans.edit_name") edit name
+    
+        if clan.get('description')
+          .clan-description
+            each line in clan.get('description').split('\n')
+              p= line
+        if clan.get('ownerID') === me.id
+          button.btn.btn-xs.edit-description-btn(data-toggle='modal', data-target='#editDescriptionModal', data-i18n="clans.edit_description") edit description
+    
+      h5(data-i18n="clans.summary") Summary
+      table.table.table-condensed.stats-table
+        if owner
+          tr
+            td
+              span.spr(data-i18n="clans.chieftain") Chieftain
+            td
+              span.spr.player-hero-icon(data-memberid="#{clan.get('ownerID')}")
+              a(href="/user/#{clan.get('ownerID')}")= owner.get('name')
+        if stats.averageLevel
+          tr
+            td(data-i18n="clans.average_level") Average Level
+            td= stats.averageLevel
+        if stats.averageAchievements && clan.get('type') === 'public'
+          tr
+            td(data-i18n="clans.average_achievements") Average Achievements
+            td= stats.averageAchievements
+    
+      p
+        if isOwner
+          button.btn.btn-xs.btn-warning.delete-clan-btn(data-i18n="clans.delete_clan") Delete Clan
+        else if isMember
+          button.btn.btn-xs.btn-warning.leave-clan-btn(data-i18n="clans.leave_clan") Leave Clan
+        else
+          button.btn.btn-lg.btn-success.join-clan-btn(data-i18n="clans.join_clan") Join Clan
+    
+      if clan.get('ownerID') === me.id || clan.get('type') === 'public'
+        div
+          span.spl.spr.join-link-prompt(data-i18n="clans.invite_1") Invite:
+          input.join-clan-link(type="text", readonly, value="#{joinClanLink}")
+        .small(data-i18n="clans.invite_2") *Invite players to this Clan by sending them this link.
+
+    if arenas && arenas.length
+      .col-lg-6
+        h2(data-i18n="play.campaign_multiplayer")
+        p(data-i18n="clans.leagues_explanation")
+        for arena in arenas
+          h3
+            a(href="/play/ladder/#{arena.slug}/clan/#{clan.id}")= i18n(arena, 'name')
+
+  if members
+    h3
+      span.spr(data-i18n="clans.members") Members
+      span (#{members.length})
+
+    //- Premium dashboard
+    if clan.get('dashboardType') === 'premium'
+      table.table.table-condensed
+        thead
+          tr
+            th
+              span.member-header.spr(data-i18n="resources.hero") Hero
+              if memberSort === 'nameAsc'
+                span.member-header.glyphicon.glyphicon-chevron-up
+              else if memberSort === 'nameDesc'
+                span.member-header.glyphicon.glyphicon-chevron-down
+            th
+              span.progress-header.spr(data-i18n="clans.progress") Progress
+              if memberSort === 'progressAsc'
+                span.progress-header.glyphicon.glyphicon-chevron-up
+              else if memberSort === 'progressDesc'
+                span.progress-header.glyphicon.glyphicon-chevron-down
+              else
+                span(style='padding-left:16px;')
+              span.spl.progress-key.progress-key-complete(data-i18n="clans.complete_1") complete
+              span.progress-key.progress-key-started(data-i18n="clans.started_1") started
+              span.progress-key(data-i18n="clans.not_started_1") not started
+              input.expand-progress-checkbox(type='checkbox')
+              span.spl.expand-progress-label(data-i18n="clans.exp_levels") Expand levels
+        tbody
+          each member in members
+            tr
+              td
+                div
+                  span.hero-icon-cell
+                    span.spr.player-hero-icon(data-memberid="#{member.id}")
+                  span.code-language-cell
+                    if memberLanguageMap && memberLanguageMap[member.id]
+                      span.code-language-cell(style="background-image: url(/images/common/code_languages/#{memberLanguageMap[member.id]}_small.png)", title=memberLanguageMap[member.id])
+                div
+                  a(href="/user/#{member.id}")= member.get('name') || 'Anonymous'
+                div Level #{member.level()}
+                if isOwner && member.id !== clan.get('ownerID')
+                  button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}", data-i18n="clans.rem_hero") Remove Hero
+              td.progress-cell
+                .level-progression-concepts Concepts
+                each concept in conceptsProgression
+                  if userConceptsMap[member.id] && userConceptsMap[member.id][concept] === 'complete'
+                    span.spr.progress-level-cell.progress-level-cell-complete(data-i18n="concepts." + concept)
+                  else if userConceptsMap[member.id] && userConceptsMap[member.id][concept] === 'started'
+                    span.spr.progress-level-cell.progress-level-cell-started(data-i18n="concepts." + concept)
+                  else
+                    span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
+                .level-progression-levels Levels
+                each campaign in campaignLevelProgressions
+                  if lastUserCampaignLevelMap[member.id] && lastUserCampaignLevelMap[member.id][campaign.ID]
+                    div.level-progression-campaign= campaign.name
+                    - var i = 0
+
+                    each level in campaign.levels
+                      - i++
+                      - var state = null, levelInfo = null
+                      if memberLevelStateMap[member.id][level.slug]
+                        - levelInfo = memberLevelStateMap[member.id][level.slug].levelInfo
+                        - state = memberLevelStateMap[member.id][level.slug].state
+                      if state === 'complete'
+                        span.progress-level-cell.progress-level-cell-complete(data-level-info=levelInfo) #{i}
+                          if showExpandedProgress || i === 1 || i === lastUserCampaignLevelMap[member.id][campaign.ID].index + 1
+                            span.spl #{level.name}
+                          .level-popup-container
+                            h3 #{i}. #{levelInfo.level}
+                            p
+                              div
+                                span(data-i18n="clans.status") Status
+                                span.spr :
+                                span(data-i18n="clans.complete_2") Complete
+                              div
+                                span(data-i18n="clans.playtime") Playtime
+                                span : #{levelInfo.playtime}s
+                              div
+                                span(data-i18n="clans.last_played") Last played
+                                span : #{levelInfo.changed}
+                            if isOwner || me.isAdmin()
+                              strong(data-i18n="clans.view_solution") Click to view solution.
+                      else if state === 'started'
+                        span.progress-level-cell.progress-level-cell-started(data-level-info=levelInfo) #{i}
+                          if showExpandedProgress || i === 1 || i === lastUserCampaignLevelMap[member.id][campaign.ID].index + 1
+                            span.spl #{level.name}
+                          .level-popup-container
+                            h3 #{i}. #{level.name}
+                            p
+                              div
+                                span(data-i18n="clans.status") Status
+                                span.spr :
+                                span(data-i18n="clans.started_2") Started
+                              div
+                                span(data-i18n="clans.playtime") Playtime
+                                span : #{levelInfo.playtime}s
+                              div
+                                span(data-i18n="clans.last_played") Last played
+                                span : #{levelInfo.changed}
+                            if isOwner || me.isAdmin()
+                              strong(data-i18n="clans.view_solution") Click to view solution.
+                      else
+                        span.progress-level-cell.level-progression-level-not-started #{i}
+                          if showExpandedProgress || i === 1 || i === lastUserCampaignLevelMap[member.id][campaign.ID].index + 1
+                            span.spl #{level.name}
+                          .level-popup-container
+                            h3 #{i}. #{level.name}
+                            div
+                              span(data-i18n="clans.status") Status
+                                span.spr :
+                                span(data-i18n="clans.not_started_2") Not Started
+                      if lastUserCampaignLevelMap[member.id][campaign.ID].levelSlug === level.slug
+                        - break
+
+    else
+      //- Basic dashboard
+      table.table.table-striped.table-condensed
+        thead
+          tr
+            th
+            th
+            th.name-cell(data-i18n="clans.name") Name
+            th.level-cell(data-i18n="resources.level") Level
+            th.achievements-cell(data-i18n="play.achievements") Achievements
+            th.latest-achievement-cell(data-i18n="clans.latest_achievement") Latest Achievement
+            th.remove-member-cell
+        tbody
+          each member in members
+            tr
+              td.hero-icon-cell
+                span.spr.player-hero-icon(data-memberid="#{member.id}")
+              td.code-language-cell
+                if memberLanguageMap && memberLanguageMap[member.id]
+                  span.code-language-cell(style="background-image: url(/images/common/code_languages/#{memberLanguageMap[member.id]}_small.png)", title=memberLanguageMap[member.id])
+              td.name-cell
+                a(href="/user/#{member.id}")= member.get('name') || 'Anonymous'
+              td.level-cell= member.level()
+              td.achievements-cell
+                if memberAchievementsMap && memberAchievementsMap[member.id]
+                  | #{memberAchievementsMap[member.id].length}
+              td.latest-achievement-cell
+                if memberAchievementsMap && memberAchievementsMap[member.id] && memberAchievementsMap[member.id].length
+                  span= memberAchievementsMap[member.id][0].get('achievementName')
+              td.remove-member-cell
+                if isOwner && member.id !== clan.get('ownerID')
+                    button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}", data-i18n="clans.rem_hero") Remove Hero

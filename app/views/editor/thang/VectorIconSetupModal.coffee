@@ -12,7 +12,7 @@ module.exports = class VectorIconSetupModal extends ModalView
     'click #center': 'onClickCenter'
     'click #zero-bounds': 'onClickZeroBounds'
     'click #done-button': 'onClickDone'
-    
+
   shortcuts:
     'shift+-': -> @incrScale(-0.02)
     'shift+=': -> @incrScale(0.02)
@@ -40,18 +40,11 @@ module.exports = class VectorIconSetupModal extends ModalView
     actions.portrait.container = @container
     @thangType.set('actions', actions)
     @thangType.buildActions()
-    
-  getRenderData: -> 
-    c = super()
-    c.containers = @containers
-    c.chosenContainer = @container
-    c.demoSize = @demoSize
-    c
-    
+
   afterRender: ->
     @initStage()
     super()
-    
+
   initStage: ->
     return unless @containers and @container
     @stage = @thangType.getVectorPortraitStage(@demoSize)
@@ -65,7 +58,7 @@ module.exports = class VectorIconSetupModal extends ModalView
     @container = $(e.target).val()
     @saveChanges()
     @initStage()
-    
+
   refreshSprite: ->
     return unless @stage
     stage = @thangType.getVectorPortraitStage(@demoSize)
@@ -76,8 +69,8 @@ module.exports = class VectorIconSetupModal extends ModalView
 
   updateSpriteProperties: ->
     @sprite.scaleX = @sprite.scaleY = @scale * @demoSize / 100
-    @sprite.regX = @regX
-    @sprite.regY = @regY
+    @sprite.regX = @regX / @scale
+    @sprite.regY = @regY / @scale
     console.log 'set to', @scale, @regX, @regY
 
   onClickCenter: ->
@@ -91,6 +84,8 @@ module.exports = class VectorIconSetupModal extends ModalView
       @regY += (b[3] - b[2]) / 2
     else
       @regX += (b[2] - b[3]) / 2
+    @regX *= @scale
+    @regY *= @scale
     @updateSpriteProperties()
     @stage.update()
 
@@ -98,7 +93,7 @@ module.exports = class VectorIconSetupModal extends ModalView
     @scale += amount
     @updateSpriteProperties()
     @stage.update()
-    
+
   incrRegX: (amount) ->
     @regX += amount
     @updateSpriteProperties()
@@ -108,7 +103,7 @@ module.exports = class VectorIconSetupModal extends ModalView
     @regY += amount
     @updateSpriteProperties()
     @stage.update()
-    
+
   onClickDone: ->
     @saveChanges()
     @trigger 'done'

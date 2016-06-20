@@ -15,4 +15,11 @@ module.exports = class DiplomatSuggestionModal extends ModalView
     me.patch()
     $('#email_translator').prop('checked', 1)
     @hide()
-    return
+    noty {
+      text: $.i18n.t 'account_settings.saved'
+      layout: 'topCenter'
+      timeout: 5000
+      type: 'information'
+    }
+    Backbone.Mediator.publish 'router:navigate',
+      route: "/contribute/diplomat"

@@ -8,13 +8,15 @@ module.exports = [
         focus:
           bounds: [{x: 0, y: 0}, {x: 80, y: 68}]
           target: "Hero Placeholder"
-          zoom: 2
+          zoom: 0.5
       sound:
         music:
           file: "/music/music_level_2"
           play: true
       script:
         duration: 1
+      playback:
+        playing: false
     ]
   }
 ]

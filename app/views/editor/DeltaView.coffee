@@ -36,7 +36,7 @@ module.exports = class DeltaView extends CocoView
       @[modelName] = options[modelName]
       continue unless @[modelName] and options.loadModels
       if not @[modelName].isLoaded
-        @[modelName] = @supermodel.loadModel(@[modelName], 'document').model
+        @[modelName] = @supermodel.loadModel(@[modelName]).model
 
     @buildDeltas() if @supermodel.finished()
 
@@ -71,14 +71,8 @@ module.exports = class DeltaView extends CocoView
       if skip then skippedDeltas.push delta else newDeltas.push delta
     [newDeltas, skippedDeltas]
 
-  getRenderData: ->
-    c = super()
-    c.deltas = @expandedDeltas
-    c.counter = DeltaView.deltaCounter
-    DeltaView.deltaCounter += @expandedDeltas.length
-    c
-
   afterRender: ->
+    DeltaView.deltaCounter += @expandedDeltas.length
     deltas = @$el.find('.details')
     for delta, i in deltas
       deltaEl = $(delta)

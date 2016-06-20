@@ -1,6 +1,7 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'
+storage = require 'core/storage'
 
 require 'vendor/jasmine-bundle'
 require 'tests'
@@ -12,19 +13,35 @@ module.exports = TestView = class TestView extends RootView
   id: 'test-view'
   template: template
   reloadOnClose: true
-  loadedFileIDs: []
+  className: 'style-flat'
+  
+  events:
+    'click #show-demos-btn': 'onClickShowDemosButton'
+    'click #hide-demos-btn': 'onClickHideDemosButton'
 
   # INITIALIZE
 
-  constructor: (options, @subPath='') ->
-    super(options)
+  initialize: (options, @subPath='') ->
     @subPath = @subPath[1..] if @subPath[0] is '/'
-    
+    @demosOn = storage.load('demos-on')
+    @failureReports = []
+    @loadedFileIDs = []
+
   afterInsert: ->
     @initSpecFiles()
     @render()
-    TestView.runTests(@specFiles)
+    TestView.runTests(@specFiles, @demosOn, @)
     window.runJasmine()
+    
+  # EVENTS
+
+  onClickShowDemosButton: ->
+    storage.save('demos-on', true)
+    document.location.reload()
+
+  onClickHideDemosButton: ->
+    storage.remove('demos-on')
+    document.location.reload()
 
   # RENDER DATA
 
@@ -42,26 +59,59 @@ module.exports = TestView = class TestView extends RootView
     @specFiles = TestView.getAllSpecFiles()
     if @subPath
       prefix = TEST_REQUIRE_PREFIX + @subPath
-      @specFiles = (f for f in @specFiles when f.startsWith prefix)
+      @specFiles = (f for f in @specFiles when _.string.startsWith f, prefix)
 
-  @runTests: (specFiles) ->
+  @runTests: (specFiles, demosOn=false, view) ->
+    
+    jasmine.getEnv().addReporter({
+      suiteStack: []
+      
+      specDone: (result) ->
+        if result.status is 'failed'
+          console.log 'result', result
+          report = {
+            suiteDescriptions: _.clone(@suiteStack)
+            failMessages: (fe.message for fe in result.failedExpectations)
+            testDescription: result.description
+          }
+          view.failureReports.push(report)
+          view.renderSelectors('#failure-reports')
+        
+      suiteStarted: (result) ->
+        @suiteStack.push(result.description)
+
+      suiteDone: (result) ->
+        @suiteStack.pop()
+        
+    })
+    
+    application.testing = true
     specFiles ?= @getAllSpecFiles()
-    describe 'CodeCombat Client', =>
-      jasmine.Ajax.install()
-      beforeEach ->
-        jasmine.Ajax.requests.reset()
-        Backbone.Mediator.init()
-        Backbone.Mediator.setValidationEnabled false
-        # TODO Stubbify more things
-        #   * document.location
-        #   * firebase
-        #   * all the services that load in main.html
+    if demosOn
+      jasmine.demoEl = _.once ($el) ->
+        $('#demo-area').append($el)
+      jasmine.demoModal = _.once (modal) ->
+        currentView.openModalView(modal)
+    else
+      jasmine.demoEl = _.noop
+      jasmine.demoModal = _.noop
 
-      afterEach ->
-        # TODO Clean up more things
-        #   * Events
+    jasmine.Ajax.install()
+    beforeEach ->
+      jasmine.Ajax.requests.reset()
+      Backbone.Mediator.init()
+      Backbone.Mediator.setValidationEnabled false
+      spyOn(application.tracker, 'trackEvent')
+      # TODO Stubbify more things
+      #   * document.location
+      #   * firebase
+      #   * all the services that load in main.html
 
-      require f for f in specFiles # runs the tests
+    afterEach ->
+      # TODO Clean up more things
+      #   * Events
+
+    require f for f in specFiles # runs the tests
 
   @getAllSpecFiles = ->
     allFiles = window.require.list()

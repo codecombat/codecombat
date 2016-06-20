@@ -34,7 +34,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
     valEl.append($('<div class="preview"></div>').hide())
 
   addImageUpload: (valEl) ->
-    return unless me.isAdmin()
+    return unless me.isAdmin() or me.isArtisan()
     valEl.append(
       $('<div class="pick-image-button"></div>').append(
         $('<button>Pick Image</button>')
@@ -96,8 +96,16 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
 
   buildValueForDisplay: (valEl, data) ->
     mimetype = "audio/#{@keyForParent}"
+    mimetypes = [mimetype]
+    if mimetype is 'audio/mp3'
+      # https://github.com/codecombat/codecombat/issues/445
+      # http://stackoverflow.com/questions/10688588/which-mime-type-should-i-use-for-mp3
+      mimetypes.push 'audio/mpeg'
+    else if mimetype is 'audio/ogg'
+      mimetypes.push 'application/ogg'
+      mimetypes.push 'video/ogg'  # huh, that's what it took to be able to upload ogg sounds in Firefox
     pickButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-upload"></span></a>')
-      .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
+      .click(=> filepicker.pick {mimetypes: mimetypes}, @onFileChosen)
     playButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-play"></span></a>')
       .click(@playFile)
     stopButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-stop"></span></a>')
@@ -116,7 +124,7 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
     menu = $('<div class="dropdown-menu"></div>')
     files = @getFiles()
     for file in files
-      continue unless file.get('contentType') is mimetype
+      continue unless file.get('contentType') in mimetypes
       path = file.get('metadata').path
       filename = file.get 'filename'
       fullPath = [path, filename].join('/')
@@ -230,9 +238,8 @@ codeLanguages =
   javascript: 'ace/mode/javascript'
   coffeescript: 'ace/mode/coffee'
   python: 'ace/mode/python'
-  clojure: 'ace/mode/clojure'
   lua: 'ace/mode/lua'
-  io: 'ace/mode/text'
+  java: 'ace/mode/java'
 
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
@@ -248,12 +255,9 @@ class CodeTreema extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
     @workingSchema.aceTabSize = 4
-
-  buildValueForEditing: (valEl, data) ->
-    super(valEl, data)
-    if not @workingSchema.aceMode and mode = codeLanguages[@keyForParent]
-      @editor.getSession().setMode mode
-    valEl
+    # TODO: Find a less hacky solution for this
+    @workingSchema.aceMode = mode if mode = codeLanguages[@keyForParent]
+    @workingSchema.aceMode = mode if mode = codeLanguages[@parent?.data?.language]
 
 class CoffeeTreema extends CodeTreema
   constructor: ->
@@ -313,7 +317,7 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
 
 class LatestVersionCollection extends CocoCollection
 
-class LatestVersionReferenceNode extends TreemaNode
+module.exports.LatestVersionReferenceNode = class LatestVersionReferenceNode extends TreemaNode
   searchValueTemplate: '<input placeholder="Search" /><div class="treema-search-results"></div>'
   valueClass: 'treema-latest-version'
   url: '/db/article'
@@ -383,7 +387,11 @@ class LatestVersionReferenceNode extends TreemaNode
     m = CocoModel.getReferencedModel(@getData(), @workingSchema)
     data = @getData()
     if _.isString data  # LatestVersionOriginalReferenceNode just uses original
-      m = @settings.supermodel.getModelByOriginal(m.constructor, data)
+      if m.schema().properties.version
+        m = @settings.supermodel.getModelByOriginal(m.constructor, data)
+      else
+        # get by id
+        m = @settings.supermodel.getModel(m.constructor, data)
     else
       m = @settings.supermodel.getModelByOriginalAndMajorVersion(m.constructor, data.original, data.majorVersion)
     if @instance and not m
@@ -434,13 +442,22 @@ class LatestVersionReferenceNode extends TreemaNode
     selected = @getSelectedResultEl()
     return not selected.length
 
-class LatestVersionOriginalReferenceNode extends LatestVersionReferenceNode
+module.exports.LatestVersionOriginalReferenceNode = class LatestVersionOriginalReferenceNode extends LatestVersionReferenceNode
   # Just for saving the original, not the major version.
   saveChanges: ->
     selected = @getSelectedResultEl()
     return unless selected.length
     fullValue = selected.data('value')
     @data = fullValue.attributes.original
+    @instance = fullValue
+
+module.exports.IDReferenceNode = class IDReferenceNode extends LatestVersionReferenceNode
+  # Just for saving the _id
+  saveChanges: ->
+    selected = @getSelectedResultEl()
+    return unless selected.length
+    fullValue = selected.data('value')
+    @data = fullValue.attributes._id
     @instance = fullValue
 
 class LevelComponentReferenceNode extends LatestVersionReferenceNode

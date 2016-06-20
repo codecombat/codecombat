@@ -3,7 +3,7 @@ errors = require '../commons/errors'
 mongoose = require 'mongoose'
 config = require('../../server_config')
 request = require 'request'
-User = require '../users/User'
+User = require '../models/User'
 
 module.exports.setup = (app) ->
   app.get '/github/auth_callback', (req, res) ->
@@ -28,26 +28,35 @@ module.exports.setup = (app) ->
           return log.error err if err?
           githubUser = JSON.parse response
           log.info 'Got GitHub auth callback response', githubUser
-          emailLower = githubUser.email?.toLowerCase()
-          if not emailLower
-            return errors.serverError res, "Problem finding GitHub user with that identity."
+          
+          request.get {uri: 'https://api.github.com/user/emails', headers: headers}, (err, r, response) ->
+            return log.error err if err?
+            githubUserEmails = JSON.parse response
+            log.info 'Got GitHub user emails', githubUserEmails
+            
+            emailLower = _.find githubUserEmails, (email) -> email.primary is true
+            emailLower = emailLower.email.toLowerCase()
+            log.info 'Got primary Github email', emailLower
+          
+            if not emailLower
+             return errors.serverError res, "Problem finding GitHub user with that identity."
 
-          # GitHub users can change emails
-          User.findOne {$or: [{emailLower: emailLower}, {githubID: githubUser.id}]}, (err, user) ->
-            return errors.serverError res, err if err?
-            wrapup = (err, user) ->
+            # GitHub users can change emails
+            User.findOne {$or: [{emailLower: emailLower}, {githubID: githubUser.id}]}, (err, user) ->
               return errors.serverError res, err if err?
-              req.login (user), (err) ->
+              wrapup = (err, user) ->
                 return errors.serverError res, err if err?
-                res.redirect '/'
-            unless user
-              req.user.set 'email', githubUser.email
-              req.user.set 'githubID', githubUser.id
-              req.user.save wrapup
-            else if user.get('githubID') isnt githubUser.id # Add or replace githubID to/with existing user
-              user.set 'githubID', githubUser.id
-              user.save wrapup
-            else if user.get('emailLower') isnt emailLower # Existing GitHub user with us changed email
-              user.update {email: githubUser.email}, (err) -> wrapup err, user
-            else # All good you've been here before
-              wrapup null, user
+                req.login (user), (err) ->
+                  return errors.serverError res, err if err?
+                  res.redirect '/'
+              unless user
+                req.user.set 'email', emailLower
+                req.user.set 'githubID', githubUser.id
+                req.user.save wrapup
+              else if user.get('githubID') isnt githubUser.id # Add or replace githubID to/with existing user
+                user.set 'githubID', githubUser.id
+                user.save wrapup
+              else if user.get('emailLower') isnt emailLower # Existing GitHub user with us changed email
+                user.update {email: emailLower}, (err) -> wrapup err, user
+              else # All good you've been here before
+                wrapup null, user

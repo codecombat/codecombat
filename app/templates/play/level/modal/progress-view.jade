@@ -1,0 +1,51 @@
+.modal-header
+  #close-modal.btn.well.well-sm.well-parchment(data-dismiss="modal")
+    span.glyphicon.glyphicon-remove
+  .well.well-sm.well-parchment
+    h1(data-i18n='play_level.level_complete')
+
+.modal-body
+  .container-fluid
+    .row
+      - var colClass = !view.nextLevel.isNew() ? 'col-sm-7' : 'col-sm-12'
+      div(class=colClass)
+        .well.well-sm.well-parchment
+          h3.text-uppercase(data-i18n='play_level.completed_level')
+          h2.text-uppercase.text-center= i18n(view.level.attributes, 'name')
+        .well.well-sm.well-parchment
+          if me.isSessionless()
+            h3.course-title
+              span.text-uppercase.spr(data-i18n='play_level.course')
+              span.text-uppercase.text-center= i18n(view.course.attributes, 'name')
+            span(data-i18n='play_level.victory_no_progress_for_teachers')
+
+          else
+            h3.text-uppercase(data-i18n='play_level.course')
+            .row
+              .col-sm-8
+                h3.text-uppercase.text-center= i18n(view.course.attributes, 'name')
+              .col-sm-4
+                - var stats = view.classroom.statsForSessions(view.levelSessions, view.course.id)
+                h1
+                  span #{stats.levels.numDone}/#{stats.levels.size}
+            
+        
+      if !view.nextLevel.isNew()
+        .col-sm-5
+          .well.well-sm.well-parchment
+            h3.text-uppercase
+              span(data-i18n='play_level.next_level')
+              span :
+            h2.text-uppercase= i18n(view.nextLevel.attributes, 'name').replace('Course: ', '')
+            
+            div!= view.nextLevelDescription
+        
+    .row
+      .col-sm-5.col-sm-offset-2
+      // TODO: Add this and rest of campaign functionality
+      //  button#continue-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase View Leaderboards
+      .col-sm-5
+        if !view.nextLevel.isNew()
+          button#next-level-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.next_level')
+        else
+          button#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.done')

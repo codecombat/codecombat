@@ -13,13 +13,8 @@ module.exports = class ModelModal extends ModalView
     super options
     @models = options.models
     for model in @models when not model.loaded
-      @supermodel.loadModel model, 'source_document'
-      model.fetch()
-
-  getRenderData: ->
-    c = super()
-    c.models = @models
-    c
+      @supermodel.loadModel model
+      model.fetch cache: false
 
   afterRender: ->
     return unless @supermodel.finished()

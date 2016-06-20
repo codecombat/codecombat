@@ -1,3 +1,5 @@
+utils = require 'core/utils'
+
 Aether.addGlobal 'Vector', require './world/vector'
 Aether.addGlobal '_', _
 
@@ -9,8 +11,11 @@ module.exports.createAetherOptions = (options) ->
     functionName: options.functionName
     protectAPI: not options.skipProtectAPI
     includeFlow: Boolean options.includeFlow
+    noVariablesInFlow: true
+    skipDuplicateUserInfoInFlow: true  # Optimization that won't work if we are stepping with frames
     yieldConditionally: options.functionName is 'plan'
     simpleLoops: true
+    whileTrueAutoYield: true
     globals: ['Vector', '_']
     problems:
       jshint_W040: {level: 'ignore'}
@@ -22,8 +27,9 @@ module.exports.createAetherOptions = (options) ->
       aether_MissingThis: {level: 'error'}
     problemContext: options.problemContext
     #functionParameters: # TODOOOOO
-    executionLimit: 1 * 1000 * 1000
+    executionLimit: 3 * 1000 * 1000
     language: options.codeLanguage
+    useInterpreter: true
   parameters = functionParameters[options.functionName]
   unless parameters
     console.warn "Unknown method #{options.functionName}: please add function parameters to lib/aether_utils.coffee."

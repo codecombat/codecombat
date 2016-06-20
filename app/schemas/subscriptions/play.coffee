@@ -105,8 +105,6 @@ module.exports =
   'playback:ended-changed': c.object {required: ['ended']},
     ended: {type: 'boolean'}
 
-  'level:play-next-level': c.object {}
-
   'level:toggle-playing': c.object {}
 
   'level:toggle-grid': c.object {}
@@ -173,3 +171,7 @@ module.exports =
     hero: {type: 'object'}
 
   'level:subscription-required': c.object {}
+
+  'level:course-membership-required': c.object {}
+
+  'level:contact-button-pressed': c.object {title: 'Contact Pressed', description: 'Dispatched when the contact button is pressed in a level.'}

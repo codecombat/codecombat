@@ -25,6 +25,7 @@ module.exports = class God extends CocoClass
       workerCode: options.workerCode or '/javascripts/workers/worker_world.js'  # Either path or function
       headless: options.headless  # Whether to just simulate the goals, or to deserialize all simulation results
       spectate: options.spectate
+      god: @
       godNick: @nick
       workQueue: []
       firstWorld: true
@@ -61,8 +62,11 @@ module.exports = class God extends CocoClass
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
 
   onTomeCast: (e) ->
+    return unless e.god is @
     @lastSubmissionCount = e.submissionCount
+    @lastFixedSeed = e.fixedSeed
     @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
+    @lastDifficulty = e.difficulty
     @createWorld e.spells, e.preload, e.realTime
 
   createWorld: (spells, preload, realTime) ->
@@ -86,18 +90,22 @@ module.exports = class God extends CocoClass
     return if hadPreloader
 
     @angelsShare.workQueue = []
-    @angelsShare.workQueue.push
+    work =
       userCodeMap: userCodeMap
       level: @level
       levelSessionIDs: @levelSessionIDs
       submissionCount: @lastSubmissionCount
+      fixedSeed: @lastFixedSeed
       flagHistory: @lastFlagHistory
+      difficulty: @lastDifficulty
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless
       preload: preload
       synchronous: not Worker?  # Profiling world simulation is easier on main thread, or we are IE9.
       realTime: realTime
+    @angelsShare.workQueue.push work
     angel.workIfIdle() for angel in @angelsShare.angels
+    work
 
   getUserCodeMap: (spells) ->
     userCodeMap = {}
@@ -122,7 +130,9 @@ module.exports = class God extends CocoClass
         level: @level
         levelSessionIDs: @levelSessionIDs
         submissionCount: @lastSubmissionCount
+        fixedSeed: @fixedSeed
         flagHistory: @lastFlagHistory
+        difficulty: @lastDifficulty
         goals: @goalManager?.getGoals()
         frame: args.frame
         currentThangID: args.thangID
@@ -139,9 +149,9 @@ module.exports = class God extends CocoClass
       when 'console-log'
         console.log "|#{@nick}'s debugger|", event.data.args...
       when 'debug-value-return'
-        Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized
+        Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized, god: @
       when 'debug-world-load-progress-changed'
-        Backbone.Mediator.publish 'god:debug-world-load-progress-changed', progress: event.data.progress
+        Backbone.Mediator.publish 'god:debug-world-load-progress-changed', progress: event.data.progress, god: @
 
   onNewWorldCreated: (e) ->
     @currentUserCodeMap = @filterUserCodeMapWhenFromWorld e.world.userCodeMap

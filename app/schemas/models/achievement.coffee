@@ -19,13 +19,14 @@ MongoFindQuerySchema =
   title: 'Query'
   type: 'object'
   patternProperties:
-    '^[-a-zA-Z0-9.]*$':
+    '^[-a-zA-Z0-9._]*$':
       anyOf: [
         {$ref: '#/definitions/mongoQueryOperator'},
         {type: 'string'}
         {type: 'object'}
         {type: 'boolean'}
       ]
+  properties: {}
   additionalProperties: false
   definitions: {}
 
@@ -66,7 +67,7 @@ _.extend AchievementSchema.properties,
     type: 'object'
     description: 'Function that gives total experience for X amount achieved'
     properties:
-      kind: {enum: ['linear', 'logarithmic', 'quadratic'] }
+      kind: {enum: ['linear', 'logarithmic', 'quadratic', 'pow'] }
       parameters:
         type: 'object'
         default: { a: 1, b: 0, c: 0 }
@@ -91,5 +92,6 @@ AchievementSchema.definitions = {}
 AchievementSchema.definitions['mongoQueryOperator'] = MongoQueryOperatorSchema
 AchievementSchema.definitions['mongoFindQuery'] = MongoFindQuerySchema
 c.extendTranslationCoverageProperties AchievementSchema
+c.extendPatchableProperties AchievementSchema
 
 module.exports = AchievementSchema

@@ -6,14 +6,87 @@ class Vector
     do (name) ->
       Vector[name] = (a, b, useZ) ->
         a.copy()[name](b, useZ)
+  for name in ['magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared']
+    do (name) ->
+      Vector[name] = (a, b, useZ) ->
+        a[name](b, useZ)
 
   isVector: true
-  apiProperties: ['x', 'y', 'z', 'magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared', 'rotate']
+  apiProperties: ['x', 'y', 'z', 'magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared', 'add', 'subtract', 'multiply', 'divide', 'limit', 'normalize', 'rotate']
 
-  constructor: (@x=0, @y=0, @z=0) ->
+  constructor: (x=0, y=0, z=0) ->
+    return new Vector x, y, z unless @ instanceof Vector
+    [@x, @y, @z] = [x, y, z]
 
   copy: ->
     new Vector(@x, @y, @z)
+
+
+  # Mutating methods:
+
+  normalize: (useZ) ->
+    m = @magnitude useZ
+    @divide m, useZ if m > 0
+    @
+
+  esper_normalize: (useZ) ->
+    @copy().normalize(useZ)
+
+  limit: (max) ->
+    if @magnitude() > max
+      @normalize()
+      @multiply(max)
+    else
+      @
+
+  esper_limit: (max) ->
+    @copy().limit(max)
+
+  subtract: (other, useZ) ->
+    @x -= other.x
+    @y -= other.y
+    @z -= other.z if useZ
+    @
+
+  esper_subtract: (other, useZ) ->
+    @copy().subtract(other, useZ)
+
+  add: (other, useZ) ->
+    @x += other.x
+    @y += other.y
+    @z += other.z if useZ
+    @
+
+  esper_add: (other, useZ) ->
+    @copy().add(other, useZ)
+
+  divide: (n, useZ) ->
+    [@x, @y] = [@x / n, @y / n]
+    @z = @z / n if useZ
+    @
+
+  esper_divide: (n, useZ) ->
+    @copy().divide(n, useZ)
+
+  multiply: (n, useZ) ->
+    [@x, @y] = [@x * n, @y * n]
+    @z = @z * n if useZ
+    @
+
+  esper_multiply: (n, useZ) ->
+    @copy().multiply(n, useZ)
+
+  # Rotate it around the origin
+  # If we ever want to make this also use z: https://en.wikipedia.org/wiki/Axes_conventions
+  rotate: (theta) ->
+    return @ unless theta
+    [@x, @y] = [Math.cos(theta) * @x - Math.sin(theta) * @y, Math.sin(theta) * @x + Math.cos(theta) * @y]
+    @
+
+  esper_rotate: (theta) ->
+    @copy().rotate(theta)
+
+  # Non-mutating methods:
 
   magnitude: (useZ) ->
     sum = @x * @x + @y * @y
@@ -24,18 +97,6 @@ class Vector
     sum = @x * @x + @y * @y
     sum += @z * @z if useZ
     sum
-
-  normalize: (useZ) ->
-    m = @magnitude useZ
-    @divide m, useZ if m > 0
-    @
-
-  limit: (max) ->
-    if @magnitude() > max
-      @normalize()
-      return @multiply(max)
-    else
-      @
 
   heading: ->
     -1 * Math.atan2(-1 * @y, @x)
@@ -58,31 +119,9 @@ class Vector
       sum += dz * dz
     sum
 
-  subtract: (other, useZ) ->
-    @x -= other.x
-    @y -= other.y
-    @z -= other.z if useZ
-    @
-
-  add: (other, useZ) ->
-    @x += other.x
-    @y += other.y
-    @z += other.z if useZ
-    @
-
-  divide: (n, useZ) ->
-    [@x, @y] = [@x / n, @y / n]
-    @z = @z / n if useZ
-    @
-
-  multiply: (n, useZ) ->
-    [@x, @y] = [@x * n, @y * n]
-    @z = @z * n if useZ
-    @
-
   dot: (other, useZ) ->
     sum = @x * other.x + @y * other.y
-    sum += @z + other.z if useZ
+    sum += @z * other.z if useZ
     sum
 
   # Not the strict projection, the other isn't converted to a unit vector first.
@@ -99,20 +138,12 @@ class Vector
     result = result and @z is other.z if useZ
     result
 
-  # Rotate it around the origin
-  # If we ever want to make this also use z: https://en.wikipedia.org/wiki/Axes_conventions
-  rotate: (theta) ->
-    return @ unless theta
-    [@x, @y] = [Math.cos(theta) * @x - Math.sin(theta) * @y, Math.sin(theta) * @x + Math.cos(theta) * @y]
-    @
-
   invalid: () ->
     return (@x is Infinity) || isNaN(@x) || @y is Infinity || isNaN(@y) || @z is Infinity || isNaN(@z)
 
-  toString: (useZ) ->
-    useZ = true
-    return "{x: #{@x.toFixed(0)}, y: #{@y.toFixed(0)}, z: #{@z.toFixed(0)}}" if useZ
-    return "{x: #{@x.toFixed(0)}, y: #{@y.toFixed(0)}}"
+  toString: (precision = 2) ->
+    return "{x: #{@x.toFixed(precision)}, y: #{@y.toFixed(precision)}, z: #{@z.toFixed(precision)}}"
+
 
   serialize: ->
     {CN: @constructor.className, x: @x, y: @y, z: @z}

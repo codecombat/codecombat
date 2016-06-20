@@ -652,7 +652,7 @@ function printHelpClicksPostHaunted() {
 initVideoEventCounts();
 printVideoCompletionRates();
 
-// printWatchedAnotherVideoRates();
-// printLevelCompletionRates();
-// printSubConversionTotals();
+printWatchedAnotherVideoRates();
+printLevelCompletionRates();
+printSubConversionTotals();
 printHelpClicksPostHaunted();

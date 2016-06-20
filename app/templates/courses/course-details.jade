@@ -1,0 +1,120 @@
+extends /templates/base
+
+block content
+
+  if me.isTeacher()
+    .alert.alert-danger.text-center
+      // DNT: Temporary
+      h3 ATTENTION TEACHERS:
+      p We are transitioning to a new classroom management system; this page will soon be student-only.
+      a(href="/teachers/classes") Go to teachers area.
+  
+  if view.teacherMode
+    a(href="/teachers/classes", data-i18n="courses.back_classrooms")
+  else
+    a(href="/courses", data-i18n="courses.back_courses")
+  br
+  br
+
+  p
+    // TODO: format this text all good and stuff
+    strong
+      if view.courseInstance.get('name')
+        span= view.courseInstance.get('name')
+      else if view.classroom.get('name')
+        span= view.classroom.get('name')
+      else
+        span(data-i18n='courses.unnamed_class')
+
+    if !view.owner.isNew() && view.getOwnerName() && view.courseInstance.get('name') != 'Single Player'
+      span.spl -
+      span.spl(data-i18n='courses.teacher')
+      span.spr :
+      //a(href="/user/#{view.owner.id}")  // Don't link to profiles until we improve them
+      span
+        strong= view.getOwnerName()
+
+  h1
+    | #{view.course.get('name')}
+    if view.courseComplete
+      span.spl -
+      span.spl(data-i18n='courses.complete')
+      span !
+
+  p
+    if view.courseInstance.get('description')
+      each line in view.courseInstance.get('description').split('\n')
+        div= line
+
+  if view.courseComplete && !view.teacherMode
+    .jumbotron
+      .row
+        .col-md-6
+          if view.arenaLevel
+            a.btn.btn-lg.btn-success.btn-play-level(data-level-slug=view.arenaLevel.get('slug'), data-level-id=view.arenaLevel.get('original'))
+              h1
+                span(data-i18n='courses.arena')
+                span.spr :
+                span= view.arenaLevel.get('name')
+              p= view.arenaLevel.get('description').replace(/!\[.*?\)/, '')
+          else
+            a.btn.btn-lg.btn-success.disabled
+              h1(data-i18n='courses.arena_soon_title')
+              p
+                span.spr(data-i18n='courses.arena_soon_description')
+                span= view.course.get('name')
+                span .
+        .col-md-6
+          if view.nextCourseInstance && _.contains(view.nextCourseInstance.get('members'), me.id)
+            a.btn.btn-lg.btn-success(href="/courses/#{view.nextCourse.id}/#{view.nextCourseInstance.id}")
+              h1= view.nextCourse.get('name')
+              p= view.nextCourse.get('description')
+          else if view.nextCourse
+            a.btn.btn-lg.btn-success.disabled
+              h1= view.nextCourse.get('name')
+              p.text-uppercase
+                em(data-i18n='courses.not_enrolled1')
+              p(data-i18n='courses.not_enrolled2')
+          else
+            a.btn.btn-lg.btn-success(disabled=!view.nextCourse ? "disabled" : "")
+              h1(data-i18n='courses.next_course')
+              p.text-uppercase
+                em(data-i18n='courses.coming_soon1')
+              p(data-i18n='courses.coming_soon2')
+
+  .available-courses-title(data-i18n='courses.available_levels')
+  table.table.table-striped.table-condensed
+    thead
+      tr
+        th
+        th(data-i18n="clans.status")
+        th(data-i18n="resources.level")
+        th(data-i18n="courses.concepts")
+    tbody
+      - var previousLevelCompleted = true;
+      - var lastLevelCompleted = view.getLastLevelCompleted();
+      - var passedLastCompletedLevel = !lastLevelCompleted;
+      - var levelCount = 0;
+      each level in view.levels.models
+        - var levelStatus = null;
+        if view.userLevelStateMap[me.id]
+          - levelStatus = view.userLevelStateMap[me.id][level.get('original')]
+        tr
+          td
+            if previousLevelCompleted || view.teacherMode || !passedLastCompletedLevel || levelStatus
+              - var i18n = level.get('type') === 'course-ladder' ? 'play.compete' : 'home.play';
+              button.btn.btn-success.btn-play-level(data-level-slug=level.get('slug'), data-i18n=i18n, data-level-id=level.get('original'))
+          td
+            if view.userLevelStateMap[me.id]
+              div= view.userLevelStateMap[me.id][level.get('original')]
+              - previousLevelCompleted = view.userLevelStateMap[me.id][level.get('original')] === 'complete'
+            else
+              - previousLevelCompleted = false
+          td= ++levelCount + '. ' + level.get('name').replace('Course: ', '')
+          td
+            if view.levelConceptMap[level.get('original')]
+              each concept in view.course.get('concepts')
+                if view.levelConceptMap[level.get('original')][concept]
+                  span.spr.concept(data-i18n="concepts." + concept)
+          if level.get('original') === lastLevelCompleted
+            - passedLastCompletedLevel = true

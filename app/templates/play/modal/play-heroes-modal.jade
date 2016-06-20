@@ -37,7 +37,11 @@
               .hero-stat-row
                 .stat-label(data-i18n='choose_hero.status')
                 .stat-value.hero-status-value(data-i18n=hero.restricted ? 'inventory.restricted_title' : (hero.purchasable ? 'play.purchasable' : (hero.locked ? 'play.locked' : 'play.available')))
-                
+              
+              .hero-stat-row
+                .stat-label(data-i18n='choose_hero.hero_type')  
+                .stat-value(data-i18n='general.' +hero.class)
+
               .hero-stat-row
                 .stat-label(data-i18n='choose_hero.weapons')
                 .stat-value(data-i18n='choose_hero.weapons_'+hero.class)
@@ -48,11 +52,11 @@
                     .stat-label(data-i18n='choose_hero.skills')
                     .stat-value= hero.stats.skills.join(', ')
                 for stat in ['attack', 'health', 'speed']
-                  .hero-stat-row(class=stat)
+                  .hero-stat-row(class=stat, title=hero.stats[stat].description)
                     .stat-label(data-i18n='choose_hero.'+stat)
                     .stat-value
                       .stat-progress
-                        .stat-progress-bar(style="width: " + (parseInt(hero.stats[stat]*100)) + "%")
+                        .stat-progress-bar(style="width: " + (parseInt(hero.stats[stat].relative * 100)) + "%")
       
       a.left(role="button", data-slide="prev", href="#hero-carousel")
         span.glyphicon.glyphicon-play
@@ -80,7 +84,7 @@
             span.spr(data-i18n="play.unlock") Unlock
             - if(!visibleHero.get('gems')) {
             -   console.error('Huh, we loaded the hero with no gem cost.');
-            -   visibleHero.set('gems', {ninja: 400, librarian: 400}[visibleHero.get('slug')] || 1000);
+            -   visibleHero.set('gems', {ninja: 400, librarian: 630, samurai: 1000, trapper: 1400, "potion-master": 1800, "forest-archer": 2500, sorcerer: 3400, raiser: 4600, necromancer: 6300, pixie: 8500, goliath: 12000, guardian: 16000, "dark-wizard": 21000, assassin: 29000}[visibleHero.get('slug')] || 99999);
             - }
             span= visibleHero.get('gems')
             span.gem.gem-20

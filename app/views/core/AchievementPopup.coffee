@@ -65,7 +65,7 @@ module.exports = class AchievementPopup extends CocoView
     if @popup
       hide = =>
         return if @destroyed
-        @$el.animate {left: 600}, =>
+        @$el.animate {left: -600}, =>
           @$el.remove()
           @destroy()
       @$el.animate left: 0
@@ -85,4 +85,4 @@ module.exports = class AchievementPopup extends CocoView
     _.delay @initializeTooltips, 1000 # TODO this could be smoother
 
   initializeTooltips: ->
-    $('.progress-bar').tooltip()
+    $('.progress-bar').addClass('has-tooltip').tooltip()

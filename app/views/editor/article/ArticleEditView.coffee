@@ -16,19 +16,19 @@ module.exports = class ArticleEditView extends RootView
     'click #history-button': 'showVersionHistory'
     'click #save-button': 'openSaveModal'
 
-  subscriptions:
-    'editor:save-new-version': 'saveNewArticle'
-
   constructor: (options, @articleID) ->
     super options
-    @article = new Article(_id: @articleID)
+    @article = new Article({_id: @articleID})
     @article.saveBackups = true
-    @supermodel.loadModel @article, 'article'
+    @supermodel.loadModel @article
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
   onLoaded: ->
     super()
     @buildTreema()
+    @listenTo @article, 'change', =>
+      @article.updateI18NCoverage()
+      @treema.set('/', @article.attributes)
 
   buildTreema: ->
     return if @treema? or (not @article.loaded)
@@ -51,14 +51,12 @@ module.exports = class ArticleEditView extends RootView
     return unless @treema and @preview
     m = marked(@treema.data.body)
     b = $(@preview.document.body)
-    b.find('#insert').html(m)
-    b.find('#title').text(@treema.data.name)
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.article = @article
-    context.authorized = not me.get('anonymous')
-    context
+    onLoadHandler = =>
+      if b.find('#insert').length == 1
+        b.find('#insert').html(m)
+        b.find('#title').text(@treema.data.name)
+        clearInterval(id)
+    id = setInterval(onLoadHandler, 100)
 
   afterRender: ->
     super()
@@ -68,22 +66,25 @@ module.exports = class ArticleEditView extends RootView
     @patchesView.load()
 
   openPreview: ->
-    @preview = window.open('/editor/article/preview', 'preview', 'height=800,width=600')
+    if not @preview or @preview.closed
+      @preview = window.open('/editor/article/preview', 'preview', 'height=800,width=600')
     @preview.focus() if window.focus
     @preview.onload = => @pushChangesToPreview()
     return false
 
   openSaveModal: ->
-    @openModalView(new SaveVersionModal({model: @article}))
+    modal = new SaveVersionModal({model: @article, noNewMajorVersions: true})
+    @openModalView(modal)
+    @listenToOnce modal, 'save-new-version', @saveNewArticle
+    @listenToOnce modal, 'hidden', -> @stopListening(modal)
 
   saveNewArticle: (e) ->
     @treema.endExistingEdits()
     for key, value of @treema.data
       @article.set(key, value)
 
-    newArticle = if e.major then @article.cloneNewMajorVersion() else @article.cloneNewMinorVersion()
-    newArticle.set('commitMessage', e.commitMessage)
-    res = newArticle.save()
+    @article.set('commitMessage', e.commitMessage)
+    res = @article.saveNewMinorVersion()
     return unless res
     modal = @$el.find('#save-version-modal')
     @enableModalInProgress(modal)
@@ -94,7 +95,7 @@ module.exports = class ArticleEditView extends RootView
     res.success =>
       @article.clearBackup()
       modal.modal('hide')
-      url = "/editor/article/#{newArticle.get('slug') or newArticle.id}"
+      url = "/editor/article/#{@article.get('slug') or @article.id}"
       document.location.href = url
 
   showVersionHistory: (e) ->

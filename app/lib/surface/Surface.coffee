@@ -44,15 +44,14 @@ module.exports = Surface = class Surface extends CocoClass
   debug: false
 
   defaults:
-    wizards: true
     paths: true
     grid: false
     navigateToSelection: true
     choosing: false # 'point', 'region', 'ratio-region'
     coords: null  # use world defaults, or set to false/true to override
-    playJingle: false
     showInvisible: false
     frameRate: 30  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
+    levelType: 'hero'
 
   subscriptions:
     'level:disable-controls': 'onDisableControls'
@@ -113,9 +112,9 @@ module.exports = Surface = class Surface extends CocoClass
     canvasHeight = parseInt @normalCanvas.attr('height'), 10
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
 
-    @lankBoss = new LankBoss camera: @camera, webGLStage: @webGLStage, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
+    @lankBoss = new LankBoss camera: @camera, webGLStage: @webGLStage, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible, playerNames: if @options.levelType is 'course-ladder' then @options.playerNames else null
     @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer, showsCountdown: @world.showsCountdown
-    @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer
+    @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer, playerNames: @options.playerNames
     @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
     @waitingScreen = new WaitingScreen camera: @camera, layer: @screenLayer
     @initCoordinates()
@@ -160,16 +159,10 @@ module.exports = Surface = class Surface extends CocoClass
     return if @loaded
     @loaded = true
     @lankBoss.createMarks()
-    @lankBoss.createIndieLanks @world.indieSprites, @options.wizards
     @updateState true
     @drawCurrentFrame()
     createjs.Ticker.addEventListener 'tick', @tick
     Backbone.Mediator.publish 'level:started', {}
-
-  createOpponentWizard: (opponent) ->
-    @lankBoss.createOpponentWizard opponent
-
-
 
   #- Update loop
 
@@ -537,10 +530,20 @@ module.exports = Surface = class Surface extends CocoClass
       newWidth = 0.55 * pageWidth
       newHeight = newWidth / aspectRatio
     return unless newWidth > 0 and newHeight > 0
-    return if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
+
     #scaleFactor = if application.isIPadApp then 2 else 1  # Retina
     scaleFactor = 1
-    @normalCanvas.add(@webGLCanvas).attr width: newWidth * scaleFactor, height: newHeight * scaleFactor
+    if @options.stayVisible
+      availableHeight = window.innerHeight
+      availableHeight -= $('.ad-container').outerHeight() 
+      availableHeight -= $('#game-area').outerHeight() - $('#canvas-wrapper').outerHeight()
+      scaleFactor = availableHeight / newHeight if availableHeight < newHeight
+    newWidth *= scaleFactor
+    newHeight *= scaleFactor
+
+    return if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
+    return if newWidth < 200 or newHeight < 200
+    @normalCanvas.add(@webGLCanvas).attr width: newWidth, height: newHeight
 
     # Cannot do this to the webGLStage because it does not use scaleX/Y.
     # Instead the LayerAdapter scales webGL-enabled layers.
@@ -549,8 +552,9 @@ module.exports = Surface = class Surface extends CocoClass
     @normalStage.scaleY *= newHeight / oldHeight
     @camera.onResize newWidth, newHeight
     if @options.spectateGame
-      # Since normalCanvas is absolutely positioned, it needs help aligning with webGLCanvas. But not further than +149px (1920px screen).
-      @normalCanvas.css 'left', Math.min 149, @webGLCanvas.offset().left
+      # Since normalCanvas is absolutely positioned, it needs help aligning with webGLCanvas.
+      offset = @webGLCanvas.offset().left - ($('#page-container').innerWidth() - $('#canvas-wrapper').innerWidth()) / 2
+      @normalCanvas.css 'left', offset
 
   #- Camera focus on hero
   focusOnHero: ->
@@ -570,7 +574,6 @@ module.exports = Surface = class Surface extends CocoClass
     return if @realTime
     @realTime = true
     @onResize()
-    @lankBoss.selfWizardLank?.toggle false
     @playing = false  # Will start when countdown is done.
     if @heroLank
       @previousCameraZoom = @camera.zoom
@@ -581,7 +584,6 @@ module.exports = Surface = class Surface extends CocoClass
     @realTime = false
     @onResize()
     _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
-    @lankBoss.selfWizardLank?.toggle true
     @normalCanvas.add(@webGLCanvas).removeClass 'flag-color-selected'
     if @previousCameraZoom
       @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000

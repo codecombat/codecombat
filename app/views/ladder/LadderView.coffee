@@ -12,6 +12,10 @@ SimulateTabView = require './SimulateTabView'
 LadderPlayModal = require './LadderPlayModal'
 CocoClass = require 'core/CocoClass'
 
+Clan = require 'models/Clan'
+CourseInstance = require 'models/CourseInstance'
+Course = require 'models/Course'
+
 HIGHEST_SCORE = 1000000
 
 class LevelSessionsCollection extends CocoCollection
@@ -33,51 +37,67 @@ module.exports = class LadderView extends RootView
   events:
     'click .play-button': 'onClickPlayButton'
     'click a:not([data-toggle])': 'onClickedLink'
+    'click .spectate-button': 'onClickSpectateButton'
 
-  constructor: (options, @levelID) ->
-    super(options)
-    @level = @supermodel.loadModel(new Level(_id: @levelID), 'level').model
-    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(levelID), 'your_sessions').model
+  initialize: (options, @levelID, @leagueType, @leagueID) ->
+    @level = @supermodel.loadModel(new Level(_id: @levelID)).model
+    @level.once 'sync', =>
+      @levelDescription = marked(@level.get('description')) if @level.get('description')
+      @teams = teamDataFromLevel @level
+    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
+    @winners = require('./tournament_results')[@levelID]
 
-    @teams = []
+    if tournamentEndDate = {greed: 1402444800000, 'criss-cross': 1410912000000, 'zero-sum': 1428364800000, 'ace-of-coders': 1444867200000}[@levelID]
+      @tournamentTimeLeft = moment(new Date(tournamentEndDate)).fromNow()
+    if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000}[@levelID]
+      @tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
 
-  onLoaded: ->
-    @teams = teamDataFromLevel @level
-    super()
+    @loadLeague()
 
-  getRenderData: ->
-    ctx = super()
-    ctx.level = @level
-    ctx.link = "/play/level/#{@level.get('name')}"
-    ctx.teams = @teams
-    ctx.levelID = @levelID
-    ctx.levelDescription = marked(@level.get('description')) if @level.get('description')
-    ctx._ = _
-    if tournamentDate = {greed: 1402444800000, 'criss-cross': 1410912000000}[@levelID]
-      ctx.tournamentTimeLeft = moment(new Date(tournamentDate)).fromNow()
-    ctx.winners = require('./tournament_results')[@levelID]
-    ctx
+  loadLeague: ->
+    @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
+    return unless @leagueID
+    modelClass = if @leagueType is 'clan' then Clan else CourseInstance
+    @league = @supermodel.loadModel(new modelClass(_id: @leagueID)).model
+    if @leagueType is 'course'
+      if @league.loaded
+        @onCourseInstanceLoaded @league
+      else
+        @listenToOnce @league, 'sync', @onCourseInstanceLoaded
+
+  onCourseInstanceLoaded: (courseInstance) ->
+    return if @destroyed
+    course = new Course({_id: courseInstance.get('courseID')})
+    @course = @supermodel.loadModel(course).model
+    @listenToOnce @course, 'sync', @render
 
   afterRender: ->
     super()
     return unless @supermodel.finished()
-    @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
-    @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
-    @insertSubView(@simulateTab = new SimulateTabView())
-    @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), 20 * 1000)
+    @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions))
+    @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
+    @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
+    highLoad = true
+    @refreshDelay = switch
+      when not application.isProduction() then 10  # Refresh very quickly in develompent.
+      when @league then 20                         # Refresh quickly when looking at a league ladder.
+      when not highLoad then 30                    # Refresh slowly when in production.
+      when not me.isAnonymous() then 60            # Refresh even more slowly during HoC scaling.
+      else 300                                     # Refresh super slowly if anonymous during HoC scaling.
+    @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), @refreshDelay * 1000)
     hash = document.location.hash[1..] if document.location.hash
     if hash and not (hash in ['my-matches', 'simulate', 'ladder', 'prizes', 'rules', 'winners'])
       @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
     return if @destroyed or application.userIsIdle or (new Date() - 2000 < @lastRefreshTime) or not @supermodel.finished()
-    @sessions.fetch({'success': @refreshViews})
+    @sessions.fetch success: @refreshViews, cache: false
 
   refreshViews: =>
     return if @destroyed or application.userIsIdle
     @lastRefreshTime = new Date()
     @ladderTab.refreshLadder()
-    @myMatchesTab.refreshMatches()
+    @myMatchesTab.refreshMatches @refreshDelay
     @simulateTab.refresh()
 
   onIdleChanged: (e) ->
@@ -86,26 +106,31 @@ module.exports = class LadderView extends RootView
   onClickPlayButton: (e) ->
     @showPlayModal($(e.target).closest('.play-button').data('team'))
 
-  showPlayModal: (teamID) ->
-    return @showApologeticSignupModal() if me.get('anonymous')
-    session = (s for s in @sessions.models when s.get('team') is teamID)[0]
-    modal = new LadderPlayModal({}, @level, session, teamID)
-    @openModalView modal
+  onClickSpectateButton: (e) ->
+    humanSession = @ladderTab.spectateTargets?.humans
+    ogreSession = @ladderTab.spectateTargets?.ogres
+    return unless humanSession and ogreSession
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    url = "/play/spectate/#{@level.get('slug')}?session-one=#{humanSession}&session-two=#{ogreSession}"
+    url += '&league=' + @league.id if @league
+    url += '&autoplay=false' if key.command
+    window.open url, if key.command then '_blank' else 'spectate'  # New tab for spectating specific matches
+    #Backbone.Mediator.publish 'router:navigate', route: url
 
-  showApologeticSignupModal: ->
-    AuthModal = require 'views/core/AuthModal'
-    @openModalView(new AuthModal({showRequiredError: true}))
+  showPlayModal: (teamID) ->
+    session = (s for s in @sessions.models when s.get('team') is teamID)[0]
+    modal = new LadderPlayModal({league: @league}, @level, session, teamID)
+    @openModalView modal
 
   onClickedLink: (e) ->
     link = $(e.target).closest('a').attr('href')
-    if link?.startsWith('/play/level') and me.get('anonymous')
-      e.stopPropagation()
-      e.preventDefault()
-      @showApologeticSignupModal()
     if link and /#rules$/.test link
       @$el.find('a[href="#rules"]').tab('show')
     if link and /#prizes/.test link
       @$el.find('a[href="#prizes"]').tab('show')
+    if link and /#winners/.test link
+      @$el.find('a[href="#winners"]').tab('show')
 
   destroy: ->
     clearInterval @refreshInterval

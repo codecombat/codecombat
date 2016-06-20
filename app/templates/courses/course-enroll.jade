@@ -1,0 +1,93 @@
+extends /templates/base
+
+block content
+
+  div
+    span *UNDER CONSTRUCTION, send feedback to
+    a.spl(href='mailto:team@codecombat.com') team@codecombat.com
+  div(style='border-bottom: 1px solid black')
+
+  if view.state === 'declined' || view.state === 'unknown_error'
+    p
+      .alert.alert-danger
+        span.spr(data-i18n="loading_error.error")
+        span #{view.stateMessage}
+
+  if view.state === 'creating'
+    p
+      .alert.alert-info(data-i18n="courses.creating_class")
+  else if view.state === 'purchasing'
+    p
+      .alert.alert-info(data-i18n="courses.purchasing_course")
+  else
+    .well.well-lg.enroll-container
+      if view.price > 0
+        h1.center(data-i18n="courses.buy_course")
+      else
+        h1.center(data-i18n="courses.create_class")
+      h3
+        span 1.
+        span.spl(data-i18n="courses.course")
+      if view.courses.size() > 2
+        p(data-i18n="courses.select_all_courses")
+      .form-group
+        select.form-control.course-select
+          each course in view.courses.models
+            option(value="#{course.id}")= course.get('name')
+          if view.courses.size() > 1
+            option(value="All Courses", data-i18n="courses.all_courses")
+      .form-group
+        label(data-i18n="choose_hero.programming_language")
+        select.form-control#programming-language-select
+          option(value="python", selected=view.selectedLanguage==='python') Python
+          option(value="javascript", selected=view.selectedLanguage==='javascript') JavaScript
+
+      if view.price > 0
+        h3
+          span 2.
+          span.spl(data-i18n="courses.number_students")
+        p(data-i18n="courses.enter_number_students")
+        input.input-seats(type='text', value="#{view.seats}")
+
+      h3
+        if view.price > 0
+          span 3.
+        else
+          span 2.
+        span.spl(data-i18n="courses.name_class")
+      p(data-i18n="courses.displayed_course_page")
+      input.class-name(type='text', placeholder="Mrs. Smith's 4th Period", value="#{view.className ? view.className : ''}")
+
+      if view.price > 0
+        h3
+          span 4.
+          span.spl(data-i18n="courses.buy") Buy
+      else
+        h3
+          span 3.
+          span.spl(data-i18n="courses.create_class")
+      p
+        if view.price > 0
+          span.spr(data-i18n="courses.purchasing_for")
+        else
+          span.spr(data-i18n="courses.creating_for")
+        strong.spr #{view.selectedCourseTitle}
+        if view.price > 0
+          span.spr(data-i18n="courses.for")
+          strong
+            span #{view.seats}
+            span.spl(data-i18n="courses.students1")
+          span #{'.'}
+      p(data-i18n="courses.receive_code")
+      p.center
+        if view.price > 0
+          button.btn.btn-success.btn-lg.btn-buy $#{(view.price / 100.0).toFixed(2)}
+        else
+          button.btn.btn-success.btn-lg.btn-buy(data-i18n="courses.create_class")
+      +trial-and-questions
+
+mixin trial-and-questions
+  h3(data-i18n="courses.questions")
+  p
+    span.spr Please contact
+    a(href='mailto:team@codecombat.com') team@codecombat.com

@@ -17,7 +17,7 @@ module.exports = class UsersView extends RootView
     # http://mongoosejs.com/docs/queries.html
     # Each list in conditions is a function call.
     # The first arg is the function name
-    # The rest are the agrs for the function
+    # The rest are the args for the function
 
     conditions = [
       ['limit', 20]

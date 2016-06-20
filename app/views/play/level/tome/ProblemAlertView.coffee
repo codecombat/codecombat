@@ -18,7 +18,7 @@ module.exports = class ProblemAlertView extends CocoView
 
   events:
     'click .close': 'onRemoveClicked'
-    'click #problem-alert-help-button': 'onClickProblemAlertHelp'
+    'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
 
   constructor: (options) ->
     super options
@@ -36,8 +36,14 @@ module.exports = class ProblemAlertView extends CocoView
     $(window).off 'resize', @onWindowResize
     super()
 
-  getRenderData: (context={}) ->
-    context = super context
+  afterRender: ->
+    super()
+    if @problem?
+      @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}").hide().fadeIn('slow')
+      @$el.addClass('no-hint') unless @problem.aetherProblem.hint
+      @playSound 'error_appear'
+
+  setProblemMessage: ->
     if @problem?
       format = (s) -> marked(s.replace(/</g, '&lt;').replace(/>/g, '&gt;')) if s?
       message = @problem.aetherProblem.message
@@ -50,16 +56,8 @@ module.exports = class ProblemAlertView extends CocoView
             message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"
           else
             message = "Time #{age.toFixed(1)}: #{message}"
-      context.message = format message
-      context.hint = format @problem.aetherProblem.hint
-    context
-
-  afterRender: ->
-    super()
-    if @problem?
-      @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}").hide().fadeIn('slow')
-      @$el.addClass('no-hint') unless @problem.aetherProblem.hint
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'error_appear', volume: 1.0
+      @message = format message
+      @hint = format @problem.aetherProblem.hint
 
   onShowProblemAlert: (data) ->
     return unless $('#code-area').is(":visible")
@@ -72,15 +70,16 @@ module.exports = class ProblemAlertView extends CocoView
     @lineOffsetPx = data.lineOffsetPx or 0
     @$el.show()
     @onWindowResize()
+    @setProblemMessage()
     @render()
     @onJiggleProblemAlert()
-    application.tracker?.trackEvent 'Show problem alert', levelID: @level.get('slug')
+    application.tracker?.trackEvent 'Show problem alert', {levelID: @level.get('slug'), ls: @session?.get('_id')}
 
   onJiggleProblemAlert: ->
     return unless @problem?
     @$el.show() unless @$el.is(":visible")
     @$el.addClass 'jiggling'
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'error_appear', volume: 1.0
+    @playSound 'error_appear'
     pauseJiggle = =>
       @$el?.removeClass 'jiggling'
     _.delay pauseJiggle, 1000
@@ -89,13 +88,10 @@ module.exports = class ProblemAlertView extends CocoView
     return unless @$el.is(':visible')
     @onRemoveClicked()
 
-  onClickProblemAlertHelp: ->
-    application.tracker?.trackEvent 'Problem alert help clicked', levelID: @level.get('slug')
-    @openModalView new GameMenuModal showTab: 'guide', level: @level, session: @session, supermodel: @supermodel
-
   onRemoveClicked: ->
     @playSound 'menu-button-click'
     @$el.hide()
+    Backbone.Mediator.publish 'tome:focus-editor', {}
 
   onWindowResize: (e) =>
     # TODO: This all seems a little hacky

@@ -1,4 +1,6 @@
-h2 Testing Page
+#demo-area
+
+h2#test-h2 Testing Page
 
 ol.breadcrumb
   for path in parentFolders
@@ -6,19 +8,42 @@ ol.breadcrumb
       a(href=path.url)= path.name
   li.active= currentFolder
 
-.well.pull-left#test-wrapper
-  #testing-area
-    
-.nav.nav-pills.nav-stacked.pull-right.well#test-nav
-  for child in children
-    li(class=child.type)
-      a(href=child.url).small
-        if child.type == 'folder'
-          span.glyphicon.glyphicon-folder-close
-        else
-          span.glyphicon.glyphicon-file
-        span.spl= child.name
-        if child.type == 'folder'
-          strong (#{child.size})
+.container-fluid
+  .row
+    .col-md-8
+      #failure-reports
+        for report in view.failureReports
+          .alert.alert-danger.alert-report
+            ul.suite-list
+              for description in report.suiteDescriptions
+                li= description
+              li
+                strong ... #{report.testDescription}
+            hr
+            ol.error-list
+              for message in report.failMessages
+                li
+                  strong= message
+      
+      #test-wrapper.well
+        #testing-area
 
-.clearfix
+    .col-md-4.hidden-sm.hidden-xs
+      .nav.nav-pills.nav-stacked.well#test-nav
+        if view.demosOn
+          button#hide-demos-btn.btn.btn-danger.btn-block Hide Demos
+        else
+          button#show-demos-btn.btn.btn-info.btn-block Show Demos
+          
+        hr
+        for child in children
+          li(class=child.type)
+            a(href=child.url).small
+              if child.type == 'folder'
+                span.glyphicon.glyphicon-folder-close
+              else
+                span.glyphicon.glyphicon-file
+              span.spl= child.name
+              if child.type == 'folder'
+                strong (#{child.size})
+      

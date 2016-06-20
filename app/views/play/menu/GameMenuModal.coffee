@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-AuthModal = require 'views/core/AuthModal'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 template = require 'templates/play/menu/game-menu-modal'
 submenuViews = [
   require 'views/play/menu/SaveLoadView'
@@ -23,7 +23,7 @@ module.exports = class GameMenuModal extends ModalView
 
   constructor: (options) ->
     super options
-    @options.showTab = options.showTab
+    @level = @options.level
     @options.levelID = @options.level.get('slug')
     @options.startingSessionHeroConfig = $.extend {}, true, (@options.session.get('heroConfig') ? {})
     Backbone.Mediator.publish 'music-player:enter-menu', terrain: @options.level.get('terrain', true) ? 'Dungeon'
@@ -31,10 +31,12 @@ module.exports = class GameMenuModal extends ModalView
   getRenderData: (context={}) ->
     context = super(context)
     docs = @options.level.get('documentation') ? {}
-    submenus = ["options", "save-load", "guide", "multiplayer"]
-    submenus = _.without submenus, 'guide' unless docs.specificArticles?.length or docs.generalArticles?.length
+    submenus = ['guide', 'options', 'save-load', 'multiplayer']
+    submenus = _.without submenus, 'options' if window.serverConfig.picoCTF
+    submenus = _.without submenus, 'guide' unless docs.specificArticles?.length or docs.generalArticles?.length or window.serverConfig.picoCTF
     submenus = _.without submenus, 'save-load' unless me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
-    submenus = _.without submenus, 'multiplayer' unless me.isAdmin() or @level?.get('type') in ['ladder', 'hero-ladder']
+    submenus = _.without submenus, 'multiplayer' unless me.isAdmin() or (@level?.get('type') in ['ladder', 'hero-ladder', 'course-ladder'] and @level.get('slug') not in ['ace-of-coders', 'elemental-wars'])
+    @includedSubmenus = submenus
     context.showTab = @options.showTab ? submenus[0]
     context.submenus = submenus
     context.iconMap =
@@ -44,15 +46,19 @@ module.exports = class GameMenuModal extends ModalView
       'multiplayer': 'globe'
     context
 
+  showsChooseHero: ->
+    return false if @level?.get('type') in ['course', 'course-ladder']
+    return false if @options.levelID in ['zero-sum', 'ace-of-coders', 'elemental-wars']
+    return true
+
   afterRender: ->
     super()
     @insertSubView new submenuView @options for submenuView in submenuViews
-    if @options.showTab
-      firstView = switch @options.showTab
-        when 'multiplayer' then @subviews.multiplayer_view
-        when 'guide' then @subviews.guide_view
-    unless firstView?
-      firstView = (@subviews.options_view)
+    firstView = switch @options.showTab
+      when 'multiplayer' then @subviews.multiplayer_view
+      when 'guide' then @subviews.guide_view
+      else
+        if 'guide' in @includedSubmenus then @subviews.guide_view else @subviews.options_view
     firstView.$el.addClass 'active'
     firstView.onShown?()
     @playSound 'game-menu-open'
@@ -69,9 +75,9 @@ module.exports = class GameMenuModal extends ModalView
     subview.onHidden?() for subviewKey, subview of @subviews
     @playSound 'game-menu-close'
     Backbone.Mediator.publish 'music-player:exit-menu', {}
-    
+
   onClickSignupButton: (e) ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Game Menu', level: @options.levelID
     # TODO: Default already seems to be prevented.  Need to be explicit?
     e.preventDefault()
-    @openModalView new AuthModal {mode: 'signup'}
+    @openModalView new CreateAccountModal()

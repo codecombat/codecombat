@@ -1,0 +1,56 @@
+extends /templates/base
+
+block content
+
+  if !me.isAdmin()
+    div You must be logged in as an admin to view this page.
+
+  else
+    h2 Trial Requests
+    if !trialRequests || trialRequests.length < 1
+      h4 Fetching trial requests...
+    else
+      table.table.table-condensed
+        thead
+          tr
+            th Created
+            th Reviewed
+            th Applicant
+            th School
+            th Location
+            th Age / Level
+            th Students
+            th Role
+            th Phone
+            th Status
+        tbody
+          each trialRequest in trialRequests
+            tr
+              td.created= trialRequest.get('created').substring(0, 10)
+              td.reviewed
+                if trialRequest.get('reviewDate')
+                  span= trialRequest.get('reviewDate').substring(0, 10)
+              - var props = trialRequest.get('properties')
+              td 
+                a(href="/user/#{trialRequest.get('applicant')}")= trialRequest.nameString()
+              td= props.school || props.organization
+              td= props.location || trialRequest.locationString()
+              td= props.age || trialRequest.educationLevelString()
+              td= props.numStudents
+              td= props.role
+              td= props.phoneNumber
+              td.status-cell
+                if trialRequest.get('status') === 'submitted'
+                  button.btn.btn-xs.btn-success.btn-approve(data-trial-request-id=trialRequest.id) Approve
+                  button.btn.btn-xs.btn-danger.btn-deny(data-trial-request-id=trialRequest.id) Deny
+                else if trialRequest.get('prepaidCode')
+                  span= trialRequest.get('prepaidCode')
+                else
+                  span= trialRequest.get('status')
+            if props.heardAbout || props.notes
+              tr
+                td(colspan=2)
+                td(colspan=7)
+                  strong #{trialRequest.nameString()} notes:
+                  div= props.heardAbout || props.notes
+                td

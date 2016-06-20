@@ -6,4 +6,4 @@ module.exports = class ComponentVersionsModal extends VersionsModal
   page: 'component'
 
   constructor: (options, @ID) ->
-    super options, ID, require 'models/LevelComponent'
+    super options, @ID, require 'models/LevelComponent'

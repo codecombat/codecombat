@@ -20,6 +20,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
   constructor: (options) ->
     super options
     @level = options.level
+    @buildTime = options.buildTime
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -27,7 +28,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     context.levelNeedsSave = @level.hasLocalChanges()
     context.modifiedComponents = _.filter @supermodel.getModels(LevelComponent), @shouldSaveEntity
     context.modifiedSystems = _.filter @supermodel.getModels(LevelSystem), @shouldSaveEntity
-    context.hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
+    @hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
     @lastContext = context
     context
 
@@ -60,6 +61,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
 
   commitLevel: (e) ->
     e.preventDefault()
+    @level.set 'buildTime', @buildTime
     modelsToSave = []
     formsToSave = []
     for form in @$el.find('form')
@@ -97,7 +99,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     tuples = _.zip(modelsToSave, formsToSave)
     for [newModel, form] in tuples
       newModel.updateI18NCoverage() if newModel.get('i18nCoverage')
-      res = newModel.save()
+      res = newModel.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
       do (newModel, form) =>
         res.error =>
           @hideLoading()

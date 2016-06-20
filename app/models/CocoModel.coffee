@@ -1,5 +1,6 @@
 storage = require 'core/storage'
 deltasLib = require 'core/deltas'
+locale = require 'locale/locale'
 
 class CocoModel extends Backbone.Model
   idAttribute: '_id'
@@ -19,16 +20,19 @@ class CocoModel extends Backbone.Model
     @on 'error', @onError, @
     @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
-    # IE9 doesn't expose console object unless debugger tools are loaded
-    unless console?
-      window.console =
-        info: ->
-        log: ->
-        error: ->
-        debug: ->
-    console.debug = console.log unless console.debug # Needed for IE10 and earlier
+    @usesVersions = @schema()?.properties?.version?
+    if window.application?.testing
+      @fakeRequests = []
+      @on 'request', -> @fakeRequests.push jasmine.Ajax.requests.mostRecent()
+
+  created: -> new Date(parseInt(@id.substring(0, 8), 16) * 1000)
+
+  backupKey: ->
+    if @usesVersions then @id else @id  # + ':' + @attributes.__v  # TODO: doesn't work because __v doesn't actually increment. #2061
+    # if fixed, RevertModal will also need the fix
 
   setProjection: (project) ->
+    # TODO: ends up getting done twice, since the URL is modified and the @project is modified. So don't do this, just set project directly... (?)
     return if project is @project
     url = @getURL()
     url += '&project=' unless /project=/.test url
@@ -52,7 +56,10 @@ class CocoModel extends Backbone.Model
     @loading = false
     @jqxhr = null
     if jqxhr.status is 402
-      Backbone.Mediator.publish 'level:subscription-required', {}
+      if _.contains(jqxhr.responseText, 'be in a course')
+        Backbone.Mediator.publish 'level:course-membership-required', {}
+      else
+        Backbone.Mediator.publish 'level:subscription-required', {}
 
   onLoaded: ->
     @loaded = true
@@ -94,16 +101,16 @@ class CocoModel extends Backbone.Model
 
   loadFromBackup: ->
     return unless @saveBackups
-    existing = storage.load @id
+    existing = storage.load @backupKey()
     if existing
       @set(existing, {silent: true})
-      CocoModel.backedUp[@id] = @
+      CocoModel.backedUp[@backupKey()] = @
 
   saveBackup: -> @saveBackupNow()
 
   saveBackupNow: ->
-    storage.save(@id, @attributes)
-    CocoModel.backedUp[@id] = @
+    storage.save(@backupKey(), @attributes)
+    CocoModel.backedUp[@backupKey()] = @
 
   @backedUp = {}
   schema: -> return @constructor.schema
@@ -117,10 +124,11 @@ class CocoModel extends Backbone.Model
   validate: ->
     errors = @getValidationErrors()
     if errors?.length
-      console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
-      for error in errors
-        console.debug "\t", error.dataPath, ':', error.message
-      console.trace?()
+      unless application.testing
+        console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
+        for error in errors
+          console.debug "\t", error.dataPath, ':', error.message
+        console.trace?()
       return errors
 
   save: (attrs, options) ->
@@ -148,7 +156,10 @@ class CocoModel extends Backbone.Model
           return
         else
           msg = $.i18n.t 'loading_error.connection_failure', defaultValue: 'Connection failed.'
-          noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+          try
+            noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+          catch notyError
+            console.warn "Couldn't even show noty error for", error, "because", notyError
           return _.delay((f = => @save(attrs, originalOptions)), 3000)
       error(@, res) if error
       return unless @notyErrors
@@ -157,7 +168,7 @@ class CocoModel extends Backbone.Model
       console.warn errorMessage, res.responseJSON
       unless webkit?.messageHandlers  # Don't show these notys on iPad
         try
-          noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
+          noty text: "#{errorMessage}: #{res.status} #{res.statusText}\n#{res.responseText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
         catch notyError
           console.warn "Couldn't even show noty error for", error, "because", notyError
       options.success = options.error = null  # So the callbacks can be garbage-collected.
@@ -178,13 +189,13 @@ class CocoModel extends Backbone.Model
         keys.push key
 
     return unless keys.length
-    console.debug 'Patching', @get('name') or @, keys
     @save(attrs, options)
 
   fetch: (options) ->
     options ?= {}
     options.data ?= {}
     options.data.project = @project.join(',') if @project
+    #console.error @constructor.className, @, "fetching with cache?", options.cache, "options", options  # Useful for debugging cached IE fetches
     @jqxhr = super(options)
     @loading = true
     @jqxhr
@@ -204,7 +215,7 @@ class CocoModel extends Backbone.Model
     @clearBackup()
 
   clearBackup: ->
-    storage.remove @id
+    storage.remove @backupKey()
 
   hasLocalChanges: ->
     @_revertAttributes and not _.isEqual @attributes, @_revertAttributes
@@ -235,6 +246,7 @@ class CocoModel extends Backbone.Model
     # actor is a User object
     actor ?= me
     return true if actor.isAdmin()
+    return true if actor.isArtisan() and @editableByArtisans
     for permission in (@get('permissions', true) ? [])
       if permission.target is 'public' or actor.get('_id') is permission.target
         return true if permission.access in ['owner', 'read']
@@ -245,6 +257,7 @@ class CocoModel extends Backbone.Model
     # actor is a User object
     actor ?= me
     return true if actor.isAdmin()
+    return true if actor.isArtisan() and @editableByArtisans
     for permission in (@get('permissions', true) ? [])
       if permission.target is 'public' or actor.get('_id') is permission.target
         return true if permission.access in ['owner', 'write']
@@ -355,21 +368,23 @@ class CocoModel extends Backbone.Model
     return if _.isString @url then @url else @url()
 
   @pollAchievements: ->
+    return if application.testing
 
     CocoCollection = require 'collections/CocoCollection'
-    Achievement = require 'models/Achievement'
+    EarnedAchievement = require 'models/EarnedAchievement'
 
     class NewAchievementCollection extends CocoCollection
-      model: Achievement
+      model: EarnedAchievement
       initialize: (me = require('core/auth').me) ->
         @url = "/db/user/#{me.id}/achievements?notified=false"
 
     achievements = new NewAchievementCollection
     achievements.fetch
       success: (collection) ->
-        me.fetch (success: -> Backbone.Mediator.publish('achievements:new', earnedAchievements: collection)) unless _.isEmpty(collection.models)
+        me.fetch (cache: false, success: -> Backbone.Mediator.publish('achievements:new', earnedAchievements: collection)) unless _.isEmpty(collection.models)
       error: ->
         console.error 'Miserably failed to fetch unnotified achievements', arguments
+      cache: false
 
   CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
 
@@ -377,22 +392,66 @@ class CocoModel extends Backbone.Model
   #- Internationalization
 
   updateI18NCoverage: ->
-    i18nObjects = @findI18NObjects()
-    return unless i18nObjects.length
-    langCodeArrays = (_.keys(i18n) for i18n in i18nObjects)
-    @set('i18nCoverage', _.intersection(langCodeArrays...))
+    langCodeArrays = []
+    pathToData = {}
 
-  findI18NObjects: (data, results) ->
-    data ?= @attributes
-    results ?= []
+    TreemaUtils.walk(@attributes, @schema(), null, (path, data, workingSchema) ->
+      # Store parent data for the next block...
+      if data?.i18n
+        pathToData[path] = data
 
-    if _.isPlainObject(data) or _.isArray(data)
-      for [key, value] in _.pairs data
-        if key is 'i18n'
-          results.push value
-        else if _.isPlainObject(value) or _.isArray(value)
-          @findI18NObjects(value, results)
+      if _.string.endsWith path, 'i18n'
+        i18n = data
 
-    return results
+        # grab the parent data
+        parentPath = path[0...-5]
+        parentData = pathToData[parentPath]
+
+        # use it to determine what properties actually need to be translated
+        props = workingSchema.props or []
+        props = (prop for prop in props when parentData[prop])
+        #unless props.length
+        #  console.log 'props is', props, 'path is', path, 'data is', data, 'parentData is', parentData, 'workingSchema is', workingSchema
+        #  langCodeArrays.push _.without _.keys(locale), 'update'  # Every language has covered a path with no properties to be translated.
+        #  return
+
+        return if 'additionalProperties' of i18n  # Workaround for #2630: Programmable is weird
+
+        # get a list of lang codes where its object has keys for every prop to be translated
+        coverage = _.filter(_.keys(i18n), (langCode) ->
+          translations = i18n[langCode]
+          _.all((translations[prop] for prop in props))
+        )
+        #console.log 'got coverage', coverage, 'for', path, props, workingSchema, parentData
+        langCodeArrays.push coverage
+    )
+
+    return unless langCodeArrays.length
+    # language codes that are covered for every i18n object are fully covered
+    overallCoverage = _.intersection(langCodeArrays...)
+    @set('i18nCoverage', overallCoverage)
+
+  saveNewMinorVersion: (attrs, options={}) ->
+    options.url = @url() + '/new-version'
+    options.type = 'POST'
+    return @save(attrs, options)
+
+  saveNewMajorVersion: (attrs, options={}) ->
+    attrs = attrs or _.omit(@attributes, 'version')
+    options.url = @url() + '/new-version'
+    options.type = 'POST'
+    options.patch = true # do not let version get sent along
+    return @save(attrs, options)
+
+  fetchPatchesWithStatus: (status='pending', options={}) ->
+    Patches = require '../collections/Patches'
+    patches = new Patches()
+    options.data ?= {}
+    options.data.status = status
+    options.url = @urlRoot + '/' + (@get('original') or @id) + '/patches'
+    patches.fetch(options)
+    return patches
+    
+  stringify: -> return JSON.stringify(@toJSON())
 
 module.exports = CocoModel

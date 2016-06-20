@@ -1,45 +1,64 @@
-gplusClientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
-# TODO: Move to GPlusHandler
-
-NotFoundView = require('views/core/NotFoundView')
-
-go = (path) -> -> @routeDirectly path, arguments
+go = (path, options) -> -> @routeDirectly path, arguments, options
+redirect = (path) -> -> @navigate(path, { trigger: true, replace: true })
+utils = require './utils'
 
 module.exports = class CocoRouter extends Backbone.Router
 
   initialize: ->
     # http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
     @bind 'route', @_trackPageView
-    Backbone.Mediator.subscribe 'auth:gplus-api-loaded', @onGPlusAPILoaded, @
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
     @initializeSocialMediaServices = _.once @initializeSocialMediaServices
 
   routes:
-    '': go('HomeView')
+    '': ->
+      if window.serverConfig.picoCTF
+        return @routeDirectly 'play/CampaignView', ['picoctf'], {}
+      if utils.getQueryVariable 'hour_of_code'
+        return @navigate "/play", {trigger: true, replace: true}
+      return @routeDirectly('NewHomeView', [])
 
     'about': go('AboutView')
 
     'account': go('account/MainAccountView')
     'account/settings': go('account/AccountSettingsRootView')
     'account/unsubscribe': go('account/UnsubscribeView')
-    'account/profile': go('user/JobProfileView')  # legacy URL, sent in emails
     'account/payments': go('account/PaymentsView')
     'account/subscription': go('account/SubscriptionView')
+    'account/invoices': go('account/InvoicesView')
+    'account/prepaid': go('account/PrepaidView')
 
     'admin': go('admin/MainAdminView')
-    'admin/candidates': go('admin/CandidatesView')
     'admin/clas': go('admin/CLAsView')
-    'admin/employers': go('admin/EmployersListView')
+    'admin/design-elements': go('admin/DesignElementsView')
     'admin/files': go('admin/FilesView')
-    'admin/growth': go('admin/GrowthView')
+    'admin/analytics': go('admin/AnalyticsView')
+    'admin/analytics/subscriptions': go('admin/AnalyticsSubscriptionsView')
     'admin/level-sessions': go('admin/LevelSessionsView')
     'admin/users': go('admin/UsersView')
     'admin/base': go('admin/BaseView')
+    'admin/demo-requests': go('admin/DemoRequestsView')
+    'admin/trial-requests': go('admin/TrialRequestsView')
     'admin/user-code-problems': go('admin/UserCodeProblemsView')
+    'admin/pending-patches': go('admin/PendingPatchesView')
+    'admin/codelogs': go('admin/CodeLogsView')
+
+    'artisans': go('artisans/ArtisansView')
+
+    'artisans/level-tasks': go('artisans/LevelTasksView')
+    'artisans/solution-problems': go('artisans/SolutionProblemsView')
+    'artisans/thang-tasks': go('artisans/ThangTasksView')
 
     'beta': go('HomeView')
 
+    'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
+    'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
+
     'cla': go('CLAView')
+
+    'clans': go('clans/ClansView')
+    'clans/:clanID': go('clans/ClanDetailsView')
+
     'community': go('CommunityView')
 
     'contribute': go('contribute/MainContributeView')
@@ -49,6 +68,16 @@ module.exports = class CocoRouter extends Backbone.Router
     'contribute/artisan': go('contribute/ArtisanView')
     'contribute/diplomat': go('contribute/DiplomatView')
     'contribute/scribe': go('contribute/ScribeView')
+
+    'courses': go('courses/CoursesView')
+    'Courses': go('courses/CoursesView')
+    'courses/students': redirect('/courses')
+    'courses/teachers': redirect('/teachers/classes')
+    'courses/purchase': redirect('/teachers/licenses')
+    'courses/enroll(/:courseID)': redirect('/teachers/licenses')
+    'courses/update-account': go('courses/CoursesUpdateAccountView')
+    'courses/:classroomID': go('courses/ClassroomView', { studentsOnly: true })
+    'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { studentsOnly: true })
 
     'db/*path': 'routeToServer'
     'demo(/*subpath)': go('DemoView')
@@ -66,54 +95,103 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
     'editor/thang/:thangID': go('editor/thang/ThangTypeEditView')
-
-    'employers': go('EmployersView')
+    'editor/campaign/:campaignID': go('editor/campaign/CampaignEditorView')
+    'editor/poll': go('editor/poll/PollSearchView')
+    'editor/poll/:articleID': go('editor/poll/PollEditView')
+    'editor/thang-tasks': go('editor/ThangTasksView')
+    'editor/verifier': go('editor/verifier/VerifierView')
+    'editor/verifier/:levelID': go('editor/verifier/VerifierView')
 
     'file/*path': 'routeToServer'
 
     'github/*path': 'routeToServer'
+
+    'hoc': ->
+      # Matching /?hour_of_code=true behavior
+      @navigate "/play", {trigger: true, replace: true}
+    'home': go('NewHomeView')
 
     'i18n': go('i18n/I18NHomeView')
     'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
     'i18n/component/:handle': go('i18n/I18NEditComponentView')
     'i18n/level/:handle': go('i18n/I18NEditLevelView')
     'i18n/achievement/:handle': go('i18n/I18NEditAchievementView')
+    'i18n/campaign/:handle': go('i18n/I18NEditCampaignView')
+    'i18n/poll/:handle': go('i18n/I18NEditPollView')
+
+    'identify': go('user/IdentifyView')
 
     'legal': go('LegalView')
 
     'multiplayer': go('MultiplayerView')
 
-    'play-old': go('play/MainPlayView')  # This used to be 'play'.
-    'play': go('play/WorldMapView')
+    'play(/)': go('play/CampaignView') # extra slash is to get Facebook app to work
+    'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
     'play/spectate/:levelID': go('play/SpectateView')
-    'play/:map': go('play/WorldMapView')
+    'play/:map': go('play/CampaignView')
 
     'preview': go('HomeView')
 
-    'teachers': go('TeachersView')
+    'privacy': go('PrivacyView')
+
+    'schools': go('NewHomeView')
+    'seen': go('NewHomeView')
+    'SEEN': go('NewHomeView')
+
+    'teachers': redirect('/teachers/classes')
+    'teachers/classes': go('courses/TeacherClassesView', { teachersOnly: true })
+    'teachers/classes/:classroomID': go('courses/TeacherClassView', { teachersOnly: true })
+    'teachers/courses': go('courses/TeacherCoursesView')
+    'teachers/demo': go('teachers/RequestQuoteView')
+    'teachers/enrollments': redirect('/teachers/licenses')
+    'teachers/licenses': go('courses/EnrollmentsView', { teachersOnly: true })
+    'teachers/freetrial': go('teachers/RequestQuoteView')
+    'teachers/quote': redirect('/teachers/demo')
+    'teachers/signup': ->
+      return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
+      @navigate('/teachers/update-account', {trigger: true, replace: true})
+    'teachers/update-account': ->
+      return @navigate('/teachers/signup', {trigger: true, replace: true}) if me.isAnonymous()
+      @routeDirectly('teachers/ConvertToTeacherAccountView', [])
 
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
-    'user/:slugOrID/profile': go('user/JobProfileView')
+    'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
 
-    '*name': 'showNotFoundView'
+    '*name/': 'removeTrailingSlash'
+    '*name': go('NotFoundView')
 
   routeToServer: (e) ->
     window.location.href = window.location.href
 
-  routeDirectly: (path, args) ->
-    path = "views/#{path}" if not _.str.startsWith(path, 'views/')
+  removeTrailingSlash: (e) ->
+    @navigate e, {trigger: true}
+
+  routeDirectly: (path, args=[], options={}) ->
+    if options.teachersOnly and not (me.isTeacher() or me.isAdmin())
+      return @routeDirectly('teachers/RestrictedToTeachersView')
+    if options.studentsOnly and not (me.isStudent() or me.isAdmin())
+      return @routeDirectly('courses/RestrictedToStudentsView')
+    leavingMessage = _.result(window.currentView, 'onLeaveMessage')
+    if leavingMessage
+      if not confirm(leavingMessage)
+        return @navigate(this.path, {replace: true})
+      else
+        window.currentView.onLeaveMessage = _.noop # to stop repeat confirm calls
+
+    path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views)?\/?play/.test(path)
+    path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
     if not ViewClass and application.moduleLoader.load(path)
       @listenToOnce application.moduleLoader, 'load-complete', ->
-        @routeDirectly(path, args)
+        @routeDirectly(path, args, options)
       return
     return @openView @notFoundView() if not ViewClass
-    view = new ViewClass({}, args...)  # options, then any path fragment args
+    view = new ViewClass(options, args...)  # options, then any path fragment args
     view.render()
     @openView(view)
 
@@ -124,21 +202,14 @@ module.exports = class CocoRouter extends Backbone.Router
       if error.toString().search('Cannot find module "' + path + '" from') is -1
         throw error
 
-  showNotFoundView: ->
-    @openView @notFoundView()
-
-  notFoundView: ->
-    view = new NotFoundView()
-    view.render()
-
   openView: (view) ->
     @closeCurrentView()
     $('#page-container').empty().append view.el
     window.currentView = view
     @activateTab()
-    @renderLoginButtons() if view.usesSocialMedia
     view.afterInsert()
     view.didReappear()
+    @path = document.location.pathname + document.location.search
 
   closeCurrentView: ->
     if window.currentView?.reloadOnClose
@@ -147,43 +218,32 @@ module.exports = class CocoRouter extends Backbone.Router
     return unless window.currentView?
     window.currentView.destroy()
     $('.popover').popover 'hide'
-
-  onGPlusAPILoaded: =>
-    @renderLoginButtons()
+    $('#flying-focus').css({top: 0, left: 0}) # otherwise it might make the page unnecessarily tall
+    _.delay (->
+      $('html')[0].scrollTop = 0
+      $('body')[0].scrollTop = 0
+    ), 10
 
   initializeSocialMediaServices: ->
     return if application.testing or application.demoing
-    require('core/services/facebook')()
-    require('core/services/google')()
+    application.facebookHandler.loadAPI()
+    application.gplusHandler.loadAPI()
     require('core/services/twitter')()
 
-  renderLoginButtons: =>
+  renderSocialButtons: =>
+    # TODO: Refactor remaining services to Handlers, use loadAPI success callback
     @initializeSocialMediaServices()
     $('.share-buttons, .partner-badges').addClass('fade-in').delay(10000).removeClass('fade-in', 5000)
-    setTimeout(FB.XFBML.parse, 10) if FB?.XFBML?.parse  # Handles FB login and Like
+    application.facebookHandler.renderButtons()
+    application.gplusHandler.renderButtons()
     twttr?.widgets?.load?()
-
-    return unless gapi?.plusone?
-    gapi.plusone.go?()  # Handles +1 button
-    for gplusButton in $('.gplus-login-button')
-      params = {
-        callback: 'signinCallback',
-        clientid: gplusClientID,
-        cookiepolicy: 'single_host_origin',
-        scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
-        height: 'short',
-      }
-      if gapi.signin?.render
-        gapi.signin.render(gplusButton, params)
-      else
-        console.warn 'Didn\'t have gapi.signin to render G+ login button. (DoNotTrackMe extension?)'
 
   activateTab: ->
     base = _.string.words(document.location.pathname[1..], '/')[0]
     $("ul.nav li.#{base}").addClass('active')
 
   _trackPageView: ->
-    window.tracker?.trackPageView null, ['Google Analytics']
+    window.tracker?.trackPageView()
 
   onNavigate: (e) ->
     if _.isString e.viewClass
@@ -198,6 +258,7 @@ module.exports = class CocoRouter extends Backbone.Router
     if (e.route is document.location.pathname) and not manualView
       return document.location.reload()
     @navigate e.route, {trigger: not manualView}
+    @_trackPageView()
     return unless manualView
     if e.viewClass
       args = e.viewArgs or []
@@ -210,3 +271,6 @@ module.exports = class CocoRouter extends Backbone.Router
   navigate: (fragment, options) ->
     super fragment, options
     Backbone.Mediator.publish 'router:navigated', route: fragment
+
+  reload: ->
+    document.location.reload()

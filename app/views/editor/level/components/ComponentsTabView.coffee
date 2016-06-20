@@ -51,6 +51,10 @@ module.exports = class ComponentsTabView extends CocoView
       res = [(if comp.count then 0 else 1), component.get('system'), component.get('name')]
       return res
 
+    res = {}
+    res[treemaData[key].original] = treemaData[key] for key in [0 ... treemaData.length]
+    treemaData = (value for key, value of res)  # Removing duplicates from treemaData
+
     treemaOptions =
       supermodel: @supermodel
       schema: {type: 'array', items: {type: 'object', format: 'level-component'}}

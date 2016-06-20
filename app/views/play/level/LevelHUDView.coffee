@@ -1,7 +1,6 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/hud'
 prop_template = require 'templates/play/level/hud_prop'
-LevelOptions = require 'lib/LevelOptions'
 utils = require 'core/utils'
 
 module.exports = class LevelHUDView extends CocoView
@@ -23,7 +22,7 @@ module.exports = class LevelHUDView extends CocoView
   afterRender: ->
     super()
     @$el.addClass 'no-selection'
-    if LevelOptions[@options.level.get('slug')]?.hidesHUD
+    if @options.level.get('hidesHUD')
       @hidesHUD = true
       @$el.addClass 'hide-hud-properties'
 
@@ -102,15 +101,15 @@ module.exports = class LevelHUDView extends CocoView
 
   createProperties: ->
     if @thang.id in ['Hero Placeholder', 'Hero Placeholder 1']
-      name = {knight: 'Tharin', captain: 'Anya', librarian: 'Hushbaum', sorcerer: 'Pender', 'potion-master': 'Omarn', samurai: 'Hattori', ninja: 'Amara'}[@thang.type] ? 'Hero'
+      name = {knight: 'Tharin', captain: 'Anya', librarian: 'Hushbaum', sorcerer: 'Pender', 'potion-master': 'Omarn', samurai: 'Hattori', ninja: 'Amara', raider: 'Arryn', goliath: 'Okar', guardian: 'Illia', pixie: 'Zana', assassin: 'Ritic', necromancer: 'Nalfar', 'dark-wizard': 'Usara'}[@thang.type] ? 'Hero'
     else
-      name = if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id
+      name = @thang.hudName or (if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
     utils.replaceText @$el.find('.thang-name'), name
     props = @$el.find('.thang-props')
     props.find('.prop').remove()
     #propNames = _.without @thang.hudProperties ? [], 'action'
     propNames = @thang.hudProperties
-    for prop, i in propNames
+    for prop, i in propNames ? []
       pel = @createPropElement prop
       continue unless pel?
       if pel.find('.bar').is('*') and props.find('.bar').is('*')
@@ -130,7 +129,7 @@ module.exports = class LevelHUDView extends CocoView
       return null  # included in the bar
     context =
       prop: prop
-      hasIcon: prop in ['health', 'pos', 'target', 'collectedThangIDs', 'gold', 'bountyGold', 'visualRange', 'attackDamage', 'attackRange', 'maxSpeed', 'attackNearbyEnemyRange']
+      hasIcon: prop in ['health', 'pos', 'target', 'collectedThangIDs', 'gold', 'bountyGold', 'value', 'visualRange', 'attackDamage', 'attackRange', 'maxSpeed', 'attackNearbyEnemyRange']
       hasBar: prop in ['health']
     $(prop_template(context))
 

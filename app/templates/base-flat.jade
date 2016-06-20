@@ -1,0 +1,147 @@
+mixin accountLinks
+  li
+    a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
+  li
+    a(href="/account/settings", data-i18n="play.settings")
+  unless me.isStudent()
+    li
+      a(href="/account/payments", data-i18n="account.payments")
+  if me.hasSubscription() || !(me.isTeacher() || me.isStudent())
+    li
+      a(href="/account/subscription", data-i18n="account.subscription")
+  unless me.isStudent()
+    li
+      a(href="/account/prepaid", data-i18n="account.prepaid_codes")
+  li
+    a#logout-button(data-i18n="login.log_out")
+
+.style-flat
+  block header
+    nav#main-nav.navbar.navbar-default
+      .container-fluid.container
+        .row
+          .col-lg-12
+            .navbar-header
+              button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
+                span.sr-only(data-i18n="home.toggle_nav")
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+              a.navbar-brand(href="/")
+                img#logo-img(src="/images/pages/base/logo.png")
+                span.glyphicon.glyphicon-home
+
+            #navbar-collapse.collapse.navbar-collapse
+              ul.nav.navbar-nav
+                li
+                  a(href="/about", data-i18n="nav.about")
+                li
+                  a(href="/courses", data-i18n="nav.students")
+                li
+                  a(href="/teachers/classes", data-i18n="nav.teachers")
+                li
+                  a(href="https://discourse.codecombat.com/", data-i18n="nav.forum")
+              if me.isAnonymous()
+                ul.nav.navbar-nav
+                  li
+                    a#create-account-link.signup-button(data-i18n="login.sign_up")
+                  li
+                    a#login-link.login-button(data-i18n="login.log_in")
+              else
+                ul.nav.navbar-nav.hidden-lg
+                  li.disabled
+                    a
+                      img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
+                      span= me.displayName()
+                  +accountLinks
+
+                ul.nav.navbar-nav
+                  li.dropdown.hidden-xs.hidden-sm.hidden-md
+                    a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aroa-haspopup="true" aria-expanded="false")
+                      img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
+                      span(data-i18n="nav.my_account")
+                    ul.dropdown-menu
+                      li.user-dropdown-header.text-center
+                        span.user-level= me.level()
+                        a(href="/user/#{me.getSlugOrID()}")
+                          img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
+                        h5=me.displayName()
+                      +accountLinks
+
+              ul.nav.navbar-nav
+                li
+                  #language-dropdown-wrapper
+                    select.language-dropdown.form-control
+
+  block page_nav
+
+  block outer_content
+    #site-content-area
+      block content
+        p If this is showing, you dun goofed
+
+  block footer
+    .container-fluid
+      #footer.small
+        .container
+          .row
+            .col-sm-3
+              ul.list-unstyled
+                li
+                  strong CodeCombat
+                li
+                  a(href="/about", data-i18n="nav.about")
+                li
+                  a(href="/Careers", data-i18n="nav.jobs")
+                li
+                  a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
+                li
+                  a(href="/legal", data-i18n="nav.legal")
+
+            .col-sm-3
+              ul.list-unstyled
+                li
+                  strong(data-i18n="nav.schools")
+                li
+                  a(href="/teachers/classes", data-i18n="nav.teachers")
+                li
+                  a(href="https://sites.google.com/a/codecombat.com/teacher-guides/", data-i18n="nav.educator_wiki")
+                li
+                  a(href="/teachers/demo", data-i18n="teachers_quote.title")
+
+            .col-sm-3
+              ul.list-unstyled
+                li
+                  strong(data-i18n="nav.get_involved")
+                li
+                  a(href='/community', data-i18n="nav.community")
+                li
+                  a(href="/contribute", data-i18n="nav.contribute")
+                li
+                  a(href=view.forumLink(), data-i18n="nav.forum")
+                li
+                  a(href="/play/ladder", data-i18n="home.multiplayer")
+                li
+                  a(href="https://github.com/codecombat/codecombat", data-i18n="nav.open_source")
+            .col-sm-3
+              ul.list-unstyled
+                li
+                  strong(data-i18n="nav.support")
+                li
+                  a(href="https://discourse.codecombat.com/t/faq-check-before-posting/1027", data-i18n="nav.faqs")
+                li
+                  a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact")
+                li
+                  a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
+                li
+                  a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
+
+      #final-footer.small.text-center
+        | Copyright ©2016 CodeCombat. All Rights Reserved.
+        br.hidden-lg.hidden-md
+        img(src="/images/pages/base/logo.png" alt="CodeCombat")
+        br.hidden-lg.hidden-md
+        span.spr(data-i18n="nav.help_pref")
+        - var supportEmail = (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl' ? 'klantenservice@codecombat.nl' : 'team@codecombat.com';
+        a(href="mailto:" + supportEmail)= supportEmail
+        span.spl(data-i18n="nav.help_suff")

@@ -1,74 +1,60 @@
 extends /templates/base
 
 block content
+  .container-fluid
+    .row
+      .col-md-6
+        .pull-left
+          a(href="/") <- to main CodeCombat website
+      .col-md-6
+        .pull-right
+          a(href="/hoc") Students, click here!
+    .row
+      .col-md-12
+        br
+        .text-center
+          .title 
+            strong.spr Teachers
+            span - try CodeCombat Courses in your classroom!
+    .row
+      .col-md-2
+      .col-md-8
+        p
+          div In just one hour, students will learn:
+          ul
+            li basic Python syntax
+            li arguments
+            li strings
+            li while loops
+            li variables
+  br
 
-  p.row
+  if me.isAnonymous()
+    .text-center
+      button.btn.btn-lg.btn-success.uppercase.btn-create-account Create Teacher account
+    .text-center
+      button.btn.btn-lg.btn-primary.uppercase.btn-login-account Log into Teacher Account
 
-    .span5
+  br
+  br
+  h2.text-center Frequently Asked Questions
 
-      h2 CodeCombat for Teachers
+  .container-fluid
+    .row
+      .col-md-2
+      .col-md-8
+        .faq-question(data-i18n="teachers.who_for_title")
+        p(data-i18n="teachers.who_for_1")
+        p(data-i18n="teachers.who_for_2")
 
-      h3 Preparation
+        .faq-question Does it cost anything to play CodeCombat?
+        p
+          span.spr The first course “Introduction to Computer Science” is completely free, and generally takes students an hour to complete. Students can be enrolled in additional courses spanning an entire semester's worth of topics with per-student pricing. We offer
+          a(href='/teachers/freetrial') free trials
+          span.spl for teachers who are interested in using CodeCombat Courses.
 
-      p CodeCombat is free to play for the core level progression and does not require students to sign up. We encourage teachers to 
-        a(href="http://codecombat.com/play") play through the campaign
-        |  to try it out, but the only thing you absolutely need to do to be ready is ensure students have access to a computer.
-
-      p It is not necessary for teachers to be comfortable with computer science concepts for students to have fun learning with CodeCombat.
-
-      h3 Is it violent?
-
-      p We get this from teachers a lot due to our name. Although CodeCombat does contain cartoon violence, there is nothing graphic in either the visuals or language. If you are comfortable having your students play Angry Birds, you will be comfortable with CodeCombat.
-
-      h3 Is it for girls?
-
-      p There are three game modes in CodeCombat: building, puzzles, and combat. We have intentionally designed each to appeal to both boys and girls and think that the building and puzzle levels especially differentiate the game from violent triple A titles that repel female players.
-
-      h3 What do we cover?
-
-      p There are 20 levels in the Hour of Code tutorial that teach and reinforce 6 specific computer science concepts:
-
-        ol
-          li
-            strong Formal notation
-            |  - builds an understanding of the importance of syntax in programming.
-          li
-            strong Calling methods
-            |  - familiarizes students with the syntax of object-oriented method calls.
-          li
-            strong Parameters
-            |  - trains how to pass parameters to functions.
-          li
-            strong Strings
-            |  - teaches students about string notation and passing strings as parameters.
-          li
-            strong Loops
-            |  - develops the abstraction of designing short programs with loops.
-          li
-            strong Variables
-            |  - adds the skill of referencing values that change over time.
-
-      p Students may continue past level 20, depending on their speed and interest, to learn two additional concepts in later levels:
-        ol
-          li
-            strong Conditional logic
-            |  - when and how to use if/else to control in-game outcomes.
-          li
-            strong Handling player input
-            |  - responding to input events to create a user interface.
-
-
-      h3 System Requirements
-
-      p Because CodeCombat is a game, it is more intensive for computers to run smoothly than video or written tutorials. We have optimized it to run quickly on all modern browsers and on older machines so that everyone can play. That said, here are our suggestions for getting the most out of your Hour of Code experience:
-
-      ul
-        li
-          strong Use newer versions of Chrome or Firefox.
-          |  Although CodeCombat will work on browsers as old as IE9, the performance is not as good. Chrome is best.
-        li
-          strong Use newer computers.
-          |  Older computers, Chromebooks, and netbooks tend to have very few system resources, which makes for a less enjoyable experience. At least 2GB of RAM is required.
-        li
-          strong Allow players to wear headphones/earbuds to hear the audio.
-          |  We help players learn through voiceover and sound effects, which will make classrooms noisy and distracting.
+        .faq-question(data-i18n="teachers.more_info_title")
+        p
+          span.spr(data-i18n="teachers.more_info_1")
+          a(href='http://discourse.codecombat.com/c/teachers', data-i18n="teachers.more_info_2")
+          span.spl(data-i18n="teachers.more_info_3")

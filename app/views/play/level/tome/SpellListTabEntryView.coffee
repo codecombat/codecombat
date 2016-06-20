@@ -23,9 +23,11 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     'click .reload-code': 'onCodeReload'
     'click .beautify-code': 'onBeautifyClick'
     'click .fullscreen-code': 'onToggleMaximize'
+    'click .hints-button': 'onClickHintsButton'
 
   constructor: (options) ->
-    super options
+    @hintsState = options.hintsState
+    super(options)
 
   getRenderData: (context={}) ->
     context = super context
@@ -83,7 +85,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
       content: docFormatter.formatPopover()
       container: @$el.parent()
     ).on 'show.bs.popover', =>
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: "spell-tab-entry-open", volume: 0.75
+      @playSound 'spell-tab-entry-open', 0.75
 
   onMouseEnterAvatar: (e) ->  # Don't call super
   onMouseLeaveAvatar: (e) ->  # Don't call super
@@ -91,10 +93,15 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
 
+  onClickHintsButton: ->
+    return unless @hintsState?
+    @hintsState.set('hidden', not @hintsState.get('hidden'))
+    window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, ['Mixpanel']
+
   onDropdownClick: (e) ->
     return unless @controlsEnabled
     Backbone.Mediator.publish 'tome:toggle-spell-list', {}
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'spell-list-open', volume: 1
+    @playSound 'spell-list-open'
 
   onCodeReload: (e) ->
     #return unless @controlsEnabled
@@ -154,7 +161,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
         break
     $codearea = $('#code-area')
     $codearea.on transitionListener, =>
-      $codearea.css 'z-index', 1 unless $('html').hasClass 'fullscreen-editor'
+      $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
 
 
   destroy: ->

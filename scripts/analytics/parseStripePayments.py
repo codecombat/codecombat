@@ -74,7 +74,7 @@ def getHoCPriceConversionRates(paymentsFile):
             # 'start2': datetime(2014, 12, 11, 0, 34),
             # 'end2': datetime(2014, 12, 12, 3, 21),
             # 'start3': datetime(2014, 12, 13, 17, 30),
-            'Show subscription modal': 45343,
+            'Show subscription modal': 86883,
             'Finished subscription purchase': 0
         },
         '1499': {
@@ -94,7 +94,7 @@ def getHoCPriceConversionRates(paymentsFile):
 
     # Find 'Finished subscription purchase' event from Stripe data
     startDate = datetime(2014, 12, 8)
-    endDate = datetime(2014, 12, 14)
+    endDate = datetime(2014, 12, 20)
     print startDate, 'to', endDate
     with open(paymentsFile) as f:
         first = True
@@ -180,14 +180,14 @@ def getPostHoCPriceConversionRates(paymentsFile):
     # Show count from Mixpanel
     prices = {
         '999': {
-            'Show subscription modal': 2935,
+            'Show subscription modal': 13339,
             'Finished subscription purchase': 0
         }
     }
     
     # Find 'Finished subscription purchase' event from Stripe data
-    startDate = datetime(2014, 12, 14)
-    endDate = datetime(2014, 12, 15)
+    startDate = datetime(2014, 12, 20)
+    endDate = datetime(2015, 1, 4)
     print startDate, 'to', endDate
     with open(paymentsFile) as f:
         first = True

@@ -4,23 +4,25 @@ log = require 'winston'
 
 DELIGHTED_EMAIL_DELAY = 1 * 86400  # in seconds
 
-module.exports.addDelightedUser = addDelightedUser = (user) ->
-  return unless key = config.mail.delightedAPIKey
-  #return unless user.isEmailSubscriptionEnabled 'generalNews'  # Doesn't work? Just returns undefined...
-  return if user.get('emails')?.generalNews?.enabled is false  # Workaround.
-  name = user.get('name')
-  if first = user.get('firstName') and last = user.get('lastName')
-    name = first + ' ' + last
+module.exports.addDelightedUser = addDelightedUser = (user, trialRequest) ->
+  props = trialRequest.get('properties')
+  name = props.firstName + ' ' + props.lastName
   form =
-    email: user.get('email')
+    email: props.email
     name: name
     delay: DELIGHTED_EMAIL_DELAY
     properties:
-      id: user.id
+      id: trialRequest.get('applicant')
       locale: user.get('preferredLanguage')
       testGroupNumber: user.get('testGroupNumber')
       gender: user.get('gender')
       lastLevel: user.get('lastLevel')
+      state: if props.nces_id and props.country is 'USA' then props.state else 'other'
+      
+  @postPeople(form)
+  
+module.exports.postPeople = (form) ->
+  return unless key = config.mail.delightedAPIKey
   request.post {uri: "https://#{key}:@api.delightedapp.com/v1/people.json", form: form}, (err, res, body) ->
     return log.error 'Error sending Delighted request:', err or body if err or /error/i.test body
     #log.info "Got DelightedApp response: #{body}"

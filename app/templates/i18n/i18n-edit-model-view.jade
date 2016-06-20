@@ -43,7 +43,7 @@ block header
             li
               a(href='https://github.com/codecombat/codecombat/wiki', data-i18n="editor.wiki", target="_blank") Wiki
             li
-              a(href='http://www.hipchat.com/g3plnOKqa', data-i18n="editor.live_chat", target="_blank") Live Chat
+              a(href='https://coco-slack-invite.herokuapp.com/', data-i18n="editor.live_chat", target="_blank") Live Chat
             li
               a(href='http://discourse.codecombat.com/category/diplomat', data-i18n="nav.forum", target="_blank") Forum
             li
@@ -54,12 +54,14 @@ block outer_content
     
     select.form-control#language-select
 
-    table.table
-      for row in translationList
-        tr(data-format=row.format || '')
+    for row in translationList
+      table.table
+        tr
           th= row.title
+        tr(data-format=row.format || '')
           td.english-value-row
             div= row.enValue
+        tr(data-format=row.format || '')
           td.to-value-row
             if row.format === 'markdown'
               div(data-index=row.index.toString())= row.toValue

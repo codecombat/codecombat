@@ -1,9 +1,8 @@
 c = require 'schemas/schemas'
 
 module.exports =
-  'editor:save-new-version': c.object {title: 'Save New Version', description: 'Published when a version gets saved', required: ['major', 'commitMessage']},
-    major: {type: 'boolean'}
-    commitMessage: {type: 'string'}
+  'editor:campaign-analytics-modal-closed': c.object {title: 'Campaign editor analytics modal closed'},
+    targetLevelSlug: {type: 'string'}
 
   'editor:view-switched': c.object {title: 'Level View Switched', description: 'Published whenever the view switches'},
     targetURL: {type: 'string'}

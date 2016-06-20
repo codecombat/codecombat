@@ -1,0 +1,29 @@
+- var path = document.location.pathname
+
+#teacher-dashboard-nav
+  nav.navbar
+    .container-fluid.container
+      .navbar-header
+        button.navbar-toggle.collapsed(type='button' data-toggle='collapse' data-target='#teacher-dashboard-nav-collapse')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        span.navbar-brand.text-h4(data-i18n='teacher.teacher_dashboard')
+      #teacher-dashboard-nav-collapse.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li(class= path.indexOf('/teachers/classes') === 0 ? 'active' : '')
+            a(href='/teachers/classes')
+              small.label(data-i18n='teacher.my_classes')
+          li(class= path.indexOf('/teachers/courses') === 0 ? 'active' : '')
+            a(href='/teachers/courses')
+              small.label(data-i18n='teacher.courses')
+          li(class= path.indexOf('/teachers/licenses') === 0 ? 'active' : '')
+            a(href='/teachers/licenses')
+              small.label(data-i18n='teacher.enrollments')
+          //- li(class= path.indexOf('TODO') === 0 ? 'active' : '')
+          //-   a(href='TODO')
+          //-     small.label(data-i18n='teacher.resources')
+          //- li(class= path.indexOf('TODO') === 0 ? 'active' : '')
+          //-   a(href='TODO')
+          //-     small.label(data-i18n='teacher.help')

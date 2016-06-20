@@ -21,6 +21,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       # vendor libraries aren't actually wrapped with common.js, so short circuit those requires
       return {} if _.string.startsWith(name, 'vendor/')
       return {} if name is 'tests'
+      return {} if name is 'demo-app'
       name = 'core/auth' if name is 'lib/auth' # proxy for iPad until it's been updated to use the new, refactored location. TODO: remove this
       return func(name, loaderPath)
     _.extend wrapped, window.require # for functions like 'list'
@@ -81,8 +82,8 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     # a module and its dependencies have loaded!
     if @queue.progress is 1
       @recentPaths.sort()
-      console.debug @recentPaths.join('\n')
-      console.debug 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
+#      console.debug @recentPaths.join('\n')
+#      console.debug 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
       @trigger 'load-complete'
       
     @trigger 'loaded', e.item

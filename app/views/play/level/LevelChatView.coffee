@@ -54,7 +54,7 @@ module.exports = class LevelChatView extends CocoView
     @playNoise() if e.message.authorID isnt me.id
 
   playNoise: ->
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'chat_received'
+    @playSound 'chat_received'
 
   messageObjectToJQuery: (message) ->
     td = $('<td></td>')

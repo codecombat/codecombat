@@ -3,12 +3,12 @@ _ = require 'lodash'
 _.str = require 'underscore.string'
 sysPath = require 'path'
 fs = require('fs')
-commonjsHeader = fs.readFileSync('node_modules/brunch/node_modules/commonjs-require-definition/require.js', {encoding: 'utf8'})
+commonjsHeader = require('commonjs-require-definition')
 TRAVIS = process.env.COCO_TRAVIS_TEST
 
 
 #- regJoin replace a single '/' with '[\/\\]' so it can handle either forward or backslash
-regJoin = (s) -> new RegExp(s.replace(/\//, '[\\\/\\\\]'))
+regJoin = (s) -> new RegExp(s.replace(/\//g, '[\\\/\\\\]'))
 
 
 #- Build the config
@@ -32,13 +32,24 @@ exports.config =
   overrides:
     production:
       sourceMaps: 'absoluteUrl'
-      onCompile: (files) ->
-        # For some reason, production brunch produces two entries, the first of which is wrong:
-        # //# sourceMappingURL=public/javascripts/app.js.map
-        # //# sourceMappingURL=/javascripts/app.js.map
-        # So we remove the ones that have public in them.
-        exec = require('child_process').exec
-        exec "perl -pi -e 's/\\/\\/# sourceMappingURL=public.*//g' public/javascripts/*.js"
+      plugins:
+        coffeelint:
+          pattern: /\A\Z/
+        afterBrunch: [
+          "coffee scripts/minify.coffee",
+        ]
+    fast:
+      onCompile: (files) -> console.log "I feel the need, the need... for speed."
+      plugins:
+        coffeelint:
+          pattern: /\A\Z/
+    vagrant:
+      watcher:
+        usePolling: true
+
+  server:
+    # NOTE: This is a temporary workaround for https://github.com/nodejs/node-v0.x-archive/issues/2318
+    command: "#{if process.platform is 'win32' then 'node_modules\\.bin\\nodemon.cmd' else 'nodemon'} ."
 
   files:
     javascripts:
@@ -76,17 +87,18 @@ exports.config =
           regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
           regJoin('^vendor/scripts/string_score.js')
           regJoin('^bower_components/underscore.string')
+          regJoin('^vendor/scripts/coffeescript.js')
         ]
 
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
           regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine))')
-          regJoin('^bower_components/(?!(aether|d3|treema))')
+          regJoin('^bower_components/(?!(aether|d3|treema|three.js|esper.js))')
           'bower_components/treema/treema-utils.js'
         ]
         'javascripts/whole-vendor.js': if TRAVIS then [
           regJoin('^vendor/scripts/(?!(Box2d|jasmine))')
-          regJoin('^bower_components/(?!aether)')
+          regJoin('^bower_components/(?!aether|esper.js)')
         ] else []
 
         #- Other vendor libraries in separate bunches
@@ -97,12 +109,13 @@ exports.config =
         'javascripts/box2d.js': regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
         'javascripts/lodash.js': regJoin('^bower_components/lodash/dist/lodash.js')
         'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
-        'javascripts/app/vendor/aether-clojure.js': 'bower_components/aether/build/clojure.js'
+        'javascripts/esper.js': 'bower_components/esper.js/esper.js'
         'javascripts/app/vendor/aether-coffeescript.js': 'bower_components/aether/build/coffeescript.js'
-        'javascripts/app/vendor/aether-io.js': 'bower_components/aether/build/io.js'
         'javascripts/app/vendor/aether-javascript.js': 'bower_components/aether/build/javascript.js'
         'javascripts/app/vendor/aether-lua.js': 'bower_components/aether/build/lua.js'
+        'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
         'javascripts/app/vendor/aether-python.js': 'bower_components/aether/build/python.js'
+        'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
 
         # Any vendor libraries we don't want the client to load immediately
         'javascripts/app/vendor/d3.js': regJoin('^bower_components/d3')
@@ -112,10 +125,11 @@ exports.config =
         'javascripts/app/vendor/treema.js': 'bower_components/treema/treema.js'
         'javascripts/app/vendor/jasmine-bundle.js': regJoin('^vendor/scripts/jasmine')
         'javascripts/app/vendor/jasmine-mock-ajax.js': 'vendor/scripts/jasmine-mock-ajax.js'
+        'javascripts/app/vendor/three.js': 'bower_components/three.js/three.min.js'
 
         #- test, demo libraries
         'javascripts/app/tests.js': regJoin('^test/app/')
-        'javascripts/demo-app.js': regJoin('^test/demo/')
+        'javascripts/app/demo-app.js': regJoin('^test/demo/')
 
         #- More output files are generated at the below
 
@@ -126,7 +140,7 @@ exports.config =
           'vendor/scripts/jasmine-html.js'
           'vendor/scripts/jasmine-boot.js'
           'vendor/scripts/jasmine-mock-ajax.js'
-          
+
           # vendor.js ordering
           'bower_components/jquery/dist/jquery.js'
           'bower_components/lodash/dist/lodash.js'
@@ -143,12 +157,15 @@ exports.config =
           'bower_components/tv4/tv4.js'
           # Aether before box2d for some strange Object.defineProperty thing
           'bower_components/aether/build/aether.js'
+          'bower_components/esper.js/esper.js'
           'bower_components/fastclick/lib/fastclick.js'
           'bower_components/d3/d3.min.js'
           'vendor/scripts/async.js'
           'vendor/scripts/jquery-ui-1.11.1.js.custom.js'
         ]
-
+        after: [
+          'bower_components/algolia-autocomplete-no-conflict/no-conflict.js'
+        ]
     stylesheets:
       defaultExtension: 'sass'
       joinTo:
@@ -171,11 +188,8 @@ exports.config =
   framework: 'backbone'
 
   plugins:
-    autoReload:
-      delay: 300
     coffeelint:
       pattern: /^app\/.*\.coffee$/
-#      pattern: /^dne/ # use this pattern instead if you want to speed compilation
       options:
         line_endings:
           value: 'unix'
@@ -186,23 +200,20 @@ exports.config =
           level: 'ignore'  # PyCharm can't just autostrip for .coffee, needed for .jade
         no_unnecessary_fat_arrows:
           level: 'ignore'
-    uglify:
-      mangle:
-        except: ['require']
-      output:
-        semicolons: false
     sass:
-      mode: 'ruby'
+      mode: 'native'
       allowCache: true
+    assetsmanager:
+      copyTo:
+        'lib/ace': ['node_modules/ace-builds/src-min-noconflict/*']
+        'fonts': ['bower_components/openSansCondensed/*', 'bower_components/openSans/*']
+    autoReload:
+      delay: 1000
 
   modules:
     definition: (path, data) ->
-      needHeaders = [
-        'public/javascripts/app.js'
-        'public/javascripts/world.js'
-        'public/javascripts/whole-app.js'
-      ]
-      defn = if path in needHeaders then commonjsHeader else ''
+      needHeaderExpr = regJoin('^public/javascripts/?(app.js|world.js|whole-app.js)')
+      defn = if path.match(needHeaderExpr) then commonjsHeader else ''
       return defn
 
 #- Find all .coffee and .jade files in /app

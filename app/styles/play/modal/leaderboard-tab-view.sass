@@ -1,0 +1,36 @@
+.leaderboard-tab-view
+
+  h1
+    margin-top: -40px
+    color: rgb(254,188,68)
+    font-size: 30px
+    text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+  table
+
+    td
+      padding: 1px 2px
+      font-size: 16px
+      text-align: center
+
+    th
+      text-align: center
+
+    tbody
+      tr.viewable
+        cursor: pointer
+
+      .rank-cell
+        font-weight: bold
+  
+      .name-col-cell
+        max-width: 150px
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+    
+      .hero-portrait-cell, .code-language-cell
+        background: transparent url(/images/common/code_languages/javascript_small.png) no-repeat center center
+        background-size: 30px 30px
+        height: 30px
+        width: 32px

@@ -1,5 +1,7 @@
 c = require './../schemas'
 
+# Deprecated. TODO: Remove
+
 UserRemarkSchema = c.object {
   title: 'Remark'
   description: 'Remarks on a user, point of contact, tasks.'
