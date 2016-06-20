@@ -26,6 +26,7 @@ module.exports = class SegmentCheckView extends CocoView
         @trigger 'nav-forward' if @state.get('segmentCheckValid')
       else if @sharedState.get('path') is 'individual'
         if isNaN(@sharedState.get('birthday').getTime())
+          forms.clearFormAlerts(@$el)
           forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
         else
           age = (new Date().getTime() - @sharedState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
@@ -33,6 +34,8 @@ module.exports = class SegmentCheckView extends CocoView
             @trigger 'nav-forward'
           else
             @trigger 'nav-forward', 'coppa-deny'
+    'click .individual-path-button': ->
+      @trigger 'choose-path', 'individual'
 
   initialize: ({ @sharedState } = {}) ->
     @state = new State()

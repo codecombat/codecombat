@@ -1,4 +1,5 @@
 ModalView = require 'views/core/ModalView'
+AuthModal = require 'views/core/AuthModal'
 template = require 'templates/core/create-account-modal/basic-info-view'
 forms = require 'core/forms'
 User = require 'models/User'
@@ -17,6 +18,11 @@ module.exports = class BasicInfoView extends ModalView
       valid = @checkBasicInfo(data)
       if valid
         @onSubmitForm(e)
+    'click .login-link': ->
+      @openModalView(new AuthModal())
+    'click .use-suggested-name-link': (e) ->
+      @$('input[name="name"]').val(@suggestedName)
+      forms.clearFormAlerts(@$el.find('input[name="name"]').closest('.row'))
 
   initialize: ({ @sharedState } = {}) ->
     @onNameChange = _.debounce(_.bind(@checkNameExists, @), 500)
@@ -33,7 +39,7 @@ module.exports = class BasicInfoView extends ModalView
       else
         console.log "Suggesting name: #{newName}"
         @suggestedName = newName
-        forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try #{newName}?"
+        forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try <a class='use-suggested-name-link'>#{newName}</a>?" # TODO: Translate!
         return false
     jqxhr.then (val) -> return val
 

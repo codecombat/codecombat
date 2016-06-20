@@ -31,7 +31,7 @@ form.modal-body.segment-check
             br
             span.spr(data-i18n="TODO")
               | Don't have a class code? Create an 
-            a(href="TODO")
+            a.individual-path-button
               span(data-i18n="TODO")
                 | Individual Account
             span.spl(data-i18n="TODO")
@@ -53,7 +53,7 @@ form.modal-body.segment-check
             select#birthday-day-input.input-large.form-control(name="birthdayDay", style="width: 75px; float: left")
               option(value='',data-i18n="calendar.day")
               for day in _.range(1,32)
-                option(selected=(day === view.sharedState.get('birthdayDay'))) #{day}
+                option(selected=(day == view.sharedState.get('birthdayDay'))) #{day}
             select#birthday-year-input.input-large.form-control(name="birthdayYear", style="width: 90px;")
               option(value='',data-i18n="calendar.year")
               - var thisYear = new Date().getFullYear()

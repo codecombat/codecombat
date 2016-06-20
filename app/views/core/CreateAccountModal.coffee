@@ -87,6 +87,8 @@ module.exports = class CreateAccountModal extends ModalView
     
     @listenTo @customSubviews.choose_account_type, 'choose-path', (path) ->
       @state.set { path, screen: 'segment-check' }
+    @listenTo @customSubviews.segment_check, 'choose-path', (path) ->
+      @state.set { path, screen: 'segment-check' }
     @listenTo @customSubviews.segment_check, 'nav-back', ->
       @state.set { path: null, screen: 'choose-account-type' }
     @listenTo @customSubviews.segment_check, 'nav-forward', (screen) ->
