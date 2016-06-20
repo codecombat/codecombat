@@ -86,7 +86,14 @@ describe 'POST /db/classroom', ->
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSONB})
     expect(res.statusCode).toBe(200)
     @levelB = yield Level.findById(res.body._id)
+    levelJSONC = { name: 'Level C', permissions: [{access: 'owner', target: admin.id}], type: 'hero-practice' }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSONC})
+    expect(res.statusCode).toBe(200)
+    @levelC = yield Level.findById(res.body._id)
     campaignJSON = { name: 'Campaign', levels: {} }
+    paredLevelC = _.pick(@levelC.toObject(), 'name', 'original', 'type', 'slug')
+    paredLevelC.campaignIndex = 2
+    campaignJSON.levels[@levelC.get('original').toString()] = paredLevelC
     paredLevelB = _.pick(@levelB.toObject(), 'name', 'original', 'type', 'slug')
     paredLevelB.campaignIndex = 1
     campaignJSON.levels[@levelB.get('original').toString()] = paredLevelB
@@ -124,7 +131,7 @@ describe 'POST /db/classroom', ->
     [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
     expect(res.statusCode).toBe(403)
     done()
-    
+
   it 'makes a copy of the list of all levels in all courses', utils.wrap (done) ->
     teacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(teacher)
@@ -136,7 +143,17 @@ describe 'POST /db/classroom', ->
     expect(classroom.get('courses')[0].levels[0].slug).toBe('level-a')
     expect(classroom.get('courses')[0].levels[0].name).toBe('Level A')
     done()
-        
+
+  it 'makes a copy of the list of all non-practice levels in all courses', utils.wrap (done) ->
+    teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(teacher)
+    data = { name: 'tmp Classroom 2' }
+    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+    classroom = yield Classroom.findById(res.body._id)
+    # console.log(JSON.stringify(classroom.get('courses')[0], null, 2));
+    expect(classroom.get('courses')[0].levels.length).toEqual(2)
+    done()
+
 describe 'GET /db/classroom/:handle/levels', ->
 
   beforeEach utils.wrap (done) ->
