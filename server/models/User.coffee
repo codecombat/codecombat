@@ -9,6 +9,7 @@ AnalyticsUsersActive = require './AnalyticsUsersActive'
 Classroom = require '../models/Classroom'
 languages = require '../routes/languages'
 _ = require 'lodash'
+errors = require '../commons/errors'
 
 config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
@@ -347,6 +348,8 @@ UserSchema.methods.saveActiveUser = (event, done=null) ->
     done?()
 
 UserSchema.pre('save', (next) ->
+  if _.isNaN(@get('purchased')?.gems)
+    return next(new errors.InternalServerError('Attempting to save NaN to user')) 
   Classroom = require './Classroom'
   if @isTeacher() and not @wasTeacher
     Classroom.update({members: @_id}, {$pull: {members: @_id}}, {multi: true}).exec (err, res) ->

@@ -377,6 +377,9 @@ PaymentHandler = class PaymentHandler extends Handler
   #- Incrementing/recalculating gems
 
   incrementGemsFor: (user, gems, done) ->
+    if not gems
+      return done()
+      
     purchased = _.clone(user.get('purchased'))
     if not purchased?.gems
       purchased ?= {}
