@@ -265,7 +265,7 @@
     school_name: "School Name and City"
     optional: "optional"
     school_name_placeholder: "Example High School, Springfield, IL"
-    or_sign_up_with: "or sign up with"
+    connect_with: "Connect with:"
     connected_gplus_header: "You've successfully connected with Google+!"
     connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
     gplus_exists: "You already have an account associated with Google+!"

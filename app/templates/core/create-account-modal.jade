@@ -34,6 +34,8 @@ block modal-body
       +confirmation
     when 'coppa-deny'
       +coppaDeny
+    when 'sso-already-exists'
+      +SsoAlreadyExists
 
 block modal-footer
   .modal-footer(class=state.get('path'))
@@ -60,6 +62,9 @@ mixin basicInfo
 
 mixin coppaDeny
   #coppa-deny-view.modal-body
+
+mixin SsoAlreadyExists
+  #single-sign-on-already-exists-view.modal-body
   
 mixin extras
 mixin confirmation

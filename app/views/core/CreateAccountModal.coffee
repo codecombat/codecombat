@@ -3,6 +3,7 @@ ChooseAccountTypeView = require 'views/core/create-account/ChooseAccountTypeView
 SegmentCheckView = require 'views/core/create-account/SegmentCheckView'
 CoppaDenyView = require 'views/core/create-account/CoppaDenyView'
 BasicInfoView = require 'views/core/create-account/BasicInfoView'
+SingleSignOnAlreadyExistsView = require 'views/core/create-account/SingleSignOnAlreadyExistsView'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal'
 forms = require 'core/forms'
@@ -83,10 +84,14 @@ module.exports = class CreateAccountModal extends ModalView
       segment_check: new SegmentCheckView({ sharedState: @state })
       coppa_deny_view: new CoppaDenyView({ sharedState: @state })
       basic_info_view: new BasicInfoView({ sharedState: @state })
+      sso_already_exists: new SingleSignOnAlreadyExistsView({ sharedState: @state })
     }
     
     @listenTo @customSubviews.choose_account_type, 'choose-path', (path) ->
-      @state.set { path, screen: 'segment-check' }
+      if path is 'teacher'
+        application.router.navigate('/teachers/signup', trigger: true)
+      else
+        @state.set { path, screen: 'segment-check' }
     @listenTo @customSubviews.segment_check, 'choose-path', (path) ->
       @state.set { path, screen: 'segment-check' }
     @listenTo @customSubviews.segment_check, 'nav-back', ->
@@ -94,14 +99,17 @@ module.exports = class CreateAccountModal extends ModalView
     @listenTo @customSubviews.segment_check, 'nav-forward', (screen) ->
       @state.set { screen: screen or 'basic-info' }
     
+    
+    @listenTo @customSubviews.basic_info_view, 'sso-connect:already-in-use', ->
+      @state.set { screen: 'sso-already-exists' }
+    
   #   options.initialValues ?= {}
   #   options.initialValues?.classCode ?= utils.getQueryVariable('_cc', "")
   #   @previousFormInputs = options.initialValues or {}
-  #
-  #   # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
-  #   application.gplusHandler.loadAPI({ success: => _.defer => @$('#gplus-signup-btn').attr('disabled', false) })
-  #   application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-signup-btn').attr('disabled', false) })
-  #
+
+    # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
+    application.gplusHandler.loadAPI({ success: => _.defer => @$('#gplus-signup-btn').attr('disabled', false) unless @destroyed })
+    application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-signup-btn').attr('disabled', false) unless @destroyed })
   
   afterRender: ->
     # @$el.html(@template(@getRenderData()))

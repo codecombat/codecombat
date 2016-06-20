@@ -1,5 +1,31 @@
 form#basic-info-form.modal-body.basic-info
   .modal-body-content
+    .auth-network-logins.text-center
+      strong(data-i18n="signup.connect_with")
+      button#facebook-signup-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=true)
+        //- img.network-logo(src="/images/pages/community/logo_facebook.png", draggable="false")
+        span.sign-in-blurb(data-i18n="login.sign_in_with_facebook")
+      button#gplus-signup-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=true)
+        //- img.network-logo(src="/images/pages/community/logo_g+.png", draggable="false")
+        span.sign-in-blurb(data-i18n="login.sign_in_with_gplus")
+        .gplus-login-wrapper
+          .gplus-login-button
+                  
+    #gplus-logged-in-row.row.text-center.hide
+      h2(data-i18n="signup.connected_gplus_header")
+      p(data-i18n="signup.connected_gplus_p")
+      
+    #gplus-account-exists-row.row.text-center.hide
+      h2(data-i18n="signup.gplus_exists")
+      a.btn.btn-primary#gplus-login-btn(data-i18n="login.log_in")
+      
+    #facebook-logged-in-row.row.text-center.hide
+      h2(data-i18n="signup.connected_facebook_header")
+      p(data-i18n="signup.connected_facebook_p")
+      
+    #facebook-account-exists-row.row.text-center.hide
+      h2(data-i18n="signup.facebook_exists")
+      a.btn.btn-primary#facebook-login-btn(data-i18n="login.log_in")
     div
       if ['student', 'teacher'].indexOf(view.sharedState.get('path')) !== -1
         .row.full-name
@@ -7,30 +33,30 @@ form#basic-info-form.modal-body.basic-info
             label.control-label(for="first-name-input")
               span(data-i18n="TODO")
                 | First name:
-            input#first-name-input(name="firstName" value="h")
+            input#first-name-input(name="firstName")
           .last-initial.form-group
             label.control-label(for="last-name-input")
               span(data-i18n="TODO")
                 | Last initial:
-            input#last-name-input(name="lastName" maxlength="1" value="h")
+            input#last-name-input(name="lastName" maxlength="1")
       .row
         .form-group
           label.control-label(for="email-input")
             span(data-i18n="TODO")
               | Email address:
-          input#email-input(name="email" type="email" value="h@h.com")
+          input#email-input(name="email" type="email")
       .row
         .form-group
           label.control-label(for="username-input")
             span(data-i18n="TODO")
               | Username:
-          input#username-input(name="name" value="h")
+          input#username-input(name="name")
       .row
         .form-group
           label.control-label(for="password-input")
             span(data-i18n="TODO")
               | Password:
-          input#password-input(name="password" type="password" value="hh")
+          input#password-input(name="password" type="password")
       .row
         .form-group.checkbox.subscribe
           label.control-label(for="subscribe-input")

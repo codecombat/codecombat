@@ -23,6 +23,8 @@ module.exports = class BasicInfoView extends ModalView
     'click .use-suggested-name-link': (e) ->
       @$('input[name="name"]').val(@suggestedName)
       forms.clearFormAlerts(@$el.find('input[name="name"]').closest('.row'))
+    'click #facebook-signup-btn': 'onClickFacebookSignupButton'
+    'click #gplus-signup-btn': 'onClickGPlusSignupButton'
 
   initialize: ({ @sharedState } = {}) ->
     @onNameChange = _.debounce(_.bind(@checkNameExists, @), 500)
@@ -107,14 +109,14 @@ module.exports = class BasicInfoView extends ModalView
     if @sharedState.get('birthday')
       attrs.birthday = @sharedState.get('birthday').toISOString()
   
-    _.assign attrs, @gplusAttrs if @gplusAttrs
-    _.assign attrs, @facebookAttrs if @facebookAttrs
+    # _.assign attrs, @gplusAttrs if @gplusAttrs
+    # _.assign attrs, @facebookAttrs if @facebookAttrs
     res = tv4.validateMultiple attrs, User.schema
   
     if not res.valid
       forms.applyErrorsToForm(@$el, res.errors)
       error = true
-    if not _.any([attrs.password, @gplusAttrs, @facebookAttrs])
+    if not attrs.password
       forms.setErrorToProperty @$el, 'password', 'Required'
       error = true
     if not forms.validateEmail(attrs.email)
@@ -129,13 +131,13 @@ module.exports = class BasicInfoView extends ModalView
   createUser: ->
     options = {}
     window.tracker?.identify()
-    if @gplusAttrs
+    if @sharedState.get('gplusAttrs')
       @newUser.set('_id', me.id)
-      options.url = "/db/user?gplusID=#{@gplusAttrs.gplusID}&gplusAccessToken=#{application.gplusHandler.accessToken.access_token}"
+      options.url = "/db/user?gplusID=#{@sharedState.get('gplusAttrs').gplusID}&gplusAccessToken=#{application.gplusHandler.accessToken.access_token}"
       options.type = 'PUT'
-    if @facebookAttrs
+    if @sharedState.get('facebookAttrs')
       @newUser.set('_id', me.id)
-      options.url = "/db/user?facebookID=#{@facebookAttrs.facebookID}&facebookAccessToken=#{application.facebookHandler.authResponse.accessToken}"
+      options.url = "/db/user?facebookID=#{@sharedState.get('facebookAttrs').facebookID}&facebookAccessToken=#{application.facebookHandler.authResponse.accessToken}"
       options.type = 'PUT'
     @newUser.save(null, options)
     @newUser.once 'sync', @onUserCreated, @
@@ -153,17 +155,84 @@ module.exports = class BasicInfoView extends ModalView
   
   onUserCreated: ->
     Backbone.Mediator.publish "auth:signed-up", {}
-    if @gplusAttrs
+    if @sharedState.get('gplusAttrs')
       window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
-    else if @facebookAttrs
+    else if @sharedState.get('facebookAttrs')
       window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Facebook'
     else
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
     if @sharedState.get('classCode')
-      url = "/courses?_cc="+@state.get('classCode')
+      url = "/courses?_cc="+@sharedState.get('classCode')
       location.href = url
     else
       window.location.reload()
-  
+
+  onClickFacebookSignupButton: (e) ->
+    e.preventDefault()
+    btn = @$('#facebook-signup-btn')
+    application.facebookHandler.connect({
+      context: @
+      success: ->
+        btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
+        btn.attr('disabled', true)
+        application.facebookHandler.loadPerson({
+          context: @
+          success: (facebookAttrs) ->
+            @sharedState.set { facebookAttrs }
+            existingUser = new User()
+            existingUser.fetchFacebookUser(@sharedState.get('facebookAttrs').facebookID, {
+              context: @
+              # complete: ->
+              #   @$('#email-password-row').remove()
+              success: =>
+                @sharedState.set {
+                  ssoUsed: 'facebook'
+                  email: @sharedState.get('facebookAttrs').email
+                }
+                @trigger 'sso-connect:already-in-use'
+                # @$('#facebook-account-exists-row').removeClass('hide')
+              error: (user, jqxhr) =>
+                @trigger 'sso-connect:success'
+                # if jqxhr.status is 404
+                #   @$('#facebook-logged-in-row').toggleClass('hide')
+                # else
+                #   errors.showNotyNetworkError(jqxhr)
+            })
+        })
+    })
+
+  onClickGPlusSignupButton: (e) ->
+    e.preventDefault()
+    btn = @$('#gplus-signup-btn')
+    application.gplusHandler.connect({
+      context: @
+      success: ->
+        btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
+        btn.attr('disabled', true)
+        application.gplusHandler.loadPerson({
+          context: @
+          success: (gplusAttrs) ->
+            @sharedState.set { gplusAttrs }
+            existingUser = new User()
+            existingUser.fetchGPlusUser(@sharedState.get('gplusAttrs').gplusID, {
+              context: @
+              # complete: ->
+              #   @$('#email-password-row').remove()
+              success: =>
+                @sharedState.set {
+                  ssoUsed: 'gplus'
+                  email: @sharedState.get('gplusAttrs').email
+                }
+                @trigger 'sso-connect:already-in-use'
+                # @$('#gplus-account-exists-row').removeClass('hide')
+              error: (user, jqxhr) =>
+                @trigger 'sso-connect:success'
+                # if jqxhr.status is 404
+                #   @$('#gplus-logged-in-row').toggleClass('hide')
+                # else
+                #   errors.showNotyNetworkError(jqxhr)
+            })
+        })
+    })
