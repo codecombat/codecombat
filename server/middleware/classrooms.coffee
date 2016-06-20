@@ -141,7 +141,7 @@ module.exports =
     classroom.set 'members', []
     database.assignBody(req, classroom)
     
-    # copy over data from how courses are right now
+    # Copy over data from how courses are right now
     courses = yield Course.find()
     campaigns = yield Campaign.find({_id: {$in: (course.get('campaignID') for course in courses)}})
     campaignMap = {}
@@ -151,6 +151,8 @@ module.exports =
       courseData = { _id: course._id, levels: [] }
       campaign = campaignMap[course.get('campaignID').toString()]
       levels = _.values(campaign.get('levels'))
+      # TODO: remove hero-practice filter after classroom Ux supports practice levels
+      levels = _.reject(levels, {'type': 'hero-practice'})
       levels = _.sortBy(levels, 'campaignIndex')
       for level in levels
         levelData = { original: mongoose.Types.ObjectId(level.original) }
