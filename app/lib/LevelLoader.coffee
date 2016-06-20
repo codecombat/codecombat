@@ -62,6 +62,8 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   onLevelLoaded: ->
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course']
+      @sessionDependenciesRegistered = {}
     if (@courseID and @level.get('type', true) not in ['course', 'course-ladder']) or window.serverConfig.picoCTF
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
@@ -83,8 +85,6 @@ module.exports = class LevelLoader extends CocoClass
   # Session Loading
 
   loadFakeSession: ->
-    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
-      @sessionDependenciesRegistered = {}
     initVals =
       level:
         original: @level.get('original')
@@ -113,9 +113,6 @@ module.exports = class LevelLoader extends CocoClass
     @loadDependenciesForSession @session
 
   loadSession: ->
-    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course']
-      @sessionDependenciesRegistered = {}
-
     if @sessionID
       url = "/db/level.session/#{@sessionID}"
       url += "?interpret=true" if @spectateMode
