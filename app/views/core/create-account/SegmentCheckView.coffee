@@ -1,10 +1,10 @@
-ModalView = require 'views/core/ModalView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/core/create-account-modal/segment-check-view'
 forms = require 'core/forms'
 Classroom = require 'models/Classroom'
 State = require 'models/State'
 
-module.exports = class SegmentCheckView extends ModalView
+module.exports = class SegmentCheckView extends CocoView
   id: 'segment-check-view'
   template: template
 
@@ -37,10 +37,39 @@ module.exports = class SegmentCheckView extends ModalView
   initialize: ({ @sharedState } = {}) ->
     @state = new State()
     @classroom = new Classroom()
-    @listenTo @state, 'all', -> @render()
-
-  checkClassCode: _.debounce((classCode) ->
-    @classroom.fetchByCode(classCode)
-    @classroom.once 'sync', => @state.set { classCodeValid: true, segmentCheckValid: true }
-    @classroom.once 'error', => @state.set { classCodeValid: false, segmentCheckValid: false }
-  , 1000)
+    @listenTo @state, 'all', -> @renderSelectors('.render')
+  #
+  # checkClassCode: _.debounce((classCode) ->
+  #   @classroom.fetchByCode(classCode)
+  #   # @classroom.once 'sync', => @state.set { classCodeValid: true, segmentCheckValid: true }
+  #   # @classroom.once 'error', => @state.set { classCodeValid: false, segmentCheckValid: false }
+  #
+  #   forms.clearFormAlerts(@$('form'))
+  #   res = tv4.validate(classCode, UserSchema.)
+  # , 1000)
+  
+  checkClassCode: _.debounce (classCode) ->
+    @classroom.clear()
+    console.log 'Checking classCode: ', classCode
+    return forms.clearFormAlerts(@$el) if classCode is ''
+    
+    new Promise(@classroom.fetchByCode(classCode).then)
+      .then =>
+        console.log @classroom.get('name')
+        @state.set { classCodeValid: true, segmentCheckValid: true }
+      .catch =>
+        console.log @classroom.get('name')
+        @state.set { classCodeValid: false, segmentCheckValid: false }
+  , 1000
+      
+    # jqxhr = User.getUnconflictedName name, (newName) =>
+    #   forms.clearFormAlerts(@$el)
+    #   if name is newName
+    #     @suggestedName = undefined
+    #     return true
+    #   else
+    #     console.log "Suggesting name: #{newName}"
+    #     @suggestedName = newName
+    #     forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try #{newName}?"
+    #     return false
+    # jqxhr.then (val) -> return val

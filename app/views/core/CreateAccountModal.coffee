@@ -63,10 +63,10 @@ module.exports = class CreateAccountModal extends ModalView
 
   initialize: (options={}) ->
     @state = new State {
-      path: null
-      screen: 'choose-account-type' # segment-check, basic-info, (extras), confirmation, coppa-deny
-      # path: 'student' # TODO: Remove!
-      # screen: 'basic-info' # TODO: Remove!
+      # path: null
+      # screen: 'choose-account-type' # segment-check, basic-info, (extras), confirmation, coppa-deny
+      path: 'student' # TODO: Remove!
+      screen: 'segment-check' # TODO: Remove!
       segmentCheckValid: false
       basicInfoValid: false
     }

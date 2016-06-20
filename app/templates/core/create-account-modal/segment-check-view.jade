@@ -4,18 +4,30 @@ form.modal-body.segment-check
       when 'student'
         span(data-i18n="TODO")
           | Enter your class code:
-        .class-code-input-group
-          input.class-code-input(value=view.sharedState.get('classCode'))
-          unless _.isEmpty(view.sharedState.get('classCode'))
-            if state.get('classCodeValid')
-              span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
-            else
-              span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
+        .class-code-input-group.form-group
+          input.class-code-input(name="classCode" value=view.sharedState.get('classCode'))
+          .render
+            unless _.isEmpty(view.sharedState.get('classCode'))
+              if state.get('classCodeValid')
+                span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
+              else
+                span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
         
-        if _.isEmpty(view.sharedState.get('classCode'))
-          p
+        p.render
+          if _.isEmpty(view.sharedState.get('classCode'))
             span(data-i18n="TODO")
               | Ask your teacher for your class code.
+          else if state.get('classCodeValid')
+            span(data-i18n="TODO")
+              | You're about to join:
+            br
+            span.classroom-name= view.classroom.get('name')
+            br
+            span.teacher-name= view.classroom.owner.get('name')
+          else
+            span(data-i18n="TODO")
+              | This class code doesn't exist! Check your spelling or ask your teacher for help.
+          if _.isEmpty(view.sharedState.get('classCode')) || !state.get('classCodeValid')
             br
             span.spr(data-i18n="TODO")
               | Don't have a class code? Create an 
@@ -24,12 +36,6 @@ form.modal-body.segment-check
                 | Individual Account
             span.spl(data-i18n="TODO")
               |  instead.
-        else if state.get('classCodeValid')
-          p
-            span(data-i18n="TODO")
-              | You're about to join:
-            .classroom-name= view.classroom.get('name')
-            .teacher-name= view.classroom.owner.get('name')
           
       when 'teacher'
         // TODO
