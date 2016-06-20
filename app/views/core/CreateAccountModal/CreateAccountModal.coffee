@@ -1,11 +1,11 @@
 ModalView = require 'views/core/ModalView'
-ChooseAccountTypeView = require 'views/core/create-account/ChooseAccountTypeView'
-SegmentCheckView = require 'views/core/create-account/SegmentCheckView'
-CoppaDenyView = require 'views/core/create-account/CoppaDenyView'
-BasicInfoView = require 'views/core/create-account/BasicInfoView'
-SingleSignOnAlreadyExistsView = require 'views/core/create-account/SingleSignOnAlreadyExistsView'
+ChooseAccountTypeView = require 'views/core/CreateAccountModal/ChooseAccountTypeView'
+SegmentCheckView = require 'views/core/CreateAccountModal/SegmentCheckView'
+CoppaDenyView = require 'views/core/CreateAccountModal/CoppaDenyView'
+BasicInfoView = require 'views/core/CreateAccountModal/BasicInfoView'
+SingleSignOnAlreadyExistsView = require 'views/core/CreateAccountModal/SingleSignOnAlreadyExistsView'
 State = require 'models/State'
-template = require 'templates/core/create-account-modal'
+template = require 'templates/core/create-account-modal/create-account-modal'
 forms = require 'core/forms'
 User = require 'models/User'
 application  = require 'core/application'
@@ -66,8 +66,8 @@ module.exports = class CreateAccountModal extends ModalView
     @state = new State {
       # path: null
       # screen: 'choose-account-type' # segment-check, basic-info, (extras), confirmation, coppa-deny
-      path: 'student' # TODO: Remove!
-      screen: 'segment-check' # TODO: Remove!
+      path: 'individual' # TODO: Remove!
+      screen: 'basic-info' # TODO: Remove!
       segmentCheckValid: false
       basicInfoValid: false
       facebookEnabled: application.facebookHandler.apiLoaded
