@@ -166,7 +166,7 @@ module.exports = class World
       shouldUpdateProgress = @shouldUpdateRealTimePlayback t2
       shouldDelayRealTimeSimulation = not shouldUpdateProgress and @shouldDelayRealTimeSimulation t2
     else
-      shouldUpdateProgress = t2 - t1 > PROGRESS_UPDATE_INTERVAL
+      shouldUpdateProgress = t2 - t1 > PROGRESS_UPDATE_INTERVAL# and (@frames.length - @framesSerializedSoFar >= @frameRate or t2 - t1 > 1000)
       shouldDelayRealTimeSimulation = false
     return true unless shouldUpdateProgress or shouldDelayRealTimeSimulation
     # Stop loading frames for now; continue in a moment.

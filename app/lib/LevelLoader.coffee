@@ -173,10 +173,9 @@ module.exports = class LevelLoader extends CocoClass
     else if session is @opponentSession
       @consolidateFlagHistory() if @session.loaded
     if @level.get('type', true) in ['course'] # course-ladder is hard to handle because there's 2 sessions
-      heroConfig = me.get('heroConfig')
-      console.log "Course mode, loading custom hero: ", heroConfig if LOG
-      return if not heroConfig
-      url = "/db/thang.type/#{heroConfig.thangType}/version"
+      heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
+      console.log "Course mode, loading custom hero: ", heroThangType if LOG
+      url = "/db/thang.type/#{heroThangType}/version"
       if heroResource = @maybeLoadURL(url, ThangType, 'thang')
         console.log "Pushing resource: ", heroResource if LOG
         @worldNecessities.push heroResource

@@ -147,7 +147,7 @@ module.exports = class Level extends CocoModel
 
     # Load the user's chosen hero AFTER getting stats from default char
     if /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['course']
-      heroThangType = me.get('heroConfig')?.thangType
+      heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
       levelThang.thangType = heroThangType if heroThangType
 
   sortSystems: (levelSystems, systemModels) ->
