@@ -92,7 +92,7 @@ module.exports.setup = (app) ->
   app.post('/db/user/:userID/request-verify-email', mw.users.sendVerificationEmail)
   app.post('/db/user/:userID/verify/:verificationCode', mw.users.verifyEmailAddress) # TODO: Finalize URL scheme
   
-  app.get('/db/level/:handle/session', mw.levels.upsertSession)
+  app.get('/db/level/:handle/session', mw.auth.checkHasUser(), mw.levels.upsertSession)
   
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
