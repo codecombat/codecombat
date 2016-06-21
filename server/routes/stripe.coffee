@@ -101,7 +101,7 @@ module.exports.setup = (app) ->
               # Update purchased gems
               # TODO: is this correct for a resub?
               Payment.find({recipient: recipient._id, gems: {$exists: true}}).select('gems').exec (err, payments) ->
-                gems = _.reduce payments, ((sum, p) -> sum + p.get('gems')), 0
+                gems = _.reduce payments, ((sum, p) -> sum + (p.get('gems') or 0)), 0
                 purchased = _.clone(recipient.get('purchased'))
                 purchased ?= {}
                 purchased.gems = gems

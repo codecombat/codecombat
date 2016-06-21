@@ -47,6 +47,7 @@ updateUserProperty = (userID, userProperty, answer) ->
     return log.error err if err
 
 updateUserGems = (userID, gemDelta) ->
+  return unless gemDelta
   update = $inc: {'earned.gems': gemDelta}
   User.update {_id: mongoose.Types.ObjectId(userID)}, update, (err, result) ->
     return log.error err if err
