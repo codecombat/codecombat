@@ -94,3 +94,14 @@ module.exports =
         verify_link: "http://codecombat.com/user/#{user._id}/verify/#{user.verificationCode(timestamp)}"
     sendwithus.api.send context, (err, result) ->
     res.status(200).send({})
+
+  getStudents: wrap (req, res, next) ->
+    throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+    students = yield User.find({$and: [{schoolName: {$exists: true}}, {schoolName: {$ne: ''}}, {anonymous: false}]}).select('schoolName').lean()
+    res.status(200).send(students)
+
+  getTeachers: wrap (req, res, next) ->
+    throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+    teacherRoles = ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
+    teachers = yield User.find(anonymous: false, role: {$in: teacherRoles}).select('').lean()
+    res.status(200).send(teachers)

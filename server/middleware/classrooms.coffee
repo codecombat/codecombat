@@ -248,3 +248,8 @@ module.exports =
       sendwithus.api.send context, _.noop
     
     res.status(200).send({})
+
+  getUsers: wrap (req, res, next) ->
+    throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+    classrooms = yield Classroom.find().select('ownerID members').lean()
+    res.status(200).send(classrooms)
