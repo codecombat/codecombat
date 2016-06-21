@@ -44,7 +44,6 @@ form.modal-body.segment-check
           span(data-i18n="TODO")
             | Enter your birthdate:
           .input-border
-            - console.log(view.sharedState.attributes)
             select#birthday-month-input.input-large.form-control(name="birthdayMonth", style="width: 106px; float: left")
               option(value='',data-i18n="calendar.month")
               for name, index in ['january','february','march','april','may','june','july','august','september','october','november','december']

@@ -3,84 +3,94 @@ AuthModal = require 'views/core/AuthModal'
 template = require 'templates/core/create-account-modal/basic-info-view'
 forms = require 'core/forms'
 User = require 'models/User'
+State = require 'models/State'
 
 module.exports = class BasicInfoView extends ModalView
   id: 'basic-info-view'
   template: template
 
   events:
-    'input input[name="name"]': 'onNameChange'
+    'input input[name="name"]': ->
+      @nameUniquePromise = null
+      @onNameChange()
     'click .back-to-account-type': -> @trigger 'nav-back'
-    'submit form#basic-info-form': (e) ->
+    'submit form': (e) ->
       e.preventDefault()
-      console.log "Submitting..."
       data = forms.formToObject(e.currentTarget)
       valid = @checkBasicInfo(data)
+      @checkNameUnique() unless @nameUniquePromise
+      @nameUniquePromise.then ->
+        @nameUniquePromise = null
       if valid
         @onSubmitForm(e)
     'click .login-link': ->
       @openModalView(new AuthModal())
     'click .use-suggested-name-link': (e) ->
-      @$('input[name="name"]').val(@suggestedName)
-      forms.clearFormAlerts(@$el.find('input[name="name"]').closest('.row'))
+      @$('input[name="name"]').val(@state.get('suggestedName'))
+      forms.clearFormAlerts(@$el.find('input[name="name"]').closest('.form-group').parent())
     'click #facebook-signup-btn': 'onClickSsoSignupButton'
     'click #gplus-signup-btn': 'onClickSsoSignupButton'
 
   initialize: ({ @sharedState } = {}) ->
-    @onNameChange = _.debounce(_.bind(@checkNameExists, @), 500)
+    @state = new State {
+      suggestedName: null
+    }
+    @onNameChange = _.debounce(_.bind(@checkNameUnique, @), 500)
     @listenTo @sharedState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @sharedState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
 
-  checkNameExists: ->
+  checkNameUnique: ->
     name = $('input[name="name"]', @$el).val()
-    console.log 'Checking name: ', name
-    return forms.clearFormAlerts(@$el) if name is ''
-    jqxhr = User.getUnconflictedName name, (newName) =>
-      forms.clearFormAlerts(@$el)
+    return forms.clearFormAlerts(@$('input[name="name"]').closest('.form-group').parent()) if name is ''
+    @nameUniquePromise = new Promise((resolve, reject) => User.getUnconflictedName name, (newName) =>
       if name is newName
-        @suggestedName = undefined
-        return true
+        @state.set { suggestedName: null }
+        forms.clearFormAlerts(@$('input[name="name"]').closest('.form-group').parent())
+        resolve true
       else
-        console.log "Suggesting name: #{newName}"
-        @suggestedName = newName
+        @state.set { suggestedName: newName }
+        forms.clearFormAlerts(@$('input[name="name"]').closest('.form-group').parent())
         forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try <a class='use-suggested-name-link'>#{newName}</a>?" # TODO: Translate!
-        return false
-    jqxhr.then (val) -> return val
-
+        resolve false
+      )
+    # jqxhr = User.getUnconflictedName name, (newName) =>
+    #   forms.clearFormAlerts(@$el)
+    #   if name is newName
+    #     @suggestedName = undefined
+    #     @state.set { nameUnique: true }
+    #   else
+    #     @suggestedName = newName
+    #     forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try <a class='use-suggested-name-link'>#{newName}</a>?" # TODO: Translate!
+    #     @state.set { nameUnique: false }
+    
   checkBasicInfo: (data) ->
     # TODO: Move this to somewhere appropriate
     tv4.addFormat({
       'email': (email) ->
-        console.log email
-        console.log forms.validateEmail(email)
         if forms.validateEmail(email)
           return null
         else
           return {code: tv4.errorCodes.FORMAT_CUSTOM, message: "Please enter a valid email address."}
     })
     
-    # TODO: Move this to somewhere appropriate
-    formSchema = {
-      type: 'object'
-      properties: {
-        email: User.schema.properties.email
-        name: User.schema.properties.name
-        password: User.schema.properties.password
-      }
-      required: ['email', 'name', 'password'].concat (if @sharedState.get('path') is 'student' then ['firstName', 'lastName'] else [])
-    }
-    forms.clearFormAlerts(@$('form'))
-    res = tv4.validateMultiple data, formSchema
-    console.log res.errors
+    forms.clearFormAlerts(@$el)
+    res = tv4.validateMultiple data, @formSchema()
     forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
-    return res.valid and @checkNameExists()
+    return res.valid
+  
+  formSchema: ->
+    type: 'object'
+    properties:
+      email: User.schema.properties.email
+      name: User.schema.properties.name
+      password: User.schema.properties.password
+    required: ['email', 'name', 'password'].concat (if @sharedState.get('path') is 'student' then ['firstName', 'lastName'] else [])
 
   onSubmitForm: (e) ->
     e.preventDefault()
-    # @playSound 'menu-button-click'
-    forms.clearFormAlerts(@$el)
+
     attrs = forms.formToObject @$el
-    attrs.name = @suggestedName if @suggestedName
+    attrs.name = @state.get('suggestedName') if @state.get('suggestedName')
     _.defaults attrs, me.pick([
       'preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1',
       'name', 'music', 'volume', 'emails', 'schoolName'
@@ -115,16 +125,17 @@ module.exports = class BasicInfoView extends ModalView
     # _.assign attrs, @facebookAttrs if @facebookAttrs
     res = tv4.validateMultiple attrs, User.schema
   
-    if not res.valid
-      forms.applyErrorsToForm(@$el, res.errors)
-      error = true
-    if not attrs.password
-      forms.setErrorToProperty @$el, 'password', 'Required'
-      error = true
-    if not forms.validateEmail(attrs.email)
-      forms.setErrorToProperty @$el, 'email', 'Please enter a valid email address'
-      error = true
-    return if error
+    # forms.clearFormAlerts(@$el)
+    # if not res.valid
+    #   forms.applyErrorsToForm(@$el, res.errors)
+    #   error = true
+    # if not attrs.password
+    #   forms.setErrorToProperty @$el, 'password', 'Required'
+    #   error = true
+    # if not forms.validateEmail(attrs.email)
+    #   forms.setErrorToProperty @$el, 'email', 'Please enter a valid email address'
+    #   error = true
+    # return if error
   
     @$('#signup-button').text($.i18n.t('signup.creating')).attr('disabled', true)
     @newUser = new User(attrs)
@@ -193,16 +204,17 @@ module.exports = class BasicInfoView extends ModalView
             existingUser[fetchSsoUser](@sharedState.get('ssoAttrs')[idName], {
               context: @
               success: =>
-                console.log ssoUsed, ssoAttrs.email
                 @sharedState.set {
                   ssoUsed
                   email: ssoAttrs.email
                 }
                 @trigger 'sso-connect:already-in-use'
-                console.log 'sso-connect:already-in-use'
               error: (user, jqxhr) =>
+                @sharedState.set {
+                  ssoUsed
+                  email: ssoAttrs.email
+                }
                 @trigger 'sso-connect:new-user'
-                console.log 'sso-connect:new-user'
             })
         })
     })

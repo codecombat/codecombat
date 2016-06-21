@@ -3,7 +3,7 @@ template = require 'templates/core/create-account-modal/single-sign-on-already-e
 forms = require 'core/forms'
 User = require 'models/User'
 
-module.exports = class SingleSignOnConfirmView extends ModalView
+module.exports = class SingleSignOnAlreadyExistsView extends ModalView
   id: 'single-sign-on-already-exists-view'
   template: template
 

@@ -53,15 +53,12 @@ module.exports = class SegmentCheckView extends CocoView
   
   checkClassCode: _.debounce (classCode) ->
     @classroom.clear()
-    console.log 'Checking classCode: ', classCode
     return forms.clearFormAlerts(@$el) if classCode is ''
     
     new Promise(@classroom.fetchByCode(classCode).then)
       .then =>
-        console.log @classroom.get('name')
         @state.set { classCodeValid: true, segmentCheckValid: true }
       .catch =>
-        console.log @classroom.get('name')
         @state.set { classCodeValid: false, segmentCheckValid: false }
   , 1000
       
@@ -71,7 +68,6 @@ module.exports = class SegmentCheckView extends CocoView
     #     @suggestedName = undefined
     #     return true
     #   else
-    #     console.log "Suggesting name: #{newName}"
     #     @suggestedName = newName
     #     forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try #{newName}?"
     #     return false

@@ -4,6 +4,7 @@ SegmentCheckView = require 'views/core/CreateAccountModal/SegmentCheckView'
 CoppaDenyView = require 'views/core/CreateAccountModal/CoppaDenyView'
 BasicInfoView = require 'views/core/CreateAccountModal/BasicInfoView'
 SingleSignOnAlreadyExistsView = require 'views/core/CreateAccountModal/SingleSignOnAlreadyExistsView'
+SingleSignOnConfirmView = require 'views/core/CreateAccountModal/SingleSignOnConfirmView'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal/create-account-modal'
 forms = require 'core/forms'
@@ -69,7 +70,7 @@ module.exports = class CreateAccountModal extends ModalView
       path: 'individual' # TODO: Remove!
       screen: 'basic-info' # TODO: Remove!
       segmentCheckValid: false
-      basicInfoValid: false
+      # basicInfoValid: false
       facebookEnabled: application.facebookHandler.apiLoaded
       gplusEnabled: application.gplusHandler.apiLoaded
     }
@@ -87,6 +88,7 @@ module.exports = class CreateAccountModal extends ModalView
       coppa_deny_view: new CoppaDenyView({ sharedState: @state })
       basic_info_view: new BasicInfoView({ sharedState: @state })
       sso_already_exists: new SingleSignOnAlreadyExistsView({ sharedState: @state })
+      sso_confirm: new SingleSignOnConfirmView({ sharedState: @state })
     }
     
     @listenTo @customSubviews.choose_account_type, 'choose-path', (path) ->
@@ -104,6 +106,8 @@ module.exports = class CreateAccountModal extends ModalView
     
     @listenTo @customSubviews.basic_info_view, 'sso-connect:already-in-use', ->
       @state.set { screen: 'sso-already-exists' }
+    @listenTo @customSubviews.basic_info_view, 'sso-connect:new-user', ->
+      @state.set { screen: 'sso-confirm' }
     
   #   options.initialValues ?= {}
   #   options.initialValues?.classCode ?= utils.getQueryVariable('_cc', "")

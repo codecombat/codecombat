@@ -1,0 +1,35 @@
+h4
+  span(data-i18n="TODO")
+    | Connect with:
+div
+  span= view.sharedState.get('email')
+
+.text-hr
+  span(data-i18n="TODO")
+    | continue
+
+form#basic-info-form
+  //- This form group needs a parent so its errors can be cleared individually
+  div
+    .form-group
+      h4
+        span(data-i18n="TODO")
+          | Pick a username:
+      input(name="name" value=view.sharedState.get('name'))
+
+  .form-group.checkbox.subscribe
+    label.control-label(for="subscribe-input")
+      input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
+      span.small(data-i18n="TODO")
+        | Receive announcements about CodeCombat
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    // disabled=!view.sharedState.get('basicInfoValid')
+    button.next-button.btn.btn-lg.btn-navy(type='submit')
+      span(data-i18n="TODO")
+        | Create Account
+
+    button.back-to-basic-info.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="TODO")
+        | Back
