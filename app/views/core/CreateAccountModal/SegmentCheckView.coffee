@@ -61,14 +61,3 @@ module.exports = class SegmentCheckView extends CocoView
       .catch =>
         @state.set { classCodeValid: false, segmentCheckValid: false }
   , 1000
-      
-    # jqxhr = User.getUnconflictedName name, (newName) =>
-    #   forms.clearFormAlerts(@$el)
-    #   if name is newName
-    #     @suggestedName = undefined
-    #     return true
-    #   else
-    #     @suggestedName = newName
-    #     forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try #{newName}?"
-    #     return false
-    # jqxhr.then (val) -> return val

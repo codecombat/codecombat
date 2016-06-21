@@ -1,7 +1,8 @@
 form#basic-info-form.modal-body.basic-info
   .modal-body-content
     .auth-network-logins.text-center
-      strong(data-i18n="signup.connect_with")
+      h4
+        span(data-i18n="signup.connect_with")
       a#facebook-signup-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=!view.sharedState.get('facebookEnabled'), data-sso-used="facebook")
         //- img.network-logo(src="/images/pages/community/logo_facebook.png", draggable="false")
         span.sign-in-blurb(data-i18n="login.sign_in_with_facebook")
@@ -10,6 +11,11 @@ form#basic-info-form.modal-body.basic-info
         span.sign-in-blurb(data-i18n="login.sign_in_with_gplus")
         .gplus-login-wrapper
           .gplus-login-button
+    
+    .hr-text
+      hr
+      span(data-i18n="TODO")
+        | or
                   
     div
       if ['student', 'teacher'].indexOf(view.sharedState.get('path')) !== -1
