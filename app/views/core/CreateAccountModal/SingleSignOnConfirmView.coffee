@@ -7,6 +7,11 @@ User = require 'models/User'
 module.exports = class SingleSignOnConfirmView extends BasicInfoView
   id: 'single-sign-on-confirm-view'
   template: template
+  
+  events: _.extend {}, BasicInfoView.prototype.events, {
+    'click .back-button': ->
+      @trigger 'nav-back'
+  }
 
   initialize: ({ @sharedState } = {}) ->
     super(arguments...)

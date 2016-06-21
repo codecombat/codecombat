@@ -73,6 +73,7 @@ module.exports = class CreateAccountModal extends ModalView
       # basicInfoValid: false
       facebookEnabled: application.facebookHandler.apiLoaded
       gplusEnabled: application.gplusHandler.apiLoaded
+      birthday: new Date('')
     }
     
     # @classroom = new Classroom()
@@ -102,13 +103,20 @@ module.exports = class CreateAccountModal extends ModalView
       @state.set { path: null, screen: 'choose-account-type' }
     @listenTo @customSubviews.segment_check, 'nav-forward', (screen) ->
       @state.set { screen: screen or 'basic-info' }
-    
-    
+
     @listenTo @customSubviews.basic_info_view, 'sso-connect:already-in-use', ->
       @state.set { screen: 'sso-already-exists' }
     @listenTo @customSubviews.basic_info_view, 'sso-connect:new-user', ->
       @state.set { screen: 'sso-confirm' }
-    
+    @listenTo @customSubviews.basic_info_view, 'nav-back', ->
+      @state.set { screen: 'segment-check' }
+
+    @listenTo @customSubviews.sso_confirm, 'nav-back', ->
+      @state.set { screen: 'basic-info' }
+
+    @listenTo @customSubviews.sso_already_exists, 'nav-back', ->
+      @state.set { screen: 'basic-info' }
+
   #   options.initialValues ?= {}
   #   options.initialValues?.classCode ?= utils.getQueryVariable('_cc', "")
   #   @previousFormInputs = options.initialValues or {}

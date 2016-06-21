@@ -13,7 +13,7 @@ module.exports = class BasicInfoView extends ModalView
     'input input[name="name"]': ->
       @nameUniquePromise = null
       @onNameChange()
-    'click .back-to-account-type': -> @trigger 'nav-back'
+    'click .back-button': -> @trigger 'nav-back'
     'submit form': (e) ->
       e.preventDefault()
       data = forms.formToObject(e.currentTarget)

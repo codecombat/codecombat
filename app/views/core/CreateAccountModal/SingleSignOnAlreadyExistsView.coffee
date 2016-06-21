@@ -1,14 +1,15 @@
-ModalView = require 'views/core/ModalView'
+BasicInfoView = require 'views/core/CreateAccountModal/BasicInfoView'
 template = require 'templates/core/create-account-modal/single-sign-on-already-exists-view'
 forms = require 'core/forms'
 User = require 'models/User'
 
-module.exports = class SingleSignOnAlreadyExistsView extends ModalView
+module.exports = class SingleSignOnAlreadyExistsView extends BasicInfoView
   id: 'single-sign-on-already-exists-view'
   template: template
 
-  events:
+  events: _.extend {}, BasicInfoView.prototype.events, {
     'click .sso-login-btn': 'onClickSsoLoginButton'
+  }
 
   initialize: ({ @sharedState } = {}) ->
 
