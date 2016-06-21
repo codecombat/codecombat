@@ -11,16 +11,13 @@ describe 'POST /db/user', ->
   createAnonNameUser = (name, done)->
     request.post getURL('/auth/logout'), ->
       request.get getURL('/auth/whoami'), ->
-        req = request.post(getURL('/db/user'), (err, response) ->
+        req = request.post({ url: getURL('/db/user'), json: {name}}, (err, response) ->
           expect(response.statusCode).toBe(200)
-          request.get getURL('/auth/whoami'), (request, response, body) ->
-            res = JSON.parse(response.body)
-            expect(res.anonymous).toBeTruthy()
-            expect(res.name).toEqual(name)
+          request.get { url: getURL('/auth/whoami'), json: true }, (request, response, body) ->
+            expect(body.anonymous).toBeTruthy()
+            expect(body.name).toEqual(name)
             done()
         )
-        form = req.form()
-        form.append('name', name)
 
   it 'preparing test : clears the db first', (done) ->
     clearModels [User], (err) ->
@@ -77,16 +74,13 @@ describe 'POST /db/user', ->
     createAnonNameUser('Jim', done)
 
   it 'should allow setting existing user name to anonymous user', (done) ->
-    req = request.post(getURL('/db/user'), (err, response, body) ->
+    req = request.post({url: getURL('/db/user'), json: {email: 'new@user.com', password: 'new'}}, (err, response, body) ->
       expect(response.statusCode).toBe(200)
       request.get getURL('/auth/whoami'), (request, response, body) ->
         res = JSON.parse(response.body)
         expect(res.anonymous).toBeFalsy()
         createAnonNameUser 'Jim', done
     )
-    form = req.form()
-    form.append('email', 'new@user.com')
-    form.append('password', 'new')
 
 describe 'PUT /db/user', ->
 
@@ -103,23 +97,22 @@ describe 'PUT /db/user', ->
 
   it 'denies requests to edit someone who is not joe', (done) ->
     unittest.getAdmin (admin) ->
-      req = request.put getURL(urlUser),
-      (err, res) ->
+      request.put {url: getURL(urlUser), json: {_id: admin.id}}, (err, res) ->
         expect(res.statusCode).toBe(403)
         done()
-      req.form().append('_id', admin.id)
 
   it 'denies invalid data', (done) ->
     unittest.getNormalJoe (joe) ->
-      req = request.put getURL(urlUser),
-      (err, res) ->
+      json = {
+        _id: joe.id
+        email: 'farghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlar
+ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl'
+      }
+      request.put { url: getURL(urlUser), json }, (err, res) ->
         expect(res.statusCode).toBe(422)
-        expect(res.body.indexOf('too long')).toBeGreaterThan(-1)
+        expect(res.body[0].message.indexOf('too long')).toBeGreaterThan(-1)
         done()
-      form = req.form()
-      form.append('_id', joe.id)
-      form.append('email', 'farghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlar
-ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl')
+      
 
   it 'does not allow normals to edit their permissions', utils.wrap (done) ->
     user = yield utils.initUser()
@@ -132,47 +125,45 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
     loginAdmin -> done()
 
   it 'denies non-existent ids', (done) ->
-    req = request.put getURL(urlUser),
-    (err, res) ->
+    json = {
+      _id: '513108d4cb8b610000000004',
+      email: 'perfectly@good.com'
+    }
+    request.put {url: getURL(urlUser), json}, (err, res) ->
       expect(res.statusCode).toBe(404)
       done()
-    form = req.form()
-    form.append('_id', '513108d4cb8b610000000004')
-    form.append('email', 'perfectly@good.com')
 
   it 'denies if the email being changed is already taken', (done) ->
     unittest.getNormalJoe (joe) ->
       unittest.getAdmin (admin) ->
-        req = request.put getURL(urlUser), (err, res) ->
+        json = { _id: admin.id, email: joe.get('email').toUpperCase() }
+        request.put { url: getURL(urlUser), json }, (err, res) ->
           expect(res.statusCode).toBe(409)
-          expect(res.body.indexOf('already used')).toBeGreaterThan(-1)
+          expect(res.body.message.indexOf('already used')).toBeGreaterThan(-1)
           done()
-        form = req.form()
-        form.append('_id', String(admin._id))
-        form.append('email', joe.get('email').toUpperCase())
 
   it 'does not care if you include your existing name', (done) ->
     unittest.getNormalJoe (joe) ->
-      req = request.put getURL(urlUser+'/'+joe._id), (err, res) ->
+      json = { _id: joe._id, name: 'Joe' }
+      request.put { url: getURL(urlUser+'/'+joe._id), json }, (err, res) ->
         expect(res.statusCode).toBe(200)
         done()
-      form = req.form()
-      form.append('_id', String(joe._id))
-      form.append('name', 'Joe')
 
   it 'accepts name and email changes', (done) ->
     unittest.getNormalJoe (joe) ->
-      req = request.put getURL(urlUser), (err, res) ->
+      json = {
+        _id: joe.id
+        email: 'New@email.com'
+        name: 'Wilhelm'
+      }
+      request.put { url: getURL(urlUser), json }, (err, res) ->
         expect(res.statusCode).toBe(200)
         unittest.getUser('Wilhelm', 'New@email.com', 'null', (joe) ->
           expect(joe.get('name')).toBe('Wilhelm')
           expect(joe.get('emailLower')).toBe('new@email.com')
           expect(joe.get('email')).toBe('New@email.com')
           done())
-      form = req.form()
-      form.append('_id', String(joe._id))
-      form.append('email', 'New@email.com')
-      form.append('name', 'Wilhelm')
+      
 
   it 'should not allow two users with the same name slug', (done) ->
     loginSam (sam) ->
@@ -189,7 +180,8 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
   it 'should silently rename an anonymous user if their name conflicts upon signup', (done) ->
     request.post getURL('/auth/logout'), ->
       request.get getURL('/auth/whoami'), ->
-        req = request.post getURL('/db/user'), (err, response) ->
+        json = { name: 'admin' }
+        request.post { url: getURL('/db/user'), json }, (err, response) ->
           expect(response.statusCode).toBe(200)
           request.get getURL('/auth/whoami'), (err, response) ->
             expect(err).toBeNull()
@@ -205,8 +197,6 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
               expect(finalGuy.name).not.toEqual guy.name
               expect(finalGuy.name.length).toBe guy.name.length + 1
               done()
-        form = req.form()
-        form.append('name', 'admin')
 
   it 'should be able to unset a slug by setting an empty name', (done) ->
     loginSam (sam) ->
@@ -467,13 +457,13 @@ describe 'PUT /db/user/-/remain-teacher', ->
 describe 'GET /db/user', ->
 
   it 'logs in as admin', (done) ->
-    req = request.post(getURL('/auth/login'), (error, response) ->
+    json = {
+      username: 'admin@afc.com'
+      password: '80yqxpb38j'
+    }
+    request.post { url: getURL('/auth/login'), json }, (error, response) ->
       expect(response.statusCode).toBe(200)
       done()
-    )
-    form = req.form()
-    form.append('username', 'admin@afc.com')
-    form.append('password', '80yqxpb38j')
 
   it 'get schema', (done) ->
     request.get {uri: getURL(urlUser+'/schema')}, (err, res, body) ->
@@ -523,7 +513,7 @@ describe 'GET /db/user', ->
   # TODO Ruben should be able to fetch other users but probably with restricted data access
   # Add to the test case above an extra data check
 
-  xit 'can fetch another user with restricted fields'
+#  xit 'can fetch another user with restricted fields'
   
   
 describe 'GET /db/user/:handle', ->

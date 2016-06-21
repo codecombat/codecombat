@@ -14,7 +14,10 @@ module.exports.setup = (app) ->
   app.get('/auth/unsubscribe', mw.auth.unsubscribe)
   app.get('/auth/whoami', mw.auth.whoAmI)
 
-  app.all('/db/*', mw.auth.checkHasUser())
+  app.delete('/db/*', mw.auth.checkHasUser())
+  app.patch('/db/*', mw.auth.checkHasUser())
+  app.post('/db/*', mw.auth.checkHasUser())
+  app.put('/db/*', mw.auth.checkHasUser())
   
   Achievement = require '../models/Achievement'
   app.get('/db/achievement', mw.achievements.fetchByRelated, mw.rest.get(Achievement))
@@ -66,6 +69,7 @@ module.exports.setup = (app) ->
   app.post('/db/classroom/:classroomID/members/:memberID/reset-password', mw.classrooms.setStudentPassword)
   app.post('/db/classroom/:anything/members', mw.auth.checkLoggedIn(), mw.classrooms.join)
   app.get('/db/classroom/:handle', mw.auth.checkLoggedIn()) # TODO: Finish migrating route, adding now so 401 is returned
+  app.get('/db/classroom/-/users', mw.auth.checkHasPermission(['admin']), mw.classrooms.getUsers)
 
   CodeLog = require ('../models/CodeLog')
   app.post('/db/codelogs', mw.codelogs.post)
@@ -88,8 +92,9 @@ module.exports.setup = (app) ->
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
   app.post('/db/user/:userID/request-verify-email', mw.users.sendVerificationEmail)
   app.post('/db/user/:userID/verify/:verificationCode', mw.users.verifyEmailAddress) # TODO: Finalize URL scheme
-  
-  app.get('/db/level/:handle/session', mw.levels.upsertSession)
+  app.get('/db/level/:handle/session', mw.auth.checkHasUser(), mw.levels.upsertSession)
+  app.get('/db/user/-/students', mw.auth.checkHasPermission(['admin']), mw.users.getStudents)
+  app.get('/db/user/-/teachers', mw.auth.checkHasPermission(['admin']), mw.users.getTeachers)
   
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
@@ -102,5 +107,6 @@ module.exports.setup = (app) ->
   app.post('/db/trial.request', mw.trialRequests.post)
   app.get('/db/trial.request/:handle', mw.auth.checkHasPermission(['admin']), mw.rest.getByHandle(TrialRequest))
   app.put('/db/trial.request/:handle', mw.auth.checkHasPermission(['admin']), mw.trialRequests.put)
+  app.get('/db/trial.request/-/users', mw.auth.checkHasPermission(['admin']), mw.trialRequests.getUsers)
 
   app.get('/healthcheck', mw.healthcheck)

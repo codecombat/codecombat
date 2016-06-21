@@ -25,11 +25,11 @@ module.exports.setup = (app) ->
 
 createMailContent = (req, fromAddress, done) ->
   country = req.body.country
-  enrollmentsNeeded = req.body.enrollmentsNeeded
+  licensesNeeded = req.body.licensesNeeded
   message = req.body.message
   user = req.user
   subject = switch
-    when enrollmentsNeeded then "#{enrollmentsNeeded} Licenses needed for #{fromAddress}"
+    when licensesNeeded then "#{licensesNeeded} Licenses needed for #{fromAddress}"
     when req.body.subject then req.body.subject
     else "Contact Us Form: #{fromAddress}"
   level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (user.get('points') + 100))) + 1 else 0

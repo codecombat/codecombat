@@ -36,14 +36,25 @@ if (database.generateMongoConnectionString() !== dbString) {
   throw Error('Stopping server tests because db connection string was not as expected.');
 }
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000 * 10; // for long Stripe tests
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000 * 15; // for long Stripe tests
 require('../server/common'); // Make sure global testing functions are set up
+
+// Ignore Stripe/Nocking erroring
+console.error = function() {
+  try {
+    if(arguments[1].stack.indexOf('An error occurred with our connection to Stripe') > -1)
+      return;
+  }
+  catch (e) { }
+  console.log.apply(console, arguments);
+};
 
 var initialized = false;
 beforeEach(function(done) {
   if (initialized) {
     return done();
   }
+  console.log('/spec/helpers/helper.js - Initializing spec environment...');
 
   var async = require('async');
   async.series([
@@ -103,6 +114,7 @@ beforeEach(function(done) {
       process.exit(1);
     }
     initialized = true;
+    console.log('/spec/helpers/helper.js - Done');
     done();
   });
 });

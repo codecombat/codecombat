@@ -34,7 +34,7 @@ PaymentHandler = class PaymentHandler extends Handler
     super arguments...
 
   logPaymentError: (req, msg) ->
-    console.warn "Payment Error: #{req.user.get('slug')} (#{req.user._id}): '#{msg}'"
+    log.warn "Payment Error: #{req.user.get('slug')} (#{req.user._id}): '#{msg}'"
 
   makeNewInstance: (req) ->
     payment = super(req)
@@ -377,6 +377,9 @@ PaymentHandler = class PaymentHandler extends Handler
   #- Incrementing/recalculating gems
 
   incrementGemsFor: (user, gems, done) ->
+    if not gems
+      return done()
+      
     purchased = _.clone(user.get('purchased'))
     if not purchased?.gems
       purchased ?= {}

@@ -39,7 +39,7 @@ module.exports =
       throw new errors.NotFound('Level original ObjectId not found in that course')
     
     if not nextLevelOriginal
-      res.status(200).send({})
+      return res.status(200).send({})
       
     dbq = Level.findOne({original: mongoose.Types.ObjectId(nextLevelOriginal)})
     

@@ -59,7 +59,7 @@ EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, origin
         earned.achievedAmount = newAmount
         #console.log 'earnedPoints is', (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth, 'was', earned.earnedPoints, earned.previouslyAchievedAmount, 'got exp function for new amount', newAmount, expFunction(newAmount), 'for original amount', originalAmount, expFunction(originalAmount), 'with point worth', pointWorth
         earnedPoints = earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth
-        earnedGems = earned.earnedGems = (expFunction(newAmount) - expFunction(originalAmount)) * gemWorth
+        earnedGems = earned.earnedGems = (expFunction(newAmount) - expFunction(originalAmount)) * gemWorth ? 0
         earned.previouslyAchievedAmount = originalAmount
         EarnedAchievement.update {achievement: earned.achievement, user: earned.user}, earned, {upsert: true}, (err) ->
           return log.error err if err?

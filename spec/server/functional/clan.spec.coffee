@@ -403,10 +403,10 @@ describe 'Clans', ->
             loginNewUser (user2) ->
               user2.set 'stripe.free', true
               user2.save (err) ->
-              request.put {uri: "#{clanURL}/#{clan.id}/join" }, (err, res, body) ->
-                expect(err).toBeNull()
-                expect(res.statusCode).toBe(200)
-                done()
+                request.put {uri: "#{clanURL}/#{clan.id}/join" }, (err, res, body) ->
+                  expect(err).toBeNull()
+                  expect(res.statusCode).toBe(200)
+                  done()
 
     it 'Join clan when not premium 403', (done) ->
       loginNewUser (user1) ->

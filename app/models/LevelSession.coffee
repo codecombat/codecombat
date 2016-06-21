@@ -41,7 +41,7 @@ module.exports = class LevelSession extends CocoModel
     @get('submittedCodeLanguage')? and @get('team')?
 
   completed: ->
-    @get('state')?.complete || false
+    @get('state')?.complete || @get('submitted') || false
 
   shouldAvoidCorruptData: (attrs) ->
     return false unless me.team is 'humans'

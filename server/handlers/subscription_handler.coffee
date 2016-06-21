@@ -21,7 +21,7 @@ recipientCouponID = 'free'
 
 class SubscriptionHandler extends Handler
   logSubscriptionError: (user, msg) ->
-    console.warn "Subscription Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
+    log.warn "Subscription Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 
   getByRelationship: (req, res, args...) ->
     return @getStripeEvents(req, res) if args[1] is 'stripe_events'
@@ -176,7 +176,7 @@ class SubscriptionHandler extends Handler
                 purchased = _.clone(req.user.get('purchased'))
                 purchased ?= {}
                 purchased.gems ?= 0
-                purchased.gems += parseInt(charge.metadata.gems)
+                purchased.gems += parseInt(charge.metadata.gems) if charge.metadata.gems
                 req.user.set('purchased', purchased)
 
                 req.user.save (err, user) =>
@@ -257,7 +257,7 @@ class SubscriptionHandler extends Handler
             purchased = _.clone(req.user.get('purchased'))
             purchased ?= {}
             purchased.gems ?= 0
-            purchased.gems += product.get('gems') * months
+            purchased.gems += product.get('gems') * months if product.get('gems')
             req.user.set('purchased', purchased)
 
             req.user.save (err, user) =>
@@ -440,7 +440,7 @@ class SubscriptionHandler extends Handler
         purchased = _.clone(user.get('purchased'))
         purchased ?= {}
         purchased.gems ?= 0
-        purchased.gems += product.get('gems')
+        purchased.gems += product.get('gems') if product.get('gems')
         user.set('purchased', purchased)
 
       user.save (err) =>
@@ -550,7 +550,7 @@ class SubscriptionHandler extends Handler
               purchased = _.clone(recipient.get('purchased'))
               purchased ?= {}
               purchased.gems ?= 0
-              purchased.gems += product.get('gems')
+              purchased.gems += product.get('gems') if product.get('gems')
               recipient.set('purchased', purchased)
             recipient.save (err) =>
               if err

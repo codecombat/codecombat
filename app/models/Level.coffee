@@ -58,7 +58,7 @@ module.exports = class Level extends CocoModel
 
   denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
-    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
+    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'hero-practice']
       thangTypesWithComponents = (tt for tt in supermodel.getModels(ThangType) when tt.get('components')?)
       thangTypesByOriginal = _.indexBy thangTypesWithComponents, (tt) -> tt.get('original')  # Optimization
       for levelThang in o.thangs
@@ -147,7 +147,7 @@ module.exports = class Level extends CocoModel
 
     # Load the user's chosen hero AFTER getting stats from default char
     if /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['course']
-      heroThangType = me.get('heroConfig')?.thangType
+      heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
       levelThang.thangType = heroThangType if heroThangType
 
   sortSystems: (levelSystems, systemModels) ->

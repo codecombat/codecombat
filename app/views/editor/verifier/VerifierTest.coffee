@@ -7,7 +7,7 @@ LevelLoader = require 'lib/LevelLoader'
 utils = require 'core/utils'
 
 module.exports = class VerifierTest extends CocoClass
-  constructor: (@levelID, @updateCallback, @supermodel, @language) ->
+  constructor: (@levelID, @updateCallback, @supermodel, @language, @options) ->
     super()
     # TODO: turn this into a Subview
     # TODO: listen to the progress report from Angel to show a simulation progress bar (maybe even out of the number of frames we actually know it'll take)
@@ -91,7 +91,7 @@ module.exports = class VerifierTest extends CocoClass
 
   isSuccessful: () ->
     return false unless @solution?
-    return false unless @frames == @solution.frameCount
+    return false unless @frames == @solution.frameCount or @options.dontCareAboutFrames
     if @goals and @solution.goals
       for k of @goals
         continue if not @solution.goals[k]
