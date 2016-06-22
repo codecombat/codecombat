@@ -241,7 +241,7 @@ module.exports = class CampaignEditorView extends RootView
 
   onTreemaSelectionChanged: (e, node) =>
     return unless node[0]?.data?.original?
-    elem = @$('div').find('[data-level-original="'+node[0].data.original+'"]')
+    elem = @$("div[data-level-original='#{node[0].data.original}']")
     elem.toggle('pulsate')
     setTimeout ()->
       elem.toggle('pulsate')
