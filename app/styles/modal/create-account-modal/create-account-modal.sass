@@ -1,3 +1,11 @@
+// Layout for CreateAccountModal is done largely with flexboxes.
+// Most of the CSS exists in this file, but a small amount has been moved into subview-specific files.
+// Eventually, subview-specific rules should be moved to files specific to those subviews.
+
+// Currently it uses .modal-dialog, .modal-content, etc, for some parts of the modal.
+// Unfortunately those preexesting classes don't line up perfectly with the needs of this modal,
+// so many of the other styles for those classes don't apply or are overridden.
+
 @import "app/styles/style-flat-variables"
 
 #create-account-modal
@@ -194,8 +202,7 @@
     &.subscribe
       width: 100%
   
-  // Fancy text horizontal rules
-  
+  // Fancy text inside horizontal rules
   
   .hr-text
     position: relative

@@ -15,6 +15,28 @@ errors = require 'core/errors'
 # COPPADenyModal = require 'views/core/COPPADenyModal'
 utils = require 'core/utils'
 
+###
+CreateAccountModal is a wizard-style modal with several subviews, one for each
+`screen` that the user navigates forward and back through.
+
+There are three `path`s, one for each account type (individual, student).
+Teacher account path will be added later; for now it defers to /teachers/signup)
+Each subview handles only one `screen`, but all three `path` variants because their logic is largely the same.
+
+They `screen`s are:
+  choose-account-type: Sets the `path`.
+  segment-check: Checks required info for the path (age, )
+    coppa-deny: Seen if the indidual segment-check age is < 13 years old
+  basic-info: This is the form for username/password/email/etc.
+              It asks for whatever is needed for this type of user.
+              It also handles the actual user creation.
+              A user may create their account here, or connect with facebook/g+
+    sso-confirm: Alternate version of basic-info for new facebook/g+ users
+    sso-already-exists: Altername version of basic-info for when facebook/g+
+                        user already exists, prompting them to sign in.
+  extras: Not yet implemented
+  confirmation: Not yet implemented  
+###
 
 module.exports = class CreateAccountModal extends ModalView
   id: 'create-account-modal'
