@@ -1,0 +1,68 @@
+@import "app/styles/style-flat-variables"
+
+#choose-account-type-view
+  .path-cards
+    margin-top: 15px
+    display: flex
+    
+  .path-card ~ .path-card
+    margin-left: 6.5px
+
+  .path-card
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    width: 235px
+    min-height: 340px
+    border-style: solid
+    border-width: thin
+    border-radius: 5px
+    
+    &.navy
+      border-color: $navy
+      .card-title
+        background-color: $navy
+      
+    &.forest
+      border-color: $forest
+      .card-title
+        background-color: $forest
+    
+    
+    .card-title
+      display: flex
+      flex-direction: column
+      align-items: center
+      justify-content: center
+      height: 50px
+      color: white
+      font-weight: bold
+      text-align: center
+
+    .card-content
+      flex-grow: 1
+      display: flex
+      flex-direction: column
+      margin: 50px 20px 0
+      
+      ul
+        align-self: center
+        text-align: left
+        padding-left: 20px
+        li
+          span
+            position: relative
+            left: -5px
+
+    .card-footer
+      margin: 20px
+  
+  .individual-section
+    margin-top: 50px
+    max-width: 425px
+
+  .individual-title
+    font-weight: bold
+
+  .text-h6
+    color: white
