@@ -2,6 +2,7 @@ ModalView = require 'views/core/ModalView'
 AuthModal = require 'views/core/AuthModal'
 template = require 'templates/core/create-account-modal/basic-info-view'
 forms = require 'core/forms'
+errors = require 'core/errors'
 User = require 'models/User'
 State = require 'models/State'
 
@@ -18,6 +19,7 @@ module.exports = class BasicInfoView extends ModalView
       e.preventDefault()
       data = forms.formToObject(e.currentTarget)
       valid = @checkBasicInfo(data)
+      # TODO: This promise logic is super weird and confusing. Rewrite.
       @checkNameUnique() unless @nameUniquePromise
       @nameUniquePromise.then ->
         @nameUniquePromise = null
@@ -45,14 +47,21 @@ module.exports = class BasicInfoView extends ModalView
     @nameUniquePromise = new Promise((resolve, reject) => User.getUnconflictedName name, (newName) =>
       if name is newName
         @state.set { suggestedName: null }
-        forms.clearFormAlerts(@$('input[name="name"]').closest('.form-group').parent())
+        @clearNameError()
         resolve true
       else
         @state.set { suggestedName: newName }
-        forms.clearFormAlerts(@$('input[name="name"]').closest('.form-group').parent())
-        forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try <a class='use-suggested-name-link'>#{newName}</a>?" # TODO: Translate!
+        @setNameError(newName)
         resolve false
     )
+
+  clearNameError: ->
+    forms.clearFormAlerts(@$('input[name="name"]').closest('.form-group').parent())
+
+  setNameError: (newName) ->
+    @clearNameError()
+    forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try <a class='use-suggested-name-link'>#{newName}</a>?" # TODO: Translate!
+    
     # jqxhr = User.getUnconflictedName name, (newName) =>
     #   forms.clearFormAlerts(@$el)
     #   if name is newName
@@ -90,7 +99,7 @@ module.exports = class BasicInfoView extends ModalView
     e.preventDefault()
 
     attrs = forms.formToObject @$el
-    attrs.name = @state.get('suggestedName') if @state.get('suggestedName')
+    # attrs.name = @state.get('suggestedName') if @state.get('suggestedName')
     _.defaults attrs, me.pick([
       'preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1',
       'name', 'music', 'volume', 'emails', 'schoolName'
@@ -120,9 +129,8 @@ module.exports = class BasicInfoView extends ModalView
     # delete attrs.birthdayDay
     if @sharedState.get('birthday')
       attrs.birthday = @sharedState.get('birthday').toISOString()
-  
-    # _.assign attrs, @gplusAttrs if @gplusAttrs
-    # _.assign attrs, @facebookAttrs if @facebookAttrs
+
+    _.assign attrs, @sharedState.get('ssoAttrs') if @sharedState.get('ssoAttrs')
     res = tv4.validateMultiple attrs, User.schema
   
     # forms.clearFormAlerts(@$el)
@@ -144,27 +152,27 @@ module.exports = class BasicInfoView extends ModalView
   createUser: ->
     options = {}
     window.tracker?.identify()
-    if @sharedState.get('gplusAttrs')
+    if @sharedState.get('ssoUsed') is 'gplus'
       @newUser.set('_id', me.id)
-      options.url = "/db/user?gplusID=#{@sharedState.get('gplusAttrs').gplusID}&gplusAccessToken=#{application.gplusHandler.accessToken.access_token}"
+      options.url = "/db/user?gplusID=#{@sharedState.get('ssoAttrs').gplusID}&gplusAccessToken=#{application.gplusHandler.accessToken.access_token}"
       options.type = 'PUT'
-    if @sharedState.get('facebookAttrs')
+    if @sharedState.get('ssoUsed') is 'facebook'
       @newUser.set('_id', me.id)
-      options.url = "/db/user?facebookID=#{@sharedState.get('facebookAttrs').facebookID}&facebookAccessToken=#{application.facebookHandler.authResponse.accessToken}"
+      options.url = "/db/user?facebookID=#{@sharedState.get('ssoAttrs').facebookID}&facebookAccessToken=#{application.facebookHandler.authResponse.accessToken}"
       options.type = 'PUT'
     @newUser.save(null, options)
     @newUser.once 'sync', @onUserCreated, @
     @newUser.once 'error', @onUserSaveError, @
   
   onUserSaveError: (user, jqxhr) ->
-    @$('#signup-button').text($.i18n.t('signup.sign_up')).attr('disabled', false)
+    # TODO: Do we need to enable/disable the submit button to prevent multiple users being created?
+    # Seems to work okay without that, but mongo had 2 copies of the user... temporarily. Very strange.
     if _.isObject(jqxhr.responseJSON) and jqxhr.responseJSON.property
-      error = jqxhr.responseJSON
-      if jqxhr.status is 409 and error.property is 'name'
-        @newUser.unset 'name'
-        return @createUser()
-      return forms.applyErrorsToForm(@$el, [jqxhr.responseJSON])
-    errors.showNotyNetworkError(jqxhr)
+      forms.applyErrorsToForm(@$el, [jqxhr.responseJSON])
+      @setNameError(@state.get('suggestedName'))
+    else
+      console.log "Error:", jqxhr.responseText
+      errors.showNotyNetworkError(jqxhr)
   
   onUserCreated: ->
     Backbone.Mediator.publish "auth:signed-up", {}
