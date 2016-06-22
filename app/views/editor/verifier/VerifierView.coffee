@@ -23,6 +23,10 @@ module.exports = class VerifierView extends RootView
     @problem = 0
     @testCount = 0
 
+    defaultCores = 2
+    @cores = Math.max(window.navigator.hardwareConcurrency, defaultCores)
+    @careAboutFrames = true
+
     if @levelID
       @levelIDs = [@levelID]
       @testLanguages = ['python', 'javascript', 'java', 'lua', 'coffeescript']
@@ -56,6 +60,8 @@ module.exports = class VerifierView extends RootView
   onClickGoButton: (e) ->
     @filterCampaigns()
     @levelIDs = []
+    @careAboutFrames = @$("#careAboutFrames").is(':checked')
+    @cores = @$("#cores").val()|0
     for campaign, campaignInfo of @levelsByCampaign
       if @$("#campaign-#{campaign}-checkbox").is(':checked')
         for level in campaignInfo.levels
@@ -87,8 +93,6 @@ module.exports = class VerifierView extends RootView
       @render()
 
   onTestLevelsLoaded: ->
-    defaultCores = 2
-    cores = Math.max(window.navigator.hardwareConcurrency, defaultCores)
 
     @linksQueryString = window.location.search
     #supermodel = if @levelID then @supermodel else undefined
@@ -102,7 +106,8 @@ module.exports = class VerifierView extends RootView
           @tasksList.push level: levelID, language: codeLanguage
 
     @testCount = @tasksList.length
-    chunks = _.groupBy @tasksList, (v,i) -> i%cores
+    console.log("Starting in", @cores, "cores...")
+    chunks = _.groupBy @tasksList, (v,i) => i%@cores
     supermodels = [@supermodel]
 
     _.forEach chunks, (chunk, i) =>
@@ -128,7 +133,7 @@ module.exports = class VerifierView extends RootView
                 ++@problem
 
               next()
-          , chunkSupermodel, task.language
+          , chunkSupermodel, task.language, {dontCareAboutFrames: not @careAboutFrames}
           @tests.unshift test
           @render()
         , => @render()

@@ -16,9 +16,18 @@ block content
         p.alert.alert-info
           | To Run: #{view.testCount - view.passed - view.problem - view.failed}
 
+    .form.form-inline
+      .row.lineUnder
+        .form-group.campaign-mix
+          input(id="careAboutFrames", type="checkbox", checked=!!view.careAboutFrames, disabled=!!view.tests) 
+          label(for="careAboutFrames") Check frame counts
+        .form-group.campaign-mix
+          label(for="cores") Threads:
+          input(id="cores", type="number", min="1", max="16", value=view.cores, disabled=!!view.tests)
+
     if view.levelsByCampaign
       .form.form-inline
-        .row
+        .row.lineUnder
           each campaignInfo, campaign in view.levelsByCampaign
             .form-group.campaign-mix
               - var campaignID = "campaign-" + campaign + "-checkbox";
