@@ -35,7 +35,7 @@ They `screen`s are:
     sso-already-exists: Altername version of basic-info for when facebook/g+
                         user already exists, prompting them to sign in.
   extras: Not yet implemented
-  confirmation: Not yet implemented  
+  confirmation: Not yet implemented
 ###
 
 module.exports = class CreateAccountModal extends ModalView
