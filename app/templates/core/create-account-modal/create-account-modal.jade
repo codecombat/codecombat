@@ -23,21 +23,21 @@ mixin modal-header-content
 block modal-body
   case state.get('screen')
     when 'choose-account-type'
-      +chooseAccountType
+      #choose-account-type
     when 'segment-check'
-      +segmentCheck
+      #segment-check-view
     when 'basic-info'
-      +basicInfo
-    when 'extras'
-      +extras
-    when 'confirmation'
-      +confirmation
+      #basic-info-view
+    //- when 'extras'
+    //-   #extras
+    //- when 'confirmation'
+    //-   #confirmation
     when 'coppa-deny'
-      +coppaDeny
+      #coppa-deny-view
     when 'sso-already-exists'
-      +ssoAlreadyExists
+      #single-sign-on-already-exists-view
     when 'sso-confirm'
-      +ssoConfirm
+      #single-sign-on-confirm-view
 
 block modal-footer
   .modal-footer(class=state.get('path'))
@@ -51,29 +51,6 @@ mixin modal-footer-content
       a(href="TODO")
         span(data-i18n="TODO")
           | Sign in
-
-mixin chooseAccountType
-  #choose-account-type.modal-body
-
-mixin segmentCheck
-  #segment-check-view.modal-body
-  // TODO: Fix up classes (shouldn't have modal-body here and template)
-
-mixin basicInfo
-  #basic-info-view.modal-body
-
-mixin coppaDeny
-  #coppa-deny-view.modal-body
-
-mixin ssoAlreadyExists
-  #single-sign-on-already-exists-view.modal-body
-
-mixin ssoConfirm
-  #single-sign-on-confirm-view.modal-body
-  
-mixin extras
-mixin confirmation
-  
 
 //- .modal-dialog
 //-   .modal-content

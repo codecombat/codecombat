@@ -52,7 +52,7 @@ module.exports = class BasicInfoView extends ModalView
         forms.clearFormAlerts(@$('input[name="name"]').closest('.form-group').parent())
         forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try <a class='use-suggested-name-link'>#{newName}</a>?" # TODO: Translate!
         resolve false
-      )
+    )
     # jqxhr = User.getUnconflictedName name, (newName) =>
     #   forms.clearFormAlerts(@$el)
     #   if name is newName
