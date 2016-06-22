@@ -1,22 +1,26 @@
-if view.sharedState.get('ssoUsed')
-  h4
-    span(data-i18n="TODO")
-      | This email is already in use:
-  div
-    span= view.sharedState.get('email')
+.modal-body
+  .modal-body-content
+    if view.sharedState.get('ssoUsed')
+      h4
+        span(data-i18n="TODO")
+          | This email is already in use:
+      div.small
+        b
+          span= view.sharedState.get('email')
 
-  hr
-  .hr-text
-    span(data-i18n="TODO")
-      | continue
-  
-  button.sso-login-btn.btn.btn-lg.btn-navy
-    span(data-i18n="login.log_in")
+      .hr-text
+        hr
+        span(data-i18n="TODO")
+          | continue
+      
+      button.sso-login-btn.btn.btn-lg.btn-navy
+        span(data-i18n="login.log_in")
+      
+      .small
+        span(data-i18n="TODO")
+          | You can connect another account in your <b>Account Settings</b> once you log in.
 
-  span(data-i18n="TODO")
-    | You can connect another account in your <b>Account Settings</b> once you log in.
-
-.history-nav-buttons.just-one
-  button.back-button.btn.btn-lg.btn-navy-alt(type='button')
-    span(data-i18n="TODO")
-      | Back
+  .history-nav-buttons.just-one
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="TODO")
+        | Back

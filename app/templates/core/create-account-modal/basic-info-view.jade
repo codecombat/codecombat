@@ -4,10 +4,10 @@ form#basic-info-form.modal-body.basic-info
       h4
         span(data-i18n="signup.connect_with")
       a#facebook-signup-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=!view.sharedState.get('facebookEnabled'), data-sso-used="facebook")
-        //- img.network-logo(src="/images/pages/community/logo_facebook.png", draggable="false")
+        img.network-logo(src="/images/pages/modal/auth/facebook_sso_button.png", draggable="false", width="175", height="40")
         span.sign-in-blurb(data-i18n="login.sign_in_with_facebook")
       a#gplus-signup-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=!view.sharedState.get('gplusEnabled'), data-sso-used="gplus")
-        //- img.network-logo(src="/images/pages/community/logo_g+.png", draggable="false")
+        img.network-logo(src="/images/pages/modal/auth/google_plus_sso_button.png", draggable="false", width="175", height="40")
         span.sign-in-blurb(data-i18n="login.sign_in_with_gplus")
         .gplus-login-wrapper
           .gplus-login-button
