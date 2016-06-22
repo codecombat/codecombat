@@ -162,11 +162,25 @@ module.exports = class World
 
   shouldContinueLoading: (t1, loadProgressCallback, skipDeferredLoading, continueLaterFn) ->
     t2 = now()
+    chunkSize = @frames.length - @framesSerializedSoFar
+    simedTime = @frames.length / @frameRate
+
+    chunkTime = switch
+      when simedTime > 15 then 7
+      when simedTime > 10 then 5
+      when simedTime > 5 then 3
+      when simedTime > 2 then 1
+      else 0.5
+
+    bailoutTime = Math.max(2000*chunkTime, 10000)
+
+    dt = t2 - t1
+
     if @realTime
       shouldUpdateProgress = @shouldUpdateRealTimePlayback t2
       shouldDelayRealTimeSimulation = not shouldUpdateProgress and @shouldDelayRealTimeSimulation t2
     else
-      shouldUpdateProgress = t2 - t1 > PROGRESS_UPDATE_INTERVAL# and (@frames.length - @framesSerializedSoFar >= @frameRate or t2 - t1 > 1000)
+      shouldUpdateProgress = (dt > PROGRESS_UPDATE_INTERVAL and (chunkSize / @frameRate >= chunkTime) or dt > bailoutTime)
       shouldDelayRealTimeSimulation = false
     return true unless shouldUpdateProgress or shouldDelayRealTimeSimulation
     # Stop loading frames for now; continue in a moment.
