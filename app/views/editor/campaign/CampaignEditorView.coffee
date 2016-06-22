@@ -239,6 +239,14 @@ module.exports = class CampaignEditorView extends RootView
     @campaign.set key, value for key, value of @treema.data
     @campaignView.setCampaign(@campaign)
 
+  onTreemaSelectionChanged: (e, node) =>
+    return unless node[0]?.data?.original?
+    elem = @$('div').find('[data-level-original="'+node[0].data.original+'"]')
+    elem.toggle('pulsate')
+    setTimeout ()->
+      elem.toggle('pulsate')
+    , 1000
+
   onTreemaDoubleClicked: (e, node) =>
     path = node.getPath()
     return unless _.string.startsWith path, '/levels/'
