@@ -36,6 +36,9 @@ They `screen`s are:
                         user already exists, prompting them to sign in.
   extras: Not yet implemented
   confirmation: Not yet implemented
+
+NOTE: BasicInfoView's two children (SingleSignOn...View) inherit from it.
+This allows them to have the same form-handling logic, but different templates.
 ###
 
 module.exports = class CreateAccountModal extends ModalView
