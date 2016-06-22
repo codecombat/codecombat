@@ -38,7 +38,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     accessible_to: "Доступно для"
     everyone: "каждого"
     democratizing: "Демократизация процесса обучения программированию лежит в основе нашей философии. Каждый должен иметь возможность обучаться программированию."
-#    forgot_learning: "I think they actually forgot that they were actually learning something."
+    forgot_learning: "Я думаю, что они забудут, что они действительно что-то изучают."
 #    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
 #    why_games: "Why is learning through games important?"
 #    games_reward: "Games reward the productive struggle."
