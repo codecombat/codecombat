@@ -5,7 +5,7 @@ importScripts("/javascripts/lodash.js", "/javascripts/aether.js");
 
 try {
   //Detect very modern javascript support.
-  (0,eval("'use strict'; let test = (class Test { *gen() { yield yield * () => WeakMap; } });"));
+  (0,eval("'use strict'; let test = (class Test { *gen(a=7) { yield yield * () => WeakMap; } });"));
   console.log("Modern javascript detected, aw yeah!");
   self.importScripts('/javascripts/esper.modern.js');  
 } catch (e) {
