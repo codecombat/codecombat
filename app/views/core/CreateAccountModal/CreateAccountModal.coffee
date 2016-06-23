@@ -51,14 +51,12 @@ module.exports = class CreateAccountModal extends ModalView
   initialize: (options={}) ->
     classCode = utils.getQueryVariable('_cc', undefined)
     @state = new State {
-      # path: if classCode then 'student' else null
-      # screen: if classCode then 'segment-check' else 'choose-account-type'
+      path: if classCode then 'student' else null
+      screen: if classCode then 'segment-check' else 'choose-account-type'
       facebookEnabled: application.facebookHandler.apiLoaded
       gplusEnabled: application.gplusHandler.apiLoaded
       classCode
       birthday: new Date('') # so that birthday.getTime() is NaN
-      path: 'individual'
-      screen: 'coppa-deny'
     }
 
     @listenTo @state, 'all', @render #TODO: debounce
