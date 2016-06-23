@@ -23,7 +23,7 @@ module.exports = class SingleSignOnAlreadyExistsView extends ModalView
         @$('#gplus-login-btn').text($.i18n.t('login.log_in')).attr('disabled', false)
         errors.showNotyNetworkError(arguments...)
     }
-    
+
     if @sharedState.get('ssoUsed') is 'gplus'
       me.loginGPlusUser(@sharedState.get('ssoAttrs').gplusID, options)
       @$('#gplus-login-btn').text($.i18n.t('login.logging_in')).attr('disabled', true)
