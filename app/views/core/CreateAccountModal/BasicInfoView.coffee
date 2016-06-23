@@ -6,6 +6,18 @@ errors = require 'core/errors'
 User = require 'models/User'
 State = require 'models/State'
 
+###
+This view handles the primary form for user details — name, email, password, etc,
+and the AJAX that actually creates the user.
+
+It also handles facebook/g+ login, which if used, open one of two other screens:
+sso-already-exists: If the facebook/g+ connection is already associated with a user, they're given a log in button
+sso-confirm: If this is a new facebook/g+ connection, ask for a username, then allow creation of a user
+
+The sso-confirm view *inherits from this view* in order to share its account-creation logic and events.
+This means the selectors used in these events must work in both templates.
+###
+
 module.exports = class BasicInfoView extends ModalView
   id: 'basic-info-view'
   template: template

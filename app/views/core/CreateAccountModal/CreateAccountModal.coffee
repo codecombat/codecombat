@@ -21,7 +21,8 @@ CreateAccountModal is a wizard-style modal with several subviews, one for each
 
 There are three `path`s, one for each account type (individual, student).
 Teacher account path will be added later; for now it defers to /teachers/signup)
-Each subview handles only one `screen`, but all three `path` variants because their logic is largely the same.
+Each subview handles only one `screen`, but all three `path` variants because
+their logic is largely the same.
 
 They `screen`s are:
   choose-account-type: Sets the `path`.
