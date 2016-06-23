@@ -8,10 +8,12 @@ module.exports = class SingleSignOnAlreadyExistsView extends ModalView
   template: template
 
   events:
-    'click .back-button': -> @trigger 'nav-back'
+    'click .back-button': 'onClickBackButton'
     'click .sso-login-btn': 'onClickSsoLoginButton'
 
   initialize: ({ @sharedState } = {}) ->
+
+  onClickBackButton: -> @trigger 'nav-back'
 
   onClickSsoLoginButton: ->
     options = {

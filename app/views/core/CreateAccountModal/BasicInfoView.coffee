@@ -26,25 +26,11 @@ module.exports = class BasicInfoView extends ModalView
   template: template
 
   events:
-    'input input[name="name"]': ->
-      @nameUniquePromise = null
-      @onNameChange()
-    'click .back-button': -> @trigger 'nav-back'
-    'submit form': (e) ->
-      e.preventDefault()
-      data = forms.formToObject(e.currentTarget)
-      valid = @checkBasicInfo(data)
-      # TODO: This promise logic is super weird and confusing. Rewrite.
-      @checkNameUnique() unless @nameUniquePromise
-      @nameUniquePromise.then ->
-        @nameUniquePromise = null
-      if valid
-        @onSubmitForm(e)
-    'click .login-link': ->
-      @openModalView(new AuthModal())
-    'click .use-suggested-name-link': (e) ->
-      @$('input[name="name"]').val(@state.get('suggestedName'))
-      forms.clearFormAlerts(@$el.find('input[name="name"]').closest('.form-group').parent())
+    'input input[name="name"]': 'onInputName'
+    'click .back-button': 'onClickBackButton'
+    'submit form': 'onSubmitForm'
+    'click .login-link': 'onClickLoginLink'
+    'click .use-suggested-name-link': 'onClickUseSuggestedNameLink'
     'click #facebook-signup-btn': 'onClickSsoSignupButton'
     'click #gplus-signup-btn': 'onClickSsoSignupButton'
 
@@ -109,9 +95,29 @@ module.exports = class BasicInfoView extends ModalView
       name: User.schema.properties.name
       password: User.schema.properties.password
     required: ['email', 'name', 'password'].concat (if @sharedState.get('path') is 'student' then ['firstName', 'lastName'] else [])
+  
+  onClickBackButton: -> @trigger 'nav-back'
+  
+  onInputName: ->
+    @nameUniquePromise = null
+    @onNameChange()
+    
+  onClickUseSuggestedNameLink: (e) ->
+    @$('input[name="name"]').val(@state.get('suggestedName'))
+    forms.clearFormAlerts(@$el.find('input[name="name"]').closest('.form-group').parent())
+
+  onClickLoginLink: ->
+    @openModalView(new AuthModal())
 
   onSubmitForm: (e) ->
     e.preventDefault()
+    data = forms.formToObject(e.currentTarget)
+    valid = @checkBasicInfo(data)
+    # TODO: This promise logic is super weird and confusing. Rewrite.
+    @checkNameUnique() unless @nameUniquePromise
+    @nameUniquePromise.then ->
+      @nameUniquePromise = null
+    return unless valid
 
     attrs = forms.formToObject @$el
     # attrs.name = @state.get('suggestedName') if @state.get('suggestedName')
