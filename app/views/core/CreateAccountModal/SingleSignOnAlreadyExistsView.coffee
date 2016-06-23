@@ -7,9 +7,8 @@ module.exports = class SingleSignOnAlreadyExistsView extends ModalView
   id: 'single-sign-on-already-exists-view'
   template: template
 
-  events: _.extend {}, ModalView.prototype.events, {
+  events:
     'click .sso-login-btn': 'onClickSsoLoginButton'
-  }
 
   initialize: ({ @sharedState } = {}) ->
 
