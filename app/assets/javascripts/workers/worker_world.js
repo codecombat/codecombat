@@ -63,7 +63,18 @@ var console = {
 console.error = console.warn = console.info = console.debug = console.log;
 self.console = console;
 
-self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js', '/javascripts/esper.js');
+self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
+try {
+  //Detect very modern javascript support.
+  (0,eval("'use strict'; let test = (class Test { *gen(a=7) { yield yield * () => WeakMap; } });"));
+  console.log("Modern javascript detected, aw yeah!");
+  self.importScripts('/javascripts/esper.modern.js');  
+} catch (e) {
+  console.log("Legacy javascript detected, falling back...", e.message);
+  self.importScripts('/javascripts/esper.js');  
+}
+
+
 var myImportScripts = importScripts;
 
 var languagesImported = {};
@@ -402,6 +413,17 @@ self.serializeFramesSoFar = function serializeFramesSoFar() {
   self.world.framesSerializedSoFar = self.world.frames.length;
 };
 
+function trySerialize() {
+  try {
+    var serialized = self.world.serialize();
+  }
+  catch(error) {
+    console.log("World serialization error:", error.toString() + "\n" + error.stack || error.stackTrace);
+    return false;
+  }
+  return serialized;
+}
+
 self.onWorldLoaded = function onWorldLoaded() {
   if(self.world.framesSerializedSoFar == self.world.frames.length) return;
   if(self.world.ended)
@@ -419,12 +441,9 @@ self.onWorldLoaded = function onWorldLoaded() {
     return console.log('Headless simulation completed in ' + diff + 'ms.');
 
   var worldEnded = self.world.ended;
+  var serialized;
   var transferableSupported = self.transferableSupported();
-  try {
-    var serialized = self.world.serialize();
-  }
-  catch(error) {
-    console.log("World serialization error:", error.toString() + "\n" + error.stack || error.stackTrace);
+  if ( !( serialized = trySerialize()) ) {
     self.destroyWorld();
     return;
   }

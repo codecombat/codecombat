@@ -1,7 +1,18 @@
 var window = self;
 var Global = self;
 
-importScripts("/javascripts/lodash.js", "/javascripts/aether.js", "/javascripts/esper.js");
+importScripts("/javascripts/lodash.js", "/javascripts/aether.js");
+
+try {
+  //Detect very modern javascript support.
+  (0,eval("'use strict'; let test = (class Test { *gen(a=7) { yield yield * () => WeakMap; } });"));
+  console.log("Modern javascript detected, aw yeah!");
+  self.importScripts('/javascripts/esper.modern.js');  
+} catch (e) {
+  console.log("Legacy javascript detected, falling back...", e.message);
+  self.importScripts('/javascripts/esper.js');  
+}
+
 //console.log("Aether Tome worker has finished importing scripts.");
 var aethers = {};
 var languagesImported = {};

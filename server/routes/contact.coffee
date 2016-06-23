@@ -3,8 +3,9 @@ log = require 'winston'
 User = require '../models/User'
 sendwithus = require '../sendwithus'
 async = require 'async'
-LevelSession = require '../models/LevelSession'
 moment = require 'moment'
+LevelSession = require '../models/LevelSession'
+Product = require '../models/Product'
 closeIO = require '../lib/closeIO'
 
 module.exports.setup = (app) ->
@@ -13,10 +14,19 @@ module.exports.setup = (app) ->
     # log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
     fromAddress = req.body.sender or req.body.email or req.user.get('email')
     createMailContent req, fromAddress, (subject, content) ->
-      if req.body.recipientID is 'schools@codecombat.com' or req.user.isTeacher()
-        req.user.update({$set: { enrollmentRequestSent: true }}).exec(_.noop) if req.body.recipientID is 'schools@codecombat.com'
-        closeIO.sendMail fromAddress, subject, content, (err) ->
-          log.error "Error sending contact form email via Close.io: #{err.message or err}" if err
+      if req.body.licensesNeeded or req.user.isTeacher()
+        closeIO.getSalesContactEmail fromAddress, (err, salesContactEmail, userID, leadID) ->
+          return log.error("Error getting sales contact for #{fromAddress}: #{err.message or err}") if err
+          closeIO.sendMail fromAddress, subject, content, salesContactEmail, leadID, (err) ->
+            return log.error("Error sending contact form email via Close.io: #{err.message or err}") if err
+            if licensesNeeded = req.body.licensesNeeded
+              Product.findOne({name: 'course'}).exec (err, product) =>
+                return log.error(err) if err
+                return log.error('course product not found') if not product
+                amount = product.get('amount')
+                closeIO.processLicenseRequest fromAddress, userID, leadID, licensesNeeded, amount, (err) ->
+                  return log.error("Error processing license request via Close.io: #{err.message or err}") if err
+                  req.user.update({$set: { enrollmentRequestSent: true }}).exec(_.noop)
       else 
         createSendWithUsContext req, fromAddress, subject, content, (context) ->
           sendwithus.api.send context, (err, result) ->
@@ -53,7 +63,7 @@ createSendWithUsContext = (req, fromAddress, subject, content, done) ->
   premium = user?.isPremium()
   teacher = user?.isTeacher()
 
-  if recipientID is 'schools@codecombat.com' or teacher
+  if teacher or req.body.licensesNeeded
     return done("Tried to send a teacher contact us email via sendwithus #{fromAddress} #{subject}")
 
   toAddress = switch
