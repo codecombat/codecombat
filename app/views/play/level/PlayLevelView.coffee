@@ -264,7 +264,7 @@ module.exports = class PlayLevelView extends RootView
     @hintsState = new HintsState({ hidden: true }, { @session, @level })
     @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world.thangs, @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
     @insertSubView new LevelPlaybackView session: @session, level: @level
-    @insertSubView new GoalsView {}
+    @insertSubView new GoalsView {level: @level}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
     @insertSubView new GoldView {} unless @level.get('slug') in ['wakka-maul']
     @insertSubView new HUDView {level: @level}
