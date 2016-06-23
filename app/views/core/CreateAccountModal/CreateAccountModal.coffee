@@ -33,8 +33,7 @@ They `screen`s are:
               It also handles the actual user creation.
               A user may create their account here, or connect with facebook/g+
     sso-confirm: Alternate version of basic-info for new facebook/g+ users
-    sso-already-exists: Altername version of basic-info for when facebook/g+
-                        user already exists, prompting them to sign in.
+  sso-already-exists: When facebook/g+ user already exists, this prompts them to sign in.
   extras: Not yet implemented
   confirmation: Not yet implemented
 
