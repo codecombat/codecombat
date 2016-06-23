@@ -6,7 +6,7 @@ database = require '../commons/database'
 parse = require '../commons/parse'
 
 module.exports =
-  sendParentSignupInstructions: wrap (req, res) ->
+  sendParentSignupInstructions: wrap (req, res, next) ->
     context =
       email_id: sendwithus.templates.coppa_deny_parent_signup
       recipient:
@@ -15,6 +15,6 @@ module.exports =
       console.log err
       console.log result
       if err
-        res.status(400).send { error: err }
+        return next(new errors.InternalServerError("Error sending email. Check that it's valid and try again."))
       else
         res.status(200).send()
