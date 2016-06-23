@@ -18,7 +18,7 @@ form.modal-body.segment-check
             span(data-i18n="TODO")
               | Ask your teacher for your class code.
           else if state.get('classCodeValid')
-            span(data-i18n="TODO")
+            span.small(data-i18n="TODO")
               | You're about to join:
             br
             span.classroom-name= view.classroom.get('name')
