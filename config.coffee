@@ -207,6 +207,7 @@ exports.config =
       copyTo:
         'lib/ace': ['node_modules/ace-builds/src-min-noconflict/*']
         'fonts': ['bower_components/openSansCondensed/*', 'bower_components/openSans/*']
+        'javascripts': ['bower_components/esper.js/esper.modern.js']
     autoReload:
       delay: 1000
 
