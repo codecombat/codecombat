@@ -16,6 +16,9 @@ sso-confirm: If this is a new facebook/g+ connection, ask for a username, then a
 
 The sso-confirm view *inherits from this view* in order to share its account-creation logic and events.
 This means the selectors used in these events must work in both templates.
+
+This view currently uses the old form API instead of stateful render.
+It needs some work to make error UX and rendering better, but is functional.
 ###
 
 module.exports = class BasicInfoView extends ModalView
