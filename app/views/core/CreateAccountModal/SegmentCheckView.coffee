@@ -12,7 +12,7 @@ module.exports = class SegmentCheckView extends CocoView
     'click .back-to-account-type': -> @trigger 'nav-back'
     'input .class-code-input': (e) ->
       classCode = $(e.currentTarget).val()
-      @checkClassCode(classCode)
+      @checkClassCodeDebounced(classCode)
       @sharedState.set { classCode }, { silent: true }
     'input .birthday-form-group': ->
       { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
@@ -38,20 +38,14 @@ module.exports = class SegmentCheckView extends CocoView
       @trigger 'choose-path', 'individual'
 
   initialize: ({ @sharedState } = {}) ->
+    @checkClassCodeDebounced = _.debounce @checkClassCode, 1000
     @state = new State()
     @classroom = new Classroom()
+    if @sharedState.get('classCode')
+      @checkClassCode(@sharedState.get('classCode'))
     @listenTo @state, 'all', -> @renderSelectors('.render')
-  #
-  # checkClassCode: _.debounce((classCode) ->
-  #   @classroom.fetchByCode(classCode)
-  #   # @classroom.once 'sync', => @state.set { classCodeValid: true, segmentCheckValid: true }
-  #   # @classroom.once 'error', => @state.set { classCodeValid: false, segmentCheckValid: false }
-  #
-  #   forms.clearFormAlerts(@$('form'))
-  #   res = tv4.validate(classCode, UserSchema.)
-  # , 1000)
   
-  checkClassCode: _.debounce (classCode) ->
+  checkClassCode: (classCode) ->
     @classroom.clear()
     return forms.clearFormAlerts(@$el) if classCode is ''
     
@@ -60,4 +54,4 @@ module.exports = class SegmentCheckView extends CocoView
         @state.set { classCodeValid: true, segmentCheckValid: true }
       .catch =>
         @state.set { classCodeValid: false, segmentCheckValid: false }
-  , 1000
+  

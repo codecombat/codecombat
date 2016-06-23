@@ -46,68 +46,21 @@ module.exports = class CreateAccountModal extends ModalView
   template: template
 
   events:
-    # 'click .teacher-path-button': -> @state.set { path: 'teacher', screen: 'segment-check' }
-    # 'click .student-path-button': -> @state.set { path: 'student', screen: 'segment-check' }
-    # 'click .individual-path-button': -> @state.set { path: 'individual', screen: 'segment-check' }
-    # 'click .back-to-account-type': -> @state.set { path: null, screen: 'choose-account-type' }
     'click .back-to-segment-check': -> @state.set { screen: 'segment-check' }
-    # 'input .class-code-input': (e) ->
-    #   classCode = $(e.currentTarget).val()
-    #   @checkClassCode(classCode)
-    #   @state.set { classCode }, { silent: true }
-    # 'input .birthday-form-group': ->
-    #   { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
-    #   birthday = new Date Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay)
-    #   @state.set { birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true }
-    # 'submit form.segment-check': (e) ->
-    #   e.preventDefault()
-    #   if @state.get('path') is 'student'
-    #     @state.set { screen: 'basic-info' } if @state.get('segmentCheckValid')
-    #   else if @state.get('path') is 'individual'
-    #     if isNaN(@state.get('birthday').getTime())
-    #       forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
-    #     else
-    #       age = (new Date().getTime() - @state.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
-    #     if age > 13
-    #       @state.set { screen: 'basic-info' }
-    #     else
-    #       @state.set { screen: 'coppa-deny' }
-        
-    # 'input form.basic-info': (e) ->
-    #   data = forms.formToObject(e.currentTarget)
-    #   @checkBasicInfo(data)
-
-  #   'submit form': 'onSubmitForm'
-    # 'input input[name="name"]': 'onNameChange'
-  #   'click #gplus-signup-btn': 'onClickGPlusSignupButton'
-  #   'click #gplus-login-btn': 'onClickGPlusLoginButton'
-  #   'click #facebook-signup-btn': 'onClickFacebookSignupButton'
-  #   'click #facebook-login-btn': 'onClickFacebookLoginButton'
-  #   'click #close-modal': 'hide'
-  #   'click #switch-to-login-btn': 'onClickSwitchToLoginButton'
-
-  # Initialization
 
   initialize: (options={}) ->
+    classCode = utils.getQueryVariable('_cc', undefined)
     @state = new State {
-      # path: null
-      # screen: 'choose-account-type' # segment-check, basic-info, (extras), confirmation, coppa-deny
-      path: 'individual' # TODO: Remove!
-      screen: 'basic-info' # TODO: Remove!
-      segmentCheckValid: false
-      # basicInfoValid: false
+      path: if classCode then 'student' else null
+      screen: if classCode then 'segment-check' else 'choose-account-type'
       facebookEnabled: application.facebookHandler.apiLoaded
       gplusEnabled: application.gplusHandler.apiLoaded
-      birthday: new Date('')
+      classCode
+      birthday: new Date('') # so that birthday.getTime() is NaN
     }
-    
-    # @classroom = new Classroom()
 
     @listenTo @state, 'all', @render #TODO: debounce
-    # @listenTo @classroom, 'all', @render #TODO: debounce
 
-    # @onNameChange = _.debounce(_.bind(@checkNameExists, @), 500)
-    
     @customSubviews = {
       choose_account_type: new ChooseAccountTypeView()
       segment_check: new SegmentCheckView({ sharedState: @state })
@@ -116,7 +69,7 @@ module.exports = class CreateAccountModal extends ModalView
       sso_already_exists: new SingleSignOnAlreadyExistsView({ sharedState: @state })
       sso_confirm: new SingleSignOnConfirmView({ sharedState: @state })
     }
-    
+
     @listenTo @customSubviews.choose_account_type, 'choose-path', (path) ->
       if path is 'teacher'
         application.router.navigate('/teachers/signup', trigger: true)

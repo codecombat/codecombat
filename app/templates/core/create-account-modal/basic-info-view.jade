@@ -37,6 +37,7 @@ form#basic-info-form.modal-body.basic-info
               | Email address:
           input#email-input(name="email" type="email")
       .row
+        //- This form group needs a parent so its errors can be cleared individually
         .form-group
           label.control-label(for="username-input")
             span(data-i18n="TODO")
@@ -57,7 +58,6 @@ form#basic-info-form.modal-body.basic-info
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
-    // disabled=!view.sharedState.get('basicInfoValid')
     button.next-button.btn.btn-lg.btn-navy(type='submit')
       span(data-i18n="TODO")
         | Create Account

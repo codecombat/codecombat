@@ -15,8 +15,8 @@ form#basic-info-form.modal-body
 
     div
       input.hidden(name="email" value=view.sharedState.get('email'))
-      //- This form group needs a parent so its errors can be cleared individually
       div
+        //- This form group needs a parent so its errors can be cleared individually
         .form-group
           h4
             span(data-i18n="TODO")
@@ -31,7 +31,6 @@ form#basic-info-form.modal-body
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
-    // disabled=!view.sharedState.get('basicInfoValid')
     button.next-button.btn.btn-lg.btn-navy(type='submit')
       span(data-i18n="TODO")
         | Create Account
