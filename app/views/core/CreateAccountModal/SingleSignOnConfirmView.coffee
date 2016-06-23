@@ -9,12 +9,20 @@ module.exports = class SingleSignOnConfirmView extends BasicInfoView
   template: template
 
   events: _.extend {}, BasicInfoView.prototype.events, {
-    'click .back-button': ->
-      @trigger 'nav-back'
+    'click .back-button': 'onClickBackButton'
   }
 
   initialize: ({ @sharedState } = {}) ->
     super(arguments...)
+  
+  onClickBackButton: ->
+    @sharedState.set {
+      ssoUsed: undefined
+      ssoAttrs: undefined
+    }
+    console.log @sharedState.attributes
+    @trigger 'nav-back'
+
 
   formSchema: ->
     type: 'object'

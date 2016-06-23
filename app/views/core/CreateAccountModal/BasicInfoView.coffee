@@ -29,7 +29,6 @@ module.exports = class BasicInfoView extends ModalView
     'input input[name="name"]': 'onInputName'
     'click .back-button': 'onClickBackButton'
     'submit form': 'onSubmitForm'
-    'click .login-link': 'onClickLoginLink'
     'click .use-suggested-name-link': 'onClickUseSuggestedNameLink'
     'click #facebook-signup-btn': 'onClickSsoSignupButton'
     'click #gplus-signup-btn': 'onClickSsoSignupButton'
@@ -62,16 +61,6 @@ module.exports = class BasicInfoView extends ModalView
   setNameError: (newName) ->
     @clearNameError()
     forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try <a class='use-suggested-name-link'>#{newName}</a>?" # TODO: Translate!
-    
-    # jqxhr = User.getUnconflictedName name, (newName) =>
-    #   forms.clearFormAlerts(@$el)
-    #   if name is newName
-    #     @suggestedName = undefined
-    #     @state.set { nameUnique: true }
-    #   else
-    #     @suggestedName = newName
-    #     forms.setErrorToProperty @$el, 'name', "Username already taken!<br>Try <a class='use-suggested-name-link'>#{newName}</a>?" # TODO: Translate!
-    #     @state.set { nameUnique: false }
     
   checkBasicInfo: (data) ->
     # TODO: Move this to somewhere appropriate
@@ -106,9 +95,6 @@ module.exports = class BasicInfoView extends ModalView
     @$('input[name="name"]').val(@state.get('suggestedName'))
     forms.clearFormAlerts(@$el.find('input[name="name"]').closest('.form-group').parent())
 
-  onClickLoginLink: ->
-    @openModalView(new AuthModal())
-
   onSubmitForm: (e) ->
     e.preventDefault()
     data = forms.formToObject(e.currentTarget)
@@ -120,51 +106,22 @@ module.exports = class BasicInfoView extends ModalView
     return unless valid
 
     attrs = forms.formToObject @$el
-    # attrs.name = @state.get('suggestedName') if @state.get('suggestedName')
     _.defaults attrs, me.pick([
       'preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1',
       'name', 'music', 'volume', 'emails', 'schoolName'
     ])
     attrs.emails ?= {}
     attrs.emails.generalNews ?= {}
-    # attrs.emails.generalNews.enabled = @$el.find('#subscribe').prop('checked')
     attrs.emails.generalNews.enabled = (attrs.subscribe[0] is 'on')
     delete attrs.subscribe
     
-    # @classCode = attrs.classCode
-    # delete attrs.classCode
-  
     error = false
-    # birthday = new Date Date.UTC attrs.birthdayYear, attrs.birthdayMonth - 1, attrs.birthdayDay
-    # if @classCode
-    #   attrs.role = 'student'
-    # else if isNaN(birthday.getTime())
-    #   forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
-    #   error = true
-    # else
-    #   age = (new Date().getTime() - birthday.getTime()) / 365.4 / 24 / 60 / 60 / 1000
-    #   attrs.birthday = birthday.toISOString()
-  
-    # delete attrs.birthdayYear
-    # delete attrs.birthdayMonth
-    # delete attrs.birthdayDay
+    
     if @sharedState.get('birthday')
       attrs.birthday = @sharedState.get('birthday').toISOString()
 
     _.assign attrs, @sharedState.get('ssoAttrs') if @sharedState.get('ssoAttrs')
     res = tv4.validateMultiple attrs, User.schema
-  
-    # forms.clearFormAlerts(@$el)
-    # if not res.valid
-    #   forms.applyErrorsToForm(@$el, res.errors)
-    #   error = true
-    # if not attrs.password
-    #   forms.setErrorToProperty @$el, 'password', 'Required'
-    #   error = true
-    # if not forms.validateEmail(attrs.email)
-    #   forms.setErrorToProperty @$el, 'email', 'Please enter a valid email address'
-    #   error = true
-    # return if error
   
     @$('#signup-button').text($.i18n.t('signup.creating')).attr('disabled', true)
     @newUser = new User(attrs)

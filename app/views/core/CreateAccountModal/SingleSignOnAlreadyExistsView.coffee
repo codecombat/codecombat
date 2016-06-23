@@ -13,7 +13,12 @@ module.exports = class SingleSignOnAlreadyExistsView extends ModalView
 
   initialize: ({ @sharedState } = {}) ->
 
-  onClickBackButton: -> @trigger 'nav-back'
+  onClickBackButton: ->
+    @state.set {
+      ssoUsed: undefined
+      ssoAttrs: undefined
+    }
+    -> @trigger 'nav-back'
 
   onClickSsoLoginButton: ->
     options = {

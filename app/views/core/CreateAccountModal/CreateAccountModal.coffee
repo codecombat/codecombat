@@ -1,4 +1,5 @@
 ModalView = require 'views/core/ModalView'
+AuthModal = require 'views/core/AuthModal'
 ChooseAccountTypeView = require 'views/core/CreateAccountModal/ChooseAccountTypeView'
 SegmentCheckView = require 'views/core/CreateAccountModal/SegmentCheckView'
 CoppaDenyView = require 'views/core/CreateAccountModal/CoppaDenyView'
@@ -44,6 +45,7 @@ module.exports = class CreateAccountModal extends ModalView
   template: template
 
   events:
+    'click .login-link': 'onClickLoginLink'
     'click .back-to-segment-check': -> @state.set { screen: 'segment-check' }
 
   initialize: (options={}) ->
@@ -110,117 +112,6 @@ module.exports = class CreateAccountModal extends ModalView
       subview.setElement(@$('#' + subview.id))
       subview.render()
 
-  # afterRender: =>
-  #   super()
-  #   @$('input:visible:first').focus()
-
-  #
-  # afterInsert: ->
-  #   super()
-  #   _.delay (=> $('input:visible:first', @$el).focus()), 500
-  
-  
-  # User creation
-  
-  # signupClassroomPrecheck: ->
-  #   classroom = new Classroom()
-  #   classroom.fetch({ data: { code: @classCode } })
-  #   classroom.once 'sync', @createUser, @
-  #   classroom.once 'error', @onClassroomFetchError, @
-  #
-  # onClassroomFetchError: ->
-  #   @$('#signup-button').text($.i18n.t('signup.sign_up')).attr('disabled', false)
-  #   forms.setErrorToProperty(@$el, 'classCode', "#{@classCode} is not a valid code. Please verify the code is typed correctly.")
-  #   @$('#class-code-input').val('')
-  
-  #
-  # # Google Plus
-  #
-  # onClickGPlusSignupButton: ->
-  #   btn = @$('#gplus-signup-btn')
-  #   application.gplusHandler.connect({
-  #     context: @
-  #     success: ->
-  #       btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
-  #       btn.attr('disabled', true)
-  #       application.gplusHandler.loadPerson({
-  #         context: @
-  #         success: (@gplusAttrs) ->
-  #           existingUser = new User()
-  #           existingUser.fetchGPlusUser(@gplusAttrs.gplusID, {
-  #             context: @
-  #             complete: ->
-  #               @$('#email-password-row').remove()
-  #             success: =>
-  #               @$('#gplus-account-exists-row').removeClass('hide')
-  #             error: (user, jqxhr) =>
-  #               if jqxhr.status is 404
-  #                 @$('#gplus-logged-in-row').toggleClass('hide')
-  #               else
-  #                 errors.showNotyNetworkError(jqxhr)
-  #           })
-  #       })
-  #   })
-  #
-  # onClickGPlusLoginButton: ->
-  #   me.loginGPlusUser(@gplusAttrs.gplusID, {
-  #     context: @
-  #     success: -> window.location.reload()
-  #     error: ->
-  #       @$('#gplus-login-btn').text($.i18n.t('login.log_in')).attr('disabled', false)
-  #       errors.showNotyNetworkError(arguments...)
-  #   })
-  #   @$('#gplus-login-btn').text($.i18n.t('login.logging_in')).attr('disabled', true)
-  #
-  #
-  #
-  # # Facebook
-  #
-  # onClickFacebookSignupButton: ->
-  #   btn = @$('#facebook-signup-btn')
-  #   application.facebookHandler.connect({
-  #     context: @
-  #     success: ->
-  #       btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
-  #       btn.attr('disabled', true)
-  #       application.facebookHandler.loadPerson({
-  #         context: @
-  #         success: (@facebookAttrs) ->
-  #           existingUser = new User()
-  #           existingUser.fetchFacebookUser(@facebookAttrs.facebookID, {
-  #             context: @
-  #             complete: ->
-  #               @$('#email-password-row').remove()
-  #             success: =>
-  #               @$('#facebook-account-exists-row').removeClass('hide')
-  #             error: (user, jqxhr) =>
-  #               if jqxhr.status is 404
-  #                 @$('#facebook-logged-in-row').toggleClass('hide')
-  #               else
-  #                 errors.showNotyNetworkError(jqxhr)
-  #           })
-  #       })
-  #   })
-  #
-  # onClickFacebookLoginButton: ->
-  #   me.loginFacebookUser(@facebookAttrs.facebookID, {
-  #     context: @
-  #     success: -> window.location.reload()
-  #     error: =>
-  #       @$('#facebook-login-btn').text($.i18n.t('login.log_in')).attr('disabled', false)
-  #       errors.showNotyNetworkError(jqxhr)
-  #   })
-  #   @$('#facebook-login-btn').text($.i18n.t('login.logging_in')).attr('disabled', true)
-  #
-  #
-  # # Misc
-  #
-  # onHidden: ->
-  #   super()
-  #   @playSound 'game-menu-close'
-
-
-  # onClickSwitchToLoginButton: ->
-  #   AuthModal = require('./AuthModal')
-  #   modal = new AuthModal({initialValues: forms.formToObject @$el})
-  #   currentView.openModalView(modal)
+  onClickLoginLink: ->
+    # TODO: Make sure the right information makes its way into the state.
+    @openModalView(new AuthModal({ initialValues: @state.pick(['email', 'name', 'password']) }))
