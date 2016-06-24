@@ -49,7 +49,7 @@ module.exports = class LevelGoalsView extends CocoView
     goals = []
     for goal in e.goals
       state = e.goalStates[goal.id]
-      continue if goal.optional and @level.get('type', true) is 'course'
+      continue if goal.optional and @level.get('type', true) is 'course' and state.status isnt 'success'
       if goal.hiddenGoal
         continue if goal.optional and state.status isnt 'success'
         continue if not goal.optional and state.status isnt 'failure'
