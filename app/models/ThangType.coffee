@@ -246,7 +246,7 @@ module.exports = class ThangType extends CocoModel
       "Assassin": "Ritic"
       "Captain": "Anya"
       "Champion": "Ida"
-      "Dark Wizard": "Usara"
+      "Master Wizard": "Usara"
       "Duelist": "Alejandro"
       "Forest Archer": "Naria"
       "Goliath": "Okar"
