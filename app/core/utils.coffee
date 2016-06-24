@@ -255,6 +255,7 @@ module.exports.getPrepaidCodeAmount = getPrepaidCodeAmount = (price=0, users=0, 
   total = price * users * months
   total
 
+startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
 module.exports.filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
@@ -263,7 +264,30 @@ module.exports.filterMarkdownCodeLanguages = (text, language) ->
   codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
   # Exclude language-specific images like ![python - image description](image url) for each non-target language.
   imageExclusionRegex = new RegExp "!\\[(#{excludedLanguages.join('|')}) - .+?\\]\\(.+?\\)\n?", 'gm'
-  return text.replace(codeBlockExclusionRegex, '').replace(imageExclusionRegex, '')
+  text = text.replace(codeBlockExclusionRegex, '').replace(imageExclusionRegex, '')
+
+  commonLanguageReplacements =
+    python: [
+      ['true', 'True'], ['false', 'False'], ['null', 'None'],
+      ['object', 'dictionary'], ['Object', 'Dictionary'],
+      ['array', 'list'], ['Array', 'List'],
+    ]
+    lua: [
+      ['null', 'nil'],
+      ['object', 'table'], ['Object', 'Table'],
+      ['array', 'table'], ['Array', 'Table'],
+    ]
+  for [from, to] in commonLanguageReplacements[currentLanguage] ? []
+    # Convert JS-specific keywords and types to Python ones, if in simple `code` tags.
+    # This won't cover it when it's not in an inline code tag by itself or when it's not in English.
+    text = text.replace ///`#{from}`///g, "`#{to}`"
+    # Now change "An `dictionary`" to "A `dictionary`", etc.
+    if startsWithVowel(from) and not startsWithVowel(to)
+      text = text.replace ///(\ a|A)n(\ `#{to}`)///g, "$1$2"
+    if not startsWithVowel(from) and startsWithVowel(to)
+      text = text.replace ///(\ a|A)(\ `#{to}`)///g, "$1n$2"
+
+  return text
 
 module.exports.aceEditModes = aceEditModes =
   'javascript': 'ace/mode/javascript'
