@@ -970,3 +970,11 @@ module.exports.thangNames = thangNames =
     'Yasuo'
     'Yi'
   ]
+  'Champion': [
+    # Female
+    'Ida'
+  ]
+  'Duelist': [
+    # Male
+    'Alejandro'
+  ]

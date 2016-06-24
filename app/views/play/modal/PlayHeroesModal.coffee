@@ -176,6 +176,7 @@ module.exports = class PlayHeroesModal extends ModalView
         m = multiplier
         m *= 0.75 if fullHero.get('slug') in ['knight', 'samurai', 'librarian', 'sorcerer', 'necromancer']  # These heroes are larger for some reason. Shrink 'em.
         m *= 0.4 if fullHero.get('slug') is 'goliath'  # Just too big!
+        m *= 0.9 if fullHero.get('slug') is 'champion'  # Gotta fit her hair in there
         layer.container.scaleX = layer.container.scaleY = m
         layer.container.children[0].x = 160/m
         layer.container.children[0].y = 250/m
