@@ -648,6 +648,10 @@ module.exports = Lank = class Lank extends CocoClass
   addMark: (name, layer, thangType=null) ->
     @marks[name] ?= new Mark name: name, lank: @, camera: @options.camera, layer: layer ? @options.groundLayer, thangType: thangType
     @marks[name]
+    
+  removeMark: (name) ->
+    @marks[name].destroy()
+    delete @marks[name]
 
   notifySpeechUpdated: (e) ->
     e = _.clone(e)

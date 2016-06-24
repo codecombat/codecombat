@@ -96,24 +96,6 @@ describe 'Camera (Surface point of view)', ->
                 checkConversionsFromWorldPos wop, cam
                 checkCameraPos cam, wop
 
-  it 'works at 90 degrees', ->
-    cam = new Camera {attr: (attr) -> 100}, Math.PI / 2
-    expect(cam.x2y).toBeCloseTo 1
-    expect(cam.x2z).toBeGreaterThan 9001
-    expect(cam.z2y).toBeCloseTo 0
-
-  it 'works at 0 degrees', ->
-    cam = new Camera {attr: (attr) -> 100}, 0
-    expect(cam.x2y).toBeGreaterThan 9001
-    expect(cam.x2z).toBeCloseTo 1
-    expect(cam.z2y).toBeGreaterThan 9001
-
-  it 'works at 45 degrees', ->
-    cam = new Camera {attr: (attr) -> 100}, Math.PI / 4
-    expect(cam.x2y).toBeCloseTo Math.sqrt(2)
-    expect(cam.x2z).toBeCloseTo Math.sqrt(2)
-    expect(cam.z2y).toBeCloseTo 1
-
   it 'works at default angle of asin(0.75) ~= 48.9 degrees', ->
     cam = new Camera {attr: (attr) -> 100}, null
     angle = Math.asin(3 / 4)

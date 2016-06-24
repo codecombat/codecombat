@@ -282,11 +282,21 @@ module.exports = class LankBoss extends CocoClass
     @selectLank e if e.onBackground
 
   onChangeSelected: (gameUIState, selected) ->
-    if selected
-      @selectThang(selected.thang.id, selected.spellName)
-    else
-      @selectedLank?.selected = false
-      @selectedLank = null
+    oldLanks = (s.sprite for s in gameUIState.previousAttributes().selected or [])
+    newLanks = (s.sprite for s in selected or [])
+    addedLanks = _.difference(newLanks, oldLanks)
+    removedLanks = _.difference(oldLanks, newLanks)
+
+    for lank in addedLanks
+      layer = if lank.sprite.parent isnt @layerAdapters.Default.container then @layerAdapters.Default else @layerAdapters.Ground
+      mark = new Mark name: 'selection', camera: @camera, layer: layer, thangType: 'selection'
+      mark.toggle true
+      mark.setLank(lank)
+      mark.update()
+      lank.marks.selection = mark # TODO: Figure out how to non-hackily assign lank this mark
+      
+    for lank in removedLanks
+      lank.removeMark?('selection')
 
   selectThang: (thangID, spellName=null, treemaThangSelected = null) ->
     return @willSelectThang = [thangID, spellName] unless @lanks[thangID]
