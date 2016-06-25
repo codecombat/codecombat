@@ -57,7 +57,7 @@ block content
                   select.level-select.form-control
                     if view.campaigns.loaded
                       each level, levelIndex in view.campaigns.get(course.get('campaignID')).getLevels().models
-                        if level.get('type') === 'hero-practice'
+                        if level.get('practice')
                           - continue;
                         option(value=level.get('slug'))
                           span

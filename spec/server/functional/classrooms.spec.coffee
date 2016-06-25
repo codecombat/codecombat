@@ -86,12 +86,12 @@ describe 'POST /db/classroom', ->
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSONB})
     expect(res.statusCode).toBe(200)
     @levelB = yield Level.findById(res.body._id)
-    levelJSONC = { name: 'Level C', permissions: [{access: 'owner', target: admin.id}], type: 'hero-practice' }
+    levelJSONC = { name: 'Level C', permissions: [{access: 'owner', target: admin.id}], type: 'hero', practice: true }
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSONC})
     expect(res.statusCode).toBe(200)
     @levelC = yield Level.findById(res.body._id)
     campaignJSON = { name: 'Campaign', levels: {} }
-    paredLevelC = _.pick(@levelC.toObject(), 'name', 'original', 'type', 'slug')
+    paredLevelC = _.pick(@levelC.toObject(), 'name', 'original', 'type', 'slug', 'practice')
     paredLevelC.campaignIndex = 2
     campaignJSON.levels[@levelC.get('original').toString()] = paredLevelC
     paredLevelB = _.pick(@levelB.toObject(), 'name', 'original', 'type', 'slug')
