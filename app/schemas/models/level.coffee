@@ -313,7 +313,7 @@ _.extend LevelSchema.properties,
   icon: {type: 'string', format: 'image-file', title: 'Icon'}
   banner: {type: 'string', format: 'image-file', title: 'Banner'}
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
-  type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'hero-practice'])
+  type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev'])
   terrain: c.terrainString
   showsGuide: c.shortString(title: 'Shows Guide', description: 'If the guide is shown at the beginning of the level.', 'enum': ['first-time', 'always'])
   requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
@@ -324,11 +324,11 @@ _.extend LevelSchema.properties,
     url: c.url {title: 'URL', description: 'Link to the video on Vimeo.'}
   replayable: {type: 'boolean', title: 'Replayable', description: 'Whether this (hero) level infinitely scales up its difficulty and can be beaten over and over for greater rewards.'}
   buildTime: {type: 'number', description: 'How long it has taken to build this level.'}
+  practice: { type: 'boolean' }
   practiceThresholdMinutes: {type: 'number', description: 'Players with larger playtimes may be directed to a practice level.'}
 
   # Admin flags
   adventurer: { type: 'boolean' }
-  practice: { type: 'boolean' }
   adminOnly: { type: 'boolean' }
   disableSpaces: { type: ['boolean','integer'] }
   hidesSubmitUntilRun: { type: 'boolean' }
