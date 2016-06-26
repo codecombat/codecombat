@@ -3,6 +3,7 @@ schema = require 'schemas/models/campaign.schema'
 Level = require 'models/Level'
 Levels = require 'collections/Levels'
 CocoCollection = require 'collections/CocoCollection'
+utils = require '../core/utils'
 
 module.exports = class Campaign extends CocoModel
   @className: 'Campaign'
@@ -23,3 +24,11 @@ module.exports = class Campaign extends CocoModel
     levels.comparator = 'campaignIndex'
     levels.sort()
     return levels
+
+  getLevelNumber: (levelID, defaultNumber) ->
+    unless @levelNumberMap
+      levels = []
+      for level in @getLevels().models when level.get('original')
+        levels.push({key: level.get('original'), practice: level.get('practice') ? false})
+      @levelNumberMap = utils.createLevelNumberMap(levels)
+    @levelNumberMap[levelID] ? defaultNumber
