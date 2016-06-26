@@ -1260,6 +1260,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    view_edit: "view/edit"
 #    students_enrolled: "students enrolled"
 #    students_assigned: "students assigned"
+    length: "Lengde:"
 #    title: "Courses" # Flat style redesign
 #    subtitle: "Review course guidelines, solutions, and levels"
 #    changelog: "View latest changes to course levels."
@@ -1316,8 +1317,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    archive_class: "archive class"
 #    unarchive_class: "unarchive class"
 #    unarchive_this_class: "Unarchive this class"
-#    add_students: "Add Students"
-#    create_new_class: "Create a New Class"
+    no_students_yet: "Denne klassen har ikke noen studenter enda."
+    add_students: "Legg til studenter"
+    create_new_class: "Lag en ny klasse"
 #    class_overview: "Class Overview" # View Class page
 #    avg_playtime: "Average level playtime"
 #    total_playtime: "Total play time"
@@ -1330,6 +1332,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    enroll_student: "Enroll student"
 #    adding_students: "Adding students"
 #    course_progress: "Course Progress"
+    not_applicable: "N/A"
 #    edit: "edit"
 #    remove: "remove"
 #    latest_completed: "Latest Completed"
@@ -1355,6 +1358,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    guides_coming_soon: "Guides coming soon!" # Courses
 #    show_students_from: "Show students from" # Enroll students modal
 #    enroll_the_following_students: "Enroll the following students"
+    all_students: "Alle studenter"
 #    enroll_students: "Enroll Students"
 #    not_enough_enrollments: "Not enough Enrollments available."
 #    enrollments_blurb_1: "Students taking Computer Science" # Enrollments page
@@ -1364,6 +1368,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    total_enrolled_students: "Total Enrolled Students"
 #    unenrolled_students: "Unenrolled Students"
 #    add_enrollment_credits: "Add Enrollment Credits"
+    purchasing: "Kjøper..."
+    purchased: "Kjøpt!"
+    purchase_now: "Kjøp nå"
 #    how_to_enroll: "How to Enroll Students"
 #    how_to_enroll_blurb_1: "If a student is not enrolled yet, there will be an \"Enroll\" button next to their course progress in your class."
 #    how_to_enroll_blurb_2: "To bulk-enroll multiple students, select them using the checkboxes on the left side of the classroom page and click the \"Enroll Selected Students\" button."
@@ -1486,6 +1493,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     edit_article_title: "Rediger Artikkel"
 
 #  polls:
+    priority: "Prioritet"
 
   contribute:
     page_title: "Bidra"
@@ -1503,6 +1511,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     join_desc_3: ", eller finn oss i vårt "
     join_desc_4: "så tar vi det derfra!"
     join_url_email: "Send oss en epost"
+    join_url_slack: "Offentlig Slack kanal"
     archmage_subscribe_desc: "Få epost om nye muligheter til å kode og kunngjøringer."
     artisan_introduction_pref: "Vi må konstruere flere nye brett! Folk skriker etter mer innhold, og vi klarer bare å bygge så mange selv. Akkurat nå er arbeidsverktøyet ditt bare på nivå 1; brett-editoren vår er bare såvidt brukbar, selv for de som har laget den, så vær forberedt. Hvis du har visjoner om kampanjer med alt fra for-løkker til"
     artisan_introduction_suf: ", da er denne klassen kanskje for deg."
@@ -1602,6 +1611,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     watch_victory: "Se seieren"
     defeat_the: "Overvinn"
 #    watch_battle: "Watch the battle"
+    tournament_started: ", startet"
     tournament_ends: "Turneringen slutter"
     tournament_ended: "Turneringen sluttet "
     tournament_rules: "Turneringsregler"
@@ -1615,6 +1625,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     league: "Liga"
 #    red_ai: "Red CPU" # "Red AI Wins", at end of multiplayer match playback
 #    blue_ai: "Blue CPU"
+    wins: "Vinner"
+    humans: "Rød"
+    ogres: "Blå"
 
   user:
     stats: "Statistikk"
@@ -1683,6 +1696,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
     users: "Brukere"
     months: "Måneder"
+    purchase_total: "Total"
 #    purchase_button: "Submit Purchase"
 #    your_codes: "Your Codes"
 #    redeem_codes: "Redeem a Subscription Code"
@@ -1698,6 +1712,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    you_can3: "that can be applied to your own account or given to others."
 
 #  coppa_deny:
+    text1: "Kan du ikke vente med å lære å programmere?"
+    text2: "Spørr foreldrene dine om å lage en bruker for deg!"
     close: "Lukk Vinduet"
 
   loading_error:
