@@ -144,16 +144,6 @@ describe 'POST /db/classroom', ->
     expect(classroom.get('courses')[0].levels[0].name).toBe('Level A')
     done()
 
-  it 'makes a copy of the list of all non-practice levels in all courses', utils.wrap (done) ->
-    teacher = yield utils.initUser({role: 'teacher'})
-    yield utils.loginUser(teacher)
-    data = { name: 'tmp Classroom 2' }
-    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
-    classroom = yield Classroom.findById(res.body._id)
-    # console.log(JSON.stringify(classroom.get('courses')[0], null, 2));
-    expect(classroom.get('courses')[0].levels.length).toEqual(2)
-    done()
-
 describe 'GET /db/classroom/:handle/levels', ->
 
   beforeEach utils.wrap (done) ->

@@ -9,6 +9,7 @@ User = require '../../../server/models/User'
 Classroom = require '../../../server/models/Classroom'
 Campaign = require '../../../server/models/Campaign'
 Level = require '../../../server/models/Level'
+LevelSession = require '../../../server/models/LevelSession'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
 moment = require 'moment'
@@ -48,7 +49,7 @@ describe 'POST /db/course_instance', ->
     expect(res.statusCode).toBe(200)
     expect(body.classroomID).toBeDefined()
     done()
-      
+
   it 'returns the same CourseInstance if you POST twice', utils.wrap (done) ->
     data = {
       name: 'Some Name'
@@ -167,7 +168,7 @@ describe 'POST /db/course_instance/:id/members', ->
     [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
     expect(res.statusCode).toBe(402)
     done()
-          
+
   it 'works if the course is not free and the user is enrolled', utils.wrap (done) ->
     @course.set('free', false)
     yield @course.save()
@@ -187,12 +188,12 @@ describe 'POST /db/course_instance/:id/members', ->
     [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
     expect(res.statusCode).toBe(200)
     done()
-    
+
 describe 'DELETE /db/course_instance/:id/members', ->
 
   beforeEach utils.wrap (done) ->
     utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid])
-    
+
     # create, login user
     @teacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(@teacher)
@@ -211,7 +212,7 @@ describe 'DELETE /db/course_instance/:id/members', ->
     }
     [res, body] = yield request.postAsync {uri: url, json: data}
     @courseInstance = yield CourseInstance.findById res.body._id
-    
+
     # add user to course instance
     url = getURL("/db/course_instance/#{@courseInstance.id}/members")
     [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
@@ -221,14 +222,14 @@ describe 'DELETE /db/course_instance/:id/members', ->
       redeemers: []
     }).save()
     done()
-    
+
   it 'removes a member to the given CourseInstance', utils.wrap (done) ->
     url = getURL("/db/course_instance/#{@courseInstance.id}/members")
     [res, body] = yield request.delAsync {uri: url, json: {userID: @student.id}}
     expect(res.statusCode).toBe(200)
     expect(res.body.members.length).toBe(0)
     done()
-    
+
   it 'removes the CourseInstance from the User.courseInstances', utils.wrap (done) ->
     url = getURL("/db/course_instance/#{@courseInstance.id}/members")
     user = yield User.findById(@student.id)
@@ -239,13 +240,14 @@ describe 'DELETE /db/course_instance/:id/members', ->
     user = yield User.findById(@student.id)
     expect(_.size(user.get('courseInstances'))).toBe(0)
     done()
-    
+
 describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
 
   beforeEach utils.wrap (done) ->
     yield utils.clearModels [User, Classroom, Course, Level, Campaign]
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
+    teacher = yield utils.initUser({role: 'teacher'})
 
     levelJSON = { name: 'A', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
@@ -253,11 +255,24 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
     @levelA = yield Level.findById(res.body._id)
     paredLevelA = _.pick(res.body, 'name', 'original', 'type')
 
+    @sessionA = new LevelSession
+      creator: teacher.id
+      level: original: @levelA.get('original').toString()
+      permissions: simplePermissions
+      state: complete: true
+    yield @sessionA.save()
+
     levelJSON = { name: 'B', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
     expect(res.statusCode).toBe(200)
     @levelB = yield Level.findById(res.body._id)
     paredLevelB = _.pick(res.body, 'name', 'original', 'type')
+
+    @sessionB = new LevelSession
+      creator: teacher.id
+      level: original: @levelB.get('original').toString()
+      permissions: simplePermissions
+    yield @sessionB.save()
 
     levelJSON = { name: 'C', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
@@ -282,14 +297,13 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
     @courseB = Course({name: 'Course B', campaignID: @campaignB._id})
     yield @courseB.save()
 
-    teacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(teacher)
     data = { name: 'Classroom 1' }
     classroomsURL = getURL('/db/classroom')
     [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
     expect(res.statusCode).toBe(201)
     @classroom = yield Classroom.findById(res.body._id)
-    
+
     url = getURL('/db/course_instance')
 
     dataA = { name: 'Some Name', courseID: @courseA.id, classroomID: @classroom.id }
@@ -301,27 +315,27 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
     [res, body] = yield request.postAsync {uri: url, json: dataB}
     expect(res.statusCode).toBe(200)
     @courseInstanceB = yield CourseInstance.findById(res.body._id)
-    
+
     done()
 
   it 'returns the next level for the course in the linked classroom', utils.wrap (done) ->
-    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelA.id}/next"), json: true }
+    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelA.id}/sessions/#{@sessionA.id}/next"), json: true }
     expect(res.statusCode).toBe(200)
     expect(res.body.original).toBe(@levelB.original.toString())
     done()
-    
+
   it 'returns empty object if the given level is the last level in its course', utils.wrap (done) ->
-    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelB.id}/next"), json: true }
+    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelB.id}/sessions/#{@sessionB.id}/next"), json: true }
     expect(res.statusCode).toBe(200)
     expect(res.body).toEqual({})
     done()
 
   it 'returns 404 if the given level is not in the course instance\'s course', utils.wrap (done) ->
-    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceB.id}/levels/#{@levelA.id}/next"), json: true }
+    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceB.id}/levels/#{@levelA.id}/sessions/#{@sessionA.id}/next"), json: true }
     expect(res.statusCode).toBe(404)
     done()
-    
-    
+
+
 describe 'GET /db/course_instance/:handle/classroom', ->
 
   beforeEach utils.wrap (done) ->
@@ -362,9 +376,9 @@ describe 'GET /db/course_instance/:handle/classroom', ->
     done()
 
 describe 'POST /db/course_instance/-/recent', ->
-  
+
   url = getURL('/db/course_instance/-/recent')
-  
+
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid, Campaign, Level])
     @teacher = yield utils.initUser({role: 'teacher'})
@@ -405,9 +419,9 @@ describe 'POST /db/course_instance/-/recent', ->
     endDay = moment().subtract(1, 'day').format('YYYY-MM-DD')
     [res, body] = yield request.postAsync(url, { json: { startDay, endDay } })
     expect(res.body.courseInstances.length).toBe(0)
-    
+
     done()
-    
+
   it 'returns 403 if not an admin', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     [res, body] = yield request.postAsync(url, { json: true })

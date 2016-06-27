@@ -66,6 +66,7 @@ _.extend CampaignSchema.properties, {
       original: { type: 'string', format: 'hidden' }
       adventurer: { type: 'boolean' }
       practice: { type: 'boolean' }
+      practiceThresholdMinutes: {type: 'number'}
       adminOnly: { type: 'boolean' }
       disableSpaces: { type: ['boolean','number'] }
       hidesSubmitUntilRun: { type: 'boolean' }

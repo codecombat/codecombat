@@ -151,12 +151,10 @@ module.exports =
       courseData = { _id: course._id, levels: [] }
       campaign = campaignMap[course.get('campaignID').toString()]
       levels = _.values(campaign.get('levels'))
-      # TODO: remove practice filter after classroom Ux supports practice levels
-      levels = _.reject(levels, {'practice': true})
       levels = _.sortBy(levels, 'campaignIndex')
       for level in levels
         levelData = { original: mongoose.Types.ObjectId(level.original) }
-        _.extend(levelData, _.pick(level, 'type', 'slug', 'name'))
+        _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes'))
         courseData.levels.push(levelData)
       coursesData.push(courseData)
     classroom.set('courses', coursesData)

@@ -2,6 +2,10 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/control_bar'
 {me} = require 'core/auth'
 
+Campaign = require 'models/Campaign'
+Classroom = require 'models/Classroom'
+Course = require 'models/Course'
+CourseInstance = require 'models/CourseInstance'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
 RealTimeModel = require 'models/RealTimeModel'
 RealTimeCollection = require 'collections/RealTimeCollection'
@@ -28,6 +32,7 @@ module.exports = class ControlBarView extends CocoView
     'click #control-bar-sign-up-button': 'onClickSignupButton'
 
   constructor: (options) ->
+    @supermodel = options.supermodel
     @courseID = options.courseID
     @courseInstanceID = options.courseInstanceID
 
@@ -38,12 +43,39 @@ module.exports = class ControlBarView extends CocoView
     @levelID = @levelSlug or @level.id
     @spectateGame = options.spectateGame ? false
     @observing = options.session.get('creator') isnt me.id
+
+    @levelNumber = ''
+    if @level.get('type') is 'course' and @level.get('campaignIndex')?
+      @levelNumber = @level.get('campaignIndex') + 1
+    if @courseInstanceID
+      @courseInstance = new CourseInstance(_id: @courseInstanceID)
+      jqxhr = @courseInstance.fetch()
+      @supermodel.trackRequest(jqxhr)
+      new Promise(jqxhr.then).then(=>
+        @classroom = new Classroom(_id: @courseInstance.get('classroomID'))
+        @supermodel.trackRequest @classroom.fetch()
+      )
+    else if @courseID
+      @course = new Course(_id: @courseID)
+      jqxhr = @course.fetch()
+      @supermodel.trackRequest(jqxhr)
+      new Promise(jqxhr.then).then(=>
+        @campaign = new Campaign(_id: @course.get('campaignID'))
+        @supermodel.trackRequest(@campaign.fetch())
+      )
     super options
     if @level.get('type') in ['hero-ladder', 'course-ladder'] and me.isAdmin()
       @isMultiplayerLevel = true
       @multiplayerStatusManager = new MultiplayerStatusManager @levelID, @onMultiplayerStateChanged
     if @level.get 'replayable'
       @listenTo @session, 'change-difficulty', @onSessionDifficultyChanged
+
+  onLoaded: ->
+    if @classroom
+      @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber)
+    else if @campaign
+      @levelNumber = @campaign.getLevelNumber(@level.get('original'), @levelNumber)
+    super()
 
   setBus: (@bus) ->
 
@@ -62,7 +94,6 @@ module.exports = class ControlBarView extends CocoView
   getRenderData: (c={}) ->
     super c
     c.worldName = @worldName
-    c.campaignIndex = @level.get('campaignIndex') + 1 if @level.get('type') is 'course' and @level.get('campaignIndex')?  # TODO: support 'game-dev' levels in courses
     c.multiplayerEnabled = @session.get('multiplayer')
     c.ladderGame = @level.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
     if c.isMultiplayerLevel = @isMultiplayerLevel

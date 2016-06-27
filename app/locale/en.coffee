@@ -295,6 +295,7 @@
     saving: "Saving..."
     sending: "Sending..."
     send: "Send"
+    type: "Type"
     cancel: "Cancel"
     save: "Save"
     publish: "Publish"

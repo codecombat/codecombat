@@ -55,7 +55,7 @@ module.exports = class ClassroomView extends RootView
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
     @levels = new Levels()
-    @levels.fetchForClassroom(classroomID, {data: {project: 'name,slug,original'}})
+    @levels.fetchForClassroom(classroomID, {data: {project: 'name,original,practice,slug'}})
     @levels.on 'add', (model) -> @_byId[model.get('original')] = model # so you can 'get' them
     @supermodel.trackCollection(@levels)
     window.tracker?.trackEvent 'Students Class Loaded', category: 'Students', classroomID: classroomID, ['Mixpanel']
@@ -177,7 +177,9 @@ module.exports = class ClassroomView extends RootView
     stats.averagePlaytime = if playtime and total then moment.duration(playtime / total, "seconds").humanize() else 0
     stats.totalPlaytime = if playtime then moment.duration(playtime, "seconds").humanize() else 0
 
-    completeSessions = @sessions.filter (s) -> s.get('state')?.complete
+    levelPracticeMap = {}
+    levelPracticeMap[level.id] = level.get('practice') ? false for level in @levels.models
+    completeSessions = @sessions.filter (s) -> s.get('state')?.complete and not levelPracticeMap[s.get('levelID')]
     stats.averageLevelsComplete = if @users.size() then (_.size(completeSessions) / @users.size()).toFixed(1) else 'N/A'  # '
     stats.totalLevelsComplete = _.size(completeSessions)
 
