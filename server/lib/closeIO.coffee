@@ -65,7 +65,7 @@ module.exports =
           activities = JSON.parse(body)
           return done("Unexpected activities format: " + body) unless activities.data?
           for activity in activities.data when activity._type is 'Email'
-            if /@codecombat\.(?:com)|(?:nl)/ig.test(activity.sender) and not activity.sender?.indexOf(config.mail.username) >= 0
+            if /@codecombat\.(?:com)|(?:nl)/ig.test(activity.sender) and not activity.sender?.indexOf(config.mail.username) >= 0 and not activity.sender?.indexOf('brian@codecombat.com') >= 0
               return done(null, activity.sender, activity.user_id, lead.id)
           return done(null, config.mail.supportSchools, lead.id)
     catch error
