@@ -127,9 +127,12 @@ module.exports =
           return done(errorMessage)
 
         # Create opportunity
+        dateWon = new Date()
+        dateWon.setUTCMonth(dateWon.getUTCMonth() + 2)
         postData =
           note: "#{licensesRequested} licenses requested"
           confidence: 5
+          date_won: dateWon.toISOString().substring(0, 10)
           lead_id: leadID
           status: 'Active'
           value: parseInt(licensesRequested) * amount
