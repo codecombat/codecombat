@@ -427,6 +427,12 @@ class CocoLead {
     if (user && user.id) {
       if (!this.contacts[email.toLowerCase()]) this.contacts[email.toLowerCase()] = {};
       this.contacts[email.toLowerCase()].intercomUrl = `https://app.intercom.io/a/apps/${intercomAppId}/users/${user.id}/`;
+      if (user.last_request_at) {
+        this.contacts[email.toLowerCase()].intercomLastSeen = new Date(parseInt(user.last_request_at) * 1000);
+      }
+      if (user.session_count) {
+        this.contacts[email.toLowerCase()].intercomSessionCount = parseInt(user.session_count);
+      }
     }
   }
   addTrialRequest(email, trial) {
@@ -473,6 +479,12 @@ class CocoLead {
           }
         }
       }
+      if (this.contacts[email].intercomLastSeen && (this.contacts[email].intercomLastSeen > (postData.custom['intercom_lastSeen'] || 0))) {
+        postData.custom['intercom_lastSeen'] = this.contacts[email].intercomLastSeen;
+      }
+      if (this.contacts[email].intercomSessionCount && (this.contacts[email].intercomSessionCount > (postData.custom['intercom_sessionCount'] || 0))) {
+        postData.custom['intercom_sessionCount'] = this.contacts[email].intercomSessionCount;
+      }
     }
     return postData;
   }
@@ -500,6 +512,12 @@ class CocoLead {
             putData[`custom.demo_${prop}`] = props[prop];
           }
         }
+      }
+      if (this.contacts[email].intercomLastSeen && (this.contacts[email].intercomLastSeen > (currentCustom['intercom_lastSeen'] || 0))) {
+        putData['custom.intercom_lastSeen'] = this.contacts[email].intercomLastSeen;
+      }
+      if (this.contacts[email].intercomSessionCount && (this.contacts[email].intercomSessionCount > (currentCustom['intercom_sessionCount'] || 0))) {
+        putData['custom.intercom_sessionCount'] = this.contacts[email].intercomSessionCount;
       }
     }
     for (const field of customFieldsToRemove) {
@@ -595,6 +613,8 @@ class CocoLead {
           }
         }
         if (contact.intercomUrl) noteData += `intercom_url: ${contact.intercomUrl}\n`;
+        if (contact.intercomLastSeen) noteData += `intercom_lastSeen: ${contact.intercomLastSeen}\n`;
+        if (contact.intercomSessionCount) noteData += `intercom_sessionCount: ${contact.intercomSessionCount}\n`;
         if (contact.user) {
           const user = contact.user
           noteData += `coco_userID: ${user._id}\n`;
