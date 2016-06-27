@@ -89,12 +89,6 @@ $gameControlMargin: 30px
         a
           cursor: default
 
-      &.next
-        width: 2 * $levelDotWidth
-        height: 2 * $levelDotHeight
-        margin-left: -0.5 * 2 * $levelDotWidth
-        margin-bottom: -2 * $levelDotHeight / 3 + 2 * $levelDotZ
-
       &.started, &.next
         border: 3px solid lightgreen
         @include box-shadow(0px 0px 35px skyblue)
@@ -170,12 +164,6 @@ $gameControlMargin: 30px
       @include box-shadow(0px 0px 10px black)
       @include opacity(0.75)
 
-      &.next
-        width: 2 * $levelDotShadowWidth
-        height: 2 * $levelDotShadowHeight
-        margin-left: -0.5 * 2 * $levelDotShadowWidth
-        margin-bottom: -2 * $levelDotShadowHeight / 3
-
     .level:hover
       // TODO: This rotate stops Firefox from flickering, but also disables the scaleY(0.75)
       // TODO: The dot looks like it's jumping.
@@ -185,9 +173,6 @@ $gameControlMargin: 30px
       margin-bottom: -$levelDotHeight / 3 + $levelDotHoverZ
       @include box-shadow(0px 0px 35px skyblue)
 
-      &.next
-        margin-bottom: -2 * $levelDotHeight / 3 + 2 * $levelDotHoverZ
-
     .level
       a
         display: block
@@ -195,12 +180,6 @@ $gameControlMargin: 30px
         margin-left: -0.5 * $levelClickRadius
         margin-top: -0.5 * $levelClickRadius
         border-radius: $levelClickRadius
-
-      &.next a
-        padding: 2 * $levelClickRadius
-        margin-left: 2 * -0.5 * $levelClickRadius
-        margin-top: 2 * -0.5 * $levelClickRadius
-        border-radius: 2 * $levelClickRadius
 
     .tooltip
       z-index: 2
