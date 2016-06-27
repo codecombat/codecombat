@@ -49,17 +49,20 @@ module.exports = class ControlBarView extends CocoView
       @levelNumber = @level.get('campaignIndex') + 1
     if @courseInstanceID
       @courseInstance = new CourseInstance(_id: @courseInstanceID)
-      @supermodel.trackRequest(@courseInstance.fetch().then(=>
+      jqxhr = @courseInstance.fetch()
+      @supermodel.trackRequest(jqxhr)
+      new Promise(jqxhr.then).then(=>
         @classroom = new Classroom(_id: @courseInstance.get('classroomID'))
         @supermodel.trackRequest @classroom.fetch()
-      ))
+      )
     else if @courseID
       @course = new Course(_id: @courseID)
-      @supermodel.trackRequest(@course.fetch().then(=>
+      jqxhr = @course.fetch()
+      @supermodel.trackRequest(jqxhr)
+      new Promise(jqxhr.then).then(=>
         @campaign = new Campaign(_id: @course.get('campaignID'))
         @supermodel.trackRequest(@campaign.fetch())
-      ))
-
+      )
     super options
     if @level.get('type') in ['hero-ladder', 'course-ladder'] and me.isAdmin()
       @isMultiplayerLevel = true
