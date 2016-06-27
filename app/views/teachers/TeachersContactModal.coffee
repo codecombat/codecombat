@@ -7,7 +7,6 @@ contact = require 'core/contact'
 module.exports = class TeachersContactModal extends ModalView
   id: 'teachers-contact-modal'
   template: require 'templates/teachers/teachers-contact-modal'
-  defaultLicenses: 15
 
   events:
     'submit form': 'onSubmitForm'
@@ -17,7 +16,7 @@ module.exports = class TeachersContactModal extends ModalView
       formValues: {
         name: ''
         email: ''
-        licensesNeeded: @defaultLicenses
+        licensesNeeded: ''
         message: ''
       }
       formErrors: {}
@@ -39,7 +38,7 @@ module.exports = class TeachersContactModal extends ModalView
         Role: #{props.role or ''}
         Phone Number: #{props.phoneNumber or ''}
       """
-    @state.set('formValues', { name, email, licensesNeeded: @defaultLicenses, message })
+    @state.set('formValues', { name, email, message })
     super()
 
   onSubmitForm: (e) ->
