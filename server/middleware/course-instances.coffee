@@ -97,8 +97,7 @@ module.exports =
       currentLevelSession = levelSession if levelSession.id is sessionID
       levelCompleteMap[levelSession.get('level')?.original] = levelSession.get('state')?.complete
     unless currentLevelSession then throw new errors.NotFound('Level session not found.') 
-    needsPractice = Math.round(currentLevelSession.get('playtime') / 60) > (currentLevel.get('practiceThresholdMinutes') ? 0)
-    # console.log "DEBUG: needsPractice #{needsPractice} = #{Math.round(currentLevelSession.get('playtime') / 60)} > #{(currentLevel.get('practiceThresholdMinutes') ? 0)}"
+    needsPractice = utils.needsPractice(currentLevelSession.get('playtime'), currentLevel.get('practiceThresholdMinutes'))
 
     # Find next level
     levels = []

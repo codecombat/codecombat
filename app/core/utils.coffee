@@ -367,3 +367,6 @@ module.exports.findNextLevel = (levels, currentIndex, needsPractice) ->
       # No practice needed, next required incomplete level
       index++ while index < levels.length and (levels[index].practice or levels[index].complete)
     index
+
+module.exports.needsPractice = (playtime=0, threshold=2) ->
+  playtime / 60 > threshold
