@@ -14,7 +14,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     for_developers: "For Utviklere" # Not currently shown on home page.
     or_ipad: "Eller last ned til iPad"
 
-#  new_home:
+  new_home:
 #    slogan: "The most engaging game for learning programming."
 #    classroom_edition: "Classroom Edition:"
     learn_to_code: "Lær å kode:"
@@ -182,7 +182,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
-#  code: # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
+  code: # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     if: "hvis"
     else: "eller"
     elif: "eller hvis"
@@ -808,7 +808,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     next: "Neste"
 #    location_title: "We're located in downtown SF:"
 
-#  teachers:
+  teachers:
     who_for_title: "Hvem er CodeCombat for?"
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed. We've designed CodeCombat to appeal to both boys and girls."
 #    who_for_2: "Our Courses system allows teachers to set up classrooms, track progress and assign additional content to students through a dedicated interface."
@@ -817,7 +817,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    more_info_2: "teachers forum"
 #    more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
 
-#  teachers_quote:
+  teachers_quote:
 #    name: "Demo Form"
 #    title: "Request a Demo"
 #    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
@@ -978,7 +978,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Bidra på prosjektet"
 
-#  clans:
+  clans:
     clan: "Klan"
     clans: "Klaner"
     new_name: "Nytt klan navn"
@@ -1038,7 +1038,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    track_concepts8: "to join"
 #    private_require_sub: "Private clans require a subscription to create or join."
 
-#  courses:
+  courses:
 #    course: "Course"
 #    courses: "courses"
 #    create_new_class: "Create New Class"
@@ -1061,7 +1061,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    total_levels: "Total levels completed:"
 #    furthest_level: "Furthest level completed:"
     students: "Studenter"
-    students: "studenter"
+    students1: "studenter"
     concepts: "Konsepter"
 #    levels: "levels"
     played: "Spilt"
@@ -1294,7 +1294,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     class_name: "Klasse navn"
 #    teacher_account_restricted: "Your account is a teacher account, and so cannot access student content."
 
-#  teacher:
+  teacher:
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "Mine klasser"
 #    courses: "Courses"
@@ -1492,7 +1492,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     edit_btn_preview: "Forhåndsvis"
     edit_article_title: "Rediger Artikkel"
 
-#  polls:
+  polls:
     priority: "Prioritet"
 
   contribute:
@@ -1679,7 +1679,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     status_unsubscribed_active: "Du har ikke et aktivt abonnement, og vil ikke bli fakturert, men kontoen din er aktiv enn så lenge."
     status_unsubscribed: "Få tilgang til nye nivåer, helter, gjenstander, og bonus gems med et CodeCombat abonnement!"
 
-#  account_invoices:
+  account_invoices:
     amount: "Prisen er i Amerikanske dollar"
 #    declined: "Your card was declined"
 #    invalid_amount: "Please enter a US dollar amount."
@@ -1689,7 +1689,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    retrying: "Server error, retrying."
 #    success: "Successfully paid. Thanks!"
 
-#  account_prepaid:
+  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
 #    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
@@ -1711,7 +1711,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
-#  coppa_deny:
+  coppa_deny:
     text1: "Kan du ikke vente med å lære å programmere?"
     text2: "Spørr foreldrene dine om å lage en bruker for deg!"
     close: "Lukk Vinduet"
@@ -1869,7 +1869,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    license: "license"
 #    oreilly: "ebook of your choice"
 
-#  calendar:
+  calendar:
     year: "år"
     day: "Dag"
     month: "Måned"
