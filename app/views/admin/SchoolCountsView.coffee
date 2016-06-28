@@ -1,10 +1,11 @@
 RootView = require 'views/core/RootView'
 CocoCollection = require 'collections/CocoCollection'
 Classroom = require 'models/Classroom'
+CourseInstance = require 'models/CourseInstance'
 TrialRequest = require 'models/TrialRequest'
 User = require 'models/User'
+utils = require 'core/utils'
 
-# TODO: trim orphaned students: course instances != Single Player, hourOfCode != true
 # TODO: match anonymous trial requests with real users via email
 
 module.exports = class SchoolCountsView extends RootView
@@ -15,6 +16,8 @@ module.exports = class SchoolCountsView extends RootView
     return super() unless me.isAdmin()
     @classrooms = new CocoCollection([], { url: "/db/classroom/-/users", model: Classroom })
     @supermodel.loadCollection(@classrooms, 'classrooms', {cache: false})
+    @courseInstances = new CocoCollection([], { url: "/db/course_instance/-/non-hoc", model: CourseInstance})
+    @supermodel.loadCollection(@courseInstances, 'course-instances', {cache: false})
     @students = new CocoCollection([], { url: "/db/user/-/students", model: User })
     @supermodel.loadCollection(@students, 'students', {cache: false})
     @teachers = new CocoCollection([], { url: "/db/user/-/teachers", model: User })
@@ -30,41 +33,44 @@ module.exports = class SchoolCountsView extends RootView
 
     teacherMap = {} # Used to make sure teachers and students only counted once
     studentMap = {} # Used to make sure teachers and students only counted once
+    studentNonHocMap = {} # Used to exclude HoC users
     teacherStudentMap = {} # Used to link students to their teacher locations
-    orphanedSchoolStudentMap = {} # Used to link student schoolName to teacher Nces data
     countryStateDistrictSchoolCountsMap = {} # Data graph
 
-    console.log(new Date().toISOString(), 'Processing classrooms...')
+    console.log(new Date().toISOString(), "Processing #{@courseInstances.models.length} course instances...")
+    for courseInstance in @courseInstances.models
+      studentNonHocMap[courseInstance.get('ownerID')] = true
+      studentNonHocMap[studentID] = true for studentID in courseInstance.get('members') ? []
+
+    console.log(new Date().toISOString(), "Processing #{@classrooms.models.length} classrooms...")
     for classroom in @classrooms.models
       teacherID = classroom.get('ownerID')
       teacherMap[teacherID] ?= {}
       teacherMap[teacherID] = true
       teacherStudentMap[teacherID] ?= {}
       for studentID in classroom.get('members')
+        continue unless studentNonHocMap[studentID]
         studentMap[studentID] = true
         teacherStudentMap[teacherID][studentID] = true
 
-    console.log(new Date().toISOString(), 'Processing teachers...')
+    console.log(new Date().toISOString(), "Processing #{@teachers.models.length} teachers...")
     for teacher in @teachers.models
       teacherMap[teacher.id] ?= {}
       delete studentMap[teacher.id]
 
-    console.log(new Date().toISOString(), 'Processing students...')
+    console.log(new Date().toISOString(), "Processing #{@students.models.length} students...")
     for student in @students.models when not teacherMap[student.id]
+      continue unless studentNonHocMap[student.id]
       schoolName = student.get('schoolName')
       studentMap[student.id] = true
-      orphanedSchoolStudentMap[schoolName] ?= {}
-      orphanedSchoolStudentMap[schoolName][student.id] = true
 
-    console.log(new Date().toISOString(), 'Processing trial requests...')
-    # TODO: this step is crazy slow
-    orphanSchoolsMatched = 0
-    orphanStudentsMatched = 0
+    console.log(new Date().toISOString(), "Processing trial #{@trialRequests.models.length} requests...")
     for trialRequest in @trialRequests.models
       teacherID = trialRequest.get('applicant')
       unless teacherMap[teacherID]
+        # E.g. parents
         # console.log("Skipping non-teacher #{teacherID} trial request #{trialRequest.id}")
-        continue 
+        continue
       props = trialRequest.get('properties')
       if props.nces_id and props.country and props.state
         country = props.country
@@ -78,27 +84,43 @@ module.exports = class SchoolCountsView extends RootView
         countryStateDistrictSchoolCountsMap[country][state][district][school].teachers[teacherID] = true
         for studentID, val of teacherStudentMap[teacherID]
           countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true
-        for orphanSchool, students of orphanedSchoolStudentMap
-          if school is orphanSchool or school.replace(/unified|elementary|high|district|#\d+|isd|unified district|school district/ig, '').trim() is orphanSchool.trim()
-            orphanSchoolsMatched++
-            for studentID, val of students
-              orphanStudentsMatched++
-              countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true
-            delete orphanedSchoolStudentMap[school]
-    console.log(new Date().toISOString(), "#{orphanSchoolsMatched} orphanSchoolsMatched #{orphanStudentsMatched} orphanStudentsMatched")
+      else if not _.isEmpty(props.country)
+        country = props.country
+        country = country[0].toUpperCase() + country.substring(1).toLowerCase()
+        country = 'UK' if /uk|united kingdom|england/ig.test(country.trim())
+        country = 'USA' if /^u\.s\.?(\.a)?\.?$|^us$|america|united states|usa/ig.test(country.trim())
+        state = props.state ? 'unknown'
+        if country is 'USA'
+          stateName = utils.usStateCodes.sanitizeStateName(state)
+          state = utils.usStateCodes.getStateCodeByStateName(stateName) if stateName
+          state = utils.usStateCodes.sanitizeStateCode(state) ? state
+        district = 'unknown'
+        school = props.organiziation ? 'unknown'
+        countryStateDistrictSchoolCountsMap[country] ?= {}
+        countryStateDistrictSchoolCountsMap[country][state] ?= {}
+        countryStateDistrictSchoolCountsMap[country][state][district] ?= {}
+        countryStateDistrictSchoolCountsMap[country][state][district][school] ?= {students: {}, teachers: {}}
+        countryStateDistrictSchoolCountsMap[country][state][district][school].teachers[teacherID] = true
+        for studentID, val of teacherStudentMap[teacherID]
+          countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true
 
-    console.log(new Date().toISOString(), 'Building graph...')
-    @totalSchools = 0
-    @totalStudents = 0
-    @totalTeachers = 0
-    @totalStates = 0
-    @stateCounts = []
-    stateCountsMap = {}
-    @districtCounts = []
+    console.log(new Date().toISOString(), 'Building country graphs...')
+    @countryGraphs = {}
+    @countryCounts = []
+    totalStudents = 0
+    totalTeachers = 0
     for country, stateDistrictSchoolCountsMap of countryStateDistrictSchoolCountsMap
-      continue unless /usa/ig.test(country)
+      @countryGraphs[country] =
+        districtCounts: []
+        stateCounts: []
+        stateCountsMap: {}
+        totalSchools: 0
+        totalStates: 0
+        totalStudents: 0
+        totalTeachers: 0
       for state, districtSchoolCountsMap of stateDistrictSchoolCountsMap
-        @totalStates++
+        if utils.usStateCodes.sanitizeStateCode(state)? or ['GU', 'PR'].indexOf(state) >= 0
+          @countryGraphs[country].totalStates++
         stateData = {state: state, districts: 0, schools: 0, students: 0, teachers: 0}
         for district, schoolCountsMap of districtSchoolCountsMap
           stateData.districts++
@@ -106,39 +128,64 @@ module.exports = class SchoolCountsView extends RootView
           for school, counts of schoolCountsMap
             studentCount = Object.keys(counts.students).length
             teacherCount = Object.keys(counts.teachers).length
-            @totalSchools++
-            @totalStudents += studentCount
-            @totalTeachers += teacherCount
+            @countryGraphs[country].totalSchools++
+            @countryGraphs[country].totalStudents += studentCount
+            @countryGraphs[country].totalTeachers += teacherCount
             stateData.schools++
             stateData.students += studentCount
             stateData.teachers += teacherCount
             districtData.schools++
             districtData.students += studentCount
             districtData.teachers += teacherCount
-          @districtCounts.push(districtData)
-        @stateCounts.push(stateData)
-        stateCountsMap[state] = stateData
-    @untriagedStudents = Object.keys(studentMap).length - @totalStudents
+          @countryGraphs[country].districtCounts.push(districtData)
+        @countryGraphs[country].stateCounts.push(stateData)
+        @countryGraphs[country].stateCountsMap[state] = stateData
+      @countryCounts.push
+        country: country
+        schools: @countryGraphs[country].totalSchools
+        students: @countryGraphs[country].totalStudents
+        teachers: @countryGraphs[country].totalTeachers
+      totalStudents += @countryGraphs[country].totalSchools
+      totalTeachers += @countryGraphs[country].totalTeachers
+    @untriagedStudents = Object.keys(studentMap).length - totalStudents
+    @untriagedTeachers = Object.keys(teacherMap).length - totalTeachers
 
-    @stateCounts.sort (a, b) ->
-      return -1 if a.students > b.students
-      return 1 if a.students < b.students
-      return -1 if a.teachers > b.teachers
-      return 1 if a.teachers < b.teachers
-      return -1 if a.districts > b.districts
-      return 1 if a.districts < b.districts
-      b.state.localeCompare(a.state)
-    @districtCounts.sort (a, b) ->
-      if a.state isnt b.state
-        return -1 if stateCountsMap[a.state].students > stateCountsMap[b.state].students
-        return 1 if stateCountsMap[a.state].students < stateCountsMap[b.state].students
-        return -1 if stateCountsMap[a.state].teachers > stateCountsMap[b.state].teachers
-        return 1 if stateCountsMap[a.state].teachers < stateCountsMap[b.state].teachers
-        a.state.localeCompare(b.state)
-      else
+    for country, graph of @countryGraphs
+      graph.stateCounts.sort (a, b) ->
         return -1 if a.students > b.students
         return 1 if a.students < b.students
         return -1 if a.teachers > b.teachers
         return 1 if a.teachers < b.teachers
-        a.district.localeCompare(b.district)
+        return -1 if a.schools > b.schools
+        return 1 if a.schools < b.schools
+        return -1 if a.districts > b.districts
+        return 1 if a.districts < b.districts
+        b.state.localeCompare(a.state)
+      graph.districtCounts.sort (a, b) ->
+        if a.state isnt b.state
+          return -1 if graph.stateCountsMap[a.state].students > graph.stateCountsMap[b.state].students
+          return 1 if graph.stateCountsMap[a.state].students < graph.stateCountsMap[b.state].students
+          return -1 if graph.stateCountsMap[a.state].teachers > graph.stateCountsMap[b.state].teachers
+          return 1 if graph.stateCountsMap[a.state].teachers < graph.stateCountsMap[b.state].teachers
+          return -1 if graph.stateCountsMap[a.state].schools > graph.stateCountsMap[b.state].schools
+          return 1 if graph.stateCountsMap[a.state].schools < graph.stateCountsMap[b.state].schools
+          a.state.localeCompare(b.state)
+        else
+          return -1 if a.students > b.students
+          return 1 if a.students < b.students
+          return -1 if a.teachers > b.teachers
+          return 1 if a.teachers < b.teachers
+          return -1 if a.schools > b.schools
+          return 1 if a.schools < b.schools
+          a.district.localeCompare(b.district)
+    @countryCounts.sort (a, b) ->
+      return -1 if a.students > b.students
+      return 1 if a.students < b.students
+      return -1 if a.teachers > b.teachers
+      return 1 if a.teachers < b.teachers
+      return -1 if a.schools > b.schools
+      return 1 if a.schools < b.schools
+      b.country.localeCompare(a.country)
+
+    console.log(new Date().toISOString(), 'Done...')
     super()
