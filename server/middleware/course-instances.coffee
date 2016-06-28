@@ -72,6 +72,7 @@ module.exports =
 
 
   fetchNextLevel: wrap (req, res) ->
+    unless req.user? then return res.status(200).send({})
     levelOriginal = req.params.levelOriginal
     unless database.isID(levelOriginal) then throw new errors.UnprocessableEntity('Invalid level original ObjectId')
     sessionID = req.params.sessionID
