@@ -6,7 +6,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     play: "Speel" # The big play button that opens up the campaign view.
     play_campaign_version: "Speel de Verhaallijn" # Shows up under big play button if you only play /courses
     old_browser: "uh-oh, jouw browser is te oud om CodeCombat te kunnen spelen, Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
-    old_browser_suffix: "Je kan alsnog proberen, maar het zal waarschijnlijk niet werken!"
+    old_browser_suffix: "Je kan het alsnog proberen, maar het zal waarschijnlijk niet werken!"
     ipad_browser: "Slecht nieuws: CodeCombat draait niet in je browser op de iPad. Goed nieuws: onze iPad-app wordt op het moment beoordeeld door Apple."
     campaign: "Verhaallijn"
     for_beginners: "Voor Beginners"
@@ -16,7 +16,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   new_home:
     slogan: "Het meest uitdagende spel om mee te leren programmeren."
-    classroom_edition: "Klas versie:"
+    classroom_edition: "Klasversie:"
     learn_to_code: "Leer programmeren:"
     teacher: "Leraar"
     student: "Leerling"
@@ -48,10 +48,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     kind_of_struggle: "het soort worsteling dat uitmondt in een leerproces dat uitdagend is en "
     motivating: "motiveert"
     not_tedious: "niet vervelend."
-    gaming_is_good: "Studies geven aan dat speels leren goed is voor de hersenen van kinderen. (En dat klopt!)"
+    gaming_is_good: "Studies wijzen uit dat speels leren goed is voor de hersenen van kinderen. (En dat klopt!)"
     game_based: "Wanneer spel-gebaseerde leersystemen worden"
     compared: "vergeleken"
-    conventional: "met conventionele assessment methodes, is het verschil duidelijk: games zijn beter in het stimuleren van leerlingen bij het onthouden van kennis, concentratie en het"
+    conventional: "met conventionele assessment methoden, is het verschil duidelijk: games zijn beter in het stimuleren van leerlingen bij het onthouden van kennis, concentratie en het"
     perform_at_higher_level: "niveau van hun prestaties."
     feedback: "Games verschaffen directe feedback, wat leerlingen in staat stelt hun oplossingen te verbeteren en zij een holistisch begrip van de concepten krijgen, in plaats van beperkt zijn tot antwoorden als “correct” of “incorrect”."
     real_game: "Een echt spel, wat je speelt met echte programmeertaal."
@@ -1288,11 +1288,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     avg_student_exp_varied: "Verschilt enorm per leerling"
     student_age_range_label: "Leeftijdscategorie leerlingen"
     student_age_range_younger: "Jonger dan 6"
-    student_age_range_older: "Ouden dan 18"
+    student_age_range_older: "Ouder dan 18"
     student_age_range_to: "tot"
     create_class: "Maak klas aan"
     class_name: "Klasnaam"
-    teacher_account_restricted: "Jouw account is een Docenten Account, daarom heeft dit account geen toegang tot inhoud bedoelt voor leerlingen."
+    teacher_account_restricted: "Jouw account is een Docenten Account, daarom heeft dit account geen toegang tot inhoud bedoeld voor leerlingen."
 
   teacher:
     teacher_dashboard: "Docent Dashboard" # Navbar
@@ -1312,7 +1312,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     teacher_account_explanation: "Een CodeCombat Docenten account geeft je de mogelijkheid om klassen aan te maken, voortgang van leerlingen te bekijken terwijl ze de cursussen volgen, inschrijvingen beheren en hulpmiddelen te gebruiken voor het opzetten van een leerplan"
     current_classes: "Huidige Klassen"
     archived_classes: "Gearchiveerde Klassen"
-    archived_classes_blurb: "Klassen kunnen worden gearchiveerd voor toekomstige refferentie. Dearchiveer een klas om deze weer in de lijst Huidige Klassen te zien"
+    archived_classes_blurb: "Klassen kunnen worden gearchiveerd voor toekomstige referentie. Dearchiveer een klas om deze weer in de lijst Huidige Klassen te zien"
     view_class: "bekijk klas"
     archive_class: "archiveer klas"
     unarchive_class: "dearchiveer klas"
