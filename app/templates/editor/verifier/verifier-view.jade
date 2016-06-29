@@ -105,6 +105,14 @@ block content
                 h4.test-failed User Code Problems
                 pre.test-failed #{JSON.stringify(test.userCodeProblems, null, 2)}
 
+              if test.simulationFrameRate
+                if test.simulationFrameRate > 90
+                  div.test-success ✓ #{test.simulationFrameRate.toFixed(1)} FPS
+                else if test.simulationFrameRate > 30
+                  div.test-running ~ #{test.simulationFrameRate.toFixed(1)} FPS
+                else
+                  div.test-failed ✘ #{test.simulationFrameRate.toFixed(1)} FPS
+
         else
           h1 Loading Level...
 
