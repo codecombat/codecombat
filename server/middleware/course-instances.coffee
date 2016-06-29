@@ -72,6 +72,7 @@ module.exports =
 
 
   fetchNextLevel: wrap (req, res) ->
+    unless req.user? then return res.status(200).send({})
     levelOriginal = req.params.levelOriginal
     unless database.isID(levelOriginal) then throw new errors.UnprocessableEntity('Invalid level original ObjectId')
     sessionID = req.params.sessionID
@@ -162,3 +163,9 @@ module.exports =
       students: (user.toObject({req: req}) for user in users)
       prepaids: (prepaid.toObject({req: req}) for prepaid in prepaids)
     })
+
+  fetchNonHoc: wrap (req, res) ->
+    throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+    query = {$and: [{name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
+    courseInstances = yield CourseInstance.find(query, { members: 1, ownerID: 1}).lean()
+    res.status(200).send(courseInstances)
