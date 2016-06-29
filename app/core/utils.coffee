@@ -342,31 +342,31 @@ module.exports.createLevelNumberMap = (levels) ->
   levelNumberMap
 
 module.exports.findNextLevel = (levels, currentIndex, needsPractice) ->
-    # levels = [{practice: true/false, complete: true/false}]
-    index = currentIndex
-    index++
-    if needsPractice
-      if levels[currentIndex].practice or index < levels.length and levels[index].practice
-        # Needs practice, on practice or next practice, choose next incomplete level
-        # May leave earlier practice levels incomplete and reach end of course
-        index++ while index < levels.length and levels[index].complete
-      else
-        # Needs practice, on required, next required, choose first incomplete level of previous practice chain
-        index--
-        index-- while index >= 0 and not levels[index].practice
-        if index >= 0
-          index-- while index >= 0 and levels[index].practice
-          if index >= 0
-            index++
-            index++ while index < levels.length and levels[index].practice and levels[index].complete
-            if levels[index].practice and not levels[index].complete
-              return index
-        index = currentIndex + 1
-        index++ while index < levels.length and levels[index].complete
+  # levels = [{practice: true/false, complete: true/false}]
+  index = currentIndex
+  index++
+  if needsPractice
+    if levels[currentIndex].practice or index < levels.length and levels[index].practice
+      # Needs practice, on practice or next practice, choose next incomplete level
+      # May leave earlier practice levels incomplete and reach end of course
+      index++ while index < levels.length and levels[index].complete
     else
-      # No practice needed, next required incomplete level
-      index++ while index < levels.length and (levels[index].practice or levels[index].complete)
-    index
+      # Needs practice, on required, next required, choose first incomplete level of previous practice chain
+      index--
+      index-- while index >= 0 and not levels[index].practice
+      if index >= 0
+        index-- while index >= 0 and levels[index].practice
+        if index >= 0
+          index++
+          index++ while index < levels.length and levels[index].practice and levels[index].complete
+          if levels[index].practice and not levels[index].complete
+            return index
+      index = currentIndex + 1
+      index++ while index < levels.length and levels[index].complete
+  else
+    # No practice needed, next required incomplete level
+    index++ while index < levels.length and (levels[index].practice or levels[index].complete)
+  index
 
 module.exports.needsPractice = (playtime=0, threshold=2) ->
   playtime / 60 > threshold
