@@ -85,10 +85,11 @@ module.exports = class SchoolCountsView extends RootView
         for studentID, val of teacherStudentMap[teacherID]
           countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true
       else if not _.isEmpty(props.country)
-        country = props.country
+        country = props.country?.trim()
         country = country[0].toUpperCase() + country.substring(1).toLowerCase()
-        country = 'UK' if /uk|united kingdom|england/ig.test(country.trim())
-        country = 'USA' if /^u\.s\.?(\.a)?\.?$|^us$|america|united states|usa/ig.test(country.trim())
+        country = 'Taiwan' if /台灣/ig.test(country)
+        country = 'UK' if /^uk$|united kingdom|england/ig.test(country)
+        country = 'USA' if /^u\.s\.?(\.a)?\.?$|^us$|america|united states|usa/ig.test(country)
         state = props.state ? 'unknown'
         if country is 'USA'
           stateName = utils.usStateCodes.sanitizeStateName(state)
@@ -152,40 +153,16 @@ module.exports = class SchoolCountsView extends RootView
 
     for country, graph of @countryGraphs
       graph.stateCounts.sort (a, b) ->
-        return -1 if a.students > b.students
-        return 1 if a.students < b.students
-        return -1 if a.teachers > b.teachers
-        return 1 if a.teachers < b.teachers
-        return -1 if a.schools > b.schools
-        return 1 if a.schools < b.schools
-        return -1 if a.districts > b.districts
-        return 1 if a.districts < b.districts
-        b.state.localeCompare(a.state)
+        b.students - a.students or b.teachers - a.teachers or b.schools - a.schools or b.districts - a.districts or b.state.localeCompare(a.state)
       graph.districtCounts.sort (a, b) ->
         if a.state isnt b.state
-          return -1 if graph.stateCountsMap[a.state].students > graph.stateCountsMap[b.state].students
-          return 1 if graph.stateCountsMap[a.state].students < graph.stateCountsMap[b.state].students
-          return -1 if graph.stateCountsMap[a.state].teachers > graph.stateCountsMap[b.state].teachers
-          return 1 if graph.stateCountsMap[a.state].teachers < graph.stateCountsMap[b.state].teachers
-          return -1 if graph.stateCountsMap[a.state].schools > graph.stateCountsMap[b.state].schools
-          return 1 if graph.stateCountsMap[a.state].schools < graph.stateCountsMap[b.state].schools
-          a.state.localeCompare(b.state)
+          stateCountsA = graph.stateCountsMap[a.state]
+          stateCountsB = graph.stateCountsMap[b.state]
+          stateCountsB.students - stateCountsA.students or stateCountsB.teachers - stateCountsA.teachers or stateCountsB.schools - stateCountsA.schools or stateCountsB.districts - stateCountsA.districts or a.state.localeCompare(b.state)
         else
-          return -1 if a.students > b.students
-          return 1 if a.students < b.students
-          return -1 if a.teachers > b.teachers
-          return 1 if a.teachers < b.teachers
-          return -1 if a.schools > b.schools
-          return 1 if a.schools < b.schools
-          a.district.localeCompare(b.district)
+          b.students - a.students or b.teachers - a.teachers or b.schools - a.schools or b.district.localeCompare(a.district)
     @countryCounts.sort (a, b) ->
-      return -1 if a.students > b.students
-      return 1 if a.students < b.students
-      return -1 if a.teachers > b.teachers
-      return 1 if a.teachers < b.teachers
-      return -1 if a.schools > b.schools
-      return 1 if a.schools < b.schools
-      b.country.localeCompare(a.country)
+      b.students - a.students or b.teachers - a.teachers or b.schools - a.schools or b.country.localeCompare(a.country)
 
     console.log(new Date().toISOString(), 'Done...')
     super()
