@@ -1,6 +1,8 @@
 _ = require 'lodash'
 co = require 'co'
+countryList = require('country-list')()
 errors = require '../commons/errors'
+geoip = require 'geoip-lite'
 wrap = require 'co-express'
 Promise = require 'bluebird'
 parse = require '../commons/parse'
@@ -9,7 +11,6 @@ mongoose = require 'mongoose'
 sendwithus = require '../sendwithus'
 User = require '../models/User'
 Classroom = require '../models/Classroom'
-
 
 module.exports =
   fetchByGPlusID: wrap (req, res, next) ->
@@ -97,11 +98,22 @@ module.exports =
 
   getStudents: wrap (req, res, next) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
-    students = yield User.find({$and: [{schoolName: {$exists: true}}, {schoolName: {$ne: ''}}, {anonymous: false}]}).select('schoolName').lean()
-    res.status(200).send(students)
+    query = $or: [{role: 'student'}, {$and: [{schoolName: {$exists: true}}, {schoolName: {$ne: ''}}, {anonymous: false}]}]
+    users = yield User.find(query).select('lastIP schoolName').lean()
+    for user in users
+      if ip = user.lastIP
+        user.geo = geoip.lookup(ip)
+        if country = user.geo?.country
+          user.geo.countryName = countryList.getName(country)
+    res.status(200).send(users)
 
   getTeachers: wrap (req, res, next) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
     teacherRoles = ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
-    teachers = yield User.find(anonymous: false, role: {$in: teacherRoles}).select('').lean()
-    res.status(200).send(teachers)
+    users = yield User.find(anonymous: false, role: {$in: teacherRoles}).select('lastIP').lean()
+    for user in users
+      if ip = user.lastIP
+        user.geo = geoip.lookup(ip)
+        if country = user.geo?.country
+          user.geo.countryName = countryList.getName(country)
+    res.status(200).send(users)
