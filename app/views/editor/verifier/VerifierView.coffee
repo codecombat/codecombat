@@ -30,6 +30,7 @@ module.exports = class VerifierView extends RootView
     if @levelID
       @levelIDs = [@levelID]
       @testLanguages = ['python', 'javascript', 'java', 'lua', 'coffeescript']
+      @cores = 1
       @startTestingLevels()
     else
       @campaigns = new Campaigns()
