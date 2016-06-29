@@ -5,7 +5,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y puede que no funcione!" # Warning that shows up on mobile devices
     play: "Jugar" # The big play button that opens up the campaign view.
     play_campaign_version: "Juega a la versión camapaña." # Shows up under big play button if you only play /courses
-    old_browser: "Ay, su navegador es demasiado viejo para ejecutar CodeCombat. ¡Lo sentimos!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser: "Ay, tu navegador es demasiado viejo para ejecutar CodeCombat. ¡Lo sentimos!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Lo puede intentar de todos modos, pero probablemente no va a funcionar."
     ipad_browser: "Malas noticias: CodeCombat no corre en el navegador de iPad. Buenas noticias: nuestra aplicación para iPad está esperando la aprobación de Apple."
     campaign: "Campaña"
@@ -27,16 +27,16 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
     codecombat_is: "CodeCombat es una plataforma <strong>para que los estudiantes</strong> aprendan ciencia de la computación mientras juegan a un juego real."
 #    our_courses: "Our courses have been specifically playtested to <strong>excel in the classroom</strong>, even by teachers with little to no prior programming experience."
-    top_screenshots_hint: "Los estudiantes escriben código y ven sus cambios en tiempo real"
+    top_screenshots_hint: "Los estudiantes escriben código y ven sus cambios en tiempo real."
     designed_with: "Diseñado pensando en los profesores"
     real_code: "Real, escribe código"
-    from_the_first_level: "desde el primer nivel"
+    from_the_first_level: "desde el primer nivel."
     getting_students: "Involucrar a los alumnos en la programación por sentencias tan rápido como sea posible es fundamental para aprender la sintaxis de la programación con una estructura apropiada."
     educator_resources: "Recursos para educadores"
-    course_guides: "y guías de cursos"
-    teaching_computer_science: "Enseñar ciencias computación no requiere de un costoso título, porque nosotros proveemos las herramientas para apoyar educadores con cualquier nivel de conocimientos."
+    course_guides: "y guías de cursos."
+    teaching_computer_science: "Enseñar ciencias de la computación no requiere de un costoso título, porque nosotros proveemos las herramientas para apoyar educadores con cualquier nivel de conocimientos."
     accessible_to: "Accesible para"
-    everyone: "todo el mundo"
+    everyone: "todo el mundo."
     democratizing: "La democratización del proceso de aprendizaje es el nucleo de nuestra filosofía. Todo mundo debe ser capaz de aprender a programar."
     forgot_learning: "En realidad creo que que ellos olvidaron que en realidad están aprendiendo algo."
     wanted_to_do: " Programar es algo que siempre he querido hacer, nunca pensé que sería capáz de aprenderlo en la escuela."
@@ -49,10 +49,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     motivating: "motivante"
     not_tedious: "no tedioso."
     gaming_is_good: "Estudios sugieren que el jugar es bueno para el cerebro de los niños. (¡Es verdad!)"
-#    game_based: "When game-based learning systems are"
-#    compared: "compared"
-#    conventional: "against conventional assessment methods, the difference is clear: games are better at helping students retain knowledge, concentrate and"
-#    perform_at_higher_level: "perform at a higher level of achievement"
+    game_based: "Cuando los sistemas de aprendizaje basados en juegos son"
+    compared: "comparados"
+    conventional: "contra los métodos convencionales de evaluación, la diferencia es clara: los juegos son mejores ayudando a los alumnos a retener conocimiento, concentrarse y"
+    perform_at_higher_level: "desempeñarse a un nivel mas alto de ejecución."
 #    feedback: "Games also provide real-time feedback that allows students to adjust their solution path and understand concepts more holistically, instead of being limited to just “correct” or “incorrect” answers."
 #    real_game: "A real game, played with real coding."
 #    great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
@@ -76,11 +76,11 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
 #    winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
 #    run_class: "Everything you need to run a computer science class in your school today, no CS background required."
-#    teachers: "Teachers!"
-#    teachers_and_educators: "Teachers & Educators"
+    teachers: "Profesores"
+    teachers_and_educators: "Profesores y Educadores"
 #    class_in_box: "Learn how our classroom-in-a-box platform fits into your curriculum."
 #    get_started: "Get Started"
-#    students: "Students:"
+    students: "Alumnos:"
 #    join_class: "Join Class"
 #    role: "Your role:"
 #    student_count: "Number of students:"
@@ -102,10 +102,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     blog: "Blog"
     forum: "Foro"
     account: "Cuenta"
-#    my_account: "My Account"
+    my_account: "Mi Cuenta"
     profile: "Perfil"
     stats: "Estadisticas"
-    code: "Codigo"
+    code: "Código"
     home: "Inicio"
     contribute: "Colaborar"
     legal: "Legalidad"
@@ -148,7 +148,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   play:
     play_as: "Jugar como" # Ladder page
-#    compete: "Compete!" # Course details page
+    compete: "¡Compite!" # Course details page
     spectate: "Observar" # Ladder page
     players: "jugadores" # Hover over a level on /play
     hours_played: "horas jugadas" # Hover over a level on /play
@@ -323,7 +323,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     accept: "Aceptar"
     reject: "Rechazar"
     withdraw: "Retirar"
-    submitter: "Submitter"
+    #submitter: "Submitter"
     submitted: "Enviado"
     commit_msg: "Mensaje de Asignación o Commit"
     version_history: "Historial de versión"
@@ -597,7 +597,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     thank_you_months_suffix: "meses."
     thank_you: "Gracias por apoyar a CodeCombat."
     sorry_to_see_you_go: "¡Lamentamos verte marchar! Por favor, haznos saber que pudimos haacer mejor."
-#    unsubscribe_feedback_placeholder: "O, what have we done?"
+    unsubscribe_feedback_placeholder: "Oh, ¿Qué hemos hecho?"
     parent_button: "Pregunta a tus padres"
     parent_email_description: "Le escribiremos para que puedan comprarte una suscripción para CodeCombat."
     parent_email_input_invalid: "Correo electrónico inválido."
@@ -611,7 +611,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     parents_blurb1: "Su hijo ha jugado __nLevels__ niveles y ha aprendido conceptos básicos de programación. Ayudadle a mejorar su eficiencia adquiriendo una suscripción para poder seguir programando."
     parents_blurb1a: "La programación informática es una habilidad fundamental que su hijo usará indudablemente cuando sea un adulto. Aproximadamente en 2020, se necesitarán conceptos de programación en el 77% de los empleos, y los ingenieros programadores están muy demandados en todo el mundo. ¿Sabían que la Ingeniería Informática es la titulación que más dinero paga?"
     parents_blurb2: "Por tan sólo ${{price}} USD/mes, su hijo podrá afrontar nuevos retos cada semana, y recibirá soporte por correo electrónico de programadores profesionales."
-    parents_blurb3: "Sin riesgo: 100% garantía de devoluación de dinero, desuscripción con un simple click."
+    parents_blurb3: "Sin riesgo: 100% garantía de devolución de dinero, cancela tu suscripción con un simple click."
     payment_methods: "Métodos de pago"
     payment_methods_title: "Métodos de pago permitidos"
     payment_methods_blurb1: "Actualmente aceptamos pagos a través de tarjetas de crédito / débito y Alipay." # {change}
@@ -975,7 +975,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     social_facebook: "Dale a Me Gusta a CodeCombat en Facebook"
     social_twitter: "Sigue a CodeCombat en Twitter"
     social_gplus: "Unete a CodeCombat en Google+"
-#    social_slack: "Chat with us in the public CodeCombat Slack channel"
+    social_slack: "Chatea con nosotros en el canal público de CodeCombat"
     contribute_to_the_project: "Contribuye al proyecto"
 
   clans:
