@@ -15,5 +15,12 @@ module.exports = {
     options.type = 'POST'
     options.url = '/contact'
     $.ajax(options)
-    
+
+
+  sendParentSignupInstructions: (parentEmail) ->
+    jqxhr = $.ajax('/contact/send-parent-signup-instructions', {
+      method: 'POST'
+      data: {parentEmail}
+    })
+    return new Promise(jqxhr.then)
 }

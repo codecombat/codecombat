@@ -1,11 +1,12 @@
 ModalView = require 'views/core/ModalView'
 AuthModal = require 'views/core/AuthModal'
-ChooseAccountTypeView = require 'views/core/CreateAccountModal/ChooseAccountTypeView'
-SegmentCheckView = require 'views/core/CreateAccountModal/SegmentCheckView'
-CoppaDenyView = require 'views/core/CreateAccountModal/CoppaDenyView'
-BasicInfoView = require 'views/core/CreateAccountModal/BasicInfoView'
-SingleSignOnAlreadyExistsView = require 'views/core/CreateAccountModal/SingleSignOnAlreadyExistsView'
-SingleSignOnConfirmView = require 'views/core/CreateAccountModal/SingleSignOnConfirmView'
+ChooseAccountTypeView = require './ChooseAccountTypeView'
+SegmentCheckView = require './SegmentCheckView'
+CoppaDenyView = require './CoppaDenyView'
+BasicInfoView = require './BasicInfoView'
+SingleSignOnAlreadyExistsView = require './SingleSignOnAlreadyExistsView'
+SingleSignOnConfirmView = require './SingleSignOnConfirmView'
+ConfirmationView = require './ConfirmationView'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal/create-account-modal'
 forms = require 'core/forms'
@@ -43,73 +44,72 @@ This allows them to have the same form-handling logic, but different templates.
 module.exports = class CreateAccountModal extends ModalView
   id: 'create-account-modal'
   template: template
+  closesOnClickOutside: false
+  retainSubviews: true
 
   events:
     'click .login-link': 'onClickLoginLink'
-    'click .back-to-segment-check': -> @state.set { screen: 'segment-check' }
 
   initialize: (options={}) ->
     classCode = utils.getQueryVariable('_cc', undefined)
-    @state = new State {
+    @signupState = new State {
       path: if classCode then 'student' else null
       screen: if classCode then 'segment-check' else 'choose-account-type'
+      ssoUsed: null # or 'facebook', 'gplus'
+      classroom: null # or Classroom instance
       facebookEnabled: application.facebookHandler.apiLoaded
       gplusEnabled: application.gplusHandler.apiLoaded
       classCode
       birthday: new Date('') # so that birthday.getTime() is NaN
     }
+    
+    { startOnPath } = options
+    if startOnPath is 'student'
+      @signupState.set({ path: 'student', screen: 'segment-check' })
+    if startOnPath is 'individual'
+      @signupState.set({ path: 'individual', screen: 'segment-check' })
 
-    @listenTo @state, 'all', @render #TODO: debounce
+    @listenTo @signupState, 'all', _.debounce @render
 
-    @customSubviews = {
-      choose_account_type: new ChooseAccountTypeView()
-      segment_check: new SegmentCheckView({ sharedState: @state })
-      coppa_deny_view: new CoppaDenyView({ sharedState: @state })
-      basic_info_view: new BasicInfoView({ sharedState: @state })
-      sso_already_exists: new SingleSignOnAlreadyExistsView({ sharedState: @state })
-      sso_confirm: new SingleSignOnConfirmView({ sharedState: @state })
-    }
+    @listenTo @insertSubView(new ChooseAccountTypeView()),
+      'choose-path': (path) ->
+        if path is 'teacher'
+          application.router.navigate('/teachers/signup', trigger: true)
+        else
+          @signupState.set { path, screen: 'segment-check' }
 
-    @listenTo @customSubviews.choose_account_type, 'choose-path', (path) ->
-      if path is 'teacher'
-        application.router.navigate('/teachers/signup', trigger: true)
-      else
-        @state.set { path, screen: 'segment-check' }
-    @listenTo @customSubviews.segment_check, 'choose-path', (path) ->
-      @state.set { path, screen: 'segment-check' }
-    @listenTo @customSubviews.segment_check, 'nav-back', ->
-      @state.set { path: null, screen: 'choose-account-type' }
-    @listenTo @customSubviews.segment_check, 'nav-forward', (screen) ->
-      @state.set { screen: screen or 'basic-info' }
+    @listenTo @insertSubView(new SegmentCheckView({ @signupState })),
+      'choose-path': (path) -> @signupState.set { path, screen: 'segment-check' }
+      'nav-back': -> @signupState.set { path: null, screen: 'choose-account-type' }
+      'nav-forward': (screen) -> @signupState.set { screen: screen or 'basic-info' }
 
-    @listenTo @customSubviews.basic_info_view, 'sso-connect:already-in-use', ->
-      @state.set { screen: 'sso-already-exists' }
-    @listenTo @customSubviews.basic_info_view, 'sso-connect:new-user', ->
-      @state.set { screen: 'sso-confirm' }
-    @listenTo @customSubviews.basic_info_view, 'nav-back', ->
-      @state.set { screen: 'segment-check' }
+    @listenTo @insertSubView(new CoppaDenyView({ @signupState })),
+      'nav-back': -> @signupState.set { screen: 'segment-check' }
 
-    @listenTo @customSubviews.sso_confirm, 'nav-back', ->
-      @state.set { screen: 'basic-info' }
+    @listenTo @insertSubView(new BasicInfoView({ @signupState })),
+      'sso-connect:already-in-use': -> @signupState.set { screen: 'sso-already-exists' }
+      'sso-connect:new-user': -> @signupState.set {screen: 'sso-confirm'}
+      'nav-back': -> @signupState.set { screen: 'segment-check' }
+      'signup': -> @signupState.set { screen: 'confirmation' }
 
-    @listenTo @customSubviews.sso_already_exists, 'nav-back', ->
-      @state.set { screen: 'basic-info' }
+    @listenTo @insertSubView(new SingleSignOnAlreadyExistsView({ @signupState })),
+      'nav-back': -> @signupState.set { screen: 'basic-info' }
 
-  #   options.initialValues ?= {}
-  #   options.initialValues?.classCode ?= utils.getQueryVariable('_cc', "")
-  #   @previousFormInputs = options.initialValues or {}
+    @listenTo @insertSubView(new SingleSignOnConfirmView({ @signupState })),
+      'nav-back': -> @signupState.set { screen: 'basic-info' }
+      'signup': -> @signupState.set { screen: 'confirmation' }
+        
+    @insertSubView(new ConfirmationView({ @signupState }))
 
     # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
+    application.facebookHandler.loadAPI({ success: => @signupState.set { facebookEnabled: true } unless @destroyed })
+    application.gplusHandler.loadAPI({ success: => @signupState.set { gplusEnabled: true } unless @destroyed })
     
-    application.facebookHandler.loadAPI({ success: => @state.set { facebookEnabled: true } unless @destroyed })
-    application.gplusHandler.loadAPI({ success: => @state.set { gplusEnabled: true } unless @destroyed })
+    @once 'hidden', ->
+      if @signupState.get('screen') is 'confirmation' and not application.testing
+        # ensure logged in state propagates through the entire app
+        document.location.reload()
   
-  afterRender: ->
-    # @$el.html(@template(@getRenderData()))
-    for key, subview of @customSubviews
-      subview.setElement(@$('#' + subview.id))
-      subview.render()
-
   onClickLoginLink: ->
     # TODO: Make sure the right information makes its way into the state.
-    @openModalView(new AuthModal({ initialValues: @state.pick(['email', 'name', 'password']) }))
+    @openModalView(new AuthModal({ initialValues: @signupState.pick(['email', 'name', 'password']) }))

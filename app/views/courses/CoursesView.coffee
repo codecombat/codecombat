@@ -88,6 +88,8 @@ module.exports = class CoursesView extends RootView
     if @classCodeQueryVar and not me.isAnonymous()
       window.tracker?.trackEvent 'Students Join Class Link', category: 'Students', classCode: @classCodeQueryVar, ['Mixpanel']
       @joinClass()
+    else if @classCodeQueryVar and me.isAnonymous()
+      @openModalView(new CreateAccountModal())
 
   onClickLogInButton: ->
     modal = new AuthModal()

@@ -14,6 +14,7 @@ doNothing = ->
 
 module.exports = class CocoView extends Backbone.View
   cache: false # signals to the router to keep this view around
+  retainSubviews: false # set to true if you don't want subviews to be destroyed whenever the view renders
   template: -> ''
 
   events:
@@ -100,21 +101,26 @@ module.exports = class CocoView extends Backbone.View
 
   renderSelectors: (selectors...) ->
     newTemplate = $(@template(@getRenderData()))
-    console.log newTemplate.find('p.render')
     for selector, i in selectors
       for elPair in _.zip(@$el.find(selector), newTemplate.find(selector))
-        console.log elPair
         $(elPair[0]).replaceWith($(elPair[1]))
     @delegateEvents()
     @$el.i18n()
 
   render: ->
     return @ unless me
-    view.destroy() for id, view of @subviews
+    if @retainSubviews
+      oldSubviews = _.values(@subviews)
+    else
+      view.destroy() for id, view of @subviews
     @subviews = {}
     super()
     return @template if _.isString(@template)
     @$el.html @template(@getRenderData())
+
+    if @retainSubviews
+      for view in oldSubviews
+        @insertSubView(view)
 
     if not @supermodel.finished()
       @showLoading()
@@ -308,11 +314,20 @@ module.exports = class CocoView extends Backbone.View
     key = @makeSubViewKey(view)
     @subviews[key].destroy() if key of @subviews
     elToReplace ?= @$el.find('#'+view.id)
-    elToReplace.after(view.el).remove()
-    @registerSubView(view, key)
-    view.render()
-    view.afterInsert()
-    view
+    if @retainSubviews
+      @registerSubView(view, key)
+      if elToReplace[0]
+        view.setElement(elToReplace[0])
+        view.render()
+        view.afterInsert()
+      return view
+
+    else
+      elToReplace.after(view.el).remove()
+      @registerSubView(view, key)
+      view.render()
+      view.afterInsert()
+      return view
 
   registerSubView: (view, key) ->
     # used to register views which are custom inserted into the view,

@@ -13,51 +13,94 @@ module.exports = class SegmentCheckView extends CocoView
     'input .class-code-input': 'onInputClassCode'
     'input .birthday-form-group': 'onInputBirthday'
     'submit form.segment-check': 'onSubmitSegmentCheck'
-    'click .individual-path-button': ->
-      @trigger 'choose-path', 'individual'
-      
-  onInputClassCode: (e) ->
-    classCode = $(e.currentTarget).val()
-    @checkClassCodeDebounced(classCode)
-    @sharedState.set { classCode }, { silent: true }
+    'click .individual-path-button': -> @trigger 'choose-path', 'individual'
 
+  initialize: ({ @signupState } = {}) ->
+    @checkClassCodeDebounced = _.debounce @checkClassCode, 1000
+    @fetchClassByCode = _.memoize(@fetchClassByCode)
+    @classroom = new Classroom()
+    @state = new State()
+    if @signupState.get('classCode')
+      @checkClassCode(@signupState.get('classCode'))
+    @listenTo @state, 'all', _.debounce(->
+      @renderSelectors('.render')
+      @trigger 'special-render'
+    )
+    
+  getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode') 
+
+  onInputClassCode: ->
+    @classroom = new Classroom()
+    forms.clearFormAlerts(@$el)
+    classCode = @getClassCode()
+    @signupState.set { classCode }, { silent: true }
+    @checkClassCodeDebounced()
+    
+  checkClassCode: ->
+    return if @destroyed
+    classCode = @getClassCode()
+    
+    @fetchClassByCode(classCode)
+    .then (classroom) =>
+      return if @destroyed or @getClassCode() isnt classCode
+      if classroom
+        @classroom = classroom
+        @state.set { classCodeValid: true, segmentCheckValid: true }
+      else
+        @classroom = new Classroom()
+        @state.set { classCodeValid: false, segmentCheckValid: false }
+    .catch (error) ->
+      throw error
+      
   onInputBirthday: ->
     { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
     birthday = new Date Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay)
-    @sharedState.set { birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true }
-    unless isNaN(birthday.getTime())
+    @signupState.set { birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true }
+    unless _.isNaN(birthday.getTime())
       forms.clearFormAlerts(@$el)
     
   onSubmitSegmentCheck: (e) ->
     e.preventDefault()
-    if @sharedState.get('path') is 'student'
-      @trigger 'nav-forward' if @state.get('segmentCheckValid')
-    else if @sharedState.get('path') is 'individual'
-      if isNaN(@sharedState.get('birthday').getTime())
+    
+    if @signupState.get('path') is 'student'
+      @$('.class-code-input').attr('disabled', true)
+    
+      @fetchClassByCode(@getClassCode())
+      .then (classroom) =>
+        return if @destroyed
+        if classroom
+          @signupState.set { classroom }
+          @trigger 'nav-forward'
+        else
+          @$('.class-code-input').attr('disabled', false)
+          @classroom = new Classroom()
+          @state.set { classCodeValid: false, segmentCheckValid: false }
+      .catch (error) ->
+        throw error
+        
+    else if @signupState.get('path') is 'individual'
+      if _.isNaN(@signupState.get('birthday').getTime())
         forms.clearFormAlerts(@$el)
         forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
       else
-        age = (new Date().getTime() - @sharedState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
+        age = (new Date().getTime() - @signupState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
         if age > 13
           @trigger 'nav-forward'
         else
           @trigger 'nav-forward', 'coppa-deny'
 
-  initialize: ({ @sharedState } = {}) ->
-    @checkClassCodeDebounced = _.debounce @checkClassCode, 1000
-    @state = new State()
-    @classroom = new Classroom()
-    if @sharedState.get('classCode')
-      @checkClassCode(@sharedState.get('classCode'))
-    @listenTo @state, 'all', -> @renderSelectors('.render')
-  
-  checkClassCode: (classCode) ->
-    @classroom.clear()
-    return forms.clearFormAlerts(@$el) if classCode is ''
-    
-    new Promise(@classroom.fetchByCode(classCode).then)
-      .then =>
-        @state.set { classCodeValid: true, segmentCheckValid: true }
-      .catch =>
-        @state.set { classCodeValid: false, segmentCheckValid: false }
+  fetchClassByCode: (classCode) ->
+    if not classCode
+      return Promise.resolve()
+      
+    new Promise((resolve, reject) ->
+      new Classroom().fetchByCode(classCode, {
+        success: resolve
+        error: (classroom, jqxhr) ->
+          if jqxhr.status is 404
+            resolve()
+          else
+            reject(jqxhr.responseJSON)
+      })
+    )
   

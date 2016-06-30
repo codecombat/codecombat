@@ -110,7 +110,14 @@ module.exports = class NewHomeView extends RootView
     $(window).on 'resize', @fitToPage
     @fitToPage()
     setTimeout(@fitToPage, 0)
-    @$('#create-account-link').click()
+    if me.isAnonymous()
+      CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
+      if document.location.hash is '#create-account'
+        @openModalView(new CreateAccountModal())
+      if document.location.hash is '#create-account-individual'
+        @openModalView(new CreateAccountModal({startOnPath: 'individual'}))
+      if document.location.hash is '#create-account-student'
+        @openModalView(new CreateAccountModal({startOnPath: 'student'}))
     super()
 
   destroy: ->

@@ -1,7 +1,7 @@
-ModalView = require 'views/core/ModalView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/core/create-account-modal/choose-account-type-view'
 
-module.exports = class ChooseAccountTypeView extends ModalView
+module.exports = class ChooseAccountTypeView extends CocoView
   id: 'choose-account-type-view'
   template: template
 

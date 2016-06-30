@@ -12,8 +12,6 @@ module.exports =
       recipient:
         address: req.body.parentEmail
     sendwithus.api.send context, (err, result) ->
-      console.log err
-      console.log result
       if err
         return next(new errors.InternalServerError("Error sending email. Check that it's valid and try again."))
       else

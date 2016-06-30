@@ -1,4 +1,4 @@
-ModalView = require 'views/core/ModalView'
+CocoView = require 'views/core/CocoView'
 BasicInfoView = require 'views/core/CreateAccountModal/BasicInfoView'
 template = require 'templates/core/create-account-modal/single-sign-on-confirm-view'
 forms = require 'core/forms'
@@ -12,15 +12,14 @@ module.exports = class SingleSignOnConfirmView extends BasicInfoView
     'click .back-button': 'onClickBackButton'
   }
 
-  initialize: ({ @sharedState } = {}) ->
+  initialize: ({ @signupState } = {}) ->
     super(arguments...)
   
   onClickBackButton: ->
-    @sharedState.set {
+    @signupState.set {
       ssoUsed: undefined
       ssoAttrs: undefined
     }
-    console.log @sharedState.attributes
     @trigger 'nav-back'
 
 
