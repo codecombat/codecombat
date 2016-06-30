@@ -52,6 +52,7 @@ module.exports =
     overallStatus: {type: ['string', 'null'], enum: ['success', 'failure', 'incomplete', null]}
     totalFrames: {type: ['integer', 'undefined']}
     lastFrameHash: {type: ['number', 'undefined']}
+    simulationFrameRate: {type: ['number', 'undefined']}
 
   'god:world-load-progress-changed': c.object {required: ['progress', 'god']},
     god: {type: 'object'}

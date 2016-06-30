@@ -113,6 +113,6 @@ PatchHandler = class PatchHandler extends Handler
 
   sendPatchCreatedSlackMessage: (options) ->
     message = "#{options.creator.get('name')} submitted a patch to #{options.target.get('name')}: #{options.patch.get('commitMessage')} #{options.docLink}"
-    slack.sendSlackMessage message, ['dev-feed']
+    slack.sendSlackMessage message, ['artisans']
 
 module.exports = new PatchHandler()

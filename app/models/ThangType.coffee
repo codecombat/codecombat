@@ -26,11 +26,13 @@ module.exports = class ThangType extends CocoModel
     'potion-master': '52e9adf7427172ae56002172'
     sorcerer: '52fd1524c7e6cf99160e7bc9'
     necromancer: '55652fb3b9effa46a1f775fd'
-    'dark-wizard': ''
+    'master-wizard': ''
+    duelist: '57588f09046caf2e0012ed41'
+    champion: '575848b522179b2800efbfbf'
   @heroClasses:
-    Warrior: ['captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian']
+    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian']
     Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
-    Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'dark-wizard']
+    Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
   @items:
     'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
@@ -243,6 +245,9 @@ module.exports = class ThangType extends CocoModel
     map = {
       "Assassin": "Ritic"
       "Captain": "Anya"
+      "Champion": "Ida"
+      "Master Wizard": "Usara"
+      "Duelist": "Alejandro"
       "Forest Archer": "Naria"
       "Goliath": "Okar"
       "Guardian": "Illia"
@@ -250,13 +255,12 @@ module.exports = class ThangType extends CocoModel
       "Librarian": "Hushbaum"
       "Necromancer": "Nalfar"
       "Ninja": "Amara"
+      "Pixie": "Zana"
       "Potion Master": "Omarn"
       "Raider": "Arryn"
       "Samurai": "Hattori"
       "Sorcerer": "Pender"
       "Trapper": "Senick"
-      "Champion": "Ida"
-      "Duelist": "Alejandro"
     }
     map[@get('name')]
 

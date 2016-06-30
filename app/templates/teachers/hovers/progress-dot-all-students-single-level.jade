@@ -17,5 +17,9 @@ if started
   //- .small-details
   //-   i(data-i18n='teacher.click_to_view_progress')
 else
+  .small-details.nowrap
+    span= levelNumber
+    span.spr . 
+    span= levelName
   span.small-details.nowrap(data-i18n='teacher.no_progress')
     | No progress

@@ -428,17 +428,18 @@ self.onWorldLoaded = function onWorldLoaded() {
   if(self.world.framesSerializedSoFar == self.world.frames.length) return;
   if(self.world.ended)
     self.goalManager.worldGenerationEnded();
-  var goalStates = self.goalManager.getGoalStates();
-  var overallStatus = self.goalManager.checkOverallStatus();
-  var totalFrames = self.world.totalFrames;
-  if(self.world.ended) {
-    var lastFrameHash = self.world.frames[totalFrames - 2].hash
-    self.postMessage({type: 'end-load-frames', goalStates: goalStates, overallStatus: overallStatus, totalFrames: totalFrames, lastFrameHash: lastFrameHash});
-  }
   var t1 = new Date();
   var diff = t1 - self.t0;
-  if(self.world.headless)
-    return console.log('Headless simulation completed in ' + diff + 'ms.');
+  var goalStates = self.goalManager.getGoalStates();
+  var totalFrames = self.world.totalFrames;
+  if(self.world.ended) {
+    var overallStatus = self.goalManager.checkOverallStatus();
+    var lastFrameHash = self.world.frames[totalFrames - 2].hash
+    var simulationFrameRate = self.world.frames.length / diff * 1000 * 30 / self.world.frameRate
+    self.postMessage({type: 'end-load-frames', goalStates: goalStates, overallStatus: overallStatus, totalFrames: totalFrames, lastFrameHash: lastFrameHash, simulationFrameRate: simulationFrameRate});
+    if(self.world.headless)
+      return console.log('Headless simulation completed in ' + diff + 'ms, ' + simulationFrameRate.toFixed(1) + ' FPS.');
+  }
 
   var worldEnded = self.world.ended;
   var serialized;
@@ -469,7 +470,7 @@ self.onWorldLoaded = function onWorldLoaded() {
 
   if(worldEnded) {
     var t3 = new Date();
-    console.log("And it was so: (" + (diff / totalFrames).toFixed(3) + "ms per frame,", totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
+    console.log("And it was so: (" + (diff / totalFrames).toFixed(3) + "ms per frame,", totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms\nFPS          :", simulationFrameRate.toFixed(1));
   }
 };
 
@@ -483,7 +484,10 @@ self.onWorldPreloaded = function onWorldPreloaded() {
   self.goalManager.worldGenerationEnded();
   var goalStates = self.goalManager.getGoalStates();
   var overallStatus = self.goalManager.checkOverallStatus();
-  self.postMessage({type: 'end-preload-frames', goalStates: goalStates, overallStatus: overallStatus});
+  var t1 = new Date();
+  var diff = t1 - self.t0;
+  var simulationFrameRate = self.world.frames.length / diff * 1000 * 30 / self.world.frameRate
+  self.postMessage({type: 'end-preload-frames', goalStates: goalStates, overallStatus: overallStatus, simulationFrameRate: simulationFrameRate});
 };
 
 self.onWorldError = function onWorldError(error) {

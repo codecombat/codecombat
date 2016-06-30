@@ -49,7 +49,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @session = options.session
     @level = options.level
     @thangTypes = {}
-    if @level.get('type', true) in ['hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev', 'hero-practice']
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev']
       achievements = new CocoCollection([], {
         url: "/db/achievement?related=#{@session.get('level').original}"
         model: Achievement
@@ -155,7 +155,7 @@ module.exports = class HeroVictoryModal extends ModalView
     c = super()
     c.levelName = utils.i18n @level.attributes, 'name'
     # TODO: support 'game-dev'
-    if @level.get('type', true) not in ['hero', 'game-dev', 'hero-practice']
+    if @level.get('type', true) not in ['hero', 'game-dev']
       c.victoryText = utils.i18n @level.get('victory') ? {}, 'body'
     earnedAchievementMap = _.indexBy(@newEarnedAchievements or [], (ea) -> ea.get('achievement'))
     for achievement in (@achievements?.models or [])
@@ -223,7 +223,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   afterRender: ->
     super()
-    @$el.toggleClass 'with-achievements', @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev', 'hero-practice']  # TODO: support game-dev
+    @$el.toggleClass 'with-achievements', @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev']  # TODO: support game-dev
     return unless @supermodel.finished()
     @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
     @updateSavingProgressStatus()
@@ -233,7 +233,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
   initializeAnimations: ->
-    return @endSequentialAnimations() unless @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev', 'hero-practice']  # TODO: support game-dev
+    return @endSequentialAnimations() unless @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev']  # TODO: support game-dev
     @updateXPBars 0
     #playVictorySound = => @playSound 'victory-title-appear'  # TODO: actually add this
     @$el.find('#victory-header').delay(250).queue(->
@@ -264,7 +264,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   beginSequentialAnimations: ->
     return if @destroyed
-    return unless @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev', 'hero-practice']  # TODO: support game-dev
+    return unless @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev']  # TODO: support game-dev
     @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
       previousNumber: $(panel).data('previous-number')

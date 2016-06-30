@@ -23,6 +23,8 @@ _.extend ClassroomSchema.properties,
   courses: c.array { title: 'Courses' }, c.object { title: 'Course' }, {
     _id: c.objectId()
     levels: c.array { title: 'Levels' }, c.object { title: 'Level' }, {
+      practice: {type: 'boolean'}
+      practiceThresholdMinutes: {type: 'number'}
       type: c.shortString()
       original: c.objectId()
       name: {type: 'string'}

@@ -81,10 +81,10 @@ module.exports = class VerifierTest extends CocoClass
     @updateCallback? state: 'running'
 
   processSingleGameResults: (e) ->
-    console.log(e)
     @goals = e.goalStates
     @frames = e.totalFrames
     @lastFrameHash = e.lastFrameHash
+    @simulationFrameRate = e.simulationFrameRate
     @state = 'complete'
     @updateCallback? state: @state
     @scheduleCleanup()
@@ -92,6 +92,7 @@ module.exports = class VerifierTest extends CocoClass
   isSuccessful: () ->
     return false unless @solution?
     return false unless @frames == @solution.frameCount or @options.dontCareAboutFrames
+    return false if @simulationFrameRate < 30
     if @goals and @solution.goals
       for k of @goals
         continue if not @solution.goals[k]

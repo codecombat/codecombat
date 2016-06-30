@@ -118,7 +118,7 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
 
     @levels = new Levels()
-    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts'}})
+    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts,practice'}})
     
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
@@ -449,7 +449,9 @@ module.exports = class TeacherClassView extends RootView
     stats.totalPlaytime = if playtime then moment.duration(playtime, "seconds").humanize() else 0
     # TODO: Humanize differently ('1 hour' instead of 'an hour')
 
-    completeSessions = @classroom.sessions.filter (s) -> s.get('state')?.complete
+    levelPracticeMap = {}
+    levelPracticeMap[level.id] = level.get('practice') ? false for level in @levels.models
+    completeSessions = @classroom.sessions.filter (s) -> s.get('state')?.complete and not levelPracticeMap[s.get('levelID')]
     stats.averageLevelsComplete = if @students.size() then (_.size(completeSessions) / @students.size()).toFixed(1) else 'N/A'  # '
     stats.totalLevelsComplete = _.size(completeSessions)
 

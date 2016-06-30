@@ -72,10 +72,10 @@ $heroCanvasHeight: 275px
 
   #hero-carousel
     width: 750px
-    height: 386px
+    height: 436px
     position: absolute
     left: 34px
-    top: 117px
+    top: 67px
 
     .carousel-indicator-container
       position: relative
@@ -90,10 +90,15 @@ $heroCanvasHeight: 275px
         .hero-indicator
           width: 97px
           height: 98px
-          margin: 0 -11px
+          margin: 0 -11px -20px -11px
           position: relative
           background: url(/images/pages/play/modal/hero-portrait.png)
           border: none
+          float: left
+
+          &:nth-child(15), &:nth-child(16)
+            float: right
+
           &.active
             background: url(/images/pages/play/modal/hero-portrait-selected.png)
             z-index: 5
@@ -244,7 +249,7 @@ $heroCanvasHeight: 275px
     a.left, a.right
       color: rgb(74,61,51)
       position: absolute
-      top: 195px
+      top: 245px
       width: 40px
       height: 84px
       font-size: 24px

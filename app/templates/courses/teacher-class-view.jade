@@ -309,7 +309,8 @@ mixin courseOverview
     .course-overview-progress
       each level, index in levels
         - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level })
-        +allStudentsLevelProgressDot(progress, level, index+1)
+        - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
+        +allStudentsLevelProgressDot(progress, level, levelNumber)
 
 mixin studentLevelsRow(student)
   .student-levels-row.alternating-background
@@ -321,7 +322,8 @@ mixin studentLevelsRow(student)
       - var levels = view.classroom.getLevels({courseID: course.id}).models
       each level, index in levels
         - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
-        +studentLevelProgressDot(progress, level, index+1, session)
+        - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
+        +studentLevelProgressDot(progress, level, levelNumber, session)
   
 mixin studentCourseProgressDot(progress, levelsTotal, level, label)
   //- TODO: Refactor with TeacherClassesView jade
