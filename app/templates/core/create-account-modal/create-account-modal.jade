@@ -5,6 +5,7 @@ block modal-header
     This allows for the header color to switch without the subview templates
     needing to contain the header
   .modal-header(class=state.get('path'))
+    span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
     +modal-header-content
 
 mixin modal-header-content

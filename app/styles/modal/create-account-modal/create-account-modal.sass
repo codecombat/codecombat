@@ -24,6 +24,13 @@
     
   // General modal stuff
   
+  .close
+    color: white
+    opacity: 0.5
+    left: 7px
+    &:hover
+      opacity: 0.9
+  
   .modal-header, .modal-footer
     &.teacher
       background-color: $burgandy
@@ -92,7 +99,13 @@
       flex-direction: row
 
   // Forms
-  
+
+  .form-container
+    width: 800px
+
+    .form-group
+      text-align: left
+
   .full-name
     display: flex
     flex-direction: row

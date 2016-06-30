@@ -1,11 +1,11 @@
 ModalView = require 'views/core/ModalView'
 AuthModal = require 'views/core/AuthModal'
-ChooseAccountTypeView = require 'views/core/CreateAccountModal/ChooseAccountTypeView'
-SegmentCheckView = require 'views/core/CreateAccountModal/SegmentCheckView'
-CoppaDenyView = require 'views/core/CreateAccountModal/CoppaDenyView'
-BasicInfoView = require 'views/core/CreateAccountModal/BasicInfoView'
-SingleSignOnAlreadyExistsView = require 'views/core/CreateAccountModal/SingleSignOnAlreadyExistsView'
-SingleSignOnConfirmView = require 'views/core/CreateAccountModal/SingleSignOnConfirmView'
+ChooseAccountTypeView = require './ChooseAccountTypeView'
+SegmentCheckView = require './SegmentCheckView'
+CoppaDenyView = require './CoppaDenyView'
+BasicInfoView = require './BasicInfoView'
+SingleSignOnAlreadyExistsView = require './SingleSignOnAlreadyExistsView'
+SingleSignOnConfirmView = require './SingleSignOnConfirmView'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal/create-account-modal'
 forms = require 'core/forms'
@@ -43,6 +43,7 @@ This allows them to have the same form-handling logic, but different templates.
 module.exports = class CreateAccountModal extends ModalView
   id: 'create-account-modal'
   template: template
+  closesOnClickOutside: false
 
   events:
     'click .login-link': 'onClickLoginLink'
@@ -105,11 +106,11 @@ module.exports = class CreateAccountModal extends ModalView
     application.gplusHandler.loadAPI({ success: => @state.set { gplusEnabled: true } unless @destroyed })
   
   afterRender: ->
-    # @$el.html(@template(@getRenderData()))
     for key, subview of @customSubviews
-      subview.setElement(@$('#' + subview.id))
-      subview.render()
-
+      el = @$('#' + subview.id)[0]
+      subview.setElement(el)
+      subview.render() if el
+    
   onClickLoginLink: ->
     # TODO: Make sure the right information makes its way into the state.
     @openModalView(new AuthModal({ initialValues: @state.pick(['email', 'name', 'password']) }))

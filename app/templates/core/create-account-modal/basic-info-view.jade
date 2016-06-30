@@ -17,50 +17,96 @@ form#basic-info-form.modal-body.basic-info
       span(data-i18n="TODO")
         | or
                   
-    div
+    div.form-container
       if ['student', 'teacher'].indexOf(view.sharedState.get('path')) !== -1
         .row.full-name
-          .form-group
-            label.control-label(for="first-name-input")
+          .col-xs-offset-3.col-xs-5
+            .form-group
+              label.control-label(for="first-name-input")
+                span(data-i18n="TODO")
+                  | First name:
+              input#first-name-input.form-control.input-lg(name="firstName")
+          .col-xs-4
+            .last-initial.form-group
+              label.control-label(for="last-name-input")
+                span(data-i18n="TODO")
+                  | Last initial:
+              input#last-name-input.form-control.input-lg(name="lastName" maxlength="1")
+      .form-group
+        .row
+          .col-xs-5.col-xs-offset-3
+            label.control-label(for="email-input")
               span(data-i18n="TODO")
-                | First name:
-            input#first-name-input(name="firstName")
-          .last-initial.form-group
-            label.control-label(for="last-name-input")
+                | Email address:
+          .col-xs-5.col-xs-offset-3
+            input.form-control.input-lg#email-input(name="email" type="email")
+          .col-xs-4.email-check
+            - var checkEmailState = view.state.get('checkEmailState');
+            if checkEmailState === 'checking'
+              span.small(data-i18n="signup.checking")
+            if checkEmailState === 'exists'
+              span.small
+                span.text-burgandy.glyphicon.glyphicon-remove-circle
+                =" "
+                span(data-i18n="signup.account_exists")
+                =" "
+                a.login-link(data-i18n="signup.sign_in")
+              
+            if checkEmailState === 'available'
+              span.small
+                span.text-forest.glyphicon.glyphicon-ok-circle
+                =" "
+                span(data-i18n="signup.email_good")
+      .form-group
+        .row
+          .col-xs-7.col-xs-offset-3
+            label.control-label(for="username-input")
               span(data-i18n="TODO")
-                | Last initial:
-            input#last-name-input(name="lastName" maxlength="1")
-      .row
-        .form-group
-          label.control-label(for="email-input")
-            span(data-i18n="TODO")
-              | Email address:
-          input#email-input(name="email" type="email")
-      .row
-        //- This form group needs a parent so its errors can be cleared individually
-        .form-group
-          label.control-label(for="username-input")
-            span(data-i18n="TODO")
-              | Username:
-          input#username-input(name="name")
-      .row
-        .form-group
-          label.control-label(for="password-input")
-            span(data-i18n="TODO")
-              | Password:
-          input#password-input(name="password" type="password")
-      .row
-        .form-group.checkbox.subscribe
-          label.control-label(for="subscribe-input")
-            input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
-            span.small(data-i18n="TODO")
-              | Receive announcements about CodeCombat
+                | Username:
+          .col-xs-5.col-xs-offset-3
+            input.form-control.input-lg#username-input(name="name")
+          .col-xs-4.name-check
+            - var checkNameState = view.state.get('checkNameState');
+            if checkNameState === 'checking'
+              span.small(data-i18n="signup.checking")
+            if checkNameState === 'exists'
+              span.small
+                span.text-burgandy.glyphicon.glyphicon-remove-circle
+                =" "
+                span= view.state.get('suggestedNameText')
+            if checkNameState === 'available'
+              span.small
+                span.text-forest.glyphicon.glyphicon-ok-circle
+                =" "
+                span(data-i18n="signup.name_available")
+      .form-group
+        .row
+          .col-xs-7.col-xs-offset-3
+            label.control-label(for="password-input")
+              span(data-i18n="TODO")
+                | Password:
+          .col-xs-5.col-xs-offset-3
+            input.form-control.input-lg#password-input(name="password" type="password")
+      .form-group.checkbox.subscribe
+        .row
+          .col-xs-7.col-xs-offset-3
+            .checkbox
+              label
+                input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
+                span(data-i18n="TODO")
+                  | Receive announcements about CodeCombat
+                
+      .error-area
+        - var error = view.state.get('error');
+        if error
+          .row
+            .col-xs-7.col-xs-offset-3
+          .alert.alert-danger= error
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
-    button.next-button.btn.btn-lg.btn-navy(type='submit')
-      span(data-i18n="TODO")
-        | Create Account
+    button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
+      span(data-i18n="signup.create_account")
 
     button.back-button.btn.btn-lg.btn-navy-alt(type='button')
       span(data-i18n="TODO")

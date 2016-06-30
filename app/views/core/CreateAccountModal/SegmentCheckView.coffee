@@ -13,14 +13,45 @@ module.exports = class SegmentCheckView extends CocoView
     'input .class-code-input': 'onInputClassCode'
     'input .birthday-form-group': 'onInputBirthday'
     'submit form.segment-check': 'onSubmitSegmentCheck'
-    'click .individual-path-button': ->
-      @trigger 'choose-path', 'individual'
-      
-  onInputClassCode: (e) ->
-    classCode = $(e.currentTarget).val()
-    @checkClassCodeDebounced(classCode)
-    @sharedState.set { classCode }, { silent: true }
+    'click .individual-path-button': -> @trigger 'choose-path', 'individual'
 
+  initialize: ({ @sharedState } = {}) ->
+    @checkClassCodeDebounced = _.debounce @checkClassCode, 1000
+    @fetchClassByCode = _.memoize(@fetchClassByCode)
+    @classroom = new Classroom()
+    @state = new State()
+    if @sharedState.get('classCode')
+      @checkClassCode(@sharedState.get('classCode'))
+    @listenTo @state, 'all', _.debounce(->
+      @renderSelectors('.render')
+      @trigger 'special-render'
+    )
+    
+  getClassCode: -> @$('.class-code-input').val() or @sharedState.get('classCode') 
+
+  onInputClassCode: ->
+    @classroom = new Classroom()
+    forms.clearFormAlerts(@$el)
+    classCode = @getClassCode()
+    @sharedState.set { classCode }, { silent: true }
+    @checkClassCodeDebounced()
+    
+  checkClassCode: ->
+    return if @destroyed
+    classCode = @getClassCode()
+    
+    @fetchClassByCode(classCode)
+    .then (classroom) =>
+      return if @destroyed or @getClassCode() isnt classCode
+      if classroom
+        @classroom = classroom
+        @state.set { classCodeValid: true, segmentCheckValid: true }
+      else
+        @classroom = new Classroom()
+        @state.set { classCodeValid: false, segmentCheckValid: false }
+    .catch (error) ->
+      throw error
+      
   onInputBirthday: ->
     { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
     birthday = new Date Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay)
@@ -30,8 +61,22 @@ module.exports = class SegmentCheckView extends CocoView
     
   onSubmitSegmentCheck: (e) ->
     e.preventDefault()
+    
     if @sharedState.get('path') is 'student'
-      @trigger 'nav-forward' if @state.get('segmentCheckValid')
+      @$('.class-code-input').attr('disabled', true)
+    
+      @fetchClassByCode(@getClassCode())
+      .then (classroom) =>
+        return if @destroyed
+        if classroom
+          @trigger 'nav-forward'
+        else
+          @$('.class-code-input').attr('disabled', false)
+          @classroom = new Classroom()
+          @state.set { classCodeValid: false, segmentCheckValid: false }
+      .catch (error) ->
+        throw error
+        
     else if @sharedState.get('path') is 'individual'
       if isNaN(@sharedState.get('birthday').getTime())
         forms.clearFormAlerts(@$el)
@@ -43,21 +88,15 @@ module.exports = class SegmentCheckView extends CocoView
         else
           @trigger 'nav-forward', 'coppa-deny'
 
-  initialize: ({ @sharedState } = {}) ->
-    @checkClassCodeDebounced = _.debounce @checkClassCode, 1000
-    @state = new State()
-    @classroom = new Classroom()
-    if @sharedState.get('classCode')
-      @checkClassCode(@sharedState.get('classCode'))
-    @listenTo @state, 'all', -> @renderSelectors('.render')
-  
-  checkClassCode: (classCode) ->
-    @classroom.clear()
-    return forms.clearFormAlerts(@$el) if classCode is ''
-    
-    new Promise(@classroom.fetchByCode(classCode).then)
-      .then =>
-        @state.set { classCodeValid: true, segmentCheckValid: true }
-      .catch =>
-        @state.set { classCodeValid: false, segmentCheckValid: false }
+  fetchClassByCode: (classCode) -> 
+    new Promise((resolve, reject) ->
+      new Classroom().fetchByCode(classCode, {
+        success: resolve
+        error: (classroom, jqxhr) ->
+          if jqxhr.status is 404
+            resolve()
+          else
+            reject(jqxhr.responseJSON)
+      })
+    )
   

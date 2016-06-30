@@ -258,6 +258,7 @@
   signup:
     email_announcements: "Receive announcements by email"
     creating: "Creating Account..."
+    create_account: "Create Account"
     sign_up: "Sign Up"
     log_in: "log in with password"
     required: "You need to log in before you can go that way."
@@ -274,9 +275,15 @@
     facebook_exists: "You already have an account associated with Facebook!"
     hey_students: "Students, enter the class code from your teacher."
     birthday: "Birthday"
-    
     parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
-
+    classroom_not_found: "This class code doesn't exist! Check your spelling or ask your teacher for help."
+    checking: "Checking..."
+    account_exists: "An account already exists with this email address!"
+    sign_in: "Sign in"
+    email_good: "Email looks good!"
+    name_taken: "Username already taken! Try {{suggestedName}}?"
+    name_available: "Username available!"
+    
   recover:
     recover_account_title: "Recover Account"
     send_password: "Send Recovery Password"

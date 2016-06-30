@@ -8,6 +8,7 @@ module.exports.setup = (app) ->
   app.post('/auth/login-gplus', mw.auth.loginByGPlus, mw.auth.afterLogin)
   app.post('/auth/logout', mw.auth.logout)
   app.get('/auth/name/?(:name)?', mw.auth.name)
+  app.get('/auth/email/?(:email)?', mw.auth.email)
   app.post('/auth/reset', mw.auth.reset)
   app.post('/auth/spy', mw.auth.spy)
   app.post('/auth/stop-spying', mw.auth.stopSpying)
@@ -95,6 +96,9 @@ module.exports.setup = (app) ->
   app.get('/db/level/:handle/session', mw.auth.checkHasUser(), mw.levels.upsertSession)
   app.get('/db/user/-/students', mw.auth.checkHasPermission(['admin']), mw.users.getStudents)
   app.get('/db/user/-/teachers', mw.auth.checkHasPermission(['admin']), mw.users.getTeachers)
+  app.post('/db/user/:handle/signup-with-facebook', mw.users.signupWithFacebook)
+  app.post('/db/user/:handle/signup-with-gplus', mw.users.signupWithGPlus)
+  app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
   
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)

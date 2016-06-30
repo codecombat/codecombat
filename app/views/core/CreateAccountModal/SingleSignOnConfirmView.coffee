@@ -20,7 +20,6 @@ module.exports = class SingleSignOnConfirmView extends BasicInfoView
       ssoUsed: undefined
       ssoAttrs: undefined
     }
-    console.log @sharedState.attributes
     @trigger 'nav-back'
 
 

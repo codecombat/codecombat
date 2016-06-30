@@ -13,21 +13,39 @@ form#basic-info-form.modal-body
       span(data-i18n="TODO")
         | continue
 
-    div
+    .form-container
       input.hidden(name="email" value=view.sharedState.get('email'))
-      div
-        //- This form group needs a parent so its errors can be cleared individually
-        .form-group
-          h4
-            span(data-i18n="TODO")
-              | Pick a username:
-          input(name="name" value=view.sharedState.get('name'))
+      .form-group
+        .row
+          .col-xs-7.col-xs-offset-3
+            label.control-label(for="username-input")
+              span(data-i18n="TODO")
+                | Username:
+          .col-xs-5.col-xs-offset-3
+            input.form-control.input-lg#username-input(name="name")
+          .col-xs-4.name-check
+            - var checkNameState = view.state.get('checkNameState');
+            if checkNameState === 'checking'
+              span.small(data-i18n="signup.checking")
+            if checkNameState === 'exists'
+              span.small
+                span.text-burgandy.glyphicon.glyphicon-remove-circle
+                =" "
+                span= view.state.get('suggestedNameText')
+            if checkNameState === 'available'
+              span.small
+                span.text-forest.glyphicon.glyphicon-ok-circle
+                =" "
+                span(data-i18n="signup.name_available")
 
       .form-group.checkbox.subscribe
-        label.control-label(for="subscribe-input")
-          input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
-          span.small(data-i18n="TODO")
-            | Receive announcements about CodeCombat
+        .row
+          .col-xs-7.col-xs-offset-3
+            .checkbox
+              label
+                input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
+                span(data-i18n="TODO")
+                  | Receive announcements about CodeCombat
 
   // In reverse order for tabbing purposes
   .history-nav-buttons

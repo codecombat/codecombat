@@ -100,10 +100,8 @@ module.exports = class CocoView extends Backbone.View
 
   renderSelectors: (selectors...) ->
     newTemplate = $(@template(@getRenderData()))
-    console.log newTemplate.find('p.render')
     for selector, i in selectors
       for elPair in _.zip(@$el.find(selector), newTemplate.find(selector))
-        console.log elPair
         $(elPair[0]).replaceWith($(elPair[1]))
     @delegateEvents()
     @$el.i18n()

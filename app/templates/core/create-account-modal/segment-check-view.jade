@@ -25,8 +25,7 @@ form.modal-body.segment-check
             br
             span.teacher-name= view.classroom.owner.get('name')
           else
-            span(data-i18n="TODO")
-              | This class code doesn't exist! Check your spelling or ask your teacher for help.
+            span(data-i18n="signup.classroom_not_found")
           if _.isEmpty(view.sharedState.get('classCode')) || !state.get('classCodeValid')
             br
             span.spr(data-i18n="TODO")

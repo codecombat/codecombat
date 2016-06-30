@@ -47,12 +47,24 @@ module.exports = class User extends CocoModel
     super arguments...
 
   @getUnconflictedName: (name, done) ->
+    # deprecate in favor of @checkNameConflicts, which uses Promises and returns the whole response
     $.ajax "/auth/name/#{encodeURIComponent(name)}",
       cache: false
-      success: (data) -> done data.name
-      statusCode: 409: (data) ->
-        response = JSON.parse data.responseText
-        done response.name
+      success: (data) -> done(data.suggestedName)
+        
+  @checkNameConflicts: (name) ->
+    new Promise (resolve, reject) ->
+      $.ajax "/auth/name/#{encodeURIComponent(name)}",
+        cache: false
+        success: resolve
+        error: (jqxhr) -> reject(jqxhr.responseJSON)
+        
+  @checkEmailExists: (email) ->
+    new Promise (resolve, reject) ->
+      $.ajax "/auth/email/#{encodeURIComponent(email)}",
+        cache: false
+        success: resolve
+        error: (jqxhr) -> reject(jqxhr.responseJSON)
 
   getEnabledEmails: ->
     (emailName for emailName, emailDoc of @get('emails', true) when emailDoc.enabled)
@@ -257,6 +269,27 @@ module.exports = class User extends CocoModel
         window.location = location
       else
         window.location.reload()
+    @fetch(options)
+    
+  signupWithPassword: (email, password, options={}) ->
+    options.url = _.result(@, 'url') + '/signup-with-password'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, {email, password})
+    @fetch(options)
+    
+  signupWithFacebook: (email, facebookID, options={}) ->
+    options.url = _.result(@, 'url') + '/signup-with-facebook'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, {email, facebookID, facebookAccessToken: application.facebookHandler.token()})
+    @fetch(options)
+
+  signupWithGPlus: (email, gplusID, options={}) ->
+    options.url = _.result(@, 'url') + '/signup-with-gplus'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, {email, gplusID, gplusAccessToken: application.gplusHandler.token()})
     @fetch(options)
 
   fetchGPlusUser: (gplusID, options={}) ->
