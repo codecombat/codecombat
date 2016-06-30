@@ -4,30 +4,27 @@ block modal-header
   //-
     This allows for the header color to switch without the subview templates
     needing to contain the header
-  .modal-header(class=state.get('path'))
+  .modal-header(class=view.signupState.get('path'))
+    span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
     +modal-header-content
 
 mixin modal-header-content
   h3
-    case state.get('path')
+    case view.signupState.get('path')
       when 'student'
-        span(data-i18n="TODO")
-          | Create Student Account
+        span(data-i18n="signup.create_student_header")
       when 'teacher'
-        span(data-i18n="TODO")
-          | Create Teacher Account
+        span(data-i18n="signup.create_teacher_header")
       when 'individual'
-        span(data-i18n="TODO")
-          | Create Individual Account
+        span(data-i18n="signup.create_individual_header")
       default
-        span(data-i18n="TODO")
-          | Create Account
+        span(data-i18n="signup.create_header")
 
 //-
   This is where the subviews (screens) are hooked up.
   Most subview templates have a .modal-body at their root, but this is inconsistent and needs organization.
 block modal-body
-  case state.get('screen')
+  case view.signupState.get('screen')
     when 'choose-account-type'
       #choose-account-type-view
     when 'segment-check'
@@ -40,24 +37,24 @@ block modal-body
       #single-sign-on-already-exists-view
     when 'sso-confirm'
       #single-sign-on-confirm-view
-    //- These are not yet implemented
+    when 'confirmation'
+      #confirmation-view
+    //- This is not yet implemented
     //- when 'extras'
     //-   #extras-view
-    //- when 'confirmation'
-    //-   #confirmation-view
+    
 
 block modal-footer
   //-
     This allows for the footer color to switch without the subview templates
     needing to contain the footer
-  .modal-footer(class=state.get('path'))
+  .modal-footer(class=view.signupState.get('path'))
     +modal-footer-content
 
 mixin modal-footer-content
-  .modal-footer-content
-    .small-details
-      span.spr(data-i18n="TODO")
-        | Already have an account?
-      a.login-link
-        span(data-i18n="TODO")
-          | Sign in
+  if view.signupState.get('screen') !== 'confirmation'
+    .modal-footer-content
+      .small-details
+        span.spr(data-i18n="signup.login_switch")
+        a.login-link
+          span(data-i18n="signup.sign_in")

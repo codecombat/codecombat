@@ -24,6 +24,13 @@
     
   // General modal stuff
   
+  .close
+    color: white
+    opacity: 0.5
+    right: 7px
+    &:hover
+      opacity: 0.9
+  
   .modal-header, .modal-footer
     &.teacher
       background-color: $burgandy
@@ -56,8 +63,11 @@
 
     span
       color: white
+      
+    a span
+      text-decoration: underline
   
-  #choose-account-type-view, #segment-check-view, #basic-info-view, #coppa-deny-view, #single-sign-on-already-exists-view, #single-sign-on-confirm-view,
+  #choose-account-type-view, #segment-check-view, #basic-info-view, #coppa-deny-view, #single-sign-on-already-exists-view, #single-sign-on-confirm-view, #confirmation-view
     display: flex
     flex-direction: column
     flex-grow: 1
@@ -92,7 +102,13 @@
       flex-direction: row
 
   // Forms
-  
+
+  .form-container
+    width: 800px
+
+    .form-group
+      text-align: left
+
   .full-name
     display: flex
     flex-direction: row

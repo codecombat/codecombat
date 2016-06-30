@@ -197,12 +197,21 @@ module.exports =
   name: wrap (req, res) ->
     if not req.params.name
       throw new errors.UnprocessableEntity 'No name provided.'
-    originalName = req.params.name
+    givenName = req.params.name
       
     User.unconflictNameAsync = Promise.promisify(User.unconflictName)
-    name = yield User.unconflictNameAsync originalName
-    response = name: name
-    if originalName is name
-      res.send 200, response
-    else
-      throw new errors.Conflict('Name is taken', response)
+    suggestedName = yield User.unconflictNameAsync givenName
+    response = {
+      givenName
+      suggestedName
+      conflicts: givenName isnt suggestedName
+    }
+    res.send 200, response
+
+  email: wrap (req, res) ->
+    { email } = req.params
+    if not email
+      throw new errors.UnprocessableEntity 'No email provided.'
+    
+    user = yield User.findByEmail(email)
+    res.send 200, { exists: user? }
