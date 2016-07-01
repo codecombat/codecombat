@@ -2,21 +2,18 @@
   .modal-body-content
     if view.signupState.get('ssoUsed')
       h4
-        span(data-i18n="TODO")
-          | This email is already in use:
+        span(data-i18n="signup.account_exists")
       div.small
         b
           span= view.signupState.get('email')
 
       .hr-text
         hr
-        span(data-i18n="TODO")
-          | continue
+        span(data-i18n="common.continue")
       
       button.login-link.btn.btn-lg.btn-navy
         span(data-i18n="login.log_in")
 
   .history-nav-buttons.just-one
     button.back-button.btn.btn-lg.btn-navy-alt(type='button')
-      span(data-i18n="TODO")
-        | Back
+      span(data-i18n="common.back")

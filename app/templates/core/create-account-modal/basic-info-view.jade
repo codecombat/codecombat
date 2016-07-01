@@ -14,8 +14,7 @@ form#basic-info-form.modal-body.basic-info
     
     .hr-text
       hr
-      span(data-i18n="TODO")
-        | or
+      span(data-i18n="general.or")
                   
     div.form-container
       if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
@@ -23,21 +22,18 @@ form#basic-info-form.modal-body.basic-info
           .col-xs-offset-3.col-xs-5
             .form-group
               label.control-label(for="first-name-input")
-                span(data-i18n="TODO")
-                  | First name:
+                span(data-i18n="general.first_name")
               input#first-name-input.form-control.input-lg(name="firstName")
           .col-xs-4
             .last-initial.form-group
               label.control-label(for="last-name-input")
-                span(data-i18n="TODO")
-                  | Last initial:
+                span(data-i18n="general.last_initial")
               input#last-name-input.form-control.input-lg(name="lastName" maxlength="1")
       .form-group
         .row
           .col-xs-5.col-xs-offset-3
             label.control-label(for="email-input")
-              span(data-i18n="TODO")
-                | Email address:
+              span(data-i18n="share_progress_modal.form_label")
           .col-xs-5.col-xs-offset-3
             input.form-control.input-lg#email-input(name="email" type="email")
           .col-xs-4.email-check
@@ -61,8 +57,7 @@ form#basic-info-form.modal-body.basic-info
         .row
           .col-xs-7.col-xs-offset-3
             label.control-label(for="username-input")
-              span(data-i18n="TODO")
-                | Username:
+              span(data-i18n="general.username")
           .col-xs-5.col-xs-offset-3
             input.form-control.input-lg#username-input(name="name")
           .col-xs-4.name-check
@@ -83,8 +78,7 @@ form#basic-info-form.modal-body.basic-info
         .row
           .col-xs-7.col-xs-offset-3
             label.control-label(for="password-input")
-              span(data-i18n="TODO")
-                | Password:
+              span(data-i18n="general.password")
           .col-xs-5.col-xs-offset-3
             input.form-control.input-lg#password-input(name="password" type="password")
       .form-group.checkbox.subscribe
@@ -93,8 +87,7 @@ form#basic-info-form.modal-body.basic-info
             .checkbox
               label
                 input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
-                span(data-i18n="TODO")
-                  | Receive announcements about CodeCombat
+                span(data-i18n="signup.email_announcements")
                 
       .error-area
         - var error = view.state.get('error');
@@ -109,5 +102,4 @@ form#basic-info-form.modal-body.basic-info
       span(data-i18n="signup.create_account")
 
     button.back-button.btn.btn-lg.btn-navy-alt(type='button')
-      span(data-i18n="TODO")
-        | Back
+      span(data-i18n="common.back")

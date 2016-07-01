@@ -2,8 +2,7 @@ form.modal-body.segment-check
   .modal-body-content
     case view.signupState.get('path')
       when 'student'
-        span(data-i18n="TODO")
-          | Enter your class code:
+        span(data-i18n="signup.enter_class_code")
         .class-code-input-group.form-group
           input.class-code-input(name="classCode" value=view.signupState.get('classCode'))
           .render
@@ -15,11 +14,9 @@ form.modal-body.segment-check
         
         p.render
           if _.isEmpty(view.signupState.get('classCode'))
-            span(data-i18n="TODO")
-              | Ask your teacher for your class code.
+            span(data-i18n="signup.ask_teacher_1")
           else if state.get('classCodeValid')
-            span.small(data-i18n="TODO")
-              | You're about to join:
+            span.small(data-i18n="signup.about_to_join")
             br
             span.classroom-name= view.classroom.get('name')
             br
@@ -28,20 +25,16 @@ form.modal-body.segment-check
             span(data-i18n="signup.classroom_not_found")
           if _.isEmpty(view.signupState.get('classCode')) || !state.get('classCodeValid')
             br
-            span.spr(data-i18n="TODO")
-              | Don't have a class code? Create an 
+            span.spr(data-i18n="signup.ask_teacher_2")
             a.individual-path-button
-              span(data-i18n="TODO")
-                | Individual Account
-            span.spl(data-i18n="TODO")
-              |  instead.
+              span(data-i18n="signup.ask_teacher_3")
+            span.spl(data-i18n="signup.ask_teacher_4")
           
       when 'teacher'
         // TODO
       when 'individual'
         .birthday-form-group.form-group
-          span(data-i18n="TODO")
-            | Enter your birthdate:
+          span(data-i18n="signup.enter_birthdate")
           .input-border
             select#birthday-month-input.input-large.form-control(name="birthdayMonth", style="width: 106px; float: left")
               option(value='',data-i18n="calendar.month")
@@ -66,10 +59,8 @@ form.modal-body.segment-check
   .history-nav-buttons
     //- disabled=!view.signupState.get('segmentCheckValid')
     button.next-button.btn.btn-lg.btn-navy(type='submit')
-      span(data-i18n="TODO")
-        | Next
+      span(data-i18n="about.next")
 
     button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
-      span(data-i18n="TODO")
-        | Back
+      span(data-i18n="common.back")
   

@@ -12,17 +12,13 @@ mixin modal-header-content
   h3
     case view.signupState.get('path')
       when 'student'
-        span(data-i18n="TODO")
-          | Create Student Account
+        span(data-i18n="signup.create_student_header")
       when 'teacher'
-        span(data-i18n="TODO")
-          | Create Teacher Account
+        span(data-i18n="signup.create_teacher_header")
       when 'individual'
-        span(data-i18n="TODO")
-          | Create Individual Account
+        span(data-i18n="signup.create_individual_header")
       default
-        span(data-i18n="TODO")
-          | Create Account
+        span(data-i18n="signup.create_header")
 
 //-
   This is where the subviews (screens) are hooked up.
@@ -57,8 +53,6 @@ block modal-footer
 mixin modal-footer-content
   .modal-footer-content
     .small-details
-      span.spr(data-i18n="TODO")
-        | Already have an account?
+      span.spr(data-i18n="signup.login_switch")
       a.login-link
-        span(data-i18n="TODO")
-          | Sign in
+        span(data-i18n="signup.sign_in")
