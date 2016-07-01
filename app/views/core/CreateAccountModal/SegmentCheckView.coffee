@@ -88,7 +88,10 @@ module.exports = class SegmentCheckView extends CocoView
         else
           @trigger 'nav-forward', 'coppa-deny'
 
-  fetchClassByCode: (classCode) -> 
+  fetchClassByCode: (classCode) ->
+    if not classCode
+      return Promise.resolve()
+      
     new Promise((resolve, reject) ->
       new Classroom().fetchByCode(classCode, {
         success: resolve
