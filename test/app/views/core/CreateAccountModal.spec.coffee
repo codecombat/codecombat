@@ -203,7 +203,7 @@ describe 'CreateAccountModal', ->
           _.defer done
 
         it 'says name is taken and suggests a different one', ->
-          expect(basicInfoView.$el.text().indexOf('Try test123?') > -1).toBe(true)
+          expect(basicInfoView.$el.text().indexOf('test123') > -1).toBe(true)
 
       describe 'if email DOES NOT exist', ->
         beforeEach (done) ->
