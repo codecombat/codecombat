@@ -110,7 +110,8 @@ module.exports = class NewHomeView extends RootView
     $(window).on 'resize', @fitToPage
     @fitToPage()
     setTimeout(@fitToPage, 0)
-    @$('#create-account-link').click()
+    if document.location.hash is '#create-account'
+      @$('#create-account-link').click()
     super()
 
   destroy: ->

@@ -44,6 +44,7 @@ module.exports = class CreateAccountModal extends ModalView
   id: 'create-account-modal'
   template: template
   closesOnClickOutside: false
+  retainSubviews: true
 
   events:
     'click .login-link': 'onClickLoginLink'
@@ -62,39 +63,30 @@ module.exports = class CreateAccountModal extends ModalView
 
     @listenTo @state, 'all', @render #TODO: debounce
 
-    @customSubviews = {
-      choose_account_type: new ChooseAccountTypeView()
-      segment_check: new SegmentCheckView({ sharedState: @state })
-      coppa_deny_view: new CoppaDenyView({ sharedState: @state })
-      basic_info_view: new BasicInfoView({ sharedState: @state })
-      sso_already_exists: new SingleSignOnAlreadyExistsView({ sharedState: @state })
-      sso_confirm: new SingleSignOnConfirmView({ sharedState: @state })
-    }
+    @listenTo @insertSubView(new ChooseAccountTypeView()),
+      'choose-path': (path) ->
+        if path is 'teacher'
+          application.router.navigate('/teachers/signup', trigger: true)
+        else
+          @state.set { path, screen: 'segment-check' }
 
-    @listenTo @customSubviews.choose_account_type, 'choose-path', (path) ->
-      if path is 'teacher'
-        application.router.navigate('/teachers/signup', trigger: true)
-      else
-        @state.set { path, screen: 'segment-check' }
-    @listenTo @customSubviews.segment_check, 'choose-path', (path) ->
-      @state.set { path, screen: 'segment-check' }
-    @listenTo @customSubviews.segment_check, 'nav-back', ->
-      @state.set { path: null, screen: 'choose-account-type' }
-    @listenTo @customSubviews.segment_check, 'nav-forward', (screen) ->
-      @state.set { screen: screen or 'basic-info' }
+    @listenTo @insertSubView(new SegmentCheckView({ sharedState: @state })),
+      'choose-path': (path) -> @state.set { path, screen: 'segment-check' }
+      'nav-back': -> @state.set { path: null, screen: 'choose-account-type' }
+      'nav-forward': (screen) -> @state.set { screen: screen or 'basic-info' }
 
-    @listenTo @customSubviews.basic_info_view, 'sso-connect:already-in-use', ->
-      @state.set { screen: 'sso-already-exists' }
-    @listenTo @customSubviews.basic_info_view, 'sso-connect:new-user', ->
-      @state.set { screen: 'sso-confirm' }
-    @listenTo @customSubviews.basic_info_view, 'nav-back', ->
-      @state.set { screen: 'segment-check' }
+    @insertSubView(new CoppaDenyView({ sharedState: @state }))
 
-    @listenTo @customSubviews.sso_confirm, 'nav-back', ->
-      @state.set { screen: 'basic-info' }
+    @listenTo @insertSubView(new BasicInfoView({ sharedState: @state })),
+      'sso-connect:already-in-use': -> @state.set { screen: 'sso-already-exists' }
+      'sso-connect:new-user': -> @state.set {screen: 'sso-confirm'}
+      'nav-back': -> @state.set { screen: 'segment-check' }
 
-    @listenTo @customSubviews.sso_already_exists, 'nav-back', ->
-      @state.set { screen: 'basic-info' }
+    @listenTo @insertSubView(new SingleSignOnAlreadyExistsView({ sharedState: @state })),
+      'nav-back': -> @state.set { screen: 'basic-info' }
+
+    @listenTo @insertSubView(new SingleSignOnConfirmView({ sharedState: @state })),
+      'nav-back': -> @state.set { screen: 'basic-info' }
 
   #   options.initialValues ?= {}
   #   options.initialValues?.classCode ?= utils.getQueryVariable('_cc', "")
@@ -105,12 +97,6 @@ module.exports = class CreateAccountModal extends ModalView
     application.facebookHandler.loadAPI({ success: => @state.set { facebookEnabled: true } unless @destroyed })
     application.gplusHandler.loadAPI({ success: => @state.set { gplusEnabled: true } unless @destroyed })
   
-  afterRender: ->
-    for key, subview of @customSubviews
-      el = @$('#' + subview.id)[0]
-      subview.setElement(el)
-      subview.render() if el
-    
   onClickLoginLink: ->
     # TODO: Make sure the right information makes its way into the state.
     @openModalView(new AuthModal({ initialValues: @state.pick(['email', 'name', 'password']) }))

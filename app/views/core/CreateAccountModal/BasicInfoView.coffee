@@ -1,4 +1,4 @@
-ModalView = require 'views/core/ModalView'
+CocoView = require 'views/core/CocoView'
 AuthModal = require 'views/core/AuthModal'
 template = require 'templates/core/create-account-modal/basic-info-view'
 forms = require 'core/forms'
@@ -21,7 +21,7 @@ This view currently uses the old form API instead of stateful render.
 It needs some work to make error UX and rendering better, but is functional.
 ###
 
-module.exports = class BasicInfoView extends ModalView
+module.exports = class BasicInfoView extends CocoView
   id: 'basic-info-view'
   template: template
 

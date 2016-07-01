@@ -1,9 +1,9 @@
-ModalView = require 'views/core/ModalView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/core/create-account-modal/single-sign-on-already-exists-view'
 forms = require 'core/forms'
 User = require 'models/User'
 
-module.exports = class SingleSignOnAlreadyExistsView extends ModalView
+module.exports = class SingleSignOnAlreadyExistsView extends CocoView
   id: 'single-sign-on-already-exists-view'
   template: template
 
@@ -17,4 +17,4 @@ module.exports = class SingleSignOnAlreadyExistsView extends ModalView
       ssoUsed: undefined
       ssoAttrs: undefined
     }
-    -> @trigger 'nav-back'
+    @trigger('nav-back')

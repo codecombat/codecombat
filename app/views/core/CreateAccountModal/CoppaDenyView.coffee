@@ -1,9 +1,9 @@
-ModalView = require 'views/core/ModalView'
+CocoView = require 'views/core/CocoView'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal/coppa-deny-view'
 forms = require 'core/forms'
 
-module.exports = class SegmentCheckView extends ModalView
+module.exports = class SegmentCheckView extends CocoView
   id: 'coppa-deny-view'
   template: template
 
