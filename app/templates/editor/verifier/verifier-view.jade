@@ -77,7 +77,7 @@ block content
           div.row(class=(test.isSuccessful() && id > 1 ? 'collapse' : 'collapse in'), id='verifier-test-' + id)
             div.col-xs-8
               if test.solution
-                pre #{test.solution.source}
+                pre.solution #{test.solution.source}
               else
                 h4 Error Loading Test
                 pre #{test.error}

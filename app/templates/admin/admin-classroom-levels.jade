@@ -1,0 +1,39 @@
+extends /templates/base
+
+//- DO NOT TRANSLATE
+
+block content
+
+  if !me.isAdmin()
+    div You must be logged in as an admin to view this page.
+  else
+    p
+      - var levelsTotal = 0;
+      each course in view.courses.models
+        - var campaign = view.campaigns.get(course.get('campaignID'));
+        - var levels = campaign.getLevels().models;
+        - levelsTotal += levels.length;
+        div #{levels.length} #{course.get('name')} 
+      div #{levelsTotal} levels total
+    each course in view.courses.models
+      - var campaign = view.campaigns.get(course.get('campaignID'));
+      - var levels = campaign.getLevels().models;
+      - levelCounts = levels.length;
+      strong #{course.get('name')}
+      .small= course.get('description')
+      .small Levels last updated #{campaign.get('levelsUpdated')}
+      table.table.table-striped.table-condensed
+        tr
+          th= levels.length
+          th Slug
+          th Type
+          th Practice
+          th Practice Threshold (m)
+        each level, levelIndex in levels
+          - var levelNumber = campaign.getLevelNumber(level.get('original'), levelIndex + 1)
+          tr
+            td= levelNumber
+            td= level.get('slug')
+            td= level.get('type')
+            td= level.get('practice')
+            td= level.get('practiceThresholdMinutes')
