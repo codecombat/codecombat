@@ -231,49 +231,6 @@ module.exports = class BasicInfoView extends CocoView
     @$('#create-account-btn').text($.i18n.t('signup.create_account')).attr('disabled', false)
     @$('input').attr('disabled', false)
 
-#  createUser: ->
-#    options = {}
-#    window.tracker?.identify()
-#    # TODO: Move to User functions which call specific endpoints for signup
-#    if @signupState.get('ssoUsed') is 'gplus'
-#      @newUser.set('_id', me.id)
-#      options.url = "/db/user?gplusID=#{@signupState.get('ssoAttrs').gplusID}&gplusAccessToken=#{application.gplusHandler.accessToken.access_token}"
-#      options.type = 'PUT'
-#    if @signupState.get('ssoUsed') is 'facebook'
-#      @newUser.set('_id', me.id)
-#      options.url = "/db/user?facebookID=#{@signupState.get('ssoAttrs').facebookID}&facebookAccessToken=#{application.facebookHandler.authResponse.accessToken}"
-#      options.type = 'PUT'
-#    @newUser.save(null, options)
-#    @newUser.once 'sync', @onUserCreated, @
-#    @newUser.once 'error', @onUserSaveError, @
-#  
-#  onUserSaveError: (user, jqxhr) ->
-#    # TODO: Do we need to enable/disable the submit button to prevent multiple users being created?
-#    # Seems to work okay without that, but mongo had 2 copies of the user... temporarily. Very strange.
-#    if _.isObject(jqxhr.responseJSON) and jqxhr.responseJSON.property
-#      forms.applyErrorsToForm(@$el, [jqxhr.responseJSON])
-#      @setNameError(@state.get('suggestedName'))
-#    else
-#      console.log "Error:", jqxhr.responseText
-#      errors.showNotyNetworkError(jqxhr)
-#  
-#  onUserCreated: ->
-#    # TODO: Move to User functions
-#    Backbone.Mediator.publish "auth:signed-up", {}
-#    if @signupState.get('gplusAttrs')
-#      window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
-#      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
-#    else if @signupState.get('facebookAttrs')
-#      window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
-#      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Facebook'
-#    else
-#      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
-#    if @signupState.get('classCode')
-#      url = "/courses?_cc="+@signupState.get('classCode')
-#      location.href = url
-#    else
-#      window.location.reload()
-
   onClickSsoSignupButton: (e) ->
     e.preventDefault()
     ssoUsed = $(e.currentTarget).data('sso-used')

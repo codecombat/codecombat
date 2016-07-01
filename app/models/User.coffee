@@ -276,21 +276,31 @@ module.exports = class User extends CocoModel
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, {email, password})
-    @fetch(options)
+    jqxhr = @fetch(options)
+    jqxhr.then ->
+      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
     
   signupWithFacebook: (email, facebookID, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-facebook'
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, {email, facebookID, facebookAccessToken: application.facebookHandler.token()})
-    @fetch(options)
+    jqxhr = @fetch(options)
+    jqxhr.then ->
+      window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
+      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Facebook'
+    return jqxhr
 
   signupWithGPlus: (email, gplusID, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-gplus'
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, {email, gplusID, gplusAccessToken: application.gplusHandler.token()})
-    @fetch(options)
+    jqxhr = @fetch(options)
+    jqxhr.then ->
+      window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
+      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
+    return jqxhr
 
   fetchGPlusUser: (gplusID, options={}) ->
     options.data ?= {}
