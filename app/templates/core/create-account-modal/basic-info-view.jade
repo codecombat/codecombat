@@ -3,10 +3,10 @@ form#basic-info-form.modal-body.basic-info
     .auth-network-logins.text-center
       h4
         span(data-i18n="signup.connect_with")
-      a#facebook-signup-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=!view.sharedState.get('facebookEnabled'), data-sso-used="facebook")
+      a#facebook-signup-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
         img.network-logo(src="/images/pages/modal/auth/facebook_sso_button.png", draggable="false", width="175", height="40")
         span.sign-in-blurb(data-i18n="login.sign_in_with_facebook")
-      a#gplus-signup-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=!view.sharedState.get('gplusEnabled'), data-sso-used="gplus")
+      a#gplus-signup-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
         img.network-logo(src="/images/pages/modal/auth/google_plus_sso_button.png", draggable="false", width="175", height="40")
         span.sign-in-blurb(data-i18n="login.sign_in_with_gplus")
         .gplus-login-wrapper
@@ -18,7 +18,7 @@ form#basic-info-form.modal-body.basic-info
         | or
                   
     div.form-container
-      if ['student', 'teacher'].indexOf(view.sharedState.get('path')) !== -1
+      if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
         .row.full-name
           .col-xs-offset-3.col-xs-5
             .form-group
@@ -41,7 +41,7 @@ form#basic-info-form.modal-body.basic-info
           .col-xs-5.col-xs-offset-3
             input.form-control.input-lg#email-input(name="email" type="email")
           .col-xs-4.email-check
-            - var checkEmailState = view.state.get('checkEmailState');
+            - var checkEmailState = view.signupState.get('checkEmailState');
             if checkEmailState === 'checking'
               span.small(data-i18n="signup.checking")
             if checkEmailState === 'exists'

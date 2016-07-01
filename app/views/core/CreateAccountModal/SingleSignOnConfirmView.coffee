@@ -12,11 +12,11 @@ module.exports = class SingleSignOnConfirmView extends BasicInfoView
     'click .back-button': 'onClickBackButton'
   }
 
-  initialize: ({ @sharedState } = {}) ->
+  initialize: ({ @signupState } = {}) ->
     super(arguments...)
   
   onClickBackButton: ->
-    @sharedState.set {
+    @signupState.set {
       ssoUsed: undefined
       ssoAttrs: undefined
     }

@@ -34,7 +34,7 @@ module.exports = class BasicInfoView extends CocoView
     'click #facebook-signup-btn': 'onClickSsoSignupButton'
     'click #gplus-signup-btn': 'onClickSsoSignupButton'
 
-  initialize: ({ @sharedState } = {}) ->
+  initialize: ({ @signupState } = {}) ->
     @state = new State {
       suggestedNameText: '...'
       checkEmailState: 'standby' # 'checking', 'exists', 'available'
@@ -48,8 +48,8 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:checkEmailState', -> @renderSelectors('.email-check')
     @listenTo @state, 'change:checkNameState', -> @renderSelectors('.name-check')
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
-    @listenTo @sharedState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
-    @listenTo @sharedState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
+    @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
+    @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
     
   afterRender: ->
     super()
@@ -148,7 +148,7 @@ module.exports = class BasicInfoView extends CocoView
       email: User.schema.properties.email
       name: User.schema.properties.name
       password: User.schema.properties.password
-    required: ['email', 'name', 'password'].concat (if @sharedState.get('path') is 'student' then ['firstName', 'lastName'] else [])
+    required: ['email', 'name', 'password'].concat (if @signupState.get('path') is 'student' then ['firstName', 'lastName'] else [])
   
   onClickBackButton: -> @trigger 'nav-back'
   
@@ -178,10 +178,10 @@ module.exports = class BasicInfoView extends CocoView
       emails.generalNews.enabled = @$('#subscribe-input').is(':checked')
       me.set('emails', emails)
       
-      unless _.isNaN(@sharedState.get('birthday').getTime())
-        me.set('birthday', @sharedState.get('birthday')?.toISOString())
+      unless _.isNaN(@signupState.get('birthday').getTime())
+        me.set('birthday', @signupState.get('birthday')?.toISOString())
 
-      me.set(_.omit(@sharedState.get('ssoAttrs') or {}, 'email', 'facebookID', 'gplusID'))
+      me.set(_.omit(@signupState.get('ssoAttrs') or {}, 'email', 'facebookID', 'gplusID'))
       me.set('name', @$('input[name="name"]').val())
       jqxhr = me.save()
       if not jqxhr
@@ -193,12 +193,12 @@ module.exports = class BasicInfoView extends CocoView
     .then =>
       # Use signup method
       window.tracker?.identify()
-      switch @sharedState.get('ssoUsed')
+      switch @signupState.get('ssoUsed')
         when 'gplus'
-          { email, gplusID } = @sharedState.get('ssoAttrs')
+          { email, gplusID } = @signupState.get('ssoAttrs')
           jqxhr = me.signupWithGPlus(email, gplusID)
         when 'facebook'
-          { email, facebookID } = @sharedState.get('ssoAttrs')
+          { email, facebookID } = @signupState.get('ssoAttrs')
           jqxhr = me.signupWithFacebook(email, facebookID)
         else
           { email, password } = forms.formToObject(@$el)
@@ -218,8 +218,8 @@ module.exports = class BasicInfoView extends CocoView
         @state.set('error', e.responseJSON?.message or 'Unknown Error')
       
   finishSignup: ->
-    if @sharedState.get('classCode')
-      location.href = "/courses?_cc=#{@sharedState.get('classCode')}"
+    if @signupState.get('classCode')
+      location.href = "/courses?_cc=#{@signupState.get('classCode')}"
     else
       window.location.reload()
 
@@ -235,13 +235,13 @@ module.exports = class BasicInfoView extends CocoView
 #    options = {}
 #    window.tracker?.identify()
 #    # TODO: Move to User functions which call specific endpoints for signup
-#    if @sharedState.get('ssoUsed') is 'gplus'
+#    if @signupState.get('ssoUsed') is 'gplus'
 #      @newUser.set('_id', me.id)
-#      options.url = "/db/user?gplusID=#{@sharedState.get('ssoAttrs').gplusID}&gplusAccessToken=#{application.gplusHandler.accessToken.access_token}"
+#      options.url = "/db/user?gplusID=#{@signupState.get('ssoAttrs').gplusID}&gplusAccessToken=#{application.gplusHandler.accessToken.access_token}"
 #      options.type = 'PUT'
-#    if @sharedState.get('ssoUsed') is 'facebook'
+#    if @signupState.get('ssoUsed') is 'facebook'
 #      @newUser.set('_id', me.id)
-#      options.url = "/db/user?facebookID=#{@sharedState.get('ssoAttrs').facebookID}&facebookAccessToken=#{application.facebookHandler.authResponse.accessToken}"
+#      options.url = "/db/user?facebookID=#{@signupState.get('ssoAttrs').facebookID}&facebookAccessToken=#{application.facebookHandler.authResponse.accessToken}"
 #      options.type = 'PUT'
 #    @newUser.save(null, options)
 #    @newUser.once 'sync', @onUserCreated, @
@@ -260,16 +260,16 @@ module.exports = class BasicInfoView extends CocoView
 #  onUserCreated: ->
 #    # TODO: Move to User functions
 #    Backbone.Mediator.publish "auth:signed-up", {}
-#    if @sharedState.get('gplusAttrs')
+#    if @signupState.get('gplusAttrs')
 #      window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
 #      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
-#    else if @sharedState.get('facebookAttrs')
+#    else if @signupState.get('facebookAttrs')
 #      window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
 #      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Facebook'
 #    else
 #      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
-#    if @sharedState.get('classCode')
-#      url = "/courses?_cc="+@sharedState.get('classCode')
+#    if @signupState.get('classCode')
+#      url = "/courses?_cc="+@signupState.get('classCode')
 #      location.href = url
 #    else
 #      window.location.reload()
@@ -291,10 +291,10 @@ module.exports = class BasicInfoView extends CocoView
         handler.loadPerson({
           context: @
           success: (ssoAttrs) ->
-            @sharedState.set { ssoAttrs }
+            @signupState.set { ssoAttrs }
             { email } = ssoAttrs
             User.checkEmailExists(email).then ({exists}) =>
-              @sharedState.set {
+              @signupState.set {
                 ssoUsed
                 email: ssoAttrs.email
               }

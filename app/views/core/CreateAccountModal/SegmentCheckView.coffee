@@ -15,25 +15,25 @@ module.exports = class SegmentCheckView extends CocoView
     'submit form.segment-check': 'onSubmitSegmentCheck'
     'click .individual-path-button': -> @trigger 'choose-path', 'individual'
 
-  initialize: ({ @sharedState } = {}) ->
+  initialize: ({ @signupState } = {}) ->
     @checkClassCodeDebounced = _.debounce @checkClassCode, 1000
     @fetchClassByCode = _.memoize(@fetchClassByCode)
     @classroom = new Classroom()
     @state = new State()
-    if @sharedState.get('classCode')
-      @checkClassCode(@sharedState.get('classCode'))
+    if @signupState.get('classCode')
+      @checkClassCode(@signupState.get('classCode'))
     @listenTo @state, 'all', _.debounce(->
       @renderSelectors('.render')
       @trigger 'special-render'
     )
     
-  getClassCode: -> @$('.class-code-input').val() or @sharedState.get('classCode') 
+  getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode') 
 
   onInputClassCode: ->
     @classroom = new Classroom()
     forms.clearFormAlerts(@$el)
     classCode = @getClassCode()
-    @sharedState.set { classCode }, { silent: true }
+    @signupState.set { classCode }, { silent: true }
     @checkClassCodeDebounced()
     
   checkClassCode: ->
@@ -55,14 +55,14 @@ module.exports = class SegmentCheckView extends CocoView
   onInputBirthday: ->
     { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
     birthday = new Date Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay)
-    @sharedState.set { birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true }
+    @signupState.set { birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true }
     unless isNaN(birthday.getTime())
       forms.clearFormAlerts(@$el)
     
   onSubmitSegmentCheck: (e) ->
     e.preventDefault()
     
-    if @sharedState.get('path') is 'student'
+    if @signupState.get('path') is 'student'
       @$('.class-code-input').attr('disabled', true)
     
       @fetchClassByCode(@getClassCode())
@@ -77,12 +77,12 @@ module.exports = class SegmentCheckView extends CocoView
       .catch (error) ->
         throw error
         
-    else if @sharedState.get('path') is 'individual'
-      if isNaN(@sharedState.get('birthday').getTime())
+    else if @signupState.get('path') is 'individual'
+      if isNaN(@signupState.get('birthday').getTime())
         forms.clearFormAlerts(@$el)
         forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
       else
-        age = (new Date().getTime() - @sharedState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
+        age = (new Date().getTime() - @signupState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
         if age > 13
           @trigger 'nav-forward'
         else

@@ -52,7 +52,7 @@ module.exports = class CreateAccountModal extends ModalView
 
   initialize: (options={}) ->
     classCode = utils.getQueryVariable('_cc', undefined)
-    @state = new State {
+    @signupState = new State {
       path: if classCode then 'student' else null
       screen: if classCode then 'segment-check' else 'choose-account-type'
       facebookEnabled: application.facebookHandler.apiLoaded
@@ -61,42 +61,37 @@ module.exports = class CreateAccountModal extends ModalView
       birthday: new Date('') # so that birthday.getTime() is NaN
     }
 
-    @listenTo @state, 'all', @render #TODO: debounce
+    @listenTo @signupState, 'all', @render #TODO: debounce
 
     @listenTo @insertSubView(new ChooseAccountTypeView()),
       'choose-path': (path) ->
         if path is 'teacher'
           application.router.navigate('/teachers/signup', trigger: true)
         else
-          @state.set { path, screen: 'segment-check' }
+          @signupState.set { path, screen: 'segment-check' }
 
-    @listenTo @insertSubView(new SegmentCheckView({ sharedState: @state })),
-      'choose-path': (path) -> @state.set { path, screen: 'segment-check' }
-      'nav-back': -> @state.set { path: null, screen: 'choose-account-type' }
-      'nav-forward': (screen) -> @state.set { screen: screen or 'basic-info' }
+    @listenTo @insertSubView(new SegmentCheckView({ @signupState })),
+      'choose-path': (path) -> @signupState.set { path, screen: 'segment-check' }
+      'nav-back': -> @signupState.set { path: null, screen: 'choose-account-type' }
+      'nav-forward': (screen) -> @signupState.set { screen: screen or 'basic-info' }
 
-    @insertSubView(new CoppaDenyView({ sharedState: @state }))
+    @insertSubView(new CoppaDenyView({ @signupState }))
 
-    @listenTo @insertSubView(new BasicInfoView({ sharedState: @state })),
-      'sso-connect:already-in-use': -> @state.set { screen: 'sso-already-exists' }
-      'sso-connect:new-user': -> @state.set {screen: 'sso-confirm'}
-      'nav-back': -> @state.set { screen: 'segment-check' }
+    @listenTo @insertSubView(new BasicInfoView({ @signupState })),
+      'sso-connect:already-in-use': -> @signupState.set { screen: 'sso-already-exists' }
+      'sso-connect:new-user': -> @signupState.set {screen: 'sso-confirm'}
+      'nav-back': -> @signupState.set { screen: 'segment-check' }
 
-    @listenTo @insertSubView(new SingleSignOnAlreadyExistsView({ sharedState: @state })),
-      'nav-back': -> @state.set { screen: 'basic-info' }
+    @listenTo @insertSubView(new SingleSignOnAlreadyExistsView({ @signupState })),
+      'nav-back': -> @signupState.set { screen: 'basic-info' }
 
-    @listenTo @insertSubView(new SingleSignOnConfirmView({ sharedState: @state })),
-      'nav-back': -> @state.set { screen: 'basic-info' }
-
-  #   options.initialValues ?= {}
-  #   options.initialValues?.classCode ?= utils.getQueryVariable('_cc', "")
-  #   @previousFormInputs = options.initialValues or {}
+    @listenTo @insertSubView(new SingleSignOnConfirmView({ @signupState })),
+      'nav-back': -> @signupState.set { screen: 'basic-info' }
 
     # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
-    
-    application.facebookHandler.loadAPI({ success: => @state.set { facebookEnabled: true } unless @destroyed })
-    application.gplusHandler.loadAPI({ success: => @state.set { gplusEnabled: true } unless @destroyed })
+    application.facebookHandler.loadAPI({ success: => @signupState.set { facebookEnabled: true } unless @destroyed })
+    application.gplusHandler.loadAPI({ success: => @signupState.set { gplusEnabled: true } unless @destroyed })
   
   onClickLoginLink: ->
     # TODO: Make sure the right information makes its way into the state.
-    @openModalView(new AuthModal({ initialValues: @state.pick(['email', 'name', 'password']) }))
+    @openModalView(new AuthModal({ initialValues: @signupState.pick(['email', 'name', 'password']) }))

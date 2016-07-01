@@ -10,10 +10,10 @@ module.exports = class SingleSignOnAlreadyExistsView extends CocoView
   events:
     'click .back-button': 'onClickBackButton'
 
-  initialize: ({ @sharedState }) ->
+  initialize: ({ @signupState }) ->
 
   onClickBackButton: ->
-    @sharedState.set {
+    @signupState.set {
       ssoUsed: undefined
       ssoAttrs: undefined
     }

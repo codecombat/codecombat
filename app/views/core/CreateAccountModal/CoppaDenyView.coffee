@@ -11,7 +11,7 @@ module.exports = class SegmentCheckView extends CocoView
     'click .send-parent-email-button': 'onClickSendParentEmailButton'
     'input input[name="parentEmail"]': 'onInputParentEmail'
 
-  initialize: ({ @sharedState } = {}) ->
+  initialize: ({ @signupState } = {}) ->
     @state = new State({ parentEmail: '' })
     @listenTo @state, 'all', -> @renderSelectors('.render')
     

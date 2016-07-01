@@ -5,7 +5,7 @@ form#basic-info-form.modal-body
         | Connect with:
     div.small
       b
-        span= view.sharedState.get('email')
+        span= view.signupState.get('email')
       span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
 
     .hr-text
@@ -14,7 +14,7 @@ form#basic-info-form.modal-body
         | continue
 
     .form-container
-      input.hidden(name="email" value=view.sharedState.get('email'))
+      input.hidden(name="email" value=view.signupState.get('email'))
       .form-group
         .row
           .col-xs-7.col-xs-offset-3

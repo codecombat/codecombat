@@ -4,13 +4,13 @@ block modal-header
   //-
     This allows for the header color to switch without the subview templates
     needing to contain the header
-  .modal-header(class=state.get('path'))
+  .modal-header(class=view.signupState.get('path'))
     span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
     +modal-header-content
 
 mixin modal-header-content
   h3
-    case state.get('path')
+    case view.signupState.get('path')
       when 'student'
         span(data-i18n="TODO")
           | Create Student Account
@@ -28,7 +28,7 @@ mixin modal-header-content
   This is where the subviews (screens) are hooked up.
   Most subview templates have a .modal-body at their root, but this is inconsistent and needs organization.
 block modal-body
-  case state.get('screen')
+  case view.signupState.get('screen')
     when 'choose-account-type'
       #choose-account-type-view
     when 'segment-check'
@@ -51,7 +51,7 @@ block modal-footer
   //-
     This allows for the footer color to switch without the subview templates
     needing to contain the footer
-  .modal-footer(class=state.get('path'))
+  .modal-footer(class=view.signupState.get('path'))
     +modal-footer-content
 
 mixin modal-footer-content
