@@ -43,16 +43,16 @@ describe 'CreateAccountModal', ->
         modal.$('.student-path-button').click()
 
       it 'switches to SegmentCheckView and sets "path" to "student"', ->
-        expect(modal.state.get('path')).toBe('student')
-        expect(modal.state.get('screen')).toBe('segment-check')
+        expect(modal.signupState.get('path')).toBe('student')
+        expect(modal.signupState.get('screen')).toBe('segment-check')
         
     describe 'click sign up as INDIVIDUAL button', ->
       beforeEach ->
         modal.$('.individual-path-button').click()
 
       it 'switches to SegmentCheckView and sets "path" to "individual"', ->
-        expect(modal.state.get('path')).toBe('individual')
-        expect(modal.state.get('screen')).toBe('segment-check')
+        expect(modal.signupState.get('path')).toBe('individual')
+        expect(modal.signupState.get('screen')).toBe('segment-check')
         
   describe 'SegmentCheckView', ->
     
@@ -64,7 +64,7 @@ describe 'CreateAccountModal', ->
         modal.render()
         jasmine.demoModal(modal)
         modal.$('.student-path-button').click()
-        segmentCheckView = modal.customSubviews.segment_check
+        segmentCheckView = modal.subviews.segment_check_view
         spyOn(segmentCheckView, 'checkClassCodeDebounced')
         
       it 'has a classCode input', ->
@@ -122,7 +122,7 @@ describe 'CreateAccountModal', ->
             _.defer done
 
           it 'navigates to the BasicInfoView', ->
-            expect(modal.state.get('screen')).toBe('basic-info')
+            expect(modal.signupState.get('screen')).toBe('basic-info')
             
         describe 'when the classroom IS NOT found', ->
           beforeEach (done) ->
@@ -142,13 +142,13 @@ describe 'CreateAccountModal', ->
 
     beforeEach ->
       modal = new CreateAccountModal()
-      modal.state.set({
+      modal.signupState.set({
         path: 'individual'
         screen: 'basic-info'
       })
       modal.render()
       jasmine.demoModal(modal)
-      basicInfoView = modal.customSubviews.basic_info_view
+      basicInfoView = modal.subviews.basic_info_view
       
     it 'checks for name conflicts when the name input changes', ->
       spyOn(basicInfoView, 'checkName')
@@ -223,7 +223,7 @@ describe 'CreateAccountModal', ->
         expect(basicInfoView.$('.form-group.has-error').length).toBe(3)
 
       it 'shows required errors for empty fields when on STUDENT path', ->
-        modal.state.set('path', 'student')
+        modal.signupState.set('path', 'student')
         modal.render()
         basicInfoView.$('#basic-info-form').submit()
         expect(basicInfoView.$('.form-group.has-error').length).toBe(5) # includes first and last name
