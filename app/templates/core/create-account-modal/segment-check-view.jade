@@ -52,8 +52,11 @@ form.modal-body.segment-check
                 option(selected=(year == view.signupState.get('birthdayYear'))) #{year}
 
       default
-        span
-          | Something went wrong :(
+        p
+          span Sign-up error, please contact 
+          =" "
+          a(href="mailto:support@codecombat.com") support@codecombat.com
+          | .
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
