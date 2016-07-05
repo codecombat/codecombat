@@ -135,7 +135,7 @@ function createUpsertCloseLeadFn(zpContact) {
 function getZPRepliedContactsPage(contacts, page, done) {
   // console.log(`DEBUG: Fetching page ${page} ${zpPageSize}...`);
   const options = {
-    url: `https://www.zenprospect.com/api/v1/contacts/search?codecombat_special_auth_token=${zpAuthToken}&page=${page}&per_page=${zpPageSize}`,
+    url: `https://www.zenprospect.com/api/v1/contacts/search?codecombat_special_auth_token=${zpAuthToken}&page=${page}&per_page=${zpPageSize}&contact_email_replied=true`,
     headers: {
       'Accept': 'application/json'
     }
