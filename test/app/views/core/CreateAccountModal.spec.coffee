@@ -12,7 +12,7 @@ responses = {
   signupSuccess: { status: 200, responseText: JSON.stringify({ email: 'some@email.com' })}
 }
 
-describe 'CreateAccountModal', ->
+xdescribe 'CreateAccountModal', ->
   
   modal = null
   
@@ -376,7 +376,7 @@ describe 'CreateAccountModal', ->
       jasmine.demoModal(modal)
       confirmationView = modal.subviews.confirmation_view
       
-    it 'works', ->
+    it '(for demo testing)', ->
       me.set('name', 'A Sweet New Username')
       me.set('email', 'some@email.com')
       confirmationView.signupState.set('ssoUsed', 'gplus')
@@ -394,7 +394,7 @@ describe 'CreateAccountModal', ->
       jasmine.demoModal(modal)
       singleSignOnConfirmView = modal.subviews.single_sign_on_confirm_view
 
-    it 'works', ->
+    it '(for demo testing)', ->
       me.set('name', 'A Sweet New Username')
       me.set('email', 'some@email.com')
       singleSignOnConfirmView.signupState.set('ssoUsed', 'facebook')
