@@ -6,6 +6,7 @@ CoppaDenyView = require './CoppaDenyView'
 BasicInfoView = require './BasicInfoView'
 SingleSignOnAlreadyExistsView = require './SingleSignOnAlreadyExistsView'
 SingleSignOnConfirmView = require './SingleSignOnConfirmView'
+ConfirmationView = require './ConfirmationView'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal/create-account-modal'
 forms = require 'core/forms'
@@ -55,6 +56,8 @@ module.exports = class CreateAccountModal extends ModalView
     @signupState = new State {
       path: if classCode then 'student' else null
       screen: if classCode then 'segment-check' else 'choose-account-type'
+      ssoUsed: null # or 'facebook', 'gplus'
+      classroom: null # or Classroom instance
       facebookEnabled: application.facebookHandler.apiLoaded
       gplusEnabled: application.gplusHandler.apiLoaded
       classCode
@@ -81,12 +84,15 @@ module.exports = class CreateAccountModal extends ModalView
       'sso-connect:already-in-use': -> @signupState.set { screen: 'sso-already-exists' }
       'sso-connect:new-user': -> @signupState.set {screen: 'sso-confirm'}
       'nav-back': -> @signupState.set { screen: 'segment-check' }
+      'signup': -> @signupState.set { screen: 'confirmation' }
 
     @listenTo @insertSubView(new SingleSignOnAlreadyExistsView({ @signupState })),
       'nav-back': -> @signupState.set { screen: 'basic-info' }
 
     @listenTo @insertSubView(new SingleSignOnConfirmView({ @signupState })),
       'nav-back': -> @signupState.set { screen: 'basic-info' }
+        
+    @insertSubView(new ConfirmationView({ @signupState }))
 
     # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
     application.facebookHandler.loadAPI({ success: => @signupState.set { facebookEnabled: true } unless @destroyed })

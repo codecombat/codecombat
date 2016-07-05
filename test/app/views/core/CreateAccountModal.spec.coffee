@@ -1,4 +1,5 @@
 CreateAccountModal = require 'views/core/CreateAccountModal'
+Classroom = require 'models/Classroom'
 #COPPADenyModal = require 'views/core/COPPADenyModal'
 forms = require 'core/forms'
 factories = require 'test/app/factories'
@@ -7,7 +8,11 @@ factories = require 'test/app/factories'
 # asynchronous, Promise system. On the browser, these work, but in Travis, they
 # sometimes fail, so it's some sort of race condition.
 
-xdescribe 'CreateAccountModal', ->
+responses = {
+  signupSuccess: { status: 200, responseText: JSON.stringify({ email: 'some@email.com' })}
+}
+
+describe 'CreateAccountModal', ->
   
   modal = null
   
@@ -336,17 +341,60 @@ xdescribe 'CreateAccountModal', ->
               request = jasmine.Ajax.requests.mostRecent()
               expect(_.string.endsWith(request.url, 'signup-with-password')).toBe(true)
               
+            describe 'after signup STUDENT', ->
+              beforeEach (done) ->
+                basicInfoView.signupState.set({
+                  path: 'student'
+                  classCode: 'ABC'
+                  classroom: new Classroom()
+                })
+                request = jasmine.Ajax.requests.mostRecent()
+                request.respondWith(responses.signupSuccess)
+                _.defer(done)
+              
+              it 'joins the classroom', ->
+                request = jasmine.Ajax.requests.mostRecent()
+                expect(request.url).toBe('/db/classroom/~/members')
+              
             describe 'signing the user up SUCCEEDS', ->
               beforeEach (done) ->
                 spyOn(basicInfoView, 'finishSignup')
                 request = jasmine.Ajax.requests.mostRecent()
-                request.respondWith({
-                  status: 200
-                  responseText: '{}'
-                })
+                request.respondWith(responses.signupSuccess)
                 _.defer(done)
                 
               it 'calls finishSignup()', ->
                 expect(basicInfoView.finishSignup).toHaveBeenCalled()
 
-                
+  describe 'ConfirmationView', ->
+    confirmationView = null
+    
+    beforeEach ->
+      modal = new CreateAccountModal()
+      modal.signupState.set('screen', 'confirmation')
+      modal.render()
+      jasmine.demoModal(modal)
+      confirmationView = modal.subviews.confirmation_view
+      
+    it 'works', ->
+      me.set('name', 'A Sweet New Username')
+      me.set('email', 'some@email.com')
+      confirmationView.signupState.set('ssoUsed', 'gplus')
+
+  describe 'SingleSignOnConfirmView', ->
+    singleSignOnConfirmView = null
+
+    beforeEach ->
+      modal = new CreateAccountModal()
+      modal.signupState.set({
+        screen: 'sso-confirm'
+        email: 'some@email.com'
+      })
+      modal.render()
+      jasmine.demoModal(modal)
+      singleSignOnConfirmView = modal.subviews.single_sign_on_confirm_view
+
+    it 'works', ->
+      me.set('name', 'A Sweet New Username')
+      me.set('email', 'some@email.com')
+      singleSignOnConfirmView.signupState.set('ssoUsed', 'facebook')

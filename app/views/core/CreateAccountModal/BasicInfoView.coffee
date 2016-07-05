@@ -207,6 +207,11 @@ module.exports = class BasicInfoView extends CocoView
       return new Promise(jqxhr.then)
       
     .then =>
+      { classCode, classroom } = @signupState.attributes
+      if classCode and classroom
+        return new Promise(classroom.joinWithCode(classCode).then)
+      
+    .then =>
       @finishSignup()
         
     .catch (e) =>
@@ -218,10 +223,11 @@ module.exports = class BasicInfoView extends CocoView
         @state.set('error', e.responseJSON?.message or 'Unknown Error')
       
   finishSignup: ->
-    if @signupState.get('classCode')
-      location.href = "/courses?_cc=#{@signupState.get('classCode')}"
-    else
-      window.location.reload()
+    @trigger 'signup'
+#    if @signupState.get('classCode')
+#      location.href = "/courses?_cc=#{@signupState.get('classCode')}"
+#    else
+#      window.location.reload()
 
   displayFormSubmitting: ->
     @$('#create-account-btn').text($.i18n.t('signup.creating')).attr('disabled', true)

@@ -69,6 +69,7 @@ module.exports = class SegmentCheckView extends CocoView
       .then (classroom) =>
         return if @destroyed
         if classroom
+          @state.set { classroom }
           @trigger 'nav-forward'
         else
           @$('.class-code-input').attr('disabled', false)
