@@ -3,7 +3,7 @@ State = require 'models/State'
 template = require 'templates/core/create-account-modal/coppa-deny-view'
 forms = require 'core/forms'
 
-module.exports = class SegmentCheckView extends CocoView
+module.exports = class CoppaDenyView extends CocoView
   id: 'coppa-deny-view'
   template: template
 
