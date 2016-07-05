@@ -91,6 +91,7 @@ module.exports = class CreateAccountModal extends ModalView
 
     @listenTo @insertSubView(new SingleSignOnConfirmView({ @signupState })),
       'nav-back': -> @signupState.set { screen: 'basic-info' }
+      'signup': -> @signupState.set { screen: 'confirmation' }
         
     @insertSubView(new ConfirmationView({ @signupState }))
 

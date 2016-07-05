@@ -279,6 +279,7 @@ module.exports = class User extends CocoModel
     jqxhr = @fetch(options)
     jqxhr.then ->
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
+    return jqxhr
     
   signupWithFacebook: (email, facebookID, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-facebook'

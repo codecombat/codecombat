@@ -224,10 +224,6 @@ module.exports = class BasicInfoView extends CocoView
       
   finishSignup: ->
     @trigger 'signup'
-#    if @signupState.get('classCode')
-#      location.href = "/courses?_cc=#{@signupState.get('classCode')}"
-#    else
-#      window.location.reload()
 
   displayFormSubmitting: ->
     @$('#create-account-btn').text($.i18n.t('signup.creating')).attr('disabled', true)
