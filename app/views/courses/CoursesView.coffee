@@ -16,6 +16,7 @@ LevelSession = require 'models/LevelSession'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 # TODO: Test everything
 
@@ -88,6 +89,8 @@ module.exports = class CoursesView extends RootView
     if @classCodeQueryVar and not me.isAnonymous()
       window.tracker?.trackEvent 'Students Join Class Link', category: 'Students', classCode: @classCodeQueryVar, ['Mixpanel']
       @joinClass()
+    else if @classCodeQueryVar and me.isAnonymous()
+      @openModalView(new CreateAccountModal())
 
   onClickLogInButton: ->
     modal = new AuthModal()
