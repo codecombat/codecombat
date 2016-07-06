@@ -173,7 +173,7 @@ function getZPRepliedContacts(done) {
     for (let i = 1; (i - 1) * zpPageSize < total; i++) {
       tasks.push(createGetZPLeadsPage(contacts, i));
     }
-    async.parallel(tasks, (err, results) => {
+    async.series(tasks, (err, results) => {
       if (err) return done(err);
       const emailContactMap = {};
       for (const contact of contacts) {
