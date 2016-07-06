@@ -11,9 +11,7 @@ defaults =
   language: 'javascript'
   languagePrefixes: 'this.,@,self.'
   completers:
-    keywords: true
     snippets: true
-    text: true
 
 
 
@@ -87,8 +85,6 @@ module.exports = class Zatanna
       @completers.snippets = pos: 0
       # Replace the default snippet completer with our custom one
       @completers.snippets.comp = require('./snippets') @snippetManager, @options.autoLineEndings
-    if @options.completers.keywords
-      @completers.keywords = pos: 1
 
   activateCompleter: (comp) ->
     if Array.isArray comp
@@ -159,7 +155,7 @@ module.exports = class Zatanna
 
   doLiveCompletion: (e) =>
     # console.log 'Zatanna doLiveCompletion', e
-    return unless @options.basic or @options.liveCompletion or @options.completers.snippets or @options.completers.text
+    return unless @options.basic or @options.liveCompletion or @options.completers.snippets
     return if @paused
 
     TokenIterator = TokenIterator or ace.require('ace/token_iterator').TokenIterator
