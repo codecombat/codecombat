@@ -122,16 +122,36 @@ module.exports = (SnippetManager, autoLineEndings) ->
     # meta: displayed right-justfied in popup
     lang = session.getMode()?.$id?.substr 'ace/mode/'.length
     line = session.getLine pos.row
+    completions = []
 
-    #If the prefix is a reserved word, don't autocomplete
+    #If the prefix is a member expression, supress completions
+    fullPrefix = getFullIdentifier session, pos
+    fullPrefixParts = fullPrefix.split /[.:]/g
+    word = getCurrentWord session, pos
+
+    if fullPrefixParts.length > 2
+      @completions = []
+      return callback null, completions
+
+    beginningOfLine = session.getLine(pos.row).substring(0,pos.column - prefix.length)
+
+    unless (fullPrefixParts.length < 3 and /^(hero|self|this|@)$/.test(fullPrefixParts[0]) ) or /^\s*$/.test(beginningOfLine)
+      console.log "Bailing", fullPrefixParts, '|', prefix, '|', beginningOfLine, '|', pos.column - prefix.length
+      @completions = completions
+      return callback null, completions
+
+    #If the prefix is a reserved word, make enter just complete it
     keywords = session.getMode()?.$highlightRules?.$keywordList
     if keywords and prefix in keywords
-      @completions = []
-      return callback null, @completions
+      completions.push
+        content: prefix
+        caption: prefix
+        snippet: prefix + "\n"
+        score: 100
+        meta: '\u21E5'
 
-    word = getCurrentWord session, pos
     snippetMap = SnippetManager.snippetMap
-    completions = []
+
     SnippetManager.getActiveScopes(editor).forEach (scope) ->
       snippets = snippetMap[scope] or []
       for s in snippets
@@ -164,6 +184,14 @@ getCurrentWord = (doc, pos) ->
   start = end - 1
   text = doc.getLine(pos.row)
   start-- while start >= 0 and not text[start].match /\s+|[\.\@]/
+  start++ if start >= 0
+  text.substring start, end
+
+getFullIdentifier = (doc, pos) ->
+  end = pos.column
+  start = end - 1
+  text = doc.getLine(pos.row)
+  start-- while start >= 0 and not text[start].match /\s+/
   start++ if start >= 0
   text.substring start, end
 
