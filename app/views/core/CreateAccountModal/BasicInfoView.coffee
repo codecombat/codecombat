@@ -231,14 +231,7 @@ module.exports = class BasicInfoView extends CocoView
   onClickSsoSignupButton: (e) ->
     e.preventDefault()
     ssoUsed = $(e.currentTarget).data('sso-used')
-    if ssoUsed is 'facebook'
-      handler = application.facebookHandler
-      fetchSsoUser = 'fetchFacebookUser'
-      idName = 'facebookID'
-    else
-      handler = application.gplusHandler
-      fetchSsoUser = 'fetchGPlusUser'
-      idName = 'gplusID'
+    handler = if ssoUsed is 'facebook' then application.facebookHandler else application.gplusHandler
     handler.connect({
       context: @
       success: ->
