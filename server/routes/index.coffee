@@ -15,6 +15,8 @@ module.exports.setup = (app) ->
   app.get('/auth/unsubscribe', mw.auth.unsubscribe)
   app.get('/auth/whoami', mw.auth.whoAmI)
 
+  app.post('/contact/send-parent-signup-instructions', mw.contact.sendParentSignupInstructions)
+
   app.delete('/db/*', mw.auth.checkHasUser())
   app.patch('/db/*', mw.auth.checkHasUser())
   app.post('/db/*', mw.auth.checkHasUser())
@@ -114,5 +116,3 @@ module.exports.setup = (app) ->
   app.get('/db/trial.request/-/users', mw.auth.checkHasPermission(['admin']), mw.trialRequests.getUsers)
 
   app.get('/healthcheck', mw.healthcheck)
-  
-  app.post('/send-parent-signup-instructions', mw.coppaDeny.sendParentSignupInstructions)

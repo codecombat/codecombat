@@ -2,6 +2,7 @@ CocoView = require 'views/core/CocoView'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal/coppa-deny-view'
 forms = require 'core/forms'
+contact = require 'core/contact'
 
 module.exports = class CoppaDenyView extends CocoView
   id: 'coppa-deny-view'
@@ -9,28 +10,24 @@ module.exports = class CoppaDenyView extends CocoView
 
   events:
     'click .send-parent-email-button': 'onClickSendParentEmailButton'
-    'input input[name="parentEmail"]': 'onInputParentEmail'
+    'change input[name="parentEmail"]': 'onChangeParentEmail'
     'click .back-btn': 'onClickBackButton'
     
   initialize: ({ @signupState } = {}) ->
     @state = new State({ parentEmail: '' })
-    @listenTo @state, 'all', -> @renderSelectors('.render')
+    @listenTo @state, 'all', _.debounce(@render)
     
-  onInputParentEmail: (e) ->
+  onChangeParentEmail: (e) ->
     @state.set { parentEmail: $(e.currentTarget).val() }, { silent: true }
 
   onClickSendParentEmailButton: (e) ->
     e.preventDefault()
     @state.set({ parentEmailSending: true })
-    $.ajax('/send-parent-signup-instructions', {
-      method: 'POST'
-      data:
-        parentEmail: @state.get('parentEmail')
-      success: =>
+    contact.sendParentSignupInstructions(@state.get('parentEmail'))
+      .then =>
         @state.set({ error: false, parentEmailSent: true, parentEmailSending: false })
-      error: =>
+      .catch =>
         @state.set({ error: true, parentEmailSent: false, parentEmailSending: false })
-    })
 
   onClickBackButton: ->
     @trigger 'nav-back'

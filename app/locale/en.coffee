@@ -311,6 +311,7 @@
     about_to_join: "You're about to join:"
     enter_parent_email: "Enter your parent’s email address:"
     parent_email_error: "Something went wrong when trying to send the email. Check the email address and try again."
+    parent_email_sent: "We’ve sent an email with further instructions on how to create an account. Ask your parent to check their inbox."
     account_created: "Account Created!"
     confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
     confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!"
