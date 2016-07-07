@@ -49,7 +49,6 @@ module.exports = class CreateAccountModal extends ModalView
 
   events:
     'click .login-link': 'onClickLoginLink'
-    'click .back-to-segment-check': -> @state.set { screen: 'segment-check' }
 
   initialize: (options={}) ->
     classCode = utils.getQueryVariable('_cc', undefined)
@@ -78,7 +77,8 @@ module.exports = class CreateAccountModal extends ModalView
       'nav-back': -> @signupState.set { path: null, screen: 'choose-account-type' }
       'nav-forward': (screen) -> @signupState.set { screen: screen or 'basic-info' }
 
-    @insertSubView(new CoppaDenyView({ @signupState }))
+    @listenTo @insertSubView(new CoppaDenyView({ @signupState })),
+      'nav-back': -> @signupState.set { screen: 'segment-check' }
 
     @listenTo @insertSubView(new BasicInfoView({ @signupState })),
       'sso-connect:already-in-use': -> @signupState.set { screen: 'sso-already-exists' }

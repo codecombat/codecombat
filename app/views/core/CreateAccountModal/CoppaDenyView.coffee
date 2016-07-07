@@ -10,7 +10,8 @@ module.exports = class CoppaDenyView extends CocoView
   events:
     'click .send-parent-email-button': 'onClickSendParentEmailButton'
     'input input[name="parentEmail"]': 'onInputParentEmail'
-
+    'click .back-btn': 'onClickBackButton'
+    
   initialize: ({ @signupState } = {}) ->
     @state = new State({ parentEmail: '' })
     @listenTo @state, 'all', -> @renderSelectors('.render')
@@ -30,3 +31,6 @@ module.exports = class CoppaDenyView extends CocoView
       error: =>
         @state.set({ error: true, parentEmailSent: false, parentEmailSending: false })
     })
+
+  onClickBackButton: ->
+    @trigger 'nav-back'
