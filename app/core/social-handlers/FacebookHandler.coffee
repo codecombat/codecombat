@@ -26,7 +26,7 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
       login: (cb, options) ->
         cb({status: 'connected', authResponse: { accessToken: '1234' }})
       api: (url, options, cb) ->
-        cb({ 
+        cb({
           first_name: 'Mr'
           last_name: 'Bean'
           id: 'abcd'

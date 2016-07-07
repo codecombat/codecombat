@@ -117,6 +117,10 @@ UserSchema.statics.search = (term, done) ->
     term = term.toLowerCase()
     query = $or: [{nameLower: term}, {emailLower: term}]
   return User.findOne(query).exec(done)
+  
+UserSchema.statics.findByEmail = (email, done=_.noop) ->
+  emailLower = email.toLowerCase()
+  User.findOne({emailLower: emailLower}).exec(done)
 
 emailNameMap =
   generalNews: 'announcement'
@@ -262,14 +266,7 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
     suffix = _.random(0, 9) + ''
     unconflictName name + suffix, done
 
-UserSchema.methods.register = (done) ->
-  @set('anonymous', false)
-  if (name = @get 'name')? and name isnt ''
-    unconflictName name, (err, uniqueName) =>
-      return done err if err
-      @set 'name', uniqueName
-      done()
-  else done()
+UserSchema.methods.sendWelcomeEmail = ->
   { welcome_email_student, welcome_email_user } = sendwithus.templates
   timestamp = (new Date).getTime()
   data =
@@ -282,7 +279,6 @@ UserSchema.methods.register = (done) ->
       verify_link: "http://codecombat.com/user/#{@_id}/verify/#{@verificationCode(timestamp)}"
   sendwithus.api.send data, (err, result) ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err
-  @saveActiveUser 'register'
 
 UserSchema.methods.hasSubscription = ->
   return false unless stripeObject = @get('stripe')
@@ -361,10 +357,7 @@ UserSchema.pre('save', (next) ->
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
     @set('password', undefined)
-  if @get('email') and @get('anonymous') # a user registers
-    @register next
-  else
-    next()
+  next()
 )
 
 UserSchema.post 'save', (doc) ->

@@ -11,6 +11,8 @@ mongoose = require 'mongoose'
 sendwithus = require '../sendwithus'
 User = require '../models/User'
 Classroom = require '../models/Classroom'
+facebook = require '../lib/facebook'
+gplus = require '../lib/gplus'
 
 module.exports =
   fetchByGPlusID: wrap (req, res, next) ->
@@ -18,12 +20,12 @@ module.exports =
     gpAT = req.query.gplusAccessToken
     return next() unless gpID and gpAT
 
+    googleResponse = yield gplus.fetchMe(gpAT)
+    idsMatch = gpID is googleResponse.id
+    throw new errors.UnprocessableEntity('Invalid G+ Access Token.') unless idsMatch
+
     dbq = User.find()
     dbq.select(parse.getProjectFromReq(req))
-    url = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=#{gpAT}"
-    [googleRes, body] = yield request.getAsync(url, {json: true})
-    idsMatch = gpID is body.id
-    throw new errors.UnprocessableEntity('Invalid G+ Access Token.') unless idsMatch
     user = yield User.findOne({gplusID: gpID})
     throw new errors.NotFound('No user with that G+ ID') unless user
     res.status(200).send(user.toObject({req: req}))
@@ -33,12 +35,12 @@ module.exports =
     fbAT = req.query.facebookAccessToken
     return next() unless fbID and fbAT
 
+    facebookResponse = yield facebook.fetchMe(fbAT)
+    idsMatch = fbID is facebookResponse.id
+    throw new errors.UnprocessableEntity('Invalid Facebook Access Token.') unless idsMatch
+    
     dbq = User.find()
     dbq.select(parse.getProjectFromReq(req))
-    url = "https://graph.facebook.com/me?access_token=#{fbAT}"
-    [facebookRes, body] = yield request.getAsync(url, {json: true})
-    idsMatch = fbID is body.id
-    throw new errors.UnprocessableEntity('Invalid Facebook Access Token.') unless idsMatch
     user = yield User.findOne({facebookID: fbID})
     throw new errors.NotFound('No user with that Facebook ID') unless user
     res.status(200).send(user.toObject({req: req}))
@@ -117,3 +119,80 @@ module.exports =
         if country = user.geo?.country
           user.geo.countryName = countryList.getName(country)
     res.status(200).send(users)
+
+
+  signupWithPassword: wrap (req, res) ->
+    unless req.user.isAnonymous()
+      throw new errors.Forbidden('You are already signed in.')
+
+    { password, email } = req.body
+    unless _.all([password, email])
+      throw new errors.UnprocessableEntity('Requires password and email')
+
+    if yield User.findByEmail(email)
+      throw new errors.Conflict('Email already taken')
+
+    req.user.set({ password, email, anonymous: false })
+    try
+      yield req.user.save()
+    catch e
+      if e.code is 11000 # Duplicate key error
+        throw new errors.Conflict('Email already taken')
+      else
+        throw e
+
+    req.user.sendWelcomeEmail()
+    res.status(200).send(req.user.toObject({req: req}))
+
+  signupWithFacebook: wrap (req, res) ->
+    unless req.user.isAnonymous()
+      throw new errors.Forbidden('You are already signed in.')
+
+    { facebookID, facebookAccessToken, email } = req.body
+    unless _.all([facebookID, facebookAccessToken, email])
+      throw new errors.UnprocessableEntity('Requires facebookID, facebookAccessToken and email')
+
+    facebookResponse = yield facebook.fetchMe(facebookAccessToken)
+    emailsMatch = email is facebookResponse.email
+    idsMatch = facebookID is facebookResponse.id
+    unless emailsMatch and idsMatch
+      throw new errors.UnprocessableEntity('Invalid facebookAccessToken')
+
+    req.user.set({ facebookID, email, anonymous: false })
+    try
+      yield req.user.save()
+    catch e
+      if e.code is 11000 # Duplicate key error
+        throw new errors.Conflict('Email already taken')
+      else
+        throw e
+
+    req.user.sendWelcomeEmail()
+    res.status(200).send(req.user.toObject({req: req}))
+
+  signupWithGPlus: wrap (req, res) ->
+    unless req.user.isAnonymous()
+      throw new errors.Forbidden('You are already signed in.')
+
+    { gplusID, gplusAccessToken, email } = req.body
+    unless _.all([gplusID, gplusAccessToken, email])
+      throw new errors.UnprocessableEntity('Requires gplusID, gplusAccessToken and email')
+
+    gplusResponse = yield gplus.fetchMe(gplusAccessToken)
+    emailsMatch = email is gplusResponse.email
+    idsMatch = gplusID is gplusResponse.id
+
+    unless emailsMatch and idsMatch
+      throw new errors.UnprocessableEntity('Invalid gplusAccessToken')
+
+    req.user.set({ gplusID, email, anonymous: false })
+    try
+      yield req.user.save()
+    catch e
+      if e.code is 11000 # Duplicate key error
+        throw new errors.Conflict('Email already taken')
+      else
+        throw e
+
+    req.user.sendWelcomeEmail()
+    res.status(200).send(req.user.toObject({req: req}))
