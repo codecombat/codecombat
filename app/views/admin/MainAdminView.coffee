@@ -31,14 +31,15 @@ module.exports = class MainAdminView extends RootView
   getTitle: -> return $.i18n.t('account_settings.admin')
 
   initialize: ->
+    @campaigns = new Campaigns()
+    @courses = new CocoCollection([], { url: "/db/course", model: Course})
+
     if window.amActually
       @amActually = new User({_id: window.amActually})
       @amActually.fetch()
       @supermodel.trackModel(@amActually)
     if me.isAdmin()
-      @campaigns = new Campaigns()
       @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels' } })
-      @courses = new CocoCollection([], { url: "/db/course", model: Course})
       @supermodel.loadCollection(@courses, 'courses')
     super()
 
