@@ -74,7 +74,8 @@ module.exports = mw =
     
   becomeAnonymous: Promise.promisify (done) ->
     request.post mw.getURL('/auth/logout'), ->
-      request.get mw.getURL('/auth/whoami'), done
+      request.get mw.getURL('/auth/whoami'), {json: true}, (err, res) ->
+        User.findById(res.body._id).exec(done)
     
   logout: Promise.promisify (done) ->
     request.post mw.getURL('/auth/logout'), done

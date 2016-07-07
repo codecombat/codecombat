@@ -47,12 +47,24 @@ module.exports = class User extends CocoModel
     super arguments...
 
   @getUnconflictedName: (name, done) ->
+    # deprecate in favor of @checkNameConflicts, which uses Promises and returns the whole response
     $.ajax "/auth/name/#{encodeURIComponent(name)}",
       cache: false
-      success: (data) -> done data.name
-      statusCode: 409: (data) ->
-        response = JSON.parse data.responseText
-        done response.name
+      success: (data) -> done(data.suggestedName)
+        
+  @checkNameConflicts: (name) ->
+    new Promise (resolve, reject) ->
+      $.ajax "/auth/name/#{encodeURIComponent(name)}",
+        cache: false
+        success: resolve
+        error: (jqxhr) -> reject(jqxhr.responseJSON)
+        
+  @checkEmailExists: (email) ->
+    new Promise (resolve, reject) ->
+      $.ajax "/auth/email/#{encodeURIComponent(email)}",
+        cache: false
+        success: resolve
+        error: (jqxhr) -> reject(jqxhr.responseJSON)
 
   getEnabledEmails: ->
     (emailName for emailName, emailDoc of @get('emails', true) when emailDoc.enabled)
@@ -258,6 +270,38 @@ module.exports = class User extends CocoModel
       else
         window.location.reload()
     @fetch(options)
+    
+  signupWithPassword: (email, password, options={}) ->
+    options.url = _.result(@, 'url') + '/signup-with-password'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, {email, password})
+    jqxhr = @fetch(options)
+    jqxhr.then ->
+      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
+    return jqxhr
+    
+  signupWithFacebook: (email, facebookID, options={}) ->
+    options.url = _.result(@, 'url') + '/signup-with-facebook'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, {email, facebookID, facebookAccessToken: application.facebookHandler.token()})
+    jqxhr = @fetch(options)
+    jqxhr.then ->
+      window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
+      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Facebook'
+    return jqxhr
+
+  signupWithGPlus: (email, gplusID, options={}) ->
+    options.url = _.result(@, 'url') + '/signup-with-gplus'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, {email, gplusID, gplusAccessToken: application.gplusHandler.token()})
+    jqxhr = @fetch(options)
+    jqxhr.then ->
+      window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
+      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
+    return jqxhr
 
   fetchGPlusUser: (gplusID, options={}) ->
     options.data ?= {}

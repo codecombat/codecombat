@@ -4,6 +4,7 @@ module.exports =
   classrooms: require './classrooms'
   campaigns: require './campaigns'
   codelogs: require './codelogs'
+  contact: require './contact'
   courseInstances: require './course-instances'
   courses: require './courses'
   files: require './files'

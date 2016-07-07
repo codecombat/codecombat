@@ -5,6 +5,10 @@ User = require '../../../server/models/User'
 Classroom = require '../../../server/models/Classroom'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
+facebook = require '../../../server/lib/facebook'
+gplus = require '../../../server/lib/gplus'
+sendwithus = require '../../../server/sendwithus'
+Promise = require 'bluebird'
 
 describe 'POST /db/user', ->
 
@@ -176,27 +180,6 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
         # Restore Sam
         sam.set 'name', samsName
         done()
-
-  it 'should silently rename an anonymous user if their name conflicts upon signup', (done) ->
-    request.post getURL('/auth/logout'), ->
-      request.get getURL('/auth/whoami'), ->
-        json = { name: 'admin' }
-        request.post { url: getURL('/db/user'), json }, (err, response) ->
-          expect(response.statusCode).toBe(200)
-          request.get getURL('/auth/whoami'), (err, response) ->
-            expect(err).toBeNull()
-            guy = JSON.parse(response.body)
-            expect(guy.anonymous).toBeTruthy()
-            expect(guy.name).toEqual 'admin'
-
-            guy.email = 'blub@blub' # Email means registration
-            req = request.post {url: getURL('/db/user'), json: guy}, (err, response) ->
-              expect(err).toBeNull()
-              finalGuy = response.body
-              expect(finalGuy.anonymous).toBeFalsy()
-              expect(finalGuy.name).not.toEqual guy.name
-              expect(finalGuy.name.length).toBe guy.name.length + 1
-              done()
 
   it 'should be able to unset a slug by setting an empty name', (done) ->
     loginSam (sam) ->
@@ -690,3 +673,206 @@ describe 'Statistics', ->
       expect(err).toBeNull()
 
       done()
+      
+      
+describe 'POST /db/user/:handle/signup-with-password', ->
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    yield new Promise((resolve) -> setTimeout(resolve, 10))
+    done()
+  
+  it 'signs up the user with the password and sends welcome emails', utils.wrap (done) ->
+    spyOn(sendwithus.api, 'send')
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    email = 'some@email.com'
+    json = { email, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('email')).toBe(email)
+    expect(updatedUser.get('passwordHash')).toBeDefined()
+    expect(sendwithus.api.send).toHaveBeenCalled()
+    done()
+
+  it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
+    email = 'some@email.com'
+    initialUser = yield utils.initUser({email})
+    expect(initialUser.get('emailLower')).toBeDefined()
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    json = { email, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    done()
+
+
+describe 'POST /db/user/:handle/signup-with-facebook', ->
+  facebookID = '12345'
+  facebookEmail = 'some@email.com'
+  
+  validFacebookResponse = new Promise((resolve) -> resolve({ 
+    id: facebookID,
+    email: facebookEmail,
+    first_name: 'Some',
+    gender: 'male',
+    last_name: 'Person',
+    link: 'https://www.facebook.com/app_scoped_user_id/12345/',
+    locale: 'en_US',
+    name: 'Some Person',
+    timezone: -7,
+    updated_time: '2015-12-08T17:10:39+0000',
+    verified: true
+  }))
+  
+  invalidFacebookResponse = new Promise((resolve) -> resolve({ 
+    error: {
+      message: 'Invalid OAuth access token.',
+      type: 'OAuthException',
+      code: 190,
+      fbtrace_id: 'EC4dEdeKHBH' 
+    }
+  }))
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    yield new Promise((resolve) -> setTimeout(resolve, 10))
+    done()
+  
+  it 'signs up the user with the facebookID and sends welcome emails', utils.wrap (done) ->
+    spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
+    spyOn(sendwithus.api, 'send')
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-facebook")
+    json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('email')).toBe(facebookEmail)
+    expect(updatedUser.get('facebookID')).toBe(facebookID)
+    expect(sendwithus.api.send).toHaveBeenCalled()
+    done()
+    
+  it 'returns 422 if facebook does not recognize the access token', utils.wrap (done) ->
+    spyOn(facebook, 'fetchMe').and.returnValue(invalidFacebookResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-facebook")
+    json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+    done()
+    
+  it 'returns 422 if the email or id do not match', utils.wrap (done) ->
+    spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-facebook")
+  
+    json = { email: 'some-other@email.com', facebookID, facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+  
+    json = { email: facebookEmail, facebookID: '54321', facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+  
+    done()
+
+  it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
+    initialUser = yield utils.initUser({email: facebookEmail})
+    expect(initialUser.get('emailLower')).toBeDefined()
+    spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-facebook")
+    json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    done()
+
+    
+describe 'POST /db/user/:handle/signup-with-gplus', ->
+  gplusID = '12345'
+  gplusEmail = 'some@email.com'
+
+  validGPlusResponse = new Promise((resolve) -> resolve({
+    id: gplusID
+    email: gplusEmail,
+    verified_email: true,
+    name: 'Some Person',
+    given_name: 'Some',
+    family_name: 'Person',
+    link: 'https://plus.google.com/12345',
+    picture: 'https://lh6.googleusercontent.com/...',
+    gender: 'male',
+    locale: 'en'
+  }))
+
+  invalidGPlusResponse = new Promise((resolve) -> resolve({
+    "error": {
+      "errors": [
+        {
+          "domain": "global",
+          "reason": "authError",
+          "message": "Invalid Credentials",
+          "locationType": "header",
+          "location": "Authorization"
+        }
+      ],
+      "code": 401,
+      "message": "Invalid Credentials"
+    }
+  }))
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    yield new Promise((resolve) -> setTimeout(resolve, 10))
+    done()
+
+  it 'signs up the user with the gplusID and sends welcome emails', utils.wrap (done) ->
+    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
+    spyOn(sendwithus.api, 'send')
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+    json = { email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('email')).toBe(gplusEmail)
+    expect(updatedUser.get('gplusID')).toBe(gplusID)
+    expect(sendwithus.api.send).toHaveBeenCalled()
+    done()
+
+  it 'returns 422 if gplus does not recognize the access token', utils.wrap (done) ->
+    spyOn(gplus, 'fetchMe').and.returnValue(invalidGPlusResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+    json = { email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+    done()
+
+  it 'returns 422 if the email or id do not match', utils.wrap (done) ->
+    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+
+    json = { email: 'some-other@email.com', gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+
+    json = { email: gplusEmail, gplusID: '54321', gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+
+    done()
+
+  it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
+    yield utils.initUser({email: gplusEmail})
+    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+    json = { email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    done()
+    
