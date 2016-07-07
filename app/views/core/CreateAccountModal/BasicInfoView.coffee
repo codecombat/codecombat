@@ -174,7 +174,7 @@ module.exports = class BasicInfoView extends CocoView
       me.set('emails', emails)
       
       unless _.isNaN(@signupState.get('birthday').getTime())
-        me.set('birthday', @signupState.get('birthday')?.toISOString())
+        me.set('birthday', @signupState.get('birthday').toISOString())
 
       me.set(_.omit(@signupState.get('ssoAttrs') or {}, 'email', 'facebookID', 'gplusID'))
       me.set('name', @$('input[name="name"]').val())
