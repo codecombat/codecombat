@@ -177,13 +177,18 @@ module.exports = class MainAdminView extends RootView
     .then (classroom) =>
       new Promise((resolve, reject) =>
         new Users().fetchForClassroom(classroom, {
-          success: (users) =>
-            userMap[user.id] = user for user in users.models
-            new LevelSessions().fetchForAllClassroomMembers(classroom, {
-              success: resolve
-              error: (model, response, options) => reject(response)
-            })
-          error: (model, response, options) => reject(response)
+          success: (models, response, options) =>
+            resolve([classroom, models]) if models?.loaded
+          error: (models, response, options) => reject(response)
+        })
+      )
+    .then ([classroom, users]) =>
+      userMap[user.id] = user for user in users.models
+      new Promise((resolve, reject) =>
+        new LevelSessions().fetchForAllClassroomMembers(classroom, {
+          success: (models, response, options) =>
+            resolve(models) if models?.loaded
+          error: (models, response, options) => reject(response)
         })
       )
     .then (sessions) =>
