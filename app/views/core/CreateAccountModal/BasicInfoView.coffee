@@ -56,7 +56,7 @@ module.exports = class BasicInfoView extends CocoView
     
   checkEmail: ->
     email = @$('[name="email"]').val()
-    if email is @state.get('lastEmailValue')
+    if email is @state.get('checkEmailValue')
       return @state.get('checkEmailPromise')
       
     if not (email and forms.validateEmail(email))
@@ -65,7 +65,7 @@ module.exports = class BasicInfoView extends CocoView
         checkEmailValue: email
         checkEmailPromise: null
       })
-      return
+      return Promise.resolve()
       
     @state.set({
       checkEmailState: 'checking'
