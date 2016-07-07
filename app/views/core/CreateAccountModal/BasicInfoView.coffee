@@ -64,7 +64,7 @@ module.exports = class BasicInfoView extends CocoView
     if email is @state.get('lastEmailValue')
       return @state.get('checkEmailPromise')
       
-    if not email
+    if not (email and forms.validateEmail(email))
       @state.set({
         checkEmailState: 'standby'
         checkEmailValue: email
