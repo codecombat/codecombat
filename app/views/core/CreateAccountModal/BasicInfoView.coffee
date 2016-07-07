@@ -214,7 +214,7 @@ module.exports = class BasicInfoView extends CocoView
       if e is AbortError
         return
       else
-        console.error 'caught!', e
+        console.error 'BasicInfoView form submission Promise error:', e
         @state.set('error', e.responseJSON?.message or 'Unknown Error')
       
   finishSignup: ->
