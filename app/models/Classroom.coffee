@@ -1,17 +1,17 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/classroom.schema'
-utils = require 'core/utils'
+utils = require '../core/utils'
 User = require 'models/User'
 
 module.exports = class Classroom extends CocoModel
   @className: 'Classroom'
   @schema: schema
   urlRoot: '/db/classroom'
-  
+
   initialize: () ->
     @listenTo @, 'change:aceConfig', @capitalizeLanguageName
     super(arguments...)
-  
+
   parse: (obj) ->
     if obj._id
       # It's just the classroom object
@@ -20,7 +20,7 @@ module.exports = class Classroom extends CocoModel
       # It's a compound response with other stuff too
       @owner = new User(obj.owner)
       return obj.data
-    
+
   capitalizeLanguageName: ->
     language = @get('aceConfig')?.language
     @capitalLanguage = utils.capitalLanguages[language]
@@ -35,7 +35,7 @@ module.exports = class Classroom extends CocoModel
     }
     _.extend options, opts
     @fetch(options)
-  
+
   fetchByCode: (code, opts) ->
     options = {
       url: _.result(@, 'url')
@@ -43,7 +43,17 @@ module.exports = class Classroom extends CocoModel
     }
     _.extend options, opts
     @fetch(options)
-    
+
+  getLevelNumber: (levelID, defaultNumber) ->
+    unless @levelNumberMap
+      @levelNumberMap = {}
+      for course in @get('courses') ? []
+        levels = []
+        for level in course.levels when level.original
+          levels.push({key: level.original, practice: level.practice ? false})
+        _.assign(@levelNumberMap, utils.createLevelNumberMap(levels))
+    @levelNumberMap[levelID] ? defaultNumber
+
   removeMember: (userID, opts) ->
     options = {
       url: _.result(@, 'url') + '/members'
@@ -62,7 +72,7 @@ module.exports = class Classroom extends CocoModel
       success: => @trigger 'save-password:success'
       error: (response) => @trigger 'save-password:error', response.responseJSON
     }
-    
+
   getLevels: (options={}) ->
     # options: courseID, withoutLadderLevels
     Levels = require 'collections/Levels'
@@ -77,7 +87,7 @@ module.exports = class Classroom extends CocoModel
     if options.withoutLadderLevels
       levels.remove(levels.filter((level) -> level.isLadder()))
     return levels
-    
+
   getLadderLevel: (courseID) ->
     Levels = require 'collections/Levels'
     courses = @get('courses')
@@ -88,30 +98,59 @@ module.exports = class Classroom extends CocoModel
 
   statsForSessions: (sessions, courseID) ->
     return null unless sessions
-    stats = {}
     sessions = sessions.models or sessions
     arena = @getLadderLevel(courseID)
-    levels = @getLevels({courseID: courseID, withoutLadderLevels: true})
-    levelOriginals = levels.pluck('original')
-    completeSessionOriginals = (session.get('level').original for session in sessions when session.get('state').complete)
-    incompleteSessionOriginals = (session.get('level').original for session in sessions when not session.get('state').complete)
-    levelsLeft = _.size(_.difference(levelOriginals, completeSessionOriginals))
-    next = _.find levels.models, (level) -> level.get('original') not in completeSessionOriginals
-    lastPlayed = _.find levels.models, (level) -> level.get('original') in incompleteSessionOriginals
-    stats.levels = {
-      size: levels.size()
-      left: levelsLeft
-      done: levelsLeft is 0
-      numDone: levels.size() - levelsLeft
-      pctDone: (100 * (levels.size() - levelsLeft) / levels.size()).toFixed(1) + '%'
-      lastPlayed: lastPlayed
-      next: next
-      first: levels.first()
-      arena: arena
-    }
-    sum = (nums) -> _.reduce(nums, (s, num) -> s + num) or 0
-    stats.playtime = sum((session.get('playtime') or 0 for session in sessions))
-    return stats
+    courseLevels = @getLevels({courseID: courseID, withoutLadderLevels: true})
+    levelSessionMap = {}
+    levelSessionMap[session.get('level').original] = session for session in sessions
+    currentIndex = -1
+    lastStarted = null
+    levelsTotal = 0
+    levelsLeft = 0
+    lastPlayed = null
+    playtime = 0
+    levels = []
+    for level, index in courseLevels.models
+      levelsTotal++ unless level.get('practice')
+      complete = false
+      if session = levelSessionMap[level.get('original')]
+        complete = session.get('state').complete ? false
+        playtime += session.get('playtime') ? 0
+        lastPlayed = level
+        if complete
+          currentIndex = index
+        else
+          lastStarted = level
+          levelsLeft++ unless level.get('practice')
+      else if not level.get('practice')
+        levelsLeft++
+      levels.push
+        practice: level.get('practice') ? false
+        complete: complete
+    lastPlayed = lastStarted ? lastPlayed
+    needsPractice = false
+    nextIndex = 0
+    if currentIndex >= 0
+      currentLevel = courseLevels.models[currentIndex]
+      currentPlaytime = levelSessionMap[currentLevel.get('original')]?.get('playtime') ? 0
+      needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes'))
+      nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
+    nextLevel = courseLevels.models[nextIndex]
+    nextLevel ?= _.find courseLevels.models, (level) -> not levelSessionMap[level.get('original')]?.get('state')?.complete
+
+    stats =
+      levels:
+        size: levelsTotal
+        left: levelsLeft
+        done: levelsLeft is 0
+        numDone: levelsTotal - levelsLeft
+        pctDone: (100 * (levelsTotal - levelsLeft) / levelsTotal).toFixed(1) + '%'
+        lastPlayed: lastPlayed
+        next: nextLevel
+        first: courseLevels.first()
+        arena: arena
+      playtime: playtime
+    stats
 
   fetchForCourseInstance: (courseInstanceID, options={}) ->
     return unless courseInstanceID

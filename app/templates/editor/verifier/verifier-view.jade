@@ -77,7 +77,7 @@ block content
           div.row(class=(test.isSuccessful() && id > 1 ? 'collapse' : 'collapse in'), id='verifier-test-' + id)
             div.col-xs-8
               if test.solution
-                pre #{test.solution.source}
+                pre.solution #{test.solution.source}
               else
                 h4 Error Loading Test
                 pre #{test.error}
@@ -104,6 +104,14 @@ block content
               if test.userCodeProblems.length
                 h4.test-failed User Code Problems
                 pre.test-failed #{JSON.stringify(test.userCodeProblems, null, 2)}
+
+              if test.simulationFrameRate
+                if test.simulationFrameRate > 90
+                  div.test-success ✓ #{test.simulationFrameRate.toFixed(1)} FPS
+                else if test.simulationFrameRate > 30
+                  div.test-running ~ #{test.simulationFrameRate.toFixed(1)} FPS
+                else
+                  div.test-failed ✘ #{test.simulationFrameRate.toFixed(1)} FPS
 
         else
           h1 Loading Level...

@@ -18,6 +18,7 @@ LankBoss = require './LankBoss'
 PointChooser = require './PointChooser'
 RegionChooser = require './RegionChooser'
 MusicPlayer = require './MusicPlayer'
+GameUIState = require 'models/GameUIState'
 
 resizeDelay = 500  # At least as much as $level-resize-transition-time.
 
@@ -87,6 +88,10 @@ module.exports = Surface = class Surface extends CocoClass
     @normalLayers = []
     @options = _.clone(@defaults)
     @options = _.extend(@options, givenOptions) if givenOptions
+    @handleEvents = @options.handleEvents ? true
+    @gameUIState = @options.gameUIState or new GameUIState({
+      canDragCamera: true
+    })
     @initEasel()
     @initAudio()
     @onResize = _.debounce @onResize, resizeDelay
@@ -98,7 +103,7 @@ module.exports = Surface = class Surface extends CocoClass
     @normalStage = new createjs.Stage(@normalCanvas[0])
     @webGLStage = new createjs.SpriteStage(@webGLCanvas[0])
     @normalStage.nextStage = @webGLStage
-    @camera = new Camera @webGLCanvas
+    @camera = new Camera(@webGLCanvas, { @gameUIState, @handleEvents })
     AudioPlayer.camera = @camera unless @options.choosing
 
     @normalLayers.push @surfaceTextLayer = new Layer name: 'Surface Text', layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
@@ -112,7 +117,19 @@ module.exports = Surface = class Surface extends CocoClass
     canvasHeight = parseInt @normalCanvas.attr('height'), 10
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
 
-    @lankBoss = new LankBoss camera: @camera, webGLStage: @webGLStage, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible, playerNames: if @options.levelType is 'course-ladder' then @options.playerNames else null
+    @lankBoss = new LankBoss({
+      @camera
+      @webGLStage
+      @surfaceTextLayer
+      @world
+      thangTypes: @options.thangTypes
+      choosing: @options.choosing
+      navigateToSelection: @options.navigateToSelection
+      showInvisible: @options.showInvisible
+      playerNames: if @options.levelType is 'course-ladder' then @options.playerNames else null
+      @gameUIState
+      @handleEvents
+    })
     @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer, showsCountdown: @world.showsCountdown
     @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer, playerNames: @options.playerNames
     @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
@@ -121,7 +138,7 @@ module.exports = Surface = class Surface extends CocoClass
     @webGLStage.enableMouseOver(10)
     @webGLStage.addEventListener 'stagemousemove', @onMouseMove
     @webGLStage.addEventListener 'stagemousedown', @onMouseDown
-    @webGLCanvas[0].addEventListener 'mouseup', @onMouseUp
+    @webGLStage.addEventListener 'stagemouseup', @onMouseUp
     @webGLCanvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing # TODO: figure this stuff out
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
@@ -222,8 +239,9 @@ module.exports = Surface = class Surface extends CocoClass
 
   updateState: (frameChanged) ->
     # world state must have been restored in @restoreWorldState
-    if @playing and @currentFrame < @world.frames.length - 1 and @heroLank and not @mouseIsDown and @camera.newTarget isnt @heroLank.sprite and @camera.target isnt @heroLank.sprite
-      @camera.zoomTo @heroLank.sprite, @camera.zoom, 750
+    if @handleEvents
+      if @playing and @currentFrame < @world.frames.length - 1 and @heroLank and not @mouseIsDown and @camera.newTarget isnt @heroLank.sprite and @camera.target isnt @heroLank.sprite
+        @camera.zoomTo @heroLank.sprite, @camera.zoom, 750
     @lankBoss.update frameChanged
     @camera.updateZoom()  # Make sure to do this right after the LankBoss updates, not before, so it can properly target sprite positions.
     @dimmer?.setSprites @lankBoss.lanks
@@ -371,7 +389,8 @@ module.exports = Surface = class Surface extends CocoClass
       target = null
     @camera.setBounds e.bounds if e.bounds
 #    @cameraBorder.updateBounds @camera.bounds
-    @camera.zoomTo target, e.zoom, e.duration  # TODO: SurfaceScriptModule perhaps shouldn't assign e.zoom if not set
+    if @handleEvents
+      @camera.zoomTo target, e.zoom, e.duration  # TODO: SurfaceScriptModule perhaps shouldn't assign e.zoom if not set
 
   onZoomUpdated: (e) ->
     if @ended
@@ -476,6 +495,7 @@ module.exports = Surface = class Surface extends CocoClass
     @mouseScreenPos = {x: e.stageX, y: e.stageY}
     return if @disabled
     Backbone.Mediator.publish 'surface:mouse-moved', x: e.stageX, y: e.stageY
+    @gameUIState.trigger('surface:stage-mouse-move', { originalEvent: e })
 
   onMouseDown: (e) =>
     return if @disabled
@@ -484,16 +504,19 @@ module.exports = Surface = class Surface extends CocoClass
     onBackground = not @webGLStage._getObjectsUnderPoint(e.stageX, e.stageY, null, true)
 
     wop = @camera.screenToWorld x: e.stageX, y: e.stageY
-    event = onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop
+    event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop }
     Backbone.Mediator.publish 'surface:stage-mouse-down', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
+    @gameUIState.trigger('surface:stage-mouse-down', event)
     @mouseIsDown = true
 
   onMouseUp: (e) =>
     return if @disabled
     onBackground = not @webGLStage.hitTest e.stageX, e.stageY
-    Backbone.Mediator.publish 'surface:stage-mouse-up', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
+    event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e }
+    Backbone.Mediator.publish 'surface:stage-mouse-up', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
+    @gameUIState.trigger('surface:stage-mouse-up', event)
     @mouseIsDown = false
 
   onMouseWheel: (e) =>
@@ -506,6 +529,7 @@ module.exports = Surface = class Surface extends CocoClass
       canvas: @webGLCanvas
     event.screenPos = @mouseScreenPos if @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
+    @gameUIState.trigger('surface:mouse-scrolled', event)
 
 
   #- Canvas callbacks
@@ -585,8 +609,9 @@ module.exports = Surface = class Surface extends CocoClass
     @onResize()
     _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
     @normalCanvas.add(@webGLCanvas).removeClass 'flag-color-selected'
-    if @previousCameraZoom
-      @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
+    if @handleEvents
+      if @previousCameraZoom
+        @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
 
   onFlagColorSelected: (e) ->
     @normalCanvas.add(@webGLCanvas).toggleClass 'flag-color-selected', Boolean(e.color)

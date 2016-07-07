@@ -88,6 +88,7 @@ block content
       tr
         th
         th(data-i18n="clans.status")
+        th(data-i18n="common.type")
         th(data-i18n="resources.level")
         th(data-i18n="courses.concepts")
     tbody
@@ -97,6 +98,7 @@ block content
       - var levelCount = 0;
       each level in view.levels.models
         - var levelStatus = null;
+        - var levelNumber = view.classroom.getLevelNumber(level.get('original'), ++levelCount);
         if view.userLevelStateMap[me.id]
           - levelStatus = view.userLevelStateMap[me.id][level.get('original')]
         tr
@@ -107,10 +109,8 @@ block content
           td
             if view.userLevelStateMap[me.id]
               div= view.userLevelStateMap[me.id][level.get('original')]
-              - previousLevelCompleted = view.userLevelStateMap[me.id][level.get('original')] === 'complete'
-            else
-              - previousLevelCompleted = false
-          td= ++levelCount + '. ' + level.get('name').replace('Course: ', '')
+          td #{level.get('practice') ? 'practice' : 'required'}
+          td #{levelNumber}. #{level.get('name').replace('Course: ', '')} 
           td
             if view.levelConceptMap[level.get('original')]
               each concept in view.course.get('concepts')
@@ -118,3 +118,8 @@ block content
                   span.spr.concept(data-i18n="concepts." + concept)
           if level.get('original') === lastLevelCompleted
             - passedLastCompletedLevel = true
+          if !level.get('practice')
+            if view.userLevelStateMap[me.id]
+              - previousLevelCompleted = view.userLevelStateMap[me.id][level.get('original')] === 'complete'
+            else
+              - previousLevelCompleted = false

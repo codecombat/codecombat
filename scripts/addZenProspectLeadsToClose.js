@@ -16,7 +16,7 @@ const request = require('request');
 
 const zpPageSize = 100;
 
-getZPRepliedContacts((err, emailContactMap) => {
+getZPContacts((err, emailContactMap) => {
   if (err) {
     console.log(err);
     return;
@@ -68,6 +68,7 @@ function createCloseLead(zpContact, done) {
 }
 
 function updateCloseLead(zpContact, existingLead, done) {
+  // console.log(`DEBUG: updateCloseLead ${existingLead.id} ${zpContact.email}`);
   const putData = {
     status: 'Contacted',
     'custom.lastUpdated': new Date(),
@@ -89,6 +90,9 @@ function updateCloseLead(zpContact, existingLead, done) {
       title: zpContact.title,
       emails: [{email: zpContact.email}]
     };
+    if (zpContact.phone) {
+      postData.phones = [{phone: zpContact.phone}];
+    }
     const options = {
       uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/contact/`,
       body: JSON.stringify(postData)
@@ -132,10 +136,9 @@ function createUpsertCloseLeadFn(zpContact) {
   };
 }
 
-function getZPRepliedContactsPage(contacts, page, done) {
-  // console.log(`DEBUG: Fetching page ${page} ${zpPageSize}...`);
+function getZPContactsPage(contacts, searchQuery, done) {
   const options = {
-    url: `https://www.zenprospect.com/api/v1/contacts/search?codecombat_special_auth_token=${zpAuthToken}&page=${page}&per_page=${zpPageSize}`,
+    url: `https://www.zenprospect.com/api/v1/contacts/search?${searchQuery}`,
     headers: {
       'Accept': 'application/json'
     }
@@ -144,47 +147,69 @@ function getZPRepliedContactsPage(contacts, page, done) {
     if (err) return done(err);
     const data = JSON.parse(body);
     for (let contact of data.contacts) {
-      if (contact.email_replied) {
-        contacts.push({
-          organization: contact.organization_name,
-          name: contact.name,
-          title: contact.title,
-          email: contact.email,
-          phone: contact.phone,
-          data: contact
-        });
-      }
+      contacts.push({
+        organization: contact.organization_name,
+        name: contact.name,
+        title: contact.title,
+        email: contact.email,
+        phone: contact.phone,
+        data: contact
+      });
     }
     return done(null, data.pipeline_total);
   });
 }
 
-function getZPRepliedContacts(done) {
-  // Get first page to get total contact count for parallized page fetches
+function createGetZPAutoResponderContactsPage(contacts, page) {
+  return (done) => {
+    // console.log(`DEBUG: Fetching autoresponder page ${page} ${zpPageSize}...`);
+    let searchQuery = `codecombat_special_auth_token=${zpAuthToken}&page=${page}&per_page=${zpPageSize}&contact_email_autoresponder=true`;
+    getZPContactsPage(contacts, searchQuery, done);
+  };
+}
+
+function createGetZPRepliedContactsPage(contacts, page) {
+  return (done) => {
+    // console.log(`DEBUG: Fetching email reply page ${page} ${zpPageSize}...`);
+    let searchQuery = `codecombat_special_auth_token=${zpAuthToken}&page=${page}&per_page=${zpPageSize}&contact_email_replied=true`;
+    getZPContactsPage(contacts, searchQuery, done);
+  };
+}
+
+function getZPContacts(done) {
+  // Get first page to get total contact count for future parallized page fetches
   const contacts = [];
-  getZPRepliedContactsPage(contacts, 0, (err, total) => {
+  createGetZPAutoResponderContactsPage(contacts, 0)((err, autoResponderTotal) => {
     if (err) return done(err);
-    const createGetZPLeadsPage = (leads, page) => {
-      return (done) => {
-        getZPRepliedContactsPage(leads, page, done);
-      };
-    }
-    const tasks = [];
-    for (let i = 1; (i - 1) * zpPageSize < total; i++) {
-      tasks.push(createGetZPLeadsPage(contacts, i));
-    }
-    async.parallel(tasks, (err, results) => {
+    createGetZPRepliedContactsPage(contacts, 0)((err, repliedTotal) => {
       if (err) return done(err);
-      const emailContactMap = {};
-      for (const contact of contacts) {
-        if (!contact.organization || !contact.name || !contact.title || !contact.email) {
-          console.log(JSON.stringify(contact, null, 2));
-          return done(`DEBUG: missing data for zp contact:`);
-        } 
-        if (!emailContactMap[contact.email]) emailContactMap[contact.email] = contact;
+
+      const tasks = [];
+      for (let i = 1; (i - 1) * zpPageSize < autoResponderTotal; i++) {
+        tasks.push(createGetZPAutoResponderContactsPage(contacts, i));
       }
-      log(`${total} total ZP contacts, ${Object.keys(emailContactMap).length} with replies`);
-      return done(null, emailContactMap);
+      for (let i = 1; (i - 1) * zpPageSize < repliedTotal; i++) {
+        tasks.push(createGetZPRepliedContactsPage(contacts, i));
+      }
+
+      async.series(tasks, (err, results) => {
+        if (err) return done(err);
+        const emailContactMap = {};
+        for (const contact of contacts) {
+          if (!contact.organization || !contact.name || !contact.title || !contact.email) {
+            console.log(JSON.stringify(contact, null, 2));
+            return done(`DEBUG: missing data for zp contact:`);
+          }
+          if (!emailContactMap[contact.email]) {
+            emailContactMap[contact.email] = contact;
+          }
+          // else {
+          //   console.log(`DEBUG: already have contact ${contact.email}`);
+          // }
+        }
+        log(`(${autoResponderTotal + repliedTotal}) ${autoResponderTotal} autoresponder ZP contacts ${repliedTotal} ZP contacts ${Object.keys(emailContactMap).length} contacts mapped`);
+        return done(null, emailContactMap);
+      });
     });
   });
 }

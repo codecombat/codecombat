@@ -55,6 +55,7 @@ module.exports =
         classroomID = courseInstance.get('classroomID')
         continue unless classroomID
         classroom = classroomMap[classroomID.toString()]
+        continue unless classroom
         courseID = courseInstance.get('courseID')
         classroomCourse = _.find(classroom.get('courses'), (c) -> c._id.equals(courseID))
         for courseLevel in classroomCourse.levels

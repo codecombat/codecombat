@@ -408,7 +408,7 @@ UserHandler = class UserHandler extends Handler
 
   getSubSponsors: (req, res) ->
     return @sendForbiddenError(res) unless req.user?.isAdmin()
-    Payment.find {$where: 'this.purchaser.valueOf() != this.recipient.valueOf()'}, (err, payments) =>
+    Payment.find {$where: 'this.purchaser && this.recipient && this.purchaser.valueOf() != this.recipient.valueOf()'}, (err, payments) =>
       return @sendDatabaseError(res, err) if err
       sponsorIDs = (payment.get('purchaser') for payment in payments)
       User.find {$and: [{_id: {$in: sponsorIDs}}, {"stripe.sponsorSubscriptionID": {$exists: true}}]}, (err, users) =>

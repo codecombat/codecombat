@@ -392,7 +392,7 @@ module.exports.thangNames = thangNames =
     'Nalfar'
     'Drezhul'
   ]
-  'Dark Wizard': [
+  'Master Wizard': [
     # Female
     'Lilith'
     'Usara'
@@ -969,4 +969,12 @@ module.exports.thangNames = thangNames =
     'Nobunaga'
     'Yasuo'
     'Yi'
+  ]
+  'Champion': [
+    # Female
+    'Ida'
+  ]
+  'Duelist': [
+    # Male
+    'Alejandro'
   ]

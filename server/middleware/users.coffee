@@ -1,6 +1,8 @@
 _ = require 'lodash'
 co = require 'co'
+countryList = require('country-list')()
 errors = require '../commons/errors'
+geoip = require 'geoip-lite'
 wrap = require 'co-express'
 Promise = require 'bluebird'
 parse = require '../commons/parse'
@@ -98,19 +100,31 @@ module.exports =
 
   getStudents: wrap (req, res, next) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
-    students = yield User.find({$and: [{schoolName: {$exists: true}}, {schoolName: {$ne: ''}}, {anonymous: false}]}).select('schoolName').lean()
-    res.status(200).send(students)
+    query = $or: [{role: 'student'}, {$and: [{schoolName: {$exists: true}}, {schoolName: {$ne: ''}}, {anonymous: false}]}]
+    users = yield User.find(query).select('lastIP schoolName').lean()
+    for user in users
+      if ip = user.lastIP
+        user.geo = geoip.lookup(ip)
+        if country = user.geo?.country
+          user.geo.countryName = countryList.getName(country)
+    res.status(200).send(users)
 
   getTeachers: wrap (req, res, next) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
     teacherRoles = ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
-    teachers = yield User.find(anonymous: false, role: {$in: teacherRoles}).select('').lean()
-    res.status(200).send(teachers)
-    
+    users = yield User.find(anonymous: false, role: {$in: teacherRoles}).select('lastIP').lean()
+    for user in users
+      if ip = user.lastIP
+        user.geo = geoip.lookup(ip)
+        if country = user.geo?.country
+          user.geo.countryName = countryList.getName(country)
+    res.status(200).send(users)
+
+
   signupWithPassword: wrap (req, res) ->
     unless req.user.isAnonymous()
       throw new errors.Forbidden('You are already signed in.')
-      
+
     { password, email } = req.body
     unless _.all([password, email])
       throw new errors.UnprocessableEntity('Requires password and email')
@@ -129,21 +143,21 @@ module.exports =
 
     req.user.sendWelcomeEmail()
     res.status(200).send(req.user.toObject({req: req}))
-    
+
   signupWithFacebook: wrap (req, res) ->
     unless req.user.isAnonymous()
       throw new errors.Forbidden('You are already signed in.')
-    
+
     { facebookID, facebookAccessToken, email } = req.body
     unless _.all([facebookID, facebookAccessToken, email])
       throw new errors.UnprocessableEntity('Requires facebookID, facebookAccessToken and email')
-    
+
     facebookResponse = yield facebook.fetchMe(facebookAccessToken)
     emailsMatch = email is facebookResponse.email
     idsMatch = facebookID is facebookResponse.id
     unless emailsMatch and idsMatch
       throw new errors.UnprocessableEntity('Invalid facebookAccessToken')
-    
+
     req.user.set({ facebookID, email, anonymous: false })
     try
       yield req.user.save()
@@ -152,25 +166,25 @@ module.exports =
         throw new errors.Conflict('Email already taken')
       else
         throw e
-        
+
     req.user.sendWelcomeEmail()
     res.status(200).send(req.user.toObject({req: req}))
 
   signupWithGPlus: wrap (req, res) ->
     unless req.user.isAnonymous()
       throw new errors.Forbidden('You are already signed in.')
-    
+
     { gplusID, gplusAccessToken, email } = req.body
     unless _.all([gplusID, gplusAccessToken, email])
       throw new errors.UnprocessableEntity('Requires gplusID, gplusAccessToken and email')
-    
+
     gplusResponse = yield gplus.fetchMe(gplusAccessToken)
     emailsMatch = email is gplusResponse.email
     idsMatch = gplusID is gplusResponse.id
-    
+
     unless emailsMatch and idsMatch
       throw new errors.UnprocessableEntity('Invalid gplusAccessToken')
-    
+
     req.user.set({ gplusID, email, anonymous: false })
     try
       yield req.user.save()

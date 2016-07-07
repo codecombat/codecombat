@@ -10,7 +10,7 @@ describe 'TeachersContactModal', ->
     @modal.trialRequests.fakeRequests[0].respondWith({ status: 200, responseText: trialRequests.stringify() })
     @modal.supermodel.once('loaded-all', done)
     jasmine.demoModal(@modal)
-    
+
   it 'shows an error when the name is empty and the form is submitted', ->
     @modal.$('input[name="name"]').val('')
     @modal.$('form').submit()
@@ -33,17 +33,18 @@ describe 'TeachersContactModal', ->
 
   describe 'submit form', ->
     beforeEach ->
+      @modal.$('input[name="licensesNeeded"]').val(777)
       @modal.$('form').submit()
-      
+
     it 'disables inputs', ->
       for el in @modal.$('button, input, textarea')
         expect($(el).is(':disabled')).toBe(true)
-      
+
     describe 'failed contact', ->
       beforeEach ->
         request = jasmine.Ajax.requests.mostRecent()
         request.respondWith({status: 500})
-        
+
       it 'shows an error', ->
         expect(@modal.$('.alert-danger').length).toBe(1)
 
@@ -51,10 +52,10 @@ describe 'TeachersContactModal', ->
       beforeEach ->
         request = jasmine.Ajax.requests.mostRecent()
         request.respondWith({status: 200, responseText: '{}'})
-        
+
       it 'shows a success message', ->
         expect(@modal.$('.alert-success').length).toBe(1)
-        
+
       it 'disables the submit button', ->
         expect(@modal.$('#submit-btn').is(':disabled')).toBe(true)
-      
+

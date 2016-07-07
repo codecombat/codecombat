@@ -52,7 +52,7 @@ module.exports = class CourseDetailsView extends RootView
       @supermodel.trackRequest(@classroom.fetch())
 
       levelsLoaded = @supermodel.trackRequest(@levels.fetchForClassroomAndCourse(classroomID, @courseID, {
-        data: { project: 'concepts,type,slug,name,original,description' }
+        data: { project: 'concepts,practice,type,slug,name,original,description' }
       }))
 
       @supermodel.trackRequest($.when(levelsLoaded, sessionsLoaded).then(=>

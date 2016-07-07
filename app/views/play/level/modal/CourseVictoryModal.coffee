@@ -43,7 +43,12 @@ module.exports = class CourseVictoryModal extends ModalView
 
     @playSound 'victory'
     @nextLevel = new Level()
-    @nextLevelRequest = @supermodel.trackRequest @nextLevel.fetchNextForCourse({ levelOriginalID: @level.get('original'), @courseInstanceID, @courseID })
+    @nextLevelRequest = @supermodel.trackRequest(@nextLevel.fetchNextForCourse({
+      levelOriginalID: @level.get('original')
+      @courseInstanceID
+      @courseID
+      sessionID: @session.id
+    }))
 
     @course = options.course
     if @courseID and not @course

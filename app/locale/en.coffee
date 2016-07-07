@@ -340,6 +340,7 @@
     sending: "Sending..."
     send: "Send"
     sent: "Sent"
+    type: "Type"
     cancel: "Cancel"
     save: "Save"
     publish: "Publish"

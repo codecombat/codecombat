@@ -4,7 +4,14 @@ RootView = require 'views/core/RootView'
 template = require 'templates/admin'
 AdministerUserModal = require 'views/admin/AdministerUserModal'
 forms = require 'core/forms'
+
+Campaigns = require 'collections/Campaigns'
+Classroom = require 'models/Classroom'
+CocoCollection = require 'collections/CocoCollection'
+Course = require 'models/Course'
+LevelSessions = require 'collections/LevelSessions'
 User = require 'models/User'
+Users = require 'collections/Users'
 
 module.exports = class MainAdminView extends RootView
   id: 'admin-view'
@@ -19,6 +26,7 @@ module.exports = class MainAdminView extends RootView
     'click #user-search-result': 'onClickUserSearchResult'
     'click #create-free-sub-btn': 'onClickFreeSubLink'
     'click #terminal-create': 'onClickTerminalSubLink'
+    'click .classroom-progress-csv': 'onClickExportProgress'
 
   getTitle: -> return $.i18n.t('account_settings.admin')
 
@@ -27,6 +35,27 @@ module.exports = class MainAdminView extends RootView
       @amActually = new User({_id: window.amActually})
       @amActually.fetch()
       @supermodel.trackModel(@amActually)
+    if me.isAdmin()
+      @campaigns = new Campaigns()
+      @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels' } })
+      @courses = new CocoCollection([], { url: "/db/course", model: Course})
+      @supermodel.loadCollection(@courses, 'courses')
+    super()
+
+  onLoaded: ->
+    campaignCourseIndexMap = {}
+    for course, index in @courses.models
+      campaignCourseIndexMap[course.get('campaignID')] = index + 1
+    @courseLevels = []
+    for campaign in @campaigns.models
+      continue unless campaignCourseIndexMap[campaign.id]
+      for levelID, level of campaign.get('levels')
+        @courseLevels.push({
+          levelID
+          slug: level.slug
+          courseIndex: campaignCourseIndexMap[campaign.id]
+        })
+    super()
 
   onClickStopSpyingButton: ->
     button = @$('#stop-spying-btn')
@@ -126,3 +155,80 @@ module.exports = class MainAdminView extends RootView
       console.error 'Failed to create prepaid', response
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
 
+  onClickExportProgress: ->
+    return unless @courseLevels?.length > 0
+    $('.classroom-progress-csv').prop('disabled', true)
+
+    classCode = $('.classroom-progress-class-code').val()
+    userMap = {}
+    new Promise((resolve, reject) =>
+      new Classroom().fetchByCode(classCode, {
+        success: resolve
+        error: (model, response, options) => reject(response)
+      })
+    )
+    .then (classroom) =>
+      new Promise((resolve, reject) =>
+        new Classroom({ _id: classroom.id }).fetch({
+          success: resolve
+          error: (model, response, options) => reject(response)
+        })
+      )
+    .then (classroom) =>
+      new Promise((resolve, reject) =>
+        new Users().fetchForClassroom(classroom, {
+          success: (users) =>
+            userMap[user.id] = user for user in users.models
+            new LevelSessions().fetchForAllClassroomMembers(classroom, {
+              success: resolve
+              error: (model, response, options) => reject(response)
+            })
+          error: (model, response, options) => reject(response)
+        })
+      )
+    .then (sessions) =>
+      userLevelPlaytimeMap = {}
+      for session in sessions.models
+        continue unless session.get('state')?.complete
+        levelID = session.get('level').original
+        userID = session.get('creator')
+        userLevelPlaytimeMap[userID] ?= {}
+        userLevelPlaytimeMap[userID][levelID] ?= {}
+        userLevelPlaytimeMap[userID][levelID] = session.get('playtime')
+
+      userPlaytimes = []
+      for userID, user of userMap
+        playtimes = [user.get('name') ? 'Anonymous']
+        for level in @courseLevels
+          if userLevelPlaytimeMap[userID]?[level.levelID]?
+            rawSeconds = parseInt(userLevelPlaytimeMap[userID][level.levelID])
+            hours = Math.floor(rawSeconds / 60 / 60)
+            minutes = Math.floor(rawSeconds / 60 - hours * 60)
+            seconds = Math.round(rawSeconds - hours * 60 - minutes * 60)
+            hours = "0#{hours}" if hours < 10
+            minutes = "0#{minutes}" if minutes < 10
+            seconds = "0#{seconds}" if seconds < 10
+            playtimes.push "#{hours}:#{minutes}:#{seconds}"
+          else
+            playtimes.push 'Incomplete'
+        userPlaytimes.push(playtimes)
+
+      columnLabels = "Username"
+      currentLevel = 1
+      lastCourseIndex = 1
+      for level in @courseLevels
+        unless level.courseIndex is lastCourseIndex
+          currentLevel = 1
+          lastCourseIndex = level.courseIndex
+        columnLabels += ",CS#{level.courseIndex}.#{currentLevel++} #{level.slug}"
+      csvContent = "data:text/csv;charset=utf-8,#{columnLabels}\n"
+      for studentRow in userPlaytimes
+        csvContent += studentRow.join(',') + "\n"
+      csvContent = csvContent.substring(0, csvContent.length - 1)
+      encodedUri = encodeURI(csvContent)
+      window.open(encodedUri)
+      $('.classroom-progress-csv').prop('disabled', false)
+
+    .catch (error) ->
+      $('.classroom-progress-csv').prop('disabled', false)
+      console.error error

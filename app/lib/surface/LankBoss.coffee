@@ -25,10 +25,11 @@ module.exports = class LankBoss extends CocoClass
     'surface:flag-appeared': 'onFlagAppeared'
     'surface:remove-selected-flag': 'onRemoveSelectedFlag'
 
-  constructor: (@options) ->
+  constructor: (@options={}) ->
     super()
+    @handleEvents = @options.handleEvents
+    @gameUIState = @options.gameUIState
     @dragged = 0
-    @options ?= {}
     @camera = @options.camera
     @webGLStage = @options.webGLStage
     @surfaceTextLayer = @options.surfaceTextLayer
@@ -38,6 +39,8 @@ module.exports = class LankBoss extends CocoClass
     @lankArray = []  # Mirror @lanks, but faster for when we just need to iterate
     @createLayers()
     @pendingFlags = []
+    if not @handleEvents
+      @listenTo @gameUIState, 'change:selected', @onChangeSelected
 
   destroy: ->
     @removeLank lank for thangID, lank of @lanks
@@ -93,7 +96,16 @@ module.exports = class LankBoss extends CocoClass
     @selectionMark = new Mark name: 'selection', camera: @camera, layer: @layerAdapters['Ground'], thangType: 'selection'
 
   createLankOptions: (options) ->
-    _.extend options, camera: @camera, resolutionFactor: SPRITE_RESOLUTION_FACTOR, groundLayer: @layerAdapters['Ground'], textLayer: @surfaceTextLayer, floatingLayer: @layerAdapters['Floating'], showInvisible: @options.showInvisible
+    _.extend options, {
+      @camera
+      resolutionFactor: SPRITE_RESOLUTION_FACTOR
+      groundLayer: @layerAdapters['Ground']
+      textLayer: @surfaceTextLayer
+      floatingLayer: @layerAdapters['Floating']
+      showInvisible: @options.showInvisible
+      @gameUIState
+      @handleEvents
+    }
 
   onSetDebug: (e) ->
     return if e.debug is @debug
@@ -256,6 +268,7 @@ module.exports = class LankBoss extends CocoClass
     @dragged += 1
 
   onLankMouseUp: (e) ->
+    return unless @handleEvents
     return if key.shift #and @options.choosing
     return @dragged = 0 if @dragged > 3
     @dragged = 0
@@ -264,8 +277,26 @@ module.exports = class LankBoss extends CocoClass
     @selectLank e, lank
 
   onStageMouseDown: (e) ->
+    return unless @handleEvents
     return if key.shift #and @options.choosing
     @selectLank e if e.onBackground
+
+  onChangeSelected: (gameUIState, selected) ->
+    oldLanks = (s.sprite for s in gameUIState.previousAttributes().selected or [])
+    newLanks = (s.sprite for s in selected or [])
+    addedLanks = _.difference(newLanks, oldLanks)
+    removedLanks = _.difference(oldLanks, newLanks)
+
+    for lank in addedLanks
+      layer = if lank.sprite.parent isnt @layerAdapters.Default.container then @layerAdapters.Default else @layerAdapters.Ground
+      mark = new Mark name: 'selection', camera: @camera, layer: layer, thangType: 'selection'
+      mark.toggle true
+      mark.setLank(lank)
+      mark.update()
+      lank.marks.selection = mark # TODO: Figure out how to non-hackily assign lank this mark
+      
+    for lank in removedLanks
+      lank.removeMark?('selection')
 
   selectThang: (thangID, spellName=null, treemaThangSelected = null) ->
     return @willSelectThang = [thangID, spellName] unless @lanks[thangID]
@@ -275,8 +306,9 @@ module.exports = class LankBoss extends CocoClass
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
     worldPos = lank?.thang?.pos
     worldPos ?= @camera.screenToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e?.originalEvent
-    if (not @reallyStopMoving) and worldPos and (@options.navigateToSelection or not lank or treemaThangSelected) and e?.originalEvent?.nativeEvent?.which isnt 3
-      @camera.zoomTo(lank?.sprite or @camera.worldToSurface(worldPos), @camera.zoom, 1000, true)
+    if @handleEvents
+      if (not @reallyStopMoving) and worldPos and (@options.navigateToSelection or not lank or treemaThangSelected) and e?.originalEvent?.nativeEvent?.which isnt 3
+        @camera.zoomTo(lank?.sprite or @camera.worldToSurface(worldPos), @camera.zoom, 1000, true)
     lank = null if @options.choosing  # Don't select lanks while choosing
     if lank isnt @selectedLank
       @selectedLank?.selected = false

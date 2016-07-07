@@ -32,10 +32,6 @@ block content
         td(data-i18n="courses.total_students")
         td
           span.spr= _.size(view.classroom.get('members'))
-          span (
-          span.spr(data-i18n="courses.enrolled_courses")
-          span= stats.enrolledUsers
-          span )
       tr
         td(data-i18n="courses.average_time")
         td= stats.averagePlaytime
@@ -108,16 +104,17 @@ block content
                 .progress
                   each trimModel in levels.models
                     - var level = view.levels.get(trimModel.get('original')); // get the level loaded through the db
+                    - var levelNumber = view.classroom.getLevelNumber(level.get('original'), i + 1)
                     - i++
                     - var session = sessionMap[level.get('original')];
                     a(href=view.getLevelURL(level, course, courseInstance, session))
-                      - var content = view.levelPopoverContent(level, session, i);
+                      - var content = view.levelPopoverContent(level, session, levelNumber);
                       if session && session.get('state') && session.get('state').complete
-                        .progress-bar.progress-bar-complete(style=css, data-content=content, data-toggle='popover')= i
+                        .progress-bar.progress-bar-complete(style=css, data-content=content, data-toggle='popover')= levelNumber
                       else if session
-                        .progress-bar.progress-bar-started(style=css, data-content=content, data-toggle='popover')= i
+                        .progress-bar.progress-bar-started(style=css, data-content=content, data-toggle='popover')= levelNumber
                       else
-                        .progress-bar.progress-bar-default(style=css, data-content=content, data-toggle='popover')= i
+                        .progress-bar.progress-bar-default(style=css, data-content=content, data-toggle='popover')= levelNumber
         else if paidFor
           .text-center
             button.enable-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id, data-course-instance-cid=courseInstance.cid)
