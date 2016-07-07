@@ -46,6 +46,7 @@ module.exports = class SaveVersionModal extends ModalView
     }
 
   submitPatch: ->
+    @savingPatchError = false
     forms.clearFormAlerts @$el
     patch = new Patch()
     patch.set 'delta', @model.getDelta()
@@ -60,8 +61,10 @@ module.exports = class SaveVersionModal extends ModalView
     return unless res
     @enableModalInProgress(@$el)
 
-    res.error =>
+    res.error (jqxhr) =>
       @disableModalInProgress(@$el)
+      @savingPatchError = jqxhr.responseJSON?.message or 'Unknown error.'
+      @renderSelectors '.save-error-area'
 
     res.success =>
       @hide()
