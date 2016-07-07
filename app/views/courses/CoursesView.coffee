@@ -16,7 +16,6 @@ LevelSession = require 'models/LevelSession'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
-CreateAccountModal = require 'views/core/CreateAccountModal'
 
 # TODO: Test everything
 

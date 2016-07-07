@@ -62,6 +62,12 @@ module.exports = class CreateAccountModal extends ModalView
       classCode
       birthday: new Date('') # so that birthday.getTime() is NaN
     }
+    
+    { startOnPath } = options
+    if startOnPath is 'student'
+      @signupState.set({ path: 'student', screen: 'segment-check' })
+    if startOnPath is 'individual'
+      @signupState.set({ path: 'individual', screen: 'segment-check' })
 
     @listenTo @signupState, 'all', @render #TODO: debounce
 
