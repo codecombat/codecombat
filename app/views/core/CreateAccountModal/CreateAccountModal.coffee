@@ -98,6 +98,11 @@ module.exports = class CreateAccountModal extends ModalView
     # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
     application.facebookHandler.loadAPI({ success: => @signupState.set { facebookEnabled: true } unless @destroyed })
     application.gplusHandler.loadAPI({ success: => @signupState.set { gplusEnabled: true } unless @destroyed })
+    
+    @once 'hidden', ->
+      if @signupState.get('screen') is 'confirmation' and not application.testing
+        # ensure logged in state propagates through the entire app
+        document.location.reload()
   
   onClickLoginLink: ->
     # TODO: Make sure the right information makes its way into the state.
