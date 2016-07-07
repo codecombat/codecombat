@@ -56,7 +56,7 @@ module.exports = class SegmentCheckView extends CocoView
     { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
     birthday = new Date Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay)
     @signupState.set { birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true }
-    unless isNaN(birthday.getTime())
+    unless _.isNaN(birthday.getTime())
       forms.clearFormAlerts(@$el)
     
   onSubmitSegmentCheck: (e) ->
@@ -79,7 +79,7 @@ module.exports = class SegmentCheckView extends CocoView
         throw error
         
     else if @signupState.get('path') is 'individual'
-      if isNaN(@signupState.get('birthday').getTime())
+      if _.isNaN(@signupState.get('birthday').getTime())
         forms.clearFormAlerts(@$el)
         forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
       else
