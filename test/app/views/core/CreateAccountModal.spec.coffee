@@ -398,3 +398,17 @@ xdescribe 'CreateAccountModal', ->
       me.set('name', 'A Sweet New Username')
       me.set('email', 'some@email.com')
       singleSignOnConfirmView.signupState.set('ssoUsed', 'facebook')
+
+  describe 'CoppaDenyView', ->
+    coppaDenyView = null
+
+    beforeEach ->
+      modal = new CreateAccountModal()
+      modal.signupState.set({
+        screen: 'coppa-deny'
+      })
+      modal.render()
+      jasmine.demoModal(modal)
+      coppaDenyView = modal.subviews.coppa_deny_view
+
+    it '(for demo testing)', ->
