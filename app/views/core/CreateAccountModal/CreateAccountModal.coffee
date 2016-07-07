@@ -69,7 +69,7 @@ module.exports = class CreateAccountModal extends ModalView
     if startOnPath is 'individual'
       @signupState.set({ path: 'individual', screen: 'segment-check' })
 
-    @listenTo @signupState, 'all', @render #TODO: debounce
+    @listenTo @signupState, 'all', _.debounce @render
 
     @listenTo @insertSubView(new ChooseAccountTypeView()),
       'choose-path': (path) ->
