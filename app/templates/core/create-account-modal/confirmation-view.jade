@@ -15,12 +15,12 @@
       .signup-info-box.text-center
         if me.get('name')
           h4
-            strong
+            b
               span(data-i18n="general.username")
               | : #{me.get('name')}
         if me.get('email')
           h5
-            strong
+            b
               - var ssoUsed = view.signupState.get('ssoUsed');
               if ssoUsed === 'facebook'
                 img.m-r-1(src="/images/pages/modal/auth/facebook_small.png")
