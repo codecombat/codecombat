@@ -51,11 +51,6 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
     
-  afterRender: ->
-    super()
-    if suggestedName = @state.get('suggestedName')
-      @setNameError(suggestedName)
-
   onChangeEmail: ->
     @checkEmail()
     
