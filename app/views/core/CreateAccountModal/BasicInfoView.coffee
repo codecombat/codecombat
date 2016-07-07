@@ -100,7 +100,7 @@ module.exports = class BasicInfoView extends CocoView
         checkNameValue: name
         checkNamePromise: null
       })
-      return
+      return Promise.resolve()
 
     @state.set({
       checkNameState: 'checking'
