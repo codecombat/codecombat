@@ -114,7 +114,7 @@ module.exports = class BasicInfoView extends CocoView
           @state.set({ checkNameState: 'exists', suggestedNameText })
         else
           @state.set { checkNameState: 'available' }
-      .catch (error) ->
+      .catch (error) =>
         @state.set('checkNameState', 'standby')
         throw error
       )
