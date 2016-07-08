@@ -60,6 +60,11 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     # load dependencies if it's not a vendor library
     if not _.string.startsWith(e.item.id, 'vendor')
       have = window.require.list()
+      haveWithIndexRemoved = _(have)
+        .filter (file) -> _.string.endsWith(file, 'index')
+        .map (file) -> file.slice(0,-6)
+        .value()
+      have = have.concat(haveWithIndexRemoved)
       console.group('Dependencies', e.item.id) if LOG
       @recentLoadedBytes += e.rawResult.length
       dependencies = @parseDependencies(e.rawResult)
