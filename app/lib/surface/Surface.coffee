@@ -92,6 +92,8 @@ module.exports = Surface = class Surface extends CocoClass
     @gameUIState = @options.gameUIState or new GameUIState({
       canDragCamera: true
     })
+    @realTimeInputEvents = @gameUIState.get('realTimeInputEvents')
+    @listenTo(@gameUIState, 'sprite:mouse-down', @onSpriteMouseDown)
     @initEasel()
     @initAudio()
     @onResize = _.debounce @onResize, resizeDelay
@@ -510,6 +512,15 @@ module.exports = Surface = class Surface extends CocoClass
     @gameUIState.trigger('surface:stage-mouse-down', event)
     @mouseIsDown = true
 
+  onSpriteMouseDown: (e) =>
+    return unless @realTime
+    @realTimeInputEvents.add({
+      type: 'mousedown'
+      pos: @camera.screenToWorld x: e.originalEvent.stageX, y: e.originalEvent.stageY
+      time: @world.dt * @world.frames.length
+      thangID: e.sprite.thang.id
+    })
+
   onMouseUp: (e) =>
     return if @disabled
     onBackground = not @webGLStage.hitTest e.stageX, e.stageY
@@ -596,6 +607,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onRealTimePlaybackStarted: (e) ->
     return if @realTime
+    @realTimeInputEvents.reset()
     @realTime = true
     @onResize()
     @playing = false  # Will start when countdown is done.

@@ -48,6 +48,7 @@ module.exports = class VerifierTest extends CocoClass
       session.set 'code', {'hero-placeholder': plan: session.solution.source}
       state = session.get 'state'
       state.flagHistory = session.solution.flagHistory
+      state.realTimeInputEvents = session.solution.realTimeInputEvents
       state.difficulty = session.solution.difficulty or 0
       session.solution.seed = undefined unless _.isNumber session.solution.seed  # TODO: migrate away from submissionCount/sessionID seed objects
     catch e
