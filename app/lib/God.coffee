@@ -6,6 +6,7 @@
 World = require 'lib/world/world'
 CocoClass = require 'core/CocoClass'
 Angel = require 'lib/Angel'
+GameUIState = require 'models/GameUIState'
 
 module.exports = class God extends CocoClass
   @nicks: ['Athena', 'Baldr', 'Crom', 'Dagr', 'Eris', 'Freyja', 'Great Gish', 'Hades', 'Ishtar', 'Janus', 'Khronos', 'Loki', 'Marduk', 'Negafook', 'Odin', 'Poseidon', 'Quetzalcoatl', 'Ra', 'Shiva', 'Thor', 'Umvelinqangi', 'Týr', 'Vishnu', 'Wepwawet', 'Xipe Totec', 'Yahweh', 'Zeus', '上帝', 'Tiamat', '盘古', 'Phoebe', 'Artemis', 'Osiris', '嫦娥', 'Anhur', 'Teshub', 'Enlil', 'Perkele', 'Chaos', 'Hera', 'Iris', 'Theia', 'Uranus', 'Stribog', 'Sabazios', 'Izanagi', 'Ao', 'Tāwhirimātea', 'Tengri', 'Inmar', 'Torngarsuk', 'Centzonhuitznahua', 'Hunab Ku', 'Apollo', 'Helios', 'Thoth', 'Hyperion', 'Alectrona', 'Eos', 'Mitra', 'Saranyu', 'Freyr', 'Koyash', 'Atropos', 'Clotho', 'Lachesis', 'Tyche', 'Skuld', 'Urðr', 'Verðandi', 'Camaxtli', 'Huhetotl', 'Set', 'Anu', 'Allah', 'Anshar', 'Hermes', 'Lugh', 'Brigit', 'Manannan Mac Lir', 'Persephone', 'Mercury', 'Venus', 'Mars', 'Azrael', 'He-Man', 'Anansi', 'Issek', 'Mog', 'Kos', 'Amaterasu Omikami', 'Raijin', 'Susanowo', 'Blind Io', 'The Lady', 'Offler', 'Ptah', 'Anubis', 'Ereshkigal', 'Nergal', 'Thanatos', 'Macaria', 'Angelos', 'Erebus', 'Hecate', 'Hel', 'Orcus', 'Ishtar-Deela Nakh', 'Prometheus', 'Hephaestos', 'Sekhmet', 'Ares', 'Enyo', 'Otrera', 'Pele', 'Hadúr', 'Hachiman', 'Dayisun Tngri', 'Ullr', 'Lua', 'Minerva']
@@ -18,15 +19,17 @@ module.exports = class God extends CocoClass
   constructor: (options) ->
     options ?= {}
     @retrieveValueFromFrame = _.throttle @retrieveValueFromFrame, 1000
+    @gameUIState ?= options.gameUIState or new GameUIState()
     super()
 
     # Angels are all given access to this.
-    @angelsShare =
+    @angelsShare = {
       workerCode: options.workerCode or '/javascripts/workers/worker_world.js'  # Either path or function
       headless: options.headless  # Whether to just simulate the goals, or to deserialize all simulation results
       spectate: options.spectate
       god: @
       godNick: @nick
+      @gameUIState
       workQueue: []
       firstWorld: true
       world: undefined
@@ -34,6 +37,7 @@ module.exports = class God extends CocoClass
       worldClassMap: undefined
       angels: []
       busyAngels: []  # Busy angels will automatically register here.
+    }
 
     # Determine how many concurrent Angels/web workers to use at a time
     # ~20MB per idle worker + angel overhead - every Angel maps to 1 worker

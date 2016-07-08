@@ -202,7 +202,7 @@ module.exports = class TomeView extends CocoView
     spell = @spellFor thang, spellName
     unless spell?.canRead()
       @clearSpellView()
-      @updateSpellPalette thang, spell
+      @updateSpellPalette thang, spell if spell
       return
     unless spell.view is @spellView
       @clearSpellView()
