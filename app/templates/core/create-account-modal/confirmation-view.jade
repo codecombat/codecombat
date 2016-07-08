@@ -10,7 +10,7 @@
       else
         p(data-i18n="signup.confirm_individual_blurb")
       
-    .signup-info-box-wrapper.m-y-3
+    .signup-info-box-wrapper
       .text-burgandy(data-i18n="signup.write_this_down")
       .signup-info-box.text-center
         if me.get('name')
@@ -32,4 +32,4 @@
                 span(data-i18n="general.email")
                 | : #{me.get('email')}
 
-    button#start-btn.btn.btn-navy.btn-lg.m-y-3(data-i18n="signup.start_playing")
+    button#start-btn.btn.btn-navy.btn-lg.m-t-3(data-i18n="signup.start_playing")

@@ -182,7 +182,8 @@ mixin studentsTab
         th.checkbox-col.select-all.small.text-center
           span(data-i18n="teacher.select_all")
           .checkbox-flat
-            input(type='checkbox' id='checkbox-all-students')
+            - var allStudentsChecked = _.all(state.get('checkboxStates'))
+            input(type='checkbox', id='checkbox-all-students', checked=allStudentsChecked)
             label.checkmark(for='checkbox-all-students')
         th
           +sortButtons
@@ -201,7 +202,7 @@ mixin studentRow(student)
   tr.student-row.alternating-background
     td.checkbox-col.student-checkbox
       .checkbox-flat
-        input(type='checkbox' id='checkbox-student-' + student.id, data-student-id=student.id)
+        input(type='checkbox' id='checkbox-student-' + student.id, data-student-id=student.id, checked=state.get('checkboxStates')[student.id])
         label.checkmark(for='checkbox-student-' + student.id)
     td.student-info-col
       .student-info
