@@ -7,7 +7,7 @@ block content
     if view.leagueType === 'course' && view.course
       #course-header
         #course-details-link
-          a(href="/courses/{#view.course.id}/{#view.league.id}")
+          a(href="/courses/#{view.course.id}/#{view.league.id}")
             span.glyphicon.glyphicon-arrow-left
             span.spl Levels
       

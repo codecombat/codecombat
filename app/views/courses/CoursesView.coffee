@@ -88,6 +88,8 @@ module.exports = class CoursesView extends RootView
     if @classCodeQueryVar and not me.isAnonymous()
       window.tracker?.trackEvent 'Students Join Class Link', category: 'Students', classCode: @classCodeQueryVar, ['Mixpanel']
       @joinClass()
+    else if @classCodeQueryVar and me.isAnonymous()
+      @openModalView(new CreateAccountModal())
 
   onClickLogInButton: ->
     modal = new AuthModal()
@@ -160,7 +162,7 @@ module.exports = class CoursesView extends RootView
     if jqxhr.status is 422
       @errorMessage = 'Please enter a code.'
     else if jqxhr.status is 404
-      @errorMessage = 'Code not found.'
+      @errorMessage = $.t('signup.classroom_not_found')
     else
       @errorMessage = "#{jqxhr.responseText}"
     @renderSelectors '#join-class-form'

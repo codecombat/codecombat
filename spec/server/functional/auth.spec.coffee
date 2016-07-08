@@ -231,18 +231,20 @@ describe 'GET /auth/name', ->
     expect(res.statusCode).toBe 422
     done()
 
-  it 'returns the name given if there is no conflict', utils.wrap (done) ->
-    [res, body] = yield request.getAsync {url: getURL(url + '/Gandalf'), json: {}}
+  it 'returns an object with properties conflicts, givenName and suggestedName', utils.wrap (done) ->
+    [res, body] = yield request.getAsync {url: getURL(url + '/Gandalf'), json: true}
     expect(res.statusCode).toBe 200
-    expect(res.body.name).toBe 'Gandalf'
-    done()
+    expect(res.body.givenName).toBe 'Gandalf'
+    expect(res.body.conflicts).toBe false
+    expect(res.body.suggestedName).toBe 'Gandalf'
 
-  it 'returns a new name in case of conflict', utils.wrap (done) ->
     yield utils.initUser({name: 'joe'})
     [res, body] = yield request.getAsync {url: getURL(url + '/joe'), json: {}}
-    expect(res.statusCode).toBe 409
-    expect(res.body.name).not.toBe 'joe'
-    expect(/joe[0-9]/.test(res.body.name)).toBe(true)
+    expect(res.statusCode).toBe 200
+    expect(res.body.suggestedName).not.toBe 'joe'
+    expect(res.body.conflicts).toBe true
+    expect(/joe[0-9]/.test(res.body.suggestedName)).toBe(true)
+
     done()
 
     
