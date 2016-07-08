@@ -98,6 +98,7 @@ module.exports =
 
   processLicenseRequest: (teacherEmail, userID, leadID, licensesRequested, amount, done) ->
     # Update lead with licenses requested
+    licensesRequested = parseInt(licensesRequested)
     putData = 'custom.licensesRequested': licensesRequested
     options =
       uri: "https://#{apiKey}:X@app.close.io/api/v1/lead/#{leadID}/"
@@ -135,7 +136,7 @@ module.exports =
           date_won: dateWon.toISOString().substring(0, 10)
           lead_id: leadID
           status: 'Active'
-          value: parseInt(licensesRequested) * amount
+          value: licensesRequested * amount
           value_period: "annual"
         options =
           uri: "https://#{apiKey}:X@app.close.io/api/v1/opportunity/"
