@@ -37,6 +37,7 @@ module.exports = class Angel extends CocoClass
     @allLogs = []
     @hireWorker()
     @shared.angels.push @
+    @listenTo @shared.gameUIState.get('realTimeInputEvents'), 'add', @onAddRealTimeInputEvent
 
   destroy: ->
     @fireWorker false
@@ -265,6 +266,10 @@ module.exports = class Angel extends CocoClass
   onFlagEvent: (e) ->
     return unless @running and @work.realTime
     @worker.postMessage func: 'addFlagEvent', args: e
+
+  onAddRealTimeInputEvent: (realTimeInputEvent) ->
+    return unless @running and @work.realTime
+    @worker.postMessage func: 'addRealTimeInputEvent', args: realTimeInputEvent.toJSON()
 
   onStopRealTimePlayback: (e) ->
     return unless @running and @work.realTime

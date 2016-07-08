@@ -216,6 +216,9 @@ module.exports = class World
   addFlagEvent: (flagEvent) ->
     @flagHistory.push flagEvent
 
+  addRealTimeInputEvent: (realTimeInputEvent) ->
+    @realTimeInputEvents.push realTimeInputEvent
+
   loadFromLevel: (level, willSimulate=true) ->
     @levelID = level.slug
     @levelComponents = level.levelComponents

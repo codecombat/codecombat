@@ -20,6 +20,7 @@ Article = require 'models/Article'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 Simulator = require 'lib/simulator/Simulator'
+GameUIState = require 'models/GameUIState'
 
 # subviews
 LevelLoadingView = require './LevelLoadingView'
@@ -108,6 +109,7 @@ module.exports = class PlayLevelView extends RootView
 
     @opponentSessionID = @getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
+    @gameUIState = new GameUIState()
 
     $(window).on 'resize', @onWindowResize
     @saveScreenshot = _.throttle @saveScreenshot, 30000
@@ -137,7 +139,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    @god = new God()
+    @god = new God({@gameUIState})
     levelLoaderOptions = supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing, courseID: @courseID
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
@@ -345,12 +347,14 @@ module.exports = class PlayLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    surfaceOptions =
+    surfaceOptions = {
       thangTypes: @supermodel.getModels(ThangType)
-      observing: @observing
+      @observing
       playerNames: @findPlayerNames()
       levelType: @level.get('type', true)
       stayVisible: @showAds()
+      @gameUIState
+    }
     @surface = new Surface(@world, normalSurface, webGLSurface, surfaceOptions)
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]

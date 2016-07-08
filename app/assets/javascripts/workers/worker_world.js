@@ -319,6 +319,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
             self.debugWorld.submissionCount = args.submissionCount;
             self.debugWorld.fixedSeed = args.fixedSeed;
             self.debugWorld.flagHistory = args.flagHistory;
+            self.debugWorld.realTimeInputEvents = args.realTimeInputEvents;
             self.debugWorld.difficulty = args.difficulty;
             if (args.level)
                 self.debugWorld.loadFromLevel(args.level, true);
@@ -381,6 +382,7 @@ self.runWorld = function runWorld(args) {
     self.world.submissionCount = args.submissionCount;
     self.world.fixedSeed = args.fixedSeed;
     self.world.flagHistory = args.flagHistory || [];
+    self.world.realTimeInputEvents = args.realTimeInputEvents || [];
     self.world.difficulty = args.difficulty || 0;
     if(args.level)
       self.world.loadFromLevel(args.level, true);
@@ -537,6 +539,11 @@ self.finalizePreload = function finalizePreload() {
 self.addFlagEvent = function addFlagEvent(flagEvent) {
   if(!self.world) return;
   self.world.addFlagEvent(flagEvent);
+};
+
+self.addRealTimeInputEvent = function addRealTimeInputEvent(realTimeInputEvent) {
+  if(!self.world) return;
+  self.world.addRealTimeInputEvent(realTimeInputEvent);
 };
 
 self.stopRealTimePlayback = function stopRealTimePlayback() {
