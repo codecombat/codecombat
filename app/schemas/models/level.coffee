@@ -267,7 +267,7 @@ LevelSchema = c.object {
     victory: {}
     type: 'hero'
     goals: [
-      {id: 'ogres-die', name: 'Ogres must die.', killThangs: ['ogres'], worldEndsAfter: 3}
+      {id: 'ogres-die', name: 'Defeat the ogres.', killThangs: ['ogres'], worldEndsAfter: 3}
       {id: 'humans-survive', name: 'Your hero must survive.', saveThangs: ['Hero Placeholder'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true}
     ]
     concepts: ['basic_syntax']
