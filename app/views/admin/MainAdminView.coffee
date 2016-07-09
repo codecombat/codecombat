@@ -5,8 +5,6 @@ template = require 'templates/admin'
 AdministerUserModal = require 'views/admin/AdministerUserModal'
 forms = require 'core/forms'
 
-# TODO: respect classroom versioning
-
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
 CocoCollection = require 'collections/CocoCollection'
@@ -33,31 +31,10 @@ module.exports = class MainAdminView extends RootView
   getTitle: -> return $.i18n.t('account_settings.admin')
 
   initialize: ->
-    @campaigns = new Campaigns()
-    @courses = new CocoCollection([], { url: "/db/course", model: Course})
-
     if window.amActually
       @amActually = new User({_id: window.amActually})
       @amActually.fetch()
       @supermodel.trackModel(@amActually)
-    if me.isAdmin()
-      @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels' } })
-      @supermodel.loadCollection(@courses, 'courses')
-    super()
-
-  onLoaded: ->
-    campaignCourseIndexMap = {}
-    for course, index in @courses.models
-      campaignCourseIndexMap[course.get('campaignID')] = index + 1
-    @courseLevels = []
-    for campaign in @campaigns.models
-      continue unless campaignCourseIndexMap[campaign.id]
-      for levelID, level of campaign.get('levels')
-        @courseLevels.push({
-          levelID
-          slug: level.slug
-          courseIndex: campaignCourseIndexMap[campaign.id]
-        })
     super()
 
   onClickStopSpyingButton: ->
@@ -159,11 +136,10 @@ module.exports = class MainAdminView extends RootView
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
 
   onClickExportProgress: ->
-    return unless @courseLevels?.length > 0
     $('.classroom-progress-csv').prop('disabled', true)
-
     classCode = $('.classroom-progress-class-code').val()
     classroom = null
+    courseLevels = []
     sessions = null
     users = null
     userMap = {}
@@ -172,6 +148,12 @@ module.exports = class MainAdminView extends RootView
       classroom = new Classroom({ _id: model.data._id })
       Promise.resolve(classroom.fetch())
     .then (model) =>
+      for course, index in classroom.get('courses')
+        for level in course.levels
+          courseLevels.push
+            courseIndex: index + 1
+            levelID: level.original
+            slug: level.slug
       users = new Users()
       Promise.resolve($.when(users.fetchForClassroom(classroom)...))
     .then (models) =>
@@ -191,7 +173,7 @@ module.exports = class MainAdminView extends RootView
       userPlaytimes = []
       for userID, user of userMap
         playtimes = [user.get('name') ? 'Anonymous']
-        for level in @courseLevels
+        for level in courseLevels
           if userLevelPlaytimeMap[userID]?[level.levelID]?
             rawSeconds = parseInt(userLevelPlaytimeMap[userID][level.levelID])
             hours = Math.floor(rawSeconds / 60 / 60)
@@ -208,7 +190,7 @@ module.exports = class MainAdminView extends RootView
       columnLabels = "Username"
       currentLevel = 1
       lastCourseIndex = 1
-      for level in @courseLevels
+      for level in courseLevels
         unless level.courseIndex is lastCourseIndex
           currentLevel = 1
           lastCourseIndex = level.courseIndex
