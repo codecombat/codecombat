@@ -84,9 +84,9 @@ LevelSessionSchema.pre 'save', (next) ->
 
 LevelSessionSchema.statics.privateProperties = ['code', 'submittedCode', 'unsubscribed']
 LevelSessionSchema.statics.editableProperties = ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
-                                                 'levelName', 'creatorName', 'levelID', 'screenshot',
+                                                 'levelName', 'creatorName', 'levelID',
                                                  'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage',
-                                                 'unsubscribed', 'playtime', 'heroConfig', 'team', 'transpiledCode',
+                                                 'unsubscribed', 'playtime', 'heroConfig', 'team',
                                                  'browser']
 LevelSessionSchema.statics.jsonSchema = jsonschema
 
@@ -94,7 +94,7 @@ LevelSessionSchema.set('toObject', {
   transform: (doc, ret, options) ->
     req = options.req
     return ret unless req # TODO: Make deleting properties the default, but the consequences are far reaching
-    
+
     submittedCode = doc.get('submittedCode')
     unless req.user?.isAdmin() or req.user?.id is doc.get('creator') or ('employer' in (req.user?.get('permissions') ? [])) or not doc.get('submittedCode') # TODO: only allow leaderboard access to non-top-5 solutions
       ret = _.omit ret, LevelSession.privateProperties
