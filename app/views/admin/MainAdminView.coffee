@@ -5,6 +5,8 @@ template = require 'templates/admin'
 AdministerUserModal = require 'views/admin/AdministerUserModal'
 forms = require 'core/forms'
 
+# TODO: respect classroom versioning
+
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
 CocoCollection = require 'collections/CocoCollection'
@@ -161,38 +163,22 @@ module.exports = class MainAdminView extends RootView
     $('.classroom-progress-csv').prop('disabled', true)
 
     classCode = $('.classroom-progress-class-code').val()
+    classroom = null
+    sessions = null
+    users = null
     userMap = {}
-    new Promise((resolve, reject) =>
-      new Classroom().fetchByCode(classCode, {
-        success: resolve
-        error: (model, response, options) => reject(response)
-      })
-    )
-    .then (classroom) =>
-      new Promise((resolve, reject) =>
-        new Classroom({ _id: classroom.id }).fetch({
-          success: resolve
-          error: (model, response, options) => reject(response)
-        })
-      )
-    .then (classroom) =>
-      new Promise((resolve, reject) =>
-        new Users().fetchForClassroom(classroom, {
-          success: (models, response, options) =>
-            resolve([classroom, models]) if models?.loaded
-          error: (models, response, options) => reject(response)
-        })
-      )
-    .then ([classroom, users]) =>
+    Promise.resolve(new Classroom().fetchByCode(classCode))
+    .then (model) =>
+      classroom = new Classroom({ _id: model.data._id })
+      Promise.resolve(classroom.fetch())
+    .then (model) =>
+      users = new Users()
+      Promise.resolve($.when(users.fetchForClassroom(classroom)...))
+    .then (models) =>
       userMap[user.id] = user for user in users.models
-      new Promise((resolve, reject) =>
-        new LevelSessions().fetchForAllClassroomMembers(classroom, {
-          success: (models, response, options) =>
-            resolve(models) if models?.loaded
-          error: (models, response, options) => reject(response)
-        })
-      )
-    .then (sessions) =>
+      sessions = new LevelSessions()
+      Promise.resolve($.when(sessions.fetchForAllClassroomMembers(classroom)...))
+    .then (models) =>
       userLevelPlaytimeMap = {}
       for session in sessions.models
         continue unless session.get('state')?.complete
@@ -238,3 +224,4 @@ module.exports = class MainAdminView extends RootView
     .catch (error) ->
       $('.classroom-progress-csv').prop('disabled', false)
       console.error error
+      throw error
