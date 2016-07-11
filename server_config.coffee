@@ -26,6 +26,15 @@ config.mongo =
   mongoose_tokyo_replica_string: process.env.COCO_MONGO_MONGOOSE_TOKYO_REPLICA_STRING or ''
   mongoose_saoPaulo_replica_string : process.env.COCO_MONGO_MONGOOSE_SAOPAULO_REPLICA_STRING or ''
 
+if process.env.COCO_MONGO_LS_HOST? or process.env.COCO_MONGO_LS_DATABASE_NAME?
+  config.mongo.level_session_host = process.env.COCO_MONGO_LS_HOST or process.env.COCO_MONGO_HOST or 'localhost'
+  config.mongo.level_session_port = process.env.COCO_MONGO_LS_PORT or process.env.COCO_MONGO_PORT or 27017
+  config.mongo.level_session_db = process.env.COCO_MONGO_LS_DATABASE_NAME or process.env.COCO_MONGO_DATABASE_NAME or 'coco'
+  
+if process.env.COCO_MONGO_LS_AUX_HOST? and process.env.COCO_MONGO_LS_AUX_PORT? and process.env.COCO_MONGO_LS_AUX_DATABASE_NAME
+  config.mongo.level_session_aux_host = process.env.COCO_MONGO_LS_AUX_HOST or process.env.COCO_MONGO_HOST or 'localhost'
+  config.mongo.level_session_aux_port = process.env.COCO_MONGO_LS_AUX_PORT or process.env.COCO_MONGO_PORT or 27017
+  config.mongo.level_session_aux_db = process.env.COCO_MONGO_LS_AUX_DATABASE_NAME or 'coco_aux'
 
 
 if config.tokyo or config.saoPaulo
