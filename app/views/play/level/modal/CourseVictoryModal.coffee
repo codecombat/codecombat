@@ -131,6 +131,8 @@ module.exports = class CourseVictoryModal extends ModalView
     for newItem in @newItems.models
       @views.push(new NewItemView({item: newItem}))
 
+    @levelSessions?.remove(@session)
+    @levelSessions?.add(@session)
     progressView = new ProgressView({
       level: @level
       nextLevel: @nextLevel
