@@ -45,7 +45,7 @@ form.modal-body.segment-check
               option(value='',data-i18n="calendar.day")
               for day in _.range(1,32)
                 option(selected=(day == view.signupState.get('birthdayDay'))) #{day}
-            select#birthday-year-input.input-large.form-control(name="birthdayYear", style="width: 90px;")
+            select#birthday-year-input.input-large.form-control(name="birthdayYear", style="width: 90px; float: left")
               option(value='',data-i18n="calendar.year")
               - var thisYear = new Date().getFullYear()
               for year in _.range(thisYear, thisYear - 100, -1)
