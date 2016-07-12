@@ -1,0 +1,19 @@
+#play-game-dev-level-view
+  #canvas-wrapper
+    width: 100%
+    position: relative
+    overflow: hidden
+    z-index: 0
+
+  #webgl-surface
+    background-color: #333
+  
+  #normal-surface
+    position: absolute
+    top: 0
+    left: 0
+    pointer-events: none
+
+  canvas#webgl-surface, canvas#normal-surface
+    display: block
+    z-index: 2
