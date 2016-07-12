@@ -1,3 +1,18 @@
-#canvas-wrapper
-  canvas(width=924, height=589)#webgl-surface
-  canvas(width=924, height=589)#normal-surface
+.container-fluid
+  .row
+    .col-xs-9
+      #canvas-wrapper
+        canvas(width=924, height=589)#webgl-surface
+        canvas(width=924, height=589)#normal-surface
+        
+    .col-xs-3#info-col.style-flat
+      h1 Info
+      ul
+        li
+          b Level Name:
+          |  #{view.level.get('name')}
+          
+        li
+          b Creator:
+          |  #{view.session.get('creatorName')}
+      

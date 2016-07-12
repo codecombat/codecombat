@@ -6,6 +6,8 @@ LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 Surface = require 'lib/surface/Surface'
 ThangType = require 'models/ThangType'
+Level = require 'models/Level'
+LevelSession = require 'models/LevelSession'
 
 module.exports = class PlayGameDevLevelView extends RootView
   id: 'play-game-dev-level-view'
@@ -15,6 +17,8 @@ module.exports = class PlayGameDevLevelView extends RootView
     'level:started': 'onLevelStarted'
   
   initialize: (@options, @levelID, @sessionID) ->
+    @level = new Level()
+    @session = new LevelSession()
     @gameUIState = new GameUIState()
     @god = new God({ @gameUIState })
     @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true })
@@ -56,4 +60,4 @@ module.exports = class PlayGameDevLevelView extends RootView
     @surface.setWorld(@world)
 
   onLevelStarted: ->
-    console.log 'level started'
+    @renderSelectors '#info-col'
