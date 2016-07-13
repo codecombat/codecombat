@@ -6,13 +6,24 @@
         canvas(width=924, height=589)#normal-surface
         
     .col-xs-3#info-col.style-flat
-      h1 Info
-      ul
-        li
-          b Level Name:
-          |  #{view.level.get('name')}
-          
-        li
-          b Creator:
-          |  #{view.session.get('creatorName')}
-      
+      if view.state.get('loading')
+        h1.m-y-1 Loading...
+        
+      else
+        h1.m-y-1 Info
+        ul
+          li
+            b Level Name:
+            |  #{view.level.get('name')}
+            
+          li
+            b Creator:
+            |  #{view.session.get('creatorName')}
+        
+        - var playing = view.state.get('playing')
+        .m-y-3
+          if playing
+            button#play-btn.btn.btn-lg.btn-burgandy RESTART
+          else
+            button#play-btn.btn.btn-lg.btn-navy PLAY
+        

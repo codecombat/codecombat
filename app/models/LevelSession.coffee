@@ -1,4 +1,5 @@
 CocoModel = require './CocoModel'
+{createAetherOptions} = require 'lib/aether_utils'
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'
@@ -93,3 +94,15 @@ module.exports = class LevelSession extends CocoModel
         newTopScores.push oldTopScore
     state.topScores = newTopScores
     @set 'state', state
+
+  generateSpellsObject: ->
+    aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @get('codeLanguage')
+    spellThang = aether: new Aether aetherOptions
+    spells = "hero-placeholder/plan": thangs: {'Hero Placeholder': spellThang}, name: 'plan'
+    source = @get('code')['hero-placeholder'].plan
+    try
+      spellThang.aether.transpile source
+    catch e
+      console.log "Couldn't transpile!\n#{source}\n", e
+      spellThang.aether.transpile ''
+    spells

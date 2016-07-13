@@ -78,7 +78,7 @@ module.exports = class VerifierTest extends CocoClass
     @listenToOnce @god, 'infinite-loop', @fail
     @listenToOnce @god, 'user-code-problem', @onUserCodeProblem
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
-    @god.createWorld @generateSpellsObject()
+    @god.createWorld @session.generateSpellsObject()
     @updateCallback? state: 'running'
 
   processSingleGameResults: (e) ->
@@ -117,18 +117,6 @@ module.exports = class VerifierTest extends CocoClass
     @state = 'error'
     @updateCallback? state: @state
     @scheduleCleanup()
-
-  generateSpellsObject: ->
-    aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @session.get('codeLanguage')
-    spellThang = aether: new Aether aetherOptions
-    spells = "hero-placeholder/plan": thangs: {'Hero Placeholder': spellThang}, name: 'plan'
-    source = @session.get('code')['hero-placeholder'].plan
-    try
-      spellThang.aether.transpile source
-    catch e
-      console.log "Couldn't transpile!\n#{source}\n", e
-      spellThang.aether.transpile ''
-    spells
 
   scheduleCleanup: ->
     setTimeout @cleanup, 100
