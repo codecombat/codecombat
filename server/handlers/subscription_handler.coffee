@@ -270,6 +270,9 @@ class SubscriptionHandler extends Handler
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
       return done({res: 'You must be signed in to subscribe.', code: 403})
 
+    if not req.user.get('email')
+      return done({res: 'Your account needs an email address to subscribe.', code: 403})
+
     token = req.body.stripe.token
     prepaidCode = req.body.stripe.prepaidCode
     customerID = user.get('stripe')?.customerID

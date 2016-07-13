@@ -4,7 +4,10 @@ block modal-header-content
   .text-center
     h1.modal-title(data-i18n="courses.remove_student1")
     span.glyphicon.glyphicon-warning-sign.text-danger
-    p= view.user.get('name', true) + ' - ' + view.user.get('email')
+    p
+      span= view.user.get('name', true)
+      if view.user.get('email')
+        span= " — " + view.user.get('email')
     h2(data-i18n="courses.are_you_sure")
 
 block modal-body-content

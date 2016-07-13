@@ -961,7 +961,7 @@
     manage_subscription: "Click here to manage your subscription."
     new_password: "New Password"
     new_password_verify: "Verify"
-    type_in_email: "Type in your email to confirm account deletion."
+    type_in_email: "Type in your email or username to confirm account deletion." # {change}
     type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "Also, type in your password."
     email_subscriptions: "Email Subscriptions"
@@ -1333,7 +1333,7 @@
     update_account_title: "Your account needs attention!"
     update_account_blurb: "Before you can access your classes, choose how you want to use this account."
     update_account_current_type: "Current Account Type:"
-    update_account_account_email: "Account Email:"
+    update_account_account_email: "Account Email/Username:" # {change}
     update_account_am_teacher: "I am a teacher"
     update_account_keep_access: "Keep access to classes I've created"
     update_account_teachers_can: "Teacher accounts can:"

@@ -89,6 +89,8 @@ module.exports =
     timestamp = (new Date).getTime()
     if not user
       throw new errors.NotFound('User not found')
+    if not user.get('email')
+      throw new errors.UnprocessableEntity('User must have an email address to receive a verification email')
     context =
       email_id: sendwithus.templates.verify_email
       recipient:
@@ -127,14 +129,18 @@ module.exports =
     unless req.user.isAnonymous()
       throw new errors.Forbidden('You are already signed in.')
 
-    { password, email } = req.body
-    unless _.all([password, email])
-      throw new errors.UnprocessableEntity('Requires password and email')
+    { name, email, password } = req.body
+    unless password
+      throw new errors.UnprocessableEntity('Requires password')
+    unless name or email
+      throw new errors.UnprocessableEntity('Requires username or email')
 
-    if yield User.findByEmail(email)
+    if not _.isEmpty(email) and yield User.findByEmail(email)
       throw new errors.Conflict('Email already taken')
+    if not _.isEmpty(name) and yield User.findByName(name)
+      throw new errors.Conflict('Name already taken')
 
-    req.user.set({ password, email, anonymous: false })
+    req.user.set({ name, email, password, anonymous: false })
     yield module.exports.finishSignup(req, res)
 
   signupWithFacebook: wrap (req, res) ->

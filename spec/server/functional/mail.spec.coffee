@@ -1,7 +1,10 @@
 require '../common'
+utils = require '../utils'
 mail = require '../../../server/routes/mail'
+sendwithus = require '../../../server/sendwithus'
 User = require '../../../server/models/User'
 request = require '../request'
+LevelSession = require '../../../server/models/LevelSession'
 
 testPost =
   data:
@@ -37,3 +40,30 @@ describe 'handleUnsubscribe', ->
     expect(u.isEmailSubscriptionEnabled('ambassadorNews')).toBeFalsy()
     expect(u.isEmailSubscriptionEnabled('artisanNews')).toBeFalsy()
     done()
+
+# This can be re-enabled on demand to test it, but for some async reason this
+# crashes jasmine soon afterward.
+describe 'sendNextStepsEmail', ->
+  xit 'Sends the email', utils.wrap (done) ->
+    user = yield utils.initUser({generalNews: {enabled: true}, anyNotes: {enabled: true}})
+    expect(user.id).toBeDefined()
+    yield new LevelSession({
+      creator: user.id
+      permissions: simplePermissions
+      level: original: 'dungeon-arena'
+      state: complete: true
+    }).save()
+    yield new LevelSession({
+      creator: user.id
+      permissions: simplePermissions
+      level: original: 'dungeon-arena-2'
+      state: complete: true
+    }).save()
+
+    spyOn(sendwithus.api, 'send').and.callFake (options, cb) ->
+      expect(options.recipient.address).toBe(user.get('email'))
+      cb()
+      done()
+
+    mail.sendNextStepsEmail(user, new Date, 5)
+  .pend('Breaks other tests — must be run alone')

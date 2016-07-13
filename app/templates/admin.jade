@@ -10,10 +10,10 @@ block content
       .col-sm-1
         button.btn.btn-primary.btn-large#enter-espionage-mode 007
       label.control-label.col-sm-5(for="espionage-name-or-email")
-        em you are currently #{me.get('name')} at #{me.get('email')}
+        em you are currently #{me.get('name') || '(no username)'} at #{me.get('email') || '(no email)'}
         if view.amActually
           br
-          em but you are actually #{view.amActually.get('name')} at #{view.amActually.get('email')}
+          em but you are actually #{view.amActually.get('name') || '(no username)'} at #{view.amActually.get('email') || '(no email)'}
           br
           button#stop-spying-btn.btn.btn-xs Stop Spying
     form#user-search-form.form-group

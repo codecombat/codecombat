@@ -122,6 +122,10 @@ UserSchema.statics.findByEmail = (email, done=_.noop) ->
   emailLower = email.toLowerCase()
   User.findOne({emailLower: emailLower}).exec(done)
 
+UserSchema.statics.findByName = (name, done=_.noop) ->
+  nameLower = name.toLowerCase()
+  User.findOne({nameLower: nameLower}).exec(done)
+
 emailNameMap =
   generalNews: 'announcement'
   adventurerNews: 'tester'
@@ -267,6 +271,7 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
     unconflictName name + suffix, done
 
 UserSchema.methods.sendWelcomeEmail = ->
+  return if not @get('email')
   { welcome_email_student, welcome_email_user } = sendwithus.templates
   timestamp = (new Date).getTime()
   data =
@@ -345,14 +350,25 @@ UserSchema.methods.saveActiveUser = (event, done=null) ->
 
 UserSchema.pre('save', (next) ->
   if _.isNaN(@get('purchased')?.gems)
-    return next(new errors.InternalServerError('Attempting to save NaN to user')) 
+    return next(new errors.InternalServerError('Attempting to save NaN to user'))
   Classroom = require './Classroom'
   if @isTeacher() and not @wasTeacher
     Classroom.update({members: @_id}, {$pull: {members: @_id}}, {multi: true}).exec (err, res) ->
+
   if email = @get('email')
     @set('emailLower', email.toLowerCase())
+  else
+    @set('email', undefined)
+    @set('emailLower', undefined)
   if name = @get('name')
     @set('nameLower', name.toLowerCase())
+  else
+    @set('name', undefined)
+    @set('nameLower', undefined)
+
+  unless email or name or @get('anonymous') or @get('deleted')
+    return next(new errors.UnprocessableEntity('User needs a username or email address'))
+
   pwd = @get('password')
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
