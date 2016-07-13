@@ -62,7 +62,7 @@ module.exports = class VerifierTest extends CocoClass
     @solution = @levelLoader.session.solution
 
   setupGod: ->
-    @god.setLevel @level.serialize @supermodel, @session
+    @god.setLevel @level.serialize {@supermodel, @session, otherSession: null, headless: true, sessionless: false}
     @god.setLevelSessionIDs [@session.id]
     @god.setWorldClassMap @world.classMap
     @god.lastFlagHistory = @session.get('state').flagHistory

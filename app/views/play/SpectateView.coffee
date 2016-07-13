@@ -69,7 +69,7 @@ module.exports = class SpectateLevelView extends RootView
       @load()
 
   setLevel: (@level, @supermodel) ->
-    serializedLevel = @level.serialize @supermodel, @session, @otherSession
+    serializedLevel = @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
     @god?.setLevel serializedLevel
     if @world
       @world.loadFromLevel serializedLevel, false
@@ -106,7 +106,7 @@ module.exports = class SpectateLevelView extends RootView
     #at this point, all requisite data is loaded, and sessions are not denormalized
     team = @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @god.setLevel @level.serialize @supermodel, @session, @otherSession
+    @god.setLevel @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap
     @setTeam team
