@@ -56,6 +56,7 @@ module.exports = class LevelLoader extends CocoClass
   loadWorldNecessities: ->
     # TODO: Actually trigger loading, instead of in the constructor
     new Promise((resolve, reject) =>
+      return resolve(@) if @world
       @once 'world-necessities-loaded', => resolve(@)
       @once 'world-necessity-load-failed', ({resource}) ->
         { jqxhr } = resource
@@ -382,7 +383,6 @@ module.exports = class LevelLoader extends CocoClass
   onSupermodelLoaded: ->
     return if @destroyed
     console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms' if LOG
-    console.log 'supermodel loaded'
     @loadLevelSounds()
     @denormalizeSession()
 

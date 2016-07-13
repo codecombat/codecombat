@@ -37,7 +37,7 @@ module.exports = class PlayGameDevLevelView extends RootView
 
     @levelLoader.loadWorldNecessities()
 
-    .then (levelLoader) => # grabbing from the levelLoader
+    .then (levelLoader) =>
       { @level, @session, @world } = levelLoader
       @god.setLevel(@level.serialize(@supermodel, @session))
       @god.setWorldClassMap(@world.classMap)
@@ -45,7 +45,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @god.setGoalManager(@goalManager)
       me.team = TEAM
       @session.set 'team', TEAM
-      return @supermodel.finishLoading()
+      @supermodel.finishLoading()
       
     .then (supermodel) =>
       @levelLoader.destroy()
