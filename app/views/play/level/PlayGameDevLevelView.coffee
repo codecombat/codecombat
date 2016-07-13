@@ -4,6 +4,7 @@ GameUIState = require 'models/GameUIState'
 God = require 'lib/God'
 LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
+ScriptManager = require 'lib/scripts/ScriptManager'
 Surface = require 'lib/surface/Surface'
 ThangType = require 'models/ThangType'
 Level = require 'models/Level'
@@ -46,6 +47,9 @@ module.exports = class PlayGameDevLevelView extends RootView
       @god.angelsShare.firstWorld = false # HACK
       me.team = TEAM
       @session.set 'team', TEAM
+      @scriptManager = new ScriptManager({
+        scripts: @world.scripts or [], view: @, @session, levelID: @level.get('slug')})
+      @scriptManager.loadFromSession() # Should we? TODO: Figure out how scripts work for game dev levels
       @supermodel.finishLoading()
       
     .then (supermodel) =>
@@ -63,6 +67,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @surface.camera.setBounds(bounds)
       @surface.camera.zoomTo({x: 0, y: 0}, 0.1, 0)
       @surface.setWorld(@world)
+      @scriptManager.initializeCamera()
       @renderSelectors '#info-col'
       @spells = @session.generateSpellsObject()
       @state.set('loading', false)
