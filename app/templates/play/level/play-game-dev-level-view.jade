@@ -6,8 +6,13 @@
         canvas(width=924, height=589)#normal-surface
         
     .col-xs-3#info-col.style-flat
-      if view.state.get('loading')
+      if view.state.get('errorMessage')
+        .alert.alert-danger= view.state.get('errorMessage')
+        
+      else if view.state.get('loading')
         h1.m-y-1 Loading...
+        .progress
+          .progress-bar(style="width: #{view.state.get('progress')}")
         
       else
         h1.m-y-1 Info

@@ -52,6 +52,15 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @supermodel, 'loaded-all', @onSupermodelLoaded
 
   # Supermodel (Level) Loading
+  
+  loadWorldNecessities: ->
+    # TODO: Actually trigger loading, instead of in the constructor
+    new Promise((resolve, reject) =>
+      @once 'world-necessities-loaded', => resolve(@)
+      @once 'world-necessity-load-failed', ({resource}) ->
+        { jqxhr } = resource
+        reject({message: jqxhr.responseJSON?.message or jqxhr.responseText or 'Unknown Error'})
+    )
 
   loadLevel: ->
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
@@ -332,8 +341,8 @@ module.exports = class LevelLoader extends CocoClass
     @worldNecessities = (r for r in @worldNecessities when r?)
     @onWorldNecessitiesLoaded() if @checkAllWorldNecessitiesRegisteredAndLoaded()
 
-  onWorldNecessityLoadFailed: (resource) ->
-    @trigger('world-necessity-load-failed', resource: resource)
+  onWorldNecessityLoadFailed: (event) ->
+    @trigger('world-necessity-load-failed', event)
 
   checkAllWorldNecessitiesRegisteredAndLoaded: ->
     return false unless _.filter(@worldNecessities).length is 0
@@ -373,6 +382,7 @@ module.exports = class LevelLoader extends CocoClass
   onSupermodelLoaded: ->
     return if @destroyed
     console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms' if LOG
+    console.log 'supermodel loaded'
     @loadLevelSounds()
     @denormalizeSession()
 
