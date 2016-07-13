@@ -1,5 +1,4 @@
 CocoModel = require './CocoModel'
-{createAetherOptions} = require 'lib/aether_utils'
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'
@@ -96,6 +95,7 @@ module.exports = class LevelSession extends CocoModel
     @set 'state', state
 
   generateSpellsObject: ->
+    {createAetherOptions} = require 'lib/aether_utils'
     aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @get('codeLanguage')
     spellThang = aether: new Aether aetherOptions
     spells = "hero-placeholder/plan": thangs: {'Hero Placeholder': spellThang}, name: 'plan'
