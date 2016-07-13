@@ -49,7 +49,7 @@ module.exports = mw =
       done = options
       options = {}
     form = {
-      username: user.get('email')
+      username: user.get('email') or user.get('name')
       password: 'password'
     }
     (options.request or request).post mw.getURL('/auth/login'), { form: form }, (err, res) ->
@@ -89,7 +89,7 @@ module.exports = mw =
     args = Array.from(arguments)
     [done, [data, sources]] = [args.pop(), args]
 
-    data = _.extend({}, { 
+    data = _.extend({}, {
       name: _.uniqueId('Level ')
       permissions: [{target: mw.lastLogin.id, access: 'owner'}]
     }, data)

@@ -26,7 +26,7 @@ module.exports = dispatchTaskToConsumer = (req, res) ->
 
 
 checkSimulationPermissions = (req, cb) ->
-  if req.user?.get('email')
+  if not req.user or req.user.isAnonymous()
     cb null
   else
     cb 'You need to be logged in to simulate games'

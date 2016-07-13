@@ -345,14 +345,25 @@ UserSchema.methods.saveActiveUser = (event, done=null) ->
 
 UserSchema.pre('save', (next) ->
   if _.isNaN(@get('purchased')?.gems)
-    return next(new errors.InternalServerError('Attempting to save NaN to user')) 
+    return next(new errors.InternalServerError('Attempting to save NaN to user'))
   Classroom = require './Classroom'
   if @isTeacher() and not @wasTeacher
     Classroom.update({members: @_id}, {$pull: {members: @_id}}, {multi: true}).exec (err, res) ->
+
   if email = @get('email')
     @set('emailLower', email.toLowerCase())
+  else
+    @set('email', undefined)
+    @set('emailLower', undefined)
   if name = @get('name')
     @set('nameLower', name.toLowerCase())
+  else
+    @set('name', undefined)
+    @set('nameLower', undefined)
+
+  unless email or name or @get('anonymous') or @get('deleted')
+    return next(new errors.UnprocessableEntity('User needs a username or email address'))
+
   pwd = @get('password')
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))

@@ -692,7 +692,7 @@ sendNextStepsEmail = (user, now, daysAgo) ->
     return
 
   LevelSession.find({creator: user.get('_id') + ''}).select('levelName levelID changed state.complete playtime').lean().exec (err, sessions) ->
-    return log.error "Couldn't find sessions for #{user.get('email')}: #{err}" if err
+    return log.error "Couldn't find sessions for #{user.get('email')} #{user.get('name')}: #{err}" if err
     complete = (s for s in sessions when s.state?.complete)
     incomplete = (s for s in sessions when not s.state?.complete)
     return if complete.length < 2
@@ -704,7 +704,7 @@ sendNextStepsEmail = (user, now, daysAgo) ->
       nextLevel = null
     err = null
     do (err, nextLevel) ->
-      return log.error "Couldn't find next level for #{user.get('email')}: #{err}" if err
+      return log.error "Couldn't find next level for #{user.get('email')} #{user.get('name')}: #{err}" if err
       name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
       name = 'Hero' if not name or name in ['Anoner', 'Anonymous']
       #secretLevel = switch user.get('testGroupNumber') % 8

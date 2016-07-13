@@ -64,7 +64,8 @@ module.exports = class BasicInfoView extends CocoView
     
   checkEmail: ->
     email = @$('[name="email"]').val()
-    if email is @state.get('checkEmailValue')
+
+    if @signupState.get('path') isnt 'student' and (not _.isEmpty(email) and email is @state.get('checkEmailValue'))
       return @state.get('checkEmailPromise')
       
     if not (email and forms.validateEmail(email))
@@ -155,7 +156,7 @@ module.exports = class BasicInfoView extends CocoView
       email: User.schema.properties.email
       name: User.schema.properties.name
       password: User.schema.properties.password
-    required: ['email', 'name', 'password'].concat (if @signupState.get('path') is 'student' then ['firstName', 'lastName'] else [])
+    required: ['name', 'password'].concat (if @signupState.get('path') is 'student' then ['firstName', 'lastName'] else ['email'])
   
   onClickBackButton: -> @trigger 'nav-back'
   
@@ -176,13 +177,13 @@ module.exports = class BasicInfoView extends CocoView
     @checkEmail()
     .then @checkName()
     .then =>
-      if not (@state.get('checkEmailState') is 'available' and @state.get('checkNameState') is 'available')
+      if not (@state.get('checkEmailState') in ['available', 'standby'] and @state.get('checkNameState') is 'available')
         throw AbortError
-        
+
       # update User
       emails = _.assign({}, me.get('emails'))
       emails.generalNews ?= {}
-      emails.generalNews.enabled = @$('#subscribe-input').is(':checked')
+      emails.generalNews.enabled = @$('#subscribe-input').is(':checked') and not _.isEmpty(@state.get('checkEmailValue'))
       me.set('emails', emails)
       
       unless _.isNaN(@signupState.get('birthday').getTime())

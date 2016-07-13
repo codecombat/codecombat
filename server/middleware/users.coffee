@@ -128,10 +128,10 @@ module.exports =
       throw new errors.Forbidden('You are already signed in.')
 
     { password, email } = req.body
-    unless _.all([password, email])
-      throw new errors.UnprocessableEntity('Requires password and email')
+    unless password
+      throw new errors.UnprocessableEntity('Requires password')
 
-    if yield User.findByEmail(email)
+    if not _.isEmpty(email) and yield User.findByEmail(email)
       throw new errors.Conflict('Email already taken')
 
     req.user.set({ password, email, anonymous: false })

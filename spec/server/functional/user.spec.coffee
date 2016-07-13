@@ -234,6 +234,14 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
     expect(body.role).toBe('advisor')
     done()
 
+  it 'does not allow users to have no username or email', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { email: '', name: '' }}
+    expect(body.code).toBe(422)
+    expect(body.message).toEqual('User needs a username or email address')
+    done()
+
 describe 'PUT /db/user/-/become-student', ->
   beforeEach utils.wrap (done) ->
     @url = getURL('/db/user/-/become-student')
@@ -739,7 +747,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
   facebookID = '12345'
   facebookEmail = 'some@email.com'
   
-  validFacebookResponse = new Promise((resolve) -> resolve({ 
+  validFacebookResponse = new Promise((resolve) -> resolve({
     id: facebookID,
     email: facebookEmail,
     first_name: 'Some',
@@ -753,12 +761,12 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
     verified: true
   }))
   
-  invalidFacebookResponse = new Promise((resolve) -> resolve({ 
+  invalidFacebookResponse = new Promise((resolve) -> resolve({
     error: {
       message: 'Invalid OAuth access token.',
       type: 'OAuthException',
       code: 190,
-      fbtrace_id: 'EC4dEdeKHBH' 
+      fbtrace_id: 'EC4dEdeKHBH'
     }
   }))
   
