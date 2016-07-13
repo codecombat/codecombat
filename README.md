@@ -104,3 +104,4 @@ so we can accept your pull requests. It is easy.
 ![Tom Steinbrecher](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Tom%20Steinbrecher/tom_100.png "Tom Steinbrecher")
 ![Yang Shun Tay](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Yang%20Shun%20Tay/yang_shun_tay_100.png "Yang Shun Tay")
 ![Zach Martin](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Zach%20Martin/zack_100.png "Zach Martin")
+![Dan TDM](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Dan_TDM/dan_tdm_100.png"Dan TDM")
