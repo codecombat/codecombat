@@ -94,9 +94,9 @@ module.exports = class God extends CocoClass
     return if hadPreloader
 
     @angelsShare.workQueue = []
-    work =
+    work = {
       userCodeMap: userCodeMap
-      level: @level
+      @level
       levelSessionIDs: @levelSessionIDs
       submissionCount: @lastSubmissionCount
       fixedSeed: @lastFixedSeed
@@ -104,9 +104,10 @@ module.exports = class God extends CocoClass
       difficulty: @lastDifficulty
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless
-      preload: preload
+      preload
       synchronous: not Worker?  # Profiling world simulation is easier on main thread, or we are IE9.
-      realTime: realTime
+      realTime
+    }
     @angelsShare.workQueue.push work
     angel.workIfIdle() for angel in @angelsShare.angels
     work

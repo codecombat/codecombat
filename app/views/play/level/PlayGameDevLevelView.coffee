@@ -43,6 +43,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @god.setWorldClassMap(@world.classMap)
       @goalManager = new GoalManager(@world, @level.get('goals'), @team)
       @god.setGoalManager(@goalManager)
+      @god.angelsShare.firstWorld = false # HACK
       me.team = TEAM
       @session.set 'team', TEAM
       @supermodel.finishLoading()
