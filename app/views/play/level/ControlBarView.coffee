@@ -45,7 +45,7 @@ module.exports = class ControlBarView extends CocoView
     @observing = options.session.get('creator') isnt me.id
 
     @levelNumber = ''
-    if @level.isType('course') and @level.get('campaignIndex')?
+    if @level.isType('course', 'game-dev', 'web-dev') and @level.get('campaignIndex')?
       @levelNumber = @level.get('campaignIndex') + 1
     if @courseInstanceID
       @courseInstance = new CourseInstance(_id: @courseInstanceID)
@@ -137,6 +137,7 @@ module.exports = class ControlBarView extends CocoView
           @homeLink += "/#{@courseInstanceID}"
           @homeViewArgs.push @courseInstanceID
     #else if @level.isType('game-dev')  # TODO
+    #else if @level.isType('web-dev')  # TODO
     else
       @homeLink = '/'
       @homeViewClass = 'views/HomeView'

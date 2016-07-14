@@ -636,14 +636,14 @@ module.exports = class ThangsTabView extends CocoView
     if batchInsert
       if thangType.get('name') is 'Hero Placeholder'
         thangID = 'Hero Placeholder'
-        return if not @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev') or @getThangByID(thangID)
+        return if not @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') or @getThangByID(thangID)
       else
         thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
     else
       thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @getThangByID(thangID)
     if @cloneSourceThang
       components = _.cloneDeep @getThangByID(@cloneSourceThang.id).components
-    else if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')
+    else if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
       components = []  # Load them all from default ThangType Components
     else
       components = _.cloneDeep thangType.get('components') ? []

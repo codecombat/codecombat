@@ -49,7 +49,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @session = options.session
     @level = options.level
     @thangTypes = {}
-    if @level.isType('hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev')
+    if @level.isType('hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev', 'web-dev')
       achievements = new CocoCollection([], {
         url: "/db/achievement?related=#{@session.get('level').original}"
         model: Achievement
@@ -63,7 +63,7 @@ module.exports = class HeroVictoryModal extends ModalView
     else
       @readyToContinue = true
     @playSound 'victory'
-    if @level.isType('course')
+    if @level.isType('course', 'game-dev', 'web-dev')
       if nextLevel = @level.get('nextLevel')
         @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
         @nextLevel = @supermodel.loadModel(@nextLevel).model
@@ -73,7 +73,7 @@ module.exports = class HeroVictoryModal extends ModalView
     if @level.isType('course', 'course-ladder')
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
       @loadExistingFeedback()
-    # TODO: support game-dev
+    # TODO: support 'game-dev' and 'web-dev' (not the same as 'course' since can be played outside of courses)
 
   destroy: ->
     clearInterval @sequentialAnimationInterval
@@ -154,8 +154,8 @@ module.exports = class HeroVictoryModal extends ModalView
   getRenderData: ->
     c = super()
     c.levelName = utils.i18n @level.attributes, 'name'
-    # TODO: support 'game-dev'
-    if @level.isType('hero', 'game-dev')
+    # TODO: support 'game-dev', 'web-dev'
+    if @level.isType('hero', 'game-dev', 'web-dev')
       c.victoryText = utils.i18n @level.get('victory') ? {}, 'body'
     earnedAchievementMap = _.indexBy(@newEarnedAchievements or [], (ea) -> ea.get('achievement'))
     for achievement in (@achievements?.models or [])
@@ -223,7 +223,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   afterRender: ->
     super()
-    @$el.toggleClass 'with-achievements', @level.isType('hero', 'hero-ladder', 'game-dev')  # TODO: support game-dev
+    @$el.toggleClass 'with-achievements', @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')  # TODO: support game-dev, web-dev
     return unless @supermodel.finished()
     @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
     @updateSavingProgressStatus()
@@ -233,7 +233,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
   initializeAnimations: ->
-    return @endSequentialAnimations() unless @level.isType('hero', 'hero-ladder', 'game-dev')  # TODO: support game-dev
+    return @endSequentialAnimations() unless @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')  # TODO: support game-dev, web-dev
     @updateXPBars 0
     #playVictorySound = => @playSound 'victory-title-appear'  # TODO: actually add this
     @$el.find('#victory-header').delay(250).queue(->
@@ -264,7 +264,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   beginSequentialAnimations: ->
     return if @destroyed
-    return unless @level.isType('hero', 'hero-ladder', 'game-dev')  # TODO: support game-dev
+    return unless @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')  # TODO: support game-dev, web-dev
     @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
       previousNumber: $(panel).data('previous-number')
@@ -414,7 +414,7 @@ module.exports = class HeroVictoryModal extends ModalView
     {'kithgard-gates': 'forest', 'kithgard-mastery': 'forest', 'siege-of-stonehold': 'desert', 'clash-of-clones': 'mountain', 'summits-gate': 'glacier'}[@level.get('slug')] or @level.get 'campaign'  # Much easier to just keep this updated than to dynamically figure it out.
 
   getNextLevelLink: (returnToCourse=false) ->
-    if @level.isType('course') and nextLevel = @level.get('nextLevel') and not returnToCourse
+    if @level.isType('course', 'game-dev', 'web-dev') and nextLevel = @level.get('nextLevel') and not returnToCourse  # TODO: support game-dev and web-dev
       # need to do something more complicated to load its slug
       console.log 'have @nextLevel', @nextLevel, 'from nextLevel', nextLevel
       link = "/play/level/#{@nextLevel.get('slug')}"

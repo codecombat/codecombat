@@ -205,7 +205,7 @@ module.exports = class PlayLevelView extends RootView
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
-    @$el.addClass 'hero' if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')
+    @$el.addClass 'hero' if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # TODO: figure out what this does and comment it
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
@@ -468,7 +468,7 @@ module.exports = class PlayLevelView extends RootView
     return false if $.browser?.msie or $.browser?.msedge
     return false if $.browser.linux
     return false if me.level() < 8
-    if @level.isType('course', 'game-dev')
+    if @level.isType('course', 'game-dev', 'web-dev')
       return false
     else if @level.isType('hero') and gamesSimulated
       return false if stillBuggy
@@ -541,7 +541,7 @@ module.exports = class PlayLevelView extends RootView
   onDonePressed: -> @showVictory()
 
   onShowVictory: (e) ->
-    $('#level-done-button').show() unless @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')
+    $('#level-done-button').show() unless @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
     @showVictory() if e.showModal
     return if @victorySeen
     @victorySeen = true
@@ -559,7 +559,7 @@ module.exports = class PlayLevelView extends RootView
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
-    ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev') then HeroVictoryModal else VictoryModal
+    ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') then HeroVictoryModal else VictoryModal
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)

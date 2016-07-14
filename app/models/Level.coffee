@@ -59,7 +59,7 @@ module.exports = class Level extends CocoModel
 
   denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
-    if o.thangs and @isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')
+    if o.thangs and @isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
       thangTypesWithComponents = (tt for tt in supermodel.getModels(ThangType) when tt.get('components')?)
       thangTypesByOriginal = _.indexBy thangTypesWithComponents, (tt) -> tt.get('original')  # Optimization
       for levelThang in o.thangs
