@@ -154,7 +154,7 @@ module.exports =
       levels = _.sortBy(levels, 'campaignIndex')
       for level in levels
         levelData = { original: mongoose.Types.ObjectId(level.original) }
-        _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes'))
+        _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes', 'shareable'))
         courseData.levels.push(levelData)
       coursesData.push(courseData)
     classroom.set('courses', coursesData)
