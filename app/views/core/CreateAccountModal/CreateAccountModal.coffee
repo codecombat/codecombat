@@ -62,6 +62,7 @@ module.exports = class CreateAccountModal extends ModalView
       gplusEnabled: application.gplusHandler.apiLoaded
       classCode
       birthday: new Date('') # so that birthday.getTime() is NaN
+      authModalInitialValues: {}
     }
     
     { startOnPath } = options
@@ -112,5 +113,4 @@ module.exports = class CreateAccountModal extends ModalView
         document.location.reload()
   
   onClickLoginLink: ->
-    # TODO: Make sure the right information makes its way into the state.
-    @openModalView(new AuthModal({ initialValues: @signupState.pick(['email', 'name', 'password']) }))
+    @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues') }))

@@ -267,7 +267,7 @@ LevelSchema = c.object {
     victory: {}
     type: 'hero'
     goals: [
-      {id: 'ogres-die', name: 'Ogres must die.', killThangs: ['ogres'], worldEndsAfter: 3}
+      {id: 'ogres-die', name: 'Defeat the ogres.', killThangs: ['ogres'], worldEndsAfter: 3}
       {id: 'humans-survive', name: 'Your hero must survive.', saveThangs: ['Hero Placeholder'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true}
     ]
     concepts: ['basic_syntax']
@@ -325,6 +325,7 @@ _.extend LevelSchema.properties,
   replayable: {type: 'boolean', title: 'Replayable', description: 'Whether this (hero) level infinitely scales up its difficulty and can be beaten over and over for greater rewards.'}
   buildTime: {type: 'number', description: 'How long it has taken to build this level.'}
   practice: { type: 'boolean' }
+  shareable: { type: 'boolean', title: 'Shareable' }
   practiceThresholdMinutes: {type: 'number', description: 'Players with larger playtimes may be directed to a practice level.'}
 
   # Admin flags

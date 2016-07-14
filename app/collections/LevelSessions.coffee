@@ -5,12 +5,6 @@ module.exports = class LevelSessionCollection extends CocoCollection
   url: '/db/level.session'
   model: LevelSession
 
-  fetchMineForCourseInstance: (courseInstanceID, options) ->
-    options = _.extend({
-      url: "/db/course_instance/#{courseInstanceID}/my-course-level-sessions"
-    }, options)
-    @fetch(options)
-    
   fetchForCourseInstance: (courseInstanceID, options) ->
     options = _.extend({
       url: "/db/course_instance/#{courseInstanceID}/my-course-level-sessions"

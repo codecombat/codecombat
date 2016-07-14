@@ -106,4 +106,32 @@ LevelSessionSchema.set('toObject', {
     return ret
 })
 
-module.exports = LevelSession = mongoose.model('level.session', LevelSessionSchema, 'level.sessions')
+if config.mongo.level_session_replica_string?
+  levelSessionMongo = mongoose.createConnection()
+  levelSessionMongo.open config.mongo.level_session_replica_string, (error) ->
+    if error
+      log.error "Couldnt connect to session mongo!", error
+    else
+      log.info "Connected to seperate level session server with string", config.mongo.level_session_replica_string
+else
+  levelSessionMongo = mongoose
+
+LevelSession = levelSessionMongo.model('level.session', LevelSessionSchema, 'level.sessions')
+
+if config.mongo.level_session_aux_replica_string?
+  auxLevelSessionMongo = mongoose.createConnection()
+  auxLevelSessionMongo.open config.mongo.level_session_aux_replica_string, (error) ->
+    if error
+      log.error "Couldnt connect to AUX session mongo!", error
+    else
+      log.info "Connected to seperate level AUX session server with string", config.mongo.level_session_aux_replica_string
+
+  auxLevelSession = auxLevelSessionMongo.model('level.session', LevelSessionSchema, 'level.sessions')
+
+  LevelSessionSchema.post 'save', (d) ->
+    return unless d instanceof LevelSession
+    o = d.toObject {transform: ((x, r) -> r), virtuals: false}
+    auxLevelSession.collection.save o,  {w:1}, (err, v) ->
+      log.error err.stack if err
+
+module.exports = LevelSession
