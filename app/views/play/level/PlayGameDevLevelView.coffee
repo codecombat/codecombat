@@ -32,8 +32,9 @@ module.exports = class PlayGameDevLevelView extends RootView
     @level = new Level()
     @session = new LevelSession()
     @gameUIState = new GameUIState()
+    @courseID = @getQueryVariable 'course'
     @god = new God({ @gameUIState })
-    @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM })
+    @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
     @listenTo @state, 'change', _.debounce(-> @renderSelectors('#info-col'))
 
     @levelLoader.loadWorldNecessities()
