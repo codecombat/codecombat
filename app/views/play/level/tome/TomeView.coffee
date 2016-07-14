@@ -59,6 +59,9 @@ module.exports = class TomeView extends CocoView
     super()
     @worker = @createWorker()
     programmableThangs = _.filter @options.thangs, (t) -> t.isProgrammable and t.programmableMethods
+    if @options.level.isType('web-dev')
+      if @fakeProgrammableThang = @createFakeProgrammableThang()
+        programmableThangs = [@fakeProgrammableThang]
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
     unless @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel, level: @options.level
@@ -140,7 +143,7 @@ module.exports = class TomeView extends CocoView
             god: @options.god
 
     for thangID, spellKeys of @thangSpells
-      thang = world.getThangByID thangID
+      thang = @fakeProgrammableThang ? world.getThangByID thangID
       if thang
         @spells[spellKey].addThang thang for spellKey in spellKeys
       else
@@ -161,6 +164,7 @@ module.exports = class TomeView extends CocoView
     @cast e?.preload, e?.realTime
 
   cast: (preload=false, realTime=false) ->
+    return if @options.level.isType('web-dev')
     sessionState = @options.session.get('state') ? {}
     if realTime
       sessionState.submissionCount = (sessionState.submissionCount ? 0) + 1
@@ -194,7 +198,7 @@ module.exports = class TomeView extends CocoView
     @castButton?.$el.hide()
 
   onSpriteSelected: (e) ->
-    return if @spellView and @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']  # Never deselect the hero in the Tome.
+    return if @spellView and @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev']  # Never deselect the hero in the Tome.
     thang = e.thang
     spellName = e.spellName
     @spellList?.$el.hide()
@@ -204,6 +208,9 @@ module.exports = class TomeView extends CocoView
       @clearSpellView()
       @updateSpellPalette thang, spell if spell
       return
+    @setSpellView spell, thang
+
+  setSpellView: (spell, thang) ->
     unless spell.view is @spellView
       @clearSpellView()
       @spellView = spell.view
@@ -246,12 +253,24 @@ module.exports = class TomeView extends CocoView
       @cast()
 
   onSelectPrimarySprite: (e) ->
+    if @options.level.isType('web-dev')
+      @setSpellView @spells['hero-placeholder/plan'], @fakeProgrammableThang
+      return
     # This is only fired by PlayLevelView for hero levels currently
     # TODO: Don't hard code these hero names
     if @options.session.get('team') is 'ogres'
       Backbone.Mediator.publish 'level:select-sprite', thangID: 'Hero Placeholder 1'
     else
       Backbone.Mediator.publish 'level:select-sprite', thangID: 'Hero Placeholder'
+
+  createFakeProgrammableThang: ->
+    return null unless hero = _.find @options.level.get('thangs'), id: 'Hero Placeholder'
+    return null unless programmableConfig = _.find(hero.components, (component) -> component.config?.programmableMethods).config
+    thang =
+      id: 'Hero Placeholder'
+      isProgrammable: true
+    thang = _.merge thang, programmableConfig
+    thang
 
   destroy: ->
     spell.destroy() for spellKey, spell of @spells

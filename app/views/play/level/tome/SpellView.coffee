@@ -226,7 +226,7 @@ module.exports = class SpellView extends CocoView
         disableSpaces = @options.level.get('disableSpaces') or false
         aceConfig = me.get('aceConfig') ? {}
         disableSpaces = false if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Not in vim/emacs mode
-        disableSpaces = false if @spell.language in ['lua', 'java', 'coffeescript']  # Don't disable for more advanced/experimental languages
+        disableSpaces = false if @spell.language in ['lua', 'java', 'coffeescript', 'html']  # Don't disable for more advanced/experimental languages
         if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.level())
           return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
@@ -470,6 +470,7 @@ module.exports = class SpellView extends CocoView
     # TODO: Turn on more autocompletion based on level sophistication
     # TODO: E.g. using the language default snippets yields a bunch of crazy non-beginner suggestions
     # TODO: Options logic shouldn't exist both here and in updateAutocomplete()
+    return if @spell.language is 'html'
     popupFontSizePx = @options.level.get('autocompleteFontSizePx') ? 16
     @zatanna = new Zatanna @ace,
       basic: false
@@ -864,7 +865,9 @@ module.exports = class SpellView extends CocoView
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
     incompleteThis = /^(s|se|sel|self|t|th|thi|this)$/.test currentLine.trim()
     #console.log "finished=#{valid and (endOfLine or beginningOfLine) and not incompleteThis}", valid, endOfLine, beginningOfLine, incompleteThis, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
-    if valid and (endOfLine or beginningOfLine) and not incompleteThis
+    if @options.level.isType('web-dev') and valid
+      console.log 'Update it!'
+    else if valid and (endOfLine or beginningOfLine) and not incompleteThis
       @preload()
 
   singleLineCommentRegex: ->
@@ -976,8 +979,6 @@ module.exports = class SpellView extends CocoView
       @ace.insert "{x=#{e.x}, y=#{e.y}}"
     else
       @ace.insert "{x: #{e.x}, y: #{e.y}}"
-
-
     @highlightCurrentLine()
 
   onStatementIndexUpdated: (e) ->
@@ -1246,7 +1247,7 @@ module.exports = class SpellView extends CocoView
     @debugView?.destroy()
     @translationView?.destroy()
     @toolbarView?.destroy()
-    @zatanna.addSnippets [], @editorLang if @editorLang?
+    @zatanna?.addSnippets [], @editorLang if @editorLang?
     $(window).off 'resize', @onWindowResize
     window.clearTimeout @saveSpadeTimeout
     @saveSpadeTimeout = null

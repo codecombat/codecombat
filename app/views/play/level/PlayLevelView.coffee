@@ -132,7 +132,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    @god = new God({@gameUIState})
+    @god = new God({@gameUIState})   # TODO: don't make one of these in web-dev mode
     levelLoaderOptions = supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing, courseID: @courseID
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
@@ -196,9 +196,12 @@ module.exports = class PlayLevelView extends RootView
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
-    @world = @levelLoader.world
     @level = @levelLoader.level
-    @$el.addClass 'hero' if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # TODO: figure out what this does and comment it
+    if @level.isType('web-dev')
+      @$el.addClass 'web-dev'  # Hide some of the elements we won't be using
+      return
+    @world = @levelLoader.world
+    @$el.addClass 'hero' if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')  # TODO: figure out what this does and comment it
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
@@ -234,6 +237,7 @@ module.exports = class PlayLevelView extends RootView
     @session.set('code', myCode)
 
   setupGod: ->
+    return if @level.isType('web-dev')
     @god.setLevel @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap
@@ -252,12 +256,12 @@ module.exports = class PlayLevelView extends RootView
 
   insertSubviews: ->
     @hintsState = new HintsState({ hidden: true }, { @session, @level })
-    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world.thangs, @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
-    @insertSubView new LevelPlaybackView session: @session, level: @level
+    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
+    @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
     @insertSubView new GoalsView {level: @level}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
-    @insertSubView new GoldView {} unless @level.get('slug') in ['wakka-maul']
-    @insertSubView new HUDView {level: @level}
+    @insertSubView new GoldView {} unless @level.get('slug') in ['wakka-maul'] unless @level.isType('web-dev')
+    @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
@@ -272,6 +276,7 @@ module.exports = class PlayLevelView extends RootView
     Backbone.Mediator.publish 'level:set-volume', volume: volume
 
   initScriptManager: ->
+    return if @level.isType('web-dev')
     @scriptManager = new ScriptManager({scripts: @world.scripts or [], view: @, session: @session, levelID: @level.get('slug')})
     @scriptManager.loadFromSession()
 
@@ -318,7 +323,10 @@ module.exports = class PlayLevelView extends RootView
     @saveRecentMatch() if @otherSession
     @levelLoader.destroy()
     @levelLoader = null
-    @initSurface()
+    if @level.isType('web-dev')
+      @initWebSurface()
+    else
+      @initSurface()
 
   saveRecentMatch: ->
     allRecentlyPlayedMatches = storage.load('recently-played-matches') ? {}
@@ -355,12 +363,13 @@ module.exports = class PlayLevelView extends RootView
   # Once Surface is Loaded ####################################################
 
   onLevelStarted: ->
-    return unless @surface?
+    return unless @surface? or @webSurface?
     @loadingView.showReady()
     @trackLevelLoadEnd()
     if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
-    @surface.showLevel()
+    @surface?.showLevel()
+    @webSurface?.showLevel()
     Backbone.Mediator.publish 'level:set-time', time: 0
     if (@isEditorPreview or @observing) and not @getQueryVariable('intro')
       @loadingView.startUnveiling()
@@ -406,7 +415,7 @@ module.exports = class PlayLevelView extends RootView
     Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: true
     Backbone.Mediator.publish 'tome:select-primary-sprite', {}
     Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: false
-    @surface.focusOnHero()
+    @surface?.focusOnHero()
 
   perhapsStartSimulating: ->
     return unless @shouldSimulate()
@@ -662,3 +671,11 @@ module.exports = class PlayLevelView extends RootView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
       @setupManager.open()
+
+
+  # web-dev levels
+  initWebSurface: ->
+    @webSurface = showLevel: =>
+      # TODO: make a real WebSurface class
+      @$('#web-surface').css('background-color', 'red')
+    Backbone.Mediator.publish 'level:started', {}

@@ -55,6 +55,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     @buildDocs() unless @docsBuilt
 
   buildAvatar: ->
+    return unless @thang.world
     avatar = new ThangAvatarView thang: @thang, includeName: false, supermodel: @supermodel
     if @avatar
       @avatar.$el.replaceWith avatar.$el

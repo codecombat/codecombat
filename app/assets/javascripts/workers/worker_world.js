@@ -80,7 +80,7 @@ var myImportScripts = importScripts;
 var languagesImported = {};
 var ensureLanguageImported = function(language) {
   if (languagesImported[language]) return;
-  if (language === 'javascript') return;  // Only has JSHint, but we don't need to lint here.
+  if (language === 'javascript' || language === 'html') return;  // Only has JSHint, but we don't need to lint here.
   myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
   languagesImported[language] = true;
 };

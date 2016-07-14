@@ -74,6 +74,8 @@ module.exports = class LevelLoader extends CocoClass
   onLevelLoaded: ->
     if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
       @sessionDependenciesRegistered = {}
+    if @level.isType('web-dev')
+      @headless = true
     if (@courseID and not @level.isType('course', 'course-ladder')) or window.serverConfig.picoCTF
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
@@ -481,6 +483,7 @@ module.exports = class LevelLoader extends CocoClass
   initWorld: ->
     return if @initialized
     @initialized = true
+    return if @level.isType('web-dev')
     @world = new World()
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
     @world.submissionCount = @session?.get('state')?.submissionCount ? 0

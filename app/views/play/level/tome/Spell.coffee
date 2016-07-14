@@ -65,6 +65,7 @@ module.exports = class Spell
     @worker = null
 
   setLanguage: (@language) ->
+    @language = 'html' if @level.isType('web-dev')
     #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
     @originalSource = @languages[@language] ? @languages.javascript
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
@@ -126,6 +127,8 @@ module.exports = class Spell
     else
       source = @getSource()
     [pure, problems] = [null, null]
+    if @language is 'html'
+      [pure, problems] = [source, []]  # TODO: problems? Actually do something when transpiling
     for thangID, spellThang of @thangs
       unless pure
         pure = spellThang.aether.transpile source
