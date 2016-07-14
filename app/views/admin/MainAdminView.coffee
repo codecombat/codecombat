@@ -23,6 +23,7 @@ module.exports = class MainAdminView extends RootView
     'submit #user-search-form': 'onSubmitUserSearchForm'
     'click #stop-spying-btn': 'onClickStopSpyingButton'
     'click #increment-button': 'incrementUserAttribute'
+    'click .user-spy-button': 'onClickUserSpyButton'
     'click #user-search-result': 'onClickUserSearchResult'
     'click #create-free-sub-btn': 'onClickFreeSubLink'
     'click #terminal-create': 'onClickTerminalSubLink'
@@ -59,6 +60,18 @@ module.exports = class MainAdminView extends RootView
         errors.showNotyNetworkError(arguments...)
     })
 
+  onClickUserSpyButton: (e) ->
+    e.stopPropagation()
+    userID = $(e.target).closest('tr').data('user-id')
+    button = $(e.currentTarget)
+    forms.disableSubmit(button)
+    me.spy(userID, {
+      success: -> window.location.reload()
+      error: ->
+        forms.enableSubmit(button)
+        errors.showNotyNetworkError(arguments...)
+    })
+
   onSubmitUserSearchForm: (e) ->
     e.preventDefault()
     searchValue = @$el.find('#user-search').val()
@@ -76,7 +89,7 @@ module.exports = class MainAdminView extends RootView
     forms.enableSubmit(@$('#user-search-button'))
     result = ''
     if users.length
-      result = ("<tr data-user-id='#{user._id}'><td><code>#{user._id}</code></td><td>#{_.escape(user.name or 'Anonymous')}</td><td>#{_.escape(user.email)}</td></tr>" for user in users)
+      result = ("<tr data-user-id='#{user._id}'><td><code>#{user._id}</code></td><td>#{_.escape(user.name or 'Anonymous')}</td><td>#{_.escape(user.email)}</td><td><button class='user-spy-button'>Spy</button></td></tr>" for user in users)
       result = "<table class=\"table\">#{result.join('\n')}</table>"
     @$el.find('#user-search-result').html(result)
 
