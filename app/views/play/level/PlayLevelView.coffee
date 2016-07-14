@@ -69,7 +69,6 @@ module.exports = class PlayLevelView extends RootView
     'god:infinite-loop': 'onInfiniteLoop'
     'level:reload-from-data': 'onLevelReloadFromData'
     'level:reload-thang-type': 'onLevelReloadThangType'
-    'level:session-will-save': 'onSessionWillSave'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiling': 'onLoadingViewUnveiling'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
@@ -112,7 +111,6 @@ module.exports = class PlayLevelView extends RootView
     @gameUIState = new GameUIState()
 
     $(window).on 'resize', @onWindowResize
-    @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     application.tracker?.enableInspectletJS(@levelID)
 
@@ -130,7 +128,7 @@ module.exports = class PlayLevelView extends RootView
     @supermodel.collections = givenSupermodel.collections
     @supermodel.shouldSaveBackups = givenSupermodel.shouldSaveBackups
 
-    serializedLevel = @level.serialize @supermodel, @session, @otherSession
+    serializedLevel = @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
     @god?.setLevel serializedLevel
     if @world
       @world.loadFromLevel serializedLevel, false
@@ -246,7 +244,7 @@ module.exports = class PlayLevelView extends RootView
       @session.set 'multiplayer', false
 
   setupGod: ->
-    @god.setLevel @level.serialize @supermodel, @session, @otherSession
+    @god.setLevel @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap
 
@@ -593,15 +591,6 @@ module.exports = class PlayLevelView extends RootView
     else
       @bus.removeFirebaseData =>
         @bus.disconnect()
-
-  onSessionWillSave: (e) ->
-    # Something interesting has happened, so (at a lower frequency), we'll save a screenshot.
-    #@saveScreenshot e.session
-
-  # Throttled
-  saveScreenshot: (session) =>
-    return unless screenshot = @surface?.screenshot()
-    session.save {screenshot: screenshot}, {patch: true, type: 'PUT'}
 
   onContactClicked: (e) ->
     Backbone.Mediator.publish 'level:contact-button-pressed', {}
@@ -954,20 +943,6 @@ module.exports = class PlayLevelView extends RootView
         console.error 'Failed to read sessionState in onRealTimeMultiplayerCast'
 
     console.info 'Submitting my code'
-    # Transpiling code copied from scripts/transpile.coffee
-    # TODO: Should this live somewhere else?
-    transpiledCode = {}
-    for thang, spells of @session.get('code')
-      transpiledCode[thang] = {}
-      for spellID, spell of spells
-        spellName = thang + '/' + spellID
-        continue if @session.get('teamSpells') and not (spellName in @session.get('teamSpells')[@session.get('team')])
-        # console.log "PlayLevelView Transpiling spell #{spellName}"
-        aetherOptions = createAetherOptions functionName: spellID, codeLanguage: @session.get('submittedCodeLanguage'), includeFlow: true
-        aether = new Aether aetherOptions
-        transpiledCode[thang][spellID] = aether.transpile spell
-    # console.log "PlayLevelView transpiled code", transpiledCode
-    @session.set 'transpiledCode', transpiledCode
     permissions = @session.get 'permissions' ? []
     unless _.find(permissions, (p) -> p.target is 'public' and p.access is 'read')
       permissions.push target:'public', access:'read'

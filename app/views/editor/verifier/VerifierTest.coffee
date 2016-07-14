@@ -25,9 +25,9 @@ module.exports = class VerifierTest extends CocoClass
     @loadStartTime = new Date()
     @god = new God maxAngels: 1, headless: true
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true, fakeSessionConfig: {codeLanguage: @language, callback: @configureSession}
-    @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
+    @listenToOnce @levelLoader, 'world-necessities-loaded', -> _.defer @onWorldNecessitiesLoaded
 
-  onWorldNecessitiesLoaded: ->
+  onWorldNecessitiesLoaded: =>
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
 
@@ -62,7 +62,7 @@ module.exports = class VerifierTest extends CocoClass
     @solution = @levelLoader.session.solution
 
   setupGod: ->
-    @god.setLevel @level.serialize @supermodel, @session
+    @god.setLevel @level.serialize {@supermodel, @session, otherSession: null, headless: true, sessionless: false}
     @god.setLevelSessionIDs [@session.id]
     @god.setWorldClassMap @world.classMap
     @god.lastFlagHistory = @session.get('state').flagHistory
@@ -134,8 +134,10 @@ module.exports = class VerifierTest extends CocoClass
     setTimeout @cleanup, 100
 
   cleanup: =>
+    if @levelLoader
+      @stopListening @levelLoader
+      @levelLoader.destroy()
     if @god
       @stopListening @god
       @god.destroy()
-
     @world = null

@@ -83,21 +83,21 @@ module.exports = class AnalyticsView extends RootView
               campaignDauTotal += count
             else if event.indexOf('DAU classroom') >= 0
               classroomDauTotal += count
-            eventMap[event] = true;
+            eventMap[event] = true
           entry.events['DAU campaign total'] = campaignDauTotal
-          eventMap['DAU campaign total'] = true;
+          eventMap['DAU campaign total'] = true
           campaignDauTotals.unshift(campaignDauTotal)
           campaignDauTotals.pop() while campaignDauTotals.length > 30
           if campaignDauTotals.length is 30
             entry.events['DAU campaign 30-day average'] = Math.round(_.reduce(campaignDauTotals, (a, b) -> a + b) / 30)
-            eventMap['DAU campaign 30-day average'] = true;
+            eventMap['DAU campaign 30-day average'] = true
           entry.events['DAU classroom total'] = classroomDauTotal
-          eventMap['DAU classroom total'] = true;
+          eventMap['DAU classroom total'] = true
           classroomDauTotals.unshift(classroomDauTotal)
           classroomDauTotals.pop() while classroomDauTotals.length > 30
           if classroomDauTotals.length is 30
             entry.events['DAU classroom 30-day average'] = Math.round(_.reduce(classroomDauTotals, (a, b) -> a + b) / 30)
-            eventMap['DAU classroom 30-day average'] = true;
+            eventMap['DAU classroom 30-day average'] = true
 
         @activeUsers.sort (a, b) -> b.day.localeCompare(a.day)
         @activeUserEventNames = Object.keys(eventMap)

@@ -12,7 +12,8 @@ module.exports = class Level extends CocoModel
   urlRoot: '/db/level'
   editableByArtisans: true
 
-  serialize: (supermodel, session, otherSession, cached=false) ->
+  serialize: (options) ->
+    {supermodel, session, otherSession, @headless, @sessionless, cached=false} = options
     o = @denormalize supermodel, session, otherSession # hot spot to optimize
 
     # Figure out Components
@@ -146,7 +147,7 @@ module.exports = class Level extends CocoModel
         levelThang.components.push placeholderComponent
 
     # Load the user's chosen hero AFTER getting stats from default char
-    if /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['course']
+    if /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['course'] and not @headless and not @sessionless
       heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
       levelThang.thangType = heroThangType if heroThangType
 
