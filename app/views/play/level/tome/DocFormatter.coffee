@@ -139,7 +139,7 @@ module.exports = class DocFormatter
         if @doc.args
           arg.example = arg.example.replace thisToken[@options.language], 'hero' for arg in @doc.args when arg.example
 
-    if @doc.shortName is 'loop' and @options.level.get('type', true) in ['course', 'course-ladder']
+    if @doc.shortName is 'loop' and @options.level.isType('course', 'course-ladder')
       @replaceSimpleLoops()
 
   replaceSimpleLoops: ->

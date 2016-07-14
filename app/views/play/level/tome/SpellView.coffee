@@ -502,7 +502,7 @@ module.exports = class SpellView extends CocoView
     return unless @zatanna and @autocomplete
     @zatanna.addCodeCombatSnippets @options.level, @, e
 
-    
+
 
   translateFindNearest: ->
     # If they have advanced glasses but are playing a level which assumes earlier glasses, we'll adjust the sample code to use the more advanced APIs instead.
@@ -554,7 +554,7 @@ module.exports = class SpellView extends CocoView
     @createToolbarView()
 
   createDebugView: ->
-    return if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']  # We'll turn this on later, maybe, but not yet.
+    return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 
@@ -811,7 +811,7 @@ module.exports = class SpellView extends CocoView
     for aetherProblem, problemIndex in aether.getAllProblems()
       continue if key = aetherProblem.userInfo?.key and key of seenProblemKeys
       seenProblemKeys[key] = true if key
-      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast, @spell.levelID
+      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast, @options.levelID
       if isCast and problemIndex is 0
         if problem.aetherProblem.range?
           lineOffsetPx = 0
@@ -859,7 +859,7 @@ module.exports = class SpellView extends CocoView
     @userCodeProblem.set 'errRange', aetherProblem.range if aetherProblem.range
     @userCodeProblem.set 'errType', aetherProblem.type if aetherProblem.type
     @userCodeProblem.set 'language', aether.language.id if aether.language?.id
-    @userCodeProblem.set 'levelID', @spell.levelID if @spell.levelID
+    @userCodeProblem.set 'levelID', @options.levelID if @options.levelID
     @userCodeProblem.save()
     null
 

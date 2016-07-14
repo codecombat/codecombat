@@ -45,7 +45,7 @@ module.exports = class ControlBarView extends CocoView
     @observing = options.session.get('creator') isnt me.id
 
     @levelNumber = ''
-    if @level.get('type') is 'course' and @level.get('campaignIndex')?
+    if @level.isType('course') and @level.get('campaignIndex')?
       @levelNumber = @level.get('campaignIndex') + 1
     if @courseInstanceID
       @courseInstance = new CourseInstance(_id: @courseInstanceID)
@@ -64,7 +64,7 @@ module.exports = class ControlBarView extends CocoView
         @supermodel.trackRequest(@campaign.fetch())
       )
     super options
-    if @level.get('type') in ['hero-ladder', 'course-ladder'] and me.isAdmin()
+    if @level.isType('hero-ladder', 'course-ladder') and me.isAdmin()
       @isMultiplayerLevel = true
       @multiplayerStatusManager = new MultiplayerStatusManager @levelID, @onMultiplayerStateChanged
     if @level.get 'replayable'
@@ -95,7 +95,7 @@ module.exports = class ControlBarView extends CocoView
     super c
     c.worldName = @worldName
     c.multiplayerEnabled = @session.get('multiplayer')
-    c.ladderGame = @level.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
+    c.ladderGame = @level.isType('ladder', 'hero-ladder', 'course-ladder')
     if c.isMultiplayerLevel = @isMultiplayerLevel
       c.multiplayerStatus = @multiplayerStatusManager?.status
     if @level.get 'replayable'
@@ -110,23 +110,23 @@ module.exports = class ControlBarView extends CocoView
     if me.isSessionless()
       @homeLink = "/teachers/courses"
       @homeViewClass = "views/courses/TeacherCoursesView"
-    else if @level.get('type', true) in ['ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder']
+    else if @level.isType('ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder')
       levelID = @level.get('slug')?.replace(/\-tutorial$/, '') or @level.id
       @homeLink = '/play/ladder/' + levelID
       @homeViewClass = 'views/ladder/LadderView'
       @homeViewArgs.push levelID
       if leagueID = @getQueryVariable 'league'
-        leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
+        leagueType = if @level.isType('course-ladder') then 'course' else 'clan'
         @homeViewArgs.push leagueType
         @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
-    else if @level.get('type', true) in ['hero', 'hero-coop'] or window.serverConfig.picoCTF
+    else if @level.isType('hero', 'hero-coop') or window.serverConfig.picoCTF
       @homeLink = '/play'
       @homeViewClass = 'views/play/CampaignView'
       campaign = @level.get 'campaign'
       @homeLink += '/' + campaign
       @homeViewArgs.push campaign
-    else if @level.get('type', true) in ['course']
+    else if @level.isType('course')
       @homeLink = '/courses'
       @homeViewClass = 'views/courses/CoursesView'
       if @courseID
@@ -136,7 +136,7 @@ module.exports = class ControlBarView extends CocoView
         if @courseInstanceID
           @homeLink += "/#{@courseInstanceID}"
           @homeViewArgs.push @courseInstanceID
-    #else if @level.get('type', true) is 'game-dev'  # TODO
+    #else if @level.isType('game-dev')  # TODO
     else
       @homeLink = '/'
       @homeViewClass = 'views/HomeView'
@@ -153,7 +153,7 @@ module.exports = class ControlBarView extends CocoView
       @setupManager.open()
 
   onClickHome: (e) ->
-    if @level.get('type', true) in ['course']
+    if @level.isType('course')
       category = if me.isTeacher() then 'Teachers' else 'Students'
       window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug, ['Mixpanel']
     e.preventDefault()

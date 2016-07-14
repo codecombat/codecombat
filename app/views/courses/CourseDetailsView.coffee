@@ -63,7 +63,7 @@ module.exports = class CourseDetailsView extends RootView
           # need to figure out the next course instance
           @courseComplete = true
           @courseInstances.comparator = 'courseID'
-          # TODO: make this logic use locked course content to figure out the next course, then fetch the 
+          # TODO: make this logic use locked course content to figure out the next course, then fetch the
           # course instance for that
           @supermodel.trackRequest(@courseInstances.fetchForClassroom(classroomID).then(=>
             @nextCourseInstance = _.find @courseInstances.models, (ci) => ci.get('courseID') > @courseID
@@ -87,7 +87,7 @@ module.exports = class CourseDetailsView extends RootView
       @levelConceptMap[level.get('original')] ?= {}
       for concept in level.get('concepts')
         @levelConceptMap[level.get('original')][concept] = true
-      if level.get('type') is 'course-ladder'
+      if level.isType('course-ladder')
         @arenaLevel = level
 
     # console.log 'onLevelSessionsSync'
@@ -125,13 +125,13 @@ module.exports = class CourseDetailsView extends RootView
       for concept, state of conceptStateMap
         @conceptsCompleted[concept] ?= 0
         @conceptsCompleted[concept]++
-        
+
   onClickPlayLevel: (e) ->
     levelSlug = $(e.target).closest('.btn-play-level').data('level-slug')
     levelID = $(e.target).closest('.btn-play-level').data('level-id')
     level = @levels.findWhere({original: levelID})
     window.tracker?.trackEvent 'Students Class Course Play Level', category: 'Students', courseID: @courseID, courseInstanceID: @courseInstanceID, levelSlug: levelSlug, ['Mixpanel']
-    if level.get('type') is 'course-ladder'
+    if level.isType('course-ladder')
       viewClass = 'views/ladder/LadderView'
       viewArgs = [{supermodel: @supermodel}, levelSlug]
       route = '/play/ladder/' + levelSlug

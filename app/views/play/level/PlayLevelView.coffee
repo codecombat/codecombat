@@ -205,7 +205,7 @@ module.exports = class PlayLevelView extends RootView
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
-    @$el.addClass 'hero' if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
+    @$el.addClass 'hero' if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
@@ -271,7 +271,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
-    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.get('type') in ['hero-ladder', 'course-ladder']
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.isType('hero-ladder', 'course-ladder')
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
@@ -310,12 +310,12 @@ module.exports = class PlayLevelView extends RootView
     else if e.level.get('slug') is 'assembly-speed'
       raider = '55527eb0b8abf4ba1fe9a107'
       e.session.set 'heroConfig', {"thangType":raider,"inventory":{}}
-    else if e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] and not _.size e.session.get('heroConfig')?.inventory ? {}
+    else if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size e.session.get('heroConfig')?.inventory ? {}
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
       @setupManager.open()
 
-    @onRealTimeMultiplayerLevelLoaded e.session if e.level.get('type') in ['hero-ladder', 'course-ladder']
+    @onRealTimeMultiplayerLevelLoaded e.session if e.level.isType('hero-ladder', 'course-ladder')
 
   onLoaded: ->
     _.defer => @onLevelLoaderLoaded()
@@ -325,7 +325,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @levelLoader.progress() is 1  # double check, since closing the guide may trigger this early
 
     # Save latest level played.
-    if not @observing and not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
+    if not @observing and not (@levelLoader.level.isType('ladder', 'ladder-tutorial'))
       me.set('lastLevel', @levelID)
       me.save()
       application.tracker?.identify()
@@ -360,7 +360,7 @@ module.exports = class PlayLevelView extends RootView
     @surface.camera.zoomTo({x: 0, y: 0}, 0.1, 0)
 
   findPlayerNames: ->
-    return {} unless @level.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
+    return {} unless @level.isType('ladder', 'hero-ladder', 'course-ladder')
     playerNames = {}
     for session in [@session, @otherSession] when session?.get('team')
       playerNames[session.get('team')] = session.get('creatorName') or 'Anonymous'
@@ -386,7 +386,7 @@ module.exports = class PlayLevelView extends RootView
     @selectHero()
 
   onLoadingViewUnveiled: (e) ->
-    if @level.get('type') in ['course-ladder', 'hero-ladder'] or @observing
+    if @level.isType('course-ladder', 'hero-ladder') or @observing
       # We used to autoplay by default, but now we only do it if the level says to in the introduction script.
       Backbone.Mediator.publish 'level:set-playing', playing: true
     @loadingView.$el.remove()
@@ -440,7 +440,7 @@ module.exports = class PlayLevelView extends RootView
   simulateNextGame: ->
     return @simulator.fetchAndSimulateOneGame() if @simulator
     simulatorOptions = background: true, leagueID: @courseInstanceID
-    simulatorOptions.levelID = @level.get('slug') if @level.get('type', true) in ['course-ladder', 'hero-ladder']
+    simulatorOptions.levelID = @level.get('slug') if @level.isType('course-ladder', 'hero-ladder')
     @simulator = new Simulator simulatorOptions
     # Crude method of mitigating Simulator memory leak issues
     fetchAndSimulateOneGameOriginal = @simulator.fetchAndSimulateOneGame
@@ -462,31 +462,30 @@ module.exports = class PlayLevelView extends RootView
     cores = window.navigator.hardwareConcurrency or defaultCores  # Available on Chrome/Opera, soon Safari
     defaultHeapLimit = 793000000
     heapLimit = window.performance?.memory?.jsHeapSizeLimit or defaultHeapLimit  # Only available on Chrome, basically just says 32- vs. 64-bit
-    levelType = @level.get 'type', true
     gamesSimulated = me.get('simulatedBy')
     console.debug "Should we start simulating? Cores:", window.navigator.hardwareConcurrency, "Heap limit:", window.performance?.memory?.jsHeapSizeLimit, "Load duration:", @loadDuration
     return false unless $.browser?.desktop
     return false if $.browser?.msie or $.browser?.msedge
     return false if $.browser.linux
     return false if me.level() < 8
-    if levelType in ['course', 'game-dev']
+    if @level.isType('course', 'game-dev')
       return false
-    else if levelType is 'hero' and gamesSimulated
+    else if @level.isType('hero') and gamesSimulated
       return false if stillBuggy
       return false if cores < 8
       return false if heapLimit < defaultHeapLimit
       return false if @loadDuration > 10000
-    else if levelType is 'hero-ladder' and gamesSimulated
+    else if @level.isType('hero-ladder') and gamesSimulated
       return false if stillBuggy
       return false if cores < 4
       return false if heapLimit < defaultHeapLimit
       return false if @loadDuration > 15000
-    else if levelType is 'hero-ladder' and not gamesSimulated
+    else if @level.isType('hero-ladder') and not gamesSimulated
       return false if stillBuggy
       return false if cores < 8
       return false if heapLimit <= defaultHeapLimit
       return false if @loadDuration > 20000
-    else if levelType is 'course-ladder'
+    else if @level.isType('course-ladder')
       return false if cores <= defaultCores
       return false if heapLimit < defaultHeapLimit
       return false if @loadDuration > 18000
@@ -542,7 +541,7 @@ module.exports = class PlayLevelView extends RootView
   onDonePressed: -> @showVictory()
 
   onShowVictory: (e) ->
-    $('#level-done-button').show() unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
+    $('#level-done-button').show() unless @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')
     @showVictory() if e.showModal
     return if @victorySeen
     @victorySeen = true
@@ -560,7 +559,7 @@ module.exports = class PlayLevelView extends RootView
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
-    ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev'] then HeroVictoryModal else VictoryModal
+    ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev') then HeroVictoryModal else VictoryModal
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)

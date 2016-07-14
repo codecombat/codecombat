@@ -52,7 +52,7 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @supermodel, 'loaded-all', @onSupermodelLoaded
 
   # Supermodel (Level) Loading
-  
+
   loadWorldNecessities: ->
     # TODO: Actually trigger loading, instead of in the constructor
     new Promise((resolve, reject) =>
@@ -72,9 +72,9 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   onLevelLoaded: ->
-    if not @sessionless and @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course']
+    if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
       @sessionDependenciesRegistered = {}
-    if (@courseID and @level.get('type', true) not in ['course', 'course-ladder']) or window.serverConfig.picoCTF
+    if (@courseID and not @level.isType('course', 'course-ladder')) or window.serverConfig.picoCTF
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
       @level.get = ->
@@ -179,7 +179,7 @@ module.exports = class LevelLoader extends CocoClass
       @consolidateFlagHistory() if @opponentSession?.loaded
     else if session is @opponentSession
       @consolidateFlagHistory() if @session.loaded
-    if @level.get('type', true) in ['course'] # course-ladder is hard to handle because there's 2 sessions
+    if @level.isType('course')  # course-ladder is hard to handle because there's 2 sessions
       heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
       console.log "Course mode, loading custom hero: ", heroThangType if LOG
       url = "/db/thang.type/#{heroThangType}/version"
@@ -188,7 +188,7 @@ module.exports = class LevelLoader extends CocoClass
         @worldNecessities.push heroResource
       @sessionDependenciesRegistered[session.id] = true
       return
-    return unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    return unless @level.isType('hero', 'hero-ladder', 'hero-coop')
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session and not @headless
     heroConfig ?= {}
@@ -453,7 +453,7 @@ module.exports = class LevelLoader extends CocoClass
     @grabTeamConfigs()
     @thangTypeTeams = {}
     for thang in @level.get('thangs')
-      if @level.get('type', true) in ['hero', 'course'] and thang.id is 'Hero Placeholder'
+      if @level.isType('hero', 'course') and thang.id is 'Hero Placeholder'
         continue  # No team colors for heroes on single-player levels
       for component in thang.components
         if team = component.config?.team

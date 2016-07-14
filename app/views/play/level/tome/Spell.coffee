@@ -20,8 +20,6 @@ module.exports = class Spell
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
-    @levelID = options.levelID
-    @levelType = options.level.get('type', true)
     @level = options.level
 
     p = options.programmableMethod
@@ -49,7 +47,7 @@ module.exports = class Spell
       @isAISource = true
     @thangs = {}
     if @canRead()  # We can avoid creating these views if we'll never use them.
-      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel}
+      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel, levelID: options.levelID}
       @view.render()  # Get it ready and code loaded in advance
       @tabView = new SpellListTabEntryView
         hintsState: options.hintsState
@@ -87,7 +85,7 @@ module.exports = class Spell
     catch e
       console.error "Couldn't create example code template of", @originalSource, "\nwith context", context, "\nError:", e
 
-    if /loop/.test(@originalSource) and @levelType in ['course', 'course-ladder']
+    if /loop/.test(@originalSource) and @level.isType('course', 'course-ladder')
       # Temporary hackery to make it look like we meant while True: in our sample code until we can update everything
       @originalSource = switch @language
         when 'python' then @originalSource.replace /loop:/, 'while True:'
@@ -169,9 +167,9 @@ module.exports = class Spell
 
   createAether: (thang) ->
     writable = @permissions.readwrite.length > 0 and not @isAISource
-    skipProtectAPI = @skipProtectAPI or not writable or @levelType in ['game-dev']
+    skipProtectAPI = @skipProtectAPI or not writable or @level.isType('game-dev')
     problemContext = @createProblemContext thang
-    includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']) and not skipProtectAPI
+    includeFlow = @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev') and not skipProtectAPI
     aetherOptions = createAetherOptions
       functionName: @name
       codeLanguage: @language

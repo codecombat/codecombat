@@ -19,7 +19,7 @@ module.exports = class LevelGuideView extends CocoView
     @levelSlug = options.level.get('slug')
     @sessionID = options.session.get('_id')
     @requiresSubscription = not me.isPremium()
-    @isCourseLevel = options.level.get('type', true) in ['course', 'course-ladder']
+    @isCourseLevel = options.level.isType('course', 'course-ladder')
     @helpVideos = if @isCourseLevel then [] else options.level.get('helpVideos') ? []
     @trackedHelpVideoStart = @trackedHelpVideoFinish = false
     # A/B Testing video tutorial styles
