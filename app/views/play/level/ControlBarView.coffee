@@ -7,17 +7,13 @@ Classroom = require 'models/Classroom'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
-RealTimeModel = require 'models/RealTimeModel'
-RealTimeCollection = require 'collections/RealTimeCollection'
 LevelSetupManager = require 'lib/LevelSetupManager'
-GameMenuModal = require 'views/play/menu/GameMenuModal'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
   template: template
 
   subscriptions:
-    'bus:player-states-changed': 'onPlayerStatesChanged'
     'level:disable-controls': 'onDisableControls'
     'level:enable-controls': 'onEnableControls'
     'ipad:memory-warning': 'onIPadMemoryWarning'
@@ -28,7 +24,6 @@ module.exports = class ControlBarView extends CocoView
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
     'click .levels-link-area': 'onClickHome'
     'click .home a': 'onClickHome'
-    'click .multiplayer-area': 'onClickMultiplayer'
     'click #control-bar-sign-up-button': 'onClickSignupButton'
 
   constructor: (options) ->
@@ -64,9 +59,6 @@ module.exports = class ControlBarView extends CocoView
         @supermodel.trackRequest(@campaign.fetch())
       )
     super options
-    if @level.isType('hero-ladder', 'course-ladder') and me.isAdmin()
-      @isMultiplayerLevel = true
-      @multiplayerStatusManager = new MultiplayerStatusManager @levelID, @onMultiplayerStateChanged
     if @level.get 'replayable'
       @listenTo @session, 'change-difficulty', @onSessionDifficultyChanged
 
@@ -79,25 +71,10 @@ module.exports = class ControlBarView extends CocoView
 
   setBus: (@bus) ->
 
-  onPlayerStatesChanged: (e) ->
-    # TODO: this doesn't fire any more. Replacement?
-    return unless @bus is e.bus
-    numPlayers = _.keys(e.players).length
-    return if numPlayers is @numPlayers
-    @numPlayers = numPlayers
-    text = 'Multiplayer'
-    text += " (#{numPlayers})" if numPlayers > 1
-    $('#multiplayer-button', @$el).text(text)
-
-  onMultiplayerStateChanged: => @render?()
-
   getRenderData: (c={}) ->
     super c
     c.worldName = @worldName
-    c.multiplayerEnabled = @session.get('multiplayer')
     c.ladderGame = @level.isType('ladder', 'hero-ladder', 'course-ladder')
-    if c.isMultiplayerLevel = @isMultiplayerLevel
-      c.multiplayerStatus = @multiplayerStatusManager?.status
     if @level.get 'replayable'
       c.levelDifficulty = @session.get('state')?.difficulty ? 0
       if @observing
@@ -161,9 +138,6 @@ module.exports = class ControlBarView extends CocoView
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs
 
-  onClickMultiplayer: (e) ->
-    @showGameMenuModal e, 'multiplayer'
-
   onClickSignupButton: (e) ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Control Bar', level: @levelID
 
@@ -184,62 +158,4 @@ module.exports = class ControlBarView extends CocoView
 
   destroy: ->
     @setupManager?.destroy()
-    @multiplayerStatusManager?.destroy()
     super()
-
-# MultiplayerStatusManager ######################################################
-#
-# Manages the multiplayer status, and calls @statusChangedCallback when it changes.
-#
-# It monitors these:
-#   Real-time multiplayer players
-#   Internal multiplayer status
-#
-# Real-time state variables:
-#   @playersCollection - Real-time multiplayer players
-#
-# TODO: Not currently using player counts.  Should remove if we keep simple design.
-#
-class MultiplayerStatusManager
-
-  constructor: (@levelID, @statusChangedCallback) ->
-    @status = ''
-    # @players = {}
-    # @playersCollection = new RealTimeCollection('multiplayer_players/' + @levelID)
-    # @playersCollection.on 'add', @onPlayerAdded
-    # @playersCollection.each (player) => @onPlayerAdded player
-    Backbone.Mediator.subscribe 'real-time-multiplayer:player-status', @onMultiplayerPlayerStatus
-
-  destroy: ->
-    Backbone.Mediator.unsubscribe 'real-time-multiplayer:player-status', @onMultiplayerPlayerStatus
-    # @playersCollection?.off 'add', @onPlayerAdded
-    # player.off 'change', @onPlayerChanged for id, player of @players
-
-  onMultiplayerPlayerStatus: (e) =>
-    @status = e.status
-    @statusChangedCallback()
-
-  # onPlayerAdded: (player) =>
-  #   unless player.id is me.id
-  #     @players[player.id] = new RealTimeModel('multiplayer_players/' + @levelID + '/' + player.id)
-  #     @players[player.id].on 'change', @onPlayerChanged
-  #   @countPlayers player
-  #
-  # onPlayerChanged: (player) =>
-  #   @countPlayers player
-  #
-  # countPlayers: (changedPlayer) =>
-  #   # TODO: save this stale hearbeat threshold setting somewhere
-  #   staleHeartbeat = new Date()
-  #   staleHeartbeat.setMinutes staleHeartbeat.getMinutes() - 3
-  #   @playerCount = 0
-  #   @playersCollectionAvailable = 0
-  #   @playersCollectionUnavailable = 0
-  #   @playersCollection.each (player) =>
-  #     # Assume changedPlayer is fresher than entry in @playersCollection collection
-  #     player = changedPlayer if changedPlayer? and player.id is changedPlayer.id
-  #     unless staleHeartbeat >= new Date(player.get('heartbeat'))
-  #       @playerCount++
-  #       @playersCollectionAvailable++ if player.get('state') is 'available'
-  #       @playersCollectionUnavailable++ if player.get('state') is 'unavailable'
-  #   @statusChangedCallback()

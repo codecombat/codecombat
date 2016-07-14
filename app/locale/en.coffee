@@ -318,7 +318,7 @@
     write_this_down: "Write this down:"
     start_playing: "Start Playing!"
     sso_connected: "Successfully connected with:"
-    
+
   recover:
     recover_account_title: "Recover Account"
     send_password: "Send Recovery Password"
@@ -1889,16 +1889,6 @@
     text_diff: "Text Diff"
     merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "No Changes"
-
-  multiplayer:
-    multiplayer_title: "Multiplayer Settings"  # We'll be changing this around significantly soon. Until then, it's not important to translate.
-    multiplayer_toggle: "Enable multiplayer"
-    multiplayer_toggle_description: "Allow others to join your game."
-    multiplayer_link_description: "Give this link to anyone to have them join you."
-    multiplayer_hint_label: "Hint:"
-    multiplayer_hint: " Click the link to select all, then press ⌘-C or Ctrl-C to copy the link."
-    multiplayer_coming_soon: "More multiplayer features to come!"
-    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
   legal:
     page_title: "Legal"

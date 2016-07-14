@@ -61,7 +61,6 @@ module.exports = class SpellView extends CocoView
     @supermodel = options.supermodel
     @worker = options.worker
     @session = options.session
-    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @spell = options.spell
     @problems = []
     @savedProblems = {} # Cache saved user code problems to prevent duplicates
@@ -77,11 +76,7 @@ module.exports = class SpellView extends CocoView
     @fillACE()
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
-    if @session.get('multiplayer')
-      @createFirepad()
-    else
-      # needs to happen after the code generating this view is complete
-      _.defer @onAllLoaded
+    _.defer @onAllLoaded  # Needs to happen after the code generating this view is complete
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -402,7 +397,6 @@ module.exports = class SpellView extends CocoView
         wrapper => orig.apply obj, args
       obj[method]
 
-
     finishRange = (row, startRow, startColumn) =>
       range = new Range startRow, startColumn, row, @aceSession.getLine(row).length - 1
       range.start = @aceDoc.createAnchor range.start
@@ -502,8 +496,6 @@ module.exports = class SpellView extends CocoView
     return unless @zatanna and @autocomplete
     @zatanna.addCodeCombatSnippets @options.level, @, e
 
-
-
   translateFindNearest: ->
     # If they have advanced glasses but are playing a level which assumes earlier glasses, we'll adjust the sample code to use the more advanced APIs instead.
     oldSource = @getSource()
@@ -514,14 +506,9 @@ module.exports = class SpellView extends CocoView
     @updateACEText newSource
     _.delay (=> @recompile?()), 1000
 
-  onMultiplayerChanged: ->
-    if @session.get('multiplayer')
-      @createFirepad()
-    else
-      @firepad?.dispose()
-
   createFirepad: ->
-    # load from firebase or the original source if there's nothing there
+    # Currently not called; could be brought back for future multiplayer modes.
+    # Load from firebase or the original source if there's nothing there.
     return if @firepadLoading
     @eventsSuppressed = true
     @loaded = false
@@ -532,19 +519,18 @@ module.exports = class SpellView extends CocoView
     @fireRef = new Firebase fireURL
     firepadOptions = userId: me.id
     @firepad = Firepad.fromACE @fireRef, @ace, firepadOptions
-    @firepad.on 'ready', @onFirepadLoaded
     @firepadLoading = true
-
-  onFirepadLoaded: =>
-    @firepadLoading = false
-    firepadSource = @ace.getValue()
-    if firepadSource
-      @spell.source = firepadSource
-    else
-      @ace.setValue @previousSource
-      @aceSession.setUndoManager(new UndoManager())
-      @ace.clearSelection()
-    @onAllLoaded()
+    @firepad.on 'ready', =>
+      return if @destroyed
+      @firepadLoading = false
+      firepadSource = @ace.getValue()
+      if firepadSource
+        @spell.source = firepadSource
+      else
+        @ace.setValue @previousSource
+        @aceSession.setUndoManager(new UndoManager())
+        @ace.clearSelection()
+      @onAllLoaded()
 
   onAllLoaded: =>
     @spell.transpile @spell.source
@@ -573,7 +559,7 @@ module.exports = class SpellView extends CocoView
     @saveSpade()
 
   getSource: ->
-    @ace.getValue()  # could also do @firepad.getText()
+    @ace.getValue()
 
   setThang: (thang) ->
     @focus()

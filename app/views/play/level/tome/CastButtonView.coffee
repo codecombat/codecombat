@@ -18,9 +18,6 @@ module.exports = class CastButtonView extends CocoView
     'tome:cast-spells': 'onCastSpells'
     'tome:manual-cast-denied': 'onManualCastDenied'
     'god:new-world-created': 'onNewWorld'
-    'real-time-multiplayer:created-game': 'onJoinedRealTimeMultiplayerGame'
-    'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
-    'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'god:goals-calculated': 'onGoalsCalculated'
     'playback:ended-changed': 'onPlaybackEndedChanged'
@@ -71,9 +68,7 @@ module.exports = class CastButtonView extends CocoView
     Backbone.Mediator.publish 'tome:manual-cast', {}
 
   onCastRealTimeButtonClick: (e) ->
-    if @inRealTimeMultiplayerSession
-      Backbone.Mediator.publish 'real-time-multiplayer:manual-cast', {}
-    else if @options.level.get('replayable') and (timeUntilResubmit = @options.session.timeUntilResubmit()) > 0
+    if @options.level.get('replayable') and (timeUntilResubmit = @options.session.timeUntilResubmit()) > 0
       Backbone.Mediator.publish 'tome:manual-cast-denied', timeUntilResubmit: timeUntilResubmit
     else
       Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
@@ -178,9 +173,3 @@ module.exports = class CastButtonView extends CocoView
     return unless placeholder.length
     @ladderSubmissionView = new LadderSubmissionView session: @options.session, level: @options.level, mirrorSession: @mirrorSession
     @insertSubView @ladderSubmissionView, placeholder
-
-  onJoinedRealTimeMultiplayerGame: (e) ->
-    @inRealTimeMultiplayerSession = true
-
-  onLeftRealTimeMultiplayerGame: (e) ->
-    @inRealTimeMultiplayerSession = false

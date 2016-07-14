@@ -144,9 +144,6 @@ module.exports = class SpectateLevelView extends RootView
       if c then myCode[thang][spell] = c else delete myCode[thang][spell]
 
     @session.set('code', myCode)
-    if @session.get('multiplayer') and @otherSession?
-      # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
-      @session.set 'multiplayer', false
 
   onLevelStarted: (e) ->
     go = =>
