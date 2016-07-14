@@ -80,3 +80,12 @@ module.exports = class PlayGameDevLevelView extends RootView
     Backbone.Mediator.publish('playback:real-time-playback-started', {})
     Backbone.Mediator.publish('level:set-playing', {playing: true})
     @state.set('playing', true)
+
+  destroy: ->
+    @levelLoader?.destroy()
+    @surface?.destroy()
+    @god?.destroy()
+    @goalManager?.destroy()
+    @scriptManager?.destroy()
+    delete window.world # not sure where this is set, but this is one way to clean it up
+    super()
