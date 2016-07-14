@@ -234,7 +234,7 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
     expect(body.role).toBe('advisor')
     done()
 
-  it 'does not allow users to have no username or email', utils.wrap (done) ->
+  it 'returns 422 if both email and name would be unset for a registered user', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
     [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { email: '', name: '' }}
@@ -705,6 +705,50 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     expect(sendwithus.api.send).toHaveBeenCalled()
     done()
 
+  it 'signs up the user with just a name and password', utils.wrap (done) ->
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    name = 'someusername'
+    json = { name, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBe(name)
+    expect(updatedUser.get('nameLower')).toBe(name.toLowerCase())
+    expect(updatedUser.get('slug')).toBe(name.toLowerCase())
+    expect(updatedUser.get('passwordHash')).toBeDefined()
+    expect(updatedUser.get('email')).toBeUndefined()
+    expect(updatedUser.get('emailLower')).toBeUndefined()
+    done()
+
+  it 'signs up the user with a username, email, and password', utils.wrap (done) ->
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    name = 'someusername'
+    email = 'user@example.com'
+    json = { name, email, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBe(name)
+    expect(updatedUser.get('nameLower')).toBe(name.toLowerCase())
+    expect(updatedUser.get('slug')).toBe(name.toLowerCase())
+    expect(updatedUser.get('email')).toBe(email)
+    expect(updatedUser.get('emailLower')).toBe(email.toLowerCase())
+    expect(updatedUser.get('passwordHash')).toBeDefined()
+    done()
+
+  it 'returns 409 if neither username or email were provided', utils.wrap (done) ->
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    json = { password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('anonymous')).toBe(true)
+    expect(updatedUser.get('passwordHash')).toBeUndefined()
+    done()
+
   it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
     email = 'some@email.com'
     initialUser = yield utils.initUser({email})
@@ -712,6 +756,17 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-password")
     json = { email, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    done()
+
+  it 'returns 409 if there is already a user with the given username', utils.wrap (done) ->
+    name = 'someusername'
+    initialUser = yield utils.initUser({name})
+    expect(initialUser.get('nameLower')).toBeDefined()
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    json = { name, password: '12345' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(409)
     done()

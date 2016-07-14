@@ -127,14 +127,18 @@ module.exports =
     unless req.user.isAnonymous()
       throw new errors.Forbidden('You are already signed in.')
 
-    { password, email } = req.body
+    { name, email, password } = req.body
     unless password
       throw new errors.UnprocessableEntity('Requires password')
+    unless name or email
+      throw new errors.UnprocessableEntity('Requires username or email')
 
     if not _.isEmpty(email) and yield User.findByEmail(email)
       throw new errors.Conflict('Email already taken')
+    if not _.isEmpty(name) and yield User.findByName(name)
+      throw new errors.Conflict('Name already taken')
 
-    req.user.set({ password, email, anonymous: false })
+    req.user.set({ name, email, password, anonymous: false })
     yield module.exports.finishSignup(req, res)
 
   signupWithFacebook: wrap (req, res) ->

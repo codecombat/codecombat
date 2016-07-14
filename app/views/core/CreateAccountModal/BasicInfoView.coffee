@@ -190,7 +190,7 @@ module.exports = class BasicInfoView extends CocoView
         me.set('birthday', @signupState.get('birthday').toISOString())
 
       me.set(_.omit(@signupState.get('ssoAttrs') or {}, 'email', 'facebookID', 'gplusID'))
-      me.set('name', @$('input[name="name"]').val())
+
       jqxhr = me.save()
       if not jqxhr
         console.error(me.validationError)
@@ -204,13 +204,15 @@ module.exports = class BasicInfoView extends CocoView
       switch @signupState.get('ssoUsed')
         when 'gplus'
           { email, gplusID } = @signupState.get('ssoAttrs')
-          jqxhr = me.signupWithGPlus(email, gplusID)
+          { name } = forms.formToObject(@$el)
+          jqxhr = me.signupWithGPlus(name, email, gplusID)
         when 'facebook'
           { email, facebookID } = @signupState.get('ssoAttrs')
-          jqxhr = me.signupWithFacebook(email, facebookID)
+          { name } = forms.formToObject(@$el)
+          jqxhr = me.signupWithFacebook(name, email, facebookID)
         else
-          { email, password } = forms.formToObject(@$el)
-          jqxhr = me.signupWithPassword(email, password)
+          { name, email, password } = forms.formToObject(@$el)
+          jqxhr = me.signupWithPassword(name, email, password)
 
       return new Promise(jqxhr.then)
       

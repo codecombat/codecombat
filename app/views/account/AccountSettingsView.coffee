@@ -225,7 +225,7 @@ module.exports = class AccountSettingsView extends CocoView
     return unless res
 
     res.error =>
-      if res.responseJSON?.dataPath
+      if res.responseJSON?.property
         errors = res.responseJSON
         forms.applyErrorsToForm(@$el, errors)
         $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})

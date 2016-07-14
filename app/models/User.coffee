@@ -271,11 +271,11 @@ module.exports = class User extends CocoModel
         window.location.reload()
     @fetch(options)
     
-  signupWithPassword: (email, password, options={}) ->
+  signupWithPassword: (name, email, password, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-password'
     options.type = 'POST'
     options.data ?= {}
-    _.extend(options.data, {email, password})
+    _.extend(options.data, {name, email, password})
     jqxhr = @fetch(options)
     jqxhr.then ->
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'

@@ -122,6 +122,10 @@ UserSchema.statics.findByEmail = (email, done=_.noop) ->
   emailLower = email.toLowerCase()
   User.findOne({emailLower: emailLower}).exec(done)
 
+UserSchema.statics.findByName = (name, done=_.noop) ->
+  nameLower = name.toLowerCase()
+  User.findOne({nameLower: nameLower}).exec(done)
+
 emailNameMap =
   generalNews: 'announcement'
   adventurerNews: 'tester'
