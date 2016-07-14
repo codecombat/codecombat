@@ -738,12 +738,12 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     expect(updatedUser.get('passwordHash')).toBeDefined()
     done()
 
-  it 'returns 409 if neither username or email were provided', utils.wrap (done) ->
+  it 'returns 422 if neither username or email were provided', utils.wrap (done) ->
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-password")
     json = { password: '12345' }
     [res, body] = yield request.postAsync({url, json})
-    expect(res.statusCode).toBe(409)
+    expect(res.statusCode).toBe(422)
     updatedUser = yield User.findById(user.id)
     expect(updatedUser.get('anonymous')).toBe(true)
     expect(updatedUser.get('passwordHash')).toBeUndefined()
