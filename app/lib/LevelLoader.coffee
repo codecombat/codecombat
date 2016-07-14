@@ -76,6 +76,13 @@ module.exports = class LevelLoader extends CocoClass
       @sessionDependenciesRegistered = {}
     if @level.isType('web-dev')
       @headless = true
+      if @sessionless
+        # When loading a web-dev level in the level editor, pretend it's a normal hero level so we can put down our placeholder Thang.
+        # TODO: avoid this whole roundabout Thang-based way of doing web-dev levels
+        originalGet = @level.get
+        @level.get = ->
+          return 'hero' if arguments[0] is 'type'
+          originalGet.apply @, arguments
     if (@courseID and not @level.isType('course', 'course-ladder')) or window.serverConfig.picoCTF
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
