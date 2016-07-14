@@ -271,6 +271,7 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
     unconflictName name + suffix, done
 
 UserSchema.methods.sendWelcomeEmail = ->
+  return if not @get('email')
   { welcome_email_student, welcome_email_user } = sendwithus.templates
   timestamp = (new Date).getTime()
   data =

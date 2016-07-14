@@ -89,6 +89,8 @@ module.exports =
     timestamp = (new Date).getTime()
     if not user
       throw new errors.NotFound('User not found')
+    if not user.get('email')
+      throw new errors.UnprocessableEntity('User must have an email address to receive a verification email')
     context =
       email_id: sendwithus.templates.verify_email
       recipient:

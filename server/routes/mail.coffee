@@ -471,6 +471,7 @@ taskReminderAlreadySentThisWeekFilter = (task, cb) ->
 sendUserRemarkTaskEmail = (task, cb) ->
   mailTaskName = @mailTaskName
   User.findOne("_id":task.contact).select("email").lean().exec (err, contact) ->
+    return if not contact.email
     if err? then return cb err
     User.findOne("_id":task.user).select("jobProfile.name").lean().exec (err, user) ->
       if err? then return cb err
@@ -567,6 +568,7 @@ handleLadderUpdate = (req, res) ->
 
 sendLadderUpdateEmail = (session, now, daysAgo) ->
   User.findOne({_id: session.creator}).select('name email firstName lastName emailSubscriptions emails preferredLanguage').exec (err, user) ->
+    return if not user.get('email')
     if err
       log.error "Couldn't find user for #{session.creator} from session #{session._id}"
       return
@@ -687,6 +689,7 @@ handleNextSteps = (req, res) ->
         sendNextStepsEmail result, now, daysAgo for result in results
 
 sendNextStepsEmail = (user, now, daysAgo) ->
+  return log.info "Not sending next steps email to user with no email address" if not user.get('email')
   unless user.isEmailSubscriptionEnabled('generalNews') and user.isEmailSubscriptionEnabled('anyNotes')
     log.info "Not sending email to #{user.get('email')} #{user.get('name')} because they only want emails about #{JSON.stringify(user.get('emails'))}" if DEBUGGING
     return
