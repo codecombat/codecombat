@@ -25,6 +25,7 @@ _.extend ClassroomSchema.properties,
     levels: c.array { title: 'Levels' }, c.object { title: 'Level' }, {
       practice: {type: 'boolean'}
       practiceThresholdMinutes: {type: 'number'}
+      shareable: {type: 'boolean'}
       type: c.shortString()
       original: c.objectId()
       name: {type: 'string'}

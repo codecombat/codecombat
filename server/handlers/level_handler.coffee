@@ -39,6 +39,7 @@ LevelHandler = class LevelHandler extends Handler
     'requiresSubscription'
     'adventurer'
     'practice'
+    'shareable'
     'adminOnly'
     'disableSpaces'
     'hidesSubmitUntilRun'
