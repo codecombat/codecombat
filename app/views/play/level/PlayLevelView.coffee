@@ -561,7 +561,11 @@ module.exports = class PlayLevelView extends RootView
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev'] then HeroVictoryModal else VictoryModal
-    ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
+    ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless() 
+    if @level.get('type', true) is 'course-ladder'
+      ModalClass = CourseVictoryModal
+      options.courseInstanceID = @getQueryVariable 'league'
+      # TODO: Figure out how the course victory modal can get the course
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
