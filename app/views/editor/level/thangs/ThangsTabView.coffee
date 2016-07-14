@@ -595,7 +595,7 @@ module.exports = class ThangsTabView extends CocoView
     @level.set 'thangs', thangs
     return if @editThangView
     return if skipSerialization
-    serializedLevel = @level.serialize @supermodel, null, null, true
+    serializedLevel = @level.serialize {@supermodel, session: null, otherSession: null, headless: false, sessionless: true, cached: true}
     try
       @world.loadFromLevel serializedLevel, false
     catch error

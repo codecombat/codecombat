@@ -56,6 +56,7 @@ so we can accept your pull requests. It is easy.
 ![Josh Callebaut](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Josh%20Callebaut/josh_callebaut_100.png "Josh Callebaut")
 ![Michael Schmatz](http://codecombat.com/images/pages/about/michael_small.png "Michael Schmatz")
 ![Josh Lee](http://codecombat.com/images/pages/about/josh_small.png "Josh Lee")
+![Dan TDM](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Dan_TDM/dan_tdm_100.png "Dan TDM")
 ![Alex Cotsarelis](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Alex%20Cotsarelis/alex_100.png "Alex Cotsarelis")
 ![Alex Crooks](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Alex%20Crooks/alex_100.png "Alex Crooks")
 ![Alexandru Caciulescu](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Alexandru%20Caciulescu/alexandru_100.png "Alexandru Caciulescu")

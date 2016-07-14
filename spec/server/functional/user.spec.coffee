@@ -3,6 +3,7 @@ utils = require '../utils'
 urlUser = '/db/user'
 User = require '../../../server/models/User'
 Classroom = require '../../../server/models/Classroom'
+TrialRequest = require '../../../server/models/TrialRequest'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
 facebook = require '../../../server/lib/facebook'
@@ -705,6 +706,32 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     json = { email, password: '12345' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(409)
+    done()
+    
+  it 'disassociates the user from their trial request if the trial request email and signup email do not match', utils.wrap (done) ->
+    user = yield utils.becomeAnonymous()
+    trialRequest = yield utils.makeTrialRequest({ properties: { email: 'one@email.com' } })
+    expect(trialRequest.get('applicant').equals(user._id)).toBe(true)
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    email = 'two@email.com'
+    json = { email, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    trialRequest = yield TrialRequest.findById(trialRequest.id)
+    expect(trialRequest.get('applicant')).toBeUndefined()
+    done()
+
+  it 'does NOT disassociate the user from their trial request if the trial request email and signup email DO match', utils.wrap (done) ->
+    user = yield utils.becomeAnonymous()
+    trialRequest = yield utils.makeTrialRequest({ properties: { email: 'one@email.com' } })
+    expect(trialRequest.get('applicant').equals(user._id)).toBe(true)
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    email = 'one@email.com'
+    json = { email, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    trialRequest = yield TrialRequest.findById(trialRequest.id)
+    expect(trialRequest.get('applicant').equals(user._id)).toBe(true)
     done()
 
 

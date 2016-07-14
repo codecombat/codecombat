@@ -18,7 +18,7 @@ block content
         .col-md-5.big-stat.classroom-active-users
           div.description Classroom Monthly Active Users
           if view.activeUsers.length > 0
-            - var classroomBigMAU = 0; 
+            - var classroomBigMAU = 0;
             each count, event in view.activeUsers[0].events
               if event.indexOf('MAU classroom') >= 0
                 - classroomBigMAU += count;
@@ -26,24 +26,24 @@ block content
         .col-md-5.big-stat.campaign-active-users
           div.description Campaign Monthly Active Users
           if view.activeUsers.length > 0
-            - var campaignBigMAU = 0; 
+            - var campaignBigMAU = 0;
             each count, event in view.activeUsers[0].events
               if event.indexOf('MAU campaign') >= 0
                 - campaignBigMAU += count;
             div.count= campaignBigMAU
 
     ul.nav.nav-tabs
-      li.active 
+      li.active
         a(data-target="#tab_kpis", data-toggle="tab") KPIs
-      li 
+      li
         a(data-target="#tab_active_classes", data-toggle="tab") Active Classes
-      li 
+      li
         a(data-target="#tab_revenue", data-toggle="tab") Revenue
-      li 
+      li
         a(data-target="#tab_classroom", data-toggle="tab") Classroom
-      li 
+      li
         a(data-target="#tab_campaign", data-toggle="tab") Campaign
-      li 
+      li
         a(data-target="#tab_campaign_vs_classroom", data-toggle="tab") Campaign vs Classroom
 
     .tab-content
@@ -165,7 +165,7 @@ block content
           .small Paid teacher: at least one paid student in course instance
           .small Trial teacher: at least one trial student in course instance, and no paid students
           .small Free teacher: no paid students, no trial students
-          .small Paid status takes precedent over furthest course, so teacher furthest course is furthest course of highest paid status student 
+          .small Paid status takes precedent over furthest course, so teacher furthest course is furthest course of highest paid status student
           if view.courseDistributionsRecent
             table.table.table-striped.table-condensed
               tr
@@ -267,9 +267,9 @@ block content
         h1 Active Users
         if view.activeUsers.length > 0
           - var eventNames = [];
-            each count, event in view.activeUsers[0].events
+            each event in view.activeUserEventNames
               if event.indexOf('classroom') >= 0
-                - eventNames.push(event)
+                - eventNames.push(event);
           - eventNames.sort(function (a, b) {return a.localeCompare(b);});
           table.table.table-striped.table-condensed
             tr
@@ -293,7 +293,7 @@ block content
           each day in view.enrollmentDays
             tr
               td= day
-              if view.dayEnrollmentsMap[day] 
+              if view.dayEnrollmentsMap[day]
                 td= view.dayEnrollmentsMap[day].paidIssued || 0
                 td= view.dayEnrollmentsMap[day].paidRedeemed || 0
                 td= view.dayEnrollmentsMap[day].trialIssued || 0
@@ -322,9 +322,9 @@ block content
         h1 Active Users
         if view.activeUsers.length > 0
           - var eventNames = [];
-            each count, event in view.activeUsers[0].events
+            each event in view.activeUserEventNames
               if event.indexOf('campaign') >= 0
-                - eventNames.push(event)
+                - eventNames.push(event);
           - eventNames.sort(function (a, b) {return a.localeCompare(b);});
           table.table.table-striped.table-condensed
             tr
@@ -346,27 +346,13 @@ block content
 
         h1 Active Users
         if view.activeUsers.length > 0
-          - var eventNames = [];
-            each count, event in view.activeUsers[0].events
-              - eventNames.push(event)
-          - eventNames.sort(function (a, b) {
-            - if (a.indexOf('campaign') == b.indexOf('campaign') || a.indexOf('classroom') == b.indexOf('classroom')) {
-              - return a.localeCompare(b);
-            - }
-            - else if (a.indexOf('campaign') > b.indexOf('campaign')) {
-              - return 1;
-            - }
-            - else {
-              - return -1;
-            - }
-          - });
           table.table.table-striped.table-condensed
             tr
               th(style='min-width:85px;') Day
-              each eventName in eventNames
+              each eventName in view.activeUserEventNames
                 th= eventName
             each activeUser in view.activeUsers
               tr
                 td= activeUser.day
-                each eventName in eventNames
+                each eventName in view.activeUserEventNames
                   td= activeUser.events[eventName] || 0

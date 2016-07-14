@@ -8,6 +8,8 @@
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
 
+// TODO: classroom paid active users before 4/13/16 not correct
+
 try {
   var logDB = new Mongo("localhost").getDB("analytics")
   var scriptStartTime = new Date();
@@ -129,32 +131,47 @@ function getActiveUserCounts(startDay, endDay, activeUserEvents) {
   log("Classroom user count: " + classroomUserObjectIds.length);
 
   // Classrooms free/trial/paid
-  // Paid user: user.coursePrepaidID set means access to paid courses
+  // Paid user: user.coursePrepaid or user.coursePrepaidID set means access to paid courses
   // Trial user: prepaid.properties.trialRequestID means access was via trial
   // Free: not paid, not trial
   log("Finding classroom users free/trial/paid status..");
-  var classroomUserEventMap = {};
+  var classroomUserEventEndDateMap = {};
   var prepaidUsersMap = {};
   var prepaidIDs = [];
-  cursor = db.users.find({_id: {$in: classroomUserObjectIds}}, {coursePrepaidID: 1});
+  cursor = db.users.find({_id: {$in: classroomUserObjectIds}}, {coursePrepaid: 1, coursePrepaidID: 1});
   while (cursor.hasNext()) {
     doc = cursor.next();
+    classroomUserEventEndDateMap[doc._id.valueOf()] = {};
+    classroomUserEventEndDateMap[doc._id.valueOf()]['DAU classroom free'] = new Date();
+    if (doc.coursePrepaid) {
+      if (!doc.coursePrepaid.endDate) throw new Error("No endDate for new prepaid " + doc._id.valuOf());
+      classroomUserEventEndDateMap[doc._id.valueOf()]['DAU classroom paid'] = new Date(doc.coursePrepaid.endDate);
+      if (!prepaidUsersMap[doc.coursePrepaid._id.valueOf()]) prepaidUsersMap[doc.coursePrepaid._id.valueOf()] = [];
+      prepaidUsersMap[doc.coursePrepaid._id.valueOf()].push(doc._id.valueOf()); 
+      prepaidIDs.push(doc.coursePrepaid._id);
+    }
     if (doc.coursePrepaidID) {
-      classroomUserEventMap[doc._id.valueOf()] = 'DAU classroom paid';
+      if (!classroomUserEventEndDateMap[doc._id.valueOf()]['DAU classroom paid']) {
+        classroomUserEventEndDateMap[doc._id.valueOf()]['DAU classroom paid'] = new Date();
+      }
       if (!prepaidUsersMap[doc.coursePrepaidID.valueOf()]) prepaidUsersMap[doc.coursePrepaidID.valueOf()] = [];
       prepaidUsersMap[doc.coursePrepaidID.valueOf()].push(doc._id.valueOf()); 
       prepaidIDs.push(doc.coursePrepaidID);
-    }
-    else {
-      classroomUserEventMap[doc._id.valueOf()] = 'DAU classroom free';
     }
   }
   cursor = db.prepaids.find({_id: {$in: prepaidIDs}}, {properties: 1});
   while (cursor.hasNext()) {
     doc = cursor.next();
     if (doc.properties && doc.properties.trialRequestID) {
+      var endDate = new Date();
+      if (doc.endDate) {
+        endDate = new Date(doc.endDate);
+      }
+      else if (doc.properties.endDate) {
+        endDate = new Date(doc.properties.endDate);
+      }
       for (var i = 0; i < prepaidUsersMap[doc._id.valueOf()].length; i++) {
-        classroomUserEventMap[prepaidUsersMap[doc._id.valueOf()][i]] = 'DAU classroom trial';
+        classroomUserEventEndDateMap[prepaidUsersMap[doc._id.valueOf()][i]]['DAU classroom trial'] = endDate;
       }
     }
   }
@@ -199,7 +216,22 @@ function getActiveUserCounts(startDay, endDay, activeUserEvents) {
   var userDayEventMap = {}
   for (day in dayUserActiveMap) {
     for (var user in dayUserActiveMap[day]) {
-      var event = classroomUserEventMap[user] || (dayCampaignUserPaidMap[day] && dayCampaignUserPaidMap[day][user] ? 'DAU campaign paid' : 'DAU campaign free');
+      var event = null;
+      var endDate = new Date(day + "T00:00:00.000Z");
+      if (classroomUserEventEndDateMap[user]) {
+        if (classroomUserEventEndDateMap[user]['DAU classroom trial'] > endDate) {
+          event = 'DAU classroom trial';
+        }
+        else if (classroomUserEventEndDateMap[user]['DAU classroom paid'] > endDate) {
+          event = 'DAU classroom paid';
+        }
+        else if (classroomUserEventEndDateMap[user]['DAU classroom free'] > endDate) {
+          event = 'DAU classroom free';
+        }
+      }
+      if (!event) {
+        event = dayCampaignUserPaidMap[day] && dayCampaignUserPaidMap[day][user] ? 'DAU campaign paid' : 'DAU campaign free';
+      }
       dailyEventNames[event] = true;
       if (!activeUsersCounts[day]) activeUsersCounts[day] = {};
       if (!activeUsersCounts[day][event]) activeUsersCounts[day][event] = 0;

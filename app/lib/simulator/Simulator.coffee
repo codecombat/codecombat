@@ -226,7 +226,7 @@ module.exports = class Simulator extends CocoClass
     @levelLoader = null
 
   setupGod: ->
-    @god.setLevel @level.serialize(@supermodel, @session, @otherSession)
+    @god.setLevel @level.serialize {@supermodel, @session, @otherSession, headless: true, sessionless: false}
     @god.setLevelSessionIDs (session.sessionID for session in @task.getSessions())
     @god.setWorldClassMap @world.classMap
     @god.setGoalManager new GoalManager @world, @level.get('goals'), null, {headless: true}

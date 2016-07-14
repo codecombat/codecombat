@@ -73,6 +73,7 @@ module.exports = class AnalyticsView extends RootView
         # Add campaign/classroom DAU 30-day averages and daily totals
         campaignDauTotals = []
         classroomDauTotals = []
+        eventMap = {}
         for entry in @activeUsers
           day = entry.day
           campaignDauTotal = 0
@@ -82,18 +83,31 @@ module.exports = class AnalyticsView extends RootView
               campaignDauTotal += count
             else if event.indexOf('DAU classroom') >= 0
               classroomDauTotal += count
+            eventMap[event] = true;
           entry.events['DAU campaign total'] = campaignDauTotal
+          eventMap['DAU campaign total'] = true;
           campaignDauTotals.unshift(campaignDauTotal)
           campaignDauTotals.pop() while campaignDauTotals.length > 30
           if campaignDauTotals.length is 30
             entry.events['DAU campaign 30-day average'] = Math.round(_.reduce(campaignDauTotals, (a, b) -> a + b) / 30)
+            eventMap['DAU campaign 30-day average'] = true;
           entry.events['DAU classroom total'] = classroomDauTotal
+          eventMap['DAU classroom total'] = true;
           classroomDauTotals.unshift(classroomDauTotal)
           classroomDauTotals.pop() while classroomDauTotals.length > 30
           if classroomDauTotals.length is 30
             entry.events['DAU classroom 30-day average'] = Math.round(_.reduce(classroomDauTotals, (a, b) -> a + b) / 30)
+            eventMap['DAU classroom 30-day average'] = true;
 
         @activeUsers.sort (a, b) -> b.day.localeCompare(a.day)
+        @activeUserEventNames = Object.keys(eventMap)
+        @activeUserEventNames.sort (a, b) ->
+          if a.indexOf('campaign') is b.indexOf('campaign') or a.indexOf('classroom') is b.indexOf('classroom')
+            a.localeCompare(b)
+          else if a.indexOf('campaign') > b.indexOf('campaign')
+            1
+          else
+            -1
 
         @updateAllKPIChartData()
         @updateActiveUsersChartData()
@@ -134,13 +148,13 @@ module.exports = class AnalyticsView extends RootView
         return unless @revenue.length > 0
 
         # Add monthly recurring revenue values
-        
+
         # For each daily group, add up monthly values walking forward through time, and add to revenue groups
         monthlyDailyGroupMap = {}
         dailyGroupIndexMap = {}
         for group, i in @revenueGroups
           monthlyDailyGroupMap[group.replace('DRR', 'MRR')] = group
-          dailyGroupIndexMap[group] = i 
+          dailyGroupIndexMap[group] = i
         for monthlyGroup, dailyGroup of monthlyDailyGroupMap
           monthlyValues = []
           for i in [@revenue.length-1..0]
@@ -183,7 +197,7 @@ module.exports = class AnalyticsView extends RootView
     @supermodel.addRequestResource({
       url: '/db/prepaid/-/courses'
       method: 'POST'
-      data: {project: {maxRedeemers: 1, properties: 1, redeemers: 1}}
+      data: {project: {endDate: 1, maxRedeemers: 1, properties: 1, redeemers: 1}}
       success: (prepaids) =>
         paidDayMaxMap = {}
         paidDayRedeemedMap = {}
@@ -201,14 +215,13 @@ module.exports = class AnalyticsView extends RootView
               redeemDay = redeemer.date.substring(0, 10)
               trialDayRedeemedMap[redeemDay] ?= 0
               trialDayRedeemedMap[redeemDay]++
-          else
+          else if not prepaid.endDate? or new Date(prepaid.endDate) > new Date()
             paidDayMaxMap[day] ?= 0
             paidDayMaxMap[day] += prepaid.maxRedeemers
             for redeemer in prepaid.redeemers
               redeemDay = redeemer.date.substring(0, 10)
               paidDayRedeemedMap[redeemDay] ?= 0
               paidDayRedeemedMap[redeemDay]++
-              
         @dayEnrollmentsMap = {}
         @paidCourseTotalEnrollments = []
         for day, count of paidDayMaxMap
@@ -218,7 +231,7 @@ module.exports = class AnalyticsView extends RootView
         @paidCourseTotalEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
         @paidCourseRedeemedEnrollments = []
         for day, count of paidDayRedeemedMap
-          @paidCourseRedeemedEnrollments.push({day: day, count: count}) 
+          @paidCourseRedeemedEnrollments.push({day: day, count: count})
           @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
           @dayEnrollmentsMap[day].paidRedeemed += count
         @paidCourseRedeemedEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
@@ -239,7 +252,7 @@ module.exports = class AnalyticsView extends RootView
     }, 0).load()
 
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
-    @courses.comparator = "_id" 
+    @courses.comparator = "_id"
     @listenToOnce @courses, 'sync', @onCoursesSync
     @supermodel.loadCollection(@courses)
 
@@ -276,7 +289,7 @@ module.exports = class AnalyticsView extends RootView
       studentFurthestCourseMap = {}
       studentPaidStatusMap = {}
       for courseInstance in data.courseInstances
-        continue if utils.objectIdToDate(courseInstance._id) < startDate 
+        continue if utils.objectIdToDate(courseInstance._id) < startDate
         courseID = courseInstance.courseID
         teacherID = courseInstance.ownerID
         for studentID in courseInstance.members
@@ -306,7 +319,7 @@ module.exports = class AnalyticsView extends RootView
       # Paid teacher: at least one paid student
       # Trial teacher: at least one trial student in course instance, and no paid students
       # Free teacher: no paid students, no trial students
-      # Teacher furthest course is furthest course of highest paid status student 
+      # Teacher furthest course is furthest course of highest paid status student
       teacherFurthestCourseMap = {}
       teacherPaidStatusMap = {}
       for teacher, students of teacherStudentsMap
@@ -368,14 +381,17 @@ module.exports = class AnalyticsView extends RootView
 
     # Trim points preceding days
     if points.length and days.length and points[0].day.localeCompare(days[0]) < 0
-      for point, i in points
-        if point.day.localeCompare(days[0]) >= 0
-          points.splice(0, i)
-          break
+      if points[points.length - 1].day.localeCompare(days[0]) < 0
+        points = []
+      else
+        for point, i in points
+          if point.day.localeCompare(days[0]) >= 0
+            points.splice(0, i)
+            break
 
     # Ensure points for each day
     for day, i in days
-      if points.length <= i or points[i].day isnt day
+      if points.length <= i or points[i]?.day isnt day
         prevY = if i > 0 then points[i - 1].y else 0.0
         points.splice i, 0,
           day: day
@@ -534,7 +550,7 @@ module.exports = class AnalyticsView extends RootView
       day = entry.day
       for event, count of entry.events
         eventDataMap[event] ?= []
-        eventDataMap[event].push 
+        eventDataMap[event].push
           day: entry.day
           value: count
 
@@ -550,7 +566,7 @@ module.exports = class AnalyticsView extends RootView
         lines.push
           points: points
           description: event
-          lineColor: @lineColors[colorIndex++ % @lineColors.length] 
+          lineColor: @lineColors[colorIndex++ % @lineColors.length]
           strokeWidth: 1
           min: 0
           showYScale: showYScale
@@ -577,7 +593,7 @@ module.exports = class AnalyticsView extends RootView
       day = entry.day
       for event, count of entry.events
         eventDataMap[event] ?= []
-        eventDataMap[event].push 
+        eventDataMap[event].push
           day: entry.day
           value: count
 
@@ -591,7 +607,7 @@ module.exports = class AnalyticsView extends RootView
         @campaignVsClassroomMonthlyActiveUsersRecentChartLines.push
           points: points
           description: event
-          lineColor: @lineColors[colorIndex++ % @lineColors.length] 
+          lineColor: @lineColors[colorIndex++ % @lineColors.length]
           strokeWidth: 1
           min: 0
           showYScale: true
@@ -601,7 +617,7 @@ module.exports = class AnalyticsView extends RootView
         @campaignVsClassroomMonthlyActiveUsersRecentChartLines.push
           points: points
           description: event
-          lineColor: @lineColors[colorIndex++ % @lineColors.length] 
+          lineColor: @lineColors[colorIndex++ % @lineColors.length]
           strokeWidth: 1
           min: 0
           showYScale: false
@@ -619,7 +635,7 @@ module.exports = class AnalyticsView extends RootView
         @campaignVsClassroomMonthlyActiveUsersChartLines.push
           points: points
           description: event
-          lineColor: @lineColors[colorIndex++ % @lineColors.length] 
+          lineColor: @lineColors[colorIndex++ % @lineColors.length]
           strokeWidth: 1
           min: 0
           showYScale: true
@@ -629,7 +645,7 @@ module.exports = class AnalyticsView extends RootView
         @campaignVsClassroomMonthlyActiveUsersChartLines.push
           points: points
           description: event
-          lineColor: @lineColors[colorIndex++ % @lineColors.length] 
+          lineColor: @lineColors[colorIndex++ % @lineColors.length]
           strokeWidth: 1
           min: 0
           showYScale: false
@@ -648,16 +664,14 @@ module.exports = class AnalyticsView extends RootView
     dailyMax = 0
 
     data = []
-    total = 0
     for entry in @paidCourseTotalEnrollments
-      total += entry.count
       data.push
         day: entry.day
-        value: total
+        value: entry.count
     points = @createLineChartPoints(days, data)
     @enrollmentsChartLines.push
       points: points
-      description: 'Total paid enrollments issued'
+      description: 'Paid enrollments issued'
       lineColor: @lineColors[colorIndex++ % @lineColors.length]
       strokeWidth: 1
       min: 0
@@ -666,16 +680,14 @@ module.exports = class AnalyticsView extends RootView
     dailyMax = _.max([dailyMax, _.max(points, 'y').y])
 
     data = []
-    total = 0
     for entry in @paidCourseRedeemedEnrollments
-      total += entry.count
       data.push
         day: entry.day
-        value: total
+        value: entry.count
     points = @createLineChartPoints(days, data)
     @enrollmentsChartLines.push
       points: points
-      description: 'Total paid enrollments redeemed'
+      description: 'Paid enrollments redeemed'
       lineColor: @lineColors[colorIndex++ % @lineColors.length]
       strokeWidth: 1
       min: 0
@@ -684,16 +696,14 @@ module.exports = class AnalyticsView extends RootView
     dailyMax = _.max([dailyMax, _.max(points, 'y').y])
 
     data = []
-    total = 0
     for entry in @trialCourseTotalEnrollments
-      total += entry.count
       data.push
         day: entry.day
-        value: total
-    points = @createLineChartPoints(days, data)
+        value: entry.count
+    points = @createLineChartPoints(days, data, true)
     @enrollmentsChartLines.push
       points: points
-      description: 'Total trial enrollments issued'
+      description: 'Trial enrollments issued'
       lineColor: @lineColors[colorIndex++ % @lineColors.length]
       strokeWidth: 1
       min: 0
@@ -702,16 +712,14 @@ module.exports = class AnalyticsView extends RootView
     dailyMax = _.max([dailyMax, _.max(points, 'y').y])
 
     data = []
-    total = 0
     for entry in @trialCourseRedeemedEnrollments
-      total += entry.count
       data.push
         day: entry.day
-        value: total
+        value: entry.count
     points = @createLineChartPoints(days, data)
     @enrollmentsChartLines.push
       points: points
-      description: 'Total trial enrollments redeemed'
+      description: 'Trial enrollments redeemed'
       lineColor: @lineColors[colorIndex++ % @lineColors.length]
       strokeWidth: 1
       min: 0

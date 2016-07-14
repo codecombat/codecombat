@@ -11,7 +11,7 @@ module.exports = class SegmentCheckView extends CocoView
   events:
     'click .back-to-account-type': -> @trigger 'nav-back'
     'input .class-code-input': 'onInputClassCode'
-    'input .birthday-form-group': 'onInputBirthday'
+    'change .birthday-form-group': 'onInputBirthday'
     'submit form.segment-check': 'onSubmitSegmentCheck'
     'click .individual-path-button': -> @trigger 'choose-path', 'individual'
 

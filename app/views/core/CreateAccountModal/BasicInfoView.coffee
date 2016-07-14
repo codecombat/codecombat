@@ -28,6 +28,7 @@ module.exports = class BasicInfoView extends CocoView
   events:
     'change input[name="email"]': 'onChangeEmail'
     'change input[name="name"]': 'onChangeName'
+    'change input[name="password"]': 'onChangePassword'
     'click .back-button': 'onClickBackButton'
     'submit form': 'onSubmitForm'
     'click .use-suggested-name-link': 'onClickUseSuggestedNameLink'
@@ -50,8 +51,15 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
+  
+  # These values are passed along to AuthModal if the user clicks "Sign In" (handled by CreateAccountModal)
+  updateAuthModalInitialValues: (values) ->
+    @signupState.set {
+      authModalInitialValues: _.merge @signupState.get('authModalInitialValues'), values
+    }, { silent: true }
     
-  onChangeEmail: ->
+  onChangeEmail: (e) ->
+    @updateAuthModalInitialValues { email: @$(e.currentTarget).val() }
     @checkEmail()
     
   checkEmail: ->
@@ -85,7 +93,8 @@ module.exports = class BasicInfoView extends CocoView
     })
     return @state.get('checkEmailPromise')
 
-  onChangeName: ->
+  onChangeName: (e) ->
+    @updateAuthModalInitialValues { name: @$(e.currentTarget).val() }
     @checkName()
 
   checkName: ->
@@ -120,7 +129,10 @@ module.exports = class BasicInfoView extends CocoView
       )
     })
 
-    return @state.get('checkNamePromise') 
+    return @state.get('checkNamePromise')
+
+  onChangePassword: (e) ->
+    @updateAuthModalInitialValues { password: @$(e.currentTarget).val() }
 
   checkBasicInfo: (data) ->
     # TODO: Move this to somewhere appropriate

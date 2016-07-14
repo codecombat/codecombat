@@ -142,20 +142,20 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     CourseInstance.findById courseInstanceID, (err, courseInstance) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless courseInstance
-      Course.findById courseInstance.get('courseID'), (err, course) =>
+      Classroom.findById courseInstance.get('classroomID'), (err, classroom) =>
         return @sendDatabaseError(res, err) if err
-        return @sendNotFoundError(res) unless course
-        Campaign.findById course.get('campaignID'), (err, campaign) =>
-          return @sendDatabaseError(res, err) if err
-          return @sendNotFoundError(res) unless campaign
-          levelIDs = (levelID for levelID, level of campaign.get('levels') when not _.contains(level.type, 'ladder'))
-          query = {$and: [{creator: req.user.id}, {'level.original': {$in: levelIDs}}]}
-          cursor = LevelSession.find(query)
-          cursor = cursor.select(req.query.project) if req.query.project
-          cursor.exec (err, documents) =>
-            return @sendDatabaseError(res, err) if err?
-            cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
-            @sendSuccess(res, cleandocs)
+        return @sendNotFoundError(res) unless classroom
+        levelIDs = []
+        for course in classroom.get('courses') when course._id.equals(courseInstance.get('courseID'))
+          for level in course.levels when not _.contains(level.type, 'ladder')
+            levelIDs.push(level.original + "")
+        query = {$and: [{creator: req.user.id}, {'level.original': {$in: levelIDs}}]}
+        cursor = LevelSession.find(query)
+        cursor = cursor.select(req.query.project) if req.query.project
+        cursor.exec (err, documents) =>
+          return @sendDatabaseError(res, err) if err?
+          cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
+          @sendSuccess(res, cleandocs)
 
   getMembersAPI: (req, res, courseInstanceID) ->
     return @sendUnauthorizedError(res) if not req.user?

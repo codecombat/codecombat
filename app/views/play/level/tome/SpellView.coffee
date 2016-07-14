@@ -275,78 +275,77 @@ module.exports = class SpellView extends CocoView
           e.editor.execCommand 'gotolineend'
           return true
 
-    if me.level() < 20 or aceConfig.indentGuides
-      # Add visual ident guides
-      language = @spell.language
-      ensureLineStartsBlock = (line) ->
-        return false unless language is "python"
-        match = /^\s*([^#]+)/.exec(line)
-        return false if not match?
-        return /:\s*$/.test(match[1])
+    # Add visual indent guides
+    language = @spell.language
+    ensureLineStartsBlock = (line) ->
+      return false unless language is "python"
+      match = /^\s*([^#]+)/.exec(line)
+      return false if not match?
+      return /:\s*$/.test(match[1])
 
-      @aceSession.addDynamicMarker
-        update: (html, markerLayer, session, config) =>
-          Range = ace.require('ace/range').Range
+    @aceSession.addDynamicMarker
+      update: (html, markerLayer, session, config) =>
+        Range = ace.require('ace/range').Range
 
-          foldWidgets = @aceSession.foldWidgets
-          return if not foldWidgets?
+        foldWidgets = @aceSession.foldWidgets
+        return if not foldWidgets?
 
-          lines = @aceDoc.getAllLines()
-          startOfRow = (r) ->
-            str = lines[r]
-            ar = str.match(/^\s*/)
-            ar.pop().length
+        lines = @aceDoc.getAllLines()
+        startOfRow = (r) ->
+          str = lines[r]
+          ar = str.match(/^\s*/)
+          ar.pop().length
 
-          colors = [{border: '74,144,226', fill: '108,162,226'}, {border: '132,180,235', fill: '230,237,245'}]
+        colors = [{border: '74,144,226', fill: '108,162,226'}, {border: '132,180,235', fill: '230,237,245'}]
 
-          for row in [0..@aceSession.getLength()]
-            foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
-            continue unless foldWidgets? and foldWidgets[row] is "start"
-            try
-              docRange = @aceSession.getFoldWidgetRange(row)
-            catch error
-              console.warn "Couldn't find fold widget docRange for row #{row}:", error
-            if not docRange?
-              guess = startOfRow(row)
-              docRange = new Range(row,guess,row,guess+4)
+        for row in [0..@aceSession.getLength()]
+          foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
+          continue unless foldWidgets? and foldWidgets[row] is "start"
+          try
+            docRange = @aceSession.getFoldWidgetRange(row)
+          catch error
+            console.warn "Couldn't find fold widget docRange for row #{row}:", error
+          if not docRange?
+            guess = startOfRow(row)
+            docRange = new Range(row,guess,row,guess+4)
 
-            continue unless ensureLineStartsBlock(lines[row])
+          continue unless ensureLineStartsBlock(lines[row])
 
-            if /^\s+$/.test lines[docRange.end.row+1]
-              docRange.end.row += 1
+          if /^\s+$/.test lines[docRange.end.row+1]
+            docRange.end.row += 1
 
-            xstart = startOfRow(row)
-            if language is 'python'
-              requiredIndent = new RegExp '^' + new Array(Math.floor(xstart / 4 + 1)).join('(    |\t)') + '(    |\t)+(\\S|\\s*$)'
-              for crow in [docRange.start.row+1..docRange.end.row]
-                unless requiredIndent.test lines[crow]
-                  docRange.end.row = crow - 1
-                  break
+          xstart = startOfRow(row)
+          if language is 'python'
+            requiredIndent = new RegExp '^' + new Array(Math.floor(xstart / 4 + 1)).join('(    |\t)') + '(    |\t)+(\\S|\\s*$)'
+            for crow in [docRange.start.row+1..docRange.end.row]
+              unless requiredIndent.test lines[crow]
+                docRange.end.row = crow - 1
+                break
 
-            rstart = @aceSession.documentToScreenPosition docRange.start.row, docRange.start.column
-            rend = @aceSession.documentToScreenPosition docRange.end.row, docRange.end.column
-            range = new Range rstart.row, rstart.column, rend.row, rend.column
-            level = Math.floor(xstart / 4)
-            color = colors[level % colors.length]
-            bw = 3
-            to = markerLayer.$getTop(range.start.row, config)
-            t = markerLayer.$getTop(range.start.row + 1, config)
-            h = config.lineHeight * (range.end.row - range.start.row)
-            l = markerLayer.$padding + xstart * config.characterWidth
-            # w = (data.i - data.b) * config.characterWidth
-            w = 4 * config.characterWidth
-            fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
+          rstart = @aceSession.documentToScreenPosition docRange.start.row, docRange.start.column
+          rend = @aceSession.documentToScreenPosition docRange.end.row, docRange.end.column
+          range = new Range rstart.row, rstart.column, rend.row, rend.column
+          level = Math.floor(xstart / 4)
+          color = colors[level % colors.length]
+          bw = 3
+          to = markerLayer.$getTop(range.start.row, config)
+          t = markerLayer.$getTop(range.start.row + 1, config)
+          h = config.lineHeight * (range.end.row - range.start.row)
+          l = markerLayer.$padding + xstart * config.characterWidth
+          # w = (data.i - data.b) * config.characterWidth
+          w = 4 * config.characterWidth
+          fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
 
-            html.push """
-              <div style=
-                "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
-                 border: #{bw}px solid rgba(#{color.border},1); border-left: none;"
-              ></div>
-              <div style=
-                "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
-                 border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);"
-              ></div>
-            """
+          html.push """
+            <div style=
+              "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
+               border: #{bw}px solid rgba(#{color.border},1); border-left: none;"
+            ></div>
+            <div style=
+              "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
+               border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);"
+            ></div>
+          """
 
   fillACE: ->
     @ace.setValue @spell.source

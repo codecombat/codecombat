@@ -13,6 +13,8 @@ User = require '../models/User'
 Classroom = require '../models/Classroom'
 facebook = require '../lib/facebook'
 gplus = require '../lib/gplus'
+TrialRequest = require '../models/TrialRequest'
+log = require 'winston'
 
 module.exports =
   fetchByGPlusID: wrap (req, res, next) ->
@@ -133,16 +135,7 @@ module.exports =
       throw new errors.Conflict('Email already taken')
 
     req.user.set({ password, email, anonymous: false })
-    try
-      yield req.user.save()
-    catch e
-      if e.code is 11000 # Duplicate key error
-        throw new errors.Conflict('Email already taken')
-      else
-        throw e
-
-    req.user.sendWelcomeEmail()
-    res.status(200).send(req.user.toObject({req: req}))
+    yield module.exports.finishSignup(req, res)
 
   signupWithFacebook: wrap (req, res) ->
     unless req.user.isAnonymous()
@@ -159,16 +152,7 @@ module.exports =
       throw new errors.UnprocessableEntity('Invalid facebookAccessToken')
 
     req.user.set({ facebookID, email, anonymous: false })
-    try
-      yield req.user.save()
-    catch e
-      if e.code is 11000 # Duplicate key error
-        throw new errors.Conflict('Email already taken')
-      else
-        throw e
-
-    req.user.sendWelcomeEmail()
-    res.status(200).send(req.user.toObject({req: req}))
+    yield module.exports.finishSignup(req, res)
 
   signupWithGPlus: wrap (req, res) ->
     unless req.user.isAnonymous()
@@ -186,6 +170,9 @@ module.exports =
       throw new errors.UnprocessableEntity('Invalid gplusAccessToken')
 
     req.user.set({ gplusID, email, anonymous: false })
+    yield module.exports.finishSignup(req, res)
+    
+  finishSignup: co.wrap (req, res) ->
     try
       yield req.user.save()
     catch e
@@ -194,5 +181,21 @@ module.exports =
       else
         throw e
 
+    # post-successful account signup tasks
+    
     req.user.sendWelcomeEmail()
+
+    # If person A creates a trial request without creating an account, then person B uses that computer
+    # to create an account, then person A's trial request is associated with person B's account. To prevent
+    # this, we check that the signup email matches the trial request email, for every signup. If they do
+    # not match, the trial request applicant field is cleared, disassociating the trial request from this
+    # account.
+    trialRequest = yield TrialRequest.findOne({applicant: req.user._id})
+    if trialRequest
+      email = trialRequest.get('properties')?.email or ''
+      emailLower = email.toLowerCase()
+      if emailLower and emailLower isnt req.user.get('emailLower')
+        log.warn('User submitted trial request and created account with different emails. Disassociating trial request.')
+        yield trialRequest.update({$unset: {applicant: ''}})
+        
     res.status(200).send(req.user.toObject({req: req}))

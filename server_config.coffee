@@ -26,6 +26,11 @@ config.mongo =
   mongoose_tokyo_replica_string: process.env.COCO_MONGO_MONGOOSE_TOKYO_REPLICA_STRING or ''
   mongoose_saoPaulo_replica_string : process.env.COCO_MONGO_MONGOOSE_SAOPAULO_REPLICA_STRING or ''
 
+if process.env.COCO_MONGO_LS_REPLICA_STRING?
+  config.mongo.level_session_replica_string = process.env.COCO_MONGO_LS_REPLICA_STRING
+  
+if process.env.COCO_MONGO_LS_AUX_REPLICA_STRING?
+  config.mongo.level_session_aux_replica_string = process.env.COCO_MONGO_LS_AUX_REPLICA_STRING
 
 
 if config.tokyo or config.saoPaulo

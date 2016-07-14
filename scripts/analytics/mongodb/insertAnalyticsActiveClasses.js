@@ -6,51 +6,49 @@
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
 
-try {
-  var logDB = new Mongo("localhost").getDB("analytics")
-  var scriptStartTime = new Date();
-  var analyticsStringCache = {};
+// TODO: Does not handle course prepaid updates on a user
+// TODO: Does not handle class membership changes
 
-  var minClassSize = 12;
-  var minActiveCount = 6;
+// TODO: Investigate abrupt trial drop off at 4/1/16.  Showed up when fixing coursePrepaid.
 
-  var eventNamePaid = 'Active classes paid';
-  var eventNameTrial = 'Active classes trial';
-  var eventNameFree = 'Active classes free';
+var analyticsDB = new Mongo("localhost").getDB("analytics")
+var scriptStartTime = new Date();
+var analyticsStringCache = {};
 
-  var numDays = 40;
-  var daysInMonth = 30;
+var minClassSize = 12;
+var minActiveCount = 6;
 
-  var startDay = new Date();
-  var today = startDay.toISOString().substr(0, 10);
-  startDay.setUTCDate(startDay.getUTCDate() - numDays);
-  startDay = startDay.toISOString().substr(0, 10);
+var eventNamePaid = 'Active classes paid';
+var eventNameTrial = 'Active classes trial';
+var eventNameFree = 'Active classes free';
 
-  log("Today is " + today);
-  log("Start day is " + startDay);
+var numDays = 40;
+var daysInMonth = 30;
 
-  log("Getting active class counts..");
-  var activeClassCounts = getActiveClassCounts(startDay);
-  // printjson(activeClassCounts);
-  log("Inserting active class counts..");
-  for (var event in activeClassCounts) {
-    for (var day in activeClassCounts[event]) {
-      if (today === day) continue; // Never save data for today because it's incomplete
-      // print(event, day, activeClassCounts[event][day]);
-      insertEventCount(event, day, activeClassCounts[event][day]);
-    }
+var startDay = new Date();
+var today = startDay.toISOString().substr(0, 10);
+startDay.setUTCDate(startDay.getUTCDate() - numDays);
+startDay = startDay.toISOString().substr(0, 10);
+
+log("Today is " + today);
+log("Start day is " + startDay);
+
+log("Getting active class counts..");
+var activeClassCounts = getActiveClassCounts(startDay);
+// printjson(activeClassCounts);
+// log("Inserting active class counts..");
+for (var event in activeClassCounts) {
+  for (var day in activeClassCounts[event]) {
+    if (today === day) continue; // Never save data for today because it's incomplete
+    // print(event, day, activeClassCounts[event][day]);
+    insertEventCount(event, day, activeClassCounts[event][day]);
   }
+}
 
-  log("Script runtime: " + (new Date() - scriptStartTime));
-}
-catch(err) {
-  log("ERROR: " + err);
-  printjson(err);
-}
+log("Script runtime: " + (new Date() - scriptStartTime));
 
 function getActiveClassCounts(startDay) {
   // Tally active classes per day, for paid, trial, and free
-  // TODO: does not handle class membership changes
 
   if (!startDay) return {};
 
@@ -60,7 +58,7 @@ function getActiveClassCounts(startDay) {
   // paid: at least one paid member
   // trial: not paid, at least one trial member
   // free: not paid, not free trial
-  // user.coursePrepaidID set means access to paid courses
+  // user.coursePrepaidID or user.coursePrepaid set means access to paid courses
   // prepaid.properties.trialRequestID means access was via trial
 
   // Find classroom users
@@ -86,30 +84,46 @@ function getActiveClassCounts(startDay) {
       }
     }
   }
+  // log("DEBUG: Classroom users: " + classroomUserIDs.length);
 
   log("Find user types..");
-  var userEventMap = {};
+  var userEventEndDateMap = {};
   var prepaidUsersMap = {};
   var prepaidIDs = [];
-  cursor = db.users.find({_id: {$in: classroomUserObjectIds}}, {coursePrepaidID: 1});
+  cursor = db.users.find({_id: {$in: classroomUserObjectIds}}, {coursePrepaid: 1, coursePrepaidID: 1});
   while (cursor.hasNext()) {
     doc = cursor.next();
+    userEventEndDateMap[doc._id.valueOf()] = {};
+    userEventEndDateMap[doc._id.valueOf()][eventNameFree] = new Date();
+    if (doc.coursePrepaid) {
+      if (!doc.coursePrepaid.endDate) throw new Error("No endDate for new prepaid " + doc._id.valuOf());
+      userEventEndDateMap[doc._id.valueOf()][eventNamePaid] = new Date(doc.coursePrepaid.endDate);
+      if (!prepaidUsersMap[doc.coursePrepaid._id.valueOf()]) prepaidUsersMap[doc.coursePrepaid._id.valueOf()] = [];
+      prepaidUsersMap[doc.coursePrepaid._id.valueOf()].push(doc._id.valueOf()); 
+      prepaidIDs.push(doc.coursePrepaid._id);
+    }
     if (doc.coursePrepaidID) {
-      userEventMap[doc._id.valueOf()] = eventNamePaid;
+      if (!userEventEndDateMap[doc._id.valueOf()][eventNamePaid]) {
+        userEventEndDateMap[doc._id.valueOf()][eventNamePaid] = new Date();
+      }
       if (!prepaidUsersMap[doc.coursePrepaidID.valueOf()]) prepaidUsersMap[doc.coursePrepaidID.valueOf()] = [];
       prepaidUsersMap[doc.coursePrepaidID.valueOf()].push(doc._id.valueOf()); 
       prepaidIDs.push(doc.coursePrepaidID);
     }
-    else {
-      userEventMap[doc._id.valueOf()] = eventNameFree;
-    }
   }
-  cursor = db.prepaids.find({_id: {$in: prepaidIDs}}, {properties: 1});
+  cursor = db.prepaids.find({_id: {$in: prepaidIDs}}, {endDate: 1, properties: 1});
   while (cursor.hasNext()) {
     doc = cursor.next();
     if (doc.properties && doc.properties.trialRequestID) {
+      var endDate = new Date();
+      if (doc.endDate) {
+        endDate = new Date(doc.endDate);
+      }
+      else if (doc.properties.endDate) {
+        endDate = new Date(doc.properties.endDate);
+      }
       for (var i = 0; i < prepaidUsersMap[doc._id.valueOf()].length; i++) {
-        userEventMap[prepaidUsersMap[doc._id.valueOf()][i]] = eventNameTrial;
+        userEventEndDateMap[prepaidUsersMap[doc._id.valueOf()][i]][eventNameTrial] = endDate;
       }
     }
   }
@@ -121,18 +135,22 @@ function getActiveClassCounts(startDay) {
   var endDate = ISODate(startDay + "T00:00:00.000Z");
   var todayDate = new Date(new Date().toISOString().substring(0, 10));
   var startObj = objectIdWithTimestamp(startDate);
-  var queryParams = {$and: [
-    {_id: {$gte: startObj}},
-    {user: {$in: classroomUserIDs}},
-    {event: 'Started Level'}
-  ]};
-  cursor = logDB['log'].find(queryParams, {user: 1});
-  while (cursor.hasNext()) {
-    doc = cursor.next();
-    if (!userPlayedMap[doc.user]) userPlayedMap[doc.user] = [];
-    userPlayedMap[doc.user].push(doc._id.getTimestamp());
+  // Batch size test times: 10k 427005, 5k 361361, 1k 799068, 2k 791521
+  var batchSize = 5000;
+  for (var j = 0; j < classroomUserIDs.length / batchSize + 1; j++) {
+    // log("DEBUG: Fetching classroom events batch " + (j * batchSize) + " " + (j * batchSize + batchSize));
+    var queryParams = {$and: [
+      {_id: {$gte: startObj}},
+      {user: {$in: classroomUserIDs.slice(j * batchSize, j * batchSize + batchSize)}},
+      {event: 'Started Level'}
+    ]};
+    cursor = analyticsDB['log'].find(queryParams, {user: 1});
+    while (cursor.hasNext()) {
+      doc = cursor.next();
+      if (!userPlayedMap[doc.user]) userPlayedMap[doc.user] = [];
+      userPlayedMap[doc.user].push(doc._id.getTimestamp());
+    }
   }
-  // printjson(userPlayedMap);
 
   log("Calculate number of active members per classroom per day per event type..");
   var classDayTypeMap = {};
@@ -159,7 +177,19 @@ function getActiveClassCounts(startDay) {
         if (userPlayedMap[member]) {
           for (var k = 0; k < userPlayedMap[member].length; k++) {
             if (userPlayedMap[member][k] > startDate && userPlayedMap[member][k] <= endDate) {
-              classDayTypeMap[classroom][endDay][userEventMap[member]]++;
+              if (userEventEndDateMap[member][eventNameTrial] > endDate) {
+                classDayTypeMap[classroom][endDay][eventNameTrial]++;
+              }
+              else if (userEventEndDateMap[member][eventNamePaid] > endDate) {
+                classDayTypeMap[classroom][endDay][eventNamePaid]++;
+              }
+              else if (userEventEndDateMap[member][eventNameFree] > endDate) {
+                classDayTypeMap[classroom][endDay][eventNameFree]++;
+              }
+              else {
+                print("ERROR: no event for " + member);
+                printjson(userEventEndDateMap[member]);
+              }
               break;
             }
           }

@@ -56,6 +56,7 @@ module.exports = class TeacherClassView extends RootView
         assigningToNobody: false
         assigningToUnenrolled: false
       selectedCourse: undefined
+      checkboxStates: {}
       classStats:
         averagePlaytime: ""
         totalPlaytime: ""
@@ -145,6 +146,10 @@ module.exports = class TeacherClassView extends RootView
       classStats = @calculateClassStats()
       @state.set classStats: classStats if classStats
       @state.set students: @students
+      checkboxStates = {}
+      for student in @students.models
+        checkboxStates[student.id] = @state.get('checkboxStates')[student.id] or false
+      @state.set { checkboxStates }
     @listenTo @students, 'sort', ->
       @state.set students: @students
     @listenTo @, 'course-select:change', ({ selectedCourse }) ->
@@ -291,8 +296,7 @@ module.exports = class TeacherClassView extends RootView
     @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
 
   getSelectedStudentIDs: ->
-    @$('.student-row .checkbox-flat input:checked').map (index, checkbox) ->
-      $(checkbox).data('student-id')
+    Object.keys(_.pick @state.get('checkboxStates'), (checked) -> checked)
 
   ensureInstance: (courseID) ->
 
@@ -304,7 +308,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
 
   onClickBulkEnroll: ->
-    userIDs = @getSelectedStudentIDs().toArray()
+    userIDs = @getSelectedStudentIDs()
     selectedUsers = new Users(@students.get(userID) for userID in userIDs)
     @enrollStudents(selectedUsers)
     window.tracker?.trackEvent 'Teachers Class Students Enroll Selected', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
@@ -385,10 +389,9 @@ module.exports = class TeacherClassView extends RootView
   onClickBulkAssign: ->
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
-    members = selectedIDs.filter((index, userID) =>
+    members = selectedIDs.filter (userID) =>
       user = @students.get(userID)
       user.isEnrolled()
-    ).toArray()
     assigningToUnenrolled = _.any selectedIDs, (userID) =>
       not @students.get(userID).isEnrolled()
     assigningToNobody = selectedIDs.length is 0
@@ -417,23 +420,22 @@ module.exports = class TeacherClassView extends RootView
 
   onClickSelectAll: (e) ->
     e.preventDefault()
-    checkboxes = @$('.student-checkbox input')
-    if _.all(checkboxes, 'checked')
-      @$('.select-all input').prop('checked', false)
-      checkboxes.prop('checked', false)
+    checkboxStates = _.clone @state.get('checkboxStates')
+    if _.all(checkboxStates)
+      for studentID of checkboxStates
+        checkboxStates[studentID] = false
     else
-      @$('.select-all input').prop('checked', true)
-      checkboxes.prop('checked', true)
-    null
+      for studentID of checkboxStates
+        checkboxStates[studentID] = true
+    @state.set { checkboxStates }
 
   onClickStudentCheckbox: (e) ->
     e.preventDefault()
-    # $(e.target).$()
     checkbox = $(e.currentTarget).find('input')
-    checkbox.prop('checked', not checkbox.prop('checked'))
-    # checkboxes.prop('checked', false)
-    checkboxes = @$('.student-checkbox input')
-    @$('.select-all input').prop('checked', _.all(checkboxes, 'checked'))
+    studentID = checkbox.data('student-id')
+    checkboxStates = _.clone @state.get('checkboxStates')
+    checkboxStates[studentID] = not checkboxStates[studentID]
+    @state.set { checkboxStates }
 
   calculateClassStats: ->
     return {} unless @classroom.sessions?.loaded and @students.loaded

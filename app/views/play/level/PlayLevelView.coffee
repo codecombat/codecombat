@@ -128,7 +128,7 @@ module.exports = class PlayLevelView extends RootView
     @supermodel.collections = givenSupermodel.collections
     @supermodel.shouldSaveBackups = givenSupermodel.shouldSaveBackups
 
-    serializedLevel = @level.serialize @supermodel, @session, @otherSession
+    serializedLevel = @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
     @god?.setLevel serializedLevel
     if @world
       @world.loadFromLevel serializedLevel, false
@@ -244,7 +244,7 @@ module.exports = class PlayLevelView extends RootView
       @session.set 'multiplayer', false
 
   setupGod: ->
-    @god.setLevel @level.serialize @supermodel, @session, @otherSession
+    @god.setLevel @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap
 
