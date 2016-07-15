@@ -73,6 +73,7 @@ module.exports = class PlayLevelView extends RootView
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiling': 'onLoadingViewUnveiling'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
+    'level:loaded': 'onLevelLoaded'
     'level:session-loaded': 'onSessionLoaded'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
@@ -133,13 +134,15 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    @god = new God({@gameUIState})   # TODO: don't make one of these in web-dev mode
     levelLoaderOptions = supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing, courseID: @courseID
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
+
+  onLevelLoaded: (e) ->
+    @god = new God({@gameUIState}) unless e.level.isType('web-dev')
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview
@@ -253,7 +256,7 @@ module.exports = class PlayLevelView extends RootView
 
   initGoalManager: ->
     @goalManager = new GoalManager(@world, @level.get('goals'), @team)
-    @god.setGoalManager @goalManager
+    @god?.setGoalManager @goalManager
 
   insertSubviews: ->
     @hintsState = new HintsState({ hidden: true }, { @session, @level })

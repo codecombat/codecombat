@@ -11,7 +11,7 @@ var allowedOrigins = [
     /http:\/\/localhost:3000/,
     /http:\/\/direct\.codecombat\.com/,
     /http:\/\/staging\.codecombat\.com/,
-    /http:\/\/codecombat-staging-codecombat\.runnableapp\.com/,
+    /http:\/\/.*codecombat-staging-codecombat\.runnableapp\.com/,
 ];
 
 function receiveMessage(event) {
