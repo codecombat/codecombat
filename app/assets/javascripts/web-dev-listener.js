@@ -7,15 +7,20 @@ var virtualDOM;
 var goalStates;
 
 var allowedOrigins = [
-    'https://codecombat.com',
-    'http://localhost:3000',
-    'http://direct.codecombat.com',
-    'http://staging.codecombat.com'
+    /https:\/\/codecombat\.com/,
+    /http:\/\/localhost:3000/,
+    /http:\/\/direct\.codecombat\.com/,
+    /http:\/\/staging\.codecombat\.com/,
+    /http:\/\/codecombat-staging-codecombat\.runnableapp\.com/,
 ];
 
 function receiveMessage(event) {
     var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
-    if (allowedOrigins.indexOf(origin) == -1) {
+    var allowed = false;
+    allowedOrigins.forEach(function(pattern) {
+	allowed = allowed || pattern.test(origin);
+    });
+    if (!allowed) {
         console.log('Ignoring message from bad origin:', origin);
         return;
     }
