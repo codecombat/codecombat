@@ -375,6 +375,25 @@ describe 'GET /db/course_instance/:handle/classroom', ->
     expect(res.statusCode).toBe(403)
     done()
 
+describe 'GET /db/course_instance/:handle/course', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels [User, CourseInstance, Classroom]
+    @course = new Course({})
+    yield @course.save()
+    @courseInstance = new CourseInstance({courseID: @course._id})
+    yield @courseInstance.save()
+    @url = getURL("/db/course_instance/#{@courseInstance.id}/course")
+    done()
+
+  it 'returns the course instance\'s referenced course', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser user
+    [res, body] = yield request.getAsync(@url, {json: true})
+    expect(res.statusCode).toBe(200)
+    expect(body._id).toBe(@course.id)
+    done()
+
 describe 'POST /db/course_instance/-/recent', ->
 
   url = getURL('/db/course_instance/-/recent')

@@ -10,6 +10,7 @@ module.exports = class ProgressView extends CocoView
   events:
     'click #done-btn': 'onClickDoneButton'
     'click #next-level-btn': 'onClickNextLevelButton'
+    'click #ladder-btn': 'onClickLadderButton'
 
   initialize: (options) ->
     @level = options.level
@@ -27,3 +28,6 @@ module.exports = class ProgressView extends CocoView
 
   onClickNextLevelButton: ->
     @trigger 'next-level'
+
+  onClickLadderButton: ->
+    @trigger 'ladder'

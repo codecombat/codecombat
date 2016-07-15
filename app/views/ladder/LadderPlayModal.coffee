@@ -26,8 +26,8 @@ module.exports = class LadderPlayModal extends ModalView
 
   initialize: (options, @level, @session, @team) ->
     @otherTeam = if @team is 'ogres' then 'humans' else 'ogres'
-    @startLoadingChallengersMaybe()
     @wizardType = ThangType.loadUniversalWizard()
+    @startLoadingChallengersMaybe()
     @levelID = @level.get('slug') or @level.id
     @language = @session?.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
     @languages = [

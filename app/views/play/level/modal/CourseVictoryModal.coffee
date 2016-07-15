@@ -44,6 +44,11 @@ module.exports = class CourseVictoryModal extends ModalView
       @levelSessions = @supermodel.loadCollection(@levelSessions, 'sessions', {
         data: { project: 'state.complete level.original playtime changed' }
       }).model
+      
+      if not @course
+        @course = new Course()
+        @supermodel.trackRequest @course.fetchForCourseInstance(@courseInstanceID)
+      
     window.tracker?.trackEvent 'Play Level Victory Modal Loaded', category: 'Students', levelSlug: @level.get('slug'), ['Mixpanel']
 
   onResourceLoadFailed: (e) ->
@@ -53,6 +58,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
   onLoaded: ->
     super()
+    @courseID ?= @course.id
     @views = []
 
     @levelSessions?.remove(@session)
@@ -67,6 +73,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     progressView.once 'done', @onDone, @
     progressView.once 'next-level', @onNextLevel, @
+    progressView.once 'ladder', @onLadder, @
     for view in @views
       view.on 'continue', @onViewContinue, @
     @views.push(progressView)
@@ -104,3 +111,15 @@ module.exports = class CourseVictoryModal extends ModalView
     else
       link = "/courses/#{@courseID}/#{@courseInstanceID}"
     application.router.navigate(link, {trigger: true})
+
+  onLadder: ->
+    # Preserve the supermodel as we navigate back to the ladder.
+    viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
+    ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}"
+    if leagueID = (@courseInstanceID or @getQueryVariable 'league')
+      leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
+      viewArgs.push leagueType
+      viewArgs.push leagueID
+      ladderURL += "/#{leagueType}/#{leagueID}"
+    ladderURL += '#my-matches'
+    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs

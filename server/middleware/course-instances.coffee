@@ -140,6 +140,18 @@ module.exports =
     res.status(200).send(classroom)
 
 
+  fetchCourse: wrap (req, res) ->
+    courseInstance = yield database.getDocFromHandle(req, CourseInstance)
+    if not courseInstance
+      throw new errors.NotFound('Course Instance not found.')
+
+    course = yield Course.findById(courseInstance.get('courseID')).select(parse.getProjectFromReq(req))
+    if not course
+      throw new errors.NotFound('Course not found.')
+
+    res.status(200).send(course.toObject({req: req}))
+    
+    
   fetchRecent: wrap (req, res) ->
     query = {$and: [{name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
     query["$and"].push(_id: {$gte: objectIdFromTimestamp(req.body.startDay + "T00:00:00.000Z")}) if req.body.startDay?
