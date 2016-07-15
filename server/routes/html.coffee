@@ -1,8 +1,8 @@
-User = require '../users/User'
-UserHandler = require '../users/user_handler'
-LevelSession = require '../levels/sessions/LevelSession'
-Campaign = require '../campaigns/Campaign'
-Level = require '../levels/Level'
+User = require '../models/User'
+UserHandler = require '../handlers/user_handler'
+LevelSession = require '../models/LevelSession'
+Campaign = require '../models/Campaign'
+Level = require '../models/Level'
 config = require '../../server_config'
 log = require 'winston'
 Mandate = require '../models/Mandate'
@@ -36,7 +36,7 @@ makeContext = (req) ->
     forumLink: -> 'http://discourse.codecombat.com/'
     showAds: -> true
 
-  me = 
+  me =
     getPhotoURL:  -> ''
     isAnonymous:  -> true
     get: (what) -> ''
@@ -48,7 +48,7 @@ makeContext = (req) ->
     gems: -> 0
     isPremium: -> false
 
-  opts = 
+  opts =
     view: view
     me: me
     i18n: (a, b) ->
@@ -103,9 +103,7 @@ exports.setup = (app) ->
   handleSimply = (route, view, extra) ->
     handle route, view, (req, res, next) ->
       opts = makeContext req
-      if extra
-        _.extend opts.view, extra(req, res) 
-      
+      _.extend opts.view, extra(req, res) if extra
       next(opts)
 
   handleSimply '/', 'new-home-view', ->
@@ -124,13 +122,13 @@ exports.setup = (app) ->
     courses:
       models: []
   handleSimply '/legal', 'legal'
-  handleSimply '/privacy', 'privacy' 
+  handleSimply '/privacy', 'privacy'
 
   handle '/play', 'play/campaign-view', (req, res, next) ->
     opts = makeConext req
     Campaign.find({type: 'hero'}).exec (err, docs) ->
       levels = {}
-      docs.forEach (m,k) -> 
+      docs.forEach (m,k) ->
         v = m.toObject()
         levels[v.slug] =
           attributes:
@@ -152,7 +150,7 @@ exports.setup = (app) ->
     Campaign.findOne({type: 'hero', slug: req.params.campaign}).exec (err, doc) ->
       levels = {}
       v = doc.toObject()
-      
+
       res.locals.campaign = 
         attributes:
             fullName: v.name
@@ -190,7 +188,7 @@ exports.renderMain = renderMain = (req,res) ->
       configData =  _.omit mandate?.toObject() or {}, '_id'
     configData.picoCTF = config.picoCTF
     configData.production = config.isProduction
-    
+
     res.locals.serverConfig = configData
     res.locals.userObjectTag = user
     res.locals.amActually = req.session.amActually
