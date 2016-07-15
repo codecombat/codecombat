@@ -48,7 +48,7 @@ block modal-body-content
         textarea(data-i18n="[placeholder]play_level.victory_review_placeholder")
     .clearfix
 
-  if level.get('type', true) === 'hero' || level.get('type') == 'hero-ladder'
+  if level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')
     for achievement in achievements
       - var animate = achievement.completed && !achievement.completedAWhileAgo
       .achievement-panel(class=achievement.completedAWhileAgo ? 'earned' : '' data-achievement-id=achievement.id data-animate=animate)
@@ -118,7 +118,7 @@ block modal-footer-content
   .next-level-buttons
     if readyToRank
       .ladder-submission-view
-    else if level.get('type') === 'hero-ladder'
+    else if level.isType('hero-ladder')
       button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
     else
       button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue

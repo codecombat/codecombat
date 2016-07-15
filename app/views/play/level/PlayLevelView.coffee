@@ -376,7 +376,7 @@ module.exports = class PlayLevelView extends RootView
       @loadingView.startUnveiling()
       @loadingView.unveil true
     else
-      @scriptManager.initializeCamera()
+      @scriptManager?.initializeCamera()
 
   onLoadingViewUnveiling: (e) ->
     @selectHero()

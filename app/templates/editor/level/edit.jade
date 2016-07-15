@@ -64,7 +64,7 @@ block header
             a
               span.glyphicon-floppy-disk.glyphicon
 
-        if level.get('type') === 'ladder'
+        if level.isType('ladder')
           li.dropdown
             a(data-toggle='dropdown').play-with-team-parent
               span.glyphicon-play.glyphicon

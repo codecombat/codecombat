@@ -379,7 +379,7 @@ module.exports = class HeroVictoryModal extends ModalView
     clearInterval @sequentialAnimationInterval
     @animationComplete = true
     @updateSavingProgressStatus()
-    Backbone.Mediator.publish 'music-player:enter-menu', terrain: @level.get('terrain', true)
+    Backbone.Mediator.publish 'music-player:enter-menu', terrain: @level.get('terrain', true) or 'forest'
 
   updateSavingProgressStatus: ->
     @$el.find('#saving-progress-label').toggleClass('hide', @readyToContinue)

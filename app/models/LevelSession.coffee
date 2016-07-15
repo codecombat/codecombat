@@ -74,6 +74,7 @@ module.exports = class LevelSession extends CocoModel
     wait
 
   recordScores: (scores, level) ->
+    return unless scores
     state = @get 'state'
     oldTopScores = state.topScores ? []
     newTopScores = []

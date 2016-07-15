@@ -42,7 +42,7 @@ module.exports = class CastButtonView extends CocoView
     spell.view?.createOnCodeChangeHandlers() for spellKey, spell of @spells
     if @options.level.get('hidesSubmitUntilRun') or @options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev')
       @$el.find('.submit-button').hide()  # Hide Submit for the first few until they run it once.
-    if @options.session.get('state')?.complete and @options.level.get 'hidesRealTimePlayback'
+    if @options.session.get('state')?.complete and (@options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev'))
       @$el.find('.done-button').show()
     if @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
       @$el.find('.submit-button').hide()  # Hide submit until first win so that script can explain it.
@@ -76,7 +76,7 @@ module.exports = class CastButtonView extends CocoView
 
   onDoneButtonClick: (e) ->
     return if @options.level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
-    @options.session.recordScores @world.scores, @options.level
+    @options.session.recordScores @world?.scores, @options.level
     Backbone.Mediator.publish 'level:show-victory', showModal: true
 
   onSpellChanged: (e) ->
@@ -113,7 +113,7 @@ module.exports = class CastButtonView extends CocoView
     @winnable = winnable
     @$el.toggleClass 'winnable', @winnable
     Backbone.Mediator.publish 'tome:winnability-updated', winnable: @winnable, level: @options.level
-    if @options.level.get 'hidesRealTimePlayback'
+    if @options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev')
       @$el.find('.done-button').toggle @winnable
     else if @winnable and @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
       @$el.find('.submit-button').show()  # Hide submit until first win so that script can explain it.

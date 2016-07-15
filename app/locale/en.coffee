@@ -1877,6 +1877,9 @@
     vectors: "Vectors"
     while_loops: "While Loops"
     recursion: "Recursion"
+    basic_html: "Basic HTML"  # TODO: these web-dev concepts will change, don't need to translate
+    basic_css: "Basic CSS"
+    basic_web_scripting: "Basic Web Scripting"
 
   delta:
     added: "Added"

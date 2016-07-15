@@ -5,7 +5,7 @@ block modal-header-content
 
 block modal-body-content
   
-  if view.level.get('type') != 'course-ladder'
+  if !view.level.isType('course-ladder')
     h4.language-selection(data-i18n="ladder.select_your_language") Select your language!
     .form-group.select-group
       select#tome-language(name="language")
