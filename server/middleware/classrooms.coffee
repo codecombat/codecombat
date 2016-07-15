@@ -140,9 +140,11 @@ module.exports =
     classroom.set 'ownerID', req.user._id
     classroom.set 'members', []
     database.assignBody(req, classroom)
-    
+
     # Copy over data from how courses are right now
-    courses = yield Course.find()
+    query = {}
+    query = {adminOnly: {$ne: true}} unless req.user?.isAdmin()
+    courses = yield Course.find(query)
     campaigns = yield Campaign.find({_id: {$in: (course.get('campaignID') for course in courses)}})
     campaignMap = {}
     campaignMap[campaign.id] = campaign for campaign in campaigns
