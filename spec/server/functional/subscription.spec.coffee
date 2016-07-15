@@ -1,7 +1,8 @@
 async = require 'async'
 config = require '../../../server_config'
 require '../common'
-utils = require '../../../app/core/utils' # Must come after require /common
+appUtils = require '../../../app/core/utils' # Must come after require /common
+utils = require '../utils'
 mongoose = require 'mongoose'
 TRAVIS = process.env.COCO_TRAVIS_TEST
 nockUtils = require '../nock-utils'
@@ -113,6 +114,13 @@ describe '/db/user, editing stripe property', ->
       request.put {uri: userURL, json: body, headers: headers}, (err, res, body) ->
         expect(res.statusCode).toBe 403
         done()
+  
+  it 'denies username-only users trying to subscribe', utils.wrap (done) ->
+    user = yield utils.initUser({ email: undefined,  })
+    yield utils.loginUser(user)
+    [res, body] = yield request.putAsync(getURL("/db/user/#{user.id}"), { headers, json: { stripe: { planID: 'basic', token: '12345' } } })
+    expect(res.statusCode).toBe(403)
+    done()
 
   #- shared data between tests
   joeData = null
@@ -327,7 +335,7 @@ describe 'Subscriptions', ->
         return done() unless subscription?
         expect(subscription.plan.amount).toEqual(1)
         expect(subscription.customer).toEqual(sponsorCustomerID)
-        expect(subscription.quantity).toEqual(utils.getSponsoredSubsAmount(subPrice, numSponsored, sponsorStripe.subscriptionID?))
+        expect(subscription.quantity).toEqual(appUtils.getSponsoredSubsAmount(subPrice, numSponsored, sponsorStripe.subscriptionID?))
 
         # Verify sponsor payment
         # May be greater than expected amount due to multiple subscribes and unsubscribes
@@ -336,7 +344,7 @@ describe 'Subscriptions', ->
           recipient: mongoose.Types.ObjectId(sponsorUserID)
           "stripe.customerID": sponsorCustomerID
           "stripe.subscriptionID": sponsorStripe.sponsorSubscriptionID
-        expectedAmount = utils.getSponsoredSubsAmount(subPrice, numSponsored, sponsorStripe.subscriptionID?)
+        expectedAmount = appUtils.getSponsoredSubsAmount(subPrice, numSponsored, sponsorStripe.subscriptionID?)
         Payment.find paymentQuery, (err, payments) ->
           expect(err).toBeNull()
           expect(payments).not.toBeNull()
@@ -1192,7 +1200,7 @@ describe 'Subscriptions', ->
                         for invoice in invoices.data
                           line = invoice.lines.data[0]
                           if line.type is 'invoiceitem' and line.proration
-                            totalAmount = utils.getSponsoredSubsAmount(subPrice, 2, false)
+                            totalAmount = appUtils.getSponsoredSubsAmount(subPrice, 2, false)
                             expect(invoice.total).toBeLessThan(totalAmount)
                             expect(invoice.total).toEqual(totalAmount - subPrice)
                             Payment.findOne "stripe.invoiceID": invoice.id, (err, payment) ->

@@ -36,7 +36,8 @@ module.exports = mw =
       options = {}
     options = _.extend({
       permissions: []
-      email: 'user'+_.uniqueId()+'@gmail.com'
+      name: 'Name Nameyname '+_.uniqueId()
+      email: 'user'+_.uniqueId()+'@example.com'
       password: 'password'
       anonymous: false
     }, options)
