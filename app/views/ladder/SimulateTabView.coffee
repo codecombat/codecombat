@@ -136,6 +136,7 @@ class SimulatorsLeaderboardData extends CocoClass
     return me.id in (user.id for user in @topSimulators.models)
 
   nearbySimulators: ->
+    return [] if not @playersAbove?.models
     l = []
     above = @playersAbove.models
     l = l.concat(above)

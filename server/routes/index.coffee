@@ -79,7 +79,7 @@ module.exports.setup = (app) ->
   app.get('/db/codelogs', mw.auth.checkHasPermission(['admin']), mw.rest.get(CodeLog))
 
   Course = require '../models/Course'
-  app.get('/db/course', mw.rest.get(Course))
+  app.get('/db/course', mw.courses.get(Course))
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
   app.get('/db/course/:handle/levels/:levelOriginal/next', mw.courses.fetchNextLevel)
 
