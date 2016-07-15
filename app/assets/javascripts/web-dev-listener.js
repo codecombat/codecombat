@@ -1,27 +1,36 @@
 // TODO: don't serve this script from codecombat.com; serve it from a harmless extra domain we don't have yet.
 
-window.addEventListener("message", receiveMessage, false);
+window.addEventListener('message', receiveMessage, false);
 
 var concreteDOM;
 var virtualDOM;
+var goalStates;
+
+var allowedOrigins = [
+    'https://codecombat.com',
+    'http://localhost:3000',
+    'http://direct.codecombat.com',
+    'http://staging.codecombat.com'
+];
 
 function receiveMessage(event) {
     var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
-    if (origin != 'https://codecombat.com' && origin != 'http://localhost:3000') {
-        console.log("Bad origin:", origin);
+    if (allowedOrigins.indexOf(origin) == -1) {
+        console.log('Ignoring message from bad origin:', origin);
+        return;
     }
     //console.log(event);
     switch (event.data.type) {
     case 'create':
         create(event.data.dom);
-        checkGoals(event.data.goals);
+        checkGoals(event.data.goals, event.source);
         break;
     case 'update':
         if (virtualDOM)
             update(event.data.dom);
         else
             create(event.data.dom);
-        checkGoals(event.data.goals);
+        checkGoals(event.data.goals, event.source);
         break;
     case 'log':
         console.log(event.data.text);
@@ -29,8 +38,6 @@ function receiveMessage(event) {
     default:
         console.log('Unknown message type:', event.data.type);
     }
-
-    //event.source.postMessage("hi there yourself!  the secret response is: rheeeeet!", event.origin);
 }
 
 function create(dom) {
@@ -44,21 +51,29 @@ function update(dom) {
     function dispatch() {}  // Might want to do something here in the future
     var context = {};  // Might want to use this to send shared state to every component
     var changes = deku.diff.diffNode(virtualDOM, event.data.dom);
-    changes.reduce(deku.dom.update(dispatch, context), concreteDOM)  // Rerender
+    changes.reduce(deku.dom.update(dispatch, context), concreteDOM);  // Rerender
     virtualDOM = event.data.dom;
 }
 
 function checkGoals(goals) {
+    var newGoalStates = {};
+    var overallSuccess = true;
     goals.forEach(function(goal) {
         var $result = $(goal.html.selector);
         //console.log('ran selector', goal.html.selector, 'to find element(s)', $result);
         var success = true;
         goal.html.valueChecks.forEach(function(check) {
             //console.log(' ... and should make sure that the value of', check.eventProps, 'is', _.omit(check, 'eventProps'), '?', matchesCheck($result, check))
-            success = success && matchesCheck($result, check)
+            success = success && matchesCheck($result, check);
         });
-        console.log('HTML', goal.id, '-', goal.name, '- succeeds?', success)
+        overallSuccess = overallSuccess && success;
+        newGoalStates[goal.id] = {status: success ? 'success' : 'incomplete'};  // No 'failure' state
     });
+    if (!_.isEqual(newGoalStates, goalStates)) {
+        goalStates = newGoalStates;
+        var overallStatus = overallSuccess ? 'success' : null;  // Can't really get to 'failure', just 'incomplete', which is represented by null here
+	event.source.postMessage({type: 'goals-updated', goalStates: goalStates, overallStatus: overallStatus}, event.origin);
+    }
 }
 
 function downTheChain(obj, keyChain) {
@@ -71,7 +86,7 @@ function downTheChain(obj, keyChain) {
         if (keyChain[0].match(/\(.*\)$/)) {
             var args, argsString = keyChain[0].match(/\((.*)\)$/)[1];
             if (argsString)
-                args = eval(argsString).split(/, ?/g).filter(function(x) { return x !== ""; });  // TODO: can/should we avoid eval here?
+                args = eval(argsString).split(/, ?/g).filter(function(x) { return x !== ''; });  // TODO: can/should we avoid eval here?
             else
                 args = [];
             value = value[keyChain[0].split('(')[0]].apply(value, args);  // value.text(), value.css('background-color'), etc.

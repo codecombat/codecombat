@@ -20,7 +20,8 @@ module.exports = class WebSurfaceView extends CocoView
     super()
     @iframe = @$('iframe')[0]
     $(@iframe).on 'load', (e) =>
-      @iframe.contentWindow.postMessage {type: 'log', text: 'Player HTML iframe is ready.'}, "*" 
+      window.addEventListener 'message', @onIframeMessage
+      #@iframe.contentWindow.postMessage {type: 'log', text: 'Player HTML iframe is ready.'}, "*" 
       @iframeLoaded = true
       @onIframeLoaded?()
       @onIframeLoaded = null
@@ -39,9 +40,6 @@ module.exports = class WebSurfaceView extends CocoView
     @iframe.contentWindow.postMessage {type: messageType, dom: virtualDOM, goals: @goals}, '*'
     @virtualDOM = virtualDOM
 
-  checkGoals: (dom) ->
-    # TODO: uhh, figure these out
-
   dekuify: (elem) ->
     return elem.data if elem.type is 'text'
     return null if elem.type is 'comment'  # TODO: figure out how to make a comment in virtual dom
@@ -49,3 +47,19 @@ module.exports = class WebSurfaceView extends CocoView
       console.log("Failed to dekuify", elem)
       return elem.type
     deku.element(elem.name, elem.attribs, (@dekuify(c) for c in elem.children ? []))
+
+  onIframeMessage: (e) =>
+    origin = e.origin or e.originalEvent.origin
+    unless origin in ['https://codecombat.com', 'http://localhost:3000']
+      return console.log 'Ignoring message from bad origin:', origin
+    unless event.source is @iframe.contentWindow
+      return console.log 'Ignoring message from somewhere other than our iframe:', event.source
+    switch event.data.type
+      when 'goals-updated'
+        Backbone.Mediator.publish 'god:new-html-goal-states', goalStates: event.data.goalStates, overallStatus: event.data.overallStatus
+      else
+        console.warn 'Unknown message type', event.data.type, 'for message', e, 'from origin', origin
+
+  destroy: ->
+    window.removeEventListener 'message', @onIframeMessage
+    super()
