@@ -225,7 +225,7 @@ module.exports = class TomeView extends CocoView
     @spellTabView?.setThang thang
 
   updateSpellPalette: (thang, spell) ->
-    return unless thang and @spellPaletteView?.thang isnt thang and thang.programmableProperties or thang.apiProperties
+    return unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
     useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
     @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID, useHero }
     @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view   # TODO: know when palette should have been disabled but didn't exist
@@ -266,10 +266,12 @@ module.exports = class TomeView extends CocoView
   createFakeProgrammableThang: ->
     return null unless hero = _.find @options.level.get('thangs'), id: 'Hero Placeholder'
     return null unless programmableConfig = _.find(hero.components, (component) -> component.config?.programmableMethods).config
+    usesHTMLConfig = _.find(hero.components, (component) -> component.config?.programmableHTMLProperties).config
+    console.warn "Couldn't find usesHTML config; is it presented and not defaulted on the Hero Placeholder?" unless usesHTMLConfig
     thang =
       id: 'Hero Placeholder'
       isProgrammable: true
-    thang = _.merge thang, programmableConfig
+    thang = _.merge thang, programmableConfig, usesHTMLConfig
     thang
 
   destroy: ->

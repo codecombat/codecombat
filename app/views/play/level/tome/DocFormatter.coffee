@@ -49,6 +49,8 @@ module.exports = class DocFormatter
       @doc.type = 'snippet'
       @doc.owner = 'snippets'
       @doc.shortName = @doc.shorterName = @doc.title = @doc.name
+    else if @doc.owner is 'HTML'
+      @doc.shortName = @doc.shorterName = @doc.title = @doc.name
     else
       @doc.owner ?= 'this'
       ownerName = @doc.ownerName = if @doc.owner isnt 'this' then @doc.owner else switch @options.language
@@ -186,6 +188,7 @@ module.exports = class DocFormatter
     [docName, args]
 
   formatValue: (v) ->
+    return null if @options.level.isType('web-dev')
     return null if @doc.type is 'snippet'
     return @options.thang.now() if @doc.name is 'now'
     return '[Function]' if not v and @doc.type is 'function'

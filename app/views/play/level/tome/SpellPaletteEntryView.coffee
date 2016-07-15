@@ -33,7 +33,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
 
   afterRender: ->
     super()
-    @$el.addClass(@doc.type)
+    @$el.addClass _.string.slugify @doc.type
     placement = -> if $('body').hasClass('dialogue-view-active') then 'top' else 'left'
     @$el.popover(
       animation: false
