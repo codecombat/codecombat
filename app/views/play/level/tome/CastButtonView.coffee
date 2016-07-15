@@ -40,7 +40,7 @@ module.exports = class CastButtonView extends CocoView
     super()
     @castButton = $('.cast-button', @$el)
     spell.view?.createOnCodeChangeHandlers() for spellKey, spell of @spells
-    if @options.level.get('hidesSubmitUntilRun') or @options.level.get 'hidesRealTimePlayback'
+    if @options.level.get('hidesSubmitUntilRun') or @options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev')
       @$el.find('.submit-button').hide()  # Hide Submit for the first few until they run it once.
     if @options.session.get('state')?.complete and @options.level.get 'hidesRealTimePlayback'
       @$el.find('.done-button').show()

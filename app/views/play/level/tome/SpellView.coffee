@@ -539,7 +539,7 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
     @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
     @createToolbarView()
-    @updateHTML() if @options.level.isType('web-dev')
+    @updateHTML create: true if @options.level.isType('web-dev')
 
   createDebugView: ->
     return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # We'll turn this on later, maybe, but not yet.
@@ -663,6 +663,7 @@ module.exports = class SpellView extends CocoView
     cast = @$el.parent().length
     @recompile cast, e.realTime
     @focus() if cast
+    @updateHTML create: true if @options.level.isType('web-dev')
 
   onCodeReload: (e) ->
     return unless e.spell is @spell or not e.spell
@@ -727,8 +728,8 @@ module.exports = class SpellView extends CocoView
 
   onCursorActivity: =>  # Used to refresh autocast delay; doesn't do anything at the moment.
 
-  updateHTML: =>
-    Backbone.Mediator.publish 'tome:html-updated', html: @spell.constructHTML @getSource()
+  updateHTML: (options={}) =>
+    Backbone.Mediator.publish 'tome:html-updated', html: @spell.constructHTML(@getSource()), create: Boolean(options.create)
 
   # Design for a simpler system?
   # * Keep Aether linting, debounced, on any significant change

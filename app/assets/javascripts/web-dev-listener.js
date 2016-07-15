@@ -13,6 +13,8 @@ function receiveMessage(event) {
     //console.log(event);
     switch (event.data.type) {
     case 'create':
+        create(event.data.dom);
+        break;
     case 'update':
         if (virtualDOM)
             update(event.data.dom);

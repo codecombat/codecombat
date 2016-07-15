@@ -147,5 +147,6 @@ module.exports =
   'tome:hide-problem-alert': c.object {title: 'Hide Problem Alert'}
   'tome:jiggle-problem-alert': c.object {title: 'Jiggle Problem Alert'}
 
-  'tome:html-updated': c.object {title: 'HTML Updated', required: ['html']},
-    html: {type: 'string'}
+  'tome:html-updated': c.object {title: 'HTML Updated', required: ['html', 'create']},
+    html: {type: 'string', description: 'The full HTML to display'}
+    create: {type: 'boolean', description: 'Whether we should (re)create the DOM (as opposed to updating it)'}

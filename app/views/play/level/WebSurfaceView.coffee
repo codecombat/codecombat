@@ -22,6 +22,8 @@ module.exports = class WebSurfaceView extends CocoView
       @iframeLoaded = true
       @onIframeLoaded?()
       @onIframeLoaded = null
+
+  # TODO: make clicking Run actually trigger a 'create' update here (for resetting scripts)
         
   onHTMLUpdated: (e) ->
     unless @iframeLoaded
@@ -31,8 +33,12 @@ module.exports = class WebSurfaceView extends CocoView
     html = _.find(dom, name: 'html') ? {name: 'html', attribs: null, children: [body]}
     # TODO: pull out the actual scripts, styles, and body/elements they are doing so we can merge them with our initial structure on the other side
     virtualDOM = @dekuify html
-    messageType = if @virtualDOM then 'update' else 'create'
+    messageType = if e.create or not @virtualDOM then 'create' else 'update'
     @iframe.contentWindow.postMessage {type: messageType, dom: virtualDOM}, '*'
+    @virtualDOM = virtualDOM
+
+  checkGoals: (dom) ->
+    # TODO: uhh, figure these out
 
   dekuify: (elem) ->
     return elem.data if elem.type is 'text'
