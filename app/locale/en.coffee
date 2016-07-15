@@ -481,9 +481,7 @@
     tome_cast_button_ran: "Ran"
     tome_submit_button: "Submit"
     tome_reload_method: "Reload original code for this method"  # Title text for individual method reload button.
-    tome_select_method: "Select a Method"
     tome_see_all_methods: "See all methods you can edit"  # Title text for method list selector (shown when there are multiple programmable methods).
-    tome_select_a_thang: "Select Someone for "
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
     tome_current_method: "Current Method"

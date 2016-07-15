@@ -569,7 +569,7 @@ module.exports = class SpellView extends CocoView
     @updateLines()
     return if thang.id is @thang?.id
     @thang = thang
-    @spellThang = @spell.thangs[@thang.id]
+    @spellThang = @spell.thang
     @createDebugView() unless @debugView
     @debugView?.thang = @thang
     @createTranslationView() unless @translationView
@@ -612,11 +612,11 @@ module.exports = class SpellView extends CocoView
       lineHeight = @ace.renderer.lineHeight or 20
       tomeHeight = $('#tome-view').innerHeight()
       spellPaletteView = $('#spell-palette-view')
-      spellListTabEntryHeight = $('#spell-list-tab-entry-view').outerHeight()
+      spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
       spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
       @spellPaletteHeight ?= spellPaletteView.outerHeight()  # Remember this until resize, since we change it afterward
       spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
-      maxHeight = tomeHeight - spellListTabEntryHeight - spellToolbarHeight - spellPaletteAllowedHeight
+      maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
       lines = Math.max 8, Math.min(screenLineCount + 2, linesAtMaxHeight)
       # 2 lines buffer is nice
@@ -903,15 +903,12 @@ module.exports = class SpellView extends CocoView
     return if @spellThang?.castAether?.metrics?.statementsExecuted > 2000  # Don't preload if they are running significant amounts of user code
     return if @options.level.isType('web-dev')
     oldSource = @spell.source
-    oldSpellThangAethers = {}
-    for thangID, spellThang of @spell.thangs
-      oldSpellThangAethers[thangID] = spellThang.aether.serialize()  # Get raw, pure, and problems
+    oldSpellThangAether = @spell.thang?.aether.serialize()
     @spell.transpile @getSource()
     @cast true
     @spell.source = oldSource
-    for thangID, spellThang of @spell.thangs
-      for key, value of oldSpellThangAethers[thangID]
-        spellThang.aether[key] = value
+    for key, value of oldSpellThangAether
+      @spell.thang.aether[key] = value
 
   onSpellChanged: (e) ->
     @spellHasChanged = true
@@ -928,10 +925,10 @@ module.exports = class SpellView extends CocoView
     return unless e.god is @options.god
     return @onInfiniteLoop e if e.problem.id is 'runtime_InfiniteLoop'
     return unless e.problem.userInfo.methodName is @spell.name
-    return unless spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
+    return unless @spell.thang?.thang.id is e.problem.userInfo.thangID
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
       return if hasChanged
-      spellThang.aether.addProblem e.problem
+      @spell.thang.aether.addProblem e.problem
       @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
       @updateAether false, false
 
@@ -952,13 +949,14 @@ module.exports = class SpellView extends CocoView
     @updateAether false, false
 
   onNewWorld: (e) ->
-    @spell.removeThangID thangID for thangID of @spell.thangs when not e.world.getThangByID thangID
-    for thangID, spellThang of @spell.thangs
-      thang = e.world.getThangByID(thangID)
-      aether = e.world.userCodeMap[thangID]?[@spell.name]  # Might not be there if this is a new Programmable Thang.
-      spellThang.castAether = aether
-      spellThang.aether = @spell.createAether thang
-    #console.log thangID, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
+    if thang = e.world.getThangByID @spell.thang?.thang.id
+      aether = e.world.userCodeMap[thang.id]?[@spell.name]
+      @spell.thang.castAether = aether
+      @spell.thang.aether = @spell.createAether thang
+      #console.log thang.id, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
+    else
+      @spell.thang = null
+
     @spell.transpile()  # TODO: is there any way we can avoid doing this if it hasn't changed? Causes a slight hang.
     @updateAether false, false
 
@@ -1149,7 +1147,7 @@ module.exports = class SpellView extends CocoView
 
   toggleBackground: =>
     # TODO: make the background an actual background and do the CSS trick
-    # used in spell_list_entry.sass for disabling
+    # used in spell-top-bar-view.sass for disabling
     background = @$el.find('img.code-background')[0]
     if background.naturalWidth is 0  # not loaded yet
       return _.delay @toggleBackground, 100

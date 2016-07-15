@@ -39,8 +39,6 @@ module.exports =
     variableChain: c.array {}, {type: 'string'}
     frame: {type: 'integer', minimum: 0}
 
-  'tome:toggle-spell-list': c.object {title: 'Toggle Spell List', description: 'Published when you toggle the dropdown for a thang\'s spells'}
-
   'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: []},
     spell: {type: 'object'}
 
@@ -90,10 +88,6 @@ module.exports =
     spell: {type: 'object'}
     problems: {type: 'array'}
     isCast: {type: 'boolean'}
-
-  'tome:spell-shown': c.object {title: 'Spell Shown', description: 'Published when we show a spell', required: ['thang', 'spell']},
-    thang: {type: 'object'}
-    spell: {type: 'object'}
 
   'tome:change-language': c.object {title: 'Tome Change Language', description: 'Published when the Tome should update its programming language', required: ['language']},
     language: {type: 'string'}
