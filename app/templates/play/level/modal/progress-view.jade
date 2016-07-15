@@ -39,6 +39,17 @@
             h2.text-uppercase= i18n(view.nextLevel.attributes, 'name').replace('Course: ', '')
             
             div!= view.nextLevelDescription
+    
+    .well.well-sm.well-parchment
+      h3.text-uppercase
+        | Share this level so your friends and family can play it:
+
+      .row
+        .col-sm-8
+          input.text-h4.semibold.form-control.input-lg#share-level-input(value='lkasjdflkjasdf')
+        .col-sm-3
+          button#share-level-btn.btn.btn-lg.btn-success.btn-illustrated
+            span(data-i18n='') Copy URL
         
     .row
       .col-sm-5.col-sm-offset-2

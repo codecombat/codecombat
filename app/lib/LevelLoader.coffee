@@ -83,7 +83,7 @@ module.exports = class LevelLoader extends CocoClass
         @level.get = ->
           return 'hero' if arguments[0] is 'type'
           originalGet.apply @, arguments
-    if (@courseID and not @level.isType('course', 'course-ladder')) or window.serverConfig.picoCTF
+    if (@courseID and not @level.isType('course', 'course-ladder', 'game-dev', 'web-dev')) or window.serverConfig.picoCTF
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
       @level.get = ->

@@ -11,6 +11,7 @@ module.exports = class ProgressView extends CocoView
     'click #done-btn': 'onClickDoneButton'
     'click #next-level-btn': 'onClickNextLevelButton'
     'click #ladder-btn': 'onClickLadderButton'
+    'click #share-level-btn': 'onClickShareLevelButton'
 
   initialize: (options) ->
     @level = options.level
@@ -31,3 +32,7 @@ module.exports = class ProgressView extends CocoView
 
   onClickLadderButton: ->
     @trigger 'ladder'
+
+  onClickShareLevelButton: ->
+    @$('#share-level-input').val('alskdjfla').select()
+    @tryCopy()

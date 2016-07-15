@@ -127,6 +127,8 @@ block modal-footer-content
     button.btn.btn-illustrated.btn-success.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions") View Other Solutions
   else if showReturnToCourse
     button.btn.btn-illustrated.btn-warning.return-to-course-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
+  else if level.isType('game-dev', 'web-dev')
+    button.btn.btn-illustrated.btn-primary.btn-lg ...
 
   if showHourOfCodeDoneButton
     .hour-of-code-done

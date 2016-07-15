@@ -227,13 +227,6 @@ module.exports = class TeacherClassView extends RootView
     @$('#join-url-input').val(@state.get('joinURL')).select()
     @tryCopy()
 
-  tryCopy: ->
-    try
-      document.execCommand('copy')
-    catch err
-      message = 'Oops, unable to copy'
-      noty text: message, layout: 'topCenter', type: 'error', killer: false
-  
   onClickUnarchive: ->
     window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @classroom.save { archived: false }

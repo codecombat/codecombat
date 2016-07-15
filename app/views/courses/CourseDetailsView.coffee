@@ -85,7 +85,7 @@ module.exports = class CourseDetailsView extends RootView
     @levelConceptMap = {}
     for level in @levels.models
       @levelConceptMap[level.get('original')] ?= {}
-      for concept in level.get('concepts')
+      for concept in level.get('concepts') or []
         @levelConceptMap[level.get('original')][concept] = true
       if level.isType('course-ladder')
         @arenaLevel = level
