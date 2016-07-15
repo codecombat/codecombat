@@ -688,7 +688,7 @@ handleNextSteps = (req, res) ->
         log.info "Found #{results.length} next-steps users to email updates about for #{daysAgo} day(s) ago." if DEBUGGING
         sendNextStepsEmail result, now, daysAgo for result in results
 
-sendNextStepsEmail = (user, now, daysAgo) ->
+module.exports.sendNextStepsEmail = sendNextStepsEmail = (user, now, daysAgo) ->
   return log.info "Not sending next steps email to user with no email address" if not user.get('email')
   unless user.isEmailSubscriptionEnabled('generalNews') and user.isEmailSubscriptionEnabled('anyNotes')
     log.info "Not sending email to #{user.get('email')} #{user.get('name')} because they only want emails about #{JSON.stringify(user.get('emails'))}" if DEBUGGING
