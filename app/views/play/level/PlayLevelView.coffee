@@ -184,7 +184,7 @@ module.exports = class PlayLevelView extends RootView
   onWorldNecessitiesLoaded: ->
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
-    team = @getQueryVariable('team') ?  @session.get('team') ? @world.teamForPlayer(0)
+    team = @getQueryVariable('team') ?  @session.get('team') ? @world?.teamForPlayer(0) ? 'humans'
     @loadOpponentTeam(team)
     @setupGod()
     @setTeam team
