@@ -34,18 +34,27 @@ module.exports =
         foundLevelOriginal = true
         nextLevelOriginal = levels[index+1]?.original
         break
-    
+
     if not foundLevelOriginal
       throw new errors.NotFound('Level original ObjectId not found in that course')
-    
+
     if not nextLevelOriginal
       return res.status(200).send({})
-      
+
     dbq = Level.findOne({original: mongoose.Types.ObjectId(nextLevelOriginal)})
-    
-    
+
+
     dbq.sort({ 'version.major': -1, 'version.minor': -1 })
     dbq.select(parse.getProjectFromReq(req))
     level = yield dbq
     level = level.toObject({req: req})
     res.status(200).send(level)
+
+  get: (Model, options={}) -> wrap (req, res) ->
+    # Don't use standard rest middleware get, because we want to filter out adminOnly courses for non-admins
+    query = {}
+    query = {adminOnly: {$ne: true}} unless req.user?.isAdmin()
+    dbq = Model.find(query)
+    dbq.select(parse.getProjectFromReq(req))
+    results = yield database.viewSearch(dbq, req)
+    res.send(results)
