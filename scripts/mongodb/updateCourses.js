@@ -52,6 +52,36 @@ var courses =
     duration: NumberInt(5),
     free: false,
     screenshot: "/images/pages/courses/105_info.png"
+  },
+  {
+    name: "CS: Game Development 1",
+    slug: "game-dev-1",
+    campaignID: ObjectId("5789236960deed1f00ec2ab8"),
+    description: "Learn to create your owns games which you can share with your friends.",
+    duration: NumberInt(5),
+    free: false,
+    //screenshot: "/images/pages/courses/105_info.png",
+    adminOnly: true
+  },
+  {
+    name: "CS: Web Development 1",
+    slug: "web-dev-1",
+    campaignID: ObjectId("578913f2c8871ac2326fa3e4"),
+    description: "Learn the basics of web development in this introductory HTML & CSS course.",
+    duration: NumberInt(5),
+    free: false,
+    //screenshot: "/images/pages/courses/105_info.png",
+    adminOnly: true
+  },
+  {
+    name: "CS: Web Development 2",
+    slug: "web-dev-2",
+    campaignID: ObjectId("57891570c8871ac2326fa3f8"),
+    description: "Learn more advanced web development, including scripting to make interactive webpages.",
+    duration: NumberInt(5),
+    free: false,
+    //screenshot: "/images/pages/courses/105_info.png",
+    adminOnly: true
   }
 ];
 
@@ -62,7 +92,7 @@ for (var i = 0; i < courses.length; i++) {
   if (cursor.hasNext()) {
     var doc = cursor.next();
     for (var levelID in doc.levels) {
-      for (var j = 0; j < doc.levels[levelID].concepts.length; j++) {
+      for (var j = 0; j < (doc.levels[levelID].concepts || []).length; j++) {
         concepts[doc.levels[levelID].concepts[j]] = true;
       }
     }
