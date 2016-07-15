@@ -44,6 +44,7 @@ LevelSetupManager = require 'lib/LevelSetupManager'
 ContactModal = require 'views/core/ContactModal'
 HintsView = require './HintsView'
 HintsState = require './HintsState'
+WebSurfaceView = require './WebSurfaceView'
 
 PROFILE_ME = false
 
@@ -268,6 +269,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.isType('hero-ladder', 'course-ladder')
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
+    @insertSubView @webSurface = new WebSurfaceView level: @level if @level.isType('web-dev')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
 
   initVolume: ->
@@ -324,7 +326,7 @@ module.exports = class PlayLevelView extends RootView
     @levelLoader.destroy()
     @levelLoader = null
     if @level.isType('web-dev')
-      @initWebSurface()
+      Backbone.Mediator.publish 'level:started', {}
     else
       @initSurface()
 
@@ -369,7 +371,6 @@ module.exports = class PlayLevelView extends RootView
     if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface?.showLevel()
-    @webSurface?.showLevel()
     Backbone.Mediator.publish 'level:set-time', time: 0
     if (@isEditorPreview or @observing) and not @getQueryVariable('intro')
       @loadingView.startUnveiling()
@@ -671,11 +672,3 @@ module.exports = class PlayLevelView extends RootView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
       @setupManager.open()
-
-
-  # web-dev levels
-  initWebSurface: ->
-    @webSurface = showLevel: =>
-      # TODO: make a real WebSurface class
-      @$('#web-surface').css('background-color', 'red')
-    Backbone.Mediator.publish 'level:started', {}

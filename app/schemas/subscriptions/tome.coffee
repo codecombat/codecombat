@@ -146,3 +146,6 @@ module.exports =
     lineOffsetPx: {type: ['number', 'undefined']}
   'tome:hide-problem-alert': c.object {title: 'Hide Problem Alert'}
   'tome:jiggle-problem-alert': c.object {title: 'Jiggle Problem Alert'}
+
+  'tome:html-updated': c.object {title: 'HTML Updated', required: ['html']},
+    html: {type: 'string'}

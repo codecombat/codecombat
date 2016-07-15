@@ -539,9 +539,10 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
     @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
     @createToolbarView()
+    @updateHTML() if @options.level.isType('web-dev')
 
   createDebugView: ->
-    return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')  # We'll turn this on later, maybe, but not yet.
+    return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 
@@ -712,6 +713,8 @@ module.exports = class SpellView extends CocoView
     ]
     onSignificantChange.push _.debounce @checkRequiredCode, 750 if @options.level.get 'requiredCode'
     onSignificantChange.push _.debounce @checkSuspectCode, 750 if @options.level.get 'suspectCode'
+    onAnyChange.push _.throttle @updateHTML, 10 if @options.level.isType('web-dev')
+
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
       #@playSound 'code-change', volume: 0.5  # Currently not using this sound.
@@ -723,6 +726,9 @@ module.exports = class SpellView extends CocoView
     @aceDoc.on 'change', @onCodeChangeMetaHandler
 
   onCursorActivity: =>  # Used to refresh autocast delay; doesn't do anything at the moment.
+
+  updateHTML: =>
+    Backbone.Mediator.publish 'tome:html-updated', html: @spell.constructHTML @getSource()
 
   # Design for a simpler system?
   # * Keep Aether linting, debounced, on any significant change
@@ -865,9 +871,7 @@ module.exports = class SpellView extends CocoView
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
     incompleteThis = /^(s|se|sel|self|t|th|thi|this)$/.test currentLine.trim()
     #console.log "finished=#{valid and (endOfLine or beginningOfLine) and not incompleteThis}", valid, endOfLine, beginningOfLine, incompleteThis, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
-    if @options.level.isType('web-dev') and valid
-      console.log 'Update it!'
-    else if valid and (endOfLine or beginningOfLine) and not incompleteThis
+    if valid and (endOfLine or beginningOfLine) and not incompleteThis
       @preload()
 
   singleLineCommentRegex: ->
@@ -896,6 +900,7 @@ module.exports = class SpellView extends CocoView
     return if @spell.source.indexOf('while') isnt -1  # If they're working with while-loops, it's more likely to be an incomplete infinite loop, so don't preload.
     return if @spell.source.length > 500  # Only preload on really short methods
     return if @spellThang?.castAether?.metrics?.statementsExecuted > 2000  # Don't preload if they are running significant amounts of user code
+    return if @options.level.isType('web-dev')
     oldSource = @spell.source
     oldSpellThangAethers = {}
     for thangID, spellThang of @spell.thangs

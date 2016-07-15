@@ -70,6 +70,14 @@ module.exports = class Spell
     @originalSource = @languages[@language] ? @languages.javascript
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 
+    if @level.isType('web-dev')
+      playerCode = @originalSource.match(/<playercode>\n([\s\S]*)\n *<\/playercode>/)[1]
+      playerCodeLines = playerCode.split('\n')
+      indentation = playerCodeLines[0].length - playerCodeLines[0].trim().length
+      playerCode = (line.substr(indentation) for line in playerCodeLines).join('\n')
+      @wrapperCode = @originalSource.replace /<playercode>[\s\S]*<\/playercode>/, '☃'
+      @originalSource = playerCode
+
     # Translate comments chosen spoken language.
     return unless @commentContext
     context = $.extend true, {}, @commentContext
@@ -94,6 +102,9 @@ module.exports = class Spell
         when 'lua' then @originalSource.replace /loop\n/, 'while true then\n'
         when 'coffeescript' then @originalSource
         else @originalSource
+
+  constructHTML: (source) ->
+    @wrapperCode.replace '☃', source
 
   addPicoCTFProblem: ->
     return @originalSource unless problem = @level.picoCTFProblem
