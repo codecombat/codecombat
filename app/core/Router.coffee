@@ -125,8 +125,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'legal': go('LegalView')
 
-    'multiplayer': go('MultiplayerView')
-
     'play(/)': go('play/CampaignView') # extra slash is to get Facebook app to work
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
     'play/ladder/:levelID': go('ladder/LadderView')

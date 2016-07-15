@@ -114,6 +114,9 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
     targets: c.array {title: 'Targets', description: 'The target items which the Thangs must not collect.', minItems: 1}, thang
   codeProblems: c.array {title: 'Code Problems', description: 'A list of Thang IDs that should not have any code problems, or team names.', uniqueItems: true, minItems: 1, 'default': ['humans']}, thang
   linesOfCode: {title: 'Lines of Code', description: 'A mapping of Thang IDs or teams to how many many lines of code should be allowed (well, statements).', type: 'object', default: {humans: 10}, additionalProperties: {type: 'integer', description: 'How many lines to allow for this Thang.'}}
+  html: c.object {title: 'HTML', description: 'A jQuery selector and what its result should be'},
+    selector: {type: 'string', description: 'jQuery selector to run on the user HTML, like "h1:first-child"'}
+    valueChecks: c.array {title: 'Value checks', description: 'Logical checks on the resulting value for this goal to pass.', format: 'event-prereqs'}, EventPrereqSchema
 
 ResponseSchema = c.object {title: 'Dialogue Button', description: 'A button to be shown to the user with the dialogue.', required: ['text']},
   text: {title: 'Title', description: 'The text that will be on the button', 'default': 'Okay', type: 'string', maxLength: 30}
@@ -313,7 +316,7 @@ _.extend LevelSchema.properties,
   icon: {type: 'string', format: 'image-file', title: 'Icon'}
   banner: {type: 'string', format: 'image-file', title: 'Banner'}
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
-  type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev'])
+  type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev'])
   terrain: c.terrainString
   showsGuide: c.shortString(title: 'Shows Guide', description: 'If the guide is shown at the beginning of the level.', 'enum': ['first-time', 'always'])
   requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}

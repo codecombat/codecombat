@@ -32,9 +32,8 @@
     "firepad": "~0.1.2",
     "marked": "~0.3.0",
     "moment": "~2.5.0",
-    "aether": "~0.5.6",
+    "aether": "~0.5.21",
     "underscore.string": "~2.3.3",
-    "firebase": "~1.0.2",
     "d3": "~3.4.4",
     "jsondiffpatch": "0.1.8",
     "nanoscroller": "~0.8.0",
@@ -44,7 +43,6 @@
     "validated-backbone-mediator": "~0.1.3",
     "jquery.browser": "~0.0.6",
     "modernizr": "~2.8.3",
-    "backfire": "~0.3.0",
     "fastclick": "~1.0.3",
     "three.js": "~0.71.0",
     "lscache": "~1.0.5",
@@ -63,9 +61,6 @@
     },
     "backbone": {
       "main": "backbone.js"
-    },
-    "backfire": {
-      "main": "backbone-firebase.min.js"
     },
     "lodash": {
       "main": "dist/lodash.js"
@@ -112,13 +107,12 @@
     "aether": {
       "main": [
         "build/aether.js",
-        "build/clojure.js",
         "build/coffeescript.js",
-        "build/io.js",
         "build/javascript.js",
         "build/lua.js",
         "build/python.js",
-        "build/java.js"
+        "build/java.js",
+        "build/html.js"
       ]
     }
   },

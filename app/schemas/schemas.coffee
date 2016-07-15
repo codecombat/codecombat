@@ -261,4 +261,7 @@ me.concept = me.shortString enum: [
     'vectors'
     'while_loops'
     'recursion'
+    'basic_html'
+    'basic_css'
+    'basic_web_scripting'
   ]

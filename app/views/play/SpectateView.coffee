@@ -144,9 +144,6 @@ module.exports = class SpectateLevelView extends RootView
       if c then myCode[thang][spell] = c else delete myCode[thang][spell]
 
     @session.set('code', myCode)
-    if @session.get('multiplayer') and @otherSession?
-      # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
-      @session.set 'multiplayer', false
 
   onLevelStarted: (e) ->
     go = =>
@@ -181,7 +178,7 @@ module.exports = class SpectateLevelView extends RootView
 
     @insertSubView new GoldView {}
     @insertSubView new HUDView {level: @level}
-    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.get('type') in ['hero-ladder', 'course-ladder']
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.isType('hero-ladder', 'course-ladder')
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
 
   # callbacks

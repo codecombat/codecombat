@@ -71,7 +71,7 @@ module.exports = class VictoryModal extends ModalView
     c.me = me
     c.levelName = utils.i18n @level.attributes, 'name'
     c.level = @level
-    if c.level.get('type') is 'ladder'
+    if c.level.isType('ladder')
       c.readyToRank = @session.readyToRank()
     c
 

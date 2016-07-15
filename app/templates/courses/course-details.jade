@@ -104,7 +104,7 @@ block content
         tr
           td
             if previousLevelCompleted || view.teacherMode || !passedLastCompletedLevel || levelStatus
-              - var i18n = level.get('type') === 'course-ladder' ? 'play.compete' : 'home.play';
+              - var i18n = level.isType('course-ladder') ? 'play.compete' : 'home.play';
               button.btn.btn-success.btn-play-level(data-level-slug=level.get('slug'), data-i18n=i18n, data-level-id=level.get('original'))
               if view.showGameDevButtons
                 - var levelOriginal = level.get('original');

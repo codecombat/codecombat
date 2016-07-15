@@ -37,8 +37,6 @@ _.extend LevelSessionSchema.properties,
     type: 'string'
   levelID:
     type: 'string'
-  multiplayer:
-    type: 'boolean'
   creator: c.objectId
     links:
       [

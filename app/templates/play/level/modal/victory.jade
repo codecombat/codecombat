@@ -13,7 +13,7 @@ block modal-body-content
 block modal-footer-content
   if readyToRank
     .ladder-submission-view
-  else if level.get('type') === 'ladder'
+  else if level.isType('ladder')
     a.btn.btn-primary(href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
   else
     a.btn.btn-primary(href="/", data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home

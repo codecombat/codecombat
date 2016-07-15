@@ -15,8 +15,6 @@ module.exports = class LevelSession extends CocoModel
   updatePermissions: ->
     permissions = @get 'permissions', true
     permissions = (p for p in permissions when p.target isnt 'public')
-    if @get('multiplayer')
-      permissions.push {target: 'public', access: 'write'}
     @set 'permissions', permissions
 
   getSourceFor: (spellKey) ->
@@ -76,6 +74,7 @@ module.exports = class LevelSession extends CocoModel
     wait
 
   recordScores: (scores, level) ->
+    return unless scores
     state = @get 'state'
     oldTopScores = state.topScores ? []
     newTopScores = []

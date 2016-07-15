@@ -96,8 +96,6 @@ module.exports =
 
   'playback:stop-real-time-playback': c.object {}
 
-  'playback:real-time-playback-waiting': c.object {}
-
   'playback:real-time-playback-started': c.object {}
 
   'playback:real-time-playback-ended': c.object {}

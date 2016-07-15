@@ -9,22 +9,13 @@
     .glyphicon.glyphicon-play
     span(data-i18n=me.isSessionless() ? "nav.courses" : (ladderGame ? "general.ladder" : "nav.play")).home-text Levels
 
-if isMultiplayerLevel && !observing
-  .multiplayer-area-container
-    .multiplayer-area
-      .multiplayer-label(data-i18n="play_level.control_bar_multiplayer")
-      if multiplayerStatus
-        .multiplayer-status= multiplayerStatus
-      else
-        .multiplayer-status(data-i18n="play_level.control_bar_join_game")
-else
-  .level-name-area-container
-    .level-name-area
-      .level-label(data-i18n="play_level.level")
-      .level-name(title=difficultyTitle || "")
-        span #{view.levelNumber ? view.levelNumber + '. ' : ''}#{worldName.replace('Course: ', '')}
-        if levelDifficulty
-          sup.level-difficulty= levelDifficulty
+.level-name-area-container
+  .level-name-area
+    .level-label(data-i18n="play_level.level")
+    .level-name(title=difficultyTitle || "")
+      span #{view.levelNumber ? view.levelNumber + '. ' : ''}#{worldName.replace('Course: ', '')}
+      if levelDifficulty
+        sup.level-difficulty= levelDifficulty
 
 .buttons-area
 
