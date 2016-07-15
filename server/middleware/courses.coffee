@@ -53,7 +53,7 @@ module.exports =
   get: (Model, options={}) -> wrap (req, res) ->
     # Don't use standard rest middleware get, because we want to filter out adminOnly courses for non-admins
     query = {}
-    query = {adminOnly: false} unless req.user?.isAdmin()
+    query = {adminOnly: {$ne: true}} unless req.user?.isAdmin()
     dbq = Model.find(query)
     dbq.select(parse.getProjectFromReq(req))
     results = yield database.viewSearch(dbq, req)
