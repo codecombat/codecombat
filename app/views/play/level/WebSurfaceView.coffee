@@ -12,6 +12,8 @@ module.exports = class WebSurfaceView extends CocoView
   initialize: (options) ->
     @state = new State
       blah: 'blah'
+    @goals = (goal for goal in options.goalManager.goals when goal.html)
+    # Consider https://www.npmjs.com/package/css-select to do this on virtualDOM instead of in iframe on concreteDOM
     super(options)
 
   afterRender: ->
@@ -34,7 +36,7 @@ module.exports = class WebSurfaceView extends CocoView
     # TODO: pull out the actual scripts, styles, and body/elements they are doing so we can merge them with our initial structure on the other side
     virtualDOM = @dekuify html
     messageType = if e.create or not @virtualDOM then 'create' else 'update'
-    @iframe.contentWindow.postMessage {type: messageType, dom: virtualDOM}, '*'
+    @iframe.contentWindow.postMessage {type: messageType, dom: virtualDOM, goals: @goals}, '*'
     @virtualDOM = virtualDOM
 
   checkGoals: (dom) ->

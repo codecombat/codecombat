@@ -39,6 +39,7 @@ module.exports = class GoalManager extends CocoClass
   subscriptions:
     'god:new-world-created': 'onNewWorldCreated'
     'level:restarted': 'onLevelRestarted'
+    #'tome:html-updated': 'onHTMLUpdated'
 
   backgroundSubscriptions:
     'world:thang-died': 'onThangDied'
@@ -114,7 +115,7 @@ module.exports = class GoalManager extends CocoClass
       goalStates: @goalStates
       goals: @goals
       overallStatus: overallStatus
-      timedOut: @world.totalFrames is @world.maxTotalFrames and overallStatus not in ['success', 'failure']
+      timedOut: @world? and (@world.totalFrames is @world.maxTotalFrames and overallStatus not in ['success', 'failure'])
     Backbone.Mediator.publish('goal-manager:new-goal-states', event)
 
   checkOverallStatus: (ignoreIncomplete=false) ->
@@ -220,6 +221,11 @@ module.exports = class GoalManager extends CocoClass
     return unless linesAllowed = who[thang.id] ? who[thang.team]
     @updateGoalState goalID, thang.id, 'lines', frameNumber if linesUsed > linesAllowed
 
+  #checkHTML: (goal, html) ->
+  #  console.log 'should run selector', goal.html.selector, 'to find element(s)'
+  #  console.log ' ... and should make sure that the value of', check.eventProps, 'is', _.omit(check, 'eventProps') for check in goal.html.valueChecks
+  #  console.log 'should do it with cheerio', window.cheerio
+
   wrapUpGoalStates: (finalFrame) ->
     for goalID, state of @goalStates
       if state.status is null
@@ -264,7 +270,7 @@ module.exports = class GoalManager extends CocoClass
       mostEagerGoal = _.min matchedGoals, 'worldEndsAfter'
       victory = overallStatus is 'success'
       tentative = overallStatus is 'success'
-      @world.endWorld victory, mostEagerGoal.worldEndsAfter, tentative if mostEagerGoal isnt Infinity
+      @world?.endWorld victory, mostEagerGoal.worldEndsAfter, tentative if mostEagerGoal isnt Infinity
 
   updateGoalState: (goalID, thangID, progressObjectName, frameNumber) ->
     # A thang has done something related to the goal!
@@ -291,7 +297,7 @@ module.exports = class GoalManager extends CocoClass
       mostEagerGoal = _.min matchedGoals, 'worldEndsAfter'
       victory = overallStatus is 'success'
       tentative = overallStatus is 'success'
-      @world.endWorld victory, mostEagerGoal.worldEndsAfter, tentative if mostEagerGoal isnt Infinity
+      @world?.endWorld victory, mostEagerGoal.worldEndsAfter, tentative if mostEagerGoal isnt Infinity
 
   goalIsPositive: (goalID) ->
     # Positive goals are completed when all conditions are true (kill all these thangs)
@@ -313,6 +319,9 @@ module.exports = class GoalManager extends CocoClass
     keepFromCollectingThangs: 0
     linesOfCode: 0
     codeProblems: 0
+
+  #onHTMLUpdated: (e) ->
+  #  @checkHTML goal, e.html for goal in @goals when goal.html
 
   updateCodeGoalStates: ->
     # TODO
