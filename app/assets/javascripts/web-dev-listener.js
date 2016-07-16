@@ -48,8 +48,8 @@ function receiveMessage(event) {
 }
 
 function create(dom) {
-    concreteDOM = deku.dom.create(event.data.dom);
-    virtualDOM = event.data.dom;
+    virtualDOM = dom;
+    concreteDOM = deku.dom.create(dom);
     // TODO: target the actual HTML tag and combine our initial structure for styles/scripts/tags with theirs
     $('body').empty().append(concreteDOM);
 }
@@ -57,9 +57,9 @@ function create(dom) {
 function update(dom) {
     function dispatch() {}  // Might want to do something here in the future
     var context = {};  // Might want to use this to send shared state to every component
-    var changes = deku.diff.diffNode(virtualDOM, event.data.dom);
+    var changes = deku.diff.diffNode(virtualDOM, dom);
     changes.reduce(deku.dom.update(dispatch, context), concreteDOM);  // Rerender
-    virtualDOM = event.data.dom;
+    virtualDOM = dom;
 }
 
 function checkGoals(goals, source, origin) {

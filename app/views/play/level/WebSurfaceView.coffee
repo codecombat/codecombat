@@ -48,8 +48,8 @@ module.exports = class WebSurfaceView extends CocoView
       return elem.type
     deku.element(elem.name, elem.attribs, (@dekuify(c) for c in elem.children ? []))
 
-  onIframeMessage: (e) =>
-    origin = e.origin or e.originalEvent.origin
+  onIframeMessage: (event) =>
+    origin = event.origin or event.originalEvent.origin
     unless origin is window.location.origin
       return console.log 'Ignoring message from bad origin:', origin
     unless event.source is @iframe.contentWindow
