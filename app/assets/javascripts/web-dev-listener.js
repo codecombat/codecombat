@@ -25,23 +25,25 @@ function receiveMessage(event) {
         return;
     }
     //console.log(event);
-    switch (event.data.type) {
+    var data = event.data;
+    var source = event.source;
+    switch (data.type) {
     case 'create':
-        create(event.data.dom);
-        checkGoals(event.data.goals, event.source);
+        create(data.dom);
+        checkGoals(data.goals, source, origin);
         break;
     case 'update':
         if (virtualDOM)
-            update(event.data.dom);
+            update(data.dom);
         else
-            create(event.data.dom);
-        checkGoals(event.data.goals, event.source);
+            create(data.dom);
+        checkGoals(data.goals, source, origin);
         break;
     case 'log':
-        console.log(event.data.text);
+        console.log(data.text);
         break;
     default:
-        console.log('Unknown message type:', event.data.type);
+        console.log('Unknown message type:', data.type);
     }
 }
 
@@ -60,7 +62,13 @@ function update(dom) {
     virtualDOM = event.data.dom;
 }
 
-function checkGoals(goals) {
+function checkGoals(goals, source, origin) {
+  // Check right now and also in one second, since our 1-second CSS transition might be affecting things until it is done.
+  doCheckGoals(goals, source, origin);
+  _.delay(function() { doCheckGoals(goals, source, origin); }, 1001);
+}
+
+function doCheckGoals(goals, source, origin) {
     var newGoalStates = {};
     var overallSuccess = true;
     goals.forEach(function(goal) {
@@ -77,7 +85,7 @@ function checkGoals(goals) {
     if (!_.isEqual(newGoalStates, goalStates)) {
         goalStates = newGoalStates;
         var overallStatus = overallSuccess ? 'success' : null;  // Can't really get to 'failure', just 'incomplete', which is represented by null here
-	event.source.postMessage({type: 'goals-updated', goalStates: goalStates, overallStatus: overallStatus}, event.origin);
+	source.postMessage({type: 'goals-updated', goalStates: goalStates, overallStatus: overallStatus}, origin);
     }
 }
 
