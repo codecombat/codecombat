@@ -75,7 +75,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
       @loadExistingFeedback()
 
-    if @level.isType('game-dev', 'web-dev')
+    if @level.get('shareable') is 'project'
       @shareURL = "#{window.location.origin}/play/#{@level.get('type')}-level/#{@level.get('slug')}/#{@session.id}"
 
   destroy: ->

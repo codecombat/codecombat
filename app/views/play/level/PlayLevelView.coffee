@@ -143,6 +143,7 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelLoaded: (e) ->
     @god = new God({@gameUIState}) unless e.level.isType('web-dev')
+    @setUpGod() if @waitingToSetUpGod
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview
@@ -242,6 +243,8 @@ module.exports = class PlayLevelView extends RootView
 
   setupGod: ->
     return if @level.isType('web-dev')
+    return @waitingToSetUpGod = true unless @god
+    @waitingToSetUpGod = undefined
     @god.setLevel @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap

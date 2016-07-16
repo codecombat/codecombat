@@ -106,7 +106,7 @@ block content
             if previousLevelCompleted || view.teacherMode || !passedLastCompletedLevel || levelStatus
               - var i18n = level.isType('course-ladder') ? 'play.compete' : 'home.play';
               button.btn.btn-success.btn-play-level(data-level-slug=level.get('slug'), data-i18n=i18n, data-level-id=level.get('original'))
-              if level.isType('game-dev', 'web-dev')
+              if level.get('shareable')
                 - var levelOriginal = level.get('original');
                 - var session = view.levelSessions.find(function(session) { return session.get('level').original === levelOriginal });
                 if session

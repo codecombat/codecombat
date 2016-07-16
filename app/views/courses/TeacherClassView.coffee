@@ -114,13 +114,13 @@ module.exports = class TeacherClassView extends RootView
 
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetch()
-    
+
     @courseInstances = new CourseInstances()
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
 
     @levels = new Levels()
-    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts,practice'}})
-    
+    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts,practice,shareable'}})
+
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
 
@@ -389,6 +389,7 @@ module.exports = class TeacherClassView extends RootView
       not @students.get(userID).isEnrolled()
     assigningToNobody = selectedIDs.length is 0
     @state.set errors: { assigningToNobody, assigningToUnenrolled }
+    return if assigningToNobody
     @assignCourse courseID, members
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 

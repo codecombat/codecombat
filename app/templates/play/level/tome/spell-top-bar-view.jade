@@ -21,7 +21,7 @@
     .btn.btn-small.btn-illustrated.hints-button
       span(data-i18n="play_level.hints")
 
-  if view.options.level.isType('game-dev', 'web-dev')
+  if view.options.level.get('shareable')
     - var url = '/play/' + view.options.level.get('type') + '-level/' + view.options.level.get('slug') + '/' + view.options.session.id;
     - if (view.options.courseID) url += '?course=' + view.options.courseID;
     a.btn.btn-small.btn-illustrated(href=url)

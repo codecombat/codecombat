@@ -67,6 +67,7 @@ _.extend CampaignSchema.properties, {
       adventurer: { type: 'boolean' }
       practice: { type: 'boolean' }
       practiceThresholdMinutes: {type: 'number'}
+      shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable, shareable, or a sharing-encouraged project level.' }
       adminOnly: { type: 'boolean' }
       disableSpaces: { type: ['boolean','number'] }
       hidesSubmitUntilRun: { type: 'boolean' }

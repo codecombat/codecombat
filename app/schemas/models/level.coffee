@@ -328,8 +328,8 @@ _.extend LevelSchema.properties,
   replayable: {type: 'boolean', title: 'Replayable', description: 'Whether this (hero) level infinitely scales up its difficulty and can be beaten over and over for greater rewards.'}
   buildTime: {type: 'number', description: 'How long it has taken to build this level.'}
   practice: { type: 'boolean' }
-  shareable: { type: 'boolean', title: 'Shareable' }
   practiceThresholdMinutes: {type: 'number', description: 'Players with larger playtimes may be directed to a practice level.'}
+  shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable, shareable, or a sharing-encouraged project level.' }
 
   # Admin flags
   adventurer: { type: 'boolean' }
