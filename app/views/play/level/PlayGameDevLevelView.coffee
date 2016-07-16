@@ -17,7 +17,7 @@ TEAM = 'humans'
 module.exports = class PlayGameDevLevelView extends RootView
   id: 'play-game-dev-level-view'
   template: require 'templates/play/level/play-game-dev-level-view'
-  
+
   events:
     'click #play-btn': 'onClickPlayButton'
 
@@ -26,7 +26,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       loading: true
       progress: 0
     })
-    
+
     @supermodel.on 'update-progress', (progress) =>
       @state.set({progress: (progress*100).toFixed(1)+'%'})
     @level = new Level()
@@ -41,7 +41,7 @@ module.exports = class PlayGameDevLevelView extends RootView
 
     .then (levelLoader) =>
       { @level, @session, @world } = levelLoader
-      @god.setLevel(@level.serialize(@supermodel, @session))
+      @god.setLevel(@level.serialize {@supermodel, @session})
       @god.setWorldClassMap(@world.classMap)
       @goalManager = new GoalManager(@world, @level.get('goals'), @team)
       @god.setGoalManager(@goalManager)
@@ -52,7 +52,7 @@ module.exports = class PlayGameDevLevelView extends RootView
         scripts: @world.scripts or [], view: @, @session, levelID: @level.get('slug')})
       @scriptManager.loadFromSession() # Should we? TODO: Figure out how scripts work for game dev levels
       @supermodel.finishLoading()
-      
+
     .then (supermodel) =>
       @levelLoader.destroy()
       @levelLoader = null
@@ -74,7 +74,8 @@ module.exports = class PlayGameDevLevelView extends RootView
       @state.set('loading', false)
 
     .catch ({message}) =>
-      @state.set('errorMessage', message) 
+      console.error message
+      @state.set('errorMessage', message)
 
   onClickPlayButton: ->
     @god.createWorld(@spells, false, true)

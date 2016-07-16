@@ -32,6 +32,7 @@ module.exports = class HeroVictoryModal extends ModalView
     'click .sign-up-button': 'onClickSignupButton'
     'click .continue-from-offer-button': 'onClickContinueFromOffer'
     'click .skip-offer-button': 'onClickSkipOffer'
+    'click #share-level-btn': 'onClickShareLevelButton'
 
     # Feedback events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -73,7 +74,9 @@ module.exports = class HeroVictoryModal extends ModalView
     if @level.isType('course', 'course-ladder')
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
       @loadExistingFeedback()
-    # TODO: support 'game-dev' and 'web-dev' (not the same as 'course' since can be played outside of courses)
+
+    if @level.isType('game-dev', 'web-dev')
+      @shareURL = "#{window.location.origin}/play/#{@level.get('type')}-level/#{@level.get('slug')}/#{@session.id}"
 
   destroy: ->
     clearInterval @sequentialAnimationInterval
@@ -498,6 +501,10 @@ module.exports = class HeroVictoryModal extends ModalView
 
   onClickSkipOffer: (e) ->
     Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
+
+  onClickShareLevelButton: ->
+    @$('#share-level-input').val(@shareURL).select()
+    @tryCopy()
 
   # Ratings and reviews
 

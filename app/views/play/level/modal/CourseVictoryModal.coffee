@@ -44,11 +44,11 @@ module.exports = class CourseVictoryModal extends ModalView
       @levelSessions = @supermodel.loadCollection(@levelSessions, 'sessions', {
         data: { project: 'state.complete level.original playtime changed' }
       }).model
-      
+
       if not @course
         @course = new Course()
         @supermodel.trackRequest @course.fetchForCourseInstance(@courseInstanceID)
-      
+
     window.tracker?.trackEvent 'Play Level Victory Modal Loaded', category: 'Students', levelSlug: @level.get('slug'), ['Mixpanel']
 
   onResourceLoadFailed: (e) ->
@@ -69,6 +69,7 @@ module.exports = class CourseVictoryModal extends ModalView
       course: @course
       classroom: @classroom
       levelSessions: @levelSessions
+      session: @session
     })
 
     progressView.once 'done', @onDone, @

@@ -96,8 +96,8 @@ module.exports = class LevelSession extends CocoModel
   generateSpellsObject: ->
     {createAetherOptions} = require 'lib/aether_utils'
     aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @get('codeLanguage')
-    spellThang = aether: new Aether aetherOptions
-    spells = "hero-placeholder/plan": thangs: {'Hero Placeholder': spellThang}, name: 'plan'
+    spellThang = thang: {id: 'Hero Placeholder'}, aether: new Aether aetherOptions
+    spells = "hero-placeholder/plan": thang: spellThang, name: 'plan'
     source = @get('code')['hero-placeholder'].plan
     try
       spellThang.aether.transpile source

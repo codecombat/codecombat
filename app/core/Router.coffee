@@ -131,6 +131,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
     'play/game-dev-level/:levelID/:sessionID': go('play/level/PlayGameDevLevelView')
+    'play/web-dev-level/:levelID/:sessionID': go('play/level/PlayWebDevLevelView')
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView')
 

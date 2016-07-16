@@ -19,10 +19,14 @@ module.exports = class ProgressView extends CocoView
     @classroom = options.classroom
     @nextLevel = options.nextLevel
     @levelSessions = options.levelSessions
+    @session = options.session
     # Translate and Markdownify level description, but take out any images (we don't have room for arena banners, etc.).
     # Images in Markdown are like ![description](url)
     @nextLevel.get('description', true)  # Make sure the defaults are available
     @nextLevelDescription = marked(utils.i18n(@nextLevel.attributesWithDefaults, 'description').replace(/!\[.*?\]\(.*?\)\n*/g, ''))
+    if @level.isType('game-dev', 'web-dev')
+      @shareURL = "#{window.location.origin}/play/#{@level.get('type')}-level/#{@level.get('slug')}/#{@session.id}"
+      @shareURL += "?course=#{@course.id}" if @course
 
   onClickDoneButton: ->
     @trigger 'done'
@@ -34,5 +38,5 @@ module.exports = class ProgressView extends CocoView
     @trigger 'ladder'
 
   onClickShareLevelButton: ->
-    @$('#share-level-input').val('alskdjfla').select()
+    @$('#share-level-input').val(@shareURL).select()
     @tryCopy()

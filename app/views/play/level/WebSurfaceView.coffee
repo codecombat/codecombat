@@ -12,7 +12,7 @@ module.exports = class WebSurfaceView extends CocoView
   initialize: (options) ->
     @state = new State
       blah: 'blah'
-    @goals = (goal for goal in options.goalManager.goals when goal.html)
+    @goals = (goal for goal in options.goalManager?.goals ? [] when goal.html)
     # Consider https://www.npmjs.com/package/css-select to do this on virtualDOM instead of in iframe on concreteDOM
     super(options)
 

@@ -1,0 +1,10 @@
+#web-surface-view
+
+#info-bar.style-flat
+  if !view.supermodel.finished()
+    h1(data-i18n="common.loading")
+    
+  else
+    h1
+      span Creator:
+      |  #{view.session.get('creatorName')}
