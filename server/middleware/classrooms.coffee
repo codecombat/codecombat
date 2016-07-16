@@ -145,6 +145,7 @@ module.exports =
     query = {}
     query = {adminOnly: {$ne: true}} unless req.user?.isAdmin()
     courses = yield Course.find(query)
+    courses = Course.sortCourses courses
     campaigns = yield Campaign.find({_id: {$in: (course.get('campaignID') for course in courses)}})
     campaignMap = {}
     campaignMap[campaign.id] = campaign for campaign in campaigns

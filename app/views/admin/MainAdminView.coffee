@@ -233,10 +233,3 @@ module.exports = class MainAdminView extends RootView
       $('.classroom-progress-csv').prop('disabled', false)
       console.error error
       throw error
-
-  courseLabelsArray: (courses) ->
-    labels = []
-    courseLabelIndexes = CS: 0, GD: 0, WD: 0
-    for course in courses
-      labels.push acronym + ++courseLabelIndexes[acronym]
-    labels
