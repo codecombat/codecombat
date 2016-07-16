@@ -21,6 +21,10 @@
     .btn.btn-small.btn-illustrated.hints-button
       span(data-i18n="play_level.hints")
 
+  if view.options.level.isType('web-dev')
+    .btn.btn-small.btn-illustrated.image-gallery-button
+      span(data-i18n='') Image Gallery
+
   if view.options.level.get('shareable')
     - var url = '/play/' + view.options.level.get('type') + '-level/' + view.options.level.get('slug') + '/' + view.options.session.id;
     - if (view.options.courseID) url += '?course=' + view.options.courseID;

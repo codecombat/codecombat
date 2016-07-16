@@ -195,6 +195,7 @@ module.exports =
     _.assign(progressData, progressMixin)
     return progressData
   
+
 progressMixin =
   get: (options={}) ->
     { classroom, course, level, user } = options

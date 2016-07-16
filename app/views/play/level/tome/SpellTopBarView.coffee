@@ -1,6 +1,7 @@
 template = require 'templates/play/level/tome/spell-top-bar-view'
 ReloadLevelModal = require 'views/play/level/modal/ReloadLevelModal'
 CocoView = require 'views/core/CocoView'
+ImageGalleryModal = require 'views/play/level/modal/ImageGalleryModal'
 
 module.exports = class SpellTopBarView extends CocoView
   template: template
@@ -20,6 +21,7 @@ module.exports = class SpellTopBarView extends CocoView
     'click .beautify-code': 'onBeautifyClick'
     'click .fullscreen-code': 'onToggleMaximize'
     'click .hints-button': 'onClickHintsButton'
+    'click .image-gallery-button': 'onClickImageGalleryButton'
 
   constructor: (options) ->
     @hintsState = options.hintsState
@@ -42,6 +44,9 @@ module.exports = class SpellTopBarView extends CocoView
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
+
+  onClickImageGalleryButton: (e) ->
+    @openModalView new ImageGalleryModal()
 
   onClickHintsButton: ->
     return unless @hintsState?
