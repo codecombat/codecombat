@@ -122,6 +122,7 @@ module.exports = class TomeView extends CocoView
           levelID: @options.levelID
           level: @options.level
           god: @options.god
+          courseID: @options.courseID
 
     for thangID, spellKeys of @thangSpells
       thang = @fakeProgrammableThang ? world.getThangByID thangID

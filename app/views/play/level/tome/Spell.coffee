@@ -54,6 +54,8 @@ module.exports = class Spell
         supermodel: @supermodel
         codeLanguage: @language
         level: options.level
+        session: options.session
+        courseID: options.courseID
       @topBarView.render()
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 
