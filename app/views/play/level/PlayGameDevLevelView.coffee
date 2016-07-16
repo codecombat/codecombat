@@ -9,7 +9,6 @@ Surface = require 'lib/surface/Surface'
 ThangType = require 'models/ThangType'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
-{createAetherOptions} = require 'lib/aether_utils'
 State = require 'models/State'
 
 TEAM = 'humans'
@@ -70,7 +69,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @surface.setWorld(@world)
       @scriptManager.initializeCamera()
       @renderSelectors '#info-col'
-      @spells = @session.generateSpellsObject()
+      @spells = @session.generateSpellsObject level: @level
       @state.set('loading', false)
 
     .catch ({message}) =>

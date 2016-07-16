@@ -33,7 +33,6 @@ module.exports = class CourseDetailsView extends RootView
     @classroom = new Classroom()
     @levels = new Levels()
     @courseInstances = new CourseInstances()
-    @showGameDevButtons = me.isAdmin() or window.amActually # TEMP while testing game dev level system
 
     @supermodel.trackRequest @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackRequest(@courses.fetch().then(=>

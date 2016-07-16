@@ -93,12 +93,13 @@ module.exports = class LevelSession extends CocoModel
     state.topScores = newTopScores
     @set 'state', state
 
-  generateSpellsObject: ->
+  generateSpellsObject: (options={}) ->
+    {level} = options
     {createAetherOptions} = require 'lib/aether_utils'
-    aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @get('codeLanguage')
+    aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @get('codeLanguage'), skipProtectAPI: options.level?.isType('game-dev')
     spellThang = thang: {id: 'Hero Placeholder'}, aether: new Aether aetherOptions
     spells = "hero-placeholder/plan": thang: spellThang, name: 'plan'
-    source = @get('code')['hero-placeholder'].plan
+    source = @get('code')?['hero-placeholder']?.plan ? ''
     try
       spellThang.aether.transpile source
     catch e
