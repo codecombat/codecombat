@@ -229,6 +229,8 @@ mixin studentRow(student)
         +longLevelName(student.latestCompleteLevel)
     td
       if state.get('progressData')
+        - var courses = view.classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
+        - var courseLabelsArray = view.courseLabelsArray(courses);
         each trimCourse, index in view.classroom.get('courses')
           - var course = view.courses.get(trimCourse._id);
           - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
@@ -236,7 +238,8 @@ mixin studentRow(student)
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, user: student })
             - var levelsTotal = trimCourse.levels.length
             //- - var level = ???
-            +studentCourseProgressDot(progress, levelsTotal, level, 'CS' + (index+1))
+            - var label = courseLabelsArray[index];
+            +studentCourseProgressDot(progress, levelsTotal, level, label)
       unless student.isEnrolled()
         +enrollStudentButton(student)
     //- td

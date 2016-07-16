@@ -321,9 +321,11 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     courseLabels = ""
     courseOrder = []
-    for course, index in @classroom.get('courses')
-      courseLabels += "CS#{index + 1} Playtime,"
-      courseOrder.push(course._id)
+    courses = (@courses.get(c._id) for c in @classroom.get('courses'))
+    courseLabelsArray = @courseLabelsArray courses
+    for course, index in courses
+      courseLabels += "#{courseLabelsArray[index]} Playtime,"
+      courseOrder.push(course.id)
     csvContent = "data:text/csv;charset=utf-8,Username,Email,Total Playtime,#{courseLabels}Concepts\n"
     levelCourseMap = {}
     for trimCourse in @classroom.get('courses')
@@ -464,3 +466,14 @@ module.exports = class TeacherClassView extends RootView
       when 'enrolled' then (if expires then $.i18n.t('teacher.status_enrolled') else '-')
       when 'expired' then $.i18n.t('teacher.status_expired')
     return string.replace('{{date}}', moment(expires).utc().format('l'))
+
+  courseLabelsArray: (courses) ->
+    labels = []
+    courseLabelIndexes = CS: 0, GD: 0, WD: 0
+    for course in courses
+      acronym = switch
+        when /game-dev/.test(course.get('slug')) then 'GD'
+        when /web-dev/.test(course.get('slug')) then 'WD'
+        else 'CS'
+      labels.push acronym + ++courseLabelIndexes[acronym]
+    labels
