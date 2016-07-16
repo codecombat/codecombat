@@ -34,4 +34,5 @@ module.exports = class PlayWebDevLevelView extends RootView
 
   destroy: ->
     @webSurface?.destroy()
+    $('body').css('overflow', 'initial')
     super()

@@ -74,7 +74,7 @@ module.exports = class Classroom extends CocoModel
     }
 
   getLevels: (options={}) ->
-    # options: courseID, withoutLadderLevels
+    # options: courseID, withoutLadderLevels, projectLevels
     Levels = require 'collections/Levels'
     courses = @get('courses')
     return new Levels() unless courses
@@ -86,6 +86,8 @@ module.exports = class Classroom extends CocoModel
     levels = new Levels(_.flatten(levelObjects))
     if options.withoutLadderLevels
       levels.remove(levels.filter((level) -> level.isLadder()))
+    if options.projectLevels
+      levels.remove(levels.filter((level) -> not level.isType('game-dev', 'web-dev')))
     return levels
 
   getLadderLevel: (courseID) ->

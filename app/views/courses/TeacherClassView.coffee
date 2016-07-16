@@ -174,17 +174,17 @@ module.exports = class TeacherClassView extends RootView
         @debouncedRender()
     @listenTo @students, 'sort', @debouncedRender
     super()
-  
+
   afterRender: ->
     super(arguments...)
-    $('.progress-dot').each (i, el) ->
+    $('.progress-dot, .btn-view-project-level').each (i, el) ->
       dot = $(el)
       dot.tooltip({
         html: true
         container: dot
       }).delegate '.tooltip', 'mousemove', ->
         dot.tooltip('hide')
-    
+
   calculateProgressAndLevels: ->
     return unless @supermodel.progress is 1
     # TODO: How to structure this in @state?

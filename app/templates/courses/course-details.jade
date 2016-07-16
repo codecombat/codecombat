@@ -106,11 +106,16 @@ block content
             if previousLevelCompleted || view.teacherMode || !passedLastCompletedLevel || levelStatus
               - var i18n = level.isType('course-ladder') ? 'play.compete' : 'home.play';
               button.btn.btn-success.btn-play-level(data-level-slug=level.get('slug'), data-i18n=i18n, data-level-id=level.get('original'))
-              if level.isType('game-dev')
+              if level.isType('game-dev', 'web-dev')
                 - var levelOriginal = level.get('original');
                 - var session = view.levelSessions.find(function(session) { return session.get('level').original === levelOriginal });
                 if session
-                  a.btn.btn-warning(href="/play/game-dev-level/#{level.get('slug')}/#{session.id}?course=#{view.courseID}") Game
+                  - var url = '/play/' + level.get('type') + '-level/' + level.get('slug') + '/' + session.id + '?course=' + view.courseID;
+                  a.btn.btn-warning.btn-view-project-level(href=url)
+                    if level.isType('game-dev')
+                      span(data-i18n='') Game
+                    else
+                      span(data-i18n='') Webpage
           td
             if view.userLevelStateMap[me.id]
               div= view.userLevelStateMap[me.id][level.get('original')]

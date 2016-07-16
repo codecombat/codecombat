@@ -311,7 +311,7 @@ mixin courseOverview
   .course-overview-row
     .course-title.student-name
       span= course.get('name')
-      span :
+      span= ': '
       span(data-i18n='teacher.course_overview')
     .course-overview-progress
       each level, index in levels
@@ -330,7 +330,7 @@ mixin studentLevelsRow(student)
       each level, index in levels
         - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
         - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-        +studentLevelProgressDot(progress, level, levelNumber, session)
+        +studentLevelProgressDot(progress, level, levelNumber)
   
 mixin studentCourseProgressDot(progress, levelsTotal, level, label)
   //- TODO: Refactor with TeacherClassesView jade
@@ -438,4 +438,35 @@ mixin enrollmentStatusTab
               button.enroll-student-button.btn.btn-navy(data-i18n="teacher.enroll_student", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
 
 mixin studentProjectsTab
-  p ...
+  #student-projects-tab.m-t-3
+    if state.get('progressData')
+      .render-on-course-sync
+        .student-levels-table
+          +sortButtons
+          each student in state.get('students').models
+            +studentProjectsRow(student)
+
+mixin studentProjectsRow(student)
+  .row.student-levels-row.alternating-background
+    div.student-info.col-sm-3
+      div.student-name= student.broadName()
+      div.student-email.small-details= student.get('email')
+    div.student-levels-progress.col-sm-9
+      each trimCourse in view.classroom.get('courses')
+        - var course = view.courses.get(trimCourse._id);
+        - var levels = view.classroom.getLevels({courseID: course.id, projectLevels: true}).models
+        each level in levels
+          - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
+          - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
+          +studentProjectLink(progress, level, levelNumber, course)
+
+mixin studentProjectLink(progress, level, levelNumber, course)
+  - var colorClass = progress.completed ? 'btn-primary' : (progress.started ? 'btn-warning' : 'btn-primary');
+  - var levelName = level.get('name')
+  - var context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment })
+  - var title = view.singleStudentLevelProgressDotTemplate(context);
+  if context.session
+    - var url = '/play/' + level.get('type') + '-level/' + level.get('slug') + '/' + context.session.id + '?course=' + course.id;
+    a(class="btn btn-lg btn-view-project-level " + colorClass, href=url, data-title=title)= levelName
+  else
+    btn(class="btn btn-lg btn-view-project-level " + colorClass, data-title=title, disabled=true)= levelName
