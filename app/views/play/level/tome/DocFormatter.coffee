@@ -49,7 +49,7 @@ module.exports = class DocFormatter
       @doc.type = 'snippet'
       @doc.owner = 'snippets'
       @doc.shortName = @doc.shorterName = @doc.title = @doc.name
-    else if @doc.owner is 'HTML'
+    else if @doc.owner in ['HTML', 'CSS']
       @doc.shortName = @doc.shorterName = @doc.title = @doc.name
     else
       @doc.owner ?= 'this'
