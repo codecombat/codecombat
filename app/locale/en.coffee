@@ -1880,6 +1880,14 @@
     basic_html: "Basic HTML"  # TODO: these web-dev concepts will change, don't need to translate
     basic_css: "Basic CSS"
     basic_web_scripting: "Basic Web Scripting"
+    intermediate_html: "Intermediate HTML"
+    intermediate_css: "Intermediate CSS"
+    intermediate_web_scripting: "Intermediate Web Scripting"
+    advanced_html: "Advanced HTML"
+    advanced_css: "Advanced CSS"
+    advanced_web_scripting: "Advanced Web Scripting"
+    jquery: "jQuery"
+    bootstrap: "Bootstrap"
 
   delta:
     added: "Added"
