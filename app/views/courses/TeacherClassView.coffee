@@ -23,6 +23,7 @@ CourseInstances = require 'collections/CourseInstances'
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
   template: template
+  helper: helper
 
   events:
     'click .nav-tabs a': 'onClickNavTabLink'
@@ -322,7 +323,7 @@ module.exports = class TeacherClassView extends RootView
     courseLabels = ""
     courseOrder = []
     courses = (@courses.get(c._id) for c in @classroom.get('courses'))
-    courseLabelsArray = @courseLabelsArray courses
+    courseLabelsArray = helper.courseLabelsArray courses
     for course, index in courses
       courseLabels += "#{courseLabelsArray[index]} Playtime,"
       courseOrder.push(course.id)
@@ -466,14 +467,3 @@ module.exports = class TeacherClassView extends RootView
       when 'enrolled' then (if expires then $.i18n.t('teacher.status_enrolled') else '-')
       when 'expired' then $.i18n.t('teacher.status_expired')
     return string.replace('{{date}}', moment(expires).utc().format('l'))
-
-  courseLabelsArray: (courses) ->
-    labels = []
-    courseLabelIndexes = CS: 0, GD: 0, WD: 0
-    for course in courses
-      acronym = switch
-        when /game-dev/.test(course.get('slug')) then 'GD'
-        when /web-dev/.test(course.get('slug')) then 'WD'
-        else 'CS'
-      labels.push acronym + ++courseLabelIndexes[acronym]
-    labels
