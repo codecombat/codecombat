@@ -210,7 +210,6 @@ module.exports = class TomeView extends CocoView
       @setSpellView @spells['hero-placeholder/plan'], @fakeProgrammableThang
       return
     # This is fired by PlayLevelView
-    # TODO: Don't hard code these hero names
     if @options.session.get('team') is 'ogres'
       Backbone.Mediator.publish 'level:select-sprite', thangID: 'Hero Placeholder 1'
     else

@@ -450,8 +450,6 @@
     incomplete: "Incomplete"
     timed_out: "Ran out of time"
     failing: "Failing"
-    control_bar_multiplayer: "Multiplayer"
-    control_bar_join_game: "Join Game"
     reload: "Reload"
     reload_title: "Reload All Code?"
     reload_really: "Are you sure you want to reload this level back to the beginning?"
@@ -480,8 +478,7 @@
     tome_cast_button_running: "Running"
     tome_cast_button_ran: "Ran"
     tome_submit_button: "Submit"
-    tome_reload_method: "Reload original code for this method"  # Title text for individual method reload button.
-    tome_see_all_methods: "See all methods you can edit"  # Title text for method list selector (shown when there are multiple programmable methods).
+    tome_reload_method: "Reload original code to restart the level" # {change}
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
     tome_current_method: "Current Method"
@@ -1475,6 +1472,29 @@
     status_not_enrolled: "Not Enrolled"
     status_enrolled: "Expires on {{date}}"
     select_all: "Select All"
+    projects: "Projects"
+
+  sharing:
+    game: "Game"
+    webpage: "Webpage"
+    share_game: "Share This Game"
+    share_web: "Share This Webpage"
+    victory_share_prefix: "Share this link to invite your friends & family to"
+    victory_share_game: "play your game level"
+    victory_share_web: "view your webpage"
+    victory_share_suffix: "."
+    victory_course_share_prefix: "This link will let your friends & family"
+    victory_course_share_game: "play the game"
+    victory_course_share_web: "view the webpage"
+    victory_course_share_suffix: "you just created."
+    copy_url: "Copy URL"
+
+  game_dev:
+    creator: "Creator"
+
+  web_dev:
+    image_gallery_title: "Image Gallery"
+    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
 
   classes:
     archmage_title: "Archmage"

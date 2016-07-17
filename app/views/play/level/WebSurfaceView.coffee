@@ -1,5 +1,4 @@
 CocoView = require 'views/core/CocoView'
-State = require 'models/State'
 template = require 'templates/play/level/web-surface-view'
 
 module.exports = class WebSurfaceView extends CocoView
@@ -10,8 +9,6 @@ module.exports = class WebSurfaceView extends CocoView
     'tome:html-updated': 'onHTMLUpdated'
 
   initialize: (options) ->
-    @state = new State
-      blah: 'blah'
     @goals = (goal for goal in options.goalManager?.goals ? [] when goal.html)
     # Consider https://www.npmjs.com/package/css-select to do this on virtualDOM instead of in iframe on concreteDOM
     super(options)
@@ -21,7 +18,6 @@ module.exports = class WebSurfaceView extends CocoView
     @iframe = @$('iframe')[0]
     $(@iframe).on 'load', (e) =>
       window.addEventListener 'message', @onIframeMessage
-      #@iframe.contentWindow.postMessage {type: 'log', text: 'Player HTML iframe is ready.'}, "*" 
       @iframeLoaded = true
       @onIframeLoaded?()
       @onIframeLoaded = null

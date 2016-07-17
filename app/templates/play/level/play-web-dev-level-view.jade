@@ -6,5 +6,6 @@
     
   else
     h1
-      span Creator:
-      |  #{view.session.get('creatorName')}
+      span(data-i18n="game_dev.creator")
+      span= ': '
+      | #{view.session.get('creatorName')}

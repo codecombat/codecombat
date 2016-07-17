@@ -42,7 +42,7 @@ module.exports = class DocFormatter
     @fillOutDoc()
 
   fillOutDoc: ->
-    # TODO: figure out how to do html docs for web-dev levels
+    # TODO: figure out better ways to format html/css/scripting docs for web-dev levels
     if _.isString @doc
       @doc = name: @doc, type: typeof @options.thang[@doc]
     if @options.isSnippet

@@ -125,7 +125,7 @@ block content
           .tab-spacer
           li(class=(activeTab === "#student-projects-tab" ? 'active' : ''))
             a.course-progress-tab-btn(href='#student-projects-tab')
-              .small-details.text-center(data-i18n='') Projects
+              .small-details.text-center(data-i18n='teacher.projects')
           .tab-filler
 
         .tab-content
@@ -156,11 +156,10 @@ mixin breadcrumbs
 mixin longLevelName(data)
   if data
     div.level-name
-      span.spr Course
-      span= data.courseNumber
-      span.spr , Level
-      span= data.levelNumber
-      span.spr :
+      span(data-i18n="courses.course")
+      span= ' ' + data.courseNumber + ', '
+      span(data-i18n="play_level.level")
+      span= ' ' + data.levelNumber + ': '
       span= data.levelName
   else
     div.level-name(data-i18n='teacher.not_applicable')
@@ -345,7 +344,7 @@ mixin studentCourseProgressDot(progress, levelsTotal, level, label)
 
 mixin allStudentsLevelProgressDot(progress, level, levelNumber)
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
-  - levelName = level.get('name')
+  - levelName = i18n(level.attributes, 'name')
   - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length })
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context))
     +progressDotLabel(levelNumber)
@@ -353,7 +352,7 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
 mixin studentLevelProgressDot(progress, level, levelNumber)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
-  - levelName = level.get('name')
+  - levelName = i18n(level.attributes, 'name')
   - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment })
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
     +progressDotLabel(levelNumber)
@@ -465,7 +464,7 @@ mixin studentProjectsRow(student)
 
 mixin studentProjectLink(progress, level, levelNumber, course)
   - var colorClass = progress.completed ? 'btn-primary' : (progress.started ? 'btn-warning' : 'btn-primary');
-  - var levelName = level.get('name')
+  - var levelName = i18n(level.attributes, 'name')
   - var context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment })
   - var title = view.singleStudentLevelProgressDotTemplate(context);
   if context.session

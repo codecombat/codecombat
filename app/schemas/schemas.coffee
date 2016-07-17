@@ -264,4 +264,12 @@ me.concept = me.shortString enum: [
     'basic_html'
     'basic_css'
     'basic_web_scripting'
+    'intermediate_html'
+    'intermediate_css'
+    'intermediate_web_scripting'
+    'advanced_html'
+    'advanced_css'
+    'advanced_web_scripting'
+    'jquery'
+    'bootstrap'
   ]

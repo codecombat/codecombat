@@ -10,7 +10,7 @@
         .alert.alert-danger= view.state.get('errorMessage')
         
       else if view.state.get('loading')
-        h1.m-y-1 Loading...
+        h1.m-y-1(data-i18n="common.loading")
         .progress
           .progress-bar(style="width: #{view.state.get('progress')}")
         
@@ -18,17 +18,21 @@
         h1.m-y-1 Info
         ul
           li
-            b Level Name:
-            |  #{view.level.get('name')}
+            b
+              span(data-i18n="play_level.level")
+              span= ': '
+            | #{view.level.get('name')}
             
           li
-            b Creator:
-            |  #{view.session.get('creatorName')}
+            b
+              span(data-i18n="game_dev.creator")
+              span= ': '
+            | #{view.session.get('creatorName')}
         
         - var playing = view.state.get('playing')
         .m-y-3
           if playing
-            button#play-btn.btn.btn-lg.btn-burgandy RESTART
+            button#play-btn.btn.btn-lg.btn-burgandy(data-i18n="play_level.restart")
           else
-            button#play-btn.btn.btn-lg.btn-navy PLAY
+            button#play-btn.btn.btn-lg.btn-navy(data-i18n="common.play")
         

@@ -72,11 +72,12 @@ module.exports = class Spell
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 
     if @level.isType('web-dev')
+      # Pull apart the structural wrapper code and the player code, remember the wrapper code, and strip indentation on player code.
       playerCode = @originalSource.match(/<playercode>\n([\s\S]*)\n *<\/playercode>/)[1]
       playerCodeLines = playerCode.split('\n')
       indentation = playerCodeLines[0].length - playerCodeLines[0].trim().length
       playerCode = (line.substr(indentation) for line in playerCodeLines).join('\n')
-      @wrapperCode = @originalSource.replace /<playercode>[\s\S]*<\/playercode>/, '☃'
+      @wrapperCode = @originalSource.replace /<playercode>[\s\S]*<\/playercode>/, '☃'  # ☃ serves as placeholder for constructHTML
       @originalSource = playerCode
 
     # Translate comments chosen spoken language.

@@ -111,19 +111,20 @@ block modal-footer-content
   if view.shareURL
     #share-level-container
       span.share-level-label
-        span(data-i18n='') Share this link to invite your friends & family to
+        span(data-i18n='sharing.victory_share_prefix') Share this link to invite your friends & family to
         span= ' '
         a(href=view.shareURL, target='_blank')
           if view.level.isType('game-dev')
-            span(data-i18n='') play your game level
+            span(data-i18n='sharing.victory_share_game') play your game level
           else
-            span(data-i18n='') view your webpage
+            span(data-i18n='sharing.victory_share_web') view your webpage
+        span(data-i18n='sharing.victory_share_suffix') .
       .row
         .col-sm-9
           input.text-h4.semibold.form-control.input-md#share-level-input(value=view.shareURL)
         .col-sm-3
           button#share-level-btn.btn.btn-md.btn-success.btn-illustrated
-            span(data-i18n='') Copy URL
+            span(data-i18n='sharing.copy_url') Copy URL
 
   if me.get('anonymous')
     .sign-up-poke.hide

@@ -44,25 +44,25 @@
       .well.well-sm.well-parchment
         h3.text-uppercase
           if view.level.isType('game-dev')
-            span(data-i18n='') Share This Game
+            span(data-i18n='sharing.share_game')
           else
-            span(data-i18n='') Share This Webpage
+            span(data-i18n='sharing.share_web')
         p
-          span(data-i18n='') This link will let your friends & family
+          span(data-i18n='sharing.victory_course_share_prefix')
           span= ' '
           a(href=view.shareURL, target='_blank')
             if view.level.isType('game-dev')
-              span(data-i18n='') play the game
+              span(data-i18n='sharing.victory_course_share_game')
             else
-              span(data-i18n='') view the webpage
+              span(data-i18n='sharing.victory_course_share_web')
           span= ' '
-          span(data-i18n='') you just created.
+          span(data-i18n='sharing.victory_course_share_suffix')
         .row
           .col-sm-9
             input.text-h4.semibold.form-control.input-lg#share-level-input(value=view.shareURL)
           .col-sm-3
             button#share-level-btn.btn.btn-lg.btn-success.btn-illustrated
-              span(data-i18n='') Copy URL
+              span(data-i18n='sharing.copy_url')
         
     .row
       .col-sm-5.col-sm-offset-2

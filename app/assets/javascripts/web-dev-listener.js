@@ -51,6 +51,7 @@ function create(dom) {
     virtualDOM = dom;
     concreteDOM = deku.dom.create(dom);
     // TODO: target the actual HTML tag and combine our initial structure for styles/scripts/tags with theirs
+    // TODO: :after elements don't seem to work? (:before do)
     $('body').empty().append(concreteDOM);
 }
 

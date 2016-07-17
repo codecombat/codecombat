@@ -8,9 +8,6 @@ module.exports = class PlayWebDevLevelView extends RootView
   id: 'play-web-dev-level-view'
   template: require 'templates/play/level/play-web-dev-level-view'
 
-#  events:
-#    'click #play-btn': 'onClickPlayButton'
-
   initialize: (@options, @levelID, @sessionID) ->
     @courseID = @getQueryVariable 'course'
     @level = @supermodel.loadModel(new Level _id: @levelID).model
@@ -21,7 +18,7 @@ module.exports = class PlayWebDevLevelView extends RootView
     @insertSubView @webSurface = new WebSurfaceView {level: @level}
     Backbone.Mediator.publish 'tome:html-updated', html: @getHTML() ? '<h1>Player has no HTML</h1>', create: true
     @$el.find('#info-bar').delay(4000).fadeOut(2000)
-    $('body').css('overflow', 'hidden')
+    $('body').css('overflow', 'hidden')  # Don't show tiny scroll bar from our minimal additions to the iframe
 
   showError: (jqxhr) ->
     $('h1').text jqxhr.statusText
@@ -34,5 +31,5 @@ module.exports = class PlayWebDevLevelView extends RootView
 
   destroy: ->
     @webSurface?.destroy()
-    $('body').css('overflow', 'initial')
+    $('body').css('overflow', 'initial')  # Recover from our modifications to body overflow before we leave
     super()
