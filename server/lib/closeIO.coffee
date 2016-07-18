@@ -115,7 +115,7 @@ module.exports =
         _type: "lead"
         lead_id: leadID
         assigned_to: userID
-        text: "Call #{teacherEmail}"
+        text: "Call license inquiry #{teacherEmail}"
         is_complete: false
       options =
         uri: "https://#{apiKey}:X@app.close.io/api/v1/task/"
