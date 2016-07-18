@@ -696,7 +696,8 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-password")
     email = 'some@email.com'
-    json = { email, password: '12345' }
+    name = 'someusername'
+    json = { name, email, password: '12345' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(200)
     updatedUser = yield User.findById(user.id)
@@ -801,6 +802,7 @@ describe 'POST /db/user/:handle/signup-with-password', ->
 describe 'POST /db/user/:handle/signup-with-facebook', ->
   facebookID = '12345'
   facebookEmail = 'some@email.com'
+  name = 'someusername'
   
   validFacebookResponse = new Promise((resolve) -> resolve({
     id: facebookID,
@@ -835,7 +837,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
     spyOn(sendwithus.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-facebook")
-    json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
+    json = { name, email: facebookEmail, facebookID, facebookAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(200)
     updatedUser = yield User.findById(user.id)
@@ -858,11 +860,11 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-facebook")
   
-    json = { email: 'some-other@email.com', facebookID, facebookAccessToken: '...' }
+    json = { name, email: 'some-other@email.com', facebookID, facebookAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(422)
   
-    json = { email: facebookEmail, facebookID: '54321', facebookAccessToken: '...' }
+    json = { name, email: facebookEmail, facebookID: '54321', facebookAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(422)
   
@@ -874,7 +876,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
     spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-facebook")
-    json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
+    json = { name, email: facebookEmail, facebookID, facebookAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(409)
     done()
@@ -883,6 +885,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
 describe 'POST /db/user/:handle/signup-with-gplus', ->
   gplusID = '12345'
   gplusEmail = 'some@email.com'
+  name = 'someusername'
 
   validGPlusResponse = new Promise((resolve) -> resolve({
     id: gplusID
@@ -923,10 +926,11 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
     spyOn(sendwithus.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-gplus")
-    json = { email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    json = { name, email: gplusEmail, gplusID, gplusAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(200)
     updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBe(name)
     expect(updatedUser.get('email')).toBe(gplusEmail)
     expect(updatedUser.get('gplusID')).toBe(gplusID)
     expect(sendwithus.api.send).toHaveBeenCalled()
@@ -936,7 +940,7 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
     spyOn(gplus, 'fetchMe').and.returnValue(invalidGPlusResponse)
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-gplus")
-    json = { email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    json = { name, email: gplusEmail, gplusID, gplusAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(422)
     done()
@@ -946,22 +950,22 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-gplus")
 
-    json = { email: 'some-other@email.com', gplusID, gplusAccessToken: '...' }
+    json = { name, email: 'some-other@email.com', gplusID, gplusAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(422)
 
-    json = { email: gplusEmail, gplusID: '54321', gplusAccessToken: '...' }
+    json = { name, email: gplusEmail, gplusID: '54321', gplusAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(422)
 
     done()
 
   it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
-    yield utils.initUser({email: gplusEmail})
+    yield utils.initUser({name: 'someusername', email: gplusEmail})
     spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-gplus")
-    json = { email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    json = { name: 'differentusername', email: gplusEmail, gplusID, gplusAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(409)
     done()
