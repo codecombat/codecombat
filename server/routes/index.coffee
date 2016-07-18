@@ -104,6 +104,7 @@ module.exports.setup = (app) ->
   app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
   
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
+  app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
 
