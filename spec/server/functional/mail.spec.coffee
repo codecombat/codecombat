@@ -43,8 +43,8 @@ describe 'handleUnsubscribe', ->
 
 # This can be re-enabled on demand to test it, but for some async reason this
 # crashes jasmine soon afterward.
-xdescribe 'sendNextStepsEmail', ->
-  it 'Sends the email', utils.wrap (done) ->
+describe 'sendNextStepsEmail', ->
+  xit 'Sends the email', utils.wrap (done) ->
     user = yield utils.initUser({generalNews: {enabled: true}, anyNotes: {enabled: true}})
     expect(user.id).toBeDefined()
     yield new LevelSession({
@@ -66,3 +66,4 @@ xdescribe 'sendNextStepsEmail', ->
       done()
 
     mail.sendNextStepsEmail(user, new Date, 5)
+  .pend('Breaks other tests — must be run alone')
