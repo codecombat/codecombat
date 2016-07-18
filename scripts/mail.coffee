@@ -81,6 +81,7 @@ grabUser = (session, callback) ->
 
 totalEmailsSent = 0
 emailUserInitialRecruiting = (user, callback) ->
+  return callback null, false if not user.email
   #return callback null, false if user.emails?.anyNotes?.enabled is false  # TODO: later, uncomment to obey also 'anyNotes' when that's untangled
   return callback null, false if user.emails?.recruitNotes?.enabled is false
   return callback null, false if user.email in alreadyEmailed
@@ -129,6 +130,7 @@ grabEmail = (winner, callback) ->
     callback null, winner
 
 emailUserTournamentResults = (winner, callback) ->
+  return callback null, false if not winner.email
   return callback null, false if DEBUGGING and (winner.team is 'humans' or totalEmailsSent > 1)
   ++totalEmailsSent
   name = winner.name

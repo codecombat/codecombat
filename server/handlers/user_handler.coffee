@@ -110,9 +110,9 @@ UserHandler = class UserHandler extends Handler
 
     # Name setting
     (req, user, callback) ->
-      return callback(null, req, user) unless req.body.name
+      return callback(null, req, user) unless req.body.name?
       nameLower = req.body.name?.toLowerCase()
-      return callback(null, req, user) unless nameLower
+      return callback(null, req, user) unless nameLower?
       return callback(null, req, user) if user.get 'anonymous' # anonymous users can have any name
       return callback(null, req, user) if nameLower is user.get('nameLower')
       User.findOne({nameLower: nameLower, anonymous: false}).exec (err, otherUser) ->

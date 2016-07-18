@@ -105,6 +105,7 @@ module.exports =
     if watchers.length
       User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) ->
         for watcher in watchers
+          continue if not watcher.get('email')
           context =
             email_id: sendwithus.templates.change_made_notify_watcher
             recipient:

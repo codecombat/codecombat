@@ -373,7 +373,7 @@ module.exports = class TeacherClassView extends RootView
           coursePlaytimesString += "0,"
         else
           coursePlaytimesString += "#{moment.duration(coursePlaytime.playtime, 'seconds').humanize()},"
-      csvContent += "#{student.get('name')},#{student.get('email')},#{playtimeString},#{coursePlaytimesString}\"#{conceptsString}\"\n"
+      csvContent += "#{student.get('name')},#{student.get('email') or ''},#{playtimeString},#{coursePlaytimesString}\"#{conceptsString}\"\n"
     csvContent = csvContent.substring(0, csvContent.length - 1)
     encodedUri = encodeURI(csvContent)
     window.open(encodedUri)

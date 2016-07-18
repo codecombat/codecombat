@@ -26,7 +26,7 @@ module.exports = createNewTask = (req, res) ->
 
 
 validatePermissions = (req, sessionID, callback) ->
-  return callback 'You are unauthorized to submit that game to the simulator.' unless req.user?.get('email')
+  return callback 'You are unauthorized to submit that game to the simulator.' if (not req.user) or req.user.isAnonymous()
   return callback null if req.user?.isAdmin()
 
   findParameters = _id: sessionID

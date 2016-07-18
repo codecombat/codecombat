@@ -27,7 +27,7 @@ block content
               if view.accountType
                 div #{view.accountType}
               div
-                span.spr #{me.get('email')}
+                span.spr #{me.get('email') || me.get('name')}
                 span.not_you
                   span.spr(data-i18n="courses.not_you")
                   a.logout-btn(data-i18n="login.log_out", href="#")
