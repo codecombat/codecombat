@@ -438,6 +438,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
     tome_current_method: "Текущий метод"
+    hints: "Советы"
+    hints_title: "Совет {{number}}"
     code_saved: "Код сохранен"
     skip_tutorial: "Пропуск (Esc)"
     keyboard_shortcuts: "Горячие клавиши"
