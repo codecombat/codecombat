@@ -44,9 +44,9 @@ UserSchema.post('init', ->
 
 UserSchema.methods.broadName = ->
   return '(deleted)' if @get('deleted')
-  name = @get('name')
-  return name if name
   name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
+  return name if name
+  name = @get('name')
   return name if name
   [emailName, emailDomain] = @get('email').split('@')
   return emailName if emailName
