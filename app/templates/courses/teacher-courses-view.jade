@@ -57,15 +57,16 @@ block content
                   select.level-select.form-control
                     if view.campaigns.loaded
                       - var campaign = view.campaigns.get(course.get('campaignID'))
-                      each level, levelIndex in campaign.getLevels().models
-                        - var levelNumber = campaign.getLevelNumber(level.get('original'), levelIndex + 1)
-                        option(value=level.get('slug'))
-                          span
-                            = levelNumber
-                          span.spr
-                            | . 
-                          span
-                            = level.get('name').replace('Course: ', '')
+                      if campaign
+                        each level, levelIndex in campaign.getLevels().models
+                          - var levelNumber = campaign.getLevelNumber(level.get('original'), levelIndex + 1)
+                          option(value=level.get('slug'))
+                            span
+                              = levelNumber
+                            span.spr
+                              | . 
+                            span
+                              = level.get('name').replace('Course: ', '')
               a.play-level-button.btn.btn-lg.btn-primary
                 span(data-i18n="courses.play_level")
             .clearfix
