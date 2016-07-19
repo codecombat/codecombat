@@ -20,7 +20,7 @@ CourseSchema.statics.sortCourses = (courses) ->
     'game-dev-1'
     'web-dev-1'
     'computer-science-3'
-    'game-dev-1'
+    'game-dev-2'
     'web-dev-2'
     'computer-science-4'
     'game-dev-3'
