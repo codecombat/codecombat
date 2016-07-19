@@ -53,6 +53,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
       oldEditor.destroy() for oldEditor in @aceEditors
       @aceEditors = []
       aceEditors = @aceEditors
+      # Initialize Ace for each popover code snippet
       popover?.$tip?.find('.docs-ace').each ->
         aceEditor = utils.initializeACE @, codeLanguage
         aceEditors.push aceEditor
