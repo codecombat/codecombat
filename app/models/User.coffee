@@ -19,9 +19,9 @@ module.exports = class User extends CocoModel
   displayName: -> @get('name', true)
   broadName: ->
     return '(deleted)' if @get('deleted')
-    name = @get('name')
-    return name if name
     name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
+    return name if name
+    name = @get('name')
     return name if name
     [emailName, emailDomain] = @get('email')?.split('@') or []
     return emailName if emailName
