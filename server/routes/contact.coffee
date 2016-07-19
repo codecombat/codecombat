@@ -14,7 +14,7 @@ module.exports.setup = (app) ->
     # log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
     fromAddress = req.body.sender or req.body.email or req.user.get('email')
     createMailContent req, fromAddress, (subject, content) ->
-      if req.body.licensesNeeded or req.user.isTeacher()
+      if (req.body.licensesNeeded or req.user.isTeacher()) and subject.indexOf('Level Load Error:') < 0
         closeIO.getSalesContactEmail fromAddress, (err, salesContactEmail, userID, leadID) ->
           return log.error("Error getting sales contact for #{fromAddress}: #{err.message or err}") if err
           closeIO.sendMail fromAddress, subject, content, salesContactEmail, leadID, (err) ->
