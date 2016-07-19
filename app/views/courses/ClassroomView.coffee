@@ -157,7 +157,10 @@ module.exports = class ClassroomView extends RootView
     course = session.collection.course
     levelOriginal = session.get('level').original
     level = @levels.findWhere({original: levelOriginal})
-    return "#{course.get('name')}, #{level.get('name')}"
+    lastPlayed = ""
+    lastPlayed += course.get('name') if course
+    lastPlayed += ", #{level.get('name')}" if level
+    lastPlayed
 
   userPlaytimeString: (user) ->
     return '' unless user.sessions?
