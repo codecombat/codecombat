@@ -96,7 +96,7 @@ module.exports = class Tracker extends CocoClass
 
   trackPageView: (includeIntegrations=[]) ->
     includeMixpanel = (name) ->
-      mixpanelIncludes = ['', 'schools', 'play', 'play/level/dungeons-of-kithgard']
+      mixpanelIncludes = []
       name in mixpanelIncludes or /courses|students|teachers/ig.test(name)
 
     name = Backbone.history.getFragment()
