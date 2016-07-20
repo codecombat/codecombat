@@ -10,7 +10,7 @@ module.exports = class WebSurfaceView extends CocoView
 
   initialize: (options) ->
     @goals = (goal for goal in options.goalManager?.goals ? [] when goal.html)
-    # Consider https://www.npmjs.com/package/css-select to do this on virtualDOM instead of in iframe on concreteDOM
+    # Consider https://www.npmjs.com/package/css-select to do this on virtualDom instead of in iframe on concreteDOM
     super(options)
 
   afterRender: ->

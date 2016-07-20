@@ -19,13 +19,12 @@ function receiveMessage(event) {
     var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
     var allowed = false;
     allowedOrigins.forEach(function(pattern) {
-    	allowed = allowed || pattern.test(origin);
+        allowed = allowed || pattern.test(origin);
     });
     if (!allowed) {
         console.log('Ignoring message from bad origin:', origin);
         return;
     }
-    //console.log(event);
     var data = event.data;
     var source = event.source;
     switch (data.type) {
@@ -69,25 +68,25 @@ function update({ dom, styles, scripts }) {
     domChanges.reduce(deku.dom.update(dispatch, context), concreteDom);  // Rerender
     
     var scriptChanges = virtualScripts.map(function(virtualScript, index){
-      return deku.diff.diffNode(virtualScripts[index], scripts[index]);
+        return deku.diff.diffNode(virtualScripts[index], scripts[index]);
     });
     scriptChanges.forEach(function(scriptChange, index){
-      scriptChange.reduce(deku.dom.update(dispatch, context), concreteStyles[index])
+        scriptChange.reduce(deku.dom.update(dispatch, context), concreteStyles[index])
     });
     
     var styleChanges = virtualStyles.map(function(virtualStyle, index){
-      return deku.diff.diffNode(virtualStyles[index], styles[index]);
+        return deku.diff.diffNode(virtualStyles[index], styles[index]);
     });
     styleChanges.forEach(function(styleChange, index){
-      styleChange.reduce(deku.dom.update(dispatch, context), concreteStyles[index])
+        styleChange.reduce(deku.dom.update(dispatch, context), concreteStyles[index])
     });
     virtualDom = dom;
 }
 
 function checkGoals(goals, source, origin) {
-  // Check right now and also in one second, since our 1-second CSS transition might be affecting things until it is done.
-  doCheckGoals(goals, source, origin);
-  _.delay(function() { doCheckGoals(goals, source, origin); }, 1001);
+    // Check right now and also in one second, since our 1-second CSS transition might be affecting things until it is done.
+    doCheckGoals(goals, source, origin);
+    _.delay(function() { doCheckGoals(goals, source, origin); }, 1001);
 }
 
 function doCheckGoals(goals, source, origin) {
@@ -107,7 +106,7 @@ function doCheckGoals(goals, source, origin) {
     if (!_.isEqual(newGoalStates, goalStates)) {
         goalStates = newGoalStates;
         var overallStatus = overallSuccess ? 'success' : null;  // Can't really get to 'failure', just 'incomplete', which is represented by null here
-	source.postMessage({type: 'goals-updated', goalStates: goalStates, overallStatus: overallStatus}, origin);
+        source.postMessage({type: 'goals-updated', goalStates: goalStates, overallStatus: overallStatus}, origin);
     }
 }
 
