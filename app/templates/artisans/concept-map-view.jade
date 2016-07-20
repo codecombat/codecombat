@@ -1,0 +1,20 @@
+// DNT
+extends /templates/base
+
+block content
+  #solution-problems-view
+    div
+      a(href='/artisans')
+        span.glyphicon.glyphicon-chevron-left
+        span Artisans Home
+    br
+    table.table.table-striped#level-table
+      tr
+        th Level Name
+        th Concepts Detected
+      for level in (view.parsedLevels || [])
+        tr
+          td(style="width:10%")= level.level.get('name')
+          td
+            for tag in (level.tags || [])
+              span.label.label-primary(style='margin-right: 10px; float: left; line-height: 20px; margin-bottom: 10px')= tag
