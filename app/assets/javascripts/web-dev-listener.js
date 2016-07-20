@@ -2,8 +2,8 @@
 
 window.addEventListener('message', receiveMessage, false);
 
-var concreteDOM;
-var virtualDOM;
+var concreteDom;
+var virtualDom;
 var goalStates;
 
 var allowedOrigins = [
@@ -19,7 +19,7 @@ function receiveMessage(event) {
     var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
     var allowed = false;
     allowedOrigins.forEach(function(pattern) {
-	allowed = allowed || pattern.test(origin);
+    	allowed = allowed || pattern.test(origin);
     });
     if (!allowed) {
         console.log('Ignoring message from bad origin:', origin);
@@ -30,14 +30,14 @@ function receiveMessage(event) {
     var source = event.source;
     switch (data.type) {
     case 'create':
-        create(data.dom);
+        create(_.pick(data, 'dom', 'styles', 'scripts'));
         checkGoals(data.goals, source, origin);
         break;
     case 'update':
-        if (virtualDOM)
-            update(data.dom);
+        if (virtualDom)
+            update(_.pick(data, 'dom', 'styles', 'scripts'));
         else
-            create(data.dom);
+            create(_.pick(data, 'dom', 'styles', 'scripts'));
         checkGoals(data.goals, source, origin);
         break;
     case 'log':
@@ -48,20 +48,40 @@ function receiveMessage(event) {
     }
 }
 
-function create(dom) {
-    virtualDOM = dom;
-    concreteDOM = deku.dom.create(dom);
+function create({ dom, styles, scripts }) {
+    virtualDom = dom;
+    virtualStyles = styles;
+    virtualScripts = scripts;
+    concreteDom = deku.dom.create(dom);
+    concreteStyles = styles.map(function(style){return deku.dom.create(style)});
+    concreteScripts = scripts.map(function(script){return deku.dom.create(script)});
     // TODO: target the actual HTML tag and combine our initial structure for styles/scripts/tags with theirs
     // TODO: :after elements don't seem to work? (:before do)
-    $('body').empty().append(concreteDOM);
+    $('body').first().empty().append(concreteDom);
+    $('#player-styles').first().empty().append(concreteStyles);
+    $('#player-scripts').first().empty().append(concreteScripts);
 }
 
-function update(dom) {
+function update({ dom, styles, scripts }) {
     function dispatch() {}  // Might want to do something here in the future
     var context = {};  // Might want to use this to send shared state to every component
-    var changes = deku.diff.diffNode(virtualDOM, dom);
-    changes.reduce(deku.dom.update(dispatch, context), concreteDOM);  // Rerender
-    virtualDOM = dom;
+    var domChanges = deku.diff.diffNode(virtualDom, dom);
+    domChanges.reduce(deku.dom.update(dispatch, context), concreteDom);  // Rerender
+    
+    var scriptChanges = virtualScripts.map(function(virtualScript, index){
+      return deku.diff.diffNode(virtualScripts[index], scripts[index]);
+    });
+    scriptChanges.forEach(function(scriptChange, index){
+      scriptChange.reduce(deku.dom.update(dispatch, context), concreteStyles[index])
+    });
+    
+    var styleChanges = virtualStyles.map(function(virtualStyle, index){
+      return deku.diff.diffNode(virtualStyles[index], styles[index]);
+    });
+    styleChanges.forEach(function(styleChange, index){
+      styleChange.reduce(deku.dom.update(dispatch, context), concreteStyles[index])
+    });
+    virtualDom = dom;
 }
 
 function checkGoals(goals, source, origin) {

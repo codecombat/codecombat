@@ -31,18 +31,40 @@ module.exports = class WebSurfaceView extends CocoView
     body = _.find(dom, name: 'body') ? {name: 'body', attribs: null, children: dom}
     html = _.find(dom, name: 'html') ? {name: 'html', attribs: null, children: [body]}
     # TODO: pull out the actual scripts, styles, and body/elements they are doing so we can merge them with our initial structure on the other side
-    virtualDOM = @dekuify html
-    messageType = if e.create or not @virtualDOM then 'create' else 'update'
-    @iframe.contentWindow.postMessage {type: messageType, dom: virtualDOM, goals: @goals}, '*'
-    @virtualDOM = virtualDOM
+    { virtualDom, styles, scripts } = @extractStylesAndScripts(@dekuify html)
+    messageType = if e.create or not @virtualDom then 'create' else 'update'
+    @iframe.contentWindow.postMessage {type: messageType, dom: virtualDom, styles, scripts, goals: @goals}, '*'
+    @virtualDom = virtualDom
 
   dekuify: (elem) ->
     return elem.data if elem.type is 'text'
     return null if elem.type is 'comment'  # TODO: figure out how to make a comment in virtual dom
+    elem.attribs = _.omit elem.attribs, (val, attr) -> attr.indexOf('<') > -1 # Deku chokes on `<thing <p></p>`
     unless elem.name
       console.log("Failed to dekuify", elem)
       return elem.type
     deku.element(elem.name, elem.attribs, (@dekuify(c) for c in elem.children ? []))
+  
+  extractStylesAndScripts: (dekuTree) ->
+    #base case
+    if dekuTree.type is '#text'
+      return { virtualDom: dekuTree, styles: [], scripts: [] }
+    if dekuTree.type is 'style'
+      console.log 'Found a style: ', dekuTree
+      return { styles: [dekuTree], scripts: [] }
+    if dekuTree.type is 'script'
+      console.log 'Found a script: ', dekuTree
+      return { styles: [], scripts: [dekuTree] }
+    # recurse over children
+    childStyles = []
+    childScripts = []
+    dekuTree.children?.forEach (dekuChild, index) =>
+      { virtualDom, styles, scripts } = @extractStylesAndScripts(dekuChild)
+      dekuTree.children[index] = virtualDom
+      childStyles = childStyles.concat(styles)
+      childScripts = childScripts.concat(scripts)
+    dekuTree.children = _.filter dekuTree.children # Remove the nodes we extracted
+    return { virtualDom: dekuTree, scripts: childScripts, styles: childStyles }
 
   onIframeMessage: (event) =>
     origin = event.origin or event.originalEvent.origin
