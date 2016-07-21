@@ -6,10 +6,10 @@ $mapWidth: 2350
 $levelDotWidth: 2%
 $levelDotHeight: $levelDotWidth * $mapWidth / $mapHeight
 $levelDotZ: $levelDotHeight * 0.25
-$levelDotHoverZ: $levelDotZ * 2
+$levelDotHoverZ: $levelDotZ * 1.5
 $levelDotShadowWidth: 0.8 * $levelDotWidth
 $levelDotShadowHeight: 0.8 * $levelDotHeight
-$levelClickRadius: 40px
+$levelClickRadius: 20px
 $gameControlSize: 80px
 $gameControlMargin: 30px
 
@@ -105,7 +105,7 @@ $gameControlMargin: 30px
 
       .level-difficulty-banner-text
         position: absolute
-        bottom: 170%
+        bottom: 80%
         pointer-events: none
         color: rgb(246, 208, 2)
         text-shadow: 0px 1px 0px black
@@ -117,8 +117,7 @@ $gameControlMargin: 30px
       img.banner
         position: absolute
         bottom: 38%
-        left: -50%
-        width: 200%
+        width: 100%
         pointer-events: none
 
       img.star
