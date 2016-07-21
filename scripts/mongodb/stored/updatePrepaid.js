@@ -7,14 +7,14 @@
 // In mongo shell
 //
 // > db.loadServerScripts();
-// > updatePrepaid('<prepaid id string>', { endDate: "2017-07-01T00:00:00.000Z", maxRedeemers: 10 });
+// > updatePrepaid('<prepaid id string>', { endDate: "2017-07-01T00:00:00.000Z", maxRedeemers: 10, creator: '56141d0a7291607006ad8412' });
 
 var updatePrepaid = function updatePrepaid(stringID, originalUpdate) {
   try {
     load('./bower_components/lodash/dist/lodash.js')
   }
   catch (e) {
-    print('Lodash could not be loaded, ensure you are in codecombat project directory.')
+    print('Lodash could not be loaded, ensure you are in codecombat project directory.');
     return;
   }
   
@@ -33,9 +33,20 @@ var updatePrepaid = function updatePrepaid(stringID, originalUpdate) {
   }
 
   print('Found prepaid', JSON.stringify(_.omit(prepaid, 'redeemers'), null, '  '));
-  print('-- has', prepaid.redeemers.length, 'redeemers.');
+  print('-- has', _.size(prepaid.redeemers), 'redeemers.');
 
-  var prepaidUpdate = _.pick(originalUpdate, 'maxRedeemers', 'startDate', 'endDate' );
+  var prepaidUpdate = _.pick(originalUpdate, 'maxRedeemers', 'startDate', 'endDate', 'creator');
+  
+  if (_.isString(prepaidUpdate.creator)) {
+    try {
+      prepaidUpdate.creator = ObjectId(prepaidUpdate.creator);
+    }
+    catch (e) {
+      print('Invalid creator given:', stringID);
+      return;
+    }
+  }
+  
   if (_.isEmpty(prepaidUpdate)) {
     print('\nSkipping prepaid update, nothing to update.')
   }
