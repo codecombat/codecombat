@@ -60,11 +60,11 @@ const closeIoApiKey = process.argv[2];
 const closeIoMailApiKeys = [
   {
     apiKey: process.argv[3],
-    weight: .7
+    weight: .8
   },
   {
     apiKey: process.argv[4],
-    weight: .20
+    weight: .1
   },
   {
     apiKey: process.argv[5],
