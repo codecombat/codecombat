@@ -512,7 +512,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_life_and_polymorphism: "Открытый исходный код это как полоностью полиморфная гетерогенная структура: Все типы приветствуются."
     tip_mistakes_proof_of_trying: "Ошибка в коде подтвердила твои старания."
 #    tip_adding_orgres: "Rounding up ogres."
-#    tip_sharpening_swords: "Sharpening the swords."
+    tip_sharpening_swords: "Затачивая мечи."
 #    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
 #    tip_nemo: "When life gets you down, want to know what you've gotta do? Just keep swimming, just keep swimming. - Dory, Finding Nemo"
 #    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
