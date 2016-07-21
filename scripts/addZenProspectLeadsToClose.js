@@ -24,7 +24,6 @@ getZPContacts((err, emailContactMap) => {
   const tasks = [];
   for (const email in emailContactMap) {
     const contact = emailContactMap[email];
-    // if (contact.organization !== 'Cabarrus County Schools') continue;
     tasks.push(createUpsertCloseLeadFn(contact));
   }
   async.parallel(tasks, (err, results) => {
@@ -147,8 +146,10 @@ function getZPContactsPage(contacts, searchQuery, done) {
     if (err) return done(err);
     const data = JSON.parse(body);
     for (let contact of data.contacts) {
+      let organization = contact.organization_name;
+      if (contact.custom_fields && contact.custom_fields.school_name) organization = contact.custom_fields.school_name;
       contacts.push({
-        organization: contact.organization_name,
+        organization: organization,
         name: contact.name,
         title: contact.title,
         email: contact.email,
