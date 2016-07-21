@@ -489,7 +489,7 @@ module.exports = class PlayLevelView extends RootView
       return false if heapLimit < defaultHeapLimit
       return false if @loadDuration > 18000
     else
-      console.warn "Unwritten level type simulation heuristics; fill these in for new level type #{levelType}?"
+      console.warn "Unwritten level type simulation heuristics; fill these in for new level type #{@level.get('type')}?"
       return false if stillBuggy
       return false if cores < 8
       return false if heapLimit < defaultHeapLimit
