@@ -18,6 +18,7 @@ module.exports = class LevelChatView extends CocoView
   constructor: (options) ->
     @levelID = options.levelID
     @session = options.session
+    # TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     @listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
     @sessionID = options.sessionID
     @bus = LevelBus.get(@levelID, @sessionID)

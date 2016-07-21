@@ -1,5 +1,5 @@
 SpellView = require './SpellView'
-SpellListTabEntryView = require './SpellListTabEntryView'
+SpellTopBarView = require './SpellTopBarView'
 {me} = require 'core/auth'
 {createAetherOptions} = require 'lib/aether_utils'
 utils = require 'core/utils'
@@ -7,7 +7,7 @@ utils = require 'core/utils'
 module.exports = class Spell
   loaded: false
   view: null
-  entryView: null
+  topBarView: null
 
   constructor: (options) ->
     @spellKey = options.spellKey
@@ -20,8 +20,6 @@ module.exports = class Spell
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
-    @levelID = options.levelID
-    @levelType = options.level.get('type', true)
     @level = options.level
 
     p = options.programmableMethod
@@ -47,29 +45,40 @@ module.exports = class Spell
     if p.aiSource and not @otherSession and not @canWrite()
       @source = @originalSource = p.aiSource
       @isAISource = true
-    @thangs = {}
     if @canRead()  # We can avoid creating these views if we'll never use them.
-      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel}
+      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel, levelID: options.levelID}
       @view.render()  # Get it ready and code loaded in advance
-      @tabView = new SpellListTabEntryView
+      @topBarView = new SpellTopBarView
         hintsState: options.hintsState
         spell: @
         supermodel: @supermodel
         codeLanguage: @language
         level: options.level
-      @tabView.render()
+        session: options.session
+        courseID: options.courseID
+      @topBarView.render()
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 
   destroy: ->
     @view?.destroy()
-    @tabView?.destroy()
-    @thangs = null
+    @topBarView?.destroy()
+    @thang = null
     @worker = null
 
   setLanguage: (@language) ->
+    @language = 'html' if @level.isType('web-dev')
     #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
     @originalSource = @languages[@language] ? @languages.javascript
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
+
+    if @level.isType('web-dev')
+      # Pull apart the structural wrapper code and the player code, remember the wrapper code, and strip indentation on player code.
+      playerCode = @originalSource.match(/<playercode>\n([\s\S]*)\n *<\/playercode>/)[1]
+      playerCodeLines = playerCode.split('\n')
+      indentation = playerCodeLines[0].length - playerCodeLines[0].trim().length
+      playerCode = (line.substr(indentation) for line in playerCodeLines).join('\n')
+      @wrapperCode = @originalSource.replace /<playercode>[\s\S]*<\/playercode>/, '☃'  # ☃ serves as placeholder for constructHTML
+      @originalSource = playerCode
 
     # Translate comments chosen spoken language.
     return unless @commentContext
@@ -87,7 +96,7 @@ module.exports = class Spell
     catch e
       console.error "Couldn't create example code template of", @originalSource, "\nwith context", context, "\nError:", e
 
-    if /loop/.test(@originalSource) and @levelType in ['course', 'course-ladder']
+    if /loop/.test(@originalSource) and @level.isType('course', 'course-ladder')
       # Temporary hackery to make it look like we meant while True: in our sample code until we can update everything
       @originalSource = switch @language
         when 'python' then @originalSource.replace /loop:/, 'while True:'
@@ -95,6 +104,9 @@ module.exports = class Spell
         when 'lua' then @originalSource.replace /loop\n/, 'while true then\n'
         when 'coffeescript' then @originalSource
         else @originalSource
+
+  constructHTML: (source) ->
+    @wrapperCode.replace '☃', source
 
   addPicoCTFProblem: ->
     return @originalSource unless problem = @level.picoCTFProblem
@@ -105,13 +117,13 @@ module.exports = class Spell
     ("// #{line}" for line in description.split('\n')).join('\n') + '\n' + @originalSource
 
   addThang: (thang) ->
-    if @thangs[thang.id]
-      @thangs[thang.id].thang = thang
+    if @thang?.thang.id is thang.id
+      @thang.thang = thang
     else
-      @thangs[thang.id] = {thang: thang, aether: @createAether(thang), castAether: null}
+      @thang = {thang: thang, aether: @createAether(thang), castAether: null}
 
   removeThangID: (thangID) ->
-    delete @thangs[thangID]
+    @thang = null if @thang?.thang.id is thangID
 
   canRead: (team) ->
     (team ? me.team) in @permissions.read or (team ? me.team) in @permissions.readwrite
@@ -127,28 +139,16 @@ module.exports = class Spell
       @source = source
     else
       source = @getSource()
-    [pure, problems] = [null, null]
-    for thangID, spellThang of @thangs
-      unless pure
-        pure = spellThang.aether.transpile source
-        problems = spellThang.aether.problems
-        #console.log 'aether transpiled', source.length, 'to', spellThang.aether.pure.length, 'for', thangID, @spellKey
-      else
-        spellThang.aether.raw = source
-        spellThang.aether.pure = pure
-        spellThang.aether.problems = problems
-        #console.log 'aether reused transpilation for', thangID, @spellKey
+    unless @language is 'html'
+      @thang?.aether.transpile source
     null
 
   hasChanged: (newSource=null, currentSource=null) ->
     (newSource ? @originalSource) isnt (currentSource ? @source)
 
   hasChangedSignificantly: (newSource=null, currentSource=null, cb) ->
-    for thangID, spellThang of @thangs
-      aether = spellThang.aether
-      break
-    unless aether
-      console.error @toString(), 'couldn\'t find a spellThang with aether of', @thangs
+    unless aether = @thang?.aether
+      console.error @toString(), 'couldn\'t find a spellThang with aether', @thang
       cb false
     if @worker
       workerMessage =
@@ -169,9 +169,9 @@ module.exports = class Spell
 
   createAether: (thang) ->
     writable = @permissions.readwrite.length > 0 and not @isAISource
-    skipProtectAPI = @skipProtectAPI or not writable or @levelType in ['game-dev']
+    skipProtectAPI = @skipProtectAPI or not writable or @level.isType('game-dev')
     problemContext = @createProblemContext thang
-    includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']) and not skipProtectAPI
+    includeFlow = @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev') and not skipProtectAPI
     aetherOptions = createAetherOptions
       functionName: @name
       codeLanguage: @language
@@ -190,10 +190,9 @@ module.exports = class Spell
     aether
 
   updateLanguageAether: (@language) ->
-    for thangId, spellThang of @thangs
-      spellThang.aether?.setLanguage @language
-      spellThang.castAether = null
-      Backbone.Mediator.publish 'tome:spell-changed-language', spell: @, language: @language
+    @thang?.aether?.setLanguage @language
+    @thang?.castAether = null
+    Backbone.Mediator.publish 'tome:spell-changed-language', spell: @, language: @language
     if @worker
       workerMessage =
         function: 'updateLanguageAether'

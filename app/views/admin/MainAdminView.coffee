@@ -9,6 +9,7 @@ Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
+Courses = require 'collections/Courses'
 LevelSessions = require 'collections/LevelSessions'
 User = require 'models/User'
 Users = require 'collections/Users'
@@ -152,6 +153,7 @@ module.exports = class MainAdminView extends RootView
     $('.classroom-progress-csv').prop('disabled', true)
     classCode = $('.classroom-progress-class-code').val()
     classroom = null
+    courses = null
     courseLevels = []
     sessions = null
     users = null
@@ -161,12 +163,16 @@ module.exports = class MainAdminView extends RootView
       classroom = new Classroom({ _id: model.data._id })
       Promise.resolve(classroom.fetch())
     .then (model) =>
+      courses = new Courses()
+      Promise.resolve(courses.fetch())
+    .then (models) =>
       for course, index in classroom.get('courses')
         for level in course.levels
           courseLevels.push
             courseIndex: index + 1
             levelID: level.original
             slug: level.slug
+            courseSlug: courses.get(course._id).get('slug')
       users = new Users()
       Promise.resolve($.when(users.fetchForClassroom(classroom)...))
     .then (models) =>
@@ -202,12 +208,19 @@ module.exports = class MainAdminView extends RootView
 
       columnLabels = "Username"
       currentLevel = 1
+      courseLabelIndexes = CS: 1, GD: 0, WD: 0
       lastCourseIndex = 1
+      lastCourseLabel = 'CS1'
       for level in courseLevels
         unless level.courseIndex is lastCourseIndex
           currentLevel = 1
           lastCourseIndex = level.courseIndex
-        columnLabels += ",CS#{level.courseIndex}.#{currentLevel++} #{level.slug}"
+          acronym = switch
+            when /game-dev/.test(level.courseSlug) then 'GD'
+            when /web-dev/.test(level.courseSlug) then 'WD'
+            else 'CS'
+          lastCourseLabel = acronym + ++courseLabelIndexes[acronym]
+        columnLabels += ",#{lastCourseLabel}.#{currentLevel++} #{level.slug}"
       csvContent = "data:text/csv;charset=utf-8,#{columnLabels}\n"
       for studentRow in userPlaytimes
         csvContent += studentRow.join(',') + "\n"

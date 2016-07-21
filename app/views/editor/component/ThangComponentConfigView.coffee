@@ -46,7 +46,7 @@ module.exports = class ThangComponentConfigView extends CocoView
     schema.default ?= {}
     _.merge schema.default, @additionalDefaults if @additionalDefaults
 
-    if @level?.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
+    if @level?.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
       schema.required = []
     treemaOptions =
       supermodel: @supermodel

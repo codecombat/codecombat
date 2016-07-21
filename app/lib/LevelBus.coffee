@@ -41,7 +41,6 @@ module.exports = class LevelBus extends Bus
     @fireScriptsRef = @fireRef?.child('scripts')
 
   setSession: (@session) ->
-    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @timerIntervalID = setInterval(@incrementSessionPlaytime, 1000)
 
   onIdleChanged: (e) ->
@@ -53,8 +52,7 @@ module.exports = class LevelBus extends Bus
     @session.set('playtime', (@session.get('playtime') ? 0) + 1)
 
   onPoint: ->
-    return true unless @session?.get('multiplayer')
-    super()
+    return true
 
   onMeSynced: =>
     super()
@@ -236,17 +234,11 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.chat = true
     @saveSession()
 
-  onMultiplayerChanged: ->
-    @changedSessionProperties.multiplayer = true
-    @session.updatePermissions()
-    @changedSessionProperties.permissions = true
-    @saveSession()
-
   # Debounced as saveSession
   reallySaveSession: ->
     return if _.isEmpty @changedSessionProperties
     # don't let peeking admins mess with the session accidentally
-    return unless @session.get('multiplayer') or @session.get('creator') is me.id
+    return unless @session.get('creator') is me.id
     return if @session.fake
     Backbone.Mediator.publish 'level:session-will-save', session: @session
     patch = {}

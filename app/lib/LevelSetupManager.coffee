@@ -74,7 +74,7 @@ module.exports = class LevelSetupManager extends CocoClass
       @session.set 'heroConfig', {"thangType":raider,"inventory":{}}
       @onInventoryModalPlayClicked()
       return
-    if @level.get('type', true) in ['course', 'course-ladder'] or window.serverConfig.picoCTF
+    if @level.isType('course', 'course-ladder', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
       @onInventoryModalPlayClicked()
       return
     @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero})

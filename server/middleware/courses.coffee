@@ -57,4 +57,5 @@ module.exports =
     dbq = Model.find(query)
     dbq.select(parse.getProjectFromReq(req))
     results = yield database.viewSearch(dbq, req)
+    results = Course.sortCourses results
     res.send(results)

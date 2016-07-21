@@ -259,7 +259,7 @@ startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
 module.exports.filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'java', 'io'], currentLanguage
+  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'java', 'io', 'html'], currentLanguage
   # Exclude language-specific code blocks like ```python (... code ...)``` for each non-target language.
   codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
   # Exclude language-specific images like ![python - image description](image url) for each non-target language.
@@ -290,13 +290,15 @@ module.exports.filterMarkdownCodeLanguages = (text, language) ->
   return text
 
 module.exports.aceEditModes = aceEditModes =
-  'javascript': 'ace/mode/javascript'
-  'coffeescript': 'ace/mode/coffee'
-  'python': 'ace/mode/python'
-  'java': 'ace/mode/java'
-  'lua': 'ace/mode/lua'
-  'java': 'ace/mode/java'
+  javascript: 'ace/mode/javascript'
+  coffeescript: 'ace/mode/coffee'
+  python: 'ace/mode/python'
+  lua: 'ace/mode/lua'
+  java: 'ace/mode/java'
+  html: 'ace/mode/html'
 
+# These ACEs are used for displaying code snippets statically, like in SpellPaletteEntryView popovers
+# and have short lifespans
 module.exports.initializeACE = (el, codeLanguage) ->
   contents = $(el).text().trim()
   editor = ace.edit el

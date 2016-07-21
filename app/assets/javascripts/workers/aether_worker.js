@@ -19,6 +19,7 @@ var languagesImported = {};
 
 var ensureLanguageImported = function(language) {
   if (languagesImported[language]) return;
+  if (language === 'html') return;
   importScripts("/javascripts/app/vendor/aether-" + language + ".js");
   languagesImported[language] = true;
 };

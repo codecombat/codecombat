@@ -2,6 +2,7 @@ CocoModel = require 'models/CocoModel'
 CocoCollection = require 'collections/CocoCollection'
 {me} = require('core/auth')
 locale = require 'locale/locale'
+utils = require 'core/utils'
 
 initializeFilePicker = ->
   require('core/services/filepicker')() unless window.application.isIPadApp
@@ -234,21 +235,14 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
     @refreshDisplay()
 
 
-codeLanguages =
-  javascript: 'ace/mode/javascript'
-  coffeescript: 'ace/mode/coffee'
-  python: 'ace/mode/python'
-  lua: 'ace/mode/lua'
-  java: 'ace/mode/java'
-
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
-    (key for key in _.keys(codeLanguages) when not @data[key]? and not (key is 'javascript' and @workingSchema.skipJavaScript))
+    (key for key in _.keys(utils.aceEditModes) when not @data[key]? and not (key is 'javascript' and @workingSchema.skipJavaScript))
 
 class CodeLanguageTreema extends TreemaNode.nodeMap.string
   buildValueForEditing: (valEl, data) ->
     super(valEl, data)
-    valEl.find('input').autocomplete(source: _.keys(codeLanguages), minLength: 0, delay: 0, autoFocus: true)
+    valEl.find('input').autocomplete(source: _.keys(utils.aceEditModes), minLength: 0, delay: 0, autoFocus: true)
     valEl
 
 class CodeTreema extends TreemaNode.nodeMap.ace
@@ -256,8 +250,8 @@ class CodeTreema extends TreemaNode.nodeMap.ace
     super(arguments...)
     @workingSchema.aceTabSize = 4
     # TODO: Find a less hacky solution for this
-    @workingSchema.aceMode = mode if mode = codeLanguages[@keyForParent]
-    @workingSchema.aceMode = mode if mode = codeLanguages[@parent?.data?.language]
+    @workingSchema.aceMode = mode if mode = utils.aceEditModes[@keyForParent]
+    @workingSchema.aceMode = mode if mode = utils.aceEditModes[@parent?.data?.language]
 
 class CoffeeTreema extends CodeTreema
   constructor: ->
