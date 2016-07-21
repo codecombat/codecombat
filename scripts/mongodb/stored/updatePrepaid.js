@@ -32,15 +32,15 @@ var updatePrepaid = function updatePrepaid(stringID, originalUpdate) {
     return;
   }
 
-  print('Found prepaid', _.omit(prepaid, 'redeemers'));
-  print('Has', prepaid.redeemers.length, 'redeemers.');
+  print('Found prepaid', JSON.stringify(_.omit(prepaid, 'redeemers'), null, '  '));
+  print('-- has', prepaid.redeemers.length, 'redeemers.');
 
   var prepaidUpdate = _.pick(originalUpdate, 'maxRedeemers', 'startDate', 'endDate' );
   if (_.isEmpty(prepaidUpdate)) {
-    print('Skipping prepaid update, nothing to update.')
+    print('\nSkipping prepaid update, nothing to update.')
   }
   else {
-    print('Update prepaid',
+    print('\nUpdate prepaid',
       JSON.stringify(prepaidUpdate, null, '  '),
       db.prepaids.update(
         {_id: id},
@@ -51,10 +51,10 @@ var updatePrepaid = function updatePrepaid(stringID, originalUpdate) {
   
   var userUpdate = _.pick(originalUpdate, 'startDate', 'endDate' );
   if (_.isEmpty(userUpdate)) {
-    print('Skipping user update, nothing to update.')
+    print('\nSkipping user update, nothing to update.')
   }
   else {
-    print('Update users', 
+    print('\nUpdate users', 
       JSON.stringify(userUpdate, null, '  '), 
       db.users.update(
         {'coursePrepaid._id': id},
