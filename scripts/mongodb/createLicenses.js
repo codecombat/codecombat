@@ -22,6 +22,7 @@ var createLicenses = function updatePrepaid(userStringID) {
   }
 
   db.prepaids.save({
+    redeemers: [],
     maxRedeemers: 100,
     startDate: "2000-01-01T00:00:00.000Z",
     endDate: "3000-01-01T00:00:00.000Z",
