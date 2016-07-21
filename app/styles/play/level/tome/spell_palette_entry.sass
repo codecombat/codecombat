@@ -54,6 +54,7 @@ body:not(.dialogue-view-active)
 
 .spell-palette-popover.popover
   // Only those popovers which are our direct children (spell documentation)
+  left: auto !important
   max-width: 600px
   padding: 0
   border-style: solid
@@ -81,7 +82,6 @@ body:not(.dialogue-view-active)
     @include animation(jiggle .3s infinite)
 
   &.pinned
-    left: auto !important
     top: 50px !important
     right: 45%
     // bottom: 151px
