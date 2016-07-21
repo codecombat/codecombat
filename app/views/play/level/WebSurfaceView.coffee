@@ -46,25 +46,40 @@ module.exports = class WebSurfaceView extends CocoView
     deku.element(elem.name, elem.attribs, (@dekuify(c) for c in elem.children ? []))
   
   extractStylesAndScripts: (dekuTree) ->
-    #base case
-    if dekuTree.type is '#text'
-      return { virtualDom: dekuTree, styles: [], scripts: [] }
-    if dekuTree.type is 'style'
-      console.log 'Found a style: ', dekuTree
-      return { styles: [dekuTree], scripts: [] }
-    if dekuTree.type is 'script'
-      console.log 'Found a script: ', dekuTree
-      return { styles: [], scripts: [dekuTree] }
-    # recurse over children
-    childStyles = []
-    childScripts = []
-    dekuTree.children?.forEach (dekuChild, index) =>
-      { virtualDom, styles, scripts } = @extractStylesAndScripts(dekuChild)
-      dekuTree.children[index] = virtualDom
-      childStyles = childStyles.concat(styles)
-      childScripts = childScripts.concat(scripts)
-    dekuTree.children = _.filter dekuTree.children # Remove the nodes we extracted
-    return { virtualDom: dekuTree, scripts: childScripts, styles: childStyles }
+    recurse = (dekuTree) ->
+      #base case
+      if dekuTree.type is '#text'
+        return { virtualDom: dekuTree, styles: [], scripts: [] }
+      if dekuTree.type is 'style'
+        console.log 'Found a style: ', dekuTree
+        return { styles: [dekuTree], scripts: [] }
+      if dekuTree.type is 'script'
+        console.log 'Found a script: ', dekuTree
+        return { styles: [], scripts: [dekuTree] }
+      # recurse over children
+      childStyles = []
+      childScripts = []
+      dekuTree.children?.forEach (dekuChild, index) =>
+        { virtualDom, styles, scripts } = recurse(dekuChild)
+        dekuTree.children[index] = virtualDom
+        childStyles = childStyles.concat(styles)
+        childScripts = childScripts.concat(scripts)
+      dekuTree.children = _.filter dekuTree.children # Remove the nodes we extracted
+      return { virtualDom: dekuTree, scripts: childScripts, styles: childStyles }
+    
+    { virtualDom, scripts, styles } = recurse(dekuTree)
+    combinedScripts = @combineNodes('script', scripts)
+    combinedStyles = @combineNodes('style', styles)
+    return { virtualDom, scripts: combinedScripts, styles: combinedStyles }
+    
+  combineNodes: (type, nodes) ->
+    if _.any(nodes, (node) -> node.type isnt type)
+      throw new Error("Can't combine nodes of different types. (Got #{nodes.map (n) -> n.type})")
+    children = nodes.map((n) -> n.children).reduce(((a,b) -> a.concat(b)), [])
+    if _.isEmpty(children)
+      deku.element(type, {})
+    else
+      deku.element(type, {}, children)
 
   onIframeMessage: (event) =>
     origin = event.origin or event.originalEvent.origin

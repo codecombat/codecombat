@@ -52,8 +52,8 @@ function create({ dom, styles, scripts }) {
     virtualStyles = styles;
     virtualScripts = scripts;
     concreteDom = deku.dom.create(dom);
-    concreteStyles = styles.map(function(style){return deku.dom.create(style)});
-    concreteScripts = scripts.map(function(script){return deku.dom.create(script)});
+    concreteStyles = deku.dom.create(styles);
+    concreteScripts = deku.dom.create(scripts);
     // TODO: target the actual HTML tag and combine our initial structure for styles/scripts/tags with theirs
     // TODO: :after elements don't seem to work? (:before do)
     $('body').first().empty().append(concreteDom);
@@ -64,23 +64,19 @@ function create({ dom, styles, scripts }) {
 function update({ dom, styles, scripts }) {
     function dispatch() {}  // Might want to do something here in the future
     var context = {};  // Might want to use this to send shared state to every component
+
     var domChanges = deku.diff.diffNode(virtualDom, dom);
     domChanges.reduce(deku.dom.update(dispatch, context), concreteDom);  // Rerender
-    
-    var scriptChanges = virtualScripts.map(function(virtualScript, index){
-        return deku.diff.diffNode(virtualScripts[index], scripts[index]);
-    });
-    scriptChanges.forEach(function(scriptChange, index){
-        scriptChange.reduce(deku.dom.update(dispatch, context), concreteStyles[index])
-    });
-    
-    var styleChanges = virtualStyles.map(function(virtualStyle, index){
-        return deku.diff.diffNode(virtualStyles[index], styles[index]);
-    });
-    styleChanges.forEach(function(styleChange, index){
-        styleChange.reduce(deku.dom.update(dispatch, context), concreteStyles[index])
-    });
+
+    var scriptChanges = deku.diff.diffNode(virtualScripts, scripts);
+    scriptChanges.reduce(deku.dom.update(dispatch, context), concreteScripts);  // Rerender
+
+    var styleChanges = deku.diff.diffNode(virtualStyles, styles);
+    styleChanges.reduce(deku.dom.update(dispatch, context), concreteStyles);  // Rerender
+
     virtualDom = dom;
+    virtualStyles = styles;
+    virtualScripts = scripts;
 }
 
 function checkGoals(goals, source, origin) {
