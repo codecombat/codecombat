@@ -126,13 +126,13 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'legal': go('LegalView')
 
-    'multiplayer': go('MultiplayerView')
-
     'play(/)': go('play/CampaignView') # extra slash is to get Facebook app to work
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
+    'play/game-dev-level/:levelID/:sessionID': go('play/level/PlayGameDevLevelView')
+    'play/web-dev-level/:levelID/:sessionID': go('play/level/PlayWebDevLevelView')
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView')
 
@@ -193,7 +193,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @listenToOnce application.moduleLoader, 'load-complete', ->
         @routeDirectly(path, args, options)
       return
-    return @openView @notFoundView() if not ViewClass
+    return go('NotFoundView') if not ViewClass
     view = new ViewClass(options, args...)  # options, then any path fragment args
     view.render()
     @openView(view)

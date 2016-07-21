@@ -318,7 +318,7 @@
     write_this_down: "Write this down:"
     start_playing: "Start Playing!"
     sso_connected: "Successfully connected with:"
-    
+
   recover:
     recover_account_title: "Recover Account"
     send_password: "Send Recovery Password"
@@ -450,8 +450,6 @@
     incomplete: "Incomplete"
     timed_out: "Ran out of time"
     failing: "Failing"
-    control_bar_multiplayer: "Multiplayer"
-    control_bar_join_game: "Join Game"
     reload: "Reload"
     reload_title: "Reload All Code?"
     reload_really: "Are you sure you want to reload this level back to the beginning?"
@@ -480,10 +478,7 @@
     tome_cast_button_running: "Running"
     tome_cast_button_ran: "Ran"
     tome_submit_button: "Submit"
-    tome_reload_method: "Reload original code for this method"  # Title text for individual method reload button.
-    tome_select_method: "Select a Method"
-    tome_see_all_methods: "See all methods you can edit"  # Title text for method list selector (shown when there are multiple programmable methods).
-    tome_select_a_thang: "Select Someone for "
+    tome_reload_method: "Reload original code to restart the level" # {change}
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
     tome_current_method: "Current Method"
@@ -1478,6 +1473,29 @@
     status_not_enrolled: "Not Enrolled"
     status_enrolled: "Expires on {{date}}"
     select_all: "Select All"
+    projects: "Projects"
+
+  sharing:
+    game: "Game"
+    webpage: "Webpage"
+    share_game: "Share This Game"
+    share_web: "Share This Webpage"
+    victory_share_prefix: "Share this link to invite your friends & family to"
+    victory_share_game: "play your game level"
+    victory_share_web: "view your webpage"
+    victory_share_suffix: "."
+    victory_course_share_prefix: "This link will let your friends & family"
+    victory_course_share_game: "play the game"
+    victory_course_share_web: "view the webpage"
+    victory_course_share_suffix: "you just created."
+    copy_url: "Copy URL"
+
+  game_dev:
+    creator: "Creator"
+
+  web_dev:
+    image_gallery_title: "Image Gallery"
+    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
 
   classes:
     archmage_title: "Archmage"
@@ -1880,6 +1898,17 @@
     vectors: "Vectors"
     while_loops: "While Loops"
     recursion: "Recursion"
+    basic_html: "Basic HTML"  # TODO: these web-dev concepts will change, don't need to translate
+    basic_css: "Basic CSS"
+    basic_web_scripting: "Basic Web Scripting"
+    intermediate_html: "Intermediate HTML"
+    intermediate_css: "Intermediate CSS"
+    intermediate_web_scripting: "Intermediate Web Scripting"
+    advanced_html: "Advanced HTML"
+    advanced_css: "Advanced CSS"
+    advanced_web_scripting: "Advanced Web Scripting"
+    jquery: "jQuery"
+    bootstrap: "Bootstrap"
 
   delta:
     added: "Added"
@@ -1890,16 +1919,6 @@
     text_diff: "Text Diff"
     merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "No Changes"
-
-  multiplayer:
-    multiplayer_title: "Multiplayer Settings"  # We'll be changing this around significantly soon. Until then, it's not important to translate.
-    multiplayer_toggle: "Enable multiplayer"
-    multiplayer_toggle_description: "Allow others to join your game."
-    multiplayer_link_description: "Give this link to anyone to have them join you."
-    multiplayer_hint_label: "Hint:"
-    multiplayer_hint: " Click the link to select all, then press ⌘-C or Ctrl-C to copy the link."
-    multiplayer_coming_soon: "More multiplayer features to come!"
-    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
   legal:
     page_title: "Legal"

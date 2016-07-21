@@ -115,7 +115,7 @@ exports.config =
         'javascripts/app/vendor/aether-lua.js': 'bower_components/aether/build/lua.js'
         'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
         'javascripts/app/vendor/aether-python.js': 'bower_components/aether/build/python.js'
-        'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
+        'javascripts/app/vendor/aether-html.js': 'bower_components/aether/build/html.js'
 
         # Any vendor libraries we don't want the client to load immediately
         'javascripts/app/vendor/d3.js': regJoin('^bower_components/d3')

@@ -37,6 +37,7 @@ require 'vendor/aether-python'
 require 'vendor/aether-coffeescript'
 require 'vendor/aether-lua'
 require 'vendor/aether-java'
+require 'vendor/aether-html'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'

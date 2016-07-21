@@ -1,0 +1,38 @@
+.container-fluid
+  .row
+    .col-xs-9
+      #canvas-wrapper
+        canvas(width=924, height=589)#webgl-surface
+        canvas(width=924, height=589)#normal-surface
+        
+    .col-xs-3#info-col.style-flat
+      if view.state.get('errorMessage')
+        .alert.alert-danger= view.state.get('errorMessage')
+        
+      else if view.state.get('loading')
+        h1.m-y-1(data-i18n="common.loading")
+        .progress
+          .progress-bar(style="width: #{view.state.get('progress')}")
+        
+      else
+        h1.m-y-1 Info
+        ul
+          li
+            b
+              span(data-i18n="play_level.level")
+              span= ': '
+            | #{view.level.get('name')}
+            
+          li
+            b
+              span(data-i18n="game_dev.creator")
+              span= ': '
+            | #{view.session.get('creatorName')}
+        
+        - var playing = view.state.get('playing')
+        .m-y-3
+          if playing
+            button#play-btn.btn.btn-lg.btn-burgandy(data-i18n="play_level.restart")
+          else
+            button#play-btn.btn.btn-lg.btn-navy(data-i18n="common.play")
+        

@@ -195,6 +195,17 @@ module.exports =
     _.assign(progressData, progressMixin)
     return progressData
   
+  courseLabelsArray: (courses) ->
+    labels = []
+    courseLabelIndexes = CS: 0, GD: 0, WD: 0
+    for course in courses
+      acronym = switch
+        when /game-dev/.test(course.get('slug')) then 'GD'
+        when /web-dev/.test(course.get('slug')) then 'WD'
+        else 'CS'
+      labels.push acronym + ++courseLabelIndexes[acronym]
+    labels
+
 progressMixin =
   get: (options={}) ->
     { classroom, course, level, user } = options

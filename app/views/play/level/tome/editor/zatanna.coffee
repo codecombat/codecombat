@@ -1,6 +1,6 @@
 utils = require 'core/utils'
 
-defaults = 
+defaults =
   autoLineEndings:
     # Mapping ace mode language to line endings to automatically insert
     # E.g. javascript: ";"
@@ -69,7 +69,7 @@ module.exports = class Zatanna
       @editor.commands.on 'afterExec', @doLiveCompletion
 
   setAceOptions: () ->
-    aceOptions = 
+    aceOptions =
       'enableLiveAutocompletion': @options.liveCompletion
       'enableBasicAutocompletion': @options.basic
       'enableSnippets': @options.completers.snippets
@@ -92,20 +92,20 @@ module.exports = class Zatanna
     else if typeof comp is 'string'
       if @completers[comp]? and @editor.completers[@completers[comp].pos] isnt @completers[comp].comp
         @editor.completers.splice(@completers[comp].pos, 0, @completers[comp].comp)
-    else 
+    else
       @editor.completers = []
       for type, comparator of @completers
         if @options.completers[type] is true
-          @activateCompleter type 
+          @activateCompleter type
 
   addSnippets: (snippets, language) ->
     @options.language = language
     ace.config.loadModule 'ace/ext/language_tools', () =>
       @snippetManager = ace.require('ace/snippets').snippetManager
       snippetModulePath = 'ace/snippets/' + language
-      ace.config.loadModule snippetModulePath, (m) => 
+      ace.config.loadModule snippetModulePath, (m) =>
         if m?
-          @snippetManager.files[language] = m 
+          @snippetManager.files[language] = m
           @snippetManager.unregister m.snippets if m.snippets?.length > 0
           @snippetManager.unregister @oldSnippets if @oldSnippets?
           m.snippets = if @options.snippetsLangDefaults then @snippetManager.parseSnippetFile m.snippetText else []
@@ -265,7 +265,7 @@ module.exports = class Zatanna
               when 'python' then 'loop:\n    self.moveRight()\n    ${1:}'
               when 'javascript' then 'loop {\n    this.moveRight();\n    ${1:}\n}'
               else content
-          if /loop/.test(content) and level.get('type') in ['course', 'course-ladder']
+          if /loop/.test(content) and level.isType('course', 'course-ladder')
             # Temporary hackery to make it look like we meant while True: in our loop snippets until we can update everything
             content = switch e.language
               when 'python' then content.replace /loop:/, 'while True:'

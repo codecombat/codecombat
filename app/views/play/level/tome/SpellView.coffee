@@ -21,6 +21,7 @@ module.exports = class SpellView extends CocoView
   controlsEnabled: true
   eventsSuppressed: true
   writable: true
+  languagesThatUseWorkers: ['html']
 
   keyBindings:
     'default': null
@@ -61,7 +62,6 @@ module.exports = class SpellView extends CocoView
     @supermodel = options.supermodel
     @worker = options.worker
     @session = options.session
-    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @spell = options.spell
     @problems = []
     @savedProblems = {} # Cache saved user code problems to prevent duplicates
@@ -77,12 +77,9 @@ module.exports = class SpellView extends CocoView
     @fillACE()
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
-    if @session.get('multiplayer')
-      @createFirepad()
-    else
-      # needs to happen after the code generating this view is complete
-      _.defer @onAllLoaded
+    _.defer @onAllLoaded  # Needs to happen after the code generating this view is complete
 
+  # This ACE is used for the code editor, and is only instantiated once per level.
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
     aceConfig = me.get('aceConfig') ? {}
@@ -90,7 +87,7 @@ module.exports = class SpellView extends CocoView
     @ace = ace.edit @$el.find('.ace')[0]
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
-    @aceSession.setUseWorker false
+    @aceSession.setUseWorker @spell.language in @languagesThatUseWorkers
     @aceSession.setMode utils.aceEditModes[@spell.language]
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
@@ -231,7 +228,7 @@ module.exports = class SpellView extends CocoView
         disableSpaces = @options.level.get('disableSpaces') or false
         aceConfig = me.get('aceConfig') ? {}
         disableSpaces = false if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Not in vim/emacs mode
-        disableSpaces = false if @spell.language in ['lua', 'java', 'coffeescript']  # Don't disable for more advanced/experimental languages
+        disableSpaces = false if @spell.language in ['lua', 'java', 'coffeescript', 'html']  # Don't disable for more advanced/experimental languages
         if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.level())
           return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
@@ -402,7 +399,6 @@ module.exports = class SpellView extends CocoView
         wrapper => orig.apply obj, args
       obj[method]
 
-
     finishRange = (row, startRow, startColumn) =>
       range = new Range startRow, startColumn, row, @aceSession.getLine(row).length - 1
       range.start = @aceDoc.createAnchor range.start
@@ -476,6 +472,7 @@ module.exports = class SpellView extends CocoView
     # TODO: Turn on more autocompletion based on level sophistication
     # TODO: E.g. using the language default snippets yields a bunch of crazy non-beginner suggestions
     # TODO: Options logic shouldn't exist both here and in updateAutocomplete()
+    return if @spell.language is 'html'
     popupFontSizePx = @options.level.get('autocompleteFontSizePx') ? 16
     @zatanna = new Zatanna @ace,
       basic: false
@@ -502,8 +499,6 @@ module.exports = class SpellView extends CocoView
     return unless @zatanna and @autocomplete
     @zatanna.addCodeCombatSnippets @options.level, @, e
 
-    
-
   translateFindNearest: ->
     # If they have advanced glasses but are playing a level which assumes earlier glasses, we'll adjust the sample code to use the more advanced APIs instead.
     oldSource = @getSource()
@@ -514,14 +509,9 @@ module.exports = class SpellView extends CocoView
     @updateACEText newSource
     _.delay (=> @recompile?()), 1000
 
-  onMultiplayerChanged: ->
-    if @session.get('multiplayer')
-      @createFirepad()
-    else
-      @firepad?.dispose()
-
   createFirepad: ->
-    # load from firebase or the original source if there's nothing there
+    # Currently not called; could be brought back for future multiplayer modes.
+    # Load from firebase or the original source if there's nothing there.
     return if @firepadLoading
     @eventsSuppressed = true
     @loaded = false
@@ -532,19 +522,18 @@ module.exports = class SpellView extends CocoView
     @fireRef = new Firebase fireURL
     firepadOptions = userId: me.id
     @firepad = Firepad.fromACE @fireRef, @ace, firepadOptions
-    @firepad.on 'ready', @onFirepadLoaded
     @firepadLoading = true
-
-  onFirepadLoaded: =>
-    @firepadLoading = false
-    firepadSource = @ace.getValue()
-    if firepadSource
-      @spell.source = firepadSource
-    else
-      @ace.setValue @previousSource
-      @aceSession.setUndoManager(new UndoManager())
-      @ace.clearSelection()
-    @onAllLoaded()
+    @firepad.on 'ready', =>
+      return if @destroyed
+      @firepadLoading = false
+      firepadSource = @ace.getValue()
+      if firepadSource
+        @spell.source = firepadSource
+      else
+        @ace.setValue @previousSource
+        @aceSession.setUndoManager(new UndoManager())
+        @ace.clearSelection()
+      @onAllLoaded()
 
   onAllLoaded: =>
     @spell.transpile @spell.source
@@ -552,9 +541,10 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
     @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
     @createToolbarView()
+    @updateHTML create: true if @options.level.isType('web-dev')
 
   createDebugView: ->
-    return if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']  # We'll turn this on later, maybe, but not yet.
+    return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 
@@ -573,7 +563,7 @@ module.exports = class SpellView extends CocoView
     @saveSpade()
 
   getSource: ->
-    @ace.getValue()  # could also do @firepad.getText()
+    @ace.getValue()
 
   setThang: (thang) ->
     @focus()
@@ -581,7 +571,7 @@ module.exports = class SpellView extends CocoView
     @updateLines()
     return if thang.id is @thang?.id
     @thang = thang
-    @spellThang = @spell.thangs[@thang.id]
+    @spellThang = @spell.thang
     @createDebugView() unless @debugView
     @debugView?.thang = @thang
     @createTranslationView() unless @translationView
@@ -624,11 +614,11 @@ module.exports = class SpellView extends CocoView
       lineHeight = @ace.renderer.lineHeight or 20
       tomeHeight = $('#tome-view').innerHeight()
       spellPaletteView = $('#spell-palette-view')
-      spellListTabEntryHeight = $('#spell-list-tab-entry-view').outerHeight()
+      spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
       spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
       @spellPaletteHeight ?= spellPaletteView.outerHeight()  # Remember this until resize, since we change it afterward
       spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
-      maxHeight = tomeHeight - spellListTabEntryHeight - spellToolbarHeight - spellPaletteAllowedHeight
+      maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
       lines = Math.max 8, Math.min(screenLineCount + 2, linesAtMaxHeight)
       # 2 lines buffer is nice
@@ -675,6 +665,7 @@ module.exports = class SpellView extends CocoView
     cast = @$el.parent().length
     @recompile cast, e.realTime
     @focus() if cast
+    @updateHTML create: true if @options.level.isType('web-dev')
 
   onCodeReload: (e) ->
     return unless e.spell is @spell or not e.spell
@@ -725,6 +716,8 @@ module.exports = class SpellView extends CocoView
     ]
     onSignificantChange.push _.debounce @checkRequiredCode, 750 if @options.level.get 'requiredCode'
     onSignificantChange.push _.debounce @checkSuspectCode, 750 if @options.level.get 'suspectCode'
+    onAnyChange.push _.throttle @updateHTML, 10 if @options.level.isType('web-dev')
+
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
       #@playSound 'code-change', volume: 0.5  # Currently not using this sound.
@@ -736,6 +729,9 @@ module.exports = class SpellView extends CocoView
     @aceDoc.on 'change', @onCodeChangeMetaHandler
 
   onCursorActivity: =>  # Used to refresh autocast delay; doesn't do anything at the moment.
+
+  updateHTML: (options={}) =>
+    Backbone.Mediator.publish 'tome:html-updated', html: @spell.constructHTML(@getSource()), create: Boolean(options.create)
 
   # Design for a simpler system?
   # * Keep Aether linting, debounced, on any significant change
@@ -795,10 +791,12 @@ module.exports = class SpellView extends CocoView
       else
         finishUpdatingAether(aether)
 
+  # Clear annotations and highlights generated by Aether, but not by the ACE worker
   clearAetherDisplay: ->
     problem.destroy() for problem in @problems
     @problems = []
-    @aceSession.setAnnotations []
+    nonAetherAnnotations = _.reject @aceSession.getAnnotations(), (annotation) -> annotation.createdBy is 'aether'
+    @aceSession.setAnnotations nonAetherAnnotations
     @highlightCurrentLine {}  # This'll remove all highlights
 
   displayAether: (aether, isCast=false) ->
@@ -806,12 +804,12 @@ module.exports = class SpellView extends CocoView
     isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.getAllProblems(), {type: 'runtime'}
     problem.destroy() for problem in @problems  # Just in case another problem was added since clearAetherDisplay() ran.
     @problems = []
-    annotations = []
+    annotations = @aceSession.getAnnotations()
     seenProblemKeys = {}
     for aetherProblem, problemIndex in aether.getAllProblems()
       continue if key = aetherProblem.userInfo?.key and key of seenProblemKeys
       seenProblemKeys[key] = true if key
-      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast, @spell.levelID
+      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast, @options.levelID
       if isCast and problemIndex is 0
         if problem.aetherProblem.range?
           lineOffsetPx = 0
@@ -859,7 +857,7 @@ module.exports = class SpellView extends CocoView
     @userCodeProblem.set 'errRange', aetherProblem.range if aetherProblem.range
     @userCodeProblem.set 'errType', aetherProblem.type if aetherProblem.type
     @userCodeProblem.set 'language', aether.language.id if aether.language?.id
-    @userCodeProblem.set 'levelID', @spell.levelID if @spell.levelID
+    @userCodeProblem.set 'levelID', @options.levelID if @options.levelID
     @userCodeProblem.save()
     null
 
@@ -907,16 +905,14 @@ module.exports = class SpellView extends CocoView
     return if @spell.source.indexOf('while') isnt -1  # If they're working with while-loops, it's more likely to be an incomplete infinite loop, so don't preload.
     return if @spell.source.length > 500  # Only preload on really short methods
     return if @spellThang?.castAether?.metrics?.statementsExecuted > 2000  # Don't preload if they are running significant amounts of user code
+    return if @options.level.isType('web-dev')
     oldSource = @spell.source
-    oldSpellThangAethers = {}
-    for thangID, spellThang of @spell.thangs
-      oldSpellThangAethers[thangID] = spellThang.aether.serialize()  # Get raw, pure, and problems
+    oldSpellThangAether = @spell.thang?.aether.serialize()
     @spell.transpile @getSource()
     @cast true
     @spell.source = oldSource
-    for thangID, spellThang of @spell.thangs
-      for key, value of oldSpellThangAethers[thangID]
-        spellThang.aether[key] = value
+    for key, value of oldSpellThangAether
+      @spell.thang.aether[key] = value
 
   onSpellChanged: (e) ->
     @spellHasChanged = true
@@ -933,10 +929,10 @@ module.exports = class SpellView extends CocoView
     return unless e.god is @options.god
     return @onInfiniteLoop e if e.problem.id is 'runtime_InfiniteLoop'
     return unless e.problem.userInfo.methodName is @spell.name
-    return unless spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
+    return unless @spell.thang?.thang.id is e.problem.userInfo.thangID
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
       return if hasChanged
-      spellThang.aether.addProblem e.problem
+      @spell.thang.aether.addProblem e.problem
       @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
       @updateAether false, false
 
@@ -957,13 +953,14 @@ module.exports = class SpellView extends CocoView
     @updateAether false, false
 
   onNewWorld: (e) ->
-    @spell.removeThangID thangID for thangID of @spell.thangs when not e.world.getThangByID thangID
-    for thangID, spellThang of @spell.thangs
-      thang = e.world.getThangByID(thangID)
-      aether = e.world.userCodeMap[thangID]?[@spell.name]  # Might not be there if this is a new Programmable Thang.
-      spellThang.castAether = aether
-      spellThang.aether = @spell.createAether thang
-    #console.log thangID, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
+    if thang = e.world.getThangByID @spell.thang?.thang.id
+      aether = e.world.userCodeMap[thang.id]?[@spell.name]
+      @spell.thang.castAether = aether
+      @spell.thang.aether = @spell.createAether thang
+      #console.log thang.id, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
+    else
+      @spell.thang = null
+
     @spell.transpile()  # TODO: is there any way we can avoid doing this if it hasn't changed? Causes a slight hang.
     @updateAether false, false
 
@@ -990,8 +987,6 @@ module.exports = class SpellView extends CocoView
       @ace.insert "{x=#{e.x}, y=#{e.y}}"
     else
       @ace.insert "{x: #{e.x}, y: #{e.y}}"
-
-
     @highlightCurrentLine()
 
   onStatementIndexUpdated: (e) ->
@@ -1156,7 +1151,7 @@ module.exports = class SpellView extends CocoView
 
   toggleBackground: =>
     # TODO: make the background an actual background and do the CSS trick
-    # used in spell_list_entry.sass for disabling
+    # used in spell-top-bar-view.sass for disabling
     background = @$el.find('img.code-background')[0]
     if background.naturalWidth is 0  # not loaded yet
       return _.delay @toggleBackground, 100
@@ -1260,7 +1255,7 @@ module.exports = class SpellView extends CocoView
     @debugView?.destroy()
     @translationView?.destroy()
     @toolbarView?.destroy()
-    @zatanna.addSnippets [], @editorLang if @editorLang?
+    @zatanna?.addSnippets [], @editorLang if @editorLang?
     $(window).off 'resize', @onWindowResize
     window.clearTimeout @saveSpadeTimeout
     @saveSpadeTimeout = null

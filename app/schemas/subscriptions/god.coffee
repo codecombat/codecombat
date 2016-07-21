@@ -45,6 +45,10 @@ module.exports =
 
   'god:streaming-world-updated': worldUpdatedEventSchema
 
+  'god:new-html-goal-states': c.object {required: ['goalStates', 'overallStatus']},
+    goalStates: goalStatesSchema
+    overallStatus: {type: ['string', 'null'], enum: ['success', 'failure', 'incomplete', null]}
+
   'god:goals-calculated': c.object {required: ['goalStates', 'god']},
     god: {type: 'object'}
     goalStates: goalStatesSchema

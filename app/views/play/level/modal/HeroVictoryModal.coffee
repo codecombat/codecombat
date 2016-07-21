@@ -32,6 +32,7 @@ module.exports = class HeroVictoryModal extends ModalView
     'click .sign-up-button': 'onClickSignupButton'
     'click .continue-from-offer-button': 'onClickContinueFromOffer'
     'click .skip-offer-button': 'onClickSkipOffer'
+    'click #share-level-btn': 'onClickShareLevelButton'
 
     # Feedback events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -49,7 +50,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @session = options.session
     @level = options.level
     @thangTypes = {}
-    if @level.get('type', true) in ['hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev']
+    if @level.isType('hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev', 'web-dev')
       achievements = new CocoCollection([], {
         url: "/db/achievement?related=#{@session.get('level').original}"
         model: Achievement
@@ -63,17 +64,19 @@ module.exports = class HeroVictoryModal extends ModalView
     else
       @readyToContinue = true
     @playSound 'victory'
-    if @level.get('type', true) is 'course'
+    if @level.isType('course', 'game-dev', 'web-dev')
       if nextLevel = @level.get('nextLevel')
         @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
         @nextLevel = @supermodel.loadModel(@nextLevel).model
       if @courseID
         @course = new Course().setURL "/db/course/#{@courseID}"
         @course = @supermodel.loadModel(@course).model
-    if @level.get('type', true) in ['course', 'course-ladder']
+    if @level.isType('course', 'course-ladder')
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
       @loadExistingFeedback()
-    # TODO: support game-dev
+
+    if @level.get('shareable') is 'project'
+      @shareURL = "#{window.location.origin}/play/#{@level.get('type')}-level/#{@level.get('slug')}/#{@session.id}"
 
   destroy: ->
     clearInterval @sequentialAnimationInterval
@@ -154,8 +157,7 @@ module.exports = class HeroVictoryModal extends ModalView
   getRenderData: ->
     c = super()
     c.levelName = utils.i18n @level.attributes, 'name'
-    # TODO: support 'game-dev'
-    if @level.get('type', true) not in ['hero', 'game-dev']
+    if @level.isType('hero', 'game-dev', 'web-dev')
       c.victoryText = utils.i18n @level.get('victory') ? {}, 'body'
     earnedAchievementMap = _.indexBy(@newEarnedAchievements or [], (ea) -> ea.get('achievement'))
     for achievement in (@achievements?.models or [])
@@ -192,7 +194,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
     c.thangTypes = @thangTypes
     c.me = me
-    c.readyToRank = @level.get('type', true) in ['hero-ladder', 'course-ladder'] and @session.readyToRank()
+    c.readyToRank = @level.isType('hero-ladder', 'course-ladder') and @session.readyToRank()
     c.level = @level
     c.i18n = utils.i18n
 
@@ -211,10 +213,10 @@ module.exports = class HeroVictoryModal extends ModalView
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = showDone
 
-    c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and @level.get('type', true) isnt 'course'
+    c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course')
 
-    c.showReturnToCourse = not c.showLeaderboard and not me.get('anonymous') and @level.get('type', true) in ['course', 'course-ladder']
-    c.isCourseLevel = @level.get('type', true) in ['course']
+    c.showReturnToCourse = not c.showLeaderboard and not me.get('anonymous') and @level.isType('course', 'course-ladder')
+    c.isCourseLevel = @level.isType('course')
     c.currentCourseName = @course?.get('name')
     c.currentLevelName = @level?.get('name')
     c.nextLevelName = @nextLevel?.get('name')
@@ -223,17 +225,17 @@ module.exports = class HeroVictoryModal extends ModalView
 
   afterRender: ->
     super()
-    @$el.toggleClass 'with-achievements', @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev']  # TODO: support game-dev
+    @$el.toggleClass 'with-achievements', @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')
     return unless @supermodel.finished()
     @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
     @updateSavingProgressStatus()
     @initializeAnimations()
-    if @level.get('type', true) in ['hero-ladder', 'course-ladder']
+    if @level.isType('hero-ladder', 'course-ladder')
       @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
   initializeAnimations: ->
-    return @endSequentialAnimations() unless @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev']  # TODO: support game-dev
+    return @endSequentialAnimations() unless @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')
     @updateXPBars 0
     #playVictorySound = => @playSound 'victory-title-appear'  # TODO: actually add this
     @$el.find('#victory-header').delay(250).queue(->
@@ -264,7 +266,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   beginSequentialAnimations: ->
     return if @destroyed
-    return unless @level.get('type', true) in ['hero', 'hero-ladder', 'game-dev']  # TODO: support game-dev
+    return unless @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')
     @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
       previousNumber: $(panel).data('previous-number')
@@ -379,7 +381,7 @@ module.exports = class HeroVictoryModal extends ModalView
     clearInterval @sequentialAnimationInterval
     @animationComplete = true
     @updateSavingProgressStatus()
-    Backbone.Mediator.publish 'music-player:enter-menu', terrain: @level.get('terrain', true)
+    Backbone.Mediator.publish 'music-player:enter-menu', terrain: @level.get('terrain', true) or 'forest'
 
   updateSavingProgressStatus: ->
     @$el.find('#saving-progress-label').toggleClass('hide', @readyToContinue)
@@ -394,7 +396,7 @@ module.exports = class HeroVictoryModal extends ModalView
     viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
     ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}"
     if leagueID = (@courseInstanceID or @getQueryVariable 'league')
-      leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
+      leagueType = if @level.isType('course-ladder') then 'course' else 'clan'
       viewArgs.push leagueType
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"
@@ -414,14 +416,14 @@ module.exports = class HeroVictoryModal extends ModalView
     {'kithgard-gates': 'forest', 'kithgard-mastery': 'forest', 'siege-of-stonehold': 'desert', 'clash-of-clones': 'mountain', 'summits-gate': 'glacier'}[@level.get('slug')] or @level.get 'campaign'  # Much easier to just keep this updated than to dynamically figure it out.
 
   getNextLevelLink: (returnToCourse=false) ->
-    if @level.get('type', true) is 'course' and nextLevel = @level.get('nextLevel') and not returnToCourse
+    if @level.isType('course', 'game-dev', 'web-dev') and nextLevel = @level.get('nextLevel') and not returnToCourse
       # need to do something more complicated to load its slug
       console.log 'have @nextLevel', @nextLevel, 'from nextLevel', nextLevel
       link = "/play/level/#{@nextLevel.get('slug')}"
       if @courseID
         link += "?course=#{@courseID}"
         link += "&course-instance=#{@courseInstanceID}" if @courseInstanceID
-    else if @level.get('type', true) is 'course'
+    else if @level.isType('course')
       link = "/courses"
       if @courseID
         link += "/#{@courseID}"
@@ -440,12 +442,12 @@ module.exports = class HeroVictoryModal extends ModalView
       justBeatLevel: @level
       supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel
     _.merge options, extraOptions if extraOptions
-    if @level.get('type', true) is 'course' and @nextLevel and not options.returnToCourse
+    if @level.isType('course') and @nextLevel and not options.returnToCourse
       viewClass = require 'views/play/level/PlayLevelView'
       options.courseID = @courseID
       options.courseInstanceID = @courseInstanceID
       viewArgs = [options, @nextLevel.get('slug')]
-    else if @level.get('type', true) is 'course'
+    else if @level.isType('course')
       # TODO: shouldn't set viewClass and route in different places
       viewClass = require 'views/courses/CoursesView'
       viewArgs = [options]
@@ -453,7 +455,7 @@ module.exports = class HeroVictoryModal extends ModalView
         viewClass = require 'views/courses/CourseDetailsView'
         viewArgs.push @courseID
         viewArgs.push @courseInstanceID if @courseInstanceID
-    else if @level.get('type', true) is 'course-ladder'
+    else if @level.isType('course-ladder')
       leagueID = @courseInstanceID or @getQueryVariable 'league'
       nextLevelLink = "/play/ladder/#{@level.get('slug')}"
       nextLevelLink += "/course/#{leagueID}" if leagueID
@@ -498,6 +500,10 @@ module.exports = class HeroVictoryModal extends ModalView
 
   onClickSkipOffer: (e) ->
     Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
+
+  onClickShareLevelButton: ->
+    @$('#share-level-input').val(@shareURL).select()
+    @tryCopy()
 
   # Ratings and reviews
 

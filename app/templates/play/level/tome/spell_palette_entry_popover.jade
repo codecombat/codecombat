@@ -95,7 +95,7 @@ if !selectedMethod
             else if language == 'io'
               span= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + docName + '(' + argumentExamples.join(', ') + ')'
 
-if (doc.type != 'function' && doc.type != 'snippet') || doc.name == 'now'
+if (doc.type != 'function' && doc.type != 'snippet' && doc.owner != 'HTML' && doc.owner != 'CSS') || doc.name == 'now'
   p.value
     strong
       span(data-i18n="skill_docs.current_value") Current Value

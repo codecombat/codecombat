@@ -272,6 +272,29 @@ $level-resize-transition-time: 0.5s
     right: 45%
     z-index: 1000000
 
+  &.web-dev
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+
+    #playback-view, #thang-hud, #level-dialogue-view, #play-footer, #level-footer-background, #level-footer-shadow
+      display: none
+
+    .game-container, .level-content, #game-area, #canvas-wrapper
+      height: 100%
+
+    #canvas-wrapper canvas
+        display: none
+
+    #web-surface-view
+      position: absolute
+      top: 0
+      right: 0
+      left: 0
+      bottom: 0
+
 html.fullscreen-editor
   #level-view
     #fullscreen-editor-background-screen

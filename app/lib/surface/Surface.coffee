@@ -10,7 +10,6 @@ Letterbox = require './Letterbox'
 Dimmer = require './Dimmer'
 CountdownScreen = require './CountdownScreen'
 PlaybackOverScreen = require './PlaybackOverScreen'
-WaitingScreen = require './WaitingScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
 CoordinateGrid = require './CoordinateGrid'
@@ -70,7 +69,6 @@ module.exports = Surface = class Surface extends CocoClass
     'level:set-letterbox': 'onSetLetterbox'
     'application:idle-changed': 'onIdleChanged'
     'camera:zoom-updated': 'onZoomUpdated'
-    'playback:real-time-playback-waiting': 'onRealTimePlaybackWaiting'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'level:flag-color-selected': 'onFlagColorSelected'
@@ -135,7 +133,6 @@ module.exports = Surface = class Surface extends CocoClass
     @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer, showsCountdown: @world.showsCountdown
     @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer, playerNames: @options.playerNames
     @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
-    @waitingScreen = new WaitingScreen camera: @camera, layer: @screenLayer
     @initCoordinates()
     @webGLStage.enableMouseOver(10)
     @webGLStage.addEventListener 'stagemousemove', @onMouseMove
@@ -570,7 +567,7 @@ module.exports = Surface = class Surface extends CocoClass
     scaleFactor = 1
     if @options.stayVisible
       availableHeight = window.innerHeight
-      availableHeight -= $('.ad-container').outerHeight() 
+      availableHeight -= $('.ad-container').outerHeight()
       availableHeight -= $('#game-area').outerHeight() - $('#canvas-wrapper').outerHeight()
       scaleFactor = availableHeight / newHeight if availableHeight < newHeight
     newWidth *= scaleFactor
@@ -601,9 +598,6 @@ module.exports = Surface = class Surface extends CocoClass
     @updatePaths() if not hadHero
 
   #- Real-time playback
-
-  onRealTimePlaybackWaiting: (e) ->
-    @onRealTimePlaybackStarted e
 
   onRealTimePlaybackStarted: (e) ->
     return if @realTime
@@ -741,7 +735,6 @@ module.exports = Surface = class Surface extends CocoClass
     @dimmer?.destroy()
     @countdownScreen?.destroy()
     @playbackOverScreen?.destroy()
-    @waitingScreen?.destroy()
     @coordinateDisplay?.destroy()
     @coordinateGrid?.destroy()
     @normalStage.clear()

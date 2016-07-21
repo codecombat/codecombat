@@ -83,7 +83,7 @@ LevelSessionSchema.pre 'save', (next) ->
     next()
 
 LevelSessionSchema.statics.privateProperties = ['code', 'submittedCode', 'unsubscribed']
-LevelSessionSchema.statics.editableProperties = ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
+LevelSessionSchema.statics.editableProperties = ['players', 'code', 'codeLanguage', 'completed', 'state',
                                                  'levelName', 'creatorName', 'levelID',
                                                  'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage',
                                                  'unsubscribed', 'playtime', 'heroConfig', 'team',
@@ -110,7 +110,7 @@ if config.mongo.level_session_replica_string?
   levelSessionMongo = mongoose.createConnection()
   levelSessionMongo.open config.mongo.level_session_replica_string, (error) ->
     if error
-      log.error "Couldnt connect to session mongo!", error
+      log.error "Couldn't connect to session mongo!", error
     else
       log.info "Connected to seperate level session server with string", config.mongo.level_session_replica_string
 else
@@ -122,7 +122,7 @@ if config.mongo.level_session_aux_replica_string?
   auxLevelSessionMongo = mongoose.createConnection()
   auxLevelSessionMongo.open config.mongo.level_session_aux_replica_string, (error) ->
     if error
-      log.error "Couldnt connect to AUX session mongo!", error
+      log.error "Couldn't connect to AUX session mongo!", error
     else
       log.info "Connected to seperate level AUX session server with string", config.mongo.level_session_aux_replica_string
 

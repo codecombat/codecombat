@@ -23,6 +23,7 @@ CourseInstances = require 'collections/CourseInstances'
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
   template: template
+  helper: helper
 
   events:
     'click .nav-tabs a': 'onClickNavTabLink'
@@ -43,7 +44,7 @@ module.exports = class TeacherClassView extends RootView
     'click .student-checkbox': 'onClickStudentCheckbox'
     'keyup #student-search': 'onKeyPressStudentSearch'
     'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
-      
+
   getInitialState: ->
     {
       sortAttribute: 'name'
@@ -72,21 +73,21 @@ module.exports = class TeacherClassView extends RootView
     @singleStudentCourseProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-course'
     @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
     @allStudentsLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-all-students-single-level'
-    
+
     @debouncedRender = _.debounce @render
-    
+
     @state = new State(@getInitialState())
     @updateHash @state.get('activeTab') # TODO: Don't push to URL history (maybe don't use url fragment for default tab)
-    
+
     @classroom = new Classroom({ _id: classroomID })
     @supermodel.trackRequest @classroom.fetch()
     @onKeyPressStudentSearch = _.debounce(@onKeyPressStudentSearch, 200)
-    
+
     @students = new Users()
     @listenTo @classroom, 'sync', ->
       jqxhrs = @students.fetchForClassroom(@classroom, removeDeleted: true)
       @supermodel.trackRequests jqxhrs
-      
+
       @classroom.sessions = new LevelSessions()
       requests = @classroom.sessions.fetchForAllClassroomMembers(@classroom)
       @supermodel.trackRequests(requests)
@@ -96,7 +97,7 @@ module.exports = class TeacherClassView extends RootView
       value = @state.get('sortValue')
       if value is 'name'
         return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
-        
+
       if value is 'progress'
         # TODO: I would like for this to be in the Level model,
         #   but it doesn't know about its own courseNumber.
@@ -105,7 +106,7 @@ module.exports = class TeacherClassView extends RootView
         return -dir if not level1
         return dir if not level2
         return dir * (level1.courseNumber - level2.courseNumber or level1.levelNumber - level2.levelNumber)
-        
+
       if value is 'status'
         statusMap = { expired: 0, 'not-enrolled': 1, enrolled: 2 }
         diff = statusMap[student1.prepaidStatus()] - statusMap[student2.prepaidStatus()]
@@ -114,13 +115,13 @@ module.exports = class TeacherClassView extends RootView
 
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetch()
-    
+
     @courseInstances = new CourseInstances()
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
 
     @levels = new Levels()
-    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts,practice'}})
-    
+    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts,practice,shareable,i18n'}})
+
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
 
@@ -160,11 +161,11 @@ module.exports = class TeacherClassView extends RootView
       course.instance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
       course.members = course.instance?.get('members') or []
     null
-    
+
   onLoaded: ->
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
-    
+
     # render callback setup
     @listenTo @courseInstances, 'sync change update', @debouncedRender
     @listenTo @state, 'sync change', ->
@@ -174,17 +175,17 @@ module.exports = class TeacherClassView extends RootView
         @debouncedRender()
     @listenTo @students, 'sort', @debouncedRender
     super()
-  
+
   afterRender: ->
     super(arguments...)
-    $('.progress-dot').each (i, el) ->
+    $('.progress-dot, .btn-view-project-level').each (i, el) ->
       dot = $(el)
       dot.tooltip({
         html: true
         container: dot
       }).delegate '.tooltip', 'mousemove', ->
         dot.tooltip('hide')
-    
+
   calculateProgressAndLevels: ->
     return unless @supermodel.progress is 1
     # TODO: How to structure this in @state?
@@ -192,14 +193,14 @@ module.exports = class TeacherClassView extends RootView
       # TODO: this is a weird hack
       studentsStub = new Users([ student ])
       student.latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, studentsStub)
-    
+
     earliestIncompleteLevel = helper.calculateEarliestIncomplete(@classroom, @courses, @courseInstances, @students)
     latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, @students)
-      
+
     classroomsStub = new Classrooms([ @classroom ])
     progressData = helper.calculateAllProgress(classroomsStub, @courses, @courseInstances, @students)
     # conceptData: helper.calculateConceptsCovered(classroomsStub, @courses, @campaigns, @courseInstances, @students)
-    
+
     @state.set {
       earliestIncompleteLevel
       latestCompleteLevel
@@ -212,7 +213,7 @@ module.exports = class TeacherClassView extends RootView
     hash = $(e.target).closest('a').attr('href')
     @updateHash(hash)
     @state.set activeTab: hash
-    
+
   updateHash: (hash) ->
     return if application.testing
     window.location.hash = hash
@@ -227,17 +228,10 @@ module.exports = class TeacherClassView extends RootView
     @$('#join-url-input').val(@state.get('joinURL')).select()
     @tryCopy()
 
-  tryCopy: ->
-    try
-      document.execCommand('copy')
-    catch err
-      message = 'Oops, unable to copy'
-      noty text: message, layout: 'topCenter', type: 'error', killer: false
-  
   onClickUnarchive: ->
     window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @classroom.save { archived: false }
-  
+
   onClickEditClassroom: (e) ->
     window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     classroom = @classroom
@@ -328,9 +322,11 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     courseLabels = ""
     courseOrder = []
-    for course, index in @classroom.get('courses')
-      courseLabels += "CS#{index + 1} Playtime,"
-      courseOrder.push(course._id)
+    courses = (@courses.get(c._id) for c in @classroom.get('courses'))
+    courseLabelsArray = helper.courseLabelsArray courses
+    for course, index in courses
+      courseLabels += "#{courseLabelsArray[index]} Playtime,"
+      courseOrder.push(course.id)
     csvContent = "data:text/csv;charset=utf-8,Username,Email,Total Playtime,#{courseLabels}Concepts\n"
     levelCourseMap = {}
     for trimCourse in @classroom.get('courses')
@@ -396,6 +392,7 @@ module.exports = class TeacherClassView extends RootView
       not @students.get(userID).isEnrolled()
     assigningToNobody = selectedIDs.length is 0
     @state.set errors: { assigningToNobody, assigningToUnenrolled }
+    return if assigningToNobody
     @assignCourse courseID, members
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
@@ -459,7 +456,7 @@ module.exports = class TeacherClassView extends RootView
 
     enrolledUsers = @students.filter (user) -> user.isEnrolled()
     stats.enrolledUsers = _.size(enrolledUsers)
-    
+
     return stats
 
   studentStatusString: (student) ->
