@@ -10,6 +10,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
 
   events:
     'click #save-settings-btn': 'onSubmitForm'
+    'click #update-courses-btn': 'onClickUpdateCoursesButton'
     'submit form': 'onSubmitForm'
 
   initialize: (options={}) ->
@@ -51,3 +52,13 @@ module.exports = class ClassroomSettingsModal extends ModalView
     @listenToOnce @classroom, 'sync', @hide
     window.tracker?.trackEvent "Teachers Edit Class Saved", category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
 
+  onClickUpdateCoursesButton: ->
+    @$('#update-courses-btn').attr('disabled', true)
+    Promise.resolve(@classroom.updateCourses())
+    .then =>
+      @$('#update-courses-btn').attr('disabled', false)
+      noty { text: 'Updated', timeout: 2000 }
+    .catch (e) =>
+      console.log 'e', e
+      @$('#update-courses-btn').attr('disabled', false)
+      noty { text: e.responseJSON?.message or e.responseText or 'Error!', type: 'error', timeout: 5000 }
