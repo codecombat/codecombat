@@ -1,44 +1,44 @@
-.container-fluid
+.container-fluid.style-flat
   #game-row.row
-    .col-xs-8
+    .col-xs-9
       #canvas-wrapper
         canvas(width=924, height=589)#webgl-surface
         canvas(width=924, height=589)#normal-surface
         
-    #info-col.col-xs-4
-      if view.state.get('errorMessage')
-        .alert.alert-danger= view.state.get('errorMessage')
+    #info-col.col-xs-3
+      - var ready = !(view.state.get('errorMessage') || view.state.get('loading'))
+      .panel.panel-default
+        .panel-body.text-center
+          if view.state.get('errorMessage')
+            .alert.alert-danger= view.state.get('errorMessage')
         
-      else if view.state.get('loading')
-        h1.m-y-1(data-i18n="common.loading")
-        .progress
-          .progress-bar(style="width: #{view.state.get('progress')}")
+          if view.level.id && view.session.id
+            h3.m-y-1= view.level.get('name')
+            h4 Created by #{view.session.get('creatorName')}
+            hr
+          
+          if view.state.get('loading')
+            h1.m-y-1(data-i18n="common.loading")
+            .progress
+              .progress-bar(style="width: #{view.state.get('progress')}")
         
-      else
-        .panel
-          .panel-body
-            h1.m-y-1 Info
-            ul
-              li
-                b
-                  span(data-i18n="play_level.level")
-                  span= ': '
-                | #{view.level.get('name')}
-                
-              li
-                b
-                  span(data-i18n="game_dev.creator")
-                  span= ': '
-                | #{view.session.get('creatorName')}
-            
-            p "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-            p "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-            p "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          if ready
+            h3 Goals
+            for goalName in view.state.get('goalNames')
+              p= goalName
+              
+            hr
+              
+            h3 How to play:
+            p Use the mouse to control the hero!
+            p Click anywhere on the map to move to that location.
+            p Click on the ogres to attack them.
+          
+        if ready
           .panel-footer
             - var playing = view.state.get('playing')
-            .m-y-3
-              if playing
-                button#play-btn.btn.btn-lg.btn-burgandy.btn-block(data-i18n="play_level.restart")
-              else
-                button#play-btn.btn.btn-lg.btn-navy.btn-block(data-i18n="common.play")
+            if playing
+              button#play-btn.btn.btn-lg.btn-burgandy.btn-block Restart Level
+            else
+              button#play-btn.btn.btn-lg.btn-navy.btn-block Play Level
         

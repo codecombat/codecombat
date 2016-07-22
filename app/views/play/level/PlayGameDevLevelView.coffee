@@ -10,6 +10,7 @@ ThangType = require 'models/ThangType'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 State = require 'models/State'
+utils = require 'core/utils'
 
 TEAM = 'humans'
 
@@ -34,9 +35,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     @courseID = @getQueryVariable 'course'
     @god = new God({ @gameUIState })
     @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
-    @listenTo @state, 'change', _.debounce ->
-      @renderSelectors('#info-col')
-      @updateInfoColumnHeight()
+    @listenTo @state, 'change', _.debounce @renderInfoColumn
 
     @levelLoader.loadWorldNecessities()
 
@@ -52,6 +51,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @scriptManager = new ScriptManager({
         scripts: @world.scripts or [], view: @, @session, levelID: @level.get('slug')})
       @scriptManager.loadFromSession() # Should we? TODO: Figure out how scripts work for game dev levels
+      @renderInfoColumn()
       @supermodel.finishLoading()
 
     .then (supermodel) =>
@@ -73,7 +73,11 @@ module.exports = class PlayGameDevLevelView extends RootView
       @scriptManager.initializeCamera()
       @renderSelectors '#info-col'
       @spells = @session.generateSpellsObject level: @level
-      @state.set('loading', false)
+      goalNames = (utils.i18n(goal, 'name') for goal in @goalManager.goals)
+      @state.set({
+        loading: false
+        goalNames
+      })
 
     .catch ({message}) =>
       console.error message
@@ -88,7 +92,8 @@ module.exports = class PlayGameDevLevelView extends RootView
   onSurfaceResize: ({height}) ->
     @state.set('surfaceHeight', height)
     
-  updateInfoColumnHeight: ->
+  renderInfoColumn: ->
+    @renderSelectors('#info-col')
     height = @state.get('surfaceHeight')
     if height
       @$el.find('.panel').css('height', @state.get('surfaceHeight'))
