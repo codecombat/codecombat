@@ -60,11 +60,11 @@ const closeIoApiKey = process.argv[2];
 const closeIoMailApiKeys = [
   {
     apiKey: process.argv[3],
-    weight: .7
+    weight: .8
   },
   {
     apiKey: process.argv[4],
-    weight: .20
+    weight: .1
   },
   {
     apiKey: process.argv[5],
@@ -327,7 +327,7 @@ function findCocoLeads(done) {
         if (!trialRequest.properties || !trialRequest.properties.email) continue;
         const email = trialRequest.properties.email.toLowerCase();
         emails.push(email);
-        const name = trialRequest.properties.organization || trialRequest.properties.name || email;
+        const name = trialRequest.properties.nces_name || trialRequest.properties.organization || trialRequest.properties.school || email;
         if (!leads[name]) leads[name] = new CocoLead(name);
         leads[name].addTrialRequest(email, trialRequest);
         emailLeadMap[email] = leads[name];

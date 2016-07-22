@@ -65,3 +65,9 @@ block modal-footer-content
       button#save-settings-btn.btn.btn-primary.btn-lg(data-i18n="courses.create_class")
     else
       button#save-settings-btn.btn.btn-primary.btn-lg(data-i18n="common.save_changes")
+      
+    if me.isAdmin()
+      hr
+      // DNT
+      h3 Admin Only
+      button#update-courses-btn.btn.btn-forest.btn-lg Update Courses

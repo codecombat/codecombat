@@ -550,3 +550,35 @@ describe 'POST /db/classroom/:classroomID/members/:memberID/reset-password', ->
     changedStudent = yield User.findById(student.id)
     expect(changedStudent.get('passwordHash')).toEqual(student.get('passwordHash'))
     done()
+
+describe 'GET /db/classroom/:handle/update-courses', ->
+
+  it 'updates the courses property for that classroom', utils.wrap (done) ->
+    yield utils.clearModels [User, Classroom, Course, Level, Campaign]
+    
+    admin = yield utils.initAdmin()
+    teacher = yield utils.initUser({role: 'teacher'})
+    
+    yield utils.loginUser(admin)
+    yield utils.makeCourse({}, {campaign: yield utils.makeCampaign()})
+    
+    yield utils.loginUser(teacher)
+    data = { name: 'Classroom 2' }
+    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+    classroom = yield Classroom.findById(res.body._id)
+    expect(classroom.get('courses').length).toBe(1)
+
+    yield utils.loginUser(admin)
+    yield utils.makeCourse({}, {campaign: yield utils.makeCampaign()})
+
+    classroom = yield Classroom.findById(res.body._id)
+    expect(classroom.get('courses').length).toBe(1)
+
+    yield utils.loginUser(teacher)
+    [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: true }
+    expect(body.courses.length).toBe(2)
+
+    classroom = yield Classroom.findById(res.body._id)
+    expect(classroom.get('courses').length).toBe(2)
+    done()  
+  

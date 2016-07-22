@@ -51,10 +51,8 @@ module.exports = class WebSurfaceView extends CocoView
       if dekuTree.type is '#text'
         return { virtualDom: dekuTree, styles: [], scripts: [] }
       if dekuTree.type is 'style'
-        console.log 'Found a style: ', dekuTree
         return { styles: [dekuTree], scripts: [] }
       if dekuTree.type is 'script'
-        console.log 'Found a script: ', dekuTree
         return { styles: [], scripts: [dekuTree] }
       # recurse over children
       childStyles = []
