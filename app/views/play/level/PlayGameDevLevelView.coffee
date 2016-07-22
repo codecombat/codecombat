@@ -38,6 +38,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     @courseID = @getQueryVariable 'course'
     @god = new God({ @gameUIState })
     @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
+    @supermodel.setMaxProgress 1 # Hack, why are we setting this to 0.2 in LevelLoader?
     @listenTo @state, 'change', _.debounce @renderAllButCanvas
 
     @levelLoader.loadWorldNecessities()
@@ -108,7 +109,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     @renderSelectors('#info-col', '#share-row')
     height = @state.get('surfaceHeight')
     if height
-      @$el.find('.panel').css('height', @state.get('surfaceHeight'))
+      @$el.find('#info-col').css('height', @state.get('surfaceHeight'))
 
   destroy: ->
     @levelLoader?.destroy()

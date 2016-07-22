@@ -41,7 +41,7 @@
             if playing
               button#play-btn.btn.btn-lg.btn-burgandy.btn-block Restart Level
             else
-              button#play-btn.btn.btn-lg.btn-navy.btn-block Play Level
+              button#play-btn.btn.btn-lg.btn-forest.btn-block Play Level
         
   #share-row.m-t-3
     if ready
@@ -51,7 +51,7 @@
             b(data-i18n='sharing.share_game')
           input#copy-url-input.text-h4.semibold.form-control.input-lg(value=view.state.get('shareURL'))
           div#copy-url-div
-            button#copy-url-btn.btn.btn-lg.btn-navy
+            button#copy-url-btn.btn.btn-lg.btn-navy-alt
               span(data-i18n='sharing.copy_url')
           
         .panel-body

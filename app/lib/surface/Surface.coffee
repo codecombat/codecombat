@@ -576,6 +576,7 @@ module.exports = Surface = class Surface extends CocoClass
     return if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
     return if newWidth < 200 or newHeight < 200
     @normalCanvas.add(@webGLCanvas).attr width: newWidth, height: newHeight
+    @trigger 'resize', { width: newWidth, height: newHeight }
 
     # Cannot do this to the webGLStage because it does not use scaleX/Y.
     # Instead the LayerAdapter scales webGL-enabled layers.
