@@ -92,9 +92,9 @@ module.exports = Surface = class Surface extends CocoClass
     })
     @realTimeInputEvents = @gameUIState.get('realTimeInputEvents')
     @listenTo(@gameUIState, 'sprite:mouse-down', @onSpriteMouseDown)
+    @onResize = _.debounce @onResize, resizeDelay
     @initEasel()
     @initAudio()
-    @onResize = _.debounce @onResize, resizeDelay
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world

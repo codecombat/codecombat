@@ -1,11 +1,11 @@
 .container-fluid
   #game-row.row
-    .col-xs-9
+    .col-xs-8
       #canvas-wrapper
         canvas(width=924, height=589)#webgl-surface
         canvas(width=924, height=589)#normal-surface
         
-    #info-col.col-xs-3
+    #info-col.col-xs-4
       if view.state.get('errorMessage')
         .alert.alert-danger= view.state.get('errorMessage')
         
@@ -31,8 +31,11 @@
                   span= ': '
                 | #{view.session.get('creatorName')}
             
-            - var playing = view.state.get('playing')
+            p "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            p "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            p "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           .panel-footer
+            - var playing = view.state.get('playing')
             .m-y-3
               if playing
                 button#play-btn.btn.btn-lg.btn-burgandy.btn-block(data-i18n="play_level.restart")

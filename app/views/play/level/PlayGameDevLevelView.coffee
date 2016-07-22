@@ -34,7 +34,9 @@ module.exports = class PlayGameDevLevelView extends RootView
     @courseID = @getQueryVariable 'course'
     @god = new God({ @gameUIState })
     @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
-    @listenTo @state, 'change', _.debounce(-> @renderSelectors('#info-col'))
+    @listenTo @state, 'change', _.debounce ->
+      @renderSelectors('#info-col')
+      @updateInfoColumnHeight()
 
     @levelLoader.loadWorldNecessities()
 
@@ -62,6 +64,7 @@ module.exports = class PlayGameDevLevelView extends RootView
         levelType: @level.get('type', true)
         @gameUIState
       })
+      @listenTo @surface, 'resize', @onSurfaceResize
       worldBounds = @world.getBounds()
       bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
       @surface.camera.setBounds(bounds)
@@ -81,6 +84,14 @@ module.exports = class PlayGameDevLevelView extends RootView
     Backbone.Mediator.publish('playback:real-time-playback-started', {})
     Backbone.Mediator.publish('level:set-playing', {playing: true})
     @state.set('playing', true)
+
+  onSurfaceResize: ({height}) ->
+    @state.set('surfaceHeight', height)
+    
+  updateInfoColumnHeight: ->
+    height = @state.get('surfaceHeight')
+    if height
+      @$el.find('.panel').css('height', @state.get('surfaceHeight'))
 
   destroy: ->
     @levelLoader?.destroy()
