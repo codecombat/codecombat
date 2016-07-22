@@ -18,6 +18,7 @@ module.exports = {
     attrs = _.extend({}, {
       _id: _id
       name: _.string.humanize(_id)
+      releasePhase: 'released'
     }, attrs)
     
     attrs.campaignID ?= sources.campaign?.id or _.uniqueId('campaign_')
@@ -185,6 +186,5 @@ module.exports = {
         organization: 'Greendale'
       }
     }, attrs)
-} 
+}
   
-
