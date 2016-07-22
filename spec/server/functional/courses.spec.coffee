@@ -21,8 +21,8 @@ courseFixture = {
 describe 'GET /db/course', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([Course, User])
-    yield new Course({ name: 'Course 1' }).save()
-    yield new Course({ name: 'Course 2' }).save()
+    yield new Course({ name: 'Course 1', releasePhase: 'released' }).save()
+    yield new Course({ name: 'Course 2', releasePhase: 'released' }).save()
     yield utils.becomeAnonymous()
     done()
 
@@ -36,7 +36,7 @@ describe 'GET /db/course/:handle', ->
 
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([Course, User])
-    @course = yield new Course({ name: 'Some Name' }).save()
+    @course = yield new Course({ name: 'Some Name', releasePhase: 'released' }).save()
     yield utils.becomeAnonymous()
     done()
 
@@ -96,10 +96,10 @@ describe 'GET /db/course/:handle/levels/:levelOriginal/next', ->
     [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSONB})
     @campaignB = yield Campaign.findById(res.body._id)
 
-    @courseA = Course({name: 'Course A', campaignID: @campaignA._id})
+    @courseA = Course({name: 'Course A', campaignID: @campaignA._id, releasePhase: 'released'})
     yield @courseA.save()
 
-    @courseB = Course({name: 'Course B', campaignID: @campaignB._id})
+    @courseB = Course({name: 'Course B', campaignID: @campaignB._id, releasePhase: 'released'})
     yield @courseB.save()
 
     teacher = yield utils.initUser({role: 'teacher'})

@@ -167,7 +167,7 @@ module.exports =
   generateCoursesData: co.wrap (req) ->
     # helper function for generating the latest version of courses
     query = {}
-    query = {adminOnly: {$ne: true}} unless req.user?.isAdmin()
+    query = {releasePhase: 'released'} unless req.user?.isAdmin()
     courses = yield Course.find(query)
     courses = Course.sortCourses courses
     campaigns = yield Campaign.find({_id: {$in: (course.get('campaignID') for course in courses)}})
