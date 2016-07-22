@@ -1,8 +1,9 @@
 #play-game-dev-level-view
   .container-fluid
     overflow: hidden
-    background: black
+    background: #333
     padding: 15px
+    height: 100vh
       
   #game-row
     display: flex
@@ -42,3 +43,19 @@
     
     #play-btn
       text-transform: uppercase
+
+  #share-panel-body
+    display: flex
+    align-items: center
+    
+    #share-text-div, #copy-url-div
+      flex-grow: 1
+    
+    #share-text-div
+      margin-right: 20px
+      
+    #copy-url-input
+      width: 50%
+
+    #copy-url-div
+      margin-left: 20px

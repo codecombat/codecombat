@@ -1,5 +1,6 @@
 CocoView = require 'views/core/CocoView'
 utils = require 'core/utils'
+urls = require 'core/urls'
 
 module.exports = class ProgressView extends CocoView
 
@@ -25,8 +26,7 @@ module.exports = class ProgressView extends CocoView
     @nextLevel.get('description', true)  # Make sure the defaults are available
     @nextLevelDescription = marked(utils.i18n(@nextLevel.attributesWithDefaults, 'description').replace(/!\[.*?\]\(.*?\)\n*/g, ''))
     if @level.get('shareable') is 'project'
-      @shareURL = "#{window.location.origin}/play/#{@level.get('type')}-level/#{@level.get('slug')}/#{@session.id}"
-      @shareURL += "?course=#{@course.id}" if @course
+      @shareURL = urls.playDevLevel({@level, @session, @course})
 
   onClickDoneButton: ->
     @trigger 'done'

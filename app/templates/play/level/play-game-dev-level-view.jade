@@ -1,3 +1,5 @@
+- var ready = !(view.state.get('errorMessage') || view.state.get('loading'))
+
 .container-fluid.style-flat
   #game-row.row
     .col-xs-9
@@ -6,7 +8,6 @@
         canvas(width=924, height=589)#normal-surface
         
     #info-col.col-xs-3
-      - var ready = !(view.state.get('errorMessage') || view.state.get('loading'))
       .panel.panel-default
         .panel-body.text-center
           if view.state.get('errorMessage')
@@ -42,3 +43,16 @@
             else
               button#play-btn.btn.btn-lg.btn-navy.btn-block Play Level
         
+  #share-row.m-t-3
+    if ready
+      .panel.panel-default
+        #share-panel-body.panel-body
+          div#share-text-div.text-right
+            b(data-i18n='sharing.share_game')
+          input#copy-url-input.text-h4.semibold.form-control.input-lg(value=view.state.get('shareURL'))
+          div#copy-url-div
+            button#copy-url-btn.btn.btn-lg.btn-navy
+              span(data-i18n='sharing.copy_url')
+          
+        .panel-body
+          a.btn.btn-lg.btn-navy-alt.pull-right(href="/") Play More CodeCombat

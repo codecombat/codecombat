@@ -11,6 +11,8 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 State = require 'models/State'
 utils = require 'core/utils'
+urls = require 'core/urls'
+Course = require 'models/Course'
 
 TEAM = 'humans'
 
@@ -20,6 +22,7 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   events:
     'click #play-btn': 'onClickPlayButton'
+    'click #copy-url-btn': 'onClickCopyURLButton'
 
   initialize: (@options, @levelID, @sessionID) ->
     @state = new State({
@@ -35,7 +38,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     @courseID = @getQueryVariable 'course'
     @god = new God({ @gameUIState })
     @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
-    @listenTo @state, 'change', _.debounce @renderInfoColumn
+    @listenTo @state, 'change', _.debounce @renderAllButCanvas
 
     @levelLoader.loadWorldNecessities()
 
@@ -51,7 +54,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @scriptManager = new ScriptManager({
         scripts: @world.scripts or [], view: @, @session, levelID: @level.get('slug')})
       @scriptManager.loadFromSession() # Should we? TODO: Figure out how scripts work for game dev levels
-      @renderInfoColumn()
+      @renderAllButCanvas()
       @supermodel.finishLoading()
 
     .then (supermodel) =>
@@ -74,9 +77,14 @@ module.exports = class PlayGameDevLevelView extends RootView
       @renderSelectors '#info-col'
       @spells = @session.generateSpellsObject level: @level
       goalNames = (utils.i18n(goal, 'name') for goal in @goalManager.goals)
+      
+      course = if @courseID then new Course({_id: @courseID}) else null
+      shareURL = urls.playDevLevel({@level, @session, course})
+      
       @state.set({
         loading: false
         goalNames
+        shareURL
       })
 
     .catch ({message}) =>
@@ -89,11 +97,15 @@ module.exports = class PlayGameDevLevelView extends RootView
     Backbone.Mediator.publish('level:set-playing', {playing: true})
     @state.set('playing', true)
 
+  onClickCopyURLButton: ->
+    @$('#copy-url-input').val(@state.get('shareURL')).select()
+    @tryCopy()
+
   onSurfaceResize: ({height}) ->
     @state.set('surfaceHeight', height)
     
-  renderInfoColumn: ->
-    @renderSelectors('#info-col')
+  renderAllButCanvas: ->
+    @renderSelectors('#info-col', '#share-row')
     height = @state.get('surfaceHeight')
     if height
       @$el.find('.panel').css('height', @state.get('surfaceHeight'))
