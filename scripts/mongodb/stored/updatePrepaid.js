@@ -54,13 +54,17 @@ var updatePrepaid = function updatePrepaid(stringID, originalUpdate) {
     print('\nUpdate prepaid',
       JSON.stringify(prepaidUpdate, null, '  '),
       db.prepaids.update(
-        {_id: id},
+        { _id: id },
         { $set: prepaidUpdate }
       )
     )
   }
   
-  var userUpdate = _.pick(originalUpdate, 'startDate', 'endDate' );
+  var userUpdate = _(originalUpdate)
+    .pick('startDate', 'endDate' )
+    .transform(function(result, value, key) { result['coursePrepaid.'+key] = value })
+    .value();
+  
   if (_.isEmpty(userUpdate)) {
     print('\nSkipping user update, nothing to update.')
   }
@@ -69,8 +73,8 @@ var updatePrepaid = function updatePrepaid(stringID, originalUpdate) {
       JSON.stringify(userUpdate, null, '  '), 
       db.users.update(
         {'coursePrepaid._id': id},
-        {$set: userUpdate}, 
-        {multi: true}
+        { $set: userUpdate }, 
+        { multi: true }
       )
     );
   }
