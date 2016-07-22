@@ -1,9 +1,18 @@
 #play-game-dev-level-view
+  .container-fluid
+    overflow: hidden
+    background: black
+    padding: 15px
+      
+  #game-row
+    display: flex
+  
   #canvas-wrapper
     width: 100%
     position: relative
     overflow: hidden
     z-index: 0
+    border-radius: 5px
 
   #webgl-surface
     background-color: #333
@@ -18,5 +27,14 @@
     display: block
     z-index: 2
 
-  #play-btn
-    text-transform: uppercase
+  #info-col
+    .panel
+      height: 100%
+      display: flex
+      flex-direction: column
+      
+      .panel-body
+        flex-grow: 1
+    
+    #play-btn
+      text-transform: uppercase
