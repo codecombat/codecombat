@@ -67,6 +67,7 @@ module.exports = class PlayGameDevLevelView extends RootView
         thangTypes: @supermodel.getModels(ThangType)
         levelType: @level.get('type', true)
         @gameUIState
+        resizeStrategy: 'wrapper-size'
       })
       @listenTo @surface, 'resize', @onSurfaceResize
       worldBounds = @world.getBounds()

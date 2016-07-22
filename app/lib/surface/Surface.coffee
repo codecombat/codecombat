@@ -551,6 +551,9 @@ module.exports = Surface = class Surface extends CocoClass
     if application.isIPadApp
       newWidth = 1024
       newHeight = newWidth / aspectRatio
+    else if @options.resizeStrategy is 'wrapper-size'
+      newWidth = $('#canvas-wrapper').width()
+      newHeight = newWidth / aspectRatio
     else if @realTime or @options.spectateGame
       pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
