@@ -17,6 +17,7 @@ User = require '../models/User'
 CourseInstance = require '../models/CourseInstance'
 TrialRequest = require '../models/TrialRequest'
 sendwithus = require '../sendwithus'
+co = require 'co'
 
 module.exports =
   fetchByCode: wrap (req, res, next) ->
@@ -142,6 +143,29 @@ module.exports =
     database.assignBody(req, classroom)
 
     # Copy over data from how courses are right now
+    coursesData = yield module.exports.generateCoursesData(req)
+    classroom.set('courses', coursesData)
+    
+    # finish
+    database.validateDoc(classroom)
+    classroom = yield classroom.save()
+    res.status(201).send(classroom.toObject({req: req}))
+    
+  updateCourses: wrap (req, res) ->
+    throw new errors.Unauthorized() unless req.user and not req.user.isAnonymous()
+    classroom = yield database.getDocFromHandle(req, Classroom)
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+    unless req.user._id.equals(classroom.get('ownerID'))
+      throw new errors.Forbidden('Only the owner may update their classroom content')
+
+    coursesData = yield module.exports.generateCoursesData(req)
+    classroom.set('courses', coursesData)
+    classroom = yield classroom.save()
+    res.status(200).send(classroom.toObject({req: req}))
+    
+  generateCoursesData: co.wrap (req) ->
+    # helper function for generating the latest version of courses
     query = {}
     query = {adminOnly: {$ne: true}} unless req.user?.isAdmin()
     courses = yield Course.find(query)
@@ -160,12 +184,7 @@ module.exports =
         _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes', 'shareable'))
         courseData.levels.push(levelData)
       coursesData.push(courseData)
-    classroom.set('courses', coursesData)
-    
-    # finish
-    database.validateDoc(classroom)
-    classroom = yield classroom.save()
-    res.status(201).send(classroom.toObject({req: req}))
+    return coursesData
 
   join: wrap (req, res) ->
     unless req.body?.code
