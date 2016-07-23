@@ -131,7 +131,10 @@ module.exports = class SpellView extends CocoView
         name: 'run-code-real-time'
         bindKey: {win: 'Ctrl-Shift-Enter', mac: 'Command-Shift-Enter|Ctrl-Shift-Enter'}
         exec: =>
-          if @options.level.get('replayable') and (timeUntilResubmit = @session.timeUntilResubmit()) > 0
+          doneButton = @$('.done-button:visible')
+          if doneButton.length
+            doneButton.trigger 'click'
+          else if @options.level.get('replayable') and (timeUntilResubmit = @session.timeUntilResubmit()) > 0
             Backbone.Mediator.publish 'tome:manual-cast-denied', timeUntilResubmit: timeUntilResubmit
           else
             Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
