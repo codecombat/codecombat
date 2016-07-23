@@ -12,6 +12,7 @@ if (process.argv.length !== 8) {
 // TODO: sendMail copied from updateCloseIoLeads.js
 // TODO: template values copied from updateCloseIoLeads.js
 // TODO: status change is not related to specific lead contacts
+// TODO: update status after adding a call task
 
 const createTeacherEmailTemplatesAuto1 = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];
 const demoRequestEmailTemplatesAuto1 = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
@@ -43,8 +44,7 @@ async.series([
 (err, results) => {
   if (err) console.error(err);
   log("Script runtime: " + (new Date() - scriptStartTime));
-}
-);
+});
 
 // ** Utilities
 
@@ -87,12 +87,12 @@ function isTemplateAuto1(template) {
   return false;
 }
 
-function isDemoRequestTemplateAuto2(template) {
-  return demoRequestEmailTemplatesAuto2.indexOf(template) >= 0;
-}
-
-function isCreateTeacherTemplateAuto2(template) {
-  return createTeacherEmailTemplatesAuto2.indexOf(template) >= 0;
+function isTemplateAuto2(template) {
+  if (createTeacherEmailTemplatesAuto2.indexOf(template) >= 0) return true;
+  if (demoRequestEmailTemplatesAuto2.indexOf(template) >= 0) return true;
+  if (createTeacherInternationalEmailTemplatesAuto2.indexOf(template) >= 0) return true;
+  if (demoRequestInternationalEmailTemplatesAuto2.indexOf(template) >= 0) return true;
+  return false;
 }
 
 function log(str) {
@@ -380,8 +380,8 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, email) {
   // Check for activity since second auto mail and status update
   // Add call task
   // TODO: Very similar function to createSendFollowupMailFn
-  const auto1Statuses = ["Auto Attempt 1", "New US Schools Auto Attempt 1"];
-  const auto2Statuses = ["Auto Attempt 2", "New US Schools Auto Attempt 2"];
+  const auto1Statuses = ["Auto Attempt 1", "New US Schools Auto Attempt 1", "Inbound Canada Auto Attempt 1", "Inbound AU Auto Attempt 1", "Inbound NZ Auto Attempt 1", "Inbound UK Auto Attempt 1"];
+  const auto2Statuses = ["Auto Attempt 2", "New US Schools Auto Attempt 2", "Inbound Canada Auto Attempt 2", "Inbound AU Auto Attempt 2", "Inbound NZ Auto Attempt 2", "Inbound UK Auto Attempt 2"];
   return (done) => {
     // console.log("DEBUG: addCallTask", lead.id);
 
@@ -418,27 +418,15 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, email) {
           }
 
           // Find second auto mail and status change
-          let sentSecondCreateTeacherEmail = false;
-          let sentSecondDemoRequestEmail = false;
           let secondMailActivity;
           let statusUpdateActivity;
-          let contactReplyMail;
           for (const activity of results.data) {
             if (activity._type === 'Email' && activity.to[0] === email) {
-              if (isCreateTeacherTemplateAuto2(activity.template_id)) {
-                if (sentSecondCreateTeacherEmail || sentSecondDemoRequestEmail) {
-                  console.log(`ERROR: ${lead.id} ${email} sent multiple auto2 emails!? ${sentSecondCreateTeacherEmail} ${sentSecondDemoRequestEmail}`);
-                  return done();
+              if (isTemplateAuto2(activity.template_id)) {
+                if (secondMailActivity) {
+                    console.log(`ERROR: ${lead.id} sent multiple auto2 emails!?`);
+                    return done();
                 }
-                sentSecondCreateTeacherEmail = true;
-                secondMailActivity = activity;
-              }
-              else if (isDemoRequestTemplateAuto2(activity.template_id)) {
-                if (sentSecondCreateTeacherEmail || sentSecondDemoRequestEmail) {
-                  console.log(`ERROR: ${lead.id} ${email} sent multiple auto2 emails!? ${sentSecondCreateTeacherEmail} ${sentSecondDemoRequestEmail}`);
-                  return done();
-                }
-                sentSecondDemoRequestEmail = true;
                 secondMailActivity = activity;
               }
             }
@@ -460,12 +448,6 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, email) {
             // console.log(`DEBUG: Second auto mail too recent ${secondMailActivity.date_created} ${lead.id}`);
             return done();
           }
-
-          if (sentSecondCreateTeacherEmail && sentSecondDemoRequestEmail) {
-            console.log(`ERROR: ${lead.id} ${email} sent multiple auto2 emails!? ${sentSecondCreateTeacherEmail} ${sentSecondDemoRequestEmail}`);
-            return done();
-          }
-          // console.log(secondMailActivity);
 
           // Find activity since second auto mail and status update
           // Skip email to a different contact's email
@@ -521,7 +503,7 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, email) {
         }
         catch (err) {
           console.log(err);
-          console.log(body);
+          // console.log(body);
           return done();
         }
       });
@@ -553,7 +535,7 @@ function addCallTasks(done) {
     if (err) console.log(err);
     const latestDate = new Date();
     latestDate.setUTCDate(latestDate.getUTCDate() - 3);
-    const query = `date_created > ${earliestDate.toISOString().substring(0, 19)} (lead_status:"Auto Attempt 2" or lead_status:"New US Schools Auto Attempt 2")"`;
+    const query = `date_created > ${earliestDate.toISOString().substring(0, 19)} (lead_status:"Auto Attempt 2" or lead_status:"New US Schools Auto Attempt 2" or lead_status:"Inbound Canada Auto Attempt 2" or lead_status:"Inbound AU Auto Attempt 2" or lead_status:"Inbound NZ Auto Attempt 2" or lead_status:"Inbound UK Auto Attempt 2")`;
     const limit = 100;
     const nextPage = (skip) => {
       let has_more = false;
@@ -578,10 +560,10 @@ function addCallTasks(done) {
                 }
               }
               else {
-                console.log(`ERROR: lead ${lead.id} contact has non-1 emails`);
+                console.log(`ERROR: lead ${lead.id} contact ${contact.id} has no email`);
               }
             }
-            // if (tasks.length > 10) break;
+            // if (tasks.length > 1) break;
           }
           async.series(tasks, (err, results) => {
             if (err) return done(err);
