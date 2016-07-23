@@ -1,8 +1,8 @@
 // Follow up on Close.io leads
 
 'use strict';
-if (process.argv.length !== 8) {
-  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <mongo connection Url>");
+if (process.argv.length !== 7) {
+  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3>");
   process.exit();
 }
 
@@ -26,8 +26,6 @@ const demoRequestInternationalEmailTemplatesAuto2 = ['tmpl_wz4SnDZMjNmAhp3MIuZaS
 const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
 const closeIoMailApiKeys = [process.argv[3], process.argv[4], process.argv[5], process.argv[6]]; // Automatic mails sent as API owners
-const mongoConnUrl = process.argv[7];
-const MongoClient = require('mongodb').MongoClient;
 const async = require('async');
 const request = require('request');
 
