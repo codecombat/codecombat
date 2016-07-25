@@ -1,8 +1,8 @@
 // Follow up on Close.io leads
 
 'use strict';
-if (process.argv.length !== 8) {
-  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <mongo connection Url>");
+if (process.argv.length !== 7) {
+  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3>");
   process.exit();
 }
 
@@ -12,17 +12,20 @@ if (process.argv.length !== 8) {
 // TODO: sendMail copied from updateCloseIoLeads.js
 // TODO: template values copied from updateCloseIoLeads.js
 // TODO: status change is not related to specific lead contacts
+// TODO: update status after adding a call task
 
 const createTeacherEmailTemplatesAuto1 = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];
 const demoRequestEmailTemplatesAuto1 = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
+const createTeacherInternationalEmailTemplateAuto1 = 'tmpl_8vsXwcr6dWefMnAEfPEcdHaxqSfUKUY8UKq6WfReGqG';
+const demoRequestInternationalEmailTemplateAuto1 = 'tmpl_nnH1p3II7G7NJYiPOIHphuj4XUaDptrZk1mGQb2d9Xa';
 const createTeacherEmailTemplatesAuto2 = ['tmpl_pGPtKa07ioISupdSc1MAzNC57K40XoA4k0PI1igi8Ec', 'tmpl_AYAcviU8NQGLbMGKSp3EmcBLha0gQw4cHSOR55Fmoha'];
 const demoRequestEmailTemplatesAuto2 = ['tmpl_HJ5zebh1SqC1QydDto05VPUMu4F7i5M35Llq7bzgfTw', 'tmpl_dmnK7IVpkyYfPYAl1rChhm9lClH5lJ9pQAZoPr7cvLt'];
+const createTeacherInternationalEmailTemplatesAuto2 = ['tmpl_a6Syzzy6ri9MErfXQySM5UfaF5iNIv1VCArYowAEICT', 'tmpl_jOqWLgT0G19Eqs7qZaAeNwtiull7UrSX4ZuvkYRM2gC'];
+const demoRequestInternationalEmailTemplatesAuto2 = ['tmpl_wz4SnDZMjNmAhp3MIuZaSMmjJTy5IW75Rcy3MYGb6Ti', 'tmpl_5oJ0YQMZFqNi3DgW7hplD6JS2zHqkB4Gt7Fj1u19Nks'];
 
 const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
 const closeIoMailApiKeys = [process.argv[3], process.argv[4], process.argv[5], process.argv[6]]; // Automatic mails sent as API owners
-const mongoConnUrl = process.argv[7];
-const MongoClient = require('mongodb').MongoClient;
 const async = require('async');
 const request = require('request');
 
@@ -39,13 +42,28 @@ async.series([
 (err, results) => {
   if (err) console.error(err);
   log("Script runtime: " + (new Date() - scriptStartTime));
-}
-);
+});
 
 // ** Utilities
 
+function getRandomEmailTemplateAuto2(template) {
+  if (createTeacherEmailTemplatesAuto1.indexOf(template) >= 0) {
+    return getRandomEmailTemplate(createTeacherEmailTemplatesAuto2);
+  }
+  if (demoRequestEmailTemplatesAuto1.indexOf(template) >= 0) {
+    return getRandomEmailTemplate(demoRequestEmailTemplatesAuto2);
+  }
+  if (createTeacherInternationalEmailTemplateAuto1 == template) {
+    return getRandomEmailTemplate(createTeacherInternationalEmailTemplatesAuto2);
+  }
+  if (demoRequestInternationalEmailTemplateAuto1 === template) {
+    return getRandomEmailTemplate(demoRequestInternationalEmailTemplatesAuto2);
+  }
+  return null;
+}
+
 function getRandomEmailTemplate(templates) {
-  if (templates.length < 0) return '';
+  if (templates.length < 0) return null;
   return templates[Math.floor(Math.random() * templates.length)];
 }
 
@@ -59,20 +77,20 @@ function isSameEmailTemplateType(template1, template2) {
   return false;
 }
 
-function isDemoRequestTemplateAuto1(template) {
-  return demoRequestEmailTemplatesAuto1.indexOf(template) >= 0;
+function isTemplateAuto1(template) {
+  if (createTeacherEmailTemplatesAuto1.indexOf(template) >= 0) return true;
+  if (demoRequestEmailTemplatesAuto1.indexOf(template) >= 0) return true;
+  if (createTeacherInternationalEmailTemplateAuto1 == template) return true;
+  if (demoRequestInternationalEmailTemplateAuto1 === template) return true;
+  return false;
 }
 
-function isCreateTeacherTemplateAuto1(template) {
-  return createTeacherEmailTemplatesAuto1.indexOf(template) >= 0;
-}
-
-function isDemoRequestTemplateAuto2(template) {
-  return demoRequestEmailTemplatesAuto2.indexOf(template) >= 0;
-}
-
-function isCreateTeacherTemplateAuto2(template) {
-  return createTeacherEmailTemplatesAuto2.indexOf(template) >= 0;
+function isTemplateAuto2(template) {
+  if (createTeacherEmailTemplatesAuto2.indexOf(template) >= 0) return true;
+  if (demoRequestEmailTemplatesAuto2.indexOf(template) >= 0) return true;
+  if (createTeacherInternationalEmailTemplatesAuto2.indexOf(template) >= 0) return true;
+  if (demoRequestInternationalEmailTemplatesAuto2.indexOf(template) >= 0) return true;
+  return false;
 }
 
 function log(str) {
@@ -137,7 +155,7 @@ function sendMail(toEmail, leadId, contactId, template, emailApiKey, delayMinute
 }
 
 function updateLeadStatus(lead, status, done) {
-  // console.log("DEBUG: updateLeadStatus", lead.id, status);
+  // console.log(`DEBUG: updateLeadStatus ${lead.id} ${status}`);
   const putData = {status: status};
   const options = {
     uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/${lead.id}/`,
@@ -202,25 +220,14 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
           }
 
           // Find first auto mail
-          let sentFirstCreateTeacherEmail = false;
-          let sentFirstDemoRequestEmail = false;
           let firstMailActivity;
           for (const activity of results.data) {
             if (activity._type === 'Email' && activity.to[0] === email) {
-              if (isCreateTeacherTemplateAuto1(activity.template_id)) {
-                if (sentFirstCreateTeacherEmail || sentFirstDemoRequestEmail) {
-                  console.log(`ERROR: ${lead.id} sent multiple auto1 emails!? ${sentFirstCreateTeacherEmail} ${sentFirstDemoRequestEmail}`);
+              if (isTemplateAuto1(activity.template_id)) {
+                if (firstMailActivity) {
+                  console.log(`ERROR: ${lead.id} sent multiple auto1 emails!?`);
                   return done();
                 }
-                sentFirstCreateTeacherEmail = true;
-                firstMailActivity = activity;
-              }
-              else if (isDemoRequestTemplateAuto1(activity.template_id)) {
-                if (sentFirstCreateTeacherEmail || sentFirstDemoRequestEmail) {
-                  console.log(`ERROR: ${lead.id} sent multiple auto1 emails!? ${sentFirstCreateTeacherEmail} ${sentFirstDemoRequestEmail}`);
-                  return done();
-                }
-                sentFirstDemoRequestEmail = true;
                 firstMailActivity = activity;
               }
             }
@@ -235,11 +242,6 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
             return done();
           }
 
-          if (sentFirstCreateTeacherEmail && sentFirstDemoRequestEmail) {
-            console.log(`ERROR: ${lead.id} sent multiple auto1 emails!? ${sentFirstCreateTeacherEmail} ${sentFirstDemoRequestEmail}`);
-            return done();
-          }
-
           // Find activity since first auto mail, that's not email to a different contact's email
           let recentActivity;
           for (const activity of results.data) {
@@ -251,17 +253,9 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
           }
 
           if (!recentActivity) {
-            let template;
-            if (sentFirstCreateTeacherEmail) {
-              // console.log(`Create teacher auto 1 sent: ${lead.id} ${firstMailUserId} ${userApiKeyMap[firstMailUserId]}`);
-              template = getRandomEmailTemplate(createTeacherEmailTemplatesAuto2);
-            }
-            else if (sentFirstDemoRequestEmail) {
-              // console.log(`Demo request auto 1 sent: ${lead.id} ${firstMailUserId} ${userApiKeyMap[firstMailUserId]}`);
-              template = getRandomEmailTemplate(demoRequestEmailTemplatesAuto2);
-            }
+            let template = getRandomEmailTemplateAuto2(firstMailActivity.template_id);
             if (!template) {
-              console.log(`ERROR: no template selected ${lead.id}`);
+              console.log(`ERROR: no auto2 template selected for ${lead.id} ${firstMailActivity.template_id}`);
               return done();
             }
             // console.log(`TODO: ${firstMailActivity.to[0]} ${lead.id} ${firstMailActivity.contact_id} ${template} ${userApiKeyMap[firstMailActivity.user_id]}`);
@@ -271,11 +265,24 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
 
               // TODO: some sort of callback problem that stops the series here
 
+              // TODO: manage this status mapping better
               if (lead.status_label === "Auto Attempt 1") {
                 return updateLeadStatus(lead, "Auto Attempt 2", done);
               }
               else if (lead.status_label === "New US Schools Auto Attempt 1") {
                 return updateLeadStatus(lead, "New US Schools Auto Attempt 2", done);
+              }
+              else if (lead.status_label === "Inbound AU Auto Attempt 1") {
+                return updateLeadStatus(lead, "Inbound AU Auto Attempt 2", done);
+              }
+              else if (lead.status_label === "Inbound Canada Auto Attempt 1") {
+                return updateLeadStatus(lead, "Inbound Canada Auto Attempt 2", done);
+              }
+              else if (lead.status_label === "Inbound NZ Auto Attempt 1") {
+                return updateLeadStatus(lead, "Inbound NZ Auto Attempt 2", done);
+              }
+              else if (lead.status_label === "Inbound UK Auto Attempt 1") {
+                return updateLeadStatus(lead, "Inbound UK Auto Attempt 2", done);
               }
               else {
                 console.log(`ERROR: unknown lead status ${lead.id} ${lead.status_label}`)
@@ -322,7 +329,8 @@ function sendSecondFollowupMails(done) {
     if (err) console.log(err);
     const latestDate = new Date();
     latestDate.setUTCDate(latestDate.getUTCDate() - 3);
-    const query = `date_created > ${earliestDate.toISOString().substring(0, 19)} (lead_status:"Auto Attempt 1" or lead_status:"New US Schools Auto Attempt 1")"`;
+    // TODO: manage this status list better
+    const query = `date_created > ${earliestDate.toISOString().substring(0, 19)} (lead_status:"Auto Attempt 1" or lead_status:"New US Schools Auto Attempt 1" or lead_status:"Inbound Canada Auto Attempt 1" or lead_status:"Inbound AU Auto Attempt 1" or lead_status:"Inbound NZ Auto Attempt 1" or lead_status:"Inbound UK Auto Attempt 1")`;
     const limit = 100;
     const nextPage = (skip) => {
       let has_more = false;
@@ -337,15 +345,15 @@ function sendSecondFollowupMails(done) {
           has_more = results.has_more;
           const tasks = [];
           for (const lead of results.data) {
-            // console.log(`${lead.id}\t${lead.status_label}\t${lead.name}`);
-            // if (lead.id !== 'lead_KYuI2HVOiUdJANvkOe1uLJBuuQVaaGSRveklhTWbHv2') continue;
+            // console.log(`DEBUG: ${lead.id}\t${lead.status_label}\t${lead.name}`);
+            // if (lead.id !== 'lead_8YZlEVQ4w3lETSlF43RQHK7cJQaBQ4tpbbxUUNA2uGC') continue;
             const existingContacts = lead.contacts || [];
             for (const contact of existingContacts) {
               if (contact.emails && contact.emails.length > 0) {
                 tasks.push(createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contact.emails[0].email.toLowerCase()));
               }
               else {
-                console.log(`ERROR: lead ${lead.id} contact has non-1 emails`);
+                console.log(`ERROR: lead ${lead.id} contact ${contact.id} has no email`);
               }
             }
           }
@@ -370,8 +378,8 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, email) {
   // Check for activity since second auto mail and status update
   // Add call task
   // TODO: Very similar function to createSendFollowupMailFn
-  const auto1Statuses = ["Auto Attempt 1", "New US Schools Auto Attempt 1"];
-  const auto2Statuses = ["Auto Attempt 2", "New US Schools Auto Attempt 2"];
+  const auto1Statuses = ["Auto Attempt 1", "New US Schools Auto Attempt 1", "Inbound Canada Auto Attempt 1", "Inbound AU Auto Attempt 1", "Inbound NZ Auto Attempt 1", "Inbound UK Auto Attempt 1"];
+  const auto2Statuses = ["Auto Attempt 2", "New US Schools Auto Attempt 2", "Inbound Canada Auto Attempt 2", "Inbound AU Auto Attempt 2", "Inbound NZ Auto Attempt 2", "Inbound UK Auto Attempt 2"];
   return (done) => {
     // console.log("DEBUG: addCallTask", lead.id);
 
@@ -408,27 +416,15 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, email) {
           }
 
           // Find second auto mail and status change
-          let sentSecondCreateTeacherEmail = false;
-          let sentSecondDemoRequestEmail = false;
           let secondMailActivity;
           let statusUpdateActivity;
-          let contactReplyMail;
           for (const activity of results.data) {
             if (activity._type === 'Email' && activity.to[0] === email) {
-              if (isCreateTeacherTemplateAuto2(activity.template_id)) {
-                if (sentSecondCreateTeacherEmail || sentSecondDemoRequestEmail) {
-                  console.log(`ERROR: ${lead.id} ${email} sent multiple auto2 emails!? ${sentSecondCreateTeacherEmail} ${sentSecondDemoRequestEmail}`);
-                  return done();
+              if (isTemplateAuto2(activity.template_id)) {
+                if (secondMailActivity) {
+                    console.log(`ERROR: ${lead.id} sent multiple auto2 emails!?`);
+                    return done();
                 }
-                sentSecondCreateTeacherEmail = true;
-                secondMailActivity = activity;
-              }
-              else if (isDemoRequestTemplateAuto2(activity.template_id)) {
-                if (sentSecondCreateTeacherEmail || sentSecondDemoRequestEmail) {
-                  console.log(`ERROR: ${lead.id} ${email} sent multiple auto2 emails!? ${sentSecondCreateTeacherEmail} ${sentSecondDemoRequestEmail}`);
-                  return done();
-                }
-                sentSecondDemoRequestEmail = true;
                 secondMailActivity = activity;
               }
             }
@@ -450,12 +446,6 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, email) {
             // console.log(`DEBUG: Second auto mail too recent ${secondMailActivity.date_created} ${lead.id}`);
             return done();
           }
-
-          if (sentSecondCreateTeacherEmail && sentSecondDemoRequestEmail) {
-            console.log(`ERROR: ${lead.id} ${email} sent multiple auto2 emails!? ${sentSecondCreateTeacherEmail} ${sentSecondDemoRequestEmail}`);
-            return done();
-          }
-          // console.log(secondMailActivity);
 
           // Find activity since second auto mail and status update
           // Skip email to a different contact's email
@@ -511,7 +501,7 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, email) {
         }
         catch (err) {
           console.log(err);
-          console.log(body);
+          // console.log(body);
           return done();
         }
       });
@@ -543,7 +533,7 @@ function addCallTasks(done) {
     if (err) console.log(err);
     const latestDate = new Date();
     latestDate.setUTCDate(latestDate.getUTCDate() - 3);
-    const query = `date_created > ${earliestDate.toISOString().substring(0, 19)} (lead_status:"Auto Attempt 2" or lead_status:"New US Schools Auto Attempt 2")"`;
+    const query = `date_created > ${earliestDate.toISOString().substring(0, 19)} (lead_status:"Auto Attempt 2" or lead_status:"New US Schools Auto Attempt 2" or lead_status:"Inbound Canada Auto Attempt 2" or lead_status:"Inbound AU Auto Attempt 2" or lead_status:"Inbound NZ Auto Attempt 2" or lead_status:"Inbound UK Auto Attempt 2")`;
     const limit = 100;
     const nextPage = (skip) => {
       let has_more = false;
@@ -568,10 +558,10 @@ function addCallTasks(done) {
                 }
               }
               else {
-                console.log(`ERROR: lead ${lead.id} contact has non-1 emails`);
+                console.log(`ERROR: lead ${lead.id} contact ${contact.id} has no email`);
               }
             }
-            // if (tasks.length > 10) break;
+            // if (tasks.length > 1) break;
           }
           async.series(tasks, (err, results) => {
             if (err) return done(err);

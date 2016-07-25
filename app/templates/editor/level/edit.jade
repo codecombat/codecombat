@@ -102,6 +102,11 @@ block header
               a(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain", disabled=anonymous).generate-terrain-button Generate Terrain
             li(class=anonymous ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
+            if view.courseID
+              li(class=anonymous ? "disabled": "")
+                a.play-classroom-level(data-classroom=true, data-code-language="javascript") Play Classroom JavaScript
+              li(class=anonymous ? "disabled": "")
+                a.play-classroom-level(data-classroom=true, data-code-language="python") Play Classroom Python
             li.divider
             li.dropdown-header(data-i18n="common.info") Info
             li#level-history-button
