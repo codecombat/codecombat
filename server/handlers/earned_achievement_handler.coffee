@@ -51,9 +51,8 @@ class EarnedAchievementHandler extends Handler
     collection = req.body.collection
     if collection isnt 'level.sessions'
       return @sendBadInputError(res, 'Only doing level session achievements for now.')
-      #model = mongoose.modelNameByCollection(collection)
-    else
-      model = LevelSession
+
+    model = mongoose.modelNameByCollection(collection)
 
     async.parallel({
       achievement: (callback) ->
