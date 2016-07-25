@@ -13,12 +13,16 @@ State = require 'models/State'
 utils = require 'core/utils'
 urls = require 'core/urls'
 Course = require 'models/Course'
+GameDevVictoryModal = require './modal/GameDevVictoryModal'
 
 TEAM = 'humans'
 
 module.exports = class PlayGameDevLevelView extends RootView
   id: 'play-game-dev-level-view'
   template: require 'templates/play/level/play-game-dev-level-view'
+  
+  subscriptions:
+    'god:new-world-created': 'onNewWorld'
 
   events:
     'click #play-btn': 'onClickPlayButton'
@@ -89,9 +93,9 @@ module.exports = class PlayGameDevLevelView extends RootView
         shareURL
       })
 
-    .catch ({message}) =>
-      console.error message
-      @state.set('errorMessage', message)
+    .catch (e) =>
+      throw e if e.stack
+      @state.set('errorMessage', e.message)
 
   onClickPlayButton: ->
     @god.createWorld(@spells, false, true)
@@ -111,6 +115,12 @@ module.exports = class PlayGameDevLevelView extends RootView
     height = @state.get('surfaceHeight')
     if height
       @$el.find('#info-col').css('height', @state.get('surfaceHeight'))
+
+  onNewWorld: (e) ->
+    if @goalManager.checkOverallStatus() is 'success'
+      modal = new GameDevVictoryModal({ shareURL: @state.get('shareURL') })
+      @openModalView(modal)
+      modal.once 'replay', @onClickPlayButton, @
 
   destroy: ->
     @levelLoader?.destroy()
