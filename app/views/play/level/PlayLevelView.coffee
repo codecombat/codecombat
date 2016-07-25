@@ -142,6 +142,7 @@ module.exports = class PlayLevelView extends RootView
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
 
   onLevelLoaded: (e) ->
+    return if @destroyed
     @god = new God({@gameUIState}) unless e.level.isType('web-dev')
     @setUpGod() if @waitingToSetUpGod
 
