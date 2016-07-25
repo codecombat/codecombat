@@ -1,7 +1,7 @@
 app = require 'core/application'
 CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
-Course = require 'models/Course'
+Courses = require 'collections/Courses'
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
@@ -40,8 +40,8 @@ module.exports = class TeacherCoursesView extends RootView
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
-    @courses = new CocoCollection([], { url: "/db/course", model: Course})
-    @supermodel.loadCollection(@courses, 'courses')
+    @courses = new Courses()
+    @supermodel.trackRequest @courses.fetchReleased()
     @campaigns = new Campaigns()
     @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
     @

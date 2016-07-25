@@ -3,7 +3,7 @@ template = require 'templates/new-home-view'
 CocoCollection = require 'collections/CocoCollection'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
-Course = require 'models/Course'
+Courses = require 'collections/Courses'
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
@@ -36,8 +36,8 @@ module.exports = class NewHomeView extends RootView
     'esc': 'onEscapePressed'
 
   initialize: (options) ->
-    @courses = new CocoCollection [], {url: "/db/course", model: Course}
-    @supermodel.loadCollection(@courses, 'courses')
+    @courses = new Courses()
+    @supermodel.trackRequest @courses.fetchReleased()
 
     if me.isTeacher()
       @trialRequests = new TrialRequests()

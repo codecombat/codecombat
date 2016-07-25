@@ -2,6 +2,7 @@
 
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
+// eg: mongo localhost:27017/coco scripts/mongodb/updateCourses.js
 
 // NOTE: uses name as unique identifier, so changing the name will insert a new course
 // NOTE: pricePerSeat in USD cents
@@ -15,7 +16,8 @@ var courses =
     description: "Learn basic syntax, while loops, and the CodeCombat environment.",
     duration: NumberInt(1),
     free: true,
-    screenshot: "/images/pages/courses/101_info.png"
+    screenshot: "/images/pages/courses/101_info.png",
+    releasePhase: 'released'
   },
   {
     name: "Computer Science 2",
@@ -24,7 +26,8 @@ var courses =
     description: "Introduce Arguments, Variables, If Statements, and Arithmetic.",
     duration: NumberInt(5),
     free: false,
-    screenshot: "/images/pages/courses/102_info.png"
+    screenshot: "/images/pages/courses/102_info.png",
+    releasePhase: 'released'
   },
   {
     name: "Computer Science 3",
@@ -33,7 +36,8 @@ var courses =
     description: "Introduces arithmetic, counters, advanced while loops, break, continue, arrays.",
     duration: NumberInt(5),
     free: false,
-    screenshot: "/images/pages/courses/103_info.png"
+    screenshot: "/images/pages/courses/103_info.png",
+    releasePhase: 'released'
   },
   {
     name: "Computer Science 4",
@@ -42,7 +46,8 @@ var courses =
     description: "Introduces object literals, for loops, function definitions, drawing, and modulo.",
     duration: NumberInt(5),
     free: false,
-    screenshot: "/images/pages/courses/104_info.png"
+    screenshot: "/images/pages/courses/104_info.png",
+    releasePhase: 'released'
   },
   {
     name: "Computer Science 5",
@@ -51,7 +56,8 @@ var courses =
     description: "Introduces function parameters, function return values and algorithms.",
     duration: NumberInt(5),
     free: false,
-    screenshot: "/images/pages/courses/105_info.png"
+    screenshot: "/images/pages/courses/105_info.png",
+    releasePhase: 'released'
   },
   {
     name: "CS: Game Development 1",
@@ -61,7 +67,8 @@ var courses =
     duration: NumberInt(5),
     free: false,
     //screenshot: "/images/pages/courses/105_info.png",
-    adminOnly: true
+    adminOnly: true, // Until we finish transitioning to releasePhase
+    releasePhase: 'beta'
   },
   {
     name: "CS: Web Development 1",
@@ -71,7 +78,8 @@ var courses =
     duration: NumberInt(5),
     free: false,
     //screenshot: "/images/pages/courses/105_info.png",
-    adminOnly: true
+    adminOnly: true, // Until we finish transitioning to releasePhase
+    releasePhase: 'beta'
   },
   {
     name: "CS: Web Development 2",
@@ -81,7 +89,8 @@ var courses =
     duration: NumberInt(5),
     free: false,
     //screenshot: "/images/pages/courses/105_info.png",
-    adminOnly: true
+    adminOnly: true, // Until we finish transitioning to releasePhase
+    releasePhase: 'beta'
   }
 ];
 
