@@ -4,17 +4,26 @@ extends /templates/base
 
 block content
 
+  h3 Classroom Levels
   if !me.isAdmin()
     div You must be logged in as an admin to view this page.
   else
     p
       - var levelsTotal = 0;
-      each course in view.courses.models
-        - var campaign = view.campaigns.get(course.get('campaignID'));
-        - var levels = campaign.getLevels().models;
-        - levelsTotal += levels.length;
-        div #{levels.length} #{course.get('name')} 
-      div #{levelsTotal} levels total
+      table.table.table-striped.table-condensed
+        tr
+          th Levels
+          th Course
+        each course in view.courses.models
+          - var campaign = view.campaigns.get(course.get('campaignID'));
+          - var levels = campaign.getLevels().models;
+          - levelsTotal += levels.length;
+          tr
+            td= levels.length
+            td= course.get('name')
+        tr
+          td= levelsTotal
+          td All
     each course in view.courses.models
       - var campaign = view.campaigns.get(course.get('campaignID'));
       - var levels = campaign.getLevels().models;
@@ -29,6 +38,7 @@ block content
           th Type
           th Practice
           th Practice Threshold (m)
+          th Shareable
         each level, levelIndex in levels
           - var levelNumber = campaign.getLevelNumber(level.get('original'), levelIndex + 1)
           tr
@@ -37,3 +47,4 @@ block content
             td= level.get('type')
             td= level.get('practice')
             td= level.get('practiceThresholdMinutes')
+            td= level.get('shareable')
