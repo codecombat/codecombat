@@ -51,7 +51,6 @@ module.exports =
     res.status(200).send(level)
 
   get: (Model, options={}) -> wrap (req, res) ->
-    # Don't use standard rest middleware get, because we want to filter out adminOnly courses for non-admins
     query = {}
     if req.query.releasePhase
       query.releasePhase = req.query.releasePhase
