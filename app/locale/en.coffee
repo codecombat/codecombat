@@ -287,6 +287,7 @@
     email_good: "Email looks good!"
     name_taken: "Username already taken! Try {{suggestedName}}?"
     name_available: "Username available!"
+    name_is_email: "Username may not be an email"
     choose_type: "Choose your account type:"
     teacher_type_1: "Teach programming using CodeCombat!"
     teacher_type_2: "Set up your class"
