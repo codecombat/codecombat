@@ -6,8 +6,13 @@ module.exports = class GameDevVictoryModal extends ModalView
   
   events:
     'click #replay-game-btn': 'onClickReplayButton'
+    'click #copy-url-btn': 'onClickCopyURLButton'
   
   initialize: ({@shareURL}) ->
 
   onClickReplayButton: ->
     @trigger 'replay'
+
+  onClickCopyURLButton: ->
+    @$('#copy-url-input').val(@shareURL).select()
+    @tryCopy()
