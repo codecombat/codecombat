@@ -13,6 +13,8 @@ module.exports = class AdministerUserModal extends ModalView
   events:
     'click #save-changes': 'onClickSaveChanges'
     'click #add-seats-btn': 'onClickAddSeatsButton'
+    'click #destudent-btn': 'onClickDestudentButton'
+    'click #deteacher-btn': 'onClickDeteacherButton'
 
   initialize: (options, @userHandle) ->
     @user = new User({_id:@userHandle})
@@ -71,3 +73,33 @@ module.exports = class AdministerUserModal extends ModalView
     @listenTo prepaid, 'sync', ->
       @state = 'made-prepaid'
       @renderSelectors('#prepaid-form')
+
+  onClickDestudentButton: (e) ->
+    button = $(e.currentTarget)
+    button.attr('disabled', true).text('...')
+    Promise.resolve(@user.destudent())
+    .then =>
+      button.remove()
+    .catch (e) =>
+      button.attr('disabled', false).text('Destudent')
+      noty { 
+        text: e.message or e.responseJSON?.message or e.responseText or 'Unknown Error'
+        type: 'error'
+      }
+      if e.stack
+        throw e
+
+  onClickDeteacherButton: (e) ->
+    button = $(e.currentTarget)
+    button.attr('disabled', true).text('...')
+    Promise.resolve(@user.deteacher())
+    .then =>
+      button.remove()
+    .catch (e) =>
+      button.attr('disabled', false).text('Destudent')
+      noty {
+        text: e.message or e.responseJSON?.message or e.responseText or 'Unknown Error'
+        type: 'error'
+      }
+      if e.stack
+        throw e

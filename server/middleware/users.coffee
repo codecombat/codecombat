@@ -8,9 +8,11 @@ Promise = require 'bluebird'
 parse = require '../commons/parse'
 request = require 'request'
 mongoose = require 'mongoose'
+database = require '../commons/database'
 sendwithus = require '../sendwithus'
 User = require '../models/User'
 Classroom = require '../models/Classroom'
+CourseInstance = require '../models/CourseInstance'
 facebook = require '../lib/facebook'
 gplus = require '../lib/gplus'
 TrialRequest = require '../models/TrialRequest'
@@ -211,3 +213,44 @@ module.exports =
         yield trialRequest.update({$unset: {applicant: ''}})
         
     res.status(200).send(req.user.toObject({req: req}))
+    
+  destudent: wrap (req, res) ->
+    user = yield database.getDocFromHandle(req, User)
+    if not user
+      throw new errors.NotFound('User not found.')
+      
+    if not user.isStudent()
+      return res.status(200).send(user.toObject({req: req}))
+      
+    yield Classroom.update(
+      { members: user._id },
+      { $pull: {members: user._id} },
+      { multi: true }
+    )
+    
+    yield CourseInstance.update(
+      { members: user._id },
+      { $pull: {members: user._id} },
+      { multi: true }
+    )
+
+    yield user.update({ $unset: {role: ''}})
+    user.set('role', undefined)
+    return res.status(200).send(user.toObject({req: req}))
+
+
+  deteacher: wrap (req, res) ->
+    user = yield database.getDocFromHandle(req, User)
+    if not user
+      throw new errors.NotFound('User not found.')
+
+    if not user.isTeacher()
+      return res.status(200).send(user.toObject({req: req}))
+
+    yield TrialRequest.remove(
+      { applicant: user._id },
+    )
+
+    yield user.update({ $unset: {role: ''}})
+    user.set('role', undefined)
+    return res.status(200).send(user.toObject({req: req}))

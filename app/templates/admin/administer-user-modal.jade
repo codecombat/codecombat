@@ -3,6 +3,12 @@ extends /templates/core/modal-base-flat
 // DNT
 
 block modal-header-content
+  .pull-right
+    if view.user.isStudent()
+      button#destudent-btn.btn.btn-burgandy Destudent
+    if view.user.isTeacher()
+      button#deteacher-btn.btn.btn-burgandy Deteacher
+  
   h3 Administer User
   h4 #{view.user.get('name') || 'Unnamed'} / #{view.user.get('email')}
   span= view.user.id

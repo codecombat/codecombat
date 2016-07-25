@@ -3,6 +3,9 @@ utils = require '../utils'
 urlUser = '/db/user'
 User = require '../../../server/models/User'
 Classroom = require '../../../server/models/Classroom'
+CourseInstance = require '../../../server/models/CourseInstance'
+Course = require '../../../server/models/Course'
+Campaign = require '../../../server/models/Campaign'
 TrialRequest = require '../../../server/models/TrialRequest'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
@@ -970,3 +973,62 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
     expect(res.statusCode).toBe(409)
     done()
     
+describe 'POST /db/user/:handle/destudent', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, CourseInstance, Course, Campaign])
+    done()
+  
+  it 'removes a student user from all classrooms and unsets their role property', utils.wrap (done) ->
+    student1 = yield utils.initUser({role: 'student'})
+    student2 = yield utils.initUser({role: 'student'})
+    members = [student1._id, student2._id]
+
+    classroom = new Classroom({members})
+    yield classroom.save()
+    courseInstance = new CourseInstance({members})
+    yield courseInstance.save()
+
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+
+    url = getURL("/db/user/#{student1.id}/destudent")
+    [res, body] = yield request.postAsync({url, json:true})
+    
+    student1 = yield User.findById(student1.id)
+    student2 = yield User.findById(student2.id)
+    classroom = yield Classroom.findById(classroom.id)
+    courseInstance = yield CourseInstance.findById(courseInstance.id)
+    
+    expect(student1.get('role')).toBeUndefined()
+    expect(student2.get('role')).toBe('student')
+    expect(classroom.get('members').length).toBe(1)
+    expect(classroom.get('members')[0].toString()).toBe(student2.id)
+    expect(courseInstance.get('members').length).toBe(1)
+    expect(courseInstance.get('members')[0].toString()).toBe(student2.id)
+    done()
+
+describe 'POST /db/user/:handle/deteacher', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, TrialRequest])
+    done()
+
+  it 'removes a student user from all classrooms and unsets their role property', utils.wrap (done) ->
+    teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(teacher)
+    trialRequest = yield utils.makeTrialRequest(teacher)
+
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+
+    trialRequest = yield TrialRequest.findById(trialRequest.id)
+    expect(trialRequest).toBeDefined()
+    expect(teacher.get('role')).toBe('teacher')
+
+    url = getURL("/db/user/#{teacher.id}/deteacher")
+    [res, body] = yield request.postAsync({url, json:true})
+
+    trialRequest = yield TrialRequest.findById(trialRequest.id)
+    expect(trialRequest).toBeNull()
+    teacher = yield User.findById(teacher.id)
+    expect(teacher.get('role')).toBeUndefined()
+    done()
