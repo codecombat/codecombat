@@ -34,12 +34,11 @@ form#basic-info-form.modal-body.basic-info
           .col-xs-5.col-xs-offset-3
             label.control-label(for="email-input")
               span(data-i18n="share_progress_modal.form_label")
-          .col-xs-5.col-xs-offset-3
-            input.form-control.input-lg#email-input(name="email" type="email")
             if view.signupState.get('path') === 'student'
               .help-block.optional-help-block.pull-right
                 span(data-i18n="signup.optional")
-          .col-xs-4.email-check
+            input.form-control.input-lg#email-input(name="email" type="email")
+          .col-xs-4.email-check.fancy-error
             - var checkEmailState = view.state.get('checkEmailState');
             if checkEmailState === 'checking'
               span.small(data-i18n="signup.checking")
@@ -59,12 +58,11 @@ form#basic-info-form.modal-body.basic-info
 
       .form-group
         .row
-          .col-xs-7.col-xs-offset-3
+          .col-xs-5.col-xs-offset-3
             label.control-label(for="username-input")
               span(data-i18n="general.username")
-          .col-xs-5.col-xs-offset-3
             input.form-control.input-lg#username-input(name="name")
-          .col-xs-4.name-check
+          .col-xs-4.name-check.fancy-error
             - var checkNameState = view.state.get('checkNameState');
             if checkNameState === 'checking'
               span.small(data-i18n="signup.checking")
@@ -81,10 +79,9 @@ form#basic-info-form.modal-body.basic-info
 
       .form-group
         .row
-          .col-xs-7.col-xs-offset-3
+          .col-xs-5.col-xs-offset-3
             label.control-label(for="password-input")
               span(data-i18n="general.password")
-          .col-xs-5.col-xs-offset-3
             input.form-control.input-lg#password-input(name="password" type="password")
 
       .form-group.checkbox.subscribe
