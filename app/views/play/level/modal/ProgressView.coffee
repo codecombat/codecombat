@@ -38,5 +38,7 @@ module.exports = class ProgressView extends CocoView
     @trigger 'ladder'
 
   onClickShareLevelButton: ->
+    category = if _.string.startsWith(@course.get('slug'), 'game-dev') then 'GameDev' else 'WebDev'
+    window.tracker?.trackEvent 'Student Copy URL', { category }
     @$('#share-level-input').val(@shareURL).select()
     @tryCopy()
