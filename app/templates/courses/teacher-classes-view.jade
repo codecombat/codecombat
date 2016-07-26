@@ -54,7 +54,7 @@ block content
 
 mixin classRow(classroom)
   .class.row
-    .col-xs-6
+    .class-details-col
       .text-h4.semibold
         = classroom.get('name')
       .language.small
@@ -72,19 +72,20 @@ mixin classRow(classroom)
         a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
         a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
 
-    .progress-col.col-xs-5
-      if classroom.get('members').length == 0
-        +addStudentsButton(classroom)
-      else
-        - var courses = classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
-        - var courseLabelsArray = view.helper.courseLabelsArray(courses);
-        each trimCourse, index in classroom.get('courses') || []
-          - var course = view.courses.get(trimCourse._id);
-          if view.courseInstances.findWhere({ classroomID: classroom.id, courseID: course.id })
-            - var label = courseLabelsArray[index];
-            +progressDot(classroom, course, label)
-    .view-class-arrow.col-xs-1
-      a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right.view-class-btn(data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Chevron")
+    .flex-right
+      .progress-col
+        if classroom.get('members').length == 0
+          +addStudentsButton(classroom)
+        else
+          - var courses = classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
+          - var courseLabelsArray = view.helper.courseLabelsArray(courses);
+          each trimCourse, index in classroom.get('courses') || []
+            - var course = view.courses.get(trimCourse._id);
+            if view.courseInstances.findWhere({ classroomID: classroom.id, courseID: course.id })
+              - var label = courseLabelsArray[index];
+              +progressDot(classroom, course, label)
+      .view-class-arrow
+        a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right.view-class-btn(data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Chevron")
 
 
 mixin addStudentsButton(classroom)
@@ -118,8 +119,7 @@ mixin progressDot(classroom, course, label)
     +progressDotLabel(label)
 
 mixin progressDotLabel(label)
-  .dot-label
-    .text-h6= label
+  .dot-label.text-h6= label
 
 mixin archivedClassRow(classroom)
   .class.row

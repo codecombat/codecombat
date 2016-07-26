@@ -38,6 +38,18 @@
       padding: 20px
       display: flex
       
+      .flex-right
+        display: flex
+        flex-grow: 1
+        justify-content: flex-end
+
+      .progress-col
+        display: flex
+        align-self: center
+        align-items: center
+        flex-wrap: wrap
+        justify-content: flex-end
+
   .class:nth-child(2n+1)
     background-color: #ebebeb
 
@@ -46,39 +58,27 @@
     
   .view-class-arrow
     color: $gray-darker
-    // height: 100%
     font-size: 35px
     line-height: 35px
+    margin-left: 15px
     align-self: center
     .view-class-arrow-inner
       color: $gray-light
       &:hover
         text-decoration: none
       
-  .progress-col
-    display: flex
-    align-self: center
-    align-items: center
-    
   .progress-dot
     display: inline-block
-    margin-right: 20px
+    margin: 10px
     width: 62px
     height: 62px
     border-radius: 50%
-    margin-top: 23px
-    margin-bottom: 23px
     background: $gray-light
-    position: relative
+    display: flex
+    justify-content: center
+    align-items: center
     .dot-label
-      color: $gray-dark
-      position: absolute
-      left: 50%
-      top: 50%
-      .text-h6
-        margin-left: -50%
-        margin-top: -50%
-        color: white
+      color: white
     
   .progress-dot.forest
     background: $forest
