@@ -1,4 +1,3 @@
-
 // Unset someone with a student role. Remove from classrooms, unset role.
 
 // Usage

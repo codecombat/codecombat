@@ -146,6 +146,11 @@ module.exports = class BasicInfoView extends CocoView
     })
     
     forms.clearFormAlerts(@$el)
+    
+    if data.name and forms.validateEmail(data.name)
+      forms.setErrorToProperty(@$el, 'name', $.i18n.t('signup.name_is_email'))
+      return false
+    
     res = tv4.validateMultiple data, @formSchema()
     forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
     return res.valid

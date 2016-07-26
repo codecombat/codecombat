@@ -361,6 +361,10 @@ UserSchema.pre('save', (next) ->
     @set('email', undefined)
     @set('emailLower', undefined)
   if name = @get('name')
+    filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
+    if filter.test(name)
+      return next(new errors.UnprocessableEntity('Name may not be an email'))
+  
     @set('nameLower', name.toLowerCase())
   else
     @set('name', undefined)
