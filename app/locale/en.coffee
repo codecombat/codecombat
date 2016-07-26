@@ -798,6 +798,7 @@
     phoenix_title: "Software Engineer"
     nolan_title: "Territory Manager"
     elliot_title: "Partnership Manager"
+    elliot_blurb: "Mindreader"
     lisa_title: "Market Development Rep"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
