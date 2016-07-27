@@ -1289,3 +1289,4 @@ commentStarts =
   coffeescript: '#'
   lua: '--'
   java: '//'
+  html: '<!--'
