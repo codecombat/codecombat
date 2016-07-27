@@ -10,15 +10,16 @@ button.btn.btn-xs.btn-inverse.picoctf-hide#volume-button(title="Adjust volume")
 button.btn.btn-xs.btn-inverse.picoctf-hide#music-button(title="Toggle Music")
   span ♫
 
-.scrubber
-  .scrubber-inner
-    .progress.secret#timeProgress
-      .progress-bar
-        .scrubber-handle
-        .popover.fade.top.in#timePopover
-          .arrow
-          h3.popover-title
-          .popover-content
+if !view.options.level.isType('game-dev')
+  .scrubber
+    .scrubber-inner
+      .progress.secret#timeProgress
+        .progress-bar
+          .scrubber-handle
+          .popover.fade.top.in#timePopover
+            .arrow
+            h3.popover-title
+            .popover-content
 
 .btn-group.dropup#playback-settings
   button.btn.btn-xs.btn-inverse.toggle-fullscreen(title="Toggle fullscreen")

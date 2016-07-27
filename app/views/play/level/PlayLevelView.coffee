@@ -143,7 +143,11 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelLoaded: (e) ->
     return if @destroyed
-    @god = new God({@gameUIState}) unless e.level.isType('web-dev')
+    unless e.level.isType('web-dev')
+      @god = new God({
+        @gameUIState
+        indefiniteLength: e.level.isType('game-dev')
+      })
     @setupGod() if @waitingToSetUpGod
 
   trackLevelLoadEnd: ->
@@ -355,6 +359,7 @@ module.exports = class PlayLevelView extends RootView
       levelType: @level.get('type', true)
       stayVisible: @showAds()
       @gameUIState
+      @level # TODO: change from levelType to level
     }
     @surface = new Surface(@world, normalSurface, webGLSurface, surfaceOptions)
     worldBounds = @world.getBounds()

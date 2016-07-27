@@ -585,8 +585,8 @@ module.exports = class SpellView extends CocoView
     # @addZatannaSnippets()
     @highlightCurrentLine()
 
-  cast: (preload=false, realTime=false) ->
-    Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang, preload: preload, realTime: realTime
+  cast: (preload=false, realTime=false, justBegin=false) ->
+    Backbone.Mediator.publish 'tome:cast-spell', { @spell, @thang, preload, realTime, justBegin }
 
   notifySpellChanged: =>
     return if @destroyed
@@ -712,7 +712,7 @@ module.exports = class SpellView extends CocoView
     @aceDoc.removeListener 'change', @onCodeChangeMetaHandler if @onCodeChangeMetaHandler
     onSignificantChange = []
     onAnyChange = [
-      _.debounce @updateAether, 500
+      _.debounce @updateAether, if @options.level.isType('game-dev') then 10 else 500
       _.debounce @notifyEditingEnded, 1000
       _.throttle @notifyEditingBegan, 250
       _.throttle @notifySpellChanged, 300
@@ -887,13 +887,18 @@ module.exports = class SpellView extends CocoView
   # - Go after specified delay if a) and not b) or c)
   guessWhetherFinished: (aether) ->
     valid = not aether.getAllProblems().length
+    return unless valid
     cursorPosition = @ace.getCursorPosition()
     currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(@singleLineCommentRegex(), ''))  # trim // unless inside "
     endOfLine = cursorPosition.column >= currentLine.length  # just typed a semicolon or brace, for example
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
     incompleteThis = /^(s|se|sel|self|t|th|thi|this)$/.test currentLine.trim()
     #console.log "finished=#{valid and (endOfLine or beginningOfLine) and not incompleteThis}", valid, endOfLine, beginningOfLine, incompleteThis, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
-    if valid and (endOfLine or beginningOfLine) and not incompleteThis
+    if not incompleteThis and @options.level.isType('game-dev')
+      # TODO: Improve gamedev autocast speed
+      @spell.transpile @getSource()
+      @cast(false, false, true)
+    else if (endOfLine or beginningOfLine) and not incompleteThis
       @preload()
 
   singleLineCommentRegex: ->
