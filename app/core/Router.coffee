@@ -51,6 +51,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/level-tasks': go('artisans/LevelTasksView')
     'artisans/solution-problems': go('artisans/SolutionProblemsView')
     'artisans/thang-tasks': go('artisans/ThangTasksView')
+    'artisans/level-concepts': go('artisans/LevelConceptMap')
 
     'beta': go('HomeView')
 
