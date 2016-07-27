@@ -27,6 +27,7 @@ module.exports = class PlayGameDevLevelView extends RootView
   events:
     'click #play-btn': 'onClickPlayButton'
     'click #copy-url-btn': 'onClickCopyURLButton'
+    'click #play-more-codecombat-btn': 'onClickPlayMoreCodeCombatButton'
 
   initialize: (@options, @levelID, @sessionID) ->
     @state = new State({
@@ -92,6 +93,14 @@ module.exports = class PlayGameDevLevelView extends RootView
         goalNames
         shareURL
       })
+      @eventProperties = {
+        category: 'Play GameDev Level'
+        @courseID
+        sessionID: @session.id
+        levelID: @level.id
+        levelSlug: @level.get('slug')
+      }
+      window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
 
     .catch (e) =>
       throw e if e.stack
@@ -101,12 +110,18 @@ module.exports = class PlayGameDevLevelView extends RootView
     @god.createWorld(@spells, false, true)
     Backbone.Mediator.publish('playback:real-time-playback-started', {})
     Backbone.Mediator.publish('level:set-playing', {playing: true})
+    action = if @state.get('playing') then 'Play GameDev Level - Restart Level' else 'Play GameDev Level - Start Level'
+    window.tracker?.trackEvent(action, @eventProperties, ['Mixpanel'])
     @state.set('playing', true)
 
   onClickCopyURLButton: ->
     @$('#copy-url-input').val(@state.get('shareURL')).select()
     @tryCopy()
+    window.tracker?.trackEvent('Play GameDev Level - Copy URL', @eventProperties, ['Mixpanel'])
 
+  onClickPlayMoreCodeCombatButton: ->
+    window.tracker?.trackEvent('Play GameDev Level - Click Play More CodeCombat', @eventProperties, ['Mixpanel'])
+    
   onSurfaceResize: ({height}) ->
     @state.set('surfaceHeight', height)
     
@@ -118,7 +133,7 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   onNewWorld: (e) ->
     if @goalManager.checkOverallStatus() is 'success'
-      modal = new GameDevVictoryModal({ shareURL: @state.get('shareURL') })
+      modal = new GameDevVictoryModal({ shareURL: @state.get('shareURL'), @eventProperties })
       @openModalView(modal)
       modal.once 'replay', @onClickPlayButton, @
 

@@ -38,5 +38,19 @@ module.exports = class ProgressView extends CocoView
     @trigger 'ladder'
 
   onClickShareLevelButton: ->
+    if _.string.startsWith(@course.get('slug'), 'game-dev')
+      name = 'Student Game Dev - Copy URL'
+      category = 'GameDev'
+    else
+      name = 'Student Web Dev - Copy URL'
+      category = 'WebDev'
+    eventProperties = {
+      levelID: @level.id
+      levelSlug: @level.get('slug')
+      classroomID: @classroom.id
+      courseID: @course.id
+      category
+    }
+    window.tracker?.trackEvent name, eventProperties, ['MixPanel']
     @$('#share-level-input').val(@shareURL).select()
     @tryCopy()

@@ -108,9 +108,9 @@ module.exports = class CourseVictoryModal extends ModalView
   onDone: ->
     window.tracker?.trackEvent 'Play Level Victory Modal Done', category: 'Students', levelSlug: @level.get('slug'), ['Mixpanel']
     if me.isSessionless()
-      link = "/teachers/courses"
+      link = '/teachers/courses'
     else
-      link = "/courses/#{@courseID}/#{@courseInstanceID}"
+      link = '/courses'
     application.router.navigate(link, {trigger: true})
 
   onLadder: ->
