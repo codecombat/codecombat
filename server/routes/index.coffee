@@ -104,6 +104,8 @@ module.exports.setup = (app) ->
   app.post('/db/user/:handle/signup-with-facebook', mw.users.signupWithFacebook)
   app.post('/db/user/:handle/signup-with-gplus', mw.users.signupWithGPlus)
   app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
+  app.post('/db/user/:handle/destudent', mw.auth.checkHasPermission(['admin']), mw.users.destudent)
+  app.post('/db/user/:handle/deteacher', mw.auth.checkHasPermission(['admin']), mw.users.deteacher)
   
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
   app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools)

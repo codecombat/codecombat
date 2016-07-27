@@ -231,7 +231,7 @@ module.exports = class AccountSettingsView extends CocoView
         $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
       else
         noty
-          text: res.responseText
+          text: res.responseJSON?.message or res.responseText
           type: 'error'
           layout: 'topCenter'
           timeout: 5000

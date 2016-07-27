@@ -30,6 +30,7 @@ module.exports = class RootView extends CocoView
     'click a': 'onClickAnchor'
     'click button': 'toggleModal'
     'click li': 'toggleModal'
+    'treema-error': 'onTreemaError'
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
@@ -184,3 +185,6 @@ module.exports = class RootView extends CocoView
   navigateToAdmin: ->
     if window.amActually or me.isAdmin()
       application.router.navigate('/admin', {trigger: true})
+
+  onTreemaError: (e) ->
+    noty text: e.message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true

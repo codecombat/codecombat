@@ -140,6 +140,8 @@ module.exports = mw =
     if sources.campaign and not data.campaignID
       data.campaignID = sources.campaign._id
     
+    data.releasePhase ||= 'released'
+
     course = new Course(data)
     return course.save()
 

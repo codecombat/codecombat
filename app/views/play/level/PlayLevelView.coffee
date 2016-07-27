@@ -144,7 +144,7 @@ module.exports = class PlayLevelView extends RootView
   onLevelLoaded: (e) ->
     return if @destroyed
     @god = new God({@gameUIState}) unless e.level.isType('web-dev')
-    @setUpGod() if @waitingToSetUpGod
+    @setupGod() if @waitingToSetUpGod
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview

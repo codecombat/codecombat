@@ -55,7 +55,7 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
         js = d.createElement('script')
         js.id = id
         js.async = true
-        js.src = '//connect.facebook.net/en_US/all.js'
+        js.src = '//connect.facebook.net/en_US/sdk.js'
     
         #js.src = '//connect.facebook.net/en_US/all/debug.js'
         ref.parentNode.insertBefore js, ref
@@ -63,12 +63,13 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
       )(document)
 
       window.fbAsyncInit = =>
-        FB.init
+        FB.init({
           appId: (if document.location.origin is 'http://localhost:3000' then '607435142676437' else '148832601965463') # App ID
           channelUrl: document.location.origin + '/channel.html' # Channel File
           cookie: true # enable cookies to allow the server to access the session
           xfbml: true # parse XFBML
-
+          version: 'v2.7'
+        })
         FB.getLoginStatus (response) =>
           if response.status is 'connected'
             @connected = true
