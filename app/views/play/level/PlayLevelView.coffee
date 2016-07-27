@@ -211,6 +211,7 @@ module.exports = class PlayLevelView extends RootView
       @$el.addClass 'web-dev'  # Hide some of the elements we won't be using
       return
     @world = @levelLoader.world
+    @$el.addClass 'game-dev' if @level.isType('game-dev')
     @$el.addClass 'hero' if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')  # TODO: figure out what this does and comment it
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
     # TODO: Update terminology to always be opponentSession or otherSession
@@ -219,6 +220,7 @@ module.exports = class PlayLevelView extends RootView
     @worldLoadFakeResources = []  # first element (0) is 1%, last (99) is 100%
     for percent in [1 .. 100]
       @worldLoadFakeResources.push @supermodel.addSomethingResource 1
+    @renderSelectors '#stop-real-time-playback-button'
 
   onWorldLoadProgressChanged: (e) ->
     return unless e.god is @god
@@ -632,10 +634,12 @@ module.exports = class PlayLevelView extends RootView
   # Real-time playback
   onRealTimePlaybackStarted: (e) ->
     @$el.addClass('real-time').focus()
+    @$('#how-to-play-game-dev-panel').removeClass('hide') if @level.isType('game-dev')
     @onWindowResize()
 
   onRealTimePlaybackEnded: (e) ->
     return unless @$el.hasClass 'real-time'
+    @$('#how-to-play-game-dev-panel').addClass('hide') if @level.isType('game-dev')
     @$el.removeClass 'real-time'
     @onWindowResize()
     if @world.frames.length is @world.totalFrames and not @surface.countdownScreen?.showing
