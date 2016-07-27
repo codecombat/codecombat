@@ -101,6 +101,7 @@ module.exports = class PlayGameDevLevelView extends RootView
         levelSlug: @level.get('slug')
       }
       window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
+      @god.createWorld(@spells, false, false, true)
 
     .catch (e) =>
       throw e if e.stack

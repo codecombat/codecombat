@@ -609,6 +609,7 @@ module.exports = class World
       lastPos = x: null, y: null
       for frameIndex in [lastFrameIndex .. 0] by -1
         frame = @frames[frameIndex]
+        continue unless frame # may have been evicted for game dev levels
         if pos = frame.thangStateMap[thangID]?.getStateForProp 'pos'
           pos = camera.worldToSurface {x: pos.x, y: pos.y} if camera  # without z
           if not lastPos.x? or (Math.abs(lastPos.x - pos.x) + Math.abs(lastPos.y - pos.y)) > 1
