@@ -127,7 +127,7 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'run-code'
       bindKey: {win: 'Shift-Enter|Ctrl-Enter', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter'}
-      exec: -> Backbone.Mediator.publish 'tome:manual-cast', {}
+      exec: => Backbone.Mediator.publish 'tome:manual-cast', {realTime: @options.level.isType('game-dev')}
     unless @observing
       addCommand
         name: 'run-code-real-time'

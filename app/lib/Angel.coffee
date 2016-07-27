@@ -148,7 +148,7 @@ module.exports = class Angel extends CocoClass
   finishBeholdingWorld: (goalStates) -> (world) =>
     return if @aborting or @destroyed
     finished = world.frames.length is world.totalFrames
-    if @work.indefiniteLength and world.victory?
+    if @work?.indefiniteLength and world.victory?
       finished = true
       world.totalFrames = world.frames.length
     firstChangedFrame = if @work.indefiniteLength then 0 else world.findFirstChangedFrame @shared.world
