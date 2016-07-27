@@ -8,13 +8,17 @@ block content
         span.glyphicon.glyphicon-chevron-left
         span Artisans Home
     br
-    table.table.table-striped#level-table
-      tr
-        th Level Name
-        th Concepts Detected
-      for level in (view.parsedLevels || [])
+    for course, k in (view.data || {})
+      h3= k
+      table.table.table-striped
         tr
-          td(style="width:10%")= level.level.get('name')
-          td
-            for tag in (level.tags || [])
-              span.label.label-primary(style='margin-right: 10px; float: left; line-height: 20px; margin-bottom: 10px')= tag
+          th No
+          th Level Name
+          th Concepts Detected
+        for level in course
+          tr
+            td= level.seqNo
+            td(style="width:10%")= level.get('name')
+            td
+              for tag in (level.tags || [])
+                span.label.label-primary(style='margin-right: 10px; float: left; line-height: 20px; margin-bottom: 10px')= tag

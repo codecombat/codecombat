@@ -37,7 +37,7 @@ module.exports = class LevelConceptMap extends RootView
   unloadedCampaigns: 0
   campaignLevels: {}
   loadedLevels: {}
-  parsedLevels: []
+  data: {}
   problemCount: 0
 
   initialize: ->
@@ -55,53 +55,58 @@ module.exports = class LevelConceptMap extends RootView
       @unloadedCampaigns++
 
       @campaignLevels[campaignSlug] = new Levels()
-      @listenTo(@campaignLevels[campaignSlug], 'sync', @onLevelsLoaded)
+      @listenTo(@campaignLevels[campaignSlug], 'sync', @onLevelsLoaded.bind @, campaignSlug)
       @supermodel.trackRequest(@campaignLevels[campaignSlug].fetchForCampaign(campaignSlug,
         data:
           project: 'thangs,name,slug,campaign'
       ))
 
-  onLevelsLoaded: (lvlCollection) ->
-    for level in lvlCollection.models
-      @loadedLevels[level.get('slug')] = level
+  onLevelsLoaded: (campaignSlug, lvlCollection) ->
+    for level, k in lvlCollection.models
+      level.campaign = campaignSlug
+      @loadedLevels[campaignSlug] = {} unless @loadedLevels[campaignSlug]?
+      ll = {} unless ll?
+      level.seqNo = lvlCollection.models.length - k
+      @loadedLevels[campaignSlug][level.get('slug')] = level
     if --@unloadedCampaigns is 0
       @onAllLevelsLoaded()
 
   onAllLevelsLoaded: ->
-    for levelSlug, level of @loadedLevels
-      unless level?
-        console.error 'Level Slug doesn\'t have associated Level', levelSlug
-        continue
+    for campaignSlug, campaign of @loadedLevels
+      for levelSlug, level of campaign
+        unless level?
+          console.error 'Level Slug doesn\'t have associated Level', levelSlug
+          continue
 
-      isBad = false
-      for word in excludedLevelSnippets
-        if levelSlug.indexOf(word) isnt -1
-          isBad = true
-      continue if isBad
-      thangs = level.get 'thangs'
-      component = null
-      thangs = _.filter(thangs, (elem) ->
-        return _.findWhere(elem.components, (elem2) ->
-          if elem2.config?.programmableMethods?
-            component = elem2
-            return true
+        isBad = false
+        for word in excludedLevelSnippets
+          if levelSlug.indexOf(word) isnt -1
+            isBad = true
+        continue if isBad
+        thangs = level.get 'thangs'
+        component = null
+        thangs = _.filter(thangs, (elem) ->
+          return _.findWhere(elem.components, (elem2) ->
+            if elem2.config?.programmableMethods?
+              component = elem2
+              return true
+          )
         )
-      )
 
-      if thangs.length > 1
-        console.warn 'Level has more than 1 programmableMethod Thangs', levelSlug
-        continue
+        if thangs.length > 1
+          console.warn 'Level has more than 1 programmableMethod Thangs', levelSlug
+          continue
 
-      unless component?
-        console.error 'Level doesn\'t have programmableMethod Thang', levelSlug
-        continue
+        unless component?
+          console.error 'Level doesn\'t have programmableMethod Thang', levelSlug
+          continue
 
-      plan = component.config.programmableMethods.plan
-      @parsedLevels.push
-        level: level
-        tags: @tagLevel _.find plan.solutions, (s) -> s.language is 'javascript'
+        plan = component.config.programmableMethods.plan
+        level.tags = @tagLevel _.find plan.solutions, (s) -> s.language is 'javascript'
+      @data[campaignSlug] = _.sortBy _.values(@loadedLevels[campaignSlug]), 'seqNo'
 
-    @renderSelectors '#level-table'
+    console.log @render, @loadedLevels
+    @render()
 
   tagLevel: (src) ->
     return [] if not src?.source?
