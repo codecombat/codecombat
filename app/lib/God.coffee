@@ -20,6 +20,7 @@ module.exports = class God extends CocoClass
     options ?= {}
     @retrieveValueFromFrame = _.throttle @retrieveValueFromFrame, 1000
     @gameUIState ?= options.gameUIState or new GameUIState()
+    @indefiniteLength = options.indefiniteLength or false
     super()
 
     # Angels are all given access to this.
@@ -71,9 +72,9 @@ module.exports = class God extends CocoClass
     @lastFixedSeed = e.fixedSeed
     @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
     @lastDifficulty = e.difficulty
-    @createWorld e.spells, e.preload, e.realTime
+    @createWorld e.spells, e.preload, e.realTime, e.justBegin
 
-  createWorld: (spells, preload, realTime) ->
+  createWorld: (spells, preload, realTime, justBegin) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
 
@@ -107,6 +108,8 @@ module.exports = class God extends CocoClass
       preload
       synchronous: not Worker?  # Profiling world simulation is easier on main thread, or we are IE9.
       realTime
+      justBegin
+      indefiniteLength: @indefiniteLength and realTime
     }
     @angelsShare.workQueue.push work
     angel.workIfIdle() for angel in @angelsShare.angels

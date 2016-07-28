@@ -66,9 +66,9 @@ module.exports = class WebSurfaceView extends CocoView
       return { virtualDom: dekuTree, scripts: childScripts, styles: childStyles }
     
     { virtualDom, scripts, styles } = recurse(dekuTree)
-    combinedScripts = @combineNodes('script', scripts)
-    combinedStyles = @combineNodes('style', styles)
-    return { virtualDom, scripts: combinedScripts, styles: combinedStyles }
+    wrappedStyles = deku.element('head', {}, styles)
+    wrappedScripts = deku.element('head', {}, scripts)
+    return { virtualDom, scripts: wrappedScripts, styles: wrappedStyles }
     
   combineNodes: (type, nodes) ->
     if _.any(nodes, (node) -> node.type isnt type)

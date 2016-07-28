@@ -10,15 +10,24 @@ ThangType = require 'models/ThangType'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 State = require 'models/State'
+utils = require 'core/utils'
+urls = require 'core/urls'
+Course = require 'models/Course'
+GameDevVictoryModal = require './modal/GameDevVictoryModal'
 
 TEAM = 'humans'
 
 module.exports = class PlayGameDevLevelView extends RootView
   id: 'play-game-dev-level-view'
   template: require 'templates/play/level/play-game-dev-level-view'
+  
+  subscriptions:
+    'god:new-world-created': 'onNewWorld'
 
   events:
     'click #play-btn': 'onClickPlayButton'
+    'click #copy-url-btn': 'onClickCopyURLButton'
+    'click #play-more-codecombat-btn': 'onClickPlayMoreCodeCombatButton'
 
   initialize: (@options, @levelID, @sessionID) ->
     @state = new State({
@@ -32,9 +41,10 @@ module.exports = class PlayGameDevLevelView extends RootView
     @session = new LevelSession()
     @gameUIState = new GameUIState()
     @courseID = @getQueryVariable 'course'
-    @god = new God({ @gameUIState })
+    @god = new God({ @gameUIState, indefiniteLength: true })
     @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
-    @listenTo @state, 'change', _.debounce(-> @renderSelectors('#info-col'))
+    @supermodel.setMaxProgress 1 # Hack, why are we setting this to 0.2 in LevelLoader?
+    @listenTo @state, 'change', _.debounce @renderAllButCanvas
 
     @levelLoader.loadWorldNecessities()
 
@@ -50,6 +60,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @scriptManager = new ScriptManager({
         scripts: @world.scripts or [], view: @, @session, levelID: @level.get('slug')})
       @scriptManager.loadFromSession() # Should we? TODO: Figure out how scripts work for game dev levels
+      @renderAllButCanvas()
       @supermodel.finishLoading()
 
     .then (supermodel) =>
@@ -61,7 +72,9 @@ module.exports = class PlayGameDevLevelView extends RootView
         thangTypes: @supermodel.getModels(ThangType)
         levelType: @level.get('type', true)
         @gameUIState
+        resizeStrategy: 'wrapper-size'
       })
+      @listenTo @surface, 'resize', @onSurfaceResize
       worldBounds = @world.getBounds()
       bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
       @surface.camera.setBounds(bounds)
@@ -70,17 +83,60 @@ module.exports = class PlayGameDevLevelView extends RootView
       @scriptManager.initializeCamera()
       @renderSelectors '#info-col'
       @spells = @session.generateSpellsObject level: @level
-      @state.set('loading', false)
+      goalNames = (utils.i18n(goal, 'name') for goal in @goalManager.goals)
+      
+      course = if @courseID then new Course({_id: @courseID}) else null
+      shareURL = urls.playDevLevel({@level, @session, course})
+      
+      @state.set({
+        loading: false
+        goalNames
+        shareURL
+      })
+      @eventProperties = {
+        category: 'Play GameDev Level'
+        @courseID
+        sessionID: @session.id
+        levelID: @level.id
+        levelSlug: @level.get('slug')
+      }
+      window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
+      @god.createWorld(@spells, false, false, true)
 
-    .catch ({message}) =>
-      console.error message
-      @state.set('errorMessage', message)
+    .catch (e) =>
+      throw e if e.stack
+      @state.set('errorMessage', e.message)
 
   onClickPlayButton: ->
     @god.createWorld(@spells, false, true)
     Backbone.Mediator.publish('playback:real-time-playback-started', {})
     Backbone.Mediator.publish('level:set-playing', {playing: true})
+    action = if @state.get('playing') then 'Play GameDev Level - Restart Level' else 'Play GameDev Level - Start Level'
+    window.tracker?.trackEvent(action, @eventProperties, ['Mixpanel'])
     @state.set('playing', true)
+
+  onClickCopyURLButton: ->
+    @$('#copy-url-input').val(@state.get('shareURL')).select()
+    @tryCopy()
+    window.tracker?.trackEvent('Play GameDev Level - Copy URL', @eventProperties, ['Mixpanel'])
+
+  onClickPlayMoreCodeCombatButton: ->
+    window.tracker?.trackEvent('Play GameDev Level - Click Play More CodeCombat', @eventProperties, ['Mixpanel'])
+    
+  onSurfaceResize: ({height}) ->
+    @state.set('surfaceHeight', height)
+    
+  renderAllButCanvas: ->
+    @renderSelectors('#info-col', '#share-row')
+    height = @state.get('surfaceHeight')
+    if height
+      @$el.find('#info-col').css('height', @state.get('surfaceHeight'))
+
+  onNewWorld: (e) ->
+    if @goalManager.checkOverallStatus() is 'success'
+      modal = new GameDevVictoryModal({ shareURL: @state.get('shareURL'), @eventProperties })
+      @openModalView(modal)
+      modal.once 'replay', @onClickPlayButton, @
 
   destroy: ->
     @levelLoader?.destroy()

@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/cast_button'
+template = require 'templates/play/level/tome/cast-button-view'
 {me} = require 'core/auth'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 LevelSession = require 'models/LevelSession'
@@ -12,6 +12,7 @@ module.exports = class CastButtonView extends CocoView
     'click .cast-button': 'onCastButtonClick'
     'click .submit-button': 'onCastRealTimeButtonClick'
     'click .done-button': 'onDoneButtonClick'
+    'click .game-dev-play-btn': 'onClickGameDevPlayButton'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
@@ -74,6 +75,9 @@ module.exports = class CastButtonView extends CocoView
       Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
     @updateReplayability()
 
+  onClickGameDevPlayButton: ->
+    Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
+
   onDoneButtonClick: (e) ->
     return if @options.level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @options.session.recordScores @world?.scores, @options.level
@@ -86,7 +90,7 @@ module.exports = class CastButtonView extends CocoView
     return if e.preload
     @casting = true
     if @hasStartedCastingOnce  # Don't play this sound the first time
-      @playSound 'cast', 0.5
+      @playSound 'cast', 0.5 unless @options.level.isType('game-dev')
     @hasStartedCastingOnce = true
     @updateCastButton()
 
@@ -98,7 +102,7 @@ module.exports = class CastButtonView extends CocoView
   onNewWorld: (e) ->
     @casting = false
     if @hasCastOnce  # Don't play this sound the first time
-      @playSound 'cast-end', 0.5
+      @playSound 'cast-end', 0.5 unless @options.level.isType('game-dev')
       # Worked great for live beginner tournaments, but probably annoying for asynchronous tournament mode.
       myHeroID = if me.team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
       if @autoSubmitsToLadder and not e.world.thangMap[myHeroID]?.errorsOut and not me.get('anonymous')
@@ -113,7 +117,7 @@ module.exports = class CastButtonView extends CocoView
     @winnable = winnable
     @$el.toggleClass 'winnable', @winnable
     Backbone.Mediator.publish 'tome:winnability-updated', winnable: @winnable, level: @options.level
-    if @options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev')
+    if @options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev', 'game-dev')
       @$el.find('.done-button').toggle @winnable
     else if @winnable and @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
       @$el.find('.submit-button').show()  # Hide submit until first win so that script can explain it.

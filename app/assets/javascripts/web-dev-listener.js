@@ -3,7 +3,11 @@
 window.addEventListener('message', receiveMessage, false);
 
 var concreteDom;
+var concreteStyles;
+var concreteScripts;
 var virtualDom;
+var virtualStyles;
+var virtualScripts;
 var goalStates;
 
 var allowedOrigins = [
@@ -54,11 +58,31 @@ function create({ dom, styles, scripts }) {
     concreteDom = deku.dom.create(dom);
     concreteStyles = deku.dom.create(styles);
     concreteScripts = deku.dom.create(scripts);
-    // TODO: target the actual HTML tag and combine our initial structure for styles/scripts/tags with theirs
     // TODO: :after elements don't seem to work? (:before do)
     $('body').first().empty().append(concreteDom);
-    $('#player-styles').first().empty().append(concreteStyles);
-    $('#player-scripts').first().empty().append(concreteScripts);
+    replaceNodes('[for="player-styles"]', unwrapConcreteNodes(concreteStyles));
+    replaceNodes('[for="player-scripts"]', unwrapConcreteNodes(concreteScripts));
+}
+
+function unwrapConcreteNodes(wrappedNodes) {
+    return wrappedNodes.children;
+}
+
+function replaceNodes(selector, newNodes){
+    $newNodes = $(newNodes).clone()
+    $(selector + ':not(:first)').remove();
+    
+    firstNode = $(selector).first();
+    $newNodes.attr('for', firstNode.attr('for'));
+    
+    newFirstNode = $newNodes[0];
+    try {
+      firstNode.replaceWith(newFirstNode); // Removes newFirstNode from its array (!!)
+    } catch (e) {
+      console.log('Failed to update some nodes:', e);
+    }
+    
+    $(newFirstNode).after($newNodes);
 }
 
 function update({ dom, styles, scripts }) {
@@ -68,11 +92,13 @@ function update({ dom, styles, scripts }) {
     var domChanges = deku.diff.diffNode(virtualDom, dom);
     domChanges.reduce(deku.dom.update(dispatch, context), concreteDom);  // Rerender
 
-    var scriptChanges = deku.diff.diffNode(virtualScripts, scripts);
-    scriptChanges.reduce(deku.dom.update(dispatch, context), concreteScripts);  // Rerender
+    // var scriptChanges = deku.diff.diffNode(virtualScripts, scripts);
+    // scriptChanges.reduce(deku.dom.update(dispatch, context), concreteScripts);  // Rerender
+    // replaceNodes('[for="player-scripts"]', unwrapConcreteNodes(concreteScripts));
 
     var styleChanges = deku.diff.diffNode(virtualStyles, styles);
     styleChanges.reduce(deku.dom.update(dispatch, context), concreteStyles);  // Rerender
+    replaceNodes('[for="player-styles"]', unwrapConcreteNodes(concreteStyles));
 
     virtualDom = dom;
     virtualStyles = styles;

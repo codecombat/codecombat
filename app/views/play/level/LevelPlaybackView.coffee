@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/playback'
+template = require 'templates/play/level/level-playback-view'
 {me} = require 'core/auth'
 
 module.exports = class LevelPlaybackView extends CocoView
@@ -50,7 +50,7 @@ module.exports = class LevelPlaybackView extends CocoView
   afterRender: ->
     super()
     @$progressScrubber = $('.scrubber .progress', @$el)
-    @hookUpScrubber()
+    @hookUpScrubber() unless @options.level.isType('game-dev')
     @updateMusicButton()
     $(window).on('resize', @onWindowResize)
     ua = navigator.userAgent.toLowerCase()
@@ -154,7 +154,7 @@ module.exports = class LevelPlaybackView extends CocoView
     ended = button.hasClass 'ended'
     changed = button.hasClass('playing') isnt @playing
     button.toggleClass('playing', @playing and not ended).toggleClass('paused', not @playing and not ended)
-    @playSound (if @playing then 'playback-play' else 'playback-pause')
+    @playSound (if @playing then 'playback-play' else 'playback-pause') unless @options.level.isType('game-dev')
     return   # don't stripe the bar
     bar = @$el.find '.scrubber .progress'
     bar.toggleClass('progress-striped', @playing and not ended).toggleClass('active', @playing and not ended)

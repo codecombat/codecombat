@@ -111,7 +111,9 @@ module.exports = class Angel extends CocoClass
       when 'user-code-problem'
         @publishGodEvent 'user-code-problem', problem: event.data.problem
       when 'world-load-progress-changed'
-        @publishGodEvent 'world-load-progress-changed', progress: event.data.progress
+        progress = event.data.progress
+        progress = Math.min(progress, 0.9) if @work.indefiniteLength
+        @publishGodEvent 'world-load-progress-changed', { progress }
         unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or (@shared.firstWorld and not @shared.spectate)
           @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
 
@@ -138,6 +140,7 @@ module.exports = class Angel extends CocoClass
     return if @aborting
     # Toggle BOX2D_ENABLED during deserialization so that if we have box2d in the namespace, the Collides Components still don't try to create bodies for deserialized Thangs upon attachment.
     window.BOX2D_ENABLED = false
+    streamingWorld?.indefiniteLength = @work.indefiniteLength
     @streamingWorld = World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), startFrame, endFrame, @work.level, streamingWorld
     window.BOX2D_ENABLED = true
     @shared.lastSerializedWorldFrames = serialized.frames
@@ -145,7 +148,10 @@ module.exports = class Angel extends CocoClass
   finishBeholdingWorld: (goalStates) -> (world) =>
     return if @aborting or @destroyed
     finished = world.frames.length is world.totalFrames
-    firstChangedFrame = world.findFirstChangedFrame @shared.world
+    if @work?.indefiniteLength and world.victory?
+      finished = true
+      world.totalFrames = world.frames.length
+    firstChangedFrame = if @work.indefiniteLength then 0 else world.findFirstChangedFrame @shared.world
     eventType = if finished then 'new-world-created' else 'streaming-world-updated'
     if finished
       @shared.world = world
