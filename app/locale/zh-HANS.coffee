@@ -132,6 +132,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     help_suff: " 我们会很快与您联系！"
 
   modal:
+#    cancel: "Cancel"
     close: "关闭"
     okay: "好的"
 
@@ -242,6 +243,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   login:
     sign_up: "注册"
+#    email_or_username: "Email or username"
     log_in: "登录"
     logging_in: "正在登录"
     log_out: "登出"
@@ -254,8 +256,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     signup_switch: "是否创建新账户?"
 
   signup:
-    email_announcements: "通过邮件接收通知"
+#    create_student_header: "Create Student Account"
+#    create_teacher_header: "Create Teacher Account"
+#    create_individual_header: "Create Individual Account"
+#    create_header: "Create Account"
+    email_announcements: "通过邮件接收通知" # {change}
     creating: "账户创建中……"
+#    create_account: "Create Account"
     sign_up: "注册"
     log_in: "登录"
     required: "在做这件事情之前您必须先注册。"
@@ -263,7 +270,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     school_name: "就读学校及所在城市"
     optional: "选填"
     school_name_placeholder: "范例: XX中学, 上海"
-    or_sign_up_with: "或者用以下方式登陆"
+#    connect_with: "Connect with:"
     connected_gplus_header: "成功连接 Google+ ！"
     connected_gplus_p: "完成注册后即可使用您的 Google+ 账号登陆。"
     gplus_exists: "此 Google+ 账号已与其他账号绑定！"
@@ -272,6 +279,46 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     facebook_exists: "此 Facebook 账号已与其他账号绑定！"
     hey_students: "同学，请输入教师提供的班级码。"
     birthday: "生日"
+#    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
+#    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
+#    checking: "Checking..."
+#    account_exists: "This email is already in use:" # {change}
+#    sign_in: "Sign in"
+#    email_good: "Email looks good!"
+#    name_taken: "Username already taken! Try {{suggestedName}}?"
+#    name_available: "Username available!"
+#    name_is_email: "Username may not be an email"
+#    choose_type: "Choose your account type:"
+#    teacher_type_1: "Teach programming using CodeCombat!"
+#    teacher_type_2: "Set up your class"
+#    teacher_type_3: "Access Course Guides"
+#    teacher_type_4: "View student progress"
+#    signup_as_teacher: "Sign up as a Teacher"
+#    student_type_1: "Learn to program while playing an engaging game!"
+#    student_type_2: "Play with your class"
+#    student_type_3: "Compete in arenas"
+#    student_type_4: "Choose your hero!"
+#    student_type_5: "Have your Class Code ready!"
+#    signup_as_student: "Sign up as a Student"
+#    individuals_or_parents: "Individuals & Parents"
+#    individual_type: "For players learning to code outside of a class. Parents should sign up for an account here."
+#    signup_as_individual: "Sign up as an Individual"
+#    enter_class_code: "Enter your Class Code"
+#    enter_birthdate: "Enter your birthdate:"
+#    ask_teacher_1: "Ask your teacher for your Class Code."
+#    ask_teacher_2: "Not part of a class? Create an "
+#    ask_teacher_3: "Individual Account"
+#    ask_teacher_4: " instead."
+#    about_to_join: "You're about to join:"
+#    enter_parent_email: "Enter your parent’s email address:"
+#    parent_email_error: "Something went wrong when trying to send the email. Check the email address and try again."
+#    parent_email_sent: "We’ve sent an email with further instructions on how to create an account. Ask your parent to check their inbox."
+#    account_created: "Account Created!"
+#    confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
+#    confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!"
+#    write_this_down: "Write this down:"
+#    start_playing: "Start Playing!"
+#    sso_connected: "Successfully connected with:"
 
   recover:
     recover_account_title: "找回账户"
@@ -293,6 +340,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     saving: "保存中……"
     sending: "发送中……"
     send: "发送"
+#    sent: "Sent"
+#    type: "Type"
     cancel: "取消"
     save: "保存"
     publish: "发布"
@@ -362,6 +411,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     wizard: "巫师"
 #    first_name: "First Name"
 #    last_name: "Last Name"
+#    last_initial: "Last Initial"
     username: "用户名"
 
   units:
@@ -387,6 +437,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     done: "完成"
     next_level: "下一个关卡"
     next_game: "下一场游戏"
+#    programming_language: "Programming language"
     show_menu: "显示游戏菜单"
     home: "主页" # Not used any more, will be removed soon.
     level: "关卡" # Like "Level: Dungeons of Kithgard"
@@ -401,8 +452,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     incomplete: "未完成"
     timed_out: "运行超时"
     failing: "失败"
-    control_bar_multiplayer: "多人游戏"
-    control_bar_join_game: "加入游戏"
     reload: "重载"
     reload_title: "重载所有代码？"
     reload_really: "确定重载这一关，返回开始处吗？"
@@ -431,13 +480,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_cast_button_running: "正在运行"
     tome_cast_button_ran: "运行过"
     tome_submit_button: "提交"
-    tome_reload_method: "重载该方法的原始代码" # Title text for individual method reload button.
-    tome_select_method: "选择方法"
-    tome_see_all_methods: "查看所有能够编辑的方法" # Title text for method list selector (shown when there are multiple programmable methods).
-    tome_select_a_thang: "选择人物来 "
+    tome_reload_method: "重载该方法的原始代码" # {change}
     tome_available_spells: "可用的法术"
     tome_your_skills: "您的技能"
     tome_current_method: "当前方法"
+#    hints: "Hints"
+#    hints_title: "Hint {{number}}"
     code_saved: "代码已保存"
     skip_tutorial: "跳过（esc）"
     keyboard_shortcuts: "快捷键"
@@ -645,9 +693,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     python_blurb: "简单而强大, Python是一个伟大的通用编程语言。"
     javascript_blurb: "为web开发而生的语言。"
     coffeescript_blurb: "一种更好的JavaScript语法。"
-    clojure_blurb: "一种现代的列表处理语言。"
     lua_blurb: "一种游戏脚本语言。"
-    io_blurb: "简单而晦涩。"
     java_blurb: "(仅订阅用户) Android 和企业的选择。"
     status: "状态"
     hero_type: "种类"
@@ -712,9 +758,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     music_label: "音乐"
     music_description: "开/关背景音乐"
     editor_config_title: "编辑器配置"
-    editor_config_keybindings_label: "快捷键绑定"
-    editor_config_keybindings_default: "默认 (Ace)"
-    editor_config_keybindings_description: "在命令编辑器中增加已知的快捷键。"
     editor_config_livecompletion_label: "实时代码补全"
     editor_config_livecompletion_description: "当输入代码时显示代码自动补全建议。"
     editor_config_invisibles_label: "显示空白字符"
@@ -756,6 +799,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     phoenix_title: "软件工程师"
     nolan_title: "区域经理"
     elliot_title: "客户经理"
+#    elliot_blurb: "Mindreader"
+#    lisa_title: "Market Development Rep"
     retrostyle_title: "插画师"
     retrostyle_blurb: "复古风格的游戏"
     jose_title: "音乐"
@@ -816,6 +861,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     more_info_1: "我们的"
     more_info_2: "教师论坛"
     more_info_3: "是个与其他使用CodeCombat的教育工作者联系的良好平台。"
+#    licenses_needed: "Licenses needed"
 
   teachers_quote:
     name: "试用申请表"
@@ -861,7 +907,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     signup_with: "通过以下方式创建账号："
     connect_with: "与已有账号连接："
     conversion_warning: "警告：您的当前账号为 <em>学生账号</em>。一旦提交表格，您的账号将会升级为教师账号。"
-    learn_more_modal: "在 CodeCombat 中，教师账号可以观察学生进度、分配名额以及管理教室。教师账号不能加入班级 - 如果您使用当前账号加入了班级，升级后将不能访问所加入的班级。"
+    learn_more_modal: "在 CodeCombat 中，教师账号可以观察学生进度、分配名额以及管理教室。教师账号不能加入班级 - 如果您使用当前账号加入了班级，升级后将不能访问所加入的班级。" # {change}
     create_account: "创建教师账号"
     create_account_subtitle: "在 CodeCombat 班级中使用教师专用工具。 <strong>创建班级</strong>添加学生、<strong>观察学生进度</strong>！"
     convert_account_title: "升级为教师账号"
@@ -914,7 +960,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     manage_subscription: "点此管理您的订阅"
     new_password: "新密码"
     new_password_verify: "再次输入密码"
-    type_in_email: "输入您的邮箱地址"
+    type_in_email: "输入您的邮箱地址" # {change}
     type_in_email_progress: "输入邮箱地址来确认删除"
     type_in_password: "同样的，输入您的密码。"
     email_subscriptions: "邮箱订阅"
@@ -1115,13 +1161,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     get_free: "取得免费课程！"
     enroll_paid: "招收学生到已付费课程"
     you_have1: "你有"
-    you_have2: "未使用的已付费课程。"
-    use_one: "使用一个付费名额于"
-    use_multiple: "为下列学生使用付费名额："
+    you_have2: "未使用的已付费课程。" # {change}
+    use_one: "使用一个付费名额于" # {change}
+    use_multiple: "为下列学生使用付费名额：" # {change}
     already_enrolled: "已注册"
     licenses_remaining: "证书剩余："
-    insufficient_enrollments: "付费名额不足"
-    get_enrollments: "获取更多招收名额"
+    insufficient_enrollments: "付费名额不足" # {change}
+    get_enrollments: "获取更多招收名额" # {change}
     change_language: "修改课程预言"
     keep_using: "继续使用"
     switch_to: "切换到"
@@ -1130,10 +1176,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     back_courses: "回到我的课程"
     edit_details: "编辑课程详情"
     enrolled_courses: "报名付费课程："
-    purchase_enrollments: "购买名额"
+    purchase_enrollments: "购买名额" # {change}
     remove_student: "删除学生"
     assign: "分派"
     to_assign: "去分派付费课程。"
+#    student: "Student"
     teacher: "老师"
     complete: "完成"
     none: "无"
@@ -1174,6 +1221,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     view_class: "浏览课程"
     view_levels: "浏览关卡"
     join_class: "加入课程"
+#    join_class_2: "Join class"
     ask_teacher_for_code: "从你的老师领取CodeCombat课程码！领取后请在下方输入："
     enter_c_code: "<输入课程码>"
     join: "加入"
@@ -1200,10 +1248,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     return_to_course_man: "回到课程管理。"
     students_not_enrolled: "未注册的学生"
     total_all_classes: "所有课程总数"
-    how_many_enrollments: "你需要多少额外的付费名额？"
+    how_many_enrollments: "你需要多少额外的付费名额？" # {change}
     each_student_access: "课程中的学生可以访问课程2-4，一旦他们注册了付费课程。你可以为每个学生单独分配任何课程。"
     purchase_now: "现在购买"
-    enrollments: "名额"
+    enrollments: "名额" # {change}
     remove_student1: "删除学生"
     are_you_sure: "你确定要从该课程中删除该学生吗？"
     remove_description1: "学生将失去访问该课堂和被分派课程的权利。游戏进度不会丢失，该学生可以在任何时间被添加回该教室。"
@@ -1231,20 +1279,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     getting_started_1: "点击下面绿色的'创建新课程'按钮来创建新课程。"
     getting_started_2: "当你已经创建好了课程，点击蓝色的'添加学生'按钮。"
     getting_started_3: "你将会在下面看到学生的进度，当他们注册和加入你的课程。"
-    additional_resources: "额外资源"
-    additional_resources_1_pref: "下载/打印我们的"
-    additional_resources_1_mid: "课程 1"
-    additional_resources_1_mid2: "和"
-    additional_resources_1_mid3: "课程 2"
-    additional_resources_1_suff: "的教师手册，内含各个关卡的解释和攻略。"
-    additional_resources_2_pref: "完成我们的"
-    additional_resources_2_suff: "以获得两个额外的我们后续付费课程的免费名额。"
-    additional_resources_3_pref: "访问我们的"
-    additional_resources_3_mid: "教室论坛"
-    additional_resources_3_suff: "与那些使用CodeCombat的教育者伙伴们一起交流。"
-    additional_resources_4_pref: "阅览我们的"
-    additional_resources_4_mid: "学校页面"
-    additional_resources_4_suff: "以获得更多关于CodeCombat教室的信息。"
     educator_wiki_pref: "您也可阅读"
     educator_wiki_mid: "教育者wiki"
     educator_wiki_suff: "在线阅读指南。"
@@ -1252,8 +1286,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_classes: "还没有任何课程！"
     create_new_class1: "创建新课程"
     available_courses: "可用课程"
-    unused_enrollments: "未使用的可用名额："
-    students_access: "所有的学生都可以免费访问Introduction to Computer Science。每个学生需要一个名额以被分派到付费的CodeCombat课程。每个学生并不需要多个名额来访问所有的付费课程。"
+    unused_enrollments: "未使用的可用名额：" # {change}
+    students_access: "所有的学生都可以免费访问Introduction to Computer Science。每个学生需要一个名额以被分派到付费的CodeCombat课程。每个学生并不需要多个名额来访问所有的付费课程。" # {change}
     active_courses: "已激活课程"
     no_students: "还没有学生！"
     add_students1: "添加学生"
@@ -1272,7 +1306,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     view_guide_online: "在线查看手册 (PDF)"
     last_updated: "最后更新："
     grants_lifetime_access: "取得所有课程的权限。"
-    enrollment_credits_available: "可用名额："
+    enrollment_credits_available: "可用名额：" # {change}
     description: "描述" # ClassroomSettingsModal
     language_select: "选择语言"
     language_cannot_change: "一旦学生加入课程后则不可修改课程语言。"
@@ -1292,13 +1326,54 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     student_age_range_to: "到"
     create_class: "创建班级"
     class_name: "班级名称"
-    teacher_account_restricted: "你的账号是教师账号，不能访问学生内容。"
+    teacher_account_restricted: "你的账号是教师账号，不能访问学生内容。" # {change}
+#    account_restricted: "A student account is required to access this page."
+#    update_account_login_title: "Log in to update your account"
+#    update_account_title: "Your account needs attention!"
+#    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
+#    update_account_current_type: "Current Account Type:"
+#    update_account_account_email: "Account Email/Username:" # {change}
+#    update_account_am_teacher: "I am a teacher"
+#    update_account_keep_access: "Keep access to classes I've created"
+#    update_account_teachers_can: "Teacher accounts can:"
+#    update_account_teachers_can1: "Create/manage/add classes"
+#    update_account_teachers_can2: "Assign/enroll students in courses"
+#    update_account_teachers_can3: "Unlock all course levels to try out"
+#    update_account_teachers_can4: "Access new teacher-only features as we release them"
+#    update_account_teachers_warning: "Warning: You will be removed from all classes that you have previously joined and will not be able to play as a student."
+#    update_account_remain_teacher: "Remain a Teacher"
+#    update_account_update_teacher: "Update to Teacher"
+#    update_account_am_student: "I am a student"
+#    update_account_remove_access: "Remove access to classes I have created"
+#    update_account_students_can: "Student accounts can:"
+#    update_account_students_can1: "Join classes"
+#    update_account_students_can2: "Play through courses as a student and track your own progress"
+#    update_account_students_can3: "Compete against classmates in arenas"
+#    update_account_students_can4: "Access new student-only features as we release them"
+#    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
+#    update_account_remain_student: "Remain a Student"
+#    update_account_update_student: "Update to Student"
+#    update_account_not_sure: "Not sure which one to choose? Email"
+#    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
+#    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
+#    instructor: "Instructor: "
+#    youve_been_invited_1: "You've been invited to join "
+#    youve_been_invited_2: ", where you'll learn "
+#    youve_been_invited_3: " with your classmates in CodeCombat."
+#    by_joining_1: "By joining "
+#    by_joining_2: "will be able to help reset your password if you forget or lose it. You can also verify your email address so that you can reset the password yourself!"
+#    sent_verification: "We've sent a verification email to:"
+#    you_can_edit: "You can edit your email address in "
+#    account_settings: "Account Settings"
+#    select_your_hero: "Select Your Hero"
+#    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
+#    select_this_hero: "Select this Hero"
 
   teacher:
     teacher_dashboard: "教师面板" # Navbar
     my_classes: "我的教室"
-    courses: "课程"
-    enrollments: "注册名额"
+    courses: "课程" # {change}
+    enrollments: "注册名额" # {change}
     resources: "资源"
     help: "帮助"
     students: "学生" # Shared
@@ -1309,7 +1384,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_account_required: "只有教师账号才能访问。"
     create_teacher_account: "创建教师账号"
     what_is_a_teacher_account: "什么是教师账号？"
-    teacher_account_explanation: "教师账号可以创建教师、跟踪学生学习进展、管理注册名额，并且可以查看相应的帮助文档以辅助构建课堂。"
+    teacher_account_explanation: "教师账号可以创建教师、跟踪学生学习进展、管理注册名额，并且可以查看相应的帮助文档以辅助构建课堂。" # {change}
     current_classes: "当前课堂"
     archived_classes: "已归档的课堂"
     archived_classes_blurb: "您可以把课堂归档，便于后续查阅。课程可以解档课程，并在当前课程列表中再次查看。"
@@ -1318,6 +1393,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unarchive_class: "解档课堂"
     unarchive_this_class: "解档本课堂"
     no_students_yet: "该课堂尚未有学生加入。"
+#    try_refreshing: "(You may need to refresh the page)"
     add_students: "添加学生"
     create_new_class: "创建新课堂"
     class_overview: "课堂概览" # View Class page
@@ -1334,6 +1410,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     course_progress: "课程进度"
     not_applicable: "N/A"
     edit: "修改"
+#    edit_2: "Edit"
     remove: "移除"
     latest_completed: "最近通关"
     sort_by: "排列依据"
@@ -1360,14 +1437,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     enroll_the_following_students: "注册下列学生"
     all_students: "所有学生"
     enroll_students: "注册学生"
-    not_enough_enrollments: "没有足够名额注册。"
-    enrollments_blurb_1: "计算机科学学习的学生段位" # Enrollments page
-    enrollments_blurb_2: "需要注册名额来加入课程。"
-    credits_available: "可用额度"
-    total_unique_students: "参与的总学生人数"
-    total_enrolled_students: "总注册人次"
+    not_enough_enrollments: "没有足够名额注册。" # {change}
+    enrollments_blurb_1: "计算机科学学习的学生段位" # {change}
+    enrollments_blurb_2: "需要注册名额来加入课程。" # {change}
+    credits_available: "可用额度" # {change}
+    total_unique_students: "参与的总学生人数" # {change}
+    total_enrolled_students: "总注册人次" # {change}
     unenrolled_students: "取消注册学生"
-    add_enrollment_credits: "购买注册名额"
+    add_enrollment_credits: "购买注册名额" # {change}
     purchasing: "正在购买……"
     purchased: "购买成功！"
     purchase_now: "现在买"
@@ -1378,6 +1455,51 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     bulk_pricing_blurb: "需要购买超过25个学生名额？请联系我们获取建议。"
     total_unenrolled: "取消注册总数"
     export_student_progress: "导出学生进度 (CSV)"
+#    send_email_to: "Send Recover Password Email to:"
+#    email_sent: "Email sent"
+#    send_recovery_email: "Send recovery email"
+#    enter_new_password_below: "Enter new password below:"
+#    change_password: "Change Password"
+#    changed: "Changed"
+#    available_credits: "Available Licenses" # {change}
+#    pending_credits: "Pending Licenses" # {change}
+#    credits: "licenses" # {change}
+#    start_date: "start date:"
+#    end_date: "end date:"
+#    num_enrollments_needed: "Number of licenses needed:" # {change}
+#    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
+#    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
+#    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
+#    enroll_request_sent_blurb3: "Please reach out to <a href='mailto:schools@codecombat.com'>schools@codecombat.com</a> if you have additional questions at this time."
+#    request_sent: "Request Sent!"
+#    enrollment_status: "Enrollment Status"
+#    status_expired: "Expired on {{date}}"
+#    status_not_enrolled: "Not Enrolled"
+#    status_enrolled: "Expires on {{date}}"
+#    select_all: "Select All"
+#    projects: "Projects"
+
+#  sharing:
+#    game: "Game"
+#    webpage: "Webpage"
+#    share_game: "Share This Game"
+#    share_web: "Share This Webpage"
+#    victory_share_prefix: "Share this link to invite your friends & family to"
+#    victory_share_game: "play your game level"
+#    victory_share_web: "view your webpage"
+#    victory_share_suffix: "."
+#    victory_course_share_prefix: "This link will let your friends & family"
+#    victory_course_share_game: "play the game"
+#    victory_course_share_web: "view the webpage"
+#    victory_course_share_suffix: "you just created."
+#    copy_url: "Copy URL"
+
+#  game_dev:
+#    creator: "Creator"
+
+#  web_dev:
+#    image_gallery_title: "Image Gallery"
+#    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
 
   classes:
     archmage_title: "大法师"
@@ -1535,7 +1657,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     scribe_introduction_url_mozilla: "Mozilla开发者社区"
     scribe_introduction_suf: " 被建成。如果您那有趣的想法能把编程的理论简易的带出来，那么这里就是您的所属了。"
     scribe_attribute_1: "您需要具备在文字语言上的技能。不仅仅是语法和拼音，重要的是能传达各种各样想法给别人。"
-    contact_us_url: "联系我们"
+    contact_us_url: "联系我们" # {change}
     scribe_join_description: "介绍下您自己, 比如您的编程经历和您喜欢的东西, 我们将会努力的去了解您！!"
     scribe_subscribe_desc: "通过电子邮件获得写作新文档的通知。"
     diplomat_introduction_pref: "如果说我们从"
@@ -1678,6 +1800,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     card: "银行卡"
     status_unsubscribed_active: "您还没有订阅所以不会被收费，但您的帐号还可以正常使用"
     status_unsubscribed: "只要一个CodeCombat订阅，您就可以玩转全部新关卡，用遍全部英雄，物品，以及获得更多的宝石哦！"
+#    not_yet_verified: "Not yet verified."
+#    resend_email: "Resend email"
+#    email_sent: "Email sent! Check your inbox."
+#    verifying_email: "Verifying your email address..."
+#    successfully_verified: "You've successfully verified your email address!"
+#    back_to_student_page: "Go back to student things"
+#    back_to_teacher_page: "Go to My Classes"
+#    back_to_game: "Go play some more levels!"
+#    verify_error: "Something went wrong when verifying your email :("
 
   account_invoices:
     amount: "金额（美元）"
@@ -1713,7 +1844,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   coppa_deny:
     text1: "迫不及待学习编程？"
-    text2: "让你的家长为你创建一个账号！"
+    text2: "让你的家长为你创建一个账号！" # {change}
     close: "关闭窗口"
 
   loading_error:
@@ -1771,6 +1902,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     vectors: "向量"
     while_loops: "While 循环"
     recursion: "递归"
+#    basic_html: "Basic HTML" # TODO: these web-dev concepts will change, don't need to translate
+#    basic_css: "Basic CSS"
+#    basic_web_scripting: "Basic Web Scripting"
+#    intermediate_html: "Intermediate HTML"
+#    intermediate_css: "Intermediate CSS"
+#    intermediate_web_scripting: "Intermediate Web Scripting"
+#    advanced_html: "Advanced HTML"
+#    advanced_css: "Advanced CSS"
+#    advanced_web_scripting: "Advanced Web Scripting"
+#    jquery: "jQuery"
+#    bootstrap: "Bootstrap"
 
   delta:
     added: "被添加"
@@ -1781,16 +1923,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     text_diff: "文本变化"
     merge_conflict_with: "合并冲突发生在"
     no_changes: "没有变化"
-
-  multiplayer:
-    multiplayer_title: "多人游戏设置" # We'll be changing this around significantly soon. Until then, it's not important to translate.
-    multiplayer_toggle: "开启多人模式"
-    multiplayer_toggle_description: "允许其他人加入游戏。"
-    multiplayer_link_description: "把这个链接告诉小伙伴们，一起玩吧。"
-    multiplayer_hint_label: "提示："
-    multiplayer_hint: " 点击全选，然后按Apple-C（苹果电脑）或Ctrl-C复制链接。"
-    multiplayer_coming_soon: "多人游戏的更多特性！"
-    multiplayer_sign_in_leaderboard: "注册并登录账号，就可以将您的成就发布到排行榜上。"
 
   legal:
     page_title: "法律"
