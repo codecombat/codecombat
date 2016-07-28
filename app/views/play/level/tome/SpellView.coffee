@@ -905,17 +905,19 @@ module.exports = class SpellView extends CocoView
     if @_singleLineCommentRegex
       @_singleLineCommentRegex.lastIndex = 0
       return @_singleLineCommentRegex
-    commentStart = commentStarts[@spell.language] or '//'
-    @_singleLineCommentRegex = new RegExp "[ \t]*#{commentStart}[^\"'\n]*", 'g'
+    if @spell.language is 'html'
+      commentStart = "#{commentStarts.html}|#{commentStarts.css}|#{commentStarts.javascript}"
+    else
+      commentStart = commentStarts[@spell.language] or '//'
+    @_singleLineCommentRegex = new RegExp "[ \t]*(#{commentStart})[^\"'\n]*"
     @_singleLineCommentRegex
 
-  lineWithCodeRegex: ->
-    if @_lineWithCodeRegex
-      @_lineWithCodeRegex.lastIndex = 0
-      return @_lineWithCodeRegex
-    commentStart = commentStarts[@spell.language] or '//'
-    @_lineWithCodeRegex = new RegExp "^[ \t]*(?!( |]t|#{commentStart}))+", 'g'
-    @_lineWithCodeRegex
+  singleLineCommentOnlyRegex: ->
+    if @_singleLineCommentOnlyRegex
+      @_singleLineCommentOnlyRegex.lastIndex = 0
+      return @_singleLineCommentOnlyRegex
+    @_singleLineCommentOnlyRegex = new RegExp( '^' + @singleLineCommentRegex().source)
+    @_singleLineCommentOnlyRegex
 
   commentOutMyCode: ->
     prefix = if @spell.language is 'javascript' then 'return;  ' else 'return  '
@@ -1113,7 +1115,7 @@ module.exports = class SpellView extends CocoView
       session.removeGutterDecoration index, 'next-entry-point'
 
       lineHasComment = @singleLineCommentRegex().test line
-      lineHasCode = line.trim()[0] and not _.string.startsWith line.trim(), commentStart
+      lineHasCode = line.trim()[0] and not @singleLineCommentOnlyRegex().test line
       lineIsBlank = /^[ \t]*$/.test line
       lineHasExplicitMarker = line.indexOf('∆') isnt -1
 
@@ -1283,6 +1285,7 @@ module.exports = class SpellView extends CocoView
     @saveSpadeTimeout = null
     super()
 
+# Note: These need to be double-escaped for insertion into regexes
 commentStarts =
   javascript: '//'
   python: '#'
@@ -1290,3 +1293,4 @@ commentStarts =
   lua: '--'
   java: '//'
   html: '<!--'
+  css: '/\\*'
