@@ -140,16 +140,6 @@ module.exports = (SnippetManager, autoLineEndings) ->
       @completions = completions
       return callback null, completions
 
-    #If the prefix is a reserved word, make enter just complete it
-    keywords = session.getMode()?.$highlightRules?.$keywordList
-    if keywords and prefix in keywords
-      completions.push
-        content: prefix
-        caption: prefix
-        snippet: prefix + "\n"
-        score: 100
-        meta: '\u21E5'
-
     snippetMap = SnippetManager.snippetMap
 
     SnippetManager.getActiveScopes(editor).forEach (scope) ->
@@ -165,6 +155,13 @@ module.exports = (SnippetManager, autoLineEndings) ->
           score: fuzzScore * s.importance ? 1.0
           meta: s.meta or (if s.tabTrigger and not s.name then s.tabTrigger + '\u21E5' else 'snippets')
     , @
+
+    #If the prefix is a reserved word, only exact prefix snippets match
+    keywords = session.getMode()?.$highlightRules?.$keywordList
+    if keywords and prefix in keywords
+      @completions = _.filter(completions, (x) -> x.caption.indexOf prefix is 0)
+      return callback null, @completions
+
     # console.log 'Zatanna snippet completions', completions
     @completions = completions
     callback null, completions
