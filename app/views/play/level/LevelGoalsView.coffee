@@ -141,7 +141,7 @@ module.exports = class LevelGoalsView extends CocoView
 
   playToggleSound: (sound) =>
     return if @destroyed
-    @playSound sound  unless @options.level.isType('game-dev')
+    @playSound sound unless @options.level.isType('game-dev')
     @soundTimeout = null
 
   onSetLetterbox: (e) ->

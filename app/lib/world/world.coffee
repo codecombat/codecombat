@@ -121,7 +121,7 @@ module.exports = class World
     while true
       if @indefiniteLength
         break if not @realTime # realtime has been stopped
-        break if @victory? # game won or lost
+        break if @victory? # game won or lost  # TODO: give a couple seconds of buffer after victory is set instead of ending instantly
       else
         break if i >= frameToLoadUntil
         break if i >= @totalFrames
