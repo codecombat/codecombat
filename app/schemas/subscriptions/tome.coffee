@@ -6,6 +6,7 @@ module.exports =
     thang: {type: 'object'}
     preload: {type: 'boolean'}
     realTime: {type: 'boolean'}
+    justBegin: {type: 'boolean'}
 
   'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime', 'submissionCount', 'flagHistory', 'difficulty', 'god']},
     spells: {type: 'object'}
@@ -16,6 +17,7 @@ module.exports =
     flagHistory: {type: 'array'}
     difficulty: {type: 'integer'}
     god: {type: 'object'}
+    justBegin: {type: 'boolean'}
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}

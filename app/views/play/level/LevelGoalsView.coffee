@@ -103,6 +103,7 @@ module.exports = class LevelGoalsView extends CocoView
     @updatePlacement()
 
   onSurfacePlaybackEnded: ->
+    return if @level.isType('game-dev')
     @playbackEnded = true
     @updateHeight()
     @$el.addClass 'brighter'
@@ -140,7 +141,7 @@ module.exports = class LevelGoalsView extends CocoView
 
   playToggleSound: (sound) =>
     return if @destroyed
-    @playSound sound
+    @playSound sound unless @options.level.isType('game-dev')
     @soundTimeout = null
 
   onSetLetterbox: (e) ->

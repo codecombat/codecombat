@@ -143,9 +143,9 @@ module.exports = class TomeView extends CocoView
 
   onCastSpell: (e) ->
     # A single spell is cast.
-    @cast e?.preload, e?.realTime
+    @cast e?.preload, e?.realTime, e?.justBegin
 
-  cast: (preload=false, realTime=false) ->
+  cast: (preload=false, realTime=false, justBegin=false) ->
     return if @options.level.isType('web-dev')
     sessionState = @options.session.get('state') ? {}
     if realTime
@@ -156,7 +156,17 @@ module.exports = class TomeView extends CocoView
     difficulty = sessionState.difficulty ? 0
     if @options.observing
       difficulty = Math.max 0, difficulty - 1  # Show the difficulty they won, not the next one.
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? [], difficulty: difficulty, god: @options.god, fixedSeed: @options.fixedSeed
+    Backbone.Mediator.publish 'tome:cast-spells', {
+      @spells, 
+      preload, 
+      realTime, 
+      justBegin, 
+      difficulty,
+      submissionCount: sessionState.submissionCount ? 0,
+      flagHistory: sessionState.flagHistory ? [], 
+      god: @options.god, 
+      fixedSeed: @options.fixedSeed
+    }
 
   onClick: (e) ->
     Backbone.Mediator.publish 'tome:focus-editor', {} unless $(e.target).parents('.popover').length

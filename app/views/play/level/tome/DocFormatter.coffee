@@ -58,6 +58,7 @@ module.exports = class DocFormatter
         when 'java' then 'hero'
         when 'coffeescript' then '@'
         else (if @options.useHero then 'hero' else 'this')
+      ownerName = 'game' if @options.level.isType('game-dev')
       if @doc.type is 'function'
         [docName, args] = @getDocNameAndArguments()
         argNames = args.join ', '

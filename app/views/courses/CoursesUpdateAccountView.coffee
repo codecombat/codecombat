@@ -41,7 +41,7 @@ module.exports = class CoursesUpdateAccountView extends RootView
     @becomeStudent(e.target, 'Remain student')
 
   onClickUpdateStudentButton: (e) ->
-    return unless window.confirm($.i18n.t('courses.update_account_confirm_update_student'))
+    return unless window.confirm($.i18n.t('courses.update_account_confirm_update_student') + '\n\n' + $.i18n.t('courses.update_account_confirm_update_student2'))
     @becomeStudent(e.target, 'Update student')
 
   becomeStudent: (targetElem, trackEventMsg) ->

@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/control_bar'
+template = require 'templates/play/level/control-bar-view'
 {me} = require 'core/auth'
 
 Campaign = require 'models/Campaign'

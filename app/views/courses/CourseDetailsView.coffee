@@ -14,7 +14,6 @@ storage = require 'core/storage'
 module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
   template: template
-  teacherMode: false
   memberSort: 'nameAsc'
 
   events:
@@ -24,7 +23,6 @@ module.exports = class CourseDetailsView extends RootView
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
-    @ownedClassrooms = new Classrooms()
     @courses = new Courses()
     @course = new Course()
     @levelSessions = new LevelSessions()
@@ -34,7 +32,6 @@ module.exports = class CourseDetailsView extends RootView
     @levels = new Levels()
     @courseInstances = new CourseInstances()
 
-    @supermodel.trackRequest @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackRequest(@courses.fetch().then(=>
       @course = @courses.get(@courseID)
     ))
@@ -42,8 +39,6 @@ module.exports = class CourseDetailsView extends RootView
 
     @supermodel.trackRequest(@courseInstance.fetch().then(=>
       return if @destroyed
-      @teacherMode = @courseInstance.get('ownerID') is me.id
-
       @owner = new User({_id: @courseInstance.get('ownerID')})
       @supermodel.trackRequest(@owner.fetch())
 

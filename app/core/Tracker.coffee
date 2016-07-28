@@ -181,6 +181,7 @@ module.exports = class Tracker extends CocoClass
     ga? 'send', 'timing', category, variable, duration, label
 
   updateRole: ->
+    return if me.isAdmin()
     return unless me.isTeacher()
     return require('core/services/segment')() unless @segmentLoaded
     @identify()
