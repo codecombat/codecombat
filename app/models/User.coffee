@@ -92,7 +92,6 @@ module.exports = class User extends CocoModel
     Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false))
 
   setRole: (role, force=false) ->
-    return if me.isAdmin()
     oldRole = @get 'role'
     return if oldRole is role or (oldRole and not force)
     @set 'role', role
