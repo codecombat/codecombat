@@ -38,7 +38,6 @@
     "jsondiffpatch": "0.1.8",
     "nanoscroller": "~0.8.0",
     "treema": "https://github.com/codecombat/treema.git#master",
-    "jquery.tablesorter": "~2",
     "bootstrap": "~3.2.0",
     "validated-backbone-mediator": "~0.1.3",
     "jquery.browser": "~0.0.6",
@@ -83,13 +82,6 @@
         "treema.js",
         "treema.css",
         "treema-utils.js"
-      ]
-    },
-    "jquery.tablesorter": {
-      "main": [
-        "js/jquery.tablesorter.js",
-        "js/jquery.tablesorter.widgets.js",
-        "css/theme.bootstrap.css"
       ]
     },
     "bootstrap": {
