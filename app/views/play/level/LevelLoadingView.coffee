@@ -61,7 +61,7 @@ module.exports = class LevelLoadingView extends CocoView
     for goalID, goal of @level.get('goals') when (not goal.team or goal.team is (e.team or 'humans')) and not goal.hiddenGoal
       continue if goal.optional and @level.isType('course')
       name = utils.i18n goal, 'name'
-      goalList.append $('<li>' + name + '</li>')
+      goalList.append $('<li>').text(name)
       ++goalCount
     if goalCount
       goalContainer.removeClass('secret')
