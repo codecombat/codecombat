@@ -255,23 +255,50 @@ module.exports.getPrepaidCodeAmount = getPrepaidCodeAmount = (price=0, users=0, 
   total = price * users * months
   total
 
+startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
 module.exports.filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'java', 'io'], currentLanguage
-  exclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
-  text.replace exclusionRegex, ''
+  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'java', 'io', 'html'], currentLanguage
+  # Exclude language-specific code blocks like ```python (... code ...)``` for each non-target language.
+  codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
+  # Exclude language-specific images like ![python - image description](image url) for each non-target language.
+  imageExclusionRegex = new RegExp "!\\[(#{excludedLanguages.join('|')}) - .+?\\]\\(.+?\\)\n?", 'gm'
+  text = text.replace(codeBlockExclusionRegex, '').replace(imageExclusionRegex, '')
+
+  commonLanguageReplacements =
+    python: [
+      ['true', 'True'], ['false', 'False'], ['null', 'None'],
+      ['object', 'dictionary'], ['Object', 'Dictionary'],
+      ['array', 'list'], ['Array', 'List'],
+    ]
+    lua: [
+      ['null', 'nil'],
+      ['object', 'table'], ['Object', 'Table'],
+      ['array', 'table'], ['Array', 'Table'],
+    ]
+  for [from, to] in commonLanguageReplacements[currentLanguage] ? []
+    # Convert JS-specific keywords and types to Python ones, if in simple `code` tags.
+    # This won't cover it when it's not in an inline code tag by itself or when it's not in English.
+    text = text.replace ///`#{from}`///g, "`#{to}`"
+    # Now change "An `dictionary`" to "A `dictionary`", etc.
+    if startsWithVowel(from) and not startsWithVowel(to)
+      text = text.replace ///(\ a|A)n(\ `#{to}`)///g, "$1$2"
+    if not startsWithVowel(from) and startsWithVowel(to)
+      text = text.replace ///(\ a|A)(\ `#{to}`)///g, "$1n$2"
+
+  return text
 
 module.exports.aceEditModes = aceEditModes =
-  'javascript': 'ace/mode/javascript'
-  'coffeescript': 'ace/mode/coffee'
-  'python': 'ace/mode/python'
-  'java': 'ace/mode/java'
-  'clojure': 'ace/mode/clojure'
-  'lua': 'ace/mode/lua'
-  'io': 'ace/mode/text'
-  'java': 'ace/mode/java'
+  javascript: 'ace/mode/javascript'
+  coffeescript: 'ace/mode/coffee'
+  python: 'ace/mode/python'
+  lua: 'ace/mode/lua'
+  java: 'ace/mode/java'
+  html: 'ace/mode/html'
 
+# These ACEs are used for displaying code snippets statically, like in SpellPaletteEntryView popovers
+# and have short lifespans
 module.exports.initializeACE = (el, codeLanguage) ->
   contents = $(el).text().trim()
   editor = ace.edit el
@@ -294,13 +321,154 @@ module.exports.initializeACE = (el, codeLanguage) ->
   session.setNewLineMode 'unix'
   return editor
 
-module.exports.capitalLanguages = capitalLanguages = 
+module.exports.capitalLanguages = capitalLanguages =
   'javascript': 'JavaScript'
   'coffeescript': 'CoffeeScript'
   'python': 'Python'
   'java': 'Java'
-  'clojure': 'Clojure'
   'lua': 'Lua'
-  'io': 'Io'
 
-  
+module.exports.createLevelNumberMap = (levels) ->
+  levelNumberMap = {}
+  practiceLevelTotalCount = 0
+  practiceLevelCurrentCount = 0
+  for level, i in levels
+    levelNumber = i - practiceLevelTotalCount + 1
+    if level.practice
+      levelNumber = i - practiceLevelTotalCount + String.fromCharCode('a'.charCodeAt(0) + practiceLevelCurrentCount)
+      practiceLevelTotalCount++
+      practiceLevelCurrentCount++
+    else
+      practiceLevelCurrentCount = 0
+    levelNumberMap[level.key] = levelNumber
+  levelNumberMap
+
+module.exports.findNextLevel = (levels, currentIndex, needsPractice) ->
+  # levels = [{practice: true/false, complete: true/false}]
+  index = currentIndex
+  index++
+  if needsPractice
+    if levels[currentIndex].practice or index < levels.length and levels[index].practice
+      # Needs practice, on practice or next practice, choose next incomplete level
+      # May leave earlier practice levels incomplete and reach end of course
+      index++ while index < levels.length and levels[index].complete
+    else
+      # Needs practice, on required, next required, choose first incomplete level of previous practice chain
+      index--
+      index-- while index >= 0 and not levels[index].practice
+      if index >= 0
+        index-- while index >= 0 and levels[index].practice
+        if index >= 0
+          index++
+          index++ while index < levels.length and levels[index].practice and levels[index].complete
+          if levels[index].practice and not levels[index].complete
+            return index
+      index = currentIndex + 1
+      index++ while index < levels.length and levels[index].complete
+  else
+    # No practice needed, next required incomplete level
+    index++ while index < levels.length and (levels[index].practice or levels[index].complete)
+  index
+
+module.exports.needsPractice = (playtime=0, threshold=2) ->
+  playtime / 60 > threshold
+
+module.exports.usStateCodes =
+  # https://github.com/mdzhang/us-state-codes
+  # generated by js2coffee 2.2.0
+  (->
+    stateNamesByCode =
+      'AL': 'Alabama'
+      'AK': 'Alaska'
+      'AZ': 'Arizona'
+      'AR': 'Arkansas'
+      'CA': 'California'
+      'CO': 'Colorado'
+      'CT': 'Connecticut'
+      'DE': 'Delaware'
+      'DC': 'District of Columbia'
+      'FL': 'Florida'
+      'GA': 'Georgia'
+      'HI': 'Hawaii'
+      'ID': 'Idaho'
+      'IL': 'Illinois'
+      'IN': 'Indiana'
+      'IA': 'Iowa'
+      'KS': 'Kansas'
+      'KY': 'Kentucky'
+      'LA': 'Louisiana'
+      'ME': 'Maine'
+      'MD': 'Maryland'
+      'MA': 'Massachusetts'
+      'MI': 'Michigan'
+      'MN': 'Minnesota'
+      'MS': 'Mississippi'
+      'MO': 'Missouri'
+      'MT': 'Montana'
+      'NE': 'Nebraska'
+      'NV': 'Nevada'
+      'NH': 'New Hampshire'
+      'NJ': 'New Jersey'
+      'NM': 'New Mexico'
+      'NY': 'New York'
+      'NC': 'North Carolina'
+      'ND': 'North Dakota'
+      'OH': 'Ohio'
+      'OK': 'Oklahoma'
+      'OR': 'Oregon'
+      'PA': 'Pennsylvania'
+      'RI': 'Rhode Island'
+      'SC': 'South Carolina'
+      'SD': 'South Dakota'
+      'TN': 'Tennessee'
+      'TX': 'Texas'
+      'UT': 'Utah'
+      'VT': 'Vermont'
+      'VA': 'Virginia'
+      'WA': 'Washington'
+      'WV': 'West Virginia'
+      'WI': 'Wisconsin'
+      'WY': 'Wyoming'
+    stateCodesByName = _.invert(stateNamesByCode)
+    # normalizes case and removes invalid characters
+    # returns null if can't find sanitized code in the state map
+
+    sanitizeStateCode = (code) ->
+      code = if _.isString(code) then code.trim().toUpperCase().replace(/[^A-Z]/g, '') else null
+      if stateNamesByCode[code] then code else null
+
+    # returns a valid state name else null
+
+    getStateNameByStateCode = (code) ->
+      stateNamesByCode[sanitizeStateCode(code)] or null
+
+    # normalizes case and removes invalid characters
+    # returns null if can't find sanitized name in the state map
+
+    sanitizeStateName = (name) ->
+      if !_.isString(name)
+        return null
+      # bad whitespace remains bad whitespace e.g. "O  hi o" is not valid
+      name = name.trim().toLowerCase().replace(/[^a-z\s]/g, '').replace(/\s+/g, ' ')
+      tokens = name.split(/\s+/)
+      tokens = _.map(tokens, (token) ->
+        token.charAt(0).toUpperCase() + token.slice(1)
+      )
+      # account for District of Columbia
+      if tokens.length > 2
+        tokens[1] = tokens[1].toLowerCase()
+      name = tokens.join(' ')
+      if stateCodesByName[name] then name else null
+
+    # returns a valid state code else null
+
+    getStateCodeByStateName = (name) ->
+      stateCodesByName[sanitizeStateName(name)] or null
+
+    return {
+      sanitizeStateCode: sanitizeStateCode
+      getStateNameByStateCode: getStateNameByStateCode
+      sanitizeStateName: sanitizeStateName
+      getStateCodeByStateName: getStateCodeByStateName
+    }
+  )()

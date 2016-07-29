@@ -83,11 +83,55 @@ LevelSessionSchema.pre 'save', (next) ->
     next()
 
 LevelSessionSchema.statics.privateProperties = ['code', 'submittedCode', 'unsubscribed']
-LevelSessionSchema.statics.editableProperties = ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
-                                                 'levelName', 'creatorName', 'levelID', 'screenshot',
+LevelSessionSchema.statics.editableProperties = ['players', 'code', 'codeLanguage', 'completed', 'state',
+                                                 'levelName', 'creatorName', 'levelID',
                                                  'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage',
-                                                 'unsubscribed', 'playtime', 'heroConfig', 'team', 'transpiledCode',
+                                                 'unsubscribed', 'playtime', 'heroConfig', 'team',
                                                  'browser']
 LevelSessionSchema.statics.jsonSchema = jsonschema
 
-module.exports = LevelSession = mongoose.model('level.session', LevelSessionSchema, 'level.sessions')
+LevelSessionSchema.set('toObject', {
+  transform: (doc, ret, options) ->
+    req = options.req
+    return ret unless req # TODO: Make deleting properties the default, but the consequences are far reaching
+
+    submittedCode = doc.get('submittedCode')
+    unless req.user?.isAdmin() or req.user?.id is doc.get('creator') or ('employer' in (req.user?.get('permissions') ? [])) or not doc.get('submittedCode') # TODO: only allow leaderboard access to non-top-5 solutions
+      ret = _.omit ret, LevelSession.privateProperties
+    if req.query.interpret
+      plan = submittedCode[if doc.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1']?.plan ? ''
+      plan = LZString.compressToUTF16 plan
+      ret.interpret = plan
+      ret.code = submittedCode
+    return ret
+})
+
+if config.mongo.level_session_replica_string?
+  levelSessionMongo = mongoose.createConnection()
+  levelSessionMongo.open config.mongo.level_session_replica_string, (error) ->
+    if error
+      log.error "Couldn't connect to session mongo!", error
+    else
+      log.info "Connected to seperate level session server with string", config.mongo.level_session_replica_string
+else
+  levelSessionMongo = mongoose
+
+LevelSession = levelSessionMongo.model('level.session', LevelSessionSchema, 'level.sessions')
+
+if config.mongo.level_session_aux_replica_string?
+  auxLevelSessionMongo = mongoose.createConnection()
+  auxLevelSessionMongo.open config.mongo.level_session_aux_replica_string, (error) ->
+    if error
+      log.error "Couldn't connect to AUX session mongo!", error
+    else
+      log.info "Connected to seperate level AUX session server with string", config.mongo.level_session_aux_replica_string
+
+  auxLevelSession = auxLevelSessionMongo.model('level.session', LevelSessionSchema, 'level.sessions')
+
+  LevelSessionSchema.post 'save', (d) ->
+    return unless d instanceof LevelSession
+    o = d.toObject {transform: ((x, r) -> r), virtuals: false}
+    auxLevelSession.collection.save o,  {w:1}, (err, v) ->
+      log.error err.stack if err
+
+module.exports = LevelSession

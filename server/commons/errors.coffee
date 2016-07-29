@@ -92,11 +92,15 @@ errorResponseSchema = {
       type: 'string'
       description: 'Provided for /auth/name.' # TODO: refactor out
     }
+    errorID: {
+      type: 'string'
+      description: 'Error id to be used by the client to handle specific errors'
+    }
   }
 }
 errorProps = _.keys(errorResponseSchema.properties)
 
-class NetworkError
+class NetworkError extends Error
   code: 0
 
   constructor: (@message, options) ->

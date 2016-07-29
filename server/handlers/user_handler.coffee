@@ -43,8 +43,8 @@ UserHandler = class UserHandler extends Handler
     props.push 'jobProfileApproved', 'jobProfileNotes','jobProfileApprovedDate' if req.user.isAdmin()  # Admins naturally edit these
     props.push @privateProperties... if req.user.isAdmin()  # Admins are mad with power
     if not req.user.isAdmin()
-      if document.isTeacher() and req.body.role not in User.teacherRoles 
-        props = _.without props, 'role' 
+      if document.isTeacher() and req.body.role not in User.teacherRoles
+        props = _.without props, 'role'
     props
 
   formatEntity: (req, document, publicOnly=false) =>
@@ -103,23 +103,23 @@ UserHandler = class UserHandler extends Handler
             return callback(res: 'Facebook user login error.', code: 500) if err
             return callback(null, req, otherUser)
           )
-        r = {message: 'is already used by another account', property: 'email'}
+        r = {message: 'is already used by another account', property: 'email', code: 409}
         return callback({res: r, code: 409}) if otherUser
         user.set('email', req.body.email)
         callback(null, req, user)
 
     # Name setting
     (req, user, callback) ->
-      return callback(null, req, user) unless req.body.name
+      return callback(null, req, user) unless req.body.name?
       nameLower = req.body.name?.toLowerCase()
-      return callback(null, req, user) unless nameLower
+      return callback(null, req, user) unless nameLower?
       return callback(null, req, user) if user.get 'anonymous' # anonymous users can have any name
       return callback(null, req, user) if nameLower is user.get('nameLower')
       User.findOne({nameLower: nameLower, anonymous: false}).exec (err, otherUser) ->
         log.error "Database error setting user name: #{err}" if err
         return callback(res: 'Database error.', code: 500) if err
-        r = {message: 'is already used by another account', property: 'name'}
-        console.log 'Another user exists' if otherUser
+        r = {message: 'is already used by another account', property: 'name', code: 409}
+        log.info 'Another user exists' if otherUser
         return callback({res: r, code: 409}) if otherUser
         user.set('name', req.body.name)
         callback(null, req, user)
@@ -408,7 +408,7 @@ UserHandler = class UserHandler extends Handler
 
   getSubSponsors: (req, res) ->
     return @sendForbiddenError(res) unless req.user?.isAdmin()
-    Payment.find {$where: 'this.purchaser.valueOf() != this.recipient.valueOf()'}, (err, payments) =>
+    Payment.find {$where: 'this.purchaser && this.recipient && this.purchaser.valueOf() != this.recipient.valueOf()'}, (err, payments) =>
       return @sendDatabaseError(res, err) if err
       sponsorIDs = (payment.get('purchaser') for payment in payments)
       User.find {$and: [{_id: {$in: sponsorIDs}}, {"stripe.sponsorSubscriptionID": {$exists: true}}]}, (err, users) =>
@@ -686,8 +686,8 @@ UserHandler = class UserHandler extends Handler
 
   buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user
-    fallback ?= 'http://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png'
-    fallback = "http://codecombat.com#{fallback}" unless /^http/.test fallback
+    fallback ?= 'https://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png'
+    fallback = "https://codecombat.com#{fallback}" unless /^http/.test fallback
     "https://www.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
 
   buildEmailHash: (user) ->
@@ -775,7 +775,7 @@ UserHandler = class UserHandler extends Handler
         else
           update = $unset: {}
           update.$unset[statKey] = ''
-        console.log "... updating #{userStringID} patches #{statKey} to #{count}, #{usersTotal} players found so far." if count
+        log.info "... updating #{userStringID} patches #{statKey} to #{count}, #{usersTotal} players found so far." if count
         User.findByIdAndUpdate user.get('_id'), update, (err) ->
           log.error err if err?
           doneWithUser()
@@ -801,7 +801,7 @@ UserHandler = class UserHandler extends Handler
       update = {}
       update[method] = {}
       update[method][statName] = count or ''
-      console.log "... updating #{user.get('_id')} patches #{JSON.stringify(query)} #{statName} to #{count}, #{usersTotal} players found so far." if count
+      log.info "... updating #{user.get('_id')} patches #{JSON.stringify(query)} #{statName} to #{count}, #{usersTotal} players found so far." if count
       User.findByIdAndUpdate user.get('_id'), update, doneUpdatingUser
 
     userStream = User.find({anonymous: false}).sort('_id').stream()
@@ -865,7 +865,7 @@ UserHandler = class UserHandler extends Handler
         update = {}
         update[method] = {}
         update[method][statName] = count or ''
-        console.log "... updating #{userStringID} patches #{query} to #{count}, #{usersTotal} players found so far." if count
+        log.info "... updating #{userStringID} patches #{query} to #{count}, #{usersTotal} players found so far." if count
         User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 
   statRecalculators:
@@ -883,7 +883,7 @@ UserHandler = class UserHandler extends Handler
         --numberRunning
         userStream.resume()
         if streamFinished and usersFinished is usersTotal
-          console.log "----------- Finished recalculating statistics for gamesCompleted for #{usersFinished} players. -----------"
+          log.info "----------- Finished recalculating statistics for gamesCompleted for #{usersFinished} players. -----------"
           done?()
       userStream.on 'error', (err) -> log.error err
       userStream.on 'close', -> streamFinished = true
@@ -895,7 +895,7 @@ UserHandler = class UserHandler extends Handler
 
         LevelSession.count {creator: userID, 'state.complete': true}, (err, count) ->
           update = if count then {$set: 'stats.gamesCompleted': count} else {$unset: 'stats.gamesCompleted': ''}
-          console.log "... updating #{userID} gamesCompleted to #{count}, #{usersTotal} players found so far." if Math.random() < 0.001
+          log.info "... updating #{userID} gamesCompleted to #{count}, #{usersTotal} players found so far." if Math.random() < 0.001
           User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 
     articleEdits: (done) ->

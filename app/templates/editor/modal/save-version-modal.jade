@@ -36,6 +36,9 @@ block modal-footer-content
       button.btn.btn-sm#agreement-button(data-i18n="versions.cla_agree") I AGREE
     if view.isPatch
       .alert.alert-info(data-i18n="versions.owner_approve") An owner will need to approve it before your changes will become visible.
+    .save-error-area
+      if view.savingPatchError
+        .alert.alert-danger Unable to save patch: #{view.savingPatchError}
 
   .buttons
     button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel

@@ -13,6 +13,7 @@ SubscribeModal = require 'views/core/SubscribeModal'
 module.exports = class ClansView extends RootView
   id: 'clans-view'
   template: template
+  
 
   events:
     'click .create-clan-btn': 'onClickCreateClan'
@@ -20,28 +21,25 @@ module.exports = class ClansView extends RootView
     'click .leave-clan-btn': 'onLeaveClan'
     'click .private-clan-checkbox': 'onClickPrivateCheckbox'
 
-  constructor: (options) ->
-    super options
-    @initData()
+  initialize: ->
+    @publicClansArray = []
+    @myClansArray = []    
+    @idNameMap = {}
+    @loadData()
 
   destroy: ->
     @stopListening?()
-
-  getRenderData: ->
-    context = super()
-    context.idNameMap = @idNameMap
-    context.publicClans = _.filter(@publicClans.models, (clan) -> clan.get('type') is 'public')
-    context.myClans = @myClans.models
-    context.myClanIDs = me.get('clans') ? []
-    context
 
   afterRender: ->
     super()
     @setupPrivateInfoPopover()
 
-  initData: ->
-    @idNameMap = {}
+  onLoaded: ->
+    super()
+    @publicClansArray = _.filter(@publicClans.models, (clan) -> clan.get('type') is 'public')
+    @myClansArray = @myClans.models
 
+  loadData: ->
     sortClanList = (a, b) ->
       if a.get('memberCount') isnt b.get('memberCount')
         if a.get('memberCount') < b.get('memberCount') then 1 else -1
@@ -52,12 +50,15 @@ module.exports = class ClansView extends RootView
       @refreshNames @publicClans.models
       @render?()
     @supermodel.loadCollection(@publicClans, 'public_clans', {cache: false})
+
     @myClans = new CocoCollection([], { url: "/db/user/#{me.id}/clans", model: Clan, comparator: sortClanList })
     @listenTo @myClans, 'sync', =>
       @refreshNames @myClans.models
       @render?()
     @supermodel.loadCollection(@myClans, 'my_clans', {cache: false})
+
     @listenTo me, 'sync', => @render?()
+    @myClanIDs = me.get('clans') ? []
 
   refreshNames: (clans) ->
     clanIDs = _.filter(clans, (clan) -> clan.get('type') is 'public')

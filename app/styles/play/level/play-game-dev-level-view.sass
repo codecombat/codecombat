@@ -1,0 +1,61 @@
+#play-game-dev-level-view
+  .container-fluid
+    overflow: hidden
+    background: #333
+    padding: 15px
+    height: 100vh
+      
+  #game-row
+    display: flex
+  
+  #canvas-wrapper
+    width: 100%
+    position: relative
+    overflow: hidden
+    z-index: 0
+    border-radius: 5px
+
+  #webgl-surface
+    background-color: #333
+  
+  #normal-surface
+    position: absolute
+    top: 0
+    left: 0
+    pointer-events: none
+
+  canvas#webgl-surface, canvas#normal-surface
+    display: block
+    z-index: 2
+
+  #info-col
+    .panel
+      height: 100%
+      display: flex
+      flex-direction: column
+      
+    .panel-body
+      flex-grow: 1
+      overflow: scroll
+      
+    .panel-footer
+      min-height: 70px
+    
+    #play-btn
+      text-transform: uppercase
+
+  #share-panel-body
+    display: flex
+    align-items: center
+    
+    #share-text-div, #copy-url-div
+      flex-grow: 1
+    
+    #share-text-div
+      margin-right: 20px
+      
+    #copy-url-input
+      width: 50%
+
+    #copy-url-div
+      margin-left: 20px

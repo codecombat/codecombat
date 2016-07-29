@@ -4,7 +4,9 @@ template = require 'templates/contribute/archmage'
 module.exports = class ArchmageView extends ContributeClassView
   id: 'archmage-view'
   template: template
-  contributorClassName: 'archmage'
+
+  initialize: ->
+    @contributorClassName = 'archmage'
 
   contributors: [
     {id: '547acbb2af18b03c0563fdb3', name: 'David Liu', github: 'trotod'}

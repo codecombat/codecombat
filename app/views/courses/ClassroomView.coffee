@@ -55,10 +55,10 @@ module.exports = class ClassroomView extends RootView
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
     @levels = new Levels()
-    @levels.fetchForClassroom(classroomID, {data: {project: 'name,slug,original'}})
+    @levels.fetchForClassroom(classroomID, {data: {project: 'name,original,practice,slug'}})
     @levels.on 'add', (model) -> @_byId[model.get('original')] = model # so you can 'get' them
-      
     @supermodel.trackCollection(@levels)
+    window.tracker?.trackEvent 'Students Class Loaded', category: 'Students', classroomID: classroomID, ['Mixpanel']
 
   onCourseInstancesSync: ->
     @sessions = new CocoCollection([], { model: LevelSession })
@@ -118,8 +118,7 @@ module.exports = class ClassroomView extends RootView
     userID = $(e.target).closest('.btn').data('user-id')
     if @prepaids.totalMaxRedeemers() - @prepaids.totalRedeemers() > 0
       # Have an unused enrollment, enroll student immediately instead of opening the enroll modal
-      prepaid = @prepaids.find((prepaid) -> prepaid.get('properties')?.endDate? and prepaid.openSpots() > 0)
-      prepaid = @prepaids.find((prepaid) -> prepaid.openSpots() > 0) unless prepaid
+      prepaid = @prepaids.find((prepaid) -> prepaid.status() is 'available')
       $.ajax({
         method: 'POST'
         url: _.result(prepaid, 'url') + '/redeemers'
@@ -158,7 +157,10 @@ module.exports = class ClassroomView extends RootView
     course = session.collection.course
     levelOriginal = session.get('level').original
     level = @levels.findWhere({original: levelOriginal})
-    return "#{course.get('name')}, #{level.get('name')}"
+    lastPlayed = ""
+    lastPlayed += course.get('name') if course
+    lastPlayed += ", #{level.get('name')}" if level
+    lastPlayed
 
   userPlaytimeString: (user) ->
     return '' unless user.sessions?
@@ -178,11 +180,13 @@ module.exports = class ClassroomView extends RootView
     stats.averagePlaytime = if playtime and total then moment.duration(playtime / total, "seconds").humanize() else 0
     stats.totalPlaytime = if playtime then moment.duration(playtime, "seconds").humanize() else 0
 
-    completeSessions = @sessions.filter (s) -> s.get('state')?.complete
+    levelPracticeMap = {}
+    levelPracticeMap[level.id] = level.get('practice') ? false for level in @levels.models
+    completeSessions = @sessions.filter (s) -> s.get('state')?.complete and not levelPracticeMap[s.get('levelID')]
     stats.averageLevelsComplete = if @users.size() then (_.size(completeSessions) / @users.size()).toFixed(1) else 'N/A'  # '
     stats.totalLevelsComplete = _.size(completeSessions)
 
-    enrolledUsers = @users.filter (user) -> user.get('coursePrepaidID')
+    enrolledUsers = @users.filter (user) -> user.isEnrolled()
     stats.enrolledUsers = _.size(enrolledUsers)
     return stats
 

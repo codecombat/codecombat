@@ -10,14 +10,22 @@ else
         .panel-body
           .form
             - var name = me.get('name') || '';
-            - var email = me.get('email');
+            - var email = me.get('email') || '';
             - var admin = me.get('permissions', true).indexOf('admin') != -1;
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             .form-group
               label.control-label(for="name", data-i18n="general.name") Name
               input#name-input.form-control(name="name", type="text", value="#{name}")
             .form-group
-              label.control-label(for="email", data-i18n="general.email") Email
+              label.control-label(for="email")
+                span(data-i18n="general.email") Email
+              unless me.get('emailVerified')
+                span.spl (
+                span.spr(data-i18n="account.not_yet_verified")
+                a.resend-verification-email
+                  span.resend-text(data-i18n="account.resend_email")
+                  span.sent-text.hide(data-i18n="account.email_sent")
+                span )
               input#email.form-control(name="email", type="text", value="#{email}")
             if !isProduction
               .form-group.checkbox
@@ -63,11 +71,11 @@ else
         .panel-body
           .form#delete-account-form
             .form-group
-              label.control-label(for="email1", data-i18n="account_settings.type_in_email")
-              input#email1.form-control(name="email", type="email")
+              label.control-label(for="delete-account-email-or-username", data-i18n="account_settings.type_in_email")
+              input#delete-account-email-or-username.form-control(name="emailOrUsername")
             .form-group
-              label.control-label(for="password1", data-i18n="account_settings.type_in_password")
-              input#password1.form-control(name="password", type="password")  
+              label.control-label(for="delete-account-password", data-i18n="account_settings.type_in_password")
+              input#delete-account-password.form-control(name="password", type="password")
           button#delete-account-btn.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
 
     .col-md-6
@@ -185,7 +193,7 @@ else
           .form#reset-progress-form
             .form-group
               label.control-label(for="email-reset-progress", data-i18n="account_settings.type_in_email_progress")
-              input#email-reset-progress.form-control(name="email", type="email")
+              input#email-reset-progress.form-control(name="emailOrUsername")
             .form-group
               label.control-label(for="password-reset-progress", data-i18n="account_settings.type_in_password")
               input#password-reset-progress.form-control(name="password", type="password")

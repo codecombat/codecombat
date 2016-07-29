@@ -49,3 +49,8 @@ module.exports =
     trialRequests = yield TrialRequest.find({applicant: mongoose.Types.ObjectId(applicantID)})
     trialRequests = (tr.toObject({req: req}) for tr in trialRequests)
     res.status(200).send(trialRequests)
+
+  getUsers: wrap (req, res, next) ->
+    throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+    trialRequests = yield TrialRequest.find(status: {$ne: 'denied'}).select('applicant properties').lean()
+    res.status(200).send(trialRequests)

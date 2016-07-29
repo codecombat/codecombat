@@ -19,31 +19,35 @@ module.exports = class LevelGuideView extends CocoView
     @levelSlug = options.level.get('slug')
     @sessionID = options.session.get('_id')
     @requiresSubscription = not me.isPremium()
-    @helpVideos = options.level.get('helpVideos') ? []
+    @isCourseLevel = options.level.isType('course', 'course-ladder')
+    @helpVideos = if @isCourseLevel then [] else options.level.get('helpVideos') ? []
     @trackedHelpVideoStart = @trackedHelpVideoFinish = false
     # A/B Testing video tutorial styles
     @helpVideosIndex = me.getVideoTutorialStylesIndex(@helpVideos.length)
-    @helpVideo = @helpVideos[@helpVideosIndex] if @helpVideos.length > 0
-    @videoLocked = not (@helpVideo?.free or options.level.get('type', true) in ['course', 'course-ladder']) and @requiresSubscription
+    @helpVideo = @helpVideos[@helpVideosIndex] if @helpVideos.length > 0 and not @isCourseLevel
+    @videoLocked = not (@helpVideo?.free or @isCourseLevel) and @requiresSubscription
 
     @firstOnly = options.firstOnly
-    @docs = options?.docs ? options.level.get('documentation') ? {}
-    general = @docs.generalArticles or []
-    specific = @docs.specificArticles or []
+    if window.serverConfig.picoCTF
+      @docs = options?.docs ? options.level.get('documentation') ? {}
+      general = @docs.generalArticles or []
+      specific = @docs.specificArticles or []
 
-    articles = options.supermodel.getModels(Article)
-    articleMap = {}
-    articleMap[article.get('original')] = article for article in articles
-    general = (articleMap[ref.original] for ref in general)
-    general = (article.attributes for article in general when article)
+      articles = options.supermodel.getModels(Article)
+      articleMap = {}
+      articleMap[article.get('original')] = article for article in articles
+      general = (articleMap[ref.original] for ref in general)
+      general = (article.attributes for article in general when article)
 
-    @docs = specific.concat(general)
-    @docs = $.extend(true, [], @docs)
-    @docs = [@docs[0]] if @firstOnly and @docs[0]
-    @addPicoCTFProblem() if window.serverConfig.picoCTF
-    doc.html = marked(utils.filterMarkdownCodeLanguages(utils.i18n(doc, 'body'), options.session.get('codeLanguage'))) for doc in @docs
-    doc.slug = _.string.slugify(doc.name) for doc in @docs
-    doc.name = (utils.i18n doc, 'name') for doc in @docs
+      @docs = specific.concat(general)
+      @docs = $.extend(true, [], @docs)
+      @docs = [@docs[0]] if @firstOnly and @docs[0]
+      @addPicoCTFProblem() 
+      doc.html = marked(utils.filterMarkdownCodeLanguages(utils.i18n(doc, 'body'), options.session.get('codeLanguage'))) for doc in @docs
+      doc.slug = _.string.slugify(doc.name) for doc in @docs
+      doc.name = (utils.i18n doc, 'name') for doc in @docs
+    else
+      @docs = []
 
   destroy: ->
     if @vimeoListenerAttached
@@ -57,7 +61,7 @@ module.exports = class LevelGuideView extends CocoView
   getRenderData: ->
     c = super()
     c.docs = @docs
-    c.showVideo = @helpVideos.length > 0
+    c.showVideo = @helpVideos.length > 0 unless @isCourseLevel
     c.videoLocked = @videoLocked
     c
 
@@ -68,7 +72,7 @@ module.exports = class LevelGuideView extends CocoView
       if @helpVideos.length
         startingTab = 0
       else
-        startingTab = _.findIndex @docs, slug: 'intro'
+        startingTab = _.findIndex @docs, slug: 'overview'
         startingTab = 0 if startingTab is -1
       # incredible hackiness. Getting bootstrap tabs to work shouldn't be this complex
       @$el.find(".nav-tabs li:nth(#{startingTab})").addClass('active')

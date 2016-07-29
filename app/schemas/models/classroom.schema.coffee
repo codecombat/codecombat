@@ -23,6 +23,9 @@ _.extend ClassroomSchema.properties,
   courses: c.array { title: 'Courses' }, c.object { title: 'Course' }, {
     _id: c.objectId()
     levels: c.array { title: 'Levels' }, c.object { title: 'Level' }, {
+      practice: {type: 'boolean'}
+      practiceThresholdMinutes: {type: 'number'}
+      shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable, shareable, or a sharing-encouraged project level.' }
       type: c.shortString()
       original: c.objectId()
       name: {type: 'string'}

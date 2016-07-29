@@ -96,8 +96,7 @@ module.exports =
 
     # Post a message on Slack
     message = "#{req.user.get('name')} saved a change to #{doc.get('name')}: #{doc.get('commitMessage') or '(no commit message)'} #{docLink}"
-    rooms = if /Diplomat submission/.test(message) then ['dev-feed'] else ['dev-feed']
-    slack.sendSlackMessage message, rooms
+    slack.sendSlackMessage message, ['artisans']
 
     # Send emails to watchers
     watchers = doc.get('watchers') or []
@@ -106,6 +105,7 @@ module.exports =
     if watchers.length
       User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) ->
         for watcher in watchers
+          continue if not watcher.get('email')
           context =
             email_id: sendwithus.templates.change_made_notify_watcher
             recipient:

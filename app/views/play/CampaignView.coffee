@@ -80,7 +80,6 @@ module.exports = class CampaignView extends RootView
         return
 
     @campaign = new Campaign({_id:@terrain})
-    @campaign.saveBackups = @editorMode
     @campaign = @supermodel.loadModel(@campaign).model
 
     # Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
@@ -266,6 +265,7 @@ module.exports = class CampaignView extends RootView
     @openModalView authModal
 
   showAds: ->
+    return false # No ads for now.
     if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF
       return me.getCampaignAdsGroup() is 'leaderboard-ads'
     false
@@ -397,15 +397,16 @@ module.exports = class CampaignView extends RootView
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
     for level in @campaign.renderedLevels ? {}
-      particleKey = ['level', @terrain.replace('-branching-test', '')]
-      particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])
+      terrain = @terrain.replace('-branching-test', '').replace(/(game|web)-dev-\d/, 'forest')
+      particleKey = ['level', terrain]
+      particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])  # Would use isType, but it's not a Level model
       particleKey.push 'replayable' if level.replayable
       particleKey.push 'premium' if level.requiresSubscription
       particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate']
       particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
       #particleKey.push 'item' if level.slug is 'robot-ragnarok'  # TODO: generalize
       continue if particleKey.length is 2  # Don't show basic levels
-      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'replayable']).length
+      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'replayable', 'game-dev']).length
       @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 
   onMouseEnterPortals: (e) ->
@@ -532,7 +533,7 @@ module.exports = class CampaignView extends RootView
     levelElement = $(e.target).parents('.level-info-container')
     levelSlug = levelElement.data('level-slug')
     level = _.find _.values(@campaign.get('levels')), slug: levelSlug
-    if level.type in ['hero-ladder', 'course-ladder']
+    if level.type in ['hero-ladder', 'course-ladder']  # Would use isType, but it's not a Level model
       Backbone.Mediator.publish 'router:navigate', route: "/play/ladder/#{levelSlug}", viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: @supermodel}, levelSlug]
     else
       @showLeaderboard levelSlug

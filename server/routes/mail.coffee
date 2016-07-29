@@ -471,6 +471,7 @@ taskReminderAlreadySentThisWeekFilter = (task, cb) ->
 sendUserRemarkTaskEmail = (task, cb) ->
   mailTaskName = @mailTaskName
   User.findOne("_id":task.contact).select("email").lean().exec (err, contact) ->
+    return if not contact.email
     if err? then return cb err
     User.findOne("_id":task.user).select("jobProfile.name").lean().exec (err, user) ->
       if err? then return cb err
@@ -567,6 +568,7 @@ handleLadderUpdate = (req, res) ->
 
 sendLadderUpdateEmail = (session, now, daysAgo) ->
   User.findOne({_id: session.creator}).select('name email firstName lastName emailSubscriptions emails preferredLanguage').exec (err, user) ->
+    return if not user.get('email')
     if err
       log.error "Couldn't find user for #{session.creator} from session #{session._id}"
       return
@@ -578,7 +580,7 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
       #log.info "Not sending email to #{user.get('email')} #{user.get('name')} because the session had levelName #{session.levelName} or team #{session.team} in it."
       return
     name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
-    name = 'Wizard' if not name or name is 'Anoner'
+    name = 'Wizard' if not name or name is 'Anonymous'
 
     # Fetch the most recent defeat and victory, if there are any.
     # (We could look at strongest/weakest, but we'd have to fetch everyone, or denormalize more.)
@@ -622,13 +624,13 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
       if err
         log.error "Couldn't find defeateded opponent: #{err}"
         defeatedOpponent = null
-      victoryContext = {opponent_name: defeatedOpponent?.name ? 'Anoner', url: urlForMatch(victory)} if victory
+      victoryContext = {opponent_name: defeatedOpponent?.name ? 'Anonymous', url: urlForMatch(victory)} if victory
 
       onFetchedVictoriousOpponent = (err, victoriousOpponent) ->
         if err
           log.error "Couldn't find victorious opponent: #{err}"
           victoriousOpponent = null
-        defeatContext = {opponent_name: victoriousOpponent?.name ? 'Anoner', url: urlForMatch(defeat)} if defeat
+        defeatContext = {opponent_name: victoriousOpponent?.name ? 'Anonymous', url: urlForMatch(defeat)} if defeat
 
         Level.find({original: session.level.original, created: {$gt: session.submitDate}}).select('created commitMessage version').sort('-created').lean().exec (err, levelVersions) ->
           sendEmail defeatContext, victoryContext, (if levelVersions.length then levelVersions else null)
@@ -686,13 +688,14 @@ handleNextSteps = (req, res) ->
         log.info "Found #{results.length} next-steps users to email updates about for #{daysAgo} day(s) ago." if DEBUGGING
         sendNextStepsEmail result, now, daysAgo for result in results
 
-sendNextStepsEmail = (user, now, daysAgo) ->
+module.exports.sendNextStepsEmail = sendNextStepsEmail = (user, now, daysAgo) ->
+  return log.info "Not sending next steps email to user with no email address" if not user.get('email')
   unless user.isEmailSubscriptionEnabled('generalNews') and user.isEmailSubscriptionEnabled('anyNotes')
     log.info "Not sending email to #{user.get('email')} #{user.get('name')} because they only want emails about #{JSON.stringify(user.get('emails'))}" if DEBUGGING
     return
 
   LevelSession.find({creator: user.get('_id') + ''}).select('levelName levelID changed state.complete playtime').lean().exec (err, sessions) ->
-    return log.error "Couldn't find sessions for #{user.get('email')}: #{err}" if err
+    return log.error "Couldn't find sessions for #{user.get('email')} #{user.get('name')}: #{err}" if err
     complete = (s for s in sessions when s.state?.complete)
     incomplete = (s for s in sessions when not s.state?.complete)
     return if complete.length < 2
@@ -704,9 +707,9 @@ sendNextStepsEmail = (user, now, daysAgo) ->
       nextLevel = null
     err = null
     do (err, nextLevel) ->
-      return log.error "Couldn't find next level for #{user.get('email')}: #{err}" if err
+      return log.error "Couldn't find next level for #{user.get('email')} #{user.get('name')}: #{err}" if err
       name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
-      name = 'hero' if not name or name is 'Anoner'
+      name = 'Hero' if not name or name in ['Anoner', 'Anonymous']
       #secretLevel = switch user.get('testGroupNumber') % 8
       #  when 0, 1, 2, 3 then name: 'Forgetful Gemsmith', slug: 'forgetful-gemsmith'
       #  when 4, 5, 6, 7 then name: 'Signs and Portents', slug: 'signs-and-portents'

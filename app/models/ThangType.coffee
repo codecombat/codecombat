@@ -16,21 +16,23 @@ module.exports = class ThangType extends CocoModel
     samurai: '53e12be0d042f23505c3023b'
     raider: '55527eb0b8abf4ba1fe9a107'
     goliath: '55e1a6e876cb0948c96af9f8'
-    guardian: ''
+    guardian: '566a058620de41290036a745'
     ninja: '52fc0ed77e01835453bd8f6c'
     'forest-archer': '5466d4f2417c8b48a9811e87'
     trapper: '5466d449417c8b48a9811e83'
     pixie: ''
-    assassin: ''
+    assassin: '566a2202e132c81f00f38c81'
     librarian: '52fbf74b7e01835453bd8d8e'
     'potion-master': '52e9adf7427172ae56002172'
     sorcerer: '52fd1524c7e6cf99160e7bc9'
     necromancer: '55652fb3b9effa46a1f775fd'
-    'dark-wizard': ''
+    'master-wizard': ''
+    duelist: '57588f09046caf2e0012ed41'
+    champion: '575848b522179b2800efbfbf'
   @heroClasses:
-    Warrior: ['captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian']
+    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian']
     Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
-    Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'dark-wizard']
+    Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
   @items:
     'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
@@ -238,6 +240,29 @@ module.exports = class ThangType extends CocoModel
     colorConfigs = colorConfigs.join ','
     portraitOnly = !!options.portraitOnly
     "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs} - #{portraitOnly}"
+
+  getHeroShortName: ->
+    map = {
+      "Assassin": "Ritic"
+      "Captain": "Anya"
+      "Champion": "Ida"
+      "Master Wizard": "Usara"
+      "Duelist": "Alejandro"
+      "Forest Archer": "Naria"
+      "Goliath": "Okar"
+      "Guardian": "Illia"
+      "Knight": "Tharin"
+      "Librarian": "Hushbaum"
+      "Necromancer": "Nalfar"
+      "Ninja": "Amara"
+      "Pixie": "Zana"
+      "Potion Master": "Omarn"
+      "Raider": "Arryn"
+      "Samurai": "Hattori"
+      "Sorcerer": "Pender"
+      "Trapper": "Senick"
+    }
+    map[@get('name')]
 
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)

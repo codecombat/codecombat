@@ -17,6 +17,8 @@ module.exports.addDelightedUser = addDelightedUser = (user, trialRequest) ->
       testGroupNumber: user.get('testGroupNumber')
       gender: user.get('gender')
       lastLevel: user.get('lastLevel')
+      state: if props.nces_id and props.country is 'USA' then props.state else 'other'
+      
   @postPeople(form)
   
 module.exports.postPeople = (form) ->

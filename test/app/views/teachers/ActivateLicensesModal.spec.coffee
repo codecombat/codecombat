@@ -1,58 +1,68 @@
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
+Classrooms = require 'collections/Classrooms'
+Courses = require 'collections/Courses'
+Levels = require 'collections/Levels'
+Prepaids = require 'collections/Prepaids'
 Users = require 'collections/Users'
 forms = require 'core/forms'
+factories = require 'test/app/factories'
 
 # Needs some fixing
-xdescribe 'ActivateLicensesModal', ->
-  
-  @modal = null
-  
-  me = require 'test/app/fixtures/teacher'
-  prepaids = require 'test/app/fixtures/prepaids'
-  classrooms = require 'test/app/fixtures/classrooms/unarchived-classrooms'
-  users = require 'test/app/fixtures/students'
-  responses = {
-    '/db/prepaid': prepaids.toJSON()
-    '/db/classroom': classrooms.toJSON()
-    # '/members': users.toJSON() # TODO: Respond with different ones for different classrooms
-  }
-  
-  makeModal = (options) ->
-    (done) ->
-      @selectedUsers = new Users(@users.models.slice(0,(options?.numSelected or 3)))
-      @modal = new ActivateLicensesModal({
-        @classroom, @users, @selectedUsers
+describe 'ActivateLicensesModal', ->
+
+  beforeEach (done) ->
+    @members = new Users(_.times(4, (i) -> factories.makeUser()))
+    @classrooms = new Classrooms([
+      factories.makeClassroom({}, { @members })
+      factories.makeClassroom()
+    ])
+    selectedUsers = new Users(@members.slice(0,3))
+    options = _.extend({}, {
+      classroom: @classrooms.first(), @classrooms, users: @members, selectedUsers
+    }, options)
+    @modal = new ActivateLicensesModal(options)
+    @prepaidThatExpiresSooner = factories.makePrepaid({maxRedeemers: 1, endDate: moment().add(1, 'month').toISOString()})
+    @prepaidThatExpiresLater = factories.makePrepaid({maxRedeemers: 1, endDate: moment().add(2, 'months').toISOString()})
+    prepaids = new Prepaids([
+      # empty
+      factories.makePrepaid({maxRedeemers: 0, endDate: moment().add(1, 'day').toISOString()})
+      
+      # expired
+      factories.makePrepaid({maxRedeemers: 10, endDate: moment().subtract(1, 'day').toISOString()})
+        
+      # pending
+      factories.makePrepaid({
+        maxRedeemers: 100
+        startDate: moment().add(1, 'month').toISOString()
+        endDate: moment().add(2, 'months').toISOString()
       })
-      jasmine.Ajax.requests.sendResponses(responses)
-      _.filter(jasmine.Ajax.requests.all().slice(), (request) ->
-        /\/db\/classroom\/.*\/members/.test(request.url) and request.readyState < 4
-      ).forEach (request) ->
-        request.respondWith(users.toJSON)
-      # debugger
-        
-      jasmine.demoModal(@modal)
-      _.defer done
-    
-  beforeEach ->
-    @classroom = classrooms.get('active-classroom')
-    @users = require 'test/app/fixtures/students'
-        
-  afterEach ->
-    @modal.stopListening()
+
+      # these should be used
+      @prepaidThatExpiresSooner
+      @prepaidThatExpiresLater
+    ])
+    @modal.prepaids.fakeRequests[0].respondWith({ status: 200, responseText: prepaids.stringify() })
+    @modal.classrooms.fakeRequests[0].respondWith({
+      status: 200
+      responseText: @classrooms.stringify()
+    })
+    @modal.classrooms.first().users.fakeRequests[0].respondWith({
+      status: 200
+      responseText: @members.stringify()
+    })
+
+    jasmine.demoModal(@modal)
+    _.defer done
   
   describe 'the class dropdown', ->
-    beforeEach makeModal()
+    it 'contains an All Students option', ->
+      expect(@modal.$('select option:last-child').data('i18n')).toBe('teacher.all_students')
     
-    # punted indefinitely
-    xit 'should contain an All Students option', ->
-      expect(@modal.$('select option:last-child').html()).toBe('All Students')
+    it 'displays the current classname', ->
+      expect(@modal.$('option:selected').html()).toBe(@classrooms.first().get('name'))
     
-    it 'should display the current classname', ->
-      expect(@modal.$('option:selected').html()).toBe('Teacher Zero\'s Classroomiest Classroom')
-    
-    it 'should contain all of the teacher\'s classes'
-    
-    it 'shouldn\'t contain anyone else\'s classrooms'
+    it 'contains all of the teacher\'s classes', ->
+      expect(@modal.$('select option').length).toBe(3) # including 'All Students' options
     
   describe 'the checklist of students', ->
     it 'should separate the unenrolled from the enrolled students'
@@ -63,28 +73,42 @@ xdescribe 'ActivateLicensesModal', ->
       
   
   describe 'the credits availble count', ->
-    beforeEach makeModal()
     it 'should match the number of unused prepaids', ->
       expect(@modal.$('#total-available').html()).toBe('2')
 
   describe 'the Enroll button', ->
-    beforeEach makeModal()
     it 'should show the number of selected students', ->
       expect(@modal.$('#total-selected-span').html()).toBe('3')
     
     it 'should fire off one request when clicked'
     
-    describe 'when the teacher has enough enrollments', ->
-      beforeEach makeModal({ numSelected: 2 })
+    describe 'when the teacher has enough licenses', ->
+      beforeEach ->
+        selected = @modal.state.get('selectedUsers')
+        selected.remove(selected.first())
+        
       it 'should be enabled', ->
         expect(@modal.$('#activate-licenses-btn').hasClass('disabled')).toBe(false)
+        
+      describe 'when clicked', ->
+        beforeEach ->
+          @modal.$('form').submit()
+        
+        it 'enrolls the selected students with the soonest-to-expire, available prepaid', ->
+          request = jasmine.Ajax.requests.mostRecent()
+          if request.url.indexOf(@prepaidThatExpiresSooner.id) is -1
+            fail('The first prepaid should be the prepaid that expires sooner')
+          request.respondWith({ status: 200, responseText: '{ "redeemers": [{}] }' })
+          request = jasmine.Ajax.requests.mostRecent()
+          if request.url.indexOf(@prepaidThatExpiresLater.id) is -1
+            fail('The second prepaid should be the prepaid that expires later')
   
-    describe 'when the teacher doesn\'t have enough enrollments', ->
+    describe 'when the teacher doesn\'t have enough licenses', ->
       it 'should be disabled', ->
         expect(@modal.$('#activate-licenses-btn').hasClass('disabled')).toBe(true)
         
   describe 'the Purchase More button', ->
-    it 'should redirect to the enrollment purchasing page'
+    it 'should redirect to the license purchasing page'
     
   
       
@@ -98,7 +122,7 @@ xdescribe 'ActivateLicensesModal', ->
   #   it 'should display the correct total number of credits', ->
   #     expect(@modal.$('#total-available').html()).toBe('2')
   #
-  #   it 'should be disabled when teacher doesn\'t have enough enrollments', ->
+  #   it 'should be disabled when teacher doesn\'t have enough licenses', ->
   #     expect(@modal.$('#total-available').html()).toBe('2')
   #
   #

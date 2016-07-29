@@ -14,7 +14,6 @@ module.exports = class ProblemAlertView extends CocoView
     'level:restart': 'onHideProblemAlert'
     'tome:jiggle-problem-alert': 'onJiggleProblemAlert'
     'tome:manual-cast': 'onHideProblemAlert'
-    'real-time-multiplayer:manual-cast': 'onHideProblemAlert'
 
   events:
     'click .close': 'onRemoveClicked'

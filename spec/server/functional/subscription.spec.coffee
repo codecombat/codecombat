@@ -1,7 +1,8 @@
 async = require 'async'
 config = require '../../../server_config'
 require '../common'
-utils = require '../../../app/core/utils' # Must come after require /common
+appUtils = require '../../../app/core/utils' # Must come after require /common
+utils = require '../utils'
 mongoose = require 'mongoose'
 TRAVIS = process.env.COCO_TRAVIS_TEST
 nockUtils = require '../nock-utils'
@@ -113,6 +114,13 @@ describe '/db/user, editing stripe property', ->
       request.put {uri: userURL, json: body, headers: headers}, (err, res, body) ->
         expect(res.statusCode).toBe 403
         done()
+  
+  it 'denies username-only users trying to subscribe', utils.wrap (done) ->
+    user = yield utils.initUser({ email: undefined,  })
+    yield utils.loginUser(user)
+    [res, body] = yield request.putAsync(getURL("/db/user/#{user.id}"), { headers, json: { stripe: { planID: 'basic', token: '12345' } } })
+    expect(res.statusCode).toBe(403)
+    done()
 
   #- shared data between tests
   joeData = null
@@ -327,7 +335,7 @@ describe 'Subscriptions', ->
         return done() unless subscription?
         expect(subscription.plan.amount).toEqual(1)
         expect(subscription.customer).toEqual(sponsorCustomerID)
-        expect(subscription.quantity).toEqual(utils.getSponsoredSubsAmount(subPrice, numSponsored, sponsorStripe.subscriptionID?))
+        expect(subscription.quantity).toEqual(appUtils.getSponsoredSubsAmount(subPrice, numSponsored, sponsorStripe.subscriptionID?))
 
         # Verify sponsor payment
         # May be greater than expected amount due to multiple subscribes and unsubscribes
@@ -336,7 +344,7 @@ describe 'Subscriptions', ->
           recipient: mongoose.Types.ObjectId(sponsorUserID)
           "stripe.customerID": sponsorCustomerID
           "stripe.subscriptionID": sponsorStripe.sponsorSubscriptionID
-        expectedAmount = utils.getSponsoredSubsAmount(subPrice, numSponsored, sponsorStripe.subscriptionID?)
+        expectedAmount = appUtils.getSponsoredSubsAmount(subPrice, numSponsored, sponsorStripe.subscriptionID?)
         Payment.find paymentQuery, (err, payments) ->
           expect(err).toBeNull()
           expect(payments).not.toBeNull()
@@ -1192,7 +1200,7 @@ describe 'Subscriptions', ->
                         for invoice in invoices.data
                           line = invoice.lines.data[0]
                           if line.type is 'invoiceitem' and line.proration
-                            totalAmount = utils.getSponsoredSubsAmount(subPrice, 2, false)
+                            totalAmount = appUtils.getSponsoredSubsAmount(subPrice, 2, false)
                             expect(invoice.total).toBeLessThan(totalAmount)
                             expect(invoice.total).toEqual(totalAmount - subPrice)
                             Payment.findOne "stripe.invoiceID": invoice.id, (err, payment) ->
@@ -1441,62 +1449,62 @@ describe 'Subscriptions', ->
                                                               nockDone()
                                                               done()
 
-      xit 'Unsubscribed user1 subscribes 13 users, unsubcribes 2', (done) ->
-        nockUtils.setupNock 'sub-test-34.json', (err, nockDone) ->
-          # TODO: Hits the Stripe error 'Request rate limit exceeded'.
-          # TODO: Need a better test for 12+ bulk discounts. Or, we could update the bulk disount logic.
-          # TODO: verify interim invoices?
-          recipientCount = 13
-          recipientsToVerify = [0, 1, 10, 11, 12]
-          recipients = new SubbedRecipients recipientCount, recipientsToVerify
-
-          # Create recipients
-          recipients.createRecipients ->
-            expect(recipients.length()).toEqual(recipientCount)
-
-            stripe.tokens.create {
-              card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-            }, (err, token) ->
-
-              # Create sponsor user
-              loginNewUser (user1) ->
-
-                # Subscribe recipients
-                recipients.subRecipients user1, token, ->
-                  User.findById user1.id, (err, user1) ->
-
-                    # Unsubscribe first recipient
-                    unsubscribeRecipient user1, recipients.get(0), ->
-                      User.findById user1.id, (err, user1) ->
-
-                        stripeInfo = user1.get('stripe')
-                        expect(stripeInfo.recipients.length).toEqual(recipientCount - 1)
-                        verifyNotSponsoring user1.id, recipients.get(0).id, ->
-                          verifyNotRecipient recipients.get(0).id, ->
-                            stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, (err, subscription) ->
-                              expect(err).toBeNull()
-                              expect(subscription).not.toBeNull()
-                              expect(subscription.quantity).toEqual(getUnsubscribedQuantity(recipientCount - 1))
-
-                              # Unsubscribe last recipient
-                              unsubscribeRecipient user1, recipients.get(recipientCount - 1), ->
-                                User.findById user1.id, (err, user1) ->
-                                  stripeInfo = user1.get('stripe')
-                                  expect(stripeInfo.recipients.length).toEqual(recipientCount - 2)
-                                  verifyNotSponsoring user1.id, recipients.get(recipientCount - 1).id, ->
-                                    verifyNotRecipient recipients.get(recipientCount - 1).id, ->
-                                      stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, (err, subscription) ->
-                                        expect(err).toBeNull()
-                                        expect(subscription).not.toBeNull()
-                                        numSponsored = recipientCount - 2
-                                        if numSponsored <= 1
-                                          expect(subscription.quantity).toEqual(subPrice)
-                                        else if numSponsored <= 11
-                                          expect(subscription.quantity).toEqual(subPrice + (numSponsored - 1) * subPrice * 0.8)
-                                        else
-                                          expect(subscription.quantity).toEqual(subPrice + 10 * subPrice * 0.8 + (numSponsored - 11) * subPrice * 0.6)
-                                        nockDone()
-                                        done()
+#      xit 'Unsubscribed user1 subscribes 13 users, unsubcribes 2', (done) ->
+#        nockUtils.setupNock 'sub-test-34.json', (err, nockDone) ->
+#          # TODO: Hits the Stripe error 'Request rate limit exceeded'.
+#          # TODO: Need a better test for 12+ bulk discounts. Or, we could update the bulk disount logic.
+#          # TODO: verify interim invoices?
+#          recipientCount = 13
+#          recipientsToVerify = [0, 1, 10, 11, 12]
+#          recipients = new SubbedRecipients recipientCount, recipientsToVerify
+#
+#          # Create recipients
+#          recipients.createRecipients ->
+#            expect(recipients.length()).toEqual(recipientCount)
+#
+#            stripe.tokens.create {
+#              card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+#            }, (err, token) ->
+#
+#              # Create sponsor user
+#              loginNewUser (user1) ->
+#
+#                # Subscribe recipients
+#                recipients.subRecipients user1, token, ->
+#                  User.findById user1.id, (err, user1) ->
+#
+#                    # Unsubscribe first recipient
+#                    unsubscribeRecipient user1, recipients.get(0), ->
+#                      User.findById user1.id, (err, user1) ->
+#
+#                        stripeInfo = user1.get('stripe')
+#                        expect(stripeInfo.recipients.length).toEqual(recipientCount - 1)
+#                        verifyNotSponsoring user1.id, recipients.get(0).id, ->
+#                          verifyNotRecipient recipients.get(0).id, ->
+#                            stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, (err, subscription) ->
+#                              expect(err).toBeNull()
+#                              expect(subscription).not.toBeNull()
+#                              expect(subscription.quantity).toEqual(getUnsubscribedQuantity(recipientCount - 1))
+#
+#                              # Unsubscribe last recipient
+#                              unsubscribeRecipient user1, recipients.get(recipientCount - 1), ->
+#                                User.findById user1.id, (err, user1) ->
+#                                  stripeInfo = user1.get('stripe')
+#                                  expect(stripeInfo.recipients.length).toEqual(recipientCount - 2)
+#                                  verifyNotSponsoring user1.id, recipients.get(recipientCount - 1).id, ->
+#                                    verifyNotRecipient recipients.get(recipientCount - 1).id, ->
+#                                      stripe.customers.retrieveSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, (err, subscription) ->
+#                                        expect(err).toBeNull()
+#                                        expect(subscription).not.toBeNull()
+#                                        numSponsored = recipientCount - 2
+#                                        if numSponsored <= 1
+#                                          expect(subscription.quantity).toEqual(subPrice)
+#                                        else if numSponsored <= 11
+#                                          expect(subscription.quantity).toEqual(subPrice + (numSponsored - 1) * subPrice * 0.8)
+#                                        else
+#                                          expect(subscription.quantity).toEqual(subPrice + 10 * subPrice * 0.8 + (numSponsored - 11) * subPrice * 0.6)
+#                                        nockDone()
+#                                        done()
 
   describe 'APIs', ->
     subscriptionURL = getURL('/db/subscription')
@@ -1694,7 +1702,6 @@ describe 'Subscriptions', ->
                   token: token.id
                   timestamp: new Date()
               request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
-                console.log err
                 expect(err).toBeNull()
                 nockDone()
                 done()

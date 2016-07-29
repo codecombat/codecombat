@@ -8,12 +8,7 @@ module.exports = class AboutView extends RootView
   logoutRedirectURL: false
 
   events:
-    'click #mission-link': 'onClickMissionLink'
-    'click #team-link': 'onClickTeamLink'
-    'click #community-link': 'onClickCommunityLink'
-    'click #story-link': 'onClickStoryLink'
-    'click #jobs-link': 'onClickJobsLink'
-    'click #contact-link': 'onClickContactLink'
+    'click #fixed-nav a': 'onClickFixedNavLink'
     'click .screen-thumbnail': 'onClickScreenThumbnail'
     'click #carousel-left': 'onLeftPressed'
     'click #carousel-right': 'onRightPressed'
@@ -22,6 +17,8 @@ module.exports = class AboutView extends RootView
     'right': 'onRightPressed'
     'left': 'onLeftPressed'
     'esc': 'onEscapePressed'
+
+  getTitle: -> return $.i18n.t('nav.about')
 
   afterRender: ->
     super(arguments...)
@@ -42,29 +39,21 @@ module.exports = class AboutView extends RootView
       keyboard: false
     })
 
-  onClickMissionLink: (event) ->
-    event.preventDefault()
-    @scrollToLink('#mission')
+  afterInsert: ->
+    # scroll to the current hash, once everything in the browser is set up
+    f = =>
+      return if @destroyed
+      link = $(document.location.hash)
+      if link.length
+        @scrollToLink(document.location.hash, 0)
+    _.delay(f, 100)
 
-  onClickTeamLink: (event) ->
-    event.preventDefault()
-    @scrollToLink('#team')
-
-  onClickCommunityLink: (event) ->
-    event.preventDefault()
-    @scrollToLink('#community')
-
-  onClickStoryLink: (event) ->
-    event.preventDefault()
-    @scrollToLink('#story')
-
-  onClickJobsLink: (event) ->
-    event.preventDefault()
-    @scrollToLink('#jobs')
-
-  onClickContactLink: (event) ->
-    event.preventDefault()
-    @scrollToLink('#contact')
+  onClickFixedNavLink: (event) ->
+    event.preventDefault() # prevent default page scroll
+    link = $(event.target).closest('a')
+    target = link.attr('href')
+    history.replaceState(null, null, "about#{target}") # update hash without triggering page scroll
+    @scrollToLink(target)
 
   onRightPressed: (event) ->
     # Special handling, otherwise after you click the control, keyboard presses move the slide twice

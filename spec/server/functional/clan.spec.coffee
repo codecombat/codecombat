@@ -1,9 +1,9 @@
 config = require '../../../server_config'
 require '../common'
-utils = require '../../../app/core/utils' # Must come after require /common
 Clan = require '../../../server/models/Clan'
 User = require '../../../server/models/User'
 request = require '../request'
+utils = require '../utils'
 
 describe 'Clans', ->
   clanURL = getURL('/db/clan')
@@ -53,7 +53,7 @@ describe 'Clans', ->
           done()
 
     it 'Anonymous create clan 401', (done) ->
-      logoutUser ->
+      utils.logout().then ->
         requestBody =
           type: 'public'
           name: createClanName 'myclan'
@@ -152,7 +152,7 @@ describe 'Clans', ->
       loginNewUser (user1) ->
         createClan user1, 'public', null, (clan1) ->
           createClan user1, 'public', null, (clan2) ->
-            logoutUser ->
+            utils.becomeAnonymous().then ->
               request.get {uri: "#{clanURL}/-/public" }, (err, res, body) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
@@ -403,10 +403,10 @@ describe 'Clans', ->
             loginNewUser (user2) ->
               user2.set 'stripe.free', true
               user2.save (err) ->
-              request.put {uri: "#{clanURL}/#{clan.id}/join" }, (err, res, body) ->
-                expect(err).toBeNull()
-                expect(res.statusCode).toBe(200)
-                done()
+                request.put {uri: "#{clanURL}/#{clan.id}/join" }, (err, res, body) ->
+                  expect(err).toBeNull()
+                  expect(res.statusCode).toBe(200)
+                  done()
 
     it 'Join clan when not premium 403', (done) ->
       loginNewUser (user1) ->
@@ -498,7 +498,7 @@ describe 'Clans', ->
         user1.save (err) ->
           expect(err).toBeNull()
           createClan user1, 'private', 'my private clan', (clan1) ->
-            logoutUser ->
+            utils.becomeAnonymous().then ->
               request.get {uri: "#{clanURL}/#{clan1.id}" }, (err, res, body) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)

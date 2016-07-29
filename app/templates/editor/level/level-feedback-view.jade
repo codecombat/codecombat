@@ -11,7 +11,7 @@ ul.user-feedback-list.list-group
       em= moment(new Date(feedback.created)).fromNow()
       span.spl.spr -
       a(href="/user/#{feedback.creator}")
-        strong= feedback.creatorName || 'Anoner'
+        strong= feedback.creatorName || 'Anonymous'
       if feedback.review
         span.spr :
         span= feedback.review

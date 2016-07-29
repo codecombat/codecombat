@@ -1,0 +1,40 @@
+@import "app/styles/style-flat-variables"
+
+#hero-select-modal
+  .modal-dialog
+    width: auto
+    max-width: 900px
+  
+  .modal-header, .modal-body:not(.secret), .modal-footer
+    display: flex
+    flex-direction: column
+    align-items: center
+  
+  .modal-footer
+    margin: 30px
+    
+  h4
+    max-width: 500px
+
+  .hero-list
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    margin-bottom: -50px
+    
+  .hero-option
+    display: flex
+    flex-direction: column
+    align-items: center
+    margin: 0 48px 50px
+    
+  .hero-avatar
+    margin: 6px
+    background-color: #f8f8f8
+    box-shadow: 0 0 0 1px gray
+    
+  .current .hero-avatar
+    box-shadow: 0 0 0 6px gray
+
+  .selected .hero-avatar
+    box-shadow: 0 0 0 6px $gold

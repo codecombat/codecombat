@@ -24,18 +24,6 @@ describe 'POST /auth/login', ->
     yield utils.becomeAnonymous()
     done()
 
-  it 'allows logging in by iosIdentifierForVendor', utils.wrap (done) ->
-    yield utils.initUser({
-      'iosIdentifierForVendor': '012345678901234567890123456789012345'
-      'password': '12345'
-    })
-    [res, body] = yield request.postAsync({uri: urlLogin, json: {
-      username: '012345678901234567890123456789012345'
-      password: '12345'
-    }})
-    expect(res.statusCode).toBe(200)
-    done()    
-
   it 'returns 401 when the user does not exist', utils.wrap (done) ->
     [res, body] = yield request.postAsync({uri: urlLogin, json: {
       username: 'some@email.com'
@@ -51,6 +39,19 @@ describe 'POST /auth/login', ->
     })
     [res, body] = yield request.postAsync({uri: urlLogin, json: {
       username: 'some@email.com'
+      password: '12345'
+    }})
+    expect(res.statusCode).toBe(200)
+    done()
+    
+  it 'allows login by username', utils.wrap (done) ->
+    yield utils.initUser({
+      name: 'Some name that will be lowercased...'
+      'email': 'some@email.com'
+      'password': '12345'
+    })
+    [res, body] = yield request.postAsync({uri: urlLogin, json: {
+      username: 'Some name that will be lowercased...'
       password: '12345'
     }})
     expect(res.statusCode).toBe(200)
@@ -165,6 +166,14 @@ describe 'GET /auth/unsubscribe', ->
     expect(res.statusCode).toBe(404)
     done()
     
+  it 'returns 200 even if the email has a + in it', utils.wrap (done) ->
+    @user.set('email', 'some+email@address.com')
+    yield @user.save()
+    url = getURL('/auth/unsubscribe?recruitNotes=1&email='+@user.get('email'))
+    [res, body] = yield request.getAsync(url, {json: true})
+    expect(res.statusCode).toBe(200)
+    done()
+    
   describe '?recruitNotes=1', ->
 
     it 'unsubscribes the user from recruitment emails', utils.wrap (done) ->
@@ -222,18 +231,20 @@ describe 'GET /auth/name', ->
     expect(res.statusCode).toBe 422
     done()
 
-  it 'returns the name given if there is no conflict', utils.wrap (done) ->
-    [res, body] = yield request.getAsync {url: getURL(url + '/Gandalf'), json: {}}
+  it 'returns an object with properties conflicts, givenName and suggestedName', utils.wrap (done) ->
+    [res, body] = yield request.getAsync {url: getURL(url + '/Gandalf'), json: true}
     expect(res.statusCode).toBe 200
-    expect(res.body.name).toBe 'Gandalf'
-    done()
+    expect(res.body.givenName).toBe 'Gandalf'
+    expect(res.body.conflicts).toBe false
+    expect(res.body.suggestedName).toBe 'Gandalf'
 
-  it 'returns a new name in case of conflict', utils.wrap (done) ->
     yield utils.initUser({name: 'joe'})
     [res, body] = yield request.getAsync {url: getURL(url + '/joe'), json: {}}
-    expect(res.statusCode).toBe 409
-    expect(res.body.name).not.toBe 'joe'
-    expect(/joe[0-9]/.test(res.body.name)).toBe(true)
+    expect(res.statusCode).toBe 200
+    expect(res.body.suggestedName).not.toBe 'joe'
+    expect(res.body.conflicts).toBe true
+    expect(/joe[0-9]/.test(res.body.suggestedName)).toBe(true)
+
     done()
 
     

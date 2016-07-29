@@ -60,6 +60,11 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     # load dependencies if it's not a vendor library
     if not _.string.startsWith(e.item.id, 'vendor')
       have = window.require.list()
+      haveWithIndexRemoved = _(have)
+        .filter (file) -> _.string.endsWith(file, 'index')
+        .map (file) -> file.slice(0,-6)
+        .value()
+      have = have.concat(haveWithIndexRemoved)
       console.group('Dependencies', e.item.id) if LOG
       @recentLoadedBytes += e.rawResult.length
       dependencies = @parseDependencies(e.rawResult)
@@ -82,8 +87,8 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     # a module and its dependencies have loaded!
     if @queue.progress is 1
       @recentPaths.sort()
-      console.debug @recentPaths.join('\n')
-      console.debug 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
+#      console.debug @recentPaths.join('\n')
+#      console.debug 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
       @trigger 'load-complete'
       
     @trigger 'loaded', e.item

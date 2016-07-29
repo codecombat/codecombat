@@ -247,6 +247,15 @@ module.exports = class SuperModel extends Backbone.Model
 
   getResource: (rid) ->
     return @resources[rid]
+    
+  # Promises
+  finishLoading: ->
+    new Promise (resolve, reject) =>
+      return resolve(@) if @finished()
+      @once 'failed', ({resource}) ->
+        jqxhr = resource.jqxhr
+        reject({message: jqxhr.responseJSON?.message or jqxhr.responseText or 'Unknown Error'})
+      @once 'loaded-all', => resolve(@)
 
 class Resource extends Backbone.Model
   constructor: (name, value=1) ->

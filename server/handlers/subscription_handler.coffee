@@ -21,7 +21,7 @@ recipientCouponID = 'free'
 
 class SubscriptionHandler extends Handler
   logSubscriptionError: (user, msg) ->
-    console.warn "Subscription Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
+    log.warn "Subscription Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 
   getByRelationship: (req, res, args...) ->
     return @getStripeEvents(req, res) if args[1] is 'stripe_events'
@@ -176,7 +176,7 @@ class SubscriptionHandler extends Handler
                 purchased = _.clone(req.user.get('purchased'))
                 purchased ?= {}
                 purchased.gems ?= 0
-                purchased.gems += parseInt(charge.metadata.gems)
+                purchased.gems += parseInt(charge.metadata.gems) if charge.metadata.gems
                 req.user.set('purchased', purchased)
 
                 req.user.save (err, user) =>
@@ -257,7 +257,7 @@ class SubscriptionHandler extends Handler
             purchased = _.clone(req.user.get('purchased'))
             purchased ?= {}
             purchased.gems ?= 0
-            purchased.gems += product.get('gems') * months
+            purchased.gems += product.get('gems') * months if product.get('gems')
             req.user.set('purchased', purchased)
 
             req.user.save (err, user) =>
@@ -269,6 +269,9 @@ class SubscriptionHandler extends Handler
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
       return done({res: 'You must be signed in to subscribe.', code: 403})
+
+    if not req.user.get('email')
+      return done({res: 'Your account needs an email address to subscribe.', code: 403})
 
     token = req.body.stripe.token
     prepaidCode = req.body.stripe.prepaidCode
@@ -433,14 +436,14 @@ class SubscriptionHandler extends Handler
       productName = "#{user.get('country')}_basic_subscription"
 
     Product.findOne({name: productName}).exec (err, product) =>
-      return @sendDatabaseError(res, err) if err
-      return @sendNotFoundError(res, 'basic_subscription product not found') if not product
-
+      return done({res: 'Database error.', code: 500}) if err
+      return done({res: 'basic_subscription product not found.', code: 404}) if not product
+      
       if increment
         purchased = _.clone(user.get('purchased'))
         purchased ?= {}
         purchased.gems ?= 0
-        purchased.gems += product.get('gems')
+        purchased.gems += product.get('gems') if product.get('gems')
         user.set('purchased', purchased)
 
       user.save (err) =>
@@ -550,7 +553,7 @@ class SubscriptionHandler extends Handler
               purchased = _.clone(recipient.get('purchased'))
               purchased ?= {}
               purchased.gems ?= 0
-              purchased.gems += product.get('gems')
+              purchased.gems += product.get('gems') if product.get('gems')
               recipient.set('purchased', purchased)
             recipient.save (err) =>
               if err

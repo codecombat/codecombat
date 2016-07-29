@@ -33,6 +33,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     @trialRequests = new TrialRequests()
     @trialRequests.fetchOwn()
     @supermodel.trackCollection(@trialRequests)
+    window.tracker?.trackEvent 'Teachers Convert Account Loaded', category: 'Teachers', ['Mixpanel']
 
   onLeaveMessage: ->
     if @formChanged
@@ -87,6 +88,8 @@ module.exports = class ConvertToTeacherAccountView extends RootView
       @onChangeForm()
 
   onChangeForm: ->
+    unless @formChanged
+      window.tracker?.trackEvent 'Teachers Convert Account Form Started', category: 'Teachers', ['Mixpanel']
     @formChanged = true
 
   onSubmitForm: (e) ->
@@ -141,6 +144,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     errors.showNotyNetworkError(arguments...)
 
   onTrialRequestSubmit: ->
+    window.tracker?.trackEvent 'Teachers Convert Account Submitted', category: 'Teachers', ['Mixpanel']
     @formChanged = false
     me.setRole @trialRequest.get('properties').role.toLowerCase(), true
     application.router.navigate('/teachers/classes', {trigger: true})

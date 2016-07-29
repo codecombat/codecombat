@@ -1,5 +1,4 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/spell_palette'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
@@ -12,7 +11,7 @@ N_ROWS = 4
 
 module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
-  template: template
+  template: require 'templates/play/level/tome/spell-palette-view'
   controlsEnabled: true
 
   subscriptions:
@@ -24,13 +23,8 @@ module.exports = class SpellPaletteView extends CocoView
   events:
     'click #spell-palette-help-button': 'onClickHelp'
 
-  constructor: (options) ->
-    super options
-    @level = options.level
-    @session = options.session
-    @supermodel = options.supermodel
-    @thang = options.thang
-    @useHero = options.useHero
+  initialize: (options) ->
+    {@level, @session, @supermodel, @thang, @useHero} = options
     docs = @options.level.get('documentation') ? {}
     @showsHelp = docs.specificArticles?.length or docs.generalArticles?.length
     @createPalette()
@@ -93,6 +87,7 @@ module.exports = class SpellPaletteView extends CocoView
             entry.$el.addClass 'first-entry'
       @$el.addClass 'hero'
       @$el.toggleClass 'shortenize', Boolean @shortenize
+      @$el.toggleClass 'web-dev', @options.level.isType('web-dev')
       @updateMaxHeight() unless application.isIPadApp
 
   afterInsert: ->
@@ -106,7 +101,9 @@ module.exports = class SpellPaletteView extends CocoView
     return unless @isHero
     # We figure out how many columns we can fit, width-wise, and then guess how many rows will be needed.
     # We can then assign a height based on the number of rows, and the flex layout will do the rest.
-    columnWidth = if @shortenize then 175 else 212
+    columnWidth = 212
+    columnWidth = 175 if @shortenize
+    columnWidth = 100 if @options.level.isType('web-dev')
     nColumns = Math.floor @$el.find('.properties-this').innerWidth() / columnWidth   # will always have 2 columns, since at 1024px screen we have 424px .properties
     columns = ({items: [], nEntries: 0} for i in [0 ... nColumns])
     orderedColumns = []
@@ -159,11 +156,13 @@ module.exports = class SpellPaletteView extends CocoView
         JSON: 'programmableJSONProperties'
         LoDash: 'programmableLoDashProperties'
         Vector: 'programmableVectorProperties'
+        HTML: 'programmableHTMLProperties'
+        CSS: 'programmableCSSProperties'
         snippets: 'programmableSnippets'
     else
       propStorage =
         'this': ['apiProperties', 'apiMethods']
-    if not (@options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']) or not @options.programmable
+    if not @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') or not @options.programmable
       @organizePalette propStorage, allDocs, excludedDocs
     else
       @organizePaletteHero propStorage, allDocs, excludedDocs
@@ -198,14 +197,14 @@ module.exports = class SpellPaletteView extends CocoView
       return 'more' if entry.doc.owner is 'this' and entry.doc.name in (propGroups.more ? [])
       entry.doc.owner
     @entries = _.sortBy @entries, (entry) ->
-      order = ['this', 'more', 'Math', 'Vector', 'String', 'Object', 'Array', 'Function', 'snippets']
+      order = ['this', 'more', 'Math', 'Vector', 'String', 'Object', 'Array', 'Function', 'HTML', 'CSS', 'snippets']
       index = order.indexOf groupForEntry entry
       index = String.fromCharCode if index is -1 then order.length else index
       index += entry.doc.name
     if tabbify and _.find @entries, ((entry) -> entry.doc.owner isnt 'this')
       @entryGroups = _.groupBy @entries, groupForEntry
     else
-      i18nKey = if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then 'play_level.tome_your_skills' else 'play_level.tome_available_spells'
+      i18nKey = if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') then 'play_level.tome_your_skills' else 'play_level.tome_available_spells'
       defaultGroup = $.i18n.t i18nKey
       @entryGroups = {}
       @entryGroups[defaultGroup] = @entries
@@ -249,7 +248,7 @@ module.exports = class SpellPaletteView extends CocoView
         console.log @thang.id, "couldn't find item ThangType for", slot, thangTypeName
 
     # Get any Math-, Vector-, etc.-owned properties into their own tabs
-    for owner, storage of propStorage when not (owner in ['this', 'more', 'snippets'])
+    for owner, storage of propStorage when not (owner in ['this', 'more', 'snippets', 'HTML', 'CSS'])
       continue unless @thang[storage]?.length
       @tabs ?= {}
       @tabs[owner] = []
@@ -263,7 +262,7 @@ module.exports = class SpellPaletteView extends CocoView
 
     # Assign any unassigned properties to the hero itself.
     for owner, storage of propStorage
-      continue unless owner in ['this', 'more', 'snippets']
+      continue unless owner in ['this', 'more', 'snippets', 'HTML', 'CSS']
       for prop in _.reject(@thang[storage] ? [], (prop) -> itemsByProp[prop] or prop[0] is '_')  # no private properties
         continue if prop is 'say' and @options.level.get 'hidesSay'  # Hide for Dungeon Campaign
         continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
@@ -288,7 +287,10 @@ module.exports = class SpellPaletteView extends CocoView
           doc ?= prop
         if doc
           @entries.push @addEntry(doc, @shortenize, owner is 'snippets', item, propIndex > 0)
-    @entryGroups = _.groupBy @entries, (entry) -> itemsByProp[entry.doc.name]?.get('name') ? 'Hero'
+    if @options.level.isType('web-dev')
+      @entryGroups = _.groupBy @entries, (entry) -> entry.doc.type
+    else
+      @entryGroups = _.groupBy @entries, (entry) -> itemsByProp[entry.doc.name]?.get('name') ? 'Hero'
     iOSEntryGroups = {}
     for group, entries of @entryGroups
       iOSEntryGroups[group] =

@@ -48,7 +48,7 @@ block modal-body-content
         textarea(data-i18n="[placeholder]play_level.victory_review_placeholder")
     .clearfix
 
-  if level.get('type', true) === 'hero' || level.get('type') == 'hero-ladder'
+  if level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')
     for achievement in achievements
       - var animate = achievement.completed && !achievement.completedAWhileAgo
       .achievement-panel(class=achievement.completedAWhileAgo ? 'earned' : '' data-achievement-id=achievement.id data-animate=animate)
@@ -108,6 +108,24 @@ block modal-footer-content
       .total-count#gem-total 0
       .total-label(data-i18n="play_level.victory_gems_gained") Gems Gained
 
+  if view.shareURL
+    #share-level-container
+      span.share-level-label
+        span(data-i18n='sharing.victory_share_prefix') Share this link to invite your friends & family to
+        span= ' '
+        a(href=view.shareURL, target='_blank')
+          if view.level.isType('game-dev')
+            span(data-i18n='sharing.victory_share_game') play your game level
+          else
+            span(data-i18n='sharing.victory_share_web') view your webpage
+        span(data-i18n='sharing.victory_share_suffix') .
+      .row
+        .col-sm-9
+          input.text-h4.semibold.form-control.input-md#share-level-input(value=view.shareURL)
+        .col-sm-3
+          button#share-level-btn.btn.btn-md.btn-success.btn-illustrated
+            span(data-i18n='sharing.copy_url') Copy URL
+
   if me.get('anonymous')
     .sign-up-poke.hide
       .sign-up-blurb(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
@@ -118,7 +136,7 @@ block modal-footer-content
   .next-level-buttons
     if readyToRank
       .ladder-submission-view
-    else if level.get('type') === 'hero-ladder'
+    else if level.isType('hero-ladder')
       button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
     else
       button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue

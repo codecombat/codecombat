@@ -1,0 +1,81 @@
+extends /templates/base
+
+//- DO NOT TRANSLATE
+
+block content
+
+  if !me.isAdmin()
+    div You must be logged in as an admin to view this page.
+  else if !view.countryGraphs || !view.countryGraphs['USA']
+    h3 Loading...
+  else
+    p
+      div CodeCombat is now in #{view.countryGraphs['USA'].totalSchools} schools with #{view.countryGraphs['USA'].totalStudents} students [and #{view.countryGraphs['USA'].totalTeachers} teachers] [in #{view.countryGraphs['USA'].totalStates} states] in the USA
+    p
+      div Untriaged students: #{view.untriagedStudents}
+      div Untriaged teachers: #{view.untriagedTeachers}
+    .small Teacher: teacherish role or owns a classroom
+    .small Student: student role or member of a classroom or has schoolName set, not in HoC course instance
+    .small School: trial request data or teacher with 10+ students
+    .small +3 USA states are GU, PR, DC
+
+    p
+      ul
+        li
+          a(href="#usaStates") USA States
+        li
+          a(href="#usaDistrictsByState") USA Districts by State
+        li
+          a(href="#countries") Countries
+
+    a(name="usaStates")
+    h2 USA States
+    if view.countryGraphs['USA'].stateCounts
+      table.table.table-striped.table-condensed
+        tr
+          th State
+          th Districts
+          th Schools
+          th Teachers
+          th Students
+        each stateCount in view.countryGraphs['USA'].stateCounts
+          tr
+            td= stateCount.state
+            td= stateCount.districts
+            td= stateCount.schools
+            td= stateCount.teachers
+            td= stateCount.students
+
+    a(name="usaDistrictsByState")
+    h2 USA Districts by State
+    if view.countryGraphs['USA'].districtCounts
+      table.table.table-striped.table-condensed
+        tr
+          th State
+          th District
+          th Schools
+          th Teachers
+          th Students
+        each districtCount in view.countryGraphs['USA'].districtCounts
+          tr
+            td= districtCount.state
+            td= districtCount.district
+            td= districtCount.schools
+            td= districtCount.teachers
+            td= districtCount.students
+
+    a(name="countries")
+    h2 Countries
+    if view.countryCounts
+      table.table.table-striped.table-condensed
+        tr
+          th Country
+          th Schools
+          th Teachers
+          th Students
+        each countryCount in view.countryCounts
+          tr
+            td= countryCount.country
+            td= countryCount.schools
+            td= countryCount.teachers
+            td= countryCount.students

@@ -4,7 +4,15 @@ RootView = require 'views/core/RootView'
 template = require 'templates/admin'
 AdministerUserModal = require 'views/admin/AdministerUserModal'
 forms = require 'core/forms'
+
+Campaigns = require 'collections/Campaigns'
+Classroom = require 'models/Classroom'
+CocoCollection = require 'collections/CocoCollection'
+Course = require 'models/Course'
+Courses = require 'collections/Courses'
+LevelSessions = require 'collections/LevelSessions'
 User = require 'models/User'
+Users = require 'collections/Users'
 
 module.exports = class MainAdminView extends RootView
   id: 'admin-view'
@@ -16,15 +24,20 @@ module.exports = class MainAdminView extends RootView
     'submit #user-search-form': 'onSubmitUserSearchForm'
     'click #stop-spying-btn': 'onClickStopSpyingButton'
     'click #increment-button': 'incrementUserAttribute'
+    'click .user-spy-button': 'onClickUserSpyButton'
     'click #user-search-result': 'onClickUserSearchResult'
     'click #create-free-sub-btn': 'onClickFreeSubLink'
     'click #terminal-create': 'onClickTerminalSubLink'
-    
+    'click .classroom-progress-csv': 'onClickExportProgress'
+
+  getTitle: -> return $.i18n.t('account_settings.admin')
+
   initialize: ->
     if window.amActually
       @amActually = new User({_id: window.amActually})
       @amActually.fetch()
       @supermodel.trackModel(@amActually)
+    super()
 
   onClickStopSpyingButton: ->
     button = @$('#stop-spying-btn')
@@ -48,6 +61,18 @@ module.exports = class MainAdminView extends RootView
         errors.showNotyNetworkError(arguments...)
     })
 
+  onClickUserSpyButton: (e) ->
+    e.stopPropagation()
+    userID = $(e.target).closest('tr').data('user-id')
+    button = $(e.currentTarget)
+    forms.disableSubmit(button)
+    me.spy(userID, {
+      success: -> window.location.reload()
+      error: ->
+        forms.enableSubmit(button)
+        errors.showNotyNetworkError(arguments...)
+    })
+
   onSubmitUserSearchForm: (e) ->
     e.preventDefault()
     searchValue = @$el.find('#user-search').val()
@@ -65,7 +90,7 @@ module.exports = class MainAdminView extends RootView
     forms.enableSubmit(@$('#user-search-button'))
     result = ''
     if users.length
-      result = ("<tr data-user-id='#{user._id}'><td><code>#{user._id}</code></td><td>#{_.escape(user.name or 'Anoner')}</td><td>#{_.escape(user.email)}</td></tr>" for user in users)
+      result = ("<tr data-user-id='#{user._id}'><td><code>#{user._id}</code></td><td>#{_.escape(user.name or 'Anonymous')}</td><td>#{_.escape(user.email)}</td><td><button class='user-spy-button'>Spy</button></td></tr>" for user in users)
       result = "<table class=\"table\">#{result.join('\n')}</table>"
     @$el.find('#user-search-result').html(result)
 
@@ -124,3 +149,87 @@ module.exports = class MainAdminView extends RootView
       console.error 'Failed to create prepaid', response
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
 
+  onClickExportProgress: ->
+    $('.classroom-progress-csv').prop('disabled', true)
+    classCode = $('.classroom-progress-class-code').val()
+    classroom = null
+    courses = null
+    courseLevels = []
+    sessions = null
+    users = null
+    userMap = {}
+    Promise.resolve(new Classroom().fetchByCode(classCode))
+    .then (model) =>
+      classroom = new Classroom({ _id: model.data._id })
+      Promise.resolve(classroom.fetch())
+    .then (model) =>
+      courses = new Courses()
+      Promise.resolve(courses.fetch())
+    .then (models) =>
+      for course, index in classroom.get('courses')
+        for level in course.levels
+          courseLevels.push
+            courseIndex: index + 1
+            levelID: level.original
+            slug: level.slug
+            courseSlug: courses.get(course._id).get('slug')
+      users = new Users()
+      Promise.resolve($.when(users.fetchForClassroom(classroom)...))
+    .then (models) =>
+      userMap[user.id] = user for user in users.models
+      sessions = new LevelSessions()
+      Promise.resolve($.when(sessions.fetchForAllClassroomMembers(classroom)...))
+    .then (models) =>
+      userLevelPlaytimeMap = {}
+      for session in sessions.models
+        continue unless session.get('state')?.complete
+        levelID = session.get('level').original
+        userID = session.get('creator')
+        userLevelPlaytimeMap[userID] ?= {}
+        userLevelPlaytimeMap[userID][levelID] ?= {}
+        userLevelPlaytimeMap[userID][levelID] = session.get('playtime')
+
+      userPlaytimes = []
+      for userID, user of userMap
+        playtimes = [user.get('name') ? 'Anonymous']
+        for level in courseLevels
+          if userLevelPlaytimeMap[userID]?[level.levelID]?
+            rawSeconds = parseInt(userLevelPlaytimeMap[userID][level.levelID])
+            hours = Math.floor(rawSeconds / 60 / 60)
+            minutes = Math.floor(rawSeconds / 60 - hours * 60)
+            seconds = Math.round(rawSeconds - hours * 60 - minutes * 60)
+            hours = "0#{hours}" if hours < 10
+            minutes = "0#{minutes}" if minutes < 10
+            seconds = "0#{seconds}" if seconds < 10
+            playtimes.push "#{hours}:#{minutes}:#{seconds}"
+          else
+            playtimes.push 'Incomplete'
+        userPlaytimes.push(playtimes)
+
+      columnLabels = "Username"
+      currentLevel = 1
+      courseLabelIndexes = CS: 1, GD: 0, WD: 0
+      lastCourseIndex = 1
+      lastCourseLabel = 'CS1'
+      for level in courseLevels
+        unless level.courseIndex is lastCourseIndex
+          currentLevel = 1
+          lastCourseIndex = level.courseIndex
+          acronym = switch
+            when /game-dev/.test(level.courseSlug) then 'GD'
+            when /web-dev/.test(level.courseSlug) then 'WD'
+            else 'CS'
+          lastCourseLabel = acronym + ++courseLabelIndexes[acronym]
+        columnLabels += ",#{lastCourseLabel}.#{currentLevel++} #{level.slug}"
+      csvContent = "data:text/csv;charset=utf-8,#{columnLabels}\n"
+      for studentRow in userPlaytimes
+        csvContent += studentRow.join(',') + "\n"
+      csvContent = csvContent.substring(0, csvContent.length - 1)
+      encodedUri = encodeURI(csvContent)
+      window.open(encodedUri)
+      $('.classroom-progress-csv').prop('disabled', false)
+
+    .catch (error) ->
+      $('.classroom-progress-csv').prop('disabled', false)
+      console.error error
+      throw error

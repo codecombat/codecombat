@@ -6,10 +6,10 @@ $mapWidth: 2350
 $levelDotWidth: 2%
 $levelDotHeight: $levelDotWidth * $mapWidth / $mapHeight
 $levelDotZ: $levelDotHeight * 0.25
-$levelDotHoverZ: $levelDotZ * 2
+$levelDotHoverZ: $levelDotZ * 1.5
 $levelDotShadowWidth: 0.8 * $levelDotWidth
 $levelDotShadowHeight: 0.8 * $levelDotHeight
-$levelClickRadius: 40px
+$levelClickRadius: 20px
 $gameControlSize: 80px
 $gameControlMargin: 30px
 
@@ -25,8 +25,10 @@ $gameControlMargin: 30px
     margin-bottom: -$levelDotHeight / 3 + $levelDotZ
 
 #campaign-view
-  width: 100%
-  height: 100%
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
   position: absolute
 
   .gradient
@@ -89,12 +91,6 @@ $gameControlMargin: 30px
         a
           cursor: default
 
-      &.next
-        width: 2 * $levelDotWidth
-        height: 2 * $levelDotHeight
-        margin-left: -0.5 * 2 * $levelDotWidth
-        margin-bottom: -2 * $levelDotHeight / 3 + 2 * $levelDotZ
-
       &.started, &.next
         border: 3px solid lightgreen
         @include box-shadow(0px 0px 35px skyblue)
@@ -111,7 +107,7 @@ $gameControlMargin: 30px
 
       .level-difficulty-banner-text
         position: absolute
-        bottom: 170%
+        bottom: 80%
         pointer-events: none
         color: rgb(246, 208, 2)
         text-shadow: 0px 1px 0px black
@@ -123,8 +119,7 @@ $gameControlMargin: 30px
       img.banner
         position: absolute
         bottom: 38%
-        left: -50%
-        width: 200%
+        width: 100%
         pointer-events: none
 
       img.star
@@ -170,12 +165,6 @@ $gameControlMargin: 30px
       @include box-shadow(0px 0px 10px black)
       @include opacity(0.75)
 
-      &.next
-        width: 2 * $levelDotShadowWidth
-        height: 2 * $levelDotShadowHeight
-        margin-left: -0.5 * 2 * $levelDotShadowWidth
-        margin-bottom: -2 * $levelDotShadowHeight / 3
-
     .level:hover
       // TODO: This rotate stops Firefox from flickering, but also disables the scaleY(0.75)
       // TODO: The dot looks like it's jumping.
@@ -185,9 +174,6 @@ $gameControlMargin: 30px
       margin-bottom: -$levelDotHeight / 3 + $levelDotHoverZ
       @include box-shadow(0px 0px 35px skyblue)
 
-      &.next
-        margin-bottom: -2 * $levelDotHeight / 3 + 2 * $levelDotHoverZ
-
     .level
       a
         display: block
@@ -196,14 +182,9 @@ $gameControlMargin: 30px
         margin-top: -0.5 * $levelClickRadius
         border-radius: $levelClickRadius
 
-      &.next a
-        padding: 2 * $levelClickRadius
-        margin-left: 2 * -0.5 * $levelClickRadius
-        margin-top: 2 * -0.5 * $levelClickRadius
-        border-radius: 2 * $levelClickRadius
-
     .tooltip
-      z-index: 2
+      z-index: 3
+      pointer-events: none
 
       .tooltip-arrow
         display: none
@@ -422,7 +403,7 @@ $gameControlMargin: 30px
 
       .player-name
         margin-left: 45px
-        
+
       a
         color: white
 
@@ -636,6 +617,8 @@ $gameControlMargin: 30px
 
   .gameplay-container
     position: absolute
+    height: 100%
+    width: 100%
 
 body.ipad #campaign-view
   // iPad only supports up to Kithgard Gates for now.
@@ -644,4 +627,3 @@ body.ipad #campaign-view
 
 body[lang='ru'] .portals h2
   font-size: 26px
-

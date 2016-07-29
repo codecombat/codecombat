@@ -37,6 +37,7 @@ module.exports = class Angel extends CocoClass
     @allLogs = []
     @hireWorker()
     @shared.angels.push @
+    @listenTo @shared.gameUIState.get('realTimeInputEvents'), 'add', @onAddRealTimeInputEvent
 
   destroy: ->
     @fireWorker false
@@ -82,11 +83,10 @@ module.exports = class Angel extends CocoClass
         clearTimeout @condemnTimeout
       when 'end-load-frames'
         clearTimeout @condemnTimeout
-        @beholdGoalStates event.data.goalStates, event.data.overallStatus, false, event.data.totalFrames, event.data.lastFrameHash  # Work ends here if we're headless.
+        @beholdGoalStates {goalStates: event.data.goalStates, overallStatus: event.data.overallStatus, preload: false, totalFrames: event.data.totalFrames, lastFrameHash: event.data.lastFrameHash, simulationFrameRate: event.data.simulationFrameRate}  # Work ends here if we're headless.
       when 'end-preload-frames'
         clearTimeout @condemnTimeout
-        @beholdGoalStates event.data.goalStates, event.data.overallStatus, true
-
+        @beholdGoalStates {goalStates: event.data.goalStates, overallStatus: event.data.overallStatus, preload: true, simulationFrameRate: event.data.simulationFrameRate}
 
       # We have to abort like an infinite loop if we see one of these; they're not really recoverable
       when 'non-user-code-problem'
@@ -111,7 +111,9 @@ module.exports = class Angel extends CocoClass
       when 'user-code-problem'
         @publishGodEvent 'user-code-problem', problem: event.data.problem
       when 'world-load-progress-changed'
-        @publishGodEvent 'world-load-progress-changed', progress: event.data.progress
+        progress = event.data.progress
+        progress = Math.min(progress, 0.9) if @work.indefiniteLength
+        @publishGodEvent 'world-load-progress-changed', { progress }
         unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or (@shared.firstWorld and not @shared.spectate)
           @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
 
@@ -125,11 +127,12 @@ module.exports = class Angel extends CocoClass
       else
         @log 'Received unsupported message:', event.data
 
-  beholdGoalStates: (goalStates, overallStatus, preload=false, totalFrames=undefined, lastFrameHash=undefined) ->
+  beholdGoalStates: ({goalStates, overallStatus, preload, totalFrames, lastFrameHash, simulationFrameRate}) ->
     return if @aborting
-    event = goalStates: goalStates, preload: preload, overallStatus: overallStatus
+    event = goalStates: goalStates, preload: preload ? false, overallStatus: overallStatus
     event.totalFrames = totalFrames if totalFrames?
     event.lastFrameHash = lastFrameHash if lastFrameHash?
+    event.simulationFrameRate = simulationFrameRate if simulationFrameRate?
     @publishGodEvent 'goals-calculated', event
     @finishWork() if @shared.headless
 
@@ -137,6 +140,7 @@ module.exports = class Angel extends CocoClass
     return if @aborting
     # Toggle BOX2D_ENABLED during deserialization so that if we have box2d in the namespace, the Collides Components still don't try to create bodies for deserialized Thangs upon attachment.
     window.BOX2D_ENABLED = false
+    streamingWorld?.indefiniteLength = @work.indefiniteLength
     @streamingWorld = World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), startFrame, endFrame, @work.level, streamingWorld
     window.BOX2D_ENABLED = true
     @shared.lastSerializedWorldFrames = serialized.frames
@@ -144,7 +148,10 @@ module.exports = class Angel extends CocoClass
   finishBeholdingWorld: (goalStates) -> (world) =>
     return if @aborting or @destroyed
     finished = world.frames.length is world.totalFrames
-    firstChangedFrame = world.findFirstChangedFrame @shared.world
+    if @work?.indefiniteLength and world.victory?
+      finished = true
+      world.totalFrames = world.frames.length
+    firstChangedFrame = if @work.indefiniteLength then 0 else world.findFirstChangedFrame @shared.world
     eventType = if finished then 'new-world-created' else 'streaming-world-updated'
     if finished
       @shared.world = world
@@ -266,6 +273,10 @@ module.exports = class Angel extends CocoClass
     return unless @running and @work.realTime
     @worker.postMessage func: 'addFlagEvent', args: e
 
+  onAddRealTimeInputEvent: (realTimeInputEvent) ->
+    return unless @running and @work.realTime
+    @worker.postMessage func: 'addRealTimeInputEvent', args: realTimeInputEvent.toJSON()
+
   onStopRealTimePlayback: (e) ->
     return unless @running and @work.realTime
     @work.realTime = false
@@ -306,7 +317,8 @@ module.exports = class Angel extends CocoClass
     work.world.goalManager.worldGenerationEnded() if work.world.ended
 
     if work.headless
-      @beholdGoalStates goalStates, testGM.checkOverallStatus(), false, work.world.totalFrames, work.world.frames[work.world.totalFrames - 2]?.hash
+      simulationFrameRate = work.world.frames.length / (work.t2 - work.t1) * 1000 * 30 / work.world.frameRate
+      @beholdGoalStates {goalStates, overallStatus: testGM.checkOverallStatus(), preload: false, totalFrames: work.world.totalFrames, lastFrameHash: work.world.frames[work.world.totalFrames - 2]?.hash, simulationFrameRate: simulationFrameRate}
       return
 
     serialized = world.serialize()

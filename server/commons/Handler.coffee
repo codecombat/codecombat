@@ -82,6 +82,8 @@ module.exports = class Handler
   sendBadInputError: (res, message) -> errors.badInput(res, message)
   sendPaymentRequiredError: (res, message) -> errors.paymentRequired(res, message)
   sendDatabaseError: (res, err) ->
+    if err instanceof errors.NetworkError
+      return res.status(err.code).send(err.toJSON())
     return @sendError(res, err.code, err.response) if err?.response and err?.code
     log.error "Database error, #{err}"
     errors.serverError(res, 'Database error, ' + err)
@@ -467,6 +469,7 @@ module.exports = class Handler
         @notifyWatcherOfChange editor, watcher, changedDocument, editPath
 
   notifyWatcherOfChange: (editor, watcher, changedDocument, editPath) ->
+    return if not watcher.get('email')
     context =
       email_id: sendwithus.templates.change_made_notify_watcher
       recipient:
@@ -481,8 +484,7 @@ module.exports = class Handler
 
   sendChangedSlackMessage: (options) ->
     message = "#{options.creator.get('name')} saved a change to #{options.target.get('name')}: #{options.target.get('commitMessage') or '(no commit message)'} #{options.docLink}"
-    rooms = if /Diplomat submission/.test(message) then ['dev-feed'] else ['dev-feed', 'artisans']
-    slack.sendSlackMessage message, rooms
+    slack.sendSlackMessage message, ['artisans']
 
   makeNewInstance: (req) ->
     model = new @modelClass({})

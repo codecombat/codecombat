@@ -9,6 +9,7 @@ describe 'UserModel', ->
     expect(User.expForLevel 2).toBeGreaterThan User.expForLevel 1
 
   it 'level is calculated correctly', ->
+    me.clear()
     me.set 'points', 0
     expect(me.level()).toBe 1
 

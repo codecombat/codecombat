@@ -9,16 +9,19 @@ module.exports.setupRoutes = (app) ->
 debug = not config.isProduction
 module.exports.api =
   send: (context, cb) ->
-    log.debug('Tried to send email with context: ', JSON.stringify(context, null, '\t'))
+    log.debug('Tried to send email with context: ', JSON.stringify(context, null, '  '))
     setTimeout(cb, 10)
-    
+
 if swuAPIKey
   module.exports.api = new sendwithusAPI swuAPIKey, debug
-  
+
 module.exports.templates =
   parent_subscribe_email: 'tem_2APERafogvwKhmcnouigud'
+  coppa_deny_parent_signup: 'tem_d5fCpXS8V7jgff2sYKCinX'
   share_progress_email: 'tem_VHE3ihhGmVa3727qds9zY8'
-  welcome_email: 'utnGaBHuSU4Hmsi7qrAypU'
+  welcome_email_user: 'tem_z7Xvj3mtWYk6ec6aW7RwFk'
+  welcome_email_student: 'tem_4WYPZNLzs5wawMF9qUJXUH'
+  verify_email: 'tem_zJee6uRsRmzqzktzneCkCn'
   ladder_update_email: 'JzaZxf39A4cKMxpPZUfWy4'
   patch_created: 'tem_xhxuNosLALsizTNojBjNcL'
   change_made_notify_watcher: 'tem_7KVkfmv9SZETb25dtHbUtG'
@@ -27,7 +30,7 @@ module.exports.templates =
   generic_email: 'tem_JhRnQ4pvTS4KdQjYoZdbei'
   plain_text_email: 'tem_85UvKDCCNPXsFckERTig6Y'
   next_steps_email: 'tem_RDHhTG5inXQi8pthyqWr5D'
-  course_invite_email: 'tem_f5K7BXX5vQ9a7kwYTACbJa'
+  course_invite_email: 'tem_ic2ZhPkpj8GBADFuyAp4bj'
   teacher_free_trial: 'tem_R7d9Hpoba9SceQNiYSXBak'
   teacher_free_trial_hoc: 'tem_4ZSY9wsA9Qwn4wBFmZgPdc'
   teacher_request_demo: 'tem_cwG3HZjEyb6QE493hZuUra'

@@ -3,7 +3,6 @@ template = require 'templates/account/account-settings-view'
 {me} = require 'core/auth'
 forms = require 'core/forms'
 User = require 'models/User'
-CreateAccountModal = require 'views/core/CreateAccountModal'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
 {logoutUser, me} = require('core/auth')
 
@@ -19,15 +18,12 @@ module.exports = class AccountSettingsView extends CocoView
     'click #profile-photo-panel-body': 'onClickProfilePhotoPanelBody'
     'click #delete-account-btn': 'onClickDeleteAccountButton'
     'click #reset-progress-btn': 'onClickResetProgressButton'
+    'click .resend-verification-email': 'onClickResendVerificationEmail'
 
   constructor: (options) ->
     super options
     require('core/services/filepicker')() unless window.application.isIPadApp  # Initialize if needed
     @uploadFilePath = "db/user/#{me.id}"
-
-  afterInsert: ->
-    super()
-    @openModalView new CreateAccountModal() if me.get('anonymous')
 
   getEmailSubsDict: ->
     subs = {}
@@ -83,18 +79,24 @@ module.exports = class AccountSettingsView extends CocoView
       confirmModal.on 'confirm', @resetProgress
       @openModalView confirmModal
 
+  onClickResendVerificationEmail: (e) ->
+    $.post me.getRequestVerificationEmailURL(), ->
+      link = $(e.currentTarget)
+      link.find('.resend-text').addClass('hide')
+      link.find('.sent-text').removeClass('hide')
+
   validateCredentialsForDestruction: ($form, onSuccess) ->
     forms.clearFormAlerts($form)
-    enteredEmail = $form.find('input[type="email"]').val()
-    enteredPassword = $form.find('input[type="password"]').val()
-    if enteredEmail and enteredEmail is me.get('email')
+    enteredEmailOrUsername = $form.find('input[name="emailOrUsername"]').val()
+    enteredPassword = $form.find('input[name="password"]').val()
+    if enteredEmailOrUsername and enteredEmailOrUsername in [me.get('email'), me.get('name')]
       isPasswordCorrect = false
       toBeDelayed = true
       $.ajax
         url: '/auth/login'
         type: 'POST'
         data:
-          username: enteredEmail
+          username: enteredEmailOrUsername
           password: enteredPassword
         parse: true
         error: (error) ->
@@ -223,9 +225,16 @@ module.exports = class AccountSettingsView extends CocoView
     return unless res
 
     res.error =>
-      errors = JSON.parse(res.responseText)
-      forms.applyErrorsToForm(@$el, errors)
-      $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
+      if res.responseJSON?.property
+        errors = res.responseJSON
+        forms.applyErrorsToForm(@$el, errors)
+        $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
+      else
+        noty
+          text: res.responseJSON?.message or res.responseText
+          type: 'error'
+          layout: 'topCenter'
+          timeout: 5000
       @trigger 'save-user-error'
     res.success (model, response, options) =>
       @trigger 'save-user-success'

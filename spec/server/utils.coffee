@@ -6,6 +6,13 @@ User = require '../../server/models/User'
 Level = require '../../server/models/Level'
 Achievement = require '../../server/models/Achievement'
 Campaign = require '../../server/models/Campaign'
+Course = require '../../server/models/Course'
+Prepaid = require '../../server/models/Prepaid'
+Classroom = require '../../server/models/Classroom'
+CourseInstance = require '../../server/models/CourseInstance'
+moment = require 'moment'
+Classroom = require '../../server/models/Classroom'
+TrialRequest = require '../../server/models/TrialRequest'
 campaignSchema = require '../../app/schemas/models/campaign.schema'
 campaignLevelProperties = _.keys(campaignSchema.properties.levels.additionalProperties.properties)
 campaignAdjacentCampaignProperties = _.keys(campaignSchema.properties.adjacentCampaigns.additionalProperties.properties)
@@ -29,7 +36,8 @@ module.exports = mw =
       options = {}
     options = _.extend({
       permissions: []
-      email: 'user'+_.uniqueId()+'@gmail.com'
+      name: 'Name Nameyname '+_.uniqueId()
+      email: 'user'+_.uniqueId()+'@example.com'
       password: 'password'
       anonymous: false
     }, options)
@@ -42,7 +50,7 @@ module.exports = mw =
       done = options
       options = {}
     form = {
-      username: user.get('email')
+      username: user.get('email') or user.get('name')
       password: 'password'
     }
     (options.request or request).post mw.getURL('/auth/login'), { form: form }, (err, res) ->
@@ -67,7 +75,8 @@ module.exports = mw =
     
   becomeAnonymous: Promise.promisify (done) ->
     request.post mw.getURL('/auth/logout'), ->
-      request.get mw.getURL('/auth/whoami'), done
+      request.get mw.getURL('/auth/whoami'), {json: true}, (err, res) ->
+        User.findById(res.body._id).exec(done)
     
   logout: Promise.promisify (done) ->
     request.post mw.getURL('/auth/logout'), done
@@ -81,7 +90,7 @@ module.exports = mw =
     args = Array.from(arguments)
     [done, [data, sources]] = [args.pop(), args]
 
-    data = _.extend({}, { 
+    data = _.extend({}, {
       name: _.uniqueId('Level ')
       permissions: [{target: mw.lastLogin.id, access: 'owner'}]
     }, data)
@@ -125,3 +134,75 @@ module.exports = mw =
     request.post { uri: getURL('/db/campaign'), json: data }, (err, res) ->
       return done(err) if err
       Campaign.findById(res.body._id).exec done
+      
+  makeCourse: (data={}, sources={}) ->
+    
+    if sources.campaign and not data.campaignID
+      data.campaignID = sources.campaign._id
+    
+    data.releasePhase ||= 'released'
+
+    course = new Course(data)
+    return course.save()
+
+  makePrepaid: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+    
+    data = _.extend({}, {
+      type: 'course'
+      maxRedeemers: 9001
+      endDate: moment().add(1, 'month').toISOString()
+      startDate: new Date().toISOString()
+    }, data)
+
+    request.post { uri: getURL('/db/prepaid'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(201)
+      Prepaid.findById(res.body._id).exec done
+      
+  makeClassroom: (data={}, sources={}) -> co ->
+    data = _.extend({}, {
+      name: _.uniqueId('Classroom ')
+    }, data)
+    
+    [res, body] = yield request.postAsync { uri: getURL('/db/classroom'), json: data }
+    expect(res.statusCode).toBe(201)
+    classroom = yield Classroom.findById(res.body._id)
+    if sources.members
+      classroom.set('members', _.map(sources.members, '_id'))
+      yield classroom.save()
+    return classroom
+
+  makeCourseInstance: (data={}, sources={}) -> co ->
+    if sources.course and not data.courseID
+      data.courseID = sources.course.id
+    if sources.classroom and not data.classroomID
+      data.classroomID = sources.classroom.id
+
+    [res, body] = yield request.postAsync({ uri: getURL('/db/course_instance'), json: data })
+    expect(res.statusCode).toBe(200)
+    courseInstance = yield CourseInstance.findById(res.body._id)
+    if sources.members
+      userIDs = _.map(sources.members, 'id')
+      [res, body] = yield request.postAsync({
+        url: getURL("/db/course_instance/#{courseInstance.id}/members")
+        json: { userIDs: userIDs }
+      })
+      expect(res.statusCode).toBe(200)
+      courseInstance = yield CourseInstance.findById(res.body._id)
+    return courseInstance
+
+  makeTrialRequest: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      type: 'course'
+      properties: {}
+    }, data)
+
+    request.post { uri: getURL('/db/trial.request'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(201)
+      TrialRequest.findById(res.body._id).exec done

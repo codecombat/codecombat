@@ -1,8 +1,8 @@
 // Upsert new lead data into Close.io
 
 'use strict';
-if (process.argv.length !== 7) {
-  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Intercom 'App ID:API key'> <mongo connection Url>");
+if (process.argv.length !== 10) {
+  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <Close.io mail API key4> <Close.io EU mail API key> <Intercom 'App ID:API key'> <mongo connection Url>");
   process.exit();
 }
 
@@ -13,6 +13,7 @@ if (process.argv.length !== 7) {
 // TODO: Use generators and promises
 // TODO: Reduce response data via _fields param
 // TODO: Assumes 1:1 contact:email relationship (Close.io supports multiple emails for a single contact)
+// TODO: Cleanup country/status lookup code
 
 // Save as custom fields instead of user-specific lead notes (also saving nces_ props)
 const commonTrialProperties = ['organization', 'city', 'state', 'country'];
@@ -26,10 +27,14 @@ const customFieldsToRemove = [
 ];
 
 // Skip these problematic leads
-const leadsToSkip = ['6 sınıflar', 'fdsafd', 'ashtasht', 'matt+20160404teacher3 school', 'sdfdsf', 'ddddd', 'dsfadsaf', "Nolan's School of Wonders"];
+const leadsToSkip = ['6 sınıflar', 'fdsafd', 'ashtasht', 'matt+20160404teacher3 school', 'sdfdsf', 'ddddd', 'dsfadsaf', "Nolan's School of Wonders", 'asdfsadf'];
 
 const createTeacherEmailTemplatesAuto1 = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];
 const demoRequestEmailTemplatesAuto1 = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
+const createTeacherInternationalEmailTemplateAuto1 = 'tmpl_8vsXwcr6dWefMnAEfPEcdHaxqSfUKUY8UKq6WfReGqG';
+const demoRequestInternationalEmailTemplateAuto1 = 'tmpl_nnH1p3II7G7NJYiPOIHphuj4XUaDptrZk1mGQb2d9Xa';
+const createTeacherNlEmailTemplatesAuto1 = ['tmpl_yf9tAPasz8KV7L414GhWWIclU8ewclh3Z8lCx2mCoIU', 'tmpl_OgPCV2p59uq0daVuUPF6r1rcQkxJbViyZ1ZMtW45jY8'];
+const demoRequestNlEmailTemplatesAuto1 = ['tmpl_XGKyZm6gcbqZ5jirt7A54Vu8p68cLxAsKZtb9QBABUE', 'tmpl_xcfgQjUHPa6LLsbPWuPvEUElFXHmIpLa4IZEybJ0b0u'];
 
 // Prioritized Close.io lead status match list
 const closeIoInitialLeadStatuses = [
@@ -41,18 +46,44 @@ const closeIoInitialLeadStatuses = [
   {status: 'Inbound International Auto Attempt 1', regex: /^[A-Za-z]{2}$|\.[A-Za-z]{2}$/},
   {status: 'Auto Attempt 1', regex: /^[A-Za-z]*$/}
 ];
+const defaultLeadStatus = 'Auto Attempt 1';
+const defaultInternationalLeadStatus = 'Inbound International Auto Attempt 1';
+const defaultEuLeadStatus = 'Inbound EU Auto Attempt 1';
+
+const usSchoolStatuses = ['Auto Attempt 1', 'New US Schools Auto Attempt 1', 'New US Schools Auto Attempt 1 Low'];
 
 const emailDelayMinutes = 27;
 
 const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
-const closeIoMailApiKeys = [process.argv[3], process.argv[4]]; // Automatic mails sent as API owners
-const intercomAppIdApiKey = process.argv[5];
+// Automatic mails sent as API owners, first key assumed to be primary and gets 50% of the leads
+const closeIoMailApiKeys = [
+  {
+    apiKey: process.argv[3],
+    weight: .8
+  },
+  {
+    apiKey: process.argv[4],
+    weight: .1
+  },
+  {
+    apiKey: process.argv[5],
+    weight: .05
+  },
+  {
+    apiKey: process.argv[6],
+    weight: .05
+  },
+];
+const closeIoEuMailApiKey = process.argv[7];
+const intercomAppIdApiKey = process.argv[8];
 const intercomAppId = intercomAppIdApiKey.split(':')[0];
 const intercomApiKey = intercomAppIdApiKey.split(':')[1];
-const mongoConnUrl = process.argv[6];
+const mongoConnUrl = process.argv[9];
 const MongoClient = require('mongodb').MongoClient;
 const async = require('async');
+const countryData = require('country-data');
+const countryList = require('country-list')();
 const parseDomain = require('parse-domain');
 const request = require('request');
 
@@ -90,14 +121,61 @@ function upsertLeads(done) {
 
 // ** Utilities
 
-function getInitialLeadStatusViaCountry(country, trialRequests) {
-  if (/usa|america|united states/ig.test(country)) {
-    const status = 'New US Schools Auto Attempt 1'
-    return isLowValueLead(status, trialRequests) ? `${status} Low` : status;
+function getCountryCode(country, emails) {
+  // console.log(`DEBUG: getCountryCode ${country} ${emails.length}`);
+  if (country) {
+    if (country.indexOf('Nederland') >= 0) return 'NL';
+    let countryCode = countryList.getCode(country);
+    if (countryCode) return countryCode;
+  }
+  for (const email of emails) {
+    const tld = parseDomain(email).tld;
+    if (tld) {
+      const matches = /^[A-Za-z]*\.?([A-Za-z]{2})$/ig.exec(tld);
+      if (matches && matches.length === 2) {
+        return matches[1].toUpperCase();
+      }
+    }
   }
 }
 
+function getInitialLeadStatusViaCountry(country, trialRequests) {
+  // console.log(`DEBUG: getInitialLeadStatusViaCountry ${country} ${trialRequests.length}`);
+  if (/^u\.s\.?(\.a)?\.?$|^us$|usa|america|united states/ig.test(country)) {
+    const status = 'New US Schools Auto Attempt 1'
+    return isLowValueUsLead(status, trialRequests) ? `${status} Low` : status;
+  }
+  const highValueLead = isHighValueLead(trialRequests);
+  if (/^england$|^uk$|^united kingdom$/ig.test(country) && highValueLead) {
+    return 'Inbound UK Auto Attempt 1';
+  }
+  if (/^ca$|^canada$/ig.test(country)) {
+    return 'Inbound Canada Auto Attempt 1';
+  }
+  if (/^au$|^australia$/ig.test(country)) {
+    return 'Inbound AU Auto Attempt 1';
+  }
+  if (/^nz$|^new zealand$/ig.test(country)) {
+    return 'Inbound AU Auto Attempt 1';
+  }
+  if (/bolivia|iran|korea|macedonia|taiwan|tanzania|^venezuela$/ig.test(country)) {
+    return defaultInternationalLeadStatus;
+  }
+  const countryCode = countryList.getCode(country);
+  if (countryCode) {
+    if (countryCode === 'NL' || countryCode === 'BE') {
+      return defaultEuLeadStatus;
+    }
+    if (isEuCountryCode(countryCode)) {
+      return highValueLead ? 'Inbound EU Auto Attempt 1 High' : defaultEuLeadStatus;
+    }
+    return defaultInternationalLeadStatus;
+  }
+  return null;
+}
+
 function getInitialLeadStatusViaEmails(emails, trialRequests) {
+  // console.log(`DEBUG: getInitialLeadStatusViaEmails ${emails.length} ${trialRequests.length}`);
   let currentStatus = null;
   let currentRank = closeIoInitialLeadStatuses.length;
   for (const email of emails) {
@@ -110,15 +188,44 @@ function getInitialLeadStatusViaEmails(emails, trialRequests) {
       }
     }
   }
-  currentStatus = currentStatus ? currentStatus : closeIoInitialLeadStatuses[closeIoInitialLeadStatuses.length - 1].status;
-  return isLowValueLead(currentStatus, trialRequests) ? `${currentStatus} Low` : currentStatus;
+  if (!currentStatus || [defaultLeadStatus, defaultInternationalLeadStatus].indexOf(currentStatus) >= 0) {
+    // Look for a better EU match
+    const countryCode = getCountryCode(null, emails);
+    if (countryCode === 'NL' || countryCode === 'BE') {
+      return defaultEuLeadStatus;
+    }
+    if (isEuCountryCode(countryCode)) {
+      return isHighValueLead(trialRequests) ? 'Inbound EU Auto Attempt 1 High' : defaultEuLeadStatus;
+    }
+  }
+  currentStatus = currentStatus ? currentStatus : defaultLeadStatus;
+  return isLowValueUsLead(currentStatus, trialRequests) ? `${currentStatus} Low` : currentStatus;
 }
 
-function isLowValueLead(status, trialRequests) {
-  if (['Auto Attempt 1', 'New US Schools Auto Attempt 1'].indexOf(status) >= 0) {
+function isEuCountryCode(countryCode) {
+  if (countryData.regions.northernEurope.countries.indexOf(countryCode) >= 0) {
+    return true;
+  }
+  if (countryData.regions.southernEurope.countries.indexOf(countryCode) >= 0) {
+    return true;
+  }
+  if (countryData.regions.easternEurope.countries.indexOf(countryCode) >= 0) {
+    return true;
+  }
+  if (countryData.regions.westernEurope.countries.indexOf(countryCode) >= 0) {
+    return true;
+  }
+  return false;
+}
+
+function isLowValueUsLead(status, trialRequests) {
+  if (isUSSchoolStatus(status)) {
     for (const trialRequest of trialRequests) {
       if (parseInt(trialRequest.properties.nces_district_students) < 5000) {
         return true;
+      }
+      else if (parseInt(trialRequest.properties.nces_district_students) >= 5000) {
+        return false;
       }
     }
     for (const trialRequest of trialRequests) {
@@ -131,9 +238,31 @@ function isLowValueLead(status, trialRequests) {
   return false;
 }
 
-function getRandomEmailApiKey() {
+function isHighValueLead(trialRequests) {
+  for (const trialRequest of trialRequests) {
+    // Must match these values: https://github.com/codecombat/codecombat/blob/master/app/templates/teachers/request-quote-view.jade#L159
+    if (['5,000-10,000', '10,000+'].indexOf(trialRequest.properties.numStudentsTotal) >= 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function isUSSchoolStatus(status) {
+  return usSchoolStatuses.indexOf(status) >= 0;
+}
+
+function getEmailApiKey(leadStatus) {
+  if (leadStatus === defaultEuLeadStatus) return closeIoEuMailApiKey;
   if (closeIoMailApiKeys.length < 0) return;
-  return closeIoMailApiKeys[Math.floor(Math.random() * closeIoMailApiKeys.length)];
+  const weightedList = [];
+  for (let closeIoMailApiKey of closeIoMailApiKeys) {
+    const multiples = closeIoMailApiKey.weight * 100;
+    for (let i = 0; i < multiples; i++) {
+      weightedList.push(closeIoMailApiKey.apiKey);
+    }
+  }
+  return weightedList[Math.floor(Math.random() * weightedList.length)];
 }
 
 function getRandomEmailTemplate(templates) {
@@ -141,7 +270,30 @@ function getRandomEmailTemplate(templates) {
   return templates[Math.floor(Math.random() * templates.length)];
 }
 
+function getEmailTemplate(siteOrigin, leadStatus, countryCode) {
+  // console.log(`DEBUG: getEmailTemplate ${siteOrigin} ${leadStatus} ${countryCode}`);
+  if (isUSSchoolStatus(leadStatus)) {
+    if (['create teacher', 'convert teacher'].indexOf(siteOrigin) >= 0) {
+      return getRandomEmailTemplate(createTeacherEmailTemplatesAuto1);
+    }
+    return getRandomEmailTemplate(demoRequestEmailTemplatesAuto1);
+  }
+  if (leadStatus === defaultEuLeadStatus && (countryCode === 'NL' || countryCode === 'BE')) {
+    if (['create teacher', 'convert teacher'].indexOf(siteOrigin) >= 0) {
+      return getRandomEmailTemplate(createTeacherNlEmailTemplatesAuto1);
+    }
+    return getRandomEmailTemplate(demoRequestNlEmailTemplatesAuto1);
+  }
+  if (['create teacher', 'convert teacher'].indexOf(siteOrigin) >= 0) {
+    return createTeacherInternationalEmailTemplateAuto1;
+  }
+  return demoRequestInternationalEmailTemplateAuto1;
+}
+
 function isSameEmailTemplateType(template1, template2) {
+  if (template1 == template2) {
+    return true;
+  }
   if (createTeacherEmailTemplatesAuto1.indexOf(template1) >= 0 && createTeacherEmailTemplatesAuto1.indexOf(template2) >= 0) {
     return true;
   }
@@ -175,7 +327,7 @@ function findCocoLeads(done) {
         if (!trialRequest.properties || !trialRequest.properties.email) continue;
         const email = trialRequest.properties.email.toLowerCase();
         emails.push(email);
-        const name = trialRequest.properties.organization || trialRequest.properties.name || email;
+        const name = trialRequest.properties.nces_name || trialRequest.properties.organization || trialRequest.properties.school || email;
         if (!leads[name]) leads[name] = new CocoLead(name);
         leads[name].addTrialRequest(email, trialRequest);
         emailLeadMap[email] = leads[name];
@@ -279,6 +431,12 @@ class CocoLead {
     if (user && user.id) {
       if (!this.contacts[email.toLowerCase()]) this.contacts[email.toLowerCase()] = {};
       this.contacts[email.toLowerCase()].intercomUrl = `https://app.intercom.io/a/apps/${intercomAppId}/users/${user.id}/`;
+      if (user.last_request_at) {
+        this.contacts[email.toLowerCase()].intercomLastSeen = new Date(parseInt(user.last_request_at) * 1000);
+      }
+      if (user.session_count) {
+        this.contacts[email.toLowerCase()].intercomSessionCount = parseInt(user.session_count);
+      }
     }
   }
   addTrialRequest(email, trial) {
@@ -325,6 +483,12 @@ class CocoLead {
           }
         }
       }
+      if (this.contacts[email].intercomLastSeen && (this.contacts[email].intercomLastSeen > (postData.custom['intercom_lastSeen'] || 0))) {
+        postData.custom['intercom_lastSeen'] = this.contacts[email].intercomLastSeen;
+      }
+      if (this.contacts[email].intercomSessionCount && (this.contacts[email].intercomSessionCount > (postData.custom['intercom_sessionCount'] || 0))) {
+        postData.custom['intercom_sessionCount'] = this.contacts[email].intercomSessionCount;
+      }
     }
     return postData;
   }
@@ -348,11 +512,16 @@ class CocoLead {
         }
         for (const prop in props) {
           // Always overwrite common props if we have NCES data, because other fields more likely to be accurate
-          if (commonTrialProperties.indexOf(prop) >= 0
-            && (haveNcesData || currentCustom[`demo_${prop}`] !== props[prop] && currentCustom[`demo_${prop}`].indexOf(props[prop]) < 0)) {
+          if (commonTrialProperties.indexOf(prop) >= 0 && (haveNcesData || !currentCustom[`demo_${prop}`] || currentCustom[`demo_${prop}`] !== props[prop] && currentCustom[`demo_${prop}`].indexOf(props[prop]) < 0)) {
             putData[`custom.demo_${prop}`] = props[prop];
           }
         }
+      }
+      if (this.contacts[email].intercomLastSeen && (this.contacts[email].intercomLastSeen > (currentCustom['intercom_lastSeen'] || 0))) {
+        putData['custom.intercom_lastSeen'] = this.contacts[email].intercomLastSeen;
+      }
+      if (this.contacts[email].intercomSessionCount && (this.contacts[email].intercomSessionCount > (currentCustom['intercom_sessionCount'] || 0))) {
+        putData['custom.intercom_sessionCount'] = this.contacts[email].intercomSessionCount;
       }
     }
     for (const field of customFieldsToRemove) {
@@ -448,6 +617,8 @@ class CocoLead {
           }
         }
         if (contact.intercomUrl) noteData += `intercom_url: ${contact.intercomUrl}\n`;
+        if (contact.intercomLastSeen) noteData += `intercom_lastSeen: ${contact.intercomLastSeen}\n`;
+        if (contact.intercomSessionCount) noteData += `intercom_sessionCount: ${contact.intercomSessionCount}\n`;
         if (contact.user) {
           const user = contact.user
           noteData += `coco_userID: ${user._id}\n`;
@@ -477,7 +648,7 @@ class CocoLead {
 
 // ** Upsert Close.io methods
 
-function updateExistingLead(lead, existingLead, done) {
+function updateExistingLead(lead, existingLead, userApiKeyMap, done) {
   // console.log('DEBUG: updateExistingLead', existingLead.id);
   const putData = lead.getLeadPutData(existingLead);
   const options = {
@@ -499,7 +670,7 @@ function updateExistingLead(lead, existingLead, done) {
     const tasks = []
     for (const newContact of newContacts) {
       newContact.lead_id = existingLead.id;
-      tasks.push(createAddContactFn(newContact, lead, existingLead));
+      tasks.push(createAddContactFn(newContact, lead, existingLead, userApiKeyMap));
     }
     async.parallel(tasks, (err, results) => {
       if (err) return done(err);
@@ -552,12 +723,9 @@ function saveNewLead(lead, done) {
       const tasks = [];
       for (const contact of existingLead.contacts) {
         for (const email of contact.emails) {
-          if (['create teacher', 'convert teacher'].indexOf(lead.contacts[email.email].trial.properties.siteOrigin) >= 0) {
-            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(createTeacherEmailTemplatesAuto1)));
-          }
-          else {
-            tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, getRandomEmailTemplate(demoRequestEmailTemplatesAuto1)));
-          }
+          const countryCode = getCountryCode(lead.contacts[email.email].trial.properties.country, [email.email]);
+          const emailTemplate = getEmailTemplate(lead.contacts[email.email].trial.properties.siteOrigin, postData.status, countryCode);
+          tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, emailTemplate, postData.status));
         }
       }
       async.parallel(tasks, (err, results) => {
@@ -593,7 +761,7 @@ function createFindExistingLeadFn(email, name, existingLeads) {
   };
 }
 
-function createUpdateLeadFn(lead, existingLeads) {
+function createUpdateLeadFn(lead, existingLeads, userApiKeyMap) {
   return (done) => {
     // console.log('DEBUG: updateLead', lead.name);
     const query = `name:"${lead.name}"`;
@@ -605,8 +773,8 @@ function createUpdateLeadFn(lead, existingLeads) {
         if (data.total_results === 0) {
           if (existingLeads[lead.name.toLowerCase()]) {
             if (existingLeads[lead.name.toLowerCase()].length === 1) {
-              console.log(`DEBUG: Using lead from email lookup: ${lead.name}`);
-              return updateExistingLead(lead, existingLeads[lead.name.toLowerCase()][0], done);
+              // console.log(`DEBUG: Using lead from email lookup: ${lead.name}`);
+              return updateExistingLead(lead, existingLeads[lead.name.toLowerCase()][0], userApiKeyMap, done);
             }
             console.error(`ERROR: ${existingLeads[lead.name.toLowerCase()].length} email leads found for ${lead.name}`);
             return done();
@@ -617,10 +785,10 @@ function createUpdateLeadFn(lead, existingLeads) {
           console.error(`ERROR: ${data.total_results} leads found for ${lead.name}`);
           return done();
         }
-        return updateExistingLead(lead, data.data[0], done);
+        return updateExistingLead(lead, data.data[0], userApiKeyMap, done);
       } catch (error) {
         // console.log(url);
-        // console.log(error);
+        console.log(`ERROR: updateLead ${error}`);
         // console.log(body);
         return done();
       }
@@ -628,9 +796,11 @@ function createUpdateLeadFn(lead, existingLeads) {
   };
 }
 
-function createAddContactFn(postData, internalLead, externalLead) {
+function createAddContactFn(postData, internalLead, closeIoLead, userApiKeyMap) {
   return (done) => {
     // console.log('DEBUG: addContact', postData.lead_id);
+
+    // Create new contact
     const options = {
       uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/contact/`,
       body: JSON.stringify(postData)
@@ -644,14 +814,20 @@ function createAddContactFn(postData, internalLead, externalLead) {
         return done();
       }
 
-      // Send emails to new contact
-      const email = postData.emails[0].email;
-      if (['create teacher', 'convert teacher'].indexOf(internalLead.contacts[email].trial.properties.siteOrigin) >= 0) {
-        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(createTeacherEmailTemplatesAuto1), getRandomEmailApiKey(), emailDelayMinutes, done);
-      }
-      else {
-        return sendMail(email, externalLead.id, newContact.id, getRandomEmailTemplate(demoRequestEmailTemplatesAuto1), getRandomEmailApiKey(), emailDelayMinutes, done);
-      }
+      // Find previous internal user for new contact correspondence
+      const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/activity/email/?lead_id=${closeIoLead.id}`;
+      request.get(url, (error, response, body) => {
+        if (error) return done(error);
+        const data = JSON.parse(body);
+        let emailApiKey = data.data && data.data.length > 0 ? userApiKeyMap[data.data[0].user_id] : getEmailApiKey(closeIoLead.status_label);
+        if (!emailApiKey) emailApiKey = getEmailApiKey(closeIoLead.status_label);
+
+        // Send email to new contact
+        const email = postData.emails[0].email;
+        const countryCode = getCountryCode(internalLead.contacts[email].trial.properties.country, [email]);
+        const emailTemplate = getEmailTemplate(internalLead.contacts[email].trial.properties.siteOrigin, closeIoLead.status_label);
+        sendMail(email, closeIoLead.id, newContact.id, emailTemplate, emailApiKey, emailDelayMinutes, done);
+      });
     });
   };
 }
@@ -680,9 +856,9 @@ function createAddNoteFn(leadId, newNote) {
   };
 }
 
-function createSendEmailFn(email, leadId, contactId, template) {
+function createSendEmailFn(email, leadId, contactId, template, leadStatus) {
   return (done) => {
-    return sendMail(email, leadId, contactId, template, getRandomEmailApiKey(), emailDelayMinutes, done);
+    return sendMail(email, leadId, contactId, template, getEmailApiKey(leadStatus), emailDelayMinutes, done);
   };
 }
 
@@ -742,25 +918,44 @@ function sendMail(toEmail, leadId, contactId, template, emailApiKey, delayMinute
 }
 
 function updateLeads(leads, done) {
-  // Lookup existing leads via email to protect against direct lead name querying later
-  // Querying via lead name is unreliable
-  const existingLeads = {};
-  const tasks = [];
-  for (const name in leads) {
-    if (leadsToSkip.indexOf(name) >= 0) continue;
-    for (const email in leads[name].contacts) {
-      tasks.push(createFindExistingLeadFn(email.toLowerCase(), name.toLowerCase(), existingLeads));
-    }
+  const userApiKeyMap = {};
+  let createGetUserFn = (apiKey) => {
+    return (done) => {
+      const url = `https://${apiKey}:X@app.close.io/api/v1/me/`;
+      request.get(url, (error, response, body) => {
+        if (error) return done();
+        const results = JSON.parse(body);
+        userApiKeyMap[results.id] = apiKey;
+        return done();
+      });
+    };
   }
-  async.series(tasks, (err, results) => {
-    if (err) return done(err);
+  const tasks = [];
+  for (const closeIoMailApiKey of closeIoMailApiKeys) {
+    tasks.push(createGetUserFn(closeIoMailApiKey.apiKey));
+  }
+  async.parallel(tasks, (err, results) => {
+    if (err) console.log(err);
+    // Lookup existing leads via email to protect against direct lead name querying later
+    // Querying via lead name is unreliable
+    const existingLeads = {};
     const tasks = [];
     for (const name in leads) {
       if (leadsToSkip.indexOf(name) >= 0) continue;
-      tasks.push(createUpdateLeadFn(leads[name], existingLeads));
+      for (const email in leads[name].contacts) {
+        tasks.push(createFindExistingLeadFn(email.toLowerCase(), name.toLowerCase(), existingLeads));
+      }
     }
     async.series(tasks, (err, results) => {
-      return done(err);
+      if (err) return done(err);
+      const tasks = [];
+      for (const name in leads) {
+        if (leadsToSkip.indexOf(name) >= 0) continue;
+        tasks.push(createUpdateLeadFn(leads[name], existingLeads, userApiKeyMap));
+      }
+      async.series(tasks, (err, results) => {
+        return done(err);
+      });
     });
   });
 }

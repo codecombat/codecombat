@@ -6,6 +6,10 @@ World = require 'lib/world/world'
 DocumentFiles = require 'collections/DocumentFiles'
 LevelLoader = require 'lib/LevelLoader'
 
+Campaigns = require 'collections/Campaigns'
+CocoCollection = require 'collections/CocoCollection'
+Course = require 'models/Course'
+
 # in the template, but need to require them to load them
 require 'views/modal/RevertModal'
 require 'views/editor/level/modals/GenerateTerrainModal'
@@ -36,8 +40,8 @@ require 'vendor/aether-javascript'
 require 'vendor/aether-python'
 require 'vendor/aether-coffeescript'
 require 'vendor/aether-lua'
-require 'vendor/aether-clojure'
-require 'vendor/aether-io'
+require 'vendor/aether-java'
+require 'vendor/aether-html'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
@@ -49,6 +53,7 @@ module.exports = class LevelEditView extends RootView
     'click #play-button': 'onPlayLevel'
     'click .play-with-team-button': 'onPlayLevel'
     'click .play-with-team-parent': 'onPlayLevelTeamSelect'
+    'click .play-classroom-level': 'onPlayLevel'
     'click #commit-level-start-button': 'startCommittingLevel'
     'click li:not(.disabled) > #fork-start-button': 'startForking'
     'click #level-history-button': 'showVersionHistory'
@@ -73,6 +78,10 @@ module.exports = class LevelEditView extends RootView
     @level = @levelLoader.level
     @files = new DocumentFiles(@levelLoader.level)
     @supermodel.loadCollection(@files, 'file_names')
+    @campaigns = new Campaigns()
+    @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels' } })
+    @courses = new CocoCollection([], { url: "/db/course", model: Course})
+    @supermodel.loadCollection(@courses, 'courses')
 
   destroy: ->
     clearInterval @timerIntervalID
@@ -89,6 +98,12 @@ module.exports = class LevelEditView extends RootView
       @world = @levelLoader.world
       @render()
       @timerIntervalID = setInterval @incrementBuildTime, 1000
+    campaignCourseMap = {}
+    campaignCourseMap[course.get('campaignID')] = course.id for course in @courses.models
+    for campaign in @campaigns.models
+      for levelID, level of campaign.get('levels') when levelID is @level.get('original')
+        @courseID = campaignCourseMap[campaign.id]
+      break if @courseID
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -113,7 +128,7 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new ComponentsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new SystemsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new LevelFeedbackView level: @level
-    
+
 
     Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
@@ -130,9 +145,11 @@ module.exports = class LevelEditView extends RootView
   onPlayLevel: (e) ->
     team = $(e.target).data('team')
     opponentSessionID = $(e.target).data('opponent')
+    newClassMode = $(e.target).data('classroom')
+    newClassLanguage = $(e.target).data('code-language')
     sendLevel = =>
       @childWindow.Backbone.Mediator.publish 'level:reload-from-data', level: @level, supermodel: @supermodel
-    if @childWindow and not @childWindow.closed
+    if @childWindow and not @childWindow.closed and @playClassMode is newClassMode and @playClassLanguage is newClassLanguage
       # Reset the LevelView's world, but leave the rest of the state alone
       sendLevel()
     else
@@ -140,6 +157,11 @@ module.exports = class LevelEditView extends RootView
       scratchLevelID = @level.get('slug') + '?dev=true'
       scratchLevelID += "&team=#{team}" if team
       scratchLevelID += "&opponent=#{opponentSessionID}" if opponentSessionID
+      @playClassMode = newClassMode
+      @playClassLanguage = newClassLanguage
+      if @playClassMode
+        scratchLevelID += "&course=#{@courseID}"
+        scratchLevelID += "&codeLanguage=#{@playClassLanguage}"
       if me.get('name') is 'Nick'
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=2560,height=1080,left=0,top=-1600,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
       else

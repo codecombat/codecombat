@@ -98,12 +98,7 @@ module.exports =
     
     user = req.body.user
     throw new errors.UnprocessableEntity('Specify an id, username or email to espionage.') unless user
-    if utils.isID(user)
-      query = {_id: mongoose.Types.ObjectId(user)}
-    else
-      user = user.toLowerCase()
-      query = $or: [{nameLower: user}, {emailLower: user}]
-    user = yield User.findOne(query)
+    user = yield User.search(user)
     amActually = req.user
     throw new errors.NotFound() unless user
     req.loginAsync = Promise.promisify(req.login)
@@ -147,7 +142,16 @@ module.exports =
     res.end()
     
   unsubscribe: wrap (req, res) ->
-    email = req.query.email
+    # need to grab email directly from url, in case it has "+" in it
+    queryString = req.url.split('?')[1] or ''
+    queryParts = queryString.split('&')
+    email = null
+    for part in queryParts
+      [name, value] = part.split('=')
+      if name is 'email'
+        email = value
+        break
+    
     unless email
       throw new errors.UnprocessableEntity 'No email provided to unsubscribe.'
     email = decodeURIComponent(email)
@@ -193,12 +197,21 @@ module.exports =
   name: wrap (req, res) ->
     if not req.params.name
       throw new errors.UnprocessableEntity 'No name provided.'
-    originalName = req.params.name
+    givenName = req.params.name
       
     User.unconflictNameAsync = Promise.promisify(User.unconflictName)
-    name = yield User.unconflictNameAsync originalName
-    response = name: name
-    if originalName is name
-      res.send 200, response
-    else
-      throw new errors.Conflict('Name is taken', response)
+    suggestedName = yield User.unconflictNameAsync givenName
+    response = {
+      givenName
+      suggestedName
+      conflicts: givenName isnt suggestedName
+    }
+    res.send 200, response
+
+  email: wrap (req, res) ->
+    { email } = req.params
+    if not email
+      throw new errors.UnprocessableEntity 'No email provided.'
+    
+    user = yield User.findByEmail(email)
+    res.send 200, { exists: user? }

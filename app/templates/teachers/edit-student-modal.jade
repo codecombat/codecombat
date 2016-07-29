@@ -1,0 +1,41 @@
+extends /templates/core/modal-base-flat
+
+block modal-header-content
+  h1
+    span.spr(data-i18n="teacher.edit_2")
+    span=view.user.broadName()
+    
+block modal-body-content
+  .text-center
+    if view.user.get('emailVerified')
+      p
+        span(data-i18n="teacher.send_email_to")
+      p.m-b-3
+        = view.user.get('email')
+      if state.get('emailSent')
+        .send-recovery-email-btn.btn.btn-lg.btn-primary.uppercase.disabled
+          span(data-i18n="teacher.email_sent")
+      else
+        .send-recovery-email-btn.btn.btn-lg.btn-primary.uppercase
+          span(data-i18n="teacher.send_recovery_email")
+    else
+      div.m-b-1
+        span(data-i18n="teacher.enter_new_password_below")
+      div.m-b-2.form-group(class=(state.get('errorMessage') ? 'has-error' : ''))
+        input.new-password-input(placeholder="type a new password here" value=state.get('newPassword'))
+        div.help-block.error-help-block.m-t-1.small
+          span=state.get('errorMessage')
+      if state.get('passwordChanged')
+        button.change-password-btn.btn.btn-lg.btn-primary.uppercase.disabled
+          span(data-i18n="teacher.changed")
+      else
+        button.change-password-btn.btn.btn-lg.btn-primary.uppercase
+          span(data-i18n="teacher.change_password")
+      
+
+block modal-footer-content
+  button.btn.btn-primary(type="button", data-dismiss="modal", aria-hidden="true")
+    if state.get('passwordChanged') || state.get('emailSent')
+      span(data-i18n="modal.close")
+    else
+      span(data-i18n="modal.cancel")

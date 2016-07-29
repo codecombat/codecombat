@@ -3,23 +3,29 @@ utils = require '../utils'
 urlUser = '/db/user'
 User = require '../../../server/models/User'
 Classroom = require '../../../server/models/Classroom'
+CourseInstance = require '../../../server/models/CourseInstance'
+Course = require '../../../server/models/Course'
+Campaign = require '../../../server/models/Campaign'
+TrialRequest = require '../../../server/models/TrialRequest'
+Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
+facebook = require '../../../server/lib/facebook'
+gplus = require '../../../server/lib/gplus'
+sendwithus = require '../../../server/sendwithus'
+Promise = require 'bluebird'
 
 describe 'POST /db/user', ->
 
   createAnonNameUser = (name, done)->
     request.post getURL('/auth/logout'), ->
       request.get getURL('/auth/whoami'), ->
-        req = request.post(getURL('/db/user'), (err, response) ->
+        req = request.post({ url: getURL('/db/user'), json: {name}}, (err, response) ->
           expect(response.statusCode).toBe(200)
-          request.get getURL('/auth/whoami'), (request, response, body) ->
-            res = JSON.parse(response.body)
-            expect(res.anonymous).toBeTruthy()
-            expect(res.name).toEqual(name)
+          request.get { url: getURL('/auth/whoami'), json: true }, (request, response, body) ->
+            expect(body.anonymous).toBeTruthy()
+            expect(body.name).toEqual(name)
             done()
         )
-        form = req.form()
-        form.append('name', name)
 
   it 'preparing test : clears the db first', (done) ->
     clearModels [User], (err) ->
@@ -38,7 +44,7 @@ describe 'POST /db/user', ->
 
   it 'serves the user through /db/user/id', (done) ->
     unittest.getNormalJoe (user) ->
-      request.post getURL('/auth/logout'), ->
+      utils.becomeAnonymous().then ->
         url = getURL(urlUser+'/'+user._id)
         request.get url, (err, res, body) ->
           expect(res.statusCode).toBe(200)
@@ -76,16 +82,13 @@ describe 'POST /db/user', ->
     createAnonNameUser('Jim', done)
 
   it 'should allow setting existing user name to anonymous user', (done) ->
-    req = request.post(getURL('/db/user'), (err, response, body) ->
+    req = request.post({url: getURL('/db/user'), json: {email: 'new@user.com', password: 'new'}}, (err, response, body) ->
       expect(response.statusCode).toBe(200)
       request.get getURL('/auth/whoami'), (request, response, body) ->
         res = JSON.parse(response.body)
         expect(res.anonymous).toBeFalsy()
         createAnonNameUser 'Jim', done
     )
-    form = req.form()
-    form.append('email', 'new@user.com')
-    form.append('password', 'new')
 
 describe 'PUT /db/user', ->
 
@@ -102,24 +105,23 @@ describe 'PUT /db/user', ->
 
   it 'denies requests to edit someone who is not joe', (done) ->
     unittest.getAdmin (admin) ->
-      req = request.put getURL(urlUser),
-      (err, res) ->
+      request.put {url: getURL(urlUser), json: {_id: admin.id}}, (err, res) ->
         expect(res.statusCode).toBe(403)
         done()
-      req.form().append('_id', admin.id)
 
   it 'denies invalid data', (done) ->
     unittest.getNormalJoe (joe) ->
-      req = request.put getURL(urlUser),
-      (err, res) ->
+      json = {
+        _id: joe.id
+        email: 'farghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlar
+ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl'
+      }
+      request.put { url: getURL(urlUser), json }, (err, res) ->
         expect(res.statusCode).toBe(422)
-        expect(res.body.indexOf('too long')).toBeGreaterThan(-1)
+        expect(res.body[0].message.indexOf('too long')).toBeGreaterThan(-1)
         done()
-      form = req.form()
-      form.append('_id', joe.id)
-      form.append('email', 'farghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlar
-ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl')
       
+
   it 'does not allow normals to edit their permissions', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -131,47 +133,45 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
     loginAdmin -> done()
 
   it 'denies non-existent ids', (done) ->
-    req = request.put getURL(urlUser),
-    (err, res) ->
+    json = {
+      _id: '513108d4cb8b610000000004',
+      email: 'perfectly@good.com'
+    }
+    request.put {url: getURL(urlUser), json}, (err, res) ->
       expect(res.statusCode).toBe(404)
       done()
-    form = req.form()
-    form.append('_id', '513108d4cb8b610000000004')
-    form.append('email', 'perfectly@good.com')
 
   it 'denies if the email being changed is already taken', (done) ->
     unittest.getNormalJoe (joe) ->
       unittest.getAdmin (admin) ->
-        req = request.put getURL(urlUser), (err, res) ->
+        json = { _id: admin.id, email: joe.get('email').toUpperCase() }
+        request.put { url: getURL(urlUser), json }, (err, res) ->
           expect(res.statusCode).toBe(409)
-          expect(res.body.indexOf('already used')).toBeGreaterThan(-1)
+          expect(res.body.message.indexOf('already used')).toBeGreaterThan(-1)
           done()
-        form = req.form()
-        form.append('_id', String(admin._id))
-        form.append('email', joe.get('email').toUpperCase())
 
   it 'does not care if you include your existing name', (done) ->
     unittest.getNormalJoe (joe) ->
-      req = request.put getURL(urlUser+'/'+joe._id), (err, res) ->
+      json = { _id: joe._id, name: 'Joe' }
+      request.put { url: getURL(urlUser+'/'+joe._id), json }, (err, res) ->
         expect(res.statusCode).toBe(200)
         done()
-      form = req.form()
-      form.append('_id', String(joe._id))
-      form.append('name', 'Joe')
 
   it 'accepts name and email changes', (done) ->
     unittest.getNormalJoe (joe) ->
-      req = request.put getURL(urlUser), (err, res) ->
+      json = {
+        _id: joe.id
+        email: 'New@email.com'
+        name: 'Wilhelm'
+      }
+      request.put { url: getURL(urlUser), json }, (err, res) ->
         expect(res.statusCode).toBe(200)
         unittest.getUser('Wilhelm', 'New@email.com', 'null', (joe) ->
           expect(joe.get('name')).toBe('Wilhelm')
           expect(joe.get('emailLower')).toBe('new@email.com')
           expect(joe.get('email')).toBe('New@email.com')
           done())
-      form = req.form()
-      form.append('_id', String(joe._id))
-      form.append('email', 'New@email.com')
-      form.append('name', 'Wilhelm')
+      
 
   it 'should not allow two users with the same name slug', (done) ->
     loginSam (sam) ->
@@ -184,28 +184,6 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
         # Restore Sam
         sam.set 'name', samsName
         done()
-
-  it 'should silently rename an anonymous user if their name conflicts upon signup', (done) ->
-    request.post getURL('/auth/logout'), ->
-      request.get getURL('/auth/whoami'), ->
-        req = request.post getURL('/db/user'), (err, response) ->
-          expect(response.statusCode).toBe(200)
-          request.get getURL('/auth/whoami'), (err, response) ->
-            expect(err).toBeNull()
-            guy = JSON.parse(response.body)
-            expect(guy.anonymous).toBeTruthy()
-            expect(guy.name).toEqual 'admin'
-
-            guy.email = 'blub@blub' # Email means registration
-            req = request.post {url: getURL('/db/user'), json: guy}, (err, response) ->
-              expect(err).toBeNull()
-              finalGuy = response.body
-              expect(finalGuy.anonymous).toBeFalsy()
-              expect(finalGuy.name).not.toEqual guy.name
-              expect(finalGuy.name.length).toBe guy.name.length + 1
-              done()
-        form = req.form()
-        form.append('name', 'admin')
 
   it 'should be able to unset a slug by setting an empty name', (done) ->
     loginSam (sam) ->
@@ -221,7 +199,7 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
         request.put {uri:getURL(urlUser + '/' + sam.id), json: sam.toObject()}, (err, response) ->
           expect(err).toBeNull()
           done()
-          
+
   describe 'when role is changed to teacher or other school administrator', ->
     it 'removes the user from all classrooms they are in', utils.wrap (done) ->
       user = yield utils.initUser()
@@ -230,11 +208,23 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
       expect(classroom.get('members').length).toBe(1)
       yield utils.loginUser(user)
       [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { role: 'teacher' }}
-      yield new Promise (resolve) -> setTimeout(resolve, 10) 
+      yield new Promise (resolve) -> setTimeout(resolve, 10)
       classroom = yield Classroom.findById(classroom.id)
       expect(classroom.get('members').length).toBe(0)
       done()
-      
+    
+    it 'changes the role regardless of emailVerified', utils.wrap (done) ->
+      user = yield utils.initUser()
+      user.set('emailVerified', true)
+      yield user.save()
+      yield utils.loginUser(user)
+      attrs = user.toObject()
+      attrs.role = 'teacher'
+      [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: attrs }
+      user = yield User.findById(user.id)
+      expect(user.get('role')).toBe('teacher')
+      done()
+
   it 'ignores attempts to change away from a teacher role', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -246,18 +236,229 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
     [res, body] = yield request.putAsync { uri: url, json: { role: 'student' }}
     expect(body.role).toBe('advisor')
     done()
-      
+
+  it 'returns 422 if both email and name would be unset for a registered user', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { email: '', name: '' }}
+    expect(body.code).toBe(422)
+    expect(body.message).toEqual('User needs a username or email address')
+    done()
+
+describe 'PUT /db/user/-/become-student', ->
+  beforeEach utils.wrap (done) ->
+    @url = getURL('/db/user/-/become-student')
+    @user = yield utils.initUser()
+    yield utils.loginUser(@user)
+    done()
+
+  describe 'when a user is in a classroom', ->
+    beforeEach utils.wrap (done) ->
+      classroom = new Classroom({
+        members: [@user._id]
+      })
+      yield classroom.save()
+      done()
+    it 'keeps the user in their classroom and sets their role to student', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('student')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('student')
+      classrooms = yield Classroom.find members: @user._id
+      expect(classrooms.length).toEqual(1)
+      done()
+
+    describe 'when a teacher', ->
+      beforeEach utils.wrap (done) ->
+        @user.set('role', 'student')
+        yield @user.save()
+        done()
+      it 'keeps the user in their classroom and sets their role to student', utils.wrap (done) ->
+        [res, body] = yield request.putAsync { uri: @url}
+        expect(res.statusCode).toEqual(200)
+        expect(JSON.parse(body).role).toEqual('student')
+        user = yield User.findById @user._id
+        expect(user.get('role')).toEqual('student')
+        classrooms = yield Classroom.find members: @user._id
+        expect(classrooms.length).toEqual(1)
+        done()
+
+    describe 'when a student', ->
+      beforeEach utils.wrap (done) ->
+        @user.set('role', 'student')
+        yield @user.save()
+        done()
+      it 'keeps the user in their classroom and sets their role to student', utils.wrap (done) ->
+        [res, body] = yield request.putAsync { uri: @url}
+        expect(res.statusCode).toEqual(200)
+        expect(JSON.parse(body).role).toEqual('student')
+        user = yield User.findById @user._id
+        expect(user.get('role')).toEqual('student')
+        classrooms = yield Classroom.find members: @user._id
+        expect(classrooms.length).toEqual(1)
+        done()
+
+  describe 'when a user owns a classroom', ->
+    beforeEach utils.wrap (done) ->
+      classroom = new Classroom({
+        ownerID: @user._id
+      })
+      yield classroom.save()
+      done()
+    it 'removes the classroom and sets their role to student', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('student')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('student')
+      classrooms = yield Classroom.find ownerID: @user._id
+      expect(classrooms.length).toEqual(0)
+      done()
+
+    describe 'when a student', ->
+      beforeEach utils.wrap (done) ->
+        @user.set('role', 'student')
+        yield @user.save()
+        done()
+      it 'removes the classroom and sets their role to student', utils.wrap (done) ->
+        [res, body] = yield request.putAsync { uri: @url}
+        expect(res.statusCode).toEqual(200)
+        expect(JSON.parse(body).role).toEqual('student')
+        user = yield User.findById @user._id
+        expect(user.get('role')).toEqual('student')
+        classrooms = yield Classroom.find ownerID: @user._id
+        expect(classrooms.length).toEqual(0)
+        done()
+
+    describe 'when a teacher', ->
+      beforeEach utils.wrap (done) ->
+        @user.set('role', 'teacher')
+        yield @user.save()
+        done()
+      it 'removes the classroom and sets their role to student', utils.wrap (done) ->
+        [res, body] = yield request.putAsync { uri: @url}
+        expect(res.statusCode).toEqual(200)
+        expect(JSON.parse(body).role).toEqual('student')
+        user = yield User.findById @user._id
+        expect(user.get('role')).toEqual('student')
+        classrooms = yield Classroom.find ownerID: @user._id
+        expect(classrooms.length).toEqual(0)
+        done()
+
+  describe 'when a user in a classroom and owns a classroom', ->
+    beforeEach utils.wrap (done) ->
+      classroom = new Classroom({
+        members: [@user._id]
+      })
+      yield classroom.save()
+      classroom = new Classroom({
+        ownerID: @user._id
+      })
+      yield classroom.save()
+      done()
+    it 'removes owned classrooms, keeps in classrooms, and sets their role to student', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('student')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('student')
+      classrooms = yield Classroom.find ownerID: @user._id
+      expect(classrooms.length).toEqual(0)
+      classrooms = yield Classroom.find members: @user._id
+      expect(classrooms.length).toEqual(1)
+      done()
+
+  describe 'when a student in a classroom and owns a classroom', ->
+    beforeEach utils.wrap (done) ->
+      @user.set('role', 'student')
+      yield @user.save()
+      classroom = new Classroom({
+        members: [@user._id]
+      })
+      yield classroom.save()
+      classroom = new Classroom({
+        ownerID: @user._id
+      })
+      yield classroom.save()
+      done()
+    it 'removes owned classrooms, keeps in classrooms, and sets their role to student', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('student')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('student')
+      classrooms = yield Classroom.find ownerID: @user._id
+      expect(classrooms.length).toEqual(0)
+      classrooms = yield Classroom.find members: @user._id
+      expect(classrooms.length).toEqual(1)
+      done()
+
+  describe 'when a teacher in a classroom and owns a classroom', ->
+    beforeEach utils.wrap (done) ->
+      @user.set('role', 'teacher')
+      yield @user.save()
+      classroom = new Classroom({
+        members: [@user._id]
+      })
+      yield classroom.save()
+      classroom = new Classroom({
+        ownerID: @user._id
+      })
+      yield classroom.save()
+      done()
+    it 'removes owned classrooms, keeps in classrooms, and sets their role to student', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('student')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('student')
+      classrooms = yield Classroom.find ownerID: @user._id
+      expect(classrooms.length).toEqual(0)
+      classrooms = yield Classroom.find members: @user._id
+      expect(classrooms.length).toEqual(1)
+      done()
+
+describe 'PUT /db/user/-/remain-teacher', ->
+
+  describe 'when a teacher in classroom and owns a classroom', ->
+    beforeEach utils.wrap (done) ->
+      @url = getURL('/db/user/-/remain-teacher')
+      @user = yield utils.initUser()
+      yield utils.loginUser(@user)
+      @user.set('role', 'teacher')
+      yield @user.save()
+      classroom = new Classroom({
+        members: [@user._id]
+      })
+      yield classroom.save()
+      classroom = new Classroom({
+        ownerID: @user._id
+      })
+      yield classroom.save()
+      done()
+    it 'removes from classrooms', utils.wrap (done) ->
+      [res, body] = yield request.putAsync { uri: @url}
+      expect(res.statusCode).toEqual(200)
+      expect(JSON.parse(body).role).toEqual('teacher')
+      user = yield User.findById @user._id
+      expect(user.get('role')).toEqual('teacher')
+      classrooms = yield Classroom.find ownerID: @user._id
+      expect(classrooms.length).toEqual(1)
+      classrooms = yield Classroom.find members: @user._id
+      expect(classrooms.length).toEqual(0)
+      done()
 
 describe 'GET /db/user', ->
 
   it 'logs in as admin', (done) ->
-    req = request.post(getURL('/auth/login'), (error, response) ->
+    json = {
+      username: 'admin@afc.com'
+      password: '80yqxpb38j'
+    }
+    request.post { url: getURL('/auth/login'), json }, (error, response) ->
       expect(response.statusCode).toBe(200)
       done()
-    )
-    form = req.form()
-    form.append('username', 'admin@afc.com')
-    form.append('password', '80yqxpb38j')
 
   it 'get schema', (done) ->
     request.get {uri: getURL(urlUser+'/schema')}, (err, res, body) ->
@@ -307,7 +508,19 @@ describe 'GET /db/user', ->
   # TODO Ruben should be able to fetch other users but probably with restricted data access
   # Add to the test case above an extra data check
 
-  xit 'can fetch another user with restricted fields'
+#  xit 'can fetch another user with restricted fields'
+  
+  
+describe 'GET /db/user/:handle', ->
+  it 'populates coursePrepaid from coursePrepaidID', utils.wrap (done) ->
+    course = yield utils.makeCourse()
+    user = yield utils.initUser({coursePrepaidID: course.id})
+    [res, body] = yield request.getAsync({url: getURL("/db/user/#{user.id}"), json: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.coursePrepaid._id).toBe(course.id)
+    expect(res.body.coursePrepaid.startDate).toBe(Prepaid.DEFAULT_START_DATE)
+    done()
+    
 
 describe 'DELETE /db/user', ->
   it 'can delete a user', utils.wrap (done) ->
@@ -323,7 +536,7 @@ describe 'DELETE /db/user', ->
       continue if key in ['_id', 'deleted', 'dateDeleted']
       expect(_.isEmpty(value)).toEqual(true)
     done()
-    
+
   it 'moves user to classroom.deletedMembers', utils.wrap (done) ->
     user = yield utils.initUser()
     user2 = yield utils.initUser()
@@ -338,6 +551,12 @@ describe 'DELETE /db/user', ->
     expect(classroom.get('deletedMembers').length).toBe(1)
     expect(classroom.get('members')[0].toString()).toEqual(user2.id)
     expect(classroom.get('deletedMembers')[0].toString()).toEqual(user.id)
+    done()
+    
+  it 'returns 401 if no cookie session', utils.wrap (done) ->
+    yield utils.logout()
+    [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/1234"}
+    expect(res.statusCode).toBe(401)
     done()
 
 describe 'Statistics', ->
@@ -369,7 +588,7 @@ describe 'Statistics', ->
             expect(guy.get 'id').toBe joe.get 'id'
             expect(guy.get 'stats.gamesCompleted').toBe 1
             done()
-            
+
         setTimeout f, 100
 
   it 'recalculates games completed', (done) ->
@@ -466,3 +685,350 @@ describe 'Statistics', ->
       expect(err).toBeNull()
 
       done()
+      
+      
+describe 'POST /db/user/:handle/signup-with-password', ->
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    yield new Promise((resolve) -> setTimeout(resolve, 10))
+    done()
+  
+  it 'signs up the user with the password and sends welcome emails', utils.wrap (done) ->
+    spyOn(sendwithus.api, 'send')
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    email = 'some@email.com'
+    name = 'someusername'
+    json = { name, email, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('email')).toBe(email)
+    expect(updatedUser.get('passwordHash')).toBeDefined()
+    expect(sendwithus.api.send).toHaveBeenCalled()
+    done()
+
+  it 'signs up the user with just a name and password', utils.wrap (done) ->
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    name = 'someusername'
+    json = { name, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBe(name)
+    expect(updatedUser.get('nameLower')).toBe(name.toLowerCase())
+    expect(updatedUser.get('slug')).toBe(name.toLowerCase())
+    expect(updatedUser.get('passwordHash')).toBeDefined()
+    expect(updatedUser.get('email')).toBeUndefined()
+    expect(updatedUser.get('emailLower')).toBeUndefined()
+    done()
+
+  it 'signs up the user with a username, email, and password', utils.wrap (done) ->
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    name = 'someusername'
+    email = 'user@example.com'
+    json = { name, email, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBe(name)
+    expect(updatedUser.get('nameLower')).toBe(name.toLowerCase())
+    expect(updatedUser.get('slug')).toBe(name.toLowerCase())
+    expect(updatedUser.get('email')).toBe(email)
+    expect(updatedUser.get('emailLower')).toBe(email.toLowerCase())
+    expect(updatedUser.get('passwordHash')).toBeDefined()
+    done()
+
+  it 'returns 422 if neither username or email were provided', utils.wrap (done) ->
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    json = { password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('anonymous')).toBe(true)
+    expect(updatedUser.get('passwordHash')).toBeUndefined()
+    done()
+
+  it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
+    email = 'some@email.com'
+    initialUser = yield utils.initUser({email})
+    expect(initialUser.get('emailLower')).toBeDefined()
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    json = { email, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    done()
+
+  it 'returns 409 if there is already a user with the given username', utils.wrap (done) ->
+    name = 'someusername'
+    initialUser = yield utils.initUser({name})
+    expect(initialUser.get('nameLower')).toBeDefined()
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    json = { name, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    done()
+    
+  it 'disassociates the user from their trial request if the trial request email and signup email do not match', utils.wrap (done) ->
+    user = yield utils.becomeAnonymous()
+    trialRequest = yield utils.makeTrialRequest({ properties: { email: 'one@email.com' } })
+    expect(trialRequest.get('applicant').equals(user._id)).toBe(true)
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    email = 'two@email.com'
+    json = { email, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    trialRequest = yield TrialRequest.findById(trialRequest.id)
+    expect(trialRequest.get('applicant')).toBeUndefined()
+    done()
+
+  it 'does NOT disassociate the user from their trial request if the trial request email and signup email DO match', utils.wrap (done) ->
+    user = yield utils.becomeAnonymous()
+    trialRequest = yield utils.makeTrialRequest({ properties: { email: 'one@email.com' } })
+    expect(trialRequest.get('applicant').equals(user._id)).toBe(true)
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    email = 'one@email.com'
+    json = { email, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    trialRequest = yield TrialRequest.findById(trialRequest.id)
+    expect(trialRequest.get('applicant').equals(user._id)).toBe(true)
+    done()
+
+
+describe 'POST /db/user/:handle/signup-with-facebook', ->
+  facebookID = '12345'
+  facebookEmail = 'some@email.com'
+  name = 'someusername'
+  
+  validFacebookResponse = new Promise((resolve) -> resolve({
+    id: facebookID,
+    email: facebookEmail,
+    first_name: 'Some',
+    gender: 'male',
+    last_name: 'Person',
+    link: 'https://www.facebook.com/app_scoped_user_id/12345/',
+    locale: 'en_US',
+    name: 'Some Person',
+    timezone: -7,
+    updated_time: '2015-12-08T17:10:39+0000',
+    verified: true
+  }))
+  
+  invalidFacebookResponse = new Promise((resolve) -> resolve({
+    error: {
+      message: 'Invalid OAuth access token.',
+      type: 'OAuthException',
+      code: 190,
+      fbtrace_id: 'EC4dEdeKHBH'
+    }
+  }))
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    yield new Promise((resolve) -> setTimeout(resolve, 10))
+    done()
+  
+  it 'signs up the user with the facebookID and sends welcome emails', utils.wrap (done) ->
+    spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
+    spyOn(sendwithus.api, 'send')
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-facebook")
+    json = { name, email: facebookEmail, facebookID, facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('email')).toBe(facebookEmail)
+    expect(updatedUser.get('facebookID')).toBe(facebookID)
+    expect(sendwithus.api.send).toHaveBeenCalled()
+    done()
+    
+  it 'returns 422 if facebook does not recognize the access token', utils.wrap (done) ->
+    spyOn(facebook, 'fetchMe').and.returnValue(invalidFacebookResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-facebook")
+    json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+    done()
+    
+  it 'returns 422 if the email or id do not match', utils.wrap (done) ->
+    spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-facebook")
+  
+    json = { name, email: 'some-other@email.com', facebookID, facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+  
+    json = { name, email: facebookEmail, facebookID: '54321', facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+  
+    done()
+
+  it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
+    initialUser = yield utils.initUser({email: facebookEmail})
+    expect(initialUser.get('emailLower')).toBeDefined()
+    spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-facebook")
+    json = { name, email: facebookEmail, facebookID, facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    done()
+
+    
+describe 'POST /db/user/:handle/signup-with-gplus', ->
+  gplusID = '12345'
+  gplusEmail = 'some@email.com'
+  name = 'someusername'
+
+  validGPlusResponse = new Promise((resolve) -> resolve({
+    id: gplusID
+    email: gplusEmail,
+    verified_email: true,
+    name: 'Some Person',
+    given_name: 'Some',
+    family_name: 'Person',
+    link: 'https://plus.google.com/12345',
+    picture: 'https://lh6.googleusercontent.com/...',
+    gender: 'male',
+    locale: 'en'
+  }))
+
+  invalidGPlusResponse = new Promise((resolve) -> resolve({
+    "error": {
+      "errors": [
+        {
+          "domain": "global",
+          "reason": "authError",
+          "message": "Invalid Credentials",
+          "locationType": "header",
+          "location": "Authorization"
+        }
+      ],
+      "code": 401,
+      "message": "Invalid Credentials"
+    }
+  }))
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    yield new Promise((resolve) -> setTimeout(resolve, 10))
+    done()
+
+  it 'signs up the user with the gplusID and sends welcome emails', utils.wrap (done) ->
+    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
+    spyOn(sendwithus.api, 'send')
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+    json = { name, email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBe(name)
+    expect(updatedUser.get('email')).toBe(gplusEmail)
+    expect(updatedUser.get('gplusID')).toBe(gplusID)
+    expect(sendwithus.api.send).toHaveBeenCalled()
+    done()
+
+  it 'returns 422 if gplus does not recognize the access token', utils.wrap (done) ->
+    spyOn(gplus, 'fetchMe').and.returnValue(invalidGPlusResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+    json = { name, email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+    done()
+
+  it 'returns 422 if the email or id do not match', utils.wrap (done) ->
+    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+
+    json = { name, email: 'some-other@email.com', gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+
+    json = { name, email: gplusEmail, gplusID: '54321', gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+
+    done()
+
+  it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
+    yield utils.initUser({name: 'someusername', email: gplusEmail})
+    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+    json = { name: 'differentusername', email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    done()
+    
+describe 'POST /db/user/:handle/destudent', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, CourseInstance, Course, Campaign])
+    done()
+  
+  it 'removes a student user from all classrooms and unsets their role property', utils.wrap (done) ->
+    student1 = yield utils.initUser({role: 'student'})
+    student2 = yield utils.initUser({role: 'student'})
+    members = [student1._id, student2._id]
+
+    classroom = new Classroom({members})
+    yield classroom.save()
+    courseInstance = new CourseInstance({members})
+    yield courseInstance.save()
+
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+
+    url = getURL("/db/user/#{student1.id}/destudent")
+    [res, body] = yield request.postAsync({url, json:true})
+    
+    student1 = yield User.findById(student1.id)
+    student2 = yield User.findById(student2.id)
+    classroom = yield Classroom.findById(classroom.id)
+    courseInstance = yield CourseInstance.findById(courseInstance.id)
+    
+    expect(student1.get('role')).toBeUndefined()
+    expect(student2.get('role')).toBe('student')
+    expect(classroom.get('members').length).toBe(1)
+    expect(classroom.get('members')[0].toString()).toBe(student2.id)
+    expect(courseInstance.get('members').length).toBe(1)
+    expect(courseInstance.get('members')[0].toString()).toBe(student2.id)
+    done()
+
+describe 'POST /db/user/:handle/deteacher', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, TrialRequest])
+    done()
+
+  it 'removes a student user from all classrooms and unsets their role property', utils.wrap (done) ->
+    teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(teacher)
+    trialRequest = yield utils.makeTrialRequest(teacher)
+
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+
+    trialRequest = yield TrialRequest.findById(trialRequest.id)
+    expect(trialRequest).toBeDefined()
+    expect(teacher.get('role')).toBe('teacher')
+
+    url = getURL("/db/user/#{teacher.id}/deteacher")
+    [res, body] = yield request.postAsync({url, json:true})
+
+    trialRequest = yield TrialRequest.findById(trialRequest.id)
+    expect(trialRequest).toBeNull()
+    teacher = yield User.findById(teacher.id)
+    expect(teacher.get('role')).toBeUndefined()
+    done()

@@ -90,6 +90,9 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
       top: 20px
       font-size: 40px
       opacity: 0.5
+      
+  hr
+    border-top: 1px solid gray
   
   // Navbar
 
@@ -248,6 +251,11 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
     background-color: $burgandy
     color: white
   
+  .btn-burgandy-alt
+    background-color: white
+    border: 1px solid $burgandy
+    color: $burgandy
+  
   .btn-lg
     font-size: 18px
     
@@ -388,6 +396,12 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
   .text-navy
     color: $navy
     
+  .text-burgandy
+    color: $burgandy
+    
+  .text-forest
+    color: $forest
+    
   .bg-navy
     background-color: $navy
     color: white
@@ -439,7 +453,7 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
   #footer
     background-image: url("/images/pages/home/footer_background.png")
     height: 229px
-    margin: -22px auto 0
+    margin: 65px auto 0
     color: white
 
     @media (max-width: $screen-sm-min)
@@ -485,4 +499,4 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
   .button.close
     position: absolute
     top: 10px
-    left: 10px
+    right: 10px

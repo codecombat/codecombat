@@ -30,6 +30,10 @@ module.exports = class LevelGoalsView extends CocoView
       @mouseEntered = false
       @updatePlacement()
 
+  constructor: (options) ->
+    super options
+    @level = options.level
+
   onNewGoalStates: (e) ->
     firstRun = not @previousGoalStatus?
     @previousGoalStatus ?= {}
@@ -45,6 +49,7 @@ module.exports = class LevelGoalsView extends CocoView
     goals = []
     for goal in e.goals
       state = e.goalStates[goal.id]
+      continue if goal.optional and @level.isType('course') and state.status isnt 'success'
       if goal.hiddenGoal
         continue if goal.optional and state.status isnt 'success'
         continue if not goal.optional and state.status isnt 'failure'
@@ -98,6 +103,7 @@ module.exports = class LevelGoalsView extends CocoView
     @updatePlacement()
 
   onSurfacePlaybackEnded: ->
+    return if @level.isType('game-dev')
     @playbackEnded = true
     @updateHeight()
     @$el.addClass 'brighter'
@@ -135,7 +141,7 @@ module.exports = class LevelGoalsView extends CocoView
 
   playToggleSound: (sound) =>
     return if @destroyed
-    @playSound sound
+    @playSound sound unless @options.level.isType('game-dev')
     @soundTimeout = null
 
   onSetLetterbox: (e) ->

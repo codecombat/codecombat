@@ -30,11 +30,14 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'admin': go('admin/MainAdminView')
     'admin/clas': go('admin/CLAsView')
+    'admin/classroom-levels': go('admin/AdminClassroomLevelsView')
     'admin/design-elements': go('admin/DesignElementsView')
     'admin/files': go('admin/FilesView')
     'admin/analytics': go('admin/AnalyticsView')
     'admin/analytics/subscriptions': go('admin/AnalyticsSubscriptionsView')
     'admin/level-sessions': go('admin/LevelSessionsView')
+    'admin/school-counts': go('admin/SchoolCountsView')
+    'admin/school-licenses': go('admin/SchoolLicensesView')
     'admin/users': go('admin/UsersView')
     'admin/base': go('admin/BaseView')
     'admin/demo-requests': go('admin/DemoRequestsView')
@@ -42,6 +45,13 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/user-code-problems': go('admin/UserCodeProblemsView')
     'admin/pending-patches': go('admin/PendingPatchesView')
     'admin/codelogs': go('admin/CodeLogsView')
+
+    'artisans': go('artisans/ArtisansView')
+
+    'artisans/level-tasks': go('artisans/LevelTasksView')
+    'artisans/solution-problems': go('artisans/SolutionProblemsView')
+    'artisans/thang-tasks': go('artisans/ThangTasksView')
+    'artisans/level-concepts': go('artisans/LevelConceptMap')
 
     'beta': go('HomeView')
 
@@ -63,14 +73,15 @@ module.exports = class CocoRouter extends Backbone.Router
     'contribute/diplomat': go('contribute/DiplomatView')
     'contribute/scribe': go('contribute/ScribeView')
 
-    'courses': go('courses/CoursesView') # , { studentsOnly: true }) # TODO: Enforce after session-less play for teachers
-    'Courses': go('courses/CoursesView') # , { studentsOnly: true })
+    'courses': go('courses/CoursesView')
+    'Courses': go('courses/CoursesView')
     'courses/students': redirect('/courses')
     'courses/teachers': redirect('/teachers/classes')
-    'courses/purchase': redirect('/teachers/enrollments')
-    'courses/enroll(/:courseID)': redirect('/teachers/enrollments')
-    'courses/:classroomID': go('courses/ClassroomView') #, { studentsOnly: true })
-    'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView')
+    'courses/purchase': redirect('/teachers/licenses')
+    'courses/enroll(/:courseID)': redirect('/teachers/licenses')
+    'courses/update-account': go('courses/CoursesUpdateAccountView')
+    'courses/:classroomID': go('courses/ClassroomView', { studentsOnly: true })
+    'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { studentsOnly: true })
 
     'db/*path': 'routeToServer'
     'demo(/*subpath)': go('DemoView')
@@ -116,13 +127,13 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'legal': go('LegalView')
 
-    'multiplayer': go('MultiplayerView')
-
     'play(/)': go('play/CampaignView') # extra slash is to get Facebook app to work
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
+    'play/game-dev-level/:levelID/:sessionID': go('play/level/PlayGameDevLevelView')
+    'play/web-dev-level/:levelID/:sessionID': go('play/level/PlayWebDevLevelView')
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView')
 
@@ -135,13 +146,14 @@ module.exports = class CocoRouter extends Backbone.Router
     'SEEN': go('NewHomeView')
 
     'teachers': redirect('/teachers/classes')
-    'teachers/classes': go('courses/TeacherClassesView') #, { teachersOnly: true })
-    'teachers/classes/:classroomID': go('courses/TeacherClassView') #, { teachersOnly: true })
+    'teachers/classes': go('courses/TeacherClassesView', { teachersOnly: true })
+    'teachers/classes/:classroomID': go('courses/TeacherClassView', { teachersOnly: true })
     'teachers/courses': go('courses/TeacherCoursesView')
     'teachers/demo': go('teachers/RequestQuoteView')
-    'teachers/enrollments': go('courses/EnrollmentsView') #, { teachersOnly: true })
+    'teachers/enrollments': redirect('/teachers/licenses')
+    'teachers/licenses': go('courses/EnrollmentsView', { teachersOnly: true })
     'teachers/freetrial': go('teachers/RequestQuoteView')
-    'teachers/quote': go('teachers/RequestQuoteView')
+    'teachers/quote': redirect('/teachers/demo')
     'teachers/signup': ->
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
       @navigate('/teachers/update-account', {trigger: true, replace: true})
@@ -152,6 +164,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
+    'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
@@ -163,9 +176,9 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
-    if options.teachersOnly and not me.isTeacher()
+    if options.teachersOnly and not (me.isTeacher() or me.isAdmin())
       return @routeDirectly('teachers/RestrictedToTeachersView')
-    if options.studentsOnly and me.isTeacher()
+    if options.studentsOnly and not (me.isStudent() or me.isAdmin())
       return @routeDirectly('courses/RestrictedToStudentsView')
     leavingMessage = _.result(window.currentView, 'onLeaveMessage')
     if leavingMessage
@@ -181,7 +194,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @listenToOnce application.moduleLoader, 'load-complete', ->
         @routeDirectly(path, args, options)
       return
-    return @openView @notFoundView() if not ViewClass
+    return go('NotFoundView') if not ViewClass
     view = new ViewClass(options, args...)  # options, then any path fragment args
     view.render()
     @openView(view)
