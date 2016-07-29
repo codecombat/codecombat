@@ -437,7 +437,6 @@
     done: "Done"
     next_level: "Next Level"
     next_game: "Next game"
-    programming_language: "Programming language"
     show_menu: "Show game menu"
     home: "Home"  # Not used any more, will be removed soon.
     level: "Level"  # Like "Level: Dungeons of Kithgard"
