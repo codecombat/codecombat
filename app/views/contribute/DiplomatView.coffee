@@ -142,3 +142,5 @@ module.exports = class DiplomatView extends ContributeClassView
     uz: []             # O'zbekcha, Uzbek
     my: []             # မြန်မာစကား, Myanmar language
     et: []             # Eesti, Estonian
+    hr: []             # hrvatski jezik, Croatian
+    mi: []             # te reo Māori, Māori
