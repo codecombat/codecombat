@@ -39,6 +39,7 @@ module.exports =
   'id': { nativeDescription: 'Bahasa Indonesia', englishDescription: 'Indonesian' }
   'it': { nativeDescription: 'Italiano', englishDescription: 'Italian' }
   'he': { nativeDescription: 'עברית', englishDescription: 'Hebrew' }
+  'hr': { nativeDescription: 'hrvatski jezik', englishDescription: 'Croatian' }
   'hu': { nativeDescription: 'magyar', englishDescription: 'Hungarian' }
   'lt': { nativeDescription: 'lietuvių kalba', englishDescription: 'Lithuanian' }
   'mk-MK': { nativeDescription: 'Македонски', englishDescription: 'Macedonian' }
