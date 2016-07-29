@@ -57,6 +57,7 @@ require("locale/uz")
 require("locale/my")
 require("locale/et")
 require("locale/hr")
+require("locale/mi")
 
 module.exports = class DiplomatView extends ContributeClassView
   id: 'diplomat-view'

@@ -42,6 +42,7 @@ module.exports =
   'hr': { nativeDescription: 'hrvatski jezik', englishDescription: 'Croatian' }
   'hu': { nativeDescription: 'magyar', englishDescription: 'Hungarian' }
   'lt': { nativeDescription: 'lietuvių kalba', englishDescription: 'Lithuanian' }
+  'mi': { nativeDescription: 'te reo Māori', englishDescription: 'Māori' }
   'mk-MK': { nativeDescription: 'Македонски', englishDescription: 'Macedonian' }
   'hi': { nativeDescription: 'मानक हिन्दी', englishDescription: 'Hindi' }
   'ms': { nativeDescription: 'Bahasa Melayu', englishDescription: 'Bahasa Malaysia' }
