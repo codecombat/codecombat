@@ -381,6 +381,7 @@ module.exports = class Simulator extends CocoClass
       sessionInfo = _.filter(@task.getSessions(), {team: team})[0]
       fullSpellName = _.string.slugify(hero) + '/plan'
       submittedCodeLanguage = sessionInfo?.submittedCodeLanguage ? 'javascript'
+      submittedCodeLanguage = 'javascript' if submittedCodeLanguage in ['clojure', 'io']  # No longer supported
       submittedCode = LZString.decompressFromUTF16 sessionInfo?.submittedCode?[_.string.slugify(hero)]?.plan ? ''
       aether = new Aether createAetherOptions functionName: 'plan', codeLanguage: submittedCodeLanguage, skipProtectAPI: false
       try
