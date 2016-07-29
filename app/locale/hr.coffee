@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "Norsk Nynorsk", englishDescription: "Norwegian (Nynorsk)", translation:
+module.exports = nativeDescription: "hrvatski jezik", englishDescription: "Croatian", translation:
 #  home:
 #    slogan: "Learn to Code by Playing a Game"
 #    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older

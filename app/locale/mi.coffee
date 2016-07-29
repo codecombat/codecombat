@@ -1,3 +1,4 @@
+module.exports = nativeDescription: "te reo Māori", englishDescription: "Māori", translation:
 #  home:
 #    slogan: "Learn to Code by Playing a Game"
 #    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
