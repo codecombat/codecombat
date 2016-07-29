@@ -89,7 +89,6 @@
     goto_classes: "Go to My Classes"
     view_profile: "View My Profile"
     view_progress: "View Progress"
-    check_out_wiki: "Check out our new Educator Wiki"
     want_coco: "Want CodeCombat at your school?"
     form_select_role: "Select primary role"
     form_select_range: "Select class size"
