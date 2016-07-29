@@ -18,10 +18,7 @@ mixin box
         div
           button.teacher-btn.btn.btn-forest.btn-lg.btn-block(data-event-action="Homepage Click My Classes CTA", data-i18n="new_home.goto_classes")
         div
-          if view.isTeacherWithDemo
-            h6(data-i18n="new_home.check_out_wiki")
-            button.wiki-btn.btn.btn-primary.btn-lg.btn-block(data-event-action="Homepage Click Educator Wiki CTA", data-i18n="nav.educator_wiki")
-          else
+          if !view.isTeacherWithDemo
             h6(data-i18n="new_home.want_coco")
             button.btn.btn-primary.btn-lg.request-demo(data-event-action="Homepage Request Demo CTA", data-i18n="new_home.request_demo")
 
