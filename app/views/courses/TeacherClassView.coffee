@@ -352,7 +352,7 @@ module.exports = class TeacherClassView extends RootView
           coursePlaytimeMap[courseID] ?= 0
           coursePlaytimeMap[courseID] += session.get('playtime') or 0
       playtimeString = if playtime is 0 then "0" else moment.duration(playtime, 'seconds').humanize()
-      for course in @courses.models
+      for course in courses
         coursePlaytimeMap[course.id] ?= 0
       coursePlaytimes = []
       for courseID, playtime of coursePlaytimeMap
