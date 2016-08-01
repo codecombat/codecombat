@@ -1351,6 +1351,7 @@
     update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
     update_account_remain_student: "Remain a Student"
     update_account_update_student: "Update to Student"
+    need_a_class_code: "You'll need a Class Code for the class you're joining:"
     update_account_not_sure: "Not sure which one to choose? Email"
     update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
     update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
