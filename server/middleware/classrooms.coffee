@@ -22,7 +22,7 @@ co = require 'co'
 module.exports =
   fetchByCode: wrap (req, res, next) ->
     code = req.query.code
-    return next() unless code
+    return next() unless req.query.hasOwnProperty('code')
     classroom = yield Classroom.findOne({ code: code.toLowerCase().replace(RegExp(' ', 'g') , '') }).select('name ownerID aceConfig')
     if not classroom
       log.debug("classrooms.fetchByCode: Couldn't find Classroom with code: #{code}")
