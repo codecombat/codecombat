@@ -390,7 +390,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     subject: "Tárgy"
     email: "E-mail"
     password: "Jelszó"
-#    confirm_password: "Confirm Password"
+    confirm_password: "Jelszó megerősítése"
     message: "Üzenet"
     code: "Kód"
     ladder: "Ranglétra"
