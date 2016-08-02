@@ -217,9 +217,10 @@ module.exports = class PlayLevelView extends RootView
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
     @otherSession = @levelLoader.opponentSession
-    @worldLoadFakeResources = []  # first element (0) is 1%, last (99) is 100%
-    for percent in [1 .. 100]
-      @worldLoadFakeResources.push @supermodel.addSomethingResource 1
+    unless @level.isType('game-dev')
+      @worldLoadFakeResources = []  # first element (0) is 1%, last (99) is 100%
+      for percent in [1 .. 100]
+        @worldLoadFakeResources.push @supermodel.addSomethingResource 1
     @renderSelectors '#stop-real-time-playback-button'
 
   onWorldLoadProgressChanged: (e) ->
