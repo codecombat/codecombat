@@ -217,9 +217,10 @@ module.exports = class PlayLevelView extends RootView
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
     @otherSession = @levelLoader.opponentSession
-    @worldLoadFakeResources = []  # first element (0) is 1%, last (99) is 100%
-    for percent in [1 .. 100]
-      @worldLoadFakeResources.push @supermodel.addSomethingResource 1
+    unless @level.isType('game-dev')
+      @worldLoadFakeResources = []  # first element (0) is 1%, last (99) is 100%
+      for percent in [1 .. 100]
+        @worldLoadFakeResources.push @supermodel.addSomethingResource 1
     @renderSelectors '#stop-real-time-playback-button'
 
   onWorldLoadProgressChanged: (e) ->
@@ -570,7 +571,7 @@ module.exports = class PlayLevelView extends RootView
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     if @level.isType('course-ladder')
       ModalClass = CourseVictoryModal
-      options.courseInstanceID = @getQueryVariable 'league'
+      options.courseInstanceID = @getQueryVariable 'course-instance' or @getQueryVariable 'league'
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)

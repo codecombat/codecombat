@@ -295,10 +295,27 @@ class ModelResource extends Resource
     @model = modelOrCollection
     @fetchOptions = fetchOptions
     @jqxhr = @model.jqxhr
+    @loadsAttempted = 0
 
   load: ->
-    @markLoading()
-    @fetchModel()
+    timeToWait = 5000
+    tryLoad = =>
+      return if this.isLoaded
+      if @loadsAttempted > 4
+        @markFailed()
+        return @
+      @markLoading()
+      if @loadsAttempted > 0
+        console.log "Didn't load model in #{timeToWait}ms (attempt ##{@loadsAttempted}), trying again: ", this
+      @fetchModel()
+      @listenTo @model, 'error', (levelComponent, request) ->
+        if request.status isnt 504
+          clearTimeout(@timeoutID)
+      clearTimeout(@timeoutID) if @timeoutID
+      @timeoutID = setTimeout(tryLoad, timeToWait)
+      @loadsAttempted += 1
+      timeToWait *= 1.5
+    tryLoad()
     @
 
   fetchModel: ->
