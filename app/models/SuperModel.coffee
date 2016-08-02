@@ -309,7 +309,7 @@ class ModelResource extends Resource
         console.log "Didn't load model in #{timeToWait}ms (attempt ##{@loadsAttempted}), trying again: ", this
       @fetchModel()
       @listenTo @model, 'error', (levelComponent, request) ->
-        if request.status isnt 504
+        if request.status not in [504, 524]
           clearTimeout(@timeoutID)
       clearTimeout(@timeoutID) if @timeoutID
       @timeoutID = setTimeout(tryLoad, timeToWait)
