@@ -14,7 +14,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
   initialize: (options) ->
     @courseID = options.courseID
-    @courseInstanceID = options.courseInstanceID
+    @courseInstanceID = options.courseInstanceID or @getQueryVariable 'course-instance' or @getQueryVariable 'league'
     @views = []
 
     @session = options.session

@@ -571,7 +571,7 @@ module.exports = class PlayLevelView extends RootView
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     if @level.isType('course-ladder')
       ModalClass = CourseVictoryModal
-      options.courseInstanceID = @getQueryVariable 'league'
+      options.courseInstanceID = @getQueryVariable 'course-instance' or @getQueryVariable 'league'
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
