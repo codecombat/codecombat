@@ -38,8 +38,6 @@ module.exports = class SpellView extends CocoView
     'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
     'tome:reload-code': 'onCodeReload'
-    'tome:spell-changed': 'onSpellChanged'
-    'level:session-will-save': 'onSessionWillSave'
     'modal:closed': 'focus'
     'tome:focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
@@ -629,7 +627,7 @@ module.exports = class SpellView extends CocoView
       # 2 lines buffer is nice
       @ace.setOptions minLines: lines, maxLines: lines
       # Move spell palette up, slightly overlapping us.
-      newTop = 175 + lineHeight * lines
+      newTop = 185 + lineHeight * lines
       spellPaletteView.css('top', newTop)
       # Expand it to bottom of tome if too short.
       newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
@@ -937,17 +935,6 @@ module.exports = class SpellView extends CocoView
     @spell.source = oldSource
     for key, value of oldSpellThangAether
       @spell.thang.aether[key] = value
-
-  onSpellChanged: (e) ->
-    @spellHasChanged = true
-
-  onSessionWillSave: (e) ->
-    return unless @spellHasChanged
-    setTimeout(=>
-      unless @destroyed or @spellHasChanged
-        @$el.find('.save-status').finish().show().fadeOut(2000)
-    , 1000)
-    @spellHasChanged = false
 
   onUserCodeProblem: (e) ->
     return unless e.god is @options.god

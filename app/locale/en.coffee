@@ -436,6 +436,9 @@
     done: "Done"
     next_level: "Next Level"
     next_game: "Next game"
+    language: "Language"
+    languages: "Languages"
+    programming_language: "Programming language"
     show_menu: "Show game menu"
     home: "Home"  # Not used any more, will be removed soon.
     level: "Level"  # Like "Level: Dungeons of Kithgard"
@@ -484,7 +487,6 @@
     tome_current_method: "Current Method"
     hints: "Hints"
     hints_title: "Hint {{number}}"
-    code_saved: "Code Saved"
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Ready!"
