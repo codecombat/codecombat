@@ -28,7 +28,7 @@
     border: 1px solid transparent
 
   span.code-background
-    border-width: 124px 76px 64px 40px
+    border-width: 115px 76px 64px 40px
     border-image: url(/images/level/code_editor_background_border.png) 124 76 64 40 fill stretch
 
   img.code-background
@@ -38,8 +38,24 @@
   .save-status
     display: none
     position: absolute
-    top: 1%
-    right: 4%
+    top: 10px
+    left: 20px
+    z-index: 4
+
+  .programming-language-container
+    position: absolute
+    top: 10px
+    right: 26px
+    z-index: 4
+    font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+    font-size: 14px
+    padding: 0px 10px
+    .programming-language-label
+      color: #6E654B
+      font-weight: bold
+      text-transform: uppercase
+    .programming-language
+      color: darkred
 
   .firepad
     // When Firepad is active, it wraps .ace_editor in .firepad.
@@ -56,6 +72,7 @@
   .ace_editor
     // When Firepad isn't active, .ace_editor needs the width/height set itself.
     @include editor-height(0px)
+    margin-top: 10px
     width: 94%
     position: relative
     background-color: transparent

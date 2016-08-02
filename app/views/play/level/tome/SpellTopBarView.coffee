@@ -39,7 +39,6 @@ module.exports = class SpellTopBarView extends CocoView
 
   afterRender: ->
     super()
-    @$el.addClass 'spell-tab'
     @attachTransitionEventListener()
 
   onDisableControls: (e) -> @toggleControls e, false

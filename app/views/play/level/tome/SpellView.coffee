@@ -629,7 +629,7 @@ module.exports = class SpellView extends CocoView
       # 2 lines buffer is nice
       @ace.setOptions minLines: lines, maxLines: lines
       # Move spell palette up, slightly overlapping us.
-      newTop = 175 + lineHeight * lines
+      newTop = 185 + lineHeight * lines
       spellPaletteView.css('top', newTop)
       # Expand it to bottom of tome if too short.
       newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
@@ -942,7 +942,7 @@ module.exports = class SpellView extends CocoView
     @spellHasChanged = true
 
   onSessionWillSave: (e) ->
-    return unless @spellHasChanged
+    return unless @spellHasChanged and me.isAdmin()
     setTimeout(=>
       unless @destroyed or @spellHasChanged
         @$el.find('.save-status').finish().show().fadeOut(2000)
