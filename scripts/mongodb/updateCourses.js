@@ -64,10 +64,8 @@ var courses =
     slug: "game-dev-1",
     campaignID: ObjectId("5789236960deed1f00ec2ab8"),
     description: "Learn to create your owns games which you can share with your friends.",
-    duration: NumberInt(5),
+    duration: NumberInt(1),
     free: false,
-    //screenshot: "/images/pages/courses/105_info.png",
-    adminOnly: true, // Until we finish transitioning to releasePhase
     releasePhase: 'beta'
   },
   {
@@ -75,10 +73,8 @@ var courses =
     slug: "web-dev-1",
     campaignID: ObjectId("578913f2c8871ac2326fa3e4"),
     description: "Learn the basics of web development in this introductory HTML & CSS course.",
-    duration: NumberInt(5),
+    duration: NumberInt(1),
     free: false,
-    //screenshot: "/images/pages/courses/105_info.png",
-    adminOnly: true, // Until we finish transitioning to releasePhase
     releasePhase: 'beta'
   },
   {
@@ -86,10 +82,17 @@ var courses =
     slug: "web-dev-2",
     campaignID: ObjectId("57891570c8871ac2326fa3f8"),
     description: "Learn more advanced web development, including scripting to make interactive webpages.",
-    duration: NumberInt(5),
+    duration: NumberInt(2),
     free: false,
-    //screenshot: "/images/pages/courses/105_info.png",
-    adminOnly: true, // Until we finish transitioning to releasePhase
+    releasePhase: 'beta'
+  },
+  {
+    name: "JS Primer",
+    slug: "js-primer",
+    campaignID: ObjectId("579a5f37843ad12000e6d4c7"),
+    description: "Learn JavaScript after you already know another programming language like Python.",
+    duration: NumberInt(1),
+    free: false,
     releasePhase: 'beta'
   }
 ];
