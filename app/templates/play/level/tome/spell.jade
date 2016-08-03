@@ -17,9 +17,4 @@ span.code-background
   else
     span.programming-language-label(data-i18n='play_level.programming_language')
     span.programming-language-label.spr :
-    if view.spell.language === 'javascript'
-      span.programming-language JavaScript
-    else if view.spell.language === 'python'
-      span.programming-language Python
-    else
-      span.programming-language= view.spell.language
+    span.programming-language= view.spell.displayCodeLanguage
