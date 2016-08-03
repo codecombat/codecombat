@@ -487,6 +487,7 @@
     tome_current_method: "Current Method"
     hints: "Hints"
     hints_title: "Hint {{number}}"
+    code_saved: "Code Saved"
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Ready!"
