@@ -327,6 +327,7 @@ module.exports.capitalLanguages = capitalLanguages =
   'python': 'Python'
   'java': 'Java'
   'lua': 'Lua'
+  'html': 'HTML'
 
 module.exports.createLevelNumberMap = (levels) ->
   levelNumberMap = {}
