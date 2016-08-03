@@ -51,13 +51,13 @@ function receiveMessage(event) {
     }
 }
 
-function create({ dom, styles, scripts }) {
-    virtualDom = dom;
-    virtualStyles = styles;
-    virtualScripts = scripts;
-    concreteDom = deku.dom.create(dom);
-    concreteStyles = deku.dom.create(styles);
-    concreteScripts = deku.dom.create(scripts);
+function create(options) {
+    virtualDom = options.dom;
+    virtualStyles = options.styles;
+    virtualScripts = options.scripts;
+    concreteDom = deku.dom.create(virtualDom);
+    concreteStyles = deku.dom.create(virtualStyles);
+    concreteScripts = deku.dom.create(virtualScripts);
     // TODO: :after elements don't seem to work? (:before do)
     $('body').first().empty().append(concreteDom);
     replaceNodes('[for="player-styles"]', unwrapConcreteNodes(concreteStyles));
@@ -69,7 +69,7 @@ function unwrapConcreteNodes(wrappedNodes) {
 }
 
 function replaceNodes(selector, newNodes){
-    $newNodes = $(newNodes).clone()
+    $newNodes = $(newNodes).clone();
     $(selector + ':not(:first)').remove();
     
     firstNode = $(selector).first();
@@ -85,7 +85,10 @@ function replaceNodes(selector, newNodes){
     $(newFirstNode).after($newNodes);
 }
 
-function update({ dom, styles, scripts }) {
+function update(options) {
+    var dom = options.dom;
+    var styles = options.styles;
+    var scripts = options.scripts;
     function dispatch() {}  // Might want to do something here in the future
     var context = {};  // Might want to use this to send shared state to every component
 
@@ -152,7 +155,7 @@ function downTheChain(obj, keyChain) {
         keyChain = keyChain.slice(1);
     }
     return value;
-};
+}
 
 function matchesCheck(value, check) {
     var v = downTheChain(value, check.eventProps);
