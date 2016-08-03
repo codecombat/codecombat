@@ -67,6 +67,7 @@ module.exports = class Spell
 
   setLanguage: (@language) ->
     @language = 'html' if @level.isType('web-dev')
+    @displayCodeLanguage = utils.capitalLanguages[@language]
     #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
     @originalSource = @languages[@language] ? @languages.javascript
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
