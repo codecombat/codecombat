@@ -365,12 +365,16 @@ module.exports = class CampaignView extends RootView
     return experienceScore
 
   createLine: (o1, o2) ->
-    p1 = x: o1.x, y: 0.66 * o1.y + 0.5
-    p2 = x: o2.x, y: 0.66 * o2.y + 0.5
+    mapHeight = parseFloat($(".map").css("height")) 
+    mapWidth = parseFloat($(".map").css("width"))
+    return unless mapHeight > 0
+    ratio =  mapWidth / mapHeight
+    p1 = x: o1.x, y: o1.y / ratio - 0.5
+    p2 = x: o2.x, y: o2.y / ratio
     length = Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y))
     angle = Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180 / Math.PI
     transform = "rotate(#{angle}deg)"
-    line = $('<div>').appendTo('.map').addClass('next-level-line').css(transform: transform, width: length + '%', left: o1.x + '%', bottom: (o1.y + 0.5) + '%')
+    line = $('<div>').appendTo('.map').addClass('next-level-line').css(transform: transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%')
     line.append($('<div class="line">')).append($('<div class="point">'))
 
   applyCampaignStyles: ->
