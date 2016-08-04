@@ -365,7 +365,10 @@ module.exports = class CampaignView extends RootView
     return experienceScore
 
   createLine: (o1, o2) ->
-    ratio = parseFloat($(".map").css("width")) / parseFloat($(".map").css("height"))
+    mapHeight = parseFloat($(".map").css("height")) 
+    mapWidth = parseFloat($(".map").css("width"))
+    return unless mapHeight > 0
+    ratio =  mapWidth / mapHeight
     p1 = x: o1.x, y: o1.y / ratio - 0.5
     p2 = x: o2.x, y: o2.y / ratio
     length = Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y))
