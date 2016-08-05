@@ -333,7 +333,7 @@ module.exports = nativeDescription: "hrvatski jezik", englishDescription: "Croat
 #    misc: "Misc"
 #    books: "Books"
 
-  common:
+#  common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
 #    continue: "Continue" # When used as an action verb, like "Continue forward"
 #    loading: "Loading..."

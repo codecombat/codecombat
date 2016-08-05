@@ -333,10 +333,10 @@ module.exports = nativeDescription: "te reo Māori", englishDescription: "Māori
 #    misc: "Misc"
 #    books: "Books"
 
-  common:
+#  common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
 #    continue: "Continue" # When used as an action verb, like "Continue forward"
-    loading: "Loading..."
+#    loading: "Loading..."
 #    saving: "Saving..."
 #    sending: "Sending..."
 #    send: "Send"
