@@ -41,7 +41,10 @@ module.exports = class TeacherCoursesView extends RootView
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
     @courses = new Courses()
-    @supermodel.trackRequest @courses.fetchReleased()
+    if me.isAdmin()
+      @supermodel.trackRequest @courses.fetch()
+    else
+      @supermodel.trackRequest @courses.fetchReleased()
     @campaigns = new Campaigns()
     @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
     @
