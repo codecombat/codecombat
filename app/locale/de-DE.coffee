@@ -769,7 +769,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   about:
     main_title: "Wenn du das Programmieren erlernen willst, musst du (viel) Code schreiben."
-    main_description: "Bei CodeCombat ist es unser Job das du das mit einem Lächeln im Gesicht tust."
+    main_description: "Bei CodeCombat ist es unser Job, dass du das mit einem Lächeln im Gesicht tust."
     mission_link: "Mission"
     team_link: "Team"
     story_link: "Geschichte"
