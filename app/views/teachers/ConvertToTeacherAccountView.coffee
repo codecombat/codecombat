@@ -7,9 +7,9 @@ errors = require 'core/errors'
 User = require 'models/User'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
 algolia = require 'core/services/algolia'
-NCES_KEYS = ['id', 'name', 'district', 'district_id', 'district_schools', 'district_students', 'students', 'phone']
 
-FORM_KEY = 'request-quote-form'
+DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
+SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 
 module.exports = class ConvertToTeacherAccountView extends RootView
   id: 'convert-to-teacher-account-view'
@@ -40,13 +40,13 @@ module.exports = class ConvertToTeacherAccountView extends RootView
       return 'Your account has not been updated! If you continue, your changes will be lost.'
 
   invalidateNCES: ->
-    for key in NCES_KEYS
+    for key in SCHOOL_NCES_KEYS
       @$('input[name="nces_' + key + '"]').val ''
 
   onLoaded: ->
     if @trialRequests.size() and me.isTeacher()
       return application.router.navigate('/teachers', { trigger: true, replace: true })
-    
+
     super()
 
   afterRender: ->
@@ -75,16 +75,34 @@ module.exports = class ConvertToTeacherAccountView extends RootView
           "<div class='school'> #{hr.name.value} </div>" +
             "<div class='district'>#{hr.district.value}, " +
               "<span>#{hr.city?.value}, #{hr.state.value}</span></div>"
-
     ]).on 'autocomplete:selected', (event, suggestion, dataset) =>
+      @$('input[name="district"]').val suggestion.district
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
-      @$('input[name="district"]').val suggestion.district
       @$('input[name="country"]').val 'USA'
-
-      for key in NCES_KEYS
+      for key in SCHOOL_NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
+      @onChangeForm()
 
+    $("#district-control").algolia_autocomplete({hint: false}, [
+      source: (query, callback) ->
+        algolia.schoolsIndex.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
+          callback answer.hits
+        , ->
+          callback []
+      displayKey: 'district',
+      templates:
+        suggestion: (suggestion) ->
+          hr = suggestion._highlightResult
+          "<div class='district'>#{hr.district.value}, " +
+            "<span>#{hr.city?.value}, #{hr.state.value}</span></div>"
+    ]).on 'autocomplete:selected', (event, suggestion, dataset) =>
+      @$('input[name="organization"]').val '' # TODO: does not persist on tabbing: back to school, back to district
+      @$('input[name="city"]').val suggestion.city
+      @$('input[name="state"]').val suggestion.state
+      @$('input[name="country"]').val 'USA'
+      for key in DISTRICT_NCES_KEYS
+        @$('input[name="nces_' + key + '"]').val suggestion[key]
       @onChangeForm()
 
   onChangeForm: ->
@@ -97,28 +115,35 @@ module.exports = class ConvertToTeacherAccountView extends RootView
 
     form = @$('form')
     attrs = forms.formToObject(form)
-    
+    trialRequestAttrs = _.cloneDeep(attrs)
+
+    # Don't save n/a district entries, but do validate required district client-side
+    trialRequestAttrs = _.omit(trialRequestAttrs, 'district') if trialRequestAttrs.district?.replace(/\s/ig, '').match(/n\/a/ig)
+
     if @$('#other-education-level-checkbox').is(':checked')
       val = @$('#other-education-level-input').val()
-      attrs.educationLevel.push(val) if val
+      trialRequestAttrs.educationLevel.push(val) if val
 
     forms.clearFormAlerts(form)
 
-    result = tv4.validateMultiple(attrs, formSchema)
+    result = tv4.validateMultiple(trialRequestAttrs, formSchema)
     error = false
     if not result.valid
       forms.applyErrorsToForm(form, result.errors)
       error = true
-    if not _.size(attrs.educationLevel)
-      forms.setErrorToProperty(form, 'educationLevel', 'Include at least one.')
+    if not _.size(trialRequestAttrs.educationLevel)
+      forms.setErrorToProperty(form, 'educationLevel', 'include at least one')
+      error = true
+    unless attrs.district
+      forms.setErrorToProperty(form, 'district', $.i18n.t('common.required_field'))
       error = true
     if error
       forms.scrollToFirstError()
       return
-    attrs['siteOrigin'] = 'convert teacher'
+    trialRequestAttrs['siteOrigin'] = 'convert teacher'
     @trialRequest = new TrialRequest({
       type: 'course'
-      properties: attrs
+      properties: trialRequestAttrs
     })
     if me.get('role') is 'student' and not me.isAnonymous()
       modal = new ConfirmModal({
@@ -151,15 +176,14 @@ module.exports = class ConvertToTeacherAccountView extends RootView
 
 formSchema = {
   type: 'object'
-  required: [
-    'firstName', 'lastName', 'organization', 'role', 'numStudents', 'city', 'state', 'country'
-  ]
+  required: ['firstName', 'lastName', 'role', 'numStudents', 'city', 'state', 'country']
   properties:
     firstName: { type: 'string' }
     lastName: { type: 'string' }
     phoneNumber: { type: 'string' }
     role: { type: 'string' }
     organization: { type: 'string' }
+    district: { type: 'string' }
     city: { type: 'string' }
     state: { type: 'string' }
     country: { type: 'string' }
@@ -172,5 +196,5 @@ formSchema = {
     notes: { type: 'string' }
 }
 
-for key in NCES_KEYS
+for key in SCHOOL_NCES_KEYS
   formSchema['nces_' + key] = type: 'string'

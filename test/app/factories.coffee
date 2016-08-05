@@ -184,6 +184,7 @@ module.exports = {
         email: 'an@email.com'
         phoneNumber: '555-555-5555'
         organization: 'Greendale'
+        district: 'Green District'
       }
     }, attrs)
 }

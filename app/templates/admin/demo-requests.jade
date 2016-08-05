@@ -30,8 +30,8 @@ block content
         thead
           tr
             th Created
-            th NCES District
             th School Name
+            th School District
             th.number NCES District Schools
             th.number NCES District Students
             th.number NCES School Students
@@ -44,8 +44,8 @@ block content
               - continue;
             tr
               td.created= trialRequest.get('created').substring(0, 10)
-              td= trialRequest.get('properties').nces_district || ''
-              td= trialRequest.get('properties').organization || ''
+              td= trialRequest.get('properties').nces_name || trialRequest.get('properties').organization || ''
+              td= trialRequest.get('properties').nces_district || trialRequest.get('properties').district || ''
               td= trialRequest.get('properties').nces_district_schools || ''
               td= trialRequest.get('properties').nces_district_students || ''
               td= trialRequest.get('properties').nces_students || ''

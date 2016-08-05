@@ -356,7 +356,7 @@
     submit_patch: "Submit Patch"
     submit_changes: "Submit Changes"
     save_changes: "Save Changes"
-    required_field: "Required field"
+    required_field: "required" # {change}
 
   general:
     and: "and"
@@ -885,7 +885,9 @@
     evaluate_recommend: "Evaluate/Recommend"
     approve_funds: "Approve Funds"
     no_purchaser_role: "No role in purchase decisions"
-    organization_label: "Name of School/District"
+    district_label: "District"
+    district_na: "Enter N/A if not applicable"
+    organization_label: "School" # {change}
     city: "City"
     state: "State"
     country: "Country"
