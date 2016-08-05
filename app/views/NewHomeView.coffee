@@ -3,7 +3,7 @@ template = require 'templates/new-home-view'
 CocoCollection = require 'collections/CocoCollection'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
-Course = require 'models/Course'
+Courses = require 'collections/Courses'
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
@@ -36,8 +36,8 @@ module.exports = class NewHomeView extends RootView
     'esc': 'onEscapePressed'
 
   initialize: (options) ->
-    @courses = new CocoCollection [], {url: "/db/course", model: Course}
-    @supermodel.loadCollection(@courses, 'courses')
+    @courses = new Courses()
+    @supermodel.trackRequest @courses.fetchReleased()
 
     if me.isTeacher()
       @trialRequests = new TrialRequests()
@@ -62,42 +62,42 @@ module.exports = class NewHomeView extends RootView
     super()
 
   onClickLearnMoreLink: ->
-    window.tracker?.trackEvent 'Homepage Click Learn More', category: 'Homepage', ['Mixpanel']
+    window.tracker?.trackEvent 'Homepage Click Learn More', category: 'Homepage', []
     @scrollToLink('#classroom-in-box-container')
 
   onClickPlayButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
 
   onClickRequestDemo: (e) ->
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
     if me.isTeacher()
       application.router.navigate '/teachers/update-account', trigger: true
     else
       application.router.navigate '/teachers/demo', trigger: true
 
   onClickSetupClass: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
     application.router.navigate("/teachers/classes", { trigger: true })
 
   onClickStudentButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
 
   onClickTeacherButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
     if me.isTeacher()
       application.router.navigate('/teachers', { trigger: true })
     else
       @scrollToLink('.request-demo-row', 600)
 
   onClickViewProfile: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
     application.router.navigate("/user/#{me.getSlugOrID()}", { trigger: true })
 
   onClickWikiButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
     window.location.href = 'https://sites.google.com/a/codecombat.com/teacher-guides/course-guides'
 
   afterRender: ->
@@ -110,6 +110,14 @@ module.exports = class NewHomeView extends RootView
     $(window).on 'resize', @fitToPage
     @fitToPage()
     setTimeout(@fitToPage, 0)
+    if me.isAnonymous()
+      CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
+      if document.location.hash is '#create-account'
+        @openModalView(new CreateAccountModal())
+      if document.location.hash is '#create-account-individual'
+        @openModalView(new CreateAccountModal({startOnPath: 'individual'}))
+      if document.location.hash is '#create-account-student'
+        @openModalView(new CreateAccountModal({startOnPath: 'student'}))
     super()
 
   destroy: ->

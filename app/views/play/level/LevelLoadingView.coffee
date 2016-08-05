@@ -59,9 +59,9 @@ module.exports = class LevelLoadingView extends CocoView
     goalList = goalContainer.find('ul')
     goalCount = 0
     for goalID, goal of @level.get('goals') when (not goal.team or goal.team is (e.team or 'humans')) and not goal.hiddenGoal
-      continue if goal.optional and @level.get('type', true) is 'course'
+      continue if goal.optional and @level.isType('course')
       name = utils.i18n goal, 'name'
-      goalList.append $('<li>' + name + '</li>')
+      goalList.append $('<li>').text(name)
       ++goalCount
     if goalCount
       goalContainer.removeClass('secret')
@@ -169,7 +169,7 @@ module.exports = class LevelLoadingView extends CocoView
     @playSound 'loading-view-unveil', 0.5
     @$el.find('.left-wing').css left: '-100%', backgroundPosition: 'right -400px top 0'
     @$el.find('.right-wing').css right: '-100%', backgroundPosition: 'left -400px top 0'
-    $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration)
+    $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration) unless @level.isType('web-dev')
 
   unveilIntro: =>
     return if @destroyed or not @intro or @unveiled

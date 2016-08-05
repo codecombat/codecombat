@@ -3,6 +3,7 @@ log = require 'winston'
 request = require 'request'
 
 apiKey = config.closeIO?.apiKey
+defaultSalesContactUser = 'user_Fh0uLUkRIKMk2to61ISq8PneyQonuD2i7hes6RhZgDX'
 
 module.exports =
   logError: (msg) ->
@@ -65,19 +66,18 @@ module.exports =
           activities = JSON.parse(body)
           return done("Unexpected activities format: " + body) unless activities.data?
           for activity in activities.data when activity._type is 'Email'
-            if /@codecombat\.(?:com)|(?:nl)/ig.test(activity.sender) and not activity.sender?.indexOf(config.mail.username) >= 0 and not activity.sender?.indexOf('brian@codecombat.com') >= 0
+            if /@codecombat\.(?:com)|(?:nl)/ig.test(activity.sender) and not (activity.sender?.indexOf(config.mail.username) >= 0) and not (activity.sender?.indexOf('brian@codecombat.com') >= 0)
               return done(null, activity.sender, activity.user_id, lead.id)
-          return done(null, config.mail.supportSchools, lead.id)
+          return done(null, config.mail.supportSchools, defaultSalesContactUser, lead.id)
     catch error
       log.error("closeIO.getSalesContactEmail Error for #{email}: #{JSON.stringify(error)}")
       return done(error)
 
   sendMail: (fromAddress, subject, content, salesContactEmail, leadID, done) ->
-    # log.info("DEBUG: closeIO.sendMail #{fromAddress} #{subject} #{content}")
+    # log.info("DEBUG: closeIO.sendMail #{fromAddress} #{subject} #{salesContactEmail}  #{leadID}")
     matches = salesContactEmail.match(/^[a-zA-Z_]+ <(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})>$|(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})/i)
     salesContactEmail = matches?[1] ? matches?[2] ? config.mail.supportSchools
     salesContactEmail = config.mail.supportSchools if salesContactEmail?.indexOf('brian@codecombat.com') >= 0
-
     postData =
       to: [salesContactEmail]
       sender: config.mail.username
@@ -97,7 +97,10 @@ module.exports =
       return done()
 
   processLicenseRequest: (teacherEmail, userID, leadID, licensesRequested, amount, done) ->
+    # log.info("DEBUG: closeIO.processLicenseRequest #{teacherEmail} #{userID} #{leadID} #{licensesRequested} #{amount}")
+
     # Update lead with licenses requested
+    licensesRequested = parseInt(licensesRequested)
     putData = 'custom.licensesRequested': licensesRequested
     options =
       uri: "https://#{apiKey}:X@app.close.io/api/v1/lead/#{leadID}/"
@@ -114,7 +117,7 @@ module.exports =
         _type: "lead"
         lead_id: leadID
         assigned_to: userID
-        text: "Call #{teacherEmail}"
+        text: "Call license inquiry #{teacherEmail}"
         is_complete: false
       options =
         uri: "https://#{apiKey}:X@app.close.io/api/v1/task/"
@@ -135,7 +138,7 @@ module.exports =
           date_won: dateWon.toISOString().substring(0, 10)
           lead_id: leadID
           status: 'Active'
-          value: parseInt(licensesRequested) * amount
+          value: licensesRequested * amount
           value_period: "annual"
         options =
           uri: "https://#{apiKey}:X@app.close.io/api/v1/opportunity/"

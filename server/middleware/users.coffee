@@ -8,9 +8,15 @@ Promise = require 'bluebird'
 parse = require '../commons/parse'
 request = require 'request'
 mongoose = require 'mongoose'
+database = require '../commons/database'
 sendwithus = require '../sendwithus'
 User = require '../models/User'
 Classroom = require '../models/Classroom'
+CourseInstance = require '../models/CourseInstance'
+facebook = require '../lib/facebook'
+gplus = require '../lib/gplus'
+TrialRequest = require '../models/TrialRequest'
+log = require 'winston'
 
 module.exports =
   fetchByGPlusID: wrap (req, res, next) ->
@@ -18,12 +24,12 @@ module.exports =
     gpAT = req.query.gplusAccessToken
     return next() unless gpID and gpAT
 
+    googleResponse = yield gplus.fetchMe(gpAT)
+    idsMatch = gpID is googleResponse.id
+    throw new errors.UnprocessableEntity('Invalid G+ Access Token.') unless idsMatch
+
     dbq = User.find()
     dbq.select(parse.getProjectFromReq(req))
-    url = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=#{gpAT}"
-    [googleRes, body] = yield request.getAsync(url, {json: true})
-    idsMatch = gpID is body.id
-    throw new errors.UnprocessableEntity('Invalid G+ Access Token.') unless idsMatch
     user = yield User.findOne({gplusID: gpID})
     throw new errors.NotFound('No user with that G+ ID') unless user
     res.status(200).send(user.toObject({req: req}))
@@ -33,12 +39,12 @@ module.exports =
     fbAT = req.query.facebookAccessToken
     return next() unless fbID and fbAT
 
+    facebookResponse = yield facebook.fetchMe(fbAT)
+    idsMatch = fbID is facebookResponse.id
+    throw new errors.UnprocessableEntity('Invalid Facebook Access Token.') unless idsMatch
+    
     dbq = User.find()
     dbq.select(parse.getProjectFromReq(req))
-    url = "https://graph.facebook.com/me?access_token=#{fbAT}"
-    [facebookRes, body] = yield request.getAsync(url, {json: true})
-    idsMatch = fbID is body.id
-    throw new errors.UnprocessableEntity('Invalid Facebook Access Token.') unless idsMatch
     user = yield User.findOne({facebookID: fbID})
     throw new errors.NotFound('No user with that Facebook ID') unless user
     res.status(200).send(user.toObject({req: req}))
@@ -85,6 +91,8 @@ module.exports =
     timestamp = (new Date).getTime()
     if not user
       throw new errors.NotFound('User not found')
+    if not user.get('email')
+      throw new errors.UnprocessableEntity('User must have an email address to receive a verification email')
     context =
       email_id: sendwithus.templates.verify_email
       recipient:
@@ -117,3 +125,132 @@ module.exports =
         if country = user.geo?.country
           user.geo.countryName = countryList.getName(country)
     res.status(200).send(users)
+
+
+  signupWithPassword: wrap (req, res) ->
+    unless req.user.isAnonymous()
+      throw new errors.Forbidden('You are already signed in.')
+
+    { name, email, password } = req.body
+    unless password
+      throw new errors.UnprocessableEntity('Requires password')
+    unless name or email
+      throw new errors.UnprocessableEntity('Requires username or email')
+
+    if not _.isEmpty(email) and yield User.findByEmail(email)
+      throw new errors.Conflict('Email already taken')
+    if not _.isEmpty(name) and yield User.findByName(name)
+      throw new errors.Conflict('Name already taken')
+
+    req.user.set({ name, email, password, anonymous: false })
+    yield module.exports.finishSignup(req, res)
+
+  signupWithFacebook: wrap (req, res) ->
+    unless req.user.isAnonymous()
+      throw new errors.Forbidden('You are already signed in.')
+
+    { facebookID, facebookAccessToken, email, name } = req.body
+    unless _.all([facebookID, facebookAccessToken, email, name])
+      throw new errors.UnprocessableEntity('Requires facebookID, facebookAccessToken, email, and name')
+
+    if not _.isEmpty(name) and yield User.findByName(name)
+      throw new errors.Conflict('Name already taken')
+
+    facebookResponse = yield facebook.fetchMe(facebookAccessToken)
+    emailsMatch = email is facebookResponse.email
+    idsMatch = facebookID is facebookResponse.id
+    unless emailsMatch and idsMatch
+      throw new errors.UnprocessableEntity('Invalid facebookAccessToken')
+
+    req.user.set({ facebookID, email, name, anonymous: false })
+    yield module.exports.finishSignup(req, res)
+
+  signupWithGPlus: wrap (req, res) ->
+    unless req.user.isAnonymous()
+      throw new errors.Forbidden('You are already signed in.')
+
+    { gplusID, gplusAccessToken, email, name } = req.body
+    unless _.all([gplusID, gplusAccessToken, email, name])
+      throw new errors.UnprocessableEntity('Requires gplusID, gplusAccessToken, email, and name')
+
+    if not _.isEmpty(name) and yield User.findByName(name)
+      throw new errors.Conflict('Name already taken')
+
+    gplusResponse = yield gplus.fetchMe(gplusAccessToken)
+    emailsMatch = email is gplusResponse.email
+    idsMatch = gplusID is gplusResponse.id
+
+    unless emailsMatch and idsMatch
+      throw new errors.UnprocessableEntity('Invalid gplusAccessToken')
+
+    req.user.set({ gplusID, email, name, anonymous: false })
+    yield module.exports.finishSignup(req, res)
+    
+  finishSignup: co.wrap (req, res) ->
+    try
+      yield req.user.save()
+    catch e
+      if e.code is 11000 # Duplicate key error
+        throw new errors.Conflict('Email already taken')
+      else
+        throw e
+
+    # post-successful account signup tasks
+    
+    req.user.sendWelcomeEmail()
+
+    # If person A creates a trial request without creating an account, then person B uses that computer
+    # to create an account, then person A's trial request is associated with person B's account. To prevent
+    # this, we check that the signup email matches the trial request email, for every signup. If they do
+    # not match, the trial request applicant field is cleared, disassociating the trial request from this
+    # account.
+    trialRequest = yield TrialRequest.findOne({applicant: req.user._id})
+    if trialRequest
+      email = trialRequest.get('properties')?.email or ''
+      emailLower = email.toLowerCase()
+      if emailLower and emailLower isnt req.user.get('emailLower')
+        log.warn('User submitted trial request and created account with different emails. Disassociating trial request.')
+        yield trialRequest.update({$unset: {applicant: ''}})
+        
+    res.status(200).send(req.user.toObject({req: req}))
+    
+  destudent: wrap (req, res) ->
+    user = yield database.getDocFromHandle(req, User)
+    if not user
+      throw new errors.NotFound('User not found.')
+      
+    if not user.isStudent()
+      return res.status(200).send(user.toObject({req: req}))
+      
+    yield Classroom.update(
+      { members: user._id },
+      { $pull: {members: user._id} },
+      { multi: true }
+    )
+    
+    yield CourseInstance.update(
+      { members: user._id },
+      { $pull: {members: user._id} },
+      { multi: true }
+    )
+
+    yield user.update({ $unset: {role: ''}})
+    user.set('role', undefined)
+    return res.status(200).send(user.toObject({req: req}))
+
+
+  deteacher: wrap (req, res) ->
+    user = yield database.getDocFromHandle(req, User)
+    if not user
+      throw new errors.NotFound('User not found.')
+
+    if not user.isTeacher()
+      return res.status(200).send(user.toObject({req: req}))
+
+    yield TrialRequest.remove(
+      { applicant: user._id },
+    )
+
+    yield user.update({ $unset: {role: ''}})
+    user.set('role', undefined)
+    return res.status(200).send(user.toObject({req: req}))

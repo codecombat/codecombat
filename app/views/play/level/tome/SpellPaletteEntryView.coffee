@@ -33,7 +33,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
 
   afterRender: ->
     super()
-    @$el.addClass(@doc.type)
+    @$el.addClass _.string.slugify @doc.type
     placement = -> if $('body').hasClass('dialogue-view-active') then 'top' else 'left'
     @$el.popover(
       animation: false
@@ -53,6 +53,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
       oldEditor.destroy() for oldEditor in @aceEditors
       @aceEditors = []
       aceEditors = @aceEditors
+      # Initialize Ace for each popover code snippet
       popover?.$tip?.find('.docs-ace').each ->
         aceEditor = utils.initializeACE @, codeLanguage
         aceEditors.push aceEditor
@@ -84,9 +85,8 @@ module.exports = class SpellPaletteEntryView extends CocoView
     Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
   onClick: (e) =>
-    if true or @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
-      # Jiggle instead of pin for hero levels
-      # Actually, do it all the time, because we recently busted the pin CSS. TODO: restore pinning
+    if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder')
+      # Jiggle instead of pin for hero/course levels
       jigglyPopover = $('.spell-palette-popover.popover')
       jigglyPopover.addClass 'jiggling'
       pauseJiggle = =>

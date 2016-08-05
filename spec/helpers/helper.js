@@ -49,6 +49,15 @@ console.error = function() {
   console.log.apply(console, arguments);
 };
 
+if (process.argv.indexOf('--with-test-names') > -1) {
+  jasmine.getEnv().addReporter({
+    specStarted: function(result){
+      // Printing weirdly so pass/fail indicator is on the same line as the test name
+      process.stdout.write('\n' + result.fullName);
+    }
+  })
+}
+
 var initialized = false;
 beforeEach(function(done) {
   if (initialized) {

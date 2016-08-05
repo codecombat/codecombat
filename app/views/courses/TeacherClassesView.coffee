@@ -17,6 +17,7 @@ helper = require 'lib/coursesHelper'
 module.exports = class TeacherClassesView extends RootView
   id: 'teacher-classes-view'
   template: template
+  helper: helper
 
   events:
     'click .edit-classroom': 'onClickEditClassroom'

@@ -100,7 +100,7 @@ module.exports = class LevelHUDView extends CocoView
     @stage?.stopTalking()
 
   createProperties: ->
-    if @options.level.get('type') in ['game-dev']
+    if @options.level.isType('game-dev')
       name = 'Game'  # TODO: we don't need the HUD at all
     else if @thang.id in ['Hero Placeholder', 'Hero Placeholder 1']
       name = @thangType?.getHeroShortName() or 'Hero'

@@ -66,7 +66,7 @@ self.console = console;
 self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
 try {
   //Detect very modern javascript support.
-  (0,eval("'use strict'; let test = (class Test { *gen(a=7) { yield yield * () => WeakMap; } });"));
+  (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
   console.log("Modern javascript detected, aw yeah!");
   self.importScripts('/javascripts/esper.modern.js');  
 } catch (e) {
@@ -80,7 +80,7 @@ var myImportScripts = importScripts;
 var languagesImported = {};
 var ensureLanguageImported = function(language) {
   if (languagesImported[language]) return;
-  if (language === 'javascript') return;  // Only has JSHint, but we don't need to lint here.
+  if (language === 'javascript' || language === 'html') return;  // Only has JSHint, but we don't need to lint here.
   myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
   languagesImported[language] = true;
 };
@@ -319,6 +319,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
             self.debugWorld.submissionCount = args.submissionCount;
             self.debugWorld.fixedSeed = args.fixedSeed;
             self.debugWorld.flagHistory = args.flagHistory;
+            self.debugWorld.realTimeInputEvents = args.realTimeInputEvents;
             self.debugWorld.difficulty = args.difficulty;
             if (args.level)
                 self.debugWorld.loadFromLevel(args.level, true);
@@ -381,12 +382,15 @@ self.runWorld = function runWorld(args) {
     self.world.submissionCount = args.submissionCount;
     self.world.fixedSeed = args.fixedSeed;
     self.world.flagHistory = args.flagHistory || [];
+    self.world.realTimeInputEvents = args.realTimeInputEvents || [];
     self.world.difficulty = args.difficulty || 0;
     if(args.level)
       self.world.loadFromLevel(args.level, true);
     self.world.preloading = args.preload;
     self.world.headless = args.headless;
     self.world.realTime = args.realTime;
+    self.world.indefiniteLength = args.indefiniteLength;
+    self.world.justBegin = args.justBegin;
     self.goalManager = new GoalManager(self.world);
     self.goalManager.setGoals(args.goals);
     self.goalManager.setCode(args.userCodeMap);
@@ -432,6 +436,9 @@ self.onWorldLoaded = function onWorldLoaded() {
   var diff = t1 - self.t0;
   var goalStates = self.goalManager.getGoalStates();
   var totalFrames = self.world.totalFrames;
+  if(self.world.indefiniteLength) {
+    totalFrames = self.world.frames.length;
+  }
   if(self.world.ended) {
     var overallStatus = self.goalManager.checkOverallStatus();
     var lastFrameHash = self.world.frames[totalFrames - 2].hash
@@ -537,6 +544,11 @@ self.finalizePreload = function finalizePreload() {
 self.addFlagEvent = function addFlagEvent(flagEvent) {
   if(!self.world) return;
   self.world.addFlagEvent(flagEvent);
+};
+
+self.addRealTimeInputEvent = function addRealTimeInputEvent(realTimeInputEvent) {
+  if(!self.world) return;
+  self.world.addRealTimeInputEvent(realTimeInputEvent);
 };
 
 self.stopRealTimePlayback = function stopRealTimePlayback() {

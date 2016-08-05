@@ -44,9 +44,9 @@ UserSchema.post('init', ->
 
 UserSchema.methods.broadName = ->
   return '(deleted)' if @get('deleted')
-  name = @get('name')
-  return name if name
   name = _.filter([@get('firstName'), @get('lastName')]).join(' ')
+  return name if name
+  name = @get('name')
   return name if name
   [emailName, emailDomain] = @get('email').split('@')
   return emailName if emailName
@@ -117,6 +117,14 @@ UserSchema.statics.search = (term, done) ->
     term = term.toLowerCase()
     query = $or: [{nameLower: term}, {emailLower: term}]
   return User.findOne(query).exec(done)
+  
+UserSchema.statics.findByEmail = (email, done=_.noop) ->
+  emailLower = email.toLowerCase()
+  User.findOne({emailLower: emailLower}).exec(done)
+
+UserSchema.statics.findByName = (name, done=_.noop) ->
+  nameLower = name.toLowerCase()
+  User.findOne({nameLower: nameLower}).exec(done)
 
 emailNameMap =
   generalNews: 'announcement'
@@ -262,14 +270,8 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
     suffix = _.random(0, 9) + ''
     unconflictName name + suffix, done
 
-UserSchema.methods.register = (done) ->
-  @set('anonymous', false)
-  if (name = @get 'name')? and name isnt ''
-    unconflictName name, (err, uniqueName) =>
-      return done err if err
-      @set 'name', uniqueName
-      done()
-  else done()
+UserSchema.methods.sendWelcomeEmail = ->
+  return if not @get('email')
   { welcome_email_student, welcome_email_user } = sendwithus.templates
   timestamp = (new Date).getTime()
   data =
@@ -282,7 +284,6 @@ UserSchema.methods.register = (done) ->
       verify_link: "http://codecombat.com/user/#{@_id}/verify/#{@verificationCode(timestamp)}"
   sendwithus.api.send data, (err, result) ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err
-  @saveActiveUser 'register'
 
 UserSchema.methods.hasSubscription = ->
   return false unless stripeObject = @get('stripe')
@@ -349,22 +350,39 @@ UserSchema.methods.saveActiveUser = (event, done=null) ->
 
 UserSchema.pre('save', (next) ->
   if _.isNaN(@get('purchased')?.gems)
-    return next(new errors.InternalServerError('Attempting to save NaN to user')) 
+    return next(new errors.InternalServerError('Attempting to save NaN to user'))
   Classroom = require './Classroom'
   if @isTeacher() and not @wasTeacher
     Classroom.update({members: @_id}, {$pull: {members: @_id}}, {multi: true}).exec (err, res) ->
+
   if email = @get('email')
     @set('emailLower', email.toLowerCase())
+  else
+    @set('email', undefined)
+    @set('emailLower', undefined)
   if name = @get('name')
+    filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
+    if filter.test(name)
+      return next(new errors.UnprocessableEntity('Name may not be an email'))
+  
     @set('nameLower', name.toLowerCase())
+  else
+    @set('name', undefined)
+    @set('nameLower', undefined)
+  
+  if _.isEmpty(@get('firstName'))
+    @set('firstName', undefined)
+  if _.isEmpty(@get('lastName'))
+    @set('lastName', undefined)
+
+  unless email or name or @get('anonymous') or @get('deleted')
+    return next(new errors.UnprocessableEntity('User needs a username or email address'))
+
   pwd = @get('password')
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
     @set('password', undefined)
-  if @get('email') and @get('anonymous') # a user registers
-    @register next
-  else
-    next()
+  next()
 )
 
 UserSchema.post 'save', (doc) ->

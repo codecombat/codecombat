@@ -46,22 +46,22 @@
   color: rgb(243, 169, 49)
 
 
-body:not(.dialogue-view-active)
+body.dialogue-view-active
   .spell-palette-popover.popover
-    right: 45%
-    min-width: 500px
-    margin-top: -17%
-
+    top: 50px !important
+  
 .spell-palette-popover.popover
   // Only those popovers which are our direct children (spell documentation)
+  left: auto !important
+  right: 45%
   max-width: 600px
+  min-width: 500px
   padding: 0
   border-style: solid
   border-image: url(/images/level/popover_border_background.png) 16 12 fill round
   border-width: 16px 12px
   @include box-shadow(0 0 0 #000)
   // Prevent flickering in weird scenarios where popover goes over its own property
-  pointer-events: none
 
   // Jiggle animation
   // TODO: consolidate with problem_alert.sass jiggle
@@ -81,7 +81,6 @@ body:not(.dialogue-view-active)
     @include animation(jiggle .3s infinite)
 
   &.pinned
-    left: auto !important
     top: 50px !important
     right: 45%
     // bottom: 151px
@@ -96,8 +95,8 @@ body:not(.dialogue-view-active)
 
     .close
       position: absolute
-      top: 5%
-      right: 5%
+      top: -7px
+      right: 2px
       font-size: 28px
       font-weight: bold
       @include opacity(0.6)

@@ -25,9 +25,9 @@ module.exports = class VerifierTest extends CocoClass
     @loadStartTime = new Date()
     @god = new God maxAngels: 1, headless: true
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true, fakeSessionConfig: {codeLanguage: @language, callback: @configureSession}
-    @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
+    @listenToOnce @levelLoader, 'world-necessities-loaded', -> _.defer @onWorldNecessitiesLoaded
 
-  onWorldNecessitiesLoaded: ->
+  onWorldNecessitiesLoaded: =>
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
 
@@ -48,6 +48,7 @@ module.exports = class VerifierTest extends CocoClass
       session.set 'code', {'hero-placeholder': plan: session.solution.source}
       state = session.get 'state'
       state.flagHistory = session.solution.flagHistory
+      state.realTimeInputEvents = session.solution.realTimeInputEvents
       state.difficulty = session.solution.difficulty or 0
       session.solution.seed = undefined unless _.isNumber session.solution.seed  # TODO: migrate away from submissionCount/sessionID seed objects
     catch e
@@ -61,7 +62,7 @@ module.exports = class VerifierTest extends CocoClass
     @solution = @levelLoader.session.solution
 
   setupGod: ->
-    @god.setLevel @level.serialize @supermodel, @session
+    @god.setLevel @level.serialize {@supermodel, @session, otherSession: null, headless: true, sessionless: false}
     @god.setLevelSessionIDs [@session.id]
     @god.setWorldClassMap @world.classMap
     @god.lastFlagHistory = @session.get('state').flagHistory
@@ -77,7 +78,7 @@ module.exports = class VerifierTest extends CocoClass
     @listenToOnce @god, 'infinite-loop', @fail
     @listenToOnce @god, 'user-code-problem', @onUserCodeProblem
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
-    @god.createWorld @generateSpellsObject()
+    @god.createWorld @session.generateSpellsObject()
     @updateCallback? state: 'running'
 
   processSingleGameResults: (e) ->
@@ -117,24 +118,14 @@ module.exports = class VerifierTest extends CocoClass
     @updateCallback? state: @state
     @scheduleCleanup()
 
-  generateSpellsObject: ->
-    aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @session.get('codeLanguage')
-    spellThang = aether: new Aether aetherOptions
-    spells = "hero-placeholder/plan": thangs: {'Hero Placeholder': spellThang}, name: 'plan'
-    source = @session.get('code')['hero-placeholder'].plan
-    try
-      spellThang.aether.transpile source
-    catch e
-      console.log "Couldn't transpile!\n#{source}\n", e
-      spellThang.aether.transpile ''
-    spells
-
   scheduleCleanup: ->
     setTimeout @cleanup, 100
 
   cleanup: =>
+    if @levelLoader
+      @stopListening @levelLoader
+      @levelLoader.destroy()
     if @god
       @stopListening @god
       @god.destroy()
-
     @world = null

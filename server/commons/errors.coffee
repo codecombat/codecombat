@@ -100,7 +100,7 @@ errorResponseSchema = {
 }
 errorProps = _.keys(errorResponseSchema.properties)
 
-class NetworkError
+class NetworkError extends Error
   code: 0
 
   constructor: (@message, options) ->

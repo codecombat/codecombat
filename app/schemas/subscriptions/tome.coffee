@@ -6,6 +6,7 @@ module.exports =
     thang: {type: 'object'}
     preload: {type: 'boolean'}
     realTime: {type: 'boolean'}
+    justBegin: {type: 'boolean'}
 
   'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime', 'submissionCount', 'flagHistory', 'difficulty', 'god']},
     spells: {type: 'object'}
@@ -16,6 +17,7 @@ module.exports =
     flagHistory: {type: 'array'}
     difficulty: {type: 'integer'}
     god: {type: 'object'}
+    justBegin: {type: 'boolean'}
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}
@@ -38,8 +40,6 @@ module.exports =
     spellID: {type: 'string'}
     variableChain: c.array {}, {type: 'string'}
     frame: {type: 'integer', minimum: 0}
-
-  'tome:toggle-spell-list': c.object {title: 'Toggle Spell List', description: 'Published when you toggle the dropdown for a thang\'s spells'}
 
   'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: []},
     spell: {type: 'object'}
@@ -90,10 +90,6 @@ module.exports =
     spell: {type: 'object'}
     problems: {type: 'array'}
     isCast: {type: 'boolean'}
-
-  'tome:spell-shown': c.object {title: 'Spell Shown', description: 'Published when we show a spell', required: ['thang', 'spell']},
-    thang: {type: 'object'}
-    spell: {type: 'object'}
 
   'tome:change-language': c.object {title: 'Tome Change Language', description: 'Published when the Tome should update its programming language', required: ['language']},
     language: {type: 'string'}
@@ -146,3 +142,7 @@ module.exports =
     lineOffsetPx: {type: ['number', 'undefined']}
   'tome:hide-problem-alert': c.object {title: 'Hide Problem Alert'}
   'tome:jiggle-problem-alert': c.object {title: 'Jiggle Problem Alert'}
+
+  'tome:html-updated': c.object {title: 'HTML Updated', required: ['html', 'create']},
+    html: {type: 'string', description: 'The full HTML to display'}
+    create: {type: 'boolean', description: 'Whether we should (re)create the DOM (as opposed to updating it)'}

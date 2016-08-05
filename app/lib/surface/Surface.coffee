@@ -10,7 +10,6 @@ Letterbox = require './Letterbox'
 Dimmer = require './Dimmer'
 CountdownScreen = require './CountdownScreen'
 PlaybackOverScreen = require './PlaybackOverScreen'
-WaitingScreen = require './WaitingScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
 CoordinateGrid = require './CoordinateGrid'
@@ -70,7 +69,6 @@ module.exports = Surface = class Surface extends CocoClass
     'level:set-letterbox': 'onSetLetterbox'
     'application:idle-changed': 'onIdleChanged'
     'camera:zoom-updated': 'onZoomUpdated'
-    'playback:real-time-playback-waiting': 'onRealTimePlaybackWaiting'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'level:flag-color-selected': 'onFlagColorSelected'
@@ -92,9 +90,11 @@ module.exports = Surface = class Surface extends CocoClass
     @gameUIState = @options.gameUIState or new GameUIState({
       canDragCamera: true
     })
+    @realTimeInputEvents = @gameUIState.get('realTimeInputEvents')
+    @listenTo(@gameUIState, 'sprite:mouse-down', @onSpriteMouseDown)
+    @onResize = _.debounce @onResize, resizeDelay
     @initEasel()
     @initAudio()
-    @onResize = _.debounce @onResize, resizeDelay
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world
@@ -131,9 +131,9 @@ module.exports = Surface = class Surface extends CocoClass
       @handleEvents
     })
     @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer, showsCountdown: @world.showsCountdown
-    @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer, playerNames: @options.playerNames
-    @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
-    @waitingScreen = new WaitingScreen camera: @camera, layer: @screenLayer
+    unless @options.levelType is 'game-dev'
+      @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer, playerNames: @options.playerNames
+      @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
     @initCoordinates()
     @webGLStage.enableMouseOver(10)
     @webGLStage.addEventListener 'stagemousemove', @onMouseMove
@@ -228,6 +228,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   restoreWorldState: ->
     frame = @world.getFrame(@getCurrentFrame())
+    return unless frame
     frame.restoreState()
     current = Math.max(0, Math.min(@currentFrame, @world.frames.length - 1))
     if current - Math.floor(current) > 0.01 and Math.ceil(current) < @world.frames.length - 1
@@ -326,12 +327,12 @@ module.exports = Surface = class Surface extends CocoClass
       @surfacePauseTimeout = _.delay performToggle, 2000
       @lankBoss.stop()
       @trailmaster?.stop()
-      @playbackOverScreen.show()
+      @playbackOverScreen?.show()
     else
       performToggle()
       @lankBoss.play()
       @trailmaster?.play()
-      @playbackOverScreen.hide()
+      @playbackOverScreen?.hide()
 
 
 
@@ -349,7 +350,7 @@ module.exports = Surface = class Surface extends CocoClass
       world: @world
     )
 
-    if @lastFrame < @world.frames.length and @currentFrame >= @world.totalFrames - 1
+    if (not @world.indefiniteLength) and @lastFrame < @world.frames.length and @currentFrame >= @world.totalFrames - 1
       @ended = true
       @setPaused true
       Backbone.Mediator.publish 'surface:playback-ended', {}
@@ -510,6 +511,15 @@ module.exports = Surface = class Surface extends CocoClass
     @gameUIState.trigger('surface:stage-mouse-down', event)
     @mouseIsDown = true
 
+  onSpriteMouseDown: (e) =>
+    return unless @realTime
+    @realTimeInputEvents.add({
+      type: 'mousedown'
+      pos: @camera.screenToWorld x: e.originalEvent.stageX, y: e.originalEvent.stageY
+      time: @world.dt * @world.frames.length
+      thangID: e.sprite.thang.id
+    })
+
   onMouseUp: (e) =>
     return if @disabled
     onBackground = not @webGLStage.hitTest e.stageX, e.stageY
@@ -543,6 +553,9 @@ module.exports = Surface = class Surface extends CocoClass
     if application.isIPadApp
       newWidth = 1024
       newHeight = newWidth / aspectRatio
+    else if @options.resizeStrategy is 'wrapper-size'
+      newWidth = $('#canvas-wrapper').width()
+      newHeight = newWidth / aspectRatio
     else if @realTime or @options.spectateGame
       pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
@@ -559,7 +572,7 @@ module.exports = Surface = class Surface extends CocoClass
     scaleFactor = 1
     if @options.stayVisible
       availableHeight = window.innerHeight
-      availableHeight -= $('.ad-container').outerHeight() 
+      availableHeight -= $('.ad-container').outerHeight()
       availableHeight -= $('#game-area').outerHeight() - $('#canvas-wrapper').outerHeight()
       scaleFactor = availableHeight / newHeight if availableHeight < newHeight
     newWidth *= scaleFactor
@@ -568,6 +581,7 @@ module.exports = Surface = class Surface extends CocoClass
     return if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
     return if newWidth < 200 or newHeight < 200
     @normalCanvas.add(@webGLCanvas).attr width: newWidth, height: newHeight
+    @trigger 'resize', { width: newWidth, height: newHeight }
 
     # Cannot do this to the webGLStage because it does not use scaleX/Y.
     # Instead the LayerAdapter scales webGL-enabled layers.
@@ -591,11 +605,9 @@ module.exports = Surface = class Surface extends CocoClass
 
   #- Real-time playback
 
-  onRealTimePlaybackWaiting: (e) ->
-    @onRealTimePlaybackStarted e
-
   onRealTimePlaybackStarted: (e) ->
     return if @realTime
+    @realTimeInputEvents.reset()
     @realTime = true
     @onResize()
     @playing = false  # Will start when countdown is done.
@@ -729,7 +741,6 @@ module.exports = Surface = class Surface extends CocoClass
     @dimmer?.destroy()
     @countdownScreen?.destroy()
     @playbackOverScreen?.destroy()
-    @waitingScreen?.destroy()
     @coordinateDisplay?.destroy()
     @coordinateGrid?.destroy()
     @normalStage.clear()

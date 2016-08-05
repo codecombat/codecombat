@@ -64,7 +64,7 @@ block header
             a
               span.glyphicon-floppy-disk.glyphicon
 
-        if level.get('type') === 'ladder'
+        if level.isType('ladder')
           li.dropdown
             a(data-toggle='dropdown').play-with-team-parent
               span.glyphicon-play.glyphicon
@@ -102,6 +102,11 @@ block header
               a(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain", disabled=anonymous).generate-terrain-button Generate Terrain
             li(class=anonymous ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
+            if view.courseID
+              li(class=anonymous ? "disabled": "")
+                a.play-classroom-level(data-classroom=true, data-code-language="javascript") Play Classroom JavaScript
+              li(class=anonymous ? "disabled": "")
+                a.play-classroom-level(data-classroom=true, data-code-language="python") Play Classroom Python
             li.divider
             li.dropdown-header(data-i18n="common.info") Info
             li#level-history-button
@@ -132,8 +137,9 @@ block outer_content
 
       div.tab-pane#editor-level-tasks-tab-view
     
-      div.tab-pane#editor-level-patches
-        .patches-view
+      div.tab-pane#editor-level-patches.nano
+        .nano-content
+          .patches-view
 
       div.tab-pane#related-achievements-view
 

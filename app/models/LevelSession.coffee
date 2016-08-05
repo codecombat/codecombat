@@ -15,8 +15,6 @@ module.exports = class LevelSession extends CocoModel
   updatePermissions: ->
     permissions = @get 'permissions', true
     permissions = (p for p in permissions when p.target isnt 'public')
-    if @get('multiplayer')
-      permissions.push {target: 'public', access: 'write'}
     @set 'permissions', permissions
 
   getSourceFor: (spellKey) ->
@@ -76,6 +74,7 @@ module.exports = class LevelSession extends CocoModel
     wait
 
   recordScores: (scores, level) ->
+    return unless scores
     state = @get 'state'
     oldTopScores = state.topScores ? []
     newTopScores = []
@@ -93,3 +92,17 @@ module.exports = class LevelSession extends CocoModel
         newTopScores.push oldTopScore
     state.topScores = newTopScores
     @set 'state', state
+
+  generateSpellsObject: (options={}) ->
+    {level} = options
+    {createAetherOptions} = require 'lib/aether_utils'
+    aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @get('codeLanguage'), skipProtectAPI: options.level?.isType('game-dev')
+    spellThang = thang: {id: 'Hero Placeholder'}, aether: new Aether aetherOptions
+    spells = "hero-placeholder/plan": thang: spellThang, name: 'plan'
+    source = @get('code')?['hero-placeholder']?.plan ? ''
+    try
+      spellThang.aether.transpile source
+    catch e
+      console.log "Couldn't transpile!\n#{source}\n", e
+      spellThang.aether.transpile ''
+    spells

@@ -89,7 +89,6 @@
     goto_classes: "Go to My Classes"
     view_profile: "View My Profile"
     view_progress: "View Progress"
-    check_out_wiki: "Check out our new Educator Wiki"
     want_coco: "Want CodeCombat at your school?"
     form_select_role: "Select primary role"
     form_select_range: "Select class size"
@@ -256,8 +255,13 @@
     signup_switch: "Want to create an account?"
 
   signup:
-    email_announcements: "Receive announcements by email"
+    create_student_header: "Create Student Account"
+    create_teacher_header: "Create Teacher Account"
+    create_individual_header: "Create Individual Account"
+    create_header: "Create Account"
+    email_announcements: "Receive announcements about new CodeCombat levels and features!"
     creating: "Creating Account..."
+    create_account: "Create Account"
     sign_up: "Sign Up"
     log_in: "log in with password"
     required: "You need to log in before you can go that way."
@@ -265,7 +269,7 @@
     school_name: "School Name and City"
     optional: "optional"
     school_name_placeholder: "Example High School, Springfield, IL"
-    or_sign_up_with: "or sign up with"
+    connect_with: "Connect with:"
     connected_gplus_header: "You've successfully connected with Google+!"
     connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
     gplus_exists: "You already have an account associated with Google+!"
@@ -274,6 +278,46 @@
     facebook_exists: "You already have an account associated with Facebook!"
     hey_students: "Students, enter the class code from your teacher."
     birthday: "Birthday"
+    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
+    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
+    checking: "Checking..."
+    account_exists: "This email is already in use:"
+    sign_in: "Sign in"
+    email_good: "Email looks good!"
+    name_taken: "Username already taken! Try {{suggestedName}}?"
+    name_available: "Username available!"
+    name_is_email: "Username may not be an email"
+    choose_type: "Choose your account type:"
+    teacher_type_1: "Teach programming using CodeCombat!"
+    teacher_type_2: "Set up your class"
+    teacher_type_3: "Access Course Guides"
+    teacher_type_4: "View student progress"
+    signup_as_teacher: "Sign up as a Teacher"
+    student_type_1: "Learn to program while playing an engaging game!"
+    student_type_2: "Play with your class"
+    student_type_3: "Compete in arenas"
+    student_type_4: "Choose your hero!"
+    student_type_5: "Have your Class Code ready!"
+    signup_as_student: "Sign up as a Student"
+    individuals_or_parents: "Individuals & Parents"
+    individual_type: "For players learning to code outside of a class. Parents should sign up for an account here."
+    signup_as_individual: "Sign up as an Individual"
+    enter_class_code: "Enter your Class Code"
+    enter_birthdate: "Enter your birthdate:"
+    ask_teacher_1: "Ask your teacher for your Class Code."
+    ask_teacher_2: "Not part of a class? Create an "
+    ask_teacher_3: "Individual Account"
+    ask_teacher_4: " instead."
+    about_to_join: "You're about to join:"
+    enter_parent_email: "Enter your parent’s email address:"
+    parent_email_error: "Something went wrong when trying to send the email. Check the email address and try again."
+    parent_email_sent: "We’ve sent an email with further instructions on how to create an account. Ask your parent to check their inbox."
+    account_created: "Account Created!"
+    confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
+    confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!"
+    write_this_down: "Write this down:"
+    start_playing: "Start Playing!"
+    sso_connected: "Successfully connected with:"
 
   recover:
     recover_account_title: "Recover Account"
@@ -295,6 +339,7 @@
     saving: "Saving..."
     sending: "Sending..."
     send: "Send"
+    sent: "Sent"
     type: "Type"
     cancel: "Cancel"
     save: "Save"
@@ -365,6 +410,7 @@
     wizard: "Wizard"
     first_name: "First Name"
     last_name: "Last Name"
+    last_initial: "Last Initial"
     username: "Username"
 
   units:
@@ -390,6 +436,9 @@
     done: "Done"
     next_level: "Next Level"
     next_game: "Next game"
+    language: "Language"
+    languages: "Languages"
+    programming_language: "Programming language"
     show_menu: "Show game menu"
     home: "Home"  # Not used any more, will be removed soon.
     level: "Level"  # Like "Level: Dungeons of Kithgard"
@@ -404,8 +453,6 @@
     incomplete: "Incomplete"
     timed_out: "Ran out of time"
     failing: "Failing"
-    control_bar_multiplayer: "Multiplayer"
-    control_bar_join_game: "Join Game"
     reload: "Reload"
     reload_title: "Reload All Code?"
     reload_really: "Are you sure you want to reload this level back to the beginning?"
@@ -434,10 +481,7 @@
     tome_cast_button_running: "Running"
     tome_cast_button_ran: "Ran"
     tome_submit_button: "Submit"
-    tome_reload_method: "Reload original code for this method"  # Title text for individual method reload button.
-    tome_select_method: "Select a Method"
-    tome_see_all_methods: "See all methods you can edit"  # Title text for method list selector (shown when there are multiple programmable methods).
-    tome_select_a_thang: "Select Someone for "
+    tome_reload_method: "Reload original code to restart the level"
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
     tome_current_method: "Current Method"
@@ -735,7 +779,7 @@
     mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
     mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
     team_title: "Meet the CodeCombat team"
-    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our Github contributors, because we value growth and learning in our team."
+    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
     nick_title: "Cofounder, CEO"
     nick_blurb: "Motivation Guru"
     matt_title: "Cofounder, CTO"
@@ -756,6 +800,8 @@
     phoenix_title: "Software Engineer"
     nolan_title: "Territory Manager"
     elliot_title: "Partnership Manager"
+    elliot_blurb: "Mindreader"
+    lisa_title: "Market Development Rep"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"
@@ -862,7 +908,7 @@
     signup_with: "Sign up with:"
     connect_with: "Connect with:"
     conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
-    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign licenses and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign licenses and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
     create_account: "Create a Teacher Account"
     create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
     convert_account_title: "Update to Teacher Account"
@@ -915,7 +961,7 @@
     manage_subscription: "Click here to manage your subscription."
     new_password: "New Password"
     new_password_verify: "Verify"
-    type_in_email: "Type in your email to confirm account deletion."
+    type_in_email: "Type in your email or username to confirm account deletion."
     type_in_email_progress: "Type in your email to confirm deleting your progress."
     type_in_password: "Also, type in your password."
     email_subscriptions: "Email Subscriptions"
@@ -1116,13 +1162,13 @@
     get_free: "Get FREE course"
     enroll_paid: "Enroll Students in Paid Courses"
     you_have1: "You have"
-    you_have2: "unused student licenses" # {change}
-    use_one: "Use 1 student license for" # {change}
-    use_multiple: "Use licenses for the following students:" # {change}
+    you_have2: "unused student licenses"
+    use_one: "Use 1 student license for"
+    use_multiple: "Use licenses for the following students:"
     already_enrolled: "already enrolled"
     licenses_remaining: "licenses remaining:"
-    insufficient_enrollments: "insufficient student licenses" # {change}
-    get_enrollments: "Get More Licenses" # {change}
+    insufficient_enrollments: "insufficient student licenses"
+    get_enrollments: "Get More Licenses"
     change_language: "Change Course Language"
     keep_using: "Keep Using"
     switch_to: "Switch To"
@@ -1131,7 +1177,7 @@
     back_courses: "Back to my courses"
     edit_details: "Edit class details"
     enrolled_courses: "enrolled in paid courses:"
-    purchase_enrollments: "Purchase Student Licenses" # {change}
+    purchase_enrollments: "Purchase Student Licenses"
     remove_student: "remove student"
     assign: "Assign"
     to_assign: "to assign paid courses."
@@ -1203,10 +1249,10 @@
     return_to_course_man: "Return to course management."
     students_not_enrolled: "students not enrolled"
     total_all_classes: "Total Across All Classes"
-    how_many_enrollments: "How many additional student licenses do you need?" # {change}
+    how_many_enrollments: "How many additional student licenses do you need?"
     each_student_access: "Each student in a class will get access to Courses 2-4 once they are enrolled in paid courses. You may assign each course to each student individually."
     purchase_now: "Purchase Now"
-    enrollments: "licenses" # {change}
+    enrollments: "licenses"
     remove_student1: "Remove Student"
     are_you_sure: "Are you sure you want to remove this student from this class?"
     remove_description1: "Student will lose access to this classroom and assigned classes. Progress and gameplay is NOT lost, and the student can be added back to the classroom at any time."
@@ -1241,8 +1287,8 @@
     no_classes: "No classes yet!"
     create_new_class1: "create new class"
     available_courses: "Available Courses"
-    unused_enrollments: "Unused licenses available:" # {change}
-    students_access: "All students get access to Introduction to Computer Science for free. One license per student is required to assign them to paid CodeCombat courses. A single student does not need multiple licenses to access all paid courses." # {change}
+    unused_enrollments: "Unused licenses available:"
+    students_access: "All students get access to Introduction to Computer Science for free. One license per student is required to assign them to paid CodeCombat courses. A single student does not need multiple licenses to access all paid courses."
     active_courses: "active courses"
     no_students: "No students yet!"
     add_students1: "add students"
@@ -1261,7 +1307,7 @@
     view_guide_online: "View Guide Online (PDF)"
     last_updated: "Last updated:"
     grants_lifetime_access: "Grants access to all Courses."
-    enrollment_credits_available: "Licenses Available:" # {change}
+    enrollment_credits_available: "Licenses Available:"
     description: "Description" # ClassroomSettingsModal
     language_select: "Select a language"
     language_cannot_change: "Language cannot be changed once students join a class."
@@ -1281,13 +1327,13 @@
     student_age_range_to: "to"
     create_class: "Create Class"
     class_name: "Class Name"
-    teacher_account_restricted: "Your account is a teacher account and cannot access student content." # {change}
+    teacher_account_restricted: "Your account is a teacher account and cannot access student content."
     account_restricted: "A student account is required to access this page."
     update_account_login_title: "Log in to update your account"
     update_account_title: "Your account needs attention!"
     update_account_blurb: "Before you can access your classes, choose how you want to use this account."
     update_account_current_type: "Current Account Type:"
-    update_account_account_email: "Account Email:"
+    update_account_account_email: "Account Email/Username:"
     update_account_am_teacher: "I am a teacher"
     update_account_keep_access: "Keep access to classes I've created"
     update_account_teachers_can: "Teacher accounts can:"
@@ -1308,8 +1354,10 @@
     update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
     update_account_remain_student: "Remain a Student"
     update_account_update_student: "Update to Student"
+    need_a_class_code: "You'll need a Class Code for the class you're joining:"
     update_account_not_sure: "Not sure which one to choose? Email"
-    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?\n\nYou will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
+    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
+    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
     instructor: "Instructor: "
     youve_been_invited_1: "You've been invited to join "
     youve_been_invited_2: ", where you'll learn "
@@ -1326,8 +1374,8 @@
   teacher:
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
-    courses: "Course Guides" # {change}
-    enrollments: "Student Licenses" # {change}
+    courses: "Course Guides"
+    enrollments: "Student Licenses"
     resources: "Resources"
     help: "Help"
     students: "Students" # Shared
@@ -1338,7 +1386,7 @@
     teacher_account_required: "A teacher account is required to access this content."
     create_teacher_account: "Create Teacher Account"
     what_is_a_teacher_account: "What's a Teacher Account?"
-    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building." # {change}
+    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building."
     current_classes: "Current Classes"
     archived_classes: "Archived Classes"
     archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
@@ -1391,14 +1439,14 @@
     enroll_the_following_students: "Enroll the following students"
     all_students: "All Students"
     enroll_students: "Enroll Students"
-    not_enough_enrollments: "Not enough licenses available." # {change}
-    enrollments_blurb_1: "Students taking Computer Science" # {change}
-    enrollments_blurb_2: "require a license to access the courses." # {change}
-    credits_available: "Licenses Available" # {change}
-    total_unique_students: "Total Students" # {change}
-    total_enrolled_students: "Enrolled Students" # {change}
+    not_enough_enrollments: "Not enough licenses available."
+    enrollments_blurb_1: "Students taking Computer Science"
+    enrollments_blurb_2: "require a license to access the courses."
+    credits_available: "Licenses Available"
+    total_unique_students: "Total Students"
+    total_enrolled_students: "Enrolled Students"
     unenrolled_students: "Unenrolled Students"
-    add_enrollment_credits: "Add Licenses" # {change}
+    add_enrollment_credits: "Add Licenses"
     purchasing: "Purchasing..."
     purchased: "Purchased!"
     purchase_now: "Purchase Now"
@@ -1415,12 +1463,12 @@
     enter_new_password_below: "Enter new password below:"
     change_password: "Change Password"
     changed: "Changed"
-    available_credits: "Available Licenses" # {change}
-    pending_credits: "Pending Licenses" # {change}
-    credits: "licenses" # {change}
+    available_credits: "Available Licenses"
+    pending_credits: "Pending Licenses"
+    credits: "licenses"
     start_date: "start date:"
     end_date: "end date:"
-    num_enrollments_needed: "Number of licenses needed:" # {change}
+    num_enrollments_needed: "Number of licenses needed:"
     get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
     enroll_request_sent_blurb1: "Thanks! Your request has been sent."
     enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
@@ -1431,6 +1479,29 @@
     status_not_enrolled: "Not Enrolled"
     status_enrolled: "Expires on {{date}}"
     select_all: "Select All"
+    projects: "Projects"
+
+  sharing:
+    game: "Game"
+    webpage: "Webpage"
+    share_game: "Share This Game"
+    share_web: "Share This Webpage"
+    victory_share_prefix: "Share this link to invite your friends & family to"
+    victory_share_game: "play your game level"
+    victory_share_web: "view your webpage"
+    victory_share_suffix: "."
+    victory_course_share_prefix: "This link will let your friends & family"
+    victory_course_share_game: "play the game"
+    victory_course_share_web: "view the webpage"
+    victory_course_share_suffix: "you just created."
+    copy_url: "Copy URL"
+
+  game_dev:
+    creator: "Creator"
+
+  web_dev:
+    image_gallery_title: "Image Gallery"
+    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
 
   classes:
     archmage_title: "Archmage"
@@ -1588,7 +1659,7 @@
     scribe_introduction_url_mozilla: "Mozilla Developer Network"
     scribe_introduction_suf: " has built. If your idea of fun is articulating the concepts of programming in Markdown form, then this class might be for you."
     scribe_attribute_1: "Skill in words is pretty much all you need. Not only grammar and spelling, but able to convey complicated ideas to others."
-    contact_us_url: "Contact Us" # {change}
+    contact_us_url: "Contact Us"
     scribe_join_description: "tell us a little about yourself, your experience with programming and what sort of things you'd like to write about. We'll go from there!"
     scribe_subscribe_desc: "Get emails about article writing announcements."
     diplomat_introduction_pref: "So, if there's one thing we learned from the "
@@ -1775,7 +1846,7 @@
 
   coppa_deny:
     text1: "Can’t wait to learn programming?"
-    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions." # {change}
+    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions."
     close: "Close Window"
 
   loading_error:
@@ -1833,6 +1904,17 @@
     vectors: "Vectors"
     while_loops: "While Loops"
     recursion: "Recursion"
+    basic_html: "Basic HTML"  # TODO: these web-dev concepts will change, don't need to translate
+    basic_css: "Basic CSS"
+    basic_web_scripting: "Basic Web Scripting"
+    intermediate_html: "Intermediate HTML"
+    intermediate_css: "Intermediate CSS"
+    intermediate_web_scripting: "Intermediate Web Scripting"
+    advanced_html: "Advanced HTML"
+    advanced_css: "Advanced CSS"
+    advanced_web_scripting: "Advanced Web Scripting"
+    jquery: "jQuery"
+    bootstrap: "Bootstrap"
 
   delta:
     added: "Added"
@@ -1843,16 +1925,6 @@
     text_diff: "Text Diff"
     merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "No Changes"
-
-  multiplayer:
-    multiplayer_title: "Multiplayer Settings"  # We'll be changing this around significantly soon. Until then, it's not important to translate.
-    multiplayer_toggle: "Enable multiplayer"
-    multiplayer_toggle_description: "Allow others to join your game."
-    multiplayer_link_description: "Give this link to anyone to have them join you."
-    multiplayer_hint_label: "Hint:"
-    multiplayer_hint: " Click the link to select all, then press ⌘-C or Ctrl-C to copy the link."
-    multiplayer_coming_soon: "More multiplayer features to come!"
-    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
   legal:
     page_title: "Legal"

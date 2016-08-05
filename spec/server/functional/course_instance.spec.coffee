@@ -109,7 +109,7 @@ describe 'POST /db/course_instance/:id/members', ->
     yield utils.loginUser(admin)
     @level = yield utils.makeLevel({type: 'course'})
     @campaign = yield utils.makeCampaign({}, {levels: [@level]})
-    @course = yield utils.makeCourse({free: true}, {campaign: @campaign})
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign})
     @student = yield utils.initUser({role: 'student'})
     @prepaid = yield utils.makePrepaid({creator: @teacher.id})
     members = [@student]
@@ -291,10 +291,10 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
     [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSONB})
     @campaignB = yield Campaign.findById(res.body._id)
 
-    @courseA = Course({name: 'Course A', campaignID: @campaignA._id})
+    @courseA = Course({name: 'Course A', campaignID: @campaignA._id, releasePhase: 'released'})
     yield @courseA.save()
 
-    @courseB = Course({name: 'Course B', campaignID: @campaignB._id})
+    @courseB = Course({name: 'Course B', campaignID: @campaignB._id, releasePhase: 'released'})
     yield @courseB.save()
 
     yield utils.loginUser(teacher)
@@ -375,6 +375,25 @@ describe 'GET /db/course_instance/:handle/classroom', ->
     expect(res.statusCode).toBe(403)
     done()
 
+describe 'GET /db/course_instance/:handle/course', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels [User, CourseInstance, Classroom]
+    @course = new Course({ releasePhase: 'released' })
+    yield @course.save()
+    @courseInstance = new CourseInstance({courseID: @course._id})
+    yield @courseInstance.save()
+    @url = getURL("/db/course_instance/#{@courseInstance.id}/course")
+    done()
+
+  it 'returns the course instance\'s referenced course', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser user
+    [res, body] = yield request.getAsync(@url, {json: true})
+    expect(res.statusCode).toBe(200)
+    expect(body._id).toBe(@course.id)
+    done()
+
 describe 'POST /db/course_instance/-/recent', ->
 
   url = getURL('/db/course_instance/-/recent')
@@ -385,7 +404,7 @@ describe 'POST /db/course_instance/-/recent', ->
     @admin = yield utils.initAdmin()
     yield utils.loginUser(@admin)
     @campaign = yield utils.makeCampaign()
-    @course = yield utils.makeCourse({free: true}, {campaign: @campaign})
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign})
     @student = yield utils.initUser({role: 'student'})
     @prepaid = yield utils.makePrepaid({creator: @teacher.id})
     members = [@student]

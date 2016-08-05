@@ -122,6 +122,12 @@ block content
           li(class=(activeTab === "#enrollment-status-tab" ? 'active' : ''))
             a.course-progress-tab-btn(href='#enrollment-status-tab')
               .small-details.text-center(data-i18n='teacher.enrollment_status')
+          - var courses = view.classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
+          if _.find(courses, function(c) { return /dev/.test(c.get('slug')); })
+            .tab-spacer
+            li(class=(activeTab === "#student-projects-tab" ? 'active' : ''))
+              a.course-progress-tab-btn(href='#student-projects-tab')
+                .small-details.text-center(data-i18n='teacher.projects')
           .tab-filler
 
         .tab-content
@@ -129,8 +135,10 @@ block content
             +studentsTab
           else if activeTab === '#course-progress-tab'
             +courseProgressTab
-          else
+          else if activeTab === '#enrollment-status-tab'
             +enrollmentStatusTab
+          else
+            +studentProjectsTab
 
       else
         .text-center.m-t-5.m-b-5
@@ -150,11 +158,10 @@ mixin breadcrumbs
 mixin longLevelName(data)
   if data
     div.level-name
-      span.spr Course
-      span= data.courseNumber
-      span.spr , Level
-      span= data.levelNumber
-      span.spr :
+      span(data-i18n="courses.course")
+      span= ' ' + data.courseNumber + ', '
+      span(data-i18n="play_level.level")
+      span= ' ' + data.levelNumber + ': '
       span= data.levelName
   else
     div.level-name(data-i18n='teacher.not_applicable')
@@ -182,7 +189,8 @@ mixin studentsTab
         th.checkbox-col.select-all.small.text-center
           span(data-i18n="teacher.select_all")
           .checkbox-flat
-            input(type='checkbox' id='checkbox-all-students')
+            - var allStudentsChecked = _.all(state.get('checkboxStates'))
+            input(type='checkbox', id='checkbox-all-students', checked=allStudentsChecked)
             label.checkmark(for='checkbox-all-students')
         th
           +sortButtons
@@ -201,7 +209,7 @@ mixin studentRow(student)
   tr.student-row.alternating-background
     td.checkbox-col.student-checkbox
       .checkbox-flat
-        input(type='checkbox' id='checkbox-student-' + student.id, data-student-id=student.id)
+        input(type='checkbox' id='checkbox-student-' + student.id, data-student-id=student.id, checked=state.get('checkboxStates')[student.id])
         label.checkmark(for='checkbox-student-' + student.id)
     td.student-info-col
       .student-info
@@ -222,6 +230,8 @@ mixin studentRow(student)
         +longLevelName(student.latestCompleteLevel)
     td
       if state.get('progressData')
+        - var courses = view.classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
+        - var courseLabelsArray = view.helper.courseLabelsArray(courses);
         each trimCourse, index in view.classroom.get('courses')
           - var course = view.courses.get(trimCourse._id);
           - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
@@ -229,7 +239,8 @@ mixin studentRow(student)
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, user: student })
             - var levelsTotal = trimCourse.levels.length
             //- - var level = ???
-            +studentCourseProgressDot(progress, levelsTotal, level, 'CS' + (index+1))
+            - var label = courseLabelsArray[index];
+            +studentCourseProgressDot(progress, levelsTotal, level, label)
       unless student.isEnrolled()
         +enrollStudentButton(student)
     //- td
@@ -304,7 +315,7 @@ mixin courseOverview
   .course-overview-row
     .course-title.student-name
       span= course.get('name')
-      span :
+      span= ': '
       span(data-i18n='teacher.course_overview')
     .course-overview-progress
       each level, index in levels
@@ -323,7 +334,7 @@ mixin studentLevelsRow(student)
       each level, index in levels
         - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
         - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-        +studentLevelProgressDot(progress, level, levelNumber, session)
+        +studentLevelProgressDot(progress, level, levelNumber)
   
 mixin studentCourseProgressDot(progress, levelsTotal, level, label)
   //- TODO: Refactor with TeacherClassesView jade
@@ -335,7 +346,7 @@ mixin studentCourseProgressDot(progress, levelsTotal, level, label)
 
 mixin allStudentsLevelProgressDot(progress, level, levelNumber)
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
-  - levelName = level.get('name')
+  - levelName = i18n(level.attributes, 'name')
   - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length })
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context))
     +progressDotLabel(levelNumber)
@@ -343,7 +354,7 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
 mixin studentLevelProgressDot(progress, level, levelNumber)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
-  - levelName = level.get('name')
+  - levelName = i18n(level.attributes, 'name')
   - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment })
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
     +progressDotLabel(levelNumber)
@@ -429,3 +440,37 @@ mixin enrollmentStatusTab
           td.enroll-col
             if status !== 'enrolled'
               button.enroll-student-button.btn.btn-navy(data-i18n="teacher.enroll_student", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
+
+mixin studentProjectsTab
+  #student-projects-tab.m-t-3
+    if state.get('progressData')
+      .render-on-course-sync
+        .student-levels-table
+          +sortButtons
+          each student in state.get('students').models
+            +studentProjectsRow(student)
+
+mixin studentProjectsRow(student)
+  .row.student-levels-row.alternating-background
+    div.student-info.col-sm-3
+      div.student-name= student.broadName()
+      div.student-email.small-details= student.get('email')
+    div.student-levels-progress.col-sm-9
+      each trimCourse in view.classroom.get('courses')
+        - var course = view.courses.get(trimCourse._id);
+        - var levels = view.classroom.getLevels({courseID: course.id, projectLevels: true}).models
+        each level in levels
+          - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
+          - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
+          +studentProjectLink(progress, level, levelNumber, course)
+
+mixin studentProjectLink(progress, level, levelNumber, course)
+  - var colorClass = progress.completed ? 'btn-primary' : (progress.started ? 'btn-warning' : 'btn-primary');
+  - var levelName = i18n(level.attributes, 'name')
+  - var context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment })
+  - var title = view.singleStudentLevelProgressDotTemplate(context);
+  if context.session
+    - var url = '/play/' + level.get('type') + '-level/' + level.get('slug') + '/' + context.session.id + '?course=' + course.id;
+    a(class="btn btn-lg btn-view-project-level " + colorClass, href=url, data-title=title)= levelName
+  else
+    btn(class="btn btn-lg btn-view-project-level " + colorClass, data-title=title, disabled=true)= levelName

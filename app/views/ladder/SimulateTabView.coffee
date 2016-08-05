@@ -24,7 +24,7 @@ module.exports = class SimulateTabView extends CocoView
   onLoaded: ->
     super()
     @render()
-    if (document.location.hash is '#simulate' or @options.level.get('type') is 'course-ladder') and not @simulator
+    if (document.location.hash is '#simulate' or @options.level.isType('course-ladder')) and not @simulator
       @startSimulating()
 
   afterRender: ->
@@ -136,6 +136,7 @@ class SimulatorsLeaderboardData extends CocoClass
     return me.id in (user.id for user in @topSimulators.models)
 
   nearbySimulators: ->
+    return [] if not @playersAbove?.models
     l = []
     above = @playersAbove.models
     l = l.concat(above)

@@ -73,6 +73,8 @@ setupErrorMiddleware = (app) ->
       res.status(err.status ? 500).send(error: "Something went wrong!")
       message = "Express error: #{req.method} #{req.path}: #{err.message}"
       log.error "#{message}, stack: #{err.stack}"
+      if global.testing
+        console.log "#{message}, stack: #{err.stack}"
       slack.sendSlackMessage(message, ['ops'], {papertrail: true})
     else
       next(err)

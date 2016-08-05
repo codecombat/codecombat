@@ -36,7 +36,8 @@ module.exports = mw =
       options = {}
     options = _.extend({
       permissions: []
-      email: 'user'+_.uniqueId()+'@gmail.com'
+      name: 'Name Nameyname '+_.uniqueId()
+      email: 'user'+_.uniqueId()+'@example.com'
       password: 'password'
       anonymous: false
     }, options)
@@ -49,7 +50,7 @@ module.exports = mw =
       done = options
       options = {}
     form = {
-      username: user.get('email')
+      username: user.get('email') or user.get('name')
       password: 'password'
     }
     (options.request or request).post mw.getURL('/auth/login'), { form: form }, (err, res) ->
@@ -74,7 +75,8 @@ module.exports = mw =
     
   becomeAnonymous: Promise.promisify (done) ->
     request.post mw.getURL('/auth/logout'), ->
-      request.get mw.getURL('/auth/whoami'), done
+      request.get mw.getURL('/auth/whoami'), {json: true}, (err, res) ->
+        User.findById(res.body._id).exec(done)
     
   logout: Promise.promisify (done) ->
     request.post mw.getURL('/auth/logout'), done
@@ -88,7 +90,7 @@ module.exports = mw =
     args = Array.from(arguments)
     [done, [data, sources]] = [args.pop(), args]
 
-    data = _.extend({}, { 
+    data = _.extend({}, {
       name: _.uniqueId('Level ')
       permissions: [{target: mw.lastLogin.id, access: 'owner'}]
     }, data)
@@ -138,6 +140,8 @@ module.exports = mw =
     if sources.campaign and not data.campaignID
       data.campaignID = sources.campaign._id
     
+    data.releasePhase ||= 'released'
+
     course = new Course(data)
     return course.save()
 

@@ -24,6 +24,8 @@ if view.showAds()
       #canvas-wrapper
         canvas(width=924, height=589)#webgl-surface
         canvas(width=924, height=589)#normal-surface
+
+        #web-surface-view
         #ascii-surface
         #canvas-left-gradient.gradient
         #canvas-top-gradient.gradient
@@ -47,7 +49,20 @@ if view.showAds()
 
       #level-dialogue-view
 
-    button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback", data-i18n="play_level.skip") Skip
+    
+    button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback")
+      if view.level && view.level.isType('game-dev')
+        | Back to coding
+      else 
+        span(data-i18n="play_level.skip")
+    
+    #how-to-play-game-dev-panel.panel.panel-default.hide
+      .panel-heading
+        h3.panel-title How to play:
+      .panel-body
+        p Use the mouse to control the hero!
+        p Click anywhere on the map to move to that location.
+        p Click on the ogres to attack them.
 
     .hints-view.hide
 

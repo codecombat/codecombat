@@ -2,6 +2,7 @@ errors = require 'core/errors'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/courses-update-account-view'
 AuthModal = require 'views/core/AuthModal'
+JoinClassModal = require 'views/courses/JoinClassModal'
 {logoutUser, me} = require('core/auth')
 
 module.exports = class CoursesUpdateAccountView extends RootView
@@ -41,8 +42,11 @@ module.exports = class CoursesUpdateAccountView extends RootView
     @becomeStudent(e.target, 'Remain student')
 
   onClickUpdateStudentButton: (e) ->
-    return unless window.confirm($.i18n.t('courses.update_account_confirm_update_student'))
-    @becomeStudent(e.target, 'Update student')
+    joinClassModal = new JoinClassModal { classCode: @$('input[name="classCode"]').val() }
+    @openModalView joinClassModal
+    @listenTo joinClassModal, 'join:success', => @becomeStudent(e.target, 'Update student')
+    # return unless window.confirm($.i18n.t('courses.update_account_confirm_update_student') + '\n\n' + $.i18n.t('courses.update_account_confirm_update_student2'))
+    # @becomeStudent(e.target, 'Update student')
 
   becomeStudent: (targetElem, trackEventMsg) ->
     $(targetElem).prop('disabled', true)

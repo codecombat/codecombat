@@ -24,7 +24,12 @@ describe 'TeacherClassView', ->
     beforeEach (done) ->
       me = factories.makeUser({})
       
-      @courses = new Courses([factories.makeCourse({name: 'First Course'}), factories.makeCourse({name: 'Second Course'})])
+      @courses = new Courses([
+        factories.makeCourse({name: 'First Course'}),
+        factories.makeCourse({name: 'Second Course'}),
+        factories.makeCourse({name: 'Beta Course', releasePhase: 'beta'}),
+      ])
+      @releasedCourses = new Courses(@courses.where({ releasePhase: 'released' }))
       available = factories.makePrepaid()
       expired = factories.makePrepaid({endDate: moment().subtract(1, 'day').toISOString()})
       @students = new Users([
@@ -35,11 +40,11 @@ describe 'TeacherClassView', ->
         factories.makeUser({name: 'Ned'}, {prepaid: expired})
         factories.makeUser({name: 'Ebner'}, {prepaid: expired})
       ])
-      @levels = new Levels(_.times(2, -> factories.makeLevel()))
-      @classroom = factories.makeClassroom({}, { @courses, members: @students, levels: [@levels, new Levels()] })
+      @levels = new Levels(_.times(2, -> factories.makeLevel({ concepts: ['basic_syntax', 'arguments', 'functions'] })))
+      @classroom = factories.makeClassroom({}, { courses: @releasedCourses, members: @students, levels: [@levels, new Levels()] })
       @courseInstances = new CourseInstances([
-        factories.makeCourseInstance({}, { course: @courses.first(), @classroom, members: @students })
-        factories.makeCourseInstance({}, { course: @courses.last(), @classroom, members: @students })
+        factories.makeCourseInstance({}, { course: @releasedCourses.first(), @classroom, members: @students })
+        factories.makeCourseInstance({}, { course: @releasedCourses.last(), @classroom, members: @students })
       ])
 
       sessions = []
@@ -47,11 +52,11 @@ describe 'TeacherClassView', ->
       @unfinishedStudent = @students.last()
       for level in @levels.models
         sessions.push(factories.makeLevelSession(
-            {state: {complete: true}},
+            {state: {complete: true}, playtime: 60},
             {level, creator: @finishedStudent})
         )
       sessions.push(factories.makeLevelSession(
-          {state: {complete: true}},
+          {state: {complete: true}, playtime: 60},
           {level: @levels.first(), creator: @unfinishedStudent})
       )
       @levelSessions = new LevelSessions(sessions)
@@ -118,3 +123,25 @@ describe 'TeacherClassView', ->
           users = @view.enrollStudents.calls.argsFor(0)[0]
           expect(users.size()).toBe(1)
           expect(users.first().id).toBe(@view.students.first().id)
+
+    describe 'Export Student Progress (CSV) button', ->
+      it 'downloads a CSV file', ->
+        spyOn(window, 'open').and.callFake (encodedCSV) =>
+          progressData = decodeURI(encodedCSV)
+          CSVHeader = 'data:text\/csv;charset=utf-8,'
+          expect(progressData).toMatch new RegExp('^' + CSVHeader)
+          lines = progressData.slice(CSVHeader.length).split('\n')
+          expect(lines.length).toBe(@students.length + 1)
+          for line in lines
+            simplerLine = line.replace(/"[^"]+"/g, '""')
+            # Username,Email,Total Playtime, [CS1-? Playtime], Concepts
+            expect(simplerLine.match(/[^,]+/g).length).toBe(3 + @releasedCourses.length + 1)
+            if simplerLine.match new RegExp(@finishedStudent.get('email'))
+              expect(simplerLine).toMatch /2 minutes,2 minutes,0/
+            else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
+              expect(simplerLine).toMatch /a minute,a minute,0/
+            else if simplerLine.match /@/
+              expect(simplerLine).toMatch /0,0,0/
+          return true
+        @view.$('.export-student-progress-btn').click()
+        expect(window.open).toHaveBeenCalled()

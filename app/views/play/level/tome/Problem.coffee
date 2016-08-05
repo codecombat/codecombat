@@ -23,6 +23,7 @@ module.exports = class Problem
       raw: text,
       text: text,
       type: @aetherProblem.level ? 'error'
+      createdBy: 'aether'
 
   buildMarkerRange: ->
     return unless @aetherProblem.range

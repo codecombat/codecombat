@@ -10,15 +10,17 @@ else
         .panel-body
           .form
             - var name = me.get('name') || '';
-            - var email = me.get('email');
+            - var firstName = me.get('firstName') || '';
+            - var lastName = me.get('lastName') || '';
+            - var email = me.get('email') || '';
             - var admin = me.get('permissions', true).indexOf('admin') != -1;
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             .form-group
-              label.control-label(for="name", data-i18n="general.name") Name
+              label.control-label(for="name", data-i18n="general.username")
               input#name-input.form-control(name="name", type="text", value="#{name}")
             .form-group
               label.control-label(for="email")
-                span(data-i18n="general.email") Email
+                span(data-i18n="general.email")
               unless me.get('emailVerified')
                 span.spl (
                 span.spr(data-i18n="account.not_yet_verified")
@@ -27,12 +29,23 @@ else
                   span.sent-text.hide(data-i18n="account.email_sent")
                 span )
               input#email.form-control(name="email", type="text", value="#{email}")
+            .row
+              .form-group.col-sm-6
+                label.control-label(for="firstName", data-i18n="general.first_name")
+                input#first-name-input.form-control(name="firstName", type="text", value="#{firstName}")
+              .form-group.col-sm-6
+                if me.isStudent()
+                  label.control-label(for="lastName", data-i18n="general.last_initial")
+                  input#last-name-input.form-control(name="lastName", type="text", value="#{lastName}", maxlength="1")
+                else
+                  label.control-label(for="lastName", data-i18n="general.last_name")
+                  input#last-name-input.form-control(name="lastName", type="text", value="#{lastName}")
             if !isProduction
               .form-group.checkbox
-                label(for="admin", data-i18n="account_settings.admin") Admin
+                label(for="admin", data-i18n="account_settings.admin")
                 input#admin(name="admin", type="checkbox", checked=admin)
               .form-group.checkbox
-                label(for="godmode", data-i18n="account_settings.god_mode") God Mode
+                label(for="godmode", data-i18n="account_settings.god_mode")
                 input#godmode(name="godmode", type="checkbox", checked=godmode)
             if me.hasSubscription()
               .form-group
@@ -71,11 +84,11 @@ else
         .panel-body
           .form#delete-account-form
             .form-group
-              label.control-label(for="email1", data-i18n="account_settings.type_in_email")
-              input#email1.form-control(name="email", type="email")
+              label.control-label(for="delete-account-email-or-username", data-i18n="account_settings.type_in_email")
+              input#delete-account-email-or-username.form-control(name="emailOrUsername")
             .form-group
-              label.control-label(for="password1", data-i18n="account_settings.type_in_password")
-              input#password1.form-control(name="password", type="password")  
+              label.control-label(for="delete-account-password", data-i18n="account_settings.type_in_password")
+              input#delete-account-password.form-control(name="password", type="password")
           button#delete-account-btn.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
 
     .col-md-6
@@ -193,7 +206,7 @@ else
           .form#reset-progress-form
             .form-group
               label.control-label(for="email-reset-progress", data-i18n="account_settings.type_in_email_progress")
-              input#email-reset-progress.form-control(name="email", type="email")
+              input#email-reset-progress.form-control(name="emailOrUsername")
             .form-group
               label.control-label(for="password-reset-progress", data-i18n="account_settings.type_in_password")
               input#password-reset-progress.form-control(name="password", type="password")

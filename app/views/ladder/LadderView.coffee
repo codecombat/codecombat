@@ -42,6 +42,7 @@ module.exports = class LadderView extends RootView
   initialize: (options, @levelID, @leagueType, @leagueID) ->
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     @level.once 'sync', =>
+      return if @destroyed
       @levelDescription = marked(@level.get('description')) if @level.get('description')
       @teams = teamDataFromLevel @level
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model

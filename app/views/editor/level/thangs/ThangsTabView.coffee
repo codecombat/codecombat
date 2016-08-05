@@ -251,7 +251,7 @@ module.exports = class ThangsTabView extends CocoView
     @dragged = 0
     @willUnselectSprite = false
     @gameUIState.set('canDragCamera', true)
-    
+
     if @addThangLank?.thangType.get('kind') is 'Wall'
       @paintingWalls = true
       @gameUIState.set('canDragCamera', false)
@@ -259,7 +259,7 @@ module.exports = class ThangsTabView extends CocoView
     else if @addThangLank
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangLank.thang.pos
-      
+
     else if e.onBackground
       @gameUIState.set('selected', [])
 
@@ -331,18 +331,18 @@ module.exports = class ThangsTabView extends CocoView
       @onSpriteContextMenu e
     clearInterval(@movementInterval) if @movementInterval?
     @movementInterval = null
-    
+
     return unless _.any(selected)
-    
+
     for singleSelected in selected
       pos = singleSelected.thang.pos
-  
+
       thang = _.find(@level.get('thangs') ? [], {id: singleSelected.thang.id})
       path = "#{@pathForThang(thang)}/components/original=#{LevelComponent.PhysicalID}"
       physical = @thangsTreema.get path
       continue if not physical or (physical.config.pos.x is pos.x and physical.config.pos.y is pos.y)
       @thangsTreema.set path + '/config/pos', x: pos.x, y: pos.y, z: pos.z
-      
+
     if @willUnselectSprite
       clickedSprite = _.find(selected, {sprite: e.sprite})
       @gameUIState.set('selected', _.without(selected, clickedSprite))
@@ -379,7 +379,7 @@ module.exports = class ThangsTabView extends CocoView
     thang = selected?.thang
 
     previousSprite?.setNameLabel?(null) unless previousSprite is sprite
-    
+
     if thang and not (@addThangLank and @addThangType.get('name') in overlappableThangTypeNames)
       # We clicked on a Thang (or its Treema), so select the Thang
       @selectAddThang(null, true)
@@ -595,7 +595,7 @@ module.exports = class ThangsTabView extends CocoView
     @level.set 'thangs', thangs
     return if @editThangView
     return if skipSerialization
-    serializedLevel = @level.serialize @supermodel, null, null, true
+    serializedLevel = @level.serialize {@supermodel, session: null, otherSession: null, headless: false, sessionless: true, cached: true}
     try
       @world.loadFromLevel serializedLevel, false
     catch error
@@ -619,7 +619,7 @@ module.exports = class ThangsTabView extends CocoView
   onTreemaThangSelected: (e, selectedTreemas) =>
     selectedThangTreemas = _.filter(selectedTreemas, (t) -> t instanceof ThangNode)
     thangIDs = (node.data.id for node in selectedThangTreemas)
-    lanks = (@surface.lankBoss.lanks[thangID] for thangID in thangIDs when thangID) 
+    lanks = (@surface.lankBoss.lanks[thangID] for thangID in thangIDs when thangID)
     selected = ({ thang: lank.thang, sprite: lank } for lank in lanks when lank)
     @gameUIState.set('selected', selected)
 
@@ -636,14 +636,14 @@ module.exports = class ThangsTabView extends CocoView
     if batchInsert
       if thangType.get('name') is 'Hero Placeholder'
         thangID = 'Hero Placeholder'
-        return if not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']) or @getThangByID(thangID)
+        return if not @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') or @getThangByID(thangID)
       else
         thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
     else
       thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @getThangByID(thangID)
     if @cloneSourceThang
       components = _.cloneDeep @getThangByID(@cloneSourceThang.id).components
-    else if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
+    else if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
       components = []  # Load them all from default ThangType Components
     else
       components = _.cloneDeep thangType.get('components') ? []

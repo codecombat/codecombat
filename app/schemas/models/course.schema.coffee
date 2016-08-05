@@ -11,6 +11,8 @@ _.extend CourseSchema.properties,
   pricePerSeat: {type: 'number', description: 'Price per seat in USD cents.'} # deprecated
   free: { type: 'boolean' }
   screenshot: c.url {title: 'URL', description: 'Link to course screenshot.'}
+  adminOnly: { type: 'boolean', description: 'Deprecated in favor of releasePhase.' }
+  releasePhase: { type: {enum: ['beta', 'released'] }, description: "How far along the course's development is, determining who sees it." }
 
 c.extendBasicProperties CourseSchema, 'Course'
 

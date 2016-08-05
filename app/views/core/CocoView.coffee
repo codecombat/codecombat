@@ -14,6 +14,7 @@ doNothing = ->
 
 module.exports = class CocoView extends Backbone.View
   cache: false # signals to the router to keep this view around
+  retainSubviews: false # set to true if you don't want subviews to be destroyed whenever the view renders
   template: -> ''
 
   events:
@@ -108,11 +109,18 @@ module.exports = class CocoView extends Backbone.View
 
   render: ->
     return @ unless me
-    view.destroy() for id, view of @subviews
+    if @retainSubviews
+      oldSubviews = _.values(@subviews)
+    else
+      view.destroy() for id, view of @subviews
     @subviews = {}
     super()
     return @template if _.isString(@template)
     @$el.html @template(@getRenderData())
+
+    if @retainSubviews
+      for view in oldSubviews
+        @insertSubView(view)
 
     if not @supermodel.finished()
       @showLoading()
@@ -306,11 +314,20 @@ module.exports = class CocoView extends Backbone.View
     key = @makeSubViewKey(view)
     @subviews[key].destroy() if key of @subviews
     elToReplace ?= @$el.find('#'+view.id)
-    elToReplace.after(view.el).remove()
-    @registerSubView(view, key)
-    view.render()
-    view.afterInsert()
-    view
+    if @retainSubviews
+      @registerSubView(view, key)
+      if elToReplace[0]
+        view.setElement(elToReplace[0])
+        view.render()
+        view.afterInsert()
+      return view
+
+    else
+      elToReplace.after(view.el).remove()
+      @registerSubView(view, key)
+      view.render()
+      view.afterInsert()
+      return view
 
   registerSubView: (view, key) ->
     # used to register views which are custom inserted into the view,
@@ -478,6 +495,13 @@ module.exports = class CocoView extends Backbone.View
 
   playSound: (trigger, volume=1) ->
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: trigger, volume: volume
+
+  tryCopy: ->
+    try
+      document.execCommand('copy')
+    catch err
+      message = 'Oops, unable to copy'
+      noty text: message, layout: 'topCenter', type: 'error', killer: false
 
 mobileRELong = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i
 

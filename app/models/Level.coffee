@@ -12,7 +12,8 @@ module.exports = class Level extends CocoModel
   urlRoot: '/db/level'
   editableByArtisans: true
 
-  serialize: (supermodel, session, otherSession, cached=false) ->
+  serialize: (options) ->
+    {supermodel, session, otherSession, @headless, @sessionless, cached=false} = options
     o = @denormalize supermodel, session, otherSession # hot spot to optimize
 
     # Figure out Components
@@ -33,7 +34,7 @@ module.exports = class Level extends CocoModel
     for tt in supermodel.getModels ThangType
       if tmap[tt.get('original')] or
         (tt.get('kind') isnt 'Hero' and tt.get('kind')? and tt.get('components') and not tt.notInLevel) or
-        (tt.get('kind') is 'Hero' and ((@get('type', true) in ['course', 'course-ladder']) or tt.get('original') in sessionHeroes))
+        (tt.get('kind') is 'Hero' and (@isType('course', 'course-ladder', 'game-dev') or tt.get('original') in sessionHeroes))
           o.thangTypes.push (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')))
     @sortThangComponents o.thangTypes, o.levelComponents, 'ThangType'
     @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents
@@ -58,7 +59,7 @@ module.exports = class Level extends CocoModel
 
   denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
-    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev']
+    if o.thangs and @isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
       thangTypesWithComponents = (tt for tt in supermodel.getModels(ThangType) when tt.get('components')?)
       thangTypesByOriginal = _.indexBy thangTypesWithComponents, (tt) -> tt.get('original')  # Optimization
       for levelThang in o.thangs
@@ -67,7 +68,7 @@ module.exports = class Level extends CocoModel
 
   denormalizeThang: (levelThang, supermodel, session, otherSession, thangTypesByOriginal) ->
     levelThang.components ?= []
-    isHero = /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    isHero = /Hero Placeholder/.test(levelThang.id) and @isType('hero', 'hero-ladder', 'hero-coop')
     if isHero and otherSession
       # If it's a hero and there's another session, find the right session for it.
       # If there is no other session (playing against default code, or on single player), clone all placeholders.
@@ -146,7 +147,7 @@ module.exports = class Level extends CocoModel
         levelThang.components.push placeholderComponent
 
     # Load the user's chosen hero AFTER getting stats from default char
-    if /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['course']
+    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless
       heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
       levelThang.thangType = heroThangType if heroThangType
 
@@ -261,6 +262,9 @@ module.exports = class Level extends CocoModel
 
   isLadder: ->
     return @get('type')?.indexOf('ladder') > -1
+
+  isType: (types...) ->
+    return @get('type', true) in types
 
   fetchNextForCourse: ({ levelOriginalID, courseInstanceID, courseID, sessionID }, options={}) ->
     if courseInstanceID

@@ -17,11 +17,12 @@ User = require '../models/User'
 CourseInstance = require '../models/CourseInstance'
 TrialRequest = require '../models/TrialRequest'
 sendwithus = require '../sendwithus'
+co = require 'co'
 
 module.exports =
   fetchByCode: wrap (req, res, next) ->
     code = req.query.code
-    return next() unless code
+    return next() unless req.query.hasOwnProperty('code')
     classroom = yield Classroom.findOne({ code: code.toLowerCase().replace(RegExp(' ', 'g') , '') }).select('name ownerID aceConfig')
     if not classroom
       log.debug("classrooms.fetchByCode: Couldn't find Classroom with code: #{code}")
@@ -104,13 +105,13 @@ module.exports =
     members = classroom.get('members') or []
     members = members.slice(memberSkip, memberSkip + memberLimit)
     dbqs = []
-    select = 'state.complete level creator playtime changed dateFirstCompleted submitted'
+    select = 'state.complete level creator playtime changed created dateFirstCompleted submitted'
     for member in members
       dbqs.push(LevelSession.find({creator: member.toHexString()}).select(select).exec())
     results = yield dbqs
     sessions = _.flatten(results)
     res.status(200).send(sessions)
-    
+
   fetchMembers: wrap (req, res, next) ->
     throw new errors.Unauthorized() unless req.user
     memberLimit = parse.getLimitFromReq(req, {default: 10, max: 100, param: 'memberLimit'})
@@ -140,9 +141,35 @@ module.exports =
     classroom.set 'ownerID', req.user._id
     classroom.set 'members', []
     database.assignBody(req, classroom)
-    
+
     # Copy over data from how courses are right now
-    courses = yield Course.find()
+    coursesData = yield module.exports.generateCoursesData(req)
+    classroom.set('courses', coursesData)
+    
+    # finish
+    database.validateDoc(classroom)
+    classroom = yield classroom.save()
+    res.status(201).send(classroom.toObject({req: req}))
+    
+  updateCourses: wrap (req, res) ->
+    throw new errors.Unauthorized() unless req.user and not req.user.isAnonymous()
+    classroom = yield database.getDocFromHandle(req, Classroom)
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+    unless req.user._id.equals(classroom.get('ownerID'))
+      throw new errors.Forbidden('Only the owner may update their classroom content')
+
+    coursesData = yield module.exports.generateCoursesData(req)
+    classroom.set('courses', coursesData)
+    classroom = yield classroom.save()
+    res.status(200).send(classroom.toObject({req: req}))
+    
+  generateCoursesData: co.wrap (req) ->
+    # helper function for generating the latest version of courses
+    query = {}
+    query = {releasePhase: 'released'} unless req.user?.isAdmin()
+    courses = yield Course.find(query)
+    courses = Course.sortCourses courses
     campaigns = yield Campaign.find({_id: {$in: (course.get('campaignID') for course in courses)}})
     campaignMap = {}
     campaignMap[campaign.id] = campaign for campaign in campaigns
@@ -154,15 +181,10 @@ module.exports =
       levels = _.sortBy(levels, 'campaignIndex')
       for level in levels
         levelData = { original: mongoose.Types.ObjectId(level.original) }
-        _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes'))
+        _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes', 'shareable'))
         courseData.levels.push(levelData)
       coursesData.push(courseData)
-    classroom.set('courses', coursesData)
-    
-    # finish
-    database.validateDoc(classroom)
-    classroom = yield classroom.save()
-    res.status(201).send(classroom.toObject({req: req}))
+    return coursesData
 
   join: wrap (req, res) ->
     unless req.body?.code

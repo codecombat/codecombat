@@ -67,11 +67,11 @@ describe 'GET /db/level/:handle/session', ->
       @level = yield utils.makeLevel({type: 'course'})
       
       # To ensure test compares original, not id, make them different. TODO: Make factories do this normally?
-      @level.set('original', new mongoose.Types.ObjectId())  
+      @level.set('original', new mongoose.Types.ObjectId())
       @level.save()
       
       @campaign = yield utils.makeCampaign({}, {levels: [@level]})
-      @course = yield utils.makeCourse({free: true}, {campaign: @campaign})
+      @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign})
       @student = yield utils.initUser({role: 'student'})
       members = [@student]
       teacher = yield utils.initUser({role: 'teacher'})
@@ -125,7 +125,7 @@ describe 'GET /db/level/:handle/session', ->
         
       it 'creates the session if the user is enrolled', utils.wrap (done) ->
         @student.set({
-          coursePrepaid: { 
+          coursePrepaid: {
             _id: {}
             startDate: moment().subtract(1, 'month').toISOString()
             endDate: moment().add(1, 'month').toISOString()

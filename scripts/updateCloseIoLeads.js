@@ -1,8 +1,8 @@
 // Upsert new lead data into Close.io
 
 'use strict';
-if (process.argv.length !== 9) {
-  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <Close.io EU mail API key> <Intercom 'App ID:API key'> <mongo connection Url>");
+if (process.argv.length !== 10) {
+  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <Close.io mail API key4> <Close.io EU mail API key> <Intercom 'App ID:API key'> <mongo connection Url>");
   process.exit();
 }
 
@@ -60,22 +60,26 @@ const closeIoApiKey = process.argv[2];
 const closeIoMailApiKeys = [
   {
     apiKey: process.argv[3],
-    weight: .7
+    weight: .8
   },
   {
     apiKey: process.argv[4],
-    weight: .25
+    weight: .1
   },
   {
     apiKey: process.argv[5],
     weight: .05
   },
+  {
+    apiKey: process.argv[6],
+    weight: .05
+  },
 ];
-const closeIoEuMailApiKey = process.argv[6];
-const intercomAppIdApiKey = process.argv[7];
+const closeIoEuMailApiKey = process.argv[7];
+const intercomAppIdApiKey = process.argv[8];
 const intercomAppId = intercomAppIdApiKey.split(':')[0];
 const intercomApiKey = intercomAppIdApiKey.split(':')[1];
-const mongoConnUrl = process.argv[8];
+const mongoConnUrl = process.argv[9];
 const MongoClient = require('mongodb').MongoClient;
 const async = require('async');
 const countryData = require('country-data');
@@ -323,7 +327,7 @@ function findCocoLeads(done) {
         if (!trialRequest.properties || !trialRequest.properties.email) continue;
         const email = trialRequest.properties.email.toLowerCase();
         emails.push(email);
-        const name = trialRequest.properties.organization || trialRequest.properties.name || email;
+        const name = trialRequest.properties.nces_name || trialRequest.properties.organization || trialRequest.properties.school || email;
         if (!leads[name]) leads[name] = new CocoLead(name);
         leads[name].addTrialRequest(email, trialRequest);
         emailLeadMap[email] = leads[name];

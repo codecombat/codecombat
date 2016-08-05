@@ -365,12 +365,16 @@ module.exports = class CampaignView extends RootView
     return experienceScore
 
   createLine: (o1, o2) ->
-    p1 = x: o1.x, y: 0.66 * o1.y + 0.5
-    p2 = x: o2.x, y: 0.66 * o2.y + 0.5
+    mapHeight = parseFloat($(".map").css("height")) 
+    mapWidth = parseFloat($(".map").css("width"))
+    return unless mapHeight > 0
+    ratio =  mapWidth / mapHeight
+    p1 = x: o1.x, y: o1.y / ratio - 0.5
+    p2 = x: o2.x, y: o2.y / ratio
     length = Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y))
     angle = Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180 / Math.PI
     transform = "rotate(#{angle}deg)"
-    line = $('<div>').appendTo('.map').addClass('next-level-line').css(transform: transform, width: length + '%', left: o1.x + '%', bottom: (o1.y + 0.5) + '%')
+    line = $('<div>').appendTo('.map').addClass('next-level-line').css(transform: transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%')
     line.append($('<div class="line">')).append($('<div class="point">'))
 
   applyCampaignStyles: ->
@@ -397,8 +401,9 @@ module.exports = class CampaignView extends RootView
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
     for level in @campaign.renderedLevels ? {}
-      particleKey = ['level', @terrain.replace('-branching-test', '')]
-      particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])
+      terrain = @terrain.replace('-branching-test', '').replace(/(game|web)-dev-\d/, 'forest')
+      particleKey = ['level', terrain]
+      particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])  # Would use isType, but it's not a Level model
       particleKey.push 'replayable' if level.replayable
       particleKey.push 'premium' if level.requiresSubscription
       particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate']
@@ -532,7 +537,7 @@ module.exports = class CampaignView extends RootView
     levelElement = $(e.target).parents('.level-info-container')
     levelSlug = levelElement.data('level-slug')
     level = _.find _.values(@campaign.get('levels')), slug: levelSlug
-    if level.type in ['hero-ladder', 'course-ladder']
+    if level.type in ['hero-ladder', 'course-ladder']  # Would use isType, but it's not a Level model
       Backbone.Mediator.publish 'router:navigate', route: "/play/ladder/#{levelSlug}", viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: @supermodel}, levelSlug]
     else
       @showLeaderboard levelSlug

@@ -66,4 +66,5 @@ module.exports.modules = modules = # by collection name
   'users': 'User'
 
 mongoose.modelNameByCollection = (collection) ->
+  return require('../models/LevelSession') if collection is 'level.sessions'
   mongoose.model modules[collection] if collection of modules

@@ -53,7 +53,7 @@
   "dependencies": {
     "JQDeferred": "~2.1.0",
     "ace-builds": "https://github.com/ajaxorg/ace-builds/archive/3fb55e8e374ab02ce47c1ae55ffb60a1835f3055.tar.gz",
-    "aether": "~0.5.6",
+    "aether": "~0.5.21",
     "async": "0.2.x",
     "aws-sdk": "~2.0.0",
     "bayesian-battle": "0.0.7",
@@ -75,7 +75,7 @@
     "mailchimp-api": "2.0.x",
     "moment": "~2.5.0",
     "mongodb": "^2.0.28",
-    "mongoose": "^4.2.9",
+    "mongoose": "4.5.3",
     "mongoose-cache": "https://github.com/nwinter/mongoose-cache/tarball/master",
     "node-force-domain": "~0.1.0",
     "node-gyp": "~0.13.0",

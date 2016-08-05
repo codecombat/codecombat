@@ -27,7 +27,7 @@ block content
               if view.accountType
                 div #{view.accountType}
               div
-                span.spr #{me.get('email')}
+                span.spr #{me.get('email') || me.get('name')}
                 span.not_you
                   span.spr(data-i18n="courses.not_you")
                   a.logout-btn(data-i18n="login.log_out", href="#")
@@ -73,6 +73,9 @@ block content
                   if me.isStudent()
                     button.remain-student-btn.btn.btn-navy(data-i18n="courses.update_account_remain_student")
                   else
+                    label
+                      span(data-i18n="courses.need_a_class_code")
+                      input(name='classCode')
                     button.update-student-btn.btn.btn-forest(data-i18n="courses.update_account_update_student")
                 br
           br

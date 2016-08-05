@@ -1,0 +1,57 @@
+form#basic-info-form.modal-body
+  .modal-body-content
+    h4
+      span(data-i18n="signup.sso_connected")
+    div.small.m-y-1
+      - var ssoUsed = view.signupState.get('ssoUsed');
+      if ssoUsed === 'facebook'
+        img(src="/images/pages/modal/auth/facebook_small.png")
+      if ssoUsed === 'gplus'
+        img(src="/images/pages/modal/auth/gplus_small.png")
+      b.m-x-1
+        span= view.signupState.get('email')
+      span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
+
+    .hr-text.m-y-3
+      hr
+      span(data-i18n="common.continue")
+
+    .form-container
+      input.hidden(name="email" value=view.signupState.get('email'))
+      .form-group
+        .row
+          .col-xs-7.col-xs-offset-3
+            label.control-label(for="username-input")
+              span(data-i18n="general.username")
+          .col-xs-5.col-xs-offset-3
+            input.form-control.input-lg#username-input(name="name")
+          .col-xs-4.name-check
+            - var checkNameState = view.state.get('checkNameState');
+            if checkNameState === 'checking'
+              span.small(data-i18n="signup.checking")
+            if checkNameState === 'exists'
+              span.small
+                span.text-burgandy.glyphicon.glyphicon-remove-circle
+                =" "
+                span= view.state.get('suggestedNameText')
+            if checkNameState === 'available'
+              span.small
+                span.text-forest.glyphicon.glyphicon-ok-circle
+                =" "
+                span(data-i18n="signup.name_available")
+
+      .form-group.subscribe
+        .row
+          .col-xs-7.col-xs-offset-3
+            .checkbox
+              label
+                input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
+                span(data-i18n="signup.email_announcements")
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    button.next-button.btn.btn-lg.btn-navy(type='submit')
+      span(data-i18n="signup.create_account")
+
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="common.back")

@@ -87,16 +87,16 @@ module.exports = class AccountSettingsView extends CocoView
 
   validateCredentialsForDestruction: ($form, onSuccess) ->
     forms.clearFormAlerts($form)
-    enteredEmail = $form.find('input[type="email"]').val()
-    enteredPassword = $form.find('input[type="password"]').val()
-    if enteredEmail and enteredEmail is me.get('email')
+    enteredEmailOrUsername = $form.find('input[name="emailOrUsername"]').val()
+    enteredPassword = $form.find('input[name="password"]').val()
+    if enteredEmailOrUsername and enteredEmailOrUsername in [me.get('email'), me.get('name')]
       isPasswordCorrect = false
       toBeDelayed = true
       $.ajax
         url: '/auth/login'
         type: 'POST'
         data:
-          username: enteredEmail
+          username: enteredEmailOrUsername
           password: enteredPassword
         parse: true
         error: (error) ->
@@ -225,9 +225,16 @@ module.exports = class AccountSettingsView extends CocoView
     return unless res
 
     res.error =>
-      errors = JSON.parse(res.responseText)
-      forms.applyErrorsToForm(@$el, errors)
-      $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
+      if res.responseJSON?.property
+        errors = res.responseJSON
+        forms.applyErrorsToForm(@$el, errors)
+        $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
+      else
+        noty
+          text: res.responseJSON?.message or res.responseText
+          type: 'error'
+          layout: 'topCenter'
+          timeout: 5000
       @trigger 'save-user-error'
     res.success (model, response, options) =>
       @trigger 'save-user-success'
@@ -259,6 +266,8 @@ module.exports = class AccountSettingsView extends CocoView
   grabOtherData: ->
     @$el.find('#name-input').val @suggestedName if @suggestedName
     me.set 'name', @$el.find('#name-input').val()
+    me.set 'firstName', @$el.find('#first-name-input').val()
+    me.set 'lastName', @$el.find('#last-name-input').val()
     me.set 'email', @$el.find('#email').val()
     for emailName, enabled of @getSubscriptions()
       me.setEmailSubscription emailName, enabled

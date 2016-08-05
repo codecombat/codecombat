@@ -53,6 +53,16 @@ module.exports = class LevelLoader extends CocoClass
 
   # Supermodel (Level) Loading
 
+  loadWorldNecessities: ->
+    # TODO: Actually trigger loading, instead of in the constructor
+    new Promise((resolve, reject) =>
+      return resolve(@) if @world
+      @once 'world-necessities-loaded', => resolve(@)
+      @once 'world-necessity-load-failed', ({resource}) ->
+        { jqxhr } = resource
+        reject({message: jqxhr.responseJSON?.message or jqxhr.responseText or 'Unknown Error'})
+    )
+
   loadLevel: ->
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
     if @level.loaded
@@ -62,9 +72,18 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   onLevelLoaded: ->
-    if not @sessionless and @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course']
+    if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
       @sessionDependenciesRegistered = {}
-    if (@courseID and @level.get('type', true) not in ['course', 'course-ladder']) or window.serverConfig.picoCTF
+    if @level.isType('web-dev')
+      @headless = true
+      if @sessionless
+        # When loading a web-dev level in the level editor, pretend it's a normal hero level so we can put down our placeholder Thang.
+        # TODO: avoid this whole roundabout Thang-based way of doing web-dev levels
+        originalGet = @level.get
+        @level.get = ->
+          return 'hero' if arguments[0] is 'type'
+          originalGet.apply @, arguments
+    if (@courseID and not @level.isType('course', 'course-ladder', 'game-dev', 'web-dev')) or window.serverConfig.picoCTF
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
       @level.get = ->
@@ -169,7 +188,7 @@ module.exports = class LevelLoader extends CocoClass
       @consolidateFlagHistory() if @opponentSession?.loaded
     else if session is @opponentSession
       @consolidateFlagHistory() if @session.loaded
-    if @level.get('type', true) in ['course'] # course-ladder is hard to handle because there's 2 sessions
+    if @level.isType('course')  # course-ladder is hard to handle because there's 2 sessions
       heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
       console.log "Course mode, loading custom hero: ", heroThangType if LOG
       url = "/db/thang.type/#{heroThangType}/version"
@@ -178,7 +197,7 @@ module.exports = class LevelLoader extends CocoClass
         @worldNecessities.push heroResource
       @sessionDependenciesRegistered[session.id] = true
       return
-    return unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    return unless @level.isType('hero', 'hero-ladder', 'hero-coop')
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session and not @headless
     heroConfig ?= {}
@@ -332,8 +351,8 @@ module.exports = class LevelLoader extends CocoClass
     @worldNecessities = (r for r in @worldNecessities when r?)
     @onWorldNecessitiesLoaded() if @checkAllWorldNecessitiesRegisteredAndLoaded()
 
-  onWorldNecessityLoadFailed: (resource) ->
-    @trigger('world-necessity-load-failed', resource: resource)
+  onWorldNecessityLoadFailed: (event) ->
+    @trigger('world-necessity-load-failed', event)
 
   checkAllWorldNecessitiesRegisteredAndLoaded: ->
     return false unless _.filter(@worldNecessities).length is 0
@@ -401,7 +420,8 @@ module.exports = class LevelLoader extends CocoClass
     resource.markLoaded() if resource.spriteSheetKeys.length is 0
 
   denormalizeSession: ->
-    return if @headless or @sessionDenormalized or @spectateMode or @sessionless or me.isSessionless()
+    return if @sessionDenormalized or @spectateMode or @sessionless or me.isSessionless()
+    return if @headless and not @level.isType('web-dev')
     # This is a way (the way?) PUT /db/level.sessions/undefined was happening
     # See commit c242317d9
     return if not @session.id
@@ -443,7 +463,7 @@ module.exports = class LevelLoader extends CocoClass
     @grabTeamConfigs()
     @thangTypeTeams = {}
     for thang in @level.get('thangs')
-      if @level.get('type', true) in ['hero', 'course'] and thang.id is 'Hero Placeholder'
+      if @level.isType('hero', 'course') and thang.id is 'Hero Placeholder'
         continue  # No team colors for heroes on single-player levels
       for component in thang.components
         if team = component.config?.team
@@ -471,6 +491,7 @@ module.exports = class LevelLoader extends CocoClass
   initWorld: ->
     return if @initialized
     @initialized = true
+    return if @level.isType('web-dev')
     @world = new World()
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
     @world.submissionCount = @session?.get('state')?.submissionCount ? 0
@@ -478,7 +499,7 @@ module.exports = class LevelLoader extends CocoClass
     @world.difficulty = @session?.get('state')?.difficulty ? 0
     if @observing
       @world.difficulty = Math.max 0, @world.difficulty - 1  # Show the difficulty they won, not the next one.
-    serializedLevel = @level.serialize(@supermodel, @session, @opponentSession)
+    serializedLevel = @level.serialize {@supermodel, @session, @opponentSession, @headless, @sessionless}
     @world.loadFromLevel serializedLevel, false
     console.log 'World has been initialized from level loader.' if LOG
 

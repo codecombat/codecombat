@@ -42,11 +42,14 @@ module.exports = class DocFormatter
     @fillOutDoc()
 
   fillOutDoc: ->
+    # TODO: figure out better ways to format html/css/scripting docs for web-dev levels
     if _.isString @doc
       @doc = name: @doc, type: typeof @options.thang[@doc]
     if @options.isSnippet
       @doc.type = 'snippet'
       @doc.owner = 'snippets'
+      @doc.shortName = @doc.shorterName = @doc.title = @doc.name
+    else if @doc.owner in ['HTML', 'CSS']
       @doc.shortName = @doc.shorterName = @doc.title = @doc.name
     else
       @doc.owner ?= 'this'
@@ -55,6 +58,7 @@ module.exports = class DocFormatter
         when 'java' then 'hero'
         when 'coffeescript' then '@'
         else (if @options.useHero then 'hero' else 'this')
+      ownerName = 'game' if @options.level.isType('game-dev')
       if @doc.type is 'function'
         [docName, args] = @getDocNameAndArguments()
         argNames = args.join ', '
@@ -139,7 +143,7 @@ module.exports = class DocFormatter
         if @doc.args
           arg.example = arg.example.replace thisToken[@options.language], 'hero' for arg in @doc.args when arg.example
 
-    if @doc.shortName is 'loop' and @options.level.get('type', true) in ['course', 'course-ladder']
+    if @doc.shortName is 'loop' and @options.level.isType('course', 'course-ladder')
       @replaceSimpleLoops()
 
   replaceSimpleLoops: ->
@@ -185,6 +189,7 @@ module.exports = class DocFormatter
     [docName, args]
 
   formatValue: (v) ->
+    return null if @options.level.isType('web-dev')
     return null if @doc.type is 'snippet'
     return @options.thang.now() if @doc.name is 'now'
     return '[Function]' if not v and @doc.type is 'function'

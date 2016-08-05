@@ -38,12 +38,37 @@
               span :
             h2.text-uppercase= i18n(view.nextLevel.attributes, 'name').replace('Course: ', '')
             
-            div!= view.nextLevelDescription
+            div.next-level-description!= view.nextLevelDescription
+    
+    if view.shareURL
+      .well.well-sm.well-parchment
+        h3.text-uppercase
+          if view.level.isType('game-dev')
+            span(data-i18n='sharing.share_game')
+          else
+            span(data-i18n='sharing.share_web')
+        p
+          span(data-i18n='sharing.victory_course_share_prefix')
+          span= ' '
+          a(href=view.shareURL, target='_blank')
+            if view.level.isType('game-dev')
+              span(data-i18n='sharing.victory_course_share_game')
+            else
+              span(data-i18n='sharing.victory_course_share_web')
+          span= ' '
+          span(data-i18n='sharing.victory_course_share_suffix')
+        .row
+          .col-sm-9
+            input.text-h4.semibold.form-control.input-lg#share-level-input(value=view.shareURL)
+          .col-sm-3
+            button#share-level-btn.btn.btn-lg.btn-success.btn-illustrated
+              span(data-i18n='sharing.copy_url')
         
     .row
       .col-sm-5.col-sm-offset-2
-      // TODO: Add this and rest of campaign functionality
-      //  button#continue-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase View Leaderboards
+        // TODO: Add rest of campaign functionality
+        if view.level.get('type') === 'course-ladder'
+          button#ladder-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase Ladder
       .col-sm-5
         if !view.nextLevel.isNew()
           button#next-level-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.next_level')

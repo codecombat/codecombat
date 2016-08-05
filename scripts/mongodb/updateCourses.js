@@ -2,6 +2,7 @@
 
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
+// eg: mongo localhost:27017/coco scripts/mongodb/updateCourses.js
 
 // NOTE: uses name as unique identifier, so changing the name will insert a new course
 // NOTE: pricePerSeat in USD cents
@@ -15,7 +16,8 @@ var courses =
     description: "Learn basic syntax, while loops, and the CodeCombat environment.",
     duration: NumberInt(1),
     free: true,
-    screenshot: "/images/pages/courses/101_info.png"
+    screenshot: "/images/pages/courses/101_info.png",
+    releasePhase: 'released'
   },
   {
     name: "Computer Science 2",
@@ -24,7 +26,8 @@ var courses =
     description: "Introduce Arguments, Variables, If Statements, and Arithmetic.",
     duration: NumberInt(5),
     free: false,
-    screenshot: "/images/pages/courses/102_info.png"
+    screenshot: "/images/pages/courses/102_info.png",
+    releasePhase: 'released'
   },
   {
     name: "Computer Science 3",
@@ -33,7 +36,8 @@ var courses =
     description: "Introduces arithmetic, counters, advanced while loops, break, continue, arrays.",
     duration: NumberInt(5),
     free: false,
-    screenshot: "/images/pages/courses/103_info.png"
+    screenshot: "/images/pages/courses/103_info.png",
+    releasePhase: 'released'
   },
   {
     name: "Computer Science 4",
@@ -42,7 +46,8 @@ var courses =
     description: "Introduces object literals, for loops, function definitions, drawing, and modulo.",
     duration: NumberInt(5),
     free: false,
-    screenshot: "/images/pages/courses/104_info.png"
+    screenshot: "/images/pages/courses/104_info.png",
+    releasePhase: 'released'
   },
   {
     name: "Computer Science 5",
@@ -51,7 +56,44 @@ var courses =
     description: "Introduces function parameters, function return values and algorithms.",
     duration: NumberInt(5),
     free: false,
-    screenshot: "/images/pages/courses/105_info.png"
+    screenshot: "/images/pages/courses/105_info.png",
+    releasePhase: 'released'
+  },
+  {
+    name: "CS: Game Development 1",
+    slug: "game-dev-1",
+    campaignID: ObjectId("5789236960deed1f00ec2ab8"),
+    description: "Learn to create your owns games which you can share with your friends.",
+    duration: NumberInt(1),
+    free: false,
+    releasePhase: 'beta'
+  },
+  {
+    name: "CS: Web Development 1",
+    slug: "web-dev-1",
+    campaignID: ObjectId("578913f2c8871ac2326fa3e4"),
+    description: "Learn the basics of web development in this introductory HTML & CSS course.",
+    duration: NumberInt(1),
+    free: false,
+    releasePhase: 'beta'
+  },
+  {
+    name: "CS: Web Development 2",
+    slug: "web-dev-2",
+    campaignID: ObjectId("57891570c8871ac2326fa3f8"),
+    description: "Learn more advanced web development, including scripting to make interactive webpages.",
+    duration: NumberInt(2),
+    free: false,
+    releasePhase: 'beta'
+  },
+  {
+    name: "JS Primer",
+    slug: "js-primer",
+    campaignID: ObjectId("579a5f37843ad12000e6d4c7"),
+    description: "Learn JavaScript after you already know another programming language like Python.",
+    duration: NumberInt(1),
+    free: false,
+    releasePhase: 'beta'
   }
 ];
 
@@ -62,7 +104,7 @@ for (var i = 0; i < courses.length; i++) {
   if (cursor.hasNext()) {
     var doc = cursor.next();
     for (var levelID in doc.levels) {
-      for (var j = 0; j < doc.levels[levelID].concepts.length; j++) {
+      for (var j = 0; j < (doc.levels[levelID].concepts || []).length; j++) {
         concepts[doc.levels[levelID].concepts[j]] = true;
       }
     }

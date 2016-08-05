@@ -38,7 +38,7 @@ module.exports = class ThangType extends CocoModel
   urlRoot: '/db/thang.type'
   building: {}
   editableByArtisans: true
-  @defaultActions: ['idle', 'die', 'move', 'attack']
+  @defaultActions: ['idle', 'die', 'move', 'attack', 'trick', 'cast']
 
   initialize: ->
     super()

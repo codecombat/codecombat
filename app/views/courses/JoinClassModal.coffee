@@ -10,7 +10,7 @@ module.exports = class JoinClassModal extends ModalView
   events:
     'click .join-class-btn': 'onClickJoinClassButton'
 
-  initialize: ({ @classCode }) ->
+  initialize: ({ @classCode } = {}) ->
     @classroom = new Classroom()
     @teacher = new User()
     jqxhr = @supermodel.trackRequest @classroom.fetchByCode(@classCode)
