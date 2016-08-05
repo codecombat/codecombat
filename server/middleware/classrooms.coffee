@@ -105,13 +105,13 @@ module.exports =
     members = classroom.get('members') or []
     members = members.slice(memberSkip, memberSkip + memberLimit)
     dbqs = []
-    select = 'state.complete level creator playtime changed dateFirstCompleted submitted'
+    select = 'state.complete level creator playtime changed created dateFirstCompleted submitted'
     for member in members
       dbqs.push(LevelSession.find({creator: member.toHexString()}).select(select).exec())
     results = yield dbqs
     sessions = _.flatten(results)
     res.status(200).send(sessions)
-    
+
   fetchMembers: wrap (req, res, next) ->
     throw new errors.Unauthorized() unless req.user
     memberLimit = parse.getLimitFromReq(req, {default: 10, max: 100, param: 'memberLimit'})

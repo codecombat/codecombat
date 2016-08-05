@@ -45,7 +45,7 @@ module.exports.applyErrorsToForm = (el, errors, warning=false) ->
   for error in errors
     if error.code is tv4.errorCodes.OBJECT_REQUIRED
       prop = _.last(_.string.words(error.message)) # hack
-      message = 'Required field'
+      message = $.i18n.t('common.required_field')
     
     else if error.dataPath
       prop = error.dataPath[1..]

@@ -22,6 +22,9 @@ LOG = false
 #  * Sprite map generation
 #  * Connecting to Firebase
 
+# LevelLoader depends on SuperModel retrying timed out requests, as these occasionally happen during play.
+# If LevelLoader ever moves away from SuperModel, it will have to manage its own retries.
+
 module.exports = class LevelLoader extends CocoClass
 
   constructor: (options) ->
