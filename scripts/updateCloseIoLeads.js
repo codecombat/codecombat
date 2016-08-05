@@ -16,7 +16,7 @@ if (process.argv.length !== 10) {
 // TODO: Cleanup country/status lookup code
 
 // Save as custom fields instead of user-specific lead notes (also saving nces_ props)
-const commonTrialProperties = ['organization', 'city', 'state', 'country'];
+const commonTrialProperties = ['organization', 'district', 'city', 'state', 'country'];
 
 // Old properties which are deprecated or moved
 const customFieldsToRemove = [
@@ -327,7 +327,7 @@ function findCocoLeads(done) {
         if (!trialRequest.properties || !trialRequest.properties.email) continue;
         const email = trialRequest.properties.email.toLowerCase();
         emails.push(email);
-        const name = trialRequest.properties.nces_name || trialRequest.properties.organization || trialRequest.properties.school || email;
+        const name = trialRequest.properties.nces_name || trialRequest.properties.organization || trialRequest.properties.school || trialRequest.properties.district || trialRequest.properties.nces_district || email;
         if (!leads[name]) leads[name] = new CocoLead(name);
         leads[name].addTrialRequest(email, trialRequest);
         emailLeadMap[email] = leads[name];
