@@ -17,7 +17,7 @@ module.exports = class RequestQuoteView extends RootView
   logoutRedirectURL: null
 
   events:
-    'change #request-form': 'onChangeForm'
+    'change #request-form': 'onChangeRequestForm'
     'submit #request-form': 'onSubmitRequestForm'
     'change input[name="city"]': 'invalidateNCES'
     'change input[name="state"]': 'invalidateNCES'
@@ -83,7 +83,7 @@ module.exports = class RequestQuoteView extends RootView
       @$('input[name="country"]').val 'USA'
       for key in SCHOOL_NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
-      @onChangeForm()
+      @onChangeRequestForm()
 
     $("#district-control").algolia_autocomplete({hint: false}, [
       source: (query, callback) ->
@@ -104,16 +104,16 @@ module.exports = class RequestQuoteView extends RootView
       @$('input[name="country"]').val 'USA'
       for key in DISTRICT_NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
-      @onChangeForm()
+      @onChangeRequestForm()
 
-  onChangeForm: ->
+  onChangeRequestForm: ->
     unless @formChanged
       window.tracker?.trackEvent 'Teachers Request Demo Form Started', category: 'Teachers', ['Mixpanel']
     @formChanged = true
 
   onSubmitRequestForm: (e) ->
     e.preventDefault()
-    form = @$('form')
+    form = @$('#request-form')
     attrs = forms.formToObject(form)
     trialRequestAttrs = _.cloneDeep(attrs)
 

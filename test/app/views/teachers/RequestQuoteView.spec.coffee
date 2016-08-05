@@ -153,7 +153,7 @@ describe 'RequestQuoteView', ->
     describe 'submits the form without school', ->
       beforeEach ->
         view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
-        form = view.$('form')
+        form = view.$('#request-form')
         formData = _.omit(successForm, ['organization'])
         forms.objectToForm(form, formData)
         form.submit()
@@ -169,7 +169,7 @@ describe 'RequestQuoteView', ->
     describe 'submits the form without district', ->
       beforeEach ->
         view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
-        form = view.$('form')
+        form = view.$('#request-form')
         formData = _.omit(successForm, ['district'])
         forms.objectToForm(form, formData)
         form.submit()
@@ -181,7 +181,7 @@ describe 'RequestQuoteView', ->
     describe 'submits form with district set to n/a', ->
       beforeEach ->
         view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
-        form = view.$('form')
+        form = view.$('#request-form')
         formData = _.omit(successForm, ['organization'])
         formData.district = 'N/A'
         forms.objectToForm(form, formData)
