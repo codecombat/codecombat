@@ -79,7 +79,10 @@ block modal-body-content
               .reward-panel.hero(data-hero-thang-type=hero.get('original'))
                 .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
                   img(src=hero.getPortraitURL())
-                .reward-text= animate ? 'New Hero' : hero.get('name')
+                if animate
+                  .reward-text(data-i18n="play_level.victory_new_hero") New Hero
+                else
+                  .reward-text= i18n(hero.attributes, 'name')
 
           if rewards.items
             for item in rewards.items
