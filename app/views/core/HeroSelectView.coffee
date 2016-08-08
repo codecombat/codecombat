@@ -13,7 +13,7 @@ module.exports = class HeroSelectView extends CocoView
   events:
     'click .hero-option': 'onClickHeroOption'
 
-  initialize: ->
+  initialize: (@options = {}) ->
     defaultHeroOriginal = ThangType.heroes.captain
     currentHeroOriginal = me.get('heroConfig')?.thangType or defaultHeroOriginal
 

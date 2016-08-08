@@ -12,4 +12,4 @@ module.exports = class ExtrasView extends CocoView
     'click .next-button': -> @trigger 'nav-forward'
 
   initialize: ({ @signupState } = {}) ->
-    @insertSubView(new HeroSelectView())
+    @insertSubView(new HeroSelectView({ showCurrentHero: false }))
