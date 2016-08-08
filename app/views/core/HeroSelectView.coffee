@@ -40,6 +40,6 @@ module.exports = class HeroSelectView extends CocoView
     heroConfig = _.assign me.get('heroConfig'), { thangType: heroOriginal }
     me.set({ heroConfig })
 
-    hero = @heroes.get(heroOriginal)
+    hero = @heroes.findWhere({ original: heroOriginal })
     me.save().then =>
       @trigger 'hero-select:success', hero
