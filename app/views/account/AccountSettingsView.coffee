@@ -266,6 +266,8 @@ module.exports = class AccountSettingsView extends CocoView
   grabOtherData: ->
     @$el.find('#name-input').val @suggestedName if @suggestedName
     me.set 'name', @$el.find('#name-input').val()
+    me.set 'firstName', @$el.find('#first-name-input').val()
+    me.set 'lastName', @$el.find('#last-name-input').val()
     me.set 'email', @$el.find('#email').val()
     for emailName, enabled of @getSubscriptions()
       me.setEmailSubscription emailName, enabled

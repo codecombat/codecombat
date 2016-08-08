@@ -13,7 +13,9 @@ if completed
   .small-details.nowrap
     span.spr(data-i18n='teacher.completed')
       | Completed
-    span= new Date(session.get('dateFirstCompleted')).toLocaleString()
+    - var dateCompleted = session.get('dateFirstCompleted') || session.get('created') || session.get('changed');
+    if dateCompleted
+      span= new Date(dateCompleted).toLocaleString()
     +timePlayed
   //- .small-details
   //-   i(data-i18n='teacher.click_to_view_solution')

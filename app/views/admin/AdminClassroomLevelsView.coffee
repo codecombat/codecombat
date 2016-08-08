@@ -1,6 +1,6 @@
 RootView = require 'views/core/RootView'
 CocoCollection = require 'collections/CocoCollection'
-Campaigns = require 'collections/Campaigns'
+Campaign = require 'models/Campaign'
 Course = require 'models/Course'
 
 module.exports = class AdminClassroomLevelsView extends RootView
@@ -9,8 +9,8 @@ module.exports = class AdminClassroomLevelsView extends RootView
 
   initialize: ->
     return super() unless me.isAdmin()
-    @campaigns = new Campaigns()
-    @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
+    @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign})
+    @supermodel.loadCollection(@campaigns, 'campaigns')
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
     super()

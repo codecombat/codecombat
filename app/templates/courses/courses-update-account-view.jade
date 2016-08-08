@@ -73,6 +73,9 @@ block content
                   if me.isStudent()
                     button.remain-student-btn.btn.btn-navy(data-i18n="courses.update_account_remain_student")
                   else
+                    label
+                      span(data-i18n="courses.need_a_class_code")
+                      input(name='classCode')
                     button.update-student-btn.btn.btn-forest(data-i18n="courses.update_account_update_student")
                 br
           br

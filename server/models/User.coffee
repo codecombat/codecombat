@@ -369,6 +369,11 @@ UserSchema.pre('save', (next) ->
   else
     @set('name', undefined)
     @set('nameLower', undefined)
+  
+  if _.isEmpty(@get('firstName'))
+    @set('firstName', undefined)
+  if _.isEmpty(@get('lastName'))
+    @set('lastName', undefined)
 
   unless email or name or @get('anonymous') or @get('deleted')
     return next(new errors.UnprocessableEntity('User needs a username or email address'))

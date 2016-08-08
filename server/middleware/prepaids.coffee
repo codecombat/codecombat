@@ -11,10 +11,6 @@ cutoffDate = new Date(2015,11,11)
 cutoffID = mongoose.Types.ObjectId(Math.floor(cutoffDate/1000).toString(16)+'0000000000000000')
 
 module.exports =
-  logError: (user, msg) ->
-    console.warn "Prepaid Error: [#{user.get('slug')} (#{user._id})] '#{msg}'"
-
-
   post: wrap (req, res) ->
     validTypes = ['course']
     unless req.body.type in validTypes
@@ -71,7 +67,7 @@ module.exports =
     update = { $push: { redeemers : { date: new Date(), userID: user._id } }}
     result = yield Prepaid.update(query, update)
     if result.nModified is 0
-      @logError(req.user, "POST prepaid redeemer lost race on maxRedeemers")
+      console.error("Prepaid redeem error: [#{req.user.get('slug')} (#{req.user._id})] 'POST prepaid redeemer lost race on maxRedeemers'")
       throw new errors.Forbidden('This prepaid is exhausted')
 
     update = {

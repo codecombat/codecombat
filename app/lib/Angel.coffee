@@ -151,7 +151,7 @@ module.exports = class Angel extends CocoClass
     if @work?.indefiniteLength and world.victory?
       finished = true
       world.totalFrames = world.frames.length
-    firstChangedFrame = if @work.indefiniteLength then 0 else world.findFirstChangedFrame @shared.world
+    firstChangedFrame = if @work?.indefiniteLength then 0 else world.findFirstChangedFrame @shared.world
     eventType = if finished then 'new-world-created' else 'streaming-world-updated'
     if finished
       @shared.world = world
