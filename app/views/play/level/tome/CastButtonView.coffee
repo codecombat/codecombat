@@ -81,7 +81,7 @@ module.exports = class CastButtonView extends CocoView
   onDoneButtonClick: (e) ->
     return if @options.level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @options.session.recordScores @world?.scores, @options.level
-    Backbone.Mediator.publish 'level:show-victory', showModal: true
+    Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 
   onSpellChanged: (e) ->
     @updateCastButton()

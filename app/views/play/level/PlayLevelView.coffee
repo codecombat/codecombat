@@ -548,9 +548,9 @@ module.exports = class PlayLevelView extends RootView
 
   onDonePressed: -> @showVictory()
 
-  onShowVictory: (e) ->
+  onShowVictory: (e={}) ->
     $('#level-done-button').show() unless @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
-    @showVictory() if e.showModal
+    @showVictory(_.pick(e, 'manual')) if e.showModal
     return if @victorySeen
     @victorySeen = true
     victoryTime = (new Date()) - @loadEndTime
@@ -563,8 +563,9 @@ module.exports = class PlayLevelView extends RootView
         ls: @session?.get('_id')
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID
 
-  showVictory: ->
+  showVictory: (options={}) ->
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
+    return if @level.isType('game-dev') and @level.get('shareable') and not options.manual
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
     ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') then HeroVictoryModal else VictoryModal
