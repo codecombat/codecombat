@@ -635,7 +635,22 @@ module.exports = class PlayLevelView extends RootView
   # Real-time playback
   onRealTimePlaybackStarted: (e) ->
     @$el.addClass('real-time').focus()
-    @$('#how-to-play-game-dev-panel').removeClass('hide') if @level.isType('game-dev')
+    if @level.isType('game-dev')
+      panel = @$('#how-to-play-game-dev-panel')
+      panel.removeClass('hide')
+      lines = switch @level.get('slug')
+        when 'over-the-garden-wall' then ['Watch to see if the peasants are properly protected.']
+        when 'click-gait' then ['Move to each red "X".', 'Click on the screen to move the Knight there.']
+        when 'heros-journey' then ['Move to each red "X".', 'Click on the screen to move the Knight there.']
+        when 'a-maze-ing' then ['Move to the chest of gems.', 'Click on the screen to move the Duelist there.']
+        when 'gemtacular' then ['Move to each of the gems.', 'Click on the screen to move the Captain there.']
+        when 'vorpal-mouse' then ['Slay the ogres.', 'Click on the screen to move the Guardian there.', 'Click on the munchkins to attack them!']
+        when 'crushing-it' then ['Slay the ogres.', 'Click on the screen to move the Goliath there.', 'Click on the munchkins to attack them!']
+        when 'tabula-rasa' then ['Slay any ogres.', 'Collect any coins.', 'Click on the screen to move the Raider there.', 'Click on any munchkins to attack them!']
+        else ['Click to control your hero and win your game!']
+      html = _.map(lines, (line) -> "<p>#{line}</p>").join('')
+      panel.find('.panel-body').html(html)
+      
     @onWindowResize()
 
   onRealTimePlaybackEnded: (e) ->
