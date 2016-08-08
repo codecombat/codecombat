@@ -64,6 +64,7 @@ module.exports = class CreateAccountModal extends ModalView
       classCode
       birthday: new Date('') # so that birthday.getTime() is NaN
       authModalInitialValues: {}
+      accountCreated: false
     }
     
     { startOnPath } = options
@@ -95,9 +96,9 @@ module.exports = class CreateAccountModal extends ModalView
       'nav-back': -> @signupState.set { screen: 'segment-check' }
       'signup': ->
         if @signupState.get('path') is 'student'
-          @signupState.set { screen: 'extras' }
+          @signupState.set { screen: 'extras', accountCreated: true }
         else
-          @signupState.set { screen: 'confirmation' }
+          @signupState.set { screen: 'confirmation', accountCreated: true }
 
     @listenTo @insertSubView(new SingleSignOnAlreadyExistsView({ @signupState })),
       'nav-back': -> @signupState.set { screen: 'basic-info' }
@@ -106,9 +107,9 @@ module.exports = class CreateAccountModal extends ModalView
       'nav-back': -> @signupState.set { screen: 'basic-info' }
       'signup': ->
         if @signupState.get('path') is 'student'
-          @signupState.set { screen: 'extras' }
+          @signupState.set { screen: 'extras', accountCreated: true }
         else
-          @signupState.set { screen: 'confirmation' }
+          @signupState.set { screen: 'confirmation', accountCreated: true }
         
     @listenTo @insertSubView(new ExtrasView({ @signupState })),
       'nav-forward': -> @signupState.set { screen: 'confirmation' }
@@ -120,7 +121,7 @@ module.exports = class CreateAccountModal extends ModalView
     application.gplusHandler.loadAPI({ success: => @signupState.set { gplusEnabled: true } unless @destroyed })
     
     @once 'hidden', ->
-      if @signupState.get('screen') is 'confirmation' and not application.testing
+      if @signupState.get('accountCreated') and not application.testing
         # ensure logged in state propagates through the entire app
         document.location.reload()
   
