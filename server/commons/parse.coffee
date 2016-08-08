@@ -51,12 +51,14 @@ module.exports =
   getProjectFromReq: (req, options) ->
     options = _.extend({}, options)
     return null unless req.query.project
-    projection = {}
-
-    if req.query.project is 'true'
-      projection = {original: 1, name: 1, version: 1, description: 1, slug: 1, kind: 1, created: 1, permissions: 1}
+    result = {}
+    project = req.query.project
+    if project is 'true'
+      result = {original: 1, name: 1, version: 1, description: 1, slug: 1, kind: 1, created: 1, permissions: 1}
     else
-      for field in req.query.project.split(',')
-        projection[field] = 1
+      if _.isString(project)
+        project = project.split(',')
+      for field in project
+        result[field] = 1
 
-    return projection
+    return result
