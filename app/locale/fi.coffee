@@ -633,7 +633,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     feature5: "Video-oppaat"
     feature6: "Premium sähköpostituki"
     feature7: "<strong>Yksityisklaanit</strong>"
-#    feature8: "<strong>No ads!</strong>"
+    feature8: "<strong>Ei mainoksia!</strong>"
     free: "Ilmainen"
     month: "kuukausi"
     must_be_logged: "Kirjaudu ensin sisään. Ole hyvä, luo tunnus tai kirjaudu sisään yläpuolella olevasta valikosta."
@@ -960,8 +960,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     manage_subscription: "Klikkaa tässä hallitaksesi tilaustasi."
     new_password: "Uusi Salasana"
     new_password_verify: "Varmista"
-    type_in_email: "Anna sähköpostiosoitteesi varmistukseksi"
-#    type_in_email_progress: "Type in your email to confirm deleting your progress."
+    type_in_email: "Anna sähköpostiosoitteesi vahvistaaksesi tilin poistamisen."
+    type_in_email_progress: "Kirjoita sähköpostisi vahvistaaksesi edistymisen tyhjennyksen."
     type_in_password: "Kirjoita myös salasanasi."
     email_subscriptions: "Sähköpostitiedotteet"
     email_subscriptions_none: "Ei sähköpostitiedotteita"
@@ -1842,17 +1842,17 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
-#  coppa_deny:
-#    text1: "Can’t wait to learn programming?"
-#    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions."
-#    close: "Close Window"
+  coppa_deny:
+    text1: "Etkö malta odottaa ohjelmoimista?"
+    text2: "Vanhempiesi täytyy luoda sinulle tili! lähetä viesti osoiteeseen team@codecombat.com jos sinulla on jotain kysyttävää."
+    close: "Sulje ikkuna"
 
   loading_error:
     could_not_load: "Virhe ladattaessa tietoja palvelimelta"
     connection_failure: "Yhteysvirhe."
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
     login_required: "Kirjautuminen vaaditaan"
-#    login_required_desc: "You need to be logged in to access this page."
+    login_required_desc: "Sinun täytyy olla kirjautunut sisään nähdäksesi tämän sivun"
     unauthorized: "Teidän tulee olla kirjautuneena sisään. Ovatko evästeet sallittuna?"
     forbidden: "Ei käyttöoikeuttta."
 #    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
