@@ -13,8 +13,9 @@ describe 'HeroSelectModal', ->
 
   beforeEach (done) ->
     window.me = user = factories.makeUser({ heroConfig: { thangType: hero1.get('original') } })
-    modal = new HeroSelectModal({ currentHeroID: hero1.id })
-    modal.heroes.fakeRequests[0].respondWith({ status: 200, responseText: heroesResponse })
+    modal = new HeroSelectModal()
+    subview = modal.subviews.hero_select_view
+    subview.heroes.fakeRequests[0].respondWith({ status: 200, responseText: heroesResponse })
     jasmine.demoModal(modal)
     _.defer ->
       modal.render()
@@ -24,10 +25,10 @@ describe 'HeroSelectModal', ->
     modal.stopListening()
 
   it 'highlights the current hero', ->
-    expect(modal.$(".hero-option[data-hero-id='#{hero1.id}']")[0].className.split(" ")).toContain('selected')
+    expect(modal.$(".hero-option[data-hero-original='#{hero1.get('original')}']")[0].className.split(" ")).toContain('selected')
 
   it 'saves when you change heroes', (done) ->
-    modal.$(".hero-option[data-hero-id='#{hero2.id}']").click()
+    modal.$(".hero-option[data-hero-original='#{hero2.get('original')}']").click()
     _.defer ->
       expect(user.fakeRequests.length).toBe(1)
       request = user.fakeRequests[0]

@@ -36,11 +36,12 @@ module.exports =
   'fa': { nativeDescription: 'فارسی', englishDescription: 'Persian' }
   'gl': { nativeDescription: 'Galego', englishDescription: 'Galician' }
   'ko': { nativeDescription: '한국어', englishDescription: 'Korean' }
-  'id': { nativeDescription: 'Bahasa Indonesia', englishDescription: 'Indonesian' }
-  'it': { nativeDescription: 'Italiano', englishDescription: 'Italian' }
+  'haw': { nativeDescription: 'ʻŌlelo Hawaiʻi', englishDescription: 'Hawaiian' }
   'he': { nativeDescription: 'עברית', englishDescription: 'Hebrew' }
   'hr': { nativeDescription: 'hrvatski jezik', englishDescription: 'Croatian' }
   'hu': { nativeDescription: 'magyar', englishDescription: 'Hungarian' }
+  'id': { nativeDescription: 'Bahasa Indonesia', englishDescription: 'Indonesian' }
+  'it': { nativeDescription: 'Italiano', englishDescription: 'Italian' }
   'lt': { nativeDescription: 'lietuvių kalba', englishDescription: 'Lithuanian' }
   'mi': { nativeDescription: 'te reo Māori', englishDescription: 'Māori' }
   'mk-MK': { nativeDescription: 'Македонски', englishDescription: 'Macedonian' }

@@ -318,6 +318,8 @@
     write_this_down: "Write this down:"
     start_playing: "Start Playing!"
     sso_connected: "Successfully connected with:"
+    select_your_starting_hero: "Select Your Starting Hero:"
+    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "Recover Account"
