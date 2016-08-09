@@ -50,6 +50,7 @@ form.modal-body.segment-check
               - var thisYear = new Date().getFullYear()
               for year in _.range(thisYear, thisYear - 100, -1)
                 option(selected=(year == view.signupState.get('birthdayYear'))) #{year}
+        .parent_birthdate(data-i18n="signup.parent_use_birthdate")
 
       default
         p

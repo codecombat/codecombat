@@ -304,6 +304,7 @@
     signup_as_individual: "Sign up as an Individual"
     enter_class_code: "Enter your Class Code"
     enter_birthdate: "Enter your birthdate:"
+    parent_use_birthdate: "Parents, use your own birthdate."
     ask_teacher_1: "Ask your teacher for your Class Code."
     ask_teacher_2: "Not part of a class? Create an "
     ask_teacher_3: "Individual Account"
