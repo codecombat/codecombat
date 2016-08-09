@@ -86,7 +86,7 @@ module.exports = class LevelLoader extends CocoClass
       Automatic Report - Unable to Load Level (LevelLoader timeout)
       URL: #{window?.location?.toString()}
       These models are marked as having not loaded:
-      #{JSON.stringify(@supermodel.report().map (m) -> m.model.url())}
+      #{JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))}
       Object.keys(supermodel.models):
       #{JSON.stringify(Object.keys(@supermodel.models))}
     """
