@@ -100,28 +100,57 @@ if view.showAds()
   else
     .portal
       .portals
-        for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
-          - var campaign = campaigns[campaignSlug];
-          - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
-          div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
-            .campaign-label
-              h2.campaign-name
-                if campaign
-                  span= i18n(campaign.attributes, 'fullName')
-                else
-                  span ???
-              if campaign && campaign.levelsTotal
-                h3.levels-completed
-                  span= campaign.levelsCompleted
-                  | /
-                  span= campaign.levelsTotal
-              if campaign && campaign.locked && !godmode
-                h3.campaign-locked(data-i18n="play.locked") Locked
-              else if campaign
-                btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
-              if campaign && campaign.get('description')
-                p.campaign-description
-                  span= i18n(campaign.attributes, 'description')
+        for campaignSlug in ['dungeon', 'beta-campaigns', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
+          if campaignSlug === 'beta-campaigns'
+            - var betaSlugs = _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']);
+            .beta-container
+              each campaignSlug in betaSlugs
+                - var campaign = campaigns[campaignSlug];
+                if !campaign
+                  - continue;
+                div(class="beta-campaign" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
+                  .background-container(class="#{campaignSlug}")
+                  .campaign-label
+                    h3.campaign-name
+                      if campaign
+                        span= i18n(campaign.attributes, 'fullName')
+                        if campaign.levelsTotal
+                          span.spl= campaign.levelsCompleted
+                          | /
+                          span= campaign.levelsTotal
+                      else
+                        span ???
+                    if campaign && campaign.locked && !godmode
+                      h4.campaign-locked(data-i18n="play.locked") Locked
+                    else if campaign
+                      btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                    if campaign && campaign.get('description')
+                      p.campaign-description
+                        span= i18n(campaign.attributes, 'description')
+          else
+            - var campaign = campaigns[campaignSlug];
+            if !campaign
+              - continue;
+            - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
+            div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
+              .campaign-label
+                h2.campaign-name
+                  if campaign
+                    span= i18n(campaign.attributes, 'fullName')
+                  else
+                    span ???
+                if campaign && campaign.levelsTotal
+                  h3.levels-completed
+                    span= campaign.levelsCompleted
+                    | /
+                    span= campaign.levelsTotal
+                if campaign && campaign.locked && !godmode
+                  h3.campaign-locked(data-i18n="play.locked") Locked
+                else if campaign
+                  btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+                if campaign && campaign.get('description')
+                  p.campaign-description
+                    span= i18n(campaign.attributes, 'description')
 
   .game-controls.header-font.picoctf-hide
     button.btn.poll.hidden(data-i18n="[title]play.poll")

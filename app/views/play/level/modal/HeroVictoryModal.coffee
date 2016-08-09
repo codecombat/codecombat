@@ -413,7 +413,17 @@ module.exports = class HeroVictoryModal extends ModalView
       AudioPlayer.playSound name, 1
 
   getNextLevelCampaign: ->
-    {'kithgard-gates': 'forest', 'kithgard-mastery': 'forest', 'siege-of-stonehold': 'desert', 'clash-of-clones': 'mountain', 'summits-gate': 'glacier'}[@level.get('slug')] or @level.get 'campaign'  # Much easier to just keep this updated than to dynamically figure it out.
+    # Much easier to just keep this updated than to dynamically figure it out.
+    # TODO: only go back to world selector if any beta campaigns are incomplete
+    {
+      'kithgard-gates': '',
+      'kithgard-mastery': '',
+      'tabula-rasa': '',
+      'wanted-poster': '',
+      'siege-of-stonehold': '',
+      'clash-of-clones': 'mountain',
+      'summits-gate': 'glacier'
+    }[@level.get('slug')] ? @level.get 'campaign'
 
   getNextLevelLink: (returnToCourse=false) ->
     if @level.isType('course', 'game-dev', 'web-dev') and nextLevel = @level.get('nextLevel') and not returnToCourse

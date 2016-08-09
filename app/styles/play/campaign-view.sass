@@ -592,6 +592,79 @@ $gameControlMargin: 30px
             margin: 15px 0
             min-width: 100px
 
+      .beta-container
+        $betaImagesWidth: 1902px
+        width: $campaignWidth
+        height: $campaignHeight
+        display: inline-block
+        flex-shrink: 0
+        position: relative
+
+        .beta-campaign
+          width: $campaignWidth
+          height: $campaignHeight / 2
+          display: inline-block
+          flex-shrink: 0
+          position: relative
+          cursor: pointer
+          // http://easings.net/#easeOutBack plus tweaked a bit: http://cubic-bezier.com/#.11,.67,.08,1.42
+          @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
+
+          &:hover
+            @include scale($campaignHoverScale)
+
+          &.silhouette
+            @include filter(contrast(50%) brightness(65%))
+            pointer-events: none
+
+          &.locked
+            @include filter(contrast(80%) brightness(80%))
+            pointer-events: none
+
+          .campaign-label
+            position: absolute
+            top: 40%
+            width: 100%
+            text-align: center
+
+            .campaign-name, .levels-completed, .campaign-locked
+              margin: 0
+              color: white
+              text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+            .campaign-locked
+              margin: 32px 0
+
+            .campaign-description
+              margin: 0px 40px
+              background: transparent url(/images/level/popover_border_background.png) no-repeat
+              background-size: 100% 100%
+              padding: 12px
+              color: black
+              font-size: 12px
+
+            .levels-completed
+              font-size: 22px
+
+            .play-button
+              margin: 10px 0
+              min-width: 100px
+              color: white
+
+          .background-container
+            position: absolute
+            left: $campaignWidth / 4
+            width: $campaignWidth / 2
+            height: $campaignHeight / 2
+            background: transparent url(/images/pages/play/portal-beta-campaigns.png) no-repeat 0 0
+            background-size: $betaImagesWidth / 2
+
+            &.campaign-web-dev-1
+              background-position: -151px 0px
+            &.campaign-game-dev-1
+              background-position: -454px 0px
+
+
   .small-nav-logo, .picoctf-powered-by
     position: absolute
     top: 1%

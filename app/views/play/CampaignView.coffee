@@ -55,6 +55,7 @@ module.exports = class CampaignView extends RootView
     'click #back-button': 'onClickBack'
     'click #clear-storage-button': 'onClickClearStorage'
     'click .portal .campaign': 'onClickPortalCampaign'
+    'click .portal .beta-campaign': 'onClickPortalCampaign'
     'mouseenter .portals': 'onMouseEnterPortals'
     'mouseleave .portals': 'onMouseLeavePortals'
     'mousemove .portals': 'onMouseMovePortals'
@@ -365,7 +366,7 @@ module.exports = class CampaignView extends RootView
     return experienceScore
 
   createLine: (o1, o2) ->
-    mapHeight = parseFloat($(".map").css("height")) 
+    mapHeight = parseFloat($(".map").css("height"))
     mapWidth = parseFloat($(".map").css("width"))
     return unless mapHeight > 0
     ratio =  mapWidth / mapHeight
@@ -668,7 +669,7 @@ module.exports = class CampaignView extends RootView
     console.error "CampaignView hero update couldn't find hero slug for original:", hero
 
   onClickPortalCampaign: (e) ->
-    campaign = $(e.target).closest('.campaign')
+    campaign = $(e.target).closest('.campaign, .beta-campaign') 
     return if campaign.is('.locked') or campaign.is('.silhouette')
     campaignSlug = campaign.data('campaign-slug')
     Backbone.Mediator.publish 'router:navigate',
