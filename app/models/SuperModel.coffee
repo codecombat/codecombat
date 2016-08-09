@@ -309,8 +309,9 @@ class ModelResource extends Resource
         @markFailed()
         return @
       @markLoading()
+      @model.loading = false # So fetchModel can run again
       if @loadsAttempted > 0
-        console.log "Didn't load model in #{timeToWait}ms (attempt ##{@loadsAttempted}), trying again: ", this
+        console.log "Didn't load model in #{timeToWait}ms (attempt ##{@loadsAttempted}), trying again: ", _.result(@model, 'url')
       @fetchModel()
       @listenTo @model, 'error', (levelComponent, request) ->
         if request.status not in [408, 504, 522, 524]
