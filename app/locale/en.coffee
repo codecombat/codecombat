@@ -318,6 +318,8 @@
     write_this_down: "Write this down:"
     start_playing: "Start Playing!"
     sso_connected: "Successfully connected with:"
+    select_your_starting_hero: "Select Your Starting Hero:"
+    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "Recover Account"
@@ -356,7 +358,7 @@
     submit_patch: "Submit Patch"
     submit_changes: "Submit Changes"
     save_changes: "Save Changes"
-    required_field: "Required field"
+    required_field: "required" # {change}
 
   general:
     and: "and"
@@ -885,7 +887,9 @@
     evaluate_recommend: "Evaluate/Recommend"
     approve_funds: "Approve Funds"
     no_purchaser_role: "No role in purchase decisions"
-    organization_label: "Name of School/District"
+    district_label: "District"
+    district_na: "Enter N/A if not applicable"
+    organization_label: "School" # {change}
     city: "City"
     state: "State"
     country: "Country"

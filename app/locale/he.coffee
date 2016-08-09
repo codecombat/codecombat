@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", translation:
+ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", translation:
   home:
     slogan: "גם לשחק וגם ללמוד לתכנת"
     no_ie: "המשחק לא עובד באקפלורר 8 וישן יותר. סליחה!" # Warning that only shows up in IE8 and older
@@ -89,7 +89,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    goto_classes: "Go to My Classes"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    check_out_wiki: "Check out our new Educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
 #    form_select_range: "Select class size"
@@ -282,7 +281,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
 #    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
 #    checking: "Checking..."
-#    account_exists: "This email is already in use:" # {change}
+#    account_exists: "This email is already in use:"
 #    sign_in: "Sign in"
 #    email_good: "Email looks good!"
 #    name_taken: "Username already taken! Try {{suggestedName}}?"
@@ -357,7 +356,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     submit_patch: ".שלח תיקון"
     submit_changes: "שלח שינויים"
     save_changes: "שמור שינויים"
-#    required_field: "Required field"
+#    required_field: "required"
 
   general:
     and: "וגם"
@@ -437,6 +436,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     done: "סיים"
     next_level: "השלב הבא"
     next_game: "המשחק הבא"
+#    language: "Language"
+#    languages: "Languages"
 #    programming_language: "Programming language"
     show_menu: "הצג תפריט משחק"
     home: "בית" # Not used any more, will be removed soon.
@@ -884,7 +885,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    evaluate_recommend: "Evaluate/Recommend"
 #    approve_funds: "Approve Funds"
 #    no_purchaser_role: "No role in purchase decisions"
-#    organization_label: "Name of School/District"
+#    district_label: "District"
+#    district_na: "Enter N/A if not applicable"
+#    organization_label: "School"
 #    city: "City"
 #    state: "State"
 #    country: "Country"
@@ -1332,7 +1335,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    update_account_title: "Your account needs attention!"
 #    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
 #    update_account_current_type: "Current Account Type:"
-#    update_account_account_email: "Account Email/Username:" # {change}
+#    update_account_account_email: "Account Email/Username:"
 #    update_account_am_teacher: "I am a teacher"
 #    update_account_keep_access: "Keep access to classes I've created"
 #    update_account_teachers_can: "Teacher accounts can:"
@@ -1353,6 +1356,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
+#    need_a_class_code: "You'll need a Class Code for the class you're joining:"
 #    update_account_not_sure: "Not sure which one to choose? Email"
 #    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
 #    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
@@ -1461,12 +1465,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    enter_new_password_below: "Enter new password below:"
 #    change_password: "Change Password"
 #    changed: "Changed"
-#    available_credits: "Available Licenses" # {change}
-#    pending_credits: "Pending Licenses" # {change}
+#    available_credits: "Available Licenses"
+#    pending_credits: "Pending Licenses"
 #    credits: "licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
-#    num_enrollments_needed: "Number of licenses needed:" # {change}
+#    num_enrollments_needed: "Number of licenses needed:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
 #    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
 #    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"

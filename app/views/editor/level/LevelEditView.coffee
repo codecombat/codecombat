@@ -165,7 +165,7 @@ module.exports = class LevelEditView extends RootView
       if me.get('name') is 'Nick'
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=2560,height=1080,left=0,top=-1600,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
       else
-        @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1024,height=560,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
+        @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1280,height=640,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
       @childWindow.onPlayLevelViewLoaded = (e) => sendLevel()  # still a hack
     @childWindow.focus()
 

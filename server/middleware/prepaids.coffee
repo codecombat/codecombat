@@ -138,7 +138,7 @@ module.exports =
     trialRequests = yield TrialRequest.find({$and: [{type: 'course'}, {applicant: {$in: userIDs}}]}, {applicant: 1, properties: 1}).lean()
     schoolPrepaidsMap = {}
     for trialRequest in trialRequests
-      school = trialRequest.properties?.organization ? trialRequest.properties?.school
+      school = trialRequest.properties?.nces_name ? trialRequest.properties?.organization ? trialRequest.properties?.school
       continue unless school
       if userPrepaidsMap[trialRequest.applicant.valueOf()]?.length > 0
         schoolPrepaidsMap[school] ?= []

@@ -34,7 +34,8 @@ module.exports = class TeachersContactModal extends ModalView
     message = """
         Hi CodeCombat! I want to learn more about the Classroom experience and get licenses so that my students can access Computer Science 2 and on.
 
-        Name of School/District: #{props.organization or ''}
+        Name of School #{props.nces_name or props.organization or ''}
+        Name of District: #{props.nces_district or props.district or ''}
         Role: #{props.role or ''}
         Phone Number: #{props.phoneNumber or ''}
       """

@@ -31,6 +31,7 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
     phoneNumber: '555-555-5555'
     role: 'Teacher'
     organization: 'School'
+    district: 'District'
     city: 'Springfield'
     state: 'AA'
     country: 'asdf'
@@ -168,3 +169,48 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
       })
       expect(me.get('role')).toBe(successForm.role.toLowerCase())
 
+  describe 'submitting the form without school', ->
+    beforeEach ->
+      view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
+      form = view.$('form')
+      formData = _.omit(successForm, ['organization'])
+      forms.objectToForm(form, formData)
+      form.submit()
+
+    it 'submits a trial request, which does not include school setting', ->
+      request = jasmine.Ajax.requests.mostRecent()
+      expect(request.url).toBe('/db/trial.request')
+      expect(request.method).toBe('POST')
+      attrs = JSON.parse(request.params)
+      expect(attrs.properties?.organization).toBeUndefined()
+      expect(attrs.properties?.district).toEqual('District')
+
+  describe 'submitting the form without district', ->
+    beforeEach ->
+      view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
+      form = view.$('form')
+      formData = _.omit(successForm, ['district'])
+      forms.objectToForm(form, formData)
+      form.submit()
+
+    it 'displays a validation error on district and not school', ->
+      expect(view.$('#organization-control').parent().hasClass('has-error')).toEqual(false)
+      expect(view.$('#district-control').parent().hasClass('has-error')).toEqual(true)
+
+  describe 'submitting the form district set to n/a', ->
+    beforeEach ->
+      view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
+      form = view.$('form')
+      formData = _.omit(successForm, ['organization'])
+      formData.district = 'N/A'
+      forms.objectToForm(form, formData)
+      form.submit()
+
+    it 'submits a trial request, which does not include district setting', ->
+      expect(view.$('#organization-control').parent().hasClass('has-error')).toEqual(false)
+      expect(view.$('#district-control').parent().hasClass('has-error')).toEqual(false)
+      request = jasmine.Ajax.requests.mostRecent()
+      expect(request.url).toBe('/db/trial.request')
+      expect(request.method).toBe('POST')
+      attrs = JSON.parse(request.params)
+      expect(attrs.properties?.district).toBeUndefined()
