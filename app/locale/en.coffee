@@ -805,7 +805,6 @@
     elliot_blurb: "Mindreader"
     lisa_title: "Market Development Rep"
     sean_title: "Territory Manager"
-    
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"
