@@ -107,7 +107,7 @@ module.exports =
   getStudents: wrap (req, res, next) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
     query = $or: [{role: 'student'}, {$and: [{schoolName: {$exists: true}}, {schoolName: {$ne: ''}}, {anonymous: false}]}]
-    users = yield User.find(query).select('lastIP schoolName').lean()
+    users = yield User.find(query).select('lastIP').lean()
     for user in users
       if ip = user.lastIP
         user.geo = geoip.lookup(ip)
