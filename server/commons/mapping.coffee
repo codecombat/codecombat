@@ -56,7 +56,8 @@ module.exports.routes =
     'routes/sprites'
     'routes/queue'
     'routes/stacklead'
-    'routes/stripe'
+    'routes/stripe',
+    'routes/html'
   ]
 
 mongoose = require 'mongoose'

@@ -26,7 +26,7 @@ if view.showAds()
       img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
   if campaign
-    .map
+    .map(style="width: 800px; height: 600px")
       .gradient.horizontal-gradient.top-gradient
       .gradient.vertical-gradient.right-gradient
       .gradient.horizontal-gradient.bottom-gradient
@@ -118,7 +118,7 @@ if view.showAds()
               if campaign && campaign.locked && !godmode
                 h3.campaign-locked(data-i18n="play.locked") Locked
               else if campaign
-                btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+                a(data-i18n="common.play", href="/play/#{campaignSlug}").btn.btn-illustrated.btn-lg.btn-success.play-button
               if campaign && campaign.get('description')
                 p.campaign-description
                   span= i18n(campaign.attributes, 'description')
