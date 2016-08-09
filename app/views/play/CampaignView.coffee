@@ -17,6 +17,7 @@ utils = require 'core/utils'
 require 'vendor/three'
 ParticleMan = require 'core/ParticleMan'
 ShareProgressModal = require 'views/play/modal/ShareProgressModal'
+TryBetaCampaignsModal = require 'views/play/modal/TryBetaCampaignsModal'
 UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
@@ -156,10 +157,72 @@ module.exports = class CampaignView extends RootView
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
-    if @terrain and me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
-      @openModalView new CreateAccountModal supermodel: @supermodel, showSignupRationale: true
-    else if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and not storage.load('sent-parent-email') and not me.isPremium()
-      @openModalView new ShareProgressModal()
+    unless @showedTryBetaCampaignsModal()
+      if @terrain and me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
+        @openModalView new CreateAccountModal supermodel: @supermodel, showSignupRationale: true
+      else if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and not storage.load('sent-parent-email') and not me.isPremium()
+        @openModalView new ShareProgressModal()
+
+  showedTryBetaCampaignsModal: ->
+    # Show modal before navigating to gd* and wd* campaigns
+    # Beta testing progression: dungeon, gd1, wd1, forest, gd1, wd1, gd2, wd2, desert
+    # TODO: bunch of hard-coded campaign slugs and ordering in here
+    return false if @editorMode
+    levels = _.values($.extend true, {}, @campaign?.get('levels') ? {})
+    campaignProgression = ['dungeon', 'campaign-game-dev-1', 'campaign-web-dev-1', 'forest', 'campaign-game-dev-1', 'campaign-web-dev-1', 'desert']
+    completedCampaigns =
+      'dungeon': @levelStatusMap['kithgard-gates'] is 'complete' or @levelStatusMap['kithgard-mastery'] is 'complete'
+      'forest': @levelStatusMap['siege-of-stonehold'] is 'complete'
+      'campaign-game-dev-1': levels.length and @levelStatusMap[levels[levels.length - 1]?.slug] is 'complete'
+      'campaign-web-dev-1': levels.length and @levelStatusMap[levels[levels.length - 1]?.slug] is 'complete'
+    betaCampaigns =
+      'campaign-game-dev-1': true
+      'campaign-web-dev-1': true
+    betaPrompts =
+      'campaign-game-dev-1':
+        prompt: $.i18n.t 'play.beta_gamedev_prompt'
+        yes: $.i18n.t 'play.beta_gamedev_yes'
+        no: $.i18n.t 'play.beta_gamedev_no'
+      'campaign-web-dev-1':
+        prompt: $.i18n.t 'play.beta_webdev_prompt'
+        yes: $.i18n.t 'play.beta_webdev_yes'
+        no: $.i18n.t 'play.beta_webdev_no'
+
+    campaignSlug = @campaign?.get('slug')
+    index = campaignProgression.indexOf(campaignSlug)
+    return false unless index >= 0
+
+    createTryKey = (index) ->
+      if campaignProgression.indexOf('forest') > index
+        "try-beta-dungeon-#{campaignProgression[index]}"
+      else
+        "try-beta-forest-#{campaignProgression[index]}"
+
+    # If current complete and next incomplete is beta, prompt once => stay or go to next
+    if completedCampaigns[campaignSlug]
+      nextIndex = index + 1
+      tryKey = createTryKey(nextIndex)
+      while nextIndex < campaignProgression.length and completedCampaigns[campaignProgression[nextIndex]] and not storage.load(tryKey)
+        nextIndex++
+        tryKey = createTryKey(nextIndex)
+      return false if nextIndex >= campaignProgression.length or storage.load(tryKey)
+      if betaCampaigns[campaignProgression[nextIndex]]
+        storage.save(tryKey, true)
+        displayText = betaPrompts[campaignProgression[nextIndex]]
+        @openModalView(new TryBetaCampaignsModal({displayText, yesRoute: "/play/#{campaignProgression[nextIndex]}"}))
+        return true
+
+    # If current incomplete and beta, prompt once => stay or go to next non-beta
+    else if betaCampaigns[campaignSlug] and not completedCampaigns[campaignSlug]
+      tryKey = createTryKey(index)
+      return false if storage.load(tryKey)
+      nextNonBetaIndex = index + 1
+      nextNonBetaIndex++ while nextNonBetaIndex < campaignProgression.length and betaCampaigns[campaignProgression[nextNonBetaIndex]]
+      return false if nextNonBetaIndex >= campaignProgression.length
+      storage.save(tryKey, true)
+      displayText = betaPrompts[campaignSlug]
+      @openModalView(new TryBetaCampaignsModal({displayText, noRoute: "/play/#{campaignProgression[nextNonBetaIndex]}"}))
+      return true
 
   setCampaign: (@campaign) ->
     @render()
@@ -365,7 +428,7 @@ module.exports = class CampaignView extends RootView
     return experienceScore
 
   createLine: (o1, o2) ->
-    mapHeight = parseFloat($(".map").css("height")) 
+    mapHeight = parseFloat($(".map").css("height"))
     mapWidth = parseFloat($(".map").css("width"))
     return unless mapHeight > 0
     ratio =  mapWidth / mapHeight

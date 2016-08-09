@@ -413,7 +413,16 @@ module.exports = class HeroVictoryModal extends ModalView
       AudioPlayer.playSound name, 1
 
   getNextLevelCampaign: ->
-    {'kithgard-gates': 'forest', 'kithgard-mastery': 'forest', 'siege-of-stonehold': 'desert', 'clash-of-clones': 'mountain', 'summits-gate': 'glacier'}[@level.get('slug')] or @level.get 'campaign'  # Much easier to just keep this updated than to dynamically figure it out.
+    # Much easier to just keep this updated than to dynamically figure it out.
+    {
+      'kithgard-gates': 'campaign-game-dev-1',
+      'kithgard-mastery': 'campaign-game-dev-1',
+      'tabula-rasa': 'campaign-web-dev-1',
+      'wanted-poster': 'forest',
+      'siege-of-stonehold': 'desert',
+      'clash-of-clones': 'mountain',
+      'summits-gate': 'glacier'
+    }[@level.get('slug')] or @level.get 'campaign'
 
   getNextLevelLink: (returnToCourse=false) ->
     if @level.isType('course', 'game-dev', 'web-dev') and nextLevel = @level.get('nextLevel') and not returnToCourse

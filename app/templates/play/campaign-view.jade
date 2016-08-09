@@ -100,8 +100,10 @@ if view.showAds()
   else
     .portal
       .portals
-        for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
+        for campaignSlug in ['dungeon', 'campaign-game-dev-1', 'campaign-web-dev-1', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
           - var campaign = campaigns[campaignSlug];
+          if !campaign
+            - continue;
           - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
           div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
             .campaign-label
