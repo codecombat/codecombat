@@ -1527,7 +1527,18 @@
 
   web_dev:
     image_gallery_title: "Image Gallery"
-    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
+    select_an_image: "Select an image you want to use"
+    scroll_down_for_more_images: "(Scroll down for more images)"
+    copy_the_url: "Copy the URL below"
+    copy_the_url_description: "Useful if you want to replace an existing image."
+    copy_the_img_tag: "Copy the <img> tag"
+    copy_the_img_tag_description: "Useful if you want to insert a new image."
+    copy_url: "Copy URL"
+    copy_img: "Copy <img>"
+    how_to_copy_paste: "How to Copy/Paste"
+    copy: "Copy"
+    paste: "Paste"
+    back_to_editing: "Back to Editing"
 
   classes:
     archmage_title: "Archmage"
