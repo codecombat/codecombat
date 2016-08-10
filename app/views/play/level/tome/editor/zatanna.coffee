@@ -198,7 +198,7 @@ module.exports = class Zatanna
           editor.completer.autoInsert = false
           editor.completer.showPopup(editor)
 
-          # Hide popup if more than 10 suggestions
+          # Hide popup if too many suggestions
           # TODO: Completions aren't asked for unless we show popup, so this is super hacky
           # TODO: Backspacing to yield more suggestions does not close popup
           if editor.completer?.completions?.filtered?.length > 20
