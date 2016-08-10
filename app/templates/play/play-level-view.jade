@@ -52,17 +52,15 @@ if view.showAds()
     
     button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback")
       if view.level && view.level.isType('game-dev')
-        | Back to coding
+        span(data-i18n="play_game_dev_level.back_to_coding")
       else 
         span(data-i18n="play_level.skip")
     
     #how-to-play-game-dev-panel.panel.panel-default.hide.style-flat
       .panel-heading
-        h3.panel-title How to play:
-      .panel-body
-        p Use the mouse to control the hero!
-        p Click anywhere on the map to move to that location.
-        p Click on the ogres to attack them.
+        h3.panel-title(data-i18n="play_game_dev_level.how_to_play_title")
+        
+      .panel-body!= view.howToPlayText
 
     .hints-view.hide
 

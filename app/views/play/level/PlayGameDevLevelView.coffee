@@ -33,6 +33,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     @state = new State({
       loading: true
       progress: 0
+      creatorString: ''
     })
 
     @supermodel.on 'update-progress', (progress) =>
@@ -92,6 +93,7 @@ module.exports = class PlayGameDevLevelView extends RootView
         loading: false
         goalNames
         shareURL
+        creatorString: $.i18n.t('play_game_dev_level.created_by').replace('{{name}}', @session.get('creatorName'))
       })
       @eventProperties = {
         category: 'Play GameDev Level'

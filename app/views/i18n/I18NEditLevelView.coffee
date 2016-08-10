@@ -17,6 +17,8 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
         @wrapRow 'Level description', ['description'], description, i18n[lang]?.description, []
       if loadingTip = @model.get('loadingTip')
         @wrapRow 'Loading tip', ['loadingTip'], loadingTip, i18n[lang]?.loadingTip, []
+      if studentPlayInstructions = @model.get('studentPlayInstructions')
+        @wrapRow 'Student Play Instructions', ['studentPlayInstructions'], studentPlayInstructions, i18n[lang]?.studentPlayInstructions, []
 
     # goals
     for goal, index in @model.get('goals') ? []

@@ -68,7 +68,8 @@ LevelHandler = class LevelHandler extends Handler
     'scoreTypes'
     'concepts'
     'picoCTFProblem'
-    'practiceThresholdMinutes'
+    'practiceThresholdMinutes',
+    'studentPlayInstructions'
   ]
 
   postEditableProperties: ['name']

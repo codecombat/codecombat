@@ -84,13 +84,14 @@ module.exports = class NewHomeView extends RootView
 
   onClickStudentButton: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    @render?() if document.location.href.search('/home#create-account-student') isnt -1
 
   onClickTeacherButton: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
     if me.isTeacher()
       application.router.navigate('/teachers', { trigger: true })
     else
-      @scrollToLink('.request-demo-row', 600)
+      application.router.navigate('/teachers/signup', { trigger: true })
 
   onClickViewProfile: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []

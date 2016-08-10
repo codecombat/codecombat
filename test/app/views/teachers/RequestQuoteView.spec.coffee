@@ -48,7 +48,7 @@ describe 'RequestQuoteView', ->
             }
           }])
         })
-        _.defer done # Let SuperModel finish
+        view.supermodel.once('loaded-all', done)
 
       it 'shows request received', ->
         expect(view.$('#request-form').hasClass('hide')).toBe(true)
@@ -220,7 +220,7 @@ describe 'RequestQuoteView', ->
             }
           }])
         })
-        _.defer done # Let SuperModel finish
+        view.supermodel.once('loaded-all', done)
 
       it 'shows form with data from the most recent request', ->
         expect(view.$('input[name="firstName"]').val()).toBe('First')

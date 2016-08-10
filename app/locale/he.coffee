@@ -1,4 +1,4 @@
- module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", translation:
+module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", translation:
   home:
     slogan: "גם לשחק וגם ללמוד לתכנת"
     no_ie: "המשחק לא עובד באקפלורר 8 וישן יותר. סליחה!" # Warning that only shows up in IE8 and older

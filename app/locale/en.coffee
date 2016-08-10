@@ -304,6 +304,7 @@
     signup_as_individual: "Sign up as an Individual"
     enter_class_code: "Enter your Class Code"
     enter_birthdate: "Enter your birthdate:"
+    parent_use_birthdate: "Parents, use your own birthdate."
     ask_teacher_1: "Ask your teacher for your Class Code."
     ask_teacher_2: "Not part of a class? Create an "
     ask_teacher_3: "Individual Account"
@@ -475,6 +476,7 @@
     victory_experience_gained: "XP Gained"
     victory_gems_gained: "Gems Gained"
     victory_new_item: "New Item"
+    victory_new_hero: "New Hero"
     victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
     victory_become_a_viking: "Become a Viking"
     victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
@@ -571,6 +573,18 @@
     tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
     tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
     tip_mulan: "Believe you can, then you will. - Mulan"
+    
+  play_game_dev_level:
+    created_by: "Created by {{name}}"
+    how_to_play_title: "How to play:"
+    how_to_play_1: "Use the mouse to control the hero!"
+    how_to_play_2: "Click anywhere on the map to move to that location."
+    how_to_play_3: "Click on the ogres to attack them."
+    restart: "Restart Level"
+    play: "Play Level"
+    play_more_codecombat: "Play More CodeCombat"
+    default_student_instructions: "Click to control your hero and win your game!"
+    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Inventory"
@@ -804,6 +818,7 @@
     elliot_title: "Partnership Manager"
     elliot_blurb: "Mindreader"
     lisa_title: "Market Development Rep"
+    sean_title: "Territory Manager"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"

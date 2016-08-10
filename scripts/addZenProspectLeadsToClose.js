@@ -51,6 +51,16 @@ function createCloseLead(zpContact, done) {
   if (zpContact.phone) {
     postData.contacts[0].phones = [{phone: zpContact.phone}];
   }
+  if (zpContact.district) {
+    postData.custom['demo_nces_district'] = zpContact.district;
+    postData.custom['demo_nces_name'] = zpContact.organization;
+  }
+  if (zpContact.nces_district_id) {
+    postData.custom['demo_nces_district_id'] = zpContact.nces_district_id;
+  }
+  if (zpContact.nces_school_id) {
+    postData.custom['demo_nces_id'] = zpContact.nces_school_id;
+  }
   const options = {
     uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/`,
     body: JSON.stringify(postData)
@@ -146,16 +156,31 @@ function getZPContactsPage(contacts, searchQuery, done) {
     if (err) return done(err);
     const data = JSON.parse(body);
     for (let contact of data.contacts) {
-      let organization = contact.organization_name;
-      if (contact.custom_fields && contact.custom_fields.school_name) organization = contact.custom_fields.school_name;
-      contacts.push({
-        organization: organization,
+      const newContact = {
+        organization: contact.organization_name,
         name: contact.name,
         title: contact.title,
         email: contact.email,
         phone: contact.phone,
         data: contact
-      });
+      };
+      // Check custom fields, school_name set means organization_name is district name
+      if (contact.custom_fields) {
+        if (contact.custom_fields.school_name) {
+          newContact.district = contact.organization_name;
+          newContact.organization = contact.custom_fields.school_name;
+          // console.log(`DEBUG: found contact with school name ${newContact.email} ${contact.custom_fields.school_name}`);
+        }
+        if (contact.custom_fields.nces_district_id) {
+          newContact.nces_district_id = contact.custom_fields.nces_district_id;
+          // console.log(`DEBUG: found contact with district id ${newContact.email} ${newContact.nces_district_id}`);
+        }
+        if (contact.custom_fields.nces_school_id) {
+          newContact.nces_school_id = contact.custom_fields.nces_school_id;
+          // console.log(`DEBUG: found contact with school id ${newContact.email} ${newContact.nces_school_id}`);
+        }
+      }
+      contacts.push(newContact);
     }
     return done(null, data.pipeline_total);
   });
