@@ -103,7 +103,7 @@ if view.showAds()
         for campaignSlug in ['dungeon', 'beta-campaigns', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
           if campaignSlug === 'beta-campaigns'
             - var betaSlugs = _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']);
-            div
+            .beta-container
               each campaignSlug in betaSlugs
                 - var campaign = campaigns[campaignSlug];
                 if !campaign
@@ -123,7 +123,7 @@ if view.showAds()
                     if campaign && campaign.locked && !godmode
                       h4.campaign-locked(data-i18n="play.locked") Locked
                     else if campaign
-                      btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="play.play_beta")
+                      btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
                     if campaign && campaign.get('description')
                       p.campaign-description
                         span= i18n(campaign.attributes, 'description')
