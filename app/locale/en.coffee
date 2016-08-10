@@ -573,6 +573,16 @@
     tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
     tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
     tip_mulan: "Believe you can, then you will. - Mulan"
+    
+  play_game_dev_level:
+    created_by: "Created by {{name}}"
+    how_to_play_title: "How to play:"
+    how_to_play_1: "Use the mouse to control the hero!"
+    how_to_play_2: "Click anywhere on the map to move to that location."
+    how_to_play_3: "Click on the ogres to attack them."
+    restart: "Restart Level"
+    play: "Play Level"
+    play_more_codecombat: "Play More CodeCombat"
 
   game_menu:
     inventory_tab: "Inventory"
