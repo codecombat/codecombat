@@ -583,6 +583,8 @@
     restart: "Restart Level"
     play: "Play Level"
     play_more_codecombat: "Play More CodeCombat"
+    default_student_instructions: "Click to control your hero and win your game!"
+    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Inventory"

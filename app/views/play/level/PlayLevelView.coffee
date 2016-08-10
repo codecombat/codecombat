@@ -211,7 +211,12 @@ module.exports = class PlayLevelView extends RootView
       @$el.addClass 'web-dev'  # Hide some of the elements we won't be using
       return
     @world = @levelLoader.world
-    @$el.addClass 'game-dev' if @level.isType('game-dev')
+    if @level.isType('game-dev')
+      @$el.addClass 'game-dev'
+      @howToPlayText = utils.i18n(@level.attributes, 'studentPlayInstructions')
+      @howToPlayText ?= $.i18n.t('play_game_dev_level.default_student_instructions')
+      @howToPlayText = marked(@howToPlayText, { sanitize: true })
+      @renderSelectors('#how-to-play-game-dev-panel')
     @$el.addClass 'hero' if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')  # TODO: figure out what this does and comment it
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
     # TODO: Update terminology to always be opponentSession or otherSession
@@ -639,18 +644,21 @@ module.exports = class PlayLevelView extends RootView
     if @level.isType('game-dev')
       panel = @$('#how-to-play-game-dev-panel')
       panel.removeClass('hide')
-      lines = switch @level.get('slug')
-        when 'over-the-garden-wall' then ['Watch to see if the peasants are properly protected.']
-        when 'click-gait' then ['Move to each red "X".', 'Click on the screen to move the Knight there.']
-        when 'heros-journey' then ['Move to each red "X".', 'Click on the screen to move the Knight there.']
-        when 'a-maze-ing' then ['Move to the chest of gems.', 'Click on the screen to move the Duelist there.']
-        when 'gemtacular' then ['Move to each of the gems.', 'Click on the screen to move the Captain there.']
-        when 'vorpal-mouse' then ['Slay the ogres.', 'Click on the screen to move the Guardian there.', 'Click on the munchkins to attack them!']
-        when 'crushing-it' then ['Slay the ogres.', 'Click on the screen to move the Goliath there.', 'Click on the munchkins to attack them!']
-        when 'tabula-rasa' then ['Slay any ogres.', 'Collect any coins.', 'Click on the screen to move the Raider there.', 'Click on any munchkins to attack them!']
-        else ['Click to control your hero and win your game!']
-      html = _.map(lines, (line) -> "<p>#{line}</p>").join('')
-      panel.find('.panel-body').html(html)
+      # TODO: Remove this once these levels have studentPlayInstructions set. 
+      if not @level.get('studentPlayInstructions')
+        lines = switch @level.get('slug')
+          when 'over-the-garden-wall' then ['Watch to see if the peasants are properly protected.']
+          when 'click-gait' then ['Move to each red "X".', 'Click on the screen to move the Knight there.']
+          when 'heros-journey' then ['Move to each red "X".', 'Click on the screen to move the Knight there.']
+          when 'a-maze-ing' then ['Move to the chest of gems.', 'Click on the screen to move the Duelist there.']
+          when 'gemtacular' then ['Move to each of the gems.', 'Click on the screen to move the Captain there.']
+          when 'vorpal-mouse' then ['Slay the ogres.', 'Click on the screen to move the Guardian there.', 'Click on the munchkins to attack them!']
+          when 'crushing-it' then ['Slay the ogres.', 'Click on the screen to move the Goliath there.', 'Click on the munchkins to attack them!']
+          when 'tabula-rasa' then ['Slay any ogres.', 'Collect any coins.', 'Click on the screen to move the Raider there.', 'Click on any munchkins to attack them!']
+          else null
+        if lines
+          html = _.map(lines, (line) -> "<p>#{line}</p>").join('')
+          panel.find('.panel-body').html(html)
       
     @onWindowResize()
 
