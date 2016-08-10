@@ -101,12 +101,15 @@ module.exports = TestView = class TestView extends RootView
       Backbone.Mediator.init()
       Backbone.Mediator.setValidationEnabled false
       spyOn(application.tracker, 'trackEvent')
+      application.timeoutsToClear = []
       # TODO Stubbify more things
       #   * document.location
       #   * firebase
       #   * all the services that load in main.html
 
     afterEach ->
+      application.timeoutsToClear?.forEach (timeoutID) ->
+        clearTimeout(timeoutID)
       # TODO Clean up more things
       #   * Events
 

@@ -318,6 +318,8 @@ class ModelResource extends Resource
           clearTimeout(@timeoutID)
       clearTimeout(@timeoutID) if @timeoutID
       @timeoutID = setTimeout(tryLoad, timeToWait)
+      if application.testing
+        application.timeoutsToClear?.push(@timeoutID)
       @loadsAttempted += 1
       timeToWait *= 1.5
     tryLoad()
