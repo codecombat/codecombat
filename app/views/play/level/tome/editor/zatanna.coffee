@@ -201,7 +201,7 @@ module.exports = class Zatanna
           # Hide popup if more than 10 suggestions
           # TODO: Completions aren't asked for unless we show popup, so this is super hacky
           # TODO: Backspacing to yield more suggestions does not close popup
-          if editor.completer?.completions?.filtered?.length > 10
+          if editor.completer?.completions?.filtered?.length > 20
             editor.completer.detach()
 
           # Update popup CSS after it's been launched
@@ -244,6 +244,7 @@ module.exports = class Zatanna
 
   addCodeCombatSnippets: (level, spellView, e) ->
     snippetEntries = []
+    source = spellView.getSource()
     haveFindNearestEnemy = false
     haveFindNearest = false
     for group, props of e.propGroups
@@ -279,7 +280,6 @@ module.exports = class Zatanna
               else 'while true'
           # For now, update autocomplete to use hero instead of self/this, if hero is already used in the source.
           # Later, we should make this happen all the time - or better yet update the snippets.
-          source = spellView.getSource()
           if /hero/.test(source) or not /(self[\.\:]|this\.|\@)/.test(source)
             thisToken =
               'python': /self/,
@@ -317,6 +317,15 @@ module.exports = class Zatanna
         # (On Known Enemy, we are introducing enemy2 = "Gert", so we want them to do attack(enemy2).)
         attackEntry.content = attackEntry.content.replace '${1:enemy}', '"${1:Enemy Name}"'
       snippetEntries.push attackEntry
+
+    # Add copied hero. entries for most important ones that start with hero.
+    sortedEntries = _.sortBy snippetEntries, (entry) -> -1 * parseInt(entry.importance ? 0)
+    for entry in sortedEntries
+      if entry.content?.indexOf('hero.') is 0
+        newEntry = _.cloneDeep(entry)
+        entry.name = "hero.#{newEntry.name}"
+        snippetEntries.push(newEntry)
+        break if snippetEntries.length - sortedEntries.length >= 10
 
     if haveFindNearest and not haveFindNearestEnemy
       spellView.translateFindNearest()
