@@ -181,12 +181,7 @@
     campaign_multiplayer_description: "... in which you code head-to-head against other players."
     campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
     campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
-    beta_gamedev_prompt: 'Become a game designer! Learn how to build CodeCombat levels with our new Game Development campaign.'
-    beta_gamedev_yes: 'Yes, I want to make awesome games!'
-    beta_gamedev_no: 'No, I’ll just stick to regular programming levels.'
-    beta_webdev_prompt: 'Learn HTML, scripting and more! Play our brand-new Web Development levels now.'
-    beta_webdev_yes: 'Yes, I want to make websites!'
-    beta_webdev_no: 'No, I’ll just stick to regular programming levels.'
+    play_beta: "Play Beta"
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
