@@ -324,7 +324,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @playSound 'item-unlocked' if 0.5 < ratio < 0.6
     else if panel.hero
       thangType = @thangTypes[panel.hero]
-      panel.textEl.text(thangType.get('name'))
+      panel.textEl.text utils.i18n(thangType.attributes, 'name')
       @playSelectionSound thangType if 0.5 < ratio < 0.6
     if ratio is 1
       panel.rootEl.removeClass('animating').find('.reward-image-container img').removeClass('pulse')

@@ -476,6 +476,7 @@
     victory_experience_gained: "XP Gained"
     victory_gems_gained: "Gems Gained"
     victory_new_item: "New Item"
+    victory_new_hero: "New Hero"
     victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
     victory_become_a_viking: "Become a Viking"
     victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
