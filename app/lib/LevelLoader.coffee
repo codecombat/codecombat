@@ -11,6 +11,7 @@ AudioPlayer = require 'lib/AudioPlayer'
 app = require 'core/application'
 World = require 'lib/world/world'
 utils = require 'core/utils'
+{sendContactMessage} = require 'core/contact'
 
 LOG = false
 
@@ -24,6 +25,8 @@ LOG = false
 
 # LevelLoader depends on SuperModel retrying timed out requests, as these occasionally happen during play.
 # If LevelLoader ever moves away from SuperModel, it will have to manage its own retries.
+
+reportedLoadErrorAlready = false
 
 module.exports = class LevelLoader extends CocoClass
 
@@ -52,6 +55,7 @@ module.exports = class LevelLoader extends CocoClass
     if @supermodel.finished()
       @onSupermodelLoaded()
     else
+      @loadTimeoutID = setTimeout @reportLoadError.bind(@), 30000
       @listenToOnce @supermodel, 'loaded-all', @onSupermodelLoaded
 
   # Supermodel (Level) Loading
@@ -73,6 +77,25 @@ module.exports = class LevelLoader extends CocoClass
     else
       @level = @supermodel.loadModel(@level, 'level').model
       @listenToOnce @level, 'sync', @onLevelLoaded
+  
+  reportLoadError: ->
+    return if me.isAdmin() or /dev=true/.test(window.location?.href ? '') or reportedLoadErrorAlready
+    reportedLoadErrorAlready = true
+    context = email: me.get('email')
+    context.message = """
+      Automatic Report - Unable to Load Level (LevelLoader timeout)
+      URL: #{window?.location?.toString()}
+      These models are marked as having not loaded:
+      #{JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))}
+      Object.keys(supermodel.models):
+      #{JSON.stringify(Object.keys(@supermodel.models))}
+    """
+    if $.browser
+      context.browser = "#{$.browser.platform} #{$.browser.name} #{$.browser.versionNumber}"
+    context.screenSize = "#{screen?.width ? $(window).width()} x #{screen?.height ? $(window).height()}"
+    context.subject = "Level Load Error: #{@work?.level?.name or 'Unknown Level'}"
+    context.levelSlug = @work?.level?.slug
+    sendContactMessage context
 
   onLevelLoaded: ->
     if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
@@ -355,6 +378,7 @@ module.exports = class LevelLoader extends CocoClass
     @onWorldNecessitiesLoaded() if @checkAllWorldNecessitiesRegisteredAndLoaded()
 
   onWorldNecessityLoadFailed: (event) ->
+    @reportLoadError()
     @trigger('world-necessity-load-failed', event)
 
   checkAllWorldNecessitiesRegisteredAndLoaded: ->
@@ -393,6 +417,7 @@ module.exports = class LevelLoader extends CocoClass
     @supermodel.loadModel(model, resourceName)
 
   onSupermodelLoaded: ->
+    clearTimeout @loadTimeoutID
     return if @destroyed
     console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms' if LOG
     @loadLevelSounds()
