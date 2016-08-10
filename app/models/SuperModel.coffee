@@ -299,7 +299,7 @@ class ModelResource extends Resource
 
   load: ->
     # TODO: Track progress on requests and don't retry if progress was made recently.
-    # Probably use _.debounce and attach event listeners to xhr objects. 
+    # Probably use _.debounce and attach event listeners to xhr objects.
     
     # This logic is for handling failed responses for level loading.
     timeToWait = 5000
@@ -318,6 +318,8 @@ class ModelResource extends Resource
           clearTimeout(@timeoutID)
       clearTimeout(@timeoutID) if @timeoutID
       @timeoutID = setTimeout(tryLoad, timeToWait)
+      if application.testing
+        application.timeoutsToClear?.push(@timeoutID)
       @loadsAttempted += 1
       timeToWait *= 1.5
     tryLoad()
