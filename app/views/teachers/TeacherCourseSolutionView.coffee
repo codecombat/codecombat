@@ -31,7 +31,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
 
   onLoaded: ->
     for level in @levels?.models
-      articles = level.get('documentation').specificArticles;
+      articles = level.get('documentation').specificArticles
       if articles
         guide = articles.filter((x) => x.name == "Overview").pop()
         level.set 'guide', marked(@hideWrongLanguage(guide.body)) if guide
@@ -39,7 +39,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
         level.set 'intro', marked(@hideWrongLanguage(intro.body)) if intro
       heroPlaceholder = level.get('thangs').filter((x) => x.id == 'Hero Placeholder').pop()
       comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
-      programmableMethod = comp?.config.programmableMethods.plan;
+      programmableMethod = comp?.config.programmableMethods.plan
       if programmableMethod
         level.set 'begin',  _.template(programmableMethod.languages[@language] or programmableMethod.source)(programmableMethod.context)
         solution = programmableMethod.solutions?.find (x) => x.language is @language
