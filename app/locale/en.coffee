@@ -337,8 +337,13 @@
 
   common:
     back: "Back" # When used as an action verb, like "Navigate backward"
+    coming_soon: "Coming soon!"
     continue: "Continue"  # When used as an action verb, like "Continue forward"
+    default_code: "Default Code"
     loading: "Loading..."
+    overview: "Overview"
+    solution: "Solution"
+    intro: "Intro"
     saving: "Saving..."
     sending: "Sending..."
     send: "Send"
@@ -1316,15 +1321,14 @@
     students_assigned: "students assigned"
     length: "Length:"
     title: "Courses" # Flat style redesign
-    subtitle: "Review course guidelines, solutions, and levels"
+    subtitle: "Review course overviews and levels" # {change}
     changelog: "View latest changes to course levels."
     select_language: "Select language"
     select_level: "Select level"
     play_level: "Play Level"
     concepts_covered: "Concepts covered"
     print_guide: "Print Guide (PDF)"
-    view_guide_online: "View Guide Online (PDF)"
-    last_updated: "Last updated:"
+    view_guide_online: "Level Overviews and Solutions" # {change}
     grants_lifetime_access: "Grants access to all Courses."
     enrollment_credits_available: "Licenses Available:"
     description: "Description" # ClassroomSettingsModal
@@ -1391,6 +1395,8 @@
     select_this_hero: "Select this Hero"
 
   teacher:
+    course_solution: "Course Solution"
+    level_overview_solutions: "Level Overview and Solutions"
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
     courses: "Course Guides"

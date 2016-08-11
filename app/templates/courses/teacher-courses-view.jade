@@ -17,9 +17,9 @@ block content
   .container
     h1(data-i18n="courses.title")
     h2(data-i18n="courses.subtitle")
-    p
-      a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
-  
+    //- p
+    //-   a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
+
   .courses.container
     - var courses = view.courses.models;
     - var courseIndex = 0;
@@ -29,7 +29,7 @@ block content
       .course.row
         .col-sm-9
           +course-info(course)
-        if me.isTeacher()
+        if me.isTeacher() || me.isAdmin()
           .col-sm-3
             .play-level-form(data-course-id=course.id)
               .form-group
@@ -85,22 +85,12 @@ mixin course-info(course)
         if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
           span.spr ,
         
-    if me.isTeacher() || view.ownedClassrooms.size()
-      if view.guideLinks[course.id]
-        //- a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isTeacher() ? '': 'disabled'))
-        //-   span(data-i18n="courses.print_guide")
-        a.guide-btn.btn.btn-primary(href=view.guideLinks[course.id].python data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() ? '': 'disabled'))
+    if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
+      p
+        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; Python
-        a.guide-btn.btn.btn-primary(href=view.guideLinks[course.id].javascript data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() ? '': 'disabled'))
+      p
+        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; JavaScript
-      else
-        i.small
-          | (
-          span(data-i18n='teacher.guides_coming_soon')
-          | )
-    if campaign && campaign.get('levelsUpdated')
-      p.small.m-t-2
-        span.spr(data-i18n="courses.last_updated")
-        span= moment(campaign.get('levelsUpdated')).format('LL')

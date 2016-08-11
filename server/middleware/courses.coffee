@@ -1,4 +1,5 @@
 errors = require '../commons/errors'
+log = require 'winston'
 wrap = require 'co-express'
 database = require '../commons/database'
 mongoose = require 'mongoose'
@@ -11,6 +12,24 @@ Level = require '../models/Level'
 parse = require '../commons/parse'
 
 module.exports =
+
+  fetchLevelSolutions: wrap (req, res) ->
+    unless req.user?.isTeacher() or req.user?.isAdmin()
+      log.debug "courses.fetchLevelSolutions: level solutions only for teachers, (#{req.user?.id})"
+      throw new errors.Forbidden()
+
+    course = yield database.getDocFromHandle(req, Course)
+    throw new errors.NotFound('Course not found.') unless course
+
+    campaign = yield Campaign.findById course.get('campaignID')
+    throw new errors.NotFound('Campaign not found.') unless campaign
+
+    levelOriginals = (mongoose.Types.ObjectId(levelID) for levelID of campaign.get('levels'))
+    query = { original: { $in: levelOriginals }, slug: { $exists: true }}
+    select = {documentation: 1, intro: 1, name: 1, slug: 1, thangs: 1}
+    levels = yield Level.find(query).select(select).lean()
+    res.status(200).send(levels)
+
   fetchNextLevel: wrap (req, res) ->
     levelOriginal = req.params.levelOriginal
     if not database.isID(levelOriginal)
@@ -18,7 +37,7 @@ module.exports =
     
     course = yield database.getDocFromHandle(req, Course)
     if not course
-      throw new errors.NotFound('Course Instance not found.')
+      throw new errors.NotFound('Course not found.')
       
     campaign = yield Campaign.findById course.get('campaignID')
     if not campaign
@@ -42,7 +61,6 @@ module.exports =
       return res.status(200).send({})
 
     dbq = Level.findOne({original: mongoose.Types.ObjectId(nextLevelOriginal)})
-
 
     dbq.sort({ 'version.major': -1, 'version.minor': -1 })
     dbq.select(parse.getProjectFromReq(req))
