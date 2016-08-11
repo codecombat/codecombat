@@ -8,14 +8,14 @@ block header
           li
             a(href="/editor/level")
               span.glyphicon-home.glyphicon
-  
+
   else
     nav.navbar.navbar-default(role='navigation')#level-editor-top-nav
       ul.nav.navbar-nav
         li
           a(href="/editor/level")
             span.glyphicon-home.glyphicon
-              
+
       ul.nav.navbar-nav.nav-tabs
         li.active
           a(href="#thangs-tab-view", data-toggle="tab", data-i18n="editor.level_tab_thangs") Thangs
@@ -75,7 +75,7 @@ block header
                   a.play-with-team-button(data-team=team)= team + ' vs. AI'
                 for match in recentlyPlayedOpponents
                   a.play-with-team-button(data-team=match.yourTeam, data-opponent=match.opponentSessionID)= match.yourTeam + ' vs. ' + match.opponentName
-        
+
         else
           li(data-i18n="[title]general.play_preview", title="Play preview of current level")#play-button
             a
@@ -93,7 +93,7 @@ block header
                 span.unwatch.secret
                   span.glyphicon.glyphicon-eye-close
                   span.spl(data-i18n="common.unwatch") Unwatch
-                  
+
             li(class=anonymous ? "disabled": "")
               a(data-i18n="common.fork")#fork-start-button Fork
             li(class=anonymous ? "disabled": "")
@@ -126,9 +126,9 @@ block outer_content
   .outer-content
     div.tab-content#level-editor-tabs
       div.tab-pane.active#thangs-tab-view
-        
+
       div.tab-pane#editor-level-scripts-tab-view
-  
+
       div.tab-pane#editor-level-settings-tab-view
 
       div.tab-pane#editor-level-components-tab-view
@@ -136,7 +136,7 @@ block outer_content
       div.tab-pane#systems-tab-view
 
       div.tab-pane#editor-level-tasks-tab-view
-    
+
       div.tab-pane#editor-level-patches.nano
         .nano-content
           .patches-view
@@ -154,7 +154,5 @@ block outer_content
           div.tab-pane#systems-documentation-view
 
       div.tab-pane#level-feedback-view
-
-    div#error-view
 
 block footer

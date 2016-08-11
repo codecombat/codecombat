@@ -69,6 +69,7 @@ LevelHandler = class LevelHandler extends Handler
     'concepts'
     'picoCTFProblem'
     'practiceThresholdMinutes',
+    'primerLanguage'
     'studentPlayInstructions'
   ]
 

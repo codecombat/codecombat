@@ -43,6 +43,7 @@ block content
           th Practice
           th Practice Threshold (m)
           th Shareable
+          th Primer
         each level, levelIndex in levels
           - var levelNumber = campaign.getLevelNumber(level.get('original'), levelIndex + 1)
           tr
@@ -52,3 +53,4 @@ block content
             td= level.get('practice')
             td= level.get('practiceThresholdMinutes')
             td= level.get('shareable')
+            td= level.get('primerLanguage')

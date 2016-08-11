@@ -8,7 +8,7 @@ block header
           li
             a(href="/i18n")
               span.glyphicon-home.glyphicon
-  
+
   else
     nav.navbar.navbar-default(role='navigation')
       ul.nav.navbar-nav
@@ -24,16 +24,16 @@ block header
           button.btn.btn-info.btn-sm.pull-right#patch-submit(disabled=model.hasLocalChanges() ? null : 'disabled', value=model.id, data-i18n="common.submit_changes") Submit Changes
 
         li.dropdown
-  
+
           a(data-toggle='dropdown')
             span.glyphicon-chevron-down.glyphicon
-  
+
           ul.dropdown-menu
             li.dropdown-header(data-i18n="common.actions") Actions
-  
+
             li(class=anonymous ? "disabled": "")
               a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
-  
+
             li.divider
             li.dropdown-header(data-i18n="common.info") Info
             li#history-button
@@ -51,7 +51,7 @@ block header
 
 block outer_content
   .outer-content
-    
+
     select.form-control#language-select
 
     for row in translationList
@@ -68,6 +68,5 @@ block outer_content
             else
               input.input-sm.form-control.translation-input(data-index=row.index.toString(), value=row.toValue)
 
-  div#error-view
     .clearfix
 block footer
