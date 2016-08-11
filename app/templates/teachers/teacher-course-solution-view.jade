@@ -1,0 +1,52 @@
+block content
+
+  if !me.isTeacher() && !me.isAdmin()
+    a(href="/")
+      img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+    h2.text-center(data-i18n="teacher.teacher_account_required")
+  else
+    .text-center
+      img(src="http://direct.codecombat.com/images/pages/base/logo.png")
+      if view.course.loaded
+        h1 #{view.course.get('name')}
+        h3 #{view.prettyLanguage}
+        i= view.course.get('description')
+      br
+      br
+
+    if view.levels
+      each level, index in view.levels.models
+        h2.page-break-before ##{index + 1}. #{level.get('name')}
+        h3(data-i18n="teacher.level_overview_solutions")
+        i #{level.get('description')}
+        div
+          h4.text-center(data-i18n="common.intro")
+          if level.get('intro')
+            p!= level.get('intro')
+          else
+            .text-center
+              i(data-i18n="common.coming_soon")
+          h4.text-center(data-i18n="common.default_code")
+          if level.get('begin')
+            pre!= level.get('begin')
+          else
+            .text-center
+              i(data-i18n="common.coming_soon")
+        div.overview
+          br
+          h4.text-center(data-i18n="common.overview")
+          if level.get('guide')
+            p!= level.get('guide')
+          else
+            .text-center
+              i(data-i18n="common.coming_soon")
+          h4.text-center
+            span= level.get('name')
+            span.spl(data-i18n="common.solution")
+          if level.get('solution')
+            pre!= level.get('solution')
+          else
+            .text-center
+              i(data-i18n="common.coming_soon")
+        hr
+        br
