@@ -10,6 +10,7 @@ Classroom = require '../models/Classroom'
 languages = require '../routes/languages'
 _ = require 'lodash'
 errors = require '../commons/errors'
+Promise = require 'bluebird'
 
 config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
@@ -270,6 +271,8 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
     suffix = _.random(0, 9) + ''
     unconflictName name + suffix, done
 
+UserSchema.statics.unconflictNameAsync = Promise.promisify(unconflictName)
+
 UserSchema.methods.sendWelcomeEmail = ->
   return if not @get('email')
   { welcome_email_student, welcome_email_user } = sendwithus.templates
@@ -361,9 +364,10 @@ UserSchema.pre('save', (next) ->
     @set('email', undefined)
     @set('emailLower', undefined)
   if name = @get('name')
-    filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
-    if filter.test(name)
-      return next(new errors.UnprocessableEntity('Name may not be an email'))
+    if not @allowEmailNames # for testing
+      filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
+      if filter.test(name)
+        return next(new errors.UnprocessableEntity('Name may not be an email'))
   
     @set('nameLower', name.toLowerCase())
   else

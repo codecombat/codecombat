@@ -122,4 +122,4 @@ module.exports.setup = (app) ->
   app.put('/db/trial.request/:handle', mw.auth.checkHasPermission(['admin']), mw.trialRequests.put)
   app.get('/db/trial.request/-/users', mw.auth.checkHasPermission(['admin']), mw.trialRequests.getUsers)
 
-  app.get('/healthcheck', mw.healthcheck)
+  app.get('/healthcheck', mw.healthcheck)  
