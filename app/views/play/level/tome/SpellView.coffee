@@ -803,7 +803,7 @@ module.exports = class SpellView extends CocoView
   # This function itself removes the unwanted annotations on a later tick.
   onChangeAnnotation: (event, session) ->
     unfilteredAnnotations = session.getAnnotations()
-    filteredAnnotations = _.remove unfilteredAnnotations, (annotation) ->
+    filteredAnnotations = _.reject unfilteredAnnotations, (annotation) ->
       annotation.text is 'Start tag seen without seeing a doctype first. Expected e.g. <!DOCTYPE html>.'
     if filteredAnnotations.length < unfilteredAnnotations.length
       session.setAnnotations(filteredAnnotations)
