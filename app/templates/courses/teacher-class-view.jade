@@ -119,9 +119,9 @@ block content
             a.course-progress-tab-btn(href='#course-progress-tab')
               .small-details.text-center(data-i18n='teacher.course_progress')
           .tab-spacer
-          li(class=(activeTab === "#enrollment-status-tab" ? 'active' : ''))
-            a.course-progress-tab-btn(href='#enrollment-status-tab')
-              .small-details.text-center(data-i18n='teacher.enrollment_status')
+          li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
+            a.course-progress-tab-btn(href='#license-status-tab')
+              .small-details.text-center(data-i18n='teacher.license_status')
           - var courses = view.classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
           if _.find(courses, function(c) { return /dev/.test(c.get('slug')); })
             .tab-spacer
@@ -135,7 +135,7 @@ block content
             +studentsTab
           else if activeTab === '#course-progress-tab'
             +courseProgressTab
-          else if activeTab === '#enrollment-status-tab'
+          else if activeTab === '#license-status-tab'
             +enrollmentStatusTab
           else
             +studentProjectsTab
@@ -241,8 +241,6 @@ mixin studentRow(student)
             //- - var level = ???
             - var label = courseLabelsArray[index];
             +studentCourseProgressDot(progress, levelsTotal, level, label)
-      unless student.isEnrolled()
-        +enrollStudentButton(student)
     //- td
     //-   span.view-class-arrow.glyphicon.glyphicon-chevron-right
     td
@@ -253,10 +251,6 @@ mixin studentRow(student)
         a.remove-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
           div.glyphicon.glyphicon-remove
           div(data-i18n='teacher.remove')
-
-mixin enrollStudentButton(student)
-  a.enroll-student-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id data-user-id=student.id data-event-action="Teachers Class Students Enroll Student")
-    span(data-i18n='teacher.enroll_student')
 
 mixin courseProgressTab
   #course-progress-tab.m-t-3
@@ -395,8 +389,6 @@ mixin bulkAssignControls
           = course.get('name')
     button.btn.btn-primary-alt.assign-to-selected-students
       span(data-i18n='teacher.assign_to_selected_students')
-    button.btn.btn-primary-alt.enroll-selected-students
-      span(data-i18n='teacher.enroll_selected_students')
 
 mixin enrollmentStatusTab
   // TODO: Have search input in all tabs
@@ -407,7 +399,7 @@ mixin enrollmentStatusTab
   //    input#student-search.form-control.m-l-1(type="search")
   //    span.glyphicon.glyphicon-search.form-control-feedback
 
-  table.table#enrollment-status-table.table-condensed.m-t-3
+  table.table#license-status-table.table-condensed.m-t-3
     thead
       // Checkbox code works, but don't need it yet.
       //th.checkbox-col.select-all
@@ -439,7 +431,7 @@ mixin enrollmentStatusTab
             strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString(student)
           td.enroll-col
             if status !== 'enrolled'
-              button.enroll-student-button.btn.btn-navy(data-i18n="teacher.enroll_student", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
+              button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
 
 mixin studentProjectsTab
   #student-projects-tab.m-t-3

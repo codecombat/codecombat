@@ -38,7 +38,6 @@ module.exports = class TeacherClassView extends RootView
     'click .assign-student-button': 'onClickAssignStudentButton'
     'click .enroll-student-button': 'onClickEnrollStudentButton'
     'click .assign-to-selected-students': 'onClickBulkAssign'
-    'click .enroll-selected-students': 'onClickBulkEnroll'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
@@ -170,7 +169,7 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @courseInstances, 'sync change update', @debouncedRender
     @listenTo @state, 'sync change', ->
       if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
-        @renderSelectors('#enrollment-status-table')
+        @renderSelectors('#license-status-table')
       else
         @debouncedRender()
     @listenTo @students, 'sort', @debouncedRender
@@ -300,12 +299,6 @@ module.exports = class TeacherClassView extends RootView
     selectedUsers = new Users([user])
     @enrollStudents(selectedUsers)
     window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
-
-  onClickBulkEnroll: ->
-    userIDs = @getSelectedStudentIDs()
-    selectedUsers = new Users(@students.get(userID) for userID in userIDs)
-    @enrollStudents(selectedUsers)
-    window.tracker?.trackEvent 'Teachers Class Students Enroll Selected', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
 
   enrollStudents: (selectedUsers) ->
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
