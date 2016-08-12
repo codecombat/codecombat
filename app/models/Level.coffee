@@ -263,6 +263,9 @@ module.exports = class Level extends CocoModel
   isLadder: ->
     return @get('type')?.indexOf('ladder') > -1
 
+  isProject: ->
+    return @get('shareable') is 'project'
+
   isType: (types...) ->
     return @get('type', true) in types
 

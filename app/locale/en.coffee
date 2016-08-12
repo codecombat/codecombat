@@ -1253,6 +1253,7 @@
     joining: "Joining class"
     course_complete: "Course Complete"
     play_arena: "Play Arena"
+    view_project: "View Project"
     start: "Start"
     last_level: "Last Level"
     welcome_to_hoc: "Adventurers, welcome to our Hour of Code!"

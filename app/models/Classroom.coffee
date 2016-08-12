@@ -98,10 +98,19 @@ module.exports = class Classroom extends CocoModel
     levels = new Levels(course.levels)
     return levels.find (l) -> l.isLadder()
 
+  getProjectLevel: (courseID) ->
+    Levels = require 'collections/Levels'
+    courses = @get('courses')
+    course = _.findWhere(courses, {_id: courseID})
+    return unless course
+    levels = new Levels(course.levels)
+    return levels.find (l) -> l.isProject()
+
   statsForSessions: (sessions, courseID) ->
     return null unless sessions
     sessions = sessions.models or sessions
     arena = @getLadderLevel(courseID)
+    project = @getProjectLevel(courseID)
     courseLevels = @getLevels({courseID: courseID, withoutLadderLevels: true})
     levelSessionMap = {}
     levelSessionMap[session.get('level').original] = session for session in sessions
@@ -151,6 +160,7 @@ module.exports = class Classroom extends CocoModel
         next: nextLevel
         first: courseLevels.first()
         arena: arena
+        project: project
       playtime: playtime
     stats
 

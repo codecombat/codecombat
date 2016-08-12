@@ -110,10 +110,15 @@ mixin course-instance-body(courseInstance, classroom)
   .pull-right
     if stats.levels.done
       - var arenaLevel = stats.levels.arena;
+      - var projectLevel = stats.levels.project;
       if arenaLevel
         - var arenaURL = "/play/ladder/"+arenaLevel.get('slug')+"/course/"+courseInstance.id;
         a.play-btn.btn.btn-burgandy.btn-lg.m-b-1(data-href=arenaURL, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena")
           span(data-i18n="courses.play_arena")
+      else if projectLevel
+        - var projectURL = "/play/level/"+projectLevel.get('slug')+"?course="+course.id+"&course-instance="+courseInstance.id;
+        a.play-btn.btn.btn-burgandy.btn-lg.m-b-1(data-href=projectURL, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project")
+          span(data-i18n="courses.view_project")
       else
         a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
     else if stats.levels.next != stats.levels.first

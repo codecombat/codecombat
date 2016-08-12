@@ -150,8 +150,8 @@ describe 'GET /db/course/:handle/level-solutions', ->
     paredLevelB = _.pick(res.body, 'name', 'original', 'type')
 
     campaignJSONA = { name: 'Campaign A', levels: {} }
-    campaignJSONA.levels[paredLevelA.original] = paredLevelA
     campaignJSONA.levels[paredLevelB.original] = paredLevelB
+    campaignJSONA.levels[paredLevelA.original] = paredLevelA
     [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSONA})
     @campaignA = yield Campaign.findById(res.body._id)
 
