@@ -206,3 +206,8 @@ module.exports = mw =
       return done(err) if err
       expect(res.statusCode).toBe(201)
       TrialRequest.findById(res.body._id).exec done
+
+  createDay: (offset) ->
+    day = new Date()
+    day.setUTCDate(day.getUTCDate() + offset)
+    day.toISOString().substring(0, 10)
