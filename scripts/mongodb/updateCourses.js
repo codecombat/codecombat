@@ -63,7 +63,7 @@ var courses =
     name: "CS: Game Development 1",
     slug: "game-dev-1",
     campaignID: ObjectId("5789236960deed1f00ec2ab8"),
-    description: "Learn to create your owns games which you can share with your friends.",
+    description: "Learn to create your own games which you can share with your friends.",
     duration: NumberInt(1),
     free: false,
     releasePhase: 'beta'

@@ -12,7 +12,6 @@ Level = require '../../../server/models/Level'
 LevelSession = require '../../../server/models/LevelSession'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
-moment = require 'moment'
 
 courseFixture = {
   name: 'Unnamed course'
@@ -424,18 +423,19 @@ describe 'POST /db/course_instance/-/recent', ->
     done()
 
   it 'returns course instances within a specified range', utils.wrap (done) ->
-    startDay = moment().subtract(1, 'day').format('YYYY-MM-DD')
-    endDay = moment().add(1, 'day').format('YYYY-MM-DD')
+    startDay = utils.createDay(-1)
+    endDay = utils.createDay(1)
     [res, body] = yield request.postAsync(url, { json: { startDay, endDay } })
     expect(res.body.courseInstances.length).toBe(1)
 
-    startDay = moment().add(1, 'day').format('YYYY-MM-DD')
-    endDay = moment().add(2, 'day').format('YYYY-MM-DD')
+    startDay = utils.createDay(1)
+    endDay = utils.createDay(2)
     [res, body] = yield request.postAsync(url, { json: { startDay, endDay } })
+    console.log startDay, endDay, res.body.courseInstances.length
     expect(res.body.courseInstances.length).toBe(0)
 
-    startDay = moment().subtract(2, 'day').format('YYYY-MM-DD')
-    endDay = moment().subtract(1, 'day').format('YYYY-MM-DD')
+    startDay = utils.createDay(-2)
+    endDay = utils.createDay(-1)
     [res, body] = yield request.postAsync(url, { json: { startDay, endDay } })
     expect(res.body.courseInstances.length).toBe(0)
 

@@ -82,6 +82,7 @@ module.exports.setup = (app) ->
   Course = require '../models/Course'
   app.get('/db/course', mw.courses.get(Course))
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
+  app.get('/db/course/:handle/level-solutions', mw.courses.fetchLevelSolutions)
   app.get('/db/course/:handle/levels/:levelOriginal/next', mw.courses.fetchNextLevel)
 
   app.get('/db/course_instance/-/non-hoc', mw.auth.checkHasPermission(['admin']), mw.courseInstances.fetchNonHoc)
