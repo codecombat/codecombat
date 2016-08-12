@@ -431,7 +431,6 @@ describe 'POST /db/course_instance/-/recent', ->
     startDay = utils.createDay(1)
     endDay = utils.createDay(2)
     [res, body] = yield request.postAsync(url, { json: { startDay, endDay } })
-    console.log startDay, endDay, res.body.courseInstances.length
     expect(res.body.courseInstances.length).toBe(0)
 
     startDay = utils.createDay(-2)
