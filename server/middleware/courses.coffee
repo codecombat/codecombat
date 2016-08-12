@@ -24,10 +24,15 @@ module.exports =
     campaign = yield Campaign.findById course.get('campaignID')
     throw new errors.NotFound('Campaign not found.') unless campaign
 
-    levelOriginals = (mongoose.Types.ObjectId(levelID) for levelID of campaign.get('levels'))
+    # TODO: why does campaign.get('levels') return opposite order from direct db query?
+    sortedLevelIDs = _.keys campaign.get('levels')
+    sortedLevelIDs.reverse()
+
+    levelOriginals = (mongoose.Types.ObjectId(levelID) for levelID in sortedLevelIDs)
     query = { original: { $in: levelOriginals }, slug: { $exists: true }}
-    select = {documentation: 1, intro: 1, name: 1, slug: 1, thangs: 1}
+    select = {documentation: 1, intro: 1, name: 1, original: 1, slug: 1, thangs: 1}
     levels = yield Level.find(query).select(select).lean()
+    levels.sort((a, b) -> sortedLevelIDs.indexOf(a.original + '') - sortedLevelIDs.indexOf(b.original + ''))
     res.status(200).send(levels)
 
   fetchNextLevel: wrap (req, res) ->
