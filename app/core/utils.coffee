@@ -49,6 +49,10 @@ toHex = (n) ->
   h = '0'+h if h.length is 1
   h
 
+module.exports.pathToUrl = (path) ->
+  base = location.protocol + '//' + location.hostname + (location.port && ":" + location.port)
+  base + path
+
 module.exports.i18n = (say, target, language=me.get('preferredLanguage', true), fallback='en') ->
   generalResult = null
   fallBackResult = null
@@ -183,6 +187,10 @@ if document?.createElement
       wrap.appendChild temp.children[1]
       return
   )(document)
+
+# So that we can stub out userAgent in tests
+module.exports.userAgent = ->
+  window.navigator.userAgent
 
 module.exports.getQueryVariable = getQueryVariable = (param, defaultValue) ->
   query = document.location.search.substring 1

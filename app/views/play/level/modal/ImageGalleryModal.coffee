@@ -1,8 +1,42 @@
 ModalView = require 'views/core/ModalView'
+State = require 'models/State'
+utils = require 'core/utils'
 
 module.exports = class ImageGalleryModal extends ModalView
   id: 'image-gallery-modal'
   template: require 'templates/play/level/modal/image-gallery-modal'
+
+  events:
+    'click .image-list-item': 'onClickImageListItem'
+    'click .copy-url-button': 'onClickCopyUrlButton'
+    'click .copy-tag-button': 'onClickCopyTagButton'
+
+  getRenderData: ->
+    _.merge super(arguments...), { utils }
+
+  initialize: ->
+    @state = new State()
+    @listenTo @state, 'all', =>
+      @renderSelectors('.render')
+      @afterRender()
+
+  afterRender: ->
+    if utils.userAgent().indexOf("Mac") > -1
+      @$('.windows-only').addClass('hidden')
+      @$('.mac-only').removeClass('hidden')
+
+  onClickImageListItem: (e) ->
+    selectedUrl = $(e.currentTarget).data('portrait-url')
+    @state.set { selectedUrl }
+
+  onClickCopyUrlButton: (e) ->
+    $('.image-url').select()
+    @tryCopy()
+
+  onClickCopyTagButton: (e) ->
+    $('.image-tag').select()
+    @tryCopy()
+
   # Top most useful Thang portraits
   images: [
      {slug: 'archer-f', name: 'Archer F', original: '529ab1a24b67a988ad000002', portraitURL: '/file/db/thang.type/529ab1a24b67a988ad000002/portrait.png', kind: 'Unit'}
