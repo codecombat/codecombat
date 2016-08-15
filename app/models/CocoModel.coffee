@@ -309,6 +309,8 @@ class CocoModel extends Backbone.Model
     sum = 0
     data ?= $.extend true, {}, @attributes
     schema ?= @schema() or {}
+    if schema.oneOf # get populating the Programmable component config to work 
+      schema = _.find(schema.oneOf, {type: 'object'})
     addedI18N = false
     if schema.properties?.i18n and _.isPlainObject(data) and not data.i18n?
       data.i18n = {'-':{'-':'-'}} # mongoose doesn't work with empty objects
@@ -318,7 +320,11 @@ class CocoModel extends Backbone.Model
     if _.isPlainObject data
       for key, value of data
         numChanged = 0
-        numChanged = @populateI18N(value, childSchema, path+'/'+key) if childSchema = schema.properties?[key]
+        childSchema = schema.properties?[key]
+        if not childSchema and _.isObject(schema.additionalProperties)
+          childSchema = schema.additionalProperties
+        if childSchema
+          numChanged = @populateI18N(value, childSchema, path+'/'+key)
         if numChanged and not path # should only do this for the root object
           @set key, value
         sum += numChanged
