@@ -232,7 +232,6 @@ block content
       span#semester-duration
     #courses-row.row
       - var conceptsSeen = {};
-      - var lastScreenshot = "";
       for course, courseIndex in view.courses.models
         .col-md-3.col-sm-4
           .media.course-details(data-course-slug=course.get('slug'))
@@ -256,19 +255,16 @@ block content
                     span.spr ,
                   - total += 1;
                   span(data-i18n="concepts." + concept)
-            img.media-object(src="/images/pages/home/course"+(courseIndex+1)+".png")
-            - lastScreenshot = course.get('screenshot');
+            img.media-object(src="/images/pages/home/" + course.get('slug') + ".png")
             h6.course-duration
               span.spr(data-i18n="new_home.lesson_time")
               span.course-hours= course.get('duration') || 0
               span.spl.unit(data-i18n="units.hours")
-      for upcomingCourse in ['Computer Science 6', 'Computer Science 7', 'Computer Science 8']
-        .col-md-3.col-sm-4
-          .media.disabled
-            .media-body
-              h6.course-name= upcomingCourse + ':'
-              p.small(data-i18n="new_home.coming_soon")
-            img.media-object(src="/images/pages/home/inprogress.png")
+      .col-md-3.col-sm-4
+        .media.disabled
+          .media-body
+            p.small(data-i18n="new_home.coming_soon")
+          img.media-object(src="/images/pages/home/inprogress.png")
 
       .clearfix
       .text-center
