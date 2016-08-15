@@ -122,12 +122,13 @@ block content
           li(class=(activeTab === "#enrollment-status-tab" ? 'active' : ''))
             a.course-progress-tab-btn(href='#enrollment-status-tab')
               .small-details.text-center(data-i18n='teacher.enrollment_status')
-          - var courses = view.classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
-          if _.find(courses, function(c) { return /dev/.test(c.get('slug')); })
-            .tab-spacer
-            li(class=(activeTab === "#student-projects-tab" ? 'active' : ''))
-              a.course-progress-tab-btn(href='#student-projects-tab')
-                .small-details.text-center(data-i18n='teacher.projects')
+          // TODO: Move projects into course progress tab
+          //- var courses = view.classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
+          //if _.find(courses, function(c) { return /dev/.test(c.get('slug')); })
+          //  .tab-spacer
+          //  li(class=(activeTab === "#student-projects-tab" ? 'active' : ''))
+          //    a.course-progress-tab-btn(href='#student-projects-tab')
+          //      .small-details.text-center(data-i18n='teacher.projects')
           .tab-filler
 
         .tab-content

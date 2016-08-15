@@ -75,7 +75,7 @@ var courses =
     description: "Learn the basics of web development in this introductory HTML & CSS course.",
     duration: NumberInt(1),
     free: false,
-    releasePhase: 'beta'
+    releasePhase: 'released'
   },
   {
     name: "CS: Web Development 2",
