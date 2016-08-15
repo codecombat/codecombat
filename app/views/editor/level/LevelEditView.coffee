@@ -2,6 +2,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/editor/level/edit'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
+LevelComponent = require 'models/LevelComponent'
 World = require 'lib/world/world'
 DocumentFiles = require 'collections/DocumentFiles'
 LevelLoader = require 'lib/LevelLoader'
@@ -217,6 +218,19 @@ module.exports = class LevelEditView extends RootView
 
   onPopulateI18N: ->
     @level.populateI18N()
+    
+    levelComponentMap = _(currentView.supermodel.getModels(LevelComponent))
+      .map((c) -> [c.get('original'), c])
+      .object()
+      .value()
+
+    for thang, thangIndex in @level.get('thangs')
+      for thangComponent, thangComponentIndex in thang.components
+        component = levelComponentMap[thangComponent.original]
+        configSchema = component.get('configSchema')
+        path = "/thangs/#{thangIndex}/components/#{thangComponentIndex}/config"
+        @level.populateI18N(thangComponent.config, configSchema, path)
+    
     f = -> document.location.reload()
     setTimeout(f, 2000)
 

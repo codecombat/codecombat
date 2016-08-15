@@ -79,6 +79,11 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
   
   reportLoadError: ->
+    window.tracker?.trackEvent 'LevelLoadError', 
+      category: 'Error',
+      levelSlug: @work?.level?.slug,
+      unloaded: JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))
+
     return if me.isAdmin() or /dev=true/.test(window.location?.href ? '') or reportedLoadErrorAlready
     reportedLoadErrorAlready = true
     context = email: me.get('email')

@@ -803,7 +803,7 @@ module.exports = class SpellView extends CocoView
   # This function itself removes the unwanted annotations on a later tick.
   onChangeAnnotation: (event, session) ->
     unfilteredAnnotations = session.getAnnotations()
-    filteredAnnotations = _.remove unfilteredAnnotations, (annotation) ->
+    filteredAnnotations = _.reject unfilteredAnnotations, (annotation) ->
       annotation.text is 'Start tag seen without seeing a doctype first. Expected e.g. <!DOCTYPE html>.'
     if filteredAnnotations.length < unfilteredAnnotations.length
       session.setAnnotations(filteredAnnotations)
@@ -1113,6 +1113,7 @@ module.exports = class SpellView extends CocoView
     for line, index in lines
       session.removeGutterDecoration index, 'entry-point'
       session.removeGutterDecoration index, 'next-entry-point'
+      session.removeGutterDecoration index, "entry-point-indent-#{i}" for i in [0, 4, 8, 12, 16]
 
       lineHasComment = @singleLineCommentRegex().test line
       lineHasCode = line.trim()[0] and not @singleLineCommentOnlyRegex().test line
@@ -1145,6 +1146,13 @@ module.exports = class SpellView extends CocoView
         unless seenAnEntryPoint
           session.addGutterDecoration index, 'next-entry-point'
           seenAnEntryPoint = true
+
+        # Shift pointer right based on current indentation
+        # TODO: tabs probably need different horizontal offsets than spaces
+        indent = 0
+        indent++ while /\s/.test(line[indent])
+        indent = Math.min(16, Math.floor(indent / 4) * 4)
+        session.addGutterDecoration index, "entry-point-indent-#{indent}"
 
       previousLine = line
       previousLineHadComment = lineHasComment

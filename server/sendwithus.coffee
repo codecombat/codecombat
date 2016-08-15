@@ -2,6 +2,7 @@ config = require '../server_config'
 sendwithusAPI = require 'sendwithus'
 swuAPIKey = config.mail.sendwithusAPIKey
 log = require 'winston'
+Promise = require 'bluebird'
 
 module.exports.setupRoutes = (app) ->
   return
@@ -14,6 +15,8 @@ module.exports.api =
 
 if swuAPIKey
   module.exports.api = new sendwithusAPI swuAPIKey, debug
+  
+Promise.promisifyAll(module.exports.api)
 
 module.exports.templates =
   parent_subscribe_email: 'tem_2APERafogvwKhmcnouigud'
