@@ -767,6 +767,8 @@
     current_value: "Current Value"
     default_value: "Default value"
     parameters: "Parameters"
+    required_parameters: "Required Parameters"
+    optional_parameters: "Optional Parameters"
     returns: "Returns"
     granted_by: "Granted by"
 

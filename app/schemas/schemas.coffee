@@ -165,6 +165,7 @@ me.FunctionArgumentSchema = me.object {
   'default':
     name: 'target'
     type: 'object'
+    optional: false
     example: 'this.getNearestEnemy()'
     description: 'The target of this function.'
   required: ['name', 'type', 'example', 'description']
@@ -173,6 +174,7 @@ me.FunctionArgumentSchema = me.object {
   i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this argument'}
   # not actual JS types, just whatever they describe...
   type: me.shortString(title: 'Type', description: 'Intended type of the argument.')
+  optional: {title: 'Optional', description: 'Whether an argument may be omitted when calling the function', type: 'boolean'}
   example:
     oneOf: [
       {

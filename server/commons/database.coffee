@@ -12,7 +12,7 @@ module.exports =
   
   connect: () ->
     address = module.exports.generateMongoConnectionString()
-    winston.info "Connecting to Mongo with connection string #{address}"
+    winston.info "Connecting to Mongo with connection string #{address}, readpref: #{config.mongo.readpref}"
   
     mongoose.connect address
     mongoose.connection.once 'open', -> Grid.gfs = Grid(mongoose.connection.db, mongoose.mongo)
@@ -25,11 +25,7 @@ module.exports =
     mongooseCache.install(mongoose, {max: 1000, maxAge: maxAge, debug: false}, Aggregate)
 
   generateMongoConnectionString: ->
-    if not global.testing and config.tokyo
-      address = config.mongo.mongoose_tokyo_replica_string
-    else if not global.testing and config.saoPaulo
-      address = config.mongo.mongoose_saoPaulo_replica_string
-    else if not global.testing and config.mongo.mongoose_replica_string
+    if not global.testing and config.mongo.mongoose_replica_string
       address = config.mongo.mongoose_replica_string
     else
       dbName = config.mongo.db
