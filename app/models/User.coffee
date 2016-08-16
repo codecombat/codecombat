@@ -220,9 +220,15 @@ module.exports = class User extends CocoModel
     return true if me.isAdmin()
     return true if me.hasSubscription()
     return false
-    
+
   isOnPremiumServer: ->
-    me.get('country') in ['china', 'brazil']
+    return true if me.get('country') in ['brazil']
+    return true if me.get('country') in ['china'] and me.isPremium()
+    return false
+
+  isOnFreeOnlyServer: ->
+    return true if me.get('country') in ['china'] and not me.isPremium()
+    return false
 
   sendVerificationCode: (code) ->
     $.ajax({

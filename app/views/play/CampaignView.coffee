@@ -176,6 +176,8 @@ module.exports = class CampaignView extends RootView
     if me.level() < 12 and @terrain is 'dungeon' and not @editorMode
       reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
       context.levels = _.reject context.levels, slug: reject
+    if me.isOnFreeOnlyServer
+      context.levels = _.reject context.levels, 'requiresSubscription'
     @annotateLevel level for level in context.levels
     count = @countLevels context.levels
     context.levelsCompleted = count.completed
@@ -669,7 +671,7 @@ module.exports = class CampaignView extends RootView
     console.error "CampaignView hero update couldn't find hero slug for original:", hero
 
   onClickPortalCampaign: (e) ->
-    campaign = $(e.target).closest('.campaign, .beta-campaign') 
+    campaign = $(e.target).closest('.campaign, .beta-campaign')
     return if campaign.is('.locked') or campaign.is('.silhouette')
     campaignSlug = campaign.data('campaign-slug')
     Backbone.Mediator.publish 'router:navigate',
