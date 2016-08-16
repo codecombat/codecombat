@@ -47,9 +47,11 @@ module.exports = class Classroom extends CocoModel
   getLevelNumber: (levelID, defaultNumber) ->
     unless @levelNumberMap
       @levelNumberMap = {}
+      language = @get('aceConfig')?.language
       for course in @get('courses') ? []
         levels = []
         for level in course.levels when level.original
+          continue if language? and level.primerLanguage is language
           levels.push({key: level.original, practice: level.practice ? false})
         _.assign(@levelNumberMap, utils.createLevelNumberMap(levels))
     @levelNumberMap[levelID] ? defaultNumber
@@ -84,6 +86,8 @@ module.exports = class Classroom extends CocoModel
         continue
       levelObjects.push(course.levels)
     levels = new Levels(_.flatten(levelObjects))
+    language = @get('aceConfig')?.language
+    levels.remove(levels.filter((level) => level.get('primerLanguage') is language)) if language
     if options.withoutLadderLevels
       levels.remove(levels.filter((level) -> level.isLadder()))
     if options.projectLevels

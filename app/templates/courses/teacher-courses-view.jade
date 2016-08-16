@@ -37,11 +37,19 @@ block content
                   span(data-i18n="courses.select_language")
                   | :
                   select.language-select.form-control
-                    // TODO: Automate this list @scott
-                    option(value="python")
-                      | Python
-                    option(value="javascript")
-                      | JavaScript
+                    //- TODO: Automate this list @scott
+                    //- Web dev courses use HTML and JavaScript, except web-dev-1 which doesn't have scripting
+                    if course.get('slug') === 'web-dev-1'
+                      option(value="javascript")
+                        | HTML
+                    else if course.get('slug').indexOf('web-dev') >= 0
+                      option(value="javascript")
+                        | HTML / JavaScript
+                    else
+                      option(value="python")
+                        | Python
+                      option(value="javascript")
+                        | JavaScript
                     //- option(value="coffeescript")
                     //-   | CoffeeScript (Experimental)
                     //- option(value="clojure")
@@ -86,11 +94,19 @@ mixin course-info(course)
           span.spr ,
         
     if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
-      p
-        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+      //- Web dev courses use HTML and JavaScript, except web-dev-1 which doesn't have scripting
+      if course.get('slug') === 'web-dev-1'
+        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
-          |  &mdash; Python
-      p
+          |  &mdash; HTML
+      else if course.get('slug').indexOf('web-dev') >= 0
+        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; HTML / JavaScript
+      else
         a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; JavaScript
+        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; Python
