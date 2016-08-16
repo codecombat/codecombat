@@ -49,7 +49,7 @@ module.exports = class DocFormatter
       @doc.type = 'snippet'
       @doc.owner = 'snippets'
       @doc.shortName = @doc.shorterName = @doc.title = @doc.name
-    else if @doc.owner in ['HTML', 'CSS']
+    else if @doc.owner in ['HTML', 'CSS', 'WebJavaScript', 'jQuery']
       @doc.shortName = @doc.shorterName = @doc.title = @doc.name
     else
       @doc.owner ?= 'this'
@@ -165,7 +165,19 @@ module.exports = class DocFormatter
     [docName, args] = @getDocNameAndArguments()
     argumentExamples = (arg.example or arg.default or arg.name for arg in @doc.args ? [])
     argumentExamples.unshift args[0] if args.length > argumentExamples.length
-    content = popoverTemplate doc: @doc, docName: docName, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: argumentExamples, writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns(), item: @options.item
+    content = popoverTemplate {
+      doc: @doc
+      docName: docName
+      language: @options.language
+      value: @formatValue()
+      marked: marked
+      argumentExamples: argumentExamples
+      writable: @options.writable
+      selectedMethod: @options.selectedMethod
+      cooldowns: @inferCooldowns()
+      item: @options.item
+      _: _
+    }
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
     content = @replaceSpriteName content
     content = content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))

@@ -157,6 +157,8 @@ module.exports = class SpellPaletteView extends CocoView
         LoDash: 'programmableLoDashProperties'
         Vector: 'programmableVectorProperties'
         HTML: 'programmableHTMLProperties'
+        WebJavaScript: 'programmableWebJavaScriptProperties'
+        jQuery: 'programmableJQueryProperties'
         CSS: 'programmableCSSProperties'
         snippets: 'programmableSnippets'
     else
@@ -197,7 +199,7 @@ module.exports = class SpellPaletteView extends CocoView
       return 'more' if entry.doc.owner is 'this' and entry.doc.name in (propGroups.more ? [])
       entry.doc.owner
     @entries = _.sortBy @entries, (entry) ->
-      order = ['this', 'more', 'Math', 'Vector', 'String', 'Object', 'Array', 'Function', 'HTML', 'CSS', 'snippets']
+      order = ['this', 'more', 'Math', 'Vector', 'String', 'Object', 'Array', 'Function', 'HTML', 'CSS', 'WebJavaScript', 'jQuery', 'snippets']
       index = order.indexOf groupForEntry entry
       index = String.fromCharCode if index is -1 then order.length else index
       index += entry.doc.name
@@ -248,7 +250,7 @@ module.exports = class SpellPaletteView extends CocoView
         console.log @thang.id, "couldn't find item ThangType for", slot, thangTypeName
 
     # Get any Math-, Vector-, etc.-owned properties into their own tabs
-    for owner, storage of propStorage when not (owner in ['this', 'more', 'snippets', 'HTML', 'CSS'])
+    for owner, storage of propStorage when not (owner in ['this', 'more', 'snippets', 'HTML', 'CSS', 'WebJavaScript', 'jQuery'])
       continue unless @thang[storage]?.length
       @tabs ?= {}
       @tabs[owner] = []
@@ -262,7 +264,7 @@ module.exports = class SpellPaletteView extends CocoView
 
     # Assign any unassigned properties to the hero itself.
     for owner, storage of propStorage
-      continue unless owner in ['this', 'more', 'snippets', 'HTML', 'CSS']
+      continue unless owner in ['this', 'more', 'snippets', 'HTML', 'CSS', 'WebJavaScript', 'jQuery']
       for prop in _.reject(@thang[storage] ? [], (prop) -> itemsByProp[prop] or prop[0] is '_')  # no private properties
         continue if prop is 'say' and @options.level.get 'hidesSay'  # Hide for Dungeon Campaign
         continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
