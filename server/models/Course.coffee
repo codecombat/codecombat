@@ -7,9 +7,13 @@ CourseSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:con
 
 CourseSchema.plugin plugins.NamedPlugin
 CourseSchema.plugin plugins.SearchablePlugin, {searchable: ['name', 'description']}
+CourseSchema.plugin(plugins.TranslationCoveragePlugin)
 
 CourseSchema.statics.privateProperties = []
-CourseSchema.statics.editableProperties = []
+CourseSchema.statics.editableProperties = [
+  'i18n',
+  'i18nCoverage'
+]
 
 CourseSchema.statics.jsonSchema = jsonSchema
 
@@ -40,5 +44,9 @@ CourseSchema.statics.sortCourses = (courses) ->
     index = ordering.indexOf(course.get?('slug') or course.slug)
     index = 9001 if index is -1
     index
+    
+CourseSchema.post 'init', (doc) ->
+  if !doc.get('i18nCoverage')
+    doc.set('i18nCoverage', [])
 
 module.exports = Course = mongoose.model 'course', CourseSchema, 'courses'

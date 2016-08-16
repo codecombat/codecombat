@@ -84,8 +84,8 @@ mixin course-info(course)
   - var campaign = view.campaigns.get(course.get('campaignID'));
   .course-info
     .text-h4.semibold
-      = course.get('name')
-    p= course.get('description')
+      = i18n(course.attributes, 'name')
+    p= i18n(course.attributes, 'description')
     p.concepts.semibold
       span(data-i18n="courses.concepts_covered")
       | : 

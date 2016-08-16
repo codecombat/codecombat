@@ -1564,6 +1564,7 @@
     article_title: "Article Editor"
     thang_title: "Thang Editor"
     level_title: "Level Editor"
+    course_title: "Course Editor"
     achievement_title: "Achievement Editor"
     poll_title: "Poll Editor"
     back: "Back"

@@ -5,10 +5,12 @@ log = require 'winston'
 config = require '../../server_config'
 
 PatchSchema = new mongoose.Schema({status: String}, {strict: false,read:config.mongo.readpref})
+PatchSchema.index({'target.original': 1, 'status': 1}, {name: 'target_status'})
 
 PatchSchema.pre 'save', (next) ->
   return next() unless @isNew # patch can't be altered after creation, so only need to check data once
   target = @get('target')
+  return next() if target.collection is 'course' # Migrating this logic out of the Patch model, into middleware
   targetID = target.id
   Handler = require '../commons/Handler'
   if not Handler.isID(targetID)
@@ -82,5 +84,8 @@ PatchSchema.pre 'save', (next) ->
     User.incrementStat userID, 'stats.patchesSubmitted'   # submitted patches
 
   next()
+
+jsonSchema = require '../../app/schemas/models/patch'
+PatchSchema.statics.jsonSchema = jsonSchema
 
 module.exports = mongoose.model('patch', PatchSchema)

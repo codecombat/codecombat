@@ -6,6 +6,7 @@
 
 // NOTE: uses name as unique identifier, so changing the name will insert a new course
 // NOTE: pricePerSeat in USD cents
+load('bower_components/lodash/dist/lodash.js');
 
 var courses =
 [
@@ -97,10 +98,10 @@ var courses =
   }
 ];
 
-print("Finding course concepts..");
-for (var i = 0; i < courses.length; i++) {
+_.forEach(courses, function(course) {
+  // Find course concepts
   var concepts = {};
-  var cursor = db.campaigns.find({_id: courses[i].campaignID}, {'levels': 1});
+  var cursor = db.campaigns.find({_id: course.campaignID}, {'levels': 1});
   if (cursor.hasNext()) {
     var doc = cursor.next();
     for (var levelID in doc.levels) {
@@ -109,12 +110,20 @@ for (var i = 0; i < courses.length; i++) {
       }
     }
   }
-  courses[i].concepts = Object.keys(concepts);
-}
+  course.concepts = Object.keys(concepts);
+
+});
+
 
 print("Updating courses..");
 for (var i = 0; i < courses.length; i++) {
-  db.courses.update({name: courses[i].name}, courses[i], {upsert: true});
+  db.courses.update({name: courses[i].name}, {$set: courses[i]}, {upsert: true});
 }
+
+print("Upserting i18n", db.courses.update(
+  {i18n: {$exists: false}}, 
+  {$set: {i18n: {'-':{'-':'-'}}, i18nCoverage: []}},
+  {multi: true}
+));
 
 print("Done.");
