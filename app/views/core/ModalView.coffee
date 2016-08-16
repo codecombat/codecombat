@@ -50,9 +50,13 @@ module.exports = class ModalView extends CocoView
     $el = @$el.find('.modal-body') unless $el
     super($el)
 
+  # TODO: Combine hide/onHidden such that backbone 'hide/hidden.bs.modal' events and our 'hide/hidden' events are more 1-to-1
+  # For example:
+  #   pressing 'esc' or using `currentModal.hide()` triggers 'hide', 'hide.bs.modal', 'hidden', 'hidden.bs.modal'
+  #   clicking outside the modal triggers 'hide.bs.modal', 'hidden', 'hidden.bs.modal' (but not 'hide')
   hide: ->
     @trigger 'hide'
-    @$el.removeClass('fade').modal 'hide'
+    @$el.removeClass('fade').modal 'hide' unless @destroyed
 
   onHidden: ->
     @trigger 'hidden'

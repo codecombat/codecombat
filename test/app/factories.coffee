@@ -1,6 +1,7 @@
 Level = require 'models/Level'
 Course = require 'models/Course'
 Courses = require 'collections/Courses'
+Campaign = require 'models/Campaign'
 User = require 'models/User'
 Classroom = require 'models/Classroom'
 LevelSession = require 'models/LevelSession'
@@ -19,16 +20,34 @@ module.exports = {
       _id: _id
       name: _.string.humanize(_id)
       releasePhase: 'released'
+      concepts: []
     }, attrs)
     
     attrs.campaignID ?= sources.campaign?.id or _.uniqueId('campaign_')
     return new Course(attrs)
   
+  makeCampaign: (attrs, sources={}) ->
+    _id = _.uniqueId('campaign_')
+    attrs = _.extend({}, {
+      _id
+      name: _.string.humanize(_id)
+      levels: [@makeLevel(), @makeLevel()]
+    }, attrs)
+
+    if sources.levels
+      levelsMap = {}
+      sources.levels.each (level) ->
+        levelsMap[level.id] = level
+      attrs.levels = levelsMap
+
+    return new Campaign(attrs)
+
   makeLevel: (attrs) ->
     _id = _.uniqueId('level_')
     attrs = _.extend({}, {
       _id: _id
       name: _.string.humanize(_id)
+      slug: _.string.dasherize(_id)
       original: _id+'_original'
       version:
         major: 0
