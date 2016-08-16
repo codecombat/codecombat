@@ -238,8 +238,8 @@ block content
             if courseIndex === 0
               .free-course
                 h6(data-i18n="new_home.ffa")
-            .media-body(title=course.get('description'))
-              h6.course-name= course.get('name') + ':'
+            .media-body(title=i18n(course.attributes, 'description'))
+              h6.course-name= i18n(course.attributes, 'name') + ':'
               p.small
                 - var total = 0;
                 each concept in course.get('concepts')
