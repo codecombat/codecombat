@@ -37,7 +37,8 @@ block content
                   span(data-i18n="courses.select_language")
                   | :
                   select.language-select.form-control
-                    // TODO: Automate this list @scott
+                    //- TODO: Automate this list @scott
+                    //- Web dev courses use HTML and JavaScript, except web-dev-1 which doesn't have scripting
                     if course.get('slug') === 'web-dev-1'
                       option(value="javascript")
                         | HTML
@@ -93,6 +94,7 @@ mixin course-info(course)
           span.spr ,
         
     if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
+      //- Web dev courses use HTML and JavaScript, except web-dev-1 which doesn't have scripting
       if course.get('slug') === 'web-dev-1'
         a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
