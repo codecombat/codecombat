@@ -159,11 +159,9 @@ mixin breadcrumbs
 mixin longLevelName(data)
   if data
     div.level-name
-      span(data-i18n="courses.course")
-      span= ' ' + data.courseNumber + ', '
-      span(data-i18n="play_level.level")
-      span= ' ' + data.levelNumber + ': '
-      span= data.levelName
+      span= data.courseName + ': '
+      span(data-i18n='play_level.level')
+      span.spl= data.levelNumber
   else
     div.level-name(data-i18n='teacher.not_applicable')
 

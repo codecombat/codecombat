@@ -1444,7 +1444,7 @@
     edit: "edit"
     edit_2: "Edit"
     remove: "remove"
-    latest_completed: "Latest Completed"
+    latest_completed: "Latest completed" # {change}
     sort_by: "Sort by"
     progress: "Progress"
     completed: "Completed"
