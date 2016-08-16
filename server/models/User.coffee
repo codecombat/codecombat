@@ -226,6 +226,7 @@ UserSchema.statics.statsMapping =
     'Achievement': 'stats.achievementEdits'
     'campaign': 'stats.campaignEdits'
     'poll': 'stats.pollEdits'
+    'course': 'stats.courseEdits'
   translations:
     article: 'stats.articleTranslationPatches'
     level: 'stats.levelTranslationPatches'
@@ -235,6 +236,7 @@ UserSchema.statics.statsMapping =
     'Achievement': 'stats.achievementTranslationPatches'
     'campaign': 'stats.campaignTranslationPatches'
     'poll': 'stats.pollTranslationPatches'
+    'course': 'stats.courseTranslationPatches'
   misc:
     article: 'stats.articleMiscPatches'
     level: 'stats.levelMiscPatches'
@@ -244,6 +246,7 @@ UserSchema.statics.statsMapping =
     'Achievement': 'stats.achievementMiscPatches'
     'campaign': 'stats.campaignMiscPatches'
     'poll': 'stats.pollMiscPatches'
+    'course': 'stats.courseMiscPatches'
 
 UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
   id = mongoose.Types.ObjectId id if _.isString id

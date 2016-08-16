@@ -13,7 +13,7 @@ block content
       
         .text-center
           span#course-name
-            span= view.course.get('name')
+            span= i18n(view.course.attributes, 'name')
             span.spl - Arena
 
     div#level-column
