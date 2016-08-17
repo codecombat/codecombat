@@ -11,7 +11,6 @@ AudioPlayer = require 'lib/AudioPlayer'
 app = require 'core/application'
 World = require 'lib/world/world'
 utils = require 'core/utils'
-{sendContactMessage} = require 'core/contact'
 
 LOG = false
 
@@ -79,28 +78,10 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
   
   reportLoadError: ->
-    window.tracker?.trackEvent 'LevelLoadError', 
+    window.tracker?.trackEvent 'LevelLoadError',
       category: 'Error',
       levelSlug: @work?.level?.slug,
       unloaded: JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))
-
-    return if me.isAdmin() or /dev=true/.test(window.location?.href ? '') or reportedLoadErrorAlready
-    reportedLoadErrorAlready = true
-    context = email: me.get('email')
-    context.message = """
-      Automatic Report - Unable to Load Level (LevelLoader timeout)
-      URL: #{window?.location?.toString()}
-      These models are marked as having not loaded:
-      #{JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))}
-      Object.keys(supermodel.models):
-      #{JSON.stringify(Object.keys(@supermodel.models))}
-    """
-    if $.browser
-      context.browser = "#{$.browser.platform} #{$.browser.name} #{$.browser.versionNumber}"
-    context.screenSize = "#{screen?.width ? $(window).width()} x #{screen?.height ? $(window).height()}"
-    context.subject = "Level Load Error: #{@work?.level?.name or 'Unknown Level'}"
-    context.levelSlug = @work?.level?.slug
-    sendContactMessage context
 
   onLevelLoaded: ->
     if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
