@@ -51,7 +51,7 @@ module.exports = class AuthModal extends ModalView
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     new Promise(me.loginPasswordUser(userObject.emailOrUsername, userObject.password).then)
     .then(->
-      if window.nextURL then window.location.href = window.nextURL else window.location.reload()
+      if window.nextURL then window.location.href = window.nextURL else loginNavigate()
     )
     .catch((jqxhr) =>
       showingError = false
@@ -85,7 +85,7 @@ module.exports = class AuthModal extends ModalView
             existingUser.fetchGPlusUser(gplusAttrs.gplusID, {
               success: =>
                 me.loginGPlusUser(gplusAttrs.gplusID, {
-                  success: -> window.location.reload()
+                  success: -> loginNavigate()
                   error: @onGPlusLoginError
                 })
               error: @onGPlusLoginError
@@ -116,7 +116,7 @@ module.exports = class AuthModal extends ModalView
             existingUser.fetchFacebookUser(facebookAttrs.facebookID, {
               success: =>
                 me.loginFacebookUser(facebookAttrs.facebookID, {
-                  success: -> window.location.reload()
+                  success: -> loginNavigate()
                   error: @onFacebookLoginError
                 })
               error: @onFacebookLoginError
@@ -148,3 +148,11 @@ formSchema = {
   }
   required: ['emailOrUsername', 'password']
 }
+
+loginNavigate = ->
+  if me.isStudent()
+    application.router.navigate('/courses', {trigger: true})
+  else if me.isTeacher()
+    application.router.navigate('/teachers/classes', {trigger: true})
+  window.location.reload()
+

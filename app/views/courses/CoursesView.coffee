@@ -13,6 +13,7 @@ Course = require 'models/Course'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 LevelSession = require 'models/LevelSession'
+NameLoader = require 'core/NameLoader'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
@@ -59,7 +60,7 @@ module.exports = class CoursesView extends RootView
     @listenTo @hero, 'all', ->
       @render()
     window.tracker?.trackEvent 'Students Loaded', category: 'Students', ['Mixpanel']
-    
+
   afterInsert: ->
     super()
     unless me.isStudent() or (@classCodeQueryVar and not me.isTeacher())
@@ -90,6 +91,14 @@ module.exports = class CoursesView extends RootView
       @joinClass()
     else if @classCodeQueryVar and me.isAnonymous()
       @openModalView(new CreateAccountModal())
+    ownerIDs = _.map(@classrooms.models, (c) -> c.get('ownerID')) ? []
+    Promise.resolve($.ajax(NameLoader.loadNames(ownerIDs)))
+    .then(=>
+      @ownerNameMap = {}
+      @ownerNameMap[ownerID] = NameLoader.getName(ownerID) for ownerID in ownerIDs
+      @render?()
+    )
+    
 
   onClickLogInButton: ->
     modal = new AuthModal()
