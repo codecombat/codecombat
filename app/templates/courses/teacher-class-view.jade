@@ -103,7 +103,7 @@ block content
             
         .adding-students.col-md-5
           h4.m-b-2
-            span(data-i18n='teacher.adding_students')
+            span(data-i18n='teacher.add_students')
             span :
           +copyCodes
           +addStudentsButton
@@ -176,7 +176,7 @@ mixin inlineUserList(users)
             = student.broadName()
 
 mixin addStudentsButton
-  .add-students.text-center
+  .add-students
     a.add-students-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
       span(data-i18n='teacher.add_students_manually')
 
@@ -369,14 +369,14 @@ mixin copyCodes
       input.text-h4.semibold#join-code-input(value=state.get('classCode'))
     button#copy-code-btn.form-control.btn.btn-lg.btn-forest
       span(data-i18n='teacher.copy_class_code')
-    div.text-center.small(data-i18n='teacher.class_code_blurb')
+    div.text-center.small.class-code-blurb(data-i18n='teacher.class_code_blurb')
 
   div.copy-button-group.form-inline.m-b-3
     .form-group
       input.form-control.text-h4.semibold#join-url-input(value=state.get('joinURL'))
     button#copy-url-btn.form-control.btn.btn-lg.btn-forest
       span(data-i18n='teacher.copy_class_url')
-    div.text-center.small(data-i18n='teacher.class_join_url_blurb')
+    div.text-center.small.class-code-blurb(data-i18n='teacher.class_join_url_blurb')
 
 mixin bulkAssignControls
   .bulk-assign-controls.form-inline

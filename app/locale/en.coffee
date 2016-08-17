@@ -1145,8 +1145,8 @@
     invite_link_p_1: "Give this link to students you would like to have join the course."
     invite_link_p_2: "Or have us email them directly:"
     capacity_used: "Course slots used:"
-    enter_emails: "Enter student emails to invite, one per line"
-    send_invites: "Send Invites"
+    enter_emails: "Separate each email address by a line break or commas" # {change}
+    send_invites: "Invite Students" # {change}
     creating_class: "Creating class..."
     purchasing_course: "Purchasing course..."
     buy_course: "Buy Course"
@@ -1264,12 +1264,8 @@
     welcome_back: "Hi adventurer, welcome back!"
     continue_playing: "Continue Playing"
     more_options: "More options:"
-    option1_header: "Option 1: Invite students via email"
-    option1_body: "Students will automatically be sent an invitation to join this class, and will need to create an account with a username and password."
-    option2_header: "Option 2: Send URL to your students"
-    option2_body: "Students will be asked to enter an email address, username and password to create an account."
-    option3_header: "Option 3: Direct students to codecombat.com/courses"
-    option3_body: "Give students the following passcode to enter along with an email address, username and password when they create an account."
+    option1_header: "Invite Students by Email" # {change}
+    option1_body: "Note: If your students do not have email addresses, they can enter your unique Class Code when creating a Student Account to make email addresses optional." # {change}
     thank_you_pref: "Thank you for your purchase! You can now assign"
     thank_you_suff: "more students to paid courses."
     return_to_class: "Return to classroom"
@@ -1438,7 +1434,6 @@
     earliest_incomplete: "Earliest incomplete level"
     latest_complete: "Latest completed level"
     enroll_student: "Enroll student"
-    adding_students: "Adding students"
     course_progress: "Course Progress"
     not_applicable: "N/A"
     edit: "edit"
@@ -1454,10 +1449,10 @@
     select_course: "Select course to view"
     course_overview: "Course Overview"
     copy_class_code: "Copy Class Code"
-    class_code_blurb: "New students can enter this class code on their dashboard or visit codecombat.com/courses to join the class."
+    class_code_blurb: "Students can join your class using this Class Code. No email address is required when creating a Student account with this Class Code." # {change}
     copy_class_url: "Copy Class URL"
-    class_join_url_blurb: "New students can visit this URL while logged in to join the class."
-    add_students_manually: "Add Students Manually"
+    class_join_url_blurb: "You can also post this unique class URL to a shared webpage." # {change}
+    add_students_manually: "Invite Students by Email" # {change}
     bulk_assign: "Bulk-assign"
     assign_to_selected_students: "Assign to Selected Students"
     assigned: "Assigned"
