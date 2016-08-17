@@ -36,11 +36,12 @@ module.exports = class CourseInstance extends CocoModel
         @trigger 'add-members', { userIDs }
     }
     _.extend options, opts
-    @fetch(options)
+    jqxhr = @fetch(options)
     if me.id in userIDs
       unless me.get('courseInstances')
         me.set('courseInstances', [])
       me.get('courseInstances').push(@id)
+    return jqxhr
 
   removeMember: (userID, opts) ->
     options = {

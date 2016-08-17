@@ -1,0 +1,12 @@
+extends /templates/core/modal-base-flat
+
+block modal-header-content
+  h1 Courses were not assigned
+
+block modal-body-content
+  p You do not have enough licenses to assign additional Courses to all 20 selected students.
+  p You only have 10 licenses (15 students did not have an active license).
+  p Please select fewer students, or reach out to support@codecombat.com for assistance. 
+
+block modal-footer-content
+  button.btn.btn-default(data-dismiss="modal") Ok

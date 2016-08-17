@@ -19,6 +19,7 @@ module.exports = class Prepaid extends CocoModel
       maxRedeemers = @get('maxRedeemers')
       if _.isString(maxRedeemers)
         @set 'maxRedeemers', parseInt(maxRedeemers)
+    super(arguments...)
         
   status: ->
     endDate = @get('endDate')

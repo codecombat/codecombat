@@ -7,6 +7,7 @@ InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 EditStudentModal = require 'views/teachers/EditStudentModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
+CoursesNotAssignedModal = require './CoursesNotAssignedModal'
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -19,6 +20,7 @@ Course = require 'models/Course'
 Courses = require 'collections/Courses'
 CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
+Prepaids = require 'collections/Prepaids'
 
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
@@ -81,6 +83,10 @@ module.exports = class TeacherClassView extends RootView
     @classroom = new Classroom({ _id: classroomID })
     @supermodel.trackRequest @classroom.fetch()
     @onKeyPressStudentSearch = _.debounce(@onKeyPressStudentSearch, 200)
+
+    @prepaids = new Prepaids()
+    @prepaids.comparator = 'endDate' # use prepaids in order of expiration
+    @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
 
     @students = new Users()
     @listenTo @classroom, 'sync', ->
@@ -174,6 +180,9 @@ module.exports = class TeacherClassView extends RootView
         @debouncedRender()
     @listenTo @students, 'sort', @debouncedRender
     super()
+
+#    modal = new CoursesNotAssignedModal()
+#    @openModalView(modal)
 
   afterRender: ->
     super(arguments...)
@@ -389,24 +398,54 @@ module.exports = class TeacherClassView extends RootView
     @assignCourse courseID, members
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
-  # TODO: Move this to the model. Use promises/callbacks?
   assignCourse: (courseID, members) ->
-    courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
-    if courseInstance
-      courseInstance.addMembers members
-    else
-      courseInstance = new CourseInstance {
-        courseID,
-        classroomID: @classroom.id
-        ownerID: @classroom.get('ownerID')
-        aceConfig: {}
-      }
-      @courseInstances.add(courseInstance)
-      courseInstance.save {}, {
-        success: ->
-          courseInstance.addMembers members
-      }
-    null
+    courseInstance = null
+    return Promise.resolve()
+    .then =>
+      courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
+      if not courseInstance
+        courseInstance = new CourseInstance {
+          courseID,
+          classroomID: @classroom.id
+          ownerID: @classroom.get('ownerID')
+          aceConfig: {}
+        }
+        courseInstance.notyErrors = false # handling manually
+        @courseInstances.add(courseInstance)
+        return courseInstance.save()
+        
+    .then =>
+      availablePrepaids = @prepaids.filter((prepaid) -> prepaid.status() is 'available')
+      unenrolledStudents = _(members)
+        .map((userID) => @students.get(userID))
+        .filter((user) => user.prepaidStatus() isnt 'enrolled')
+        .value()
+      totalSpotsAvailable = _.reduce(prepaid.openSpots() for prepaid in availablePrepaids, (val, total) -> val + total) or 0
+      if totalSpotsAvailable < _.size(unenrolledStudents)
+        modal = new CoursesNotAssignedModal()
+        @openModalView(modal)
+        error = new Error('Not enough licenses available')
+        error.handled = true
+        throw error
+      
+      requests = []
+      for prepaid in availablePrepaids
+        for i in _.range(prepaid.openSpots())
+          break unless _.size(unenrolledStudents) > 0
+          user = unenrolledStudents.shift()
+          requests.push(prepaid.redeem(user))
+      
+      @trigger 'begin-redeem-for-assign-course' 
+      return $.when(requests...)
+
+    .then =>
+      prepaid.fetch() for prepaid in @prepaids.find() # make sure these are completely up to date, but don't block on them.
+      @trigger 'begin-assign-course'
+      return courseInstance.addMembers(members)
+    
+    .catch (e) =>
+      return if e.handled
+      noty text: e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown'), layout: 'center', type: 'error', killer: true, timeout: 5000
 
   onClickSelectAll: (e) ->
     e.preventDefault()

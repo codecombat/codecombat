@@ -7,6 +7,7 @@ Courses = require 'collections/Courses'
 Levels = require 'collections/Levels'
 LevelSessions = require 'collections/LevelSessions'
 CourseInstances = require 'collections/CourseInstances'
+Prepaids = require 'collections/Prepaids'
 
 describe '/teachers/classes/:handle', ->
   
@@ -30,13 +31,15 @@ describe 'TeacherClassView', ->
         factories.makeCourse({name: 'Beta Course', releasePhase: 'beta'}),
       ])
       @releasedCourses = new Courses(@courses.where({ releasePhase: 'released' }))
-      available = factories.makePrepaid()
+      @available1 = factories.makePrepaid({maxRedeemers: 1})
+      @available2 = factories.makePrepaid({maxRedeemers: 1})
       expired = factories.makePrepaid({endDate: moment().subtract(1, 'day').toISOString()})
+      @prepaids = new Prepaids([@available1, @available2, expired])
       @students = new Users([
         factories.makeUser({name: 'Abner'})
         factories.makeUser({name: 'Abigail'})
-        factories.makeUser({name: 'Abby'}, {prepaid: available})
-        factories.makeUser({name: 'Ben'}, {prepaid: available})
+        factories.makeUser({name: 'Abby'}, {prepaid: @available1})
+        factories.makeUser({name: 'Ben'}, {prepaid: @available1})
         factories.makeUser({name: 'Ned'}, {prepaid: expired})
         factories.makeUser({name: 'Ebner'}, {prepaid: expired})
       ])
@@ -68,6 +71,7 @@ describe 'TeacherClassView', ->
       @view.students.fakeRequests[0].respondWith({ status: 200, responseText: @students.stringify() })
       @view.classroom.sessions.fakeRequests[0].respondWith({ status: 200, responseText: @levelSessions.stringify() })
       @view.levels.fakeRequests[0].respondWith({ status: 200, responseText: @levels.stringify() })
+      @view.prepaids.fakeRequests[0].respondWith({ status: 200, responseText: @prepaids.stringify() })
       
       jasmine.demoEl(@view.$el)
       _.defer done
@@ -145,3 +149,64 @@ describe 'TeacherClassView', ->
           return true
         @view.$('.export-student-progress-btn').click()
         expect(window.open).toHaveBeenCalled()
+        
+    fdescribe '.assignCourse(courseID, members)', ->
+      describe 'when no course instance exists for the given course', ->
+        beforeEach (done) ->
+          @view.courseInstances.reset()
+          @view.assignCourse(@courses.first().id, @students.pluck('_id').slice(0, 1))
+          @view.courseInstances.wait('add').then(done)
+
+        it 'creates the missing course instance', ->
+          request = jasmine.Ajax.requests.mostRecent()
+          expect(request.method).toBe('POST')
+          expect(request.url).toBe('/db/course_instance')
+          
+        it 'shows a noty if the course instance request fails', (done) ->
+          request = jasmine.Ajax.requests.mostRecent()
+          request.respondWith({
+            status: 500,
+            responseText: JSON.stringify({ message: "Internal Server Error" })
+          })
+          spyOn(window, 'noty').and.callFake(done)
+            
+      describe 'when the course is not free and some students are not enrolled', ->
+        beforeEach (done) ->
+          # first two students are unenrolled
+          @view.assignCourse(@courses.first().id, @students.pluck('_id').slice(0, 2))
+          @view.wait('begin-redeem-for-assign-course').then(done)
+        
+        it 'enrolls all unenrolled students', (done) ->
+          numberOfRequests = _(@view.prepaids.models)
+            .map((prepaid) -> prepaid.fakeRequests.length)
+            .reduce((num, value) -> num + value)
+          expect(numberOfRequests).toBe(2)
+          done()
+          
+        it 'shows a noty if a redeem request fails', (done) ->
+          request = jasmine.Ajax.requests.mostRecent()
+          request.respondWith({
+            status: 500,
+            responseText: JSON.stringify({ message: "Internal Server Error" })
+          })
+          spyOn(window, 'noty').and.callFake(done)
+          
+      describe 'when there are not enough licenses available', ->
+        beforeEach (done) ->
+          # first four students are unenrolled, but only two licenses are available
+          @view.assignCourse(@courses.first().id, @students.pluck('_id'))
+          spyOn(@view, 'openModalView').and.callFake(done)
+        
+        it 'shows CoursesNotAssignedModal', ->
+          expect(@view.openModalView).toHaveBeenCalled()
+          
+        
+      it 'adds students to the course instances', (done) ->
+        courseInstance = @view.courseInstances.first()
+        courseInstance.set('members', [])
+        @view.assignCourse(courseInstance.get('courseID'), @students.pluck('_id').slice(2, 4))
+        @view.wait('begin-assign-course').then =>
+          request = jasmine.Ajax.requests.mostRecent()
+          expect(request.url).toBe("/db/course_instance/#{courseInstance.id}/members")
+          expect(request.method).toBe('POST')
+          done()

@@ -454,4 +454,6 @@ class CocoModel extends Backbone.Model
     
   stringify: -> return JSON.stringify(@toJSON())
 
+  wait: (event) -> new Promise((resolve) => @once(event, resolve))
+
 module.exports = CocoModel
