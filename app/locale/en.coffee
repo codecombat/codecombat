@@ -71,7 +71,7 @@
     curriculum: "Total curriculum hours:"
     ffa: "Free for all students"
     lesson_time: "Lesson time:"
-    coming_soon: "More coming soon!" # {change}
+    coming_soon: "More coming soon!"
     courses_available_in: "Courses are available in JavaScript, Python, and Java (coming soon!)"
     boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
     winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
@@ -364,7 +364,7 @@
     submit_patch: "Submit Patch"
     submit_changes: "Submit Changes"
     save_changes: "Save Changes"
-    required_field: "required" # {change}
+    required_field: "required"
 
   general:
     and: "and"
@@ -911,7 +911,7 @@
     no_purchaser_role: "No role in purchase decisions"
     district_label: "District"
     district_na: "Enter N/A if not applicable"
-    organization_label: "School" # {change}
+    organization_label: "School"
     city: "City"
     state: "State"
     country: "Country"
@@ -1324,14 +1324,14 @@
     students_assigned: "students assigned"
     length: "Length:"
     title: "Courses" # Flat style redesign
-    subtitle: "Review course overviews and levels" # {change}
+    subtitle: "Review course overviews and levels"
     changelog: "View latest changes to course levels."
     select_language: "Select language"
     select_level: "Select level"
     play_level: "Play Level"
     concepts_covered: "Concepts covered"
     print_guide: "Print Guide (PDF)"
-    view_guide_online: "Level Overviews and Solutions" # {change}
+    view_guide_online: "Level Overviews and Solutions"
     grants_lifetime_access: "Grants access to all Courses."
     enrollment_credits_available: "Licenses Available:"
     description: "Description" # ClassroomSettingsModal
@@ -1444,7 +1444,7 @@
     edit: "edit"
     edit_2: "Edit"
     remove: "remove"
-    latest_completed: "Latest completed" # {change}
+    latest_completed: "Latest completed"
     sort_by: "Sort by"
     progress: "Progress"
     completed: "Completed"
